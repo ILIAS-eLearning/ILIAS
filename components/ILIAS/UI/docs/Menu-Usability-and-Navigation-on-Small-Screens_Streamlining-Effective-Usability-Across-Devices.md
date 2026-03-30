@@ -22,9 +22,9 @@ The current main menu on small screens, such as smartphones, displays three to f
 
 Additionally, there is limited visual separation between menu buttons, and users cannot rely on hover effects on mobile devices to confirm their selection. Long text labels, especially when combined with small font sizes, further reduce the clarity and readability of menu options.
 
-![ILIAS mobile view with main bar at bottom](images/bottom-main-menu.png)
-![ILIAS mobile view with activated more button, showing the slate menu](images/bottom-main-menu-opened.png)
-![ILIAS mobile view with activated communications button, showing communication sub-node menu](images/bottom-main-menu-communication.png)
+![ILIAS mobile view with main bar at bottom](https://files.ilias.de/images/navigation-and-menu-usability/bottom-main-menu.png)
+![ILIAS mobile view with activated more button, showing the slate menu](https://files.ilias.de/images/navigation-and-menu-usability/bottom-main-menu-opened.png)
+![ILIAS mobile view with activated communications button, showing communication sub-node menu](https://files.ilias.de/images/navigation-and-menu-usability/bottom-main-menu-communication.png)
 
 *The main menu shows four primary entries plus a "more" button. There is no visual separation between the buttons. In English, the labels remain single spaced; in German, they are partly double spaced, which creates visual confusion.*
 *Clicking the "more" button opens the main bar slate, where additional primary menu entries are displayed. The entries are positioned at the top, far from the interaction trigger, disrupting the user workflow. No intuitive way exists to close the menu. When navigating into a category, neither the main menu nor the slate indicate how to close the menu, which node the user is in, or how to navigate back.* 
@@ -35,8 +35,8 @@ Additionally, there is limited visual separation between menu buttons, and users
 
 On narrow screens, the placement of breadcrumbs differs from the version used on wider screens. Users described this as not intuitive. When object titles are medium or longer in length, the arrow icon may become hidden and the title truncated, making it more difficult to read and identify. The right arrow icon was not recognized as a navigation control for revealing the breadcrumb path in a drop-down. The lowest entry in drop-down menus was interpreted as representing the previous node, reflecting desktop conventions for the most recent location.
 
-![ILIAS mobile view with breadcrumb in header](images/mobile-breadcrumb-closed.png)
-![ILIAS mobile view with breadcrumb opened in header and seeing breadcrumb path in drop-down menu](images/mobile-breadcrumb-opened.png)
+![ILIAS mobile view with breadcrumb in header](https://files.ilias.de/images/navigation-and-menu-usability/mobile-breadcrumb-closed.png)
+![ILIAS mobile view with breadcrumb opened in header and seeing breadcrumb path in drop-down menu](https://files.ilias.de/images/navigation-and-menu-usability/mobile-breadcrumb-opened.png)
 
 *The breadcrumb is placed in an unusual position within the header and due to the title length, the icon is not displayed, obscuring the drop-down function, which significantly complicates its usability; additionally, the title appears truncated, with both the beginning and the end not fully visible. The listing appears reversed because the bottom entry is associated with the previous node.* 
 
@@ -46,9 +46,8 @@ On narrow screens, the placement of breadcrumbs differs from the version used on
 
 The tree view can appear cluttered when the hierarchy includes many nodes and sub-nodes, making it further difficult for users to scan and understand the overall structure. Further, clickable elements like text labels and icons are often small, reducing the ease of tapping on touch screens. When many sub-nodes are expanded, users can additionally lose track of their current position in the structure. The layout also lacks sufficient whitespace, which further reduces readability and visual comfort.
 
-![ILIAS mobile view with snippet from the tree view](images/tree-view.png)
-
-![tap size of tree view entry](images/tap-size.png)
+![ILIAS mobile view with snippet from the tree view](https://files.ilias.de/images/navigation-and-menu-usability/Tree-view.png)
+![tap size of tree view entry](https://files.ilias.de/images/navigation-and-menu-usability/tap-size.png)
 
 *The tree view becomes cluttered due to the deep hierarchy with many nodes and sub-nodes. There is limited whitespace, which reduces readability. The touch target height is 24px, making it difficult to select, especially for smaller fingers.* 
 
@@ -81,19 +80,19 @@ Industry standards for mobile website menu placement and usage emphasize balanci
 
 #### Examples:
 
-![Reddit app view, showing bottom tab bar, top navigation bar and a picture of a small kitten](images/reddit.png)
+![Reddit app view, showing bottom tab bar, top navigation bar and a picture of a small kitten](https://files.ilias.de/images/navigation-and-menu-usability/reddit.png)
 
 *The Reddit app features a header and a persistent bottom tab bar. The header includes a hamburger menu for accessing the main navigation, a user icon linking to personal settings, a search function, and controls for switching between different content views. Both the header and the bottom tab bar automatically hide when the user scrolls.*
 
 *Retrieved November 11, 2025, from [Reddit App](https://www.reddit.com)*
 
-![Pinterest app view, showing bottom tab bar, top navigation bar, and four different pictures](images/pinterest.png)
+![Pinterest app view, showing bottom tab bar, top navigation bar, and four different pictures](https://files.ilias.de/images/navigation-and-menu-usability/pinterest.png)
 
 *The Pinterest app includes a persistent bottom tab bar and a personalized top navigation bar. As the user scrolls, the top navigation bar dynamically compresses, displaying only the titles and removing thumbnail images.*
 
 *Retrieved November 11, 2025, from [Pinterest App](https://www.pinterest.com)*
 
-![Spotify app view, showing bottom tab bar, top navigation bar and a selection of artists and albums](images/spotify.png)
+![Spotify app view, showing bottom tab bar, top navigation bar and a selection of artists and albums](https://files.ilias.de/images/navigation-and-menu-usability/spotify.png)
 
 *The Spotify app features a persistent bottom tab bar and a header. Within the header, users can access and customize their personal settings through the profile icon. It also provides options for selecting and managing different types of audio content.*
 
@@ -128,19 +127,19 @@ Ideal for simple, broad information architectures where users mostly navigate am
 
 #### Examples:
 
-![Amazon website on a small screen view displaying a header with a hamburger menu for navigation, the brand icon, a username with access to profile and settings, a shopping cart icon, a search bar, and a horizontal category bar below.](images/amazon-top.png)
+![Amazon website on a small screen view displaying a header with a hamburger menu for navigation, the brand icon, a username with access to profile and settings, a shopping cart icon, a search bar, and a horizontal category bar below.](https://files.ilias.de/images/navigation-and-menu-usability/amazon-top.png)
 
 *The Amazon small-screen website layout features a header with navigation hidden behind a hamburger menu, the brand icon, user profile and settings accessible via the username, a shopping cart icon, a search bar, and a horizontal category bar. None of these menu elements are sticky and disappear when the user scrolls.*
 
 *Retrieved November 11, 2025, from [amazon.de](https://www.amazon.de)*
 
-![Codecademy website on a small screen showing a header with a brand icon, search and notification icons, and a hamburger menu for main navigation.](images/codeacademy-top.png)
+![Codecademy website on a small screen showing a header with a brand icon, search and notification icons, and a hamburger menu for main navigation.](https://files.ilias.de/images/navigation-and-menu-usability/codeacademy-top.png)
 
 *On narrow screens, the Codecademy website features a compact header including a brand icon linking to the homepage, a search icon that expands to a search interface, a notification icon providing access to messages, and a hamburger menu that consolidates the main navigation entries. A button below the header opens the personal home menu as an overlay. All menus are sticky.*
 
 *Retrieved November 11, 2025, from [codeacademy.com](https://www.codeacademy.com)*
 
-![Salesforce website on a small screen showing a sticky header with a hamburger menu, brand icon, personal icon, and a utility search bar.](images/salesforce-top.png)
+![Salesforce website on a small screen showing a sticky header with a hamburger menu, brand icon, personal icon, and a utility search bar.](https://files.ilias.de/images/navigation-and-menu-usability/salesforce-top.png)
 
 *The Salesforce website on narrow screens features a sticky header that includes a hamburger menu with the main navigation options, a brand icon linking to the homepage and a personal icon for accessing user settings. Positioned below is a utility search bar that opens a conversational interface powered by generative AI.*
 
@@ -190,21 +189,21 @@ Drill-down menus are navigation elements that allow users to access nested level
 
 #### Examples:
 
-![School of Advanced Professional Studies mobile view showing a drill-down hamburger menu with current nodes and subnodes visually highlighted.](images/drill-down-example-saps.gif)
+![School of Advanced Professional Studies mobile view showing a drill-down hamburger menu with current nodes and subnodes visually highlighted.](https://files.ilias.de/images/navigation-and-menu-usability/drill-down-example-saps.gif)
 
 *On narrow screens, the School of Advanced Professional Studies website uses a drill-down navigation design. The hamburger menu is positioned in the top left corner of the header (UX research shows that users most often expect the main navigation in this location) and opens as a drop-down close to the menu trigger. The menu is additionally labeled "Menü", which improves visibility and accessibility. Each menu item contains one button that opens the content level of the selected node and another that reveals its subordinate nodes. The different functions are visually distinguished, which makes the functionality easier to understand.* 
 *When users navigate to deeper levels, reopening the hamburger menu displays the active node along with its subnodes. As users move back up through the hierarchy, the nodes and paths leading to the currently open level are visually highlighted.*
 
 *Retrieved November 11, 2025, from [uni-ulm.de](https://www.uni-ulm.de/einrichtungen/saps/)*
 
-![University of Hamburg mobile view showing a drill-down hamburger menu displaying the active node and its subnodes.](images/drill-down-example-uni.gif)
+![University of Hamburg mobile view showing a drill-down hamburger menu displaying the active node and its subnodes.](https://files.ilias.de/images/navigation-and-menu-usability/drill-down-example-uni.gif)
 
 *Like the SAPS website, the University of Hamburg website implements a drill-down navigation structure on narrow screens. The menu is positioned in the top right corner of the header (although UX research shows that users most often expect it on the left side) and opens close to the menu trigger as an off-canvas menu. Each menu item includes a button that opens the content level of the selected node and another that reveals its subordinate nodes. The different functions are visually distinguished, which makes the functionality easier to understand, although the contrast between these functions could be made more apparent.* 
 *When users access deeper navigation levels and reopen the hamburger menu, it displays the active node along with its subnodes, maintaining contextual orientation within the hierarchy. However, when navigating back, the nodes leading to the current one are not highlighted.*
 
 *Retrieved November 13, 2025, from [uni-hamburg.de](https://www.uni-hamburg.de)*
 
-![University of Bern mobile view showing a drill-down hamburger menu displaying the active node and its subnodes.](images/drill-down-example-unibe.gif)
+![University of Bern mobile view showing a drill-down hamburger menu displaying the active node and its subnodes.](https://files.ilias.de/images/navigation-and-menu-usability/drill-down-example-unibe.gif)
 
 *Like the two previous examples, the University of Bern website implements a drill-down navigation structure on narrow screens. The hamburger menu is placed in a thumb-friendly position in the bottom left corner of a tab bar; however, it is not located in the expected position within the header, where users typically anticipate finding the main navigation. Each menu item includes a button that opens the content level of the selected node and another that reveals its subordinate nodes. The different functions are visually distinguished, which makes the functionality easier to understand, although the contrast between these functions could be made more apparent.* 
 *When users access deeper navigation levels and reopen the hamburger menu, it displays the active node along with its subnodes, maintaining contextual orientation within the hierarchy. However, when navigating back, the nodes leading to the current one are not highlighted.*
@@ -237,21 +236,21 @@ Drill-down menus are best suited for navigating deep or multi-level hierarchies,
 
 #### Examples:
 
-![Pittroff website mobile view showing a drop-down nested accordion hamburger menu with multiple entries.](images/accordion-example-pittroff.gif)
+![Pittroff website mobile view showing a drop-down nested accordion hamburger menu with multiple entries.](https://files.ilias.de/images/navigation-and-menu-usability/accordion-example-pittroff.gif)
 
 *Retrieved November 13, 2025, from [pittroff.de](https://www.pittroff.de)*
 
 *On narrow screens, the Pittroff website uses a nested accordion navigation that expands as drop-down from the hamburger menu. The menu is positioned in the top right corner of the header (although UX research shows that users most often expect it on the left side) and opens close to the menu trigger. Each menu item with sub-nodes includes one button to open the selected content level and another to reveal its subordinate nodes. If a menu item has no sub-nodes, only the button to open its content level is displayed.* 
 *When users navigate into deeper menu levels, reopening the hamburger menu shows the main navigation. On the top level, the current node location is not indicated. It becomes visually emphasized only when the parent level of that node is expanded.*
 
-![MDN website mobile view showing an off-canvas nested accordion hamburger menu with multiple entries.](images/accordion-example-mdn.gif)
+![MDN website mobile view showing an off-canvas nested accordion hamburger menu with multiple entries.](https://files.ilias.de/images/navigation-and-menu-usability/accordion-example-MDN.gif)
 
 *Retrieved November 13, 2025, from [developer.mozilla.org](https://www.developer.mozilla.org/de/)*
 
 *Like the Pittroff website, the MDN website uses a nested accordion navigation that expands from the hamburger menu on narrow screens. The menu is positioned in the top right corner of the header (although UX research shows that users most often expect it on the left side) and opens close to the menu trigger. Each menu item functions as an accordion header that reveals its subordinate nodes. When an accordion is opened, the previously opened one closes. This improves clarity on small screens but prevents users from scanning multiple options at once.*
 *An additional navigation menu is integrated into the breadcrumb bar, designed specifically for navigating the learning content. This menu also follows a nested accordion structure that visually highlights the current node within the overview.*
 
-![TH OWL website mobile view showing an overlay nested accordion hamburger menu with multiple entries.](images/accordion-example-thowl.gif)
+![TH OWL website mobile view showing an overlay nested accordion hamburger menu with multiple entries.](https://files.ilias.de/images/navigation-and-menu-usability/accordion-example-thowl.gif)
 
 *Like the two previous examples, the TH-OWL website uses a nested accordion navigation that expands from the hamburger menu on narrow screens. The hamburger menu is placed in a thumb-friendly position in the bottom right corner of a tab bar; however, it is not located in the expected position within the header, where users typically anticipate finding the main navigation. In addition, it does not open directly at the trigger point but instead appears in the upper half of the screen, which makes the thumb-friendly placement of the tab bar redundant. Each menu item containing sub-nodes includes one button to open the selected content level and another to reveal its subordinate nodes. If a menu item has no sub-nodes, only the button to access its content level is displayed. However, the distinction between these two functions is not immediately visible, as the visual differentiation appears only through the :focus and :hover states—both of which are not perceivable on mobile devices.*
 *When reopening the hamburger menu, the top-level entry appears first. Scrolling down reveals the nodes leading to the current level emphasized, with the active node also visually highlighted. Open nodes are indicated by a darkened background, which helps with orientation but offers only limited accessibility from the third sublevel onward, as the contrast ratio is 3.41:1.*
@@ -297,25 +296,25 @@ Breadcrumbs are a secondary navigation aid commonly used on content-rich website
 
 #### Examples:
 
-![Whirlpool website showing the breadcrumb bar functionality.](images/full-example-whirlpool.png)
+![Whirlpool website showing the breadcrumb bar functionality.](https://files.ilias.de/images/navigation-and-menu-usability/full-example-whirlpool.png)
 
-![Whirlpool website mobile view showing the breadcrumb bar functionality.](images/breadcrumb-example-whirlpool.gif)
+![Whirlpool website mobile view showing the breadcrumb bar functionality.](https://files.ilias.de/images/navigation-and-menu-usability/breadcrumb-example-whirlpool.gif)
 
 *On narrow screens, the breadcrumb of the Whirlpool website shows a blur effect on the left side that fades out part of the breadcrumb trail. The current node is visually distinguished from the others, while the preceding nodes are clearly identifiable as clickable elements through an underline. The focus is placed on the current node and the directly preceding ones.*
 
 *Retrieved November 18, 2025, from [whirlpool.com](https://www.whirlpool.com)*
 
-![SDU website showing the breadcrumb bar functionality.](images/full-example-sdu.png)
+![SDU website showing the breadcrumb bar functionality.](https://files.ilias.de/images/navigation-and-menu-usability/full-example-sdu.png)
 
-![SDU website mobile view showing the breadcrumb bar functionality.](images/breadcrumb-example-sdu.gif)
+![SDU website mobile view showing the breadcrumb bar functionality.](https://files.ilias.de/images/navigation-and-menu-usability/breadcrumb-example-sdu.gif)
 
 *On narrow screens, the SDU website's breadcrumb is truncated, displaying only the immediate parent node. This design omits the current page node from the breadcrumb trail, forcing users to rely on the main viewport page title for orientation. The navigation focuses exclusively on the single preceding step, visually represented by a left-pointing chevron.*
 
 *Retrieved November 18, 2025, from [sdu.dk](https://www.sdu.dk/en)*
 
-![eBay website showing the breadcrumb bar functionality.](images/full-example-ebay.png)
+![eBay website showing the breadcrumb bar functionality.](https://files.ilias.de/images/navigation-and-menu-usability/full-example-ebay.png)
 
-![eBay website mobile view showing the breadcrumb bar functionality.](images/breadcrumb-example-ebay.gif)
+![eBay website mobile view showing the breadcrumb bar functionality.](https://files.ilias.de/images/navigation-and-menu-usability/breadcrumb-example-ebay.gif)
 
 *The eBay breadcrumb employs a consistent truncation strategy across all screen sizes. It collapses intermediate path nodes into a dropdown menu.*
 *The visible portion dynamically adjusts to available space, prioritizing the current node (which is visually distinct) and the immediate preceding nodes. In cases of severe space constraint or long titles, the display is reduced to a minimum of the Home link, the direct parent, and the current page node.*
