@@ -27,7 +27,7 @@ use ILIAS\Questions\AnswerForm\Capabilities\Marking\Marking;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gap;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Async;
-use ILIAS\Questions\Presentation\Layout\InputsBuilderSession;
+use ILIAS\Questions\Presentation\Layout\Tools\InputsBuilderSession;
 use ILIAS\Data\Text\Factory as TextFactory;
 use ILIAS\Data\Text\Markdown;
 use ILIAS\Data\UUID\Factory as UuidFactory;
@@ -49,8 +49,6 @@ class FeedbackOverviewTable implements OverviewTable
     private const string STEP_CONFIRM_DELETE_FEEDBACK = 'cdf';
     private const string STEP_DELETE_FEEDBACK = 'df';
     private const string STEP_SAVE_FEEDBACK = 'sf';
-
-    private const string KEY_GAP_ID = 'cap_id';
 
     public function __construct(
         private readonly UuidFactory $uuid_factory,
@@ -322,7 +320,6 @@ class FeedbackOverviewTable implements OverviewTable
         string $feedback_text = ''
     ): InputsBuilderSession {
         return $environment->getPresentationFactory()->getSessionBasedInputsBuilder(
-            self::KEY_GAP_ID,
             $environment->getRefinery()->custom()->transformation(
                 function (
                     ?string $v

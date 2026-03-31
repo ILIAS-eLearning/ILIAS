@@ -26,6 +26,7 @@ use ILIAS\Data\URI;
  *
  * @ilCtrl_Calls QstsQuestionPageGUI: ilPageEditorGUI, ilEditClipboardGUI
  * @ilCtrl_Calls QstsQuestionPageGUI: ilPublicUserProfileGUI, ilCommentGUI
+ * @ilCtrl_Calls QstsQuestionPageGUI: ILIAS\Questions\AnswerForm\Capabilities\SuggestedLearningContent\UploadHandlerGUI
  */
 class QstsQuestionPageGUI extends ilPageObjectGUI
 {

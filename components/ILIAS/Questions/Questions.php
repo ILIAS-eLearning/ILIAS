@@ -23,6 +23,8 @@ namespace ILIAS;
 use ILIAS\Questions\AnswerForm\Capabilities\Feedback\Migration as FeedbackMigration;
 use ILIAS\Questions\AnswerForm\Capabilities\Feedback\TableDefinitions as FeedbackTableDefinitions;
 use ILIAS\Questions\AnswerForm\Capabilities\Migration as CapabilityMigration;
+use ILIAS\Questions\AnswerForm\Capabilities\SuggestedLearningContent\Migration as SuggestedLearningContentMigration;
+use ILIAS\Questions\AnswerForm\Capabilities\SuggestedLearningContent\TableDefinitions as SuggestedLearningContentTableDefinitions;
 use ILIAS\Questions\AnswerForm\Definition as AnswerFormDefinition;
 use ILIAS\Questions\AnswerForm\Migration\Migration as AnswerFormMigration;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Migration\MigrationCloze;
@@ -108,6 +110,12 @@ class Questions implements Component\Component
         $contribute[CapabilityMigration::class] = static fn()
             => new FeedbackMigration(
                 new FeedbackTableDefinitions(
+                    $internal[PersistenceFactory::class]
+                )
+            );
+        $contribute[CapabilityMigration::class] = static fn()
+            => new SuggestedLearningContentMigration(
+                new SuggestedLearningContentTableDefinitions(
                     $internal[PersistenceFactory::class]
                 )
             );

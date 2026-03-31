@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Presentation\Layout;
 
+use ILIAS\Questions\Presentation\Layout\Tools\InputsBuilder;
 use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\MessageBox\MessageBox;

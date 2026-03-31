@@ -174,10 +174,10 @@ class Edit
                     $this
                 )->withReturnURI(
                     $environment
-                            ->withActionParameter(self::ACTION_EDIT_QUESTION)
-                            ->withQuestionIdParameter($environment->getQuestionId())
-                            ->getUrlBuilder()
-                            ->buildURI()
+                        ->withActionParameter(self::ACTION_EDIT_QUESTION)
+                        ->withQuestionIdParameter($environment->getQuestionId())
+                        ->getUrlBuilder()
+                        ->buildURI()
                 )
             )
         );
@@ -262,13 +262,15 @@ class Edit
 
         $action = $environment->getAction();
 
-        $capability_action = array_filter(
-            $capability_actions,
-            fn(Action $v): bool => $v->isThis($action)
+        $capability_action = current(
+            array_filter(
+                $capability_actions,
+                fn(Action $v): bool => $v->isThis($action)
+            )
         );
-        if ($capability_action !== []) {
-            $capability_action[0]->activateTab($this->tabs_gui);
-            return $capability_action[0]->getCapability()->edit(
+        if ($capability_action !== false) {
+            $capability_action->activateTab($this->tabs_gui);
+            return $capability_action->getCapability()->edit(
                 $environment->withActionParameter($action)
             );
         }

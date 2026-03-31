@@ -29,7 +29,7 @@ use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Async;
 use ILIAS\Questions\Presentation\Layout\EditForm;
 use ILIAS\Questions\Presentation\Layout\EditOverview;
-use ILIAS\Questions\Presentation\Layout\InputsBuilderSession;
+use ILIAS\Questions\Presentation\Layout\Tools\InputsBuilderSession;
 use ILIAS\Questions\Presentation\Layout\Renderable;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
@@ -264,7 +264,6 @@ class Edit implements EditViewInterface
     ): InputsBuilderSession {
         $inputs_builder = $environment->getPresentationFactory()
             ->getSessionBasedInputsBuilder(
-                $environment->getAnswerFormId()->toString(),
                 $environment->getRefinery()->custom()->transformation(
                     fn(?string $carry): Section => $this->properties_factory
                         ->fromCarry(

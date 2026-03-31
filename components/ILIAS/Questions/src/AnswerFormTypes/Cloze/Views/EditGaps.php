@@ -25,7 +25,7 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Factory as GapFactory;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\EditForm;
-use ILIAS\Questions\Presentation\Layout\InputsBuilderSession;
+use ILIAS\Questions\Presentation\Layout\Tools\InputsBuilderSession;
 use ILIAS\Refinery\Custom\Transformation as CustomTransformation;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\URLBuilder;
@@ -211,7 +211,6 @@ class EditGaps
         Environment $environment
     ): InputsBuilderSession {
         return $environment->getPresentationFactory()->getSessionBasedInputsBuilder(
-            $environment->getAnswerFormProperties()->getAnswerFormId()->toString(),
             $environment->getRefinery()->custom()->transformation(
                 function (?string $carry) use ($environment): Section {
                     $properties_from_carry = $this->properties_factory
@@ -337,7 +336,6 @@ class EditGaps
         Properties $properties
     ): InputsBuilderSession {
         return $environment->getPresentationFactory()->getSessionBasedInputsBuilder(
-            $properties->getAnswerFormId()->toString(),
             $environment->getRefinery()->custom()->transformation(
                 function (?string $carry) use (
                     $environment,
@@ -449,7 +447,6 @@ class EditGaps
         Properties $properties
     ): InputsBuilderSession {
         return $environment->getPresentationFactory()->getSessionBasedInputsBuilder(
-            $properties->getAnswerFormId()->toString(),
             $environment->getRefinery()->custom()->transformation(
                 function (?string $carry) use (
                     $environment,

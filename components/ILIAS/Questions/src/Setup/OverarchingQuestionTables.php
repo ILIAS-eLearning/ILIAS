@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Questions\Setup;
 
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableTypes;
+use ILIAS\Questions\AnswerForm\Capabilities\SuggestedLearningContent\TableTypes as SuggestedContentTableTypes;
 use ILIAS\Questions\AnswerForm\Capabilities\Feedback\TableTypes as FeedbackTableTypes;
 use ILIAS\Questions\Question\Persistence\TableTypes as QuestionTableTypes;
 use ILIAS\Questions\Persistence\TableNameBuilder;
@@ -360,6 +361,41 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
         )) {
             $this->db->manipulate(
                 "CREATE UNIQUE INDEX apc_idx ON {$table_name} (`answer_form_id`, `parent_id`, `condition`)"
+            );
+        }
+    }
+
+    public function step_8(): void
+    {
+        $table_name = $this->basic_table_name_builder->getTableNameFor(
+            SuggestedContentTableTypes::SuggestedLearningContent
+        );
+        if (!$this->db->tableExists($table_name)) {
+            $this->db->createTable($table_name, [
+                'answer_form_id' => [
+                    'type' => \ilDBConstants::T_TEXT,
+                    'length' => 64,
+                    'notnull' => true
+                ],
+                'type' => [
+                    'type' => \ilDBConstants::T_TEXT,
+                    'length' => 32,
+                    'notnull' => false
+                ],
+                'content' => [
+                    'type' => \ilDBConstants::T_CLOB,
+                    'notnull' => true
+                ]
+            ]);
+        }
+
+        if (!$this->db->primaryExistsByFields(
+            $table_name,
+            ['answer_form_id']
+        )) {
+            $this->db->addPrimaryKey(
+                $table_name,
+                ['answer_form_id'],
             );
         }
     }

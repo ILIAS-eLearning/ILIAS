@@ -74,9 +74,9 @@ class Repository
      */
     public function getQuestionDataOnlyForAllQuestions(): \Generator
     {
-        foreach ($this->buildQuestionsQuery()->loadNextRecord(
+        foreach ($this->buildQuestionsQuery()->withGroupBy(
             $this->buildGroupByColumn()
-        ) as $query_with_record) {
+        )->loadNextRecord() as $query_with_record) {
             yield $this->retrieveQuestionFromQuery(
                 $query_with_record,
                 []
@@ -105,7 +105,9 @@ class Repository
                 ),
                 Operator::In
             )
-        )->loadNextRecord($this->buildGroupByColumn()) as $query_with_record) {
+        )->withGroupBy(
+            $this->buildGroupByColumn()
+        )->loadNextRecord() as $query_with_record) {
             yield $this->retrieveQuestionFromQuery(
                 $query_with_record,
                 []
@@ -237,9 +239,9 @@ class Repository
             $query
         );
 
-        foreach ($query_with_answer_forms->loadNextRecord(
+        foreach ($query_with_answer_forms->withGroupBy(
             $this->buildGroupByColumn()
-        ) as $query_with_record) {
+        )->loadNextRecord() as $query_with_record) {
             yield $this->retrieveQuestionFromQuery(
                 $query_with_record,
                 $this->retrieveAnswerFormsFromQuery($query_with_record)

@@ -22,6 +22,7 @@ namespace ILIAS\Questions\Presentation\Layout;
 
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Services as HttpService;
+use ILIAS\UI\Component\Prompt\State\State;
 use ILIAS\UI\Component\MessageBox\MessageBox;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 use ILIAS\UI\Component\Modal\RoundTrip as RoundTripModal;
@@ -31,17 +32,21 @@ class Async
 {
     public function __construct(
         private readonly HttpService $http,
-        private readonly InterruptiveModal|RoundTripModal|MessageBox $content
+        private readonly InterruptiveModal|RoundTripModal|MessageBox|State|array|string $content
     ) {
     }
 
     public function render(
         UIRenderer $ui_renderer
     ): void {
+        $rendered_content = is_string($this->content)
+            ? $this->content
+            : $ui_renderer->renderAsync($this->content);
+
         $this->http->saveResponse(
             $this->http->response()->withBody(
                 Streams::ofString(
-                    $ui_renderer->renderAsync($this->content)
+                    $rendered_content
                 )
             )
         );

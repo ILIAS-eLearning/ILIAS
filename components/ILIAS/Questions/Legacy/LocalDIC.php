@@ -23,7 +23,6 @@ namespace ILIAS\Questions\Legacy;
 use ILIAS\Questions\Administration\ConfigurationRepository;
 use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
 use ILIAS\Questions\AnswerForm\Capabilities;
-use ILIAS\Questions\AnswerForm\Capabilities\Feedback\TableDefinitions as FeedbackTableDefinitions;
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableDefinitions;
 use ILIAS\Questions\AnswerFormTypes\Cloze;
 use ILIAS\Questions\Question\Persistence\TableDefinitions as QuestionTableDefinitions;
@@ -59,6 +58,10 @@ class LocalDIC extends PimpleContainer
         $dic[UuidFactory::class] = static fn($c): UuidFactory => new UuidFactory();
         $dic[MustacheEngine::class] = static fn($c): MustacheEngine
                 => new MustacheEngine(['escape' => static fn($v) => $v]);
+        $dic[\ilFileServicesFilenameSanitizer::class] = static fn($c): \ilFileServicesFilenameSanitizer
+            => new \ilFileServicesFilenameSanitizer(
+                $DIC->fileServiceSettings()
+            );
 
         $dic[ConfigurationRepository::class] = static fn($c): ConfigurationRepository
             => new ConfigurationRepository(
@@ -88,11 +91,28 @@ class LocalDIC extends PimpleContainer
                         $c[UuidFactory::class],
                         $c[DataFactory::class]->text(),
                         $c[PersistenceFactory::class],
-                        new FeedbackTableDefinitions(
+                        new Capabilities\Feedback\TableDefinitions(
                             $c[PersistenceFactory::class]
                         )
                     )
                 ),
+                Capabilities\SuggestedLearningContent\SuggestedLearningContent::class
+                    => new Capabilities\SuggestedLearningContent\SuggestedLearningContent(
+                        $DIC['ilCtrl'],
+                        $DIC['rbacsystem'],
+                        $DIC['tree'],
+                        $DIC['static_url'],
+                        $DIC['user']->getLoggedInUser(),
+                        new Capabilities\SuggestedLearningContent\Repository(
+                            $DIC['ilDB'],
+                            $DIC['refinery'],
+                            $DIC['resource_storage'],
+                            $c[PersistenceFactory::class],
+                            new Capabilities\SuggestedLearningContent\TableDefinitions(
+                                $c[PersistenceFactory::class]
+                            )
+                        )
+                    ),
                 Capabilities\Marking\Marking::class => new Capabilities\Marking\Capability()
             ]);
         $dic[AnswerFormFactory::class] = static fn($c): AnswerFormFactory
@@ -116,7 +136,11 @@ class LocalDIC extends PimpleContainer
             new LayoutFactory(
                 $DIC['ui.factory'],
                 $DIC['http'],
-                $DIC['lng']
+                $DIC['lng'],
+                $DIC['resource_storage'],
+                $DIC['filesystem']->temp(),
+                $DIC['upload'],
+                $c[\ilFileServicesFilenameSanitizer::class]
             );
         $dic[Edit::class] = static fn($c): Edit => new Edit(
             $DIC['lng'],
