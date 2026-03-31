@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Presentation\Layout;
+namespace ILIAS\Questions\Presentation\Layout\Tools;
 
 use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Component\Input\Field\Section;
@@ -29,6 +29,8 @@ use ILIAS\UI\Component\Input\Field\Section;
  */
 class InputsBuilderSession implements InputsBuilder
 {
+    private const string STORAGE_KEY = 'inputs_builder_carry';
+
     private ?string $carry = null;
 
     /**
@@ -37,7 +39,6 @@ class InputsBuilderSession implements InputsBuilder
      * the value will be null.
      */
     public function __construct(
-        private readonly string $storage_key,
         private readonly Transformation $to_inputs
     ) {
     }
@@ -55,12 +56,12 @@ class InputsBuilderSession implements InputsBuilder
         if ($this->carry === null) {
             $this->loadCarryFromSessionAndClear();
         }
-        \ilSession::set($this->storage_key, $this->carry);
+        \ilSession::set(self::STORAGE_KEY, $this->carry);
     }
 
     public function resetCarry(): void
     {
-        \ilSession::clear($this->storage_key);
+        \ilSession::clear(self::STORAGE_KEY);
     }
 
     public function retrieveCarry(
@@ -83,7 +84,7 @@ class InputsBuilderSession implements InputsBuilder
 
     private function loadCarryFromSessionAndClear(): void
     {
-        $this->carry = \ilSession::get($this->storage_key);
-        \ilSession::clear($this->storage_key);
+        $this->carry = \ilSession::get(self::STORAGE_KEY);
+        \ilSession::clear(self::STORAGE_KEY);
     }
 }

@@ -25,8 +25,8 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations\Factory as Com
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Async;
-use ILIAS\Questions\Presentation\Layout\InputsBuilder;
-use ILIAS\Questions\Presentation\Layout\InputsBuilderSession;
+use ILIAS\Questions\Presentation\Layout\Tools\InputsBuilder;
+use ILIAS\Questions\Presentation\Layout\Tools\InputsBuilderSession;
 use ILIAS\Questions\Presentation\Layout\Renderable;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;

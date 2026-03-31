@@ -21,10 +21,18 @@ declare(strict_types=1);
 namespace ILIAS\Questions\Presentation\Layout;
 
 use ILIAS\Questions\Presentation\Definitions\Environment;
+use ILIAS\Questions\Presentation\Layout\Tools\InputsBuilder;
+use ILIAS\Questions\Presentation\Layout\Tools\InputsBuilderSession;
+use ILIAS\Questions\Presentation\Layout\Tools\UploadHandler;
+use ILIAS\Filesystem\Filesystem;
+use ILIAS\FileUpload\FileUpload;
 use ILIAS\HTTP\Services as HttpService;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Transformation;
+use ILIAS\ResourceStorage\Services as IRSS;
+use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Component\Prompt\State\State;
 use ILIAS\UI\Component\Input\Input;
 use ILIAS\UI\Component\MessageBox\MessageBox;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
@@ -36,7 +44,11 @@ class Factory
     public function __construct(
         private readonly UIFactory $ui_factory,
         private readonly HttpService $http,
-        private readonly Language $lng
+        private readonly Language $lng,
+        private readonly IRSS $irss,
+        private readonly Filesystem $temp_filesystem,
+        private readonly FileUpload $upload,
+        private readonly \ilFileServicesFilenameSanitizer $sanitizer,
     ) {
     }
 
@@ -67,7 +79,7 @@ class Factory
     }
 
     public function getAsync(
-        InterruptiveModal|RoundTripModal|MessageBox $content
+        InterruptiveModal|RoundTripModal|MessageBox|State|array|string $content
     ): Async {
         return new Async(
             $this->http,
@@ -76,12 +88,24 @@ class Factory
     }
 
     public function getSessionBasedInputsBuilder(
-        string $storage_key,
         Transformation $to_inputs
     ): InputsBuilderSession {
         return new InputsBuilderSession(
-            $storage_key,
             $to_inputs
+        );
+    }
+
+    public function getUploadHandler(
+        Environment $environment,
+        ResourceStakeholder $stakeholder
+    ): UploadHandler {
+        return new UploadHandler(
+            $this->irss,
+            $this->temp_filesystem,
+            $this->upload,
+            $this->sanitizer,
+            $stakeholder,
+            $environment
         );
     }
 
