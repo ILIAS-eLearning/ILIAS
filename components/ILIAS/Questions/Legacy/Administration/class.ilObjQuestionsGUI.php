@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Questions\Administration\ConfigurationGUI;
 use ILIAS\Questions\Administration\ConfigurationRepository;
+use ILIAS\Questions\AnswerForm\Capabilities\SuggestedLearningContent\SuggestedLearningContent;
 use ILIAS\Questions\AnswerForm\Capabilities\Feedback\Feedback;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\UploadAnswerOptionsGUI;
 use ILIAS\Questions\Legacy\LocalDIC;
@@ -59,7 +60,8 @@ class ilObjQuestionsGUI extends ilObjectGUI
         $this->units_repository = $local_dic[UnitsRepository::class];
         $this->edit_view = $local_dic[Edit::class]
             ->withRequiredCapabilities([
-                Feedback::class
+                Feedback::class,
+                SuggestedLearningContent::class
             ]);
         $this->configuration_repository = $local_dic[ConfigurationRepository::class];
 

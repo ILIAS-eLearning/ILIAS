@@ -32,6 +32,8 @@ class Query
     private array $order = [];
     private ?Range $range = null;
 
+    private ?Column $group_by = null;
+
     private array $binding_types = [];
     private array $binding_values = [];
 
@@ -44,8 +46,8 @@ class Query
     public function __construct(
         private readonly \ilDBInterface $db,
         private readonly Refinery $refinery,
-        private string $component_name_space,
-        private Table $base_table
+        private readonly string $component_name_space,
+        private readonly Table $base_table
     ) {
     }
 
@@ -103,9 +105,16 @@ class Query
         return $clone;
     }
 
-    public function loadNextRecord(
-        ?Column $group_by
-    ): \Generator {
+    public function withGroupBy(
+        Column $group_by
+    ): self {
+        $clone = clone $this;
+        $clone->group_by = $group_by;
+        return $clone;
+    }
+
+    public function loadNextRecord(): \Generator
+    {
         $result = $this->toSql();
 
         $this->current_record = [$this->db->fetchAssoc($result)];
@@ -113,14 +122,15 @@ class Query
             return null;
         }
 
-        if ($group_by === null) {
+        if ($this->group_by === null) {
+            yield $this;
             yield from $this->loadNextRecordUngrouped($result);
             return;
         }
 
         yield from $this->loadNextRecordGrouped(
             $result,
-            $group_by->getColumnAlias()
+            $this->group_by->getColumnAlias()
         );
     }
 
@@ -223,7 +233,7 @@ class Query
         \ilDBStatement $result
     ): \Generator {
         while (($db_record = $this->db->fetchAssoc($result)) !== null) {
-            $this->current_record = $db_record;
+            $this->current_record[0] = $db_record;
             yield $this;
         }
     }

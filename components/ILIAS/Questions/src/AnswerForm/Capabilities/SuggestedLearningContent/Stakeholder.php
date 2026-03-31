@@ -18,11 +18,22 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Presentation\Layout;
+namespace ILIAS\Questions\AnswerForm\Capabilities\SuggestedLearningContent;
 
-use ILIAS\UI\Component\Input\Field\Section;
+use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
 
-interface InputsBuilder
+/**
+ * @author Fabian Schmid <fabian@sr.solutions>
+ */
+class Stakeholder extends AbstractResourceStakeholder
 {
-    public function getInputs(): Section;
+    public function getId(): string
+    {
+        return 'questions_suggested_learning_content';
+    }
+
+    public function getOwnerOfNewResources(): int
+    {
+        return $this->default_owner;
+    }
 }
