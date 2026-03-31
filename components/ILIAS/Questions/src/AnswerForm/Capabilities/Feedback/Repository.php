@@ -68,12 +68,12 @@ class Repository
                         $answer_form_id->toString()
                     )
                 )
-            )->loadNextRecord(
+            )->withGroupBy(
                 $this->feedback_table_definitions->getIdColumn(
                     $this->feedback_table_names_builder,
                     TableTypes::FeedbackGeneric
                 )
-            )->current();
+            )->loadNextRecord()->current();
 
         if ($database_values === null) {
             return $feedback;
