@@ -56,7 +56,7 @@ class ilCtrl implements ilCtrlInterface
         protected Refinery $refinery,
         protected ilComponentFactory $component_factory,
         protected ilCtrlSubject $subject,
-        protected  ilCtrlQueryParserInterface $query_parser,
+        protected ilCtrlQueryParserInterface $query_parser,
     ) {
     }
 
@@ -158,12 +158,6 @@ class ilCtrl implements ilCtrlInterface
     public function getCmd(?string $fallback_command = null): ?string
     {
         $command = $this->getDeterminedCommand() ?? $fallback_command;
-        if (null !== $this->command && $command === $this->command) {
-            // don't broadcast command determination event on consecutive
-            // method calls.
-            return $command;
-        }
-
         $this->subject->notify(ilCtrlEvent::COMMAND_DETERMINATION, $command);
         $this->command = $command;
 
