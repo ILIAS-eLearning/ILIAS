@@ -32,9 +32,11 @@ use ILIAS\UI\Implementation\Render\Template;
 */
 class IndirectInputContainerContextRenderer extends Renderer
 {
-    protected function maybeRenderButtonType(Component\Button\Button $component, Template $tpl): void
+    protected const string INDIRECT_INPUT_CONTAINER_TYPE = "button";
+
+    protected function renderButtonType(Component\Button\Button $component, Template $tpl): void
     {
         // add type attribute to prevent form submissions
-        $tpl->touchBlock('with_button_type');
+        $tpl->setVariable('TYPE', self::INDIRECT_INPUT_CONTAINER_TYPE);
     }
 }

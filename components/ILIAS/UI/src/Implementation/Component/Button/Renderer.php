@@ -75,7 +75,7 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl = $this->getTemplate($tpl_name, true, true);
 
-        $this->maybeRenderButtonType($component, $tpl);
+        $this->renderButtonType($component, $tpl);
 
         $action = $component->getAction();
         // The action is always put in the data-action attribute to have it available
@@ -93,7 +93,7 @@ class Renderer extends AbstractComponentRenderer
             if ('' === $component->getLabel() && '' === $component->getAriaLabel()) {
                 $component = $component->withAriaLabel($this->getSymbolLabel($symbol));
             }
-            // @todo: this should be three context renderer as well...
+            // unset the symbol label, button provide label (semantic meaning)
             $symbol = $symbol->withLabel('');
             $tpl->setVariable("SYMBOL", $default_renderer->render($symbol));
         }
@@ -202,6 +202,8 @@ class Renderer extends AbstractComponentRenderer
     protected function renderToggle(Component\Button\Toggle $component): string
     {
         $tpl = $this->getTemplate("tpl.toggle.html", true, true);
+
+        $this->renderButtonType($component, $tpl);
 
         $on_action = $component->getActionOn();
         $off_action = $component->getActionOff();
@@ -350,7 +352,7 @@ class Renderer extends AbstractComponentRenderer
         }
     }
 
-    protected function maybeRenderButtonType(Component\Button\Button $component, Template $tpl): void
+    protected function renderButtonType(Component\Button\Button $component, Template $tpl): void
     {
         // omit type attribute by default
     }
@@ -360,7 +362,7 @@ class Renderer extends AbstractComponentRenderer
         if (!$symbol instanceof Glyph) {
             return $symbol->getLabel();
         }
-        // @todo: this breaks custom labels, translation should happen in factory!
+        // @todo: this breaks custom labels, translation should happen in factory...
         $label = $this->txt($symbol->getLabel());
         foreach ($symbol->getCounters() as $counter) {
             if ($counter->getNumber() > 0) {

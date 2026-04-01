@@ -42,7 +42,16 @@ class Renderer extends AbstractComponentRenderer
             $tpl->touchBlock("highlighted");
         }
 
-        $this->renderAccessibilityInfo($component, $tpl);
+        $label = $component->getLabel();
+        if ('' !== $label) {
+            $tpl->touchBlock('with_aria_label');
+            // @todo: move translation to factory, this breaks custom labels...
+            $tpl->setVariable("LABEL", $this->txt($label));
+            $tpl->touchBlock('with_role');
+        } else {
+            // glyph must be hidden if there is no label (semantic meaning)
+            $tpl->touchBlock('with_aria_hidden');
+        }
 
         $id = $this->bindJavaScript($component);
 
@@ -53,19 +62,6 @@ class Renderer extends AbstractComponentRenderer
         }
         $tpl->setVariable("GLYPH", $this->getInnerGlyphHTML($component, $default_renderer));
         return $tpl->get();
-    }
-
-    protected function renderAccessibilityInfo(Glyph $component, Template $tpl): void
-    {
-        $label = $component->getLabel();
-        if ('' !== $label) {
-            $tpl->touchBlock('with_aria_label');
-            $tpl->setVariable("LABEL", $this->txt($label)); // @todo: move translation to factory, breaks custom labels
-            $tpl->touchBlock('with_role');
-        } else {
-            // glyph must be hidden if there is no label (semantic meaning)
-            $tpl->touchBlock('with_aria_hidden');
-        }
     }
 
     protected function getInnerGlyphHTML(Component\Component $component, RendererInterface $default_renderer): string

@@ -32,7 +32,6 @@ use ILIAS\UI\Implementation\Render\DefaultRendererFactory;
 use ILIAS\UI\Implementation\Component\Button\ButtonRendererFactory;
 use ILIAS\UI\Implementation\DefaultRenderer;
 use ILIAS\UI\Implementation\Render;
-use ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory;
 use ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory;
 use ILIAS\UI\Implementation\FactoryInternal;
 use ILIAS\UI\Renderer;
@@ -432,16 +431,6 @@ trait BaseUITestTrait
                         $this->getUploadLimitResolver()
                     ),
                     new ButtonRendererFactory(
-                        $ui_factory,
-                        $tpl_factory,
-                        $lng,
-                        $js_binding,
-                        $image_path_resolver,
-                        $data_factory,
-                        $help_text_retriever,
-                        $this->getUploadLimitResolver()
-                    ),
-                    new GlyphRendererFactory(
                         $ui_factory,
                         $tpl_factory,
                         $lng,

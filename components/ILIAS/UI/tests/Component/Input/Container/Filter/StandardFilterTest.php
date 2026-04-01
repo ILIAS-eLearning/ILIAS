@@ -257,13 +257,13 @@ class StandardFilterTest extends ILIAS_UI_TestBase
                 <div class="il-standard-popover-content" style="display:none;" id="id_19"></div>
             </div>
             <div class="il-filter-controls">
-                <button type="button" class="btn btn-bulky" data-action="" id="id_2">
+                <button class="btn btn-bulky" data-action="" id="id_2">
                     <span class="glyph" aria-hidden="true">
                         <span class="glyphicon glyphicon-apply" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">apply</span>
                 </button>
-                <button type="button" class="btn btn-bulky" data-action="#" id="id_3">
+                <button class="btn btn-bulky" data-action="#" id="id_3">
                     <span class="glyph" aria-hidden="true">
                         <span class="glyphicon glyphicon-reset" aria-hidden="true"></span>
                     </span>
@@ -389,13 +389,13 @@ EOT;
                 <div class="il-standard-popover-content" style="display:none;" id="id_19"></div>
             </div>
             <div class="il-filter-controls">
-                <button type="button" class="btn btn-bulky" data-action="" id="id_2">
+                <button class="btn btn-bulky" data-action="" id="id_2">
                     <span class="glyph" aria-hidden="true">
                         <span class="glyphicon glyphicon-apply" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">apply</span>
                 </button>
-                <button type="button" class="btn btn-bulky" data-action="#" id="id_3">
+                <button class="btn btn-bulky" data-action="#" id="id_3">
                     <span class="glyph" aria-hidden="true">
                         <span class="glyphicon glyphicon-reset" aria-hidden="true"></span>
                     </span>
@@ -521,13 +521,13 @@ EOT;
                 <div class="il-standard-popover-content" style="display:none;" id="id_19"></div>
             </div>
             <div class="il-filter-controls">
-                <button type="button" class="btn btn-bulky" data-action="" id="id_2">
+                <button class="btn btn-bulky" data-action="" id="id_2">
                     <span class="glyph" aria-hidden="true">
                         <span class="glyphicon glyphicon-apply" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">apply</span>
                 </button>
-                <button type="button" class="btn btn-bulky" data-action="#" id="id_3">
+                <button class="btn btn-bulky" data-action="#" id="id_3">
                     <span class="glyph" aria-hidden="true">
                         <span class="glyphicon glyphicon-reset" aria-hidden="true"></span>
                     </span>
@@ -653,13 +653,13 @@ EOT;
                 <div class="il-standard-popover-content" style="display:none;" id="id_19"></div>
             </div>
             <div class="il-filter-controls">
-                <button type="button" class="btn btn-bulky" data-action="" id="id_2">
+                <button class="btn btn-bulky" data-action="" id="id_2">
                     <span class="glyph" aria-hidden="true">
                         <span class="glyphicon glyphicon-apply" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">apply</span>
                 </button>
-                <button type="button" class="btn btn-bulky" data-action="#" id="id_3">
+                <button class="btn btn-bulky" data-action="#" id="id_3">
                     <span class="glyph" aria-hidden="true">
                         <span class="glyphicon glyphicon-reset" aria-hidden="true"></span>
                     </span>

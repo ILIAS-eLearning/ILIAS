@@ -1334,13 +1334,13 @@ class Renderer extends AbstractComponentRenderer
         $option_filter_template->setVariable('NO_MATCH', $this->txt('ui_field_option_filter_no_match'));
         $option_filter_template->setVariable('OPTIONS_SHOWN', $this->txt('ui_field_option_filter_options_shown'));
 
-        $expand_icon = $default_renderer->render($this->getUIFactory()->symbol()->glyph()->expand());
+        $expand_icon = $default_renderer->render($this->getUIFactory()->symbol()->glyph()->expand()->withLabel(''));
         $option_filter_template->setVariable('EXPAND_TEXT', $expand_icon . $this->txt('ui_field_option_filter_show_all_options'));
 
-        $collapse_icon = $default_renderer->render($this->getUIFactory()->symbol()->glyph()->collapseHorizontal());
+        $collapse_icon = $default_renderer->render($this->getUIFactory()->symbol()->glyph()->collapseHorizontal()->withLabel(''));
         $option_filter_template->setVariable('COLLAPSE_TEXT', $collapse_icon . $this->txt('ui_field_option_filter_show_less'));
 
-        $remove_icon = $default_renderer->render($this->getUIFactory()->symbol()->glyph()->remove());
+        $remove_icon = $default_renderer->render($this->getUIFactory()->symbol()->glyph()->remove()->withLabel(''));
         $option_filter_template->setVariable('CLEAR_SEARCH_BTN', $remove_icon . $this->txt('ui_field_option_filter_clear_search'));
 
         $component = $component->withAdditionalOnLoadCode(
