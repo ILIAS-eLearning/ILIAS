@@ -24,7 +24,6 @@ use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\Filesystem\Util\Convert\Images;
 use ILIAS\Filesystem\Util\Convert\ImageOutputOptions;
 use ILIAS\Filesystem\Stream\Stream;
-use _PHPStan_9815bbba4\Nette\Neon\Exception;
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\Filesystem\Stream\ZIPStream;
