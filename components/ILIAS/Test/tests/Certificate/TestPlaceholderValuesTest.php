@@ -20,12 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Certificate;
 
-use PHPUnit\Framework\TestCase;
+use ilTestBaseTestCase;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class TestPlaceholderValuesTest extends TestCase
+class TestPlaceholderValuesTest extends ilTestBaseTestCase
 {
     public function testA(): void
     {
