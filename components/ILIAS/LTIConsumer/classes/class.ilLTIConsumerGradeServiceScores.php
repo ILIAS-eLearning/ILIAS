@@ -95,6 +95,8 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
             return 404;
         }
 
+        ilObjLTIConsumer::getLogger()->dump($score);
+
         if (empty($score) ||
             !isset($score->userId) ||
             !isset($score->gradingProgress) ||
@@ -110,17 +112,15 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
             throw new Exception('Incorrect score received', 400);
             return 400;
         }
-        //Achtung Ggfs. Timestamp prüfen falls schon was ankam
+
         if (!isset($score->scoreMaximum)) {
             $score->scoreMaximum = 1;
         }
-        if (isset($score->scoreGiven)) {
-            if ($score->gradingProgress != 'FullyGraded') {
-                $score->scoreGiven = null;
-            }
+        if (!isset($score->scoreGiven)) {
+            $score->scoreGiven = 0;
         }
+
         $result = (float) $score->scoreGiven / (float) $score->scoreMaximum;
-        ilObjLTIConsumer::getLogger()->info("result: " . $result);
 
         $ltiObjRes = new ilLTIConsumerResultService();
 
@@ -131,33 +131,48 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
             return 404;
         }
 
-        if ($result >= $ltiObjRes->getMasteryScore()) {
-            $lp_status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
-        } else {
+        $lp_status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
+
+        if ($score->activityProgress === 'InProgress') {
             $lp_status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
+        } elseif ($score->activityProgress === 'Completed' && $score->gradingProgress === 'FullyGraded') {
+            if ($result >= $ltiObjRes->getMasteryScore()) {
+                $lp_status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
+            } else {
+                $lp_status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
+            }
+        } elseif ($score->activityProgress === 'Completed' && $score->gradingProgress === 'Failed') {
+            $lp_status = ilLPStatus::LP_STATUS_FAILED_NUM;
         }
+
         $lp_percentage = (int) round(100 * $result);
+
+        ilObjLTIConsumer::getLogger()->info("lp_status: $lp_status, lp_percentage: $lp_percentage, result: $result, mastery_score: " . $ltiObjRes->getMasteryScore());
 
         $consRes = ilLTIConsumerResult::getByKeys($objId, $userId, false);
         if (empty($consRes)) {
-            ilObjLTIConsumer::getLogger()->info("lti_consumer_results_id not found!");
-            //            throw new Exception('lti_consumer_results_id not found!', 404);
-            //            return 404;
+            $DIC->database()->insert(
+                'lti_consumer_results',
+                array(
+                    'id' => array('integer', $DIC->database()->nextId('lti_consumer_results')),
+                    'obj_id' => array('integer', $objId),
+                    'usr_id' => array('integer', $userId),
+                    'result' => array('float', $result)
+                )
+            );
+        } else {
+            $DIC->database()->replace(
+                'lti_consumer_results',
+                array(
+                    'id' => array('integer', $consRes->id)
+                ),
+                array(
+                    'obj_id' => array('integer', $objId),
+                    'usr_id' => array('integer', $userId),
+                    'result' => array('float', $result)
+                )
+            );
         }
-        if (!isset($consRes->id)) {
-            $consRes->id = $DIC->database()->nextId('lti_consumer_results');
-        }
-        $DIC->database()->replace(
-            'lti_consumer_results',
-            array(
-                'id' => array('integer', $consRes->id)
-            ),
-            array(
-                'obj_id' => array('integer', $objId),
-                'usr_id' => array('integer', $userId),
-                'result' => array('float', $result)
-            )
-        );
 
         ilLPStatus::writeStatus($objId, $userId, $lp_status, $lp_percentage, true);
 

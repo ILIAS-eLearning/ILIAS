@@ -1566,7 +1566,7 @@ class ilObjStyleSheet extends ilObject
 
     public static function getExportContentStylePath(): string
     {
-        return "content_style/style.css";
+        return "assets/content_style/style.css";
     }
 
     /**
@@ -1580,7 +1580,6 @@ class ilObjStyleSheet extends ilObject
     ): string {
         global $DIC;
         $ilSetting = $DIC->settings();
-
         $random = new \ilRandom();
         $rand = $random->int(1, 999999);
 

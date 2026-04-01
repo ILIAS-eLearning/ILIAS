@@ -79,4 +79,9 @@ class GUIService
         $eff_style_id = $this->internal->domain()->object($ref_id, $obj_id)->getEffectiveStyleId();
         $tpl->addCss(ilObjStyleSheet::getContentStylePath($eff_style_id));
     }
+
+    public function addExportCss(ilGlobalTemplateInterface $tpl): void
+    {
+        $tpl->addCss(ilObjStyleSheet::getExportContentStylePath());
+    }
 }

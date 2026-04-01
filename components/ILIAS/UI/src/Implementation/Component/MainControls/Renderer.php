@@ -24,6 +24,7 @@ use ILIAS\UI\Component;
 use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
+use ILIAS\UI\Component\MainControls\Slate\Legacy as LegacySlate;
 use ILIAS\UI\Component\MainControls\Slate\Slate;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\Button\Bulky as IBulky;
@@ -166,7 +167,9 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
 
             if ($slate) {
-                $entry = $entry->withAriaRole(ISlate::MENU);
+                if (!$entry instanceof LegacySlate) {
+                    $entry = $entry->withAriaRole(ISlate::MENU);
+                }
 
                 $tpl->setCurrentBlock("slate_item");
                 $tpl->setVariable("SLATE", $default_renderer->render($entry));

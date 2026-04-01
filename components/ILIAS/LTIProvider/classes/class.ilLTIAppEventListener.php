@@ -21,34 +21,34 @@ declare(strict_types=1);
 use ceLTIc\LTI\Enum\ServiceAction;
 use ceLTIc\LTI\Outcome;
 use ceLTIc\LTI\ResourceLink;
+use ceLTIc\LTI\Tool;
 use ceLTIc\LTI\UserResult;
 
 /**
- * Class ilLTIProviderAppEventListener
+ * Class ilLTIAppEventListener
  */
-class ilLTIProviderAppEventListener implements \ilAppEventListener
+class ilLTIAppEventListener
 {
-    private static ?\ilLTIProviderAppEventListener $instance = null;
+    private static ?ilLTIAppEventListener $instance = null;
 
-    private ?\ilLogger $logger = null;
+    private ?ilLogger $logger = null;
 
-    private ?\ilLTIDataConnector $connector = null;
+    private ?ilLTIDataConnector $connector = null;
 
 
     /**
-     * ilLTIProviderAppEventListener constructor.
+     * ilLTIAppEventListener constructor.
      */
     protected function __construct()
     {
         global $DIC;
-
-        $this->logger = ilLoggerFactory::getLogger('ltis');
+        $this->logger = $DIC->logger()->root();
         $this->connector = new ilLTIDataConnector();
     }
 
-    protected static function getInstance(): \ilLTIProviderAppEventListener
+    protected static function getInstance(): ilLTIAppEventListener
     {
-        if (!self::$instance instanceof \ilLTIProviderAppEventListener) {
+        if (!self::$instance instanceof ilLTIAppEventListener) {
             self::$instance = new self();
         }
         return self::$instance;
@@ -80,7 +80,7 @@ class ilLTIProviderAppEventListener implements \ilAppEventListener
             );
 
             $this->logger->debug('Resources for update:');
-            $this->logger->dump($resources, ilLogLevel::DEBUG);
+            $this->logger->debug("resources: " . json_encode($resources));
 
             foreach ($resources as $resource) {
                 $this->tryOutcomeService((int) $resource, $ext_account, $a_status, $a_percentage);
@@ -177,10 +177,49 @@ class ilLTIProviderAppEventListener implements \ilAppEventListener
                 $score = 0;
             }
         }
+        $platform = $resource_link->getPlatform();
 
-        $this->logger->info('Sending score: ' . (string) $score);
+        $platform->accessTokenUrl = $platform->accessTokenUrl
+            ?: $platform->getSetting('custom_oauth2_access_token_url')
+                ?: \ilObjLTIConsumer::getAccessTokenUrl();
 
-        $outcome = new Outcome((string) $score);
+        $priv = \ilObjLTIConsumer::getPrivateKey();
+
+        $tool = new Tool();
+        $tool->rsaKey = $priv['key'];
+        $tool->kid = $priv['kid'];
+        $tool->jku = \ilObjLTIConsumer::getPublicKeysetUrl();
+        $tool->requiredScopes = [
+            "https://purl.imsglobal.org/spec/lti-ags/scope/score",
+            "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly",
+        ];
+        $tool->signatureMethod = $platform->signatureMethod;
+
+        Tool::$defaultTool = $tool;
+        $tool->platform = $platform;
+
+        $pointsPossible = 1;
+
+        if ($a_status == ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM) {
+            $activityProgress = 'Initialized';
+            $gradingProgress = 'NotReady';
+        } elseif ($a_status == ilLPStatus::LP_STATUS_IN_PROGRESS_NUM) {
+            $activityProgress = 'InProgress';
+            $gradingProgress = 'Pending';
+        } elseif ($a_status == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+            $activityProgress = 'Completed';
+            $gradingProgress = 'FullyGraded';
+        } elseif ($a_status == ilLPStatus::LP_STATUS_FAILED_NUM) {
+            $activityProgress = 'Completed';
+            $gradingProgress = 'Failed';
+        } else {
+            $activityProgress = 'InProgress';
+            $gradingProgress = 'Pending';
+        }
+
+        $this->logger->info("Sending score: $score, Points possible: $pointsPossible, Activity progress: $activityProgress, Grading progress: $gradingProgress");
+
+        $outcome = new Outcome($score, $pointsPossible, $activityProgress, $gradingProgress);
 
         $status = $resource_link->doOutcomesService(
             ServiceAction::Write,
@@ -192,13 +231,16 @@ class ilLTIProviderAppEventListener implements \ilAppEventListener
 
 
     /**
-     * @inheritdoc
+     * Handle an event in a listener.
+     * @param	string $a_component component, e.g. "components/ILIAS/Forum" or "components/ILIAS/User"
+     * @param	string $a_event     event e.g. "createUser", "updateUser", "deleteUser", ...
+     * @param	array<string, mixed> $a_parameter parameter array (assoc), array("name" => ..., "phone_office" => ...)
      */
     public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
-        $logger = ilLoggerFactory::getLogger('ltis');
+        global $DIC;
+        $logger = $DIC->logger()->root();
         $logger->info('Handling event: ' . $a_event . ' from ' . $a_component);
-
         if ($a_component == 'components/ILIAS/Tracking') {
             if ($a_event == 'updateStatus') {
                 $listener = self::getInstance();

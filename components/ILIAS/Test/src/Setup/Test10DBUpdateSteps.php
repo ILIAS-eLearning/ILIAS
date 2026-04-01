@@ -484,4 +484,34 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
             'DELETE FROM settings WHERE module="assessment" AND keyword="export_essay_qst_with_html"'
         );
     }
+
+    public function step_16(): void
+    {
+        $this->db->manipulate(
+            'UPDATE tst_rnd_quest_set_qpls SET pool_path = "" WHERE pool_path IS NULL'
+        );
+        $this->db->modifyTableColumn(
+            'tst_rnd_quest_set_qpls',
+            'pool_path',
+            [
+                'default' => '',
+                'notnull' => true
+            ]
+        );
+    }
+
+    public function step_17(): void
+    {
+        $this->db->manipulate(
+            'UPDATE tst_rnd_quest_set_qpls SET pool_title = "" WHERE pool_title IS NULL'
+        );
+        $this->db->modifyTableColumn(
+            'tst_rnd_quest_set_qpls',
+            'pool_title',
+            [
+                'default' => '',
+                'notnull' => true
+            ]
+        );
+    }
 }

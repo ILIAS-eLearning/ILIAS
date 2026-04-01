@@ -40,19 +40,9 @@ class ilTestRandomQuestionSetNonAvailablePool
         return $this->id;
     }
 
-    public function setId(int $id): void
-    {
-        $this->id = $id;
-    }
-
     public function getTitle(): string
     {
         return $this->title;
-    }
-
-    public function setTitle(string $title): void
-    {
-        $this->title = $title;
     }
 
     public function getPath(): string
@@ -80,22 +70,23 @@ class ilTestRandomQuestionSetNonAvailablePool
         return $this->ref_id;
     }
 
-    public function setRefId(?int $ref_id): void
-    {
-        $this->ref_id = $ref_id;
-    }
-
     public function assignDbRow(array $row): void
     {
         foreach ($row as $field => $value) {
             switch ($field) {
-                case 'pool_fi': $this->setId($value);
+                case 'pool_fi':
+                    $this->id = $value;
                     break;
-                case 'pool_ref_id': $this->setRefId($value ? (int) $value : null);
+                case 'pool_ref_id':
+                    $this->ref_id = $value === null
+                        ? null
+                        : (int) $value;
                     break;
-                case 'pool_title': $this->setTitle($value);
+                case 'pool_title':
+                    $this->title = $value;
                     break;
-                case 'pool_path': $this->setPath($value);
+                case 'pool_path':
+                    $this->path = $value;
                     break;
             }
         }

@@ -68,7 +68,7 @@ abstract class AbstractCollection
         }
 
         try {
-            if ((new URI($url))->getHost() !== (new URI(ILIAS_HTTP_PATH))->getHost()) {
+            if ((new URI($content))->getHost() !== (new URI(ILIAS_HTTP_PATH))->getHost()) {
                 return true;
             }
         } catch (\Throwable) {

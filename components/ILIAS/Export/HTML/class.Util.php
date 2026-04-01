@@ -45,8 +45,7 @@ class Util
         string $export_dir,
         string $sub_dir,
         protected ?ExportCollector $export_collector = null
-    )
-    {
+    ) {
         global $DIC;
 
         $this->export_dir = $export_dir;
@@ -62,8 +61,7 @@ class Util
      */
     public function exportSystemStyle(
         array $standard_icons = []
-    ): void
-    {
+    ): void {
         // legacy export
         if (is_null($this->export_collector)) {
             $sys_style_html_export = new \ilSystemStyleHTMLExport($this->target_dir);
@@ -156,6 +154,10 @@ class Util
         $target_dir = $this->target_dir;
         $css = $global_screen->layout()->meta()->getCss();
         foreach ($css->getItemsInOrderOfDelivery() as $item) {
+            // skip dummy "assets/content_style/style.css"
+            if (str_contains($item->getContent(), "assets/content_style")) {
+                continue;
+            }
             $this->exportResourceFile($target_dir, $item->getContent());
         }
         $js = $global_screen->layout()->meta()->getJs();

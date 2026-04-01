@@ -638,7 +638,6 @@ assessment#:#errFormulaQuestion#:#A question de type Formule contient des inform
 assessment#:#errRecursionInResult#:#La formule contient une récursivité infinie.
 assessment#:#err_category_in_use#:#Au minimum une catégorie ne peut être supprimée. Une ou plusieurs unités de la catégorie sont encore utilisées.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.
-assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#This value has to be smaller than the maximum range.
 assessment#:#err_duplicate_results#:#Vous avez utilisé une variable de résultat plusieurs fois, ce qui n'est pas autorisé dans le texte d'une question.
 assessment#:#err_no_formula#:#Vous devez entrer une formule

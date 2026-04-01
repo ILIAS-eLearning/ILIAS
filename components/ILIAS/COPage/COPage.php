@@ -110,6 +110,18 @@ class COPage implements Component\Component
                 return "assets/js/ilIntLink.js";
             }
         };
+        // this is just a dummy to make the html export to the same
+        // target assets/content_style/style.css work
+        $contribute[Component\Resource\PublicAsset::class] = static fn() => new class () implements Component\Resource\PublicAsset {
+            public function getSource(): string
+            {
+                return "components/ILIAS/COPage/css/content_base.css";
+            }
+            public function getTarget(): string
+            {
+                return "assets/content_style/style.css";
+            }
+        };
 
     }
 }

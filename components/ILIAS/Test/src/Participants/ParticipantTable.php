@@ -151,7 +151,10 @@ class ParticipantTable implements DataRetrieval
             }
 
             yield $this->table_actions->onDataRow(
-                $row_builder->buildDataRow((string) $record->getUserId(), $row),
+                $row_builder->buildDataRow(
+                    "{$record->getUserId()}_{$record->getActiveId()}",
+                    $row
+                ),
                 $record
             );
         }

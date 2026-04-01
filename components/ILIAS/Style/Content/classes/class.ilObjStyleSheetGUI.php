@@ -495,18 +495,16 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
         // assign style to style sheet folder,
         // if parent is style sheet folder
-        if ($this->requested_ref_id > 0) {
-            $fold = ilObjectFactory::getInstanceByRefId($this->requested_ref_id);
-            if ($fold->getType() == "stys") {
-                $cont_style_settings = new ilContentStyleSettings();
-                $cont_style_settings->addStyle($newObj->getId());
-                $cont_style_settings->update();
+        if ($this->requested_ref_id > 0 &&
+            ilObject::_lookupType($this->requested_ref_id, true) === "stys") {
+            $cont_style_settings = new ilContentStyleSettings();
+            $cont_style_settings->addStyle($newObj->getId());
+            $cont_style_settings->update();
 
-                ilObjStyleSheet::_writeStandard($newObj->getId(), true);
-                $this->tpl->setOnScreenMessage("success", $this->lng->txt("object_added"), true);
-                $this->ctrl->setParameterByClass(self::class, "obj_id", (string) $newObj->getId());
-                $this->ctrl->redirectByClass(self::class, "");
-            }
+            ilObjStyleSheet::_writeStandard($newObj->getId(), true);
+            $this->tpl->setOnScreenMessage("success", $this->lng->txt("object_added"), true);
+            $this->ctrl->setParameterByClass(self::class, "obj_id", (string) $newObj->getId());
+            $this->ctrl->redirectByClass(self::class, "");
         }
     }
 

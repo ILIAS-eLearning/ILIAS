@@ -326,7 +326,7 @@ class MainBarTest extends ILIAS_UI_TestBase
                 <div class="il-maincontrols-slate disengaged" id="id_10" data-depth-level="1" role="menu">
                   <div class="il-maincontrols-slate-content" data-replace-marker="content"></div>
                 </div>
-                <div class="il-maincontrols-slate disengaged" id="id_13" data-depth-level="1" role="menu">
+                <div class="il-maincontrols-slate disengaged" id="id_13" data-depth-level="1">
                   <div class="il-maincontrols-slate-content" data-replace-marker="content">Help</div>
                 </div>
                 <div class="il-mainbar-close-slates">

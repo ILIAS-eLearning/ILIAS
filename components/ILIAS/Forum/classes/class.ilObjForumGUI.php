@@ -828,8 +828,15 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             ])
         );
 
+        $session_key = 'frm_' . $this->object->getRefId() . '_thread_sortation';
+        if ($requested_sortation !== null) {
+            ilSession::set($session_key, (int) $requested_sortation);
+        } else {
+            $requested_sortation = ilSession::get($session_key);
+        }
+
         $sortation = ThreadSortation::tryFrom(
-            $requested_sortation ?? ThreadSortation::DEFAULT_SORTATION->value
+            (int) ($requested_sortation ?? ThreadSortation::DEFAULT_SORTATION->value)
         );
         if ($sortation === null) {
             $sortation = ThreadSortation::DEFAULT_SORTATION;

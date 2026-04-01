@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
@@ -127,31 +126,31 @@ class ilLoggerFactory
      */
     protected function isConsoleAvailable(): bool
     {
-        if (ilContext::getType() != ilContext::CONTEXT_WEB) {
+        if (ilContext::getType() !== ilContext::CONTEXT_WEB) {
             return false;
         }
-        if (
-            $this->dic->isDependencyAvailable('ctrl') && $this->dic->ctrl()->isAsynch() ||
+
+        if (($this->dic->isDependencyAvailable('ctrl') && $this->dic->ctrl()->isAsynch()) ||
             (
                 $this->dic->isDependencyAvailable('http') &&
-                strtolower($this->dic->http()->request()->getServerParams()['HTTP_X_REQUESTED_WITH'] ?? '') === 'xmlhttprequest'
+                strtolower(
+                    $this->dic->http()->request()->getServerParams()['HTTP_X_REQUESTED_WITH'] ?? ''
+                ) === 'xmlhttprequest'
             )
         ) {
             return false;
         }
 
-        if (
-            $this->dic->isDependencyAvailable('http') &&
-            strpos($this->dic->http()->request()->getServerParams()['HTTP_ACCEPT'], 'text/html') !== false
-        ) {
+        if ($this->dic->isDependencyAvailable('http') &&
+            str_contains($this->dic->http()->request()->getServerParams()['HTTP_ACCEPT'] ?? '', 'text/html')) {
             return true;
         }
-        if (
-            $this->dic->isDependencyAvailable('http') &&
-            strpos($this->dic->http()->request()->getServerParams()['HTTP_ACCEPT'], 'application/json') !== false
-        ) {
+
+        if ($this->dic->isDependencyAvailable('http') &&
+            str_contains($this->dic->http()->request()->getServerParams()['HTTP_ACCEPT'] ?? '', 'application/json')) {
             return false;
         }
+
         return true;
     }
 

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Survey\Settings;
 
@@ -48,7 +48,8 @@ class UIFactory
             $this->domain_service,
             $object_service,
             $survey,
-            $mode_ui_modifier
+            $mode_ui_modifier,
+            new \ilSvyStandardPurifier()
         );
     }
 

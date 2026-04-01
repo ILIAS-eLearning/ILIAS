@@ -157,12 +157,7 @@ class PrintProcessGUI
 
         $tpl->setBodyClass($this->body_class);
         $tpl->addCss(\ilUtil::getStyleSheetLocation("filesystem"));
-        $tpl->addCss(
-            \ilObjStyleSheet::getContentStylePath(
-                $content_style_id,
-                false
-            )
-        );
+        $tpl->addCss(\ilObjStyleSheet::getExportContentStylePath());
         $tpl->addCss(\ilObjStyleSheet::getContentPrintStyle());
         $tpl->addCss(\ilObjStyleSheet::getSyntaxStylePath());
 

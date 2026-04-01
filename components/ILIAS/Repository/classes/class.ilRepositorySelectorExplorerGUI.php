@@ -309,4 +309,14 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         }
         return true;
     }
+
+    public function getHTML($new = false): string
+    {
+        // note: the repository explorers do not support the
+        // new rendering yet, since this needs a refactoring of the underlying
+        // classes (async handling for performance). This will be done in the legacy ui project but requires
+        // a common strategy and funding. See also https://mantis.ilias.de/view.php?id=47319
+        return parent::getHTML();
+    }
+
 }
