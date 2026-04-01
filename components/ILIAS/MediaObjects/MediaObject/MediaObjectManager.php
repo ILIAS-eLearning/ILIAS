@@ -124,7 +124,7 @@ class MediaObjectManager
             $path_to_file = \ilObjMediaObject::_getURL($mob_id) . "/" . $location;
             try {
                 $src = \ilWACSignedPath::signFile($path_to_file);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
             }
         }
         return $src;
