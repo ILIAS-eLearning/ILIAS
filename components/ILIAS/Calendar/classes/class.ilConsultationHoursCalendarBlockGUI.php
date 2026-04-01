@@ -86,7 +86,7 @@ class ilConsultationHoursCalendarBlockGUI extends ilBlockGUI
 
     protected function getListItemForData(array $data): Item
     {
-        $button = $this->ui->factory()->button()->shy(
+        $button = $this->ui->factory()->link()->standard(
             $data['txt'] ?? '',
             $data['link'] ?? ''
         );

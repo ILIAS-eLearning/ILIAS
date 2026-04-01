@@ -186,15 +186,8 @@ class ilScormAiccDataSet extends ilDataSet
 
         $this->_archive['files'] = [
             "properties" => "properties.xml",
-            "manifest" => 'manifest.xml',
             'scormFile' => "content.zip"
         ];
-
-        // build manifest xml file
-        file_put_contents(
-            $exportArchiveDir . "/" . $this->_archive['files']['manifest'],
-            $this->buildManifest()
-        );
 
         // build content zip file
         if (isset($this->_archive['files']['scormFile'])) {

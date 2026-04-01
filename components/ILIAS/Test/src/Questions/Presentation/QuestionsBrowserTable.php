@@ -81,7 +81,7 @@ class QuestionsBrowserTable implements DataRetrieval
             'description' => $column_factory->text(
                 $this->lng->txt('description')
             )->withIsOptional(true, true),
-            'type_tag' => $column_factory->text(
+            'question_type' => $column_factory->text(
                 $this->lng->txt('tst_question_type')
             )->withIsOptional(false, true),
             'points' => $column_factory->number(
@@ -153,7 +153,7 @@ class QuestionsBrowserTable implements DataRetrieval
         foreach ($this->loadRecords($filter_data ?? [], $order, $range) as $record) {
             $question_id = $record['question_id'];
 
-            $record['type_tag'] = $this->lng->txt($record['type_tag']);
+            $record['question_type'] = $record['question_type'];
             $record['complete'] = (bool) $record['complete'];
             $record['lifecycle'] = \ilAssQuestionLifecycle::getInstance($record['lifecycle'])->getTranslation($this->lng) ?? '';
 

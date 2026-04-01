@@ -72,6 +72,8 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
     protected array $questions = [];
 
     private ?Order $order = null;
+    private ?string $order_field = null;
+    private ?string $order_direction = null;
     private ?Range $range = null;
 
     public function __construct(
@@ -86,6 +88,9 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
     public function setOrder(?Order $order = null): void
     {
         $this->order = $order;
+        $order_state = $this->getOrderFieldAndDirection($order);
+        $this->order_field = $order_state['order_field'];
+        $this->order_direction = $order_state['order_direction'];
     }
 
     public function setRange(?Range $range = null): void
@@ -368,10 +373,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
     private function getTableJoinExpression(): string
     {
-        $tableJoin = '
-			INNER JOIN	qpl_qst_type
-			ON			qpl_qst_type.question_type_id = qpl_questions.question_type_fi
-		';
+        $tableJoin = "INNER JOIN qpl_qst_type ON qpl_qst_type.question_type_id = qpl_questions.question_type_fi ";
 
         if ($this->join_obj_data) {
             $tableJoin .= ' 
@@ -428,7 +430,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
     {
         $select_fields = [
             'qpl_questions.*',
-            'qpl_qst_type.type_tag',
+            'qpl_qst_type.type_tag AS question_type',
             'qpl_qst_type.plugin',
             'qpl_qst_type.plugin_name',
             'qpl_questions.points max_points'
@@ -513,9 +515,33 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
     private function buildOrderQueryExpression(): string
     {
+        return $this->order_field === null || $this->order_direction === null || $this->order_field === 'question_type'
+            ? ''
+            : " ORDER BY `$this->order_field` $this->order_direction";
+    }
+
+    private function buildLimitQueryExpression(): string
+    {
         $order = $this->order;
-        if ($order === null) {
+        if ($order instanceof Order && $this->order_field === 'question_type') {
             return '';
+        }
+
+        $range = $this->range;
+        if ($range === null) {
+            return '';
+        }
+
+        $limit = max($range->getLength(), 0);
+        $offset = max($range->getStart(), 0);
+
+        return " LIMIT $limit OFFSET $offset";
+    }
+
+    private function getOrderFieldAndDirection(?Order $order): ?array
+    {
+        if ($order === null) {
+            return ['order_field' => null, 'order_direction' => null];
         }
 
         [$order_field, $order_direction] = $order->join(
@@ -528,20 +554,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
             $order_direction = Order::ASC;
         }
 
-        return " ORDER BY `$order_field` $order_direction";
-    }
-
-    private function buildLimitQueryExpression(): string
-    {
-        $range = $this->range;
-        if ($range === null) {
-            return '';
-        }
-
-        $limit = max($range->getLength(), 0);
-        $offset = max($range->getStart(), 0);
-
-        return " LIMIT $limit OFFSET $offset";
+        return ['order_field' => $order_field, 'order_direction' => $order_direction];
     }
 
     private function buildQuery(): string
@@ -573,7 +586,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
             $row['description'] = $tags_trafo->transform($row['description'] ?? '');
             $row['author'] = $tags_trafo->transform($row['author']);
             $row['taxonomies'] = $this->loadTaxonomyAssignmentData($row['obj_fi'], $row['question_id']);
-            $row['ttype'] = $this->lng->txt($row['type_tag']);
+            $row['question_type'] = $this->lng->txt($row['question_type']);
             $row['feedback'] = $row['feedback'] === 1;
             $row['comments'] = $this->getNumberOfCommentsForQuestion($row['question_id']);
 
@@ -586,6 +599,25 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
             $this->questions[$row['question_id']] = $row;
         }
+
+        if ($this->order_field === 'question_type') {
+            $this->questions = $this->postLimit($this->postOrder($this->questions));
+        }
+    }
+
+    private function postOrder(array $questions): array
+    {
+        if ($this->order_field === 'question_type') {
+            usort($questions, fn(array $a, array $b): int => strcmp($a[$this->order_field], $b[$this->order_field]));
+        }
+        return $this->order_direction === Order::DESC ? array_reverse($questions) : $questions;
+    }
+
+    private function postLimit(array $questions): array
+    {
+        return $this->range instanceof Range
+            ? array_slice($questions, $this->range->getStart(), $this->range->getLength())
+            : $questions;
     }
 
     public function getTotalRowCount(
