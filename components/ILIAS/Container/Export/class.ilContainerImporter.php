@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
+use ILIAS\ILIASObject\Properties\Translations\Translations as Translations;
+
 /**
  * container xml importer
  *
@@ -29,12 +32,14 @@ class ilContainerImporter extends ilXmlImporter
 
     # Patch Start: Fix multilingualism replaces course title
     protected string $import_id;
+    protected TranslationsRepository $translations_repository;
     # Patch End: Fix multilingualism replaces course title
 
     public function init(): void
     {
         global $DIC;
 
+        $this->translations_repository = new TranslationsRepository($DIC->database());
         $this->cont_log = ilLoggerFactory::getLogger('cont');
         $this->skill_profile_service = $DIC->skills()->profile();
     }
@@ -106,9 +111,16 @@ class ilContainerImporter extends ilXmlImporter
         }
 
         # Patch Start: Fix multilingualism replaces course title
-        global $DIC;
         $obj_id = (int) $a_mapping->getMapping('components/ILIAS/ILIASObject', 'obj', $this->import_id);
-        $DIC->database()->manipulate("DELETE FROM object_translation WHERE title = 'pU76w5DUIuCLCtFEsvhUdS' AND " . " obj_id = " . $DIC->database()->quote($obj_id, ilDBConstants::T_INTEGER));
+        $translations = $this->translations_repository->getFor($obj_id);
+        $translations_new = new Translations($translations->getObjId(), [], $translations->getDefaultLanguage(), $translations->getBaseLanguage());
+        $languages = $translations->getLanguages();
+        foreach ($languages as $language) {
+            $translations_new = $language->getTitle() === 'NO TITLE'
+                ? $translations_new
+                : $translations_new->withLanguage($language);
+        }
+        $this->translations_repository->store($translations_new);
         # Patch End: Fix multilingualism replaces course title
     }
 

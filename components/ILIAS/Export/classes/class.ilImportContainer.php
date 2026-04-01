@@ -77,7 +77,7 @@ class ilImportContainer extends ilImport
         $new = new $class_name();
 
         # Patch Start: Fix multilingualism replaces course title
-        $new->setTitle('pU76w5DUIuCLCtFEsvhUdS');
+        $new->setTitle('NO TITLE');
         # Patch End: Fix multilingualism replaces course title
 
         $new->create(true);
