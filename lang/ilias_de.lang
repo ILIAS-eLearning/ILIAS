@@ -16098,6 +16098,7 @@ style#:#sty_individual_styles#:#Lokale Stylesheets
 style#:#sty_keep_existing#:#Bestehende Klasse erhalten
 style#:#sty_left#:#Links
 style#:#sty_left_right_padding#:#Innenabstand Links/Rechts
+style#:#sty_legacy_image_directory_found#:#Es wurde in ILIAS 9 Verzeichnis mit Bildern gefunden. Sie können die Bilder durch klicken auf "Bilder migrieren" übertragen.
 style#:#sty_letter_spacing#:#Zeichenabstand
 style#:#sty_lightness_border#:#Helligkeit Rahmen
 style#:#sty_lightness_cell1_bg#:#Helligkeit Zelle 1 Hintergrund
@@ -16118,6 +16119,7 @@ style#:#sty_margin_and_padding#:#Außenrand und Innenabstand
 style#:#sty_media_char#:#Medien
 style#:#sty_media_queries#:#Media Queries
 style#:#sty_media_query_info#:#Für jeden Media Query wird ein eigener CSS-Abschnitt nach dem Standard-Abschnitt (ohne Media Query) eingefügt.
+style#:#sty_migrate_images#:#Bilder migrieren
 style#:#sty_min_height#:#Minimale Höhe
 style#:#sty_move_lm_styles#:#Stylesheets der Lernmodule ändern
 style#:#sty_move_obj_styles#:#Stylesheets der Objekte ändern
@@ -16176,6 +16178,7 @@ style#:#sty_special#:#Spezial
 style#:#sty_style_chars#:#Styleklasse
 style#:#sty_style_class#:#Styleklassen
 style#:#sty_style_classes_copied#:#Styleklassen wurden kopiert.
+style#:#sty_style_not_migrated#:#Dieser Content-Style wurde noch nicht in die ILIAS 10 Datenstruktur migriert. Änderungen werden noch nicht wirksam.
 style#:#sty_substyle#:#Style eines Teilbereichs
 style#:#sty_substyle_of#:#Sub-Style von
 style#:#sty_substyles#:#Style eines Teilbereichs
