@@ -25,7 +25,7 @@ use ILIAS\Data\URI;
 use ILIAS\UI\Implementation\Component\Tree\Node\Node;
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Component\Clickable;
-use ILIAS\Refinery\URI\StringTransformation;
+use ILIAS\Refinery\URI\Transformation\ToStringTransformation;
 
 /**
  * Dummy-implementation for testing
@@ -116,7 +116,7 @@ class NodeTest extends ILIAS_UI_TestBase
 
         $node = $node->withLink($uri);
 
-        $stringTransformation = new StringTransformation();
+        $stringTransformation = new ToStringTransformation();
 
         $this->assertEquals('http://google.de:8080', $stringTransformation->transform($node->getLink()));
     }

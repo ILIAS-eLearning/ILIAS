@@ -18,20 +18,20 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Tests\Refinery\URI;
+namespace ILIAS\Tests\Refinery\URI\Transformation;
 
 use ILIAS\Data\URI;
 use ILIAS\Refinery\ConstraintViolationException;
-use ILIAS\Refinery\URI\StringTransformation;
+use ILIAS\Refinery\URI\Transformation\ToStringTransformation;
 use PHPUnit\Framework\TestCase;
 
 class StringTransformationTest extends TestCase
 {
-    private StringTransformation $transformation;
+    private ToStringTransformation $transformation;
 
     protected function setUp(): void
     {
-        $this->transformation = new StringTransformation();
+        $this->transformation = new ToStringTransformation();
     }
 
     public function testSimpleUri(): void

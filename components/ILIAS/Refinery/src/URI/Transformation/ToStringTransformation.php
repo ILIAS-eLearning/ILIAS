@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Refinery\URI;
+namespace ILIAS\Refinery\URI\Transformation;
 
 use ILIAS\Data\URI;
 use ILIAS\Refinery\ConstraintViolationException;
@@ -26,7 +26,7 @@ use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
 
-class StringTransformation implements Transformation
+class ToStringTransformation implements Transformation
 {
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;

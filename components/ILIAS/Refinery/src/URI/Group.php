@@ -21,11 +21,27 @@ declare(strict_types=1);
 namespace ILIAS\Refinery\URI;
 
 use ILIAS\Refinery\Transformation;
+use ILIAS\Data\QR\ErrorCorrectionLevel;
+use ILIAS\Refinery\URI\Transformation\ToStringTransformation;
+use ILIAS\Refinery\URI\Transformation\ToSvgQrCodeTransformation;
+use ILIAS\Refinery\URI\Transformation\FromSvgTransformation;
 
 class Group
 {
     public function toString(): Transformation
     {
-        return new StringTransformation();
+        return new ToStringTransformation();
+    }
+
+    public function toSvgQrCode(
+        ErrorCorrectionLevel $error_correction_level = ErrorCorrectionLevel::MEDIUM,
+        int $size_in_px = 400,
+    ): Transformation {
+        return new ToSvgQrCodeTransformation($error_correction_level, $size_in_px);
+    }
+
+    public function fromSvg(): Transformation
+    {
+        return new FromSvgTransformation();
     }
 }
