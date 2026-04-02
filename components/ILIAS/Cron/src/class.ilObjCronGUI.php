@@ -516,7 +516,7 @@ final class ilObjCronGUI extends ilObjectGUI
     /**
      * @deprecated
      */
-    #[\Deprecated('Will be removed without any alternative, KS/UI forms will be expected', since: '13.0')]
+    #[\Deprecated('Will be removed without any alternative, KS/UI forms will be expected', since: '11.0')]
     protected function initLegacyEditForm(JobEntity $entity): ilPropertyFormGUI
     {
         $job = $entity->getJob();
@@ -636,7 +636,7 @@ final class ilObjCronGUI extends ilObjectGUI
     /**
      * @deprecated
      */
-    #[\Deprecated('Will be removed without any alternative, KS/UI forms will be expected', since: '12.0')]
+    #[\Deprecated('Will be removed without any alternative, KS/UI forms will be expected', since: '11.0')]
     public function updateLegacy(): void
     {
         if (!$this->rbac->system()->checkAccess('write', $this->ref_id)) {
