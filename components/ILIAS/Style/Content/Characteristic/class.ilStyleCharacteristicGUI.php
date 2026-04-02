@@ -109,6 +109,7 @@ class ilStyleCharacteristicGUI
 
         $next_class = $ctrl->getNextClass($this);
         $cmd = $ctrl->getCmd();
+        $this->showMigrationState();
         switch ($next_class) {
             default:
                 if (in_array($cmd, [
@@ -118,9 +119,35 @@ class ilStyleCharacteristicGUI
                     "pasteCharacteristicsWithinStyle", "pasteCharacteristicsFromOtherStyle",
                     "saveStatus", "setOutdated", "removeOutdated",
                     "editTagStyle", "refreshTagStyle", "updateTagStyle",
-                    "editTagTitles", "saveTagTitles", "switchMQuery"])) {
+                    "editTagTitles", "saveTagTitles", "switchMQuery", "migrateImages"])) {
                     $this->$cmd();
                 }
+        }
+    }
+
+    public function showMigrationState(): void
+    {
+        $mt = $this->gui_service->mainTemplate();
+        $lng = $this->domain_service->lng();
+        $style_id = $this->object->getId();
+        $f = $this->gui_service->ui()->factory();
+        $toolbar = $this->gui_service->toolbar();
+        $ctrl = $this->gui_service->ctrl();
+        if (!$this->domain_service->style($style_id)->isMigrated()) {
+            $mt->setOnScreenMessage('info', $lng->txt('sty_style_not_migrated'));
+        } else {
+            if ($this->domain_service->image(
+                $style_id,
+                $this->access_manager
+            )->hasLegacyDirAndNoImages()) {
+                $mt->setOnScreenMessage('info', $lng->txt('sty_legacy_image_directory_found'));
+                $toolbar->addComponent(
+                    $f->button()->standard(
+                        $lng->txt('sty_migrate_images'),
+                        $ctrl->getLinkTarget($this, "migrateImages")
+                    )
+                );
+            }
         }
     }
 
@@ -1336,6 +1363,13 @@ class ilStyleCharacteristicGUI
         $ctrl = $this->gui_service->ctrl();
         $ctrl->setParameter($this, "mq_id", $this->request->getMediaQueryId());
         $ctrl->redirectByClass("ilstylecharacteristicgui", "editTagStyle");
+    }
+
+    protected function migrateImages(): void
+    {
+        $this->domain_service->style($this->object->getId())->migrateImages();
+        $ctrl = $this->gui_service->ctrl();
+        $ctrl->redirectByClass(self::class, "listCharacteristics");
     }
 
 }

@@ -65,8 +65,10 @@ class ImageFileRepo
     public function getImages(
         int $style_id,
         string $rid,
-        bool $include_size_info = false
+        bool $include_size_info = false,
+        bool $include_legacy_dir = true
     ): Generator {
+        $has_images = false;
         if ($rid !== "") {
             $unzip = $this->irss->getContainerZip($rid);
             $uri = $this->irss->stream($rid)->getMetadata("uri");
@@ -98,6 +100,7 @@ class ImageFileRepo
                     $width = 0;
                     $height = 0;
                 }
+                $has_images = true;
                 yield $this->factory->image(
                     $this->irss->getContainerUri($rid, $path),
                     new DataSize($att["size"], DataSize::KB),
@@ -107,6 +110,9 @@ class ImageFileRepo
             }
         }
 
+        if ($has_images || !$include_legacy_dir) {
+            return;
+        }
 
         $dir = $this->dir($style_id);
         if ($this->web_files->hasDir($dir)) {
@@ -128,6 +134,24 @@ class ImageFileRepo
                 }
             }
         }
+    }
+
+    public function hasLegacyDir(
+        int $style_id
+    ): bool {
+        $dir = $this->dir($style_id);
+        if ($this->web_files->hasDir($dir)) {
+            return true;
+        }
+        return false;
+    }
+
+    public function hasImages(
+        int $style_id,
+        string $rid
+    ): bool {
+        $images = iterator_to_array($this->getImages($style_id, $rid, false, false));
+        return count($images) > 0;
     }
 
     public function getImageStream(

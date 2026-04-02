@@ -128,8 +128,10 @@ class StyleRepo
         string $css,
         ResourceStakeholder $stakeholder
     ): void {
-        $rid = $this->getOrCreateRid($style_id, $stakeholder);
-        $this->irss->addStringToContainer($rid, $css, "style.css");
+        $rid = $this->readRid($style_id);
+        if ($rid !== "") {
+            $this->irss->addStringToContainer($rid, $css, "style.css");
+        }
     }
 
     public function getPath(
@@ -190,5 +192,37 @@ class StyleRepo
             );
         }
     }
+
+    public function saveUpToDate(
+        int $style_id,
+        bool $up_to_date
+    ): void {
+        $this->db->update(
+            "style_data",
+            [
+            "uptodate" => ["integer", (int) $up_to_date]
+        ],
+            [
+                "id" => ["integer", $style_id]
+            ]
+        );
+    }
+
+    public function migrateImages(
+        int $style_id
+    ): void {
+        $source_dir = CLIENT_WEB_DIR . '/sty/sty_' . $style_id . "/images";
+        $rid = $this->readRid($style_id);
+        if (is_dir($source_dir) && $rid !== "") {
+            $this->irss->addDirectoryToContainer(
+                $rid,
+                $source_dir,
+                "images"
+            );
+            $style_dir = CLIENT_WEB_DIR . '/sty/sty_' . $style_id;
+            \ilFileUtils::delDir($style_dir);
+        }
+    }
+
 
 }
