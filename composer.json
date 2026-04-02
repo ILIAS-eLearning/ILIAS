@@ -73,7 +73,8 @@
 		"psr/http-message": "^2.0",
 		"jumbojett/openid-connect-php": "dev-master#bc719cc9930990a4a9916cc127b839b4ed1c89ad",
 		"phpunit/phpunit": "^11.5",
-		"phiki/phiki": "^2.0"
+		"phiki/phiki": "^2.0",
+		"bacon/bacon-qr-code": "^3.0"
 	},
 	"require-dev": {
 		"captainhook/captainhook": "^5.24",
