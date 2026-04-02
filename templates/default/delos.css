@@ -8471,6 +8471,14 @@ ul.c-input--has-mustache-variables__definitions > li {
   list-style: none;
 }
 
+.c-input--has-option-filter__loader {
+  background-image: url("../images/media/loader.svg");
+  border-color: #b0b0b0;
+  background-repeat: no-repeat;
+  background-position: right center;
+  padding-right: 18px;
+}
+
 .c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field) .c-input__field,
 .c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field) .c-input__field {
   display: flex;

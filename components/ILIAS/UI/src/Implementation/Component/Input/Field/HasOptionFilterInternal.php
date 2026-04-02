@@ -33,4 +33,12 @@ interface HasOptionFilterInternal extends C\Field\HasOptionFilter
      * @return array<string, string> (value => label)
      */
     public function getOptions(): array;
+
+    public function getOptionsDataSource(): string;
+
+    public function getOptionsDataSourceToken(): string;
+
+    public function getOptionsDataSourceDisplayValueToken(): string;
+
+    public function getOptionsDataSourceSuggestionStart(): int;
 }

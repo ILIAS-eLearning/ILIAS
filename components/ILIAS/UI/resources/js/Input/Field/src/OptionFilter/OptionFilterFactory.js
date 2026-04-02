@@ -23,10 +23,22 @@ export default class OptionFilterFactory {
 
   /**
      * @param {HTMLElement} inputFieldWithOptionFilter
+     * @param {string} optionsDataSource
+     * @param {string} optionsDataSourceToken
+     * @param {string} optionsDataSourceDisplayValueToken
+     * @param {number} optionsDataSourceSuggestionStart
+     * @param {null|string} selectedValue
      * @return {OptionFilter}
      * @throws {Error} if the input was already initialized.
      */
-  init(inputFieldWithOptionFilter) {
+  init(
+    inputFieldWithOptionFilter,
+    optionsDataSource = '',
+    optionsDataSourceToken = 'term',
+    optionsDataSourceDisplayValueToken = 'display_value',
+    optionsDataSourceSuggestionStart = 3,
+    selectedValue = null,
+  ) {
     if (inputFieldWithOptionFilter === undefined) {
       throw new TypeError('During init of an InputHasOptionFilter an undefined element was passed to the factory.');
     }
@@ -42,7 +54,9 @@ export default class OptionFilterFactory {
     const itemList = inputFieldContext.querySelector('.c-field--has-option-filter__list');
     const items = itemList.querySelectorAll('.c-field--has-option-filter__item');
     const messageNoMatch = inputFieldContext.querySelector('.message-no-match');
+    const messageAsyncStartSearch = inputFieldContext.querySelector('.message-async-start-search');
     const resultCountDisplay = inputFieldContext.querySelector('.c-input--has-option-filter__synopsis [role="status"]');
+    const loaderAnimation = inputFieldContext.querySelector('.c-input--has-option-filter__loader');
 
     /* Buttons */
     const clearFilterButton = inputFieldContext.querySelector('.c-input--has-option-filter__clear-search');
@@ -52,12 +66,19 @@ export default class OptionFilterFactory {
 
     const instance = new OptionFilter(
       inputFieldWithOptionFilter,
+      optionsDataSource === '' ? null : optionsDataSource,
+      optionsDataSourceToken,
+      optionsDataSourceDisplayValueToken,
+      optionsDataSourceSuggestionStart,
+      JSON.parse(selectedValue),
       scrollContainer,
       searchbar,
       listType,
       itemList,
       items,
       messageNoMatch,
+      messageAsyncStartSearch,
+      loaderAnimation,
       clearFilterButton,
       engageDisengageToggle,
       toggleExpandText,

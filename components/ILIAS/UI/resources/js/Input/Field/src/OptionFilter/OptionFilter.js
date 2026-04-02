@@ -25,6 +25,20 @@ import sprintf from '../../../../Core/src/sprintf.js';
  */
 const A11Y_DEBOUNCE_DELAY = 500;
 
+const OPTIONS_SOURCE_TRIGGER_TIMEOUT = 200;
+
+const INPUT_TYPE = {
+  radio: 'radio-field-input',
+  multiSelect: 'multi-select-field-input',
+};
+
+/**
+ * @typedef {Object} DataSourceResponseData
+ * @property {string} value
+ * @property {string} display
+ * @property {string} searchBy
+ */
+
 /**
  * Option Filter Context for inputs like MultiSelect, Radio etc.
  * JS features:
@@ -106,6 +120,16 @@ export default class OptionFilter {
   /**
    * @type {HTMLDivElement}
    */
+  #messageAsyncStartSearch;
+
+  /**
+   * @type {HTMLSpanElement}
+   */
+  #loaderAnimation;
+
+  /**
+   * @type {HTMLDivElement}
+   */
   #resultCountDisplay;
 
   /**
@@ -119,14 +143,56 @@ export default class OptionFilter {
   #timeoutId = null;
 
   /**
+   * @type {undefined|null|string}
+   */
+  #optionsDataSource;
+
+  /**
+   * @type {string}
+   */
+  #optionsDataSourceToken;
+
+  /**
+   * @type {string}
+   */
+  #optionsDataSourceDisplayValueToken;
+
+  /**
+   * @type {number}
+   */
+  #optionsDataSourceSuggestionStart;
+
+  /**
+   * @type {string|Array<string>|null}
+   */
+  #selectedValue;
+
+  /**
+   * @type {null|number}
+   */
+  #optionsDataSourceTimeoutId = null;
+
+  /**
+   * @type {null|AbortController}
+   */
+  #optionsDataSourceAbortController = null;
+
+  /**
    *
    * @param {HTMLElement} inputFieldContext
+   * @param {null|string} optionsDataSource
+   * @param {string} optionsDataSourceToken
+   * @param {string} optionsDataSourceDisplayValueToken
+   * @param {number} optionsDataSourceSuggestionStart
+   * @param {string|Array<string>|null} selectedValue
    * @param {HTMLDivElement} scrollContainer
    * @param {HTMLInputElement} searchbar
    * @param {string} listType
    * @param {HTMLElement} itemList
    * @param {NodeList} items
    * @param {HTMLDivElement} messageNoMatch
+   * @param {HTMLDivElement} messageAsyncStartSearch
+   * @param {HTMLSpanElement} loaderAnimation
    * @param {HTMLButtonElement} clearFilterButton
    * @param {HTMLButtonElement} engageDisengageToggle
    * @param {HTMLSpanElement} toggleExpandText
@@ -135,12 +201,19 @@ export default class OptionFilter {
    */
   constructor(
     inputFieldContext,
+    optionsDataSource,
+    optionsDataSourceToken,
+    optionsDataSourceDisplayValueToken,
+    optionsDataSourceSuggestionStart,
+    selectedValue,
     scrollContainer,
     searchbar,
     listType,
     itemList,
     items,
     messageNoMatch,
+    messageAsyncStartSearch,
+    loaderAnimation,
     clearFilterButton,
     engageDisengageToggle,
     toggleExpandText,
@@ -155,7 +228,16 @@ export default class OptionFilter {
     this.#itemList = itemList;
     this.#items = items;
     this.#messageNoMatch = messageNoMatch;
+    this.#messageAsyncStartSearch = messageAsyncStartSearch;
+    this.#loaderAnimation = loaderAnimation;
     this.#resultCountDisplay = resultCountDisplay;
+
+    /* Data source related */
+    this.#optionsDataSource = optionsDataSource;
+    this.#optionsDataSourceToken = optionsDataSourceToken;
+    this.#optionsDataSourceDisplayValueToken = optionsDataSourceDisplayValueToken;
+    this.#optionsDataSourceSuggestionStart = optionsDataSourceSuggestionStart;
+    this.#selectedValue = selectedValue;
 
     /* translation string from php render */
     this.#resultCountTranslationString = this.#resultCountDisplay.innerHTML;
@@ -170,14 +252,31 @@ export default class OptionFilter {
     this.#isEngaged = false;
     this.#isFiltered = false;
 
+    if (this.isAsync()) {
+      this.clearOptionElements();
+      this.loadOptionsDataSourceValues().then(() => {
+        this.#loaderAnimation.style.display = 'none';
+      });
+    }
+
     /* Event Listeners */
     this.#searchbar.addEventListener('input', (event) => {
-      this.filterItemsSearch(event);
+      if (this.isAsync()) {
+        this.handleOptionsDataSource(event.target).then(() => {
+          this.filterItemsSearch(event);
+        });
+      } else {
+        this.filterItemsSearch(event);
+      }
     });
     this.#clearFilterButton.addEventListener('click', () => {
       this.setFiltered(false);
     });
     this.#engageDisengageToggle.addEventListener('click', () => {
+      if (this.isAsync()) {
+        this.#searchbar.value = '';
+        this.clearOptionElements();
+      }
       this.toggleVisibility();
     });
     if (this.#listType === 'radio-field-input') {
@@ -187,6 +286,10 @@ export default class OptionFilter {
         });
       });
     }
+  }
+
+  isAsync() {
+    return this.#optionsDataSource !== null && this.#optionsDataSource !== undefined;
   }
 
   /**
@@ -232,12 +335,16 @@ export default class OptionFilter {
       this.#engageDisengageToggle.setAttribute('aria-expanded', 'false');
       this.#toggleExpandText.style.removeProperty('display');
       this.#toggleCollapseText.style.display = 'none';
+      this.#messageAsyncStartSearch.classList.add('hidden');
     } else {
       this.#isEngaged = true;
       this.#inputFieldContext.classList.add('engaged');
       this.#engageDisengageToggle.setAttribute('aria-expanded', 'true');
       this.#toggleExpandText.style.display = 'none';
       this.#toggleCollapseText.style.removeProperty('display');
+      if (this.isAsync()) {
+        this.#messageAsyncStartSearch.classList.remove('hidden');
+      }
     }
   }
 
@@ -260,6 +367,209 @@ export default class OptionFilter {
   #updateA11yResultCount(count) {
     const resultText = sprintf(this.#resultCountTranslationString, count);
     this.#debouncedUpdateA11y(resultText);
+  }
+
+  /**
+   * @returns {Promise}
+   */
+  loadOptionsDataSourceValues() {
+    return new Promise((resolve, reject) => {
+      if (typeof this.#selectedValue === 'string' || this.#selectedValue instanceof String || this.#selectedValue instanceof Array) {
+        this.fetchDataSource(
+          new Map([[this.#optionsDataSourceDisplayValueToken, this.#selectedValue]]),
+        ).then((data) => {
+          if (!data || !(data instanceof Array)) {
+            reject();
+            return;
+          }
+
+          data.forEach((responseData) => {
+            this.#itemList.append(this.optionsDataSourceDataToElement(responseData, true));
+          });
+
+          this.#items = this.#itemList.querySelectorAll('.c-field--has-option-filter__item');
+          resolve();
+        });
+      } else {
+        resolve();
+      }
+    }).catch((error) => {
+      if (error instanceof Error) {
+        throw error;
+      }
+    });
+  }
+
+  /**
+   * @param {HTMLInputElement} input
+   * @return {Promise}
+   */
+  handleOptionsDataSource(input) {
+    if (this.#optionsDataSourceAbortController instanceof AbortController) {
+      this.#optionsDataSourceAbortController.abort();
+    }
+    this.#optionsDataSourceAbortController = new AbortController();
+
+    if (this.#optionsDataSourceTimeoutId !== undefined) {
+      clearTimeout(this.#optionsDataSourceTimeoutId);
+      this.#optionsDataSourceTimeoutId = undefined;
+    }
+
+    return new Promise((resolve, reject) => {
+      if (input.value.length < this.#optionsDataSourceSuggestionStart) {
+        this.#messageAsyncStartSearch.classList.remove('hidden');
+        this.clearOptionElements();
+        return;
+      }
+
+      this.#loaderAnimation.style.removeProperty('display');
+
+      this.#messageAsyncStartSearch.classList.add('hidden');
+      this.#optionsDataSourceTimeoutId = setTimeout(
+        () => {
+          const searchTerm = input.value;
+
+          return this.fetchDataSource(
+            new Map([[this.#optionsDataSourceToken, searchTerm]]),
+            this.#optionsDataSourceAbortController.signal,
+          )
+            .then((data) => {
+              if (!data || !(data instanceof Array)) {
+                reject(new Error('Invalid data received from data source fetch'));
+                return;
+              }
+
+              this.clearOptionElements();
+
+              data.forEach((responseData) => {
+                const element = this.optionsDataSourceDataToElement(responseData);
+                const existingElement = this.#itemList.querySelector(
+                  `[data-value='${element.dataset.value}'][data-display='${element.dataset.display}']`,
+                );
+
+                if (!existingElement) {
+                  this.#itemList.append(element);
+                }
+              });
+
+              this.#items = this.#itemList.querySelectorAll('.c-field--has-option-filter__item');
+              resolve();
+              this.#loaderAnimation.style.display = 'none';
+            });
+        },
+        OPTIONS_SOURCE_TRIGGER_TIMEOUT,
+      );
+    }).catch((error) => {
+      if (error instanceof Error) {
+        throw error;
+      }
+    });
+  }
+
+  /**
+   * @param {Map<string, string|Array<string>>} queryParameters
+   * @param {AbortSignal} abortController
+   * @returns {Promise<Array<DataSourceResponseData>>}
+   */
+  fetchDataSource(queryParameters, abortController = null) {
+    const url = new URL(this.#optionsDataSource, document.location);
+
+    queryParameters.forEach((value, key) => {
+      if (value instanceof Array) {
+        value.forEach((arrayValue) => {
+          url.searchParams.append(`${key}[]`, arrayValue);
+        });
+      } else {
+        url.searchParams.set(key, value);
+      }
+    });
+
+    const init = {};
+
+    if (abortController instanceof AbortController) {
+      init.signal = abortController.signal;
+    }
+
+    return fetch(
+      url,
+      init,
+    )
+      .then((response) => response.json())
+      .catch(() => {
+      });
+  }
+
+  clearOptionElements(removeSelected = false) {
+    Array.from(this.#itemList.children).forEach((child) => {
+      if (removeSelected) {
+        this.#itemList.removeChild(child);
+      } else {
+        const input = child.querySelector('input');
+        if (!input || !input.checked) {
+          this.#itemList.removeChild(child);
+        }
+      }
+    });
+
+    this.#items = this.#itemList.querySelectorAll('.c-field--has-option-filter__item');
+  }
+
+  /**
+   * @param {DataSourceResponseData} data
+   * @param {boolean} selected
+   * @return {HTMLDivElement|HTMLLIElement}
+   */
+  optionsDataSourceDataToElement(data, selected = false) {
+    const id = Math.random().toString(16).slice(2);
+
+    const input = document.createElement('input');
+    input.id = id;
+    input.value = data.value;
+
+    const label = document.createElement('label');
+    label.htmlFor = id;
+
+    let element;
+
+    switch (this.#listType) {
+      case INPUT_TYPE.radio:
+        element = document.createElement('div');
+        element.className = 'c-field-radio__item c-field--has-option-filter__item';
+
+        input.type = 'radio';
+        input.name = this.#inputFieldContext.dataset.ilUiInputName;
+
+        label.innerText = data.display;
+
+        element.append(input);
+        element.append(label);
+        break;
+      case INPUT_TYPE.multiSelect:
+        element = document.createElement('li');
+        element.className = 'c-field--has-option-filter__item';
+
+        input.type = 'checkbox';
+        input.name = `${this.#inputFieldContext.dataset.ilUiInputName}[]`;
+
+        const labelText = document.createElement('span');
+        labelText.className = 'c-field-multiselect__label-text';
+        labelText.innerText = data.display;
+
+        label.append(input);
+        label.append(labelText);
+        element.append(label);
+        break;
+      default:
+        throw new Error(`Unsupported list type '${this.#listType}' received`);
+    }
+
+    input.checked = selected;
+
+    element.dataset.value = data.value;
+    element.dataset.display = data.display;
+    element.dataset.searchBy = data.searchBy;
+
+    return element;
   }
 
   /**

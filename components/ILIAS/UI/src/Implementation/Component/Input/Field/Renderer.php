@@ -1335,7 +1335,15 @@ class Renderer extends AbstractComponentRenderer
         $option_filter_template->setVariable('SEARCH_LABEL', $this->txt("ui_field_option_filter_search_in"));
         $option_filter_template->setVariable('SCREEN_READER_HINT', $this->txt('ui_field_option_filter_screen_reader_hint'));
         $option_filter_template->setVariable('NO_MATCH', $this->txt('ui_field_option_filter_no_match'));
+        $option_filter_template->setVariable('ASYNC_START_SEARCH', sprintf(
+            $this->txt('ui_field_option_filter_async_start_search'),
+            $component->getOptionsDataSourceSuggestionStart()
+        ));
         $option_filter_template->setVariable('OPTIONS_SHOWN', $this->txt('ui_field_option_filter_options_shown'));
+
+        if (!$component->getOptionsDataSource()) {
+            $option_filter_template->touchBlock("not_async");
+        }
 
         $expand_icon = $default_renderer->render($this->getUIFactory()->symbol()->glyph()->expand());
         $option_filter_template->setVariable('EXPAND_TEXT', $expand_icon . $this->txt('ui_field_option_filter_show_all_options'));
@@ -1346,8 +1354,17 @@ class Renderer extends AbstractComponentRenderer
         $remove_icon = $default_renderer->render($this->getUIFactory()->symbol()->glyph()->remove());
         $option_filter_template->setVariable('CLEAR_SEARCH_BTN', $remove_icon . $this->txt('ui_field_option_filter_clear_search'));
 
+        $json_encoded_value = json_encode($component->getValue(), JSON_THROW_ON_ERROR);
+
         $component = $component->withAdditionalOnLoadCode(
-            static fn($id): string => "il.UI.Input.optionFilter.init(document.getElementById('$id'));",
+            static fn($id): string => "il.UI.Input.optionFilter.init(
+                document.getElementById('$id'),
+                '{$component->getOptionsDataSource()}',
+                '{$component->getOptionsDataSourceToken()}',
+                '{$component->getOptionsDataSourceDisplayValueToken()}',
+                {$component->getOptionsDataSourceSuggestionStart()},
+                '$json_encoded_value'
+            );",
         );
 
         return [$option_filter_template->get(), $component];
