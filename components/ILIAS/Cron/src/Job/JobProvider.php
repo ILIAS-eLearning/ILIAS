@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Cron\Job;
 
+/**
+ * @deprecated 11.0 Cron jobs will be contributed by a component's <Component>.php file in future versions of ILIAS
+ */
 interface JobProvider
 {
     /**
