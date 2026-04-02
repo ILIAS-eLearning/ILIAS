@@ -21,9 +21,6 @@
 			<parent id="adm" max="1">adm</parent>
 		</object>
 	</objects>
-	<crons>
-		<cron id="survey_notification" class="ilSurveyCronNotification" />
-	</crons>
 	<mailtemplates>
 		<context id="svy_context_rmd" class="ilSurveyMailTemplateReminderContext" />
 		<context id="svy_rater_inv" class="ilSurveyMailTemplateRaterInvitationContext" />

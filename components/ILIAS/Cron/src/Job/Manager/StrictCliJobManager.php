@@ -45,9 +45,9 @@ final readonly class StrictCliJobManager implements JobManager
         }
     }
 
-    public function runJobManual(string $jobId, \ilObjUser $actor): bool
+    public function runJobManual(string $id, \ilObjUser $actor): bool
     {
-        return $this->job_manager->runJobManual($jobId, $actor);
+        return $this->job_manager->runJobManual($id, $actor);
     }
 
     public function resetJob(\ILIAS\Cron\CronJob $job, \ilObjUser $actor): void
@@ -55,28 +55,28 @@ final readonly class StrictCliJobManager implements JobManager
         $this->job_manager->resetJob($job, $actor);
     }
 
-    public function activateJob(\ILIAS\Cron\CronJob $job, \ilObjUser $actor, bool $wasManuallyExecuted = false): void
+    public function activateJob(\ILIAS\Cron\CronJob $job, \ilObjUser $actor, bool $was_manually_executed = false): void
     {
-        $this->job_manager->activateJob($job, $actor, $wasManuallyExecuted);
+        $this->job_manager->activateJob($job, $actor, $was_manually_executed);
     }
 
-    public function deactivateJob(\ILIAS\Cron\CronJob $job, \ilObjUser $actor, bool $wasManuallyExecuted = false): void
+    public function deactivateJob(\ILIAS\Cron\CronJob $job, \ilObjUser $actor, bool $was_manually_executed = false): void
     {
-        $this->job_manager->deactivateJob($job, $actor, $wasManuallyExecuted);
+        $this->job_manager->deactivateJob($job, $actor, $was_manually_executed);
     }
 
-    public function isJobActive(string $jobId): bool
+    public function isJobActive(string $id): bool
     {
-        return $this->job_manager->isJobActive($jobId);
+        return $this->job_manager->isJobActive($id);
     }
 
-    public function isJobInactive(string $jobId): bool
+    public function isJobInactive(string $id): bool
     {
-        return $this->job_manager->isJobInactive($jobId);
+        return $this->job_manager->isJobInactive($id);
     }
 
-    public function ping(string $jobId): void
+    public function ping(string $id): void
     {
-        $this->job_manager->ping($jobId);
+        $this->job_manager->ping($id);
     }
 }

@@ -32,9 +32,19 @@ class Cron implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
-            new \ILIAS\Cron\Setup\Agent(
-                $pull[\ILIAS\Refinery\Factory::class]
+        $define[] = \ILIAS\Cron\CronJobRegistry::class;
+
+        $provide[\ILIAS\Cron\CronJobRegistry::class] = static fn() =>
+            $internal[\ILIAS\Cron\InMemoryCronJobRegistry::class];
+
+        $internal[\ILIAS\Cron\InMemoryCronJobRegistry::class] = static fn() =>
+            new \ILIAS\Cron\InMemoryCronJobRegistry(
+                $seek[\ILIAS\Cron\CronJob::class]
+            );
+
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
+            new \ILIAS\Cron\Setup\CronJobSetupAgent(
+                $seek[\ILIAS\Cron\CronJob::class]
             );
     }
 }

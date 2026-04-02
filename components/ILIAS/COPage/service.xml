@@ -38,9 +38,6 @@
 		<pageobject parent_type="stys" class_name="ilPageLayoutPage" directory="Layout/classes"/>
 	</copage>
 	<logging />
-	<crons>
-		<cron id="copg_history_cleanup" class="ilCleanCOPageHistoryCronjob" path="Services/COPage/Cron" />
-	</crons>
     <objects>
         <object id="adve" class_name="AdvancedEditing" dir="classes"
 			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">

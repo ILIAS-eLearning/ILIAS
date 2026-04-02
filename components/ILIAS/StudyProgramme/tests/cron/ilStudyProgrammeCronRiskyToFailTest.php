@@ -27,8 +27,11 @@ class ilPrgUserRiskyToFailCronJobMock extends ilPrgUserRiskyToFailCronJob
 
     public function __construct(
         ilPRGAssignmentDBRepository $repo,
-        ilPrgCronJobAdapter $adapter
+        ilPrgCronJobAdapter $adapter,
+        \ILIAS\Language\Language $language,
+        \ILIAS\Logging\LoggerFactory $logger_factory,
     ) {
+        parent::__construct(\ILIAS\StudyProgramme::class, $language, $logger_factory);
         $this->assignment_repo = $repo;
         $this->adapter = $adapter;
     }
@@ -71,7 +74,12 @@ class ilStudyProgrammeCronRiskyToFailTest extends TestCase
             ->onlyMethods(['getRiskyToFail', 'storeRiskyToFailSentFor'])
             ->getMock();
 
-        $this->job = new ilPrgUserRiskyToFailCronJobMock($this->assignment_repo, $this->adapter);
+        $this->job = new ilPrgUserRiskyToFailCronJobMock(
+            $this->assignment_repo,
+            $this->adapter,
+            $this->createMock(\ILIAS\Language\Language::class),
+            $this->getMockBuilder(\ILIAS\Logging\LoggerFactory::class)->disableOriginalConstructor()->getMock()
+        );
     }
 
     public function testRiskyToFailForNoRelevantProgrammes(): void
@@ -141,7 +149,15 @@ class ilStudyProgrammeCronRiskyToFailTest extends TestCase
             ->method('getRiskyToFail')
             ->willReturn([$ass1, $ass2]);
 
-        $job = new ilPrgUserRiskyToFailCronJobMock($this->assignment_repo, $this->real_adapter);
+        $language = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
+        $logger_factory = $this->createMock(\ILIAS\Logging\LoggerFactory::class);
+
+        $job = new ilPrgUserRiskyToFailCronJobMock(
+            $this->assignment_repo,
+            $this->real_adapter,
+            $language,
+            $logger_factory
+        );
         $job->run();
 
         $this->assertEquals(2, count($job->logs));

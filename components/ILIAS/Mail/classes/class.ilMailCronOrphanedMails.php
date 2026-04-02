@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Mail\Cron\ExpiredOrOrphanedMails\ExpiredOrOrphanedMailsCollector;
@@ -28,35 +27,29 @@ use ILIAS\Mail\Cron\ExpiredOrOrphanedMails\Notifier;
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobManager;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
-class ilMailCronOrphanedMails extends CronJob
+class ilMailCronOrphanedMails extends AbstractCronJob
 {
-    private GlobalHttpState $http;
+    private \ILIAS\HTTP\GlobalHttpState $http;
     private Refinery $refinery;
-    private ilLanguage $lng;
     private ilSetting $settings;
     private ilDBInterface $db;
     private ilObjUser $user;
-    private bool $init_done = false;
     private JobManager $cron_manager;
 
-    private function init(): void
+    public function init(): void
     {
         global $DIC;
 
-        if (!$this->init_done) {
-            $this->settings = $DIC->settings();
-            $this->lng = $DIC->language();
-            $this->db = $DIC->database();
-            $this->user = $DIC->user();
-            $this->http = $DIC->http();
-            $this->refinery = $DIC->refinery();
-            $this->cron_manager = $DIC->cron()->manager();
+        $this->language->loadLanguageModule('mail');
 
-            $this->lng->loadLanguageModule('mail');
-            $this->init_done = true;
-        }
+        $this->settings = $DIC->settings();
+        $this->db = $DIC->database();
+        $this->user = $DIC->user();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+        $this->cron_manager = $DIC->cron()->manager();
     }
 
     private function emptyStringOrFloatOrIntToEmptyOrIntegerString(): Transformation
@@ -89,14 +82,12 @@ class ilMailCronOrphanedMails extends CronJob
 
     public function getTitle(): string
     {
-        $this->init();
-        return $this->lng->txt('mail_orphaned_mails');
+        return $this->language->txt('mail_orphaned_mails');
     }
 
     public function getDescription(): string
     {
-        $this->init();
-        return $this->lng->txt('mail_orphaned_mails_desc');
+        return $this->language->txt('mail_orphaned_mails_desc');
     }
 
     public function hasAutoActivation(): bool
@@ -138,14 +129,12 @@ class ilMailCronOrphanedMails extends CronJob
 
     public function addCustomSettingsToForm(ilPropertyFormGUI $a_form): void
     {
-        $this->init();
-
         parent::addCustomSettingsToForm($a_form);
 
-        $threshold = new ilNumberInputGUI($this->lng->txt('mail_threshold'), 'mail_threshold');
-        $threshold->setInfo($this->lng->txt('mail_threshold_info'));
+        $threshold = new ilNumberInputGUI($this->language->txt('mail_threshold'), 'mail_threshold');
+        $threshold->setInfo($this->language->txt('mail_threshold_info'));
         $threshold->allowDecimals(false);
-        $threshold->setSuffix($this->lng->txt('days'));
+        $threshold->setSuffix($this->language->txt('days'));
         $threshold->setMinValue(1);
         $threshold->setSize(4);
         $threshold->setValue($this->settings->get('mail_threshold', ''));
@@ -153,22 +142,22 @@ class ilMailCronOrphanedMails extends CronJob
         $a_form->addItem($threshold);
 
         $mail_folder = new ilCheckboxInputGUI(
-            $this->lng->txt('only_inbox_trash'),
+            $this->language->txt('only_inbox_trash'),
             'mail_only_inbox_trash'
         );
         $mail_folder->setValue('1');
-        $mail_folder->setInfo($this->lng->txt('only_inbox_trash_info'));
+        $mail_folder->setInfo($this->language->txt('only_inbox_trash_info'));
         $mail_folder->setChecked((bool) $this->settings->get('mail_only_inbox_trash', '0'));
         $a_form->addItem($mail_folder);
 
         $notification = new ilNumberInputGUI(
-            $this->lng->txt('mail_notify_orphaned'),
+            $this->language->txt('mail_notify_orphaned'),
             'mail_notify_orphaned'
         );
-        $notification->setInfo($this->lng->txt('mail_notify_orphaned_info'));
+        $notification->setInfo($this->language->txt('mail_notify_orphaned_info'));
         $notification->allowDecimals(false);
         $notification->setSize(4);
-        $notification->setSuffix($this->lng->txt('days'));
+        $notification->setSuffix($this->language->txt('days'));
         $notification->setMinValue(0);
 
         if ($this->http->wrapper()->post()->has('mail_threshold')) {
@@ -187,8 +176,6 @@ class ilMailCronOrphanedMails extends CronJob
 
     public function saveCustomSettings(ilPropertyFormGUI $a_form): bool
     {
-        $this->init();
-
         $this->settings->set('mail_only_inbox_trash', (string) ((int) $a_form->getInput('mail_only_inbox_trash')));
         $this->settings->set(
             'mail_threshold',
@@ -221,8 +208,6 @@ class ilMailCronOrphanedMails extends CronJob
 
     public function run(): JobResult
     {
-        $this->init();
-
         $mail_expiration_days = (int) $this->settings->get('mail_threshold', '0');
 
         ilLoggerFactory::getLogger('mail')->info(sprintf(
@@ -252,8 +237,6 @@ class ilMailCronOrphanedMails extends CronJob
 
     private function processNotification(): void
     {
-        $this->init();
-
         $notifier = new Notifier(
             $this,
             new NotificationsCollector($this),
@@ -265,8 +248,6 @@ class ilMailCronOrphanedMails extends CronJob
 
     private function processDeletion(): void
     {
-        $this->init();
-
         $processor = new MailDeletionHandler($this, new ExpiredOrOrphanedMailsCollector($this));
         $processor->delete();
     }

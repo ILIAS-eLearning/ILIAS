@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,20 +22,17 @@ use ILIAS\Cron\CronJob;
  *
  *********************************************************************/
 
-class ilLoggerCronCleanErrorFiles extends CronJob
+class ilLoggerCronCleanErrorFiles extends AbstractCronJob
 {
     protected const DEFAULT_VALUE_OLDER_THAN = 31;
 
-    protected ilLanguage $lng;
     protected ilSetting $settings;
     protected ilLoggingErrorSettings $error_settings;
 
-    public function __construct()
+    public function init(): void
     {
-        global $DIC;
+        $this->language->loadLanguageModule("logging");
 
-        $this->lng = $DIC->language();
-        $this->lng->loadLanguageModule("logging");
         $this->settings = new ilSetting('log');
         $this->error_settings = ilLoggingErrorSettings::getInstance();
     }
@@ -47,12 +44,12 @@ class ilLoggerCronCleanErrorFiles extends CronJob
 
     public function getTitle(): string
     {
-        return $this->lng->txt("log_error_file_cleanup_title");
+        return $this->language->txt("log_error_file_cleanup_title");
     }
 
     public function getDescription(): string
     {
-        return $this->lng->txt("log_error_file_cleanup_info");
+        return $this->language->txt("log_error_file_cleanup_info");
     }
 
     public function getDefaultScheduleType(): JobScheduleType
@@ -86,7 +83,7 @@ class ilLoggerCronCleanErrorFiles extends CronJob
         $folder = $this->error_settings->folder();
         if (!is_dir($folder)) {
             $result->setStatus(JobResult::STATUS_OK);
-            $result->setMessage($this->lng->txt("log_error_path_not_configured_or_wrong"));
+            $result->setMessage($this->language->txt("log_error_path_not_configured_or_wrong"));
             return $result;
         }
 
@@ -140,11 +137,11 @@ class ilLoggerCronCleanErrorFiles extends CronJob
             $offset = (string) self::DEFAULT_VALUE_OLDER_THAN;
         }
 
-        $clear_older_then = new ilNumberInputGUI($this->lng->txt('frm_clear_older_then'), 'clear_older_then');
+        $clear_older_then = new ilNumberInputGUI($this->language->txt('frm_clear_older_then'), 'clear_older_then');
         $clear_older_then->allowDecimals(false);
         $clear_older_then->setMinValue(1, true);
         $clear_older_then->setValue($offset);
-        $clear_older_then->setInfo($this->lng->txt('frm_clear_older_then_info'));
+        $clear_older_then->setInfo($this->language->txt('frm_clear_older_then_info'));
 
         $a_form->addItem($clear_older_then);
     }

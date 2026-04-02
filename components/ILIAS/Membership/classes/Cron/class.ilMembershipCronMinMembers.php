@@ -20,24 +20,15 @@ declare(strict_types=1);
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * Cron for course/group minimum members
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ServicesMembership
  */
-class ilMembershipCronMinMembers extends CronJob
+class ilMembershipCronMinMembers extends AbstractCronJob
 {
-    protected ilLanguage $lng;
-
-    public function __construct()
-    {
-        global $DIC;
-
-        $this->lng = $DIC->language();
-    }
-
     public function getId(): string
     {
         return "mem_min_members";
@@ -45,12 +36,12 @@ class ilMembershipCronMinMembers extends CronJob
 
     public function getTitle(): string
     {
-        return $this->lng->txt("mem_cron_min_members");
+        return $this->language->txt("mem_cron_min_members");
     }
 
     public function getDescription(): string
     {
-        return $this->lng->txt("mem_cron_min_members_info");
+        return $this->language->txt("mem_cron_min_members_info");
     }
 
     public function getDefaultScheduleType(): JobScheduleType

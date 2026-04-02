@@ -20,24 +20,22 @@ declare(strict_types=1);
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * Course/group notifications
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
-class ilMembershipCronNotifications extends CronJob
+class ilMembershipCronNotifications extends AbstractCronJob
 {
-    protected ilLanguage $lng;
     protected ilDBInterface $db;
     protected ilLogger $logger;
     protected ilTree $tree;
 
-    public function __construct()
+    public function init(): void
     {
         global $DIC;
 
-        $this->lng = $DIC->language();
         $this->db = $DIC->database();
         $this->logger = $DIC->logger()->mmbr();
         $this->tree = $DIC->repositoryTree();
@@ -55,12 +53,12 @@ class ilMembershipCronNotifications extends CronJob
 
     public function getTitle(): string
     {
-        return $this->lng->txt("enable_course_group_notifications");
+        return $this->language->txt("enable_course_group_notifications");
     }
 
     public function getDescription(): string
     {
-        return $this->lng->txt("enable_course_group_notifications_desc");
+        return $this->language->txt("enable_course_group_notifications_desc");
     }
 
     public function getDefaultScheduleType(): JobScheduleType
@@ -485,8 +483,8 @@ class ilMembershipCronNotifications extends CronJob
             case ilAdministrationSettingsFormHandler::FORM_COURSE:
             case ilAdministrationSettingsFormHandler::FORM_GROUP:
                 $a_fields["enable_course_group_notifications"] = $a_is_active ?
-                    $this->lng->txt("enabled") :
-                    $this->lng->txt("disabled");
+                    $this->language->txt("enabled") :
+                    $this->language->txt("disabled");
                 break;
         }
     }

@@ -20,27 +20,24 @@ declare(strict_types=1);
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * This will set progresses to FAILED,
  * if they are past the deadline (and not successful, yet)
  */
-class ilPrgUpdateProgressCronJob extends CronJob
+class ilPrgUpdateProgressCronJob extends AbstractCronJob
 {
     private const ID = 'prg_update_progress';
 
     protected Pimple\Container $dic;
-    protected ilLanguage $lng;
     protected ilStudyProgrammeSettingsDBRepository $settings_repo;
     protected ilPRGAssignmentDBRepository $assignment_repo;
     protected int $acting_user_id;
 
-    public function __construct()
+    public function init(): void
     {
-        global $DIC;
-        $this->lng = $DIC['lng'];
-        $this->lng->loadLanguageModule('prg');
+        $this->language->loadLanguageModule('prg');
 
         $dic = ilStudyProgrammeDIC::dic();
         $this->settings_repo = $dic['model.Settings.ilStudyProgrammeSettingsRepository'];
@@ -50,12 +47,12 @@ class ilPrgUpdateProgressCronJob extends CronJob
 
     public function getTitle(): string
     {
-        return $this->lng->txt('prg_update_progress_title');
+        return $this->language->txt('prg_update_progress_title');
     }
 
     public function getDescription(): string
     {
-        return $this->lng->txt('prg_update_progress_description');
+        return $this->language->txt('prg_update_progress_description');
     }
 
     public function getId(): string

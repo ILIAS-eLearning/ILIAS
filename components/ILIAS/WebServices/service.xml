@@ -15,9 +15,6 @@
 		<event type="listen" id="components/ILIAS/Authentication" component="Services/WebServices/ECS" />
 		<event type="raise" id="newEcsEvent" />
 	</events>
-	<crons>
-		<cron id="ecs_task_handler" class="ilCronEcsTaskScheduler" />
-	</crons>
 	<pluginslots>
 		<pluginslot id="soaphk" name="SoapHook" />
 	</pluginslots>

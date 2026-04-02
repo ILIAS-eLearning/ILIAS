@@ -25,10 +25,6 @@
 			<parent id="wfld">wfld</parent>
 		</object>
 	</objects>
-	<crons>
-		<cron id="exc_feedback_notification" class="ilExcCronFeedbackNotification" />
-		<cron id="exc_reminders" class="ilExcCronReminders" />
-	</crons>
 	<mailtemplates>
 		<context id="exc_context_submit_rmd" class="ilExcMailTemplateSubmitReminderContext" />
 		<context id="exc_context_grade_rmd" class="ilExcMailTemplateGradeReminderContext" />

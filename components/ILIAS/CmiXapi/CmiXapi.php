@@ -44,5 +44,18 @@ class CmiXapi implements Component\Component
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
         new Component\Resource\Endpoint($this, "xapiexit.php");
+
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ilXapiResultsCronjob(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
+            );
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ilCmiXapiDelCron(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
+            );
     }
 }

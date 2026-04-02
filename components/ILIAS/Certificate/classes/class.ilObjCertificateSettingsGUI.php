@@ -327,7 +327,12 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         );
         $previousMode = $form_settings->get('persistent_certificate_mode', 'persistent_certificate_mode_cron');
         if ($mode !== $previousMode && $mode === 'persistent_certificate_mode_instant') {
-            $cron = new ilCertificateCron();
+            global $DIC;
+            $cron = new ilCertificateCron(
+                \ILIAS\Certificate::class,
+                $DIC->language(),
+                \ilLoggerFactory::getInstance()
+            );
             $cron->init();
             $cron->run();
         }

@@ -3,7 +3,4 @@
 		id="filesys">
 	<baseclasses>
 	</baseclasses>
-	<crons>
-		<cron id="file_system_clean_temp_dir" class="ilFileSystemCleanTempDirCron" />
-	</crons>
 </service>

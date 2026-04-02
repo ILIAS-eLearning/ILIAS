@@ -175,7 +175,12 @@ class UserCertificateAPI implements UserCertificateApiInterface
             'persistent_certificate_mode_cron'
         );
         if ($mode === 'persistent_certificate_mode_instant') {
-            $cronjob = new ilCertificateCron();
+            global $DIC;
+            $cronjob = new ilCertificateCron(
+                \ILIAS\Certificate::class,
+                $DIC->language(),
+                \ilLoggerFactory::getInstance()
+            );
             $cronjob->init();
             $cronjob->processEntry(0, $entry, []);
             return;

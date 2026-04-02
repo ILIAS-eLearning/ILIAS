@@ -50,23 +50,25 @@ class JobTableFilterMediator
 
     public function filter(string $action): Standard
     {
-        $componentOptions = array_unique(
-            array_map(function (JobEntity $entity): string {
-                if ($entity->isPlugin()) {
-                    return $this->lng->txt('cmps_plugin') . '/' . $entity->getComponent();
-                }
-
+        $component_options = array_unique(
+            array_map(static function (JobEntity $entity): string {
                 return $entity->getComponent();
             }, $this->items->toArray())
         );
-        asort($componentOptions);
+        asort($component_options);
 
         $title_and_desc = $this->uiFactory->input()->field()->text(
             $this->lng->txt('title') . ' / ' . $this->lng->txt('description')
         );
         $components = $this->uiFactory->input()->field()->select(
             $this->lng->txt('cron_component'),
-            array_combine($componentOptions, $componentOptions)
+            array_combine(
+                array_map(
+                    fn(string $component): string => $this->encodeComponent($component),
+                    $component_options
+                ),
+                $component_options
+            )
         );
         $schedule = $this->uiFactory->input()->field()->select(
             $this->lng->txt('cron_schedule'),
@@ -157,12 +159,7 @@ class JobTableFilterMediator
             if (isset($filter_values[self::FILTER_PROPERTY_NAME_COMPONENT]) &&
                 \is_string($filter_values[self::FILTER_PROPERTY_NAME_COMPONENT]) &&
                 $filter_values[self::FILTER_PROPERTY_NAME_COMPONENT] !== '') {
-                $component = $entity->getComponent();
-                if ($entity->isPlugin()) {
-                    $component = $this->lng->txt('cmps_plugin') . '/' . $component;
-                }
-
-                if ($filter_values[self::FILTER_PROPERTY_NAME_COMPONENT] !== $component) {
+                if ($filter_values[self::FILTER_PROPERTY_NAME_COMPONENT] !== $this->encodeComponent($entity->getComponent())) {
                     return false;
                 }
             }
@@ -202,5 +199,10 @@ class JobTableFilterMediator
 
             return true;
         });
+    }
+
+    private function encodeComponent(string $component): string
+    {
+        return base64_encode($component);
     }
 }

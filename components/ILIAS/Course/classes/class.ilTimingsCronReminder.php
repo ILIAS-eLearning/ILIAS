@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
-class ilTimingsCronReminder extends CronJob
+class ilTimingsCronReminder extends AbstractCronJob
 {
     private static array $objects_information;
 
@@ -31,21 +31,17 @@ class ilTimingsCronReminder extends CronJob
     private int $now;
 
     protected ilLogger $log;
-    protected ilLanguage $lng;
     protected ilLanguage $user_lang;
     protected ilDBInterface $db;
     protected ilObjectDataCache $obj_data_cache;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
+    public function init(): void
     {
         global $DIC;
 
+        $this->language->loadLanguageModule('crs');
+
         $this->log = $DIC->logger()->crs();
-        $this->lng = $DIC->language();
-        $this->lng->loadLanguageModule('crs');
         $this->db = $DIC->database();
         $this->obj_data_cache = $DIC['ilObjDataCache'];
 
@@ -62,12 +58,12 @@ class ilTimingsCronReminder extends CronJob
 
     public function getTitle(): string
     {
-        return $this->lng->txt('timings_reminder_notifications');
+        return $this->language->txt('timings_reminder_notifications');
     }
 
     public function getDescription(): string
     {
-        return $this->lng->txt('timings_reminder_notifications_info');
+        return $this->language->txt('timings_reminder_notifications_info');
     }
 
     public function getDefaultScheduleType(): JobScheduleType

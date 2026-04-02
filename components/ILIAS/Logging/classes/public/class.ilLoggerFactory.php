@@ -34,7 +34,7 @@ use Monolog\Processor\PsrLogMessageProcessor;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */
-class ilLoggerFactory
+class ilLoggerFactory implements \ILIAS\Logging\LoggerFactory
 {
     protected const DEFAULT_FORMAT = "[%extra.suid%] [%datetime%] %channel%.%level_name%: %message% %context% %extra%\n";
 
@@ -44,8 +44,7 @@ class ilLoggerFactory
 
     private static ?ilLoggerFactory $instance = null;
 
-    private ilLoggingSettings $settings;
-    protected Container $dic;
+    protected ?Container $dic;
 
     private bool $enabled = false; //ToDo PHP8 Review: This is a private var never read only written and should probably be removed.
 
@@ -54,21 +53,25 @@ class ilLoggerFactory
      */
     private array $loggers = array();
 
-    protected function __construct(ilLoggingSettings $settings)
+    protected function __construct(private ilLoggingSettings $settings)
     {
         global $DIC;
 
         $this->dic = $DIC;
-        $this->settings = $settings;
         $this->enabled = $this->getSettings()->isEnabled();
     }
 
-    public static function getInstance(): ilLoggerFactory
+    public static function getInstance(?\ilLoggingSettings $settings = null): ilLoggerFactory
     {
-        if (!static::$instance instanceof ilLoggerFactory) {
+        if ($settings === null) {
             $settings = ilLoggingDBSettings::getInstance();
+            static::$instance = null;
+        }
+
+        if (!static::$instance instanceof self) {
             static::$instance = new ilLoggerFactory($settings);
         }
+
         return static::$instance;
     }
 

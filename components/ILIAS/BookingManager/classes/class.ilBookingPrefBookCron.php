@@ -18,7 +18,7 @@
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * Cron for booking pools
@@ -26,38 +26,26 @@ use ILIAS\Cron\CronJob;
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilBookingPrefBookCron extends CronJob
+class ilBookingPrefBookCron extends AbstractCronJob
 {
-    protected ilLanguage $lng;
-
-    public function __construct()
-    {
-        global $DIC;
-
-        $this->lng = $DIC->language();
-    }
-
     public function getId(): string
     {
         return "book_pref_book";
     }
 
+    public function init(): void
+    {
+        $this->language->loadLanguageModule('book');
+    }
+
     public function getTitle(): string
     {
-        $lng = $this->lng;
-
-        $lng->loadLanguageModule("book");
-
-        return $lng->txt("book_pref_book_cron");
+        return $this->language->txt("book_pref_book_cron");
     }
 
     public function getDescription(): string
     {
-        $lng = $this->lng;
-
-        $lng->loadLanguageModule("book");
-
-        return $lng->txt("book_pref_book_cron_info");
+        return $this->language->txt("book_pref_book_cron_info");
     }
 
     public function getDefaultScheduleType(): JobScheduleType

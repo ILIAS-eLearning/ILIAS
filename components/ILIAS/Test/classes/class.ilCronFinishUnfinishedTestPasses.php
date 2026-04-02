@@ -24,17 +24,16 @@ use ILIAS\Test\Results\Data\Repository as TestResultRepository;
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * Class ilCronFinishUnfinishedTestPasses
  * @author Guido Vollbach <gvollbach@databay.de>
  */
-class ilCronFinishUnfinishedTestPasses extends CronJob
+class ilCronFinishUnfinishedTestPasses extends AbstractCronJob
 {
     protected readonly TestLogger $logger;
 
-    protected readonly ilLanguage $lng;
     protected readonly ilDBInterface $db;
     protected readonly ilObjUser $user;
     protected readonly ilObjectDataCache $obj_data_cache;
@@ -45,15 +44,14 @@ class ilCronFinishUnfinishedTestPasses extends CronJob
     protected ilTestProcessLockerFactory $processLockerFactory;
     protected TestResultRepository $test_result_repository;
 
-    public function __construct()
+    public function init(): void
     {
-        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
+        $this->language->loadLanguageModule('assessment');
+
         $this->logger = TestDIC::dic()['logging.logger'];
-        $this->lng = $DIC['lng'];
         $this->user = $DIC['ilUser'];
-        $this->lng->loadLanguageModule('assessment');
         $this->db = $DIC->database();
         $this->obj_data_cache = $DIC['ilObjDataCache'];
         $this->now = time();
@@ -77,12 +75,12 @@ class ilCronFinishUnfinishedTestPasses extends CronJob
 
     public function getTitle(): string
     {
-        return $this->lng->txt('finish_unfinished_passes');
+        return $this->language->txt('finish_unfinished_passes');
     }
 
     public function getDescription(): string
     {
-        return $this->lng->txt('finish_unfinished_passes_desc');
+        return $this->language->txt('finish_unfinished_passes_desc');
     }
 
     public function getDefaultScheduleType(): JobScheduleType

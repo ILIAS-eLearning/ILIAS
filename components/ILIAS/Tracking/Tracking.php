@@ -37,5 +37,12 @@ class Tracking implements Component\Component
         array | \ArrayAccess &$internal,
     ): void {
         $contribute[SetupAgentInterface::class] = fn() => new SetupAgent($pull[Refinery::class]);
+
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ilLPCronObjectStatistics(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
+            );
     }
 }

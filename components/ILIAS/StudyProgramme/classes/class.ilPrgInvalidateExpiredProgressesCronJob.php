@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /*
  * This invalidates a successful progress if validityOfQualification is reached.
@@ -29,21 +29,21 @@ use ILIAS\Cron\CronJob;
  * It is perfectly feasible to raise some event for this, though,
  * but invalidation is reached by a date rather than a flag set by a cron job.
  */
-class ilPrgInvalidateExpiredProgressesCronJob extends CronJob
+class ilPrgInvalidateExpiredProgressesCronJob extends AbstractCronJob
 {
     private const ID = 'prg_invalidate_expired_progresses';
 
-    protected ilComponentLogger $log;
-    protected ilLanguage $lng;
+    protected ilLogger $log;
     protected ilPRGAssignmentDBRepository $assignment_repo;
     protected ilStudyProgrammeSettingsDBRepository $settings_repo;
 
-    public function __construct()
+    public function init(): void
     {
         global $DIC;
-        $this->log = $DIC['ilLog'];
-        $this->lng = $DIC['lng'];
-        $this->lng->loadLanguageModule('prg');
+
+        $this->language->loadLanguageModule('prg');
+
+        $this->log = $DIC->logger()->root();
 
         $dic = ilStudyProgrammeDIC::dic();
         $this->assignment_repo = $dic['repo.assignment'];
@@ -52,12 +52,12 @@ class ilPrgInvalidateExpiredProgressesCronJob extends CronJob
 
     public function getTitle(): string
     {
-        return $this->lng->txt('prg_invalidate_expired_progresses_title');
+        return $this->language->txt('prg_invalidate_expired_progresses_title');
     }
 
     public function getDescription(): string
     {
-        return $this->lng->txt('prg_invalidate_expired_progresses_desc');
+        return $this->language->txt('prg_invalidate_expired_progresses_desc');
     }
 
     public function getId(): string

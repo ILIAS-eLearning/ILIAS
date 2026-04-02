@@ -23,7 +23,4 @@
     <pluginslots>
         <pluginslot id="orguext" name="OrgUnitExtension"/>
     </pluginslots>
-    <crons>
-        <cron id="orgunit_paths" class="ilCronUpdateOrgUnitPaths"/>
-    </crons>
 </module>

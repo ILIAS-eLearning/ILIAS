@@ -41,5 +41,12 @@ class WebServices implements Component\Component
             new \ilECSAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ilCronEcsTaskScheduler(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
+            );
     }
 }

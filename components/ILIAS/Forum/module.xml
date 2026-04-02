@@ -32,9 +32,6 @@
 		<event type="raise" id="mergedThreads" />
 		<event type="raise" id="movedThreads" />
 	</events>
-	<crons>		
-		<cron id="frm_notification" class="ilForumCronNotification" />
-	</crons>
 	<logging />
 	<gsproviders>
 		<gsprovider purpose="tools" class_name="ilForumGlobalScreenToolsProvider" />

@@ -18,7 +18,7 @@
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * Cron for survey notifications
@@ -26,21 +26,19 @@ use ILIAS\Cron\CronJob;
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
-class ilSurveyCronNotification extends CronJob
+class ilSurveyCronNotification extends AbstractCronJob
 {
     protected const MAX_MESSAGE_LENGTH = 397;
 
-    protected ilLanguage $lng;
     protected ilTree $tree;
 
-    public function __construct()
+    public function init(): void
     {
         global $DIC;
 
-        $this->lng = $DIC->language();
-        if (isset($DIC["tree"])) {
-            $this->tree = $DIC->repositoryTree();
-        }
+        $this->language->loadLanguageModule("survey");
+
+        $this->tree = $DIC->repositoryTree();
     }
 
     public function getId(): string
@@ -50,18 +48,12 @@ class ilSurveyCronNotification extends CronJob
 
     public function getTitle(): string
     {
-        $lng = $this->lng;
-
-        $lng->loadLanguageModule("survey");
-        return $lng->txt("survey_reminder_cron");
+        return $this->language->txt("survey_reminder_cron");
     }
 
     public function getDescription(): string
     {
-        $lng = $this->lng;
-
-        $lng->loadLanguageModule("survey");
-        return $lng->txt("survey_reminder_cron_info");
+        return $this->language->txt("survey_reminder_cron_info");
     }
 
     public function getDefaultScheduleType(): JobScheduleType

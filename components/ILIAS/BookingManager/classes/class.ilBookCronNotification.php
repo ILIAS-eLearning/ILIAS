@@ -18,25 +18,24 @@
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * Cron for booking manager notification
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilBookCronNotification extends CronJob
+class ilBookCronNotification extends AbstractCronJob
 {
     protected \ILIAS\BookingManager\InternalRepoService $repo;
-    protected ilLanguage $lng;
     protected ilLogger $book_log;
 
-    public function __construct()
+    public function init(): void
     {
         global $DIC;
 
-        $this->lng = $DIC->language();
+        $this->language->loadLanguageModule('book');
 
-        $this->book_log = ilLoggerFactory::getLogger("book");
+        $this->book_log = $this->logger_factory->getComponentLogger('book');
         $this->repo = $DIC->bookingManager()
             ->internal()
             ->repo();
@@ -49,18 +48,12 @@ class ilBookCronNotification extends CronJob
 
     public function getTitle(): string
     {
-        $lng = $this->lng;
-
-        $lng->loadLanguageModule("book");
-        return $lng->txt("book_notification");
+        return $this->language->txt("book_notification");
     }
 
     public function getDescription(): string
     {
-        $lng = $this->lng;
-
-        $lng->loadLanguageModule("book");
-        return $lng->txt("book_notification_info");
+        return $this->language->txt("book_notification_info");
     }
 
     public function getDefaultScheduleType(): JobScheduleType

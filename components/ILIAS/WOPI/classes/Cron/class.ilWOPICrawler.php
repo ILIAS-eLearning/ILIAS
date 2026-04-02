@@ -26,23 +26,22 @@ use ILIAS\WOPI\Discovery\AppRepository;
 use ILIAS\WOPI\Discovery\ActionRepository;
 use ILIAS\Data\URI;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class ilWOPICrawler extends CronJob
+class ilWOPICrawler extends AbstractCronJob
 {
-    private ilLanguage $language;
     private ilSetting $settings;
     private Crawler $crawler;
     private AppRepository $app_repository;
     private ActionRepository $action_repository;
 
-    public function __construct()
+    public function init(): void
     {
         global $DIC;
-        $this->language = $DIC->language();
+
         $this->language->loadLanguageModule('wopi');
         $this->settings = $DIC->settings();
         $this->crawler = new Crawler();

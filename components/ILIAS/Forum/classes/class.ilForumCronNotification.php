@@ -21,14 +21,14 @@ declare(strict_types=1);
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobManager;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * Forum notifications
  * @author Michael Jansen <mjansen@databay.de>
  * @author Nadia Matuschek <nmatuschek@databay.de>
  */
-class ilForumCronNotification extends CronJob
+class ilForumCronNotification extends AbstractCronJob
 {
     private const int KEEP_ALIVE_CHUNK_SIZE = 25;
     private const int DEFAULT_MAX_NOTIFICATION_AGE_IN_DAYS = 30;
@@ -44,7 +44,6 @@ class ilForumCronNotification extends CronJob
     /** @var array<int, ilObjCourse|ilObjGroup|null> */
     private static array $container_by_frm_ref_id = [];
 
-    private readonly ilLanguage $lng;
     private readonly ilSetting $settings;
     private ilLogger $logger;
     private ilTree $tree;
@@ -54,22 +53,17 @@ class ilForumCronNotification extends CronJob
     private readonly \ILIAS\Refinery\Factory $refinery;
     private readonly JobManager $cronManager;
 
-    public function __construct(
-        ?ilDBInterface $database = null,
-        ?ilForumNotificationCache $notificationCache = null,
-        ?ilLanguage $lng = null,
-        ?ilSetting $settings = null,
-        ?\ILIAS\Refinery\Factory $refinery = null,
-        ?JobManager $cronManager = null
-    ) {
+    public function init(): void
+    {
         global $DIC;
 
-        $this->settings = $settings ?? new ilSetting('frma');
-        $this->lng = $lng ?? $DIC->language();
-        $this->ilDB = $database ?? $DIC->database();
-        $this->notificationCache = $notificationCache ?? new ilForumNotificationCache();
-        $this->refinery = $refinery ?? $DIC->refinery();
-        $this->cronManager = $cronManager ?? $DIC->cron()->manager();
+        $this->language->loadLanguageModule('forum');
+
+        $this->settings = new ilSetting('frma');
+        $this->ilDB = $DIC->database();
+        $this->notificationCache = new ilForumNotificationCache();
+        $this->refinery = $DIC->refinery();
+        $this->cronManager = $DIC->cron()->manager();
     }
 
     public function getId(): string
@@ -79,12 +73,12 @@ class ilForumCronNotification extends CronJob
 
     public function getTitle(): string
     {
-        return $this->lng->txt('cron_forum_notification');
+        return $this->language->txt('cron_forum_notification');
     }
 
     public function getDescription(): string
     {
-        return $this->lng->txt('cron_forum_notification_crob_desc');
+        return $this->language->txt('cron_forum_notification_crob_desc');
     }
 
     public function getDefaultScheduleType(): JobScheduleType
@@ -127,8 +121,6 @@ class ilForumCronNotification extends CronJob
         $this->tree = $DIC->repositoryTree();
 
         $status = JobResult::STATUS_NO_ACTION;
-
-        $this->lng->loadLanguageModule('forum');
 
         $this->logger->info('Started forum notification job ...');
 
@@ -370,8 +362,8 @@ class ilForumCronNotification extends CronJob
     {
         if ($a_form_id === ilAdministrationSettingsFormHandler::FORM_FORUM) {
             $a_fields['cron_forum_notification'] = $a_is_active ?
-                $this->lng->txt('enabled') :
-                $this->lng->txt('disabled');
+                $this->language->txt('enabled') :
+                $this->language->txt('disabled');
         }
     }
 
@@ -388,18 +380,16 @@ class ilForumCronNotification extends CronJob
 
     public function addCustomSettingsToForm(ilPropertyFormGUI $a_form): void
     {
-        $this->lng->loadLanguageModule('forum');
-
         $max_notification_age = new ilNumberInputGUI(
-            $this->lng->txt('frm_max_notification_age'),
+            $this->language->txt('frm_max_notification_age'),
             'max_notification_age'
         );
         $max_notification_age->setSize(5);
-        $max_notification_age->setSuffix($this->lng->txt('frm_max_notification_age_unit'));
+        $max_notification_age->setSuffix($this->language->txt('frm_max_notification_age_unit'));
         $max_notification_age->setRequired(true);
         $max_notification_age->allowDecimals(false);
         $max_notification_age->setMinValue(1);
-        $max_notification_age->setInfo($this->lng->txt('frm_max_notification_age_info'));
+        $max_notification_age->setInfo($this->language->txt('frm_max_notification_age_info'));
         $max_notification_age->setValue(
             $this->settings->get(
                 'max_notification_age',

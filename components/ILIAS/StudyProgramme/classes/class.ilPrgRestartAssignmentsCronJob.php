@@ -20,30 +20,30 @@ declare(strict_types=1);
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * Re-assign users (according to restart-date).
  * This will result in a new/additional assignment
  */
-class ilPrgRestartAssignmentsCronJob extends CronJob
+class ilPrgRestartAssignmentsCronJob extends AbstractCronJob
 {
     private const ID = 'prg_restart_assignments_temporal_progress';
     private const ACTING_USR_ID = ilPRGAssignment::AUTO_ASSIGNED_BY_RESTART;
 
-    protected ilComponentLogger $log;
-    protected ilLanguage $lng;
+    protected ilLogger $log;
     protected ilPRGAssignmentDBRepository $assignment_repo;
     protected ilPrgCronJobAdapter $adapter;
 
     protected array $prgs = [];
 
-    public function __construct()
+    public function init(): void
     {
         global $DIC;
-        $this->log = $DIC['ilLog'];
-        $this->lng = $DIC['lng'];
-        $this->lng->loadLanguageModule('prg');
+
+        $this->language->loadLanguageModule('prg');
+
+        $this->log = $DIC->logger()->root();
 
         $dic = ilStudyProgrammeDIC::dic();
         $this->assignment_repo = $dic['repo.assignment'];
@@ -52,12 +52,12 @@ class ilPrgRestartAssignmentsCronJob extends CronJob
 
     public function getTitle(): string
     {
-        return $this->lng->txt('prg_restart_assignments_temporal_progress_title');
+        return $this->language->txt('prg_restart_assignments_temporal_progress_title');
     }
 
     public function getDescription(): string
     {
-        return $this->lng->txt('prg_restart_assignments_temporal_progress_desc');
+        return $this->language->txt('prg_restart_assignments_temporal_progress_desc');
     }
 
     public function getId(): string

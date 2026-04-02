@@ -18,47 +18,29 @@
 
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\DTO\Metadata;
-use ILIAS\DI\Container;
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * Class ilFileSystemCleanTempDirCron
  *
  * @author Lukas Zehnder <lz@studer-raimann.ch>
  */
-class ilFileSystemCleanTempDirCron extends CronJob
+class ilFileSystemCleanTempDirCron extends AbstractCronJob
 {
     protected Filesystem $filesystem;
 
-    protected ilLanguage $language;
-
     protected ilLogger $logger;
 
-    /**
-     * @inheritDoc
-     */
-    public function __construct()
+    public function init(): void
     {
-        /**
-         * @var $DIC Container
-         */
         global $DIC;
-        if ($DIC->offsetExists('lng')) {
-            $this->language = $DIC['lng'];
-        }
-        if ($DIC->offsetExists('filesystem')) {
-            $this->filesystem = $DIC->filesystem()->temp();
-        }
-        if ($DIC->offsetExists('ilLoggerFactory')) {
-            $this->logger = $DIC->logger()->root();
-        }
+
+        $this->filesystem = $DIC->filesystem()->temp();
+        $this->logger = $DIC->logger()->root();
     }
 
-    private function initDependencies(): void
-    {
-    }
 
     public function getId(): string
     {

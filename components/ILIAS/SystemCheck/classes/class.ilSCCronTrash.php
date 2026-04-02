@@ -20,26 +20,25 @@ declare(strict_types=1);
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * Purge trash by cron
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
-class ilSCCronTrash extends CronJob
+class ilSCCronTrash extends AbstractCronJob
 {
-    protected ilLanguage $lng;
     protected ilTree $tree;
     protected ilObjectDefinition $objDefinition;
 
-    public function __construct()
+    public function init(): void
     {
         global $DIC;
 
-        $this->lng = $DIC->language();
+        $this->language->loadLanguageModule('sysc');
+
         $this->tree = $DIC->repositoryTree();
         $this->objDefinition = $DIC['objDefinition'];
-        $this->lng->loadLanguageModule('sysc');
     }
 
     public function getId(): string
@@ -49,12 +48,12 @@ class ilSCCronTrash extends CronJob
 
     public function getTitle(): string
     {
-        return $this->lng->txt('sysc_cron_empty_trash');
+        return $this->language->txt('sysc_cron_empty_trash');
     }
 
     public function getDescription(): string
     {
-        return $this->lng->txt('sysc_cron_empty_trash_desc');
+        return $this->language->txt('sysc_cron_empty_trash_desc');
     }
 
     public function getDefaultScheduleType(): JobScheduleType
@@ -95,14 +94,14 @@ class ilSCCronTrash extends CronJob
 
     public function addCustomSettingsToForm(ilPropertyFormGUI $a_form): void
     {
-        $this->lng->loadLanguageModule('sysc');
+        $this->language->loadLanguageModule('sysc');
 
         $settings = new ilSetting('sysc');
 
         // limit number
-        $num = new ilNumberInputGUI($this->lng->txt('sysc_trash_limit_num'), 'number');
+        $num = new ilNumberInputGUI($this->language->txt('sysc_trash_limit_num'), 'number');
         $num->allowDecimals(false);
-        $num->setInfo($this->lng->txt('purge_count_limit_desc'));
+        $num->setInfo($this->language->txt('purge_count_limit_desc'));
         $num->setSize(10);
         $num->setMinValue(1);
         $num->setValue($settings->get('num', ''));
@@ -110,7 +109,7 @@ class ilSCCronTrash extends CronJob
 
         $age = new ilNumberInputGUI($this->lng->txt('sysc_trash_limit_age'), 'age');
         $age->allowDecimals(false);
-        $age->setInfo($this->lng->txt('purge_age_limit_desc'));
+        $age->setInfo($this->language->txt('purge_age_limit_desc'));
         $age->setSize(4);
         $age->setMinValue(1);
         $age->setMaxLength(4);
@@ -131,7 +130,7 @@ class ilSCCronTrash extends CronJob
             if (!$this->objDefinition->isRBACObject($obj_type) || !$this->objDefinition->isAllowedInRepository($obj_type)) {
                 continue;
             }
-            $options[$obj_type] = $this->lng->txt('obj_' . $obj_type);
+            $options[$obj_type] = $this->language->txt('obj_' . $obj_type);
         }
         asort($options);
         $types->setOptions($options);

@@ -53,5 +53,18 @@ class Calendar implements Component\Component
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule("eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js");
         */
+
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ilCalendarCronRemoteReader(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
+            );
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ilConsultationHourCron(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
+            );
     }
 }

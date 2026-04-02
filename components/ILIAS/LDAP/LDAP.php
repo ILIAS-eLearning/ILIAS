@@ -33,6 +33,13 @@ class LDAP implements Component\Component
         array | \ArrayAccess &$internal,
     ): void {
         $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
-        new \ILIAS\LDAP\Setup\Agent();
+            new \ILIAS\LDAP\Setup\Agent();
+
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ilLDAPCronSynchronization(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
+            );
     }
 }

@@ -56,5 +56,30 @@ class User implements Component\Component
             new CustomTypeTextArea();
         $contribute[CustomProfileFieldType::class] = fn() =>
             new CustomTypeSelect();
+
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ilCronDeleteInactiveUserAccounts(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
+            );
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ilCronDeleteInactivatedUserAccounts(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
+            );
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ilUserCronCheckAccounts(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
+            );
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ilCronDeleteNeverLoggedInUserAccounts(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
+            );
     }
 }

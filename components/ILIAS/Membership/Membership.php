@@ -32,6 +32,17 @@ class Membership implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ilMembershipCronNotifications(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
+            );
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ilMembershipCronMinMembers(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
+            );
     }
 }

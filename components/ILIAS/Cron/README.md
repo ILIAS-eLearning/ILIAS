@@ -27,21 +27,30 @@ at some point.
 
 ### Providing a Cron-Job
 
-A module or service has to "announce" its cron-jobs to the system by adding them to their respective
-module.xml or service.xml.
+A component has to "contribute" its cron-jobs to the system by adding them to their respective
+component class (the one implementing `\ILIAS\Component\Component`).
 
 - The job id has to be unique.
-- An optional path can be added if the module/service directory layout differs from the ILIAS standard.
+- The cron job must implement `\ILIAS\Cron\CronJob`.
 
 ```php
-<?xml version = "1.0" encoding = "UTF-8"?>
-<service xmlns="http://www.w3.org" version="$Id$"
-   id="trac">
-   ...
-   <crons>
-      <cron id="lp_object_statistics" class="ilLPCronObjectStatistics" />
-   </crons>
-</service>
+public function init(
+    array | \ArrayAccess &$define,
+    array | \ArrayAccess &$implement,
+    array | \ArrayAccess &$use,
+    array | \ArrayAccess &$contribute,
+    array | \ArrayAccess &$seek,
+    array | \ArrayAccess &$provide,
+    array | \ArrayAccess &$pull,
+    array | \ArrayAccess &$internal
+): void {
+    $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+        new \ilMailCronOrphanedMails(
+            self::class,
+            $use[\ILIAS\Language\Language::class],
+            $use[\ILIAS\Logging\LoggerFactory::class]
+        );
+}
 ```
 
 There are 3 basic concepts: cron-job, schedule and cron-result. Using them as intended should make testing
@@ -55,7 +64,8 @@ The "condition" of the existing CronCheck would have to be implemented here.
 
 Several abstract methods have to be implemented to make a new cron-job usable:
 
-- `getId()`: returns the Id as defined in the module.xml or service.xml
+- `getId()`: returns the unique Id of the cron job
+- `getComponent()`: returns the component contributing the job
 - `hasAutoActivation()`: is the cron-job active after "installation" or should it be activated manually?
 - `hasFlexibleSchedule()`: can the schedule be edited by an adminstrator or is it static?
 - `getDefaultScheduleType()`: see Schedule

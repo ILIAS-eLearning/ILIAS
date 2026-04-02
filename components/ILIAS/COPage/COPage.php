@@ -123,5 +123,11 @@ class COPage implements Component\Component
             }
         };
 
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ilCleanCOPageHistoryCronjob(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
+            );
     }
 }

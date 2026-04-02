@@ -24,17 +24,17 @@ interface JobManager
 {
     public function runActiveJobs(\ilObjUser $actor): void;
 
-    public function runJobManual(string $jobId, \ilObjUser $actor): bool;
+    public function runJobManual(string $id, \ilObjUser $actor): bool;
 
     public function resetJob(\ILIAS\Cron\CronJob $job, \ilObjUser $actor): void;
 
-    public function activateJob(\ILIAS\Cron\CronJob $job, \ilObjUser $actor, bool $wasManuallyExecuted = false): void;
+    public function activateJob(\ILIAS\Cron\CronJob $job, \ilObjUser $actor, bool $was_manually_executed = false): void;
 
-    public function deactivateJob(\ILIAS\Cron\CronJob $job, \ilObjUser $actor, bool $wasManuallyExecuted = false): void;
+    public function deactivateJob(\ILIAS\Cron\CronJob $job, \ilObjUser $actor, bool $was_manually_executed = false): void;
 
-    public function isJobActive(string $jobId): bool;
+    public function isJobActive(string $id): bool;
 
-    public function isJobInactive(string $jobId): bool;
+    public function isJobInactive(string $id): bool;
 
-    public function ping(string $jobId): void;
+    public function ping(string $id): void;
 }

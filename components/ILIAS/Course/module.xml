@@ -41,9 +41,6 @@
 		<event type="raise" id="addSubscriber" />
 		<event type="raise" id="participantHasPassedCourse" />
 	</events>
-	<crons>
-		<cron id="crs_timings_reminder" class="ilTimingsCronReminder" />
-	</crons>
 	<copage>
 		<pageobject parent_type="lobj" class_name="ilLOPage" directory="classes/Objectives"/>
 	</copage>

@@ -27,8 +27,11 @@ class ilPrgUserNotRestartedCronJobMock extends ilPrgUserNotRestartedCronJob
 
     public function __construct(
         ilPRGAssignmentDBRepository $repo,
-        ilPrgCronJobAdapter $adapter
+        ilPrgCronJobAdapter $adapter,
+        \ILIAS\Language\Language $language,
+        \ILIAS\Logging\LoggerFactory $logger_factory,
     ) {
+        parent::__construct(\ILIAS\StudyProgramme::class, $language, $logger_factory);
         $this->assignment_repo = $repo;
         $this->adapter = $adapter;
     }
@@ -71,7 +74,12 @@ class ilStudyProgrammeCronAboutToExpireTest extends TestCase
             ->onlyMethods(['getAboutToExpire', 'storeExpiryInfoSentFor'])
             ->getMock();
 
-        $this->job = new ilPrgUserNotRestartedCronJobMock($this->assignment_repo, $this->adapter);
+        $this->job = new ilPrgUserNotRestartedCronJobMock(
+            $this->assignment_repo,
+            $this->adapter,
+            $this->getMockBuilder(\ILIAS\Language\Language::class)->disableOriginalConstructor()->getMock(),
+            $this->createMock(\ILIAS\Logging\LoggerFactory::class)
+        );
     }
 
     public function testAboutToExpireForNoRelevantProgrammes(): void
@@ -141,7 +149,15 @@ class ilStudyProgrammeCronAboutToExpireTest extends TestCase
             ->method('getAboutToExpire')
             ->willReturn([$ass1, $ass2]);
 
-        $job = new ilPrgUserNotRestartedCronJobMock($this->assignment_repo, $this->real_adapter);
+        $language = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
+        $logger_factory = $this->createMock(\ILIAS\Logging\LoggerFactory::class);
+
+        $job = new ilPrgUserNotRestartedCronJobMock(
+            $this->assignment_repo,
+            $this->real_adapter,
+            $language,
+            $logger_factory
+        );
         $job->run();
 
         $this->assertEquals(2, count($job->logs));

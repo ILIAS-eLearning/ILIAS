@@ -13,8 +13,5 @@
 		<event type="listen" id="components/ILIAS/User" />
 
     </events>
-    <crons>
-        <cron id="lti_outcome" class="ilLTICronOutcomeService" />
-    </crons>
     <logging />
 </service>

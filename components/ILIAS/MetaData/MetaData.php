@@ -42,5 +42,12 @@ class MetaData implements Component\Component
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\Endpoint($this, "oai.php");
+
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ilCronOerHarvester(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
+            );
     }
 }

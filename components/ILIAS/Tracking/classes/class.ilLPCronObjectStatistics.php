@@ -21,34 +21,34 @@ declare(strict_types=0);
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobManager;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * Cron for lp object statistics
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ServicesTracking
  */
-class ilLPCronObjectStatistics extends CronJob
+class ilLPCronObjectStatistics extends AbstractCronJob
 {
     protected int $date = 0;
 
-    protected ilLanguage $lng;
     protected ilDBInterface $db;
     protected ilTree $tree;
     protected ilLogger $logger;
     protected JobManager $cron_manager;
 
-    public function __construct()
+    public function init(): void
     {
         global $DIC;
 
+        $this->language->loadLanguageModule("trac");
+
         $this->logger = $DIC->logger()->trac();
-        $this->lng = $DIC->language();
-        $this->lng->loadLanguageModule("trac");
         $this->db = $DIC->database();
         $this->tree = $DIC->repositoryTree();
         $this->cron_manager = $DIC->cron()->manager();
     }
+
 
     public function getId(): string
     {
@@ -57,12 +57,12 @@ class ilLPCronObjectStatistics extends CronJob
 
     public function getTitle(): string
     {
-        return $this->lng->txt("trac_object_statistics");
+        return $this->language->txt("trac_object_statistics");
     }
 
     public function getDescription(): string
     {
-        return $this->lng->txt("trac_object_statistics_info");
+        return $this->language->txt("trac_object_statistics_info");
     }
 
     public function getDefaultScheduleType(): JobScheduleType

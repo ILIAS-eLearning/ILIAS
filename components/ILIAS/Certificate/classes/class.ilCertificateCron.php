@@ -22,98 +22,90 @@ use ILIAS\DI\Container;
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobManager;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
-class ilCertificateCron extends CronJob
+class ilCertificateCron extends AbstractCronJob
 {
-    protected ?ilLanguage $lng;
     private ?Container $dic;
 
     public function __construct(
+        string $component,
+        \ILIAS\Language\Language $language,
+        \ILIAS\Logging\LoggerFactory $logger_factory,
         private ?ilCertificateQueueRepository $queueRepository = null,
         private ?ilCertificateTemplateRepository $templateRepository = null,
         private ?ilUserCertificateRepository $userRepository = null,
         private ?ilCertificateValueReplacement $valueReplacement = null,
         private ?ilLogger $logger = null,
         ?Container $dic = null,
-        ?ilLanguage $language = null,
         private ?ilCertificateObjectHelper $objectHelper = null,
         private ?ilSetting $settings = null,
-        private ?JobManager $cronManager = null,
+        private ?JobManager $cronManager = null
     ) {
-        if (null === $dic) {
+        parent::__construct($component, $language, $logger_factory);
+        if ($dic === null) {
             global $DIC;
             $dic = $DIC;
         }
         $this->dic = $dic;
-
-        if ($dic && isset($dic['lng'])) {
-            $language = $dic->language();
-            $language->loadLanguageModule('certificate');
-        }
-
-        $this->lng = $language;
     }
 
     public function getTitle(): string
     {
-        return $this->lng->txt('cert_cron_task_title');
+        return $this->language->txt('cert_cron_task_title');
     }
 
     public function getDescription(): string
     {
-        return $this->lng->txt('cert_cron_task_desc');
+        return $this->language->txt('cert_cron_task_desc');
     }
 
     public function init(): void
     {
-        if (null === $this->dic) {
+        $this->language->loadLanguageModule('certificate');
+
+        if ($this->dic === null) {
             global $DIC;
             $this->dic = $DIC;
         }
 
         $database = $this->dic->database();
 
-        if (null === $this->logger) {
+        if ($this->logger === null) {
             $this->logger = $this->dic->logger()->cert();
         }
 
-        if (null === $this->cronManager) {
+        if ($this->cronManager === null) {
             $this->cronManager = $this->dic->cron()->manager();
         }
 
-        if (null === $this->queueRepository) {
+        if ($this->queueRepository === null) {
             $this->queueRepository = new ilCertificateQueueRepository($database, $this->logger);
         }
 
-        if (null === $this->templateRepository) {
+        if ($this->templateRepository === null) {
             $this->templateRepository = new ilCertificateTemplateDatabaseRepository($database, $this->logger);
         }
 
-        if (null === $this->userRepository) {
+        if ($this->userRepository === null) {
             $this->userRepository = new ilUserCertificateRepository($database, $this->logger);
         }
 
-        if (null === $this->valueReplacement) {
+        if ($this->valueReplacement === null) {
             $this->valueReplacement = new ilCertificateValueReplacement();
         }
 
-        if (null === $this->objectHelper) {
+        if ($this->objectHelper === null) {
             $this->objectHelper = new ilCertificateObjectHelper();
         }
 
-        if (null === $this->settings) {
+        if ($this->settings === null) {
             $this->settings = new ilSetting('certificate');
         }
     }
 
     public function run(): JobResult
     {
-        $this->init();
-
         $result = new JobResult();
         $result->setStatus(JobResult::STATUS_NO_ACTION);
 

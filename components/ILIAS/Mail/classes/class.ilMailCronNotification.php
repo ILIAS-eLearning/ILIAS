@@ -18,29 +18,21 @@
 
 declare(strict_types=1);
 
-use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
-class ilMailCronNotification extends CronJob
+class ilMailCronNotification extends AbstractCronJob
 {
-    private GlobalHttpState $http;
-    protected ilLanguage $lng;
-    protected ilSetting $settings;
-    protected bool $init_done = false;
+    private ilSetting $settings;
 
-    protected function init(): void
+    public function init(): void
     {
         global $DIC;
 
-        if (!$this->init_done) {
-            $this->settings = $DIC->settings();
-            $this->lng = $DIC->language();
-            $this->http = $DIC->http();
+        $this->language->loadLanguageModule('mail');
 
-            $this->init_done = true;
-        }
+        $this->settings = $DIC->settings();
     }
 
     public function getId(): string
@@ -50,20 +42,14 @@ class ilMailCronNotification extends CronJob
 
     public function getTitle(): string
     {
-        $this->init();
-
-        return $this->lng->txt('cron_mail_notification');
+        return $this->language->txt('cron_mail_notification');
     }
 
     public function getDescription(): string
     {
-        $this->init();
-
-        $this->lng->loadLanguageModule('mail');
-
         return  sprintf(
-            $this->lng->txt('cron_mail_notification_desc'),
-            $this->lng->txt('mail_allow_external')
+            $this->language->txt('cron_mail_notification_desc'),
+            $this->language->txt('mail_allow_external')
         );
     }
 
@@ -105,8 +91,8 @@ class ilMailCronNotification extends CronJob
         $status = $ui_factory
             ->input()
             ->field()
-            ->checkbox($this->lng->txt('cron_mail_notification_message'))
-            ->withByline($this->lng->txt('cron_mail_notification_message_info'))
+            ->checkbox($this->language->txt('cron_mail_notification_message'))
+            ->withByline($this->language->txt('cron_mail_notification_message_info'))
             ->withValue((bool) $this->settings->get('mail_notification_message', '0'))
             ->withDedicatedName('mail_notification_message');
 
@@ -115,7 +101,6 @@ class ilMailCronNotification extends CronJob
 
     public function saveCustomConfiguration(mixed $form_data): void
     {
-        $this->init();
         $this->settings->set(
             'mail_notification_message',
             (string) ((int) $form_data)

@@ -10,11 +10,6 @@
 			<parent id="adm" max="1">adm</parent>
 		</object>
 	</objects>
-	<crons>
-		<cron id="mail_notification" class="ilMailCronNotification" />
-		<cron id="mail_orphaned_mails" class="ilMailCronOrphanedMails" />
-		<cron id="mail_scheduled_mails" class="ILIAS\Mail\Cron\ScheduledMailsCron" />
-	</crons>
 	<mailtemplates>
 		<context id="mail_template_generic" class="ilMailTemplateGenericContext" />
 	</mailtemplates>

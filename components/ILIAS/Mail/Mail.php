@@ -35,16 +35,33 @@ class Mail implements Component\Component
         array | \ArrayAccess &$internal,
     ): void {
         $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
-            new \ilMailSetupAgent(
-                $pull[\ILIAS\Refinery\Factory::class]
-            );
+            new \ilMailSetupAgent();
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "ilMailComposeFunctions.js");
+            new Component\Resource\ComponentJS($this, 'ilMailComposeFunctions.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new ComponentCSS($this, '/../../../../templates/default/mail.css');
-        $contribute[User\Settings\UserSettings::class] = fn() =>
+        $contribute[User\Settings\UserSettings::class] = static fn() =>
             new Mail\UserSettings\Settings();
-        $contribute[User\Profile\ChangeListeners\UserFieldAttributesChangeListener::class] = fn() =>
+        $contribute[User\Profile\ChangeListeners\UserFieldAttributesChangeListener::class] = static fn() =>
             new Mail\ilMailUserFieldChangeListener();
+
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ilMailCronNotification(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
+            );
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ilMailCronOrphanedMails(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
+            );
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ILIAS\Mail\Cron\ScheduledMailsCron(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
+            );
     }
 }
