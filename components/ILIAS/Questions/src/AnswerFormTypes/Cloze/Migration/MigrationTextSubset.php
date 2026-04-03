@@ -25,7 +25,6 @@ use ILIAS\Questions\AnswerForm\Migration\MigrationInsert;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Definition;
 use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Definitions\ScoringIdentical;
-use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\TableNameSpace;
 use ILIAS\Setup\Environment;
 
@@ -59,7 +58,6 @@ class MigrationTextSubset implements Migration
     #[\Override]
     public function completeMigrationInsert(
         Environment $environment,
-        PersistenceFactory $persistence_factory,
         MigrationInsert $migration_insert
     ): ?MigrationInsert {
         $answer_form_id = $migration_insert->getAnswerFormId();
@@ -78,7 +76,7 @@ class MigrationTextSubset implements Migration
 
                     $gaps_insert = $this->buildGapInsertStatement(
                         $this->table_definitions,
-                        $persistence_factory,
+                        $migration_insert->getPersistenceFactory(),
                         $migration_insert->getTableNameBuilder(),
                         $gaps_insert,
                         $gap_id,
@@ -99,7 +97,7 @@ class MigrationTextSubset implements Migration
             foreach ($gaps as $gap_id) {
                 $answer_options_insert = $this->buildAnswerOptionInsertStatement(
                     $this->table_definitions,
-                    $persistence_factory,
+                    $migration_insert->getPersistenceFactory(),
                     $migration_insert->getTableNameBuilder(),
                     $answer_options_insert,
                     $migration_insert->getUuid(),
@@ -121,7 +119,7 @@ class MigrationTextSubset implements Migration
             ->withAdditionalInsert(
                 $this->buildAnswerFormInsertStatement(
                     $this->table_definitions,
-                    $persistence_factory,
+                    $migration_insert->getPersistenceFactory(),
                     $migration_insert->getTableNameBuilder(),
                     $answer_form_id,
                     ScoringIdentical::OnlyScoreDistinct,

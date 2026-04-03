@@ -26,7 +26,6 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Definition;
 use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Definitions\ScoringIdentical;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gap;
-use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\TableNameSpace;
 use ILIAS\Setup\Environment;
 
@@ -62,7 +61,6 @@ class MigrationNumeric implements Migration
     #[\Override]
     public function completeMigrationInsert(
         Environment $environment,
-        PersistenceFactory $persistence_factory,
         MigrationInsert $migration_insert
     ): ?MigrationInsert {
         $db_row = $this->fetchDBValues(
@@ -79,7 +77,7 @@ class MigrationNumeric implements Migration
         return $migration_insert->withAdditionalInsert(
             $this->buildGapInsertStatement(
                 $this->table_definitions,
-                $persistence_factory,
+                $migration_insert->getPersistenceFactory(),
                 $migration_insert->getTableNameBuilder(),
                 null,
                 $gap_id,
@@ -95,7 +93,7 @@ class MigrationNumeric implements Migration
         )->withAdditionalInsert(
             $this->buildAnswerOptionInsertStatement(
                 $this->table_definitions,
-                $persistence_factory,
+                $migration_insert->getPersistenceFactory(),
                 $migration_insert->getTableNameBuilder(),
                 null,
                 $migration_insert->getUuid(),
@@ -109,7 +107,7 @@ class MigrationNumeric implements Migration
         )->withAdditionalInsert(
             $this->buildAnswerFormInsertStatement(
                 $this->table_definitions,
-                $persistence_factory,
+                $migration_insert->getPersistenceFactory(),
                 $migration_insert->getTableNameBuilder(),
                 $answer_form_id,
                 ScoringIdentical::ScoreAll,
