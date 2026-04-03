@@ -22,7 +22,6 @@ namespace ILIAS\Questions\AnswerForm\Capabilities;
 
 use ILIAS\Questions\AnswerForm\Migration\Migration as AnswerFormMigration;
 use ILIAS\Questions\AnswerForm\Migration\MigrationInsert;
-use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\TableNameSpace;
 use ILIAS\Setup\Environment;
 
@@ -32,7 +31,6 @@ interface Migration
 
     public function completeMigrationInsert(
         Environment $environment,
-        PersistenceFactory $persistence_factory,
         AnswerFormMigration $answer_form_migration,
         MigrationInsert $migration_insert
     ): ?MigrationInsert;
