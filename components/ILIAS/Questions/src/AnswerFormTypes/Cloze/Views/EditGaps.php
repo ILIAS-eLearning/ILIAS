@@ -39,14 +39,10 @@ class EditGaps
     private const string SUB_ACTION_BACK_TO_SET_GAP_TYPES = 'bsgt';
     public const string SUB_ACTION_JUMP_TO_SET_GAP_TYPES = 'jsgt';
     private const string SUB_ACTION_SET_ANSWER_OPTIONS = 'sao';
-    private const string SUB_ACTION_BACK_TO_SET_ANSWER_OPTIONS = 'bsao';
+    public const string SUB_ACTION_BACK_TO_SET_ANSWER_OPTIONS = 'bsao';
     public const string SUB_ACTION_JUMP_TO_SET_ANSWER_OPTIONS = 'jsao';
-    private const string SUB_ACTION_ASSIGN_POINTS = 'ap';
     public const string SUB_ACTION_JUMP_TO_ASSIGN_POINTS = 'jap';
-    private const string SUB_ACTION_SAVE = 's';
-
-    private string $sub_action;
-    private ?string $start_sub_action;
+    private const string SUB_ACTION_PROCESS_SET_ANSWER_OPTIONS = 'psao';
 
     public function __construct(
         private readonly FileUpload $file_upload,
@@ -59,12 +55,6 @@ class EditGaps
         Environment $environment,
         string $sub_action = self::SUB_ACTION_SET_GAP_TYPES
     ): EditForm|Async|Properties|string {
-        $sub_action_array = explode('_', $sub_action);
-        $this->sub_action = $sub_action_array[0];
-        $this->start_sub_action = $this->determineStartSubActionFromSubAction(
-            $sub_action_array[1] ?? null
-        );
-
         $upload_handler = new UploadAnswerOptions(
             $this->file_upload,
             $environment
@@ -73,54 +63,52 @@ class EditGaps
             return $upload_handler->do($sub_action);
         }
 
-        return match ($this->sub_action) {
+        return match ($sub_action) {
             self::SUB_ACTION_SET_GAP_TYPES,
             self::SUB_ACTION_JUMP_TO_SET_GAP_TYPES
                 => $this->buildGapTypesFormWithCarry(
                     $environment,
-                    $environment->getAnswerFormProperties()
+                    $environment->getAnswerFormProperties(),
+                    $sub_action
                 ),
             self::SUB_ACTION_BACK_TO_EDIT_BASIC_PROPERTIES
                 => $this->backToEditBasicProperties(
-                    $environment
+                    $environment,
+                    $sub_action
                 ),
             self::SUB_ACTION_BACK_TO_SET_GAP_TYPES
                 => $this->backToGapTypesForm(
-                    $environment
+                    $environment,
+                    $sub_action
                 ),
             self::SUB_ACTION_SET_ANSWER_OPTIONS
                 => $this->forwardToAnswerOptionsForm(
-                    $environment
+                    $environment,
+                    $sub_action
                 ),
+            self::SUB_ACTION_BACK_TO_SET_ANSWER_OPTIONS,
             self::SUB_ACTION_JUMP_TO_SET_ANSWER_OPTIONS
                 => $this->buildAnswerOptionsFormWithCarry(
                     $environment,
-                    $environment->getAnswerFormProperties()
+                    $environment->getAnswerFormProperties(),
+                    $sub_action
                 ),
-            self::SUB_ACTION_BACK_TO_SET_ANSWER_OPTIONS
-                => $this->backToSetAnswerOptionsForm(
-                    $environment
-                ),
-            self::SUB_ACTION_ASSIGN_POINTS
-                => $this->forwardToAssignPointsForm(
-                    $environment
-                ),
-            self::SUB_ACTION_JUMP_TO_ASSIGN_POINTS
-                => $this->buildAssignPointsFormWithCarry(
+            self::SUB_ACTION_PROCESS_SET_ANSWER_OPTIONS
+                => $this->processAnswerOptionsForm(
                     $environment,
-                    $environment->getAnswerFormProperties()
-                ),
-            self::SUB_ACTION_SAVE
-                => $this->processAssignPointsForm(
-                    $environment
+                    $sub_action
                 )
         };
     }
 
     private function backToEditBasicProperties(
-        Environment $environment
+        Environment $environment,
+        string $sub_action
     ): EditForm|string {
-        $processed_form = $this->processGapTypesForm($environment);
+        $processed_form = $this->processGapTypesForm(
+            $environment,
+            $sub_action
+        );
         if ($processed_form instanceof EditForm) {
             return $processed_form;
         }
@@ -129,22 +117,28 @@ class EditGaps
     }
 
     private function backToGapTypesForm(
-        Environment $environment
+        Environment $environment,
+        string $sub_action
     ): EditForm {
-        $processed_form = $this->processAnswerOptionsForm($environment);
+        $processed_form = $this->processAnswerOptionsForm(
+            $environment,
+            $sub_action
+        );
         if ($processed_form instanceof EditForm) {
             return $processed_form;
         }
 
         return $this->buildGapTypesFormWithCarry(
             $environment,
-            $processed_form
+            $processed_form,
+            $sub_action
         );
     }
 
     private function buildGapTypesFormWithCarry(
         Environment $environment,
-        Properties $properties
+        Properties $properties,
+        string $sub_action
     ): EditForm {
         $inputs_builder = $this->buildInputsBuilderForTypesForm(
             $environment
@@ -156,13 +150,15 @@ class EditGaps
 
         return $this->buildGapTypesForm(
             $environment,
-            $inputs_builder
+            $inputs_builder,
+            $sub_action
         );
     }
 
     private function buildGapTypesForm(
         Environment $environment,
-        InputsBuilderSession $inputs_builder
+        InputsBuilderSession $inputs_builder,
+        string $sub_action
     ): EditForm {
         /** @var \ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties $properties */
         $properties = $environment->getAnswerFormProperties();
@@ -175,14 +171,13 @@ class EditGaps
                 $environment,
                 self::SUB_ACTION_SET_ANSWER_OPTIONS
             ),
-            $this->sub_action === self::SUB_ACTION_JUMP_TO_SET_GAP_TYPES
-            || $this->sub_action === $this->start_sub_action
+            $sub_action === self::SUB_ACTION_JUMP_TO_SET_GAP_TYPES
+            || $environment->getFormStartSubAction() === self::SUB_ACTION_JUMP_TO_SET_GAP_TYPES
                 ? null
                 : $this->buildPostTarget(
                     $environment,
                     self::SUB_ACTION_BACK_TO_EDIT_BASIC_PROPERTIES
-                ),
-            false
+                )
         )->withContentBeforeForm(
             $properties->getClozeText()->buildPanelForEditing(
                 $environment->getUIFactory(),
@@ -194,7 +189,8 @@ class EditGaps
     }
 
     private function processGapTypesForm(
-        Environment $environment
+        Environment $environment,
+        string $sub_action
     ): EditForm|Properties {
         $inputs_builder_for_types = $this->buildInputsBuilderForTypesForm(
             $environment
@@ -206,7 +202,8 @@ class EditGaps
 
         $form = $this->buildGapTypesForm(
             $environment->withAnswerFormProperties($properties),
-            $inputs_builder_for_types
+            $inputs_builder_for_types,
+            $sub_action
         )->withRequest($environment->getHttpServices()->request());
 
         $data = $form->getData();
@@ -245,36 +242,28 @@ class EditGaps
     }
 
     private function forwardToAnswerOptionsForm(
-        Environment $environment
+        Environment $environment,
+        string $sub_action
     ): EditForm {
-        $processed_form = $this->processGapTypesForm($environment);
-        if ($processed_form instanceof EditForm) {
-            return $processed_form;
-        }
-
-        return $this->buildAnswerOptionsFormWithCarry(
+        $processed_form = $this->processGapTypesForm(
             $environment,
-            $processed_form
+            $sub_action
         );
-    }
-
-    private function backToSetAnswerOptionsForm(
-        Environment $environment
-    ): EditForm {
-        $processed_form = $this->processAssignPointsForm($environment);
         if ($processed_form instanceof EditForm) {
             return $processed_form;
         }
 
         return $this->buildAnswerOptionsFormWithCarry(
             $environment,
-            $processed_form
+            $processed_form,
+            $sub_action
         );
     }
 
     private function buildAnswerOptionsFormWithCarry(
         Environment $environment,
-        Properties $properties
+        Properties $properties,
+        string $sub_action
     ): EditForm {
         $inputs_builder = $this->buildInputsBuilderForAnswerOptionsForm(
             $environment,
@@ -287,30 +276,32 @@ class EditGaps
 
         return $this->buildAnswerOptionsForm(
             $environment->withAnswerFormProperties($properties),
-            $inputs_builder
+            $inputs_builder,
+            $sub_action
         );
     }
 
     private function buildAnswerOptionsForm(
         Environment $environment,
-        InputsBuilderSession $inputs_builder
+        InputsBuilderSession $inputs_builder,
+        string $sub_action
     ): EditForm {
         $properties = $environment->getAnswerFormProperties();
         return $environment->getPresentationFactory()->getEditForm(
             $inputs_builder,
             $this->buildPostTarget(
                 $environment,
-                self::SUB_ACTION_ASSIGN_POINTS
+                self::SUB_ACTION_PROCESS_SET_ANSWER_OPTIONS
             ),
-            $this->sub_action === self::SUB_ACTION_JUMP_TO_SET_ANSWER_OPTIONS
-            || $this->sub_action === $this->start_sub_action
+            $sub_action === self::SUB_ACTION_JUMP_TO_SET_ANSWER_OPTIONS
+            || $environment->getFormStartSubAction() === self::SUB_ACTION_JUMP_TO_SET_ANSWER_OPTIONS
                 ? null
                 : $this->buildPostTarget(
                     $environment,
                     self::SUB_ACTION_BACK_TO_SET_GAP_TYPES
-                ),
-            false
-        )->withContentBeforeForm(
+                )
+        )->withIsFinalStep(true)
+        ->withContentBeforeForm(
             $properties->getClozeText()->buildPanelForEditing(
                 $environment->getUIFactory(),
                 $environment->getLanguage(),
@@ -321,7 +312,8 @@ class EditGaps
     }
 
     private function processAnswerOptionsForm(
-        Environment $environment
+        Environment $environment,
+        string $sub_action
     ): EditForm|Properties {
         $inputs_builder_for_options = $this->buildInputsBuilderForAnswerOptionsForm(
             $environment,
@@ -330,7 +322,8 @@ class EditGaps
 
         $form = $this->buildAnswerOptionsForm(
             $environment,
-            $inputs_builder_for_options
+            $inputs_builder_for_options,
+            $sub_action
         )->withRequest($environment->getHttpServices()->request());
 
         $data = $form->getData();
@@ -368,144 +361,13 @@ class EditGaps
         );
     }
 
-    private function forwardToAssignPointsForm(
-        Environment $environment
-    ): EditForm {
-        $processed_form = $this->processAnswerOptionsForm($environment);
-        if ($processed_form instanceof EditForm) {
-            return $processed_form;
-        }
-
-        return $this->buildAssignPointsFormWithCarry(
-            $environment,
-            $processed_form
-        );
-    }
-
-    private function buildAssignPointsFormWithCarry(
-        Environment $environment,
-        Properties $properties
-    ): EditForm {
-        $inputs_builder_for_points = $this->buildInputsBuilderForPointsForm(
-            $environment,
-            $properties
-        )->withCarry(
-            $properties->toCarry()
-        );
-
-        $inputs_builder_for_points->persistCarry();
-
-        return $this->buildAssignPointsForm(
-            $environment->withAnswerFormProperties($properties),
-            $inputs_builder_for_points
-        );
-    }
-
-    private function buildAssignPointsForm(
-        Environment $environment,
-        InputsBuilderSession $inputs_builder
-    ): EditForm {
-        $properties = $environment->getAnswerFormProperties();
-        return $environment->getPresentationFactory()->getEditForm(
-            $inputs_builder,
-            $this->buildPostTarget(
-                $environment,
-                self::SUB_ACTION_SAVE
-            ),
-            $this->sub_action === self::SUB_ACTION_JUMP_TO_ASSIGN_POINTS
-                ? null
-                : $this->buildPostTarget(
-                    $environment,
-                    self::SUB_ACTION_BACK_TO_SET_ANSWER_OPTIONS
-                ),
-            true
-        )->withContentBeforeForm(
-            $properties->getClozeText()->buildPanelForEditing(
-                $environment->getUIFactory(),
-                $environment->getLanguage(),
-                $properties->getGaps(),
-                $properties->getLegacyClozeText()
-            )
-        );
-    }
-
-    private function processAssignPointsForm(
-        Environment $environment
-    ): EditForm|Properties {
-        $inputs_builder_for_points = $this->buildInputsBuilderForPointsForm(
-            $environment,
-            $environment->getAnswerFormProperties()
-        );
-
-        $form = $this->buildAssignPointsForm(
-            $environment,
-            $inputs_builder_for_points
-        )->withRequest($environment->getHttpServices()->request());
-
-        $data = $form->getData();
-        if ($data === null) {
-            $inputs_builder_for_points->persistCarry();
-            return $form;
-        }
-
-        return $data;
-    }
-
-    private function buildInputsBuilderForPointsForm(
-        Environment $environment,
-        Properties $properties
-    ): InputsBuilderSession {
-        return $environment->getPresentationFactory()->getSessionBasedInputsBuilder(
-            $environment->getRefinery()->custom()->transformation(
-                function (?string $carry) use (
-                    $environment,
-                    $properties
-                ): Section {
-                    $properties_from_carry = $this->properties_factory
-                        ->fromCarry(
-                            $properties,
-                            $carry
-                        );
-                    return $properties_from_carry->getGaps()
-                        ->buildPointInputs(
-                            $environment->getLanguage(),
-                            $environment->getUIFactory()->input()->field(),
-                            $properties_from_carry,
-                            $environment->isInCreationContext(),
-                            $environment->getTableRowIds()
-                        );
-                }
-            )
-        );
-    }
-
     private function buildPostTarget(
         Environment $environment,
         string $next_step
     ): URLBuilder {
-        if ($this->start_sub_action !== null) {
-            $next_step = "{$next_step}_{$this->start_sub_action}";
-        }
-
-        return $environment->withSubActionParameter($next_step)->getUrlBuilder();
-    }
-
-    private function determineStartSubActionFromSubAction(
-        ?string $start_sub_action_from_get
-    ): ?string {
-        if ($start_sub_action_from_get !== null) {
-            return $start_sub_action_from_get;
-        }
-
-        if ($this->sub_action === self::SUB_ACTION_JUMP_TO_SET_GAP_TYPES) {
-            return self::SUB_ACTION_BACK_TO_SET_GAP_TYPES;
-        }
-
-        if ($this->sub_action === self::SUB_ACTION_JUMP_TO_SET_ANSWER_OPTIONS) {
-            return self::SUB_ACTION_BACK_TO_SET_ANSWER_OPTIONS;
-        }
-
-        return null;
+        return $environment
+            ->withSubActionParameter($next_step)
+            ->getUrlBuilder();
     }
 
     private function buildRetrievePropertiesTransformation(

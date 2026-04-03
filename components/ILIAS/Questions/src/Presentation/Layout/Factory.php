@@ -65,16 +65,14 @@ class Factory
     public function getEditForm(
         Input|InputsBuilder $main_section_inputs,
         URLBuilder $default_form_action,
-        ?URLBuilder $back_form_action,
-        bool $is_final_step
+        ?URLBuilder $back_form_action
     ): EditForm {
         return new EditForm(
             $this->ui_factory,
             $this->lng,
             $main_section_inputs,
             $default_form_action,
-            $back_form_action,
-            $is_final_step
+            $back_form_action
         );
     }
 

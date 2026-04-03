@@ -61,8 +61,7 @@ class Edit implements EditViewInterface
                 $environment
             ),
             default => $this->forwardCmdToEditGaps(
-                $environment,
-                $sub_action
+                $environment
             )
         };
     }
@@ -97,8 +96,9 @@ class Edit implements EditViewInterface
                 $environment->withPreservedTableRowIdsParameter()
             ),
             default => $this->forwardCmdToEditGaps(
-                $environment->withPreservedTableRowIdsParameter(),
-                $sub_action
+                $environment
+                    ->withPreservedTableRowIdsParameter()
+                    ->withPreservedFormStartSubActionParameter()
             )
         };
     }
@@ -110,6 +110,16 @@ class Edit implements EditViewInterface
         return $environment
             ->getAnswerFormProperties()
             ->getCombinations()->getEditView()->show($environment);
+    }
+
+    #[\Override]
+    public function backToLastEditCommand(
+        Environment $environment
+    ): EditForm {
+        return $this->edit_gaps->do(
+            $environment,
+            EditGaps::SUB_ACTION_BACK_TO_SET_ANSWER_OPTIONS
+        );
     }
 
     private function startEditing(
@@ -129,10 +139,12 @@ class Edit implements EditViewInterface
     }
 
     private function forwardCmdToEditGaps(
-        Environment $environment,
-        string $sub_action
+        Environment $environment
     ): EditForm|Async|Properties {
-        $processed_form = $this->edit_gaps->do($environment, $sub_action);
+        $processed_form = $this->edit_gaps->do(
+            $environment,
+            $environment->getSubAction()
+        );
         if (is_string($processed_form)) {
             $inputs_builder = $this->buildInputsBuilderForBasicInputs(
                 $environment,
@@ -252,8 +264,7 @@ class Edit implements EditViewInterface
             $environment
                 ->withSubActionParameter(self::SUB_ACTION_PROCESS_BASIC_PROPERTIES)
                 ->getUrlBuilder(),
-            null,
-            false
+            null
         );
     }
 

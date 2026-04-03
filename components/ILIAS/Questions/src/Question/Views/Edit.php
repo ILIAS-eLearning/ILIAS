@@ -112,8 +112,7 @@ class Edit
             $environment
                 ->withSubActionParameter(self::CMD_SAVE_QUESTION)
                 ->getUrlBuilder(),
-            null,
-            false
+            null
         );
     }
 
@@ -150,9 +149,8 @@ class Edit
             $environment
                 ->withSubActionParameter(self::CMD_SAVE_QUESTION)
                 ->getUrlBuilder(),
-            null,
-            true
-        );
+            null
+        )->withIsFinalStep(true);
     }
 
     private function processBasicPropertiesEditingForm(

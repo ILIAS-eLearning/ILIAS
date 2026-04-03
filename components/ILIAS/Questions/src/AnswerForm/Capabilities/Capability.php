@@ -21,9 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\Questions\AnswerForm\Capabilities;
 
 use ILIAS\Questions\AnswerForm\Properties;
-use ILIAS\Questions\Presentation\Definitions\Environment;
-use ILIAS\Questions\Presentation\Layout\Async;
-use ILIAS\Questions\Presentation\Layout\Renderable;
 
 interface Capability
 {
@@ -31,11 +28,13 @@ interface Capability
         Properties $answer_form_properties
     ): bool;
 
-    public function getEditAction(): ?Action;
+    public function providesAnswerFormEditAdditionalTab(): bool;
 
-    public function edit(
-        Environment $environment
-    ): self|Async|Renderable;
+    public function getAnswerFormEditAdditionalTab(): ?ActionWithTab;
+
+    public function providesAnswerFormEditAdditionalStep(): bool;
+
+    public function getAnswerFormEditAdditionalStep(): ?AdditionalFormStepAction;
 
     public function onAnswerFormUpdate(
         Properties $answer_form_properties

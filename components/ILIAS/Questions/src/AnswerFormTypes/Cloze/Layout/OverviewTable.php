@@ -24,6 +24,7 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Views\EditGaps;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
+use ILIAS\UI\Component\Table\Action\Action as TableAction;
 use ILIAS\UI\Component\Table\Data as DataTable;
 use ILIAS\UI\Component\Table\DataRetrieval;
 use ILIAS\UI\Component\Table\DataRowBuilder;
@@ -95,28 +96,30 @@ class OverviewTable implements DataRetrieval
     private function getActions(): array
     {
         $taf = $this->environment->getUIFactory()->table()->action();
-        return [
-            'edit_gaps' => $taf->standard(
-                $this->environment->getLanguage()->txt('edit_gaps'),
-                $this->environment
-                    ->withSubActionParameter(EditGaps::SUB_ACTION_JUMP_TO_SET_GAP_TYPES)
-                    ->getUrlBuilder(),
-                $this->environment->getTableRowIdToken()
-            ),
-            'edit_answer_options' => $taf->standard(
-                $this->environment->getLanguage()->txt('edit_answer_options'),
-                $this->environment
-                    ->withSubActionParameter(EditGaps::SUB_ACTION_JUMP_TO_SET_ANSWER_OPTIONS)
-                    ->getUrlBuilder(),
-                $this->environment->getTableRowIdToken()
-            ),
-            'edit_points' => $taf->standard(
-                $this->environment->getLanguage()->txt('edit_available_points'),
-                $this->environment
-                    ->withSubActionParameter(EditGaps::SUB_ACTION_JUMP_TO_ASSIGN_POINTS)
-                    ->getUrlBuilder(),
-                $this->environment->getTableRowIdToken()
-            )
-        ];
+        return array_reduce(
+            $this->environment->getAnswerFormTableActionsForRequiredCapabilities(),
+            function (array $c, TableAction $v): array {
+                $c[] = $v;
+                return $c;
+            },
+            [
+                'edit_gaps' => $taf->standard(
+                    $this->environment->getLanguage()->txt('edit_gaps'),
+                    $this->environment
+                        ->withSubActionParameter(EditGaps::SUB_ACTION_JUMP_TO_SET_GAP_TYPES)
+                        ->withFormStartSubActionParameter(EditGaps::SUB_ACTION_JUMP_TO_SET_GAP_TYPES)
+                        ->getUrlBuilder(),
+                    $this->environment->getTableRowIdToken()
+                ),
+                'edit_answer_options' => $taf->standard(
+                    $this->environment->getLanguage()->txt('edit_answer_options'),
+                    $this->environment
+                        ->withSubActionParameter(EditGaps::SUB_ACTION_JUMP_TO_SET_ANSWER_OPTIONS)
+                        ->withFormStartSubActionParameter(EditGaps::SUB_ACTION_JUMP_TO_SET_ANSWER_OPTIONS)
+                        ->getUrlBuilder(),
+                    $this->environment->getTableRowIdToken()
+                )
+            ]
+        );
     }
 }

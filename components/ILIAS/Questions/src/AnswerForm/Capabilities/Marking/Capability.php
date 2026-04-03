@@ -20,12 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerForm\Capabilities\Marking;
 
+use ILIAS\Questions\AnswerForm\Capabilities\AdditionalFormStepAction;
 use ILIAS\Questions\AnswerForm\Capabilities\Capability as CapabilityInterface;
 use ILIAS\Questions\AnswerForm\Properties;
 use ILIAS\Questions\Presentation\Definitions\Environment;
-use ILIAS\Questions\Presentation\Layout\Async;
-use ILIAS\Questions\Presentation\Layout\EditForm;
-use ILIAS\Questions\Presentation\Layout\EditOverview;
+use ILIAS\Questions\Presentation\Layout\Tools\InputsBuilderSession;
 use ILIAS\Questions\Response\Response;
 
 class Capability implements CapabilityInterface
@@ -34,35 +33,52 @@ class Capability implements CapabilityInterface
     public function isAvailableFor(
         Properties $answer_form_properties
     ): bool {
+        return $answer_form_properties
+            ->getTypeGenericProperties()
+            ->getDefinition()
+            ->hasCapability(
+                Marking::class
+            )
+        && $answer_form_properties
+            ->getTypeGenericProperties()
+            ->getAvailablePoints() !== null;
+    }
+
+    #[\Override]
+    public function providesAnswerFormEditAdditionalTab(): bool
+    {
         return false;
     }
 
     #[\Override]
-    public function getEditAction(): null
+    public function getAnswerFormEditAdditionalTab(): null
     {
         return null;
     }
 
     #[\Override]
-    public function edit(
-        Environment $environment
-    ): self|Async|EditForm|EditOverview {
-        return false;
+    public function providesAnswerFormEditAdditionalStep(): bool
+    {
+        return true;
+    }
+
+    #[\Override]
+    public function getAnswerFormEditAdditionalStep(): AdditionalFormStepAction
+    {
+        return new AdditionalFormStepAction(
+            $this,
+            'edit_available_points',
+            fn(Environment $v): InputsBuilderSession
+                => $v->getAnswerFormProperties()
+                    ->getDefinition()
+                    ->getCapability(Marking::class)
+                    ->getEditFormInputsBuilder($v)
+        );
     }
 
     #[\Override]
     public function onAnswerFormUpdate(
         Properties $answer_form_properties
     ): void {
-        $this->repository->store(
-            $answer_form_properties->getAnswerFormId(),
-            $answer_form_properties
-                ->getTypeGenericProperties()
-                ->getDefinition()
-                ->getCapability(Feedback::class)
-                ->onAnswerFormUpdate(
-                    $answer_form_properties
-                )
-        );
     }
 }

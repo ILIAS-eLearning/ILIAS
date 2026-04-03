@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerForm\Capabilities\Feedback;
 
-use ILIAS\Questions\AnswerForm\Capabilities\Action;
+use ILIAS\Questions\AnswerForm\Capabilities\ActionWithTab;
 use ILIAS\Questions\AnswerForm\Capabilities\Capability as CapabilityInterface;
 use ILIAS\Questions\AnswerForm\Properties;
 use ILIAS\Questions\Presentation\Definitions\Environment;
@@ -52,30 +52,31 @@ class Capability implements CapabilityInterface
     }
 
     #[\Override]
-    public function getEditAction(): Action
+    public function providesAnswerFormEditAdditionalTab(): bool
     {
-        return new Action(
+        return true;
+    }
+
+    #[\Override]
+    public function getAnswerFormEditAdditionalTab(): ActionWithTab
+    {
+        return new ActionWithTab(
             $this,
-            'feedback'
+            'feedback',
+            $this->buildDoEditActionClosure()
         );
     }
 
     #[\Override]
-    public function edit(
-        Environment $environment
-    ): Async|Renderable {
-        $step = $environment->getStep();
-        return match ($step) {
-            '' => $this->buildOverview($environment),
-            self::STEP_INSERT_LEGACY_TEXTS => $this->buildOverviewWithLegacyTexts(
-                $environment
-            ),
-            self::STEP_SAVE => $this->save($environment),
-            default => $this->buildOverview($environment)->doAction(
-                $this->repository,
-                $step
-            )
-        };
+    public function providesAnswerFormEditAdditionalStep(): bool
+    {
+        return false;
+    }
+
+    #[\Override]
+    public function getAnswerFormEditAdditionalStep(): null
+    {
+        return null;
     }
 
     #[\Override]
@@ -94,6 +95,26 @@ class Capability implements CapabilityInterface
                 $answer_form_properties
             )
         );
+    }
+
+    private function buildDoEditActionClosure(): \Closure
+    {
+        return function (
+            Environment $environment
+        ): Async|Renderable {
+            $sub_action = $environment->getSubAction();
+            return match ($sub_action) {
+                '' => $this->buildOverview($environment),
+                self::STEP_INSERT_LEGACY_TEXTS => $this->buildOverviewWithLegacyTexts(
+                    $environment
+                ),
+                self::STEP_SAVE => $this->save($environment),
+                default => $this->buildOverview($environment)->doAction(
+                    $this->repository,
+                    $sub_action
+                )
+            };
+        };
     }
 
     private function buildOverview(

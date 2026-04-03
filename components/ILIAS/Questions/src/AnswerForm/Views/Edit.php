@@ -40,4 +40,8 @@ interface Edit
     public function other(
         Environment $environment
     ): Async|Renderable|Properties;
+
+    public function backToLastEditCommand(
+        Environment $environment
+    ): EditForm;
 }

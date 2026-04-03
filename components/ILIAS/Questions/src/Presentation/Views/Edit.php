@@ -20,9 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Presentation\Views;
 
-use ILIAS\Questions\AnswerForm\Capabilities\Action;
-use ILIAS\Questions\AnswerForm\Capabilities\Capability;
-use ILIAS\Questions\AnswerForm\Capabilities\Factory as CapabilitesFactory;
+use ILIAS\Questions\AnswerForm\Capabilities\Edit as CapabilitiesEditView;
 use ILIAS\Questions\AnswerForm\Definition;
 use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
 use ILIAS\Questions\AnswerForm\Properties as AnswerFormProperties;
@@ -62,7 +60,6 @@ class Edit
     private const string ACTION_CREATE_ANSWER_FORM = 'create_af';
     public const string ACTION_OTHER_ANSWER_FORM = 'other_af';
 
-    private array $required_capabilities = [];
     private Editability $editability = Editability::Full;
     private bool $ordering_enabled = false;
 
@@ -81,7 +78,7 @@ class Edit
         private readonly \ilTabsGUI $tabs_gui,
         private readonly \ilUIService $ui_services,
         private readonly UuidFactory $uuid_factory,
-        private readonly CapabilitesFactory $capabilities_factory,
+        private CapabilitiesEditView $capabilities_edit_view,
         private readonly AnswerFormFactory $answer_form_factory,
         private readonly Repository $questions_repository,
         private readonly LayoutFactory $definitions_factory
@@ -92,9 +89,8 @@ class Edit
         array $capability_class_names
     ): self {
         $clone = clone $this;
-        $clone->required_capabilities = $this->buildCapabilities(
-            $capability_class_names
-        );
+        $clone->capabilities_edit_view = $this->capabilities_edit_view
+            ->withRequiredCapabilities($capability_class_names);
         return $clone;
     }
 
@@ -193,9 +189,7 @@ class Edit
             $base_uri,
             $obj_id
         )->withIsInCreationContext(true)
-        ->withActionParameter(self::ACTION_CREATE_ANSWER_FORM)
         ->withQuestionIdParameter($question->getId());
-
 
         $environment->setEditAnswerFormBackTarget();
 
@@ -249,55 +243,63 @@ class Edit
         )->withAnswerFormProperties($answer_form_properties)
         ->withQuestionIdParameter($question->getId());
 
-        $capability_actions = array_filter(
-            array_map(
-                fn(Capability $v): ?Action => $v->getEditAction(),
-                $this->required_capabilities
-            )
-        );
-
-        $environment->setEditAnswerFormTabs(
-            $capability_actions
-        );
-
         $action = $environment->getAction();
+        $edit_view = $type_definition->getEditView();
 
-        $capability_action = current(
-            array_filter(
-                $capability_actions,
-                fn(Action $v): bool => $v->isThis($action)
-            )
+        $from_capabilites = $this->capabilities_edit_view->edit(
+            $environment,
+            $edit_view,
+            $action
         );
-        if ($capability_action !== false) {
-            $capability_action->activateTab($this->tabs_gui);
-            return $capability_action->getCapability()->edit(
-                $environment->withActionParameter($action)
+
+        if ($from_capabilites instanceof AnswerFormProperties) {
+            $this->updateAnswerFormAndRedirect(
+                $environment,
+                $question,
+                $from_capabilites
             );
         }
 
-        $edit_view = $type_definition->getEditView();
-
-        if ($action === self::ACTION_OTHER_ANSWER_FORM) {
-            $environment = $environment->withActionParameter(self::ACTION_OTHER_ANSWER_FORM);
-            $next = $edit_view->other($environment);
-        } else {
-            $next = $edit_view->edit($environment);
+        if ($from_capabilites !== null) {
+            return $from_capabilites;
         }
 
-        if (!($next instanceof AnswerFormProperties)) {
-            return $next;
-        }
-
-        $this->questions_repository->update(
-            [$question->withAnswerFormProperties($next)]
+        $environment->setEditAnswerFormTabs(
+            $this->capabilities_edit_view->getRequiredCapabilities()
         );
 
-        foreach ($this->required_capabilities as $capability) {
-            $capability->onAnswerFormUpdate($next);
+        if ($action === self::ACTION_OTHER_ANSWER_FORM) {
+            return $this->processOtherAnswerFormAction(
+                $environment->withActionParameter(self::ACTION_OTHER_ANSWER_FORM),
+                $question,
+                $edit_view
+            );
         }
 
-        $this->ctrl->redirectToURL(
-            $environment->getUrlBuilder()->buildURI()->__toString()
+        $from_edit_view = $edit_view->edit($environment);
+        if ($from_edit_view instanceof EditForm
+            && $this->capabilities_edit_view->providesAnswerFormEditAdditionalSteps()) {
+            return $from_edit_view->withIsFinalStep(false);
+        }
+
+        if (!($from_edit_view instanceof AnswerFormProperties)) {
+            return $from_edit_view;
+        }
+
+        $return_form_step_actions = $this->capabilities_edit_view
+            ->doFirstFormStepAction(
+                $environment->withAnswerFormProperties($from_edit_view),
+                $edit_view
+            );
+        if ($return_form_step_actions instanceof Async
+            || $return_form_step_actions instanceof Renderable) {
+            return $return_form_step_actions;
+        }
+
+        $this->updateAnswerFormAndRedirect(
+            $environment,
+            $question,
+            $from_edit_view
         );
     }
 
@@ -472,31 +474,116 @@ class Edit
         \ilPCAnswerForm $content_object,
         AnswerFormEditView $answer_form_edit_view
     ): ?EditForm {
-        $create = $answer_form_edit_view->create(
+        $action = $environment->getAction();
+
+        $from_capabilites = $this->capabilities_edit_view->edit(
+            $environment,
+            $answer_form_edit_view,
+            $action
+        );
+
+        if ($from_capabilites instanceof EditForm) {
+            return $this->addSaveAndNewToAnswerFormCreateIfNeeded(
+                $environment,
+                $from_capabilites
+            );
+        }
+
+        if ($from_capabilites instanceof AnswerFormProperties) {
+            $this->createAnswerFormAndRedirect(
+                $environment,
+                $question->withAnswerFormProperties($from_capabilites),
+                $content_object
+            );
+        }
+
+        $from_edit_view = $answer_form_edit_view->create(
             $environment->withAnswerFormIdParameter(
                 $environment->getAnswerFormId()
             )
         );
 
-        if ($create instanceof EditForm) {
-            return $create->isFinalStep()
-                ? $create->withAdditionalAction(
-                    $environment->buildURLBuilderTokenForCreateAndNew(),
-                    '1',
-                    $this->lng->txt('save_and_new')
-                ) : $create;
+        if ($from_edit_view instanceof EditForm) {
+            return $this->addSaveAndNewToAnswerFormCreateIfNeeded(
+                $environment,
+                $this->capabilities_edit_view->providesAnswerFormEditAdditionalSteps()
+                    ? $from_edit_view->withIsFinalStep(false)
+                    : $from_edit_view
+            );
         }
 
-        $this->questions_repository->create(
-            [$question->withAnswerFormProperties($create)]
+        $from_capabilities_first_step = $this->capabilities_edit_view
+            ->doFirstFormStepAction(
+                $environment->withAnswerFormProperties($from_edit_view),
+                $answer_form_edit_view
+            );
+
+        if ($from_capabilities_first_step instanceof EditForm) {
+            return $this->addSaveAndNewToAnswerFormCreateIfNeeded(
+                $environment,
+                $from_capabilities_first_step
+            );
+        }
+
+        $this->createAnswerFormAndRedirect(
+            $environment,
+            $question->withAnswerFormProperties($from_capabilities_first_step),
+            $content_object
+        );
+    }
+
+    private function processOtherAnswerFormAction(
+        Environment $environment,
+        Question $question,
+        AnswerFormEditView $edit_view
+    ) {
+        $from_edit_view = $edit_view->other($environment);
+
+        if (!($from_edit_view instanceof AnswerFormProperties)) {
+            return $from_edit_view;
+        }
+
+        $this->updateAnswerFormAndRedirect(
+            $environment,
+            $question,
+            $from_edit_view
+        );
+    }
+
+    private function updateAnswerFormAndRedirect(
+        Environment $environment,
+        Question $question,
+        AnswerFormProperties $properties
+    ): never {
+        $this->questions_repository->update(
+            [$question->withAnswerFormProperties($properties)]
         );
 
-        $content_object->create($create->getAnswerFormId());
+        $this->capabilities_edit_view->onAnswerFormUpdate($properties);
+
+        $this->ctrl->redirectToURL(
+            $environment->getUrlBuilder()->buildURI()->__toString()
+        );
+    }
+
+    private function createAnswerFormAndRedirect(
+        Environment $environment,
+        Question $question,
+        \ilPCAnswerForm $content_object
+    ): never {
+        $this->questions_repository->create(
+            [$question]
+        );
+
+        $content_object->create(
+            $properties->getAnswerFormId()
+        );
         $content_object->getPage()->update();
 
         $this->ctrl->redirectToURL(
             $this->buildAfterAnswerFormCreationRedirectUri($environment)
         );
+
     }
 
     private function initializeEditMode(
@@ -611,9 +698,10 @@ class Edit
                 ],
                 $this->lng->txt('create_answer_form')
             ),
-            $environment->getUrlBuilder(),
-            null,
-            false
+            $environment->withActionParameter(
+                self::ACTION_CREATE_ANSWER_FORM
+            )->getUrlBuilder(),
+            null
         );
     }
 
@@ -638,27 +726,6 @@ class Edit
         return $affected_items;
     }
 
-    /**
-     * @param list<string> $capabilities
-     * @return list<\ILIAS\Questions\AnswerForm\Capabilities\Capability>
-     */
-    private function buildCapabilities(
-        array $capabilities
-    ): array {
-        return array_map(
-            function (string $v): Capability {
-                $capability = $this->capabilities_factory->get($v);
-                if ($capability === null) {
-                    throw new \InvalidArgumentException(
-                        "The capability {$v} does not exist."
-                    );
-                }
-                return $capability;
-            },
-            $capabilities
-        );
-    }
-
     private function deleteSelectedQuestions(
         array $question_ids
     ): void {
@@ -676,6 +743,21 @@ class Edit
         $this->questions_repository->delete($questions_to_delete);
     }
 
+    private function addSaveAndNewToAnswerFormCreateIfNeeded(
+        Environment $environment,
+        EditForm $edit_form
+    ): EditForm {
+        if ($edit_form->isFinalStep() && $environment->isCreateModeSimple()) {
+            $edit_form = $edit_form->withAdditionalAction(
+                $environment->buildURLBuilderTokenForCreateAndNew(),
+                '1',
+                $this->lng->txt('save_and_new')
+            );
+        }
+
+        return $edit_form;
+    }
+
     private function buildEnvironment(
         URI $base_uri,
         int $obj_id
@@ -689,7 +771,7 @@ class Edit
             $this->uuid_factory,
             $this->definitions_factory,
             $this->editability,
-            $this->required_capabilities,
+            $this->capabilities_edit_view->getRequiredCapabilities(),
             $base_uri,
             $obj_id
         );
