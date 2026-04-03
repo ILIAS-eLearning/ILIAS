@@ -30,8 +30,8 @@ use ILIAS\Data\Text\Factory as TextFactory;
 
 class Capability implements CapabilityInterface
 {
-    private const string STEP_SAVE = 's';
-    private const string STEP_INSERT_LEGACY_TEXTS = 'ilt';
+    private const string SUB_ACTION_SAVE = 's';
+    private const string SUB_ACTION_INSERT_LEGACY_TEXTS = 'ilt';
 
     public function __construct(
         private readonly TextFactory $text_factory,
@@ -110,11 +110,11 @@ class Capability implements CapabilityInterface
                     ->getDefinition()
                     ->getCapability(Feedback::class)
             ),
-            $environment->withStepParameter(
-                self::STEP_SAVE
+            $environment->withSubActionParameter(
+                self::SUB_ACTION_SAVE
             )->getUrlBuilder(),
-            $environment->withStepParameter(
-                self::STEP_INSERT_LEGACY_TEXTS
+            $environment->withSubActionParameter(
+                self::SUB_ACTION_INSERT_LEGACY_TEXTS
             )->getUrlBuilder()
         );
     }
@@ -140,7 +140,7 @@ class Capability implements CapabilityInterface
         );
 
         return $environment->redirectTo(
-            $environment->withDefaultStep()->getUrlBuilder()
+            $environment->withDefaultSubAction()->getUrlBuilder()
         );
     }
 }
