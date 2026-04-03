@@ -33,7 +33,7 @@ use ILIAS\UI\Component\Input\Field\Numeric as NumericInput;
 
 class Numeric extends Type
 {
-    private const float DEFAULT_STEP_SIZE = 0.0001;
+    private const float DEFAULT_SUB_ACTION_SIZE = 0.0001;
 
     public function __construct(
         Refinery $refinery,
@@ -77,16 +77,16 @@ class Numeric extends Type
         $ff = $this->ui_factory->input()->field();
         return [
             'lower_limit' => $ff->numeric($this->lng->txt('lower_limit'))
-                ->withStepSize($gap->getStepSize() ?? self::DEFAULT_STEP_SIZE)
+                ->withStepSize($gap->getStepSize() ?? self::DEFAULT_SUB_ACTION_SIZE)
                 ->withRequired(true)
                 ->withValue($answer_option->getLowerLimit()),
             'upper_limit' => $ff->numeric($this->lng->txt('upper_limit'))
-                ->withStepSize($gap->getStepSize() ?? self::DEFAULT_STEP_SIZE)
+                ->withStepSize($gap->getStepSize() ?? self::DEFAULT_SUB_ACTION_SIZE)
                 ->withValue($answer_option->getUpperLimit()),
             'step_size' => $ff->numeric($this->lng->txt('step_size'))
                 ->withStepSize(0.000001)
                 ->withRequired(true)
-                ->withValue($gap->getStepSize() ?? self::DEFAULT_STEP_SIZE)
+                ->withValue($gap->getStepSize() ?? self::DEFAULT_SUB_ACTION_SIZE)
         ];
     }
 

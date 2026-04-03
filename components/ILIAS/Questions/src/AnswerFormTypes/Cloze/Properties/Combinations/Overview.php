@@ -40,11 +40,11 @@ use ILIAS\UI\Renderer as UIRenderer;
 
 class Overview implements DataRetrieval, Renderable
 {
-    private const string STEP_SAVE = 's';
-    private const string STEP_SET_COMBINATION_VALUES = 'scv';
-    private const string STEP_JUMP_TO_SET_COMBINATION_VALUES = 'jscv';
-    private const string STEP_DELETE_COMBINATION = 'dc';
-    private const string STEP_CONFIRM_DELETE_COMBINATION = 'cdc';
+    private const string SUB_ACTION_SAVE = 's';
+    private const string SUB_ACTION_SET_COMBINATION_VALUES = 'scv';
+    private const string SUB_ACTION_JUMP_TO_SET_COMBINATION_VALUES = 'jscv';
+    private const string SUB_ACTION_DELETE_COMBINATION = 'dc';
+    private const string SUB_ACTION_CONFIRM_DELETE_COMBINATION = 'cdc';
 
     private ?RoundTripModal $modal = null;
 
@@ -102,10 +102,10 @@ class Overview implements DataRetrieval, Renderable
 
     public function doAction(): Async|self|Properties
     {
-        return match ($this->environment->getStep()) {
-            self::STEP_SET_COMBINATION_VALUES => $this->processSetCombinationGapsModal(),
-            self::STEP_DELETE_COMBINATION => $this->deleteCombination(),
-            self::STEP_SAVE => $this->processSetCombinationValues(),
+        return match ($this->environment->getSubAction()) {
+            self::SUB_ACTION_SET_COMBINATION_VALUES => $this->processSetCombinationGapsModal(),
+            self::SUB_ACTION_DELETE_COMBINATION => $this->deleteCombination(),
+            self::SUB_ACTION_SAVE => $this->processSetCombinationValues(),
             default => $this->buildAction()
         };
     }
@@ -137,14 +137,14 @@ class Overview implements DataRetrieval, Renderable
             $af->single(
                 $this->environment->getLanguage()->txt('edit'),
                 $this->environment
-                    ->withStepParameter(self::STEP_JUMP_TO_SET_COMBINATION_VALUES)
+                    ->withSubActionParameter(self::SUB_ACTION_JUMP_TO_SET_COMBINATION_VALUES)
                     ->getUrlBuilder(),
                 $this->environment->getTableRowIdToken()
             )->withAsync(true),
             $af->single(
                 $this->environment->getLanguage()->txt('delete'),
                 $this->environment
-                ->withStepParameter(self::STEP_CONFIRM_DELETE_COMBINATION)
+                ->withSubActionParameter(self::SUB_ACTION_CONFIRM_DELETE_COMBINATION)
                 ->getUrlBuilder(),
                 $this->environment->getTableRowIdToken()
             )->withAsync(true)
@@ -163,12 +163,12 @@ class Overview implements DataRetrieval, Renderable
         }
 
         return $this->environment->getPresentationFactory()->getAsync(
-            match ($this->environment->getStep()) {
-                self::STEP_JUMP_TO_SET_COMBINATION_VALUES =>
+            match ($this->environment->getSubAction()) {
+                self::SUB_ACTION_JUMP_TO_SET_COMBINATION_VALUES =>
                     $this->buildSetCombinationValuesModal(
                         $this->buildInputsBuilder($affected_item)
                     ),
-                self::STEP_CONFIRM_DELETE_COMBINATION =>
+                self::SUB_ACTION_CONFIRM_DELETE_COMBINATION =>
                     $this->confirmDeleteCombination($affected_item)
             }
         );
@@ -213,7 +213,7 @@ class Overview implements DataRetrieval, Renderable
                 )
             ],
             $this->environment
-                ->withStepParameter(self::STEP_SET_COMBINATION_VALUES)
+                ->withSubActionParameter(self::SUB_ACTION_SET_COMBINATION_VALUES)
                 ->getUrlBuilder()
                 ->buildURI()
                 ->__toString()
@@ -257,7 +257,7 @@ class Overview implements DataRetrieval, Renderable
             [
                 'values_awarding_points' => $inputs_builder->getInputs()
             ],
-            $this->environment->withStepParameter(self::STEP_SAVE)
+            $this->environment->withSubActionParameter(self::SUB_ACTION_SAVE)
             ->getUrlBuilder()
             ->buildURI()
             ->__toString()
@@ -286,8 +286,8 @@ class Overview implements DataRetrieval, Renderable
         return $this->environment->getUIFactory()->modal()->interruptive(
             $this->environment->getLanguage()->txt('confirm'),
             $this->environment->getLanguage()->txt('delete_combination'),
-            $this->environment->withStepParameter(
-                self::STEP_DELETE_COMBINATION
+            $this->environment->withSubActionParameter(
+                self::SUB_ACTION_DELETE_COMBINATION
             )->getUrlBuilder()
             ->withParameter(
                 $this->environment->getTableRowIdToken(),

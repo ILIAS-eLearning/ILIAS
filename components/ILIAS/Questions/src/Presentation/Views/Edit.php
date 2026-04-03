@@ -307,7 +307,7 @@ class Edit
         $this->initializeEditMode($environment);
         $this->tabs_gui->setBackTarget(
             $this->lng->txt('cancel'),
-            $environment->withDefaultStep()->getUrlBuilder()
+            $environment->withDefaultSubAction()->getUrlBuilder()
                 ->buildURI()
                 ->__toString()
         );
@@ -343,7 +343,7 @@ class Edit
         $this->initializeEditMode($environment);
         $this->tabs_gui->setBackTarget(
             $this->lng->txt('back'),
-            $environment->withDefaultStep()->getUrlBuilder()->buildURI()->__toString()
+            $environment->withDefaultSubAction()->getUrlBuilder()->buildURI()->__toString()
         );
 
         $question_id = $environment->getQuestionId();
@@ -368,7 +368,7 @@ class Edit
         $this->questions_repository->update([$edit]);
         return $this->buildEditStartView(
             $environment_with_question_parameter
-                ->withDefaultStep()
+                ->withDefaultSubAction()
                 ->withActionParameter(self::ACTION_EDIT_QUESTION),
             $edit
         );
@@ -387,7 +387,7 @@ class Edit
             );
         }
 
-        if ($environment->getStep() === self::ACTION_DELETE_QUESTIONS) {
+        if ($environment->getSubAction() === self::ACTION_DELETE_QUESTIONS) {
             $this->deleteSelectedQuestions($question_ids);
             $this->ctrl->redirectToURL(
                 $environment->getUrlBuilder()->buildURI()->__toString()
@@ -400,7 +400,7 @@ class Edit
                 $this->lng->txt('qpl_confirm_delete_questions'),
                 $environment->withActionParameter(
                     self::ACTION_DELETE_QUESTIONS
-                )->withStepParameter(
+                )->withSubActionParameter(
                     self::ACTION_DELETE_QUESTIONS
                 )->getUrlBuilder()->buildURI()->__toString()
             )->withAffectedItems(
@@ -702,7 +702,7 @@ class Edit
     ): string {
         if ($create_mode !== CreateModes::Simple) {
             return $environment
-                ->withDefaultStep()
+                ->withDefaultSubAction()
                 ->withActionParameter(self::ACTION_EDIT_QUESTION)
                 ->withQuestionIdParameter($question_uuid)
                 ->getUrlBuilder()

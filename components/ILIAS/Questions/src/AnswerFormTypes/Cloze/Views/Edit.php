@@ -37,10 +37,10 @@ use ILIAS\UI\Component\Modal\InterruptiveItem\Standard as InterruptiveItem;
 
 class Edit implements EditViewInterface
 {
-    private const string STEP_EDIT_BASIC_PROPERTIES = 'ebp';
-    private const string STEP_PROCESS_BASIC_PROPERTIES = 'pbp';
-    private const string STEP_ADD_LEGACY_TEXT_BASIC_PROPERTIES = 'altbp';
-    private const string STEP_CONFIRMED_GAP_REMOVAL = 'cgr';
+    private const string SUB_ACTION_EDIT_BASIC_PROPERTIES = 'ebp';
+    private const string SUB_ACTION_PROCESS_BASIC_PROPERTIES = 'pbp';
+    private const string SUB_ACTION_ADD_LEGACY_TEXT_BASIC_PROPERTIES = 'altbp';
+    private const string SUB_ACTION_CONFIRMED_GAP_REMOVAL = 'cgr';
 
     public function __construct(
         private readonly PropertiesFactory $properties_factory,
@@ -53,16 +53,16 @@ class Edit implements EditViewInterface
     public function create(
         Environment $environment
     ): EditForm|Properties {
-        $step = $environment->getStep();
+        $sub_action = $environment->getSubAction();
 
-        return match($step) {
+        return match($sub_action) {
             '' => $this->startEditing($environment),
-            self::STEP_PROCESS_BASIC_PROPERTIES => $this->processBasicEditingForm(
+            self::SUB_ACTION_PROCESS_BASIC_PROPERTIES => $this->processBasicEditingForm(
                 $environment
             ),
             default => $this->forwardCmdToEditGaps(
                 $environment,
-                $step
+                $sub_action
             )
         };
     }
@@ -71,34 +71,34 @@ class Edit implements EditViewInterface
     public function edit(
         Environment $environment
     ): EditOverview|EditForm|Properties {
-        $step = $environment->getStep();
+        $sub_action = $environment->getSubAction();
 
         $combinations = $environment->getAnswerFormProperties()->getCombinations();
         if ($combinations->areCombinationsEnabled()) {
             $combinations->getEditView()->addCombinationsSubTab($environment);
         }
 
-        if ($step === '') {
+        if ($sub_action === '') {
             return $environment->getPresentationFactory()->getEditOverview(
                 $environment,
-                $environment->withStepParameter(self::STEP_EDIT_BASIC_PROPERTIES)
+                $environment->withSubActionParameter(self::SUB_ACTION_EDIT_BASIC_PROPERTIES)
                     ->getUrlBuilder()
             );
         }
 
         $environment->setEditAnswerFormBackTarget();
 
-        return match ($step) {
-            self::STEP_EDIT_BASIC_PROPERTIES => $this->startEditing($environment),
-            self::STEP_ADD_LEGACY_TEXT_BASIC_PROPERTIES =>
+        return match ($sub_action) {
+            self::SUB_ACTION_EDIT_BASIC_PROPERTIES => $this->startEditing($environment),
+            self::SUB_ACTION_ADD_LEGACY_TEXT_BASIC_PROPERTIES =>
                 $this->addLegacyTextToBasicProperties($environment),
-            self::STEP_CONFIRMED_GAP_REMOVAL,
-            self::STEP_PROCESS_BASIC_PROPERTIES => $this->processBasicEditingForm(
+            self::SUB_ACTION_CONFIRMED_GAP_REMOVAL,
+            self::SUB_ACTION_PROCESS_BASIC_PROPERTIES => $this->processBasicEditingForm(
                 $environment->withPreservedTableRowIdsParameter()
             ),
             default => $this->forwardCmdToEditGaps(
                 $environment->withPreservedTableRowIdsParameter(),
-                $step
+                $sub_action
             )
         };
     }
@@ -130,9 +130,9 @@ class Edit implements EditViewInterface
 
     private function forwardCmdToEditGaps(
         Environment $environment,
-        string $step
+        string $sub_action
     ): EditForm|Properties {
-        $processed_form = $this->edit_gaps->call($environment, $step);
+        $processed_form = $this->edit_gaps->call($environment, $sub_action);
         if (is_string($processed_form)) {
             $inputs_builder = $this->buildInputsBuilderForBasicInputs(
                 $environment,
@@ -168,8 +168,8 @@ class Edit implements EditViewInterface
             && $properties->getLegacyClozeText() !== ''
             && $properties->getClozeText()->getRawRepresentation() === '') {
             return $editing_form->withInsertLegacyTextsButton(
-                $environment->withStepParameter(
-                    self::STEP_ADD_LEGACY_TEXT_BASIC_PROPERTIES
+                $environment->withSubActionParameter(
+                    self::SUB_ACTION_ADD_LEGACY_TEXT_BASIC_PROPERTIES
                 )->getUrlBuilder()
             );
         }
@@ -218,7 +218,7 @@ class Edit implements EditViewInterface
         $new_gaps = $data->getGaps();
         $old_gaps = $environment->getAnswerFormProperties()->getGaps();
 
-        if ($environment->getStep() !== self::STEP_CONFIRMED_GAP_REMOVAL) {
+        if ($environment->getSubAction() !== self::SUB_ACTION_CONFIRMED_GAP_REMOVAL) {
             $removed_gaps = $new_gaps->getRemovedGaps($old_gaps);
             if ($removed_gaps !== []) {
                 return $form->withConfirmation(
@@ -250,7 +250,7 @@ class Edit implements EditViewInterface
         return $environment->getPresentationFactory()->getEditForm(
             $inputs_builder,
             $environment
-                ->withStepParameter(self::STEP_PROCESS_BASIC_PROPERTIES)
+                ->withSubActionParameter(self::SUB_ACTION_PROCESS_BASIC_PROPERTIES)
                 ->getUrlBuilder(),
             null,
             false
@@ -297,8 +297,8 @@ class Edit implements EditViewInterface
         return $environment->getUIFactory()->modal()->interruptive(
             $environment->getLanguage()->txt('confirm'),
             $environment->getLanguage()->txt('confirm_remove_gaps'),
-            $environment->withStepParameter(
-                self::STEP_CONFIRMED_GAP_REMOVAL
+            $environment->withSubActionParameter(
+                self::SUB_ACTION_CONFIRMED_GAP_REMOVAL
             )->getUrlBuilder()->buildURI()->__toString()
         )->withAffectedItems(
             array_map(
