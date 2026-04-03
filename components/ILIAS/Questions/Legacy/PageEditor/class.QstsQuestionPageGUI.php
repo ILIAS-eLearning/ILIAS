@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Questions\Presentation\Views\Edit;
-use ILIAS\Questions\Question\QuestionImplementation;
+use ILIAS\Questions\Question\Question;
 use ILIAS\Data\URI;
 
 /**
@@ -33,7 +33,7 @@ class QstsQuestionPageGUI extends ilPageObjectGUI
     private URI $return_uri;
 
     public function __construct(
-        QuestionImplementation $question,
+        Question $question,
         int $obj_id,
         ?Edit $edit_view = null
     ) {

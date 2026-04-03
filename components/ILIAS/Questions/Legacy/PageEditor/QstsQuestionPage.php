@@ -19,12 +19,12 @@
 declare(strict_types=1);
 
 use ILIAS\Questions\Presentation\Views\Edit;
-use ILIAS\Questions\Question\QuestionImplementation;
+use ILIAS\Questions\Question\Question;
 
 class QstsQuestionPage extends ilPageObject
 {
     private readonly Edit $edit_view;
-    private readonly QuestionImplementation $question;
+    private readonly Question $question;
 
     #[\Override]
     public function getParentType(): string
@@ -43,13 +43,13 @@ class QstsQuestionPage extends ilPageObject
         $this->edit_view = $edit_view;
     }
 
-    public function getQuestion(): QuestionImplementation
+    public function getQuestion(): Question
     {
         return $this->question;
     }
 
     public function setQuestion(
-        QuestionImplementation $question
+        Question $question
     ): void {
         $this->question = $question;
     }

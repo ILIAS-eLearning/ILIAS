@@ -86,7 +86,7 @@ class ilPCAnswerForm extends ilPageContent
         $dom_util = $DIC->copage()->internal()->domain()->domUtil();
         $question_repository = LocalDIC::dic()[Repository::class];
 
-        /** @var \ILIAS\Questions\Question\QuestionImplementation $question */
+        /** @var \ILIAS\Questions\Question\Question $question */
         $question = $page->getQuestion();
 
         $answer_forms = [];

@@ -72,7 +72,7 @@ class ilPCAnswerFormGUI extends ilPageContentGUI
 
     public function editCmd(): void
     {
-        /** @var \ILIAS\Questions\Question\QuestionImplementation $question */
+        /** @var \ILIAS\Questions\Question\Question $question */
         $question = $this->pg_obj->getQuestion();
         $answer_form_properties = $question->getAnswerFormPropertiesByIdString(
             $this->getContentObject()->getAnswerFormIdStringFromAttribute()
