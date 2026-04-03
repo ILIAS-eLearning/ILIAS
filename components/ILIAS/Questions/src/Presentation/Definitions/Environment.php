@@ -43,12 +43,12 @@ interface Environment
     public function setEditAnswerFormBackTarget(): void;
 
     public function addEditAnswerFormSubTab(
-        string $step,
+        string $sub_action,
         string $text
     ): void;
 
     public function activateEditAnswerFormSubTab(
-        string $step
+        string $sub_action
     ): void;
 
     public function getPresentationFactory(): Factory;
@@ -59,9 +59,9 @@ interface Environment
 
     public function getTableRowIds(): array;
 
-    public function getStep(): string;
+    public function getSubAction(): string;
 
-    public function withDefaultStep(): self;
+    public function withDefaultSubAction(): self;
 
     public function getEditability(): Editability;
 
@@ -85,8 +85,8 @@ interface Environment
         Properties $properties
     ): self;
 
-    public function withStepParameter(
-        string $step
+    public function withSubActionParameter(
+        string $sub_action
     ): self;
 
     public function withPreservedTableRowIdsParameter(): self;

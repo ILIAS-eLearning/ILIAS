@@ -25,7 +25,7 @@ use ILIAS\Questions\Presentation\Layout\Async;
 interface Actor
 {
     public function can(
-        string $step
+        string $sub_action
     ): bool;
 
     public function do(

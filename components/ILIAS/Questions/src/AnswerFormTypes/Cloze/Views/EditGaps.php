@@ -32,19 +32,19 @@ use ILIAS\UI\URLBuilder;
 
 class EditGaps
 {
-    private const string STEP_BACK_TO_EDIT_BASIC_PROPERTIES = 'bebp';
-    private const string STEP_SET_GAP_TYPES = 'sgt';
-    private const string STEP_BACK_TO_SET_GAP_TYPES = 'bsgt';
-    public const string STEP_JUMP_TO_SET_GAP_TYPES = 'jsgt';
-    private const string STEP_SET_ANSWER_OPTIONS = 'sao';
-    private const string STEP_BACK_TO_SET_ANSWER_OPTIONS = 'bsao';
-    public const string STEP_JUMP_TO_SET_ANSWER_OPTIONS = 'jsao';
-    private const string STEP_ASSIGN_POINTS = 'ap';
-    public const string STEP_JUMP_TO_ASSIGN_POINTS = 'jap';
-    private const string STEP_SAVE = 's';
+    private const string SUB_ACTION_BACK_TO_EDIT_BASIC_PROPERTIES = 'bebp';
+    private const string SUB_ACTION_SET_GAP_TYPES = 'sgt';
+    private const string SUB_ACTION_BACK_TO_SET_GAP_TYPES = 'bsgt';
+    public const string SUB_ACTION_JUMP_TO_SET_GAP_TYPES = 'jsgt';
+    private const string SUB_ACTION_SET_ANSWER_OPTIONS = 'sao';
+    private const string SUB_ACTION_BACK_TO_SET_ANSWER_OPTIONS = 'bsao';
+    public const string SUB_ACTION_JUMP_TO_SET_ANSWER_OPTIONS = 'jsao';
+    private const string SUB_ACTION_ASSIGN_POINTS = 'ap';
+    public const string SUB_ACTION_JUMP_TO_ASSIGN_POINTS = 'jap';
+    private const string SUB_ACTION_SAVE = 's';
 
-    private string $step;
-    private ?string $start_step;
+    private string $sub_action;
+    private ?string $start_sub_action;
 
     public function __construct(
         private readonly PropertiesFactory $properties_factory,
@@ -54,52 +54,52 @@ class EditGaps
 
     public function call(
         Environment $environment,
-        string $step = self::STEP_SET_GAP_TYPES
+        string $sub_action = self::SUB_ACTION_SET_GAP_TYPES
     ): EditForm|Properties|string {
-        $step_array = explode('_', $step);
-        $this->step = $step_array[0];
-        $this->start_step = $this->determineStartStepFromStep(
-            $step_array[1] ?? null
+        $sub_action_array = explode('_', $sub_action);
+        $this->sub_action = $sub_action_array[0];
+        $this->start_sub_action = $this->determineStartSubActionFromSubAction(
+            $sub_action_array[1] ?? null
         );
 
-        return match ($this->step) {
-            self::STEP_SET_GAP_TYPES,
-            self::STEP_JUMP_TO_SET_GAP_TYPES
+        return match ($this->sub_action) {
+            self::SUB_ACTION_SET_GAP_TYPES,
+            self::SUB_ACTION_JUMP_TO_SET_GAP_TYPES
                 => $this->buildGapTypesFormWithCarry(
                     $environment,
                     $environment->getAnswerFormProperties()
                 ),
-            self::STEP_BACK_TO_EDIT_BASIC_PROPERTIES
+            self::SUB_ACTION_BACK_TO_EDIT_BASIC_PROPERTIES
                 => $this->backToEditBasicProperties(
                     $environment
                 ),
-            self::STEP_BACK_TO_SET_GAP_TYPES
+            self::SUB_ACTION_BACK_TO_SET_GAP_TYPES
                 => $this->backToGapTypesForm(
                     $environment
                 ),
-            self::STEP_SET_ANSWER_OPTIONS
+            self::SUB_ACTION_SET_ANSWER_OPTIONS
                 => $this->forwardToAnswerOptionsForm(
                     $environment
                 ),
-            self::STEP_JUMP_TO_SET_ANSWER_OPTIONS
+            self::SUB_ACTION_JUMP_TO_SET_ANSWER_OPTIONS
                 => $this->buildAnswerOptionsFormWithCarry(
                     $environment,
                     $environment->getAnswerFormProperties()
                 ),
-            self::STEP_BACK_TO_SET_ANSWER_OPTIONS
+            self::SUB_ACTION_BACK_TO_SET_ANSWER_OPTIONS
                 => $this->backToSetAnswerOptionsForm(
                     $environment
                 ),
-            self::STEP_ASSIGN_POINTS
+            self::SUB_ACTION_ASSIGN_POINTS
                 => $this->forwardToAssignPointsForm(
                     $environment
                 ),
-            self::STEP_JUMP_TO_ASSIGN_POINTS
+            self::SUB_ACTION_JUMP_TO_ASSIGN_POINTS
                 => $this->buildAssignPointsFormWithCarry(
                     $environment,
                     $environment->getAnswerFormProperties()
                 ),
-            self::STEP_SAVE
+            self::SUB_ACTION_SAVE
                 => $this->processAssignPointsForm(
                     $environment
                 )
@@ -162,14 +162,14 @@ class EditGaps
             $inputs_builder,
             $this->buildPostTarget(
                 $environment,
-                self::STEP_SET_ANSWER_OPTIONS
+                self::SUB_ACTION_SET_ANSWER_OPTIONS
             ),
-            $this->step === self::STEP_JUMP_TO_SET_GAP_TYPES
-            || $this->step === $this->start_step
+            $this->sub_action === self::SUB_ACTION_JUMP_TO_SET_GAP_TYPES
+            || $this->sub_action === $this->start_sub_action
                 ? null
                 : $this->buildPostTarget(
                     $environment,
-                    self::STEP_BACK_TO_EDIT_BASIC_PROPERTIES
+                    self::SUB_ACTION_BACK_TO_EDIT_BASIC_PROPERTIES
                 ),
             false
         )->withContentBeforeForm(
@@ -289,14 +289,14 @@ class EditGaps
             $inputs_builder,
             $this->buildPostTarget(
                 $environment,
-                self::STEP_ASSIGN_POINTS
+                self::SUB_ACTION_ASSIGN_POINTS
             ),
-            $this->step === self::STEP_JUMP_TO_SET_ANSWER_OPTIONS
-            || $this->step === $this->start_step
+            $this->sub_action === self::SUB_ACTION_JUMP_TO_SET_ANSWER_OPTIONS
+            || $this->sub_action === $this->start_sub_action
                 ? null
                 : $this->buildPostTarget(
                     $environment,
-                    self::STEP_BACK_TO_SET_GAP_TYPES
+                    self::SUB_ACTION_BACK_TO_SET_GAP_TYPES
                 ),
             false
         )->withContentBeforeForm(
@@ -401,13 +401,13 @@ class EditGaps
             $inputs_builder,
             $this->buildPostTarget(
                 $environment,
-                self::STEP_SAVE
+                self::SUB_ACTION_SAVE
             ),
-            $this->step === self::STEP_JUMP_TO_ASSIGN_POINTS
+            $this->sub_action === self::SUB_ACTION_JUMP_TO_ASSIGN_POINTS
                 ? null
                 : $this->buildPostTarget(
                     $environment,
-                    self::STEP_BACK_TO_SET_ANSWER_OPTIONS
+                    self::SUB_ACTION_BACK_TO_SET_ANSWER_OPTIONS
                 ),
             true
         )->withContentBeforeForm(
@@ -474,26 +474,26 @@ class EditGaps
         Environment $environment,
         string $next_step
     ): URLBuilder {
-        if ($this->start_step !== null) {
-            $next_step = "{$next_step}_{$this->start_step}";
+        if ($this->start_sub_action !== null) {
+            $next_step = "{$next_step}_{$this->start_sub_action}";
         }
 
-        return $environment->withStepParameter($next_step)->getUrlBuilder();
+        return $environment->withSubActionParameter($next_step)->getUrlBuilder();
     }
 
-    private function determineStartStepFromStep(
-        ?string $start_step_from_get
+    private function determineStartSubActionFromSubAction(
+        ?string $start_sub_action_from_get
     ): ?string {
-        if ($start_step_from_get !== null) {
-            return $start_step_from_get;
+        if ($start_sub_action_from_get !== null) {
+            return $start_sub_action_from_get;
         }
 
-        if ($this->step === self::STEP_JUMP_TO_SET_GAP_TYPES) {
-            return self::STEP_BACK_TO_SET_GAP_TYPES;
+        if ($this->sub_action === self::SUB_ACTION_JUMP_TO_SET_GAP_TYPES) {
+            return self::SUB_ACTION_BACK_TO_SET_GAP_TYPES;
         }
 
-        if ($this->step === self::STEP_JUMP_TO_SET_ANSWER_OPTIONS) {
-            return self::STEP_BACK_TO_SET_ANSWER_OPTIONS;
+        if ($this->sub_action === self::SUB_ACTION_JUMP_TO_SET_ANSWER_OPTIONS) {
+            return self::SUB_ACTION_BACK_TO_SET_ANSWER_OPTIONS;
         }
 
         return null;

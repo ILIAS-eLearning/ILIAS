@@ -35,9 +35,9 @@ use ILIAS\UI\Component\Input\Field\UploadHandler as UploadHandlerInterface;
 
 class UploadHandler implements UploadHandlerInterface, Actor
 {
-    private const string STEP_UPLOAD = 'uhu';
-    private const string STEP_REMOVE = 'uhr';
-    private const string STEP_INFO = 'uhi';
+    private const string SUB_ACTION_UPLOAD = 'uhu';
+    private const string SUB_ACTION_REMOVE = 'uhr';
+    private const string SUB_ACTION_INFO = 'uhi';
 
     private bool $is_chunked = false;
     private int $chunk_index = 0;
@@ -65,7 +65,7 @@ class UploadHandler implements UploadHandlerInterface, Actor
     public function getUploadURL(): string
     {
         return $this->environment
-            ->withStepParameter(self::STEP_UPLOAD)
+            ->withSubActionParameter(self::SUB_ACTION_UPLOAD)
             ->getUrlBuilder()
             ->buildURI()
             ->__toString();
@@ -75,7 +75,7 @@ class UploadHandler implements UploadHandlerInterface, Actor
     public function getFileRemovalURL(): string
     {
         return $this->environment
-            ->withStepParameter(self::STEP_REMOVE)
+            ->withSubActionParameter(self::SUB_ACTION_REMOVE)
             ->getUrlBuilder()
             ->buildURI()
             ->__toString();
@@ -85,7 +85,7 @@ class UploadHandler implements UploadHandlerInterface, Actor
     public function getExistingFileInfoURL(): string
     {
         return $this->environment
-            ->withStepParameter(self::STEP_INFO)
+            ->withSubActionParameter(self::SUB_ACTION_INFO)
             ->getUrlBuilder()
             ->buildURI()
             ->__toString();
@@ -132,13 +132,13 @@ class UploadHandler implements UploadHandlerInterface, Actor
 
     #[\Override]
     public function can(
-        string $step
+        string $sub_action
     ): bool {
         $has_file_identifier = $this->hasFileIdentifier();
 
-        return $step === self::STEP_UPLOAD
-            || $step === self::STEP_REMOVE && $has_file_identifier
-            || $step === self::STEP_INFO && $has_file_identifier;
+        return $sub_action === self::SUB_ACTION_UPLOAD
+            || $sub_action === self::SUB_ACTION_REMOVE && $has_file_identifier
+            || $sub_action === self::SUB_ACTION_INFO && $has_file_identifier;
     }
 
     #[\Override]
@@ -146,9 +146,9 @@ class UploadHandler implements UploadHandlerInterface, Actor
         string $action
     ): Async {
         $response = match($action) {
-            self::STEP_UPLOAD => $this->upload(),
-            self::STEP_REMOVE => $this->remove(),
-            self::STEP_INFO => $this->info(),
+            self::SUB_ACTION_UPLOAD => $this->upload(),
+            self::SUB_ACTION_REMOVE => $this->remove(),
+            self::SUB_ACTION_INFO => $this->info(),
             default => ''
         };
 
