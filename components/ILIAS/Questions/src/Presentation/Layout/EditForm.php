@@ -39,6 +39,8 @@ class EditForm implements Renderable
 
     private StandardForm $form;
 
+    private bool $is_final_step = false;
+
     private ?StandardPanel $content_before_form = null;
     private ?StandardPanel $content_after_form = null;
     private ?InterruptiveModal $confirmation = null;
@@ -49,14 +51,12 @@ class EditForm implements Renderable
         private readonly Language $lng,
         Input|InputsBuilder $inputs,
         private URLBuilder $default_form_action,
-        ?URLBuilder $back_form_action,
-        private bool $is_final_step
+        ?URLBuilder $back_form_action
     ) {
         $this->form = $this->buildForm(
             $inputs,
             $default_form_action,
-            $back_form_action,
-            $is_final_step
+            $back_form_action
         );
     }
 
@@ -70,6 +70,14 @@ class EditForm implements Renderable
     public function isFinalStep(): bool
     {
         return $this->is_final_step;
+    }
+
+    public function withIsFinalStep(
+        bool $is_final_step
+    ): self {
+        $clone = clone $this;
+        $clone->is_final_step = $is_final_step;
+        return $clone;
     }
 
     public function withContentBeforeForm(
@@ -167,7 +175,11 @@ class EditForm implements Renderable
             $content[] = $this->insert_legacy_text_button;
         }
 
-        $content[] = $this->form;
+        $content[] = $this->is_final_step
+            ? $this->form
+            : $this->form->withSubmitLabel(
+                $this->lng->txt('next')
+            );
 
         if ($this->content_after_form !== null) {
             $content[] = $this->content_after_form;
@@ -179,8 +191,7 @@ class EditForm implements Renderable
     private function buildForm(
         Input|InputsBuilder $inputs,
         URLBuilder $default_form_action,
-        ?URLBuilder $back_form_action,
-        bool $is_final_step
+        ?URLBuilder $back_form_action
     ): StandardForm {
         if ($inputs instanceof InputsBuilder) {
             $inputs = $inputs->getInputs();
@@ -192,20 +203,13 @@ class EditForm implements Renderable
             ]
         );
 
-        if ($back_form_action !== null) {
-            $form = $form->withAdditionalFormAction(
-                $back_form_action->buildURI()->__toString(),
-                $this->lng->txt('previous')
-            );
+        if ($back_form_action === null) {
+            return $form;
         }
 
-        $submit_action_label = 'next';
-        if ($is_final_step) {
-            $submit_action_label = 'save';
-        }
-
-        return $form->withSubmitLabel(
-            $this->lng->txt($submit_action_label)
+        return $form->withAdditionalFormAction(
+            $back_form_action->buildURI()->__toString(),
+            $this->lng->txt('previous')
         );
     }
 }
