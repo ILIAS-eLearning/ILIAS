@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Presentation\Definitions;
 
+use ILIAS\Questions\AnswerForm\Capabilities\Capability;
 use ILIAS\Questions\AnswerForm\Properties;
 use ILIAS\Questions\Presentation\Layout\Factory;
 use ILIAS\Questions\Presentation\Views\Edit;
@@ -38,12 +39,13 @@ class DefaultEnvironment implements Environment
 {
     private const array QUERY_PARAMETER_NAME_SPACE = ['q'];
     private const string TOKEN_STRING_ACTION = 'a';
-    private const string TOKEN_STRING_SUB_ACTION = 's';
+    private const string TOKEN_STRING_SUB_ACTION = 'sa';
     private const string TOKEN_STRING_QUESTION_ID = 'q';
     private const string TOKEN_STRING_TABLE_ROW_ID = 'r';
     private const string TOKEN_STRING_TYPE_HASH = 't';
     private const string TOKEN_STRING_ANSWER_FORM_ID = 'af';
     private const string TOKEN_STRING_CREATE_MODE = 'cm';
+    private const string TOKEN_STRING_FORM_START_SUB_ACTION = 'fssa';
     private const string TOKEN_STRING_CREATE_AND_NEW = 'can';
 
     private const string PARAMETER_STRING_HIER_ID = 'hier_id';
@@ -58,13 +60,14 @@ class DefaultEnvironment implements Environment
     private bool $is_in_creation_context = false;
 
     private URLBuilder $url_builder;
-    private readonly URLBuilderToken $action_token;
-    private readonly URLBuilderToken $sub_action_token;
-    private readonly URLBuilderToken $question_id_token;
     private readonly URLBuilderToken $table_row_token;
+    private readonly URLBuilderToken $question_id_token;
+    private ?URLBuilderToken $sub_action_token = null;
+    private ?URLBuilderToken $action_token = null;
     private ?URLBuilderToken $type_hash_token = null;
     private ?URLBuilderToken $answer_form_id_token = null;
     private ?URLBuilderToken $create_mode_token = null;
+    private ?URLBuilderToken $form_start_sub_action_token = null;
 
     private ?array $table_row_ids = null;
 
@@ -158,8 +161,17 @@ class DefaultEnvironment implements Environment
         string $sub_action
     ): self {
         $clone = clone $this;
-        $clone->url_builder = $this->url_builder
-            ->withParameter($this->sub_action_token, $sub_action);
+        if ($clone->sub_action_token === null) {
+            [
+                $clone->url_builder,
+                $clone->sub_action_token
+            ] = $this->url_builder->acquireParameter(
+                self::QUERY_PARAMETER_NAME_SPACE,
+                self::TOKEN_STRING_SUB_ACTION
+            );
+        }
+        $clone->url_builder = $clone->url_builder
+            ->withParameter($clone->sub_action_token, $sub_action);
         return $clone;
     }
 
@@ -174,9 +186,22 @@ class DefaultEnvironment implements Environment
     #[\Override]
     public function getSubAction(): string
     {
-        return $this->default_sub_action
-            ? ''
-            : $this->retrieveStringValueForToken($this->sub_action_token, self::TOKEN_STRING_SUB_ACTION);
+        if ($this->default_sub_action) {
+            return '';
+        }
+
+        $sub_action_token = $this->sub_action_token;
+        if ($sub_action_token === null) {
+            [,$sub_action_token] = $this->url_builder->acquireParameter(
+                self::QUERY_PARAMETER_NAME_SPACE,
+                self::TOKEN_STRING_SUB_ACTION
+            );
+        }
+
+        return $this->retrieveStringValueForToken(
+            $sub_action_token,
+            self::TOKEN_STRING_SUB_ACTION
+        );
     }
 
     #[\Override]
@@ -192,6 +217,25 @@ class DefaultEnvironment implements Environment
         return array_key_exists(
             $capability,
             $this->required_capabilities
+        );
+    }
+
+    #[\Override]
+    public function getAnswerFormTableActionsForRequiredCapabilities(): array
+    {
+        return array_reduce(
+            $this->required_capabilities,
+            function (array $c, Capability $v): array {
+                $action = $v->getAnswerFormEditAdditionalStep($this);
+                if ($action !== null) {
+                    $c[] = $action->getAsTableAction(
+                        $this->withActionParameter($action->getIdentifier())
+                    );
+                }
+
+                return $c;
+            },
+            []
         );
     }
 
@@ -253,23 +297,23 @@ class DefaultEnvironment implements Environment
     #[\Override]
     public function getTableRowIds(): array
     {
-        if ($this->table_row_ids !== null) {
-            return $this->table_row_ids;
+        if ($this->table_row_ids === null) {
+            $this->table_row_ids = $this->http->wrapper()->query()->retrieve(
+                $this->table_row_token->getName(),
+                $this->refinery->byTrying([
+                    $this->refinery->kindlyTo()->listOf(
+                        $this->refinery->custom()->transformation(
+                            fn($v): string => $v !== ''
+                                ? $this->refinery->kindlyTo()->string()->transform($v)
+                                : throw new \UnexpectedValueException()
+                        )
+                    ),
+                    $this->refinery->always([])
+                ])
+            );
         }
 
-        return $this->table_row_ids = $this->http->wrapper()->query()->retrieve(
-            $this->table_row_token->getName(),
-            $this->refinery->byTrying([
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->custom()->transformation(
-                        fn($v): string => $v !== ''
-                            ? $this->refinery->kindlyTo()->string()->transform($v)
-                            : throw new \UnexpectedValueException()
-                    )
-                ),
-                $this->refinery->always([])
-            ])
-        );
+        return $this->table_row_ids;
     }
 
     #[\Override]
@@ -305,15 +349,31 @@ class DefaultEnvironment implements Environment
 
     public function getAction(): string
     {
-        return $this->retrieveStringValueForToken($this->action_token);
+        $action_token = $this->action_token;
+        if ($action_token === null) {
+            [,$action_token] = $this->url_builder->acquireParameter(
+                self::QUERY_PARAMETER_NAME_SPACE,
+                self::TOKEN_STRING_ACTION
+            );
+        }
+        return $this->retrieveStringValueForToken($action_token);
     }
 
     public function withActionParameter(
         string $action
     ): self {
         $clone = clone $this;
-        $clone->url_builder = $this->url_builder
-            ->withParameter($this->action_token, $action);
+        if ($clone->action_token === null) {
+            [
+                $clone->url_builder,
+                $clone->action_token
+            ] = $this->url_builder->acquireParameter(
+                self::QUERY_PARAMETER_NAME_SPACE,
+                self::TOKEN_STRING_ACTION
+            );
+        }
+        $clone->url_builder = $clone->url_builder
+            ->withParameter($clone->action_token, $action);
         return $clone;
     }
 
@@ -330,13 +390,15 @@ class DefaultEnvironment implements Environment
         string $type_hash
     ): self {
         $clone = clone $this;
-        [
-            $clone->url_builder,
-            $clone->type_hash_token
-        ] = $this->url_builder->acquireParameter(
-            self::QUERY_PARAMETER_NAME_SPACE,
-            self::TOKEN_STRING_TYPE_HASH
-        );
+        if ($clone->type_hash_token === null) {
+            [
+                $clone->url_builder,
+                $clone->type_hash_token
+            ] = $this->url_builder->acquireParameter(
+                self::QUERY_PARAMETER_NAME_SPACE,
+                self::TOKEN_STRING_TYPE_HASH
+            );
+        }
 
         $clone->url_builder = $clone->url_builder
             ->withParameter($clone->type_hash_token, $type_hash);
@@ -347,14 +409,15 @@ class DefaultEnvironment implements Environment
         Uuid $answer_form_id
     ): self {
         $clone = clone $this;
-        [
-            $clone->url_builder,
-            $clone->answer_form_id_token
-        ] = $this->url_builder->acquireParameter(
-            self::QUERY_PARAMETER_NAME_SPACE,
-            self::TOKEN_STRING_ANSWER_FORM_ID
-        );
-
+        if ($clone->answer_form_id_token === null) {
+            [
+                $clone->url_builder,
+                $clone->answer_form_id_token
+            ] = $this->url_builder->acquireParameter(
+                self::QUERY_PARAMETER_NAME_SPACE,
+                self::TOKEN_STRING_ANSWER_FORM_ID
+            );
+        }
         $clone->url_builder = $clone->url_builder->withParameter(
             $clone->answer_form_id_token,
             $answer_form_id->toString()
@@ -365,18 +428,50 @@ class DefaultEnvironment implements Environment
     public function withCreateModeParameter(): self
     {
         $clone = clone $this;
-
-        [
-            $clone->url_builder,
-            $clone->create_mode_token
-        ] = $this->url_builder->acquireParameter(
-            self::QUERY_PARAMETER_NAME_SPACE,
-            self::TOKEN_STRING_CREATE_MODE
-        );
+        if ($clone->create_mode_token === null) {
+            [
+                $clone->url_builder,
+                $clone->create_mode_token
+            ] = $this->url_builder->acquireParameter(
+                self::QUERY_PARAMETER_NAME_SPACE,
+                self::TOKEN_STRING_CREATE_MODE
+            );
+        }
 
         $clone->url_builder = $clone->url_builder
             ->withParameter($clone->create_mode_token, '1');
         return $clone;
+    }
+
+    #[\Override]
+    public function withFormStartSubActionParameter(
+        string $sub_action
+    ): self {
+        $clone = clone $this;
+        if ($clone->form_start_sub_action_token === null) {
+            [
+                $clone->url_builder,
+                $clone->form_start_sub_action_token
+            ] = $this->url_builder->acquireParameter(
+                self::QUERY_PARAMETER_NAME_SPACE,
+                self::TOKEN_STRING_FORM_START_SUB_ACTION
+            );
+        }
+
+        $clone->url_builder = $clone->url_builder
+            ->withParameter(
+                $clone->form_start_sub_action_token,
+                $sub_action
+            );
+        return $clone;
+    }
+
+    #[\Override]
+    public function withPreservedFormStartSubActionParameter(): self
+    {
+        return $this->withFormStartSubActionParameter(
+            $this->getFormStartSubAction()
+        );
     }
 
     public function getQuestionId(): ?Uuid
@@ -435,6 +530,18 @@ class DefaultEnvironment implements Environment
             );
         }
         return $this->retrieveStringValueForToken($type_hash_token);
+    }
+
+    public function getFormStartSubAction(): string
+    {
+        $form_start_command_token = $this->form_start_sub_action_token;
+        if ($form_start_command_token === null) {
+            [,$form_start_command_token] = $this->url_builder->acquireParameter(
+                self::QUERY_PARAMETER_NAME_SPACE,
+                self::TOKEN_STRING_FORM_START_SUB_ACTION
+            );
+        }
+        return $this->retrieveStringValueForToken($form_start_command_token);
     }
 
     public function isCreateModeSimple(): bool
@@ -553,13 +660,11 @@ class DefaultEnvironment implements Environment
             );
         }
 
-        return $this->url_builder->withParameter(
-            $this->action_token,
+        return $this->withActionParameter(
             Edit::ACTION_DELETE_QUESTIONS
-        )->withParameter(
-            $this->sub_action_token,
+        )->withSubActionParameter(
             Edit::ACTION_DELETE_QUESTIONS
-        )->withParameter(
+        )->getUrlBuilder()->withParameter(
             $this->table_row_token,
             [$this->getQuestionId()->toString()]
         );
@@ -570,17 +675,13 @@ class DefaultEnvironment implements Environment
     ): void {
         [
             $this->url_builder,
-            $this->action_token,
-            $this->sub_action_token,
-            $this->question_id_token,
-            $this->table_row_token
+            $this->table_row_token,
+            $this->question_id_token
         ] = (new URLBuilder($base_uri))
             ->acquireParameters(
                 self::QUERY_PARAMETER_NAME_SPACE,
-                self::TOKEN_STRING_ACTION,
-                self::TOKEN_STRING_SUB_ACTION,
-                self::TOKEN_STRING_QUESTION_ID,
-                self::TOKEN_STRING_TABLE_ROW_ID
+                self::TOKEN_STRING_TABLE_ROW_ID,
+                self::TOKEN_STRING_QUESTION_ID
             );
     }
 
