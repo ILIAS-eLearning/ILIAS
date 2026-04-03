@@ -32,7 +32,7 @@ use ILIAS\Questions\Persistence\Update;
 use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Persistence\ManipulationType;
 use ILIAS\Questions\Persistence\TableNameBuilder;
-use ILIAS\Questions\Presentation\Definitions\EnvironmentImplementation;
+use ILIAS\Questions\Presentation\Definitions\DefaultEnvironment;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
 use ILIAS\Questions\UserSettings\CreateModes;
 use ILIAS\Data\UUID\Uuid;
@@ -281,7 +281,7 @@ class QuestionImplementation implements Question
 
     public function toEditLink(
         LinkFactory $link_factory,
-        EnvironmentImplementation $environment
+        DefaultEnvironment $environment
     ): StandardLink {
         return $link_factory->standard(
             $this->title,
@@ -294,7 +294,7 @@ class QuestionImplementation implements Question
 
     public function toTableRow(
         DataRowBuilder $row_builder,
-        EnvironmentImplementation $environment
+        DefaultEnvironment $environment
     ): DataRow {
         return $row_builder->buildDataRow(
             $this->id->toString(),

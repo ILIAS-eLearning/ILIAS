@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Administration;
 
-use ILIAS\Questions\Presentation\Definitions\EnvironmentImplementation;
+use ILIAS\Questions\Presentation\Definitions\DefaultEnvironment;
 use ILIAS\Questions\UserSettings\CreateModes;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
@@ -55,7 +55,7 @@ class ConfigurationRepository
     }
 
     public function isCreateModeSimple(
-        EnvironmentImplementation $environment
+        DefaultEnvironment $environment
     ): bool {
         return $this->isCreateModeChangeableByUser() && $environment->isCreateModeSimple()
             || $this->getGlobalCreateMode() === CreateModes::Simple;
