@@ -262,7 +262,7 @@ class Combination
                 ),
                 'points' => $field_factory->numeric(
                     $lng->txt('points')
-                )->withStepSize(0.01)
+                )->withSubActionSize(0.01)
                 ->withRequired(true)
                 ->withValue($this->getAvailablePoints())
             ],

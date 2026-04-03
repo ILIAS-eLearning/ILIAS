@@ -99,21 +99,21 @@ class OverviewTable implements DataRetrieval
             'edit_gaps' => $taf->standard(
                 $this->environment->getLanguage()->txt('edit_gaps'),
                 $this->environment
-                    ->withStepParameter(EditGaps::STEP_JUMP_TO_SET_GAP_TYPES)
+                    ->withSubActionParameter(EditGaps::SUB_ACTION_JUMP_TO_SET_GAP_TYPES)
                     ->getUrlBuilder(),
                 $this->environment->getTableRowIdToken()
             ),
             'edit_answer_options' => $taf->standard(
                 $this->environment->getLanguage()->txt('edit_answer_options'),
                 $this->environment
-                    ->withStepParameter(EditGaps::STEP_JUMP_TO_SET_ANSWER_OPTIONS)
+                    ->withSubActionParameter(EditGaps::SUB_ACTION_JUMP_TO_SET_ANSWER_OPTIONS)
                     ->getUrlBuilder(),
                 $this->environment->getTableRowIdToken()
             ),
             'edit_points' => $taf->standard(
                 $this->environment->getLanguage()->txt('edit_available_points'),
                 $this->environment
-                    ->withStepParameter(EditGaps::STEP_JUMP_TO_ASSIGN_POINTS)
+                    ->withSubActionParameter(EditGaps::SUB_ACTION_JUMP_TO_ASSIGN_POINTS)
                     ->getUrlBuilder(),
                 $this->environment->getTableRowIdToken()
             )

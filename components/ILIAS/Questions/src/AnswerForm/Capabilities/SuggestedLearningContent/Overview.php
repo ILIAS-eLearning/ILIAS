@@ -35,10 +35,10 @@ use ILIAS\UI\Renderer as UIRenderer;
 
 class Overview implements Renderable
 {
-    private const string STEP_SELECT_TYPE = 'st';
-    private const string STEP_SELECT_CONTENT = 'sc';
-    private const string STEP_SAVE_CONTENT = 'sac';
-    private const string STEP_SAVE_SUB_CONTENT = 'ssc';
+    private const string SUB_ACTION_SELECT_TYPE = 'st';
+    private const string SUB_ACTION_SELECT_CONTENT = 'sc';
+    private const string SUB_ACTION_SAVE_CONTENT = 'sac';
+    private const string SUB_ACTION_SAVE_SUB_CONTENT = 'ssc';
 
     public function __construct(
         private readonly \ilCtrl $ctrl,
@@ -64,12 +64,12 @@ class Overview implements Renderable
         string $action
     ): Async {
         return match($action) {
-            self::STEP_SELECT_TYPE => $this->buildPromptShowAsync(
+            self::SUB_ACTION_SELECT_TYPE => $this->buildPromptShowAsync(
                 $this->buildSelectTypeForm()
             ),
-            self::STEP_SELECT_CONTENT => $this->processSelectTypeForm(),
-            self::STEP_SAVE_CONTENT => $this->processSelectContentForm(),
-            self::STEP_SAVE_SUB_CONTENT => $this->processSelectSubContentForm(),
+            self::SUB_ACTION_SELECT_CONTENT => $this->processSelectTypeForm(),
+            self::SUB_ACTION_SAVE_CONTENT => $this->processSelectContentForm(),
+            self::SUB_ACTION_SAVE_SUB_CONTENT => $this->processSelectSubContentForm(),
             default => $this->forwardActionToActors($action)
         };
     }
@@ -77,8 +77,8 @@ class Overview implements Renderable
     private function buildPrompt(): Prompt
     {
         return $this->environment->getUIFactory()->prompt()->standard(
-            $this->environment->withStepParameter(
-                self::STEP_SELECT_TYPE
+            $this->environment->withSubActionParameter(
+                self::SUB_ACTION_SELECT_TYPE
             )->getUrlBuilder()->buildURI()
         );
     }
@@ -147,8 +147,8 @@ class Overview implements Renderable
         $uf = $this->environment->getUIFactory();
 
         return $uf->input()->container()->form()->standard(
-            $this->environment->withStepParameter(
-                self::STEP_SELECT_CONTENT
+            $this->environment->withSubActionParameter(
+                self::SUB_ACTION_SELECT_CONTENT
             )->getUrlBuilder()->buildURI()->__toString(),
             [
                 'type' => $this->buildTypeSelect()
@@ -191,8 +191,8 @@ class Overview implements Renderable
         $uf = $this->environment->getUIFactory();
 
         $form = $uf->input()->container()->form()->standard(
-            $this->environment->withStepParameter(
-                self::STEP_SAVE_CONTENT
+            $this->environment->withSubActionParameter(
+                self::SUB_ACTION_SAVE_CONTENT
             )->getUrlBuilder()->buildURI()->__toString(),
             [
                 'content' => $inputs_builder->getInputs()
@@ -252,8 +252,8 @@ class Overview implements Renderable
         $uf = $this->environment->getUIFactory();
 
         $form = $uf->input()->container()->form()->standard(
-            $this->environment->withStepParameter(
-                self::STEP_SAVE_SUB_CONTENT
+            $this->environment->withSubActionParameter(
+                self::SUB_ACTION_SAVE_SUB_CONTENT
             )->getUrlBuilder()->buildURI()->__toString(),
             [
                 'content' => $inputs_builder->getInputs()
@@ -353,7 +353,7 @@ class Overview implements Renderable
         return $this->environment->getPresentationFactory()->getAsync(
             $this->environment->getUIFactory()->prompt()->state()->redirect(
                 $this->environment
-                    ->withDefaultStep()
+                    ->withDefaultSubAction()
                     ->getUrlBuilder()
                     ->buildURI()
             )

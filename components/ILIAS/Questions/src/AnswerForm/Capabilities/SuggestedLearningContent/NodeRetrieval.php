@@ -34,7 +34,7 @@ use ILIAS\UI\URLBuilderToken;
 
 class NodeRetrieval implements NodeRetrievalInterface, Actor
 {
-    private const string STEP_RETRIEVE_NODES = 'rn';
+    private const string SUB_ACTION_RETRIEVE_NODES = 'rn';
 
     private const array PARAMETER_NAMESPACE = ['q', 'nr'];
     private const string PARAMETER_ID_STRING_NODE = 'n';
@@ -61,7 +61,7 @@ class NodeRetrieval implements NodeRetrievalInterface, Actor
         private readonly string $requested_type
     ) {
         [$this->url_builder, $this->node_parameter_token] = $environment
-            ->withStepParameter(self::STEP_RETRIEVE_NODES)
+            ->withSubActionParameter(self::SUB_ACTION_RETRIEVE_NODES)
             ->getUrlBuilder()
             ->acquireParameter(
                 self::PARAMETER_NAMESPACE,
@@ -112,9 +112,9 @@ class NodeRetrieval implements NodeRetrievalInterface, Actor
 
     #[\Override]
     public function can(
-        string $step
+        string $sub_action
     ): bool {
-        return $step === self::STEP_RETRIEVE_NODES
+        return $sub_action === self::SUB_ACTION_RETRIEVE_NODES
             && $this->environment->getHttpServices()->wrapper()->query()->has(
                 $this->node_parameter_token->getName()
             );

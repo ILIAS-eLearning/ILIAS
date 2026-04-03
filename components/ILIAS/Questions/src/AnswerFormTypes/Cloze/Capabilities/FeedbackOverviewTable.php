@@ -44,11 +44,11 @@ use ILIAS\UI\Factory as UIFactory;
 
 class FeedbackOverviewTable implements OverviewTable
 {
-    private const string STEP_ENTER_FEEDBACK = 'ef';
-    private const string STEP_EDIT_FEEDBACK = 'edf';
-    private const string STEP_CONFIRM_DELETE_FEEDBACK = 'cdf';
-    private const string STEP_DELETE_FEEDBACK = 'df';
-    private const string STEP_SAVE_FEEDBACK = 'sf';
+    private const string SUB_ACTION_ENTER_FEEDBACK = 'ef';
+    private const string SUB_ACTION_EDIT_FEEDBACK = 'edf';
+    private const string SUB_ACTION_CONFIRM_DELETE_FEEDBACK = 'cdf';
+    private const string SUB_ACTION_DELETE_FEEDBACK = 'df';
+    private const string SUB_ACTION_SAVE_FEEDBACK = 'sf';
 
     public function __construct(
         private readonly UuidFactory $uuid_factory,
@@ -79,8 +79,8 @@ class FeedbackOverviewTable implements OverviewTable
                         )
                     )->withRequired(true)
             ],
-            $environment->withStepParameter(
-                self::STEP_ENTER_FEEDBACK
+            $environment->withSubActionParameter(
+                self::SUB_ACTION_ENTER_FEEDBACK
             )->getUrlBuilder()->buildURI()->__toString()
         )->withSubmitLabel($lng->txt('next'));
     }
@@ -111,23 +111,23 @@ class FeedbackOverviewTable implements OverviewTable
         string $action
     ): Async|RoundTripModal|Feedback {
         return match($action) {
-            self::STEP_ENTER_FEEDBACK => $this->processSelectGapModal(
+            self::SUB_ACTION_ENTER_FEEDBACK => $this->processSelectGapModal(
                 $environment,
                 $feedback
             ),
-            self::STEP_EDIT_FEEDBACK => $this->editFeedback(
+            self::SUB_ACTION_EDIT_FEEDBACK => $this->editFeedback(
                 $environment->withPreservedTableRowIdsParameter(),
                 $feedback
             ),
-            self::STEP_SAVE_FEEDBACK => $this->processEnterFeedbackModal(
+            self::SUB_ACTION_SAVE_FEEDBACK => $this->processEnterFeedbackModal(
                 $environment,
                 $feedback
             ),
-            self::STEP_CONFIRM_DELETE_FEEDBACK => $this->confirmDeleteFeedback(
+            self::SUB_ACTION_CONFIRM_DELETE_FEEDBACK => $this->confirmDeleteFeedback(
                 $environment,
                 $feedback
             ),
-            self::STEP_DELETE_FEEDBACK => $this->deleteFeedback(
+            self::SUB_ACTION_DELETE_FEEDBACK => $this->deleteFeedback(
                 $environment,
                 $feedback
             )
@@ -174,8 +174,8 @@ class FeedbackOverviewTable implements OverviewTable
             [
                 'feedback' => $inputs_builder->getInputs()
             ],
-            $environment->withStepParameter(
-                self::STEP_SAVE_FEEDBACK
+            $environment->withSubActionParameter(
+                self::SUB_ACTION_SAVE_FEEDBACK
             )->getUrlBuilder()->buildURI()->__toString()
         );
     }
@@ -267,7 +267,7 @@ class FeedbackOverviewTable implements OverviewTable
                 $lng->txt('confirm'),
                 $lng->txt('confirm_delete_feedback'),
                 $environment
-                    ->withStepParameter(self::STEP_DELETE_FEEDBACK)
+                    ->withSubActionParameter(self::SUB_ACTION_DELETE_FEEDBACK)
                     ->getUrlBuilder()
                     ->buildURI()
                     ->__toString()
@@ -486,15 +486,15 @@ class FeedbackOverviewTable implements OverviewTable
         return [
             'edit' => $af->single(
                 $lng->txt('edit'),
-                $environment->withStepParameter(
-                    self::STEP_EDIT_FEEDBACK
+                $environment->withSubActionParameter(
+                    self::SUB_ACTION_EDIT_FEEDBACK
                 )->getUrlBuilder(),
                 $environment->getTableRowIdToken()
             )->withAsync(true),
             'delete' => $af->single(
                 $lng->txt('delete'),
-                $environment->withStepParameter(
-                    self::STEP_CONFIRM_DELETE_FEEDBACK
+                $environment->withSubActionParameter(
+                    self::SUB_ACTION_CONFIRM_DELETE_FEEDBACK
                 )->getUrlBuilder(),
                 $environment->getTableRowIdToken()
             )->withAsync(true),

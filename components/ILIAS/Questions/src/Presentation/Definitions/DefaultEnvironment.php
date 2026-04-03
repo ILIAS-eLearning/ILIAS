@@ -38,7 +38,7 @@ class DefaultEnvironment implements Environment
 {
     private const array QUERY_PARAMETER_NAME_SPACE = ['q'];
     private const string TOKEN_STRING_ACTION = 'a';
-    private const string TOKEN_STRING_STEP = 's';
+    private const string TOKEN_STRING_SUB_ACTION = 's';
     private const string TOKEN_STRING_QUESTION_ID = 'q';
     private const string TOKEN_STRING_TABLE_ROW_ID = 'r';
     private const string TOKEN_STRING_TYPE_HASH = 't';
@@ -54,12 +54,12 @@ class DefaultEnvironment implements Environment
 
     private ?Properties $answer_form_properties = null;
 
-    private bool $default_step = false;
+    private bool $default_sub_action = false;
     private bool $is_in_creation_context = false;
 
     private URLBuilder $url_builder;
     private readonly URLBuilderToken $action_token;
-    private readonly URLBuilderToken $step_token;
+    private readonly URLBuilderToken $sub_action_token;
     private readonly URLBuilderToken $question_id_token;
     private readonly URLBuilderToken $table_row_token;
     private ?URLBuilderToken $type_hash_token = null;
@@ -120,13 +120,13 @@ class DefaultEnvironment implements Environment
 
     #[\Override]
     public function addEditAnswerFormSubTab(
-        string $step,
+        string $sub_action,
         string $language_variable
     ): void {
         $this->tabs_gui->addSubTab(
-            $step,
+            $sub_action,
             $this->lng->txt($language_variable),
-            $this->withStepParameter($step)
+            $this->withSubActionParameter($sub_action)
                 ->withActionParameter(Edit::ACTION_OTHER_ANSWER_FORM)
                 ->getUrlBuilder()
                 ->buildURI()
@@ -136,9 +136,9 @@ class DefaultEnvironment implements Environment
 
     #[\Override]
     public function activateEditAnswerFormSubTab(
-        string $step
+        string $sub_action
     ): void {
-        $this->tabs_gui->activateSubTab($step);
+        $this->tabs_gui->activateSubTab($sub_action);
     }
 
     #[\Override]
@@ -154,29 +154,29 @@ class DefaultEnvironment implements Environment
     }
 
     #[\Override]
-    public function withStepParameter(
-        string $step
+    public function withSubActionParameter(
+        string $sub_action
     ): self {
         $clone = clone $this;
         $clone->url_builder = $this->url_builder
-            ->withParameter($this->step_token, $step);
+            ->withParameter($this->sub_action_token, $sub_action);
         return $clone;
     }
 
     #[\Override]
-    public function withDefaultStep(): self
+    public function withDefaultSubAction(): self
     {
         $clone = clone $this;
-        $clone->default_step = true;
+        $clone->default_sub_action = true;
         return $clone;
     }
 
     #[\Override]
-    public function getStep(): string
+    public function getSubAction(): string
     {
-        return $this->default_step
+        return $this->default_sub_action
             ? ''
-            : $this->retrieveStringValueForToken($this->step_token, self::TOKEN_STRING_STEP);
+            : $this->retrieveStringValueForToken($this->sub_action_token, self::TOKEN_STRING_SUB_ACTION);
     }
 
     #[\Override]
@@ -462,7 +462,7 @@ class DefaultEnvironment implements Environment
         $this->tabs_gui->addTab(
             self::TAB_ID_ANSWER_FORM,
             $this->lng->txt('answer_form'),
-            $this->withDefaultStep()->getUrlBuilder()->buildURI()->__toString()
+            $this->withDefaultSubAction()->getUrlBuilder()->buildURI()->__toString()
         );
 
         foreach ($additional_actions as $action) {
@@ -476,7 +476,7 @@ class DefaultEnvironment implements Environment
         $this->tabs_gui->addSubTab(
             self::TAB_ID_ANSWER_FORM,
             $this->lng->txt('overview'),
-            $this->withDefaultStep()->getUrlBuilder()->buildURI()->__toString()
+            $this->withDefaultSubAction()->getUrlBuilder()->buildURI()->__toString()
         );
 
         $this->tabs_gui->activateTab(self::TAB_ID_ANSWER_FORM);
@@ -539,7 +539,7 @@ class DefaultEnvironment implements Environment
     private function buildEditAnswerFormBackUrl(): URLBuilder
     {
         if (!$this->is_in_creation_context) {
-            return $this->withDefaultStep()->getUrlBuilder();
+            return $this->withDefaultSubAction()->getUrlBuilder();
         }
 
         if (!$this->isCreateModeSimple()) {
@@ -557,7 +557,7 @@ class DefaultEnvironment implements Environment
             $this->action_token,
             Edit::ACTION_DELETE_QUESTIONS
         )->withParameter(
-            $this->step_token,
+            $this->sub_action_token,
             Edit::ACTION_DELETE_QUESTIONS
         )->withParameter(
             $this->table_row_token,
@@ -571,14 +571,14 @@ class DefaultEnvironment implements Environment
         [
             $this->url_builder,
             $this->action_token,
-            $this->step_token,
+            $this->sub_action_token,
             $this->question_id_token,
             $this->table_row_token
         ] = (new URLBuilder($base_uri))
             ->acquireParameters(
                 self::QUERY_PARAMETER_NAME_SPACE,
                 self::TOKEN_STRING_ACTION,
-                self::TOKEN_STRING_STEP,
+                self::TOKEN_STRING_SUB_ACTION,
                 self::TOKEN_STRING_QUESTION_ID,
                 self::TOKEN_STRING_TABLE_ROW_ID
             );

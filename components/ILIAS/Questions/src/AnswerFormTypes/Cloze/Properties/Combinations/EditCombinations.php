@@ -27,7 +27,7 @@ use ILIAS\Questions\Presentation\Layout\Renderable;
 
 class EditCombinations
 {
-    private const string STEP_EDIT_COMBINATIONS_OVERVIEW = 'eco';
+    private const string SUB_ACTION_EDIT_COMBINATIONS_OVERVIEW = 'eco';
 
     private const string LANG_VAR_EDIT_COMBINATIONS = 'edit_combinations';
 
@@ -40,7 +40,7 @@ class EditCombinations
         Environment $environment
     ): void {
         $environment->addEditAnswerFormSubTab(
-            self::STEP_EDIT_COMBINATIONS_OVERVIEW,
+            self::SUB_ACTION_EDIT_COMBINATIONS_OVERVIEW,
             self::LANG_VAR_EDIT_COMBINATIONS
         );
     }
@@ -49,19 +49,19 @@ class EditCombinations
         Environment $environment
     ): Async|Renderable|Properties {
         $environment->addEditAnswerFormSubTab(
-            self::STEP_EDIT_COMBINATIONS_OVERVIEW,
+            self::SUB_ACTION_EDIT_COMBINATIONS_OVERVIEW,
             self::LANG_VAR_EDIT_COMBINATIONS
         );
 
         $environment->activateEditAnswerFormSubTab(
-            self::STEP_EDIT_COMBINATIONS_OVERVIEW
+            self::SUB_ACTION_EDIT_COMBINATIONS_OVERVIEW
         );
 
         $combinations_overview = $this->buildOverview($environment);
 
-        $step = $environment->getStep();
-        if ($step === self::STEP_EDIT_COMBINATIONS_OVERVIEW
-            || $step === '') {
+        $sub_action = $environment->getSubAction();
+        if ($sub_action === self::SUB_ACTION_EDIT_COMBINATIONS_OVERVIEW
+            || $sub_action === '') {
             return $combinations_overview;
         }
 

@@ -48,7 +48,7 @@ class Edit
     public function create(
         DefaultEnvironment $environment
     ): EditForm|Question {
-        return match ($environment->getStep()) {
+        return match ($environment->getSubAction()) {
             self::CMD_SAVE_QUESTION => $this->processBasicPropertiesCreateForm(
                 $environment
             ),
@@ -60,7 +60,7 @@ class Edit
         DefaultEnvironment $environment,
         Participant $participant_view
     ): EditForm|Question {
-        return match ($environment->getStep()) {
+        return match ($environment->getSubAction()) {
             self::CMD_SAVE_QUESTION => $this->processBasicPropertiesEditingForm(
                 $environment
             ),
@@ -110,7 +110,7 @@ class Edit
                 $environment->getLanguage()->txt('edit_basic_form_properties')
             ),
             $environment
-                ->withStepParameter(self::CMD_SAVE_QUESTION)
+                ->withSubActionParameter(self::CMD_SAVE_QUESTION)
                 ->getUrlBuilder(),
             null,
             false
@@ -148,7 +148,7 @@ class Edit
                 $this->buildBasicPropertiesBasicValuesArray()
             ),
             $environment
-                ->withStepParameter(self::CMD_SAVE_QUESTION)
+                ->withSubActionParameter(self::CMD_SAVE_QUESTION)
                 ->getUrlBuilder(),
             null,
             true
