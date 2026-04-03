@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Questions;
 
 use ILIAS\Questions\Question\Persistence\Repository;
-use ILIAS\Questions\Question\Question;
+use ILIAS\Questions\Question\PublicQuestionInterface;
 use ILIAS\Data\UUID\Uuid;
 
 class Collector
@@ -44,7 +44,7 @@ class Collector
 
     public function getQuestionsForId(
         Uuid $id
-    ): ?Question {
+    ): ?PublicQuestionInterface {
         return $this->repository->getForQuestionId($id);
     }
 

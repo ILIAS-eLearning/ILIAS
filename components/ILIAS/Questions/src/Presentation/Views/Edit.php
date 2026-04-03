@@ -38,7 +38,7 @@ use ILIAS\Questions\Presentation\Definitions\DefaultEnvironment;
 use ILIAS\Questions\Presentation\Layout\QuestionsTable;
 use ILIAS\Questions\Presentation\Layout\GlobalScreen\LayoutProvider;
 use ILIAS\Questions\Question\Persistence\Repository;
-use ILIAS\Questions\Question\QuestionImplementation;
+use ILIAS\Questions\Question\Question;
 use ILIAS\Questions\UserSettings\CreateModes;
 use ILIAS\Data\URI;
 use ILIAS\Data\UUID\Factory as UuidFactory;
@@ -186,7 +186,7 @@ class Edit
     public function createAnswerForm(
         URI $base_uri,
         int $obj_id,
-        QuestionImplementation $question,
+        Question $question,
         \ilPCAnswerForm $content_object
     ): EditForm {
         $environment = $this->buildEnvironment(
@@ -239,7 +239,7 @@ class Edit
     public function editAnswerForm(
         URI $base_uri,
         int $obj_id,
-        QuestionImplementation $question,
+        Question $question,
         AnswerFormProperties $answer_form_properties,
         Definition $type_definition
     ): Async|Renderable {
@@ -430,7 +430,7 @@ class Edit
 
     private function processCreateAnswerForm(
         DefaultEnvironment $environment,
-        QuestionImplementation $question,
+        Question $question,
         \ilPCAnswerForm $content_object
     ): EditForm {
         $form = $this->buildCreateAnswerForm($environment)
@@ -468,7 +468,7 @@ class Edit
 
     private function forwardCreateAnswerFormCmd(
         DefaultEnvironment $environment,
-        QuestionImplementation $question,
+        Question $question,
         \ilPCAnswerForm $content_object,
         AnswerFormEditView $answer_form_edit_view
     ): ?EditForm {
@@ -570,7 +570,7 @@ class Edit
 
     private function buildEditStartView(
         DefaultEnvironment $environment,
-        QuestionImplementation $question
+        Question $question
     ): EditForm {
         return $question->getEditView(
             $this->configuration_repository,
