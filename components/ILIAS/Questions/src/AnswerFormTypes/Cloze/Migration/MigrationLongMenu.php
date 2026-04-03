@@ -24,7 +24,6 @@ use ILIAS\Questions\AnswerForm\Migration\Migration;
 use ILIAS\Questions\AnswerForm\Migration\MigrationInsert;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Definition;
 use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
-use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\TableNameSpace;
 use ILIAS\Setup\Environment;
 
@@ -58,7 +57,6 @@ class MigrationLongMenu implements Migration
     #[\Override]
     public function completeMigrationInsert(
         Environment $environment,
-        PersistenceFactory $persistence_factory,
         MigrationInsert $migration_insert
     ): ?MigrationInsert {
         $answer_form_id = $migration_insert->getAnswerFormId();
@@ -77,7 +75,7 @@ class MigrationLongMenu implements Migration
 
                 $gaps_insert = $this->buildGapInsertStatement(
                     $this->table_definitions,
-                    $persistence_factory,
+                    $migration_insert->getPersistenceFactory(),
                     $migration_insert->getTableNameBuilder(),
                     $gaps_insert,
                     $answer_input_id,
@@ -136,7 +134,7 @@ class MigrationLongMenu implements Migration
         ) as $answer) {
             $answer_options_insert = $this->buildAnswerOptionInsertStatement(
                 $this->table_definitions,
-                $persistence_factory,
+                $migration_insert->getPersistenceFactory(),
                 $migration_insert->getTableNameBuilder(),
                 $answer_options_insert,
                 $answer['answer_option_id'],
@@ -153,7 +151,7 @@ class MigrationLongMenu implements Migration
             ->withAdditionalInsert(
                 $this->buildAnswerFormInsertStatement(
                     $this->table_definitions,
-                    $persistence_factory,
+                    $migration_insert->getPersistenceFactory(),
                     $migration_insert->getTableNameBuilder(),
                     $answer_form_id,
                     $this->buildScoringIdenticalFromOld($db_row->identical_scoring),

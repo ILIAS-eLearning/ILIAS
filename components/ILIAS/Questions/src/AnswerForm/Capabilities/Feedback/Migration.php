@@ -48,12 +48,11 @@ class Migration implements MigrationInterface
     #[\Override]
     public function completeMigrationInsert(
         Environment $environment,
-        PersistenceFactory $persistence_factory,
         AnswerFormMigration $answer_form_migration,
         MigrationInsert $migration_insert
     ): ?MigrationInsert {
         $generic_feedback_insert = $this->buildGenericFeedbackInsert(
-            $persistence_factory,
+            $migration_insert->getPersistenceFactory(),
             $migration_insert
         );
         if ($generic_feedback_insert !== null) {
@@ -64,7 +63,7 @@ class Migration implements MigrationInterface
         }
 
         $specific_feedback_insert = $this->buildSpecificFeedbackInsert(
-            $persistence_factory,
+            $migration_insert->getPersistenceFactory(),
             $answer_form_migration,
             $migration_insert
         );

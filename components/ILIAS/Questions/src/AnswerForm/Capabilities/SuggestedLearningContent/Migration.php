@@ -52,7 +52,6 @@ class Migration implements MigrationInterface
     #[\Override]
     public function completeMigrationInsert(
         Environment $environment,
-        PersistenceFactory $persistence_factory,
         AnswerFormMigration $answer_form_migration,
         MigrationInsert $migration_insert
     ): ?MigrationInsert {

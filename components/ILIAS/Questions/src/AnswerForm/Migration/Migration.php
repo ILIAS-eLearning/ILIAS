@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerForm\Migration;
 
-use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\TableNameSpace;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Setup\Environment;
@@ -39,7 +38,6 @@ interface Migration
 
     public function completeMigrationInsert(
         Environment $environment,
-        PersistenceFactory $persistence_factory,
         MigrationInsert $migration_insert
     ): ?MigrationInsert;
 
