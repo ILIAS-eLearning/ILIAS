@@ -22,7 +22,7 @@ namespace ILIAS\Questions\Question\Views;
 
 use ILIAS\Questions\Administration\ConfigurationRepository;
 use ILIAS\Questions\Presentation\Layout\EditForm;
-use ILIAS\Questions\Presentation\Definitions\EnvironmentImplementation;
+use ILIAS\Questions\Presentation\Definitions\DefaultEnvironment;
 use ILIAS\Questions\Question\Question;
 use ILIAS\Questions\Question\QuestionImplementation;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
@@ -47,7 +47,7 @@ class Edit
     }
 
     public function create(
-        EnvironmentImplementation $environment
+        DefaultEnvironment $environment
     ): EditForm|Question {
         return match ($environment->getStep()) {
             self::CMD_SAVE_QUESTION => $this->processBasicPropertiesCreateForm(
@@ -58,7 +58,7 @@ class Edit
     }
 
     public function edit(
-        EnvironmentImplementation $environment,
+        DefaultEnvironment $environment,
         Participant $participant_view
     ): EditForm|Question {
         return match ($environment->getStep()) {
@@ -73,7 +73,7 @@ class Edit
     }
 
     private function buildBasicPropertiesCreateForm(
-        EnvironmentImplementation $environment
+        DefaultEnvironment $environment
     ): EditForm {
         $ff = $environment->getUIFactory()->input()->field();
 
@@ -119,7 +119,7 @@ class Edit
     }
 
     private function processBasicPropertiesCreateForm(
-        EnvironmentImplementation $environment
+        DefaultEnvironment $environment
     ): EditForm|Question {
         $form = $this->buildBasicPropertiesCreateForm(
             $environment
@@ -132,7 +132,7 @@ class Edit
     }
 
     private function buildBasicPropertiesEditingForm(
-        EnvironmentImplementation $environment
+        DefaultEnvironment $environment
     ): EditForm {
         return $environment->getPresentationFactory()->getEditForm(
             $environment->getUIFactory()->input()->field()->section(
@@ -157,7 +157,7 @@ class Edit
     }
 
     private function processBasicPropertiesEditingForm(
-        EnvironmentImplementation $environment
+        DefaultEnvironment $environment
     ): EditForm|Question {
         $form = $this->buildBasicPropertiesEditingForm(
             $environment
@@ -225,7 +225,7 @@ class Edit
     }
 
     private function buildPreviewPanel(
-        EnvironmentImplementation $environment,
+        DefaultEnvironment $environment,
         Participant $participant_view
     ): StandardPanel {
         $environment->preserveParametersForPageEditorCmds();

@@ -34,7 +34,7 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 
-class EnvironmentImplementation implements Environment
+class DefaultEnvironment implements Environment
 {
     private const array QUERY_PARAMETER_NAME_SPACE = ['q'];
     private const string TOKEN_STRING_ACTION = 'a';

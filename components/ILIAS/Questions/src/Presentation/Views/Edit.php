@@ -34,7 +34,7 @@ use ILIAS\Questions\Presentation\Layout\Factory as LayoutFactory;
 use ILIAS\Questions\Presentation\Layout\Renderable;
 use ILIAS\Questions\Presentation\Definitions\Editability;
 use ILIAS\Questions\Presentation\Definitions\Environment;
-use ILIAS\Questions\Presentation\Definitions\EnvironmentImplementation;
+use ILIAS\Questions\Presentation\Definitions\DefaultEnvironment;
 use ILIAS\Questions\Presentation\Layout\QuestionsTable;
 use ILIAS\Questions\Presentation\Layout\GlobalScreen\LayoutProvider;
 use ILIAS\Questions\Question\Persistence\Repository;
@@ -302,7 +302,7 @@ class Edit
     }
 
     private function createQuestion(
-        EnvironmentImplementation $environment
+        DefaultEnvironment $environment
     ): EditForm {
         $this->initializeEditMode($environment);
         $this->tabs_gui->setBackTarget(
@@ -338,7 +338,7 @@ class Edit
     }
 
     private function editQuestion(
-        EnvironmentImplementation $environment
+        DefaultEnvironment $environment
     ): EditForm {
         $this->initializeEditMode($environment);
         $this->tabs_gui->setBackTarget(
@@ -375,7 +375,7 @@ class Edit
     }
 
     private function deleteQuestions(
-        EnvironmentImplementation $environment
+        DefaultEnvironment $environment
     ): Async {
         $question_ids = $environment->getQuestionIds();
 
@@ -410,7 +410,7 @@ class Edit
     }
 
     private function showTable(
-        EnvironmentImplementation $environment
+        DefaultEnvironment $environment
     ): QuestionsTable {
         return new QuestionsTable(
             $this->ui_services,
@@ -429,7 +429,7 @@ class Edit
     }
 
     private function processCreateAnswerForm(
-        EnvironmentImplementation $environment,
+        DefaultEnvironment $environment,
         QuestionImplementation $question,
         \ilPCAnswerForm $content_object
     ): EditForm {
@@ -467,7 +467,7 @@ class Edit
     }
 
     private function forwardCreateAnswerFormCmd(
-        EnvironmentImplementation $environment,
+        DefaultEnvironment $environment,
         QuestionImplementation $question,
         \ilPCAnswerForm $content_object,
         AnswerFormEditView $answer_form_edit_view
@@ -500,7 +500,7 @@ class Edit
     }
 
     private function initializeEditMode(
-        EnvironmentImplementation $environment
+        DefaultEnvironment $environment
     ): void {
         $this->tabs_gui->clearTargets();
 
@@ -526,7 +526,7 @@ class Edit
     }
 
     private function buildQuestionListSlate(
-        EnvironmentImplementation $environment
+        DefaultEnvironment $environment
     ): LegacySlate {
         return $this->ui_factory->mainControls()->slate()->legacy(
             $this->lng->txt('mainbar_button_label_questionlist'),
@@ -545,7 +545,7 @@ class Edit
     }
 
     private function buildItemGroupForQuestionListSlate(
-        EnvironmentImplementation $environment
+        DefaultEnvironment $environment
     ): ItemGroup {
         return $this->ui_factory->item()->group(
             '',
@@ -569,7 +569,7 @@ class Edit
     }
 
     private function buildEditStartView(
-        EnvironmentImplementation $environment,
+        DefaultEnvironment $environment,
         QuestionImplementation $question
     ): EditForm {
         return $question->getEditView(
@@ -583,7 +583,7 @@ class Edit
     }
 
     private function buildCreateAnswerForm(
-        EnvironmentImplementation $environment
+        DefaultEnvironment $environment
     ): EditForm {
         $if = $this->ui_factory->input();
 
@@ -679,8 +679,8 @@ class Edit
     private function buildEnvironment(
         URI $base_uri,
         int $obj_id
-    ): EnvironmentImplementation {
-        return new EnvironmentImplementation(
+    ): DefaultEnvironment {
+        return new DefaultEnvironment(
             $this->ctrl,
             $this->http,
             $this->refinery,
@@ -696,7 +696,7 @@ class Edit
     }
 
     private function buildAfterQuestionCreationRedirectUri(
-        EnvironmentImplementation $environment,
+        DefaultEnvironment $environment,
         CreateModes $create_mode,
         Uuid $question_uuid
     ): string {
@@ -723,7 +723,7 @@ class Edit
     }
 
     private function buildAfterAnswerFormCreationRedirectUri(
-        EnvironmentImplementation $environment,
+        DefaultEnvironment $environment,
     ): string {
         if (!$this->configuration_repository->isCreateModeSimple($environment)) {
             return $this->ctrl->getLinkTargetByClass(

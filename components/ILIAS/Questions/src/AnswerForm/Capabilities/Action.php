@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerForm\Capabilities;
 
-use ILIAS\Questions\Presentation\Definitions\EnvironmentImplementation;
+use ILIAS\Questions\Presentation\Definitions\DefaultEnvironment;
 use ILIAS\Language\Language;
 
 class Action
@@ -41,7 +41,7 @@ class Action
     }
 
     public function addTab(
-        EnvironmentImplementation $environment,
+        DefaultEnvironment $environment,
         \ilTabsGUI $tabs_gui,
         Language $lng
     ): void {

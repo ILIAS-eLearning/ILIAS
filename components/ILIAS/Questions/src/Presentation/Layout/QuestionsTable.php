@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Questions\Presentation\Layout;
 
 use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
-use ILIAS\Questions\Presentation\Definitions\EnvironmentImplementation;
+use ILIAS\Questions\Presentation\Definitions\DefaultEnvironment;
 use ILIAS\Questions\Presentation\Views\Edit;
 use ILIAS\Questions\Question\Persistence\Repository;
 use ILIAS\Data\Range;
@@ -40,7 +40,7 @@ class QuestionsTable implements Renderable, DataRetrieval
         private readonly \ilUIService $ui_service,
         private readonly AnswerFormFactory $answer_form_factory,
         private readonly Repository $questions_repository,
-        private readonly EnvironmentImplementation $environment
+        private readonly DefaultEnvironment $environment
     ) {
         $environment->getLanguage()->loadLanguageModule('qpl');
     }
