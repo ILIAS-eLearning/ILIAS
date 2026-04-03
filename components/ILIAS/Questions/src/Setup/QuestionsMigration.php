@@ -129,7 +129,6 @@ class QuestionsMigration implements Migration
 
         $migration_insert = $answer_form_migration->completeMigrationInsert(
             $environment,
-            $this->persistence_factory,
             $this->buildMigrationInsert(
                 $answer_form_migration,
                 [
@@ -175,7 +174,6 @@ class QuestionsMigration implements Migration
             fn(AnswerFormMigrationInsert $c, CapabilityMigration $v): AnswerFormMigration
                 => $v->completeMigrationInsert(
                     $environment,
-                    $this->persistence_factory,
                     $migration_insert
                 ),
             $migration_insert

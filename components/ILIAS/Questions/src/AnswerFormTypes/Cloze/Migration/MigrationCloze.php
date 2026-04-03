@@ -67,7 +67,6 @@ class MigrationCloze implements Migration
     #[\Override]
     public function completeMigrationInsert(
         Environment $environment,
-        PersistenceFactory $persistence_factory,
         MigrationInsert $migration_insert
     ): ?MigrationInsert {
         $answer_input_mapping = [];
@@ -90,7 +89,7 @@ class MigrationCloze implements Migration
                 ];
                 $gaps_insert = $this->buildGapInsertStatement(
                     $this->table_definitions,
-                    $persistence_factory,
+                    $migration_insert->getPersistenceFactory(),
                     $migration_insert->getTableNameBuilder(),
                     $gaps_insert,
                     $answer_input_mapping[$db_row->gap_id],
@@ -114,7 +113,7 @@ class MigrationCloze implements Migration
 
             $answer_options_insert = $this->buildAnswerOptionInsertStatement(
                 $this->table_definitions,
-                $persistence_factory,
+                $migration_insert->getPersistenceFactory(),
                 $migration_insert->getTableNameBuilder(),
                 $answer_options_insert,
                 $answer_option_id,
@@ -133,7 +132,7 @@ class MigrationCloze implements Migration
 
         if ($db_row->combinations_enabled) {
             $migration_insert = $this->addCombinationInsertStatements(
-                $persistence_factory,
+                $migration_insert->getPersistenceFactory(),
                 $migration_insert,
                 $answer_input_mapping,
                 $answer_options_mapping
@@ -144,7 +143,7 @@ class MigrationCloze implements Migration
             ->withAdditionalInsert(
                 $this->buildAnswerFormInsertStatement(
                     $this->table_definitions,
-                    $persistence_factory,
+                    $migration_insert->getPersistenceFactory(),
                     $migration_insert->getTableNameBuilder(),
                     $answer_form_id,
                     $this->buildScoringIdenticalFromOld((int) $db_row->identical_scoring),
