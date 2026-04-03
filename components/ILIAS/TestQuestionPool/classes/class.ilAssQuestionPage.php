@@ -18,12 +18,12 @@
 
 declare(strict_types=1);
 
-use ILIAS\Questions\Question\QuestionImplementation;
+use ILIAS\Questions\Question\Question;
 use ILIAS\Data\UUID\Uuid;
 
 class ilAssQuestionPage extends ilPageObject
 {
-    private readonly QuestionImplementation $question;
+    private readonly Question $question;
 
     /**
      * Get parent type
@@ -35,14 +35,14 @@ class ilAssQuestionPage extends ilPageObject
     }
 
     public function setQuestion(
-        QuestionImplementation $question
+        Question $question
     ): void {
         $this->question = $question;
     }
 
     public function copyToAnswerForm(
         int $new_id,
-        QuestionImplementation $question
+        Question $question
     ): void {
         $this->buildDom();
         $this->migrateQuestionElementToAnswerForm();

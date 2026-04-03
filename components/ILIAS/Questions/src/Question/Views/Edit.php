@@ -24,7 +24,6 @@ use ILIAS\Questions\Administration\ConfigurationRepository;
 use ILIAS\Questions\Presentation\Layout\EditForm;
 use ILIAS\Questions\Presentation\Definitions\DefaultEnvironment;
 use ILIAS\Questions\Question\Question;
-use ILIAS\Questions\Question\QuestionImplementation;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
 use ILIAS\Questions\UserSettings\CreateModes;
 use ILIAS\Language\Language;
@@ -41,7 +40,7 @@ class Edit
         private readonly ConfigurationRepository $configuration_repository,
         private readonly \ilObjUser $current_user,
         private readonly \ilCtrl $ctrl,
-        private readonly QuestionImplementation $question
+        private readonly Question $question
     ) {
 
     }
@@ -208,7 +207,7 @@ class Edit
         Refinery $refinery
     ): Transformation {
         return $refinery->custom()->transformation(
-            function (array $vs): QuestionImplementation {
+            function (array $vs): Question {
                 $question = $this->question
                     ->withTitle($vs['title'])
                     ->withAuthor($vs['author'])

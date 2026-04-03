@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Question\Views;
 
-use ILIAS\Questions\Question\QuestionImplementation;
+use ILIAS\Questions\Question\Question;
 
 class Participant
 {
@@ -30,7 +30,7 @@ class Participant
     private bool $show_correct_solution = false;
 
     public function __construct(
-        private readonly QuestionImplementation $question
+        private readonly Question $question
     ) {
     }
 

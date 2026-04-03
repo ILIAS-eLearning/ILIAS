@@ -25,7 +25,7 @@ use ILIAS\Questions\AnswerForm\Definition as AnswerFormDefinition;
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableDefinitions;
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableTypes;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
-use ILIAS\Questions\Question\QuestionImplementation;
+use ILIAS\Questions\Question\Question;
 use ILIAS\Questions\Persistence\Column;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Operator;
@@ -62,8 +62,8 @@ class Repository
 
     public function getNew(
         int $parent_obj_id
-    ): QuestionImplementation {
-        return new QuestionImplementation(
+    ): Question {
+        return new Question(
             $this->buildAvailableUuid(),
             $parent_obj_id
         );
@@ -117,7 +117,7 @@ class Repository
 
     public function getForQuestionId(
         Uuid $question_id
-    ): ?QuestionImplementation {
+    ): ?Question {
         return $this->getForBaseQuery(
             $this->buildQuestionsQuery()->withAdditionalWhere(
                 $this->persistence_factory->where(
@@ -173,7 +173,7 @@ class Repository
     ): void {
         $this->store(
             array_map(
-                fn(QuestionImplementation $v): QuestionImplementation => $v
+                fn(Question $v): Question => $v
                     ->withPageId($this->buildQuestionPage($v->getParentObjId())),
                 $questions
             ),
@@ -202,7 +202,7 @@ class Repository
     ): void {
         array_reduce(
             $questions,
-            fn(Manipulate $c, QuestionImplementation $v): Manipulate
+            fn(Manipulate $c, Question $v): Manipulate
                 => $v->toDelete(
                     $c,
                     $this->persistence_factory,
@@ -255,7 +255,7 @@ class Repository
     private function retrieveQuestionFromQuery(
         Query $query,
         array $answer_forms
-    ): QuestionImplementation {
+    ): Question {
         $linking_info = $query->retrieveCurrentRecord(
             $this->persistence_factory->table(
                 $this->question_table_names_builder,
@@ -270,7 +270,7 @@ class Repository
                 TableTypes::Questions,
             ),
             $this->refinery->custom()->transformation(
-                fn(array $vs): QuestionImplementation => new QuestionImplementation(
+                fn(array $vs): Question => new Question(
                     $this->uuid_factory->fromString($vs[0]['id']),
                     $linking_info[0]['obj_id'],
                     $linking_info[0]['position'],
@@ -368,7 +368,7 @@ class Repository
     ): void {
         array_reduce(
             $questions,
-            fn(Manipulate $c, QuestionImplementation $v): Manipulate => $v->toStorage(
+            fn(Manipulate $c, Question $v): Manipulate => $v->toStorage(
                 $c,
                 $this->persistence_factory,
                 $this->question_table_definitions,
@@ -469,8 +469,8 @@ class Repository
     }
 
     private function migrateQuestionPage(
-        QuestionImplementation $question
-    ): QuestionImplementation {
+        Question $question
+    ): Question {
         $table_name = $this->question_table_names_builder
             ->getTableNameFor(TableTypes::MigrationsTable);
 
