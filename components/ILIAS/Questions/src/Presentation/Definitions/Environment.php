@@ -69,6 +69,8 @@ interface Environment
         string $capability
     ): bool;
 
+    public function getAnswerFormTableActionsForRequiredCapabilities(): array;
+
     public function isInCreationContext(): bool;
 
     /**
@@ -88,6 +90,14 @@ interface Environment
     public function withSubActionParameter(
         string $sub_action
     ): self;
+
+    public function getFormStartSubAction(): string;
+
+    public function withFormStartSubActionParameter(
+        string $form_start_command
+    ): self;
+
+    public function withPreservedFormStartSubActionParameter(): self;
 
     public function withPreservedTableRowIdsParameter(): self;
 

@@ -20,10 +20,16 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerForm\Capabilities\Marking;
 
+use ILIAS\Questions\Presentation\Layout\Tools\InputsBuilderSession;
+use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Response\Response;
 
 interface Marking
 {
+    public function getEditFormInputsBuilder(
+        Environment $environment,
+    ): InputsBuilderSession;
+
     public function addAchievedPointsToResponse(
         Response $response
     ): Response;
