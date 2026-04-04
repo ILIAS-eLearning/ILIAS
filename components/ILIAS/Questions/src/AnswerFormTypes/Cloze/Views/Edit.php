@@ -52,7 +52,7 @@ class Edit implements EditViewInterface
     #[\Override]
     public function create(
         Environment $environment
-    ): EditForm|Properties {
+    ): EditForm|Async|Properties {
         $sub_action = $environment->getSubAction();
 
         return match($sub_action) {
@@ -70,7 +70,7 @@ class Edit implements EditViewInterface
     #[\Override]
     public function edit(
         Environment $environment
-    ): EditOverview|EditForm|Properties {
+    ): EditOverview|EditForm|Async|Properties {
         $sub_action = $environment->getSubAction();
 
         $combinations = $environment->getAnswerFormProperties()->getCombinations();
@@ -131,8 +131,8 @@ class Edit implements EditViewInterface
     private function forwardCmdToEditGaps(
         Environment $environment,
         string $sub_action
-    ): EditForm|Properties {
-        $processed_form = $this->edit_gaps->call($environment, $sub_action);
+    ): EditForm|Async|Properties {
+        $processed_form = $this->edit_gaps->do($environment, $sub_action);
         if (is_string($processed_form)) {
             $inputs_builder = $this->buildInputsBuilderForBasicInputs(
                 $environment,
@@ -196,7 +196,7 @@ class Edit implements EditViewInterface
 
     private function processBasicEditingForm(
         Environment $environment
-    ): EditForm|Properties {
+    ): EditForm|Async|Properties {
         $inputs_builder = $this->buildInputsBuilderForBasicInputs(
             $environment,
             false,
@@ -234,7 +234,7 @@ class Edit implements EditViewInterface
             return $data;
         }
 
-        return $this->edit_gaps->call(
+        return $this->edit_gaps->do(
             $environment->withAnswerFormProperties(
                 $data->withGaps(
                     $data->getGaps()->withMarkedIncompleteGaps()
