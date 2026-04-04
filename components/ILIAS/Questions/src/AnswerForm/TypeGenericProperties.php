@@ -29,6 +29,7 @@ use ILIAS\Questions\Persistence\ManipulationType;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Persistence\Update;
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\Database\FieldDefinition;
 
 class TypeGenericProperties
 {
@@ -134,7 +135,7 @@ class TypeGenericProperties
                             $table_type
                         ),
                         $persistence_factory->value(
-                            \ilDBConstants::T_TEXT,
+                            FieldDefinition::T_TEXT,
                             $this->answer_form_id->toString()
                         )
                     )
@@ -155,35 +156,35 @@ class TypeGenericProperties
             ),
             [
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->answer_form_id->toString()
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->definition::class
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->question_id->toString()
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_FLOAT,
+                    FieldDefinition::T_FLOAT,
                     $this->available_points
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_INTEGER,
+                    FieldDefinition::T_INTEGER,
                     $this->image_size
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_INTEGER,
+                    FieldDefinition::T_INTEGER,
                     $this->getShuffleAnswerOptionsForStorage()
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->additional_text
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->additional_text_legacy
                 )
             ]
@@ -211,19 +212,19 @@ class TypeGenericProperties
             ),
             [
                 $persistence_factory->value(
-                    \ilDBConstants::T_FLOAT,
+                    FieldDefinition::T_FLOAT,
                     $this->available_points
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_INTEGER,
+                    FieldDefinition::T_INTEGER,
                     $this->image_size
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_INTEGER,
+                    FieldDefinition::T_INTEGER,
                     $this->getShuffleAnswerOptionsForStorage()
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->additional_text
                 )
 
@@ -235,7 +236,7 @@ class TypeGenericProperties
                         $table_type
                     ),
                     $persistence_factory->value(
-                        \ilDBConstants::T_TEXT,
+                        FieldDefinition::T_TEXT,
                         $this->answer_form_id->toString()
                     )
                 )

@@ -32,6 +32,7 @@ use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Persistence\TableNameSpace;
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\Database\FieldDefinition;
 use ILIAS\Setup\Environment;
 
 class MigrationCloze implements Migration
@@ -297,9 +298,9 @@ class MigrationCloze implements Migration
         float $points
     ): Insert {
         $values = [
-            $persistence_factory->value(\ilDBConstants::T_TEXT, $combination_id->toString()),
-            $persistence_factory->value(\ilDBConstants::T_TEXT, $answer_form_id->toString()),
-            $persistence_factory->value(\ilDBConstants::T_FLOAT, $points),
+            $persistence_factory->value(FieldDefinition::T_TEXT, $combination_id->toString()),
+            $persistence_factory->value(FieldDefinition::T_TEXT, $answer_form_id->toString()),
+            $persistence_factory->value(FieldDefinition::T_FLOAT, $points),
         ];
 
         if ($combinations_insert === null) {
@@ -326,10 +327,10 @@ class MigrationCloze implements Migration
         ?Range $in_range
     ): Insert {
         $values = [
-            $persistence_factory->value(\ilDBConstants::T_TEXT, $combination_id->toString()),
-            $persistence_factory->value(\ilDBConstants::T_TEXT, $gap_id->toString()),
-            $persistence_factory->value(\ilDBConstants::T_TEXT, $answer_option_id->toString()),
-            $persistence_factory->value(\ilDBConstants::T_TEXT, $in_range?->value)
+            $persistence_factory->value(FieldDefinition::T_TEXT, $combination_id->toString()),
+            $persistence_factory->value(FieldDefinition::T_TEXT, $gap_id->toString()),
+            $persistence_factory->value(FieldDefinition::T_TEXT, $answer_option_id->toString()),
+            $persistence_factory->value(FieldDefinition::T_TEXT, $in_range?->value)
         ];
 
         if ($combinations_to_answer_options_insert === null) {
