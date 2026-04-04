@@ -33,6 +33,7 @@ use ILIAS\Data\Text\Factory as TextFactory;
 use ILIAS\Data\Text\Markdown;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\Database\FieldDefinition;
 use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
 
@@ -262,23 +263,23 @@ abstract class Feedback
             ),
             [
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $answer_form_id->toString()
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->feedback_best_response?->getRawRepresentation() ?? ''
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->feedback_best_response_legacy
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->feedback_other_response?->getRawRepresentation() ?? ''
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->feedback_other_response_legacy
                 )
             ]
@@ -303,7 +304,7 @@ abstract class Feedback
                         TableTypes::FeedbackSpecific
                     ),
                     new Value(
-                        \ilDBConstants::T_TEXT,
+                        FieldDefinition::T_TEXT,
                         $answer_form_id->toString()
                     )
                 )

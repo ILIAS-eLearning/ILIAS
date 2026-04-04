@@ -29,6 +29,7 @@ use ILIAS\Questions\Persistence\TableNameSpace;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolution;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionFile;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
+use ILIAS\Database\FieldDefinition;
 use ILIAS\Setup\Environment;
 
 class Migration implements MigrationInterface
@@ -108,15 +109,15 @@ class Migration implements MigrationInterface
             ),
             [
                 $pf->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $migration_insert->getAnswerFormId()->toString()
                 ),
                 $pf->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $type
                 ),
                 $pf->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     json_encode($content)
                 ),
             ]
@@ -205,7 +206,7 @@ class Migration implements MigrationInterface
         return $db->fetchObject(
             $db->queryF(
                 'SELECT obj_fi, owner FROM qpl_questions WHERE id = %s',
-                [\ilDBConstants::T_INTEGER],
+                [FieldDefinition::T_INTEGER],
                 [$old_question_id]
             )
         );
@@ -224,7 +225,7 @@ class Migration implements MigrationInterface
                         . 'INNER JOIN object_reference' . PHP_EOL
                         . 'ON lm_data.lm_id = object_reference.obj_id' . PHP_EOL
                         . 'WHERE lm_data.obj_id = %s',
-                    [\ilDBConstants::T_INTEGER],
+                    [FieldDefinition::T_INTEGER],
                     [$sub_object_id]
                 )
             )?->lm_id;
@@ -236,7 +237,7 @@ class Migration implements MigrationInterface
                     . 'INNER JOIN object_reference' . PHP_EOL
                     . 'ON glossary_term.glo_id = object_reference.obj_id' . PHP_EOL
                     . 'WHERE glossary_term.id = %s',
-                [\ilDBConstants::T_INTEGER],
+                [FieldDefinition::T_INTEGER],
                 [$sub_object_id]
             )
         )?->glo_id;

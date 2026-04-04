@@ -23,6 +23,7 @@ namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Replace;
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\Database\FieldDefinition;
 
 class AnswerOption
 {
@@ -159,31 +160,31 @@ class AnswerOption
     ): array {
         return [
             $persistence_factory->value(
-                \ilDBConstants::T_TEXT,
+                FieldDefinition::T_TEXT,
                 $this->answer_option_id->toString()
             ),
             $persistence_factory->value(
-                \ilDBConstants::T_TEXT,
+                FieldDefinition::T_TEXT,
                 $this->answer_input_id->toString()
             ),
             $persistence_factory->value(
-                \ilDBConstants::T_INTEGER,
+                FieldDefinition::T_INTEGER,
                 $this->position
             ),
             $persistence_factory->value(
-                \ilDBConstants::T_TEXT,
+                FieldDefinition::T_TEXT,
                 $this->text_value
             ),
             $persistence_factory->value(
-                \ilDBConstants::T_FLOAT,
+                FieldDefinition::T_FLOAT,
                 $this->available_points
             ),
             $persistence_factory->value(
-                \ilDBConstants::T_FLOAT,
+                FieldDefinition::T_FLOAT,
                 $this->lower_limit
             ),
             $persistence_factory->value(
-                \ilDBConstants::T_FLOAT,
+                FieldDefinition::T_FLOAT,
                 $this->upper_limit
             )
         ];

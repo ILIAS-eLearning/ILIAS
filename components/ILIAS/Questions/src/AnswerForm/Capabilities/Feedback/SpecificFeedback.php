@@ -23,6 +23,7 @@ namespace ILIAS\Questions\AnswerForm\Capabilities\Feedback;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Data\Text\Markdown;
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\Database\FieldDefinition;
 
 class SpecificFeedback
 {
@@ -75,27 +76,27 @@ class SpecificFeedback
 
         return [
             $persistence_factory->value(
-                \ilDBConstants::T_TEXT,
+                FieldDefinition::T_TEXT,
                 $this->id->toString()
             ),
             $persistence_factory->value(
-                \ilDBConstants::T_TEXT,
+                FieldDefinition::T_TEXT,
                 $this->answer_form_id->toString()
             ),
             $persistence_factory->value(
-                \ilDBConstants::T_TEXT,
+                FieldDefinition::T_TEXT,
                 $this->parent_id->toString()
             ),
             $persistence_factory->value(
-                \ilDBConstants::T_TEXT,
+                FieldDefinition::T_TEXT,
                 $this->condition
             ),
             $persistence_factory->value(
-                \ilDBConstants::T_TEXT,
+                FieldDefinition::T_TEXT,
                 $this->feedback_text->getRawRepresentation()
             ),
             $persistence_factory->value(
-                \ilDBConstants::T_TEXT,
+                FieldDefinition::T_TEXT,
                 $this->feedback_legacy
             )
         ];

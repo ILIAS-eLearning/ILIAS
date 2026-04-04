@@ -29,6 +29,7 @@ use ILIAS\Questions\Question\Persistence\Repository as QuestionRepository;
 use ILIAS\Data\Order as DataOrder;
 use ILIAS\Data\Range as DataRange;
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\Database\FieldDefinition;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\ResourceStorage\Services as IRSS;
 
@@ -131,7 +132,7 @@ class Repository
                             TableTypes::SuggestedLearningContent
                         ),
                         $this->persistence_factory->value(
-                            \ilDBConstants::T_TEXT,
+                            FieldDefinition::T_TEXT,
                             $answer_form_id->toString()
                         )
                     )
@@ -164,7 +165,7 @@ class Repository
                     TableTypes::SuggestedLearningContent
                 ),
                 $this->persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $answer_form_id->toString()
                 )
             )

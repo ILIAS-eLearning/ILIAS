@@ -23,7 +23,7 @@ namespace ILIAS\Questions\Persistence;
 class Value
 {
     /*
-     * @param $type Type definition as provided by \ilDBConstants
+     * @param string $type Type definition as provided by `\ILIAS\Database\FieldDefinition`;
      */
     public function __construct(
         private readonly string $type,

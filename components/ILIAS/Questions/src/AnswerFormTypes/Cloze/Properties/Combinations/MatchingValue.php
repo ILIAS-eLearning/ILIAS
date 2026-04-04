@@ -29,6 +29,7 @@ use ILIAS\Questions\Persistence\Replace;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Language\Language;
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\Database\FieldDefinition;
 
 class MatchingValue
 {
@@ -92,19 +93,19 @@ class MatchingValue
             ),
             [
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->combination_id->toString()
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->gap->getAnswerInputId()->toString()
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->answer_option->getAnswerOptionId()->toString()
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->in_range?->value
                 )
             ]

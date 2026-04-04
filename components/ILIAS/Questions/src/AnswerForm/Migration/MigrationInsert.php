@@ -27,6 +27,7 @@ use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\Database\FieldDefinition;
 use ILIAS\Setup\CLI\IOWrapper;
 
 class MigrationInsert
@@ -175,37 +176,37 @@ class MigrationInsert
             ),
             [
                $this->persistence_factory->value(
-                   \ilDBConstants::T_TEXT,
+                   FieldDefinition::T_TEXT,
                    $this->answer_form_id->toString()
                ),
                 $this->persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->definition_class
                 ),
                 $this->persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->new_question_id->toString()
                 ),
                 $this->persistence_factory->value(
-                    \ilDBConstants::T_FLOAT,
+                    FieldDefinition::T_FLOAT,
                     $this->available_points
                 ),
                 $this->persistence_factory->value(
-                    \ilDBConstants::T_INTEGER,
+                    FieldDefinition::T_INTEGER,
                     $this->image_size
                 ),
                 $this->persistence_factory->value(
-                    \ilDBConstants::T_INTEGER,
+                    FieldDefinition::T_INTEGER,
                     $this->shuffle_answer_options === null
                         ? null
                         : ($this->shuffle_answer_options ? 1 : 0)
                 ),
                 $this->persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->additional_text
                 ),
                 $this->persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->additional_text_legacy
                 )
             ]

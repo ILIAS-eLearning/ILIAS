@@ -32,6 +32,7 @@ use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\Database\FieldDefinition;
 use ILIAS\Setup;
 use ILIAS\Setup\CLI\IOWrapper;
 use ILIAS\Setup\Environment;
@@ -335,15 +336,15 @@ class QuestionsMigration implements Migration
             ),
             [
                 $this->persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $new_question_id->toString()
                 ),
                 $this->persistence_factory->value(
-                    \ilDBConstants::T_INTEGER,
+                    FieldDefinition::T_INTEGER,
                     $obj_id
                 ),
                 $this->persistence_factory->value(
-                    \ilDBConstants::T_INTEGER,
+                    FieldDefinition::T_INTEGER,
                     $position
                 )
             ]
@@ -366,39 +367,39 @@ class QuestionsMigration implements Migration
             ),
             [
                 $this->persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $id->toString()
                 ),
                 $this->persistence_factory->value(
-                    \ilDBConstants::T_INTEGER,
+                    FieldDefinition::T_INTEGER,
                     0
                 ),
                 $this->persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $title
                 ),
                 $this->persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $author
                 ),
                 $this->persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $lifecycle->value
                 ),
                 $this->persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $remarks
                 ),
                 $this->persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $original_id?->toString()
                 ),
                 $this->persistence_factory->value(
-                    \ilDBConstants::T_INTEGER,
+                    FieldDefinition::T_INTEGER,
                     time()
                 ),
                 $this->persistence_factory->value(
-                    \ilDBConstants::T_INTEGER,
+                    FieldDefinition::T_INTEGER,
                     $create_date
                 )
             ]
@@ -416,15 +417,15 @@ class QuestionsMigration implements Migration
             ),
             [
                 $this->persistence_factory->value(
-                    \ilDBConstants::T_INTEGER,
+                    FieldDefinition::T_INTEGER,
                     $old_question_id
                 ),
                 $this->persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $new_question_id?->toString()
                 ),
                 $this->persistence_factory->value(
-                    \ilDBConstants::T_INTEGER,
+                    FieldDefinition::T_INTEGER,
                     $new_question_id === null
                         ? '0'
                         : '1'

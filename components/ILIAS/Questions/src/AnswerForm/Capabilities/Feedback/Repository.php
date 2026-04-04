@@ -31,6 +31,7 @@ use ILIAS\Data\Range as DataRange;
 use ILIAS\Data\Text\Factory as TextFactory;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\Database\FieldDefinition;
 use ILIAS\Refinery\Factory as Refinery;
 
 class Repository
@@ -64,7 +65,7 @@ class Repository
                         TableTypes::FeedbackGeneric
                     ),
                     $this->persistence_factory->value(
-                        \ilDBConstants::T_TEXT,
+                        FieldDefinition::T_TEXT,
                         $answer_form_id->toString()
                     )
                 )

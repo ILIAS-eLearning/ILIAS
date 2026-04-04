@@ -36,6 +36,7 @@ use ILIAS\Questions\Presentation\Definitions\DefaultEnvironment;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
 use ILIAS\Questions\UserSettings\CreateModes;
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\Database\FieldDefinition;
 use ILIAS\UI\Component\Link\Factory as LinkFactory;
 use ILIAS\UI\Component\Link\Standard as StandardLink;
 use ILIAS\UI\Component\Table\DataRowBuilder;
@@ -523,15 +524,15 @@ class Question implements PublicQuestionInterface
             ),
             [
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->id->toString()
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_INTEGER,
+                    FieldDefinition::T_INTEGER,
                     $this->parent_obj_id
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_INTEGER,
+                    FieldDefinition::T_INTEGER,
                     $this->position
                 )
             ]
@@ -550,39 +551,39 @@ class Question implements PublicQuestionInterface
             ),
             [
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->id->toString()
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_INTEGER,
+                    FieldDefinition::T_INTEGER,
                     $this->page_id
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->title
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->author
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->lifecycle->value
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->remarks
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->original_id?->toString()
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_INTEGER,
+                    FieldDefinition::T_INTEGER,
                     time()
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_INTEGER,
+                    FieldDefinition::T_INTEGER,
                     time()
                 )
             ]
@@ -604,11 +605,11 @@ class Question implements PublicQuestionInterface
             ),
             [
                 $persistence_factory->value(
-                    \ilDBConstants::T_INTEGER,
+                    FieldDefinition::T_INTEGER,
                     $this->parent_obj_id
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_INTEGER,
+                    FieldDefinition::T_INTEGER,
                     $this->position
                 )
             ],
@@ -618,7 +619,7 @@ class Question implements PublicQuestionInterface
                         $persistence_factory
                     ),
                     $persistence_factory->value(
-                        \ilDBConstants::T_TEXT,
+                        FieldDefinition::T_TEXT,
                         $this->id->toString()
                     )
                 )
@@ -645,27 +646,27 @@ class Question implements PublicQuestionInterface
             ),
             [
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->title
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->author
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->lifecycle->value
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->remarks
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->original_id?->toString()
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_INTEGER,
+                    FieldDefinition::T_INTEGER,
                     time()
                 )
             ],
@@ -676,7 +677,7 @@ class Question implements PublicQuestionInterface
                         $table_type
                     ),
                     $persistence_factory->value(
-                        \ilDBConstants::T_TEXT,
+                        FieldDefinition::T_TEXT,
                         $this->id->toString()
                     )
                 )
@@ -703,7 +704,7 @@ class Question implements PublicQuestionInterface
                         $table_type
                     ),
                     $persistence_factory->value(
-                        \ilDBConstants::T_TEXT,
+                        FieldDefinition::T_TEXT,
                         $this->id->toString()
                     )
                 )
@@ -729,7 +730,7 @@ class Question implements PublicQuestionInterface
                         $table_type
                     ),
                     $persistence_factory->value(
-                        \ilDBConstants::T_TEXT,
+                        FieldDefinition::T_TEXT,
                         $this->id->toString()
                     )
                 )
@@ -759,7 +760,7 @@ class Question implements PublicQuestionInterface
                         $table_type
                     ),
                     $persistence_factory->value(
-                        \ilDBConstants::T_TEXT,
+                        FieldDefinition::T_TEXT,
                         $this->id->toString()
                     )
                 )
@@ -796,11 +797,11 @@ class Question implements PublicQuestionInterface
             ],
             [
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->page_id
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_INTEGER,
+                    FieldDefinition::T_INTEGER,
                     time()
                 )
             ],
@@ -811,7 +812,7 @@ class Question implements PublicQuestionInterface
                         $table_type
                     ),
                     $persistence_factory->value(
-                        \ilDBConstants::T_TEXT,
+                        FieldDefinition::T_TEXT,
                         $this->id->toString()
                     )
                 )

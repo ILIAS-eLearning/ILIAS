@@ -31,6 +31,7 @@ use ILIAS\Questions\Persistence\Operator;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\Database\FieldDefinition;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
@@ -451,7 +452,7 @@ class Gaps
                         $table_type
                     ),
                     $persistence_factory->value(
-                        \ilDBConstants::T_TEXT,
+                        FieldDefinition::T_TEXT,
                         $this->answer_form_id->toString()
                     )
                 ),
@@ -461,7 +462,7 @@ class Gaps
                         $table_type
                     ),
                     $persistence_factory->value(
-                        \ilDBConstants::T_TEXT,
+                        FieldDefinition::T_TEXT,
                         array_map(
                             fn(Gap $v): string => $v->getAnswerInputId()->toString(),
                             $this->gaps
@@ -494,7 +495,7 @@ class Gaps
                         $table_type
                     ),
                     $persistence_factory->value(
-                        \ilDBConstants::T_TEXT,
+                        FieldDefinition::T_TEXT,
                         $this->answer_form_id->toString()
                     ),
                 )
