@@ -22,8 +22,10 @@ namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
 use ILIAS\Questions\AnswerForm\Capabilities\Feedback\Types as FeedbackTypes;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
+use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Definitions\Range;
 use ILIAS\Data\UUID\Factory as UuidFactory;
+use ILIAS\FileUpload\FileUpload;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Constraint;
@@ -45,6 +47,8 @@ abstract class Type
     ): string;
 
     abstract public function getEditAnswerOptionsInputs(
+        FileUpload $file_upload,
+        Environment $environment,
         Gap $gap
     ): array;
 

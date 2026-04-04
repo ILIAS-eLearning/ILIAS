@@ -22,7 +22,10 @@ namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Views\UploadAnswerOptions;
+use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\FileUpload\MimeType;
+use ILIAS\FileUpload\FileUpload;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Constraint;
@@ -82,6 +85,8 @@ class LongMenu extends Type
 
     #[\Override]
     public function getEditAnswerOptionsInputs(
+        FileUpload $file_upload,
+        Environment $environment,
         Gap $gap
     ): array {
         $ff = $this->ui_factory->input()->field();
@@ -91,7 +96,10 @@ class LongMenu extends Type
                 []
             )->withValue($gap->getAnswerOptions()->getTagsArrayFromAnswerOptions()),
             'upload_answer_options' => $ff->file(
-                new UploadAnswerOptionsGUI(),
+                new UploadAnswerOptions(
+                    $file_upload,
+                    $environment
+                ),
                 $this->lng->txt('upload_answer_options'),
                 $this->lng->txt('upload_answer_options_info')
             )->withAcceptedMimeTypes(self::ACCEPTED_MIME_TYPES),
