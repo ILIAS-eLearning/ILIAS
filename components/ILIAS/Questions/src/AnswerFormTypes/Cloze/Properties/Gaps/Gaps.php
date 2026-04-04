@@ -22,14 +22,16 @@ namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
+use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
 use ILIAS\Questions\Persistence\Delete;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Junctor;
 use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Persistence\Operator;
 use ILIAS\Questions\Persistence\TableNameBuilder;
-use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
+use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\FileUpload\FileUpload;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
@@ -227,28 +229,27 @@ class Gaps
     }
 
     public function buildAnswerOptionsInputs(
-        Language $lng,
-        FieldFactory $ff,
+        FileUpload $file_upload,
+        Environment $environment,
         Properties $properties,
-        bool $is_in_creation_context,
-        array $selected_gaps
     ): Section {
-        return $ff->section(
+
+        return $environment->getUIFactory()->input()->field()->section(
             array_reduce(
                 $this->retrieveGapsForInputs(
-                    $is_in_creation_context,
-                    $selected_gaps
+                    $environment->isInCreationContext(),
+                    $environment->getTableRowIds()
                 ),
-                function (array $c, Gap $v) use ($lng, $ff): array {
+                function (array $c, Gap $v) use ($environment, $file_upload): array {
                     $c[$v->getAnswerInputId()->toString()] = $v->getEditAnswerOptionsSection(
-                        $lng,
-                        $ff
+                        $file_upload,
+                        $environment
                     );
                     return $c;
                 },
                 []
             ),
-            $lng->txt('add_answer_options')
+            $environment->getLanguage()->txt('add_answer_options')
         )->withAdditionalTransformation(
             $this->refinery->custom()->transformation(
                 fn(array $vs): Properties => $properties->withGaps(
