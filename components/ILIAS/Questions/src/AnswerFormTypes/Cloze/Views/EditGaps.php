@@ -24,8 +24,10 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Factory as PropertiesFactor
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Factory as GapFactory;
 use ILIAS\Questions\Presentation\Definitions\Environment;
+use ILIAS\Questions\Presentation\Layout\Async;
 use ILIAS\Questions\Presentation\Layout\EditForm;
 use ILIAS\Questions\Presentation\Layout\Tools\InputsBuilderSession;
+use ILIAS\FileUpload\FileUpload;
 use ILIAS\Refinery\Custom\Transformation as CustomTransformation;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\URLBuilder;
@@ -47,20 +49,29 @@ class EditGaps
     private ?string $start_sub_action;
 
     public function __construct(
+        private readonly FileUpload $file_upload,
         private readonly PropertiesFactory $properties_factory,
         private readonly GapFactory $gap_factory
     ) {
     }
 
-    public function call(
+    public function do(
         Environment $environment,
         string $sub_action = self::SUB_ACTION_SET_GAP_TYPES
-    ): EditForm|Properties|string {
+    ): EditForm|Async|Properties|string {
         $sub_action_array = explode('_', $sub_action);
         $this->sub_action = $sub_action_array[0];
         $this->start_sub_action = $this->determineStartSubActionFromSubAction(
             $sub_action_array[1] ?? null
         );
+
+        $upload_handler = new UploadAnswerOptions(
+            $this->file_upload,
+            $environment
+        );
+        if ($upload_handler->can($sub_action)) {
+            return $upload_handler->do($sub_action);
+        }
 
         return match ($this->sub_action) {
             self::SUB_ACTION_SET_GAP_TYPES,
@@ -348,11 +359,9 @@ class EditGaps
                         );
                     return $properties_from_carry->getGaps()
                         ->buildAnswerOptionsInputs(
-                            $environment->getLanguage(),
-                            $environment->getUIFactory()->input()->field(),
-                            $properties_from_carry,
-                            $environment->isInCreationContext(),
-                            $environment->getTableRowIds()
+                            $this->file_upload,
+                            $environment,
+                            $properties_from_carry
                         );
                 }
             )

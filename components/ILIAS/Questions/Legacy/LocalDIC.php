@@ -220,6 +220,7 @@ class LocalDIC extends PimpleContainer
             );
         $dic[Cloze\Views\EditGaps::class] = static fn($c): Cloze\Views\EditGaps
             => new Cloze\Views\EditGaps(
+                $DIC['upload'],
                 $c[Cloze\Properties\Factory::class],
                 $c[Cloze\Properties\Gaps\Factory::class]
             );

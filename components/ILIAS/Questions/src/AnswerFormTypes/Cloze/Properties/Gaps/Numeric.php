@@ -20,10 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
-use ILIAS\Questions\Definitions\Range;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption;
+use ILIAS\Questions\Definitions\Range;
+use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Data\UUID\Factory as UuidFactory;
+use ILIAS\FileUpload\FileUpload;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Constraint;
@@ -70,6 +72,8 @@ class Numeric extends Type
 
     #[\Override]
     public function getEditAnswerOptionsInputs(
+        FileUpload $file_upload,
+        Environment $environment,
         Gap $gap
     ): array {
         $answer_option = $gap->getAnswerOptions()->getAnswerOptionForPositionOrNew(0);

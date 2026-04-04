@@ -22,6 +22,8 @@ namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption;
+use ILIAS\Questions\Presentation\Definitions\Environment;
+use ILIAS\FileUpload\FileUpload;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Constraint;
@@ -90,6 +92,8 @@ class Select extends Type
 
     #[\Override]
     public function getEditAnswerOptionsInputs(
+        FileUpload $file_upload,
+        Environment $environment,
         Gap $gap
     ): array {
         $ff = $this->ui_factory->input()->field();

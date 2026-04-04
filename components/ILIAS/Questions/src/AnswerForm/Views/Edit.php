@@ -31,11 +31,11 @@ interface Edit
 {
     public function create(
         Environment $environment
-    ): EditForm|Properties;
+    ): EditForm|Async|Properties;
 
     public function edit(
         Environment $environment
-    ): EditOverview|EditForm|Properties;
+    ): EditOverview|EditForm|Async|Properties;
 
     public function other(
         Environment $environment

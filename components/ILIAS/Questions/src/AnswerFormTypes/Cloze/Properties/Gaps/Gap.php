@@ -27,7 +27,9 @@ use ILIAS\Questions\Definitions\TextMatchingOptions;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Replace;
 use ILIAS\Questions\Persistence\TableNameBuilder;
+use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\FileUpload\FileUpload;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
@@ -310,12 +312,16 @@ class Gap
     }
 
     public function getEditAnswerOptionsSection(
-        Language $lng,
-        FieldFactory $ff
+        FileUpload $file_upload,
+        Environment $environment
     ): Section {
-        $section = $ff->section(
-            $this->getType()->getEditAnswerOptionsInputs($this),
-            "{$this->buildShortenedGapName()} ({$lng->txt("{$this->getType()->getIdentifier()}_gap")})"
+        $section = $environment->getUIFactory()->input()->field()->section(
+            $this->getType()->getEditAnswerOptionsInputs(
+                $file_upload,
+                $environment,
+                $this
+            ),
+            "{$this->buildShortenedGapName()} ({$environment->getLanguage()->txt("{$this->getType()->getIdentifier()}_gap")})"
         );
 
         $edit_section_constraint = $this->getType()->getEditAnswerOptionsSectionConstraint();
