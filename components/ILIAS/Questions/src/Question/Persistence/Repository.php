@@ -37,6 +37,7 @@ use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\Order as DataOrder;
 use ILIAS\Data\Range as DataRange;
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\Database\FieldDefinition;
 use ILIAS\Refinery\Factory as Refinery;
 
 class Repository
@@ -97,7 +98,7 @@ class Repository
                     TableTypes::Questions
                 ),
                 $this->persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     array_map(
                         fn(Uuid $v): string => $v->toString(),
                         $question_ids
@@ -126,7 +127,7 @@ class Repository
                         TableTypes::Questions
                     ),
                     $this->persistence_factory->value(
-                        \ilDBConstants::T_TEXT,
+                        FieldDefinition::T_TEXT,
                         $question_id->toString()
                     ),
                     Operator::Equal
@@ -152,7 +153,7 @@ class Repository
                         TableTypes::Questions
                     ),
                     $this->persistence_factory->value(
-                        \ilDBConstants::T_TEXT,
+                        FieldDefinition::T_TEXT,
                         array_map(
                             fn(Uuid $v): string => $v->toString(),
                             $question_ids
@@ -349,7 +350,7 @@ class Repository
                     'question_id',
                     $question_ids,
                     false,
-                    \ilDBConstants::T_TEXT
+                    FieldDefinition::T_TEXT
                 )}"
         );
         $answer_form_types = [];
@@ -477,7 +478,7 @@ class Repository
         $old_page_id = $this->db->fetchObject(
             $this->db->query(
                 "SELECT old_question_id FROM {$table_name}" . PHP_EOL
-                . "WHERE new_question_id = {$this->db->quote($question->getId(), \ilDBConstants::T_TEXT)}"
+                . "WHERE new_question_id = {$this->db->quote($question->getId(), FieldDefinition::T_TEXT)}"
             )
         )->old_question_id;
 

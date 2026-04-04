@@ -29,6 +29,7 @@ use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Persistence\Replace;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\Database\FieldDefinition;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
@@ -159,9 +160,9 @@ class Combination
                 $table_definitions->getCombinationsTableIdentifier()
             ),
             [
-                $persistence_factory->value(\ilDBConstants::T_TEXT, $this->id->toString()),
-                $persistence_factory->value(\ilDBConstants::T_TEXT, $answer_form_id->toString()),
-                $persistence_factory->value(\ilDBConstants::T_FLOAT, $this->available_points)
+                $persistence_factory->value(FieldDefinition::T_TEXT, $this->id->toString()),
+                $persistence_factory->value(FieldDefinition::T_TEXT, $answer_form_id->toString()),
+                $persistence_factory->value(FieldDefinition::T_FLOAT, $this->available_points)
             ]
         );
     }
@@ -186,7 +187,7 @@ class Combination
                         $table_definitions->getCombinationsTableIdentifier()
                     ),
                     $persistence_factory->value(
-                        \ilDBConstants::T_TEXT,
+                        FieldDefinition::T_TEXT,
                         $this->id->toString()
                     )
                 )
@@ -214,7 +215,7 @@ class Combination
                         $table_definitions->getCombinationToAnswerOptionsTableIdentifier()
                     ),
                     $persistence_factory->value(
-                        \ilDBConstants::T_TEXT,
+                        FieldDefinition::T_TEXT,
                         $this->id->toString()
                     )
                 )

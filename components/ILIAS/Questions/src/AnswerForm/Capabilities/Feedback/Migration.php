@@ -28,6 +28,7 @@ use ILIAS\Questions\Definitions\Range;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\TableNameSpace;
+use ILIAS\Database\FieldDefinition;
 use ILIAS\Setup\Environment;
 
 class Migration implements MigrationInterface
@@ -83,7 +84,7 @@ class Migration implements MigrationInterface
     ): \Generator {
         $query = $db->queryF(
             'SELECT * FROM qpl_fb_generic WHERE question_fi = %s ORDER BY question_fi',
-            [\ilDBConstants::T_INTEGER],
+            [FieldDefinition::T_INTEGER],
             [$old_question_id]
         );
 
@@ -96,7 +97,7 @@ class Migration implements MigrationInterface
     ): \Generator {
         $query = $db->queryF(
             'SELECT * FROM qpl_fb_specific WHERE question_fi = %s ORDER BY question_fi',
-            [\ilDBConstants::T_INTEGER],
+            [FieldDefinition::T_INTEGER],
             [$old_question_id]
         );
 
@@ -187,15 +188,15 @@ class Migration implements MigrationInterface
 
         return [
             $persistence_factory->value(
-                \ilDBConstants::T_TEXT,
+                FieldDefinition::T_TEXT,
                 $migration_insert->getAnswerFormId()->toString()
             ),
             $persistence_factory->value(
-                \ilDBConstants::T_TEXT,
+                FieldDefinition::T_TEXT,
                 ''
             ),
             $persistence_factory->value(
-                \ilDBConstants::T_TEXT,
+                FieldDefinition::T_TEXT,
                 $this->sanitizeLegacyText(
                     $migration_insert->getDb(),
                     $feedback_best_response,
@@ -203,11 +204,11 @@ class Migration implements MigrationInterface
                 )
             ),
             $persistence_factory->value(
-                \ilDBConstants::T_TEXT,
+                FieldDefinition::T_TEXT,
                 ''
             ),
             $persistence_factory->value(
-                \ilDBConstants::T_TEXT,
+                FieldDefinition::T_TEXT,
                 $this->sanitizeLegacyText(
                     $migration_insert->getDb(),
                     $feedback_other_response,
@@ -297,27 +298,27 @@ class Migration implements MigrationInterface
         return array_map(
             fn(string $v): array => [
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $migration_insert->getUuid()->toString()
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $migration_insert->getAnswerFormId()->toString()
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $parent_id
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $v
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     ''
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->sanitizeLegacyText(
                         $migration_insert->getDb(),
                         $feedback_for_question['feedback'],

@@ -40,6 +40,7 @@ use ILIAS\Questions\Persistence\ManipulationType;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\Database\FieldDefinition;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
@@ -347,15 +348,15 @@ class Properties implements PropertiesInterface
             ),
             [
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->answer_form_id->toString()
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->scoring_identical->value
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_INTEGER,
+                    FieldDefinition::T_INTEGER,
                     $this->combinations->areCombinationsEnabled() ? 1 : 0
                 )
             ]
@@ -377,11 +378,11 @@ class Properties implements PropertiesInterface
             ),
             [
                 $persistence_factory->value(
-                    \ilDBConstants::T_TEXT,
+                    FieldDefinition::T_TEXT,
                     $this->scoring_identical->value
                 ),
                 $persistence_factory->value(
-                    \ilDBConstants::T_INTEGER,
+                    FieldDefinition::T_INTEGER,
                     $this->combinations->areCombinationsEnabled() ? 1 : 0
                 )
             ],
@@ -392,7 +393,7 @@ class Properties implements PropertiesInterface
                         $table_type
                     ),
                     $persistence_factory->value(
-                        \ilDBConstants::T_TEXT,
+                        FieldDefinition::T_TEXT,
                         $this->answer_form_id->toString()
                     )
                 )
@@ -436,7 +437,7 @@ class Properties implements PropertiesInterface
                         $table_type
                     ),
                     $persistence_factory->value(
-                        \ilDBConstants::T_TEXT,
+                        FieldDefinition::T_TEXT,
                         $this->answer_form_id->toString()
                     )
                 )
