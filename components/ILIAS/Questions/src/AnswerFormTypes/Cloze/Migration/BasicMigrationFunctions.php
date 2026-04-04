@@ -30,6 +30,7 @@ use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Definitions\TextMatchingOptions;
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\Database\FieldDefinition;
 
 trait BasicMigrationFunctions
 {
@@ -113,15 +114,15 @@ trait BasicMigrationFunctions
         ?int $shuffle
     ): array {
         return [
-            $persistence_factory->value(\ilDBConstants::T_TEXT, $answer_input_id->toString()),
-            $persistence_factory->value(\ilDBConstants::T_TEXT, $answer_form_id->toString()),
-            $persistence_factory->value(\ilDBConstants::T_INTEGER, $position),
-            $persistence_factory->value(\ilDBConstants::T_TEXT, $gap_type),
-            $persistence_factory->value(\ilDBConstants::T_INTEGER, $max_chars),
-            $persistence_factory->value(\ilDBConstants::T_FLOAT, $step_size),
-            $persistence_factory->value(\ilDBConstants::T_INTEGER, $matching_options?->value),
-            $persistence_factory->value(\ilDBConstants::T_INTEGER, $min_autocomplete),
-            $persistence_factory->value(\ilDBConstants::T_INTEGER, $shuffle)
+            $persistence_factory->value(FieldDefinition::T_TEXT, $answer_input_id->toString()),
+            $persistence_factory->value(FieldDefinition::T_TEXT, $answer_form_id->toString()),
+            $persistence_factory->value(FieldDefinition::T_INTEGER, $position),
+            $persistence_factory->value(FieldDefinition::T_TEXT, $gap_type),
+            $persistence_factory->value(FieldDefinition::T_INTEGER, $max_chars),
+            $persistence_factory->value(FieldDefinition::T_FLOAT, $step_size),
+            $persistence_factory->value(FieldDefinition::T_INTEGER, $matching_options?->value),
+            $persistence_factory->value(FieldDefinition::T_INTEGER, $min_autocomplete),
+            $persistence_factory->value(FieldDefinition::T_INTEGER, $shuffle)
         ];
     }
 
@@ -184,14 +185,14 @@ trait BasicMigrationFunctions
         ?float $upper_limit
     ): array {
         return [
-            $persistence_factory->value(\ilDBConstants::T_TEXT, $answer_option_id->toString()),
-            $persistence_factory->value(\ilDBConstants::T_TEXT, $answer_input_id->toString()),
-            $persistence_factory->value(\ilDBConstants::T_INTEGER, $position),
-            $persistence_factory->value(\ilDBConstants::T_TEXT, $text_value),
-            $persistence_factory->value(\ilDBConstants::T_FLOAT, $points),
-            $persistence_factory->value(\ilDBConstants::T_FLOAT, $lower_limit),
+            $persistence_factory->value(FieldDefinition::T_TEXT, $answer_option_id->toString()),
+            $persistence_factory->value(FieldDefinition::T_TEXT, $answer_input_id->toString()),
+            $persistence_factory->value(FieldDefinition::T_INTEGER, $position),
+            $persistence_factory->value(FieldDefinition::T_TEXT, $text_value),
+            $persistence_factory->value(FieldDefinition::T_FLOAT, $points),
+            $persistence_factory->value(FieldDefinition::T_FLOAT, $lower_limit),
             $persistence_factory->value(
-                \ilDBConstants::T_FLOAT,
+                FieldDefinition::T_FLOAT,
                 $lower_limit !== $upper_limit
                     ? $upper_limit
                     : null
@@ -213,9 +214,9 @@ trait BasicMigrationFunctions
                 AnswerFormSpecificTableTypes::TypeSpecificAnswerForms
             ),
             [
-                $persistence_factory->value(\ilDBConstants::T_TEXT, $answer_form_id->toString()),
-                $persistence_factory->value(\ilDBConstants::T_TEXT, $scoring_identical->value),
-                $persistence_factory->value(\ilDBConstants::T_INTEGER, $combinations_enabled)
+                $persistence_factory->value(FieldDefinition::T_TEXT, $answer_form_id->toString()),
+                $persistence_factory->value(FieldDefinition::T_TEXT, $scoring_identical->value),
+                $persistence_factory->value(FieldDefinition::T_INTEGER, $combinations_enabled)
             ]
         );
     }

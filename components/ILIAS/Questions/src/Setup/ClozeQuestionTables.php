@@ -22,6 +22,7 @@ namespace ILIAS\Questions\Setup;
 
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
 use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
+use ILIAS\Database\FieldDefinition;
 
 class ClozeQuestionTables implements \ilDatabaseUpdateSteps
 {
@@ -48,17 +49,17 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
                 'answer_form_id' => [
-                    'type' => \ilDBConstants::T_TEXT,
+                    'type' => FieldDefinition::T_TEXT,
                     'length' => 64,
                     'notnull' => true
                 ],
                  'scoring_identical_responses' => [
-                    'type' => \ilDBConstants::T_TEXT,
+                    'type' => FieldDefinition::T_TEXT,
                     'length' => 32,
                     'notnull' => true
                 ],
                 'combinations_enabled' => [
-                    'type' => \ilDBConstants::T_INTEGER,
+                    'type' => FieldDefinition::T_INTEGER,
                     'length' => 1,
                     'notnull' => true
                 ]
@@ -78,46 +79,46 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
                 'id' => [
-                    'type' => \ilDBConstants::T_TEXT,
+                    'type' => FieldDefinition::T_TEXT,
                     'length' => 64,
                     'notnull' => true
                 ],
                 'answer_form_id' => [
-                    'type' => \ilDBConstants::T_TEXT,
+                    'type' => FieldDefinition::T_TEXT,
                     'length' => 64,
                     'notnull' => true
                 ],
                 'position' => [
-                    'type' => \ilDBConstants::T_INTEGER,
+                    'type' => FieldDefinition::T_INTEGER,
                     'length' => 2,
                     'notnull' => true
                 ],
                 'gap_type' => [
-                    'type' => \ilDBConstants::T_TEXT,
+                    'type' => FieldDefinition::T_TEXT,
                     'length' => 32,
                     'notnull' => true
                 ],
                 'max_chars' => [
-                    'type' => \ilDBConstants::T_INTEGER,
+                    'type' => FieldDefinition::T_INTEGER,
                     'length' => 2,
                     'notnull' => false
                 ],
                 'step_size' => [
-                    'type' => \ilDBConstants::T_FLOAT,
+                    'type' => FieldDefinition::T_FLOAT,
                     'notnull' => false
                 ],
                 'text_matching_method' => [
-                    'type' => \ilDBConstants::T_TEXT,
+                    'type' => FieldDefinition::T_TEXT,
                     'length' => 32,
                     'notnull' => false
                 ],
                 'min_autocomplete' => [
-                    'type' => \ilDBConstants::T_INTEGER,
+                    'type' => FieldDefinition::T_INTEGER,
                     'length' => 2,
                     'notnull' => false
                 ],
                 'shuffle_answer_options' => [
-                    'type' => \ilDBConstants::T_INTEGER,
+                    'type' => FieldDefinition::T_INTEGER,
                     'length' => 1,
                     'notnull' => false
                 ]
@@ -141,35 +142,35 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
                 'id' => [
-                    'type' => \ilDBConstants::T_TEXT,
+                    'type' => FieldDefinition::T_TEXT,
                     'length' => 64,
                     'notnull' => true
                 ],
                 'answer_input_id' => [
-                    'type' => \ilDBConstants::T_TEXT,
+                    'type' => FieldDefinition::T_TEXT,
                     'length' => 64,
                     'notnull' => true
                 ],
                 'position' => [
-                    'type' => \ilDBConstants::T_INTEGER,
+                    'type' => FieldDefinition::T_INTEGER,
                     'length' => 2,
                     'notnull' => true
                 ],
                 'text_value' => [
-                    'type' => \ilDBConstants::T_TEXT,
+                    'type' => FieldDefinition::T_TEXT,
                     'length' => 4000,
                     'notnull' => false
                 ],
                 'lower_limit' => [
-                    'type' => \ilDBConstants::T_FLOAT,
+                    'type' => FieldDefinition::T_FLOAT,
                     'notnull' => false
                 ],
                 'upper_limit' => [
-                    'type' => \ilDBConstants::T_FLOAT,
+                    'type' => FieldDefinition::T_FLOAT,
                     'notnull' => false
                 ],
                 'points' => [
-                    'type' => \ilDBConstants::T_FLOAT,
+                    'type' => FieldDefinition::T_FLOAT,
                     'notnull' => true
                 ]
             ]);
@@ -193,17 +194,17 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
                 'id' => [
-                    'type' => \ilDBConstants::T_TEXT,
+                    'type' => FieldDefinition::T_TEXT,
                     'length' => 64,
                     'notnull' => true
                 ],
                 'answer_form_id' => [
-                    'type' => \ilDBConstants::T_TEXT,
+                    'type' => FieldDefinition::T_TEXT,
                     'length' => 64,
                     'notnull' => true
                 ],
                 'points' => [
-                    'type' => \ilDBConstants::T_FLOAT,
+                    'type' => FieldDefinition::T_FLOAT,
                     'notnull' => false
                 ]
             ]);
@@ -227,22 +228,22 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
                 'combination_id' => [
-                    'type' => \ilDBConstants::T_TEXT,
+                    'type' => FieldDefinition::T_TEXT,
                     'length' => 64,
                     'notnull' => true
                 ],
                 'gap_id' => [
-                    'type' => \ilDBConstants::T_TEXT,
+                    'type' => FieldDefinition::T_TEXT,
                     'length' => 64,
                     'notnull' => true
                 ],
                 'answer_option_id' => [
-                    'type' => \ilDBConstants::T_TEXT,
+                    'type' => FieldDefinition::T_TEXT,
                     'length' => 64,
                     'notnull' => true
                 ],
                 'in_range' => [
-                    'type' => \ilDBConstants::T_TEXT,
+                    'type' => FieldDefinition::T_TEXT,
                     'length' => 16,
                     'notnull' => false
                 ]
@@ -266,22 +267,22 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
                 'id' => [
-                    'type' => \ilDBConstants::T_TEXT,
+                    'type' => FieldDefinition::T_TEXT,
                     'length' => 64,
                     'notnull' => true
                 ],
                 'answer_input_id' => [
-                    'type' => \ilDBConstants::T_TEXT,
+                    'type' => FieldDefinition::T_TEXT,
                     'length' => 64,
                     'notnull' => true
                 ],
                 'selected_answer_option' => [
-                    'type' => \ilDBConstants::T_TEXT,
+                    'type' => FieldDefinition::T_TEXT,
                     'length' => 64,
                     'notnull' => false
                 ],
                 'text' => [
-                    'type' => \ilDBConstants::T_TEXT,
+                    'type' => FieldDefinition::T_TEXT,
                     'length' => 4000,
                     'notnull' => true
                 ]

@@ -29,6 +29,7 @@ use ILIAS\Questions\Persistence\Replace;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\Database\FieldDefinition;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
@@ -388,16 +389,16 @@ class Gap
         PersistenceFactory $persistence_factory
     ): array {
         return [
-            $persistence_factory->value(\ilDBConstants::T_TEXT, $this->answer_input_id->toString()),
-            $persistence_factory->value(\ilDBConstants::T_TEXT, $this->answer_form_id->toString()),
-            $persistence_factory->value(\ilDBConstants::T_INTEGER, $this->position),
-            $persistence_factory->value(\ilDBConstants::T_TEXT, $this->type->getIdentifier()),
-            $persistence_factory->value(\ilDBConstants::T_INTEGER, $this->max_chars),
-            $persistence_factory->value(\ilDBConstants::T_FLOAT, $this->step_size),
-            $persistence_factory->value(\ilDBConstants::T_INTEGER, $this->text_matching_method?->value),
-            $persistence_factory->value(\ilDBConstants::T_INTEGER, $this->min_autocomplete),
+            $persistence_factory->value(FieldDefinition::T_TEXT, $this->answer_input_id->toString()),
+            $persistence_factory->value(FieldDefinition::T_TEXT, $this->answer_form_id->toString()),
+            $persistence_factory->value(FieldDefinition::T_INTEGER, $this->position),
+            $persistence_factory->value(FieldDefinition::T_TEXT, $this->type->getIdentifier()),
+            $persistence_factory->value(FieldDefinition::T_INTEGER, $this->max_chars),
+            $persistence_factory->value(FieldDefinition::T_FLOAT, $this->step_size),
+            $persistence_factory->value(FieldDefinition::T_INTEGER, $this->text_matching_method?->value),
+            $persistence_factory->value(FieldDefinition::T_INTEGER, $this->min_autocomplete),
             $persistence_factory->value(
-                \ilDBConstants::T_INTEGER,
+                FieldDefinition::T_INTEGER,
                 $this->shuffle_answer_options === null
                     ? null
                     : ($this->shuffle_answer_options ? 1 : 0)

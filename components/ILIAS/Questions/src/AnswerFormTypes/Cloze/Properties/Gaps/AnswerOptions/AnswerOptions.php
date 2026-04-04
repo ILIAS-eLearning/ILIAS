@@ -27,6 +27,7 @@ use ILIAS\Questions\Persistence\Replace;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\Database\FieldDefinition;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
@@ -285,7 +286,7 @@ class AnswerOptions
                         $table_type
                     ),
                     $persistence_factory->value(
-                        \ilDBConstants::T_TEXT,
+                        FieldDefinition::T_TEXT,
                         $this->answer_input_id->toString()
                     )
                 )
