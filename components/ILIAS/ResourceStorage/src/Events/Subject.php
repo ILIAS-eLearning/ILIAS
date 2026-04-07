@@ -66,13 +66,13 @@ class Subject
         foreach ($observers as $interested_observer) {
             try {
                 $interested_observer->update($event, $data);
-            } catch (Throwable $e) {
+            } catch (\Throwable $e) {
                 // we must catch all exceptions to ensure that all observers are notified.
                 // we pass the exception to the observer so that it can handle it.
                 // to make sure it doesn't result in another throwable, we catch it here agian.
                 try {
                     $interested_observer->updateFailed($e, $event, $data);
-                } catch (Throwable) {
+                } catch (\Throwable) {
                     // we can't do anything here.
                 }
             }
