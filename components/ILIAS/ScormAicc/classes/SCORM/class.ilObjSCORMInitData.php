@@ -251,8 +251,8 @@ class ilObjSCORMInitData
 				FROM scorm_tree, sc_resource
 				WHERE scorm_tree.slm_id=%s
 				AND sc_resource.obj_id=scorm_tree.child";
-		$val_set = $ilDB->queryF(
-			$resource_query,
+        $val_set = $ilDB->queryF(
+            $resource_query,
             array('integer'),
             array($a_packageId)
         );
@@ -261,32 +261,32 @@ class ilObjSCORMInitData
         }
         $s_resourceIds = substr($s_resourceIds, 1);
 
-		$xml_base_prefix = '';
-		$xml_query = "SELECT xml_base
+        $xml_base_prefix = '';
+        $xml_query = "SELECT xml_base
 			FROM sc_manifest
 			WHERE obj_id in
 			(SELECT child from scorm_tree WHERE slm_id=%s)";
-		$val_set = ilDB->queryF(
-			$xml_query,
-			array('integer'),
-			array($a_packageId)
-		);
-		while ($val_rec = $ilDB->fetchAssoc($val_set)) {
-			$xml_base_prefix .= $val_rec["xml_base"];
-		}
+        $val_set = ilDB->queryF(
+            $xml_query,
+            array('integer'),
+            array($a_packageId)
+        );
+        while ($val_rec = $ilDB->fetchAssoc($val_set)) {
+            $xml_base_prefix .= $val_rec["xml_base"];
+        }
 
-		$xml_query = "SELECT xml_base
+        $xml_query = "SELECT xml_base
 			FROM sc_resources
 			WHERE obj_id in
 			(SELECT child from scorm_tree WHERE slm_id=%s)";
-		$val_set = $ilDB->queryF(
-			$xml_query,
-			array('integer'),
-			array($a_packageId)
-		);
-		while ($val_rec = $ilDB->fetchAssoc($val_set)) {
-			$xml_base_prefix .= $val_rec["xml_base"];
-		}
+        $val_set = $ilDB->queryF(
+            $xml_query,
+            array('integer'),
+            array($a_packageId)
+        );
+        while ($val_rec = $ilDB->fetchAssoc($val_set)) {
+            $xml_base_prefix .= $val_rec["xml_base"];
+        }
 		
         $tquery = "SELECT scorm_tree.lft, scorm_tree.child,
 			CASE WHEN sc_resource.scormtype = 'asset' THEN 1 ELSE 0 END AS asset,
