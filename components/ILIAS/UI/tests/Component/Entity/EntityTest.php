@@ -161,11 +161,11 @@ class EntityTest extends ILIAS_UI_TestBase
     <div class="c-entity __availability">a</div>
     <div class="c-entity __details">d</div>
     <div class="c-entity __reactions">
-        <a class="glyph" aria-label="some glyph"><span class="glyphicon il-glyphicon-laugh" aria-hidden="true"></span></a>
-        <a class="glyph" aria-label="some glyph"><span class="glyphicon il-glyphicon-laugh" aria-hidden="true"></span></a>
+        <span class="glyph" aria-label="some glyph" role="img"><span class="glyphicon il-glyphicon-laugh" aria-hidden="true"></span></span>
+        <span class="glyph" aria-label="some glyph" role="img"><span class="glyphicon il-glyphicon-laugh" aria-hidden="true"></span></span>
     </div>
     <div class="c-entity __featured-reactions">
-        <a class="glyph" aria-label="some glyph"><span class="glyphicon il-glyphicon-laugh" aria-hidden="true"></span></a>
+        <span class="glyph" aria-label="some glyph" role="img"><span class="glyphicon il-glyphicon-laugh" aria-hidden="true"></span></span>
         <button class="btn btn-tag btn-tag-relevance-veryhigh" data-action="#" id="id_10">tag</button>
     </div>
 </div>

@@ -143,10 +143,8 @@ class FilterContextRenderer extends Renderer
         $f = $this->getUIFactory();
         $tpl = $this->getTemplate("tpl.context_filter.html", true, true);
 
-        /**
-         * @var $remove_glyph Component\Symbol\Glyph\Glyph
-         */
-        $remove_glyph = $f->symbol()->glyph()->remove("")->withAdditionalOnLoadCode(fn($id) => "$('#$id').on('click', function(event) {
+        $remove_button = $f->button()->shy('', '')->withSymbol($f->symbol()->glyph()->remove())
+            ->withAdditionalOnLoadCode(fn($id) => "$('#$id').on('click', function(event) {
 							il.UI.filter.onRemoveClick(event, '$id');
 							return false; // stop event propagation
 					});");
@@ -175,7 +173,7 @@ class FilterContextRenderer extends Renderer
         }
         $tpl->parseCurrentBlock();
         $tpl->setCurrentBlock("addon_right");
-        $tpl->setVariable("DELETE", $default_renderer->render($remove_glyph));
+        $tpl->setVariable("DELETE", $default_renderer->render($remove_button));
         $tpl->parseCurrentBlock();
 
         return $tpl->get();

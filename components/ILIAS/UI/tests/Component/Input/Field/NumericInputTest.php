@@ -66,7 +66,7 @@ class NumericInputTest extends ILIAS_UI_TestBase
             $byline,
             'id_1'
         );
-        $this->assertEquals($expected, $this->render($numeric));
+        $this->assertEquals($expected, $this->renderInsideContainer($numeric));
     }
 
     public function testCommonRendering(): void
@@ -96,7 +96,7 @@ class NumericInputTest extends ILIAS_UI_TestBase
             null,
             'id_1'
         );
-        $this->assertEquals($expected, $this->render($numeric));
+        $this->assertEquals($expected, $this->renderInsideContainer($numeric));
     }
 
     public function testNullValue(): \ILIAS\UI\Component\Input\Container\Form\FormInput

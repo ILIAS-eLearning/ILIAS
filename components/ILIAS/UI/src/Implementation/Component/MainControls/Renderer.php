@@ -225,7 +225,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         //disengage all, close slates
-        $btn_disengage = $f->button()->bulky($f->symbol()->glyph()->collapseHorizontal("#"), $this->txt('close'), "#")
+        $btn_disengage = $f->button()->bulky($f->symbol()->glyph()->collapseHorizontal("#"), $this->txt('close'), "")
             ->withOnClick($component->getDisengageAllSignal());
         $tpl->setVariable("CLOSE_SLATES", $default_renderer->render($btn_disengage));
 
@@ -294,12 +294,16 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderModeInfo(ModeInfo $component, RendererInterface $default_renderer): string
     {
+        $f = $this->getUIFactory();
         $tpl = $this->getTemplate("tpl.mode_info.html", true, true);
         $tpl->setVariable('MODE_TITLE', $component->getModeTitle());
         $base_URI = $component->getCloseAction()->getBaseURI();
         $query = $component->getCloseAction()->getQuery();
         $action = $base_URI . '?' . $query;
-        $close = $this->getUIFactory()->symbol()->glyph()->close($action);
+        $close = $f->button()->shy(
+            '',
+            $action
+        )->withSymbol($f->symbol()->glyph()->close());
         $tpl->setVariable('CLOSE_GLYPH', $default_renderer->render($close));
 
         return $tpl->get();
@@ -324,15 +328,15 @@ class Renderer extends AbstractComponentRenderer
                 break;
         }
         if ($component->isDismissable()) {
-            $close = $this->getUIFactory()->symbol()->glyph()->close("#");
             $signal = $component->getCloseSignal();
-            $close = $close->withOnClick($signal);
+            $close = $this->getUIFactory()->button()->shy('', '')->withOnClick($signal)->withSymbol($this->getUIFactory()->symbol()->glyph()->close());
             $tpl->setVariable('CLOSE_BUTTON', $default_renderer->render($close));
             $tpl->setVariable('CLOSE_URI', (string) $component->getDismissAction());
             $component = $component->withAdditionalOnLoadCode(fn($id) => "$(document).on('$signal', function() { il.UI.maincontrols.system_info.close('$id'); });");
         }
 
-        $more = $this->getUIFactory()->symbol()->glyph()->more("#");
+        $more = $this->getUIFactory()->button()->shy('', '')
+        ->withSymbol($this->getUIFactory()->symbol()->glyph()->more());
         $tpl->setVariable('MORE_BUTTON', $default_renderer->render($more));
 
         $component = $component->withAdditionalOnLoadCode(fn($id) => "il.UI.maincontrols.system_info.init('$id')");

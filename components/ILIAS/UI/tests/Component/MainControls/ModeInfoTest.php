@@ -58,7 +58,7 @@ class ModeInfoTest extends ILIAS_UI_TestBase
                 <div class="c-mode-info__label">$mode_title</div>
         
                 <div class="c-mode-info__close">
-                    <a tabindex="0" class="glyph" href="$uri_string" aria-label="close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                    <button class="btn btn-link" aria-label="close" data-action="$uri_string" id="id_1"><span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span></button>
                 </div>
         
             </div>
@@ -120,6 +120,30 @@ class ModeInfoTest extends ILIAS_UI_TestBase
         };
         $factory->sig_gen = $this->sig_gen;
 
-        return $factory;
+        $factory_with_button = new class ($factory) extends NoUIFactory {
+            private $inner;
+
+            public function __construct($inner)
+            {
+                $this->inner = $inner;
+            }
+
+            public function symbol(): ILIAS\UI\Implementation\Component\Symbol\Factory
+            {
+                return $this->inner->symbol();
+            }
+
+            public function mainControls(): \ILIAS\UI\Implementation\Component\MainControls\Factory
+            {
+                return $this->inner->mainControls();
+            }
+
+            public function button(): \ILIAS\UI\Implementation\Component\Button\Factory
+            {
+                return new \ILIAS\UI\Implementation\Component\Button\Factory();
+            }
+        };
+
+        return $factory_with_button;
     }
 }

@@ -33,13 +33,12 @@ function link()
     $factory = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
-    $glyph = $factory->symbol()->glyph()->link("#");
+    $glyph = $factory->symbol()->glyph()->link();
 
     // showcase the various states of this Glyph
     $list = $factory->listing()->descriptive([
-        "Active" => $glyph,
-        "Inactive" => $glyph->withUnavailableAction(),
-        "Highlighted" => $glyph->withHighlight()
+        "Standard" => $glyph,
+        "Highlighted" => $glyph->withHighlight(),
     ]);
 
     return $renderer->render($list);

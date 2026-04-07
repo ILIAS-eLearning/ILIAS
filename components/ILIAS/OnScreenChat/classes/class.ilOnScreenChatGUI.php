@@ -200,9 +200,10 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
             $chatWindowTemplate->setVariable('SUBMIT_ACTION', $renderer->render(
                 $factory->button()->standard($DIC->language()->txt('chat_osc_send'), 'onscreenchat-submit')
             ));
-            $chatWindowTemplate->setVariable('ADD_ACTION', $renderer->render(
-                $factory->symbol()->glyph()->add('addUser')
-            ));
+            $add_button = $factory->button()->shy('', 'addUser')
+                        ->withSymbol($factory->symbol()->glyph()->add());
+
+            $chatWindowTemplate->setVariable('ADD_ACTION', $renderer->render($add_button));
             $chatWindowTemplate->setVariable('MINIMIZE_ACTION', $renderer->render(
                 $factory->button()->minimize()
             ));

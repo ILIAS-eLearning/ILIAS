@@ -274,10 +274,10 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $tpl->setVariable('SAVE', $this->lng->txt('save'));
         $tpl->setVariable('CANCEL', $this->lng->txt('cancel'));
         $tpl->setVariable('ADD_BUTTON', $this->ui_renderer->render(
-            $this->ui_factory->symbol()->glyph()->add()->withAction('#')
+            $this->ui_factory->button()->shy('', '')->withSymbol($this->ui_factory->symbol()->glyph()->add())
         ));
         $tpl->setVariable('REMOVE_BUTTON', $this->ui_renderer->render(
-            $this->ui_factory->symbol()->glyph()->remove()->withAction('#')
+            $this->ui_factory->button()->shy('', '')->withSymbol($this->ui_factory->symbol()->glyph()->remove())
         ));
         $tag_input = new ilTagInputGUI();
         $tag_input->setPostVar('taggable');

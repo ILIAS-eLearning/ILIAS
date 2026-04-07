@@ -24,50 +24,34 @@ use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\Template;
-use ILIAS\UI\Implementation\Render\ResourceRegistry;
 
 class Renderer extends AbstractComponentRenderer
 {
-    protected function getTemplateFilename(): string
-    {
-        return "tpl.glyph.standard.html";
-    }
-
-
     /**
      * @inheritdocs
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        if (!$component instanceof Component\Symbol\Glyph\Glyph) {
+        if (!$component instanceof Glyph) {
             $this->cannotHandleComponent($component);
         }
 
-        /** @var $component Component\Symbol\Glyph\Glyph */
-        $component = $this->addTriggererOnLoadCode($component);
-
-        $tpl_file = $this->getTemplateFilename();
-        $tpl = $this->getTemplate($tpl_file, true, true);
-
-        $tpl = $this->renderAction($component, $tpl);
-
-        if ($component->isTabbable() && !$this instanceof ButtonContextRenderer) { // Buttons are already tabbable itself
-            $tpl->touchBlock("tabbable");
-        }
+        $tpl = $this->getTemplate("tpl.glyph.standard.html", true, true);
 
         if ($component->isHighlighted()) {
             $tpl->touchBlock("highlighted");
         }
 
-        if (!$component->isActive()) {
-            $tpl->touchBlock("disabled");
-
-            $tpl->setCurrentBlock("with_aria_disabled");
-            $tpl->setVariable("ARIA_DISABLED", "true");
-            $tpl->parseCurrentBlock();
+        $label = $component->getLabel();
+        if ('' !== $label) {
+            $tpl->touchBlock('with_aria_label');
+            // @todo: move translation to factory, this breaks custom labels...
+            $tpl->setVariable("LABEL", $this->txt($label));
+            $tpl->touchBlock('with_role');
+        } else {
+            // glyph must be hidden if there is no label (semantic meaning)
+            $tpl->touchBlock('with_aria_hidden');
         }
-
-        $tpl = $this->renderLabel($component, $tpl);
 
         $id = $this->bindJavaScript($component);
 
@@ -76,26 +60,8 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("ID", $id);
             $tpl->parseCurrentBlock();
         }
-
         $tpl->setVariable("GLYPH", $this->getInnerGlyphHTML($component, $default_renderer));
         return $tpl->get();
-    }
-
-    protected function renderLabel(Component\Component $component, Template $tpl): Template
-    {
-        $tpl->setVariable("LABEL", $this->txt($component->getLabel()));
-        return $tpl;
-    }
-
-    protected function renderAction(Component\Component $component, Template $tpl): Template
-    {
-        $action = $component->getAction();
-        if ($component->isActive() && $action !== null) {
-            $tpl->setCurrentBlock("with_action");
-            $tpl->setVariable("ACTION", $component->getAction());
-            $tpl->parseCurrentBlock();
-        }
-        return $tpl;
     }
 
     protected function getInnerGlyphHTML(Component\Component $component, RendererInterface $default_renderer): string

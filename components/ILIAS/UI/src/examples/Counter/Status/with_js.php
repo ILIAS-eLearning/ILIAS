@@ -44,7 +44,7 @@ function with_js()
     $renderer = $DIC->ui()->renderer();
 
     //Note that both counters have to be present to perform JS actions on them
-    $like = $f->symbol()->glyph()->love("#")
+    $like = $f->symbol()->glyph()->love()
         ->withCounter($f->counter()->novelty(3))
         ->withCounter($f->counter()->status(0));
 

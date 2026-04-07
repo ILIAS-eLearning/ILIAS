@@ -106,8 +106,8 @@ class PaginationTest extends ILIAS_UI_TestBase
 <div class="il-viewcontrol-pagination l-bar__element">
     <button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=0" id="id_1">1</button>
     <button class="btn btn-link" data-action="?pagination_offset=1" id="id_2">2</button>
-    <button class="btn btn-default" data-action="?pagination_offset=1" id="id_3">
-        <span class="glyph" aria-label="next" role="img"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
+    <button class="btn btn-default" aria-label="next" data-action="?pagination_offset=1" id="id_3">
+        <span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
     </button>
 </div>
 EOT;
@@ -127,8 +127,8 @@ EOT;
         //browse-right not rendered
         $expected_html = <<<EOT
 <div class="il-viewcontrol-pagination l-bar__element">
-    <button class="btn btn-default" data-action="?pagination_offset=0" id="id_3">
-        <span class="glyph" aria-label="back" role="img"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
+    <button class="btn btn-default" aria-label="back" data-action="?pagination_offset=0" id="id_3">
+        <span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
     </button>
     <button class="btn btn-link" data-action="?pagination_offset=0" id="id_1">1</button>
     <button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=1" id="id_2">2</button>
@@ -156,8 +156,8 @@ EOT;
 <div class="il-viewcontrol-pagination l-bar__element">
     <button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=0" id="id_1">1</button>
     <span class="last"><button class="btn btn-link" data-action="?pagination_offset=2" id="id_2">3</button></span>
-    <button class="btn btn-default" data-action="?pagination_offset=1" id="id_3">
-        <span class="glyph" aria-label="next" role="img"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
+    <button class="btn btn-default" aria-label="next" data-action="?pagination_offset=1" id="id_3">
+        <span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
     </button>
 </div>
 EOT;
@@ -181,13 +181,13 @@ EOT;
         //both boundary-buttons
         $expected_html = <<<EOT
 <div class="il-viewcontrol-pagination l-bar__element">
-    <button class="btn btn-default" data-action="?pagination_offset=0" id="id_4">
-        <span class="glyph" aria-label="back" role="img"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
+    <button class="btn btn-default" aria-label="back" data-action="?pagination_offset=0" id="id_4">
+        <span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
     </button><span class="first"><button class="btn btn-link" data-action="?pagination_offset=0" id="id_2">1</button></span>
     <button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=1" id="id_1">2</button>
     <span class="last"><button class="btn btn-link" data-action="?pagination_offset=2" id="id_3">3</button></span>
-    <button class="btn btn-default" data-action="?pagination_offset=2" id="id_5">
-        <span class="glyph" aria-label="next" role="img"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
+    <button class="btn btn-default" aria-label="next" data-action="?pagination_offset=2" id="id_5">
+        <span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
     </button>
 </div>
 EOT;
@@ -211,8 +211,8 @@ EOT;
         //boundary-button left only
         $expected_html = <<<EOT
 <div class="il-viewcontrol-pagination l-bar__element">
-    <button class="btn btn-default" data-action="?pagination_offset=1" id="id_3">
-        <span class="glyph" aria-label="back" role="img"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
+    <button class="btn btn-default" aria-label="back" data-action="?pagination_offset=1" id="id_3">
+        <span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
     </button>
     <span class="first"><button class="btn btn-link" data-action="?pagination_offset=0" id="id_2">1</button></span>
     <button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=2" id="id_1">3</button>
@@ -248,8 +248,8 @@ EOT;
             </li>
         </ul>
     </div>
-    <button class="btn btn-default" data-action="?pagination_offset=1" id="id_5">
-        <span class="glyph" aria-label="next" role="img"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
+    <button class="btn btn-default" aria-label="next" data-action="?pagination_offset=1" id="id_5">
+        <span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
     </button>
 </div>
 EOT;

@@ -19,6 +19,7 @@
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\ilTestLegacyFormsHelper;
 use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Button\Factory as ButtonFactory;
 use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
 
 /**
@@ -39,6 +40,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
 
     protected ilTestLegacyFormsHelper $forms_helper;
     protected GlyphFactory $glyph_factory;
+    protected ButtonFactory $button_factory;
     protected Renderer $renderer;
 
     /**
@@ -55,6 +57,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
 
         $this->forms_helper = new ilTestLegacyFormsHelper();
         $this->glyph_factory = $DIC->ui()->factory()->symbol()->glyph();
+        $this->button_factory = $DIC->ui()->factory()->button();
         $this->renderer = $DIC->ui()->renderer();
     }
 
@@ -351,7 +354,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
                 $template->setVariable('VALUE_COORDINATES', $area->getCoords());
                 $template->setVariable('TEXT_COORDINATES', $coords);
                 $template->setVariable("REMOVE_BUTTON", $this->renderer->render(
-                    $this->glyph_factory->remove()->withAction('#')
+                    $this->button_factory->shy('', '')->withSymbol($this->glyph_factory->remove())
                 ));
                 $template->parseCurrentBlock();
                 $counter++;

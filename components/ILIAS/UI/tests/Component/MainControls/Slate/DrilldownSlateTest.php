@@ -102,7 +102,7 @@ class DrilldownSlateTest extends ILIAS_UI_TestBase
                             </div>
                             <div class="c-drilldown__backnav">
                                 <button class="btn btn-bulky" id="id_1" aria-label="back">
-                                    <span class="glyph" aria-label="collapse/back" role="img">
+                                    <span class="glyph" aria-hidden="true">
                                         <span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
                                     </span>
                                     <span class="bulky-label"></span>

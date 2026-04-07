@@ -44,9 +44,9 @@ il.UI.Input = il.UI.Input || {};
 
 			dropzone: '.ui-input-file-input-dropzone',
 			error_message: '.ui-input-file-input-error-msg',
-			removal_glyph: '[data-action="remove"] .glyph',
-			expand_glyph: '[data-action="expand"] .glyph',
-			collapse_glyph: '[data-action="collapse"] .glyph',
+			removal_button: '[data-action="remove"] button',
+			expand_button: '[data-action="expand"] button',
+			collapse_button: '[data-action="collapse"] button',
 			form_submit_buttons: '.c-form_actions > button',
 			modal_form_controls: '.modal-footer button',
 
@@ -199,15 +199,15 @@ il.UI.Input = il.UI.Input || {};
 			}
 
 			$(document).on('click',
-				`${SELECTOR.file_list} ${SELECTOR.collapse_glyph}, ${SELECTOR.file_list} ${SELECTOR.expand_glyph}`,
+				`${SELECTOR.file_list} ${SELECTOR.collapse_button}, ${SELECTOR.file_list} ${SELECTOR.expand_button}`,
 				toggleMetadataInputsHook);
 
 			$(document).on('click',
-				`${SELECTOR.file_list} ${SELECTOR.collapse_glyph}, ${SELECTOR.file_list} ${SELECTOR.expand_glyph}`,
+				`${SELECTOR.file_list} ${SELECTOR.collapse_button}, ${SELECTOR.file_list} ${SELECTOR.expand_button}`,
 				toggleExpansionGlyphsHook);
 
 			$(document).on('click',
-				`${SELECTOR.file_list} ${SELECTOR.removal_glyph}`,
+				`${SELECTOR.file_list} ${SELECTOR.removal_button}`,
 				removeFileManuallyHook);
 
 			instantiated = true;
@@ -272,8 +272,9 @@ il.UI.Input = il.UI.Input || {};
 		 * @param {Event} event
 		 */
 		let removeFileManuallyHook = function (event) {
-			let removal_glyph = $(this);
-			let input_id = removal_glyph.closest(SELECTOR.file_input).attr('id');
+			event.preventDefault();
+			let removal_button = $(this);
+			let input_id = removal_button.closest(SELECTOR.file_input).attr('id');
 			let dropzone = dropzones[input_id];
 
 			if (typeof dropzone === 'undefined') {
@@ -281,7 +282,7 @@ il.UI.Input = il.UI.Input || {};
 				return;
 			}
 
-			let file_entry = removal_glyph.closest(SELECTOR.file_list_entry);
+			let file_entry = removal_button.closest(SELECTOR.file_list_entry);
 			let file_entry_input = getFileEntryInput(file_entry);
 
 			dropzone.options.autoProcessQueue = false;
@@ -318,19 +319,22 @@ il.UI.Input = il.UI.Input || {};
 			processCurrentFormDropzones(dropzone.options.form, event);
 		}
 
-		let toggleExpansionGlyphsHook = function () {
-			let current_glyph = $(this);
+		let toggleExpansionGlyphsHook = function (event) {
+			event.preventDefault();
+			let current_button = $(this);
+			let action_container = current_button.closest('[data-action]');
 
-			let other_glyph = current_glyph.parent().data('action') === 'expand' ?
-				current_glyph.closest(SELECTOR.file_list_entry).find(SELECTOR.collapse_glyph) :
-				current_glyph.closest(SELECTOR.file_list_entry).find(SELECTOR.expand_glyph)
+			let other_button = action_container.data('action') === 'expand' ?
+				current_button.closest(SELECTOR.file_list_entry).find(SELECTOR.collapse_button) :
+				current_button.closest(SELECTOR.file_list_entry).find(SELECTOR.expand_button)
 			;
 
-			other_glyph.show();
-			current_glyph.hide();
+			other_button.show();
+			action_container.hide();
 		}
 
-		let toggleMetadataInputsHook = function () {
+		let toggleMetadataInputsHook = function (event) {
+			event.preventDefault();
 			$(this)
 			.closest(SELECTOR.file_list_entry)
 			.find(SELECTOR.file_entry_metadata)
@@ -531,11 +535,11 @@ il.UI.Input = il.UI.Input || {};
 		 */
 		let setupExpansionGlyphs = function (file_entry = null) {
 			if (null === file_entry) {
-				// hide collapse glyph globally (in file list).
-				$(`${SELECTOR.file_list} ${SELECTOR.collapse_glyph}`).hide();
+				// hide collapse control globally (in file list).
+				$(`${SELECTOR.file_list} ${SELECTOR.collapse_button}`).hide();
 			} else {
-				// hide collapse glyph locally (in file entry).
-				file_entry.find(SELECTOR.collapse_glyph).hide();
+				// hide collapse control locally (in file entry).
+				file_entry.find(SELECTOR.collapse_button).hide();
 			}
 		}
 

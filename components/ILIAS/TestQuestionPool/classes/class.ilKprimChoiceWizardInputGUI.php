@@ -219,10 +219,10 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 $tpl->setVariable("UP_ID", "up_{$this->getPostVar()}[{$value->getPosition()}]");
                 $tpl->setVariable("DOWN_ID", "down_{$this->getPostVar()}[{$value->getPosition()}]");
                 $tpl->setVariable("UP_BUTTON", $this->renderer->render(
-                    $this->glyph_factory->up()->withAction('#')
+                    $this->button_factory->shy('', '')->withSymbol($this->glyph_factory->up())
                 ));
                 $tpl->setVariable("DOWN_BUTTON", $this->renderer->render(
-                    $this->glyph_factory->down()->withAction('#')
+                    $this->button_factory->shy('', '')->withSymbol($this->glyph_factory->down())
                 ));
                 $tpl->parseCurrentBlock();
             }

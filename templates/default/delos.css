@@ -8093,7 +8093,7 @@ button .minimize, button .close {
 
 .c-field-password__revelation-glyph {
   float: right;
-  margin-top: -21px;
+  margin-top: -26px;
   margin-right: 5px;
 }
 .c-field-password__revelation-glyph--reveal {
@@ -13210,7 +13210,12 @@ div.ilHeadAction .prop {
   padding-right: 10px;
 }
 
-div.ilHeadAction a:hover {
+div.ilHeadAction .btn.btn-link {
+  padding-right: 10px;
+}
+
+div.ilHeadAction a:hover,
+div.ilHeadAction button.btn-link:hover {
   text-decoration: none;
 }
 

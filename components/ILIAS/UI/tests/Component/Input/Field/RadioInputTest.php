@@ -90,7 +90,7 @@ class RadioInputTest extends ILIAS_UI_TestBase
             $byline,
             null
         );
-        $this->assertEquals($expected, $this->render($radio));
+        $this->assertEquals($expected, $this->renderInsideContainer($radio));
     }
 
     public function testRenderValue(): void
@@ -123,7 +123,7 @@ class RadioInputTest extends ILIAS_UI_TestBase
             $byline,
             null
         );
-        $this->assertEquals($expected, $this->render($radio));
+        $this->assertEquals($expected, $this->renderInsideContainer($radio));
     }
 
     public function testRenderWithHasOptionFilter(): void

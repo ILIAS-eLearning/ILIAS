@@ -169,11 +169,15 @@ class ilLikeGUI
         $comps = array();
         foreach ($this->data->getExpressionTypes() as $k => $txt) {
             if ($cnts[$k] > 0) {
-                $glyph = $this->getGlyphForConst($k, $unavailable);
+                $glyph = $this->getGlyphForConst($k)->withCounter($f->counter()->status($cnts[$k]));
+                $comp = $f->button()->shy('', '')->withSymbol($glyph);
                 if ($modal_signal !== null) {
-                    $glyph = $glyph->withOnClick($modal_signal);
+                    $comp = $comp->withOnClick($modal_signal);
                 }
-                $comps[] = $glyph->withCounter($f->counter()->status($cnts[$k]));
+                if ($unavailable) {
+                    $comp = $comp->withUnavailableAction();
+                }
+                $comps[] = $comp;
             }
         }
 
@@ -193,10 +197,8 @@ class ilLikeGUI
         return $tpl->get();
     }
 
-    protected function getGlyphForConst(
-        int $a_const,
-        bool $unavailable = false
-    ): ?\ILIAS\UI\Component\Symbol\Glyph\Glyph {
+    protected function getGlyphForConst(int $a_const): ?\ILIAS\UI\Component\Symbol\Glyph\Glyph
+    {
         $f = $this->ui->factory();
         $like = null;
         switch ($a_const) {
@@ -214,9 +216,6 @@ class ilLikeGUI
                 break;
             case ilLikeData::TYPE_ANGRY: $like = $f->symbol()->glyph()->angry();
                 break;
-        }
-        if ($unavailable) {
-            $like = $like->withUnavailableAction();
         }
         return $like;
     }
@@ -250,6 +249,7 @@ class ilLikeGUI
             )) {
                 $g = $g->withHighlight();
             }
+            $g = $this->ui->factory()->button()->shy('', '')->withSymbol($g);
 
             $g = $g->withAdditionalOnLoadCode(function ($id) use ($k, $url) {
                 return
@@ -332,7 +332,8 @@ class ilLikeGUI
                 $name
             );
 
-            $g = $this->getGlyphForConst($exp["expression"], true);
+            $g = $f->button()->shy('', '')->withSymbol($this->getGlyphForConst($exp["expression"]))
+                ->withUnavailableAction();
             $placeholder = "###" . $exp["expression"] . "###";
             $glyph_renderings[$placeholder] = $r->render($g);
 

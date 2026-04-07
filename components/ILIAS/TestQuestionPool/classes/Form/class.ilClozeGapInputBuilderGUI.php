@@ -255,6 +255,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         global $DIC;
         $lng = $DIC['lng'];
         $glyph_factory = $DIC->ui()->factory()->symbol()->glyph();
+        $button_factory = $DIC->ui()->factory()->button();
         $renderer = $DIC->ui()->renderer();
 
         $cloze_settings_js = 'ClozeSettings = {'
@@ -314,10 +315,10 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         $custom_template->setVariable('GAP_COMBINATION', $lng->txt('gap_combination'));
         $custom_template->setVariable('COPY', $lng->txt('copy_of'));
         $custom_template->setVariable('ADD_BUTTON', $renderer->render(
-            $glyph_factory->add()->withAction('#')
+            $button_factory->shy('', '')->withSymbol($glyph_factory->add()),
         ));
         $custom_template->setVariable('REMOVE_BUTTON', $renderer->render(
-            $glyph_factory->remove()->withAction('#')
+            $button_factory->shy('', '')->withSymbol($glyph_factory->remove()),
         ));
         $template->setCurrentBlock('prop_generic');
         $template->setVariable('PROP_GENERIC', $custom_template->get());

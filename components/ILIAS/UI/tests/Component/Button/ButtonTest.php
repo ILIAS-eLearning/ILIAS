@@ -568,7 +568,7 @@ class ButtonTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML(
             '
             <button class="btn btn-default" data-action="">
-                <span class="glyph" role="img">
+                <span class="glyph" aria-hidden="true">
                     <span class="glyphicon il-glyphicon-like" aria-hidden="true"></span>
                 </span>
                 The Button Label

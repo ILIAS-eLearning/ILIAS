@@ -41,10 +41,14 @@ trait CommonFieldRendering
         );
     }
 
-    protected function render(FormInput $component): string
+    protected function renderInsideContainer(FormInput $component): string
     {
+        // @todo: this should be removed by decoupling rendering unit tests with stubs.
+        $context_stub = $this->createMock(\ILIAS\UI\Component\Component::class);
+        $context_stub->method('getCanonicalName')->willReturn('StandardFormContainerInput');
+
         return $this->brutallyTrimHTML(
-            $this->getDefaultRenderer()->render($component)
+            $this->getDefaultRenderer(null, [], [$context_stub])->render($component)
         );
     }
 
@@ -53,7 +57,7 @@ trait CommonFieldRendering
         $error = "an_error";
         $expected = '<div class="c-input__error-msg alert alert-danger"';
         $expected2 = 'ui_error:</span>' . $error . '</div>';
-        $html = $this->render($component->withError($error));
+        $html = $this->renderInsideContainer($component->withError($error));
         $this->assertStringContainsString($expected, $html);
         $this->assertStringContainsString($expected2, $html);
     }
@@ -61,20 +65,20 @@ trait CommonFieldRendering
     protected function testWithRequired(FormInput $component): void
     {
         $expected = '<span class="sr-only">required_field</span><span class="asterisk" aria-hidden="true">*</span></label>';
-        $this->assertStringContainsString($expected, $this->render($component->withRequired(true)));
+        $this->assertStringContainsString($expected, $this->renderInsideContainer($component->withRequired(true)));
     }
 
     protected function testWithNoByline(FormInput $component): void
     {
         $expected = '<div class="c-input__help-byline">';
-        $this->assertStringNotContainsString($expected, $this->render($component));
+        $this->assertStringNotContainsString($expected, $this->renderInsideContainer($component));
     }
 
     protected function testWithDisabled(FormInput $component): void
     {
         $type = $this->getDefaultRenderer()->getComponentCanonicalNameAttribute($component);
         $expected = '<fieldset class="c-input" data-il-ui-component="' . $type . '" data-il-ui-input-name="name_0" disabled="disabled"';
-        $this->assertStringContainsString($expected, $this->render($component->withDisabled(true)));
+        $this->assertStringContainsString($expected, $this->renderInsideContainer($component->withDisabled(true)));
     }
 
     protected function testWithAdditionalOnloadCodeRendersId(FormInput $component): void

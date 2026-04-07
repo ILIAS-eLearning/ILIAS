@@ -138,7 +138,12 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
             $this->tpl->setCurrentBlock("new_app1");
             $this->tpl->setVariable(
                 'H_NEW_APP_GLYPH',
-                $this->ui_renderer->render($this->ui_factory->symbol()->glyph()->add($new_app_url))
+                $this->ui_renderer->render(
+                    $this->ui_factory->button()->shy(
+                        '',
+                        $new_app_url,
+                    )->withSymbol($this->ui_factory->symbol()->glyph()->add())
+                )
             );
             $this->tpl->parseCurrentBlock();
 
@@ -186,9 +191,12 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
                     $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'hour', floor($numeric / 60));
                     $this->tpl->setVariable(
                         'NEW_APP_GLYPH',
-                        $this->ui_renderer->render($this->ui_factory->symbol()->glyph()->add(
-                            $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui', 'add')
-                        ))
+                        $this->ui_renderer->render(
+                            $this->ui_factory->button()->shy(
+                                '',
+                                $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui', 'add')
+                            )->withSymbol($this->ui_factory->symbol()->glyph()->add())
+                        )
                     );
                     $this->tpl->parseCurrentBlock();
                 }

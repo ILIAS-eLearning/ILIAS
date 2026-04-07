@@ -75,6 +75,8 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl = $this->getTemplate($tpl_name, true, true);
 
+        $this->renderButtonType($component, $tpl);
+
         $action = $component->getAction();
         // The action is always put in the data-action attribute to have it available
         // on the client side, even if it is not available on rendering.
@@ -87,9 +89,12 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("LABEL", $component->getLabel());
         $symbol = $component->getSymbol();
         if ($symbol !== null) {
-            if ($component->getLabel() !== '') {
-                $symbol = $symbol->withLabel('');
+            // use label of symbol as aria-label if the button does not provide one
+            if ('' === $component->getLabel() && '' === $component->getAriaLabel()) {
+                $component = $component->withAriaLabel($this->getSymbolLabel($symbol));
             }
+            // unset the symbol label, button provide label (semantic meaning)
+            $symbol = $symbol->withLabel('');
             $tpl->setVariable("SYMBOL", $default_renderer->render($symbol));
         }
 
@@ -197,6 +202,8 @@ class Renderer extends AbstractComponentRenderer
     protected function renderToggle(Component\Button\Toggle $component): string
     {
         $tpl = $this->getTemplate("tpl.toggle.html", true, true);
+
+        $this->renderButtonType($component, $tpl);
 
         $on_action = $component->getActionOn();
         $off_action = $component->getActionOff();
@@ -343,5 +350,25 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->parseCurrentBlock();
             }
         }
+    }
+
+    protected function renderButtonType(Component\Button\Button $component, Template $tpl): void
+    {
+        // omit type attribute by default
+    }
+
+    protected function getSymbolLabel(Symbol $symbol): string
+    {
+        if (!$symbol instanceof Glyph) {
+            return $symbol->getLabel();
+        }
+        // @todo: this breaks custom labels, translation should happen in factory...
+        $label = $this->txt($symbol->getLabel());
+        foreach ($symbol->getCounters() as $counter) {
+            if ($counter->getNumber() > 0) {
+                $label .= $this->txt("counter_" . $counter->getType()) . " " . $counter->getNumber() . "; ";
+            }
+        }
+        return trim($label);
     }
 }

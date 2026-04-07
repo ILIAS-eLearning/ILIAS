@@ -267,7 +267,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 						<div class="il-maincontrols-slate il-maincontrols-slate-notification">
 							<div class="il-maincontrols-slate-notification-title">
 								<button class="btn btn-bulky" data-action="">
-									<span class="glyph" role="img">
+									<span class="glyph" aria-hidden="true">
 										<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 									</span>
 									<span class="bulky-label">back</span>
@@ -286,7 +286,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 													<div class="il-maincontrols-slate il-maincontrols-slate-notification">
 														<div class="il-maincontrols-slate-notification-title">
 															<button class="btn btn-bulky" data-action="">
-												 				<span class="glyph" role="img">
+												 				<span class="glyph" aria-hidden="true">
 																	<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 																</span>
 																<span class="bulky-label">back</span>

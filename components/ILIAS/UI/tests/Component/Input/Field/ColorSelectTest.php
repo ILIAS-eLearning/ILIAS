@@ -62,7 +62,7 @@ class ColorSelectTest extends ILIAS_UI_TestBase
             $byline,
             'id_1'
         );
-        $this->assertEquals($expected, $this->render($cp));
+        $this->assertEquals($expected, $this->renderInsideContainer($cp));
     }
 
     public function testCommonRendering(): void
@@ -95,7 +95,7 @@ class ColorSelectTest extends ILIAS_UI_TestBase
             $byline,
             'id_1'
         );
-        $this->assertEquals($expected, $this->render($cp));
+        $this->assertEquals($expected, $this->renderInsideContainer($cp));
     }
 
     public function testValueRequired(): void

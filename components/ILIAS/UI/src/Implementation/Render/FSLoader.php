@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Render;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Implementation\Component\Button\Button;
 use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Implementation\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Implementation\Component\Input\Field\FormInput;
@@ -45,7 +46,7 @@ class FSLoader implements Loader
 
     public function __construct(
         private RendererFactory $default_renderer_factory,
-        private RendererFactory $glyph_renderer_factory,
+        private RendererFactory $button_renderer_factory,
         private RendererFactory $field_renderer_factory,
         private RendererFactory $message_box_renderer_factory,
         private RendererFactory $form_renderer_factory,
@@ -68,9 +69,6 @@ class FSLoader implements Loader
      */
     public function getRendererFactoryFor(Component $component): RendererFactory
     {
-        if ($component instanceof Glyph) {
-            return $this->glyph_renderer_factory;
-        }
         if ($component instanceof FormInput) {
             return $this->field_renderer_factory;
         }
@@ -83,7 +81,9 @@ class FSLoader implements Loader
         if ($component instanceof Menu) {
             return $this->menu_renderer_factory;
         }
-
+        if ($component instanceof Button) {
+            return $this->button_renderer_factory;
+        }
         return $this->default_renderer_factory;
     }
 }

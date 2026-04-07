@@ -494,7 +494,7 @@ class UI implements Component\Component
                             $use[UI\HelpTextRetriever::class],
                             $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
                         ),
-                        new UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory(
+                        new UI\Implementation\Component\Button\ButtonRendererFactory(
                             $use[UI\Implementation\FactoryInternal::class],
                             $internal[UI\Implementation\Render\TemplateFactory::class],
                             $use[Language\Language::class],

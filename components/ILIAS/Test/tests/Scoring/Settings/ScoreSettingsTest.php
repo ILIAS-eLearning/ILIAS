@@ -134,7 +134,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
     public function testScoreSettingsSectionScoring(): void
     {
         $s = new SettingsScoring(666);
-        $actual = $this->render(
+        $actual = $this->renderInsideContainer(
             $s->toForm(...$this->getUIPack())
         );
 
@@ -252,7 +252,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
         $ui = [$language, $field_factory, $refinery];
 
         $s = new SettingsResultSummary(666);
-        $actual = $this->render(
+        $actual = $this->renderInsideContainer(
             $s->toForm(...array_merge($ui, [[
                 'user_time_zone' => 'Europe/Berlin',
                 'user_date_format' => $data_factory->dateFormat()->withTime24(
@@ -385,7 +385,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
     {
         $s = new SettingsResultDetails(666);
         $tax_ids = [1,2];
-        $actual = $this->render(
+        $actual = $this->renderInsideContainer(
             $s->toForm(
                 ...array_merge(
                     $this->getUIPack(),
@@ -435,7 +435,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
     public function testScoreSettingsSectionGamification(): void
     {
         $s = new SettingsGamification(666);
-        $actual = $this->render(
+        $actual = $this->renderInsideContainer(
             $s->toForm(...$this->getUIPack())
         );
 
