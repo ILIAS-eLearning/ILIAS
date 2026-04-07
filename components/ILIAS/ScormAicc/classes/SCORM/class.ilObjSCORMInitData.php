@@ -266,7 +266,7 @@ class ilObjSCORMInitData
 			FROM sc_manifest
 			WHERE obj_id in
 			(SELECT child from scorm_tree WHERE slm_id=%s)";
-        $val_set = ilDB->queryF(
+        $val_set = $ilDB->queryF(
             $xml_query,
             array('integer'),
             array($a_packageId)
