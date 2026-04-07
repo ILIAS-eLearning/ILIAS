@@ -268,7 +268,7 @@ class ilObjSCORMInitData
 			(SELECT child from scorm_tree WHERE slm_id=%s)";
 		$val_set = ilDB->queryF(
 			$xml_query,
-			array('integer')
+			array('integer'),
 			array($a_packageId)
 		);
 		while ($val_rec = $ilDB->fetchAssoc($val_set)) {
