@@ -124,7 +124,8 @@ class JobTableFilterMediator
         ];
 
         $initially_rendered = array_map(
-            static fn(string $key): bool => $key !== self::FILTER_PROPERTY_NAME_COMPONENT,
+            // https://mantis.ilias.de/view.php?id=47562
+            static fn(string $key): bool => true,
             array_keys($fields)
         );
 
