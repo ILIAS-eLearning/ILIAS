@@ -478,7 +478,7 @@ class ilMembershipGUI
 
         $real_participants = $this->getMembersObject()->getParticipants();
         $participants = array_intersect($post_participants, $real_participants);
-
+        $participants = $this->filterUserIdsByRbacOrPositionOfCurrentUser($participants);
         if (!count($participants)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
             $this->ctrl->redirect($this, 'participants');
