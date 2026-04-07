@@ -791,7 +791,12 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 $target->getId(),
                 $this->gap_combinations,
             );
+
+            // Mantis 46713: The maximum points may have changed due to the combinations,
+            // so the question must be saved again
+            $target->saveToDb();
         }
+
         return $target;
     }
 
