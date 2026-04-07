@@ -287,7 +287,7 @@ class ilObjSCORMInitData
         while ($val_rec = $ilDB->fetchAssoc($val_set)) {
             $xml_base_prefix .= $val_rec["xml_base"];
         }
-		
+
         $tquery = "SELECT scorm_tree.lft, scorm_tree.child,
 			CASE WHEN sc_resource.scormtype = 'asset' THEN 1 ELSE 0 END AS asset,
 			sc_resource.href,
