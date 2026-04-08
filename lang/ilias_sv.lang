@@ -17003,6 +17003,7 @@ svy#:#svy_codes#:#Nyckel för åtkomst
 svy#:#svy_current_page#:#Aktuell sida
 svy#:#svy_finish_survey#:#Redigera undersökning "%1
 svy#:#svy_finished_x_appraisees#:#You have finished the survey for %s appraisee(s).###28 10 2024 new variable
+svy#:#svy_info_participants#:#Lägg till användare som deltagare i den här enkäten med ett av följande sökalternativ. Enkäten läggs till för dessa användare som en uppgift på deras instrumentpanel.
 svy#:#svy_information#:#Information###28 10 2024 new variable
 svy#:#svy_invite_participants#:#Bjud in deltagare
 svy#:#svy_link_to_svy#:#Länk till undersökningen

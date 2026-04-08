@@ -17003,6 +17003,7 @@ svy#:#svy_codes#:#Access Codes
 svy#:#svy_current_page#:#Current Page###19 08 2022 new variable
 svy#:#svy_finish_survey#:#Finish survey '%1'
 svy#:#svy_finished_x_appraisees#:#You have finished the survey for %s appraisee(s).###28 10 2024 new variable
+svy#:#svy_info_participants#:#Dodajte uporabnike kot udeležence te ankete z eno od naslednjih možnosti iskanja. Anketa bo tem uporabnikom dodana kot naloga na njihovi nadzorni plošči.
 svy#:#svy_information#:#Information###28 10 2024 new variable
 svy#:#svy_invite_participants#:#Invite Participants
 svy#:#svy_link_to_svy#:#Link to Survey###26 08 2024 new variable
