@@ -322,7 +322,8 @@ class Question implements PublicQuestionInterface
             ? $this->addInsertStatementsToManipulation(
                 $manipulate,
                 $persistence_factory,
-                $question_tables_definitions
+                $question_tables_definitions,
+                $answer_form_generic_table_definitions
             ) : $this->addUpdateStatementsToManipulation(
                 $manipulate,
                 $persistence_factory,
@@ -334,8 +335,7 @@ class Question implements PublicQuestionInterface
     public function toDelete(
         Manipulate $manipulate,
         PersistenceFactory $persistence_factory,
-        QuestionTableDefinitions $question_tables_definitions,
-        AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions
+        QuestionTableDefinitions $question_tables_definitions
     ): Manipulate {
         $table_name_builder = $manipulate->getTableNameBuilder(null);
 
@@ -360,7 +360,6 @@ class Question implements PublicQuestionInterface
                 )
             ),
             $persistence_factory,
-            $answer_form_generic_table_definitions,
             $this->answer_forms
         );
     }
@@ -368,7 +367,8 @@ class Question implements PublicQuestionInterface
     private function addInsertStatementsToManipulation(
         Manipulate $manipulate,
         PersistenceFactory $persistence_factory,
-        QuestionTableDefinitions $question_tables_definitions
+        QuestionTableDefinitions $question_tables_definitions,
+        AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions
     ): Manipulate {
         if ($this->created === null) {
             $manipulate = $manipulate
@@ -390,6 +390,8 @@ class Question implements PublicQuestionInterface
         if ($this->updated_answer_forms !== []) {
             return $this->addAnswerFormStatementsToManipulate(
                 $manipulate,
+                $persistence_factory,
+                $answer_form_generic_table_definitions,
                 $this->updated_answer_forms
             );
         }
@@ -397,6 +399,8 @@ class Question implements PublicQuestionInterface
         if ($this->answer_forms !== []) {
             return $this->addAnswerFormStatementsToManipulate(
                 $manipulate,
+                $persistence_factory,
+                $answer_form_generic_table_definitions,
                 $this->answer_forms
             );
         }
@@ -447,7 +451,6 @@ class Question implements PublicQuestionInterface
             $manipulate = $this->addDeleteAnswerFormsStatementsToManipulate(
                 $manipulate,
                 $persistence_factory,
-                $answer_form_generic_table_definitions,
                 $this->deleted_answer_forms
             );
         }
@@ -494,7 +497,6 @@ class Question implements PublicQuestionInterface
     private function addDeleteAnswerFormsStatementsToManipulate(
         Manipulate $manipulate,
         PersistenceFactory $persistence_factory,
-        AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions,
         array $answer_forms_to_delete
     ): Manipulate {
         return array_reduce(
@@ -502,7 +504,6 @@ class Question implements PublicQuestionInterface
             fn(Manipulate $c, AnswerFormProperties $v): Manipulate => $v->toDelete(
                 $v->getTypeGenericProperties()->toDelete(
                     $persistence_factory,
-                    $answer_form_generic_table_definitions,
                     $c,
                 )
             ),
