@@ -16989,6 +16989,7 @@ svy#:#svy_codes#:#Access Codes###07 02 2020 new variable
 svy#:#svy_current_page#:#Current Page###29 07 2022 new variable
 svy#:#svy_finish_survey#:#Finish survey '%1'###07 02 2020 new variable
 svy#:#svy_finished_x_appraisees#:#You have finished the survey for %s appraisee(s).###28 10 2024 new variable
+svy#:#svy_info_participants#:#Thêm người dùng làm người tham gia khảo sát này bằng một trong các tùy chọn tìm kiếm sau. Khảo sát sẽ được thêm vào bảng điều khiển của những người dùng này dưới dạng một tác vụ.
 svy#:#svy_information#:#Information###28 10 2024 new variable
 svy#:#svy_invite_participants#:#Invite Participants###07 02 2020 new variable
 svy#:#svy_link_to_svy#:#Link to Survey###26 08 2024 new variable

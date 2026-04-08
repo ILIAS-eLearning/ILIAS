@@ -17034,6 +17034,7 @@ svy#:#svy_codes#:#Access Codes
 svy#:#svy_current_page#:#Current Page
 svy#:#svy_finish_survey#:#Take part in survey ‘%1’
 svy#:#svy_finished_x_appraisees#:#You have already left feedback for %s appraisee(s).
+svy#:#svy_info_participants#:#Add users as participants of this survey using one of the following search options. These users will have the survey added as a task on their dashboard.
 svy#:#svy_information#:#Information
 svy#:#svy_invite_participants#:#Add to Tasks of Users
 svy#:#svy_link_to_svy#:#Link to Survey

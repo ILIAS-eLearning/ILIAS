@@ -16987,6 +16987,7 @@ svy#:#svy_codes#:#Access Codes###07 02 2020 new variable
 svy#:#svy_current_page#:#Current Page###29 07 2022 new variable
 svy#:#svy_finish_survey#:#Finish survey '%1'###07 02 2020 new variable
 svy#:#svy_finished_x_appraisees#:#You have finished the survey for %s appraisee(s).###28 10 2024 new variable
+svy#:#svy_info_participants#:#Pridajte používateľov ako účastníkov tohto prieskumu pomocou jednej z nasledujúcich možností vyhľadávania. Prieskum bude týmto používateľom pridaný ako úloha na ich nástenke.
 svy#:#svy_information#:#Information###28 10 2024 new variable
 svy#:#svy_invite_participants#:#Invite Participants###07 02 2020 new variable
 svy#:#svy_link_to_svy#:#Link to Survey###26 08 2024 new variable

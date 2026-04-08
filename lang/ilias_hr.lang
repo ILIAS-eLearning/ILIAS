@@ -16987,6 +16987,7 @@ svy#:#svy_codes#:#Access Codes###04 06 2021 new variable
 svy#:#svy_current_page#:#Current Page###29 07 2022 new variable
 svy#:#svy_finish_survey#:#Finish survey '%1'###04 06 2021 new variable
 svy#:#svy_finished_x_appraisees#:#You have finished the survey for %s appraisee(s).###28 10 2024 new variable
+svy#:#svy_info_participants#:#Dodajte korisnike kao sudionike ove ankete koristeći jednu od sljedećih mogućnosti pretraživanja. Anketa će tim korisnicima biti dodana kao zadatak na njihovoj nadzornoj ploči.
 svy#:#svy_information#:#Information###28 10 2024 new variable
 svy#:#svy_invite_participants#:#Invite Participants###04 06 2021 new variable
 svy#:#svy_link_to_svy#:#Link to Survey###26 08 2024 new variable
