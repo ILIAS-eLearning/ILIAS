@@ -17061,47 +17061,47 @@ survey#:#users_skipped#:#Usuarios que omitieron
 survey#:#values#:#Valores
 survey#:#vertical#:#Vertical
 survey#:#warning_question_not_complete#:#¡La pregunta no está completa!
-survey#:#workingtime#:#Tiempo empleado
-svy#:#survey_360_appraisees_remind_info#:#Si se ha activado la "Autoevaluación", se recordará a los evaluados que aún no hayan finalizado la encuesta que lo hagan.
-svy#:#survey_360_raters_remind_info#:#Se recordará a los evaluadores que aún no hayan finalizado la encuesta que lo hagan.
-svy#:#svy_0_open_appraisees#:#No hay más evaluados para que usted califique o la encuesta ya no está abierta a los evaluadores.
-svy#:#svy_all_pages#:#Todas las páginas
-svy#:#svy_all_participants#:#Todos los participantes
-svy#:#svy_all_questions#:#Todas las preguntas
-svy#:#svy_code#:#Código de acceso
-svy#:#svy_codes#:#Códigos de acceso
-svy#:#svy_current_page#:#Página actual
-svy#:#svy_finish_survey#:#Participar en la encuesta ‘%1’
-svy#:#svy_finished_x_appraisees#:#Ya ha completado la encuesta para %s evaluado(s).
-svy#:#svy_information#:#Información
-svy#:#svy_invite_participants#:#Añadir a las tareas de los usuarios
-svy#:#svy_link_to_svy#:#Enlace a la encuesta
-svy#:#svy_part_overview#:#Resumen
-svy#:#svy_placeholders_label#:#Marcadores de posición disponibles
-svy#:#svy_print_selection#:#Selección de la vista de impresión
-svy#:#svy_remove_all_participants#:#Eliminar todos los datos de los participantes
-svy#:#svy_remove_participants#:#Eliminar participantes
-svy#:#svy_selected_participants#:#Participantes seleccionados
-svy#:#svy_selected_questions#:#Preguntas seleccionadas
-svy#:#svy_selection#:#Selección
-svy#:#svy_status#:#Estado
-svy#:#svy_status_finished#:#Finalizado
-svy#:#svy_status_in_progress#:#En progreso
-svy#:#svy_status_invited#:#Añadido a tareas
-svy#:#svy_user_added_appraisee#:#Encuesta ‘%1’
-svy#:#svy_user_added_appraisee_close_mail#:#La encuesta ha sido cerrada para sus evaluadores.
-svy#:#svy_user_added_appraisee_mail#:#Se le ha añadido como persona evaluada a la siguiente encuesta. Para acceder a la encuesta, haga clic en el enlace que aparece a continuación.
-svy#:#svy_user_added_rater#:#Encuesta ‘%1’
-svy#:#svy_user_added_rater_mail#:#Se le ha añadido como evaluador a la encuesta.
-svy#:#svy_user_added_rater_reminder_mail#:#Por favor, no olvide evaluar a las siguientes personas:
-svy#:#svy_user_not_found#:#Usuario no encontrado.
-svy#:#svy_users_invited#:#Se ha añadido un ‘pendiente’, notificando a los usuarios que pueden participar en esta encuesta, en la sección de ‘Tareas’ de su(s) tablero(s).
-svy#:#svy_x_appraisees_closed_for_raters#:#La encuesta ha sido cerrada para los evaluadores por %s evaluado(s).
-svy#:#svy_x_open_appraisees#:#Tiene %s evaluado(s) esperando su feedback.
-svy#:#svy_your_appraisees#:#Sus evaluados
-svy#:#svy_your_raters#:#Sus calificadores
-svy#:#svy_your_raters_finished#:#%s de sus calificadores han finalizado la encuesta.
-sysc#:#sysc_action_list_tree#:#Crear volcado del árbol del repositorio
+survey#:#workingtime#:#Tiempo de trabajo
+svy#:#survey_360_appraisees_remind_info#:#Si está activada la autoevaluación, los evaluados que no hayan finalizado la encuesta recibirán un recordatorio.
+svy#:#survey_360_raters_remind_info#:#Los evaluadores que no hayan finalizado la encuesta recibirán un recordatorio.
+svy#:#svy_0_open_appraisees#:#You cannot perform the survey for any appraisee anymore.###28 10 2024 new variable
+svy#:#svy_all_pages#:#All Pages###29 07 2022 new variable
+svy#:#svy_all_participants#:#All Participants###29 07 2022 new variable
+svy#:#svy_all_questions#:#All Questions###29 07 2022 new variable
+svy#:#svy_code#:#Access Code###28 10 2024 new variable
+svy#:#svy_codes#:#Access Codes###07 02 2020 new variable
+svy#:#svy_current_page#:#Current Page###29 07 2022 new variable
+svy#:#svy_finish_survey#:#Finish survey '%1'###07 02 2020 new variable
+svy#:#svy_finished_x_appraisees#:#You have finished the survey for %s appraisee(s).###28 10 2024 new variable
+svy#:#svy_information#:#Information###28 10 2024 new variable
+svy#:#svy_invite_participants#:#Invite Participants###07 02 2020 new variable
+svy#:#svy_link_to_svy#:#Link to Survey###26 08 2024 new variable
+svy#:#svy_part_overview#:#Overview###07 02 2020 new variable
+svy#:#svy_placeholders_label#:#Available Placeholders###26 08 2024 new variable
+svy#:#svy_print_selection#:#Print View Selection###29 07 2022 new variable
+svy#:#svy_remove_all_participants#:#Remove all Participants###07 02 2020 new variable
+svy#:#svy_remove_participants#:#Remove Participants###07 02 2020 new variable
+svy#:#svy_selected_participants#:#Selected Participants###29 07 2022 new variable
+svy#:#svy_selected_questions#:#Selected Questions###29 07 2022 new variable
+svy#:#svy_selection#:#Selection###29 07 2022 new variable
+svy#:#svy_status#:#Status###07 02 2020 new variable
+svy#:#svy_status_finished#:#Finished###07 02 2020 new variable
+svy#:#svy_status_in_progress#:#In Progress###07 02 2020 new variable
+svy#:#svy_status_invited#:#Invited###07 02 2020 new variable
+svy#:#svy_user_added_appraisee#:#Survey '%1'###26 08 2024 new variable
+svy#:#svy_user_added_appraisee_close_mail#:#The survey has been closed for your raters.###26 08 2024 new variable
+svy#:#svy_user_added_appraisee_mail#:#You have been added to the survey as an appraisee.###26 08 2024 new variable
+svy#:#svy_user_added_rater#:#Survey '%1'###26 08 2024 new variable
+svy#:#svy_user_added_rater_mail#:#You have been added as a rater to the survey.###26 08 2024 new variable
+svy#:#svy_user_added_rater_reminder_mail#:#Please finish to rate the following appraisees:###26 08 2024 new variable
+svy#:#svy_user_not_found#:#User not found.###26 08 2024 new variable
+svy#:#svy_users_invited#:#Users have been invited.###07 02 2020 new variable
+svy#:#svy_x_appraisees_closed_for_raters#:#%s appraisee(s) has/have closed the survey for raters.###28 10 2024 new variable
+svy#:#svy_x_open_appraisees#:#%s appraisee(s) are open for you to rate.###28 10 2024 new variable
+svy#:#svy_your_appraisees#:#Your Appraisees###28 10 2024 new variable
+svy#:#svy_your_raters#:#Your Raters###28 10 2024 new variable
+svy#:#svy_your_raters_finished#:#%s of your raters have finished the survey.###28 10 2024 new variable
+sysc#:#sysc_action_list_tree#:#Crear volcado del árbol de repositorio.
 sysc#:#sysc_action_repair#:#Reparar
 sysc#:#sysc_action_show_tree#:#Mostrar volcado del árbol del repositorio
 sysc#:#sysc_action_validate#:#Validar

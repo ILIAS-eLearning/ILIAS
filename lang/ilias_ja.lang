@@ -17060,6 +17060,7 @@ svy#:#svy_codes#:#アクセスコード
 svy#:#svy_current_page#:#現在のページ
 svy#:#svy_finish_survey#:#サーベイ'%1'を実行
 svy#:#svy_finished_x_appraisees#:#あなたはすでに%s人の評価対象者に対するアンケートを完了しています。
+svy#:#svy_info_participants#:#次のいずれかの検索オプションを使用して、このアンケートにユーザーを参加者として追加します。追加されたユーザーには、このアンケートがダッシュボード上のタスクとして表示されます。
 svy#:#svy_information#:#インフォメーション
 svy#:#svy_invite_participants#:#参加者を招待
 svy#:#svy_link_to_svy#:#サーベイへのリンク
