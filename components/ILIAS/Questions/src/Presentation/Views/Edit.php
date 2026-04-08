@@ -247,6 +247,7 @@ class Edit
         $edit_view = $type_definition->getEditView();
 
         $from_capabilites = $this->capabilities_edit_view->edit(
+            $this->tabs_gui,
             $environment,
             $edit_view,
             $action
@@ -263,10 +264,6 @@ class Edit
         if ($from_capabilites !== null) {
             return $from_capabilites;
         }
-
-        $environment->setEditAnswerFormTabs(
-            $this->capabilities_edit_view->getRequiredCapabilities()
-        );
 
         if ($action === self::ACTION_OTHER_ANSWER_FORM) {
             return $this->processOtherAnswerFormAction(
@@ -477,6 +474,7 @@ class Edit
         $action = $environment->getAction();
 
         $from_capabilites = $this->capabilities_edit_view->edit(
+            $this->tabs_gui,
             $environment,
             $answer_form_edit_view,
             $action
