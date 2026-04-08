@@ -66,34 +66,21 @@ class Edit
     }
 
     public function edit(
+        \ilTabsGUI $tabs_gui,
         DefaultEnvironment $environment,
         AnswerFormEditView $edit_view,
         string $action_from_get
-<<<<<<< HEAD
-    ): Async|Renderable|AnswerFormProperties|null {
-        $action = $this->getCurrentActionFromActionsArray(
-            $this->required_actions_with_tab,
-            $action_from_get
-        );
-
-=======
     ): EditForm|AnswerFormProperties|null {
         $environment->setEditAnswerFormTabs(
             $this->required_actions_with_tab
         );
 
         $action = $this->required_actions_with_tab[$action_from_get] ?? null;
->>>>>>> 4a2133216e4 (Questions: Move Marking to Capability)
         if ($action !== null) {
-            $action->activateTab($this->tabs_gui);
+            $action->activateTab($tabs_gui);
         } else {
-<<<<<<< HEAD
-            $action = $this->addPreviousAndNextStepToFormAction(
-                $environment,
-=======
             $environment->setEditAnswerFormBackTarget();
             $action = $this->retrieveNextFormStepFromActionIdentifier(
->>>>>>> 4a2133216e4 (Questions: Move Marking to Capability)
                 $edit_view,
                 $action_from_get
             );
@@ -103,7 +90,6 @@ class Edit
             return null;
         }
 
-        $environment->setEditAnswerFormBackTarget();
         return $action->do(
             $environment->withActionParameter($action_from_get)
         );
