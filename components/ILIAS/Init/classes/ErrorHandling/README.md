@@ -4,7 +4,7 @@ This package provides responders for rendering HTTP error pages in ILIAS.
 
 ## When to use which responder
 
-- **ErrorPageResponder** (`Http\ErrorPageResponder`): Full ILIAS page: UI MessageBox when the fourth argument is `UIServices`, or `tpl.error.html` block `plain_html_fallback` when it is `ilGlobalTemplateInterface` (no `ui.factory` / `ui.renderer`). Constructor: `global_screen`, `language`, `http`, `shell`. On any `Throwable` from bootstrap or `respond()`, use `PlainTextFallbackResponder` (see `ilias.php` / `error.php`).
+- **ErrorPageResponder** (`Http\ErrorPageResponder`): Full ILIAS page: UI MessageBox when the fourth argument is `UIServices`, or `tpl.error.html` blocks `plain_html_fallback` / optional `plain_html_back_link` when it is `ilGlobalTemplateInterface` (no `ui.factory` / `ui.renderer`). Constructor: `global_screen`, `language`, `http`, `shell`. On any `Throwable` from bootstrap or `respond()`, use `PlainTextFallbackResponder` (see `ilias.php` / `error.php`).
 
 - **PlainTextFallbackResponder** (`Http\PlainTextFallbackResponder`): Use when the DI container or other infrastructure is *not* available — for instance in the catch block of `error.php` when the bootstrap itself has failed. Sends a minimal plain-text response with `Content-Type: text/plain; charset=UTF-8` and logs the exception via `error_log`. The HTTP status code defaults to 500; pass a different code when the failure context is known.
 

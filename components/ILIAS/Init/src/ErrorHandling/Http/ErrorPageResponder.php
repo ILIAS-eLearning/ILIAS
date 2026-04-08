@@ -36,8 +36,8 @@ use ILIAS\GlobalScreen\Services as GlobalScreenServices;
  *
  * Pass {@see UIServices} as {@code $shell} for a MessageBox. If {@code ui.factory}
  * / {@code ui.renderer} are not available, pass {@see ilGlobalTemplateInterface}
- * (e.g. {@code $DIC['tpl']}) — {@code tpl.error.html} is then filled via
- * {@code plain_html_fallback} (simple alert + link).
+ * (e.g. {@code $DIC['tpl']}) — {@code tpl.error.html} uses {@code plain_html_fallback}
+ * for the message and, if a {@see Link} is passed, {@code plain_html_back_link} for the anchor.
  *
  * Use this when the DI container and all ILIAS services are available.
  * The consumer MUST wrap the main logic in a try-catch and call
@@ -94,13 +94,18 @@ readonly class ErrorPageResponder
                 $this->shell->renderer()->render($message_box)
             );
             $local_tpl->parseCurrentBlock();
+            $content_html = $local_tpl->get();
         } else {
             $local_tpl->setCurrentBlock('plain_html_fallback');
             $local_tpl->setVariable(
                 'ERROR_MESSAGE',
                 htmlspecialchars($error_message, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')
             );
+            $local_tpl->parseCurrentBlock();
+            $content_html = $local_tpl->get('plain_html_fallback');
+
             if ($back_target !== null) {
+                $local_tpl->setCurrentBlock('plain_html_back_link');
                 $local_tpl->setVariable(
                     'LINK_HREF',
                     ilUtil::secureUrl((string) $back_target->getURL())
@@ -109,11 +114,9 @@ readonly class ErrorPageResponder
                     'LINK_TEXT',
                     htmlspecialchars($back_target->getLabel(), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')
                 );
-            } else {
-                $local_tpl->setVariable('LINK_HREF', '');
-                $local_tpl->setVariable('LINK_TEXT', '');
+                $local_tpl->parseCurrentBlock();
+                $content_html .= $local_tpl->get('plain_html_back_link');
             }
-            $local_tpl->parseCurrentBlock();
         }
 
         $this->http->saveResponse(
@@ -124,7 +127,7 @@ readonly class ErrorPageResponder
         );
 
         $main = $this->mainShellTemplate();
-        $main->setContent($local_tpl->get());
+        $main->setContent($content_html);
         $main->printToStdout();
 
         $this->http->close();
