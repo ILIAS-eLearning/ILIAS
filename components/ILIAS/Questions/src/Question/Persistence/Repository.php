@@ -207,8 +207,7 @@ class Repository
                 => $v->toDelete(
                     $c,
                     $this->persistence_factory,
-                    $this->question_table_definitions,
-                    $this->answer_form_generic_table_definitions
+                    $this->question_table_definitions
                 ),
             $this->buildManipulate(
                 ManipulationType::Delete
