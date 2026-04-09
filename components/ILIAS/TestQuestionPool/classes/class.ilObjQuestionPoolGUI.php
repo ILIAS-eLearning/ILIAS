@@ -20,6 +20,15 @@ declare(strict_types=1);
 
 use ILIAS\Skill\Service\SkillUsageService;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
+use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
+use ILIAS\TestQuestionPool\ExportImport\Import\UploadValidationStage;
+use ILIAS\TestQuestionPool\ExportImport\Import\QuestionSelectionStage;
+use ILIAS\TestQuestionPool\ExportImport\Import\PersistStage;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportStageRunner;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\StageResult;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\StageResultType;
 use ILIAS\TestQuestionPool\RequestDataCollector;
 use ILIAS\TestQuestionPool\Questions\Presentation\QuestionTable;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
@@ -32,9 +41,7 @@ use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\GlobalScreen\Services as GlobalScreen;
-use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Filesystem\Util\Archive\Archives;
-use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 use ILIAS\FileUpload\MimeType;
 use ILIAS\UI\Component\Modal\RoundTrip as RoundTripModal;
 use ILIAS\Style\Content\Service as ContentStyle;
@@ -95,6 +102,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     protected RequestDataCollector $request_data_collector;
     protected GeneralQuestionPropertiesRepository $questionrepository;
     protected GlobalTestSettings $global_test_settings;
+    protected ImportSessionRepository $import_session_repository;
 
     public function __construct()
     {
@@ -120,7 +128,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $local_dic = QuestionPoolDIC::dic();
         $this->request_data_collector = $local_dic['request_data_collector'];
         $this->questionrepository = $local_dic['question.general_properties.repository'];
-        $this->global_test_settings = $local_dic['global_test_settings'];
+        $this->global_test_settings = $local_dic['global_test_settings'];;
+        $this->import_session_repository = $local_dic['exportimport.session'];
 
         parent::__construct('', $this->request_data_collector->getRefId(), true, false);
 
@@ -733,62 +742,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         exit;
     }
 
-    public function importVerifiedFileObject(): void
-    {
-        if ($this->creation_mode
-                && !$this->checkPermissionBool('create', '', $this->request_data_collector->string('new_type'))
-            || !$this->creation_mode
-                && !$this->checkPermissionBool('read', '', $this->object->getType())) {
-            $this->redirectAfterMissingWrite();
-            return;
-        }
-
-        $file_to_import = ilSession::get('path_to_import_file');
-        list($subdir, $importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromImportFile($file_to_import);
-
-        $new_obj = new ilObjQuestionPool(0, true);
-        $new_obj->setType($this->request_data_collector->raw('new_type'));
-        $new_obj->setTitle('dummy');
-        $new_obj->setDescription('questionpool import');
-        $new_obj->create(true);
-        $new_obj->createReference();
-        $new_obj->putInTree($this->request_data_collector->getRefId());
-        $new_obj->setPermissions($this->request_data_collector->getRefId());
-
-        $selected_questions = $this->retrieveSelectedQuestionsFromImportQuestionsSelectionForm(
-            'importVerifiedFile',
-            $importdir,
-            $qtifile,
-            $this->request
-        );
-
-        if (is_file($importdir . DIRECTORY_SEPARATOR . 'manifest.xml')) {
-            $this->importQuestionPoolWithValidManifest(
-                $new_obj,
-                $selected_questions,
-                $file_to_import
-            );
-        } else {
-            $this->importQuestionsFromQtiFile(
-                $new_obj,
-                $selected_questions,
-                $qtifile,
-                $importdir,
-                $xmlfile
-            );
-
-            $new_obj->fromXML($xmlfile);
-
-            $new_obj->update();
-            $new_obj->saveToDb();
-        }
-        $this->cleanupAfterImport($importdir);
-
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_imported'), true);
-        $this->ctrl->setParameterByClass(self::class, 'ref_id', $new_obj->getRefId());
-        $this->ctrl->redirectByClass(self::class);
-    }
-
     public function importVerifiedQuestionsFileObject(): void
     {
         $file_to_import = ilSession::get('path_to_import_file');
@@ -877,18 +830,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             ['import_file' => $file_upload_input],
             $this->ctrl->getFormActionByClass(self::class, 'uploadQuestionsImport')
         )->withSubmitLabel($this->lng->txt('import'));
-    }
-
-    private function importQuestionPoolWithValidManifest(
-        ilObjQuestionPool $obj,
-        array $selected_questions,
-        string $file_to_import
-    ): void {
-        ilSession::set('qpl_import_selected_questions', $selected_questions);
-        $imp = new ilImport($this->request_data_collector->getRefId());
-        $map = $imp->getMapping();
-        $map->addMapping('components/ILIAS/TestQuestionPool', 'qpl', 'new_id', (string) $obj->getId());
-        $imp->importObject($obj, $file_to_import, basename($file_to_import), 'qpl', 'components/ILIAS/TestQuestionPool', true);
     }
 
     private function importQuestionsFromQtiFile(
@@ -1359,48 +1300,76 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         exit;
     }
 
+
+
     protected function importFile(string $file_to_import, string $path_to_uploaded_file_in_temp_dir): void
     {
-        list($subdir, $importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromImportFile($file_to_import);
+        $this->import_session_repository->clear();
 
-        $options = (new ILIAS\Filesystem\Util\Archive\UnzipOptions())
-            ->withZipOutputPath($this->getImportTempDirectory());
+        $context = new ImportContext(['file_to_import' => $file_to_import]);
+        $this->import_session_repository->setContext($context);
+        $this->import_session_repository->setCurrentStageIndex(0);
 
-        $unzip = $this->archives->unzip(Streams::ofResource(fopen($file_to_import, 'r')), $options);
-        $unzip->extract();
-
-        if (!file_exists($qtifile)) {
-            ilFileUtils::delDir($importdir);
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('cannot_find_xml'), true);
-            return;
-        }
-
-        ilSession::set('path_to_import_file', $file_to_import);
-        ilSession::set('path_to_uploaded_file_in_temp_dir', $path_to_uploaded_file_in_temp_dir);
-
-        $this->ctrl->setParameterByClass(self::class, 'new_type', $this->type);
-        $form = $this->buildImportQuestionsSelectionForm(
-            'importVerifiedFile',
-            $importdir,
-            $qtifile,
-            $path_to_uploaded_file_in_temp_dir
-        );
-
-        if ($form === null) {
-            return;
-        }
-
-        $panel = $this->ui_factory->panel()->standard(
-            $this->lng->txt('import_qpl'),
-            [
-                $this->ui_factory->legacy()->content($this->lng->txt('qpl_import_verify_found_questions')),
-                $form
-            ]
-        );
-        $this->tpl->setContent($this->ui_renderer->render($panel));
-        $this->tpl->printToStdout();
-        exit;
+        $this->ctrl->redirectByClass(self::class, 'processImport');
     }
+
+    public function processImportObject(): void
+    {
+        $permission = $this->creation_mode ? 'create' : 'read';
+        if (!$this->checkPermissionBool($permission, '', $this->object->getType())) {
+            $this->redirectAfterMissingWrite();
+            return;
+        }
+
+        $runner = $this->buildImportStageRunner();
+        $result = $runner->run($this->request);
+
+        match ($result->type) {
+            StageResultType::INTERACT => $this->renderImportStage($runner, $result),
+            StageResultType::ADVANCE => $this->ctrl->redirectByClass(self::class, 'processImport'),
+            StageResultType::ERROR => $this->renderImportError($runner, $result),
+            StageResultType::COMPLETE => $this->renderImportSuccess($runner, $result),
+        };
+    }
+
+    private function buildImportStageRunner(): ImportStageRunner
+    {
+        $form_action = $this->ctrl->getFormActionByClass(self::class, 'processImport');
+
+        return new ImportStageRunner(
+            [
+                new UploadValidationStage($this->archives, $this->lng, 'components/ILIAS/TestQuestionPool'),
+                new QuestionSelectionStage($this->lng, $this->component_factory, $this->ui_factory, $form_action),
+                new PersistStage($this->lng, $this->request_data_collector, $this->import_session_repository),
+            ],
+            $this->import_session_repository,
+        );
+    }
+
+    private function renderImportStage(ImportStageRunner $runner, StageResult $result): void
+    {
+        $workflow = $runner->buildWorkflow($this->ui_factory, $this->lng->txt('import'));
+        $this->tpl->setContent(
+            $this->ui_renderer->render([$workflow, ...$result->components])
+        );
+    }
+
+    private function renderImportError(ImportStageRunner $runner, StageResult $result): void
+    {
+        $runner->reset();
+        $this->tpl->setOnScreenMessage('failure', $result->error_message, true);
+        $this->ctrl->redirectByClass(self::class, self::DEFAULT_CMD);
+    }
+
+    private function renderImportSuccess(ImportStageRunner $runner, StageResult $result): void
+    {
+        $runner->reset();
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_imported'), true);
+        $this->ctrl->setParameter($this, 'ref_id', $result->context->get('pool_obj_id'));
+        $this->ctrl->redirectByClass(self::class, self::DEFAULT_CMD);
+    }
+
+
 
     public function addLocatorItems(): void
     {
