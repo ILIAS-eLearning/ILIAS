@@ -20,6 +20,7 @@ use ILIAS\Setup\Agent\NullAgent;
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Setup\Metrics;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Setup\NormalizerArtifactObjective;
 
 class ilTestQuestionPoolSetupAgent extends NullAgent
 {
@@ -58,6 +59,11 @@ class ilTestQuestionPoolSetupAgent extends NullAgent
         return [
             new ilTestQuestionPoolFileUploadQuestionMigration()
         ];
+    }
+
+    public function getBuildObjective(): Objective
+    {
+        return new NormalizerArtifactObjective();
     }
 
 }
