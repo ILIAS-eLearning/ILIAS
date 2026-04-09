@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool;
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Builder;
+use ILIAS\TestQuestionPool\ExportImport\QuestionPoolExporter;
 use ILIAS\DI\ServiceContainer;
 use ILIAS\DI\Container as ILIASContainer;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
@@ -66,6 +68,19 @@ class QuestionPoolDIC extends ServiceContainer
             new ParticipantRepository($DIC['ilDB']);
         $dic['global_test_settings'] = static fn($c): GlobalTestSettings =>
             (new GlobalTestSettingsRepository($DIC['ilSetting'], new \ilSetting('assessment')))->getGlobalSettings();
+
+        $dic['exportimport.builder'] = static fn($c): Builder =>
+            new Builder(
+                $DIC,
+                $c
+            );
+        $dic['exportimport.exporter'] = static fn($c): QuestionPoolExporter =>
+            new QuestionPoolExporter(
+                $c['exportimport.builder'],
+                $c['question.general_properties.repository'],
+                $DIC->database(),
+                $DIC->taxonomy()->domain()
+            );
 
         return $dic;
     }
