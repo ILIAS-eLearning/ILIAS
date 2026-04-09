@@ -41,6 +41,7 @@ try {
     $DIC->language()->loadLanguageModule('error');
 
     $message = \ilSession::get('failure') ?? $DIC->language()->txt('http_500_internal_server_error');
+    \ilSession::clear('failure');
 
     $df = new DataFactory();
     $back_target = $df->link(
