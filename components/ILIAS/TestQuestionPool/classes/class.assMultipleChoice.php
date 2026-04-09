@@ -18,11 +18,13 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\TestQuestionPool\ManipulateImagesInChoiceQuestionsTrait;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
-use ILIAS\TestQuestionPool\RequestDataCollector;
+use ILIAS\Refinery\Transformation;
 
 /**
  * Class for multiple choice tests.
@@ -39,7 +41,7 @@ use ILIAS\TestQuestionPool\RequestDataCollector;
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssSpecificFeedbackOptionLabelProvider, QuestionLMExportable, QuestionAutosaveable
+class assMultipleChoice extends assQuestion implements ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssSpecificFeedbackOptionLabelProvider, QuestionLMExportable, QuestionAutosaveable, Normalizable
 {
     use ManipulateImagesInChoiceQuestionsTrait;
 
@@ -955,5 +957,36 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
                 . "{$this->lng->txt('unchecked')}: {$v->getPointsUnchecked()})",
             $this->getAnswers()
         );
+    }
+
+    /**
+    * @inheritDoc
+    */
+    public function toNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(fn(): array => [
+            ...$tt->normalize(parent::toNormalized($tt)),
+            'selection_limit' => $this->selection_limit,
+            'single_line' => $this->is_singleline,
+            'answers' => $tt->normalize($this->answers, ['question_id' => $this->getId()]),
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fromNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
+            $clone = parent::fromNormalized($tt)->transform($normalized);
+            $clone->selection_limit = $tt->nullableInt($normalized['selection_limit']);
+            $clone->is_singleline = $tt->bool($normalized['single_line']);
+            $clone->answers = array_map(
+                fn(array $answer) => $tt->denormalize($answer, new ASS_AnswerMultipleResponseImage()),
+                $normalized['answers']
+            );
+
+            return $clone;
+        });
     }
 }

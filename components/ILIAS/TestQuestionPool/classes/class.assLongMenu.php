@@ -18,11 +18,14 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
+use ILIAS\Refinery\Transformation;
 
-class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable, QuestionLMExportable, QuestionAutosaveable
+class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable, QuestionLMExportable, QuestionAutosaveable, Normalizable
 {
     public const ANSWER_TYPE_SELECT_VAL = 0;
     public const ANSWER_TYPE_TEXT_VAL = 1;
@@ -832,5 +835,39 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
                     . ' ' . $gap_index . ': ' . implode(',', $gap[0]);
         }
         return $correct_answers;
+    }
+
+    /**
+    * @inheritDoc
+    */
+    public function toNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(fn(): array => [
+            ...$tt->normalize(parent::toNormalized($tt)),
+            'long_menu_text' => $this->long_menu_text,
+            'json_structure' => $this->json_structure,
+            'min_auto_complete' => $this->minAutoComplete,
+            'identical_scoring' => $this->identical_scoring,
+            'correct_answers' => $this->correct_answers,
+            'answers' => $this->answers,
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fromNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
+            $clone = parent::fromNormalized($tt)->transform($normalized);
+            $clone->long_menu_text = $tt->string($normalized['long_menu_text']);
+            $clone->json_structure = $tt->string($normalized['json_structure']);
+            $clone->minAutoComplete = $tt->int($normalized['min_auto_complete']);
+            $clone->identical_scoring = $tt->bool($normalized['identical_scoring']);
+            $clone->correct_answers = $normalized['correct_answers'];
+            $clone->answers = $normalized['answers'];
+
+            return $clone;
+        });
     }
 }
