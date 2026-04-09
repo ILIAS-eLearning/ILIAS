@@ -224,7 +224,7 @@ class ilSurveyEditorGUI
             $ilToolbar->setFormAction($this->ctrl->getFormAction($this));
             $types = new ilSelectInputGUI($this->lng->txt("create_new"), "sel_question_types");
             $types->setOptions($qtypes);
-            $ilToolbar->addStickyItem($types, "");
+            $ilToolbar->addStickyItem($types, false);
 
             $this->gui->button(
                 $this->lng->txt("svy_create_question"),
