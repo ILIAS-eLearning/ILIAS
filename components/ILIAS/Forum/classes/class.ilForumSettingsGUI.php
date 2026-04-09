@@ -732,6 +732,9 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
         $this->initNotificationSettingsForm();
 
         $frm_noti = new ilForumNotification($this->forum->getRefId());
+
+        $former_properties = clone $this->parent_obj->objProperties;
+
         if ($this->notificationSettingsForm->checkInput()) {
             $notification_type = NotificationType::tryFrom($this->dic->http()->wrapper()->post()->retrieve(
                 'notification_type',
@@ -765,14 +768,18 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
                 $this->parent_obj->objProperties->setNotificationType(NotificationType::DEFAULT);
                 $this->parent_obj->objProperties->setAdminForceNoti(false);
                 $this->parent_obj->objProperties->setUserToggleNoti(false);
-                $frm_noti->deleteNotificationAllUsers();
             }
-            $properties = ilForumProperties::getInstance($this->forum->getId());
-            $frm_noti->updateUserNotifications($this->forum->getAllForumParticipants(), $properties);
+
+            $frm_noti->applyTypeConfigurationFor(
+                $this->forum->getAllForumParticipants(),
+                $this->parent_obj->objProperties,
+                $former_properties
+            );
 
             $this->parent_obj->objProperties->update();
 
             $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('saved_successfully'), true);
+            $this->ctrl->redirect($this, 'showMembers');
         }
         $this->notificationSettingsForm->setValuesByPost();
 

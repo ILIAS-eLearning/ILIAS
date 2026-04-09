@@ -265,7 +265,7 @@ class ilForumNotification
             }
 
             $properties = ilForumProperties::getInstance((int) $data['obj_id']);
-            if ($properties->isAdminForceNoti() || $properties->isUserToggleNoti()) {
+            if ($properties->getNotificationType() !== NotificationType::DEFAULT) {
                 if ($properties->isAdminForceNoti()) {
                     $frm_noti->setInterestedEvents($properties->getInterestedEvents());
                 }
@@ -389,18 +389,20 @@ class ilForumNotification
      */
     public function read(): array
     {
-        $result = [];
-
         $res = $this->db->queryF('SELECT * FROM frm_notification WHERE frm_id = %s', ['integer'], [$this->getForumId()]);
+
+        $result = [];
         while ($row = $this->db->fetchAssoc($res)) {
-            $result[(int) $row['user_id']]['notification_id'] = (int) $row['notification_id'];
-            $result[(int) $row['user_id']]['user_id'] = (int) $row['user_id'];
-            $result[(int) $row['user_id']]['frm_id'] = (int) $row['frm_id'];
-            $result[(int) $row['user_id']]['thread_id'] = (int) $row['thread_id'];
-            $result[(int) $row['user_id']]['admin_force_noti'] = (int) $row['admin_force_noti'];
-            $result[(int) $row['user_id']]['user_toggle_noti'] = (int) $row['user_toggle_noti'];
-            $result[(int) $row['user_id']]['interested_events'] = (int) $row['interested_events'];
-            $result[(int) $row['user_id']]['user_id_noti'] = (int) $row['user_id_noti'];
+            $result[(int) $row['user_id']] = [
+                'notification_id' => (int) $row['notification_id'],
+                'user_id' => (int) $row['user_id'],
+                'frm_id' => (int) $row['frm_id'],
+                'thread_id' => (int) $row['thread_id'],
+                'admin_force_noti' => (int) $row['admin_force_noti'],
+                'user_toggle_noti' => (int) $row['user_toggle_noti'],
+                'interested_events' => (int) $row['interested_events'],
+                'user_id_noti' => (int) $row['user_id_noti']
+            ];
         }
 
         return $result;
@@ -550,21 +552,89 @@ class ilForumNotification
     }
 
     /**
-     * @param list<int> $usr_ids
+     * Aligns `frm_notification` rows for this forum with the effective notification mode and properties.
+     *
+     * @param list<int> $all_context_usr_ids A list of all user ids relevant for this context
+     *                                       (moderators plus participants, only relevant for
+     *                                       upstream course or group contexts)
      */
-    public function updateUserNotifications(array $usr_ids, ilForumProperties $object_properties): void
-    {
-        $notification_settings_by_usr_id = $this->read();
-        foreach ($usr_ids as $usr_id) {
-            $this->setUserId($usr_id);
-            $this->setAdminForce(true);
-            $this->setUserToggle($object_properties->isUserToggleNoti());
-            $this->setInterestedEvents($object_properties->getInterestedEvents());
-
-            if (array_key_exists($usr_id, $notification_settings_by_usr_id) &&
-                $object_properties->getNotificationType() === NotificationType::ALL_USERS) {
+    public function applyTypeConfigurationFor(
+        array $all_context_usr_ids,
+        ilForumProperties $effective_properties,
+        ?ilForumProperties $former_properties = null
+    ): void {
+        $existing_notification_records = $this->read();
+        if ($effective_properties->getNotificationType() === NotificationType::DEFAULT) {
+            foreach ($existing_notification_records as $user_id => $row) {
+                $this->setUserId($user_id);
+                $this->setAdminForce($effective_properties->isAdminForceNoti());
+                $this->setUserToggle($effective_properties->isUserToggleNoti());
+                $this->setInterestedEvents((int) $row['interested_events']);
                 $this->update();
-            } elseif (!$this->existsNotification()) {
+            }
+
+            return;
+        }
+
+        if ($effective_properties->getNotificationType() === NotificationType::ALL_USERS) {
+            foreach ($existing_notification_records as $user_id => $row) {
+                $this->setUserId($user_id);
+                $this->setAdminForce($effective_properties->isAdminForceNoti());
+                $this->setUserToggle($effective_properties->isUserToggleNoti());
+
+                if ($effective_properties->isUserToggleNoti()) {
+                    // If the user is not allowed to change subscription settings, we reset the "Events of Interest" to default
+                    $this->setInterestedEvents($effective_properties->getInterestedEvents());
+                } else {
+                    // We keep existing "Events of Interest" if the user is still allowed to change subcription settings
+                    $this->setInterestedEvents((int) $row['interested_events']);
+                }
+
+                $this->update();
+            }
+
+            foreach ($all_context_usr_ids as $user_id) {
+                if (array_key_exists($user_id, $existing_notification_records)) {
+                    continue;
+                }
+
+                $this->setUserId($user_id);
+                $this->setAdminForce($effective_properties->isAdminForceNoti());
+                $this->setUserToggle($effective_properties->isUserToggleNoti());
+                $this->setInterestedEvents($effective_properties->getInterestedEvents());
+                $this->insertAdminForce();
+            }
+
+            return;
+        }
+
+        if ($effective_properties->getNotificationType() === NotificationType::PER_USER) {
+            foreach ($existing_notification_records as $user_id => $row) {
+                $this->setUserId($user_id);
+                $this->setAdminForce($effective_properties->isAdminForceNoti());
+                // For existing users, we keep the flag whether the user is albe to change subcription settings
+                $this->setUserToggle((bool) $row['user_toggle_noti']);
+
+                if ((int) $row['user_toggle_noti'] === 1) {
+                    // If the user is not allowed to change subscription settings, we reset the "Events of Interest" to default
+                    $this->setInterestedEvents($effective_properties->getInterestedEvents());
+                } else {
+                    // We keep existing "Events of Interest" if the user is still allowed to change subcription settings
+                    $this->setInterestedEvents((int) $row['interested_events']);
+                }
+
+                $this->update();
+            }
+
+            foreach ($all_context_usr_ids as $user_id) {
+                if (array_key_exists($user_id, $existing_notification_records)) {
+                    continue;
+                }
+
+                $this->setUserId($user_id);
+                $this->setAdminForce($effective_properties->isAdminForceNoti());
+                $this->setUserToggle($effective_properties->isUserToggleNoti());
+                $this->setInterestedEvents($effective_properties->getInterestedEvents());
                 $this->insertAdminForce();
             }
         }
