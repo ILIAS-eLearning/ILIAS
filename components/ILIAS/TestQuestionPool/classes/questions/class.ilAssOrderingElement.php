@@ -17,6 +17,11 @@
  *********************************************************************/
 
 declare(strict_types=1);
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
+use ILIAS\Refinery\Transformation;
+use ILIAS\TestQuestionPool\ExportImport\Envelopes\QuestionImage;
 
 /**
 * Class represents an ordering element for assOrderingQuestion
@@ -25,7 +30,7 @@ declare(strict_types=1);
 * @version		$Id$
 * @package		Modules/TestQuestionPool
 */
-class ilAssOrderingElement
+class ilAssOrderingElement implements Normalizable
 {
     public const EXPORT_IDENT_PROPERTY_SEPARATOR = '_';
 
@@ -439,5 +444,40 @@ class ilAssOrderingElement
         $clone = clone $this;
         $clone->content = $content;
         return $clone;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(fn(array $options): array => [
+            'id' => $tt->normalize(new Id($this->id, 'ordering')),
+            'random_identifier' => $this->random_identifier,
+            'solution_identifier' => $this->solution_identifier,
+            'position' => $this->position,
+            'indentation' => $this->indentation,
+            'content' => $this->content ? $tt->normalize(
+                new QuestionImage($this->content, $options['question_id'] ?? null)
+            ) : null,
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fromNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
+            $clone = $this->withRandomIdentifier($tt->int($normalized['random_identifier']))
+                        ->withSolutionIdentifier($tt->int($normalized['solution_identifier']))
+                        ->withPosition($tt->int($normalized['position']))
+                        ->withIndentation($tt->int($normalized['indentation']));
+
+            $clone->setContent($tt->denormalize($normalized['content'], QuestionImage::class)?->getFilename());
+            $clone->setId($tt->denormalize($normalized['id'], Id::class)->getId());
+
+            return $clone;
+        });
     }
 }
