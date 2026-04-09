@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\Refinery\Transformation;
+
 /**
 * Class for matching question answers
 *
@@ -24,7 +28,7 @@
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @ingroup components\ILIASTestQuestionPool
 */
-class ASS_AnswerMatching
+class ASS_AnswerMatching implements Normalizable
 {
     public float $points;
 
@@ -235,5 +239,33 @@ class ASS_AnswerMatching
     public function setPoints(float $points = 0.0): void
     {
         $this->points = $points;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(fn(): array => [
+            'points' => $this->points,
+            'picture_or_definition' => $this->picture_or_definition,
+            'picture_or_definition_id' => $this->picture_or_definition_id,
+            'term_id' => $this->term_id,
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fromNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
+            $clone = clone $this;
+            $clone->setPoints($tt->float($normalized['points']));
+            $clone->setPicture($tt->string($normalized['picture_or_definition']));
+            $clone->setPictureId($tt->int($normalized['picture_or_definition_id']));
+            $clone->setTermId($tt->int($normalized['term_id']));
+            return $clone;
+        });
     }
 }

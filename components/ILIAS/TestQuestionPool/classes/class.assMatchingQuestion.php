@@ -18,11 +18,14 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\Refinery\Random\Seed\RandomSeed;
+use ILIAS\Refinery\Transformation;
 
 /**
  * Class for matching questions
@@ -37,7 +40,7 @@ use ILIAS\Refinery\Random\Seed\RandomSeed;
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionLMExportable, QuestionAutosaveable
+class assMatchingQuestion extends assQuestion implements ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionLMExportable, QuestionAutosaveable, Normalizable
 {
     public const MT_TERMS_PICTURES = 0;
     public const MT_TERMS_DEFINITIONS = 1;
@@ -1422,5 +1425,45 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 . $v->getTerm()->getText(),
             $this->getMatchingPairs()
         );
+    }
+
+    /**
+    * @inheritDoc
+    */
+    public function toNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(fn(): array => [
+            ...$tt->normalize(parent::toNormalized($tt)),
+            'shuffle_mode' => $this->shufflemode,
+            'matching_mode' => $this->matching_mode,
+            'matching_type' => $this->matching_type,
+            'thumb_geometry' => $this->thumb_geometry,
+            'matching_pairs' => $tt->normalize($this->matchingpairs, ['question_id' => $this->getId()]),
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fromNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
+            $clone = parent::fromNormalized($tt)->transform($normalized);
+            $clone->shufflemode = $tt->int($normalized['shuffle_mode']);
+            $clone->matching_mode = $tt->string($normalized['matching_mode']);
+            $clone->matching_type = $tt->int($normalized['matching_type']);
+            $clone->thumb_geometry = $tt->int($normalized['thumb_geometry']);
+
+            foreach ($normalized['matching_pairs'] as $matching_pair) {
+                $term = $tt->denormalize($matching_pair['term'], new assAnswerMatchingTerm());
+                $definition = $tt->denormalize($matching_pair['definition'], new assAnswerMatchingDefinition());
+
+                $clone->matchingpairs[] = new assAnswerMatchingPair($term, $definition, $tt->float($matching_pair['points']));
+                $clone->terms[] = $term;
+                $clone->definitions[] = $definition;
+            }
+
+            return $clone;
+        });
     }
 }

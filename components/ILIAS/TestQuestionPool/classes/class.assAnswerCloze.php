@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\Refinery\Transformation;
+
 /**
  * Class for cloze question numeric answers
  *
@@ -149,5 +152,32 @@ class assAnswerCloze extends ASS_AnswerSimple
     public function getGapSize(): int
     {
         return $this->gap_size;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(fn(): array => [
+            ...$tt->normalize(parent::toNormalized($tt)),
+            'lower_bound' => $this->lowerBound,
+            'upper_bound' => $this->upperBound,
+            'gap_size' => $this->gap_size,
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fromNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
+            $clone = parent::fromNormalized($tt)->transform($normalized);
+            $clone->lowerBound = $tt->nullableString($normalized['lower_bound']);
+            $clone->upperBound = $tt->nullableString($normalized['upper_bound']);
+            $clone->gap_size = $tt->int($normalized['gap_size']);
+            return $clone;
+        });
     }
 }

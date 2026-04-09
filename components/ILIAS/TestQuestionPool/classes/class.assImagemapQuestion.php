@@ -18,10 +18,14 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Envelopes\QuestionImage;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\RequestDataCollector;
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
+use ILIAS\Refinery\Transformation;
 
 /**
  * Class for image map questions
@@ -36,7 +40,7 @@ use ILIAS\Test\Logging\AdditionalInformationGenerator;
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionLMExportable
+class assImagemapQuestion extends assQuestion implements ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionLMExportable, Normalizable
 {
     private RequestDataCollector $request; // Hate it.
 
@@ -914,5 +918,36 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 . "{$this->lng->txt('unchecked')}: {$v->getPointsUnchecked()})",
             $this->getAnswers()
         );
+    }
+
+    /**
+    * @inheritDoc
+    */
+    public function toNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(fn(): array => [
+            ...$tt->normalize(parent::toNormalized($tt)),
+            'image' => $tt->normalize(new QuestionImage($this->image_filename, $this->getId())),
+            'multiple_choice' => $this->is_multiple_choice,
+            'answers' => $tt->normalize($this->answers),
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fromNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
+            $clone = parent::fromNormalized($tt)->transform($normalized);
+            $clone->image_filename = $tt->denormalize($normalized['image'], QuestionImage::class)->getFilename();
+            $clone->is_multiple_choice = $tt->bool($normalized['multiple_choice']);
+            $clone->answers = array_map(
+                fn(array $answer) => $tt->denormalize($answer, new ASS_AnswerImagemap()),
+                $normalized['answers']
+            );
+
+            return $clone;
+        });
     }
 }
