@@ -16,6 +16,12 @@
  *
  *********************************************************************/
 
+use ILIAS\Data\ObjectId;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\ExportContext;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\SimpleXMLSerializer;
+use ILIAS\TestQuestionPool\ExportImport\QuestionPoolExporter;
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
+
 /**
  * Used for container export with tests
  *
@@ -25,105 +31,54 @@
  */
 class ilTestQuestionPoolExporter extends ilXmlExporter
 {
-    private $ds;
+    private QuestionPoolExporter $exporter;
 
     /**
-     * Initialisation
+     * @var array<int, ExportContext> $batches
      */
+    private array $batches = [];
+
+
     public function init(): void
     {
+        $this->exporter = QuestionPoolDIC::dic()['exportimport.exporter'];
     }
 
     /**
-     * Overwritten for qpl
-     * @param string $a_obj_type
-     * @param int    $a_obj_id
-     * @param string $a_export_type
-     */
-    public static function lookupExportDirectory(string $a_obj_type, int $a_obj_id, string $a_export_type = 'xml', string $a_entity = ""): string
-    {
-        if ($a_export_type == 'xml') {
-            return ilFileUtils::getDataDir() . "/qpl_data" . "/qpl_" . $a_obj_id . "/export_zip";
-        }
-        return ilFileUtils::getDataDir() . "/qpl_data" . "/qpl_" . $a_obj_id . "/export_" . $a_export_type;
-    }
-
-
-    /**
-     * Get xml representation
-     * @param	string		entity
-     * @param	string		schema version
-     * @param	string		id
-     * @return	string		xml string
+     * Returns the final XML content for one question pool.
+     *
+     * This method is called after `getXmlExportTailDependencies()`. At this point the export writer and export
+     * directory are available, so the prepared batch can be written to disk and finalized.
      */
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
-        $qpl = new ilObjQuestionPool($a_id, false);
-        $qpl->loadFromDb();
+        if ($a_entity !== 'qpl') {
+            throw new InvalidArgumentException("Invalid entity for question pool export: {$a_entity}");
+        }
 
-        $qpl_exp = new ilQuestionpoolExport($qpl, 'xml');
-        $qpl_exp->buildExportFile();
-
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-        $DIC['ilLog']->info(': Created zip file');
-        return ''; // sagt mjansen
+        return $this->finalizeExport((int) $a_id)->getContent();
     }
 
     /**
-     * Get tail dependencies
-     * @param		string		entity
-     * @param		string		target release
-     * @param		array		ids
-     * @return        array        array of array with keys "component", entity", "ids"
+     * Collects export tail dependencies for one or more question pools.
+     *
+     * The export framework calls this method before `getXmlRepresentation()`. Therefore this method only prepares and
+     * processes the export batch in memory and caches the context, because writer and export directory are not yet
+     * initialized here.
      */
     public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
-        if ($a_entity == 'qpl') {
-            $deps = [];
-
-            $taxIds = $this->getDependingTaxonomyIds($a_ids);
-
-            if (count($taxIds)) {
-                $deps[] = [
-                    'component' => 'components/ILIAS/Taxonomy',
-                    'entity' => 'tax',
-                    'ids' => $taxIds
-                ];
-            }
-
-            $md_ids = [];
-            foreach ($a_ids as $id) {
-                $md_ids[] = $id . ':0:qpl';
-            }
-            if ($md_ids !== []) {
-                $deps[] = [
-                    'component' => 'components/ILIAS/MetaData',
-                    'entity' => 'md',
-                    'ids' => $md_ids
-                ];
-            }
-
-            return $deps;
+        if ($a_entity !== 'qpl') {
+            throw new InvalidArgumentException("Invalid entity for question pool export: {$a_entity}");
         }
 
-        return parent::getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids);
-    }
-
-    /**
-     * @param array $testObjIds
-     * @return array $taxIds
-     */
-    private function getDependingTaxonomyIds($poolObjIds): array
-    {
-        $taxIds = [];
-
-        foreach ($poolObjIds as $poolObjId) {
-            foreach (ilObjTaxonomy::getUsageOfObject($poolObjId) as $taxId) {
-                $taxIds[$taxId] = $taxId;
-            }
+        $dependencies = [];
+        foreach ($a_ids as $id) {
+            $context = $this->processExport((int) $id);
+            $dependencies = array_merge($dependencies, $context->getDependencies());
         }
 
-        return $taxIds;
+        return $dependencies;
     }
 
     /**
@@ -142,5 +97,43 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
                 "min" => "4.1.0",
                 "max" => ""]
         ];
+    }
+
+    /**
+     * Prepares and processes a question pool export in memory. The resulting context is cached per pool and reused
+     * across calls.
+     */
+    private function processExport(int $pool_id): ExportContext
+    {
+        if (isset($this->batches[$pool_id])) {
+            return $this->batches[$pool_id];
+        }
+
+        $context = $this->exporter->prepare(
+            new ObjectId($pool_id),
+            $this->exp->getExportConfigs()
+        );
+
+        $context = $this->exporter->process(
+            $context,
+            new SimpleXMLSerializer()->open('memory')
+        );
+
+        $this->batches[$pool_id] = $context;
+        return $context;
+    }
+
+    /**
+     * Finalizes a prepared export context and writes it to the export directory.
+     */
+    private function finalizeExport(int $pool_id): ExportContext
+    {
+        $context = $this->processExport($pool_id);
+
+        return $this->exporter->write(
+            $context,
+            $this->exp->getExportWriter(),
+            $this->exp->getPathToComponentExpDirInContainer()
+        );
     }
 }
