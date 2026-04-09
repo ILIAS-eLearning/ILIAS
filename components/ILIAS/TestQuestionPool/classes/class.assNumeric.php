@@ -18,8 +18,11 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
+use ILIAS\Refinery\Transformation;
 
 /**
  * Class for numeric questions
@@ -36,7 +39,7 @@ use ILIAS\Test\Logging\AdditionalInformationGenerator;
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionAutosaveable
+class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionAutosaveable, Normalizable
 {
     protected $lower_limit;
     protected $upper_limit;
@@ -462,5 +465,33 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
     public function getCorrectSolutionForTextOutput(int $active_id, int $pass): string
     {
         return "{$this->getLowerLimit()}-{$this->getUpperLimit()}";
+    }
+
+    /**
+    * @inheritDoc
+    */
+    public function toNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(fn(): array => [
+            ...$tt->normalize(parent::toNormalized($tt)),
+            'lower_limit' => $this->lower_limit,
+            'upper_limit' => $this->upper_limit,
+            'maxchars' => $this->maxchars,
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fromNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
+            $clone = parent::fromNormalized($tt)->transform($normalized);
+            $clone->lower_limit = $tt->string($normalized['lower_limit']);
+            $clone->upper_limit = $tt->string($normalized['upper_limit']);
+            $clone->maxchars = $tt->int($normalized['maxchars']);
+
+            return $clone;
+        });
     }
 }

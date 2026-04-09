@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 use ILIAS\Test\Results\Data\Repository as TestResultRepository;
 use ILIAS\Test\TestDIC;
 use ILIAS\TestQuestionPool\Questions\QuestionPartiallySaveable;
@@ -2959,5 +2961,65 @@ abstract class assQuestion implements Question
         int $pass
     ): array {
         return [];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(fn(): array => [
+            'id' => $tt->normalize(new Id($this->id, 'question')),
+            'pool_id' => $tt->normalize(new Id($this->obj_id, 'qpl')),
+            'original_id' => $this->original_id,
+            'external_id' => $this->external_id,
+            'type' => $this->getQuestionType(),
+            'owner' => $this->owner,
+            'title' => $this->title,
+            'description' => $this->comment,
+            'question_text' => $this->question,
+            'available_points' => $this->points,
+            'nr_of_tries' => $this->nr_of_tries,
+            'lifecycle' => $tt->normalize($this->lifecycle),
+            'author' => $this->author,
+            'updated_timestamp' => $this->lastChange,
+            'additional_content_editing_mode' => $this->additionalContentEditingMode,
+            'thumb_size' => $this->thumb_size,
+            'shuffle' => $this->shuffle,
+            'suggested_solutions' => $tt->normalize($this->suggested_solutions),
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fromNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
+            $clone = clone $this;
+            $clone->id = $tt->denormalize($normalized['id'], Id::class)->getId();
+            $clone->obj_id = $tt->denormalize($normalized['pool_id'], Id::class)->getId();
+            $clone->original_id = $tt->nullableInt($normalized['original_id']);
+            $clone->external_id = $tt->nullableString($normalized['external_id']);
+            $clone->owner = $tt->int($normalized['owner']);
+            $clone->title = $tt->string($normalized['title']);
+            $clone->comment = $tt->string($normalized['description']);
+            $clone->question = $tt->string($normalized['question_text']);
+            $clone->points = $tt->float($normalized['available_points']);
+            $clone->nr_of_tries = $tt->int($normalized['nr_of_tries']);
+            $clone->lifecycle = $tt->denormalize($normalized['lifecycle'], $clone->lifecycle);
+            $clone->author = $tt->string($normalized['author']);
+            $clone->lastChange = $tt->nullableInt($normalized['updated_timestamp']);
+            $clone->additionalContentEditingMode = $tt->string($normalized['additional_content_editing_mode']);
+            $clone->thumb_size = $tt->int($normalized['thumb_size']);
+            $clone->shuffle = $tt->bool($normalized['shuffle']);
+
+            $clone->suggested_solutions = array_map(
+                fn(array $suggested_solution) => $tt->denormalize($suggested_solution, SuggestedSolution::class),
+                $normalized['suggested_solutions']
+            );
+
+            return $clone;
+        });
     }
 }
