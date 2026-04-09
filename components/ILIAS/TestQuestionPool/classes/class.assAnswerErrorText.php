@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\Refinery\Transformation;
+
 /**
  * Class for error text answers
  *
@@ -24,7 +28,7 @@
  *
  * @ingroup components\ILIASTestQuestionPool
  */
-class assAnswerErrorText
+class assAnswerErrorText implements Normalizable
 {
     protected string $text_wrong;
     protected string $text_correct;
@@ -93,5 +97,31 @@ class assAnswerErrorText
     public function getLength(): int
     {
         return $this->length;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(fn(): array => [
+            'text_wrong' => $this->text_wrong,
+            'text_correct' => $this->text_correct,
+            'points' => $this->points,
+            'position' => $this->position,
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fromNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(fn(array $normalized): self => new self(
+            $tt->string($normalized['text_wrong']),
+            $tt->string($normalized['text_correct']),
+            $tt->float($normalized['points']),
+            $tt->int($normalized['position'])
+        ));
     }
 }
