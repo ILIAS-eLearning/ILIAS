@@ -59,28 +59,58 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
             $this->session->getContext(),
         );
         $this->session->setContext($result);
-        return;
-
-
-        $qtiParser = new ilQTIParser(
-            $importdir,
-            $qtifile,
-            ilQTIParser::IL_MO_PARSE_QTI,
-            $new_obj->getId(),
-            $selected_questions
-        );
-        $qtiParser->startParsing();
-
-        $questionPageParser = new ilQuestionPageParser(
-            $new_obj,
-            $xmlfile,
-            $importdir
-        );
-        $questionPageParser->setQuestionMapping($qtiParser->getImportMapping());
-        $questionPageParser->startParsing();
     }
 
     public function finalProcessing(ilImportMapping $a_mapping): void
+    {
+        $this->finalizeQuestionPages($a_mapping);
+        $this->finalizeTaxonomyUsage($a_mapping);
+    }
+
+    /**
+     * Finalize the imported question pages by replacing the old question ids with the new question ids.
+     */
+    private function finalizeQuestionPages(ilImportMapping $a_mapping): void
+    {
+        $page_mappings = $a_mapping->getMappingsOfEntity('components/ILIAS/COPage', 'pg');
+
+        foreach ($page_mappings as $old => $new) {
+            if (!preg_match('/^qpl:(\d+)$/', $old, $old_matches)) {
+                continue;
+            }
+            $old_question_id = $old_matches[1];
+
+            if (!preg_match('/^qpl:(\d+)$/', $new, $new_matches)) {
+                continue;
+            }
+            $new_question_id = $new_matches[1];
+
+            $page = new ilAssQuestionPage((int) $new_question_id);
+            $xml = preg_replace(
+                '/il_\d+_qst_' . preg_quote($old_question_id, '/') . '\b/',
+                "il__qst_{$new_question_id}",
+                $page->getXMLContent()
+            );
+            if ($xml === null) {
+                continue;
+            }
+            $page->setXMLContent($xml);
+
+            $parent_obj_id = $a_mapping->getMapping(
+                'components/ILIAS/TestQuestionPool',
+                'question_assignment',
+                $new_question_id
+            );
+            if ($parent_obj_id !== null) {
+                $page->setParentId((int) $parent_obj_id);
+            }
+
+            $page->updateFromXML();
+            unset($page);
+        }
+    }
+
+    private function finalizeTaxonomyUsage(ilImportMapping $a_mapping): void
     {
         $qpl_mappings = $a_mapping->getMappingsOfEntity('components/ILIAS/TestQuestionPool', 'qpl');
 

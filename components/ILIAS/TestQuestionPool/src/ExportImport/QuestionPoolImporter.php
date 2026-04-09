@@ -165,6 +165,7 @@ class QuestionPoolImporter
         $question->saveToDb();
 
         $mapping->addMapping(self::COMPONENT, 'question', (string) $old_question_id, (string) $new_question_id);
+        $mapping->addMapping(self::COMPONENT, 'question_assignment', (string) $new_question_id, (string) $question->getObjId());
         $mapping->addMapping('components/ILIAS/Taxonomy', 'tax_item', "qpl:quest:{$old_question_id}", (string) $new_question_id);
         $mapping->addMapping('components/ILIAS/Taxonomy', 'tax_item_obj_id', "qpl:quest:{$old_question_id}", (string) $question->getObjId());
         $mapping->addMapping('components/ILIAS/COPage', 'pg', "qpl:{$old_question_id}", "qpl:{$new_question_id}");
