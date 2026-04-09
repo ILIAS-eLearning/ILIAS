@@ -173,6 +173,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     {
         $this->lng->loadLanguageModule('dash');
         $this->lng->loadLanguageModule('pd');
+        $this->lng->loadLanguageModule('rep');
         $this->initViewSettings();
         $this->view_settings->parse();
         $this->requested_item_ref_id = (int) ($this->http->request()->getQueryParams()['item_ref_id'] ?? 0);
