@@ -20,8 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport;
 
-use assFormulaQuestionUnit;
-use assFormulaQuestionUnitCategory;
+use assFormulaQuestion;
 use ilDBInterface;
 use ILIAS\Data\ObjectId;
 use ILIAS\Data\UUID\Factory as UUIDFactory;
@@ -31,11 +30,9 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Builder;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Serializer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\ExportContext;
-use ILIAS\Questions\Units\Repository as UnitsRepository;
 use ILIAS\Taxonomy\DomainService as Taxonomy;
 use ILIAS\TestQuestionPool\ExportImport\Pipes\CollectQuestionImages;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-use SebastianBergmann\CodeCoverage\Report\Xml\Unit;
 
 /**
  * Orchestrates the export of a question pool. It uses the Builder to create a pipeline of transformations that are used
@@ -105,10 +102,6 @@ class QuestionPoolExporter
             fn() => $this->exportObject($collector, $tt, $serializer, $context)
         );
         $serializer->group(
-            'units',
-            fn() => $this->exportUnits($collector, $tt, $serializer)
-        );
-        $serializer->group(
             'questions',
             fn() => $this->exportQuestions($collector, $tt, $serializer, $context)
         );
@@ -154,28 +147,6 @@ class QuestionPoolExporter
         );
     }
 
-    protected function exportUnits(
-        QuestionPoolCollector $collector,
-        Transformations $transformations,
-        Serializer $serializer
-    ): void {
-        $categories = [];
-
-        foreach ($collector->getUnits() as $item) {
-            if($item instanceof assFormulaQuestionUnitCategory) {
-                $categories[$item->getId()] = $transformations->normalize($item);
-            }
-
-            if($item instanceof assFormulaQuestionUnit) {
-                $categories[$item->getCategory()]['units'][] = $transformations->normalize($item);
-            }
-        }
-
-        foreach($categories as $category) {
-            $serializer->append('category', $category);
-        }
-    }
-
     protected function exportQuestions(
         QuestionPoolCollector $collector,
         Transformations $transformations,
@@ -183,13 +154,18 @@ class QuestionPoolExporter
         ExportContext $export
     ): void {
         foreach ($collector->getQuestionObjects() as $question) {
-            $serializer->append('question', [
+            $normalized = [
                 ... $transformations->normalize($question),
                 'feedback' => $transformations->normalize(
                     $collector->getFeedback($question)
                 )
-            ]);
+            ];
 
+            if ($question instanceof assFormulaQuestion) {
+                $normalized['formula_data'] = $transformations->normalize($collector->getUnitsAndCategories($question->getId()));
+            }
+
+            $serializer->append('question', $normalized);
             $export->addDependency('components/ILIAS/COPage', 'pg', ["qpl:{$question->getId()}"]);
         }
     }
