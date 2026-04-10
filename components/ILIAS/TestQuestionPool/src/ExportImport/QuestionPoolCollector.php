@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport;
 
+use assFormulaQuestionUnit;
+use assFormulaQuestionUnitCategory;
 use assQuestion;
 use Generator;
 use ilAssQuestionSkillAssignmentList;
@@ -106,18 +108,34 @@ class QuestionPoolCollector implements DataCollector
     */
 
     /**
-     * Collect the unit categories and their units for all formula questions in the question pool.
-     *
-     * @return Generator<\assFormulaQuestionUnit|\assFormulaQuestionUnitCategory>
+     * Get all unit categories and units for a formula question.
+     * 
+     * @return array{categories: list<assFormulaQuestionUnitCategory>, base_units: list<assFormulaQuestionUnit>, units: list<assFormulaQuestionUnit>}
      */
-    public function getUnits(): Generator
+    public function getUnitsAndCategories(int $question_id): array
     {
-        foreach ($this->getQuestionProperties() as $question) {
-            if ($question->getClassName() === 'assFormulaQuestion') {
-                $repository = new ilUnitConfigurationRepository($question->getQuestionId());
-                yield from $repository->getCategorizedUnits();
+        $repository = new ilUnitConfigurationRepository($question_id);
+        $data = [
+            'categories' => [],
+            'base_units' => [],
+            'units' => [],
+        ];
+
+        foreach ($repository->getCategorizedUnits() as $item) {
+            if($item instanceof assFormulaQuestionUnitCategory) {
+                $data['categories'][] = $item;
+            }
+
+            if($item instanceof assFormulaQuestionUnit) {
+                if($item->getBaseUnit() === 0 || $item->getBaseUnit() === $item->getId()) {
+                    $data['base_units'][] = $item;
+                } else {
+                    $data['units'][] = $item;
+                }
             }
         }
+
+        return $data;
     }
 
     /*
