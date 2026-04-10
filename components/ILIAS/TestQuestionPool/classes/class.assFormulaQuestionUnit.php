@@ -176,7 +176,7 @@ class assFormulaQuestionUnit implements Normalizable
             'factor' => $this->factor,
             'category_id' => $tt->normalize(new Id($this->category, 'unit_category')),
             'sequence' => $this->sequence,
-            'baseunit' => $this->baseunit,
+            'baseunit' => $tt->normalize(new Id($this->baseunit, 'unit')),
             'baseunit_title' => $this->baseunit_title,
         ]);
     }
@@ -193,7 +193,7 @@ class assFormulaQuestionUnit implements Normalizable
             $clone->factor = $tt->float($normalized['factor']);
             $clone->category = $tt->denormalize($normalized['category_id'], Id::class)->getId();
             $clone->sequence = $tt->int($normalized['sequence']);
-            $clone->baseunit = $tt->int($normalized['baseunit']);
+            $clone->baseunit = $tt->denormalize($normalized['baseunit'], Id::class)->getId();
             $clone->baseunit_title = $tt->string($normalized['baseunit_title']);
 
             return $clone;

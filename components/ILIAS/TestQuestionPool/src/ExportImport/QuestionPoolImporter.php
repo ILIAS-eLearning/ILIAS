@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport;
 
+use assFormulaQuestion;
+use assFormulaQuestionUnit;
+use assFormulaQuestionUnitCategory;
 use assQuestion;
 use ilCtrl;
 use ilDBInterface;
@@ -29,12 +32,14 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Builder;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Deserializer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\IdMappingPipe;
 use ILIAS\TestQuestionPool\ExportImport\Envelopes\Feedback;
 use ILIAS\TestQuestionPool\ExportImport\Import\QuestionSelectionStage;
 use ILIAS\TestQuestionPool\ExportImport\Import\UploadValidationStage;
 use ilImportMapping;
 use ilObjQuestionPool;
+use ilUnitConfigurationRepository;
 
 /**
  * Orchestrates the import of a question pool. It uses the Builder to create a pipeline of transformations that are used
@@ -158,17 +163,24 @@ class QuestionPoolImporter
             return;
         }
 
+        // Initialize feedback object to prevent error when saving the question
         $feedback_class = $question::getFeedbackClassNameByQuestionType($question->getQuestionType());
         $question->feedbackOBJ = new $feedback_class($question, $this->ctrl, $this->database, $this->language);
 
+        // Create new question and store basic question properties
         $new_question_id = $question->createNewQuestion(false);
-        $question->saveToDb();
-
         $mapping->addMapping(self::COMPONENT, 'question', (string) $old_question_id, (string) $new_question_id);
         $mapping->addMapping(self::COMPONENT, 'question_assignment', (string) $new_question_id, (string) $question->getObjId());
         $mapping->addMapping('components/ILIAS/Taxonomy', 'tax_item', "qpl:quest:{$old_question_id}", (string) $new_question_id);
         $mapping->addMapping('components/ILIAS/Taxonomy', 'tax_item_obj_id', "qpl:quest:{$old_question_id}", (string) $question->getObjId());
         $mapping->addMapping('components/ILIAS/COPage', 'pg', "qpl:{$old_question_id}", "qpl:{$new_question_id}");
+
+        if ($question instanceof assFormulaQuestion) {
+            $this->importFormulaQuestion($normalized, $question, $transformations, $mapping, );
+        }
+
+        // Save question-specific properties
+        $question->saveToDb();
 
         $feedback = $transformations->denormalize($normalized['feedback'], Feedback::class);
         $this->importFeedback($feedback, $question);
@@ -187,6 +199,52 @@ class QuestionPoolImporter
                 (int) $specific_feedback['answer_index'],
                 $specific_feedback['feedback']
             );
+        }
+    }
+
+    protected function importFormulaQuestion(
+        array $normalized,
+        assFormulaQuestion $question,
+        Transformations $transformations,
+        ilImportMapping $mapping,
+    ): void {
+        $formula = $normalized['formula_data'];
+        $repository = new ilUnitConfigurationRepository($question->getId());
+
+        // First, import the unit categories which are referenced by the units
+        foreach ($formula['categories'] as $normalized_category) {
+            $category = $transformations->denormalize($normalized_category, new assFormulaQuestionUnitCategory());
+            $old_category_id = $category->getId();
+
+            $repository->saveNewUnitCategory($category);
+            $mapping->addMapping(self::COMPONENT, 'unit_category', (string) $old_category_id, (string) $category->getId());
+        }
+
+        // Ensure base units are imported first so they can be referenced by the units. The mapping pipe will ensure
+        // that the category id, question id and base unit id are mapped to the new ids.
+        $normalized_units = array_merge($formula['base_units'], $formula['units']);
+        foreach ($normalized_units as $normalized_unit) {
+            $old_unit_id = $transformations->denormalize($normalized_unit['id'], Id::class)->getId();
+
+            $unit = new assFormulaQuestionUnit();
+            $repository->createNewUnit($unit);
+            $mapping->addMapping(self::COMPONENT, 'unit', (string) $old_unit_id, (string) $unit->getId());
+
+            $unit = $transformations->denormalize($normalized_unit, $unit);
+            $repository->saveUnit($unit);
+        }
+
+        // The question object is denormalized again to ensure the new unit ids are set in the variables and results.
+        $new_question = $transformations->denormalize($normalized, $question);
+
+        $question->clearVariables();
+        foreach ($new_question->getVariables() as $variable) {
+            $question->addVariable($variable);
+        }
+
+        $question->clearResults();
+        foreach ($new_question->getResults() as $result) {
+            $question->addResult($result);
         }
     }
 }
