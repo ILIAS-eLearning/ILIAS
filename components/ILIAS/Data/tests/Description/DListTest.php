@@ -113,7 +113,7 @@ class DListTest extends TestCase
 
         $this->v
             ->method("getPrimitiveRepresentation")
-            ->will($this->returnCallback(fn($v) => $v));
+            ->willReturnCallback(fn($v) => $v);
 
         $res = $this->l->getPrimitiveRepresentation($data);
 

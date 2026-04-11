@@ -45,14 +45,12 @@ class EventTest extends TestCase
 
         $db_mock = $this->createMock(ilDBInterface::class);
         $db_mock->method("fetchAssoc")
-            ->will(
-                $this->onConsecutiveCalls(
-                    [
-                     "component" => "components/ILIAS/EventHandling",
-                     "id" => "MyTestComponent"
+            ->willReturn(
+                [
+                    "component" => "components/ILIAS/EventHandling",
+                    "id" => "MyTestComponent"
                  ],
-                    null
-                )
+                null
             );
 
 
