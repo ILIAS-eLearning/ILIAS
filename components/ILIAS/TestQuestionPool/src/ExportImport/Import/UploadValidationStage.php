@@ -90,6 +90,7 @@ class UploadValidationStage implements ImportStage
 
         return StageResult::advance(
             $context->with('import_file', $import_base_dir . DIRECTORY_SEPARATOR . $export_file['path'])
+            ->with('import_base_dir', $import_base_dir)
             ->with('install_id', $manifest->getInstallId())
         );
     }
