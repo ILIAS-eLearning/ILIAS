@@ -18,19 +18,16 @@
 
 declare(strict_types=1);
 
-
-use ILIAS\ResourceStorage\Collection\ResourceCollection;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Migration;
-use ILIAS\Setup\Objective;
 
 class ilBookingManagerObjectInfoMigration implements Migration
 {
-    protected \ilResourceStorageMigrationHelper $helper;
+    protected ilResourceStorageMigrationHelper $helper;
 
     public function getLabel(): string
     {
-        return "Migration of booking object info files to the resource storage service.";
+        return 'Migration of booking object info files to the resource storage service.';
     }
 
     public function getDefaultAmountOfStepsPerRun(): int
@@ -40,45 +37,36 @@ class ilBookingManagerObjectInfoMigration implements Migration
 
     public function getPreconditions(Environment $environment): array
     {
-        return \ilResourceStorageMigrationHelper::getPreconditions();
+        return ilResourceStorageMigrationHelper::getPreconditions();
     }
 
     public function prepare(Environment $environment): void
     {
-        $this->helper = new \ilResourceStorageMigrationHelper(
-            new \ilBookObjectInfoStakeholder(),
-            $environment
-        );
+        $this->helper = new ilResourceStorageMigrationHelper(new ilBookObjectInfoStakeholder(), $environment);
     }
 
     public function step(Environment $environment): void
     {
-        $db = $this->helper->getDatabase();
         $r = $this->helper->getDatabase()->query(
-            "SELECT booking_object_id, pool_id, owner FROM booking_object JOIN object_data ON pool_id = obj_id WHERE obj_info_rid IS NULL LIMIT 1;"
+            'SELECT booking_object_id, pool_id, owner FROM booking_object JOIN object_data ON pool_id = obj_id WHERE obj_info_rid IS NULL LIMIT 1'
         );
         $d = $this->helper->getDatabase()->fetchObject($r);
         $pool_id = (int) $d->pool_id;
         $booking_object_id = (int) $d->booking_object_id;
         $resource_owner_id = (int) $d->owner;
-        $base_path = $this->buildAbsolutPath($pool_id, $booking_object_id);
+        $base_path = $this->buildAbsolutPath($booking_object_id);
         $pattern = '/[^\.].*/m';
-        $rid = "";
-        if (is_dir($base_path)) {
-            $rid = $this->helper->moveFirstFileOfPatternToStorage(
-                $base_path,
-                $pattern,
-                $resource_owner_id
-            );
-        }
+        $rid = is_dir($base_path)
+            ? $this->helper->moveFirstFileOfPatternToStorage($base_path, $pattern, $resource_owner_id)
+            : '';
         $this->helper->getDatabase()->update(
             'booking_object',
             [
-                'obj_info_rid' => ['text', (string) $rid]
+                'obj_info_rid' => [ilDBConstants::T_TEXT, (string) $rid]
             ],
             [
-                'booking_object_id' => ['integer', $booking_object_id],
-                'pool_id' => ['integer', $pool_id]
+                'booking_object_id' => [ilDBConstants::T_INTEGER, $booking_object_id],
+                'pool_id' => [ilDBConstants::T_INTEGER, $pool_id]
             ]
         );
     }
@@ -86,20 +74,15 @@ class ilBookingManagerObjectInfoMigration implements Migration
     public function getRemainingAmountOfSteps(): int
     {
         $r = $this->helper->getDatabase()->query(
-            "SELECT count(booking_object_id) amount FROM booking_object JOIN object_data ON pool_id = obj_id WHERE obj_info_rid IS NULL"
+            'SELECT count(booking_object_id) amount FROM booking_object JOIN object_data ON pool_id = obj_id WHERE obj_info_rid IS NULL'
         );
-        $d = $this->helper->getDatabase()->fetchObject($r);
 
-        return (int) $d->amount;
+        return (int) $this->helper->getDatabase()->fetchObject($r)->amount;
     }
 
-    protected function buildAbsolutPath(int $pool_id, int $booking_object_id): string
+    protected function buildAbsolutPath(int $booking_object_id): string
     {
-        return CLIENT_WEB_DIR
-            . '/ilBookingManager/'
-            . \ilFileSystemAbstractionStorage::createPathFromId(
-                $booking_object_id,
-                "book"
-            ) . "/file";
+        $path_from_id = ilFileSystemAbstractionStorage::createPathFromId($booking_object_id, 'book');
+        return CLIENT_WEB_DIR . "/ilBookingManager/{$path_from_id}/file";
     }
 }
