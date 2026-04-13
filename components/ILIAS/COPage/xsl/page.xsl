@@ -234,26 +234,11 @@
 <!-- output image map areas -->
 <xsl:template name="outputImageMapAreas">
 	<xsl:for-each select="../MapArea">
-
-		<!-- highlight mode -->
-		<xsl:variable name="hl_class">
-			<xsl:choose>
-				<xsl:when test="@HighlightClass = 'Dark'">"fillColor":"202020","strokeColor":"202020"</xsl:when>
-				<xsl:when test="@HighlightClass = 'Light'">"fillColor":"F0F0F0","strokeColor":"F0F0F0"</xsl:when>
-				<xsl:otherwise>"fillColor":"FF6633","strokeColor":"FF6633"</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:variable name="hl_mode">
-			<xsl:choose>
-				<xsl:when test="@HighlightMode = 'Hover'">,"fade":true</xsl:when>
-				<xsl:otherwise>,"alwaysOn":true,"fade":false</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-
 		<xsl:if test="@Shape != 'WholePicture' and $map_edit_mode = ''">
 			<area>
 				<xsl:if test="@HighlightMode != '' and $map_edit_mode = ''">
-					<xsl:attribute name="data-maphilight">{"neverOn":false, "fillOpacity":0, "strokeWidth":2,<xsl:value-of select = "$hl_class"/><xsl:value-of select = "$hl_mode"/>}</xsl:attribute>
+					<xsl:attribute name="data-hl-class"><xsl:value-of select = "@HighlightClass"/></xsl:attribute>
+					<xsl:attribute name="data-hl-mode"><xsl:value-of select = "@HighlightMode"/></xsl:attribute>
 				</xsl:if>
 				<xsl:attribute name="shape"><xsl:value-of select="@Shape"/></xsl:attribute>
 				<xsl:attribute name="coords"><xsl:value-of select="@Coords"/></xsl:attribute>
