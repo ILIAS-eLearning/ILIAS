@@ -25,7 +25,6 @@ class ilBookingObject
     protected \ILIAS\BookingManager\Objects\ObjectsManager $objects_manager;
     protected \ILIAS\BookingManager\InternalRepoService $repo;
     protected ilDBInterface $db;
-    protected int $id = 0;
     protected int $pool_id = 0;
     protected string $title = "";
     protected string $description = "";
@@ -34,14 +33,15 @@ class ilBookingObject
     protected string $info_file = "";
     protected string $post_text = "";
     protected string $post_file = "";
+    protected string $object_info_rid = "";
+    protected string $booking_info_rid = "";
 
     public function __construct(
-        int $a_id = null
+        protected int $id = 0
     ) {
         global $DIC;
 
         $this->db = $DIC->database();
-        $this->id = (int) $a_id;
         $this->read();
         $this->repo = $DIC->bookingManager()->internal()->repo();
         $this->objects_manager = $DIC->bookingManager()->internal()->domain()->objects($this->getPoolId());
@@ -159,28 +159,27 @@ class ilBookingObject
         }
     }
 
-    /**
-     * Init file system storage
-     */
-
     protected function read(): void
     {
-        $ilDB = $this->db;
-
-        if ($this->id) {
-            $set = $ilDB->query('SELECT *' .
-                ' FROM booking_object' .
-                ' WHERE booking_object_id = ' . $ilDB->quote($this->id, 'integer'));
-            $row = $ilDB->fetchAssoc($set);
-            $this->setTitle((string) $row['title']);
-            $this->setDescription((string) $row['description']);
-            $this->setPoolId((int) $row['pool_id']);
-            $this->setScheduleId($row['schedule_id']);
-            $this->setNrOfItems((int) $row['nr_items']);
-            $this->setFile((string) $row['info_file']);
-            $this->setPostText((string) $row['post_text']);
-            $this->setPostFile((string) $row['post_file']);
+        if ($this->id === 0) {
+            return;
         }
+
+        $query = $this->db->queryF(
+            'SELECT * FROM booking_object WHERE booking_object_id = %s',
+            [ilDBConstants::T_INTEGER],
+            [$this->id]
+        );
+        $row = $this->db->fetchAssoc($query);
+
+        $this->setTitle((string) $row['title']);
+        $this->setDescription((string) $row['description']);
+        $this->setPoolId((int) $row['pool_id']);
+        $this->setScheduleId($row['schedule_id']);
+        $this->setNrOfItems((int) $row['nr_items']);
+        $this->setFile((string) $row['info_file']);
+        $this->setPostText((string) $row['post_text']);
+        $this->setPostFile((string) $row['post_file']);
     }
 
     /**
@@ -188,48 +187,42 @@ class ilBookingObject
      */
     protected function getDBFields(): array
     {
-        return array(
-            'title' => array('text', $this->getTitle()),
-            'description' => array('text', $this->getDescription()),
-            'schedule_id' => array('text', $this->getScheduleId()),
-            'nr_items' => array('text', $this->getNrOfItems()),
-            'info_file' => array('text', $this->getFile()),
-            'post_text' => array('text', $this->getPostText()),
-            'post_file' => array('text', $this->getPostFile())
-        );
+        return [
+            'title' => [ilDBConstants::T_TEXT, $this->getTitle()],
+            'description' => [ilDBConstants::T_TEXT, $this->getDescription()],
+            'schedule_id' => [ilDBConstants::T_TEXT, $this->getScheduleId()],
+            'nr_items' => [ilDBConstants::T_TEXT, $this->getNrOfItems()],
+            'info_file' => [ilDBConstants::T_TEXT, $this->getFile()],
+            'post_text' => [ilDBConstants::T_TEXT, $this->getPostText()],
+            'post_file' => [ilDBConstants::T_TEXT, $this->getPostFile()]
+        ];
     }
 
     public function save(): ?int
     {
-        $ilDB = $this->db;
-
-        if ($this->id) {
+        if ($this->id !== 0) {
             return null;
         }
 
-        $this->id = $ilDB->nextId('booking_object');
+        $this->id = $this->db->nextId('booking_object');
 
         $fields = $this->getDBFields();
-        $fields['booking_object_id'] = array('integer', $this->id);
-        $fields['pool_id'] = array('integer', $this->getPoolId());
+        $fields['booking_object_id'] = [ilDBConstants::T_INTEGER, $this->id];
+        $fields['pool_id'] = [ilDBConstants::T_INTEGER, $this->getPoolId()];
 
-        return $ilDB->insert('booking_object', $fields);
+        return $this->db->insert('booking_object', $fields);
     }
 
     public function update(): ?int
     {
-        $ilDB = $this->db;
-
-        if (!$this->id) {
+        if ($this->id === 0) {
             return null;
         }
 
-        $fields = $this->getDBFields();
-
-        return $ilDB->update(
+        return $this->db->update(
             'booking_object',
-            $fields,
-            array('booking_object_id' => array('integer', $this->id))
+            $this->getDBFields(),
+            ['booking_object_id' => [ilDBConstants::T_INTEGER, $this->id]]
         );
     }
 
