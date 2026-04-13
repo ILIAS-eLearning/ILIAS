@@ -601,6 +601,21 @@ built. This makes it impractical for system administrators who need/want to prov
 like a `robots.txt` or if some other application potentially runs there (in a sub directory for example). We probably
 want to create some sort of diff which we then compare in order to update only the changed files and basically not purge
 the entire directory on every build.
+- Contribute configuration screens: we currently lack a sophisticated concept or integration mechanism for components to
+contribute configuration screen. A first step will be to migrate the main menu orchestrated by the GlobalScreen so these
+entries can be collected inside the bootstrap mechanism and used by both ILIAS and third-party components. In the long
+run we may want to improve this concept so dedicated routes/configurations/storage mechanisms can be contributed.
+- Contribute translations: the Language component still relies on translation files inside the `./lang` directory. While
+this mechanism still works for ILIAS components, third-party components will run into issues because they can no longer
+contribute translations of their own. This will best be tackled by splitting up the translation files to their
+respective components, so they can be contributed to the system using the appropriate tooling, which would also work for
+third-party components.
+- Refactorings initiated by single persons/institutions: there will be many use-cases where one person or institution
+tackles a migration of some component or specific mechanism, where it will most likely be expected that usages inside
+other components are amended. This will lead to a lot of cases where the best-practices described by this guideline will
+become a huge overhead. We need to define how we should treat these cases and how the expected workload should be shared
+between initiators and consumers of something. It could be that we have to establish special practises for individual
+refactorings, all of which SHOULD be documented here to maintain an overview.
 
 ### The process as a whole
 
