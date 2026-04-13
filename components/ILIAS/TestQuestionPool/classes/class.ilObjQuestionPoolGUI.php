@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Skill\Service\SkillUsageService;
+use ILIAS\TestQuestionPool\ExportImport\Import\CleanupStage;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 use ILIAS\TestQuestionPool\ExportImport\Import\UploadValidationStage;
@@ -128,7 +129,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $local_dic = QuestionPoolDIC::dic();
         $this->request_data_collector = $local_dic['request_data_collector'];
         $this->questionrepository = $local_dic['question.general_properties.repository'];
-        $this->global_test_settings = $local_dic['global_test_settings'];;
+        $this->global_test_settings = $local_dic['global_test_settings'];
+        ;
         $this->import_session_repository = $local_dic['exportimport.session'];
 
         parent::__construct('', $this->request_data_collector->getRefId(), true, false);
@@ -1343,6 +1345,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 new PersistStage($this->lng, $this->request_data_collector, $this->import_session_repository),
             ],
             $this->import_session_repository,
+            new CleanupStage()
         );
     }
 
@@ -1356,14 +1359,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
     private function renderImportError(ImportStageRunner $runner, StageResult $result): void
     {
-        $runner->reset();
         $this->tpl->setOnScreenMessage('failure', $result->error_message, true);
-        $this->ctrl->redirectByClass(self::class, self::DEFAULT_CMD);
     }
 
     private function renderImportSuccess(ImportStageRunner $runner, StageResult $result): void
     {
-        $runner->reset();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_imported'), true);
         $this->ctrl->setParameter($this, 'ref_id', $result->context->get('pool_obj_id'));
         $this->ctrl->redirectByClass(self::class, self::DEFAULT_CMD);
