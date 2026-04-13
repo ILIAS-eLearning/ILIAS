@@ -23,6 +23,8 @@ namespace ILIAS\TestQuestionPool\ExportImport\Pipes;
 use ILIAS\Data\ObjectId;
 use ILIAS\Data\UUID\Factory;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Pipe;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\NormalizingException;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\DenormalizeCarry;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\NormalizeCarry;
 use ILIAS\TestQuestionPool\ExportImport\Envelopes\QuestionImage;
 use ILIAS\TestQuestionPool\Questions\Files\QuestionFiles;
@@ -40,6 +42,11 @@ class CollectQuestionImages implements Pipe
      */
     private array $files = [];
 
+    /**
+     * @var array<string, QuestionImage> $envelopes
+     */
+    private array $envelopes = [];
+
     public function __construct(
         private readonly Factory $uuid_factory,
         private readonly ObjectId $pool_id,
@@ -56,20 +63,20 @@ class CollectQuestionImages implements Pipe
             $this->handleNormalization($passable->value);
         }
 
+        if ($passable instanceof DenormalizeCarry && $passable->expected === QuestionImage::class) {
+            $this->handleDenormalization($passable);
+        }
+
         return $next($passable);
     }
 
     private function handleNormalization(QuestionImage $envelope): void
     {
-        // Build the absolute source path
-        $base_dir = $this->question_files->buildImagePath(
-            $envelope->getQuestionId(),
-            $this->pool_id->toInt()
-        );
+        $pool_id = $this->pool_id->toInt();
 
-        if ($envelope->getType() === QuestionImage::TYPE_SOLUTION) {
-            $base_dir = str_replace('images/', 'solution/', $base_dir);
-        }
+        $base_dir = $envelope->getType() === QuestionImage::TYPE_ANSWER
+            ? $this->question_files->buildImagePath($envelope->getQuestionId(), $pool_id)
+            : $this->question_files->buildSolutionPath($envelope->getQuestionId(), $pool_id);
 
         $source_path = $base_dir . $envelope->getFilename();
 
@@ -83,11 +90,32 @@ class CollectQuestionImages implements Pipe
         $this->files[] = ['from' => $source_path, 'to' => $target_path];
     }
 
+    private function handleDenormalization(DenormalizeCarry $passable): void
+    {
+        $envelope = $passable->result();
+        if (!$envelope instanceof QuestionImage) {
+            throw new NormalizingException('Expected question image envelope, got ' . get_debug_type($envelope));
+        }
+
+        $extension = pathinfo($envelope->getFilename(), PATHINFO_EXTENSION);
+        $path = $envelope->getId() . '.' . $extension;
+
+        $this->envelopes[$path] = $envelope;
+    }
+
     /**
      * @return list<array{from: string, to: string}>
      */
     public function getFiles(): array
     {
         return $this->files;
+    }
+
+    /**
+     * @return array<string, QuestionImage>
+     */
+    public function getEnvelopes(): array
+    {
+        return $this->envelopes;
     }
 }
