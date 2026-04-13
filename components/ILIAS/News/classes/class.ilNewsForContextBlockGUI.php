@@ -57,6 +57,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
     protected bool $prevent_initial_loading = false;
     protected NewsCollection $collection;
+    protected ilLogger $logger;
 
     public function __construct()
     {
@@ -64,6 +65,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
         parent::__construct();
 
+        $this->logger = $DIC->logger()->news();
         $this->help = $DIC["ilHelp"];
         $this->settings = $DIC->settings();
         $this->tabs = $DIC->tabs();
