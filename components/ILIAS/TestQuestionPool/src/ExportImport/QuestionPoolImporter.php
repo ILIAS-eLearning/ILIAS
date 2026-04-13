@@ -27,7 +27,10 @@ use assQuestion;
 use ilCtrl;
 use ilDBInterface;
 use ILIAS\Data\ReferenceId;
+use ILIAS\Data\ObjectId;
+use ILIAS\Data\UUID\Factory;
 use ILIAS\Language\Language;
+use ILIAS\TestQuestionPool\ExportImport\Envelopes\QuestionImage;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Builder;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Deserializer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
@@ -37,6 +40,8 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\IdMappingPi
 use ILIAS\TestQuestionPool\ExportImport\Envelopes\Feedback;
 use ILIAS\TestQuestionPool\ExportImport\Import\QuestionSelectionStage;
 use ILIAS\TestQuestionPool\ExportImport\Import\UploadValidationStage;
+use ILIAS\TestQuestionPool\ExportImport\Pipes\CollectQuestionImages;
+use ILIAS\TestQuestionPool\Questions\Files\QuestionFiles;
 use ilImportMapping;
 use ilObjQuestionPool;
 use ilUnitConfigurationRepository;
@@ -70,7 +75,8 @@ class QuestionPoolImporter
         ImportContext $context
     ): ImportContext {
         $id_mapping_pipe = new IdMappingPipe($mapping, self::COMPONENT);
-        $tt = $this->builder->withAdditionalPipes(append: [$id_mapping_pipe])->create();
+        $images_pipe = new CollectQuestionImages(new Factory(), new ObjectId(0));
+        $tt = $this->builder->withAdditionalPipes(append: [$id_mapping_pipe, $images_pipe])->create();
 
         $selected_questions = QuestionSelectionStage::getSelectedQuestions($context);
 
@@ -114,6 +120,9 @@ class QuestionPoolImporter
         );
 
         $deserializer->process();
+
+        // Copy the question images from the temporary import directory to the question pool directory
+        $this->importQuestionImages($mapping, $context, $images_pipe);
 
         return $context;
     }
@@ -245,6 +254,32 @@ class QuestionPoolImporter
         $question->clearResults();
         foreach ($new_question->getResults() as $result) {
             $question->addResult($result);
+        }
+    }
+
+    protected function importQuestionImages(
+        ilImportMapping $mapping,
+        ImportContext $context,
+        CollectQuestionImages $pipe,
+    ): void {
+        $import_dir = dirname($context->get('import_file')) . DIRECTORY_SEPARATOR . 'expDir_1';
+
+        $question_files = new QuestionFiles();
+        foreach ($pipe->getEnvelopes() as $from_path => $envelope) {
+            $question_id = $mapping->getMapping('components/ILIAS/TestQuestionPool', 'question', (string) $envelope->getQuestionId());
+            if (!$question_id) {
+                continue;
+            }
+
+            $base_dir = $envelope->getType() === QuestionImage::TYPE_ANSWER
+                ? $question_files->buildImagePath($question_id, $context->get('pool_obj_id'))
+                : $question_files->buildSolutionPath($question_id, $context->get('pool_obj_id'));
+
+            if (!file_exists($base_dir)) {
+                mkdir($base_dir, 0755, true);
+            }
+
+            copy($import_dir . DIRECTORY_SEPARATOR . $from_path, $base_dir . $envelope->getFilename());
         }
     }
 }
