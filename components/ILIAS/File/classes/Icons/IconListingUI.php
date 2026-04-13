@@ -39,11 +39,11 @@ class IconListingUI
     private Standard $icon_list;
     private \ilUIFilterService $filter_service;
     private \ILIAS\UI\Component\Input\Container\Filter\Standard $filter;
-    private \ILIAS\HTTP\Services $http;
 
     public function __construct(
         private IconRepositoryInterface $icon_repo,
-        private object $gui
+        private ilObjFileIconsOverviewGUI $gui,
+        private bool $write_access
     ) {
         global $DIC;
 
@@ -53,7 +53,6 @@ class IconListingUI
         $this->ui_factory = $DIC->ui()->factory();
         $this->refinery = $DIC->refinery();
         $this->storage = $DIC->resourceStorage();
-        $this->http = $DIC->http();
         $this->filter_service = $DIC->uiService()->filter();
 
         $this->initFilter();
@@ -116,18 +115,23 @@ class IconListingUI
             );
             $this->deletion_modals[] = $deletion_modal = $this->getDeletionConfirmationModal($icon);
 
-            $item_action_entries = [
-                $this->ui_factory->button()->shy(
-                    $this->lng->txt('de_activate_icon'),
-                    $change_activation_target
-                )
-            ];
-            if (!$icon->isDefaultIcon()) {
-                $item_action_entries[] = $this->ui_factory->button()->shy($this->lng->txt('edit'), $edit_target);
-                $item_action_entries[] = $this->ui_factory->button()->shy($this->lng->txt('delete'), '#')->withOnClick(
-                    $deletion_modal->getShowSignal()
-                );
+            if ($this->write_access) {
+                $item_action_entries = [
+                    $this->ui_factory->button()->shy(
+                        $this->lng->txt('de_activate_icon'),
+                        $change_activation_target
+                    )
+                ];
+                if (!$icon->isDefaultIcon()) {
+                    $item_action_entries[] = $this->ui_factory->button()->shy($this->lng->txt('edit'), $edit_target);
+                    $item_action_entries[] = $this->ui_factory->button()->shy($this->lng->txt('delete'), '#')->withOnClick(
+                        $deletion_modal->getShowSignal()
+                    );
+                }
+            } else {
+                $item_action_entries = [];
             }
+
             $item_actions = $this->ui_factory->dropdown()->standard($item_action_entries);
 
             $id = $this->storage->manage()->find($icon->getRid());
