@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Importing;
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ImportStage;
 use ILIAS\UI\Component\Listing\Workflow\Linear;
 use ILIAS\UI\Component\Listing\Workflow\Step;
 use ILIAS\UI\Factory as UIFactory;
@@ -36,6 +37,7 @@ class ImportStageRunner
     public function __construct(
         private readonly array $stages,
         private readonly ImportSessionRepository $session,
+        private readonly ?ImportStage $final_stage = null,
     ) {
     }
 
@@ -68,12 +70,16 @@ class ImportStageRunner
                 return $result;
 
             case StageResultType::ERROR:
+                $this->session->setContext($result->context);
+                $this->reset($request);
+                return $result;
+
             case StageResultType::INTERACT:
                 $this->session->setContext($result->context);
                 return $result;
 
             case StageResultType::COMPLETE:
-                $this->session->clear();
+                $this->reset($request);
                 return $result;
         }
 
@@ -113,10 +119,14 @@ class ImportStageRunner
     }
 
     /**
-     * Reset the import stage session.
+     * Reset the import stage session. If a final stage is set, it will be processed.
      */
-    public function reset(): void
+    public function reset(ServerRequestInterface $request): void
     {
+        if ($this->final_stage) {
+            $this->final_stage->process($this->session->getContext(), $request);
+        }
+
         $this->session->clear();
     }
 }
