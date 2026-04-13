@@ -144,4 +144,30 @@ class ilBookingManagerDBUpdateSteps implements \ilDatabaseUpdateSteps
         }
     }
 
+    public function step_10(): void
+    {
+        if ($this->db->tableColumnExists('booking_object', 'obj_info_rid')) {
+            $this->db->manipulate('UPDATE booking_object SET obj_info_rid = "" WHERE obj_info_rid IS NULL');
+            $this->db->modifyTableColumn(
+                'booking_object',
+                'obj_info_rid',
+                [
+                    'notnull' => true,
+                    'default' => ''
+                ]
+            );
+        }
+
+        if ($this->db->tableColumnExists('booking_object', 'book_info_rid')) {
+            $this->db->manipulate('UPDATE booking_object SET book_info_rid = "" WHERE book_info_rid IS NULL');
+            $this->db->modifyTableColumn(
+                'booking_object',
+                'book_info_rid',
+                [
+                    'notnull' => true,
+                    'default' => ''
+                ]
+            );
+        }
+    }
 }
