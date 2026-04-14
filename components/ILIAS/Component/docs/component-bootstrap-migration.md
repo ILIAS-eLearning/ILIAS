@@ -436,6 +436,17 @@ example for this are INI-values, which are set by system administrators. But the
 values like the `UI\Component\Progress\AsyncRefreshInterval`, where this is still a configuration for which we currently
 do not provide any interaction.
 
+This is a good time to think about coupling, especially because there is one caveat which needs to be considered here:
+**Configuration values MUST NOT be accessed inside the constructor, ever**. The bootstrap mechanism will not be able to
+build its artifact if your object depends on the implementation of something else, because the wiring does not exist at
+this point. Therefore, we recommend to introduce dedicated configuration interfaces that will return exactly what is
+needed by an appropriate getter – ideally without any arguments. Why is this actually a blessing in disguise? So glad
+you ask, because this pattern will ultimately loosen the coupling between your component and another, by hiding the
+mechanism which is ultimately used to retrieve the desired value. This will make it very easy to switch mechanism,
+location or even underlying business logic in order to retrieve this value, without ever having to touch your component
+again. This refactoring could even be tackled by someone else entirely, because you have just decoupled your component
+so kindly.
+
 Let's say you have something like this inside your legacy initialisation:
 
 ```php
@@ -445,6 +456,11 @@ class SomeService
     public function __construct(
         protected readonly int $some_config_value,
     ) {
+    }
+    
+    public function functionality(): void
+    {
+        $this->some_config_value; //...
     }
 }
 
@@ -461,6 +477,12 @@ class SomeService
     public function __construct(
         protected SomeConfigInterface $some_config,
     ) {
+    }
+    
+    public function functionality(): void
+    {
+        // notice how retrieval is deferred now, do not store in property please!
+        $this->some_config->getValue();
     }
 }
 
