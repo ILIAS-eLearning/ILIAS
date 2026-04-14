@@ -74,4 +74,44 @@ class ilWebResourceItemExternalTest extends TestCase
             $item->getResolvedLink(false)
         );
     }
+
+    public function testGetTargetTrailingSpace(): void
+    {
+        $item = new ilWebLinkItemExternal(
+            0,
+            1,
+            'title',
+            null,
+            'target ',
+            true,
+            new DateTimeImmutable(),
+            new DateTimeImmutable(),
+            []
+        );
+
+        $this->assertSame(
+            'target',
+            $item->getTarget()
+        );
+    }
+
+    public function testGetResolvedLinkTrailingSpace(): void
+    {
+        $item = new ilWebLinkItemExternal(
+            0,
+            1,
+            'title',
+            null,
+            'target ',
+            true,
+            new DateTimeImmutable(),
+            new DateTimeImmutable(),
+            []
+        );
+
+        $this->assertSame(
+            'target',
+            $item->getResolvedLink()
+        );
+    }
 }
