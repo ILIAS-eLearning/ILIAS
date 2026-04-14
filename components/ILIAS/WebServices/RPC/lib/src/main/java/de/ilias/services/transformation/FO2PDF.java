@@ -109,7 +109,8 @@ public class FO2PDF
 
                     event.getParams().forEach((k, v) -> {
                         logger.warn("  {} = {}", k, v);
-                        if (Objects.equals(k, "uri") && v instanceof String uriString) {
+                        if (Objects.equals(k, "uri") && v instanceof String) {
+                            String uriString = (String) v;
                             try {
                                 logUriFopDiagnostics(new URI(uriString));
                             } catch (URISyntaxException | IOException e) {
@@ -187,29 +188,29 @@ public class FO2PDF
 
     private void logUriFopDiagnostics(URI uri) throws IOException {
         logger.warn("Trying to load URI which could not be processed by FOP: {}", uri);
-
         URLConnection connection = uri.toURL().openConnection();
-        if (!(connection instanceof HttpURLConnection conn)) {
+
+        if (!(connection instanceof HttpURLConnection)) {
             logger.warn("URI does not point to an HTTP resource: {}", uri);
             return;
         }
-        conn.setInstanceFollowRedirects(false);
-        conn.setConnectTimeout(15000);
-        conn.setReadTimeout(15000);
-
+        HttpURLConnection httpURLConnection = (HttpURLConnection) connection;
+        httpURLConnection.setInstanceFollowRedirects(false);
+        httpURLConnection.setConnectTimeout(15000);
+        httpURLConnection.setReadTimeout(15000);
         try {
-            int code = conn.getResponseCode();
+            int code = httpURLConnection.getResponseCode();
             logger.warn("HTTP status: {}", code);
 
-            conn.getHeaderFields().forEach((key, values) -> {
+            httpURLConnection.getHeaderFields().forEach((key, values) -> {
                 logger.warn("Header: {} = {}", key, values);
             });
 
             InputStream stream;
             if (code >= 200 && code < 300) {
-                stream = conn.getInputStream();
+                stream = httpURLConnection.getInputStream();
             } else {
-                stream = conn.getErrorStream();
+                stream = httpURLConnection.getErrorStream();
                 if (stream == null) {
                     logger.warn("HTTP error {} with no body", code);
                     return;
@@ -230,7 +231,7 @@ public class FO2PDF
                 );
             }
         } finally {
-            conn.disconnect();
+            httpURLConnection.disconnect();
         }
     }
 
