@@ -41,15 +41,15 @@ class ExportContext
     private array $dependencies = [];
 
     public function __construct(
-        private ObjectId $pool_id,
+        private ObjectId $object_id,
         private ExportConfig $config,
         private Transformations $transformations,
     ) {
     }
 
-    public function getPoolId(): ObjectId
+    public function getObjectId(): ObjectId
     {
-        return $this->pool_id;
+        return $this->object_id;
     }
 
     public function getConfig(): ExportConfig
