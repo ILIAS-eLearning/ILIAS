@@ -203,7 +203,7 @@ class ScoringByQuestionTableBinder implements DataRetrieval
         }
 
         if ($this->filter_data[ScoringByQuestionTable::FILTER_FIELD_ONLY_ANSWERED] === '1'
-                && ($question_info === null || $question_info['isAnwered'] === false)
+                && ($question_info === null || $question_info['isAnswered'] === false)
             || $this->filter_data[ScoringByQuestionTable::COLUMN_ATTEMPT] !== ''
                 && $pd->getPass() !== (int) $this->filter_data[ScoringByQuestionTable::COLUMN_ATTEMPT]
             || $this->filter_data[ScoringByQuestionTable::COLUMN_FINALIZED] === '1'
