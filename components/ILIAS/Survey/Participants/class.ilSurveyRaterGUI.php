@@ -130,7 +130,7 @@ class ilSurveyRaterGUI
         $radg->addOption($op1);
         $radg->setValue("direct");
 
-        $user = new \ilTextInputGUI($lng->txt("obj_user"), "user");
+        $user = new \ilTextInputGUI($lng->txt("username"), "user");
         $user->setDataSource(
             $ctrl->getLinkTargetByClass(
                 "ilsurveyratergui",
