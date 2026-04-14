@@ -322,6 +322,24 @@ class QuestionsTableActions
 
     private function getDeleteConfirmation(array $row_ids): Interruptive
     {
+        $modal_factory = fn(string $msg): Interruptive =>
+            $this->ui_factory->modal()->interruptive(
+                $this->lng->txt('remove'),
+                $msg,
+                $this->table_query->getActionURL(self::ACTION_DELETE_CONFIRMED)->__toString()
+            );
+
+        if (array_filter($row_ids) === []) {
+            $msg = $this->lng->txt('msg_no_questions_selected');
+            return $modal_factory($msg);
+        }
+
+        $msg = $this->lng->txt(
+            $this->is_in_test_with_results
+                ? 'tst_remove_questions_and_results'
+                : 'tst_remove_questions'
+        );
+
         $items = [];
         foreach ($row_ids as $id) {
             $qdata = $this->test_obj->getQuestionDataset($id);
@@ -336,17 +354,7 @@ class QuestionsTableActions
                 $type
             );
         }
-
-        return $this->ui_factory->modal()->interruptive(
-            $this->lng->txt('remove'),
-            $this->lng->txt(
-                $this->is_in_test_with_results
-                    ? 'tst_remove_questions_and_results'
-                    : 'tst_remove_questions'
-            ),
-            $this->table_query->getActionURL(self::ACTION_DELETE_CONFIRMED)->__toString()
-        )
-        ->withAffectedItems($items);
+        return $modal_factory($msg)->withAffectedItems($items);
     }
 
     private function redirectWithQuestionParameters(
