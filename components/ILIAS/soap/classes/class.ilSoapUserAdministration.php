@@ -671,11 +671,11 @@ class ilSoapUserAdministration extends ilSoapAdministration
             return $this->raiseError('Check access failed.', 'Server');
         }
         if (!count($a_keyfields)) {
-            $this->raiseError('At least one keyfield is needed', 'Client');
+            return $this->raiseError('At least one keyfield is needed', 'Client');
         }
 
         if (!count($a_keyvalues)) {
-            $this->raiseError('At least one keyvalue is needed', 'Client');
+            return $this->raiseError('At least one keyvalue is needed', 'Client');
         }
 
         if (strcasecmp($query_operator, "and") !== 0 || strcasecmp($query_operator, "or") !== 0) {
@@ -844,7 +844,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
         $data = $ilDB->fetchAssoc($res);
 
         if (!(int) $data['usr_id']) {
-            $this->raiseError('User does not exist', 'Client');
+            return $this->raiseError('User does not exist', 'Client');
         }
         return (int) $data['usr_id'];
     }

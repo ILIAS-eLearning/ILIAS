@@ -102,6 +102,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
 
             // add/remove desktop
             $actions = [];
+            $this->lng->loadLanguageModule('dash');
             if ($this->enable_desktop) {
                 // add to desktop link
                 if (!$this->fav_manager->ifIsFavourite($ilUser->getId(), $ref_id)) {
@@ -110,14 +111,15 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
                         $this->ctrl->setParameter($this->getParentObject(), 'item_id', $ref_id);
                         $this->ctrl->setParameter($this->getParentObject(), 'type', $type);
                         $url = $this->ctrl->getLinkTarget($this->getParentObject(), 'addToDesk');
-                        $actions[$url] = $this->lng->txt("rep_add_to_favourites");
+                        $actions[$url] = $this->lng->txt("add_to_favourites");
                     }
                 } else {
                     $this->ctrl->setParameter($this->getParentObject(), 'item_ref_id', $ref_id);
                     $this->ctrl->setParameter($this->getParentObject(), 'item_id', $ref_id);
                     $this->ctrl->setParameter($this->getParentObject(), 'type', $type);
                     $url = $this->ctrl->getLinkTarget($this->getParentObject(), 'removeFromDesk');
-                    $actions[$url] = $this->lng->txt("rep_remove_from_favourites");
+
+                    $actions[$url] = $this->lng->txt("remove_from_favourites");
                 }
             }
 

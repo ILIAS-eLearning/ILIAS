@@ -303,7 +303,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         if (
             $this->isGradingMessageRequired()
-            && $this->object->getNrOfTries() === 1
             && !$this->getObjectiveOrientedContainer()?->isObjectiveOrientedPresentationRequired()
         ) {
             $grading_message_builder = $this->getGradingMessageBuilder($active_id);
@@ -420,7 +419,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         if (
             $this->isGradingMessageRequired()
-            && $this->object->getNrOfTries() === 1
             && !$this->getObjectiveOrientedContainer()?->isObjectiveOrientedPresentationRequired()
         ) {
             $grading_message_builder = $this->getGradingMessageBuilder($active_id);

@@ -23,6 +23,8 @@
 package de.ilias.services.transformation;
 
 
+import de.ilias.services.settings.ConfigurationException;
+import de.ilias.services.settings.ServerSettings;
 import org.apache.fop.apps.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,11 +40,13 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URLConnection;
 import java.net.URISyntaxException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
 
-public class FO2PDF {
+public class FO2PDF
+{
 
     private static FO2PDF instance = null;
 
@@ -54,20 +58,22 @@ public class FO2PDF {
     /**
      * Singleton constructor
      */
-    public FO2PDF() {
+    public FO2PDF() throws TransformationException
+    {
         try {
-            fopFactory = FopFactory.newInstance(getClass().getResource("/de/ilias/config/fopConfig.xml").toURI());
-        } catch (URISyntaxException | NullPointerException ex) {
-            logger.error("Cannot load fop configuration:" + ex);
+            FOConfigBuilder configBuilder = new FOConfigBuilder(ServerSettings.getInstance());
+            fopFactory = configBuilder.buildFopFactory();
+        } catch (IOException | ConfigurationException e) {
+            logger.error("FOP configuration error", e);
+            throw new TransformationException(e);
         }
-
     }
 
     /**
      * Get FO2PDF instance
      */
-    public static FO2PDF getInstance() {
-
+    public static FO2PDF getInstance() throws TransformationException
+    {
         if (instance == null) {
             return instance = new FO2PDF();
         }
@@ -77,20 +83,20 @@ public class FO2PDF {
     /**
      * clear fop uri cache
      */
-    public void clearCache() {
-
+    public void clearCache()
+    {
         fopFactory.getImageManager().getCache().clearCache();
     }
 
     public void transform()
-            throws TransformationException {
+            throws TransformationException
+    {
 
         try {
 
             logger.info("Starting fop transformation...");
 
             FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
-//            foUserAgent.setTargetResolution(300);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
 
             foUserAgent.getEventBroadcaster().addEventListener(event -> {
@@ -155,7 +161,8 @@ public class FO2PDF {
     /**
      * @return Returns the foString.
      */
-    public String getFoString() {
+    public String getFoString()
+    {
         return foString;
     }
 
@@ -163,15 +170,18 @@ public class FO2PDF {
     /**
      * @param foString The foString to set.
      */
-    public void setFoString(String foString) {
+    public void setFoString(String foString)
+    {
         this.foString = foString;
     }
 
-    public byte[] getPdf() {
+    public byte[] getPdf()
+    {
         return this.pdfByteArray;
     }
 
-    public void setPdf(byte[] ba) {
+    public void setPdf(byte[] ba)
+    {
         this.pdfByteArray = ba;
     }
 
@@ -224,7 +234,8 @@ public class FO2PDF {
         }
     }
 
-    private InputStream getFoInputStream() {
+    private InputStream getFoInputStream()
+    {
         return new ByteArrayInputStream(getFoString().getBytes(StandardCharsets.UTF_8));
     }
 }

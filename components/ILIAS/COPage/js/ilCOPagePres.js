@@ -21,7 +21,6 @@ il.COPagePres = {
   init() {
     this.initToc();
     this.updateQuestionOverviews();
-    this.initMapAreas();
     this.initAdvancedContent();
     this.initAudioVideo();
     this.initAccordions();
@@ -194,11 +193,6 @@ il.COPagePres = {
   //
   // Map area functions
   //
-
-  // init map areas
-  initMapAreas() {
-    // $('img[usemap^="#map_il_"][class!="ilIim"]').maphilight({ neverOn: true });
-  },
 
   /// /
   /// / Handle advanced content

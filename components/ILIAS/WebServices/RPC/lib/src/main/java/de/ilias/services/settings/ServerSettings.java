@@ -23,263 +23,308 @@
 package de.ilias.services.settings;
 
 import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.URI;
 import java.net.UnknownHostException;
+import java.nio.file.*;
 
 /**
  * Stores general server settings like rpc host and port, global log file and
  * log level.
- * 
+ *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
 public class ServerSettings {
 
-	private static Logger logger;
-	private static ServerSettings instance = null;
+    private final Logger logger = LogManager.getLogger(this.getClass().getName());
+    private static ServerSettings instance = null;
 
-	public static final long DEFAULT_MAX_FILE_SIZE = 500 * 1024 * 1024;
+    public static final long DEFAULT_MAX_FILE_SIZE = 500 * 1024 * 1024;
 
-	private InetAddress host;
-	private String hostString;
-	private int port;
-	
-	private String tnsAdmin = "";
+    private InetAddress host;
+    private String hostString;
+    private int port;
 
-	private File indexPath;
-	private File logFile;
-	private Level logLevel;
-	private int numThreads = 1;
-	private double RAMSize = 500;
-	private int indexMaxFileSizeMB = 500;
+    private String tnsAdmin = "";
+
+    private File indexPath;
+    private File logFile;
+    private Level logLevel;
+    private int numThreads = 1;
+    private double RAMSize = 500;
+    private int indexMaxFileSizeMB = 500;
+
+    private Path fopFontDirectory;
 
 
 
 
 
-	/**
+    /**
      */
-	private ServerSettings() {
+    private ServerSettings() {
 
-	}
-	
-	/**
-	 * Global singleton for all threads
-	 * @return
-	 * @throws ConfigurationException
-	 */
-	public static synchronized ServerSettings getInstance() throws ConfigurationException {
+    }
 
-		if (instance == null) {
-			instance = new ServerSettings();
-		}
-		return instance;
-	}
-	
-	/**
-	 * Get TNS admin directory
-	 */
-	public String lookupTnsAdmin() {
-		
-		if(getTnsAdmin().length() > 0) {
-			return getTnsAdmin();
-		}
-		try {
-		
-			if(System.getenv("TNS_ADMIN").length() > 0) 
-				return System.getenv("TNS_ADMIN");
-		}
-		catch(SecurityException e) {
-			logger.error("Cannot access environment variable TNS_ADMIN due to security manager limitations: " + e);
-			throw e;
-		}
-		return "";
-	}
-	
-	public String getServerUrl() {
+    /**
+     * Global singleton for all threads
+     * @return
+     * @throws ConfigurationException
+     */
+    public static synchronized ServerSettings getInstance() throws ConfigurationException {
 
-		String builder = "http://" +
-				getHostString() +
-				":" + getPort() +
-				"/xmlrpc";
-		return builder;
-	}
+        if (instance == null) {
+            instance = new ServerSettings();
+        }
+        return instance;
+    }
 
-	/**
-	 * @return the host
-	 */
-	public InetAddress getHost() {
-		return host;
-	}
-	
-	public String getHostString() {
-		return hostString;
-	}
+    /**
+     * Get TNS admin directory
+     */
+    public String lookupTnsAdmin() {
 
-	/**
-	 * @param host
-	 *            The host to set.
-	 * @throws ConfigurationException
-	 */
-	public void setHost(String host) throws ConfigurationException {
+        if(getTnsAdmin().length() > 0) {
+            return getTnsAdmin();
+        }
+        try {
 
-		try {
-			this.host = InetAddress.getByName(host);
-			this.hostString = host;
-		} 
-		catch (UnknownHostException e) {
-			logger.fatal("Unknown host given: " + host);
-			throw new ConfigurationException(e);
-		}
-	}
+            if(System.getenv("TNS_ADMIN").length() > 0)
+                return System.getenv("TNS_ADMIN");
+        }
+        catch(SecurityException e) {
+            logger.error("Cannot access environment variable TNS_ADMIN due to security manager limitations: " + e);
+            throw e;
+        }
+        return "";
+    }
 
-	/**
-	 * @return the port
-	 */
-	public int getPort() {
-		return port;
-	}
+    public String getServerUrl() {
 
-	/**
-	 * @param port
-	 *            the port to set
-	 */
-	public void setPort(String port) {
-		this.port = Integer.parseInt(port);
-	}
+        String builder = "http://" +
+                getHostString() +
+                ":" + getPort() +
+                "/xmlrpc";
+        return builder;
+    }
 
-	/**
-	 * @return the indexPath
-	 */
-	public File getIndexPath() {
-		return indexPath;
-	}
-	
-	/**
-	 * @return the logFile
-	 */
-	public File getLogFile() {
-		return logFile;
-	}
+    /**
+     * @return the host
+     */
+    public InetAddress getHost() {
+        return host;
+    }
 
-	/**
-	 * @param logFile the logFile to set
-	 * @throws ConfigurationException 
-	 * @throws IOException , ConfigurationException
-	 */
-	public void setLogFile(String logFile) throws ConfigurationException, IOException {
+    public String getHostString() {
+        return hostString;
+    }
 
-		this.logFile = new File(logFile);
-		if(!this.logFile.isAbsolute()) {
-			logger.error("Absolute path to logfile required: " + logFile);
-			throw new ConfigurationException("Absolute path to logfile required: " + logFile);
-		}
-		if(this.logFile.isDirectory()) {
-			logger.error("Absolute path to logfile required. Directory name given: " + logFile);
-			throw new ConfigurationException("Absolute path to logfile required: " + logFile);
-		}
-		if(this.logFile.createNewFile()) {
-			//System.out.println("Created new log file: " + this.logFile.getAbsolutePath());
-		}
-		else {
-			//System.out.println("Using existing log file: " + this.logFile.getAbsolutePath());
-		}
-		if(!this.logFile.canWrite()) {
-			throw new ConfigurationException("Cannot write to log file: " + logFile);
-		}
-	}
-	
+    /**
+     * @param host
+     *            The host to set.
+     * @throws ConfigurationException
+     */
+    public void setHost(String host) throws ConfigurationException {
 
-	/**
-	 * @return the logLevel
-	 */
-	public Level getLogLevel() {
-		return logLevel;
-	}
+        try {
+            this.host = InetAddress.getByName(host);
+            this.hostString = host;
+        }
+        catch (UnknownHostException e) {
+            logger.fatal("Unknown host given: " + host);
+            throw new ConfigurationException(e);
+        }
+    }
 
-	/**
-	 * @param logLevel the logLevel to set
-	 */
-	public void setLogLevel(String logLevel) {
+    /**
+     * @return the port
+     */
+    public int getPort() {
+        return port;
+    }
 
-		this.logLevel = Level.toLevel(logLevel.trim(),Level.INFO);
-	}
+    /**
+     * @param port
+     *            the port to set
+     */
+    public void setPort(String port) {
+        this.port = Integer.parseInt(port);
+    }
 
-	/**
-	 * Get tns admin directory
-	 * @return
-	 */
-	public String getTnsAdmin() {
-		return tnsAdmin;
-	}
+    /**
+     * @return the indexPath
+     */
+    public File getIndexPath() {
+        return indexPath;
+    }
 
-	/**
-	 * Set tns admin directory
-	 * @param tnsAdmin
-	 */
-	public void setTnsAdmin(String tnsAdmin) {
-		this.tnsAdmin = tnsAdmin;
-	}
+    /**
+     * @return the logFile
+     */
+    public File getLogFile() {
+        return logFile;
+    }
 
-	
-	/**
-	 * @param indexPath
-	 *            the indexPath to set
-	 * @throws ConfigurationException
-	 */
-	public void setIndexPath(String indexPath) throws ConfigurationException {
+    /**
+     * @param logFile the logFile to set
+     * @throws ConfigurationException
+     * @throws IOException , ConfigurationException
+     */
+    public void setLogFile(String logFile) throws ConfigurationException, IOException {
 
-		this.indexPath = new File(indexPath);
+        this.logFile = new File(logFile);
+        if(!this.logFile.isAbsolute()) {
+            logger.error("Absolute path to logfile required: " + logFile);
+            throw new ConfigurationException("Absolute path to logfile required: " + logFile);
+        }
+        if(this.logFile.isDirectory()) {
+            logger.error("Absolute path to logfile required. Directory name given: " + logFile);
+            throw new ConfigurationException("Absolute path to logfile required: " + logFile);
+        }
+        if(this.logFile.createNewFile()) {
+            //System.out.println("Created new log file: " + this.logFile.getAbsolutePath());
+        }
+        else {
+            //System.out.println("Using existing log file: " + this.logFile.getAbsolutePath());
+        }
+        if(!this.logFile.canWrite()) {
+            throw new ConfigurationException("Cannot write to log file: " + logFile);
+        }
+    }
 
-		if (!this.indexPath.isAbsolute()) {
-			throw new ConfigurationException("Absolute path required: " + indexPath);
-		}
-		if (!this.indexPath.canWrite()) {
-			throw new ConfigurationException("Path not writable: " + indexPath);
-		}
-		if (!this.indexPath.isDirectory()) {
-			throw new ConfigurationException("Directory name required: " + indexPath);
-		}
-	}
-	
 
-	/**
-	 * @param purgeString
-	 */
-	public void setThreadNumber(String purgeString) {
+    /**
+     * @return the logLevel
+     */
+    public Level getLogLevel() {
+        return logLevel;
+    }
 
-		this.numThreads = Integer.valueOf(purgeString);
-	}
-	
-	public int getNumThreads() {
-		return numThreads;
-	}
+    /**
+     * @param logLevel the logLevel to set
+     */
+    public void setLogLevel(String logLevel) {
 
-	public double getRAMSize() {
-		return RAMSize;
-	}
+        this.logLevel = Level.toLevel(logLevel.trim(),Level.INFO);
+    }
 
-	public void setRAMSize(String purgedString) {
+    /**
+     * Get tns admin directory
+     * @return
+     */
+    public String getTnsAdmin() {
+        return tnsAdmin;
+    }
 
-		RAMSize = Double.valueOf(purgedString);
-	}
+    /**
+     * Set tns admin directory
+     * @param tnsAdmin
+     */
+    public void setTnsAdmin(String tnsAdmin) {
+        this.tnsAdmin = tnsAdmin;
+    }
 
-	public int getMaxFileSizeMB()
-	{
-		return indexMaxFileSizeMB;
-	}
+    public void setFopFontDirectory(String directory) throws ConfigurationException
+    {
+        try {
+            Path path = Path.of(directory);
+            fopFontDirectory = Path.of(directory);
+            if (!Files.exists(fopFontDirectory)) {
+                throw new ConfigurationException("File {} does not exist");
+            }
+            if (!Files.isReadable(path)) {
+                throw new ConfigurationException("File {} is not a readable");
+            }
+            if (!Files.isDirectory(path)) {
+                throw new ConfigurationException("File {} is not a directory");
+            }
+            fopFontDirectory = path;
 
-	public long getMaxFileSize()
-	{
-		return (long) indexMaxFileSizeMB * 1024 * 1024;
-	}
+            Files.list(fopFontDirectory).filter(p -> p.toString().endsWith(".ttf") || p.toString().endsWith(".otf"))
+                    .forEach(p -> {
+                        try {
+                            Font font = Font.createFont(Font.TRUETYPE_FONT, p.toFile());
+                            logger.info("File: {} → family: {} name: {}",
+                                    p.getFileName(), font.getFamily(), font.getName());
+                        } catch (Exception e) {
+                            logger.warn("Could not read font: {}", p, e);
+                        }
+                    });
 
-	public void setMaxFileSizeMB(String mb)
-	{
-		this.indexMaxFileSizeMB = Integer.valueOf(mb);
-	}
+
+        } catch (RuntimeException e) {
+            throw new ConfigurationException("Invalid path given",  e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Path getFopFontDirectory()
+    {
+        return fopFontDirectory;
+    }
+
+    /**
+     * @param indexPath
+     *            the indexPath to set
+     * @throws ConfigurationException
+     */
+    public void setIndexPath(String indexPath) throws ConfigurationException {
+
+        this.indexPath = new File(indexPath);
+
+        if (!this.indexPath.isAbsolute()) {
+            throw new ConfigurationException("Absolute path required: " + indexPath);
+        }
+        if (!this.indexPath.canWrite()) {
+            throw new ConfigurationException("Path not writable: " + indexPath);
+        }
+        if (!this.indexPath.isDirectory()) {
+            throw new ConfigurationException("Directory name required: " + indexPath);
+        }
+    }
+
+
+    /**
+     * @param purgeString
+     */
+    public void setThreadNumber(String purgeString) {
+
+        this.numThreads = Integer.valueOf(purgeString);
+    }
+
+    public int getNumThreads() {
+        return numThreads;
+    }
+
+    public double getRAMSize() {
+        return RAMSize;
+    }
+
+    public void setRAMSize(String purgedString) {
+
+        RAMSize = Double.valueOf(purgedString);
+    }
+
+    public int getMaxFileSizeMB()
+    {
+        return indexMaxFileSizeMB;
+    }
+
+    public long getMaxFileSize()
+    {
+        return (long) indexMaxFileSizeMB * 1024 * 1024;
+    }
+
+    public void setMaxFileSizeMB(String mb)
+    {
+        this.indexMaxFileSizeMB = Integer.valueOf(mb);
+    }
 }
