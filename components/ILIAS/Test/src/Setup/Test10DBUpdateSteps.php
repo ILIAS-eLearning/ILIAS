@@ -468,4 +468,19 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
             ['operation' => [\ilDBConstants::T_TEXT, 'tst_results']]
         );
     }
+
+    public function step_14(): void
+    {
+        if (!$this->db->tableColumnExists('tst_tests', 'introduction')) {
+            $this->db->addTableColumn(
+                'tst_tests',
+                'introduction',
+                [
+                    'type' => \ilDBConstants::T_TEXT,
+                    'length' => 4000,
+                    'default' => null
+                ]
+            );
+        }
+    }
 }
