@@ -17048,6 +17048,7 @@ svy#:#svy_codes#:#Zugangscodes
 svy#:#svy_current_page#:#Aktuelle Seite
 svy#:#svy_finish_survey#:#An Umfrage "%1" teilnehmen
 svy#:#svy_finished_x_appraisees#:#Sie haben Bewertungen bereits für %s Feedback-Nehmer abgegeben. 
+svy#:#svy_info_participants#:#Fügen Sie Personen zu der Umfrage hinzu. Hierfür stehen unterschiedliche Suchmöglichkeiten zur Auswahl. Nach dem Hinzufügen wird die Umfrage den ausgewählten Personen automatisch als „To-Do“ im Dashboard angezeigt.
 svy#:#svy_information#:#Information
 svy#:#svy_invite_participants#:#Personen hinzufügen
 svy#:#svy_link_to_svy#:#Link zur Umfrage

@@ -16996,6 +16996,7 @@ svy#:#svy_codes#:#Codici di accesso
 svy#:#svy_current_page#:#Current Page###31 03 2023 new variable
 svy#:#svy_finish_survey#:#Finish survey '%1'
 svy#:#svy_finished_x_appraisees#:#You have already completed the survey for %s appraisee(s).###28 11 2025 new variable
+svy#:#svy_info_participants#:#Aggiungi utenti come partecipanti a questo sondaggio utilizzando una delle seguenti opzioni di ricerca. Il sondaggio verrà aggiunto come attività nella dashboard di questi utenti.
 svy#:#svy_information#:#Information###28 11 2025 new variable
 svy#:#svy_invite_participants#:#Invita partecipanti
 svy#:#svy_link_to_svy#:#Link to Survey###31 03 2023 new variable
