@@ -94,7 +94,7 @@ class QuestionPoolExporter
         $collector = new QuestionPoolCollector(
             $this->question_repository,
             $this->db,
-            $context->getPoolId()
+            $context->getObjectId()
         );
 
         $serializer->group(
