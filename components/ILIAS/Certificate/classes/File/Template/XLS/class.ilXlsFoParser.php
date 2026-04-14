@@ -83,8 +83,8 @@ class ilXlsFoParser
         $xsl = $this->certificateXlsFileLoader->getXlsCertificateContent();
 
         // additional font support
-        $xsl = str_replace(
-            'font-family="Helvetica, unifont"',
+        $xsl = preg_replace(
+            '/font-family="[^"]*"/',
             'font-family="' . $this->settings->get('rpc_pdf_font', 'Helvetica, unifont') . '"',
             $xsl
         );
