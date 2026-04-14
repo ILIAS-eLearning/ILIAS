@@ -5,7 +5,7 @@
 $nav-tabs-active-link-hover-bg: $il-text-color !default;
 $nav-tabs-active-link-hover-color: $il-text-color-invert !default;
 $nav-tabs-active-link-hover-border-color: $il-text-color !default;
-$nav-tabs-border: 2px solid $nav-tabs-active-link-hover-bg !default;
+$nav-tabs-border: 1px solid $il-main-border-color !default;
 /* Services/UIComponent/Tabs */
 
 #ilTab {
@@ -27,11 +27,13 @@ $nav-tabs-border: 2px solid $nav-tabs-active-link-hover-bg !default;
 			font-size: $il-font-size-base;
 			line-height: $il-line-height-base;
 			padding: $il-padding-large-vertical $il-padding-xlarge-horizontal $il-padding-base-vertical;
-			border: 0 none;
+			border-bottom: 2px solid;
+			border-color: transparent;
 			border-radius: $il-border-radius-base $il-border-radius-base 0 0;
 
-			&:hover {
-				border-color: $il-main-bg $il-main-bg $il-main-bg;
+			&:hover,
+			&:focus {
+				border-bottom-color: $nav-tabs-active-link-hover-bg;
 			}
 			@include focus.clear-focus-for-override($clearAfter: true);
 			@include focus.il-focus();
@@ -46,8 +48,7 @@ $nav-tabs-border: 2px solid $nav-tabs-active-link-hover-bg !default;
 				color: $nav-tabs-active-link-hover-color;
 				cursor: default;
 				background-color: $nav-tabs-active-link-hover-bg;
-				border: 0 none;
-				border-bottom-color: transparent;
+				border-bottom-color: $nav-tabs-active-link-hover-bg;
 			}
 		}
 	}
@@ -57,6 +58,9 @@ $nav-tabs-border: 2px solid $nav-tabs-active-link-hover-bg !default;
 	z-index: 3;
 }
 
+#ilTab > li > a:focus {
+	border-bottom: 2px solid $nav-tabs-active-link-hover-bg;
+}
 
 /* Sub Tabs */
 #ilSubTab {
