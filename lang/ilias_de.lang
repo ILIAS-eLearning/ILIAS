@@ -15047,7 +15047,6 @@ rep#:#rep_add_new_def_grp_content#:#Inhalt
 rep#:#rep_add_new_def_grp_feedback#:#Feedback und Evaluation
 rep#:#rep_add_new_def_grp_organisation#:#Organisation
 rep#:#rep_add_new_def_grp_templates#:#Vorlagen
-rep#:#rep_add_to_favourites#:#Zu Favoriten hinzufügen
 rep#:#rep_added_rec_content#:#Empfohlener Inhalt wurde hinzugefügt.
 rep#:#rep_added_to_favourites#:#Das Objekt wurde den Favoriten hinzugefügt.
 rep#:#rep_allowed_types#:#Allowed Types
@@ -15104,7 +15103,6 @@ rep#:#rep_object_references_cannot_be_read#:#Keine Rechte an %s weiteren Referen
 rep#:#rep_object_to_delete#:#Zu löschen
 rep#:#rep_rec_content_removed#:#Empfohlener Inhalt wurde entfernt.
 rep#:#rep_recommended_content#:#Empfohlene Inhalte
-rep#:#rep_remove_from_favourites#:#Von Favoriten entfernen
 rep#:#rep_remove_rec_content#:#Sollen die folgenden Empfehlungen wirklich entfernt werden? Die entsprechenden Inhalte bleiben weiterhin erhalten.
 rep#:#rep_removed_from_favourites#:#Das Objekt wurde aus den Favoriten entfernt.
 rep#:#rep_target_location#:#Zielort
