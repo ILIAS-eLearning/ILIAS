@@ -32,9 +32,18 @@ import org.apache.logging.log4j.Logger;
 import javax.xml.transform.*;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URLConnection;
+import java.net.URISyntaxException;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Objects;
 
 public class FO2PDF
 {
@@ -89,6 +98,29 @@ public class FO2PDF
 
             FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
             ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+            foUserAgent.getEventBroadcaster().addEventListener(event -> {
+                try {
+                    logger.warn(
+                        "FOP EVENT: group={}, id={}",
+                        event.getEventGroupID(),
+                        event.getEventID()
+                    );
+
+                    event.getParams().forEach((k, v) -> {
+                        logger.warn("  {} = {}", k, v);
+                        if (Objects.equals(k, "uri") && v instanceof String uriString) {
+                            try {
+                                logUriFopDiagnostics(new URI(uriString));
+                            } catch (URISyntaxException | IOException e) {
+                                logger.error("Error while probing URI", e);
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    logger.error("Error while logging FOP event", e);
+                }
+            });
 
             Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, out);
 
@@ -153,6 +185,54 @@ public class FO2PDF
         this.pdfByteArray = ba;
     }
 
+    private void logUriFopDiagnostics(URI uri) throws IOException {
+        logger.warn("Trying to load URI which could not be processed by FOP: {}", uri);
+
+        URLConnection connection = uri.toURL().openConnection();
+        if (!(connection instanceof HttpURLConnection conn)) {
+            logger.warn("URI does not point to an HTTP resource: {}", uri);
+            return;
+        }
+        conn.setInstanceFollowRedirects(false);
+        conn.setConnectTimeout(15000);
+        conn.setReadTimeout(15000);
+
+        try {
+            int code = conn.getResponseCode();
+            logger.warn("HTTP status: {}", code);
+
+            conn.getHeaderFields().forEach((key, values) -> {
+                logger.warn("Header: {} = {}", key, values);
+            });
+
+            InputStream stream;
+            if (code >= 200 && code < 300) {
+                stream = conn.getInputStream();
+            } else {
+                stream = conn.getErrorStream();
+                if (stream == null) {
+                    logger.warn("HTTP error {} with no body", code);
+                    return;
+                }
+            }
+
+            try (stream) {
+                ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+                byte[] data = new byte[4096];
+                int n;
+                while ((n = stream.read(data)) != -1) {
+                    buffer.write(data, 0, n);
+                }
+                String bodyPreview = buffer.toString(StandardCharsets.UTF_8);
+                logger.warn(
+                    "Response body (first 1000 chars):\n{}",
+                    bodyPreview.substring(0, Math.min(1000, bodyPreview.length()))
+                );
+            }
+        } finally {
+            conn.disconnect();
+        }
+    }
 
     private InputStream getFoInputStream()
     {
