@@ -77,6 +77,9 @@ NumThreads = 2
 RamBufferSize = 256
 IndexMaxFileSizeMB = 500
 
+[FOP]
+FontDirectory = /var/www/files/fonts
+
 [Client1]
 ClientId = ACMECorp
 NicId = 0
@@ -92,6 +95,8 @@ IliasIniPath = /var/www/html/ilias/ilias.ini.php
 - NumThreads: The larger the number of NumThreads, the shorter the indexing time, at the expense of the overall CPU load.
 - RamBufferSize: The maximum amount of memory in MB before index data is written to the file system
 - IndexMaxFileSize: The maximum file size of ILIAS files that can be included in the index.
+
+- FontDirectory: An optional directory containing additional fonts besides "Helvetica (embedded)" and "unifont" for the FOP PDF renderer.
 
 - ClientId: ClientId of ILIAS installation
 - NicId: NicID of ILIAS installation
