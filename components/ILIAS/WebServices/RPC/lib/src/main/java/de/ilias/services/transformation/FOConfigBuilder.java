@@ -24,6 +24,7 @@ import org.apache.logging.log4j.Logger;
 import org.xml.sax.SAXException;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -33,6 +34,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,26 +43,14 @@ public class FOConfigBuilder
     private final Logger logger = LogManager.getLogger(this.getClass().getName());
 
     private ServerSettings settings;
-
-    private static String fopConfigTemplate = """
-            <?xml version="1.0" ?>
-            <fop version="1.0">
-              <strict-configuration>true</strict-configuration>
-              <use-cache>false</use-cache>
-              <renderers>
-                <renderer mime="application/pdf">
-                  <fonts>
-                    %s
-                  </fonts>
-                </renderer>
-              </renderers>
-            </fop>
-           """.stripLeading();
+    private String fopConfigTemplate = "";
     private List<Path> fontDirectories = new ArrayList<>();
     private Path tempDirectory = null;
 
-    public FOConfigBuilder(ServerSettings settings) {
+    public FOConfigBuilder(ServerSettings settings) throws TransformationException
+    {
         this.settings = settings;
+        this.initConfigTemplate();
     }
 
     public FopFactory buildFopFactory() throws IOException, TransformationException
@@ -70,11 +60,10 @@ public class FOConfigBuilder
 
         initDirectories();
         directoryEntries = fontDirectories.stream()
-                .map(p -> "<directory>%s</directory>".formatted(p.toString()))
+                .map(p -> String.format("<directory>%s</directory>", p.toString()))
                 .collect(Collectors.joining("\n"));
-        fopXmlConfig = fopConfigTemplate.formatted(directoryEntries);
+        fopXmlConfig = String.format(fopConfigTemplate, directoryEntries);
         logger.info("Using config {}", fopXmlConfig);
-
             InputStream in = new ByteArrayInputStream(
                     fopXmlConfig.getBytes(StandardCharsets.UTF_8)
             );
@@ -102,12 +91,28 @@ public class FOConfigBuilder
 
     private void initUnifont() throws IOException {
         tempDirectory = Files.createTempDirectory("ilias-fonts-");
+        initShutdownHook(tempDirectory);
         Path tempFont = tempDirectory.resolve("unifont.ttf");
         tempDirectory.toFile().deleteOnExit();
         InputStream in = FO2PDF.class.getResourceAsStream("/de/ilias/config/fonts/unifont.ttf");
         Files.copy(in, tempFont, StandardCopyOption.REPLACE_EXISTING);
 
         fontDirectories.add(tempDirectory);
+    }
+
+    private void initShutdownHook(Path tempDirectory)
+    {
+        Runtime.getRuntime().addShutdownHook(new Thread(() ->
+        {
+            try {
+                Files.walk(tempDirectory)
+                        .sorted(Comparator.reverseOrder())
+                        .map(Path::toFile)
+                        .forEach(File::delete);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }));
     }
 
     private void initCustomDirectory()
@@ -118,5 +123,16 @@ public class FOConfigBuilder
         }
         logger.info("Using font directory {}", settings.getFopFontDirectory());
         fontDirectories.add(settings.getFopFontDirectory());
+    }
+
+    private void initConfigTemplate() throws TransformationException
+    {
+        InputStream is = FOConfigBuilder.class.getResourceAsStream("/de/ilias/config/fopConfigTemplate.xml");
+        try {
+            this.fopConfigTemplate = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            logger.fatal("Could not load fop config template: {}", e);
+            throw new TransformationException(e);
+        }
     }
 }
