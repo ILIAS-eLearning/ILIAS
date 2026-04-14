@@ -16972,6 +16972,7 @@ svy#:#svy_codes#:#Access Codes
 svy#:#svy_current_page#:#Current Page###31 10 2023 new variable
 svy#:#svy_finish_survey#:#Finish survey '%1'
 svy#:#svy_finished_x_appraisees#:#You have finished the survey for %s appraisee(s).###28 10 2024 new variable
+svy#:#svy_info_participants#:#Ajoutez des utilisateurs comme participants à cette enquête en utilisant l'une des options de recherche suivantes. L'enquête sera ajoutée comme tâche sur le tableau de bord de ces utilisateurs.
 svy#:#svy_information#:#Information###28 10 2024 new variable
 svy#:#svy_invite_participants#:#Invite Participants
 svy#:#svy_link_to_svy#:#Link to Survey###31 10 2023 new variable

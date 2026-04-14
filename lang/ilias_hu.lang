@@ -16988,6 +16988,7 @@ svy#:#svy_codes#:#Hozzáférési kódok
 svy#:#svy_current_page#:#Current Page###29 07 2022 new variable
 svy#:#svy_finish_survey#:#'%1' kérdőív befejezése
 svy#:#svy_finished_x_appraisees#:#You have finished the survey for %s appraisee(s).###28 10 2024 new variable
+svy#:#svy_info_participants#:#Adjon hozzá felhasználókat a felmérés résztvevőiként az alábbi keresési lehetőségek egyikével. A felmérés feladatként jelenik meg ezeknek a felhasználóknak az irányítópultján.
 svy#:#svy_information#:#Information###28 10 2024 new variable
 svy#:#svy_invite_participants#:#Résztvevők meghívása
 svy#:#svy_link_to_svy#:#Link to Survey###26 08 2024 new variable
