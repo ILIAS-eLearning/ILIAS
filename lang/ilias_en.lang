@@ -8685,7 +8685,7 @@ dcl#:#dcl_file_not_readable#:#The file could not be read. Please make sure that 
 dcl#:#dcl_filter#:#Available in Filter
 dcl#:#dcl_filter_changeable#:#Filter Changeable
 dcl#:#dcl_formula#:#Formula
-dcl#:#dcl_formula_desc#:#Similar to when using a spreadsheet, entries can be combined or calculated using a formula. 
+dcl#:#dcl_formula_desc#:#Similar to when using a spreadsheet, entries can be combined or calculated using a formula.
 dcl#:#dcl_formula_detail_desc#:#Entries in this field are generated automatically. You cannot enter or edit information in this field.
 dcl#:#dcl_height#:#Height in Pixels
 dcl#:#dcl_height_desc#:#The height of the file will be reduced to this value during upload.
@@ -8734,7 +8734,7 @@ dcl#:#dcl_msg_table_edited#:#Table settings saved.
 dcl#:#dcl_msg_tableview_created#:#View created.
 dcl#:#dcl_msg_tableview_deleted#:#View deleted.
 dcl#:#dcl_msg_tableview_updated#:#View updated.
-dcl#:#dcl_msg_tableviews_delete_all#:#Deletion not possible. There must be at least one view in existence. 
+dcl#:#dcl_msg_tableviews_delete_all#:#Deletion not possible. There must be at least one view in existence.
 dcl#:#dcl_multiple_selection#:#Multiple Selection
 dcl#:#dcl_new#:#Create New Data Collection
 dcl#:#dcl_new_entries#:#New Entries
@@ -8771,7 +8771,7 @@ dcl#:#dcl_owner#:#Owner
 dcl#:#dcl_owner_description#:#The owner of the entry.
 dcl#:#dcl_owner_name#:#Owner (Name)
 dcl#:#dcl_page_type_dclf#:#Data Collection Detailed View
-dcl#:#dcl_placeholder_info#:#In order for the data from the fields of this table to be shown in this detailed view, please enter the corresponding placeholders for those fields. Those placeholders are listed in the tool bars of the page elements 'Text' and 'Data Table'. 
+dcl#:#dcl_placeholder_info#:#In order for the data from the fields of this table to be shown in this detailed view, please enter the corresponding placeholders for those fields. Those placeholders are listed in the tool bars of the page elements 'Text' and 'Data Table'.
 dcl#:#dcl_please_select#:#--- Please select ---
 dcl#:#dcl_prop_expression#:#Expression
 dcl#:#dcl_prop_expression_info#:#Valid operators: <b>%s</b><br>Supported functions: <b>%s</b><br>Use brackets <b>‘(’, ‘)’</b> to group calculations.<br>Concatenate strings and placeholders with &: <b>‘The result is ’ & [[Int 1]] * [[Int2]]</b><br>Using functions: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Allowed fields (click on a title to use as a placeholder within the expression):<br>%s<br><b>(Allowed fields are checkbox, number, text and date that don’t contain any formula-sensitive characters inside their titles)</b>
@@ -8781,7 +8781,7 @@ dcl#:#dcl_record#:#Entry
 dcl#:#dcl_record_deleted#:#Entry deleted.
 dcl#:#dcl_record_settings#:#Entry Settings
 dcl#:#dcl_reference#:#Reference
-dcl#:#dcl_reference_desc#:#A field which will display selected entries made in another field. This other field can be located in a different table. Changes made to the original entry will affect the version displayed in this field. 
+dcl#:#dcl_reference_desc#:#A field which will display selected entries made in another field. This other field can be located in a different table. Changes made to the original entry will affect the version displayed in this field.
 dcl#:#dcl_reference_link#:#Link Referenced Entry
 dcl#:#dcl_reference_link_info#:#Please note: You need to have set up and activated a ‘Detailed View’ template in the table in which the referenced entry is located.
 dcl#:#dcl_reference_title#:#Referenced Field
@@ -8858,7 +8858,7 @@ dcl#:#dcl_wrong_regex#:#The text you entered does not fulfil the requirements of
 dcl#:#dcl_xls_async_export#:#as XLSX (asynchronous)
 dcl#:#disable_comments#:#Disable Comments
 dcl#:#disable_visible#:#Disable Visible
-dcl#:#duplicate_entries_exist#:#Some of the existing values for this field are identical. Please make sure that all existing entries have unique values for this field in order to change this setting. 
+dcl#:#duplicate_entries_exist#:#Some of the existing values for this field are identical. Please make sure that all existing entries have unique values for this field in order to change this setting.
 dcl#:#enable_comments#:#Enable Comments
 dcl#:#enable_visible#:#Enable Visible
 dcl#:#entry_of#:#Entry %1$d of %2$d
@@ -17245,7 +17245,7 @@ trac#:#trac_lp_determination_info_sco#:#Select the items that determine the over
 trac#:#trac_lp_determination_tutor#:#Display of objects in learning progress
 trac#:#trac_lp_learner_access#:#View Own Learning Progress
 trac#:#trac_lp_learner_access_info#:#If active, users can access their own learning progress status.
-trac#:#trac_lp_list_gui#:#Dashboard, Repository, Search
+trac#:#trac_lp_list_gui#:#Dashboard and Repository
 trac#:#trac_lp_list_gui_info#:#If activated, the learning progress status is included in objects lists.
 trac#:#trac_lp_settings_info_parent_container#:#Learning Progress of Parent Container Objects
 trac#:#trac_lp_settings_info_parent_legend#:#The learning progress status of this object is influenced by "%s".

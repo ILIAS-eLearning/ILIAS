@@ -16466,7 +16466,7 @@ survey#:#concatenation#:#Verkettung
 survey#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Datensätze und Ergebnisse der Umfrage löschen wollen? Dies wirkt sich sowohl auf die gegebenen Antworten als auch auf die Teilnahmeliste selbst aus.
 survey#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie die Datensätze und Antworten der ausgewählten Personen löschen wollen? Somit werden auch <b>alle</b> zugehörigen Daten gelöscht.
 survey#:#confirm_remove_heading#:#Sind Sie sicher, dass Sie die Überschrift entfernen wollen?
-survey#:#confirm_sync_questions#:#Die geänderte Frage ist eine Kopie, welche für die Verwendung der aktuellen Umfrage erstellt wurde. Möchten Sie die Änderung ebenfalls auf die Ursprungsfrage anwenden? 
+survey#:#confirm_sync_questions#:#Die geänderte Frage ist eine Kopie, welche für die Verwendung der aktuellen Umfrage erstellt wurde. Möchten Sie die Änderung ebenfalls auf die Ursprungsfrage anwenden?
 survey#:#conjunction_and#:#wenn jede Bedingung erfüllt wird
 survey#:#conjunction_and_title#:#Jede der folgenden Bedingungen erfüllen
 survey#:#conjunction_or#:#wenn eine Bedingung erfüllt wird
@@ -16475,7 +16475,7 @@ survey#:#constraint_add#:#Verzweigungsregel hinzufügen
 survey#:#constraint_fulfilled#:#Seite anzeigen
 survey#:#constraints#:#Verzweigungsregel
 survey#:#constraints_first_question_description#:#Der erste Eintrag kann keine Verzweigungsregel haben, da es keine vorherigen Einträge gibt.
-survey#:#constraints_introduction#:#Verzweigungsregeln können für einzelne Fragen als auch für einen Fragenblock hinzugefügt werden. In Abhängigkeit der gegebenen Antwort, werden teilnehmenden Personen bestimmte Fragen angezeigt, sodass irrelevante Fragen übersprungen werden können. Für die erste Frage als auch für einen Fragenblock kann keine Verzweigungsregel festgelegt werden. 
+survey#:#constraints_introduction#:#Verzweigungsregeln können für einzelne Fragen als auch für einen Fragenblock hinzugefügt werden. In Abhängigkeit der gegebenen Antwort, werden teilnehmenden Personen bestimmte Fragen angezeigt, sodass irrelevante Fragen übersprungen werden können. Für die erste Frage als auch für einen Fragenblock kann keine Verzweigungsregel festgelegt werden.
 survey#:#constraints_list_of_entities#:#Fragen
 survey#:#constraints_no_nonessay_available#:#Es gibt keine vorangegangenen Fragen, die zur Erstellung von Verzweigungsregeln verwendet werden können. Folgende Fragetypen werden unterstützt: Metrische Frage, Single Choice Frage und Multiple Choice Frage.
 survey#:#constraints_no_questions_or_questionblocks_selected#:#Bitte wählen Sie mindestens eine Frage oder einen Fragenblock aus!
@@ -16520,7 +16520,7 @@ survey#:#dc_yes#:#ja
 survey#:#default_codes_mail_message#:#Ihr Zugangscode für die Umfrage lautet [code]. Sie können die Umfrage jederzeit unter der folgenden URL [url] erreichen.
 survey#:#default_codes_mail_subject#:#Ihr Zugangscode für die Umfrage %s
 survey#:#define_questionblock#:#Fragenblock anlegen
-survey#:#delete_saved_message#:#Textvorlage löschen 
+survey#:#delete_saved_message#:#Textvorlage löschen
 survey#:#display_all_available#:#Alle verfügbaren anzeigen
 survey#:#dont_use_questionpool#:#Fragen nicht in einen Fragenpool einfügen und nur für diese Umfrage verfügbar machen
 survey#:#duplicate#:#Kopieren
@@ -16588,7 +16588,7 @@ survey#:#language_changed#:#Sprache geändert
 survey#:#layout#:#Layout
 survey#:#lower_limit#:#Untergrenze
 survey#:#mail_import_example2#:#heinrichfaust@pudelskern.de, Heinrich; Faust
-survey#:#mail_import_example3#:#emiliagalotti@dramaitalien.de, Emilia; Galotti 
+survey#:#mail_import_example3#:#emiliagalotti@dramaitalien.de, Emilia; Galotti
 survey#:#mail_sent_short#:#Versendet
 survey#:#mail_survey_codes#:#Zugangsschlüssel und Nachrichten versenden
 survey#:#mailaddresses#:#Senden an
@@ -16608,7 +16608,7 @@ survey#:#matrix_columns#:#Matrixspalten
 survey#:#matrix_left_pole#:#Linker Pol
 survey#:#matrix_neutral_answer#:#Text für eine neutrale Spalte ("Nicht definiert", "Ich weiß nicht", "Keine Angabe" etc.)
 survey#:#matrix_neutral_column_separator#:#Neutraler Spaltentrenner
-survey#:#matrix_neutral_column_separator_description#:#Eine breite Linie (Trenner) zwischen der neutralen Spalte und den restlichen Spalten hinzufügen. 
+survey#:#matrix_neutral_column_separator_description#:#Eine breite Linie (Trenner) zwischen der neutralen Spalte und den restlichen Spalten hinzufügen.
 survey#:#matrix_question_checkbox_not_checked#:#Bitte wählen Sie mindestens ein Kontrollkästchen in jeder Zeile aus.
 survey#:#matrix_question_radio_button_not_checked#:#Bitte wählen Sie in jeder Zeile eine Antwortoption aus.
 survey#:#matrix_right_pole#:#Rechter Pol
@@ -16687,7 +16687,7 @@ survey#:#questions#:#Fragen
 survey#:#questions_inserted#:#Frage(n) hinzugefügt.
 survey#:#questions_removed#:#Fragen und/oder Fragenblock entfernt!
 survey#:#questiontype#:#Fragetyp
-survey#:#ratio_absolute#:#Verhältnis (absolut) 
+survey#:#ratio_absolute#:#Verhältnis (absolut)
 survey#:#ratio_non_absolute#:#Verhältnis (nicht absolut)
 survey#:#recipients#:#Senden an
 survey#:#remove_question#:#Entfernen
@@ -16712,7 +16712,7 @@ survey#:#select_value#:#Wert festlegen
 survey#:#selection#:#Auswahl
 survey#:#send_to_all#:#Alle E-Mail-Adressen, die mit einem Zugangscode verknüpft sind.
 survey#:#send_to_answered#:#Alle Personen, welche die Umfrage bereits beendet haben
-survey#:#send_to_unanswered#:#Alle E-Mail-Adressen, die mit einem Zugangscode verknüpft sind und deren zugehörige teilnehmende Personen die Umfrage noch nicht abgeschlossen haben. 
+survey#:#send_to_unanswered#:#Alle E-Mail-Adressen, die mit einem Zugangscode verknüpft sind und deren zugehörige teilnehmende Personen die Umfrage noch nicht abgeschlossen haben.
 survey#:#show_questiontext#:#Fragentexte anzeigen
 survey#:#show_questiontext_description#:#Zeigen Sie den Fragetext jeder Frage im Fragenblock an. Wenn dieses Kontrollkästchen nicht aktiviert ist, werden die Fragentexte ausgeblendet und nur die Antwortoptionen angezeigt. Dies kann nützlich sein, wenn Sie Fragen mit identischen Fragentexten innerhalb eines Fragenblocks haben.
 survey#:#skipped#:#Übersprungen
@@ -16746,7 +16746,7 @@ survey#:#survey_360_appraisees#:#Feedback-Nehmer
 survey#:#survey_360_edit_raters#:#Feedback-Geber verwalten
 survey#:#survey_360_mode#:#360°-Feedback
 survey#:#survey_360_mode_info#:#Ermöglicht es Einzelpersonen, von mehreren Personen bewertet zu werden. Die Ergebnisse werden zusammengefasst.
-survey#:#survey_360_no_appraisees#:#Zur Zeit benötigen keine Feedback-Nehmer Ihre Bewertung 
+survey#:#survey_360_no_appraisees#:#Zur Zeit benötigen keine Feedback-Nehmer Ihre Bewertung
 survey#:#survey_360_no_closed_appraisees#:#Es sind noch keine Umfragen geschlossen worden.
 survey#:#survey_360_rate_other_appraisee#:#Feedback geben
 survey#:#survey_360_rate_other_appraisees#:#Feedback geben
@@ -16867,7 +16867,7 @@ survey#:#survey_reminder_subject#:#Umfrage „%s“ – Teilnahmeerinnerung
 survey#:#survey_remove_competence#:#Kompetenz entfernen
 survey#:#survey_results_anonymization#:#Datenschutz
 survey#:#survey_results_anonymized#:#Ohne Namen / Anonyme Umfrage
-survey#:#survey_results_anonymized_info#:#Die Befragten bleiben anonym. Je nach globalen Einstellungen werden Namen entweder durch die Bezeichnung „Anonym“ oder durch individuelle Codes ersetzt. Bei der Verwendung werden in dem Reiter „Ergebnisse“ keine persönlichen Daten angegeben, sodass dort eine Zuordnung der Antworten zu Personen nicht möglich ist. 
+survey#:#survey_results_anonymized_info#:#Die Befragten bleiben anonym. Je nach globalen Einstellungen werden Namen entweder durch die Bezeichnung „Anonym“ oder durch individuelle Codes ersetzt. Bei der Verwendung werden in dem Reiter „Ergebnisse“ keine persönlichen Daten angegeben, sodass dort eine Zuordnung der Antworten zu Personen nicht möglich ist.
 survey#:#survey_results_finished#:#Umfrage beendet
 survey#:#survey_results_not_started#:#Umfrage nicht begonnen
 survey#:#survey_results_personalized#:#Mit Namen
@@ -16940,7 +16940,7 @@ survey#:#svy_eval_view_tables#:#Tabelle
 survey#:#svy_eval_view_tables_charts#:#Tabelle und Diagramm
 survey#:#svy_evaluation_access_all_info#:#Alle registrierten Personen, die Zugriff auf die Umfrage haben, können die Ergebnisse einsehen.
 survey#:#svy_evaluation_access_off_info#:#Nur Personen mit dem Recht „Einstellungen bearbeiten“ haben Zugriff auf die Ergebnisse der Umfrage.
-survey#:#svy_evaluation_access_participants_info#:#Alle Personen, welche die Umfrage abgeschlossen haben, können anschließend die Ergebnisse einsehen. 
+survey#:#svy_evaluation_access_participants_info#:#Alle Personen, welche die Umfrage abgeschlossen haben, können anschließend die Ergebnisse einsehen.
 survey#:#svy_export_files#:#Exportierte Dateien
 survey#:#svy_export_format#:#Ergebnisse der Umfrage exportieren
 survey#:#svy_export_pdf#:#PDF exportieren
@@ -16964,11 +16964,11 @@ survey#:#svy_mail_context_reminder_survey_title#:#Umfragetitel
 survey#:#svy_mail_context_reminder_title#:#Umfrage: Teilnahme-Erinnerung
 survey#:#svy_mail_own_results#:#Eigene Antworten per E-Mail versenden
 survey#:#svy_mail_own_results_body#:#Sie haben an folgender Umfrage teilgenommen:
-survey#:#svy_mail_own_results_subject#:#Umfrage „%s“ - Ihre Teilnahmebestätigung mit Antworten 
+survey#:#svy_mail_own_results_subject#:#Umfrage „%s“ - Ihre Teilnahmebestätigung mit Antworten
 survey#:#svy_mail_send_confirmation#:#Teilnahmebestätigung anfordern
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#Die Prozentzahl der Spaltenaufteilung muss zusammen 100% ergeben.
 survey#:#svy_max_sum_score#:#Maximale Gesamtpunktzahl
-survey#:#svy_neutral_answer#:#Text für eine neutrale Antwort („Nicht definiert", „Ich weiß nicht", „Keine Angabe" etc.) 
+survey#:#svy_neutral_answer#:#Text für eine neutrale Antwort („Nicht definiert", „Ich weiß nicht", „Keine Angabe" etc.)
 survey#:#svy_no_appraisees_found#:#Es besteht weiterhin die Möglichkeit für ausgewählte Personen Feedback abzugeben. Sobald die Umfrage geschlossen wird, können die Kompetenzen angezeigt werden.
 survey#:#svy_notification_tutor_results#:#Eine E-Mail mit den Umfrageergebnissen
 survey#:#svy_notification_tutor_results_alert#:#Diese Funktion erfordert ein Enddatum.
@@ -17038,7 +17038,7 @@ survey#:#vertical#:#Vertikal
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#workingtime#:#Bearbeitungsdauer
 svy#:#survey_360_appraisees_remind_info#:#Wenn die Selbsteinschätzung aktiviert wurde, werden alle Feedback-Nehmer, welche die Umfrage noch nicht abgeschlossen haben, benachrichtigt.
-svy#:#survey_360_raters_remind_info#:#Feedback-Geber, welche die Umfrage noch nicht abgeschlossen haben, erhalten eine Benachrichtigung. 
+svy#:#survey_360_raters_remind_info#:#Feedback-Geber, welche die Umfrage noch nicht abgeschlossen haben, erhalten eine Benachrichtigung.
 svy#:#svy_0_open_appraisees#:#Sie können die Umfrage für keinen Feedback-Nehmer mehr durchführen.
 svy#:#svy_all_pages#:#Alle Seiten
 svy#:#svy_all_participants#:#Alle Befragte
@@ -17047,13 +17047,13 @@ svy#:#svy_code#:#Zugangscode
 svy#:#svy_codes#:#Zugangscodes
 svy#:#svy_current_page#:#Aktuelle Seite
 svy#:#svy_finish_survey#:#An Umfrage "%1" teilnehmen
-svy#:#svy_finished_x_appraisees#:#Sie haben Bewertungen bereits für %s Feedback-Nehmer abgegeben. 
+svy#:#svy_finished_x_appraisees#:#Sie haben Bewertungen bereits für %s Feedback-Nehmer abgegeben.
 svy#:#svy_information#:#Information
 svy#:#svy_invite_participants#:#Personen hinzufügen
 svy#:#svy_link_to_svy#:#Link zur Umfrage
 svy#:#svy_part_overview#:#Übersicht
 svy#:#svy_placeholders_label#:#Verfügbare Platzhalter
-svy#:#svy_print_selection#:#Inhalt der Druckansicht auswählen 
+svy#:#svy_print_selection#:#Inhalt der Druckansicht auswählen
 svy#:#svy_remove_all_participants#:#Alle Datensätze löschen
 svy#:#svy_remove_participants#:#Daten entfernen
 svy#:#svy_selected_participants#:#Ausgewählte Befragte
@@ -17294,7 +17294,7 @@ trac#:#trac_lp_determination_info_sco#:#Auswahl der SCOx, anhand derer der Gesam
 trac#:#trac_lp_determination_tutor#:#Auswahl von Objekten, die den Lernfortschritt bestimmen
 trac#:#trac_lp_learner_access#:#Eigenen Lernfortschritt einsehen
 trac#:#trac_lp_learner_access_info#:#Wenn aktiviert, können Benutzer ihren eigenen Lernfortschritt einsehen.
-trac#:#trac_lp_list_gui#:#Dashboard, Magazin, Suche
+trac#:#trac_lp_list_gui#:#Dashboard und Magazin
 trac#:#trac_lp_list_gui_info#:#Wenn aktiviert, wird der Lernfortschrittsstatus in Objekt-Listen angezeigt.
 trac#:#trac_lp_settings_info_parent_container#:#Lernfortschritt übergeordneter Objekte
 trac#:#trac_lp_settings_info_parent_legend#:#Der Lernfortschrittsstatus des Objekts wird durch „%s“ beeinflusst.
