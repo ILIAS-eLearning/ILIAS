@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Skill\Service\SkillUsageService;
 use ILIAS\TestQuestionPool\ExportImport\Import\CleanupStage;
+use ILIAS\TestQuestionPool\ExportImport\Import\DetectLegacyImportStage;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 use ILIAS\TestQuestionPool\ExportImport\Import\UploadValidationStage;
@@ -1134,6 +1135,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         return new ImportStageRunner(
             [
                 new UploadValidationStage($this->archives, $this->lng, 'components/ILIAS/TestQuestionPool'),
+                new DetectLegacyImportStage(),
                 new QuestionSelectionStage($this->lng, $this->component_factory, $this->ui_factory, $form_action),
                 new PersistStage($this->lng, $this->request_data_collector, $this->import_session_repository),
             ],
