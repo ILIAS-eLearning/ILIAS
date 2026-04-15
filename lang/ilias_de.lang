@@ -11797,7 +11797,7 @@ mathjax#:#mathjax_polyfill_url_desc_line1#:#Für MathJax 2 und MathJax 3 mit akt
 mathjax#:#mathjax_polyfill_url_desc_line2#:#Bitte entfernen Sie die Einbindung von polyfill.io! Siehe https://sansec.io/research/polyfill-supply-chain-attack
 mathjax#:#mathjax_script_url#:#URL des MathJax-Skripts
 mathjax#:#mathjax_script_url_desc_line1#:#Bitte verwenden Sie den Safe Mode, um XSS-Angriffe durch MathJax-Code mit Javascript zu vermeiden.<br/>Für MathJax 2 z.B. %s
-mathjax#:#mathjax_script_url_desc_line2#:#Für MathJax 3 z.B. %s
+mathjax#:#mathjax_script_url_desc_line2#:#Für MathJax 3 z.B. %s<br />Mit diesen Skripten wird MathJax durch den Browsers des Nutzers von einer externen Adresse (cdn.jsdelivr.net) abgerufen. Wenn Sie MathJax selbst hosten, verwenden Sie eine Kopie des entsprechenden Skripts mit geänderter Adresse.
 mathjax#:#mathjax_server_address#:#Server-Adresse
 mathjax#:#mathjax_server_address_info#:#z.B. http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#Der MathJax-Cache wurde geleert.
