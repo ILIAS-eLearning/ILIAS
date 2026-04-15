@@ -26,8 +26,6 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ImportStage;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\StageResult;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\SimpleXMLDeserializer;
-use ILIAS\TestQuestionPool\QuestionPoolDIC;
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionProperties;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\UI\Factory as UIFactory;
 use Psr\Http\Message\ServerRequestInterface;
@@ -65,12 +63,12 @@ class QuestionSelectionStage implements ImportStage
         return 'question_selection';
     }
 
-    public function getLabel(): string
+    public function getLabel(): ?string
     {
         return $this->lng->txt('qpl_import_step_select');
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return '';
     }
@@ -96,20 +94,9 @@ class QuestionSelectionStage implements ImportStage
             return StageResult::error($context, $this->lng->txt('qpl_import_file_not_found'));
         }
 
-        $options = [];
-        $deserializer = new SimpleXMLDeserializer()->open(file_get_contents($context->get('import_file')));
-        $deserializer->addHandler('questions', function (array $questions) use (&$options): void {
-            foreach ($questions as $question) {
-                if (!isset($question['title']) || !isset($question['type'])) {
-                    continue;
-                }
-
-                $raw_id = $question['id'];
-                $id = is_array($raw_id) ? (string) ($raw_id['id'] ?? '') : (string) $raw_id;
-                $options[$id] = "{$question['title']} ({$this->getLabelForQuestionType($question['type'])})";
-            }
-        });
-        $deserializer->process();
+        $options = DetectLegacyImportStage::isLegacyImport($context)
+            ? $this->readQuestionsFromQTI($context)
+            : $this->readQuestions($context);
 
         if ($options === []) {
             return StageResult::error($context, $this->lng->txt('qpl_import_no_items'));
@@ -135,6 +122,48 @@ class QuestionSelectionStage implements ImportStage
     public static function getSelectedQuestions(ImportContext $context): array
     {
         return array_map('intval', $context->get('selected_questions', []));
+    }
+
+    private function readQuestions(ImportContext $context): array
+    {
+        $options = [];
+
+        $deserializer = new SimpleXMLDeserializer()->open(file_get_contents($context->get('import_file')));
+        $deserializer->addHandler('questions', function (array $questions) use (&$options): void {
+            foreach ($questions as $question) {
+                if (!isset($question['title']) || !isset($question['type'])) {
+                    continue;
+                }
+
+                $raw_id = $question['id'];
+                $id = is_array($raw_id) ? (string) ($raw_id['id'] ?? '') : (string) $raw_id;
+                $options[$id] = "{$question['title']} ({$this->getLabelForQuestionType($question['type'])})";
+            }
+        });
+        $deserializer->process();
+
+        return $options;
+    }
+
+    /**
+     * @deprecated This method is only used for legacy imports and will be removed with further ILIAS versions.
+     */
+    private function readQuestionsFromQTI(ImportContext $context): array
+    {
+        $parser = new \ilQTIParser(
+            $context->get('import_base_dir'),
+            $context->get('qti_file'),
+            \ilQTIParser::IL_MO_VERIFY_QTI,
+            0
+        );
+        $parser->startParsing();
+
+        $options = [];
+        foreach ($parser->getFoundItems() as $item) {
+            $options[$item['ident']] = "{$item['title']} ({$this->getLabelForQuestionType($item['type'])})";
+        }
+
+        return $options;
     }
 
     private function buildSelectQuestionsForm(array $options): Form
