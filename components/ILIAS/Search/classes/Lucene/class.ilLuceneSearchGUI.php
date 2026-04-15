@@ -228,7 +228,9 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
      */
     protected function performSearch(): void
     {
-        $this->search_cache->deleteCachedEntries();
+        if (!$this->initPageNumberFromQuery()) {
+            $this->search_cache->deleteCachedEntries();
+        }
         ilSession::clear('vis_references');
         $filter_query = '';
         if ($this->search_cache->getItemFilter() and ilSearchSettings::getInstance()->isLuceneItemFilterEnabled()) {
