@@ -36,14 +36,14 @@ class CleanupStage implements ImportStage
         return 'cleanup';
     }
 
-    public function getLabel(): string
+    public function getLabel(): ?string
     {
-        return '';
+        return null;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
-        return '';
+        return null;
     }
 
     public function process(ImportContext $context, ServerRequestInterface $request): StageResult
