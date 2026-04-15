@@ -36,14 +36,16 @@ interface ImportStage
     public function getIdentifier(): string;
 
     /**
-     * Get the label of the stage which will be displayed in the workflow UI.
+     * Get the label of the stage which will be displayed in the workflow UI. If null, the stage will not be displayed
+     * in the workflow UI.
      */
-    public function getLabel(): string;
+    public function getLabel(): ?string;
 
     /**
-     * Get the description of the stage which will be displayed in the workflow UI.
+     * Get the description of the stage which will be displayed in the workflow UI. If null, the stage will not be
+     * displayed in the workflow UI.
      */
-    public function getDescription(): string;
+    public function getDescription(): ?string;
 
     /**
      * Process the current stage. On the first invocation the stage should return `StageResult::interact()` with the UI

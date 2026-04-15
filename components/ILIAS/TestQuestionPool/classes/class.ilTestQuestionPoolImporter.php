@@ -21,29 +21,31 @@ declare(strict_types=1);
 use ILIAS\Data\ReferenceId;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\SimpleXMLDeserializer;
+use ILIAS\TestQuestionPool\ExportImport\Import\DetectLegacyImportStage;
 use ILIAS\TestQuestionPool\ExportImport\QuestionPoolImporter;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
-
-/**
- * Importer class for question pools
- *
- * @author Helmut Schottmüller <ilias@aurealis.de>
- * @version $Id$
- * @ingroup components\ILIASLearningModule
- */
 
 class ilTestQuestionPoolImporter extends ilXmlImporter
 {
     protected readonly ImportSessionRepository $session;
     protected readonly QuestionPoolImporter $importer;
+    protected readonly ilTestQuestionPoolLegacyImporter $legacy_importer;
 
     public function __construct()
     {
         parent::__construct();
+        $this->legacy_importer = new ilTestQuestionPoolLegacyImporter();
 
         $local_dic = QuestionPoolDIC::dic();
         $this->session = $local_dic['exportimport.session'];
         $this->importer = $local_dic['exportimport.importer'];
+    }
+
+    public function init(): void
+    {
+        $this->legacy_importer->setImport($this->getImport());
+        $this->legacy_importer->setImportDirectory($this->getImportDirectory());
+        $this->legacy_importer->init();
     }
 
     public function importXmlRepresentation(
@@ -52,17 +54,35 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
         string $a_xml,
         ilImportMapping $a_mapping
     ): void {
+        // Check if forward to legacy importer is needed
+        $context = $this->session->getContext();
+        if (DetectLegacyImportStage::isLegacyImport($context)) {
+            $this->legacy_importer->setInstallId($this->getInstallId());
+            $this->legacy_importer->setInstallUrl($this->getInstallUrl());
+            $this->legacy_importer->setSchemaVersion($this->getSchemaVersion());
+            $this->legacy_importer->setSkipEntities($this->getSkipEntities());
+            $this->legacy_importer->importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping);
+            return;
+        }
+
         $result = $this->importer->import(
             new SimpleXMLDeserializer()->open($a_xml),
             $a_mapping,
             new ReferenceId($a_mapping->getTargetId()),
-            $this->session->getContext(),
+            $context,
         );
         $this->session->setContext($result);
     }
 
     public function finalProcessing(ilImportMapping $a_mapping): void
     {
+        // Check if forward to legacy importer is needed
+        $context = $this->session->getContext();
+        if (DetectLegacyImportStage::isLegacyImport($context)) {
+            $this->legacy_importer->finalProcessing($a_mapping);
+            return;
+        }
+
         $this->finalizeQuestionPages($a_mapping);
         $this->finalizeTaxonomyUsage($a_mapping);
     }

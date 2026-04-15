@@ -26,14 +26,13 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\StageResult;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Final import stage that cleans up the temporary files and directories after successful import or
- * error during import.
+ * @deprecated This stage is only used for legacy imports and will be removed with further ILIAS versions.
  */
-class CleanupStage implements ImportStage
+class DetectLegacyImportStage implements ImportStage
 {
     public function getIdentifier(): string
     {
-        return 'cleanup';
+        return 'detect_legacy_import';
     }
 
     public function getLabel(): ?string
@@ -48,33 +47,24 @@ class CleanupStage implements ImportStage
 
     public function process(ImportContext $context, ServerRequestInterface $request): StageResult
     {
-        $file_to_import = $context->get('file_to_import');
-        if ($file_to_import !== null) {
-            $temp_dir = dirname($file_to_import);
-            if (file_exists($temp_dir) && is_dir($temp_dir)) {
-                $this->removeDirectory($temp_dir);
-            }
-        }
-
         $import_base_dir = $context->get('import_base_dir');
-        if (file_exists($import_base_dir) && is_dir($import_base_dir)) {
-            $this->removeDirectory($import_base_dir);
+        $import_name = basename($import_base_dir);
+
+        $xml_file = $import_base_dir . DIRECTORY_SEPARATOR . $import_name . '.xml';
+        $qti_file = $import_base_dir . DIRECTORY_SEPARATOR . str_replace('_qpl_', '_qti_', $import_name) . '.xml';
+
+        if (!file_exists($qti_file) || !file_exists($xml_file)) {
+            return StageResult::advance($context);
         }
 
-        return StageResult::complete($context);
+        return StageResult::advance(
+            $context->with('qti_file', $qti_file)
+                ->with('xml_file', $xml_file)
+        );
     }
 
-    private function removeDirectory(string $path): void
+    public static function isLegacyImport(ImportContext $context): bool
     {
-        $files = array_diff(scandir($path), ['.', '..']);
-        foreach ($files as $file) {
-            if (is_dir("$path/$file")) {
-                $this->removeDirectory("$path/$file");
-            } else {
-                unlink("$path/$file");
-            }
-        }
-
-        rmdir($path);
+        return $context->has('qti_file') && $context->has('xml_file');
     }
 }

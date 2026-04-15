@@ -47,12 +47,12 @@ class PersistStage implements ImportStage
         return 'persist';
     }
 
-    public function getLabel(): string
+    public function getLabel(): ?string
     {
         return $this->lng->txt('qpl_import_step_persist');
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return '';
     }

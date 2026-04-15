@@ -50,12 +50,12 @@ class UploadValidationStage implements ImportStage
         return 'upload_and_validate';
     }
 
-    public function getLabel(): string
+    public function getLabel(): ?string
     {
         return $this->lng->txt('upload');
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return '';
     }

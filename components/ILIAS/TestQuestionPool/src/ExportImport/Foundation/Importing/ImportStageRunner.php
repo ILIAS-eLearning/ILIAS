@@ -95,6 +95,10 @@ class ImportStageRunner
         $active_index = $this->session->getCurrentStageIndex();
 
         foreach ($this->stages as $i => $stage) {
+            if ($stage->getLabel() === null) {
+                continue;
+            }
+
             $step = $ui->listing()->workflow()->step(
                 $stage->getLabel(),
                 $stage->getDescription()
