@@ -1268,7 +1268,7 @@ class ilMailFormGUI
                         let submitBtn = mailform.querySelector('button[type=\"submit\"]');
                         if (submitBtn) {
                             submitBtn.formAction = action;
-                            mailform.requestSubmit(btn);   
+                            mailform.requestSubmit(submitBtn);
                         } else {
                             mailform.action = action;
                             mailform.submit();
@@ -1284,14 +1284,7 @@ class ilMailFormGUI
             $this->lng->txt('search_recipients'),
             ''
         )->withAdditionalOnLoadCode(
-            function ($id) use ($action) {
-                return "document.getElementById('{$id}').addEventListener('click', function (event) {
-                    let mailform = document.querySelector('form.c-form');
-                    let btn = mailform.querySelector('button');
-                    btn.formAction = '{$action}'; 
-                    mailform.requestSubmit(btn);   
-                });";
-            }
+            fn(string $id): string => $this->mailFormToolbarDelegatedSubmitJs($id, $action)
         );
 
         $this->toolbar->addComponent($btn);
@@ -1301,14 +1294,7 @@ class ilMailFormGUI
             $this->lng->txt('mail_my_courses'),
             ''
         )->withAdditionalOnLoadCode(
-            function ($id) use ($action) {
-                return "document.getElementById('{$id}').addEventListener('click', function (event) {
-                    let mailform = document.querySelector('form.c-form');
-                    let btn = mailform.querySelector('button');
-                    btn.formAction = '{$action}'; 
-                    mailform.requestSubmit(btn);   
-                });";
-            }
+            fn(string $id): string => $this->mailFormToolbarDelegatedSubmitJs($id, $action)
         );
         $this->toolbar->addComponent($btn);
 
@@ -1317,14 +1303,7 @@ class ilMailFormGUI
             $this->lng->txt('mail_my_groups'),
             ''
         )->withAdditionalOnLoadCode(
-            function ($id) use ($action) {
-                return "document.getElementById('{$id}').addEventListener('click', function (event) {
-                    let mailform = document.querySelector('form.c-form');
-                    let btn = mailform.querySelector('button');
-                    btn.formAction = '{$action}'; 
-                    mailform.requestSubmit(btn);   
-                });";
-            }
+            fn(string $id): string => $this->mailFormToolbarDelegatedSubmitJs($id, $action)
         );
         $this->toolbar->addComponent($btn);
 
@@ -1334,14 +1313,7 @@ class ilMailFormGUI
                 $this->lng->txt('mail_my_mailing_lists'),
                 ''
             )->withAdditionalOnLoadCode(
-                function ($id) use ($action) {
-                    return "document.getElementById('{$id}').addEventListener('click', function (event) {
-                    let mailform = document.querySelector('form.c-form');
-                    let btn = mailform.querySelector('button');
-                    btn.formAction = '{$action}'; 
-                    mailform.requestSubmit(btn);   
-                });";
-                }
+                fn(string $id): string => $this->mailFormToolbarDelegatedSubmitJs($id, $action)
             );
             $this->toolbar->addComponent($btn);
         }
@@ -1353,16 +1325,27 @@ class ilMailFormGUI
             $this->lng->txt('edit_attachments'),
             ''
         )->withAdditionalOnLoadCode(
-            function ($id) use ($action) {
-                return "document.getElementById('{$id}').addEventListener('click', function (event) {
-                    let mailform = document.querySelector('form.c-form');
-                    let btn = mailform.querySelector('button');
-                    btn.formAction = '{$action}'; 
-                    mailform.requestSubmit(btn);   
-                });";
-            }
+            fn(string $id): string => $this->mailFormToolbarDelegatedSubmitJs($id, $action)
         );
         $this->toolbar->addComponent($btn);
+    }
+
+    private function mailFormToolbarDelegatedSubmitJs(string $toolbar_button_id, string $form_action): string
+    {
+        return "document.getElementById('{$toolbar_button_id}').addEventListener('click', function () {
+            let mailform = document.querySelector('form.c-form');
+            if (!mailform) {
+                return;
+            }
+            let submitBtn = mailform.querySelector('button[type=\"submit\"]');
+            if (submitBtn) {
+                submitBtn.formAction = '$form_action';
+                mailform.requestSubmit(submitBtn);
+            } else {
+                mailform.action = '$form_action';
+                mailform.submit();
+            }
+        });";
     }
 
     private function toggleMailMode(): never
