@@ -32,6 +32,7 @@ use ILIAS\StaticURL\Session\ILIASSessionStore;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
+ * @deprecated StaticURL is bootstrapped via the component mechanism. $DIC['static_url'] is populated by AllModernComponents. This class is no longer called.
  */
 final class Init
 {

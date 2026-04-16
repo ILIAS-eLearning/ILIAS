@@ -1305,10 +1305,10 @@ class ilInitialisation
 
     /**
      * @param \ILIAS\DI\Container $container
+     * @deprecated StaticURL is now bootstrapped via the component mechanism; $DIC['static_url'] is populated by AllModernComponents.
      */
     protected static function initHTTPServices(\ILIAS\DI\Container $container): void
     {
-        \ILIAS\StaticURL\Init::init($container);
     }
 
     /**
