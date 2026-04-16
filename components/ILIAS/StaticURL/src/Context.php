@@ -26,55 +26,61 @@ use ILIAS\StaticURL\Builder\URIBuilder;
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-final class Context
+class Context
 {
-    public function __construct(private Container $container)
+    /** @param \Closure(): Container $container_factory */
+    public function __construct(private \Closure $container_factory)
     {
+    }
+
+    private function container(): Container
+    {
+        return ($this->container_factory)();
     }
 
     public function getUserLanguage(): string
     {
-        return $this->container->user()->getCurrentLanguage();
+        return $this->container()->user()->getCurrentLanguage();
     }
 
     public function refinery(): Factory
     {
-        return $this->container->refinery();
+        return $this->container()->refinery();
     }
 
     public function lng(): \ilLanguage
     {
-        return $this->container->language();
+        return $this->container()->language();
     }
 
     public function mainTemplate(): \ilGlobalTemplateInterface
     {
-        return $this->container->ui()->mainTemplate();
+        return $this->container()->ui()->mainTemplate();
     }
 
     public function http(): Services
     {
-        return $this->container->http();
+        return $this->container()->http();
     }
 
     public function ctrl(): \ilCtrlInterface
     {
-        return $this->container->ctrl();
+        return $this->container()->ctrl();
     }
 
     public function checkPermission(string $permission, int $ref_id): bool
     {
-        return $this->container->access()->checkAccess($permission, '', $ref_id);
+        return $this->container()->access()->checkAccess($permission, '', $ref_id);
     }
 
     public function getParentRefId(int $ref_id): ?int
     {
-        return $this->container->repositoryTree()->getParentId($ref_id);
+        return $this->container()->repositoryTree()->getParentId($ref_id);
     }
 
     public function exists(int $ref_id): bool
     {
-        return $this->container->repositoryTree()->isInTree($ref_id);
+        return $this->container()->repositoryTree()->isInTree($ref_id);
     }
 
     public function findFirstAccessibleParentRefId(int $ref_id, string $permission = 'read'): ?int
@@ -106,21 +112,21 @@ final class Context
 
     public function getUserId(): int
     {
-        return $this->container->user()->getId();
+        return $this->container()->user()->getId();
     }
 
     public function isUserLoggedIn(): bool
     {
-        return !$this->container->user()->isAnonymous() && $this->container->user()->getId() !== 0;
+        return !$this->container()->user()->isAnonymous() && $this->container()->user()->getId() !== 0;
     }
 
     public function isPublicSectionActive(): bool
     {
-        return (bool) ($this->container->settings()->get('pub_section') ?? false);
+        return (bool) ($this->container()->settings()->get('pub_section') ?? false);
     }
 
     public function builder(): URIBuilder
     {
-        return $this->container['static_url']->builder();
+        return $this->container()['static_url']->builder();
     }
 }

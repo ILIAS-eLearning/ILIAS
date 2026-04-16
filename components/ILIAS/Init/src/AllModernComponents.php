@@ -37,6 +37,7 @@ use ILIAS\ResourceStorage\IRSSServices;
 use ILIAS\FileUpload\FileUpload as FileUploadInterface;
 use ILIAS\Environment\Configuration\Instance\IliasIni;
 use ILIAS\Environment\Configuration\Instance\ClientIni;
+use ILIAS\StaticURL\StaticURLServices;
 
 /**
  * This entry point can be thought of as a list of all modern components.
@@ -133,6 +134,7 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         protected FileUploadInterface $file_upload,
         protected IliasIni $ilias_ini,
         protected ClientIni $client_ini,
+        protected StaticURLServices $static_url,
     ) {
     }
 
@@ -230,6 +232,8 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         $DIC['upload'] = fn(): FileUploadInterface => $this->file_upload;
         $DIC['ilIliasIniFile'] = fn(): \ilIniFile => new \ilIniFile('', $this->ilias_ini);
         $DIC['ilClientIniFile'] = fn(): \ilIniFile => new \ilIniFile('', $this->client_ini);
+        $DIC['static_url'] = fn(): StaticURLServices => $this->static_url;
+        $DIC['static_url.uri_builder'] = fn(): \ILIAS\StaticURL\Builder\URIBuilder => $this->static_url->builder();
     }
 
     public function getName(): string

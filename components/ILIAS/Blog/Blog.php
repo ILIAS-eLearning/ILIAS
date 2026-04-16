@@ -46,5 +46,7 @@ class Blog implements Component\Component
                 return "assets/js/blog.js";
             }
         };
+        $contribute[\ILIAS\StaticURL\Handler\Handler::class] = static fn(): \ILIAS\StaticURL\Handler\Handler =>
+            new \ILIAS\PermanentLink\StaticURLHandler();
     }
 }

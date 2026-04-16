@@ -26,22 +26,9 @@ use ILIAS\StaticURL\Builder\URIBuilder;
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class Services implements StaticURLServices
+interface StaticURLServices
 {
-    public function __construct(
-        private HandlerService $handler_service,
-        private URIBuilder $uri_builder
-    ) {
-    }
+    public function handler(): HandlerService;
 
-    public function handler(): HandlerService
-    {
-        return $this->handler_service;
-    }
-
-    public function builder(): URIBuilder
-    {
-        return $this->uri_builder;
-    }
-
+    public function builder(): URIBuilder;
 }

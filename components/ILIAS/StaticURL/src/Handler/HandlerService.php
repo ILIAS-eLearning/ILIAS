@@ -39,16 +39,30 @@ class HandlerService
 {
     private Factory $response_factory;
     private array $handlers = [];
+    private ?array $handler_instances = null;
+    private ?\Closure $handler_loader = null;
 
+    /**
+     * @param \Closure(): array<Handler>|array<Handler> $handlers
+     */
     public function __construct(
         private RequestBuilder $request_builder,
         private Context $context,
-        private array $handler_instances,
-        private SessionStore $session_store
+        \Closure|array $handlers,
+        private SessionStore $session_store,
     ) {
         $this->response_factory = new Factory($context);
-        // check handlers
-        foreach ($handler_instances as $handler_instance) {
+        if ($handlers instanceof \Closure) {
+            $this->handler_loader = $handlers;
+        } else {
+            $this->validateHandlers($handlers);
+            $this->handler_instances = $handlers;
+        }
+    }
+
+    private function validateHandlers(array $instances): void
+    {
+        foreach ($instances as $handler_instance) {
             if (!$handler_instance instanceof Handler) {
                 throw new \InvalidArgumentException(
                     'Handler instances must implement the Handler interface'
@@ -57,9 +71,19 @@ class HandlerService
         }
     }
 
+    private function getHandlerInstances(): array
+    {
+        if ($this->handler_instances === null) {
+            $loaded = ($this->handler_loader)();
+            $this->validateHandlers($loaded);
+            $this->handler_instances = $loaded;
+        }
+        return $this->handler_instances;
+    }
+
     public function initHandler(): void
     {
-        foreach ($this->handler_instances as $handler) {
+        foreach ($this->getHandlerInstances() as $handler) {
             if (isset($this->handlers[$handler->getNamespace()])) {
                 throw new \LogicException("Namespace-Collision detected: " . $handler->getNamespace());
             }
