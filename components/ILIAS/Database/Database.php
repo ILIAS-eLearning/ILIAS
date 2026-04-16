@@ -23,22 +23,26 @@ namespace ILIAS;
 use ILIAS\Component\Component;
 use ILIAS\Setup\Agent;
 use ILIAS\Refinery\Factory;
+use ILIAS\Database\PDO\External;
 
 class Database implements Component
 {
     public function init(
-        array | \ArrayAccess &$define,
-        array | \ArrayAccess &$implement,
-        array | \ArrayAccess &$use,
-        array | \ArrayAccess &$contribute,
-        array | \ArrayAccess &$seek,
-        array | \ArrayAccess &$provide,
-        array | \ArrayAccess &$pull,
-        array | \ArrayAccess &$internal,
+        array|\ArrayAccess &$define,
+        array|\ArrayAccess &$implement,
+        array|\ArrayAccess &$use,
+        array|\ArrayAccess &$contribute,
+        array|\ArrayAccess &$seek,
+        array|\ArrayAccess &$provide,
+        array|\ArrayAccess &$pull,
+        array|\ArrayAccess &$internal,
     ): void {
-        $contribute[Agent::class] = static fn(): \ilDatabaseSetupAgent =>
-            new \ilDatabaseSetupAgent(
-                $pull[Factory::class]
-            );
+        $define[] = External::class;
+
+        $implement[External::class] = static fn(): External => new Database\DBLegacyProxy();
+
+        $contribute[Agent::class] = static fn(): \ilDatabaseSetupAgent => new \ilDatabaseSetupAgent(
+            $pull[Factory::class]
+        );
     }
 }
