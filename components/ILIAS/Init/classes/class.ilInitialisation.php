@@ -20,12 +20,8 @@
 use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
 use ILIAS\DI\Container;
 use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\FileUpload\Processor\FilenameSanitizerPreProcessor;
-use ILIAS\FileUpload\Processor\PreProcessorManagerImpl;
 use ILIAS\GlobalScreen\Services;
 use ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacement;
-use ILIAS\FileUpload\Processor\InsecureFilenameSanitizerPreProcessor;
-use ILIAS\FileUpload\Processor\SVGBlacklistPreProcessor;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Data\Result\Error;
@@ -109,42 +105,11 @@ class ilInitialisation
     }
 
     /**
-     * Initializes the file upload service.
-     * This service requires the http and filesystem service.
-     * @param \ILIAS\DI\Container $dic The dependency container which should be used to load the file upload service.
+     * @deprecated Pre-processors are now contributed via the component bootstrap $contribute/$seek mechanism.
+     *             This method is no longer called and will be removed.
      */
     public static function initFileUploadService(\ILIAS\DI\Container $dic): void
     {
-        $dic['upload.processor-manager'] = (fn($c) => new PreProcessorManagerImpl());
-
-        $dic['upload'] = function (\ILIAS\DI\Container $c): \ILIAS\FileUpload\FileUploadImpl {
-            $fileUploadImpl = new \ILIAS\FileUpload\FileUploadImpl(
-                $c['upload.processor-manager'],
-                $c['filesystem'],
-                $c['http']
-            );
-            if ((defined('IL_VIRUS_SCANNER') && IL_VIRUS_SCANNER != "None") || (defined('IL_SCANNER_TYPE') && IL_SCANNER_TYPE == "1")) {
-                $fileUploadImpl->register(new ilVirusScannerPreProcessor(ilVirusScannerFactory::_getInstance()));
-            }
-
-            $fileUploadImpl->register(new FilenameSanitizerPreProcessor());
-            $fileUploadImpl->register(
-                new ilFileServicesPreProcessor(
-                    $c->fileServiceSettings(),
-                    $c->language()->txt("msg_info_blacklisted")
-                )
-            );
-            $fileUploadImpl->register(new InsecureFilenameSanitizerPreProcessor());
-            $fileUploadImpl->register(new SVGBlacklistPreProcessor(
-                $c->language()->txt("upload_svg_rejection_message"),
-                $c->language()->txt("upload_svg_rejection_message_script"),
-                $c->language()->txt("upload_svg_rejection_message_base64"),
-                $c->language()->txt("upload_svg_rejection_message_foreign_object"),
-                $c->language()->txt("upload_svg_rejection_message_elements")
-            ));
-
-            return $fileUploadImpl;
-        };
     }
 
     protected static function initUploadPolicies(\ILIAS\DI\Container $dic): void

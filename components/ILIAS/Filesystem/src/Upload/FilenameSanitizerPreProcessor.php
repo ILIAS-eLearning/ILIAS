@@ -18,13 +18,19 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\FileUpload\Processor;
+namespace ILIAS\Filesystem\Upload;
 
-use ILIAS\Filesystem\Upload\SVGBlacklistPreProcessor as NewSVGBlacklistPreProcessor;
+use ILIAS\Filesystem\Stream\FileStream;
+use ILIAS\Filesystem\Util;
+use ILIAS\FileUpload\DTO\Metadata;
+use ILIAS\FileUpload\DTO\ProcessingStatus;
+use ILIAS\FileUpload\Processor\PreProcessor;
 
-/**
- * @deprecated Use {@see \ILIAS\Filesystem\Upload\SVGBlacklistPreProcessor} instead.
- */
-class SVGBlacklistPreProcessor extends NewSVGBlacklistPreProcessor
+class FilenameSanitizerPreProcessor implements PreProcessor
 {
+    public function process(FileStream $stream, Metadata $metadata): ProcessingStatus
+    {
+        $metadata->setFilename(Util::sanitizeFileName($metadata->getFilename()));
+        return new ProcessingStatus(ProcessingStatus::OK, 'Filename changed');
+    }
 }
