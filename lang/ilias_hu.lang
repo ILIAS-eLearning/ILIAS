@@ -4654,7 +4654,7 @@ common#:#mails#:#Levelek
 common#:#mails_at_the_ilias_installation#:#%1$s új levelet kapott a(z) %2$s ILIAS-ban.
 common#:#mails_pl#:#levél/levelek
 common#:#main_menu#:#Főmenü
-common#:#mainbar_aria_label#:#Főmenü
+common#:#mainbar_aria_label#:#Fő navigációs sáv###01 02 2026 changed content
 common#:#mainbar_more_label#:#Több
 common#:#manage_members#:#Tagok kezelése
 common#:#marked_entries#:#Megjelölt bejegyzések
@@ -11795,7 +11795,7 @@ mathjax#:#mathjax_polyfill_url_desc_line1#:#MathJax 2-höz és 3-hoz nem szüks�
 mathjax#:#mathjax_polyfill_url_desc_line2#:#Távolítson el minden polyfill.io hivatkozást! Lásd https://sansec.io/research/polyfill-supply-chain-attack
 mathjax#:#mathjax_script_url#:#MathJax Script URL-je
 mathjax#:#mathjax_script_url_desc_line1#:#Kérem, aktiválja a biztonságos módot, hogy elkerülje a MathJax kódon keresztüli javascript-alapú XSS-támadásokat. <br />MathJax 2-höz például %s
-mathjax#:#mathjax_script_url_desc_line2#:#MathJax 3-höz például %s
+mathjax#:#mathjax_script_url_desc_line2#:#MathJax 3-höz például %s<br />These scripts require the user’s browser to fetch MathJax from an external address (cdn.jsdelivr.net). If you host MathJax yourself, use a copy of the relevant script with the address modified.
 mathjax#:#mathjax_server_address#:#Szerver címe
 mathjax#:#mathjax_server_address_info#:#Például http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#A MathJax gyorsítótárát sikeresen ürítette.

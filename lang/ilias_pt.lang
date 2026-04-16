@@ -4654,7 +4654,7 @@ common#:#mails#:#Editar
 common#:#mails_at_the_ilias_installation#:#Recebeu %1$s novos mails na instalação ILIAS %2$s
 common#:#mails_pl#:#Definições de administração para editor de páginas ILIAS e TinyMCE.
 common#:#main_menu#:#Pasta
-common#:#mainbar_aria_label#:#Mainbar###29 07 2022 new variable
+common#:#mainbar_aria_label#:#Main navigation bar###01 02 2026 changed content
 common#:#mainbar_more_label#:#More###29 07 2022 new variable
 common#:#manage_members#:#Gerir membros
 common#:#marked_entries#:#Fórum
@@ -11796,7 +11796,7 @@ mathjax#:#mathjax_polyfill_url_desc_line2#:#Please remove any reference to polyf
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script###31 03 2023 new variable
 mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. %s###31 03 2023 new variable
 mathjax#:#mathjax_script_url_desc_line1#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. <br />For MathJax 2 e.g. %s
-mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. %s
+mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. %s<br />These scripts require the user’s browser to fetch MathJax from an external address (cdn.jsdelivr.net). If you host MathJax yourself, use a copy of the relevant script with the address modified.
 mathjax#:#mathjax_server_address#:#Endereço do servidor
 mathjax#:#mathjax_server_address_info#:#P. ex. http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#O cache MathJax foi limpo.

@@ -328,6 +328,7 @@ class ParticipantRepository
             $row['firstname'] ?? '',
             $row['lastname'] ?? '',
             $row['login'] ?? '',
+            $row['importname'] ?? null,
             $row['matriculation'] ?? '',
             $row['extra_time'] ?? 0,
             $row['tries'] ?? 0,

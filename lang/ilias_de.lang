@@ -4654,7 +4654,7 @@ common#:#mails#:#Mails
 common#:#mails_at_the_ilias_installation#:#Auf der ILIAS-Installation %2$s haben Sie %1$s neue Mail(s) erhalten
 common#:#mails_pl#:#Mail(s)
 common#:#main_menu#:#Hauptmenü
-common#:#mainbar_aria_label#:#Hauptleiste
+common#:#mainbar_aria_label#:#Hauptnavigationsleiste###01 02 2026 changed content
 common#:#mainbar_more_label#:#Mehr
 common#:#manage_members#:#Mitglieder verwalten
 common#:#marked_entries#:#Markierte Einträge
@@ -11797,7 +11797,7 @@ mathjax#:#mathjax_polyfill_url_desc_line1#:#Für MathJax 2 und MathJax 3 mit akt
 mathjax#:#mathjax_polyfill_url_desc_line2#:#Bitte entfernen Sie die Einbindung von polyfill.io! Siehe https://sansec.io/research/polyfill-supply-chain-attack
 mathjax#:#mathjax_script_url#:#URL des MathJax-Skripts
 mathjax#:#mathjax_script_url_desc_line1#:#Bitte verwenden Sie den Safe Mode, um XSS-Angriffe durch MathJax-Code mit Javascript zu vermeiden.<br/>Für MathJax 2 z.B. %s
-mathjax#:#mathjax_script_url_desc_line2#:#Für MathJax 3 z.B. %s
+mathjax#:#mathjax_script_url_desc_line2#:#Für MathJax 3 z.B. %s<br />Mit diesen Skripten wird MathJax durch den Browsers des Nutzers von einer externen Adresse (cdn.jsdelivr.net) abgerufen. Wenn Sie MathJax selbst hosten, verwenden Sie eine Kopie des entsprechenden Skripts mit geänderter Adresse.
 mathjax#:#mathjax_server_address#:#Server-Adresse
 mathjax#:#mathjax_server_address_info#:#z.B. http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#Der MathJax-Cache wurde geleert.
@@ -13041,6 +13041,7 @@ notes#:#notes_latest_comment#:#Letzter Kommentar
 notes#:#notes_latest_message#:#Letzte Mitteilung
 notes#:#notes_message_author_counterpart#:#Gesprächspartner
 notes#:#notes_message_author_you#:#Sie
+notes#:#notes_message_deleted#:#Die Mitteilung wurde gelöscht.
 notes#:#notes_messages#:#Mitteilungen
 notes#:#notes_my_comments#:#Meine Kommentare
 notes#:#notes_no_comments#:#Bisher wurde noch kein Kommentar abgegeben.
@@ -15046,7 +15047,6 @@ rep#:#rep_add_new_def_grp_content#:#Inhalt
 rep#:#rep_add_new_def_grp_feedback#:#Feedback und Evaluation
 rep#:#rep_add_new_def_grp_organisation#:#Organisation
 rep#:#rep_add_new_def_grp_templates#:#Vorlagen
-rep#:#rep_add_to_favourites#:#Zu Favoriten hinzufügen
 rep#:#rep_added_rec_content#:#Empfohlener Inhalt wurde hinzugefügt.
 rep#:#rep_added_to_favourites#:#Das Objekt wurde den Favoriten hinzugefügt.
 rep#:#rep_allowed_types#:#Allowed Types
@@ -15103,7 +15103,6 @@ rep#:#rep_object_references_cannot_be_read#:#Keine Rechte an %s weiteren Referen
 rep#:#rep_object_to_delete#:#Zu löschen
 rep#:#rep_rec_content_removed#:#Empfohlener Inhalt wurde entfernt.
 rep#:#rep_recommended_content#:#Empfohlene Inhalte
-rep#:#rep_remove_from_favourites#:#Von Favoriten entfernen
 rep#:#rep_remove_rec_content#:#Sollen die folgenden Empfehlungen wirklich entfernt werden? Die entsprechenden Inhalte bleiben weiterhin erhalten.
 rep#:#rep_removed_from_favourites#:#Das Objekt wurde aus den Favoriten entfernt.
 rep#:#rep_target_location#:#Zielort
@@ -16097,6 +16096,7 @@ style#:#sty_individual_styles#:#Lokale Stylesheets
 style#:#sty_keep_existing#:#Bestehende Klasse erhalten
 style#:#sty_left#:#Links
 style#:#sty_left_right_padding#:#Innenabstand Links/Rechts
+style#:#sty_legacy_image_directory_found#:#Es wurde in ILIAS 9 Verzeichnis mit Bildern gefunden. Sie können die Bilder durch klicken auf "Bilder migrieren" übertragen.
 style#:#sty_letter_spacing#:#Zeichenabstand
 style#:#sty_lightness_border#:#Helligkeit Rahmen
 style#:#sty_lightness_cell1_bg#:#Helligkeit Zelle 1 Hintergrund
@@ -16117,6 +16117,7 @@ style#:#sty_margin_and_padding#:#Außenrand und Innenabstand
 style#:#sty_media_char#:#Medien
 style#:#sty_media_queries#:#Media Queries
 style#:#sty_media_query_info#:#Für jeden Media Query wird ein eigener CSS-Abschnitt nach dem Standard-Abschnitt (ohne Media Query) eingefügt.
+style#:#sty_migrate_images#:#Bilder migrieren
 style#:#sty_min_height#:#Minimale Höhe
 style#:#sty_move_lm_styles#:#Stylesheets der Lernmodule ändern
 style#:#sty_move_obj_styles#:#Stylesheets der Objekte ändern
@@ -16175,6 +16176,7 @@ style#:#sty_special#:#Spezial
 style#:#sty_style_chars#:#Styleklasse
 style#:#sty_style_class#:#Styleklassen
 style#:#sty_style_classes_copied#:#Styleklassen wurden kopiert.
+style#:#sty_style_not_migrated#:#Dieser Content-Style wurde noch nicht in die ILIAS 10 Datenstruktur migriert. Änderungen werden noch nicht wirksam.
 style#:#sty_substyle#:#Style eines Teilbereichs
 style#:#sty_substyle_of#:#Sub-Style von
 style#:#sty_substyles#:#Style eines Teilbereichs

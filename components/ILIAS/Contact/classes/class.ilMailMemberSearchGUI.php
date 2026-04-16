@@ -188,10 +188,9 @@ class ilMailMemberSearchGUI implements ilCtrlSecurityInterface
                     $this->showSearchForm();
                     return;
                 }
-            } else {
-                $this->showSelectableUsers();
-                return;
             }
+
+            $this->ctrl->redirect($this, 'showSelectableUsers');
         }
 
         $form->setValuesByPost();

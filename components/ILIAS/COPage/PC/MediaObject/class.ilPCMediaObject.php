@@ -495,7 +495,8 @@ class ilPCMediaObject extends ilPageContent
         } else {
             $html = $this->ui->renderer()->render($modal);
         }
-        return $a_output . "<div class='il-copg-mob-fullscreen-modal'>" . $html . "</div>";
+        return $a_output . "<div class='il-copg-mob-fullscreen-modal'>" . $html . "</div>" .
+            '<script type="module" src="./components/ILIAS/MediaObjects/js/src/presentation/presentation.js"></script>';
     }
 
     public function getOnloadCode(string $a_mode): array
