@@ -21,6 +21,14 @@ declare(strict_types=1);
 namespace ILIAS;
 
 use ILIAS\Component\Component;
+use ILIAS\FileUpload\FileUpload as FileUploadInterface;
+use ILIAS\FileUpload\FileUploadImpl;
+use ILIAS\FileUpload\Processor\PreProcessor;
+use ILIAS\FileUpload\Processor\PreProcessorCollection;
+use ILIAS\FileUpload\Processor\PreProcessorCollectionImpl;
+use ILIAS\FileUpload\Processor\PreProcessorManagerImpl;
+use ILIAS\Filesystem\Filesystems;
+use ILIAS\HTTP\GlobalHttpState;
 
 class FileUpload implements Component
 {
@@ -34,6 +42,19 @@ class FileUpload implements Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $define[] = FileUploadInterface::class;
+
+        $internal[PreProcessorCollection::class] = static fn(): PreProcessorCollection =>
+            new PreProcessorCollectionImpl($seek[PreProcessor::class]);
+
+        $internal[PreProcessorManagerImpl::class] = static fn(): PreProcessorManagerImpl =>
+            new PreProcessorManagerImpl($internal[PreProcessorCollection::class]);
+
+        $implement[FileUploadInterface::class] = static fn(): FileUploadInterface =>
+            new FileUploadImpl(
+                $internal[PreProcessorManagerImpl::class],
+                $use[Filesystems::class],
+                $use[GlobalHttpState::class]
+            );
     }
 }

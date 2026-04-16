@@ -26,6 +26,9 @@ use ILIAS\FileServices\FileServicesLegacyInitialisationAdapter;
 use ILIAS\UI\Component\Input\Field\GlobalUploadLimit;
 use ILIAS\Setup\Agent;
 use ILIAS\Refinery\Factory;
+use ILIAS\FileUpload\Processor\PreProcessor;
+use ILIAS\FileServices\Upload\FileServicesPreProcessor;
+use ILIAS\Filesystem\Configuration\FilesystemConfig;
 
 class FileServices implements Component
 {
@@ -47,5 +50,8 @@ class FileServices implements Component
         $contribute[Agent::class] = static fn(): \ilFileServicesSetupAgent => new \ilFileServicesSetupAgent(
             $pull[Factory::class]
         );
+
+        $contribute[PreProcessor::class] = static fn(): PreProcessor =>
+            new FileServicesPreProcessor($use[FilesystemConfig::class]);
     }
 }
