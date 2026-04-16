@@ -23,8 +23,8 @@ namespace ILIAS\WOPI\Handler;
 use ILIAS\HTTP\Services;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\FileDelivery\Token\DataSigner;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
+use ILIAS\FileDelivery\Token\DataSigning;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -62,7 +62,7 @@ final class RequestHandler
 
     private Services $http;
     private \ILIAS\ResourceStorage\Services $irss;
-    private DataSigner $data_signer;
+    private DataSigning $data_signer;
     private ?int $token_user_id = null;
     private ?string $token_resource_id = null;
     private ResourceStakeholder $stakeholder;
