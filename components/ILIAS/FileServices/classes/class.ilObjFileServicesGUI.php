@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Refinery\Factory;
-use ILIAS\HTTP\Wrapper\WrapperFactory;
+use ILIAS\Filesystem\Configuration\FilesystemConfig;
 
 /**
  * Class ilObjFileServicesGUI
@@ -43,7 +43,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
     protected ilSetting $settings;
     public ilGlobalTemplateInterface $tpl;
     protected Factory $refinery;
-    protected ilFileServicesSettings $file_service_settings;
+    protected FilesystemConfig $file_service_settings;
 
     /**
      * Constructor
