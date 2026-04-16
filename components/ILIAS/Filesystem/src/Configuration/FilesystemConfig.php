@@ -16,21 +16,26 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Filesystem\Provider;
-
-use ILIAS\Filesystem\Filesystem;
-use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
+namespace ILIAS\Filesystem\Configuration;
 
 /**
- * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
- * @author                 Fabian Schmid <fabian@sr.solutions>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
-interface FilesystemFactory
+interface FilesystemConfig
 {
-    /**
-     * @deprecated use buildFor() instead
-     */
-    public function getLocal(LocalConfig $config, bool $read_only = false): Filesystem;
+    public function isByPassAllowedForCurrentUser(): bool;
 
-    public function buildFor(string $fqdn_interface, bool $read_only = false): Filesystem;
+    public function isASCIIConvertionEnabled(): bool;
+
+    public function getWhiteListedSuffixes(): array;
+
+    public function getBlackListedSuffixes(): array;
+
+    public function getDefaultWhitelist(): array;
+
+    public function getWhiteListNegative(): array;
+
+    public function getWhiteListPositive(): array;
+
+    public function getProhibited(): array;
 }

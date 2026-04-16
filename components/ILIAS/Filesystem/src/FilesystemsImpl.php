@@ -20,6 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Filesystem;
 
+use ILIAS\Filesystem\FileSystems\FilesystemStorage;
+use ILIAS\Filesystem\FileSystems\FilesystemWeb;
+use ILIAS\Filesystem\FileSystems\FilesystemTemp;
+use ILIAS\Filesystem\FileSystems\FilesystemCustomizing;
+use ILIAS\Filesystem\FileSystems\FilesystemLibs;
+use ILIAS\Filesystem\FileSystems\FilesystemNodeModules;
+
 /**
  * The Filesystems implementation holds the configuration for the filesystem service.
  *
@@ -32,12 +39,12 @@ final class FilesystemsImpl implements Filesystems
      * FilesystemsImpl constructor.
      */
     public function __construct(
-        private Filesystem $storage,
-        private Filesystem $web,
-        private Filesystem $temp,
-        private Filesystem $customizing,
-        private FileSystem $libs,
-        private FileSystem $node_modules
+        private FilesystemStorage $storage,
+        private FilesystemWeb $web,
+        private FilesystemTemp $temp,
+        private FilesystemCustomizing $customizing,
+        private FilesystemLibs $libs,
+        private FilesystemNodeModules $node_modules
     ) {
     }
 
