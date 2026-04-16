@@ -20,11 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Database\PDO;
 
-use ilDBInterface;
-use ilDBPdoInterface;
 use ILIAS\Database\FieldDefinition;
 
-interface Internal extends ilDBInterface, ilDBPdoInterface
+interface Internal extends External
 {
     public function getFieldDefinition(): ?FieldDefinition;
     public function getIndexName(string $index_name_base): string;
