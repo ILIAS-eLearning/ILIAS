@@ -65,7 +65,7 @@ final class InitCtrlService
             $token_repository,
             $path_factory,
             $context,
-            $dic["http.response_sender_strategy"],
+            $dic->http()->sender(),
             $dic->http()->request(),
             $dic->http()->wrapper()->post(),
             $dic->http()->wrapper()->query(),
