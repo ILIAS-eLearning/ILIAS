@@ -53,5 +53,7 @@ class Calendar implements Component\Component
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule("eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js");
         */
+        $contribute[\ILIAS\StaticURL\Handler\Handler::class] = static fn(): \ILIAS\StaticURL\Handler\Handler =>
+            new \ILIAS\Calendar\URL\CalendarStaticURLHandler();
     }
 }

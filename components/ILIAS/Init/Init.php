@@ -36,6 +36,7 @@ use ILIAS\ResourceStorage\IRSSServices;
 use ILIAS\FileUpload\FileUpload as FileUploadInterface;
 use ILIAS\Environment\Configuration\Instance\IliasIni;
 use ILIAS\Environment\Configuration\Instance\ClientIni;
+use ILIAS\StaticURL\StaticURLServices;
 
 class Init implements Component\Component
 {
@@ -160,6 +161,7 @@ class Init implements Component\Component
                 $use[FileUploadInterface::class],
                 $use[IliasIni::class],
                 $use[ClientIni::class],
+                $use[StaticURLServices::class],
             );
     }
 }
