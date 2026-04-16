@@ -16,21 +16,24 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Filesystem\Provider;
+declare(strict_types=1);
 
-use ILIAS\Filesystem\Filesystem;
-use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
+namespace ILIAS\Filesystem\Configuration;
 
 /**
- * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
- * @author                 Fabian Schmid <fabian@sr.solutions>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
-interface FilesystemFactory
+interface DirectoryPathConfig
 {
-    /**
-     * @deprecated use buildFor() instead
-     */
-    public function getLocal(LocalConfig $config, bool $read_only = false): Filesystem;
+    public function getWebDirectoryPath(): string;
 
-    public function buildFor(string $fqdn_interface, bool $read_only = false): Filesystem;
+    public function getStorageDirectoryPath(): string;
+
+    public function getCustomizingDirectoyPath(): string;
+
+    public function getNodeModulesDirectoryPath(): string;
+
+    public function getLibsDirectoryPath(): string;
+
+    public function getTempDirectoryPath(): string;
 }

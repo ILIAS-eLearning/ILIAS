@@ -16,21 +16,13 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Filesystem\Provider;
+namespace ILIAS\Filesystem\FileSystems;
 
 use ILIAS\Filesystem\Filesystem;
-use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
 
 /**
- * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
- * @author                 Fabian Schmid <fabian@sr.solutions>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
-interface FilesystemFactory
+interface FilesystemWeb extends Filesystem
 {
-    /**
-     * @deprecated use buildFor() instead
-     */
-    public function getLocal(LocalConfig $config, bool $read_only = false): Filesystem;
-
-    public function buildFor(string $fqdn_interface, bool $read_only = false): Filesystem;
 }

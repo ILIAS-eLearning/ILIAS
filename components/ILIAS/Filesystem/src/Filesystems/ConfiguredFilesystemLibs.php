@@ -16,21 +16,15 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Filesystem\Provider;
-
-use ILIAS\Filesystem\Filesystem;
-use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
+namespace ILIAS\Filesystem\FileSystems;
 
 /**
- * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
- * @author                 Fabian Schmid <fabian@sr.solutions>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
-interface FilesystemFactory
+class ConfiguredFilesystemLibs extends AbstractConfiguredFilesystem implements FilesystemLibs
 {
-    /**
-     * @deprecated use buildFor() instead
-     */
-    public function getLocal(LocalConfig $config, bool $read_only = false): Filesystem;
-
-    public function buildFor(string $fqdn_interface, bool $read_only = false): Filesystem;
+    protected function getFQDN(): string
+    {
+        return FilesystemLibs::class;
+    }
 }

@@ -20,25 +20,119 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Filesystem\Configuration\DirectoryPathConfig;
+use ILIAS\Filesystem\FilesystemsImpl;
 use ILIAS\Component\Component;
 use ILIAS\Setup\Agent;
 use ILIAS\Refinery\Factory;
+use ILIAS\Filesystem\Provider\FilesystemFactory;
+use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
+use ILIAS\Filesystem\Security\Sanitizing\DefaultFilenameSanitizer;
+use ILIAS\Filesystem\Configuration\FilesystemConfig;
+use ILIAS\Filesystem\FileSystems\FilesystemWeb;
+use ILIAS\Filesystem\FileSystems\FilesystemStorage;
+use ILIAS\Filesystem\FileSystems\FilesystemTemp;
+use ILIAS\Filesystem\FileSystems\FilesystemCustomizing;
+use ILIAS\Filesystem\FileSystems\FilesystemLibs;
+use ILIAS\Filesystem\FileSystems\FilesystemNodeModules;
+use ILIAS\Filesystem\Provider\DelegatingFilesystemFactory;
+use ILIAS\Filesystem\FileSystems\ConfiguredFilesystemWeb;
+use ILIAS\Filesystem\FileSystems\ConfiguredFilesystemStorage;
+use ILIAS\Filesystem\FileSystems\ConfiguredFilesystemTemp;
+use ILIAS\Filesystem\FileSystems\ConfiguredFilesystemCustomizing;
+use ILIAS\Filesystem\FileSystems\ConfiguredFilesystemLibs;
+use ILIAS\Filesystem\FileSystems\ConfiguredFilesystemNodeModules;
+use ILIAS\Filesystem\Filesystems;
+use ILIAS\Filesystem\Configuration\DirectoryPathConfigFromIni;
+use ILIAS\Environment\Configuration\Instance\IliasIni;
+use ILIAS\Environment\Configuration\Instance\ClientIni;
+use ILIAS\Environment\Configuration\Instance\ClientIdProvider;
+use ILIAS\Filesystem\Configuration\DatabaseBackedFilesystemConfig;
+use ILIAS\Database\PDO\External;
 
 class Filesystem implements Component
 {
     public function init(
-        array | \ArrayAccess &$define,
-        array | \ArrayAccess &$implement,
-        array | \ArrayAccess &$use,
-        array | \ArrayAccess &$contribute,
-        array | \ArrayAccess &$seek,
-        array | \ArrayAccess &$provide,
-        array | \ArrayAccess &$pull,
-        array | \ArrayAccess &$internal,
+        array|\ArrayAccess &$define,
+        array|\ArrayAccess &$implement,
+        array|\ArrayAccess &$use,
+        array|\ArrayAccess &$contribute,
+        array|\ArrayAccess &$seek,
+        array|\ArrayAccess &$provide,
+        array|\ArrayAccess &$pull,
+        array|\ArrayAccess &$internal,
     ): void {
-        $contribute[Agent::class] = static fn(): \ilFileSystemSetupAgent =>
-            new \ilFileSystemSetupAgent(
-                $pull[Factory::class]
-            );
+        // Sanitizing
+        $define[] = FilenameSanitizer::class;
+        // Configs
+        $define[] = DirectoryPathConfig::class;
+        $define[] = FilesystemConfig::class;
+        // Filesystems
+        $define[] = FilesystemWeb::class;
+        $define[] = FilesystemStorage::class;
+        $define[] = FilesystemTemp::class;
+        $define[] = FilesystemCustomizing::class;
+        $define[] = FilesystemLibs::class;
+        $define[] = FilesystemNodeModules::class;
+        $define[] = Filesystems::class;
+
+        // Sevices
+        $define[] = FilesystemFactory::class;
+
+        // Implementations
+        $implement[FilenameSanitizer::class] = static fn(): FilenameSanitizer => new DefaultFilenameSanitizer(
+            $use[FilesystemConfig::class]
+        );
+
+        $implement[DirectoryPathConfig::class] = static fn(
+        ): DirectoryPathConfig => new DirectoryPathConfigFromIni(
+            $use[IliasIni::class],
+            $use[ClientIni::class],
+            $use[ClientIdProvider::class]
+        );
+        $implement[FilesystemConfig::class] = static fn(): FilesystemConfig => new DatabaseBackedFilesystemConfig(
+            $use[External::class]
+        );
+
+        $implement[FilesystemFactory::class] = static fn(
+        ): FilesystemFactory => new DelegatingFilesystemFactory(
+            $use[FilenameSanitizer::class],
+            $use[DirectoryPathConfig::class]
+        );
+
+        $implement[FilesystemWeb::class] = static fn(): FilesystemWeb => new ConfiguredFilesystemWeb(
+            $use[FilesystemFactory::class]
+        );
+        $implement[FilesystemStorage::class] = static fn(): FilesystemStorage => new ConfiguredFilesystemStorage(
+            $use[FilesystemFactory::class]
+        );
+        $implement[FilesystemTemp::class] = static fn(): FilesystemTemp => new ConfiguredFilesystemTemp(
+            $use[FilesystemFactory::class]
+        );
+        $implement[FilesystemCustomizing::class] = static fn(
+        ): FilesystemCustomizing => new ConfiguredFilesystemCustomizing(
+            $use[FilesystemFactory::class]
+        );
+        $implement[FilesystemLibs::class] = static fn(): FilesystemLibs => new ConfiguredFilesystemLibs(
+            $use[FilesystemFactory::class]
+        );
+        $implement[FilesystemNodeModules::class] = static fn(
+        ): FilesystemNodeModules => new ConfiguredFilesystemNodeModules(
+            $use[FilesystemFactory::class]
+        );
+
+        $implement[Filesystems::class] = static fn(): Filesystems => new FilesystemsImpl(
+            $use[FilesystemStorage::class],
+            $use[FilesystemWeb::class],
+            $use[FilesystemTemp::class],
+            $use[FilesystemCustomizing::class],
+            $use[FilesystemLibs::class],
+            $use[FilesystemNodeModules::class]
+        );
+
+        // ASSETS AND AGENTS
+        $contribute[Agent::class] = static fn(): \ilFileSystemSetupAgent => new \ilFileSystemSetupAgent(
+            $pull[Factory::class]
+        );
     }
 }

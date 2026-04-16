@@ -36,4 +36,10 @@ final class FlySystemFilesystemFactory implements FilesystemFactory
 
         return $localFactory->getInstance($config);
     }
+
+    public function buildFor(string $fqdn_interface, bool $read_only = false): Filesystem
+    {
+        throw new \InvalidArgumentException(sprintf('Interface "%s" is not supported by "%s"', $fqdn_interface, self::class));
+    }
+
 }
