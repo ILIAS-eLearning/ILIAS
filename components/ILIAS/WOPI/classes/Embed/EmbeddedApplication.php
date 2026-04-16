@@ -25,8 +25,8 @@ use ILIAS\WOPI\Discovery\Action;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\WOPI\Handler\RequestHandler;
-use ILIAS\FileDelivery\Token\DataSigner;
 use ILIAS\WOPI\Discovery\ActionTarget;
+use ILIAS\FileDelivery\Token\DataSigning;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -66,7 +66,7 @@ class EmbeddedApplication
         ?bool $user_can_write = null
     ) {
         global $DIC;
-        /** @var DataSigner $data_signer */
+        /** @var DataSigning $data_signer */
         $data_signer = $DIC['file_delivery.data_signer'];
         $this->ilias_base_url = new URI(ILIAS_HTTP_PATH);
         $editable = in_array(
@@ -153,7 +153,7 @@ class EmbeddedApplication
                 $appendices = array_filter($appendices, static fn(array $appendix): bool => isset($appendix[1], $appendix[2]));
 
                 // we set the wopisrc ourselves
-                $appendices = array_filter($appendices, static fn(array $appendix): bool => strtolower($appendix[1]) !== 'wopisrc');
+                $appendices = array_filter($appendices, static fn(array $appendix): bool => strtolower((string) $appendix[1]) !== 'wopisrc');
 
                 // try substitutions
                 $appendices = array_map(function (array $appendix): array {
