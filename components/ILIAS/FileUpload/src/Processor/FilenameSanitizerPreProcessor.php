@@ -16,65 +16,15 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\FileUpload\Processor;
 
-use ILIAS\Filesystem\Stream\FileStream;
-use ILIAS\FileUpload\DTO\Metadata;
-use ILIAS\FileUpload\DTO\ProcessingStatus;
-use ILIAS\Filesystem\Util;
+use ILIAS\Filesystem\Upload\FilenameSanitizerPreProcessor as NewFilenameSanitizerPreProcessor;
 
 /**
- * Class FilenameSanitizerPreProcessor
- *
- * PreProcessor which overrides the filename with a given one
- *
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @since   5.3
- * @version 1.0.0
+ * @deprecated Use {@see \ILIAS\Filesystem\Upload\FilenameSanitizerPreProcessor} instead.
  */
-final class FilenameSanitizerPreProcessor implements PreProcessor
+class FilenameSanitizerPreProcessor extends NewFilenameSanitizerPreProcessor
 {
-    /**
-     * @inheritDoc
-     */
-    public function process(FileStream $stream, Metadata $metadata): ProcessingStatus
-    {
-        $filename = $metadata->getFilename();
-        // remove some special characters
-        $filename = Util::sanitizeFileName($filename);
-
-        $metadata->setFilename($filename);
-
-        return new ProcessingStatus(ProcessingStatus::OK, 'Filename changed');
-    }
-
-    private function normalizeRelativePath(string $path): string
-    {
-        $path = str_replace('\\', '/', $path);
-        $path = preg_replace('#\p{C}+#u', '', $path);
-        $parts = [];
-
-        foreach (explode('/', (string) $path) as $part) {
-            switch ($part) {
-                case '':
-                case '.':
-                    break;
-
-                case '..':
-                    if (empty($parts)) {
-                        throw new \LogicException(
-                            'Path is outside of the defined root, path: [' . $path . ']'
-                        );
-                    }
-                    array_pop($parts);
-                    break;
-
-                default:
-                    $parts[] = $part;
-                    break;
-            }
-        }
-
-        return implode('/', $parts);
-    }
 }

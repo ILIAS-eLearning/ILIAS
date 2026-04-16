@@ -34,6 +34,7 @@ use ILIAS\Filesystem\FileSystems\FilesystemCustomizing;
 use ILIAS\Filesystem\FileSystems\FilesystemLibs;
 use ILIAS\Filesystem\FileSystems\FilesystemNodeModules;
 use ILIAS\ResourceStorage\IRSSServices;
+use ILIAS\FileUpload\FileUpload as FileUploadInterface;
 use ILIAS\Environment\Configuration\Instance\IliasIni;
 use ILIAS\Environment\Configuration\Instance\ClientIni;
 
@@ -129,6 +130,7 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         protected FilesystemLibs $filesystem_libs,
         protected FilesystemNodeModules $filesystem_node_modules,
         protected IRSSServices $irss_services,
+        protected FileUploadInterface $file_upload,
         protected IliasIni $ilias_ini,
         protected ClientIni $client_ini,
     ) {
@@ -225,6 +227,7 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         $DIC['ui.javascript_binding'] = fn(): \ILIAS\UI\Implementation\Render\JavaScriptBinding => $this->ui_java_script_binding;
         $DIC['ui.signal_generator'] = fn(): \ILIAS\UI\Implementation\Component\SignalGeneratorInterface => $this->ui_signal_generator;
         $DIC['ui.template_factory'] = fn(): \ILIAS\UI\Implementation\Render\TemplateFactory => $this->ui_template_factory;
+        $DIC['upload'] = fn(): FileUploadInterface => $this->file_upload;
         $DIC['ilIliasIniFile'] = fn(): \ilIniFile => new \ilIniFile('', $this->ilias_ini);
         $DIC['ilClientIniFile'] = fn(): \ilIniFile => new \ilIniFile('', $this->client_ini);
     }
