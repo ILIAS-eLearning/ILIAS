@@ -20,11 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\FileDelivery\Delivery;
 
-use ILIAS\HTTP\Services;
 use ILIAS\FileDelivery\Delivery\ResponseBuilder\ResponseBuilder;
 use ILIAS\FileDelivery\Isolation\IsolationConfig;
 use ILIAS\HTTP\Response\ResponseHeader;
 use Psr\Http\Message\ResponseInterface;
+use ILIAS\HTTP\GlobalHttpState;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -36,7 +36,7 @@ abstract class BaseDelivery
     protected array $mime_type_map;
 
     public function __construct(
-        protected Services $http,
+        protected GlobalHttpState $http,
         protected ResponseBuilder $response_builder,
         protected ResponseBuilder $fallback_response_builder,
         protected IsolationConfig $isolation = new IsolationConfig(false, null, null),
