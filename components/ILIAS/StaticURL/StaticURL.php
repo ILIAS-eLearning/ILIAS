@@ -20,12 +20,26 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\DI\Container;
 use ILIAS\Component\Component;
 use ILIAS\Setup\Agent;
 use ILIAS\StaticURL\SetupAgent;
 use ILIAS\Refinery\Factory;
 use ILIAS\Component\Resource\PublicAsset;
 use ILIAS\Component\Resource\Endpoint;
+use ILIAS\StaticURL\StaticURLServices;
+use ILIAS\StaticURL\Services;
+use ILIAS\StaticURL\Context;
+use ILIAS\StaticURL\StaticURLConfig;
+use ILIAS\StaticURL\Handler\HandlerService;
+use ILIAS\StaticURL\Handler\Handler;
+use ILIAS\StaticURL\Handler\LegacyGotoHandler;
+use ILIAS\StaticURL\Shortlinks\Handler as ShortlinksHandler;
+use ILIAS\StaticURL\Request\BundledRequestBuilder;
+use ILIAS\StaticURL\Builder\StandardURIBuilder;
+use ILIAS\StaticURL\Builder\URIBuilder;
+use ILIAS\StaticURL\Session\SessionStore;
+use ILIAS\StaticURL\Session\ILIASSessionStore;
 
 class StaticURL implements Component
 {
@@ -39,6 +53,9 @@ class StaticURL implements Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
+        $define[] = StaticURLServices::class;
+        $define[] = URIBuilder::class;
+
         $contribute[Agent::class] = static fn(): SetupAgent =>
             new SetupAgent(
                 $pull[Factory::class]
@@ -46,5 +63,36 @@ class StaticURL implements Component
 
         $contribute[PublicAsset::class] = fn(): Endpoint =>
             new Endpoint($this, "goto.php");
+
+
+        $internal[Context::class] = static fn(): Context =>
+            new Context(static function (): Container {
+                global $DIC;
+                return $DIC;
+            });
+
+        $internal[StaticURLConfig::class] = static fn(): StaticURLConfig =>
+            new StaticURLConfig();
+
+        $contribute[Handler::class] = static fn(): Handler => new LegacyGotoHandler();
+        $contribute[Handler::class] = static fn(): Handler => new ShortlinksHandler();
+
+        $internal[HandlerService::class] = static fn(): HandlerService =>
+            new HandlerService(
+                new BundledRequestBuilder(),
+                $internal[Context::class],
+                $seek[Handler::class],
+                new ILIASSessionStore()
+            );
+
+        $implement[URIBuilder::class] = static fn(): URIBuilder =>
+            new StandardURIBuilder($internal[StaticURLConfig::class]);
+
+        $implement[StaticURLServices::class] = static fn(): StaticURLServices =>
+            new Services(
+                $internal[HandlerService::class],
+                $use[URIBuilder::class],
+                $internal[Context::class]
+            );
     }
 }
