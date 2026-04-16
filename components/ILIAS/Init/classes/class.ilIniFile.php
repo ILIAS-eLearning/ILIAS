@@ -18,298 +18,185 @@
 
 declare(strict_types=1);
 
+use ILIAS\Environment\Configuration\Instance\ConfigurationReadRepository;
+use ILIAS\Environment\Configuration\Instance\ConfigurationWriteRepository;
+use ILIAS\Environment\Configuration\Instance\IniFileConfigurationRepository;
+
 /**
- * INIFile Parser
- * Early access in init proceess!
- * Avoid further dependencies like logging or other services
- * Description:
- * A Simpe Ini File Implementation to keep settings
- * in a simple file instead of in a DB
- * Based upon class.INIfile.php by Mircho Mirev <mircho@macropoint.com>
- * Usage Examples:
- * $ini = new IniFile("./ini.ini");
- * Read entire group in an associative array
- * $grp = $ini->read_group("MAIN");
- * //prints the variables in the group
- * if ($grp)
- * for(reset($grp); $key=key($grp); next($grp))
- * {
- * echo "GROUP ".$key."=".$grp[$key]."<br>";
- * }
- * //set a variable to a value
- * $ini->setVariable("NEW","USER","JOHN");
- * //Save the file
- * $ini->save_data();
- * @author  Mircho Mirev <mircho@macropoint.com>
- * @author  Peter Gabriel <peter@gabriel-online.net>
- * @version $Id$
+ * INI file parser — compatibility wrapper.
+ *
+ * All file I/O is now delegated to
+ * {@see \ILIAS\Environment\Configuration\Instance\IniFileConfigurationRepository}.
+ * Use the typed interfaces {@see \ILIAS\Environment\Configuration\Instance\IliasIni}
+ * and {@see \ILIAS\Environment\Configuration\Instance\ClientIni} for new code.
+ *
+ * @deprecated Use ILIAS\Environment\Configuration\Instance\IliasIni or ClientIni instead.
  */
 class ilIniFile
 {
-    /**
-     * name of file
-     */
-    public string $INI_FILE_NAME = "";
+    /** @deprecated public properties are kept for backward compatibility only */
+    public string $INI_FILE_NAME = '';
+    public string $ERROR = '';
+    /** @var array<string, array<string, string>> */
+    public array $GROUPS = [];
+    public string $CURRENT_GROUP = '';
+
+    private ConfigurationReadRepository $repository;
 
     /**
-     * error var
+     * @param string                          $a_ini_file_name  Path to the ini file (legacy usage).
+     * @param ConfigurationReadRepository|null $repository       Pre-built repository (bootstrap usage).
+     *                                                           When provided, $a_ini_file_name is ignored for I/O.
      */
-    public string $ERROR = "";
+    public function __construct(
+        string $a_ini_file_name = '',
+        ?ConfigurationReadRepository $repository = null
+    ) {
+        $this->INI_FILE_NAME = $a_ini_file_name;
 
-    /**
-     * sections in ini-file
-     */
-    public array $GROUPS = array();
-
-    /**
-     * actual section
-     */
-    public string $CURRENT_GROUP = "";
-
-    /**
-     * Constructor
-     */
-    public function __construct(string $a_ini_file_name)
-    {
-        //check if a filename is given
-        if (empty($a_ini_file_name)) {
-            $this->error("no_file_given");
+        if ($repository !== null) {
+            $this->repository = $repository;
+        } else {
+            try {
+                $this->repository = new IniFileConfigurationRepository($a_ini_file_name);
+            } catch (\RuntimeException $e) {
+                $this->ERROR = $e->getMessage();
+                $this->repository = new IniFileConfigurationRepository(''); // empty fallback
+                return;
+            }
         }
 
-        $this->INI_FILE_NAME = $a_ini_file_name;
+        $this->syncGroups();
     }
 
+    // — Legacy read API —
+
     /**
-     * read from ini file
+     * @deprecated Kept for backward compatibility. File is read in the constructor.
      */
     public function read(): bool
     {
-        //check if file exists
-        if (!file_exists($this->INI_FILE_NAME)) {
-            $this->error("file_does_not_exist");
+        if ($this->ERROR !== '') {
             return false;
         }
-        if (!$this->parse()) {
-            //parse the file
+        if ($this->INI_FILE_NAME !== '' && !file_exists($this->INI_FILE_NAME)) {
+            $this->ERROR = 'file_does_not_exist';
             return false;
         }
-        return true;
+        return !empty($this->GROUPS);
     }
 
     /**
-     * load and parse an inifile
+     * @deprecated Kept for backward compatibility. Parsing happens in the constructor.
      */
     public function parse(): bool
     {
-        try {
-            $ini_file_readable = is_readable($this->INI_FILE_NAME);
-            if (!$ini_file_readable) {
-                $this->error("file_not_accessible");
-                return false;
-            }
-            $this->GROUPS = parse_ini_file($this->INI_FILE_NAME, true);
-            if (!$this->GROUPS) {
-                $this->error("error_parseing_inifile");
-                return false;
-            }
-        } catch (Exception $e) {
-            $this->error($e->getMessage());
-            return false;
-        }
-
-
-        //set current group
-        $temp = array_keys($this->GROUPS);
-        $this->CURRENT_GROUP = $temp[count($temp) - 1];
-        return true;
+        return $this->read();
     }
 
-    /**
-     * save ini-file-data to filesystem
-     */
-    public function write(): bool
-    {
-        $fp = fopen($this->INI_FILE_NAME, "wb");
-
-        if (empty($fp)) {
-            $this->error("Cannot create file $this->INI_FILE_NAME");
-            return false;
-        }
-
-        //write php tags (security issue)
-        $result = fwrite($fp, "; <?php exit; ?>\r\n");
-
-        $groups = $this->readGroups();
-        $group_cnt = count($groups);
-
-        for ($i = 0; $i < $group_cnt; $i++) {
-            $group_name = $groups[$i];
-            //prevent empty line at beginning of ini-file
-            if ($i === 0) {
-                $res = sprintf("[%s]\r\n", $group_name);
-            } else {
-                $res = sprintf("\r\n[%s]\r\n", $group_name);
-            }
-
-            $result = fwrite($fp, $res);
-            $group = $this->readGroup($group_name);
-
-            for (reset($group); $key = key($group); next($group)) {
-                $res = sprintf("%s = %s\r\n", $key, "\"" . $group[$key] . "\"");
-                $result = fwrite($fp, $res);
-            }
-        }
-
-        fclose($fp);
-        return true;
-    }
-
-    /**
-     * returns the content of IniFile
-     */
-    public function show(): string
-    {
-        $groups = $this->readGroups();
-        $group_cnt = count($groups);
-
-        //clear content
-        $content = "";
-
-        // go through all groups
-        for ($i = 0; $i < $group_cnt; $i++) {
-            $group_name = $groups[$i];
-            //prevent empty line at beginning of ini-file
-            if ($i === 0) {
-                $content = sprintf("[%s]\n", $group_name);
-            } else {
-                $content .= sprintf("\n[%s]\n", $group_name);
-            }
-
-            $group = $this->readGroup($group_name);
-
-            //go through group an display all variables
-            for (reset($group); $key = key($group); next($group)) {
-                $content .= sprintf("%s = %s\n", $key, $group[$key]);
-            }
-        }
-
-        return $content;
-    }
-
-    /**
-     * returns number of groups
-     */
     public function getGroupCount(): int
     {
         return count($this->GROUPS);
     }
 
-    /**
-     * returns an array with the names of all the groups
-     */
     public function readGroups(): array
     {
-        $groups = array();
-
-        for (reset($this->GROUPS); $key = key($this->GROUPS); next($this->GROUPS)) {
-            $groups[] = $key;
-        }
-
-        return $groups;
+        return $this->repository->getSections();
     }
 
-    /**
-     * checks if a group exists
-     */
     public function groupExists(string $a_group_name): bool
     {
-        if (!isset($this->GROUPS[$a_group_name])) {
-            return false;
-        }
-
-        return true;
+        return $this->repository->hasSection($a_group_name);
     }
 
-    /**
-     * returns an associative array of the variables in one group
-     */
     public function readGroup(string $a_group_name): array
     {
-        if (!$this->groupExists($a_group_name)) {
-            $this->error("Group '" . $a_group_name . "' does not exist");
+        if (!$this->repository->hasSection($a_group_name)) {
+            $this->ERROR = "Group '$a_group_name' does not exist";
             return [];
         }
-
-        return $this->GROUPS[$a_group_name];
+        return $this->repository->getSection($a_group_name);
     }
 
-    /**
-     * adds a new group
-     */
-    public function addGroup(string $a_group_name): bool
+    public function variableExists(string $a_group, string $a_var_name): bool
     {
-        if ($this->groupExists($a_group_name)) {
-            $this->error("Group '" . $a_group_name . "' exists");
+        return $this->repository->has($a_group, $a_var_name);
+    }
+
+    public function readVariable(string $a_group, string $a_var_name): string
+    {
+        return $this->repository->has($a_group, $a_var_name)
+            ? $this->repository->get($a_group, $a_var_name)
+            : '';
+    }
+
+    // — Legacy write API —
+
+    public function write(): bool
+    {
+        if (!$this->repository instanceof ConfigurationWriteRepository) {
+            $this->ERROR = 'Repository does not support writing.';
             return false;
         }
+        try {
+            $this->repository->persist();
+            return true;
+        } catch (\RuntimeException $e) {
+            $this->ERROR = $e->getMessage();
+            return false;
+        }
+    }
 
-        $this->GROUPS[$a_group_name] = array();
+    public function addGroup(string $a_group_name): bool
+    {
+        if (!$this->repository instanceof ConfigurationWriteRepository) {
+            $this->ERROR = 'Repository does not support writing.';
+            return false;
+        }
+        if ($this->repository->hasSection($a_group_name)) {
+            $this->ERROR = "Group '$a_group_name' exists";
+            return false;
+        }
+        $this->repository->addSection($a_group_name);
+        $this->GROUPS[$a_group_name] = [];
         return true;
     }
 
-    /**
-     * removes a group
-     */
     public function removeGroup(string $a_group_name): bool
     {
-        if (!$this->groupExists($a_group_name)) {
-            $this->error("Group '" . $a_group_name . "' does not exist");
+        if (!$this->repository instanceof ConfigurationWriteRepository) {
+            $this->ERROR = 'Repository does not support writing.';
             return false;
         }
-
+        if (!$this->repository->hasSection($a_group_name)) {
+            $this->ERROR = "Group '$a_group_name' does not exist";
+            return false;
+        }
+        $this->repository->removeSection($a_group_name);
         unset($this->GROUPS[$a_group_name]);
         return true;
     }
 
-    /**
-     * returns if a variable exists or not
-     */
-    public function variableExists(string $a_group, string $a_var_name): bool
-    {
-        return isset($this->GROUPS[$a_group][$a_var_name]);
-    }
-
-    /**
-     * reads a single variable from a group
-     */
-    public function readVariable(string $a_group, string $a_var_name): string
-    {
-        if (!isset($this->GROUPS[$a_group][$a_var_name])) {
-            $this->error("'" . $a_var_name . "' does not exist in '" . $a_group . "'");
-            return '';
-        }
-
-        return trim($this->GROUPS[$a_group][$a_var_name]);
-    }
-
-    /**
-     * sets a variable in a group
-     */
     public function setVariable(string $a_group_name, string $a_var_name, string $a_var_value): bool
     {
-        if (!$this->groupExists($a_group_name)) {
-            $this->error("Group '" . $a_group_name . "' does not exist");
+        if (!$this->repository instanceof ConfigurationWriteRepository) {
+            $this->ERROR = 'Repository does not support writing.';
             return false;
         }
-
+        if (!$this->repository->hasSection($a_group_name)) {
+            $this->ERROR = "Group '$a_group_name' does not exist";
+            return false;
+        }
+        $this->repository->set($a_group_name, $a_var_name, $a_var_value);
         $this->GROUPS[$a_group_name][$a_var_name] = $a_var_value;
         return true;
     }
 
+    // — Error handling —
+
     public function error(string $a_errmsg): bool
     {
         $this->ERROR = $a_errmsg;
-
         return true;
     }
 
@@ -317,4 +204,32 @@ class ilIniFile
     {
         return $this->ERROR;
     }
-} //END class.ilIniFile
+
+    // — Kept for very old code that calls show() —
+
+    public function show(): string
+    {
+        $content = '';
+        foreach ($this->GROUPS as $group_name => $vars) {
+            $content .= ($content === '' ? '' : "\n") . "[$group_name]\n";
+            foreach ($vars as $key => $value) {
+                $content .= "$key = $value\n";
+            }
+        }
+        return $content;
+    }
+
+    // — Internal —
+
+    private function syncGroups(): void
+    {
+        $this->GROUPS = [];
+        foreach ($this->repository->getSections() as $section) {
+            $this->GROUPS[$section] = $this->repository->getSection($section);
+        }
+        $keys = array_keys($this->GROUPS);
+        if ($keys !== []) {
+            $this->CURRENT_GROUP = end($keys);
+        }
+    }
+}
