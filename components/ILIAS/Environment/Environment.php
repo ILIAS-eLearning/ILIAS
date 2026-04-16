@@ -20,18 +20,58 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
-class Environment implements Component\Component
+use ILIAS\Component\Component;
+use ILIAS\Environment\Configuration\Instance\IliasIni;
+use ILIAS\Environment\Configuration\Instance\IliasIniFile;
+use ILIAS\Environment\Configuration\Instance\ClientIdProvider;
+use ILIAS\Environment\Configuration\Instance\DefaultClientIdProvider;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Environment\Configuration\Instance\ClientIni;
+use ILIAS\Environment\Configuration\Instance\ClientIniFile;
+use ILIAS\Environment\Configuration\Server\ServerConfiguration;
+use ILIAS\Environment\Configuration\Server\PhpServerConfiguration;
+use ILIAS\Environment\Configuration\Instance\Directories;
+use ILIAS\Environment\Configuration\Instance\WorkingDirectories;
+
+class Environment implements Component
 {
     public function init(
-        array | \ArrayAccess &$define,
-        array | \ArrayAccess &$implement,
-        array | \ArrayAccess &$use,
-        array | \ArrayAccess &$contribute,
-        array | \ArrayAccess &$seek,
-        array | \ArrayAccess &$provide,
-        array | \ArrayAccess &$pull,
-        array | \ArrayAccess &$internal,
+        array|\ArrayAccess &$define,
+        array|\ArrayAccess &$implement,
+        array|\ArrayAccess &$use,
+        array|\ArrayAccess &$contribute,
+        array|\ArrayAccess &$seek,
+        array|\ArrayAccess &$provide,
+        array|\ArrayAccess &$pull,
+        array|\ArrayAccess &$internal,
     ): void {
-        // ...
+        $define[] = IliasIni::class;
+        $define[] = ClientIdProvider::class;
+        $define[] = ClientIni::class;
+        $define[] = ServerConfiguration::class;
+        $define[] = Directories::class;
+
+        $implement[IliasIni::class] = static fn(): IliasIniFile => new IliasIniFile(
+            __DIR__ . '/../../../ilias.ini.php'
+        );
+
+        $implement[ClientIdProvider::class] = static fn(): DefaultClientIdProvider => new DefaultClientIdProvider(
+            $use[IliasIni::class],
+            $use[GlobalHttpState::class],
+        );
+
+        $implement[ClientIni::class] = static fn(): ClientIniFile => new ClientIniFile(
+            $use[IliasIni::class]->getAbsolutePath()
+            . '/' . $use[IliasIni::class]->getClientsPath()
+            . '/' . $use[ClientIdProvider::class]->getClientId()->toString()
+            . '/' . $use[IliasIni::class]->getClientIniFile()
+        );
+
+        $implement[ServerConfiguration::class] = static fn(): PhpServerConfiguration => new PhpServerConfiguration();
+
+        $implement[Directories::class] = static fn(): Directories => new WorkingDirectories(
+            $use[IliasIni::class],
+            $use[ClientIdProvider::class],
+        );
     }
 }
