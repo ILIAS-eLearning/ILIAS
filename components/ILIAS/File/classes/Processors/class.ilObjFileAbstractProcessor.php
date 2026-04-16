@@ -19,6 +19,7 @@
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\ResourceStorage\Services;
+use ILIAS\Filesystem\Configuration\FilesystemConfig;
 
 /**
  * Class ilObjFileAbstractProcessorInterface
@@ -35,7 +36,7 @@ abstract class ilObjFileAbstractProcessor implements ilObjFileProcessorInterface
         protected ResourceStakeholder $stakeholder,
         protected ilObjFileGUI $gui_object,
         protected Services $storage,
-        protected ilFileServicesSettings $settings
+        protected FilesystemConfig $settings
     ) {
         $this->page_counter = new ilCountPDFPages();
         $this->policy = new ilFileServicesPolicy($this->settings);
