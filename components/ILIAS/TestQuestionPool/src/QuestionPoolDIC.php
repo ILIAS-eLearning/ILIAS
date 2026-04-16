@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool;
 
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\StateHolder;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Builder;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
 use ILIAS\TestQuestionPool\ExportImport\QuestionPoolExporter;
@@ -77,9 +79,12 @@ class QuestionPoolDIC extends PimpleContainer
                 $DIC,
                 $c
             );
+        $dic['exportimport.state_holder'] = static fn($c): StateHolder =>
+            new StateHolder();
         $dic['exportimport.exporter'] = static fn($c): QuestionPoolExporter =>
             new QuestionPoolExporter(
                 $c['exportimport.builder'],
+                new DataFactory(),
                 $c['question.general_properties.repository'],
                 $DIC->database(),
                 $DIC->taxonomy()->domain()
