@@ -2555,16 +2555,9 @@ class ilObjCourseGUI extends ilContainerGUI
 
         if (substr($a_add, 0, 5) == 'rcode') {
             if ($ilUser->getId() == ANONYMOUS_USER_ID) {
-                $target = '';
-                if ($http->wrapper()->query()->has('target')) {
-                    $target = $http->wrapper()->query()->retrieve(
-                        'target',
-                        $refinery->kindlyTo()->string()
-                    );
-                }
                 // Redirect to login for anonymous
                 ilUtil::redirect(
-                    "login.php?target=" . $target . "&cmd=force_login&lang=" .
+                    "login.php?target=crs_" . $a_target . "_" . $a_add . "&cmd=force_login&lang=" .
                     $ilUser->getCurrentLanguage()
                 );
             }
