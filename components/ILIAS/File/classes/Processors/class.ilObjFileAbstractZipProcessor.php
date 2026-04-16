@@ -20,6 +20,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\ResourceStorage\Services;
+use ILIAS\Filesystem\Configuration\FilesystemConfig;
 
 /**
  * Class ilObjFileAbstractZipProcessor
@@ -52,7 +53,7 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
         ResourceStakeholder $stakeholder,
         ilObjFileGUI $gui_object,
         Services $storage,
-        ilFileServicesSettings $settings,
+        FilesystemConfig $settings,
         private $tree
     ) {
         parent::__construct($stakeholder, $gui_object, $storage, $settings);
@@ -68,7 +69,7 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
         $base_path = $info->getBasename("." . $info->getExtension());
         $base_container = $this->createContainerObj($base_path, $this->gui_object->getParentId());
 
-        return (int) $base_container->getRefId();
+        return $base_container->getRefId();
     }
 
     /**
