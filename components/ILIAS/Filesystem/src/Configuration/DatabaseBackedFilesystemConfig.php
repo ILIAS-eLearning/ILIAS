@@ -113,6 +113,11 @@ class DatabaseBackedFilesystemConfig implements FilesystemConfig
         return fn(string $suffix): string => trim(strtolower($suffix));
     }
 
+    private function read():void {
+        $this->readBlackList();
+        $this->readWhiteList();
+    }
+
     private function readWhiteList(): void
     {
         $cleaner = $this->getCleaner();
@@ -140,7 +145,7 @@ class DatabaseBackedFilesystemConfig implements FilesystemConfig
         if ($this->white_list_overall !== null) {
             return $this->white_list_overall;
         }
-        $this->readWhiteList();
+        $this->read();
         return $this->white_list_overall;
     }
 
@@ -149,7 +154,7 @@ class DatabaseBackedFilesystemConfig implements FilesystemConfig
         if ($this->black_list_overall !== null) {
             return $this->black_list_overall;
         }
-        $this->readBlackList();
+        $this->read();
         return $this->black_list_overall;
     }
 
@@ -176,7 +181,7 @@ class DatabaseBackedFilesystemConfig implements FilesystemConfig
         if (isset($this->white_list_negative)) {
             return $this->white_list_negative;
         }
-        $this->readWhiteList();
+        $this->read();
         return $this->white_list_negative;
     }
 
@@ -185,7 +190,7 @@ class DatabaseBackedFilesystemConfig implements FilesystemConfig
         if (isset($this->white_list_positive)) {
             return $this->white_list_positive;
         }
-        $this->readWhiteList();
+        $this->read();
         return $this->white_list_positive;
     }
 
@@ -194,7 +199,7 @@ class DatabaseBackedFilesystemConfig implements FilesystemConfig
         if (isset($this->black_list_prohibited)) {
             return $this->black_list_prohibited;
         }
-        $this->readBlackList();
+        $this->read();
         return $this->black_list_prohibited;
     }
 }
