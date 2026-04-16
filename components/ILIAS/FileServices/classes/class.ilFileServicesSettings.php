@@ -16,156 +16,57 @@
  *
  *********************************************************************/
 
-declare(strict_types=1);
-
-use ILIAS\components\File\Settings\General;
+use ILIAS\Filesystem\Configuration\FilesystemConfig;
 
 /**
- * Class ilObjFileServices
+ * Class ilFileServicesSettings
+ *
+ * @deprecated use \ILIAS\Filesystem\Configuration\FilesystemConfig in bootstrappiung instead
  */
-class ilFileServicesSettings
+class ilFileServicesSettings implements FilesystemConfig
 {
-    private array $white_list_default = [];
-    private array $white_list_negative = [];
-    private array $white_list_positive = [];
-    private array $white_list_overall = [];
-    private array $black_list_prohibited = [];
-    private array $black_list_overall = [];
-    private bool $convert_to_ascii = true;
-    private ?bool $bypass = null;
-    protected int $file_admin_ref_id;
-
     public function __construct(
-        private ilSetting $settings,
-        ilIniFile $client_ini,
-        private ilDBInterface $db
+        private FilesystemConfig $filesystem_config
     ) {
-        $general_settings = new General();
-        $this->convert_to_ascii = $general_settings->isDownloadWithAsciiFileName();
-        /** @noRector */
-        $this->white_list_default = include __DIR__ . "/../defaults/default_whitelist.php";
-        $this->file_admin_ref_id = $this->determineFileAdminRefId();
-        $this->read();
-    }
-
-    private function determineFileAdminRefId(): int
-    {
-        $r = $this->db->query(
-            "SELECT ref_id FROM object_reference JOIN object_data ON object_reference.obj_id = object_data.obj_id WHERE object_data.type = 'facs';"
-        );
-        $r = $this->db->fetchObject($r);
-        return (int) ($r->ref_id ?? 0);
-    }
-
-    private function determineByPass(): bool
-    {
-        global $DIC;
-        return $DIC->isDependencyAvailable('rbac')
-            && isset($DIC["rbacsystem"])
-            && $DIC->rbac()->system()->checkAccess(
-                'upload_blacklisted_files',
-                $this->file_admin_ref_id
-            );
     }
 
     public function isByPassAllowedForCurrentUser(): bool
     {
-        if ($this->bypass !== null) {
-            return $this->bypass;
-        }
-        return $this->bypass = $this->determineByPass();
-    }
-
-    private function read(): void
-    {
-        $this->readBlackList();
-        $this->readWhiteList();
+        return $this->filesystem_config->isByPassAllowedForCurrentUser();
     }
 
     public function isASCIIConvertionEnabled(): bool
     {
-        return $this->convert_to_ascii;
-    }
-
-    private function readWhiteList(): void
-    {
-        $cleaner = $this->getCleaner();
-
-        $this->white_list_negative = array_map(
-            $cleaner,
-            explode(",", $this->settings->get("suffix_repl_additional") ?? '')
-        );
-
-        $this->white_list_positive = array_map(
-            $cleaner,
-            explode(",", $this->settings->get("suffix_custom_white_list") ?? '')
-        );
-
-        $this->white_list_overall = array_merge($this->white_list_default, $this->white_list_positive);
-        $this->white_list_overall = array_diff($this->white_list_overall, $this->white_list_negative);
-        $this->white_list_overall = array_diff($this->white_list_overall, $this->black_list_overall);
-        $this->white_list_overall[] = '';
-        $this->white_list_overall = array_unique($this->white_list_overall);
-        $this->white_list_overall = array_diff($this->white_list_overall, $this->black_list_prohibited);
-    }
-
-    private function readBlackList(): void
-    {
-        $cleaner = $this->getCleaner();
-
-        $this->black_list_prohibited = array_map(
-            $cleaner,
-            explode(",", $this->settings->get("suffix_custom_expl_black") ?? '')
-        );
-
-        $this->black_list_prohibited = array_filter($this->black_list_prohibited, fn($item): bool => $item !== '');
-        $this->black_list_overall = $this->black_list_prohibited;
-    }
-
-    private function getCleaner(): Closure
-    {
-        return fn(string $suffix): string => trim(strtolower($suffix));
+        return $this->filesystem_config->isASCIIConvertionEnabled();
     }
 
     public function getWhiteListedSuffixes(): array
     {
-        return $this->white_list_overall;
+        return $this->filesystem_config->getWhiteListedSuffixes();
     }
 
     public function getBlackListedSuffixes(): array
     {
-        return $this->black_list_overall;
+        return $this->filesystem_config->getBlackListedSuffixes();
     }
 
-    /**
-     * @internal
-     */
     public function getDefaultWhitelist(): array
     {
-        return $this->white_list_default;
+        return $this->filesystem_config->getDefaultWhitelist();
     }
 
-    /**
-     * @internal
-     */
     public function getWhiteListNegative(): array
     {
-        return $this->white_list_negative;
+        return $this->filesystem_config->getWhiteListNegative();
     }
 
-    /**
-     * @internal
-     */
     public function getWhiteListPositive(): array
     {
-        return $this->white_list_positive;
+        return $this->filesystem_config->getWhiteListPositive();
     }
 
-    /**
-     * @internal
-     */
     public function getProhibited(): array
     {
-        return $this->black_list_prohibited;
+        return $this->filesystem_config->getProhibited();
     }
 }
