@@ -22,7 +22,7 @@ namespace ILIAS\ResourceStorage\Consumer;
 
 use ILIAS\ResourceStorage\Flavour\Flavour;
 use ILIAS\ResourceStorage\Revision\Revision;
-use ILIAS\FileDelivery\Services;
+use ILIAS\FileDelivery\FileDeliveryServices;
 use ILIAS\FileDelivery\Delivery\Disposition;
 use ILIAS\Filesystem\Stream\FileStream;
 
@@ -33,7 +33,7 @@ use ILIAS\Filesystem\Stream\FileStream;
 class InlineSrcBuilder implements SrcBuilder
 {
     public function __construct(
-        private Services $file_delivery
+        private FileDeliveryServices $file_delivery
     ) {
 
     }

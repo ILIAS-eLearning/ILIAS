@@ -16,16 +16,29 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+namespace ILIAS\ResourceStorage\Events;
+
 /**
- * Class ilWACSignedResourceStorage
- * @author Fabian Schmid <fabian@sr.solutions>
- * @deprecated This class is non-functional. WAC token checking via StreamAccess
- *             was removed during the component bootstrap migration. Do not use.
+ * @author       Fabian Schmid <fabian@sr.solutions>
+ * @internal
  */
-class ilWACSignedResourceStorage implements ilWACCheckingClass
+final class ObserverCollection
 {
-    public function canBeDelivered(ilWACPath $ilWACPath): bool
+    /**
+     * @var Observer[]
+     */
+    private array $observers;
+
+    public function __construct(
+        Observer ...$observers
+    ) {
+        $this->observers = $observers;
+    }
+
+    public function get(): array
     {
-        return false;
+        return $this->observers;
     }
 }

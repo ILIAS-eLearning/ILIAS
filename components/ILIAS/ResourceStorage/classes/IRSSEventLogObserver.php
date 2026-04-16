@@ -27,8 +27,16 @@ use ILIAS\ResourceStorage\Events\Data;
  */
 class IRSSEventLogObserver implements Observer
 {
-    public function __construct(private \ilLogger $logger)
+    private ?\ilLogger $resolved = null;
+
+    /** @param \Closure(): \ilLogger $logger_provider */
+    public function __construct(private \Closure $logger_provider)
     {
+    }
+
+    private function logger(): \ilLogger
+    {
+        return $this->resolved ??= ($this->logger_provider)();
     }
 
     public function getId(): string
@@ -38,17 +46,17 @@ class IRSSEventLogObserver implements Observer
 
     private function appendData(string $to_message, ?Data $data = null): string
     {
-        return $to_message . ': ' . ($data ? json_encode($data->getArrayCopy()) : '');
+        return $to_message . ': ' . ($data instanceof Data ? json_encode($data->getArrayCopy()) : '');
     }
 
 
     public function update(Event $event, ?Data $data): void
     {
         match ($event->value) {
-            Event::COLLECTION_RESOURCE_ADDED => $this->logger->info($this->appendData("Collection resource added", $data)),
-            Event::FLAVOUR_BUILD_SUCCESS => $this->logger->info($this->appendData("Flavour build success", $data)),
-            Event::FLAVOUR_BUILD_FAILED => $this->logger->warning($this->appendData("Flavour build failed", $data)),
-            default => $this->logger->debug($this->appendData($event->value, $data))
+            Event::COLLECTION_RESOURCE_ADDED => $this->logger()->info($this->appendData("Collection resource added", $data)),
+            Event::FLAVOUR_BUILD_SUCCESS => $this->logger()->info($this->appendData("Flavour build success", $data)),
+            Event::FLAVOUR_BUILD_FAILED => $this->logger()->warning($this->appendData("Flavour build failed", $data)),
+            default => $this->logger()->debug($this->appendData($event->value, $data))
         };
     }
 
