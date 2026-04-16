@@ -21,6 +21,19 @@ declare(strict_types=1);
 namespace ILIAS\Init;
 
 use ILIAS\WebDAV\Environment;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\FileDelivery\FileDeliveryServices;
+use ILIAS\FileDelivery\Token\DataSigning;
+use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
+use ILIAS\Filesystem\Configuration\FilesystemConfig;
+use ILIAS\Filesystem\Filesystems;
+use ILIAS\Filesystem\FileSystems\FilesystemWeb;
+use ILIAS\Filesystem\FileSystems\FilesystemStorage;
+use ILIAS\Filesystem\FileSystems\FilesystemTemp;
+use ILIAS\Filesystem\FileSystems\FilesystemCustomizing;
+use ILIAS\Filesystem\FileSystems\FilesystemLibs;
+use ILIAS\Filesystem\FileSystems\FilesystemNodeModules;
+use ILIAS\ResourceStorage\IRSSServices;
 
 /**
  * This entry point can be thought of as a list of all modern components.
@@ -101,6 +114,19 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         protected \ILIAS\UI\Implementation\Render\JavaScriptBinding $ui_java_script_binding,
         protected \ILIAS\UI\Implementation\Component\SignalGeneratorInterface $ui_signal_generator,
         protected \ILIAS\UI\Implementation\Render\TemplateFactory $ui_template_factory,
+        protected GlobalHttpState $http_services,
+        protected FileDeliveryServices $file_delivery,
+        protected DataSigning $data_signer,
+        protected FilenameSanitizer $filename_sanitizer,
+        protected FilesystemConfig $filesystem_config,
+        protected Filesystems $filesystems,
+        protected FilesystemWeb $filesystem_web,
+        protected FilesystemStorage $filesystem_storage,
+        protected FilesystemTemp $filesystem_temp,
+        protected FilesystemCustomizing $filesystem_customizing,
+        protected FilesystemLibs $filesystem_libs,
+        protected FilesystemNodeModules $filesystem_node_modules,
+        protected IRSSServices $irss_services,
     ) {
     }
 
@@ -115,73 +141,86 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
      */
     protected function populateComponentsInLegacyEnvironment(\Pimple\Container $DIC): void
     {
-        $DIC[\ILIAS\Data\Factory::class] = fn() => $this->data_factory;
+        $DIC[\ILIAS\Data\Factory::class] = fn(): \ILIAS\Data\Factory => $this->data_factory;
 
-        $DIC['refinery'] = fn() => $this->refinery_factory;
-        $DIC['ui.factory.counter'] = fn() => $this->ui_factory_counter;
-        $DIC['ui.factory.button'] = fn() => $this->ui_factory_button;
-        $DIC['ui.factory.listing'] = fn() => $this->ui_factory_listing;
-        $DIC['ui.factory.listing.workflow'] = fn() => $this->ui_factory_listing_workflow;
-        $DIC['ui.factory.listing.characteristic_value'] = fn() => $this->ui_factory_listing_characteristic_value;
-        $DIC['ui.factory.listing.entity'] = fn() => $this->ui_factory_listing_entity;
-        $DIC['ui.factory.image'] = fn() => $this->ui_factory_image;
-        $DIC['ui.factory.player'] = fn() => $this->ui_factory_player;
-        $DIC['ui.factory.panel'] = fn() => $this->ui_factory_panel;
-        $DIC['ui.factory.modal'] = fn() => $this->ui_factory_modal;
-        $DIC['ui.factory.progress'] = fn() => $this->ui_progress_factory;
-        $DIC['ui.factory.progress.state'] = fn() => $this->ui_progress_state_factory;
-        $DIC['ui.factory.progress.state.bar'] = fn() => $this->ui_progress_state_bar_factory;
-        $DIC['ui.factory.dropzone'] = fn() => $this->ui_factory_dropzone;
-        $DIC['ui.factory.popover'] = fn() => $this->ui_factory_popover;
-        $DIC['ui.factory.divider'] = fn() => $this->ui_factory_divider;
-        $DIC['ui.factory.link'] = fn() => $this->ui_factory_link;
-        $DIC['ui.factory.dropdown'] = fn() => $this->ui_factory_dropdown;
-        $DIC['ui.factory.item'] = fn() => $this->ui_factory_item;
-        $DIC['ui.factory.viewcontrol'] = fn() => $this->ui_factory_viewcontrol;
-        $DIC['ui.factory.chart'] = fn() => $this->ui_factory_chart;
-        $DIC['ui.factory.input'] = fn() => $this->ui_factory_input;
-        $DIC['ui.factory.table'] = fn() => $this->ui_factory_table;
-        $DIC['ui.factory.messagebox'] = fn() => $this->ui_factory_messagebox;
-        $DIC['ui.factory.card'] = fn() => $this->ui_factory_card;
-        $DIC['ui.factory.layout'] = fn() => $this->ui_factory_layout;
-        $DIC['ui.factory.layout.page'] = fn() => $this->ui_factory_layout_page;
-        $DIC['ui.factory.layout.alignment'] = fn() => $this->ui_factory_layout_alignment;
-        $DIC['ui.factory.maincontrols'] = fn() => $this->ui_factory_maincontrols;
-        $DIC['ui.factory.tree'] = fn() => $this->ui_factory_tree;
-        $DIC['ui.factory.tree.node'] = fn() => $this->ui_factory_tree_node;
-        $DIC['ui.factory.menu'] = fn() => $this->ui_factory_menu;
-        $DIC['ui.factory.symbol'] = fn() => $this->ui_factory_symbol;
-        $DIC['ui.factory.toast'] = fn() => $this->ui_factory_toast;
-        $DIC['ui.factory.legacy'] = fn() => $this->ui_factory_legacy;
-        $DIC['ui.factory.launcher'] = fn() => $this->ui_factory_launcher;
-        $DIC['ui.factory.entity'] = fn() => $this->ui_factory_entity;
-        $DIC['ui.factory.prompt'] = fn() => $this->ui_prompt_factory;
-        $DIC['ui.factory.prompt.state'] = fn() => $this->ui_prompt_state_factory;
-        $DIC['ui.factory.panel.listing'] = fn() => $this->ui_factory_panel_listing;
-        $DIC['ui.factory.panel.secondary'] = fn() => $this->ui_factory_panel_secondary;
-        $DIC['ui.factory.interruptive_item'] = fn() => $this->ui_factory_interruptive_item;
-        $DIC['ui.factory.progressmeter'] = fn() => $this->ui_factory_progressmeter;
-        $DIC['ui.factory.bar'] = fn() => $this->ui_factory_bar;
-        $DIC['ui.factory.input.viewcontrol'] = fn() => $this->ui_factory_input_viewcontrol;
-        $DIC['ui.factory.input.container.viewcontrol'] = fn() => $this->ui_factory_input_container_viewcontrol;
-        $DIC['ui.factory.table.column'] = fn() => $this->ui_factory_table_column;
-        $DIC['ui.factory.table.action'] = fn() => $this->ui_factory_table_action;
-        $DIC['ui.factory.maincontrols.slate'] = fn() => $this->ui_factory_maincontrols_slate;
-        $DIC['ui.factory.symbol.icon'] = fn() => $this->ui_factory_symbol_icon;
-        $DIC['ui.factory.symbol.glyph'] = fn() => $this->ui_factory_symbol_glyph;
-        $DIC['ui.factory.symbol.avatar'] = fn() => $this->ui_factory_symbol_avatar;
-        $DIC['ui.factory.input.container.form'] = fn() => $this->ui_factory_input_container_form;
-        $DIC['ui.factory.input.container.filter'] = fn() => $this->ui_factory_input_container_filter;
-        $DIC['ui.factory.input.field'] = fn() => $this->ui_factory_input_field;
-        $DIC['ui.upload_limit_resolver'] = fn() => $this->ui_upload_limit_resolver;
-        $DIC['ui.factory'] = fn() => $this->ui_factory;
-        $DIC['ui.renderer'] = fn() => $this->ui_renderer;
-        $DIC['setup.agentfinder'] = fn() => $this->setup_agent_finder;
-        $DIC['ui.factory.navigation'] = fn() => $this->ui_factory_input_field;
-        $DIC[Environment::class] = fn() => $this->webdav_environment;
-        $DIC['ui.javascript_binding'] = fn() => $this->ui_java_script_binding;
-        $DIC['ui.signal_generator'] = fn() => $this->ui_signal_generator;
-        $DIC['ui.template_factory'] = fn() => $this->ui_template_factory;
+        $DIC['refinery'] = fn(): \ILIAS\Refinery\Factory => $this->refinery_factory;
+        $DIC['ui.factory.counter'] = fn(): \ILIAS\UI\Implementation\Component\Counter\Factory => $this->ui_factory_counter;
+        $DIC['ui.factory.button'] = fn(): \ILIAS\UI\Implementation\Component\Button\Factory => $this->ui_factory_button;
+        $DIC['ui.factory.listing'] = fn(): \ILIAS\UI\Implementation\Component\Listing\Factory => $this->ui_factory_listing;
+        $DIC['ui.factory.listing.workflow'] = fn(): \ILIAS\UI\Implementation\Component\Listing\Workflow\Factory => $this->ui_factory_listing_workflow;
+        $DIC['ui.factory.listing.characteristic_value'] = fn(): \ILIAS\UI\Implementation\Component\Listing\CharacteristicValue\Factory => $this->ui_factory_listing_characteristic_value;
+        $DIC['ui.factory.listing.entity'] = fn(): \ILIAS\UI\Implementation\Component\Listing\Entity\Factory => $this->ui_factory_listing_entity;
+        $DIC['ui.factory.image'] = fn(): \ILIAS\UI\Implementation\Component\Image\Factory => $this->ui_factory_image;
+        $DIC['ui.factory.player'] = fn(): \ILIAS\UI\Implementation\Component\Player\Factory => $this->ui_factory_player;
+        $DIC['ui.factory.panel'] = fn(): \ILIAS\UI\Implementation\Component\Panel\Factory => $this->ui_factory_panel;
+        $DIC['ui.factory.modal'] = fn(): \ILIAS\UI\Implementation\Component\Modal\Factory => $this->ui_factory_modal;
+        $DIC['ui.factory.progress'] = fn(): \ILIAS\UI\Implementation\Component\Progress\Factory => $this->ui_progress_factory;
+        $DIC['ui.factory.progress.state'] = fn(): \ILIAS\UI\Implementation\Component\Progress\State\Factory => $this->ui_progress_state_factory;
+        $DIC['ui.factory.progress.state.bar'] = fn(): \ILIAS\UI\Implementation\Component\Progress\State\Bar\Factory => $this->ui_progress_state_bar_factory;
+        $DIC['ui.factory.dropzone'] = fn(): \ILIAS\UI\Implementation\Component\Dropzone\Factory => $this->ui_factory_dropzone;
+        $DIC['ui.factory.popover'] = fn(): \ILIAS\UI\Implementation\Component\Popover\Factory => $this->ui_factory_popover;
+        $DIC['ui.factory.divider'] = fn(): \ILIAS\UI\Implementation\Component\Divider\Factory => $this->ui_factory_divider;
+        $DIC['ui.factory.link'] = fn(): \ILIAS\UI\Implementation\Component\Link\Factory => $this->ui_factory_link;
+        $DIC['ui.factory.dropdown'] = fn(): \ILIAS\UI\Implementation\Component\Dropdown\Factory => $this->ui_factory_dropdown;
+        $DIC['ui.factory.item'] = fn(): \ILIAS\UI\Implementation\Component\Item\Factory => $this->ui_factory_item;
+        $DIC['ui.factory.viewcontrol'] = fn(): \ILIAS\UI\Implementation\Component\Viewcontrol\Factory => $this->ui_factory_viewcontrol;
+        $DIC['ui.factory.chart'] = fn(): \ILIAS\UI\Implementation\Component\Chart\Factory => $this->ui_factory_chart;
+        $DIC['ui.factory.input'] = fn(): \ILIAS\UI\Implementation\Component\Input\Factory => $this->ui_factory_input;
+        $DIC['ui.factory.table'] = fn(): \ILIAS\UI\Implementation\Component\Table\Factory => $this->ui_factory_table;
+        $DIC['ui.factory.messagebox'] = fn(): \ILIAS\UI\Implementation\Component\MessageBox\Factory => $this->ui_factory_messagebox;
+        $DIC['ui.factory.card'] = fn(): \ILIAS\UI\Implementation\Component\Card\Factory => $this->ui_factory_card;
+        $DIC['ui.factory.layout'] = fn(): \ILIAS\UI\Implementation\Component\Layout\Factory => $this->ui_factory_layout;
+        $DIC['ui.factory.layout.page'] = fn(): \ILIAS\UI\Implementation\Component\Layout\Page\Factory => $this->ui_factory_layout_page;
+        $DIC['ui.factory.layout.alignment'] = fn(): \ILIAS\UI\Implementation\Component\Layout\Alignment\Factory => $this->ui_factory_layout_alignment;
+        $DIC['ui.factory.maincontrols'] = fn(): \ILIAS\UI\Implementation\Component\Maincontrols\Factory => $this->ui_factory_maincontrols;
+        $DIC['ui.factory.tree'] = fn(): \ILIAS\UI\Implementation\Component\Tree\Factory => $this->ui_factory_tree;
+        $DIC['ui.factory.tree.node'] = fn(): \ILIAS\UI\Implementation\Component\Tree\Node\Factory => $this->ui_factory_tree_node;
+        $DIC['ui.factory.menu'] = fn(): \ILIAS\UI\Implementation\Component\Menu\Factory => $this->ui_factory_menu;
+        $DIC['ui.factory.symbol'] = fn(): \ILIAS\UI\Implementation\Component\Symbol\Factory => $this->ui_factory_symbol;
+        $DIC['ui.factory.toast'] = fn(): \ILIAS\UI\Implementation\Component\Toast\Factory => $this->ui_factory_toast;
+        $DIC['ui.factory.legacy'] = fn(): \ILIAS\UI\Implementation\Component\Legacy\Factory => $this->ui_factory_legacy;
+        $DIC['ui.factory.launcher'] = fn(): \ILIAS\UI\Implementation\Component\Launcher\Factory => $this->ui_factory_launcher;
+        $DIC['ui.factory.entity'] = fn(): \ILIAS\UI\Implementation\Component\Entity\Factory => $this->ui_factory_entity;
+        $DIC['ui.factory.prompt'] = fn(): \ILIAS\UI\Implementation\Component\Prompt\Factory => $this->ui_prompt_factory;
+        $DIC['ui.factory.prompt.state'] = fn(): \ILIAS\UI\Implementation\Component\Prompt\State\Factory => $this->ui_prompt_state_factory;
+        $DIC['ui.factory.panel.listing'] = fn(): \ILIAS\UI\Implementation\Component\Panel\Listing\Factory => $this->ui_factory_panel_listing;
+        $DIC['ui.factory.panel.secondary'] = fn(): \ILIAS\UI\Implementation\Component\Panel\Secondary\Factory => $this->ui_factory_panel_secondary;
+        $DIC['ui.factory.interruptive_item'] = fn(): \ILIAS\UI\Implementation\Component\Modal\InterruptiveItem\Factory => $this->ui_factory_interruptive_item;
+        $DIC['ui.factory.progressmeter'] = fn(): \ILIAS\UI\Implementation\Component\Chart\ProgressMeter\Factory => $this->ui_factory_progressmeter;
+        $DIC['ui.factory.bar'] = fn(): \ILIAS\UI\Implementation\Component\Chart\Bar\Factory => $this->ui_factory_bar;
+        $DIC['ui.factory.input.viewcontrol'] = fn(): \ILIAS\UI\Implementation\Component\Input\Viewcontrol\Factory => $this->ui_factory_input_viewcontrol;
+        $DIC['ui.factory.input.container.viewcontrol'] = fn(): \ILIAS\UI\Implementation\Component\Input\Container\ViewControl\Factory => $this->ui_factory_input_container_viewcontrol;
+        $DIC['ui.factory.table.column'] = fn(): \ILIAS\UI\Implementation\Component\Table\Column\Factory => $this->ui_factory_table_column;
+        $DIC['ui.factory.table.action'] = fn(): \ILIAS\UI\Implementation\Component\Table\Factory => $this->ui_factory_table_action;
+        $DIC['ui.factory.maincontrols.slate'] = fn(): \ILIAS\UI\Implementation\Component\Maincontrols\Slate\Factory => $this->ui_factory_maincontrols_slate;
+        $DIC['ui.factory.symbol.icon'] = fn(): \ILIAS\UI\Implementation\Component\Symbol\icon\Factory => $this->ui_factory_symbol_icon;
+        $DIC['ui.factory.symbol.glyph'] = fn(): \ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory => $this->ui_factory_symbol_glyph;
+        $DIC['ui.factory.symbol.avatar'] = fn(): \ILIAS\UI\Implementation\Component\Symbol\avatar\Factory => $this->ui_factory_symbol_avatar;
+        $DIC['ui.factory.input.container.form'] = fn(): \ILIAS\UI\Implementation\Component\Input\Container\Form\Factory => $this->ui_factory_input_container_form;
+        $DIC['ui.factory.input.container.filter'] = fn(): \ILIAS\UI\Implementation\Component\Input\Container\Filter\Factory => $this->ui_factory_input_container_filter;
+        $DIC['ui.factory.input.field'] = fn(): \ILIAS\UI\Implementation\Component\Input\Field\Factory => $this->ui_factory_input_field;
+        $DIC['ui.upload_limit_resolver'] = fn(): \ILIAS\UI\Implementation\Component\Input\UploadLimitResolver => $this->ui_upload_limit_resolver;
+        $DIC['ui.factory'] = fn(): \ILIAS\UI\Factory => $this->ui_factory;
+        $DIC['ui.renderer'] = fn(): \ILIAS\UI\Renderer => $this->ui_renderer;
+        $DIC['setup.agentfinder'] = fn(): \ILIAS\Setup\AgentFinder => $this->setup_agent_finder;
+        $DIC['ui.factory.navigation'] = fn(): \ILIAS\UI\Implementation\Component\Input\Field\Factory => $this->ui_factory_input_field;
+        $DIC['http'] = fn(): \ILIAS\HTTP\GlobalHttpState => $this->http_services;
+        $DIC['file_delivery'] = fn(): \ILIAS\FileDelivery\FileDeliveryServices => $this->file_delivery;
+        $DIC['file_delivery.data_signer'] = fn(): \ILIAS\FileDelivery\Token\DataSigning => $this->data_signer;
+        $DIC['filesystem.security.sanitizing.filename'] = fn(): \ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer => $this->filename_sanitizer;
+        $DIC[FilesystemConfig::class] = fn(): \ILIAS\Filesystem\Configuration\FilesystemConfig => $this->filesystem_config;
+        $DIC['filesystem'] = fn(): Filesystems => $this->filesystems;
+        $DIC['filesystem.web'] = fn(): FilesystemWeb => $this->filesystem_web;
+        $DIC['filesystem.storage'] = fn(): FilesystemStorage => $this->filesystem_storage;
+        $DIC['filesystem.temp'] = fn(): FilesystemTemp => $this->filesystem_temp;
+        $DIC['filesystem.customizing'] = fn(): FilesystemCustomizing => $this->filesystem_customizing;
+        $DIC['filesystem.libs'] = fn(): FilesystemLibs => $this->filesystem_libs;
+        $DIC['filesystem.node_modules'] = fn(): FilesystemNodeModules => $this->filesystem_node_modules;
+        $DIC['resource_storage'] = fn(): IRSSServices => $this->irss_services;
+        $DIC[Environment::class] = fn(): Environment => $this->webdav_environment;
+        $DIC['ui.javascript_binding'] = fn(): \ILIAS\UI\Implementation\Render\JavaScriptBinding => $this->ui_java_script_binding;
+        $DIC['ui.signal_generator'] = fn(): \ILIAS\UI\Implementation\Component\SignalGeneratorInterface => $this->ui_signal_generator;
+        $DIC['ui.template_factory'] = fn(): \ILIAS\UI\Implementation\Render\TemplateFactory => $this->ui_template_factory;
     }
 
     public function getName(): string
