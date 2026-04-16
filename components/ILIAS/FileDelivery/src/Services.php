@@ -21,16 +21,17 @@ declare(strict_types=1);
 namespace ILIAS\FileDelivery;
 
 use ILIAS\FileDelivery\Delivery\StreamDelivery;
-use ILIAS\FileDelivery\Token\DataSigner;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileDelivery\Delivery\Disposition;
 use ILIAS\FileDelivery\Delivery\LegacyDelivery;
 use ILIAS\Data\URI;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\FileDelivery\Token\DataSigning;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class Services
+class Services implements FileDeliveryServices
 {
     public const DELIVERY_ENDPOINT = '/deliver.php/';
 
@@ -39,8 +40,8 @@ class Services
     public function __construct(
         private StreamDelivery $delivery,
         private LegacyDelivery $legacy_delivery,
-        private DataSigner $data_signer,
-        private \ILIAS\HTTP\Services $http
+        private DataSigning $data_signer,
+        private GlobalHttpState $http
     ) {
     }
 
