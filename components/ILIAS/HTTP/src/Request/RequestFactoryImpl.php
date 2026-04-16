@@ -40,15 +40,10 @@ class RequestFactoryImpl implements RequestFactory
     /**
      * @var string
      */
-    private const DEFAULT_FORWARDED_HEADER = 'X-Forwarded-Proto';
-    /**
-     * @var string
-     */
     private const DEFAULT_FORWARDED_PROTO = 'https';
 
     public function __construct(
-        private ?string $forwarded_header = null,
-        private ?string $forwarded_proto = null
+        private HeaderSettings $header_settings
     ) {
     }
 
@@ -56,10 +51,16 @@ class RequestFactoryImpl implements RequestFactory
     {
         $server_request = ServerRequest::fromGlobals();
 
-        if ($this->forwarded_header !== null && $this->forwarded_proto !== null) {
+        $is_enabled = $this->header_settings->isHTTPSDetectionEnabled();
+        if (!$is_enabled) {
+            return $server_request;
+        }
+        $header_name = $this->header_settings->getHTTPDetectionHeaderName();
+        $header_value = $this->header_settings->getHTTPDetectionHeaderValue();
+        if ($header_name !== null && $header_value !== null) {
             if (in_array(
-                $this->forwarded_proto,
-                $server_request->getHeader($this->forwarded_header),
+                $header_value,
+                $server_request->getHeader($header_name),
                 true
             )) {
                 return $server_request->withUri(
@@ -70,10 +71,10 @@ class RequestFactoryImpl implements RequestFactory
             // alternative if ini settings are used which look like X_FORWARDED_PROTO
             $header_names = array_keys($server_request->getHeaders());
             foreach ($header_names as $header_name) {
-                if (str_replace("-", "_", strtoupper($header_name)) !== $this->forwarded_header) {
+                if (str_replace("-", "_", strtoupper((string) $header_name)) !== $header_name) {
                     continue;
                 }
-                if (!in_array($this->forwarded_proto, $server_request->getHeader($header_name), true)) {
+                if (!in_array($header_value, $server_request->getHeader($header_name), true)) {
                     continue;
                 }
                 return $server_request->withUri(
