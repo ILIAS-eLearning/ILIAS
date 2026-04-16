@@ -87,9 +87,7 @@ class ilFileUtils
     public static function getValidFilename(string $a_filename): string
     {
         global $DIC;
-        $sanitizer = new ilFileServicesFilenameSanitizer(
-            $DIC->fileServiceSettings()
-        );
+        $sanitizer = $DIC['filesystem.security.sanitizing.filename'];
 
         return $sanitizer->sanitize($a_filename);
     }
@@ -101,9 +99,7 @@ class ilFileUtils
     {
         $pi = pathinfo($a_target);
         global $DIC;
-        $sanitizer = new ilFileServicesFilenameSanitizer(
-            $DIC->fileServiceSettings()
-        );
+        $sanitizer = $DIC['filesystem.security.sanitizing.filename'];
 
         if (!$sanitizer->isClean($a_target)) {
             throw new ilFileUtilsException("Invalid target file");
@@ -680,7 +676,7 @@ class ilFileUtils
         if (!is_dir($temp_path)) {
             ilFileUtils::createDirectory($temp_path);
         }
-        $temp_name = $temp_path . "/" . uniqid("tmp");
+        $temp_name = $temp_path . "/" . uniqid("tmp", true);
 
         return $temp_name;
     }

@@ -20,6 +20,7 @@ use ILIAS\FileUpload\Processor\BlacklistExtensionPreProcessor;
 use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
+use ILIAS\Filesystem\Configuration\FilesystemConfig;
 
 /**
  * Class ilFileServicesPolicy
@@ -29,7 +30,7 @@ use ILIAS\FileUpload\DTO\ProcessingStatus;
 class ilFileServicesPreProcessor extends BlacklistExtensionPreProcessor
 {
     public function __construct(
-        private ilFileServicesSettings $settings,
+        private FilesystemConfig $settings,
         string $reason = 'Extension is blacklisted.'
     ) {
         parent::__construct($this->settings->getBlackListedSuffixes(), $reason);
