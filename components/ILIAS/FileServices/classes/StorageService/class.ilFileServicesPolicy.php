@@ -16,77 +16,11 @@
  *
  *********************************************************************/
 
-use ILIAS\ResourceStorage\Policy\WhiteAndBlacklistedFileNamePolicy;
+use ILIAS\FileServices\Policy\FileServicesPolicy;
 
 /**
- * Class ilFileServicesPolicy
- *
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @deprecated Use {@see FileServicesPolicy} instead.
  */
-class ilFileServicesPolicy extends WhiteAndBlacklistedFileNamePolicy
+class ilFileServicesPolicy extends FileServicesPolicy
 {
-    private array $umlaut_mapping = [
-        "Ä" => "Ae",
-        "Ö" => "Oe",
-        "Ü" => "Ue",
-        "ä" => "ae",
-        "ö" => "oe",
-        "ü" => "ue",
-        "é" => "e",
-        "è" => "e",
-        "é" => "e",
-        "ê" => "e",
-        "ß" => "ss"
-    ];
-    protected int $file_admin_ref_id;
-    protected bool $as_ascii = true;
-    protected ilFileServicesFilenameSanitizer $sanitizer;
-    protected ?bool $bypass = null;
-
-    public function __construct(protected ilFileServicesSettings $settings)
-    {
-        parent::__construct($this->settings->getBlackListedSuffixes(), $this->settings->getWhiteListedSuffixes());
-        $this->sanitizer = new ilFileServicesFilenameSanitizer($this->settings);
-        $this->as_ascii = $this->settings->isASCIIConvertionEnabled();
-    }
-
-    public function prepareFileNameForConsumer(string $filename_with_extension): string
-    {
-        $filename = $this->sanitizer->sanitize(basename($filename_with_extension));
-        if ($this->as_ascii) {
-            $filename = $this->ascii($filename);
-        }
-        // remove all control characters, see https://mantis.ilias.de/view.php?id=34975
-        $filename = preg_replace('/&#.*;/U', '_', $filename, 1);
-
-        return $filename;
-    }
-
-    public function ascii(string $filename): string
-    {
-        foreach ($this->umlaut_mapping as $src => $tgt) {
-            $filename = str_replace($src, $tgt, $filename);
-        }
-
-        $ascii_filename = htmlentities($filename, ENT_NOQUOTES, 'UTF-8');
-        $ascii_filename = preg_replace('/\&(.)[^;]*;/', '\\1', $ascii_filename);
-        $ascii_filename = preg_replace('/[\x7f-\xff]/', '_', (string) $ascii_filename);
-
-        // OS do not allow the following characters in filenames: \/:*?"<>|
-        $ascii_filename = preg_replace(
-            '/[:\x5c\/\*\?\"<>\|]/',
-            '_',
-            (string) $ascii_filename
-        );
-        return $ascii_filename;
-    }
-
-    #[\Override]
-    public function isBlockedExtension(string $extension): bool
-    {
-        if ($this->settings->isByPassAllowedForCurrentUser()) {
-            return false;
-        }
-        return parent::isBlockedExtension($extension);
-    }
 }
