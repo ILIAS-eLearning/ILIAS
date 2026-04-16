@@ -45,5 +45,8 @@ class File implements Component
 
         $contribute[PublicAsset::class] = fn(): PublicAsset =>
             new OfComponent($this, "default_file_icons", "assets");
+
+        $contribute[\ILIAS\StaticURL\Handler\Handler::class] = static fn(): \ILIAS\StaticURL\Handler\Handler =>
+            new \ilFileStaticURLHandler();
     }
 }

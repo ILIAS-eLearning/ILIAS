@@ -36,5 +36,7 @@ class Certificate implements Component\Component
             new \ilCertificatSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+        $contribute[\ILIAS\StaticURL\Handler\Handler::class] = static fn(): \ILIAS\StaticURL\Handler\Handler =>
+            new \ILIAS\Certificate\StaticUrlHandler();
     }
 }
