@@ -20,11 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\FileUpload\Processor;
 
-use ILIAS\Filesystem\Upload\SVGBlacklistPreProcessor as NewSVGBlacklistPreProcessor;
-
 /**
- * @deprecated Use {@see \ILIAS\Filesystem\Upload\SVGBlacklistPreProcessor} instead.
+ * Collection of pre-processors contributed by components via the bootstrap $contribute/$seek mechanism.
  */
-class SVGBlacklistPreProcessor extends NewSVGBlacklistPreProcessor
+interface PreProcessorCollection
 {
+    /**
+     * @return iterable<PreProcessor>
+     */
+    public function processors(): iterable;
 }
