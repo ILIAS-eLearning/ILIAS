@@ -49,6 +49,10 @@ use ILIAS\Environment\Configuration\Instance\ClientIni;
 use ILIAS\Environment\Configuration\Instance\ClientIdProvider;
 use ILIAS\Filesystem\Configuration\DatabaseBackedFilesystemConfig;
 use ILIAS\Database\PDO\External;
+use ILIAS\FileUpload\Processor\PreProcessor;
+use ILIAS\Filesystem\Upload\FilenameSanitizerPreProcessor;
+use ILIAS\Filesystem\Upload\InsecureFilenameSanitizerPreProcessor;
+use ILIAS\Filesystem\Upload\SVGBlacklistPreProcessor;
 
 class Filesystem implements Component
 {
@@ -134,5 +138,10 @@ class Filesystem implements Component
         $contribute[Agent::class] = static fn(): \ilFileSystemSetupAgent => new \ilFileSystemSetupAgent(
             $pull[Factory::class]
         );
+
+        // UPLOAD PRE-PROCESSORS
+        $contribute[PreProcessor::class] = static fn(): PreProcessor => new FilenameSanitizerPreProcessor();
+        $contribute[PreProcessor::class] = static fn(): PreProcessor => new InsecureFilenameSanitizerPreProcessor();
+        $contribute[PreProcessor::class] = static fn(): PreProcessor => new SVGBlacklistPreProcessor();
     }
 }
