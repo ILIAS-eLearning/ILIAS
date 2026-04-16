@@ -23,7 +23,7 @@ use ILIAS\Refinery\Factory;
 use ILIAS\WOPI\Embed\EmbeddedApplication;
 use ILIAS\WOPI\Embed\Renderer;
 use ILIAS\WOPI\Embed\EmbeddedApplicationGSProvider;
-use ILIAS\FileDelivery\Token\DataSigner;
+use ILIAS\FileDelivery\Token\DataSigning;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -71,7 +71,7 @@ class ilWOPIEmbeddedApplicationGUI
      * @readonly
      */
     private ilLanguage $lng;
-    private DataSigner $data_signer;
+    private DataSigning $data_signer;
 
     public function __construct(
         private EmbeddedApplication $application,
