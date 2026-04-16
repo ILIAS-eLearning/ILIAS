@@ -35,11 +35,6 @@ use ILIAS\ResourceStorage\Resource\StorableContainerResource;
 class ConsumerFactory
 {
     /**
-     * @readonly
-     */
-    private Services $http;
-
-    /**
      * ConsumerFactory constructor.
      * @param FileNamePolicy|null $file_name_policy
      */
@@ -47,14 +42,18 @@ class ConsumerFactory
         private StreamAccess $stream_access,
         protected FileNamePolicy $file_name_policy = new NoneFileNamePolicy()
     ) {
+    }
+
+    private function http(): Services
+    {
         global $DIC;
-        $this->http = $DIC->http();
+        return $DIC->http();
     }
 
     public function download(StorableResource $resource): DownloadConsumer
     {
         return new DownloadConsumer(
-            $this->http,
+            $this->http(),
             $resource,
             $this->stream_access,
             $this->file_name_policy
@@ -64,7 +63,7 @@ class ConsumerFactory
     public function inline(StorableResource $resource): InlineConsumer
     {
         return new InlineConsumer(
-            $this->http,
+            $this->http(),
             $resource,
             $this->stream_access,
             $this->file_name_policy
