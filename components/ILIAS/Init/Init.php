@@ -33,6 +33,8 @@ use ILIAS\Filesystem\FileSystems\FilesystemCustomizing;
 use ILIAS\Filesystem\FileSystems\FilesystemLibs;
 use ILIAS\Filesystem\FileSystems\FilesystemNodeModules;
 use ILIAS\ResourceStorage\IRSSServices;
+use ILIAS\Environment\Configuration\Instance\IliasIni;
+use ILIAS\Environment\Configuration\Instance\ClientIni;
 
 class Init implements Component\Component
 {
@@ -154,6 +156,8 @@ class Init implements Component\Component
                 $use[FilesystemLibs::class],
                 $use[FilesystemNodeModules::class],
                 $use[IRSSServices::class],
+                $use[IliasIni::class],
+                $use[ClientIni::class],
             );
     }
 }
