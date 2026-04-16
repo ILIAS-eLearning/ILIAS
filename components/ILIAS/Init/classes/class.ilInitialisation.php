@@ -19,7 +19,6 @@
 // TODO:
 use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
 use ILIAS\DI\Container;
-use ILIAS\Filesystem\Provider\FilesystemFactory;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\Processor\FilenameSanitizerPreProcessor;
 use ILIAS\FileUpload\Processor\PreProcessorManagerImpl;
@@ -31,7 +30,6 @@ use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Data\Result\Error;
 use ILIAS\Refinery\Transformation;
-use ILIAS\FileDelivery\Init;
 use ILIAS\LegalDocuments\Conductor;
 use ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Factory as CustomIconFactory;
 use ILIAS\User\PublicInterface as UserPublicInterface;
@@ -195,127 +193,16 @@ class ilInitialisation
         define("IL_TIMEZONE", $tz);
     }
 
-    protected static function initResourceStorage(): void
-    {
-        global $DIC;
-        (new InitResourceStorage())->init($DIC);
-    }
-
-    /**
-     * Bootstraps the ILIAS filesystem abstraction.
-     * The bootstrapped abstraction are:
-     *  - temp
-     *  - web
-     *  - storage
-     *  - customizing
-     * @return void
-     * @since 5.3
-     */
-    public static function bootstrapFilesystems(): void
-    {
-        global $DIC;
-
-        $DIC['filesystem.security.sanitizing.filename'] = function (Container $c) {
-            return new ilFileServicesFilenameSanitizer(
-                $c->fileServiceSettings()
-            );
-        };
-
-        $DIC['filesystem.factory'] = function ($c) {
-            return new \ILIAS\Filesystem\Provider\DelegatingFilesystemFactory($c['filesystem.security.sanitizing.filename']);
-        };
-
-        $DIC['filesystem.web'] = function ($c) {
-            //web
-
-            /**
-             * @var FilesystemFactory $delegatingFactory
-             */
-            $delegatingFactory = $c['filesystem.factory'];
-            $webConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/public/' . ILIAS_WEB_DIR . '/' . CLIENT_ID);
-            return $delegatingFactory->getLocal($webConfiguration);
-        };
-
-        $DIC['filesystem.storage'] = function ($c) {
-            //storage
-
-            /**
-             * @var FilesystemFactory $delegatingFactory
-             */
-            $delegatingFactory = $c['filesystem.factory'];
-            $storageConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_DATA_DIR . '/' . CLIENT_ID);
-            return $delegatingFactory->getLocal($storageConfiguration);
-        };
-
-        $DIC['filesystem.temp'] = function ($c) {
-            //temp
-
-            /**
-             * @var FilesystemFactory $delegatingFactory
-             */
-            $delegatingFactory = $c['filesystem.factory'];
-            $tempConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_DATA_DIR . '/' . CLIENT_ID . '/temp');
-            return $delegatingFactory->getLocal($tempConfiguration);
-        };
-
-        $DIC['filesystem.customizing'] = function ($c) {
-            //customizing
-
-            /**
-             * @var FilesystemFactory $delegatingFactory
-             */
-            $delegatingFactory = $c['filesystem.factory'];
-            $customizingConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/public/' . 'Customizing');
-            return $delegatingFactory->getLocal($customizingConfiguration);
-        };
-
-        $DIC['filesystem.libs'] = function ($c) {
-            //customizing
-
-            /**
-             * @var FilesystemFactory $delegatingFactory
-             */
-            $delegatingFactory = $c['filesystem.factory'];
-            $customizingConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/' . 'vendor');
-            return $delegatingFactory->getLocal($customizingConfiguration, true);
-        };
-
-        $DIC['filesystem.node_modules'] = function ($c) {
-            //customizing
-
-            /**
-             * @var FilesystemFactory $delegatingFactory
-             */
-            $delegatingFactory = $c['filesystem.factory'];
-            $customizingConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/' . 'node_modules');
-            return $delegatingFactory->getLocal($customizingConfiguration, true);
-        };
-
-        $DIC['filesystem'] = function ($c) {
-            return new \ILIAS\Filesystem\FilesystemsImpl(
-                $c['filesystem.storage'],
-                $c['filesystem.web'],
-                $c['filesystem.temp'],
-                $c['filesystem.customizing'],
-                $c['filesystem.libs'],
-                $c['filesystem.node_modules']
-            );
-        };
-    }
-
     /**
      * Initializes the file upload service.
      * This service requires the http and filesystem service.
      * @param \ILIAS\DI\Container $dic The dependency container which should be used to load the file upload service.
-     * @return void
      */
     public static function initFileUploadService(\ILIAS\DI\Container $dic): void
     {
-        $dic['upload.processor-manager'] = function ($c) {
-            return new PreProcessorManagerImpl();
-        };
+        $dic['upload.processor-manager'] = (fn($c) => new PreProcessorManagerImpl());
 
-        $dic['upload'] = function (\ILIAS\DI\Container $c) {
+        $dic['upload'] = function (\ILIAS\DI\Container $c): \ILIAS\FileUpload\FileUploadImpl {
             $fileUploadImpl = new \ILIAS\FileUpload\FileUploadImpl(
                 $c['upload.processor-manager'],
                 $c['filesystem'],
@@ -347,17 +234,13 @@ class ilInitialisation
 
     protected static function initUploadPolicies(\ILIAS\DI\Container $dic): void
     {
-        $dic['upload_policy_repository'] = static function ($dic) {
-            return new UploadPolicyDBRepository($dic->database());
-        };
+        $dic['upload_policy_repository'] = (static fn($dic) => new UploadPolicyDBRepository($dic->database()));
 
-        $dic['upload_policy_resolver'] = static function ($dic): UploadPolicyResolver {
-            return new UploadPolicyResolver(
-                $dic->rbac()->review(),
-                $dic->user(),
-                $dic['upload_policy_repository']->getAll(),
-            );
-        };
+        $dic['upload_policy_resolver'] = (static fn($dic): UploadPolicyResolver => new UploadPolicyResolver(
+            $dic->rbac()->review(),
+            $dic->user(),
+            $dic['upload_policy_repository']->getAll(),
+        ));
     }
 
     protected static function buildHTTPPath(): bool
@@ -1168,7 +1051,6 @@ class ilInitialisation
         self::initHTTPServices($GLOBALS["DIC"]);
         if (ilContext::initClient()) {
             self::initFileUploadService($GLOBALS["DIC"]);
-            Init::init($GLOBALS["DIC"]);
             self::initClient();
             self::initSession();
 
@@ -1268,10 +1150,6 @@ class ilInitialisation
         self::setCookieConstants();
 
         self::determineClient();
-
-        self::bootstrapFilesystems();
-
-        self::initResourceStorage();
 
         self::initClientIniFile();
 
@@ -1487,9 +1365,6 @@ class ilInitialisation
      */
     protected static function initHTTPServices(\ILIAS\DI\Container $container): void
     {
-        $init_http = new InitHttpServices();
-        $init_http->init($container);
-
         \ILIAS\StaticURL\Init::init($container);
     }
 
