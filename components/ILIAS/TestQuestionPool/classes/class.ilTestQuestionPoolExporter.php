@@ -16,39 +16,30 @@
  *
  *********************************************************************/
 
-use ILIAS\Data\ObjectId;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\ExportContext;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\SimpleXMLSerializer;
-use ILIAS\TestQuestionPool\ExportImport\QuestionPoolExporter;
+use ILIAS\Export\ExportHandler\Factory as ExportHandler;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\XmlExporterBridge;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 
-/**
- * Used for container export with tests
- *
- * @author Helmut Schottmüller <ilias@aurealis.de>
- * @version $Id$
- * @ingroup components\ILIASTest
- */
 class ilTestQuestionPoolExporter extends ilXmlExporter
 {
-    private QuestionPoolExporter $exporter;
-
-    /**
-     * @var array<int, ExportContext> $batches
-     */
-    private array $batches = [];
-
+    use XmlExporterBridge;
 
     public function init(): void
     {
-        $this->exporter = QuestionPoolDIC::dic()['exportimport.exporter'];
+        global $DIC;
+        $local_dic = QuestionPoolDIC::dic();
+
+        $this->export_handler = new ExportHandler();
+        $this->state_holder = $local_dic['exportimport.state_holder'];
+        $this->exporter = $local_dic['exportimport.exporter'];
+        $this->logger = $DIC->logger()->qpl()->getLogger();
     }
 
     /**
-     * Returns the final XML content for one question pool.
+     * Returns the final XML content for the question pool.
      *
      * This method is called after `getXmlExportTailDependencies()`. At this point the export writer and export
-     * directory are available, so the prepared batch can be written to disk and finalized.
+     * directory are available, so the preprocessed export can be written to disk and returned as xml.
      */
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
@@ -56,15 +47,14 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
             throw new InvalidArgumentException("Invalid entity for question pool export: {$a_entity}");
         }
 
-        return $this->finalizeExport((int) $a_id)->getContent();
+        return $this->finalizeExport()->getContent();
     }
 
     /**
-     * Collects export tail dependencies for one or more question pools.
+     * Collects export tail dependencies for the question pool.
      *
      * The export framework calls this method before `getXmlRepresentation()`. Therefore this method only prepares and
-     * processes the export batch in memory and caches the context, because writer and export directory are not yet
-     * initialized here.
+     * processes the export in memory using the export state. The export state is created if it does not exist yet.
      */
     public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
@@ -72,68 +62,33 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
             throw new InvalidArgumentException("Invalid entity for question pool export: {$a_entity}");
         }
 
-        $dependencies = [];
-        foreach ($a_ids as $id) {
-            $context = $this->processExport((int) $id);
-            $dependencies = array_merge($dependencies, $context->getDependencies());
+        // If the default export option was used, the state is not initialized yet.
+        if ($this->state_holder->exists() === false) {
+            $this->initExportState(
+                'components/ILIAS/TestQuestionPool',
+                $a_target_release,
+                $a_entity,
+                $a_ids
+            );
         }
 
-        return $dependencies;
+        return $this->processExport()->getDependencies();
     }
 
     /**
-     * Returns schema versions that the component can export to.
-     * ILIAS chooses the first one, that has min/max constraints which
-     * fit to the target release. Please put the newest on top.
-     * @return array
+     * Returns schema versions that the component can export to. ILIAS chooses the first one, that has min/max
+     * constraints which fit to the target release.
      */
     public function getValidSchemaVersions(string $a_entity): array
     {
         return [
-            "4.1.0" => [
-                "namespace" => "http://www.ilias.de/Modules/TestQuestionPool/htlm/4_1",
-                "xsd_file" => "ilias_qpl_4_1.xsd",
-                "uses_dataset" => false,
-                "min" => "4.1.0",
-                "max" => ""]
+            '4.1.0' => [
+                'namespace' => 'http://www.ilias.de/Modules/TestQuestionPool/htlm/4_1',
+                'xsd_file' => 'ilias_qpl_4_1.xsd',
+                'uses_dataset' => false,
+                'min' => '4.1.0',
+                'max' => ''
+            ]
         ];
-    }
-
-    /**
-     * Prepares and processes a question pool export in memory. The resulting context is cached per pool and reused
-     * across calls.
-     */
-    private function processExport(int $pool_id): ExportContext
-    {
-        if (isset($this->batches[$pool_id])) {
-            return $this->batches[$pool_id];
-        }
-
-        $context = $this->exporter->prepare(
-            new ObjectId($pool_id),
-            $this->exp->getExportConfigs()
-        );
-
-        $context = $this->exporter->process(
-            $context,
-            new SimpleXMLSerializer()->open('memory')
-        );
-
-        $this->batches[$pool_id] = $context;
-        return $context;
-    }
-
-    /**
-     * Finalizes a prepared export context and writes it to the export directory.
-     */
-    private function finalizeExport(int $pool_id): ExportContext
-    {
-        $context = $this->processExport($pool_id);
-
-        return $this->exporter->write(
-            $context,
-            $this->exp->getExportWriter(),
-            $this->exp->getPathToComponentExpDirInContainer()
-        );
     }
 }
