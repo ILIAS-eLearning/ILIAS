@@ -104,7 +104,7 @@ class NewsCollectionService
             if (!\ilContainer::_lookupContainerSetting($context_obj_id, 'cont_use_news', '1')
                 || (
                     !\ilContainer::_lookupContainerSetting($context_obj_id, 'cont_use_news', '1')
-                       && !\ilContainer::_lookupContainerSetting($context_obj_id, 'news_timeline')
+                    && !\ilContainer::_lookupContainerSetting($context_obj_id, 'news_timeline')
                 )) {
                 return new NewsCollection();
             }
@@ -119,6 +119,16 @@ class NewsCollectionService
 
         $context = new NewsContext($ref_id, $context_obj_id, $context_type);
         return $this->applyFinalProcessing($this->getNewsForContexts([$context], $criteria, $user_id, $lazy), $criteria);
+    }
+
+    /**
+     * @return list<array{0: NewsContext, 1: int}>
+     */
+    public function countNewsByContext(\ilObjUser $user_id, NewsCriteria $criteria): array
+    {
+        $contexts = $this->user_context_resolver->getAccessibleContexts($user_id, $criteria);
+        $contexts = $this->fetchContextData($contexts);
+        return $this->repository->countByContextsBatch($contexts);
     }
 
     public function invalidateCache(int $user_id): void
