@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\TestQuestionPool\ExportImport;
+namespace ILIAS\TestQuestionPool\ExportImport\Export;
 
 use assFormulaQuestion;
 use ilDBInterface;
@@ -165,7 +165,7 @@ class QuestionPoolExporter implements Exporter
     ): void {
         $serializer->append('object', $transformations->normalize($collector->getObject()));
 
-        $obj_id = $collector->getPoolId()->toInt();
+        $obj_id = $collector->getObjectId()->toInt();
 
         $state->addDependency('components/ILIAS/ILIASObject', 'common', [$obj_id]);
         $state->addDependency('components/ILIAS/MetaData', 'qpl', ["{$obj_id}:0:qpl"]);
