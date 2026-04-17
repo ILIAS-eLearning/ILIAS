@@ -22,6 +22,9 @@ namespace ILIAS\User\Settings;
 
 interface DataRepository
 {
+    /**
+     * @return array<string, string|null>
+     */
     public function getFor(int $user_id): array;
     public function deleteFor(int $user_id): void;
     public function deleteSingleFor(int $user_id, string $key): void;

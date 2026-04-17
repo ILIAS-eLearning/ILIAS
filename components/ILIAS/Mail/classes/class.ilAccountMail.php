@@ -171,7 +171,7 @@ class ilAccountMail
         } else {
             $attachment = $amail->getAttachment($this->irss);
             if ($attachment !== null) {
-                $mmail->Attach($attachment[0], '', 'attachment', $attachment[1]);
+                $mmail->Attach($attachment->getPath(), '', 'attachment', $attachment->getFilename());
             }
 
             // replace placeholders
