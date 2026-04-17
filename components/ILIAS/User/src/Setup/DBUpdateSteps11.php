@@ -454,13 +454,13 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
         $query = $this->db->query(
             "SELECT usr_id, keyword FROM usr_pref WHERE {$this->db->like('keyword', \ilDBConstants::T_TEXT, 'public_udf_&')}"
         );
-        while (($row = $this->db->fetchObject($query)) !== null) {
+        while ($row = $this->db->fetchAssoc($query)) {
             $this->db->update(
                 'usr_pref',
                 [
-                    keyword => [
+                    'keyword' => [
                         \ilDBConstants::T_TEXT,
-                            str_replace('public_udf_', 'public_', $row['keyword'])
+                        str_replace('public_udf_', 'public_', $row['keyword'])
                     ]
                 ],
                 [
