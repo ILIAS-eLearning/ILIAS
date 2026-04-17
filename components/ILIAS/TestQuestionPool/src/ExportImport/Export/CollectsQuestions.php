@@ -18,84 +18,53 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\TestQuestionPool\ExportImport;
+namespace ILIAS\TestQuestionPool\ExportImport\Export;
 
 use assFormulaQuestionUnit;
 use assFormulaQuestionUnitCategory;
 use assQuestion;
 use Generator;
 use ilAssQuestionSkillAssignmentList;
-use ilDBInterface;
-use ilObjQuestionPool;
 use ilAssClozeTestFeedback;
 use ilAssMultiOptionQuestionFeedback;
 use ilAssSpecificFeedbackIdentifierList;
+use ilDBInterface;
 use ILIAS\Data\ObjectId;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\DataCollector;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 use ILIAS\TestQuestionPool\ExportImport\Envelopes\Feedback;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionProperties;
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ilUnitConfigurationRepository;
 
 /**
- * Collector to aggregate data from the question pool for export.
+ * Trait to collect questions and related data from a question pool or test object.
  */
-class QuestionPoolCollector implements DataCollector
+trait CollectsQuestions
 {
-    /** @var array<int, GeneralQuestionProperties> $questions */
-    private ?array $questions = null;
-    private ?ilObjQuestionPool $pool_object = null;
-    private ?ilAssQuestionSkillAssignmentList $skill_assignments = null;
-
-    public function __construct(
-        private readonly GeneralQuestionPropertiesRepository $question_repository,
-        private readonly ilDBInterface $db,
-        private readonly ObjectId $pool_id
-    ) {
-    }
-
     /**
-     * Get the ID of the question pool.
-     *
-     * @return ObjectId
-     */
-    public function getPoolId(): ObjectId
-    {
-        return $this->pool_id;
-    }
-
-    /**
-     * Get the object of the question pool. It will be loaded from the database if not already loaded.
-     */
-    public function getObject(): ilObjQuestionPool
-    {
-        if ($this->pool_object === null) {
-            $this->pool_object = new ilObjQuestionPool($this->pool_id->toInt(), false);
-            $this->pool_object->read();
-        }
-
-        return $this->pool_object;
-    }
-
-    /**
-     * Collect the question properties for all questions in the question pool.
+     * Get the question properties for all questions related to the target object.
      *
      * @return array<int, GeneralQuestionProperties>
      */
-    public function getQuestionProperties(): array
-    {
-        if ($this->questions === null) {
-            $this->questions = $this->question_repository->getForParentObjectId($this->pool_id->toInt());
-        }
-        return $this->questions;
-    }
+    abstract public function getQuestionProperties(): array;
 
     /**
-     * Collect the question objects for all questions in the question pool.
-     *
-     * @return Generator<assQuestion>
+     * Get the object ID of the object that contains the questions.
      */
+    abstract public function getObjectId(): ObjectId;
+
+    /**
+     * Get the database interface.
+     */
+    abstract private function database(): ilDBInterface;
+
+
+    private ?ilAssQuestionSkillAssignmentList $skill_assignments = null;
+
+    /**
+    * Collect the question objects by instantiating the question objects.
+    *
+    * @return Generator<assQuestion>
+    */
     public function getQuestionObjects(): Generator
     {
         foreach ($this->getQuestionProperties() as $question) {
@@ -109,7 +78,7 @@ class QuestionPoolCollector implements DataCollector
 
     /**
      * Get all unit categories and units for a formula question.
-     * 
+     *
      * @return array{categories: list<assFormulaQuestionUnitCategory>, base_units: list<assFormulaQuestionUnit>, units: list<assFormulaQuestionUnit>}
      */
     public function getUnitsAndCategories(int $question_id): array
@@ -122,12 +91,12 @@ class QuestionPoolCollector implements DataCollector
         ];
 
         foreach ($repository->getCategorizedUnits() as $item) {
-            if($item instanceof assFormulaQuestionUnitCategory) {
+            if ($item instanceof assFormulaQuestionUnitCategory) {
                 $data['categories'][] = $item;
             }
 
-            if($item instanceof assFormulaQuestionUnit) {
-                if($item->getBaseUnit() === 0 || $item->getBaseUnit() === $item->getId()) {
+            if ($item instanceof assFormulaQuestionUnit) {
+                if ($item->getBaseUnit() === 0 || $item->getBaseUnit() === $item->getId()) {
                     $data['base_units'][] = $item;
                 } else {
                     $data['units'][] = $item;
@@ -212,8 +181,8 @@ class QuestionPoolCollector implements DataCollector
     public function getSkillAssignments(): array
     {
         if ($this->skill_assignments === null) {
-            $this->skill_assignments = new ilAssQuestionSkillAssignmentList($this->db);
-            $this->skill_assignments->setParentObjId($this->pool_id->toInt());
+            $this->skill_assignments = new ilAssQuestionSkillAssignmentList($this->database());
+            $this->skill_assignments->setParentObjId($this->getObjectId()->toInt());
             $this->skill_assignments->loadFromDb();
             $this->skill_assignments->loadAdditionalSkillData();
         }
@@ -225,7 +194,7 @@ class QuestionPoolCollector implements DataCollector
                 $this->skill_assignments->getAssignmentsByQuestionId($question->getQuestionId())
             );
         }
-        
+
         return $assignments;
     }
 
