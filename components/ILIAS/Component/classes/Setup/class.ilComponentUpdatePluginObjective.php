@@ -112,7 +112,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
         $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY);
         $plugin = $component_repository->getPluginByName($this->plugin_name);
 
-        return $plugin->isUpdateRequired();
+        return $plugin->supportsCLISetup() && $plugin->isUpdateRequired();
     }
 
     protected function initEnvironment(
