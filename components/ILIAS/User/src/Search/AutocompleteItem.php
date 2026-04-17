@@ -28,8 +28,10 @@ interface AutocompleteItem
      * The returned tags will then again be filtered by the value in the property
      * "searchBy". If you need to show the tag even if you are not allowed to
      * divulge the full value of the field the search string was found in, you
-     * can simply reuse the search term here. See the
-     * `\ILIAS\User\Search\DefaultAutocompleteItem for an implementation of this.
+     * can simply reuse the search term here. See the {@see DefaultAutocompleteItem}
+     * for an implementation of this.
+     *
+     * @return array{value: string, display: string, searchBy: string}
      */
     public function getTagArray(): array;
 }

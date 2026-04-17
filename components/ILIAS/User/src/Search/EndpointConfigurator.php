@@ -24,13 +24,13 @@ interface EndpointConfigurator
 {
     /**
      * @return list<string> MUST return an array containing all class names in
-     * the path to be prepended to the EndpointGUI in order to build the URL
-     * with `ilCtrl`
+     * the path to be prepended to the EndpointGUI to build the URL
+     * with {@see \ilCtrlInterface}
      */
     public function getParentClassPath(): array;
 
     /**
-     * @return list<\ILIAS\User\Search\AutocompleteItem> Items that should be
+     * @return list<AutocompleteItem> Items that should be
      * added to the list the user can select from.
      */
     public function getAdditionalAnswerElements(
