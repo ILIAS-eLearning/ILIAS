@@ -19,11 +19,11 @@
 namespace ILIAS\User\Setup;
 
 use ILIAS\User\Profile\Fields\AvailableSections;
-use ILIAS\User\Profile\Fields\Custom\TextArea;
 use ILIAS\Setup\Migration;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\AdminInteraction;
 use ILIAS\Data\UUID\Factory as UUIDFactory;
+use ILIAS\User\Profile\Fields\Custom\Text;
 
 class UserProfileMigrations implements Migration
 {
