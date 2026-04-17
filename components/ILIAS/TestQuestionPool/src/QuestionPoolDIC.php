@@ -24,7 +24,7 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\StateHolder;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Builder;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
-use ILIAS\TestQuestionPool\ExportImport\QuestionPoolExporter;
+use ILIAS\TestQuestionPool\ExportImport\Export\QuestionPoolExporter;
 use ILIAS\TestQuestionPool\ExportImport\QuestionPoolImporter;
 use ILIAS\TestQuestionPool\ExportImport\SkillAssignmentsImporter;
 use Pimple\Container as PimpleContainer;
