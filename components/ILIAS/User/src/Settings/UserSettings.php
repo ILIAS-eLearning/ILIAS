@@ -25,7 +25,7 @@ interface UserSettings
     /**
      * Return all User Settings provided by the component
      *
-     * @return array<string>
+     * @return list<class-string<SettingDefinition>>
      */
     public function getSettingConfigurations(): array;
 }

@@ -256,6 +256,9 @@ class Setting implements SettingDefinition
         );
     }
 
+    /**
+     * @return array{start: int, ref_id: int|null}
+     */
     public function retrieveValueFromUser(\ilObjUser $user): array
     {
         return [

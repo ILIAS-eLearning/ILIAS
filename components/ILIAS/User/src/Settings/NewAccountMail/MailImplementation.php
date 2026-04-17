@@ -74,7 +74,7 @@ class MailImplementation implements Mail
         return $this->attachment_rid;
     }
 
-    public function getAttachment(ResourceStorage $irss): ?array
+    public function getAttachment(ResourceStorage $irss): ?MailAttachment
     {
         if ($this->attachment_rid !== null) {
             $rid = $irss->manage()->find($this->attachment_rid);
@@ -82,10 +82,10 @@ class MailImplementation implements Mail
                 return null;
             }
             $this->ensureAttachmentFileExists($irss, $rid);
-            return [
+            return new MailAttachment(
                 $this->temp_file_path . $this->lang_code,
                 $irss->manage()->getCurrentRevision($rid)->getTitle()
-            ];
+            );
         }
 
         if ($this->legacy_attachment_filename !== null) {
@@ -100,7 +100,7 @@ class MailImplementation implements Mail
                 )
             );
 
-            return [$path, $this->legacy_attachment_filename];
+            return new MailAttachment($path, $this->legacy_attachment_filename);
         }
 
         return null;
@@ -113,6 +113,9 @@ class MailImplementation implements Mail
         }
     }
 
+    /**
+     * @return array<string, array{0: string, 1: mixed}>
+     */
     public function toStorage(): array
     {
         return [

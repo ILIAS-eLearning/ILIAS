@@ -18,15 +18,23 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User\Settings;
+namespace ILIAS\User\Settings\NewAccountMail;
 
-interface ConfigurationRepository
+final readonly class MailAttachment
 {
-    /**
-     * @return list<Setting>
-     */
-    public function get(): array;
-    public function getByIdentifier(string $identifier): ?Setting;
-    public function getByDefinitionClass(string $class): ?Setting;
-    public function storeConfiguration(Setting $setting): void;
+    public function __construct(
+        private string $path,
+        private string $filename
+    ) {
+    }
+
+    public function getPath(): string
+    {
+        return $this->path;
+    }
+
+    public function getFilename(): string
+    {
+        return $this->filename;
+    }
 }

@@ -28,7 +28,7 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Refinery\Custom\Constraint;
+use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Authentication\Password\LocalUserPasswordManager;
 use Psr\Http\Message\ServerRequestInterface;
