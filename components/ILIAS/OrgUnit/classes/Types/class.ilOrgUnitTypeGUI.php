@@ -314,7 +314,10 @@ class ilOrgUnitTypeGUI
         foreach ($available_records as $record) {
             $options[$record->getRecordId()] = $record->getTitle();
         }
-        $selected_ids = $type->getAssignedAdvancedMDRecordIds();
+        $selected_ids = array_values(array_filter(
+            $type->getAssignedAdvancedMDRecordIds(),
+            fn(int $id) => array_key_exists($id, $options)
+        ));
 
         $trafo = $this->refinery->custom()->transformation(
             fn($v) => is_array($v) ? array_shift($v) : []
