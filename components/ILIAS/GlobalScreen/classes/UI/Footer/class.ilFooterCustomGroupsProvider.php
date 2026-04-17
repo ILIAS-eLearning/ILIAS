@@ -110,8 +110,7 @@ final class ilFooterCustomGroupsProvider extends AbstractStaticFooterProvider
 
     private function buildURI(string $from_path): URI
     {
-        $request = $this->dic->http()->request()->getUri();
-        return new URI($request->getScheme() . '://' . $request->getHost() . '/' . ltrim($from_path, '/'));
+        return new URI(rtrim(ILIAS_HTTP_PATH, '/') . '/' . ltrim($from_path, '/'));
     }
 
     #[\Override]

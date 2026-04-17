@@ -84,8 +84,7 @@ class Flow
 
     public function getURI(string $with_path): URI
     {
-        $request = $this->http->request()->getUri();
-        return new URI($request->getScheme() . '://' . $request->getHost() . '/' . ltrim($with_path, '/'));
+        return new URI(rtrim(ILIAS_HTTP_PATH, '/') . '/' . ltrim($with_path, '/'));
     }
 
     /**
