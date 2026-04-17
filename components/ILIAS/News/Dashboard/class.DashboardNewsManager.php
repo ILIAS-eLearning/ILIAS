@@ -110,11 +110,9 @@ class DashboardNewsManager
      */
     public function getContextOptions(): array
     {
-        $context_count = $this->repo->news()->countByContextsBatch(
-            $this->domain->resolver()->getAccessibleContexts(
-                $this->domain->user(),
-                new NewsCriteria(period: $this->getDashboardNewsPeriod(), only_public: false)
-            )
+        $context_count = $this->domain->collection()->countNewsByContext(
+            $this->domain->user(),
+            new NewsCriteria(period: $this->getDashboardNewsPeriod(), only_public: false)
         );
 
         $options = [];
