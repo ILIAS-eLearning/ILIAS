@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\FileUpload\Handler\BasicHandlerResult;
+use ILIAS\FileUpload\Handler\HandlerResult;
 
 trait ilObjectPropertiesUploadSecurityFunctionsTrait
 {
