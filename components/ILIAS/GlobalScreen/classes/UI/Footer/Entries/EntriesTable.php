@@ -45,6 +45,8 @@ class EntriesTable implements OrderingRetrieval
     private URLBuilderToken $id_token;
     private Translator $translator;
     private TranslationsRepository $translations_repository;
+    private \ILIAS\GlobalScreen\Scope\Footer\Collector\FooterMainCollector $collector;
+    private \ILIAS\GlobalScreen\Identification\IdentificationFactory $identification;
 
     public function __construct(
         private Pons $pons,
@@ -52,12 +54,16 @@ class EntriesTable implements OrderingRetrieval
         private readonly EntriesRepository $repository,
         private readonly TokenContainer $token_container,
     ) {
+        global $DIC;
+
         $this->translator = $pons->i18n();
         $this->ui_factory = $pons->out()->ui()->factory();
         $this->url_builder = $this->token_container->builder();
         $this->id_token = $this->token_container->token();
         $this->request = $pons->in()->request();
         $this->translations_repository = $pons->i18n()->ml()->repository();
+        $this->collector = $DIC->globalScreen()->collector()->footer();
+        $this->identification = $DIC->globalScreen()->identification();
     }
 
 
