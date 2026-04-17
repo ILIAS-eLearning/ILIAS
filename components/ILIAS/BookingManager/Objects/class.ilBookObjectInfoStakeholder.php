@@ -29,6 +29,11 @@ class ilBookObjectInfoStakeholder extends AbstractResourceStakeholder
         return 'book_object_info';
     }
 
+    public function getConsumerNameForPresentation(): string
+    {
+        return 'ILIAS/BookingManager/Objects/ObjectInfo';
+    }
+
     public function getOwnerOfNewResources(): int
     {
         return $this->default_owner;
