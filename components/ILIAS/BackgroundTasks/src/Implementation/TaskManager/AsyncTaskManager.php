@@ -15,7 +15,6 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
-
 namespace ILIAS\BackgroundTasks\Implementation\TaskManager;
 
 use ILIAS\BackgroundTasks\Bucket;
@@ -51,11 +50,6 @@ class AsyncTaskManager extends BasicTaskManager
 
         $DIC->logger()->bgtk()->info("Trying to call webserver");
 
-        // Call SOAP-Server
-        $soap_client = new \ilSoapClient();
-        $soap_client->setResponseTimeout(0);
-        $soap_client->enableWSDL(true);
-        $soap_client->init();
         $session_id = session_id();
         $client_id = $DIC->http()->wrapper()->cookie()->retrieve(
             'ilClientId',
@@ -66,6 +60,29 @@ class AsyncTaskManager extends BasicTaskManager
                 )
             ])
         );
+
+        register_shutdown_function(function () use ($bucket, $session_id, $client_id): void {
+            $this->callWorkerAfterResponse($bucket, $session_id, $client_id);
+        });
+    }
+
+    protected function callWorkerAfterResponse(Bucket $bucket, string $session_id, ?string $client_id): void
+    {
+        global $DIC;
+
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_write_close();
+        }
+
+        if (function_exists('fastcgi_finish_request')) {
+            fastcgi_finish_request();
+        }
+
+        // Call SOAP-Server
+        $soap_client = new \ilSoapClient();
+        $soap_client->setResponseTimeout(0);
+        $soap_client->enableWSDL(true);
+        $soap_client->init();
 
         try {
             $soap_client->call(self::CMD_START_WORKER, array(
@@ -78,6 +95,7 @@ class AsyncTaskManager extends BasicTaskManager
             $sync_manager->run($bucket);
             return;
         }
+
         $DIC->logger()->bgtk()->info("Calling webserver successful");
     }
 
@@ -98,12 +116,12 @@ class AsyncTaskManager extends BasicTaskManager
         $MAX_PARALLEL_JOBS = $n_of_tasks;
         if (count($persistence->getBucketIdsByState(State::RUNNING)) >= $MAX_PARALLEL_JOBS) {
             $DIC->logger()->bgtk()->info("Too many running jobs, worker going down.");
-
             return;
         }
 
         while (true) {
             $ids = $persistence->getBucketIdsByState(State::SCHEDULED);
+
             if (count($ids) === 0) {
                 break;
             }
@@ -124,15 +142,12 @@ class AsyncTaskManager extends BasicTaskManager
                 $this->persistence->saveBucketAndItsTasks($bucket);
             } catch (\Exception $e) {
                 $persistence->deleteBucket($bucket);
-                $DIC->logger()->bgtk()->info("Exception while async computing: "
-                    . $e->getMessage());
-                $DIC->logger()->bgtk()->info("Stack Trace: "
-                    . $e->getTraceAsString());
+                $DIC->logger()->bgtk()->info("Exception while async computing: " . $e->getMessage());
+                $DIC->logger()->bgtk()->info("Stack Trace: " . $e->getTraceAsString());
             }
         }
 
         $DIC->logger()->bgtk()->info("One worker going down because there's nothing left to do.");
-
         return true;
     }
 }
