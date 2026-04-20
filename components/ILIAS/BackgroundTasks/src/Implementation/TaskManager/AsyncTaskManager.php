@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 namespace ILIAS\BackgroundTasks\Implementation\TaskManager;
 
 use ILIAS\BackgroundTasks\Bucket;
