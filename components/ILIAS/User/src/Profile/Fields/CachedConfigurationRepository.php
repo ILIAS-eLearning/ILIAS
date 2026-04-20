@@ -26,14 +26,20 @@ class CachedConfigurationRepository implements ConfigurationRepository
 {
     private const string USER_FIELD_CONFIGURATION_TABLE = 'usr_field_config';
     private const string UDF_DEFINITIONS_TABLE = 'udf_definition';
+    /**
+     * @var list<FieldDefinition>
+     */
     private array $available_profile_fields;
 
     /**
-     *
-     * @var array<string, stdClass>
+     * @var array<string, \stdClass>
      */
     private array $fields_data = [];
 
+    /**
+     * @param list<class-string<Custom\Type>> $available_custom_field_types
+     * @param list<FieldDefinition> $available_standard_profile_fields
+     */
     public function __construct(
         private readonly \ilDBInterface $db,
         private readonly UUIDFactory $uuid_factory,
@@ -159,7 +165,7 @@ class CachedConfigurationRepository implements ConfigurationRepository
     public function getCustomFieldTypes(): array
     {
         return array_map(
-            fn(string $v): Custom\Type => new $v(),
+            static fn(string $v): Custom\Type => new $v(),
             $this->available_custom_field_types
         );
     }
@@ -189,6 +195,10 @@ class CachedConfigurationRepository implements ConfigurationRepository
         $this->available_profile_fields = $this->generateAvailableProfielFields();
     }
 
+    /**
+     * @param list<class-string<Custom\Type>> $available_custom_field_types
+     * @return list<Custom\Custom>
+     */
     private function buildCustomFieldDefinitions(
         array $available_custom_field_types
     ): array {
@@ -199,9 +209,10 @@ class CachedConfigurationRepository implements ConfigurationRepository
         $custom_field_definitions = [];
         while (($field = $this->db->fetchObject($query_result)) !== null) {
             $field_type = array_search($field->field_type, $available_custom_field_types);
-            if ($field_type === null) {
+            if ($field_type === false) {
                 continue;
             }
+
             $custom_field_definitions[] = new Custom\Custom(
                 $this->uuid_factory->fromString($field->field_id),
                 new $available_custom_field_types[$field_type](),

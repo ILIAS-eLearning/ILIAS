@@ -139,7 +139,7 @@ class DBRepository implements Repository
         $this->db->replace(
             self::TABLE_NAME,
             [
-                'token' => ['text', $token->getToken()]
+                'token' => [\ilDBConstants::T_TEXT, $token->getToken()]
             ],
             [
                 'usr_id' => [\ilDBConstants::T_TEXT, $token->getUserId()],

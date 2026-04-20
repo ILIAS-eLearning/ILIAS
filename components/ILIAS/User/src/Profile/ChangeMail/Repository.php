@@ -26,9 +26,6 @@ interface Repository
     /**
      * This Function will check if the token is actually valid for the given user
      * before returning the new email.
-     *
-     * @return string The new email a user wishes to be used or an empty string
-     * if validation failed or there is no usable entry.
      */
     public function getTokenForTokenString(string $token_string, \ilObjUser $user): ?Token;
     public function moveToNextStep(Token $token, int $now): Token;

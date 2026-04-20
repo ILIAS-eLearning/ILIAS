@@ -25,9 +25,13 @@ use ILIAS\User\Profile\Fields\Field as ProfileField;
 use ILIAS\User\Profile\Fields\AvailableSections as AvailableProfileSections;
 use ILIAS\User\Profile\Fields\ConfigurationRepository as FieldsConfigurationRepository;
 use ILIAS\Language\Language;
+use ILIAS\User\Profile\Fields\AvailableSections;
 
 class ProfileImplementation implements Profile
 {
+    /**
+     * @var list<ProfileField>
+     */
     private array $user_fields;
 
     public function __construct(
@@ -38,16 +42,13 @@ class ProfileImplementation implements Profile
         $this->user_fields = $this->profile_fields_repository->get();
     }
 
-    /**
-     * @return array<\ILIAS\User\Profile\Fields\Field>
-     */
     public function getFields(
         array $sections_to_skip = [],
         array $fields_to_skip = []
     ): array {
         return array_reduce(
             $this->user_fields,
-            function (array $c, ProfileField $v) use ($sections_to_skip, $fields_to_skip): array {
+            static function (array $c, ProfileField $v) use ($sections_to_skip, $fields_to_skip): array {
                 if (!in_array($v->getSection(), $sections_to_skip)
                     && !in_array(get_class($v->getDefinition()), $fields_to_skip)) {
                     $c[$v->getIdentifier()] = $v;
@@ -58,9 +59,6 @@ class ProfileImplementation implements Profile
         );
     }
 
-    /**
-     * @return array<\ILIAS\User\Profile\Fields\Field>
-     */
     public function getVisibleFields(
         Context $context,
         ?\ilObjUser $user = null,
@@ -69,7 +67,7 @@ class ProfileImplementation implements Profile
     ): array {
         return array_filter(
             $this->user_fields,
-            fn(ProfileField $v) => !in_array($v->getSection(), $sections_to_skip)
+            static fn(ProfileField $v) => !in_array($v->getSection(), $sections_to_skip)
                     && !in_array($v->getDefinition()::class, $fields_to_skip)
                     && $context->isFieldVisible($v, $user)
                 ? true : false
@@ -174,7 +172,7 @@ class ProfileImplementation implements Profile
         return $field->isVisibleToUser() && $field->isChangeableByUser();
     }
 
-    public function getIgnorableRequiredFields(): array // Missing array type.
+    public function getIgnorableRequiredFields(): array
     {
         return array_reduce(
             $this->user_fields,
@@ -192,15 +190,11 @@ class ProfileImplementation implements Profile
         );
     }
 
-    /**
-     * @deprecated since version 11 will be removed with 13
-     * @return array<string, \ILIAS\User\Profile\Field>
-     */
     public function getAllUserDefinedFields(): array
     {
         return array_reduce(
             $this->user_fields,
-            function (array $c, ProfileField $v): array {
+            static function (array $c, ProfileField $v): array {
                 if ($v->isCustom()) {
                     $c[$v->getIdentifier()] = $v;
                 }
@@ -210,16 +204,12 @@ class ProfileImplementation implements Profile
         );
     }
 
-    /**
-     * @deprecated since version 11 will be removed with 13
-     * @return array<string, \ILIAS\User\Profile\Field>
-     */
     public function getVisibleUserDefinedFields(
         Context $context
     ): array {
         return array_reduce(
             $this->getVisibleFields($context),
-            function (array $c, ProfileField $v): array {
+            static function (array $c, ProfileField $v): array {
                 if ($v->isCustom()) {
                     $c[$v->getIdentifier()] = $v;
                 }
@@ -239,6 +229,9 @@ class ProfileImplementation implements Profile
             ->getDefinition()->tempStorePicture($form);
     }
 
+    /**
+     * @return array<value-of<AvailableSections>, array<int, ProfileField>>
+     */
     private function getVisibleFieldsBySection(
         Context $context,
         ?\ilObjUser $user,
@@ -247,7 +240,7 @@ class ProfileImplementation implements Profile
         return array_filter(
             array_reduce(
                 $this->getVisibleFields($context, $user, [], $fields_to_skip),
-                function (array $c, ProfileField $v): array {
+                static function (array $c, ProfileField $v): array {
                     $c[$v->getSection()->value][] = $v;
                     return $c;
                 },
