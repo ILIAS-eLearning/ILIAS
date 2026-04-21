@@ -82,9 +82,10 @@ class ilFileStaticURLHandler extends BaseHandler implements Handler
         $forced = null;
         $referrer = $context->http()->request()->getServerParams()['HTTP_REFERER'] ?? '';
         if (str_contains(strtolower($referrer), strtolower(ilObjectCopyGUI::class))) {
-            $forced = $capabilities->get(Capabilities::FORCED_INFO_PAGE);
+            $forced = $capabilities->get(Capabilities::INFO_PAGE);
         }
 
+        // Determine Capability to redirect
         $capability = match ($additional_params) {
             self::DOWNLOAD => $capabilities->get(Capabilities::DOWNLOAD),
             self::VERSIONS => $capabilities->get(Capabilities::MANAGE_VERSIONS),
