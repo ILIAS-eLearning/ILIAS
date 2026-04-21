@@ -51,7 +51,8 @@ class ExportState
 
     public function __construct(
         private ExportTarget $target,
-        private ExportConfig $config
+        private ExportConfig $config,
+        private string $option = ''
     ) {
         $this->step = ExportStep::INIT;
     }
@@ -64,6 +65,11 @@ class ExportState
     public function config(): ExportConfig
     {
         return $this->config;
+    }
+
+    public function getOption(): string
+    {
+        return $this->option;
     }
 
     public function getStep(): ExportStep
