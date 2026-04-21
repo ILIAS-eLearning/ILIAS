@@ -5565,7 +5565,7 @@ main {
   }
   .il-header-locator .dropdown-toggle {
     display: block;
-    max-width: calc(100vw - 60px - 40px);
+    max-width: calc(100vw - 60px - 40px - 40px);
     background-color: transparent;
     border: none;
     color: #2c2c2c;
