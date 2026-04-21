@@ -145,6 +145,11 @@ class Participant
         return $clone;
     }
 
+    public function getInvitationDate(): ?int
+    {
+        return $this->invitation_date;
+    }
+
     public function isInvitedParticipant(): bool
     {
         return $this->invitation_date > 0;

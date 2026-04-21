@@ -2970,7 +2970,7 @@ abstract class assQuestion implements Question
     {
         return $tt->custom()->transformation(fn(): array => [
             'id' => $tt->normalize(new Id($this->id, 'question')),
-            'pool_id' => $tt->normalize(new Id($this->obj_id, 'qpl')),
+            'parent_id' => $tt->normalize(new Id($this->obj_id, 'object')),
             'original_id' => $this->original_id,
             'external_id' => $this->external_id,
             'type' => $this->getQuestionType(),
@@ -2998,7 +2998,7 @@ abstract class assQuestion implements Question
         return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
             $clone = clone $this;
             $clone->id = $tt->denormalize($normalized['id'], Id::class)->getId();
-            $clone->obj_id = $tt->denormalize($normalized['pool_id'], Id::class)->getId();
+            $clone->obj_id = $tt->denormalize($normalized['parent_id'], Id::class)->getId();
             $clone->original_id = $tt->nullableInt($normalized['original_id']);
             $clone->external_id = $tt->nullableString($normalized['external_id']);
             $clone->owner = $tt->int($normalized['owner']);
