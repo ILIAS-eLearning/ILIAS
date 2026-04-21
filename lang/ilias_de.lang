@@ -8129,6 +8129,8 @@ crs#:#tutorial_support_block_title#:#Kontaktperson
 crs#:#user_fields#:#Angaben des Persönlichen Profils
 crsv#:#crsv_create#:#Kurszertifikat erstellen
 crsv#:#crsv_create_info#:#Wählen Sie einen Kurs, für den Sie ein Zertifikat benötigen
+dash#:#add_to_favourites#:#Zu Favoriten hinzufügen
+dash#:#added_to_favourites#:#Das Objekt wurde den Favoriten hinzugefügt.
 dash#:#dash_activation#:#Aktivierung
 dash#:#dash_added_to_favs#:#Der Eintrag wurde zu den persönlichen Favoriten hinzugefügt.
 dash#:#dash_avail_presentation#:#Verfügbare Präsentationen
@@ -8166,7 +8168,6 @@ dash#:#dash_item_removed#:#Der Eintrag wurde aus der Liste entfernt.
 dash#:#dash_learning_sequences#:#Meine Lernsequenzen
 dash#:#dash_list#:#Liste
 dash#:#dash_main_panel#:#Hauptbereich
-dash#:#dash_make_favourite#:#Zu Favoriten hinzufügen
 dash#:#dash_member_main_alt#:#Eine Ansicht der Mitgliedschaften kann auch direkt im Haupmenü eingebunden werden.
 dash#:#dash_memberships#:#Meine Kurse und Gruppen
 dash#:#dash_no_items_to_manage#:#Keine Objekte zum Entfernen verfügbar.
@@ -8186,6 +8187,8 @@ dash#:#dash_view_courses_groups#:#Block ‘Meine Kurse und Gruppen’
 dash#:#dash_view_favourites#:#Block ‘Favoriten’
 dash#:#favourites_disabled_info#:#Das Setzen von Favoriten ist deaktiviert. Sie können dieses in den Magazin-Einstellungen ändern.
 dash#:#memberships_disabled_info#:#Das Setzen von Mitgliedschaften ist deaktiviert. Sie können dieses in den Kurs-Einstellungen ändern.
+dash#:#remove_from_favourites#:#Von Favoriten entfernen
+dash#:#removed_from_favourites#:#Das Objekt wurde aus den Favoriten entfernt.
 dash#:#topitem_block#:#Block
 dateplaner#:#Fr_long#:#Freitag
 dateplaner#:#Fr_short#:#Fr
@@ -15048,7 +15051,6 @@ rep#:#rep_add_new_def_grp_feedback#:#Feedback und Evaluation
 rep#:#rep_add_new_def_grp_organisation#:#Organisation
 rep#:#rep_add_new_def_grp_templates#:#Vorlagen
 rep#:#rep_added_rec_content#:#Empfohlener Inhalt wurde hinzugefügt.
-rep#:#rep_added_to_favourites#:#Das Objekt wurde den Favoriten hinzugefügt.
 rep#:#rep_allowed_types#:#Allowed Types
 rep#:#rep_breadcr_crs#:#Brotkrumennavigation beginnt mit Kurs
 rep#:#rep_breadcr_crs_config#:#Konfiguration
@@ -15104,7 +15106,6 @@ rep#:#rep_object_to_delete#:#Zu löschen
 rep#:#rep_rec_content_removed#:#Empfohlener Inhalt wurde entfernt.
 rep#:#rep_recommended_content#:#Empfohlene Inhalte
 rep#:#rep_remove_rec_content#:#Sollen die folgenden Empfehlungen wirklich entfernt werden? Die entsprechenden Inhalte bleiben weiterhin erhalten.
-rep#:#rep_removed_from_favourites#:#Das Objekt wurde aus den Favoriten entfernt.
 rep#:#rep_target_location#:#Zielort
 rep#:#rep_target_location_info#:#Bitte wählen sie den Zielort aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen.
 rep#:#rep_time_based_availability#:#Zeitlich begrenzte Verfügbarkeit
