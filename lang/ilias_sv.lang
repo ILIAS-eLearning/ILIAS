@@ -8129,6 +8129,8 @@ crs#:#tutorial_support_block_title#:#Contact Person###28 10 2024 new variable
 crs#:#user_fields#:#Personliga profiluppgifter
 crsv#:#crsv_create#:#Skapa kursintyg
 crsv#:#crsv_create_info#:#Välj en kurs för vilken du behöver ett intyg
+dash#:#add_to_favourites#:#Add to Favourites###21 04 2026 new variable
+dash#:#added_to_favourites#:#The item has been added to your favourites.###21 04 2026 new variable
 dash#:#dash_activation#:#Aktivering
 dash#:#dash_added_to_favs#:#Posten har lagts till i personliga favoriter.
 dash#:#dash_avail_presentation#:#Tillgängliga presentationer
@@ -8166,7 +8168,6 @@ dash#:#dash_item_removed#:#Posten har tagits bort från listan.
 dash#:#dash_learning_sequences#:#My Learning Sequences###21 11 2023 new variable
 dash#:#dash_list#:#Lista
 dash#:#dash_main_panel#:#Huvudområde
-dash#:#dash_make_favourite#:#Lägg till i favoriter
 dash#:#dash_member_main_alt#:#En vy över medlemskapen kan också inkluderas direkt i huvudmenyn.
 dash#:#dash_memberships#:#Mina kurser och grupper
 dash#:#dash_no_items_to_manage#:#No items available for removal.###10 03 2026 new variable
@@ -8186,6 +8187,8 @@ dash#:#dash_view_courses_groups#:#Blockera 'Mina kurser och grupper
 dash#:#dash_view_favourites#:#Blockera 'Favoriter
 dash#:#favourites_disabled_info#:#Inställning av favoriter är avaktiverad. Du kan ändra detta i tidningsinställningarna.
 dash#:#memberships_disabled_info#:#Inställningen av medlemskap är avaktiverad. Du kan ändra detta i kursinställningarna.
+dash#:#remove_from_favourites#:#Remove from Favourites###21 04 2026 new variable
+dash#:#removed_from_favourites#:#The item has been removed from your favourites.###21 04 2026 new variable
 dash#:#topitem_block#:#Block###21 11 2023 new variable
 dateplaner#:#Fr_long#:#Fredag
 dateplaner#:#Fr_short#:#Fr
@@ -9237,6 +9240,8 @@ ecs#:#ecs_wiki_export_enabled#:#Släpp
 ecs#:#ecs_wiki_export_obj_settings#:#Inställningar för wiki-aktier
 error#:#error_back_to_repository#:#Tillbaka till tidningen
 error#:#error_sry_error#:#Ett fel har tyvärr uppstått.
+error#:#http_404_not_found#:#The requested page could not be found.###21 04 2026 new variable
+error#:#http_500_internal_server_error#:#An internal server error occurred.###21 04 2026 new variable
 etal#:#appointments#:#Sessioner
 etal#:#cal_type_tals#:#Talks
 etal#:#change_date_of_series#:#Anpassa samtalsserier
@@ -13039,6 +13044,7 @@ notes#:#notes_latest_comment#:#Sista kommentaren
 notes#:#notes_latest_message#:#Latest Message###21 11 2023 new variable
 notes#:#notes_message_author_counterpart#:#Respondent###21 11 2023 new variable
 notes#:#notes_message_author_you#:#You###21 11 2023 new variable
+notes#:#notes_message_deleted#:#Message deleted.###21 04 2026 new variable
 notes#:#notes_messages#:#Messages###21 11 2023 new variable
 notes#:#notes_my_comments#:#Mina kommentarer
 notes#:#notes_no_comments#:#Ingen kommentar har gjorts ännu.
@@ -15044,9 +15050,7 @@ rep#:#rep_add_new_def_grp_content#:#Innehåll
 rep#:#rep_add_new_def_grp_feedback#:#Återkoppling och utvärdering
 rep#:#rep_add_new_def_grp_organisation#:#Organisation
 rep#:#rep_add_new_def_grp_templates#:#Mallar
-rep#:#rep_add_to_favourites#:#Lägg till i favoriter
 rep#:#rep_added_rec_content#:#Rekommenderat innehåll har lagts till.
-rep#:#rep_added_to_favourites#:#Objektet har lagts till bland favoriterna.
 rep#:#rep_allowed_types#:#Tillåtna typer
 rep#:#rep_breadcr_crs#:#Breadcrumb-navigering börjar med kurs
 rep#:#rep_breadcr_crs_config#:#Konfiguration
@@ -15101,9 +15105,7 @@ rep#:#rep_object_references_cannot_be_read#:#Ingen rätt till %s ytterligare ref
 rep#:#rep_object_to_delete#:#Att radera
 rep#:#rep_rec_content_removed#:#Rekommenderat innehåll har tagits bort.
 rep#:#rep_recommended_content#:#Rekommenderat innehåll
-rep#:#rep_remove_from_favourites#:#Ta bort från favoriter
 rep#:#rep_remove_rec_content#:#Bör följande rekommendationer verkligen tas bort? Motsvarande innehåll kommer att finnas kvar.
-rep#:#rep_removed_from_favourites#:#Objektet har tagits bort från favoriterna.
 rep#:#rep_target_location#:#Destination
 rep#:#rep_target_location_info#:#Vänligen välj den destination där de utvalda objekten ska återställas.
 rep#:#rep_time_based_availability#:#Tidsbegränsad tillgänglighet
@@ -16095,6 +16097,7 @@ style#:#sty_individual_styles#:#Lokala formatmallar
 style#:#sty_keep_existing#:#Behåll befintlig klass
 style#:#sty_left#:#Länkar
 style#:#sty_left_right_padding#:#Inre avstånd vänster/höger
+style#:#sty_legacy_image_directory_found#:#Legacy image directory found. You may migrate the directory from ILIAS 9 by clicking "Migrate Images"###21 04 2026 new variable
 style#:#sty_letter_spacing#:#Teckenavstånd
 style#:#sty_lightness_border#:#Brightness ram
 style#:#sty_lightness_cell1_bg#:#Brightness Cell 1 Bakgrund
@@ -16115,6 +16118,7 @@ style#:#sty_margin_and_padding#:#Yttermarginal och inneravstånd
 style#:#sty_media_char#:#Media
 style#:#sty_media_queries#:#Medieförfrågningar
 style#:#sty_media_query_info#:#För varje mediafråga infogas ett separat CSS-avsnitt efter standardavsnittet (utan mediafråga).
+style#:#sty_migrate_images#:#Migrate Images###21 04 2026 new variable
 style#:#sty_min_height#:#Minsta höjd
 style#:#sty_move_lm_styles#:#Ändra formatmallarna för utbildningsmodulerna
 style#:#sty_move_obj_styles#:#Change Style of Objects###23 09 2025 new variable
@@ -16173,6 +16177,7 @@ style#:#sty_special#:#Särskild
 style#:#sty_style_chars#:#Stil klass
 style#:#sty_style_class#:#Klasser för stil
 style#:#sty_style_classes_copied#:#Style-klasser kopierades.
+style#:#sty_style_not_migrated#:#This content style has not been migrated to the ILIAS 10 data structure yet. Changes will not be applied.###21 04 2026 new variable
 style#:#sty_substyle#:#Stil för ett delområde
 style#:#sty_substyle_of#:#Sub-Style från
 style#:#sty_substyles#:#Stil för ett delområde
@@ -17086,6 +17091,7 @@ tax#:#tax_tax_settings#:#Taxonomiska inställningar
 tax#:#tax_taxonomy#:#Taxonomi
 tbl#:#tbl_export_csv#:#.CSV-export
 tbl#:#tbl_export_excel#:#Excel export
+tbl#:#tbl_selection#:#Selection###21 04 2026 new variable
 tbl#:#tbl_template_create#:#Spara aktuell vy
 tbl#:#tbl_template_created#:#Den aktuella vyn har sparats.
 tbl#:#tbl_template_delete#:#Ta bort sparad vy
