@@ -16718,7 +16718,7 @@ survey#:#survey_execution_sure_finish#:#Sei sicuro di voler terminare questo son
 survey#:#survey_existing_pool#:#Utilizza gruppo di domande esistente
 survey#:#survey_finish#:#Salva e finisci il sondaggio >>>
 survey#:#survey_finished#:#Hai finito il sondaggio. Grazie per la vostra partecipazione!
-survey#:#survey_from_x_points#:#Da X Punti
+survey#:#survey_from_x_points#:#Da X punti
 survey#:#survey_has_datasets_warning#:#Il sondaggio contiene già dei dati di partecipazione. Non puoi modificare le domande prima di aver rimosso i dati stessi, utilizzando la sezione "Manutenzione"
 survey#:#survey_has_datasets_warning_page_view#:#Il sondaggio contiene già set di dati. Non è possibile modificare le domande del sondaggio fino a quando non si rimuovono questi set di dati.
 survey#:#survey_has_datasets_warning_page_view_link#:#Modifica partecipanti

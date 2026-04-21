@@ -16719,7 +16719,7 @@ survey#:#survey_execution_sure_finish#:#Biztos, hogy befejezi a kérdőív kitö
 survey#:#survey_existing_pool#:#Már létező kérdésgyűjtemény használata
 survey#:#survey_finish#:#Kérdőív befejezése
 survey#:#survey_finished#:#Befejezte a kérdőív kitöltését. Köszönjük részvételét!
-survey#:#survey_from_x_points#:#X Ponttól
+survey#:#survey_from_x_points#:#X ponttól
 survey#:#survey_has_datasets_warning#:#A kérdőív tartalmaz már adathalmazokat. Amíg nem távolítja el ezeket a válaszadók részben, nem tudja szerkeszteni a kérdőív kérdéseit.
 survey#:#survey_has_datasets_warning_page_view#:#A kérdőív már tartalmaz válaszokat. Nem szerkesztheti a kérdőív kérdéseit, amíg el nem távolítja azokat.
 survey#:#survey_has_datasets_warning_page_view_link#:#Résztvevő eredményei

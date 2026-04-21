@@ -16719,7 +16719,7 @@ survey#:#survey_execution_sure_finish#:#Are you sure you want to finish the surv
 survey#:#survey_existing_pool#:#Use existing question pool###12 06 2011 new variable
 survey#:#survey_finish#:#baigti apklausą
 survey#:#survey_finished#:#Jūs baigėte apklausą. Ačiū už dalyvavimą!
-survey#:#survey_from_x_points#:#Nuo X Taškų
+survey#:#survey_from_x_points#:#Nuo X taškų
 survey#:#survey_has_datasets_warning#:#Apklausoje jau yra duomenų komplektai. Jūs negalite redaguoti apklausos klausimų, kol nepašalinsite duomenų komplektų priežiūros skyriuje.
 survey#:#survey_has_datasets_warning_page_view#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets.###12 06 2011 new variable
 survey#:#survey_has_datasets_warning_page_view_link#:#Edit Participants###12 06 2011 new variable

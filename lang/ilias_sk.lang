@@ -16719,7 +16719,7 @@ survey#:#survey_execution_sure_finish#:#Are you sure you want to finish the surv
 survey#:#survey_existing_pool#:#Use existing question pool###12 06 2011 new variable
 survey#:#survey_finish#:#Ukončit anketu
 survey#:#survey_finished#:#Tato anketa je ukončena. Děkujeme za Vaši účast!
-survey#:#survey_from_x_points#:#Od X Bodov
+survey#:#survey_from_x_points#:#Od X bodov
 survey#:#survey_has_datasets_warning#:#Tato anketa již obsahuje sadu údajů. Nemůžete upravovat otázky ankety dokud neodstraníte tuto sadu údajů v sekci údržby.
 survey#:#survey_has_datasets_warning_page_view#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets.###12 06 2011 new variable
 survey#:#survey_has_datasets_warning_page_view_link#:#Edit Participants###12 06 2011 new variable
