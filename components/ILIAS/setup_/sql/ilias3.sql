@@ -7348,6 +7348,7 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdate
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',19,'2024-01-31 14:38:25.398856','2024-01-31 14:38:25.399275');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',20,'2024-04-30 15:11:09.017679','2024-04-30 15:11:09.018014');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',21,'2025-07-18 06:53:06.838357','2025-07-18 06:53:06.840247');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',22,'2026-04-21 16:00:11.283501','2026-04-21 16:00:11.283884');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\SurveyQuestionPool\\Setup\\SurveyQuestionPoolDBUpdateSteps',1,'2025-07-18 06:53:07.066560','2025-07-18 06:53:07.068398');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test10DBUpdateSteps',1,'2025-07-18 06:53:07.209600','2025-07-18 06:53:07.213786');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test10DBUpdateSteps',2,'2025-07-18 06:53:07.214054','2025-07-18 06:53:07.214388');
@@ -7364,6 +7365,8 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test10DBUpdateSteps',12,'
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test10DBUpdateSteps',13,'2025-07-18 06:53:07.284103','2025-07-18 06:53:07.284491');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test10DBUpdateSteps',14,'2025-07-18 06:53:07.284730','2025-07-18 06:53:07.284965');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test10DBUpdateSteps',15,'2026-03-10 16:31:24.638838','2026-03-10 16:31:24.639090');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test10DBUpdateSteps',16,'2026-04-21 16:00:11.285002','2026-04-21 16:00:11.289718');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test10DBUpdateSteps',17,'2026-04-21 16:00:11.290009','2026-04-21 16:00:11.292831');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test9DBUpdateSteps',1,'2025-07-18 06:53:07.128907','2025-07-18 06:53:07.132259');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test9DBUpdateSteps',2,'2025-07-18 06:53:07.134005','2025-07-18 06:53:07.137416');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test9DBUpdateSteps',3,'2025-07-18 06:53:07.138807','2025-07-18 06:53:07.141647');
@@ -13894,7 +13897,7 @@ INSERT INTO `object_data` VALUES (34,'typ','lm','Learning module Object',-1,'200
 INSERT INTO `object_data` VALUES (35,'typ','notf','Note Folder Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL,NULL);
 INSERT INTO `object_data` VALUES (36,'typ','note','Note Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL,NULL);
 INSERT INTO `object_data` VALUES (37,'typ','frm','Forum object',-1,'2002-07-15 15:54:22','2003-08-15 12:36:40','',NULL,NULL);
-INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2026-03-10 16:31:24','',NULL,NULL);
+INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2026-04-21 16:00:11','',NULL,NULL);
 INSERT INTO `object_data` VALUES (71,'lng','de','not_installed',6,'2003-08-15 10:25:19','2015-12-22 16:29:24','',NULL,NULL);
 INSERT INTO `object_data` VALUES (72,'lng','es','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL,NULL);
 INSERT INTO `object_data` VALUES (73,'lng','it','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL,NULL);
@@ -20786,7 +20789,7 @@ INSERT INTO `settings` VALUES ('common','ilfrmnoti1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmreadidx1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmthri2','1');
 INSERT INTO `settings` VALUES ('common','ilGlobalTstPoolUsageSettingInitilisation','1');
-INSERT INTO `settings` VALUES ('common','ilias_version','10.6.0');
+INSERT INTO `settings` VALUES ('common','ilias_version','10.7.0');
 INSERT INTO `settings` VALUES ('common','ilinc_akclassvalues_required','1');
 INSERT INTO `settings` VALUES ('common','ilmpathix','1');
 INSERT INTO `settings` VALUES ('common','iloscmsgidx1','1');
@@ -23921,8 +23924,8 @@ CREATE TABLE `tst_rnd_quest_set_qpls` (
   `def_id` int(11) NOT NULL DEFAULT 0,
   `test_fi` int(11) NOT NULL DEFAULT 0,
   `pool_fi` int(11) NOT NULL DEFAULT 0,
-  `pool_title` varchar(255) DEFAULT NULL,
-  `pool_path` varchar(512) DEFAULT NULL,
+  `pool_title` varchar(255) NOT NULL DEFAULT '',
+  `pool_path` varchar(512) NOT NULL DEFAULT '',
   `pool_quest_count` int(11) DEFAULT NULL,
   `origin_tax_fi` int(11) DEFAULT NULL,
   `origin_node_fi` int(11) DEFAULT NULL,
@@ -25730,4 +25733,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2026-03-10 16:31:25
+-- Dump completed on 2026-04-21 16:00:12
