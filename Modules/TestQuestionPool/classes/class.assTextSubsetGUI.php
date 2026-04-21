@@ -292,9 +292,14 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             $template->setCurrentBlock("textsubset_row");
             foreach ($solutions as $idx => $solution_value) {
                 if ($idx == $i) {
-                    $template->setVariable("TEXTFIELD_VALUE", " value=\""
-                        . $this->escapeTemplatePlaceholders($solution_value)
-                        . "\"");
+                    $template->setVariable(
+                        "TEXTFIELD_VALUE",
+                        " value=\"" . htmlspecialchars(
+                            $this->escapeTemplatePlaceholders($solution_value["value1"]),
+                            ENT_QUOTES | ENT_SUBSTITUTE,
+                            'utf-8'
+                        ) . "\""
+                    );
                 }
             }
             $template->setVariable("COUNTER", $i + 1);
@@ -325,9 +330,14 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             $template->setCurrentBlock("textsubset_row");
             foreach ($solutions as $idx => $solution_value) {
                 if ($idx == $i) {
-                    $template->setVariable("TEXTFIELD_VALUE", " value=\""
-                        . $this->escapeTemplatePlaceholders($solution_value['value1'])
-                        . "\"");
+                    $template->setVariable(
+                        "TEXTFIELD_VALUE",
+                        " value=\"" . htmlspecialchars(
+                            $this->escapeTemplatePlaceholders($solution_value["value1"]),
+                            ENT_QUOTES | ENT_SUBSTITUTE,
+                            'utf-8'
+                        ) . "\""
+                    );
                 }
             }
             $template->setVariable("COUNTER", $i + 1);
