@@ -33,9 +33,12 @@ class StateHolder
 {
     private ?ExportState $export_state = null;
 
-    public function create(ExportTarget $target, ExportConfig $config): ExportState
-    {
-        $this->export_state = new ExportState($target, $config);
+    public function create(
+        ExportTarget $target,
+        ExportConfig $config,
+        string $option = ''
+    ): ExportState {
+        $this->export_state = new ExportState($target, $config, $option);
         return $this->export_state;
     }
 
