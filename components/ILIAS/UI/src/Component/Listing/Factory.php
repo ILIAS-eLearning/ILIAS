@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Listing;
 
+use ILIAS\UI\Component;
+use ILIAS\UI\Component\Symbol\Symbol;
+
 /**
  * This is how a factory for listings looks like.
  */
@@ -51,6 +54,42 @@ interface Factory
      * @return  \ILIAS\UI\Component\Listing\Ordered
      */
     public function ordered(array $items): Ordered;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     Inline Lists are used to display a set of elements next to each other when the available
+     *     space allows for it. The elements belong to a group of similar items and have about equal
+     *     relevance.
+     *   composition: >
+     *     Inline Lists string up the items horizontally breaking into the next line if necessary.
+     *     They are separated by a comma.
+     *   rivals:
+     *     Unordered List, Ordered Listing: >
+     *       If there is enough space for a vertical list, Unordered and Ordered Listing should
+     *       be preferred. Line by line items are better suited when the user is expected to be
+     *       exploring or engaging with the list for longer than a casual glance.
+     *     Property Listing: >
+     *       To display key-value pairs in a row, use the Property Listing.
+     *
+     * context:
+     *   - Inline Listings can be used as values in a Property Listing.
+     *
+     * rules:
+     *   usage:
+     *     - You MUST use the Inline Listing only when another component around it gives it a
+     *       context or headline clarifying what is being listed.
+     *     - You MUST only add items belonging to the same group or type.
+     *     - The Inline Listing MAY be the value of a property listing item.
+     *     - You MUST NOT use this component as a layout tool to force unrelated components next
+     *       to each other.
+     *     - You MAY change the comma delimiter in your component using CSS.
+     * ----
+     * @param array<Component\Component|string> $items
+     * @return  \ILIAS\UI\Component\Listing\Inline
+     */
+    public function inline(array $items): Inline;
 
     /**
      * ---
@@ -160,16 +199,38 @@ interface Factory
      *     Entries are listed as label/value pair in one line.
      *     Since the focus is strongly on the value, which might be
      *     self-explaining, visibility of the label is optional.
-     *     The value is a string, or one or several Symbols, Links or Legacy Components.
+     *     The label is a string. A Symbol may be shown in its place.
+     *     The value is a string, Links or Legacy Components.
+     *     A Symbol may be shown as the value.
+     *     Very long value strings will turn into a truncated paragraph
+     *     with a clickable Show more/less toggle.
      *   rivals:
      *      Characteristic Value: >
-     *        In Charakteristic Values, label/value pairs are displayed in a
+     *        In Characteristic Values, label/value pairs are displayed in a
      *        tabular way; labels cannot be omitted for display.
      *      Descriptive: >
      *        The Descriptive's (visual) emphasis is on the key, not the value.
-     * context:
-     *   - Property Listing is used in Entities
      *
+     * context:
+     * - Property Listing is used in Entities
+     *
+     * rules:
+     *   usage:
+     *     - You MUST NOT use html code as a value string as it may get truncated in
+     *       unexpected ways.
+     *     - With more than 6 properties, you SHOULD use multiple Property Listing's
+     *       to segment properties into multiple visual groups/lines. Each new
+     *       property component starts a new line.
+     *     - You SHOULD use properties with short values (e.g. not full paragraphs).
+     *       You SHOULD split off long properties into their own Property component so
+     *       it will always start a new line.
+     *     - When using a Symbol as a label and/or value, the chosen icon
+     *       MUST be self-explanatory and easily understood by users.
+     *     - When using a Symbol as a label, it SHOULD not have an action.
+     *   accessibility:
+     *      - When using a Symbol, you still MUST enter a label with a text that can
+     *        be understood when read through a screen reader independently of any
+     *        visuals. This label is passed onto the Symbol as the aria-label.
      * ----
      * @return \ILIAS\UI\Component\Listing\Property
      */

@@ -227,12 +227,20 @@ class ScoreSettingsTest extends ilTestBaseTestCase
 
     public function getUIFactory(): NoUIFactory
     {
-        return new class () extends NoUIFactory {
+        $language_mock = $this->createMock(\ILIAS\Language\Language::class);
+        $language_mock->method('txt')->willReturnArgument(0);
+
+        return new class ($language_mock) extends NoUIFactory {
+            public function __construct(
+                protected \ILIAS\Language\Language $language,
+            ) {
+            }
+
             public function symbol(): C\Symbol\Factory
             {
                 return new S\Factory(
                     new S\Icon\Factory(),
-                    new S\Glyph\Factory(),
+                    new S\Glyph\Factory($this->language),
                     new S\Avatar\Factory()
                 );
             }

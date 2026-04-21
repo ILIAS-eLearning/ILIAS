@@ -88,6 +88,11 @@ interface Glyph extends Symbol, Clickable
     public const DRAG_HANDLE = "dragHandle";
 
     /**
+     * Override the default label text with a more specific one
+     */
+    public function withLabel(string $label): Glyph;
+
+    /**
      * Get the type of the glyph.
      */
     public function getType(): string;

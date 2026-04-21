@@ -1,0 +1,3 @@
+// Write the reason down, why these tools have to generate CSS utility classes
+// Prefer using mixins and @extend instead whenever possible
+@use "tool_text-more-less-toggle"; // many adjacent selectors; avoiding construct of 4+ mixins or 4+ parameters

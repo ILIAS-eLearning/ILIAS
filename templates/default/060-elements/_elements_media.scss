@@ -1,4 +1,5 @@
 @use "../010-settings/" as *;
+@use "../030-tools/tool_focus-outline" as focus;
 
 img {
 	vertical-align: middle;
@@ -6,4 +7,10 @@ img {
 		/* height: auto; messes e.g. survey progress bar */
 		max-width: 100%;
 	}
+}
+
+a:has(img) {
+	display: inline-block;
+	@include focus.clear-focus-for-override();
+	@include focus.il-focus();
 }

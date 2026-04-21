@@ -30,6 +30,8 @@ use ILIAS\UI\Implementation\Component\MainControls\Slate\Combined;
  */
 class CombinedSlateTest extends ILIAS_UI_TestBase
 {
+    use LanguageStubs;
+
     protected I\SignalGenerator $sig_gen;
     protected I\Button\Factory $button_factory;
     protected I\Divider\Factory $divider_factory;
@@ -45,9 +47,14 @@ class CombinedSlateTest extends ILIAS_UI_TestBase
 
     public function getUIFactory(): NoUIFactory
     {
-        $factory = new class () extends NoUIFactory {
+        $factory = new class ($this->createRelayArgumentLanguageStub()) extends NoUIFactory {
             public I\SignalGenerator $sig_gen;
             public I\Button\Factory $button_factory;
+
+            public function __construct(
+                protected \ILIAS\Language\Language $language,
+            ) {
+            }
 
             public function button(): C\Button\Factory
             {
@@ -55,7 +62,7 @@ class CombinedSlateTest extends ILIAS_UI_TestBase
             }
             public function glyph(): C\Symbol\Glyph\Factory
             {
-                return new I\Symbol\Glyph\Factory();
+                return new I\Symbol\Glyph\Factory($this->language);
             }
 
             public function divider(): C\Divider\Factory

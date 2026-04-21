@@ -63,6 +63,8 @@ class FilterInputsTestNoUIFactories extends NoUIFactory
 
 class FilterInputTest extends ILIAS_UI_TestBase
 {
+    use LanguageStubs;
+
     protected function buildFactory(): I\Input\Container\Filter\Factory
     {
         return new I\Input\Container\Filter\Factory(
@@ -88,7 +90,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
     {
         return new I\Symbol\Factory(
             new I\Symbol\Icon\Factory(),
-            new I\Symbol\Glyph\Factory(),
+            new I\Symbol\Glyph\Factory($this->createRelayArgumentLanguageStub()),
             new I\Symbol\Avatar\Factory()
         );
     }

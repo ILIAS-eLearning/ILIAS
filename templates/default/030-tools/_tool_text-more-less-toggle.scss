@@ -1,0 +1,45 @@
+@use "../010-settings" as s;
+@use "../030-tools/tool_multi-line-cap" as t-cap;
+@use "../030-tools/tool_focus-outline" as t-focus;
+@use "../030-tools/tool_screen-reader-only" as t-sr;
+@use "../050-layout/basics" as l;
+@use "../050-layout/layout_breakpoints" as l-brk;
+
+.t-text-more-less {
+  &__toggle {
+    &:checked + .t-text-more-less__label {
+      .t-text-more-less__label__more {
+        display: none;
+      }
+    }
+    &:not(:checked) + .t-text-more-less__label {
+      .t-text-more-less__label__less {
+        display: none;
+      }
+    }
+  }
+  &__label {
+    color: s.$il-link-color;
+    text-decoration: s.$il-link-decoration;
+    &:hover {
+      color: s.$il-link-hover-color;
+      text-decoration: s.$il-link-hover-decoration;
+    }
+  }
+  &:has(.t-text-more-less__toggle:not(:checked)) {
+    .t-text-more-less__text-body {
+      @include l-brk.on-screen-size(medium) {
+        @include t-cap.il-multi-line-cap-mixin(1);
+      }
+      @include l-brk.on-screen-size(small) {
+        @include t-cap.il-multi-line-cap-mixin(2);
+      }
+    }
+  }
+}
+
+input[type="checkbox"].t-text-more-less__toggle {
+  @include t-sr.sr-only();
+  @include t-focus.clear-focus-for-override();
+  @include t-focus.il-focus($apply-to-child: "~ label");
+}

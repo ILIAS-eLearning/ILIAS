@@ -80,7 +80,7 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderLabel(Component\Component $component, Template $tpl): Template
     {
-        $tpl->setVariable("LABEL", $this->txt($component->getLabel()));
+        $tpl->setVariable("LABEL", $component->getLabel());
         return $tpl;
     }
 

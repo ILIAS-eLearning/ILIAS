@@ -57,6 +57,7 @@ class WithButtonAndSymbolButNoUIFactory extends NoUIFactory
 class FileInputTest extends ILIAS_UI_TestBase
 {
     use CommonFieldRendering;
+    use LanguageStubs;
 
     protected DefNamesource $name_source;
 
@@ -486,7 +487,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     {
         return new I\Symbol\Factory(
             new I\Symbol\Icon\Factory(),
-            new I\Symbol\Glyph\Factory(),
+            new I\Symbol\Glyph\Factory($this->createRelayArgumentLanguageStub()),
             new I\Symbol\Avatar\Factory()
         );
     }

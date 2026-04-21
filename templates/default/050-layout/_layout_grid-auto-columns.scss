@@ -1,0 +1,15 @@
+@use "sass:math";
+@use "sass:list";
+@use "../050-layout/basics" as l;
+
+$allowed-units: ("px", "ch", "rem", "em");
+
+@mixin make-grid-with-auto-columns($column-min-width, $gap: l.$il-margin-xxxlarge-vertical) {
+  $unit: math.unit($column-min-width);
+  @if (list.index($allowed-units, $unit) == null) {
+    @error "Enter a width with one of these units: #{$allowed-units}";
+  }
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax($column-min-width, 1fr));
+  gap: $gap;
+}

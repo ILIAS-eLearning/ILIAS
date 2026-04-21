@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Implementation\Component as CImpl;
@@ -36,7 +36,7 @@ trait IliasMocks
     {
         $ui_reflection = new ReflectionClass(UIFactory::class);
         $methods = array_map(
-            fn ($m) => $m->getName(),
+            fn($m) => $m->getName(),
             $ui_reflection->getMethods()
         );
 
@@ -57,10 +57,12 @@ trait IliasMocks
             );
         $ui_factory->method('link')
             ->willReturn(new CImpl\Link\Factory());
+        $language_mock = $this->createMock(\ILIAS\Language\Language::class);
+        $language_mock->method('txt')->willReturnArgument(0);
         $ui_factory->method('symbol')
             ->willReturn(new CImpl\Symbol\Factory(
                 new CImpl\Symbol\Icon\Factory(),
-                new CImpl\Symbol\Glyph\Factory(),
+                new CImpl\Symbol\Glyph\Factory($language_mock),
                 new CImpl\Symbol\Avatar\Factory()
             ));
 
