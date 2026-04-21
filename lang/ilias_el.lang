@@ -16720,6 +16720,7 @@ survey#:#survey_execution_sure_finish#:#Are you sure you want to finish the surv
 survey#:#survey_existing_pool#:#Use existing question pool###12 06 2011 new variable
 survey#:#survey_finish#:#τέλος έρευνας
 survey#:#survey_finished#:#Ολοκληρώσατε την έρευνα. Ευχαριστούμε για τη συμμετοχή σας!
+survey#:#survey_from_x_points#:#Από X βαθμούς
 survey#:#survey_has_datasets_warning#:#Ή έρευνα περιλαμβάνει ήδη σύνολα δεδομένων. Δεν μπορείτε να επεξεργαστείτε τις ερωτήσεις της έρευνας μέχρις ότου διαγράψετε αυτά τα σύνολα δεδομένων στον τομέα συντήρησης.
 survey#:#survey_has_datasets_warning_page_view#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets.###12 06 2011 new variable
 survey#:#survey_has_datasets_warning_page_view_link#:#Edit Participants###12 06 2011 new variable
@@ -16795,7 +16796,6 @@ survey#:#survey_sync_insufficient_permissions#:#Insufficient Permissions###12 06
 survey#:#survey_sync_question_copies#:#Sync Question Copies###12 06 2011 new variable
 survey#:#survey_sync_question_copies_info#:#The selected questions will be replaced with the current pool version.###12 06 2011 new variable
 survey#:#survey_sync_success#:#The selected questions were updated.###12 06 2011 new variable
-survey#:#survey_up_to_x_points#:#Up to x points###24 10 2013 new variable
 survey#:#survey_use_start_button#:#You must enter the survey using the start button!
 survey#:#svy_activation_limited_visibility_info#:#If chosen, the survey is visible even outside of the given availability.###04 09 2012 new variable
 survey#:#svy_activation_online_info#:#Activate this setting to make the survey accessible to users.###04 09 2012 new variable

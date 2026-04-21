@@ -16719,6 +16719,7 @@ survey#:#survey_execution_sure_finish#:#Are you sure you want to finish the surv
 survey#:#survey_existing_pool#:#Use existing question pool###12 06 2011 new variable
 survey#:#survey_finish#:#afslut spørgeskema
 survey#:#survey_finished#:#Du har nu afsluttet spørgeskemaet. Tak for din deltagelse! <br/><br/>Med venlig hilsen<br/><br/><a href="www.ilias.dk" target="_blank">ILIAS</a>.
+survey#:#survey_from_x_points#:#Fra X point
 survey#:#survey_has_datasets_warning#:#Undersøgelsen indeholder allerede besvarelse. Du kan først ændre undersøgelsen når du har slettet disse besvarelser under vedligeholdelsesfanebladet.
 survey#:#survey_has_datasets_warning_page_view#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets.###12 06 2011 new variable
 survey#:#survey_has_datasets_warning_page_view_link#:#Edit Participants###12 06 2011 new variable
@@ -16794,7 +16795,6 @@ survey#:#survey_sync_insufficient_permissions#:#Insufficient Permissions###12 06
 survey#:#survey_sync_question_copies#:#Sync Question Copies###12 06 2011 new variable
 survey#:#survey_sync_question_copies_info#:#The selected questions will be replaced with the current pool version.###12 06 2011 new variable
 survey#:#survey_sync_success#:#The selected questions were updated.###12 06 2011 new variable
-survey#:#survey_up_to_x_points#:#Up to x points###16 09 2013 new variable
 survey#:#survey_use_start_button#:#You must enter the survey using the start button!###15 11 2006 new variable
 survey#:#svy_activation_limited_visibility_info#:#If chosen, the survey is visible even outside of the given availability.###04 09 2012 new variable
 survey#:#svy_activation_online_info#:#Activate this setting to make the survey accessible to users.###04 09 2012 new variable

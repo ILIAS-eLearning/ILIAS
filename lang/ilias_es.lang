@@ -16722,7 +16722,7 @@ survey#:#survey_execution_sure_finish#:#¿Está seguro de que desea finalizar la
 survey#:#survey_existing_pool#:#Usar banco de preguntas existente
 survey#:#survey_finish#:#Finalizar encuesta
 survey#:#survey_finished#:#Ha finalizado la encuesta. ¡Gracias por su participación!
-survey#:#survey_from_x_points#:#Desde X Puntos
+survey#:#survey_from_x_points#:#Desde X puntos
 survey#:#survey_has_datasets_warning#:#Esta encuesta ya contiene conjuntos de datos. No puede sincronizar las preguntas de la encuesta hasta que elimine estos conjuntos de datos a través de la pestaña 'Participantes' de la encuesta. Para hacer esto, deberá eliminar a cualquier participante que haya comenzado la encuesta y, al hacerlo, haya generado un conjunto de datos.
 survey#:#survey_has_datasets_warning_page_view#:#Esta encuesta ya contiene conjuntos de datos. No puede editar las preguntas de la encuesta hasta que elimine estos conjuntos de datos. Para hacer esto, deberá eliminar a cualquier participante que haya comenzado la encuesta y, al hacerlo, haya generado un conjunto de datos.
 survey#:#survey_has_datasets_warning_page_view_link#:#Editar participantes

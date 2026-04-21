@@ -16719,6 +16719,7 @@ survey#:#survey_execution_sure_finish#:#Are you sure you want to finish the surv
 survey#:#survey_existing_pool#:#kullanımlar mevcut soru havuzu
 survey#:#survey_finish#:#Bitiş Anketi
 survey#:#survey_finished#:#Sen anketi bitirdim. Katılımınız için teşekkür ederiz!
+survey#:#survey_from_x_points#:#X puandan itibaren
 survey#:#survey_has_datasets_warning#:#Anket zaten veri setleri içerir. Eğer katılımcılar bölümünde bu veri setleri kaldırmak kadar anket sorularını düzenleyemezsiniz.
 survey#:#survey_has_datasets_warning_page_view#:#Anket zaten veri setleri içerir. Bu veri setleri kaldırmak kadar anket sorularını düzenleyemezsiniz.
 survey#:#survey_has_datasets_warning_page_view_link#:#Katılımcıları Düzenle
@@ -16794,7 +16795,6 @@ survey#:#survey_sync_insufficient_permissions#:#Yetersiz İzinler
 survey#:#survey_sync_question_copies#:#Sync Soru Kopyalar
 survey#:#survey_sync_question_copies_info#:#seçilmiş sorular akım havuz versiyon ile değiştirilir.
 survey#:#survey_sync_success#:#Seçilen sorular güncellendi.
-survey#:#survey_up_to_x_points#:#Up to x points###24 10 2013 new variable
 survey#:#survey_use_start_button#:#Sen başlat düğmesini kullanarak anket girmeniz gerekir!
 survey#:#svy_activation_limited_visibility_info#:#Seçilirse , anket bile verilen uygunluk dışında görülebilir.
 survey#:#svy_activation_online_info#:#kullanıcılara anket erişilebilir yapmak için bu ayarı etkinleştirin.
