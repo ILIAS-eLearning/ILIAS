@@ -317,7 +317,7 @@ class ilUserDataSet extends ilDataSet
                 break;
 
             case "usr_profile":
-                $usr_id = $a_mapping->getMapping("components/ILIAS/User", "usr", $a_rec["Id"]);
+                $usr_id = (int) $a_mapping->getMapping("components/ILIAS/User", "usr", $a_rec["Id"]);
                 if ($usr_id > 0 && ilObject::_lookupType($usr_id) == "usr") {
                     if (!isset($this->users[$usr_id])) {
                         $this->users[$usr_id] = new ilObjUser($usr_id);
