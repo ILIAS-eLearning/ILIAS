@@ -2053,17 +2053,17 @@ class ilObjectGUI implements ImplementsCreationCallback
             $this->user->getId(),
             $this->request_wrapper->retrieve("item_ref_id", $this->refinery->kindlyTo()->int())
         );
-        $this->lng->loadLanguageModule("rep");
-        $this->tpl->setOnScreenMessage("success", $this->lng->txt("rep_added_to_favourites"), true);
+        $this->lng->loadLanguageModule("dash");
+        $this->tpl->setOnScreenMessage("success", $this->lng->txt("added_to_favourites"), true);
         $this->ctrl->redirectToURL(ilLink::_getLink($this->requested_ref_id));
     }
 
     public function removeFromDeskObject(): void
     {
-        $this->lng->loadLanguageModule("rep");
         $item_ref_id = $this->request_wrapper->retrieve("item_ref_id", $this->refinery->kindlyTo()->int());
         $this->favourites->remove($this->user->getId(), $item_ref_id);
-        $this->tpl->setOnScreenMessage("success", $this->lng->txt("rep_removed_from_favourites"), true);
+        $this->lng->loadLanguageModule("dash");
+        $this->tpl->setOnScreenMessage("success", $this->lng->txt("removed_from_favourites"), true);
         $this->ctrl->redirectToURL(ilLink::_getLink($this->requested_ref_id));
     }
 

@@ -607,14 +607,14 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     public function addToDeskObject(): void
     {
         $this->favourites_manager->add($this->user->getId(), $this->requested_item_ref_id);
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('rep_added_to_favourites'), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('added_to_favourites'), true);
         $this->ctrl->redirectByClass(ilDashboardGUI::class, 'show');
     }
 
     public function removeFromDeskObject(): void
     {
         $this->favourites_manager->remove($this->user->getId(), $this->requested_item_ref_id);
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('rep_removed_from_favourites'), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('removed_from_favourites'), true);
         $this->ctrl->redirectByClass(ilDashboardGUI::class, 'show');
     }
 
