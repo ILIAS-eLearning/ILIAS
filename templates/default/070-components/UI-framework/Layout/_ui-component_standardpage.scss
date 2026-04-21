@@ -334,7 +334,7 @@ main {
 
 		.dropdown-toggle {
 			display: block;
-			max-width: calc(100vw - $il-metabar-entry-width - $il-standard-page-small-logo-width); // TODO 130
+			max-width: calc(100vw - $il-metabar-entry-width - $il-standard-page-small-logo-width - 40px);
 			background-color: transparent;
 			border: none;
 			color: $il-neutral-color;
