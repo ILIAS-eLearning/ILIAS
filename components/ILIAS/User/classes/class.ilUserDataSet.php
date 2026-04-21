@@ -318,47 +318,37 @@ class ilUserDataSet extends ilDataSet
 
             case "usr_profile":
                 $usr_id = (int) $a_mapping->getMapping("components/ILIAS/User", "usr", $a_rec["Id"]);
-                if ($usr_id > 0 && ilObject::_lookupType($usr_id) == "usr") {
+                if ($usr_id > 0 && ilObject::_lookupType($usr_id) === "usr") {
                     if (!isset($this->users[$usr_id])) {
                         $this->users[$usr_id] = new ilObjUser($usr_id);
                     }
                     $user = array_reduce(
                         $fields = $this->user_profile->getFields([], [Alias::class, Roles::class]),
                         function (\ilObjUser $c, ProfileField $v) use ($a_rec): \ilObjUser {
-                            $up_k = $this->convertToLeadingUpper($k);
-                            if (!$this->user_profile->userFieldVisibleToUser($k)
-                                || !isset($a_rec[$up_k])) {
+                            $array_key = $this->buildProfileFieldArrayKeyFromIdentifier($v->getIdentifier());
+                            if (!$this->user_profile->userFieldVisibleToUser($v->getIdentifier())
+                                || !isset($a_rec[$array_key])) {
                                 return $c;
                             }
-                            return $v->addValueToUserObject($c, Context::UserAdministration, ilUtil::secureString($a_rec[$up_k]));
+                            return $v->addValueToUserObject(
+                                $c,
+                                Context::UserAdministration,
+                                $this->retrieveValueFromImportArray(
+                                    $a_rec,
+                                    $array_key
+                                )
+                            );
                         },
                         $this->users[$usr_id]
                     );
 
-                    $user->setLatitude($a_rec["Latitude"] ?? null);
-                    $user->setLongitude($a_rec["Longitude"] ?? null);
-                    $zoom = isset($a_rec["LocZoom"]) ? (int) $a_rec["LocZoom"] : null;
-                    $user->setLocationZoom($zoom);
-
                     $user->update();
-
-                    // personal picture
-                    $pic_dir = $this->getImportDirectory() . "/" . str_replace("..", "", $a_rec["Picture"]);
-                    if ($pic_dir != "" && is_dir($pic_dir)) {
-                        $upload_file = $pic_dir . "/usr_" . $a_rec["Id"] . ".jpg";
-                        if (!is_file($upload_file)) {
-                            $upload_file = $pic_dir . "/upload_" . $a_rec["Id"] . "pic";
-                        }
-                        if (is_file($upload_file)) {
-                            $user->uploadPersonalPicture($upload_file);
-                        }
-                    }
                 }
                 break;
 
             case "usr_setting":
-                $usr_id = $a_mapping->getMapping("components/ILIAS/User", "usr", $a_rec["UserId"]);
-                if ($usr_id > 0 && ilObject::_lookupType($usr_id) == "usr") {
+                $usr_id = (int) $a_mapping->getMapping("components/ILIAS/User", "usr", $a_rec["UserId"]);
+                if ($usr_id > 0 && ilObject::_lookupType($usr_id) === "usr") {
                     if (!isset($this->users[$usr_id])) {
                         $this->users[$usr_id] = new ilObjUser($usr_id);
                     }
@@ -368,11 +358,62 @@ class ilUserDataSet extends ilDataSet
                 break;
 
             case "usr_multi":
-                $usr_id = $a_mapping->getMapping("components/ILIAS/User", "usr", $a_rec["UserId"]);
-                if ($usr_id > 0 && ilObject::_lookupType($usr_id) == "usr") {
+                $usr_id = (int) $a_mapping->getMapping("components/ILIAS/User", "usr", $a_rec["UserId"]);
+                if ($usr_id > 0 && ilObject::_lookupType($usr_id) === "usr") {
                     $this->multi[$usr_id][$a_rec["FieldId"]][] = ilUtil::secureString($a_rec["Value"]);
                 }
                 break;
         }
+    }
+
+    private function buildProfileFieldArrayKeyFromIdentifier(
+        string $identifier
+    ): string {
+        return $this->convertToLeadingUpper(
+            match ($identifier) {
+                'avatar' => 'picture',
+                'location' => 'latitued',
+                default => $identifier
+            }
+        );
+    }
+
+    private function retrieveValueFromImportArray(
+        array $import_array,
+        string $key
+    ): mixed {
+        return match($key) {
+            'Latitude' => [
+                'latitude' => $import_array['Latitude'],
+                'longitude' => $import_array['Longitude'],
+                'zoom' => $import_array['LocZoom']
+            ],
+            'Picture' => [
+                'tmp_name' => $this->buildFileUploadDir(
+                    $import_array[$key],
+                    $import_array['Id']
+                ),
+                'alias' => $import_array['Username']
+            ],
+            default => ilUtil::secureString($import_array[$key])
+        };
+    }
+
+    private function buildFileUploadDir(
+        string $rel_path,
+        string $usr_id
+    ): string {
+        $pic_dir = "{$this->getImportDirectory()}/"
+            . str_replace('..', '', $rel_path);
+        if ($pic_dir === '' || !is_dir($pic_dir)) {
+            return '';
+        }
+
+        $upload_file = "{$pic_dir}/usr_{$usr_id}.jpg";
+        if (!is_file($upload_file)) {
+            return '';
+        }
+
+        return $upload_file;
     }
 }
