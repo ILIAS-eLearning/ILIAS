@@ -16771,7 +16771,7 @@ survey#:#survey_execution_sure_finish#:#Are you sure you want to finish the surv
 survey#:#survey_existing_pool#:#Use existing question pool###12 06 2011 new variable
 survey#:#survey_finish#:#Kết thúc khảo sát
 survey#:#survey_finished#:#Bạn đã hoàn thành khảo sát. Cảm ơn sự tham gia của bạn!
-survey#:#survey_from_x_points#:#Từ X Điểm
+survey#:#survey_from_x_points#:#Từ X điểm
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.###01 Mar 2006 new variable
 survey#:#survey_has_datasets_warning_page_view#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets.###12 06 2011 new variable
 survey#:#survey_has_datasets_warning_page_view_link#:#Edit Participants###12 06 2011 new variable

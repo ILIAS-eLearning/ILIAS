@@ -16754,7 +16754,7 @@ survey#:#survey_execution_sure_finish#:#Êtes-vous sûr de vouloir finir cette e
 survey#:#survey_existing_pool#:#Utiliser le réservoir de questions existant
 survey#:#survey_finish#:#Terminer le Questionnaire
 survey#:#survey_finished#:#Le sondage est terminé. Merci de votre participation !
-survey#:#survey_from_x_points#:#À Partir De X Points
+survey#:#survey_from_x_points#:#À partir de X points
 survey#:#survey_has_datasets_warning#:#L'enquête contient déjà  des réponses. Vous ne pouvez pas modifier les questions de l'enquête tant que vous n'avez pas supprimé ces réponses dans l'onglet " maintenance ".
 survey#:#survey_has_datasets_warning_page_view#:#L'enquête contient déjà des réponses. Vous ne pouvez pas éditer les questions de l'enquête tant que vous n'avez pas supprimé ces réponses.
 survey#:#survey_has_datasets_warning_page_view_link#:#Editer Participants

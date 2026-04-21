@@ -16769,7 +16769,7 @@ survey#:#survey_execution_sure_finish#:#Are you sure you want to finish the surv
 survey#:#survey_existing_pool#:#Use existing question pool
 survey#:#survey_finish#:#закончить опрос
 survey#:#survey_finished#:#Вы закончили опрос. Спасибо за ваше участие!
-survey#:#survey_from_x_points#:#От X Баллов
+survey#:#survey_from_x_points#:#От X баллов
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.
 survey#:#survey_has_datasets_warning_page_view#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets.
 survey#:#survey_has_datasets_warning_page_view_link#:#Редактировать участников

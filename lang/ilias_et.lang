@@ -16769,7 +16769,7 @@ survey#:#survey_execution_sure_finish#:#Are you sure you want to finish the surv
 survey#:#survey_existing_pool#:#Kasuta olemasolevat varamut
 survey#:#survey_finish#:#lõpeta küsitlus
 survey#:#survey_finished#:#Küsitlus on lõppenud. Aitäh osalemise eest!
-survey#:#survey_from_x_points#:#Alates X Punktist
+survey#:#survey_from_x_points#:#Alates X punktist
 survey#:#survey_has_datasets_warning#:#Küsitlus sisaldab juba andmeid. Sa ei saa küsitlust muuta enne, kui oled küsitluse haldusest need andmed eemaldanud.
 survey#:#survey_has_datasets_warning_page_view#:#Sellele küsitlusele on juba vastatud. Te ei saa küsitlust muuta enne kui senised andmed on kustutatud.
 survey#:#survey_has_datasets_warning_page_view_link#:#Muuda osalejaid
