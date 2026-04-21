@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test;
 
 use ILIAS\LegalDocuments\ConsumerToolbox\Setting;
+use ILIAS\Test\ExportImport\TestExporter;
 use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Results\Data\Repository as TestResultRepository;
 use ILIAS\Test\Scoring\Marks\MarkSchemaFactory;
@@ -50,6 +51,8 @@ use ILIAS\Test\Questions\Properties\DatabaseRepository as TestQuestionsDatabaseR
 use ILIAS\Test\Results\Data\Factory as ResultsDataFactory;
 use ILIAS\Test\Results\Presentation\Factory as ResultsPresentationFactory;
 use ILIAS\Test\Results\Toplist\TestTopListRepository;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\StateHolder;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Builder;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\TestQuestionPool\RequestDataCollector as QPLRequestDataCollector;
 use ILIAS\Data\Factory as DataFactory;
@@ -231,6 +234,27 @@ class TestDIC extends PimpleContainer
         $dic['exportimport.repository'] = static fn($c): ExportImportRepository =>
             new ExportImportRepository(
                 $DIC['ilDB']
+            );
+
+        $dic['exportimport.state_holder'] = static fn($c): StateHolder =>
+            new StateHolder();
+
+        $dic['exportimport.builder'] = static fn($c): Builder =>
+            new Builder(
+                $DIC,
+                $c
+            );
+
+        $dic['exportimport.exporter'] = static fn($c): TestExporter =>
+            new TestExporter(
+                $c['exportimport.builder'],
+                new DataFactory(),
+                $DIC->database(),
+                $DIC->resourceStorage(),
+                $c['participant.repository'],
+                $c['results.data.repository'],
+                $c['questions.properties.repository'],
+                $DIC->taxonomy()->domain()
             );
 
         $dic['questions.properties.repository'] = static fn($c): TestQuestionsRepository =>

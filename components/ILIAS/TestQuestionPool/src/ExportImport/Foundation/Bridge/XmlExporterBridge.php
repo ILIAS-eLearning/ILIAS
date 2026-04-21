@@ -88,7 +88,8 @@ trait XmlExporterBridge
         string $component,
         string $target_release,
         string $type,
-        array $object_ids
+        array $object_ids,
+        string $option = ''
     ): ExportState {
         $target = $this->export_handler->target()->handler()
             ->withType($type)
@@ -99,7 +100,8 @@ trait XmlExporterBridge
 
         return $this->state_holder->create(
             $target,
-            $this->export_handler->consumer()->exportConfig()->collection()
+            $this->export_handler->consumer()->exportConfig()->collection(),
+            $option
         );
     }
 
