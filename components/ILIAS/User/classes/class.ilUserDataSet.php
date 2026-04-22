@@ -325,7 +325,7 @@ class ilUserDataSet extends ilDataSet
                         $this->user_profile->getFields([], [Alias::class, Roles::class]),
                         function (\ilObjUser $c, ProfileField $v) use ($a_rec): \ilObjUser {
                             $array_key = $this->buildProfileFieldArrayKeyFromIdentifier($v->getIdentifier());
-                            if (!$this->user_profile->userFieldVisibleToUser($v->getIdentifier())
+                            if (!$this->user_profile->userFieldEditableByUser($v->getIdentifier())
                                 || !isset($a_rec[$array_key])) {
                                 return $c;
                             }
