@@ -35,6 +35,8 @@ use ILIAS\Test\Settings\GlobalSettings\UserIdentifiers;
 use ILIAS\TestQuestionPool\ExportImport\Export\CollectsQuestions;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\DataCollector;
 use ilObjTest;
+use ilTestSkillLevelThreshold;
+use ilTestSkillLevelThresholdList;
 
 /**
  * Collector to aggregate data from the test object for export.
@@ -145,6 +147,26 @@ class TestCollector implements DataCollector
             $this->questions = $this->questions_repository->getQuestionPropertiesForTest($this->getObject());
         }
         return $this->questions;
+    }
+
+    /**
+     * @return list<ilTestSkillLevelThreshold>
+     */
+    public function getSkillLevelThresholds(): array
+    {
+        $threshold_list = new ilTestSkillLevelThresholdList($this->database());
+        $threshold_list->setTestId($this->getTestId());
+        $threshold_list->loadFromDb();
+
+        $thresholds = [];
+        foreach ($this->getSkillAssignments() as $assignment) {
+            $thresholds += $threshold_list->getThesholdsOfBaseAndTrefId(
+                $assignment->getSkillBaseId(),
+                $assignment->getSkillTrefId()
+            );
+        }
+
+        return $thresholds;
     }
 
     /*
