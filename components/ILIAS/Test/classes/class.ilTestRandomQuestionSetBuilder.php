@@ -91,6 +91,10 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
 
         if ($this->hasTaxonomyFilter($definition)) {
             foreach ($definition->getMappedTaxonomyFilter() as $taxId => $nodeIds) {
+                $taxId = (int) $taxId;
+                if ($taxId < 1) {
+                    continue;
+                }
                 $this->stagingPoolQuestionList->addTaxonomyFilter($taxId, $nodeIds);
             }
         }

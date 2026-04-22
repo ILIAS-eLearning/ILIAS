@@ -108,6 +108,11 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 
     public function addTaxonomyFilter($taxId, $taxNodes)
     {
+        $taxId = (int) $taxId;
+        if ($taxId < 1) {
+            return;
+        }
+
         $this->taxFilters[$taxId] = $taxNodes;
     }
 
