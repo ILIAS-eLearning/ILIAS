@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\ExportImport\ExportOptions;
 
+use ilExportGUI;
 use ILIAS\Export\ExportHandler\Consumer\ExportOption\BasicLegacyHandler as BasicLegacyExportOption;
 use ILIAS\Export\ExportHandler\Factory as ExportHandlerLocator;
 use ILIAS\Export\ExportHandler\I\Consumer\Context\HandlerInterface as ConsumerContext;
@@ -90,5 +91,7 @@ class XMLWithResultsOption extends BasicLegacyExportOption
             $export_info,
             ''
         );
+
+        $this->ctrl->redirectByClass(ilExportGUI::class, ilExportGUI::CMD_LIST_EXPORT_FILES);
     }
 }
