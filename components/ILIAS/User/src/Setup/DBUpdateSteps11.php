@@ -557,7 +557,8 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
                 [
                     'type' => \ilDBConstants::T_INTEGER,
                     'length' => 1,
-                    'notnull' => true
+                    'notnull' => true,
+                    'default' => 0
                 ]
             );
         }
