@@ -21,13 +21,16 @@ declare(strict_types=1);
 namespace ILIAS\Test\ExportImport;
 
 use assFormulaQuestion;
+use ilComponentRepository;
 use ilDBInterface;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\ObjectId;
 use ILIAS\Data\UUID\Factory as UUIDFactory;
+use ILIAS\Language\Language;
 use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\Taxonomy\DomainService as Taxonomy;
 use ILIAS\Test\ExportImport\Pipes\CollectUserIds;
+use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Questions\Properties\Repository as QuestionsRepository;
 use ILIAS\Test\Results\Data\Repository as ResultsRepository;
@@ -39,6 +42,8 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Serializer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\CollectResources;
 use ILIAS\TestQuestionPool\ExportImport\Pipes\CollectQuestionImages;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ilTree;
 
 class TestExporter implements Exporter
 {
@@ -46,10 +51,15 @@ class TestExporter implements Exporter
         private readonly Builder $builder,
         private readonly DataFactory $data_factory,
         private readonly ilDBInterface $db,
+        private readonly ilTree $tree,
+        private readonly Language $lng,
+        private readonly TestLogger $logger,
+        private readonly ilComponentRepository $component_repository,
         private readonly IRSS $irss,
         private readonly ParticipantRepository $participant_repository,
         private readonly ResultsRepository $results_repository,
         private readonly QuestionsRepository $questions_repository,
+        private readonly GeneralQuestionPropertiesRepository $general_questions_repository,
         private readonly Taxonomy $taxonomy
     ) {
     }
@@ -71,7 +81,12 @@ class TestExporter implements Exporter
             $this->participant_repository,
             $this->results_repository,
             $this->questions_repository,
+            $this->general_questions_repository,
             $this->db,
+            $this->tree,
+            $this->lng,
+            $this->logger,
+            $this->component_repository,
             $object_id
         );
         $state->setCollector($collector);
@@ -255,6 +270,7 @@ class TestExporter implements Exporter
         $serializer->append('main', $transformations->normalize($main_settings));
         $serializer->append('scoring', $transformations->normalize($test->getScoreSettings()));
         $serializer->append('marks', $transformations->normalize($test->getMarkSchema()));
+        $serializer->append('question_set_config', $transformations->normalize($collector->getQuestionSetConfig()));
 
         if ($intro_page_id = $main_settings->getIntroductionSettings()->getIntroductionPageId()) {
             $state->addDependency('components/ILIAS/COPage', 'pg', ["tst:{$intro_page_id}"]);

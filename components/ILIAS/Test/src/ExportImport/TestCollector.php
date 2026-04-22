@@ -21,12 +21,15 @@ declare(strict_types=1);
 namespace ILIAS\Test\ExportImport;
 
 use Generator;
+use ilComponentRepository;
 use ilDBConstants;
 use ilDBInterface;
 use ILIAS\Data\ObjectId;
+use ILIAS\Language\Language;
 use ILIAS\Test\ExportImport\Envelopes\ManualFeedback;
 use ILIAS\Test\ExportImport\Envelopes\Solution;
 use ILIAS\Test\ExportImport\Envelopes\WorkingTime;
+use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Questions\Properties\Properties;
 use ILIAS\Test\Questions\Properties\Repository as QuestionsRepository;
@@ -34,9 +37,14 @@ use ILIAS\Test\Results\Data\Repository as ResultsRepository;
 use ILIAS\Test\Settings\GlobalSettings\UserIdentifiers;
 use ILIAS\TestQuestionPool\ExportImport\Export\CollectsQuestions;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\DataCollector;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ilObjTest;
+use ilTestQuestionSetConfigFactory;
+use ilTestRandomQuestionSetSourcePoolDefinitionFactory;
+use ilTestRandomQuestionSetSourcePoolDefinitionList;
 use ilTestSkillLevelThreshold;
 use ilTestSkillLevelThresholdList;
+use ilTree;
 
 /**
  * Collector to aggregate data from the test object for export.
@@ -55,7 +63,12 @@ class TestCollector implements DataCollector
         private readonly ParticipantRepository $participant_repository,
         private readonly ResultsRepository $results_repository,
         private readonly QuestionsRepository $questions_repository,
+        private readonly GeneralQuestionPropertiesRepository $general_questions_repository,
         private readonly ilDBInterface $db,
+        private readonly ilTree $tree,
+        private readonly Language $lng,
+        private readonly TestLogger $logger,
+        private readonly ilComponentRepository $component_repository,
         private readonly ObjectId $object_id
     ) {
     }
@@ -167,6 +180,43 @@ class TestCollector implements DataCollector
         }
 
         return $thresholds;
+    }
+
+    /**
+     * Get the question set config and the source pool definitions.
+     *
+     * @return array{config: \ilTestQuestionSetConfig, definitions: list<\ilTestRandomQuestionSetSourcePoolDefinition>}
+     */
+    public function getQuestionSetConfig(): array
+    {
+        $factory = new ilTestQuestionSetConfigFactory(
+            $this->tree,
+            $this->db,
+            $this->lng,
+            $this->logger,
+            $this->component_repository,
+            $this->getObject(),
+            $this->general_questions_repository
+        );
+
+        $config = $factory->getQuestionSetConfig();
+
+        $definition_factory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
+            $this->db,
+            $this->getObject()
+        );
+
+        $definition_list = new ilTestRandomQuestionSetSourcePoolDefinitionList(
+            $this->db,
+            $this->getObject(),
+            $definition_factory
+        );
+        $definition_list->loadDefinitions();
+
+        return [
+            'config' => $config,
+            'definitions' => iterator_to_array($definition_list),
+        ];
     }
 
     /*
