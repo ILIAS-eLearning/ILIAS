@@ -479,10 +479,6 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
 
     public function step_10(): void
     {
-        if ($this->db->tableColumnExists('usr_data', 'time_limit_message')) {
-            $this->db->dropTableColumn('usr_data', 'time_limit_message');
-        }
-
         if ($this->db->tableColumnExists('usr_data', 'sel_country')) {
             $this->db->renameTableColumn('usr_data', 'country', 'old_country');
             $this->db->renameTableColumn('usr_data', 'sel_country', 'country');
@@ -550,5 +546,40 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
             ['keyword' => [\ilDBConstants::T_TEXT, 'public_avatar']],
             ['keyword' => [\ilDBConstants::T_TEXT, 'public_upload']]
         );
+    }
+
+    public function step_14(): void
+    {
+        if (!$this->db->tableColumnExists('usr_data', 'expiration_reminder_sent')) {
+            $this->db->addTableColumn(
+                'usr_data',
+                'expiration_reminder_sent',
+                [
+                    'type' => \ilDBConstants::T_INTEGER,
+                    'length' => 1,
+                    'notnull' => true
+                ]
+            );
+        }
+
+        if ($this->db->tableColumnExists('usr_data', 'time_limit_message')) {
+            $this->db->update(
+                'usr_data',
+                [
+                    'expiration_reminder_sent' => [
+                        \ilDBConstants::T_INTEGER,
+                        1
+                    ]
+                ],
+                [
+                    'time_limit_message' => [
+                        \ilDBConstants::T_TEXT,
+                        1
+                    ]
+                ]
+            );
+            $this->db->dropTableColumn('usr_data', 'time_limit_message');
+        }
+
     }
 }
