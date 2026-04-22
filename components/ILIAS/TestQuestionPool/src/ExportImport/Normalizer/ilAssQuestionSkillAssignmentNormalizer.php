@@ -57,8 +57,8 @@ class ilAssQuestionSkillAssignmentNormalizer implements Normalizer
         $normalized = [
             'parent_id' => $this->tt->normalize(new Id($value->getParentObjId(), 'object')),
             'question_id' => $this->tt->normalize(new Id($value->getQuestionId(), 'question')),
-            'base_id' => $value->getSkillBaseId(),
-            'tref_id' => $value->getSkillTrefId(),
+            'base_id' => $this->tt->normalize(new Id($value->getSkillBaseId(), 'skill_base')),
+            'tref_id' => $this->tt->normalize(new Id($value->getSkillTrefId(), 'skill_tref')),
             'original_title' => $value->getSkillTitle(),
             'original_path' => $value->getSkillPath(),
             'eval_mode' => $value->getEvalMode(),
