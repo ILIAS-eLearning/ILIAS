@@ -18,13 +18,18 @@
 
 declare(strict_types=1);
 
+use ILIAS\Refinery\Transformation;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
  *
  * @package		Modules/Test
  */
-class ilTestRandomQuestionSetSourcePoolDefinition
+class ilTestRandomQuestionSetSourcePoolDefinition implements Normalizable
 {
     private ?int $id = null;
     private ?int $pool_id = null;
@@ -450,4 +455,68 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     }
 
     // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * @inheritDoc
+     */
+    public function toNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(function () use ($tt): array {
+            $normalized = [
+                'id' => $tt->normalize(new Id($this->getId(), static::class)),
+                'pool_id' => $tt->normalize(new Id($this->getPoolId(), 'qpl')),
+                'pool_title' => $this->getPoolTitle(),
+                'pool_path' => $this->getPoolPath(),
+                'quest_amount' => $this->getQuestionAmount(),
+                'pool_quest_count' => $this->getPoolQuestionCount(),
+                'position' => $this->getSequencePosition(),
+                'type_filter' => $this->getTypeFilterAsTypeTags(),
+                'lifecycle_filter' => $this->getLifecycleFilter(),
+                'taxonomy_filter' => [],
+            ];
+
+            foreach ($this->getOriginalTaxonomyFilter() as $tax_id => $node_ids) {
+                $normalized['taxonomy_filter'][] = [
+                    'tax_id' => $tt->normalize(new Id($tax_id, 'tax')),
+                    'node_ids' => array_map(
+                        fn($node_id) => $tt->normalize(new Id($node_id, 'tax_node')),
+                        $node_ids
+                    ),
+                ];
+            }
+
+            return $normalized;
+        });
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fromNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
+            $clone = clone $this;
+            $clone->setId($tt->denormalize($normalized['id'], Id::class)->getId());
+            $clone->setPoolId($tt->denormalize($normalized['pool_id'], Id::class)->getId());
+            $clone->setPoolTitle($tt->string($normalized['pool_title']));
+            $clone->setPoolPath($tt->string($normalized['pool_path']));
+            $clone->setQuestionAmount($tt->nullableInt($normalized['quest_amount']));
+            $clone->setPoolQuestionCount($tt->nullableInt($normalized['pool_quest_count']));
+            $clone->setSequencePosition($tt->int($normalized['position']));
+            $clone->setTypeFilterFromTypeTags($normalized['type_filter']);
+            $clone->setLifecycleFilter($normalized['lifecycle_filter']);
+
+            $taxonomy_filter = [];
+            foreach ($normalized['taxonomy_filter'] as $item) {
+                $tax_id = $tt->denormalize($item['tax_id'], Id::class)->getId();
+                $taxonomy_filter[$tax_id] = array_map(
+                    fn($node_id) => $tt->denormalize($node_id, Id::class)->getId(),
+                    $item['node_ids']
+                );
+            }
+            $clone->setOriginalTaxonomyFilter($taxonomy_filter);
+
+            return $clone;
+        });
+    }
 }
