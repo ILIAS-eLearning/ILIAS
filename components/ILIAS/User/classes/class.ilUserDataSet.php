@@ -252,13 +252,12 @@ class ilUserDataSet extends ilDataSet
                     // for all user ids get data from usr_pref and mail options, create records user_id/name/value
                     $prefs = ["date_format", "day_end", "day_start", "bs_allow_to_contact_me", "chat_osc_accept_msg", "hide_own_online_status", "language",
                         "public_birthday", "puplic_city", "public_country", "public_delicious", "public_department", "public_email", "public_second_email",
-                        "public_fax", "public_gender", "public_hobby", "public_im_aim", "public_im_icq", "public_im_jabber",
-                        "public_im_msn", "public_im_skype", "public_im_voip", "public_im_yahoo", "public_institution", "public_location",
+                        "public_fax", "public_gender", "public_hobby", "public_institution", "public_location",
                         "public_matriculation", "public_phone_home", "public_phone_mobile", "public_phone_office",
-                        "public_profile", "public_sel_country", "public_street", "public_title", "public_avatar", "public_zipcode",
+                        "public_profile", "public_country", "public_street", "public_title", "public_avatar", "public_zipcode",
                         "screen_reader_optimization", "show_users_online",
                         "store_last_visited", "time_format", "user_tz", "weekstart",
-                        "session_reminder_lead_time", "usr_starting_point",
+                        "session_reminder_lead_time", "usr_starting_point", "usr_starting_point_ref_id",
                         "chat_broadcast_typing"];
 
                     if (version_compare($a_version, '5.2.0', '>=')) {
@@ -323,7 +322,7 @@ class ilUserDataSet extends ilDataSet
                         $this->users[$usr_id] = new ilObjUser($usr_id);
                     }
                     $user = array_reduce(
-                        $fields = $this->user_profile->getFields([], [Alias::class, Roles::class]),
+                        $this->user_profile->getFields([], [Alias::class, Roles::class]),
                         function (\ilObjUser $c, ProfileField $v) use ($a_rec): \ilObjUser {
                             $array_key = $this->buildProfileFieldArrayKeyFromIdentifier($v->getIdentifier());
                             if (!$this->user_profile->userFieldVisibleToUser($v->getIdentifier())
@@ -372,7 +371,7 @@ class ilUserDataSet extends ilDataSet
         return $this->convertToLeadingUpper(
             match ($identifier) {
                 'avatar' => 'picture',
-                'location' => 'latitued',
+                'location' => 'latitude',
                 default => $identifier
             }
         );
@@ -386,7 +385,7 @@ class ilUserDataSet extends ilDataSet
             'Latitude' => [
                 'latitude' => $import_array['Latitude'],
                 'longitude' => $import_array['Longitude'],
-                'zoom' => $import_array['LocZoom']
+                'zoom' => (int) $import_array['LocZoom']
             ],
             'Picture' => [
                 'tmp_name' => $this->buildFileUploadDir(
