@@ -11364,7 +11364,7 @@ lti#:#lti_con_prov_xapi_launch_secret_info#:#&nbsp;
 lti#:#lti_con_prov_xapi_launch_url#:#URL dell'Endpoint LRS
 lti#:#lti_con_prov_xapi_launch_url_info#:#Per favore inserisci l'URL completo con https://
 lti#:#lti_con_redirection_uris#:#Redirection URI###31 03 2023 new variable
-lti#:#lti_con_tool_url#:#Login URL###31 03 2023 new variable
+lti#:#lti_con_tool_url#:#Launch URL###31 03 2023 new variable
 lti#:#lti_con_version#:#LTI Version###31 03 2023 new variable
 lti#:#lti_con_version_1.1#:#Version 1.1###31 03 2023 new variable
 lti#:#lti_con_version_1.3#:#Version 1.3###31 03 2023 new variable
