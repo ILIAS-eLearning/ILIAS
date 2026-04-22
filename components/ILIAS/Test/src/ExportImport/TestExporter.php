@@ -25,7 +25,6 @@ use ilDBInterface;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\ObjectId;
 use ILIAS\Data\UUID\Factory as UUIDFactory;
-use ILIAS\Export\ExportHandler\I\Consumer\ExportWriter\HandlerInterface as ExportWriter;
 use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\Taxonomy\DomainService as Taxonomy;
 use ILIAS\Test\ExportImport\Pipes\CollectUserIds;
@@ -147,6 +146,14 @@ class TestExporter implements Exporter
         $state->serializer()->group(
             'skill_assignments',
             fn() => $this->exportSkillAssignments(
+                $state->collector(),
+                $state->transformations(),
+                $state->serializer(),
+            )
+        );
+        $state->serializer()->group(
+            'skill_thresholds',
+            fn() => $this->exportSkillLevelThresholds(
                 $state->collector(),
                 $state->transformations(),
                 $state->serializer(),
@@ -294,6 +301,16 @@ class TestExporter implements Exporter
     ): void {
         foreach ($collector->getSkillAssignments() as $assignment) {
             $serializer->append('skill_assignment', $transformations->normalize($assignment));
+        }
+    }
+
+    private function exportSkillLevelThresholds(
+        TestCollector $collector,
+        Transformations $transformations,
+        Serializer $serializer,
+    ): void {
+        foreach ($collector->getSkillLevelThresholds() as $threshold) {
+            $serializer->append('skill_level_threshold', $transformations->normalize($threshold));
         }
     }
 
