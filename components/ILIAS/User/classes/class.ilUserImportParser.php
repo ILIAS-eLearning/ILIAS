@@ -2176,8 +2176,9 @@ class ilUserImportParser extends ilSaxParser
         }
     }
 
-    private function addUDFDataToUser(\ilObjUser $user): \ilObjUser
-    {
+    private function addUDFDataToUser(
+        \ilObjUser $user
+    ): \ilObjUser {
         return $user->withProfileData(
             array_reduce(
                 array_keys($this->udf_data),
@@ -2186,7 +2187,7 @@ class ilUserImportParser extends ilSaxParser
                         $v,
                         $this->udf_data[$v]
                     ),
-                $this->user_obj->getProfileData()
+                $user->getProfileData()
             )
         );
     }
