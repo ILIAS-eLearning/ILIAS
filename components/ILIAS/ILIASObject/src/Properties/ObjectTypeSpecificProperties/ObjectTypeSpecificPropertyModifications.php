@@ -20,6 +20,6 @@ namespace ILIAS\ILIASObject\Properties\ObjectTypeSpecificProperties;
 
 interface ObjectTypeSpecificPropertyModifications
 {
-    public function modifyTitle(int $obj_id, string $current_title): string;
-    public function modifyDescription(int $obj_id, string $current_description): string;
+    public function modifyTitle(string $current_title): string;
+    public function modifyDescription(string $current_description): string;
 }
