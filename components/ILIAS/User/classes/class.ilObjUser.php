@@ -1060,7 +1060,6 @@ class ilObjUser extends ilObject
             $this->active = 1;
             $this->setApproveDate(date('Y-m-d H:i:s'));
             $this->setInactivationDate(null);
-            $this->setOwner($owner);
             return;
         }
 
