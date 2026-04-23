@@ -110,4 +110,17 @@ class ilForumDatabaseUpdateSteps11 implements ilDatabaseUpdateSteps
         }
     }
 
+    public function step_3(): void
+    {
+        if ($this->db->tableExists('frm_notification') &&
+            !$this->db->tableColumnExists('frm_notification', 'user_deactivated_noti')) {
+            $this->db->addTableColumn('frm_notification', 'user_deactivated_noti', [
+                'type' => ilDBConstants::T_INTEGER,
+                'length' => 1,
+                'default' => '0',
+                'notnull' => true
+            ]);
+        }
+    }
+
 }

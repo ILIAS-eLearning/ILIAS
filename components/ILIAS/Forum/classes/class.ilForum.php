@@ -1531,6 +1531,22 @@ class ilForum
             return true;
         }
 
+        // Re-activate an existing (soft-deactivated) forum-level row if one exists.
+        $res = $this->db->queryF(
+            'SELECT COUNT(*) cnt FROM frm_notification WHERE user_id = %s AND frm_id = %s AND thread_id = %s',
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
+            [$user_id, $this->id, 0]
+        );
+        if (($row = $this->db->fetchAssoc($res)) && (int) $row['cnt'] > 0) {
+            $this->db->manipulateF(
+                'UPDATE frm_notification SET user_deactivated_noti = %s WHERE user_id = %s AND frm_id = %s AND thread_id = %s',
+                [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
+                [0, $user_id, $this->id, 0]
+            );
+            return true;
+        }
+
+        /* No forum-level row: replace thread-level subscriptions with a single forum-level one. */
         $res = $this->db->queryF(
             '
 				SELECT frm_notification.thread_id FROM frm_data, frm_notification, frm_threads
@@ -1572,9 +1588,9 @@ class ilForum
 
         $nextId = $this->db->nextId('frm_notification');
         $this->db->manipulateF(
-            'INSERT INTO frm_notification (notification_id, user_id, frm_id, thread_id, member_may_disable_noti) VALUES(%s, %s, %s, %s, %s)',
-            [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
-            [$nextId, $user_id, $this->id, 0, ilForumProperties::getInstance($this->id)->isMemberMayDeactivateForumNotification() ? 1 : 0]
+            'INSERT INTO frm_notification (notification_id, user_id, frm_id, thread_id, member_may_disable_noti, user_deactivated_noti) VALUES(%s, %s, %s, %s, %s, %s)',
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
+            [$nextId, $user_id, $this->id, 0, ilForumProperties::getInstance($this->id)->isMemberMayDeactivateForumNotification() ? 1 : 0, 0]
         );
 
         return true;
@@ -1583,9 +1599,15 @@ class ilForum
     public function disableForumNotification(int $user_id): bool
     {
         $this->db->manipulateF(
-            'DELETE FROM frm_notification WHERE user_id = %s AND frm_id = %s',
-            ['integer', 'integer'],
-            [$user_id, $this->id]
+            'UPDATE frm_notification SET user_deactivated_noti = %s WHERE user_id = %s AND frm_id = %s AND thread_id = %s',
+            ['integer', 'integer', 'integer', 'integer'],
+            [1, $user_id, $this->id, 0]
+        );
+
+        $this->db->manipulateF(
+            'DELETE FROM frm_notification WHERE user_id = %s AND frm_id = %s AND thread_id != %s',
+            ['integer', 'integer', 'integer'],
+            [$user_id, $this->id, 0]
         );
 
         return true;
@@ -1594,9 +1616,9 @@ class ilForum
     public function isForumNotificationEnabled(int $user_id): bool
     {
         $res = $this->db->queryF(
-            'SELECT COUNT(*) cnt FROM frm_notification WHERE user_id = %s AND frm_id = %s',
-            ['integer', 'integer'],
-            [$user_id, $this->id]
+            'SELECT COUNT(*) cnt FROM frm_notification WHERE user_id = %s AND frm_id = %s AND thread_id = %s AND user_deactivated_noti = %s',
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
+            [$user_id, $this->id, 0, 0]
         );
 
         if ($row = $this->db->fetchAssoc($res)) {

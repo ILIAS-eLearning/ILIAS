@@ -56,6 +56,8 @@ class ilForumNotificationTest extends TestCase
         $this->assertSame(6, $instance->getForumRefId());
         $instance->setUserIdNoti(7);
         $this->assertSame(7, $instance->getUserIdNoti());
+        $instance->setUserDeactivatedNotification(true);
+        $this->assertTrue($instance->getUserDeactivatedNotification());
     }
 
     public function testIsContainerEnforcingNotificationPersisted(): void
@@ -170,9 +172,9 @@ class ilForumNotificationTest extends TestCase
         $this->database->expects(self::once())->method('manipulateF')->with(
             '
 			INSERT INTO frm_notification
-				(notification_id, user_id, frm_id, container_enforces_noti, member_may_disable_noti, interested_events, user_id_noti)
-			VALUES(%s, %s, %s, %s, %s, %s, %s)',
-            ['integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'],
+				(notification_id, user_id, frm_id, container_enforces_noti, member_may_disable_noti, interested_events, user_id_noti, user_deactivated_noti)
+			VALUES(%s, %s, %s, %s, %s, %s, %s, %s)',
+            ['integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'],
             [
                 $nextId,
                 $userId,
@@ -180,7 +182,8 @@ class ilForumNotificationTest extends TestCase
                 $adminForce,
                 $userToggle,
                 $interested_in_events,
-                $objUserId
+                $objUserId,
+                0
             ]
         );
 
@@ -337,6 +340,7 @@ class ilForumNotificationTest extends TestCase
             'member_may_disable_noti' => 90,
             'interested_events' => 8,
             'user_id_noti' => 6,
+            'user_deactivated_noti' => 0,
         ];
         $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->database->expects(self::exactly(2))->method('fetchAssoc')->willReturn(
@@ -368,6 +372,7 @@ class ilForumNotificationTest extends TestCase
             'member_may_disable_noti' => 90,
             'interested_events' => 8,
             'user_id_noti' => 6,
+            'user_deactivated_noti' => 0,
         ];
         $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->database->expects(self::exactly(2))->method('fetchAssoc')->willReturn(

@@ -41,6 +41,8 @@ final readonly class ForumNotificationMembershipRow
 
     public int $user_id_noti;
 
+    public bool $user_deactivated_noti;
+
     /**
      * @param array<string, mixed> $row frm_notification fetchAssoc result
      */
@@ -54,5 +56,6 @@ final readonly class ForumNotificationMembershipRow
         $this->member_may_disable_noti = (bool) (int) $row['member_may_disable_noti'];
         $this->interested_events = (int) $row['interested_events'];
         $this->user_id_noti = (int) $row['user_id_noti'];
+        $this->user_deactivated_noti = (bool) (int) ($row['user_deactivated_noti'] ?? 0);
     }
 }

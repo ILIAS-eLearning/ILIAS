@@ -44,6 +44,7 @@ class ilForumNotification
     private bool $member_may_disable_noti = false;
     private int $interested_events = 0;
     private int $user_id_noti;
+    private bool $user_deactivated_noti = false;
 
     public function __construct(private int $ref_id)
     {
@@ -146,6 +147,16 @@ class ilForumNotification
         return $this->user_id_noti;
     }
 
+    public function setUserDeactivatedNotification(bool $user_deactivated_noti): void
+    {
+        $this->user_deactivated_noti = $user_deactivated_noti;
+    }
+
+    public function getUserDeactivatedNotification(): bool
+    {
+        return $this->user_deactivated_noti;
+    }
+
     public function isContainerEnforcingNotificationPersisted(): bool
     {
         $res = $this->db->queryF(
@@ -191,9 +202,9 @@ class ilForumNotification
         $this->db->manipulateF(
             '
 			INSERT INTO frm_notification
-				(notification_id, user_id, frm_id, container_enforces_noti, member_may_disable_noti, interested_events, user_id_noti)
-			VALUES(%s, %s, %s, %s, %s, %s, %s)',
-            ['integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'],
+				(notification_id, user_id, frm_id, container_enforces_noti, member_may_disable_noti, interested_events, user_id_noti, user_deactivated_noti)
+			VALUES(%s, %s, %s, %s, %s, %s, %s, %s)',
+            ['integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'],
             [
                 $next_id,
                 (int) $this->getUserId(),
@@ -201,7 +212,8 @@ class ilForumNotification
                 (int) $this->getContainerEnforcesNotification(),
                 (int) $this->getMemberMayDisableNotification(),
                 $this->getInterestedEvents(),
-                $this->user->getId()
+                $this->user->getId(),
+                (int) $this->getUserDeactivatedNotification()
             ]
         );
     }
@@ -504,6 +516,7 @@ class ilForumNotification
             $this->setMemberMayDisableNotification($row->member_may_disable_noti);
             $this->setUserIdNoti($row->user_id_noti);
             $this->setInterestedEvents($row->interested_events);
+            $this->setUserDeactivatedNotification($row->user_deactivated_noti);
 
             $this->insertContainerMembershipNotification();
         }
@@ -556,6 +569,7 @@ class ilForumNotification
             $notificationConfig->setContainerEnforcesNotification((bool) $row['container_enforces_noti']);
             $notificationConfig->setMemberMayDisableNotification((bool) $row['member_may_disable_noti']);
             $notificationConfig->setInterestedEvents((int) $row['interested_events']);
+            $notificationConfig->setUserDeactivatedNotification((bool) (int) ($row['user_deactivated_noti'] ?? 0));
 
             self::$forced_events_cache[(int) $row['user_id']] = $notificationConfig;
         }
@@ -631,6 +645,15 @@ class ilForumNotification
         }
 
         if ($effective_properties->getNotificationType() === NotificationType::ALL_USERS) {
+            if (!$effective_properties->isMemberMayDeactivateForumNotification()) {
+                // Admin forces notifications and members cannot opt out: clear any previous user deactivations.
+                $this->db->manipulateF(
+                    'UPDATE frm_notification SET user_deactivated_noti = %s WHERE frm_id = %s AND thread_id = %s',
+                    ['integer', 'integer', 'integer'],
+                    [0, $this->getForumId(), 0]
+                );
+            }
+
             foreach ($distinct_user_ids as $user_id) {
                 $this->setUserId($user_id);
                 $this->setContainerEnforcesNotification($effective_properties->isContainerEnforcingForumNotification());
@@ -695,10 +718,10 @@ class ilForumNotification
                     continue;
                 }
 
-                // Members with no frm_notification row at all opted out of forum notifications (e.g. header bell
-                // off / `ilForum::disableForumNotification()`). Do not INSERT a forum-level row here — that
-                // would re-enable the bell and overwrite intentional abstention. Thread-only subscribers are still
-                // in $distinct_user_ids and need a forum-level row for PER_USER admin flags.
+                // Members with no frm_notification row at all have never interacted with the forum notification.
+                // Since `disableForumNotification()` now soft-deletes (sets user_deactivated_noti = 1 instead of
+                // removing the row), these are truly brand-new members. Thread-only subscribers are still in
+                // $distinct_user_ids and need a forum-level row for PER_USER admin flags.
                 if (!isset($user_ids_with_any_frm_noti_row[$user_id])) {
                     continue;
                 }
