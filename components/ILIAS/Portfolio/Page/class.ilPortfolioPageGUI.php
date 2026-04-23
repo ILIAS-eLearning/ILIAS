@@ -736,8 +736,21 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 
                     foreach ($course["objectives"] as $objtv) {
                         if ($do_links) {
-                            $params = array("oobj" => $objtv["id"]);
-                            $url = ilLink::_getLink($course["ref_id"], "crs", $params);
+                            if ($this->getOutputMode() === "offline") {
+                                $params = array("oobj" => $objtv["id"]);
+                                $url = ilLink::_getLink($course["ref_id"], "crs", $params);
+                            } else {
+                                $this->ctrl->setParameterByClass(ilObjCourseGUI::class, "ref_id", $course["ref_id"]);
+                                $this->ctrl->setParameterByClass(ilObjCourseGUI::class, "oobj", $objtv["id"]);
+                                $url = $this->ctrl->getLinkTargetByClass(
+                                    [
+                                        ilRepositoryGUI::class,
+                                        ilObjCourseGUI::class
+                                    ]
+                                );
+                                $this->ctrl->setParameterByClass(ilObjCourseGUI::class, "ref_id", null);
+                                $this->ctrl->setParameterByClass(ilObjCourseGUI::class, "oobj", null);
+                            }
 
                             // #15510
                             $url .= "#objtv_acc_" . $objtv["id"];
