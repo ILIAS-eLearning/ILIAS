@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,8 @@ declare(strict_types=0);
  *
  *********************************************************************/
 
+declare(strict_types=0);
+
 /**
  * Settings for LO courses
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -30,8 +31,8 @@ class ilLOUtils
         int $a_cont_oid,
         int $a_test_rid,
         int $a_objective_id,
-        int $max_points,
-        int $reached,
+        float $max_points,
+        float $reached,
         int $limit_perc
     ): bool {
         $settings = ilLOSettings::getInstanceByObjId($a_cont_oid);
@@ -62,7 +63,7 @@ class ilLOUtils
         int $a_container_id,
         int $a_objective_id,
         int $a_test_ref_id,
-        int $a_max_points
+        float $a_max_points
     ): int {
         $settings = ilLOSettings::getInstanceByObjId($a_container_id);
         $assignments = ilLOTestAssignments::getInstance($a_container_id);
