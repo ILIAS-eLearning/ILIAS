@@ -4200,6 +4200,7 @@ common#:#frm_added#:#Forum angelegt
 common#:#frm_edit#:#Forum bearbeiten
 common#:#frm_import#:#Forum importieren
 common#:#frm_latest_postings#:#Letzte Beiträge
+common#:#frm_member_may_disable_noti#:#Mitglied darf Benachrichtigungen deaktivieren
 common#:#frm_new#:#Neues Forum anlegen
 common#:#frm_no_threads#:#Aktuell ist kein Thema verfügbar.
 common#:#from#:#Von
@@ -5896,7 +5897,6 @@ common#:#user_profile_other#:#Weitere Informationen
 common#:#user_send_new_account_mail#:#Begrüssungsmail versenden
 common#:#user_status#:#Benutzerstatus
 common#:#user_toggle_noti#:#Benachrichtigungen können nicht deaktiviert werden.
-common#:#frm_member_may_disable_noti#:#Mitglied darf Benachrichtigungen deaktivieren
 common#:#userfolder_export_csv#:#Durch Komma getrennte Werte (CSV)
 common#:#userfolder_export_excel_x86#:#Microsoft Excel
 common#:#userfolder_export_file#:#Datei

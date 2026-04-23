@@ -4201,6 +4201,7 @@ common#:#frm_added#:#Forum added
 common#:#frm_edit#:#Edit Forum
 common#:#frm_import#:#Import Forum
 common#:#frm_latest_postings#:#Latest Posts
+common#:#frm_member_may_disable_noti#:#Member may deactivate notifications
 common#:#frm_new#:#New Forum
 common#:#frm_no_threads#:#There are no threads available at the moment.
 common#:#from#:#From
@@ -5897,7 +5898,6 @@ common#:#user_profile_other#:#Other Information
 common#:#user_send_new_account_mail#:#Send new account e-mail
 common#:#user_status#:#User Status
 common#:#user_toggle_noti#:#Notifications cannot be deactivated
-common#:#frm_member_may_disable_noti#:#Member may deactivate notifications
 common#:#userfolder_export_csv#:#Comma Separated Values
 common#:#userfolder_export_excel_x86#:#Microsoft Excel
 common#:#userfolder_export_file#:#File
