@@ -109,19 +109,26 @@ class CombinedSlateTest extends ILIAS_UI_TestBase
             ->withAdditionalEntry($subdivider_with_text)
             ->withAdditionalEntry($subdivider);
 
-        $r = $this->getDefaultRenderer();
-        $html = $r->render($slate);
-
-        $expected = <<<EOT
+        $out = <<<EOT
         <div class="il-maincontrols-slate disengaged" id="id_1">
             <div class="il-maincontrols-slate-content" data-replace-marker="content">
                 <ul>
-                    <li><hr class="il-divider-with-label" /><h4 class="il-divider">Title</h4></li>
+                    <li><hr class="il-divider-with-label" /><h[LEVEL] class="il-divider">Title</h[LEVEL]></li>
                     <li><hr /></li>
                 </ul>
             </div>
         </div>
 EOT;
+
+        $html = $this->getDefaultRenderer()->render($slate);
+        $expected = str_replace('[LEVEL]', '2', $out);
+        $this->assertEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($html)
+        );
+
+        $html = $this->getDefaultRenderer()->withHeaderNesting(3)->render($slate);
+        $expected = str_replace('[LEVEL]', '4', $out);
         $this->assertEquals(
             $this->brutallyTrimHTML($expected),
             $this->brutallyTrimHTML($html)

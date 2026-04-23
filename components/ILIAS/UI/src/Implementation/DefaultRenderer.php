@@ -36,6 +36,7 @@ class DefaultRenderer implements Renderer
      * @var Component[]
      */
     private array $contexts = [];
+    private int $header_nesting = 1;
 
     public function __construct(
         private Render\Loader $component_renderer_loader,
@@ -130,4 +131,24 @@ class DefaultRenderer implements Renderer
     {
         array_pop($this->contexts);
     }
+
+    public function withHeaderNesting(int $nesting_level): static
+    {
+        if ($nesting_level < 1) {
+            throw new \LogicException('Headings with values smaller 1 are not allowed');
+        }
+        $clone = clone $this;
+        $clone->header_nesting = $nesting_level;
+        return $clone;
+    }
+
+    public function getHeaderNesting(?int $offset = 0): int
+    {
+        $new_nesting = $this->header_nesting + $offset;
+        if ($new_nesting < 1) {
+            throw new \LogicException('Headings with values smaller 1 are not allowed');
+        }
+        return $new_nesting;
+    }
+
 }
