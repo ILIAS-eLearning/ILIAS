@@ -233,9 +233,9 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 				<img class="icon name small" src="./assets/images/standard/icon_default.svg" alt="aria_label"/>
 			</div>
 			<div class="media-body">
-				<h4 class="il-item-notification-title">
+				<h2 class="il-item-notification-title">
 					<a href="">TestLink</a>
-				</h4>
+				</h2>
 				<button type="button" class="close" aria-label="close" id="id">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -281,7 +281,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
                                                 <img class="icon name small" src="./assets/images/standard/icon_default.svg" alt="aria_label"/>
 											</div>
 											<div class="media-body">
-												<h4 class="il-item-notification-title">title_aggregate</h4>
+												<h3 class="il-item-notification-title">title_aggregate</h3>
 												<div class="il-aggregate-notifications" data-aggregatedby="id">
 													<div class="il-maincontrols-slate il-maincontrols-slate-notification">
 														<div class="il-maincontrols-slate-notification-title">

@@ -133,7 +133,7 @@ class NotificationSlateTest extends ILIAS_UI_TestBase
 						<img class="icon name small" src="./assets/images/standard/icon_default.svg" alt="aria_label"/>
 					</div>
 					<div class="media-body">
-						<h4 class="il-item-notification-title">item title</h4>
+						<h2 class="il-item-notification-title">item title</h2>
 						<div class="il-aggregate-notifications" data-aggregatedby="id_1">
 							<div class="il-maincontrols-slate il-maincontrols-slate-notification">
 								<div class="il-maincontrols-slate-notification-title">

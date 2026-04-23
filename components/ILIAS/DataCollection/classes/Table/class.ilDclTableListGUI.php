@@ -135,7 +135,7 @@ class ilDclTableListGUI
         $this->toolbar->addStickyItem($add_new);
 
         $this->tpl->setContent(
-            $this->renderer->render(
+            $this->renderer->withHeaderNesting(1)->render(
                 $this->ui_factory->panel()->listing()->standard(
                     $this->lng->txt('dcl_tables'),
                     [$this->ui_factory->item()->group('', $this->getItems())]
