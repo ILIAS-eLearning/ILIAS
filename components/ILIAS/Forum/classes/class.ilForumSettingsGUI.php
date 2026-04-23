@@ -361,7 +361,6 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
             $this->notificationSettingsForm->setValuesByArray([
                 'notification_type' => $this->parent_obj->objProperties->getNotificationType()->value,
                 'adm_force' => $this->parent_obj->objProperties->isContainerEnforcingForumNotification(),
-                // usr_toggle uses lang user_toggle_noti ("notifications cannot be deactivated"): checked = locked = NOT isMemberMayDeactivateForumNotification()
                 'usr_toggle' => (int) !$this->parent_obj->objProperties->isMemberMayDeactivateForumNotification(),
                 'notification_events' => $form_events
             ]);
@@ -760,19 +759,11 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
             } elseif ($notification_type === NotificationType::PER_USER) {
                 $this->parent_obj->objProperties->setNotificationType(NotificationType::PER_USER);
                 $this->parent_obj->objProperties->setContainerEnforcingForumNotification(true);
-                // Do not clear member_may_deactivate in frm_settings: it is still used as default when
-                // provisioning new members (applyTypeConfigurationFor) and for the ALL_USERS sub-form;
-                // forcing false here made PER_USER + no row show "may not deactivate" in the member table.
             } else {
                 $this->parent_obj->objProperties->setNotificationType(NotificationType::DEFAULT);
                 $this->parent_obj->objProperties->setContainerEnforcingForumNotification(false);
-                // Keep frm_settings.member_may_disable_noti: used when returning to ALL_USERS/PER_USER and as
-                // default for new members; clearing it on DEFAULT made prior "may deactivate" choices disappear.
             }
 
-            // Sub-items of the non-selected radio options are not validated by checkInput(), but they remain in
-            // the DOM (display:none only) and can still be submitted. Only ALL_USERS may change the global lock
-            // from POST; otherwise keep frm_settings as loaded for this request (clone before checkInput).
             if ($notification_type !== NotificationType::ALL_USERS) {
                 $this->parent_obj->objProperties->setMemberMayDeactivateForumNotification(
                     $former_properties->isMemberMayDeactivateForumNotification()

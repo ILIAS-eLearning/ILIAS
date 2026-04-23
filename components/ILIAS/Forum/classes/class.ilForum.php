@@ -1531,7 +1531,6 @@ class ilForum
             return true;
         }
 
-        // Re-activate an existing (soft-deactivated) forum-level row if one exists.
         $res = $this->db->queryF(
             'SELECT COUNT(*) cnt FROM frm_notification WHERE user_id = %s AND frm_id = %s AND thread_id = %s',
             [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
@@ -1546,7 +1545,6 @@ class ilForum
             return true;
         }
 
-        /* No forum-level row: replace thread-level subscriptions with a single forum-level one. */
         $res = $this->db->queryF(
             '
 				SELECT frm_notification.thread_id FROM frm_data, frm_notification, frm_threads

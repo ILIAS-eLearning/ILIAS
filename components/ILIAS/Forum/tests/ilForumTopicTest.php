@@ -343,9 +343,9 @@ class ilForumTopicTest extends TestCase
 
         $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->mockDatabase->expects(self::once())->method('queryF')->with(
-            'SELECT COUNT(notification_id) cnt FROM frm_notification WHERE user_id = %s AND thread_id = %s',
-            ['integer', 'integer'],
-            [$userId, $id]
+            'SELECT COUNT(notification_id) cnt FROM frm_notification WHERE user_id = %s AND thread_id = %s AND interested_events > %s',
+            ['integer', 'integer', 'integer'],
+            [$userId, $id, ilForumNotificationEvents::DEACTIVATED]
         )->willReturn($mockStatement);
         $this->mockDatabase->expects(self::once())->method('fetchAssoc')->with($mockStatement)->willReturn(['cnt' => 46]);
 
@@ -362,9 +362,9 @@ class ilForumTopicTest extends TestCase
 
         $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->mockDatabase->expects(self::once())->method('queryF')->with(
-            'SELECT COUNT(notification_id) cnt FROM frm_notification WHERE user_id = %s AND thread_id = %s',
-            ['integer', 'integer'],
-            [$userId, $id]
+            'SELECT COUNT(notification_id) cnt FROM frm_notification WHERE user_id = %s AND thread_id = %s AND interested_events > %s',
+            ['integer', 'integer', 'integer'],
+            [$userId, $id, ilForumNotificationEvents::DEACTIVATED]
         )->willReturn($mockStatement);
         $this->mockDatabase->expects(self::once())->method('fetchAssoc')->with($mockStatement)->willReturn(null);
 
@@ -412,9 +412,9 @@ class ilForumTopicTest extends TestCase
         $userId = 48475;
 
         $this->mockDatabase->expects(self::once())->method('manipulateF')->with(
-            'DELETE FROM frm_notification WHERE user_id = %s AND thread_id = %s',
-            ['integer', 'integer'],
-            [$userId, $id]
+            'UPDATE frm_notification SET interested_events = %s WHERE user_id = %s AND thread_id = %s',
+            ['integer', 'integer', 'integer'],
+            [ilForumNotificationEvents::DEACTIVATED, $userId, $id]
         );
 
         $instance = new ilForumTopic();

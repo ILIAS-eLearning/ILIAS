@@ -600,8 +600,6 @@ class ilForumNotification
 
         $props = ilForumProperties::getInstance($this->forum_id);
         $new_object->setContainerEnforcesNotification($props->isContainerEnforcingForumNotification());
-        // No frm_notification row: there is no per-user admin lock. frm_settings.member_may_disable_noti
-        // is not meaningful in PER_USER (it may be false from save) — show "may deactivate" for the table.
         $new_object->setMemberMayDisableNotification(true);
         $new_object->setInterestedEvents(ilForumNotificationEvents::DEACTIVATED);
 
@@ -629,12 +627,9 @@ class ilForumNotification
                 $this->setContainerEnforcesNotification($effective_properties->isContainerEnforcingForumNotification());
                 $row = $forum_level_rows[$user_id] ?? null;
                 if ($row !== null) {
-                    // Keep per-user member_may_disable_noti (e.g. from PER_USER admin toggles) so a detour through
-                    // DEFAULT does not reset who may deactivate notifications.
                     $this->setMemberMayDisableNotification($row->member_may_disable_noti);
                     $this->setInterestedEvents($row->interested_events);
                 } else {
-                    // Thread-only subscriptions: no forum-level row; align with object defaults.
                     $this->setMemberMayDisableNotification($effective_properties->isMemberMayDeactivateForumNotification());
                     $this->setInterestedEvents($effective_properties->getInterestedEvents());
                 }
@@ -646,7 +641,6 @@ class ilForumNotification
 
         if ($effective_properties->getNotificationType() === NotificationType::ALL_USERS) {
             if (!$effective_properties->isMemberMayDeactivateForumNotification()) {
-                // Admin forces notifications and members cannot opt out: clear any previous user deactivations.
                 $this->db->manipulateF(
                     'UPDATE frm_notification SET user_deactivated_noti = %s WHERE frm_id = %s AND thread_id = %s',
                     ['integer', 'integer', 'integer'],
@@ -661,7 +655,6 @@ class ilForumNotification
                 $row = $forum_level_rows[$user_id] ?? null;
 
                 if (!$effective_properties->isMemberMayDeactivateForumNotification()) {
-                    // Member may not deactivate: align with forum defaults (may be 0; bell uses lock/enforced flags).
                     $this->setInterestedEvents($effective_properties->getInterestedEvents());
                 } else {
                     $this->setInterestedEvents(
@@ -718,10 +711,6 @@ class ilForumNotification
                     continue;
                 }
 
-                // Members with no frm_notification row at all have never interacted with the forum notification.
-                // Since `disableForumNotification()` now soft-deletes (sets user_deactivated_noti = 1 instead of
-                // removing the row), these are truly brand-new members. Thread-only subscribers are still in
-                // $distinct_user_ids and need a forum-level row for PER_USER admin flags.
                 if (!isset($user_ids_with_any_frm_noti_row[$user_id])) {
                     continue;
                 }

@@ -20,9 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Forum\Notification;
 
-/**
- * One frm_notification row for a forum member (container-provisioned context).
- */
 final readonly class ForumNotificationMembershipRow
 {
     public int $notification_id;
