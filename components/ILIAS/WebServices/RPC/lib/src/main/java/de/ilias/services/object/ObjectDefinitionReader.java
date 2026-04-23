@@ -136,7 +136,7 @@ public class ObjectDefinitionReader {
 						
 						if(path.isDirectory()) {
                             //logger.debug("Found new directory: " + path.getAbsolutePath());
-                            return !path.getName().equals(".svn");
+                            return !path.getName().equals(".git");
                         }
 						//logger.debug(path.getName() + " <-> " + objectPropertyName);
 						if(path.getName().equalsIgnoreCase(objectPropertyName)) {
