@@ -54,7 +54,9 @@ class QuestionSelectionStage implements ImportStage
         private readonly Language $lng,
         private readonly ilComponentFactory $component_factory,
         private readonly UIFactory $ui_factory,
+        private readonly ServerRequestInterface $request,
         private readonly string $form_action,
+        private readonly string $title,
     ) {
     }
 
@@ -73,7 +75,7 @@ class QuestionSelectionStage implements ImportStage
         return '';
     }
 
-    public function process(ImportContext $context, ServerRequestInterface $request): StageResult
+    public function process(ImportContext $context): StageResult
     {
         if ($context->has('selectable_questions')) {
             $options = [];
@@ -82,7 +84,7 @@ class QuestionSelectionStage implements ImportStage
             }
 
             $data = $this->buildSelectQuestionsForm($options)
-                ->withRequest($request)
+                ->withRequest($this->request)
                 ->getData();
 
             if (isset($data['selected_questions'])) {
@@ -103,7 +105,7 @@ class QuestionSelectionStage implements ImportStage
         }
 
         $panel = $this->ui_factory->panel()->standard(
-            $this->lng->txt('import_qpl'),
+            $this->title,
             [
                 $this->ui_factory->legacy()->content($this->lng->txt('qpl_import_verify_found_questions')),
                 $this->buildSelectQuestionsForm($options)

@@ -28,7 +28,6 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ImportStage;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\StageResult;
 use ilManifestParser;
-use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * First stage of the question pool import pipeline. Receives the uploaded file path from the context, extracts ZIP
@@ -60,7 +59,7 @@ class UploadValidationStage implements ImportStage
         return '';
     }
 
-    public function process(ImportContext $context, ServerRequestInterface $request): StageResult
+    public function process(ImportContext $context): StageResult
     {
         $file_to_import = $context->get('file_to_import');
         if (
