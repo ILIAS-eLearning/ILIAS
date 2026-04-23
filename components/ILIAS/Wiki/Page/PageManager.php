@@ -229,7 +229,7 @@ class PageManager
             }
 
             // cross check existence of sources in il_wiki_page
-            if (count($ids) === 0 || !$this->page_repo->doesAtLeastOnePageExist($this->getWikiId(), $ids)) {
+            if ($this->page_repo->doesAtLeastOnePageExist($this->getWikiId(), $ids)) {
                 continue;
             }
 

@@ -244,7 +244,7 @@ class PageDBRepository
             " GROUP BY wiki_id";
         $set = $this->db->query($query);
         $rec = $this->db->fetchAssoc($set);
-        return ((int) $rec["cnt"]) > 0;
+        return ((int) ($rec["cnt"] ?? 0)) > 0;
     }
 
     public function getPageIdForTitle(
