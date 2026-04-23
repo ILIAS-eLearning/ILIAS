@@ -14,7 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
+
+use ILIAS\BookingManager\BookableItem\BookableItemTable;
+use ILIAS\BookingManager\BookableItem\BookableItemTableData;
 
 /**
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -129,12 +132,12 @@ class ilBookingObjectGUI
         return $this->management;
     }
 
-    protected function getPoolRefId(): int
+    public function getPoolRefId(): int
     {
         return $this->pool_gui->getRefId();
     }
 
-    protected function getPoolObjId(): int
+    public function getPoolObjId(): int
     {
         return $this->pool_gui->getObject()->getId();
     }
@@ -142,7 +145,7 @@ class ilBookingObjectGUI
     /**
      * Has booking pool a schedule?
      */
-    protected function hasPoolSchedule(): bool
+    public function hasPoolSchedule(): bool
     {
         return ($this->pool_gui->getObject()->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE);
     }
@@ -150,11 +153,26 @@ class ilBookingObjectGUI
     /**
      * Get booking pool overall limit
      */
-    protected function getPoolOverallLimit(): ?int
+    public function getPoolOverallLimit(): ?int
     {
         return $this->hasPoolSchedule()
             ? null
             : $this->pool_gui->getObject()->getOverallLimit();
+    }
+
+    public function getPool(): ilObjBookingPool
+    {
+        return $this->pool;
+    }
+
+    public function getBookingGuiService(): \ILIAS\BookingManager\InternalGUIService
+    {
+        return $this->gui;
+    }
+
+    public function getPoolUsesPreferences(): bool
+    {
+        return $this->pool_uses_preferences;
     }
 
     /**
@@ -230,57 +248,90 @@ class ilBookingObjectGUI
 
     /**
      * Render list of booking objects
-     * uses ilBookingObjectsTableGUI
      */
     public function render(): void
     {
         $this->showNoScheduleMessage();
+        if (\ilSession::has('book_bulk_flash')) {
+            $this->tpl->setOnScreenMessage(
+                (string) (\ilSession::get('book_bulk_flash_type') ?? 'info'),
+                (string) \ilSession::get('book_bulk_flash'),
+                true
+            );
+            \ilSession::clear('book_bulk_flash');
+            \ilSession::clear('book_bulk_flash_type');
+        }
 
         $tpl = $this->tpl;
-        $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-
         $bar = "";
 
         if ($this->isManagementActivated() && $this->access->canManageObjects($this->getPoolRefId())) {
             $bar = new ilToolbarGUI();
-            $bar->addButton($lng->txt('book_add_object'), $ilCtrl->getLinkTarget($this, 'create'));
+            $bar->addButton($lng->txt('book_add_object'), $this->ctrl->getLinkTarget($this, 'create'));
 
             // bulk creation
             $this->bulk_creation_gui->modifyToolbar($bar);
-
-            if ($this->hasPoolSchedule()) {
-                $bar->addSeparator();
-                $list_link = $this->ctrl->getLinkTarget($this, "");
-                $week_link = $this->ctrl->getLinkTargetByClass("ilBookingProcessWithScheduleGUI", "week");
-                $mode_control = $this->gui->ui()->factory()->viewControl()->mode([
-                   $this->lng->txt("book_list") => $list_link,
-                   $this->lng->txt("book_week") => $week_link
-                ], $this->lng->txt("book_view"));
-                $bar->addComponent($mode_control);
-            }
+            $this->addTableWeekViewControlToToolbar($bar);
+            $bar = $bar->getHTML();
+        } elseif ($this->hasPoolSchedule() && $this->getAccessHandler()->checkAccess('read', '', $this->getPoolRefId())) {
+            $bar = new ilToolbarGUI();
+            $this->addTableWeekViewControlToToolbar($bar);
             $bar = $bar->getHTML();
         }
 
         $tpl->setPermanentLink('book', $this->getPoolRefId());
+        $bookable = BookableItemTable::forObjectList($this);
+        $tpl->setContent(
+            $bar . $this->gui->ui()->renderer()->render(
+                $bookable->getComponents($bookable->getActionUrlBuilderForExecuteTableAction())
+            )
+        );
+    }
 
-        $table = new ilBookingObjectsTableGUI($this, 'render', $this->getPoolRefId(), $this->getPoolObjId(), $this->hasPoolSchedule(), $this->getPoolOverallLimit(), $this->isManagementActivated());
-        $tpl->setContent($bar . $table->getHTML());
+    public function executeTableAction(): void
+    {
+        $this->showNoScheduleMessage();
+        $t = BookableItemTable::forObjectList($this);
+        $t->execute($t->getActionUrlBuilderForExecuteTableAction());
+        $this->ctrl->redirect($this, 'render');
+    }
+
+    protected function getAccessHandler(): \ilAccessHandler
+    {
+        global $DIC;
+        return $DIC->access();
+    }
+
+    protected function addTableWeekViewControlToToolbar(ilToolbarGUI $bar): void
+    {
+        if (!$this->hasPoolSchedule()) {
+            return;
+        }
+        if (!$this->getAccessHandler()->checkAccess('read', '', $this->getPoolRefId())) {
+            return;
+        }
+        $bar->addSeparator();
+        $table_link = $this->ctrl->getLinkTarget($this, "render");
+        $week_link = $this->ctrl->getLinkTargetByClass("ilBookingProcessWithScheduleGUI", "week");
+        $bar->addComponent(
+            $this->gui->ui()->factory()->viewControl()->mode(
+                [
+                    $this->lng->txt("book_table") => $table_link,
+                    $this->lng->txt("book_week") => $week_link
+                ],
+                $this->lng->txt("book_view")
+            )->withActive($this->lng->txt("book_table"))
+        );
     }
 
     public function applyFilter(): void
     {
-        $table = new ilBookingObjectsTableGUI($this, 'render', $this->getPoolRefId(), $this->getPoolObjId(), $this->hasPoolSchedule(), $this->getPoolOverallLimit(), $this->isManagementActivated());
-        $table->resetOffset();
-        $table->writeFilterToSession();
         $this->render();
     }
 
     public function resetFilter(): void
     {
-        $table = new ilBookingObjectsTableGUI($this, 'render', $this->getPoolRefId(), $this->getPoolObjId(), $this->hasPoolSchedule(), $this->getPoolOverallLimit(), $this->isManagementActivated());
-        $table->resetOffset();
-        $table->resetFilter();
         $this->render();
     }
 
@@ -610,5 +661,484 @@ class ilBookingObjectGUI
         }
 
         $this->objects_manager->deliverObjectInfo($id);
+    }
+
+    /**
+     * Legacy entry point: bulk selection now opens an async modal (see outputBulkBookModal()).
+     */
+    public function bulkBookForm(): void
+    {
+        $this->ctrl->redirect($this, 'render');
+    }
+
+    /**
+     * Renders the bulk-booking modal (async response for data table action).
+     *
+     * @param list<string> $row_ids
+     */
+    public function outputBulkBookModal(array $row_ids): void
+    {
+        $this->lng->loadLanguageModule('book');
+        $f = $this->gui->ui()->factory();
+        if (!$this->access->canManageOwnReservations($this->getPoolRefId())) {
+            $this->gui->send(
+                $this->gui->ui()->renderer()->render(
+                    $f->messageBox()->failure($this->lng->txt('no_permission'))
+                )
+            );
+        }
+        if ($row_ids === []) {
+            $this->lng->loadLanguageModule('common');
+            $this->gui->send(
+                $this->gui->ui()->renderer()->render(
+                    $f->messageBox()->info($this->lng->txt('no_checkbox'))
+                )
+            );
+        }
+        $selected = $row_ids;
+        $available = $this->filterBulkRowIdsToBookable($row_ids);
+        if ($available === []) {
+            $this->gui->send(
+                $this->gui->ui()->renderer()->render(
+                    $f->messageBox()->info($this->lng->txt('book_bulk_all_unavailable'))
+                )
+            );
+        }
+        $skipped = count($selected) - count($available);
+        $form = $this->buildBulkBookForm($available);
+        $header = $skipped > 0
+            ? $f->messageBox()->info(
+                sprintf($this->lng->txt('book_bulk_omitted_unavailable'), (string) $skipped)
+            )
+            : null;
+        $this->sendBulkBookModal($form, $header);
+    }
+
+    /**
+     * Async bulk-booking modal: optional UI message box above the form (same as modal+form in Repository GUI).
+     *
+     * @param \ILIAS\UI\Component\Component|null $header e.g. messageBox()->info(…)
+     */
+    protected function sendBulkBookModal(
+        \ILIAS\Repository\Form\FormAdapterGUI $form,
+        ?\ILIAS\UI\Component\Component $header = null
+    ): void {
+        $f = $this->gui->ui()->factory();
+        $r = $this->gui->ui()->renderer();
+        if ($this->ctrl->isAsynch()) {
+            $form = $form->asyncModal();
+        } else {
+            $form = $form->syncModal();
+        }
+        $this->lng->loadLanguageModule('common');
+        $form_std = $form->getForm();
+        $async = $form->isSentAsync() ? 'true' : 'false';
+        $on_form_submit_click = "il.repository.ui.submitModalForm(event,$async); return false;";
+        $button = $f->button()->standard(
+            $form->getSubmitLabel(),
+            '#'
+        )->withOnLoadCode(function ($id) use ($on_form_submit_click) {
+            return "$('#$id').click(function(event) {" . $on_form_submit_click . "});";
+        });
+        $modal = $f->modal()->roundtrip(
+            $this->lng->txt('book_confirm_booking_schedule_number_of_objects'),
+            $header,
+            $form_std->getInputs(),
+            $form_std->getPostURL()
+        )
+            ->withActionButtons([$button])
+            ->withCancelButtonLabel($this->lng->txt('cancel'))
+            ->withAdditionalOnLoadCode(function ($id) {
+                return "il.repository.ui.initModal('$id');";
+            });
+        $this->gui->send($r->renderAsync($modal));
+    }
+
+    /**
+     * Group bulk row IDs by object: each group is one bookable item, sorted by item title; within
+     * a fixed-schedule object, time slots are sorted by start time.
+     *
+     * @param list<string> $row_ids
+     * @return list<array{object_id: int, is_slot: bool, row_ids: list<string>}>
+     */
+    protected function groupBulkRowIdsByObject(array $row_ids): array
+    {
+        $schedule_by_obj = [];
+        $nosc = [];
+        foreach (array_values($row_ids) as $row_id) {
+            $p = BookableItemTableData::parseRowIdForBulk((string) $row_id);
+            if ($p === null) {
+                continue;
+            }
+            if (!empty($p['is_slot']) && $p['from'] !== null && $p['to'] !== null) {
+                $oid = (int) $p['object_id'];
+                if (!isset($schedule_by_obj[$oid])) {
+                    $schedule_by_obj[$oid] = [];
+                }
+                $schedule_by_obj[$oid][] = (string) $row_id;
+            } else {
+                $nosc[] = (string) $row_id;
+            }
+        }
+        foreach ($schedule_by_obj as $oid => &$list) {
+            usort(
+                $list,
+                static function (string $a, string $b): int {
+                    $pa = BookableItemTableData::parseRowIdForBulk($a);
+                    $pb = BookableItemTableData::parseRowIdForBulk($b);
+                    if ($pa === null || $pb === null) {
+                        return 0;
+                    }
+                    return ((int) ($pa['from'] ?? 0)) <=> ((int) ($pb['from'] ?? 0));
+                }
+            );
+        }
+        unset($list);
+
+        $groups = [];
+        foreach (array_keys($schedule_by_obj) as $oid) {
+            $groups[] = [
+                'object_id' => (int) $oid,
+                'is_slot' => true,
+                'row_ids' => $schedule_by_obj[$oid],
+            ];
+        }
+        foreach ($nosc as $row_id) {
+            $p = BookableItemTableData::parseRowIdForBulk($row_id);
+            if ($p === null) {
+                continue;
+            }
+            $groups[] = [
+                'object_id' => (int) $p['object_id'],
+                'is_slot' => false,
+                'row_ids' => [(string) $row_id],
+            ];
+        }
+        usort(
+            $groups,
+            function (array $a, array $b): int {
+                $oa = new ilBookingObject($a['object_id']);
+                $ob = new ilBookingObject($b['object_id']);
+                $c = strcasecmp($oa->getTitle(), $ob->getTitle());
+                if ($c !== 0) {
+                    return $c;
+                }
+                return $a['object_id'] <=> $b['object_id'];
+            }
+        );
+        return $groups;
+    }
+
+    /**
+     * @param list<string> $row_ids
+     * @return list<string>
+     */
+    protected function flattenBulkRowIdGroups(array $row_ids): array
+    {
+        $flat = [];
+        foreach ($this->groupBulkRowIdsByObject($row_ids) as $g) {
+            foreach ($g['row_ids'] as $rid) {
+                $flat[] = (string) $rid;
+            }
+        }
+        return $flat;
+    }
+
+    /**
+     * @param list<string> $row_ids
+     */
+    protected function buildBulkBookForm(
+        array $row_ids
+    ): \ILIAS\Repository\Form\FormAdapterGUI {
+        global $DIC;
+        $this->lng->loadLanguageModule('book');
+        $reservation = $DIC->bookingManager()->internal()->domain()->reservations();
+
+        $ordered_ids = $this->flattenBulkRowIdGroups($row_ids);
+        $ids_json = (string) json_encode($ordered_ids, JSON_UNESCAPED_SLASHES);
+        $form = $this->gui
+            ->form([self::class], 'bulkBookConfirmed', $this->lng->txt('save'))
+            ->asyncModal()
+            ->hidden('bulk_ids', $ids_json)
+            ->hidden('origin_cmd', 'render');
+        $msg_label = (string) $this->lng->txt('book_message');
+        $msg_by = (string) $this->lng->txt('book_bulk_message_byline');
+
+        foreach ($this->groupBulkRowIdsByObject($row_ids) as $g) {
+            $oid = (int) $g['object_id'];
+            $obj = new ilBookingObject($oid);
+            $item_title = $obj->getTitle();
+            if ($g['is_slot']) {
+                $section_info = (string) $this->lng->txt('book_confirm_booking_schedule_number_of_objects_info');
+                $form = $form->section('obj_' . $oid, (string) $item_title, $section_info);
+                foreach ($g['row_ids'] as $i => $row_id) {
+                    $p = BookableItemTableData::parseRowIdForBulk($row_id);
+                    if ($p === null || empty($p['is_slot']) || $p['from'] === null || $p['to'] === null) {
+                        continue;
+                    }
+                    $from = (int) $p['from'];
+                    $to_disp = (int) $p['to'] - 1;
+                    $counter = $reservation->getAvailableNr($oid, $from, $to_disp);
+                    $period = ilDatePresentation::formatPeriod(
+                        new ilDateTime($from, IL_CAL_UNIX),
+                        new ilDateTime($to_disp, IL_CAL_UNIX)
+                    );
+                    $form = $form->number("nr_{$oid}_{$i}", (string) $period, '', 1, 0, $counter);
+                }
+                $form = $form->textarea(
+                    'message_' . $oid,
+                    $msg_label,
+                    $msg_by
+                );
+            } else {
+                $form = $form->section('nosc_' . $oid, (string) $item_title, '');
+                $form = $form->textarea(
+                    'message_' . $oid,
+                    $msg_label,
+                    $msg_by
+                );
+            }
+        }
+
+        return $form;
+    }
+
+    /**
+     * @param list<string> $row_ids
+     * @return list<string>
+     */
+    protected function filterBulkRowIdsToBookable(array $row_ids): array
+    {
+        $out = [];
+        foreach ($row_ids as $row_id) {
+            if (!$this->isBulkRowIdBookableNow((string) $row_id)) {
+                continue;
+            }
+            $out[] = (string) $row_id;
+        }
+        return $out;
+    }
+
+    protected function isBulkRowIdBookableNow(string $row_id): bool
+    {
+        $p = BookableItemTableData::parseRowIdForBulk($row_id);
+        if ($p === null) {
+            return false;
+        }
+        if (!empty($p['is_slot']) && $p['from'] !== null && $p['to'] !== null) {
+            $check = \ilBookingReservation::getAvailableObject(
+                [(int) $p['object_id']],
+                (int) $p['from'],
+                (int) $p['to'] - 1,
+                false,
+                true
+            );
+
+            return array_sum($check) > 0;
+        }
+        return \ilBookingReservation::numAvailableFromObjectNoSchedule((int) $p['object_id']) >= 1;
+    }
+
+    /**
+     * Hidden fields use {@see \ILIAS\Repository\Form\FormAdapterGUI::hidden} with dedicated names, so the
+     * POST key is the literal string "form/bulk_ids" (UI groups use slash-separated paths, not form[bulk_ids]).
+     * Without dedicated names, the first hidden was "form/input_0".
+     */
+    protected function getBulkRowIdsFromRequestBody(array $body): array
+    {
+        $candidates = [];
+        foreach (
+            [
+                'bulk_ids',
+                'form/bulk_ids',
+                'form/input_0',
+            ] as $k
+        ) {
+            if (isset($body[$k]) && $body[$k] !== '' && $body[$k] !== null) {
+                $candidates[] = (string) $body[$k];
+            }
+        }
+        if (isset($body['form']) && is_array($body['form']) && array_key_exists('bulk_ids', $body['form'])) {
+            $candidates[] = (string) $body['form']['bulk_ids'];
+        }
+        foreach ($candidates as $raw) {
+            $decoded = json_decode($raw, true);
+            if (is_array($decoded) && $this->isBulkBookingRowIdJsonList($decoded)) {
+                return $decoded;
+            }
+        }
+
+        return $this->findBulkBookingRowIdsJsonInRequestArray($body);
+    }
+
+    /**
+     * @param list<mixed> $decoded
+     */
+    protected function isBulkBookingRowIdJsonList(array $decoded): bool
+    {
+        if ($decoded === []) {
+            return false;
+        }
+        foreach ($decoded as $id) {
+            if (!is_string($id) || !str_starts_with($id, 'bobj-')) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * @return list<string>
+     */
+    protected function findBulkBookingRowIdsJsonInRequestArray(array $body): array
+    {
+        foreach ($body as $v) {
+            if (!is_string($v) || $v === '' || $v[0] !== '[') {
+                continue;
+            }
+            $decoded = json_decode($v, true);
+            if (is_array($decoded) && $this->isBulkBookingRowIdJsonList($decoded)) {
+                return $decoded;
+            }
+        }
+        foreach ($body as $v) {
+            if (!is_array($v)) {
+                continue;
+            }
+            foreach ($v as $vv) {
+                if (!is_string($vv) || $vv === '' || $vv[0] !== '[') {
+                    continue;
+                }
+                $decoded = json_decode($vv, true);
+                if (is_array($decoded) && $this->isBulkBookingRowIdJsonList($decoded)) {
+                    return $decoded;
+                }
+            }
+        }
+        return [];
+    }
+
+    public function bulkBookConfirmed(): void
+    {
+        global $DIC;
+        $this->lng->loadLanguageModule('book');
+        if (!$this->access->canManageOwnReservations($this->getPoolRefId())) {
+            $this->ctrl->redirect($this, 'render');
+        }
+        $body = (array) $DIC->http()->request()->getParsedBody();
+        $row_ids = $this->getBulkRowIdsFromRequestBody($body);
+        if ($row_ids === []) {
+            $this->gui->send(
+                $this->gui->ui()->renderer()->render(
+                    $this->gui->ui()->factory()->messageBox()->failure(
+                        $this->lng->txt('book_reservation_failed')
+                    )
+                )
+            );
+        }
+        $form = $this->buildBulkBookForm($row_ids);
+        if (!$form->isValid()) {
+            $this->sendBulkBookModal($form);
+        }
+        $data_ids = $form->getData('bulk_ids');
+        $parsed_ids = is_string($data_ids) ? json_decode($data_ids, true) : null;
+        if (!is_array($parsed_ids) || $parsed_ids === []) {
+            $this->sendBulkBookModal($this->buildBulkBookForm($row_ids));
+        }
+        $process = $DIC->bookingManager()->internal()->domain()->process();
+        $ok = 0;
+        $skip = 0;
+        $uid = $this->user->getId();
+        foreach ($this->groupBulkRowIdsByObject($parsed_ids) as $g) {
+            $oid = (int) $g['object_id'];
+            $msg = (string) ($form->getData('message_' . $oid) ?? '');
+            if ($g['is_slot']) {
+                foreach ($g['row_ids'] as $i => $row_id) {
+                    $row_id = (string) $row_id;
+                    $p = BookableItemTableData::parseRowIdForBulk($row_id);
+                    if ($p === null) {
+                        $skip++;
+                        continue;
+                    }
+                    if (!$this->access->canManageReservationForUser($this->getPoolRefId(), $uid)) {
+                        $skip++;
+                        continue;
+                    }
+                    if (empty($p['is_slot']) || $p['from'] === null || $p['to'] === null) {
+                        $skip++;
+                        continue;
+                    }
+                    $check = \ilBookingReservation::getAvailableObject(
+                        [$p['object_id']],
+                        (int) $p['from'],
+                        (int) $p['to'] - 1,
+                        false,
+                        true
+                    );
+                    if (!array_sum($check)) {
+                        $skip++;
+                        continue;
+                    }
+                    $nr = (int) ($form->getData('nr_' . $oid . '_' . $i) ?? 0);
+                    if ($nr < 0) {
+                        $skip++;
+                        continue;
+                    }
+                    if ($nr === 0) {
+                        continue;
+                    }
+                    $booked = $process->bookAvailableObjects(
+                        (int) $p['object_id'],
+                        $uid,
+                        $uid,
+                        (int) $this->context_obj_id,
+                        (int) $p['from'],
+                        (int) $p['to'],
+                        0,
+                        $nr,
+                        null,
+                        $msg
+                    );
+                    if ($booked === []) {
+                        $skip++;
+                    } else {
+                        $ok += count($booked);
+                    }
+                }
+            } else {
+                $row_id = (string) ($g['row_ids'][0] ?? '');
+                $p = BookableItemTableData::parseRowIdForBulk($row_id);
+                if ($p === null) {
+                    $skip++;
+                    continue;
+                }
+                if (!$this->access->canManageReservationForUser($this->getPoolRefId(), $uid)) {
+                    $skip++;
+                    continue;
+                }
+                if (\ilBookingReservation::numAvailableFromObjectNoSchedule($oid) < 1) {
+                    $skip++;
+                    continue;
+                }
+                $process->bookSingle(
+                    $oid,
+                    $uid,
+                    $uid,
+                    (int) $this->context_obj_id,
+                    null,
+                    null,
+                    null,
+                    $msg
+                );
+                $ok++;
+            }
+        }
+        $message = sprintf($this->lng->txt('book_bulk_result'), (string) $ok, (string) $skip);
+        \ilSession::set('book_bulk_flash', $message);
+        \ilSession::set('book_bulk_flash_type', $ok > 0 ? 'success' : 'info');
+        $back = $this->ctrl->getLinkTarget($this, 'render');
+        $this->gui->send(
+            "<script>window.location.href = " . json_encode($back, JSON_HEX_TAG | JSON_HEX_AMP) . ";</script>"
+        );
     }
 }

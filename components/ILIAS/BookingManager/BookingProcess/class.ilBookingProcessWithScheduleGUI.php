@@ -175,7 +175,7 @@ class ilBookingProcessWithScheduleGUI implements \ILIAS\BookingManager\BookingPr
         $list_link = $this->ctrl->getLinkTargetByClass("ilObjBookingPoolGUI", "render");
         $week_link = $this->ctrl->getLinkTargetByClass("ilBookingProcessWithScheduleGUI", "week");
         $mode_control = $this->gui->ui()->factory()->viewControl()->mode([
-            $this->lng->txt("book_list") => $list_link,
+            $this->lng->txt("book_table") => $list_link,
             $this->lng->txt("book_week") => $week_link
         ], $this->lng->txt("book_view"))->withActive($this->lng->txt("book_week"));
         $bar->addComponent($mode_control);

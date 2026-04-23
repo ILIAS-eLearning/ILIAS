@@ -2553,9 +2553,14 @@ book#:#book_booking#:#Booking
 book#:#book_booking_information#:#Information
 book#:#book_booking_objects#:#Bookable Items
 book#:#book_booking_reminders#:#Upcoming Bookings
+book#:#book_bulk_all_unavailable#:#None of the selected items can be booked anymore.
+book#:#book_bulk_book#:#Book selected
 book#:#book_bulk_confirmation#:#Please check that all values are listed correctly.
 book#:#book_bulk_creation#:#Bulk Creation
 book#:#book_bulk_data#:#Item Data
+book#:#book_bulk_message_byline#:#You may enter a message for the booking organiser here.
+book#:#book_bulk_omitted_unavailable#:#%s selected item(s) are no longer available and were not included. You can book the items listed below.
+book#:#book_bulk_result#:#Booked: %s, skipped: %s.
 book#:#book_cal_entry#:#Booking:
 book#:#book_confirm_booking#:#Confirm Booking
 book#:#book_confirm_booking_for_users#:#Are you sure you want to book this item for the following user(s)?
@@ -2581,7 +2586,11 @@ book#:#book_download_info#:#Download Additional Description
 book#:#book_edit#:#Edit Booking Pool
 book#:#book_edit_object#:#Edit Bookable Item
 book#:#book_edit_schedule#:#Edit Schedule
+book#:#book_filter_end_date#:#End Date
+book#:#book_filter_objects#:#Bookable Items
 book#:#book_filter_past_reservations#:#Show Past Bookings
+book#:#book_filter_period#:#Period
+book#:#book_filter_start_date#:#Start Date
 book#:#book_fromto#:#Date Range
 book#:#book_hours#:#Hours before start of timeslot.
 book#:#book_is_used#:#In Use
@@ -2687,6 +2696,9 @@ book#:#book_select_pool#:#Select Pool
 book#:#book_set_cancel#:#Cancel Booking
 book#:#book_set_delete#:#Delete Booking
 book#:#book_show_message#:#Show Message
+book#:#book_table#:#Table
+book#:#book_table_col_availability#:#Availability
+book#:#book_table_col_datetime#:#Date/Time
 book#:#book_title_description_nr#:#Title; Description; Number of Units
 book#:#book_title_description_nr_info#:#Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item.
 book#:#book_too_many_preferences#:#You have selected too many preferences. Your preferences have not been saved.

@@ -2552,9 +2552,14 @@ book#:#book_booking#:#Buchung
 book#:#book_booking_information#:#Information
 book#:#book_booking_objects#:#Angebote
 book#:#book_booking_reminders#:#Anstehende Buchungen
+book#:#book_bulk_all_unavailable#:#Keine der ausgewählten Einträge kann noch gebucht werden.
+book#:#book_bulk_book#:#Ausgewählte buchen
 book#:#book_bulk_confirmation#:#Bitte überprüfen Sie die angegebenen Werte.
 book#:#book_bulk_creation#:#Massenerstellung
 book#:#book_bulk_data#:#Daten zu Angeboten
+book#:#book_bulk_message_byline#:#Sie können hier eine Mitteilung für die Verantwortlichen des Buchungspools hinterlassen.
+book#:#book_bulk_omitted_unavailable#:#%s ausgewählte(r) Eintrag/Einträge ist/sind nicht mehr verfügbar und wurde/wurden nicht übernommen. Sie können unten die verbleibenden Einträge buchen.
+book#:#book_bulk_result#:#Gebucht: %s, übersprungen: %s.
 book#:#book_cal_entry#:#Buchung:
 book#:#book_confirm_booking#:#Buchung vornehmen
 book#:#book_confirm_booking_for_users#:#Sind Sie sicher, dass Sie dieses Angebot für die folgenden Personen buchen wollen?
@@ -2580,7 +2585,11 @@ book#:#book_download_info#:#Zusätzliche Beschreibung herunterladen
 book#:#book_edit#:#Buchungspool bearbeiten
 book#:#book_edit_object#:#Angebot bearbeiten
 book#:#book_edit_schedule#:#Zeitplan bearbeiten
+book#:#book_filter_end_date#:#Enddatum
+book#:#book_filter_objects#:#Buchbare Objekte
 book#:#book_filter_past_reservations#:#Abgelaufene Buchungen anzeigen
+book#:#book_filter_period#:#Zeitraum
+book#:#book_filter_start_date#:#Startdatum
 book#:#book_fromto#:#Datumsbereich
 book#:#book_hours#:#Stunden vor Beginn des Zeitfensters
 book#:#book_is_used#:#In Benutzung
@@ -2686,6 +2695,9 @@ book#:#book_select_pool#:#Pool auswählen
 book#:#book_set_cancel#:#Stornieren
 book#:#book_set_delete#:#Löschen
 book#:#book_show_message#:#Mitteilung anzeigen
+book#:#book_table#:#Tabelle
+book#:#book_table_col_availability#:#Verfügbarkeit
+book#:#book_table_col_datetime#:#Datum/Uhrzeit
 book#:#book_title_description_nr#:#Titel; Beschreibung; Anzahl
 book#:#book_title_description_nr_info#:#Geben Sie bitte Titel, Beschreibung und Anzahl getrennt durch ein Semikolon oder TAB ein. Nutzen Sie einen Zeile je Buchungsobjekt.
 book#:#book_too_many_preferences#:#Sie haben zu viele Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
