@@ -53,16 +53,6 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
         return 'catr';
     }
 
-    public function getTypeIcon(): string
-    {
-        $reference_obj_id = ilObject::_lookupObjId($this->getCommandId());
-        return ilObject::_getIcon(
-            $reference_obj_id,
-            'small'
-        );
-    }
-
-
     public function getCommandId(): int
     {
         return $this->reference_ref_id;
