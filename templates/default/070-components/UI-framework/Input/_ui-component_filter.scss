@@ -82,13 +82,15 @@ $il-standard-filter-add-input-popover-list-button-width: 100%;
 		}
 
 		.btn-bulky {
-			border: none;
 			background-color: $il-main-darker-bg;
 		}
 	}
 
 	.btn-bulky {
 		min-height: 0;
+  }
+
+	.btn-bulky:not(:focus-visible) {
 		border: none;
 	}
 
