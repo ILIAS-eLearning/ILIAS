@@ -462,7 +462,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
             " WHERE " . $ilDB->in("acl.object_id", $obj_ids, "", "integer") .
             " AND obj.owner <> " . $ilDB->quote($ilUser->getId(), "integer") .
             " AND obj.type = " . $ilDB->quote("prtf", "text") .
-            " AND prtf.is_online = " . $ilDB->quote(1, "integer");
+            " AND obj.offline <> " . $ilDB->quote(1, "integer");
 
         if ($a_filter["title"] && strlen($a_filter["title"]) >= 3) {
             $sql .= " AND " . $ilDB->like("obj.title", "text", "%" . $a_filter["title"] . "%");
