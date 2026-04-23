@@ -24,7 +24,6 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ImportStage;
 use ILIAS\UI\Component\Listing\Workflow\Linear;
 use ILIAS\UI\Component\Listing\Workflow\Step;
 use ILIAS\UI\Factory as UIFactory;
-use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Orchestrates the execution of a list of ImportStage instances. It delegates each request to the currently active
@@ -45,7 +44,7 @@ class ImportStageRunner
      * Run the import stage runner. It manages the state of the import process and delegates to the current stage.
      * It will return a StageResult that indicates the next action to take.
      */
-    public function run(ServerRequestInterface $request): StageResult
+    public function run(): StageResult
     {
         $index = $this->session->getCurrentStageIndex();
         $context = $this->session->getContext();
@@ -55,7 +54,7 @@ class ImportStageRunner
         }
 
         $stage = $this->stages[$index];
-        $result = $stage->process($context, $request);
+        $result = $stage->process($context);
 
         switch ($result->type) {
             case StageResultType::ADVANCE:
@@ -71,7 +70,7 @@ class ImportStageRunner
 
             case StageResultType::ERROR:
                 $this->session->setContext($result->context);
-                $this->reset($request);
+                $this->reset();
                 return $result;
 
             case StageResultType::INTERACT:
@@ -79,7 +78,7 @@ class ImportStageRunner
                 return $result;
 
             case StageResultType::COMPLETE:
-                $this->reset($request);
+                $this->reset();
                 return $result;
         }
 
@@ -125,10 +124,10 @@ class ImportStageRunner
     /**
      * Reset the import stage session. If a final stage is set, it will be processed.
      */
-    public function reset(ServerRequestInterface $request): void
+    public function reset(): void
     {
         if ($this->final_stage) {
-            $this->final_stage->process($this->session->getContext(), $request);
+            $this->final_stage->process($this->session->getContext());
         }
 
         $this->session->clear();

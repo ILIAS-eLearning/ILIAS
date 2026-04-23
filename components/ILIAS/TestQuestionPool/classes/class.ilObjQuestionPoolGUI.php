@@ -131,7 +131,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->request_data_collector = $local_dic['request_data_collector'];
         $this->questionrepository = $local_dic['question.general_properties.repository'];
         $this->global_test_settings = $local_dic['global_test_settings'];
-        ;
         $this->import_session_repository = $local_dic['exportimport.session'];
 
         parent::__construct('', $this->request_data_collector->getRefId(), true, false);
@@ -1136,7 +1135,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             [
                 new UploadValidationStage($this->archives, $this->lng, 'components/ILIAS/TestQuestionPool'),
                 new DetectLegacyImportStage(),
-                new QuestionSelectionStage($this->lng, $this->component_factory, $this->ui_factory, $form_action),
+                new QuestionSelectionStage(
+                    $this->lng,
+                    $this->component_factory,
+                    $this->ui_factory,
+                    $this->request,
+                    $form_action,
+                    $this->lng->txt('import_qpl')
+                ),
                 new PersistStage($this->lng, $this->request_data_collector, $this->import_session_repository),
             ],
             $this->import_session_repository,

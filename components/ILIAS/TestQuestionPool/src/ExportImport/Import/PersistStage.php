@@ -27,7 +27,6 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionReposi
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\StageResult;
 use ILIAS\TestQuestionPool\RequestDataCollector;
 use ilImport;
-use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Final stage of the question pool import process. Imports the question pool object and all its questions and other
@@ -57,7 +56,7 @@ class PersistStage implements ImportStage
         return '';
     }
 
-    public function process(ImportContext $context, ServerRequestInterface $request): StageResult
+    public function process(ImportContext $context): StageResult
     {
         $importer = new ilImport($this->request_data_collector->getRefId());
         $importer->importObject(

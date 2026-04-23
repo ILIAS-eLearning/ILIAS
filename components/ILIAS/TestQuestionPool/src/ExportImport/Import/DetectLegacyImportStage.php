@@ -23,7 +23,6 @@ namespace ILIAS\TestQuestionPool\ExportImport\Import;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ImportStage;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\StageResult;
-use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * @deprecated This stage is only used for legacy imports and will be removed with further ILIAS versions.
@@ -45,13 +44,13 @@ class DetectLegacyImportStage implements ImportStage
         return null;
     }
 
-    public function process(ImportContext $context, ServerRequestInterface $request): StageResult
+    public function process(ImportContext $context): StageResult
     {
         $import_base_dir = $context->get('import_base_dir');
         $import_name = basename($import_base_dir);
 
         $xml_file = $import_base_dir . DIRECTORY_SEPARATOR . $import_name . '.xml';
-        $qti_file = $import_base_dir . DIRECTORY_SEPARATOR . str_replace('_qpl_', '_qti_', $import_name) . '.xml';
+        $qti_file = $import_base_dir . DIRECTORY_SEPARATOR . str_replace(['_qpl_', '_tst_'], '_qti_', $import_name) . '.xml';
 
         if (!file_exists($qti_file) || !file_exists($xml_file)) {
             return StageResult::advance($context);

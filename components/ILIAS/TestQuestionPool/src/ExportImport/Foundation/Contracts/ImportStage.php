@@ -22,7 +22,6 @@ namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts;
 
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\StageResult;
-use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * A single step in a multi-stage import workflow. Each stage is called by the ImportStageRunner and returns a
@@ -52,5 +51,5 @@ interface ImportStage
      * components to display. On form submission it should validate the input and return `StageResult::advance()` or
      * `StageResult::error()`.
      */
-    public function process(ImportContext $context, ServerRequestInterface $request): StageResult;
+    public function process(ImportContext $context): StageResult;
 }

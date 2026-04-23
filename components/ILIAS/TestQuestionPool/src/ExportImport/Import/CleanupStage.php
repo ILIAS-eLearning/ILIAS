@@ -23,7 +23,6 @@ namespace ILIAS\TestQuestionPool\ExportImport\Import;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ImportStage;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\StageResult;
-use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Final import stage that cleans up the temporary files and directories after successful import or
@@ -46,7 +45,7 @@ class CleanupStage implements ImportStage
         return null;
     }
 
-    public function process(ImportContext $context, ServerRequestInterface $request): StageResult
+    public function process(ImportContext $context): StageResult
     {
         $file_to_import = $context->get('file_to_import');
         if ($file_to_import !== null) {
