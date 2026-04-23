@@ -3930,7 +3930,7 @@ common#:#didactic_template#:#Didaktische Vorlage
 common#:#disable#:#ausschalten
 common#:#disable_check#:#Nicht überprüfen
 common#:#disable_ext_lang_maint#:#Eweiterte Sprachenverwaltung deaktivieren
-common#:#disable_hide_user_toggle#:#Mitglied darf Benachrichtigung deaktivieren
+common#:#disable_hide_user_toggle#:#Mitglied darf Benachrichtigungen deaktivieren
 common#:#disabled#:#Ausgeschaltet
 common#:#disclose#:#Aufdecken
 common#:#dislike#:#Dislike
@@ -3993,7 +3993,7 @@ common#:#enable_download_folder_info#:#Aktiviert die Option „Herunterladen“ 
 common#:#enable_export_scorm_desc#:#Anzeige persönlicher Daten in den Protokolldaten (SCORM)
 common#:#enable_fora_statistics#:#Forenstatistik aktivieren
 common#:#enable_fora_statistics_desc#:#Nur wenn diese aktiviert ist, kann auf die Forenstatistik zugegriffen werden.
-common#:#enable_hide_user_toggle#:#Mitglied darf Benachrichtigung nicht deaktivieren
+common#:#enable_hide_user_toggle#:#Mitglied darf Benachrichtigungen nicht deaktivieren
 common#:#enable_multi_download#:#„Mehrere Objekte herunterladen“ aktivieren
 common#:#enable_multi_download_info#:#Wenn aktiviert, können mehrere Ordner bzw. Dateien gleichzeitig ausgewählt werden, um sie dann als Zip-Archiv herunterzuladen.
 common#:#enable_password_assistance#:#Passwort-Unterstützung aktivieren
@@ -5896,6 +5896,7 @@ common#:#user_profile_other#:#Weitere Informationen
 common#:#user_send_new_account_mail#:#Begrüssungsmail versenden
 common#:#user_status#:#Benutzerstatus
 common#:#user_toggle_noti#:#Benachrichtigungen können nicht deaktiviert werden.
+common#:#frm_member_may_disable_noti#:#Mitglied darf Benachrichtigungen deaktivieren
 common#:#userfolder_export_csv#:#Durch Komma getrennte Werte (CSV)
 common#:#userfolder_export_excel_x86#:#Microsoft Excel
 common#:#userfolder_export_file#:#Datei

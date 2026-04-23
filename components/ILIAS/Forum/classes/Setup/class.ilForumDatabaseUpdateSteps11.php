@@ -86,4 +86,28 @@ class ilForumDatabaseUpdateSteps11 implements ilDatabaseUpdateSteps
             );
         }
     }
+
+    public function step_2(): void
+    {
+        foreach (['frm_settings', 'frm_notification'] as $table) {
+            if (!$this->db->tableExists($table)) {
+                continue;
+            }
+
+            if ($this->db->tableColumnExists($table, 'user_toggle_noti')) {
+                $this->db->manipulate(
+                    "UPDATE {$table} SET user_toggle_noti = 1 - user_toggle_noti"
+                );
+            }
+
+            if ($this->db->tableColumnExists($table, 'admin_force_noti')) {
+                $this->db->renameTableColumn($table, 'admin_force_noti', 'container_enforces_noti');
+            }
+
+            if ($this->db->tableColumnExists($table, 'user_toggle_noti')) {
+                $this->db->renameTableColumn($table, 'user_toggle_noti', 'member_may_disable_noti');
+            }
+        }
+    }
+
 }

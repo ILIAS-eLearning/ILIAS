@@ -122,9 +122,9 @@ class ilForumModeratorsGUI implements ilCtrlSecurityInterface
             if ($is_membersip_enabled_parent && $notificaton_type !== NotificationType::DEFAULT) {
                 $tmp_frm_noti->setUserId($usr_id);
                 $tmp_frm_noti->setUserIdNoti($this->user->getId());
-                $tmp_frm_noti->setUserToggle($frm_properties->getUserToggleNoti());
-                $tmp_frm_noti->setAdminForce($frm_properties->getAdminForceNoti());
-                $tmp_frm_noti->insertAdminForce();
+                $tmp_frm_noti->setMemberMayDisableNotification($frm_properties->getMemberMayDeactivateForumNotification());
+                $tmp_frm_noti->setContainerEnforcesNotification($frm_properties->getContainerEnforcesForumNotification());
+                $tmp_frm_noti->insertContainerMembershipNotification();
             }
         }
 
@@ -181,7 +181,7 @@ class ilForumModeratorsGUI implements ilCtrlSecurityInterface
                 if (!$participants->isAssigned($usr_id)) {
                     $tmp_frm_noti->setUserId($usr_id);
                     $tmp_frm_noti->setForumId($obj_id);
-                    $tmp_frm_noti->deleteAdminForce();
+                    $tmp_frm_noti->deleteContainerEnforcedMembershipNotification();
                 }
             });
         }
