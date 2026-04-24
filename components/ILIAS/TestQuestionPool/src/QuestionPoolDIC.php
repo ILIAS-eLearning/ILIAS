@@ -25,8 +25,9 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\StateHolder;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Builder;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
 use ILIAS\TestQuestionPool\ExportImport\Export\QuestionPoolExporter;
-use ILIAS\TestQuestionPool\ExportImport\QuestionPoolImporter;
-use ILIAS\TestQuestionPool\ExportImport\SkillAssignmentsImporter;
+use ILIAS\TestQuestionPool\ExportImport\Import\QuestionPoolImporter;
+use ILIAS\TestQuestionPool\ExportImport\Import\QuestionsImporter;
+use ILIAS\TestQuestionPool\ExportImport\Import\SkillAssignmentsImporter;
 use Pimple\Container as PimpleContainer;
 use ILIAS\DI\Container as ILIASContainer;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
@@ -98,12 +99,22 @@ class QuestionPoolDIC extends PimpleContainer
                 $DIC->skills()->usage(),
                 (int) $DIC->settings()->get('inst_id', '0')
             );
+        $dic['exportimport.questions_importer'] = static fn($c): QuestionsImporter =>
+            new QuestionsImporter(
+                'components/ILIAS/TestQuestionPool',
+                'qpl',
+                $DIC->ctrl(),
+                $DIC->database(),
+                $DIC->language()
+            );
         $dic['exportimport.importer'] = static fn($c): QuestionPoolImporter =>
             new QuestionPoolImporter(
                 $c['exportimport.builder'],
                 $DIC->ctrl(),
                 $DIC->database(),
                 $DIC->language(),
+                new DataFactory(),
+                $c['exportimport.questions_importer'],
                 $c['exportimport.skill_assignments_importer']
             );
 
