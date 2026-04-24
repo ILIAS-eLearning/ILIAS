@@ -6197,10 +6197,10 @@ a[aria-disabled].il-link.link-bulky:hover {
   /* edge, chrome, safari go here... */
   /* may come with next firefox 68, https://caniuse.com/#search=clamp */
   word-break: break-word;
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
+  -ms-hyphens: manual;
+  -moz-hyphens: manual;
+  -webkit-hyphens: manual;
+  hyphens: manual;
 }
 .il-mainbar-triggers .btn-bulky .bulky-label,
 .il-mainbar-triggers .il-link.link-bulky .bulky-label,
