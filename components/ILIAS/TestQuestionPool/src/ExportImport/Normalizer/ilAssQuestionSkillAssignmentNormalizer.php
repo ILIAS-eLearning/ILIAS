@@ -104,8 +104,8 @@ class ilAssQuestionSkillAssignmentNormalizer implements Normalizer
         $assignment = new ilAssQuestionSkillAssignment($this->db);
         $assignment->setParentObjId($this->tt->denormalize($value['parent_id'], Id::class)->getId());
         $assignment->setQuestionId($this->tt->denormalize($value['question_id'], Id::class)->getId());
-        $assignment->setSkillBaseId($this->tt->int($value['base_id']));
-        $assignment->setSkillTrefId($this->tt->int($value['tref_id']));
+        $assignment->setSkillBaseId($this->tt->denormalize($value['base_id'], Id::class)->getId());
+        $assignment->setSkillTrefId($this->tt->denormalize($value['tref_id'], Id::class)->getId());
         $assignment->setSkillTitle($this->tt->string($value['original_title']));
         $assignment->setSkillPath($this->tt->string($value['original_path']));
         $assignment->setEvalMode($this->tt->string($value['eval_mode']));

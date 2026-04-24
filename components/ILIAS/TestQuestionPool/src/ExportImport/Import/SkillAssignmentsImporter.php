@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\TestQuestionPool\ExportImport;
+namespace ILIAS\TestQuestionPool\ExportImport\Import;
 
 use ilAssQuestionSkillAssignment;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
