@@ -31,29 +31,31 @@ The Test component employs the following services, please consult the respective
 
 ### Administration - Test and Assessment
 
-At the Administration node for Test and Assessment users having 'Edit Settings' permissions are able to configure some functionality, which has an impact on personal data handling.
+At the Administration node for Test and Assessment accounts having 'Edit Settings' permissions are able to configure some functionality, which has an impact on personal data handling.
 
-#### Settings
+#### Subtab Settings
 
-The field 'Unique user criteria' is used to specify which unique user criteria is used for test result import/export. Because of the following options this may changes the personal data contained at the export of a test:
+The field 'Unique user criteria' is used to specify which unique account criteria is used for test result import/export. Because of the following options this may changes the personal data contained at the export of a test:
 - usr_id
 - login
 - email
 - matriculation
 - ext_account
 
-Those information originate from the user service (see above).
+Those information originate from the user service (see above). The 'Unique user criteria' is needed to link the correct accounts when importing an export file, which includes participant results.
 
-#### Log Data
+#### Subtab Log Data
 
 At the subtab 'Settings' there are the following options for logging (of personal data):
 
 - The field 'Activate Test and Assessment Logging' activates the logging at the 'History' of the test.
-- The field 'Log IP' acitvates the saving of the IP address of users at the 'History' of the test.
+- The field 'Log IP' acitvates the saving of the IP address of accounts at the 'History' of the test.
+
+The purpose of both options is to store important events and information for configuring and performing tests. This gives the possibility to check those information in case of issues or concerns after performing tests.
 
 ### Settings of a test
 
-The settings of a test can be changed by users having 'Edit Settings' permissions.
+The settings of a test can be changed by accounts having 'Edit Settings' permissions.
 
 #### General
 
@@ -63,14 +65,14 @@ At the subtab 'General' from the settings of a test it is possible to choose one
 
 If the second option is selected, no personal data of test attempts is presented at the test. If the user is not logged in while performing the test attempt, additionally no personal data is stored. Please have a look at the detailled information at the following sections.
 
-In addition the 'Exam View' and it's sub-option 'Show Name of Participant' can be activated.
+In addition the 'Exam View' and it's sub-option 'Show Name of Participant' can be activated, which have impact on the presented personal data.
 
 #### Scoring and Results
 
-At the subtab 'Scoring and Results' from the settings of a test a user having 'Edit Settings' permission is able to:
+At the subtab 'Scoring and Results' from the settings of a test a account having 'Edit Settings' permission is able to:
 
-- specify wether users have access to their own test results (and therefore to their own personal data).
-- activate the 'Rankings' functionality, which potentially presents personal data to all participating users.
+- specify wether accounts have access to their own test results (and therefore to their own personal data).
+- activate the 'Rankings' functionality, which potentially presents personal data to all participating accounts.
 
 ## Data being stored
 
@@ -78,8 +80,7 @@ The data being stored is listed by the tabs of the test.
 
 ### Test - data being stored while performing a test
 
-While a user performs a test, the following data is stored. After finishing the test, this data is presented at various other tabs (see [Data being presented](#Data being presented)).
-This is needed in order to provide the functionality of the test component. All listed data is at least linked to the 'User ID'.
+While a account performs a test, the following data is stored. After finishing the test, this data is presented at various other tabs (see [Data being presented](#Data being presented)). This is needed in order to provide the functionality of the test component. All listed data is at least linked to the 'User ID'.
 
 - User ID
 - Client IP
@@ -102,25 +103,31 @@ Those tabs use the COPage service and store personal data within this usage (see
 
 #### Personal Test Settings Templates
 
-- At the creation process of Personal Test Settings Templates the field 'Author' is prefilled with the full name of the user, which is creating the template. If this value is not changed, the name of the user is stored.
+- At the creation process of Personal Test Settings Templates the field 'Author' is prefilled with the full name of the account, which is creating the template. If this value is not changed, the name of the account is stored.
 - Together with the field 'Author' the 'Creation Date' of the template is stored.
+- Those information are needed in order to present the origin of a Personal Test Settings Template.
 
 ### Questions
 
-- At the creation process of questions the field 'Author' is prefilled with the full name of the user, which is creating the question. If this value is not changed, the name of the user is stored.
+- At the creation process of questions the field 'Author' is prefilled with the full name of the account, which is creating the question. If this value is not changed, the name of the account is stored.
 - At the editing of questions the field 'Author' contains the previous saved value. If the value is changed and personal data is entered, it will be stored.
+- By storing (and presenting) the value for 'Author' it is possible to contact the account, if there are problems with the question or the configuration of it. In addition it supports the collaborative development of questions.
 - Ownership of Questions: Owners of questions are stored in the Test as reference to the 'User ID'. The data is required to manage detailed access and permissions on usage and editing of the question.
 - The creation, change and deletion of questions is stored as log entry. Therefore the 'User ID', the 'Log Entry Type' and 'Interaction Type' is stored.
 
 ### Participants
-- A user having 'Edit Settings' permission is able to assign users as participants of a test.
-- In addition, users which perform a test are added as participants automatically.
-- For all users, which are assigned as participants, the 'User ID' is stored as link to the test.
+- A account having 'Edit Settings' permission is able to assign accounts as participants of a test.
+- In addition, accounts which perform a test are added as participants automatically.
+- For all accounts, which are assigned as participants, the 'User ID' is stored as link to the test.
 - If a 'Client IP Range' is set for a participant, the entered value is stored, linked to the 'User ID'.
-- For some actions, which are offered at this tab, log entries are stored. Therefore the 'User ID' (of the user with 'Edit Settings' permission), the 'Log Entry Type' and 'Interaction Type' is stored.
+- For some actions, which are offered at this tab, log entries are stored. Therefore the 'User ID' (of the account with 'Edit Settings' permission), the 'Log Entry Type' and 'Interaction Type' is stored.
+
+Those information are needed in order to manage the access to the test.
 
 ### Scoring
-If the Scoring of a test attempt is changed at this tab, this event is logged. Therefore the 'User ID' (of the user with 'Edit Settings' permission), the 'Log Entry Type' and 'Interaction Type' is stored.
+If the Scoring of a test attempt is changed at this tab, this event is logged. Therefore the 'User ID' (of the account with 'Edit Settings' permission), the 'Log Entry Type' and 'Interaction Type' is stored.
+
+This ensures the traceability of test results.
 
 ### Metadata
 
@@ -133,6 +140,8 @@ The data being presented is listed by the tabs of the test.
 ### Test - data being presented while performing a test
 
 While performing a test, the 'Name' of the participant himself is shown, if the 'Exam View' and it's sub-option 'Show Name of Participant' is activated.
+
+When a test is performed in person, the presentation of this information can be used for validating the logged in account.
 
 ### Settings
 
@@ -180,9 +189,11 @@ The table 'Participants' shows following personal data linked to the test attemp
 
 If the test is set to anonymous (see above), 'Name', 'Login' and 'Matriculation Number' are not presented.
 
+The purpose of the presentation is giving accounts with 'Edit Settings' permission an overview of all test attempts and the related data.
+
 ### My Results
 
-At the subtabs 'Test Results' and 'Printable List of Answers' users are able to access their own data. Those data contains their 'Name' and 'Matriculation Number'.
+At the subtabs 'Test Results' and 'Printable List of Answers' accounts are able to access their own data. Those data contains their 'Name' and 'Matriculation Number'.
 
 If the test is set to anonymous (see above), 'Name' and 'Matriculation Number' are not presented.
 
@@ -211,6 +222,8 @@ At the 'History' log entries are shown, which originate in the change of the tes
 
 If the test is set to anonymous, no entries are shown for the participation of the test.
 
+The purpose of the tab 'History' is mainly checking events in case of issues or concerns after performing tests.
+
 ### Metadata
 
 This tab uses the Metadata service and presents personal data within this usage (see above).
@@ -221,11 +234,11 @@ At this tab of the Administration, the same personal data is listed for all test
 
 ## Data being deleted
 
-The data being deleted is listed by the tabs of the test. In general, only users with the 'Edit Settings' permission are able to delete data. Exceptions are explicitly listed.
+The data being deleted is listed by the tabs of the test. In general, only accounts with the 'Edit Settings' permission are able to delete data. Exceptions are explicitly listed.
 
 ### Test
  
-Users with the 'Read' permission are able to delete their own answers while performing a test, which are linked to their 'User ID'. The answers are not linked to the 'User ID', if the test is set to anonymous and is performed without being logged in.
+Accounts with the 'Read' permission are able to delete their own answers while performing a test, which are linked to their 'User ID'. The answers are not linked to the 'User ID', if the test is set to anonymous and is performed without being logged in.
 
 ### Questions
 
@@ -236,19 +249,19 @@ It is possible to delete questions and within this the personal data at the fiel
 At this tab the following personal data can be deleted:
 
 - Test results of participants and all linked personal data
-- Assignment of users as participants and all linked personal data
+- Assignment of accounts as participants and all linked personal data
 
 ### Administration - Test and Assessment - Log Data - Log Data Output
 
-Users with the 'Edit Settings' permission of this administration node are able to delete any log entries and all linked personal data from all tests of the platform.
+Accounts with the 'Edit Settings' permission of this administration node are able to delete any log entries and all linked personal data from all tests of the platform.
 
 ## Data being exported
 
-The data being exported is listed by the tabs of the test. In general, only users with the 'Edit Settings' permission are able to export data. Exceptions are explicitly listed.
+The data being exported is listed by the tabs of the test. In general, only accounts with the 'Edit Settings' permission are able to export data. Exceptions are explicitly listed.
 
 ### Settings - Personal Test Settings Templates
 
-When exporting a Personal Test Settings Template, the field 'Author' and the 'Creation Date' is exported.
+When exporting a Personal Test Settings Template, the field 'Author' and the 'Creation Date' is exported. This secures being able to identify the origin of a Personal Test Settings Template after importing it to a account.
 
 ### Participants
 
@@ -272,9 +285,11 @@ Those export files contain the following personal data of the participants, whic
 - Institution
 - Department
 
+The purpose of the different export files is to extract the dedicated test results of one or more accounts. This e.g. can be used for discussing the results with the participant.
+
 ### My Results
 
-At the subtabs 'Test Results' and 'Printable List of Answers' users with the 'Read' permission are able to download their own data via the button 'Print'. Those data contains their 'Name' and 'Matriculation number'.
+At the subtabs 'Test Results' and 'Printable List of Answers' accounts with the 'Read' permission are able to download their own data via the button 'Print'. Those data contains their 'Name' and 'Matriculation number'.
 
 If the test is set to anonymous (see above), 'Name' and 'Matriculation Number' are not included.
 
@@ -291,7 +306,7 @@ At this tab the 'Export Legacy Log Data' is available, which can be used for his
 #### Archive File
 
 - The Archive file contains all personal data, which is being stored and presented at the test (see above).
-- It's purpose is to have this data easily accesible outside of ILIAS.
+- It's purpose is to have this data easily accesible outside of ILIAS, e.g. for archivating the data long-term.
 
 #### XML
 
@@ -303,6 +318,7 @@ At this tab the 'Export Legacy Log Data' is available, which can be used for his
 - The XML export incl. Participant Results contains all personal data, which is being stored and presented at the test (see above).
 - The data in the 'History' tab is an exception, this is not included.
 - It's purpose is to being imported in ILIAS again, although the contained personal data is easily accesible.
+- This export file can be used to e.g. provide the test results to the participants at another ILIAS installation.
 
 ### Administration - Test and Assessment - Log Data - Log Data Output
 
