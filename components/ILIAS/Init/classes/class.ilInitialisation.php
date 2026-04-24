@@ -1543,17 +1543,17 @@ class ilInitialisation
         $client_ini = $container['ilClientIniFile'];
 
         $replace_super_globals = (
-            !$client_ini->variableExists('server', 'prevent_super_global_replacement') ||
-            !(bool) $client_ini->readVariable('server', 'prevent_super_global_replacement')
+            defined('DEVMODE') && DEVMODE && (
+                !$client_ini->variableExists('server', 'prevent_super_global_replacement') ||
+                !(bool) $client_ini->readVariable('server', 'prevent_super_global_replacement')
+            )
         );
 
         if ($replace_super_globals) {
-            $throwOnValueAssignment = defined('DEVMODE') && DEVMODE;
-
-            $_GET = new SuperGlobalDropInReplacement($container['refinery'], $_GET, $throwOnValueAssignment);
-            $_POST = new SuperGlobalDropInReplacement($container['refinery'], $_POST, $throwOnValueAssignment);
-            $_COOKIE = new SuperGlobalDropInReplacement($container['refinery'], $_COOKIE, $throwOnValueAssignment);
-            $_REQUEST = new SuperGlobalDropInReplacement($container['refinery'], $_REQUEST, $throwOnValueAssignment);
+            $_GET = new SuperGlobalDropInReplacement($container['refinery'], $_GET);
+            $_POST = new SuperGlobalDropInReplacement($container['refinery'], $_POST);
+            $_COOKIE = new SuperGlobalDropInReplacement($container['refinery'], $_COOKIE);
+            $_REQUEST = new SuperGlobalDropInReplacement($container['refinery'], $_REQUEST);
         }
     }
 

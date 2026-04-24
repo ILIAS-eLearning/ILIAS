@@ -32,7 +32,7 @@ use OutOfBoundsException;
  */
 class SuperGlobalDropInReplacement extends KeyValueAccess
 {
-    public function __construct(Factory $factory, array $raw_values, private bool $throwOnValueAssignment = false)
+    public function __construct(Factory $factory, array $raw_values)
     {
         parent::__construct($raw_values, $factory->kindlyTo()->string());
     }
@@ -40,9 +40,7 @@ class SuperGlobalDropInReplacement extends KeyValueAccess
     #[\Override]
     public function offsetSet(mixed $offset, mixed $value): void
     {
-        if ($this->throwOnValueAssignment) {
-            throw new OutOfBoundsException("Modifying global Request-Array such as \$_GET is not allowed!");
-        }
+        throw new OutOfBoundsException("Modifying global Request-Array such as \$_GET is not allowed!");
 
         parent::offsetSet($offset, $value);
     }
