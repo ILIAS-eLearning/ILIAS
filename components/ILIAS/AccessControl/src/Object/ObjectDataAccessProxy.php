@@ -18,11 +18,26 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\AccessControl\Object;
+
 /**
- * Combines all available interfaces which can be called via global $ilAccess.
- *
- * @deprecated Use {@see \ILIAS\AccessControl\PublicInterface\Access} instead.
+ * @internal
  */
-interface ilAccessHandler extends ilRBACAccessHandler, ilOrgUnitPositionAccessHandler, ilOrgUnitPositionAndRBACAccessHandler
+class ObjectDataAccessProxy
 {
+    public function lookupObjId(int $ref_id): int
+    {
+        return $this->cache()->lookupObjId($ref_id);
+    }
+
+    public function lookupOwner(int $obj_id): int
+    {
+        return $this->cache()->lookupOwner($obj_id);
+    }
+
+    private function cache(): \ilObjectDataCache
+    {
+        global $DIC;
+        return $DIC['ilObjDataCache'];
+    }
 }

@@ -18,11 +18,19 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\AccessControl\User;
+
 /**
- * Combines all available interfaces which can be called via global $ilAccess.
- *
- * @deprecated Use {@see \ILIAS\AccessControl\PublicInterface\Access} instead.
+ * @internal
  */
-interface ilAccessHandler extends ilRBACAccessHandler, ilOrgUnitPositionAccessHandler, ilOrgUnitPositionAndRBACAccessHandler
+class UserIdProviderProxy
 {
+    public function getId(): int
+    {
+        global $DIC;
+        if ($DIC->isDependencyAvailable('user')) {
+            return $DIC->user()->getId();
+        }
+        throw new \RuntimeException('User dependency is not available in the DIC');
+    }
 }

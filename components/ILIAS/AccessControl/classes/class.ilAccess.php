@@ -18,17 +18,24 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\PublicInterface;
+use ILIAS\AccessControl\Object\ObjectDefinitionAccessProxy;
+use ILIAS\AccessControl\Tree\RepositoryTreeAccessProxy;
+use ILIAS\AccessControl\User\UserIdProviderProxy;
+use ILIAS\Logging\Services;
+use ILIAS\AccessControl\PublicInterface\Access;
+
 /**
- * Class ilAccessHandler
- * Checks access for ILIAS objects
+ * Checks access for ILIAS objects.
+ *
  * @author Alex Killing <alex.killing@gmx.de>
  * @author Sascha Hofmann <saschahofmann@gmx.de>
  */
-class ilAccess implements ilAccessHandler
+class ilAccess implements Access
 {
     private const MAX_CACHE_SIZE = 1000;
 
-    protected ilOrgUnitPositionAccess $ilOrgUnitPositionAccess;
+    protected ?ilOrgUnitPositionAccess $ilOrgUnitPositionAccess = null;
     protected array $obj_tree_cache;
     protected array $obj_type_cache;
     protected array $obj_id_cache;
@@ -50,26 +57,21 @@ class ilAccess implements ilAccessHandler
     protected array $stored_rbac_access = [];
     protected array $current_result_element = [];
 
-    protected ilRbacSystem $rbacsystem;
-    protected ilObjUser $user;
     protected ilLogger $ac_logger;
-    protected ilDBInterface $db;
-    protected ilTree $repositoryTree;
-    protected ilObjectDefinition $objDefinition;
 
     protected ?ilLanguage $language = null;
 
-    public function __construct()
+    public function __construct(
+        private UserIdProviderProxy $user,
+        private ilDBInterface $db,
+        private ilRbacSystem $rbacsystem,
+        private RepositoryTreeAccessProxy $repositoryTree,
+        private ObjectDefinitionAccessProxy $objDefinition,
+        Services $logging_services
+    )
     {
-        global $DIC;
-
-        $this->user = $DIC->user();
-        $this->db = $DIC->database();
-        $this->rbacsystem = $DIC['rbacsystem'];
         $this->results = [];
         $this->current_info = new ilAccessInfo();
-        $this->repositoryTree = $DIC->repositoryTree();
-        $this->objDefinition = $DIC['objDefinition'];
 
         // use function enable to switch on/off tests (only cache is used so far)
         $this->cache = true;
@@ -82,10 +84,7 @@ class ilAccess implements ilAccessHandler
         $this->obj_type_cache = [];
         $this->obj_tree_cache = [];
         $this->ac_cache = [];
-
-        $this->ilOrgUnitPositionAccess = new ilOrgUnitPositionAccess($this);
-
-        $this->ac_logger = ilLoggerFactory::getLogger('ac');
+        $this->ac_logger = $logging_services->getLogger('ac');
     }
 
     private function getLanguage(): ilLanguage
@@ -733,12 +732,17 @@ class ilAccess implements ilAccessHandler
     // OrgUnit Positions
     //
 
+    private function positionAccess(): \ilOrgUnitPositionAccess
+    {
+        return $this->ilOrgUnitPositionAccess ?? $this->ilOrgUnitPositionAccess = new ilOrgUnitPositionAccess($this);
+    }
+
     /**
      * @inheritdoc
      */
     public function filterUserIdsForCurrentUsersPositionsAndPermission(array $user_ids, string $permission): array
     {
-        return $this->ilOrgUnitPositionAccess->filterUserIdsForCurrentUsersPositionsAndPermission(
+        return $this->positionAccess()->filterUserIdsForCurrentUsersPositionsAndPermission(
             $user_ids,
             $permission
         );
@@ -749,7 +753,7 @@ class ilAccess implements ilAccessHandler
      */
     public function filterUserIdsForUsersPositionsAndPermission(array $user_ids, int $for_user_id, string $permission): array
     {
-        return $this->ilOrgUnitPositionAccess->filterUserIdsForUsersPositionsAndPermission(
+        return $this->positionAccess()->filterUserIdsForUsersPositionsAndPermission(
             $user_ids,
             $for_user_id,
             $permission
@@ -761,7 +765,7 @@ class ilAccess implements ilAccessHandler
      */
     public function isCurrentUserBasedOnPositionsAllowedTo(string $permission, array $on_user_ids): bool
     {
-        return $this->ilOrgUnitPositionAccess->isCurrentUserBasedOnPositionsAllowedTo($permission, $on_user_ids);
+        return $this->positionAccess()->isCurrentUserBasedOnPositionsAllowedTo($permission, $on_user_ids);
     }
 
     /**
@@ -769,7 +773,7 @@ class ilAccess implements ilAccessHandler
      */
     public function isUserBasedOnPositionsAllowedTo(int $which_user_id, string $permission, array $on_user_ids): bool
     {
-        return $this->ilOrgUnitPositionAccess->isUserBasedOnPositionsAllowedTo(
+        return $this->positionAccess()->isUserBasedOnPositionsAllowedTo(
             $which_user_id,
             $permission,
             $on_user_ids
@@ -781,7 +785,7 @@ class ilAccess implements ilAccessHandler
      */
     public function checkPositionAccess(string $pos_perm, int $ref_id): bool
     {
-        return $this->ilOrgUnitPositionAccess->checkPositionAccess($pos_perm, $ref_id);
+        return $this->positionAccess()->checkPositionAccess($pos_perm, $ref_id);
     }
 
     /**
@@ -789,7 +793,7 @@ class ilAccess implements ilAccessHandler
      */
     public function checkRbacOrPositionPermissionAccess(string $rbac_perm, string $pos_perm, int $ref_id): bool
     {
-        return $this->ilOrgUnitPositionAccess->checkRbacOrPositionPermissionAccess($rbac_perm, $pos_perm, $ref_id);
+        return $this->positionAccess()->checkRbacOrPositionPermissionAccess($rbac_perm, $pos_perm, $ref_id);
     }
 
     /**
@@ -797,7 +801,7 @@ class ilAccess implements ilAccessHandler
      */
     public function filterUserIdsByPositionOfCurrentUser(string $pos_perm, int $ref_id, array $user_ids): array
     {
-        return $this->ilOrgUnitPositionAccess->filterUserIdsByPositionOfCurrentUser($pos_perm, $ref_id, $user_ids);
+        return $this->positionAccess()->filterUserIdsByPositionOfCurrentUser($pos_perm, $ref_id, $user_ids);
     }
 
     /**
@@ -805,7 +809,7 @@ class ilAccess implements ilAccessHandler
      */
     public function filterUserIdsByPositionOfUser(int $user_id, string $pos_perm, int $ref_id, array $user_ids): array
     {
-        return $this->ilOrgUnitPositionAccess->filterUserIdsByPositionOfUser($user_id, $pos_perm, $ref_id, $user_ids);
+        return $this->positionAccess()->filterUserIdsByPositionOfUser($user_id, $pos_perm, $ref_id, $user_ids);
     }
 
     /**
@@ -813,7 +817,7 @@ class ilAccess implements ilAccessHandler
      */
     public function filterUserIdsByRbacOrPositionOfCurrentUser(string $rbac_perm, string $pos_perm, int $ref_id, array $user_ids): array
     {
-        return $this->ilOrgUnitPositionAccess->filterUserIdsByRbacOrPositionOfCurrentUser(
+        return $this->positionAccess()->filterUserIdsByRbacOrPositionOfCurrentUser(
             $rbac_perm,
             $pos_perm,
             $ref_id,
@@ -826,7 +830,7 @@ class ilAccess implements ilAccessHandler
      */
     public function hasCurrentUserAnyPositionAccess(int $ref_id): bool
     {
-        return $this->ilOrgUnitPositionAccess->hasCurrentUserAnyPositionAccess($ref_id);
+        return $this->positionAccess()->hasCurrentUserAnyPositionAccess($ref_id);
     }
 
     /**
@@ -834,6 +838,6 @@ class ilAccess implements ilAccessHandler
      */
     public function hasUserRBACorAnyPositionAccess(string $rbac_perm, int $ref_id): bool
     {
-        return $this->ilOrgUnitPositionAccess->hasUserRBACorAnyPositionAccess($rbac_perm, $ref_id);
+        return $this->positionAccess()->hasUserRBACorAnyPositionAccess($rbac_perm, $ref_id);
     }
 }
