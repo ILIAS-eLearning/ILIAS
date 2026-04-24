@@ -113,7 +113,7 @@ export default class TreeSelectFactory {
       dialogSelectButton,
     ] = this.#getTreeSelectElements(inputId);
 
-    const drilldownComponent = this.#getDrilldown(treeSelectElement);
+    const drilldownComponent = this.#getDrilldown(dialogElement);
 
     const treeMultiSelect = new TreeSelect(
       createTreeSelectNodes(getNodeElements(dialogElement)),
@@ -157,7 +157,7 @@ export default class TreeSelectFactory {
       dialogSelectButton,
     ] = this.#getTreeSelectElements(inputId);
 
-    const drilldownComponent = this.#getDrilldown(treeSelectElement);
+    const drilldownComponent = this.#getDrilldown(dialogElement);
 
     const treeSelect = new TreeSelect(
       createTreeSelectNodes(getNodeElements(dialogElement)),
@@ -200,11 +200,12 @@ export default class TreeSelectFactory {
   #getTreeSelectElements(inputId) {
     const dialogOpenButton = this.#document.getElementById(inputId);
     const treeSelectElement = dialogOpenButton?.closest(CONSTANTS.TREE_SELECT);
-    const breadcrumbsElement = treeSelectElement?.querySelector(CONSTANTS.BREADCRUMB);
-    const breadcrumbTemplate = treeSelectElement?.querySelector('.modal-body > template');
+    const dialogElement = this.#document.getElementById(`${inputId}_dialog`)
+      ?? treeSelectElement?.querySelector('dialog');
+    const breadcrumbsElement = dialogElement?.querySelector(CONSTANTS.BREADCRUMB);
+    const breadcrumbTemplate = dialogElement?.querySelector('.modal-body > template');
     const nodeSelectionElement = treeSelectElement?.querySelector(CONSTANTS.TREE_SELECT_SELECTION);
     const nodeSelectionTemplate = nodeSelectionElement?.querySelector(':scope > template');
-    const dialogElement = treeSelectElement?.querySelector('dialog');
     const dialogSelectButton = dialogElement?.querySelector(CONSTANTS.TREE_SELECT_BUTTON);
 
     if (breadcrumbsElement === null
@@ -231,12 +232,12 @@ export default class TreeSelectFactory {
   }
 
   /**
-   * @param {HTMLDivElement} element
+   * @param {HTMLElement} container dialog or legacy wrapper containing the drilldown
    * @returns {Drilldown}
    * @throws {Error} if instance can not be found
    */
-  #getDrilldown(element) {
-    const drilldownElement = element.querySelector(CONSTANTS.DRILLDOWN);
+  #getDrilldown(container) {
+    const drilldownElement = container.querySelector(CONSTANTS.DRILLDOWN);
     if (drilldownElement === null || !drilldownElement.hasAttribute('id')) {
       throw new Error('Could not find drilldown element.');
     }

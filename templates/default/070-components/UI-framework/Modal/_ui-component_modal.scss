@@ -40,7 +40,7 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
 // --------------------------------------------------
 
 .c-modal,
-.il-prompt dialog {
+dialog.il-prompt__dialog {
 	border: none;
 	background: none;
 	@include box-shadow($il-shadow--large);
@@ -150,7 +150,7 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
   }
 
   // Actual modal
-  .modal-content, .il-prompt dialog {
+  .modal-content, dialog.il-prompt__dialog {
 	position: relative;
 	background-color: $modal-content-bg;
 	background-clip: padding-box;
@@ -162,7 +162,7 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
 	outline: 0;
   }
 
-  .il-prompt dialog hr {
+  dialog.il-prompt__dialog hr {
 	  margin: 0;
   }
 
@@ -275,7 +275,7 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
 	// end of section based on bootstrap 3
 
 // modal sizes responsive and variants
-.c-modal, .il-prompt {
+.c-modal, dialog.il-prompt__dialog {
 	@include on-screen-size(small) {
 		margin: 0;
 		padding: 0;

@@ -91,7 +91,12 @@ export default class DataTable {
       throw new Error('There is no <table> in the component\'s HTML.');
     }
     this.#modalResponseArea = this.#component.getElementsByClassName('c-table-data__async_modal_container').item(0);
-    this.#responseContainer = this.#component.getElementsByClassName('c-table-data__async_message').item(0);
+    // Async message node may be moved to document.body (see il.UI.modal); resolve by stable id.
+    this.#responseContainer = document.getElementById(`${componentId}_msgmodal`)
+      ?? this.#component.getElementsByClassName('c-table-data__async_message').item(0);
+    if (this.#responseContainer === null) {
+      throw new Error('Could not find async message container for this table.');
+    }
     this.#responseContent = this.#responseContainer.getElementsByClassName('c-table-data__async_messageresponse').item(0);
 
     this.#jquery = jquery;
@@ -155,7 +160,10 @@ export default class DataTable {
    * @return {void}
    */
   #showWarningUrlTooLong() {
-    const dialog = this.#component.querySelector('dialog.c-table-data__multiaction-warning');
+    const dialog = document.getElementById(`${this.#component.id}_warningmodal`);
+    if (dialog === null) {
+      return;
+    }
     il.UI.modal.showModal(dialog, {}, { id: dialog.id });
   }
 

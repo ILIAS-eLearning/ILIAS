@@ -54,7 +54,7 @@ function initMockedDom() {
 
     <div class="c-table-data__async_modal_container"></div>
 
-    <div class="c-table-data__async_message modal" role="dialog" id="{ID}_msgmodal">
+    <div class="c-table-data__async_message modal" role="dialog" id="tid_msgmodal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">

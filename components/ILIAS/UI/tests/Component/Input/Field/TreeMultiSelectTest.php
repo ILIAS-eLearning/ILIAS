@@ -256,7 +256,7 @@ HTML;
     <label for="id_3">some tree select label</label>
     <div class="c-input__field">
         <div class="c-input-tree_select">
-            <dialog class="c-modal">
+            <dialog class="c-modal" id="id_3_dialog">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">

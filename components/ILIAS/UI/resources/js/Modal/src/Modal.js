@@ -34,6 +34,41 @@ export default class Modal {
    */
   constructor(jquery) {
     this.#jquery = jquery;
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => this.#moveModalsToBody());
+    } else {
+      this.#moveModalsToBody();
+    }
+  }
+
+  /**
+   * Reparents every native <dialog> to document.body so headings inside dialogs
+   * do not sit between main-content headings in document order. Call sites that
+   * previously used descendant selectors must resolve dialogs by id instead.
+   */
+  #moveModalsToBody() {
+    document.querySelectorAll('dialog').forEach((dialog) => {
+      if (dialog.parentElement?.closest('dialog')) {
+        return;
+      }
+      const body = dialog.ownerDocument.body;
+      if (body && dialog.parentElement !== body) {
+        body.appendChild(dialog);
+      }
+    });
+  }
+
+  /**
+   * @param {HTMLDialogElement|null|undefined} dialog
+   */
+  #ensureDialogInBody(dialog) {
+    if (!dialog || dialog.tagName !== 'DIALOG') {
+      return;
+    }
+    const body = dialog.ownerDocument.body;
+    if (body && dialog.parentElement !== body) {
+      body.appendChild(dialog);
+    }
   }
 
   /**
@@ -61,12 +96,17 @@ export default class Modal {
     }
     this.#triggeredSignalsStorage[signalData.id] = true;
 
+    if (component.tagName === 'DIALOG') {
+      this.#ensureDialogInBody(component);
+    }
+
     if (options.ajaxRenderUrl) {
       this.#jquery(component).load(options.ajaxRenderUrl, () => {
         const dialog = component.querySelector('dialog');
         if (!dialog) {
           throw new Error('url did not return a dialog');
         }
+        this.#ensureDialogInBody(dialog);
         dialog.showModal();
         il.UI.lightbox.maybeInitCarousel(component);
         this.#triggeredSignalsStorage[signalData.id] = false;

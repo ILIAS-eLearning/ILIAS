@@ -25,7 +25,7 @@ export default class Prompt {
   #component;
 
   /**
-   * @type {HTMLPromptElement}
+   * @type {HTMLDialogElement}
    */
   #prompt;
 
@@ -40,7 +40,10 @@ export default class Prompt {
     if (this.#component === null) {
       throw new Error(`Could not find a Prompt for id '${componentId}'.`);
     }
-    this.#prompt = this.#component.getElementsByTagName('dialog').item(0);
+    this.#prompt = document.getElementById(`${componentId}_dialog`);
+    if (this.#prompt === null) {
+      throw new Error(`Could not find dialog for Prompt '${componentId}'.`);
+    }
   }
 
   /**
