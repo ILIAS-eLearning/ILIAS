@@ -43,11 +43,12 @@ class ilRBACTest extends TestCase
         $system = ilRbacSystem::getInstance();
         $this->assertTrue($system instanceof ilRbacSystem);
 
-        $admin = new ilRbacAdmin();
-        $this->assertTrue($admin instanceof ilRbacAdmin);
-
-        $review = new ilRbacReview();
+        $db = $this->dic['ilDB'];
+        $review = new ilRbacReview($db);
         $this->assertTrue($review instanceof ilRbacReview);
+
+        $admin = new ilRbacAdmin($db, $review);
+        $this->assertTrue($admin instanceof ilRbacAdmin);
     }
 
     protected function setGlobalVariable(string $name, $value): void
