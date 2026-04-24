@@ -876,29 +876,7 @@ class ilInitialisation
      */
     protected static function initAccessHandling(): void
     {
-        self::initGlobal(
-            "rbacreview",
-            "ilRbacReview",
-            "./components/ILIAS/AccessControl/classes/class.ilRbacReview.php",
-            true
-        );
-
-        $rbacsystem = ilRbacSystem::getInstance();
-        self::initGlobal('rbacsystem', $rbacsystem, null, true);
-
-        self::initGlobal(
-            "rbacadmin",
-            "ilRbacAdmin",
-            "./components/ILIAS/AccessControl/classes/class.ilRbacAdmin.php",
-            true
-        );
-
-        self::initGlobal(
-            "ilAccess",
-            "ilAccess",
-            "./components/ILIAS/AccessControl/classes/class.ilAccess.php",
-            true
-        );
+        // Migrated to ILIAS\AccessControl bootstrap wiring.
     }
 
     /**
