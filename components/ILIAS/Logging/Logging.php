@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Logging\Services;
+
 class Logging implements Component\Component
 {
     public function init(
@@ -79,5 +81,8 @@ class Logging implements Component\Component
             new Logging\Setup\Agent(
                 $pull[Refinery\Factory::class]
             );
+
+        $define[] = Services::class;
+        $implement[Services::class] = static fn(): Services => new \ILIAS\Logging\ServicesImpl();
     }
 }
