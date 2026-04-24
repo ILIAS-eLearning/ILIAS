@@ -23,8 +23,9 @@ The TestQuestionPool component employs the following services, please consult th
 
 ## Data being stored
 
-- At the creation process of questions the field 'Author' is prefilled with the full name of the user, which is creating the question. If this value is not changed, the name of the user is stored.
+- At the creation process of questions the field 'Author' is prefilled with the full name of the account, which is creating the question. If this value is not changed, the name of the account is stored.
 - At the editing of questions the field 'Author' contains the previous saved value. If the value is changed and personal data is entered, it will be stored.
+- By storing (and presenting) the value for 'Author' it is possible to contact the account, if there are problems with the question or the configuration of it. In addition it supports the collaborative development of questions.
 - Ownership of Questions: Owners of questions are stored in the TestQuestionPool as reference to the 'User ID'. The data is required to manage detailed access and permissions on usage and editing of the question.
 
 ## Data being presented
@@ -39,4 +40,4 @@ It is possible to delete questions. Within this the personal data at the field '
 ## Data being exported
 
 - The XML export of the question pool contains the personal data 'Author' of the questions and of the question pool itself within the metadata.
-- It's purpose is to being imported in ILIAS again, although the contained personal data is easily accesible.
+- It's purpose is to being imported in ILIAS again, although the contained personal data is easily accesible. Including this information ensures that the authorship of the question is not lost after import.
