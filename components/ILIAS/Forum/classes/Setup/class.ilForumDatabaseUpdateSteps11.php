@@ -86,41 +86,4 @@ class ilForumDatabaseUpdateSteps11 implements ilDatabaseUpdateSteps
             );
         }
     }
-
-    public function step_2(): void
-    {
-        foreach (['frm_settings', 'frm_notification'] as $table) {
-            if (!$this->db->tableExists($table)) {
-                continue;
-            }
-
-            if ($this->db->tableColumnExists($table, 'user_toggle_noti')) {
-                $this->db->manipulate(
-                    "UPDATE {$table} SET user_toggle_noti = 1 - user_toggle_noti"
-                );
-            }
-
-            if ($this->db->tableColumnExists($table, 'admin_force_noti')) {
-                $this->db->renameTableColumn($table, 'admin_force_noti', 'container_enforces_noti');
-            }
-
-            if ($this->db->tableColumnExists($table, 'user_toggle_noti')) {
-                $this->db->renameTableColumn($table, 'user_toggle_noti', 'member_may_disable_noti');
-            }
-        }
-    }
-
-    public function step_3(): void
-    {
-        if ($this->db->tableExists('frm_notification') &&
-            !$this->db->tableColumnExists('frm_notification', 'user_deactivated_noti')) {
-            $this->db->addTableColumn('frm_notification', 'user_deactivated_noti', [
-                'type' => ilDBConstants::T_INTEGER,
-                'length' => 1,
-                'default' => '0',
-                'notnull' => true
-            ]);
-        }
-    }
-
 }
