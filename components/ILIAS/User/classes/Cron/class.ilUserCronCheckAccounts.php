@@ -147,35 +147,11 @@ class ilUserCronCheckAccounts extends CronJob
             $this->counter++;
         }
 
-        $this->checkNotConfirmedUserAccounts();
-
         if ($this->counter) {
             $status = JobResult::STATUS_OK;
         }
         $result = new JobResult();
         $result->setStatus($status);
         return $result;
-    }
-
-    protected function checkNotConfirmedUserAccounts(): void
-    {
-        $registration_settings = new ilRegistrationSettings();
-
-        $query = 'SELECT usr_id FROM usr_data '
-               . 'WHERE (reg_hash IS NOT NULL AND reg_hash != %s)'
-               . 'AND active = %s '
-               . 'AND create_date < %s';
-        $res = $this->db->queryF(
-            $query,
-            ['text', 'integer', 'timestamp'],
-            ['', 0, date('Y-m-d H:i:s', time() - $registration_settings->getRegistrationHashLifetime())]
-        );
-        while ($row = $this->db->fetchAssoc($res)) {
-            $user = ilObjectFactory::getInstanceByObjId((int) $row['usr_id']);
-            $user->delete();
-            $this->log->write('Cron: Deleted ' . $user->getLogin() . ' [' . $user->getId() . '] ' . __METHOD__);
-
-            $this->counter++;
-        }
     }
 }
