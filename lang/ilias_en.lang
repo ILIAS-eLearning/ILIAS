@@ -17916,7 +17916,7 @@ wiki#:#wiki_wiki_search#:#Wiki Search
 wiki#:#wiki_wpg#:#Wiki Page
 wopi#:#action_edit#:#Edit
 wopi#:#action_view#:#View
-wopi#:#activate_saving_interval#:#Activate Saving Interval
+wopi#:#activate_saving_interval#:#Automatic Publication
 wopi#:#activate_wopi#:#Activate WOPI
 wopi#:#close_wopi_editor#:#Close Editor
 wopi#:#close_wopi_editor_info#:#It can take up to several minutes for the external editor to transfer the changes to ILIAS. Visit this page again at a later time if the changes you have made are not yet visible.
@@ -17925,8 +17925,8 @@ wopi#:#msg_error_wopi_invalid_discorvery_url#:#The Discovery URL entered is inva
 wopi#:#msg_wopi_settings_modified#:#Settings saved.
 wopi#:#open_external_editor#:#Open in External Editor
 wopi#:#open_external_viewer#:#Show Content
-wopi#:#saving_interval#:#Interval
-wopi#:#saving_interval_byline#:#By default, ILIAS adds all changes made by an external editor to a draft version until this version is published manually. Activating the saving interval causes a new version to be published, if possible, after the specified number of seconds. Please note that a low value can lead to a large number of file versions, which in turn will take up a much larger amount of hard disk space.
+wopi#:#saving_interval#:#New version after … seconds
+wopi#:#saving_interval_byline#:#After the specified editing time, ILIAS automatically publishes a new version of the file when the external editor reports changes. By default, ILIAS adds all changes received from the editor as a draft only, until a new file version is manually published. Please note that using this option with a low value can lead to a large number of file versions, which takes up a lot of storage space.
 wopi#:#wopi_crawler_cronjob_description#:#Updates the information of the connected WOPI service.
 wopi#:#wopi_crawler_cronjob_no_apps#:#No WOPI apps were found in the discovery.
 wopi#:#wopi_crawler_cronjob_not_activated#:#WOPI is not activated.
