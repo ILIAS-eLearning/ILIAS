@@ -3706,7 +3706,7 @@ common#:#check_languages#:#Check All Languages
 common#:#check_link#:#Weblink check
 common#:#check_link_desc#:#If enabled all external links in ILIAS learning modules will be checked if they are active.
 common#:#check_user_accounts#:#Check user accounts
-common#:#check_user_accounts_desc#:#If enabled, all users whose account expires will be informed by e-mail two weeks before. Furthermore all users which have not confirmed their account after a registration with e-mail confirmation will be deleted.
+common#:#check_user_accounts_desc#:#If enabled, all users whose account expires will be informed by e-mail two weeks before.
 common#:#check_web_resources#:#Check Weblinks
 common#:#check_web_resources_desc#:#If enabled all Weblinks will be checked if they are active.
 common#:#checked#:#Checked
@@ -5407,6 +5407,8 @@ common#:#refresh#:#Refresh
 common#:#refresh_languages#:#Refresh All Languages
 common#:#refuse#:#Refuse Request
 common#:#reg_account_confirmation_successful#:#Your user account has been activated.
+common#:#reg_delete_expired_pending_registrations#:#Delete Expired Pending Registrations
+common#:#reg_delete_expired_pending_registrations_desc#:#Deletes all ILIAS accounts that have not been confirmed after a registration with e-mail confirmation.
 common#:#reg_goto_parent_membership_info#:#Only members can access the target object.
 common#:#reg_mail_body_2_confirmation#:#This link is only valid for %s. After this period has passed, the link will expire and you will have to restart the registration process from the beginning.
 common#:#reg_mail_body_3_confirmation#:#If this e-mail means nothing to you, then it is possible that somebody else has entered your e-mail address either deliberately or accidentally, so please ignore this e-mail.
