@@ -22,7 +22,7 @@ use ILIAS\Data\ReferenceId;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\SimpleXMLDeserializer;
 use ILIAS\TestQuestionPool\ExportImport\Import\DetectLegacyImportStage;
-use ILIAS\TestQuestionPool\ExportImport\QuestionPoolImporter;
+use ILIAS\TestQuestionPool\ExportImport\Import\QuestionPoolImporter;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 
 class ilTestQuestionPoolImporter extends ilXmlImporter
