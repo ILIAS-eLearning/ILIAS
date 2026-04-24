@@ -20,6 +20,10 @@ declare(strict_types=1);
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
+use ILIAS\AccessControl\User\UserIdProviderProxy;
+use ILIAS\Database\PDO\External;
+use ILIAS\AccessControl\Tree\RepositoryTreeAccessProxy;
+use ILIAS\AccessControl\Object\ObjectDataAccessProxy;
 
 /**
  * class ilRbacSystem
@@ -46,28 +50,21 @@ class ilRbacSystem
     // Cache outcomes of calls to checkAccessOfuser
     private static array $_checkAccessOfUserCache = [];
 
-    protected ilObjUser $user;
-    protected ilDBInterface $db;
-    protected ilRbacReview $review;
-    protected ilObjectDataCache $objectDataCache;
-    protected ilTree $tree;
-    protected GlobalHttpState $http;
-    protected Factory $refinery;
+
 
     /**
      * Constructor
      */
-    protected function __construct()
+    public function __construct(
+        private UserIdProviderProxy $user,
+        private External $db,
+        private ilRbacReview $review,
+        private RepositoryTreeAccessProxy $tree,
+        private GlobalHttpState $http,
+        private Factory $refinery,
+        private ObjectDataAccessProxy $objectDataCache
+    )
     {
-        global $DIC;
-
-        $this->user = $DIC->user();
-        $this->db = $DIC->database();
-        $this->review = $DIC->rbac()->review();
-        $this->objectDataCache = $DIC['ilObjDataCache'];
-        $this->tree = $DIC->repositoryTree();
-        $this->http = $DIC->http();
-        $this->refinery = $DIC->refinery();
     }
 
     public static function getInstance(): ilRbacSystem
