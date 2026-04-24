@@ -108,6 +108,25 @@ export default class DataTable {
       const col = cols[i];
       col.addEventListener('change', () => this.selectionChange());
     }
+
+    this.#checkForStateChanges();
+  }
+
+  #checkForStateChanges()
+  {
+    const checkboxes = Array.from(this.#component.querySelectorAll('input.c-table-data__row-selector'));
+    const updateState = () => {
+      const allSame = Array.from(new Set(checkboxes.map(n => n.checked)));
+      if (allSame.length === 1) {
+        this.selectAll(allSame[0]);
+      } else {
+        const d = document.querySelector('.c-table-data__header__rowselection.state');
+        d.classList.remove('all');
+        d.classList.remove('none');
+        d.classList.add('some');
+      }
+    };
+    checkboxes.forEach(n => n.addEventListener('input', updateState));
   }
 
   /**
@@ -178,8 +197,7 @@ export default class DataTable {
    */
   selectAll(state) {
     const cols = this.#table.getElementsByClassName('c-table-data__row-selector');
-    const selectorAll = this.#table.getElementsByClassName('c-table-data__selection_all').item(0);
-    const selectorNone = this.#table.getElementsByClassName('c-table-data__selection_none').item(0);
+    const header = this.#table.querySelector('.c-table-data__header__rowselection.state');
 
     for (let i = 0; i < cols.length; i += 1) {
       const col = cols[i];
@@ -191,13 +209,14 @@ export default class DataTable {
       }
     }
 
+    header.classList.remove('some');
     if (state) {
-      selectorAll.style.display = 'none';
-      selectorNone.style.display = 'block';
+      header.classList.add('none');
+      header.classList.remove('all');
     } else {
       this.#disableRowSelection(false);
-      selectorAll.style.display = 'block';
-      selectorNone.style.display = 'none';
+      header.classList.add('all');
+      header.classList.remove('none');
     }
   }
 
