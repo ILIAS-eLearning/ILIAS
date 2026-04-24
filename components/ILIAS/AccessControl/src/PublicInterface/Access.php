@@ -18,11 +18,15 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\AccessControl\PublicInterface;
+
 /**
- * Combines all available interfaces which can be called via global $ilAccess.
+ * Public access-handling service of the AccessControl component.
  *
- * @deprecated Use {@see \ILIAS\AccessControl\PublicInterface\Access} instead.
+ * Replaces the legacy `\ilAccessHandler`. Currently aggregates the same
+ * sub-interfaces as `\ilAccessHandler` did — once OrgUnits is refactored
+ * the OrgUnit-related parts will move out.
  */
-interface ilAccessHandler extends ilRBACAccessHandler, ilOrgUnitPositionAccessHandler, ilOrgUnitPositionAndRBACAccessHandler
+interface Access extends \ilAccessHandler
 {
 }

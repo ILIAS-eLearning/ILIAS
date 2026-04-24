@@ -37,6 +37,9 @@ use ILIAS\FileUpload\FileUpload as FileUploadInterface;
 use ILIAS\Environment\Configuration\Instance\IliasIni;
 use ILIAS\Environment\Configuration\Instance\ClientIni;
 use ILIAS\StaticURL\StaticURLServices;
+use ILIAS\Logging\Services as LoggingServices;
+use ILIAS\AccessControl\PublicInterface\Access;
+use ILIAS\AccessControl\PublicInterface\RBAC;
 
 class Init implements Component\Component
 {
@@ -162,6 +165,9 @@ class Init implements Component\Component
                 $use[IliasIni::class],
                 $use[ClientIni::class],
                 $use[StaticURLServices::class],
+                $use[RBAC::class],
+                $use[Access::class],
+                $use[LoggingServices::class],
             );
     }
 }

@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Logging\Services;
+
 /**
  * class ilRbacReview
  *  Contains Review functions of core Rbac.
@@ -46,18 +48,17 @@ class ilRbacReview
     protected static array $is_assigned_cache = [];
 
     protected ilLogger $log;
-    protected ilDBInterface $db;
 
     /**
      * Constructor
      * @access    public
      */
-    public function __construct()
+    public function __construct(
+        protected ilDBInterface $db,
+        Services $logging
+    )
     {
-        global $DIC;
-
-        $this->log = ilLoggerFactory::getLogger('ac');
-        $this->db = $DIC->database();
+        $this->log = $logging->getLogger('ac');
     }
 
     /**

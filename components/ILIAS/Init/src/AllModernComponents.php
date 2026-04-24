@@ -38,6 +38,11 @@ use ILIAS\FileUpload\FileUpload as FileUploadInterface;
 use ILIAS\Environment\Configuration\Instance\IliasIni;
 use ILIAS\Environment\Configuration\Instance\ClientIni;
 use ILIAS\StaticURL\StaticURLServices;
+use ILIAS\Logging\Services as LoggingServices;
+use ILIAS\AccessControl\PublicInterface\Access;
+use ILIAS\AccessControl\PublicInterface\RBAC;
+use ILIAS\AccessControl\PublicInterface\DefaultRBAC;
+use ILIAS\DI\RBACServices;
 
 /**
  * This entry point can be thought of as a list of all modern components.
@@ -135,6 +140,9 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         protected IliasIni $ilias_ini,
         protected ClientIni $client_ini,
         protected StaticURLServices $static_url,
+        protected RBAC $rbac,
+        protected Access $access_control,
+        protected LoggingServices $logging,
     ) {
     }
 
@@ -234,6 +242,20 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         $DIC['ilClientIniFile'] = fn(): \ilIniFile => new \ilIniFile('', $this->client_ini);
         $DIC['static_url'] = fn(): StaticURLServices => $this->static_url;
         $DIC['static_url.uri_builder'] = fn(): \ILIAS\StaticURL\Builder\URIBuilder => $this->static_url->builder();
+        $rbac = $this->rbac;
+        \assert($rbac instanceof DefaultRBAC);
+
+        $DIC[RBACServices::class] = fn(): RBACServices => new RBACServices(
+            $rbac->review(),
+            $rbac->system(),
+            $rbac->admin(),
+        );
+        $DIC['rbacsystem'] = fn(): \ilRbacSystem => $rbac->system();
+        $DIC['rbacreview'] = fn(): \ilRbacReview => $rbac->review();
+        $DIC['rbacadmin'] = fn(): \ilRbacAdmin => $rbac->admin();
+        $DIC['ilAccess'] = fn(): Access => $this->access_control;
+        $DIC['logging.services'] = fn(): LoggingServices => $this->logging;
+        $DIC['ilLoggerFactory'] = fn(): LoggingServices => $this->logging;
     }
 
     public function getName(): string

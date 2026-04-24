@@ -18,11 +18,15 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\AccessControl\PublicInterface;
+
 /**
- * Combines all available interfaces which can be called via global $ilAccess.
+ * Public RBAC service of the AccessControl component.
  *
- * @deprecated Use {@see \ILIAS\AccessControl\PublicInterface\Access} instead.
+ * Intentionally empty — the implementation {@see DefaultRBAC} exposes the
+ * concrete legacy classes (\ilRbacReview, \ilRbacSystem, \ilRbacAdmin) until
+ * a proper public surface is designed.
  */
-interface ilAccessHandler extends ilRBACAccessHandler, ilOrgUnitPositionAccessHandler, ilOrgUnitPositionAndRBACAccessHandler
+interface RBAC
 {
 }

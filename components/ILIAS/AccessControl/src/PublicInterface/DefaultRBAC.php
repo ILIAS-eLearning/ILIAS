@@ -16,14 +16,17 @@
  *
  *********************************************************************/
 
-namespace ILIAS\DI;
+declare(strict_types=1);
+
+namespace ILIAS\AccessControl\PublicInterface;
 
 /**
- * @deprecated use ilAccess whenever possible. The legacy ilRbacReview, ilRbacSystem
- *             and ilRbacAdmin will become internal only in the near future. They are
- *             currently only exposed because many places use them via global $DIC.
+ * Default {@see RBAC} implementation.
+ *
+ * Holds the three legacy RBAC services and exposes them via getters. This is
+ * what `AllModernComponents` plugs into the legacy `$DIC` offsets.
  */
-class RBACServices
+class DefaultRBAC implements RBAC
 {
     public function __construct(
         private readonly \ilRbacReview $review,
@@ -32,27 +35,18 @@ class RBACServices
     ) {
     }
 
-    /**
-     * Get the interface to the RBAC system.
-     */
+    public function review(): \ilRbacReview
+    {
+        return $this->review;
+    }
+
     public function system(): \ilRbacSystem
     {
         return $this->system;
     }
 
-    /**
-     * Get the interface to insert relations into the RBAC system.
-     */
     public function admin(): \ilRbacAdmin
     {
         return $this->admin;
-    }
-
-    /**
-     * Get the interface to query the RBAC system.
-     */
-    public function review(): \ilRbacReview
-    {
-        return $this->review;
     }
 }

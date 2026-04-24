@@ -54,7 +54,7 @@ class Container extends \Pimple\Container
      */
     public function rbac(): \ILIAS\DI\RBACServices
     {
-        return new RBACServices($this);
+        return $this[RBACServices::class];
     }
 
     /**
