@@ -38,7 +38,7 @@ class PortfolioHtmlExport
     protected \ilCOPageHTMLExport $co_page_html_export;
     protected \ilLanguage $lng;
     protected array $tabs = [];
-    protected array  $export_material = [];
+    protected array $export_material = [];
     protected string $active_tab = "";
     protected bool $include_comments = false;
     protected bool $print_version = false;
@@ -96,7 +96,7 @@ class PortfolioHtmlExport
     /**
      * Build export file
      */
-    public function exportHtml():void
+    public function exportHtml(): void
     {
         $this->init();
 
@@ -202,7 +202,7 @@ class PortfolioHtmlExport
     ): \ilGlobalPageTemplate {
         global $DIC;
 
-        $this->global_screen->layout()->meta()->reset();
+        $this->export_util->resetGlobalScreen();
 
         $location_stylesheet = \ilUtil::getStyleSheetLocation();
         $this->global_screen->layout()->meta()->addCss($location_stylesheet);
@@ -288,18 +288,18 @@ class PortfolioHtmlExport
         return $ep_tpl->get();
     }
 
-    public function deliver(string $filename, bool $remove = false) : void
+    public function deliver(string $filename, bool $remove = false): void
     {
         $this->collector->deliver($filename);
         $this->delete();
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $this->collector->delete();
     }
 
-    public function getFilePath() : string
+    public function getFilePath(): string
     {
         return $this->collector->getFilePath();
     }
