@@ -1082,11 +1082,56 @@ class ilDBPdoMySQLFieldDefinition implements FieldDefinition
             $field['type'] = $type;
         }
 
-        if (!method_exists($this, "get{$type}Declaration")) {
+        if (!array_key_exists($type, $this->getValidTypes())) {
             throw new ilDatabaseException('type not defined: ' . $type);
         }
 
-        return $this->{"get{$type}Declaration"}($name, $field);
+        $quoted_name = $db->quoteIdentifier($name, true);
+        $type_declaration = $this->getTypeDeclaration($field);
+
+        if ($type === 'clob' || $type === 'blob') {
+            $notnull = empty($field['notnull']) ? '' : ' NOT NULL';
+            return $quoted_name . ' ' . $type_declaration . $notnull;
+        }
+
+        return $quoted_name . ' ' . $type_declaration . $this->getDeclarationOptions($field);
+    }
+
+    private function getDeclarationOptions(array $field): string
+    {
+        $charset = empty($field['charset']) ? '' : ' ' . $field['charset'];
+
+        $default = '';
+        if (array_key_exists('default', $field)) {
+            if ($field['default'] === '') {
+                $db = $this->getDBInstance();
+
+                if (empty($field['notnull'])) {
+                    $field['default'] = null;
+                } else {
+                    $valid_default_values = $this->getValidTypes();
+                    $field['default'] = $valid_default_values[$field['type']];
+                }
+                if ($field['default'] === ''
+                    && isset($db->options['portability'])
+                    && ($db->options['portability'] & 32)
+                ) {
+                    $field['default'] = ' ';
+                }
+            }
+            $default = ' DEFAULT ' . $this->quote($field['default'], $field['type']);
+        } elseif (empty($field['notnull'])) {
+            $default = ' DEFAULT NULL';
+        }
+
+        $notnull = empty($field['notnull']) ? '' : ' NOT NULL';
+        if (isset($field['notnull']) && $field['notnull'] === false) {
+            $notnull = ' NULL';
+        }
+
+        $collation = empty($field['collation']) ? '' : ' ' . $field['collation'];
+
+        return $charset . $default . $notnull . $collation;
     }
 
     /**
