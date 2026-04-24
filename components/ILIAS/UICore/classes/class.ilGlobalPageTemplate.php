@@ -27,6 +27,7 @@ use ILIAS\UI\NotImplementedException;
 use ILIAS\UICore\PageContentProvider;
 use ILIAS\Accessibility\GlobalPageHandler;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Logging\Services as LoggingServices;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -36,7 +37,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
 {
     protected HTTPServices $http;
     protected Services $gs;
-    protected ilLoggerFactory $logger_factory;
+    protected LoggingServices $logger_factory;
     protected UIServices $ui;
     protected PageContentGUI $legacy_content_template;
     protected ilLanguage $lng;
