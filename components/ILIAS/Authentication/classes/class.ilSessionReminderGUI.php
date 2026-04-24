@@ -24,7 +24,7 @@ readonly class ilSessionReminderGUI
         private ilSessionReminder $session_reminder,
         private ilGlobalTemplateInterface $page,
         private ilLanguage $lng,
-        private ilLoggerFactory $logger_factory
+        private \ILIAS\Logging\Services $logger_factory
     ) {
     }
 
