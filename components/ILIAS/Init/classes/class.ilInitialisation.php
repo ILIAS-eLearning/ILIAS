@@ -962,10 +962,6 @@ class ilInitialisation
             return;
         }
 
-        $GLOBALS["DIC"]["ilLoggerFactory"] = function ($c) {
-            return ilLoggerFactory::getInstance();
-        };
-
         self::$already_initialized = true;
 
         self::initCore();
