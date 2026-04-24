@@ -28,6 +28,8 @@ use ILIAS\StaticURL\Context;
 use ILIAS\StaticURL\Builder\StandardURIBuilder;
 use ILIAS\StaticURL\Response\MaybeCanHandlerAfterLogin;
 use ILIAS\StaticURL\Response\CannotReach;
+use ILIAS\StaticURL\Response\CannotHandle;
+use ILIAS\StaticURL\Session\SessionStore;
 use ILIAS\StaticURL\StaticURLConfig;
 
 /**
@@ -41,7 +43,8 @@ class HandlerService
     public function __construct(
         private RequestBuilder $request_builder,
         private Context $context,
-        private array $handler_instances
+        private array $handler_instances,
+        private SessionStore $session_store
     ) {
         $this->response_factory = new Factory($context);
         // check handlers
@@ -97,7 +100,8 @@ class HandlerService
             throw new \InvalidArgumentException('No handler found for namespace ' . $request->getNamespace());
         }
         $response = $handler->handle($request, $this->context, $this->response_factory);
-        if (!$response->targetCanBeReached()) {
+
+        if ($response instanceof CannotHandle) {
             $http->saveResponse(
                 $http->response()->withStatus(404),
             );
@@ -122,12 +126,7 @@ class HandlerService
                 $full_uri = $this->appendUnknownParameters($this->context, $full_uri); // Read the comment below
                 break;
             case $response instanceof CannotReach:
-                $this->context->mainTemplate()->setOnScreenMessage(
-                    'failure',
-                    $this->context->lng()->txt('permission_denied'),
-                    true
-                );
-                $full_uri = $base_uri . '/index.php';
+                $full_uri = $this->buildCannotReachRedirect($base_uri, $request);
                 break;
             default:
                 // Perform Redirect
@@ -150,6 +149,47 @@ class HandlerService
         );
         $http->sendResponse();
         $http->close();
+    }
+
+    /**
+     * Builds the redirect target for a {@see CannotReach} response.
+     *
+     * If the Request carries a ReferenceId, the repository tree is walked
+     * upwards until a parent the user can read is found; in that case
+     * {@see \ILIAS\StaticURL\Session\SessionStore} is populated with
+     * `pending_goto` so the parent course/group registration flow can show
+     * the `reg_goto_parent_membership_info` message and offer the join
+     * action. If no accessible parent is found (or the Request carries no
+     * ReferenceId), the user is redirected to their Starting Point /
+     * Dashboard.
+     */
+    private function buildCannotReachRedirect(URI $base_uri, Request $request): string
+    {
+        $target_ref_id = $request->getReferenceId()?->toInt() ?? 0;
+        $fallback_ref_id = $target_ref_id > 0
+            ? $this->context->findFirstAccessibleParentRefId($target_ref_id)
+            : null;
+
+        if ($fallback_ref_id !== null) {
+            $this->session_store->set(
+                'pending_goto',
+                'goto.php?target=' . $request->getNamespace() . '_' . $target_ref_id
+            );
+            $this->context->mainTemplate()->setOnScreenMessage(
+                'info',
+                $this->context->lng()->txt('reg_goto_parent_membership_info'),
+                true
+            );
+            return $base_uri . '/ilias.php?baseClass=ilRepositoryGUI&ref_id=' . $fallback_ref_id;
+        }
+
+        $this->context->mainTemplate()->setOnScreenMessage(
+            'failure',
+            $this->context->lng()->txt('permission_denied'),
+            true
+        );
+
+        return $base_uri . '/' . ltrim(\ilUserUtil::getStartingPointAsUrl(), '/');
     }
 
     /**
