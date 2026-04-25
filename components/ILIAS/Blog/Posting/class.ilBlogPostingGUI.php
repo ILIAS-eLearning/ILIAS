@@ -389,7 +389,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             $cnt_note_users = $this->notes->domain()->getUserCount(
                 $this->getBlogPosting()->getParentId(),
                 $this->getBlogPosting()->getId(),
-                "wpg"
+                "blp"
             );
             $dtpl->setVariable(
                 "TXT_NUMBER_USERS_NOTES_OR_COMMENTS",
