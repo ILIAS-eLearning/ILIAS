@@ -880,8 +880,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     public function export(
         bool $a_with_comments = false
     ): void {
-        $zip = $this->buildExportFile($a_with_comments);
-        ilFileDelivery::deliverFileLegacy($zip->getFilePath(), $this->object->getTitle() . ".zip", '', false, true);
+        $export = $this->buildExportFile($a_with_comments);
+        ilFileDelivery::deliverFileLegacy($export->getFilePath(), $this->object->getTitle() . ".zip", '', false, false, false);
+        $export->delete();
     }
 
 
