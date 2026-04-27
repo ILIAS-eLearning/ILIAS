@@ -1,16 +1,13 @@
-<form method="post" name="samllogin" class="form-horizontal preventDoubleSubmission">
-	<div class="form-horizontal">
-		<div class="ilFormHeader">
-			<h3 class="ilHeader">{LOGIN_TO_ILIAS_VIA_SAML}</h3>
-		</div>
-		<div class="form-group row">
-			<div class="col-sm-12">{TXT_SAML_LOGIN_INFO_TXT}</div>
-		</div>
-		<div class="ilFormFooter row clearfix">
-			<div class="col-sm-6">&nbsp;</div>
-			<div class="col-sm-6 ilFormCmds">
-				<a href="{SAML_SCRIPT_URL}" class="submit btn btn-default">{TXT_LOGIN}</a>
+<div class="c-form c-form--horizontal">
+	<div class="c-input">
+		<h2 class="ilHeader">{LOGIN_TO_ILIAS_VIA_SAML}</h2>
+		<div class="c-field-section">
+			<p>{TXT_SAML_LOGIN_INFO_TXT}</p>
+			<div class="c-form__footer">
+				<div class="c-form__actions">
+					<a href="{SAML_SCRIPT_URL}" class="submit btn btn-default preventDoubleSubmission">{TXT_LOGIN}</a>
+				</div>
 			</div>
 		</div>
 	</div>
-</form>
+</div>
