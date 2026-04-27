@@ -29,6 +29,9 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\StageResult;
  */
 class DetectLegacyImportStage implements ImportStage
 {
+    public const string LEGACY_QTI_FILE = 'legacy_qti_file';
+    public const string LEGACY_XML_FILE = 'legacy_xml_file';
+
     public function getIdentifier(): string
     {
         return 'detect_legacy_import';
@@ -46,7 +49,7 @@ class DetectLegacyImportStage implements ImportStage
 
     public function process(ImportContext $context): StageResult
     {
-        $import_base_dir = $context->get('import_base_dir');
+        $import_base_dir = $context->get(UploadValidationStage::IMPORT_BASE_DIR);
         $import_name = basename($import_base_dir);
 
         $xml_file = $import_base_dir . DIRECTORY_SEPARATOR . $import_name . '.xml';
@@ -57,13 +60,13 @@ class DetectLegacyImportStage implements ImportStage
         }
 
         return StageResult::advance(
-            $context->with('qti_file', $qti_file)
-                ->with('xml_file', $xml_file)
+            $context->with(self::LEGACY_QTI_FILE, $qti_file)
+                ->with(self::LEGACY_XML_FILE, $xml_file)
         );
     }
 
     public static function isLegacyImport(ImportContext $context): bool
     {
-        return $context->has('qti_file') && $context->has('xml_file');
+        return $context->has(self::LEGACY_QTI_FILE) && $context->has(self::LEGACY_XML_FILE);
     }
 }

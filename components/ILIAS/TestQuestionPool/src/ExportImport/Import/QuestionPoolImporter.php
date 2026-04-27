@@ -118,6 +118,15 @@ class QuestionPoolImporter
         return $context;
     }
 
+    /**
+     * Finalize the import after all dependencies have been imported.
+     * It will replace the old question ids with the new question ids in the question pages.
+     */
+    public function finalize(ilImportMapping $mapping): void
+    {
+        $this->questions_importer->finalizeQuestionPages($mapping);
+    }
+
     protected function importQuestionPool(
         array $normalized,
         Transformations $transformations,

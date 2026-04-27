@@ -55,7 +55,7 @@ class SimpleXMLSerializer implements Serializer
      *
      * @throws \LogicException if a document has already been started
      */
-    private function createDocument(string $comment): void
+    public function createDocument(string $comment): void
     {
         if ($this->has_document) {
             throw new \LogicException('XML document already started');

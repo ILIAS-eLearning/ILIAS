@@ -35,6 +35,11 @@ use ilManifestParser;
  */
 class UploadValidationStage implements ImportStage
 {
+    public const string FILE_TO_IMPORT = 'file_to_import';
+    public const string COMPONENT_IMPORT_FILE = 'component_import_file';
+    public const string IMPORT_BASE_DIR = 'import_base_dir';
+    public const string INSTALL_ID = 'install_id';
+
     private const string IMPORT_TEMP_DIR = CLIENT_DATA_DIR . DIRECTORY_SEPARATOR . 'temp';
 
     public function __construct(
@@ -61,7 +66,7 @@ class UploadValidationStage implements ImportStage
 
     public function process(ImportContext $context): StageResult
     {
-        $file_to_import = $context->get('file_to_import');
+        $file_to_import = $context->get(self::FILE_TO_IMPORT);
         if (
             $file_to_import === null
             || !is_file($file_to_import)
@@ -88,14 +93,14 @@ class UploadValidationStage implements ImportStage
         }
 
         return StageResult::advance(
-            $context->with('import_file', $import_base_dir . DIRECTORY_SEPARATOR . $export_file['path'])
-            ->with('import_base_dir', $import_base_dir)
-            ->with('install_id', $manifest->getInstallId())
+            $context->with(self::COMPONENT_IMPORT_FILE, $import_base_dir . DIRECTORY_SEPARATOR . $export_file['path'])
+            ->with(self::IMPORT_BASE_DIR, $import_base_dir)
+            ->with(self::INSTALL_ID, $manifest->getInstallId())
         );
     }
 
     public static function getInstallId(ImportContext $context): int
     {
-        return intval($context->get('install_id'));
+        return intval($context->get(self::INSTALL_ID));
     }
 }
