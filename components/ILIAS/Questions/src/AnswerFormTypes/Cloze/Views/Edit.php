@@ -20,10 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Views;
 
+use ILIAS\Questions\AnswerForm\Capabilities\Marking\Marking;
 use ILIAS\Questions\AnswerForm\Views\Edit as EditViewInterface;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Factory as PropertiesFactory;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\ClozeText\Factory as ClozeTextFactory;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Edit as EditGaps;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gap;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Definitions\ForImmediateStorage;
@@ -74,7 +76,8 @@ class Edit implements EditViewInterface
         $sub_action = $environment->getSubAction();
 
         $combinations = $environment->getAnswerFormProperties()->getCombinations();
-        if ($combinations->areCombinationsEnabled()) {
+        if ($environment->isCapabilityRequired(Marking::class)
+            && $combinations->areCombinationsEnabled()) {
             $combinations->getEditView()->addCombinationsSubTab($environment);
         }
 
@@ -108,9 +111,17 @@ class Edit implements EditViewInterface
     public function other(
         Environment $environment
     ): Async|Viewable|Properties {
-        return $environment
+        $from_other = $environment
             ->getAnswerFormProperties()
             ->getCombinations()->getEditView()->show($environment);
+
+        if ($from_other === null) {
+            return $this->edit(
+                $environment->withDefaultSubAction()
+            );
+        }
+
+        return $from_other;
     }
 
     #[\Override]
@@ -282,9 +293,7 @@ class Edit implements EditViewInterface
                             $environment->getAnswerFormProperties(),
                             $carry
                         )->buildBasicEditingInputs(
-                            $environment->getLanguage(),
-                            $environment->getUIFactory()->input()->field(),
-                            $environment->getRefinery(),
+                            $environment,
                             $this->properties_factory,
                             $this->cloze_text_factory,
                             $add_legacy_cloze_text_to_input

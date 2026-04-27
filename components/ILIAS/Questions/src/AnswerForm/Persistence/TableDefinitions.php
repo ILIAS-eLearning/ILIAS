@@ -22,10 +22,18 @@ namespace ILIAS\Questions\AnswerForm\Persistence;
 
 use ILIAS\Questions\Persistence\Column;
 use ILIAS\Questions\Persistence\Query;
+use ILIAS\Questions\Persistence\TableSubNameSpace;
 
 interface TableDefinitions
 {
+    public function getTableSubNameSpace(): TableSubNameSpace;
+
     public function completeQuestionQuery(
+        Query $query,
+        ?Column $base_table_id_column
+    ): Query;
+
+    public function completeResponseQuery(
         Query $query,
         ?Column $base_table_id_column
     ): Query;

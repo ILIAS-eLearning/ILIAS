@@ -23,6 +23,7 @@ namespace ILIAS\Questions\Setup;
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableTypes;
 use ILIAS\Questions\AnswerForm\Capabilities\SuggestedLearningContent\TableTypes as SuggestedContentTableTypes;
 use ILIAS\Questions\AnswerForm\Capabilities\Feedback\TableTypes as FeedbackTableTypes;
+use ILIAS\Questions\Attempt\TableTypes as AttemptTableTypes;
 use ILIAS\Questions\Question\Persistence\TableTypes as QuestionTableTypes;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Database\FieldDefinition;
@@ -32,7 +33,7 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
     protected \ilDBInterface $db;
 
     public function __construct(
-        private readonly TableNameBuilder $basic_table_name_builder
+        private readonly TableNameBuilder $basic_table_names_builder
     ) {
     }
 
@@ -45,7 +46,7 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_1(): void
     {
-        $table_name = $this->basic_table_name_builder->getTableNameFor(
+        $table_name = $this->basic_table_names_builder->getTableNameFor(
             QuestionTableTypes::Questions
         );
         if (!$this->db->tableExists($table_name)) {
@@ -105,7 +106,7 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_2(): void
     {
-        $table_name = $this->basic_table_name_builder->getTableNameFor(
+        $table_name = $this->basic_table_names_builder->getTableNameFor(
             AnswerFormGenericTableTypes::AnswerForms
         );
         if (!$this->db->tableExists($table_name)) {
@@ -161,7 +162,7 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_3(): void
     {
-        $table_name = $this->basic_table_name_builder->getTableNameFor(
+        $table_name = $this->basic_table_names_builder->getTableNameFor(
             QuestionTableTypes::Responses
         );
         if (!$this->db->tableExists($table_name)) {
@@ -171,9 +172,19 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
                     'length' => 64,
                     'notnull' => true
                 ],
+                'attempt_id' => [
+                    'type' => FieldDefinition::T_TEXT,
+                    'length' => 64,
+                    'notnull' => true
+                ],
                 'question_id' => [
                     'type' => FieldDefinition::T_TEXT,
                     'length' => 64,
+                    'notnull' => true
+                ],
+                'create_timestamp' => [
+                    'type' => FieldDefinition::T_INTEGER,
+                    'length' => 8,
                     'notnull' => true
                 ],
                 'reached_points' => [
@@ -194,7 +205,7 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_4(): void
     {
-        $table_name = $this->basic_table_name_builder->getTableNameFor(
+        $table_name = $this->basic_table_names_builder->getTableNameFor(
             QuestionTableTypes::Linking
         );
         if (!$this->db->tableExists($table_name)) {
@@ -228,7 +239,7 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_5(): void
     {
-        $table_name = $this->basic_table_name_builder->getTableNameFor(
+        $table_name = $this->basic_table_names_builder->getTableNameFor(
             QuestionTableTypes::MigrationsTable
         );
         if (!$this->db->tableExists($table_name)) {
@@ -264,7 +275,7 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_6(): void
     {
-        $table_name = $this->basic_table_name_builder->getTableNameFor(
+        $table_name = $this->basic_table_names_builder->getTableNameFor(
             FeedbackTableTypes::FeedbackGeneric
         );
         if (!$this->db->tableExists($table_name)) {
@@ -306,7 +317,7 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_7(): void
     {
-        $table_name = $this->basic_table_name_builder->getTableNameFor(
+        $table_name = $this->basic_table_names_builder->getTableNameFor(
             FeedbackTableTypes::FeedbackSpecific
         );
         if (!$this->db->tableExists($table_name)) {
@@ -352,23 +363,15 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
             );
         }
 
-        if (!$this->db->indexExistsByFields(
-            $table_name,
-            [
-                'answer_form_id',
-                'parent_id',
-                'condition'
-            ]
-        )) {
-            $this->db->manipulate(
-                "CREATE UNIQUE INDEX apc_idx ON {$table_name} (`answer_form_id`, `parent_id`, `condition`)"
-            );
-        }
+        $this->db->manipulate(
+            "CREATE UNIQUE INDEX IF NOT EXISTS apc_idx ON {$table_name}" . PHP_EOL
+            . '(`answer_form_id`, `parent_id`, `condition`)'
+        );
     }
 
     public function step_8(): void
     {
-        $table_name = $this->basic_table_name_builder->getTableNameFor(
+        $table_name = $this->basic_table_names_builder->getTableNameFor(
             SuggestedContentTableTypes::SuggestedLearningContent
         );
         if (!$this->db->tableExists($table_name)) {
@@ -398,6 +401,65 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
                 $table_name,
                 ['answer_form_id'],
             );
+        }
+    }
+
+    public function step_9(): void
+    {
+        $table_name = $this->basic_table_names_builder->getTableNameFor(
+            AttemptTableTypes::AttemptData
+        );
+        if (!$this->db->tableExists($table_name)) {
+            $this->db->createTable($table_name, [
+                'id' => [
+                    'type' => FieldDefinition::T_TEXT,
+                    'length' => 64,
+                    'notnull' => true
+                ],
+                'shuffler_seed' => [
+                    'type' => FieldDefinition::T_INTEGER,
+                    'length' => 8,
+                    'notnull' => true
+                ],
+            ]);
+        }
+
+        if (!$this->db->primaryExistsByFields($table_name, ['id'])) {
+            $this->db->addPrimaryKey($table_name, ['id']);
+        }
+    }
+
+    public function step_10(): void
+    {
+        $table_name = $this->basic_table_names_builder->getTableNameFor(
+            AttemptTableTypes::AdditionalAttemptData
+        );
+        if (!$this->db->tableExists($table_name)) {
+            $this->db->createTable($table_name, [
+                'attempt_id' => [
+                    'type' => FieldDefinition::T_TEXT,
+                    'length' => 64,
+                    'notnull' => true
+                ],
+                'parent_id' => [
+                    'type' => FieldDefinition::T_TEXT,
+                    'length' => 64,
+                    'notnull' => true
+                ],
+                'data' => [
+                    'type' => FieldDefinition::T_TEXT,
+                    'length' => 4000,
+                    'notnull' => true
+                ],
+            ]);
+        }
+
+        if (!$this->db->primaryExistsByFields($table_name, ['attempt_id', 'parent_id'])) {
+            $this->db->addPrimaryKey($table_name, ['attempt_id', 'parent_id']);
+        }
+
+        if (!$this->db->indexExistsByFields($table_name, ['attempt_id'])) {
+            $this->db->addIndex($table_name, ['attempt_id'], 'aid');
         }
     }
 }

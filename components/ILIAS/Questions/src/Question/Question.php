@@ -21,16 +21,20 @@ declare(strict_types=1);
 namespace ILIAS\Questions\Question;
 
 use ILIAS\Questions\Administration\ConfigurationRepository;
+use ILIAS\Questions\AnswerForm\Definition as AnswerFormDefinition;
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableDefinitions;
 use ILIAS\Questions\AnswerForm\Properties as AnswerFormProperties;
+use ILIAS\Questions\Attempt\Attempt;
 use ILIAS\Questions\Question\Persistence\TableDefinitions as QuestionTableDefinitions;
 use ILIAS\Questions\Question\Persistence\TableTypes as QuestionTableTypes;
+use ILIAS\Questions\Persistence\Column;
 use ILIAS\Questions\Persistence\Delete;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\Update;
 use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Persistence\ManipulationType;
+use ILIAS\Questions\Persistence\Query;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Presentation\Definitions\DefaultEnvironment;
 use ILIAS\Questions\Presentation\Definitions\OverviewTableColumns;
@@ -38,6 +42,7 @@ use ILIAS\Questions\Question\Definitions\Lifecycle;
 use ILIAS\Questions\UserSettings\CreateModes;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Database\FieldDefinition;
+use ILIAS\Language\Language;
 use ILIAS\UI\Component\Link\Factory as LinkFactory;
 use ILIAS\UI\Component\Link\Standard as StandardLink;
 use ILIAS\UI\Component\Table\DataRowBuilder;
@@ -45,7 +50,7 @@ use ILIAS\UI\Component\Table\DataRow;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 
-class Question implements PublicQuestionInterface
+class Question
 {
     private ?CreateModes $create_mode = null;
     private bool $linking_information_updated = false;
@@ -205,11 +210,6 @@ class Question implements PublicQuestionInterface
         return $this->created;
     }
 
-    public function getAnswerFormProperties(): array
-    {
-        return $this->answer_forms;
-    }
-
     public function getAnswerFormPropertiesByIdString(
         string $form_id
     ): ?AnswerFormProperties {
@@ -260,27 +260,71 @@ class Question implements PublicQuestionInterface
         return $clone;
     }
 
+    public function getListOfContainedAnswerFormTypeLabels(
+        Language $lng
+    ): array {
+        return array_map(
+            fn(AnswerFormDefinition $v): string => $v->getLabel($lng),
+            $this->getListOfContainedAnswerFormTypes()
+        );
+    }
+
     public function getEditView(
-        ConfigurationRepository $configuration_repository,
         \ilObjUser $current_user,
         \ilCtrl $ctrl,
-        UIRenderer $ui_renderer
+        UIRenderer $ui_renderer,
+        ConfigurationRepository $configuration_repository,
+        array $required_capabilities
     ): Views\Edit {
+        if (!$this->supportsRequiredCapabilities($required_capabilities)) {
+            throw new \UnexpectedValueException(
+                "The Question does not support all required Capabilities."
+            );
+        }
+
         return new Views\Edit(
-            $configuration_repository,
             $current_user,
             $ctrl,
             $ui_renderer,
+            $configuration_repository,
+            $required_capabilities,
             $this
         );
     }
 
-    #[\Override]
     public function getParticipantView(
-        UIFactory $ui_factory
+        UIFactory $ui_factory,
+        array $required_capabilities,
+        ?Attempt $attempt_data,
+        bool $interactive = true,
+        bool $show_marks = false,
+        bool $show_correct_solution = false
     ): Views\Participant {
+        if (!$this->supportsRequiredCapabilities($required_capabilities)) {
+            throw new \UnexpectedValueException(
+                "The Question does not support all required Capabilities."
+            );
+        }
+
         return new Views\Participant(
-            $this
+            $ui_factory,
+            $required_capabilities,
+            $this,
+            $attempt_data,
+            $interactive,
+            $show_marks,
+            $show_correct_solution
+        );
+    }
+
+    public function initializeAttemptData(
+        Attempt $attempt
+    ): Attempt {
+        return array_reduce(
+            $this->answer_forms,
+            fn(Attempt $c, AnswerFormProperties $v): Attempt
+                => $v->getDefinition()->initializeAttemptData($c, $v),
+            $attempt
         );
     }
 
@@ -299,8 +343,13 @@ class Question implements PublicQuestionInterface
 
     public function toTableRow(
         DataRowBuilder $row_builder,
-        DefaultEnvironment $environment
-    ): DataRow {
+        DefaultEnvironment $environment,
+        array $required_capabilities
+    ): ?DataRow {
+        if (!$this->supportsRequiredCapabilities($required_capabilities)) {
+            return null;
+        }
+
         return $row_builder->buildDataRow(
             $this->id->toString(),
             [
@@ -315,21 +364,8 @@ class Question implements PublicQuestionInterface
                     ),
                     OverviewTableColumns::AnswerFormTypes->value => implode(
                         '<br>',
-                        array_reduce(
-                            $this->answer_forms,
-                            function (
-                                array $c,
-                                AnswerFormProperties $v
-                            ) use ($environment): array {
-                                $type_label = $v->getDefinition()->getLabel(
-                                    $environment->getLanguage()
-                                );
-                                if (!in_array($type_label, $c)) {
-                                    $c[] = $type_label;
-                                }
-                                return $c;
-                            },
-                            []
+                        $this->getListOfContainedAnswerFormTypeLabels(
+                            $environment->getLanguage()
                         )
                     )
             ]
@@ -359,32 +395,50 @@ class Question implements PublicQuestionInterface
     public function toDelete(
         Manipulate $manipulate,
         PersistenceFactory $persistence_factory,
-        QuestionTableDefinitions $question_tables_definitions
+        QuestionTableDefinitions $question_tables_definitions,
+        AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions
     ): Manipulate {
-        $table_name_builder = $manipulate->getTableNameBuilder(null);
+        $table_names_builder = $manipulate->getTableNameBuilder(null);
 
         return $this->addDeleteAnswerFormsStatementsToManipulate(
             $manipulate->withAdditionalStatement(
                 $this->buildDeleteQuestionStatement(
                     $persistence_factory,
                     $question_tables_definitions,
-                    $table_name_builder
+                    $table_names_builder
                 )
             )->withAdditionalStatement(
                 $this->buildDeleteLinkingStatement(
                     $persistence_factory,
                     $question_tables_definitions,
-                    $table_name_builder
+                    $table_names_builder
                 )
             )->withAdditionalStatement(
                 $this->buildDeleteMigrationStatement(
                     $persistence_factory,
                     $question_tables_definitions,
-                    $table_name_builder
+                    $table_names_builder
                 )
             ),
             $persistence_factory,
+            $answer_form_generic_table_definitions,
             $this->answer_forms
+        );
+    }
+
+    public function completeResponseQuery(
+        Query $query,
+        Column $base_table_id_column
+    ): Query {
+        return array_reduce(
+            $this->getListOfContainedAnswerFormTypes(),
+            fn(Query $c, AnswerFormDefinition $v): Query => $v
+                ->getTableDefinitions()
+                ->completeResponseQuery(
+                    $c,
+                    $base_table_id_column
+                ),
+            $query
         );
     }
 
@@ -438,7 +492,7 @@ class Question implements PublicQuestionInterface
         QuestionTableDefinitions $question_tables_definitions,
         AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions
     ): Manipulate {
-        $table_name_builder = $manipulate->getTableNameBuilder(null);
+        $table_names_builder = $manipulate->getTableNameBuilder(null);
 
         if ($this->linking_information_updated) {
             $manipulate = $manipulate
@@ -446,7 +500,7 @@ class Question implements PublicQuestionInterface
                     $this->buildUpdateLinkingStatement(
                         $persistence_factory,
                         $question_tables_definitions,
-                        $table_name_builder
+                        $table_names_builder
                     )
                 );
         }
@@ -456,7 +510,7 @@ class Question implements PublicQuestionInterface
                 $this->buildUpdateQuestionStatement(
                     $persistence_factory,
                     $question_tables_definitions,
-                    $table_name_builder
+                    $table_names_builder
                 )
             );
         }
@@ -466,7 +520,7 @@ class Question implements PublicQuestionInterface
                 $this->buildUpdatePageIdStatement(
                     $persistence_factory,
                     $question_tables_definitions,
-                    $table_name_builder
+                    $table_names_builder
                 )
             );
         }
@@ -475,6 +529,7 @@ class Question implements PublicQuestionInterface
             $manipulate = $this->addDeleteAnswerFormsStatementsToManipulate(
                 $manipulate,
                 $persistence_factory,
+                $answer_form_generic_table_definitions,
                 $this->deleted_answer_forms
             );
         }
@@ -521,6 +576,7 @@ class Question implements PublicQuestionInterface
     private function addDeleteAnswerFormsStatementsToManipulate(
         Manipulate $manipulate,
         PersistenceFactory $persistence_factory,
+        AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions,
         array $answer_forms_to_delete
     ): Manipulate {
         return array_reduce(
@@ -528,6 +584,7 @@ class Question implements PublicQuestionInterface
             fn(Manipulate $c, AnswerFormProperties $v): Manipulate => $v->toDelete(
                 $v->getTypeGenericProperties()->toDelete(
                     $persistence_factory,
+                    $answer_form_generic_table_definitions,
                     $c,
                 )
             ),
@@ -540,11 +597,11 @@ class Question implements PublicQuestionInterface
     private function buildInsertLinkingStatement(
         PersistenceFactory $persistence_factory,
         QuestionTableDefinitions $question_tables_definitions,
-        TableNameBuilder $table_name_builder
+        TableNameBuilder $table_names_builder
     ): Insert {
         return $persistence_factory->insert(
             $question_tables_definitions->getColumns(
-                $table_name_builder,
+                $table_names_builder,
                 QuestionTableTypes::Linking
             ),
             [
@@ -567,11 +624,11 @@ class Question implements PublicQuestionInterface
     private function buildInsertQuestionStatement(
         PersistenceFactory $persistence_factory,
         QuestionTableDefinitions $question_tables_definitions,
-        TableNameBuilder $table_name_builder
+        TableNameBuilder $table_names_builder
     ): Insert {
         return $persistence_factory->insert(
             $question_tables_definitions->getColumns(
-                $table_name_builder,
+                $table_names_builder,
                 QuestionTableTypes::Questions
             ),
             [
@@ -618,12 +675,12 @@ class Question implements PublicQuestionInterface
     private function buildUpdateLinkingStatement(
         PersistenceFactory $persistence_factory,
         QuestionTableDefinitions $question_tables_definitions,
-        TableNameBuilder $table_name_builder
+        TableNameBuilder $table_names_builder
     ): Update {
         $table_type = QuestionTableTypes::Linking;
         return $persistence_factory->update(
             $question_tables_definitions->getColumns(
-                $table_name_builder,
+                $table_names_builder,
                 $table_type,
                 [QuestionTableTypes::LINKING_TABLE_ID_COLUMN]
             ),
@@ -640,7 +697,7 @@ class Question implements PublicQuestionInterface
             [
                 $persistence_factory->where(
                     $question_tables_definitions->getIdColumn(
-                        $table_name_builder,
+                        $table_names_builder,
                         $table_type
                     ),
                     $persistence_factory->value(
@@ -655,12 +712,12 @@ class Question implements PublicQuestionInterface
     private function buildUpdateQuestionStatement(
         PersistenceFactory $persistence_factory,
         QuestionTableDefinitions $question_tables_definitions,
-        TableNameBuilder $table_name_builder
+        TableNameBuilder $table_names_builder
     ): Update {
         $table_type = QuestionTableTypes::Questions;
         return $persistence_factory->update(
             $question_tables_definitions->getColumns(
-                $table_name_builder,
+                $table_names_builder,
                 $table_type,
                 [
                     'id',
@@ -697,7 +754,7 @@ class Question implements PublicQuestionInterface
             [
                 $persistence_factory->where(
                     $question_tables_definitions->getIdColumn(
-                        $table_name_builder,
+                        $table_names_builder,
                         $table_type
                     ),
                     $persistence_factory->value(
@@ -712,18 +769,18 @@ class Question implements PublicQuestionInterface
     private function buildDeleteQuestionStatement(
         PersistenceFactory $persistence_factory,
         QuestionTableDefinitions $question_tables_definitions,
-        TableNameBuilder $table_name_builder
+        TableNameBuilder $table_names_builder
     ): Delete {
         $table_type = QuestionTableTypes::Questions;
         return $persistence_factory->delete(
             $persistence_factory->table(
-                $table_name_builder,
+                $table_names_builder,
                 $table_type
             ),
             [
                 $persistence_factory->where(
                     $question_tables_definitions->getIdColumn(
-                        $table_name_builder,
+                        $table_names_builder,
                         $table_type
                     ),
                     $persistence_factory->value(
@@ -738,18 +795,18 @@ class Question implements PublicQuestionInterface
     private function buildDeleteLinkingStatement(
         PersistenceFactory $persistence_factory,
         QuestionTableDefinitions $table_definitions,
-        TableNameBuilder $table_name_builder
+        TableNameBuilder $table_names_builder
     ): Delete {
         $table_type = QuestionTableTypes::Linking;
         return $persistence_factory->delete(
             $persistence_factory->table(
-                $table_name_builder,
+                $table_names_builder,
                 $table_type
             ),
             [
                 $persistence_factory->where(
                     $table_definitions->getIdColumn(
-                        $table_name_builder,
+                        $table_names_builder,
                         $table_type
                     ),
                     $persistence_factory->value(
@@ -768,18 +825,18 @@ class Question implements PublicQuestionInterface
     private function buildDeleteMigrationStatement(
         PersistenceFactory $persistence_factory,
         QuestionTableDefinitions $table_definitions,
-        TableNameBuilder $table_name_builder
+        TableNameBuilder $table_names_builder
     ): Delete {
         $table_type = QuestionTableTypes::MigrationsTable;
         return $persistence_factory->delete(
             $persistence_factory->table(
-                $table_name_builder,
+                $table_names_builder,
                 $table_type
             ),
             [
                 $persistence_factory->where(
                     $table_definitions->getIdColumn(
-                        $table_name_builder,
+                        $table_names_builder,
                         $table_type
                     ),
                     $persistence_factory->value(
@@ -798,21 +855,21 @@ class Question implements PublicQuestionInterface
     private function buildUpdatePageIdStatement(
         PersistenceFactory $persistence_factory,
         QuestionTableDefinitions $table_definitions,
-        TableNameBuilder $table_name_builder
+        TableNameBuilder $table_names_builder
     ): Update {
         $table_type = QuestionTableTypes::Questions;
         return $persistence_factory->update(
             [
                 $persistence_factory->column(
                     $persistence_factory->table(
-                        $table_name_builder,
+                        $table_names_builder,
                         $table_type
                     ),
                     'page_id'
                 ),
                 $persistence_factory->column(
                     $persistence_factory->table(
-                        $table_name_builder,
+                        $table_names_builder,
                         $table_type
                     ),
                     'last_update'
@@ -831,7 +888,7 @@ class Question implements PublicQuestionInterface
             [
                 $persistence_factory->where(
                     $table_definitions->getIdColumn(
-                        $table_name_builder,
+                        $table_names_builder,
                         $table_type
                     ),
                     $persistence_factory->value(
@@ -841,5 +898,37 @@ class Question implements PublicQuestionInterface
                 )
             ]
         );
+    }
+
+    private function getListOfContainedAnswerFormTypes(): array
+    {
+        return array_reduce(
+            $this->answer_forms,
+            function (
+                array $c,
+                AnswerFormProperties $v
+            ): array {
+                $definition = $v->getDefinition();
+                if (!array_key_exists($definition::class, $c)) {
+                    $c[$definition::class] = $definition;
+                }
+                return $c;
+            },
+            []
+        );
+    }
+
+    private function supportsRequiredCapabilities(
+        array $required_capabilities
+    ): bool {
+        foreach ($this->answer_forms as $property) {
+            foreach ($required_capabilities as $capability) {
+                if (!$capability->isAvailableFor($property)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

@@ -20,94 +20,51 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Question\Views;
 
+use ILIAS\Questions\Attempt\Attempt;
+use ILIAS\Questions\Presentation\Layout\Viewable;
 use ILIAS\Questions\Question\Question;
+use ILIAS\Data\UUID\Uuid;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Component\Legacy\Content as LegacyContent;
 
-class Participant
+class Participant implements Viewable
 {
-    private bool $async = false;
-    private bool $interactive = true;
-    private bool $show_marks = false;
-    private bool $show_correct_solution = false;
-
     public function __construct(
-        private readonly Question $question
+        private readonly UIFactory $ui_factory,
+        private readonly array $required_capabilities,
+        private readonly Question $question,
+        private readonly ?Attempt $attempt_data,
+        private readonly bool $interactive,
+        private readonly bool $show_marks,
+        private readonly bool $show_correct_solution
     ) {
     }
 
-    public function withIsAsync(
-        bool $async
-    ): self {
-        foreach ($this->question->getAnswerFormProperties() as $form) {
-            if (!$form->getType()->isAsyncPresentationAvailable()) {
-                throw \Exception('This QuestionType has no async presentation.');
-            }
-        }
-        $clone = clone $this;
-        $clone->async = $async;
-        return $clone;
+    public function getAttemptId(): ?Uuid
+    {
+        return $this->attempt_data?->getIdentifier();
     }
 
-    public function withIsInteractive(
-        bool $interactive
-    ): self {
-        $clone = clone $this;
-        $clone->interactive = $interactive;
-        return $clone;
-    }
-
-    public function withShowMarks(
-        bool $show_marks
-    ): self {
-        foreach ($this->question->getAnswerFormProperties() as $form) {
-            if (!$form->getType()->isMarkable()) {
-                throw \Exception('This QuestionType cannot be marked.');
-            }
-        }
-
-        $clone = clone $this;
-        $clone->show_marks = $show_marks;
-        return $clone;
-    }
-
-    public function withShowCorrectSolution(
-        bool $show_correct_solution
-    ): self {
-        foreach ($this->question->getAnswerFormProperties() as $form) {
-            if (!$form->getType()->isMarkable()) {
-                throw \Exception('This QuestionType cannot be marked.');
-            }
-        }
-
-        $clone = clone $this;
-        $clone->show_correct_solution = $show_correct_solution;
-        return $clone;
-    }
-
-    public function get(
-        int $obj_id
-    ): string {
+    #[\Override]
+    public function getUI(): LegacyContent
+    {
         $tpl = new \ilTemplate(
-            'tpl.qpl_question_preview.html',
+            'tpl.qsts_question_presentation.html',
             true,
             true,
-            'components/ILIAS/TestQuestionPool'
-        );
-
-        $tpl->setVariable(
-            'PREVIEW_FORMACTION',
-            ''
+            'components/ILIAS/Questions'
         );
 
         $question_page = new \QstsQuestionPageGUI(
             $this->question,
-            $obj_id
-        );
+            $this->question->getParentObjId()
+        )->withAttemptData($this->attempt_data);
         $question_page->setPresentationTitle($this->question->getTitle());
 
         $tpl->setVariable(
             'QUESTION_OUTPUT',
             $question_page->presentation()
         );
-        return $tpl->get();
+        return $this->ui_factory->legacy()->content($tpl->get());
     }
 }

@@ -20,12 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations;
 
+use ILIAS\Questions\AnswerForm\Capabilities\Marking\Marking;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Async;
 use ILIAS\Questions\Presentation\Layout\Viewable;
 
-class EditCombinations
+class Edit
 {
     private const string SUB_ACTION_EDIT_COMBINATIONS_OVERVIEW = 'eco';
 
@@ -47,7 +48,11 @@ class EditCombinations
 
     public function show(
         Environment $environment
-    ): Async|Viewable|Properties {
+    ): Async|Viewable|Properties|null {
+        if (!$environment->isCapabilityRequired(Marking::class)) {
+            return null;
+        }
+
         $environment->addEditAnswerFormSubTab(
             self::SUB_ACTION_EDIT_COMBINATIONS_OVERVIEW,
             self::LANG_VAR_EDIT_COMBINATIONS

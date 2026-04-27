@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Layout;
 
-use ILIAS\Questions\AnswerFormTypes\Cloze\Views\EditGaps;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Edit as EditGaps;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;

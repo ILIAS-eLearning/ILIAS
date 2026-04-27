@@ -97,7 +97,7 @@ class Combination
         Uuid $answer_form_id,
         PersistenceFactory $persistence_factory,
         TableDefinitions $table_definitions,
-        TableNameBuilder $table_name_builder,
+        TableNameBuilder $table_names_builder,
         Manipulate $manipulate
     ): Manipulate {
         if ($this->matching_values === []) {
@@ -112,14 +112,14 @@ class Combination
                 $v->toStorage(
                     $table_definitions,
                     $persistence_factory,
-                    $table_name_builder
+                    $table_names_builder
                 )
             ),
             $manipulate->withAdditionalStatement(
                 $this->buildReplace(
                     $table_definitions,
                     $persistence_factory,
-                    $table_name_builder,
+                    $table_names_builder,
                     $answer_form_id
                 )
             )
@@ -129,20 +129,20 @@ class Combination
     public function toDelete(
         PersistenceFactory $persistence_factory,
         TableDefinitions $table_definitions,
-        TableNameBuilder $table_name_builder,
+        TableNameBuilder $table_names_builder,
         Manipulate $manipulate
     ): Manipulate {
         return $manipulate->withAdditionalStatement(
             $this->buildDelete(
                 $table_definitions,
                 $persistence_factory,
-                $table_name_builder
+                $table_names_builder
             )
         )->withAdditionalStatement(
             $this->buildDeleteForLinkedValues(
                 $table_definitions,
                 $persistence_factory,
-                $table_name_builder
+                $table_names_builder
             )
         );
     }
@@ -150,12 +150,12 @@ class Combination
     private function buildReplace(
         TableDefinitions $table_definitions,
         PersistenceFactory $persistence_factory,
-        TableNameBuilder $table_name_builder,
+        TableNameBuilder $table_names_builder,
         Uuid $answer_form_id
     ): Replace {
         return $persistence_factory->replace(
             $table_definitions->getColumns(
-                $table_name_builder,
+                $table_names_builder,
                 AnswerFormSpecificTableTypes::Additional,
                 $table_definitions->getCombinationsTableIdentifier()
             ),
@@ -170,19 +170,19 @@ class Combination
     private function buildDelete(
         TableDefinitions $table_definitions,
         PersistenceFactory $persistence_factory,
-        TableNameBuilder $table_name_builder
+        TableNameBuilder $table_names_builder
     ): Delete {
         $table_definition = AnswerFormSpecificTableTypes::Additional;
         return $persistence_factory->delete(
             $persistence_factory->table(
-                $table_name_builder,
+                $table_names_builder,
                 $table_definition,
                 $table_definitions->getCombinationsTableIdentifier()
             ),
             [
                 $persistence_factory->where(
                     $table_definitions->getIdColumn(
-                        $table_name_builder,
+                        $table_names_builder,
                         $table_definition,
                         $table_definitions->getCombinationsTableIdentifier()
                     ),
@@ -198,19 +198,19 @@ class Combination
     private function buildDeleteForLinkedValues(
         TableDefinitions $table_definitions,
         PersistenceFactory $persistence_factory,
-        TableNameBuilder $table_name_builder
+        TableNameBuilder $table_names_builder
     ): Delete {
         $table_definition = AnswerFormSpecificTableTypes::Additional;
         return $persistence_factory->delete(
             $persistence_factory->table(
-                $table_name_builder,
+                $table_names_builder,
                 $table_definition,
                 $table_definitions->getCombinationToAnswerOptionsTableIdentifier()
             ),
             [
                 $persistence_factory->where(
                     $table_definitions->getIdColumn(
-                        $table_name_builder,
+                        $table_names_builder,
                         $table_definition,
                         $table_definitions->getCombinationToAnswerOptionsTableIdentifier()
                     ),

@@ -68,11 +68,11 @@ class Factory
     }
 
     public function table(
-        TableNameBuilder $table_name_builder,
+        TableNameBuilder $table_names_builder,
         TableTypes $table,
         string $sub_table_identifier = ''
     ): Table {
-        return new Table($table_name_builder, $table, $sub_table_identifier);
+        return new Table($table_names_builder, $table, $sub_table_identifier);
     }
 
     public function column(

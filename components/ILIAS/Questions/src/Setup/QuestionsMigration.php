@@ -59,7 +59,7 @@ class QuestionsMigration implements Migration
      */
     public function __construct(
         private readonly PersistenceFactory $persistence_factory,
-        private readonly TableNameBuilder $question_table_name_builder,
+        private readonly TableNameBuilder $question_table_names_builder,
         private readonly QuestionTableDefinitions $question_table_definitions,
         private readonly AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions,
         array $answer_form_migrations,
@@ -185,7 +185,7 @@ class QuestionsMigration implements Migration
     #[\Override]
     public function getRemainingAmountOfSteps(): int
     {
-        $migration_table_name = $this->question_table_name_builder
+        $migration_table_name = $this->question_table_names_builder
             ->getTableNameFor(QuestionTableTypes::MigrationsTable);
 
         $query = $this->db->query(
@@ -211,7 +211,7 @@ class QuestionsMigration implements Migration
 
     private function fetchValidRecord(): ?\stdClass
     {
-        $migration_table_name = $this->question_table_name_builder
+        $migration_table_name = $this->question_table_names_builder
             ->getTableNameFor(QuestionTableTypes::MigrationsTable);
 
         $query = $this->db->query(
@@ -275,9 +275,9 @@ class QuestionsMigration implements Migration
 
     private function loadAlreadyMigratedQuestions(): void
     {
-        $migration_table_name = $this->question_table_name_builder
+        $migration_table_name = $this->question_table_names_builder
             ->getTableNameFor(QuestionTableTypes::MigrationsTable);
-        $linking_table_name = $this->question_table_name_builder
+        $linking_table_name = $this->question_table_names_builder
             ->getTableNameFor(QuestionTableTypes::Linking);
 
         $query = $this->db->query(
@@ -331,7 +331,7 @@ class QuestionsMigration implements Migration
     ): Insert {
         return $this->persistence_factory->insert(
             $this->question_table_definitions->getColumns(
-                $this->question_table_name_builder,
+                $this->question_table_names_builder,
                 QuestionTableTypes::Linking
             ),
             [
@@ -362,7 +362,7 @@ class QuestionsMigration implements Migration
     ): Insert {
         return $this->persistence_factory->insert(
             $this->question_table_definitions->getColumns(
-                $this->question_table_name_builder,
+                $this->question_table_names_builder,
                 QuestionTableTypes::Questions
             ),
             [
@@ -412,7 +412,7 @@ class QuestionsMigration implements Migration
     ): Insert {
         return $this->persistence_factory->insert(
             $this->persistence_factory->getColumns(
-                $this->question_table_name_builder,
+                $this->question_table_names_builder,
                 QuestionTableTypes::MigrationsTable
             ),
             [

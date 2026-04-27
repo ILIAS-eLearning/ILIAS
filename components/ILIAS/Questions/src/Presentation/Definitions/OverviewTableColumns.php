@@ -50,7 +50,7 @@ enum OverviewTableColumns: string
         ];
     }
 
-    public static function getFilderInputs(
+    public static function getFilterInputs(
         Language $lng,
         FieldFactory $field_factory,
         array $answer_form_types_array_for_select
@@ -68,11 +68,11 @@ enum OverviewTableColumns: string
 
     public function getDatabaseColumn(
         PersistenceFactory $persistence_factory,
-        TableNameBuilder $table_name_builder
+        TableNameBuilder $table_names_builder
     ): ?Column {
         return $persistence_factory->column(
             $persistence_factory->table(
-                $table_name_builder,
+                $table_names_builder,
                 match($this) {
                     self::Title => TableTypes::Questions,
                     self::AnswerFormTypes => AnswerFormGenericTableTypes::AnswerForms

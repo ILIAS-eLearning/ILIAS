@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\AnswerFormTypes\Cloze\Views;
+namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions;
 
 use ILIAS\Questions\Presentation\Definitions\Actor;
 use ILIAS\Questions\Presentation\Definitions\Environment;
@@ -31,7 +31,7 @@ use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 
-class UploadAnswerOptions implements UploadHandler, Actor
+class Upload implements UploadHandler, Actor
 {
     private const string SUB_ACTION_UPLOAD = 'uhu';
     private const string SUB_ACTION_REMOVE = 'uhr';

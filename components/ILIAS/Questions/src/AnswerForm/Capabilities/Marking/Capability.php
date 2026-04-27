@@ -20,12 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerForm\Capabilities\Marking;
 
-use ILIAS\Questions\AnswerForm\Capabilities\AdditionalFormStepAction;
 use ILIAS\Questions\AnswerForm\Capabilities\Capability as CapabilityInterface;
+use ILIAS\Questions\AnswerForm\Capabilities\AdditionalFormStepAction;
 use ILIAS\Questions\AnswerForm\Properties;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Tools\InputsBuilderSession;
-use ILIAS\Questions\Response\Response;
 
 class Capability implements CapabilityInterface
 {
@@ -74,6 +73,19 @@ class Capability implements CapabilityInterface
                     ->getCapability(Marking::class)
                     ->getEditFormInputsBuilder($v)
         );
+    }
+
+    #[\Override]
+    public function providesRenderer(): bool
+    {
+        return false;
+    }
+
+    #[\Override]
+    public function getRenderer(
+        Properties $answer_form_properties
+    ): null {
+        return null;
     }
 
     #[\Override]

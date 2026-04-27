@@ -22,6 +22,7 @@ namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
 use ILIAS\Questions\AnswerForm\Capabilities\Feedback\Types as FeedbackTypes;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
+use ILIAS\Questions\Attempt\Attempt;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Definitions\Range;
 use ILIAS\Data\UUID\Factory as UuidFactory;
@@ -43,7 +44,8 @@ abstract class Type
     abstract public function getIdentifier(): string;
 
     abstract public function getParticipantViewLegacyInput(
-        Gap $gap
+        Gap $gap,
+        ?Attempt $attempt
     ): string;
 
     abstract public function getEditAnswerOptionsInputs(

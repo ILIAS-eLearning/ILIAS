@@ -23,6 +23,7 @@ namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
+use ILIAS\Questions\Attempt\Attempt;
 use ILIAS\Questions\Definitions\TextMatchingOptions;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Replace;
@@ -262,7 +263,7 @@ class Gap
         ?Replace $replace,
         TableDefinitions $table_definitions,
         PersistenceFactory $persistence_factory,
-        TableNameBuilder $table_name_builder
+        TableNameBuilder $table_names_builder
     ): Replace {
         if ($this->type === null) {
             throw new \UnexpectedValueException(
@@ -275,7 +276,7 @@ class Gap
         if ($replace === null) {
             return $persistence_factory->replace(
                 $table_definitions->getColumns(
-                    $table_name_builder,
+                    $table_names_builder,
                     $table_type
                 ),
                 $this->buildValuesForGapReplace($persistence_factory)
@@ -307,9 +308,13 @@ class Gap
         return self::GAP_PLACEHOLDER_NAME . '_' . $this->getAnswerInputId()->toString();
     }
 
-    public function buildParticipantViewLegacyInput(): string
-    {
-        return $this->type->getParticipantViewLegacyInput($this);
+    public function buildParticipantViewLegacyInput(
+        ?Attempt $attempt_data
+    ): string {
+        return $this->type->getParticipantViewLegacyInput(
+            $this,
+            $attempt_data
+        );
     }
 
     public function getEditAnswerOptionsSection(

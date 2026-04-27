@@ -34,19 +34,4 @@ class Join
         return "{$this->type->value} JOIN {$this->right->getTableName()} "
         . "ON {$this->left->getColumnString()} = {$this->right->getColumnString()}";
     }
-
-    public function getLeft(): Column
-    {
-        return $this->left;
-    }
-
-    public function getRight(): Column
-    {
-        return $this->right;
-    }
-
-    public function getType(): JoinType
-    {
-        return $this->type;
-    }
 }

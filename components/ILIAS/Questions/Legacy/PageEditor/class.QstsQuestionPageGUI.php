@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Questions\Attempt\Attempt;
+use ILIAS\Questions\Presentation\Layout\Viewable;
 use ILIAS\Questions\Presentation\Views\Edit;
 use ILIAS\Questions\Question\Question;
 use ILIAS\Data\URI;
@@ -34,8 +36,7 @@ class QstsQuestionPageGUI extends ilPageObjectGUI
 
     public function __construct(
         Question $question,
-        int $obj_id,
-        ?Edit $edit_view = null
+        int $obj_id
     ) {
         parent::__construct('qsts', $question->getPageId());
 
@@ -43,16 +44,36 @@ class QstsQuestionPageGUI extends ilPageObjectGUI
 
         $this->obj->setQuestion($question);
         $this->obj->setParentId($obj_id);
-
-        if ($edit_view !== null) {
-            $this->obj->setEditView($edit_view);
-        }
     }
 
     #[\Override]
     public function finishEditing(): void
     {
         $this->ctrl->redirectToURL($this->return_uri->__toString());
+    }
+
+    public function withEditView(
+        Edit $edit_view
+    ): self {
+        $clone = clone $this;
+        $clone->obj->setEditView($edit_view);
+        return $clone;
+    }
+
+    public function withParticipantView(
+        Viewable $participant_view
+    ): self {
+        $clone = clone $this;
+        $clone->obj->setParticipantView($participant_view);
+        return $clone;
+    }
+
+    public function withAttemptData(
+        ?Attempt $attempt
+    ): self {
+        $clone = clone $this;
+        $clone->obj->setAttemptData($attempt);
+        return $clone;
     }
 
     public function withReturnUri(

@@ -71,7 +71,7 @@ class ActionWithTab
         \ilTabsGUI $tabs_gui
     ): void {
         $tabs_gui->activateTab(
-            $this->buildIdentifier()
+            $this->getIdentifier()
         );
     }
 }

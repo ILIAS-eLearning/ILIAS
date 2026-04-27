@@ -50,6 +50,24 @@ class AnswerOptions
         $this->answer_options_awarding_points = $this->buildAnswerOptionsAwardingPointsFromAnswerOptions($answer_options);
     }
 
+    public function getMaxAvailablePoints(): float
+    {
+        return array_reduce(
+            $this->answer_options_awarding_points,
+            function (?float $c, AnswerOption $v): ?float {
+                if ($v->getAvailablePoints() === null) {
+                    return $c;
+                }
+
+                if ($c === null) {
+                    return $v->getAvailablePoints();
+                }
+
+                return max($c, $v->getAvailablePoints());
+            }
+        );
+    }
+
     public function isIncomplete(): bool
     {
         return $this->is_incomplete
@@ -250,7 +268,7 @@ class AnswerOptions
         ?Replace $replace,
         TableDefinitions $table_definitions,
         PersistenceFactory $persistence_factory,
-        TableNameBuilder $table_name_builder
+        TableNameBuilder $table_names_builder
     ): Replace {
         return array_reduce(
             $this->answer_options,
@@ -258,7 +276,7 @@ class AnswerOptions
                 $persistence_factory,
                 $c,
                 $table_definitions->getColumns(
-                    $table_name_builder,
+                    $table_names_builder,
                     AnswerFormSpecificTableTypes::AnswerOptions
                 )
             ),
@@ -269,20 +287,20 @@ class AnswerOptions
     public function buildDelete(
         TableDefinitions $table_definitions,
         PersistenceFactory $persistence_factory,
-        TableNameBuilder $table_name_builder
+        TableNameBuilder $table_names_builder
     ): Delete {
         $table_type = AnswerFormSpecificTableTypes::AnswerOptions;
 
         return $persistence_factory->delete(
             $table_type->getTable(
                 $persistence_factory,
-                $table_name_builder
+                $table_names_builder
             ),
             [
                 $persistence_factory->where(
                     $table_definitions->getForeignKeyColumn(
                         $persistence_factory,
-                        $table_name_builder,
+                        $table_names_builder,
                         $table_type
                     ),
                     $persistence_factory->value(

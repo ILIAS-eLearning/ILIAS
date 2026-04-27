@@ -29,6 +29,7 @@ use ILIAS\Questions\UserSettings\CreateModes;
 use ILIAS\Language\Language;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Panel\Standard as StandardPanel;
+use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 
@@ -37,9 +38,11 @@ class Edit
     private const string CMD_SAVE_QUESTION = 'sq';
 
     public function __construct(
-        private readonly ConfigurationRepository $configuration_repository,
         private readonly \ilObjUser $current_user,
         private readonly \ilCtrl $ctrl,
+        private readonly UIRenderer $ui_renderer,
+        private readonly ConfigurationRepository $configuration_repository,
+        private readonly array $required_capabilities,
         private readonly Question $question
     ) {
 
@@ -58,7 +61,6 @@ class Edit
 
     public function edit(
         DefaultEnvironment $environment,
-        Participant $participant_view
     ): EditForm|Question {
         return match ($environment->getSubAction()) {
             self::CMD_SAVE_QUESTION => $this->processBasicPropertiesEditingForm(
@@ -66,7 +68,7 @@ class Edit
             ),
             default => $this->buildBasicPropertiesEditingForm($environment)
                 ->withContentAfterForm(
-                    $this->buildPreviewPanel($environment, $participant_view)
+                    $this->buildPreviewPanel($environment)
                 )
         };
     }
@@ -222,14 +224,19 @@ class Edit
     }
 
     private function buildPreviewPanel(
-        DefaultEnvironment $environment,
-        Participant $participant_view
+        DefaultEnvironment $environment
     ): StandardPanel {
         $environment->preserveParametersForPageEditorCmds();
         return $environment->getUIFactory()->panel()->standard(
             $environment->getLanguage()->txt('preview'),
             $environment->getUIFactory()->legacy()->content(
-                $participant_view->get($environment->getObjId())
+                $this->ui_renderer->render(
+                    $this->question->getParticipantView(
+                        $environment->getUIFactory(),
+                        $this->required_capabilities,
+                        null
+                    )->getUI()
+                )
             )
         )->withActions(
             $environment->getUIFactory()->dropdown()->standard([

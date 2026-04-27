@@ -98,9 +98,9 @@ class Combinations
         return false;
     }
 
-    public function getEditView(): EditCombinations
+    public function getEditView(): Edit
     {
-        return new EditCombinations(
+        return new Edit(
             $this->combinations_factory
         );
     }
@@ -108,7 +108,7 @@ class Combinations
     public function toStorage(
         Manipulate $manipulate,
         TableDefinitions $table_definitions,
-        TableNameBuilder $table_name_builder
+        TableNameBuilder $table_names_builder
     ): Manipulate {
         return array_reduce(
             $this->combinations,
@@ -116,7 +116,7 @@ class Combinations
                 $this->answer_form_id,
                 $this->persistence_factory,
                 $table_definitions,
-                $table_name_builder,
+                $table_names_builder,
                 $c
             ),
             array_reduce(
@@ -124,7 +124,7 @@ class Combinations
                 fn(Manipulate $c, Combination $v): Manipulate => $v->toDelete(
                     $this->persistence_factory,
                     $table_definitions,
-                    $table_name_builder,
+                    $table_names_builder,
                     $manipulate
                 ),
                 $manipulate
@@ -135,7 +135,7 @@ class Combinations
     public function toDelete(
         Manipulate $manipulate,
         TableDefinitions $table_definitions,
-        TableNameBuilder $table_name_builder
+        TableNameBuilder $table_names_builder
     ): Manipulate {
         return array_reduce(
             $this->combinations,
@@ -143,7 +143,7 @@ class Combinations
                 $v->toDelete(
                     $this->persistence_factory,
                     $table_definitions,
-                    $table_name_builder,
+                    $table_names_builder,
                     $manipulate
                 )
             ),

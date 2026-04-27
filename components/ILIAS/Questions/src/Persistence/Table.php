@@ -23,7 +23,7 @@ namespace ILIAS\Questions\Persistence;
 class Table
 {
     public function __construct(
-        private readonly TableNameBuilder $table_name_builder,
+        private readonly TableNameBuilder $table_names_builder,
         private readonly TableTypes $table,
         private readonly string $sub_table_identifier
     ) {
@@ -31,7 +31,7 @@ class Table
 
     public function getName(): string
     {
-        return $this->table_name_builder->getTableNameFor(
+        return $this->table_names_builder->getTableNameFor(
             $this->table,
             $this->sub_table_identifier
         );

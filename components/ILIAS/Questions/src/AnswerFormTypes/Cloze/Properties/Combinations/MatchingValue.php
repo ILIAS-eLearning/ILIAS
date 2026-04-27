@@ -76,7 +76,7 @@ class MatchingValue
     public function toStorage(
         TableDefinitions $table_definitions,
         PersistenceFactory $persistence_factory,
-        TableNameBuilder $table_name_builder
+        TableNameBuilder $table_names_builder
     ): Replace {
         if ($this->answer_option === null) {
             throw new \UnexpectedValueException(
@@ -87,7 +87,7 @@ class MatchingValue
         $table_type = AnswerFormSpecificTableTypes::Additional;
         return $persistence_factory->replace(
             $table_definitions->getColumns(
-                $table_name_builder,
+                $table_names_builder,
                 $table_type,
                 $table_definitions->getCombinationToAnswerOptionsTableIdentifier()
             ),

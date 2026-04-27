@@ -22,12 +22,14 @@ namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption;
+use ILIAS\Questions\Attempt\Attempt;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Random\Seed\GivenSeed;
+use ILIAS\Refinery\Random\Seed\RandomSeed;
 use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Factory as UIFactory;
 
@@ -51,7 +53,8 @@ class Select extends Type
 
     #[\Override]
     public function getParticipantViewLegacyInput(
-        Gap $gap
+        Gap $gap,
+        ?Attempt $attempt_data
     ): string {
         $gaptemplate = new \ilTemplate(
             'tpl.il_as_qpl_cloze_question_gap_select.html',
@@ -60,11 +63,12 @@ class Select extends Type
             'components/ILIAS/TestQuestionPool'
         );
 
-        $shuffler = $gap->getShuffleAnswerOptions()
-            ? $this->refinery->random()->shuffleArray(new GivenSeed(4))
-            : $this->refinery->random()->dontShuffle();
-
-        foreach ($gap->getAnswerOptions()->buildArrayForSelectInput($shuffler) as $key => $answer_option) {
+        foreach ($gap->getAnswerOptions()->buildArrayForSelectInput(
+            $this->buildShuffler(
+                $gap,
+                $attempt_data
+            )
+        ) as $key => $answer_option) {
             $gaptemplate->setCurrentBlock('select_gap_option');
             $gaptemplate->setVariable(
                 'SELECT_GAP_VALUE',
@@ -151,6 +155,25 @@ class Select extends Type
                     $vs['answer_options']
                 )
             )->withShuffleAnswerOptions($vs['shuffle_answer_options'])
+        );
+    }
+
+    private function buildShuffler(
+        Gap $gap,
+        Attempt $attempt_data
+    ): Transformation {
+        if (!$gap->getShuffleAnswerOptions()) {
+            return $this->refinery->random()->dontShuffle();
+        }
+
+        return $this->refinery->random()->shuffleArray(
+            $attempt_data === null
+                ? new RandomSeed()
+                : new GivenSeed(
+                    $this->refinery->kindlyTo()->int()->transform(
+                        $attempt_data->getAdditionalDataFor($gap->getAnswerInputId())
+                    )
+                )
         );
     }
 }

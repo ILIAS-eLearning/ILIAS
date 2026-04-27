@@ -41,7 +41,7 @@ class AnswerOption
         private string $text_value = '',
         private ?float $lower_limit = null,
         private ?float $upper_limit = null,
-        private float $available_points = 0.0
+        private ?float $available_points = null
     ) {
     }
 
@@ -102,13 +102,13 @@ class AnswerOption
         return $clone;
     }
 
-    public function getAvailablePoints(): float
+    public function getAvailablePoints(): ?float
     {
         return $this->available_points;
     }
 
     public function withAvailablePoints(
-        float $available_points
+        ?float $available_points
     ): self {
         $clone = clone $this;
         $clone->available_points = $available_points;

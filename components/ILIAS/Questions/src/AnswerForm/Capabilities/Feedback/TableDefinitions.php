@@ -62,11 +62,11 @@ class TableDefinitions
     }
 
     public function getColumns(
-        TableNameBuilder $table_name_builder,
+        TableNameBuilder $table_names_builder,
         TableTypesInterface $table_type,
     ): array {
         $table = $this->persistence_factory->table(
-            $table_name_builder,
+            $table_names_builder,
             $table_type
         );
 
@@ -83,11 +83,11 @@ class TableDefinitions
     }
 
     public function getIdColumn(
-        TableNameBuilder $table_name_builder,
+        TableNameBuilder $table_names_builder,
         TableTypesInterface $table_type
     ): Column {
         $table = $this->persistence_factory->table(
-            $table_name_builder,
+            $table_names_builder,
             $table_type
         );
 
@@ -104,11 +104,11 @@ class TableDefinitions
     }
 
     public function getForeignKeyColumn(
-        TableNameBuilder $table_name_builder,
+        TableNameBuilder $table_names_builder,
         TableTypesInterface $table_type
     ): Column {
         $table = $this->persistence_factory->table(
-            $table_name_builder,
+            $table_names_builder,
             $table_type
         );
 
@@ -128,19 +128,19 @@ class TableDefinitions
         Query $query,
         ?Column $base_table_id_column
     ): Query {
-        $table_name_builder = $query->getTableNameBuilder(null);
+        $table_names_builder = $query->getTableNameBuilder(null);
 
         return $query->withAdditionalSelect(
             $this->persistence_factory->select(
                 $this->getColumns(
-                    $table_name_builder,
+                    $table_names_builder,
                     TableTypes::FeedbackGeneric
                 )
             )
         )->withAdditionalSelect(
             $this->persistence_factory->select(
                 $this->getColumns(
-                    $table_name_builder,
+                    $table_names_builder,
                     TableTypes::FeedbackSpecific
                 )
             )
@@ -148,7 +148,7 @@ class TableDefinitions
             $this->persistence_factory->join(
                 $base_table_id_column,
                 $this->getForeignKeyColumn(
-                    $table_name_builder,
+                    $table_names_builder,
                     TableTypes::FeedbackSpecific
                 ),
                 JoinType::Left

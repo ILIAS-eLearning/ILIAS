@@ -45,7 +45,7 @@ class Agent implements SetupAgent
      */
     public function __construct(
         private readonly PersistenceFactory $persistence_factory,
-        private readonly TableNameBuilder $question_table_name_builder,
+        private readonly TableNameBuilder $question_table_names_builder,
         private readonly array $answer_form_migrations,
         private readonly array $capability_migrations
     ) {
@@ -70,7 +70,7 @@ class Agent implements SetupAgent
             false,
             new \ilDatabaseUpdateStepsExecutedObjective(
                 new OverarchingQuestionTables(
-                    $this->question_table_name_builder
+                    $this->question_table_names_builder
                 )
             ),
             new \ilDatabaseUpdateStepsExecutedObjective(
@@ -90,6 +90,9 @@ class Agent implements SetupAgent
                     )
                 )
             ),
+            new \ilDatabaseUpdateStepsExecutedObjective(
+                new TempTables()
+            ),
             new \ilTreeAdminNodeAddedObjective(
                 'qsts',
                 'Questions'
@@ -107,7 +110,7 @@ class Agent implements SetupAgent
             new \ilDatabaseUpdateStepsMetricsCollectedObjective(
                 $storage,
                 new OverarchingQuestionTables(
-                    $this->question_table_name_builder
+                    $this->question_table_names_builder
                 )
             ),
             new \ilDatabaseUpdateStepsMetricsCollectedObjective(
@@ -127,7 +130,7 @@ class Agent implements SetupAgent
         return [
             new QuestionsMigration(
                 $this->persistence_factory,
-                $this->question_table_name_builder,
+                $this->question_table_names_builder,
                 new QuestionTableDefinitions(
                     $this->persistence_factory
                 ),

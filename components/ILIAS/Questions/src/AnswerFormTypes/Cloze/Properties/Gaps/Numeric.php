@@ -22,6 +22,7 @@ namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption;
+use ILIAS\Questions\Attempt\Attempt;
 use ILIAS\Questions\Definitions\Range;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Data\UUID\Factory as UuidFactory;
@@ -53,7 +54,8 @@ class Numeric extends Type
 
     #[\Override]
     public function getParticipantViewLegacyInput(
-        Gap $gap
+        Gap $gap,
+        ?Attempt $attempt_data
     ): string {
         $gaptemplate = new \ilTemplate(
             'tpl.il_as_qpl_cloze_question_gap_numeric.html',
