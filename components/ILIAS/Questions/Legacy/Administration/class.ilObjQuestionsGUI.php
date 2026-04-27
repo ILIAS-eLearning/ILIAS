@@ -23,9 +23,9 @@ use ILIAS\Questions\Administration\ConfigurationRepository;
 use ILIAS\Questions\AnswerForm\Capabilities\Feedback\Feedback;
 use ILIAS\Questions\AnswerForm\Capabilities\SuggestedLearningContent\SuggestedLearningContent;
 use ILIAS\Questions\AnswerForm\Capabilities\Marking\Marking;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\UploadAnswerOptionsGUI;
 use ILIAS\Questions\Legacy\LocalDIC;
 use ILIAS\Questions\Presentation\Views\Edit;
+use ILIAS\Questions\PublicInterface;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\URI;
 
@@ -42,11 +42,15 @@ class ilObjQuestionsGUI extends ilObjectGUI
     private const string TAB_IDENTIFIER_UNITS = 'units';
     private const string TAB_IDENTIFIER_PERMISSIONS = 'perm_settings';
 
+    private const string SUB_TAB_IDENTIFIER_EDIT_QUESTIONS = 'edit';
+    private const string SUB_TAB_IDENTIFIER_PREVIEW_QUESTIONS = 'preview';
+
     private readonly UnitsRepository $units_repository;
     private readonly Edit $edit_view;
     private readonly ConfigurationRepository $configuration_repository;
 
-    private DataFactory $data_factory;
+    private readonly ilHelpGUI $help;
+    private readonly DataFactory $data_factory;
 
     public function __construct(
         $a_data,
@@ -55,21 +59,22 @@ class ilObjQuestionsGUI extends ilObjectGUI
         bool $a_prepare_output = true
     ) {
         global $DIC;
+        $this->help = $DIC['ilHelp'];
         $this->data_factory = new DataFactory();
 
+        $this->type = 'qsts';
+
+        parent::__construct($a_data, $a_id, $a_call_by_reference, false);
+
         $local_dic = LocalDIC::dic();
-        $this->units_repository = $local_dic[UnitsRepository::class];
-        $this->edit_view = $local_dic[Edit::class]
+        $this->edit_view = $local_dic[PublicInterface::class]
+            ->getEditView($this->object->getId())
             ->withRequiredCapabilities([
                 Feedback::class,
                 SuggestedLearningContent::class,
                 Marking::class
             ]);
         $this->configuration_repository = $local_dic[ConfigurationRepository::class];
-
-        $this->type = 'qsts';
-
-        parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 
         $this->lng->loadLanguageModule('assessment');
         $this->lng->loadLanguageModule('qsts');
@@ -86,10 +91,6 @@ class ilObjQuestionsGUI extends ilObjectGUI
         $this->prepareOutput();
 
         switch ($next_class) {
-            case strtolower(UploadAnswerOptionsGUI::class):
-                $this->ctrl->forwardCommand(new UploadAnswerOptionsGUI());
-                break;
-
             case strtolower(ilPermissionGUI::class):
                 $this->tabs_gui->activateTab(self::TAB_IDENTIFIER_PERMISSIONS);
                 $this->ctrl->forwardCommand(new \ilPermissionGUI($this));
@@ -97,9 +98,7 @@ class ilObjQuestionsGUI extends ilObjectGUI
 
             case strtolower(QstsQuestionPageGUI::class):
                 $this->edit_view->forwardPageCmds(
-                    $this->tpl,
                     $this->buildEditQuestionsBaseUri(),
-                    $this->obj_id,
                     $this->ref_id
                 );
                 break;
@@ -120,19 +119,48 @@ class ilObjQuestionsGUI extends ilObjectGUI
                 );
                 break;
 
+            case strtolower(GlobalConfigurationGUI::class):
+                $this->tabs_gui->activateTab(self::TAB_IDENTIFIER_UNITS);
+                $this->ctrl->forwardCommand(
+                    new GlobalConfigurationGUI(
+                        $this->units_repository,
+                        $this->lng,
+                        $this->ctrl,
+                        $this->rbac_system,
+                        $this->tpl,
+                        $this->toolbar,
+                        $this->tabs_gui,
+                        $this->help
+                    )
+                );
+                break;
+
+            case strtolower(ilObjQuestionPreviewGUI::class):
+                $this->addSubTabs();
+                $this->tabs_gui->activateTab(self::TAB_IDENTIFIER_QUESTIONS);
+                $this->tabs_gui->activateSubTab(self::SUB_TAB_IDENTIFIER_PREVIEW_QUESTIONS);
+                $this->ctrl->forwardCommand(
+                    new ilObjQuestionPreviewGUI(
+                        $this->object->getId()
+                    )
+                );
+
+                break;
             default:
+                $this->addSubTabs();
                 if ($cmd === null || $cmd === '' || $cmd === 'view') {
-                    $cmd = 'viewQuestions';
+                    $cmd = 'editQuestions';
                 }
-                $cmd .= 'Object';
+                $cmd .= 'Cmd';
                 $this->$cmd();
                 break;
         }
     }
 
-    public function viewQuestionsObject(): void
+    private function editQuestionsCmd(): void
     {
-        $this->tabs_gui->activateTab('questions');
+        $this->tabs_gui->activateTab(self::TAB_IDENTIFIER_QUESTIONS);
+        $this->tabs_gui->activateSubTab(self::SUB_TAB_IDENTIFIER_EDIT_QUESTIONS);
 
         $this->tpl->setContent(
             $this->ui_renderer->render(
@@ -146,16 +174,16 @@ class ilObjQuestionsGUI extends ilObjectGUI
 
     public function getAdminTabs(): void
     {
-        $this->getTabs();
+        $this->addTabs();
     }
 
-    protected function getTabs(): void
+    protected function addTabs(): void
     {
         if ($this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 self::TAB_IDENTIFIER_QUESTIONS,
                 $this->lng->txt(self::TAB_IDENTIFIER_QUESTIONS),
-                $this->ctrl->getLinkTargetByClass(self::class, 'viewQuestions')
+                $this->ctrl->getLinkTargetByClass(self::class, 'editQuestions')
             );
 
             $this->tabs_gui->addTab(
@@ -174,10 +202,29 @@ class ilObjQuestionsGUI extends ilObjectGUI
         }
     }
 
+    private function addSubTabs(): void
+    {
+        if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
+            return;
+        }
+
+        $this->tabs_gui->addSubTab(
+            self::SUB_TAB_IDENTIFIER_EDIT_QUESTIONS,
+            $this->lng->txt('edit'),
+            $this->ctrl->getLinkTargetByClass(self::class, 'editQuestions')
+        );
+
+        $this->tabs_gui->addSubTab(
+            self::SUB_TAB_IDENTIFIER_PREVIEW_QUESTIONS,
+            $this->lng->txt('preview'),
+            $this->ctrl->getLinkTargetByClass([self::class, ilObjQuestionPreviewGUI::class])
+        );
+    }
+
     private function buildEditQuestionsBaseUri(): URI
     {
         return $this->data_factory->uri(
-            ILIAS_HTTP_PATH . '/' . $this->ctrl->getFormActionByClass(self::class, 'viewQuestions')
+            ILIAS_HTTP_PATH . '/' . $this->ctrl->getFormActionByClass(self::class, 'editQuestions')
         );
     }
 }

@@ -18,10 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\AnswerFormTypes\Cloze\Views;
+namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Factory as PropertiesFactory;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\Upload;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Factory as GapFactory;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Async;
@@ -32,7 +33,7 @@ use ILIAS\Refinery\Custom\Transformation as CustomTransformation;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\URLBuilder;
 
-class EditGaps
+class Edit
 {
     private const string SUB_ACTION_BACK_TO_EDIT_BASIC_PROPERTIES = 'bebp';
     private const string SUB_ACTION_SET_GAP_TYPES = 'sgt';
@@ -55,7 +56,7 @@ class EditGaps
         Environment $environment,
         string $sub_action = self::SUB_ACTION_SET_GAP_TYPES
     ): EditForm|Async|Properties|string {
-        $upload_handler = new UploadAnswerOptions(
+        $upload_handler = new Upload(
             $this->file_upload,
             $environment
         );

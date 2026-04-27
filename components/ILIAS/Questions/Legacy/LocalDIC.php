@@ -25,12 +25,16 @@ use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
 use ILIAS\Questions\AnswerForm\Capabilities;
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableDefinitions;
 use ILIAS\Questions\AnswerFormTypes\Cloze;
+use ILIAS\Questions\Attempt\Repository as AttemptRepository;
+use ILIAS\Questions\Attempt\TableDefinitions as AttemptTableDefinitions;
+use ILIAS\Questions\DefaultPublicInterface;
+use ILIAS\Questions\Question\Persistence\DatabaseStatementBuilder;
 use ILIAS\Questions\Question\Persistence\TableDefinitions as QuestionTableDefinitions;
 use ILIAS\Questions\Persistence\TableSubNameSpace;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Question\Persistence\Repository as QuestionsRepository;
-use ILIAS\Questions\Presentation\Views\Edit;
 use ILIAS\Questions\Presentation\Layout\Factory as LayoutFactory;
+use ILIAS\Questions\PublicInterface;
 use ILIAS\Questions\UserSettings\CreateMode;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\UUID\Factory as UuidFactory;
@@ -63,6 +67,30 @@ class LocalDIC extends PimpleContainer
                 $DIC->fileServiceSettings()
             );
 
+        $dic[PublicInterface::class] = static fn($c): PublicInterface
+            => new DefaultPublicInterface(
+                $DIC['lng'],
+                $DIC['user']->getLoggedInUser(),
+                $DIC['refinery'],
+                $DIC['ui.factory'],
+                $DIC['ui.renderer'],
+                $DIC['global_screen'],
+                $DIC['tpl'],
+                $DIC->contentStyle(),
+                $DIC['ilCtrl'],
+                $DIC['http'],
+                $DIC['ilTabs'],
+                $DIC->uiService(),
+                $c[UuidFactory::class],
+                $c[ConfigurationRepository::class],
+                $c[AnswerFormFactory::class],
+                $c[QuestionsRepository::class],
+                $c[AttemptRepository::class],
+                $c[LayoutFactory::class],
+                $c[Capabilities\Factory::class],
+                $c[Capabilities\Edit::class]
+            );
+
         $dic[ConfigurationRepository::class] = static fn($c): ConfigurationRepository
             => new ConfigurationRepository(
                 $DIC['ilSetting'],
@@ -80,6 +108,24 @@ class LocalDIC extends PimpleContainer
         $dic[AnswerFormGenericTableDefinitions::class] = static fn($c): AnswerFormGenericTableDefinitions
             => new AnswerFormGenericTableDefinitions(
                 $c[PersistenceFactory::class]
+            );
+        $dic[DatabaseStatementBuilder::class] = static fn($c): DatabaseStatementBuilder
+            => new DatabaseStatementBuilder(
+                $c[PersistenceFactory::class],
+                $c[QuestionTableDefinitions::class],
+                $c[AnswerFormGenericTableDefinitions::class]
+            );
+        $dic[AttemptTableDefinitions::class] = static fn($c): AttemptTableDefinitions
+            => new AttemptTableDefinitions(
+                $c[PersistenceFactory::class]
+            );
+        $dic[AttemptRepository::class] = static fn($c): AttemptRepository
+            => new AttemptRepository(
+                $DIC['ilDB'],
+                $DIC['refinery'],
+                $c[UuidFactory::class],
+                $c[PersistenceFactory::class],
+                $c[AttemptTableDefinitions::class]
             );
         $dic[Capabilities\Factory::class] = static fn($c): Capabilities\Factory
             => new Capabilities\Factory([
@@ -113,7 +159,8 @@ class LocalDIC extends PimpleContainer
                             )
                         )
                     ),
-                Capabilities\Marking\Marking::class => new Capabilities\Marking\Capability()
+                Capabilities\Marking\Marking::class => new Capabilities\Marking\Capability(),
+                Capabilities\Async\Async::class => new Capabilities\Async\Capability()
             ]);
         $dic[Capabilities\Edit::class] = fn($c): Capabilities\Edit
             => new Capabilities\Edit(
@@ -131,6 +178,7 @@ class LocalDIC extends PimpleContainer
                 $DIC['ilDB'],
                 $DIC['refinery'],
                 $c[UuidFactory::class],
+                $c[DatabaseStatementBuilder::class],
                 $c[PersistenceFactory::class],
                 $c[QuestionTableDefinitions::class],
                 $c[AnswerFormGenericTableDefinitions::class],
@@ -146,27 +194,6 @@ class LocalDIC extends PimpleContainer
                 $DIC['upload'],
                 $c[\ilFileServicesFilenameSanitizer::class]
             );
-        $dic[Edit::class] = static fn($c): Edit => new Edit(
-            $DIC['lng'],
-            $c[ConfigurationRepository::class],
-            $DIC['user']->getLoggedInUser(),
-            $DIC['refinery'],
-            $DIC['ui.factory'],
-            $DIC['ui.renderer'],
-            $DIC['global_screen'],
-            $DIC['tpl'],
-            $DIC->contentStyle(),
-            $DIC['ilCtrl'],
-            $DIC['http'],
-            $DIC['ilTabs'],
-            $DIC->uiService(),
-            $c[UuidFactory::class],
-            $c[Capabilities\Edit::class],
-            $c[AnswerFormFactory::class],
-            $c[QuestionsRepository::class],
-            $c[LayoutFactory::class]
-        );
-
         $dic[Cloze\Properties\ClozeText\Factory::class] = static fn($c): Cloze\Properties\ClozeText\Factory
             => new Cloze\Properties\ClozeText\Factory(
                 $DIC['refinery'],
@@ -207,13 +234,6 @@ class LocalDIC extends PimpleContainer
                     )
                 ]
             );
-        $dic[Cloze\Properties\Factory::class] = static fn($c): Cloze\Properties\Factory
-            => new Cloze\Properties\Factory(
-                $c[PersistenceFactory::class],
-                $c[Cloze\Properties\ClozeText\Factory::class],
-                $c[Cloze\Properties\Gaps\Factory::class],
-                $c[Cloze\Properties\Combinations\Factory::class]
-            );
         $dic[Cloze\TableDefinitions::class] = static fn($c): Cloze\TableDefinitions
             => new Cloze\TableDefinitions(
                 $c[PersistenceFactory::class],
@@ -222,8 +242,19 @@ class LocalDIC extends PimpleContainer
                     'cloze'
                 )
             );
-        $dic[Cloze\Views\EditGaps::class] = static fn($c): Cloze\Views\EditGaps
-            => new Cloze\Views\EditGaps(
+        $dic[Cloze\Properties\Factory::class] = static fn($c): Cloze\Properties\Factory
+            => new Cloze\Properties\Factory(
+                $c[PersistenceFactory::class],
+                $c[Cloze\Properties\ClozeText\Factory::class],
+                $c[Cloze\Properties\Gaps\Factory::class],
+                $c[Cloze\Properties\Combinations\Factory::class]
+            );
+        $dic[Cloze\Response\Factory::class] = static fn($c): Cloze\Response\Factory
+            => new Cloze\Response\Factory(
+                $c[PersistenceFactory::class]
+            );
+        $dic[Cloze\Properties\Gaps\Edit::class] = static fn($c): Cloze\Properties\Gaps\Edit
+            => new Cloze\Properties\Gaps\Edit(
                 $DIC['upload'],
                 $c[Cloze\Properties\Factory::class],
                 $c[Cloze\Properties\Gaps\Factory::class]
@@ -232,7 +263,7 @@ class LocalDIC extends PimpleContainer
             => new Cloze\Views\Edit(
                 $c[Cloze\Properties\Factory::class],
                 $c[Cloze\Properties\ClozeText\Factory::class],
-                $c[Cloze\Views\EditGaps::class]
+                $c[Cloze\Properties\Gaps\Edit::class]
             );
         $dic[Cloze\Views\Participant::class] = static fn($c): Cloze\Views\Participant
             => new Cloze\Views\Participant(
@@ -240,7 +271,6 @@ class LocalDIC extends PimpleContainer
                 $c[MustacheEngine::class]
             );
         $dic[Cloze\Definition::class] = static fn($c): Cloze\Definition => new Cloze\Definition(
-            $c[Cloze\Properties\Factory::class],
             $c[Cloze\TableDefinitions::class],
             [
                 Capabilities\Feedback\Feedback::class => new Cloze\Capabilities\Feedback(
@@ -249,8 +279,11 @@ class LocalDIC extends PimpleContainer
                 ),
                 Capabilities\Marking\Marking::class => new Cloze\Capabilities\Marking(
                     $c[Cloze\Properties\Factory::class]
-                )
+                ),
+                Capabilities\Async\Async::class => new Cloze\Capabilities\Async()
             ],
+            $c[Cloze\Properties\Factory::class],
+            $c[Cloze\Response\Factory::class],
             $c[Cloze\Views\Edit::class],
             $c[Cloze\Views\Participant::class]
         );

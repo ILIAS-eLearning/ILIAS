@@ -29,7 +29,7 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
     protected \ilDBInterface $db;
 
     public function __construct(
-        private readonly SetupTableNameBuilder $table_name_builder,
+        private readonly SetupTableNameBuilder $table_names_builder,
         private readonly TableDefinitions $table_definitions
     ) {
     }
@@ -43,7 +43,7 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_1(): void
     {
-        $table_name = $this->table_name_builder->getTableNameFor(
+        $table_name = $this->table_names_builder->getTableNameFor(
             AnswerFormSpecificTableTypes::TypeSpecificAnswerForms
         );
         if (!$this->db->tableExists($table_name)) {
@@ -73,7 +73,7 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_2(): void
     {
-        $table_name = $this->table_name_builder->getTableNameFor(
+        $table_name = $this->table_names_builder->getTableNameFor(
             AnswerFormSpecificTableTypes::AnswerInputs
         );
         if (!$this->db->tableExists($table_name)) {
@@ -136,7 +136,7 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_3(): void
     {
-        $table_name = $this->table_name_builder->getTableNameFor(
+        $table_name = $this->table_names_builder->getTableNameFor(
             AnswerFormSpecificTableTypes::AnswerOptions
         );
         if (!$this->db->tableExists($table_name)) {
@@ -171,7 +171,7 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
                 ],
                 'points' => [
                     'type' => FieldDefinition::T_FLOAT,
-                    'notnull' => true
+                    'notnull' => false
                 ]
             ]);
         }
@@ -187,7 +187,7 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_4(): void
     {
-        $table_name = $this->table_name_builder->getTableNameFor(
+        $table_name = $this->table_names_builder->getTableNameFor(
             AnswerFormSpecificTableTypes::Additional,
             $this->table_definitions->getCombinationsTableIdentifier()
         );
@@ -221,7 +221,7 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_5(): void
     {
-        $table_name = $this->table_name_builder->getTableNameFor(
+        $table_name = $this->table_names_builder->getTableNameFor(
             AnswerFormSpecificTableTypes::Additional,
             $this->table_definitions->getCombinationToAnswerOptionsTableIdentifier()
         );
@@ -261,12 +261,12 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_6(): void
     {
-        $table_name = $this->table_name_builder->getTableNameFor(
+        $table_name = $this->table_names_builder->getTableNameFor(
             AnswerFormSpecificTableTypes::Responses
         );
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
-                'id' => [
+                'response_id' => [
                     'type' => FieldDefinition::T_TEXT,
                     'length' => 64,
                     'notnull' => true
@@ -289,12 +289,8 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
             ]);
         }
 
-        if (!$this->db->primaryExistsByFields($table_name, ['id'])) {
-            $this->db->addPrimaryKey($table_name, ['id']);
-        }
-
-        if (!$this->db->indexExistsByFields($table_name, ['answer_input_id'])) {
-            $this->db->addIndex($table_name, ['answer_input_id'], 'ai');
+        if (!$this->db->primaryExistsByFields($table_name, ['response_id'])) {
+            $this->db->addPrimaryKey($table_name, ['response_id']);
         }
     }
 }

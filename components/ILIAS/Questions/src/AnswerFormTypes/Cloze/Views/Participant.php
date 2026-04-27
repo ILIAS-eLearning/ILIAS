@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Views;
 
+use ILIAS\Questions\Attempt\Attempt;
 use ILIAS\Questions\AnswerForm\Properties;
 use ILIAS\Questions\AnswerForm\Views\Participant as ParticipantViewInterface;
 use ILIAS\Questions\Response\Response;
@@ -35,20 +36,20 @@ class Participant implements ParticipantViewInterface
     }
 
     #[\Override]
-    public function isAsyncPresentationAvailable(): bool
-    {
-        return true;
-    }
-
-    #[\Override]
-    public function get(
+    public function show(
         Properties $properties,
-        ?Response $response
+        ?Attempt $attempt_data
     ): string {
         $this->global_tpl->addJavaScript('assets/js/ParticipantViewLongMenu.js');
         return $this->mustache_engine->render(
             $properties->getClozeTextForPresentation(),
-            $properties->getGaps()->getPlaceholderArrayForParticipantView()
+            $properties->getGaps()->getPlaceholderArrayForParticipantView($attempt_data)
         );
+    }
+
+    #[\Override]
+    public function retrieveResponse(): Response
+    {
+
     }
 }

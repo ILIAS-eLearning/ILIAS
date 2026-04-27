@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Questions\Attempt\Attempt;
+use ILIAS\Questions\Presentation\Layout\Viewable;
 use ILIAS\Questions\Presentation\Views\Edit;
 use ILIAS\Questions\Question\Question;
 
@@ -25,6 +27,8 @@ class QstsQuestionPage extends ilPageObject
 {
     private readonly Edit $edit_view;
     private readonly Question $question;
+    private ?Attempt $attempt_data = null;
+    private ?Viewable $participant_view = null;
 
     #[\Override]
     public function getParentType(): string
@@ -52,6 +56,28 @@ class QstsQuestionPage extends ilPageObject
         Question $question
     ): void {
         $this->question = $question;
+    }
+
+    public function getParticipantView(): Viewable
+    {
+        return $this->participant_view;
+    }
+
+    public function setParticipantView(
+        Viewable $participant_view
+    ): void {
+        $this->participant_view = $participant_view;
+    }
+
+    public function getAttemptData(): ?Attempt
+    {
+        return $this->attempt_data;
+    }
+
+    public function setAttemptData(
+        ?Attempt $attempt_data
+    ): void {
+        $this->attempt_data = $attempt_data;
     }
 
     public function addQuestionText(

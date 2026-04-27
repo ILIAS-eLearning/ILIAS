@@ -42,10 +42,10 @@ use ILIAS\Questions\UserSettings\CreateModes;
 use ILIAS\Data\URI;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
-use ILIAS\UICore\GlobalTemplate;
+use ILIAS\HTTP\Services as HTTP;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\HTTP\Services as HTTP;
+use ILIAS\UICore\GlobalTemplate;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Component;
@@ -67,7 +67,6 @@ class Edit
 
     public function __construct(
         private readonly Language $lng,
-        private readonly ConfigurationRepository $configuration_repository,
         private readonly \ilObjUser $current_user,
         private readonly Refinery $refinery,
         private readonly UIFactory $ui_factory,
@@ -80,10 +79,12 @@ class Edit
         private readonly \ilTabsGUI $tabs_gui,
         private readonly \ilUIService $ui_services,
         private readonly UuidFactory $uuid_factory,
-        private CapabilitiesEditView $capabilities_edit_view,
+        private readonly ConfigurationRepository $configuration_repository,
         private readonly AnswerFormFactory $answer_form_factory,
         private readonly Repository $questions_repository,
-        private readonly LayoutFactory $definitions_factory
+        private readonly LayoutFactory $layout_factory,
+        private CapabilitiesEditView $capabilities_edit_view,
+        private readonly int $owner_object_id
     ) {
     }
 
@@ -114,7 +115,6 @@ class Edit
 
     public function getUI(
         URI $base_uri,
-        int $obj_id,
         int $ref_id
     ): array|Component {
         $this->content_style->gui()->addCss(
@@ -122,10 +122,7 @@ class Edit
             $ref_id
         );
 
-        $environment = $this->buildEnvironment(
-            $base_uri,
-            $obj_id
-        );
+        $environment = $this->buildEnvironment($base_uri);
 
         $view = match($environment->getAction()) {
             self::ACTION_CREATE_QUESTION => $this->createQuestion(
@@ -144,15 +141,10 @@ class Edit
     }
 
     public function forwardPageCmds(
-        \ilGlobalTemplateInterface $tpl,
         URI $base_uri,
-        int $obj_id,
         int $ref_id
     ): void {
-        $environment = $this->buildEnvironment(
-            $base_uri,
-            $obj_id
-        );
+        $environment = $this->buildEnvironment($base_uri);
 
         if ($this->ctrl->getCmd() === 'insert'
             && $environment->getAction() === self::ACTION_DELETE_QUESTIONS) {
@@ -164,17 +156,18 @@ class Edit
         $environment->preserveParametersForPageEditorCmds();
 
         $this->content_style->gui()->addCss(
-            $tpl,
+            $this->global_tpl,
             $ref_id
         );
 
-        $tpl->setContent(
+        $this->global_tpl->setContent(
             $this->ctrl->forwardCommand(
                 new \QstsQuestionPageGUI(
                     $this->questions_repository->getForQuestionId(
                         $environment->getQuestionId()
                     ),
-                    $obj_id,
+                    $this->owner_object_id
+                )->withEditView(
                     $this
                 )->withReturnURI(
                     $environment
@@ -189,7 +182,6 @@ class Edit
 
     public function getCreateAnswerForm(
         URI $base_uri,
-        int $obj_id,
         Question $question,
         \ilPCAnswerForm $content_object
     ): array|Component {
@@ -223,7 +215,7 @@ class Edit
                 $question,
                 $content_object,
                 $type_definition->getEditView()
-            );
+            )->getUI();
         }
 
         return match($environment->getAction()) {
@@ -231,14 +223,13 @@ class Edit
                 $environment,
                 $question,
                 $content_object
-            ),
-            default => $this->buildCreateAnswerForm($environment)
+            )->getUI(),
+            default => $this->buildCreateAnswerForm($environment)->getUI()
         };
     }
 
     public function getEditAnswerForm(
         URI $base_uri,
-        int $obj_id,
         Question $question,
         AnswerFormProperties $answer_form_properties,
         Definition $type_definition
@@ -278,7 +269,7 @@ class Edit
                 $environment->withActionParameter(self::ACTION_OTHER_ANSWER_FORM),
                 $question,
                 $edit_view
-            );
+            )->getUI();
         }
 
         $from_edit_view = $edit_view->edit($environment);
@@ -336,11 +327,13 @@ class Edit
         );
 
         $create = $this->questions_repository->getNew(
-            $environment->getObjId()
+            $environment->getOwnerObjId()
         )->getEditView(
-            $this->configuration_repository,
             $this->current_user,
-            $this->ctrl
+            $this->ctrl,
+            $this->ui_renderer,
+            $this->configuration_repository,
+            $this->capabilities_edit_view->getRequiredCapabilities()
         )->create(
             $environment->withActionParameter(self::ACTION_CREATE_QUESTION)
         );
@@ -375,14 +368,14 @@ class Edit
             ->withQuestionIdParameter($question_id);
 
         $edit = $question->getEditView(
-            $this->configuration_repository,
             $this->current_user,
             $this->ctrl,
-            $this->ui_renderer
+            $this->ui_renderer,
+            $this->configuration_repository,
+            $this->capabilities_edit_view->getRequiredCapabilities()
         )->edit(
             $environment_with_question_parameter
-                ->withActionParameter(self::ACTION_EDIT_QUESTION),
-            $question->getParticipantView()
+                ->withActionParameter(self::ACTION_EDIT_QUESTION)
         );
 
         if ($edit instanceof EditForm) {
@@ -440,7 +433,8 @@ class Edit
             $this->ui_services,
             $this->answer_form_factory,
             $this->questions_repository,
-            $environment
+            $environment,
+            $this->capabilities_edit_view->getRequiredCapabilities()
         )->withCreateQuestionButton(
             $this->ui_factory->button()->primary(
                 $this->lng->txt('create'),
@@ -559,11 +553,15 @@ class Edit
         Environment $environment,
         Question $question,
         AnswerFormEditView $edit_view
-    ) {
+    ): Viewable {
         $from_edit_view = $edit_view->other($environment);
 
-        if (!($from_edit_view instanceof AnswerFormProperties)) {
+        if ($from_edit_view instanceof Viewable) {
             return $from_edit_view;
+        }
+
+        if ($from_edit_view instanceof Async) {
+            $from_edit_view->render($this->ui_renderer);
         }
 
         $this->updateAnswerFormAndRedirect(
@@ -599,7 +597,7 @@ class Edit
         );
 
         $content_object->create(
-            $properties->getAnswerFormId()
+            $environment->getAnswerFormProperties()->getAnswerFormId()
         );
         $content_object->getPage()->update();
 
@@ -683,13 +681,13 @@ class Edit
         Question $question
     ): EditForm {
         return $question->getEditView(
-            $this->configuration_repository,
             $this->current_user,
             $this->ctrl,
-            $this->ui_renderer
+            $this->ui_renderer,
+            $this->configuration_repository,
+            $this->capabilities_edit_view->getRequiredCapabilities()
         )->edit(
-            $environment,
-            $question->getParticipantView()
+            $environment
         );
     }
 
@@ -784,7 +782,6 @@ class Edit
 
     private function buildEnvironment(
         URI $base_uri,
-        int $obj_id
     ): DefaultEnvironment {
         return new DefaultEnvironment(
             $this->ctrl,
@@ -793,11 +790,11 @@ class Edit
             $this->lng,
             $this->tabs_gui,
             $this->uuid_factory,
-            $this->definitions_factory,
+            $this->layout_factory,
             $this->editability,
             $this->capabilities_edit_view->getRequiredCapabilities(),
-            $base_uri,
-            $obj_id
+            $this->owner_object_id,
+            $base_uri
         );
     }
 

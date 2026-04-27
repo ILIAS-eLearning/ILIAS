@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Questions\Attempt\Attempt;
 use ILIAS\Questions\AnswerForm\Properties as AnswerFormProperties;
 use ILIAS\Questions\Legacy\LocalDIC;
 use ILIAS\Questions\Question\Persistence\Repository;
@@ -57,7 +58,6 @@ class ilPCAnswerForm extends ilPageContent
         $ui_factory = $DIC['ui.factory'];
         $ui_renderer = $DIC['ui.renderer'];
         $lng = $DIC['lng'];
-        $question = $this->pg_obj->getQuestion();
 
         return mb_ereg_replace_callback(
             self::ANSWER_FORM_PLACEHOLDER,
@@ -65,7 +65,8 @@ class ilPCAnswerForm extends ilPageContent
                 $ui_factory,
                 $ui_renderer,
                 $lng,
-                $question->getAnswerFormPropertiesByIdString($matches[1])
+                $this->pg_obj->getQuestion()->getAnswerFormPropertiesByIdString($matches[1]),
+                $this->pg_obj->getAttemptData()
             ),
             $output
         );
@@ -178,6 +179,7 @@ class ilPCAnswerForm extends ilPageContent
         UIRenderer $ui_renderer,
         Language $lng,
         ?AnswerFormProperties $answer_form_properties,
+        ?Attempt $attempt_data
     ): string {
         if ($answer_form_properties === null) {
             return $lng->txt('broken_answer_form');
@@ -186,9 +188,9 @@ class ilPCAnswerForm extends ilPageContent
         return $ui_renderer->render(
             $ui_factory->legacy()->latexContent(
                 $answer_form_properties->getDefinition()->getParticipantView()
-                    ->get(
+                    ->show(
                         $answer_form_properties,
-                        null
+                        $attempt_data
                     )
             )
         );

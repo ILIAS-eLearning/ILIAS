@@ -18,8 +18,13 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Question;
+namespace ILIAS\Questions\Attempt;
 
-class Response
+use ILIAS\Questions\Persistence\TableTypes as TableTypesInterface;
+
+enum TableTypes: string implements TableTypesInterface
 {
+    case AttemptData = 'attempt';
+    case AdditionalAttemptData = 'attempt_additional_data';
+    case Responses = 'responses';
 }

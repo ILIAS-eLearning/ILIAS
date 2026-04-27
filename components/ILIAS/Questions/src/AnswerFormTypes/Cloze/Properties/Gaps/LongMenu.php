@@ -22,7 +22,8 @@ namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Views\UploadAnswerOptions;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\Upload;
+use ILIAS\Questions\Attempt\Attempt;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\FileUpload\MimeType;
 use ILIAS\FileUpload\FileUpload;
@@ -55,7 +56,8 @@ class LongMenu extends Type
 
     #[\Override]
     public function getParticipantViewLegacyInput(
-        Gap $gap
+        Gap $gap,
+        ?Attempt $attempt_data
     ): string {
         $answer_input_id = $gap->getAnswerInputId()->toString();
         $gaptemplate = new \ilTemplate(
@@ -96,7 +98,7 @@ class LongMenu extends Type
                 []
             )->withValue($gap->getAnswerOptions()->getTagsArrayFromAnswerOptions()),
             'upload_answer_options' => $ff->file(
-                new UploadAnswerOptions(
+                new Upload(
                     $file_upload,
                     $environment
                 ),

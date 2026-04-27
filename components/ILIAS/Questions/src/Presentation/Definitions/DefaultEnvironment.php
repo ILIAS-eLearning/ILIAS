@@ -81,8 +81,8 @@ class DefaultEnvironment implements Environment
         private readonly Factory $presentation_factory,
         private readonly Editability $editability,
         private readonly array $required_capabilities,
-        URI $base_uri,
-        private readonly int $obj_id
+        private readonly int $owner_obj_id,
+        URI $base_uri
     ) {
         $this->acquireURLBuilderAndParameters($base_uri);
     }
@@ -342,9 +342,9 @@ class DefaultEnvironment implements Environment
         return $clone;
     }
 
-    public function getObjId(): int
+    public function getOwnerObjId(): int
     {
-        return $this->obj_id;
+        return $this->owner_obj_id;
     }
 
     public function getAction(): string

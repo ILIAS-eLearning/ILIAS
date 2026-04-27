@@ -23,13 +23,12 @@ namespace ILIAS\Questions\AnswerForm\Persistence;
 use ILIAS\Questions\Persistence\Column;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\JoinType;
-use ILIAS\Questions\AnswerForm\Persistence\TableDefinitions as TableDefinitionsInterface;
 use ILIAS\Questions\Persistence\Query;
 use ILIAS\Questions\Persistence\TableSubNameSpace;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Persistence\TableTypes;
 
-class AnswerFormGenericTableDefinitions implements TableDefinitionsInterface
+class AnswerFormGenericTableDefinitions
 {
     public const string ANSWER_FORM_TABLE_ID_COLUMN = 'id';
     private const string ANSWER_FORM_TABLE_FOREIGN_KEY_COLUMN = 'question_id';
@@ -55,14 +54,14 @@ class AnswerFormGenericTableDefinitions implements TableDefinitionsInterface
     }
 
     public function getColumns(
-        TableNameBuilder $table_name_builder,
+        TableNameBuilder $table_names_builder,
         TableTypes $table_type,
         array $columns_to_skip = []
     ): array {
         return array_map(
             fn(string $v): Column => $this->persistence_factory->column(
                 $this->persistence_factory->table(
-                    $table_name_builder,
+                    $table_names_builder,
                     $table_type
                 ),
                 $v
@@ -77,12 +76,12 @@ class AnswerFormGenericTableDefinitions implements TableDefinitionsInterface
     }
 
     public function getIdColumn(
-        TableNameBuilder $table_name_builder,
+        TableNameBuilder $table_names_builder,
         TableTypes $table_type
     ): Column {
         return $this->persistence_factory->column(
             $this->persistence_factory->table(
-                $table_name_builder,
+                $table_names_builder,
                 $table_type
             ),
             self::ANSWER_FORM_TABLE_ID_COLUMN
@@ -90,29 +89,28 @@ class AnswerFormGenericTableDefinitions implements TableDefinitionsInterface
     }
 
     public function getForeignKeyColumn(
-        TableNameBuilder $table_name_builder,
+        TableNameBuilder $table_names_builder,
         TableTypes $table_type
     ): Column {
         return $this->persistence_factory->column(
             $this->persistence_factory->table(
-                $table_name_builder,
+                $table_names_builder,
                 $table_type
             ),
             self::ANSWER_FORM_TABLE_FOREIGN_KEY_COLUMN
         );
     }
 
-    #[\Override]
     public function completeQuestionQuery(
         Query $query,
         ?Column $base_table_id_column
     ): Query {
-        $table_name_builder = $query->getTableNameBuilder(null);
+        $table_names_builder = $query->getTableNameBuilder(null);
 
         return $query->withAdditionalSelect(
             $this->persistence_factory->select(
                 $this->getColumns(
-                    $table_name_builder,
+                    $table_names_builder,
                     AnswerFormGenericTableTypes::AnswerForms
                 )
             )
@@ -120,7 +118,7 @@ class AnswerFormGenericTableDefinitions implements TableDefinitionsInterface
             $this->persistence_factory->join(
                 $base_table_id_column,
                 $this->getForeignKeyColumn(
-                    $table_name_builder,
+                    $table_names_builder,
                     AnswerFormGenericTableTypes::AnswerForms
                 ),
                 JoinType::Left
