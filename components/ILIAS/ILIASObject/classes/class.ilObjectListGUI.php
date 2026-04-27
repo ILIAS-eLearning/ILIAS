@@ -1810,7 +1810,7 @@ class ilObjectListGUI
             $this->lng->loadLanguageModule('dash');
             if (!$this->fav_manager->ifIsFavourite($this->user->getId(), $this->getCommandId())) {
                 // Pass type and object ID to ilAccess to improve performance
-                if ($this->checkCommandAccess('read', '', $this->ref_id, $this->type, $this->obj_id)) {
+                if ($this->checkCommandAccess('read', '', $this->ref_id, ilObject::_lookupType($this->obj_id), $this->obj_id)) {
                     $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, 'addToDesk');
                     $this->insertCommand($cmd_link, $this->lng->txt('add_to_favourites'));
                 }
