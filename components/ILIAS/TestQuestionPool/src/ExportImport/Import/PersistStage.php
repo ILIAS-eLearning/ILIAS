@@ -61,8 +61,8 @@ class PersistStage implements ImportStage
         $importer = new ilImport($this->request_data_collector->getRefId());
         $importer->importObject(
             null,
-            $context->get('file_to_import'),
-            basename($context->get('file_to_import')),
+            $context->get(UploadValidationStage::FILE_TO_IMPORT),
+            basename($context->get(UploadValidationStage::FILE_TO_IMPORT)),
             'qpl',
             'components/ILIAS/TestQuestionPool',
             true,

@@ -36,6 +36,9 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class QuestionSelectionStage implements ImportStage
 {
+    public const string SELECTED_QUESTIONS = 'selected_questions';
+    private const string SELECTABLE_QUESTIONS = 'selectable_questions';
+
     private array $old_export_question_types = [
         'ORDERING QUESTION' => \ilQTIItem::QT_ORDERING,
         'KPRIM CHOICE QUESTION' => \ilQTIItem::QT_KPRIM_CHOICE,
@@ -88,11 +91,11 @@ class QuestionSelectionStage implements ImportStage
                 ->getData();
 
             if (isset($data['selected_questions'])) {
-                return StageResult::advance($context->with('selected_questions', $data['selected_questions']));
+                return StageResult::advance($context->with(self::SELECTED_QUESTIONS, $data['selected_questions']));
             }
         }
 
-        if (!$context->has('import_file')) {
+        if (!$context->has(UploadValidationStage::COMPONENT_IMPORT_FILE)) {
             return StageResult::error($context, $this->lng->txt('qpl_import_file_not_found'));
         }
 
@@ -113,7 +116,7 @@ class QuestionSelectionStage implements ImportStage
         );
 
         return StageResult::interact(
-            $context->with('selectable_questions', array_keys($options)),
+            $context->with(self::SELECTABLE_QUESTIONS, array_keys($options)),
             [$panel]
         );
     }
@@ -123,14 +126,17 @@ class QuestionSelectionStage implements ImportStage
      */
     public static function getSelectedQuestions(ImportContext $context): array
     {
-        return array_map('intval', $context->get('selected_questions', []));
+        return array_map('intval', $context->get(self::SELECTED_QUESTIONS, []));
     }
 
     private function readQuestions(ImportContext $context): array
     {
         $options = [];
 
-        $deserializer = new SimpleXMLDeserializer()->open(file_get_contents($context->get('import_file')));
+        $deserializer = new SimpleXMLDeserializer()->open(
+            file_get_contents($context->get(UploadValidationStage::COMPONENT_IMPORT_FILE))
+        );
+
         $deserializer->addHandler('questions', function (array $questions) use (&$options): void {
             foreach ($questions as $question) {
                 if (!isset($question['title']) || !isset($question['type'])) {
@@ -153,8 +159,8 @@ class QuestionSelectionStage implements ImportStage
     private function readQuestionsFromQTI(ImportContext $context): array
     {
         $parser = new \ilQTIParser(
-            $context->get('import_base_dir'),
-            $context->get('qti_file'),
+            $context->get(UploadValidationStage::IMPORT_BASE_DIR),
+            $context->get(DetectLegacyImportStage::LEGACY_QTI_FILE),
             \ilQTIParser::IL_MO_VERIFY_QTI,
             0
         );
