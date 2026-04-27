@@ -1531,4 +1531,132 @@ class ilDBPdoMySQLFieldDefinition implements FieldDefinition
 
         return [ $type, $length, $unsigned, $fixed ];
     }
+
+    /**
+     * @throws \ilDatabaseException
+     */
+    private function getDeclarationOptions(array $field): string
+    {
+        $charset = empty($field['charset']) ? '' : ' ' . $this->getCharsetFieldDeclaration($field['charset']);
+
+        $default = '';
+        if (array_key_exists('default', $field)) {
+            if ($field['default'] === '') {
+                $db = $this->getDBInstance();
+
+                if (empty($field['notnull'])) {
+                    $field['default'] = null;
+                } else {
+                    $valid_default_values = $this->getValidTypes();
+                    $field['default'] = $valid_default_values[$field['type']];
+                }
+                if ($field['default'] === ''
+                    && isset($db->options["portability"])
+                    && ($db->options['portability'] & 32)
+                ) {
+                    $field['default'] = ' ';
+                }
+            }
+            $default = ' DEFAULT ' . $this->quote($field['default'], $field['type']);
+        } elseif (empty($field['notnull'])) {
+            $default = ' DEFAULT NULL';
+        }
+
+        $notnull = empty($field['notnull']) ? '' : ' NOT NULL';
+        // alex patch 28 Nov 2011 start
+        if (isset($field["notnull"]) && $field['notnull'] === false) {
+            $notnull = " NULL";
+        }
+        // alex patch 28 Nov 2011 end
+
+        $collation = empty($field['collation']) ? '' : ' ' . $this->getCollationFieldDeclaration($field['collation']);
+
+        return $charset . $default . $notnull . $collation;
+    }
+
+    private function getInternalDeclaration(string $name, array $field): string
+    {
+        $db = $this->getDBInstance();
+
+        $name = $db->quoteIdentifier($name, true);
+        $declaration_options = $this->getDeclarationOptions($field);
+
+        return $name . ' ' . $this->getTypeDeclaration($field) . $declaration_options;
+    }
+
+    private function getCharsetFieldDeclaration(string $charset): string
+    {
+        return '';
+    }
+
+    private function getCollationFieldDeclaration(string $collation): string
+    {
+        return '';
+    }
+
+    /**
+     * @throws \ilDatabaseException
+     */
+    private function getIntegerDeclaration(string $name, array $field): string
+    {
+        return $this->getInternalDeclaration($name, $field);
+    }
+
+    /**
+     * @throws \ilDatabaseException
+     */
+    private function getTextDeclaration(string $name, array $field): string
+    {
+        return $this->getInternalDeclaration($name, $field);
+    }
+
+    private function getCLOBDeclaration(string $name, array $field): string
+    {
+        $db = $this->getDBInstance();
+
+        $notnull = empty($field['notnull']) ? '' : ' NOT NULL';
+        $name = $db->quoteIdentifier($name, true);
+
+        return $name . ' ' . $this->getTypeDeclaration($field) . $notnull;
+    }
+
+    private function getBLOBDeclaration(string $name, array $field): string
+    {
+        $db = $this->getDBInstance();
+
+        $notnull = empty($field['notnull']) ? '' : ' NOT NULL';
+        $name = $db->quoteIdentifier($name, true);
+
+        return $name . ' ' . $this->getTypeDeclaration($field) . $notnull;
+    }
+
+    private function getBooleanDeclaration(string $name, array $field): string
+    {
+        return $this->getInternalDeclaration($name, $field);
+    }
+
+    private function getDateDeclaration(string $name, array $field): string
+    {
+        return $this->getInternalDeclaration($name, $field);
+    }
+
+    private function getTimestampDeclaration(string $name, array $field): string
+    {
+        return $this->getInternalDeclaration($name, $field);
+    }
+
+    private function getTimeDeclaration(string $name, array $field): string
+    {
+        return $this->getInternalDeclaration($name, $field);
+    }
+
+    private function getFloatDeclaration(string $name, array $field): string
+    {
+        return $this->getInternalDeclaration($name, $field);
+    }
+
+    private function getDecimalDeclaration(string $name, array $field): string
+    {
+        return $this->getInternalDeclaration($name, $field);
+    }
 }
