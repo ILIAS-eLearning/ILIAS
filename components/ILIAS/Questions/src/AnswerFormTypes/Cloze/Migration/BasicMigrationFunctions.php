@@ -52,7 +52,7 @@ trait BasicMigrationFunctions
     private function buildGapInsertStatement(
         TableDefinitions $table_definitions,
         PersistenceFactory $persistence_factory,
-        TableNameBuilder $table_name_builder,
+        TableNameBuilder $table_names_builder,
         ?Insert $gaps_insert,
         Uuid $answer_input_id,
         Uuid $answer_form_id,
@@ -67,7 +67,7 @@ trait BasicMigrationFunctions
         if ($gaps_insert === null) {
             return $persistence_factory->insert(
                 $table_definitions->getColumns(
-                    $table_name_builder,
+                    $table_names_builder,
                     AnswerFormSpecificTableTypes::AnswerInputs
                 ),
                 $this->buildGapValuesForInsert(
@@ -129,7 +129,7 @@ trait BasicMigrationFunctions
     private function buildAnswerOptionInsertStatement(
         TableDefinitions $table_definitions,
         PersistenceFactory $persistence_factory,
-        TableNameBuilder $table_name_builder,
+        TableNameBuilder $table_names_builder,
         ?Insert $options_insert,
         Uuid $answer_option_id,
         Uuid $answer_input_id,
@@ -144,7 +144,7 @@ trait BasicMigrationFunctions
         if ($options_insert === null) {
             return $persistence_factory->insert(
                 $table_definitions->getColumns(
-                    $table_name_builder,
+                    $table_names_builder,
                     AnswerFormSpecificTableTypes::AnswerOptions
                 ),
                 $this->buildOptionValuesForInsert(
@@ -203,14 +203,14 @@ trait BasicMigrationFunctions
     private function buildAnswerFormInsertStatement(
         TableDefinitions $table_definitions,
         PersistenceFactory $persistence_factory,
-        TableNameBuilder $table_name_builder,
+        TableNameBuilder $table_names_builder,
         Uuid $answer_form_id,
         ScoringIdentical $scoring_identical,
         int $combinations_enabled
     ): Insert {
         return $persistence_factory->insert(
             $table_definitions->getColumns(
-                $table_name_builder,
+                $table_names_builder,
                 AnswerFormSpecificTableTypes::TypeSpecificAnswerForms
             ),
             [

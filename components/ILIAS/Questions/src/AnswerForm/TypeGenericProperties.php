@@ -96,18 +96,18 @@ class TypeGenericProperties
             );
         }
 
-        $table_name_builder = $manipulate->getTableNameBuilder(null);
+        $table_names_builder = $manipulate->getTableNameBuilder(null);
 
         return $manipulate->withAdditionalStatement(
             $manipulate->getManipulationType() === ManipulationType::Create
                 ? $this->buildInsertStatement(
                     $persistence_factory,
                     $answer_form_generic_definitions,
-                    $table_name_builder
+                    $table_names_builder
                 ) : $this->buildUpdateStatement(
                     $persistence_factory,
                     $answer_form_generic_definitions,
-                    $table_name_builder
+                    $table_names_builder
                 )
         );
     }
@@ -117,7 +117,7 @@ class TypeGenericProperties
         AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions,
         Manipulate $manipulate
     ): Manipulate {
-        $table_name_builder = $manipulate->getTableNameBuilder(
+        $table_names_builder = $manipulate->getTableNameBuilder(
             $answer_form_generic_table_definitions->getTableSubNameSpace()
         );
         $table_type = AnswerFormGenericTableTypes::AnswerForms;
@@ -125,13 +125,13 @@ class TypeGenericProperties
         return $manipulate->withAdditionalStatement(
             $persistence_factory->delete(
                 $persistence_factory->table(
-                    $table_name_builder,
+                    $table_names_builder,
                     $table_type
                 ),
                 [
                     $persistence_factory->where(
                         $answer_form_generic_table_definitions->getIdColumn(
-                            $table_name_builder,
+                            $table_names_builder,
                             $table_type
                         ),
                         $persistence_factory->value(
@@ -147,11 +147,11 @@ class TypeGenericProperties
     private function buildInsertStatement(
         PersistenceFactory $persistence_factory,
         AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions,
-        TableNameBuilder $table_name_builder
+        TableNameBuilder $table_names_builder
     ): Insert {
         return $persistence_factory->insert(
             $answer_form_generic_table_definitions->getColumns(
-                $table_name_builder,
+                $table_names_builder,
                 AnswerFormGenericTableTypes::AnswerForms
             ),
             [
@@ -194,13 +194,13 @@ class TypeGenericProperties
     private function buildUpdateStatement(
         PersistenceFactory $persistence_factory,
         AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions,
-        TableNameBuilder $table_name_builder
+        TableNameBuilder $table_names_builder
     ): Update {
         $table_type = AnswerFormGenericTableTypes::AnswerForms;
 
         return $persistence_factory->update(
             $answer_form_generic_table_definitions->getColumns(
-                $table_name_builder,
+                $table_names_builder,
                 $table_type,
                 [
                     'id',
@@ -231,7 +231,7 @@ class TypeGenericProperties
             [
                 $persistence_factory->where(
                     $answer_form_generic_table_definitions->getIdColumn(
-                        $table_name_builder,
+                        $table_names_builder,
                         $table_type
                     ),
                     $persistence_factory->value(

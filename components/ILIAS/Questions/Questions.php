@@ -50,9 +50,11 @@ class Questions implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $define[] = AnswerFormDefinition::class;
-        $define[] = AnswerFormMigration::class;
-        $define[] = CapabilityMigration::class;
+        $define[] = Questions\PublicInterface::class;
+
+        $internal[PersistenceFactory::class] = static fn()
+            => new PersistenceFactory();
+        $internal[\EvalMath::class] = static fn() => new \EvalMath();
 
         $contribute[AgentInterface::class] = static fn() =>
             new Agent(
@@ -127,9 +129,5 @@ class Questions implements Component\Component
             );
         $contribute[User\Settings\UserSettings::class] = fn()
             => new Questions\UserSettings\Settings();
-
-        $internal[PersistenceFactory::class] = static fn()
-            => new PersistenceFactory();
-        $internal[\EvalMath::class] = static fn() => new \EvalMath();
     }
 }

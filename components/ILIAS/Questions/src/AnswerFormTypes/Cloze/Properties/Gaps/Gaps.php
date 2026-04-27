@@ -23,6 +23,7 @@ namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
 use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
+use ILIAS\Questions\Attempt\Attempt;
 use ILIAS\Questions\Persistence\Delete;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Junctor;
@@ -35,6 +36,7 @@ use ILIAS\Database\FieldDefinition;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Refinery\Random\Seed\RandomSeed;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\MultiSelect;
 use ILIAS\UI\Component\Input\Field\Section;
@@ -61,6 +63,26 @@ class Gaps
                 return $c;
             },
             []
+        );
+    }
+
+    public function getTotalAvailablePoints(): ?float
+    {
+        return array_reduce(
+            $this->gaps,
+            function (?float $c, Gap $v): ?float {
+                $points_from_options = $v->getAnswerOptions()->getMaxAvailablePoints();
+
+                if ($points_from_options === null) {
+                    return $c;
+                }
+
+                if ($c === null) {
+                    return $points_from_options;
+                }
+
+                return $c + $points_from_options;
+            }
         );
     }
 
@@ -163,12 +185,15 @@ class Gaps
         return array_diff_key($this->gaps, $old_gaps->gaps);
     }
 
-    public function getPlaceholderArrayForParticipantView(): array
-    {
+    public function getPlaceholderArrayForParticipantView(
+        ?Attempt $attempt_data
+    ): array {
         return array_reduce(
             $this->gaps,
-            function (array $c, Gap $v): array {
-                $c[$v->buildGapPlaceholderNameWithId($v)] = $v->buildParticipantViewLegacyInput();
+            function (array $c, Gap $v) use ($attempt_data): array {
+                $c[$v->buildGapPlaceholderNameWithId($v)] = $v->buildParticipantViewLegacyInput(
+                    $attempt_data
+                );
                 return $c;
             },
             []
@@ -356,6 +381,22 @@ class Gaps
         return $clone;
     }
 
+    public function initializeAttemptData(
+        Attempt $attempt
+    ): Attempt {
+        return array_reduce(
+            $this->gaps,
+            fn(Attempt $c, Gap $v): Attempt => $v->getShuffleAnswerOptions()
+                ? $c->withAdditionalData(
+                    $v->getAnswerInputId(),
+                    $this->refinery->kindlyTo()->string()->transform(
+                        (new RandomSeed())->createSeed()
+                    )
+                ) : $c,
+            $attempt
+        );
+    }
+
     public function toTableRows(
         DataRowBuilder $row_builder,
         Language $lng
@@ -372,7 +413,7 @@ class Gaps
         Manipulate $manipulate,
         PersistenceFactory $persistence_factory,
         TableDefinitions $table_definitions,
-        TableNameBuilder $table_name_builder
+        TableNameBuilder $table_names_builder
     ): Manipulate {
         [
             'gaps' => $replace_for_gaps,
@@ -384,13 +425,13 @@ class Gaps
                     $c['gaps'],
                     $table_definitions,
                     $persistence_factory,
-                    $table_name_builder
+                    $table_names_builder
                 ),
                 'answer_options' => $v->getAnswerOptions()->buildReplace(
                     $c['answer_options'],
                     $table_definitions,
                     $persistence_factory,
-                    $table_name_builder
+                    $table_names_builder
                 )
             ],
             [
@@ -403,7 +444,7 @@ class Gaps
             $this->buildDeleteForRemovedGaps(
                 $table_definitions,
                 $persistence_factory,
-                $table_name_builder
+                $table_names_builder
             )
         )->withAdditionalStatement($replace_for_gaps)
         ->withAdditionalStatement($replace_for_answer_options);
@@ -413,7 +454,7 @@ class Gaps
         Manipulate $manipulate,
         PersistenceFactory $persistence_factory,
         TableDefinitions $table_definitions,
-        TableNameBuilder $table_name_builder
+        TableNameBuilder $table_names_builder
     ): Manipulate {
         return array_reduce(
             $this->gaps,
@@ -421,14 +462,14 @@ class Gaps
                 $v->getAnswerOptions()->buildDelete(
                     $table_definitions,
                     $persistence_factory,
-                    $table_name_builder
+                    $table_names_builder
                 )
             ),
             $manipulate->withAdditionalStatement(
                 $this->buildDeleteForDeletionOfAnswerForm(
                     $table_definitions,
                     $persistence_factory,
-                    $table_name_builder
+                    $table_names_builder
                 )
             )
         );
@@ -437,18 +478,18 @@ class Gaps
     private function buildDeleteForRemovedGaps(
         TableDefinitions $table_definitions,
         PersistenceFactory $persistence_factory,
-        TableNameBuilder $table_name_builder
+        TableNameBuilder $table_names_builder
     ): Delete {
         $table_type = AnswerFormSpecificTableTypes::AnswerInputs;
         return $persistence_factory->delete(
             $persistence_factory->table(
-                $table_name_builder,
+                $table_names_builder,
                 $table_type
             ),
             [
                 $persistence_factory->where(
                     $table_definitions->getForeignKeyColumn(
-                        $table_name_builder,
+                        $table_names_builder,
                         $table_type
                     ),
                     $persistence_factory->value(
@@ -458,7 +499,7 @@ class Gaps
                 ),
                 $persistence_factory->where(
                     $table_definitions->getIdColumn(
-                        $table_name_builder,
+                        $table_names_builder,
                         $table_type
                     ),
                     $persistence_factory->value(
@@ -479,19 +520,19 @@ class Gaps
     private function buildDeleteForDeletionOfAnswerForm(
         TableDefinitions $table_definitions,
         PersistenceFactory $persistence_factory,
-        TableNameBuilder $table_name_builder
+        TableNameBuilder $table_names_builder
     ): Delete {
         $table_type = AnswerFormSpecificTableTypes::AnswerInputs;
 
         return $persistence_factory->delete(
             $persistence_factory->table(
-                $table_name_builder,
+                $table_names_builder,
                 $table_type
             ),
             [
                 $persistence_factory->where(
                     $table_definitions->getForeignKeyColumn(
-                        $table_name_builder,
+                        $table_names_builder,
                         $table_type
                     ),
                     $persistence_factory->value(

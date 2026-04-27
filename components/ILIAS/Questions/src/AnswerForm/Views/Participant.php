@@ -21,14 +21,15 @@ declare(strict_types=1);
 namespace ILIAS\Questions\AnswerForm\Views;
 
 use ILIAS\Questions\AnswerForm\Properties;
+use ILIAS\Questions\Attempt\Attempt;
 use ILIAS\Questions\Response\Response;
 
 interface Participant
 {
-    public function isAsyncPresentationAvailable(): bool;
-
-    public function get(
+    public function show(
         Properties $properties,
-        ?Response $response
+        ?Attempt $attempt_data
     ): string;
+
+    public function retrieveResponse(): Response;
 }

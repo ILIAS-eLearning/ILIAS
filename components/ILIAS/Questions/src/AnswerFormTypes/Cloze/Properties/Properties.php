@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties;
 
+use ILIAS\Questions\AnswerForm\Capabilities\Marking\Marking;
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
 use ILIAS\Questions\AnswerForm\Properties as PropertiesInterface;
 use ILIAS\Questions\AnswerForm\TypeGenericProperties;
@@ -42,8 +43,6 @@ use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Database\FieldDefinition;
 use ILIAS\Language\Language;
-use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Table\Data as DataTable;
 
@@ -54,6 +53,7 @@ class Properties implements PropertiesInterface
     private const string KEY_ENABLE_COMBINATIONS = 'enable_combinations';
     private const string KEY_GAPS = 'gaps';
 
+    private bool $updated_gaps = false;
     private bool $updated_combinations = false;
 
     /**
@@ -63,6 +63,7 @@ class Properties implements PropertiesInterface
         private readonly Uuid $answer_form_id,
         private readonly Uuid $question_id,
         private readonly Definition $definition,
+        private readonly ?float $available_points,
         private Text $cloze_text,
         private readonly string $legacy_cloze_text,
         private ScoringIdentical $scoring_identical,
@@ -96,7 +97,7 @@ class Properties implements PropertiesInterface
             $this->answer_form_id,
             $this->question_id,
             $this->definition,
-            null,
+            $this->buildAvailablePointsForGenericProperties(),
             null,
             null,
             $this->cloze_text->getRawRepresentation(),
@@ -166,6 +167,7 @@ class Properties implements PropertiesInterface
     ): self {
         $clone = clone $this;
         $clone->gaps = $gaps;
+        $clone->updated_gaps = true;
         return $clone;
     }
 
@@ -197,13 +199,15 @@ class Properties implements PropertiesInterface
     }
 
     public function buildBasicEditingInputs(
-        Language $lng,
-        FieldFactory $ff,
-        Refinery $refinery,
+        Environment $environment,
         Factory $properties_factory,
         ClozeTextFactory $cloze_text_factory,
         bool $add_legacy_cloze_text_to_input
     ): Section {
+        $lng = $environment->getLanguage();
+        $ff = $environment->getUIFactory()->input()->field();
+        $refinery = $environment->getRefinery();
+
         $cloze_text_input = $this->cloze_text->getInput(
             $lng,
             $ff,
@@ -219,18 +223,24 @@ class Properties implements PropertiesInterface
             );
         }
 
+        $inputs = [
+            self::KEY_CLOZE_TEXT => $cloze_text_input,
+            self::KEY_SCORING_IDENTICAL => ScoringIdentical::buildInput(
+                $lng,
+                $ff,
+                $refinery,
+                $this->scoring_identical
+            )->withValue($this->getScoringOfIdenticalResponses()->value)
+        ];
+
+        if ($environment->isCapabilityRequired(Marking::class)) {
+            $inputs[self::KEY_ENABLE_COMBINATIONS] = $ff->checkbox(
+                $lng->txt('cloze_enable_combinations')
+            )->withValue($this->combinations->areCombinationsEnabled());
+        }
+
         return $ff->section(
-            [
-                self::KEY_CLOZE_TEXT => $cloze_text_input,
-                self::KEY_SCORING_IDENTICAL => ScoringIdentical::buildInput(
-                    $lng,
-                    $ff,
-                    $refinery,
-                    $this->scoring_identical
-                )->withValue($this->getScoringOfIdenticalResponses()->value),
-                self::KEY_ENABLE_COMBINATIONS => $ff->checkbox($lng->txt('cloze_enable_combinations'))
-                    ->withValue($this->combinations->areCombinationsEnabled())
-            ],
+            $inputs,
             $lng->txt('set_basic_properties')
         )->withAdditionalTransformation(
             $refinery->custom()->transformation(
@@ -238,7 +248,7 @@ class Properties implements PropertiesInterface
                     $this,
                     $vs[self::KEY_CLOZE_TEXT],
                     $vs[self::KEY_SCORING_IDENTICAL],
-                    $vs[self::KEY_ENABLE_COMBINATIONS]
+                    $vs[self::KEY_ENABLE_COMBINATIONS] ?? false
                 )
             )
         );
@@ -283,7 +293,7 @@ class Properties implements PropertiesInterface
     ): Manipulate {
         $table_definitions = $this->definition->getTableDefinitions();
 
-        $table_name_builder = $manipulate->getTableNameBuilder(
+        $table_names_builder = $manipulate->getTableNameBuilder(
             $table_definitions->getTableSubNameSpace()
         );
 
@@ -291,24 +301,24 @@ class Properties implements PropertiesInterface
             ? $this->buildInsertAnswerFormStatement(
                 $table_definitions,
                 $persistence_factory,
-                $table_name_builder
+                $table_names_builder
             ) : $this->buildUpdateAnswerFormStatement(
                 $table_definitions,
                 $persistence_factory,
-                $table_name_builder
+                $table_names_builder
             );
 
         return $this->gaps->toStorage(
             $this->addReplaceCombinationsStatements(
                 $manipulate,
                 $table_definitions,
-                $table_name_builder
+                $table_names_builder
             )->withAdditionalStatement(
                 $answer_form_statement
             ),
             $persistence_factory,
             $table_definitions,
-            $table_name_builder
+            $table_names_builder
         );
     }
 
@@ -318,7 +328,7 @@ class Properties implements PropertiesInterface
         Manipulate $manipulate
     ): Manipulate {
         $table_definitions = $this->definition->getTableDefinitions();
-        $table_name_builder = $manipulate->getTableNameBuilder(
+        $table_names_builder = $manipulate->getTableNameBuilder(
             $table_definitions->getTableSubNameSpace()
         );
 
@@ -327,23 +337,23 @@ class Properties implements PropertiesInterface
                 $this->buildDeleteAnswerFormStatement(
                     $table_definitions,
                     $persistence_factory,
-                    $table_name_builder
+                    $table_names_builder
                 )
             ),
             $persistence_factory,
             $table_definitions,
-            $table_name_builder
+            $table_names_builder
         );
     }
 
     private function buildInsertAnswerFormStatement(
         TableDefinitions $table_definitions,
         PersistenceFactory $persistence_factory,
-        TableNameBuilder $table_name_builder
+        TableNameBuilder $table_names_builder
     ): Insert {
         return $persistence_factory->insert(
             $table_definitions->getColumns(
-                $table_name_builder,
+                $table_names_builder,
                 AnswerFormSpecificTableTypes::TypeSpecificAnswerForms
             ),
             [
@@ -366,12 +376,12 @@ class Properties implements PropertiesInterface
     private function buildUpdateAnswerFormStatement(
         TableDefinitions $table_definitions,
         PersistenceFactory $persistence_factory,
-        TableNameBuilder $table_name_builder
+        TableNameBuilder $table_names_builder
     ): Update {
         $table_type = AnswerFormSpecificTableTypes::TypeSpecificAnswerForms;
         return $persistence_factory->update(
             $table_definitions->getColumns(
-                $table_name_builder,
+                $table_names_builder,
                 $table_type,
                 '',
                 ['answer_form_id']
@@ -389,7 +399,7 @@ class Properties implements PropertiesInterface
             [
                 $persistence_factory->where(
                     $table_definitions->getIdColumn(
-                        $table_name_builder,
+                        $table_names_builder,
                         $table_type
                     ),
                     $persistence_factory->value(
@@ -404,7 +414,7 @@ class Properties implements PropertiesInterface
     private function addReplaceCombinationsStatements(
         Manipulate $manipulate,
         TableDefinitions $table_definitions,
-        TableNameBuilder $table_name_builder
+        TableNameBuilder $table_names_builder
     ): Manipulate {
         if (!$this->combinations->areCombinationsEnabled()
             || !$this->updated_combinations) {
@@ -414,26 +424,26 @@ class Properties implements PropertiesInterface
         return $this->combinations->toStorage(
             $manipulate,
             $table_definitions,
-            $table_name_builder
+            $table_names_builder
         );
     }
 
     private function buildDeleteAnswerFormStatement(
         TableDefinitions $table_definitions,
         PersistenceFactory $persistence_factory,
-        TableNameBuilder $table_name_builder
+        TableNameBuilder $table_names_builder
     ): Delete {
         $table_type = AnswerFormSpecificTableTypes::TypeSpecificAnswerForms;
 
         return $persistence_factory->delete(
             $persistence_factory->table(
-                $table_name_builder,
+                $table_names_builder,
                 $table_type
             ),
             [
                 $persistence_factory->where(
                     $table_definitions->getForeignKeyColumn(
-                        $table_name_builder,
+                        $table_names_builder,
                         $table_type
                     ),
                     $persistence_factory->value(
@@ -443,5 +453,18 @@ class Properties implements PropertiesInterface
                 )
             ]
         );
+    }
+
+    private function buildAvailablePointsForGenericProperties(): ?float
+    {
+        if (!$this->updated_gaps && !$this->updated_combinations) {
+            return $this->available_points;
+        }
+
+        if (!$this->combinations->areCombinationsEnabled()) {
+            return $this->gaps->getTotalAvailablePoints();
+        }
+
+        return 1.1;
     }
 }

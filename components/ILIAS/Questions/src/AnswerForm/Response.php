@@ -18,20 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Response;
+namespace ILIAS\Questions\AnswerForm;
 
-interface Repository
+use ILIAS\Questions\Persistence\Storable;
+use ILIAS\Data\UUID\Uuid;
+
+interface Response extends Storable
 {
-    public function getForUser(
-        int $question_id,
-        int $user_id
-    ): Result;
-
-    public function getAllForQuestion(
-        int $question_id
-    ): Result;
-
-    public function storeResult(
-        Result $result
-    ): void;
+    public function getAnswerFormId(): Uuid;
 }
