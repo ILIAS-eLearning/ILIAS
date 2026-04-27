@@ -24,6 +24,7 @@ use assFormulaQuestion;
 use assFormulaQuestionUnit;
 use assFormulaQuestionUnitCategory;
 use assQuestion;
+use ilAssQuestionPage;
 use ilCtrl;
 use ilDBInterface;
 use ILIAS\Language\Language;
@@ -53,7 +54,7 @@ class QuestionsImporter
         Transformations $transformations,
         ilImportMapping $mapping,
         array $selected_questions
-    ): void {
+    ): ?assQuestion {
         $question_class = $normalized['type'];
         if (!class_exists($question_class)) {
             throw new \InvalidArgumentException("Question class {$question_class} does not exist");
@@ -63,7 +64,7 @@ class QuestionsImporter
         $question = $transformations->denormalize($normalized, new $question_class());
         $old_question_id = $question->getId();
         if (!in_array($old_question_id, $selected_questions)) {
-            return;
+            return null;
         }
 
         // Initialize feedback object to prevent error when saving the question
@@ -83,6 +84,8 @@ class QuestionsImporter
 
         $feedback = $transformations->denormalize($normalized['feedback'], Feedback::class);
         $this->importFeedback($feedback, $question);
+
+        return $question;
     }
 
 
@@ -91,7 +94,7 @@ class QuestionsImporter
         ImportContext $context,
         CollectQuestionImages $pipe,
     ): void {
-        $import_dir = dirname($context->get('import_file')) . DIRECTORY_SEPARATOR . 'expDir_1';
+        $import_dir = dirname($context->get(UploadValidationStage::COMPONENT_IMPORT_FILE)) . DIRECTORY_SEPARATOR . 'expDir_1';
 
         $question_files = new QuestionFiles();
         foreach ($pipe->getEnvelopes() as $from_path => $envelope) {
@@ -111,6 +114,49 @@ class QuestionsImporter
             copy($import_dir . DIRECTORY_SEPARATOR . $from_path, $base_dir . $envelope->getFilename());
 
             //TODO: generate thumbnail
+        }
+    }
+
+    /**
+     * Finalize the imported question pages by replacing the old question ids with the new question ids.
+     */
+    public function finalizeQuestionPages(ilImportMapping $mapping): void
+    {
+        $page_mappings = $mapping->getMappingsOfEntity('components/ILIAS/COPage', 'pg');
+
+        foreach ($page_mappings as $old => $new) {
+            if (!preg_match('/^qpl:(\d+)$/', $old, $old_matches)) {
+                continue;
+            }
+            $old_question_id = $old_matches[1];
+
+            if (!preg_match('/^qpl:(\d+)$/', $new, $new_matches)) {
+                continue;
+            }
+            $new_question_id = $new_matches[1];
+
+            $page = new ilAssQuestionPage((int) $new_question_id);
+            $xml = preg_replace(
+                '/il_\d+_qst_' . preg_quote($old_question_id, '/') . '\b/',
+                "il__qst_{$new_question_id}",
+                $page->getXMLContent()
+            );
+            if ($xml === null) {
+                continue;
+            }
+            $page->setXMLContent($xml);
+
+            $parent_obj_id = $mapping->getMapping(
+                $this->component,
+                'question_assignment',
+                $new_question_id
+            );
+            if ($parent_obj_id !== null) {
+                $page->setParentId((int) $parent_obj_id);
+            }
+
+            $page->updateFromXML();
+            unset($page);
         }
     }
 
@@ -147,8 +193,8 @@ class QuestionsImporter
         $mapping->addMapping(
             'components/ILIAS/COPage',
             'pg',
-            "{$this->parent_type}:{$old_question_id}",
-            "{$this->parent_type}:{$new_question_id}"
+            "qpl:{$old_question_id}",
+            "qpl:{$new_question_id}"
         );
     }
 

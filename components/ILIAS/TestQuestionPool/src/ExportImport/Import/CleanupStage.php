@@ -47,7 +47,7 @@ class CleanupStage implements ImportStage
 
     public function process(ImportContext $context): StageResult
     {
-        $file_to_import = $context->get('file_to_import');
+        $file_to_import = $context->get(UploadValidationStage::FILE_TO_IMPORT);
         if ($file_to_import !== null) {
             $temp_dir = dirname($file_to_import);
             if (file_exists($temp_dir) && is_dir($temp_dir)) {
@@ -55,7 +55,7 @@ class CleanupStage implements ImportStage
             }
         }
 
-        $import_base_dir = $context->get('import_base_dir');
+        $import_base_dir = $context->get(UploadValidationStage::IMPORT_BASE_DIR);
         if (file_exists($import_base_dir) && is_dir($import_base_dir)) {
             $this->removeDirectory($import_base_dir);
         }

@@ -19,6 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
+use ILIAS\TestQuestionPool\ExportImport\Import\DetectLegacyImportStage;
+use ILIAS\TestQuestionPool\ExportImport\Import\UploadValidationStage;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\RequestDataCollector;
 
@@ -55,8 +57,8 @@ class ilTestQuestionPoolLegacyImporter extends ilXmlImporter
         $a_mapping->addMapping('components/ILIAS/TestQuestionPool', 'qpl', $a_id, (string) $this->pool_obj->getId());
 
         $context = $this->session->getContext();
-        $import_base_dir = $context->get('import_base_dir');
-        $xml_file = $context->get('xml_file');
+        $import_base_dir = $context->get(UploadValidationStage::IMPORT_BASE_DIR);
+        $xml_file = $context->get(DetectLegacyImportStage::LEGACY_XML_FILE);
         $context = $context->with('pool_obj_id', $this->pool_obj->getId());
         $this->session->setContext($context);
 
@@ -77,7 +79,7 @@ class ilTestQuestionPoolLegacyImporter extends ilXmlImporter
 
         $qti_parser = new ilQTIParser(
             $import_base_dir,
-            $context->get('qti_file'),
+            $context->get(DetectLegacyImportStage::LEGACY_QTI_FILE),
             ilQTIParser::IL_MO_PARSE_QTI,
             $this->pool_obj->getId(),
             $context->get('selected_questions')

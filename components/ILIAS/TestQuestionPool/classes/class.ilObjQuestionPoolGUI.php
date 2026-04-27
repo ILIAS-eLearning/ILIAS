@@ -1101,7 +1101,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     {
         $this->import_session_repository->clear();
 
-        $context = new ImportContext(['file_to_import' => $file_to_import]);
+        $context = new ImportContext([UploadValidationStage::FILE_TO_IMPORT => $file_to_import]);
         $this->import_session_repository->setContext($context);
         $this->import_session_repository->setCurrentStageIndex(0);
 
