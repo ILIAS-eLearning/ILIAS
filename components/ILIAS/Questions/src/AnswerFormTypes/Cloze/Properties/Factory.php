@@ -49,6 +49,7 @@ class Factory
                 $type_generic_properties->getAnswerFormId(),
                 $type_generic_properties->getQuestionId(),
                 $type_generic_properties->getDefinition(),
+                $type_generic_properties->getAvailablePoints(),
                 $this->cloze_text_factory->buildFromTextString(
                     $type_generic_properties->getAdditionalText()
                 ),
@@ -105,6 +106,7 @@ class Factory
             $type_generic_properties->getAnswerFormId(),
             $type_generic_properties->getQuestionId(),
             $type_generic_properties->getDefinition(),
+            $type_generic_properties->getAvailablePoints(),
             $this->cloze_text_factory->buildFromTextString(
                 $type_generic_properties->getAdditionalText()
             ),

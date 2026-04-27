@@ -44,7 +44,7 @@ class MigrationInsert
         private readonly UuidFactory $uuid_factory,
         private readonly PersistenceFactory $persistence_factory,
         private readonly AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions,
-        private readonly TableNameBuilder $table_name_builder,
+        private readonly TableNameBuilder $table_names_builder,
         private array $inserts,
         private readonly int $old_question_id,
         private readonly Uuid $new_question_id,
@@ -76,7 +76,7 @@ class MigrationInsert
 
     public function getTableNameBuilder(): TableNameBuilder
     {
-        return $this->table_name_builder;
+        return $this->table_names_builder;
     }
 
     public function getOldQuestionId(): int
@@ -171,7 +171,7 @@ class MigrationInsert
     {
         return $this->persistence_factory->insert(
             $this->answer_form_generic_table_definitions->getColumns(
-                $this->table_name_builder,
+                $this->table_names_builder,
                 AnswerFormGenericTableTypes::AnswerForms
             ),
             [

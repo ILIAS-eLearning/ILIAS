@@ -291,7 +291,7 @@ class MigrationCloze implements Migration
 
     private function buildCombinationsInsert(
         PersistenceFactory $persistence_factory,
-        TableNameBuilder $table_name_builder,
+        TableNameBuilder $table_names_builder,
         ?Insert $combinations_insert,
         Uuid $combination_id,
         Uuid $answer_form_id,
@@ -306,7 +306,7 @@ class MigrationCloze implements Migration
         if ($combinations_insert === null) {
             return $persistence_factory->insert(
                 $this->table_definitions->getColumns(
-                    $table_name_builder,
+                    $table_names_builder,
                     AnswerFormSpecificTableTypes::Additional,
                     $this->table_definitions->getCombinationsTableIdentifier()
                 ),
@@ -319,7 +319,7 @@ class MigrationCloze implements Migration
 
     private function buildCombinationsToAnswerOptionsInsert(
         PersistenceFactory $persistence_factory,
-        TableNameBuilder $table_name_builder,
+        TableNameBuilder $table_names_builder,
         ?Insert $combinations_to_answer_options_insert,
         Uuid $combination_id,
         Uuid $gap_id,
@@ -336,7 +336,7 @@ class MigrationCloze implements Migration
         if ($combinations_to_answer_options_insert === null) {
             return $persistence_factory->insert(
                 $this->table_definitions->getColumns(
-                    $table_name_builder,
+                    $table_names_builder,
                     AnswerFormSpecificTableTypes::Additional,
                     $this->table_definitions->getCombinationToAnswerOptionsTableIdentifier()
                 ),

@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerForm\Capabilities\Feedback;
 
-use ILIAS\Questions\AnswerForm\Capabilities\ActionWithTab;
 use ILIAS\Questions\AnswerForm\Capabilities\Capability as CapabilityInterface;
+use ILIAS\Questions\AnswerForm\Capabilities\ActionWithTab;
 use ILIAS\Questions\AnswerForm\Properties;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Async;
@@ -95,6 +95,19 @@ class Capability implements CapabilityInterface
                 $answer_form_properties
             )
         );
+    }
+
+    #[\Override]
+    public function providesRenderer(): bool
+    {
+        return false;
+    }
+
+    #[\Override]
+    public function getRenderer(
+        Properties $answer_form_properties
+    ): null {
+        return null;
     }
 
     private function buildDoEditActionClosure(): \Closure

@@ -20,8 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerForm;
 
+use ILIAS\Questions\AnswerForm\Properties as AnswerFormProperties;
 use ILIAS\Questions\AnswerForm\Views\Edit;
 use ILIAS\Questions\AnswerForm\Views\Participant;
+use ILIAS\Questions\Attempt\Attempt;
 use ILIAS\Questions\Persistence\Query;
 use ILIAS\Questions\AnswerForm\Persistence\TableDefinitions;
 use ILIAS\Language\Language;
@@ -34,6 +36,11 @@ interface Definition
         TypeGenericProperties $type_generic_properties,
         ?Query $query
     ): Properties;
+
+    public function buildResponse(
+        ?Query $query
+    ): Response;
+
     public function getTableDefinitions(): TableDefinitions;
 
     public function hasCapability(
@@ -43,6 +50,11 @@ interface Definition
     public function getCapability(
         string $capability_class_name
     ): mixed;
+
+    public function initializeAttemptData(
+        Attempt $attempt,
+        AnswerFormProperties $answer_form_properties
+    ): Attempt;
 
     public function getEditView(): Edit;
 

@@ -27,11 +27,10 @@ use ILIAS\Questions\Presentation\Views\Edit;
 use ILIAS\Questions\Question\Persistence\Repository;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
-use ILIAS\UI\Component\Table\DataRetrieval;
-use ILIAS\UI\Component\Table\DataRowBuilder;
-use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Button\Primary as PrimaryButton;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as Filter;
+use ILIAS\UI\Component\Table\DataRetrieval;
+use ILIAS\UI\Component\Table\DataRowBuilder;
 
 class QuestionsTable implements Viewable, DataRetrieval
 {
@@ -41,7 +40,8 @@ class QuestionsTable implements Viewable, DataRetrieval
         private readonly \ilUIService $ui_service,
         private readonly AnswerFormFactory $answer_form_factory,
         private readonly Repository $questions_repository,
-        private readonly DefaultEnvironment $environment
+        private readonly DefaultEnvironment $environment,
+        private readonly array $required_capabilities
     ) {
         $environment->getLanguage()->loadLanguageModule('qpl');
     }
@@ -95,10 +95,15 @@ class QuestionsTable implements Viewable, DataRetrieval
             $order,
             $filter_data
         ) as $question) {
-            yield $question->toTableRow(
+            $table_row = $question->toTableRow(
                 $row_builder,
-                $environment_with_action
+                $environment_with_action,
+                $this->required_capabilities
             );
+
+            if ($table_row !== null) {
+                yield $table_row;
+            }
         }
     }
 
@@ -138,7 +143,7 @@ class QuestionsTable implements Viewable, DataRetrieval
     private function buildFilter(
         string $action
     ): Filter {
-        $filter_inputs = OverviewTableColumns::getFilderInputs(
+        $filter_inputs = OverviewTableColumns::getFilterInputs(
             $this->environment->getLanguage(),
             $this->environment->getUIFactory()->input()->field(),
             $this->answer_form_factory->getAnswerFormTypesArrayForSelect(

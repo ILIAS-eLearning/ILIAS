@@ -18,21 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Response;
+namespace ILIAS\Questions\AnswerForm\Capabilities\Async;
 
-interface Response
+use ILIAS\Questions\AnswerForm\Properties;
+use ILIAS\Questions\Presentation\Layout\Viewable;
+
+interface Async
 {
-    public function getCorrespondingQuestionType(): QuestionType;
-
-    public function getQuestionId(): ?int;
-
-    public function withQuestionId(
-        int $question_id
-    ): self;
-
-    public function getParticipantId(): ?int;
-
-    public function withParticipantId(
-        int $participant_id
-    ): self;
+    public function getViewable(
+        Properties $answer_form_properties
+    ): Viewable;
 }

@@ -98,11 +98,11 @@ class TableDefinitions
     }
 
     public function getIdColumn(
-        TableNameBuilder $table_name_builder,
+        TableNameBuilder $table_names_builder,
         TableTypesInterface $table_type
     ): Column {
         $table = $this->persistence_factory->table(
-            $table_name_builder,
+            $table_names_builder,
             $table_type
         );
 
@@ -125,30 +125,30 @@ class TableDefinitions
     public function completeLoadQuestionQuery(
         Query $query
     ): Query {
-        $table_name_builder = $query->getTableNameBuilder(null);
+        $table_names_builder = $query->getTableNameBuilder(null);
         $questions_id_column = $this->getIdColumn(
-            $table_name_builder,
+            $table_names_builder,
             TableTypes::Questions
         );
 
         return $query->withAdditionalSelect(
             $this->persistence_factory->select(
                 $this->getColumns(
-                    $table_name_builder,
+                    $table_names_builder,
                     TableTypes::Linking
                 )
             )
         )->withAdditionalSelect(
             $this->persistence_factory->select(
                 $this->getColumns(
-                    $table_name_builder,
+                    $table_names_builder,
                     TableTypes::Questions
                 )
             )
         )->withAdditionalJoin(
             $this->persistence_factory->join(
                 $this->getIdColumn(
-                    $table_name_builder,
+                    $table_names_builder,
                     TableTypes::Linking
                 ),
                 $questions_id_column,
@@ -161,7 +161,7 @@ class TableDefinitions
         )->withAdditionalOrder(
             $this->persistence_factory->order(
                 $this->getIdColumn(
-                    $table_name_builder,
+                    $table_names_builder,
                     TableTypes::Linking
                 )
             )

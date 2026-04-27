@@ -21,23 +21,15 @@ declare(strict_types=1);
 namespace ILIAS\Questions;
 
 use ILIAS\Questions\Presentation\Views\Edit;
+use ILIAS\Questions\Presentation\Views\Participant;
 
-class PublicInterface
+interface PublicInterface
 {
-    public function __construct(
-        private readonly Collector $collector,
-        private readonly Edit $edit_presentation
-    ) {
+    public function getParticipantView(
+        int $owner_obj_id
+    ): Participant;
 
-    }
-
-    public function getCollector(): Collector
-    {
-        return $this->collector;
-    }
-
-    public function getEditPresentation(): Edit
-    {
-        return $this->edit_presentation;
-    }
+    public function getEditView(
+        int $owner_obj_id
+    ): Edit;
 }

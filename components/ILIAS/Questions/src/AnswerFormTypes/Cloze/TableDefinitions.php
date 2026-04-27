@@ -56,6 +56,7 @@ class TableDefinitions implements TableDefinitionsInterface
     ];
 
     private const string ANSWER_OPTIONS_TABLE_FOREIGN_KEY_COLUMN = 'answer_input_id';
+    private const string ANSWER_OPTIONS_TABLE_ADDITIONAL_ORDER_COLUMN = 'position';
     private const array ANSWER_OPTIONS_TABLE_COLUMNS = [
         'id',
         'answer_input_id',
@@ -84,6 +85,15 @@ class TableDefinitions implements TableDefinitionsInterface
         'in_range'
     ];
 
+    private const string RESPONSE_TABLE_ID_COLUMN = 'response_id';
+    private const string RESPONSE_TABLE_FOREIGN_KEY_COLUMN = 'response_id';
+    private const array RESPONSE_TABLE_COLUMNS = [
+        'response_id',
+        'answer_input_id',
+        'selected_answer_option',
+        'text'
+    ];
+
     public function __construct(
         private readonly PersistenceFactory $persistence_factory,
         private readonly TableSubNameSpace $table_name_specifiers
@@ -96,13 +106,13 @@ class TableDefinitions implements TableDefinitionsInterface
     }
 
     public function getColumns(
-        TableNameBuilder $table_name_builder,
+        TableNameBuilder $table_names_builder,
         TableTypes $table_type,
         string $sub_table_identifier = '',
         array $columns_to_skip = []
     ): array {
         $table = $this->persistence_factory->table(
-            $table_name_builder,
+            $table_names_builder,
             $table_type,
             $sub_table_identifier
         );
@@ -110,11 +120,13 @@ class TableDefinitions implements TableDefinitionsInterface
             AnswerFormSpecificTableTypes::TypeSpecificAnswerForms => self::ANSWER_FORM_TABLE_COLUMNS,
             AnswerFormSpecificTableTypes::AnswerInputs => self::ANSWER_INPUTS_TABLE_COLUMNS,
             AnswerFormSpecificTableTypes::AnswerOptions => self::ANSWER_OPTIONS_TABLE_COLUMNS,
+            AnswerFormSpecificTableTypes::Responses => self::RESPONSE_TABLE_COLUMNS,
             AnswerFormSpecificTableTypes::Additional => match($sub_table_identifier) {
                 self::COMBINATION_TABLE_IDENTIFIER => self::COMBINATION_TABLE_COLUMNS,
                 self::COMBINATION_TO_ANSWER_OPTIONS_TABLE_IDENTIFIER => self::COMBINATION_TO_ANSWER_OPTIONS_TABLE_COLUMNS
             }
         };
+
         return array_map(
             fn(string $v): Column => $this->persistence_factory->column(
                 $table,
@@ -130,12 +142,12 @@ class TableDefinitions implements TableDefinitionsInterface
     }
 
     public function getIdColumn(
-        TableNameBuilder $table_name_builder,
+        TableNameBuilder $table_names_builder,
         TableTypes $table_type,
         string $sub_table_identifier = ''
     ): Column {
         $table = $this->persistence_factory->table(
-            $table_name_builder,
+            $table_names_builder,
             $table_type,
             $sub_table_identifier
         );
@@ -144,6 +156,13 @@ class TableDefinitions implements TableDefinitionsInterface
             return $this->persistence_factory->column(
                 $table,
                 self::ANSWER_FORM_TABLE_FOREIGN_KEY_COLUMN
+            );
+        }
+
+        if ($table_type === AnswerFormSpecificTableTypes::Responses) {
+            return $this->persistence_factory->column(
+                $table,
+                self::RESPONSE_TABLE_ID_COLUMN
             );
         }
 
@@ -161,12 +180,12 @@ class TableDefinitions implements TableDefinitionsInterface
     }
 
     public function getForeignKeyColumn(
-        TableNameBuilder $table_name_builder,
+        TableNameBuilder $table_names_builder,
         TableTypes $table_type,
         string $sub_table_identifier = ''
     ): Column {
         $table = $this->persistence_factory->table(
-            $table_name_builder,
+            $table_names_builder,
             $table_type,
             $sub_table_identifier
         );
@@ -184,6 +203,10 @@ class TableDefinitions implements TableDefinitionsInterface
                 $table,
                 self::ANSWER_OPTIONS_TABLE_FOREIGN_KEY_COLUMN
             ),
+            AnswerFormSpecificTableTypes::Responses => $this->persistence_factory->column(
+                $table,
+                self::RESPONSE_TABLE_FOREIGN_KEY_COLUMN
+            ),
             AnswerFormSpecificTableTypes::Additional => $this->persistence_factory->column(
                 $table,
                 $sub_table_identifier === self::COMBINATION_TABLE_IDENTIFIER
@@ -198,12 +221,12 @@ class TableDefinitions implements TableDefinitionsInterface
         Query $query,
         ?Column $answer_form_id_column
     ): Query {
-        $table_name_builder = $query->getTableNameBuilder(
+        $table_names_builder = $query->getTableNameBuilder(
             $this->getTableSubNameSpace()
         );
 
         $combinations_id_column = $this->getIdColumn(
-            $table_name_builder,
+            $table_names_builder,
             AnswerFormSpecificTableTypes::Additional,
             self::COMBINATION_TABLE_IDENTIFIER
         );
@@ -212,7 +235,7 @@ class TableDefinitions implements TableDefinitionsInterface
             $this->persistence_factory->join(
                 $answer_form_id_column,
                 $this->getForeignKeyColumn(
-                    $table_name_builder,
+                    $table_names_builder,
                     AnswerFormSpecificTableTypes::TypeSpecificAnswerForms
                 ),
                 JoinType::Left
@@ -220,7 +243,7 @@ class TableDefinitions implements TableDefinitionsInterface
         )->withAdditionalSelect(
             $this->persistence_factory->select(
                 $this->getColumns(
-                    $table_name_builder,
+                    $table_names_builder,
                     AnswerFormSpecificTableTypes::TypeSpecificAnswerForms
                 )
             )
@@ -228,7 +251,7 @@ class TableDefinitions implements TableDefinitionsInterface
             $this->persistence_factory->join(
                 $answer_form_id_column,
                 $this->getForeignKeyColumn(
-                    $table_name_builder,
+                    $table_names_builder,
                     AnswerFormSpecificTableTypes::AnswerInputs
                 ),
                 JoinType::Left
@@ -236,18 +259,18 @@ class TableDefinitions implements TableDefinitionsInterface
         )->withAdditionalSelect(
             $this->persistence_factory->select(
                 $this->getColumns(
-                    $table_name_builder,
+                    $table_names_builder,
                     AnswerFormSpecificTableTypes::AnswerInputs
                 )
             )
         )->withAdditionalJoin(
             $this->persistence_factory->join(
                 $this->getIdColumn(
-                    $table_name_builder,
+                    $table_names_builder,
                     AnswerFormSpecificTableTypes::AnswerInputs
                 ),
                 $this->getForeignKeyColumn(
-                    $table_name_builder,
+                    $table_names_builder,
                     AnswerFormSpecificTableTypes::AnswerOptions
                 ),
                 JoinType::Left
@@ -255,14 +278,14 @@ class TableDefinitions implements TableDefinitionsInterface
         )->withAdditionalOrder(
             $this->persistence_factory->order(
                 $this->getIdColumn(
-                    $table_name_builder,
+                    $table_names_builder,
                     AnswerFormSpecificTableTypes::AnswerInputs
                 )
             )
         )->withAdditionalSelect(
             $this->persistence_factory->select(
                 $this->getColumns(
-                    $table_name_builder,
+                    $table_names_builder,
                     AnswerFormSpecificTableTypes::AnswerOptions
                 )
             )
@@ -270,17 +293,17 @@ class TableDefinitions implements TableDefinitionsInterface
             $this->persistence_factory->order(
                 $this->persistence_factory->column(
                     $this->persistence_factory->table(
-                        $table_name_builder,
+                        $table_names_builder,
                         AnswerFormSpecificTableTypes::AnswerOptions
                     ),
-                    'position'
+                    self::ANSWER_OPTIONS_TABLE_ADDITIONAL_ORDER_COLUMN
                 )
             )
         )->withAdditionalJoin(
             $this->persistence_factory->join(
                 $answer_form_id_column,
                 $this->getForeignKeyColumn(
-                    $table_name_builder,
+                    $table_names_builder,
                     AnswerFormSpecificTableTypes::Additional,
                     self::COMBINATION_TABLE_IDENTIFIER
                 ),
@@ -289,7 +312,7 @@ class TableDefinitions implements TableDefinitionsInterface
         )->withAdditionalSelect(
             $this->persistence_factory->select(
                 $this->getColumns(
-                    $table_name_builder,
+                    $table_names_builder,
                     AnswerFormSpecificTableTypes::Additional,
                     self::COMBINATION_TABLE_IDENTIFIER
                 )
@@ -298,7 +321,7 @@ class TableDefinitions implements TableDefinitionsInterface
             $this->persistence_factory->join(
                 $combinations_id_column,
                 $this->getForeignKeyColumn(
-                    $table_name_builder,
+                    $table_names_builder,
                     AnswerFormSpecificTableTypes::Additional,
                     self::COMBINATION_TO_ANSWER_OPTIONS_TABLE_IDENTIFIER
                 ),
@@ -307,7 +330,7 @@ class TableDefinitions implements TableDefinitionsInterface
         )->withAdditionalSelect(
             $this->persistence_factory->select(
                 $this->getColumns(
-                    $table_name_builder,
+                    $table_names_builder,
                     AnswerFormSpecificTableTypes::Additional,
                     self::COMBINATION_TO_ANSWER_OPTIONS_TABLE_IDENTIFIER
                 )
@@ -315,6 +338,34 @@ class TableDefinitions implements TableDefinitionsInterface
         )->withAdditionalOrder(
             $this->persistence_factory->order(
                 $combinations_id_column
+            )
+        );
+    }
+
+    #[\Override]
+    public function completeResponseQuery(
+        Query $query,
+        ?Column $base_table_id_column
+    ): Query {
+        $table_names_builder = $query->getTableNameBuilder(
+            $this->getTableSubNameSpace()
+        );
+
+        return $query->withAdditionalSelect(
+            $this->persistence_factory->select(
+                $this->getColumns(
+                    $table_names_builder,
+                    AnswerFormSpecificTableTypes::Responses
+                )
+            )
+        )->withAdditionalJoin(
+            $this->persistence_factory->join(
+                $base_table_id_column,
+                $this->getForeignKeyColumn(
+                    $table_names_builder,
+                    AnswerFormSpecificTableTypes::Responses
+                ),
+                JoinType::Left
             )
         );
     }

@@ -20,12 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerForm\Capabilities;
 
-use ILIAS\Questions\AnswerForm\Capabilities\AdditionalFormStepAction;
 use ILIAS\Questions\AnswerForm\Capabilities\Capability;
+use ILIAS\Questions\AnswerForm\Capabilities\AdditionalFormStepAction;
 use ILIAS\Questions\AnswerForm\Properties as AnswerFormProperties;
 use ILIAS\Questions\AnswerForm\Views\Edit as AnswerFormEditView;
 use ILIAS\Questions\Presentation\Definitions\DefaultEnvironment;
+use ILIAS\Questions\Presentation\Layout\Async;
 use ILIAS\Questions\Presentation\Layout\EditForm;
+use ILIAS\Questions\Presentation\Layout\Viewable;
 
 class Edit
 {
@@ -70,12 +72,16 @@ class Edit
         DefaultEnvironment $environment,
         AnswerFormEditView $edit_view,
         string $action_from_get
-    ): EditForm|AnswerFormProperties|null {
+    ): Async|Viewable|AnswerFormProperties|null {
         $environment->setEditAnswerFormTabs(
             $this->required_actions_with_tab
         );
 
         $action = $this->required_actions_with_tab[$action_from_get] ?? null;
+        if ($action === null) {
+            return null;
+        }
+
         if ($action !== null) {
             $action->activateTab($tabs_gui);
         } else {
@@ -84,10 +90,6 @@ class Edit
                 $edit_view,
                 $action_from_get
             );
-        }
-
-        if ($action === null) {
-            return null;
         }
 
         return $action->do(
@@ -167,7 +169,7 @@ class Edit
                         "The capability {$v} does not exist."
                     );
                 }
-                $c['required_capabilities'][] = $capability;
+                $c['required_capabilities'][$v] = $capability;
 
                 $action_with_tab = $capability->getAnswerFormEditAdditionalTab();
                 if ($action_with_tab !== null) {
