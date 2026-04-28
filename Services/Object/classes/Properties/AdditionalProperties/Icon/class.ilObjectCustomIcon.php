@@ -113,7 +113,12 @@ class ilObjectCustomIcon
             $this->filesystem->delete($relative_path);
         }
 
-        rename(ilFileUtils::getDataDir() . '/temp/' . $tempfile_name, $this->getFullPath());
+        $temp_icon = new CustomIconTempUploadPath(
+            $tempfile_name,
+            \ilFileUtils::getDataDir()
+        );
+
+        rename($temp_icon->getAbsolutePath(), $this->getFullPath());
         $this->filesystem->setVisibility($relative_path, 'public');
 
 

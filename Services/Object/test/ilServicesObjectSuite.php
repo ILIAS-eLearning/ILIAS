@@ -28,6 +28,8 @@ class ilServicesObjectSuite extends TestSuite
 
         include_once("./Services/Object/test/ilObjectTest.php");
         $suite->addTestSuite("ilObjectTest");
+        include_once("./Services/Object/test/CustomIconTempUploadPathTest.php");
+        $suite->addTestSuite("CustomIconTempUploadPathTest");
 
         return $suite;
     }
