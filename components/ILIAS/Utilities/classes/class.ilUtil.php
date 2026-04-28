@@ -287,8 +287,8 @@ class ilUtil
         try {
             $parser = $mailAddressParserFactory->getParser($a_email);
             $addresses = $parser->parse();
-            return count($addresses) == 1 && $addresses[0]->getHost() != ilMail::ILIAS_HOST;
-        } catch (ilException $e) {
+            return count($addresses) === 1 && $addresses[0]->getHost() !== ilMail::ILIAS_HOST;
+        } catch (Exception) {
             return false;
         }
     }
