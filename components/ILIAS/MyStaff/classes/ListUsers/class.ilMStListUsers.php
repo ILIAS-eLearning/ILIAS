@@ -81,11 +81,17 @@ class ilMStListUsers
         $numRows = $this->dic->database()->numRows($result);
 
         if ($options['sort']) {
-            $select .= " ORDER BY " . $options['sort']['field'] . " " . $options['sort']['direction'];
+            /*
+             * Sort field is validated in ilMStListUsersTableGUI::getSafeOrderField,
+             * the available columns depend on user administration settings.
+             */
+            $sort_field = (string) ($options['sort']['field'] ?? '');
+            $sort_direction = $this->getSafeSortDirection((string) ($options['sort']['direction'] ?? ''));
+            $select .= " ORDER BY " . $this->dic->database()->quoteIdentifier($sort_field) . " " . $sort_direction;
         }
 
         if (isset($options['limit']['start']) && isset($options['limit']['end'])) {
-            $select .= " LIMIT " . $options['limit']['start'] . "," . $options['limit']['end'];
+            $select .= " LIMIT " . (int) $options['limit']['start'] . "," . (int) $options['limit']['end'];
         }
 
         $result = $this->dic->database()->query($select);
@@ -217,5 +223,12 @@ class ilMStListUsers
         } else {
             return '';
         }
+    }
+
+    private function getSafeSortDirection(string $sort_direction): string
+    {
+        return strtolower($sort_direction) === 'asc'
+            ? 'asc'
+            : 'desc';
     }
 }
