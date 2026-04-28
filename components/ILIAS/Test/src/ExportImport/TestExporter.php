@@ -26,6 +26,7 @@ use ilDBInterface;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\ObjectId;
 use ILIAS\Data\UUID\Factory as UUIDFactory;
+use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Language\Language;
 use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\Taxonomy\DomainService as Taxonomy;
@@ -41,6 +42,7 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Exporter;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Serializer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\CollectResources;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\SimpleXMLSerializer;
 use ILIAS\TestQuestionPool\ExportImport\Pipes\CollectQuestionImages;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ilTree;
@@ -232,10 +234,10 @@ class TestExporter implements Exporter
 
         }
 
-        $this->exportMappings(
+        $this->writeMappings(
             $state->collector(),
             $state->transformations(),
-            $state->serializer()
+            $state
         );
     }
 
@@ -250,7 +252,7 @@ class TestExporter implements Exporter
 
         $obj_id = $collector->getObjectId()->toInt();
         $state->addDependency('components/ILIAS/ILIASObject', 'common', [$obj_id]);
-        $state->addDependency('components/ILIAS/MetaData', 'qpl', ["{$obj_id}:0:qpl"]);
+        $state->addDependency('components/ILIAS/MetaData', 'tst', ["{$obj_id}:0:tst"]);
         $state->addDependency(
             'components/ILIAS/Taxonomy',
             'tax',
@@ -286,12 +288,15 @@ class TestExporter implements Exporter
         Serializer $serializer,
         ExportState $state
     ): void {
+        $question_properties = $collector->getTestQuestionProperties();
+
         foreach ($collector->getQuestionObjects() as $question) {
             $normalized = [
                 ... $transformations->normalize($question),
                 'feedback' => $transformations->normalize(
                     $collector->getFeedback($question)
-                )
+                ),
+                'sequence' => $question_properties[$question->getId()]->getSequenceInformation()->getPlaceInSequence(),
             ];
 
             if ($question instanceof assFormulaQuestion) {
@@ -349,11 +354,13 @@ class TestExporter implements Exporter
         }
     }
 
-    private function exportMappings(
+    private function writeMappings(
         TestCollector $collector,
         Transformations $transformations,
-        Serializer $serializer
+        ExportState $state
     ): void {
+        $serializer = new SimpleXMLSerializer()->open('memory');
+        $serializer->createDocument('Test Export Mappings');
         $serializer->startGroup('mappings');
 
         $user_ids = $transformations->context(CollectUserIds::class)->getIds();
@@ -366,5 +373,10 @@ class TestExporter implements Exporter
         );
 
         $serializer->endGroup('mappings');
+
+        $state->writer()->writeFileByStream(
+            Streams::ofString($serializer->write()),
+            "{$state->path()->getPathToComponentDirInContainer()}/mappings.xml"
+        );
     }
 }
