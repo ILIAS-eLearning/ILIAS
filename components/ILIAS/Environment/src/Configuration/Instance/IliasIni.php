@@ -48,7 +48,7 @@ interface IliasIni
     public function getLogPath(): string;
     public function getLogFile(): string;
     public function isLogEnabled(): bool;
-    public function getLogLevel(): string;
+    public function getDefaultLogLevel(): string;
     public function getLogErrorPath(): string;
 
     // [tools]

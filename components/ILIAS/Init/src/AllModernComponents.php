@@ -38,11 +38,11 @@ use ILIAS\FileUpload\FileUpload as FileUploadInterface;
 use ILIAS\Environment\Configuration\Instance\IliasIni;
 use ILIAS\Environment\Configuration\Instance\ClientIni;
 use ILIAS\StaticURL\StaticURLServices;
-use ILIAS\Logging\Services as LoggingServices;
 use ILIAS\AccessControl\PublicInterface\Access;
 use ILIAS\AccessControl\PublicInterface\RBAC;
 use ILIAS\AccessControl\PublicInterface\DefaultRBAC;
 use ILIAS\DI\RBACServices;
+use ILIAS\Logging;
 
 /**
  * This entry point can be thought of as a list of all modern components.
@@ -142,7 +142,9 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         protected StaticURLServices $static_url,
         protected RBAC $rbac,
         protected Access $access_control,
-        protected LoggingServices $logging,
+        protected Logging\Logger\LoggerFactoryInterface $logger_factory,
+        protected Logging\Logger\DefaultConfigLoggerFactoryInterface $default_config_logger_factory,
+        protected Logging\Config\ConfigInterface $logging_config
     ) {
     }
 
@@ -254,8 +256,9 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         $DIC['rbacreview'] = fn(): \ilRbacReview => $rbac->review();
         $DIC['rbacadmin'] = fn(): \ilRbacAdmin => $rbac->admin();
         $DIC['ilAccess'] = fn(): Access => $this->access_control;
-        $DIC['logging.services'] = fn(): LoggingServices => $this->logging;
-        $DIC['ilLoggerFactory'] = fn(): LoggingServices => $this->logging;
+        $DIC['logging.factory'] = fn(): Logging\Logger\LoggerFactoryInterface => $this->logger_factory;
+        $DIC['logging.defaultConfigFactory'] = fn(): Logging\Logger\DefaultConfigLoggerFactoryInterface => $this->default_config_logger_factory;
+        $DIC['logging.config'] = fn(): Logging\Config\ConfigInterface => $this->logging_config;
     }
 
     public function getName(): string
