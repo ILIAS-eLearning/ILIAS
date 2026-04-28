@@ -227,7 +227,7 @@ class ilTestSkillLevelThreshold implements Normalizable
     {
         return $tt->custom()->transformation(fn(): array => [
             'id' => $tt->normalize(new Id($this->getSkillLevelId(), 'skill_level')),
-            'test_id' => $tt->normalize(new Id($this->getTestId(), 'test')),
+            'test_id' => $tt->normalize(new Id($this->getTestId(), 'tst')),
             'skill_base_id' => $tt->normalize(new Id($this->getSkillBaseId(), 'skill_base')),
             'skill_tref_id' => $tt->normalize(new Id($this->getSkillTrefId(), 'skill_tref')),
             'threshold' => $this->getThreshold(),

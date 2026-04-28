@@ -43,7 +43,7 @@ class ilObjTestNormalizer extends IlObjectNormalizer implements Normalizer
         }
 
         $normalized = parent::normalize($value);
-        $normalized['test_id'] = $this->tt->normalize(new Id($value->getTestId(), 'test'));
+        $normalized['test_id'] = $this->tt->normalize(new Id($value->getTestId(), 'tst'));
 
         return $normalized;
     }
