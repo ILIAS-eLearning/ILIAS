@@ -85,7 +85,7 @@ class ilMStListCompetencesSkillsTableGUI extends \ilTable2GUI
             ),
             'count' => true,
             'sort' => array(
-                'field' => $this->getOrderField(),
+                'field' => $this->getSafeOrderField(),
                 'direction' => $this->getOrderDirection(),
             ),
         );
@@ -333,5 +333,17 @@ class ilMStListCompetencesSkillsTableGUI extends \ilTable2GUI
         }
 
         return $field_values;
+    }
+
+    protected function getSafeOrderField(): string
+    {
+        $raw = strtolower($this->getOrderField());
+
+        foreach ($this->getSelectableColumns() as $col) {
+            if (isset($col['sort_field']) && strtolower($col['sort_field']) === $raw) {
+                return $raw;
+            }
+        }
+        return 'login';
     }
 }
