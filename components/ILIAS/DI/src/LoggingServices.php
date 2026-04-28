@@ -16,10 +16,15 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\DI;
 
 /**
- * Provides fluid interface to LoggingServices.
+ * @deprecated Please instead use {@see \ILIAS\Logging\Logger\LoggerFactoryInterface},
+ *  {@see \ILIAS\Logging\Logger\DefaultConfigLoggerFactoryInterface} and {@see \ILIAS\Logging\Config\ConfigInterface}.
+ *  Ideally in your Component.php. If that's not possible then via $DIC['logging.factory'],
+ *  $DIC['logging.defaultConfigFactory'], and $DIC['logging.config].
  */
 class LoggingServices
 {
@@ -28,6 +33,25 @@ class LoggingServices
     public function __construct(Container $container)
     {
         $this->container = $container;
+    }
+
+    /**
+     * Get interface to the global logger.
+     * @return \ilLogger
+     */
+    public function root()
+    {
+        return $this->container["ilLoggerFactory"]->getRootLogger();
+    }
+
+    /**
+     * Get a component logger.
+     * @return \ilLogger
+     */
+    public function __call(string $method_name, array $args)
+    {
+        assert(count($args) === 0);
+        return $this->container['ilLoggerFactory']->getComponentLogger($method_name);
     }
 
     public function forComponent(string $component_id): \ilLogger

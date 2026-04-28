@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Logging\Services;
+use ILIAS\Logging\Logger\LoggerInterface;
 
 /**
  * Class ilRbacAdmin
@@ -32,8 +32,6 @@ use ILIAS\Logging\Services;
  */
 class ilRbacAdmin
 {
-    protected ilLogger $logger;
-
     /**
      * Constructor
      * @access    public
@@ -41,10 +39,8 @@ class ilRbacAdmin
     public function __construct(
         protected ilDBInterface $db,
         protected ilRbacReview $rbacreview,
-        Services $logging_services
-    )
-    {
-        $this->logger = $logging_services->getLogger('ac');
+        protected LoggerInterface $logger
+    ) {
     }
 
     public function setBlockedStatus(int $a_role_id, int $a_ref_id, bool $a_blocked_status): void

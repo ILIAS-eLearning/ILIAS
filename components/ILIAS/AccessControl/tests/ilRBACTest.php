@@ -44,10 +44,11 @@ class ilRBACTest extends TestCase
         $this->assertTrue($system instanceof ilRbacSystem);
 
         $db = $this->dic['ilDB'];
-        $review = new ilRbacReview($db);
+        $logger = $this->createStub(\ILIAS\Logging\Logger\LoggerInterface::class);
+        $review = new ilRbacReview($db, $logger);
         $this->assertTrue($review instanceof ilRbacReview);
 
-        $admin = new ilRbacAdmin($db, $review);
+        $admin = new ilRbacAdmin($db, $review, $logger);
         $this->assertTrue($admin instanceof ilRbacAdmin);
     }
 
@@ -70,6 +71,7 @@ class ilRBACTest extends TestCase
         $this->setGlobalVariable('ilDB', $this->createMock(ilDBInterface::class));
         $this->setGlobalVariable('ilUser', $this->createMock(ilObjUser::class));
         $this->setGlobalVariable('rbacreview', $this->createMock(ilRbacReview::class));
+        $this->setGlobalVariable('rbacsystem', $this->createMock(ilRbacSystem::class));
         $this->setGlobalVariable('ilObjDataCache', $this->createMock(ilObjectDataCache::class));
         $this->setGlobalVariable('tree', $this->createMock(ilTree::class));
         $this->setGlobalVariable('http', $this->createMock(\ILIAS\HTTP\Services::class));

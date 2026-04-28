@@ -27,7 +27,7 @@ use ILIAS\UI\NotImplementedException;
 use ILIAS\UICore\PageContentProvider;
 use ILIAS\Accessibility\GlobalPageHandler;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Logging\Services as LoggingServices;
+use ILIAS\Logging\Config\ConfigInterface as LoggingConfig;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -37,7 +37,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
 {
     protected HTTPServices $http;
     protected Services $gs;
-    protected LoggingServices $logger_factory;
+    protected LoggingConfig $logging_config;
     protected UIServices $ui;
     protected PageContentGUI $legacy_content_template;
     protected ilLanguage $lng;
@@ -64,7 +64,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->lng = $DIC->language();
         $this->ui = $ui;
         $this->gs = $gs;
-        $this->logger_factory = $DIC['ilLoggerFactory'];
+        $this->logging_config = $DIC['logging.config'];
         $this->http = $http;
         $this->legacy_content_template = new PageContentGUI("tpl.page_content.html", true, true);
         $this->il_settings = $DIC->settings();
@@ -108,7 +108,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
             ilSessionReminder::byLoggedInUser(),
             $this,
             $this->lng,
-            $this->logger_factory
+            $this->logging_config
         );
 
         $sessionReminder->populatePage();

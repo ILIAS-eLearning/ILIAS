@@ -54,7 +54,10 @@ class Container extends \Pimple\Container
      */
     public function rbac(): \ILIAS\DI\RBACServices
     {
-        return $this[RBACServices::class];
+        if (isset($this[RBACServices::class])) {
+            return $this[RBACServices::class];
+        }
+        return RBACServices::lazyFromContainer($this);
     }
 
     /**
