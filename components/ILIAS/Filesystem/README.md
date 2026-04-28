@@ -629,6 +629,37 @@ foreach ($finder->files()->size('> 1Mi') as $metadata) {
 }
 ```
 
+### Limiting
+
+The result set can be limited to a fixed number of entries by calling `limit()`.
+The limit is applied to the final result set (after filtering and optional sorting).
+
+```php
+<?php
+/** @var ILIAS\Filesystem\Filesystem $web */
+$web = $DIC->filesystem()->web();
+$finder = $web->finder();
+
+foreach ($finder->files()->sortByName()->limit(5) as $metadata) {
+}
+```
+
+### Existence Check
+
+If you only need to know whether the current finder criteria matches at least one item,
+you can call `hasAny()`. This avoids counting the full result set.
+
+```php
+<?php
+/** @var ILIAS\Filesystem\Filesystem $web */
+$web = $DIC->filesystem()->web();
+$finder = $web->finder();
+
+if ($finder->files()->in(['my/path'])->hasAny()) {
+    // at least one matching file exists
+}
+```
+
 ### Sorting
 
 The found `Metadata` can be sorted by time (see: `\ILIAS\Filesystem\Provider\FileReadAccess::getTimestamp`),
