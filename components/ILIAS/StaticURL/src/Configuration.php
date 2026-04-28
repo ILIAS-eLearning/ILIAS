@@ -18,15 +18,13 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\StaticURL\Request;
-
-use ILIAS\HTTP\Services;
-use ILIAS\Refinery\Factory;
+namespace ILIAS\StaticURL;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-interface RequestBuilder
+interface Configuration
 {
-    public function buildRequest(Services $http, Factory $refinery, array $handlers): ?Request;
+    public function get(Config $config): mixed;
+
 }

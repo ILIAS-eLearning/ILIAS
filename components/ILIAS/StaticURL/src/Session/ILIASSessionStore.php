@@ -18,15 +18,20 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\StaticURL\Request;
-
-use ILIAS\HTTP\Services;
-use ILIAS\Refinery\Factory;
+namespace ILIAS\StaticURL\Session;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-interface RequestBuilder
+final class ILIASSessionStore implements SessionStore
 {
-    public function buildRequest(Services $http, Factory $refinery, array $handlers): ?Request;
+    public function set(string $key, mixed $value): void
+    {
+        \ilSession::set($key, $value);
+    }
+
+    public function get(string $key): mixed
+    {
+        return \ilSession::get($key);
+    }
 }

@@ -37,6 +37,7 @@ use ilStr;
 use ilPDSelectedItemsBlockViewSettings;
 use ILIAS\UI\Component\Legacy\Legacy;
 use ilFavouritesListGUI;
+use ILIAS\StaticURL\StaticURLConfig;
 
 /**
  * Repository related main menu items
@@ -167,7 +168,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
 
         $action = static function (): string {
             try {
-                $static_link = (string) (new StandardURIBuilder(ILIAS_HTTP_PATH))->build('', null, ['?target=root_1']);
+                $static_link = (string) (new StandardURIBuilder(new StaticURLConfig()))->build('', null, ['?target=root_1']);
             } catch (InvalidArgumentException $e) {
                 return "";
             }

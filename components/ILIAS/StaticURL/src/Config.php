@@ -18,15 +18,17 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\StaticURL\Request;
-
-use ILIAS\HTTP\Services;
-use ILIAS\Refinery\Factory;
+namespace ILIAS\StaticURL;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-interface RequestBuilder
+enum Config: string
 {
-    public function buildRequest(Services $http, Factory $refinery, array $handlers): ?Request;
+    case BASE_URL = 'base_url';
+    case REWRITE_POSSIBLE = 'rewrite_possible';
+    case STATIC_LINK_ENDPOINT = 'static_link_endpoint';
+    case SHORTLINK_NAMESPACE = 'shortlink_alternative';
+    case ULTRA_SHORT = 'ultra_short';
+
 }
