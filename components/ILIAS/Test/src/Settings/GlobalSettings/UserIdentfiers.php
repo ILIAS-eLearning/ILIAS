@@ -27,4 +27,15 @@ enum UserIdentifiers: string
     case EMAIL = 'email';
     case MATRICULATION = 'matriculation';
     case EXTERNAL_ACCOUNT = 'ext_account';
+
+    public function getColumnType(): string
+    {
+        return match ($this) {
+            self::USER_ID => \ilDBConstants::T_INTEGER,
+            self::LOGIN => \ilDBConstants::T_TEXT,
+            self::EMAIL => \ilDBConstants::T_TEXT,
+            self::MATRICULATION => \ilDBConstants::T_TEXT,
+            self::EXTERNAL_ACCOUNT => \ilDBConstants::T_TEXT,
+        };
+    }
 }
