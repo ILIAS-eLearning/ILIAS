@@ -21,36 +21,21 @@ declare(strict_types=1);
 namespace ILIAS\Filesystem\Finder\Iterator;
 
 use ILIAS\Filesystem\Finder\Comparator\NumberComparator;
-use InvalidArgumentException;
-use RecursiveIteratorIterator;
 
 /**
- * Class DepthRangeFilterIterator
- * @package ILIAS\Filesystem\Finder\Iterator
- * @author  Michael Jansen <mjansen@databay.de>
+ * @template-covariant TKey
+ * @template-covariant TValue
+ * @extends \FilterIterator<TKey, TValue>
  */
 class DepthRangeFilterIterator extends \FilterIterator
 {
-    private int $minDepth = 0;
+    private int $minDepth;
 
     /**
-     * DepthRangeFilterIterator constructor.
-     * @param NumberComparator[] $comparators
-     * @throws InvalidArgumentException
+     * @param \RecursiveIteratorIterator<\RecursiveIterator<TKey, TValue>> $iterator The iterator to filter
      */
-    public function __construct(RecursiveIteratorIterator $iterator, array $comparators)
+    public function __construct(\RecursiveIteratorIterator $iterator, NumberComparator ...$comparators)
     {
-        array_walk($comparators, static function ($comparator): void {
-            if (!($comparator instanceof NumberComparator)) {
-                throw new InvalidArgumentException(
-                    sprintf(
-                        'Invalid comparator given: %s',
-                        $comparator::class
-                    )
-                );
-            }
-        });
-
         $minDepth = 0;
         $maxDepth = PHP_INT_MAX;
 
@@ -79,9 +64,6 @@ class DepthRangeFilterIterator extends \FilterIterator
         parent::__construct($iterator);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function accept(): bool
     {
         return $this->getInnerIterator()->getDepth() >= $this->minDepth;

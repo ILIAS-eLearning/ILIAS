@@ -24,44 +24,28 @@ use ILIAS\Data\DataSize;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\DTO\Metadata;
 use ILIAS\Filesystem\Finder\Comparator\NumberComparator;
-use InvalidArgumentException;
-use Iterator as PhpIterator;
 
 /**
- * Class SizeRangeFilterIterator
- * @package ILIAS\Filesystem\Finder\Iterator
- * @author  Michael Jansen <mjansen@databay.de>
+ * @extends \FilterIterator<non-empty-string, Metadata>
  */
 class SizeRangeFilterIterator extends \FilterIterator
 {
-    /** @var NumberComparator[] */
-    private array $comparators = [];
+    /** @var list<NumberComparator> */
+    private array $comparators;
 
     /**
-     * @param PhpIterator        $iterator    The Iterator to filter
-     * @param NumberComparator[] $comparators An array of NumberComparator instances
-     * @throws InvalidArgumentException
+     * @param \Iterator<non-empty-string, Metadata> $iterator The Iterator to filter
      */
-    public function __construct(private Filesystem $filesystem, PhpIterator $iterator, array $comparators)
-    {
-        array_walk($comparators, static function ($comparator): void {
-            if (!($comparator instanceof NumberComparator)) {
-                throw new InvalidArgumentException(
-                    sprintf(
-                        'Invalid comparator given: %s',
-                        $comparator::class
-                    )
-                );
-            }
-        });
+    public function __construct(
+        private readonly Filesystem $filesystem,
+        \Iterator $iterator,
+        NumberComparator ...$comparators
+    ) {
         $this->comparators = $comparators;
 
         parent::__construct($iterator);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function accept(): bool
     {
         /** @var Metadata $metadata */
