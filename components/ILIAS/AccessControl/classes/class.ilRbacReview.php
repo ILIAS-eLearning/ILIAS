@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Logging\Services;
+use ILIAS\Logging\Logger\LoggerInterface;
 
 /**
  * class ilRbacReview
@@ -47,18 +47,14 @@ class ilRbacReview
     protected static array $assigned_users_cache = [];
     protected static array $is_assigned_cache = [];
 
-    protected ilLogger $log;
-
     /**
      * Constructor
      * @access    public
      */
     public function __construct(
         protected ilDBInterface $db,
-        Services $logging
-    )
-    {
-        $this->log = $logging->getLogger('ac');
+        protected LoggerInterface $log
+    ) {
     }
 
     /**

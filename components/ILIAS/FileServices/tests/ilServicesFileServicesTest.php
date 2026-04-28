@@ -92,8 +92,7 @@ final class ilServicesFileServicesTest extends TestCase
     public function testBlacklistedUploadWithPermission(): void
     {
         $settings = $this->createMock(FilesystemConfig::class);
-        $settings->expects($this->once())
-                 ->method('getBlackListedSuffixes')
+        $settings->method('getBlackListedSuffixes')
                  ->willReturn(['pdf']);
 
         $settings->expects($this->once())

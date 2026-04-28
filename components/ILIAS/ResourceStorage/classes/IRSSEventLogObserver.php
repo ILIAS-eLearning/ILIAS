@@ -21,22 +21,20 @@ namespace ILIAS\ResourceStorage;
 use ILIAS\ResourceStorage\Events\Observer;
 use ILIAS\ResourceStorage\Events\Event;
 use ILIAS\ResourceStorage\Events\Data;
+use ILIAS\Logging\Logger\LoggerInterface;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class IRSSEventLogObserver implements Observer
 {
-    private ?\ilLogger $resolved = null;
-
-    /** @param \Closure(): \ilLogger $logger_provider */
-    public function __construct(private \Closure $logger_provider)
+    public function __construct(private LoggerInterface $lazy_logger)
     {
     }
 
-    private function logger(): \ilLogger
+    private function logger(): LoggerInterface
     {
-        return $this->resolved ??= ($this->logger_provider)();
+        return $this->lazy_logger;
     }
 
     public function getId(): string
