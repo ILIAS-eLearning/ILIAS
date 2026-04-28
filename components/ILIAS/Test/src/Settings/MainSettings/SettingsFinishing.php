@@ -270,8 +270,8 @@ class SettingsFinishing extends TestSettings implements Exportable
         return new self(
             (bool) $data['enable_examview'],
             (bool) $data['showfinalstatement'],
-            $data['concluding_remarks_page_id'],
-            RedirectionModes::from($data['redirection_mode']),
+            $data['concluding_remarks_page_id'] !== null ? (int) $data['concluding_remarks_page_id'] : null,
+            RedirectionModes::from((int) $data['redirection_mode']),
             $data['redirection_url']
         );
     }
