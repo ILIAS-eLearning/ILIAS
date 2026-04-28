@@ -51,7 +51,7 @@ class ParticipantNormalizer implements Normalizer
         return [
             'user_id' => $this->tt->normalize(new Id($value->getUserId(), 'user')),
             'active_id' => $this->tt->normalize(new Id($value->getActiveId(), 'participant')),
-            'test_id' => $this->tt->normalize(new Id($value->getTestId(), 'test')),
+            'test_id' => $this->tt->normalize(new Id($value->getTestId(), 'tst')),
             'anonymous_id' => $value->getAnonymousId(),
             'firstname' => $value->getFirstname(),
             'lastname' => $value->getLastname(),
