@@ -107,6 +107,10 @@ class SimpleXMLSerializer implements Serializer
     public function append(string $name, array $data): void
     {
         $this->writer->startElement($this->formatName($name));
+        if (count($data) === 0) {
+            $this->writer->writeAttribute('type', 'empty-array');
+        }
+
         $this->appendRecursive($data);
         $this->writer->endElement();
     }
