@@ -8114,6 +8114,8 @@ crs#:#tutorial_support_block_title#:#Contact Person###28 10 2024 new variable
 crs#:#user_fields#:#Champs Utilisateur
 crsv#:#crsv_create#:#Créer Certificat de Cours
 crsv#:#crsv_create_info#:#Sélectionner un cours terminé pour générer le certificat
+dash#:#add_to_favourites#:#Add to Favourites###21 04 2026 new variable
+dash#:#added_to_favourites#:#The item has been added to your favourites.###21 04 2026 new variable
 dash#:#dash_activation#:#activation
 dash#:#dash_added_to_favs#:#Recommendation has been added to personal favourites.
 dash#:#dash_avail_presentation#:#Available Presentations
@@ -8151,7 +8153,6 @@ dash#:#dash_item_removed#:#Recommendation has been removed from the list.
 dash#:#dash_learning_sequences#:#My Learning Sequences###31 10 2023 new variable
 dash#:#dash_list#:#List
 dash#:#dash_main_panel#:#Main Panel
-dash#:#dash_make_favourite#:#Ajouter aux favoris
 dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.
 dash#:#dash_memberships#:#Mes cours et groupes
 dash#:#dash_no_items_to_manage#:#No items available for removal.###10 03 2026 new variable
@@ -8171,6 +8172,8 @@ dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’
 dash#:#dash_view_favourites#:#Section ‘Favourites’
 dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.
 dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.
+dash#:#remove_from_favourites#:#Remove from Favourites###21 04 2026 new variable
+dash#:#removed_from_favourites#:#The item has been removed from your favourites.###21 04 2026 new variable
 dash#:#topitem_block#:#Block###31 10 2023 new variable
 dateplaner#:#Fr_long#:#Vendredi
 dateplaner#:#Fr_short#:#Ve
@@ -9222,6 +9225,8 @@ ecs#:#ecs_wiki_export_enabled#:#Publier ce Wiki
 ecs#:#ecs_wiki_export_obj_settings#:#Paramètres de Publication du Wiki
 error#:#error_back_to_repository#:#Retour au Catalogue
 error#:#error_sry_error#:#Désolé, une erreur s'est produite.
+error#:#http_404_not_found#:#The requested page could not be found.###21 04 2026 new variable
+error#:#http_500_internal_server_error#:#An internal server error occurred.###21 04 2026 new variable
 etal#:#appointments#:#Appointments###31 10 2023 new variable
 etal#:#cal_type_tals#:#Talks###31 10 2023 new variable
 etal#:#change_date_of_series#:#Change date of talk series###31 10 2023 new variable
@@ -13024,6 +13029,7 @@ notes#:#notes_latest_comment#:#Latest Comment
 notes#:#notes_latest_message#:#Latest Message###31 10 2023 new variable
 notes#:#notes_message_author_counterpart#:#Respondent###31 10 2023 new variable
 notes#:#notes_message_author_you#:#You###31 10 2023 new variable
+notes#:#notes_message_deleted#:#Message deleted.###21 04 2026 new variable
 notes#:#notes_messages#:#Messages###31 10 2023 new variable
 notes#:#notes_my_comments#:#Mes Commentaires
 notes#:#notes_no_comments#:#Aucun commentaire actuellement.
@@ -15029,9 +15035,7 @@ rep#:#rep_add_new_def_grp_content#:#Contenu
 rep#:#rep_add_new_def_grp_feedback#:#Retours et évaluations
 rep#:#rep_add_new_def_grp_organisation#:#Organisation
 rep#:#rep_add_new_def_grp_templates#:#Modèles
-rep#:#rep_add_to_favourites#:#Ajouter aux favoris
 rep#:#rep_added_rec_content#:#Recommended content has been added.
-rep#:#rep_added_to_favourites#:#The item has been added to your favourites.
 rep#:#rep_allowed_types#:#Allowed Types###31 10 2023 new variable
 rep#:#rep_breadcr_crs#:#Breadcrumb starts with course
 rep#:#rep_breadcr_crs_config#:#Configuration
@@ -15086,9 +15090,7 @@ rep#:#rep_object_references_cannot_be_read#:#Pas de permission pour les %s réf�
 rep#:#rep_object_to_delete#:#A supprimer
 rep#:#rep_rec_content_removed#:#Recommended content has been removed.
 rep#:#rep_recommended_content#:#Contenu recommandé
-rep#:#rep_remove_from_favourites#:#Remove from Favourites
 rep#:#rep_remove_rec_content#:#Are you sure you want to remove the following recommended content?
-rep#:#rep_removed_from_favourites#:#The item has been removed from your favourites.
 rep#:#rep_target_location#:#Target Location
 rep#:#rep_target_location_info#:#Bitte wählen Sie nun das Ziel aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen.
 rep#:#rep_time_based_availability#:#Temporairement Disponible
@@ -16080,6 +16082,7 @@ style#:#sty_individual_styles#:#Styles Spécifiques
 style#:#sty_keep_existing#:#Garder existant
 style#:#sty_left#:#Gauche
 style#:#sty_left_right_padding#:#Gauche/droite espacement de cellule
+style#:#sty_legacy_image_directory_found#:#Legacy image directory found. You may migrate the directory from ILIAS 9 by clicking "Migrate Images"###21 04 2026 new variable
 style#:#sty_letter_spacing#:#Espacement de lettre
 style#:#sty_lightness_border#:#Bordure claire
 style#:#sty_lightness_cell1_bg#:#Arrière-plan de cellule 1 clair
@@ -16100,6 +16103,7 @@ style#:#sty_margin_and_padding#:#Marge et espacement
 style#:#sty_media_char#:#Média
 style#:#sty_media_queries#:#Demandes de renseignement des médias
 style#:#sty_media_query_info#:#A separete CSS block is added for each media query after the default (no special media query) block.
+style#:#sty_migrate_images#:#Migrate Images###21 04 2026 new variable
 style#:#sty_min_height#:#Hauteur minimal
 style#:#sty_move_lm_styles#:#Modifier Style des Modules Pédagogiques
 style#:#sty_move_obj_styles#:#Change Style of Objects###23 09 2025 new variable
@@ -16158,6 +16162,7 @@ style#:#sty_special#:#Spécial
 style#:#sty_style_chars#:#Classes du style
 style#:#sty_style_class#:#Classes du style
 style#:#sty_style_classes_copied#:#Les classes ont été copiées.
+style#:#sty_style_not_migrated#:#This content style has not been migrated to the ILIAS 10 data structure yet. Changes will not be applied.###21 04 2026 new variable
 style#:#sty_substyle#:#Sous-Style
 style#:#sty_substyle_of#:#Sous-style de
 style#:#sty_substyles#:#Sous-Styles
@@ -17071,6 +17076,7 @@ tax#:#tax_tax_settings#:#Paramètres de taxonomie
 tax#:#tax_taxonomy#:#Taxonomie
 tbl#:#tbl_export_csv#:#Export .CSV
 tbl#:#tbl_export_excel#:#Export .XLS
+tbl#:#tbl_selection#:#Selection###21 04 2026 new variable
 tbl#:#tbl_template_create#:#Enregistrer vue courante
 tbl#:#tbl_template_created#:#La vue courante a été enregistrée.
 tbl#:#tbl_template_delete#:#Supprimer vue enregistrée

@@ -25,6 +25,8 @@ use ILIAS\Portfolio\StandardGUIRequest;
  */
 class ilPortfolioRoleAssignmentGUI
 {
+    protected ilAccessHandler $access;
+    protected int $ref_id;
     protected StandardGUIRequest $port_request;
     protected ilCtrl $ctrl;
     protected ilToolbarGUI $toolbar;
@@ -45,6 +47,8 @@ class ilPortfolioRoleAssignmentGUI
             ->internal()
             ->gui()
             ->standardRequest();
+        $this->ref_id = $this->port_request->getRefId();
+        $this->access = $DIC->access();
     }
 
     public function executeCommand(): void
@@ -76,15 +80,18 @@ class ilPortfolioRoleAssignmentGUI
     protected function listAssignments(): void
     {
         $lng = $this->lng;
-        $this->toolbar->addButton(
-            $lng->txt("prtf_add_assignment"),
-            $this->ctrl->getLinkTarget($this, "addAssignment")
-        );
+        if ($this->checkWrite()) {
+            $this->toolbar->addButton(
+                $lng->txt("prtf_add_assignment"),
+                $this->ctrl->getLinkTarget($this, "addAssignment")
+            );
+        }
 
         $table = new ilPortfolioRoleAssignmentTableGUI(
             $this,
             "listAssignments",
-            $this->manager
+            $this->manager,
+            $this->checkWrite()
         );
         $this->main_tpl->setContent($table->getHTML());
     }
@@ -125,12 +132,30 @@ class ilPortfolioRoleAssignmentGUI
         return $form;
     }
 
+    protected function checkWrite(bool $return = false): bool
+    {
+        $lng = $this->lng;
+        $ctrl = $this->ctrl;
+        $has_perm = $this->access->checkAccess(
+            "write",
+            "",
+            $this->ref_id
+        );
+        if ($return && !$has_perm) {
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("no_permission"), true);
+            $ctrl->redirect($this, "");
+
+        }
+
+        return $has_perm;
+    }
+
     public function saveAssignment(): void
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
         $main_tpl = $this->main_tpl;
-
+        $this->checkWrite(true);
         $form = $this->initAssignmentForm();
         if ($form->checkInput()) {
             $this->manager->add(
@@ -150,7 +175,7 @@ class ilPortfolioRoleAssignmentGUI
         $ctrl = $this->ctrl;
         $lng = $this->lng;
         $main_tpl = $this->main_tpl;
-
+        $this->checkWrite(true);
         $template_ids = $this->port_request->getRoleTemplateIds();
         if (count($template_ids) === 0) {
             $this->main_tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
@@ -177,6 +202,7 @@ class ilPortfolioRoleAssignmentGUI
 
     protected function deleteAssignments(): void
     {
+        $this->checkWrite(true);
         $ctrl = $this->ctrl;
         $lng = $this->lng;
         $template_ids = $this->port_request->getRoleTemplateIds();

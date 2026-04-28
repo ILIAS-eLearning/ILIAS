@@ -69,7 +69,7 @@ class ilObjectCustomIconUploadHandlerGUI extends AbstractCtrlAwareUploadHandler 
         if ($this->has_access === false) {
             return $this->getAccessFailureResult(
                 $this->getFileIdentifierParameterName(),
-                $file_name,
+                '',
                 $this->language
             );
         }

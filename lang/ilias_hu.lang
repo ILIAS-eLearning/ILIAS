@@ -8129,6 +8129,8 @@ crs#:#tutorial_support_block_title#:#Kapcsolattartó
 crs#:#user_fields#:#Felhasználói mezők
 crsv#:#crsv_create#:#Kurzustanúsítvány létrehozása
 crsv#:#crsv_create_info#:#Válasszon egy teljesített kurzust, hogy tanúsítványt generálhassunk hozzá
+dash#:#add_to_favourites#:#Add to Favourites###21 04 2026 new variable
+dash#:#added_to_favourites#:#The item has been added to your favourites.###21 04 2026 new variable
 dash#:#dash_activation#:#aktiválás
 dash#:#dash_added_to_favs#:#Az ajánlást sikeresen hozzáadta a kedvenceihez.
 dash#:#dash_avail_presentation#:#Elérhető megjelenítések
@@ -8166,7 +8168,6 @@ dash#:#dash_item_removed#:#Az ajánlást sikeresen törölték a listáról.
 dash#:#dash_learning_sequences#:#Tanulási soraim
 dash#:#dash_list#:#Felsorolás
 dash#:#dash_main_panel#:#Főpanel
-dash#:#dash_make_favourite#:#Hozzáadás a Kedvenceimhez
 dash#:#dash_member_main_alt#:#A kurzusok és a csoportok szintén beállíthatók, mint egy különálló főmenü-bejegyzés.
 dash#:#dash_memberships#:#Kurzusaim és csoportjaim
 dash#:#dash_no_items_to_manage#:#No items available for removal.###10 03 2026 new variable
@@ -8186,6 +8187,8 @@ dash#:#dash_view_courses_groups#:#'Kurzusaim és csoportjaim' rész
 dash#:#dash_view_favourites#:#'Kedvenceim' rész
 dash#:#favourites_disabled_info#:#A kedvencekhez hozzáadás ki van kapcsolva. Ezen a Tartalomtár beállításainál módosíthat.
 dash#:#memberships_disabled_info#:#A feliratkozás ki van kapcsolva. Ezen a kurzus beállításainál módosíthat.
+dash#:#remove_from_favourites#:#Remove from Favourites###21 04 2026 new variable
+dash#:#removed_from_favourites#:#The item has been removed from your favourites.###21 04 2026 new variable
 dash#:#topitem_block#:#Blokk
 dateplaner#:#Fr_long#:#Péntek
 dateplaner#:#Fr_short#:#P
@@ -9237,6 +9240,8 @@ ecs#:#ecs_wiki_export_enabled#:#Ezen wiki kiadása
 ecs#:#ecs_wiki_export_obj_settings#:#Wikikiadás beállításai
 error#:#error_back_to_repository#:#Vissza a Tartalomtárba
 error#:#error_sry_error#:#Sajnáljuk, hiba történt.
+error#:#http_404_not_found#:#The requested page could not be found.###21 04 2026 new variable
+error#:#http_500_internal_server_error#:#An internal server error occurred.###21 04 2026 new variable
 etal#:#appointments#:#Találkozók
 etal#:#cal_type_tals#:#Megbeszélések
 etal#:#change_date_of_series#:#Megbeszéléssorozat dátumának módosítása
@@ -13039,6 +13044,7 @@ notes#:#notes_latest_comment#:#Utolsó hozzászólás
 notes#:#notes_latest_message#:#Utolsó üzenet
 notes#:#notes_message_author_counterpart#:#Válaszadó
 notes#:#notes_message_author_you#:#Én
+notes#:#notes_message_deleted#:#Message deleted.###21 04 2026 new variable
 notes#:#notes_messages#:#Uzenetek
 notes#:#notes_my_comments#:#Az én megjegyzéseim
 notes#:#notes_no_comments#:#Még egy megjegyzés sem érkezett.
@@ -15044,9 +15050,7 @@ rep#:#rep_add_new_def_grp_content#:#Tartalom
 rep#:#rep_add_new_def_grp_feedback#:#Visszajelzés és felmérés
 rep#:#rep_add_new_def_grp_organisation#:#Szervezet
 rep#:#rep_add_new_def_grp_templates#:#Sablonok
-rep#:#rep_add_to_favourites#:#Hozzáadás a kedvencekhez
 rep#:#rep_added_rec_content#:#Az ajánlott tartalmat sikeresen hozzáadta.
-rep#:#rep_added_to_favourites#:#Az objektumot felvette a kedvencei közé.
 rep#:#rep_allowed_types#:#Engedélyezett típusok
 rep#:#rep_breadcr_crs#:#A navigációs sor a kurzustól indul
 rep#:#rep_breadcr_crs_config#:#Beállítások
@@ -15101,9 +15105,7 @@ rep#:#rep_object_references_cannot_be_read#:#Nincs több hivatkozásra engedély
 rep#:#rep_object_to_delete#:#Törölni
 rep#:#rep_rec_content_removed#:#Az ajánlott tartalmat sikeresen eltávolította.
 rep#:#rep_recommended_content#:#Ajánlott tartalom
-rep#:#rep_remove_from_favourites#:#Eltávolítás a kedvencek közül
 rep#:#rep_remove_rec_content#:#Biztos, hogy eltávolítja az alábbi ajánlott tartalmat?
-rep#:#rep_removed_from_favourites#:#Az objektumot sikeresen eltávolította a kedvencei közül.
 rep#:#rep_target_location#:#Célhely
 rep#:#rep_target_location_info#:#Kérem, válassza ki a helyet, ahová a kiválasztott objektumokat visszaállítja.
 rep#:#rep_time_based_availability#:#Elérhetőség időbeli korlátozása
@@ -16095,6 +16097,7 @@ style#:#sty_individual_styles#:#Egyéni stílusok
 style#:#sty_keep_existing#:#Meglévők megtartása
 style#:#sty_left#:#Balra
 style#:#sty_left_right_padding#:#Cellaköz balra/jobbra
+style#:#sty_legacy_image_directory_found#:#Legacy image directory found. You may migrate the directory from ILIAS 9 by clicking "Migrate Images"###21 04 2026 new variable
 style#:#sty_letter_spacing#:#Betűköz
 style#:#sty_lightness_border#:#Világosság szegély
 style#:#sty_lightness_cell1_bg#:#Világosság 1. cella háttér
@@ -16115,6 +16118,7 @@ style#:#sty_margin_and_padding#:#Margó és térköz
 style#:#sty_media_char#:#Média
 style#:#sty_media_queries#:#Médialekérdezés
 style#:#sty_media_query_info#:#Az alapértelmezett (nem speciális médialekérdezés) blokk után mindegyik médialekérdezéshez különálló CSS blokkot hozunk létre.
+style#:#sty_migrate_images#:#Migrate Images###21 04 2026 new variable
 style#:#sty_min_height#:#Minimális magasság
 style#:#sty_move_lm_styles#:#Tananyag stílusának cseréje
 style#:#sty_move_obj_styles#:#Objektumok stílusának a módosítása
@@ -16173,6 +16177,7 @@ style#:#sty_special#:#Speciális
 style#:#sty_style_chars#:#Stílusosztályok
 style#:#sty_style_class#:#Stílusosztályok
 style#:#sty_style_classes_copied#:#Stílusosztályokat sikeresen lemásolta.
+style#:#sty_style_not_migrated#:#This content style has not been migrated to the ILIAS 10 data structure yet. Changes will not be applied.###21 04 2026 new variable
 style#:#sty_substyle#:#Alstílus
 style#:#sty_substyle_of#:#alstílusa a következőnek:
 style#:#sty_substyles#:#Alstílusok
@@ -17086,6 +17091,7 @@ tax#:#tax_tax_settings#:#Taxonómia beállításai
 tax#:#tax_taxonomy#:#Taxonómia
 tbl#:#tbl_export_csv#:#Exportálás vesszővel tagolt (.csv) fájlba
 tbl#:#tbl_export_excel#:#Exportálás Excel (.xlsx) fájlba
+tbl#:#tbl_selection#:#Selection###21 04 2026 new variable
 tbl#:#tbl_template_create#:#Jelenlegi nézet mentése
 tbl#:#tbl_template_created#:#Ezt a nézetet sikeresen mentette.
 tbl#:#tbl_template_delete#:#Mentett nézet törlése

@@ -8129,6 +8129,8 @@ crs#:#tutorial_support_block_title#:#Contact Person###28 10 2024 new variable
 crs#:#user_fields#:#Uživatelská pole
 crsv#:#crsv_create#:#Vytvořit certifikát kurzu
 crsv#:#crsv_create_info#:#Vyberte dokončený kurz pro vygenerování jeho certifikátu
+dash#:#add_to_favourites#:#Add to Favourites###21 04 2026 new variable
+dash#:#added_to_favourites#:#The item has been added to your favourites.###21 04 2026 new variable
 dash#:#dash_activation#:#activation###07 02 2020 new variable
 dash#:#dash_added_to_favs#:#Recommendation has been added to personal favourites.###07 02 2020 new variable
 dash#:#dash_avail_presentation#:#Available Presentations###07 02 2020 new variable
@@ -8166,7 +8168,6 @@ dash#:#dash_item_removed#:#Recommendation has been removed from the list.###07 0
 dash#:#dash_learning_sequences#:#My Learning Sequences###26 08 2024 new variable
 dash#:#dash_list#:#List###07 02 2020 new variable
 dash#:#dash_main_panel#:#Main Panel###07 02 2020 new variable
-dash#:#dash_make_favourite#:#Add to Favourites###07 02 2020 new variable
 dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.###07 02 2020 new variable
 dash#:#dash_memberships#:#My Courses and Groups###07 02 2020 new variable
 dash#:#dash_no_items_to_manage#:#No items available for removal.###10 03 2026 new variable
@@ -8186,6 +8187,8 @@ dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’###07 02 20
 dash#:#dash_view_favourites#:#Section ‘Favourites’###07 02 2020 new variable
 dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.###26 08 2024 new variable
 dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.###26 08 2024 new variable
+dash#:#remove_from_favourites#:#Remove from Favourites###21 04 2026 new variable
+dash#:#removed_from_favourites#:#The item has been removed from your favourites.###21 04 2026 new variable
 dash#:#topitem_block#:#Block###26 08 2024 new variable
 dateplaner#:#Fr_long#:#Pátek
 dateplaner#:#Fr_short#:#Pá
@@ -9237,6 +9240,8 @@ ecs#:#ecs_wiki_export_enabled#:#Uvolněte tuto Wiki
 ecs#:#ecs_wiki_export_obj_settings#:#Nastavení uvolnění Wiki
 error#:#error_back_to_repository#:#Zpět na úložiště
 error#:#error_sry_error#:#Je nám líto, ale došlo k chybě.
+error#:#http_404_not_found#:#The requested page could not be found.###21 04 2026 new variable
+error#:#http_500_internal_server_error#:#An internal server error occurred.###21 04 2026 new variable
 etal#:#appointments#:#Appointments
 etal#:#cal_type_tals#:#Talks
 etal#:#change_date_of_series#:#Change date of talk series
@@ -13039,6 +13044,7 @@ notes#:#notes_latest_comment#:#Poslední komentář
 notes#:#notes_latest_message#:#Latest Message###26 08 2024 new variable
 notes#:#notes_message_author_counterpart#:#Respondent###26 08 2024 new variable
 notes#:#notes_message_author_you#:#You###26 08 2024 new variable
+notes#:#notes_message_deleted#:#Message deleted.###21 04 2026 new variable
 notes#:#notes_messages#:#Messages###26 08 2024 new variable
 notes#:#notes_my_comments#:#Mé komentáře
 notes#:#notes_no_comments#:#Zatím nebyl přidán žádný komentář.
@@ -15044,9 +15050,7 @@ rep#:#rep_add_new_def_grp_content#:#Obsah
 rep#:#rep_add_new_def_grp_feedback#:#Zpětná vazba a hodnocení
 rep#:#rep_add_new_def_grp_organisation#:#Organizace
 rep#:#rep_add_new_def_grp_templates#:#Šablony
-rep#:#rep_add_to_favourites#:#Add to Favourites###07 02 2020 new variable
 rep#:#rep_added_rec_content#:#Recommended content has been added.###07 02 2020 new variable
-rep#:#rep_added_to_favourites#:#The item has been added to your favourites.###07 02 2020 new variable
 rep#:#rep_allowed_types#:#Allowed Types###26 08 2024 new variable
 rep#:#rep_breadcr_crs#:#Breadcrumb začíná kurzem
 rep#:#rep_breadcr_crs_config#:#Configuration###26 08 2024 new variable
@@ -15101,9 +15105,7 @@ rep#:#rep_object_references_cannot_be_read#:#Žádná oprávnění pro další o
 rep#:#rep_object_to_delete#:#Ke smazání
 rep#:#rep_rec_content_removed#:#Recommended content has been removed.###07 02 2020 new variable
 rep#:#rep_recommended_content#:#Recommended Content###07 02 2020 new variable
-rep#:#rep_remove_from_favourites#:#Remove from Favourites###07 02 2020 new variable
 rep#:#rep_remove_rec_content#:#Are you sure you want to remove the following recommended content?###07 02 2020 new variable
-rep#:#rep_removed_from_favourites#:#The item has been removed from your favourites.###07 02 2020 new variable
 rep#:#rep_target_location#:#Target Location###07 02 2020 new variable
 rep#:#rep_target_location_info#:#Bitte wählen Sie nun das Ziel aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen.###07 02 2020 new variable
 rep#:#rep_time_based_availability#:#Dočasně k dispozici
@@ -16095,6 +16097,7 @@ style#:#sty_individual_styles#:#Individuální styly
 style#:#sty_keep_existing#:#Zachovat existující
 style#:#sty_left#:#Levý
 style#:#sty_left_right_padding#:#Odsazení buňky vlevo/vpravo
+style#:#sty_legacy_image_directory_found#:#Legacy image directory found. You may migrate the directory from ILIAS 9 by clicking "Migrate Images"###21 04 2026 new variable
 style#:#sty_letter_spacing#:#Odsazení znaků
 style#:#sty_lightness_border#:#Jasnost ohraničení
 style#:#sty_lightness_cell1_bg#:#Jasnost pozadí 1.buňky
@@ -16115,6 +16118,7 @@ style#:#sty_margin_and_padding#:#Okraj a rozteč
 style#:#sty_media_char#:#Média
 style#:#sty_media_queries#:#Dotazy na média
 style#:#sty_media_query_info#:#Oddělený blok CSS je přidán pro každý dotaz na média po výchozím bloku (bez speciálního dotazu na média).
+style#:#sty_migrate_images#:#Migrate Images###21 04 2026 new variable
 style#:#sty_min_height#:#Minimální výška
 style#:#sty_move_lm_styles#:#Změnit styl výukových modulů
 style#:#sty_move_obj_styles#:#Change Style of Objects###23 09 2025 new variable
@@ -16173,6 +16177,7 @@ style#:#sty_special#:#Speciální
 style#:#sty_style_chars#:#Třídy stylu
 style#:#sty_style_class#:#Třídy stylu
 style#:#sty_style_classes_copied#:#Třídy stylů byly zkopírovány.
+style#:#sty_style_not_migrated#:#This content style has not been migrated to the ILIAS 10 data structure yet. Changes will not be applied.###21 04 2026 new variable
 style#:#sty_substyle#:#Podstyl
 style#:#sty_substyle_of#:#Podstyl
 style#:#sty_substyles#:#Podstyly
@@ -17086,6 +17091,7 @@ tax#:#tax_tax_settings#:#Nastavení taxonomie
 tax#:#tax_taxonomy#:#Taxonomie
 tbl#:#tbl_export_csv#:#Exportovat .csv
 tbl#:#tbl_export_excel#:#Exportovat .xls
+tbl#:#tbl_selection#:#Selection###21 04 2026 new variable
 tbl#:#tbl_template_create#:#Uložit aktuální zobrazení
 tbl#:#tbl_template_created#:#Aktuální zobrazení bylo uloženo.
 tbl#:#tbl_template_delete#:#Smazat uložené zobrazení

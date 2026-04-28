@@ -339,7 +339,7 @@ class ilCourseObjectiveQuestion
         return $self;
     }
 
-    public function getSelfAssessmentPoints(): int
+    public function getSelfAssessmentPoints(): float
     {
         $points = 0;
         foreach ($this->getSelfAssessmentQuestions() as $question) {
@@ -348,7 +348,7 @@ class ilCourseObjectiveQuestion
         return $points;
     }
 
-    public function getFinalTestPoints(): int
+    public function getFinalTestPoints(): float
     {
         $points = 0;
         foreach ($this->getFinalTestQuestions() as $question) {
@@ -443,7 +443,7 @@ class ilCourseObjectiveQuestion
         return $this->question_id;
     }
 
-    public function getMaxPointsByObjective(): int
+    public function getMaxPointsByObjective(): float
     {
         $points = 0;
         foreach ($this->getQuestions() as $question) {
@@ -454,7 +454,7 @@ class ilCourseObjectiveQuestion
         return $points;
     }
 
-    public function getMaxPointsByTest(int $a_test_ref_id): int
+    public function getMaxPointsByTest(int $a_test_ref_id): float
     {
         $points = 0;
         $tmp_test = ilObjectFactory::getInstanceByRefId($a_test_ref_id);

@@ -55,4 +55,18 @@ class ilCourseObjectiveDBUpdateSteps implements ilDatabaseUpdateSteps
             ]);
         }
     }
+
+    public function step_4(): void
+    {
+        if (
+            $this->db->tableExists('loc_tst_run') &&
+            $this->db->tableColumnExists('loc_tst_run', 'max_points')
+        ) {
+            $this->db->modifyTableColumn('loc_tst_run', 'max_points', [
+                    'type' => 'float',
+                    'notnull' => false,
+                    'default' => 0
+            ]);
+        }
+    }
 }

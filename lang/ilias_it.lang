@@ -8128,6 +8128,8 @@ crs#:#tutorial_support_block_title#:#Contact Person###28 11 2025 new variable
 crs#:#user_fields#:#Campi utente
 crsv#:#crsv_create#:#Crea certificato del corso
 crsv#:#crsv_create_info#:#Seleziona un corso terminato per generare un certificato per questo
+dash#:#add_to_favourites#:#Add to Favourites###21 04 2026 new variable
+dash#:#added_to_favourites#:#The item has been added to your favourites.###21 04 2026 new variable
 dash#:#dash_activation#:#Attivazione
 dash#:#dash_added_to_favs#:#Il contenuto è stato aggiunto ai tuoi preferiti.
 dash#:#dash_avail_presentation#:#Presentazioni disponibili
@@ -8165,7 +8167,6 @@ dash#:#dash_item_removed#:#Il contenuto è stato rimosso dalla lista.
 dash#:#dash_learning_sequences#:#My Learning Sequences###30 04 2024 new variable
 dash#:#dash_list#:#Lista
 dash#:#dash_main_panel#:#Pannello principale
-dash#:#dash_make_favourite#:#Aggiungi ai preferiti
 dash#:#dash_member_main_alt#:#La visione delle proprie iscrizioni può essere integrata direttamente nel menù principale.
 dash#:#dash_memberships#:#I miei corsi e gruppi
 dash#:#dash_no_items_to_manage#:#No items available for removal.###10 03 2026 new variable
@@ -8185,6 +8186,8 @@ dash#:#dash_view_courses_groups#:#Blocco ‘I miei corsi e gruppi'
 dash#:#dash_view_favourites#:#Blocco 'Preferiti'
 dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.###28 07 2023 new variable
 dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.###28 07 2023 new variable
+dash#:#remove_from_favourites#:#Remove from Favourites###21 04 2026 new variable
+dash#:#removed_from_favourites#:#The item has been removed from your favourites.###21 04 2026 new variable
 dash#:#topitem_block#:#Block###30 04 2024 new variable
 dateplaner#:#Fr_long#:#Venerdì
 dateplaner#:#Fr_short#:#Ve
@@ -9236,6 +9239,8 @@ ecs#:#ecs_wiki_export_enabled#:#Rilascia questo Wiki
 ecs#:#ecs_wiki_export_obj_settings#:#Impostazioni di rilascio Wiki
 error#:#error_back_to_repository#:#Torna all'archivio
 error#:#error_sry_error#:#Ci scusiamo, si é verificato un errore.
+error#:#http_404_not_found#:#The requested page could not be found.###21 04 2026 new variable
+error#:#http_500_internal_server_error#:#An internal server error occurred.###21 04 2026 new variable
 etal#:#appointments#:#Appointments###31 03 2023 new variable
 etal#:#cal_type_tals#:#Talks###31 03 2023 new variable
 etal#:#change_date_of_series#:#Change date of talk series###31 03 2023 new variable
@@ -13038,6 +13043,7 @@ notes#:#notes_latest_comment#:#Ultimo commento
 notes#:#notes_latest_message#:#Latest Message###30 04 2024 new variable
 notes#:#notes_message_author_counterpart#:#Respondent###30 04 2024 new variable
 notes#:#notes_message_author_you#:#You###30 04 2024 new variable
+notes#:#notes_message_deleted#:#Message deleted.###21 04 2026 new variable
 notes#:#notes_messages#:#Messages###30 04 2024 new variable
 notes#:#notes_my_comments#:#I miei commenti
 notes#:#notes_no_comments#:#Nessun commento è stato ancora pubblicato.
@@ -15043,9 +15049,7 @@ rep#:#rep_add_new_def_grp_content#:#Contenuto
 rep#:#rep_add_new_def_grp_feedback#:#Feedback e valutazione
 rep#:#rep_add_new_def_grp_organisation#:#Organizzazione
 rep#:#rep_add_new_def_grp_templates#:#Modelli
-rep#:#rep_add_to_favourites#:#Aggiungi ai preferiti
 rep#:#rep_added_rec_content#:#Il contenuto raccomandato è stato aggiunto.
-rep#:#rep_added_to_favourites#:#L'articolo è stato aggiunto ai tuoi preferiti.
 rep#:#rep_allowed_types#:#Allowed Types###31 03 2023 new variable
 rep#:#rep_breadcr_crs#:#Breadcrumb inizia con corso
 rep#:#rep_breadcr_crs_config#:#Configuration###24 11 2022 new variable
@@ -15100,9 +15104,7 @@ rep#:#rep_object_references_cannot_be_read#:#Nessuna autorizzazione per %s maggi
 rep#:#rep_object_to_delete#:#Da eliminare
 rep#:#rep_rec_content_removed#:#Il contenuto raccomandato è stato rimosso.
 rep#:#rep_recommended_content#:#Contenuto raccomandato
-rep#:#rep_remove_from_favourites#:#Rimuovi dai preferiti
 rep#:#rep_remove_rec_content#:#Sei sicuro di voler rimuovere il seguente contenuto raccomandato?
-rep#:#rep_removed_from_favourites#:#L'articolo è stato rimosso dai tuoi preferiti.
 rep#:#rep_target_location#:#Posizione target
 rep#:#rep_target_location_info#:#Seleziona ora la destinazione dove gli oggetti selezionati devono essere ripristinati.
 rep#:#rep_time_based_availability#:#Limited Availability Period###30 04 2024 new variable
@@ -16094,6 +16096,7 @@ style#:#sty_individual_styles#:#Stili Personali
 style#:#sty_keep_existing#:#Mantieni l'esistente
 style#:#sty_left#:#Sinistra
 style#:#sty_left_right_padding#:#Margine Interno delle Celle (Sinistra/Destra)
+style#:#sty_legacy_image_directory_found#:#Legacy image directory found. You may migrate the directory from ILIAS 9 by clicking "Migrate Images"###21 04 2026 new variable
 style#:#sty_letter_spacing#:#Spaziatura
 style#:#sty_lightness_border#:#Spessore Bordo
 style#:#sty_lightness_cell1_bg#:#Luminosità di Sfondo della Cella 1
@@ -16114,6 +16117,7 @@ style#:#sty_margin_and_padding#:#Margine e Rientro
 style#:#sty_media_char#:#Supporti
 style#:#sty_media_queries#:#Media Query
 style#:#sty_media_query_info#:#Un blocco CSS separato viene aggiunto per ogni media query dopo il blocco predefinito (nessuna media query speciale).
+style#:#sty_migrate_images#:#Migrate Images###21 04 2026 new variable
 style#:#sty_min_height#:#Altezza Minima
 style#:#sty_move_lm_styles#:#Cambia lo Stile dell'Unità Didattica
 style#:#sty_move_obj_styles#:#Change Style of Objects###23 09 2025 new variable
@@ -16172,6 +16176,7 @@ style#:#sty_special#:#Speciale
 style#:#sty_style_chars#:#Classi di Stili
 style#:#sty_style_class#:#Classi di Stili
 style#:#sty_style_classes_copied#:#Le classi di stile sono state copiate.
+style#:#sty_style_not_migrated#:#This content style has not been migrated to the ILIAS 10 data structure yet. Changes will not be applied.###21 04 2026 new variable
 style#:#sty_substyle#:#Tendenza
 style#:#sty_substyle_of#:#Sottotitolo di
 style#:#sty_substyles#:#Tendenze
@@ -17085,6 +17090,7 @@ tax#:#tax_tax_settings#:#Impostazioni tassonomia
 tax#:#tax_taxonomy#:#Tassonomia
 tbl#:#tbl_export_csv#:#Esporta .csv
 tbl#:#tbl_export_excel#:#Esporta .xls
+tbl#:#tbl_selection#:#Selection###21 04 2026 new variable
 tbl#:#tbl_template_create#:#Salva visualizzazione attuale
 tbl#:#tbl_template_created#:#L’attuale visualizzazione è stata salvata.
 tbl#:#tbl_template_delete#:#Elimina visualizzazione salvata

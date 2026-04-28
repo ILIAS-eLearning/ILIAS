@@ -441,6 +441,10 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 
     public function isNodeClickable($a_node): bool
     {
+        if (in_array($a_node['type'], ['grpr', 'crsr', 'catr'], true)) {
+            return ilContainerReferenceAccess::_isAccessible($a_node['child']);
+        }
+
         return
             $this->access->checkAccess("read", "", (int) $a_node["child"]) ||
             $this->access->checkAccess("join", "", (int) $a_node["child"]);

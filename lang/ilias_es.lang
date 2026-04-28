@@ -656,7 +656,6 @@ assessment#:#errFormulaQuestion#:#¡Una pregunta de fórmula contiene informaci�
 assessment#:#errRecursionInResult#:#La fórmula contiene una recursión infinita.
 assessment#:#err_category_in_use#:#Al menos una categoría no puede eliminarse. Una o más unidades de la categoría ya están en uso.
 assessment#:#err_divider_too_big#:#El divisor de una de las variables en esta pregunta es demasiado grande.
-assessment#:#err_divider_too_big_specific#:#El divisor de esta variable es demasiado grande.
 assessment#:#err_division#:#El valor que eligió haría imposible generar un valor válido para la variable.
 assessment#:#err_duplicate_results#:#Ha utilizado una variable de resultado más de una vez. Esto no está permitido en el texto de la pregunta.
 assessment#:#err_no_formula#:#Debe introducir una fórmula
@@ -2774,6 +2773,7 @@ buddysystem#:#buddy_bs_state_requested_p#:#Solicitado
 buddysystem#:#buddy_bs_state_unlinked#:#Desvinculado
 buddysystem#:#buddy_bs_state_unlinked_a#:#Desvinculado
 buddysystem#:#buddy_bs_state_unlinked_p#:#Desvinculado
+buddysystem#:#buddy_confirm_unlink#:#Do you really want to disconnect from this contact?###21 04 2026 new variable
 buddysystem#:#buddy_enable#:#Activar ‘Contactos’
 buddysystem#:#buddy_enable_info#:#Si se habilita, los usuarios podrán contactar entre sí iniciando solicitudes de contacto. Además, existe un ajuste personal de usuario para permitir o impedir ser contactado.
 buddysystem#:#buddy_handle_contact_request#:#Solicitud de contacto
@@ -8133,6 +8133,8 @@ crs#:#tutorial_support_block_title#:#Persona de contacto
 crs#:#user_fields#:#Campos de Usuario
 crsv#:#crsv_create#:#Crear Certificado de curso
 crsv#:#crsv_create_info#:#Seleccione un curso completado para generar un certificado para el mismo
+dash#:#add_to_favourites#:#Add to Favourites###21 04 2026 new variable
+dash#:#added_to_favourites#:#The item has been added to your favourites.###21 04 2026 new variable
 dash#:#dash_activation#:#activación
 dash#:#dash_added_to_favs#:#La recomendación se ha añadido a sus favoritos personales.
 dash#:#dash_avail_presentation#:#Presentaciones Disponibles
@@ -8170,7 +8172,6 @@ dash#:#dash_item_removed#:#La recomendación ha sido eliminada de la lista.
 dash#:#dash_learning_sequences#:#Mis secuencias de aprendizaje
 dash#:#dash_list#:#Lista
 dash#:#dash_main_panel#:#Panel principal
-dash#:#dash_make_favourite#:#Añadir a favoritos
 dash#:#dash_member_main_alt#:#Los cursos y grupos también pueden configurarse como una entrada independiente en el menú principal.
 dash#:#dash_memberships#:#Mis cursos y grupos
 dash#:#dash_no_items_to_manage#:#No hay elementos disponibles para eliminar.
@@ -8190,6 +8191,8 @@ dash#:#dash_view_courses_groups#:#Sección ‘Mis cursos y grupos’
 dash#:#dash_view_favourites#:#Sección ‘Favoritos’
 dash#:#favourites_disabled_info#:#La función añadir a favoritos está desactivada. Puede cambiar esto en la configuración del repositorio.
 dash#:#memberships_disabled_info#:#Las suscripciones están desactivadas. Puede cambiar esto en la configuración del curso.
+dash#:#remove_from_favourites#:#Remove from Favourites###21 04 2026 new variable
+dash#:#removed_from_favourites#:#The item has been removed from your favourites.###21 04 2026 new variable
 dash#:#topitem_block#:#Bloque
 dateplaner#:#Fr_long#:#Viernes
 dateplaner#:#Fr_short#:#Vi
@@ -9241,6 +9244,8 @@ ecs#:#ecs_wiki_export_enabled#:#Publicar este Wiki
 ecs#:#ecs_wiki_export_obj_settings#:#Ajustes de publicación de Wiki
 error#:#error_back_to_repository#:#Volver al Repositorio
 error#:#error_sry_error#:#Lo sentimos, se ha producido un error.
+error#:#http_404_not_found#:#The requested page could not be found.###21 04 2026 new variable
+error#:#http_500_internal_server_error#:#An internal server error occurred.###21 04 2026 new variable
 etal#:#appointments#:#Citas
 etal#:#cal_type_tals#:#Charlas
 etal#:#change_date_of_series#:#Cambiar fecha de la serie de charlas
@@ -12764,6 +12769,7 @@ mmbr#:#mmbr_awrn_my_groups_courses#:#Mis grupos y cursos
 mmbr#:#mmbr_awrn_my_groups_courses_info#:#Se enumeran todos los miembros de los grupos o cursos del usuario actual.
 mmbr#:#mmbr_btn_mail_selected_users#:#Enviar correo
 mmbr#:#mmbr_memberships#:#Membresías
+mmbr#:#mmbr_role_error#:#Members must have at least one role assigned.###21 04 2026 new variable
 mmbr#:#mmbr_selected_users#:#Participantes seleccionados
 mmbr#:#mmbr_unsubscribed_from_objs#:#Se le ha dado de baja de los objetos seleccionados.
 mme#:#add_languages#:#Añadir idioma
@@ -13042,6 +13048,7 @@ notes#:#notes_latest_comment#:#Último comentario
 notes#:#notes_latest_message#:#Último mensaje
 notes#:#notes_message_author_counterpart#:#Remitente
 notes#:#notes_message_author_you#:#Usted
+notes#:#notes_message_deleted#:#Message deleted.###21 04 2026 new variable
 notes#:#notes_messages#:#Mensajes
 notes#:#notes_my_comments#:#Mis comentarios
 notes#:#notes_no_comments#:#Aún no se ha publicado ningún comentario.
@@ -15047,9 +15054,7 @@ rep#:#rep_add_new_def_grp_content#:#Contenido
 rep#:#rep_add_new_def_grp_feedback#:#Feedback y Evaluación
 rep#:#rep_add_new_def_grp_organisation#:#Organización
 rep#:#rep_add_new_def_grp_templates#:#Plantillas
-rep#:#rep_add_to_favourites#:#Añadir a Favoritos
 rep#:#rep_added_rec_content#:#Se ha añadido el contenido recomendado.
-rep#:#rep_added_to_favourites#:#El elemento se ha añadido a sus favoritos.
 rep#:#rep_allowed_types#:#Tipos permitidos
 rep#:#rep_breadcr_crs#:#La ruta de navegación comienza con el curso
 rep#:#rep_breadcr_crs_config#:#Configuración
@@ -15104,9 +15109,7 @@ rep#:#rep_object_references_cannot_be_read#:#Sin permisos para %s referencias m�
 rep#:#rep_object_to_delete#:#Para eliminar
 rep#:#rep_rec_content_removed#:#El contenido recomendado ha sido eliminado.
 rep#:#rep_recommended_content#:#Contenido recomendado
-rep#:#rep_remove_from_favourites#:#Eliminar de Favoritos
 rep#:#rep_remove_rec_content#:#¿Está seguro de que desea eliminar el siguiente contenido recomendado?
-rep#:#rep_removed_from_favourites#:#El elemento ha sido eliminado de sus favoritos.
 rep#:#rep_target_location#:#Ubicación de destino
 rep#:#rep_target_location_info#:#Por favor, seleccione ahora el destino en el que deben restaurarse los objetos seleccionados.
 rep#:#rep_time_based_availability#:#Periodo de disponibilidad limitado
@@ -16098,6 +16101,7 @@ style#:#sty_individual_styles#:#Estilos Individuales
 style#:#sty_keep_existing#:#Mantener Existente
 style#:#sty_left#:#Izquierda
 style#:#sty_left_right_padding#:#Relleno de Celda Izquierda/Derecha
+style#:#sty_legacy_image_directory_found#:#Legacy image directory found. You may migrate the directory from ILIAS 9 by clicking "Migrate Images"###21 04 2026 new variable
 style#:#sty_letter_spacing#:#Espaciado entre Letras
 style#:#sty_lightness_border#:#Luminosidad del Borde
 style#:#sty_lightness_cell1_bg#:#Luminosidad del Fondo de Celda 1
@@ -16118,6 +16122,7 @@ style#:#sty_margin_and_padding#:#Margen y Relleno (Padding)
 style#:#sty_media_char#:#Media
 style#:#sty_media_queries#:#Media Queries
 style#:#sty_media_query_info#:#Se añade un bloque CSS independiente para cada media query después del bloque predeterminado (sin media query especial).
+style#:#sty_migrate_images#:#Migrate Images###21 04 2026 new variable
 style#:#sty_min_height#:#Altura mínima
 style#:#sty_move_lm_styles#:#Cambiar estilo de los módulos de aprendizaje
 style#:#sty_move_obj_styles#:#Cambiar estilo de los objetos
@@ -16176,6 +16181,7 @@ style#:#sty_special#:#Especial
 style#:#sty_style_chars#:#Clases de Estilo
 style#:#sty_style_class#:#Clases de Estilo
 style#:#sty_style_classes_copied#:#Se han copiado las clases de estilo.
+style#:#sty_style_not_migrated#:#This content style has not been migrated to the ILIAS 10 data structure yet. Changes will not be applied.###21 04 2026 new variable
 style#:#sty_substyle#:#Subestilo
 style#:#sty_substyle_of#:#Subestilo de
 style#:#sty_substyles#:#Subestilos
@@ -17089,6 +17095,7 @@ tax#:#tax_tax_settings#:#Ajustes de taxonomía
 tax#:#tax_taxonomy#:#Taxonomía
 tbl#:#tbl_export_csv#:#Exportar CSV
 tbl#:#tbl_export_excel#:#Exportar Excel
+tbl#:#tbl_selection#:#Selection###21 04 2026 new variable
 tbl#:#tbl_template_create#:#Guardar vista actual
 tbl#:#tbl_template_created#:#Se ha guardado la vista actual.
 tbl#:#tbl_template_delete#:#Eliminar vista guardada

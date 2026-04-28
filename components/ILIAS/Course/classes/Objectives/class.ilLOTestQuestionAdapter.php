@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -457,7 +458,7 @@ class ilLOTestQuestionAdapter
                 $tst_run->addQuestion($qst_id);
                 $points += ilCourseObjectiveQuestion::_lookupMaximumPointsOfQuestion($qst_id);
             }
-            $tst_run->setMaxPoints((int) $points);
+            $tst_run->setMaxPoints((float) $points);
         }
     }
 
@@ -474,7 +475,7 @@ class ilLOTestQuestionAdapter
                 $tst_run->addQuestion($id);
                 $points += ilCourseObjectiveQuestion::_lookupMaximumPointsOfQuestion($id);
             }
-            $tst_run->setMaxPoints((int) $points);
+            $tst_run->setMaxPoints((float) $points);
         }
     }
 
@@ -502,7 +503,7 @@ class ilLOTestQuestionAdapter
                     $points += ilCourseObjectiveQuestion::_lookupMaximumPointsOfQuestion($qst);
                 }
             }
-            $tst_run->setMaxPoints((int) $points);
+            $tst_run->setMaxPoints((float) $points);
         }
     }
 
