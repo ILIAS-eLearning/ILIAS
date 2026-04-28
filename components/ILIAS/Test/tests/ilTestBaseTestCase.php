@@ -110,6 +110,7 @@ class ilTestBaseTestCase extends TestCase
         $this->addGlobal_objectMetadata();
         $this->addGlobal_user();
         $this->addGlobal_mail();
+        $this->addGlobal_logging();
 
         $this->defineGlobalConstants();
 

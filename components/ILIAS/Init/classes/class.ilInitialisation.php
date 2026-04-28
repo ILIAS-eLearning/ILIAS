@@ -706,8 +706,6 @@ class ilInitialisation
                 }
                 $context_init = true;
             }
-            // init console log handler
-            ilLoggerFactory::getInstance()->initUser($DIC->user()->getLogin());
             \ilOnlineTracking::updateAccess($DIC->user());
         } else {
             if (is_object($GLOBALS['ilLog'])) {
@@ -965,6 +963,10 @@ class ilInitialisation
         if (self::$already_initialized) {
             return;
         }
+
+        $GLOBALS["DIC"]["ilLoggerFactory"] = function ($c) {
+            return ilLoggerFactory::getInstance();
+        };
 
         self::$already_initialized = true;
 

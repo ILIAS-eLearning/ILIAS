@@ -20,32 +20,32 @@ declare(strict_types=1);
 
 namespace ILIAS\Logging\Config\Basic;
 
-use ilIniFile;
+use ILIAS\Environment\Configuration\Instance\IliasIni;
 
 class IniReader implements IniReaderInterface
 {
     public function __construct(
-        protected ilIniFile $ilias_ini_file
+        protected IliasIni $ilias_ini_file
     ) {
     }
 
     public function isLoggingEnabled(): string
     {
-        return $this->ilias_ini_file->readVariable('log', 'enabled');
+        return $this->ilias_ini_file->isLogEnabled() ? '1' : '0';
     }
 
     public function logFile(): string
     {
-        return $this->ilias_ini_file->readVariable('log', 'file');
+        return $this->ilias_ini_file->getLogFile();
     }
 
     public function logPath(): string
     {
-        return $this->ilias_ini_file->readVariable('log', 'path');
+        return $this->ilias_ini_file->getLogPath();
     }
 
     public function defaultLevel(): string
     {
-        return $this->ilias_ini_file->readVariable('log', 'default_level');
+        return $this->ilias_ini_file->getDefaultLogLevel();
     }
 }

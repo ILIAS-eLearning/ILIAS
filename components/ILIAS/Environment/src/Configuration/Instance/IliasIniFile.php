@@ -81,9 +81,9 @@ class IliasIniFile extends IniFileConfigurationRepository implements IliasIni
         return $this->get('log', 'enabled') === '1';
     }
 
-    public function getLogLevel(): string
+    public function getDefaultLogLevel(): string
     {
-        return $this->get('log', 'level');
+        return $this->get('log', 'default_level');
     }
 
     public function getLogErrorPath(): string

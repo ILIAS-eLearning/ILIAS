@@ -42,7 +42,7 @@ final class ResponseFactoryTest extends Base
         $container = $this->createMock(Container::class);
         $container->method('user')->willReturn($user);
 
-        return new Context($container);
+        return new Context(fn(): Container => $container);
     }
 
     public function testCannotReturnsCannotHandle(): void

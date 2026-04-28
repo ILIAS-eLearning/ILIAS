@@ -69,10 +69,17 @@ class ilRbacSystem
 
     public static function getInstance(): ilRbacSystem
     {
-        if (self::$instance === null) {
-            self::$instance = new self();
+        if (self::$instance !== null) {
+            return self::$instance;
         }
-        return self::$instance;
+        global $DIC;
+        if ($DIC instanceof \Pimple\Container && isset($DIC['rbacsystem'])) {
+            return self::$instance = $DIC['rbacsystem'];
+        }
+        throw new \LogicException(
+            'ilRbacSystem::getInstance() requires a bootstrapped $DIC[\'rbacsystem\']; '
+            . 'register a mock via $DIC[\'rbacsystem\'] in tests.'
+        );
     }
 
     /**

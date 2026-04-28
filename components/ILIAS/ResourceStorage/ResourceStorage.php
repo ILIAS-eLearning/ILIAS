@@ -59,7 +59,6 @@ use ILIAS\ResourceStorage\Events\Observer;
 use ILIAS\ResourceStorage\IRSSEventLogObserver;
 use ILIAS\ResourceStorage\Events\ObserverCollection;
 use ILIAS\Environment\Configuration\Instance\Directories;
-use ILIAS\Logging\Services as LoggingServices;
 
 class ResourceStorage implements Component
 {
@@ -82,7 +81,7 @@ class ResourceStorage implements Component
 
         $contribute[Observer::class] = static fn(): Observer =>
             new IRSSEventLogObserver(
-                static fn(): \ilLogger => $use[LoggingServices::class]->getComponentLogger('irss')
+                $use[Logging\Logger\LoggerFactoryInterface::class]->getLazy('irss')
             );
 
         // DB Repositories

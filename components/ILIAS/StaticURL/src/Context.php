@@ -85,7 +85,7 @@ class Context
 
     public function findFirstAccessibleParentRefId(int $ref_id, string $permission = 'read'): ?int
     {
-        $tree = $this->container->repositoryTree();
+        $tree = $this->container()->repositoryTree();
         if ($ref_id <= 0 || !$tree->isInTree($ref_id)) {
             return null;
         }

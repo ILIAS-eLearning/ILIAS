@@ -51,6 +51,7 @@ abstract class assBaseTestCase extends TestCase
         $this->addGlobal_ilTabs();
         $this->addGlobal_rbacsystem();
         $this->addGlobal_rbacreview();
+        $this->addGlobal_ilRbacAdmin();
         $this->addGlobal_refinery();
         $this->addGlobal_ilDB();
         $this->addGlobal_tree();
@@ -66,6 +67,7 @@ abstract class assBaseTestCase extends TestCase
         $this->addGlobal_ilSetting();
         $this->addGlobal_uiFactory();
         $this->addGlobal_uiRenderer();
+        $this->addGlobal_logging();
 
         $this->defineGlobalConstants();
 

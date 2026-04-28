@@ -22,7 +22,7 @@ use ILIAS\User\PublicInterface;
 use ILIAS\AccessControl\Object\ObjectDefinitionAccessProxy;
 use ILIAS\AccessControl\Tree\RepositoryTreeAccessProxy;
 use ILIAS\AccessControl\User\UserIdProviderProxy;
-use ILIAS\Logging\Services;
+use ILIAS\Logging\Logger\LoggerInterface;
 use ILIAS\AccessControl\PublicInterface\Access;
 
 /**
@@ -57,8 +57,6 @@ class ilAccess implements Access
     protected array $stored_rbac_access = [];
     protected array $current_result_element = [];
 
-    protected ilLogger $ac_logger;
-
     protected ?ilLanguage $language = null;
 
     public function __construct(
@@ -67,9 +65,8 @@ class ilAccess implements Access
         private ilRbacSystem $rbacsystem,
         private RepositoryTreeAccessProxy $repositoryTree,
         private ObjectDefinitionAccessProxy $objDefinition,
-        Services $logging_services
-    )
-    {
+        private LoggerInterface $ac_logger
+    ) {
         $this->results = [];
         $this->current_info = new ilAccessInfo();
 
@@ -84,7 +81,6 @@ class ilAccess implements Access
         $this->obj_type_cache = [];
         $this->obj_tree_cache = [];
         $this->ac_cache = [];
-        $this->ac_logger = $logging_services->getLogger('ac');
     }
 
     private function getLanguage(): ilLanguage
