@@ -20,30 +20,63 @@ declare(strict_types=1);
 
 namespace ILIAS\Logging;
 
-final class ServicesImpl implements Services
+use ILIAS\Logging\Configuration\LoggingConfig;
+
+class ServicesImpl implements Services
 {
+    public function __construct(
+        protected readonly LoggerFactory $factory,
+        protected readonly LoggingConfig $config,
+    ) {
+    }
+
+    public function getFactory(): LoggerFactory
+    {
+        return $this->factory;
+    }
+
     public function getComponentLogger(string $component_id): \ilLogger
     {
-        return \ilLoggerFactory::getLogger($component_id);
+        return $this->factory->getComponentLogger($component_id);
     }
 
     public function getRootLogger(): \ilLogger
     {
-        return \ilLoggerFactory::getRootLogger();
+        return $this->factory->getRootLogger();
+    }
+
+    public function root(): \ilLogger
+    {
+        return $this->factory->getRootLogger();
+    }
+
+    /**
+     * Fluent shortcut: `$services->myComponent()` returns the logger for
+     * the component id `myComponent`.
+     */
+    public function __call(string $name, array $arguments): \ilLogger
+    {
+        assert($arguments === []);
+        return $this->factory->getComponentLogger($name);
     }
 
     public function getLogger(string $component_id): \ilLogger
     {
-        return \ilLoggerFactory::getLogger($component_id);
+        return $this->factory->getComponentLogger($component_id);
+    }
+
+    public function getConfig(): LoggingConfig
+    {
+        return $this->config;
     }
 
     public function getSettings(): \ilLoggingSettings
     {
-        return \ilLoggerFactory::getInstance()->getSettings();
+        return new \ilLoggingDBSettings($this->config);
     }
 
     public function initUser(string $login): void
     {
-        \ilLoggerFactory::getInstance()->initUser($login);
+        $this->factory->initUser($login);
     }
 }

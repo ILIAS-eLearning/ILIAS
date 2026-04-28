@@ -16,36 +16,26 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\DI;
 
+use ILIAS\Logging\ServicesImpl;
+
 /**
- * Provides fluid interface to LoggingServices.
+ * @deprecated Depend on {@see \ILIAS\Logging\Services} (interface) instead.
+ *
+ * Kept as a thin subclass of {@see ServicesImpl} so existing type-hints like
+ * `\ILIAS\DI\LoggingServices` keep resolving.
  */
-class LoggingServices
+class LoggingServices extends ServicesImpl
 {
-    protected Container $container;
+    protected ?Container $container = null;
 
     public function __construct(Container $container)
     {
         $this->container = $container;
-    }
-
-    /**
-     * Get interface to the global logger.
-     * @return \ilLogger
-     */
-    public function root()
-    {
-        return $this->container["ilLoggerFactory"]->getRootLogger();
-    }
-
-    /**
-     * Get a component logger.
-     * @return \ilLogger
-     */
-    public function __call(string $method_name, array $args)
-    {
-        assert(count($args) === 0);
-        return $this->container['ilLoggerFactory']->getComponentLogger($method_name);
+        $impl = $container['logging.services'];
+        parent::__construct($impl->getFactory(), $impl->getConfig());
     }
 }

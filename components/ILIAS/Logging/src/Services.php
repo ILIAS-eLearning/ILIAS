@@ -20,6 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Logging;
 
+use ILIAS\Logging\Configuration\LoggingConfig;
+
+/**
+ * Fluent shortcut for component loggers is exposed via `__call` on the
+ * concrete implementation: `$services->myComponent()` is equivalent to
+ * `$services->getComponentLogger('myComponent')`.
+ */
 interface Services
 {
     public function getComponentLogger(string $component_id): \ilLogger;
@@ -28,6 +35,16 @@ interface Services
 
     public function getLogger(string $component_id): \ilLogger;
 
+    /**
+     * @deprecated Use {@see Services::getRootLogger()} instead.
+     */
+    public function root(): \ilLogger;
+
+    public function getConfig(): LoggingConfig;
+
+    /**
+     * @deprecated Use {@see Services::getConfig()} instead.
+     */
     public function getSettings(): \ilLoggingSettings;
 
     public function initUser(string $login): void;

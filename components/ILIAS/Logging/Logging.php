@@ -20,7 +20,16 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Logging\Configuration\LoggingConfig;
+use ILIAS\Logging\Configuration\LoggingConfigImpl;
+use ILIAS\Logging\LoggerFactory;
 use ILIAS\Logging\Services;
+use ILIAS\Logging\ServicesImpl;
+use ILIAS\Environment\Configuration\Instance\IliasIni;
+use ILIAS\Environment\Configuration\Instance\ClientIni;
+use ILIAS\Environment\Configuration\Instance\ClientIdProvider;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Database\PDO\External;
 
 class Logging implements Component\Component
 {
@@ -83,6 +92,25 @@ class Logging implements Component\Component
             );
 
         $define[] = Services::class;
-        $implement[Services::class] = static fn(): Services => new \ILIAS\Logging\ServicesImpl();
+
+        $internal[LoggingConfig::class] = static fn(): LoggingConfig =>
+            new LoggingConfigImpl(
+                $use[IliasIni::class],
+                $use[ClientIni::class],
+                $use[External::class],
+            );
+
+        $internal[LoggerFactory::class] = static fn(): LoggerFactory =>
+            new LoggerFactory(
+                $internal[LoggingConfig::class],
+                $use[ClientIdProvider::class],
+                $use[GlobalHttpState::class],
+            );
+
+        $implement[Services::class] = static fn(): Services =>
+            new ServicesImpl(
+                $internal[LoggerFactory::class],
+                $internal[LoggingConfig::class],
+            );
     }
 }

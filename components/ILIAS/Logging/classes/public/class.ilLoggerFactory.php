@@ -71,14 +71,6 @@ class ilLoggerFactory
         return $factory->getComponentLogger('root');
     }
 
-
-    /**
-     * Init user specific log options
-     */
-    public function initUser(string $a_login): void
-    {
-    }
-
     public function getSettings(): ilLoggingSettings
     {
         return $this->settings;
