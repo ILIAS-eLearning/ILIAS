@@ -37,7 +37,7 @@ use InitResourceStorage;
 #[Normalizes(ResourceIdentification::class, StorableResource::class)]
 class ResourceNormalizer implements Normalizer
 {
-    private const string KEY_TYPE = '_type';
+    private const string KEY_TYPE = 'type';
     private const string TYPE_RID = 'rid';
     private const string TYPE_RESOURCE = 'resource';
 

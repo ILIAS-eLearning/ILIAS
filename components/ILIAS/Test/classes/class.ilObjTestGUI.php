@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\ExportImport\Import\PersistStage;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\Skill\Service\SkillUsageService;
 use ILIAS\Test\Results\Data\Repository as TestResultRepository;
@@ -61,6 +62,14 @@ use ILIAS\Test\Results\Presentation\Factory as ResultsPresentationFactory;
 use ILIAS\Test\Results\Toplist\TestTopListRepository;
 use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
 use ILIAS\Test\ExportImport\DBRepository as ExportRepository;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportStageRunner;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\StageResultType;
+use ILIAS\TestQuestionPool\ExportImport\Import\CleanupStage;
+use ILIAS\TestQuestionPool\ExportImport\Import\DetectLegacyImportStage;
+use ILIAS\TestQuestionPool\ExportImport\Import\QuestionSelectionStage;
+use ILIAS\TestQuestionPool\ExportImport\Import\UploadValidationStage;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\TestQuestionPool\RequestDataCollector as QPLRequestDataCollector;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
@@ -180,6 +189,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected TaxonomyService $taxonomy;
     protected GUIFactory $gui_factory;
     protected SkillUsageService $skill_usage_service;
+    protected ImportSessionRepository $import_session_repository;
 
     protected bool $create_question_mode;
 
@@ -234,6 +244,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->mark_schema_factory = $local_dic['marks.factory'];
         $this->additional_information_generator = $local_dic['logging.information_generator'];
         $this->personal_settings_exporter = $local_dic['settings.personal_templates.exporter'];
+        $this->import_session_repository = $local_dic['exportimport.session'];
 
         $ref_id = 0;
         if ($this->testrequest->hasRefId() && is_numeric($this->testrequest->getRefId())) {
@@ -1366,80 +1377,75 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
     }
 
+
     protected function importFile(string $file_to_import, string $path_to_uploaded_file_in_temp_dir): void
     {
-        list($subdir, $importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromImportFile($file_to_import);
+        $this->import_session_repository->clear();
 
-        $options = (new ILIAS\Filesystem\Util\Archive\UnzipOptions())
-            ->withZipOutputPath($this->getImportTempDirectory());
+        $context = new ImportContext([UploadValidationStage::FILE_TO_IMPORT => $file_to_import]);
+        $this->import_session_repository->setContext($context);
+        $this->import_session_repository->setCurrentStageIndex(0);
 
-        $unzip = $this->archives->unzip(Streams::ofResource(fopen($file_to_import, 'r')), $options);
-        $unzip->extract();
-
-        if (!is_file($qtifile)) {
-            ilFileUtils::delDir($importdir);
-            $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_import_non_ilias_zip'), true);
-        }
-        $qtiParser = new ilQTIParser($importdir, $qtifile, ilQTIParser::IL_MO_VERIFY_QTI, 0, [], [], true);
-        try {
-            $qtiParser->startParsing();
-        } catch (ilSaxParserException) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'), true);
-            $this->ctrl->redirect($this, 'create');
-        }
-        $founditems = $qtiParser->getFoundItems();
-
-        $complete = 0;
-        $incomplete = 0;
-        foreach ($founditems as $item) {
-            if ($item["type"] !== '') {
-                $complete++;
-            } else {
-                $incomplete++;
-            }
-        }
-
-        if (count($founditems) && $complete == 0) {
-            ilFileUtils::delDir($importdir);
-            $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_import_non_ilias_files'));
-            return;
-        }
-
-        ilSession::set('path_to_import_file', $file_to_import);
-        ilSession::set('path_to_uploaded_file_in_temp_dir', $path_to_uploaded_file_in_temp_dir);
-
-        if ($qtiParser->getQuestionSetType() !== ilObjTest::QUESTION_SET_TYPE_FIXED
-            || file_exists($this->buildResultsFilePath($importdir, $subdir))
-            || $founditems === []) {
-            $this->importVerifiedFileObject(true);
-            return;
-        }
-
-        $form = $this->buildImportQuestionsSelectionForm(
-            'importVerifiedFile',
-            $importdir,
-            $qtifile,
-            $file_to_import,
-            $path_to_uploaded_file_in_temp_dir
-        );
-
-        if ($form === null) {
-            return;
-        }
-
-        $panel = $this->ui_factory->panel()->standard(
-            $this->lng->txt('import_tst'),
-            [
-                $this->ui_factory->legacy()->content($this->lng->txt('qpl_import_verify_found_questions')),
-                $form
-            ]
-        );
-        $this->tpl->setContent($this->ui_renderer->render($panel));
-        $this->tpl->printToStdout();
-        exit;
+        $this->ctrl->redirectByClass(self::class, 'processImport');
     }
+
+    public function processImportObject(): void
+    {
+        $permission = $this->creation_mode ? 'create' : 'read';
+        if (!$this->checkPermissionBool($permission, '', $this->object->getType())) {
+            $this->redirectAfterMissingWrite();
+            return;
+        }
+
+        $runner = $this->buildImportStageRunner();
+        $result = $runner->run();
+
+        switch ($result->type) {
+            case StageResultType::INTERACT:
+                $this->tpl->setContent(
+                    $this->ui_renderer->render($result->components)
+                );
+                break;
+
+            case StageResultType::ADVANCE:
+                $this->ctrl->redirectByClass(self::class, 'processImport');
+                break;
+
+            case StageResultType::ERROR:
+                $this->tpl->setOnScreenMessage('failure', $result->error_message, true);
+                break;
+
+            case StageResultType::COMPLETE:
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_imported'), true);
+                $this->ctrl->setParameterByClass(ilObjTestGUI::class, 'ref_id', $result->context->get('test_ref_id'));
+                $this->ctrl->redirectByClass(self::class, self::SHOW_QUESTIONS_CMD);
+                break;
+        }
+    }
+
+    private function buildImportStageRunner(): ImportStageRunner
+    {
+        $form_action = $this->ctrl->getFormActionByClass(self::class, 'processImport');
+
+        return new ImportStageRunner(
+            [
+                new UploadValidationStage($this->archives, $this->lng, 'components/ILIAS/Test'),
+                new DetectLegacyImportStage(),
+                new QuestionSelectionStage(
+                    $this->lng,
+                    $this->component_factory,
+                    $this->ui_factory,
+                    $this->request,
+                    $form_action,
+                    $this->lng->txt('import_tst')
+                ),
+                new PersistStage($this->lng, $this->requested_ref_id, $this->import_session_repository),
+            ],
+            $this->import_session_repository,
+            new CleanupStage()
+        );
+    }
+
 
     /**
     * save object
@@ -2366,6 +2372,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 );
                 break;
             case "importFile":
+            case "processImport":
             case "cloneAll":
             case "importVerifiedFile":
             case "cancelImport":
