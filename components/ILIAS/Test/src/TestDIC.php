@@ -56,6 +56,7 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionReposi
 use ILIAS\TestQuestionPool\ExportImport\Import\QuestionsImporter;
 use ILIAS\TestQuestionPool\ExportImport\Import\SkillAssignmentsImporter;
 use ILIAS\Test\ExportImport\Import\TestImporter;
+use ILIAS\TestQuestionPool\ExportImport\LoggingProvider;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\TestQuestionPool\RequestDataCollector as QPLRequestDataCollector;
 use ILIAS\Data\Factory as DataFactory;
@@ -237,11 +238,14 @@ class TestDIC extends ServiceContainer
                 $DIC['ilDB']
             );
 
+        $dic['exportimport.logging'] = static fn($c): LoggingProvider =>
+            new LoggingProvider();
+
         $dic['exportimport.state_holder'] = static fn($c): StateHolder =>
             new StateHolder();
 
         $dic['exportimport.session'] = static fn($c): ImportSessionRepository =>
-            new ImportSessionRepository('test');
+            new ImportSessionRepository('tst');
 
         $dic['exportimport.builder'] = static fn($c): Builder =>
             new Builder(
@@ -280,7 +284,7 @@ class TestDIC extends ServiceContainer
                 $DIC->ctrl(),
                 $DIC->database(),
                 $DIC->language(),
-                ilLoggerFactory::getLogger('exp')->getLogger(),
+                $c['exportimport.logging'](),
                 $DIC->fileConverters()->images(),
                 $DIC->filesystem()
             );
@@ -289,7 +293,7 @@ class TestDIC extends ServiceContainer
                 $c['exportimport.builder'],
                 $DIC->ctrl(),
                 $DIC->database(),
-                ilLoggerFactory::getLogger('exp')->getLogger(),
+                $c['exportimport.logging'](),
                 $DIC->language(),
                 $DIC->resourceStorage(),
                 new DataFactory(),
