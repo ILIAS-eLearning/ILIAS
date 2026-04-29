@@ -59,13 +59,13 @@ class ManualFeedback implements Envelope
     public static function fromArray(array $value, Transformations $tt): static
     {
         return new self(
-            $tt->denormalize($value['active_id'], Id::class)->getId(),
-            $tt->denormalize($value['question_id'], Id::class)->getId(),
+            $tt->denormalize($value['active_id'], Id::class),
+            $tt->denormalize($value['question_id'], Id::class),
             $tt->int($value['attempt']),
             $tt->string($value['feedback']),
             $tt->bool($value['finalized_evaluation']),
             $tt->int($value['finalized_timestamp']),
-            $tt->denormalize($value['finalized_by'], Id::class)->getId(),
+            $tt->denormalize($value['finalized_by'], Id::class),
         );
     }
 
