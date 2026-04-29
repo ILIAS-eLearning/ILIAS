@@ -57,8 +57,8 @@ class DataRetrieval implements I\OrderingRetrieval
     {
         $records = $this->facade->fieldFactory()->filterAllFieldsForTypeAsArray($this->facade->type());
         if (!is_null($order)) {
-            [$order_field, $order_direction] = $order->join([], fn($ret, $key, $value) : array => [$key, $value]);
-            usort($records, fn($a, $b) : int => $a[$order_field] <=> $b[$order_field]);
+            [$order_field, $order_direction] = $order->join([], fn($ret, $key, $value): array => [$key, $value]);
+            usort($records, fn($a, $b): int => $a[$order_field] <=> $b[$order_field]);
             if ($order_direction === 'DESC') {
                 return array_reverse($records);
             }
