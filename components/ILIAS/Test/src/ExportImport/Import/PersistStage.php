@@ -30,8 +30,9 @@ use ILIAS\TestQuestionPool\ExportImport\Import\UploadValidationStage;
 use ilImport;
 
 /**
- * Final stage of the test import process. Imports the test object and all its dependencies using `ilImport`. It will
- * delegate the import to the `ilTestImporter` class.
+ * Final stage of the test import process. Imports the head dependencies (user and resource mappings) and then
+ * imports the test object and all its dependencies using `ilImport`. It will delegate the import to the
+ * `ilTestImporter` class.
  */
 class PersistStage implements ImportStage
 {
@@ -70,6 +71,8 @@ class PersistStage implements ImportStage
             $context = $context->with('mappings', $mappings);
         });
         $deserializer->process();
+
+        $this->session->setContext($context);
 
         $importer = new ilImport($this->requested_ref_id);
         $importer->importObject(
