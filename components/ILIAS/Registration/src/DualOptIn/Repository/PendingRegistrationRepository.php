@@ -39,5 +39,5 @@ interface PendingRegistrationRepository
     public function deleteByUserId(int $usr_id): void;
 
     /** @return list<PendingRegistration> */
-    public function findExpired(int $cutoff_ts, ?int $prioritize_usr_id = null): array;
+    public function findExpired(int $cutoff_ts, ?int $usr_id_to_prioritize = null): array;
 }

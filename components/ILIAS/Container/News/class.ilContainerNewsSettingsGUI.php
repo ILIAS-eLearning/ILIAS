@@ -27,6 +27,8 @@ class ilContainerNewsSettingsGUI
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
     protected ilSetting $setting;
+    protected ilAccessHandler $access;
+    protected ilTree $tree;
     protected ilObjectGUI $parent_gui;
     protected ilObject $object;
     protected bool $has_timeline = false;
@@ -44,6 +46,8 @@ class ilContainerNewsSettingsGUI
         $this->lng->loadLanguageModule("news");
         $this->tpl = $DIC["tpl"];
         $this->setting = $DIC["ilSetting"];
+        $this->access = $DIC->access();
+        $this->tree = $DIC->repositoryTree();
         $this->parent_gui = $a_parent_gui;
         $this->object = $this->parent_gui->getObject();
 
@@ -58,9 +62,25 @@ class ilContainerNewsSettingsGUI
         switch ($next_class) {
             default:
                 if (in_array($cmd, ["show", "save"])) {
+                    $this->checkPermission('write');
                     $this->$cmd();
                 }
         }
+    }
+
+    protected function checkPermission(string $perm): void
+    {
+        if ($this->access->checkAccess($perm, '', $this->object->getRefId())) {
+            return;
+        }
+
+        $this->tpl->setOnScreenMessage(
+            ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
+            $this->lng->txt('msg_no_perm_read'),
+            true
+        );
+        $parent_ref_id = $this->tree->getParentId($this->object->getRefId());
+        $this->ctrl->redirectToURL($parent_ref_id > 0 ? ilLink::_getLink($parent_ref_id) : 'login.php?cmd=force_login');
     }
 
     public function show(): void

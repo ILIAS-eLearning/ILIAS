@@ -28,6 +28,7 @@ use ILIAS\components\Export\HTML\ExportCollector;
 
 class LMHtmlExport
 {
+    protected \ILIAS\DI\UIServices $ui;
     protected ExportCollector $collector;
     protected Util $export_util;
     protected \ilLogger $log;
@@ -67,9 +68,11 @@ class LMHtmlExport
         $this->lang = $lang;
         $this->target_dir = $export_dir . "/" . $sub_dir;
         $cs = $DIC->contentStyle();
+        $this->ui = $DIC->ui();
         $this->content_style_domain = $cs->domain()->styleForRefId($this->lm->getRefId());
         $this->collector = $DIC->export()->domain()->html()->collector($this->lm->getId());
         $this->collector->init();
+
         $this->export_util = new Util("", "", $this->collector);
         $this->co_page_html_export = new \ilCOPageHTMLExport($this->target_dir, $this->getLinker(), $lm->getRefId(), $this->collector);
 
@@ -238,8 +241,6 @@ class LMHtmlExport
 
         $this->addSupplyingExportFiles();
 
-        $this->export_util->exportResourceFiles();
-
         $this->co_page_html_export->exportPageElements();
 
     }
@@ -268,9 +269,6 @@ class LMHtmlExport
     protected function getSupplyingExportFiles(string $a_target_dir = "."): array
     {
         $scripts = array(
-            array("source" => './components/ILIAS/Accordion/js/accordion.js',
-                "target" => $a_target_dir . '/js/accordion.js',
-                "type" => "js"),
             array("source" => './components/ILIAS/Accordion/css/accordion.css',
                 "target" => $a_target_dir . '/css/accordion.css',
                 "type" => "css"),
@@ -422,8 +420,7 @@ class LMHtmlExport
         int $lm_page_id,
         string $frame
     ): void {
-        $this->global_screen->layout()->meta()->reset();
-
+        $this->export_util->resetGlobalScreen();
         // load style sheet depending on user's settings
         $location_stylesheet = \ilUtil::getStyleSheetLocation();
         $this->global_screen->layout()->meta()->addCss($location_stylesheet);
@@ -464,7 +461,6 @@ class LMHtmlExport
         if (!in_array($lang, ["-", ""]) && $this->lang === "all") {
             $lang_suffix = "_" . $lang;
         }
-
         // Init template, lm_gui
         $this->initScreen($lm_page_id, $frame);
 
@@ -495,5 +491,6 @@ class LMHtmlExport
         if ($is_first && $frame == "") {
             $this->collector->addString($content, "index" . $lang_suffix . ".html");
         }
+        $this->export_util->exportResourceFiles();  // same iteration level as initScreen which calls reset
     }
 }

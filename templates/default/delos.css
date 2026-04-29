@@ -6345,10 +6345,10 @@ a[aria-disabled].il-link.link-bulky:hover {
 .il-mainbar-tool-trigger-item .btn-bulky .bulky-label,
 .il-mainbar-tool-trigger-item .il-link.link-bulky .bulky-label {
   word-break: break-word;
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
+  -ms-hyphens: manual;
+  -moz-hyphens: manual;
+  -webkit-hyphens: manual;
+  hyphens: manual;
 }
 
 .il-mainbar-triggers .il-mainbar-entries {
@@ -17921,6 +17921,12 @@ div.ilContainerListItemOuter {
 }
 div.ilContainerListItemOuter .subitem {
   margin-right: -15px;
+}
+
+.ilContainerItemsContainer {
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
 
 div.tblfooter.ilContainerListFooter {

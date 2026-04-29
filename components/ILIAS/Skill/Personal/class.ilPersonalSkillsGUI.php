@@ -45,6 +45,8 @@ class ilPersonalSkillsGUI
     public const LIST_SELECTED = "selected";
     public const LIST_PROFILES = "";
 
+    public const LIST_PROFILE_FOR_GAP = "gap";
+
     protected string $offline_mode = "";
 
     /**
@@ -1103,6 +1105,12 @@ class ilPersonalSkillsGUI
         $cmd = ($this->requested_list_mode == self::LIST_SELECTED || empty($this->user_profiles))
             ? "render"
             : "listAssignedProfile";
+        // see #47434; show self eval in profile for gap mode
+        if ($this->requested_list_mode === self::LIST_PROFILE_FOR_GAP) {
+            $ilTabs->clearSubTabs();
+            $ilTabs->clearTargets();
+            $cmd = "listProfileForGap";
+        }
         $ilTabs->setBackTarget(
             $lng->txt("back"),
             $ilCtrl->getLinkTarget($this, $cmd)
@@ -1203,6 +1211,10 @@ class ilPersonalSkillsGUI
         $ilCtrl->clearParameterByClass("ilpersonalskillsgui", "basic_skill_id");
         $cmd = ($this->requested_list_mode == self::LIST_SELECTED || empty($this->user_profiles))
             ? "render" : "listAssignedProfile";
+        // see #47434; show self eval in profile for gap mode
+        if ($this->requested_list_mode === self::LIST_PROFILE_FOR_GAP) {
+            $cmd = "listProfileForGap";
+        }
 
         if ($this->request->getMethod() === "POST") {
             $form = $form->withRequest($this->request);
@@ -1290,7 +1302,8 @@ class ilPersonalSkillsGUI
         $this->setProfileId($this->requested_profile_id);
         $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_skmg.svg"));
         $this->tpl->setTitle($this->profile_manager->lookupTitle($this->getProfileId()));
-
+        $this->ctrl->setParameter($this, "list_mode", self::LIST_PROFILE_FOR_GAP);
+        $this->requested_list_mode = self::LIST_PROFILE_FOR_GAP;
         $this->tpl->setContent($this->getGapAnalysisHTML());
     }
 
@@ -1471,7 +1484,9 @@ class ilPersonalSkillsGUI
                 }
             }
             $bc_skills[] = $s;
-            $html .= $this->getSkillHTML($s->getBaseSkillId(), $user_id, false, $s->getTrefId());
+            // see #47434; show self eval in profile for gap mode
+            $this->use_materials = false;
+            $html .= $this->getSkillHTML($s->getBaseSkillId(), $user_id, true, $s->getTrefId());
         }
 
         if ($not_all_self_evaluated) {
@@ -2020,7 +2035,10 @@ class ilPersonalSkillsGUI
         $filtered_entries = [];
         foreach ($entries as $level_entry) {
             if (count($this->getTriggerObjectsFilter()) && !in_array($level_entry['trigger_obj_id'], $this->getTriggerObjectsFilter())) {
-                continue;
+                // see #47434; show self eval in profile for gap mode
+                if ($this->requested_list_mode !== self::LIST_PROFILE_FOR_GAP || $level_entry["self_eval"] !== 1) {
+                    continue;
+                }
             }
             if ($this->getTriggerUserFilter() !== "" && $level_entry['trigger_user_id'] != $this->getTriggerUserFilter()) {
                 continue;
@@ -2034,7 +2052,6 @@ class ilPersonalSkillsGUI
                 $filtered_entries[] = $level_entry;
             }
         }
-
         return $filtered_entries;
     }
 

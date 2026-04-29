@@ -63,12 +63,13 @@ class InternalGUIService
         return new \ilObjGuidedTourGUI([], $obj_id, false);
     }
 
-    public function adminGUI(): ilGuidedTourAdminGUI
+    public function adminGUI(bool $edit = false): ilGuidedTourAdminGUI
     {
         return new ilGuidedTourAdminGUI(
             $this->data_service,
             $this->domain_service,
-            $this
+            $this,
+            $edit
         );
     }
 

@@ -19,6 +19,16 @@
 namespace ILIAS\StaticURL\Response;
 
 /**
+ * Returned by a Handler when it cannot process the given Request at all,
+ * e.g. because the Request is malformed or references an unknown sub-target.
+ *
+ * This is a programmer/contract-level signal; it does NOT mean that the
+ * current user merely lacks permission (use {@see CannotReach} or
+ * {@see MaybeCanHandlerAfterLogin} for that).
+ *
+ * The HandlerService will respond with HTTP 404.
+ *
+ * @see \ILIAS\StaticURL\Response\Factory::cannot()
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 class CannotHandle implements Response

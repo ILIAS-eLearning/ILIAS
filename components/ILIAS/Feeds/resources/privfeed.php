@@ -16,13 +16,8 @@
  *
  *********************************************************************/
 
-/**
- * News feed script.
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- */
-require_once '../vendor/composer/vendor/autoload.php';
+require_once __DIR__ . '/../artifacts/bootstrap_default.php';
+entry_point('ILIAS Legacy Initialisation Adapter');
 
 ilContext::init(ilContext::CONTEXT_RSS_AUTH);
 

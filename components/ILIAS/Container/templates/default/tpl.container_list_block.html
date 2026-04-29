@@ -15,30 +15,30 @@
 		<div class="pull-right">{CHR_COMMANDS}</div>
 	</div>
 	<!-- END container_header_row -->
-	<div class="ilContainerItemsContainer <!-- BEGIN container_items_hide -->ilNoDisplay<!-- END container_items_hide -->">
+	<ul class="ilContainerItemsContainer <!-- BEGIN container_items_hide -->ilNoDisplay<!-- END container_items_hide -->">
 		<!-- BEGIN tile_rows --><div class="ilContainerTileRows">{TILE_ROWS}</div><!-- END tile_rows -->
 		<!-- BEGIN container_row -->
 		<!-- BEGIN container_standard_row -->
 		<!-- BEGIN row -->
-		<div {ROW_ID} class="ilCLI ilObjListRow">
+		<li {ROW_ID} class="ilCLI ilObjListRow">
 		<!-- END row -->
 			{BLOCK_ROW_CONTENT}
-		</div>
+		</li>
 		<!-- END container_standard_row -->
 
 		<!-- BEGIN container_details_row -->
-		<div class="tblfooter row il_BlockInfo">
+		<li class="tblfooter row il_BlockInfo">
 			{TXT_DETAILS}:
 			<!-- BEGIN details_img -->
 			<a href="{DETAILS_LINK}"><img src="{DETAILS_SRC}" alt="{DETAILS_ALT}" title="{DETAILS_ALT}" /></a>
 			<!-- END details_img -->
-		</div>
+		</li>
 		<!-- END container_details_row -->
 		<!-- END container_row -->
 		<!-- BEGIN show_more -->
-			<div class="ilContainerShowMore">{SHOW_MORE_BUTTON}</div>
+			<li class="ilContainerShowMore">{SHOW_MORE_BUTTON}</li>
 		<!-- END show_more -->
-	</div>
+	</ul>
 	<!-- BEGIN select_all_row -->
 	<div class="tblfooter row ilContainerListFooter">
 		<input type="checkbox" name="{CHECKBOXNAME}" id="{CHECKBOXNAME}" value="1" onClick="javascript:il.Util.setChecked('{SEL_ALL_PARENT}', '{SEL_ALL_CB_NAME}', this.checked);" />

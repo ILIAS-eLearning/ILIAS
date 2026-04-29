@@ -37,5 +37,5 @@ interface DualOptInService
 
     public function distributeMailsOnRegistration(\ilObjUser $user): void;
 
-    public function deleteExpiredUserObjects(int $usr_id): void;
+    public function deleteExpiredUserObjects(?int $usr_id_to_prioritize = null): int;
 }
