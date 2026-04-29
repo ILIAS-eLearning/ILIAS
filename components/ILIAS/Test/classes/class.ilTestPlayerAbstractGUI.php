@@ -1033,30 +1033,30 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     protected function afterTestPassFinishedCmd(): void
     {
         // show final statement
-        if (
-            !$this->testrequest->isset('skipfinalstatement')
-            && $this->object->getMainSettings()->getFinishingSettings()->getConcludingRemarksEnabled()
-        ) {
+        if (!$this->testrequest->isset('skipfinalstatement')
+            && $this->object->getMainSettings()->getFinishingSettings()->getConcludingRemarksEnabled()) {
             $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_FINAL_STATMENT);
+        }
+
+        if ($this->object->canShowTestResults($this->test_session)) {
+            $this->redirectBackCmd();
         }
 
         // redirect after test
         $redirection_mode = $this->object->getMainSettings()->getFinishingSettings()->getRedirectionMode();
-        if ($redirection_mode === RedirectionModes::NONE || $this->object->canShowTestResults($this->test_session)) {
-            $this->redirectBackCmd();
-        }
-
-        if ($redirection_mode === RedirectionModes::IF_KIOSK_ACTIVATED && !$this->object->getKioskMode()) {
-            $this->redirectBackCmd();
-        }
-
         if ($redirection_mode === RedirectionModes::ALWAYS_TO_LOGOUT) {
             $this->ctrl->redirectToURL(ilStartUpGUI::logoutUrl());
         }
 
         $redirection_url = $this->object->getMainSettings()->getFinishingSettings()->getRedirectionUrl();
+        if (empty($redirection_url)
+            || $redirection_mode === RedirectionModes::NONE
+            || $redirection_mode === RedirectionModes::IF_KIOSK_ACTIVATED
+                && !$this->object->getKioskMode()) {
+            $this->redirectBackCmd();
+        }
 
-        $redirection_url ? ilUtil::redirect($redirection_url) : $this->redirectBackCmd();
+        $this->ctrl->redirectToURL($redirection_url);
     }
 
     public function buildFinishTestModal(): InterruptiveModal
