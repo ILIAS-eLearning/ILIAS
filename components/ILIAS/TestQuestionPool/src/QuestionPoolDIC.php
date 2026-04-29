@@ -28,6 +28,7 @@ use ILIAS\TestQuestionPool\ExportImport\Export\QuestionPoolExporter;
 use ILIAS\TestQuestionPool\ExportImport\Import\QuestionPoolImporter;
 use ILIAS\TestQuestionPool\ExportImport\Import\QuestionsImporter;
 use ILIAS\TestQuestionPool\ExportImport\Import\SkillAssignmentsImporter;
+use ILIAS\TestQuestionPool\ExportImport\LoggingProvider;
 use ilLoggerFactory;
 use Pimple\Container as PimpleContainer;
 use ILIAS\DI\Container as ILIASContainer;
@@ -76,6 +77,8 @@ class QuestionPoolDIC extends PimpleContainer
         $dic['global_test_settings'] = static fn($c): GlobalTestSettings =>
             (new GlobalTestSettingsRepository($DIC['ilSetting'], new \ilSetting('assessment')))->getGlobalSettings();
 
+        $dic['exportimport.logging'] = static fn($c): LoggingProvider =>
+            new LoggingProvider();
         $dic['exportimport.builder'] = static fn($c): Builder =>
             new Builder(
                 $DIC,
@@ -107,7 +110,7 @@ class QuestionPoolDIC extends PimpleContainer
                 $DIC->ctrl(),
                 $DIC->database(),
                 $DIC->language(),
-                ilLoggerFactory::getLogger('exp')->getLogger(),
+                $c['exportimport.logging'](),
                 $DIC->fileConverters()->images(),
                 $DIC->filesystem()
             );
@@ -117,6 +120,7 @@ class QuestionPoolDIC extends PimpleContainer
                 $DIC->ctrl(),
                 $DIC->database(),
                 $DIC->language(),
+                $c['exportimport.logging'](),
                 new DataFactory(),
                 $c['exportimport.questions_importer'],
                 $c['exportimport.skill_assignments_importer']

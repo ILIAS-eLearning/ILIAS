@@ -24,6 +24,7 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Pipe;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\NormalizingException;
 use ilImportMapping;
+use Psr\Log\LoggerInterface;
 
 /**
  * Resolves imported object references by mapping exported ids to their newly created local ids via `ilImportMapping`.
@@ -39,7 +40,8 @@ class IdMappingPipe implements Pipe
 
     public function __construct(
         private readonly ilImportMapping $mapping,
-        private readonly string $component
+        private readonly string $component,
+        private readonly LoggerInterface $log
     ) {
     }
 
@@ -61,8 +63,10 @@ class IdMappingPipe implements Pipe
             }
 
             $passable->setResult(new Id($new_id, $envelope->getObject()));
+            $this->log->debug("Replaced id {$envelope->getObject()}:{$envelope->getId()} with {$new_id}");
         } else {
             $this->unresolved[] = $envelope;
+            $this->log->warning("Unresolved id {$envelope->getObject()}:{$envelope->getId()}");
         }
 
         return $next($passable);

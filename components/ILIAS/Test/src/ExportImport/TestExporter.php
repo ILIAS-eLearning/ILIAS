@@ -100,7 +100,10 @@ class TestExporter implements Exporter
                     new UUIDFactory(),
                     $object_id
                 ),
-                new CollectResources($this->irss),
+                new CollectResources(
+                    $this->irss, 
+                    $this->logger
+                ),
             ])
             ->create();
 

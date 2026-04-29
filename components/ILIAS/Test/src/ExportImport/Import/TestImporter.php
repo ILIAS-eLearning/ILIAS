@@ -96,8 +96,8 @@ class TestImporter
         ReferenceId $parent_id,
         ImportContext $context
     ): ImportContext {
-        $resource_pipe = new CollectResources($this->irss);
-        $id_mapping_pipe = new IdMappingPipe($mapping, 'components/ILIAS/Test');
+        $resource_pipe = new CollectResources($this->irss, $this->log);
+        $id_mapping_pipe = new IdMappingPipe($mapping, 'components/ILIAS/Test', $this->log);
         $question_images_pipe = new CollectQuestionImages(new UUIDFactory(), $this->data_factory->objId(0));
 
         $tt = $this->builder->withAdditionalPipes(append: [$id_mapping_pipe, $question_images_pipe, $resource_pipe])->create();

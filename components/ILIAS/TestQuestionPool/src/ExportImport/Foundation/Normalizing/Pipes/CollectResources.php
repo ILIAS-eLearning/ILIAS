@@ -26,6 +26,7 @@ use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Pipe;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\NormalizeCarry;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\DenormalizeCarry;
+use Psr\Log\LoggerInterface;
 
 /**
  * Pipe that collects all resources by their identification during normalization. During denormalization, it will replace
@@ -44,7 +45,8 @@ class CollectResources implements Pipe
     private array $import_mapping = [];
 
     public function __construct(
-        private readonly IRSS $irss
+        private readonly IRSS $irss,
+        private readonly LoggerInterface $log
     ) {
     }
 
@@ -94,6 +96,13 @@ class CollectResources implements Pipe
 
     private function replaceRid(ResourceIdentification $rid): ResourceIdentification
     {
-        return $this->import_mapping[$rid->serialize()] ?? $rid;
+        $id = $rid->serialize();
+        if (isset($this->import_mapping[$id])) {
+            $this->log->debug("Replaced resource id {$id} with {$this->import_mapping[$id]->serialize()}");
+            return $this->import_mapping[$id];
+        } else {
+            $this->log->warning("Unresolved resource id {$id}");
+            return $rid;
+        }
     }
 }
