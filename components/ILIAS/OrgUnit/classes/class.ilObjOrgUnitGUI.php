@@ -238,13 +238,13 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                 $this->ctrl->forwardCommand($new_gui);
                 break;
             case 'ilorgunitexportgui':
-                if (!ilObjOrgUnitAccess::_checkAccessExport($this->ref_id)) {
+                if (!ilObjOrgUnitAccess::_checkAccessExport($this->ref_id) ||
+                    $this->object->getRefId() !== ilObjOrgUnit::getRootOrgRefId()) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
                     $this->ctrl->redirect($this);
                 }
                 $this->tabs_gui->activateTab(self::TAB_EXPORT);
                 $ilOrgUnitExportGUI = new ilOrgUnitExportGUI($this);
-                $ilOrgUnitExportGUI->addFormat('xml');
                 $this->ctrl->forwardCommand($ilOrgUnitExportGUI);
                 break;
             case strtolower(TranslationGUI::class):
@@ -563,14 +563,15 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                         [self::class, ilOrgUnitGlobalSettingsGUI::class]
                     )
                 );
+
+                $this->tabs_gui->addTab(
+                    self::TAB_EXPORT,
+                    $this->lng->txt(self::TAB_EXPORT),
+                    $this->ctrl->getLinkTargetByClass(
+                        [self::class, ilOrgUnitExportGUI::class]
+                    )
+                );
             }
-            $this->tabs_gui->addTab(
-                self::TAB_EXPORT,
-                $this->lng->txt(self::TAB_EXPORT),
-                $this->ctrl->getLinkTargetByClass(
-                    [self::class, ilOrgUnitExportGUI::class]
-                )
-            );
 
             // Add OrgUnit types and positions tabs
             if ($this->object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
