@@ -36,6 +36,7 @@ use ILIAS\TestQuestionPool\ExportImport\Import\UploadValidationStage;
 use ILIAS\TestQuestionPool\ExportImport\Pipes\CollectQuestionImages;
 use ilImportMapping;
 use ilObjQuestionPool;
+use Psr\Log\LoggerInterface;
 
 /**
  * Orchestrates the import of a question pool. It uses the Builder to create a pipeline of transformations that are used
@@ -49,6 +50,7 @@ class QuestionPoolImporter
         private readonly ilCtrl $ctrl,
         private readonly ilDBInterface $database,
         private readonly Language $language,
+        private readonly LoggerInterface $log,
         private readonly DataFactory $data_factory,
         private readonly QuestionsImporter $questions_importer,
         private readonly SkillAssignmentsImporter $skill_importer,
@@ -65,7 +67,7 @@ class QuestionPoolImporter
         ReferenceId $parent_id,
         ImportContext $context
     ): ImportContext {
-        $id_mapping_pipe = new IdMappingPipe($mapping, 'components/ILIAS/TestQuestionPool');
+        $id_mapping_pipe = new IdMappingPipe($mapping, 'components/ILIAS/TestQuestionPool', $this->log);
         $images_pipe = new CollectQuestionImages(new Factory(), $this->data_factory->objId(0));
         $tt = $this->builder->withAdditionalPipes(append: [$id_mapping_pipe, $images_pipe])->create();
 
