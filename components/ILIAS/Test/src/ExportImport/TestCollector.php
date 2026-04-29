@@ -27,6 +27,7 @@ use ilDBInterface;
 use ILIAS\Data\ObjectId;
 use ILIAS\Language\Language;
 use ILIAS\Test\ExportImport\Envelopes\ManualFeedback;
+use ILIAS\Test\ExportImport\Envelopes\QuestionResult;
 use ILIAS\Test\ExportImport\Envelopes\Solution;
 use ILIAS\Test\ExportImport\Envelopes\WorkingTime;
 use ILIAS\Test\Logging\TestLogger;
@@ -35,13 +36,16 @@ use ILIAS\Test\Questions\Properties\Properties;
 use ILIAS\Test\Questions\Properties\Repository as QuestionsRepository;
 use ILIAS\Test\Results\Data\Repository as ResultsRepository;
 use ILIAS\Test\Settings\GlobalSettings\UserIdentifiers;
+use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\TestQuestionPool\ExportImport\Export\CollectsQuestions;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\DataCollector;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ilObjTest;
 use ilTestQuestionSetConfigFactory;
 use ilTestRandomQuestionSetSourcePoolDefinitionFactory;
 use ilTestRandomQuestionSetSourcePoolDefinitionList;
+use ilTestSequence;
 use ilTestSkillLevelThreshold;
 use ilTestSkillLevelThresholdList;
 use ilTree;
@@ -52,6 +56,8 @@ use ilTree;
 class TestCollector implements DataCollector
 {
     use CollectsQuestions;
+
+    private readonly TestManScoringDoneHelper $manual_scoring;
 
     /** @var array<int, Properties> $questions */
     private ?array $questions = null;
@@ -71,6 +77,7 @@ class TestCollector implements DataCollector
         private readonly ilComponentRepository $component_repository,
         private readonly ObjectId $object_id
     ) {
+        $this->manual_scoring = new TestManScoringDoneHelper($this->db);
     }
 
     private function database(): ilDBInterface
@@ -122,7 +129,7 @@ class TestCollector implements DataCollector
                 $mapping[$user_id] = $user_id;
             }
         } else {
-            $in_clause = $this->db->in('usr_id', $user_ids, false, 'integer');
+            $in_clause = $this->db->in('usr_id', $user_ids, false, ilDBConstants::T_INTEGER);
             $query = $this->db->query("SELECT usr_id, {$export_identifier->value} FROM usr_data WHERE {$in_clause}");
 
             foreach ($this->db->fetchAll($query) as $row) {
@@ -245,18 +252,42 @@ class TestCollector implements DataCollector
         return $this->participants;
     }
 
+    /**
+     * @param list<int> $participant_ids
+     * @return array<int, array{submittimestamp: ?string, lastindex: ?int, objective_container: ?int, start_lock: ?string}>
+     */
+    public function getAdditionalParticipantData(array $participant_ids): array
+    {
+        $in_clause = $this->db->in('active_id', $participant_ids, false, ilDBConstants::T_INTEGER);
+        $query = $this->db->query("SELECT active_id AS mapping_id, submittimestamp, lastindex, objective_container, start_lock FROM tst_active WHERE {$in_clause}");
+
+        $data = [];
+        while ($row = $this->db->fetchAssoc($query)) {
+            $data[$row['mapping_id']] = $row;
+        }
+
+        return $data;
+    }
+
     /*
         Results
     */
 
     public function getResults(int $participant_id): array
     {
+        $attempt_results = $this->results_repository->getTestAttemptResults($participant_id);
         return [
-            'results' => $this->results_repository->getTestResult($participant_id),
-            'attempts' => $this->results_repository->getTestAttemptResults($participant_id),
+            'sequences' => $this->getSequences($participant_id, array_keys($attempt_results)),
             'solutions' => $this->getSolutions($participant_id),
+            'results' => $this->getQuestionResults($participant_id),
+            'attempts' => $attempt_results,
+            'test_result' => $this->results_repository->getTestResult($participant_id),
             'working_times' => $this->getWorkingTimes($participant_id),
             'manual_feedback' => $this->getManualFeedback($participant_id),
+            'manual_scoring' => [
+                'active_id' => new Id($participant_id, 'participant'),
+                'done' => $this->manual_scoring->isDone($participant_id),
+            ],
         ];
     }
 
@@ -273,6 +304,23 @@ class TestCollector implements DataCollector
 
         return array_map(
             fn(array $row): Solution => Solution::fromRow($row),
+            $this->db->fetchAll($query)
+        );
+    }
+
+    /**
+     * @return list<QuestionResult>
+     */
+    public function getQuestionResults(int $participant_id): array
+    {
+        $query = $this->db->queryF(
+            "SELECT * FROM tst_test_result WHERE active_fi = %s",
+            [ilDBConstants::T_INTEGER],
+            [$participant_id]
+        );
+
+        return array_map(
+            fn(array $row): QuestionResult => QuestionResult::fromRow($row),
             $this->db->fetchAll($query)
         );
     }
@@ -309,5 +357,19 @@ class TestCollector implements DataCollector
             fn(array $row): ManualFeedback => ManualFeedback::fromRow($row),
             $this->db->fetchAll($query)
         );
+    }
+
+    /**
+     * @param list<int> $attempts
+     * @return list<ilTestSequence>
+     */
+    public function getSequences(int $participant_id, array $attempts): array
+    {
+        foreach ($attempts as $attempt) {
+            $test_sequence = new ilTestSequence($this->db, $participant_id, $attempt, $this->general_questions_repository);
+            $test_sequence->loadFromDb();
+            $sequences[] = $test_sequence;
+        }
+        return $sequences;
     }
 }

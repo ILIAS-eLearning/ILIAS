@@ -65,8 +65,8 @@ class Solution implements Envelope
     public static function fromArray(array $value, Transformations $tt): static
     {
         return new self(
-            $tt->denormalize($value['active_id'], Id::class)->getId(),
-            $tt->denormalize($value['question_id'], Id::class)->getId(),
+            $tt->denormalize($value['active_id'], Id::class),
+            $tt->denormalize($value['question_id'], Id::class),
             $tt->int($value['attempt']),
             $tt->nullableFloat($value['points']),
             $tt->int($value['timestamp']),

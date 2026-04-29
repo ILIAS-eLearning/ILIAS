@@ -53,7 +53,7 @@ class WorkingTime implements Envelope
     public static function fromArray(array $value, Transformations $tt): static
     {
         return new self(
-            $tt->denormalize($value['active_id'], Id::class)->getId(),
+            $tt->denormalize($value['active_id'], Id::class),
             $tt->int($value['attempt']),
             $tt->string($value['started']),
             $tt->string($value['finished']),
