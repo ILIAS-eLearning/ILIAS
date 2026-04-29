@@ -226,7 +226,9 @@ class TestExporter implements Exporter
         }
 
         foreach ($resource_pipe->getResources() as $id => $resource) {
-            $file = "{$id}.{$resource->getCurrentRevision()->getInformation()->getSuffix()}";
+            $clean_id = str_replace(['-', '_'], '', $id);
+            $file = "{$clean_id}.{$resource->getCurrentRevision()->getInformation()->getSuffix()}";
+
             $state->writer()->writeFilesByResourceId(
                 $id,
                 "{$export_dir}/resources/{$file}"

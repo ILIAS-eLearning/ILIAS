@@ -25,9 +25,11 @@ use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Pipe;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\NormalizeCarry;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\DenormalizeCarry;
 
 /**
- * Pipe that collects all resources by their identification during normalization.
+ * Pipe that collects all resources by their identification during normalization. During denormalization, it will replace
+ * the resource ids with the mapped new resource ids.
  */
 class CollectResources implements Pipe
 {
@@ -36,9 +38,33 @@ class CollectResources implements Pipe
      */
     private array $resources = [];
 
+    /**
+     * @var array<string, ResourceIdentification> $import_mapping
+     */
+    private array $import_mapping = [];
+
     public function __construct(
         private readonly IRSS $irss
     ) {
+    }
+
+    /**
+     * Get all resources collected during normalization.
+     *
+     * @return array<string, StorableResource>
+     */
+    public function getResources(): array
+    {
+        return $this->resources;
+    }
+
+    /**
+     * Store a mapping of an old resource id to a new resource id.
+     * This is used to replace the old resource ids with the new resource ids during denormalization.
+     */
+    public function storeMapping(string $old_id, ResourceIdentification $new_id): void
+    {
+        $this->import_mapping[$old_id] = $new_id;
     }
 
     /**
@@ -48,6 +74,12 @@ class CollectResources implements Pipe
     {
         if ($passable instanceof NormalizeCarry && $passable->value instanceof ResourceIdentification) {
             $this->handleNormalization($passable->value);
+        }
+
+        if ($passable instanceof DenormalizeCarry && $passable->expected === ResourceIdentification::class) {
+            $passable->setResult(
+                $this->replaceRid($passable->result())
+            );
         }
 
         return $next($passable);
@@ -60,13 +92,8 @@ class CollectResources implements Pipe
         $this->resources[$rid->serialize()] = $resource;
     }
 
-    /**
-     * Get all resources collected during normalization.
-     *
-     * @return array<string, StorableResource>
-     */
-    public function getResources(): array
+    private function replaceRid(ResourceIdentification $rid): ResourceIdentification
     {
-        return $this->resources;
+        return $this->import_mapping[$rid->serialize()] ?? $rid;
     }
 }
