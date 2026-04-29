@@ -25,15 +25,23 @@ namespace ILIAS\Filesystem\Stream;
  */
 class ReattachableStream extends Stream
 {
-    /**
-     * Checks if the stream is attached to the wrapper.
-     * If not, the stream is reattached.
-     */
+    private ?string $reattach_uri = null;
+    private ?string $reattach_mode = null;
+
+    #[\Override]
+    public function detach()
+    {
+        $this->reattach_uri = $this->uri;
+        $this->reattach_mode = $this->_mode;
+
+        return parent::detach();
+    }
+
     #[\Override]
     protected function assertStreamAttached(): void
     {
         if ($this->stream === null) {
-            $this->stream = fopen($this->uri, $this->_mode);
+            $this->stream = fopen($this->reattach_uri, $this->reattach_mode);
         }
     }
 }
