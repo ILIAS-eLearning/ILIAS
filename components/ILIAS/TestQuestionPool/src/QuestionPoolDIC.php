@@ -28,6 +28,7 @@ use ILIAS\TestQuestionPool\ExportImport\Export\QuestionPoolExporter;
 use ILIAS\TestQuestionPool\ExportImport\Import\QuestionPoolImporter;
 use ILIAS\TestQuestionPool\ExportImport\Import\QuestionsImporter;
 use ILIAS\TestQuestionPool\ExportImport\Import\SkillAssignmentsImporter;
+use ilLoggerFactory;
 use Pimple\Container as PimpleContainer;
 use ILIAS\DI\Container as ILIASContainer;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
@@ -105,7 +106,10 @@ class QuestionPoolDIC extends PimpleContainer
                 'qpl',
                 $DIC->ctrl(),
                 $DIC->database(),
-                $DIC->language()
+                $DIC->language(),
+                ilLoggerFactory::getLogger('exp')->getLogger(),
+                $DIC->fileConverters()->images(),
+                $DIC->filesystem()
             );
         $dic['exportimport.importer'] = static fn($c): QuestionPoolImporter =>
             new QuestionPoolImporter(
