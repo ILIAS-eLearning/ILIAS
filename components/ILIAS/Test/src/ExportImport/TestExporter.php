@@ -334,8 +334,13 @@ class TestExporter implements Exporter
         Transformations $transformations,
         Serializer $serializer
     ): void {
+        $additional_data = $collector->getAdditionalParticipantData($collector->getParticipantsIds());
+
         foreach ($collector->getParticipants() as $participant) {
-            $serializer->append('participant', $transformations->normalize($participant));
+            $serializer->append('participant', [
+                ...$transformations->normalize($participant),
+                ...$additional_data[$participant->getActiveId()],
+            ]);
         }
     }
 

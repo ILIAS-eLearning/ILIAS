@@ -24,16 +24,17 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Envelope;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 
-class ManualFeedback implements Envelope
+class QuestionResult implements Envelope
 {
     public function __construct(
         public readonly Id $active_id,
         public readonly Id $question_id,
         public readonly int $attempt,
-        public readonly string $feedback,
-        public readonly bool $finalized_evaluation,
-        public readonly int $finalized_timestamp,
-        public readonly Id $finalized_by
+        public readonly float $points,
+        public readonly bool $answered,
+        public readonly bool $manual,
+        public readonly ?int $step,
+        public readonly int $timestamp
     ) {
     }
 
@@ -46,10 +47,11 @@ class ManualFeedback implements Envelope
             'active_id' => $tt->normalize($this->active_id),
             'question_id' => $tt->normalize($this->question_id),
             'attempt' => $this->attempt,
-            'feedback' => $this->feedback,
-            'finalized_evaluation' => $this->finalized_evaluation,
-            'finalized_timestamp' => $this->finalized_timestamp,
-            'finalized_by' => $tt->normalize($this->finalized_by),
+            'points' => $this->points,
+            'answered' => $this->answered,
+            'manual' => $this->manual,
+            'step' => $this->step,
+            'timestamp' => $this->timestamp,
         ];
     }
 
@@ -62,10 +64,11 @@ class ManualFeedback implements Envelope
             $tt->denormalize($value['active_id'], Id::class),
             $tt->denormalize($value['question_id'], Id::class),
             $tt->int($value['attempt']),
-            $tt->string($value['feedback']),
-            $tt->bool($value['finalized_evaluation']),
-            $tt->int($value['finalized_timestamp']),
-            $tt->denormalize($value['finalized_by'], Id::class),
+            $tt->float($value['points']),
+            $tt->bool($value['answered']),
+            $tt->bool($value['manual']),
+            $tt->nullableInt($value['step']),
+            $tt->int($value['timestamp']),
         );
     }
 
@@ -75,10 +78,11 @@ class ManualFeedback implements Envelope
             new Id($row['active_fi'], 'participant'),
             new Id($row['question_fi'], 'question'),
             (int) $row['pass'],
-            $row['feedback'],
-            (bool) $row['finalized_evaluation'],
-            (int) $row['finalized_tstamp'],
-            new Id($row['finalized_by_usr_id'], 'user'),
+            (float) $row['points'],
+            (bool) $row['answered'],
+            (bool) $row['manual'],
+            $row['step'] !== null ? (int) $row['step'] : null,
+            (int) $row['tstamp'],
         );
     }
 }
