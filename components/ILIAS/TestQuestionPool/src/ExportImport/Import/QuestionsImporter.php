@@ -27,6 +27,12 @@ use assQuestion;
 use ilAssQuestionPage;
 use ilCtrl;
 use ilDBInterface;
+use ILIAS\Filesystem\Filesystem;
+use ILIAS\Filesystem\Filesystems;
+use ILIAS\Filesystem\Stream\FileStream;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\Filesystem\Util\Convert\ImageOutputOptions;
+use ILIAS\Filesystem\Util\Convert\Images;
 use ILIAS\Language\Language;
 use ILIAS\TestQuestionPool\ExportImport\Envelopes\QuestionImage;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
@@ -34,19 +40,25 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 use ILIAS\TestQuestionPool\ExportImport\Envelopes\Feedback;
 use ILIAS\TestQuestionPool\ExportImport\Pipes\CollectQuestionImages;
-use ILIAS\TestQuestionPool\Questions\Files\QuestionFiles;
 use ilImportMapping;
 use ilUnitConfigurationRepository;
+use Psr\Log\LoggerInterface;
 
 class QuestionsImporter
 {
+    private readonly Filesystem $filesystem;
+
     public function __construct(
         private readonly string $component,
         private readonly string $parent_type,
         private readonly ilCtrl $ctrl,
         private readonly ilDBInterface $database,
         private readonly Language $language,
+        private readonly LoggerInterface $log,
+        private readonly Images $image_converter,
+        Filesystems $filesystems,
     ) {
+        $this->filesystem = $filesystems->web();
     }
 
     public function importQuestion(
@@ -90,31 +102,72 @@ class QuestionsImporter
 
 
     public function importQuestionImages(
+        int $parent_obj_id,
         ilImportMapping $mapping,
         ImportContext $context,
         CollectQuestionImages $pipe,
     ): void {
-        $import_dir = dirname($context->get(UploadValidationStage::COMPONENT_IMPORT_FILE)) . DIRECTORY_SEPARATOR . 'expDir_1';
+        $import_dir = dirname($context->get(UploadValidationStage::COMPONENT_IMPORT_FILE)) . '/expDir_1';
 
-        $question_files = new QuestionFiles();
-        foreach ($pipe->getEnvelopes() as $from_path => $envelope) {
-            $question_id = $mapping->getMapping($this->component, 'question', (string) $envelope->getQuestionId());
-            if (!$question_id) {
+        foreach ($pipe->getEnvelopes() as $filename => $envelope) {
+            $source_path = $import_dir . DIRECTORY_SEPARATOR . $filename;
+            if (!file_exists($source_path)) {
+                $this->log->error("Imported image path does not exist: {$source_path}");
                 continue;
             }
 
-            $base_dir = $envelope->getType() === QuestionImage::TYPE_ANSWER
-                ? $question_files->buildImagePath($question_id, $context->get('pool_obj_id'))
-                : $question_files->buildSolutionPath($question_id, $context->get('pool_obj_id'));
-
-            if (!file_exists($base_dir)) {
-                mkdir($base_dir, 0755, true);
+            $image_base_path = $this->buildImageBasePath($parent_obj_id, $envelope, $mapping);
+            $image_path = "{$image_base_path}/{$envelope->getFilename()}";
+            if ($this->filesystem->has($image_path)) {
+                $this->log->warning("Question image already exists: {$image_path}, skipping");
+                continue;
             }
 
-            copy($import_dir . DIRECTORY_SEPARATOR . $from_path, $base_dir . $envelope->getFilename());
+            $input_stream = Streams::ofReattachableResource(fopen($source_path, 'rb'));
+            $this->filesystem->writeStream($image_path, $input_stream);
+            $this->log->debug("Imported question image: {$source_path} -> {$image_path}");
 
-            //TODO: generate thumbnail
+            $thumbnail = $this->generateThumbnail($input_stream);
+            if (!$thumbnail) {
+                continue;
+            }
+
+            $thumbnail_path = "{$image_base_path}/thumb.{$envelope->getFilename()}";
+            $this->filesystem->writeStream($thumbnail_path, $thumbnail);
+            $this->log->debug("Generated question image thumbnail: {$thumbnail_path}");
+
+            $thumbnail->close();
+            $input_stream->close();
         }
+    }
+
+    private function buildImageBasePath(int $parent_obj_id, QuestionImage $envelope, ilImportMapping $mapping): ?string
+    {
+        $question_id = $mapping->getMapping($this->component, 'question', (string) $envelope->getQuestionId());
+        if (!$question_id) {
+            $this->log->error("Question ID mapping not found for {$envelope->getQuestionId()}");
+            return null;
+        }
+
+        $subdir = $envelope->getType() === QuestionImage::TYPE_SOLUTION ? 'solution' : 'images';
+        return "assessment/{$parent_obj_id}/{$question_id}/{$subdir}";
+    }
+
+
+    private function generateThumbnail(FileStream $image_stream): ?FileStream
+    {
+        $converter = $this->image_converter->thumbnail(
+            $image_stream,
+            100,
+            new ImageOutputOptions()->withFormat(ImageOutputOptions::FORMAT_KEEP),
+        );
+
+        if (!$converter->isOK()) {
+            $this->log->error("Could not generate thumbnail: {$converter->getThrowableIfAny()?->getMessage()}");
+            return null;
+        }
+
+        return $converter->getStream();
     }
 
     /**

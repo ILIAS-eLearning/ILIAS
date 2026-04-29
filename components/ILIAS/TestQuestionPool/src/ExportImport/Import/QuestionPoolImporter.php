@@ -113,7 +113,12 @@ class QuestionPoolImporter
         $deserializer->process();
 
         // Copy the question images from the temporary import directory to the question pool directory
-        $this->questions_importer->importQuestionImages($mapping, $context, $images_pipe);
+        $this->questions_importer->importQuestionImages(
+            $context->get('pool_obj_id'),
+            $mapping,
+            $context,
+            $images_pipe
+        );
 
         return $context;
     }
