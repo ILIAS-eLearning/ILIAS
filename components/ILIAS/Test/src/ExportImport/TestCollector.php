@@ -26,6 +26,7 @@ use ilDBConstants;
 use ilDBInterface;
 use ILIAS\Data\ObjectId;
 use ILIAS\Language\Language;
+use ILIAS\Test\ExportImport\Envelopes\AdditionalWorkingTime;
 use ILIAS\Test\ExportImport\Envelopes\ManualFeedback;
 use ILIAS\Test\ExportImport\Envelopes\QuestionResult;
 use ILIAS\Test\ExportImport\Envelopes\Solution;
@@ -246,7 +247,9 @@ class TestCollector implements DataCollector
         if ($this->participants === null) {
             $this->participants = [];
             foreach ($this->getParticipants() as $participant) {
-                $this->participants[] = $participant->getActiveId();
+                if ($participant->getActiveId() !== null) {
+                    $this->participants[] = $participant->getActiveId();
+                }
             }
         }
         return $this->participants;
@@ -371,5 +374,23 @@ class TestCollector implements DataCollector
             $sequences[] = $test_sequence;
         }
         return $sequences;
+    }
+
+
+    /**
+     * @return list<AdditionalWorkingTime>
+     */
+    public function getAdditionalWorkingTimes(): array
+    {
+        $query = $this->db->queryF(
+            "SELECT * FROM tst_addtime WHERE test_fi = %s",
+            [ilDBConstants::T_INTEGER],
+            [$this->getTestId()]
+        );
+
+        return array_map(
+            fn(array $row): AdditionalWorkingTime => AdditionalWorkingTime::fromRow($row),
+            $this->db->fetchAll($query)
+        );
     }
 }
