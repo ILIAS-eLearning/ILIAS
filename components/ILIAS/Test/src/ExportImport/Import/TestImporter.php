@@ -29,6 +29,7 @@ use ILIAS\Data\UUID\Factory as UUIDFactory;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Language\Language;
 use ILIAS\ResourceStorage\Services as IRSS;
+use ILIAS\Test\ExportImport\Envelopes\AdditionalWorkingTime;
 use ILIAS\Test\ExportImport\Envelopes\ManualFeedback;
 use ILIAS\Test\ExportImport\Envelopes\QuestionResult;
 use ILIAS\Test\ExportImport\Envelopes\Solution;
@@ -169,6 +170,16 @@ class TestImporter
             function (array $results) use ($tt): void {
                 $this->importGroupedResults(
                     $results,
+                    $tt,
+                );
+            }
+        );
+
+        $deserializer->addHandler(
+            'additional_working_times',
+            function (array $times) use ($tt): void {
+                $this->importAdditionalWorkingTimes(
+                    $times,
                     $tt,
                 );
             }
@@ -352,6 +363,11 @@ class TestImporter
     private function importParticipants(array $list, Transformations $tt, ilImportMapping $mapping): void
     {
         foreach ($list as $normalized) {
+            if ($normalized['active_id'] === null) {
+                $this->importInvitedParticipant($normalized, $tt);
+                continue;
+            }
+
             $old_active_id = $tt->denormalize($normalized['active_id'], Id::class)->getId();
             $new_active_id = $this->database->nextId('tst_active');
             $mapping->addMapping('components/ILIAS/Test', 'participant', (string) $old_active_id, (string) $new_active_id);
@@ -381,6 +397,21 @@ class TestImporter
             );
             $this->log->debug("Stored test session in database: {$new_active_id} (Active ID)");
         }
+    }
+
+    private function importInvitedParticipant(array $normalized, Transformations $tt): void
+    {
+        // TestID and UserID will be replaced by the mapping pipe
+        $participant = $tt->denormalize($normalized, Participant::class);
+
+        $this->database->insert('tst_invited_user', [
+            'test_fi' => [ilDBConstants::T_INTEGER, $participant->getTestId()],
+            'user_fi' => [ilDBConstants::T_INTEGER, $participant->getUserId()],
+            'ip_range_from' => [ilDBConstants::T_TEXT, $participant->getClientIpFrom()],
+            'ip_range_to' => [ilDBConstants::T_TEXT, $participant->getClientIpTo()],
+            'tstamp' => [ilDBConstants::T_INTEGER, $participant->getInvitationDate()],
+        ]);
+        $this->log->debug("Stored invited participant in database: {$participant->getUserId()} (User ID), {$participant->getTestId()} (Test ID)");
     }
 
     /*
@@ -565,14 +596,31 @@ class TestImporter
         }
     }
 
-    private function importManualScoring(
-        array $normalized,
-        Transformations $tt,
-    ): void {
+    private function importManualScoring(array $normalized, Transformations $tt): void
+    {
         // ActiveID will be replaced by the mapping pipe
         $active_id = $tt->denormalize($normalized['active_id'], Id::class)->getId();
 
         new TestManScoringDoneHelper()->setDone($active_id, $tt->bool($normalized['done']));
-        $this->log->debug("Stored manual scoring in database: {$normalized['active_id']} (Active ID)");
+        $this->log->debug("Stored manual scoring in database: {$active_id} (Active ID)");
+    }
+
+    private function importAdditionalWorkingTimes(array $list, Transformations $tt): void
+    {
+        foreach ($list as $normalized) {
+            // UserID and TestID will be replaced by the mapping pipe
+            $time = $tt->denormalize($normalized, AdditionalWorkingTime::class);
+
+            $this->database->insert(
+                'tst_addtime',
+                [
+                    'additionaltime' => [ilDBConstants::T_INTEGER, $time->time],
+                    'user_fi' => [ilDBConstants::T_INTEGER, $time->user_id->getId()],
+                    'test_fi' => [ilDBConstants::T_INTEGER, $time->test_id->getId()],
+                    'tstamp' => [ilDBConstants::T_TIMESTAMP, $time->timestamp],
+                ]
+            );
+            $this->log->debug("Stored additional working time in database: {$time->user_id->getId()} (User ID)");
+        }
     }
 }
