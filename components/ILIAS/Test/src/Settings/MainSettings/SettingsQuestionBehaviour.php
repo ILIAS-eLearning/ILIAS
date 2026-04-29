@@ -489,7 +489,7 @@ class SettingsQuestionBehaviour extends TestSettings implements Exportable
         return $clone;
     }
 
-    public function isAnyInstantFeedbackOptionEnabled(): bool
+    private function isAnyInstantFeedbackOptionEnabled(): bool
     {
         return $this->getInstantFeedbackPointsEnabled()
             || $this->getInstantFeedbackGenericEnabled()

@@ -2367,10 +2367,6 @@ JS;
             $this->ui_renderer
         );
 
-        $navigationGUI->setFeedbackButtonEnabled(
-            $this->object->getMainSettings()->getQuestionBehaviourSettings()->isAnyInstantFeedbackOptionEnabled()
-        );
-
         if (!$this->isParticipantsAnswerFixed($question_id)) {
             $navigationGUI->setEditSolutionCommand(ilTestPlayerCommands::EDIT_SOLUTION);
         }
@@ -2403,10 +2399,6 @@ JS;
             $this->lng,
             $this->ui_factory,
             $this->ui_renderer
-        );
-
-        $navigation_gui->setFeedbackButtonEnabled(
-            $this->object->getMainSettings()->getQuestionBehaviourSettings()->isAnyInstantFeedbackOptionEnabled()
         );
 
         // fau: testNav - add a 'revert changes' link for editable question
