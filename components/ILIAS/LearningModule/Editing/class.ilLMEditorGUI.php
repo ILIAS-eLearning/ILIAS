@@ -68,12 +68,22 @@ class ilLMEditorGUI implements ilCtrlBaseClassInterface
         $this->ref_id = $this->request->getRefId();
         $this->obj_id = $this->request->getObjId();
 
+        $this->ctrl = $ilCtrl;
+
+        $cmd_class = $this->ctrl->getCmdClass($this);
+        $lp_settings_access = (in_array($cmd_class, [
+                strtolower(ilLPListOfSettingsGUI::class),
+                strtolower(ilLPListOfObjectsGUI::class),
+            ], true))
+            && $rbacsystem->checkAccess("edit_learning_progress", $this->ref_id);
+
         // check write permission
-        if (!$rbacsystem->checkAccess("write", $this->ref_id)) {
+        if (!$rbacsystem->checkAccess("write", $this->ref_id) &&
+            !$lp_settings_access) {
             throw new ilPermissionException($lng->txt("permission_denied"));
         }
 
-        $this->ctrl = $ilCtrl;
+
         $this->tool_context = $DIC->globalScreen()->tool()->context();
 
         $this->ctrl->saveParameter($this, array("ref_id", "transl"));
