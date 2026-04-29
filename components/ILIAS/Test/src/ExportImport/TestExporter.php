@@ -161,6 +161,14 @@ class TestExporter implements Exporter
             )
         );
         $state->serializer()->group(
+            'additional_working_times',
+            fn() => $this->exportAdditionalWorkingTimes(
+                $state->collector(),
+                $state->transformations(),
+                $state->serializer(),
+            )
+        );
+        $state->serializer()->group(
             'skill_assignments',
             fn() => $this->exportSkillAssignments(
                 $state->collector(),
@@ -339,10 +347,12 @@ class TestExporter implements Exporter
         $additional_data = $collector->getAdditionalParticipantData($collector->getParticipantsIds());
 
         foreach ($collector->getParticipants() as $participant) {
-            $serializer->append('participant', [
-                ...$transformations->normalize($participant),
-                ...$additional_data[$participant->getActiveId()],
-            ]);
+            $normalized = $transformations->normalize($participant);
+            if ($participant->getActiveId() !== null) {
+                $normalized = array_merge($normalized, $additional_data[$participant->getActiveId()]);
+            }
+
+            $serializer->append('participant', $normalized);
         }
     }
 
@@ -353,11 +363,21 @@ class TestExporter implements Exporter
     ): void {
         foreach ($collector->getParticipantsIds() as $participant_id) {
             $serializer->append(
-                'results',
+                'set',
                 $transformations->normalize(
                     $collector->getResults($participant_id)
                 )
             );
+        }
+    }
+
+    private function exportAdditionalWorkingTimes(
+        TestCollector $collector,
+        Transformations $transformations,
+        Serializer $serializer,
+    ): void {
+        foreach ($collector->getAdditionalWorkingTimes() as $additional_working_time) {
+            $serializer->append('time', $transformations->normalize($additional_working_time));
         }
     }
 
