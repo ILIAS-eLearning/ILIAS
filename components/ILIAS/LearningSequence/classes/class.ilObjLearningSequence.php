@@ -111,6 +111,8 @@ class ilObjLearningSequence extends ilContainer
         $this->getStateDB()->deleteFor($this->getRefId());
         $this->getActivationDB()->deleteForRefId($this->getRefId());
 
+        ilObjTaxonomy::deleteUsagesOfObject($this->getId());
+
         $this->raiseEvent(self::E_DELETE);
 
         return true;

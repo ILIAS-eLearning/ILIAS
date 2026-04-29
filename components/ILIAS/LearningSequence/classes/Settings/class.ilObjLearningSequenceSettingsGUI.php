@@ -98,7 +98,7 @@ class ilObjLearningSequenceSettingsGUI
     protected function buildFormElements(
         ilObjLearningSequence $lso,
         ILIAS\UI\Component\Input\Factory $if
-    ) {
+    ): array {
         $txt = fn($id) => $this->lng->txt($id);
         $settings = $lso->getLSSettings();
         $activation = $lso->getLSActivation();
@@ -161,9 +161,38 @@ class ilObjLearningSequenceSettingsGUI
                     $this->refinery->always(false)
                 ])
             );
+        // Metadata
+        $custom_md = $if->field()->checkbox($this->lng->txt('obj_tool_setting_custom_metadata'))
+            ->withValue((bool) ilContainer::_lookupContainerSetting(
+                $lso->getId(),
+                ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+                '0'
+            ))
+            ->withAdditionalTransformation(
+                $this->refinery->byTrying([
+                    $this->refinery->kindlyTo()->bool(),
+                    $this->refinery->always(false)
+                ])
+            );
+        //Taxonomies
+        $taxonomies = $if->field()->checkbox($this->lng->txt('obj_tool_setting_taxonomies'))
+            ->withValue((bool) ilContainer::_lookupContainerSetting(
+                $lso->getId(),
+                ilObjectServiceSettingsGUI::TAXONOMIES,
+                '0'
+            ))
+            ->withAdditionalTransformation(
+                $this->refinery->byTrying([
+                    $this->refinery->kindlyTo()->bool(),
+                    $this->refinery->always(false)
+                ])
+            );
+
         $section_additional = $if->field()->section(
             [
-                self::PROP_GALLERY => $gallery
+                self::PROP_GALLERY => $gallery,
+                ilObjectServiceSettingsGUI::CUSTOM_METADATA => $custom_md,
+                ilObjectServiceSettingsGUI::TAXONOMIES => $taxonomies
             ],
             $txt('obj_features')
         );
@@ -240,6 +269,17 @@ class ilObjLearningSequenceSettingsGUI
                     );
             }
             $lso->updateActivation($activation);
+
+            ilContainer::_writeContainerSetting(
+                $lso->getId(),
+                ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+                $values['additional'][ilObjectServiceSettingsGUI::CUSTOM_METADATA] ? '1' : '0'
+            );
+            ilContainer::_writeContainerSetting(
+                $lso->getId(),
+                ilObjectServiceSettingsGUI::TAXONOMIES,
+                $values['additional'][ilObjectServiceSettingsGUI::TAXONOMIES] ? '1' : '0'
+            );
 
             $status = ilObjLearningSequenceAccess::isOffline($lso->getRefId());
             $lso->getObjectProperties()->storePropertyIsOnline(
