@@ -58,7 +58,7 @@ class ilBiblLibraryGUI
      */
     public function executeCommand(): void
     {
-        if ($this->ctrl()->getNextClass() === null) {
+        if ($this->ctrl()->getNextClass() === null || $this->ctrl()->getNextClass() === '') {
             $cmd = $this->ctrl()->getCmd(self::CMD_INDEX);
             $this->{$cmd}();
         }
