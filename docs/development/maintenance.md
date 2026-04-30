@@ -9,7 +9,7 @@ contributors.
 # Special Roles
 
 * **Product Management**: [Matthias Kunkel](https://docu.ilias.de/go/usr/115)
-* **Technical Board**: [Rob Falkenstein](https://docu.ilias.de/go/usr/63946), [Marvin Hackfort](https://docu.ilias.de/go/usr/50523), [Michael Jansen](https://docu.ilias.de/go/usr/8784), [Franziska Wandelmaier](https://docu.ilias.de/go/usr/33833), [one vacant position]
+* **Technical Board**: [Rob Falkenstein](https://docu.ilias.de/go/usr/63946), [Marvin Hackfort](https://docu.ilias.de/go/usr/50523), [Michael Jansen](https://docu.ilias.de/go/usr/8784), [Franziska Wandelmaier](https://docu.ilias.de/go/usr/33833), [Maximilian Becker](https://docu.ilias.de/go/usr/27266)
 * **Testcase Management**: [Fabian Kruse](https://docu.ilias.de/go/usr/27631)
 * **Release Management**: [Fabian Wolf](https://docu.ilias.de/go/usr/29018)
 * **Technical Documentation**: [Ann-Christin Gruber](https://docu.ilias.de/go/usr/94025)
