@@ -48,7 +48,7 @@ class Table
      * ilTable constructor.
      */
     public function __construct(
-        private \ilBiblAdminFieldGUI $calling_gui,
+        private readonly ilBiblAdminFieldGUI $calling_gui,
         \ilBiblAdminFactoryFacadeInterface $facade
     ) {
         global $DIC;
@@ -65,22 +65,26 @@ class Table
             $calling_gui->checkPermissionBoolAndReturn('write')
         );
 
-        $this->components[] = $this->table = $this->ui_factory->table()->ordering(
+        $this->table = $this->ui_factory->table()->ordering(
             $data_retrieval,
-            $this->lng->txt('filter'),
-            $columns,
             new URI(
-                ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this->calling_gui, \ilBiblAdminFieldGUI::CMD_SAVE_ORDERING)
-            )
+                ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget(
+                    $this->calling_gui,
+                    ilBiblAdminFieldGUI::CMD_SAVE_ORDERING
+                )
+            ),
+            $this->lng->txt('filter'),
+            $columns
         )->withActions($actions)->withRequest(
             $DIC->http()->request()
         );
+        $this->components[] = $this->table;
     }
 
     private function initURIBuilder(): URLBuilder
     {
         $url_builder = new URLBuilder(
-            $this->getURI(\ilBiblAdminFieldGUI::CMD_STANDARD)
+            $this->getURI(ilBiblAdminFieldGUI::CMD_STANDARD)
         );
 
         // these are the query parameters this instance is controlling
@@ -106,7 +110,7 @@ class Table
         return [
             'translate' => $this->ui_factory->table()->action()->single(
                 $this->lng->txt("translate"),
-                $this->url_builder->withURI($this->getURIWithTargetClass(\ilBiblTranslationGUI::class, \ilBiblTranslationGUI::CMD_DEFAULT)),
+                $this->url_builder->withURI($this->getURIWithTargetClass(ilBiblTranslationGUI::class, ilBiblTranslationGUI::CMD_DEFAULT)),
                 $this->id_token
             )
         ];
