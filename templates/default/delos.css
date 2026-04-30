@@ -8195,11 +8195,12 @@ button .minimize, button .close {
   padding: 6px;
 }
 .il-filter .input-group .btn-bulky {
-  border: none;
   background-color: #f0f0f0;
 }
 .il-filter .btn-bulky {
   min-height: 0;
+}
+.il-filter .btn-bulky:not(:focus-visible) {
   border: none;
 }
 .il-filter .leftaddon {
