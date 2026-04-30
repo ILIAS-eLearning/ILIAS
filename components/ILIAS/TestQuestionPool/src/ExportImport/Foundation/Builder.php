@@ -110,8 +110,6 @@ class Builder
         }
 
         if ($this->legacy_version !== null) {
-            // TODO: Implement semver comparison here? Use ILIAS\Data\Version class?
-
             $registry = $this->buildRegistry($object, $this->legacy_version);
             $pipeline->pipe(new NormalizingPipe($registry));
             $pipeline->pipe(new DenormalizingPipe($registry));
@@ -142,17 +140,78 @@ class Builder
         $registry = new Registry();
 
         foreach ($type_map as $type => $normalizer_classes) {
-            if (!isset($normalizer_classes[$version]) || $registry->hasNormalizer($type)) {
+            if ($registry->hasNormalizer($type)) {
+                continue;
+            }
+
+            $resolved_key = $this->resolveVersionKey($version, $normalizer_classes);
+            if (!isset($normalizer_classes[$resolved_key])) {
                 continue;
             }
 
             $registry->registerNormalizer(
                 $type,
-                fn() => $this->createInstance($normalizer_classes[$version], $object)
+                fn() => $this->createInstance($normalizer_classes[$resolved_key], $object)
             );
         }
 
         return $registry;
+    }
+
+    /**
+     * Resolve the best matching version key from the available normalizer versions.
+     *
+     * Priority: exact match > nearest concrete version before requested > wildcard (major.*) > default.
+     * Uses version_compare for comparing ILIAS versions (major.minor, optional suffixes like alpha).
+     *
+     * @param array<string, class-string> $available_versions
+     */
+    private function resolveVersionKey(string $requested_version, array $available_versions): string
+    {
+        if (isset($available_versions[$requested_version])) {
+            return $requested_version;
+        }
+
+        if ($requested_version === NormalizerArtifactObjective::DEFAULT_KEY) {
+            return $requested_version;
+        }
+
+        $requested_major = strstr($requested_version, '.', true) ?: $requested_version;
+
+        $best_concrete = null;
+        foreach (array_keys($available_versions) as $version) {
+            if ($version === NormalizerArtifactObjective::DEFAULT_KEY
+                || $this->isWildcardVersion($version)) {
+                continue;
+            }
+
+            $version_major = strstr($version, '.', true) ?: $version;
+            if ($version_major !== $requested_major) {
+                continue;
+            }
+
+            if (version_compare($version, $requested_version, '<=')
+                && ($best_concrete === null || version_compare($version, $best_concrete, '>'))) {
+                $best_concrete = $version;
+            }
+        }
+
+        if ($best_concrete !== null) {
+            return $best_concrete;
+        }
+
+        foreach (["{$requested_major}.*", $requested_major] as $wildcard) {
+            if (isset($available_versions[$wildcard])) {
+                return $wildcard;
+            }
+        }
+
+        return NormalizerArtifactObjective::DEFAULT_KEY;
+    }
+
+    private function isWildcardVersion(string $version): bool
+    {
+        return !str_contains($version, '.') || str_ends_with($version, '.*');
     }
 
     /*
