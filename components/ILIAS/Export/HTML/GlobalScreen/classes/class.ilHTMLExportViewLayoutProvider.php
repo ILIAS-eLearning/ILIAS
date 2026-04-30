@@ -28,6 +28,8 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\FooterModification;
+use ILIAS\UI\Component\MainControls\Footer;
 
 /**
  * HTML export view layout provider, hides main and meta bar
@@ -97,6 +99,26 @@ class ilHTMLExportViewLayoutProvider extends AbstractModificationProvider implem
                         ->factory()
                         ->breadcrumbs()
                         ->withModification(function (?Breadcrumbs $current = null): ?Breadcrumbs {
+                            return null;
+                        })->withHighPriority();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * @inheritDoc
+     * No footer in HTML exports
+     */
+    public function getFooterModification(CalledContexts $called_contexts): ?FooterModification
+    {
+        $additional_data = $called_contexts->current()->getAdditionalData();
+        if ($additional_data->is(self::HTML_EXPORT_RENDERING, true)) {
+            return $this->globalScreen()
+                        ->layout()
+                        ->factory()
+                        ->footer()
+                        ->withModification(function (?Footer $current = null): ?Footer {
                             return null;
                         })->withHighPriority();
         } else {

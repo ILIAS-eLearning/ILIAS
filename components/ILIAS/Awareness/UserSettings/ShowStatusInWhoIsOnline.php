@@ -85,7 +85,7 @@ class ShowStatusInWhoIsOnline implements SettingDefinition
     ): \ilFormPropertyGUI {
         $lng->loadLanguageModule('awrn');
 
-        $default = ($settings->get('hide_own_online_status') == 'n')
+        $default = ($settings->get('hide_own_online_status') === 'n')
             ? $lng->txt('user_awrn_show')
             : $lng->txt('user_awrn_hide');
 
@@ -100,9 +100,7 @@ class ShowStatusInWhoIsOnline implements SettingDefinition
         $input->setDisabled((bool) $settings->get('usr_settings_disable_hide_own_online_status'));
         $input->setInfo($lng->txt('awrn_hide_from_awareness_info'));
         $input->setValue(
-            $user !== null
-                ? $user->getPref('chat_osc_accept_msg') === 'y'
-                : $settings->get('chat_osc_accept_msg') === 'y'
+            $this->buildSetterValue($settings, $user)
         );
         return $input;
     }
@@ -120,7 +118,9 @@ class ShowStatusInWhoIsOnline implements SettingDefinition
         \ilSetting $settings,
         \ilObjUser $user
     ): bool {
-        return $this->retrieveValueFromUser($user) !== $settings->get('hide_own_online_status');
+        $user_value = $this->retrieveValueFromUser($user);
+        $settings_value = $settings->get('hide_own_online_status') === 'n';
+        return $user_value !== null && $user_value !== $settings_value;
     }
 
     public function persistUserInput(
@@ -138,7 +138,7 @@ class ShowStatusInWhoIsOnline implements SettingDefinition
     public function retrieveValueFromUser(\ilObjUser $user): ?bool
     {
         $value = $user->getPref('hide_own_online_status');
-        return $value !== null ? $value === 'n' : null;
+        return !empty($value) ? $value === 'n' : null;
     }
 
     private function buildSetterValue(

@@ -132,7 +132,7 @@ final readonly class PendingRegistrationDatabaseRepository implements PendingReg
     /**
      * @return list<PendingRegistration>
      */
-    public function findExpired(int $cutoff_ts, ?int $prioritize_usr_id = null): array
+    public function findExpired(int $cutoff_ts, ?int $usr_id_to_prioritize = null): array
     {
         $except_anon_and_sys = $this->db->in(
             'pr.usr_id',
@@ -154,7 +154,7 @@ final readonly class PendingRegistrationDatabaseRepository implements PendingReg
         $res = $this->db->queryF(
             $query,
             [\ilDBConstants::T_INTEGER, \ilDBConstants::T_INTEGER],
-            [$cutoff_ts, $prioritize_usr_id ?? 0]
+            [$cutoff_ts, $usr_id_to_prioritize ?? 0]
         );
 
         $expired_registrations = [];

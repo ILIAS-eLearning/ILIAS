@@ -53,8 +53,7 @@ class ilHelpViewLayoutProvider extends AbstractModificationProvider
 
         $f = $DIC->ui()->factory();
         $ttm = $DIC->help()->internal()->domain()->tooltips();
-
-        if (!$this->showHelpTool() && !$ttm->isTooltipIdentifierVisible()) {
+        if (!$ttm->areTooltipsVisible()) {
             return null;
         }
 
@@ -65,9 +64,7 @@ class ilHelpViewLayoutProvider extends AbstractModificationProvider
                 $p = $item->getProviderIdentification();
 
                 $tt_text = $ttm->getMainMenuTooltip($p->getInternalIdentifier());
-                $tt_text = addslashes(str_replace(array("\n", "\r"), '', $tt_text));
                 if ($tt_text !== "") {
-                    //$item->withTopics($DIC->ui()->factory()->helpTopics($p->getInternalIdentifier()));
                     $item->withTopics(...$DIC->ui()->factory()->helpTopics($tt_text));
                 }
             }
@@ -93,9 +90,7 @@ class ilHelpViewLayoutProvider extends AbstractModificationProvider
                 $p = $item->getProviderIdentification();
 
                 $tt_text = $ttm->getMainMenuTooltip($p->getInternalIdentifier());
-                $tt_text = addslashes(str_replace(array("\n", "\r"), '', $tt_text));
                 if ($tt_text !== "") {
-                    //$item->withTopics($DIC->ui()->factory()->helpTopics($p->getInternalIdentifier()));
                     $item->withTopics(...$DIC->ui()->factory()->helpTopics($tt_text));
                 }
             }

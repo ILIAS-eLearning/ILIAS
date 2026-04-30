@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
+use ILIAS\ILIASObject\Properties\Translations\Translations as Translations;
+
 /**
  * container xml importer
  *
@@ -27,10 +30,16 @@ class ilContainerImporter extends ilXmlImporter
     protected ilLogger $cont_log;
     protected \ILIAS\Skill\Service\SkillProfileService $skill_profile_service;
 
+    # Patch Start: Fix multilingualism replaces course title
+    protected string $import_id;
+    protected TranslationsRepository $translations_repository;
+    # Patch End: Fix multilingualism replaces course title
+
     public function init(): void
     {
         global $DIC;
 
+        $this->translations_repository = new TranslationsRepository($DIC->database());
         $this->cont_log = ilLoggerFactory::getLogger('cont');
         $this->skill_profile_service = $DIC->skills()->profile();
     }
@@ -48,6 +57,10 @@ class ilContainerImporter extends ilXmlImporter
 
         $parser = new ilContainerXmlParser($a_mapping, trim($a_xml));
         $parser->parse($a_id);
+
+        # Patch Start: Fix multilingualism replaces course title
+        $this->import_id = $a_id;
+        # Patch End: Fix multilingualism replaces course title
     }
 
     /**
@@ -96,6 +109,19 @@ class ilContainerImporter extends ilXmlImporter
                 ilParticipants::getDefaultMemberRole((int) $new_crs_ref_id)
             );
         }
+
+        # Patch Start: Fix multilingualism replaces course title
+        $obj_id = (int) $a_mapping->getMapping('components/ILIAS/ILIASObject', 'obj', $this->import_id);
+        $translations = $this->translations_repository->getFor($obj_id);
+        $translations_new = new Translations($translations->getObjId(), [], $translations->getDefaultLanguage(), $translations->getBaseLanguage());
+        $languages = $translations->getLanguages();
+        foreach ($languages as $language) {
+            $translations_new = $language->getTitle() === 'NO TITLE'
+                ? $translations_new
+                : $translations_new->withLanguage($language);
+        }
+        $this->translations_repository->store($translations_new);
+        # Patch End: Fix multilingualism replaces course title
     }
 
     protected function handleOfflineStatus(string $xml, ilImportMapping $mapping): void

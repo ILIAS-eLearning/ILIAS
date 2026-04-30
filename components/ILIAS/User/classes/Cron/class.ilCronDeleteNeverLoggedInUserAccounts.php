@@ -214,6 +214,7 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ILIAS\Cron\CronJob
         $threshold->setSuffix($this->lng->txt('days'));
         $threshold->setSize(4);
         $threshold->setMaxLength(4);
+        $threshold->setMinValue(1);
         $threshold->setRequired(true);
         $a_form->addItem($threshold);
     }

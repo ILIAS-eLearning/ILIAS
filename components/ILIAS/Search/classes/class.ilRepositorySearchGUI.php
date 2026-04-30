@@ -613,7 +613,10 @@ class ilRepositorySearchGUI
         $class = $this->callback['class'];
         $method = $this->callback['method'];
 
-        $post_user = (array) ($this->http->request()->getParsedBody()['user'] ?? []);
+        $post_user = $this->http->wrapper()->post()->retrieve(
+            'user',
+            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+        );
         $post_selected_command = '';
         if (
             $this->http->wrapper()->post()->has('table_top_cmd') &&

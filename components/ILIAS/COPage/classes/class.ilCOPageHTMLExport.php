@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\components\Export\HTML\ExportCollector;
+use ILIAS\components\Export\HTML\Util;
 
 /**
  * HTML export class for pages
@@ -490,7 +491,8 @@ class ilCOPageHTMLExport
     protected function initResourceTemplate(
         string $template_file
     ): ilGlobalTemplateInterface {
-        $this->global_screen->layout()->meta()->reset();
+        $export_util = new Util("", "", $this->export_collector);
+        $export_util->resetGlobalScreen();
         $tpl = new ilGlobalTemplate($template_file, true, true, "components/ILIAS/COPage");
         $this->getPreparedMainTemplate($tpl);
         $this->global_screen->layout()->meta()->addCss(
@@ -511,6 +513,8 @@ class ilCOPageHTMLExport
         array &$a_linked_mobs
     ): void {
         $this->log->debug("export html mobs");
+
+        $export_util = new Util("", "", $this->export_collector);
 
         if (is_null($this->export_collector)) {
             $source_dir = ilFileUtils::getWebspaceDir() . "/mobs/mm_" . $a_mob_id;
@@ -556,6 +560,7 @@ class ilCOPageHTMLExport
             unset($fp);
         } else {
             $this->export_collector->addString($html, "/media_" . $a_mob_id . ".html");
+            $export_util->exportResourceFiles();  // same iteration level as initResourceTemplate which calls reset
         }
 
         if ($mob_obj->hasFullscreenItem()) {
@@ -571,6 +576,7 @@ class ilCOPageHTMLExport
                 unset($fp);
             } else {
                 $this->export_collector->addString($html, "/fullscreen_" . $a_mob_id . ".html");
+                $export_util->exportResourceFiles();  // same iteration level as initResourceTemplate which calls reset
             }
         }
 
@@ -602,7 +608,6 @@ class ilCOPageHTMLExport
     public function exportHTMLFile(string $a_file_id): void
     {
         $file_dir = $this->files_dir . "/file_" . $a_file_id;
-        ilFileUtils::makeDir($file_dir);
 
         $file_obj = new ilObjFile($a_file_id, false);
         $source_file = $file_obj->getFile($file_obj->getVersion());
@@ -610,7 +615,12 @@ class ilCOPageHTMLExport
             $source_file = $file_obj->getFile();
         }
         if (is_file($source_file)) {
-            copy($source_file, $file_dir . "/" . $file_obj->getFileName());
+            if (!is_null($this->export_collector)) {
+                $this->export_collector->addFile($source_file, $file_dir . "/" . $file_obj->getFileName());
+            } else {
+                ilFileUtils::makeDir($file_dir);
+                copy($source_file, $file_dir . "/" . $file_obj->getFileName());
+            }
         }
     }
 
@@ -626,10 +636,14 @@ class ilCOPageHTMLExport
         ilFileUtils::makeDir($file_dir);
 
         if (is_file($a_source_file)) {
-            copy(
-                $a_source_file,
-                $file_dir . "/" . ilFileUtils::getASCIIFilename($a_file_name)
-            );
+            if (is_null($this->export_collector)) {
+                copy(
+                    $a_source_file,
+                    $file_dir . "/" . ilFileUtils::getASCIIFilename($a_file_name)
+                );
+            } else {
+                $this->export_collector->addFile($a_source_file, $file_dir . "/" . ilFileUtils::getASCIIFilename($a_file_name));
+            }
         }
     }
 
@@ -641,11 +655,21 @@ class ilCOPageHTMLExport
         // export questions (images)
         if (count($this->q_ids) > 0) {
             foreach ($this->q_ids as $q_id) {
-                ilFileUtils::makeDirParents($this->exp_dir . "/assessment/0/" . $q_id . "/images");
-                ilFileUtils::rCopy(
-                    ilFileUtils::getWebspaceDir() . "/assessment/0/" . $q_id . "/images",
-                    $this->exp_dir . "/assessment/0/" . $q_id . "/images"
-                );
+                if (is_null($this->export_collector)) {
+                    ilFileUtils::makeDirParents($this->exp_dir . "/assessment/0/" . $q_id . "/images");
+                    ilFileUtils::rCopy(
+                        ilFileUtils::getWebspaceDir() . "/assessment/0/" . $q_id . "/images",
+                        $this->exp_dir . "/assessment/0/" . $q_id . "/images"
+                    );
+                } else {
+                    $source_dir = ilFileUtils::getWebspaceDir() . "/assessment/0/" . $q_id . "/images";
+                    if (is_dir($source_dir)) {
+                        $this->export_collector->addDirectory(
+                            $source_dir,
+                            "assessment/0/" . $q_id . "/images"
+                        );
+                    }
+                }
             }
         }
     }
@@ -657,6 +681,7 @@ class ilCOPageHTMLExport
                 continue;
             }
             $tpl = $this->initResourceTemplate("tpl.glossary_term_output.html");
+            $export_util = new Util("", "", $this->export_collector);
 
             $term_gui = new ilGlossaryTermGUI($term_id);
             $term_gui->setPageLinker($this->page_linker);
@@ -665,10 +690,15 @@ class ilCOPageHTMLExport
 
             // write file
             $html = $tpl->printToString();
-            $file = $this->exp_dir . "/term_" . $term_id . ".html";
-            $fp = fopen($file, "w+");
-            fwrite($fp, $html);
-            fclose($fp);
+            if (!is_null($this->export_collector)) {
+                $this->export_collector->addString($html, "/term_" . $term_id . ".html");
+                $export_util->exportResourceFiles();  // same iteration level as initResourceTemplate which calls reset
+            } else {
+                $file = $this->exp_dir . "/term_" . $term_id . ".html";
+                $fp = fopen($file, "w+");
+                fwrite($fp, $html);
+                fclose($fp);
+            }
         }
     }
 }

@@ -19,6 +19,16 @@
 namespace ILIAS\StaticURL\Response;
 
 /**
+ * Returned by a Handler when the target exists but the CURRENT (logged-in)
+ * user has no permission to reach it.
+ *
+ * The HandlerService tries to walk up the repository tree from the Request's
+ * ReferenceId and redirects to the first parent the user can read (and shows
+ * the course/group join message via `reg_goto_parent_membership_info`). If
+ * no readable parent is found, or the Request carries no ReferenceId, the
+ * user is redirected to their Starting Point / Dashboard.
+ *
+ * @see \ILIAS\StaticURL\Response\Factory::cannotReach()
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 class CannotReach implements Response

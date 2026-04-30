@@ -91,8 +91,6 @@ class GlossaryHtmlExport
         // export terms
         $this->exportHTMLGlossaryTerms();
 
-        $this->export_util->exportResourceFiles();
-
         $this->co_page_html_export->exportPageElements();
     }
 
@@ -117,7 +115,7 @@ class GlossaryHtmlExport
      */
     protected function initScreen(int $term_id): \ilGlobalPageTemplate
     {
-        $this->global_screen->layout()->meta()->reset();
+        $this->export_util->resetGlobalScreen();
 
         // load style sheet depending on user's settings
         $location_stylesheet = \ilUtil::getStyleSheetLocation();
@@ -157,13 +155,26 @@ class GlossaryHtmlExport
         } else {
             $content = $this->glo_table_gui->renderPresentationTableForOffline();
         }
-        $this->collector->addString($content, "index.html");
+        $tpl->setContent($content);
+        $this->collector->addString($tpl->printToString(), "index.html");
+        $this->export_util->exportResourceFiles();  // same level as init screen which calls reset
 
-        $terms = $this->glossary->getTermList();
+        $terms = $this->glossary->getTermList(
+            "",
+            "",
+            "",
+            0,
+            false,
+            false,
+            null,
+            false,
+            true
+        );
         foreach ($terms as $term) {
             $this->initScreen($term["id"]);
             $content = $this->glo_gui->listDefinitions($this->glossary->getRefId(), $term["id"], false);
             $this->collector->addString($content, "term_" . $term["id"] . ".html");
+            $this->export_util->exportResourceFiles();  // same level as init screen which calls reset
 
             // store linked/embedded media objects of glosssary term
             $this->co_page_html_export->collectPageElements("term:pg", $term["id"], "");

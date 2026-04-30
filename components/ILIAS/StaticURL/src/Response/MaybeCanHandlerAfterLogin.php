@@ -19,6 +19,15 @@
 namespace ILIAS\StaticURL\Response;
 
 /**
+ * Returned when the target is (or might be) reachable after the user logs
+ * in. Typically this is the case for anonymous users without sufficient
+ * permissions on the requested target.
+ *
+ * The HandlerService redirects to the login page with the original target
+ * preserved as `?target=...`, so the user is forwarded to the requested
+ * target after a successful login.
+ *
+ * @see \ILIAS\StaticURL\Response\Factory::loginFirst()
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 class MaybeCanHandlerAfterLogin implements Response

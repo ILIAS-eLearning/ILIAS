@@ -1060,7 +1060,6 @@ class ilObjUser extends ilObject
             $this->active = 1;
             $this->setApproveDate(date('Y-m-d H:i:s'));
             $this->setInactivationDate(null);
-            $this->setOwner($owner);
             return;
         }
 
@@ -1868,16 +1867,15 @@ class ilObjUser extends ilObject
 
     public function uploadPersonalPicture(
         string $tmp_file
-    ): bool {
+    ): void {
         $stakeholder = new ilUserProfilePictureStakeholder();
         $stakeholder->setOwner($this->getId());
         $stream = Streams::ofResource(fopen($tmp_file, 'rb'));
 
-        if ($this->getAvatarRid() !== null && $this->getAvatarRid() !== ilObjUser::NO_AVATAR_RID) {
-            $rid = $this->irss->manage()->find($this->getAvatarRid());
+        if ($this->getAvatarRid() !== null) {
             // append profile picture
             $this->irss->manage()->replaceWithStream(
-                $rid,
+                $this->getAvatarRid(),
                 $stream,
                 $stakeholder
             );
@@ -1891,7 +1889,6 @@ class ilObjUser extends ilObject
 
         $this->setAvatarRid($rid);
         $this->update();
-        return true;
     }
 
     private function buildTextFromArray(array $a_attr): string

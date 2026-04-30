@@ -11389,7 +11389,7 @@ lti#:#lti_con_prov_xapi_launch_secret_info#:#&nbsp;
 lti#:#lti_con_prov_xapi_launch_url#:#URL del endpoint del LRS
 lti#:#lti_con_prov_xapi_launch_url_info#:#Por favor, añada la URL completa con https://
 lti#:#lti_con_redirection_uris#:#URI de redirección
-lti#:#lti_con_tool_url#:#URL de inicio de sesión
+lti#:#lti_con_tool_url#:#Launch URL
 lti#:#lti_con_version#:#Versión de LTI
 lti#:#lti_con_version_1.1#:#Versión 1.1
 lti#:#lti_con_version_1.3#:#Versión 1.3

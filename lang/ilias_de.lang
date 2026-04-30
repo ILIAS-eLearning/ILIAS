@@ -3705,7 +3705,7 @@ common#:#check_languages#:#Alle Sprachen überprüfen
 common#:#check_link#:#Externe Links überprüfen
 common#:#check_link_desc#:#Wenn eingeschaltet, werden alle ILIAS-Lernmodule auf ungültige externe Links überprüft.
 common#:#check_user_accounts#:#ILIAS-Konten überprüfen
-common#:#check_user_accounts_desc#:#Personen, deren ILIAS-Konten zeitlich begrenzt sind, werden zwei Wochen vor Fristende per E-Mail informiert, dass ihr Konto abläuft. Außerdem löscht der Cron-Job alle ILIAS-Konten, bei denen der E-Mail-Bestätigungslink nicht fristgerecht angeklickt wurde.
+common#:#check_user_accounts_desc#:#Personen, deren ILIAS-Konten zeitlich begrenzt sind, werden zwei Wochen vor Fristende per E-Mail informiert, dass ihr Konto abläuft.
 common#:#check_web_resources#:#Weblinks überprüfen
 common#:#check_web_resources_desc#:#Wenn eingeschaltet, werden alle Weblinks auf ungültige externe Links überprüft und gegebenenfalls deaktiviert.
 common#:#checked#:#Ausgewählt
@@ -5407,6 +5407,8 @@ common#:#refresh#:#Aktualisieren
 common#:#refresh_languages#:#Alle Sprachen aktualisieren
 common#:#refuse#:#Antrag ablehnen
 common#:#reg_account_confirmation_successful#:#Das ILIAS-Konto wurde bestätigt und aktiviert.
+common#:#reg_delete_expired_pending_registrations#:#Abgelaufene Registrierungen löschen
+common#:#reg_delete_expired_pending_registrations_desc#:#Löscht alle ILIAS-Konten, bei denen der E-Mail-Bestätigungslink nicht fristgerecht angeklickt wurde.
 common#:#reg_goto_parent_membership_info#:#Nur Mitglieder können auf das Zielobjekt zugreifen.
 common#:#reg_mail_body_2_confirmation#:#Der Link wird nur für %s gültig sein, danach müssen Sie sich erneut registrieren.
 common#:#reg_mail_body_3_confirmation#:#Falls Sie diese E-Mail unerwartet erhalten haben, ist es möglich, dass eine andere Person Ihre E-Mail-Adresse versehentlich oder vorsätzlich angegeben hat. In diesem Fall ignorieren Sie diese Mail bitte.
@@ -8089,6 +8091,8 @@ crs#:#tutorial_support_block_title#:#Kontaktperson
 crs#:#user_fields#:#Angaben des Persönlichen Profils
 crsv#:#crsv_create#:#Kurszertifikat erstellen
 crsv#:#crsv_create_info#:#Wählen Sie einen Kurs, für den Sie ein Zertifikat benötigen
+dash#:#add_to_favourites#:#Zu Favoriten hinzufügen
+dash#:#added_to_favourites#:#Das Objekt wurde den Favoriten hinzugefügt.
 dash#:#dash_activation#:#Aktivierung
 dash#:#dash_added_to_favs#:#Der Eintrag wurde zu den persönlichen Favoriten hinzugefügt.
 dash#:#dash_avail_presentation#:#Verfügbare Präsentationen
@@ -8126,7 +8130,6 @@ dash#:#dash_item_removed#:#Der Eintrag wurde aus der Liste entfernt.
 dash#:#dash_learning_sequences#:#Meine Lernsequenzen
 dash#:#dash_list#:#Liste
 dash#:#dash_main_panel#:#Hauptbereich
-dash#:#dash_make_favourite#:#Zu Favoriten hinzufügen
 dash#:#dash_manual_new_item_pos#:#Position von neuen Objekten
 dash#:#dash_manual_new_item_pos_bot#:#Unten
 dash#:#dash_manual_new_item_pos_top#:#Oben
@@ -8154,6 +8157,8 @@ dash#:#dash_view_courses_groups#:#Block ‘Meine Kurse und Gruppen’
 dash#:#dash_view_favourites#:#Block ‘Favoriten’
 dash#:#favourites_disabled_info#:#Das Setzen von Favoriten ist deaktiviert. Sie können dieses in den Magazin-Einstellungen ändern.
 dash#:#memberships_disabled_info#:#Das Setzen von Mitgliedschaften ist deaktiviert. Sie können dieses in den Kurs-Einstellungen ändern.
+dash#:#remove_from_favourites#:#Von Favoriten entfernen
+dash#:#removed_from_favourites#:#Das Objekt wurde aus den Favoriten entfernt.
 dash#:#topitem_block#:#Block
 dateplaner#:#Fr_long#:#Freitag
 dateplaner#:#Fr_short#:#Fr
@@ -11414,7 +11419,7 @@ lti#:#lti_con_prov_xapi_launch_secret_info#:#&nbsp;
 lti#:#lti_con_prov_xapi_launch_url#:#URL des LRS-Endpoints
 lti#:#lti_con_prov_xapi_launch_url_info#:#Bitte fügen Sie die vollständige URL mit https:// hinzu.
 lti#:#lti_con_redirection_uris#:#Redirection URI
-lti#:#lti_con_tool_url#:#Login URL
+lti#:#lti_con_tool_url#:#Launch URL
 lti#:#lti_con_version#:#LTI Version
 lti#:#lti_con_version_1.1#:#Version 1.1
 lti#:#lti_con_version_1.3#:#Version 1.3
@@ -15114,7 +15119,6 @@ rep#:#rep_add_new_def_grp_feedback#:#Feedback und Evaluation
 rep#:#rep_add_new_def_grp_organisation#:#Organisation
 rep#:#rep_add_new_def_grp_templates#:#Vorlagen
 rep#:#rep_added_rec_content#:#Empfohlener Inhalt wurde hinzugefügt.
-rep#:#rep_added_to_favourites#:#Das Objekt wurde den Favoriten hinzugefügt.
 rep#:#rep_allowed_types#:#Allowed Types
 rep#:#rep_breadcr_crs#:#Brotkrumennavigation beginnt mit Kurs
 rep#:#rep_breadcr_crs_config#:#Konfiguration
@@ -15170,7 +15174,6 @@ rep#:#rep_object_to_delete#:#Zu löschen
 rep#:#rep_rec_content_removed#:#Empfohlener Inhalt wurde entfernt.
 rep#:#rep_recommended_content#:#Empfohlene Inhalte
 rep#:#rep_remove_rec_content#:#Sollen die folgenden Empfehlungen wirklich entfernt werden? Die entsprechenden Inhalte bleiben weiterhin erhalten.
-rep#:#rep_removed_from_favourites#:#Das Objekt wurde aus den Favoriten entfernt.
 rep#:#rep_target_location#:#Zielort
 rep#:#rep_target_location_info#:#Bitte wählen sie den Zielort aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen.
 rep#:#rep_time_based_availability#:#Zeitlich begrenzte Verfügbarkeit
@@ -17964,7 +17967,7 @@ wiki#:#wiki_wiki_search#:#Suche im Wiki
 wiki#:#wiki_wpg#:#Wiki-Seite
 wopi#:#action_edit#:#Editieren
 wopi#:#action_view#:#Anzeigen
-wopi#:#activate_saving_interval#:#Speicherintervall aktivieren
+wopi#:#activate_saving_interval#:#Automatische Veröffentlichung
 wopi#:#activate_wopi#:#WOPI aktivieren
 wopi#:#close_wopi_editor#:#Editor schliessen
 wopi#:#close_wopi_editor_info#:#Es kann bis zu mehreren Minuten dauern, bis der externe Editor die Änderungen an ILIAS übertragen hat. Besuchen Sie diese Seite zu einem späteren Zeitpunkt wieder, wenn die gemachten Änderungen noch nicht ersichtlich sind.
@@ -17973,8 +17976,8 @@ wopi#:#msg_error_wopi_invalid_discorvery_url#:#Die eingegebene Discovery-URL ist
 wopi#:#msg_wopi_settings_modified#:#Einstellungen gespeichert
 wopi#:#open_external_editor#:#In externem Editor öffnen
 wopi#:#open_external_viewer#:#Inhalt anzeigen
-wopi#:#saving_interval#:#Speicherintervall
-wopi#:#saving_interval_byline#:#Standardmässig fügt ILIAS alle durch einen Externen Editor erhaltenen Änderungen in einer Entwurfs-Version hinzu, bis diese Version manuell veröffentlicht wird. Durch das Aktivieren des Speicherintervalls wird nach Möglichkeit nach der festgelegten Sekundenanzahl eine neue Verison veröffentlicht. Bitte beachten Sie, dass eine tiefer Wert zu sehr vielen Dateiversionen führen kann und damit ein Vielfaches des Festplattenspeichers beansprucht.
+wopi#:#saving_interval#:#Neue Version nach … Sekunden
+wopi#:#saving_interval_byline#:#Nach der festgelegten Bearbeitungszeit wird von ILIAS automatisch eine neue Version der Datei veröffentlicht, wenn der externe Editor Änderungen meldet. Standardmässig fügt ILIAS alle durch den Editor erhaltenen Änderungen lediglich als Entwurf hinzu, bis eine neue Dateiversion manuell veröffentlicht wird. Bitte beachten Sie, dass bei Verwendung dieser Option mit einem niedrigen Wert mitunter sehr viele Dateiversionen erstellt werden. Dadurch wird viel Speicherplatz belegt.
 wopi#:#wopi_crawler_cronjob_description#:#Aktualisiert die Informationen des angebundenen WOPI-Dienstes.
 wopi#:#wopi_crawler_cronjob_no_apps#:#Es wurden keine WOPI-Apps in der Discovery gefunden.
 wopi#:#wopi_crawler_cronjob_not_activated#:#WOPI ist nicht aktiviert.

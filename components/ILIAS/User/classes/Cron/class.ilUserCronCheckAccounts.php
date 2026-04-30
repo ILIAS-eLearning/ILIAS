@@ -97,8 +97,8 @@ class ilUserCronCheckAccounts extends CronJob
         // all users who are currently active and expire in the next 2 weeks
         $query = 'SELECT usr_id, login, time_limit_until ' .
             'FROM usr_data ' .
-            'WHERE time_limit_message = "0" ' .
-            'AND time_limit_unlimited = "0" ' .
+            'WHERE expiration_reminder_sent = 0 ' .
+            'AND time_limit_unlimited = 0 ' .
             'AND time_limit_from < ' . $this->db->quote($now, 'integer') . ' ' .
             'AND time_limit_until > ' . $this->db->quote($now, 'integer') . ' ' .
             'AND time_limit_until < ' . $this->db->quote($two_weeks_in_seconds, 'integer');
@@ -137,7 +137,8 @@ class ilUserCronCheckAccounts extends CronJob
             );
 
             // set status 'mail sent'
-            $query = 'UPDATE usr_data SET time_limit_message = "1" WHERE usr_id = "' . $usr_id . '"';
+            $query = 'UPDATE usr_data SET expiration_reminder_sent = 1' . PHP_EOL
+                . "WHERE usr_id = {$this->db->quote($usr_id, ilDBConstants::T_INTEGER)}";
             $this->db->query($query);
 
             // Send log message
@@ -146,35 +147,11 @@ class ilUserCronCheckAccounts extends CronJob
             $this->counter++;
         }
 
-        $this->checkNotConfirmedUserAccounts();
-
         if ($this->counter) {
             $status = JobResult::STATUS_OK;
         }
         $result = new JobResult();
         $result->setStatus($status);
         return $result;
-    }
-
-    protected function checkNotConfirmedUserAccounts(): void
-    {
-        $registration_settings = new ilRegistrationSettings();
-
-        $query = 'SELECT usr_id FROM usr_data '
-               . 'WHERE (reg_hash IS NOT NULL AND reg_hash != %s)'
-               . 'AND active = %s '
-               . 'AND create_date < %s';
-        $res = $this->db->queryF(
-            $query,
-            ['text', 'integer', 'timestamp'],
-            ['', 0, date('Y-m-d H:i:s', time() - $registration_settings->getRegistrationHashLifetime())]
-        );
-        while ($row = $this->db->fetchAssoc($res)) {
-            $user = ilObjectFactory::getInstanceByObjId((int) $row['usr_id']);
-            $user->delete();
-            $this->log->write('Cron: Deleted ' . $user->getLogin() . ' [' . $user->getId() . '] ' . __METHOD__);
-
-            $this->counter++;
-        }
     }
 }

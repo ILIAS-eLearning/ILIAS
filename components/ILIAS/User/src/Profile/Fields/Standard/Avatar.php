@@ -169,11 +169,11 @@ class Avatar implements FieldDefinition
     private function uploadUserPicture(
         \ilObjUser $user,
         array $input,
-        \ilPropertyFormGUI $form
+        ?\ilPropertyFormGUI $form
     ): \ilObjUser {
         $capture = $this->retrieveCapture();
         if ($input['tmp_name'] === '' && $capture === '') {
-            if ($form->getItemByPostVar($this->getIdentifier())->getDeletionFlag()) {
+            if ($form?->getItemByPostVar($this->getIdentifier())->getDeletionFlag()) {
                 $user->removeUserPicture();
             }
             return $user;
@@ -185,9 +185,22 @@ class Avatar implements FieldDefinition
         }
 
         $existing_rid = $user->getAvatarRid();
-        $revision_title = 'Avatar for user ' . $user->getLogin();
+        $revision_title = 'Avatar for user ' . ($input['alias'] ?? $user->getLogin());
         $this->stakeholder->setOwner($user->getId());
         $uploads = $this->uploads->getResults();
+
+        if (is_file($input['tmp_name'])) {
+            $rid = $this->moveStreamToStorage(
+                $existing_rid,
+                $revision_title,
+                Streams::ofString(
+                    file_get_contents($input['tmp_name'])
+                )
+            );
+            $user->setAvatarRid($rid);
+            $this->irss->flavours()->ensure($rid, new \ilUserProfilePictureDefinition());
+            return $user;
+        }
 
         if (isset($uploads[$input['tmp_name']])) {
             $rid = $this->moveUploadToStorage(

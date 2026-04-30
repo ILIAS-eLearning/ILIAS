@@ -101,7 +101,7 @@ class LinearWorkflowTest extends ILIAS_UI_TestBase
         $expected = <<<EOT
             <div class="il-workflow linear" id="id_1">
                 <div class="il-workflow-header">
-                    <h3 class="il-workflow-title">title</h3>
+                    <h2 class="il-workflow-title">title</h2>
                 </div>
                 <ul class="il-workflow-container">
                     <li class="il-workflow-step first available not-started">
