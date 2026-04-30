@@ -96,6 +96,11 @@ $il-toolbar-border: 1px solid $il-main-border-color !default;
 	}
 }
 
+.ilToolbarContainer {
+	position: relative;
+	z-index: 50;
+}
+
 // Dropdowns
 // -------------------------
 
