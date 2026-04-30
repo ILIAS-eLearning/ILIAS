@@ -29,16 +29,20 @@ use Attribute;
 #[Attribute(Attribute::TARGET_CLASS)]
 final readonly class NormalizesLegacy
 {
+    /** @var list<string> */
+    public array $versions;
+
+    /** @var list<class-string> */
+    public array $types;
+
     /**
      * @param class-string ...$types
      */
     public function __construct(
-        public string $version,
+        string|array $version,
         string ...$types
     ) {
+        $this->versions = is_array($version) ? $version : [$version];
         $this->types = $types;
     }
-
-    /** @var list<class-string> */
-    public array $types;
 }
