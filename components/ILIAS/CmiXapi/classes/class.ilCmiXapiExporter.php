@@ -38,14 +38,13 @@ class ilCmiXapiExporter extends ilXmlExporter
     public function __construct()
     {
         parent::__construct();
-        $this->_dataset = new ilCmiXapiDataSet();
-        //todo check
-        $this->_dataset->initByExporter($this);
-        $this->_dataset->setDSPrefix("ds");
     }
 
     public function init(): void
     {
+        $this->_dataset = new ilCmiXapiDataSet();
+        $this->_dataset->initByExporter($this);
+        $this->_dataset->setDSPrefix("ds");
     }
 
     /**
@@ -53,6 +52,7 @@ class ilCmiXapiExporter extends ilXmlExporter
      */
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
+        $this->_dataset->initByExporter($this);
         return $this->_dataset->getCmiXapiXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
