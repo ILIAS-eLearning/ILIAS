@@ -50,7 +50,7 @@ class Help implements SettingDefinition
 
     public function getLabel(Language $lng): string
     {
-        return $lng->txt($this->getIdentifier());
+        return $lng->txt('help_toggle_tooltips');
     }
 
     public function getSettingsPage(): AvailablePages
@@ -101,7 +101,7 @@ class Help implements SettingDefinition
         Language $lng,
         \ilSetting $settings
     ): string {
-        return $lng->txt('active');
+        return $lng->txt('inactive');
     }
 
     public function hasUserPersonalizedSetting(
