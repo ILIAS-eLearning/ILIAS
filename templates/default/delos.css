@@ -22125,6 +22125,11 @@ a.ilMediaLightboxClose:hover {
   max-width: none;
 }
 
+.ilToolbarContainer {
+  position: relative;
+  z-index: 50;
+}
+
 .nav-tabs .dropdown-menu {
   margin-top: -1px;
   border-top-left-radius: 0;
