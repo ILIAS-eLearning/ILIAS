@@ -79,7 +79,13 @@ class ilPRGUserInformation
     }
     public function getGender(): string
     {
-        return $this->user_data['gender'];
+        $gender = $this->user_data['gender'] ?? null;
+        if (!is_string($gender)) {
+            return \ILIAS\User\Profile\Fields\Standard\Genders::Undisclosed->value;
+        }
+
+        return \ILIAS\User\Profile\Fields\Standard\Genders::tryFrom($gender)?->value
+            ?? \ILIAS\User\Profile\Fields\Standard\Genders::Undisclosed->value;
     }
     public function getTitle(): string
     {
