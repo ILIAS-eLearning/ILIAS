@@ -2340,7 +2340,7 @@ code {
 */
 /* UI Framework */
 .c-tooltip__container {
-  position: relative;
+  position: fixed;
   display: inline-block;
 }
 
