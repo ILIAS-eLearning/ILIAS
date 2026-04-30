@@ -159,7 +159,17 @@ class GlossaryHtmlExport
         $this->collector->addString($tpl->printToString(), "index.html");
         $this->export_util->exportResourceFiles();  // same level as init screen which calls reset
 
-        $terms = $this->glossary->getTermList();
+        $terms = $this->glossary->getTermList(
+            "",
+            "",
+            "",
+            0,
+            false,
+            false,
+            null,
+            false,
+            true
+        );
         foreach ($terms as $term) {
             $this->initScreen($term["id"]);
             $content = $this->glo_gui->listDefinitions($this->glossary->getRefId(), $term["id"], false);
