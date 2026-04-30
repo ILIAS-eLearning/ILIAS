@@ -1068,11 +1068,14 @@ class ilObjStudyProgramme extends ilContainer
             [$user_id]
         );
 
-        usort($assignments, function ($a_one, $a_other) {
-            return strcmp(
-                $a_one->getLastChange()->format('Y-m-d'),
-                $a_other->getLastChange()->format('Y-m-d')
-            );
+        usort($assignments, static function (ilPRGAssignment $a_one, ilPRGAssignment $a_other): int {
+            $left = $a_one->getLastChange();
+            $right = $a_other->getLastChange();
+            if ($left === null || $right === null) {
+                return (int) ($left !== null) <=> (int) ($right !== null);
+            }
+
+            return $left->getTimestamp() <=> $right->getTimestamp();
         });
         return $assignments;
     }
