@@ -70,7 +70,9 @@ class NormalizerArtifactObjective extends BuildArtifactObjective
             foreach ($attrs as $attr) {
                 $instance = $attr->newInstance();
                 foreach ($instance->types as $type) {
-                    $type_map[$type][$instance->version] = $class_name;
+                    foreach ($instance->versions as $version) {
+                        $type_map[$type][$version] = $class_name;
+                    }
                 }
             }
         }
