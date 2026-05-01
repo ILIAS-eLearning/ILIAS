@@ -98,7 +98,30 @@ class WebFeedCreationDeletedObjective extends \ilAccessRBACOperationDeletedObjec
                 }
             }
         }
+        if ($this->type === "fold") {   // fold is the last one, we delete rbac_operation here
+            $db->manipulateF(
+                "DELETE FROM rbac_operations WHERE " .
+                " operation = %s",
+                ["text"],
+                [$this->ops_name]
+            );
+        }
         return $environment;
+    }
+
+    public function isApplicable(Environment $environment): bool
+    {
+        $db = $environment->getResource(Environment::RESOURCE_DATABASE);
+        $set = $db->queryF(
+            "SELECT * FROM rbac_operations " .
+            " WHERE operation = %s ",
+            ["text"],
+            [$this->ops_name]
+        );
+        if ($rec = $db->fetchAssoc($set)) {
+            return true;
+        }
+        return false;
     }
 
 }
