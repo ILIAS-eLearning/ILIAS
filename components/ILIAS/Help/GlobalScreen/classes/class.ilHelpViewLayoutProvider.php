@@ -60,6 +60,12 @@ class ilHelpViewLayoutProvider extends AbstractModificationProvider
 
         $this->globalScreen()->collector()->mainmenu()->collectOnce();
         foreach ($this->globalScreen()->collector()->mainmenu()->getRawItems() as $item) {
+            if (!($item instanceof ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem)
+                && !($item instanceof ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem)
+                && !$ttm->areSubMenuTooltipsVisible()
+            ){
+                continue;
+            }
             if ($item instanceof isDecorateable) {
                 $p = $item->getProviderIdentification();
 

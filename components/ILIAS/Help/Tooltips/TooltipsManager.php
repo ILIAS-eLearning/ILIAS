@@ -55,6 +55,12 @@ class TooltipsManager
             $this->isTooltipMainTextVisible();
     }
 
+    public function areSubMenuTooltipsVisible(): bool
+    {
+        return $this->isTooltipMainTextVisible();
+    }
+
+
     protected function isTooltipMainTextVisible() : bool
     {
         $show_main_text = true;
