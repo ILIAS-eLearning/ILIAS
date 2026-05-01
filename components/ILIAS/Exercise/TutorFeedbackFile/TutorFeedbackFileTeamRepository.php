@@ -97,7 +97,7 @@ class TutorFeedbackFileTeamRepository implements TutorFeedbackFileRepositoryInte
             [$team_id]
         );
         $rec = $this->db->fetchAssoc($set);
-        return ($rec["if_rcid"] ?? "");
+        return ($rec["feedback_rcid"] ?? "");
     }
 
     public function hasCollection(int $ass_id, int $user_id): bool
