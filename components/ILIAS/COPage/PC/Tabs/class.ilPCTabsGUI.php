@@ -573,6 +573,9 @@ class ilPCTabsGUI extends ilPageContentGUI
                 if ($cnt === count($captions) && in_array($act, ["moveDown", "moveBottom"])) {
                     continue;
                 }
+                if ($act === "deletePanel" && count($captions) === 1) {
+                    continue;
+                }
                 $dd_items[] = $ui->factory()->link()->standard(
                     $lng,
                     $this->ctrl->getLinkTarget($this, $act)
