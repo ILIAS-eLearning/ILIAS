@@ -45,6 +45,22 @@ const presentation = (function () {
           const shapeEl = shape.addToSvg(svg);
           shapeEl.classList.add(`copg-iim-hl-mode-${hlMode}`);
           shapeEl.classList.add(`copg-iim-hl-class-${hlClass}`);
+          shapeEl.style.pointerEvents = 'auto';
+          shapeEl.style.cursor = 'pointer';
+          shapeEl.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const href = areaEl.getAttribute('href');
+            const target = areaEl.getAttribute('target') || '_self';
+            if (!href) {
+              return;
+            }
+            if (target === '_self') {
+              window.location.href = href;
+            } else {
+              window.open(href, target);
+            }
+          });
         });
       }
     });
