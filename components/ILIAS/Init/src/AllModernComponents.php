@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Init;
 
+use ILIAS\WebDAV\Environment;
+
 /**
  * This entry point can be thought of as a list of all modern components.
  * Modern components are those initialised using the new component bootstrap
@@ -95,6 +97,7 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         protected \ILIAS\UI\Implementation\Component\Input\UploadLimitResolver $ui_upload_limit_resolver,
         protected \ILIAS\Setup\AgentFinder $setup_agent_finder,
         protected \ILIAS\UI\Implementation\Component\Navigation\Factory $ui_factory_navigation,
+        protected Environment $webdav_environment
     ) {
     }
 
@@ -172,6 +175,7 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         $DIC['ui.renderer'] = fn() => $this->ui_renderer;
         $DIC['setup.agentfinder'] = fn() => $this->setup_agent_finder;
         $DIC['ui.factory.navigation'] = fn() => $this->ui_factory_input_field;
+        $DIC[Environment::class] = fn() => $this->webdav_environment;
     }
 
     public function getName(): string

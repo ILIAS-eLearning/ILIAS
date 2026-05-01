@@ -18,15 +18,17 @@
 
 declare(strict_types=1);
 
+use ILIAS\WebDAV\Environment;
+
 /**
- * Activation Checker. Keep this class small, since it is included, even if WebDav
- * is deactivated.
+ * @deprecated use \ILIAS\WebDAV\Environment instead
  */
 class ilDAVActivationChecker
 {
     public static function _isActive(): bool
     {
-        $settings = new ilSetting('webdav');
-        return $settings->get('webdav_enabled', '0') === '1';
+        global $DIC;
+
+        return $DIC[Environment::class]->isActive();
     }
 }

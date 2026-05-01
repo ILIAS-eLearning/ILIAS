@@ -2108,8 +2108,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $this->initFormPasswordInstruction();
         }
 
-        $uri_builder = new ilWebDAVUriBuilder($DIC->http()->request());
-        $href = $uri_builder->getUriToMountInstructionModalByRef($this->object->getRefId());
+        global $DIC;
+        /** @var ILIAS\WebDAV\Environment $webdav */
+        $webdav = $DIC[ILIAS\WebDAV\Environment::class];
+        $href = $webdav->getUriToMountInstructionModalByRef($this->object->getRefId());
 
         $this->gui->button(
             $this->lng->txt("mount_webfolder"),

@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\WebDAV\Mount\UploadGUI;
+
 /**
  * @author              Lukas Zehnder <lz@studer-raimann.ch>
  *
@@ -61,7 +63,7 @@ class ilObjWebDAVGUI extends ilObjectGUI
         }
 
         switch ($next_class) {
-            case strtolower(ilWebDAVMountInstructionsUploadGUI::class):
+            case strtolower(UploadGUI::class):
                 $document_gui = $this->webdav_dic->mountinstructions_upload();
                 $document_gui->setRefId($this->object->getRefId());
                 $this->tabs_gui->activateTab('webdav_upload_instructions');
@@ -89,7 +91,7 @@ class ilObjWebDAVGUI extends ilObjectGUI
             $this->tabs_gui->addTab(
                 'webdav_upload_instructions',
                 $this->lng->txt("webdav_upload_instructions"),
-                $this->ctrl->getLinkTargetByClass(ilWebDAVMountInstructionsUploadGUI::class)
+                $this->ctrl->getLinkTargetByClass(UploadGUI::class)
             );
         }
     }
