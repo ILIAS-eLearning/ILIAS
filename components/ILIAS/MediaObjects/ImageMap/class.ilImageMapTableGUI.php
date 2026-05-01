@@ -39,7 +39,7 @@ class ilImageMapTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
-
+        $this->setId("image_map_table");
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->media_object = $a_media_object;
 

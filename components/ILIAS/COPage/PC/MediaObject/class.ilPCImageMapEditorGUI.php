@@ -253,6 +253,9 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
         //			$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
         $areas = $this->std_alias_item->getMapAreas();
         foreach ($areas as $area) {
+            if (!$this->edit_request->has("name_" . $area["Nr"])) {
+                continue;
+            }
             // fix #26032 empty values lead to "empty text node" errors on page update
             $name = $this->edit_request->getString("name_" . $area["Nr"]);
             $hl_mode = $this->edit_request->getString("hl_mode_" . $area["Nr"]);
