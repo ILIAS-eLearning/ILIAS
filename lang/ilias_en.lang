@@ -13360,7 +13360,7 @@ pdesk#:#bookmark_select_target#:#Please select target.
 poll#:#poll_absolute#:#Current Votes
 poll#:#poll_activation_online_info#:#Make this poll accessible to users. 
 poll#:#poll_add#:#Add Poll
-poll#:#poll_anonymous_warning#:#This is an anonymous poll Individual votes are recorded, but your name will not be shown in the poll results.
+poll#:#poll_anonymous_warning#:#This is an anonymous poll. Individual votes are recorded, but your name will not be shown in the poll results.
 poll#:#poll_answer#:#Answer
 poll#:#poll_answer_selected_alt_text#:#Selected
 poll#:#poll_answers#:#Possible Answers
