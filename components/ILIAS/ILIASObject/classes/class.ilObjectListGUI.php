@@ -3332,12 +3332,21 @@ class ilObjectListGUI
                         break;
                 }
 
-                $cmd_link = $this->ctrl->getLinkTargetByClass([
-                    ilSAHSEditGUI::class,
-                    $scorm_class,
-                    ilLearningProgressGUI::class,
-                    ilLPListOfSettingsGUI::class
-                ]);
+                if ( $this->checkCommandAccess('write', '', $this->ref_id, $this->type) ){
+                    $cmd_link = $this->ctrl->getLinkTargetByClass([
+                        ilSAHSEditGUI::class,
+                        $scorm_class,
+                        ilLearningProgressGUI::class,
+                        ilLPListOfSettingsGUI::class
+                    ]);
+                }
+                else {
+                    $cmd_link = $this->ctrl->getLinkTargetByClass([
+                        ilSAHSPresentationGUI::class,
+                        ilLearningProgressGUI::class,
+                        ilLPListOfSettingsGUI::class
+                    ]);
+                }
                 break;
 
             case 'lm':
