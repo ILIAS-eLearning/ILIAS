@@ -21,13 +21,12 @@ declare(strict_types=1);
 namespace ILIAS\Test\ExportImport\Import;
 
 use assFileUploadStakeholder;
-use ilCtrl;
+use ilDBConstants;
 use ilDBInterface;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\ReferenceId;
 use ILIAS\Data\UUID\Factory as UUIDFactory;
 use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\Language\Language;
 use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\Test\ExportImport\Envelopes\AdditionalWorkingTime;
 use ILIAS\Test\ExportImport\Envelopes\ManualFeedback;
@@ -58,7 +57,6 @@ use ILIAS\TestQuestionPool\ExportImport\Pipes\CollectQuestionImages;
 use ilImportMapping;
 use ilObjTest;
 use ilTestPage;
-use ilDBConstants;
 use ilTestSequence;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -73,14 +71,13 @@ class TestImporter
 {
     public function __construct(
         private readonly Builder $builder,
-        private readonly ilCtrl $ctrl,
         private readonly ilDBInterface $database,
         private readonly LoggerInterface $log,
-        private readonly Language $language,
         private readonly IRSS $irss,
         private readonly DataFactory $data_factory,
         private readonly QuestionsImporter $questions_importer,
         private readonly SkillAssignmentsImporter $skill_importer,
+        private readonly SkillLevelThresholdsImporter $skill_thresholds_importer,
         private readonly MarksRepository $marks_repository,
     ) {
     }
@@ -144,13 +141,27 @@ class TestImporter
 
         $deserializer->addHandler(
             'skill_assignments',
-            function (array $assignments) use ($tt, &$context): void {
+            function (array $assignments) use ($tt, $mapping, &$context): void {
                 $result = $this->skill_importer->import(
                     $assignments,
                     UploadValidationStage::getInstallId($context),
                     $tt,
+                    $mapping,
                 );
                 $context = $context->with('skill_assignments', $result);
+            }
+        );
+
+        $deserializer->addHandler(
+            'skill_thresholds',
+            function (array $thresholds) use ($tt, $mapping, &$context): void {
+                $result = $this->skill_thresholds_importer->import(
+                    $thresholds,
+                    UploadValidationStage::getInstallId($context),
+                    $tt,
+                    $mapping,
+                );
+                $context = $context->with('skill_thresholds', $result);
             }
         );
 

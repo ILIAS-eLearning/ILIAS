@@ -23,6 +23,7 @@ namespace ILIAS\TestQuestionPool\ExportImport\Import;
 use ilAssQuestionSkillAssignment;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
 use ILIAS\Skill\Service\SkillUsageService;
+use ilImportMapping;
 use ilSkillTreeRepository;
 
 /**
@@ -36,6 +37,7 @@ class SkillAssignmentsImporter
     public function __construct(
         private readonly ilSkillTreeRepository $skill_repo,
         private readonly SkillUsageService $skill_usage_service,
+        private readonly string $component,
         private readonly int $local_install_id
     ) {
     }
@@ -51,10 +53,12 @@ class SkillAssignmentsImporter
         array $normalized_assignments,
         int $import_install_id,
         Transformations $transformations,
+        ilImportMapping $mapping,
     ): array {
         $result = ['failed' => [], 'success' => []];
 
         foreach ($normalized_assignments as $item) {
+            // ParentObjID and QuestionID will be replaced by the mapping pipe
             $assignment = $transformations->denormalize($item, ilAssQuestionSkillAssignment::class);
 
             $skill_data = $this->getSkillIdMapping(
@@ -67,8 +71,18 @@ class SkillAssignmentsImporter
                 continue;
             }
 
-            // Map imported skill ids to local skill ids. Question id and object id are already replaced in the id
-            // mapping pipe.
+            $mapping->addMapping(
+                $this->component,
+                'skill_base',
+                (string) $assignment->getSkillBaseId(),
+                (string) $skill_data['skill_id']
+            );
+            $mapping->addMapping(
+                $this->component,
+                'skill_tref',
+                (string) $assignment->getSkillTrefId(),
+                (string) $skill_data['tref_id']
+            );
             $assignment->setSkillBaseId($skill_data['skill_id']);
             $assignment->setSkillTrefId($skill_data['tref_id']);
 
