@@ -20,48 +20,21 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing;
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Deserializer;
-
 /**
- * Simple XML deserializer that reads an XML string in chunks and invokes registered handlers per group.
+ * Shared XMLWriter-based parsing logic used by both in-memory and file-based XML serializers.
  */
-class SimpleXMLDeserializer implements Deserializer
+trait XMLDeserializerTrait
 {
-    private string $xml = '';
-
-    /** @var array<string, callable(array): void> $handler */
+    /** @var array<string, callable(array): void> */
     private array $handler = [];
 
-    /**
-     * @inheritDoc
-     */
-    public function open(string $path): static
-    {
-        $clone = clone $this;
-        $clone->xml = $path;
-        return $clone;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function addHandler(string $group, callable $handler): void
     {
         $this->handler[$group] = $handler;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function process(): void
+    private function processReader(\XMLReader $reader): void
     {
-        $reader = new \XMLReader();
-        $xml = $this->prepareXmlInput($this->xml);
-
-        if (!$reader->XML($xml, null, LIBXML_NONET)) {
-            throw new \RuntimeException('Unable to read XML input.');
-        }
-
         while ($reader->read()) {
             $node_name = $this->kebabToSnake($reader->name);
 
@@ -85,7 +58,6 @@ class SimpleXMLDeserializer implements Deserializer
             return [];
         }
 
-        // Track the current group boundary so we can stop exactly at its closing tag
         $group_depth = $reader->depth;
         $group_name = $reader->name;
         $group_data = [];
@@ -103,7 +75,6 @@ class SimpleXMLDeserializer implements Deserializer
                 $reader->nodeType !== \XMLReader::ELEMENT
                 || $reader->depth !== $group_depth + 1
             ) {
-                // Only direct children belong to this group entry list
                 continue;
             }
 
@@ -117,7 +88,6 @@ class SimpleXMLDeserializer implements Deserializer
     {
         $is_marked_empty_array = $this->isMarkedEmptyArray($reader);
 
-        // Keep empty elements as empty strings to preserve the legacy XML shape
         if ($reader->isEmptyElement) {
             if ($is_marked_empty_array) {
                 return [];
@@ -143,17 +113,14 @@ class SimpleXMLDeserializer implements Deserializer
                 $reader->nodeType === \XMLReader::ELEMENT
                 && $reader->depth === $element_depth + 1
             ) {
-                // Direct child elements are deserialized recursively
                 $child_key = $this->resolveElementKey($reader);
                 $child_value = $this->readElementValue($reader);
 
                 if ($child_key === null) {
-                    // Unkeyed <item> nodes are appended as list entries
                     $children[] = $child_value;
                     continue;
                 }
 
-                // Repeated keys are normalized to list values via appendValue()
                 $this->appendValue($children, $child_key, $child_value);
                 continue;
             }
@@ -170,13 +137,11 @@ class SimpleXMLDeserializer implements Deserializer
                     true
                 )
             ) {
-                // Keep raw text content and decode scalar tokens after traversal
                 $text_content .= $reader->value;
             }
         }
 
         if ($children !== []) {
-            // Structured child data has precedence over accumulated text content
             return $children;
         }
 
@@ -194,24 +159,20 @@ class SimpleXMLDeserializer implements Deserializer
 
     private function resolveElementKey(\XMLReader $reader): ?string
     {
-        // Regular element names map directly to associative keys
         if ($reader->name !== 'item') {
             return $this->kebabToSnake($reader->name);
         }
 
-        // <item> nodes are list-like unless they define an explicit key attribute
         $raw_key = $reader->getAttribute('key');
         if ($raw_key === null || $raw_key === '') {
             return null;
         }
 
-        // Normalize kebab-case keys to snake_case for downstream consumers
         return $this->kebabToSnake($raw_key);
     }
 
     /**
      * @param array<array-key, mixed> $target
-     * @param mixed $value
      */
     private function appendValue(array &$target, string $key, mixed $value): void
     {
@@ -236,11 +197,5 @@ class SimpleXMLDeserializer implements Deserializer
     private function kebabToSnake(string $name): string
     {
         return str_replace('-', '_', $name);
-    }
-
-    private function prepareXmlInput(string $xml): string
-    {
-        $xml = preg_replace('/^\s*<\?xml[^>]*\?>\s*/i', '', trim($xml)) ?? trim($xml);
-        return "<deserializer-root>{$xml}</deserializer-root>";
     }
 }
