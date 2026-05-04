@@ -198,8 +198,8 @@ JS;
             if ($cloze_type === assClozeGap::TYPE_NUMERIC && $this->object->getGap($idx) !== null) {
                 $this->object->getGap($idx)->clearItems();
 
-                $gap_idx_numeric = $this->request_data_collector->float('gap_' . $idx . '_numeric');
-                if ($gap_idx_numeric !== 0.0) {
+                $gap_idx_numeric = $this->request_data_collector->getNumericGapValue($idx);
+                if ($gap_idx_numeric !== null) {
                     $this->object->addGapAnswer($idx, 0, (string) $gap_idx_numeric);
                     $this->object->setGapAnswerLowerBound(
                         $idx,
