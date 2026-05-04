@@ -70,6 +70,12 @@ class DataTest extends TableTestBase
         };
     }
 
+
+    public function getPrompt(): C\Prompt\Standard
+    {
+        return $this->createMock(C\Prompt\Standard::class);
+    }
+
     public function testDataTableBasicConstruction(): void
     {
         $data = $this->getDataRetrieval();
@@ -251,4 +257,13 @@ class DataTest extends TableTestBase
         $table = $table->withId($table_id);
         $this->assertEquals($table_data, $table->mockGetStorageData());
     }
+
+
+    public function testDataTableWithAddButton(): void
+    {
+        $prompt = $this->getPrompt();
+        $table = $this->getTable();
+        $this->assertEquals($prompt, $table->withEntryCreation($prompt)->getEntryCreation());
+    }
+
 }

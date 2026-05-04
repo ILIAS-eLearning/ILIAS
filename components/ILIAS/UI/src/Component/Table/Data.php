@@ -25,6 +25,7 @@ use ILIAS\UI\Component\Input\Container\ViewControl\ViewControlInput;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
+use ILIAS\UI\Component\Prompt\Prompt;
 
 /**
  * This describes a Data Table.
@@ -72,4 +73,12 @@ interface Data extends Table
     public function withAdditionalViewControl(
         ViewControlInput $view_control
     ): self;
+
+    /*
+     * You may add a "creation"-dialog to the DataTable.
+     * This will add a button to the table that opens a prompt.
+     * Create an entry for the table within this dialog;
+     * the table will be reloaded afterwards.
+     */
+    public function withEntryCreation(Prompt $entry_creation): self;
 }

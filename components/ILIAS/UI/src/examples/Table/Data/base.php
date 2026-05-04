@@ -86,19 +86,28 @@ function base()
      * The URLBuilder orchestrates query-paramters (a.o. by assigning namespace)
      */
     $url_builder = new URLBuilder($here_uri);
-    $query_params_namespace = ['datatable', 'example'];
-
     /**
      * We have to claim those parameters. In return, there is a token to modify
      * the value of the param; the tokens will work only with the given copy
      * of URLBuilder, so acquireParameters will return the builder as first entry,
      * followed by the tokens.
      */
+    $query_params_namespace = ['datatable', 'example'];
     list($url_builder, $action_parameter_token, $row_id_token) =
     $url_builder->acquireParameters(
         $query_params_namespace,
         "table_action", //this is the actions's parameter name
         "student_ids"   //this is the parameter name to be used for row-ids
+    );
+
+    /**
+     * for the examples, we render multiple tables in one page;
+     * this marker allows wxamples to not render tables for async requests.
+     */
+    $examples_overall_namespace = ['datatable', 'examples', 'async'];
+    list($url_builder, $async_token) = $url_builder->acquireParameters(
+        $examples_overall_namespace,
+        "async"
     );
 
     /**
@@ -306,5 +315,12 @@ function base()
         $out[] = $listing;
     }
 
+    if ($query->retrieve(
+        $async_token->getName(),
+        $refinery->byTrying([$refinery->kindlyTo()->bool(), $refinery->always(false)])
+    )
+    ) {
+        return '';
+    };
     return $r->render($out);
 }
