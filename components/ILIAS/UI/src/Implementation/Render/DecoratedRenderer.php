@@ -77,4 +77,14 @@ abstract class DecoratedRenderer implements Renderer
         $root = $root ?? $this;
         return $this->manipulateAsyncRendering($component, $root) ?? $this->default->renderAsync($component, $root);
     }
+
+    final public function withHeaderNesting(int $nesting_level): Renderer
+    {
+        return $this->default->withHeaderNesting($nesting_level);
+    }
+
+    final public function getHeaderNesting(?int $offset = 0): int
+    {
+        return $this->default->getHeaderNesting($offset);
+    }
 }
