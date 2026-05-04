@@ -157,8 +157,8 @@
 			// Quick-Fix for Mantis-Issue 46692
 			.media {
 				.il-item-title {
-					margin: 0;
-					padding: 0;
+					margin: 0 !important;
+					padding: 0 !important;
 				}
 			}
 
