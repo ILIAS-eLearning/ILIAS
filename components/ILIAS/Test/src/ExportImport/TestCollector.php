@@ -29,6 +29,7 @@ use ILIAS\Language\Language;
 use ILIAS\Test\ExportImport\Envelopes\AdditionalWorkingTime;
 use ILIAS\Test\ExportImport\Envelopes\ManualFeedback;
 use ILIAS\Test\ExportImport\Envelopes\QuestionResult;
+use ILIAS\Test\ExportImport\Envelopes\QuestionSetConfig;
 use ILIAS\Test\ExportImport\Envelopes\Solution;
 use ILIAS\Test\ExportImport\Envelopes\WorkingTime;
 use ILIAS\Test\Logging\TestLogger;
@@ -44,8 +45,10 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ilObjTest;
 use ilTestQuestionSetConfigFactory;
+use ilTestRandomQuestionSetConfig;
 use ilTestRandomQuestionSetSourcePoolDefinitionFactory;
 use ilTestRandomQuestionSetSourcePoolDefinitionList;
+use ilTestRandomQuestionSetStagingPoolQuestionList;
 use ilTestSequence;
 use ilTestSkillLevelThreshold;
 use ilTestSkillLevelThresholdList;
@@ -191,11 +194,10 @@ class TestCollector implements DataCollector
     }
 
     /**
-     * Get the question set config and the source pool definitions.
-     *
-     * @return array{config: \ilTestQuestionSetConfig, definitions: list<\ilTestRandomQuestionSetSourcePoolDefinition>}
+     * Get the question set config. If it is a random question set config, also return the source pool sages and
+     * definitions.
      */
-    public function getQuestionSetConfig(): array
+    public function getQuestionSetConfig(): QuestionSetConfig
     {
         $factory = new ilTestQuestionSetConfigFactory(
             $this->tree,
@@ -207,7 +209,10 @@ class TestCollector implements DataCollector
             $this->general_questions_repository
         );
 
-        $config = $factory->getQuestionSetConfig();
+        $config = new QuestionSetConfig($factory->getQuestionSetConfig());
+        if (!$config->isRandom()) {
+            return $config;
+        }
 
         $definition_factory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
             $this->db,
@@ -219,12 +224,31 @@ class TestCollector implements DataCollector
             $this->getObject(),
             $definition_factory
         );
-        $definition_list->loadDefinitions();
 
-        return [
-            'config' => $config,
-            'definitions' => iterator_to_array($definition_list),
-        ];
+        $definition_list->loadDefinitions();
+        $config->setDefinitions(iterator_to_array($definition_list));
+
+        foreach ($definition_list->getInvolvedSourcePoolIds() as $pool_id) {
+            $config->addStagingPoolQuestions($pool_id, $this->getStagingPoolQuestions($pool_id));
+        }
+
+        return $config;
+    }
+
+    /**
+     * @return list<int>
+     */
+    private function getStagingPoolQuestions(int $pool_id): array
+    {
+        $question_list = new ilTestRandomQuestionSetStagingPoolQuestionList(
+            $this->db,
+            $this->component_repository
+        );
+        $question_list->setTestId($this->getTestId());
+        $question_list->setPoolId($pool_id);
+        $question_list->loadQuestions();
+
+        return $question_list->getQuestions();
     }
 
     /*
