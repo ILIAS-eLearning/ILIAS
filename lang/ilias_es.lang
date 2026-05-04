@@ -646,7 +646,6 @@ assessment#:#errFormulaQuestion#:#¡Una pregunta de fórmula contiene informaci�
 assessment#:#errRecursionInResult#:#La fórmula contiene una recursión infinita.
 assessment#:#err_category_in_use#:#Al menos una categoría no puede eliminarse. Una o más unidades de la categoría ya están en uso.
 assessment#:#err_divider_too_big#:#El divisor de una de las variables en esta pregunta es demasiado grande.
-assessment#:#err_divider_too_big_specific#:#El divisor de esta variable es demasiado grande.
 assessment#:#err_division#:#El valor que eligió haría imposible generar un valor válido para la variable.
 assessment#:#err_duplicate_results#:#Ha utilizado una variable de resultado más de una vez. Esto no está permitido en el texto de la pregunta.
 assessment#:#err_no_formula#:#Debe introducir una fórmula
@@ -5094,7 +5093,6 @@ common#:#obj_sess_duplicate#:#Copiar sesión
 common#:#obj_skmg#:#Gestión de Competencias
 common#:#obj_skmg_desc#:#Administrar competencias y categorías de competencias.
 common#:#obj_spl#:#Banco de preguntas para encuestas
-common#:#obj_spl_select#:#-- Seleccione un banco de preguntas para encuestas --
 common#:#obj_st#:#Capítulo
 common#:#obj_stus#:#Shortlinks
 common#:#obj_stus_desc#:#Global Shortlinks Settings
@@ -5412,6 +5410,8 @@ common#:#refresh#:#Actualizar
 common#:#refresh_languages#:#Actualizar todos los idiomas
 common#:#refuse#:#Rechazar solicitud
 common#:#reg_account_confirmation_successful#:#Su cuenta de usuario ha sido activada.
+common#:#reg_delete_expired_pending_registrations#:#Delete Expired Pending Registrations###04 05 2026 new variable
+common#:#reg_delete_expired_pending_registrations_desc#:#Deletes all ILIAS accounts that have not been confirmed after a registration with e-mail confirmation.###04 05 2026 new variable
 common#:#reg_goto_parent_membership_info#:#Solo los miembros pueden acceder al objeto de destino.
 common#:#reg_mail_body_2_confirmation#:#Este enlace solo es válido durante %s. Una vez transcurrido este periodo, el enlace caducará y tendrá que reiniciar el proceso de registro desde el principio.
 common#:#reg_mail_body_3_confirmation#:#Si este correo electrónico no significa nada para usted, es posible que otra persona haya introducido su dirección de correo electrónico de forma deliberada o accidental; por favor, ignore este mensaje.
@@ -8094,6 +8094,8 @@ crs#:#tutorial_support_block_title#:#Persona de contacto
 crs#:#user_fields#:#Campos de Usuario
 crsv#:#crsv_create#:#Crear Certificado de curso
 crsv#:#crsv_create_info#:#Seleccione un curso completado para generar un certificado para el mismo
+dash#:#add_to_favourites#:#Add to Favourites###04 05 2026 new variable
+dash#:#added_to_favourites#:#The item has been added to your favourites.###04 05 2026 new variable
 dash#:#dash_activation#:#activación
 dash#:#dash_added_to_favs#:#La recomendación se ha añadido a sus favoritos personales.
 dash#:#dash_avail_presentation#:#Presentaciones Disponibles
@@ -8131,7 +8133,6 @@ dash#:#dash_item_removed#:#La recomendación ha sido eliminada de la lista.
 dash#:#dash_learning_sequences#:#Mis secuencias de aprendizaje
 dash#:#dash_list#:#Lista
 dash#:#dash_main_panel#:#Panel principal
-dash#:#dash_make_favourite#:#Añadir a favoritos
 dash#:#dash_manual_new_item_pos#:#Position of New Objects
 dash#:#dash_manual_new_item_pos_bot#:#Bottom
 dash#:#dash_manual_new_item_pos_top#:#Top
@@ -8159,6 +8160,8 @@ dash#:#dash_view_courses_groups#:#Sección ‘Mis cursos y grupos’
 dash#:#dash_view_favourites#:#Sección ‘Favoritos’
 dash#:#favourites_disabled_info#:#La función añadir a favoritos está desactivada. Puede cambiar esto en la configuración del repositorio.
 dash#:#memberships_disabled_info#:#Las suscripciones están desactivadas. Puede cambiar esto en la configuración del curso.
+dash#:#remove_from_favourites#:#Remove from Favourites###04 05 2026 new variable
+dash#:#removed_from_favourites#:#The item has been removed from your favourites.###04 05 2026 new variable
 dash#:#topitem_block#:#Bloque
 dateplaner#:#Fr_long#:#Viernes
 dateplaner#:#Fr_short#:#Vi
@@ -9210,6 +9213,8 @@ ecs#:#ecs_wiki_export_enabled#:#Publicar este Wiki
 ecs#:#ecs_wiki_export_obj_settings#:#Ajustes de publicación de Wiki
 error#:#error_back_to_repository#:#Volver al Repositorio
 error#:#error_sry_error#:#Lo sentimos, se ha producido un error.
+error#:#http_404_not_found#:#The requested page could not be found.###04 05 2026 new variable
+error#:#http_500_internal_server_error#:#An internal server error occurred.###04 05 2026 new variable
 etal#:#appointments#:#Citas
 etal#:#cal_type_tals#:#Charlas
 etal#:#change_date_of_series#:#Cambiar fecha de la serie de charlas
@@ -9382,6 +9387,7 @@ exc#:#exc_late_submission_warning#:#Las entregas posteriores a %s se marcarán c
 exc#:#exc_lead_request_idl#:#Solicitar fecha límite
 exc#:#exc_lead_wait_for_idl#:#Esperando fecha límite individual
 exc#:#exc_limit_characters#:#Límite de caracteres
+exc#:#exc_link_to_assignment#:#Link to assignment###04 05 2026 new variable
 exc#:#exc_list_submission#:#Listar todas las entregas
 exc#:#exc_list_text_assignment#:#Listar todas las entregas
 exc#:#exc_mail_context_grade_reminder_info#:#Recordatorio a los tutores/profesores para calificar una tarea
@@ -13062,6 +13068,7 @@ notes#:#notes_latest_comment#:#Último comentario
 notes#:#notes_latest_message#:#Último mensaje
 notes#:#notes_message_author_counterpart#:#Remitente
 notes#:#notes_message_author_you#:#Usted
+notes#:#notes_message_deleted#:#Message deleted.###04 05 2026 new variable
 notes#:#notes_messages#:#Mensajes
 notes#:#notes_my_comments#:#Mis comentarios
 notes#:#notes_no_comments#:#Aún no se ha publicado ningún comentario.
@@ -15087,9 +15094,7 @@ rep#:#rep_add_new_def_grp_content#:#Contenido
 rep#:#rep_add_new_def_grp_feedback#:#Feedback y Evaluación
 rep#:#rep_add_new_def_grp_organisation#:#Organización
 rep#:#rep_add_new_def_grp_templates#:#Plantillas
-rep#:#rep_add_to_favourites#:#Añadir a Favoritos
 rep#:#rep_added_rec_content#:#Se ha añadido el contenido recomendado.
-rep#:#rep_added_to_favourites#:#El elemento se ha añadido a sus favoritos.
 rep#:#rep_allowed_types#:#Tipos permitidos
 rep#:#rep_breadcr_crs#:#La ruta de navegación comienza con el curso
 rep#:#rep_breadcr_crs_config#:#Configuración
@@ -15144,9 +15149,7 @@ rep#:#rep_object_references_cannot_be_read#:#Sin permisos para %s referencias m�
 rep#:#rep_object_to_delete#:#Para eliminar
 rep#:#rep_rec_content_removed#:#El contenido recomendado ha sido eliminado.
 rep#:#rep_recommended_content#:#Contenido recomendado
-rep#:#rep_remove_from_favourites#:#Eliminar de Favoritos
 rep#:#rep_remove_rec_content#:#¿Está seguro de que desea eliminar el siguiente contenido recomendado?
-rep#:#rep_removed_from_favourites#:#El elemento ha sido eliminado de sus favoritos.
 rep#:#rep_target_location#:#Ubicación de destino
 rep#:#rep_target_location_info#:#Por favor, seleccione ahora el destino en el que deben restaurarse los objetos seleccionados.
 rep#:#rep_time_based_availability#:#Periodo de disponibilidad limitado
@@ -16163,6 +16166,7 @@ style#:#sty_individual_styles#:#Estilos Individuales
 style#:#sty_keep_existing#:#Mantener Existente
 style#:#sty_left#:#Izquierda
 style#:#sty_left_right_padding#:#Relleno de Celda Izquierda/Derecha
+style#:#sty_legacy_image_directory_found#:#Legacy image directory found. You may migrate the directory from ILIAS 9 by clicking "Migrate Images"###04 05 2026 new variable
 style#:#sty_letter_spacing#:#Espaciado entre Letras
 style#:#sty_lightness_border#:#Luminosidad del Borde
 style#:#sty_lightness_cell1_bg#:#Luminosidad del Fondo de Celda 1
@@ -16183,6 +16187,7 @@ style#:#sty_margin_and_padding#:#Margen y Relleno (Padding)
 style#:#sty_media_char#:#Media
 style#:#sty_media_queries#:#Media Queries
 style#:#sty_media_query_info#:#Se añade un bloque CSS independiente para cada media query después del bloque predeterminado (sin media query especial).
+style#:#sty_migrate_images#:#Migrate Images###04 05 2026 new variable
 style#:#sty_min_height#:#Altura mínima
 style#:#sty_move_lm_styles#:#Cambiar estilo de los módulos de aprendizaje
 style#:#sty_move_obj_styles#:#Cambiar estilo de los objetos
@@ -16241,6 +16246,7 @@ style#:#sty_special#:#Especial
 style#:#sty_style_chars#:#Clases de Estilo
 style#:#sty_style_class#:#Clases de Estilo
 style#:#sty_style_classes_copied#:#Se han copiado las clases de estilo.
+style#:#sty_style_not_migrated#:#This content style has not been migrated to the ILIAS 10 data structure yet. Changes will not be applied.###04 05 2026 new variable
 style#:#sty_substyle#:#Subestilo
 style#:#sty_substyle_of#:#Subestilo de
 style#:#sty_substyles#:#Subestilos
@@ -16495,7 +16501,6 @@ survey#:#default_codes_mail_subject#:#Su código de acceso para %s
 survey#:#define_questionblock#:#Combinar en bloque de preguntas
 survey#:#delete_saved_message#:#Eliminar plantilla de texto
 survey#:#display_all_available#:#Mostrar todos los disponibles
-survey#:#dont_use_questionpool#:#No insertar las preguntas en un banco de preguntas (solo disponible en esta encuesta)
 survey#:#duplicate#:#Duplicar
 survey#:#edit_heading#:#Editar encabezado
 survey#:#end_date#:#Fecha de finalización
@@ -16676,8 +16681,6 @@ survey#:#search_groups#:#Grupos encontrados
 survey#:#search_term#:#Término de búsqueda
 survey#:#select_option#:#––– Por favor, seleccione una opción –––
 survey#:#select_prior_question#:#Seleccione una pregunta anterior
-survey#:#select_questionpool#:#Por favor, seleccione un banco de preguntas para almacenar la pregunta creada
-survey#:#select_questionpool_short#:#Banco de preguntas de la encuesta
 survey#:#select_relation#:#Seleccione una relación
 survey#:#select_target_position_for_move_question#:#Por favor, seleccione dónde desea mover su pregunta dentro de la lista. Para ello, marque la casilla correspondiente a la izquierda de una pregunta y seleccione ‘Insertar antes’ o ‘Insertar después’.
 survey#:#select_value#:#Introduzca un valor
@@ -16694,7 +16697,6 @@ survey#:#spl_move_insert_clipboard#:#Las preguntas seleccionadas se han añadido
 survey#:#spl_move_same_pool#:#No puede mover preguntas dentro del mismo banco de preguntas. Para mover sus preguntas, por favor navegue a un banco de preguntas diferente y haga clic en ‘Pegar’ allí.
 survey#:#spl_move_select_none#:#Por favor, seleccione al menos una pregunta que desee mover.
 survey#:#spl_online_property#:#En línea
-survey#:#spl_online_property_description#:#Si el banco de preguntas no está en línea, no podrá utilizarse en las encuestas.
 survey#:#spl_paste_no_objects#:#No hay preguntas en el portapapeles. Por favor, copie o mueva una pregunta al portapapeles para poder pegarla aquí.
 survey#:#spl_paste_success#:#Pregunta(s) pegada(s) con éxito en el banco de preguntas.
 survey#:#spl_save_obligatory_state#:#Guardar ‘Obligatorio’
@@ -16712,7 +16714,6 @@ survey#:#survey_360_appraisee_close_action_status#:#Encuesta cerrada el %s.
 survey#:#survey_360_appraisee_close_action_success#:#Ha cerrado su encuesta de 360° para sus evaluadores.
 survey#:#survey_360_appraisee_close_action_success_admin#:#Encuesta(s) de 360° seleccionada(s) cerrada(s) para los evaluadores.
 survey#:#survey_360_appraisee_close_table#:#Cerrada el
-survey#:#survey_360_appraisee_info#:#Información del evaluado
 survey#:#survey_360_appraisee_is_closed#:#Esta encuesta ha sido cerrada por el evaluado.
 survey#:#survey_360_appraisees#:#Evaluados
 survey#:#survey_360_edit_raters#:#Gestionar Evaluadores
@@ -16729,7 +16730,6 @@ survey#:#survey_360_rater_message_content_registered_default#:#Puede comenzar la
 survey#:#survey_360_rater_subject_default#:#Ha sido invitado como evaluador a una encuesta de 360°.
 survey#:#survey_360_raters#:#Evaluadores
 survey#:#survey_360_raters_finished#:#Evaluadores que han terminado
-survey#:#survey_360_raters_status_info#:#Evaluadores terminados
 survey#:#survey_360_remove_appraisees#:#Eliminar Evaluado(s)
 survey#:#survey_360_results#:#Acceso a los Resultados para los Evaluados
 survey#:#survey_360_results_all#:#Todo el Feedback
@@ -16781,7 +16781,6 @@ survey#:#survey_error_insert_incomplete_question#:#Ha intentado añadir una preg
 survey#:#survey_execution_exit#:#Volver al repositorio
 survey#:#survey_execution_exit_360#:#Atrás
 survey#:#survey_execution_sure_finish#:#¿Está seguro de que desea finalizar la encuesta? No podrá editar sus respuestas después de hacerlo.
-survey#:#survey_existing_pool#:#Usar banco de preguntas existente
 survey#:#survey_finish#:#Finalizar encuesta
 survey#:#survey_finished#:#La encuesta ha finalizado. ¡Gracias por su participación!
 survey#:#survey_from_x_points#:#Desde X puntos
@@ -16790,9 +16789,7 @@ survey#:#survey_has_datasets_warning_page_view#:#La encuesta ya contiene datos. 
 survey#:#survey_has_datasets_warning_page_view_link#:#Editar participantes
 survey#:#survey_introduction_info#:#Este mensaje se muestra permanentemente en la pestaña 'Información' de la encuesta.
 survey#:#survey_is_offline#:#No puede iniciar la encuesta ya que actualmente está fuera de línea.
-survey#:#survey_new_pool#:#Crear nuevo banco de preguntas
 survey#:#survey_next#:#Siguiente →
-survey#:#survey_no_pool#:#No usar banco de preguntas
 survey#:#survey_not_available#:#n/d
 survey#:#survey_notification_finished_introduction#:#Un participante ha finalizado la siguiente encuesta:
 survey#:#survey_notification_finished_reason#:#Ha recibido este correo electrónico porque activó las notificaciones para la encuesta mencionada anteriormente.
@@ -16809,17 +16806,11 @@ survey#:#survey_notification_tutor_salutation#:#Hola %s,
 survey#:#survey_notification_tutor_setting#:#Un correo electrónico cuando todos los participantes terminen
 survey#:#survey_notification_tutor_subject#:#Todos los participantes han terminado la encuesta "%s"
 survey#:#survey_order#:#Orden
-survey#:#survey_pool_selection#:#Selección de repositorio
 survey#:#survey_previous#:#← Anterior
 survey#:#survey_question_editor#:#Vista de lista
 survey#:#survey_question_obligatory#:#Esta pregunta es obligatoria. ¡Debe ser respondida!
 survey#:#survey_question_pool#:#Repositorio de preguntas
 survey#:#survey_question_pool_title#:#Título del repositorio
-survey#:#survey_question_pool_usage#:#Usar repositorio de preguntas
-survey#:#survey_question_pool_usage_active#:#Preguntas creadas en la encuesta o reutilizadas del repositorio
-survey#:#survey_question_pool_usage_active_info#:#Las preguntas se pueden crear directamente en la encuesta o añadirse a la encuesta desde un repositorio de preguntas.
-survey#:#survey_question_pool_usage_inactive#:#Crear preguntas solo en la encuesta
-survey#:#survey_question_pool_usage_inactive_info#:#Todas las preguntas deben crearse directamente en la encuesta. No es posible reutilizar preguntas existentes de un repositorio.
 survey#:#survey_question_title#:#Título de la pregunta
 survey#:#survey_questions#:#Preguntas
 survey#:#survey_questions_to_clipboard_copy#:#Pregunta(s) copiada(s) al portapapeles. Por favor, seleccione un destino o vacíe el portapapeles.
@@ -16860,7 +16851,6 @@ survey#:#survey_sync_insufficient_permissions#:#Permisos insuficientes.
 survey#:#survey_sync_question_copies#:#Sincronizar copias de preguntas
 survey#:#survey_sync_question_copies_info#:#Por favor, seleccione las instancias de la pregunta que deben ser reemplazadas por la versión actual del repositorio.
 survey#:#survey_sync_success#:#Las preguntas seleccionadas han sido actualizadas.
-survey#:#survey_up_to_x_points#:#Up to x points
 survey#:#survey_use_start_button#:#Para participar en la encuesta, debe utilizar el botón de inicio.
 survey#:#svy_activation_limited_visibility_info#:#Permitir a los usuarios ver siempre el título de la encuesta y su periodo de disponibilidad. Las preguntas de la encuesta solo seguirán siendo accesibles durante el periodo de disponibilidad indicado.
 survey#:#svy_activation_online_info#:#Los usuarios solo pueden participar en una encuesta si está en línea.
@@ -16933,7 +16923,6 @@ survey#:#svy_mail_context_rater_invitation_title#:#Encuesta: Invitación para ev
 survey#:#svy_mail_context_reminder_info#:#Recordar a los usuarios que participen en la encuesta
 survey#:#svy_mail_context_reminder_survey_title#:#Título de la encuesta
 survey#:#svy_mail_context_reminder_title#:#Encuesta: Recordatorio de encuesta
-survey#:#svy_mail_own_results#:#Enviar respuestas dadas por correo
 survey#:#svy_mail_own_results_body#:#Esto es para confirmar que usted ha participado en la siguiente encuesta:
 survey#:#svy_mail_own_results_subject#:#Encuesta '%s' - Confirmación de su participación
 survey#:#svy_mail_send_confirmation#:#Enviar confirmación de participación
@@ -16945,7 +16934,6 @@ survey#:#svy_notification_tutor_results#:#Un correo electrónico con los resulta
 survey#:#svy_notification_tutor_results_alert#:#Esto requiere una fecha de finalización.
 survey#:#svy_notification_tutor_results_info#:#Tras alcanzar la fecha de finalización, una tarea programada (cron job) enviará un correo electrónico con los resultados detallados de la encuesta adjuntos.
 survey#:#svy_only_max_one_external_rater#:#Por favor, seleccione solo un evaluador externo.
-survey#:#svy_page_add_question#:#Añadir nuevo %s
 survey#:#svy_page_error#:#Se ha producido un error al responder a una pregunta. Por favor, consulte la pregunta para obtener más información sobre el error.
 survey#:#svy_page_errors#:#Se han producido errores con las respuestas a varias preguntas de la encuesta. ¡Por favor, consulte las preguntas para obtener más información sobre los errores!
 survey#:#svy_participant#:#Participante
@@ -16965,8 +16953,6 @@ survey#:#svy_results_mail_confirm#:#Confirmación de participación
 survey#:#svy_results_mail_confirm_info#:#Permitir que los participantes soliciten un correo confirmando su participación en la encuesta al finalizarla.
 survey#:#svy_results_mail_own#:#Incluir respuestas dadas
 survey#:#svy_results_mail_own_info#:#Las respuestas dadas por el participante se incluirán en su correo de confirmación de participación.
-survey#:#svy_results_view_own#:#Los participantes pueden ver sus propias respuestas
-survey#:#svy_results_view_own_info#:#Tras finalizar la encuesta, los participantes pueden ver una lista de todas las respuestas que han proporcionado. No pueden cambiar sus respuestas.
 survey#:#svy_save_and_continue#:#Guardar y continuar
 survey#:#svy_save_sync#:#Guardar y sincronizar copias de preguntas
 survey#:#svy_search_user#:#Buscar usuario
@@ -17152,6 +17138,12 @@ tax#:#tax_tax_settings#:#Ajustes de taxonomía
 tax#:#tax_taxonomy#:#Taxonomía
 tbl#:#tbl_export_csv#:#Exportar CSV
 tbl#:#tbl_export_excel#:#Exportar Excel
+tbl#:#tbl_selection#:#Selection###04 05 2026 new variable
+tbl#:#tbl_template_create#:#Save Current View###04 05 2026 new variable
+tbl#:#tbl_template_created#:#The current view has been saved.###04 05 2026 new variable
+tbl#:#tbl_template_delete#:#Delete Saved View###04 05 2026 new variable
+tbl#:#tbl_template_deleted#:#The saved view has been deleted.###04 05 2026 new variable
+tbl#:#tbl_templates#:#View###04 05 2026 new variable
 tos#:#tos_accept_usr_agreement_anonymous#:#Condiciones del servicio
 tos#:#tos_accept_usr_agreement_anonymous_intro#:#Antes de continuar a ILIAS, debe aceptar las siguientes Condiciones del servicio.
 tos#:#tos_account_reg_not_possible#:#El registro autónomo no es posible actualmente porque no hay un acuerdo de Condiciones del servicio disponible. Por favor, contacte con su <a href="%1$s">administrador del sistema</a> para más información.

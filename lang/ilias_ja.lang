@@ -5406,6 +5406,8 @@ common#:#refresh#:#リフレッシュ
 common#:#refresh_languages#:#全ての言語をリフレッシュ
 common#:#refuse#:#拒否
 common#:#reg_account_confirmation_successful#:#ユーザアカウントは使用可能になりました。
+common#:#reg_delete_expired_pending_registrations#:#Delete Expired Pending Registrations###04 05 2026 new variable
+common#:#reg_delete_expired_pending_registrations_desc#:#Deletes all ILIAS accounts that have not been confirmed after a registration with e-mail confirmation.###04 05 2026 new variable
 common#:#reg_goto_parent_membership_info#:#目的のオブジェクトはメンバのみしかアクセスできません。
 common#:#reg_mail_body_2_confirmation#:#リンクは%s限定有効でそれを過ぎると最初から再度やり直しとなります。
 common#:#reg_mail_body_3_confirmation#:#このメールにお心当たりがないようであれば、誰かが故意または偶然にemailアドレスを入力した可能性がありますのでこのメールを無視してください。

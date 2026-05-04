@@ -5089,7 +5089,6 @@ common#:#obj_sess_duplicate#:#Sitzung kopieren
 common#:#obj_skmg#:#Kompetenzmanagement
 common#:#obj_skmg_desc#:#Kompetenzen und Kategorien verwalten
 common#:#obj_spl#:#Fragenpool für Umfragen
-common#:#obj_spl_select#:#-- Bitte wählen Sie einen Fragenpool für Umfragen aus --
 common#:#obj_st#:#Kapitel
 common#:#obj_stus#:#Kurz-URLs
 common#:#obj_stus_desc#:#Globale Kurz-URL-Einstellungen
@@ -8648,7 +8647,6 @@ dcl#:#dcl_datetime#:#Datumseingabe mit Uhrzeit
 dcl#:#dcl_datetime_desc#:#Datum und Uhrzeit wird eingegeben oder im Kalender ausgewählt.
 dcl#:#dcl_datetime_selection#:#Datum mit Uhrzeit per Auswahl
 dcl#:#dcl_datetime_selection_desc#:#Aus vorgegebenen Optionen kann ein Datum mit Uhrzeit ausgewählt werden.
-dcl#:#dcl_deactivate_view#:#Diese Ansicht deaktivieren
 dcl#:#dcl_default_sort_field#:#Sortierung
 dcl#:#dcl_default_sort_field_order#:#Sortierrichtung
 dcl#:#dcl_default_sort_field_order_desc#:#Tabelle wird standardmässig nach dem ausgewählten Feld sortiert.
@@ -8677,12 +8675,9 @@ dcl#:#dcl_err_formula_field_not_found#:#Feld mit dem Titel „%s“ existiert ni
 dcl#:#dcl_error_parsing_expression#:#Fehler beim Evaluieren des Ausdrucks
 dcl#:#dcl_export_enabled#:#Tabelle exportieren
 dcl#:#dcl_export_enabled_desc#:#Die Daten dieser Tabelle können exportiert werden. Achtung: In dem Export tauchen nur Felder auf, für die im Reiter "Felder" dieser Tabelle die Checkbox "Exportierbar" aktiviert wurde.
-dcl#:#dcl_export_finished#:#Export abgeschlossen
-dcl#:#dcl_export_started#:#Asynchroner Export gestartet
 dcl#:#dcl_field_datatype#:#Feldtyp
 dcl#:#dcl_field_description#:#Beschreibung
 dcl#:#dcl_field_description_desc#:#Wird ein Eintrag hinzugefügt, erscheint der Text unterhalb des Feldes.
-dcl#:#dcl_field_required#:#Verpflichtend
 dcl#:#dcl_field_title_change_warning#:#Sie haben den Titel des Feldes geändert. Dadurch funktioniert der entsprechende Platzhalter in der Vorlage zur Einzelansicht nicht mehr. Sie müssen diesen noch manuell angepassen.
 dcl#:#dcl_field_title_unique#:#Es existiert bereits ein Feld mit diesem Titel. Titel muss eindeutig sein.
 dcl#:#dcl_field_visible#:#Sichtbar
@@ -8703,7 +8698,6 @@ dcl#:#dcl_id_description#:#Die interne ID.
 dcl#:#dcl_ilias_reference#:#Objekt im Magazin
 dcl#:#dcl_ilias_reference_desc#:#Auswahl eines Obiektes im Magazin
 dcl#:#dcl_ilias_reference_link#:#Ausgewähltes Objekt verlinken
-dcl#:#dcl_import#:#Datensammlung importieren
 dcl#:#dcl_import_enabled#:#Daten in Tabelle importieren
 dcl#:#dcl_import_enabled_desc#:#Es können per Excel Daten in die Tabelle importiert werden.
 dcl#:#dcl_import_records .xls#:#Excel-Import
@@ -8728,8 +8722,6 @@ dcl#:#dcl_link_detail_page#:#Link zur Einzelansicht
 dcl#:#dcl_link_detail_page_desc#:#Die Einzelansicht muss zusätzlich für die gewünschten Ansichten im Reiter „Einzelansicht“ aktiviert und konfiguriert werden.
 dcl#:#dcl_list_fields#:#Felder
 dcl#:#dcl_list_visibility_and_filter#:#Übersicht
-dcl#:#dcl_locked#:#Gesperrt
-dcl#:#dcl_locked_tooltip#:#Ein gesperrtes Feld lässt sich von Benutzern nicht mehr bearbeiten. Dies gilt nicht für Rollen mit dem Recht „Einstellungen bearbeiten“.
 dcl#:#dcl_manage#:#Verwalten
 dcl#:#dcl_max_digits#:#Maximale Anzahl Ziffern
 dcl#:#dcl_max_import#:#Die maximal erlaubte Anzahl an importierten Datensätze wurde überschritten.
@@ -8738,7 +8730,6 @@ dcl#:#dcl_mob#:#Bild, Audio, Video
 dcl#:#dcl_mob_desc#:#Hochgeladene Datei wird direkt in der Datensammlung präsentiert. Erlaubte Dateitypen: %s
 dcl#:#dcl_msg_field_modified#:#Feld wurde aktualisiert.
 dcl#:#dcl_msg_fields_deleted#:#Gelöschte Felder
-dcl#:#dcl_msg_info_alternatives#:#Die gewünschte Einzelansicht konnte nicht angezeigt werden. Entweder existiert keine Einzelansicht für diese Tabellenansicht oder Sie besitzen nicht die notwendigen Zugriffsrechte. Wählen Sie aus der Liste eine für Sie verfügbare Einzelansicht, um den Datensatz dennoch anzuzeigen.
 dcl#:#dcl_msg_mc_to_sc_confirmation#:#Ein Wechsel von Mehrfachauswahl auf Einfachauswahl kann bei existierenden Datensätzen zu einem Datenverlust führen. Sind Sie sicher, dass Sie fortfahren möchten?
 dcl#:#dcl_msg_no_perm_edit#:#Keine Berechtigung zum Bearbeiten dieses Eintrags
 dcl#:#dcl_msg_no_perm_view#:#Keine Berechtigung zum Ansehen dieses Eintrags
@@ -8754,13 +8745,11 @@ dcl#:#dcl_new_entries#:#Neue Einträge
 dcl#:#dcl_new_field#:#Neues Feld
 dcl#:#dcl_new_table#:#Neue Tabelle
 dcl#:#dcl_new_view#:#Neue Ansicht
-dcl#:#dcl_next_record#:#Nächster Eintrag
 dcl#:#dcl_no_entries#:#Keine Einträge
 dcl#:#dcl_no_entry#:#Kein Eintrag
 dcl#:#dcl_no_export_async_config#:#Keine SOAP-Konfiguration für asyncrone Exporte verfügbar.
 dcl#:#dcl_no_export_data_available#:#Keine Daten oder Felder für den Export verfügbar.
 dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt. Daher können noch keine Einträge eingefügt werden. Klicken Sie im Reiter "Tabellen" auf eine Tabelle und erstellen Sie mithilfe des Buttons "Feld hinzufügen" neue Felder.
-dcl#:#dcl_no_read_access_on_any_standard_view#:#Sie haben auf keine Standard-Tabellenansicht Lesezugriff.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
 dcl#:#dcl_no_such_reference#:#Der folgende Wert ist in der Referenztabelle nicht vorhanden:
 dcl#:#dcl_no_table_found#:#Keine Tabelle verfügbar.
@@ -8788,20 +8777,12 @@ dcl#:#dcl_owner_name#:#Im Besitz von (Name)
 dcl#:#dcl_page_type_dclf#:#Detailansicht
 dcl#:#dcl_placeholder_info#:#Um Daten aus Einträgen dieser Tabelle in deren Einzelansicht zu verwenden, nutzen Sie bitte die entsprechenden Platzhalter. Diese sind in den Tools für die Elemente „Text“ und „Datentabelle“ verfügbar.
 dcl#:#dcl_please_select#:#--- Bitte wählen ---
-dcl#:#dcl_plugin#:#Plugin
-dcl#:#dcl_plugin_desc#:#DataCollection-Feld Erweiterungen
-dcl#:#dcl_plugin_no_hooks_available#:#Keine aktiven Field-Type Plugins gefunden.
-dcl#:#dcl_prev_record#:#Vorheriger Eintrag
 dcl#:#dcl_prop_expression#:#Ausdruck
 dcl#:#dcl_prop_expression_info#:#Gültige Operatoren: <b>%s</b><br>Unterstützte Funktionen: <b>%s</b><br>Verwenden Sie Klammern <b>"(", ")"</b> zum Gruppieren von Ausdrücken.<br>Zeichenketten und Platzhalter verbinden mit &: <b>"Das Resultat ist " & [[Int 1]] * [[Int 2]]</b><br>Verwenden der Funktionen: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Gültige Felder (auf den Titel klicken um als Platzhalter in Ausdruck einzufügen):<br>%s<br><b>(Erlaubte Felder sind Checkbox, Zahl, Text und Datum die keine Formular-sensitiven Zeichen im Titel enthalten)</b>
-dcl#:#dcl_public_comments#:#Kommentare
-dcl#:#dcl_public_comments_desc#:#Benutzer können Datensätze dieser Tabelle kommentieren.
 dcl#:#dcl_rating#:#Bewertung
 dcl#:#dcl_rating_desc#:#Bestehende Einträge mit ein bis fünf Sternen bewerten.
-dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#Die folgenden Rollen haben Lesezugriff auf die Datensammlung, jedoch auf keine Standard-Ansicht der Tabellen:
 dcl#:#dcl_record#:#Eintrag
 dcl#:#dcl_record_deleted#:#Eintrag gelöscht.
-dcl#:#dcl_record_from_total#:#%d von %d
 dcl#:#dcl_record_settings#:#Eintragseinstellungen
 dcl#:#dcl_reference#:#Referenz
 dcl#:#dcl_reference_desc#:#Ein Feld, das ausgewählte Einträge aus einem anderen Feld anzeigt. Dieses andere Feld kann sich in einer anderen Tabelle befinden. Änderungen, die am ursprünglichen Eintrag vorgenommen wurden, wirken sich auf die in diesem Feld angezeigten Werte aus.
@@ -8811,12 +8792,9 @@ dcl#:#dcl_reference_title#:#Referenziertes Feld
 dcl#:#dcl_reference_title_desc#:#Eingaben aus dem ausgewählten Feld werden Auswahloptionen für dieses Feld.
 dcl#:#dcl_regex#:#Texteingabe einschränken
 dcl#:#dcl_regex_info#:#Es kann ein regulärer Ausdruck ohne Delimiter eingegeben werden. Automatisch werden dann bestimmte Einträge zurückgewiesen.
-dcl#:#dcl_required#:#Verpflichtend
 dcl#:#dcl_row_not_found#:# - Dieses Feld wurde in der Tabelle nicht gefunden.
 dcl#:#dcl_save_confirmation#:#Eingabe zusätzlich bestätigen
 dcl#:#dcl_save_confirmation_desc#:#Benutzer muss das Eintragen von neuen Datensätzen bestätigen.
-dcl#:#dcl_save_order#:#Sortierung speichern
-dcl#:#dcl_select#:#Auswahl der Tabelle
 dcl#:#dcl_selection_options#:#Optionen
 dcl#:#dcl_selection_type#:#Format
 dcl#:#dcl_selection_type_combobox#:#Einfachauswahl aus Auswahlmenü
@@ -8832,8 +8810,6 @@ dcl#:#dcl_supported_filetypes#:#Erlaubte Dateiendungen
 dcl#:#dcl_supported_filetypes_desc#:#Sie können hier kommagetrennt Dateiendungen angeben. Zum Beispiel: pdf, docx
 dcl#:#dcl_table#:#Tabelle
 dcl#:#dcl_table_id#:#Tabellen ID
-dcl#:#dcl_table_list_fields#:#Felder der ausgewählten Tabelle
-dcl#:#dcl_table_list_tables#:#Verfügbare Tabellen
 dcl#:#dcl_table_settings#:#Tabelleneinstellungen
 dcl#:#dcl_table_settings_saved#:#Tabelleneinstellungen wurden gespeichert.
 dcl#:#dcl_table_title_not_matching#:#Die Titel des Excel-Arbeitsblatts und der Tabelle in der Datensammlung stimmen nicht überein. Benennen Sie das Arbeitsblatt um, um einen korrekten Import zu gewährleisten.
@@ -8848,16 +8824,13 @@ dcl#:#dcl_tableview_default_value_fail#:#Einige numerische Standardwerte konnten
 dcl#:#dcl_tableview_field_access#:#Zugriffsrecht
 dcl#:#dcl_tableview_fieldsettings#:#Feldspezifische Einstellungen
 dcl#:#dcl_tableview_fieldtitle#:#Feld-Titel
-dcl#:#dcl_tableview_locked#:#Gesperrt
 dcl#:#dcl_tableview_locked_visible#:#Gesperrt & Sichtbar
 dcl#:#dcl_tableview_not_visible#:#Nicht sichtbar
 dcl#:#dcl_tableview_required#:#Verpflichtend
 dcl#:#dcl_tableview_required_visible#:#Verpflichtend & Sichtbar
 dcl#:#dcl_tableview_visible#:#Sichtbar
 dcl#:#dcl_tableviews#:#Ansichten
-dcl#:#dcl_tableviews_confirm_delete#:#Sind Sie sicher, dass die folgenden Ansichten gelöscht werden sollen?
 dcl#:#dcl_tableviews_of_X#:#Ansichten der Tabelle %s
-dcl#:#dcl_tableviews_table#:#Ansichten der ausgewählten Tabelle
 dcl#:#dcl_text#:#Texteingabe
 dcl#:#dcl_text_desc#:#Eingabefeld für Text, Links oder E-Mail-Adressen
 dcl#:#dcl_text_email_detail_desc#:#Bitte geben Sie eine gültige E-Mail-Adresse oder eine URL ein.
@@ -8876,7 +8849,6 @@ dcl#:#dcl_update_field#:#Feld aktualisieren
 dcl#:#dcl_update_record#:#Eintrag aktualisieren
 dcl#:#dcl_updated_entries#:#Bearbeitete Einträge
 dcl#:#dcl_url#:#Obligatorische URL oder E-Mail
-dcl#:#dcl_view_configuration#:#Ansichtskonfiguration
 dcl#:#dcl_view_own_records_perm#:#Nur eigene Einträge anzeigen
 dcl#:#dcl_view_own_records_perm_desc#:#Einträge von anderen Personen werden nicht angezeigt.
 dcl#:#dcl_view_viewdefinition#:#Vorlage für Einzelansicht
@@ -16525,7 +16497,6 @@ survey#:#default_codes_mail_subject#:#Ihr Zugangscode für die Umfrage %s
 survey#:#define_questionblock#:#Fragenblock anlegen
 survey#:#delete_saved_message#:#Textvorlage löschen
 survey#:#display_all_available#:#Alle verfügbaren anzeigen
-survey#:#dont_use_questionpool#:#Fragen nicht in einen Fragenpool einfügen und nur für diese Umfrage verfügbar machen
 survey#:#duplicate#:#Kopieren
 survey#:#edit_heading#:#Überschrift bearbeiten
 survey#:#end_date#:#Enddatum
@@ -16539,7 +16510,6 @@ survey#:#err_minvalueganswers#:#Der Minimalwert darf nicht größer sein als die
 survey#:#err_no_exact_answers#:#Bitte wählen Sie genau %s Antwort(en) aus.
 survey#:#err_no_max_answers#:#Bitte wählen Sie höchstens %s Antworten aus.
 survey#:#err_no_min_answers#:#Bitte wählen Sie mindestens %s Antwort(en) aus.
-survey#:#err_no_pool_name#:#Bitte geben Sie den Namen eines Fragenpools an.
 survey#:#error_retrieving_anonymous_survey#:#Das System konnte Ihre Umfragedaten unter dem Zugangsschlüssel %s nicht finden. Bitte überprüfen Sie den Zugangsschlüssel!
 survey#:#error_save_code#:#Werte wurden nicht korrekt gespeichert. <b>Die E-Mail %s ist nicht gültig.</b>. Vorname: „%s“, Nachname: „%s“.<br>
 survey#:#evaluation#:#Statistik
@@ -16707,8 +16677,6 @@ survey#:#search_groups#:#Gruppen
 survey#:#search_term#:#Suchbegriff(e)
 survey#:#select_option#:#--- Bitte wählen Sie eine Antwort aus ---
 survey#:#select_prior_question#:#Eine vorherige Frage auswählen
-survey#:#select_questionpool#:#Bitte geben Sie einen Fragenpool an, dem Sie die neu erstellte Frage zuordnen
-survey#:#select_questionpool_short#:#Fragenpool für Umfragen
 survey#:#select_relation#:#Relation auswählen
 survey#:#select_target_position_for_move_question#:#Bitte wählen Sie die Frage aus, die Sie in der Liste verschieben möchten. Sie können diese vor oder nach bestehenden Fragen einfügen.
 survey#:#select_value#:#Wert festlegen
@@ -16725,7 +16693,6 @@ survey#:#spl_move_insert_clipboard#:#Die ausgewählten Fragen wurden zum Verschi
 survey#:#spl_move_same_pool#:#Sie können Fragen nicht innerhalb desselben Fragenpools verschieben. Um Ihre Frage(n) zu verschieben, navigieren Sie bitte zu einem anderen Fragenpool und klicken Sie dort auf „Einfügen”.
 survey#:#spl_move_select_none#:#Bitte wählen Sie mindestens eine Frage zum Verschieben aus.
 survey#:#spl_online_property#:#Online
-survey#:#spl_online_property_description#:#Nur wenn der Fragenpool online ist, können die enthaltenen Fragen in Umfragen verwendet werden.
 survey#:#spl_paste_no_objects#:#Es befinden sich keine Fragen in der Zwischenablage. Bitte kopieren oder verschieben Sie eine Frage in die Zwischenablage, um sie hier einfügen zu können.
 survey#:#spl_paste_success#:#Frage(n) erfolgreich in den Fragenpool eingefügt.
 survey#:#spl_save_obligatory_state#:#„Verpflichtend“-Status speichern
@@ -16743,16 +16710,13 @@ survey#:#survey_360_appraisee_close_action_status#:#Umfrage wurde am %s geschlos
 survey#:#survey_360_appraisee_close_action_success#:#Sie haben Ihre 360°-Umfrage für Ihre Feedback-Geber geschlossen.
 survey#:#survey_360_appraisee_close_action_success_admin#:#Ausgewählte 360°-Umfragen für Feedback-Geber geschlossen.
 survey#:#survey_360_appraisee_close_table#:#Geschlossen am
-survey#:#survey_360_appraisee_info#:#Informationen über Feedback-Nehmer
 survey#:#survey_360_appraisee_is_closed#:#Diese Umfrage wurde vom Feedback-Nehmer geschlossen.
 survey#:#survey_360_appraisees#:#Feedback-Nehmer
 survey#:#survey_360_edit_raters#:#Feedback-Geber verwalten
 survey#:#survey_360_mode#:#360°-Feedback
 survey#:#survey_360_mode_info#:#Ermöglicht es Einzelpersonen, von mehreren Personen bewertet zu werden. Die Ergebnisse werden zusammengefasst.
 survey#:#survey_360_no_appraisees#:#Zur Zeit benötigen keine Feedback-Nehmer Ihre Bewertung
-survey#:#survey_360_no_closed_appraisees#:#Es sind noch keine Umfragen geschlossen worden.
 survey#:#survey_360_rate_other_appraisee#:#Feedback geben
-survey#:#survey_360_rate_other_appraisees#:#Feedback geben
 survey#:#survey_360_rater_finished#:#Umfrage abgeschlossen
 survey#:#survey_360_rater_mail_sent#:#Mail versendet
 survey#:#survey_360_rater_message_content_anonymous#:#Inhalt (Anonym)
@@ -16762,7 +16726,6 @@ survey#:#survey_360_rater_message_content_registered_default#:#Sie können die U
 survey#:#survey_360_rater_subject_default#:#Sie wurden als Feedback-Geber zu einer 360°-Umfrage eingeladen.
 survey#:#survey_360_raters#:#Feedback-Geber
 survey#:#survey_360_raters_finished#:#Bewertungen abgeschlossen
-survey#:#survey_360_raters_status_info#:#Umfrage abgeschlossen
 survey#:#survey_360_remove_appraisees#:#Feedback-Nehmer entfernen
 survey#:#survey_360_results#:#Zugang zu Ergebnissen für Feedback-Nehmer
 survey#:#survey_360_results_all#:#Alle Feedbacks
@@ -16814,7 +16777,6 @@ survey#:#survey_error_insert_incomplete_question#:#Sie haben versucht, eine unvo
 survey#:#survey_execution_exit#:#Zurück zum Magazin
 survey#:#survey_execution_exit_360#:#Zurück
 survey#:#survey_execution_sure_finish#:#Möchten Sie die Umfrage wirklich beenden? Danach können Sie Ihre Antworten nicht mehr bearbeiten.
-survey#:#survey_existing_pool#:#Vorhandenen Fragenpool verwenden
 survey#:#survey_finish#:#Umfrage beenden →
 survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
 survey#:#survey_from_x_points#:#Ab X Punkten
@@ -16823,9 +16785,7 @@ survey#:#survey_has_datasets_warning_page_view#:#Diese Umfrage enthält bereits 
 survey#:#survey_has_datasets_warning_page_view_link#:#Teilnehmende Personen bearbeiten
 survey#:#survey_introduction_info#:#Dieser Text wird dauerhaft im Reiter „Info“ angezeigt.
 survey#:#survey_is_offline#:#Die Umfrage ist offline und kann somit nicht gestartet werden.
-survey#:#survey_new_pool#:#Neuen Fragenpool anlegen
 survey#:#survey_next#:#Weiter →
-survey#:#survey_no_pool#:#Keinen Fragenpool verwenden
 survey#:#survey_not_available#:#n.a.
 survey#:#survey_notification_finished_introduction#:#Eine teilnehmende Person has die folgende Umfrage beendet:
 survey#:#survey_notification_finished_reason#:#Sie erhalten diese Nachricht, da Sie die Benachrichtigungsfunktion für die oben genannte Umfrage aktiviert haben.
@@ -16842,17 +16802,11 @@ survey#:#survey_notification_tutor_salutation#:#Hallo %s,
 survey#:#survey_notification_tutor_setting#:#Eine E-Mail nachdem alle Befragten die Umfrage beendet haben
 survey#:#survey_notification_tutor_subject#:#Alle Befragten haben die Umfrage „%s“ beendet
 survey#:#survey_order#:#Sortierung
-survey#:#survey_pool_selection#:#Poolauswahl
 survey#:#survey_previous#:#← Zurück
 survey#:#survey_question_editor#:#Listenansicht
 survey#:#survey_question_obligatory#:#(Diese Frage ist eine Pflichtfrage. Sie muss beantwortet werden!)
 survey#:#survey_question_pool#:#Fragenpool
 survey#:#survey_question_pool_title#:#Pool-Titel
-survey#:#survey_question_pool_usage#:#Fragenpool verwenden
-survey#:#survey_question_pool_usage_active#:#Fragen optional aus Pool hinzufügen
-survey#:#survey_question_pool_usage_active_info#:#Beim Anlegen einer Frage kann gewählt werden, ob die Frage direkt in der Umfrage erstellt oder aus einem bestehenden Fragenpool übernommen wird.
-survey#:#survey_question_pool_usage_inactive#:#Fragen nur in der Umfrage erstellen
-survey#:#survey_question_pool_usage_inactive_info#:#Die Umfrage bietet nur die Möglichkeit, Fragen direkt in der Umfrage zu erstellen. Eine Wiederverwendung von Fragen aus einem Fragenpool wird nicht unterstützt.
 survey#:#survey_question_title#:#Fragetitel
 survey#:#survey_questions#:#Fragen
 survey#:#survey_questions_to_clipboard_copy#:#Es wurden Fragen in die Zwischenablage kopiert. Wählen Sie ein Ziel oder leeren Sie die Zwischenablage.
@@ -16893,7 +16847,6 @@ survey#:#survey_sync_insufficient_permissions#:#Keine ausreichende Berechtigunge
 survey#:#survey_sync_question_copies#:#Fragenkopien synchronisieren
 survey#:#survey_sync_question_copies_info#:#Alle ausgewählten Fragen werden auf den aktuellen Stand der Poolfrage gebracht.
 survey#:#survey_sync_success#:#Die ausgewählten Fragen wurden aktualisiert.
-survey#:#survey_up_to_x_points#:#Bis zu x Punkten
 survey#:#survey_use_start_button#:#Die Umfrage kann ausschließlich durch durch den Button „Umfrage beginnen“ gestartet werden.
 survey#:#svy_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird nur der Titel der Umfrage angezeigt, die Fragen sind nicht zugänglich.
 survey#:#svy_activation_online_info#:#Nur wenn die Umfrage online ist, können Personen an dieser teilnehmen.
@@ -16966,7 +16919,6 @@ survey#:#svy_mail_context_rater_invitation_title#:#Umfrage: Feedback-Geber einla
 survey#:#svy_mail_context_reminder_info#:#Personen daran erinnern, an der Umfrage teilzunehmen
 survey#:#svy_mail_context_reminder_survey_title#:#Umfragetitel
 survey#:#svy_mail_context_reminder_title#:#Umfrage: Teilnahme-Erinnerung
-survey#:#svy_mail_own_results#:#Eigene Antworten per E-Mail versenden
 survey#:#svy_mail_own_results_body#:#Sie haben an folgender Umfrage teilgenommen:
 survey#:#svy_mail_own_results_subject#:#Umfrage „%s“ - Ihre Teilnahmebestätigung mit Antworten
 survey#:#svy_mail_send_confirmation#:#Teilnahmebestätigung anfordern
@@ -16978,7 +16930,6 @@ survey#:#svy_notification_tutor_results#:#Eine E-Mail mit den Umfrageergebnissen
 survey#:#svy_notification_tutor_results_alert#:#Diese Funktion erfordert ein Enddatum.
 survey#:#svy_notification_tutor_results_info#:#Nach dem Ablauf des Enddatum wird eine E-Mail mit den detailierten Umfrageergebnissen versendet.
 survey#:#svy_only_max_one_external_rater#:#Bitte wählen Sie nur einen externen Feedback-Geber aus.
-survey#:#svy_page_add_question#:#Neue %s hinzufügen
 survey#:#svy_page_error#:#Beim Beantworten einer Frage ist ein Fehler aufgetreten. Die Fehlermeldung finden Sie bei der betroffenen Frage!
 survey#:#svy_page_errors#:#Beim Beantworten mehrerer Fragen sind Fehler aufgetreten. Die Fehlermeldungen finden Sie bei den betroffenen Fragen!
 survey#:#svy_participant#:#Befragte
@@ -16998,8 +16949,6 @@ survey#:#svy_results_mail_confirm#:#Teilnahmebestätigung
 survey#:#svy_results_mail_confirm_info#:#Nach Beendigung der Umfrage kann eine Teilnahmebestätigung angefordert werden.
 survey#:#svy_results_mail_own#:#Eigene Antworten mitsenden
 survey#:#svy_results_mail_own_info#:#Die Antworten der teilnehmenden Person werden in ihrer Teilnahmebestätigungs-E-Mail aufgeführt.
-survey#:#svy_results_view_own#:#Eigene Antworten einsehen
-survey#:#svy_results_view_own_info#:#Eigene Antworten können nach Beendigung der Umfrage eingesehen werden. Die Antworten sind nicht änderbar.
 survey#:#svy_save_and_continue#:#Speichern und fortfahren
 survey#:#svy_save_sync#:#Speichern und Kopien aktualisieren
 survey#:#svy_search_user#:#Benutzer suchen
