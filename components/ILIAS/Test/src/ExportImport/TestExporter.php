@@ -164,6 +164,14 @@ class TestExporter implements Exporter
             )
         );
         $state->serializer()->group(
+            'question_set_config',
+            fn() => $this->exportQuestionSetConfig(
+                $state->collector(),
+                $state->transformations(),
+                $state->serializer(),
+            )
+        );
+        $state->serializer()->group(
             'additional_working_times',
             fn() => $this->exportAdditionalWorkingTimes(
                 $state->collector(),
@@ -285,7 +293,6 @@ class TestExporter implements Exporter
         $serializer->append('main', $transformations->normalize($main_settings));
         $serializer->append('scoring', $transformations->normalize($test->getScoreSettings()));
         $serializer->append('marks', $transformations->normalize($test->getMarkSchema()));
-        $serializer->append('question_set_config', $transformations->normalize($collector->getQuestionSetConfig()));
 
         if ($intro_page_id = $main_settings->getIntroductionSettings()->getIntroductionPageId()) {
             $state->addDependency('components/ILIAS/COPage', 'pg', ["tst:{$intro_page_id}"]);
@@ -320,6 +327,17 @@ class TestExporter implements Exporter
             $serializer->append('question', $normalized);
             $state->addDependency('components/ILIAS/COPage', 'pg', ["qpl:{$question->getId()}"]);
         }
+    }
+
+    private function exportQuestionSetConfig(
+        TestCollector $collector,
+        Transformations $transformations,
+        Serializer $serializer,
+    ): void {
+        $serializer->append(
+            'question_set_config',
+            $transformations->normalize($collector->getQuestionSetConfig())
+        );
     }
 
     private function exportSkillAssignments(
