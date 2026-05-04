@@ -36,13 +36,15 @@ class ilTestPassFinishTasks
 
     public function performFinishTasks(ilTestProcessLocker $process_locker, StatusOfAttempt $status_of_attempt)
     {
-        $process_locker->executeTestFinishOperation(function () use ($status_of_attempt) {
+        $should_send_notification = false;
+        $process_locker->executeTestFinishOperation(function () use ($status_of_attempt, &$should_send_notification) {
             $pass = $this->test_session->getPass();
 
             if (!$this->test_session->isSubmitted()) {
                 $this->test_session->setSubmitted();
                 $this->test_session->setSubmittedTimestamp();
                 $this->test_session->saveToDb();
+                $should_send_notification = true;
             }
 
             $last_started_pass = (
@@ -68,6 +70,7 @@ class ilTestPassFinishTasks
         $this->obj_test->updateTestResultCache($this->test_session->getActiveId(), null);
 
         $this->updateLearningProgressAfterPassFinishedIsWritten();
+        return $should_send_notification;
     }
 
     protected function updateLearningProgressAfterPassFinishedIsWritten()
