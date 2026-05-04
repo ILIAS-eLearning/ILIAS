@@ -9791,8 +9791,8 @@ div.alert ul {
   padding: 6px 15px;
 }
 .panel-secondary .panel-body .il-item-group .media .il-item-title {
-  margin: 0;
-  padding: 0;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 .panel-secondary .panel-body .il-item-group:first-child {
   margin-top: -15px;
