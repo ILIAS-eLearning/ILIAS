@@ -47,7 +47,7 @@ class Authentication implements Component\Component
                 }
                 public function offsetSet(mixed $offset, mixed $value): void
                 {
-                    if (!is_string($offset)) {
+                    if (!\is_string($offset)) {
                         throw new \InvalidArgumentException('Offset needs to be of type string.');
                     }
                     \ilSession::set($offset, $value);
@@ -67,7 +67,14 @@ class Authentication implements Component\Component
             new Component\Resource\Endpoint($this, 'sessioncheck.php');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, 'js/dist/SessionReminder.min.js');
-        $contribute[User\Settings\UserSettings::class] = fn() =>
+        $contribute[User\Settings\UserSettings::class] = static fn() =>
             new Authentication\UserSettings\Settings();
+
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ilAuthDestroyExpiredSessionsCron(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
+            );
     }
 }

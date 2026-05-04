@@ -104,7 +104,7 @@ class JobTable implements \ILIAS\UI\Component\Table\DataRetrieval
             );
 
             yield $row_builder
-                ->buildDataRow($item->getEffectiveJobId(), $record)
+                ->buildDataRow($item->getJobId(), $record)
                 ->withDisabledAction('run', !$may_run)
                 ->withDisabledAction('activate', !$may_activate)
                 ->withDisabledAction('deactivate', !$may_deactivate)
@@ -180,7 +180,7 @@ class JobTable implements \ILIAS\UI\Component\Table\DataRetrieval
     private function formatTitle(JobEntity $entity): string
     {
         $title = implode('', [
-            '<span class="cron-title" id="job-' . $entity->getEffectiveJobId() . '">',
+            '<span class="cron-title" id="job-' . $entity->getJobId() . '">',
             $entity->getEffectiveTitle(),
             '</span>'
         ]);
@@ -222,12 +222,7 @@ class JobTable implements \ILIAS\UI\Component\Table\DataRetrieval
 
     public function formatComponent(JobEntity $entity): string
     {
-        $component = $entity->getComponent();
-        if ($entity->isPlugin()) {
-            $component = $this->lng->txt('cmps_plugin') . '/' . $component;
-        }
-
-        return $component;
+        return $entity->getComponent();
     }
 
     private function formatStatusInfo(JobEntity $entity): string

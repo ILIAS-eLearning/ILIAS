@@ -19,7 +19,4 @@
 		<event type="listen" id="components/ILIAS/ILIASObject" />
 		<event type="raise" id="deleteSkill" />
 	</events>
-	<crons>
-		<cron id="skll_notification" class="ilSkillNotifications" />
-	</crons>
 </service>

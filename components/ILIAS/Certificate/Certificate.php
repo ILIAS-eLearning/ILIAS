@@ -33,8 +33,13 @@ class Certificate implements Component\Component
         array | \ArrayAccess &$internal,
     ): void {
         $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
-            new \ilCertificatSetupAgent(
-                $pull[\ILIAS\Refinery\Factory::class]
+            new \ilCertificatSetupAgent();
+
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ilCertificateCron(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
             );
     }
 }

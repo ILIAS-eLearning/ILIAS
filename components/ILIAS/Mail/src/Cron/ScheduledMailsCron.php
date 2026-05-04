@@ -21,55 +21,40 @@ declare(strict_types=1);
 namespace ILIAS\Mail\Cron;
 
 use ilMail;
-use Generator;
 use ilContext;
 use ilObjUser;
 use Throwable;
-use ilLanguage;
-use DateTimeZone;
 use ilFormatMail;
-use ilDBConstants;
-use ilDBInterface;
-use ilLoggerFactory;
-use DateTimeImmutable;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Data\Clock\ClockFactory;
-use ILIAS\Mail\Folder\MailFolderType;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use MailDeliveryData;
 use ILIAS\Mail\Folder\OutboxDatabaseRepository;
 use ILIAS\Mail\Folder\OutboxRepository;
-use ILIAS\Mail\Folder\MailScheduleData;
 
-class ScheduledMailsCron extends CronJob
+class ScheduledMailsCron extends AbstractCronJob
 {
-    private readonly ilLanguage $lng;
-    private readonly ilObjUser $user;
-    private bool $init_done = false;
-    private readonly ilMail $mail;
-    private readonly ilFormatMail $umail;
+    private ilObjUser $user;
+    private ilMail $mail;
+    private ilFormatMail $umail;
     private OutboxRepository $outbox_repository;
 
-    private function init(): void
+    public function init(): void
     {
         global $DIC;
 
-        if (!$this->init_done) {
-            $this->lng = $DIC->language();
-            $this->user = $DIC->user();
-            $this->mail = new ilMail($this->user->getId());
-            $this->umail = new ilFormatMail($this->user->getId());
+        $this->language->loadLanguageModule('mail');
 
-            $this->lng->loadLanguageModule('mail');
-            $this->init_done = true;
-            $this->outbox_repository = new OutboxDatabaseRepository(
-                $DIC->database(),
-                (new DataFactory())->clock(),
-                $this->mail
-            );
-        }
+        $this->user = $DIC->user();
+        $this->mail = new ilMail($this->user->getId());
+        $this->umail = new ilFormatMail($this->user->getId());
+
+        $this->outbox_repository = new OutboxDatabaseRepository(
+            $DIC->database(),
+            new DataFactory()->clock(),
+            $this->mail
+        );
     }
 
     public function getId(): string
@@ -79,16 +64,12 @@ class ScheduledMailsCron extends CronJob
 
     public function getTitle(): string
     {
-        $this->init();
-
-        return $this->lng->txt('mail_cron_scheduled_mails');
+        return $this->language->txt('mail_cron_scheduled_mails');
     }
 
     public function getDescription(): string
     {
-        $this->init();
-
-        return $this->lng->txt('mail_cron_scheduled_mails_desc');
+        return $this->language->txt('mail_cron_scheduled_mails_desc');
     }
 
     public function hasAutoActivation(): bool
@@ -113,12 +94,10 @@ class ScheduledMailsCron extends CronJob
 
     public function run(): JobResult
     {
-        $this->init();
-
         $job_result = new JobResult();
         $job_result->setStatus(JobResult::STATUS_OK);
 
-        ilLoggerFactory::getLogger('mail')->info('Start sending scheduled mails from all users.');
+        \ilLoggerFactory::getLogger('mail')->info('Start sending scheduled mails from all users.');
 
         $mails = $this->outbox_repository->getOutboxMails();
         $sent_mail_ids = [];
@@ -146,7 +125,7 @@ class ScheduledMailsCron extends CronJob
                 }
             } catch (Throwable $e) {
                 $job_result->setStatus(JobResult::STATUS_FAIL);
-                ilLoggerFactory::getLogger('mail')->error(
+                \ilLoggerFactory::getLogger('mail')->error(
                     'Error sending scheduled mail with id ' . ((string) ($mail->getInternalMailId() ?? 'unknown')) . ': ' .
                     $e->getMessage() . '\n' . $e->getTraceAsString()
                 );
@@ -158,10 +137,10 @@ class ScheduledMailsCron extends CronJob
                 $this->mail->deleteMails($sent_mail_ids);
             }
         }
-        ilLoggerFactory::getLogger('mail')->info(
-            'Sent ' . count($sent_mail_ids) . ' scheduled mails and removed them from outbox.'
+        \ilLoggerFactory::getLogger('mail')->info(
+            'Sent ' . \count($sent_mail_ids) . ' scheduled mails and removed them from outbox.'
         );
-        $job_result->setMessage('Processed ' . count($sent_mail_ids) . ' mails.');
+        $job_result->setMessage('Processed ' . \count($sent_mail_ids) . ' mails.');
 
         return $job_result;
     }

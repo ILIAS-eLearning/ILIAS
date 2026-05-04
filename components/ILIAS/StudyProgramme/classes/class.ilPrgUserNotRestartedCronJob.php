@@ -20,40 +20,41 @@ declare(strict_types=1);
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * Inform a user, that her qualification is about to expire
  */
-class ilPrgUserNotRestartedCronJob extends CronJob
+class ilPrgUserNotRestartedCronJob extends AbstractCronJob
 {
     private const ID = 'prg_user_not_restarted';
 
-    protected ilComponentLogger $log;
-    protected ilLanguage $lng;
+    protected ilLogger $log;
     protected ilPRGAssignmentDBRepository $assignment_repo;
     protected ilPrgCronJobAdapter $adapter;
 
-    public function __construct()
+    public function init(): void
     {
         global $DIC;
-        $this->log = $DIC['ilLog'];
-        $this->lng = $DIC['lng'];
-        $this->lng->loadLanguageModule('prg');
+
+        $this->language->loadLanguageModule('prg');
+
+        $this->log = $DIC->logger()->root();
 
         $dic = ilStudyProgrammeDIC::dic();
         $this->assignment_repo = $dic['repo.assignment'];
         $this->adapter = $dic['cron.notRestarted'];
     }
 
+
     public function getTitle(): string
     {
-        return $this->lng->txt('prg_user_not_restarted_title');
+        return $this->language->txt('prg_user_not_restarted_title');
     }
 
     public function getDescription(): string
     {
-        return $this->lng->txt('prg_user_not_restarted_desc');
+        return $this->language->txt('prg_user_not_restarted_desc');
     }
 
     public function getId(): string

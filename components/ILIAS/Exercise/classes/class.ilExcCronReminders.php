@@ -18,7 +18,7 @@
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * Cron for exercise reminders
@@ -26,38 +26,26 @@ use ILIAS\Cron\CronJob;
  * @author Jesús López <lopez@leifos.com>
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilExcCronReminders extends CronJob
+class ilExcCronReminders extends AbstractCronJob
 {
-    protected ilLanguage $lng;
-
-    public function __construct()
-    {
-        global $DIC;
-
-        $this->lng = $DIC->language();
-    }
-
     public function getId(): string
     {
         return "exc_reminders";
     }
 
+    public function init(): void
+    {
+        $this->language->loadLanguageModule("exc");
+    }
+
     public function getTitle(): string
     {
-        $lng = $this->lng;
-
-        $lng->loadLanguageModule("exc");
-
-        return $lng->txt("exc_reminders_cron");
+        return $this->language->txt("exc_reminders_cron");
     }
 
     public function getDescription(): string
     {
-        $lng = $this->lng;
-
-        $lng->loadLanguageModule("exc");
-
-        return $lng->txt("exc_reminders_cron_info");
+        return $this->language->txt("exc_reminders_cron_info");
     }
 
     public function getDefaultScheduleType(): JobScheduleType

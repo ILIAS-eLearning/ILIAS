@@ -29,8 +29,11 @@ class ilPrgRestartAssignmentsCronJobMock extends ilPrgRestartAssignmentsCronJob
     public function __construct(
         ilPRGAssignmentDBRepository $repo,
         ilPrgCronJobAdapter $adapter,
-        ilObjStudyProgramme $prg
+        ilObjStudyProgramme $prg,
+        \ILIAS\Language\Language $language,
+        \ILIAS\Logging\LoggerFactory $logger_factory,
     ) {
+        parent::__construct(\ILIAS\StudyProgramme::class, $language, $logger_factory);
         $this->assignment_repo = $repo;
         $this->adapter = $adapter;
         $this->prg = $prg;
@@ -85,7 +88,13 @@ class ilPrgRestartAssignmentsCronJobTest extends TestCase
             ->onlyMethods(['getApplicableMembershipSourceForUser', 'getSettings', 'assignUser', 'getRefIdFor'])
             ->getMock();
 
-        $this->job = new ilPrgRestartAssignmentsCronJobMock($this->assignment_repo, $this->adapter, $this->prg);
+        $this->job = new ilPrgRestartAssignmentsCronJobMock(
+            $this->assignment_repo,
+            $this->adapter,
+            $this->prg,
+            $this->createMock(\ILIAS\Language\Language::class),
+            $this->getMockBuilder(\ILIAS\Logging\LoggerFactory::class)->disableOriginalConstructor()->getMock()
+        );
     }
 
     public function testRestartAssignmentsForNoRelevantProgrammes(): void
@@ -196,7 +205,13 @@ class ilPrgRestartAssignmentsCronJobTest extends TestCase
             ->method('assignUser')
             ->will($this->onConsecutiveCalls($ass1, $ass2));
 
-        $job = new ilPrgRestartAssignmentsCronJobMock($this->assignment_repo, $this->real_adapter, $this->prg);
+        $job = new ilPrgRestartAssignmentsCronJobMock(
+            $this->assignment_repo,
+            $this->real_adapter,
+            $this->prg,
+            $this->createMock(\ILIAS\Language\Language::class),
+            $this->getMockBuilder(\ILIAS\Logging\LoggerFactory::class)->disableOriginalConstructor()->getMock()
+        );
         $job->run();
 
         $this->assertEquals(2, count($job->logs));

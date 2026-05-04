@@ -18,73 +18,47 @@
 
 declare(strict_types=1);
 
-use ILIAS\Language\Language;
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * This cron deletes user accounts by INACTIVATION period
- * @author Bjoern Heyser <bheyser@databay.de>
- * @package components/ILIAS/User
  */
-class ilCronDeleteInactivatedUserAccounts extends CronJob
+class ilCronDeleteInactivatedUserAccounts extends AbstractCronJob
 {
-    private const DEFAULT_INACTIVITY_PERIOD = 365;
+    private const int DEFAULT_INACTIVITY_PERIOD = 365;
     private int $period;
     /** @var int[] */
     private array $include_roles;
     private ilSetting $settings;
-    private Language $lng;
     private ilRbacReview $rbac_review;
     private ilObjectDataCache $objectDataCache;
     private \ILIAS\HTTP\GlobalHttpState $http;
     private \ILIAS\Refinery\Factory $refinery;
 
-    public function __construct()
+    public function init(): void
     {
-        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        if (isset($DIC['http'])) {
-            $this->http = $DIC['http'];
-        }
+        $this->language->loadLanguageModule('usr');
 
-        if (isset($DIC['lng'])) {
-            $this->lng = $DIC['lng'];
-        }
+        $this->http = $DIC['http'];
+        $this->refinery = $DIC['refinery'];
+        $this->objectDataCache = $DIC['ilObjDataCache'];
+        $this->rbac_review = $DIC['rbacreview'];
+        $this->settings = $DIC['ilSetting'];
 
-        if (isset($DIC['refinery'])) {
-            $this->refinery = $DIC['refinery'];
-        }
-
-        if (isset($DIC['ilObjDataCache'])) {
-            $this->objectDataCache = $DIC['ilObjDataCache'];
-        }
-
-        if (isset($DIC['rbacreview'])) {
-            $this->rbac_review = $DIC['rbacreview'];
-        }
-
-        if (isset($DIC['ilSetting'])) {
-            $this->settings = $DIC['ilSetting'];
-
-            $include_roles = $this->settings->get(
-                'cron_inactivated_user_delete_include_roles',
-                null
-            );
-            if ($include_roles === null) {
-                $this->include_roles = [];
-            } else {
-                $this->include_roles = array_filter(array_map('intval', explode(',', $include_roles)));
-            }
-
-            $this->period = (int) $this->settings->get(
-                'cron_inactivated_user_delete_period',
-                (string) self::DEFAULT_INACTIVITY_PERIOD
-            );
-        }
+        $include_roles = $this->settings->get('cron_inactivated_user_delete_include_roles', null);
+        $this->include_roles = $include_roles === null
+            ? []
+            : array_filter(array_map('intval', explode(',', $include_roles)));
+        $this->period = (int) $this->settings->get(
+            'cron_inactivated_user_delete_period',
+            (string) self::DEFAULT_INACTIVITY_PERIOD
+        );
     }
+
 
     public function getId(): string
     {
@@ -93,13 +67,13 @@ class ilCronDeleteInactivatedUserAccounts extends CronJob
 
     public function getTitle(): string
     {
-        return $this->lng->txt("delete_inactivated_user_accounts");
+        return $this->language->txt("delete_inactivated_user_accounts");
     }
 
     public function getDescription(): string
     {
         return sprintf(
-            $this->lng->txt("delete_inactivated_user_accounts_desc"),
+            $this->language->txt("delete_inactivated_user_accounts_desc"),
             $this->period
         );
     }
@@ -164,10 +138,10 @@ class ilCronDeleteInactivatedUserAccounts extends CronJob
     public function addCustomSettingsToForm(ilPropertyFormGUI $a_form): void
     {
         $sub_mlist = new ilMultiSelectInputGUI(
-            $this->lng->txt('delete_inactivated_user_accounts_include_roles'),
+            $this->language->txt('delete_inactivated_user_accounts_include_roles'),
             'cron_inactivated_user_delete_include_roles'
         );
-        $sub_mlist->setInfo($this->lng->txt('delete_inactivated_user_accounts_include_roles_desc'));
+        $sub_mlist->setInfo($this->language->txt('delete_inactivated_user_accounts_include_roles_desc'));
         $roles = [];
         foreach ($this->rbac_review->getGlobalRoles() as $role_id) {
             if ($role_id !== ANONYMOUS_ROLE_ID) {
@@ -186,11 +160,11 @@ class ilCronDeleteInactivatedUserAccounts extends CronJob
         $a_form->addItem($sub_mlist);
 
         $sub_text = new ilNumberInputGUI(
-            $this->lng->txt('delete_inactivated_user_accounts_period'),
+            $this->language->txt('delete_inactivated_user_accounts_period'),
             'cron_inactivated_user_delete_period'
         );
         $sub_text->allowDecimals(false);
-        $sub_text->setInfo($this->lng->txt('delete_inactivated_user_accounts_period_desc'));
+        $sub_text->setInfo($this->language->txt('delete_inactivated_user_accounts_period_desc'));
         $sub_text->setValue(
             $this->settings->get(
                 'cron_inactivated_user_delete_period',

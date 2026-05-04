@@ -39,5 +39,12 @@ class LTIProvider implements Component\Component
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\Endpoint($this, "lti.php");
+
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ilLTICronOutcomeService(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
+            );
     }
 }

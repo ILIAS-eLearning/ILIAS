@@ -34,5 +34,12 @@ class Survey implements Component\Component
     ): void {
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentCSS($this, "survey.css");
+
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ilSurveyCronNotification(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
+            );
     }
 }

@@ -20,22 +20,22 @@ declare(strict_types=1);
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType as CronJobScheduleType;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
-class ilCalendarCronRemoteReader extends CronJob
+class ilCalendarCronRemoteReader extends AbstractCronJob
 {
     private const DEFAULT_SYNC_HOURS = 1;
 
-    private ilLanguage $lng;
     private ilLogger $logger;
 
     private ?ilCalendarSettings $calendar_settings = null;
 
-    public function __construct()
+    public function init(): void
     {
         global $DIC;
 
-        $this->lng = $DIC->language();
+        $this->language->loadLanguageModule('dateplaner');
+
         $this->logger = $DIC->logger()->cal();
         $this->calendar_settings = ilCalendarSettings::_getInstance();
     }
@@ -47,14 +47,12 @@ class ilCalendarCronRemoteReader extends CronJob
 
     public function getTitle(): string
     {
-        $this->lng->loadLanguageModule('dateplaner');
-        return $this->lng->txt('cal_cronjob_remote_title');
+        return $this->language->txt('cal_cronjob_remote_title');
     }
 
     public function getDescription(): string
     {
-        $this->lng->loadLanguageModule('dateplaner');
-        return $this->lng->txt('cal_cronjob_remote_description');
+        return $this->language->txt('cal_cronjob_remote_description');
     }
 
     public function hasAutoActivation(): bool
@@ -72,8 +70,8 @@ class ilCalendarCronRemoteReader extends CronJob
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_CALENDAR:
                 $a_fields['cal_webcal_sync'] = $a_is_active ?
-                    $this->lng->txt('enabled') :
-                    $this->lng->txt('disabled');
+                    $this->language->txt('enabled') :
+                    $this->language->txt('disabled');
                 break;
         }
     }

@@ -17,8 +17,5 @@
 		<event type="listen" id="components/ILIAS/Group" />
 		<event type="listen" id="components/ILIAS/LearningSequence" />
 	</events>
-	<crons>
-		<cron id="lp_object_statistics" class="ilLPCronObjectStatistics" />
-	</crons>
 	<logging />
 </service>

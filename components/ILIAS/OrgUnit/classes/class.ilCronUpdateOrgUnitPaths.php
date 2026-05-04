@@ -18,28 +18,16 @@
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * Class ilCronUpdateOrgUnitPaths
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilCronUpdateOrgUnitPaths extends CronJob
+class ilCronUpdateOrgUnitPaths extends AbstractCronJob
 {
     public const ID = "orgunit_paths";
-    protected ilDBInterface $db;
-    protected ilLogger $log;
-    protected ilTree $tree;
-
-    private ilLanguage $lng;
-
-    public function __construct()
-    {
-        global $DIC;
-
-        $this->lng = $DIC->language();
-    }
 
     public function getId(): string
     {
@@ -48,12 +36,12 @@ class ilCronUpdateOrgUnitPaths extends CronJob
 
     public function getTitle(): string
     {
-        return $this->lng->txt("update_orgunits");
+        return $this->language->txt("update_orgunits");
     }
 
     public function getDescription(): string
     {
-        return $this->lng->txt("update_orgunits_desc");
+        return $this->language->txt("update_orgunits_desc");
     }
 
     public function hasAutoActivation(): bool

@@ -49,5 +49,12 @@ class WOPI implements Component
 
         $contribute[PublicAsset::class] = fn(): ComponentJS =>
             new ComponentJS($this, "js/dist/wopi.min.js");
+
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ilWOPICrawler(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
+            );
     }
 }

@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Cron\Job;
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\Cron\CronJob;
 
 class JobEntity
 {
@@ -49,21 +50,20 @@ class JobEntity
     /**
      * @param array<string, mixed> $record
      */
-    public function __construct(
-        private readonly \ILIAS\Cron\CronJob $job,
-        array $record,
-        private readonly bool $isPlugin = false
-    ) {
-        $this->mapRecord($record);
+    public function __construct(private readonly CronJob $job, array $record)
+    {
+        $job->init();
+
+        $this->mapRecord($job, $record);
     }
 
     /**
      * @param array<string, mixed> $record
      */
-    private function mapRecord(array $record): void
+    private function mapRecord(CronJob $job, array $record): void
     {
-        $this->job_id = (string) $record['job_id'];
-        $this->component = (string) $record['component'];
+        $this->job_id = $job->getId();
+        $this->component = $job->getComponent();
         $this->schedule_type = is_numeric($record['schedule_type']) ? JobScheduleType::tryFrom(
             (int) $record['schedule_type']
         ) : null;
@@ -87,7 +87,7 @@ class JobEntity
         $this->alive_timestamp = (int) $record['alive_ts'];
     }
 
-    public function getJob(): \ILIAS\Cron\CronJob
+    public function getJob(): CronJob
     {
         return $this->job;
     }
@@ -95,16 +95,6 @@ class JobEntity
     public function getJobId(): string
     {
         return $this->job_id;
-    }
-
-    public function getEffectiveJobId(): string
-    {
-        $job_id = $this->getJobId();
-        if ($this->isPlugin()) {
-            $job_id = 'pl__' . $this->getComponent() . '__' . $job_id;
-        }
-
-        return $job_id;
     }
 
     public function getComponent(): string
@@ -207,11 +197,6 @@ class JobEntity
         return $this->alive_timestamp;
     }
 
-    public function isPlugin(): bool
-    {
-        return $this->isPlugin;
-    }
-
     public function getEffectiveScheduleType(): JobScheduleType
     {
         $type = $this->getScheduleType();
@@ -236,11 +221,8 @@ class JobEntity
     public function getEffectiveTitle(): string
     {
         $id = $this->getJobId();
-        if ($this->isPlugin()) {
-            $id = 'pl__' . $this->getComponent() . '__' . $id;
-        }
-
         $title = $this->getJob()->getTitle();
+
         if ($title === '') {
             $title = $id;
         }

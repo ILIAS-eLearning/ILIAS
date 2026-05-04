@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * Class ilXapiResultsCronjob
@@ -31,7 +31,7 @@ use ILIAS\Cron\CronJob;
  *
  * @package     Module/CmiXapi
  */
-class ilXapiResultsCronjob extends CronJob
+class ilXapiResultsCronjob extends AbstractCronJob
 {
     public const LAST_RUN_TS_SETTING_NAME = 'cron_xapi_res_eval_last_run';
 
@@ -41,16 +41,11 @@ class ilXapiResultsCronjob extends CronJob
 
     protected ilLogger $log;
 
-    private \ILIAS\DI\Container $dic;
-
-    public function __construct()
+    public function init(): void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        $this->dic = $DIC;
+        $this->language->loadLanguageModule('cmix');
 
-        $DIC->language()->loadLanguageModule('cmix');
-
-        $this->log = ilLoggerFactory::getLogger('cmix');
+        $this->log = $this->logger_factory->getComponentLogger('cmix');
 
         $this->initThisRunTS();
         $this->readLastRunTS();
@@ -91,12 +86,12 @@ class ilXapiResultsCronjob extends CronJob
 
     public function getTitle(): string
     {
-        return $this->dic->language()->txt("cron_xapi_results_evaluation");
+        return $this->language->txt('cron_xapi_results_evaluation');
     }
 
     public function getDescription(): string
     {
-        return $this->dic->language()->txt("cron_xapi_results_evaluation_desc");
+        return $this->language->txt('cron_xapi_results_evaluation_desc');
     }
 
     public function hasAutoActivation(): bool

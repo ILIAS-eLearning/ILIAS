@@ -22,37 +22,49 @@ namespace ILIAS\Cron\Job;
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 
+/**
+ * @phpstan-type CronJobRecord array{
+ *     job_id: string,
+ *     component: string|null,
+ *     schedule_type: int|null,
+ *     schedule_value: int|null,
+ *     job_status: int|null,
+ *     job_status_user_id: int|null,
+ *     job_status_type: int|null,
+ *     job_status_ts: int|null,
+ *     job_result_status: int|null,
+ *     job_result_user_id: int|null,
+ *     job_result_code: string|null,
+ *     job_result_message: string|null,
+ *     job_result_type: int|null,
+ *     job_result_ts: int|null,
+ *     class: string|null,
+ *     running_ts: int|null,
+ *     job_result_dur: int|null,
+ *     alive_ts: int|null
+ * }
+ */
 interface JobRepository
 {
     public function getJobInstanceById(string $id): ?\ILIAS\Cron\CronJob;
 
     public function getJobInstance(
-        string $a_id,
-        string $a_component,
-        string $a_class,
-        bool $isCreationContext = false
+        string $id,
+        string $component,
+        string $class,
     ): ?\ILIAS\Cron\CronJob;
 
     /**
      * Get cron job configuration/execution data
-     * @param list<string>|string|null $id
-     * @return list<array<string, mixed>>
+     * @param null|list<string>|string $id
+     * @return list<CronJobRecord>
      */
-    public function getCronJobData($id = null, bool $withInactiveJobsIncluded = true): array;
-
-    public function registerJob(string $a_component, string $a_id, string $a_class, ?string $a_path): void;
+    public function getCronJobData(null|array|string $id = null, bool $with_inactive_jobs_included = true): array;
 
     /**
-     * @param list<string> $a_xml_job_ids
+     * Ensures all jobs from the component registry exist in persistence, also removes obsolete jobs.
      */
-    public function unregisterJob(string $a_component, array $a_xml_job_ids): void;
-
-    public function createDefaultEntry(\ILIAS\Cron\CronJob $job, string $component, string $class, ?string $path): void;
-
-    /**
-     * @return array<string, array{0: \ILIAS\Cron\CronJob, 1: array<string, mixed>}>
-     */
-    public function getPluginJobs(bool $withOnlyActive = false): array;
+    public function syncJobsFromRegistry(): void;
 
     public function resetJob(\ILIAS\Cron\CronJob $job): void;
 
@@ -61,25 +73,29 @@ interface JobRepository
         \DateTimeImmutable $when,
         \ilObjUser $actor,
         JobResult $result,
-        bool $wasManualExecution = false
+        bool $was_manual_execution = false
     ): void;
 
-    public function updateRunInformation(string $jobId, int $runningTimestamp, int $aliveTimestamp): void;
+    public function updateRunInformation(string $id, int $running_timestamp, int $alive_timestamp): void;
 
-    public function updateJobSchedule(\ILIAS\Cron\CronJob $job, ?JobScheduleType $scheduleType, ?int $scheduleValue): void;
+    public function updateJobSchedule(
+        \ILIAS\Cron\CronJob $job,
+        ?JobScheduleType $schedule_type,
+        ?int $schedule_value
+    ): void;
 
     public function activateJob(
         \ILIAS\Cron\CronJob $job,
         \DateTimeImmutable $when,
         \ilObjUser $actor,
-        bool $wasManuallyExecuted = false
+        bool $was_manually_executed = false
     ): void;
 
     public function deactivateJob(
         \ILIAS\Cron\CronJob $job,
         \DateTimeImmutable $when,
         \ilObjUser $actor,
-        bool $wasManuallyExecuted = false
+        bool $was_manually_executed = false
     ): void;
 
     public function findAll(): JobCollection;

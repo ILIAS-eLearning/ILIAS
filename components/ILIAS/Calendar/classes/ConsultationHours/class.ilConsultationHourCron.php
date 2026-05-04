@@ -20,24 +20,24 @@ declare(strict_types=1);
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * Reminders for consultation hours
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
-class ilConsultationHourCron extends CronJob
+class ilConsultationHourCron extends AbstractCronJob
 {
-    protected ilLanguage $lng;
     protected ilDBInterface $db;
     protected ilSetting $setting;
 
-    public function __construct()
+
+    public function init(): void
     {
         global $DIC;
 
-        $this->lng = $DIC->language();
-        $this->lng->loadLanguageModule('dateplaner');
+        $this->language->loadLanguageModule('dateplaner');
+
         $this->db = $DIC->database();
         $this->setting = $DIC->settings();
     }
@@ -49,12 +49,12 @@ class ilConsultationHourCron extends CronJob
 
     public function getTitle(): string
     {
-        return $this->lng->txt("cal_ch_cron_reminder");
+        return $this->language->txt("cal_ch_cron_reminder");
     }
 
     public function getDescription(): string
     {
-        return $this->lng->txt("cal_ch_cron_reminder_info");
+        return $this->language->txt("cal_ch_cron_reminder_info");
     }
 
     public function getDefaultScheduleType(): JobScheduleType
@@ -124,7 +124,7 @@ class ilConsultationHourCron extends CronJob
 
     public function addCustomSettingsToForm(ilPropertyFormGUI $a_form): void
     {
-        $consultation_days = new ilNumberInputGUI($this->lng->txt('cal_ch_cron_reminder_days'), 'ch_reminder_days');
+        $consultation_days = new ilNumberInputGUI($this->language->txt('cal_ch_cron_reminder_days'), 'ch_reminder_days');
         $consultation_days->setMinValue(1);
         $consultation_days->setMaxLength(2);
         $consultation_days->setSize(2);

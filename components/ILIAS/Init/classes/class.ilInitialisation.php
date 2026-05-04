@@ -214,17 +214,17 @@ class ilInitialisation
     {
         global $DIC;
 
-        $DIC['filesystem.security.sanitizing.filename'] = function (Container $c) {
+        $DIC['filesystem.security.sanitizing.filename'] = static function (Container $c) {
             return new ilFileServicesFilenameSanitizer(
                 $c->fileServiceSettings()
             );
         };
 
-        $DIC['filesystem.factory'] = function ($c) {
+        $DIC['filesystem.factory'] = static function ($c) {
             return new \ILIAS\Filesystem\Provider\DelegatingFilesystemFactory($c['filesystem.security.sanitizing.filename']);
         };
 
-        $DIC['filesystem.web'] = function ($c) {
+        $DIC['filesystem.web'] = static function ($c) {
             //web
 
             /**
@@ -235,7 +235,7 @@ class ilInitialisation
             return $delegatingFactory->getLocal($webConfiguration);
         };
 
-        $DIC['filesystem.storage'] = function ($c) {
+        $DIC['filesystem.storage'] = static function ($c) {
             //storage
 
             /**
@@ -246,7 +246,7 @@ class ilInitialisation
             return $delegatingFactory->getLocal($storageConfiguration);
         };
 
-        $DIC['filesystem.temp'] = function ($c) {
+        $DIC['filesystem.temp'] = static function ($c) {
             //temp
 
             /**
@@ -257,7 +257,7 @@ class ilInitialisation
             return $delegatingFactory->getLocal($tempConfiguration);
         };
 
-        $DIC['filesystem.customizing'] = function ($c) {
+        $DIC['filesystem.customizing'] = static function ($c) {
             //customizing
 
             /**
@@ -268,7 +268,7 @@ class ilInitialisation
             return $delegatingFactory->getLocal($customizingConfiguration);
         };
 
-        $DIC['filesystem.libs'] = function ($c) {
+        $DIC['filesystem.libs'] = static function ($c) {
             //customizing
 
             /**
@@ -279,7 +279,7 @@ class ilInitialisation
             return $delegatingFactory->getLocal($customizingConfiguration, true);
         };
 
-        $DIC['filesystem.node_modules'] = function ($c) {
+        $DIC['filesystem.node_modules'] = static function ($c) {
             //customizing
 
             /**
@@ -290,7 +290,7 @@ class ilInitialisation
             return $delegatingFactory->getLocal($customizingConfiguration, true);
         };
 
-        $DIC['filesystem'] = function ($c) {
+        $DIC['filesystem'] = static function ($c) {
             return new \ILIAS\Filesystem\FilesystemsImpl(
                 $c['filesystem.storage'],
                 $c['filesystem.web'],
@@ -305,16 +305,16 @@ class ilInitialisation
     /**
      * Initializes the file upload service.
      * This service requires the http and filesystem service.
-     * @param \ILIAS\DI\Container $dic The dependency container which should be used to load the file upload service.
+     * @param Container $dic The dependency container which should be used to load the file upload service.
      * @return void
      */
-    public static function initFileUploadService(\ILIAS\DI\Container $dic): void
+    public static function initFileUploadService(Container $dic): void
     {
-        $dic['upload.processor-manager'] = function ($c) {
+        $dic['upload.processor-manager'] = static function ($c) {
             return new PreProcessorManagerImpl();
         };
 
-        $dic['upload'] = function (\ILIAS\DI\Container $c) {
+        $dic['upload'] = static function (Container $c) {
             $fileUploadImpl = new \ILIAS\FileUpload\FileUploadImpl(
                 $c['upload.processor-manager'],
                 $c['filesystem'],
@@ -344,7 +344,7 @@ class ilInitialisation
         };
     }
 
-    protected static function initUploadPolicies(\ILIAS\DI\Container $dic): void
+    protected static function initUploadPolicies(Container $dic): void
     {
         $dic['upload_policy_repository'] = static function ($dic) {
             return new UploadPolicyDBRepository($dic->database());
@@ -716,19 +716,22 @@ class ilInitialisation
         }
     }
 
-    protected static function initCron(\ILIAS\DI\Container $c): void
+    protected static function initCron(Container $c): void
     {
-        $c['cron.repository'] = static function (\ILIAS\DI\Container $c): ILIAS\Cron\Job\JobRepository {
+        $c['cron.repository'] = static function (Container $c): ILIAS\Cron\Job\JobRepository {
             return new ILIAS\Cron\Job\Repository\JobRepositoryImpl(
+                $c[\ILIAS\Cron\CronJobRegistry::class],
                 $c->database(),
                 $c->settings(),
                 $c->logger()->cron(),
                 $c['component.repository'],
-                $c['component.factory']
+                $c['component.factory'],
+                $c['lng'],
+                $c['ilLoggerFactory']
             );
         };
 
-        $c['cron.manager'] = static function (\ILIAS\DI\Container $c): ILIAS\Cron\Job\JobManager {
+        $c['cron.manager'] = static function (Container $c): ILIAS\Cron\Job\JobManager {
             return new ILIAS\Cron\Job\Manager\JobManagerImpl(
                 $c['cron.repository'],
                 $c->database(),
@@ -740,11 +743,11 @@ class ilInitialisation
     }
 
     /**
-     * @param \ILIAS\DI\Container $c
+     * @param Container $c
      */
-    protected static function initCustomObjectIcons(\ILIAS\DI\Container $c): void
+    protected static function initCustomObjectIcons(Container $c): void
     {
-        $c["object.customicons.factory"] = function ($c) {
+        $c["object.customicons.factory"] = static function ($c) {
             return new CustomIconFactory(
                 $c->filesystem()->web(),
                 $c->upload(),
@@ -753,9 +756,9 @@ class ilInitialisation
         };
     }
 
-    protected static function initAvatar(\ILIAS\DI\Container $c): void
+    protected static function initAvatar(Container $c): void
     {
-        $c["user.avatar.factory"] = function ($c) {
+        $c["user.avatar.factory"] = static function ($c) {
             return new \ilUserAvatarFactory($c);
         };
     }
@@ -770,13 +773,13 @@ class ilInitialisation
         MailService::init($c);
     }
 
-    protected static function initAccessibilityControlConcept(\ILIAS\DI\Container $c): void
+    protected static function initAccessibilityControlConcept(Container $c): void
     {
-        $c['acc.criteria.type.factory'] = function (\ILIAS\DI\Container $c) {
+        $c['acc.criteria.type.factory'] = static function (Container $c) {
             return new ilAccessibilityCriterionTypeFactory($c->rbac()->review(), $c['ilObjDataCache']);
         };
 
-        $c['acc.document.evaluator'] = function (\ILIAS\DI\Container $c) {
+        $c['acc.document.evaluator'] = static function (Container $c) {
             return new ilAccessibilitySequentialDocumentEvaluation(
                 new ilAccessibilityLogicalAndDocumentCriteriaEvaluation(
                     $c['acc.criteria.type.factory'],
@@ -1154,7 +1157,7 @@ class ilInitialisation
             return;
         }
 
-        $GLOBALS["DIC"]["ilLoggerFactory"] = function ($c) {
+        $GLOBALS["DIC"]["ilLoggerFactory"] = static function ($c) {
             return ilLoggerFactory::getInstance();
         };
 
@@ -1479,9 +1482,9 @@ class ilInitialisation
     }
 
     /**
-     * @param \ILIAS\DI\Container $container
+     * @param Container $container
      */
-    protected static function initHTTPServices(\ILIAS\DI\Container $container): void
+    protected static function initHTTPServices(Container $container): void
     {
         $init_http = new InitHttpServices();
         $init_http->init($container);
@@ -1490,11 +1493,11 @@ class ilInitialisation
     }
 
     /**
-     * @param \ILIAS\DI\Container $c
+     * @param Container $c
      */
-    private static function initGlobalScreen(\ILIAS\DI\Container $c): void
+    private static function initGlobalScreen(Container $c): void
     {
-        $c['global_screen'] = function () use ($c) {
+        $c['global_screen'] = static function () use ($c) {
             return new Services(
                 new ilGSProviderFactory($c),
                 $c->ui(),
@@ -1509,7 +1512,7 @@ class ilInitialisation
      * @deprecated this mechanism will be removed as part of the component revision and
      *             the refactoring to the new bootstrap mechanism.
      */
-    public static function applyPluginManipulationsToUiFramework(\ILIAS\DI\Container $c): void
+    public static function applyPluginManipulationsToUiFramework(Container $c): void
     {
         $component_repository = $c["component.repository"];
         $component_factory = $c["component.factory"];
@@ -1533,7 +1536,7 @@ class ilInitialisation
     /**
      * @param Container $container
      */
-    protected static function replaceSuperGlobals(\ILIAS\DI\Container $container): void
+    protected static function replaceSuperGlobals(Container $container): void
     {
         /** @var ilIniFile $client_ini */
         $client_ini = $container['ilClientIniFile'];
@@ -1553,7 +1556,7 @@ class ilInitialisation
         }
     }
 
-    protected static function initComponentService(\ILIAS\DI\Container $container): void
+    protected static function initComponentService(Container $container): void
     {
         $init = new InitComponentService();
         $init->init($container);
@@ -1893,7 +1896,7 @@ class ilInitialisation
         }
     }
 
-    private static function initBackgroundTasks(\ILIAS\DI\Container $c): void
+    private static function initBackgroundTasks(Container $c): void
     {
         global $ilIliasIniFile;
 
@@ -1903,19 +1906,19 @@ class ilInitialisation
         $n_of_tasks = $n_of_tasks ?: 5;
         $sync = $sync ?: 'sync'; // The default value is sync.
 
-        $c["bt.task_factory"] = function ($c) {
+        $c["bt.task_factory"] = static function ($c) {
             return new \ILIAS\BackgroundTasks\Implementation\Tasks\BasicTaskFactory($c["di.injector"]);
         };
 
-        $c["bt.persistence"] = function ($c) {
+        $c["bt.persistence"] = static function ($c) {
             return \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence::instance($c->database());
         };
 
-        $c["bt.injector"] = function ($c) {
+        $c["bt.injector"] = static function ($c) {
             return new \ILIAS\BackgroundTasks\Dependencies\Injector($c, new BaseDependencyMap());
         };
 
-        $c["bt.task_manager"] = function ($c) use ($sync) {
+        $c["bt.task_manager"] = static function ($c) use ($sync) {
             if ($sync == 'sync') {
                 return new \ILIAS\BackgroundTasks\Implementation\TaskManager\SyncTaskManager($c["bt.persistence"]);
             } elseif ($sync == 'async') {
@@ -1926,20 +1929,20 @@ class ilInitialisation
         };
     }
 
-    private static function initInjector(\ILIAS\DI\Container $c): void
+    private static function initInjector(Container $c): void
     {
-        $c["di.dependency_map"] = function ($c) {
+        $c["di.dependency_map"] = static function ($c) {
             return new \ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap();
         };
 
-        $c["di.injector"] = function ($c) {
+        $c["di.injector"] = static function ($c) {
             return new \ILIAS\BackgroundTasks\Dependencies\Injector($c, $c["di.dependency_map"]);
         };
     }
 
-    private static function initKioskMode(\ILIAS\DI\Container $c): void
+    private static function initKioskMode(Container $c): void
     {
-        $c["service.kiosk_mode"] = function ($c) {
+        $c["service.kiosk_mode"] = static function ($c) {
             return new ilKioskModeService(
                 $c['ilCtrl'],
                 $c['lng'],
@@ -1949,9 +1952,9 @@ class ilInitialisation
         };
     }
 
-    private static function initLearningObjectMetadata(\ILIAS\DI\Container $c): void
+    private static function initLearningObjectMetadata(Container $c): void
     {
-        $c['learning_object_metadata'] = function ($c) {
+        $c['learning_object_metadata'] = static function ($c) {
             return new \ILIAS\MetaData\Services\Services($c);
         };
     }

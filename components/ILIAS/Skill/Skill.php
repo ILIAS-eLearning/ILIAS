@@ -38,5 +38,12 @@ class Skill implements Component\Component
             );
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "SkillEntries.js");
+
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ilSkillNotifications(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
+            );
     }
 }

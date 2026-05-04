@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobRepository;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * Description of class class
@@ -29,18 +29,19 @@ use ILIAS\Cron\CronJob;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */
-class ilLTICronOutcomeService extends CronJob
+class ilLTICronOutcomeService extends AbstractCronJob
 {
-    private ilLanguage $lng;
     private JobRepository $cronRepo;
 
-    public function __construct()
+    public function init(): void
     {
         global $DIC;
-        $this->lng = $DIC->language();
-        $this->lng->loadLanguageModule("lti");
+
+        $this->language->loadLanguageModule("lti");
+
         $this->cronRepo = $DIC->cron()->repository();
     }
+
 
     public function getDefaultScheduleType(): JobScheduleType
     {
@@ -69,17 +70,17 @@ class ilLTICronOutcomeService extends CronJob
 
     public function getTitle(): string
     {
-        return $this->lng->txt('lti_cron_title');
+        return $this->language->txt('lti_cron_title');
     }
 
     public function getDescription(): string
     {
-        return $this->lng->txt('lti_cron_title_desc');
+        return $this->language->txt('lti_cron_title_desc');
     }
 
     public function run(): JobResult
     {
-        $status = \ILIAS\Cron\Job\JobResult::STATUS_NO_ACTION;
+        $status = JobResult::STATUS_NO_ACTION;
 
         $info = $this->cronRepo->getCronJobData($this->getId());
         $last_ts = $info['job_status_ts'] ?? false;
@@ -89,7 +90,7 @@ class ilLTICronOutcomeService extends CronJob
         $since = new ilDateTime($last_ts, IL_CAL_UNIX);
 
 
-        $result = new \ILIAS\Cron\Job\JobResult();
+        $result = new JobResult();
         $result->setStatus($status);
         ilLTIAppEventListener::handleCronUpdate($since);
         $result->setStatus(JobResult::STATUS_OK);

@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * Class ilCmiXapiDelCron
@@ -29,7 +29,7 @@ use ILIAS\Cron\CronJob;
  * @author      Stefan Schneider
  */
 
-class ilCmiXapiDelCron extends CronJob
+class ilCmiXapiDelCron extends AbstractCronJob
 {
     public const JOB_ID = 'xapi_deletion_cron';
 
@@ -39,16 +39,11 @@ class ilCmiXapiDelCron extends CronJob
 
     protected ilLogger $log;
 
-    private \ILIAS\DI\Container $dic;
-
-    public function __construct()
+    public function init(): void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        $this->dic = $DIC;
+        $this->language->loadLanguageModule('cmix');
 
-        $DIC->language()->loadLanguageModule('cmix');
-
-        $this->log = ilLoggerFactory::getLogger('cmix');
+        $this->log = $this->logger_factory->getComponentLogger('cmix');
 
         $settings = new ilSetting(self::JOB_ID);
         $lrsTypeId = $settings->get('lrs_type_id', '0');
@@ -69,12 +64,12 @@ class ilCmiXapiDelCron extends CronJob
 
     public function getTitle(): string
     {
-        return $this->dic->language()->txt("cron_xapi_del");
+        return $this->language->txt('cron_xapi_del');
     }
 
     public function getDescription(): string
     {
-        return $this->dic->language()->txt("cron_xapi_del_desc");
+        return $this->language->txt('cron_xapi_del_desc');
     }
 
     /**

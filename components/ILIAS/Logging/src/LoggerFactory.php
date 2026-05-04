@@ -18,20 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Cron\Job;
+namespace ILIAS\Logging;
 
 /**
- * @deprecated 11.0 Cron jobs will be contributed by a component's <Component>.php file in future versions of ILIAS
+ * Abstraction for {@see \ilLoggerFactory} so component dependency names follow `Vendor\Package\Type`.
  */
-interface JobProvider
+interface LoggerFactory
 {
-    /**
-     * @return list<\ILIAS\Cron\CronJob>
-     */
-    public function getCronJobInstances(): array;
-
-    /**
-     * @throws \OutOfBoundsException if the passed argument does not match any cron job
-     */
-    public function getCronJobInstance(string $jobId): \ILIAS\Cron\CronJob;
+    public function getComponentLogger(string $a_component_id): \ilLogger;
 }

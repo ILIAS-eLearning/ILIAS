@@ -19,18 +19,13 @@
 declare(strict_types=1);
 
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
-class ilAuthDestroyExpiredSessionsCron extends CronJob
+class ilAuthDestroyExpiredSessionsCron extends AbstractCronJob
 {
-    protected ilLanguage $lng;
-
-    public function __construct()
+    public function init(): void
     {
-        global $DIC;
-
-        $this->lng = $DIC->language();
-        $this->lng->loadLanguageModule('auth');
+        $this->language->loadLanguageModule('auth');
     }
 
     public function getId(): string
@@ -40,12 +35,12 @@ class ilAuthDestroyExpiredSessionsCron extends CronJob
 
     public function getTitle(): string
     {
-        return $this->lng->txt('auth_cron_destroy_expired_sessions');
+        return $this->language->txt('auth_cron_destroy_expired_sessions');
     }
 
     public function getDescription(): string
     {
-        return $this->lng->txt('auth_cron_destroy_expired_sessions_desc');
+        return $this->language->txt('auth_cron_destroy_expired_sessions_desc');
     }
 
     public function hasAutoActivation(): bool

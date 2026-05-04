@@ -144,12 +144,6 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
             new \ilCOPageDefinitionProcessor($db),
             new \ilComponentInfoDefinitionProcessor(),
             new \ilLoggingDefinitionProcessor($db),
-            new \ILIAS\Cron\Setup\DefinitionProcessor(
-                $db,
-                $settings_factory->settingsFor(),
-                $component_repository,
-                $component_factory
-            ),
             new \ilMailTemplateContextDefinitionProcessor($db),
             new ObjectDefinitionProcessor($db),
             new \ilSystemCheckDefinitionProcessor($db),

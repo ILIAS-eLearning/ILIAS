@@ -18,7 +18,7 @@
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * Cron for exercise feedback notification
@@ -26,37 +26,26 @@ use ILIAS\Cron\CronJob;
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilExcCronFeedbackNotification extends CronJob
+class ilExcCronFeedbackNotification extends AbstractCronJob
 {
-    protected ilLanguage $lng;
-
-
-    public function __construct()
-    {
-        global $DIC;
-
-        $this->lng = $DIC->language();
-    }
-
     public function getId(): string
     {
         return "exc_feedback_notification";
     }
 
+    public function init(): void
+    {
+        $this->language->loadLanguageModule("exc");
+    }
+
     public function getTitle(): string
     {
-        $lng = $this->lng;
-
-        $lng->loadLanguageModule("exc");
-        return $lng->txt("exc_global_feedback_file_cron");
+        return $this->language->txt("exc_global_feedback_file_cron");
     }
 
     public function getDescription(): string
     {
-        $lng = $this->lng;
-
-        $lng->loadLanguageModule("exc");
-        return $lng->txt("exc_global_feedback_file_cron_info");
+        return $this->language->txt("exc_global_feedback_file_cron_info");
     }
 
     public function getDefaultScheduleType(): JobScheduleType

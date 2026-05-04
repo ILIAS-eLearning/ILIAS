@@ -41,7 +41,11 @@ class ilCronFinishUnfinishedTestPassesTest extends ilTestBaseTestCase
             define("ILIAS_LOG_ENABLED", false);
         }
 
-        $this->test_obj = new ilCronFinishUnfinishedTestPasses();
+        $this->test_obj = new ilCronFinishUnfinishedTestPasses(
+            \ILIAS\Test::class,
+            $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock(),
+            $this->createMock(\ILIAS\Logging\LoggerFactory::class)
+        );
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
@@ -65,7 +69,11 @@ class ilCronFinishUnfinishedTestPassesTest extends ilTestBaseTestCase
         ;
 
         $this->setGlobalVariable('lng', $lng_mock);
-        $test_obj = new ilCronFinishUnfinishedTestPasses();
+        $test_obj = new ilCronFinishUnfinishedTestPasses(
+            \ILIAS\Test::class,
+            $lng_mock,
+            $this->createMock(\ILIAS\Logging\LoggerFactory::class)
+        );
 
         $this->assertEquals('testString', $test_obj->getTitle());
     }
@@ -81,7 +89,11 @@ class ilCronFinishUnfinishedTestPassesTest extends ilTestBaseTestCase
         ;
 
         $this->setGlobalVariable('lng', $lng_mock);
-        $test_obj = new ilCronFinishUnfinishedTestPasses();
+        $test_obj = new ilCronFinishUnfinishedTestPasses(
+            \ILIAS\Test::class,
+            $lng_mock,
+            $this->createMock(\ILIAS\Logging\LoggerFactory::class)
+        );
 
         $this->assertEquals('testString', $test_obj->getDescription());
     }

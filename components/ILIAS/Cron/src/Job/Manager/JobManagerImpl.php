@@ -23,6 +23,9 @@ namespace ILIAS\Cron\Job\Manager;
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobRepository;
 
+/**
+ * @phpstan-import-type CronJobRecord from JobRepository
+ */
 readonly class JobManagerImpl implements \ILIAS\Cron\Job\JobManager
 {
     public function __construct(
@@ -69,7 +72,6 @@ readonly class JobManagerImpl implements \ILIAS\Cron\Job\JobManager
             \define('ILIAS_HTTP_PATH', \ilUtil::_getHttpPath());
         }
 
-        // system
         foreach ($this->job_repository->getCronJobData(null, false) as $row) {
             $job = $this->job_repository->getJobInstanceById($row['job_id']);
             if ($job instanceof \ILIAS\Cron\CronJob) {
@@ -78,67 +80,61 @@ readonly class JobManagerImpl implements \ILIAS\Cron\Job\JobManager
             }
         }
 
-        // plugins
-        foreach ($this->job_repository->getPluginJobs(true) as $item) {
-            // #18411 - we are NOT using the initial job data as it might be outdated at this point
-            $this->runJob($item[0], $actor);
-        }
-
         $this->logger->info('CRON - batch end');
     }
 
-    public function runJobManual(string $jobId, \ilObjUser $actor): bool
+    public function runJobManual(string $id, \ilObjUser $actor): bool
     {
         $result = false;
 
-        $this->logger->info('CRON - manual start (' . $jobId . ')');
+        $this->logger->info('CRON - manual start (' . $id . ')');
 
-        $job = $this->job_repository->getJobInstanceById($jobId);
+        $job = $this->job_repository->getJobInstanceById($id);
         if ($job instanceof \ILIAS\Cron\CronJob) {
             if ($job->isManuallyExecutable()) {
                 $result = $this->runJob($job, $actor, null, true);
             } else {
-                $this->logger->info('CRON - job ' . $jobId . ' is not intended to be executed manually');
+                $this->logger->info('CRON - job ' . $id . ' is not intended to be executed manually');
             }
         } else {
-            $this->logger->info('CRON - job ' . $jobId . ' seems invalid or is inactive');
+            $this->logger->info('CRON - job ' . $id . ' seems invalid or is inactive');
         }
 
-        $this->logger->info('CRON - manual end (' . $jobId . ')');
+        $this->logger->info('CRON - manual end (' . $id . ')');
 
         return $result;
     }
 
     /**
      * Run single cron job (internal)
-     * @param null|array<string, mixed> $jobData
+     * @param null|CronJobRecord $job_data
      * @internal
      */
     private function runJob(
         \ILIAS\Cron\CronJob $job,
         \ilObjUser $actor,
-        ?array $jobData = null,
-        bool $isManualExecution = false
+        ?array $job_data = null,
+        bool $is_manually_executed = false
     ): bool {
         $did_run = false;
 
-        if ($jobData === null) {
+        if ($job_data === null) {
             // aquire "fresh" job (status) data
             $jobsData = $this->job_repository->getCronJobData($job->getId());
-            $jobData = array_pop($jobsData);
+            $job_data = array_pop($jobsData);
         }
 
         $job->setDateTimeProvider(fn(): \DateTimeImmutable => $this->clock_factory->system()->now());
 
         // already running?
-        if ($jobData['alive_ts']) {
-            $this->logger->info('CRON - job ' . $jobData['job_id'] . ' still running');
+        if ($job_data['alive_ts']) {
+            $this->logger->info('CRON - job ' . $job_data['job_id'] . ' still running');
 
             $cut = 60 * 60 * 3;
 
             // is running (and has not pinged) for 3 hours straight, we assume it crashed
-            if ($this->clock_factory->system()->now()->getTimestamp() - ((int) $jobData['alive_ts']) > $cut) {
-                $this->job_repository->updateRunInformation($jobData['job_id'], 0, 0);
+            if ($this->clock_factory->system()->now()->getTimestamp() - ((int) $job_data['alive_ts']) > $cut) {
+                $this->job_repository->updateRunInformation($job_data['job_id'], 0, 0);
                 $this->deactivateJob($job, $actor); // #13082
 
                 $result = new \ILIAS\Cron\Job\JobResult();
@@ -151,32 +147,33 @@ readonly class JobManagerImpl implements \ILIAS\Cron\Job\JobManager
                     $this->clock_factory->system()->now(),
                     $actor,
                     $result,
-                    $isManualExecution
+                    $is_manually_executed
                 );
 
-                $this->logger->info('CRON - job ' . $jobData['job_id'] . ' deactivated (assumed crash)');
+                $this->logger->info('CRON - job ' . $job_data['job_id'] . ' deactivated (assumed crash)');
             }
         } // initiate run?
         elseif ($job->isDue(
-            $jobData['job_result_ts'] ? (new \DateTimeImmutable(
-                '@' . $jobData['job_result_ts']
-            ))->setTimezone($this->clock_factory->system()->now()->getTimezone()) : null,
-            is_numeric($jobData['schedule_type']) ? JobScheduleType::tryFrom(
-                (int) $jobData['schedule_type']
+            $job_data['job_result_ts'] ? new \DateTimeImmutable(
+                '@' . $job_data['job_result_ts']
+            )->setTimezone($this->clock_factory->system()->now()->getTimezone()) : null,
+            is_numeric($job_data['schedule_type']) ? JobScheduleType::tryFrom(
+                (int) $job_data['schedule_type']
             ) : null,
-            $jobData['schedule_value'] ? (int) $jobData['schedule_value'] : null,
-            $isManualExecution
+            $job_data['schedule_value'] ? (int) $job_data['schedule_value'] : null,
+            $is_manually_executed
         )) {
-            $this->logger->info('CRON - job ' . $jobData['job_id'] . ' started');
+            $this->logger->info('CRON - job ' . $job_data['job_id'] . ' started');
 
             $this->job_repository->updateRunInformation(
-                $jobData['job_id'],
+                $job_data['job_id'],
                 $this->clock_factory->system()->now()->getTimestamp(),
                 $this->clock_factory->system()->now()->getTimestamp()
             );
 
             $ts_in = $this->getMicrotime();
             try {
+                $job->init();
                 $result = $job->run();
             } catch (\Throwable $e) {
                 $result = new \ILIAS\Cron\Job\JobResult();
@@ -193,7 +190,7 @@ readonly class JobManagerImpl implements \ILIAS\Cron\Job\JobManager
 
             if ($result->getStatus() === \ILIAS\Cron\Job\JobResult::STATUS_INVALID_CONFIGURATION) {
                 $this->deactivateJob($job, $actor);
-                $this->logger->info('CRON - job ' . $jobData['job_id'] . ' invalid configuration');
+                $this->logger->info('CRON - job ' . $job_data['job_id'] . ' invalid configuration');
             } else {
                 // success!
                 $did_run = true;
@@ -206,13 +203,13 @@ readonly class JobManagerImpl implements \ILIAS\Cron\Job\JobManager
                 $this->clock_factory->system()->now(),
                 $actor,
                 $result,
-                $isManualExecution
+                $is_manually_executed
             );
-            $this->job_repository->updateRunInformation($jobData['job_id'], 0, 0);
+            $this->job_repository->updateRunInformation($job_data['job_id'], 0, 0);
 
-            $this->logger->info('CRON - job ' . $jobData['job_id'] . ' finished');
+            $this->logger->info('CRON - job ' . $job_data['job_id'] . ' finished');
         } else {
-            $this->logger->info('CRON - job ' . $jobData['job_id'] . ' returned status inactive');
+            $this->logger->info('CRON - job ' . $job_data['job_id'] . ' returned status inactive');
         }
 
         return $did_run;
@@ -237,38 +234,38 @@ readonly class JobManagerImpl implements \ILIAS\Cron\Job\JobManager
         $this->activateJob($job, $actor, true);
     }
 
-    public function activateJob(\ILIAS\Cron\CronJob $job, \ilObjUser $actor, bool $wasManuallyExecuted = false): void
+    public function activateJob(\ILIAS\Cron\CronJob $job, \ilObjUser $actor, bool $was_manually_executed = false): void
     {
-        $this->job_repository->activateJob($job, $this->clock_factory->system()->now(), $actor, $wasManuallyExecuted);
+        $this->job_repository->activateJob($job, $this->clock_factory->system()->now(), $actor, $was_manually_executed);
         $job->activationWasToggled($this->db, $this->settings, true);
     }
 
-    public function deactivateJob(\ILIAS\Cron\CronJob $job, \ilObjUser $actor, bool $wasManuallyExecuted = false): void
+    public function deactivateJob(\ILIAS\Cron\CronJob $job, \ilObjUser $actor, bool $was_manually_executed = false): void
     {
-        $this->job_repository->deactivateJob($job, $this->clock_factory->system()->now(), $actor, $wasManuallyExecuted);
+        $this->job_repository->deactivateJob($job, $this->clock_factory->system()->now(), $actor, $was_manually_executed);
         $job->activationWasToggled($this->db, $this->settings, false);
     }
 
-    public function isJobActive(string $jobId): bool
+    public function isJobActive(string $id): bool
     {
-        $jobs_data = $this->job_repository->getCronJobData($jobId);
+        $jobs_data = $this->job_repository->getCronJobData($id);
 
         return $jobs_data !== [] && $jobs_data[0]['job_status'];
     }
 
-    public function isJobInactive(string $jobId): bool
+    public function isJobInactive(string $id): bool
     {
-        $jobs_data = $this->job_repository->getCronJobData($jobId);
+        $jobs_data = $this->job_repository->getCronJobData($id);
 
         return $jobs_data !== [] && !((bool) $jobs_data[0]['job_status']);
     }
 
-    public function ping(string $jobId): void
+    public function ping(string $id): void
     {
         $this->db->manipulateF(
             'UPDATE cron_job SET alive_ts = %s WHERE job_id = %s',
             ['integer', 'text'],
-            [$this->clock_factory->system()->now()->getTimestamp(), $jobId]
+            [$this->clock_factory->system()->now()->getTimestamp(), $id]
         );
     }
 }

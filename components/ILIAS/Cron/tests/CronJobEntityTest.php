@@ -30,10 +30,12 @@ class CronJobEntityTest extends TestCase
     private function getEntity(
         ?CronJob $job_instance = null,
         ?int $schedule_type = null,
-        int $schedule_value = 5,
-        bool $is_plugin = false
+        int $schedule_value = 5
     ): JobEntity {
-        $job_instance ??= $this->createMock(CronJob::class);
+        if ($job_instance === null) {
+            $job_instance = $this->createMock(CronJob::class);
+            $job_instance->method('getId')->willReturn('phpunit');
+        }
 
         if ($schedule_type === null) {
             $schedule_type = JobScheduleType::IN_MINUTES->value;
@@ -59,7 +61,7 @@ class CronJobEntityTest extends TestCase
             'running_ts' => time(),
             'job_result_dur' => time(),
             'alive_ts' => time(),
-        ], $is_plugin);
+        ]);
     }
 
     public function testEntityCollectionCanBeCreatedWithItems(): \ILIAS\Cron\Job\Collection\JobEntities
@@ -95,6 +97,7 @@ class CronJobEntityTest extends TestCase
     public function testEffectiveScheduleCanBeDetermined(): void
     {
         $job_instance = $this->createMock(CronJob::class);
+        $job_instance->method('getId')->willReturn('phpunit');
         $job_instance->method('hasFlexibleSchedule')->willReturn(true);
 
         $entity = $this->getEntity($job_instance);
@@ -102,6 +105,7 @@ class CronJobEntityTest extends TestCase
         $this->assertSame(5, $entity->getEffectiveScheduleValue());
 
         $another_job_instance = $this->createMock(CronJob::class);
+        $another_job_instance->method('getId')->willReturn('phpunit');
         $another_job_instance->method('hasFlexibleSchedule')->willReturn(false);
         $another_job_instance->method('getDefaultScheduleType')->willReturn(
             JobScheduleType::IN_HOURS
@@ -113,6 +117,7 @@ class CronJobEntityTest extends TestCase
         $this->assertSame(5, $another_entity->getEffectiveScheduleValue());
 
         $yet_another_job_instance = $this->createMock(CronJob::class);
+        $yet_another_job_instance->method('getId')->willReturn('phpunit');
         $yet_another_job_instance->method('hasFlexibleSchedule')->willReturn(true);
         $yet_another_job_instance->method('getDefaultScheduleType')->willReturn(
             JobScheduleType::IN_HOURS

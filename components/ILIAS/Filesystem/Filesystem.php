@@ -40,5 +40,12 @@ class Filesystem implements Component
             new \ilFileSystemSetupAgent(
                 $pull[Factory::class]
             );
+
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ilFileSystemCleanTempDirCron(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
+            );
     }
 }

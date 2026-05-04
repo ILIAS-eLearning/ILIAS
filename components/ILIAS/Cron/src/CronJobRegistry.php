@@ -20,11 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Cron;
 
-use ILIAS\Cron\Job\JobProvider;
-
 /**
- * @deprecated 11.0 Cron jobs will be contributed by a component's <Component>.php file in future versions of ILIAS
+ * All {@see CronJob} instances contributed by components (see Component::init() contributions).
  */
-abstract class CronHookPlugin extends \ilPlugin implements JobProvider
+interface CronJobRegistry
 {
+    /**
+     * @return list<CronJob>
+     */
+    public function getAllJobs(): array;
 }

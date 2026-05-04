@@ -6,7 +6,4 @@
     <pluginslots>
     	<pluginslot id="ldaphk" name="LDAPHook" />
     </pluginslots>
-	<crons>
-		<cron id="ldap_sync" class="ilLDAPCronSynchronization" />
-	</crons>
 </service>

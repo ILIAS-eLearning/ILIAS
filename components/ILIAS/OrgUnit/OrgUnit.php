@@ -38,5 +38,12 @@ class OrgUnit implements Component\Component
             );
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "authority.js");
+
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ilCronUpdateOrgUnitPaths(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
+            );
     }
 }

@@ -112,7 +112,7 @@ final class ilObjCronGUI extends ilObjectGUI
                 )
             );
             $ids = array_map(
-                static fn(JobEntity $entity): string => $entity->getEffectiveJobId(),
+                static fn(JobEntity $entity): string => $entity->getJobId(),
                 $tableFilterMediator->filteredJobs(
                     $filter
                 )->toArray()
@@ -147,7 +147,7 @@ final class ilObjCronGUI extends ilObjectGUI
                     function (JobEntity $entity): \ILIAS\UI\Component\Link\Standard {
                         return $this->ui_factory->link()->standard(
                             $entity->getEffectiveTitle(),
-                            '#job-' . $entity->getEffectiveJobId()
+                            '#job-' . $entity->getJobId()
                         );
                     },
                     (new OrderedJobEntities(
@@ -344,7 +344,7 @@ final class ilObjCronGUI extends ilObjectGUI
             }
 
             if ($entity->getJob()->usesLegacyForms()) {
-                $this->ctrl->setParameter($this, $this->getJobIdParameterName(), $entity->getEffectiveJobId());
+                $this->ctrl->setParameter($this, $this->getJobIdParameterName(), $entity->getJobId());
                 $this->ctrl->redirect($this, 'editLegacy');
             }
 
@@ -420,7 +420,7 @@ final class ilObjCronGUI extends ilObjectGUI
     {
         $job = $entity->getJob();
 
-        $this->ctrl->setParameter($this, $this->getJobIdParameterName(), $entity->getEffectiveJobId());
+        $this->ctrl->setParameter($this, $this->getJobIdParameterName(), $entity->getJobId());
 
         $section_inputs = [];
         if ($job->hasFlexibleSchedule()) {
@@ -521,7 +521,7 @@ final class ilObjCronGUI extends ilObjectGUI
     {
         $job = $entity->getJob();
 
-        $this->ctrl->setParameter($this, $this->getJobIdParameterName(), $entity->getEffectiveJobId());
+        $this->ctrl->setParameter($this, $this->getJobIdParameterName(), $entity->getJobId());
 
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'updateLegacy'));
@@ -803,6 +803,7 @@ final class ilObjCronGUI extends ilObjectGUI
         foreach ($job_ids as $job_id) {
             $job = $this->cron_repository->getJobInstanceById($job_id);
             if ($job instanceof CronJob) {
+                $job->init();
                 $res[$job_id] = $job;
             }
         }
@@ -882,6 +883,7 @@ final class ilObjCronGUI extends ilObjectGUI
                 $item['class']
             );
             if ($job !== null) {
+                $job->init();
                 $job->addToExternalSettingsForm($a_form_id, $fields, (bool) $item['job_status']);
             }
         }

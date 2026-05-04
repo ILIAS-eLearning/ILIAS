@@ -22,7 +22,7 @@ use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\MetaData\OERHarvester\Services\Services as PublishingServices;
 use ILIAS\MetaData\OERHarvester\CronJob\Results\Wrapper as ResultWrapper;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 use ILIAS\MetaData\Services\InternalServices;
 use ILIAS\MetaData\Presentation\UtilitiesInterface as PresentationUtilities;
 
@@ -30,7 +30,7 @@ use ILIAS\MetaData\Presentation\UtilitiesInterface as PresentationUtilities;
  * Cron job for definition for oer harvesting
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
-class ilCronOerHarvester extends CronJob
+class ilCronOerHarvester extends AbstractCronJob
 {
     public const string CRON_JOB_IDENTIFIER = 'meta_oer_harvester';
     protected const int DEFAULT_SCHEDULE_VALUE = 1;
@@ -39,7 +39,7 @@ class ilCronOerHarvester extends CronJob
     private PresentationUtilities $presentation_utilities;
     private PublishingServices $publishing_services;
 
-    public function __construct()
+    public function init(): void
     {
         global $DIC;
 

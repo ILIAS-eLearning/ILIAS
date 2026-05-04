@@ -22,6 +22,32 @@ use ILIAS\Cron\Job\Schedule\JobScheduleType;
 
 class ilCertificateCronTest extends ilCertificateBaseTestCase
 {
+    private function makeCertificateCron(
+        ilLanguage $language_mock,
+        ilCertificateQueueRepository $queue_repository,
+        ilCertificateTemplateRepository $template_repository,
+        ilUserCertificateRepository $user_repository,
+        ilCertificateValueReplacement $value_replacement,
+        ilLogger $logger,
+        \ILIAS\DI\Container $dic,
+        ?ilCertificateObjectHelper $object_helper = null
+    ): ilCertificateCron {
+        $logger_factory = $this->createMock(\ILIAS\Logging\LoggerFactory::class);
+
+        return new ilCertificateCron(
+            \ILIAS\Certificate::class,
+            $language_mock,
+            $logger_factory,
+            $queue_repository,
+            $template_repository,
+            $user_repository,
+            $value_replacement,
+            $logger,
+            $dic,
+            $object_helper
+        );
+    }
+
     public function testGetTitle(): void
     {
         $queueRepository = $this->getMockBuilder(ilCertificateQueueRepository::class)
@@ -68,14 +94,14 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $dic['lng'] = $languageMock;
 
-        $cron = new ilCertificateCron(
+        $cron = $this->makeCertificateCron(
+            $languageMock,
             $queueRepository,
             $templateRepository,
             $userRepository,
             $valueReplacement,
             $logger,
-            $dic,
-            $languageMock
+            $dic
         );
 
         $title = $cron->getTitle();
@@ -129,14 +155,14 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $dic['lng'] = $languageMock;
 
-        $cron = new ilCertificateCron(
+        $cron = $this->makeCertificateCron(
+            $languageMock,
             $queueRepository,
             $templateRepository,
             $userRepository,
             $valueReplacement,
             $logger,
-            $dic,
-            $languageMock
+            $dic
         );
 
         $title = $cron->getDescription();
@@ -208,14 +234,14 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
                 $userMock
             );
 
-        $cron = new ilCertificateCron(
+        $cron = $this->makeCertificateCron(
+            $languageMock,
             $queueRepository,
             $templateRepository,
             $userRepository,
             $valueReplacement,
             $logger,
             $dic,
-            $languageMock,
             $objectHelper
         );
 
@@ -290,14 +316,14 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
                 $userMock
             );
 
-        $cron = new ilCertificateCron(
+        $cron = $this->makeCertificateCron(
+            $languageMock,
             $queueRepository,
             $templateRepository,
             $userRepository,
             $valueReplacement,
             $logger,
             $dic,
-            $languageMock,
             $objectHelper
         );
 
@@ -372,14 +398,14 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
                 $userMock
             );
 
-        $cron = new ilCertificateCron(
+        $cron = $this->makeCertificateCron(
+            $languageMock,
             $queueRepository,
             $templateRepository,
             $userRepository,
             $valueReplacement,
             $logger,
             $dic,
-            $languageMock,
             $objectHelper
         );
 
@@ -454,14 +480,14 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
                 $userMock
             );
 
-        $cron = new ilCertificateCron(
+        $cron = $this->makeCertificateCron(
+            $languageMock,
             $queueRepository,
             $templateRepository,
             $userRepository,
             $valueReplacement,
             $logger,
             $dic,
-            $languageMock,
             $objectHelper
         );
 
@@ -536,14 +562,14 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
                 $userMock
             );
 
-        $cron = new ilCertificateCron(
+        $cron = $this->makeCertificateCron(
+            $languageMock,
             $queueRepository,
             $templateRepository,
             $userRepository,
             $valueReplacement,
             $logger,
             $dic,
-            $languageMock,
             $objectHelper
         );
 

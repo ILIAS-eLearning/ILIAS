@@ -20,36 +20,26 @@ declare(strict_types=1);
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * This cron send notifications about expiring user accounts
- * @author  Stefan Meyer <meyer@leifos.com>
  */
-class ilUserCronCheckAccounts extends CronJob
+class ilUserCronCheckAccounts extends AbstractCronJob
 {
     protected int $counter = 0;
 
     private ilDBInterface $db;
-    private ilLanguage $lng;
     private ilComponentLogger $log;
 
-    public function __construct()
+    public function init(): void
     {
-        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        if (isset($DIC['ilDB'])) {
-            $this->db = $DIC['ilDB'];
-        }
+        $this->language->loadLanguageModule('usr');
 
-        if (isset($DIC['lng'])) {
-            $this->lng = $DIC['lng'];
-        }
-
-        if (isset($DIC['ilDB'])) {
-            $this->log = $DIC['ilLog'];
-        }
+        $this->log = $this->logger_factory->getRootLogger();
+        $this->db = $DIC['ilDB'];
     }
 
     public function getId(): string
@@ -59,12 +49,12 @@ class ilUserCronCheckAccounts extends CronJob
 
     public function getTitle(): string
     {
-        return $this->lng->txt('check_user_accounts');
+        return $this->language->txt('check_user_accounts');
     }
 
     public function getDescription(): string
     {
-        return $this->lng->txt('check_user_accounts_desc');
+        return $this->language->txt('check_user_accounts_desc');
     }
 
     public function getDefaultScheduleType(): JobScheduleType

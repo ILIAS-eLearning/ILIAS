@@ -40,5 +40,12 @@ class Course implements Component\Component
             new \ilCourseSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ilTimingsCronReminder(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
+            );
     }
 }

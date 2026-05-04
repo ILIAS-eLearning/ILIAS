@@ -9,8 +9,5 @@
             <parent id="adm" max="1">adm</parent>
           </object>
         </objects>
-	<pluginslots>
-		<pluginslot id="crnhk" name="CronHook" />
-	</pluginslots>
 	<logging />
 </service>

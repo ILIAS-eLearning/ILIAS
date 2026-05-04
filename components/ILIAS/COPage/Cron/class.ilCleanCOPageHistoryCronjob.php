@@ -21,22 +21,22 @@ declare(strict_types=1);
 use ILIAS\COPage\History\HistoryManager;
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilCleanCOPageHistoryCronjob extends CronJob
+class ilCleanCOPageHistoryCronjob extends AbstractCronJob
 {
     protected HistoryManager $history_manager;
     protected ilSetting $settings;
-    protected ilLanguage $lng;
 
-    public function __construct()
+    public function init(): void
     {
         global $DIC;
 
-        $this->lng = $DIC->language();
+        $this->language->loadLanguageModule("copg");
+
         $this->settings = $DIC->settings();
         $this->history_manager = $DIC
             ->copage()
@@ -52,18 +52,12 @@ class ilCleanCOPageHistoryCronjob extends CronJob
 
     public function getTitle(): string
     {
-        $lng = $this->lng;
-
-        $lng->loadLanguageModule("copg");
-        return $lng->txt("copg_history_cleanup_cron");
+        return $this->language->txt("copg_history_cleanup_cron");
     }
 
     public function getDescription(): string
     {
-        $lng = $this->lng;
-
-        $lng->loadLanguageModule("copg");
-        return $lng->txt("copg_history_cleanup_cron_info");
+        return $this->language->txt("copg_history_cleanup_cron_info");
     }
 
     public function getDefaultScheduleType(): JobScheduleType
@@ -117,7 +111,7 @@ class ilCleanCOPageHistoryCronjob extends CronJob
 
     public function addCustomSettingsToForm(ilPropertyFormGUI $a_form): void
     {
-        $lng = $this->lng;
+        $lng = $this->language;
         $lng->loadLanguageModule("copg");
 
         $ti = new ilNumberInputGUI(

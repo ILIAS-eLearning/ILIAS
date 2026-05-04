@@ -18,6 +18,7 @@
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * Class ilCronEcsTaskScheduler
@@ -25,16 +26,16 @@ use ILIAS\Cron\Job\JobResult;
  * Start execution of ecs tasks.
  *
  */
-class ilCronEcsTaskScheduler extends \ILIAS\Cron\CronJob
+class ilCronEcsTaskScheduler extends AbstractCronJob
 {
-    public const ID = 'ecs_task_handler';
-    public const DEFAULT_SCHEDULE_VALUE = 1;
+    public const string ID = 'ecs_task_handler';
+    public const int DEFAULT_SCHEDULE_VALUE = 1;
 
     private ilLogger $logger;
     private ilLanguage $lng;
     private JobResult $result;
 
-    public function __construct()
+    public function init(): void
     {
         global $DIC;
 
@@ -42,7 +43,7 @@ class ilCronEcsTaskScheduler extends \ILIAS\Cron\CronJob
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('ecs');
 
-        $this->result = new \ILIAS\Cron\Job\JobResult();
+        $this->result = new JobResult();
     }
 
     public function getTitle(): string
@@ -92,7 +93,7 @@ class ilCronEcsTaskScheduler extends \ILIAS\Cron\CronJob
                 $scheduler = \ilECSTaskScheduler::_getInstanceByServerId($server->getServerId());
                 $scheduler->startTaskExecution();
             } catch (Exception $e) {
-                $this->result->setStatus(\ILIAS\Cron\Job\JobResult::STATUS_CRASHED);
+                $this->result->setStatus(JobResult::STATUS_CRASHED);
                 $this->result->setMessage(
                     mb_substr(sprintf('Exc.: %s / %s', $e->getMessage(), $e->getTraceAsString()), 0, 400)
                 );
@@ -101,7 +102,7 @@ class ilCronEcsTaskScheduler extends \ILIAS\Cron\CronJob
                 return $this->result;
             }
         }
-        $this->result->setStatus(\ILIAS\Cron\Job\JobResult::STATUS_OK);
+        $this->result->setStatus(JobResult::STATUS_OK);
         return $this->result;
     }
 }

@@ -18,26 +18,22 @@
 
 declare(strict_types=1);
 
-use ILIAS\Language\Language;
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobRepository;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * This cron deletes user accounts by INACTIVITY period
- * @author Bjoern Heyser <bheyser@databay.de>
- * @author Guido Vollbach <gvollbach@databay.de>
- * @package ilias
  */
-class ilCronDeleteInactiveUserAccounts extends CronJob
+class ilCronDeleteInactiveUserAccounts extends AbstractCronJob
 {
-    private const DEFAULT_INACTIVITY_PERIOD = 365;
-    private const DEFAULT_REMINDER_PERIOD = 0;
+    private const int DEFAULT_INACTIVITY_PERIOD = 365;
+    private const int DEFAULT_REMINDER_PERIOD = 0;
 
-    private const ACTION_USER_NONE = 0;
-    private const ACTION_USER_REMINDER_MAIL_SENT = 1;
-    private const ACTION_USER_DELETED = 2;
+    private const int ACTION_USER_NONE = 0;
+    private const int ACTION_USER_REMINDER_MAIL_SENT = 1;
+    private const int ACTION_USER_DELETED = 2;
 
     private int $delete_period;
     private int $reminder_period;
@@ -45,59 +41,31 @@ class ilCronDeleteInactiveUserAccounts extends CronJob
     private array $include_roles;
     private ilCronDeleteInactiveUserReminderMail $cron_delete_reminder_mail;
     private ilSetting $settings;
-    private Language $lng;
     private ilComponentLogger $log;
     private ilRbacReview $rbac_review;
     private ilObjectDataCache $objectDataCache;
     private \ILIAS\HTTP\GlobalHttpState $http;
     private \ILIAS\Refinery\Factory $refinery;
     private JobRepository $cronRepository;
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilGlobalTemplateInterface $main_tpl;
 
-    public function __construct()
+    public function init(): void
     {
-        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        if (isset($DIC['ilDB'])) {
-            $this->cron_delete_reminder_mail = new ilCronDeleteInactiveUserReminderMail($DIC['ilDB']);
-        }
+        $this->language->loadLanguageModule('usr');
 
-        if (isset($DIC['tpl'])) {
-            $this->main_tpl = $DIC['tpl'];
-        }
-        if (isset($DIC['http'])) {
-            $this->http = $DIC['http'];
-        }
+        $this->main_tpl = $DIC->ui()->mainTemplate();
+        $this->log = $this->logger_factory->getRootLogger();
+        $this->http = $DIC['http'];
+        $this->refinery = $DIC['refinery'];
+        $this->objectDataCache = $DIC['ilObjDataCache'];
+        $this->rbac_review = $DIC['rbacreview'];
+        $this->cronRepository = $DIC['cron.repository'];
+        $this->settings = $DIC['ilSetting'];
+        $this->cron_delete_reminder_mail = new ilCronDeleteInactiveUserReminderMail($DIC['ilDB']);
 
-        if (isset($DIC['lng'])) {
-            $this->lng = $DIC['lng'];
-        }
-
-        if (isset($DIC['ilLog'])) {
-            $this->log = $DIC['ilLog'];
-        }
-
-        if (isset($DIC['refinery'])) {
-            $this->refinery = $DIC['refinery'];
-        }
-
-        if (isset($DIC['ilObjDataCache'])) {
-            $this->objectDataCache = $DIC['ilObjDataCache'];
-        }
-
-        if (isset($DIC['rbacreview'])) {
-            $this->rbac_review = $DIC['rbacreview'];
-        }
-
-        if (isset($DIC['cron.repository'])) {
-            $this->cronRepository = $DIC['cron.repository'];
-        }
-
-        if (isset($DIC['ilSetting'])) {
-            $this->settings = $DIC['ilSetting'];
-            $this->loadSettings();
-        }
+        $this->loadSettings();
     }
 
     private function loadSettings(): void
@@ -173,12 +141,12 @@ class ilCronDeleteInactiveUserAccounts extends CronJob
 
     public function getTitle(): string
     {
-        return $this->lng->txt("delete_inactive_user_accounts");
+        return $this->language->txt("delete_inactive_user_accounts");
     }
 
     public function getDescription(): string
     {
-        return $this->lng->txt("delete_inactive_user_accounts_desc");
+        return $this->language->txt("delete_inactive_user_accounts_desc");
     }
 
     public function getDefaultScheduleType(): JobScheduleType
@@ -300,17 +268,17 @@ class ilCronDeleteInactiveUserAccounts extends CronJob
 
     public function addCustomSettingsToForm(ilPropertyFormGUI $a_form): void
     {
-        $this->lng->loadLanguageModule("user");
+        $this->language->loadLanguageModule("user");
 
         $schedule = $a_form->getItemByPostVar('type');
-        $schedule->setTitle($this->lng->txt('delete_inactive_user_accounts_frequency'));
-        $schedule->setInfo($this->lng->txt('delete_inactive_user_accounts_frequency_desc'));
+        $schedule->setTitle($this->language->txt('delete_inactive_user_accounts_frequency'));
+        $schedule->setInfo($this->language->txt('delete_inactive_user_accounts_frequency_desc'));
 
         $sub_mlist = new ilMultiSelectInputGUI(
-            $this->lng->txt('delete_inactive_user_accounts_include_roles'),
+            $this->language->txt('delete_inactive_user_accounts_include_roles'),
             'cron_inactive_user_delete_include_roles'
         );
-        $sub_mlist->setInfo($this->lng->txt('delete_inactive_user_accounts_include_roles_desc'));
+        $sub_mlist->setInfo($this->language->txt('delete_inactive_user_accounts_include_roles_desc'));
         $roles = [];
         foreach ($this->rbac_review->getGlobalRoles() as $role_id) {
             if ($role_id !== ANONYMOUS_ROLE_ID) {
@@ -331,11 +299,11 @@ class ilCronDeleteInactiveUserAccounts extends CronJob
         $default_setting = (string) self::DEFAULT_INACTIVITY_PERIOD;
 
         $sub_text = new ilNumberInputGUI(
-            $this->lng->txt('delete_inactive_user_accounts_period'),
+            $this->language->txt('delete_inactive_user_accounts_period'),
             'cron_inactive_user_delete_period'
         );
         $sub_text->allowDecimals(false);
-        $sub_text->setInfo($this->lng->txt('delete_inactive_user_accounts_period_desc'));
+        $sub_text->setInfo($this->language->txt('delete_inactive_user_accounts_period_desc'));
         $sub_text->setValue($this->settings->get("cron_inactive_user_delete_period", $default_setting));
         $sub_text->setSize(4);
         $sub_text->setMaxLength(4);
@@ -344,13 +312,13 @@ class ilCronDeleteInactiveUserAccounts extends CronJob
         $a_form->addItem($sub_text);
 
         $sub_period = new ilNumberInputGUI(
-            $this->lng->txt('send_mail_to_inactive_users'),
+            $this->language->txt('send_mail_to_inactive_users'),
             'cron_inactive_user_reminder_period'
         );
         $sub_period->allowDecimals(false);
-        $sub_period->setInfo($this->lng->txt("send_mail_to_inactive_users_desc"));
+        $sub_period->setInfo($this->language->txt("send_mail_to_inactive_users_desc"));
         $sub_period->setValue($this->settings->get("cron_inactive_user_reminder_period", $default_setting));
-        $sub_period->setSuffix($this->lng->txt("send_mail_to_inactive_users_suffix"));
+        $sub_period->setSuffix($this->language->txt("send_mail_to_inactive_users_suffix"));
         $sub_period->setSize(4);
         $sub_period->setMaxLength(4);
         $sub_period->setRequired(false);
@@ -360,7 +328,7 @@ class ilCronDeleteInactiveUserAccounts extends CronJob
 
     public function saveCustomSettings(ilPropertyFormGUI $a_form): bool
     {
-        $this->lng->loadLanguageModule("user");
+        $this->language->loadLanguageModule("user");
 
         $valid = true;
 
@@ -423,21 +391,21 @@ class ilCronDeleteInactiveUserAccounts extends CronJob
         if ($this->isDecimal($delete_period)) {
             $valid = false;
             $a_form->getItemByPostVar('cron_inactive_user_delete_period')->setAlert(
-                $this->lng->txt('send_mail_to_inactive_users_numbers_only')
+                $this->language->txt('send_mail_to_inactive_users_numbers_only')
             );
         }
 
         if ($this->isDecimal($reminder_period)) {
             $valid = false;
             $a_form->getItemByPostVar('cron_inactive_user_reminder_period')->setAlert(
-                $this->lng->txt('send_mail_to_inactive_users_numbers_only')
+                $this->language->txt('send_mail_to_inactive_users_numbers_only')
             );
         }
 
         if ($reminder_period >= $delete_period) {
             $valid = false;
             $a_form->getItemByPostVar('cron_inactive_user_reminder_period')->setAlert(
-                $this->lng->txt('send_mail_to_inactive_users_must_be_smaller_than')
+                $this->language->txt('send_mail_to_inactive_users_must_be_smaller_than')
             );
         }
 
@@ -470,7 +438,7 @@ class ilCronDeleteInactiveUserAccounts extends CronJob
             if (!$logic) {
                 $valid = false;
                 $a_form->getItemByPostVar('cron_inactive_user_reminder_period')->setAlert(
-                    $this->lng->txt('send_mail_reminder_window_too_small')
+                    $this->language->txt('send_mail_reminder_window_too_small')
                 );
             }
         }
@@ -495,7 +463,7 @@ class ilCronDeleteInactiveUserAccounts extends CronJob
         $this->settings->set('cron_inactive_user_reminder_period', (string) $reminder_period);
 
         if (!$valid) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
+            $this->main_tpl->setOnScreenMessage('failure', $this->language->txt("form_input_not_valid"));
             return false;
         }
 

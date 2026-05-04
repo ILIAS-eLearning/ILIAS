@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
 * Class for indexing hmtl ,pdf, txt files and htlm Learning modules.
@@ -15,20 +15,19 @@ use ILIAS\Cron\CronJob;
 *
 * @package ServicesSearch
 */
-class ilLuceneIndexer extends CronJob
+class ilLuceneIndexer extends AbstractCronJob
 {
     protected int $timeout = 60;
 
-    protected ilLanguage $lng;
     protected ilSetting $setting;
 
-    public function __construct()
+    public function init(): void
     {
         global $DIC;
 
-        $this->lng = $DIC->language();
         $this->setting = $DIC->settings();
     }
+
 
     public function getId(): string
     {
@@ -37,12 +36,12 @@ class ilLuceneIndexer extends CronJob
 
     public function getTitle(): string
     {
-        return $this->lng->txt("cron_lucene_index");
+        return $this->language->txt("cron_lucene_index");
     }
 
     public function getDescription(): string
     {
-        return $this->lng->txt("cron_lucene_index_info");
+        return $this->language->txt("cron_lucene_index_info");
     }
 
     public function getDefaultScheduleType(): JobScheduleType

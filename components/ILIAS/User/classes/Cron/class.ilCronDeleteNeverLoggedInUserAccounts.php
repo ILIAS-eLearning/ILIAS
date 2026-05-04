@@ -18,66 +18,45 @@
 
 declare(strict_types=1);
 
-use ILIAS\Language\Language;
 use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\AbstractCronJob;
 
-class ilCronDeleteNeverLoggedInUserAccounts extends \ILIAS\Cron\CronJob
+class ilCronDeleteNeverLoggedInUserAccounts extends AbstractCronJob
 {
-    private const DEFAULT_CREATION_THRESHOLD = 365;
+    private const int DEFAULT_CREATION_THRESHOLD = 365;
 
     private string $roleIdWhiteliste = '';
     private int $thresholdInDays = self::DEFAULT_CREATION_THRESHOLD;
-    private Language $lng;
     private ilSetting $settings;
     private ilRbacReview $rbacreview;
     private ilObjectDataCache $objectDataCache;
     private \ILIAS\HTTP\GlobalHttpState $http;
     private \ILIAS\Refinery\Factory $refinery;
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilGlobalTemplateInterface $main_tpl;
 
-    public function __construct()
+    public function init(): void
     {
         global $DIC;
+
+        $this->language->loadLanguageModule('usr');
+
         $this->main_tpl = $DIC->ui()->mainTemplate();
+        $this->settings = $DIC['ilSetting'];
+        $this->rbacreview = $DIC['rbacreview'];
+        $this->objectDataCache = $DIC['ilObjDataCache'];
+        $this->http = $DIC['http'];
+        $this->refinery = $DIC['refinery'];
 
-        if ($DIC) {
-            if (isset($DIC['ilSetting'])) {
-                $this->settings = $DIC->settings();
-
-                $this->roleIdWhiteliste = (string) $this->settings->get(
-                    'cron_users_without_login_delete_incl_roles',
-                    ''
-                );
-
-                $this->thresholdInDays = (int) $this->settings->get(
-                    'cron_users_without_login_delete_threshold',
-                    (string) self::DEFAULT_CREATION_THRESHOLD
-                );
-            }
-
-            if (isset($DIC['lng'])) {
-                $this->lng = $DIC->language();
-                $this->lng->loadLanguageModule('usr');
-            }
-
-            if (isset($DIC['rbacreview'])) {
-                $this->rbacreview = $DIC->rbac()->review();
-            }
-
-            if (isset($DIC['ilObjDataCache'])) {
-                $this->objectDataCache = $DIC['ilObjDataCache'];
-            }
-
-            if (isset($DIC['http'])) {
-                $this->http = $DIC->http();
-            }
-
-            if (isset($DIC['refinery'])) {
-                $this->refinery = $DIC->refinery();
-            }
-        }
+        $this->roleIdWhiteliste = (string) $this->settings->get(
+            'cron_users_without_login_delete_incl_roles',
+            ''
+        );
+        $this->thresholdInDays = (int) $this->settings->get(
+            'cron_users_without_login_delete_threshold',
+            (string) self::DEFAULT_CREATION_THRESHOLD
+        );
     }
 
     public function getId(): string
@@ -87,16 +66,12 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ILIAS\Cron\CronJob
 
     public function getTitle(): string
     {
-        global $DIC;
-
-        return $DIC->language()->txt('user_never_logged_in');
+        return $this->language->txt('user_never_logged_in');
     }
 
     public function getDescription(): string
     {
-        global $DIC;
-
-        return $DIC->language()->txt('user_never_logged_in_info');
+        return $this->language->txt('user_never_logged_in_info');
     }
 
     public function getDefaultScheduleType(): JobScheduleType

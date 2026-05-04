@@ -48,5 +48,12 @@ class Test implements Component\Component
             new Component\Resource\ComponentCSS($this, "test_print.css");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentCSS($this, "test_print_hide_content.css");
+
+        $contribute[\ILIAS\Cron\CronJob::class] = static fn() =>
+            new \ilCronFinishUnfinishedTestPasses(
+                self::class,
+                $use[\ILIAS\Language\Language::class],
+                $use[\ILIAS\Logging\LoggerFactory::class]
+            );
     }
 }

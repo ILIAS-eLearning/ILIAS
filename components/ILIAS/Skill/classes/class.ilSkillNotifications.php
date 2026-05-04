@@ -21,37 +21,32 @@ declare(strict_types=1);
 use ILIAS\Skill\Service\SkillTreeService;
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
-use ILIAS\Cron\CronJob;
+use ILIAS\Cron\AbstractCronJob;
 
 /**
  * Course/group skill notification
  *
  * @author Alex Killing <killing@leifos.com>
  */
-class ilSkillNotifications extends CronJob
+class ilSkillNotifications extends AbstractCronJob
 {
-    protected ilLanguage $lng;
     protected ilObjUser $user;
     protected ilIniFile $client_ini;
     protected ilTree $tree;
     protected SkillTreeService $tree_service;
 
-    public function __construct()
+    public function init(): void
     {
         global $DIC;
 
-        $this->lng = $DIC->language();
-        if (isset($DIC["ilUser"])) {
-            $this->user = $DIC->user();
-        }
-        if (isset($DIC["ilClientIniFile"])) {
-            $this->client_ini = $DIC["ilClientIniFile"];
-        }
-        if (isset($DIC["tree"])) {
-            $this->tree = $DIC->repositoryTree();
-        }
+        $this->language->loadLanguageModule("skll");
+
+        $this->user = $DIC->user();
+        $this->client_ini = $DIC["ilClientIniFile"];
+        $this->tree = $DIC->repositoryTree();
         $this->tree_service = $DIC->skills()->tree();
     }
+
 
     public function getId(): string
     {
@@ -60,16 +55,12 @@ class ilSkillNotifications extends CronJob
 
     public function getTitle(): string
     {
-        $lng = $this->lng;
-        $lng->loadLanguageModule("skll");
-        return $lng->txt("skll_skill_notification");
+        return $this->language->txt("skll_skill_notification");
     }
 
     public function getDescription(): string
     {
-        $lng = $this->lng;
-        $lng->loadLanguageModule("skll");
-        return $lng->txt("skll_skill_notification_desc");
+        return $this->language->txt("skll_skill_notification_desc");
     }
 
     public function getDefaultScheduleType(): JobScheduleType
