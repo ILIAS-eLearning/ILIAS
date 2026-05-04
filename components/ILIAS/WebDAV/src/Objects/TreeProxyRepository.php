@@ -29,6 +29,7 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\ResourceStorage\Manager\Manager;
 use ILIAS\WebDAV\Objects\Filter\Filter;
 use ILIAS\WebDAV\Objects\Filter\Action;
+use Sabre\DAV\Exception\Forbidden;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -83,6 +84,10 @@ class TreeProxyRepository implements ProxyRepository
             Type::FILE => new \ilObjFile(),
             default => null,
         };
+
+        if (!$this->filter->canUserCreate($type, $parent)) {
+            return null;
+        }
 
         if ($object === null) {
             throw new \InvalidArgumentException(

@@ -79,9 +79,7 @@ class WebDAV implements Component
 
         $internal[ProxyRepository::class] = static fn(): ProxyRepository => new TreeProxyRepository(
             $internal[Config::class],
-            new CharacterFilter(
-                $internal[Config::class],
-            ),
+            $internal[Filter::class],
         );
 
         $internal[Factory::class] = static fn(): Factory => new Factory(

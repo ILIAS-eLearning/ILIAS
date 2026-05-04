@@ -73,6 +73,10 @@ class Entrypoint implements \ILIAS\Component\EntryPoint
 
         $this->request_translation->setup();
 
+        if(!$this->config->isActive()) {
+            return 0;
+        }
+
         if ($this->request_translation->showMountPoint()) {
             $this->handleMountInstruction(
                 $database,
@@ -89,6 +93,7 @@ class Entrypoint implements \ILIAS\Component\EntryPoint
         $server = new Server(
             $this->factory->getMountPoint(),
         );
+
         $server->setBaseUri($this->request_translation->getBasePath());
 
         $server->addPlugin(

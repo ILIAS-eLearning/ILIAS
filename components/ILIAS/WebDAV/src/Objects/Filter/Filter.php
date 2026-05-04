@@ -23,6 +23,7 @@ namespace ILIAS\WebDAV\Objects\Filter;
 use ILIAS\WebDAV\Entity\Entity;
 use ILIAS\WebDAV\Entity\Container;
 use ILIAS\WebDAV\Objects\Proxy;
+use ILIAS\WebDAV\Objects\Type;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -34,6 +35,7 @@ interface Filter
     public function canUserIn(Action $action, Container $in): bool;
 
     public function canUserFor(Action $action, Entity $for): bool;
+    public function canUserCreate(Type $type, Container $in): bool;
 
     public function filterEntity(Entity $entity): bool;
 

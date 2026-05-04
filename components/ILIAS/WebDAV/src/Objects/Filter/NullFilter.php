@@ -53,4 +53,9 @@ class NullFilter implements Filter
     {
         return true;
     }
+
+    public function canUserCreate(Type $type, Container $in): bool
+    {
+        return true;
+    }
 }

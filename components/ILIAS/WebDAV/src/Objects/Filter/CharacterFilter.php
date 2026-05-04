@@ -24,6 +24,7 @@ use ILIAS\WebDAV\Entity\Entity;
 use ILIAS\WebDAV\Entity\Container;
 use ILIAS\WebDAV\Objects\Proxy;
 use ILIAS\WebDAV\Config;
+use ILIAS\WebDAV\Objects\Type;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -66,6 +67,11 @@ class CharacterFilter implements Filter
             '/[' . preg_quote(implode('', $this->config->getIncompatibleCharacters()), '/') . ']/',
             $name
         );
+    }
+
+    public function canUserCreate(Type $type, Container $in): bool
+    {
+        return true;
     }
 
 }

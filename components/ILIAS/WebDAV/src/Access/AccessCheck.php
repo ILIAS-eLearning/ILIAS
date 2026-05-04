@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\WebDAV;
 
 use ILIAS\WebDAV\Objects\Filter\Action;
+use ILIAS\WebDAV\Objects\Type;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -28,4 +29,6 @@ use ILIAS\WebDAV\Objects\Filter\Action;
 interface AccessCheck
 {
     public function hasCurrentUserAccess(Action $action, ?int $ref_id = null): bool;
+
+    public function canUserCreate(Type $type, ?int $ref_id = null): bool;
 }

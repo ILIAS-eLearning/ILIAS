@@ -24,6 +24,7 @@ use ILIAS\WebDAV\Entity\Entity;
 use ILIAS\WebDAV\Entity\Container;
 use ILIAS\WebDAV\Objects\Proxy;
 use ILIAS\WebDAV\AccessCheck;
+use ILIAS\WebDAV\Objects\Type;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -59,4 +60,10 @@ class RBACFilter implements Filter
     {
         return $this->check->hasCurrentUserAccess(Action::READ, $proxy->getRefId());
     }
+
+    public function canUserCreate(Type $type, Container $in): bool
+    {
+        return $this->check->canUserCreate($type, $in->getObjectProxy()?->getRefId());
+    }
+
 }

@@ -23,6 +23,7 @@ namespace ILIAS\WebDAV\Objects\Filter;
 use ILIAS\WebDAV\Entity\Entity;
 use ILIAS\WebDAV\Entity\Container;
 use ILIAS\WebDAV\Objects\Proxy;
+use ILIAS\WebDAV\Objects\Type;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -84,4 +85,14 @@ class Collection implements Filter
         }
         return $return;
     }
+
+    public function canUserCreate(Type $type, Container $in): bool
+    {
+        $return = true;
+        foreach ($this->filters as $filter) {
+            $return = $return && $filter->canUserCreate($type, $in);
+        }
+        return $return;
+    }
+
 }
