@@ -21,20 +21,20 @@ declare(strict_types=1);
 namespace ILIAS\Test\Presentation;
 
 use ILIAS\Test\Access\ParticipantAccess;
+use ILIAS\Test\Logging\TestParticipantInteractionTypes;
 use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Test\Settings\MainSettings\MainSettings;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Link;
-use ILIAS\Data\Result;
 use ILIAS\Data\Password;
+use ILIAS\Data\Result;
+use ILIAS\Data\URI;
 use ILIAS\UI\Component\Launcher\Launcher;
-use ILIAS\UI\Component\Launcher\Factory as LauncherFactory;
 use ILIAS\UI\Component\MessageBox\MessageBox;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Test\Logging\TestParticipantInteractionTypes;
 use ILIAS\Style\Content\Service as ContentStyle;
 
 /**
@@ -291,14 +291,10 @@ class TestScreenGUI
 
     private function getResumeLauncherLink(): Link
     {
-        $class = $this->object->isFixedTest()
-            ? \ilTestPlayerFixedQuestionSetGUI::class
-            : \ilTestPlayerRandomQuestionSetGUI::class;
-        $url = $this->ctrl->getLinkTargetByClass(
-            [\ilRepositoryGUI::class, \ilObjTestGUI::class, $class],
-            \ilTestPlayerCommands::RESUME_PLAYER
+        return $this->data_factory->link(
+            $this->lng->txt('tst_resume_test'),
+            $this->buildLauncherLinkUrl(\ilTestPlayerCommands::RESUME_PLAYER)
         );
-        return $this->data_factory->link($this->lng->txt('tst_resume_test'), $this->data_factory->uri(ILIAS_HTTP_PATH . '/' . $url));
     }
 
     private function buildModalLauncher(): Launcher
@@ -323,8 +319,12 @@ class TestScreenGUI
 
     private function getModalLauncherLink(): Link
     {
-        $uri = $this->data_factory->uri($this->http->request()->getUri()->__toString())->withParameter('launcher_id', 'exam_modal');
-        return $this->data_factory->link($this->lng->txt('tst_exam_start'), $uri);
+        return $this->data_factory->link(
+            $this->lng->txt('tst_exam_start'),
+            $this->data_factory->uri(
+                $this->http->request()->getUri()->__toString()
+            )->withParameter('launcher_id', 'exam_modal')
+        );
     }
 
     private function getModalLauncherInputs(): array
@@ -394,14 +394,27 @@ class TestScreenGUI
 
     private function getStartLauncherLink(): Link
     {
-        $class = $this->object->isFixedTest()
-            ? \ilTestPlayerFixedQuestionSetGUI::class
-            : \ilTestPlayerRandomQuestionSetGUI::class;
-        $url = $this->ctrl->getLinkTargetByClass(
-            [\ilRepositoryGUI::class, \ilObjTestGUI::class, $class],
-            \ilTestPlayerCommands::INIT_TEST
+        return $this->data_factory->link(
+            $this->lng->txt('tst_exam_start'),
+            $this->buildLauncherLinkUrl(\ilTestPlayerCommands::INIT_TEST)
         );
-        return $this->data_factory->link($this->lng->txt('tst_exam_start'), $this->data_factory->uri(ILIAS_HTTP_PATH . '/' . $url));
+    }
+
+    private function buildLauncherLinkUrl(
+        string $cmd
+    ): \ILIAS\Data\URI {
+        return $this->data_factory->uri(
+            ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
+                [
+                    \ilRepositoryGUI::class,
+                    \ilObjTestGUI::class,
+                    $this->object->isFixedTest()
+                        ? \ilTestPlayerFixedQuestionSetGUI::class
+                        : \ilTestPlayerRandomQuestionSetGUI::class
+                ],
+                $cmd
+            )
+        );
     }
 
     private function evaluateLauncherModalForm(Result $result): void
@@ -559,18 +572,22 @@ class TestScreenGUI
 
     private function getSkillLevelThresholdsMissingInfo(): MessageBox
     {
-        $message = $this->lng->txt('tst_skl_level_thresholds_missing');
-
-        $link_target = $this->buildLinkTarget(
-            \ilTestSkillLevelThresholdsGUI::CMD_SHOW_SKILL_THRESHOLDS
-        );
-
-        $link = $this->ui_factory->link()->standard(
-            $this->lng->txt('tst_skl_level_thresholds_link'),
-            $link_target
-        );
-
-        return $this->ui_factory->messageBox()->failure($message)->withLinks([$link]);
+        return $this->ui_factory->messageBox()->failure(
+            $this->lng->txt('tst_skl_level_thresholds_missing')
+        )->withLinks([
+            $this->ui_factory->link()->standard(
+                $this->lng->txt('tst_skl_level_thresholds_link'),
+                $this->ctrl->getLinkTargetByClass(
+                    [
+                        \ilRepositoryGUI::class,
+                        \ilObjTestGUI::class,
+                        \ilTestSkillAdministrationGUI::class,
+                        \ilTestSkillLevelThresholdsGUI::class
+                    ],
+                    \ilTestSkillLevelThresholdsGUI::CMD_SHOW_SKILL_THRESHOLDS
+                )
+            )
+        ]);
     }
 
     private function areSkillLevelThresholdsMissing(): bool
@@ -600,11 +617,5 @@ class TestScreenGUI
         }
 
         return false;
-    }
-
-    private function buildLinkTarget(?string $cmd = null): string
-    {
-        $target = array_merge(['ilRepositoryGUI', 'ilObjTestGUI'], ['ilTestSkillAdministrationGUI', 'ilTestSkillLevelThresholdsGUI']);
-        return $this->ctrl->getLinkTargetByClass($target, $cmd);
     }
 }
