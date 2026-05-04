@@ -102,11 +102,12 @@ class QuestionPoolImporter
 
         $deserializer->addHandler(
             'skill_assignments',
-            function (array $assignments) use ($tt, &$context): void {
+            function (array $assignments) use ($tt, $mapping, &$context): void {
                 $result = $this->skill_importer->import(
                     $assignments,
                     UploadValidationStage::getInstallId($context),
                     $tt,
+                    $mapping,
                 );
                 $context = $context->with('skill_assignments', $result);
             }

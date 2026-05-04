@@ -101,6 +101,7 @@ class QuestionPoolDIC extends ServiceContainer
             new SkillAssignmentsImporter(
                 $DIC->skills()->internal()->repo()->getTreeRepo(),
                 $DIC->skills()->usage(),
+                'components/ILIAS/TestQuestionPool',
                 (int) $DIC->settings()->get('inst_id', '0')
             );
         $dic['exportimport.questions_importer'] = static fn($c): QuestionsImporter =>
