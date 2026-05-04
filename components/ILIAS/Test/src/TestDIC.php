@@ -57,6 +57,7 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionReposi
 use ILIAS\TestQuestionPool\ExportImport\Import\QuestionsImporter;
 use ILIAS\TestQuestionPool\ExportImport\Import\SkillAssignmentsImporter;
 use ILIAS\Test\ExportImport\Import\TestImporter;
+use ILIAS\Test\ExportImport\Import\SkillLevelThresholdsImporter;
 use ILIAS\TestQuestionPool\ExportImport\LoggingProvider;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\TestQuestionPool\RequestDataCollector as QPLRequestDataCollector;
@@ -278,6 +279,15 @@ class TestDIC extends PimpleContainer
             new SkillAssignmentsImporter(
                 $DIC->skills()->internal()->repo()->getTreeRepo(),
                 $DIC->skills()->usage(),
+                'components/ILIAS/Test',
+                (int) $DIC->settings()->get('inst_id', '0')
+            );
+
+        $dic['exportimport.skill_level_thresholds_importer'] = static fn($c): SkillLevelThresholdsImporter =>
+            new SkillLevelThresholdsImporter(
+                $DIC->database(),
+                $DIC->skills()->internal()->repo()->getTreeRepo(),
+                'components/ILIAS/Test',
                 (int) $DIC->settings()->get('inst_id', '0')
             );
 
@@ -295,14 +305,13 @@ class TestDIC extends PimpleContainer
         $dic['exportimport.importer'] = static fn($c): TestImporter =>
             new TestImporter(
                 $c['exportimport.builder'],
-                $DIC->ctrl(),
                 $DIC->database(),
                 $c['exportimport.logging'](),
-                $DIC->language(),
                 $DIC->resourceStorage(),
                 new DataFactory(),
                 $c['exportimport.questions_importer'],
                 $c['exportimport.skill_assignments_importer'],
+                $c['exportimport.skill_level_thresholds_importer'],
                 $c['marks.repository']
             );
 

@@ -17,10 +17,6 @@
  *********************************************************************/
 
 declare(strict_types=1);
-use ILIAS\Refinery\Transformation;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -28,7 +24,7 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
  *
  * @package components\ILIAS/Test
  */
-class ilTestSkillLevelThreshold implements Normalizable
+class ilTestSkillLevelThreshold
 {
     /**
      * @var ilDBInterface
@@ -217,36 +213,5 @@ class ilTestSkillLevelThreshold implements Normalizable
     public function getThreshold(): ?int
     {
         return is_numeric($this->threshold) ? (int) $this->threshold : null;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function toNormalized(Transformations $tt): Transformation
-    {
-        return $tt->custom()->transformation(fn(): array => [
-            'id' => $tt->normalize(new Id($this->getSkillLevelId(), 'skill_level')),
-            'test_id' => $tt->normalize(new Id($this->getTestId(), 'tst')),
-            'skill_base_id' => $tt->normalize(new Id($this->getSkillBaseId(), 'skill_base')),
-            'skill_tref_id' => $tt->normalize(new Id($this->getSkillTrefId(), 'skill_tref')),
-            'threshold' => $this->getThreshold(),
-        ]);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function fromNormalized(Transformations $tt): Transformation
-    {
-        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
-            $clone = clone $this;
-            $clone->setSkillLevelId($tt->denormalize($normalized['id'], Id::class)->getId());
-            $clone->setTestId($tt->denormalize($normalized['test_id'], Id::class)->getId());
-            $clone->setSkillBaseId($tt->denormalize($normalized['skill_base_id'], Id::class)->getId());
-            $clone->setSkillTrefId($tt->denormalize($normalized['skill_tref_id'], Id::class)->getId());
-            $clone->setThreshold($normalized['threshold']);
-            return $clone;
-        });
     }
 }
