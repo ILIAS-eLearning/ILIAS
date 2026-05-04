@@ -341,11 +341,18 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
     /**
      * @return \Closure[]
      */
-    protected function getFilters(array $filter_values): array
-    {
-        $filter_values = array_map(fn($v) => $v === '' ? null : $v, $filter_values);
-        $ret = [];
+    protected function getFilters(
+        ?array $values_from_filter
+    ): array {
+        if ($values_from_filter === null) {
+            return [];
+        }
+        $filter_values = array_map(
+            fn($v) => $v === '' ? null : $v,
+            $values_from_filter
+        );
 
+        $ret = [];
         if ($filter_values[self::FILTER_USERS] !== null) {
             $ret[] = static fn(array $uids, array $qids): array => [
                 array_intersect($uids, $filter_values[self::FILTER_USERS]),
