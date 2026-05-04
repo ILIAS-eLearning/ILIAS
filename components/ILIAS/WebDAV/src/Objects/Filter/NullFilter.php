@@ -23,6 +23,7 @@ namespace ILIAS\WebDAV\Objects\Filter;
 use ILIAS\WebDAV\Entity\Entity;
 use ILIAS\WebDAV\Entity\Container;
 use ILIAS\WebDAV\Objects\Proxy;
+use ILIAS\WebDAV\Objects\Type;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
