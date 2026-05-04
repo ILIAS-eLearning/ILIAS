@@ -38,6 +38,12 @@ export default class Dropdown {
    * @param {HTMLElement} element
    */
   constructor(element) {
+    if (!element || !(element instanceof HTMLElement)) {
+      throw new TypeError(
+        `Dropdown: Expected an HTMLElement root (.dropdown); received ${
+          element === null ? 'null' : typeof element}`,
+      );
+    }
     this.#element = element;
     this.#document = element.ownerDocument;
 
