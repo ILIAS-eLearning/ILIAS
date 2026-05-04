@@ -101,7 +101,7 @@ class TestExporter implements Exporter
                     $object_id
                 ),
                 new CollectResources(
-                    $this->irss, 
+                    $this->irss,
                     $this->logger
                 ),
             ])
@@ -309,7 +309,7 @@ class TestExporter implements Exporter
                 'feedback' => $transformations->normalize(
                     $collector->getFeedback($question)
                 ),
-                'sequence' => $question_properties[$question->getId()]->getSequenceInformation()->getPlaceInSequence(),
+                'sequence' => $question_properties[$question->getId()]->getSequenceInformation()?->getPlaceInSequence(),
             ];
 
             if ($question instanceof assFormulaQuestion) {
