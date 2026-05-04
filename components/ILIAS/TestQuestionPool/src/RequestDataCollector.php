@@ -199,6 +199,18 @@ class RequestDataCollector implements RequestDataCollectorInterface
         );
     }
 
+    public function getNumericGapValue(
+        int $gap_index
+    ): ?float {
+        return $this->http->wrapper()->post()->retrieve(
+            "gap_{$gap_index}_numeric",
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->float(),
+                $this->refinery->always(null)
+            ])
+        );
+    }
+
     public function getPostKeys(): array
     {
         return $this->http->wrapper()->post()->keys();
