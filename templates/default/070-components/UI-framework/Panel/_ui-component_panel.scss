@@ -154,6 +154,14 @@
 				padding: $il-padding-large-vertical $il-padding-xlarge-horizontal;
 			}
 
+			// Quick-Fix for Mantis-Issue 46692
+			.media {
+				.il-item-title {
+					margin: 0;
+					padding: 0;
+				}
+			}
+
 			&:first-child{
 				margin-top: -$il-margin-xxxlarge-vertical;
 			}
