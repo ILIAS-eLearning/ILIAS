@@ -31,6 +31,7 @@ use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\Test\ExportImport\Envelopes\AdditionalWorkingTime;
 use ILIAS\Test\ExportImport\Envelopes\ManualFeedback;
 use ILIAS\Test\ExportImport\Envelopes\QuestionResult;
+use ILIAS\Test\ExportImport\Envelopes\QuestionSetConfig;
 use ILIAS\Test\ExportImport\Envelopes\Solution;
 use ILIAS\Test\ExportImport\Envelopes\WorkingTime;
 use ILIAS\Test\Participants\Participant;
@@ -57,6 +58,8 @@ use ILIAS\TestQuestionPool\ExportImport\Pipes\CollectQuestionImages;
 use ilImportMapping;
 use ilObjTest;
 use ilTestPage;
+use ilTestRandomQuestionSetSourcePoolDefinition;
+use ilTestRandomQuestionSetStagingPoolQuestion;
 use ilTestSequence;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -134,6 +137,18 @@ class TestImporter
                     $tt,
                     $mapping,
                     $context,
+                    $test_object
+                );
+            }
+        );
+
+        $deserializer->addHandler(
+            'question_set_config',
+            function (array $normalized) use ($tt, $mapping, $context, &$test_object): void {
+                $this->importQuestionSetConfig(
+                    reset($normalized),
+                    $tt,
+                    $mapping,
                     $test_object
                 );
             }
@@ -360,7 +375,7 @@ class TestImporter
         foreach ($list as $normalized) {
             $question = $this->questions_importer->importQuestion($normalized, $tt, $mapping, $selected_questions);
 
-            if ($question) {
+            if ($question && $normalized['sequence'] !== null) {
                 $sequence = $tt->int($normalized['sequence']);
                 $test_object->questions[$sequence] = $question->getId();
                 $this->log->debug("Stored question {$question->getId()} at sequence {$sequence} in test");
@@ -369,6 +384,85 @@ class TestImporter
 
         $test_object->saveQuestionsToDb();
         $this->log->debug('Saved test questions to database');
+    }
+
+    private function importQuestionSetConfig(
+        array $normalized,
+        Transformations $tt,
+        ilImportMapping $mapping,
+        ilObjTest $test_object
+    ): void {
+        $config = $tt->denormalize($normalized, QuestionSetConfig::class);
+        if (!$config->isRandom()) {
+            return;
+        }
+
+        $config->getConfig()->saveToDb();
+        $this->log->debug("Imported random question set config for test {$test_object->getTestId()}");
+
+        foreach ($config->getStagingPools() as $pool_id => $questions) {
+            $this->importRandomQuestionStagingPool($pool_id, $questions, $mapping, $test_object);
+        }
+
+        foreach ($config->getDefinitions() as $definition) {
+            $this->importSourcePoolDefinition($definition, $mapping);
+        }
+    }
+
+    private function importRandomQuestionStagingPool(
+        int $old_pool_id,
+        array $questions,
+        ilImportMapping $mapping,
+        ilObjTest $test_object
+    ): void {
+        $new_pool_id = $this->database->nextId('object_data');
+        $mapping->addMapping(
+            'components/ILIAS/Test',
+            'pool',
+            (string) $old_pool_id,
+            (string) $new_pool_id
+        );
+        $this->log->debug("Imported random question staging pool: {$old_pool_id} -> {$new_pool_id}");
+
+        // QuestionID was mapped during question set config denormalization
+        foreach ($questions as $question_id) {
+            $question = new ilTestRandomQuestionSetStagingPoolQuestion($this->database);
+            $question->setTestId($test_object->getTestId());
+            $question->setPoolId($new_pool_id);
+            $question->setQuestionId($question_id);
+            $question->saveQuestionStaging();
+            $this->log->debug("Imported random question staging question: {$question_id}");
+        }
+    }
+
+    private function importSourcePoolDefinition(
+        ilTestRandomQuestionSetSourcePoolDefinition $definition,
+        ilImportMapping $mapping,
+    ): void {
+        // New PoolID was not available during denormalization, so we have to map it here
+        $old_pool_id = $definition->getPoolId();
+        $new_pool_id = (int) $mapping->getMapping('components/ILIAS/Test', 'pool', (string) $old_pool_id);
+        $definition->setPoolId($new_pool_id);
+
+        if ($old_pool_id !== $new_pool_id) {
+            $ref_ids = $this->data_factory->objId($new_pool_id)->toReferenceIds();
+            if (count($ref_ids) > 0) {
+                $definition->setPoolRefId(current($ref_ids)->toInt());
+                $this->log->debug("Derived source pool definition from Object ID: {$old_pool_id} -> {$definition->getPoolRefId()}");
+            }
+        }
+
+        $old_definition_id = $definition->getId();
+        $definition->setId(0);
+        $definition->saveToDb();
+        $this->log->debug("Imported source pool definition: {$old_definition_id} -> {$definition->getId()}");
+
+        $mapping->addMapping(
+            'components/ILIAS/Test',
+            'rnd_src_pool_def',
+            (string) $old_definition_id,
+            (string) $definition->getId()
+        );
     }
 
     private function importParticipants(array $list, Transformations $tt, ilImportMapping $mapping): void
