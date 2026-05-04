@@ -902,7 +902,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         $aggregate = [];
         foreach ($answers_defined_on_question as $answer) {
             $aggregated_info_for_answer = [];
-            $aggregated_info_for_answer['answertext'] = $answer->getAnswerText();
+            $aggregated_info_for_answer['answertext'] = $this
+                ->buildAnswerPresentationForStatistics($answer);
             $aggregated_info_for_answer['count_checked'] = 0;
 
             foreach ($relevant_answers_chosen as $relevant_answer) {
@@ -917,6 +918,28 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $aggregate[] = $aggregated_info_for_answer;
         }
         return $aggregate;
+    }
+
+    private function buildAnswerPresentationForStatistics(
+        ASS_AnswerMultipleResponseImage $answer
+    ): string {
+        $answer_text = '';
+        $answer_elements = [];
+        if ($answer->hasImage()) {
+            $answer_elements[] = $this->ui->factory()->image()->standard(
+                $this->object->getImagePathWeb() . $answer->getImage(),
+                $answer->getAnswertext()
+            );
+            $answer_text = '<br>';
+        }
+
+        if ($answer->getAnswertext() !== '') {
+            $answer_elements[] = $this->ui->factory()->legacy()->content(
+                $answer_text . $answer->getAnswertext()
+            );
+        }
+
+        return $this->ui->renderer()->render($answer_elements);
     }
 
     private function populateSpecificFeedbackInline($user_solution, $answer_id, $template): void
