@@ -122,7 +122,8 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         $cmd = $this->ctrl->getCmd(self::SUBTAB_VIEW_MANAGE);
         $next_class = $this->ctrl->getNextClass($this);
 
-        if (!in_array($cmd, self::ASYNC_CALLS)) {
+        if (!in_array($cmd, self::ASYNC_CALLS)
+            && strtolower($next_class ?? '') !== strtolower(TranslationGUI::class)) {
             $this->addToNavigationHistory();
             parent::prepareOutput();
             $this->addHeaderAction();
