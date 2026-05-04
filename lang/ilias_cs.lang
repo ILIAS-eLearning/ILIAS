@@ -16769,6 +16769,7 @@ survey#:#survey_execution_sure_finish#:#Opravdu chcete dokončit přehled? Poté
 survey#:#survey_existing_pool#:#Použít existující zásobník otázek
 survey#:#survey_finish#:#Ukončit anketu
 survey#:#survey_finished#:#Tato anketa je ukončena. Děkujeme za Vaši účast!
+survey#:#survey_from_x_points#:#Od X bodů
 survey#:#survey_has_datasets_warning#:#Tato anketa již obsahuje sadu údajů. Nemůžete upravovat otázky ankety dokud neodstraníte tuto sadu údajů v sekci údržby.
 survey#:#survey_has_datasets_warning_page_view#:#Tato anketa již obsahuje sadu dat. Nemůžete editovat otázky ankety dokud tato data nevymažete.
 survey#:#survey_has_datasets_warning_page_view_link#:#Upravit účastníky
@@ -16844,7 +16845,6 @@ survey#:#survey_sync_insufficient_permissions#:#Neodpovídající oprávnění
 survey#:#survey_sync_question_copies#:#Synchronizovat kopie otázek
 survey#:#survey_sync_question_copies_info#:#Vybrané otázky budou přepsány aktuální verzí zásobníku.
 survey#:#survey_sync_success#:#Vybrané otázky byly aktualizovány
-survey#:#survey_up_to_x_points#:#Až x bodů
 survey#:#survey_use_start_button#:#Musíte vložit anketu použitím startovacího tlačítka!
 survey#:#svy_activation_limited_visibility_info#:#Je-li toto zvoleno, je přehled viditelný i mimo danou dostupnost.
 survey#:#svy_activation_online_info#:#Aktivujte toto nastavení ke zpřístupnění ankety uživatelům.

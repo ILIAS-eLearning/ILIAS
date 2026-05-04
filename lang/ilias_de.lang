@@ -16817,6 +16817,7 @@ survey#:#survey_execution_sure_finish#:#Möchten Sie die Umfrage wirklich beende
 survey#:#survey_existing_pool#:#Vorhandenen Fragenpool verwenden
 survey#:#survey_finish#:#Umfrage beenden →
 survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
+survey#:#survey_from_x_points#:#Ab X Punkten
 survey#:#survey_has_datasets_warning#:#Diese Umfrage enthält bereits Datensätze. Sie können die Fragen erst synchronisieren, wenn Sie diese Datensätze über die Reiter „Befragten“ bzw. "Feedback-Nehmer" der Umfrage löschen. Dazu müssen Sie alle entfernen, die mit der Umfrage begonnen und dadurch einen Datensatz erstellt haben.
 survey#:#survey_has_datasets_warning_page_view#:#Diese Umfrage enthält bereits Datensätze. Sie können die Umfrage erst bearbeiten, wenn Sie diese Datensätze gelöscht haben. Dazu müssen Sie alle Personen entfernen, die mit der Umfrage begonnen und dadurch einen Datensatz erstellt haben.
 survey#:#survey_has_datasets_warning_page_view_link#:#Teilnehmende Personen bearbeiten

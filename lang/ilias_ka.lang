@@ -16769,6 +16769,7 @@ survey#:#survey_execution_sure_finish#:#Are you sure you want to finish the surv
 survey#:#survey_existing_pool#:#არსებული კითხვების ნაკადის გამოყენება
 survey#:#survey_finish#:#კიტხვარის დასრულება
 survey#:#survey_finished#:#თქვენ დაასრულეთ კითხვარი. Mმადლობას გიხდით მონაწილეობისთვის
+survey#:#survey_from_x_points#:#X ქულიდან
 survey#:#survey_has_datasets_warning#:#კითხვარი უკვე შეიცავს მონაცემებს. თქვენ არ შეგიძლიათ კითხვარის კითხვების რედაქტირება სანამ ამ მონაცემებს არ ამოშლიღ მონაწილეთა განყოფილებიდან
 survey#:#survey_has_datasets_warning_page_view#:#ეს კითხვარი უკვე შეიცავს მოდემებს. თქვენ არ შეგიძლიათ კითხვარის კითხვების რედაქტირება სანამ ამ მოდემებს არ ამოშლით
 survey#:#survey_has_datasets_warning_page_view_link#:#მონაწილეების რედაქტირება
@@ -16844,7 +16845,6 @@ survey#:#survey_sync_insufficient_permissions#:#არადამაკმა�
 survey#:#survey_sync_question_copies#:#კიტხვების ასლების სინქრონიზაცია
 survey#:#survey_sync_question_copies_info#:#მონიშნული კითხვები შეიცვლება მიმდინარე ნაკადის ვერსიით
 survey#:#survey_sync_success#:#მონიშნული კითხვები განახლებულია
-survey#:#survey_up_to_x_points#:#Up to x points###24 10 2013 new variable
 survey#:#survey_use_start_button#:#თქვენ უნდა შეხვიდეთ კითხვარში დაწყების ღილაკზე დაკლიკებით
 survey#:#svy_activation_limited_visibility_info#:#If chosen, the survey is visible even outside of the given availability.
 survey#:#svy_activation_online_info#:#Activate this setting to make the survey accessible to users.

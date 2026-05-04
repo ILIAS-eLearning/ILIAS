@@ -16754,6 +16754,7 @@ survey#:#survey_execution_sure_finish#:#Êtes-vous sûr de vouloir finir cette e
 survey#:#survey_existing_pool#:#Utiliser le réservoir de questions existant
 survey#:#survey_finish#:#Terminer le Questionnaire
 survey#:#survey_finished#:#Le sondage est terminé. Merci de votre participation !
+survey#:#survey_from_x_points#:#À partir de X points
 survey#:#survey_has_datasets_warning#:#L'enquête contient déjà  des réponses. Vous ne pouvez pas modifier les questions de l'enquête tant que vous n'avez pas supprimé ces réponses dans l'onglet " maintenance ".
 survey#:#survey_has_datasets_warning_page_view#:#L'enquête contient déjà des réponses. Vous ne pouvez pas éditer les questions de l'enquête tant que vous n'avez pas supprimé ces réponses.
 survey#:#survey_has_datasets_warning_page_view_link#:#Editer Participants
@@ -16829,7 +16830,6 @@ survey#:#survey_sync_insufficient_permissions#:#Permissions Insuffisantes
 survey#:#survey_sync_question_copies#:#Synchroniser les Copies de Questions
 survey#:#survey_sync_question_copies_info#:#Les questions sélectionnées seront supprimées avec les questions actuelles de la banque de questions.
 survey#:#survey_sync_success#:#Les questions sélectionnées ont été mises à jour.
-survey#:#survey_up_to_x_points#:#AU dessus de x points
 survey#:#survey_use_start_button#:#Cliquez sur le bouton "Commencer" pour commencer à répondre au questionnaire !
 survey#:#svy_activation_limited_visibility_info#:#Lorsque choisi, l'enquête est visible y compris en dehors de la période d'accès.
 survey#:#svy_activation_online_info#:#Activer ce paramètre pour rendre l'enquête accessible aux utilisateurs.

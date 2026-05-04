@@ -16762,6 +16762,7 @@ survey#:#survey_execution_sure_finish#:#Sei sicuro di voler terminare questo son
 survey#:#survey_existing_pool#:#Utilizza gruppo di domande esistente
 survey#:#survey_finish#:#Salva e finisci il sondaggio >>>
 survey#:#survey_finished#:#Hai finito il sondaggio. Grazie per la vostra partecipazione!
+survey#:#survey_from_x_points#:#Da X punti
 survey#:#survey_has_datasets_warning#:#Il sondaggio contiene già dei dati di partecipazione. Non puoi modificare le domande prima di aver rimosso i dati stessi, utilizzando la sezione "Manutenzione"
 survey#:#survey_has_datasets_warning_page_view#:#Il sondaggio contiene già set di dati. Non è possibile modificare le domande del sondaggio fino a quando non si rimuovono questi set di dati.
 survey#:#survey_has_datasets_warning_page_view_link#:#Modifica partecipanti
@@ -16837,7 +16838,6 @@ survey#:#survey_sync_insufficient_permissions#:#Autorizzazioni insufficienti
 survey#:#survey_sync_question_copies#:#Sincronizza le copie delle domande
 survey#:#survey_sync_question_copies_info#:#Le domande selezionate verranno sostituite con la versione corrente del gruppo.
 survey#:#survey_sync_success#:#Le domande selezionate sono state aggiornate.
-survey#:#survey_up_to_x_points#:#Fino a x punti
 survey#:#survey_use_start_button#:#Premi il tasto "Inizia il sondaggio" per iniziare!
 survey#:#svy_activation_limited_visibility_info#:#Se scelto, il sondaggio è visibile anche al di fuori della data disponibilità.
 survey#:#svy_activation_online_info#:#Attiva questa impostazione per rendere il sondaggio accessibile agli utenti.

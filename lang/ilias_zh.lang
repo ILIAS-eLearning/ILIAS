@@ -16768,6 +16768,7 @@ survey#:#survey_execution_sure_finish#:#Are you sure you want to finish the surv
 survey#:#survey_existing_pool#:#使用现有的题目池
 survey#:#survey_finish#:#完成并保存调查 >>>
 survey#:#survey_finished#:#调查已经完成。谢谢您的参与！
+survey#:#survey_from_x_points#:#从X分起
 survey#:#survey_has_datasets_warning#:#这个调查已经包含数据集。您不能编辑调查题目，直到您去维护段落移除这些数据集。
 survey#:#survey_has_datasets_warning_page_view#:#调查已经包含数据集。您不能编辑这个调查问题，直到您移除些些数据集。
 survey#:#survey_has_datasets_warning_page_view_link#:#编辑参与者
@@ -16843,7 +16844,6 @@ survey#:#survey_sync_insufficient_permissions#:#没有足够的权限
 survey#:#survey_sync_question_copies#:#同步题目副本
 survey#:#survey_sync_question_copies_info#:#选定的题目将被替换成当前池版本。
 survey#:#survey_sync_success#:#选择的题目已更新
-survey#:#survey_up_to_x_points#:#Up to x points###24 10 2013 new variable
 survey#:#survey_use_start_button#:#您必需使用开始按钮进入这个调查
 survey#:#svy_activation_limited_visibility_info#:#如果选择，调查是可见的，即使超出了给定的有效性范围。
 survey#:#svy_activation_online_info#:#激活这个设置使用得调查对用户可访问。

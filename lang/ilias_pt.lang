@@ -16769,6 +16769,7 @@ survey#:#survey_execution_sure_finish#:#Tem a certeza que quer terminar o inqué
 survey#:#survey_existing_pool#:#Usar banco de perguntas existente
 survey#:#survey_finish#:#save and finish survey >>>
 survey#:#survey_finished#:#The survey is finished. Thank you for your participation!
+survey#:#survey_from_x_points#:#A partir de X pontos
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.
 survey#:#survey_has_datasets_warning_page_view#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets.
 survey#:#survey_has_datasets_warning_page_view_link#:#Editar participantes
@@ -16844,7 +16845,6 @@ survey#:#survey_sync_insufficient_permissions#:#Permissões insuficientes
 survey#:#survey_sync_question_copies#:#Sinc cópias de perguntas
 survey#:#survey_sync_question_copies_info#:#As perguntas selecionadas serão substituídas pela versão atual do banco.
 survey#:#survey_sync_success#:#As perguntas selecionadas foram atualizadas.
-survey#:#survey_up_to_x_points#:#Até x pontos
 survey#:#survey_use_start_button#:#Tem de inserir o inquérito usando o botão iniciar!
 survey#:#svy_activation_limited_visibility_info#:#If chosen, the survey is visible even outside of the given availability.
 survey#:#svy_activation_online_info#:#Activate this setting to make the survey accessible to users.

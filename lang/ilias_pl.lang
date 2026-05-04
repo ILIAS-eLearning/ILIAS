@@ -16769,6 +16769,7 @@ survey#:#survey_execution_sure_finish#:#Czy naprawdę chcesz zakończyć ankiet�
 survey#:#survey_existing_pool#:#Użyj istniejącej puli pytań
 survey#:#survey_finish#:#Zapisz i zakończ ankietę >>>
 survey#:#survey_finished#:#Ankieta jest zakończona. Dziękujemy za uczestnictwo!
+survey#:#survey_from_x_points#:#Od X punktów
 survey#:#survey_has_datasets_warning#:#Ankieta już zawiera zestaw danych. Nie możesz edytować pytań ankiety bez usunięcia tego zestawu danych w sekcji konserwacji.
 survey#:#survey_has_datasets_warning_page_view#:#Ankieta już zawiera zestaw danych. Nie możesz edytować pytań ankiety bez usunięcia tego zestawu danych.
 survey#:#survey_has_datasets_warning_page_view_link#:#Edytuj uczestników
@@ -16844,7 +16845,6 @@ survey#:#survey_sync_insufficient_permissions#:#Brak wymaganych warunków.
 survey#:#survey_sync_question_copies#:#Synchronizuj kopie pytań
 survey#:#survey_sync_question_copies_info#:#Wszystkie wybrane pytania zostaną zaktualizowane do aktualnego statusu puli pytań.
 survey#:#survey_sync_success#:#Zaktualizowano wybrane pytania.
-survey#:#survey_up_to_x_points#:#Do x punktów
 survey#:#survey_use_start_button#:#Musisz rozpocząć ankietę używając przycisku start!
 survey#:#svy_activation_limited_visibility_info#:#Poza podanym okresem czasu wyświetlany jest tylko tytuł ankiety, pytania natomiast są niedostępne.
 survey#:#svy_activation_online_info#:#Uczestnicy mogą uczestniczyć w ankiecie tylko wówczas, gdy jest ona w trybie online.

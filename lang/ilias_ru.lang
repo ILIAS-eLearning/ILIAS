@@ -16769,6 +16769,7 @@ survey#:#survey_execution_sure_finish#:#Are you sure you want to finish the surv
 survey#:#survey_existing_pool#:#Use existing question pool
 survey#:#survey_finish#:#закончить опрос
 survey#:#survey_finished#:#Вы закончили опрос. Спасибо за ваше участие!
+survey#:#survey_from_x_points#:#От X баллов
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.
 survey#:#survey_has_datasets_warning_page_view#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets.
 survey#:#survey_has_datasets_warning_page_view_link#:#Редактировать участников
@@ -16844,7 +16845,6 @@ survey#:#survey_sync_insufficient_permissions#:#Недостаточно пра�
 survey#:#survey_sync_question_copies#:#Sync Question Copies
 survey#:#survey_sync_question_copies_info#:#Выбранные вопросы будут заменены текущей версией набора вопросов.
 survey#:#survey_sync_success#:#Выбранные вопросы обновлены.
-survey#:#survey_up_to_x_points#:#Up to x points
 survey#:#survey_use_start_button#:#Вы должны войти в опрос используя кнопку старта!
 survey#:#svy_activation_limited_visibility_info#:#Если выбрано, то опрос будет виден даже для не обладающих нужными правами.
 survey#:#svy_activation_online_info#:#Активируйте, чтобы сделать опрос доступным для всех пользователей
