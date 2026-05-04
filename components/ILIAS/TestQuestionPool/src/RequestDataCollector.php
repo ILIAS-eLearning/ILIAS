@@ -275,6 +275,17 @@ class RequestDataCollector implements RequestDataCollectorInterface
         );
     }
 
+    public function getNumericQuestionSolutionSubmit(): ?float
+    {
+        return $this->http->wrapper()->post()->retrieve(
+            'numeric_result',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->float(),
+                $this->refinery->always(null)
+            ])
+        );
+    }
+
     private function retrieveArray(string $key, int $depth, Transformation $transformation): array
     {
         $chain = $this->refinery->kindlyTo()->dictOf($transformation);

@@ -199,7 +199,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 
     public function validateSolutionSubmit(): bool
     {
-        if ($this->getRawSolutionSubmit() !== '' && $this->getSolutionSubmit() === null) {
+        if ($this->getSolutionSubmit() === null) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_no_numeric_value'), true);
             return false;
         }
@@ -209,13 +209,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 
     protected function getSolutionSubmit(): ?float
     {
-        $numeric_result = $this->getRawSolutionSubmit();
-        return is_numeric($numeric_result) ? (float) $numeric_result : null;
-    }
-
-    private function getRawSolutionSubmit(): string
-    {
-        return $this->questionpool_request->string('numeric_result');
+        return $this->questionpool_request->getNumericQuestionSolutionSubmit();
     }
 
     public function isValidSolutionSubmit($numeric_solution): bool
@@ -245,16 +239,27 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
                     $update = $this->db->fetchAssoc($result)['solution_id'];
                 }
 
-                if ($update === -1) {
-                    if ($answer !== null) {
-                        $this->saveCurrentSolution($active_id, $pass, $answer, null, $authorized);
-                    }
+                if ($update === -1 && $answer === null) {
                     return;
                 }
 
-                $answer === null
-                    ? $this->removeSolutionRecordById($update)
-                    : $this->updateCurrentSolution($update, $answer, null, $authorized);
+                if ($update === -1) {
+                    $this->saveCurrentSolution(
+                        $active_id,
+                        $pass,
+                        $answer,
+                        null,
+                        $authorized
+                    );
+                    return;
+                }
+
+                if ($answer === null) {
+                    $this->removeSolutionRecordById($update);
+                    return;
+                }
+
+                $this->updateCurrentSolution($update, $answer, null, $authorized);
             }
         );
 
