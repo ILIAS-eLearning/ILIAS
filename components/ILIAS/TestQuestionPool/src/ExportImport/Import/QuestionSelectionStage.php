@@ -25,7 +25,7 @@ use ILIAS\Language\Language;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ImportStage;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\StageResult;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\SimpleXMLDeserializer;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\XMLFileDeserializer;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\UI\Factory as UIFactory;
 use Psr\Http\Message\ServerRequestInterface;
@@ -133,8 +133,8 @@ class QuestionSelectionStage implements ImportStage
     {
         $options = [];
 
-        $deserializer = new SimpleXMLDeserializer()->open(
-            file_get_contents($context->get(UploadValidationStage::COMPONENT_IMPORT_FILE))
+        $deserializer = new XMLFileDeserializer()->open(
+            $context->get(UploadValidationStage::COMPONENT_IMPORT_FILE)
         );
 
         $deserializer->addHandler('questions', function (array $questions) use (&$options): void {
