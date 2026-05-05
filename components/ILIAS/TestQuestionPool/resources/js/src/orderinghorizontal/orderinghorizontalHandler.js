@@ -65,7 +65,7 @@ function updatePlaceholders(parentElement) {
 function changeHandler(parentElement) {
   const currentAnswer = [];
   parentElement.querySelectorAll(`.${answerElementClass} > div > span`).forEach(
-    (elem) => { currentAnswer.push(elem.textContent); },
+    (elem) => { currentAnswer.push(elem.dataset.rawvalue); },
   );
   parentElement.nextElementSibling.value = currentAnswer.join(answerSeparator);
 }
