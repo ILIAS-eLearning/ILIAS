@@ -40,7 +40,10 @@ class ilLoggingErrorSettings
     public static function getInstance(): self
     {
         global $DIC;
-        return new self($DIC['logging.services']->getConfig());
+        if ($DIC instanceof \Pimple\Container && isset($DIC['logging.services'])) {
+            return new self($DIC['logging.services']->getConfig());
+        }
+        return new self(new \ILIAS\Logging\Configuration\NullLoggingConfig());
     }
 
     public function setMail(string $mail): void

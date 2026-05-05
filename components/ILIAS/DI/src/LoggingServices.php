@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\DI;
 
+use ILIAS\Logging\Configuration\NullLoggingConfig;
+use ILIAS\Logging\NullLoggerFactory;
 use ILIAS\Logging\ServicesImpl;
 
 /**
@@ -35,7 +37,12 @@ class LoggingServices extends ServicesImpl
     public function __construct(Container $container)
     {
         $this->container = $container;
-        $impl = $container['logging.services'];
-        parent::__construct($impl->getFactory(), $impl->getConfig());
+        if (isset($container['logging.services'])) {
+            $impl = $container['logging.services'];
+            parent::__construct($impl->getFactory(), $impl->getConfig());
+            return;
+        }
+        $config = new NullLoggingConfig();
+        parent::__construct(new NullLoggerFactory($config), $config);
     }
 }

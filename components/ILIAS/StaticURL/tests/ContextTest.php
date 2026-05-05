@@ -47,7 +47,7 @@ class ContextTest extends Base
     public function testFindFirstAccessibleParentReturnsNullForInvalidRefId(): void
     {
         $this->tree->method('isInTree')->willReturn(false);
-        $context = new Context($this->container);
+        $context = new Context(fn(): Container => $this->container);
 
         $this->assertNull($context->findFirstAccessibleParentRefId(0));
         $this->assertNull($context->findFirstAccessibleParentRefId(-5));
@@ -65,7 +65,7 @@ class ContextTest extends Base
             static fn(string $perm, string $_, int $ref_id): bool => $perm === 'read' && $ref_id === 50
         );
 
-        $context = new Context($this->container);
+        $context = new Context(fn(): Container => $this->container);
 
         $this->assertSame(50, $context->findFirstAccessibleParentRefId(100));
     }
@@ -83,7 +83,7 @@ class ContextTest extends Base
             static fn(string $perm, string $_, int $ref_id): bool => $perm === 'read' && $ref_id === 40
         );
 
-        $context = new Context($this->container);
+        $context = new Context(fn(): Container => $this->container);
 
         $this->assertSame(40, $context->findFirstAccessibleParentRefId(100));
     }
@@ -99,7 +99,7 @@ class ContextTest extends Base
         ]);
         $this->access->method('checkAccess')->willReturn(false);
 
-        $context = new Context($this->container);
+        $context = new Context(fn(): Container => $this->container);
 
         $this->assertNull($context->findFirstAccessibleParentRefId(100));
     }
@@ -113,7 +113,7 @@ class ContextTest extends Base
         ]);
         $this->access->method('checkAccess')->willReturn(false);
 
-        $context = new Context($this->container);
+        $context = new Context(fn(): Container => $this->container);
 
         $this->assertNull($context->findFirstAccessibleParentRefId(100));
     }
@@ -128,7 +128,7 @@ class ContextTest extends Base
         ]);
         $this->access->method('checkAccess')->willReturn(false);
 
-        $context = new Context($this->container);
+        $context = new Context(fn(): Container => $this->container);
 
         $this->assertNull($context->findFirstAccessibleParentRefId(100));
     }
@@ -144,7 +144,7 @@ class ContextTest extends Base
             static fn(string $perm, string $_, int $ref_id): bool => $perm === 'visible' && $ref_id === 80
         );
 
-        $context = new Context($this->container);
+        $context = new Context(fn(): Container => $this->container);
 
         $this->assertNull($context->findFirstAccessibleParentRefId(100));
         $this->assertSame(80, $context->findFirstAccessibleParentRefId(100, 'visible'));
