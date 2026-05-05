@@ -6327,23 +6327,6 @@ class ilObjTest extends ilObject
         }
 
         $this->db->insert('tst_manual_fb', $update_default);
-
-        if ($this->logger->isLoggingEnabled()) {
-            $this->logger->logScoringInteraction(
-                $this->logger->getInteractionFactory()->buildScoringInteraction(
-                    $this->getRefId(),
-                    $question_id,
-                    $this->user->getId(),
-                    self::_getUserIdFromActiveId($active_id),
-                    TestScoringInteractionTypes::QUESTION_GRADED,
-                    [
-                        AdditionalInformationGenerator::KEY_EVAL_FINALIZED => $this->logger
-                            ->getAdditionalInformationGenerator()->getTrueFalseTagForBool($finalized),
-                        AdditionalInformationGenerator::KEY_FEEDBACK => $feedback ? ilRTE::_replaceMediaObjectImageSrc($feedback, 0) : ''
-                    ]
-                )
-            );
-        }
     }
 
     /**
