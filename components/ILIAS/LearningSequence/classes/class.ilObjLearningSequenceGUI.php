@@ -663,6 +663,15 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         }
         $this->ctrl->redirectByClass('ilObjLearningSequenceLearnerGUI', self::CMD_LEARNER_VIEW);
     }
+    protected function initHeaderAction(?string $sub_type = null, ?int $sub_id = null): ?ilObjectListGUI
+    {
+        $lg = parent::initHeaderAction($sub_type, $sub_id);
+        if (is_object($lg)) {
+            $lg->enableMultiDownload(false);
+        }
+        return $lg;
+    }
+
 
     protected function getTabs(): void
     {
@@ -878,6 +887,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                     $field_id = $field->getIdentifier();
                     $c[$v->getId()]['udf_' . $field_id] = (string) $v->getAdditionalFieldByIdentifier($field_id);
                 }
+                return $c;
             },
             []
         );
