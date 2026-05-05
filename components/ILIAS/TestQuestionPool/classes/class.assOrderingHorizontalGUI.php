@@ -396,8 +396,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 
                 $answers[$md5] = [
                     'answer' => $answer,
-                    'frequency' => 0,
-                    'sanitized' => true
+                    'frequency' => 0
                 ];
             }
 

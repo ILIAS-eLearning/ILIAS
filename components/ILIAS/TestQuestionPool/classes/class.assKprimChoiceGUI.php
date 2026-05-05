@@ -866,8 +866,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
             $answers[] = [
                 'answer' => $ans['answertext'],
                 'frequency_true' => $ans['count_true'],
-                'frequency_false' => $ans['count_false'],
-                'sanitized' => true
+                'frequency_false' => $ans['count_false']
             ];
         }
 
