@@ -13358,72 +13358,72 @@ pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either 
 pdesk#:#bookmark_moved_ok#:#Bookmark has been moved.
 pdesk#:#bookmark_select_target#:#Please select target.
 poll#:#poll_absolute#:#Current Votes
-poll#:#poll_activation_online_info#:#Activate this setting to make the poll accessible to users.
+poll#:#poll_activation_online_info#:#Make this poll accessible to users. 
 poll#:#poll_add#:#Add Poll
-poll#:#poll_anonymous_warning#:#Individual votes are recorded, but your name will not be shown in the poll results.
+poll#:#poll_anonymous_warning#:#This is an anonymous poll. Individual votes are recorded, but your name will not be shown in the poll results.
 poll#:#poll_answer#:#Answer
 poll#:#poll_answer_selected_alt_text#:#Selected
 poll#:#poll_answers#:#Possible Answers
-poll#:#poll_barchart#:#Bar Chart
-poll#:#poll_block_message_already_voted#:#You already voted in this poll.
+poll#:#poll_barchart#:#Bar chart
+poll#:#poll_block_message_already_voted#:#You have already voted in this poll.
 poll#:#poll_block_message_no_answers#:#This poll is incomplete.
-poll#:#poll_block_results_available_on#:#The results will be available %s.
-poll#:#poll_cannot_set_online_no_answers#:#The status cannot be changed to &quot;online&quot; because this poll has no question!
+poll#:#poll_block_results_available_on#:#The results will be available: %s.
+poll#:#poll_cannot_set_online_no_answers#:#This poll cannot be set to &quot;Online&quot; because it doesn’t have a question!
 poll#:#poll_chart_votes#:#Votes
 poll#:#poll_comments#:#Comments
 poll#:#poll_copy#:#Copy Poll
-poll#:#poll_delete_votes#:#Delete Votes of All Users
-poll#:#poll_delete_votes_sure#:#Are you sure you want to delete the votes of all users who took part in this poll?
+poll#:#poll_delete_votes#:#Delete All Votes Cast
+poll#:#poll_delete_votes_sure#:#Are you sure you want to delete the votes of all users who have taken part in this poll?
 poll#:#poll_edit#:#Edit Poll
 poll#:#poll_edit_question#:#Edit Question
 poll#:#poll_image#:#Image
 poll#:#poll_import#:#Import Poll
-poll#:#poll_limit_not_below_answer_count#:#The answer limit must be below the number of possible answers.
-poll#:#poll_limit_number_of_answers#:#Limit Number of Answers per Participant
-poll#:#poll_max_number_of_answers#:#Max. Answers
+poll#:#poll_limit_not_below_answer_count#:#The maximum number of selectable answer options must be smaller than the total number of possible answers.
+poll#:#poll_limit_number_of_answers#:#Limit Number of Answers Selectable
+poll#:#poll_max_number_of_answers#:#Maximum Selectable per Participant
 poll#:#poll_max_number_of_answers_info#:#You may choose up to %s answers.
 poll#:#poll_mode#:#Mode
-poll#:#poll_mode_anonymous#:#Without Names / Anonymous
+poll#:#poll_mode_anonymous#:#Without names / anonymous
 poll#:#poll_mode_anonymous_info#:#The names of poll participants are not shown in the 'Results' tab. Please note: participant user IDs are, however, recorded in the database.
-poll#:#poll_mode_personal#:#With Names
-poll#:#poll_mode_personal_info#:#In the tab ‘Results’ the names of participants and their respective answers are listed. Users with access to this tab can inspect who has given which answer.
+poll#:#poll_mode_personal#:#With names
+poll#:#poll_mode_personal_info#:#The names of poll participants and their respective answers are listed in the ‘Results’ tab. Users with access to this tab can inspect who has given which answer.
 poll#:#poll_new#:#Add New Poll
-poll#:#poll_non_anonymous_warning#:#Your name and vote are visible for administrators in the results.
-poll#:#poll_notification_activated#:#Notification Activated
-poll#:#poll_notification_deactivated#:#Notification Deactivated
-poll#:#poll_notification_subscribe#:#Activate Notification
-poll#:#poll_notification_unsubscribe#:#Deactivate Notification
+poll#:#poll_non_anonymous_warning#:#Your name and how you have voted will be visible to anyone with administration permissions for this poll.
+poll#:#poll_notification_activated#:#Notifications activated.
+poll#:#poll_notification_deactivated#:#Notifications deactivated
+poll#:#poll_notification_subscribe#:#Activate Notifications
+poll#:#poll_notification_unsubscribe#:#Deactivate Notifications
 poll#:#poll_percentage#:#Current Percentage
-poll#:#poll_population#:#%s Participants
-poll#:#poll_population_singular#:#1 Participant
+poll#:#poll_population#:#%s votes cast
+poll#:#poll_population_singular#:#One vote cast
 poll#:#poll_question#:#Question
 poll#:#poll_result#:#Results
 poll#:#poll_result_answers#:#Votes
-poll#:#poll_result_sorting#:#Sorting
-poll#:#poll_result_sorting_answers#:#In the order of the answers
+poll#:#poll_result_sorting#:#Presentation Order
+poll#:#poll_result_sorting_answers#:#In the same order as the possible answers
 poll#:#poll_result_sorting_votes#:#By number of votes (descending)
 poll#:#poll_result_users#:#Participants
-poll#:#poll_show_results_as#:#Show Results as
+poll#:#poll_show_results_as#:#Results Format
 poll#:#poll_sortorder#:#Order
-poll#:#poll_stacked_chart#:#Stacked Chart
-poll#:#poll_view_results#:#Display Results
-poll#:#poll_view_results_after_period#:#After Voting Period
-poll#:#poll_view_results_after_period_impossible#:#The voting period is not limited.
-poll#:#poll_view_results_after_vote#:#After Vote
+poll#:#poll_stacked_chart#:#Stacked chart
+poll#:#poll_view_results#:#Show Results
+poll#:#poll_view_results_after_period#:#When voting period has ended
+poll#:#poll_view_results_after_period_impossible#:#In order for the results to be first shown when the voting period has ended, you need to establish a limited voting period by entering dates above.
+poll#:#poll_view_results_after_vote#:#After participant has voted
 poll#:#poll_view_results_always#:#Always
 poll#:#poll_view_results_never#:#Never
 poll#:#poll_vote#:#Vote
 poll#:#poll_vote_error_multi#:#Please select no more than %s answers.
-poll#:#poll_vote_error_multi_no_answer#:#Please select at least 1 answer.
-poll#:#poll_vote_error_single#:#Please select 1 answer.
-poll#:#poll_vote_notification_body#:#the following poll has received a vote.
+poll#:#poll_vote_error_multi_no_answer#:#Please select at least one of the answers.
+poll#:#poll_vote_error_single#:#Please select one of the answers.
+poll#:#poll_vote_notification_body#:#A vote has been cast in the following poll:
 poll#:#poll_vote_notification_link#:#Link to Poll
-poll#:#poll_vote_notification_reason#:#You are receiving this e-mail because you activated notifications for the poll mentioned above.
-poll#:#poll_vote_notification_subject#:#Poll "%s": new vote
-poll#:#poll_votes_no_edit#:#This poll already contains votes. You cannot edit the poll until you delete these votes.
+poll#:#poll_vote_notification_reason#:#You have received this e-mail because you activated notifications for the poll mentioned above.
+poll#:#poll_vote_notification_subject#:#Poll "%s" – new vote cast
+poll#:#poll_votes_no_edit#:#This poll has already received votes. You cannot edit the poll unless you delete these votes.
 poll#:#poll_voting_period_and_results#:#Voting Period and Results
 poll#:#poll_voting_period_ended_info#:#The voting period ended %s.
-poll#:#poll_voting_period_full_info#:#Voting period from %s to %s
+poll#:#poll_voting_period_full_info#:#Voting in this poll will be possible from %s until %s
 poll#:#poll_voting_period_info#:#The deadline for voting is %s.
 poll#:#poll_voting_period_limited#:#Limited Voting Period
 prg#:#access_ctr_by_orgu_position#:#Access control according to Organisational Unit Positions
