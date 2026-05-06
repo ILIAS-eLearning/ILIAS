@@ -22,6 +22,7 @@ namespace ILIAS\Questions\Presentation\Layout;
 
 use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
 use ILIAS\Questions\Presentation\Definitions\DefaultEnvironment;
+use ILIAS\Questions\Presentation\Definitions\OverviewTableColumns;
 use ILIAS\Questions\Presentation\Views\Edit;
 use ILIAS\Questions\Question\Persistence\Repository;
 use ILIAS\Data\Range;
@@ -82,7 +83,11 @@ class QuestionsTable implements Renderable, DataRetrieval
         $environment_with_action = $this->environment->withActionParameter(
             Edit::ACTION_EDIT_QUESTION
         );
-        foreach ($this->questions_repository->getQuestionDataOnlyForAllQuestions() as $question) {
+        foreach ($this->questions_repository->getQuestionDataOnlyForAllQuestions(
+            $range,
+            $order,
+            $filter_data
+        ) as $question) {
             yield $question->toTableRow(
                 $row_builder,
                 $environment_with_action
@@ -96,44 +101,43 @@ class QuestionsTable implements Renderable, DataRetrieval
         mixed $filter_data,
         mixed $additional_parameters
     ): ?int {
-        return 0;
+        return $this->questions_repository->getQuestionsCount();
     }
 
     private function buildContent(): array
     {
+        $filter = $this->buildFilter(
+            $this->environment->getUrlBuilder()->buildURI()->__toString()
+        );
+
         return [
-            $this->buildFilter($this->environment->getUrlBuilder()->buildURI()->__toString()),
+            $filter,
             $this->environment->getUIFactory()->table()->data(
                 $this,
                 $this->environment->getLanguage()->txt('questions'),
-                $this->getColums(),
+                OverviewTableColumns::getTableColums(
+                    $this->environment->getLanguage(),
+                    $this->environment->getUIFactory()->table()->column()
+                ),
             )->withActions(
                 $this->getActions()
             )->withRange(new Range(0, 20))
-            ->withRequest($this->environment->getHttpServices()->request())
+            ->withFilter(
+                $this->ui_service->filter()->getData($filter)
+            )->withRequest($this->environment->getHttpServices()->request())
         ];
     }
 
     private function buildFilter(
         string $action
     ): Filter {
-        $question_type_options = [
-            '' => $this->environment->getLanguage()->txt('filter_all_question_types')
-        ];
-
-        $field_factory = $this->environment->getUIFactory()->input()->field();
-        $filter_inputs = [
-            'title' => $field_factory->text(
-                $this->environment->getLanguage()->txt('title')
-            ),
-            'contains_type' => $field_factory->select(
-                $this->environment->getLanguage()->txt('contains_type'),
-                $question_type_options + $this->answer_form_factory
-                    ->getAnswerFormTypesArrayForSelect(
-                        $this->environment->getLanguage()
-                    )
-            ),
-        ];
+        $filter_inputs = OverviewTableColumns::getFilderInputs(
+            $this->environment->getLanguage(),
+            $this->environment->getUIFactory()->input()->field(),
+            $this->answer_form_factory->getAnswerFormTypesArrayForSelect(
+                $this->environment->getLanguage()
+            )
+        );
 
         $active = array_fill(0, count($filter_inputs), true);
 
@@ -145,19 +149,11 @@ class QuestionsTable implements Renderable, DataRetrieval
             true,
             true
         );
-        return $filter;
-    }
 
-    private function getColums(): array
-    {
-        $f = $this->environment->getUIFactory()->table()->column();
-
-        return [
-            'title' => $f->link($this->environment->getLanguage()->txt('title')),
-            'type' => $f->text(
-                $this->environment->getLanguage()->txt('question_type')
-            )->withIsOptional(true, true),
-        ];
+        $request = $this->environment->getHttpServices()->request();
+        return $request->getMethod() === 'POST'
+            ? $filter->withRequest($request)
+            : $filter;
     }
 
     private function getActions(): array

@@ -89,7 +89,7 @@ class Factory
         return md5($class);
     }
 
-    public function buildTypeDefinitionFromSelectValue(
+    public function getTypeDefinitionFromSelectValue(
         string $value
     ): Definition {
         $type_definition = $this->available_answer_form_types[$value] ?? null;

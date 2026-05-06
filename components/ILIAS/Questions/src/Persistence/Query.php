@@ -194,7 +194,7 @@ class Query
                     return "WHERE {$v->toSql()}" . PHP_EOL;
                 }
 
-                return "{$c}{$v->getLogicalOperator()} {$v->toSql()}" . PHP_EOL;
+                return "{$c}{$v->getLogicalOperator()->value} {$v->toSql()}" . PHP_EOL;
             }
         ) ?? '';
     }
