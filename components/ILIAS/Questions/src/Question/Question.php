@@ -33,6 +33,7 @@ use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Persistence\ManipulationType;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Presentation\Definitions\DefaultEnvironment;
+use ILIAS\Questions\Presentation\Definitions\OverviewTableColumns;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
 use ILIAS\Questions\UserSettings\CreateModes;
 use ILIAS\Data\UUID\Uuid;
@@ -68,9 +69,7 @@ class Question implements PublicQuestionInterface
         private ?Uuid $original_id = null,
         private ?\DateTimeImmutable $last_update = null,
         private readonly ?\DateTimeImmutable $created = null,
-        array $answer_forms = [],
-        private ?Taxonomies $taxonomies = null,
-        private ?ContentForRecapitulation $content_for_recapitulation = null
+        array $answer_forms = []
     ) {
         $this->answer_forms = array_reduce(
             $answer_forms,
@@ -300,14 +299,34 @@ class Question implements PublicQuestionInterface
         return $row_builder->buildDataRow(
             $this->id->toString(),
             [
-                'title' => $environment->getUIFactory()->link()->standard(
-                    $this->title,
-                    $environment->withQuestionIdParameter(
-                        $this->id
-                    )->getUrlBuilder()
-                    ->buildURI()
-                    ->__toString()
-                )
+                OverviewTableColumns::Title->value => $environment
+                    ->getUIFactory()->link()->standard(
+                        $this->title,
+                        $environment->withQuestionIdParameter(
+                            $this->id
+                        )->getUrlBuilder()
+                        ->buildURI()
+                        ->__toString()
+                    ),
+                    OverviewTableColumns::AnswerFormTypes->value => implode(
+                        '<br>',
+                        array_reduce(
+                            $this->answer_forms,
+                            function (
+                                array $c,
+                                AnswerFormProperties $v
+                            ) use ($environment): array {
+                                $type_label = $v->getDefinition()->getLabel(
+                                    $environment->getLanguage()
+                                );
+                                if (!in_array($type_label, $c)) {
+                                    $c[] = $type_label;
+                                }
+                                return $c;
+                            },
+                            []
+                        )
+                    )
             ]
         );
     }
