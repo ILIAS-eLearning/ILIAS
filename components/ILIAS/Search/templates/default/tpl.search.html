@@ -1,5 +1,7 @@
 <form method="post" action="{FORM_ACTION}">
-	<div class="ilToolbar" id="il_search_toolbar"><input type="text" aria-label="{SEARCH_LABEL}" name="term" value="{TERM}" size="60" maxlength="200"/> {SUBMIT_BTN}
+	<div class="ilToolbar" id="il_search_toolbar">
+		<label class="sr-only" for="search_field">{SEARCH_LABEL}</label>
+		<input id="search_field" type="text" name="term" value="{TERM}" size="60" maxlength="200"/> {SUBMIT_BTN}
 		<div>
 		</div>
 	</div>
