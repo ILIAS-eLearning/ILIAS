@@ -13020,31 +13020,31 @@ news#:#passwd_equals_ilpasswd#:#Please enter a password different from your ILIA
 news#:#priv_feed_disabled#:#Private Newsfeed disabled.
 news#:#priv_feed_settings#:#Private Newsfeed settings
 note#:#note_comment_notification_link#:#Link
-note#:#note_comment_notification_reason#:#You receive this message because your account is listed as a global recipient for all comments in the ILIAS administration.
+note#:#note_comment_notification_reason#:#You have received this mail because your account is listed as a global recipient for all comments made on this installation.
 note#:#note_comment_notification_salutation#:#Hello %s,
 note#:#note_comment_notification_subject#:#A comment has been added to "%s"
 note#:#note_comment_notification_subjectc#:#A comment has been changed in "%s"
-note#:#note_comment_notification_user_has_written#:#%s has written:
-note#:#note_comments_notification#:#General notification about all comments
-note#:#note_comments_notification_info#:#Comma separated list of accounts that are notified for each comment
+note#:#note_comment_notification_user_has_written#:#%s has commented:
+note#:#note_comments_notification#:#General Notification Mail for All Comments
+note#:#note_comments_notification_info#:#Comma-separated list of accounts that are to be notified each time a comment is made.
 note#:#note_enable_comments#:#Enable Comments
-note#:#note_enable_comments_del_tutor#:#Any Comment may be deleted by tutors
-note#:#note_enable_comments_del_tutor_info#:#User with "Edit Settings" permission for an object can delete any comment made in this object.
-note#:#note_enable_comments_del_user#:#Comments may be deleted by their authors
+note#:#note_enable_comments_del_tutor#:#All Comments in Object Deletable
+note#:#note_enable_comments_del_tutor_info#:#Users with the "Edit Settings" permission for an object can delete any comment or comments made in this object.
+note#:#note_enable_comments_del_user#:#Own Comments Deletable
 note#:#note_enable_comments_del_user_info#:#Comments can be deleted by the person who created them.
-note#:#note_enable_comments_export_info#:#This option enables comments export for content objects like portfolio, blog and wiki.
+note#:#note_enable_comments_export_info#:#Enable the export of comments from within objects such as portfolios, blogs and wikis.
 note#:#note_enable_notes#:#Enable Notes
 note#:#note_html_export_include_comments#:#Should comments be included in the export?
 notes#:#comments_feature_currently_not_activated_for_object#:#The public comments feature is currently not activated for this resource.
 notes#:#note_add_comment#:#Add Comment
 notes#:#note_add_message#:#Add Message
 notes#:#note_add_note#:#Add Note
-notes#:#note_content_removed#:#The content has been removed.
+notes#:#note_content_removed#:#This content has been removed.
 notes#:#note_text#:#Text
 notes#:#note_update_comment#:#Update Comment
 notes#:#note_update_message#:#Update Message
 notes#:#note_update_note#:#Update Note
-notes#:#note_without_object#:#Without reference
+notes#:#note_without_object#:#Without Reference
 notes#:#notes_activate_comments#:#Activate Public Comments
 notes#:#notes_add_comment#:#Add Comment
 notes#:#notes_add_edit_comment#:#Add/Edit Comment
@@ -13052,13 +13052,13 @@ notes#:#notes_add_edit_message#:#Add/Edit Message
 notes#:#notes_add_edit_note#:#Add/Edit Note
 notes#:#notes_all_comments#:#All Comments
 notes#:#notes_comment#:#Comment
-notes#:#notes_comment_deleted#:#The comment has been deleted.
+notes#:#notes_comment_deleted#:#Comment deleted.
 notes#:#notes_comments#:#Comments
-notes#:#notes_comments_deleted#:#The comments have been deleted.
+notes#:#notes_comments_deleted#:#Comments deleted.
 notes#:#notes_deactivate_comments#:#Deactivate Public Comments
-notes#:#notes_delete_comment#:#Do you really want to delete this comment?
-notes#:#notes_delete_message#:#Do you really want to delete this message?
-notes#:#notes_delete_note#:#Do you really want to delete this note?
+notes#:#notes_delete_comment#:#Are you sure you want to delete this comment?
+notes#:#notes_delete_message#:#Are you sure you want to delete this message?
+notes#:#notes_delete_note#:#Are you sure you want to delete this note?
 notes#:#notes_hide_comments#:#Hide Comments
 notes#:#notes_html_export#:#HTML Export
 notes#:#notes_latest_comment#:#Latest Comment
@@ -13068,14 +13068,14 @@ notes#:#notes_message_author_you#:#You
 notes#:#notes_message_deleted#:#Message deleted.
 notes#:#notes_messages#:#Messages
 notes#:#notes_my_comments#:#My Comments
-notes#:#notes_no_comments#:#No comment has been posted yet.
-notes#:#notes_no_comments_found#:#No comments found that match your seach criteria.
-notes#:#notes_no_messages#:#No messages have been attached yet.
-notes#:#notes_no_messages_found#:#No messages found that match your seach criteria.
-notes#:#notes_no_notes#:#No notes have been attached yet.
-notes#:#notes_no_notes_found#:#No notes found that match your seach criteria.
-notes#:#notes_note_deleted#:#The note has been deleted.
-notes#:#notes_notes_deleted#:#The notes have been deleted.
+notes#:#notes_no_comments#:#No comments have been posted yet.
+notes#:#notes_no_comments_found#:#No comments found that match your search criteria.
+notes#:#notes_no_messages#:#No messages have been left yet.
+notes#:#notes_no_messages_found#:#No messages found that match your search criteria.
+notes#:#notes_no_notes#:#You have not yet added any notes to this object.
+notes#:#notes_no_notes_found#:#No notes found that match your search criteria.
+notes#:#notes_note_deleted#:#Note deleted.
+notes#:#notes_notes_deleted#:#Notes deleted.
 notes#:#notes_origin#:#Origin
 notes#:#notes_public_comments#:#Public Comments
 notes#:#notes_show_comments#:#Show Comments
