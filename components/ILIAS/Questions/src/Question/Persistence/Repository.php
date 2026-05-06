@@ -29,10 +29,13 @@ use ILIAS\Questions\Question\Question;
 use ILIAS\Questions\Persistence\Column;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Operator;
+use ILIAS\Questions\Persistence\Order;
+use ILIAS\Questions\Persistence\OrderDirection;
 use ILIAS\Questions\Persistence\Query;
 use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Persistence\ManipulationType;
 use ILIAS\Questions\Persistence\TableNameBuilder;
+use ILIAS\Questions\Presentation\Definitions\OverviewTableColumns;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\Order as DataOrder;
 use ILIAS\Data\Range as DataRange;
@@ -44,7 +47,7 @@ class Repository
 {
     public const string COMPONENT_NAMESPACE = 'qsts';
 
-    private readonly TableNameBuilder $question_table_names_builder;
+    private readonly TableNameBuilder $core_table_names_builder;
 
     public function __construct(
         private readonly \ilDBInterface $db,
@@ -55,7 +58,7 @@ class Repository
         private readonly AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions,
         private readonly AnswerFormFactory $answer_form_factory
     ) {
-        $this->question_table_names_builder = new TableNameBuilder(
+        $this->core_table_names_builder = new TableNameBuilder(
             self::COMPONENT_NAMESPACE,
             null
         );
@@ -73,16 +76,45 @@ class Repository
     /**
      * @return \Generator<\ILIAS\Questions\Question\QuestionImplementation>
      */
-    public function getQuestionDataOnlyForAllQuestions(): \Generator
-    {
-        foreach ($this->buildQuestionsQuery()->withGroupBy(
+    public function getQuestionDataOnlyForAllQuestions(
+        ?DataRange $range = null,
+        ?DataOrder $order = null,
+        array $filter_data = []
+    ): \Generator {
+        $questions_query = $this->addFilterToQuery(
+            $this->buildQuestionsQuery(
+                $this->buildMainOrder($order)
+            ),
+            $filter_data
+        );
+
+        if ($range !== null) {
+            $questions_query = $questions_query->withRange($range);
+        }
+
+
+
+        foreach ($questions_query->withGroupBy(
             $this->buildGroupByColumn()
         )->loadNextRecord() as $query_with_record) {
             yield $this->retrieveQuestionFromQuery(
                 $query_with_record,
-                []
+                $this->retrieveAnswerFormsFromQuery($query_with_record, true)
             );
         }
+    }
+
+    public function getQuestionsCount(): int
+    {
+        $id_column = $this->question_table_definitions->getIdColumn(
+            $this->core_table_names_builder,
+            TableTypes::Questions
+        );
+        return $this->db->fetchObject(
+            $this->db->query(
+                "SELECT count({$id_column->getColumnString()}) cnt FROM {$id_column->getTableName()}",
+            )
+        )->cnt;
     }
 
     /**
@@ -94,7 +126,7 @@ class Repository
         foreach ($this->buildQuestionsQuery()->withAdditionalWhere(
             $this->persistence_factory->where(
                 $this->question_table_definitions->getIdColumn(
-                    $this->question_table_names_builder,
+                    $this->core_table_names_builder,
                     TableTypes::Questions
                 ),
                 $this->persistence_factory->value(
@@ -111,7 +143,7 @@ class Repository
         )->loadNextRecord() as $query_with_record) {
             yield $this->retrieveQuestionFromQuery(
                 $query_with_record,
-                []
+                $this->retrieveAnswerFormsFromQuery($query_with_record, true)
             );
         }
     }
@@ -123,7 +155,7 @@ class Repository
             $this->buildQuestionsQuery()->withAdditionalWhere(
                 $this->persistence_factory->where(
                     $this->question_table_definitions->getIdColumn(
-                        $this->question_table_names_builder,
+                        $this->core_table_names_builder,
                         TableTypes::Questions
                     ),
                     $this->persistence_factory->value(
@@ -149,7 +181,7 @@ class Repository
             $this->buildQuestionsQuery()->withAdditionalWhere(
                 $this->persistence_factory->where(
                     $this->question_table_definitions->getIdColumn(
-                        $this->question_table_names_builder,
+                        $this->core_table_names_builder,
                         TableTypes::Questions
                     ),
                     $this->persistence_factory->value(
@@ -232,7 +264,7 @@ class Repository
             fn(Query $c, AnswerFormDefinition $v) => $v->getTableDefinitions()->completeQuery(
                 $c,
                 $this->answer_form_generic_table_definitions->getIdColumn(
-                    $this->question_table_names_builder,
+                    $this->core_table_names_builder,
                     AnswerFormGenericTableTypes::AnswerForms
                 )
             ),
@@ -258,7 +290,7 @@ class Repository
     ): Question {
         $linking_info = $query->retrieveCurrentRecord(
             $this->persistence_factory->table(
-                $this->question_table_names_builder,
+                $this->core_table_names_builder,
                 TableTypes::Linking
             ),
             $this->refinery->identity()
@@ -266,7 +298,7 @@ class Repository
 
         $question = $query->retrieveCurrentRecord(
             $this->persistence_factory->table(
-                $this->question_table_names_builder,
+                $this->core_table_names_builder,
                 TableTypes::Questions,
             ),
             $this->refinery->custom()->transformation(
@@ -300,15 +332,16 @@ class Repository
      * @return array<\ILIAS\Questions\AnswerForms\Properties>
      */
     private function retrieveAnswerFormsFromQuery(
-        Query $query
+        Query $query,
+        bool $only_generic_data = false
     ): array {
         return $query->retrieveCurrentRecord(
             $this->persistence_factory->table(
-                $this->question_table_names_builder,
+                $this->core_table_names_builder,
                 AnswerFormGenericTableTypes::AnswerForms
             ),
             $this->refinery->custom()->transformation(
-                function (array $vs) use ($query): array {
+                function (array $vs) use ($query, $only_generic_data): array {
                     if (count($vs) === 1 && $vs[0]['type'] === null) {
                         return [];
                     }
@@ -324,7 +357,7 @@ class Repository
                             ->getDefinitionForClass($data_set['type']);
                         $answer_forms[] = $definition->buildProperties(
                             $this->answer_form_factory->buildTypeGenericPropertiesFromDatabase($data_set),
-                            $query
+                            $only_generic_data ? null : $query
                         );
                     }
                     return $answer_forms;
@@ -340,7 +373,7 @@ class Repository
     private function getAnswerFormTypesForQuestionIds(
         array $question_ids
     ): array {
-        $table_name = $this->question_table_names_builder
+        $table_name = $this->core_table_names_builder
             ->getTableNameFor(AnswerFormGenericTableTypes::AnswerForms);
 
         $query = $this->db->query(
@@ -378,26 +411,77 @@ class Repository
         )->run();
     }
 
-    private function buildQuestionsQuery(): Query
-    {
+    private function buildQuestionsQuery(
+        ?Order $main_sort_order = null
+    ): Query {
+        $base_query = new Query(
+            $this->db,
+            $this->refinery,
+            self::COMPONENT_NAMESPACE,
+            $this->persistence_factory->table(
+                $this->core_table_names_builder,
+                TableTypes::Linking
+            )
+        );
+
+        if ($main_sort_order !== null) {
+            $base_query = $base_query->withAdditionalOrder($main_sort_order);
+        }
+
         return $this->answer_form_generic_table_definitions->completeQuery(
             $this->question_table_definitions->completeQuery(
-                new Query(
-                    $this->db,
-                    $this->refinery,
-                    self::COMPONENT_NAMESPACE,
-                    $this->persistence_factory->table(
-                        $this->question_table_names_builder,
-                        TableTypes::Linking
-                    )
-                ),
+                $base_query,
                 null
             ),
             $this->question_table_definitions->getIdColumn(
-                $this->question_table_names_builder,
+                $this->core_table_names_builder,
                 TableTypes::Questions
             )
         );
+    }
+
+    private function addFilterToQuery(
+        Query $question_query,
+        array $filter_data
+    ): Query {
+        foreach ($filter_data as $key => $value) {
+            if ($value === null || $value === '' || $value === []) {
+                continue;
+            }
+
+            $column_definition = OverviewTableColumns::tryFrom($key);
+
+            $column = $column_definition?->getDatabaseColumn(
+                $this->persistence_factory,
+                $this->core_table_names_builder,
+                $this->answer_form_factory
+            );
+            if ($column === null) {
+                continue;
+            }
+
+            $operator = Operator::Equal;
+            if (is_string($value)) {
+                $operator = Operator::Like;
+                $value = "%{$value}%";
+            }
+
+            $question_query = $question_query->withAdditionalWhere(
+                $this->persistence_factory->where(
+                    $column,
+                    $this->persistence_factory->value(
+                        FieldDefinition::T_TEXT,
+                        $column_definition->transformFilterValue(
+                            $this->answer_form_factory,
+                            $value
+                        )
+                    ),
+                    $operator
+                )
+            );
+        }
+
+        return $question_query;
     }
 
     private function buildManipulate(
@@ -410,10 +494,32 @@ class Repository
         );
     }
 
+    private function buildMainOrder(
+        ?DataOrder $order
+    ): ?Order {
+        if ($order === null) {
+            return null;
+        }
+
+        $order_array = $order->get();
+
+        return $this->persistence_factory->order(
+            OverviewTableColumns::tryFrom(
+                array_key_first($order_array)
+            )->getDatabaseColumn(
+                $this->persistence_factory,
+                $this->core_table_names_builder
+            ),
+            OrderDirection::tryFrom(
+                array_shift($order_array)
+            )
+        );
+    }
+
     private function buildGroupByColumn(): Column
     {
         return $this->question_table_definitions->getIdColumn(
-            $this->question_table_names_builder,
+            $this->core_table_names_builder,
             TableTypes::Questions
         );
     }
@@ -431,7 +537,7 @@ class Repository
     private function checkAvailabilityOfId(
         Uuid $uuid
     ): bool {
-        $table_name = $this->question_table_names_builder
+        $table_name = $this->core_table_names_builder
             ->getTableNameFor(TableTypes::Questions);
 
         return $this->db->fetchObject(
@@ -471,7 +577,7 @@ class Repository
     private function migrateQuestionPage(
         Question $question
     ): Question {
-        $table_name = $this->question_table_names_builder
+        $table_name = $this->core_table_names_builder
             ->getTableNameFor(TableTypes::MigrationsTable);
 
         $old_page_id = $this->db->fetchObject(
