@@ -193,13 +193,14 @@ class NewsCache
 
         $this->il_cache->storeEntry(
             $this->generateL3Key($user_id, $criteria),
-            serialize($news->getUserReadStatus($user_id))
+            serialize($news->getUserReadStatus($user_id)),
+            $user_id
         );
     }
 
-    public function invalidateNewsForUser(int $user_id, NewsCriteria $criteria): void
+    public function invalidateNewsForUser(int $user_id): void
     {
-        $this->il_cache->deleteEntry($this->generateL3Key($user_id, $criteria));
+        $this->il_cache->deleteByAdditionalKeys($user_id);
     }
 
     protected function generateL3Key(int $user_id, NewsCriteria $criteria): string
