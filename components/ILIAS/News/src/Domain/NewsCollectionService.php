@@ -93,7 +93,7 @@ class NewsCollectionService
 
     public function invalidateCache(int $user_id): void
     {
-        $this->cache->invalidateNewsForUser($user_id, new NewsCriteria());
+        $this->cache->invalidateNewsForUser($user_id);
     }
 
     /**
