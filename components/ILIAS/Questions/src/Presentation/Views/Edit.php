@@ -201,7 +201,7 @@ class Edit
 
         if ($answer_form_type_class_hash !== '') {
             $type_definition = $this->answer_form_factory
-                ->buildTypeDefinitionFromSelectValue($answer_form_type_class_hash);
+                ->getTypeDefinitionFromSelectValue($answer_form_type_class_hash);
 
             return $this->forwardCreateAnswerFormCmd(
                 $environment->withAnswerFormProperties(
@@ -690,7 +690,7 @@ class Edit
                     ->withAdditionalTransformation(
                         $this->refinery->custom()->transformation(
                             fn(string $v): ?Definition => $this->answer_form_factory
-                                ->buildTypeDefinitionFromSelectValue($v)
+                                ->getTypeDefinitionFromSelectValue($v)
                         )
                     )
                 ],
