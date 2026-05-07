@@ -43,8 +43,6 @@ class ilAuthFrontend
 
     private ilUserProfile $user_profile;
 
-    private bool $authenticated = false;
-
     /**
      * @param ilAuthSession $session
      * @param ilAuthStatus $status
@@ -292,13 +290,20 @@ class ilAuthFrontend
         }
 
         // check if profile is complete
-        if (
-            $this->user_profile->isProfileIncomplete($user) &&
-            ilAuthFactory::getContext() !== ilAuthFactory::CONTEXT_ECS &&
-            ilContext::getType() !== ilContext::CONTEXT_LTI_PROVIDER
-        ) {
+        $profile_incomplete = ilAuthFactory::getContext() !== ilAuthFactory::CONTEXT_ECS
+            && ilContext::getType() !== ilContext::CONTEXT_LTI_PROVIDER
+            && $this->user_profile->isProfileIncomplete($user);
+        if ($profile_incomplete) {
             ilLoggerFactory::getLogger('auth')->info('User profile is incomplete.');
             $user->setProfileIncomplete(true);
+        }
+
+        $has_login_attempts = $user->getLoginAttempts() > 0;
+        if ($has_login_attempts) {
+            $user->setLoginAttempts(0);
+        }
+
+        if ($profile_incomplete || $has_login_attempts) {
             $user->update();
         }
 
@@ -321,12 +326,6 @@ class ilAuthFrontend
             $user->resetLastPasswordChange();
         }
         $user->refreshLogin();
-
-        if ($user->getLoginAttempts() > 0) {
-            $user->setLoginAttempts(0);
-            $user->update();
-        }
-
 
         $this->logger->info('Successfully authenticated: ' . ilObjUser::_lookupLogin($this->getStatus()->getAuthenticatedUserId()));
         $this->getAuthSession()->setAuthenticated(true, $this->getStatus()->getAuthenticatedUserId());
