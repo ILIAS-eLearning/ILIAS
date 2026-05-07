@@ -21,6 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\Test;
 
 use ILIAS\LegalDocuments\ConsumerToolbox\Setting;
+use ILIAS\Test\ExportImport\Import\RandomTestConfigImporter;
+use ILIAS\Test\ExportImport\Import\TestResultsImporter;
 use ILIAS\Test\ExportImport\TestExporter;
 use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Results\Data\Repository as TestResultRepository;
@@ -298,6 +300,17 @@ class TestDIC extends ServiceContainer
                 $DIC->fileConverters()->images(),
                 $DIC->filesystem()
             );
+        $dic['exportimport.test_results_importer'] = static fn($c): TestResultsImporter =>
+            new TestResultsImporter(
+                $DIC->database(),
+                $c['exportimport.logging']()
+            );
+        $dic['exportimport.random_test_config_importer'] = static fn($c): RandomTestConfigImporter =>
+            new RandomTestConfigImporter(
+                $DIC->database(),
+                $c['exportimport.logging'](),
+                new DataFactory()
+            );
         $dic['exportimport.importer'] = static fn($c): TestImporter =>
             new TestImporter(
                 $c['exportimport.builder'],
@@ -306,6 +319,8 @@ class TestDIC extends ServiceContainer
                 $DIC->resourceStorage(),
                 new DataFactory(),
                 $c['exportimport.questions_importer'],
+                $c['exportimport.random_test_config_importer'],
+                $c['exportimport.test_results_importer'],
                 $c['exportimport.skill_assignments_importer'],
                 $c['exportimport.skill_level_thresholds_importer'],
                 $c['marks.repository']
