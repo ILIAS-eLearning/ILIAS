@@ -171,8 +171,6 @@ class ilAssKprimChoiceAnswer implements Normalizable
             $clone->answertext = $tt->nullableString($normalized['answertext']);
             $clone->imageFile = $tt->denormalize($normalized['image'], QuestionImage::class)?->getFilename();
             $clone->correctness = $tt->int($normalized['correctness']);
-
-            //TODO: imageFSDir, imageWebDir, thumbPrefix ?
             return $clone;
         });
     }

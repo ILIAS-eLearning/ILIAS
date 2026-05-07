@@ -57,11 +57,8 @@ class IlObjectNormalizer implements Normalizer
             throw new NormalizingException('Invalid value', $value);
         }
 
-        // TODO: Icon
-        // TODO: Tile Image
-        // TODO: Translations
-        // TODO: Container Settings
-
+        // Icon, tile, translations and container settings are exported by the ILIASObject component.
+        // See: ilObjectDataSet
         return [
             'obj_id' => $this->tt->normalize(new Id($value->getId(), 'object')),
             'title' => $value->getTitle(),
@@ -84,8 +81,6 @@ class IlObjectNormalizer implements Normalizer
             'title_and_icon_visibility' => $this->normalizeProperty($properties->getPropertyTitleAndIconVisibility()),
             'header_action_visibility' => $this->normalizeProperty($properties->getPropertyHeaderActionVisibility()),
             'info_tab_visibility' => $this->normalizeProperty($properties->getPropertyInfoTabVisibility()),
-            // 'tile_image' => $properties->getPropertyTileImage(),
-            // 'icon' => $this->normalizeProperty($properties->getPropertyIcon()),
             'translations' => $this->normalizeTranslations($properties->getPropertyTranslations()),
         ];
     }
@@ -147,8 +142,6 @@ class IlObjectNormalizer implements Normalizer
         $object->setType($this->tt->string($value['type']));
         $object->setOwner($this->tt->int($value['owner']));
         $object->setImportId($this->tt->string($value['import_id']));
-
-        // TODO: Properties
 
         return $object;
     }
