@@ -463,7 +463,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition implements Normalizable
     {
         return $tt->custom()->transformation(function () use ($tt): array {
             $normalized = [
-                'id' => $tt->normalize(new Id($this->getId(), static::class)),
+                'id' => $tt->normalize(new Id($this->getId(), 'rnd_src_pool_def')),
                 'pool_id' => $tt->normalize(new Id($this->getPoolId(), 'qpl')),
                 'pool_title' => $this->getPoolTitle(),
                 'pool_path' => $this->getPoolPath(),
