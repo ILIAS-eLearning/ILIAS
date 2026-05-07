@@ -28,21 +28,13 @@ use ILIAS\Data\ReferenceId;
 use ILIAS\Data\UUID\Factory as UUIDFactory;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\Services as IRSS;
-use ILIAS\Test\ExportImport\Envelopes\AdditionalWorkingTime;
-use ILIAS\Test\ExportImport\Envelopes\ManualFeedback;
-use ILIAS\Test\ExportImport\Envelopes\QuestionResult;
 use ILIAS\Test\ExportImport\Envelopes\QuestionSetConfig;
-use ILIAS\Test\ExportImport\Envelopes\Solution;
-use ILIAS\Test\ExportImport\Envelopes\WorkingTime;
 use ILIAS\Test\Participants\Participant;
-use ILIAS\Test\Results\Data\AttemptResult;
-use ILIAS\Test\Results\Data\ParticipantResult;
 use ILIAS\Test\Scoring\Marks\MarkSchema;
 use ILIAS\Test\Scoring\Marks\MarksRepository;
 use ILIAS\Test\Settings\GlobalSettings\UserIdentifiers;
 use ILIAS\Test\Settings\MainSettings\MainSettings;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettings;
-use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Builder;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Deserializer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
@@ -58,9 +50,6 @@ use ILIAS\TestQuestionPool\ExportImport\Pipes\CollectQuestionImages;
 use ilImportMapping;
 use ilObjTest;
 use ilTestPage;
-use ilTestRandomQuestionSetSourcePoolDefinition;
-use ilTestRandomQuestionSetStagingPoolQuestion;
-use ilTestSequence;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 
@@ -79,6 +68,8 @@ class TestImporter
         private readonly IRSS $irss,
         private readonly DataFactory $data_factory,
         private readonly QuestionsImporter $questions_importer,
+        private readonly RandomTestConfigImporter $random_test_config_importer,
+        private readonly TestResultsImporter $test_results_importer,
         private readonly SkillAssignmentsImporter $skill_importer,
         private readonly SkillLevelThresholdsImporter $skill_thresholds_importer,
         private readonly MarksRepository $marks_repository,
@@ -194,7 +185,7 @@ class TestImporter
         $deserializer->addHandler(
             'results',
             function (array $results) use ($tt): void {
-                $this->importGroupedResults(
+                $this->test_results_importer->import(
                     $results,
                     $tt,
                 );
@@ -204,7 +195,7 @@ class TestImporter
         $deserializer->addHandler(
             'additional_working_times',
             function (array $times) use ($tt): void {
-                $this->importAdditionalWorkingTimes(
+                $this->test_results_importer->importAdditionalWorkingTimes(
                     $times,
                     $tt,
                 );
@@ -234,12 +225,14 @@ class TestImporter
 
     /**
      * Finalize the import after all dependencies have been imported.
-     * It will replace the old question ids with the new question ids in the test pages.
+     * It will replace the old question ids with the new question ids in the test pages and remap taxonomy IDs in random
+     * question set source pool definitions.
      */
     public function finalize(ilImportMapping $mapping): void
     {
         $this->log->info('Finalizing test import...');
         $this->questions_importer->finalizeQuestionPages($mapping);
+        $this->random_test_config_importer->finalizeTaxonomyFilters($mapping);
         $this->log->info('...Finished finalizing test');
     }
 
@@ -393,76 +386,10 @@ class TestImporter
         ilObjTest $test_object
     ): void {
         $config = $tt->denormalize($normalized, QuestionSetConfig::class);
-        if (!$config->isRandom()) {
-            return;
+
+        if ($config->isRandom()) {
+            $this->random_test_config_importer->import($config, $mapping, $test_object);
         }
-
-        $config->getConfig()->saveToDb();
-        $this->log->debug("Imported random question set config for test {$test_object->getTestId()}");
-
-        foreach ($config->getStagingPools() as $pool_id => $questions) {
-            $this->importRandomQuestionStagingPool($pool_id, $questions, $mapping, $test_object);
-        }
-
-        foreach ($config->getDefinitions() as $definition) {
-            $this->importSourcePoolDefinition($definition, $mapping);
-        }
-    }
-
-    private function importRandomQuestionStagingPool(
-        int $old_pool_id,
-        array $questions,
-        ilImportMapping $mapping,
-        ilObjTest $test_object
-    ): void {
-        $new_pool_id = $this->database->nextId('object_data');
-        $mapping->addMapping(
-            'components/ILIAS/Test',
-            'pool',
-            (string) $old_pool_id,
-            (string) $new_pool_id
-        );
-        $this->log->debug("Imported random question staging pool: {$old_pool_id} -> {$new_pool_id}");
-
-        // QuestionID was mapped during question set config denormalization
-        foreach ($questions as $question_id) {
-            $question = new ilTestRandomQuestionSetStagingPoolQuestion($this->database);
-            $question->setTestId($test_object->getTestId());
-            $question->setPoolId($new_pool_id);
-            $question->setQuestionId($question_id);
-            $question->saveQuestionStaging();
-            $this->log->debug("Imported random question staging question: {$question_id}");
-        }
-    }
-
-    private function importSourcePoolDefinition(
-        ilTestRandomQuestionSetSourcePoolDefinition $definition,
-        ilImportMapping $mapping,
-    ): void {
-        // New PoolID was not available during denormalization, so we have to map it here
-        $old_pool_id = $definition->getPoolId();
-        $new_pool_id = (int) $mapping->getMapping('components/ILIAS/Test', 'pool', (string) $old_pool_id);
-        $definition->setPoolId($new_pool_id);
-
-        if ($old_pool_id !== $new_pool_id) {
-            $ref_ids = $this->data_factory->objId($new_pool_id)->toReferenceIds();
-            if (count($ref_ids) > 0) {
-                $definition->setPoolRefId(current($ref_ids)->toInt());
-                $this->log->debug("Derived source pool definition from Object ID: {$old_pool_id} -> {$definition->getPoolRefId()}");
-            }
-        }
-
-        $old_definition_id = $definition->getId();
-        $definition->setId(0);
-        $definition->saveToDb();
-        $this->log->debug("Imported source pool definition: {$old_definition_id} -> {$definition->getId()}");
-
-        $mapping->addMapping(
-            'components/ILIAS/Test',
-            'rnd_src_pool_def',
-            (string) $old_definition_id,
-            (string) $definition->getId()
-        );
     }
 
     private function importParticipants(array $list, Transformations $tt, ilImportMapping $mapping): void
@@ -517,215 +444,5 @@ class TestImporter
             'tstamp' => [ilDBConstants::T_INTEGER, $participant->getInvitationDate()],
         ]);
         $this->log->debug("Stored invited participant in database: {$participant->getUserId()} (User ID), {$participant->getTestId()} (Test ID)");
-    }
-
-    /*
-        Results
-    */
-
-    private function importGroupedResults(array $list, Transformations $tt): void
-    {
-        foreach ($list as $set) {
-            foreach ($set as $name => $data) {
-                match($name) {
-                    'sequences' => $this->importTestSequences($data, $tt),
-                    'solutions' => $this->importSolutions($data, $tt),
-                    'results' => $this->importQuestionResults($data, $tt),
-                    'attempts' => $this->importAttemptResults($data, $tt),
-                    'test_result' => $this->importTestResult($data, $tt),
-                    'working_times' => $this->importWorkingTimes($data, $tt),
-                    'manual_feedback' => $this->importManualFeedback($data, $tt),
-                    'manual_scoring' => $this->importManualScoring($data, $tt),
-                    default => $this->log->warning("Invalid result type: {$name}"),
-                };
-            }
-        }
-    }
-
-    private function importTestSequences(array $list, Transformations $tt): void
-    {
-        foreach ($list as $normalized) {
-            // ActiveID and QuestionIDs will be replaced by the mapping pipe
-            $sequence = $tt->denormalize($normalized, ilTestSequence::class);
-            $sequence->saveToDb();
-            $this->log->debug("Stored test sequence in database: {$sequence->getActiveId()} (Active ID), {$sequence->getPass()} (Pass)");
-        }
-    }
-
-    private function importSolutions(array $list, Transformations $tt): void
-    {
-        foreach ($list as $normalized) {
-            // ActiveID and QuestionID will be replaced by the mapping pipe
-            $solution = $tt->denormalize($normalized, Solution::class);
-
-            $next_id = $this->database->nextId('tst_solutions');
-            $this->database->insert(
-                'tst_solutions',
-                [
-                    'solution_id' => [ilDBConstants::T_INTEGER, $next_id],
-                    'active_fi' => [ilDBConstants::T_INTEGER, $solution->active_id->getId()],
-                    'question_fi' => [ilDBConstants::T_INTEGER, $solution->question_id->getId()],
-                    'pass' => [ilDBConstants::T_INTEGER, $solution->attempt],
-                    'value1' => [ilDBConstants::T_TEXT, $solution->value1 !== null ? (string) $solution->value1 : null],
-                    'value2' => [ilDBConstants::T_TEXT, $solution->value2],
-                    'points' => [ilDBConstants::T_FLOAT, $solution->points],
-                    'step' => [ilDBConstants::T_INTEGER, $solution->step],
-                    'authorized' => [ilDBConstants::T_INTEGER, $solution->authorized ? 1 : 0],
-                    'tstamp' => [ilDBConstants::T_INTEGER, time()],
-                ]
-            );
-            $this->log->debug("Stored solution in database: {$next_id}");
-        }
-    }
-
-    private function importQuestionResults(array $list, Transformations $tt): void
-    {
-        foreach ($list as $normalized) {
-            // ActiveID and QuestionID will be replaced by the mapping pipe
-            $result = $tt->denormalize($normalized, QuestionResult::class);
-
-            $next_id = $this->database->nextId('tst_test_result');
-            $this->database->insert(
-                'tst_test_result',
-                [
-                    'test_result_id' => [ilDBConstants::T_INTEGER, $next_id],
-                    'active_fi' => [ilDBConstants::T_INTEGER, $result->active_id->getId()],
-                    'question_fi' => [ilDBConstants::T_INTEGER, $result->question_id->getId()],
-                    'pass' => [ilDBConstants::T_INTEGER, $result->attempt],
-                    'points' => [ilDBConstants::T_FLOAT, $result->points],
-                    'manual' => [ilDBConstants::T_INTEGER, $result->manual ? 1 : 0],
-                    'tstamp' => [ilDBConstants::T_INTEGER, time()],
-                    'answered' => [ilDBConstants::T_INTEGER, $result->answered ? 1 : 0],
-                    'step' => [ilDBConstants::T_INTEGER, $result->step],
-                ]
-            );
-            $this->log->debug("Stored question result in database: {$next_id}");
-        }
-    }
-    private function importAttemptResults(array $list, Transformations $tt): void
-    {
-        foreach ($list as $normalized) {
-            // ActiveID will be replaced by the mapping pipe
-            $attempt = $tt->denormalize($normalized, AttemptResult::class);
-
-            $this->database->insert(
-                'tst_pass_result',
-                [
-                    'active_fi' => [ilDBConstants::T_INTEGER, $attempt->getActiveId()],
-                    'pass' => [ilDBConstants::T_INTEGER, $attempt->getAttempt()],
-                    'maxpoints' => [ilDBConstants::T_FLOAT, $attempt->getMaxPoints()],
-                    'points' => [ilDBConstants::T_FLOAT, $attempt->getReachedPoints()],
-                    'questioncount' => [ilDBConstants::T_INTEGER, $attempt->getQuestionCount()],
-                    'answeredquestions' => [ilDBConstants::T_INTEGER, $attempt->getAnsweredQuestions()],
-                    'workingtime' => [ilDBConstants::T_INTEGER, $attempt->getWorkingTime()],
-                    'exam_id' => [ilDBConstants::T_TEXT, $attempt->getExamId()],
-                    'finalized_by' => [ilDBConstants::T_TEXT, $attempt->getFinalizedBy()],
-                    'tstamp' => [ilDBConstants::T_INTEGER, time()],
-                ]
-            );
-            $this->log->debug("Stored attempt result in database: {$attempt->getActiveId()} (Active ID), {$attempt->getAttempt()} (Pass)");
-        }
-    }
-
-    private function importTestResult(?array $normalized, Transformations $tt): void
-    {
-        if ($normalized === null) {
-            $this->log->warning("Missing test result, skipping");
-            return;
-        }
-
-        // ActiveID will be replaced by the mapping pipe
-        $result = $tt->denormalize($normalized, ParticipantResult::class);
-
-        $this->database->insert(
-            'tst_result_cache',
-            [
-                'active_fi' => [ilDBConstants::T_INTEGER, $result->getActiveId()],
-                'pass' => [ilDBConstants::T_INTEGER, $result->getAttempt()],
-                'max_points' => [ilDBConstants::T_FLOAT, $result->getMaxPoints()],
-                'reached_points' => [ilDBConstants::T_FLOAT, $result->getReachedPoints()],
-                'mark_short' => [ilDBConstants::T_TEXT, $result->getMark()->getShortName()],
-                'mark_official' => [ilDBConstants::T_TEXT, $result->getMark()->getOfficialName()],
-                'passed' => [ilDBConstants::T_INTEGER, $result->isPassed() ? 1 : 0],
-                'failed' => [ilDBConstants::T_INTEGER, $result->isFailed() ? 1 : 0],
-                'tstamp' => [ilDBConstants::T_INTEGER, time()],
-            ]
-        );
-        $this->log->debug("Stored test result in database: {$result->getActiveId()} (Active ID), {$result->getAttempt()} (Pass)");
-    }
-
-    private function importWorkingTimes(array $list, Transformations $tt): void
-    {
-        foreach ($list as $normalized) {
-            // ActiveID will be replaced by the mapping pipe
-            $working_time = $tt->denormalize($normalized, WorkingTime::class);
-
-            $next_id = $this->database->nextId('tst_times');
-            $this->database->insert(
-                'tst_times',
-                [
-                    'times_id' => [ilDBConstants::T_INTEGER, $next_id],
-                    'active_fi' => [ilDBConstants::T_INTEGER, $working_time->active_id->getId()],
-                    'pass' => [ilDBConstants::T_INTEGER, $working_time->attempt],
-                    'started' => [ilDBConstants::T_TIMESTAMP, $working_time->started],
-                    'finished' => [ilDBConstants::T_TIMESTAMP, $working_time->finished],
-                    'tstamp' => [ilDBConstants::T_INTEGER, time()],
-                ]
-            );
-            $this->log->debug("Stored working time in database: {$next_id}");
-        }
-    }
-
-    private function importManualFeedback(array $list, Transformations $tt): void
-    {
-        foreach ($list as $normalized) {
-            // ActiveID, QuestionID and UserID will be replaced by the mapping pipe
-            $manual_feedback = $tt->denormalize($normalized, ManualFeedback::class);
-
-            $next_id = $this->database->nextId('tst_manual_fb');
-            $this->database->insert(
-                'tst_manual_fb',
-                [
-                    'manual_feedback_id' => [ilDBConstants::T_INTEGER, $next_id],
-                    'active_fi' => [ilDBConstants::T_INTEGER, $manual_feedback->active_id->getId()],
-                    'question_fi' => [ilDBConstants::T_INTEGER, $manual_feedback->question_id->getId()],
-                    'pass' => [ilDBConstants::T_INTEGER, $manual_feedback->attempt],
-                    'feedback' => [ilDBConstants::T_TEXT, $manual_feedback->feedback],
-                    'finalized_evaluation' => [ilDBConstants::T_INTEGER, $manual_feedback->finalized_evaluation ? 1 : 0],
-                    'finalized_timestamp' => [ilDBConstants::T_INTEGER, $manual_feedback->finalized_timestamp],
-                    'finalized_by_usr_id' => [ilDBConstants::T_INTEGER, $manual_feedback->finalized_by->getId()],
-                    'tstamp' => [ilDBConstants::T_INTEGER, time()],
-                ]
-            );
-            $this->log->debug("Stored manual feedback in database: {$next_id}");
-        }
-    }
-
-    private function importManualScoring(array $normalized, Transformations $tt): void
-    {
-        // ActiveID will be replaced by the mapping pipe
-        $active_id = $tt->denormalize($normalized['active_id'], Id::class)->getId();
-
-        new TestManScoringDoneHelper()->setDone($active_id, $tt->bool($normalized['done']));
-        $this->log->debug("Stored manual scoring in database: {$active_id} (Active ID)");
-    }
-
-    private function importAdditionalWorkingTimes(array $list, Transformations $tt): void
-    {
-        foreach ($list as $normalized) {
-            // UserID and TestID will be replaced by the mapping pipe
-            $time = $tt->denormalize($normalized, AdditionalWorkingTime::class);
-
-            $this->database->insert(
-                'tst_addtime',
-                [
-                    'additionaltime' => [ilDBConstants::T_INTEGER, $time->time],
-                    'user_fi' => [ilDBConstants::T_INTEGER, $time->user_id->getId()],
-                    'test_fi' => [ilDBConstants::T_INTEGER, $time->test_id->getId()],
-                    'tstamp' => [ilDBConstants::T_TIMESTAMP, $time->timestamp],
-                ]
-            );
-            $this->log->debug("Stored additional working time in database: {$time->user_id->getId()} (User ID)");
-        }
     }
 }
