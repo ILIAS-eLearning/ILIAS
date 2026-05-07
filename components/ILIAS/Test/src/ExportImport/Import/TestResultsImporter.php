@@ -25,6 +25,7 @@ use ilDBInterface;
 use ILIAS\Test\ExportImport\Envelopes\AdditionalWorkingTime;
 use ILIAS\Test\ExportImport\Envelopes\ManualFeedback;
 use ILIAS\Test\ExportImport\Envelopes\QuestionResult;
+use ILIAS\Test\ExportImport\Envelopes\RandomTestQuestion;
 use ILIAS\Test\ExportImport\Envelopes\Solution;
 use ILIAS\Test\ExportImport\Envelopes\WorkingTime;
 use ILIAS\Test\Results\Data\AttemptResult;
@@ -63,6 +64,7 @@ class TestResultsImporter
                     'working_times' => $this->importWorkingTimes($data, $tt),
                     'manual_feedback' => $this->importManualFeedback($data, $tt),
                     'manual_scoring' => $this->importManualScoring($data, $tt),
+                    'questions' => $this->importRandomTestQuestions($data, $tt),
                     default => $this->log->warning("Invalid result type: {$name}"),
                 };
             }
@@ -253,6 +255,29 @@ class TestResultsImporter
                 ]
             );
             $this->log->debug("Stored additional working time in database: {$time->user_id->getId()} (User ID)");
+        }
+    }
+
+    public function importRandomTestQuestions(array $list, Transformations $tt): void
+    {
+        foreach ($list as $normalized) {
+            // ActiveID, QuestionID and SourcePoolDefinitionID will be replaced by the mapping pipe
+            $question = $tt->denormalize($normalized, RandomTestQuestion::class);
+
+            $next_id = $this->database->nextId('tst_test_rnd_qst');
+            $this->database->insert(
+                'tst_test_rnd_qst',
+                [
+                    'test_random_question_id' => [ilDBConstants::T_INTEGER, $next_id],
+                    'active_fi' => [ilDBConstants::T_INTEGER, $question->active_id->getId()],
+                    'question_fi' => [ilDBConstants::T_INTEGER, $question->question_id->getId()],
+                    'sequence' => [ilDBConstants::T_INTEGER, $question->sequence],
+                    'pass' => [ilDBConstants::T_INTEGER, $question->pass],
+                    'tstamp' => [ilDBConstants::T_INTEGER, time()],
+                    'src_pool_def_fi' => [ilDBConstants::T_INTEGER, $question->src_pool_def_id->getId()],
+                ]
+            );
+            $this->log->debug("Stored random test question in database: {$next_id}");
         }
     }
 }

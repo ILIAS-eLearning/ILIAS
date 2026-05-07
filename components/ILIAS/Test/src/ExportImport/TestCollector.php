@@ -30,6 +30,7 @@ use ILIAS\Test\ExportImport\Envelopes\AdditionalWorkingTime;
 use ILIAS\Test\ExportImport\Envelopes\ManualFeedback;
 use ILIAS\Test\ExportImport\Envelopes\QuestionResult;
 use ILIAS\Test\ExportImport\Envelopes\QuestionSetConfig;
+use ILIAS\Test\ExportImport\Envelopes\RandomTestQuestion;
 use ILIAS\Test\ExportImport\Envelopes\Solution;
 use ILIAS\Test\ExportImport\Envelopes\WorkingTime;
 use ILIAS\Test\Logging\TestLogger;
@@ -45,7 +46,6 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ilObjTest;
 use ilTestQuestionSetConfigFactory;
-use ilTestRandomQuestionSetConfig;
 use ilTestRandomQuestionSetSourcePoolDefinitionFactory;
 use ilTestRandomQuestionSetSourcePoolDefinitionList;
 use ilTestRandomQuestionSetStagingPoolQuestionList;
@@ -303,7 +303,7 @@ class TestCollector implements DataCollector
     public function getResults(int $participant_id): array
     {
         $attempt_results = $this->results_repository->getTestAttemptResults($participant_id);
-        return [
+        $set = [
             'sequences' => $this->getSequences($participant_id, array_keys($attempt_results)),
             'solutions' => $this->getSolutions($participant_id),
             'results' => $this->getQuestionResults($participant_id),
@@ -316,6 +316,11 @@ class TestCollector implements DataCollector
                 'done' => $this->manual_scoring->isDone($participant_id),
             ],
         ];
+
+        if ($this->getObject()->isRandomTest()) {
+            $set['questions'] = $this->getRandomTestQuestions($participant_id);
+        }
+        return $set;
     }
 
     /**
@@ -414,6 +419,23 @@ class TestCollector implements DataCollector
 
         return array_map(
             fn(array $row): AdditionalWorkingTime => AdditionalWorkingTime::fromRow($row),
+            $this->db->fetchAll($query)
+        );
+    }
+
+    /**
+     * @return list<RandomTestQuestion>
+     */
+    public function getRandomTestQuestions(int $participant_id): array
+    {
+        $query = $this->db->queryF(
+            "SELECT * FROM tst_test_rnd_qst WHERE active_fi = %s",
+            [ilDBConstants::T_INTEGER],
+            [$participant_id]
+        );
+
+        return array_map(
+            fn(array $row): RandomTestQuestion => RandomTestQuestion::fromRow($row),
             $this->db->fetchAll($query)
         );
     }
