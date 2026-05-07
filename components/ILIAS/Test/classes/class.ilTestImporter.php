@@ -88,5 +88,28 @@ class ilTestImporter extends ilXmlImporter
         }
 
         $this->importer->finalize($a_mapping);
+        $this->finalizeTaxonomyUsage($a_mapping);
+    }
+
+    private function finalizeTaxonomyUsage(ilImportMapping $a_mapping): void
+    {
+        $tst_mappings = $a_mapping->getMappingsOfEntity('components/ILIAS/Test', 'tst');
+
+        foreach ($tst_mappings as $old => $new) {
+            if ($old !== 'new_id' && (int) $old > 0) {
+                $new_tax_ids = $a_mapping->getMapping(
+                    'components/ILIAS/Taxonomy',
+                    'tax_usage_of_obj',
+                    (string) $old
+                );
+
+                if ($new_tax_ids !== null) {
+                    $tax_ids = explode(':', $new_tax_ids);
+                    foreach ($tax_ids as $tid) {
+                        ilObjTaxonomy::saveUsage((int) $tid, (int) $new);
+                    }
+                }
+            }
+        }
     }
 }

@@ -473,6 +473,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition implements Normalizable
                 'type_filter' => $this->getTypeFilterAsTypeTags(),
                 'lifecycle_filter' => $this->getLifecycleFilter(),
                 'taxonomy_filter' => [],
+                'mapped_taxonomy_filter' => [],
             ];
 
             foreach ($this->getOriginalTaxonomyFilter() as $tax_id => $node_ids) {
@@ -480,6 +481,16 @@ class ilTestRandomQuestionSetSourcePoolDefinition implements Normalizable
                     'tax_id' => $tt->normalize(new Id($tax_id, 'tax')),
                     'node_ids' => array_map(
                         fn($node_id) => $tt->normalize(new Id($node_id, 'tax_node')),
+                        $node_ids
+                    ),
+                ];
+            }
+
+            foreach ($this->getMappedTaxonomyFilter() as $tax_id => $node_ids) {
+                $normalized['mapped_taxonomy_filter'][] = [
+                    'tax_id' => $tt->normalize(new Id($tax_id, 'mapped_tax')),
+                    'node_ids' => array_map(
+                        fn($node_id) => $tt->normalize(new Id($node_id, 'mapped_tax_node')),
                         $node_ids
                     ),
                 ];
@@ -515,6 +526,16 @@ class ilTestRandomQuestionSetSourcePoolDefinition implements Normalizable
                 );
             }
             $clone->setOriginalTaxonomyFilter($taxonomy_filter);
+
+            $mapped_taxonomy_filter = [];
+            foreach (($normalized['mapped_taxonomy_filter'] ?? []) as $item) {
+                $tax_id = $tt->denormalize($item['tax_id'], Id::class)->getId();
+                $mapped_taxonomy_filter[$tax_id] = array_map(
+                    fn($node_id) => $tt->denormalize($node_id, Id::class)->getId(),
+                    $item['node_ids']
+                );
+            }
+            $clone->setMappedTaxonomyFilter($mapped_taxonomy_filter);
 
             return $clone;
         });
