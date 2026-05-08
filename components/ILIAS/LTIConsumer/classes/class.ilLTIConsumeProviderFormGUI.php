@@ -97,7 +97,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
             htmlspecialchars($iframe_url, ENT_QUOTES)
         );
 
-        $content = $factory->legacy($iframe_html);
+        $content = $factory->legacy()->content($iframe_html);
 
         $modal = $factory
             ->modal()

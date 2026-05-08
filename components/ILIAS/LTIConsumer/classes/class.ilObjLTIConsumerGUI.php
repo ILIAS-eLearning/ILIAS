@@ -750,6 +750,14 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     public function executeCommand(): void
     {
         global $DIC;
+
+        if ($DIC->ctrl()->getCmd() === 'startDeepLinking' && $this->object instanceof ilObjLTIAdministration) {
+            $DIC->ui()->mainTemplate()->setContent(
+                $this->ui_renderer->render($this->ui_factory->messageBox()->info($DIC->language()->txt('lti_deep_linking_not_available_for_admin_objects')))
+            );
+            return;
+        }
+
         /* @var \ILIAS\DI\Container $DIC */
 
         // TODO: general access checks (!)
