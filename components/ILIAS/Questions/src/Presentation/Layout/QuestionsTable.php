@@ -33,7 +33,7 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Button\Primary as PrimaryButton;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as Filter;
 
-class QuestionsTable implements Renderable, DataRetrieval
+class QuestionsTable implements Viewable, DataRetrieval
 {
     private ?PrimaryButton $create_question_button = null;
 
@@ -46,20 +46,27 @@ class QuestionsTable implements Renderable, DataRetrieval
         $environment->getLanguage()->loadLanguageModule('qpl');
     }
 
-    public function render(
-        UIRenderer $ui_renderer
-    ): string {
+    #[\Override]
+    public function getUI(): array
+    {
 
-        $rendered_content = '';
+        $content = [];
 
         if ($this->create_question_button !== null) {
             $toolbar = new \ilToolbarGUI();
             $toolbar->addComponent(
                 $this->create_question_button
             );
-            $rendered_content = $toolbar->getHTML();
+            $content = [
+                $this->environment->getUIFactory()->legacy()->content(
+                    $toolbar->getHTML()
+                )
+            ];
         }
-        return $rendered_content . $ui_renderer->render($this->buildContent());
+
+        $content[] = $this->buildTable();
+
+        return $content;
     }
 
     public function withCreateQuestionButton(
@@ -104,7 +111,7 @@ class QuestionsTable implements Renderable, DataRetrieval
         return $this->questions_repository->getQuestionsCount();
     }
 
-    private function buildContent(): array
+    private function buildTable(): array
     {
         $filter = $this->buildFilter(
             $this->environment->getUrlBuilder()->buildURI()->__toString()

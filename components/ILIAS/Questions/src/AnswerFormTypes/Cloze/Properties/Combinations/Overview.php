@@ -27,7 +27,7 @@ use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Async;
 use ILIAS\Questions\Presentation\Layout\Tools\InputsBuilder;
 use ILIAS\Questions\Presentation\Layout\Tools\InputsBuilderSession;
-use ILIAS\Questions\Presentation\Layout\Renderable;
+use ILIAS\Questions\Presentation\Layout\Viewable;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
 use ILIAS\UI\Component\Input\Field\Section;
@@ -36,9 +36,8 @@ use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 use ILIAS\UI\Component\Table\Data as DataTable;
 use ILIAS\UI\Component\Table\DataRetrieval;
 use ILIAS\UI\Component\Table\DataRowBuilder;
-use ILIAS\UI\Renderer as UIRenderer;
 
-class Overview implements DataRetrieval, Renderable
+class Overview implements Viewable, DataRetrieval
 {
     private const string SUB_ACTION_SAVE = 's';
     private const string SUB_ACTION_SET_COMBINATION_VALUES = 'scv';
@@ -55,9 +54,8 @@ class Overview implements DataRetrieval, Renderable
     }
 
     #[\Override]
-    public function render(
-        UIRenderer $ui_renderer
-    ): string {
+    public function getUI(): array
+    {
         $modal = $this->buildSetCombinationGapsModal();
         $content = [
             $this->environment->getUIFactory()->button()->standard(
@@ -70,7 +68,7 @@ class Overview implements DataRetrieval, Renderable
         if ($this->modal !== null) {
             $content[] = $this->modal;
         }
-        return $ui_renderer->render($content);
+        return $content;
     }
 
     #[\Override]

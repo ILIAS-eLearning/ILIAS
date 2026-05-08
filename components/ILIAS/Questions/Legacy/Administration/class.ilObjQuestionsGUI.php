@@ -135,11 +135,12 @@ class ilObjQuestionsGUI extends ilObjectGUI
         $this->tabs_gui->activateTab('questions');
 
         $this->tpl->setContent(
-            $this->edit_view->show(
-                $this->buildEditQuestionsBaseUri(),
-                $this->object->getId(),
-                $this->object->getRefId()
-            )->render($this->ui_renderer)
+            $this->ui_renderer->render(
+                $this->edit_view->getUI(
+                    $this->buildEditQuestionsBaseUri(),
+                    $this->object->getRefId()
+                )
+            )
         );
     }
 
