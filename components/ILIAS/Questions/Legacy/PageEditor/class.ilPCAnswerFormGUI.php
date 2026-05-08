@@ -59,14 +59,15 @@ class ilPCAnswerFormGUI extends ilPageContentGUI
         $content_obj = new ilPCAnswerForm($this->pg_obj);
         $content_obj->setHierId($this->hier_id);
         $this->tpl->setContent(
-            $this->edit_view->createAnswerForm(
-                $this->data_factory->uri(
-                    ILIAS_HTTP_PATH . '/' . $this->ctrl->getFormActionByClass(self::class, 'insert')
-                ),
-                $this->pg_obj->getParentId(),
-                $this->pg_obj->getQuestion(),
-                $content_obj
-            )->render($this->ui_renderer)
+            $this->ui_renderer->render(
+                $this->edit_view->getCreateAnswerForm(
+                    $this->data_factory->uri(
+                        ILIAS_HTTP_PATH . '/' . $this->ctrl->getFormActionByClass(self::class, 'insert')
+                    ),
+                    $this->pg_obj->getQuestion(),
+                    $content_obj
+                )
+            )
         );
     }
 
@@ -79,15 +80,16 @@ class ilPCAnswerFormGUI extends ilPageContentGUI
         );
 
         $this->tpl->setContent(
-            $this->edit_view->editAnswerForm(
-                $this->data_factory->uri(
-                    ILIAS_HTTP_PATH . '/' . $this->ctrl->getFormActionByClass(self::class, 'edit')
-                ),
-                $this->pg_obj->getParentId(),
-                $question,
-                $answer_form_properties,
-                $answer_form_properties->getDefinition()
-            )->render($this->ui_renderer)
+            $this->ui_renderer->render(
+                $this->edit_view->getEditAnswerForm(
+                    $this->data_factory->uri(
+                        ILIAS_HTTP_PATH . '/' . $this->ctrl->getFormActionByClass(self::class, 'edit')
+                    ),
+                    $question,
+                    $answer_form_properties,
+                    $answer_form_properties->getDefinition()
+                )
+            )
         );
     }
 }
