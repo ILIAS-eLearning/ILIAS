@@ -28,7 +28,7 @@ use ILIAS\Data\URI;
  */
 abstract class AbstractCollection
 {
-    private const VERSION_PARAMETER = "_v";
+    public const VERSION_PARAMETER = "_v";
     /**
      * @var Js[]|Css[]|InlineCss[]|OnLoadCode[]
      */
