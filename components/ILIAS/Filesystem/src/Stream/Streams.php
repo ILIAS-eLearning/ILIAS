@@ -85,12 +85,12 @@ final class Streams
     {
         // we try to open the zip file with the path inside the zip file, once with a leading slash and once without
         try {
-            $resource = fopen('zip://' . $path_to_zip . '#/' . $path_inside_zip, 'rb');
+            $resource = @fopen('zip://' . $path_to_zip . '#/' . $path_inside_zip, 'rb');
         } catch (\Throwable) {
             $resource = null;
         }
         try {
-            $resource = $resource ?: fopen('zip://' . $path_to_zip . '#' . $path_inside_zip, 'rb');
+            $resource = $resource ?: @fopen('zip://' . $path_to_zip . '#' . $path_inside_zip, 'rb');
         } catch (\Throwable) {
             $resource = null;
         }
