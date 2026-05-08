@@ -19,17 +19,15 @@
 declare(strict_types=1);
 
 use ILIAS\ResourceStorage\Services as ResourceStorage;
+use ILIAS\Test\RequestDataCollector;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
+use ILIAS\TestQuestionPool\ExportImport\Import\DetectLegacyImportStage;
+use ILIAS\TestQuestionPool\ExportImport\Import\QuestionSelectionStage;
+use ILIAS\TestQuestionPool\ExportImport\Import\UploadValidationStage;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\Logging\TestLogger;
 
-/**
- * Importer class for files
- *
- * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id$
- * @ingroup components\ILIASLearningModule
- */
 class ilTestLegacyImporter extends ilXmlImporter
 {
     use TestQuestionsImportTrait;
@@ -41,15 +39,20 @@ class ilTestLegacyImporter extends ilXmlImporter
     private readonly TestLogger $logger;
     private readonly ilDBInterface $db;
     private readonly ResourceStorage $irss;
+    private readonly ImportSessionRepository $session;
+    private readonly RequestDataCollector $request_data_collector;
 
     public function __construct()
     {
         global $DIC;
-        $this->logger = TestDIC::dic()['logging.logger'];
+        parent::__construct();
+
+        $local_dic = TestDIC::dic();
+        $this->logger = $local_dic['logging.logger'];
+        $this->session = $local_dic['exportimport.session'];
+        $this->request_data_collector = $local_dic['request_data_collector'];
         $this->db = $DIC['ilDB'];
         $this->irss = $DIC['resource_storage'];
-
-        parent::__construct();
     }
 
     public function importXmlRepresentation(
@@ -58,47 +61,28 @@ class ilTestLegacyImporter extends ilXmlImporter
         string $a_xml,
         ilImportMapping $a_mapping
     ): void {
-        $results_file_path = null;
-        if ($new_id = (int) $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_id)) {
-            // container content
-            $new_obj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
-            $new_obj->saveToDb();
+        $new_obj = new ilObjTest(0, true);
+        $new_obj->setTitle('dummy');
+        $new_obj->setDescription('test import');
+        $new_obj->create(true);
+        $new_obj->createReference();
+        $new_obj->putInTree($this->request_data_collector->getRefId());
+        $new_obj->setPermissions($this->request_data_collector->getRefId());
+        $new_obj->saveToDb();
 
-            [$importdir, $xmlfile, $qtifile] = $this->buildImportDirectoriesFromContainerImport(
-                $this->getImportDirectory()
-            );
-            $selected_questions = [];
-        } else {
-            // single object
-            $new_id = (int) $a_mapping->getMapping('components/ILIAS/Test', 'tst', 'new_id');
-            $new_obj = ilObjectFactory::getInstanceByObjId($new_id, false);
+        $a_mapping->addMapping('components/ILIAS/Test', 'tst', 'new_id', (string) $new_obj->getId());
 
-            $selected_questions = ilSession::get('tst_import_selected_questions') ?? [];
-            [$subdir, $importdir, $xmlfile, $qtifile] = $this->buildImportDirectoriesFromImportFile(
-                ilSession::get('path_to_import_file')
-            );
-            $results_file_path = $this->buildResultsFilePath($importdir, $subdir);
-            ilSession::clear('tst_import_selected_questions');
-        }
-
-        $new_obj->loadFromDb();
-
-        if (!file_exists($xmlfile)) {
-            $this->logger->error(__METHOD__ . ': Cannot find xml definition: ' . $xmlfile);
-            return;
-        }
-        if (!file_exists($qtifile)) {
-            $this->logger->error(__METHOD__ . ': Cannot find xml definition: ' . $qtifile);
-            return;
-        }
+        $context = $this->session->getContext();
+        $import_base_dir = $context->get(UploadValidationStage::IMPORT_BASE_DIR);
+        $xml_file = $context->get(DetectLegacyImportStage::LEGACY_XML_FILE);
 
         // start parsing of QTI files
         $qti_parser = new ilQTIParser(
-            $importdir,
-            $qtifile,
+            $import_base_dir,
+            $context->get(DetectLegacyImportStage::LEGACY_QTI_FILE),
             ilQTIParser::IL_MO_PARSE_QTI,
             $new_obj->getId(),
-            $selected_questions,
+            $context->get('selected_questions'),
             $a_mapping->getAllMappings()
         );
         $qti_parser->setTestObject($new_obj);
@@ -108,8 +92,8 @@ class ilTestLegacyImporter extends ilXmlImporter
         // import page data
         $question_page_parser = new ilQuestionPageParser(
             $new_obj,
-            $xmlfile,
-            $importdir
+            $xml_file,
+            $import_base_dir
         );
         $question_page_parser->setQuestionMapping($qti_parser->getImportMapping());
         $question_page_parser->startParsing();
@@ -117,10 +101,11 @@ class ilTestLegacyImporter extends ilXmlImporter
         $a_mapping = $this->addTaxonomyAndQuestionsMapping($qti_parser->getQuestionIdMapping(), $new_obj->getId(), $a_mapping);
 
         if ($new_obj->isRandomTest()) {
-            $this->importRandomQuestionSetConfig($new_obj, $xmlfile, $a_mapping);
+            $this->importRandomQuestionSetConfig($new_obj, $xml_file, $a_mapping);
         }
 
-        if ($results_file_path !== null && file_exists($results_file_path)) {
+        $results_file_path = str_replace('__tst', '__results', $xml_file);
+        if (file_exists($results_file_path)) {
             $results = new ilTestResultsImportParser($results_file_path, $new_obj, $this->db, $this->logger, $this->irss);
             $results->setQuestionIdMapping($a_mapping->getMappingsOfEntity('components/ILIAS/Test', 'quest'));
             $results->setSrcPoolDefIdMapping($a_mapping->getMappingsOfEntity('components/ILIAS/Test', 'rnd_src_pool_def'));
@@ -132,18 +117,20 @@ class ilTestLegacyImporter extends ilXmlImporter
 
         $this->importSkillLevelThresholds(
             $a_mapping,
-            $this->importQuestionSkillAssignments($a_mapping, $new_obj, $xmlfile),
+            $this->importQuestionSkillAssignments($a_mapping, $new_obj, $xml_file),
             $new_obj,
-            $xmlfile
+            $xml_file
         );
 
-        $a_mapping->addMapping("components/ILIAS/Test", "tst", (string) $a_id, (string) $new_obj->getId());
         $a_mapping->addMapping(
             "components/ILIAS/MetaData",
             "md",
             $a_id . ":0:tst",
             $new_obj->getId() . ":0:tst"
         );
+
+        $context = $context->with('test_obj_id', $new_obj->getId())->with('test_ref_id', $new_obj->getRefId());
+        $this->session->setContext($context);
     }
 
     public function addTaxonomyAndQuestionsMapping(

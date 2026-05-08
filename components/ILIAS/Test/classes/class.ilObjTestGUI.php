@@ -1416,11 +1416,40 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 break;
 
             case StageResultType::COMPLETE:
-                $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_imported'), true);
-                $this->ctrl->setParameterByClass(ilObjTestGUI::class, 'ref_id', $result->context->get('test_ref_id'));
-                $this->ctrl->redirectByClass(self::class, self::SHOW_QUESTIONS_CMD);
+                $this->afterImportCompleted($result->context);
                 break;
         }
+    }
+
+    private function afterImportCompleted(ImportContext $context): void
+    {
+        $new_obj = new ilObjTest(0, false);
+        $new_obj->setId($context->get('test_obj_id'));
+        $new_obj->setRefId($context->get('test_ref_id'));
+
+        if ($new_obj->getTestLogger()->isLoggingEnabled()) {
+            $new_obj->getTestLogger()->logTestAdministrationInteraction(
+                $new_obj->getTestLogger()->getInteractionFactory()->buildTestAdministrationInteraction(
+                    $new_obj->getRefId(),
+                    $this->user->getId(),
+                    TestAdministrationInteractionTypes::NEW_TEST_CREATED,
+                    []
+                )
+            );
+        }
+
+        $question_skill_assignments_import_fails = new ilAssQuestionSkillAssignmentImportFails($new_obj->getId());
+        if ($question_skill_assignments_import_fails->failedImportsRegistered()) {
+            $this->tpl->setOnScreenMessage(
+                'info',
+                $question_skill_assignments_import_fails->getFailedImportsMessage($this->lng),
+                true
+            );
+        }
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_imported'), true);
+        $this->ctrl->setParameterByClass(ilObjTestGUI::class, 'ref_id', $new_obj->getRefId());
+        $this->ctrl->redirectByClass(self::class, self::SHOW_QUESTIONS_CMD);
     }
 
     private function buildImportStageRunner(): ImportStageRunner
@@ -1486,97 +1515,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     public function getTestObject(): ?ilObjTest
     {
         return $this->object;
-    }
-
-    /**
-    * imports question(s) into the questionpool (after verification)
-    */
-    public function importVerifiedFileObject(
-        bool $skip_retrieve_selected_questions = false
-    ): void {
-        if (!$this->checkPermissionBool('create', '', 'tst')) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
-            $this->ctrl->returnToParent($this);
-        }
-        $file_to_import = ilSession::get('path_to_import_file');
-        $path_to_uploaded_file_in_temp_dir = ilSession::get('path_to_uploaded_file_in_temp_dir');
-        list($subdir, $importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromImportFile($file_to_import);
-
-        $new_obj = new ilObjTest(0, true);
-        $new_obj->setTitle('dummy');
-        $new_obj->setDescription('test import');
-        $new_obj->create(true);
-        $new_obj->createReference();
-        $new_obj->putInTree($this->testrequest->getRefId());
-        $new_obj->setPermissions($this->testrequest->getRefId());
-        $new_obj->saveToDb();
-
-        $selected_questions = [];
-        if (!$skip_retrieve_selected_questions) {
-            $selected_questions = $this->retrieveSelectedQuestionsFromImportQuestionsSelectionForm(
-                'importVerifiedFile',
-                $importdir,
-                $qtifile,
-                $this->request
-            );
-        }
-
-        ilSession::set('tst_import_selected_questions', $selected_questions);
-
-        $imp = new ilImport($this->testrequest->getRefId());
-        $map = $imp->getMapping();
-        $map->addMapping('components/ILIAS/Test', 'tst', 'new_id', (string) $new_obj->getId());
-
-        /**
-         * 2025-03-22, sk: This is now only needed for legacy exports as
-         * now also exports with results do contain a manifest.xml.
-         */
-        if (is_file($importdir . DIRECTORY_SEPARATOR . '/manifest.xml')) {
-            $imp->importObject($new_obj, $file_to_import, basename($file_to_import), 'tst', 'components/ILIAS/Test', true);
-        } else {
-            $test_importer = new ilTestImporter();
-            $test_importer->setImport($imp);
-            $test_importer->setInstallId(IL_INST_ID);
-            $test_importer->setImportDirectory($importdir . '/' . $subdir);
-            $test_importer->init();
-
-            $test_importer->importXmlRepresentation(
-                '',
-                '',
-                '',
-                $map,
-            );
-        }
-
-        if ($new_obj->getTestLogger()->isLoggingEnabled()) {
-            $new_obj->getTestLogger()->logTestAdministrationInteraction(
-                $new_obj->getTestLogger()->getInteractionFactory()->buildTestAdministrationInteraction(
-                    $new_obj->getRefId(),
-                    $this->user->getId(),
-                    TestAdministrationInteractionTypes::NEW_TEST_CREATED,
-                    []
-                )
-            );
-        }
-
-        ilFileUtils::delDir($importdir);
-        $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
-        ilSession::clear('path_to_import_file');
-        ilSession::clear('path_to_uploaded_file_in_temp_dir');
-
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_imported"), true);
-
-        $question_skill_assignments_import_fails = new ilAssQuestionSkillAssignmentImportFails($new_obj->getId());
-        if ($question_skill_assignments_import_fails->failedImportsRegistered()) {
-            $this->tpl->setOnScreenMessage(
-                'info',
-                $question_skill_assignments_import_fails->getFailedImportsMessage($this->lng),
-                true
-            );
-        }
-
-        $this->ctrl->setParameterByClass(ilObjTestGUI::class, 'ref_id', $new_obj->getRefId());
-        $this->ctrl->redirectByClass(ilObjTestGUI::class);
     }
 
     /**
