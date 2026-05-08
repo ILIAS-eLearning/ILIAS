@@ -35,6 +35,7 @@ class ShortFilePayload extends StructuredPayload
         private string $uri,
         private string $file_name
     ) {
+        $modification_time = @filemtime($uri);
         // try to shorten uri
         $base = BaseDirObjective::get();
         if ($base !== null) {
@@ -44,7 +45,7 @@ class ShortFilePayload extends StructuredPayload
         parent::__construct([
             'p' => $uri,
             'n' => $file_name,
-            'd' => filemtime($this->uri)
+            'mt' => $modification_time,
         ]);
     }
 
@@ -53,7 +54,7 @@ class ShortFilePayload extends StructuredPayload
         return new self(
             $raw_payload['p'],
             $raw_payload['n'],
-            $raw_payload['d']
+            $raw_payload['mt'] ?? false
         );
     }
 
