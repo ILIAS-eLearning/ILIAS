@@ -33,14 +33,30 @@ abstract class AbstractCollection
      * @var Js[]|Css[]|InlineCss[]|OnLoadCode[]
      */
     protected array $items = [];
+    /**
+     * @var VersionParameterFilter[]
+     */
+    protected array $version_parameter_filters = [];
 
+    /**
+     * @param VersionParameterFilter[] $version_parameter_filters
+     */
     public function __construct(
         protected string $resource_version,
         protected bool $append_resource_version = false,
         protected bool $strip_queries = true,
         protected bool $allow_external = false,
         protected bool $allow_non_existing = false,
+        array $version_parameter_filters = [],
     ) {
+        foreach ($version_parameter_filters as $filter) {
+            $this->addVersionParameterFilter($filter);
+        }
+    }
+
+    public function addVersionParameterFilter(VersionParameterFilter $filter): void
+    {
+        $this->version_parameter_filters[] = $filter;
     }
 
     public function clear(): void
@@ -108,7 +124,7 @@ abstract class AbstractCollection
         if ($this->strip_queries) {
             $content = $content_array[0] ?? $content;
         }
-        if ($this->append_resource_version) {
+        if ($this->append_resource_version && $this->passesVersionParameterFilters($content)) {
             if ($this->hasContentParameters($content)) {
                 $content = rtrim($content, "&") . "&" . self::VERSION_PARAMETER . "=" . $this->resource_version;
             } else {
@@ -132,6 +148,16 @@ abstract class AbstractCollection
         return (str_contains($content, "?"));
     }
 
+    protected function passesVersionParameterFilters(string $content): bool
+    {
+        foreach ($this->version_parameter_filters as $filter) {
+            if (!$filter->shouldAppend($content)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * @return Js[]|Css[]|InlineCss[]|OnLoadCode[]
      */
@@ -140,10 +166,6 @@ abstract class AbstractCollection
         return iterator_to_array($this->getItems());
     }
 
-    /**
-     * @param string $path
-     * @return string
-     */
     protected function stripPath(string $path): string
     {
         if (str_contains($path, '?')) {
