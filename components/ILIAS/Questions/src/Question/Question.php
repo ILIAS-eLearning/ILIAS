@@ -625,7 +625,6 @@ class Question implements PublicQuestionInterface
             $question_tables_definitions->getColumns(
                 $table_name_builder,
                 $table_type,
-                '',
                 [QuestionTableTypes::LINKING_TABLE_ID_COLUMN]
             ),
             [
@@ -640,8 +639,9 @@ class Question implements PublicQuestionInterface
             ],
             [
                 $persistence_factory->where(
-                    $table_type->getIdColumn(
-                        $persistence_factory
+                    $question_tables_definitions->getIdColumn(
+                        $table_name_builder,
+                        $table_type
                     ),
                     $persistence_factory->value(
                         FieldDefinition::T_TEXT,
@@ -662,7 +662,6 @@ class Question implements PublicQuestionInterface
             $question_tables_definitions->getColumns(
                 $table_name_builder,
                 $table_type,
-                '',
                 [
                     'id',
                     'page_id',
@@ -724,7 +723,6 @@ class Question implements PublicQuestionInterface
             [
                 $persistence_factory->where(
                     $question_tables_definitions->getIdColumn(
-                        $persistence_factory,
                         $table_name_builder,
                         $table_type
                     ),

@@ -202,7 +202,6 @@ class TypeGenericProperties
             $answer_form_generic_table_definitions->getColumns(
                 $table_name_builder,
                 $table_type,
-                '',
                 [
                     'id',
                     'type',
