@@ -20,15 +20,17 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Presentation\Definitions;
 
-use ILIAS\Questions\Presentation\Layout\Async;
+use ILIAS\Questions\Persistence\Storable;
 
-interface Actor
+class ForImmediateStorage
 {
-    public function can(
-        string $action
-    ): bool;
+    public function __construct(
+        private readonly Storable $storable
+    ) {
+    }
 
-    public function do(
-        string $action
-    ): Async;
+    public function unpack(): Storable
+    {
+        return $this->storable;
+    }
 }
