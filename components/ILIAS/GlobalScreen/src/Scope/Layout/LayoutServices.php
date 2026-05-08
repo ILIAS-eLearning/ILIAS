@@ -41,7 +41,7 @@ class LayoutServices
     {
         $this->meta_content = new MetaContent(
             $resource_version,
-            false,
+            true,
             true,
             true,
             false

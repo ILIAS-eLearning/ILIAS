@@ -28,6 +28,7 @@ use ILIAS\Data\URI;
  */
 abstract class AbstractCollection
 {
+    private const VERSION_PARAMETER = "_v";
     /**
      * @var Js[]|Css[]|InlineCss[]|OnLoadCode[]
      */
@@ -109,9 +110,9 @@ abstract class AbstractCollection
         }
         if ($this->append_resource_version) {
             if ($this->hasContentParameters($content)) {
-                $content = rtrim($content, "&") . "&version=" . $this->resource_version;
+                $content = rtrim($content, "&") . "&" . self::VERSION_PARAMETER . "=" . $this->resource_version;
             } else {
-                $content = rtrim($content, "?") . "?version=" . $this->resource_version;
+                $content = rtrim($content, "?") . "?" . self::VERSION_PARAMETER . "=" . $this->resource_version;
             }
         }
 
