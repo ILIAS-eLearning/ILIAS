@@ -28,12 +28,11 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\UI\Component\Input\Input;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 use ILIAS\UI\Component\Panel\Standard as StandardPanel;
-use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use Psr\Http\Message\ServerRequestInterface;
 
-class EditForm implements Renderable
+class EditForm implements Viewable
 {
     private const string MAIN_SECTION_NAME = 'form';
 
@@ -61,10 +60,43 @@ class EditForm implements Renderable
     }
 
     #[\Override]
-    public function render(
-        UIRenderer $ui_renderer
-    ): string {
-        return $ui_renderer->render($this->buildContent());
+    public function getUI(): array
+    {
+        $content = [];
+
+        if ($this->content_before_form !== null) {
+            $content[] = $this->content_before_form;
+        }
+
+        if ($this->confirmation !== null) {
+            $content[] = $this->confirmation->withOnLoad(
+                $this->confirmation->getShowSignal()
+            )->withAdditionalOnLoadCode(
+                function ($id) {
+                    return "var button = {$id}.querySelector('input[type=\"submit\"]'); "
+                    . "button.addEventListener('click', (e) => {e.preventDefault();"
+                    . 'const form = button.closest("dialog").nextElementSibling;'
+                    . "form.action = '{$this->confirmation->getFormAction()}';"
+                    . 'form.submit();});';
+                }
+            );
+        }
+
+        if ($this->insert_legacy_text_button !== null) {
+            $content[] = $this->insert_legacy_text_button;
+        }
+
+        $content[] = $this->is_final_step
+            ? $this->form
+            : $this->form->withSubmitLabel(
+                $this->lng->txt('next')
+            );
+
+        if ($this->content_after_form !== null) {
+            $content[] = $this->content_after_form;
+        }
+
+        return $content;
     }
 
     public function isFinalStep(): bool
@@ -147,45 +179,6 @@ class EditForm implements Renderable
             $label
         );
         return $clone;
-    }
-
-    private function buildContent(): array
-    {
-        $content = [];
-
-        if ($this->content_before_form !== null) {
-            $content[] = $this->content_before_form;
-        }
-
-        if ($this->confirmation !== null) {
-            $content[] = $this->confirmation->withOnLoad(
-                $this->confirmation->getShowSignal()
-            )->withAdditionalOnLoadCode(
-                function ($id) {
-                    return "var button = {$id}.querySelector('input[type=\"submit\"]'); "
-                    . "button.addEventListener('click', (e) => {e.preventDefault();"
-                    . 'const form = button.closest("dialog").nextElementSibling;'
-                    . "form.action = '{$this->confirmation->getFormAction()}';"
-                    . 'form.submit();});';
-                }
-            );
-        }
-
-        if ($this->insert_legacy_text_button !== null) {
-            $content[] = $this->insert_legacy_text_button;
-        }
-
-        $content[] = $this->is_final_step
-            ? $this->form
-            : $this->form->withSubmitLabel(
-                $this->lng->txt('next')
-            );
-
-        if ($this->content_after_form !== null) {
-            $content[] = $this->content_after_form;
-        }
-
-        return $content;
     }
 
     private function buildForm(

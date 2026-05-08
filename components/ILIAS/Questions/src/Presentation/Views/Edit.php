@@ -29,7 +29,7 @@ use ILIAS\Questions\Administration\ConfigurationRepository;
 use ILIAS\Questions\Presentation\Layout\Async;
 use ILIAS\Questions\Presentation\Layout\EditForm;
 use ILIAS\Questions\Presentation\Layout\Factory as LayoutFactory;
-use ILIAS\Questions\Presentation\Layout\Renderable;
+use ILIAS\Questions\Presentation\Layout\Viewable;
 use ILIAS\Questions\Presentation\Definitions\Editability;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Definitions\DefaultEnvironment;
@@ -47,6 +47,7 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Services as HTTP;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Item\Group as ItemGroup;
 use ILIAS\UI\Component\MainControls\Slate\Legacy as LegacySlate;
 use ILIAS\Style\Content\Service as ContentStyle;
@@ -110,11 +111,11 @@ class Edit
         return $clone;
     }
 
-    public function show(
+    public function getUI(
         URI $base_uri,
         int $obj_id,
         int $ref_id
-    ): Async|QuestionsTable|EditForm {
+    ): array|Component {
         $this->content_style->gui()->addCss(
             $this->global_tpl,
             $ref_id
@@ -125,7 +126,7 @@ class Edit
             $obj_id
         );
 
-        return match($environment->getAction()) {
+        $view = match($environment->getAction()) {
             self::ACTION_CREATE_QUESTION => $this->createQuestion(
                 $environment->withIsInCreationContext(true)
             ),
@@ -133,6 +134,12 @@ class Edit
             self::ACTION_DELETE_QUESTIONS => $this->deleteQuestions($environment),
             default => $this->showTable($environment)
         };
+
+        if ($view instanceof Async) {
+            $view->render($this->ui_renderer);
+        }
+
+        return $view->getUI();
     }
 
     public function forwardPageCmds(
@@ -179,17 +186,15 @@ class Edit
         );
     }
 
-    public function createAnswerForm(
+    public function getCreateAnswerForm(
         URI $base_uri,
         int $obj_id,
         Question $question,
         \ilPCAnswerForm $content_object
-    ): EditForm {
-        $environment = $this->buildEnvironment(
-            $base_uri,
-            $obj_id
-        )->withIsInCreationContext(true)
-        ->withQuestionIdParameter($question->getId());
+    ): array|Component {
+        $environment = $this->buildEnvironment($base_uri)
+            ->withIsInCreationContext(true)
+            ->withQuestionIdParameter($question->getId());
 
         $environment->setEditAnswerFormBackTarget();
 
@@ -230,18 +235,16 @@ class Edit
         };
     }
 
-    public function editAnswerForm(
+    public function getEditAnswerForm(
         URI $base_uri,
         int $obj_id,
         Question $question,
         AnswerFormProperties $answer_form_properties,
         Definition $type_definition
-    ): Async|Renderable {
-        $environment = $this->buildEnvironment(
-            $base_uri,
-            $obj_id
-        )->withAnswerFormProperties($answer_form_properties)
-        ->withQuestionIdParameter($question->getId());
+    ): array|Component {
+        $environment = $this->buildEnvironment($base_uri)
+            ->withAnswerFormProperties($answer_form_properties)
+            ->withQuestionIdParameter($question->getId());
 
         $action = $environment->getAction();
         $edit_view = $type_definition->getEditView();
@@ -261,8 +264,12 @@ class Edit
             );
         }
 
-        if ($from_capabilites !== null) {
-            return $from_capabilites;
+        if ($from_capabilites instanceof Async) {
+            $from_capabilites->render($this->ui_renderer);
+        }
+
+        if ($from_capabilites instanceof Viewable) {
+            return $from_capabilites->getUI();
         }
 
         if ($action === self::ACTION_OTHER_ANSWER_FORM) {
@@ -276,11 +283,15 @@ class Edit
         $from_edit_view = $edit_view->edit($environment);
         if ($from_edit_view instanceof EditForm
             && $this->capabilities_edit_view->providesAnswerFormEditAdditionalSteps()) {
-            return $from_edit_view->withIsFinalStep(false);
+            return $from_edit_view->withIsFinalStep(false)->getUI();
         }
 
-        if (!($from_edit_view instanceof AnswerFormProperties)) {
-            return $from_edit_view;
+        if ($from_edit_view instanceof Async) {
+            $from_edit_view->render($this->ui_renderer);
+        }
+
+        if ($from_edit_view instanceof Viewable) {
+            return $from_edit_view->getUI();
         }
 
         $return_form_step_actions = $this->capabilities_edit_view
@@ -288,9 +299,13 @@ class Edit
                 $environment->withAnswerFormProperties($from_edit_view),
                 $edit_view
             );
-        if ($return_form_step_actions instanceof Async
-            || $return_form_step_actions instanceof Renderable) {
-            return $return_form_step_actions;
+
+        if ($return_form_step_actions instanceof Async) {
+            $return_form_step_actions->render($this->ui_renderer);
+        }
+
+        if ($return_form_step_actions instanceof Viewable) {
+            return $return_form_step_actions->getUI();
         }
 
         $this->updateAnswerFormAndRedirect(
@@ -353,7 +368,8 @@ class Edit
         $edit = $question->getEditView(
             $this->configuration_repository,
             $this->current_user,
-            $this->ctrl
+            $this->ctrl,
+            $this->ui_renderer
         )->edit(
             $environment_with_question_parameter
                 ->withActionParameter(self::ACTION_EDIT_QUESTION),
@@ -660,7 +676,8 @@ class Edit
         return $question->getEditView(
             $this->configuration_repository,
             $this->current_user,
-            $this->ctrl
+            $this->ctrl,
+            $this->ui_renderer
         )->edit(
             $environment,
             $question->getParticipantView()

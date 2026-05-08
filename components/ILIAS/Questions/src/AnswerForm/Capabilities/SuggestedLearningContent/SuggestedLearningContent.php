@@ -25,7 +25,7 @@ use ILIAS\Questions\AnswerForm\Capabilities\Capability as CapabilityInterface;
 use ILIAS\Questions\AnswerForm\Properties;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Async;
-use ILIAS\Questions\Presentation\Layout\Renderable;
+use ILIAS\Questions\Presentation\Layout\Viewable;
 use ILIAS\StaticURL\Services as StaticURLServices;
 
 class SuggestedLearningContent implements CapabilityInterface
@@ -85,7 +85,7 @@ class SuggestedLearningContent implements CapabilityInterface
     {
         return function (
             Environment $environment
-        ): Async|Renderable {
+        ): Async|Viewable {
             $sub_action = $environment->getSubAction();
             $overview = $this->buildOverview($environment);
             if ($sub_action === '') {

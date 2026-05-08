@@ -42,6 +42,8 @@ use ILIAS\UI\Component\Link\Factory as LinkFactory;
 use ILIAS\UI\Component\Link\Standard as StandardLink;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Component\Table\DataRow;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 class Question implements PublicQuestionInterface
 {
@@ -261,19 +263,22 @@ class Question implements PublicQuestionInterface
     public function getEditView(
         ConfigurationRepository $configuration_repository,
         \ilObjUser $current_user,
-        \ilCtrl $ctrl
+        \ilCtrl $ctrl,
+        UIRenderer $ui_renderer
     ): Views\Edit {
         return new Views\Edit(
             $configuration_repository,
             $current_user,
             $ctrl,
+            $ui_renderer,
             $this
         );
     }
 
     #[\Override]
-    public function getParticipantView(): Views\Participant
-    {
+    public function getParticipantView(
+        UIFactory $ui_factory
+    ): Views\Participant {
         return new Views\Participant(
             $this
         );
