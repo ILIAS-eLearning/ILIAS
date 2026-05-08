@@ -26,6 +26,7 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\StageResult;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\XMLFileDeserializer;
+use ILIAS\TestQuestionPool\ExportImport\Import\DetectLegacyImportStage;
 use ILIAS\TestQuestionPool\ExportImport\Import\UploadValidationStage;
 use ilImport;
 
@@ -60,19 +61,11 @@ class PersistStage implements ImportStage
 
     public function process(ImportContext $context): StageResult
     {
-        $component_import_dir = dirname($context->get(UploadValidationStage::COMPONENT_IMPORT_FILE));
-        $mappings_file = "{$component_import_dir}/mappings.xml";
-        if (!file_exists($mappings_file) || !is_file($mappings_file)) {
-            return StageResult::error($context, $this->lng->txt('obj_import_file_error'));
+        if(!DetectLegacyImportStage::isLegacyImport($context)) {
+            if($result = $this->importMappingsFile($context)) {
+                return $result;
+            }
         }
-
-        $deserializer = new XMLFileDeserializer()->open($mappings_file);
-        $deserializer->addHandler('mappings', function (array $mappings) use (&$context) {
-            $context = $context->with('mappings', $mappings);
-        });
-        $deserializer->process();
-
-        $this->session->setContext($context);
 
         $importer = new ilImport($this->requested_ref_id);
         $importer->importObject(
@@ -86,5 +79,22 @@ class PersistStage implements ImportStage
 
         // Context is updated by the TestImporter so we need to reload it
         return StageResult::complete($this->session->getContext());
+    }
+
+    private function importMappingsFile(ImportContext $context): ?StageResult {
+        $component_import_dir = dirname($context->get(UploadValidationStage::COMPONENT_IMPORT_FILE));
+        $mappings_file = "{$component_import_dir}/mappings.xml";
+        if (!file_exists($mappings_file) || !is_file($mappings_file)) {
+            return StageResult::error($context, $this->lng->txt('obj_import_file_error'));
+        }
+
+        $deserializer = new XMLFileDeserializer()->open($mappings_file);
+        $deserializer->addHandler('mappings', function (array $mappings) use (&$context) {
+            $context = $context->with('mappings', $mappings);
+        });
+        $deserializer->process();
+
+        $this->session->setContext($context);
+        return null;
     }
 }
