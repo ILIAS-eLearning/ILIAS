@@ -26,6 +26,7 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\ClozeText\Factory as ClozeTextFactory;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gap;
 use ILIAS\Questions\Presentation\Definitions\Environment;
+use ILIAS\Questions\Presentation\Definitions\ForImmediateStorage;
 use ILIAS\Questions\Presentation\Layout\Async;
 use ILIAS\Questions\Presentation\Layout\EditForm;
 use ILIAS\Questions\Presentation\Layout\EditOverview;
@@ -69,7 +70,7 @@ class Edit implements EditViewInterface
     #[\Override]
     public function edit(
         Environment $environment
-    ): EditOverview|EditForm|Async|Properties {
+    ): EditOverview|EditForm|Async|ForImmediateStorage|Properties {
         $sub_action = $environment->getSubAction();
 
         $combinations = $environment->getAnswerFormProperties()->getCombinations();
@@ -208,7 +209,7 @@ class Edit implements EditViewInterface
 
     private function processBasicEditingForm(
         Environment $environment
-    ): EditForm|Async|Properties {
+    ): EditForm|Async|ForImmediateStorage|Properties {
         $inputs_builder = $this->buildInputsBuilderForBasicInputs(
             $environment,
             false,
@@ -243,7 +244,7 @@ class Edit implements EditViewInterface
         }
 
         if ($new_gaps->getAddedGaps($old_gaps) === []) {
-            return $data;
+            return new ForImmediateStorage($data);
         }
 
         return $this->edit_gaps->do(
