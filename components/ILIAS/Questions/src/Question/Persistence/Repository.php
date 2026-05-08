@@ -261,7 +261,7 @@ class Repository
     ): \Generator {
         $query_with_answer_forms = array_reduce(
             $this->getAnswerFormTypesForQuestionIds($question_ids),
-            fn(Query $c, AnswerFormDefinition $v) => $v->getTableDefinitions()->completeQuery(
+            fn(Query $c, AnswerFormDefinition $v) => $v->getTableDefinitions()->completeQuestionQuery(
                 $c,
                 $this->answer_form_generic_table_definitions->getIdColumn(
                     $this->core_table_names_builder,
@@ -428,11 +428,8 @@ class Repository
             $base_query = $base_query->withAdditionalOrder($main_sort_order);
         }
 
-        return $this->answer_form_generic_table_definitions->completeQuery(
-            $this->question_table_definitions->completeQuery(
-                $base_query,
-                null
-            ),
+        return $this->answer_form_generic_table_definitions->completeQuestionQuery(
+            $this->question_table_definitions->completeLoadQuestionQuery($base_query),
             $this->question_table_definitions->getIdColumn(
                 $this->core_table_names_builder,
                 TableTypes::Questions

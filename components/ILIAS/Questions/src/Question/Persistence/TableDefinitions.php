@@ -23,13 +23,12 @@ namespace ILIAS\Questions\Question\Persistence;
 use ILIAS\Questions\Persistence\Column;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\JoinType;
-use ILIAS\Questions\Persistence\TableDefinitions as TableDefinitionsInterface;
 use ILIAS\Questions\Persistence\Query;
 use ILIAS\Questions\Persistence\TableSubNameSpace;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Persistence\TableTypes as TableTypesInterface;
 
-class TableDefinitions implements TableDefinitionsInterface
+class TableDefinitions
 {
     private const string QUESTION_TABLE_ID_COLUMN = 'id';
     private const array QUESTION_TABLE_COLUMNS = [
@@ -65,28 +64,21 @@ class TableDefinitions implements TableDefinitionsInterface
     ) {
     }
 
-    #[\Override]
     public function getTableSubNameSpace(): ?TableSubNameSpace
     {
         return null;
     }
 
-    #[\Override]
     public function getColumns(
-        TableNameBuilder $table_name_builder,
+        TableNameBuilder $table_names_builder,
         TableTypesInterface $table_type,
-        string $sub_table_identifier = '',
         array $columns_to_skip = []
     ): array {
         $table = $this->persistence_factory->table(
-            $table_name_builder,
+            $table_names_builder,
             $table_type
         );
-        $column_identifiers = match($table_type) {
-            TableTypes::Questions => self::QUESTION_TABLE_COLUMNS,
-            TableTypes::Linking => self::LINKING_TABLE_COLUMNS,
-            TableTypes::MigrationsTable => self::MIGRATIONS_TABLE_COLUMNS
-        };
+
         return array_map(
             fn(string $v): Column => $this->persistence_factory->column(
                 $table,
@@ -94,18 +86,20 @@ class TableDefinitions implements TableDefinitionsInterface
             ),
             array_values(
                 array_filter(
-                    $column_identifiers,
+                    match($table_type) {
+                        TableTypes::Questions => self::QUESTION_TABLE_COLUMNS,
+                        TableTypes::Linking => self::LINKING_TABLE_COLUMNS,
+                        TableTypes::MigrationsTable => self::MIGRATIONS_TABLE_COLUMNS
+                    },
                     fn(string $v) => !in_array($v, $columns_to_skip)
                 )
             )
         );
     }
 
-    #[\Override]
     public function getIdColumn(
         TableNameBuilder $table_name_builder,
-        TableTypesInterface $table_type,
-        string $sub_table_identifier = ''
+        TableTypesInterface $table_type
     ): Column {
         $table = $this->persistence_factory->table(
             $table_name_builder,
@@ -128,34 +122,8 @@ class TableDefinitions implements TableDefinitionsInterface
         };
     }
 
-    #[\Override]
-    public function getForeignKeyColumn(
-        TableNameBuilder $table_name_builder,
-        TableTypesInterface $table_type,
-        string $sub_table_identifier = ''
-    ): Column {
-        $table = $this->persistence_factory->table(
-            $table_name_builder,
-            $table_type
-        );
-
-        return match($table_type) {
-            TableTypes::Linking => $this->persistence_factory->column(
-                $table,
-                self::LINKING_TABLE_FOREIGN_KEY_COLUMN
-            ),
-            TableTypes::MigrationsTable => $this->persistence_factory->column(
-                $table,
-                self::MIGRATIONS_TABLE_FOREIGN_KEY_COLUMN
-            ),
-            default => null
-        };
-    }
-
-    #[\Override]
-    public function completeQuery(
-        Query $query,
-        ?Column $base_table_id_column
+    public function completeLoadQuestionQuery(
+        Query $query
     ): Query {
         $table_name_builder = $query->getTableNameBuilder(null);
         $questions_id_column = $this->getIdColumn(

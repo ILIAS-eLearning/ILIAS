@@ -24,7 +24,7 @@ use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
 use ILIAS\Questions\Persistence\Column;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\JoinType;
-use ILIAS\Questions\Persistence\TableDefinitions as TableDefinitionsInterface;
+use ILIAS\Questions\AnswerForm\Persistence\TableDefinitions as TableDefinitionsInterface;
 use ILIAS\Questions\Persistence\Query;
 use ILIAS\Questions\Persistence\TableSubNameSpace;
 use ILIAS\Questions\Persistence\TableNameBuilder;
@@ -90,13 +90,11 @@ class TableDefinitions implements TableDefinitionsInterface
     ) {
     }
 
-    #[\Override]
     public function getTableSubNameSpace(): TableSubNameSpace
     {
         return $this->table_name_specifiers;
     }
 
-    #[\Override]
     public function getColumns(
         TableNameBuilder $table_name_builder,
         TableTypes $table_type,
@@ -131,7 +129,6 @@ class TableDefinitions implements TableDefinitionsInterface
         );
     }
 
-    #[\Override]
     public function getIdColumn(
         TableNameBuilder $table_name_builder,
         TableTypes $table_type,
@@ -163,7 +160,6 @@ class TableDefinitions implements TableDefinitionsInterface
         );
     }
 
-    #[\Override]
     public function getForeignKeyColumn(
         TableNameBuilder $table_name_builder,
         TableTypes $table_type,
@@ -198,7 +194,7 @@ class TableDefinitions implements TableDefinitionsInterface
     }
 
     #[\Override]
-    public function completeQuery(
+    public function completeQuestionQuery(
         Query $query,
         ?Column $answer_form_id_column
     ): Query {
