@@ -22,7 +22,7 @@ namespace ILIAS\Questions\AnswerForm\Capabilities;
 
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Async;
-use ILIAS\Questions\Presentation\Layout\Renderable;
+use ILIAS\Questions\Presentation\Layout\Viewable;
 
 class ActionWithTab
 {
@@ -43,7 +43,7 @@ class ActionWithTab
 
     public function do(
         Environment $environment
-    ): Async|Renderable {
+    ): Async|Viewable {
         return $this->do->__invoke($environment);
     }
 

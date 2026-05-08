@@ -23,7 +23,7 @@ namespace ILIAS\Questions\AnswerForm\Capabilities\SuggestedLearningContent;
 use ILIAS\Questions\Presentation\Definitions\Editability;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Async;
-use ILIAS\Questions\Presentation\Layout\Renderable;
+use ILIAS\Questions\Presentation\Layout\Viewable;
 use ILIAS\Questions\Presentation\Layout\Tools\InputsBuilderSession;
 use ILIAS\StaticURL\Services as StaticURLServices;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
@@ -31,9 +31,8 @@ use ILIAS\UI\Component\Input\Field\Select;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Panel\Standard as StandardPanel;
 use ILIAS\UI\Component\Prompt\Prompt;
-use ILIAS\UI\Renderer as UIRenderer;
 
-class Overview implements Renderable
+class Overview implements Viewable
 {
     private const string SUB_ACTION_SELECT_TYPE = 'st';
     private const string SUB_ACTION_SELECT_CONTENT = 'sc';
@@ -52,38 +51,7 @@ class Overview implements Renderable
     }
 
     #[\Override]
-    public function render(
-        UIRenderer $ui_renderer
-    ): string {
-        return $ui_renderer->render([
-            $this->buildPanel()
-        ]);
-    }
-
-    public function doAction(
-        string $action
-    ): Async {
-        return match($action) {
-            self::SUB_ACTION_SELECT_TYPE => $this->buildPromptShowAsync(
-                $this->buildSelectTypeForm()
-            ),
-            self::SUB_ACTION_SELECT_CONTENT => $this->processSelectTypeForm(),
-            self::SUB_ACTION_SAVE_CONTENT => $this->processSelectContentForm(),
-            self::SUB_ACTION_SAVE_SUB_CONTENT => $this->processSelectSubContentForm(),
-            default => $this->forwardActionToActors($action)
-        };
-    }
-
-    private function buildPrompt(): Prompt
-    {
-        return $this->environment->getUIFactory()->prompt()->standard(
-            $this->environment->withSubActionParameter(
-                self::SUB_ACTION_SELECT_TYPE
-            )->getUrlBuilder()->buildURI()
-        );
-    }
-
-    private function buildPanel(): StandardPanel
+    public function getUI(): StandardPanel
     {
         $content = [
             $this->environment->getUIFactory()->listing()->descriptive(
@@ -109,6 +77,29 @@ class Overview implements Renderable
         return $this->environment->getUIFactory()->panel()->standard(
             $this->environment->getLanguage()->txt('suggested_learning_content'),
             $content
+        );
+    }
+
+    public function doAction(
+        string $action
+    ): Async {
+        return match($action) {
+            self::SUB_ACTION_SELECT_TYPE => $this->buildPromptShowAsync(
+                $this->buildSelectTypeForm()
+            ),
+            self::SUB_ACTION_SELECT_CONTENT => $this->processSelectTypeForm(),
+            self::SUB_ACTION_SAVE_CONTENT => $this->processSelectContentForm(),
+            self::SUB_ACTION_SAVE_SUB_CONTENT => $this->processSelectSubContentForm(),
+            default => $this->forwardActionToActors($action)
+        };
+    }
+
+    private function buildPrompt(): Prompt
+    {
+        return $this->environment->getUIFactory()->prompt()->standard(
+            $this->environment->withSubActionParameter(
+                self::SUB_ACTION_SELECT_TYPE
+            )->getUrlBuilder()->buildURI()
         );
     }
 

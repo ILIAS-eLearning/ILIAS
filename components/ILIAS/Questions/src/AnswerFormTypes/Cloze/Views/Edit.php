@@ -30,7 +30,7 @@ use ILIAS\Questions\Presentation\Layout\Async;
 use ILIAS\Questions\Presentation\Layout\EditForm;
 use ILIAS\Questions\Presentation\Layout\EditOverview;
 use ILIAS\Questions\Presentation\Layout\Tools\InputsBuilderSession;
-use ILIAS\Questions\Presentation\Layout\Renderable;
+use ILIAS\Questions\Presentation\Layout\Viewable;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 use ILIAS\UI\Component\Modal\InterruptiveItem\Standard as InterruptiveItem;
@@ -106,7 +106,7 @@ class Edit implements EditViewInterface
     #[\Override]
     public function other(
         Environment $environment
-    ): Async|Renderable|Properties {
+    ): Async|Viewable|Properties {
         return $environment
             ->getAnswerFormProperties()
             ->getCombinations()->getEditView()->show($environment);

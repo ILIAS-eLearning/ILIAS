@@ -25,7 +25,7 @@ use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Async;
 use ILIAS\Questions\Presentation\Layout\EditForm;
 use ILIAS\Questions\Presentation\Layout\EditOverview;
-use ILIAS\Questions\Presentation\Layout\Renderable;
+use ILIAS\Questions\Presentation\Layout\Viewable;
 
 interface Edit
 {
@@ -39,7 +39,7 @@ interface Edit
 
     public function other(
         Environment $environment
-    ): Async|Renderable|Properties;
+    ): Async|Viewable|Properties;
 
     public function backToLastEditCommand(
         Environment $environment

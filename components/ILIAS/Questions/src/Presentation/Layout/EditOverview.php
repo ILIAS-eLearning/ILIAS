@@ -23,10 +23,9 @@ namespace ILIAS\Questions\Presentation\Layout;
 use ILIAS\Questions\Presentation\Definitions\Editability;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\UI\Component\Panel\Standard as StandardPanel;
-use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\URLBuilder;
 
-class EditOverview implements Renderable
+class EditOverview implements Viewable
 {
     public function __construct(
         private readonly Environment $environment,
@@ -34,13 +33,8 @@ class EditOverview implements Renderable
     ) {
     }
 
-    public function render(
-        UIRenderer $ui_renderer
-    ): string {
-        return $ui_renderer->render($this->buildContent());
-    }
-
-    private function buildContent(): array
+    #[\Override]
+    public function getUI(): array
     {
         return [
             $this->buildBasicAnswerFormPanel(),

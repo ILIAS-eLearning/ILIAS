@@ -25,7 +25,7 @@ use ILIAS\Questions\AnswerForm\Capabilities\Capability as CapabilityInterface;
 use ILIAS\Questions\AnswerForm\Properties;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Async;
-use ILIAS\Questions\Presentation\Layout\Renderable;
+use ILIAS\Questions\Presentation\Layout\Viewable;
 use ILIAS\Data\Text\Factory as TextFactory;
 
 class Capability implements CapabilityInterface
@@ -101,7 +101,7 @@ class Capability implements CapabilityInterface
     {
         return function (
             Environment $environment
-        ): Async|Renderable {
+        ): Async|Viewable {
             $sub_action = $environment->getSubAction();
             return match ($sub_action) {
                 '' => $this->buildOverview($environment),

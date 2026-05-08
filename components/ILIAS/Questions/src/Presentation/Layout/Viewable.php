@@ -20,11 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Presentation\Layout;
 
-use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Component\Component;
 
-interface Renderable
+interface Viewable
 {
-    public function render(
-        UIRenderer $ui_renderer
-    ): string;
+    /**
+     *
+     * @return list<Component>
+     */
+    public function getUI(): array|Component;
 }

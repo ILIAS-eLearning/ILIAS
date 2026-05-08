@@ -22,14 +22,13 @@ namespace ILIAS\Questions\AnswerForm\Capabilities\Feedback;
 
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Async;
-use ILIAS\Questions\Presentation\Layout\Renderable;
+use ILIAS\Questions\Presentation\Layout\Viewable;
 use ILIAS\Data\Text\Factory as TextFactory;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\UI\Component\Modal\RoundTrip as RoundTripModal;
-use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\URLBuilder;
 
-class Overview implements Renderable
+class Overview implements Viewable
 {
     private bool $set_legacy_texts_as_values = false;
 
@@ -51,9 +50,8 @@ class Overview implements Renderable
     }
 
     #[\Override]
-    public function render(
-        UIRenderer $ui_renderer
-    ): string {
+    public function getUI(): array
+    {
         $ui_factory = $this->environment->getUIFactory();
         $lng = $this->environment->getLanguage();
 
@@ -92,7 +90,7 @@ class Overview implements Renderable
         if ($this->modal !== null) {
             $content[] = $this->modal;
         }
-        return $ui_renderer->render($content);
+        return $content;
     }
 
     public function withLegacyTextsAsValues(

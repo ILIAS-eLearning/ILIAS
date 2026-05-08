@@ -23,7 +23,7 @@ namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Async;
-use ILIAS\Questions\Presentation\Layout\Renderable;
+use ILIAS\Questions\Presentation\Layout\Viewable;
 
 class EditCombinations
 {
@@ -47,7 +47,7 @@ class EditCombinations
 
     public function show(
         Environment $environment
-    ): Async|Renderable|Properties {
+    ): Async|Viewable|Properties {
         $environment->addEditAnswerFormSubTab(
             self::SUB_ACTION_EDIT_COMBINATIONS_OVERVIEW,
             self::LANG_VAR_EDIT_COMBINATIONS

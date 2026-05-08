@@ -22,10 +22,10 @@ namespace ILIAS\Questions\Presentation\Layout;
 
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Services as HttpService;
-use ILIAS\UI\Component\Prompt\State\State;
 use ILIAS\UI\Component\MessageBox\MessageBox;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 use ILIAS\UI\Component\Modal\RoundTrip as RoundTripModal;
+use ILIAS\UI\Component\Prompt\State\State;
 use ILIAS\UI\Renderer as UIRenderer;
 
 class Async
@@ -53,6 +53,4 @@ class Async
         $this->http->sendResponse();
         $this->http->close();
     }
-
-
 }
