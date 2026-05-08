@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Questions\Setup;
 
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableDefinitions;
-use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
+use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions as ClozeTableDefinitions;
 use ILIAS\Questions\Question\Persistence\TableDefinitions as QuestionTableDefinitions;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\TableNameBuilder;
@@ -81,7 +81,7 @@ class Agent implements SetupAgent
                             'cloze'
                         )
                     ),
-                    new TableDefinitions(
+                    new ClozeTableDefinitions(
                         $this->persistence_factory,
                         new TableSubNameSpace(
                             'ILIAS',

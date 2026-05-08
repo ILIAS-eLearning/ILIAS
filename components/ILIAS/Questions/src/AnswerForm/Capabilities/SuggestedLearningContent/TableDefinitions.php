@@ -22,16 +22,14 @@ namespace ILIAS\Questions\AnswerForm\Capabilities\SuggestedLearningContent;
 
 use ILIAS\Questions\Persistence\Column;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
-use ILIAS\Questions\Persistence\TableDefinitions as TableDefinitionsInterface;
 use ILIAS\Questions\Persistence\Query;
 use ILIAS\Questions\Persistence\TableSubNameSpace;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Persistence\TableTypes as TableTypesInterface;
 
-class TableDefinitions implements TableDefinitionsInterface
+class TableDefinitions
 {
     private const string SUGGESTED_LEARNING_CONTENT_TABLE_ID_COLUMN = 'answer_form_id';
-    private const string SUGGESTED_LEARNING_CONTENT_TABLE_FOREIGN_KEY_COLUMN = 'answer_form_id';
     private const array SUGGESTED_LEARNING_CONTENT_TABLE_COLUMNS = [
         'answer_form_id',
         'type',
@@ -43,18 +41,14 @@ class TableDefinitions implements TableDefinitionsInterface
     ) {
     }
 
-    #[\Override]
     public function getTableSubNameSpace(): ?TableSubNameSpace
     {
         return null;
     }
 
-    #[\Override]
     public function getColumns(
         TableNameBuilder $table_name_builder,
-        TableTypesInterface $table_type,
-        string $sub_table_identifier = '',
-        array $columns_to_skip = []
+        TableTypesInterface $table_type
     ): array {
         $table = $this->persistence_factory->table(
             $table_name_builder,
@@ -65,20 +59,13 @@ class TableDefinitions implements TableDefinitionsInterface
                 $table,
                 $v
             ),
-            array_values(
-                array_filter(
-                    self::SUGGESTED_LEARNING_CONTENT_TABLE_COLUMNS,
-                    fn(string $v) => !in_array($v, $columns_to_skip)
-                )
-            )
+            self::SUGGESTED_LEARNING_CONTENT_TABLE_COLUMNS
         );
     }
 
-    #[\Override]
     public function getIdColumn(
         TableNameBuilder $table_name_builder,
-        TableTypesInterface $table_type,
-        string $sub_table_identifier = ''
+        TableTypesInterface $table_type
     ): Column {
         $table = $this->persistence_factory->table(
             $table_name_builder,
@@ -91,24 +78,6 @@ class TableDefinitions implements TableDefinitionsInterface
         );
     }
 
-    #[\Override]
-    public function getForeignKeyColumn(
-        TableNameBuilder $table_name_builder,
-        TableTypesInterface $table_type,
-        string $sub_table_identifier = ''
-    ): Column {
-        $table = $this->persistence_factory->table(
-            $table_name_builder,
-            $table_type
-        );
-
-        return $this->persistence_factory->column(
-            $table,
-            self::SUGGESTED_LEARNING_CONTENT_TABLE_FOREIGN_KEY_COLUMN
-        );
-    }
-
-    #[\Override]
     public function completeQuery(
         Query $query,
         ?Column $base_table_id_column

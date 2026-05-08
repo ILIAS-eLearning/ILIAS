@@ -23,7 +23,7 @@ namespace ILIAS\Questions\AnswerForm\Persistence;
 use ILIAS\Questions\Persistence\Column;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\JoinType;
-use ILIAS\Questions\Persistence\TableDefinitions as TableDefinitionsInterface;
+use ILIAS\Questions\AnswerForm\Persistence\TableDefinitions as TableDefinitionsInterface;
 use ILIAS\Questions\Persistence\Query;
 use ILIAS\Questions\Persistence\TableSubNameSpace;
 use ILIAS\Questions\Persistence\TableNameBuilder;
@@ -49,17 +49,14 @@ class AnswerFormGenericTableDefinitions implements TableDefinitionsInterface
     ) {
     }
 
-    #[\Override]
     public function getTableSubNameSpace(): ?TableSubNameSpace
     {
         return null;
     }
 
-    #[\Override]
     public function getColumns(
         TableNameBuilder $table_name_builder,
         TableTypes $table_type,
-        string $sub_table_identifier = '',
         array $columns_to_skip = []
     ): array {
         return array_map(
@@ -79,11 +76,9 @@ class AnswerFormGenericTableDefinitions implements TableDefinitionsInterface
         );
     }
 
-    #[\Override]
     public function getIdColumn(
         TableNameBuilder $table_name_builder,
-        TableTypes $table_type,
-        string $sub_table_identifier = ''
+        TableTypes $table_type
     ): Column {
         return $this->persistence_factory->column(
             $this->persistence_factory->table(
@@ -94,11 +89,9 @@ class AnswerFormGenericTableDefinitions implements TableDefinitionsInterface
         );
     }
 
-    #[\Override]
     public function getForeignKeyColumn(
         TableNameBuilder $table_name_builder,
-        TableTypes $table_type,
-        string $sub_table_identifier = ''
+        TableTypes $table_type
     ): Column {
         return $this->persistence_factory->column(
             $this->persistence_factory->table(
@@ -110,7 +103,7 @@ class AnswerFormGenericTableDefinitions implements TableDefinitionsInterface
     }
 
     #[\Override]
-    public function completeQuery(
+    public function completeQuestionQuery(
         Query $query,
         ?Column $base_table_id_column
     ): Query {

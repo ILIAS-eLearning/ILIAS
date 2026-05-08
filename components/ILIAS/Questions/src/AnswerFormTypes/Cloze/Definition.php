@@ -27,7 +27,7 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Views\Edit;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Views\Participant;
 use ILIAS\Questions\Persistence\Query;
-use ILIAS\Questions\Persistence\TableDefinitions;
+use ILIAS\Questions\AnswerForm\Persistence\TableDefinitions;
 use ILIAS\Language\Language;
 
 class Definition implements DefinitionInterface
