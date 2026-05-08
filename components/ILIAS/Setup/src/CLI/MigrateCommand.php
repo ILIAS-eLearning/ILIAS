@@ -156,7 +156,8 @@ class MigrateCommand extends Command
             $status = $steps === 0 ? "[<fg=green>done</>]" : "[<fg=yellow>remaining steps: $steps</>]";
             $io->text($migration_key . ": " . $migration->getLabel() . " " . $status);
         }
-        $io->inform('Run them by passing --run <migration_id>, e.g. --run ' . $migration_key);
+        $io->inform('Run them by passing --run "<migration_id>", e.g. --run ' . $migration_key);
+        $io->inform('Don\'t forget quotation marks if the migration_id includes a "\\"');
     }
 
     protected function prepareEnvironmentForMigration(
