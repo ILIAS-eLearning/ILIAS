@@ -16,6 +16,24 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\GlobalScreen\Scope\Layout;
 
 use PHPUnit\Framework\TestCase;
@@ -24,6 +42,8 @@ use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\Css;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\InlineCss;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\Js;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\AbstractCollection;
+use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\DeliverPhpFilter;
+use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\VersionParameterFilter;
 
 require_once('./vendor/composer/vendor/autoload.php');
 
@@ -32,7 +52,7 @@ require_once('./vendor/composer/vendor/autoload.php');
  *
  * @author                 Fabian Schmid <fs@studer-raimann.ch>
  */
-class MediaTest extends TestCase
+final class MediaTest extends TestCase
 {
     private const VERSION = AbstractCollection::VERSION_PARAMETER;
     public string $version;
@@ -113,5 +133,84 @@ class MediaTest extends TestCase
         $this->assertInstanceOf(Js::class, $first_item);
         $this->assertSame($path_with_query . '&' . self::VERSION . '=' . $this->version, $first_item->getContent());
         $this->assertSame(2, $first_item->getBatch());
+    }
+
+    public function testDeliverPhpCssIsExcludedFromVersionParameter(): void
+    {
+        $this->meta_content->addVersionParameterFilter(new DeliverPhpFilter());
+        $path = '/ilias/public/deliver.php/HczLCgMhDIXhd8m6NDGjUYdhnsRNqk43vVGlUErfvXY2/-/style.css';
+        $this->meta_content->addCss($path);
+        $collection = $this->meta_content->getCss();
+
+        $items = iterator_to_array($collection->getItems());
+        $first_item = array_shift($items);
+        $this->assertInstanceOf(Css::class, $first_item);
+        $this->assertSame($path, $first_item->getContent());
+    }
+
+    public function testDeliverPhpJsIsExcludedFromVersionParameter(): void
+    {
+        $this->meta_content->addVersionParameterFilter(new DeliverPhpFilter());
+        $path = '/ilias/public/deliver.php/HczLCgMhDIXhd8m6NDGjUYdhnsRNqk43vVGlUErfvXY2/-/script.js';
+        $this->meta_content->addJs($path);
+        $collection = $this->meta_content->getJs();
+
+        $first_item = iterator_to_array($collection->getItems())[$path];
+        $this->assertInstanceOf(Js::class, $first_item);
+        $this->assertSame($path, $first_item->getContent());
+    }
+
+    public function testFilterDoesNotAffectUnrelatedUrls(): void
+    {
+        $this->meta_content->addVersionParameterFilter(new DeliverPhpFilter());
+        $path = '/path/to/file.css';
+        $this->meta_content->addCss($path);
+        $collection = $this->meta_content->getCss();
+
+        $items = iterator_to_array($collection->getItems());
+        $first_item = array_shift($items);
+        $this->assertInstanceOf(Css::class, $first_item);
+        $this->assertSame($path . '?' . self::VERSION . '=' . $this->version, $first_item->getContent());
+    }
+
+    public function testCustomVersionParameterFilter(): void
+    {
+        $custom_filter = new class () implements VersionParameterFilter {
+            public function shouldAppend(string $content): bool
+            {
+                return !str_contains($content, '/no-version/');
+            }
+        };
+        $this->meta_content->addVersionParameterFilter($custom_filter);
+
+        $excluded = '/no-version/file.js';
+        $included = '/path/to/file.js';
+        $this->meta_content->addJs($excluded);
+        $this->meta_content->addJs($included);
+
+        $items = iterator_to_array($this->meta_content->getJs()->getItems());
+        $this->assertEquals($excluded, $items[$excluded]->getContent());
+        $this->assertEquals(
+            $included . '?' . self::VERSION . '=' . $this->version,
+            $items[$included]->getContent()
+        );
+    }
+
+    public function testFiltersViaConstructorAreApplied(): void
+    {
+        $meta_content = new MetaContent(
+            $this->version,
+            true,
+            false,
+            true,
+            true,
+            [new DeliverPhpFilter()]
+        );
+        $path = '/ilias/public/deliver.php/SIGNED/-/style.css';
+        $meta_content->addCss($path);
+
+        $items = iterator_to_array($meta_content->getCss()->getItems());
+        $first_item = array_shift($items);
+        $this->assertEquals($path, $first_item->getContent());
     }
 }
