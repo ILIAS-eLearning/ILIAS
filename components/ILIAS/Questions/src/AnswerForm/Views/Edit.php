@@ -22,6 +22,7 @@ namespace ILIAS\Questions\AnswerForm\Views;
 
 use ILIAS\Questions\AnswerForm\Properties;
 use ILIAS\Questions\Presentation\Definitions\Environment;
+use ILIAS\Questions\Presentation\Definitions\ForImmediateStorage;
 use ILIAS\Questions\Presentation\Layout\Async;
 use ILIAS\Questions\Presentation\Layout\EditForm;
 use ILIAS\Questions\Presentation\Layout\EditOverview;
@@ -35,7 +36,7 @@ interface Edit
 
     public function edit(
         Environment $environment
-    ): EditOverview|EditForm|Async|Properties;
+    ): EditOverview|EditForm|Async|ForImmediateStorage|Properties;
 
     public function other(
         Environment $environment

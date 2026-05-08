@@ -33,6 +33,7 @@ use ILIAS\Questions\Presentation\Layout\Viewable;
 use ILIAS\Questions\Presentation\Definitions\Editability;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Definitions\DefaultEnvironment;
+use ILIAS\Questions\Presentation\Definitions\ForImmediateStorage;
 use ILIAS\Questions\Presentation\Layout\QuestionsTable;
 use ILIAS\Questions\Presentation\Layout\GlobalScreen\LayoutProvider;
 use ILIAS\Questions\Question\Persistence\Repository;
@@ -292,6 +293,14 @@ class Edit
 
         if ($from_edit_view instanceof Viewable) {
             return $from_edit_view->getUI();
+        }
+
+        if ($from_edit_view instanceof ForImmediateStorage) {
+            $this->updateAnswerFormAndRedirect(
+                $environment,
+                $question,
+                $from_edit_view->unpack()
+            );
         }
 
         $return_form_step_actions = $this->capabilities_edit_view
