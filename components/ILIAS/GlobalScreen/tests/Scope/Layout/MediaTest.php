@@ -23,6 +23,7 @@ use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\Css;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\InlineCss;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\Js;
+use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\AbstractCollection;
 
 require_once('./vendor/composer/vendor/autoload.php');
 
@@ -33,6 +34,7 @@ require_once('./vendor/composer/vendor/autoload.php');
  */
 class MediaTest extends TestCase
 {
+    private const VERSION = AbstractCollection::VERSION_PARAMETER;
     public string $version;
     public MetaContent $meta_content;
 
@@ -58,7 +60,7 @@ class MediaTest extends TestCase
         $iterator_to_array = iterator_to_array($collection->getItems());
         $first_item = array_shift($iterator_to_array);
         $this->assertInstanceOf(Css::class, $first_item);
-        $this->assertSame($path . '?version=' . $this->version, $first_item->getContent());
+        $this->assertSame($path . '?' . self::VERSION . '=' . $this->version, $first_item->getContent());
         $this->assertSame(MetaContent::MEDIA_SCREEN, $first_item->getMedia());
     }
 
@@ -71,7 +73,7 @@ class MediaTest extends TestCase
         $iterator_to_array = iterator_to_array($collection->getItems());
         $first_item = array_shift($iterator_to_array);
         $this->assertInstanceOf(Css::class, $first_item);
-        $this->assertSame($path . '&version=' . $this->version, $first_item->getContent());
+        $this->assertSame($path . '&' . self::VERSION . '=' . $this->version, $first_item->getContent());
         $this->assertSame(MetaContent::MEDIA_SCREEN, $first_item->getMedia());
     }
 
@@ -96,7 +98,7 @@ class MediaTest extends TestCase
         $iterator_to_array = iterator_to_array($collection->getItems());
         $first_item = $iterator_to_array[$path];
         $this->assertInstanceOf(Js::class, $first_item);
-        $this->assertSame($path . '?version=' . $this->version, $first_item->getContent());
+        $this->assertSame($path . '?' . self::VERSION . '=' . $this->version, $first_item->getContent());
         $this->assertSame(2, $first_item->getBatch());
     }
 
@@ -109,7 +111,7 @@ class MediaTest extends TestCase
 
         $first_item = iterator_to_array($collection->getItems())[$path];
         $this->assertInstanceOf(Js::class, $first_item);
-        $this->assertSame($path_with_query . '&version=' . $this->version, $first_item->getContent());
+        $this->assertSame($path_with_query . '&' . self::VERSION . '=' . $this->version, $first_item->getContent());
         $this->assertSame(2, $first_item->getBatch());
     }
 }
