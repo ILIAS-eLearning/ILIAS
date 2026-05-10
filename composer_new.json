@@ -39,6 +39,7 @@
 		]
 	},
 	"require": {
+		"monolog/monolog": "^3.10"
 	},
 	"require-dev": {
 	},
