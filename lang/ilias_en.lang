@@ -4430,7 +4430,7 @@ common#:#italic_action#:#Insert Italic - Click to insert italic text.
 common#:#item#:#Item
 common#:#itgr_add#:#Add Item Group
 common#:#itgr_new#:#New Item Group
-common#:#java_server#:#Java-Server
+common#:#java_server#:#PDF Configuration
 common#:#java_server_host#:#Host
 common#:#java_server_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###Needs to be adapted to new content of German lang file.
 common#:#java_server_port#:#Port
@@ -5084,7 +5084,7 @@ common#:#obj_scov#:#SCORM Certificate
 common#:#obj_seas#:#Search
 common#:#obj_seas_desc#:#Manage the search settings here.
 common#:#obj_serv#:#Server
-common#:#obj_serv_desc#:#Settings of the sever
+common#:#obj_serv_desc#:#Status of Server, Settings and PDF Configuration
 common#:#obj_sess#:#Session
 common#:#obj_sess_duplicate#:#Copy Session
 common#:#obj_skmg#:#Competence Management
@@ -5497,7 +5497,7 @@ common#:#row#:#Row
 common#:#rows#:#Rows
 common#:#rpc_pdf_font#:#Fonts
 common#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than ‘Helvetica’ and ‘unifont’ must be installed on the ILIAS server.
-common#:#rpc_pdf_generation#:#PDF-Generation
+common#:#rpc_pdf_generation#:#Fonts for PDF Generation
 common#:#sad#:#Sad
 common#:#sahs#:#Learning Module SCORM
 common#:#sahs_added#:#SCORM Learning Module added
