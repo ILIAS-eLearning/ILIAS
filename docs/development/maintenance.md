@@ -461,16 +461,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN CSSAndTemplates)
 
 * **CSS / Templates**
-    * Authority to Sign off on Conceptual Changes: [yvseiler](https://docu.ilias.de/go/usr/17694)
-      , [catenglaender](https://docu.ilias.de/go/usr/79291)
-    * Authority to Sign off on Code Changes: [amstutz](https://docu.ilias.de/go/usr/26468)
-      , [catenglaender](https://docu.ilias.de/go/usr/79291)
-    * Authority to Curate Test Cases: [amstutz](https://docu.ilias.de/go/usr/26468)
-      , [yvseiler](https://docu.ilias.de/go/usr/17694)
-    * Authority to (De-)Assign Authorities: [yvseiler](https://docu.ilias.de/go/usr/17694)
-    * Assignee for Security Reports: [catenglaender](https://docu.ilias.de/go/usr/79291)
-    * Assignee for Security Issues: [catenglaender](https://docu.ilias.de/go/usr/79291)
-    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
+    * Authority to Sign off on Conceptual Changes: [BettyFromHH](https://docu.ilias.de/go/usr/96573) [alinaseibt] (https://docu.ilias.de/go/usr/70225)
+    * Authority to Sign off on Code Changes: [BettyFromHH](https://docu.ilias.de/go/usr/96573), [rotegras](https://docu.ilias.de/go/usr/88399), [padvincenzo](https://docu.ilias.de/go/usr/87189)
+    * Authority to Curate Test Cases: [BettyFromHH](https://docu.ilias.de/go/usr/96573)
+    * Authority to (De-)Assign Authorities: [BettyFromHH](https://docu.ilias.de/go/usr/96573)
+    * Assignee for Issues: [BettyFromHH](https://docu.ilias.de/go/usr/96573)
+    * Assignee for Security Reports: [BettyFromHH](https://docu.ilias.de/go/usr/96573)
+    * Unit-specific Guidelines, Rules, and Regulations: [Guidelines_SCSS-Coding]('https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/templates/Guidelines_SCSS-Coding.md')
 
 [//]: # (END CSSAndTemplates)
 
