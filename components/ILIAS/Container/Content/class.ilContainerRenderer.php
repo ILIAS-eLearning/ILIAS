@@ -1181,6 +1181,7 @@ class ilContainerRenderer
             $item_data["description"]
         );
         $commands_html = $item_list_gui->getCommandsHTML();
+        $commands_html .= $item_list_gui->getCustomModalsHTML();
 
         // determine behaviour
         $item_group = new ilObjItemGroup($item_data["ref_id"]);

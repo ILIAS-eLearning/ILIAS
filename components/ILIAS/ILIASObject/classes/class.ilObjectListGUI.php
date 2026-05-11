@@ -2887,6 +2887,11 @@ class ilObjectListGUI
         return $this->ui->renderer()->render($this->getCommandsDropdown($title, false));
     }
 
+    public function getCustomModalsHTML(): string
+    {
+        return $this->ui->renderer()->render($this->cust_modals);
+    }
+
     private function getCommandsDropdown(string $title, bool $for_header = false): StandardDropdown
     {
         $this->populateCommands($for_header);
