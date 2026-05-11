@@ -13317,7 +13317,7 @@ pdesk#:#bookmark_select_target#:#Bitte wählen Sie das Ziel.
 poll#:#poll_absolute#:#Aktuelle Stimmen
 poll#:#poll_activation_online_info#:#Wählen Sie diese Einstellung, um die Abstimmung für Benutzer verfügbar zumachen.
 poll#:#poll_add#:#Abstimmung anlegen
-poll#:#poll_anonymous_warning#:#Ihre Stimme wurde einzeln erfasst, aber Ihr Name wird in den Abstimmungsergebnissen nicht angezeigt.
+poll#:#poll_anonymous_warning#:#Dies ist eine anonyme Abstimmung. Ihre Stimme wird gespeichert, Ihr Name aber nicht in den Abstimmungsergebnissen angezeigt.
 poll#:#poll_answer#:#Antwort
 poll#:#poll_answer_selected_alt_text#:#Ausgewählt
 poll#:#poll_answers#:#Mögliche Antworten
@@ -13341,9 +13341,9 @@ poll#:#poll_max_number_of_answers#:#Maximale Antworten
 poll#:#poll_max_number_of_answers_info#:#Sie dürfen bis zu %s Antworten auswählen.
 poll#:#poll_mode#:#Modus
 poll#:#poll_mode_anonymous#:#Ohne Namen / Anonym
-poll#:#poll_mode_anonymous_info#:#Im Tab "Abstimmungsergebnisse" werden Namen der Teilnehmenden nicht aufgeführt. Systeminterne IDs der Teilnehmenden werden allerding in der Datenbank gespeichert.
+poll#:#poll_mode_anonymous_info#:#Im Reiter „Abstimmungsergebnisse“ werden keine Namen aufgeführt. Systeminterne IDs der teilnehmenden Personen werden in der Datenbank gespeichert.
 poll#:#poll_mode_personal#:#Mit Namen
-poll#:#poll_mode_personal_info#:#Im Tab "Abstimmungsergebnisse" werden die Namen der Teilnehmenden mit ihren Antworten aufgeführt. Wer Zugriff auf diesen Tab hat, kann prüfen, wer welche Antwort gegeben hat.
+poll#:#poll_mode_personal_info#:#Im Reiter „Abstimmungsergebnisse“ werden die Namen der teilnehmenden Personen mit ihren Antworten aufgeführt.
 poll#:#poll_new#:#Neue Abstimmung anlegen
 poll#:#poll_non_anonymous_warning#:#Ihr Name und Votum sind für die Administration in den Ergebnissen sichtbar.
 poll#:#poll_notification_activated#:#Änderungs-Benachrichtigung aktiviert
