@@ -16,6 +16,7 @@
  *
  *********************************************************************/
 
+use ILIAS\ILIASObject\Creation\AddNewItemGUI;
 use ILIAS\ItemGroup\StandardGUIRequest;
 use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 
@@ -225,30 +226,35 @@ class ilObjItemGroupGUI extends ilObject2GUI
 
     public function listMaterials(): void
     {
-        $tree = $this->tree;
-        $ilTabs = $this->tabs;
-        $tpl = $this->tpl;
-
         $this->checkPermission("write");
 
-        $ilTabs->activateTab("materials");
+        $this->tabs->activateTab("materials");
 
-        $parent_ref_id = $tree->getParentId($this->object->getRefId());
+        $parent_ref_id = $this->tree->getParentId($this->object->getRefId());
         $parent_type = ilObject::_lookupType($parent_ref_id, true);
-        $parent_gui_class = 'ilObj' . $this->obj_definition->getClassName($parent_type) . 'GUI';
+        $parent_gui_class = "ilObj{$this->obj_definition->getClassName($parent_type)}GUI";
         $this->ctrl->setParameterByClass($parent_gui_class, 'ref_id', $parent_ref_id);
-        $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
+        $add_new_item_gui = $this->resolveAddNewItemGUI();
+        $add_new_item_gui->render();
+        $this->ctrl->clearParameterByClass($parent_gui_class, 'ref_id');
+
+        $tab = new ilItemGroupItemsTableGUI($this->gui, $this, "listMaterials");
+        $this->tpl->setContent($tab->getHTML());
+    }
+
+    public function resolveAddNewItemGUI(): AddNewItemGUI
+    {
+        $parent_ref_id = $this->tree->getParentId($this->object->getRefId());
+        $parent_type = ilObject::_lookupType($parent_ref_id, true);
+        $parent_gui_class = "ilObj{$this->obj_definition->getClassName($parent_type)}GUI";
+
+        return new AddNewItemGUI(
             $this->buildAddNewItemElements(
                 $this->getCreatableObjectTypes(),
                 $parent_gui_class,
                 $this->object->getRefId()
             )
         );
-        $gui->render();
-        $this->ctrl->clearParameterByClass($parent_gui_class, 'ref_id');
-
-        $tab = new ilItemGroupItemsTableGUI($this->gui, $this, "listMaterials");
-        $tpl->setContent($tab->getHTML());
     }
 
     public function getCreatableObjectTypes(): array

@@ -10770,6 +10770,7 @@ itgr#:#itgr_assigned_materials#:#Objekte im Objekteblock
 itgr#:#itgr_assignment#:#Eingebunden
 itgr#:#itgr_behaviour#:#Verhalten
 itgr#:#itgr_behaviour_info#:#Das System merkt sich den Zustand (geöffnet/geschlossen) je Benutzer bis zur Abmeldung (Logout).
+itgr#:#itgr_create_and_assign_object#:#Objekt erstellen und zuweisen
 itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks nicht mit ausgegeben.
 itgr#:#itgr_edit#:#Einstellungen des Objekteblocks
 itgr#:#itgr_expandable_closed#:#Ausklappbar (zunächst geschlossen)
@@ -10780,6 +10781,7 @@ itgr#:#itgr_list_default#:#Standard
 itgr#:#itgr_list_default_info#:#Übernimmt die Einstellung des übergeordneten Containers.
 itgr#:#itgr_list_presentation#:#Präsentationsansicht für Inhalte
 itgr#:#itgr_materials#:#Objekte
+itgr#:#itgr_organise_objects#:#Objekte verwalten
 itgr#:#itgr_show_title#:#Titel anzeigen
 itgr#:#itgr_show_title_info#:#Der Titel des Objekteblocks wird angezeigt.
 itgr#:#itgr_tile#:#Kacheln
