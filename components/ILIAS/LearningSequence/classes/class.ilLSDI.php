@@ -36,10 +36,6 @@ class ilLSDI extends Container
             );
         };
 
-        $this["db.activation"] = function ($c) use ($dic): ilLearningSequenceActivationDB {
-            return new ilLearningSequenceActivationDB($dic["ilDB"]);
-        };
-
         $this["db.states"] = function ($c) use ($dic): ilLSStateDB {
             return new ilLSStateDB($dic["ilDB"]);
         };
