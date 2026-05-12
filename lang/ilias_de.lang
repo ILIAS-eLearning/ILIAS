@@ -310,6 +310,10 @@ administration#:#restoring_trash#:#Stellt gelöschte Objekte wieder her...
 administration#:#restoring_unbound_objs#:#Stellt nicht zugeordnete Objekte und Teilobjekte wieder her...
 administration#:#reuse_of_loginnames_contained_in_history#:#Wiederverwendung von Anmeldenamen
 administration#:#reuse_of_loginnames_contained_in_history_info#:#Anmeldenamen, die von einer Person bereits zuvor genutzt wurden, können erneut verwendet werden.
+administration#:#rpc_pdf_configuration#:#PDF-Konfiguration
+administration#:#rpc_pdf_font#:#Schriftarten
+administration#:#rpc_pdf_font_info#:#Geben Sie hier zusätzliche Schriftarten zur Erzeugung von PDF-Dateien an. Alle eingetragenen Schriftarten müssen auf dem Java-Server installiert sein oder dem Java-Server beim Starten bekannt gemacht werden.
+administration#:#rpc_pdf_generation#:#Schriften für PDF-Erstellung
 administration#:#scan#:#Untersuche
 administration#:#scan_desc#:#Durchsuche System nach korrupten/ungültigen/verlorenen/nicht zugeordneten Objekten
 administration#:#scan_details#:#Details der Untersuchung
@@ -4429,7 +4433,6 @@ common#:#italic_action#:#Kursiv einfügen - Klicken Sie um kursiven Text einzuf�
 common#:#item#:#Begriff
 common#:#itgr_add#:#Objekteblock anlegen
 common#:#itgr_new#:#Neuen Objekteblock anlegen
-common#:#java_server#:#PDF-Konfiguration
 common#:#java_server_host#:#Host
 common#:#java_server_info#:#Es wird ein Suchindex der ILIAS-Datenbank samt enthaltener Dateien und Objekte erstellt. Um die Lucene-Suche verwenden zu können, muss der JAVA-basierte ilServer installiert und konfiguriert sein: siehe Reiter „Lucene“.
 common#:#java_server_port#:#Port
@@ -5494,9 +5497,6 @@ common#:#rolt_edit#:#Rollenvorlage bearbeiten
 common#:#rolt_new#:#Neue Rollenvorlage
 common#:#row#:#Zeile
 common#:#rows#:#Zeilen
-common#:#rpc_pdf_font#:#Schriftarten
-common#:#rpc_pdf_font_info#:#Geben Sie hier zusätzliche Schriftarten zur Erzeugung von PDF-Dateien an. Alle eingetragenen Schriftarten müssen auf dem Java-Server installiert sein oder dem Java-Server beim Starten bekannt gemacht werden.
-common#:#rpc_pdf_generation#:#Schriften für PDF-Erstellung
 common#:#sad#:#Sad
 common#:#sahs#:#Lernmodul SCORM
 common#:#sahs_added#:#SCORM-Lernmodul angelegt

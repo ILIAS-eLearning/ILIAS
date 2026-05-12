@@ -310,6 +310,10 @@ administration#:#restoring_trash#:#Restoring trash...
 administration#:#restoring_unbound_objs#:#Restoring unbound objects and sub-objects...
 administration#:#reuse_of_loginnames_contained_in_history#:#Reuse of Login Names
 administration#:#reuse_of_loginnames_contained_in_history_info#:#Allow users to reuse any login name (not currently in use) that already appears in the history (even if it belongs to a deleted user).
+administration#:#rpc_pdf_configuration#:#PDF Configuration
+administration#:#rpc_pdf_font#:#Fonts
+administration#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than ‘Helvetica’ and ‘unifont’ must be installed on the ILIAS server.
+administration#:#rpc_pdf_generation#:#Fonts for PDF Generation
 administration#:#scan#:#Scan
 administration#:#scan_desc#:#Scan system for corrupted/invalid/missing/unbound objects.
 administration#:#scan_details#:#Scan details
@@ -4430,7 +4434,6 @@ common#:#italic_action#:#Insert Italic - Click to insert italic text.
 common#:#item#:#Item
 common#:#itgr_add#:#Add Item Group
 common#:#itgr_new#:#New Item Group
-common#:#java_server#:#PDF Configuration
 common#:#java_server_host#:#Host
 common#:#java_server_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###Needs to be adapted to new content of German lang file.
 common#:#java_server_port#:#Port
@@ -5495,9 +5498,6 @@ common#:#rolt_edit#:#Edit Role Template
 common#:#rolt_new#:#New Role Template
 common#:#row#:#Row
 common#:#rows#:#Rows
-common#:#rpc_pdf_font#:#Fonts
-common#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than ‘Helvetica’ and ‘unifont’ must be installed on the ILIAS server.
-common#:#rpc_pdf_generation#:#Fonts for PDF Generation
 common#:#sad#:#Sad
 common#:#sahs#:#Learning Module SCORM
 common#:#sahs_added#:#SCORM Learning Module added
