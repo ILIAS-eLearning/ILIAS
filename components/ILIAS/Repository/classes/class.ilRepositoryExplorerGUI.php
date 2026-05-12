@@ -424,11 +424,6 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
             return [];
         }
 
-        $obj_id = ilObject::_lookupObjId($a_parent_node_id);
-        if (!ilConditionHandler::_checkAllConditionsOfTarget($a_parent_node_id, $obj_id)) {
-            return [];
-        }
-
         $childs = parent::getChildsOfNode($a_parent_node_id);
 
         foreach ($childs as $c) {
