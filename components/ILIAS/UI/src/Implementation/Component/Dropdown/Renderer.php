@@ -76,10 +76,13 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        $component = $component->withAdditionalOnLoadCode(
-            fn($id) =>
-            "il.UI.dropdown.init(document.getElementById(\"$id\"));"
-        );
+        $component = $component->withAdditionalOnLoadCode(fn($id) => "
+            try {
+                il.UI.dropdown.init(document.getElementById(\"$id\"));
+            } catch (e) {
+                console?.error(e);
+            }
+        ");
 
         $this->renderId($component, $tpl);
 
