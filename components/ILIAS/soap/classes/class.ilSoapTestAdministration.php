@@ -76,6 +76,16 @@ class ilSoapTestAdministration extends ilSoapAdministration
         }
 
         if ($saveaction) {
+            $owner_result = $ilDB->queryF(
+                "SELECT user_fi FROM tst_active WHERE active_id = %s",
+                array('integer'),
+                array($active_id)
+            );
+            $owner_row = $ilDB->fetchAssoc($owner_result);
+            if (!is_array($owner_row) || (int) $owner_row['user_fi'] !== $ilUser->getId()) {
+                return false;
+            }
+
             $result = $ilDB->queryF(
                 "SELECT * FROM tst_times WHERE active_fi = %s ORDER BY started DESC",
                 array('integer'),
