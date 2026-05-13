@@ -47,9 +47,6 @@ class QuestionPoolImporter
 {
     public function __construct(
         private readonly Builder $builder,
-        private readonly ilCtrl $ctrl,
-        private readonly ilDBInterface $database,
-        private readonly Language $language,
         private readonly LoggerInterface $log,
         private readonly DataFactory $data_factory,
         private readonly QuestionsImporter $questions_importer,
@@ -113,16 +110,20 @@ class QuestionPoolImporter
             }
         );
 
+        $this->log->info('Importing question pool export file...');
         $deserializer->process();
+        $this->log->info('...Finished importing question pool export file');
 
-        // Copy the question images from the temporary import directory to the question pool directory
+        $this->log->info('Importing question images...');
         $this->questions_importer->importQuestionImages(
             $context->get('pool_obj_id'),
             $mapping,
             $context,
             $images_pipe
         );
+        $this->log->info('...Finished importing question images');
 
+        $this->log->info("Finished importing question pool {$context->get('pool_obj_id')} (Object ID)");
         return $context;
     }
 
@@ -132,7 +133,9 @@ class QuestionPoolImporter
      */
     public function finalize(ilImportMapping $mapping): void
     {
+        $this->log->info('Finalizing question pool import...');
         $this->questions_importer->finalizeQuestionPages($mapping);
+        $this->log->info('...Finished finalizing question pool');
     }
 
     protected function importQuestionPool(
@@ -150,10 +153,12 @@ class QuestionPoolImporter
             $pool_object->getObjectProperties()->getPropertyIsOnline()->withOffline()
         );
         $pool_object->saveToDb();
+        $this->log->debug("Created new pool object: {$old_pool_id} -> {$new_pool_id}");
 
         $pool_object->createReference();
         $pool_object->putInTree($parent_id->toInt());
         $pool_object->setPermissions($parent_id->toInt());
+        $this->log->debug("Stored pool object in tree: {$parent_id->toInt()} (Parent Ref) -> {$pool_object->getRefId()} (Pool Ref)");
 
         $mapping->addMapping('components/ILIAS/TestQuestionPool', 'qpl', (string) $old_pool_id, (string) $new_pool_id);
         $mapping->addMapping('components/ILIAS/TestQuestionPool', 'object', (string) $old_pool_id, (string) $new_pool_id);

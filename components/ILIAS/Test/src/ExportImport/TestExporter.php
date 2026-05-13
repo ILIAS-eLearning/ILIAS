@@ -71,6 +71,7 @@ class TestExporter implements Exporter
      */
     public function prepare(ExportState $state): void
     {
+        $state->logger()->info('Preparing test export (1/3)...');
         $state->assertStep(ExportStep::INIT);
         $state->setStep(ExportStep::PREPARE);
 
@@ -108,6 +109,7 @@ class TestExporter implements Exporter
             ->create();
 
         $state->setTransformations($transformations);
+        $state->logger()->info('...Finished preparing test export (1/3)');
     }
 
     private function extractObjectId(ExportState $state): ?ObjectId
@@ -133,6 +135,7 @@ class TestExporter implements Exporter
      */
     public function process(ExportState $state): void
     {
+        $state->logger()->info('Processing test export (2/3)...');
         $state->assertStep(ExportStep::PREPARE);
         $state->setStep(ExportStep::PROCESS);
 
@@ -197,8 +200,12 @@ class TestExporter implements Exporter
         );
 
         if ($state->getOption() === Types::XML_WITH_RESULTS->value) {
+            $state->logger()->info('Processing test results export ...');
             $this->processResults($state);
+            $state->logger()->info('...Finished processing test results export');
         }
+
+        $state->logger()->info('...Finished processing test export (2/3)');
     }
 
     private function processResults(ExportState $state): void
@@ -226,6 +233,7 @@ class TestExporter implements Exporter
      */
     public function write(ExportState $state): void
     {
+        $state->logger()->info('Writing test export (3/3)...');
         $state->assertStep(ExportStep::PROCESS);
         $state->setStep(ExportStep::WRITE);
 
@@ -239,6 +247,7 @@ class TestExporter implements Exporter
                     $file['from'],
                     "{$export_dir}/" . $file['to']
                 );
+                $state->logger()->debug("Copied question image {$file['from']} to {$export_dir}/{$file['to']}");
             } else {
                 $state->logger()->warning('Question image file not found: ' . $file['from']);
             }
@@ -252,7 +261,7 @@ class TestExporter implements Exporter
                 $id,
                 "{$export_dir}/resources/{$file}"
             );
-
+            $state->logger()->debug("Copied resource {$id} to {$export_dir}/resources/{$file}");
         }
 
         $this->writeMappings(
@@ -260,6 +269,9 @@ class TestExporter implements Exporter
             $state->transformations(),
             $state
         );
+        $state->logger()->debug('Stored test export mappings');
+
+        $state->logger()->info('...Finished writing test export (3/3)');
     }
 
 

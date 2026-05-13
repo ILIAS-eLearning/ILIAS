@@ -47,6 +47,7 @@ use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\FileUpload\MimeType;
 use ILIAS\UI\Component\Modal\RoundTrip as RoundTripModal;
 use ILIAS\Style\Content\Service as ContentStyle;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class ilObjQuestionPoolGUI
@@ -105,6 +106,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     protected GeneralQuestionPropertiesRepository $questionrepository;
     protected GlobalTestSettings $global_test_settings;
     protected ImportSessionRepository $import_session_repository;
+    protected LoggerInterface $import_logger;
 
     public function __construct()
     {
@@ -132,6 +134,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->questionrepository = $local_dic['question.general_properties.repository'];
         $this->global_test_settings = $local_dic['global_test_settings'];
         $this->import_session_repository = $local_dic['exportimport.session'];
+        $this->import_logger = $local_dic['exportimport.logging']();
 
         parent::__construct('', $this->request_data_collector->getRefId(), true, false);
 
@@ -1133,20 +1136,30 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         return new ImportStageRunner(
             [
-                new UploadValidationStage($this->archives, $this->lng, 'components/ILIAS/TestQuestionPool'),
-                new DetectLegacyImportStage(),
+                new UploadValidationStage(
+                    $this->archives,
+                    $this->lng,
+                    $this->import_logger,
+                    'components/ILIAS/TestQuestionPool'
+                ),
+                new DetectLegacyImportStage($this->import_logger),
                 new QuestionSelectionStage(
                     $this->lng,
+                    $this->import_logger,
                     $this->component_factory,
                     $this->ui_factory,
                     $this->request,
                     $form_action,
                     $this->lng->txt('import_qpl')
                 ),
-                new PersistStage($this->lng, $this->request_data_collector, $this->import_session_repository),
+                new PersistStage(
+                    $this->lng,
+                    $this->request_data_collector,
+                    $this->import_session_repository
+                ),
             ],
             $this->import_session_repository,
-            new CleanupStage()
+            new CleanupStage($this->import_logger)
         );
     }
 

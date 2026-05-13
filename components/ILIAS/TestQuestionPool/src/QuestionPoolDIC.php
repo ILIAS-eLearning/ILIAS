@@ -29,7 +29,6 @@ use ILIAS\TestQuestionPool\ExportImport\Import\QuestionPoolImporter;
 use ILIAS\TestQuestionPool\ExportImport\Import\QuestionsImporter;
 use ILIAS\TestQuestionPool\ExportImport\Import\SkillAssignmentsImporter;
 use ILIAS\TestQuestionPool\ExportImport\LoggingProvider;
-use ilLoggerFactory;
 use Pimple\Container as PimpleContainer;
 use ILIAS\DI\Container as ILIASContainer;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
@@ -99,6 +98,7 @@ class QuestionPoolDIC extends PimpleContainer
             new ImportSessionRepository('qpl');
         $dic['exportimport.skill_assignments_importer'] = static fn($c): SkillAssignmentsImporter =>
             new SkillAssignmentsImporter(
+                $c['exportimport.logging'](),
                 $DIC->skills()->internal()->repo()->getTreeRepo(),
                 $DIC->skills()->usage(),
                 'components/ILIAS/TestQuestionPool',
@@ -118,9 +118,6 @@ class QuestionPoolDIC extends PimpleContainer
         $dic['exportimport.importer'] = static fn($c): QuestionPoolImporter =>
             new QuestionPoolImporter(
                 $c['exportimport.builder'],
-                $DIC->ctrl(),
-                $DIC->database(),
-                $DIC->language(),
                 $c['exportimport.logging'](),
                 new DataFactory(),
                 $c['exportimport.questions_importer'],

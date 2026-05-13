@@ -29,6 +29,7 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\XMLFileDeserializ
 use ILIAS\TestQuestionPool\ExportImport\Import\DetectLegacyImportStage;
 use ILIAS\TestQuestionPool\ExportImport\Import\UploadValidationStage;
 use ilImport;
+use Psr\Log\LoggerInterface;
 
 /**
  * Final stage of the test import process. Imports the head dependencies (user and resource mappings) and then
@@ -39,6 +40,7 @@ class PersistStage implements ImportStage
 {
     public function __construct(
         private readonly Language $lng,
+        private readonly LoggerInterface $log,
         private readonly int $requested_ref_id,
         private readonly ImportSessionRepository $session
     ) {
@@ -61,8 +63,8 @@ class PersistStage implements ImportStage
 
     public function process(ImportContext $context): StageResult
     {
-        if(!DetectLegacyImportStage::isLegacyImport($context)) {
-            if($result = $this->importMappingsFile($context)) {
+        if (!DetectLegacyImportStage::isLegacyImport($context)) {
+            if ($result = $this->importMappingsFile($context)) {
                 return $result;
             }
         }
@@ -81,10 +83,12 @@ class PersistStage implements ImportStage
         return StageResult::complete($this->session->getContext());
     }
 
-    private function importMappingsFile(ImportContext $context): ?StageResult {
+    private function importMappingsFile(ImportContext $context): ?StageResult
+    {
         $component_import_dir = dirname($context->get(UploadValidationStage::COMPONENT_IMPORT_FILE));
         $mappings_file = "{$component_import_dir}/mappings.xml";
         if (!file_exists($mappings_file) || !is_file($mappings_file)) {
+            $this->log->error("Mappings file not found: {$mappings_file}");
             return StageResult::error($context, $this->lng->txt('obj_import_file_error'));
         }
 
@@ -92,7 +96,9 @@ class PersistStage implements ImportStage
         $deserializer->addHandler('mappings', function (array $mappings) use (&$context) {
             $context = $context->with('mappings', $mappings);
         });
+
         $deserializer->process();
+        $this->log->info("Processed mappings file: {$mappings_file}");
 
         $this->session->setContext($context);
         return null;

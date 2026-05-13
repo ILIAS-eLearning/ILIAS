@@ -90,6 +90,7 @@ use ILIAS\Taxonomy\DomainService as TaxonomyService;
 use ILIAS\Style\Content\Service as ContentStyle;
 use ILIAS\User\Profile\PublicProfileGUI;
 use ILIAS\Test\GUIFactory;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class ilObjTestGUI
@@ -190,6 +191,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected GUIFactory $gui_factory;
     protected SkillUsageService $skill_usage_service;
     protected ImportSessionRepository $import_session_repository;
+    protected LoggerInterface $import_logger;
 
     protected bool $create_question_mode;
 
@@ -245,6 +247,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->additional_information_generator = $local_dic['logging.information_generator'];
         $this->personal_settings_exporter = $local_dic['settings.personal_templates.exporter'];
         $this->import_session_repository = $local_dic['exportimport.session'];
+        $this->import_logger = $local_dic['exportimport.logging']();
 
         $ref_id = 0;
         if ($this->testrequest->hasRefId() && is_numeric($this->testrequest->getRefId())) {
@@ -1458,20 +1461,31 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
         return new ImportStageRunner(
             [
-                new UploadValidationStage($this->archives, $this->lng, 'components/ILIAS/Test'),
-                new DetectLegacyImportStage(),
+                new UploadValidationStage(
+                    $this->archives,
+                    $this->lng,
+                    $this->import_logger,
+                    'components/ILIAS/Test'
+                ),
+                new DetectLegacyImportStage($this->import_logger),
                 new QuestionSelectionStage(
                     $this->lng,
+                    $this->import_logger,
                     $this->component_factory,
                     $this->ui_factory,
                     $this->request,
                     $form_action,
                     $this->lng->txt('import_tst')
                 ),
-                new PersistStage($this->lng, $this->requested_ref_id, $this->import_session_repository),
+                new PersistStage(
+                    $this->lng,
+                    $this->import_logger,
+                    $this->requested_ref_id,
+                    $this->import_session_repository
+                ),
             ],
             $this->import_session_repository,
-            new CleanupStage()
+            new CleanupStage($this->import_logger)
         );
     }
 

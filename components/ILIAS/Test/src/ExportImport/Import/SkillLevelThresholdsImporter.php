@@ -20,13 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\ExportImport\Import;
 
-use ilBasicSkill;
 use ilDBInterface;
 use ilImportMapping;
 use ilSkillTreeRepository;
 use ilTestSkillLevelThreshold;
 use ilTestSkillLevelThresholdList;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use Psr\Log\LoggerInterface;
 
 /**
  * Imports skill level thresholds from normalized data. It maps imported skill level ids to local skill level ids using
@@ -40,6 +40,7 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
 class SkillLevelThresholdsImporter
 {
     public function __construct(
+        private readonly LoggerInterface $log,
         private readonly ilDBInterface $db,
         private readonly ilSkillTreeRepository $skill_repo,
         private readonly string $component,
@@ -69,9 +70,11 @@ class SkillLevelThresholdsImporter
 
             $local_level_id = $this->getLevelIdMapping($import_install_id, $threshold->getSkillLevelId());
             if ($local_level_id === null) {
+                $this->log->warning("Failed to find skill level id mapping for threshold: {$threshold->getSkillLevelId()}");
                 $result['failed'][] = $this->buildResultData($threshold);
                 continue;
             }
+            $this->log->debug("Found skill level id mapping for threshold: {$threshold->getSkillLevelId()} -> {$local_level_id}");
 
             $mapping->addMapping(
                 $this->component,
@@ -86,6 +89,8 @@ class SkillLevelThresholdsImporter
         }
 
         $threshold_list->saveToDb();
+        $this->log->debug("Saved skill level thresholds");
+
         return $result;
     }
 

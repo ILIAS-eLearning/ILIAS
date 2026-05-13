@@ -29,6 +29,7 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\XMLFileDeserializ
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\UI\Factory as UIFactory;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Second stage of the question pool import process. It displays the list of questions found in the imported file and
@@ -55,6 +56,7 @@ class QuestionSelectionStage implements ImportStage
 
     public function __construct(
         private readonly Language $lng,
+        private readonly LoggerInterface $log,
         private readonly ilComponentFactory $component_factory,
         private readonly UIFactory $ui_factory,
         private readonly ServerRequestInterface $request,
@@ -96,6 +98,7 @@ class QuestionSelectionStage implements ImportStage
         }
 
         if (!$context->has(UploadValidationStage::COMPONENT_IMPORT_FILE)) {
+            $this->log->error("No component import file found in context");
             return StageResult::error($context, $this->lng->txt('qpl_import_file_not_found'));
         }
 
@@ -104,6 +107,7 @@ class QuestionSelectionStage implements ImportStage
             : $this->readQuestions($context);
 
         if ($options === []) {
+            $this->log->error("No questions found in import file");
             return StageResult::error($context, $this->lng->txt('qpl_import_no_items'));
         }
 
@@ -150,6 +154,9 @@ class QuestionSelectionStage implements ImportStage
         });
         $deserializer->process();
 
+        $count = count($options);
+        $this->log->info("Found {$count} questions in import file");
+
         return $options;
     }
 
@@ -170,6 +177,9 @@ class QuestionSelectionStage implements ImportStage
         foreach ($parser->getFoundItems() as $item) {
             $options[$item['ident']] = "{$item['title']} ({$this->getLabelForQuestionType($item['type'])})";
         }
+
+        $count = count($options);
+        $this->log->info("Found {$count} questions in legacy import file");
 
         return $options;
     }

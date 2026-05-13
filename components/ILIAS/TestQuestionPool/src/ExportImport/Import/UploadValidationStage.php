@@ -28,6 +28,7 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ImportStage;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\StageResult;
 use ilManifestParser;
+use Psr\Log\LoggerInterface;
 
 /**
  * First stage of the question pool import pipeline. Receives the uploaded file path from the context, extracts ZIP
@@ -45,6 +46,7 @@ class UploadValidationStage implements ImportStage
     public function __construct(
         private readonly Archives $archives,
         private readonly Language $lng,
+        private readonly LoggerInterface $log,
         private readonly string $component
     ) {
     }
@@ -72,6 +74,7 @@ class UploadValidationStage implements ImportStage
             || !is_file($file_to_import)
             || !str_ends_with(strtolower($file_to_import), '.zip')
         ) {
+            $this->log->error("Invalid import file: {$file_to_import}");
             return StageResult::error($context, $this->lng->txt('obj_import_file_error'));
         }
 
@@ -81,6 +84,7 @@ class UploadValidationStage implements ImportStage
         $options = (new UnzipOptions())->withZipOutputPath(self::IMPORT_TEMP_DIR);
         $unzip = $this->archives->unzip(Streams::ofResource(fopen($file_to_import, 'r')), $options);
         $unzip->extract();
+        $this->log->info("Extracted import file: {$file_to_import} -> {$import_base_dir}");
 
         $manifest = new ilManifestParser($import_base_dir . DIRECTORY_SEPARATOR . 'manifest.xml');
         $export_file = array_find(
@@ -89,11 +93,16 @@ class UploadValidationStage implements ImportStage
         );
 
         if ($export_file === null) {
+            $this->log->error("No export file found for component: {$this->component}");
             return StageResult::error($context, $this->lng->txt('obj_import_file_error'));
         }
 
+        $component_import_file = $import_base_dir . DIRECTORY_SEPARATOR . $export_file['path'];
+        $this->log->info("Found export file for {$this->component}: -> {$component_import_file}");
+        $this->log->info("Found valid export file from installation: {$manifest->getInstallId()}");
+
         return StageResult::advance(
-            $context->with(self::COMPONENT_IMPORT_FILE, $import_base_dir . DIRECTORY_SEPARATOR . $export_file['path'])
+            $context->with(self::COMPONENT_IMPORT_FILE, $component_import_file)
             ->with(self::IMPORT_BASE_DIR, $import_base_dir)
             ->with(self::INSTALL_ID, $manifest->getInstallId())
         );

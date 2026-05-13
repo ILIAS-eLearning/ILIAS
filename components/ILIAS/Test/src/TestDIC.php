@@ -279,6 +279,7 @@ class TestDIC extends PimpleContainer
 
         $dic['exportimport.skill_assignments_importer'] = static fn($c): SkillAssignmentsImporter =>
             new SkillAssignmentsImporter(
+                $c['exportimport.logging'](),
                 $DIC->skills()->internal()->repo()->getTreeRepo(),
                 $DIC->skills()->usage(),
                 'components/ILIAS/Test',
@@ -287,6 +288,7 @@ class TestDIC extends PimpleContainer
 
         $dic['exportimport.skill_level_thresholds_importer'] = static fn($c): SkillLevelThresholdsImporter =>
             new SkillLevelThresholdsImporter(
+                $c['exportimport.logging'](),
                 $DIC->database(),
                 $DIC->skills()->internal()->repo()->getTreeRepo(),
                 'components/ILIAS/Test',
