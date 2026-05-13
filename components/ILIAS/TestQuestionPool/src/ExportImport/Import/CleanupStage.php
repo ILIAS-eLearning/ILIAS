@@ -23,6 +23,7 @@ namespace ILIAS\TestQuestionPool\ExportImport\Import;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ImportStage;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\StageResult;
+use Psr\Log\LoggerInterface;
 
 /**
  * Final import stage that cleans up the temporary files and directories after successful import or
@@ -30,6 +31,11 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\StageResult;
  */
 class CleanupStage implements ImportStage
 {
+    public function __construct(
+        private readonly LoggerInterface $log,
+    ) {
+    }
+
     public function getIdentifier(): string
     {
         return 'cleanup';
@@ -52,12 +58,18 @@ class CleanupStage implements ImportStage
             $temp_dir = dirname($file_to_import);
             if ($temp_dir && file_exists($temp_dir) && is_dir($temp_dir)) {
                 $this->removeDirectory($temp_dir);
+                $this->log->info("Removed temporary import directory: {$temp_dir}");
+            } else {
+                $this->log->warning("Temporary import directory does not exist: {$temp_dir}");
             }
         }
 
         $import_base_dir = $context->get(UploadValidationStage::IMPORT_BASE_DIR);
         if ($import_base_dir && file_exists($import_base_dir) && is_dir($import_base_dir)) {
             $this->removeDirectory($import_base_dir);
+            $this->log->info("Removed import target base directory: {$import_base_dir}");
+        } else {
+            $this->log->warning("Import target base directory does not exist: {$import_base_dir}");
         }
 
         return StageResult::complete($context);

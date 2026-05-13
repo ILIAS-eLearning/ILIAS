@@ -25,6 +25,7 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
 use ILIAS\Skill\Service\SkillUsageService;
 use ilImportMapping;
 use ilSkillTreeRepository;
+use Psr\Log\LoggerInterface;
 
 /**
  * Imports skill assignments from normalized data. It will map imported skill using the source installation id. If a
@@ -35,6 +36,7 @@ use ilSkillTreeRepository;
 class SkillAssignmentsImporter
 {
     public function __construct(
+        private readonly LoggerInterface $log,
         private readonly ilSkillTreeRepository $skill_repo,
         private readonly SkillUsageService $skill_usage_service,
         private readonly string $component,
@@ -67,6 +69,7 @@ class SkillAssignmentsImporter
                 $import_install_id
             );
             if ($skill_data === null) {
+                $this->log->warning("Failed to find skill id mapping for assignment: {$assignment->getSkillBaseId()}/{$assignment->getSkillTrefId()}");
                 $result['failed'][] = $this->buildResultData($assignment);
                 continue;
             }
@@ -85,6 +88,7 @@ class SkillAssignmentsImporter
             );
             $assignment->setSkillBaseId($skill_data['skill_id']);
             $assignment->setSkillTrefId($skill_data['tref_id']);
+            $this->log->debug("Found skill assignment: {$assignment->getSkillBaseId()}/{$assignment->getSkillTrefId()} -> {$skill_data['skill_id']}/{$skill_data['tref_id']}");
 
             $assignment->initSolutionComparisonExpressionList();
             foreach ($assignment->getSolutionComparisonExpressionList()->get() as $expression) {
@@ -94,6 +98,7 @@ class SkillAssignmentsImporter
 
             $assignment->saveToDb();
             $assignment->saveComparisonExpressions();
+            $this->log->debug("Saved skill assignment: {$assignment->getSkillBaseId()}/{$assignment->getSkillTrefId()}");
 
             $this->skill_usage_service->addUsage(
                 $assignment->getParentObjId(),

@@ -76,6 +76,7 @@ class QuestionsImporter
         $question = $transformations->denormalize($normalized, new $question_class());
         $old_question_id = $question->getId();
         if (!in_array($old_question_id, $selected_questions)) {
+            $this->log->debug("Skipping question import for ID {$old_question_id} (not selected)");
             return null;
         }
 
@@ -85,6 +86,7 @@ class QuestionsImporter
 
         // Create new question and store basic question properties
         $new_question_id = $question->createNewQuestion(false);
+        $this->log->debug("Created new question: {$old_question_id} -> {$new_question_id}");
         $this->storeQuestionMappings($mapping, $old_question_id, $new_question_id, $question->getObjId());
 
         if ($question instanceof assFormulaQuestion) {
@@ -93,6 +95,7 @@ class QuestionsImporter
 
         // Save question-specific properties
         $question->saveToDb();
+        $this->log->debug("Imported question {$new_question_id} (type: {$question->getQuestionType()})");
 
         $feedback = $transformations->denormalize($normalized['feedback'], Feedback::class);
         $this->importFeedback($feedback, $question);
@@ -187,6 +190,7 @@ class QuestionsImporter
                 continue;
             }
             $new_question_id = $new_matches[1];
+            $this->log->debug("Finalizing question page: {$old_question_id} -> {$new_question_id}");
 
             $page = new ilAssQuestionPage((int) $new_question_id);
             $xml = preg_replace(
@@ -209,6 +213,7 @@ class QuestionsImporter
             }
 
             $page->updateFromXML();
+            $this->log->debug("Updated question page: {$page->getId()}");
             unset($page);
         }
     }
@@ -265,6 +270,8 @@ class QuestionsImporter
                 $specific_feedback['feedback']
             );
         }
+
+        $this->log->debug("Imported feedback for question: {$question_id}");
     }
 
     private function importFormulaQuestion(
@@ -282,6 +289,7 @@ class QuestionsImporter
             $old_category_id = $category->getId();
 
             $repository->saveNewUnitCategory($category);
+            $this->log->debug("Imported formula question unit category: {$old_category_id} -> {$category->getId()}");
             $mapping->addMapping($this->component, 'unit_category', (string) $old_category_id, (string) $category->getId());
         }
 
@@ -297,6 +305,7 @@ class QuestionsImporter
 
             $unit = $transformations->denormalize($normalized_unit, $unit);
             $repository->saveUnit($unit);
+            $this->log->debug("Imported formula question unit: {$old_unit_id} -> {$unit->getId()}");
         }
 
         // The question object is denormalized again to ensure the new unit ids are set in the variables and results.
