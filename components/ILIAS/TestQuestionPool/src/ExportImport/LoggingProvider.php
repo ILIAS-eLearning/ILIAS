@@ -30,12 +30,14 @@ class LoggingProvider
 {
     private const string COMPONENT_ID = 'exp';
 
-    public function getLogger(?string $component_id = null): LoggerInterface {
+    public function getLogger(?string $component_id = null): LoggerInterface
+    {
         $component_id = $component_id ?? self::COMPONENT_ID;
         return ilLoggerFactory::getLogger($component_id)->getLogger();
     }
 
-    public function __invoke() {
+    public function __invoke()
+    {
         return $this->getLogger();
     }
 }
