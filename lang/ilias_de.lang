@@ -14516,6 +14516,9 @@ rbac#:#positions_override_operations#:#Globale Einstellungen überschreiben
 rbac#:#precondition_not_obligatory_alt#:#Die Vorbedingung ist optional
 rbac#:#precondition_num_obligatory#:#Geforderte Anzahl Materialien
 rbac#:#precondition_num_optional_info#:#Anzahl von Materialien, die bis zum festgelegten Status / Ergebnis zu bearbeiten sind
+rbac#:#precondition_number_of_required_materials_bigger_preconditions_number#:#Die Anzahl der geforderten Materialien muss kleiner als die Gesamtzahl der verfügbaren Vorbedingungen sein.
+rbac#:#precondition_number_of_required_materials_lower_compulsory_items#:#Die Anzahl der erforderlichen Materialien muss größer als die Anzahl der verpflichtenden Vorbedingungen sein.
+rbac#:#precondition_number_of_required_materials_lower_than_one#:#Sie müssen mindestens 1 Material angeben.
 rbac#:#precondition_obligatory#:#Verpflichtend
 rbac#:#precondition_obligatory_alt#:#Die Vorbedingung muss erfüllt werden
 rbac#:#precondition_obligatory_info#:#Verpflichtende Vorbedingungen müssen erfüllt werden, um Zugriff zu erhalten.
