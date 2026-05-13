@@ -26,13 +26,12 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
 
     public function init(): void
     {
-        global $DIC;
         $local_dic = QuestionPoolDIC::dic();
 
         $this->export_handler = new ExportHandler();
         $this->state_holder = $local_dic['exportimport.state_holder'];
         $this->exporter = $local_dic['exportimport.exporter'];
-        $this->logger = $DIC->logger()->qpl()->getLogger();
+        $this->logger = $local_dic['exportimport.logging']();
     }
 
     /**

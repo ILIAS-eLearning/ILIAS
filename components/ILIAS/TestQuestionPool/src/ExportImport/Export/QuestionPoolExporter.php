@@ -56,11 +56,13 @@ class QuestionPoolExporter implements Exporter
      */
     public function prepare(ExportState $state): void
     {
+        $state->logger()->info('Preparing question pool export (1/3)...');
         $state->assertStep(ExportStep::INIT);
         $state->setStep(ExportStep::PREPARE);
 
         $pool_id = $this->extractObjectId($state);
         if ($pool_id === null) {
+            $state->logger()->warning('No question pool object ID found for export');
             return;
         }
 
@@ -80,6 +82,8 @@ class QuestionPoolExporter implements Exporter
             ->withAdditionalPipes([$question_image_pipe])
             ->create();
         $state->setTransformations($transformations);
+
+        $state->logger()->info('...Finished preparing question pool export (1/3)');
     }
 
     /**
@@ -88,6 +92,7 @@ class QuestionPoolExporter implements Exporter
      */
     public function process(ExportState $state): void
     {
+        $state->logger()->info('Processing question pool export (2/3)...');
         $state->assertStep(ExportStep::PREPARE);
         $state->setStep(ExportStep::PROCESS);
 
@@ -117,6 +122,8 @@ class QuestionPoolExporter implements Exporter
                 $state->serializer(),
             )
         );
+
+        $state->logger()->info('...Finished processing question pool export (2/3)');
     }
 
     /**
@@ -124,18 +131,23 @@ class QuestionPoolExporter implements Exporter
      */
     public function write(ExportState $state): void
     {
+        $state->logger()->info('Writing question pool export (3/3)...');
         $state->assertStep(ExportStep::PROCESS);
         $state->setStep(ExportStep::WRITE);
 
         $export_dir = $state->path()->getPathToComponentExpDirInContainer();
         $question_image_pipe = $state->transformations()->context(CollectQuestionImages::class);
 
+        $state->logger()->debug("Copying question images to export directory {$export_dir}");
         foreach ($question_image_pipe->getFiles() as $file) {
             $state->writer()->writeFileByFilePath(
                 $file['from'],
                 "{$export_dir}/" . $file['to']
             );
+            $state->logger()->debug("Copied question image {$file['from']} to {$export_dir}/{$file['to']}");
         }
+
+        $state->logger()->info('...Finished writing question pool export (3/3)');
     }
 
 
