@@ -272,15 +272,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
         }
 
         if ($this->isCharLimited()) {
-            //avoid whitespace surprises. #20630, #20674
-            $ascii_whitespaces = chr(194) . chr(160);
-            $ascii_breaklines = chr(13) . chr(10);
-
-            $to_replace = array($ascii_whitespaces, $ascii_breaklines, "&lt;", "&gt;", "&amp;");
-            $replace_to = array(' ', '', "_", "_", "_");
-
-            #20630 mbstring extension is mandatory for 5.4
-            $chars_entered = mb_strlen(strip_tags(str_replace($to_replace, $replace_to, $value)));
+            $chars_entered = mb_strlen($value);
 
             if ($this->getMaxNumOfChars() && ($chars_entered > $this->getMaxNumOfChars())) {
                 $this->setAlert($lng->txt("msg_input_char_limit_max"));
@@ -311,6 +303,10 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
         }
 
         $value = self::removeProhibitedCharacters($value);
+
+        # Convert newline characters
+        $value = str_replace("\r\n", "\n", $value);
+
         return $value;
     }
 
