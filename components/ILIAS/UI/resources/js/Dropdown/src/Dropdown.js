@@ -78,6 +78,15 @@ export default class Dropdown {
     this.hide();
   };
 
+  /**
+   * @type {function(FocusEvent)}
+   */
+  #hideOnFocusOut = (event) => {
+    if(!this.#element.contains(event.relatedTarget)) {
+      this.hide();
+    }
+  }
+
   #align = () => {
     const availableWidth = this.#document.documentElement.clientWidth;
     const buttonPosition = this.#button.getBoundingClientRect().left;
@@ -99,6 +108,7 @@ export default class Dropdown {
     this.#button.setAttribute('aria-expanded', 'true');
     this.#document.addEventListener('keydown', this.#hideOnEscape);
     this.#document.addEventListener('click', this.#hideOnClick);
+    this.#element.addEventListener('focusout', this.#hideOnFocusOut);
     this.#button.removeEventListener('click', this.#showOnClick);
   }
 
@@ -107,6 +117,7 @@ export default class Dropdown {
     this.#button.setAttribute('aria-expanded', 'false');
     this.#document.removeEventListener('keydown', this.#hideOnEscape);
     this.#document.removeEventListener('click', this.#hideOnClick);
+    this.#element.removeEventListener('focusout', this.#hideOnFocusOut);
     this.#button.addEventListener('click', this.#showOnClick);
   }
 }
