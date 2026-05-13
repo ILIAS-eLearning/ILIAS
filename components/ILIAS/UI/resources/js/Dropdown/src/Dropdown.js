@@ -81,8 +81,8 @@ export default class Dropdown {
   /**
    * @type {function(FocusEvent)}
    */
-  #hideOnFocusLeave = (/** @param {FocusEvent} event */event) => {
-    if(!this.#element.contains(event.target)) {
+  #hideOnFocusOut = (event) => {
+    if(!this.#element.contains(event.relatedTarget)) {
       this.hide();
     }
   }
@@ -108,7 +108,7 @@ export default class Dropdown {
     this.#button.setAttribute('aria-expanded', 'true');
     this.#document.addEventListener('keydown', this.#hideOnEscape);
     this.#document.addEventListener('click', this.#hideOnClick);
-    this.#document.addEventListener('focusin', this.#hideOnFocusLeave);
+    this.#element.addEventListener('focusout', this.#hideOnFocusOut);
     this.#button.removeEventListener('click', this.#showOnClick);
   }
 
@@ -117,7 +117,7 @@ export default class Dropdown {
     this.#button.setAttribute('aria-expanded', 'false');
     this.#document.removeEventListener('keydown', this.#hideOnEscape);
     this.#document.removeEventListener('click', this.#hideOnClick);
-    this.#document.removeEventListener('focusin', this.#hideOnFocusLeave);
+    this.#element.removeEventListener('focusout', this.#hideOnFocusOut);
     this.#button.addEventListener('click', this.#showOnClick);
   }
 }
