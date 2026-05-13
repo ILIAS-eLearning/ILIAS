@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Refinery\Factory;
 use ILIAS\HTTP\GlobalHttpState;
@@ -914,7 +914,9 @@ class ilConditionHandlerGUI
         $subset_limit = [];
         $compulsory_count = 0;
         foreach ($all_conditions as $condition) {
-            if ($condition['obligatory']) $compulsory_count++;
+            if ($condition['obligatory']) {
+                $compulsory_count++;
+            }
         }
 
         $all_conditions_number = count($all_conditions) - 1;
@@ -930,6 +932,13 @@ class ilConditionHandlerGUI
                     $this->lng->txt('precondition_num_optional_info')
                 )
                 ->withValue($num_required > 0 ? $num_required : null)
+                // absolute ceilings: from 1 to # of preconditions + 1
+                ->withAdditionalTransformation(
+                    $this->refinery->custom()->constraint(
+                        fn($val) => $val >= 1,
+                        $this->lng->txt('precondition_number_of_required_materials_lower_than_one')
+                    )
+                )
                 // check if the number of required materials is bigger than compulsory conditions in subset mode
                 ->withAdditionalTransformation(
                     $this->refinery->custom()->constraint(
@@ -942,18 +951,10 @@ class ilConditionHandlerGUI
                         $this->lng->txt('precondition_number_of_required_materials_lower_compulsory_items')
                     )
                 )
-                // absolute ceilings: from 1 to # of preconditions + 1
-                ->withAdditionalTransformation(
-                    $this->refinery->custom()->constraint(
-                        fn($val) => $val >= 1,
-                        $this->lng->txt('precondition_number_of_required_materials_lower_than_one')
-                    )
-                )
                 ->withAdditionalTransformation(
                     $this->refinery->custom()->constraint(
                         fn($val) => $val <= $all_conditions_number - 1,
                         $this->lng->txt('precondition_number_of_required_materials_bigger_preconditions_number')
-
                     )
                 );
         }

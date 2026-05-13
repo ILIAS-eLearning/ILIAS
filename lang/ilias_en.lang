@@ -14517,9 +14517,9 @@ rbac#:#positions_override_operations#:#Override global Settings
 rbac#:#precondition_not_obligatory_alt#:#Precondition is optional
 rbac#:#precondition_num_obligatory#:#Number of Required Materials
 rbac#:#precondition_num_optional_info#:#Please enter the minimum number of materials required to fulfill this precondition.
-rbac#:#precondition_number_of_required_materials_bigger_preconditions_number#:#Number of required materials should be less than the total number of available preconditions.
-rbac#:#precondition_number_of_required_materials_lower_compulsory_items#:#The number of required materials should be greater than the number of compulsory preconditions.
-rbac#:#precondition_number_of_required_materials_lower_than_one#:#You must require at least 1 material.
+rbac#:#precondition_number_of_required_materials_bigger_preconditions_number#:#The number of required materials must be less than the total number of preconditions.
+rbac#:#precondition_number_of_required_materials_lower_compulsory_items#:#The number of required materials must be greater than the number of compulsory preconditions.
+rbac#:#precondition_number_of_required_materials_lower_than_one#:#The number of required materials must be at least 1.
 rbac#:#precondition_obligatory#:#Compulsory
 rbac#:#precondition_obligatory_alt#:#Precondition must be fulfilled
 rbac#:#precondition_obligatory_info#:#Compulsory preconditions must be fulfilled, for having access.
