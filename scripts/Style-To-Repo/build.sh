@@ -45,10 +45,19 @@ function build() {
       cp -r "./components/ILIAS/Mail/templates/default/img" "${BUILD_BASE_FOLDER}/components/ILIAS/Mail" &> /dev/null
   fi
 
+  mv ${BUILD_BASE_FOLDER}/components/ILIAS/UI/src/* ${BUILD_BASE_FOLDER}/components/ILIAS/UI/.
+  mv ${BUILD_BASE_FOLDER}/components/ILIAS/UI/src/.* ${BUILD_BASE_FOLDER}/components/ILIAS/UI/. 2>/dev/null
+  rmdir ${BUILD_BASE_FOLDER}/components/ILIAS/UI/src
+
   mv ${BUILD_BASE_FOLDER}/delos/template.xml ${BUILD_BASE_FOLDER}/template.xml
 
-  sed -i 's/Delos/SkinRepoDelos/' ${BUILD_BASE_FOLDER}/template.xml
+  sed -i 's/Delos/Custom Delos Style/' ${BUILD_BASE_FOLDER}/template.xml
+  sed -i 's#ILIAS#Custom ILIAS Skin#' ${BUILD_BASE_FOLDER}/template.xml
+  sed -i 's#images#../images#' ${BUILD_BASE_FOLDER}/template.xml
+  sed -i 's#"$Id$"#"1.0 beta"#' ${BUILD_BASE_FOLDER}/template.xml
 
   cp -r ./templates/Readme.md ${BUILD_BASE_FOLDER}/Readme.md
   cp -r ./templates/Guidelines_SCSS-Coding.md ${BUILD_BASE_FOLDER}/Guidelines_SCSS-Coding.md
+
+
 }
