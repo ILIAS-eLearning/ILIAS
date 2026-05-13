@@ -34,7 +34,7 @@ class ilTestExporter extends ilXmlExporter
         $this->export_handler = new ExportHandler();
         $this->state_holder = $local_dic['exportimport.state_holder'];
         $this->exporter = $local_dic['exportimport.exporter'];
-        $this->logger = $local_dic['logging.logger'];
+        $this->logger = $local_dic['exportimport.logging']();
     }
 
     /**

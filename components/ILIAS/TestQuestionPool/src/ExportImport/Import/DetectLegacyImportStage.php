@@ -23,6 +23,7 @@ namespace ILIAS\TestQuestionPool\ExportImport\Import;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ImportStage;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\StageResult;
+use Psr\Log\LoggerInterface;
 
 /**
  * @deprecated This stage is only used for legacy imports and will be removed with further ILIAS versions.
@@ -31,6 +32,11 @@ class DetectLegacyImportStage implements ImportStage
 {
     public const string LEGACY_QTI_FILE = 'legacy_qti_file';
     public const string LEGACY_XML_FILE = 'legacy_xml_file';
+
+    public function __construct(
+        private readonly LoggerInterface $log,
+    ) {
+    }
 
     public function getIdentifier(): string
     {
@@ -56,9 +62,11 @@ class DetectLegacyImportStage implements ImportStage
         $qti_file = $import_base_dir . DIRECTORY_SEPARATOR . str_replace(['_qpl_', '_tst_'], '_qti_', $import_name) . '.xml';
 
         if (!file_exists($qti_file) || !file_exists($xml_file)) {
+            $this->log->debug("No legacy import files found for {$import_name}");
             return StageResult::advance($context);
         }
 
+        $this->log->info("Detected legacy import files for {$import_name}");
         return StageResult::advance(
             $context->with(self::LEGACY_QTI_FILE, $qti_file)
                 ->with(self::LEGACY_XML_FILE, $xml_file)
