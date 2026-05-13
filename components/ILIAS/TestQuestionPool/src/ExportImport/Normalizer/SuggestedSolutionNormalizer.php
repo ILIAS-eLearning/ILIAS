@@ -73,7 +73,7 @@ class SuggestedSolutionNormalizer implements Normalizer
             $normalized['file'] = $this->tt->normalize(
                 new QuestionImage($value->getFilename(), $value->getQuestionId(), QuestionImage::TYPE_SOLUTION)
             );
-            
+
         }
 
         return $normalized;

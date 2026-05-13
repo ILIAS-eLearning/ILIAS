@@ -111,12 +111,12 @@ trait XmlExporterBridge
         );
 
         $this->logger->debug(sprintf(
-            "Export state created for component %s with release %s, type %s, class %s, object ids %s, option %s", 
-            $target->getComponent(), 
-            $target->getTargetRelease(), 
-            $target->getType(), 
-            $target->getClassname(), 
-            implode(', ', $object_ids), 
+            "Export state created for component %s with release %s, type %s, class %s, object ids %s, option %s",
+            $target->getComponent(),
+            $target->getTargetRelease(),
+            $target->getType(),
+            $target->getClassname(),
+            implode(', ', $object_ids),
             $option
         ));
 

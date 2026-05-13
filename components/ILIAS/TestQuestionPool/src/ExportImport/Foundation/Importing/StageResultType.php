@@ -25,7 +25,7 @@ namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Importing;
  */
 enum StageResultType
 {
-        /**
+    /**
      * The stage has encountered an error and the workflow should display an error message.
      */
     case ERROR;
