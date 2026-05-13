@@ -21,10 +21,10 @@ declare(strict_types=1);
 namespace ILIAS\Component\Activities;
 
 use ILIAS\Component\Dependencies\Name;
-use ILIAS\UI\Component\Input\Control\Form\FormInput;
 use ILIAS\Data\Result;
 use ILIAS\Data\Text;
 use ILIAS\Data\Description;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 
 /**
  * An Activity is an action on the domain layer action of a component.
