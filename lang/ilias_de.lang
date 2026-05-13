@@ -2504,10 +2504,10 @@ blog#:#blog_news_posting_authors#:#Mitwirkende: %s
 blog#:#blog_news_posting_published#:#Ein neuer Blogbeitrag wurde veröffentlicht von %s.
 blog#:#blog_news_posting_updated#:#Ein Blogbeitrag wurde aktualisiert von %s.
 blog#:#blog_no_keywords#:#Es sind bisher keine Schlagwörter vergeben worden.
-blog#:#blog_notification_activated#:#Änderungs-Benachrichtigung aktiviert
-blog#:#blog_notification_deactivated#:#Änderungs-Benachrichtigung deaktiviert
-blog#:#blog_notification_toggle_off#:#Änderungs-Benachrichtigung deaktivieren
-blog#:#blog_notification_toggle_on#:#Änderungs-Benachrichtigung aktivieren
+blog#:#blog_notification_activated#:#Sie haben die Benachrichtigung aktiviert.
+blog#:#blog_notification_deactivated#:#Sie haben die Benachrichtigung deaktiviert.
+blog#:#blog_notification_toggle_off#:#Benachrichtigung deaktivieren
+blog#:#blog_notification_toggle_on#:#Benachrichtigung aktivieren
 blog#:#blog_number_users_notes_or_comments#:#Anzahl der Benutzer, die zu diesem Beitrag Notizen oder Kommentare verfasst haben.
 blog#:#blog_posting#:#Beitrag
 blog#:#blog_posting_deleted#:#Der Beitrag wurde gelöscht.
@@ -13387,8 +13387,8 @@ poll#:#poll_mode_personal#:#Mit Namen
 poll#:#poll_mode_personal_info#:#Im Reiter „Abstimmungsergebnisse“ werden die Namen der teilnehmenden Personen mit ihren Antworten aufgeführt.
 poll#:#poll_new#:#Neue Abstimmung anlegen
 poll#:#poll_non_anonymous_warning#:#Ihr Name und Votum sind für die Administration in den Ergebnissen sichtbar.
-poll#:#poll_notification_activated#:#Änderungs-Benachrichtigung aktiviert
-poll#:#poll_notification_deactivated#:#Änderungs-Benachrichtigung deaktiviert
+poll#:#poll_notification_activated#:#Sie haben die Benachrichtigung aktiviert.
+poll#:#poll_notification_deactivated#:#Sie haben die Benachrichtigung deaktiviert.
 poll#:#poll_notification_subscribe#:#Benachrichtigung aktivieren
 poll#:#poll_notification_unsubscribe#:#Benachrichtigung deaktivieren
 poll#:#poll_percentage#:#Aktueller Anteil
