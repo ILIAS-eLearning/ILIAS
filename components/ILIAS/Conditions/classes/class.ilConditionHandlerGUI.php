@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,8 +17,6 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
-
-declare(strict_types=1);
 
 use ILIAS\Refinery\Factory;
 use ILIAS\HTTP\GlobalHttpState;
@@ -919,7 +919,7 @@ class ilConditionHandlerGUI
             }
         }
 
-        $all_conditions_number = count($all_conditions) - 1;
+        $all_conditions_number = count($all_conditions);
         if ($all_conditions_number > 1) {
 
             $num_required = ilConditionHandler::lookupObligatoryConditionsOfTarget(
@@ -932,7 +932,6 @@ class ilConditionHandlerGUI
                     $this->lng->txt('precondition_num_optional_info')
                 )
                 ->withValue($num_required > 0 ? $num_required : null)
-                // absolute ceilings: from 1 to # of preconditions + 1
                 ->withAdditionalTransformation(
                     $this->refinery->custom()->constraint(
                         fn($val) => $val >= 1,
