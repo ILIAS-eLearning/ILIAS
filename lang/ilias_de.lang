@@ -3814,7 +3814,7 @@ common#:#create_export_file#:#Exportdatei erstellen
 common#:#create_stylesheet#:#Style erstellen
 common#:#created#:#Erstellt am
 common#:#cron_forum_notification#:#Foren-Benachrichtigungen via Cron-Job versenden
-common#:#cron_forum_notification_crob_desc#:#Wenn aktiviert, sendet ILIAS täglich Benachrichtigungen an die Benutzer, die bei ausgewählten Foren oder Foren-Themen über neue und geänderte Beiträge benachrichtigt werden wollen. Bitte beachten Sie: Wenn Sie diese Form der Foren-Benachrichtigungen aktivieren, werden keine direkten Benachrichtungen mehr verschickt (Administration / Foren / Foren-Benachrichtigungen versenden).
+common#:#cron_forum_notification_crob_desc#:#Wenn aktiviert, sendet ILIAS täglich Benachrichtigungen an die Benutzer, die bei ausgewählten Foren oder Foren-Themen über neue und geänderte Beiträge benachrichtigt werden wollen. Bitte beachten Sie: Wenn Sie diese Form der Foren-Benachrichtigungen aktivieren, werden keine direkten Benachrichtigungen mehr verschickt (Administration / Foren / Foren-Benachrichtigungen versenden).
 common#:#cron_forum_notification_disabled#:#Kann nicht deaktiviert werden, wenn der Cron-Job aktiv ist.
 common#:#cron_jobs#:#Cron-Jobs
 common#:#cron_lucene_index#:#Lucene-Suchindex aktualisieren
@@ -6798,14 +6798,14 @@ content#:#cont_nomenu#:#Oberes Navigationsmenü ausblenden
 content#:#cont_nomenu_info#:#Falls das SCORM-Lernmodul eigene Möglichkeiten zum Beenden und Navigieren mitbringt, kann das von der SCORM-Spezifikation vorgesehene obere Navigationsmenü ausgeblendet werden.
 content#:#cont_none#:#Keine
 content#:#cont_not_saved_edit_lock_expired#:#Entschuldigung, Ihre Änderungen konnten nicht gespeichert werden. Die Seite wurde zwischenzeitlich von einem anderen Benutzer zur Bearbeitung gesperrt. Sie können diesen Dialog schließen und dann den Inhalt in Ihre Zwischenablage kopieren.
-content#:#cont_notification_activate_lm#:#Benachrichtigungen für Lernmodul aktivieren
-content#:#cont_notification_activate_page#:#Benachrichtigungen für Seite aktivieren
-content#:#cont_notification_activated#:#Benachrichtigung aktiviert (Gesamtes Lernmodul)
+content#:#cont_notification_activate_lm#:#Benachrichtigung für das Lernmodul aktivieren
+content#:#cont_notification_activate_page#:#Benachrichtigung für diese Seite aktivieren
+content#:#cont_notification_activated#:#Sie haben die Benachrichtigung für das gesamte Lernmodul aktiviert.
 content#:#cont_notification_comment_lm#:#die folgende Seite wurde kommentiert
 content#:#cont_notification_comment_subject_lm#:#Es wurde ein Kommentar zur Seite %s: %s" hinzugefügt
-content#:#cont_notification_deactivate_lm#:#Benachrichtigungen für Lernmodul deaktivieren
-content#:#cont_notification_deactivate_page#:#Benachrichtigungen für Seite deaktivieren
-content#:#cont_notification_deactivated#:#Benachrichtigungen wurden deaktiviert.
+content#:#cont_notification_deactivate_lm#:#Benachrichtigung für das Lernmodul deaktivieren
+content#:#cont_notification_deactivate_page#:#Benachrichtigung für diese Seite deaktivieren
+content#:#cont_notification_deactivated#:#Sie haben die Benachrichtigung deaktiviert.
 content#:#cont_notification_update_lm#:#das folgende Lernmodul wurde geändert
 content#:#cont_notify_on_blocked_users#:#Benachrichtigung über gesperrte Benutzer
 content#:#cont_notify_on_blocked_users_info#:#Sie werden benachrichtigt, sobald Benutzer gesperrt werden, weil Sie die maximale Anzahl an Antwortversuchen überschritten haben.
@@ -7740,8 +7740,8 @@ crs#:#crs_no_users_added#:#Es wurden keine Benutzer hinzugefügt
 crs#:#crs_no_users_selected#:#Sie haben keinen Benutzer ausgewählt
 crs#:#crs_not_available#:#-Nicht angegeben-
 crs#:#crs_notification#:#Benachrichtigungen
-crs#:#crs_notification_activated#:#Benachrichtigung aktiviert
-crs#:#crs_notification_deactivated#:#Benachrichtigung deaktiviert
+crs#:#crs_notification_activated#:#Sie haben die Benachrichtigung aktiviert.
+crs#:#crs_notification_deactivated#:#Sie haben die Benachrichtigung deaktiviert.
 crs#:#crs_notification_explanation_admin#:#Sie erhalten diese Mail, da für Sie als Kursbetreuung die Benachrichtigungen aktiviert sind.
 crs#:#crs_notification_list_title#:#Benachrichtigung
 crs#:#crs_notification_salutation#:#Hallo,
@@ -8269,7 +8269,7 @@ dateplaner#:#cal_ch_cancel_booking_info#:#Bei der Absage von Terminbuchungen wer
 dateplaner#:#cal_ch_cancel_booking_sure#:#Sind Sie sicher, dass die ausgewählten Terminbuchungen abgesagt werden sollen?
 dateplaner#:#cal_ch_canceled_bookings#:#Die ausgewählten Buchungen wurden abgesagt.
 dateplaner#:#cal_ch_ch#:#Sprechstundentermine
-dateplaner#:#cal_ch_cron_reminder#:#Sprechstunden-Benachrichtigungen versenden
+dateplaner#:#cal_ch_cron_reminder#:#Benachrichtigungen über Sprechstunden versenden
 dateplaner#:#cal_ch_cron_reminder_days#:#Anzahl Tage
 dateplaner#:#cal_ch_cron_reminder_info#:#Wenn aktiviert, erhalten Benutzer, die einen Sprechstundentermin gebucht haben, eine Erinnerungsmail über bevorstehende Termine. Bitte legen Sie fest, wieviele Tage im voraus die Erinnerungen verschickt werden sollen.
 dateplaner#:#cal_ch_current_booking_comment#:#Kommentar
@@ -13082,8 +13082,8 @@ notes#:#notes_sort_desc#:#Absteigend sortieren
 notes#:#notes_text#:#Text
 noti#:#noti_activate_notification#:#Benachrichtigung aktivieren
 noti#:#noti_deactivate_notification#:#Benachrichtigung deaktivieren
-noti#:#noti_notification_activated#:#Benachrichtigungen sind aktiviert
-noti#:#noti_notification_deactivated#:#Benachrichtigungen sind deaktiviert
+noti#:#noti_notification_activated#:#Sie haben Benachrichtigungen aktiviert.
+noti#:#noti_notification_deactivated#:#Sie haben Benachrichtigungen deaktiviert.
 notifications#:#push_notification#:#Push-Benachrichtigungen
 notifications_adm#:#available_providers#:#Verfügbare Provider
 notifications_adm#:#client_settings#:#Browsereinstellungen
@@ -13189,8 +13189,8 @@ obj#:#obj_tool_setting_taxonomies_info#:#Taxonomien erlauben das Filtern von Obj
 obj#:#obj_tool_setting_use_news#:#Neuigkeiten
 obj#:#obj_tool_setting_use_news_info#:#Nutzung des Blocks „Neuigkeiten“ oder der Timeline für Neuigkeiten. Benutzer können Benachrichtigungen für Neuigkeiten aktivieren, sobald der Block oder die Timeline aktiv sind.
 obj#:#obj_tool_setting_use_news_open_settings#:#Einstellungen für Block und Timeline öffnen
-obj#:#obj_user_decides_notification#:#Mitglieder müssen Benachrichtigungen selbst aktivieren
-obj#:#obj_user_not_disable_not#:#Mitglieder können die Benachrichtigung nicht deaktiveren
+obj#:#obj_user_decides_notification#:#Mitglieder müssen Benachrichtigungen selbst aktivieren.
+obj#:#obj_user_not_disable_not#:#Mitglieder können die Benachrichtigung nicht deaktiveren.
 obj#:#online_input_byline#:#Objekt ist veröffentlicht und kann von allen Personen mit dem Recht „Lesezugriff“ genutzt werden. Die Verfügbarkeit kann aber noch durch Vorbedingungen oder zeitliche Zugriffsbeschränkungen eingeschränkt sein. Diese Einstellungen wirkt sich auf alle Referenzen des Objektes aus.
 obj#:#select_import_type_info#:#Der Typ des zu importierenden Objekts konnte nicht automatisch ermittelt werden. Vermutlich wurde die Datei umbenannt. Bitte wählen Sie den Objekt-Typen aus, den Sie importieren möchten.
 obj#:#select_object_type#:#Objekttyp wählen
