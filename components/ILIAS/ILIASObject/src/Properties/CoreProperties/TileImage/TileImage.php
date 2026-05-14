@@ -27,9 +27,12 @@ use ILIAS\Filesystem\Stream\Stream;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 use ILIAS\UI\Component\Image\Factory as ImageFactory;
 use ILIAS\UI\Component\Image\Image;
+use ILIAS\FileUpload\MimeType;
 
 class TileImage
 {
+    public const SUPPORTED_MIME_TYPES = [MimeType::IMAGE__PNG, MimeType::IMAGE__JPEG];
+
     protected string $ext = '';
 
     public function __construct(
