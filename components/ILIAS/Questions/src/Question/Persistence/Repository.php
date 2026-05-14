@@ -53,6 +53,7 @@ class Repository
         private readonly \ilDBInterface $db,
         private readonly Refinery $refinery,
         private readonly UuidFactory $uuid_factory,
+        private readonly DatabaseStatementBuilder $database_statement_builder,
         private readonly PersistenceFactory $persistence_factory,
         private readonly TableDefinitions $question_table_definitions,
         private readonly AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions,
@@ -237,10 +238,8 @@ class Repository
             $questions,
             fn(Manipulate $c, Question $v): Manipulate
                 => $v->toDelete(
-                    $c,
-                    $this->persistence_factory,
-                    $this->question_table_definitions,
-                    $this->answer_form_generic_table_definitions
+                    $this->database_statement_builder,
+                    $c
                 ),
             $this->buildManipulate(
                 ManipulationType::Delete
@@ -403,10 +402,8 @@ class Repository
         array_reduce(
             $questions,
             fn(Manipulate $c, Question $v): Manipulate => $v->toStorage(
-                $c,
-                $this->persistence_factory,
-                $this->question_table_definitions,
-                $this->answer_form_generic_table_definitions
+                $this->database_statement_builder,
+                $c
             ),
             $manipulate
         )->run();

@@ -22,26 +22,18 @@ namespace ILIAS\Questions\Question;
 
 use ILIAS\Questions\Administration\ConfigurationRepository;
 use ILIAS\Questions\AnswerForm\Definition as AnswerFormDefinition;
-use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableDefinitions;
 use ILIAS\Questions\AnswerForm\Properties as AnswerFormProperties;
 use ILIAS\Questions\Attempt\Attempt;
-use ILIAS\Questions\Question\Persistence\TableDefinitions as QuestionTableDefinitions;
-use ILIAS\Questions\Question\Persistence\TableTypes as QuestionTableTypes;
 use ILIAS\Questions\Persistence\Column;
-use ILIAS\Questions\Persistence\Delete;
-use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
-use ILIAS\Questions\Persistence\Insert;
-use ILIAS\Questions\Persistence\Update;
 use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Persistence\ManipulationType;
 use ILIAS\Questions\Persistence\Query;
-use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Presentation\Definitions\DefaultEnvironment;
 use ILIAS\Questions\Presentation\Definitions\OverviewTableColumns;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
+use ILIAS\Questions\Question\Persistence\DatabaseStatementBuilder;
 use ILIAS\Questions\UserSettings\CreateModes;
 use ILIAS\Data\UUID\Uuid;
-use ILIAS\Database\FieldDefinition;
 use ILIAS\Language\Language;
 use ILIAS\UI\Component\Link\Factory as LinkFactory;
 use ILIAS\UI\Component\Link\Standard as StandardLink;
@@ -373,55 +365,63 @@ class Question
     }
 
     public function toStorage(
-        Manipulate $manipulate,
-        PersistenceFactory $persistence_factory,
-        QuestionTableDefinitions $question_tables_definitions,
-        AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions
+        DatabaseStatementBuilder $database_statement_builder,
+        Manipulate $manipulate
     ): Manipulate {
         return $manipulate->getManipulationType() === ManipulationType::Create
-            ? $this->addInsertStatementsToManipulation(
+            ? $database_statement_builder->addInsertStatementsToManipulation(
                 $manipulate,
-                $persistence_factory,
-                $question_tables_definitions,
-                $answer_form_generic_table_definitions
-            ) : $this->addUpdateStatementsToManipulation(
+                $this->id,
+                $this->page_id,
+                $this->title,
+                $this->author,
+                $this->lifecycle,
+                $this->remarks,
+                $this->original_id,
+                $this->parent_obj_id,
+                $this->position
+            ) : $database_statement_builder->addUpdateStatementsToManipulation(
                 $manipulate,
-                $persistence_factory,
-                $question_tables_definitions,
-                $answer_form_generic_table_definitions
+                $this->self_updated,
+                $this->linking_information_updated,
+                $this->page_id_updated,
+                $this->id,
+                $this->page_id,
+                $this->title,
+                $this->author,
+                $this->lifecycle,
+                $this->remarks,
+                $this->original_id,
+                $this->parent_obj_id,
+                $this->position,
+                $this->updated_answer_forms,
+                $this->deleted_answer_forms
             );
     }
 
     public function toDelete(
-        Manipulate $manipulate,
-        PersistenceFactory $persistence_factory,
-        QuestionTableDefinitions $question_tables_definitions,
-        AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions
+        DatabaseStatementBuilder $database_statement_builder,
+        Manipulate $manipulate
     ): Manipulate {
         $table_names_builder = $manipulate->getTableNameBuilder(null);
 
-        return $this->addDeleteAnswerFormsStatementsToManipulate(
+        return $database_statement_builder->addDeleteAnswerFormsStatementsToManipulate(
             $manipulate->withAdditionalStatement(
-                $this->buildDeleteQuestionStatement(
-                    $persistence_factory,
-                    $question_tables_definitions,
-                    $table_names_builder
+                $database_statement_builder->buildDeleteQuestionStatement(
+                    $table_names_builder,
+                    $this->id
                 )
             )->withAdditionalStatement(
-                $this->buildDeleteLinkingStatement(
-                    $persistence_factory,
-                    $question_tables_definitions,
-                    $table_names_builder
+                $database_statement_builder->buildDeleteLinkingStatement(
+                    $table_names_builder,
+                    $this->id
                 )
             )->withAdditionalStatement(
-                $this->buildDeleteMigrationStatement(
-                    $persistence_factory,
-                    $question_tables_definitions,
-                    $table_names_builder
+                $database_statement_builder->buildDeleteMigrationStatement(
+                    $table_names_builder,
+                    $this->id
                 )
             ),
-            $persistence_factory,
-            $answer_form_generic_table_definitions,
             $this->answer_forms
         );
     }
@@ -442,461 +442,15 @@ class Question
         );
     }
 
-    private function addInsertStatementsToManipulation(
-        Manipulate $manipulate,
-        PersistenceFactory $persistence_factory,
-        QuestionTableDefinitions $question_tables_definitions,
-        AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions
-    ): Manipulate {
-        if ($this->created === null) {
-            $manipulate = $manipulate
-                ->withAdditionalStatement(
-                    $this->buildInsertLinkingStatement(
-                        $persistence_factory,
-                        $question_tables_definitions,
-                        $manipulate->getTableNameBuilder(null)
-                    )
-                )->withAdditionalStatement(
-                    $this->buildInsertQuestionStatement(
-                        $persistence_factory,
-                        $question_tables_definitions,
-                        $manipulate->getTableNameBuilder(null)
-                    )
-                );
-        }
-
-        if ($this->updated_answer_forms !== []) {
-            return $this->addAnswerFormStatementsToManipulate(
-                $manipulate,
-                $persistence_factory,
-                $answer_form_generic_table_definitions,
-                $this->updated_answer_forms
-            );
-        }
-
-        if ($this->answer_forms !== []) {
-            return $this->addAnswerFormStatementsToManipulate(
-                $manipulate,
-                $persistence_factory,
-                $answer_form_generic_table_definitions,
-                $this->answer_forms
-            );
-        }
-
-        return $manipulate;
-    }
-
-    private function addUpdateStatementsToManipulation(
-        Manipulate $manipulate,
-        PersistenceFactory $persistence_factory,
-        QuestionTableDefinitions $question_tables_definitions,
-        AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions
-    ): Manipulate {
-        $table_names_builder = $manipulate->getTableNameBuilder(null);
-
-        if ($this->linking_information_updated) {
-            $manipulate = $manipulate
-                ->withAdditionalStatement(
-                    $this->buildUpdateLinkingStatement(
-                        $persistence_factory,
-                        $question_tables_definitions,
-                        $table_names_builder
-                    )
-                );
-        }
-
-        if ($this->self_updated) {
-            $manipulate = $manipulate->withAdditionalStatement(
-                $this->buildUpdateQuestionStatement(
-                    $persistence_factory,
-                    $question_tables_definitions,
-                    $table_names_builder
-                )
-            );
-        }
-
-        if ($this->page_id) {
-            $manipulate = $manipulate->withAdditionalStatement(
-                $this->buildUpdatePageIdStatement(
-                    $persistence_factory,
-                    $question_tables_definitions,
-                    $table_names_builder
-                )
-            );
-        }
-
-        if ($this->deleted_answer_forms !== []) {
-            $manipulate = $this->addDeleteAnswerFormsStatementsToManipulate(
-                $manipulate,
-                $persistence_factory,
-                $answer_form_generic_table_definitions,
-                $this->deleted_answer_forms
-            );
-        }
-
-        return $this->addAnswerFormStatementsToManipulate(
-            $manipulate,
-            $persistence_factory,
-            $answer_form_generic_table_definitions,
-            $this->updated_answer_forms
-        );
-    }
-
-    private function addAnswerFormStatementsToManipulate(
-        Manipulate $manipulate,
-        PersistenceFactory $persistence_factory,
-        AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions,
-        array $answer_forms
-    ): Manipulate {
-        return array_reduce(
-            $answer_forms,
-            function (
-                Manipulate $c,
-                AnswerFormProperties $v
-            ) use (
-                $persistence_factory,
-                $answer_form_generic_table_definitions
-            ): Manipulate {
-                $manipulate_with_generic_properties = $v->getTypeGenericProperties()
-                    ->toStorage(
-                        $persistence_factory,
-                        $answer_form_generic_table_definitions,
-                        $c
-                    );
-
-                return $v->toStorage(
-                    $persistence_factory,
-                    $manipulate_with_generic_properties
-                );
-            },
-            $manipulate
-        );
-    }
-
-    private function addDeleteAnswerFormsStatementsToManipulate(
-        Manipulate $manipulate,
-        PersistenceFactory $persistence_factory,
-        AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions,
-        array $answer_forms_to_delete
-    ): Manipulate {
-        return array_reduce(
-            $answer_forms_to_delete,
-            fn(Manipulate $c, AnswerFormProperties $v): Manipulate => $v->toDelete(
-                $v->getTypeGenericProperties()->toDelete(
-                    $persistence_factory,
-                    $answer_form_generic_table_definitions,
-                    $c,
-                )
-            ),
-            $manipulate
-        );
-    }
-
-
-
-    private function buildInsertLinkingStatement(
-        PersistenceFactory $persistence_factory,
-        QuestionTableDefinitions $question_tables_definitions,
-        TableNameBuilder $table_names_builder
-    ): Insert {
-        return $persistence_factory->insert(
-            $question_tables_definitions->getColumns(
-                $table_names_builder,
-                QuestionTableTypes::Linking
-            ),
-            [
-                $persistence_factory->value(
-                    FieldDefinition::T_TEXT,
-                    $this->id->toString()
-                ),
-                $persistence_factory->value(
-                    FieldDefinition::T_INTEGER,
-                    $this->parent_obj_id
-                ),
-                $persistence_factory->value(
-                    FieldDefinition::T_INTEGER,
-                    $this->position
-                )
-            ]
-        );
-    }
-
-    private function buildInsertQuestionStatement(
-        PersistenceFactory $persistence_factory,
-        QuestionTableDefinitions $question_tables_definitions,
-        TableNameBuilder $table_names_builder
-    ): Insert {
-        return $persistence_factory->insert(
-            $question_tables_definitions->getColumns(
-                $table_names_builder,
-                QuestionTableTypes::Questions
-            ),
-            [
-                $persistence_factory->value(
-                    FieldDefinition::T_TEXT,
-                    $this->id->toString()
-                ),
-                $persistence_factory->value(
-                    FieldDefinition::T_INTEGER,
-                    $this->page_id
-                ),
-                $persistence_factory->value(
-                    FieldDefinition::T_TEXT,
-                    $this->title
-                ),
-                $persistence_factory->value(
-                    FieldDefinition::T_TEXT,
-                    $this->author
-                ),
-                $persistence_factory->value(
-                    FieldDefinition::T_TEXT,
-                    $this->lifecycle->value
-                ),
-                $persistence_factory->value(
-                    FieldDefinition::T_TEXT,
-                    $this->remarks
-                ),
-                $persistence_factory->value(
-                    FieldDefinition::T_TEXT,
-                    $this->original_id?->toString()
-                ),
-                $persistence_factory->value(
-                    FieldDefinition::T_INTEGER,
-                    time()
-                ),
-                $persistence_factory->value(
-                    FieldDefinition::T_INTEGER,
-                    time()
-                )
-            ]
-        );
-    }
-
-    private function buildUpdateLinkingStatement(
-        PersistenceFactory $persistence_factory,
-        QuestionTableDefinitions $question_tables_definitions,
-        TableNameBuilder $table_names_builder
-    ): Update {
-        $table_type = QuestionTableTypes::Linking;
-        return $persistence_factory->update(
-            $question_tables_definitions->getColumns(
-                $table_names_builder,
-                $table_type,
-                [QuestionTableTypes::LINKING_TABLE_ID_COLUMN]
-            ),
-            [
-                $persistence_factory->value(
-                    FieldDefinition::T_INTEGER,
-                    $this->parent_obj_id
-                ),
-                $persistence_factory->value(
-                    FieldDefinition::T_INTEGER,
-                    $this->position
-                )
-            ],
-            [
-                $persistence_factory->where(
-                    $question_tables_definitions->getIdColumn(
-                        $table_names_builder,
-                        $table_type
-                    ),
-                    $persistence_factory->value(
-                        FieldDefinition::T_TEXT,
-                        $this->id->toString()
-                    )
-                )
-            ]
-        );
-    }
-
-    private function buildUpdateQuestionStatement(
-        PersistenceFactory $persistence_factory,
-        QuestionTableDefinitions $question_tables_definitions,
-        TableNameBuilder $table_names_builder
-    ): Update {
-        $table_type = QuestionTableTypes::Questions;
-        return $persistence_factory->update(
-            $question_tables_definitions->getColumns(
-                $table_names_builder,
-                $table_type,
-                [
-                    'id',
-                    'page_id',
-                    'created'
-                ]
-            ),
-            [
-                $persistence_factory->value(
-                    FieldDefinition::T_TEXT,
-                    $this->title
-                ),
-                $persistence_factory->value(
-                    FieldDefinition::T_TEXT,
-                    $this->author
-                ),
-                $persistence_factory->value(
-                    FieldDefinition::T_TEXT,
-                    $this->lifecycle->value
-                ),
-                $persistence_factory->value(
-                    FieldDefinition::T_TEXT,
-                    $this->remarks
-                ),
-                $persistence_factory->value(
-                    FieldDefinition::T_TEXT,
-                    $this->original_id?->toString()
-                ),
-                $persistence_factory->value(
-                    FieldDefinition::T_INTEGER,
-                    time()
-                )
-            ],
-            [
-                $persistence_factory->where(
-                    $question_tables_definitions->getIdColumn(
-                        $table_names_builder,
-                        $table_type
-                    ),
-                    $persistence_factory->value(
-                        FieldDefinition::T_TEXT,
-                        $this->id->toString()
-                    )
-                )
-            ]
-        );
-    }
-
-    private function buildDeleteQuestionStatement(
-        PersistenceFactory $persistence_factory,
-        QuestionTableDefinitions $question_tables_definitions,
-        TableNameBuilder $table_names_builder
-    ): Delete {
-        $table_type = QuestionTableTypes::Questions;
-        return $persistence_factory->delete(
-            $persistence_factory->table(
-                $table_names_builder,
-                $table_type
-            ),
-            [
-                $persistence_factory->where(
-                    $question_tables_definitions->getIdColumn(
-                        $table_names_builder,
-                        $table_type
-                    ),
-                    $persistence_factory->value(
-                        FieldDefinition::T_TEXT,
-                        $this->id->toString()
-                    )
-                )
-            ]
-        );
-    }
-
-    private function buildDeleteLinkingStatement(
-        PersistenceFactory $persistence_factory,
-        QuestionTableDefinitions $table_definitions,
-        TableNameBuilder $table_names_builder
-    ): Delete {
-        $table_type = QuestionTableTypes::Linking;
-        return $persistence_factory->delete(
-            $persistence_factory->table(
-                $table_names_builder,
-                $table_type
-            ),
-            [
-                $persistence_factory->where(
-                    $table_definitions->getIdColumn(
-                        $table_names_builder,
-                        $table_type
-                    ),
-                    $persistence_factory->value(
-                        FieldDefinition::T_TEXT,
-                        $this->id->toString()
-                    )
-                )
-            ]
-        );
-    }
-
-    /**
-     * @todo skergomard, 2026-01-86: This we only need while the migrations exist, after
-     * this MUST go!
-     */
-    private function buildDeleteMigrationStatement(
-        PersistenceFactory $persistence_factory,
-        QuestionTableDefinitions $table_definitions,
-        TableNameBuilder $table_names_builder
-    ): Delete {
-        $table_type = QuestionTableTypes::MigrationsTable;
-        return $persistence_factory->delete(
-            $persistence_factory->table(
-                $table_names_builder,
-                $table_type
-            ),
-            [
-                $persistence_factory->where(
-                    $table_definitions->getIdColumn(
-                        $table_names_builder,
-                        $table_type
-                    ),
-                    $persistence_factory->value(
-                        FieldDefinition::T_TEXT,
-                        $this->id->toString()
-                    )
-                )
-            ]
-        );
-    }
-
-    /**
-     * @todo skergomard, 2026-01-26: This we only need while the migrations exist, after
-     * this a question MUST never change the page assigned to it after its creation!
-     */
-    private function buildUpdatePageIdStatement(
-        PersistenceFactory $persistence_factory,
-        QuestionTableDefinitions $table_definitions,
-        TableNameBuilder $table_names_builder
-    ): Update {
-        $table_type = QuestionTableTypes::Questions;
-        return $persistence_factory->update(
-            [
-                $persistence_factory->column(
-                    $persistence_factory->table(
-                        $table_names_builder,
-                        $table_type
-                    ),
-                    'page_id'
-                ),
-                $persistence_factory->column(
-                    $persistence_factory->table(
-                        $table_names_builder,
-                        $table_type
-                    ),
-                    'last_update'
-                )
-            ],
-            [
-                $persistence_factory->value(
-                    FieldDefinition::T_TEXT,
-                    $this->page_id
-                ),
-                $persistence_factory->value(
-                    FieldDefinition::T_INTEGER,
-                    time()
-                )
-            ],
-            [
-                $persistence_factory->where(
-                    $table_definitions->getIdColumn(
-                        $table_names_builder,
-                        $table_type
-                    ),
-                    $persistence_factory->value(
-                        FieldDefinition::T_TEXT,
-                        $this->id->toString()
-                    )
-                )
-            ]
+    public function retrieveAnswerFormResponsesFromQuery(
+        Uuid $response_id,
+        Query $query
+    ): array {
+        return array_map(
+            fn(AnswerFormProperties $v): Response => $v
+                ->getDefinition()
+                ->buildResponse($query),
+            $this->answer_forms
         );
     }
 
