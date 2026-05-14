@@ -23,15 +23,15 @@ namespace ILIAS\Questions\Persistence;
 class Join
 {
     public function __construct(
-        private readonly Column $left,
-        private readonly Column $right,
+        private readonly Column $existing,
+        private readonly Column $new,
         private readonly JoinType $type
     ) {
     }
 
     public function toSql(): string
     {
-        return "{$this->type->value} JOIN {$this->right->getTableName()} "
-        . "ON {$this->left->getColumnString()} = {$this->right->getColumnString()}";
+        return "{$this->type->value} JOIN {$this->new->getTableName()} "
+        . "ON {$this->existing->getColumnString()} = {$this->new->getColumnString()}";
     }
 }
