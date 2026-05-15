@@ -330,8 +330,7 @@ class ilWebAccessChecker
          */
         $ilAuthSession = $DIC['ilAuthSession'];
         $ilAuthSession->regenerateId();
-        $ilAuthSession->setUserId(ANONYMOUS_USER_ID);
-        $ilAuthSession->setAuthenticated(false, ANONYMOUS_USER_ID);
+        $ilAuthSession->ensureAnonymousContext();
         $DIC->user()->setId(ANONYMOUS_USER_ID);
     }
 }

@@ -89,9 +89,7 @@ class ILIASAuthenticationCallback
             return true;
         }
         if ($this->isUserAgentSessionAware($this->getUserAgent())) {
-            if ($this->session->isAuthenticated()
-                && $this->user->getId() !== 0
-                && $this->user->getId() !== ANONYMOUS_USER_ID) {
+            if ($this->session->isFullyAuthenticated()) {
                 $this->logger->debug('User authenticated through session. UserID = ' . $this->user->getId());
                 return true;
             }

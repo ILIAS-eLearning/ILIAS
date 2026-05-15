@@ -90,7 +90,7 @@ class ilAuthFrontend implements ilAuthFrontendInterface
 
     public function migrateAccount(ilAuthSession $session): bool
     {
-        if (!$session->isAuthenticated()) {
+        if (!$session->isFullyAuthenticated()) {
             $this->logger->warning('Desired user account is not authenticated');
             return false;
         }
@@ -285,7 +285,7 @@ class ilAuthFrontend implements ilAuthFrontendInterface
         $user->update();
 
         $this->logger->info('Successfully authenticated: ' . ilObjUser::_lookupLogin($this->getStatus()->getAuthenticatedUserId()));
-        $this->getAuthSession()->setAuthenticated(true, $this->getStatus()->getAuthenticatedUserId());
+        $this->getAuthSession()->onLoginSuccess($this->getStatus()->getAuthenticatedUserId());
 
         ilInitialisation::initUserAccount();
 

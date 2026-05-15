@@ -192,7 +192,7 @@ class ilAuthProviderECS extends ilAuthProvider
         $session_user_id = $this->authSession->getUserId();
         if (!$session_user_id || $session_user_id === ANONYMOUS_USER_ID) {
             $this->getLogger()->debug('No valid session found');
-            $this->authSession->setAuthenticated(false, ANONYMOUS_USER_ID);
+            $this->authSession->ensureAnonymousContext();
             return false;
         }
         $session_ext_account = ilObjUser::_lookupExternalAccount($session_user_id);
@@ -201,7 +201,7 @@ class ilAuthProviderECS extends ilAuthProvider
         $this->getLogger()->debug('Session external account: ' . $session_ext_account);
         if (!$session_ext_account || strcmp($user->getLogin(), $session_ext_account) !== 0) {
             $this->getLogger()->debug('No matching session found. Terminating current user session.');
-            $this->authSession->setAuthenticated(false, ANONYMOUS_USER_ID);
+            $this->authSession->ensureAnonymousContext();
             return false;
         }
         // assign to ECS global role

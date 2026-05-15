@@ -493,7 +493,7 @@ class ilObjUser extends ilObject
             ['usr_id' => $this->getId()]
         );
 
-        ilSession::_destroyByUserId($this->getId());
+        ilSession::destroyByUserId($this->getId());
         ilLDAPRoleGroupMapping::_getInstance()->deleteUser($this->getId());
 
         /**

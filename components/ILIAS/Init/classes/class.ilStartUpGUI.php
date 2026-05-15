@@ -32,6 +32,7 @@ use ILIAS\components\Authentication\Logout\ConfigurableLogoutTarget;
 use ILIAS\LegalDocuments\Conductor;
 use ILIAS\components\Authentication\Pages\AuthPageEditorContext;
 use ILIAS\AuthApache\AuthFrontendCredentialsApache;
+use ILIAS\UICore\GlobalTemplate;
 
 /**
  * @ilCtrl_Calls ilStartUpGUI: ilAccountRegistrationGUI, ilPasswordAssistanceGUI, ilLoginPageGUI, ilDashboardGUI
@@ -153,7 +154,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     public function getSafePostCommands(): array
     {
         return [
-            'doStandardAuthentication',
         ];
     }
 
@@ -217,8 +217,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
          * To address https://mantis.ilias.de/view.php?id=29991 we assume that we can ignore such requests
          * to prevent "Logout without CSRF / Denial of Service for Users" and redirect the user to the start page instead.
          */
-
-        if ($this->authSession->isValid() && $this->authSession->getUserId() > 0 && !$this->user->isAnonymous()) {
+        if ($this->authSession->isFullyAuthenticated()) {
             ilInitialisation::redirectToStartingPage();
         }
 
@@ -239,33 +238,14 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         ) === 'force_login';
 
         if ($is_forced_login) {
-            // Only allow this for anonymous user, see: showLoginPageOrStartupPage
-            $this->logger->debug('Force login');
-            $messages = [];
-            if ($this->authSession->isValid()) {
-                $messages = $this->retrieveMessagesFromSession();
-                $this->logger->debug('Valid session -> logout current user');
-                ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
-                $this->authSession->logout();
-
-                $this->eventHandler->raise(
-                    'components/ILIAS/Authentication',
-                    'afterLogout',
-                    [
-                        'username' => $this->user->getLogin(),
-                        'is_explicit_logout' => false,
-                    ]
-                );
-
-                $this->dic->user()->setId($this->authSession->getUserId());
-                $this->dic->user()->read();
-            }
-
-            $this->logger->debug('Show login page');
-            foreach ($messages as $type => $content) {
+            $this->logger->debug('Forced login page presentation');
+            foreach ($this->retrieveMessagesFromSession() as $type => $content) {
                 $this->mainTemplate->setOnScreenMessage($type, $content);
             }
 
+            $this->prepareAnonymousContextForLoginPage();
+
+            $this->logger->debug('Show login page');
             $this->showLoginPage();
             return;
         }
@@ -287,6 +267,14 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $this->help->setSubScreenId('login');
 
         $this->getLogger()->debug('Showing login page');
+
+        // Rotate expired sessions before form/rtoken generation (same ordering as force_login).
+        $session_expired_for_login_page = $this->authSession->isExpired();
+        if ($session_expired_for_login_page) {
+            ilSession::setClosingContext(ilSession::SESSION_CLOSE_EXPIRE);
+            $this->authSession->onSessionExpired();
+            $this->syncGlobalUserToAuthSession();
+        }
 
         $extUid = $this->http->wrapper()->query()->retrieve(
             'ext_uid',
@@ -326,7 +314,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $page_editor_html = $this->purgePlaceholders($page_editor_html);
 
         // check expired session and send message
-        if ($this->authSession->isExpired() || $this->http->wrapper()->query()->has('session_expired')) {
+        if ($session_expired_for_login_page || $this->http->wrapper()->query()->has('session_expired')) {
             $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('auth_err_expired'));
         } elseif ($this->http->wrapper()->query()->has('reg_confirmation_msg')) {
             $this->lng->loadLanguageModule('registration');
@@ -335,7 +323,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 $this->refinery->kindlyTo()->string()
             );
             $message_type = $message_key === 'reg_account_confirmation_successful' ?
-                ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS : ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE;
+                GlobalTemplate::MESSAGE_TYPE_SUCCESS : GlobalTemplate::MESSAGE_TYPE_FAILURE;
             $this->mainTemplate->setOnScreenMessage(
                 $message_type,
                 $this->lng->txt($message_key)
@@ -344,13 +332,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         if ($page_editor_html !== '') {
             $tpl->setVariable('LPE', $page_editor_html);
-        }
-
-        if ($this->authSession->isExpired()) {
-            // The usr_id is is still the one of the former logged-in user, so we have to unset it
-            $this->authSession->setAuthenticated(false, ANONYMOUS_USER_ID);
-            $this->dic->user()->setId($this->authSession->getUserId());
-            $this->dic->user()->read();
         }
 
         $this->mainTemplate->setPermanentLink('auth', null, 'login');
@@ -375,10 +356,10 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     {
         $messages = [];
         $message_types = [
-            ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
-            ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
-            ilGlobalTemplateInterface::MESSAGE_TYPE_INFO,
-            ilGlobalTemplateInterface::MESSAGE_TYPE_QUESTION
+            GlobalTemplate::MESSAGE_TYPE_FAILURE,
+            GlobalTemplate::MESSAGE_TYPE_SUCCESS,
+            GlobalTemplate::MESSAGE_TYPE_INFO,
+            GlobalTemplate::MESSAGE_TYPE_QUESTION
         ];
 
         foreach ($message_types as $message_type) {
@@ -388,6 +369,41 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         }
 
         return $messages;
+    }
+
+    /**
+     * Align ilAuthSession and the global user with anonymous before showing the login page (force_login).
+     */
+    private function prepareAnonymousContextForLoginPage(): void
+    {
+        if ($this->authSession->isExpired()) {
+            $former_login = $this->user->getLogin();
+            $this->logger->debug('Expired privileged session -> anonymous with session rotation');
+            ilSession::setClosingContext(ilSession::SESSION_CLOSE_EXPIRE);
+            $this->authSession->onSessionExpired();
+
+            $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('auth_err_expired'));
+
+            $this->eventHandler->raise(
+                'components/ILIAS/Authentication',
+                'afterLogout',
+                [
+                    'username' => $former_login,
+                    'is_explicit_logout' => false,
+                ]
+            );
+        } else {
+            $this->logger->debug('Ensure anonymous context (preserve session id)');
+            $this->authSession->ensureAnonymousContext();
+        }
+
+        $this->syncGlobalUserToAuthSession();
+    }
+
+    private function syncGlobalUserToAuthSession(): void
+    {
+        $this->dic->user()->setId($this->authSession->getUserId());
+        $this->dic->user()->read();
     }
 
     private function showCodeForm(
@@ -1187,9 +1203,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
     private function showLogout(): void
     {
-        if (!$this->authSession->isExpired() &&
-            $this->authSession->isAuthenticated() &&
-            !ilObjUser::_isAnonymous($this->authSession->getUserId())) {
+        if ($this->authSession->isFullyAuthenticated()) {
             $this->ctrl->redirectToURL(ilUserUtil::getStartingPointAsUrl());
         }
 

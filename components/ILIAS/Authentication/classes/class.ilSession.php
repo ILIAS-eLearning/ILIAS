@@ -47,7 +47,7 @@ class ilSession
      * @param	string		session id
      * @return	string		session data
      */
-    public static function _getData(string $a_session_id): string
+    public static function getData(string $a_session_id): string
     {
         if (!$a_session_id) {
             // fix for php #70520
@@ -89,7 +89,7 @@ class ilSession
         return 0;
     }
 
-    public static function _writeData(string $a_session_id, string $a_data): bool
+    public static function writeData(string $a_session_id, string $a_data): bool
     {
         global $DIC;
 
@@ -123,7 +123,7 @@ class ilSession
             $fields['remote_addr'] = [ilDBConstants::T_TEXT, $_SERVER['REMOTE_ADDR'] ?? ''];
         }
 
-        if (self::_exists($a_session_id)) {
+        if (self::exists($a_session_id)) {
             // note that we do this only when inserting the new record
             // updating may get us other contexts for the same session, especially ilContextWAC, which we do not want
             if (class_exists('ilContext') && ilContext::isSessionMainContext()) {
@@ -194,7 +194,7 @@ class ilSession
             $r = new \Random\Randomizer();
             if ($r->getInt(0, 50) === 2) {
                 // get time _before_ destroying expired sessions
-                self::_destroyExpiredSessions();
+                self::destroyExpiredSessions();
                 ilSessionStatistics::aggregateRaw($now);
             }
         }
@@ -202,7 +202,7 @@ class ilSession
         return true;
     }
 
-    public static function _exists(string $a_session_id): bool
+    public static function exists(string $a_session_id): bool
     {
         if (!$a_session_id) {
             return false;
@@ -224,7 +224,7 @@ class ilSession
     * @param	int|null     $a_closing_context closing context
     * @param	int|bool     $a_expired_at      expired at timestamp
     */
-    public static function _destroy($a_session_id, ?int $a_closing_context = null, $a_expired_at = null): bool
+    public static function destroy($a_session_id, ?int $a_closing_context = null, $a_expired_at = null): bool
     {
         global $DIC;
 
@@ -283,7 +283,7 @@ class ilSession
     *
     * @param	int 		user id
     */
-    public static function _destroyByUserId(int $a_user_id): bool
+    public static function destroyByUserId(int $a_user_id): bool
     {
         global $DIC;
 
@@ -300,7 +300,7 @@ class ilSession
      * Destroy expired sessions
      * @return int The number of deleted sessions on success
      */
-    public static function _destroyExpiredSessions(): int
+    public static function destroyExpiredSessions(): int
     {
         global $DIC;
 
@@ -313,7 +313,7 @@ class ilSession
             $ids[$row['session_id']] = (int) $row['expires'];
         }
         if ($ids !== []) {
-            self::_destroy($ids, self::SESSION_CLOSE_EXPIRE, true);
+            self::destroy($ids, self::SESSION_CLOSE_EXPIRE, true);
         }
 
         return count($ids);
@@ -325,7 +325,7 @@ class ilSession
     * @param	string		session id
     * @return	string		new session id
     */
-    public static function _duplicate(string $a_session_id): string
+    public static function duplicate(string $a_session_id): string
     {
         global $DIC;
 
@@ -345,7 +345,7 @@ class ilSession
         $res = $ilDB->query($query);
 
         if ($row = $ilDB->fetchObject($res)) {
-            self::_writeData($new_session, $row->data);
+            self::writeData($new_session, $row->data);
             return $new_session;
         }
         //TODO check if throwing an excpetion might be a better choice
@@ -358,6 +358,32 @@ class ilSession
     public static function getExpireValue(): int
     {
         return time() + self::getIdleValue();
+    }
+
+    /**
+     * Move the idle deadline of an existing session without rewriting its payload.
+     * Used when PHP calls updateTimestamp because the session data did not change.
+     */
+    public static function updateTimestamp(string $session_id): bool
+    {
+        if ($session_id === '' || self::isWebAccessWithoutSessionEnabled()) {
+            return true;
+        }
+
+        global $DIC;
+
+        $affected_rows = $DIC['ilDB']->update(
+            'usr_session',
+            [
+                'expires' => [ilDBConstants::T_INTEGER, self::getExpireValue()],
+                'ctime' => [ilDBConstants::T_INTEGER, time()],
+            ],
+            [
+                'session_id' => [ilDBConstants::T_TEXT, $session_id],
+            ]
+        );
+
+        return $affected_rows > 0;
     }
 
     /**
@@ -406,6 +432,11 @@ class ilSession
         if (isset($_SESSION[$a_var])) {
             unset($_SESSION[$a_var]);
         }
+    }
+
+    public static function purge(): void
+    {
+        $_SESSION = [];
     }
 
     /**
