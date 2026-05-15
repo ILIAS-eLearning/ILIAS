@@ -411,15 +411,11 @@ class assFormulaQuestionResult
         return ($v1 >= 0.0 && $v2 >= 0.0) || ($v1 <= 0.0 && $v2 <= 0.0);
     }
 
-    /**
-     * @param assFormulaQuestionUnit[] $units
-     */
     public function getReachedPoints(
         array $variables,
         array $results,
         string $answer_value,
-        ?assFormulaQuestionUnit $answer_unit,
-        array $units
+        ?assFormulaQuestionUnit $answer_unit
     ): float {
         if ($this->getRatingSimple()) {
             return $this->isCorrect($variables, $results, $answer_value, $answer_unit)
@@ -431,16 +427,12 @@ class assFormulaQuestionResult
         $float_value = $this->transformAnswerValueAccordingToType($answer_value, $answer_unit);
 
         $points = 0.0;
-        if ($answer_unit instanceof assFormulaQuestionUnit && $answer_unit instanceof assFormulaQuestionUnit) {
-            $base1 = $units[$answer_unit->getBaseUnit()] ?? null;
-            $base2 = $units[$answer_unit->getBaseUnit()] ?? null;
-            if (
-                $base1 instanceof assFormulaQuestionUnit
-                && $base2 instanceof assFormulaQuestionUnit
-                && $base1->getId() === $base2->getId()
-            ) {
-                $points += ilMath::_mul($this->getPoints(), ilMath::_div($this->getRatingUnit(), 100));
-            }
+        if (
+            $this->unit instanceof assFormulaQuestionUnit
+            && $answer_unit instanceof assFormulaQuestionUnit
+            && $this->unit->getBaseUnit() === $answer_unit->getBaseUnit()
+        ) {
+            $points += ilMath::_mul($this->getPoints(), ilMath::_div($this->getRatingUnit(), 100));
         }
 
         if ($float_value === null) {

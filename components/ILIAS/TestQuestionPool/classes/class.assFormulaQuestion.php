@@ -834,8 +834,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                 $this->getVariables(),
                 $this->getResults(),
                 $user_solution[$result->getResult()]['value'] ?? '',
-                $user_solution[$result->getResult()]['unit'] ?? null,
-                $this->unitrepository->getUnits()
+                $user_solution[$result->getResult()]['unit'] ?? null
             );
         }
 
@@ -849,7 +848,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
         $points = 0;
         foreach ($this->getResults() as $result) {
             $result_unit = "{$result->getResult()}_unit";
-            $unit_id = isset($user_solution[$result_unit]) && is_numeric($user_solution[$result_unit])
+            $answer_unit_id = isset($user_solution[$result_unit]) && is_numeric($user_solution[$result_unit])
                 ? (int) $user_solution[$result_unit]
                 : null;
 
@@ -857,8 +856,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                 $this->getVariables(),
                 $this->getResults(),
                 $user_solution[$result->getResult()] ?? '',
-                $unit_id !== null ? $this->unitrepository->getUnit($unit_id) : null,
-                $this->unitrepository->getUnits()
+                $answer_unit_id !== null ? $this->unitrepository->getUnit($answer_unit_id) : null
             );
         }
         return $this->ensureNonNegativePoints($points);

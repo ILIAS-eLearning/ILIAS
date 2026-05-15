@@ -181,8 +181,7 @@ class ilAssLacCompositeEvaluator
                     $question->getVariables(),
                     $question->getResults(),
                     $result["value"] ?? "",
-                    $key,
-                    $unit_repository->getUnits()
+                    $key
                 );
 
                 $percentage = 0;
