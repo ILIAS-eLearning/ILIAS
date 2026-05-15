@@ -32,6 +32,7 @@ use ILIAS\User\PublicInterface as UserPublicInterface;
 use ILIAS\Mail\Service\MailService;
 use ILIAS\Init\AllModernComponents;
 use ILIAS\Scripts\PHPStan\Attributes\AllowSuperglobalWrite;
+use ILIAS\Authentication\Infrastructure\CookieSessionId;
 
 // needed for slow queries, etc.
 if (!isset($GLOBALS['ilGlobalStartTime']) || !$GLOBALS['ilGlobalStartTime']) {
@@ -471,29 +472,14 @@ class ilInitialisation
         );
     }
 
-    /**
-     * set session handler to db
-     * Used in Soap
-     */
     public static function setSessionHandler(): void
     {
         $db_session_handler = new ilSessionDBHandler();
         if (!$db_session_handler->setSaveHandler()) {
-            self::abortAndDie("Cannot start session handling.");
-        }
-
-        // Do not accept external session ids
-        if (!ilSession::_exists(session_id()) && !defined('IL_PHPUNIT_TEST')) {
-            // php7-todo, correct-with-php5-removal : alex, 1.3.2016: added if, please check
-            if (function_exists("session_status") && session_status() == PHP_SESSION_ACTIVE) {
-                session_regenerate_id();
-            }
+            self::abortAndDie('Cannot start session handling.');
         }
     }
 
-    /**
-     *
-     */
     protected static function setCookieConstants(): void
     {
         if (\ilAuthFactory::getContext() === \ilAuthFactory::CONTEXT_HTTP) {
@@ -510,9 +496,9 @@ class ilInitialisation
         here it is set to '\'.
         in both cases a further '/' won't be appended due to the following regex
         */
-        $cookie_path .= (!preg_match("/[\/|\\\\]$/", $cookie_path)) ? "/" : "";
+        $cookie_path .= (!preg_match("/[\/|\\\\]$/", $cookie_path)) ? '/' : '';
 
-        if ($cookie_path == "\\") {
+        if ($cookie_path === "\\") {
             $cookie_path = '/';
         }
 
@@ -770,18 +756,11 @@ class ilInitialisation
             self::abortAndDie("Public Section enabled, but no Anonymous user found.");
         }
 
-        $session_destroyed = false;
         if ($DIC['ilAuthSession']->isExpired()) {
-            $session_destroyed = true;
             ilSession::setClosingContext(ilSession::SESSION_CLOSE_EXPIRE);
-        }
-        if (!$DIC['ilAuthSession']->isAuthenticated()) {
-            $session_destroyed = true;
-            ilSession::setClosingContext(ilSession::SESSION_CLOSE_PUBLIC);
-        }
-
-        if ($session_destroyed) {
-            $GLOBALS['DIC']['ilAuthSession']->setAuthenticated(true, ANONYMOUS_USER_ID);
+            $DIC['ilAuthSession']->onSessionExpired();
+        } elseif (!$DIC['ilAuthSession']->isAuthenticated()) {
+            $DIC['ilAuthSession']->ensureAnonymousContext();
         }
 
         self::initUserAccount();
@@ -1036,7 +1015,12 @@ class ilInitialisation
             $auth_session = ilAuthSession::getInstance(
                 $c['ilLoggerFactory']->getLogger('auth')
             );
-            $auth_session->init();
+            $auth_session->init(
+                new CookieSessionId(
+                    $c->http()->wrapper()->cookie(),
+                    $c->refinery()
+                )
+            );
             return $auth_session;
         };
     }
@@ -1226,7 +1210,7 @@ class ilInitialisation
             $DIC['ilAuthSession']->isExpired()
         ) {
             if ($GLOBALS['DIC']['ilAuthSession']->isExpired()) {
-                ilSession::_destroy($_COOKIE[session_name()], ilSession::SESSION_CLOSE_EXPIRE);
+                ilSession::destroy($_COOKIE[session_name()], ilSession::SESSION_CLOSE_EXPIRE);
             }
 
             ilLoggerFactory::getLogger('init')->debug('Current session is invalid: ' . $GLOBALS['DIC']['ilAuthSession']->getId());
