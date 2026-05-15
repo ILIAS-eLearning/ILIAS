@@ -555,22 +555,17 @@ class ilSCORM2004StoreData
         $scope_id = ($ilDB->fetchObject($res)->global_to_system) ? 0 : $package;
 
         //build up the set to look for in the query
-        $existing_key_template = "";
-        foreach (array_keys($rows_to_insert) as $obj_id) {
-            $existing_key_template .= "'{$obj_id}',";
-        }
-        //remove trailing ','
-        $existing_key_template = substr($existing_key_template, 0, -1);
+        $existing_objective_ids = array_keys($rows_to_insert);
         $existing_keys = array();
 
-        if ($existing_key_template != "") {
+        if (!empty($existing_objective_ids)) {
             //Get the ones that need to be updated in a single query
             $res = $ilDB->queryF(
-                "SELECT objective_id 
-								  FROM cmi_gobjective 
-								  WHERE user_id = %s
-							  	  AND scope_id = %s
-							 	  AND objective_id IN ($existing_key_template)",
+                "SELECT objective_id
+						FROM cmi_gobjective
+						WHERE user_id = %s
+						  AND scope_id = %s
+						  AND " . $ilDB->in('objective_id', $existing_objective_ids, false, 'text'),
                 array('integer', 'integer'),
                 array($dbuser, $scope_id)
             );
