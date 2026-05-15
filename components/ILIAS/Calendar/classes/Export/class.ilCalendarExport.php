@@ -306,7 +306,7 @@ class ilCalendarExport
         $str_writer = new ilICalWriter();
         foreach (ilCalendarRecurrences::_getRecurrences($app->getEntryId()) as $rec) {
             foreach (ilCalendarRecurrenceExclusions::getExclusionDates($app->getEntryId()) as $excl) {
-                $str_writer->addLine($excl->toICal());
+                $str_writer->addLine($excl->toICal($this->il_user->getTimeZone()));
             }
             $recurrence_ical = $rec->toICal($this->il_user->getId());
             if (strlen($recurrence_ical)) {
