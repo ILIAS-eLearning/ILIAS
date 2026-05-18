@@ -20,15 +20,17 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
+use ILIAS\Questions\AnswerForm\Response;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption;
-use ILIAS\Questions\Attempt\Attempt;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Response\AnswerInput as AnswerInputResponse;
+use ILIAS\Questions\Attempt\AdditionalAttemptData;
 use ILIAS\Questions\Definitions\Range;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Data\UUID\Factory as UuidFactory;
+use ILIAS\Data\UUID\Uuid;
 use ILIAS\FileUpload\FileUpload;
-use ILIAS\Language\Language;
-use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Factory as UIFactory;
@@ -37,14 +39,6 @@ use ILIAS\UI\Component\Input\Field\Numeric as NumericInput;
 class Numeric extends Type
 {
     private const float DEFAULT_SUB_ACTION_SIZE = 0.0001;
-
-    public function __construct(
-        Refinery $refinery,
-        Language $lng,
-        private readonly UIFactory $ui_factory
-    ) {
-        parent::__construct($refinery, $lng);
-    }
 
     #[\Override]
     public function getIdentifier(): string
@@ -55,19 +49,30 @@ class Numeric extends Type
     #[\Override]
     public function getParticipantViewLegacyInput(
         Gap $gap,
-        ?Attempt $attempt_data
+        ?AdditionalAttemptData $additional_attempt_data,
+        ?Response $response_data
     ): string {
         $gaptemplate = new \ilTemplate(
-            'tpl.il_as_qpl_cloze_question_gap_numeric.html',
+            'tpl.cloze_gap_numeric.html',
             true,
             true,
-            'components/ILIAS/TestQuestionPool'
+            'components/ILIAS/Questions'
         );
 
         $gaptemplate->setVariable(
-            'GAP_COUNTER',
-            $gap->getAnswerInputId()->toString()
+            'GAP_NAME',
+            $this->buildGapName($gap)
         );
+
+        $response = $response_data?->getResponseForInput($gap->getAnswerInputId());
+        if ($response !== null) {
+            $gaptemplate->setVariable(
+                'VALUE_GAP',
+                ' value="' . \ilLegacyFormElementsUtil::prepareFormOutput(
+                    $response
+                ) . '"'
+            );
+        }
 
         return $gaptemplate->get();
     }
@@ -80,16 +85,16 @@ class Numeric extends Type
     ): array {
         $answer_option = $gap->getAnswerOptions()->getAnswerOptionForPositionOrNew(0);
 
-        $ff = $this->ui_factory->input()->field();
+        $ff = $environment->getUIFactory()->input()->field();
         return [
-            'lower_limit' => $ff->numeric($this->lng->txt('lower_limit'))
+            'lower_limit' => $ff->numeric($environment->getLanguage()->txt('range_lower_limit'))
                 ->withStepSize($gap->getStepSize() ?? self::DEFAULT_SUB_ACTION_SIZE)
                 ->withRequired(true)
                 ->withValue($answer_option->getLowerLimit()),
-            'upper_limit' => $ff->numeric($this->lng->txt('upper_limit'))
+            'upper_limit' => $ff->numeric($environment->getLanguage()->txt('range_upper_limit'))
                 ->withStepSize($gap->getStepSize() ?? self::DEFAULT_SUB_ACTION_SIZE)
                 ->withValue($answer_option->getUpperLimit()),
-            'step_size' => $ff->numeric($this->lng->txt('step_size'))
+            'step_size' => $ff->numeric($environment->getLanguage()->txt('step_size'))
                 ->withStepSize(0.000001)
                 ->withRequired(true)
                 ->withValue($gap->getStepSize() ?? self::DEFAULT_SUB_ACTION_SIZE)
@@ -109,10 +114,11 @@ class Numeric extends Type
 
     #[\Override]
     public function getEditPointsInputs(
+        UIFactory $ui_factory,
         AnswerOptions $answer_options
     ): array {
         $inputs = $answer_options->getEditPointsInputs(
-            $this->ui_factory->input()->field(),
+            $ui_factory->input()->field(),
             function (AnswerOption $v): string {
                 if ($v->getUpperLimit() === null) {
                     return sprintf(
@@ -189,5 +195,107 @@ class Numeric extends Type
         string $value
     ): string {
         return Range::tryFrom($value)?->getLabel($this->lng) ?? '';
+    }
+
+    #[\Override]
+    public function retrieveResponseFromPost(
+        RequestWrapper $post_wrapper,
+        UuidFactory $uuid_factory,
+        Gap $gap
+    ): AnswerInputResponse {
+        return new AnswerInputResponse(
+            $gap,
+            null,
+            $post_wrapper->retrieve(
+                $this->buildGapName($gap),
+                $this->refinery->byTrying([
+                    $this->refinery->in()->series([
+                        $this->refinery->kindlyTo()->float(),
+                        $this->refinery->kindlyTo()->string()
+                    ]),
+                    $this->refinery->always('')
+                ])
+            )
+        );
+    }
+
+    #[\Override]
+    public function isBestResponse(
+        Gap $gap,
+        AnswerInputResponse $response
+    ): bool {
+        /** @var ?AnswerOption $answer_option */
+        $answer_options_awarding_points = $gap->getAnswerOptions()
+            ->getAnswerOptionsAwardingPoints();
+
+        $answer_option = $answer_options_awarding_points === null
+            ? null
+            : array_shift($answer_options_awarding_points);
+
+        if ($answer_option === null) {
+            return false;
+        }
+
+        $response_as_float = $this->refinery->kindlyTo()->float()->transform(
+            $response->getResponse()
+        );
+
+        $upper_limit = $answer_option->getUpperLimit();
+        $lower_limit = $answer_option->getLowerLimit();
+        if ($upper_limit === null
+                && $response_as_float === $lower_limit
+            || $response_as_float >= $lower_limit
+                && $response_as_float <= $upper_limit) {
+            return true;
+        }
+
+        return false;
+    }
+
+    #[\Override]
+    public function calculateAwardedPointsForResponse(
+        Gap $gap,
+        Uuid|string|null $response
+    ): float {
+        /** @var ?AnswerOption $answer_option */
+        $answer_options_awarding_points = $gap->getAnswerOptions()
+            ->getAnswerOptionsAwardingPoints();
+
+        $answer_option = $answer_options_awarding_points === null
+            ? null
+            : array_shift($answer_options_awarding_points);
+
+        if ($answer_option === null) {
+            return 0.0;
+        }
+
+        $response_as_float = $this->refinery->kindlyTo()->float()->transform(
+            $response
+        );
+
+        $upper_limit = $answer_option->getUpperLimit();
+        $lower_limit = $answer_option->getLowerLimit();
+        if ($upper_limit === null
+                && $response_as_float === $lower_limit
+            || $response_as_float >= $lower_limit
+                && $response_as_float <= $upper_limit) {
+            return $answer_option->getAvailablePoints();
+        }
+
+        return 0.0;
+    }
+
+    #[\Override]
+    protected function retrieveResponseTextFromAnswerOption(
+        AnswerOption $answer_option
+    ): string {
+        $trafo = $this->refinery->kindlyTo()->string();
+        $lower_limit_string = $trafo->transform(
+            $answer_option->getLowerLimit()
+        );
+        $upper_limit = $answer_option->getUpperLimit();
+        return $upper_limit === null
+            ? $lower_limit_string
+            : "{$lower_limit_string} - {$trafo->transform($upper_limit)}";
     }
 }

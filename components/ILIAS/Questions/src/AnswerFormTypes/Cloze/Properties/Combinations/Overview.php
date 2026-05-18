@@ -59,7 +59,7 @@ class Overview implements Viewable, DataRetrieval
         $modal = $this->buildSetCombinationGapsModal();
         $content = [
             $this->environment->getUIFactory()->button()->standard(
-                $this->environment->getLanguage()->txt('add_combination'),
+                $this->environment->getLanguage()->txt('add_gap_combination'),
                 $modal->getShowSignal()
             ),
             $modal,
@@ -112,7 +112,7 @@ class Overview implements Viewable, DataRetrieval
     {
         return $this->environment->getUIFactory()->table()->data(
             $this,
-            $this->environment->getLanguage()->txt('combinations'),
+            $this->environment->getLanguage()->txt('gap_combinations'),
             $this->getColumns()
         )->withActions($this->getActions())
         ->withRequest($this->environment->getHttpServices()->request());
@@ -186,7 +186,7 @@ class Overview implements Viewable, DataRetrieval
         $properties = $this->environment->getAnswerFormProperties();
         $gaps = $properties->getGaps();
         return $this->environment->getUIFactory()->modal()->roundtrip(
-            $this->environment->getLanguage()->txt('add_combination'),
+            $this->environment->getLanguage()->txt('add_gap_combination'),
             $properties->getClozeText()->buildPanelForEditing(
                 $this->environment->getUIFactory(),
                 $this->environment->getLanguage(),
@@ -195,7 +195,7 @@ class Overview implements Viewable, DataRetrieval
             ),
             [
                 'combination' => $gaps->buildGapsMultiSelect(
-                    $this->environment->getLanguage()->txt('select_gaps_for_combinations'),
+                    $this->environment->getLanguage()->txt('select_gaps_for_combination'),
                     $this->environment->getUIFactory()->input()->field()
                 )->withRequired(true)
                 ->withAdditionalTransformation(

@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Views;
 
-use ILIAS\Questions\AnswerForm\Capabilities\Marking\Marking;
 use ILIAS\Questions\AnswerForm\Views\Edit as EditViewInterface;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Factory as PropertiesFactory;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
@@ -76,7 +75,7 @@ class Edit implements EditViewInterface
         $sub_action = $environment->getSubAction();
 
         $combinations = $environment->getAnswerFormProperties()->getCombinations();
-        if ($environment->isCapabilityRequired(Marking::class)
+        if ($environment->isMarkingRequired()
             && $combinations->areCombinationsEnabled()) {
             $combinations->getEditView()->addCombinationsSubTab($environment);
         }
@@ -85,6 +84,7 @@ class Edit implements EditViewInterface
             return $environment->getPresentationFactory()->getEditOverview(
                 $environment,
                 $environment->withSubActionParameter(self::SUB_ACTION_EDIT_BASIC_PROPERTIES)
+                    ->withFormStartSubActionParameter(self::SUB_ACTION_EDIT_BASIC_PROPERTIES)
                     ->getUrlBuilder()
             );
         }
@@ -263,7 +263,7 @@ class Edit implements EditViewInterface
                 $data->withGaps(
                     $data->getGaps()->withMarkedIncompleteGaps()
                 )
-            )
+            )->withPreservedFormStartSubActionParameter()
         );
     }
 
@@ -275,6 +275,7 @@ class Edit implements EditViewInterface
             $inputs_builder,
             $environment
                 ->withSubActionParameter(self::SUB_ACTION_PROCESS_BASIC_PROPERTIES)
+                ->withPreservedFormStartSubActionParameter()
                 ->getUrlBuilder(),
             null
         );

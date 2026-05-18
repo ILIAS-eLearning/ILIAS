@@ -21,9 +21,11 @@ declare(strict_types=1);
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
+use ILIAS\Questions\AnswerForm\Response;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
-use ILIAS\Questions\Attempt\Attempt;
+use ILIAS\Questions\Attempt\AdditionalAttemptData;
 use ILIAS\Questions\Definitions\TextMatchingOptions;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Replace;
@@ -34,7 +36,7 @@ use ILIAS\Database\FieldDefinition;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Table\DataRow;
 use ILIAS\UI\Component\Table\DataRowBuilder;
@@ -53,7 +55,7 @@ class Gap
     private const string KEY_ANSWER_OPTIONS = 'answer_options';
 
     /**
-     * @param array<ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption> $answer_options
+     * @param list<AnswerOption> $answer_options
      */
     public function __construct(
         private readonly Uuid $answer_input_id,
@@ -225,7 +227,7 @@ class Gap
 
         $clone = clone $this;
         $clone->type = $carry[self::KEY_TYPE] === ''
-            ? $this->getType()
+            ? $this->type
             : $gaps_factory->getGapTypeByIdentifier($carry[self::KEY_TYPE]);
         $clone->position = $carry[self::KEY_POSITION];
 
@@ -309,11 +311,15 @@ class Gap
     }
 
     public function buildParticipantViewLegacyInput(
-        ?Attempt $attempt_data
+        Language $lng,
+        Refinery $refinery,
+        ?AdditionalAttemptData $attempt_data,
+        ?Response $response_data
     ): string {
         return $this->type->getParticipantViewLegacyInput(
             $this,
-            $attempt_data
+            $attempt_data,
+            $response_data
         );
     }
 
@@ -322,43 +328,47 @@ class Gap
         Environment $environment
     ): Section {
         $section = $environment->getUIFactory()->input()->field()->section(
-            $this->getType()->getEditAnswerOptionsInputs(
+            $this->type->getEditAnswerOptionsInputs(
                 $file_upload,
                 $environment,
                 $this
             ),
-            "{$this->buildShortenedGapName()} ({$environment->getLanguage()->txt("{$this->getType()->getIdentifier()}_gap")})"
+            "{$this->buildShortenedGapName()} ({$environment->getLanguage()->txt("{$this->type->getIdentifier()}_gap")})"
         );
 
-        $edit_section_constraint = $this->getType()->getEditAnswerOptionsSectionConstraint();
+        $edit_section_constraint = $this->type->getEditAnswerOptionsSectionConstraint();
         if ($edit_section_constraint !== null) {
             $section = $section->withAdditionalTransformation($edit_section_constraint);
         }
 
 
         return $section->withAdditionalTransformation(
-            $this->getType()->getBuildGapTransformation($this)
+            $this->type->getBuildGapTransformation(
+                $this
+            )
         );
     }
 
     public function getEditPointsSection(
         Language $lng,
-        FieldFactory $ff
+        UIFactory $ui_factory
     ): Section {
-        $type = $this->getType();
-        $section = $ff->section(
-            $type->getEditPointsInputs($this->getAnswerOptions()),
-            "{$this->buildShortenedGapName()} ({$lng->txt("{$type->getIdentifier()}_gap")})"
+        $section = $ui_factory->input()->field()->section(
+            $this->type->getEditPointsInputs(
+                $ui_factory,
+                $this->getAnswerOptions()
+            ),
+            "{$this->buildShortenedGapName()} ({$lng->txt("{$this->type->getIdentifier()}_gap")})"
         );
 
-        $edit_section_constraint = $type->getEditPointsSectionConstraint();
+        $edit_section_constraint = $this->type->getEditPointsSectionConstraint();
         if ($edit_section_constraint !== null) {
             $section = $section->withAdditionalTransformation($edit_section_constraint);
         }
 
 
         return $section->withAdditionalTransformation(
-            $type->getAddPointsTransformation($this)
+            $this->type->getAddPointsTransformation($this)
         );
     }
 

@@ -44,7 +44,7 @@ enum OverviewTableColumns: string
                 => $column_factory->link($lng->txt('title')),
             OverviewTableColumns::AnswerFormTypes->value
                 => $column_factory->text(
-                    $lng->txt('contained_types')
+                    $lng->txt('contained_answer_form_types')
                 )->withIsOptional(true, true)
             ->withIsSortable(false),
         ];
@@ -60,7 +60,7 @@ enum OverviewTableColumns: string
                 $lng->txt('title')
             ),
             self::AnswerFormTypes->value => $field_factory->multiSelect(
-                $lng->txt('contains_type'),
+                $lng->txt('contains_answer_form_types'),
                 $answer_form_types_array_for_select
             )->withRequired(true),
         ];

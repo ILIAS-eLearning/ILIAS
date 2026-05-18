@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Presentation\Definitions;
 
-enum Editability
+enum ViewMode
 {
-    case ReadOnly;
-    case Limited;
-    case Full;
+    case Respond;
+    case ViewResponse;
+    case ViewBestResponse;
 }

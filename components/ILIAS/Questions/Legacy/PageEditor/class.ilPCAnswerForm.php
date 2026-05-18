@@ -18,12 +18,18 @@
 
 declare(strict_types=1);
 
-use ILIAS\Questions\Attempt\Attempt;
+use ILIAS\Questions\AnswerForm\Capabilities\RequiredCapabilities;
+use ILIAS\Questions\AnswerForm\Capabilities\Definitions\FeedbackProvider;
 use ILIAS\Questions\AnswerForm\Properties as AnswerFormProperties;
+use ILIAS\Questions\AnswerForm\Response as AnswerFormResponse;
+use ILIAS\Questions\Attempt\Attempt;
 use ILIAS\Questions\Legacy\LocalDIC;
+use ILIAS\Questions\Presentation\Definitions\ViewMode;
 use ILIAS\Questions\Question\Persistence\Repository;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Component\Legacy\Content as LegacyContent;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 
@@ -32,6 +38,9 @@ class ilPCAnswerForm extends ilPageContent
     private const string ANSWER_FORM_ELEMENT_TAG = 'AnswerForm';
     private const string ANSWER_FORM_ID_ATTRIBUTE = 'Uuid';
     private const string ANSWER_FORM_PLACEHOLDER = '\[\[\[ANSWER_FORM_([0-9a-f\-]+)\]\]\]';
+
+    private const string TEMPLATE_VARIABLE_MAIN = 'OUTPUT';
+
 
     public function init(): void
     {
@@ -55,16 +64,18 @@ class ilPCAnswerForm extends ilPageContent
         }
 
         global $DIC;
+        $lng = $DIC['lng'];
         $ui_factory = $DIC['ui.factory'];
         $ui_renderer = $DIC['ui.renderer'];
-        $lng = $DIC['lng'];
+        $refinery = $DIC['refinery'];
 
         return mb_ereg_replace_callback(
             self::ANSWER_FORM_PLACEHOLDER,
             fn(array $matches): string => $this->renderAnswerForm(
+                $lng,
                 $ui_factory,
                 $ui_renderer,
-                $lng,
+                $refinery,
                 $this->pg_obj->getQuestion()->getAnswerFormPropertiesByIdString($matches[1]),
                 $this->pg_obj->getAttemptData()
             ),
@@ -175,9 +186,10 @@ class ilPCAnswerForm extends ilPageContent
     }
 
     private function renderAnswerForm(
+        Language $lng,
         UIFactory $ui_factory,
         UIRenderer $ui_renderer,
-        Language $lng,
+        Refinery $refinery,
         ?AnswerFormProperties $answer_form_properties,
         ?Attempt $attempt_data
     ): string {
@@ -185,14 +197,165 @@ class ilPCAnswerForm extends ilPageContent
             return $lng->txt('broken_answer_form');
         }
 
-        return $ui_renderer->render(
-            $ui_factory->legacy()->latexContent(
-                $answer_form_properties->getDefinition()->getParticipantView()
-                    ->show(
-                        $answer_form_properties,
-                        $attempt_data
-                    )
+        $template = new \ilTemplate(
+            'tpl.qsts_question_presentation.html',
+            true,
+            true,
+            'components/ILIAS/Questions'
+        );
+
+        $question_response = $attempt_data?->getResponseForQuestion(
+            $answer_form_properties->getQuestionId()
+        );
+
+        $answer_form_response = $question_response?->getAnswerFormResponse(
+            $answer_form_properties->getAnswerFormId()
+        );
+
+        $main_content = $this->buildMainContent(
+            $lng,
+            $ui_factory,
+            $answer_form_properties,
+            $attempt_data,
+            $answer_form_response
+        );
+
+        if (!$this->pg_obj->getShowFeedback()) {
+            return $this->renderTemplate(
+                $template,
+                $ui_renderer->render($main_content)
+            );
+        }
+
+        return $this->renderTemplate(
+            $template,
+            $ui_renderer->render(
+                $this->addFeedbackSubPanelsToContent(
+                    $lng,
+                    $refinery,
+                    $ui_factory,
+                    $answer_form_properties,
+                    $answer_form_response,
+                    [
+                        $ui_factory->panel()->standard(
+                            $this->buildMainContentLabel($lng),
+                            $main_content
+                        )
+                    ]
+                )
             )
+        );
+
+
+    }
+
+    private function renderTemplate(
+        \ilTemplate $template,
+        string $content
+    ): string {
+        $template->setVariable(
+            self::TEMPLATE_VARIABLE_MAIN,
+            $content
+        );
+
+        return $template->get();
+    }
+
+    private function buildMainContentLabel(
+        Language $lng
+    ): string {
+        if ($this->pg_obj->getShowBestResponse()) {
+            return $lng->txt('best_response');
+        }
+
+        return $lng->txt('question');
+    }
+
+    private function buildMainContent(
+        Language $lng,
+        UIFactory $ui_factory,
+        ?AnswerFormProperties $answer_form_properties,
+        ?Attempt $attempt_data,
+        ?AnswerFormResponse $answer_form_response
+    ): LegacyContent {
+        /** @var RequiredCapabilities $required_capabilities */
+        $required_capabilities = $this->pg_obj->getRequiredCapabilities();
+        $participant_view = $required_capabilities
+            ->getParticipantViewProvider()
+            ->getParticipantView($answer_form_properties);
+
+        if ($this->pg_obj->getShowBestResponse()) {
+            $best_response = $this->pg_obj->getRequiredCapabilities()->getMarking(
+                $answer_form_properties
+            )?->getBestResponse(
+                $answer_form_properties
+            );
+
+            return $ui_factory->legacy()->content(
+                $participant_view->show(
+                    $lng,
+                    $answer_form_properties,
+                    $attempt_data,
+                    $best_response,
+                    ViewMode::ViewBestResponse
+                )
+            );
+        }
+
+        return $ui_factory->legacy()->content(
+            $participant_view->show(
+                $lng,
+                $answer_form_properties,
+                $attempt_data,
+                $answer_form_response,
+                $this->pg_obj->getInteractive()
+                    ? ViewMode::Respond
+                    : ViewMode::ViewResponse
+            )
+        );
+    }
+
+    private function addFeedbackSubPanelsToContent(
+        Language $lng,
+        Refinery $refinery,
+        UIFactory $ui_factory,
+        AnswerFormProperties $answer_form_properties,
+        AnswerFormResponse $answer_form_response,
+        array $content
+    ): array {
+        $required_capabilities = $this->pg_obj->getRequiredCapabilities();
+        return array_reduce(
+            $required_capabilities->getRequiredFeedbackProviders(),
+            function (
+                array $c,
+                FeedbackProvider $v
+            ) use (
+                $lng,
+                $refinery,
+                $ui_factory,
+                $answer_form_properties,
+                $answer_form_response,
+                $required_capabilities
+            ): array {
+                $output = $v->getFeedback(
+                    $answer_form_properties
+                )->getParticipantOutput(
+                    $lng,
+                    $refinery,
+                    $ui_factory,
+                    $answer_form_properties,
+                    $answer_form_response,
+                    $required_capabilities
+                );
+
+                if ($output === null) {
+                    return $c;
+                }
+
+                $c[] = $output->getUI();
+                return $c;
+            },
+            $content
         );
     }
 }

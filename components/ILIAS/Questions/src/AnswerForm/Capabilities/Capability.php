@@ -21,27 +21,14 @@ declare(strict_types=1);
 namespace ILIAS\Questions\AnswerForm\Capabilities;
 
 use ILIAS\Questions\AnswerForm\Properties;
-use ILIAS\Questions\Presentation\Layout\Viewable;
 
 interface Capability
 {
+    public static function getIdentifier(): string;
+
     public function isAvailableFor(
         Properties $answer_form_properties
     ): bool;
-
-    public function providesAnswerFormEditAdditionalTab(): bool;
-
-    public function getAnswerFormEditAdditionalTab(): ?ActionWithTab;
-
-    public function providesAnswerFormEditAdditionalStep(): bool;
-
-    public function getAnswerFormEditAdditionalStep(): ?AdditionalFormStepAction;
-
-    public function providesRenderer(): bool;
-
-    public function getRenderer(
-        Properties $answer_form_properties
-    ): ?Viewable;
 
     public function onAnswerFormUpdate(
         Properties $answer_form_properties

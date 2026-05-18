@@ -20,29 +20,27 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
+use ILIAS\Questions\AnswerForm\Response;
+use ILIAS\Questions\AnswerForm\Capabilities\TextFeedback\SpecificTextFeedback;
+use ILIAS\Questions\AnswerForm\Capabilities\TextFeedback\Types as TextFeedbackTypes;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption;
-use ILIAS\Questions\Attempt\Attempt;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Response\AnswerInput as AnswerInputResponse;
+use ILIAS\Questions\Attempt\AdditionalAttemptData;
 use ILIAS\Questions\Definitions\TextMatchingOptions;
 use ILIAS\Questions\Presentation\Definitions\Environment;
+use ILIAS\Data\UUID\Factory as UuidFactory;
+use ILIAS\Data\UUID\Uuid;
 use ILIAS\FileUpload\FileUpload;
-use ILIAS\Language\Language;
-use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Transformation;
+use ILIAS\UI\Component\Component;
 use ILIAS\UI\Factory as UIFactory;
 
 class Text extends Type
 {
     private const TextMatchingOptions DEFAULT_TECT_MATCHING_METHOD = TextMatchingOptions::CaseInsensitive;
-
-    public function __construct(
-        Refinery $refinery,
-        Language $lng,
-        private readonly UIFactory $ui_factory
-    ) {
-        parent::__construct($refinery, $lng);
-    }
 
     #[\Override]
     public function getIdentifier(): string
@@ -53,13 +51,14 @@ class Text extends Type
     #[\Override]
     public function getParticipantViewLegacyInput(
         Gap $gap,
-        ?Attempt $attempt_data
+        ?AdditionalAttemptData $additional_attempt_data,
+        ?Response $response_data
     ): string {
         $gaptemplate = new \ilTemplate(
-            'tpl.il_as_qpl_cloze_question_gap_text.html',
+            'tpl.cloze_gap_text.html',
             true,
             true,
-            'components/ILIAS/TestQuestionPool'
+            'components/ILIAS/Questions'
         );
 
         $gap_size = $gap->getMaxChars();
@@ -69,9 +68,19 @@ class Text extends Type
             $gaptemplate->parseCurrentBlock();
         }
         $gaptemplate->setVariable(
-            'GAP_COUNTER',
-            $gap->getAnswerInputId()->toString()
+            'GAP_NAME',
+            $this->buildGapName($gap)
         );
+
+        $response = $response_data?->getResponseForInput($gap->getAnswerInputId());
+        if ($response !== null) {
+            $gaptemplate->setVariable(
+                'VALUE_GAP',
+                ' value="' . \ilLegacyFormElementsUtil::prepareFormOutput(
+                    $response
+                ) . '"'
+            );
+        }
 
         return $gaptemplate->get();
     }
@@ -82,20 +91,20 @@ class Text extends Type
         Environment $environment,
         Gap $gap
     ): array {
-        $ff = $this->ui_factory->input()->field();
+        $ff = $environment->getUIFactory()->input()->field();
         return [
             'answer_options' => $ff->tag(
-                $this->lng->txt('answer_options'),
+                $environment->getLanguage()->txt('answer_options'),
                 []
             )->withRequired(true)
             ->withValue($gap->getAnswerOptions()->getTagsArrayFromAnswerOptions()),
             'matching_method' => $ff->select(
-                $this->lng->txt('matching_method'),
-                TextMatchingOptions::buildOptionsList($this->lng)
+                $environment->getLanguage()->txt('text_matching_method'),
+                TextMatchingOptions::buildOptionsList($environment->getLanguage())
             )->withRequired(true)
             ->withValue($gap->getTextMatchingMethod()?->value ?? self::DEFAULT_TECT_MATCHING_METHOD->value),
             'max_chars' => $ff->numeric(
-                $this->lng->txt('max_chars'),
+                $environment->getLanguage()->txt('max_chars'),
             )->withValue($gap->getMaxChars())
         ];
     }
@@ -114,10 +123,11 @@ class Text extends Type
 
     #[\Override]
     public function getEditPointsInputs(
+        UIFactory $ui_factory,
         AnswerOptions $answer_options
     ): array {
         return $answer_options->getEditPointsInputs(
-            $this->ui_factory->input()->field(),
+            $ui_factory->input()->field(),
             fn(AnswerOption $v): string => $v->getTextValue()
         );
     }
@@ -153,5 +163,108 @@ class Text extends Type
                     )
                 )
         );
+    }
+
+    #[\Override]
+    public function retrieveResponseFromPost(
+        RequestWrapper $post_wrapper,
+        UuidFactory $uuid_factory,
+        Gap $gap
+    ): AnswerInputResponse {
+        return new AnswerInputResponse(
+            $gap,
+            null,
+            $post_wrapper->retrieve(
+                $this->buildGapName($gap),
+                $this->refinery->byTrying([
+                    $this->refinery->kindlyTo()->string(),
+                    $this->refinery->always('')
+                ])
+            )
+        );
+    }
+
+    #[\Override]
+    public function isBestResponse(
+        Gap $gap,
+        AnswerInputResponse $response
+    ): bool {
+        return $this->getBestResponse(
+            $gap
+        )?->getResponse() === $response->getResponse();
+    }
+
+    #[\Override]
+    public function calculateAwardedPointsForResponse(
+        Gap $gap,
+        Uuid|string|null $response
+    ): float {
+
+        $answer_option = array_filter(
+            $gap->getAnswerOptions()->getAnswerOptionsAwardingPoints(),
+            fn(AnswerOption $v): bool => $response === $v->getTextValue()
+        );
+
+        if ($answer_option === []) {
+            return 0.0;
+        }
+
+        return array_shift($answer_option)->getAvailablePoints();
+    }
+
+    #[\Override]
+    public function getSpecificFeedbackParticipantOutput(
+        UIFactory $ui_factory,
+        Gap $gap,
+        array $specific_feedbacks,
+        Uuid|string $answer_input_response
+    ): ?Component {
+        $specific_feedbacks_by_condition = array_reduce(
+            $specific_feedbacks,
+            function (array $c, SpecificFeedback $v): array {
+                if (!array_key_exists($v->getCondition(), $c)) {
+                    $c[$v->getCondition()] = [];
+                }
+
+                $c[$v->getCondition()] = $v->getFeedbackText();
+
+                return $c;
+            },
+            []
+        );
+
+        if ($answer_input_response instanceof Uuid) {
+            return $this->getSpecificFeedbackParticipantOutputForAnswerOption(
+                $ui_factory,
+                $specific_feedbacks_by_condition[$answer_input_response->toString()] ?? null
+            );
+        }
+
+        if ($this->getBestResponse($gap) === null) {
+            return null;
+        }
+
+        if ($this->getBestResponse($gap)->getResponse() === $answer_input_response) {
+            return isset($specific_feedbacks_by_condition[TextFeedbackTypes::BestResponse->value])
+                ? $ui_factory->legacy()->content(
+                    $this->refinery->string()->markdown()->toHTML()->transform(
+                        $specific_feedbacks_by_condition[TextFeedbackTypes::BestResponse->value]->getRawRepresentation()
+                    )
+                ) : null;
+        }
+
+        return isset($specific_feedbacks_by_condition[TextFeedbackTypes::OtherResponse->value])
+            ? $ui_factory->legacy()->content(
+                $this->refinery->string()->markdown()->toHTML()->transform(
+                    $specific_feedbacks_by_condition[TextFeedbackTypes::OtherResponse->value]->getRawRepresentation()
+                )
+            ) : null;
+    }
+
+    #[\Override]
+    protected function retrieveResponseTextFromAnswerOption(
+        AnswerOption $answer_option
+    ): string {
+        return $answer_option->getTextValue();
     }
 }

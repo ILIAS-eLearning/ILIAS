@@ -83,7 +83,7 @@ class CreateMode implements SettingDefinition
                 $v->getBylineForInput($lng)
             ),
             $field_factory->radio(
-                $lng->txt('create_mode')
+                $lng->txt('question_create_mode')
             )
         )->withValue(
             $user !== null
@@ -117,7 +117,7 @@ class CreateMode implements SettingDefinition
                 );
                 return $c;
             },
-            new \ilRadioGroupInputGUI($lng->txt('create_mode'))
+            new \ilRadioGroupInputGUI($lng->txt('question_create_mode'))
         );
 
         $input->setValue(

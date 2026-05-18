@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations;
 
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations\MatchingValue;
 use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
 use ILIAS\Questions\Persistence\Delete;
@@ -42,7 +43,7 @@ class Combination
 {
     /**
      * @param Uuid $id
-     * @param array<ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations\MatchingValue> $matching_values
+     * @param list<MatchingValue> $matching_values
      */
     public function __construct(
         private readonly Uuid $id,
@@ -258,6 +259,7 @@ class Combination
         return $field_factory->section(
             [
                 'values' => $this->buildValuesInputs(
+                    $lng,
                     $field_factory,
                     $properties
                 ),
@@ -272,7 +274,7 @@ class Combination
             $refinery->custom()->constraint(
                 fn(array $vs): bool => !$properties->getCombinations()
                     ->hasMatchingCombinationForAnswerOptionIds($vs['values']),
-                $lng->txt('combination_already_exists')
+                $lng->txt('gap_combination_already_exists')
             )
         )->withAdditionalTransformation(
             $refinery->custom()->transformation(
@@ -304,13 +306,21 @@ class Combination
     }
 
     private function buildValuesInputs(
+        Language $lng,
         FieldFactory $field_factory,
         Properties $properties
     ): Group {
         return $field_factory->group(
             array_reduce(
                 $this->matching_values,
-                function (array $c, MatchingValue $v) use ($field_factory, $properties): array {
+                function (
+                    array $c,
+                    MatchingValue $v
+                ) use (
+                    $field_factory,
+                    $lng,
+                    $properties
+                ): array {
                     $gap_id = $v->getGap()->getAnswerInputId();
                     $gap = $properties->getGaps()->getGapById($gap_id);
                     $c[$gap_id->toString()] = $field_factory->select(

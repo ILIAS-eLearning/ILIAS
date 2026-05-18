@@ -20,13 +20,16 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
+use ILIAS\Questions\AnswerForm\Response;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption;
-use ILIAS\Questions\Attempt\Attempt;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Response\AnswerInput as AnswerInputResponse;
+use ILIAS\Questions\Attempt\AdditionalAttemptData;
 use ILIAS\Questions\Presentation\Definitions\Environment;
+use ILIAS\Data\UUID\Factory as UuidFactory;
+use ILIAS\Data\UUID\Uuid;
 use ILIAS\FileUpload\FileUpload;
-use ILIAS\Language\Language;
-use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Random\Seed\GivenSeed;
 use ILIAS\Refinery\Random\Seed\RandomSeed;
@@ -37,14 +40,6 @@ class Select extends Type
 {
     private const bool DEFAULT_SHUFFLE_ANSWER_OPTIONS = false;
 
-    public function __construct(
-        Refinery $refinery,
-        Language $lng,
-        private readonly UIFactory $ui_factory
-    ) {
-        parent::__construct($refinery, $lng);
-    }
-
     #[\Override]
     public function getIdentifier(): string
     {
@@ -54,30 +49,43 @@ class Select extends Type
     #[\Override]
     public function getParticipantViewLegacyInput(
         Gap $gap,
-        ?Attempt $attempt_data
+        ?AdditionalAttemptData $additional_attempt_data,
+        ?Response $response_data
     ): string {
         $gaptemplate = new \ilTemplate(
-            'tpl.il_as_qpl_cloze_question_gap_select.html',
+            'tpl.cloze_gap_select.html',
             true,
             true,
-            'components/ILIAS/TestQuestionPool'
+            'components/ILIAS/Questions'
         );
+
+        $selected_answer_option = $response_data?->getResponseForInput(
+            $gap->getAnswerInputId()
+        )?->toString();
 
         foreach ($gap->getAnswerOptions()->buildArrayForSelectInput(
             $this->buildShuffler(
                 $gap,
-                $attempt_data
+                $additional_attempt_data
             )
-        ) as $key => $answer_option) {
+        ) as $answer_option_id => $answer_option) {
             $gaptemplate->setCurrentBlock('select_gap_option');
             $gaptemplate->setVariable(
                 'SELECT_GAP_VALUE',
-                $key
+                $answer_option_id
             );
             $gaptemplate->setVariable(
                 'SELECT_GAP_TEXT',
                 \ilLegacyFormElementsUtil::prepareFormOutput($answer_option)
             );
+
+            if ($answer_option_id === $selected_answer_option) {
+                $gaptemplate->setVariable(
+                    'SELECT_GAP_SELECTED',
+                    ' selected="selected"'
+                );
+            }
+
             $gaptemplate->parseCurrentBlock();
         }
 
@@ -87,8 +95,8 @@ class Select extends Type
         );
 
         $gaptemplate->setVariable(
-            'GAP_COUNTER',
-            $gap->getAnswerInputId()->toString()
+            'GAP_NAME',
+            $this->buildGapName($gap)
         );
 
         return $gaptemplate->get();
@@ -100,15 +108,15 @@ class Select extends Type
         Environment $environment,
         Gap $gap
     ): array {
-        $ff = $this->ui_factory->input()->field();
+        $ff = $environment->getUIFactory()->input()->field();
         return [
             'answer_options' => $ff->tag(
-                $this->lng->txt('answer_options'),
+                $environment->getLanguage()->txt('answer_options'),
                 []
             )->withRequired(true)
             ->withValue($gap->getAnswerOptions()->getTagsArrayFromAnswerOptions()),
             'shuffle_answer_options' => $ff->checkbox(
-                $this->lng->txt('shuffle_answers')
+                $environment->getLanguage()->txt('shuffle_answers')
             )->withValue($gap?->getShuffleAnswerOptions() ?? self::DEFAULT_SHUFFLE_ANSWER_OPTIONS)
         ];
     }
@@ -121,10 +129,11 @@ class Select extends Type
 
     #[\Override]
     public function getEditPointsInputs(
+        UIFactory $ui_factory,
         AnswerOptions $answer_options
     ): array {
         return $answer_options->getEditPointsInputs(
-            $this->ui_factory->input()->field(),
+            $ui_factory->input()->field(),
             fn(AnswerOption $v): string => $v->getTextValue()
         );
     }
@@ -158,22 +167,81 @@ class Select extends Type
         );
     }
 
+    #[\Override]
+    public function retrieveResponseFromPost(
+        RequestWrapper $post_wrapper,
+        UuidFactory $uuid_factory,
+        Gap $gap
+    ): AnswerInputResponse {
+        return new AnswerInputResponse(
+            $gap,
+            $post_wrapper->retrieve(
+                $this->buildGapName($gap),
+                $this->refinery->byTrying([
+                    $this->refinery->custom()->transformation(
+                        function (?string $v) use ($uuid_factory, $gap): ?Uuid {
+                            if ($v === null) {
+                                return null;
+                            }
+
+                            try {
+                                $answer_option_id = $uuid_factory->fromString($v);
+                            } catch (\Exception $e) {
+                                return null;
+                            }
+
+                            if ($gap->getAnswerOptions()->getAnswerOptionById(
+                                $answer_option_id
+                            ) === null) {
+                                return null;
+                            }
+
+                            return $answer_option_id;
+                        }
+                    ),
+                    $this->refinery->always(null)
+                ])
+            ),
+            ''
+        );
+    }
+
     private function buildShuffler(
         Gap $gap,
-        Attempt $attempt_data
+        ?AdditionalAttemptData $additional_attempt_data
     ): Transformation {
         if (!$gap->getShuffleAnswerOptions()) {
             return $this->refinery->random()->dontShuffle();
         }
 
         return $this->refinery->random()->shuffleArray(
-            $attempt_data === null
-                ? new RandomSeed()
-                : new GivenSeed(
-                    $this->refinery->kindlyTo()->int()->transform(
-                        $attempt_data->getAdditionalDataFor($gap->getAnswerInputId())
-                    )
-                )
+            $this->buildSeed(
+                $gap,
+                $additional_attempt_data
+            )
         );
+    }
+
+    private function buildSeed(
+        Gap $gap,
+        ?AdditionalAttemptData $additional_attempt_data
+    ): GivenSeed {
+        if ($additional_attempt_data === null) {
+            return new RandomSeed();
+        }
+
+        $given_seed = $additional_attempt_data->getAdditionalDataFor(
+            $gap->getAnswerInputId()
+        );
+
+        if (is_numeric($given_seed)) {
+            return new GivenSeed(
+                $this->refinery->kindlyTo()->int()->transform(
+                    $given_seed
+                )
+            );
+        }
+
+        return new RandomSeed();
     }
 }

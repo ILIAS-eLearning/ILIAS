@@ -50,7 +50,7 @@ class EditOverview implements Viewable
             $this->environment->getUIFactory()->listing()->descriptive(
                 $this->environment->getAnswerFormProperties()
                     ->getBasicPropertiesForListing(
-                        $this->environment->getLanguage()
+                        $this->environment
                     )
             )
         ];

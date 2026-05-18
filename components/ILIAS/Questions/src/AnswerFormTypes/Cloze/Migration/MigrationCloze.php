@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Migration;
 
-use ILIAS\Questions\AnswerForm\Capabilities\Feedback\Types;
+use ILIAS\Questions\AnswerForm\Capabilities\TextFeedback\Types;
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
 use ILIAS\Questions\AnswerForm\Migration\Migration;
 use ILIAS\Questions\AnswerForm\Migration\MigrationInsert;
@@ -185,7 +185,7 @@ class MigrationCloze implements Migration
         }
 
         if ($answer === -1) {
-            return [Types::NothingSelected->value];
+            return [Types::NoResponse->value];
         }
 
         if ($gap['is_numeric']) {

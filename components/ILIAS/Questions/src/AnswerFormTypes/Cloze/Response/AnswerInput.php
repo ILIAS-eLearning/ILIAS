@@ -21,16 +21,22 @@ declare(strict_types=1);
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Response;
 
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
+use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gap;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
-use ILIAS\Questions\Persistence\Replace;
+use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Database\FieldDefinition;
 
 class AnswerInput
 {
+    public const string KEY_ANSWER_INPUT_ID = 'answer_input_id';
+    public const string KEY_SELECTED_ANSWER_OPTION = 'selected_answer_option';
+    public const string KEY_TEXT = 'text';
+
     public function __construct(
-        private readonly Uuid $answer_input_id,
+        private readonly Gap $gap,
         private readonly ?Uuid $selected_answer_option,
         private readonly string $text
     ) {
@@ -38,14 +44,40 @@ class AnswerInput
 
     public function getAnswerInputId(): Uuid
     {
-        return $this->answer_input_id;
+        return $this->gap->getAnswerInputId();
+    }
+
+    public function getResponse(): Uuid|string|null
+    {
+        if ($this->selected_answer_option !== null) {
+            return $this->selected_answer_option;
+        }
+
+        if ($this->text !== '') {
+            return $this->text;
+        }
+
+        return null;
+    }
+
+    public function isBest(): bool
+    {
+        return $this->gap->getType()->isBestResponse($this->gap, $this);
+    }
+
+    public function toPreviewStorage(): array
+    {
+        return [
+            self::KEY_SELECTED_ANSWER_OPTION => $this->selected_answer_option?->toString(),
+            self::KEY_TEXT => $this->text
+        ];
     }
 
     public function toStorage(
         TableDefinitions $table_definitions,
         TableNameBuilder $table_names_builder,
         PersistenceFactory $persistence_factory,
-        ?Replace $insert,
+        ?Insert $insert,
         Uuid $id
     ): Insert {
         if ($insert === null) {
@@ -74,7 +106,7 @@ class AnswerInput
             ),
             $persistence_factory->value(
                 FieldDefinition::T_TEXT,
-                $this->answer_input_id->toString()
+                $this->gap->getAnswerInputId()->toString()
             ),
             $persistence_factory->value(
                 FieldDefinition::T_TEXT,

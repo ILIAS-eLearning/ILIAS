@@ -289,8 +289,12 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
             ]);
         }
 
-        if (!$this->db->primaryExistsByFields($table_name, ['response_id'])) {
-            $this->db->addPrimaryKey($table_name, ['response_id']);
+        if (!$this->db->primaryExistsByFields($table_name, ['response_id', 'answer_input_id'])) {
+            $this->db->addPrimaryKey($table_name, ['response_id', 'answer_input_id']);
+        }
+
+        if (!$this->db->indexExistsByFields($table_name, ['response_id'])) {
+            $this->db->addIndex($table_name, ['response_id'], 'r');
         }
     }
 }

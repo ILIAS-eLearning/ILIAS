@@ -28,10 +28,11 @@ use ILIAS\StaticURL\Services as StaticURLServices;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Link\Factory as LinkFactory;
 use ILIAS\UI\Component\Link\Standard as StandardLink;
+use ILIAS\UI\Factory as UIFactory;
 
 enum Types: string
 {
-    case None = 'no_content';
+    case None = 'none';
     case LearningModule = 'lm';
     case LearningModuleChapter = 'st';
     case LearningModulePage = 'pg';
@@ -47,20 +48,35 @@ enum Types: string
         };
     }
 
+    public static function buildOptionsList(
+        Language $lng
+    ): array {
+        return array_reduce(
+            self::cases(),
+            function (array $c, Types $v) use ($lng): array {
+                if ($v === Types::None) {
+                    return $c;
+                }
+                $c[$v->value] = $v->getTranslatedOptionName($lng);
+                return $c;
+            },
+            []
+        );
+    }
+
     public function present(
+        Language $lng,
         \ilCtrl $ctrl,
         StaticURLServices $static_url,
         IRSS $irss,
-        Environment $environment,
+        UIFactory $ui_factory,
         string $file_title,
         ?ResourceIdentification $rid,
         ?int $target_ref_id,
         ?int $sub_object_id
     ): ?StandardLink {
-        $lf = $environment->getUIFactory()->link();
-        $lng = $environment->getLanguage();
         return match($this) {
-            self::File => $lf->standard(
+            self::File => $ui_factory->link()->standard(
                 $file_title === ''
                     ? $irss->manage()->getResource($rid)->getCurrentRevision()->getTitle()
                 : $file_title,
@@ -69,18 +85,17 @@ enum Types: string
             self::LearningModule => $this->buildLinkToLearningModule(
                 $ctrl,
                 $lng,
-                $lf,
+                $ui_factory->link(),
                 $target_ref_id
             ),
             self::LearningModulePage,
             self::LearningModuleChapter,
-            self::GlossaryTerm => $lf->standard(
-                $lng->txt('show'),
-                $static_url->builder()->build(
-                    $this->value,
-                    null,
-                    [$sub_object_id]
-                )->__toString()
+            self::GlossaryTerm => $this->buildLinkToSubObject(
+                $lng,
+                $ui_factory->link(),
+                $static_url,
+                $target_ref_id,
+                $sub_object_id
             ),
             self::None => null
         };
@@ -173,8 +188,9 @@ enum Types: string
             'ref_id',
             $target_ref_id
         );
+
         $link = $link_factory->standard(
-            $lng->txt('show'),
+            "{$this->getTranslatedOptionName($lng)}: {$this->lookupObjectTitle($target_ref_id)}",
             $ctrl->getLinkTargetByClass(
                 [
                     \ilLMPresentationGUI::class
@@ -186,6 +202,40 @@ enum Types: string
             'ref_id'
         );
         return $link;
+    }
+
+    private function buildLinkToSubObject(
+        Language $lng,
+        LinkFactory $link_factory,
+        StaticURLServices $static_url,
+        int $target_ref_id,
+        int $sub_object_id
+    ): StandardLink {
+        $sub_object_title = match($this) {
+            self::GlossaryTerm => (
+                new \ilGlossaryTerm($sub_object_id)
+            )->getTerm(),
+            default => \ilLMObject::_lookupTitle(
+                $sub_object_id
+            )
+        };
+
+        return $link_factory->standard(
+            "{$this->getTranslatedOptionName($lng)}: {$this->lookupObjectTitle($target_ref_id)} - {$sub_object_title}",
+            $static_url->builder()->build(
+                $this->value,
+                null,
+                [$sub_object_id]
+            )->__toString()
+        );
+    }
+
+    private function lookupObjectTitle(
+        int $target_ref_id
+    ): string {
+        return \ilObject::_lookupTitle(
+            \ilObject::_lookupObjId($target_ref_id)
+        );
     }
 
     private function buildUploadFileInput(
@@ -247,7 +297,7 @@ enum Types: string
                     $node_retrieval->buildValidNodeConstraint()
                 )
             ],
-            $environment->getLanguage()->txt('select_object')
+            $this->getTranslatedOptionName($lng)
         )->withAdditionalTransformation(
             $environment->getRefinery()->custom()->transformation(
                 fn(array $vs): Content => $repository->getNew(

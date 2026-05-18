@@ -16,6 +16,8 @@ $il-test-margin-large-horizontal: $il-padding-large-horizontal;
 $il-test-working-time-font-size: $il-font-size-large;
 $il-test-working-time-font-weight: $il-font-weight-bold;
 
+$il-test-solution-value-background: $il-highlight-bg;
+
 // general layout
 #tst_output {
     display: flex;
@@ -396,4 +398,8 @@ $cons-scoring-bottom-fade-height: $il-padding-xxxlarge-vertical * 2;
       }
     }
   }
+}
+
+.c-test__solution-value {
+   background: $il-test-solution-value-background
 }

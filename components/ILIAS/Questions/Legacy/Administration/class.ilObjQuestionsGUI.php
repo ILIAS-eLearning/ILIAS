@@ -20,9 +20,10 @@ declare(strict_types=1);
 
 use ILIAS\Questions\Administration\ConfigurationGUI;
 use ILIAS\Questions\Administration\ConfigurationRepository;
-use ILIAS\Questions\AnswerForm\Capabilities\Feedback\Feedback;
-use ILIAS\Questions\AnswerForm\Capabilities\SuggestedLearningContent\SuggestedLearningContent;
-use ILIAS\Questions\AnswerForm\Capabilities\Marking\Marking;
+use ILIAS\Questions\AnswerForm\Capabilities\DefaultView\Capability as DefaultView;
+use ILIAS\Questions\AnswerForm\Capabilities\TextFeedback\Capability as TextFeedback;
+use ILIAS\Questions\AnswerForm\Capabilities\SuggestedLearningContent\Capability as SuggestedLearningContent;
+use ILIAS\Questions\AnswerForm\Capabilities\MarkingAllowingPartialPoints\Capability as MarkingAllowingPartialPoints;
 use ILIAS\Questions\Legacy\LocalDIC;
 use ILIAS\Questions\Presentation\Views\Edit;
 use ILIAS\Questions\PublicInterface;
@@ -68,12 +69,15 @@ class ilObjQuestionsGUI extends ilObjectGUI
 
         $local_dic = LocalDIC::dic();
         $this->edit_view = $local_dic[PublicInterface::class]
-            ->getEditView($this->object->getId())
-            ->withRequiredCapabilities([
-                Feedback::class,
-                SuggestedLearningContent::class,
-                Marking::class
-            ]);
+            ->getEditView(
+                [
+                    DefaultView::getIdentifier(),
+                    TextFeedback::getIdentifier(),
+                    SuggestedLearningContent::getIdentifier(),
+                    MarkingAllowingPartialPoints::getIdentifier()
+                ],
+                $this->object->getId()
+            );
         $this->configuration_repository = $local_dic[ConfigurationRepository::class];
 
         $this->lng->loadLanguageModule('assessment');

@@ -61,26 +61,31 @@ class DefaultPublicInterface implements PublicInterface
         private readonly Repository $questions_repository,
         private readonly AttemptRepository $attempt_repository,
         private readonly LayoutFactory $layout_factory,
-        private readonly CapabilitiesFactory $capabilities_factory,
-        private CapabilitiesEditView $capabilities_edit_view
+        private readonly CapabilitiesFactory $capabilities_factory
     ) {
     }
 
     #[\Override]
     public function getParticipantView(
+        array $required_capabilities_class_names,
         int $owner_obj_id
     ): Participant {
         return new Participant(
+            $this->lng,
+            $this->refinery,
             $this->ui_factory,
-            $this->capabilities_factory,
+            $this->http,
             $this->questions_repository,
             $this->attempt_repository,
+            $this->capabilities_factory,
+            $required_capabilities_class_names,
             $owner_obj_id
         );
     }
 
     #[\Override]
     public function getEditView(
+        array $required_capabilities_class_names,
         int $owner_obj_id
     ): Edit {
         return new Edit(
@@ -100,8 +105,10 @@ class DefaultPublicInterface implements PublicInterface
             $this->configuration_repository,
             $this->answer_form_factory,
             $this->questions_repository,
+            $this->attempt_repository,
             $this->layout_factory,
-            $this->capabilities_edit_view,
+            $this->capabilities_factory,
+            $required_capabilities_class_names,
             $owner_obj_id
         );
     }

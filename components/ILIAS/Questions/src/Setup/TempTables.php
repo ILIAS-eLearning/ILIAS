@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Setup;
 
-use QstsTempAttemptRepository;
+use ILIAS\Questions\Temp\AttemptRepository;
 use ILIAS\Database\FieldDefinition;
 
 class TempTables implements \ilDatabaseUpdateSteps
@@ -36,7 +36,7 @@ class TempTables implements \ilDatabaseUpdateSteps
 
     public function step_1(): void
     {
-        $table_name = QstsTempAttemptRepository::TABLE_NAME;
+        $table_name = AttemptRepository::TABLE_NAME;
 
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
@@ -49,6 +49,12 @@ class TempTables implements \ilDatabaseUpdateSteps
                     'type' => FieldDefinition::T_TEXT,
                     'length' => 64,
                     'notnull' => true
+                ],
+                'solved_questions' => [
+                    'type' => FieldDefinition::T_TEXT,
+                    'length' => 4000,
+                    'notnull' => true,
+                    'default' => ''
                 ]
             ]);
         }

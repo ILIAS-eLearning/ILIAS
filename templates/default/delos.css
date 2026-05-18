@@ -17371,6 +17371,10 @@ div.ilc_Page.readonly textarea[disabled] {
   height: 50vh;
 }
 
+.c-test__solution-value {
+  background: rgb(226.2857142857, 231.6428571429, 238.7142857143);
+}
+
 /* Modules/Wiki */
 a.ilWikiPageMissing:link, a.ilWikiPageMissing:visited {
   color: #d00;
