@@ -98,6 +98,9 @@ class ilPermissionGUI
         $this->lng->loadLanguageModule('rbac');
         $this->gui_obj = $a_gui_obj;
         $this->tabs->activateTab('perm_settings');
+        if ($this->tabs->getActiveTab() === '') {
+            $this->tabs->activateTab('id_permissions');
+        }
     }
 
     private function getPositionRepo(): ilOrgUnitPositionDBRepository
