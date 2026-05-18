@@ -58,8 +58,14 @@ class ilFileSystemTableGUI extends ilTable2GUI
         $this->setId($a_table_id);
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
-        if ($a_cur_dir !== realpath($a_cur_dir)) {
-            throw new \InvalidArgumentException('$a_cur_dir must be a absolute path');
+        if ($a_cur_dir === '' || $a_cur_dir !== realpath($a_cur_dir)) {
+            // The requested directory is not a valid canonical absolute path,
+            // e.g. because its name contains non-UTF-8/special characters
+            // created by an older ILIAS version (Mantis 45045). Fall back to
+            // the managed base directory instead of throwing a fatal error
+            // that breaks the whole page.
+            $a_cur_dir = $this->filesystem_gui->getMainAbsoluteDir();
+            $this->cur_subdir = '';
         }
         $this->filesystem = LegacyPathHelper::deriveFilesystemFrom($a_cur_dir);
         $this->relative_cur_dir = LegacyPathHelper::createRelativePath($a_cur_dir);

@@ -172,6 +172,11 @@ class ilFileSystemGUI
         return $this->table_id;
     }
 
+    public function getMainAbsoluteDir(): string
+    {
+        return $this->main_absolute_dir;
+    }
+
     public function setTitle(string $a_val): void
     {
         $this->title = $a_val;
@@ -298,8 +303,20 @@ class ilFileSystemGUI
             ? $this->main_absolute_dir
             : $this->main_absolute_dir . "/" . $cur_subdir;
 
+        $resolved_dir = realpath($cur_dir);
+        if ($resolved_dir === false) {
+            // The requested directory cannot be resolved, e.g. because its
+            // name contains non-UTF-8/special characters created by an older
+            // ILIAS version (Mantis 45045). Fall back to the managed base
+            // directory instead of crashing the whole page.
+            return [
+                "dir" => $this->main_absolute_dir,
+                "subdir" => ''
+            ];
+        }
+
         return [
-            "dir" => realpath($cur_dir),
+            "dir" => $resolved_dir,
             "subdir" => $cur_subdir
         ];
     }
