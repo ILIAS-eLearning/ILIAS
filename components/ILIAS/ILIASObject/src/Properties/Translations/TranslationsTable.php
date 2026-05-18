@@ -250,6 +250,9 @@ class TranslationsTable implements DataRetrieval
         $this->object_properties->storePropertyTranslations(
             $this->translations
         );
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
+        $this->ctrl->redirectByClass($this->ctrl->getCurrentClassPath());
     }
 
     private function deleteTranslations(): void
