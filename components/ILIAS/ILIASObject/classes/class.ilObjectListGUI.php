@@ -810,7 +810,7 @@ class ilObjectListGUI
             global $DIC;
             /** @var ILIAS\WebDAV\Environment $webdav */
             $webdav = $DIC[ILIAS\WebDAV\Environment::class];
-            if ($webdav->isActive()) {
+            if ($cmd == 'mount_webfolder' && $webdav->isActive()) {
                 return $webdav->getUriToMountInstructionModalByRef($this->ref_id);
             }
             // END WebDAV Get mount webfolder link.
