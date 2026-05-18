@@ -101,9 +101,9 @@ class assFileUploadFileTableGUI extends ilTable2GUI
     protected function buildFileItemContent(array $a_set): string
     {
         $value = $a_set['value2'];
-        if($value === 'rid') {
+        if ($value === 'rid') {
             $rid = $this->irss->manage()->find($a_set['value1']);
-            if($rid === null) {
+            if ($rid === null) {
                 return ilLegacyFormElementsUtil::prepareFormOutput($value);
             }
             $value = $this->irss->manage()->getCurrentRevision($rid)->getTitle();
