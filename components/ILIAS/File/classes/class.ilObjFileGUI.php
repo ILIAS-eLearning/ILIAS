@@ -282,7 +282,12 @@ class ilObjFileGUI extends ilObject2GUI
                 }
                 /** @var ilObjFile $obj */
                 $obj = $this->object;
-                $this->ctrl->forwardCommand(new ilFileVersionsGUI($obj));
+                $this->ctrl->forwardCommand(
+                    new ilFileVersionsGUI(
+                        $obj,
+                        $this->capabilities
+                    )
+                );
                 break;
             case strtolower(ilObjFileUploadHandlerGUI::class):
                 $this->ctrl->forwardCommand(new ilObjFileUploadHandlerGUI());
@@ -314,7 +319,13 @@ class ilObjFileGUI extends ilObject2GUI
                         $this->object->getId()
                     );
                 } else {
-                    $goto_link = ilLink::_getLink($this->object->getRefId());
+                    // select best of the following
+                    $cap = $this->capabilities->getBestOf(
+                        Capabilities::MANAGE_VERSIONS,
+                        Capabilities::VIEW_EXTERNAL,
+                        Capabilities::INFO_PAGE
+                    );
+                    $goto_link = (string) $cap->getUri();
                 }
 
                 $embeded_application = new EmbeddedApplication(
