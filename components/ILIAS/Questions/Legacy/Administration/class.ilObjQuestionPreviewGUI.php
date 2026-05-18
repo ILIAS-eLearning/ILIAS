@@ -18,16 +18,15 @@
 
 declare(strict_types=1);
 
-use ILIAS\Questions\AnswerForm\Capabilities\Feedback\Feedback;
-use ILIAS\Questions\AnswerForm\Capabilities\SuggestedLearningContent\SuggestedLearningContent;
-use ILIAS\Questions\AnswerForm\Capabilities\Marking\Marking;
 use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
+use ILIAS\Questions\Legacy\Administration\ViewConfiguration;
 use ILIAS\Questions\Legacy\LocalDIC;
 use ILIAS\Questions\Question\Persistence\Repository;
 use ILIAS\Questions\Question\Views\Participant as QuestionParticipantView;
 use ILIAS\Questions\PublicInterface;
 use ILIAS\Questions\Presentation\Definitions\OverviewTableColumns;
 use ILIAS\Questions\Presentation\Views\Participant;
+use ILIAS\Questions\Temp\AttemptRepository;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
@@ -57,12 +56,14 @@ class ilObjQuestionPreviewGUI implements DataRetrieval
 
     private const string CMD_DEFAULT = 'show';
     private const string CMD_SHOW_QUESTION = 'showQuestion';
-    private const string CMD_SHOW_QUESTION_ASYNC = 'showQuestionAsync';
     private const string CMD_RESPOND = 'respond';
+    private const string CMD_DELETE_RESPONSES = 'deleteResponses';
 
     private readonly Repository $repository;
     private readonly AnswerFormFactory $answer_form_factory;
     private readonly Participant $participant_view;
+
+    private readonly ViewConfiguration $view_configuration;
 
     private readonly ilCtrl $ctrl;
     private readonly Language $lng;
@@ -70,6 +71,7 @@ class ilObjQuestionPreviewGUI implements DataRetrieval
     private readonly ilGlobalTemplateInterface $tpl;
     private readonly ilObjUser $current_user;
     private readonly ilTabsGUI $tabs_gui;
+    private readonly ilToolbarGUI $toolbar;
     private readonly UIFactory $ui_factory;
     private readonly UIRenderer $ui_renderer;
     private readonly \ilUIService $ui_service;
@@ -81,11 +83,54 @@ class ilObjQuestionPreviewGUI implements DataRetrieval
     private readonly URLBuilderToken $action_token;
     private readonly URLBuilderToken $row_id_token;
 
-    private readonly QstsTempAttemptRepository $temp_attempt_repository;
+    private readonly AttemptRepository $temp_attempt_repository;
 
     public function __construct(
         private readonly int $object_id
     ) {
+        /** @var ILIAS\DI\Container $DIC */
+        global $DIC;
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->lng = $DIC['lng'];
+        $this->tpl = $DIC['tpl'];
+        $this->current_user = $DIC['user']->getLoggedInUser();
+        $this->tabs_gui = $DIC['ilTabs'];
+        $this->toolbar = $DIC['ilToolbar'];
+        $this->http = $DIC['http'];
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
+        $this->ui_service = $DIC->uiService();
+        $this->refinery = $DIC['refinery'];
+        $this->data_factory = new DataFactory();
+        $this->uuid_factory = new UuidFactory();
+
+        $this->temp_attempt_repository = new AttemptRepository(
+            $DIC['ilDB'],
+            $this->uuid_factory
+        );
+
+        [
+            $url_builder,
+            $this->action_token,
+            $this->row_id_token
+        ] = $this->getUrlBuilder()->acquireParameters(
+            self::PARAMETER_NAMENSPACE,
+            self::ACTION_TOKEN_STRING,
+            self::ROW_ID_TOKEN_STRING
+        );
+
+        $this->view_configuration = new ViewConfiguration(
+            $this->lng,
+            $this->refinery,
+            $this->ui_factory,
+            $this->http->wrapper()->query(),
+            $url_builder,
+            $DIC['ilToolbar']
+        );
+
+        $this->url_builder = $this->view_configuration
+            ->getURLBuilderWithPreservedConfigurationParameter();
+
         /**
          * sk, 2026.05.06: This is done this way as this is a completely
          * temporary class. It should be made as simple as possible to get rid
@@ -95,37 +140,10 @@ class ilObjQuestionPreviewGUI implements DataRetrieval
         $this->repository = $local_dic[Repository::class];
         $this->answer_form_factory = $local_dic[AnswerFormFactory::class];
         $this->participant_view = $local_dic[PublicInterface::class]
-            ->getParticipantView($this->object_id);
-
-        /** @var ILIAS\DI\Container $DIC */
-        global $DIC;
-        $this->ctrl = $DIC['ilCtrl'];
-        $this->lng = $DIC['lng'];
-        $this->tpl = $DIC['tpl'];
-        $this->current_user = $DIC['user']->getLoggedInUser();
-        $this->tabs_gui = $DIC['ilTabs'];
-        $this->http = $DIC['http'];
-        $this->ui_factory = $DIC['ui.factory'];
-        $this->ui_renderer = $DIC['ui.renderer'];
-        $this->ui_service = $DIC->uiService();
-        $this->refinery = $DIC['refinery'];
-        $this->data_factory = new DataFactory();
-        $this->uuid_factory = new UuidFactory();
-
-        $this->temp_attempt_repository = new QstsTempAttemptRepository(
-            $DIC['ilDB'],
-            $this->uuid_factory
-        );
-
-        [
-            $this->url_builder,
-            $this->action_token,
-            $this->row_id_token
-        ] = $this->getUrlBuilder()->acquireParameters(
-            self::PARAMETER_NAMENSPACE,
-            self::ACTION_TOKEN_STRING,
-            self::ROW_ID_TOKEN_STRING
-        );
+            ->getParticipantView(
+                $this->view_configuration->getCurrentConfiguration(),
+                $this->object_id
+            );
     }
 
     public function executeCommand(): void
@@ -153,6 +171,8 @@ class ilObjQuestionPreviewGUI implements DataRetrieval
 
     private function showCmd(): void
     {
+        $this->view_configuration->initializeToolbar();
+
         $filter = $this->buildFilter(
             $this->ctrl->getLinkTargetByClass(
                 $this->getClassPath()
@@ -167,17 +187,15 @@ class ilObjQuestionPreviewGUI implements DataRetrieval
                     $this->lng->txt('questions'),
                     [
                         OverviewTableColumns::Title->value
-                            => $this->ui_factory->table()->column()->text(
+                            => $this->ui_factory->table()->column()->link(
                                 $this->lng->txt('title')
                             ),
                         OverviewTableColumns::AnswerFormTypes->value
                             => $this->ui_factory->table()->column()->text(
-                                $this->lng->txt('contained_types')
+                                $this->lng->txt('contained_answer_form_types')
                             )->withIsOptional(true, true)
                         ->withIsSortable(false),
                     ],
-                )->withActions(
-                    $this->getActions()
                 )->withRange(new Range(0, 20))
                 ->withFilter(
                     $this->ui_service->filter()->getData($filter)
@@ -189,7 +207,7 @@ class ilObjQuestionPreviewGUI implements DataRetrieval
     private function showQuestionCmd(): void
     {
         $question_id = $this->retrieveQuestionIdFromQuery();
-        $attempt_id = $this->temp_attempt_repository->get(
+        $attempt = $this->temp_attempt_repository->get(
             $this->current_user->getId()
         );
 
@@ -204,53 +222,77 @@ class ilObjQuestionPreviewGUI implements DataRetrieval
         $this->tabs_gui->clearTargets();
         $this->tabs_gui->setBackTarget(
             $this->lng->txt('back'),
-            $this->ctrl->getLinkTargetByClass(
-                $this->getClassPath()
+            $this->view_configuration->getURLBuilderWithPreservedConfigurationParameter(
+                $this->getUrlBuilder()
+            )->buildURI()->__toString()
+        );
+
+        $this->toolbar->addComponent(
+            $this->ui_factory->button()->standard(
+                $this->lng->txt('delete_responses'),
+                $this->view_configuration->getURLBuilderWithPreservedConfigurationParameter(
+                    $this->getUrlBuilderWithPreservedQuestionParameter(
+                        $question_id,
+                        self::CMD_DELETE_RESPONSES
+                    )
+                )->buildURI()->__toString()
             )
         );
 
-        $view = $this->participant_view
-            ->withRequiredCapabilities([
-                Feedback::class,
-                SuggestedLearningContent::class,
-                Marking::class
-            ])->getQuestionView(
-                $question_id,
-                $attempt_id
-            );
+        $view = $this->participant_view->getQuestionView(
+            $question_id,
+            $attempt?->getAttemptId(),
+            true,
+            false,
+            false,
+            false
+        );
 
-        if ($attempt_id === null) {
-            $this->temp_attempt_repository->store(
+        if ($attempt === null) {
+            $this->temp_attempt_repository->storeNew(
                 $this->current_user->getId(),
                 $view->getAttemptId()
             );
         }
 
-        $this->tpl->setContent(
-            $this->ui_renderer->render(
-                $this->ui_factory->panel()->standard(
-                    $this->lng->txt('question'),
-                    $this->ui_factory->legacy()->content(
-                        $this->buildQuestionForm($view)
-                    )
+        $content = [
+            $this->ui_factory->panel()->standard(
+                $this->lng->txt('question'),
+                $this->ui_factory->legacy()->content(
+                    $this->buildQuestionForm($view, $question_id)
                 )
             )
-        );
-    }
+        ];
 
-    private function showQuestionAsyncCmd(): void
-    {
-        $this->tpl->setContent('Async');
+        if ($attempt?->isQuestionSolved($question_id) ?? false) {
+            $content[] = $this->ui_factory->panel()->standard(
+                $this->lng->txt('feedback'),
+                $this->participant_view->getQuestionView(
+                    $question_id,
+                    $attempt->getAttemptId(),
+                    false,
+                    true,
+                    true,
+                    true
+                )->getUI()
+            );
+        }
+
+        $this->tpl->setContent(
+            $this->ui_renderer->render(
+                $content
+            )
+        );
     }
 
     private function respondCmd(): void
     {
         $question_id = $this->retrieveQuestionIdFromQuery();
-        $attempt_id = $this->temp_attempt_repository->get(
+        $attempt = $this->temp_attempt_repository->get(
             $this->current_user->getId()
         );
 
-        if ($question_id === null || $attempt_id === null) {
+        if ($question_id === null || $attempt === null) {
             $this->tpl->setOnScreenMessage(
                 GlobalTemplate::MESSAGE_TYPE_FAILURE,
                 $this->lng->txt('invalid')
@@ -258,23 +300,57 @@ class ilObjQuestionPreviewGUI implements DataRetrieval
             $this->showCmd();
         }
 
-        $this->tabs_gui->clearTargets();
-        $this->tabs_gui->setBackTarget(
-            $this->lng->txt('back'),
-            $this->ctrl->getLinkTargetByClass(
-                $this->getClassPath()
-            )
+        $this->participant_view->persistResponse(
+            $question_id,
+            $attempt->getAttemptId()
         );
 
-        $response_id = $this->participant_view
-            ->withRequiredCapabilities([
-                Feedback::class,
-                SuggestedLearningContent::class,
-                Marking::class
-            ])->persistResponse(
-                $question_id,
-                $response_id
+        $this->temp_attempt_repository->storeSolved(
+            $attempt->withAdditionalSolvedQuestion($question_id)
+        );
+
+        $this->ctrl->redirectToURL(
+            $this->view_configuration->getURLBuilderWithPreservedConfigurationParameter(
+                $this->getUrlBuilderWithPreservedQuestionParameter(
+                    $question_id,
+                    self::CMD_SHOW_QUESTION
+                )
+            )->buildURI()->__toString()
+        );
+    }
+
+    private function deleteResponsesCmd(): void
+    {
+        $question_id = $this->retrieveQuestionIdFromQuery();
+        $attempt = $this->temp_attempt_repository->get(
+            $this->current_user->getId()
+        );
+
+        if ($question_id === null || $attempt === null) {
+            $this->tpl->setOnScreenMessage(
+                GlobalTemplate::MESSAGE_TYPE_FAILURE,
+                $this->lng->txt('invalid')
             );
+            $this->showCmd();
+        }
+
+        $this->participant_view->deleteResponsesFor(
+            $attempt->getAttemptId(),
+            $question_id
+        );
+
+        $this->temp_attempt_repository->storeSolved(
+            $attempt->withQuestionRemovedFromSolved($question_id)
+        );
+
+        $this->ctrl->redirectToURL(
+            $this->view_configuration->getURLBuilderWithPreservedConfigurationParameter(
+                $this->getUrlBuilderWithPreservedQuestionParameter(
+                    $question_id,
+                    self::CMD_SHOW_QUESTION
+                )
+            )->buildURI()->__toString()
+        );
     }
 
     #[\Override]
@@ -295,7 +371,15 @@ class ilObjQuestionPreviewGUI implements DataRetrieval
             yield $row_builder->buildDataRow(
                 $question->getid()->toString(),
                 [
-                    OverviewTableColumns::Title->value => $question->getTitle(),
+                    OverviewTableColumns::Title->value => $this->ui_factory->link()->standard(
+                        $question->getTitle(),
+                        $this->view_configuration
+                            ->getURLBuilderWithPreservedConfigurationParameter()
+                            ->withParameter($this->action_token, self::CMD_SHOW_QUESTION)
+                            ->withParameter($this->row_id_token, $question->getid()->toString())
+                            ->buildURI()
+                            ->__toString()
+                    ),
                     OverviewTableColumns::AnswerFormTypes->value => implode(
                         '<br>',
                         $question->getListOfContainedAnswerFormTypeLabels($this->lng)
@@ -342,31 +426,15 @@ class ilObjQuestionPreviewGUI implements DataRetrieval
             : $filter;
     }
 
-    private function getActions(): array
-    {
-        return [
-            'show' => $this->ui_factory->table()->action()->single(
-                $this->lng->txt('show'),
-                $this->url_builder->withParameter($this->action_token, self::CMD_SHOW_QUESTION),
-                $this->row_id_token
-            ),
-            'show_async' => $this->ui_factory->table()->action()->single(
-                $this->lng->txt('show_async'),
-                $this->url_builder->withParameter($this->action_token, self::CMD_SHOW_QUESTION_ASYNC),
-                $this->row_id_token
-            ),
-        ];
-    }
-
     private function retrieveQuestionIdFromQuery(): ?Uuid
     {
         return $this->http->wrapper()->query()->retrieve(
             $this->row_id_token->getName(),
             $this->refinery->byTrying([
                 $this->refinery->custom()->transformation(
-                    function (array $v): Uuid {
+                    function (string $v): Uuid {
                         try {
-                            return $this->uuid_factory->fromString($v[0]);
+                            return $this->uuid_factory->fromString($v);
                         } catch (Throwable $e) {
                             throw new ConstraintViolationException(
                                 sprintf('The value could not be transformed into a Uuid'),
@@ -380,41 +448,68 @@ class ilObjQuestionPreviewGUI implements DataRetrieval
         );
     }
 
-    private function getUrlBuilder(): URLBuilder
-    {
+    private function getUrlBuilder(
+        ?string $cmd = null
+    ): URLBuilder {
         return new URLBuilder(
             $this->data_factory->uri(
                 ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
-                    $this->getClassPath()
+                    $this->getClassPath(),
+                    $cmd
                 )
             )
         );
     }
 
-    private function buildQuestionForm(
-        QuestionParticipantView $view
-    ): string {
-        $form = new ilPropertyFormGUI();
-        $form->setCloseTag(false);
-        $form->setFormAction(
-            $this->ctrl->getFormActionByClass(
-                $this->getClassPath()
-            )
+    private function getUrlBuilderWithPreservedQuestionParameter(
+        Uuid $question_id,
+        string $cmd
+    ): URLBuilder {
+        [$url_builder, $row_id_parameter] = $this->getUrlBuilder($cmd)
+            ->acquireParameter(
+                self::PARAMETER_NAMENSPACE,
+                self::ROW_ID_TOKEN_STRING
+            );
+
+        return $url_builder->withParameter(
+            $row_id_parameter,
+            $question_id->toString()
         );
-        $form->addCommandButton(
-            self::CMD_RESPOND,
+    }
+
+    private function buildQuestionForm(
+        QuestionParticipantView $view,
+        Uuid $question_id
+    ): string {
+        $tpl = new \ilTemplate(
+            'tpl.qsts_preview_presentation_interactive.html',
+            true,
+            true,
+            'components/ILIAS/Questions'
+        );
+
+        $tpl->setVariable(
+            'FORM_ACTION',
+            $this->view_configuration->getURLBuilderWithPreservedConfigurationParameter(
+                $this->getUrlBuilderWithPreservedQuestionParameter(
+                    $question_id,
+                    self::CMD_RESPOND
+                )
+            )->buildURI()
+            ->__toString()
+        );
+
+        $tpl->setVariable(
+            'QUESTION_OUTPUT',
+            $this->ui_renderer->render($view->getUI())
+        );
+
+        $tpl->setVariable(
+            'SUBMIT_BUTTON_LABEL',
             $this->lng->txt('send')
         );
 
-        $form_opening = $form->getHTML();
-
-        $form->setOpenTag(false);
-        $form->setCloseTag(true);
-
-        return $form_opening
-        . $this->ui_renderer->render(
-            $view->getUI()
-        ) . $form->getHTML();
+        return $tpl->get();
     }
 
     private function getClassPath(): array

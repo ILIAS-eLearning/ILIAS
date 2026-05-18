@@ -22,6 +22,8 @@ namespace ILIAS\Questions\AnswerFormTypes\Cloze\Response;
 
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
 use ILIAS\Questions\AnswerForm\Response;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
+use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\Manipulate;
@@ -60,6 +62,29 @@ class AnswerForm implements Response
         return $this->answer_form_id;
     }
 
+    #[\Override]
+    public function isBest(): bool
+    {
+        foreach ($this->answer_input_responses as $response) {
+            if (!$response->isBest()) {
+                return false;
+            }
+        }
+
+
+        return true;
+    }
+
+    #[\Override]
+    public function toPreviewStorage(): array
+    {
+        return array_map(
+            fn(AnswerInput $v): array => $v->toPreviewStorage(),
+            $this->answer_input_responses
+        );
+    }
+
+    #[\Override]
     public function toStorage(
         PersistenceFactory $persistence_factory,
         Manipulate $manipulate
@@ -67,7 +92,7 @@ class AnswerForm implements Response
         return $manipulate->withAdditionalStatement(
             array_reduce(
                 $this->answer_input_responses,
-                fn(?Replace $c, AnswerInput $v): Insert => $v->toStorage(
+                fn(?Insert $c, AnswerInput $v): Insert => $v->toStorage(
                     $this->table_definitions,
                     $manipulate->getTableNameBuilder(
                         $this->table_definitions->getTableSubNameSpace()
@@ -80,6 +105,7 @@ class AnswerForm implements Response
         );
     }
 
+    #[\Override]
     public function toDelete(
         PersistenceFactory $persistence_factory,
         Manipulate $manipulate
@@ -88,14 +114,16 @@ class AnswerForm implements Response
             $persistence_factory->delete(
                 $persistence_factory->table(
                     $manipulate->getTableNameBuilder(
-                        AnswerFormSpecificTableTypes::Responses
+                        $this->table_definitions->getTableSubNameSpace()
                     ),
                     AnswerFormSpecificTableTypes::Responses
                 ),
                 [
                     $persistence_factory->where(
                         $this->table_definitions->getIdColumn(
-                            $persistence_factory,
+                            $manipulate->getTableNameBuilder(
+                                $this->table_definitions->getTableSubNameSpace()
+                            ),
                             AnswerFormSpecificTableTypes::Responses
                         ),
                         $persistence_factory->value(
@@ -105,6 +133,46 @@ class AnswerForm implements Response
                     )
                 ]
             )
+        );
+    }
+
+    public function getResponseForInput(
+        Uuid $answer_input_id
+    ): Uuid|string|null {
+        if (isset($this->answer_input_responses[$answer_input_id->toString()])) {
+            return $this->answer_input_responses[$answer_input_id->toString()]->getResponse();
+        }
+
+        return null;
+    }
+
+    public function calculateAwardedPoints(
+        Properties $answer_form_properties
+    ): float {
+        return array_reduce(
+            $this->answer_input_responses,
+            function (?float $c, AnswerInput $v) use ($answer_form_properties): ?float {
+                $gap = $answer_form_properties
+                    ->getGaps()
+                    ->getGapById(
+                        $v->getAnswerInputId()
+                    );
+
+                if ($gap === null) {
+                    return 0.0;
+                }
+
+                $awarded_points = $gap->getType()->calculateAwardedPointsForResponse(
+                    $gap,
+                    $v->getResponse()
+                );
+
+                if ($c === null) {
+                    return $awarded_points;
+                }
+
+                return $c + $awarded_points;
+            }
         );
     }
 }

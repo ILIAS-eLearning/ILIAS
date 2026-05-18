@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations;
 
-use ILIAS\Questions\AnswerForm\Capabilities\Marking\Marking;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Async;
@@ -49,7 +48,7 @@ class Edit
     public function show(
         Environment $environment
     ): Async|Viewable|Properties|null {
-        if (!$environment->isCapabilityRequired(Marking::class)) {
+        if (!$environment->isMarkingRequired()) {
             return null;
         }
 

@@ -21,9 +21,14 @@ declare(strict_types=1);
 namespace ILIAS\Questions\Question;
 
 use ILIAS\Questions\Administration\ConfigurationRepository;
+use ILIAS\Questions\AnswerForm\Capabilities\MarkingAllowingPartialPoints\Capability as MarkingAllowingPartialPoints;
+use ILIAS\Questions\AnswerForm\Capabilities\RequiredCapabilities;
 use ILIAS\Questions\AnswerForm\Definition as AnswerFormDefinition;
 use ILIAS\Questions\AnswerForm\Properties as AnswerFormProperties;
+use ILIAS\Questions\AnswerForm\Response as AnswerFormResponse;
 use ILIAS\Questions\Attempt\Attempt;
+use ILIAS\Questions\Attempt\Repository as AttemptRepository;
+use ILIAS\Questions\Attempt\Response;
 use ILIAS\Questions\Persistence\Column;
 use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Persistence\ManipulationType;
@@ -33,8 +38,11 @@ use ILIAS\Questions\Presentation\Definitions\OverviewTableColumns;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
 use ILIAS\Questions\Question\Persistence\DatabaseStatementBuilder;
 use ILIAS\Questions\UserSettings\CreateModes;
+use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Language\Language;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Link\Factory as LinkFactory;
 use ILIAS\UI\Component\Link\Standard as StandardLink;
 use ILIAS\UI\Component\Table\DataRowBuilder;
@@ -264,11 +272,14 @@ class Question
     public function getEditView(
         \ilObjUser $current_user,
         \ilCtrl $ctrl,
+        RequestWrapper $post_wrapper,
         UIRenderer $ui_renderer,
+        UuidFactory $uuid_factory,
         ConfigurationRepository $configuration_repository,
-        array $required_capabilities
+        AttemptRepository $attempt_repository,
+        RequiredCapabilities $required_capabilities
     ): Views\Edit {
-        if (!$this->supportsRequiredCapabilities($required_capabilities)) {
+        if (!$required_capabilities->areAllCapabilitiesSupportedByAnswerForms($this->answer_forms)) {
             throw new \UnexpectedValueException(
                 "The Question does not support all required Capabilities."
             );
@@ -277,35 +288,44 @@ class Question
         return new Views\Edit(
             $current_user,
             $ctrl,
+            $post_wrapper,
             $ui_renderer,
+            $uuid_factory,
             $configuration_repository,
+            $attempt_repository,
             $required_capabilities,
             $this
         );
     }
 
     public function getParticipantView(
+        Language $lng,
+        Refinery $refinery,
         UIFactory $ui_factory,
-        array $required_capabilities,
+        RequiredCapabilities $required_capabilities,
         ?Attempt $attempt_data,
         bool $interactive = true,
         bool $show_marks = false,
-        bool $show_correct_solution = false
+        bool $show_best_response = false,
+        bool $show_feedback = false
     ): Views\Participant {
-        if (!$this->supportsRequiredCapabilities($required_capabilities)) {
+        if (!$required_capabilities->areAllCapabilitiesSupportedByAnswerForms($this->answer_forms)) {
             throw new \UnexpectedValueException(
                 "The Question does not support all required Capabilities."
             );
         }
 
         return new Views\Participant(
+            $lng,
+            $refinery,
             $ui_factory,
             $required_capabilities,
             $this,
             $attempt_data,
             $interactive,
             $show_marks,
-            $show_correct_solution
+            $show_best_response,
+            $show_feedback
         );
     }
 
@@ -336,9 +356,9 @@ class Question
     public function toTableRow(
         DataRowBuilder $row_builder,
         DefaultEnvironment $environment,
-        array $required_capabilities
+        RequiredCapabilities $required_capabilities
     ): ?DataRow {
-        if (!$this->supportsRequiredCapabilities($required_capabilities)) {
+        if (!$required_capabilities->areAllCapabilitiesSupportedByAnswerForms($this->answer_forms)) {
             return null;
         }
 
@@ -447,10 +467,83 @@ class Question
         Query $query
     ): array {
         return array_map(
-            fn(AnswerFormProperties $v): Response => $v
+            fn(AnswerFormProperties $v): AnswerFormResponse => $v
                 ->getDefinition()
-                ->buildResponse($query),
+                ->buildResponse(
+                    $response_id,
+                    $v,
+                    $query
+                ),
             $this->answer_forms
+        );
+    }
+
+    public function retrieveAnswerFormResponsesFromPost(
+        RequiredCapabilities $required_capabilities,
+        RequestWrapper $post_wrapper,
+        Uuid $response_id
+    ): array {
+        return array_map(
+            fn(AnswerFormProperties $v): AnswerFormResponse => $required_capabilities
+                ->getParticipantViewProvider()
+                ->getParticipantView($v)
+                ->retrieveResponse(
+                    $response_id,
+                    $v,
+                    $post_wrapper
+                ),
+            $this->answer_forms
+        );
+    }
+
+    public function retrieveAnswerFormResponsesFromPreviewData(
+        Uuid $response_id,
+        array $preview_data
+    ): array {
+        return array_map(
+            fn(AnswerFormProperties $v): AnswerFormResponse => $v
+                ->getDefinition()
+                ->buildResponseFromPreviewData(
+                    $response_id,
+                    $v,
+                    $preview_data[$v->getAnswerFormId()->toString()] ?? []
+                ),
+            $this->answer_forms
+        );
+    }
+
+    public function addAwardedPointsToResponse(
+        Response $response
+    ): Response {
+        return $response->withAwardedPoints(
+            array_reduce(
+                $this->answer_forms,
+                function (?float $c, AnswerFormProperties $v) use ($response): ?float {
+                    /** @var Marking $marking */
+                    $marking = $v->getDefinition()->getCapability(
+                        MarkingAllowingPartialPoints::getIdentifier()
+                    );
+
+                    if ($marking === null) {
+                        return $c;
+                    }
+
+                    $points_from_form = $marking->calculateAwardedPoints(
+                        $v,
+                        $response->getAnswerFormResponse($v->getAnswerFormId())
+                    );
+
+                    if ($points_from_form === null) {
+                        return $c;
+                    }
+
+                    if ($c === null) {
+                        return $points_from_form;
+                    }
+
+                    return $c + $points_from_form;
+                }
+            )
         );
     }
 
@@ -470,19 +563,5 @@ class Question
             },
             []
         );
-    }
-
-    private function supportsRequiredCapabilities(
-        array $required_capabilities
-    ): bool {
-        foreach ($this->answer_forms as $property) {
-            foreach ($required_capabilities as $capability) {
-                if (!$capability->isAvailableFor($property)) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
     }
 }

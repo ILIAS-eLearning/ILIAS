@@ -22,11 +22,11 @@ namespace ILIAS\Questions\AnswerForm;
 
 use ILIAS\Questions\AnswerForm\Properties as AnswerFormProperties;
 use ILIAS\Questions\AnswerForm\Views\Edit;
-use ILIAS\Questions\AnswerForm\Views\Participant;
 use ILIAS\Questions\Attempt\Attempt;
 use ILIAS\Questions\Persistence\Query;
 use ILIAS\Questions\AnswerForm\Persistence\TableDefinitions;
 use ILIAS\Language\Language;
+use ILIAS\Data\UUID\Uuid;
 
 interface Definition
 {
@@ -38,17 +38,25 @@ interface Definition
     ): Properties;
 
     public function buildResponse(
+        Uuid $response_id,
+        AnswerFormProperties $answer_form_properties,
         ?Query $query
+    ): Response;
+
+    public function buildResponseFromPreviewData(
+        Uuid $response_id,
+        AnswerFormProperties $answer_form_properties,
+        array $preview_data
     ): Response;
 
     public function getTableDefinitions(): TableDefinitions;
 
     public function hasCapability(
-        string $capability_class_name
+        string $capability_identifier
     ): bool;
 
     public function getCapability(
-        string $capability_class_name
+        string $capability_identifier
     ): mixed;
 
     public function initializeAttemptData(
@@ -57,6 +65,4 @@ interface Definition
     ): Attempt;
 
     public function getEditView(): Edit;
-
-    public function getParticipantView(): Participant;
 }

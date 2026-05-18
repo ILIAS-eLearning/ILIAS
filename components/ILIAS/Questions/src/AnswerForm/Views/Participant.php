@@ -21,15 +21,26 @@ declare(strict_types=1);
 namespace ILIAS\Questions\AnswerForm\Views;
 
 use ILIAS\Questions\AnswerForm\Properties;
-use ILIAS\Questions\Attempt\Attempt;
-use ILIAS\Questions\Response\Response;
+use ILIAS\Questions\AnswerForm\Response;
+use ILIAS\Questions\Attempt\AdditionalAttemptData;
+use ILIAS\Questions\Presentation\Definitions\ViewMode;
+use ILIAS\HTTP\Wrapper\RequestWrapper;
+use ILIAS\Data\UUID\Uuid;
+use ILIAS\Language\Language;
 
 interface Participant
 {
     public function show(
+        Language $lng,
         Properties $properties,
-        ?Attempt $attempt_data
+        ?AdditionalAttemptData $attempt_data,
+        ?Response $response_data,
+        ViewMode $view_mode
     ): string;
 
-    public function retrieveResponse(): Response;
+    public function retrieveResponse(
+        Uuid $response_id,
+        Properties $properties,
+        RequestWrapper $post_wrapper
+    ): Response;
 }

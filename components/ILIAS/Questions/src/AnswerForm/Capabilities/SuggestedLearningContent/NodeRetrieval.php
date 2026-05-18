@@ -68,10 +68,10 @@ class NodeRetrieval implements NodeRetrievalInterface, Actor
                 self::PARAMETER_ID_STRING_NODE
             );
 
-        $this->requested_types = array_merge(
-            self::CONTAINER_CONTENT_TYPES,
-            [$requested_type]
-        );
+        $this->requested_types = [
+            ...self::CONTAINER_CONTENT_TYPES,
+            $requested_type
+        ];
     }
 
     #[\Override]

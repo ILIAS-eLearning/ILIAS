@@ -59,7 +59,11 @@ class OverviewTable implements DataRetrieval
         mixed $additional_parameters
     ): \Generator {
         yield from $this->environment->getAnswerFormProperties()->getGaps()
-            ->toTableRows($row_builder, $this->environment->getLanguage());
+            ->toTableRows(
+                $row_builder,
+                $this->environment->getLanguage(),
+                $this->environment->isMarkingRequired()
+            );
     }
 
     #[\Override]
@@ -76,21 +80,29 @@ class OverviewTable implements DataRetrieval
     {
         $f = $this->environment->getUIFactory()->table()->column();
 
-        return [
+        $columns = [
             'gap' => $f->text(
                 $this->environment->getLanguage()->txt('title')
             )->withIsSortable(false),
             'type' => $f->text(
-                $this->environment->getLanguage()->txt('cloze_type')
-            )->withIsSortable(false),
-            'answers_options_awarding_points' => $f->text(
-                $this->environment->getLanguage()->txt('answer_options_awarding_points')
-            )->withIsSortable(false),
-            'available_points' => $f->number(
-                $this->environment->getLanguage()->txt('available_points')
-            )->withDecimals(4)
-            ->withIsSortable(false)
+                $this->environment->getLanguage()->txt('gap_type')
+            )->withIsSortable(false)
         ];
+
+        if ($this->environment->isMarkingRequired()) {
+            $columns = [
+                ...$columns,
+                'answers_options_awarding_points' => $f->text(
+                    $this->environment->getLanguage()->txt('answer_options_awarding_points')
+                )->withIsSortable(false),
+                'available_points' => $f->number(
+                    $this->environment->getLanguage()->txt('available_points')
+                )->withDecimals(4)
+                ->withIsSortable(false)
+            ];
+        }
+
+        return $columns;
     }
 
     private function getActions(): array

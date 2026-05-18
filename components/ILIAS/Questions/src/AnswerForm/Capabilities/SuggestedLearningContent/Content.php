@@ -23,10 +23,12 @@ namespace ILIAS\Questions\AnswerForm\Capabilities\SuggestedLearningContent;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\Language\Language;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\StaticURL\Services as StaticURLServices;
 use ILIAS\UI\Component\Link\Standard as StandardLink;
+use ILIAS\UI\Factory as UIFactory;
 
 class Content
 {
@@ -105,15 +107,17 @@ class Content
     }
 
     public function getContentForPresentation(
+        Language $lng,
         \ilCtrl $ctrl,
         StaticURLServices $static_url,
-        Environment $environment
+        UIFactory $ui_factory
     ): ?StandardLink {
         return $this->type->present(
+            $lng,
             $ctrl,
             $static_url,
             $this->irss,
-            $environment,
+            $ui_factory,
             $this->file_title,
             $this->rid,
             $this->target_ref_id,
@@ -132,9 +136,10 @@ class Content
             $lng->txt('type') => $this->type->getTranslatedOptionName($lng),
             $lng->txt('content') => $this
                 ->getContentForPresentation(
+                    $environment->getLanguage(),
                     $ctrl,
                     $static_url,
-                    $environment
+                    $environment->getUIFactory()
                 ) ?? ''
         ];
     }

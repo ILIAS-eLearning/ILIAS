@@ -47,6 +47,7 @@ abstract class ilUnitConfigurationGUI
         $this->request = $local_dic['request_data_collector'];
 
         $this->lng->loadLanguageModule('assessment');
+        $this->lng->loadLanguageModule('qsts');
     }
 
     abstract protected function getDefaultCommand(): string;

@@ -92,6 +92,15 @@ class AnswerOptions
         );
     }
 
+    public function getAnswerOptionByTextValue(
+        string $text_value
+    ): ?AnswerOption {
+        return array_find(
+            $this->answer_options,
+            fn(AnswerOption $v): bool => $v->getTextValue() === $text_value
+        );
+    }
+
     public function getAnswerOptionForPositionOrNew(
         int $position
     ): AnswerOption {
@@ -100,6 +109,17 @@ class AnswerOptions
                 $this->answer_input_id,
                 $position
             );
+    }
+
+    public function getBestAnswerOption(): ?AnswerOption
+    {
+        return array_reduce(
+            $this->answer_options_awarding_points,
+            fn(?AnswerOption $c, AnswerOption $v): ?AnswerOption
+                => $v->getAvailablePoints() > $c?->getAvailablePoints()
+                    ? $v
+                    : $c
+        );
     }
 
     public function getTagsArrayFromAnswerOptions(): array
@@ -292,14 +312,13 @@ class AnswerOptions
         $table_type = AnswerFormSpecificTableTypes::AnswerOptions;
 
         return $persistence_factory->delete(
-            $table_type->getTable(
-                $persistence_factory,
-                $table_names_builder
+            $persistence_factory->table(
+                $table_names_builder,
+                $table_type
             ),
             [
                 $persistence_factory->where(
                     $table_definitions->getForeignKeyColumn(
-                        $persistence_factory,
                         $table_names_builder,
                         $table_type
                     ),

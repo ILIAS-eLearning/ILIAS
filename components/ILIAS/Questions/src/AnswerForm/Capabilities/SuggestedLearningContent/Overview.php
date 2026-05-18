@@ -275,13 +275,8 @@ class Overview implements Viewable
     {
         return $this->environment->getUIFactory()->input()->field()->select(
             $this->environment->getLanguage()->txt('type'),
-            array_reduce(
-                Types::cases(),
-                function (array $c, Types $v): array {
-                    $c[$v->value] = $v->getTranslatedOptionName($this->environment->getLanguage());
-                    return $c;
-                },
-                []
+            Types::buildOptionsList(
+                $this->environment->getLanguage()
             )
         )->withAdditionalTransformation(
             $this->environment->getRefinery()->custom()->transformation(
@@ -334,7 +329,7 @@ class Overview implements Viewable
             $this->environment->getUIFactory()->prompt()->state()->show(
                 $form
             )->withTitle(
-                $lng->txt('edit_suggested_solution')
+                $lng->txt('edit_suggested_learning_content')
             )
         );
     }

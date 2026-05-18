@@ -75,10 +75,10 @@ class MigrationPurifier extends \ilHtmlPurifierAbstractLibWrapper
         $config->autoFinalize = false;
         $config->set(
             'URI.AllowedSchemes',
-            array_merge(
-                $config->get('URI.AllowedSchemes'),
-                ['data' => true]
-            )
+            [
+                ...$config->get('URI.AllowedSchemes'),
+                'data' => true
+            ]
         );
         $config->autoFinalize = true;
         if (($def = $config->maybeGetRawHTMLDefinition()) !== null) {
