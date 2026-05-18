@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Refinery\Factory;
 use ILIAS\HTTP\GlobalHttpState;
@@ -1315,7 +1315,22 @@ class ilConditionHandlerGUI
             $condition->setTriggerType($trigger->getType());
         }
         $condition->setOperator($data['condition_configuration']['operator'][0]);
-        $condition->setObligatory((bool) ($data['condition_configuration']['obligatory'] ?? true));
+
+        $optional_conditions = ilConditionHandler::getPersistedOptionalConditionsOfTarget(
+            $this->getTargetRefId(),
+            $this->getTargetId(),
+            $this->getTargetType()
+        );
+
+        $is_all_mode = (count($optional_conditions) === 0);
+
+        // set condition as obligatory or not based on mode
+        if ($is_all_mode) {
+            $condition->setObligatory(true);
+        } else {
+            $condition->setObligatory((bool) ($data['condition_configuration']['obligatory'] ?? false));
+        }
+
         $condition->setHiddenStatus(ilConditionHandler::lookupPersistedHiddenStatusByTarget($this->getTargetRefId()));
         $condition->setValue($this->extractValueOptionsFromInput($data));
         $condition->enableAutomaticValidation($this->getAutomaticValidation());
