@@ -426,7 +426,7 @@ class ilUserQuery
     {
         $direction = $this->order_dir === 'desc' ? 'DESC' : 'ASC';
         switch ($this->order_field) {
-            case 'access_until':
+            case 'time_limit_until':
                 return $query->withDefaultTableOrderFields(
                     ['active', 'time_limit_unlimited', 'time_limit_until'],
                     $direction
