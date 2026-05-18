@@ -22,7 +22,7 @@ namespace ILIAS\Questions\Setup;
 
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableTypes;
 use ILIAS\Questions\AnswerForm\Capabilities\SuggestedLearningContent\TableTypes as SuggestedContentTableTypes;
-use ILIAS\Questions\AnswerForm\Capabilities\Feedback\TableTypes as FeedbackTableTypes;
+use ILIAS\Questions\AnswerForm\Capabilities\TextFeedback\TableTypes as TextFeedbackTableTypes;
 use ILIAS\Questions\Attempt\TableTypes as AttemptTableTypes;
 use ILIAS\Questions\Question\Persistence\TableTypes as QuestionTableTypes;
 use ILIAS\Questions\Persistence\TableNameBuilder;
@@ -187,7 +187,7 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
                     'length' => 8,
                     'notnull' => true
                 ],
-                'reached_points' => [
+                'awarded_points' => [
                     'type' => FieldDefinition::T_FLOAT,
                     'notnull' => false
                 ]
@@ -276,7 +276,7 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
     public function step_6(): void
     {
         $table_name = $this->basic_table_names_builder->getTableNameFor(
-            FeedbackTableTypes::FeedbackGeneric
+            TextFeedbackTableTypes::FeedbackGeneric
         );
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
@@ -318,7 +318,7 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
     public function step_7(): void
     {
         $table_name = $this->basic_table_names_builder->getTableNameFor(
-            FeedbackTableTypes::FeedbackSpecific
+            TextFeedbackTableTypes::FeedbackSpecific
         );
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [

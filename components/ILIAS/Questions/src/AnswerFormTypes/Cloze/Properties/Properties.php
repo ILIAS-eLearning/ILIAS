@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties;
 
-use ILIAS\Questions\AnswerForm\Capabilities\Marking\Marking;
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
 use ILIAS\Questions\AnswerForm\Properties as PropertiesInterface;
 use ILIAS\Questions\AnswerForm\TypeGenericProperties;
@@ -42,7 +41,6 @@ use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Database\FieldDefinition;
-use ILIAS\Language\Language;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Table\Data as DataTable;
 
@@ -173,16 +171,26 @@ class Properties implements PropertiesInterface
 
     #[\Override]
     public function getBasicPropertiesForListing(
-        Language $lng
+        Environment $environment
     ): array {
-        return [
+        $lng = $environment->getLanguage();
+
+        $listing = [
             $lng->txt('cloze_text') => $this->cloze_text
                 ->getRenderedMarkdownForEditingPresentation(
                     $this->gaps,
                     $this->getLegacyClozeText()
-                ),
-            $lng->txt('score_identical') => $this->scoring_identical
-                ->getTranslatedOptionName($lng),
+                )
+        ];
+
+        if ($environment->isMarkingRequired()) {
+            $listing[$lng->txt('scoring_of_identical_responses')] = $this
+                ->scoring_identical
+                ->getTranslatedOptionName($lng);
+        }
+
+        return [
+            ...$listing,
             $lng->txt('gap_combinations') => $this->combinations->areCombinationsEnabled()
                 ? $lng->txt('enabled')
                 : $lng->txt('disabled')
@@ -233,15 +241,15 @@ class Properties implements PropertiesInterface
             )->withValue($this->getScoringOfIdenticalResponses()->value)
         ];
 
-        if ($environment->isCapabilityRequired(Marking::class)) {
+        if ($environment->isMarkingRequired()) {
             $inputs[self::KEY_ENABLE_COMBINATIONS] = $ff->checkbox(
-                $lng->txt('cloze_enable_combinations')
+                $lng->txt('cloze_enable_gap_combinations')
             )->withValue($this->combinations->areCombinationsEnabled());
         }
 
         return $ff->section(
             $inputs,
-            $lng->txt('set_basic_properties')
+            $lng->txt('edit_basic_answer_form_properties')
         )->withAdditionalTransformation(
             $refinery->custom()->transformation(
                 fn(array $vs): self => $properties_factory->fromBasicEditingForm(

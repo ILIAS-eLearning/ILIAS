@@ -52,10 +52,10 @@ class Delete
                 function (?string $c, Where $v) use ($db, &$values): string {
                     $quoted_value = $v->getRight()->getQuotedValue($db);
                     if (is_array($quoted_value)) {
-                        $values = array_merge(
-                            $values,
-                            array_values($quoted_value)
-                        );
+                        $values = [
+                            ...$values,
+                            ...array_values($quoted_value)
+                        ];
                     } else {
                         $values[] = $quoted_value;
                     }

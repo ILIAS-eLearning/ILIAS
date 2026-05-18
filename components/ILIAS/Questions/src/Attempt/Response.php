@@ -23,15 +23,19 @@ namespace ILIAS\Questions\Attempt;
 use ILIAS\Questions\AnswerForm\Response as AnswerFormResponse;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Manipulate;
+use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Database\FieldDefinition;
 
 class Response
 {
+    public const string KEY_POINTS = 'points';
+    public const string KEY_RESPONSES = 'responses';
+
     /**
      * @var array<string, AnswerFormResponse> $answer_form_responses
      */
-    private readonly array $answer_form_responses;
+    private array $answer_form_responses;
 
     /**
      * @param array<AnswerFormResponse> $answer_form_responses
@@ -41,7 +45,7 @@ class Response
         private readonly Uuid $question_id,
         private readonly Uuid $attempt_id,
         private readonly \DateTimeImmutable $create_date,
-        private ?float $reached_points,
+        private ?float $awarded_points = null,
         array $answer_form_responses = []
     ) {
         $this->answer_form_responses = array_reduce(
@@ -54,14 +58,38 @@ class Response
         );
     }
 
-    public function getReachedPoints(): float
+    public function getId(): Uuid
     {
-        return $this->reached_points;
+        return $this->id;
+    }
+
+    public function getQuestionId(): Uuid
+    {
+        return $this->question_id;
+    }
+
+    public function getAwardedPoints(): ?float
+    {
+        return $this->awarded_points;
+    }
+
+    public function withAwardedPoints(
+        float $awarded_points
+    ): self {
+        $clone = clone $this;
+        $clone->awarded_points = $awarded_points;
+        return $clone;
     }
 
     public function getCreateDate(): \DateTimeImmutable
     {
         return $this->create_date;
+    }
+
+    public function getAnswerFormResponse(
+        Uuid $answer_form_id
+    ): ?AnswerFormResponse {
+        return $this->answer_form_responses[$answer_form_id->toString()] ?? null;
     }
 
     public function withAnswerFormResponse(
@@ -70,6 +98,17 @@ class Response
         $clone = clone $this;
         $clone->answer_form_responses[$response->getAnswerFormId()->toString()] = $response;
         return $clone;
+    }
+
+    public function toPreviewStorage(): array
+    {
+        return [
+            self::KEY_POINTS => $this->awarded_points,
+            self::KEY_RESPONSES => array_map(
+                fn(AnswerFormResponse $v): array => $v->toPreviewStorage(),
+                $this->answer_form_responses
+            )
+        ];
     }
 
     public function toStorage(
@@ -151,7 +190,7 @@ class Response
             ),
             $persistence_factory->value(
                 FieldDefinition::T_FLOAT,
-                $this->reached_points
+                $this->awarded_points
             ),
             $persistence_factory->value(
                 FieldDefinition::T_INTEGER,

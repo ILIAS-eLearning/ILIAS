@@ -22,7 +22,10 @@ namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Response\AnswerForm as Response;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Response\AnswerInput as AnswerInputResponse;
 use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
+use ILIAS\Questions\Attempt\AdditionalAttemptData;
 use ILIAS\Questions\Attempt\Attempt;
 use ILIAS\Questions\Persistence\Delete;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
@@ -31,9 +34,12 @@ use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Persistence\Operator;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Presentation\Definitions\Environment;
+use ILIAS\Questions\Presentation\Definitions\ViewMode;
+use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Database\FieldDefinition;
 use ILIAS\FileUpload\FileUpload;
+use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Random\Seed\RandomSeed;
@@ -42,6 +48,7 @@ use ILIAS\UI\Component\Input\Field\MultiSelect;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Input\Field\Select;
 use ILIAS\UI\Component\Table\DataRowBuilder;
+use ILIAS\UI\Factory as UIFactory;
 
 class Gaps
 {
@@ -185,15 +192,35 @@ class Gaps
         return array_diff_key($this->gaps, $old_gaps->gaps);
     }
 
-    public function getPlaceholderArrayForParticipantView(
-        ?Attempt $attempt_data
+    public function getPlaceholderArray(
+        Language $lng,
+        ViewMode $view_mode,
+        ?AdditionalAttemptData $additional_attempt_data,
+        ?Response $response_data
     ): array {
         return array_reduce(
             $this->gaps,
-            function (array $c, Gap $v) use ($attempt_data): array {
-                $c[$v->buildGapPlaceholderNameWithId($v)] = $v->buildParticipantViewLegacyInput(
-                    $attempt_data
-                );
+            function (
+                array $c,
+                Gap $v
+            ) use (
+                $lng,
+                $view_mode,
+                $additional_attempt_data,
+                $response_data
+            ): array {
+                $c[$v->buildGapPlaceholderNameWithId($v)] = $view_mode === ViewMode::Respond
+                    ? $v->buildParticipantViewLegacyInput(
+                        $lng,
+                        $this->refinery,
+                        $additional_attempt_data,
+                        $response_data
+                    ) : $this->buildStaticGapReplacement(
+                        $lng,
+                        $view_mode,
+                        $response_data,
+                        $v
+                    );
                 return $c;
             },
             []
@@ -275,7 +302,7 @@ class Gaps
                 },
                 []
             ),
-            $environment->getLanguage()->txt('add_answer_options')
+            $environment->getLanguage()->txt('edit_answer_options')
         )->withAdditionalTransformation(
             $this->refinery->custom()->transformation(
                 fn(array $vs): Properties => $properties->withGaps(
@@ -291,27 +318,27 @@ class Gaps
 
     public function buildPointInputs(
         Language $lng,
-        FieldFactory $ff,
+        UIFactory $ui_factory,
         Properties $properties,
         bool $is_in_creation_context,
         array $selected_gaps
     ): Section {
-        return $ff->section(
+        return $ui_factory->input()->field()->section(
             array_reduce(
                 $this->retrieveGapsForInputs(
                     $is_in_creation_context,
                     $selected_gaps
                 ),
-                function (array $c, Gap $v) use ($lng, $ff): array {
+                function (array $c, Gap $v) use ($lng, $ui_factory): array {
                     $c[$v->getAnswerInputId()->toString()] = $v->getEditPointsSection(
                         $lng,
-                        $ff
+                        $ui_factory
                     );
                     return $c;
                 },
                 []
             ),
-            $lng->txt('add_points')
+            $lng->txt('edit_points')
         )->withAdditionalTransformation(
             $this->refinery->custom()->transformation(
                 fn(array $vs): Properties => $properties->withGaps(
@@ -381,6 +408,22 @@ class Gaps
         return $clone;
     }
 
+    /**
+     *
+     * @return list<Response>
+     */
+    public function getBestResponses(): array
+    {
+        return array_filter(
+            array_map(
+                fn(Gap $v): AnswerInputResponse => $v->getType()->getBestResponse(
+                    $v
+                ),
+                $this->gaps
+            )
+        );
+    }
+
     public function initializeAttemptData(
         Attempt $attempt
     ): Attempt {
@@ -394,6 +437,58 @@ class Gaps
                     )
                 ) : $c,
             $attempt
+        );
+    }
+
+    /**
+     *
+     * @return list<Response>
+     */
+    public function retrieveResponsesFromPost(
+        RequestWrapper $post_wrapper,
+        UuidFactory $uuid_factory
+    ): array {
+        return array_map(
+            fn(Gap $v): AnswerInputResponse => $v->getType()
+                ->retrieveResponseFromPost(
+                    $post_wrapper,
+                    $uuid_factory,
+                    $v
+                ),
+            $this->gaps
+        );
+    }
+
+    /**
+     *
+     * @return list<Response>
+     */
+    public function retrieveResponsesFromPreviewData(
+        UuidFactory $uuid_factory,
+        array $preview_data
+    ): array {
+        return array_reduce(
+            $this->gaps,
+            function (
+                array $c,
+                Gap $v
+            ) use (
+                $uuid_factory,
+                $preview_data
+            ): array {
+                $response_object = $v->getType()->retrieveResponseFromPreviewData(
+                    $uuid_factory,
+                    $v,
+                    $preview_data[$v->getAnswerInputId()->toString()] ?? []
+                );
+
+                if ($response_object !== null) {
+                    $c[$v->getAnswerInputId()->toString()] = $response_object;
+                }
+
+                return $c;
+            },
+            []
         );
     }
 
@@ -571,6 +666,61 @@ class Gaps
             },
             []
         );
+    }
+
+    private function buildStaticGapReplacement(
+        Language $lng,
+        ViewMode $view_mode,
+        ?Response $response_data,
+        Gap $gap
+    ): string {
+        $static_gap_template = new \ilTemplate(
+            'tpl.cloze_gap_static.html',
+            true,
+            true,
+            'components/ILIAS/Questions'
+        );
+        $static_gap_template->setVariable(
+            'SOLUTION_VALUE',
+            $this->retrieveStaticGapReplacementValue(
+                $lng,
+                $view_mode,
+                $response_data,
+                $gap
+            )
+        );
+        return $static_gap_template->get();
+    }
+
+    private function retrieveStaticGapReplacementValue(
+        Language $lng,
+        ViewMode $view_mode,
+        ?Response $response_data,
+        Gap $gap
+    ): string {
+        $empty_gap_text = $lng->txt(
+            $view_mode === ViewMode::ViewBestResponse
+                ? 'no_best_response_available'
+                : 'no_response_given'
+        );
+
+        if ($response_data === null) {
+            return $empty_gap_text;
+        }
+
+        $response = $response_data->getResponseForInput(
+            $gap->getAnswerInputId()
+        );
+
+        if ($response === null) {
+            return $empty_gap_text;
+        }
+
+        if ($response instanceof Uuid) {
+            return $gap->getAnswerOptions()->getAnswerOptionById($response)->getTextValue();
+        }
+
+        return $response;
     }
 
     private function retrieveGapsForInputs(

@@ -23,7 +23,6 @@ namespace ILIAS\Questions\AnswerForm;
 use ILIAS\Questions\Persistence\Storable;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Data\UUID\Uuid;
-use ILIAS\Language\Language;
 use ILIAS\UI\Component\Table\Data as DataTable;
 use ILIAS\UI\Component\Table\Ordering as OrderingTable;
 
@@ -38,7 +37,7 @@ interface Properties extends Storable
     public function getTypeGenericProperties(): TypeGenericProperties;
 
     public function getBasicPropertiesForListing(
-        Language $lng
+        Environment $lng
     ): array;
 
     public function getOverviewTable(

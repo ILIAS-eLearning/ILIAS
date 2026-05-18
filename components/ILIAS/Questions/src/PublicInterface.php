@@ -20,16 +20,27 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions;
 
+use ILIAS\Questions\AnswerForm\Capabilities\Capability;
 use ILIAS\Questions\Presentation\Views\Edit;
 use ILIAS\Questions\Presentation\Views\Participant;
 
 interface PublicInterface
 {
+    /**
+     *
+     * @param list<class-string<Capability>> $required_capabilities_class_names
+     */
     public function getParticipantView(
+        array $required_capabilities_class_names,
         int $owner_obj_id
     ): Participant;
 
+    /**
+     *
+     * @param list<class-string<Capability>> $required_capabilities_class_names
+     */
     public function getEditView(
+        array $required_capabilities_class_names,
         int $owner_obj_id
     ): Edit;
 }
