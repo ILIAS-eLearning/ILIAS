@@ -225,7 +225,7 @@ class ilObjFileGUI extends ilObject2GUI
 
                 // repository permissions
             case 'ilpermissiongui':
-                $ilTabs->activateTab("id_permissions");
+                $this->tabs_gui->activateTab('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -1066,8 +1066,15 @@ class ilObjFileGUI extends ilObject2GUI
             );
         }
 
-        // will add permission tab if needed
-        parent::setTabs();
+        // Permissions-tabs, had to add it here, see https://mantis.ilias.de/view.php?id=47417
+        if ($this->access->checkAccess('edit_permission', '', $this->ref_id)) {
+            $this->tabs_gui->addTarget(
+                "perm_settings",
+                $this->ctrl->getLinkTargetByClass([self::class, ilPermissionGUI::class], "perm"),
+                ["perm", "info", "owner"],
+                ilPermissionGUI::class
+            );
+        }
     }
 
     protected function initSettingsTab(): void
