@@ -47,7 +47,6 @@ class PersonalSettingsTableApplyAction implements TableAction
         private readonly MainSettingsRepository $main_settings_repository,
         private readonly ScoreSettingsRepository $score_settings_repository,
         private readonly MarksRepository $marks_repository,
-
     ) {
     }
 

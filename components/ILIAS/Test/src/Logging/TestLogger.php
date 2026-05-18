@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\Test\Logging;
 
 use Psr\Log\LoggerInterface;
-
 use ILIAS\Test\Settings\GlobalSettings\TestLoggingSettings;
 
 class TestLogger implements LoggerInterface

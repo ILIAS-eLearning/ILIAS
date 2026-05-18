@@ -19,7 +19,6 @@
 namespace ILIAS\Test\test;
 
 use ILIAS\Test\Setup\TestSetupAgent;
-
 use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Setup\Objective\NullObjective;

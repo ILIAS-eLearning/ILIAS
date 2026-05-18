@@ -47,7 +47,7 @@ class PassPresentedVariablesRepo
             [$question_id, $active_id, $pass]
         );
 
-        if($result->numRows() === 0) {
+        if ($result->numRows() === 0) {
             return null;
         }
 
