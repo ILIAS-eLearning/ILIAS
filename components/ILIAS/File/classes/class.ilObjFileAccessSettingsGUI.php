@@ -100,7 +100,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
             case strtolower(ilObjFileIconsOverviewGUI::class):
-                $this->tabs_gui->setTabActive('file_objects');
+                $this->tabs_gui->setTabActive('settings');
                 $this->addFileObjectsSubTabs();
                 $this->tabs_gui->setSubTabActive(self::SUBTAB_SUFFIX_SPECIFIC_ICONS);
                 $icon_overview = new ilObjFileIconsOverviewGUI();
@@ -108,7 +108,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
                 break;
             default:
                 $cmd = $this->ctrl->getCmd(self::CMD_EDIT_SETTINGS);
-                $this->tabs_gui->setTabActive('file_objects');
+                $this->tabs_gui->setTabActive('settings');
                 switch ($cmd) {
                     case self::CMD_VIEW:
                     case self::CMD_EDIT_SETTINGS:
@@ -130,7 +130,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     {
         if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
-                'file_objects',
+                'settings',
                 $this->ctrl->getLinkTarget($this, self::CMD_EDIT_SETTINGS),
                 [self::CMD_EDIT_SETTINGS, self::CMD_VIEW]
             );
