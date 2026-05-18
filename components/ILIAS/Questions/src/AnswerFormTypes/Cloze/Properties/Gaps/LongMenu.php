@@ -20,13 +20,18 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
+use ILIAS\Questions\AnswerForm\Response;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\Upload;
-use ILIAS\Questions\Attempt\Attempt;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Response\AnswerInput as AnswerInputResponse;
+use ILIAS\Questions\Attempt\AdditionalAttemptData;
 use ILIAS\Questions\Presentation\Definitions\Environment;
+use ILIAS\Data\UUID\Factory as UuidFactory;
+use ILIAS\Data\UUID\Uuid;
 use ILIAS\FileUpload\MimeType;
 use ILIAS\FileUpload\FileUpload;
+use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Constraint;
@@ -40,12 +45,11 @@ class LongMenu extends Type
     private const array ACCEPTED_MIME_TYPES = [MimeType::TEXT__PLAIN];
 
     public function __construct(
-        Refinery $refinery,
         Language $lng,
-        private readonly UIFactory $ui_factory,
+        Refinery $refinery,
         private readonly GlobalTemplate $global_tpl
     ) {
-        parent::__construct($refinery, $lng);
+        parent::__construct($lng, $refinery);
     }
 
     #[\Override]
@@ -57,23 +61,39 @@ class LongMenu extends Type
     #[\Override]
     public function getParticipantViewLegacyInput(
         Gap $gap,
-        ?Attempt $attempt_data
+        ?AdditionalAttemptData $additional_attempt_data,
+        ?Response $response_data
     ): string {
-        $answer_input_id = $gap->getAnswerInputId()->toString();
+        $gap_name = $this->buildGapName($gap);
+
         $gaptemplate = new \ilTemplate(
-            'tpl.il_as_qpl_longmenu_question_text_gap.html',
+            'tpl.cloze_gap_longmenu.html',
             true,
             true,
-            'components/ILIAS/TestQuestionPool'
+            'components/ILIAS/Questions'
         );
 
         $gaptemplate->setVariable(
-            'KEY',
-            $answer_input_id
+            'GAP_NAME',
+            $gap_name
         );
 
+        $response = $response_data?->getResponseForInput($gap->getAnswerInputId());
+        if ($response !== null) {
+            $gaptemplate->setVariable(
+                'VALUE',
+                htmlentities(
+                    $response instanceof Uuid
+                        ? $gap->getAnswerOptions()
+                            ->getAnswerOptionById($response)
+                            ->getTextValue()
+                        : $response
+                )
+            );
+        }
+
         $this->global_tpl->addOnLoadCode('il.test.player.longmenu.init('
-            . "document.querySelector('input[name=\"answer[{$answer_input_id}]\"]'), "
+            . "document.querySelector('input[name=\"{$gap_name}\"]'), "
             . "{$gap->getMinAutocomplete()}, "
             . json_encode(
                 array_values(
@@ -91,10 +111,10 @@ class LongMenu extends Type
         Environment $environment,
         Gap $gap
     ): array {
-        $ff = $this->ui_factory->input()->field();
+        $ff = $environment->getUIFactory()->input()->field();
         return [
             'answer_options' => $ff->tag(
-                $this->lng->txt('answer_options'),
+                $environment->getLanguage()->txt('answer_options'),
                 []
             )->withValue($gap->getAnswerOptions()->getTagsArrayFromAnswerOptions()),
             'upload_answer_options' => $ff->file(
@@ -102,15 +122,15 @@ class LongMenu extends Type
                     $file_upload,
                     $environment
                 ),
-                $this->lng->txt('upload_answer_options'),
-                $this->lng->txt('upload_answer_options_info')
+                $environment->getLanguage()->txt('upload_answer_options'),
+                $environment->getLanguage()->txt('upload_answer_options_info')
             )->withAcceptedMimeTypes(self::ACCEPTED_MIME_TYPES),
             'min_autocomplete' => $ff->numeric(
-                $this->lng->txt('min_autocomplete')
+                $environment->getLanguage()->txt('min_auto_complete')
             )->withRequired(true)
             ->withValue($gap->getMinAutocomplete() ?? self::DEFAULT_MIN_AUTOCOMPLETE),
             'options_awarding_points' => $ff->tag(
-                $this->lng->txt('answer_options'),
+                $environment->getLanguage()->txt('answer_options'),
                 $gap->getAnswerOptions()->getTagsArrayFromAnswerOptions()
             )
             ->withRequired(true)
@@ -129,10 +149,12 @@ class LongMenu extends Type
     {
         return $this->refinery->custom()->constraint(
             function (array $vs): bool {
-                $values = array_merge(
-                    $vs['answer_options'],
-                    $this->retrieveAnswerOptionsArrayFromUpload($vs['upload_answer_options'])
-                );
+                $values = [
+                    ...$vs['answer_options'],
+                    ...$this->retrieveAnswerOptionsArrayFromUpload(
+                        $vs['upload_answer_options']
+                    )
+                ];
 
                 return $values !== [] && array_filter(
                     $vs['options_awarding_points'],
@@ -144,10 +166,11 @@ class LongMenu extends Type
     }
 
     public function getEditPointsInputs(
+        UIFactory $ui_factory,
         AnswerOptions $answer_options
     ): array {
         return $answer_options->getEditPointsInputs(
-            $this->ui_factory->input()->field(),
+            $ui_factory->input()->field(),
             fn(AnswerOption $v): string => $v->getTextValue(),
             $answer_options->getAnswerOptionsAwardingPoints()
         );
@@ -178,12 +201,39 @@ class LongMenu extends Type
                 ->withMinAutocomplete($vs['min_autocomplete'])
                 ->withAnswerOptions(
                     $gap->getAnswerOptions()->withAnswerOptionsFromTags(
-                        array_merge(
-                            $vs['answer_options'],
-                            $this->retrieveAnswerOptionsArrayFromUpload($vs['upload_answer_options'])
-                        )
+                        [
+                            ...$vs['answer_options'],
+                            ...$this->retrieveAnswerOptionsArrayFromUpload(
+                                $vs['upload_answer_options']
+                            )
+                        ]
                     )->withAnswerOptionsAwardingPoints($vs['options_awarding_points'])
                 )
+        );
+    }
+
+    #[\Override]
+    public function retrieveResponseFromPost(
+        RequestWrapper $post_wrapper,
+        UuidFactory $uuid_factory,
+        Gap $gap
+    ): AnswerInputResponse {
+        $response_value = $this->retrieveResponseValueFromPost(
+            $post_wrapper,
+            $uuid_factory,
+            $gap
+        );
+
+        $response_is_uuid = $response_value instanceof Uuid;
+
+        return new AnswerInputResponse(
+            $gap,
+            $response_is_uuid
+                ? $response_value
+                : null,
+            $response_is_uuid
+                ? ''
+                : $response_value
         );
     }
 
@@ -197,6 +247,35 @@ class LongMenu extends Type
 
         return array_filter(
             mb_split('\R', $decoded_value)
+        );
+    }
+
+    private function retrieveResponseValueFromPost(
+        RequestWrapper $post_wrapper,
+        UuidFactory $uuid_factory,
+        Gap $gap
+    ): Uuid|string {
+        return $post_wrapper->retrieve(
+            $this->buildGapName($gap),
+            $this->refinery->byTrying([
+                $this->refinery->custom()->transformation(
+                    function (?string $v) use ($gap): Uuid|string {
+                        if ($v === null) {
+                            return '';
+                        }
+
+                        $answer_option = $gap->getAnswerOptions()
+                            ->getAnswerOptionByTextValue($v);
+
+                        if ($answer_option === null) {
+                            return $v;
+                        }
+
+                        return $answer_option?->getAnswerOptionId();
+                    }
+                ),
+                $this->refinery->always('')
+            ])
         );
     }
 }

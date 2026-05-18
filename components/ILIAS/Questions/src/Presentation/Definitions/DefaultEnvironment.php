@@ -20,7 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Presentation\Definitions;
 
-use ILIAS\Questions\AnswerForm\Capabilities\Capability;
+use ILIAS\Questions\AnswerForm\Capabilities\Definitions\AdditionalFormStepAction;
+use ILIAS\Questions\AnswerForm\Capabilities\RequiredCapabilities;
 use ILIAS\Questions\AnswerForm\Properties;
 use ILIAS\Questions\Presentation\Layout\Factory;
 use ILIAS\Questions\Presentation\Views\Edit;
@@ -31,6 +32,7 @@ use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
+use ILIAS\UI\Component\Table\Action\Action as TableAction;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
@@ -80,7 +82,7 @@ class DefaultEnvironment implements Environment
         private readonly UuidFactory $uuid_factory,
         private readonly Factory $presentation_factory,
         private readonly Editability $editability,
-        private readonly array $required_capabilities,
+        private readonly RequiredCapabilities $required_capabilities,
         private readonly int $owner_obj_id,
         URI $base_uri
     ) {
@@ -211,31 +213,19 @@ class DefaultEnvironment implements Environment
     }
 
     #[\Override]
-    public function isCapabilityRequired(
-        string $capability
-    ): bool {
-        return array_key_exists(
-            $capability,
-            $this->required_capabilities
-        );
+    public function isMarkingRequired(): bool
+    {
+        return $this->required_capabilities->isMarkingRequired();
     }
 
     #[\Override]
     public function getAnswerFormTableActionsForRequiredCapabilities(): array
     {
-        return array_reduce(
-            $this->required_capabilities,
-            function (array $c, Capability $v): array {
-                $action = $v->getAnswerFormEditAdditionalStep($this);
-                if ($action !== null) {
-                    $c[] = $action->getAsTableAction(
-                        $this->withActionParameter($action->getIdentifier())
-                    );
-                }
-
-                return $c;
-            },
-            []
+        return array_map(
+            fn(AdditionalFormStepAction $v): TableAction => $v->getAsTableAction(
+                $this->withActionParameter($v->getIdentifier())
+            ),
+            $this->required_capabilities->getRequiredFormStepActions()
         );
     }
 

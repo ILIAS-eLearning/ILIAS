@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerForm\Capabilities\SuggestedLearningContent;
 
-use ILIAS\Questions\AnswerForm\Capabilities\Migration as MigrationInterface;
+use ILIAS\Questions\AnswerForm\Capabilities\Definitions\Migration as MigrationInterface;
 use ILIAS\Questions\AnswerForm\Migration\Migration as AnswerFormMigration;
 use ILIAS\Questions\AnswerForm\Migration\MigrationInsert;
 use ILIAS\Questions\AnswerForm\Migration\SanitizeLegacyText;

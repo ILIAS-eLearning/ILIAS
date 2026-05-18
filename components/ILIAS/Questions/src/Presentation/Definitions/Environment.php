@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Presentation\Definitions;
 
+use ILIAS\Questions\AnswerForm\Capabilities\RequiredCapabilities;
 use ILIAS\Questions\AnswerForm\Properties;
 use ILIAS\Questions\Presentation\Layout\Factory;
 use ILIAS\Data\UUID\Uuid;
@@ -65,9 +66,7 @@ interface Environment
 
     public function getEditability(): Editability;
 
-    public function isCapabilityRequired(
-        string $capability
-    ): bool;
+    public function isMarkingRequired(): bool;
 
     public function getAnswerFormTableActionsForRequiredCapabilities(): array;
 

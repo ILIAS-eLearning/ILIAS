@@ -21,8 +21,10 @@ declare(strict_types=1);
 namespace ILIAS\Questions\Attempt;
 
 use ILIAS\Questions\Persistence\Column;
+use ILIAS\Questions\Persistence\Delete;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\JoinType;
+use ILIAS\Questions\Persistence\OrderDirection;
 use ILIAS\Questions\Persistence\Query;
 use ILIAS\Questions\Persistence\TableSubNameSpace;
 use ILIAS\Questions\Persistence\TableNameBuilder;
@@ -51,7 +53,7 @@ class TableDefinitions
         'id',
         'attempt_id',
         'question_id',
-        'reached_points',
+        'awarded_points',
         'create_timestamp'
     ];
 
@@ -126,7 +128,7 @@ class TableDefinitions
         };
     }
 
-    public function completeLoadAttemptQuery(
+    public function completeAttemptQuery(
         Query $query,
         ?Column $base_table_id_column
     ): Query {
@@ -187,11 +189,14 @@ class TableDefinitions
             )
         )->withAdditionalOrder(
             $this->persistence_factory->order(
-                $this->persistence_factory->table(
-                    $table_names_builder,
-                    TableTypes::Responses
+                $this->persistence_factory->column(
+                    $this->persistence_factory->table(
+                        $table_names_builder,
+                        TableTypes::Responses
+                    ),
+                    self::RESPONSES_TABLE_ADDITIONAL_ORDERING_COLUMN
                 ),
-                self::RESPONSES_TABLE_ADDITIONAL_ORDERING_COLUMN
+                OrderDirection::Asc
             )
         );
     }

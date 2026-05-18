@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Presentation\Layout;
 
+use ILIAS\Questions\AnswerForm\Capabilities\RequiredCapabilities;
 use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
 use ILIAS\Questions\Presentation\Definitions\DefaultEnvironment;
 use ILIAS\Questions\Presentation\Definitions\OverviewTableColumns;
@@ -41,7 +42,7 @@ class QuestionsTable implements Viewable, DataRetrieval
         private readonly AnswerFormFactory $answer_form_factory,
         private readonly Repository $questions_repository,
         private readonly DefaultEnvironment $environment,
-        private readonly array $required_capabilities
+        private readonly RequiredCapabilities $required_capabilities
     ) {
         $environment->getLanguage()->loadLanguageModule('qpl');
     }
