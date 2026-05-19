@@ -112,6 +112,9 @@ class GlyphTest extends ILIAS_UI_TestBase
         G\Glyph::OWNER => "glyphicon glyphicon-owner",
         G\Glyph::DATE => "glyphicon glyphicon-date",
         G\Glyph::LOCATION => "glyphicon glyphicon-location",
+        G\Glyph::COPY => "glyphicon glyphicon-copy",
+        G\Glyph::QR_CODE => "glyphicon glyphicon-qrcode",
+        G\Glyph::SHARE => "glyphicon glyphicon-share",
     );
 
     public static array $aria_labels = array(
@@ -179,6 +182,9 @@ class GlyphTest extends ILIAS_UI_TestBase
         G\Glyph::OWNER => "owner",
         G\Glyph::DATE => "date",
         G\Glyph::LOCATION => "location",
+        G\Glyph::COPY => "copy",
+        G\Glyph::QR_CODE => "show_qr_code",
+        G\Glyph::SHARE => "share",
     );
 
     #[\PHPUnit\Framework\Attributes\DataProvider('getGlyphTypeProvider')]
@@ -412,7 +418,8 @@ class GlyphTest extends ILIAS_UI_TestBase
             new ilImagePathResolver(),
             $this->createMock(DataFactory::class),
             $this->createMock(HelpTextRetriever::class),
-            $this->getUploadLimitResolver()
+            $this->getUploadLimitResolver(),
+            $this->getRefinery(),
         );
         $f = $this->getCounterFactory();
 
