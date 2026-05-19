@@ -1711,7 +1711,6 @@ interface Factory
      */
     public function unchecked(): Glyph;
 
-
     /**
      * ---
      * description:
@@ -1831,4 +1830,88 @@ interface Factory
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
     public function location(): Glyph;
+
+   /**
+     * ---
+     * description:
+     *   purpose: >
+     *     The Copy Glyph is used to indicate the possibility of copying content
+     *     (to the computers clipboard).
+     *   composition: >
+     *     The Copy Glyph uses the glyphicon-copy.
+     *   effect: >
+     *     When placed in a Button or Link, clicking copies the associated content
+     *     (to the computers clipboard).
+     *   rivals:
+     *     Share Glyph: >
+     *       This Glyph SHOULD be used if the information is meant to be shared
+     *       with other/more means of transportaiton than just copying.
+     *
+     * context:
+     *  - Transfering the permanent link of a Page inside the Footer.
+     *
+     * rules:
+     *   accessibility:
+     *       1: >
+     *          The aria-label SHOULD be 'Copy'.
+     * ---
+     * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function copy(): Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     The QR Code Glyph is used to indicate the possibility of displaying or generating
+     *     a QR code for some given information.
+     *   composition: >
+     *     The QR Code Glyph uses the glyphicon-qrcode.
+     *   effect: >
+     *     When placed in a Button or Link, clicking opens a Modal or Prompt displaying
+     *     the QR code for the given information.
+     *
+     * context:
+     *  - Transfering the permanent link of a Page inside the Footer.
+     *
+     * rules:
+     *   accessibility:
+     *       1: >
+     *          The aria-label SHOULD be 'Show QR-code'.
+     * ---
+     * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function qrCode(): Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     The Share Glyph is used to indicate the possibility of sharing information
+     *     with other persons.
+     *   composition: >
+     *     The Share Glyph uses the glyphicon-share.
+     *   effect: >
+     *     When placed in a Button or Link, clicking opens a dialog where the information
+     *     can be shared, e.g. using the Web Share API.
+     *   rivals:
+     *     Copy Glyph: >
+     *       This Glyph SHOULD be used if the information is only copied.
+     *     QR Code Glyph: >
+     *       This Glyph SHOULD be used if the information is only shared using a QR-code.
+     *
+     * context:
+     *  - Transfering the permanent link of a Page inside the Footer.
+     *
+     * background: >
+     *   https://developer.mozilla.org/en-US/docs/Web/API/Web_Share_API
+     *
+     * rules:
+     *   accessibility:
+     *     1: >
+     *       The aria-label SHOULD be 'Share'.
+     * ---
+     * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function share(): Glyph;
 }

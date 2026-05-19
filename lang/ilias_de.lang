@@ -17592,6 +17592,7 @@ ui#:#2stars#:#zwei von fünf Sternen
 ui#:#3stars#:#drei von fünf Sternen
 ui#:#4stars#:#vier von fünf Sternen
 ui#:#5stars#:#fünf von fünf Sternen
+ui#:#copy#:#Copy
 ui#:#datatable_close_warning#:#OK
 ui#:#datatable_multiaction_label#:#Sammelaktionen
 ui#:#datatable_multiactionmodal_actionlabel#:#Aktion für alle Einträge
@@ -17633,6 +17634,8 @@ ui#:#presentation_table_expand#:#Alle zeigen
 ui#:#rating_average#:#Andere bewerteten mit %s von 5
 ui#:#reset_stars#:#neutral
 ui#:#select_node#:#Knoten %s zur Auswahl hinzufügen
+ui#:#share#:#Share
+ui#:#show_qr_code#:#Show QR-code
 ui#:#table_posinput_col_title#:#Position
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
