@@ -12863,6 +12863,27 @@ tr.c-table-data__row.c-table-data__row--drag-settle {
   flex-direction: column;
 }
 
+.c-transfer {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.c-transfer__contents {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.c-transfer__payload {
+  flex: 0 1 auto;
+  margin: 0 3px 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.c-transfer .modal-dialog {
+  max-width: fit-content;
+}
+
 .c-tree {
   list-style-type: none;
   padding: 0 3px 0 7px;

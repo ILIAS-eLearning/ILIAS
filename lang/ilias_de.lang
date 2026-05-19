@@ -17593,6 +17593,9 @@ ui#:#3stars#:#drei von fünf Sternen
 ui#:#4stars#:#vier von fünf Sternen
 ui#:#5stars#:#fünf von fünf Sternen
 ui#:#copy#:#Copy
+ui#:#copy_to_clipboard#:#Kopieren
+ui#:#copy_to_clipboard_failure#:#Fehler
+ui#:#copy_to_clipboard_success#:#Kopiert
 ui#:#datatable_close_warning#:#OK
 ui#:#datatable_multiaction_label#:#Sammelaktionen
 ui#:#datatable_multiactionmodal_actionlabel#:#Aktion für alle Einträge
@@ -17620,6 +17623,9 @@ ui#:#label_modeviewcontrol#:#Anzeigemodus
 ui#:#label_pagination_limit#:#Pagination - Anzahl der Zeilen
 ui#:#label_pagination_offset#:#Pagination - Start
 ui#:#label_sortation#:#Sortierung
+ui#:#open_web_share_api#:#Teilen
+ui#:#open_web_share_api_failure#:#Fehler
+ui#:#open_web_share_api_success#:#Geteilt
 ui#:#order_option_alphabetical_ascending#:#A bis Z
 ui#:#order_option_alphabetical_descending#:#Z bis A
 ui#:#order_option_chronological_ascending#:#Älteste zuerst
@@ -17635,6 +17641,7 @@ ui#:#rating_average#:#Andere bewerteten mit %s von 5
 ui#:#reset_stars#:#neutral
 ui#:#select_node#:#Knoten %s zur Auswahl hinzufügen
 ui#:#share#:#Share
+ui#:#show_qr_code#:#QR-Code anzeigen
 ui#:#show_qr_code#:#Show QR-code
 ui#:#table_posinput_col_title#:#Position
 ui#:#ui_chars_max#:#Maximum:
@@ -17670,6 +17677,7 @@ ui#:#ui_table_no_records#:#Keine Einträge
 ui#:#ui_table_order#:#Reihenfolge
 ui#:#ui_transcription#:#Abschrift
 ui#:#unselect_node#:#Knoten %s von der Auswahl entfernen
+ui#:#use_qr_code#:#QR-Code klicken oder scannen
 ui#:#vc_sort#:#Sortiert nach:
 ui#:#warning_url_too_long_msg#:#Die Anzahl der ausgewählten Zeilen führt zu einer zu großen Datenmenge, die nicht übertragen werden kann. Wählen Sie weniger Zeilen aus oder führen Sie die Aktion für die gesamte Tabelle durch (Sammelaktionen).
 user#:#account_not_flagged_for_deletion#:#Das Konto ist nicht zum Löschen markiert.
