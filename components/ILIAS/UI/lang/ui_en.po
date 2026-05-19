@@ -23,6 +23,9 @@ msgstr "four of five stars"
 msgid "5stars"
 msgstr "five of five stars"
 
+msgid "copy"
+msgstr "Copy"
+
 msgid "datatable_close_warning"
 msgstr "OK"
 
@@ -145,6 +148,12 @@ msgstr "neutral"
 
 msgid "select_node"
 msgstr "Add node %s to selection"
+
+msgid "share"
+msgstr "Share"
+
+msgid "show_qr_code"
+msgstr "QR-Code"
 
 msgid "table_posinput_col_title"
 msgstr "Position"
