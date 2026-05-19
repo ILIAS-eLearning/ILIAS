@@ -26,6 +26,21 @@ msgstr "five of five stars"
 msgid "copy"
 msgstr "Copy"
 
+msgid "copy_to_clipboard"
+msgstr "Copy"
+
+msgid "copy_to_clipboard_aria"
+msgstr "Copy to clipboard"
+
+msgid "copy_to_clipboard_failure"
+msgstr "Could not copy to clipboard"
+
+msgid "copy_to_clipboard_footer"
+msgstr "Copy Permanent-Link"
+
+msgid "copy_to_clipboard_success"
+msgstr "Copied to clipboard"
+
 msgid "datatable_close_warning"
 msgstr "OK"
 
@@ -107,6 +122,21 @@ msgstr "Pagination Offset"
 msgid "label_sortation"
 msgstr "Sortation"
 
+msgid "open_web_share_api"
+msgstr "Share"
+
+msgid "open_web_share_api_aria"
+msgstr "Share using the browsers native API"
+
+msgid "open_web_share_api_failure"
+msgstr "Could not share with browser API"
+
+msgid "open_web_share_api_footer"
+msgstr "Share Permanent-Link"
+
+msgid "open_web_share_api_success"
+msgstr "Shared successfully"
+
 msgid "order_option_alphabetical_ascending"
 msgstr "A to Z"
 
@@ -154,6 +184,9 @@ msgstr "Share"
 
 msgid "show_qr_code"
 msgstr "QR-Code"
+
+msgid "show_qr_code_aria"
+msgstr "Show QR-Code inside Modal"
 
 msgid "table_posinput_col_title"
 msgstr "Position"
@@ -256,6 +289,9 @@ msgstr "Transcript"
 
 msgid "unselect_node"
 msgstr "Remove node %s from selection"
+
+msgid "use_qr_code"
+msgstr "Click or scan the QR-code"
 
 msgid "vc_sort"
 msgstr "Sort by:"

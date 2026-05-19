@@ -1,0 +1,37 @@
+@use "../../../010-settings/" as *;
+@use "../../../050-layout/basics" as *;
+
+.c-transfer {
+  display: flex;
+  flex-direction: column;
+  gap: $il-padding-small-vertical;
+
+  &__contents {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    gap: $il-padding-small-horizontal / 2;
+
+    // make buttons outside of tooltips similar
+    > .btn {
+      display: inline-block;
+    }
+  }
+
+  &__payload {
+    flex: 1;
+    min-width: 0;
+    // align margin with buttons rendered for each transfer mechanism,
+    // so spacing looks evenly distributed on one line in the end:
+    // margin: 0 ($il-margin-small-horizontal / 2) 0 0;
+    // padding: 0 0 0 $il-padding-small-horizontal;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  // make modals shrink-wrap to the qr-code image size.
+  .modal-dialog {
+    max-width: fit-content;
+  }
+}

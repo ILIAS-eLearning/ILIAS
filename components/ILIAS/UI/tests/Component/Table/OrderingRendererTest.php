@@ -40,7 +40,8 @@ class OrderingRendererTest extends TableRendererTestBase
             new ilImagePathResolver(),
             new \ILIAS\Data\Factory(),
             new \ILIAS\UI\Help\TextRetriever\Echoing(),
-            $this->getUploadLimitResolver()
+            $this->getUploadLimitResolver(),
+            $this->getRefinery(),
         );
     }
 
