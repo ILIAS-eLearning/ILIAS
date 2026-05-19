@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Component\Modal\Lightbox;
+
 /**
  * Class ilAssLongmenuCorrectionsInputGUI
  *
@@ -27,6 +29,8 @@
 class ilAssLongmenuCorrectionsInputGUI extends ilAnswerWizardInputGUI
 {
     private \ILIAS\DI\UIServices $ui;
+
+    private ?Lightbox $modal = null;
 
     public function __construct($a_title = "", $a_postvar = "")
     {
@@ -47,18 +51,27 @@ class ilAssLongmenuCorrectionsInputGUI extends ilAnswerWizardInputGUI
         $inp = new ilTextWizardInputGUI('', '');
         $inp->setValues(current($this->values['answers_all']));
         $inp->setDisabled(true);
-        $message = $inp->render();
 
-        $page = $this->ui->factory()->modal()->lightboxTextPage($message, $this->lng->txt('answer_options'));
-        $modal = $this->ui->factory()->modal()->lightbox($page);
-        $button = $this->ui->factory()->button()->standard($this->lng->txt('show'), $modal->getShowSignal());
+        $this->modal = $this->ui->factory()->modal()->lightbox(
+            $this->ui->factory()->modal()->lightboxTextPage(
+                $inp->render(),
+                $this->lng->txt('answer_options')
+            )
+        );
 
-        $tpl = new ilTemplate('tst.longmenu_corrections_input.html', true, true, 'components/ILIAS/TestQuestionPool');
+        $tpl = new ilTemplate('tpl.prop_longmenu_corrections_input.html', true, true, 'components/ILIAS/TestQuestionPool');
 
-        $tpl->setVariable('ANSWERS_MODAL', $this->ui->renderer()->render($modal));
         $tpl->setVariable('TAG_INPUT', $this->buildTagInput()->render());
         $tpl->setVariable('NUM_ANSWERS', $this->values['answers_all_count']);
-        $tpl->setVariable('BTN_SHOW', $this->ui->renderer()->render($button));
+        $tpl->setVariable(
+            'BTN_SHOW',
+            $this->ui->renderer()->render(
+                $this->ui->factory()->button()->standard(
+                    $this->lng->txt('show'),
+                    $this->modal->getShowSignal()
+                )
+            )
+        );
         $tpl->setVariable('TXT_ANSWERS', $this->lng->txt('answer_options'));
         $tpl->setVariable('TXT_CORRECT_ANSWERS', $this->lng->txt('correct_answers') . ':');
 
@@ -67,6 +80,13 @@ class ilAssLongmenuCorrectionsInputGUI extends ilAnswerWizardInputGUI
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
         $a_tpl->parseCurrentBlock();
+    }
+
+    public function getContentOutsideFormTag(): string
+    {
+        return $this->modal === null
+            ? null
+            : $this->ui->renderer()->render($this->modal);
     }
 
     protected function buildTagInput(): ilTagInputGUI
