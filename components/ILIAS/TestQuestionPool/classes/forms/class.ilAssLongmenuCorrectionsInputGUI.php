@@ -68,7 +68,7 @@ class ilAssLongmenuCorrectionsInputGUI extends ilAnswerWizardInputGUI
             $this->ui->renderer()->render(
                 $this->ui->factory()->button()->standard(
                     $this->lng->txt('show'),
-                    $this->modal->getShowSignal()
+                    $this->answer_options_modal->getShowSignal()
                 )
             )
         );
