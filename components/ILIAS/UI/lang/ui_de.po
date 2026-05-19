@@ -26,6 +26,21 @@ msgstr "fünf von fünf Sternen"
 msgid "copy"
 msgstr "Kopieren"
 
+msgid "copy_to_clipboard"
+msgstr "Kopieren"
+
+msgid "copy_to_clipboard_aria"
+msgstr "In Zwischenablage kopieren"
+
+msgid "copy_to_clipboard_failure"
+msgstr "Konnte nicht in Zwischenablage kopiert werden"
+
+msgid "copy_to_clipboard_footer"
+msgstr "Permanent-Link kopieren"
+
+msgid "copy_to_clipboard_success"
+msgstr "In Zwischenablage kopiert"
+
 msgid "datatable_close_warning"
 msgstr "OK"
 
@@ -107,6 +122,21 @@ msgstr "Pagination - Start"
 msgid "label_sortation"
 msgstr "Sortierung"
 
+msgid "open_web_share_api"
+msgstr "Teilen"
+
+msgid "open_web_share_api_aria"
+msgstr "Teilen Sie den Inhalt mit der Browser API"
+
+msgid "open_web_share_api_failure"
+msgstr "Konnte nicht über die Browser API geteilt werden"
+
+msgid "open_web_share_api_footer"
+msgstr "Permanent-Link teilen"
+
+msgid "open_web_share_api_success"
+msgstr "Erfolgreich geteilt"
+
 msgid "order_option_alphabetical_ascending"
 msgstr "A bis Z"
 
@@ -154,6 +184,9 @@ msgstr "Teilen"
 
 msgid "show_qr_code"
 msgstr "QR-Code anzeigen"
+
+msgid "show_qr_code_aria"
+msgstr "QR-code in einem Modal anzeigen"
 
 msgid "table_posinput_col_title"
 msgstr "Position"
@@ -256,6 +289,9 @@ msgstr "Abschrift"
 
 msgid "unselect_node"
 msgstr "Knoten %s von der Auswahl entfernen"
+
+msgid "use_qr_code"
+msgstr "QR-Code klicken oder scannen"
 
 msgid "vc_sort"
 msgstr "Sortiert nach:"

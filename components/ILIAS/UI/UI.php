@@ -217,6 +217,7 @@ class UI implements Component\Component
                 $internal[UI\Implementation\Component\Entity\Factory::class],
                 $internal[UI\Implementation\Component\Prompt\Factory::class],
                 $internal[UI\Implementation\Component\Navigation\Factory::class],
+                $internal[UI\Implementation\Component\Transfer\Factory::class],
             );
 
         $internal[UI\Implementation\Component\Counter\Factory::class] = static fn() =>
@@ -483,6 +484,9 @@ class UI implements Component\Component
                 $use[UI\Storage::class],
             );
 
+        $internal[UI\Implementation\Component\Transfer\Factory::class] = static fn() =>
+            new UI\Implementation\Component\Transfer\Factory();
+
         $internal[UI\Implementation\DefaultRenderer::class] = static fn() =>
             new UI\Implementation\DefaultRenderer(
                 $internal[UI\Implementation\Render\Loader::class],
@@ -503,6 +507,7 @@ class UI implements Component\Component
                             $pull[Data\Factory::class],
                             $use[UI\HelpTextRetriever::class],
                             $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
+                            $pull[Refinery\Factory::class],
                         ),
                         new UI\Implementation\Component\Button\ButtonRendererFactory(
                             $use[UI\Implementation\FactoryInternal::class],
@@ -513,6 +518,7 @@ class UI implements Component\Component
                             $pull[Data\Factory::class],
                             $use[UI\HelpTextRetriever::class],
                             $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
+                            $pull[Refinery\Factory::class],
                         ),
                         new UI\Implementation\Component\Input\Field\FieldRendererFactory(
                             $use[UI\Implementation\FactoryInternal::class],
@@ -523,6 +529,7 @@ class UI implements Component\Component
                             $pull[Data\Factory::class],
                             $use[UI\HelpTextRetriever::class],
                             $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
+                            $pull[Refinery\Factory::class],
                         ),
                         new UI\Implementation\Component\MessageBox\MessageBoxRendererFactory(
                             $use[UI\Implementation\FactoryInternal::class],
@@ -533,6 +540,7 @@ class UI implements Component\Component
                             $pull[Data\Factory::class],
                             $use[UI\HelpTextRetriever::class],
                             $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
+                            $pull[Refinery\Factory::class],
                         ),
                         new UI\Implementation\Component\Input\Container\Form\FormRendererFactory(
                             $use[UI\Implementation\FactoryInternal::class],
@@ -543,6 +551,7 @@ class UI implements Component\Component
                             $pull[Data\Factory::class],
                             $use[UI\HelpTextRetriever::class],
                             $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
+                            $pull[Refinery\Factory::class],
                         ),
                         new UI\Implementation\Component\Menu\MenuRendererFactory(
                             $use[UI\Implementation\FactoryInternal::class],
@@ -553,6 +562,7 @@ class UI implements Component\Component
                             $pull[Data\Factory::class],
                             $use[UI\HelpTextRetriever::class],
                             $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
+                            $pull[Refinery\Factory::class],
                         ),
                         new UI\Implementation\Component\Listing\ListingRendererFactory(
                             $use[UI\Implementation\FactoryInternal::class],
@@ -563,6 +573,7 @@ class UI implements Component\Component
                             $pull[Data\Factory::class],
                             $use[UI\HelpTextRetriever::class],
                             $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
+                            $pull[Refinery\Factory::class],
                         ),
                     )
                 )
@@ -652,6 +663,8 @@ class UI implements Component\Component
             new Component\Resource\ComponentJS($this, "js/Input/ViewControl/dist/input.viewcontrols.min.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/MathJax/mathjax_config.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "js/Transfer/dist/transfer.min.js");
 
         /*
         those are contributed by MediaObjects

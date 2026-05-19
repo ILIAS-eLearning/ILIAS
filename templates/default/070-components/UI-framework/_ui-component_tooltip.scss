@@ -51,7 +51,8 @@ $c-tooltip-z-index: 9999;
 // switching bridge and arrow position when dropdown switched to top
 .c-tooltip__container.c-tooltip--top::before,
 .c-tooltip__container.c-tooltip--top::after,
-.c-tooltip__container.c-tooltip--top [role="tooltip"] {
+.c-tooltip__container.c-tooltip--top [role="tooltip"],
+.c-tooltip__container.c-tooltip--top [role="status"] {
 	top: unset;
 	bottom: 100%;
 }
@@ -83,11 +84,22 @@ $c-tooltip-z-index: 9999;
 	@include tool-typography.strip-paragraph-margin__first-and-last;
 }
 
-.c-tooltip__container.c-tooltip--top [role="tooltip"] {
+.c-tooltip__container [role="status"] {
+	display: inline-block;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.c-tooltip__container.c-tooltip--top [role="tooltip"],
+.c-tooltip__container.c-tooltip--top [role="status"] {
 	bottom: calc(100% + calc($c-tooltip-arrow-height * 2));
 }
 
 /* Shows the tooltip */
 .c-tooltip__container.c-tooltip--visible [role="tooltip"] {
 	display: inline-block;
+}
+.c-tooltip__container.c-tooltip--visible [role="status"] {
+	opacity: 100%;
+	pointer-events: all;
 }

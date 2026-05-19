@@ -159,6 +159,9 @@ class NoUIFactory implements FactoryInternal
     public function navigation(): I\Navigation\Factory
     {
     }
+    public function transfer(): I\Transfer\Factory
+    {
+    }
 }
 
 class LoggingRegistry implements ResourceRegistry
@@ -428,7 +431,8 @@ trait BaseUITestTrait
                         $image_path_resolver,
                         $data_factory,
                         $help_text_retriever,
-                        $this->getUploadLimitResolver()
+                        $this->getUploadLimitResolver(),
+                        $this->getRefinery(),
                     ),
                     new ButtonRendererFactory(
                         $ui_factory,
@@ -438,7 +442,8 @@ trait BaseUITestTrait
                         $image_path_resolver,
                         $data_factory,
                         $help_text_retriever,
-                        $this->getUploadLimitResolver()
+                        $this->getUploadLimitResolver(),
+                        $this->getRefinery(),
                     ),
                     new FieldRendererFactory(
                         $ui_factory,
@@ -448,7 +453,8 @@ trait BaseUITestTrait
                         $image_path_resolver,
                         $data_factory,
                         $help_text_retriever,
-                        $this->getUploadLimitResolver()
+                        $this->getUploadLimitResolver(),
+                        $this->getRefinery(),
                     ),
                     new MessageBoxRendererFactory(
                         $ui_factory,
@@ -458,7 +464,8 @@ trait BaseUITestTrait
                         $image_path_resolver,
                         $data_factory,
                         $help_text_retriever,
-                        $this->getUploadLimitResolver()
+                        $this->getUploadLimitResolver(),
+                        $this->getRefinery(),
                     ),
                     new FormRendererFactory(
                         $ui_factory,
@@ -468,7 +475,8 @@ trait BaseUITestTrait
                         $image_path_resolver,
                         $data_factory,
                         $help_text_retriever,
-                        $this->getUploadLimitResolver()
+                        $this->getUploadLimitResolver(),
+                        $this->getRefinery(),
                     ),
                     new I\Menu\MenuRendererFactory(
                         $ui_factory,
@@ -479,6 +487,7 @@ trait BaseUITestTrait
                         $data_factory,
                         $help_text_retriever,
                         $this->getUploadLimitResolver(),
+                        $this->getRefinery(),
                     ),
                     new I\Listing\ListingRendererFactory(
                         $ui_factory,
@@ -489,6 +498,7 @@ trait BaseUITestTrait
                         $data_factory,
                         $help_text_retriever,
                         $this->getUploadLimitResolver(),
+                        $this->getRefinery(),
                     )
                 )
             )
