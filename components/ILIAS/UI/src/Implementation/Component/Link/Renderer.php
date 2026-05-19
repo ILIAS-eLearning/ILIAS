@@ -79,7 +79,7 @@ class Renderer extends AbstractComponentRenderer
 
     protected function maybeRenderWithTooltip(Component\Link\Link $component, Template $tpl): string
     {
-        $tooltip_embedding = $this->getTooltipRenderer()->maybeGetTooltipEmbedding(...$component->getHelpTopics());
+        $tooltip_embedding = $this->getTooltipRenderer()->getHelpTopicTooltipEmbedding(...$component->getHelpTopics());
         if (! $tooltip_embedding) {
             $id = $this->bindJavaScript($component);
             $tpl->setVariable("ID", $id);

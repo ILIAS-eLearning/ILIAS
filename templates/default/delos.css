@@ -2734,7 +2734,8 @@ details[open] > summary::before {
 
 .c-tooltip__container.c-tooltip--top::before,
 .c-tooltip__container.c-tooltip--top::after,
-.c-tooltip__container.c-tooltip--top [role=tooltip] {
+.c-tooltip__container.c-tooltip--top [role=tooltip],
+.c-tooltip__container.c-tooltip--top [role=status] {
   top: unset;
   bottom: 100%;
 }
@@ -2769,13 +2770,25 @@ details[open] > summary::before {
   margin-bottom: 0;
 }
 
-.c-tooltip__container.c-tooltip--top [role=tooltip] {
+.c-tooltip__container [role=status] {
+  display: inline-block;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.c-tooltip__container.c-tooltip--top [role=tooltip],
+.c-tooltip__container.c-tooltip--top [role=status] {
   bottom: calc(100% + 1em);
 }
 
 /* Shows the tooltip */
 .c-tooltip__container.c-tooltip--visible [role=tooltip] {
   display: inline-block;
+}
+
+.c-tooltip__container.c-tooltip--visible [role=status] {
+  opacity: 100%;
+  pointer-events: all;
 }
 
 .breadcrumb_wrapper {
@@ -12861,6 +12874,31 @@ tr.c-table-data__row.c-table-data__row--drag-settle {
   grid-area: actions;
   display: flex;
   flex-direction: column;
+}
+
+.c-transfer {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.c-transfer__contents {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  gap: 3px;
+}
+.c-transfer__contents > .btn {
+  display: inline-block;
+}
+.c-transfer__payload {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.c-transfer .modal-dialog {
+  max-width: fit-content;
 }
 
 .c-tree {

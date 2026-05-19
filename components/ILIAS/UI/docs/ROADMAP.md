@@ -375,6 +375,37 @@ factory method, that stays optional but should be required in the future.
 The safeguard itself could be implemented as prompt, modal, or even as a popover. Some research and
 accessibility evaluations should provide some insight into what is most suitable there.
 
+### Streamline template-embedding mechanisms (expert, ~5d)
+
+There are several different problems that occur during the rendering of a component where solutions require
+to embed content into the components actual template:
+
+* `UI\Component\HasHelpTopics`: tooltip embedding, encapsulated in a dedicated renderer class
+* `UI\Component\JavaScriptBindable`: JavaScript embedding (currently only an ID attribute, but this will change in the
+future), implemented entirely inside the `UI\Render\AbstractComponentRenderer`.
+* Dynamic heading levels: not yet implemented, but will require to embed the correct heading-level (h1-h6).
+* Possibly others: there are probably other solutions which are not (yet) implemented centrally.
+
+These mechanisms should be analysed and streamlined so there is a single documented mechanism that can be used for
+all of the above solutions to embed something into the actual template of a component. During this analysis it must
+be considered, that we may change our template engine soon and that a migration of the new mechanism to a possible
+engine like Twig or Blade is possible. Its even possible this solution becomes obsolete if we switch to such template
+engines.
+
+### Introduce client-side configuration object (advanced, ~5d)
+
+Client-side configuration values, such as debounce delays or visibility durations, are currently hardcoded as inline
+constants – scattered across our JavaScript code-base. For configuration values like this on the server we have already
+a concept in place, where we hide values like this behind dedicated interfaces, so potentially the system can offer
+real implementations to alter some values. This pattern was established during the migration of the UI framework towards
+the new component bootstrap mechanism. Since configuration values on the client are currently left behind, we should
+create a concept for the integration of these values into the bootstrap mechanism as well. The difficulty here lies in
+how we transfer these values from the server to our client in a sophisticated manner. Since values like this do not
+change once the application is built, it only makes sense to compile them into an artifact. Ideally this artifact would
+contain an object that is exported from a `.js` file, which can be imported directly by our ES6 modules (components).
+Alternatively, we build this as a string and store this in an `.php` artifact and ship its content via our component
+renderers, so it is available as global state (e.g. `il.UI.Config`).
+
 ## Long Term
 
 ### Mark Some Components as Internal

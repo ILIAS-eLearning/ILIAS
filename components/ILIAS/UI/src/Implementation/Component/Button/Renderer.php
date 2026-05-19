@@ -143,7 +143,7 @@ class Renderer extends AbstractComponentRenderer
             }
         }
 
-        $tooltip_embedding = $this->getTooltipRenderer()->maybeGetTooltipEmbedding(...$component->getHelpTopics());
+        $tooltip_embedding = $this->getTooltipRenderer()->getHelpTopicTooltipEmbedding(...$component->getHelpTopics());
         if ($tooltip_embedding) {
             $component = $component->withAdditionalOnLoadCode($tooltip_embedding[1]);
         }
@@ -264,7 +264,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        $tooltip_embedding = $this->getTooltipRenderer()->maybeGetTooltipEmbedding(...$component->getHelpTopics());
+        $tooltip_embedding = $this->getTooltipRenderer()->getHelpTopicTooltipEmbedding(...$component->getHelpTopics());
         if ($tooltip_embedding) {
             $component = $component->withAdditionalOnLoadCode($tooltip_embedding[1]);
             $tooltip_id = $this->createId();
