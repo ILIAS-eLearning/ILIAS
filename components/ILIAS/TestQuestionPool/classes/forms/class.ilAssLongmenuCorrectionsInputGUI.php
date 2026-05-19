@@ -30,7 +30,7 @@ class ilAssLongmenuCorrectionsInputGUI extends ilAnswerWizardInputGUI
 {
     private \ILIAS\DI\UIServices $ui;
 
-    private ?Lightbox $modal = null;
+    private ?Lightbox $answer_options_modal = null;
 
     public function __construct($a_title = "", $a_postvar = "")
     {
@@ -52,7 +52,7 @@ class ilAssLongmenuCorrectionsInputGUI extends ilAnswerWizardInputGUI
         $inp->setValues(current($this->values['answers_all']));
         $inp->setDisabled(true);
 
-        $this->modal = $this->ui->factory()->modal()->lightbox(
+        $this->answer_options_modal = $this->ui->factory()->modal()->lightbox(
             $this->ui->factory()->modal()->lightboxTextPage(
                 $inp->render(),
                 $this->lng->txt('answer_options')
@@ -84,9 +84,9 @@ class ilAssLongmenuCorrectionsInputGUI extends ilAnswerWizardInputGUI
 
     public function getContentOutsideFormTag(): string
     {
-        return $this->modal === null
-            ? null
-            : $this->ui->renderer()->render($this->modal);
+        return $this->answer_options_modal === null
+            ? ''
+            : $this->ui->renderer()->render($this->answer_options_modal);
     }
 
     protected function buildTagInput(): ilTagInputGUI
