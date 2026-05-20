@@ -13358,7 +13358,7 @@ pd#:#pd_view_select_at_least_one#:#Bitte wählen Sie mindestens eine Sicht, entw
 pdesk#:#bookmark_moved_ok#:#Bookmark wurde verschoben.
 pdesk#:#bookmark_select_target#:#Bitte wählen Sie das Ziel.
 poll#:#poll_absolute#:#Aktuelle Stimmen
-poll#:#poll_activation_online_info#:#Wählen Sie diese Einstellung, um die Abstimmung für Benutzer verfügbar zumachen.
+poll#:#poll_activation_online_info#:#Diese Abstimmung verfügbar machen.
 poll#:#poll_add#:#Abstimmung anlegen
 poll#:#poll_anonymous_warning#:#Dies ist eine anonyme Abstimmung. Ihre Stimme wird gespeichert, Ihr Name aber nicht in den Abstimmungsergebnissen angezeigt.
 poll#:#poll_answer#:#Antwort
@@ -13374,7 +13374,7 @@ poll#:#poll_comments#:#Kommentare
 poll#:#poll_copy#:#Abstimmung kopieren
 poll#:#poll_delete_votes#:#Alle Stimmabgaben löschen
 poll#:#poll_delete_votes_sure#:#Sind Sie sicher, dass Sie alle Stimmabgaben löschen möchten?
-poll#:#poll_edit#:#Abstimmung editieren
+poll#:#poll_edit#:#Abstimmung bearbeiten
 poll#:#poll_edit_question#:#Frage bearbeiten
 poll#:#poll_image#:#Bild
 poll#:#poll_import#:#Abstimmung importieren
@@ -13386,13 +13386,13 @@ poll#:#poll_mode#:#Modus
 poll#:#poll_mode_anonymous#:#Ohne Namen / Anonym
 poll#:#poll_mode_anonymous_info#:#Im Reiter „Abstimmungsergebnisse“ werden keine Namen aufgeführt. Systeminterne IDs der teilnehmenden Personen werden in der Datenbank gespeichert.
 poll#:#poll_mode_personal#:#Mit Namen
-poll#:#poll_mode_personal_info#:#Im Reiter „Abstimmungsergebnisse“ werden die Namen der teilnehmenden Personen mit ihren Antworten aufgeführt.
+poll#:#poll_mode_personal_info#:#Im Reiter „Abstimmungsergebnisse“ werden die Namen der teilnehmenden Personen mit ihren Antworten aufgeführt. Personen, die Zugriff auf diesen Reiter haben, können sehen, wer welche Antwort gegeben hat.
 poll#:#poll_new#:#Neue Abstimmung anlegen
 poll#:#poll_non_anonymous_warning#:#Ihr Name und Votum sind für die Administration in den Ergebnissen sichtbar.
-poll#:#poll_notification_activated#:#Sie haben die Benachrichtigung aktiviert.
-poll#:#poll_notification_deactivated#:#Sie haben die Benachrichtigung deaktiviert.
-poll#:#poll_notification_subscribe#:#Benachrichtigung aktivieren
-poll#:#poll_notification_unsubscribe#:#Benachrichtigung deaktivieren
+poll#:#poll_notification_activated#:#Benachrichtigungen aktiviert.
+poll#:#poll_notification_deactivated#:#Benachrichtigungen deaktiviert.
+poll#:#poll_notification_subscribe#:#Benachrichtigungen aktivieren
+poll#:#poll_notification_unsubscribe#:#Benachrichtigungen deaktivieren
 poll#:#poll_percentage#:#Aktueller Anteil
 poll#:#poll_population#:#%s Stimmabgaben
 poll#:#poll_population_singular#:#Eine Stimmabgabe
@@ -13408,7 +13408,7 @@ poll#:#poll_sortorder#:#Sortierung
 poll#:#poll_stacked_chart#:#Stapeldiagramm
 poll#:#poll_view_results#:#Ergebnisse anzeigen
 poll#:#poll_view_results_after_period#:#Nach Stimmperiode
-poll#:#poll_view_results_after_period_impossible#:#Die Stimmperiode ist nicht zeitlich begrenzt.
+poll#:#poll_view_results_after_period_impossible#:#Damit die Abstimmungsergebnisse erst nach Ende der Stimmperiode gezeigt werden können, müssen Sie oben eine zeitlich begrenzte Stimmperiode einrichten.
 poll#:#poll_view_results_after_vote#:#Nach Stimmabgabe
 poll#:#poll_view_results_always#:#Immer
 poll#:#poll_view_results_never#:#Niemals
@@ -13419,12 +13419,12 @@ poll#:#poll_vote_error_single#:#Wählen Sie eine Antwort aus.
 poll#:#poll_vote_notification_body#:#die folgende Abstimmung hat eine Stimme erhalten
 poll#:#poll_vote_notification_link#:#Link zur Abstimmung
 poll#:#poll_vote_notification_reason#:#Sie erhalten diese Nachricht, da Sie die Benachrichtigungsfunktion für die oben genannte Abstimmung aktiviert haben.
-poll#:#poll_vote_notification_subject#:#Abstimmung „%s“: neue Stimme
+poll#:#poll_vote_notification_subject#:#Abstimmung „%s“ – neue Stimmabgabe
 poll#:#poll_votes_no_edit#:#Diese Abstimmung beinhaltet bereits Stimmen. Sie kann nicht bearbeitet werden so lange Sie die Stimmen nicht löschen.
 poll#:#poll_voting_period_and_results#:#Stimmperiode und Ergebnisse
 poll#:#poll_voting_period_ended_info#:#Das Ende der Abstimmung war %s.
-poll#:#poll_voting_period_full_info#:#Abstimmung von %s bis %s
-poll#:#poll_voting_period_info#:#Das Ende der Abstimmung ist %s.
+poll#:#poll_voting_period_full_info#:#Die Abstimmung in dieser Umfrage ist vom %s bis zum %s möglich
+poll#:#poll_voting_period_info#:#Die Frist für die Abstimmung endet am %s.
 poll#:#poll_voting_period_limited#:#Zeitlich begrenzte Stimmperiode
 prg#:#access_ctr_by_orgu_position#:#Berechtigungen anhand Positionen in Organisationseinheiten
 prg#:#active_only#:#nur aktive
