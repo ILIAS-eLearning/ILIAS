@@ -49,23 +49,4 @@ export default [
     external: ['il', 'jquery'],
   },
 
-  {
-    input: './src/footer.js',
-    output: {
-      file: './dist/footer.min.js',
-      format: 'iife',
-      banner: copyright,
-      plugins: [
-        terser({
-          format: {
-            comments: preserveCopyright,
-          },
-        }),
-      ],
-      globals: {
-        il: 'il',
-      },
-    },
-    external: ['il'],
-  },
 ];
