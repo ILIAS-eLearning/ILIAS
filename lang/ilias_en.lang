@@ -17536,6 +17536,7 @@ ui#:#4stars#:#four of five stars
 ui#:#5stars#:#five of five stars
 ui#:#copy#:#Copy
 ui#:#copy_to_clipboard#:#Copy
+ui#:#copy_to_clipboard_footer#:#Copy Permanent-Link
 ui#:#copy_to_clipboard_aria#:#Copy to clipboard
 ui#:#copy_to_clipboard_failure#:#Could not copy to clipboard
 ui#:#copy_to_clipboard_success#:#Copied to clipboard
@@ -17567,6 +17568,7 @@ ui#:#label_pagination_limit#:#Pagination Number of Rows
 ui#:#label_pagination_offset#:#Pagination Offset
 ui#:#label_sortation#:#Sortation
 ui#:#open_web_share_api#:#Share
+ui#:#open_web_share_api_footer#:#Share Permanent-Link
 ui#:#open_web_share_api_aria#:#Share using the browsers native API
 ui#:#open_web_share_api_failure#:#Could not share with browser API
 ui#:#open_web_share_api_success#:#Shared successfully

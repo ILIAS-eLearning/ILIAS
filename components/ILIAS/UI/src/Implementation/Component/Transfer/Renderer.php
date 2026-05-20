@@ -25,7 +25,6 @@ use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Component\Transfer\HasAdditionalTransferMechanism;
 use ILIAS\UI\Component\Transfer\TransferMechanism;
-use ILIAS\UI\Component\Transfer\Transfer;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\Data\SVG;

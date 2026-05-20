@@ -25,7 +25,7 @@ use ILIAS\UI\Implementation\Component\HasHelpTopics;
 use ILIAS\UI\Component as C;
 use ILIAS\Data\URI;
 
-class Link implements C\Transfer\Link
+class Link extends Transfer implements C\Transfer\Link
 {
     use ComponentHelper;
     use JavaScriptBindable;

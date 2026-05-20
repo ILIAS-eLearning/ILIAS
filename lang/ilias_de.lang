@@ -17595,6 +17595,7 @@ ui#:#4stars#:#vier von fünf Sternen
 ui#:#5stars#:#fünf von fünf Sternen
 ui#:#copy#:#Copy
 ui#:#copy_to_clipboard#:#Kopieren
+ui#:#copy_to_clipboard_footer#:#Permanent-Link kopieren
 ui#:#copy_to_clipboard_failure#:#Konnte nicht in Zwischenablage kopiert werden
 ui#:#copy_to_clipboard_success#:#In Zwischenablage kopiert
 ui#:#datatable_close_warning#:#OK
@@ -17625,6 +17626,7 @@ ui#:#label_pagination_limit#:#Pagination - Anzahl der Zeilen
 ui#:#label_pagination_offset#:#Pagination - Start
 ui#:#label_sortation#:#Sortierung
 ui#:#open_web_share_api#:#Teilen
+ui#:#open_web_share_api_footer#:#Permanent-Link teilen
 ui#:#open_web_share_api_aria#:#Teilen Sie den Inhalt mit der Browser API
 ui#:#open_web_share_api_failure#:#Konnte nicht über die Browser API geteilt werden
 ui#:#open_web_share_api_success#:#Erfolgreich geteilt
