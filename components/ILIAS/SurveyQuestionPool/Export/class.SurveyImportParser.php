@@ -611,6 +611,9 @@ class SurveyImportParser extends ilSaxParser
                             case "evaluation_access":
                                 $this->survey->setEvaluationAccess($value["entry"]);
                                 break;
+                            case "calculate_sum_score":
+                                $this->survey->setCalculateSumScore((bool) $value["entry"]);
+                                break;
                             case "pool_usage":
                                 $this->survey->setPoolUsage($value["entry"]);
                                 break;
