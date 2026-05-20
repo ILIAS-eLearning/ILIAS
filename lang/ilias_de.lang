@@ -13378,8 +13378,8 @@ poll#:#poll_edit#:#Abstimmung bearbeiten
 poll#:#poll_edit_question#:#Frage bearbeiten
 poll#:#poll_image#:#Bild
 poll#:#poll_import#:#Abstimmung importieren
-poll#:#poll_limit_not_below_answer_count#:#Die begrenzte Anzahl muss kleiner sein als die Anzahl der möglichen Antworten.
-poll#:#poll_limit_number_of_answers#:#Anzahl Antworten begrenzen
+poll#:#poll_limit_not_below_answer_count#:#Die maximale Anzahl der auswählbaren Antworten muss geringer sein als die Gesamtzahl der möglichen Antworten.
+poll#:#poll_limit_number_of_answers#:#Anzahl der auswählbaren Antworten begrenzen
 poll#:#poll_max_number_of_answers#:#Maximale Anzahl pro Person
 poll#:#poll_max_number_of_answers_info#:#Sie dürfen bis zu %s Antworten auswählen.
 poll#:#poll_mode#:#Modus
