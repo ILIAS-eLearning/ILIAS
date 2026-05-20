@@ -445,13 +445,21 @@ class Renderer extends AbstractComponentRenderer
         // maybe render section 1 (permanent link):
         $permanent_url = $component->getPermanentURL();
         if (null !== $permanent_url) {
+            $permanent_link_transfer = $this->getUIFactory()->transfer()->link(
+                Component\Transfer\TransferMechanism::CLIPBOARD,
+                $permanent_url,
+                "<strong>{$this->txt('perma_link')}</strong>",
+            )->withAdditionalTransferMechanism(
+                Component\Transfer\TransferMechanism::WEB_SHARE,
+                Component\Transfer\TransferMechanism::QR_CODE,
+            );
             $this->parseAdditionalFooterSectionItems(
                 $template,
                 $default_renderer,
                 'permanent-link',
                 $this->txt('footer_permanent_link'),
                 [
-                    [$this->getUIFactory()->link()->standard($this->txt('perma_link'), (string) $permanent_url), null],
+                    [$permanent_link_transfer, null],
                 ],
                 self::FOOTER_SECTION_SIZE_MEDIUM,
             );
