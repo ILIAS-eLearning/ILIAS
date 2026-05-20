@@ -399,6 +399,17 @@ class InitUIFramework
                             $c["ui.upload_limit_resolver"],
                             $c["refinery"],
                         ),
+                        new ILIAS\UI\Implementation\Component\Transfer\TransferRendererFactory(
+                            $c["ui.factory"],
+                            $c["ui.template_factory"],
+                            $c["lng"],
+                            $c["ui.javascript_binding"],
+                            $c["ui.pathresolver"],
+                            $c["ui.data_factory"],
+                            $c["help.text_retriever"],
+                            $c["ui.upload_limit_resolver"],
+                            $c["refinery"],
+                        ),
                     )
                 )
             );
