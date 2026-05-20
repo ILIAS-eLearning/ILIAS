@@ -106,22 +106,16 @@ class FooterTest extends ILIAS_UI_TestBase
         $footer = $this->getUIFactory()->mainControls()->footer();
         $footer = $footer->withPermanentURL($this->uri_mock);
 
-        $this->button_factory->expects($this->once())->method('standard')->with('copy_perma_link', '');
-        $this->button_mock->expects($this->once())->method('withAdditionalOnLoadCode')->willReturnSelf();
+        $this->link_factory->expects($this->once())->method('standard')->with('perma_link', $this->uri_mock);
 
-        $renderer = $this->getDefaultRenderer(null, [$this->button_mock]);
+        $renderer = $this->getDefaultRenderer(null, [$this->link_mock]);
         $actual_html = $renderer->render($footer);
 
         $expected_html = <<<EOT
 <footer class="c-maincontrols c-maincontrols__footer">
     <section class="c-maincontrols__footer-grid c-maincontrols__footer-grid--md" data-section="permanent-link" aria-label="footer_permanent_link" tabindex="0">
         <div class="c-maincontrols__footer-grid__item text-left">
-            <div class="c-tooltip__container c-tooltip--top" aria-live="polite">
-                $this->button_html
-                <div class="c-tooltip c-tooltip--hidden" role="tooltip">
-                    perma_link_copied
-                </div>
-            </div>
+            $this->link_html
         </div>
     </section>
 </footer>
