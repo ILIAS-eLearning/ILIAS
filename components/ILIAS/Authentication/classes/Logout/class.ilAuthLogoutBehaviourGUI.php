@@ -56,7 +56,7 @@ class ilAuthLogoutBehaviourGUI
         $this->ui_factory = $DIC->ui()->factory();
         $this->rbac_system = $DIC->rbac()->system();
         $this->ui_renderer = $DIC->ui()->renderer();
-        $this->ilErr = $DIC->error();
+        $this->ilErr = $DIC['ilErr'];
         $this->lng->loadLanguageModule('auth');
         $this->settings = new ilSetting('auth');
         $this->configurable_logout_target = new ConfigurableLogoutTarget(

@@ -58,7 +58,7 @@ class ilAuthPageEditorGUI implements ilCtrlSecurityInterface
         $this->tabs = $DIC->tabs();
 
         $this->http = $DIC->http();
-        $this->ilErr = $DIC->ilErr();
+        $this->ilErr = $DIC['ilErr'];
         $this->refinery = $DIC->refinery();
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
