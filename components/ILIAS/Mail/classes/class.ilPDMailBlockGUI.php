@@ -149,7 +149,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
             $avatar = $this->ui->factory()
                 ->symbol()
                 ->avatar()
-                ->picture(ilUtil::getImagePath('logo/ilias_logo_centered.png'), ilMail::_getIliasMailerName());
+                ->picture(ilUtil::getImagePath('logo/HeaderIconAvatar.svg'), ilMail::_getIliasMailerName());
             $public_name_long = ilMail::_getIliasMailerName();
         } else {
             $public_name_long = trim(($data['import_name'] ?? '') . ' (' . $this->lng->txt('user_deleted') . ')');
