@@ -125,7 +125,7 @@ class ilTemplateTest extends TestCase
                 'skin' => 'mySkin', 'style' => 'myStyle', 'file_exists' => false,
                 'tpl_filename' => 'tpl.standard.html',
                 'component' => 'components/ILIAS/UI/src/Input',
-                'expected' => $il_root . 'components/ILIAS/UI/src/Input/tpl.standard.html',
+                'expected' => $il_root . '/components/ILIAS/UI/src/templates/default/Input/tpl.standard.html',
             ],
             'trailing slash' => [
                 'skin' => 'default', 'style' => 'delos', 'file_exists' => true,
