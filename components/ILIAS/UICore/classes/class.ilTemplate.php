@@ -378,7 +378,22 @@ class ilTemplate extends HTML_Template_ITX
         $style = $this->getCurrentStyle();
         $base_path = $ilias_root . 'public/Customizing/skin/' . $skin;
 
-        if ($a_in_module === 'components/ILIAS/UI/src') {
+        if(is_dir($base_path . '/' . $style . '/components/ILIAS/UI/src')) {
+            $a_in_module = 'components/ILIAS/UI/src';
+        } else if(is_dir($base_path . '/' . $style . '/components/ILIAS/UI') && !is_dir($base_path . '/' . $style . '/components/ILIAS/UI/src')) {
+            $a_in_module = 'components/ILIAS/UI';
+        } else if(is_dir($base_path . '/' . $style . '/UI/src')) {
+            $a_in_module = 'UI/src';
+        } else if(is_dir($base_path . '/' . $style . '/UI')) {
+            $a_in_module = 'UI';
+
+        } else if(is_dir($base_path . '/components/ILIAS/UI/src')) {
+            $a_in_module = 'components/ILIAS/UI/src';
+        } else if(is_dir($base_path . '/components/ILIAS/UI') && !is_dir($base_path . '/components/ILIAS/UI/src')) {
+            $a_in_module = 'components/ILIAS/UI';
+        } else if(is_dir($base_path . '/UI/src')) {
+            $a_in_module = 'UI/src';
+        } else if(is_dir($base_path . '/UI')) {
             $a_in_module = 'UI';
         }
 
