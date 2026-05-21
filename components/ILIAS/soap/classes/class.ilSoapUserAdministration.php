@@ -518,14 +518,20 @@ class ilSoapUserAdministration extends ilSoapAdministration
         $tree = $DIC->repositoryTree();
         $ilUser = $DIC->user();
         $access = $DIC->access();
+        $rbacsystem = $DIC->rbac()->system();
 
         $global_roles = $rbacreview->getGlobalRoles();
 
         if (in_array($role_id, $global_roles, true)) {
-            // global roles
-            if ($role_id === SYSTEM_ROLE_ID &&
-                !in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()), true)) {
+            $actor_has_system_role = in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()), true);
+
+            if ($role_id === SYSTEM_ROLE_ID && !$actor_has_system_role) {
                 return $this->raiseError("Role access not permitted. ($role_id)", "Server");
+            }
+
+            if (!$actor_has_system_role &&
+                !$rbacsystem->checkAccessOfUser($ilUser->getId(), 'edit_userassignment', ROLE_FOLDER_ID)) {
+                return $this->raiseError('Role access not permitted. ' . '(' . $role_id . ')', 'Server');
             }
         } else {
             // local roles
