@@ -123,7 +123,7 @@ class ilTemplateTest extends TestCase
             ],
             'ui template from custom skin, unaltered' => [
                 'skin' => 'mySkin', 'style' => 'myStyle', 'file_exists' => false,
-                'tpl_filename' => '/Input/tpl.standard.html',
+                'tpl_filename' => 'Input/tpl.standard.html',
                 'component' => 'components/ILIAS/UI/src',
                 'expected' => $il_root . '/components/ILIAS/UI/src/templates/default/Input/tpl.standard.html',
             ],
