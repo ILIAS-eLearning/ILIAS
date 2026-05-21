@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Refinery\Factory;
 use ILIAS\HTTP\GlobalHttpState;
@@ -956,8 +956,6 @@ class ilConditionHandlerGUI
                         $this->lng->txt('precondition_number_of_required_materials_bigger_preconditions_number')
                     )
                 );
-        }
-        if (count($all_conditions) > 1) {
             $condition_mode_subset = $this->ui_factory->input()->field()->group(
                 $subset_limit,
                 $this->lng->txt('rbac_precondition_mode_subset'),
