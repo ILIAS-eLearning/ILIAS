@@ -83,7 +83,10 @@ class ilAuthProviderSoap extends ilAuthProvider
         } catch (Exception $e) {
             $this->getLogger()->error($e->getMessage());
             $this->getLogger()->error($e->getTraceAsString());
-            $status->setTranslatedReason($e->getMessage());
+
+            $this->handleAuthenticationFail($status, 'err_wrong_login');
+
+            return false;
         }
 
         if ($status->getAuthenticatedUserId() > 0 && $status->getAuthenticatedUserId() !== ANONYMOUS_USER_ID) {
@@ -94,7 +97,7 @@ class ilAuthProviderSoap extends ilAuthProvider
             return true;
         }
 
-        $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
+        $this->handleAuthenticationFail($status, 'err_wrong_login');
 
         return false;
     }
