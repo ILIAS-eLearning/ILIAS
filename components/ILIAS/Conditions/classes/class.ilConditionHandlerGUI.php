@@ -1328,7 +1328,7 @@ class ilConditionHandlerGUI
         if ($is_all_mode) {
             $condition->setObligatory(true);
         } else {
-            $condition->setObligatory((bool) ($data['condition_configuration']['obligatory'] ?? false));
+            $condition->setObligatory(false);
         }
 
         $condition->setHiddenStatus(ilConditionHandler::lookupPersistedHiddenStatusByTarget($this->getTargetRefId()));
