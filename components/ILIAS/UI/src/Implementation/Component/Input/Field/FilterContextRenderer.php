@@ -50,7 +50,7 @@ class FilterContextRenderer extends Renderer
 
         switch (true) {
             case ($component instanceof F\Duration):
-                return $this->renderDurationField($component, $default_renderer);
+                return $this->_renderDurationField($component, $default_renderer);
 
             case ($component instanceof F\Group):
                 return $this->renderFieldGroups($component, $default_renderer);
@@ -202,7 +202,7 @@ class FilterContextRenderer extends Renderer
         return $tpl->get();
     }
 
-    protected function renderDurationField(F\Duration $component, RendererInterface $default_renderer): string
+    protected function _renderDurationField(F\Duration $component, RendererInterface $default_renderer): string
     {
         $inputs = $component->getInputs();
 
