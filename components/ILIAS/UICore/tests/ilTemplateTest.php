@@ -117,15 +117,15 @@ class ilTemplateTest extends TestCase
             ],
             'ui template from skin' => [
                 'skin' => 'mySkin', 'style' => 'myStyle', 'file_exists' => true,
-                'tpl_filename' => 'components/ILIAS/UI/src/templates/default/Input/tpl.standard.html',
+                'tpl_filename' => 'components/ILIAS/UI/src/Input/tpl.standard.html',
                 'component' => '',
-                'expected' => $il_root . '/public/Customizing/skin/mySkin/myStyle/UI/Input/tpl.standard.html',
+                'expected' => $il_root . '/public/Customizing/skin/mySkin/myStyle/components/ILIAS/UI/src/Input/tpl.standard.html',
             ],
             'ui template from skin, unaltered' => [
                 'skin' => 'mySkin', 'style' => 'myStyle', 'file_exists' => false,
-                'tpl_filename' => 'components/ILIAS/UI/src/templates/default/Input/tpl.standard.html',
+                'tpl_filename' => 'components/ILIAS/UI/src/Input/tpl.standard.html',
                 'component' => '',
-                'expected' => $il_root . '/components/ILIAS/UI/src/templates/default/Input/tpl.standard.html',
+                'expected' => $il_root . '/public/Customizing/skin/components/ILIAS/UI/src/Input/tpl.standard.html',
             ],
             'trailing slash' => [
                 'skin' => 'default', 'style' => 'delos', 'file_exists' => true,
