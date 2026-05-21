@@ -2921,9 +2921,12 @@ chatroom#:#chat_https_dhparam_info#:#Bitte geben Sie hier den absoluten Serverpf
 chatroom#:#chat_https_key_info#:#Bitte geben Sie den absoluten Serverpfad zum privaten Schlüssel an (bspw.: /etc/ssl/private/server.key).
 chatroom#:#chat_invitation#:#"[INVITER_NAME]" lädt ein in Chatraum "[ROOM_NAME]"
 chatroom#:#chat_invitation_long#:#[SALUTATION][BR][BR]Sie wurden in einen Chatraum eingeladen:[BR]Titel des Chatraums: [ROOM_NAME][BR]Eingeladen von: [INVITER_NAME][BR]URL: [LINK][BR][BR]Zum Betreten des Chatraums folgen Sie bitte der angegebenen URL.
+chatroom#:#chat_invitation_modal_headline#:#Chatraum Einladung
+chatroom#:#chat_invitation_modal_section#:#Benutzer einladen
 chatroom#:#chat_invitation_nc_inv_x#:#Sie haben %s Chateinladungen.
 chatroom#:#chat_invitation_nc_no_inv#:#Sie haben keine Chateinaldungen.
 chatroom#:#chat_invitation_short#:#Klicken Sie auf den Link, um den Chatraum zu betreten.
+chatroom#:#chat_invitation_username_input_label#:#Benutzer eingeben:
 chatroom#:#chat_invitations#:#Chateinladungen
 chatroom#:#chat_invite#:#Einladen
 chatroom#:#chat_join#:#Betreten
