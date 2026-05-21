@@ -121,11 +121,11 @@ class ilTemplateTest extends TestCase
                 'component' => 'components/ILIAS/UI/src/Input',
                 'expected' => $il_root . '/public/Customizing/skin/mySkin/myStyle/components/ILIAS/UI/src/Input/tpl.standard.html',
             ],
-            'ui template from skin, unaltered' => [
+            'ui template from style, unaltered' => [
                 'skin' => 'mySkin', 'style' => 'myStyle', 'file_exists' => false,
                 'tpl_filename' => 'tpl.standard.html',
                 'component' => 'components/ILIAS/UI/src/Input',
-                'expected' => $il_root . '/public/Customizing/skin/mySkin/components/ILIAS/UI/src/Input/tpl.standard.html',
+                'expected' => $il_root . 'components/ILIAS/UI/src/Input/tpl.standard.html',
             ],
             'trailing slash' => [
                 'skin' => 'default', 'style' => 'delos', 'file_exists' => true,
