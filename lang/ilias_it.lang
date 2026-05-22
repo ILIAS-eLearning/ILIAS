@@ -11381,6 +11381,7 @@ lti#:#lti_create_lti_user_role#:#Crea un ruolo globale raccomandato per gli uten
 lti#:#lti_cron_title#:#Servizio esiti LTI
 lti#:#lti_cron_title_desc#:#Sincronizza i progressi didattici degli utenti LTI con i consumatori LTI, se supporta il servizio degli esiti. Questo cron job è richiesto solo per trasferire aggiornamenti di stato dopo l'aggiornamento dei settaggi dei progressi didattici.
 lti#:#lti_custom_new#:#Impostazioni di creazione fornitore personale
+lti#:#lti_deep_linking_not_available_for_admin_objects#:#I consumer creati in Amministrazione non consentono la selezione del contenuto
 lti#:#lti_delete_consume_provider#:#Elimina fornitore
 lti#:#lti_delete_consume_providers#:#Elimina fornitori
 lti#:#lti_delete_provider#:#Elimina fornitore

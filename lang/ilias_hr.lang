@@ -11378,6 +11378,7 @@ lti#:#lti_create_lti_user_role#:#Create recommended global role for LTI users###
 lti#:#lti_cron_title#:#LTI izlazna usluga
 lti#:#lti_cron_title_desc#:#Sinkronizira napredak učenja LTI korisnika s LTI potrošačem, ako podržava izlaznu uslugu. Ovaj cron job potreban je samo za prijenos ažuriranja statusa nakon ažuriranja postavki napretka učenja.
 lti#:#lti_custom_new#:#Create Own Provider Settings###04 06 2021 new variable
+lti#:#lti_deep_linking_not_available_for_admin_objects#:#Potrošači stvoreni u Administraciji ne dopuštaju odabir sadržaja
 lti#:#lti_delete_consume_provider#:#Delete Provider###04 06 2021 new variable
 lti#:#lti_delete_consume_providers#:#Delete Providers###04 06 2021 new variable
 lti#:#lti_delete_provider#:#Delete Provider###04 06 2021 new variable

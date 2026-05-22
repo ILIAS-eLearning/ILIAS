@@ -11407,6 +11407,7 @@ lti#:#lti_create_lti_user_role#:#LTI ユーザ用の推奨グローバル役割�
 lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#結果サービスをサポートしてる場合、LTI consumerでLTIユーザの学習進捗を同期します。このcron jobは学習進捗設定更新の後でステータス更新を送信する事が必須となります。
 lti#:#lti_custom_new#:#自身のプロバイダー設定を作成
+lti#:#lti_deep_linking_not_available_for_admin_objects#:#管理画面で作成されたコンシューマーではコンテンツを選択できません
 lti#:#lti_delete_consume_provider#:#プロバイダーを削除
 lti#:#lti_delete_consume_providers#:#プロバイダーを削除
 lti#:#lti_delete_provider#:#プロバイダーを削除

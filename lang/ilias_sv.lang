@@ -11378,6 +11378,7 @@ lti#:#lti_create_lti_user_role#:#Skapa rekommenderad global roll för LTI-använ
 lti#:#lti_cron_title#:#LTI Utfallstjänst
 lti#:#lti_cron_title_desc#:#Överför LTI-användarnas inlärningsförlopp till den anropande plattformen. Detta cron-jobb behövs endast i de fall då inlärningsförloppet måste räknas om på grund av ändrade inställningar.
 lti#:#lti_custom_new#:#Skapa din egen leverantör eller verktygsinställningar
+lti#:#lti_deep_linking_not_available_for_admin_objects#:#Konsumenter som skapats i Administration tillåter inte val av innehåll
 lti#:#lti_delete_consume_provider#:#Ta bort leverantör eller verktyg
 lti#:#lti_delete_consume_providers#:#Ta bort leverantör eller verktyg
 lti#:#lti_delete_provider#:#Ta bort leverantör eller verktyg

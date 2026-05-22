@@ -18,14 +18,22 @@
 
 declare(strict_types=1);
 
-/** @noRector */
-require_once("../vendor/composer/vendor/autoload.php");
-
 
 /**
  * There is no way to process a $_GET Request with
  * a valid third-party client_id param in regular initILIAS
  */
+
+function sanitizeJson(string $string)
+{
+    $string = preg_replace('/(\w+):(\w+)/', '"$1":"$2"', $string);
+    $string = str_replace("'", '"', $string);
+    $string = str_replace('{', '{', $string);
+    $string = str_replace('}', '}', $string);
+    return json_decode($string, true);
+}
+
+
 if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST') {
     $orig = new ArrayObject($_POST);
     $data = $orig->getArrayCopy();
@@ -43,41 +51,118 @@ if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST') {
     exit;
 }
 
-ilInitialisation::initILIAS();
+require_once '../vendor/composer/vendor/autoload.php';
+require_once __DIR__ . '/../artifacts/bootstrap_default.php';
+entry_point('ILIAS Legacy Initialisation Adapter');
 
 global $DIC;
+$scope = $data['scope'] ?? '';
+$responseType = $data['response_type'] ?? '';
+$redirectUri = $data['redirect_uri'] ?? '';
+$clientId = $data['client_id'] ?? $data['id'] ?? '';
+$state = $data['state'] ?? '';
+$nonce = $data['nonce'] ?? '';
+$ltiMessageHint = $data['lti_message_hint'] ?? '';
+$loginHint = $data['login_hint'] ?? '';
 
-$ltiMessageHint = $data['lti_message_hint'];
+$isDlMode = false;
+$hint = null;
+$deploymentId = null;
+$provider_id = 0;
+$childRefId = 0;
+$refId = 0;
+
+if (
+    $scope === 'openid' &&
+    $responseType === 'id_token' &&
+    $redirectUri !== '' &&
+    $clientId !== ''
+) {
+    $provider_id = ilLTIConsumeProvider::getProviderIdFromClientId($clientId);
+    $provider = ilLTIConsumeProvider::getInstance($provider_id);
+
+    $hint = sanitizeJson($ltiMessageHint);
+    if ($provider->getContentItemUrl() == $redirectUri && isset($hint['deployment_id'])) {
+
+        $isDlMode = true;
+        $deploymentId = (int) $hint['deployment_id'];
+        $childRefId = ilObjLTIConsumer::getRefIdOfConsumerByDeploymentId((string) $deploymentId);
+        $refId = $DIC->repositoryTree()->getParentId($childRefId);
+    }
+
+}
+
 
 if (empty($ltiMessageHint)) {
     $DIC->http()->saveResponse(
-        $DIC->http()->response()
-        ->withStatus(400)
+        $DIC->http()->response()->withStatus(400)
     );
+    $DIC->http()->sendResponse();
+    $DIC->http()->close();
+    exit;
+}
+
+ilSession::set('lti13_login_data', $data);
+
+if ($isDlMode) {
+    if ($deploymentId === null || $refId <= 0) {
+        $DIC->http()->saveResponse(
+            $DIC->http()->response()->withStatus(400)
+        );
+        $DIC->http()->sendResponse();
+        $DIC->http()->close();
+        exit;
+    }
+
+    $DIC->ctrl()->setParameterByClass(ilObjLTIConsumerGUI::class, 'new_type', 'lti');
+    $DIC->ctrl()->setParameterByClass(ilObjLTIConsumerGUI::class, 'provider_id', (string) $deploymentId);
+    $DIC->ctrl()->setParameterByClass(ilObjLTIConsumerGUI::class, 'ref_id', (string) $refId);
+    $url = $DIC->ctrl()->getLinkTargetByClass([ilRepositoryGUI::class, ilObjLTIConsumerGUI::class], 'contentSelectionRequest');
+
+    $response = $DIC->http()->response()
+        ->withStatus(302)
+        ->withAddedHeader('Location', $url);
+
+    $sessionCookieHeader = buildSameSiteNoneSessionCookieHeader();
+    if ($sessionCookieHeader !== null) {
+        $response = $response->withAddedHeader('Set-Cookie', $sessionCookieHeader);
+    }
+
+    $DIC->http()->saveResponse($response);
+
     try {
         $DIC->http()->sendResponse();
         $DIC->http()->close();
     } catch (\ILIAS\HTTP\Response\Sender\ResponseSendingException $e) {
         $DIC->http()->close();
     }
-}
-$mh = explode(":", $ltiMessageHint);
-$isContentSelection = false;
-$ref_id = '';
-$client_id = '';
-$redirect_uri = '';
-if (count($mh) == 2) { // launch message auth
-    list($ref_id, $client_id) = explode(":", $ltiMessageHint);
-} else { // contentSelection message auth
-    $isContentSelection = true;
-    list($ref_id, $client_id, $redirect_uri) = explode(":", $ltiMessageHint);
+
+    exit;
 }
 
-ilSession::set('lti13_login_data', $data);
+$parts = explode(":", $ltiMessageHint, 3);
+$isContentSelection = false;
+$ref_id = '';
+$il_client_id = '';
+$redirect_uri = '';
+if (count($parts) === 2) {
+    [$ref_id, $il_client_id] = $parts;
+} elseif (count($parts) === 3) {
+    $isContentSelection = true;
+    [$ref_id, $il_client_id, $redirect_uri] = $parts;
+} else {
+    $DIC->http()->saveResponse(
+        $DIC->http()->response()->withStatus(400)
+    );
+    $DIC->http()->sendResponse();
+    $DIC->http()->close();
+    exit;
+}
+
 if ($isContentSelection) {
     $url = "../../../" . base64_decode($redirect_uri);
 } else {
-    $url = "../../../goto.php?target=lti_" . $ref_id . "&client_id=" . $client_id;
+    $url = "../../../goto.php?target=lti_" . $ref_id . "&client_id=" . $il_client_id;
 }
 
 function buildSameSiteNoneSessionCookieHeader(): ?string
@@ -127,6 +212,7 @@ if ($sessionCookieHeader !== null) {
 $DIC->http()->saveResponse(
     $response
 );
+
 try {
     $DIC->http()->sendResponse();
     $DIC->http()->close();

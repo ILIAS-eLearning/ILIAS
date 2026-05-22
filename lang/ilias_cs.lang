@@ -11378,6 +11378,7 @@ lti#:#lti_create_lti_user_role#:#Create recommended global role for LTI users###
 lti#:#lti_cron_title#:#Služba LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Synchronizuje průběh učení uživatelů LTI se spotřebitelem LTI, pokud podporuje službu výstupu. Tato úloha cron je vyžadována pouze pro přenos aktualizací statusu po aktualizacích nastavení postupu výuky.
 lti#:#lti_custom_new#:#Create Own Provider Settings###07 02 2020 new variable
+lti#:#lti_deep_linking_not_available_for_admin_objects#:#Spotřebitelé vytvoření ve správě neumožňují výběr obsahu
 lti#:#lti_delete_consume_provider#:#Delete Provider###07 02 2020 new variable
 lti#:#lti_delete_consume_providers#:#Delete Providers###07 02 2020 new variable
 lti#:#lti_delete_provider#:#Delete Provider###07 02 2020 new variable
