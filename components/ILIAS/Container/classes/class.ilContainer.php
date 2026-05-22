@@ -885,7 +885,7 @@ class ilContainer extends ilObject
 
         $log = ilLoggerFactory::getLogger("cont");
         $log->debug(":::::::::::::::::::::::::::");
-        $log->logStack(10);
+        $log->logStack(ilLogLevel::DEBUG);
 
         //ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 
