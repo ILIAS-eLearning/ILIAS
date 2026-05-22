@@ -129,14 +129,14 @@ class ilTestToplistGUI
         $table = new DataRetrieval(
             $this->test_obj,
             $this->repository,
+            $this->participant_repository,
             $this->lng,
             $this->user,
             $this->ui_factory,
             $this->ui_renderer,
             $this->data_factory,
             $list_type,
-            $order_by,
-            $this->participant_repository
+            $order_by
         );
         return $this->ui_factory->table()
             ->data($title, $table->getColumns(), $table)

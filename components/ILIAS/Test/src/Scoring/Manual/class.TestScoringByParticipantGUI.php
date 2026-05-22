@@ -41,13 +41,6 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
     public const PART_FILTER_MANSCORING_NONE = 5;
 
     protected \ilTestAccess $test_access;
-    protected ParticipantRepository $participant_repository;
-
-    public function __construct(\ilObjTest $object)
-    {
-        parent::__construct($object);
-        $this->participant_repository = $object->getLocalDIC()['participant.repository'];
-    }
 
     /**
      * @return ilTestAccess
@@ -522,7 +515,13 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
         $table = new TestScoringByParticipantTableGUI($this);
 
         if ($with_data) {
-            $participant_list = new \ilTestParticipantList($this->object, $this->user, $this->lng, $this->db);
+            $participant_list = new \ilTestParticipantList(
+                $this->object,
+                $this->user,
+                $this->lng,
+                $this->db,
+                $this->participant_repository
+            );
             $participant_list->initializeFromDbRows(
                 $this->object->getTestParticipantsForManualScoring(
                     $table->getFilterItemByPostVar('participant_status')->getValue()

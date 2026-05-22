@@ -73,8 +73,8 @@ class ilTestResultsGUI
         private readonly GlobalHttpState $http,
         private readonly DataFactory $data_factory,
         private readonly ilTestSession $test_session,
-        private readonly ilTestObjectiveOrientedContainer $objective_parent,
-        private readonly ParticipantRepository $participant_repository
+        private readonly ParticipantRepository $participant_repository,
+        private readonly ilTestObjectiveOrientedContainer $objective_parent
     ) {
     }
 

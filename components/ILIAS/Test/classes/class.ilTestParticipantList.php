@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Participants\ParticipantRepository;
+
 /**
  * Class ilTestParticipantList
  *
@@ -38,7 +40,8 @@ class ilTestParticipantList implements Iterator
         private ilObjTest $test_obj,
         private ilObjUser $user,
         private ilLanguage $lng,
-        private ilDBInterface $db
+        private ilDBInterface $db,
+        private ParticipantRepository $participant_repository
     ) {
     }
 
@@ -140,7 +143,13 @@ class ilTestParticipantList implements Iterator
     {
         $usr_ids = $user_access_filter($this->getAllUserIds());
 
-        $access_filtered_list = new self($this->getTestObj(), $this->user, $this->lng, $this->db);
+        $access_filtered_list = new self(
+            $this->getTestObj(),
+            $this->user,
+            $this->lng,
+            $this->db,
+            $this->participant_repository
+        );
 
         foreach ($this as $participant) {
             if (in_array($participant->getUsrId(), $usr_ids)) {
@@ -199,7 +208,13 @@ class ilTestParticipantList implements Iterator
 
     public function getScoredParticipantList(): ilTestParticipantList
     {
-        $scored_participant_list = new self($this->getTestObj(), $this->user, $this->lng, $this->db);
+        $scored_participant_list = new self(
+            $this->getTestObj(),
+            $this->user,
+            $this->lng,
+            $this->db,
+            $this->participant_repository
+        );
 
         $res = $this->db->query($this->buildScoringsQuery());
 
@@ -252,7 +267,6 @@ class ilTestParticipantList implements Iterator
     public function getScoringTableRows(): array
     {
         $rows = [];
-        $participant_repository = $this->test_obj->getLocalDIC()['participant.repository'];
 
         foreach ($this as $participant) {
             $firstname = $participant->getFirstname();
@@ -261,7 +275,7 @@ class ilTestParticipantList implements Iterator
             if ($participant->getUsrId() === ANONYMOUS_USER_ID) {
                 $name = explode(
                     ',',
-                    $participant_repository->getParticipantByActiveId(
+                    $this->participant_repository->getParticipantByActiveId(
                         $this->test_obj->getTestId(),
                         $participant->getActiveId()
                     )->getDisplayName($this->lng)

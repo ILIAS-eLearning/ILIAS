@@ -446,8 +446,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->http,
                     $this->data_factory,
                     $this->test_session_factory->getSession(),
-                    $this->getObjectiveOrientedContainer(),
-                    $this->participant_repository
+                    $this->participant_repository,
+                    $this->getObjectiveOrientedContainer()
                 );
 
                 $this->ctrl->forwardCommand($gui);

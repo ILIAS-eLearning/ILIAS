@@ -34,14 +34,14 @@ class DataRetrieval implements \ILIAS\UI\Component\Table\DataRetrieval
     public function __construct(
         protected readonly \ilObjTest $test_obj,
         protected readonly TestTopListRepository $repository,
+        protected readonly ParticipantRepository $participant_repository,
         protected readonly \ilLanguage $lng,
         protected readonly \ilObjUser $user,
         protected readonly UIFactory $ui_factory,
         protected readonly UIRenderer $ui_renderer,
         protected readonly DataFactory $data_factory,
         protected readonly TopListType $list_type,
-        protected readonly TopListOrder $order_by,
-        protected readonly ParticipantRepository $participant_repository
+        protected readonly TopListOrder $order_by
     ) {
     }
 
