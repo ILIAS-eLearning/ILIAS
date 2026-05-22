@@ -157,7 +157,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
     protected function tryOutcomeService(int $resource, string $ext_account, int $a_status, int $a_percentage): void
     {
         $resource_link = ResourceLink::fromRecordId($resource, $this->connector);
-        if (!$resource_link->hasOutcomesService()) {
+        if (!$resource_link->hasOutcomesService() && !$resource_link->hasScoreService()) {
             $this->logger->info('No outcome service available for resource id: ' . $resource);
             return;
         }
@@ -179,6 +179,25 @@ class ilLTIAppEventListener implements \ilAppEventListener
         }
 
         $this->logger->info('Sending score: ' . (string) $score);
+
+        $platform = $resource_link->getPlatform();
+
+        $platform->accessTokenUrl = $platform->accessTokenUrl
+            ?: $platform->getSetting('custom_oauth2_access_token_url');
+
+        $priv = \ilObjLTIConsumer::getPrivateKey();
+
+        $tool = new Tool();
+        $tool->rsaKey = $priv['key'];
+        $tool->kid = $priv['kid'];
+        $tool->jku = \ilObjLTIConsumer::getPublicKeysetUrl();
+        $tool->requiredScopes = [
+            "https://purl.imsglobal.org/spec/lti-ags/scope/score",
+        ];
+        $tool->signatureMethod = $platform->signatureMethod;
+
+        Tool::$defaultTool = $tool;
+        $tool->platform = $platform;
 
         $pointsPossible = 1;
 
