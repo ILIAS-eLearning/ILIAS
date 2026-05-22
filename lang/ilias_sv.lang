@@ -11382,7 +11382,7 @@ lti#:#lti_at_least_one_prov_has_usages#:#Minst en leverantör eller ett verktyg 
 lti#:#lti_auth_failed_invalid_key#:#Autentisering inte möjlig. Ingen giltig konsumentnyckel överfördes.
 lti#:#lti_con_content_item#:#Stöd för djuplänkning
 lti#:#lti_con_content_item_url#:#URL för innehåll
-lti#:#lti_con_grade_synchronization#:#Advanced Grading Services###04 12 2025 new variable
+lti#:#lti_con_grade_synchronization#:#Assignment and Grade Services###04 12 2025 new variable
 lti#:#lti_con_grade_synchronization_info#:#The LTI tool must offer 'Assignment and Grade Services'.###04 12 2025 new variable
 lti#:#lti_con_initiate_login_url#:#Initiera inloggnings-URL
 lti#:#lti_con_key_type#:#Typ av den offentliga nyckeln
@@ -11531,6 +11531,7 @@ lti#:#subtab_certificate#:#Certifikat
 lti#:#subtab_object_settings#:#Inställningar för objekt
 lti#:#subtab_provider_settings#:#Inställningar för leverantör eller verktyg
 lti#:#tab_content#:#Innehåll
+lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#Placeringar
 lti#:#tab_settings#:#Inställningar

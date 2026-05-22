@@ -11381,8 +11381,8 @@ lti#:#lti_at_least_one_prov_has_usages#:#Almeno uno dei provider non può essere
 lti#:#lti_auth_failed_invalid_key#:#Autenticazione fallita, nessuna chiave del consumatore valida fornita.
 lti#:#lti_con_content_item#:#Support for Deep Linking###31 03 2023 new variable
 lti#:#lti_con_content_item_url#:#Content URL###31 03 2023 new variable
-lti#:#lti_con_grade_synchronization#:#Advanced Grading Services###04 12 2025 new variable
-lti#:#lti_con_grade_synchronization_info#:#The LTI tool must offer 'Assignment and Grade Services'.###04 12 2025 new variable
+lti#:#lti_con_grade_synchronization#:#Assignment and Grade Services###04 12 2025 new variable
+lti#:#lti_con_grade_synchronization_info#:#Lo strumento LTI deve offrire 'Assignment and Grade Services'.###04 12 2025 new variable
 lti#:#lti_con_initiate_login_url#:#Initiate Login URL###31 03 2023 new variable
 lti#:#lti_con_key_type#:#Public Key Type###31 03 2023 new variable
 lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)###31 03 2023 new variable
@@ -11530,6 +11530,7 @@ lti#:#subtab_certificate#:#Certificato
 lti#:#subtab_object_settings#:#Impostazioni oggetto
 lti#:#subtab_provider_settings#:#Impostazioni fornitore LTI
 lti#:#tab_content#:#Contenuto
+lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#Classifica
 lti#:#tab_settings#:#Impostazioni

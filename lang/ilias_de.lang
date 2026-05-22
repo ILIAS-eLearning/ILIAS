@@ -11382,7 +11382,7 @@ lti#:#lti_at_least_one_prov_has_usages#:#Mindestens ein Provider konnte nicht ge
 lti#:#lti_auth_failed_invalid_key#:#Authentifizierung nicht möglich. Es wurde kein gültiger Consumer-Key übermittelt.
 lti#:#lti_con_content_item#:#Unterstützung für Deep Linking
 lti#:#lti_con_content_item_url#:#Inhalts-URL
-lti#:#lti_con_grade_synchronization#:#Erweiterte Benotungsdienste###04 12 2025 new variable
+lti#:#lti_con_grade_synchronization#:#Assignment and Grade Services###04 12 2025 new variable
 lti#:#lti_con_grade_synchronization_info#:#Das LTI-Tool muss 'Assignment and Grade Services' anbieten.###04 12 2025 new variable
 lti#:#lti_con_initiate_login_url#:#Initiate Login URL
 lti#:#lti_con_key_type#:#Typ des öffentlichen Schlüssels
@@ -11531,6 +11531,7 @@ lti#:#subtab_certificate#:#Zertifikat
 lti#:#subtab_object_settings#:#Objekteinstellungen
 lti#:#subtab_provider_settings#:#LTI-Provider-Einstellungen
 lti#:#tab_content#:#Inhalt
+lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#Platzierungen
 lti#:#tab_settings#:#Einstellungen

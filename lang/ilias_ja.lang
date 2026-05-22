@@ -11382,8 +11382,8 @@ lti#:#lti_at_least_one_prov_has_usages#:# 一つ以上にこのプロバイダ�
 lti#:#lti_auth_failed_invalid_key#:#有効なconsumer keyがないので認証を失敗しました。
 lti#:#lti_con_content_item#:#ディープリンクのサポート
 lti#:#lti_con_content_item_url#:#Content URL
-lti#:#lti_con_grade_synchronization#:#拡張評価サービス
-lti#:#lti_con_grade_synchronization_info#:#LTIツールは'割当と評価サービス'を提示する必要があります。
+lti#:#lti_con_grade_synchronization#:#Assignment and Grade Services
+lti#:#lti_con_grade_synchronization_info#:#LTIツールは'Assignment and Grade Services'を提供する必要があります。
 lti#:#lti_con_initiate_login_url#:#Login URLを起動
 lti#:#lti_con_key_type#:#Public Key Type
 lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)
@@ -11531,6 +11531,7 @@ lti#:#subtab_certificate#:#履修状況
 lti#:#subtab_object_settings#:#オブジェクト設定
 lti#:#subtab_provider_settings#:#LTI Provider設定
 lti#:#tab_content#:#コンテンツ
+lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#ランキング
 lti#:#tab_settings#:#設定

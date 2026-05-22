@@ -11382,7 +11382,7 @@ lti#:#lti_at_least_one_prov_has_usages#:#At least one provider could not be dele
 lti#:#lti_auth_failed_invalid_key#:#Avtentikacija ni mogoča. Noben veljaven consumer key ni bil prenesen.
 lti#:#lti_con_content_item#:#Support for Deep Linking###19 08 2022 new variable
 lti#:#lti_con_content_item_url#:#Content URL###19 08 2022 new variable
-lti#:#lti_con_grade_synchronization#:#Advanced Grading Services###04 12 2025 new variable
+lti#:#lti_con_grade_synchronization#:#Assignment and Grade Services###04 12 2025 new variable
 lti#:#lti_con_grade_synchronization_info#:#The LTI tool must offer 'Assignment and Grade Services'.###04 12 2025 new variable
 lti#:#lti_con_initiate_login_url#:#Initiate Login URL###19 08 2022 new variable
 lti#:#lti_con_key_type#:#Public Key Type###19 08 2022 new variable
@@ -11531,6 +11531,7 @@ lti#:#subtab_certificate#:#Certificate
 lti#:#subtab_object_settings#:#Object Settings
 lti#:#subtab_provider_settings#:#LTI Provider Settings
 lti#:#tab_content#:#Content
+lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#Ranking
 lti#:#tab_settings#:#Settings
