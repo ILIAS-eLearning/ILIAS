@@ -187,7 +187,8 @@ class SettingsGUI
         $form = $form->addAdditionalFeatures(
             $this->obj_id,
             [
-                \ilObjectServiceSettingsGUI::CUSTOM_METADATA
+                \ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+                \ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
             ]
         );
 
@@ -241,7 +242,10 @@ class SettingsGUI
             );
             $form->saveAdditionalFeatures(
                 $this->obj_id,
-                [\ilObjectServiceSettingsGUI::CUSTOM_METADATA]
+                [
+                    \ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+                    \ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
+                ]
             );
 
             $mt->setOnScreenMessage("success", $lng->txt("msg_obj_modified"), true);
