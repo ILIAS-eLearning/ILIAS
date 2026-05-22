@@ -1693,6 +1693,8 @@ assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Fragen zu b
 assessment#:#tst_out_of_time_message#:#Sie haben die maximal erlaubte Bearbeitungszeit des Tests erreicht!
 assessment#:#tst_participant#:#Teilnehmer
 assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
+assessment#:#tst_participant_last_attempts#:#Letzte Versuche
+assessment#:#tst_participant_scored_attempts#:#Bewertete Versuche
 assessment#:#tst_participant_status#:#Teilnehmerstatus
 assessment#:#tst_participating_users#:#Teilnehmende Benutzer
 assessment#:#tst_pass_best_pass#:#Besten Durchlauf des Tests bewerten

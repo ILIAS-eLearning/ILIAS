@@ -137,10 +137,11 @@ class Factory
     public function addAttemptOverviewInformationToParticipants(
         ResultPresentationSettings $settings,
         \ilObjTest $test_obj,
-        array $participants
+        array $participants,
+        bool $last_attempt = false
     ): array {
         return array_map(
-            function (Participant $v) use ($settings, $test_obj, $participants): Participant {
+            function (Participant $v) use ($settings, $test_obj, $last_attempt): Participant {
                 if ($v->getActiveId() === null) {
                     return $v;
                 }
@@ -149,7 +150,7 @@ class Factory
                     $settings,
                     $test_obj,
                     $v->getActiveId(),
-                    null
+                    $last_attempt ? $v->getLastStartedAttempt() : null
                 );
 
                 if ($scored_attempt !== null
