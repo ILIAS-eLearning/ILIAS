@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-declare(strict_types=1);
-
 /**
  * Soap object administration methods
  * @author  Stefan Meyer <meyer@leifos.com>
