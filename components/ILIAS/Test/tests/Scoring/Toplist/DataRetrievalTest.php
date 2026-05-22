@@ -51,14 +51,14 @@ class DataRetrievalTest extends \ilTestBaseTestCase
         $this->tableObj = new DataRetrieval(
             $this->testObjMock,
             $this->createMock(TestTopListRepository::class),
+            $this->createMock(ParticipantRepository::class),
             $DIC['lng'],
             $DIC['ilUser'],
             $DIC['ui.factory'],
             $DIC['ui.renderer'],
             $this->createMock(Factory::class),
             TopListType::GENERAL,
-            TopListOrder::BY_SCORE,
-            $this->createMock(ParticipantRepository::class)
+            TopListOrder::BY_SCORE
         );
     }
 

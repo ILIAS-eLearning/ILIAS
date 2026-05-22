@@ -50,13 +50,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     private const DEFAULT_CMD = 'outUserListOfAnswerPasses';
     protected ilTestAccess $testAccess;
     protected ilTestProcessLockerFactory $processLockerFactory;
-    private readonly ParticipantRepository $participant_repository;
 
     public function __construct(ilObjTest $object)
     {
         parent::__construct($object);
         $this->participant_access_filter = new ilTestParticipantAccessFilterFactory($this->access);
-        $this->participant_repository = TestDIC::dic()['participant.repository'];
 
         $this->processLockerFactory = new ilTestProcessLockerFactory(
             new ilSetting('assessment'),

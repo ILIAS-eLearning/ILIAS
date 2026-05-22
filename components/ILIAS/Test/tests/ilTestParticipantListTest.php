@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Participants\ParticipantRepository;
+
 /**
  * Class ilTestParticipantListTest
  * @author Marvin Beym <mbeym@databay.de>
@@ -38,6 +40,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
             $DIC['ilUser'],
             $DIC['lng'],
             $DIC['ilDB'],
+            $this->createMock(ParticipantRepository::class)
         );
     }
 
