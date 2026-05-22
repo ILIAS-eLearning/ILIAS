@@ -53,29 +53,49 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
         ilObjLTIConsumer::getLogger()->info("objId: " . $itemId);
         ilObjLTIConsumer::getLogger()->info("request data: " . $response->getRequestData());
 
-        // GET is disabled by the moment, but we have the code ready
-        // for a future implementation.
-
-        //$container = empty($contentType) || ($contentType === $this->formats[0]);
-
-        $typeid = 0;
-
         $scope = ilLTIConsumerGradeService::SCOPE_GRADESERVICE_SCORE;
         try {
             $token = $this->checkTool(array($scope));
             if (is_null($token)) {
                 throw new Exception('invalid request', 401);
             }
+            $this->checkToolMatchesObject((int) $itemId, $token);
 
             // Bug in Moodle as tool provider, should accept only "204 No Content" but schedules grade sync task will notices a failed status if not exactly 200
             // see: http://www.imsglobal.org/spec/lti-ags/v2p0#score-service-scope-and-allowed-http-methods
             //$response->setCode(204); // correct
-            $returnCode = 200;
             $returnCode = $this->checkScore($response->getRequestData(), (int) $itemId);
             $response->setCode($returnCode); // not really correct
         } catch (Exception $e) {
-            $response->setCode($e->getCode());
+            $code = $e->getCode();
+            $response->setCode($code >= 400 && $code < 600 ? $code : 500);
             $response->setReason($e->getMessage());
+        }
+    }
+
+    protected function checkToolMatchesObject(int $objId, object $token): void
+    {
+        $clientId = $token->sub ?? '';
+        if (!is_string($clientId) || $clientId === '') {
+            throw new Exception('invalid request', 401);
+        }
+
+        if (ilObject::_lookupType($objId) !== 'lti') {
+            throw new Exception('Tool for Object not available', 404);
+        }
+
+        $ltiObject = new ilObjLTIConsumer($objId, false);
+        $provider = $ltiObject->getProvider();
+        if (!$provider instanceof ilLTIConsumeProvider) {
+            throw new Exception('Tool for Object not available', 404);
+        }
+
+        if ($provider->getClientId() !== $clientId) {
+            throw new Exception('invalid clientId', 403);
+        }
+
+        if (!$provider->isGradeSynchronization() && !$provider->getHasOutcome()) {
+            throw new Exception('grade synchronization not enabled', 403);
         }
     }
 
@@ -87,40 +107,52 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
 
         $logger->info('checkScore');
         $score = json_decode($requestData);
-        //prüfe Userid
-        $userId = ilCmiXapiUser::getUsrIdForObjectAndUsrIdent($objId, $score->userId);
-        if ($userId == null) {
-            ilObjLTIConsumer::getLogger()->info('User not available');
-            throw new Exception('User not available', 404);
-            return 404;
-        }
-
-        ilObjLTIConsumer::getLogger()->dump($score);
-
-        if (empty($score) ||
+        if (!is_object($score) || json_last_error() !== JSON_ERROR_NONE ||
             !isset($score->userId) ||
             !isset($score->gradingProgress) ||
             !isset($score->activityProgress) ||
             !isset($score->timestamp) ||
-            isset($score->timestamp) && !self::validate_iso8601_date($score->timestamp) ||
+            !is_scalar($score->userId) ||
+            !is_string($score->gradingProgress) ||
+            !is_string($score->activityProgress) ||
+            !is_scalar($score->timestamp) ||
+            !self::isValidActivityProgress($score->activityProgress) ||
+            !self::isValidGradingProgress($score->gradingProgress) ||
+            !self::validate_iso8601_date((string) $score->timestamp) ||
             (isset($score->scoreGiven) && !is_numeric($score->scoreGiven)) ||
             (isset($score->scoreGiven) && !isset($score->scoreMaximum)) ||
-            (isset($score->scoreMaximum) && !is_numeric($score->scoreMaximum))
+            (isset($score->scoreMaximum) && (!is_numeric($score->scoreMaximum) || (float) $score->scoreMaximum <= 0)) ||
+            (isset($score->scoreGiven) && isset($score->scoreMaximum) && (
+                (float) $score->scoreGiven < 0 || (float) $score->scoreGiven > (float) $score->scoreMaximum
+            )) ||
+            ($score->gradingProgress === 'FullyGraded' && (!isset($score->scoreGiven) || !isset($score->scoreMaximum)))
         ) {
             ilObjLTIConsumer::getLogger()->info('Incorrect score received');
             ilObjLTIConsumer::getLogger()->dump($score);
             throw new Exception('Incorrect score received', 400);
-            return 400;
         }
 
-        if (!isset($score->scoreMaximum)) {
-            $score->scoreMaximum = 1;
-        }
-        if (!isset($score->scoreGiven)) {
-            $score->scoreGiven = 0;
+        $userId = $this->getUsrIdForScoreUser($objId, (string) $score->userId);
+        if ($userId == null) {
+            ilObjLTIConsumer::getLogger()->info('User not available');
+            throw new Exception('User not available', 404);
         }
 
-        $result = (float) $score->scoreGiven / (float) $score->scoreMaximum;
+        $scoreGiven = isset($score->scoreGiven) ? (float) $score->scoreGiven : null;
+        $scoreMaximum = isset($score->scoreMaximum) ? (float) $score->scoreMaximum : null;
+        $lineItemScoreMaximum = $this->getLineItemScoreMaximum($objId);
+        if ($scoreMaximum !== null && abs($scoreMaximum - $lineItemScoreMaximum) > 0.00001) {
+            throw new Exception('scoreMaximum does not match line item', 400);
+        }
+
+        $result = null;
+        $scoreProgress = null;
+        if ($scoreGiven !== null && $scoreMaximum !== null) {
+            $scoreProgress = $scoreGiven / $scoreMaximum;
+        }
+        if ($score->gradingProgress === 'FullyGraded') {
+            $result = $scoreProgress;
+        }
 
         $ltiObjRes = new ilLTIConsumerResultService();
 
@@ -128,57 +160,68 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
         // check the object status
         if (!$ltiObjRes->isAvailable()) {
             throw new Exception('Tool for Object not available', 404);
-            return 404;
         }
 
         $lp_status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
+        $updateLpStatus = false;
 
-        if ($score->activityProgress === 'InProgress') {
+        if (in_array($score->activityProgress, ['Started', 'InProgress', 'Submitted'], true)) {
             $lp_status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
-        } elseif ($score->activityProgress === 'Completed' && $score->gradingProgress === 'FullyGraded') {
-            if ($result >= $ltiObjRes->getMasteryScore()) {
-                $lp_status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
+            $updateLpStatus = true;
+        } elseif ($score->activityProgress === 'Completed') {
+            if ($score->gradingProgress === 'FullyGraded' && $result !== null) {
+                if ($result >= $ltiObjRes->getMasteryScore()) {
+                    $lp_status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
+                } else {
+                    $lp_status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
+                }
+            } elseif ($score->gradingProgress === 'Failed') {
+                $lp_status = ilLPStatus::LP_STATUS_FAILED_NUM;
             } else {
                 $lp_status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
             }
-        } elseif ($score->activityProgress === 'Completed' && $score->gradingProgress === 'Failed') {
-            $lp_status = ilLPStatus::LP_STATUS_FAILED_NUM;
+            $updateLpStatus = true;
         }
 
-        $lp_percentage = (int) round(100 * $result);
+        $lp_percentage = $scoreProgress === null ? 0 : (int) round(100 * $scoreProgress);
+        $resultForLog = $result === null ? 'null' : (string) $result;
 
-        ilObjLTIConsumer::getLogger()->info("lp_status: $lp_status, lp_percentage: $lp_percentage, result: $result, mastery_score: " . $ltiObjRes->getMasteryScore());
+        ilObjLTIConsumer::getLogger()->info("lp_status: $lp_status, lp_percentage: $lp_percentage, result: $resultForLog, mastery_score: " . $ltiObjRes->getMasteryScore());
 
-        $consRes = ilLTIConsumerResult::getByKeys($objId, $userId, false);
-        if (empty($consRes)) {
-            $DIC->database()->insert(
-                'lti_consumer_results',
-                array(
-                    'id' => array('integer', $DIC->database()->nextId('lti_consumer_results')),
-                    'obj_id' => array('integer', $objId),
-                    'usr_id' => array('integer', $userId),
-                    'result' => array('float', $result)
-                )
-            );
-        } else {
-            $DIC->database()->replace(
-                'lti_consumer_results',
-                array(
-                    'id' => array('integer', $consRes->id)
-                ),
-                array(
-                    'obj_id' => array('integer', $objId),
-                    'usr_id' => array('integer', $userId),
-                    'result' => array('float', $result)
-                )
-            );
+        if ($result !== null) {
+            $consRes = ilLTIConsumerResult::getByKeys($objId, $userId, false);
+            if (empty($consRes)) {
+                $DIC->database()->insert(
+                    'lti_consumer_results',
+                    array(
+                        'id' => array('integer', $DIC->database()->nextId('lti_consumer_results')),
+                        'obj_id' => array('integer', $objId),
+                        'usr_id' => array('integer', $userId),
+                        'result' => array('float', $result)
+                    )
+                );
+            } else {
+                $DIC->database()->replace(
+                    'lti_consumer_results',
+                    array(
+                        'id' => array('integer', $consRes->id)
+                    ),
+                    array(
+                        'obj_id' => array('integer', $objId),
+                        'usr_id' => array('integer', $userId),
+                        'result' => array('float', $result)
+                    )
+                );
+            }
         }
 
-        ilLPStatus::writeStatus($objId, $userId, $lp_status, $lp_percentage, true);
+        if ($updateLpStatus) {
+            ilLPStatus::writeStatus($objId, $userId, $lp_status, $lp_percentage, true);
+        }
 
-        $ltiTimestamp = DateTimeImmutable::createFromFormat(DateTimeInterface::RFC3339_EXTENDED, $score->timestamp);
+        $ltiTimestamp = DateTimeImmutable::createFromFormat(DateTimeInterface::RFC3339_EXTENDED, (string) $score->timestamp);
         if (!$ltiTimestamp) { //moodle 4
-            $ltiTimestamp = DateTimeImmutable::createFromFormat(DateTimeInterface::ISO8601, $score->timestamp);
+            $ltiTimestamp = DateTimeImmutable::createFromFormat(DateTimeInterface::ISO8601, (string) $score->timestamp);
         }
         if (!$ltiTimestamp) { //for example nothing
             $ltiTimestamp = new DateTime('now');
@@ -187,8 +230,8 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
             'id' => array('integer', $DIC->database()->nextId('lti_consumer_grades')),
             'obj_id' => array('integer', $objId),
             'usr_id' => array('integer', $userId),
-            'score_given' => array('float', $score->scoreGiven),
-            'score_maximum' => array('float', $score->scoreMaximum),
+            'score_given' => array('float', $scoreGiven),
+            'score_maximum' => array('float', $scoreMaximum),
             'activity_progress' => array('text', $score->activityProgress),
             'grading_progress' => array('text', $score->gradingProgress),
             'lti_timestamp' => array('timestamp',$ltiTimestamp->format("Y-m-d H:i:s")),
@@ -199,6 +242,51 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
 
 
         return 200;
+    }
+
+    protected function getLineItemScoreMaximum(int $objId): float
+    {
+        $object = new ilObjLTIConsumer($objId, false);
+        $scoreMaximum = $object->getScoreMaximum();
+        return $scoreMaximum > 0 ? $scoreMaximum : 1.0;
+    }
+
+    protected function getUsrIdForScoreUser(int $objId, string $userIdent): ?int
+    {
+        global $DIC;
+        $ilDB = $DIC->database();
+        $query = 'SELECT usr_id FROM cmix_users'
+            . ' WHERE obj_id = ' . $ilDB->quote($objId, 'integer')
+            . ' AND usr_ident = ' . $ilDB->quote($userIdent, 'text');
+        $res = $ilDB->query($query);
+        $row = $ilDB->fetchAssoc($res);
+        if ($row) {
+            return (int) $row['usr_id'];
+        }
+
+        return ilCmiXapiUser::getUsrIdForObjectAndUsrIdent($objId, $userIdent);
+    }
+
+    protected static function isValidActivityProgress(string $activityProgress): bool
+    {
+        return in_array($activityProgress, [
+            'Initialized',
+            'Started',
+            'InProgress',
+            'Submitted',
+            'Completed'
+        ], true);
+    }
+
+    protected static function isValidGradingProgress(string $gradingProgress): bool
+    {
+        return in_array($gradingProgress, [
+            'FullyGraded',
+            'Pending',
+            'PendingManual',
+            'Failed',
+            'NotReady'
+        ], true);
     }
 
     public static function validate_iso8601_date(string $date): bool

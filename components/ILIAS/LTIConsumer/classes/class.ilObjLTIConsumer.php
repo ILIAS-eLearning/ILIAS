@@ -66,6 +66,8 @@ class ilObjLTIConsumer extends ilObject2
 
     protected string $customParams = '';
 
+    protected float $scoreMaximum = 1.0;
+
     protected ?int $ref_id = 0;
 
     //Highscore
@@ -169,6 +171,16 @@ class ilObjLTIConsumer extends ilObject2
     public function setMasteryScorePercent(float $mastery_score_percent): void
     {
         $this->mastery_score = $mastery_score_percent / 100;
+    }
+
+    public function getScoreMaximum(): float
+    {
+        return $this->scoreMaximum;
+    }
+
+    public function setScoreMaximum(float $scoreMaximum): void
+    {
+        $this->scoreMaximum = $scoreMaximum;
     }
 
     public function getProviderId(): int
@@ -386,6 +398,9 @@ class ilObjLTIConsumer extends ilObject2
             $this->setHighscoreTopNum((int) $row['highscore_top_num']);
 
             $this->setMasteryScore((float) $row['mastery_score']);
+            if (isset($row['score_maximum'])) {
+                $this->setScoreMaximum((float) $row['score_maximum']);
+            }
         }
 
         $this->loadRepositoryActivationSettings();
@@ -419,7 +434,8 @@ class ilObjLTIConsumer extends ilObject2
             'highscore_own_table' => ['integer', (int) $this->getHighscoreOwnTable()],
             'highscore_top_table' => ['integer', (int) $this->getHighscoreTopTable()],
             'highscore_top_num' => ['integer', $this->getHighscoreTopNum()],
-            'mastery_score' => ['float', $this->getMasteryScore()]
+            'mastery_score' => ['float', $this->getMasteryScore()],
+            'score_maximum' => ['float', $this->getScoreMaximum()]
         ]);
 
         $this->saveRepositoryActivationSettings();
@@ -914,15 +930,29 @@ class ilObjLTIConsumer extends ilObject2
 
         if ($this->getProvider()->isGradeSynchronization()) {
             $gradeservice = new ilLTIConsumerGradeService();
-            $launch_vars['custom_lineitem_url'] = self::getIliasHttpPath(
-            ) . "/ltiservices.php/gradeservice/" . $contextId . "/lineitems/" . $this->id . "/lineitem";
+            $lineitemUrl = self::getIliasHttpPath()
+                . "/ltiservices.php/gradeservice/" . $contextId . "/lineitems/" . $this->id . "/lineitem";
+            $lineitemsUrl = self::getIliasHttpPath()
+                . "/ltiservices.php/gradeservice/" . $contextId . "/lineitems";
+
+            $launch_vars['custom_lineitem_url'] = $lineitemUrl;
 
             // ! Moodle as tool provider requires a custom_lineitems_url even though this should be optional in launch request, especially if only posting score scope is permitted by platform
             // http://www.imsglobal.org/spec/lti-ags/v2p0#example-link-has-a-single-line-item-tool-can-only-post-score
-            $launch_vars['custom_lineitems_url'] = self::getIliasHttpPath(
-            ) . "/ltiservices.php/gradeservice/" . $contextId . "/linetitems/";
+            $launch_vars['custom_lineitems_url'] = $lineitemsUrl;
 
             $launch_vars['custom_ags_scopes'] = implode(",", $gradeservice->getPermittedScopes());
+
+            if ($additionalArguments === null) {
+                $additionalArguments = [];
+            }
+            if (!isset($additionalArguments[self::LTI_JWT_CLAIM_PREFIX . '/claim/message_type'])) {
+                $additionalArguments['https://purl.imsglobal.org/spec/lti-ags/claim/endpoint'] = [
+                    'scope' => $gradeservice->getPermittedScopes(),
+                    'lineitems' => $lineitemsUrl,
+                    'lineitem' => $lineitemUrl
+                ];
+            }
         }
 
         if (!empty(self::verifyPrivateKey())) {
@@ -1333,6 +1363,9 @@ class ilObjLTIConsumer extends ilObject2
                 $provider->setContentItemUrl($message['target_link_uri']);
             }
         }
+        if (self::registrationRequestsAgs($data, $toolConfig)) {
+            $provider->setGradeSynchronization(true);
+        }
         /*
         if (isset($data['logo_uri'])) { // needs to be uploaded and then assign filepath
             $provider->setProviderIconFilename($data['logo_uri']);
@@ -1348,6 +1381,42 @@ class ilObjLTIConsumer extends ilObject2
         $reponseData['client_id'] = $tokenObj->aud;
         $reponseData['https://purl.imsglobal.org/spec/lti-tool-configuration']['deployment_id'] = $provider->getId();
         return $reponseData;
+    }
+
+    private static function registrationRequestsAgs(array $data, array $toolConfig): bool
+    {
+        $requestedScopes = [];
+        foreach ([$data['scope'] ?? null, $data['scopes'] ?? null] as $scopeValue) {
+            $requestedScopes = array_merge($requestedScopes, self::normalizeRegistrationScopes($scopeValue));
+        }
+
+        if (isset($toolConfig['services']) && is_array($toolConfig['services'])) {
+            foreach ($toolConfig['services'] as $service) {
+                if (!is_array($service)) {
+                    continue;
+                }
+                $requestedScopes = array_merge(
+                    $requestedScopes,
+                    self::normalizeRegistrationScopes($service['scope'] ?? null),
+                    self::normalizeRegistrationScopes($service['scopes'] ?? null)
+                );
+            }
+        }
+
+        $requestedScopes = array_unique($requestedScopes);
+        $agsScopes = (new ilLTIConsumerGradeService())->getPermittedScopes();
+        return !empty(array_intersect($requestedScopes, $agsScopes));
+    }
+
+    private static function normalizeRegistrationScopes(mixed $scopeValue): array
+    {
+        if (is_string($scopeValue)) {
+            return preg_split('/\s+/', trim($scopeValue)) ?: [];
+        }
+        if (is_array($scopeValue)) {
+            return array_values(array_filter($scopeValue, static fn($scope): bool => is_string($scope) && $scope !== ''));
+        }
+        return [];
     }
 
     public static function getNewClientId(): string

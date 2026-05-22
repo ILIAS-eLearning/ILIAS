@@ -148,9 +148,24 @@ abstract class ilLTIConsumerResourceBase
     {
         $token = $this->getService()->checkTool();
         $permittedScopes = $this->getService()->getPermittedScopes();
-        if (empty($scopes) || empty(array_intersect($permittedScopes, $scopes))) {
-            $token = null;
+
+        if ($token === null || empty($scopes) || empty(array_intersect($permittedScopes, $scopes))) {
+            return null;
         }
+
+        $tokenScope = $token->{'imsglobal.org.security.scope'} ?? '';
+        if (is_string($tokenScope)) {
+            $tokenScopes = preg_split('/\s+/', trim($tokenScope)) ?: [];
+        } elseif (is_array($tokenScope)) {
+            $tokenScopes = $tokenScope;
+        } else {
+            $tokenScopes = [];
+        }
+
+        if (empty(array_intersect($tokenScopes, $scopes))) {
+            return null;
+        }
+
         return $token;
     }
 }
