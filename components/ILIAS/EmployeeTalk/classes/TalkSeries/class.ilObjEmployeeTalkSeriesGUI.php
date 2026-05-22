@@ -136,7 +136,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
                     return array_filter(
                         $user_ids,
                         function (int $id) use ($access) {
-                            return $access->canCreate(new ilObjUser($id));
+                            return $access->canCreate($id);
                         }
                     );
                 });
@@ -202,11 +202,11 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         $form = $this->initCreateForm($this->requested_new_type);
         if ($form->checkInput()) {
             $userName = (string) $form->getInput('etal_employee');
-            $userId = (int) ilObjUser::_lookupId($userName);
+            $user_id = (int) ilObjUser::_lookupId($userName);
             $talkAccess = new ilObjEmployeeTalkAccess();
             if (
                 !ilObjUser::_loginExists($userName) ||
-                !$talkAccess->canCreate(new ilObjUser($userId))
+                !$talkAccess->canCreate($user_id)
             ) {
                 $form->getItemByPostVar('etal_employee')
                      ->setAlert($this->lng->txt('etal_invalid_user'));
