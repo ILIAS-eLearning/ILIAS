@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-declare(strict_types=1);
-
 /**
  * Soap object administration methods
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -1047,7 +1045,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             return $this->raiseError('No valid target given.', 'Client');
         }
 
-        if(!$rbacsystem->checkAccess('move', $ref_id)) {
+        if (!$rbacsystem->checkAccess('move', $ref_id)) {
             return $this->raiseError("No permission to move object with id: $ref_id", 'Client');
         }
 
