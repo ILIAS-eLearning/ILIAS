@@ -57,7 +57,7 @@
 		"ramsey/uuid": "^4.4.0",
 		"james-heinrich/getid3": "^1.9.23",
 		"mustache/mustache": "^2.14",
-		"ifsnop/mysqldump-php": "2.10",
+		"ifsnop/mysqldump-php": "^2.10",
 		"seld/jsonlint": "^1.10",
 		"pimple/pimple": "^3.0",
 		"filp/whoops": "^2.15.4",
