@@ -1244,6 +1244,13 @@ class ilObjLTIConsumer extends ilObject2
         global $DIC;
 
         $logger = $DIC->logger()->root();
+        $f = new \ILIAS\Data\Factory();
+
+        if (!ilContext::usesHTTP() || !isset($_SERVER['HTTP_HOST'], $_SERVER['REQUEST_URI'])) {
+            $iliasHttpPath = ilContext::modifyHttpPath($DIC['ilIliasIniFile']->readVariable('server', 'http_path'));
+            $uri = $f->uri(rtrim($iliasHttpPath, "/"));
+            return $uri->getBaseURI();
+        }
 
         if ($DIC['https']->isDetected()) {
             $protocol = 'https://';
@@ -1270,7 +1277,6 @@ class ilObjLTIConsumer extends ilObject2
         $uri = str_replace("components/ILIAS/LTIConsumer", "", $uri);
         $logger->info("URI --- 2: " . $uri);
         $iliasHttpPath = ilContext::modifyHttpPath(implode('', [$protocol, $host, $uri]));
-        $f = new \ILIAS\Data\Factory();
         $uri = $f->uri(rtrim($iliasHttpPath, "/"));
         return $uri->getBaseURI();
     }
