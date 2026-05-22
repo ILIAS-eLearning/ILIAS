@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Container\Sorting\Service\DomainService as SortingDomainService;
+
 /**
  * XML parser for container structure
  *
@@ -26,6 +28,7 @@ class ilContainerXmlParser
     protected ilSetting $settings;
     protected ilObjectDefinition $obj_definition;
     protected ilLogger $cont_log;
+    protected SortingDomainService $sorting_domain;
     private int $source = 0;
     private ?ilImportMapping $mapping = null;
     private string $xml = '';
@@ -43,6 +46,7 @@ class ilContainerXmlParser
         $this->mapping = $mapping;
         $this->xml = $xml;
         $this->cont_log = ilLoggerFactory::getLogger('cont');
+        $this->sorting_domain = $DIC->container()->internal()->domain()->sorting();
     }
 
     public function getMapping(): ?ilImportMapping
@@ -121,6 +125,11 @@ class ilContainerXmlParser
                 $this->mapping->addMapping('components/ILIAS/COPage', 'pg', 'cstr:' . $obj_id, 'cstr:' . $new_obj_id);
             }
         }
+
+        // sorting
+        foreach ($item->Sort as $sort) {
+            $this->parseSorting($new_obj_id, $sort);
+        }
     }
 
     // Parse timing info
@@ -168,6 +177,65 @@ class ilContainerXmlParser
 
         if ($crs_item->getTimingStart()) {
             $crs_item->update($a_ref_id, $a_parent_id);
+        }
+    }
+
+    protected function parseSorting(
+        int $new_obj_id,
+        SimpleXMLElement $sorting
+    ): void {
+        $mode = match ((string) ($sorting['type'] ?? '')) {
+            'Manual' => ilContainer::SORT_MANUAL,
+            'Creation' => ilContainer::SORT_CREATION,
+            'Activation' => ilContainer::SORT_ACTIVATION,
+            default => ilContainer::SORT_TITLE
+        };
+        $direction = match ((string) ($sorting['direction'] ?? '')) {
+            'DESC' => ilContainer::SORT_DIRECTION_DESC,
+            default => ilContainer::SORT_DIRECTION_ASC
+        };
+        $position = match((string) ($sorting['position'] ?? '')) {
+            'Top' => ilContainer::SORT_NEW_ITEMS_POSITION_TOP,
+            default => ilContainer::SORT_NEW_ITEMS_POSITION_BOTTOM
+        };
+        $order = match ((string) ($sorting['order'] ?? '')) {
+            'Creation' => ilContainer::SORT_NEW_ITEMS_ORDER_CREATION,
+            'Activation' => ilContainer::SORT_NEW_ITEMS_ORDER_ACTIVATION,
+            default => ilContainer::SORT_NEW_ITEMS_ORDER_TITLE
+        };
+        $this->sorting_domain->settings()->saveSettingsForObject(
+            $new_obj_id,
+            $mode,
+            $direction,
+            $position,
+            $order,
+        );
+
+        foreach ($sorting->Grouping as $grouping) {
+            $old_parent_id = (int) $grouping['parent_id'];
+            $new_parent_id = 0;
+            if ($old_parent_id !== 0) {
+                $new_parent_id = $this->mapping->getMapping('components/ILIAS/Container', 'objs', $old_parent_id);
+            }
+            if ($new_parent_id === null) {
+                continue;
+            }
+            $parent_type = (string) $grouping['parent_type'];
+            foreach ($grouping->Position as $position) {
+                $old_child_id = (int) $position['child_id'];
+                $new_child_id = $this->mapping->getMapping('components/ILIAS/Container', 'refs', $old_child_id);
+                if (!$new_child_id) {
+                    continue;
+                }
+                $position = (int) $position;
+                $this->sorting_domain->positions()->savePositionForChild(
+                    $new_obj_id,
+                    $new_child_id,
+                    $position,
+                    $parent_type,
+                    $new_parent_id
+                );
+            }
         }
     }
 

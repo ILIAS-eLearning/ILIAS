@@ -2293,7 +2293,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $sort_inherit->setTitle(
                 $this->lng->txt('sort_inherit_prefix') .
                 ' (' . ilContainerSortingSettings::sortModeToString(
-                    ilContainerSortingSettings::lookupSortModeFromParentContainer(
+                    ilContainerSortingSettings::lookupEffectiveSortMode(
                         $this->object->getId()
                     )
                 ) . ') '

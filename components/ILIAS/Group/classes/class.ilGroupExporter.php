@@ -138,12 +138,19 @@ class ilGroupExporter extends ilXmlExporter
     public function getValidSchemaVersions(string $a_entity): array
     {
         return [
+            "12.0" => [
+                "namespace" => 'http://www.ilias.de/Modules/Group/grp/12',
+                "xsd_file" => 'ilias_grp_12_0.xsd',
+                "uses_dataset" => false,
+                "min" => "12.0",
+                "max" => ""
+            ],
             "11.0" => [
                 "namespace" => 'http://www.ilias.de/Modules/Group/grp/11',
                 "xsd_file" => 'ilias_grp_11_0.xsd',
                 "uses_dataset" => false,
                 "min" => "11.0",
-                "max" => ""
+                "max" => "11.999"
             ],
             "9.0" => [
                 "namespace" => 'http://www.ilias.de/Modules/Group/grp/9',

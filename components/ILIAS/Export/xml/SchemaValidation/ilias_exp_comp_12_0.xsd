@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:exp="http://www.ilias.de/Services/Export/exp/4_1"
+        targetNamespace="http://www.ilias.de/Services/Export/exp/4_1"
+        elementFormDefault="unqualified">
+    <xs:element name="Export">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="1" maxOccurs="1" ref="exp:ExportItem"/>
+            </xs:sequence>
+            <xs:attribute name="InstallationId" type="xs:integer" use="required"/>
+            <xs:attribute name="InstallationUrl" type="xs:anyURI" use="required"/>
+            <xs:attribute name="Entity" type="xs:string" use="required"/>
+            <xs:attribute name="SchemaVersion" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ExportItem">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:any minOccurs="1" maxOccurs='1' namespace="##any" processContents="skip"/>
+            </xs:sequence>
+            <xs:attribute name="Id" type="xs:integer" use="required"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

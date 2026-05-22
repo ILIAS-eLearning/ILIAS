@@ -18,32 +18,28 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Container;
+namespace ILIAS\Container\Sorting\Service;
 
-use ILIAS\DI;
+use ILIAS\Container\InternalDataService;
+use ilDBInterface;
+use ILIAS\Container\Sorting\Settings\Repository as SettingsRepo;
+use ILIAS\Container\Sorting\Positions\Repository as PositionsRepo;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
-class Service
+class RepoService
 {
-    protected DI\Container $DIC;
-
-    public function __construct(DI\Container $DIC)
-    {
-        $this->DIC = $DIC;
+    public function __construct(
+        protected InternalDataService $data,
+        protected ilDBInterface $db
+    ) {
     }
 
-    public function domain(): DomainService
+    public function settings(): SettingsRepo
     {
-        return new DomainService($this->internal());
+        return new SettingsRepo($this->data, $this->db);
     }
 
-    /**
-     * Internal service, do not use in other components
-     */
-    public function internal(): InternalService
+    public function positions(): PositionsRepo
     {
-        return new InternalService($this->DIC);
+        return new PositionsRepo($this->data, $this->db);
     }
 }

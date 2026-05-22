@@ -18,32 +18,23 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Container;
+namespace ILIAS\Container\Sorting\Positions;
 
-use ILIAS\DI;
-
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
-class Service
+class PositionData
 {
-    protected DI\Container $DIC;
-
-    public function __construct(DI\Container $DIC)
-    {
-        $this->DIC = $DIC;
+    public function __construct(
+        protected int $child_id,
+        protected int $position
+    ) {
     }
 
-    public function domain(): DomainService
+    public function getChildID(): int
     {
-        return new DomainService($this->internal());
+        return $this->child_id;
     }
 
-    /**
-     * Internal service, do not use in other components
-     */
-    public function internal(): InternalService
+    public function getPosition(): int
     {
-        return new InternalService($this->DIC);
+        return $this->position;
     }
 }

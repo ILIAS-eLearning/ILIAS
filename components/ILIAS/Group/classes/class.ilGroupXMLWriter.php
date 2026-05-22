@@ -83,7 +83,6 @@ class ilGroupXMLWriter extends ilXmlWriter
             $this->__buildRegistration();
             $this->__buildExtraSettings();
             $this->__buildPeriod();
-            ilContainerSortingSettings::_exportContainerSortingSettings($this, $this->group_obj->getId());
             ilContainer::_exportContainerSettings($this, $this->group_obj->getId());
             $this->__buildFooter();
         }

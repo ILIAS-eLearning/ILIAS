@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Container\Sorting\Service\DomainService as SortingDomainService;
+
 /**
  * XML writer for container structure
  *
@@ -27,6 +29,7 @@ class ilContainerXmlWriter extends ilXmlWriter
     protected ?ilExportOptions $exp_options = null;
     private int $source = 0;
     protected ilObjectDefinition $objDefinition;
+    protected SortingDomainService $sorting_domain;
 
     public function __construct(int $a_ref_id)
     {
@@ -37,6 +40,7 @@ class ilContainerXmlWriter extends ilXmlWriter
         $this->source = $a_ref_id;
         $this->exp_options = ilExportOptions::getInstance();
         $this->objDefinition = $DIC['objDefinition'];
+        $this->sorting_domain = $DIC->container()->internal()->domain()->sorting();
     }
 
     /**
@@ -68,22 +72,23 @@ class ilContainerXmlWriter extends ilXmlWriter
 
         $obj_id = ilObject::_lookupObjId($a_ref_id);
 
-        $atts = [];
-        $atts['RefId'] = $a_ref_id;
-        $atts['Id'] = $obj_id;
-        $atts['Title'] = ilObject::_lookupTitle($obj_id);
-        $atts['Type'] = ilObject::_lookupType($obj_id);
-        $atts['Page'] = ilContainerPage::_exists('cont', $obj_id);
-        $atts['StartPage'] = ilContainerStartObjectsPage::_exists('cstr', $obj_id);
-        $atts['Style'] = ilObjStyleSheet::lookupObjectStyle($obj_id);
-        if ($this->objDefinition->supportsOfflineHandling($atts['Type'])) {
-            $atts['Offline'] = ilObject::lookupOfflineStatus($obj_id) ? '1' : '0';
+        $attrs = [];
+        $attrs['RefId'] = $a_ref_id;
+        $attrs['Id'] = $obj_id;
+        $attrs['Title'] = ilObject::_lookupTitle($obj_id);
+        $attrs['Type'] = ilObject::_lookupType($obj_id);
+        $attrs['Page'] = ilContainerPage::_exists('cont', $obj_id);
+        $attrs['StartPage'] = ilContainerStartObjectsPage::_exists('cstr', $obj_id);
+        $attrs['Style'] = ilObjStyleSheet::lookupObjectStyle($obj_id);
+        if ($this->objDefinition->supportsOfflineHandling($attrs['Type'])) {
+            $attrs['Offline'] = ilObject::lookupOfflineStatus($obj_id) ? '1' : '0';
         }
         $this->xmlStartTag(
             'Item',
-            $atts
+            $attrs
         );
         $this->writeCourseItemInformation($a_ref_id);
+        $this->writeContainerSorting($obj_id);
 
         foreach ($tree->getChilds($a_ref_id) as $node) {
             $this->writeSubitems($node['child']);
@@ -131,6 +136,50 @@ class ilContainerXmlWriter extends ilXmlWriter
         }
 
         $this->xmlEndTag('Timing');
+    }
+
+    protected function writeContainerSorting(
+        int $obj_id
+    ): void {
+        $settings = $this->sorting_domain->settings()->getSettingsForObject($obj_id);
+
+        $attr = [];
+        $attr['direction'] = $settings->getSortDirection() === ilContainer::SORT_DIRECTION_ASC ? "ASC" : "DESC";
+        $attr['type'] = match ($settings->getSortMode()) {
+            ilContainer::SORT_MANUAL => 'Manual',
+            ilContainer::SORT_CREATION => 'Creation',
+            ilContainer::SORT_ACTIVATION => 'Activation',
+            ilContainer::SORT_INHERIT => 'Inherit',
+            default => 'Title'
+        };
+
+        if ($settings->getSortMode() !== ilContainer::SORT_MANUAL) {
+            $this->xmlElement('Sort', $attr);
+            return;
+        }
+
+        $attr['position'] = $settings->getSortNewItemsPosition() === ilContainer::SORT_NEW_ITEMS_POSITION_BOTTOM ? "Bottom" : "Top";
+        $attr['order'] = match ($settings->getSortNewItemsOrder()) {
+            ilContainer::SORT_NEW_ITEMS_ORDER_ACTIVATION => 'Activation',
+            ilContainer::SORT_NEW_ITEMS_ORDER_CREATION => 'Creation',
+            default => 'Title'
+        };
+
+        $groupings = $this->sorting_domain->positions()->getPositionsInObject($obj_id);
+
+        $this->xmlStartTag('Sort', $attr);
+        foreach ($groupings as $grouping) {
+            $grouping_attr = [
+                'parent_id' => $grouping->getParentId(),
+                'parent_type' => $grouping->getParentId() ? $grouping->getParentType() : ''
+            ];
+            $this->xmlStartTag('Grouping', $grouping_attr);
+            foreach ($grouping->getPositions() as $position) {
+                $this->xmlElement('Position', ['child_id' => $position->getChildID()], $position->getPosition());
+            }
+            $this->xmlEndTag('Grouping');
+        }
+        $this->xmlEndTag('Sort');
     }
 
     protected function buildHeader(): void
