@@ -11,6 +11,14 @@
 			"cweagans/composer-patches": true,
 			"captainhook/plugin-composer": true,
 			"simplesamlphp/composer-xmlprovider-installer": false
+		},
+		"audit": {
+			"ignore": {
+				"PKSA-ns3q-qtk3-d35r": {
+					"apply": "block",
+					"reasons": "We need to keep Geshi, since Phiki (alternative) needs PHP 8.2. We remove the contrib directory via composer hooks. See #46938."
+				}
+			}
 		}
 	},
 	"scripts": {
@@ -66,14 +74,14 @@
 		"sabre/dav": "^4.1",
 		"symfony/console" : "^6.0",
 		"slim/slim": "^3.11",
-		"ramsey/uuid": "4.4.0",
+		"ramsey/uuid": "^4.4.0",
 		"enshrined/svg-sanitize": "^0.22.0",
 		"guzzlehttp/guzzle": "^7.0",
 		"simplesamlphp/simplesamlphp": "^2.3.7",
 		"seld/jsonlint": "^1.8",
 		"jasig/phpcas": "^1.4",
 		"league/commonmark": "^2.3",
-		"ifsnop/mysqldump-php": "2.10",
+		"ifsnop/mysqldump-php": "^2.10",
 		"mustache/mustache": "^2.14"
 	},
 	"require-dev": {
