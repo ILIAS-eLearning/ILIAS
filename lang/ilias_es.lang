@@ -11476,6 +11476,7 @@ lti#:#lti_create_lti_user_role#:#Crear el rol global recomendado para usuarios L
 lti#:#lti_cron_title#:#Servicio de Resultados LTI (Outcome Service)
 lti#:#lti_cron_title_desc#:#Sincroniza el progreso de aprendizaje de los usuarios de LTI con el consumidor de LTI, si este es compatible con el servicio de resultados. Esta tarea programada (cron job) sólo es necesaria para transferir actualizaciones de estado tras la actualización de la configuración del progreso de aprendizaje.
 lti#:#lti_custom_new#:#Crear ajustes de proveedor propios
+lti#:#lti_deep_linking_not_available_for_admin_objects#:#Los Consumidores creados desde Administración no permiten la selección de contenido
 lti#:#lti_delete_consume_provider#:#Eliminar Proveedor
 lti#:#lti_delete_consume_providers#:#Eliminar Proveedores
 lti#:#lti_delete_provider#:#Eliminar Proveedor

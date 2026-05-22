@@ -11472,6 +11472,7 @@ lti#:#lti_create_lti_user_role#:#LTI-felhasználónak ajánlott globális szerep
 lti#:#lti_cron_title#:#LTI-kimeneti Szolgáltatás
 lti#:#lti_cron_title_desc#:#Az LTI-felhasználók tanulási haladási állapotát szinkronizálja egy LTI-eszközfogyasztóval, amennyiben az támogatja a kimeneti szolgáltatást. Erre az ütemezett feladatra csak a tanulási haladás beállításainak módosítása után van szükség.
 lti#:#lti_custom_new#:#Saját szolgáltatói beállítások létrehozása
+lti#:#lti_deep_linking_not_available_for_admin_objects#:#Az Adminisztrációban létrehozott fogyasztók nem teszik lehetővé a tartalom kiválasztását
 lti#:#lti_delete_consume_provider#:#Kiszolgáló törlése
 lti#:#lti_delete_consume_providers#:# Kiszolgálók törlése
 lti#:#lti_delete_provider#:#Kiszolgáló törlése

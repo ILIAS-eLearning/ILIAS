@@ -11472,6 +11472,7 @@ lti#:#lti_create_lti_user_role#:#Create recommended global role for LTI users
 lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Prenese učni napredek od uporabnikov LTI na platformo za priklic. Ta cron job je potreben samo v primerih, ko je treba učni napredek na novo izračunati zaradi sprememb nastavitev.
 lti#:#lti_custom_new#:#Create Own Provider Settings
+lti#:#lti_deep_linking_not_available_for_admin_objects#:#Potrošniki, ustvarjeni v Administraciji, ne omogočajo izbire vsebine
 lti#:#lti_delete_consume_provider#:#Delete Provider
 lti#:#lti_delete_consume_providers#:#Delete Providers
 lti#:#lti_delete_provider#:#Delete Provider

@@ -86,7 +86,6 @@ if (
 
         $isDlMode = true;
         $deploymentId = (int) $hint['deployment_id'];
-        $ownerId = ilObjectFactory::getInstanceByRefId(224)->getOwner();
         $childRefId = ilObjLTIConsumer::getRefIdOfConsumerByDeploymentId((string) $deploymentId);
         $refId = $DIC->repositoryTree()->getParentId($childRefId);
     }
@@ -103,7 +102,45 @@ if (empty($ltiMessageHint)) {
     exit;
 }
 
-$parts = explode(":", $ltiMessageHint);
+ilSession::set('lti13_login_data', $data);
+
+if ($isDlMode) {
+    if ($deploymentId === null || $refId <= 0) {
+        $DIC->http()->saveResponse(
+            $DIC->http()->response()->withStatus(400)
+        );
+        $DIC->http()->sendResponse();
+        $DIC->http()->close();
+        exit;
+    }
+
+    $DIC->ctrl()->setParameterByClass(ilObjLTIConsumerGUI::class, 'new_type', 'lti');
+    $DIC->ctrl()->setParameterByClass(ilObjLTIConsumerGUI::class, 'provider_id', (string) $deploymentId);
+    $DIC->ctrl()->setParameterByClass(ilObjLTIConsumerGUI::class, 'ref_id', (string) $refId);
+    $url = $DIC->ctrl()->getLinkTargetByClass([ilRepositoryGUI::class, ilObjLTIConsumerGUI::class], 'contentSelectionRequest');
+
+    $response = $DIC->http()->response()
+        ->withStatus(302)
+        ->withAddedHeader('Location', $url);
+
+    $sessionCookieHeader = buildSameSiteNoneSessionCookieHeader();
+    if ($sessionCookieHeader !== null) {
+        $response = $response->withAddedHeader('Set-Cookie', $sessionCookieHeader);
+    }
+
+    $DIC->http()->saveResponse($response);
+
+    try {
+        $DIC->http()->sendResponse();
+        $DIC->http()->close();
+    } catch (\ILIAS\HTTP\Response\Sender\ResponseSendingException $e) {
+        $DIC->http()->close();
+    }
+
+    exit;
+}
+
+$parts = explode(":", $ltiMessageHint, 3);
 $isContentSelection = false;
 $ref_id = '';
 $il_client_id = '';
@@ -111,15 +148,16 @@ $redirect_uri = '';
 if (count($parts) === 2) {
     [$ref_id, $il_client_id] = $parts;
 } elseif (count($parts) === 3) {
-    [$first, $second, $third] = $parts;
-    $il_client_id = $third;
-    $ref_id = explode(",", $second)[0];
-} else {
     $isContentSelection = true;
     [$ref_id, $il_client_id, $redirect_uri] = $parts;
+} else {
+    $DIC->http()->saveResponse(
+        $DIC->http()->response()->withStatus(400)
+    );
+    $DIC->http()->sendResponse();
+    $DIC->http()->close();
+    exit;
 }
-
-ilSession::set('lti13_login_data', $data);
 
 if ($isContentSelection) {
     $url = "../../../" . base64_decode($redirect_uri);

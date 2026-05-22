@@ -37,6 +37,7 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumerScoringGUI
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumerContentGUI
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumerGradeSynchronizationGUI
+ * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumeProviderSettingsGUI
  */
 class ilObjLTIConsumerGUI extends ilObject2GUI
 {
@@ -697,11 +698,19 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     public function executeCommand(): void
     {
         global $DIC;
+
+        if ($DIC->ctrl()->getCmd() === 'startDeepLinking' && $this->object instanceof ilObjLTIAdministration) {
+            $DIC->ui()->mainTemplate()->setContent(
+                $this->ui_renderer->render($this->ui_factory->messageBox()->info($DIC->language()->txt('lti_deep_linking_not_available_for_admin_objects')))
+            );
+            return;
+        }
+
         /* @var \ILIAS\DI\Container $DIC */
         // TODO: general access checks (!)
         if (!ilLTIConsumerContentGUI::isEmbeddedLaunchRequest()) {
             $this->prepareOutput();
-            $this->addHeaderAction();
+            //$this->addHeaderAction();
         }
 
         if (!$this->creation_mode) {
@@ -724,6 +733,11 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $obj = $this->object;
 
         switch ($DIC->ctrl()->getNextClass()) {
+            case strtolower(ilLTIConsumeProviderSettingsGUI::class):
+                $gui = new ilLTIConsumeProviderSettingsGUI($obj, $this->ltiAccess);
+                $this->ctrl->forwardCommand($gui);
+                break;
+
             case strtolower(ilObjectCopyGUI::class):
 
                 $gui = new ilObjectCopyGUI($this);
@@ -1028,7 +1042,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $this->object->getId(),
             $DIC->user()->getId()
         );
-
+        // dump("ilObjLTIConsumerGUI", $this->object, $this->object->getId(), $DIC->user()->getId());exit();
         ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
     }
 

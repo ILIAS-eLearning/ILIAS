@@ -108,7 +108,7 @@ class ilObjLTIConsumer extends ilObject2
         parent::__construct($a_id, $a_reference);
     }
 
-    public static function getRefIdOfConsumerByDeploymentId(string $dep_id): int
+    public static function getRefIdOfConsumerByDeploymentId(string $dep_id): int|null
     {
         global $ilDB;
         $refId = null;
