@@ -81,12 +81,12 @@ class ilLTIConsumerGradeService extends ilLTIConsumerServiceBase
      */
     public function getPermittedScopes(): array
     {
-        $scopes = array();
-        $scopes[] = self::SCOPE_GRADESERVICE_LINEITEM;
-        $scopes[] = self::SCOPE_GRADESERVICE_LINEITEM_READ;
-        $scopes[] = self::SCOPE_GRADESERVICE_RESULT_READ;
-        $scopes[] = self::SCOPE_GRADESERVICE_SCORE;
-        return $scopes;
+        return [
+            self::SCOPE_GRADESERVICE_LINEITEM,
+            self::SCOPE_GRADESERVICE_LINEITEM_READ,
+            self::SCOPE_GRADESERVICE_RESULT_READ,
+            self::SCOPE_GRADESERVICE_SCORE
+        ];
     }
 
     /**
