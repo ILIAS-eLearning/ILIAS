@@ -27,6 +27,8 @@ use ILIAS\Container\Sorting\Positions\Repository as PositionsRepo;
 
 class RepoService
 {
+    protected array $instance = [];
+
     public function __construct(
         protected InternalDataService $data,
         protected ilDBInterface $db
@@ -35,11 +37,17 @@ class RepoService
 
     public function settings(): SettingsRepo
     {
-        return new SettingsRepo($this->data, $this->db);
+        return $this->instance['settings'] ??= new SettingsRepo(
+            $this->data,
+            $this->db
+        );
     }
 
     public function positions(): PositionsRepo
     {
-        return new PositionsRepo($this->data, $this->db);
+        return $this->instance['positions'] ??= new PositionsRepo(
+            $this->data,
+            $this->db
+        );
     }
 }

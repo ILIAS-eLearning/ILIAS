@@ -39,11 +39,16 @@ class Repository
     public function getPositions(int $obj_id): Generator
     {
         $data_by_parent = [];
-        $query = "SELECT * FROM container_sorting " .
-            "WHERE obj_id = " . $this->db->quote($obj_id, ilDBConstants::T_INTEGER) . " ORDER BY position";
-        $res = $this->db->query($query);
+        $res = $this->db->queryF(
+            'SELECT * FROM container_sorting WHERE obj_id = %s ORDER BY position',
+            [ilDBConstants::T_INTEGER],
+            [$obj_id]
+        );
         while ($row = $res->fetchAssoc()) {
-            $data = $this->data->sorting()->positionData($row['child_id'], $row['position']);
+            $data = $this->data->sorting()->positionData(
+                (int) $row['child_id'],
+                (int) $row['position']
+            );
             if ($row['parent_id'] ?? 0) {
                 $data_by_parent[$row['parent_type']][$row['parent_id']][] = $data;
             } else {
@@ -85,28 +90,42 @@ class Repository
 
     public function deletePositions(int $obj_id): void
     {
-        $this->db->manipulate(
-            "DELETE FROM container_sorting WHERE obj_id = " .
-            $this->db->quote($obj_id, ilDBConstants::T_INTEGER)
+        $this->db->manipulateF(
+            'DELETE FROM container_sorting WHERE obj_id = %s',
+            [ilDBConstants::T_INTEGER],
+            [$obj_id]
         );
     }
 
     public function deleteGrouping(int $obj_id, int $parent_id): void
     {
-        $this->db->manipulate(
-            "DELETE FROM container_sorting WHERE obj_id = " .
-            $this->db->quote($obj_id, ilDBConstants::T_INTEGER) .
-            " AND parent_id = " . $this->db->quote($parent_id, ilDBConstants::T_INTEGER)
+        $this->db->manipulateF(
+            'DELETE FROM container_sorting WHERE obj_id = %s AND parent_id = %s',
+            [
+                ilDBConstants::T_INTEGER,
+                ilDBConstants::T_INTEGER
+            ],
+            [
+                $obj_id,
+                $parent_id
+            ]
         );
     }
 
     public function deletePositionsForChild(int $obj_id, int $child_id, int $parent_id): void
     {
-        $this->db->manipulate(
-            "DELETE FROM container_sorting WHERE obj_id = " .
-            $this->db->quote($obj_id, ilDBConstants::T_INTEGER) .
-            " AND child_id = " . $this->db->quote($child_id, ilDBConstants::T_INTEGER) .
-            " AND parent_id = " . $this->db->quote($parent_id, ilDBConstants::T_INTEGER)
+        $this->db->manipulateF(
+            'DELETE FROM container_sorting WHERE obj_id = %s AND parent_id = %s AND child_id = %s',
+            [
+                ilDBConstants::T_INTEGER,
+                ilDBConstants::T_INTEGER,
+                ilDBConstants::T_INTEGER
+            ],
+            [
+                $obj_id,
+                $parent_id,
+                $child_id
+            ]
         );
     }
 }

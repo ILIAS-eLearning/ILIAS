@@ -88,7 +88,7 @@ class ilContainerXmlWriter extends ilXmlWriter
             $attrs
         );
         $this->writeCourseItemInformation($a_ref_id);
-        $this->writeContainerSorting($obj_id);
+        $this->sorting_domain->XMLWriter()->writeSorting($obj_id, $this);
 
         foreach ($tree->getChilds($a_ref_id) as $node) {
             $this->writeSubitems($node['child']);
@@ -136,50 +136,6 @@ class ilContainerXmlWriter extends ilXmlWriter
         }
 
         $this->xmlEndTag('Timing');
-    }
-
-    protected function writeContainerSorting(
-        int $obj_id
-    ): void {
-        $settings = $this->sorting_domain->settings()->getSettingsForObject($obj_id);
-
-        $attr = [];
-        $attr['direction'] = $settings->getSortDirection() === ilContainer::SORT_DIRECTION_ASC ? "ASC" : "DESC";
-        $attr['type'] = match ($settings->getSortMode()) {
-            ilContainer::SORT_MANUAL => 'Manual',
-            ilContainer::SORT_CREATION => 'Creation',
-            ilContainer::SORT_ACTIVATION => 'Activation',
-            ilContainer::SORT_INHERIT => 'Inherit',
-            default => 'Title'
-        };
-
-        if ($settings->getSortMode() !== ilContainer::SORT_MANUAL) {
-            $this->xmlElement('Sort', $attr);
-            return;
-        }
-
-        $attr['position'] = $settings->getSortNewItemsPosition() === ilContainer::SORT_NEW_ITEMS_POSITION_BOTTOM ? "Bottom" : "Top";
-        $attr['order'] = match ($settings->getSortNewItemsOrder()) {
-            ilContainer::SORT_NEW_ITEMS_ORDER_ACTIVATION => 'Activation',
-            ilContainer::SORT_NEW_ITEMS_ORDER_CREATION => 'Creation',
-            default => 'Title'
-        };
-
-        $groupings = $this->sorting_domain->positions()->getPositionsInObject($obj_id);
-
-        $this->xmlStartTag('Sort', $attr);
-        foreach ($groupings as $grouping) {
-            $grouping_attr = [
-                'parent_id' => $grouping->getParentId(),
-                'parent_type' => $grouping->getParentId() ? $grouping->getParentType() : ''
-            ];
-            $this->xmlStartTag('Grouping', $grouping_attr);
-            foreach ($grouping->getPositions() as $position) {
-                $this->xmlElement('Position', ['child_id' => $position->getChildID()], $position->getPosition());
-            }
-            $this->xmlEndTag('Grouping');
-        }
-        $this->xmlEndTag('Sort');
     }
 
     protected function buildHeader(): void

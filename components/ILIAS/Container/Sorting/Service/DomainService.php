@@ -25,9 +25,13 @@ use ILIAS\Container\InternalDataService;
 use ILIAS\Container\InternalDomainService;
 use ILIAS\Container\Sorting\Settings\Manager as SettingsManager;
 use ILIAS\Container\Sorting\Positions\Manager as PositionsManager;
+use ILIAS\Container\Sorting\Export\XMLWriter;
+use ILIAS\Container\Sorting\Export\XMLParser;
 
 class DomainService
 {
+    protected array $instance = [];
+
     public function __construct(
         protected InternalRepoService $repo_service,
         protected InternalDataService $data_service,
@@ -37,11 +41,35 @@ class DomainService
 
     public function settings(): SettingsManager
     {
-        return new SettingsManager($this->data_service, $this->repo_service, $this->domain_service);
+        return $this->instance['settings'] ??= new SettingsManager(
+            $this->data_service,
+            $this->repo_service,
+            $this->domain_service
+        );
     }
 
     public function positions(): PositionsManager
     {
-        return new PositionsManager($this->data_service, $this->repo_service, $this->domain_service);
+        return $this->instance['positions'] ??= new PositionsManager(
+            $this->data_service,
+            $this->repo_service,
+            $this->domain_service
+        );
+    }
+
+    public function XMLWriter(): XMLWriter
+    {
+        return $this->instance['xml_writer'] ??= new XMLWriter(
+            $this->settings(),
+            $this->positions()
+        );
+    }
+
+    public function XMLParser(): XMLParser
+    {
+        return $this->instance['xml_parser'] ??= new XMLParser(
+            $this->settings(),
+            $this->positions()
+        );
     }
 }

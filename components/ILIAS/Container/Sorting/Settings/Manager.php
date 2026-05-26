@@ -154,18 +154,4 @@ class Manager
             ilContainer::SORT_NEW_ITEMS_ORDER_TITLE
         );
     }
-
-    public function sortModeToString(int $sort_mode): string
-    {
-        $lng = $this->domain->lng();
-        $lng->loadLanguageModule('crs');
-
-        return match ($sort_mode) {
-            ilContainer::SORT_ACTIVATION => $lng->txt('crs_sort_activation'),
-            ilContainer::SORT_MANUAL => $lng->txt('crs_sort_manual'),
-            ilContainer::SORT_TITLE => $lng->txt('crs_sort_title'),
-            ilContainer::SORT_CREATION => $lng->txt('sorting_creation_header'),
-            default => '',
-        };
-    }
 }

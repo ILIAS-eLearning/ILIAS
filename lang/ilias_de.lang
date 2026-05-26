@@ -7914,9 +7914,7 @@ crs#:#crs_show_members#:#Galerie
 crs#:#crs_show_members_info#:#Alle Mitglieder können in diesem Reiter die Galerie einsehen.
 crs#:#crs_size#:#Dateigröße
 crs#:#crs_sort_activation#:#Nach Zeitvorgaben
-crs#:#crs_sort_manual#:#Manuelle Sortierung
 crs#:#crs_sort_timing_info#:#Die enthaltenen Objekte werden automatisch nach dem empfohlenen Bearbeitungszeitraum und ihrer Verfügbarkeit sortiert.
-crs#:#crs_sort_title#:#Alphabetisch nach Titel
 crs#:#crs_start#:#Start
 crs#:#crs_start_objects#:#Startobjekte
 crs#:#crs_starter_delete_sure#:#Wollen Sie wirklich, dass die folgenden Objekte nicht mehr Startobjekte sind?

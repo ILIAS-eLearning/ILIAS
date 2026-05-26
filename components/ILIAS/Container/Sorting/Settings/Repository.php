@@ -35,9 +35,11 @@ class Repository
 
     public function getSortModeForObject(int $obj_id): int
     {
-        $query = "SELECT sort_mode FROM container_sorting_set " .
-            "WHERE obj_id = " . $this->db->quote($obj_id, ilDBConstants::T_INTEGER) . " ";
-        $res = $this->db->query($query);
+        $res = $this->db->queryF(
+            'SELECT sort_mode FROM container_sorting_set WHERE obj_id = %s',
+            [ilDBConstants::T_INTEGER],
+            [$obj_id]
+        );
 
         if ($row = $res->fetchAssoc()) {
             return (int) $row['sort_mode'];
@@ -52,36 +54,36 @@ class Repository
         int $new_items_position,
         int $new_items_order
     ): void {
-        $query = "INSERT INTO container_sorting_set " .
-            "(obj_id, sort_mode, sort_direction, new_items_position, new_items_order) " .
-            "VALUES ( " .
-            $this->db->quote($obj_id, ilDBConstants::T_INTEGER) . ", " .
-            $this->db->quote($sort_mode, ilDBConstants::T_INTEGER) . ", " .
-            $this->db->quote($sort_direction, ilDBConstants::T_INTEGER) . ', ' .
-            $this->db->quote($new_items_position, ilDBConstants::T_INTEGER) . ', ' .
-            $this->db->quote($new_items_order, ilDBConstants::T_INTEGER) .
-            ") ON DUPLICATE KEY UPDATE " .
-            "sort_mode = " . $this->db->quote($sort_mode, ilDBConstants::T_INTEGER) . ", " .
-            "sort_direction = " . $this->db->quote($sort_direction, ilDBConstants::T_INTEGER) . ', ' .
-            "new_items_position = " . $this->db->quote($new_items_position, ilDBConstants::T_INTEGER) . ', ' .
-            "new_items_order = " . $this->db->quote($new_items_order, ilDBConstants::T_INTEGER);
-
-        $this->db->manipulate($query);
+        $this->db->replace(
+            'container_sorting_set',
+            [
+                'obj_id' => [ilDBConstants::T_INTEGER, $obj_id]
+            ],
+            [
+                'sort_mode' => [ilDBConstants::T_INTEGER, $sort_mode],
+                'sort_direction' => [ilDBConstants::T_INTEGER, $sort_direction],
+                'new_items_position' => [ilDBConstants::T_INTEGER, $new_items_position],
+                'new_items_order' => [ilDBConstants::T_INTEGER, $new_items_order]
+            ]
+        );
     }
 
     public function delete(int $obj_id): void
     {
-        $query = 'DELETE FROM container_sorting_set WHERE obj_id = ' .
-            $this->db->quote($obj_id, ilDBConstants::T_INTEGER);
-        $this->db->query($query);
+        $this->db->manipulateF(
+            'DELETE FROM container_sorting_set WHERE obj_id = %s',
+            [ilDBConstants::T_INTEGER],
+            [$obj_id]
+        );
     }
 
     public function getSettings(int $obj_id): ?Settings
     {
-        $query = "SELECT * FROM container_sorting_set " .
-            "WHERE obj_id = " . $this->db->quote($obj_id, ilDBConstants::T_INTEGER);
-
-        $res = $this->db->query($query);
+        $res = $this->db->queryF(
+            'SELECT * FROM container_sorting_set WHERE obj_id = %s',
+            [ilDBConstants::T_INTEGER],
+            [$obj_id]
+        );
         if ($row = $res->fetchAssoc()) {
             return $this->data->sorting()->settings(
                 $obj_id,

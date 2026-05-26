@@ -176,16 +176,6 @@ class ilContainerSortingSettings
     }
 
     /**
-     * Get string representation of sort mode
-     */
-    public static function sortModeToString(int $a_sort_mode): string
-    {
-        global $DIC;
-
-        return $DIC->container()->internal()->domain()->sorting()->settings()->sortModeToString($a_sort_mode);
-    }
-
-    /**
      * TODO still used in SOAP export of course/group
      * sorting XML-export for all container objects
      */
