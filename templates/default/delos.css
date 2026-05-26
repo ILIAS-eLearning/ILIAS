@@ -19076,6 +19076,17 @@ div.ilRatingOverlay {
   display: none;
 }
 
+ul.il-rating-stars {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul.il-rating-stars li.il-rating-star {
+  display: inline-block;
+  vertical-align: middle;
+}
+
 #ilMMSearch ul li {
   padding: 5px;
 }
