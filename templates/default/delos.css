@@ -4862,8 +4862,14 @@ hr.il-divider-with-label {
   border: 1px dashed #757575;
   border-radius: 4px;
   background-color: #f9f9f9;
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding: 15px 12px;
+}
+
+.ui-dropzone-container {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .ui-dropzone-wrapper {
@@ -4883,8 +4889,6 @@ hr.il-divider-with-label {
 
 .ui-dropzone-message {
   font-size: 0.875rem;
-  float: right;
-  margin-right: 12px;
 }
 
 .ui-dropzone .form-group {
