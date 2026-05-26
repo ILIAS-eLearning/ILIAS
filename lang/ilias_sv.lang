@@ -1461,6 +1461,7 @@ assessment#:#tst_eval_total_passed_average_points#:#Genomsnittlig poäng för de
 assessment#:#tst_eval_total_passed_average_time#:#Genomsnittlig behandlingstid för alla godkända tester
 assessment#:#tst_eval_total_persons#:#Totalt antal personer som startade testet
 assessment#:#tst_exam_access_code#:#Access Code###21 11 2023 new variable
+assessment#:#tst_exam_access_code_invalid_message#:#The code you provided is invalid.###26 05 2026 new variable
 assessment#:#tst_exam_access_code_label#:#Enter access code to continue your already started test.###21 11 2023 new variable
 assessment#:#tst_exam_conditions#:#Exam Conditions###21 11 2023 new variable
 assessment#:#tst_exam_conditions_label#:#Check to accept the conditions.###21 11 2023 new variable
@@ -1689,6 +1690,7 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#Den påbörjad
 assessment#:#tst_objective_progress_header#:#Framsteg när det gäller lärandemålet
 assessment#:#tst_objectives_progress_header#:#Framsteg när det gäller lärandemålen
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Detta slumpmässiga test är i ett irreparabelt tillstånd eftersom anslutna frågepooler har raderats. Av denna anledning kan deltagarna inte längre göra detta test.
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back.###26 05 2026 new variable
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#Frågor<b>om inlärningsmål som redan har uppnåtts är frivilliga.</b><br /><br />Du vill nu växla till en fråga som hör till ett inlärningsmål som redan har uppnåtts.<br />Du kan välja
 assessment#:#tst_out_of_time_message#:#You have reached the maximum allowed processing time of the test!###21 11 2023 new variable
 assessment#:#tst_participant#:#Deltagare
@@ -2960,9 +2962,12 @@ chatroom#:#chat_https_dhparam_info#:#Ange här den absoluta serversökvägen til
 chatroom#:#chat_https_key_info#:#Ange den absoluta serversökvägen till den privata nyckeln (t.ex.
 chatroom#:#chat_invitation#:#"[INVITER_NAME]" bjuder in till chattrummet "[ROOM_NAME]"
 chatroom#:#chat_invitation_long#:#[SALUTATION][BR][BR]Du har blivit inbjuden till ett chattrum
+chatroom#:#chat_invitation_modal_headline#:#Invitation to Chat Room###26 05 2026 new variable
+chatroom#:#chat_invitation_modal_section#:#Invite User###26 05 2026 new variable
 chatroom#:#chat_invitation_nc_inv_x#:#Du har %s chattinbjudningar.
 chatroom#:#chat_invitation_nc_no_inv#:#De har inga chattrum.
 chatroom#:#chat_invitation_short#:#Klicka på länken för att komma till chattrummet.
+chatroom#:#chat_invitation_username_input_label#:#Enter Username:###26 05 2026 new variable
 chatroom#:#chat_invitations#:#chat inbjudningar
 chatroom#:#chat_invite#:#Inbjudan
 chatroom#:#chat_join#:#Ange
@@ -14515,6 +14520,9 @@ rbac#:#positions_override_operations#:#Överskriv globala inställningar
 rbac#:#precondition_not_obligatory_alt#:#Förutsättningen är valfri
 rbac#:#precondition_num_obligatory#:#Antal material som krävs
 rbac#:#precondition_num_optional_info#:#Ange det minsta antal material som krävs för att uppfylla förutsättningen.
+rbac#:#precondition_number_of_required_materials_bigger_preconditions_number#:#The number of required materials must be less than the total number of preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_compulsory_items#:#The number of required materials must be greater than the number of compulsory preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_than_one#:#The number of required materials must be at least 1.###26 05 2026 new variable
 rbac#:#precondition_obligatory#:#Åtagande
 rbac#:#precondition_obligatory_alt#:#Förutsättningen måste vara uppfylld
 rbac#:#precondition_obligatory_info#:#Obligatoriska villkor måste uppfyllas för att få tillträde.

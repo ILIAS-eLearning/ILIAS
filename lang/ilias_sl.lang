@@ -1461,6 +1461,7 @@ assessment#:#tst_eval_total_passed_average_points#:#Povprečno število točk op
 assessment#:#tst_eval_total_passed_average_time#:#Povprečni čas obdelave vseh opravljenih testov
 assessment#:#tst_eval_total_persons#:#Skupno število udeležencev, ki so začeli s testom
 assessment#:#tst_exam_access_code#:#Access Code###26 08 2024 new variable
+assessment#:#tst_exam_access_code_invalid_message#:#The code you provided is invalid.###26 05 2026 new variable
 assessment#:#tst_exam_access_code_label#:#Enter access code to continue your already started test.###26 08 2024 new variable
 assessment#:#tst_exam_conditions#:#Exam Conditions###26 08 2024 new variable
 assessment#:#tst_exam_conditions_label#:#Check to accept the conditions.###26 08 2024 new variable
@@ -1689,6 +1690,7 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#Začetek oprav
 assessment#:#tst_objective_progress_header#:#Napredek pri učnem cilju
 assessment#:#tst_objectives_progress_header#:#Napredek pri učnih ciljih
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Ta naključni test je v nepopravljivem stanju, ker so bile priključene skupine vprašanj izbrisane. Zato udeleženci ne morejo nadaljevati z opravljanjem tega testa.
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back.###26 05 2026 new variable
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Vprašanja v zvezi z že uspešno obdelanimi učnimi cilji so neobvezna.</b><br /><br />Zdaj želite preiti na vprašanje, ki se nanaša na že opravljeni učni cilj.<br />Izberete lahko:<br /><br />Če nadaljujete, lahko obdelate vprašanja, povezana s temi učnimi cilji. Ker pa so bila za ta poskus izbrana nova vprašanja, vaši odgovori iz prejšnjih poskusov niso bili prevzeti. Ob ponovni obdelavi vprašanj lahko tudi poslabšate rezultat svojega učnega cilja.<br /><br />Če teh vprašanj ne želite ponoviti, se lahko vrnete. V tem primeru ta vprašanja ne bodo upoštevana pri oceni.
 assessment#:#tst_out_of_time_message#:#You have reached the maximum allowed processing time of the test!###26 08 2024 new variable
 assessment#:#tst_participant#:#Udeleženec
@@ -2960,9 +2962,12 @@ chatroom#:#chat_https_dhparam_info#:#Please define an absolute server path to a 
 chatroom#:#chat_https_key_info#:#Please define an absolute server path to the private key file (e.g..
 chatroom#:#chat_invitation#:#"[INVITER_NAME]" invites you into chat room "[ROOM_NAME]"
 chatroom#:#chat_invitation_long#:#[SALUTATION]  You have been invited to a chat room
+chatroom#:#chat_invitation_modal_headline#:#Invitation to Chat Room###26 05 2026 new variable
+chatroom#:#chat_invitation_modal_section#:#Invite User###26 05 2026 new variable
 chatroom#:#chat_invitation_nc_inv_x#:#You have %s chat invitations.###19 08 2022 new variable
 chatroom#:#chat_invitation_nc_no_inv#:#You have no chat invitations.###19 08 2022 new variable
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chat room.
+chatroom#:#chat_invitation_username_input_label#:#Enter Username:###26 05 2026 new variable
 chatroom#:#chat_invitations#:#Chat invitations###19 08 2022 new variable
 chatroom#:#chat_invite#:#Invite
 chatroom#:#chat_join#:#Join
@@ -14515,6 +14520,9 @@ rbac#:#positions_override_operations#:#Prepiši globalne nastavitve
 rbac#:#precondition_not_obligatory_alt#:#Predpogoj je neobvezen
 rbac#:#precondition_num_obligatory#:#Število potrebnega gradiva
 rbac#:#precondition_num_optional_info#:#Vnesite minimalno število gradiva, potrebnega za izpolnitev tega predpogoja.
+rbac#:#precondition_number_of_required_materials_bigger_preconditions_number#:#The number of required materials must be less than the total number of preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_compulsory_items#:#The number of required materials must be greater than the number of compulsory preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_than_one#:#The number of required materials must be at least 1.###26 05 2026 new variable
 rbac#:#precondition_obligatory#:#Obvezno
 rbac#:#precondition_obligatory_alt#:#Predpogoj mora biti izpolnjen
 rbac#:#precondition_obligatory_info#:#Za pridobitev dostopa morajo biti izpolnjeni obvezni predpogoji.

@@ -1460,6 +1460,7 @@ assessment#:#tst_eval_total_passed_average_points#:#Punteggio medio dei test pas
 assessment#:#tst_eval_total_passed_average_time#:#Tempo medio di esecuzione di tutti i test positivi
 assessment#:#tst_eval_total_persons#:#Numero totale delle persone che hanno iniziato il test
 assessment#:#tst_exam_access_code#:#Access Code###30 04 2024 new variable
+assessment#:#tst_exam_access_code_invalid_message#:#The code you provided is invalid.###26 05 2026 new variable
 assessment#:#tst_exam_access_code_label#:#Enter access code to continue your already started test.###30 04 2024 new variable
 assessment#:#tst_exam_conditions#:#Exam Conditions###30 04 2024 new variable
 assessment#:#tst_exam_conditions_label#:#Check to accept the conditions.###30 04 2024 new variable
@@ -1688,6 +1689,7 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#Il passaggio a
 assessment#:#tst_objective_progress_header#:#Progresso dell’obiettivo di apprendimento
 assessment#:#tst_objectives_progress_header#:#Progresso degli obiettivi di apprendimento
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Questo test casuale è in uno stato irreparabile perché una o più raccolte di domande sono state eliminate. Pertanto i partecipanti non possono più effettuare i test.
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back.###26 05 2026 new variable
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b> La domanda relativa agli obiettivi di apprendimento già superati è facoltativa. </b> <br /> <br /> Desideri passare a una domanda relativa a un obiettivo di apprendimento già superato. <br /> Puoi scegliere: <br /> <br /> se procedi, puoi lavorare su queste domande. Le tue risposte da precedenti tentativi non sono state adottate, poiché per questo tentativo sono state selezionate nuove domande casuali. Lavorando su queste domande puoi anche peggiorare il risultato del tuo obiettivo di apprendimento. <br /> <br /> Se decidi di non lavorare su queste domande, puoi tornare indietro. In questo caso queste domande non saranno prese in considerazione nella valutazione.
 assessment#:#tst_out_of_time_message#:#You have reached the maximum allowed processing time of the test!###30 04 2024 new variable
 assessment#:#tst_participant#:#Participante
@@ -2959,9 +2961,12 @@ chatroom#:#chat_https_dhparam_info#:#Si prega di definire un percorso server ass
 chatroom#:#chat_https_key_info#:#Si prega di definire un percorso server assoluto al file di chiave privata (ad es.: /etc/ssl/private/server.key).
 chatroom#:#chat_invitation#:#Invito da
 chatroom#:#chat_invitation_long#:#Sei stato invitato da
+chatroom#:#chat_invitation_modal_headline#:#Invitation to Chat Room###26 05 2026 new variable
+chatroom#:#chat_invitation_modal_section#:#Invite User###26 05 2026 new variable
 chatroom#:#chat_invitation_nc_inv_x#:#You have %s chat invitations.###31 03 2023 new variable
 chatroom#:#chat_invitation_nc_no_inv#:#You have no chat invitations.###31 03 2023 new variable
 chatroom#:#chat_invitation_short#:#Fare clic sul collegamento del titolo per accedere alla chat room.
+chatroom#:#chat_invitation_username_input_label#:#Enter Username:###26 05 2026 new variable
 chatroom#:#chat_invitations#:#Chat invitations###31 03 2023 new variable
 chatroom#:#chat_invite#:#Invita
 chatroom#:#chat_join#:#Partecipa
@@ -14514,6 +14519,9 @@ rbac#:#positions_override_operations#:#Ignora impostazioni globali
 rbac#:#precondition_not_obligatory_alt#:#La condizione preliminare è facoltativa
 rbac#:#precondition_num_obligatory#:#Numero di materiali richiesti
 rbac#:#precondition_num_optional_info#:#Si prega di inserire il numero minimo di materiali che è richiesto per soddisfare questa precondizione.
+rbac#:#precondition_number_of_required_materials_bigger_preconditions_number#:#The number of required materials must be less than the total number of preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_compulsory_items#:#The number of required materials must be greater than the number of compulsory preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_than_one#:#The number of required materials must be at least 1.###26 05 2026 new variable
 rbac#:#precondition_obligatory#:#Obbligatorio
 rbac#:#precondition_obligatory_alt#:#La condizione preliminare deve essere soddisfatta
 rbac#:#precondition_obligatory_info#:#Devono essere soddisfatte precondizioni obbligatorie per avere accesso.
