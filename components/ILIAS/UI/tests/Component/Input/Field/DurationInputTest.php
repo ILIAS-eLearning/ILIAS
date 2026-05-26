@@ -50,7 +50,7 @@ class DurationInputTest extends ILIAS_UI_TestBase
     {
         $this->lng = $this->createMock(Language::class);
         $this->lng->method("txt")
-            ->will($this->returnArgument(0));
+            ->willReturnCallback(fn($x) => $x);
 
         return $this->lng;
     }

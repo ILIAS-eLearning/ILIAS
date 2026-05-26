@@ -65,9 +65,7 @@ class ViewControlSortationTest extends ViewControlTestBase
         $input = $this->createMock(InputData::class);
         $input->expects($this->exactly(2))
             ->method("getOr")
-            ->will(
-                $this->onConsecutiveCalls($v[0], $v[1])
-            );
+            ->willReturnOnConsecutiveCalls($v[0], $v[1]);
 
         $vc = $this->buildVCFactory()->sortation($options)
             ->withNameFrom($this->getNamesource())

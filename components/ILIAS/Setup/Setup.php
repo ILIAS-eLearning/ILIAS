@@ -106,14 +106,9 @@ class Setup implements Component\Component
             );
 
         $internal["config_reader"] = static fn() =>
-            new \ILIAS\Setup\CLI\ConfigReader(
-                $internal["json.parser"]
-            );
+            new \ILIAS\Setup\CLI\ConfigReader();
 
         $internal["interface_finder"] = static fn() =>
             new \ILIAS\Setup\ImplementationOfInterfaceFinder();
-
-        $internal["json.parser"] = static fn() =>
-            new \Seld\JsonLint\JsonParser();
     }
 }

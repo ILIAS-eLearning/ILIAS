@@ -117,7 +117,7 @@ class ilServicesGlobalScreenTest extends TestCase
 
         $access_mock->expects($this->once())
                     ->method('checkAccessOfUser')
-                    ->with($this->isType('integer'), 'read', '', $this->ROOT_FOLDER_ID)
+                    ->with($this->isInt(), 'read', '', $this->ROOT_FOLDER_ID)
                     ->willReturn(true);
 
         $this->assertTrue($class->isRepositoryReadable()());

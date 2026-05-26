@@ -82,7 +82,7 @@ class RecipientTest extends ilMailBaseTestCase
         $this->assertFalse($recipient->onlyToExternalMailAddress());
         $this->assertIsArray($recipient->getExternalMailAddress());
         $this->assertCount(2, $recipient->getExternalMailAddress());
-        $this->assertContainsOnly('string', $recipient->getExternalMailAddress());
+        array_map($this->assertIsString(...), $recipient->getExternalMailAddress());
     }
 
     public function testPropertiesPart2(): void
@@ -125,6 +125,6 @@ class RecipientTest extends ilMailBaseTestCase
         $this->assertFalse($recipient->onlyToExternalMailAddress());
         $this->assertIsArray($recipient->getExternalMailAddress());
         $this->assertCount(2, $recipient->getExternalMailAddress());
-        $this->assertContainsOnly('string', $recipient->getExternalMailAddress());
+        array_map($this->assertIsString(...), $recipient->getExternalMailAddress());
     }
 }

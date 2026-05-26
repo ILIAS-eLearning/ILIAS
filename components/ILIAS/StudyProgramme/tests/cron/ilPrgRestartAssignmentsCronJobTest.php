@@ -194,7 +194,7 @@ class ilPrgRestartAssignmentsCronJobTest extends TestCase
         $this->prg
             ->expects($this->exactly(2))
             ->method('assignUser')
-            ->will($this->onConsecutiveCalls($ass1, $ass2));
+            ->willReturnOnConsecutiveCalls($ass1, $ass2);
 
         $job = new ilPrgRestartAssignmentsCronJobMock($this->assignment_repo, $this->real_adapter, $this->prg);
         $job->run();

@@ -40,21 +40,12 @@ class SettingsTestBehaviourTest extends ilTestBaseTestCase
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithBlockAfterPassedEnabledDataProvider')]
     public function testGetAndWithBlockAfterPassedEnabled(): void
     {
         $Settings_test_behaviour = (new SettingsTestBehaviour())->withBlockAfterPassedEnabled(true);
 
         $this->assertInstanceOf(SettingsTestBehaviour::class, $Settings_test_behaviour);
         $this->assertTrue($Settings_test_behaviour->getBlockAfterPassedEnabled());
-    }
-
-    public static function getAndWithBlockAfterPassedEnabledDataProvider(): array
-    {
-        return [
-            [true],
-            [false]
-        ];
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithPassWaitingDataProvider')]

@@ -123,7 +123,6 @@ class BadgeParentTest extends TestCase
         $legacy = $this->getMockBuilder(Legacy\Content::class)->disableOriginalConstructor()->getMock();
         $legacy_factory = $this->getMockBuilder(Legacy\Factory::class)->disableOriginalConstructor()->getMock();
         $listing = $this->getMockBuilder(Listing::class)->disableOriginalConstructor()->getMock();
-        $parent_link = $this->getMockBuilder(Content::class)->disableOriginalConstructor()->getMock();
         $renderer = $this->getMockBuilder(Renderer::class)->disableOriginalConstructor()->getMock();
         $ui = $this->getMockBuilder(UIServices::class)->disableOriginalConstructor()->getMock();
 

@@ -31,6 +31,7 @@ use ILIAS\Test\Scoring\Marks\MarkSchema;
 use ILIAS\Test\Scoring\Marks\MarkSchemaFactory;
 use ILIAS\Test\Scoring\Marks\MarksRepository;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class TestResultRepositoryTest extends \ilTestBaseTestCase
 {
@@ -40,9 +41,7 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
         $this->assertInstanceOf(Repository::class, $repository);
     }
 
-    /**
-     * @dataProvider providePassedParticipants
-     */
+    #[DataProvider('providePassedParticipants')]
     public function testGetPassedParticipants(int $test_obj_id, array $query_result): void
     {
         $this->mockGetPassedParticipants($query_result);
@@ -55,9 +54,7 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
         }
     }
 
-    /**
-     * @dataProvider provideTestResultCache
-     */
+    #[DataProvider('provideTestResultCache')]
     public function testGetTestResult(array $query_result, array $expected): void
     {
         $this->mockGetTestResultQuery($query_result);
@@ -82,9 +79,7 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
         $this->assertNull($actual);
     }
 
-    /**
-     * @dataProvider provideFetchedTestAttemptResult
-     */
+    #[DataProvider('provideFetchedTestAttemptResult')]
     public function testReadStatus(array $query_result, array $expected): void
     {
         $this->mockUpdateTestResultCache($query_result);
@@ -108,9 +103,7 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
         $this->assertFalse($repository->hasFinished(100, 200));
     }
 
-    /**
-     * @dataProvider provideCachedStatus
-     */
+    #[DataProvider('provideCachedStatus')]
     public function testReadFromCache(array $query, array $cached_status, array $expected): void
     {
         $repository = $this->createInstance();
@@ -138,9 +131,7 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
         $this->assertEquals($expected['hasFinished'], $repository->hasFinished($user_id, $test_obj_id));
     }
 
-    /**
-     * @dataProvider provideCachedStatus
-     */
+    #[DataProvider('provideCachedStatus')]
     public function testRemoveTestResults(array $query, array $cached_status, array $expected): void
     {
         $repository = $this->createInstance();
@@ -166,9 +157,7 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
         $this->assertEquals($expected['hasFinished'], $repository->hasFinished($user_id, $test_obj_id));
     }
 
-    /**
-     * @dataProvider provideTestAttemptResult
-     */
+    #[DataProvider('provideTestAttemptResult')]
     public function testGetTestAttemptResult(array $query_result, array $expected): void
     {
         $this->mockGetTestPassResultQuery($query_result);
@@ -193,9 +182,7 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
         $this->assertNull($actual);
     }
 
-    /**
-     * @dataProvider provideFetchedTestResult
-     */
+    #[DataProvider('provideFetchedTestResult')]
     public function testUpdateTestAttemptResult(
         array $parameters,
         array $test_result,
@@ -237,8 +224,6 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
 
         $partial_mock = $this->getMockBuilder(Repository::class)
             ->disableOriginalClone()
-            ->disableArgumentCloning()
-            ->disallowMockingUnknownTypes()
             ->setConstructorArgs([
                 $DIC->database(),
                 $this->createMock(Refinery::class),

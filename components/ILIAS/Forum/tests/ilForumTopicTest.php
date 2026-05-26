@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\DI\Container;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\MockObject\Builder\InvocationMocker;
+use PHPUnit\Framework\MockObject\InvocationMocker;
 
 class ilForumTopicTest extends TestCase
 {

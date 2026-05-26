@@ -27,19 +27,16 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Seld\JsonLint\JsonParser;
 
 /**
  * Read a json-formatted config from a file and overwrite some fields.
  */
 class ConfigReader
 {
-    protected JsonParser $json_parser;
     protected string $base_dir;
 
-    public function __construct(JsonParser $json_parser, ?string $base_dir = null)
+    public function __construct(?string $base_dir = null)
     {
-        $this->json_parser = $json_parser;
         $this->base_dir = $base_dir ?? getcwd();
     }
 
@@ -60,9 +57,11 @@ class ConfigReader
                 "Config-file '$name' does not exist or is not readable."
             );
         }
-        $json = $this->json_parser->parse(
+        $json = json_decode(
             file_get_contents($name),
-            JsonParser::PARSE_TO_ASSOC | JsonParser::DETECT_KEY_CONFLICTS
+            true,
+            512,
+            JSON_THROW_ON_ERROR
         );
 
         if (!is_array($json)) {

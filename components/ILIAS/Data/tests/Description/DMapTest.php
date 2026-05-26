@@ -28,6 +28,7 @@ use ILIAS\Data\Description\Description;
 use ILIAS\Data\Description\DValue;
 use ILIAS\Data\Description\DMap;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class DMapTest extends TestCase
 {
@@ -46,9 +47,7 @@ class DMapTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider obviousNoMatchProvider
-     */
+    #[DataProvider('obviousNoMatchProvider')]
     public function testObviouslyNotMatching($data): void
     {
         $res = $this->m->getPrimitiveRepresentation($data);

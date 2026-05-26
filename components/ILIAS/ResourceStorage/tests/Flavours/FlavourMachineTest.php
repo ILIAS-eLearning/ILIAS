@@ -105,7 +105,7 @@ class FlavourMachineTest extends AbstractTestBase
 
 
     #[DataProvider('definitionsToMachines')]
-    public function testDefaultMachines(FlavourDefinition $d, string $machine): void
+    public function testDefaultMachines(FlavourDefinition $d, string $machine, string $engine): void
     {
         $factory = new Factory($this->engine_factory_mock);
         $this->engine_factory_mock->expects($this->once())

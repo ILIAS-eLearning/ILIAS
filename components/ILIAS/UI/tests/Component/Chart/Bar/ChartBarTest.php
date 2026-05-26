@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation as I;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test on Bar Chart implementation.
@@ -410,9 +411,7 @@ EOT;
         ];
     }
 
-    /**
-     * @dataProvider provideRiskyData
-     */
+    #[DataProvider('provideRiskyData')]
     public function testRenderConvertSpecialCharactersInDatasetLabel(
         string $risky_datum,
         string $expected_in_html
@@ -452,9 +451,7 @@ EOT;
         $this->assertHTMLEquals("<div>" . $expected_html . "</div>", "<div>" . $html . "</div>");
     }
 
-    /**
-     * @dataProvider provideRiskyData
-     */
+    #[DataProvider('provideRiskyData')]
     public function testRenderConvertSpecialCharactersInItemLabel(
         string $risky_datum,
         string $expected_in_html
