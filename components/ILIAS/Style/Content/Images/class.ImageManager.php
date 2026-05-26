@@ -151,7 +151,8 @@ class ImageManager
 
     public function deleteByFilename(string $filename): void
     {
-        $this->repo->deleteImageByFilename($this->style_id, $filename);
+        $rid = $this->style_repo->readRid($this->style_id);
+        $this->repo->deleteImageByFilename($this->style_id, $rid, $filename);
     }
 
     public function importFromUploadResult(

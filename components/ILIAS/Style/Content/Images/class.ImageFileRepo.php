@@ -198,10 +198,15 @@ class ImageFileRepo
     }
 
     // delete image
-    public function deleteImageByFilename(int $style_id, string $filename): void
+    public function deleteImageByFilename(int $style_id, string $rid, string $filename): void
     {
-        $dir = $this->dir($style_id);
-        $this->web_files->delete($dir . "/" . $filename);
+        if ($rid !== "") {
+            $this->irss->removePathFromContainer($rid, "images/" . $filename);
+        }
+        $legacy_path = $this->dir($style_id) . "/" . $filename;
+        if ($this->web_files->has($legacy_path)) {
+            $this->web_files->delete($legacy_path);
+        }
     }
 
     public function importFromUploadResult(
