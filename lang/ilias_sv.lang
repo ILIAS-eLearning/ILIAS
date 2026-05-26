@@ -5984,7 +5984,6 @@ common#:#webdav_chosen_language_already_used#:#Det finns redan en WebDAV-guide f
 common#:#webdav_doc_delete#:#Radera WebDAV Instruktion
 common#:#webdav_docs_mount_instructions#:#Fil med WevDAV-instruktion
 common#:#webdav_duplicate_detected_title#:#Följande objekt kunde inte visas, eftersom ett objekt med samma titel redan visas.
-common#:#webdav_enable_versioning#:#Versionering av filer
 common#:#webdav_forbidden_chars_title#:#Följande objekt kunde inte visas eftersom de innehåller förbjudna tecken (\&lt;&gt;/
 common#:#webdav_form_document#:#Handledning för WebDAV
 common#:#webdav_form_document_info#:#Ladda upp ett txt- eller html-dokument med instruktioner om hur du ansluter WebDAV till de system du väljer.
@@ -6003,7 +6002,6 @@ common#:#webdav_sure_delete_documents_s#:#Ska WebDAV-instruktionen med följande
 common#:#webdav_tbl_docs_head_title#:#Titel
 common#:#webdav_tbl_docs_title#:#Lista över uppladdade WebDAV-instruktioner
 common#:#webdav_upload_instructions#:#Instruktioner för uppladdning av WebDAV
-common#:#webdav_versioning_info#:#Om denna inställning är aktiverad skapas en ny version för redan befintliga filer. I annat fall kommer de att skrivas över.
 common#:#webfolder_dir_info#:#Du har hamnat här eftersom din webbläsare inte kan öppna webbmappar. Läs <a href="%1$s">instruktionerna om hur du öppnar den här webbmappen</a>.
 common#:#webfolder_index_of#:#Innehåll i %1$s
 common#:#webfolder_instructions#:#Instruktion för webbmappar

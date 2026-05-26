@@ -5984,7 +5984,6 @@ common#:#webdav_chosen_language_already_used#:#選択の言語に関連するド
 common#:#webdav_doc_delete#:#WebDavマウント手順書を削除
 common#:#webdav_docs_mount_instructions#:#マウント手順書
 common#:#webdav_duplicate_detected_title#:#同じタイトルのオブジェクトがすでに表示されているので次のオブジェクトを表示することができませんでした。
-common#:#webdav_enable_versioning#:#ファイルバージョニング
 common#:#webdav_forbidden_chars_title#:#禁止文字 (\<>/:*?"|#)が一つ以上含まているため次のファイルを表示できません:
 common#:#webdav_form_document#:#手順書
 common#:#webdav_form_document_info#:#txtまたはhtmlファイルをここへupload。 Uploadされたファイルは解析されて処理されます。詳細
@@ -6003,7 +6002,6 @@ common#:#webdav_sure_delete_documents_s#:#次のタイトルのマウント手�
 common#:#webdav_tbl_docs_head_title#:#ドキュメントタイトル
 common#:#webdav_tbl_docs_title#:#uploadされたWebDAV Mount手順リスト
 common#:#webdav_upload_instructions#:#手順書をupload
-common#:#webdav_versioning_info#:#有効にすると既に存在するファイルは上書きに代えて新バージョンになります。
 common#:#webfolder_dir_info#:#ブラウザがWebフォルダを開く事ができません。<a href="%1$s">Webフォルダを開くに関する説明</a>を読んでください。
 common#:#webfolder_index_of#:#%1$sのインデックス
 common#:#webfolder_instructions#:#Webフォルダ説明書

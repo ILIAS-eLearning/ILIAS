@@ -5984,7 +5984,6 @@ common#:#webdav_chosen_language_already_used#:#Für die ausgewählte Sprache gib
 common#:#webdav_doc_delete#:#WebDAV-Anleitung löschen
 common#:#webdav_docs_mount_instructions#:#Datei mit WevDAV-Anleitung
 common#:#webdav_duplicate_detected_title#:#Folgende Objekte konnten nicht angezeigt werden, da bereits ein Objekt mit dem selben Titel angezeigt wird:
-common#:#webdav_enable_versioning#:#Datei Versionierung
 common#:#webdav_forbidden_chars_title#:#Folgende Objekte konnten nicht angezeigt werden, da sie verbotene Zeichen enthalten (\<>/:*?"|#):
 common#:#webdav_form_document#:#WebDAV-Anleitung
 common#:#webdav_form_document_info#:#Ein txt- oder html-Dokument mit einer Anleitung zum Anbinden von WebDAV an die Systeme Ihrer Wahl hochladen.
@@ -6003,7 +6002,6 @@ common#:#webdav_sure_delete_documents_s#:#Soll die WebDAV-Anleitung mit folgende
 common#:#webdav_tbl_docs_head_title#:#Titel
 common#:#webdav_tbl_docs_title#:#Liste hochgeladener WebDAV-Anleitungen
 common#:#webdav_upload_instructions#:#WebDAV-Anleitung hochladen
-common#:#webdav_versioning_info#:#Wenn diese Einstellung aktiviert ist, wird für bereits existierende Dateien eine neue Version angelegt. An sonst werden diese überschrieben.
 common#:#webfolder_dir_info#:#Sie sind hierher gelangt, weil Ihr Browser keine Webordner öffnen kann. Lesen Sie die <a href="%1$s">Anleitung zum Öffnen dieses Webordners</a>.
 common#:#webfolder_index_of#:#Inhalt von %1$s
 common#:#webfolder_instructions#:#Anleitung für Webordner
