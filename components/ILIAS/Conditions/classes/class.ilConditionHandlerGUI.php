@@ -1336,7 +1336,22 @@ class ilConditionHandlerGUI
             $condition->setTriggerType($trigger->getType());
         }
         $condition->setOperator($data['condition_configuration']['operator'][0]);
-        $condition->setObligatory((bool) ($data['condition_configuration']['obligatory'] ?? true));
+
+        $optional_conditions = ilConditionHandler::getPersistedOptionalConditionsOfTarget(
+            $this->getTargetRefId(),
+            $this->getTargetId(),
+            $this->getTargetType()
+        );
+
+        $is_all_mode = (count($optional_conditions) === 0);
+
+        // set condition as obligatory or not based on mode
+        if ($is_all_mode) {
+            $condition->setObligatory(true);
+        } else {
+            $condition->setObligatory(false);
+        }
+
         $condition->setHiddenStatus(ilConditionHandler::lookupPersistedHiddenStatusByTarget($this->getTargetRefId()));
         $condition->setValue($this->extractValueOptionsFromInput($data));
         $condition->enableAutomaticValidation($this->getAutomaticValidation());
