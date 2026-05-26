@@ -141,7 +141,14 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
     {
         $this->tpl->setVariable('VAL_ID', $a_set['usr_id']);
         $this->tpl->setVariable('VAL_NAME', $a_set['lastname'] . ', ' . $a_set['firstname']);
-        $this->tpl->setVariable('SELECT_PARTICIPANT', $this->lng->txt("select") . ' ' . $a_set['lastname'] . ', ' . $a_set['firstname']);
+        $this->tpl->setVariable(
+            'SELECT_PARTICIPANT',
+            htmlspecialchars(
+                $this->lng->txt('select') . ' ' . $a_set['lastname'] . ', ' . $a_set['firstname'],
+                ENT_QUOTES | ENT_SUBSTITUTE,
+                'UTF-8'
+            )
+        );
 
         if (
             !$this->access->checkAccessOfUser($a_set['usr_id'], 'read', '', $this->getRepositoryObject()->getRefId()) &&
