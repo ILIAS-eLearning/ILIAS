@@ -158,6 +158,7 @@ class TranslationGUI
         $this->object->getObjectProperties()->storePropertyTranslations(
             $this->translations
         );
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
         $this->ctrl->redirectByClass($this->ctrl->getCurrentClassPath());
     }
 
