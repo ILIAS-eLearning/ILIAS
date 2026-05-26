@@ -684,8 +684,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
             return $this->raiseError('At least one keyvalue is needed', 'Client');
         }
 
-        if (strcasecmp($query_operator, "and") !== 0 || strcasecmp($query_operator, "or") !== 0) {
-            $this->raiseError('Query operator must be either \'and\' or \'or\'', 'Client');
+        if (strcasecmp($query_operator, "and") !== 0 && strcasecmp($query_operator, "or") !== 0) {
+            return $this->raiseError('Query operator must be either \'and\' or \'or\'', 'Client');
         }
 
         $query = $this->buildSearchQuery($a_keyfields, $query_operator, $a_keyvalues);
