@@ -158,14 +158,14 @@ class ilTestSkillLevelThresholdImporter
                 $mappedLevelId = $this->getLevelIdMapping($importLevelThreshold->getImportLevelId());
 
                 if ($mappedLevelId === null) {
-                    if (
-                        $existingLevelData['id'] === $importLevelThreshold->getImportLevelId() &&
-                        $existingLevelData['skill_id'] === $importLevelThreshold->getImportSkillBaseId()
+                    if(
+                        $existingLevelData['id'] !== $importLevelThreshold->getImportLevelId()
+                        || $existingLevelData['skill_id'] !== $importLevelThreshold->getImportSkillBaseId()
                     ) {
-                        $mappedLevelId = $importLevelThreshold->getImportLevelId();
-                    } else {
                         continue(2);
                     }
+
+                    $mappedLevelId = $importLevelThreshold->getImportLevelId();
                 }
 
                 $threshold = new ilTestSkillLevelThreshold($this->db);
