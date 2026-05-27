@@ -14,10 +14,7 @@
 		},
 		"audit": {
 			"ignore": {
-				"PKSA-ns3q-qtk3-d35r": {
-					"apply": "block",
-					"reasons": "We need to keep Geshi, since Phiki (alternative) needs PHP 8.2. We remove the contrib directory via composer hooks. See #46938."
-				}
+				"PKSA-ns3q-qtk3-d35r": "We need to keep Geshi, since Phiki (alternative) needs PHP 8.2. We remove the contrib directory via composer hooks. See #46938."
 			}
 		}
 	},
