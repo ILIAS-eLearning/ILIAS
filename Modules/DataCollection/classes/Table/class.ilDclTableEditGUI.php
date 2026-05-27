@@ -322,7 +322,7 @@ class ilDclTableEditGUI
             $this->table->setDefaultSortField($this->form->getInput("default_sort_field"));
             $this->table->setDefaultSortFieldOrder($this->form->getInput("default_sort_field_order"));
             $this->table->setLimited((bool) $this->form->getInput("limited"));
-            $this->table->setDescription($this->form->getInput('description'));
+            $this->table->setDescription((new \ILIAS\DataCollection\HTMLPurifier())->purify($this->form->getInput('description')));
             $this->table->setLimitStart((string) $this->form->getInput("limit_start"));
             $this->table->setLimitEnd((string) $this->form->getInput("limit_end"));
             if ($create) {
