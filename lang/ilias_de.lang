@@ -11496,6 +11496,7 @@ lti#:#lti_exit#:#LTI-Sitzung beenden
 lti#:#lti_exited#:#LTI-Sitzung beendet
 lti#:#lti_exited_info#:#Die LTI-Sitzung wurde erfolgreich beendet.
 lti#:#lti_form_provider_create#:#Provider-Einstellungen anlegen
+lti#:#lti_form_provider_content_selection#:#Inhaltsauswahl
 lti#:#lti_form_provider_edit#:#Provider-Einstellungen bearbeiten
 lti#:#lti_form_section_appearance#:#Optionen für den Start
 lti#:#lti_global_settings_form#:#Globale Einstellungen

@@ -11387,6 +11387,7 @@ lti#:#lti_exit#:#Zaključi sejo LTI
 lti#:#lti_exited#:#Seja LTI je zaključena
 lti#:#lti_exited_info#:#Seja LTI je bila uspešno zaključena
 lti#:#lti_form_provider_create#:#Create Provider Settings
+lti#:#lti_form_provider_content_selection#:#Izbira vsebine
 lti#:#lti_form_provider_edit#:#Edit Provider Settings
 lti#:#lti_form_section_appearance#:#Options for launch
 lti#:#lti_global_settings_form#:#Global Settings

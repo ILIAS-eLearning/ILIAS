@@ -11468,6 +11468,7 @@ lti#:#lti_exit#:#Close LTI Session
 lti#:#lti_exited#:#LTI Session closed
 lti#:#lti_exited_info#:#LTI Session successfully closed
 lti#:#lti_form_provider_create#:#Create Provider Settings
+lti#:#lti_form_provider_content_selection#:#Content Selection
 lti#:#lti_form_provider_edit#:#Edit Provider Settings
 lti#:#lti_form_section_appearance#:#Options for launch
 lti#:#lti_global_settings_form#:#Global Settings

@@ -11387,6 +11387,7 @@ lti#:#lti_exit#:#Zatvori LTI sesiju
 lti#:#lti_exited#:#LTI sesija zatvorena
 lti#:#lti_exited_info#:#LTI sesija je uspješno zatvorena
 lti#:#lti_form_provider_create#:#Create Provider Settings###04 06 2021 new variable
+lti#:#lti_form_provider_content_selection#:#Odabir sadržaja
 lti#:#lti_form_provider_edit#:#Edit Provider Settings###04 06 2021 new variable
 lti#:#lti_form_section_appearance#:#Options for launch###04 06 2021 new variable
 lti#:#lti_global_settings_form#:#Global Settings###04 06 2021 new variable
