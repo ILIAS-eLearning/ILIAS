@@ -2021,7 +2021,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         $this->tpl->setCurrentBlock("adm_content");
         $this->tpl->setVariable("TXT_ANSWER_SHEET", $this->lng->txt("tst_list_of_answers"));
-        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($this->test_session, $active_id, true);
+        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($active_id);
         $signature = $this->getResultsSignature();
         $this->tpl->setVariable("USER_DETAILS", $user_data);
         $this->tpl->setVariable("SIGNATURE", $signature);
