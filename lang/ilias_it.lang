@@ -11481,6 +11481,7 @@ lti#:#lti_exit#:#Chiudi sessione LTI
 lti#:#lti_exited#:#Sessione LTI chiusa
 lti#:#lti_exited_info#:#Sessione LTI chiusa con successo
 lti#:#lti_form_provider_create#:#Impostazioni di creazione fornitore
+lti#:#lti_form_provider_content_selection#:#Selezione contenuto
 lti#:#lti_form_provider_edit#:#Modifica impostazioni del fornitore
 lti#:#lti_form_section_appearance#:#Opzioni di avvio
 lti#:#lti_global_settings_form#:#Impostazioni globali

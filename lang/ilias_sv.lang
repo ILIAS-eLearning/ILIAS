@@ -11482,6 +11482,7 @@ lti#:#lti_exit#:#Avsluta LTI-session
 lti#:#lti_exited#:#LTI-sessionen avslutad
 lti#:#lti_exited_info#:#LTI-sessionen slutfördes framgångsrikt.
 lti#:#lti_form_provider_create#:#Skapa inställningar för en leverantör eller ett verktyg
+lti#:#lti_form_provider_content_selection#:#Innehållsval
 lti#:#lti_form_provider_edit#:#Redigera inställningar för leverantören eller verktyget
 lti#:#lti_form_section_appearance#:#Alternativ för lanseringen
 lti#:#lti_global_settings_form#:#Globala inställningar

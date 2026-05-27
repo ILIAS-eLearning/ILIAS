@@ -11482,6 +11482,7 @@ lti#:#lti_exit#:#LTI Sessionをクローズ
 lti#:#lti_exited#:#LTI セッションをクローズしました
 lti#:#lti_exited_info#:#LTIセッションは正しくクローズしました
 lti#:#lti_form_provider_create#:#プロバイダー設定を作成
+lti#:#lti_form_provider_content_selection#:#コンテンツ選択
 lti#:#lti_form_provider_edit#:#プロバイダー設定を編集
 lti#:#lti_form_section_appearance#:#起動のオプション
 lti#:#lti_global_settings_form#:#グローバル設定

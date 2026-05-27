@@ -11482,6 +11482,7 @@ lti#:#lti_exit#:#LTI-munkamenet lezárása
 lti#:#lti_exited#:#LTI-munkamenet lezárva
 lti#:#lti_exited_info#:#LTI-munkamenet sikeresen lezárult
 lti#:#lti_form_provider_create#:#Kiszolgáló beállításainak létrehozása
+lti#:#lti_form_provider_content_selection#:#Tartalom kiválasztása
 lti#:#lti_form_provider_edit#:#Kiszolgáló beállításainak módosítása
 lti#:#lti_form_section_appearance#:#Indítás beállításai
 lti#:#lti_global_settings_form#:#Globális beállítások
