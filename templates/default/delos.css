@@ -4865,7 +4865,7 @@ hr.il-divider-with-label {
   padding: 15px 12px;
 }
 
-.ui-dropzone-container {
+.ui-dropzone-container:not(.ilObjListRow .ui-dropzone-container) {
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
