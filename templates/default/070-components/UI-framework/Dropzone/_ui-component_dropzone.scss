@@ -23,7 +23,7 @@
 	}
 }
 
-.ui-dropzone-container {
+.ui-dropzone-container:not(.ilObjListRow .ui-dropzone-container) {
 	display: flex;
 	flex-direction: row-reverse;
 	justify-content: space-between;	
