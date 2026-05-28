@@ -31,6 +31,7 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 * [Business Rules](#business-rules)
   * [Permission Handling in Recipient Validation](#permission-handling-in-recipient-validation)
   * [Mail Delivery Rules](#mail-delivery-rules)
+  * [Serial Letter and CC/BCC Recipients](#serial-letter-and-ccbcc-recipients)
 
 ## General
 
@@ -941,4 +942,49 @@ For each recipient account, delivery is decided as follows:
     - “Only external” → Debug log (external only)
     - “Additionally external” → Debug log (internal + external)
     - “No external” → Debug log (internal only)
-    - “Inactive/expired” → Debug log (internal only)  
+    - “Inactive/expired” → Debug log (internal only)
+
+### Serial Letter and CC/BCC Recipients
+
+In serial letter mode (per-recipient placeholder replacement), placeholders in CC and BCC
+messages are **not** replaced. This is frequently reported as a bug but is **intentional
+behaviour**, documented since at least [Mantis #6469](https://mantis.ilias.de/view.php?id=6469)
+(2010; follow-up discussion in 2018). [Mantis #47843](https://mantis.ilias.de/view.php?id=47843)
+revisits the same topic with a fuller analysis of the underlying design conflict. Current ILIAS
+versions have **not** introduced a different default: the underlying conflict between carbon-copy
+semantics and serial-letter semantics has not changed, even though mail infrastructure could
+theoretically support other approaches.
+
+In software engineering we model domains from the real world. Email defines three recipient
+types: TO, CC, and BCC. What the email specification (and the ILIAS mail client) models is the
+concept of a **carbon copy**: one original message, with identical copies for observers—familiar
+from paper workflows where text on the top sheet was transferred to sheets underneath. A
+**serial letter** is the opposite: N individualized originals, one per TO recipient. These two
+concepts are orthogonal.
+
+When serial letter mode is combined with CC/BCC, only a few options are logically consistent:
+
+1. **Status quo (current behaviour):** CC/BCC receive a single, non-personalized message.
+   Placeholders are cleared because there is no single correct set of values to fill them with.
+   This is intentional, not a bug.
+2. **Full semantics:** Each CC/BCC recipient receives a 1:1 copy of every individualized TO
+   mail. With **M** TO recipients and **K** CC/BCC recipients (combined), this yields
+   **M × (1 + K)** messages. CC recipients face the same volume; for BCC this is particularly
+   problematic, as recipients would receive a flood of messages and could infer the size of the
+   distribution list—arguably a privacy regression relative to blind-copy semantics.
+3. **Strict UX:** Disallow CC/BCC in serial letter mode in the UI, since the two concepts do
+   not combine in a meaningful way.
+
+ILIAS **currently implements option 1**, as decided at a Jour Fixe. Option 3 remains a viable
+direction if the community prefers clearer constraints over the current compromise; clearer
+in-UI guidance would complement it.
+
+Option 2 would require substantial infrastructure that ILIAS does not currently have: an internal
+mail queue, asynchronous workers, throttling and retry logic, rate-limiting against the SMTP
+backend, and monitoring. None of that is impossible, but it is a significant investment for a
+feature whose semantics remain debatable.
+
+Newer ILIAS versions have not changed this—not because the technology
+has stood still, but because the underlying conceptual conflict has not. [Mantis #6469](https://mantis.ilias.de/view.php?id=6469)
+(2010) and its 2018 follow-up, as well as [Mantis #47843](https://mantis.ilias.de/view.php?id=47843), reflect
+exactly this reasoning.
