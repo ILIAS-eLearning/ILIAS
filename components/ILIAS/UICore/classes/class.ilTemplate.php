@@ -398,7 +398,7 @@ class ilTemplate extends HTML_Template_ITX
         /////////////////////////////////////////////////
         /// Split & sort everything
         ///
-        if(str_contains($component, 'public/Customizing/global/plugins')) {
+        if(str_contains($component, 'public/Customizing/global/plugins') || str_contains($template_name, 'public/Customizing/global/components/')) {
             $template_type = 3;
         } elseif(str_starts_with($component, 'components/')) {
             $template_type = 1;
