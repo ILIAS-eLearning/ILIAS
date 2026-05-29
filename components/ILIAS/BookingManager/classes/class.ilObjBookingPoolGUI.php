@@ -424,8 +424,6 @@ class ilObjBookingPoolGUI extends ilObjectGUI
      */
     protected function setTabs(): void
     {
-        $ilUser = $this->user;
-
         /** @var ilObjBookingPool $pool */
         $pool = $this->object;
 
@@ -434,12 +432,12 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         }
 
         if ($this->checkPermissionBool('read')) {
-            if ($ilUser->getId() !== ANONYMOUS_USER_ID) {
+            if (!$this->user->isAnonymous()) {
                 if ($pool->getScheduleType() === ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES) {
                     $this->tabs_gui->addTab(
-                        "preferences",
-                        $this->lng->txt("book_pref_overview"),
-                        $this->ctrl->getLinkTargetByClass("ilbookingpreferencesgui", "")
+                        'preferences',
+                        $this->lng->txt('book_pref_overview'),
+                        $this->ctrl->getLinkTargetByClass(ilBookingPreferencesGUI::class, '')
                     );
                 }
 
@@ -447,64 +445,67 @@ class ilObjBookingPoolGUI extends ilObjectGUI
                     $this->checkPermissionBool('write')) {
                     $this->tabs_gui->addTab(
                         "render",
-                        $this->lng->txt("book_booking_objects"),
-                        $this->ctrl->getLinkTarget($this, "render")
+                        $this->lng->txt('book_booking_objects'),
+                        $this->ctrl->getLinkTarget($this, 'render')
                     );
                 }
             }
 
-            if ($ilUser->getId() !== ANONYMOUS_USER_ID || $this->object->hasPublicLog()) {
+            if (
+                ($pool->hasPublicLog() && $this->checkPermissionBool('read'))
+                || $this->checkPermissionBool('manage_own_reservations')
+                || $this->checkPermissionBool('manage_all_reservations')
+            ) {
                 $this->tabs_gui->addTab(
-                    "log",
-                    $this->lng->txt("book_log"),
-                    $this->ctrl->getLinkTargetByClass("ilbookingreservationsgui", "")
+                    'log',
+                    $this->lng->txt('book_log'),
+                    $this->ctrl->getLinkTargetByClass(ilBookingReservationsGUI::class, '')
                 );
             }
 
             $this->tabs_gui->addTab(
-                "info",
-                $this->lng->txt("info_short"),
-                $this->ctrl->getLinkTarget($this, "infoscreen")
+                'info',
+                $this->lng->txt('info_short'),
+                $this->ctrl->getLinkTarget($this, 'infoscreen')
             );
         }
 
         if ($this->checkPermissionBool('write')) {
             /*
             $this->tabs_gui->addTab(
-                "settings",
-                $this->lng->txt("settings"),
-                $this->ctrl->getLinkTarget($this, "edit")
+                'settings',
+                $this->lng->txt('settings'),
+                $this->ctrl->getLinkTarget($this, 'edit')
             );*/
 
             $this->tabs_gui->addTab(
-                "settings",
-                $this->lng->txt("settings"),
-                $this->ctrl->getLinkTargetByClass(SettingsGUI::class, "")
+                'settings',
+                $this->lng->txt('settings'),
+                $this->ctrl->getLinkTargetByClass(SettingsGUI::class, '')
             );
 
-            if ($this->object->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE) {
+            if ($pool->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE) {
                 $this->tabs_gui->addTab(
-                    "schedules",
-                    $this->lng->txt("book_schedules"),
-                    $this->ctrl->getLinkTargetByClass("ilbookingschedulegui", "render")
+                    'schedules',
+                    $this->lng->txt('book_schedules'),
+                    $this->ctrl->getLinkTargetByClass(ilBookingScheduleGUI::class, 'render')
                 );
             }
 
             $this->tabs_gui->addTab(
-                "participants",
-                $this->lng->txt("participants"),
-                $this->ctrl->getLinkTargetByClass("ilbookingparticipantgui", "render")
+                'participants',
+                $this->lng->txt('participants'),
+                $this->ctrl->getLinkTargetByClass(ilBookingParticipantGUI::class, 'render')
             );
 
             // meta data
-            $mdgui = new ilObjectMetaDataGUI($this->object, "bobj");
-            $mdtab = $mdgui->getTab();
+            $mdtab = (new ilObjectMetaDataGUI($pool, 'bobj'))->getTab();
             if ($mdtab) {
                 $this->tabs_gui->addTarget(
-                    "meta_data",
+                    'meta_data',
                     $mdtab,
-                    "",
-                    "ilobjectmetadatagui"
+                    '',
+                    ilObjectMetaDataGUI::class
                 );
             }
         }
@@ -512,9 +513,9 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
         if ($this->checkPermissionBool('edit_permission')) {
             $this->tabs_gui->addTab(
-                "perm_settings",
-                $this->lng->txt("perm_settings"),
-                $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm")
+                'perm_settings',
+                $this->lng->txt('perm_settings'),
+                $this->ctrl->getLinkTargetByClass(ilPermissionGUI::class, 'perm')
             );
         }
     }
