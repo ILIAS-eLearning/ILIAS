@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\CustomIconTempUploadPath;
 use org\bovigo\vfs;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class CustomIconTempUploadPathTest extends TestCase
 {
@@ -133,9 +134,7 @@ class CustomIconTempUploadPathTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider invalidTemporaryFileNameProvider
-     */
+    #[DataProvider('invalidTemporaryFileNameProvider')]
     public function testInvalidTemporaryFileNameIsRejected(
         string $malicious_input
     ): void {
