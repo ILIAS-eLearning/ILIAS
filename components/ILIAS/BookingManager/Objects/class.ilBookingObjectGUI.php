@@ -16,59 +16,89 @@
  *
  *********************************************************************/
 
+use ILIAS\BookingManager\Access\AccessManager;
+use ILIAS\BookingManager\BookableItem\Table\BookableItemTable;
+use ILIAS\BookingManager\BookableItem\Table\BookableItemWithoutScheduleTable;
+use ILIAS\BookingManager\BookableItem\Table\BookableItemWithScheduleTable;
+use ILIAS\BookingManager\BookingProcess\BookingProcessManager;
+use ILIAS\BookingManager\Common\HttpService;
+use ILIAS\BookingManager\InternalGUIService;
+use ILIAS\BookingManager\Objects\ObjectsManager;
+use ILIAS\BookingManager\Settings\Settings;
+use ILIAS\BookingManager\Schedule\ScheduleManager;
+use ILIAS\BookingManager\StandardGUIRequest;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\Component\Modal\Modal;
+
 /**
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilBookingObjectGUI: ilPropertyFormGUI, ilBookingProcessWithScheduleGUI, ilBookingProcessWithoutScheduleGUI
  * @ilCtrl_Calls ilBookingObjectGUI: ilBookBulkCreationGUI
  */
 class ilBookingObjectGUI
 {
-    protected \ILIAS\BookingManager\Objects\ObjectsManager $objects_manager;
-    protected \ILIAS\BookingManager\Schedule\ScheduleManager $schedule_manager;
+    protected ObjectsManager $objects_manager;
+    protected ScheduleManager $schedule_manager;
     protected ilBookBulkCreationGUI $bulk_creation_gui;
     protected ilObjBookingPool $pool;
-    protected \ILIAS\BookingManager\InternalGUIService $gui;
-    protected \ILIAS\BookingManager\Access\AccessManager $access;
-    protected \ILIAS\BookingManager\StandardGUIRequest $book_request;
+    protected InternalGUIService $gui;
+    protected AccessManager $access;
+    protected StandardGUIRequest $book_request;
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
     protected ilTabsGUI $tabs;
-    protected ilBookingHelpAdapter $help;
     protected ilObjectDataCache $obj_data_cache;
     protected ilObjUser $user;
+    protected Factory $ui_factory;
+    protected Renderer $ui_renderer;
+    protected ilUIService $ui_service;
+    protected Refinery $refinery;
+    protected HttpService $http;
+    protected BookingProcessManager $process_manager;
+    protected DataFactory $data_factory;
+    protected Settings $settings;
     protected bool $pool_has_schedule;
     protected ?int $pool_overall_limit;
     protected bool $pool_uses_preferences = false;
     // Is management of objects (create/edit/delete) activated?
     protected bool $management = true;
-    // Context object id (e.g. course with booking service activated)
-    protected int $context_obj_id;
     protected int $object_id;
-    protected string $seed;
-    protected string $sseed;
-    protected ilObjBookingPoolGUI $pool_gui;
     protected array $rsv_ids = [];
-    protected ilAdvancedMDRecordGUI $record_gui;
+    protected ?ilAdvancedMDRecordGUI $record_gui = null;
     protected int $ref_id;
 
     public function __construct(
-        ilObjBookingPoolGUI $a_parent_obj,
-        string $seed,
-        string $sseed,
-        ilBookingHelpAdapter $help,
-        int $context_obj_id = 0
+        protected ilObjBookingPoolGUI $a_parent_obj,
+        protected string $seed,
+        protected string $sseed,
+        protected ilBookingHelpAdapter $help,
+        // Context object id (e.g. course with booking service activated)
+        protected int $context_obj_id = 0
     ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
-        $this->tpl = $DIC["tpl"];
+        $this->tpl = $DIC->ui()->mainTemplate();
         $this->lng = $DIC->language();
-        $this->access = $DIC->bookingManager()->internal()->domain()->access();
+        $this->access = $DIC
+            ->bookingManager()
+            ->internal()
+            ->domain()
+            ->access();
         $this->tabs = $DIC->tabs();
-        $this->help = $help;
-        $this->obj_data_cache = $DIC["ilObjDataCache"];
+        $this->obj_data_cache = $DIC['ilObjDataCache'];
         $this->user = $DIC->user();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+        $this->ui_service = $DIC->uiService();
+        $this->refinery = $DIC->refinery();
+        $this->http = new HttpService($DIC->http(), $this->refinery);
+        $this->process_manager = $DIC->bookingManager()->internal()->domain()->process();
+        $this->data_factory = new DataFactory();
 
         /** @var ilObjBookingPool $pool */
         $pool = $a_parent_obj->getObject();
@@ -85,35 +115,32 @@ class ilBookingObjectGUI
             ->internal()
             ->domain()
             ->schedules($this->pool->getId());
+        $this->settings = $DIC
+            ->bookingManager()
+            ->internal()
+            ->domain()
+            ->bookingSettings()
+            ->getByObjId($this->pool->getId());
 
-        $this->seed = $seed;
-        $this->sseed = $sseed;
+        $this->bulk_creation_gui = $this->gui->objects()->ilBookBulkCreationGUI($this->pool);
 
-        $this->context_obj_id = $context_obj_id;
-
-        $this->pool_gui = $a_parent_obj;
-        $this->bulk_creation_gui = $this->gui->objects()
-            ->ilBookBulkCreationGUI($this->pool);
-
-        $this->pool_has_schedule =
-            ($a_parent_obj->getObject()->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE);
-        $this->pool_uses_preferences =
-            ($a_parent_obj->getObject()->getScheduleType() === ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES);
-        $this->pool_overall_limit = $this->pool_has_schedule
-            ? null
-            : $a_parent_obj->getObject()->getOverallLimit();
+        $schedule_type = $a_parent_obj->getObject()->getScheduleType();
+        $this->pool_has_schedule = $schedule_type === ilObjBookingPool::TYPE_FIX_SCHEDULE;
+        $this->pool_uses_preferences = $schedule_type === ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES;
+        $this->pool_overall_limit = !$this->pool_has_schedule ? $a_parent_obj->getObject()->getOverallLimit() : null;
 
         $this->object_id = $this->book_request->getObjectId();
         $this->ref_id = $this->book_request->getRefId();
-        $this->ctrl->saveParameter($this, "object_id");
+        $this->ctrl->saveParameter($this, 'object_id');
 
         $this->rsv_ids = array_map('intval', $this->book_request->getReservationIdsFromString());
-        $this->objects_manager = $DIC->bookingManager()->internal()->domain()->objects($this->pool->getId());
+        $this->objects_manager = $DIC
+            ->bookingManager()
+            ->internal()
+            ->domain()
+            ->objects($this->pool->getId());
 
-        $this->access->validateBookingObjId(
-            $this->object_id,
-            (int) $this->pool_gui->getObject()?->getId()
-        );
+        $this->access->validateBookingObjId($this->object_id, (int) $a_parent_obj->getObject()?->getId());
     }
 
     public function activateManagement(bool $a_val): void
@@ -121,9 +148,6 @@ class ilBookingObjectGUI
         $this->management = $a_val;
     }
 
-    /**
-     * Is management activated?
-     */
     public function isManagementActivated(): bool
     {
         return $this->management;
@@ -131,30 +155,22 @@ class ilBookingObjectGUI
 
     protected function getPoolRefId(): int
     {
-        return $this->pool_gui->getRefId();
+        return $this->a_parent_obj->getRefId();
     }
 
     protected function getPoolObjId(): int
     {
-        return $this->pool_gui->getObject()->getId();
+        return $this->pool->getId();
     }
 
-    /**
-     * Has booking pool a schedule?
-     */
     protected function hasPoolSchedule(): bool
     {
-        return ($this->pool_gui->getObject()->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE);
+        return $this->pool_has_schedule;
     }
 
-    /**
-     * Get booking pool overall limit
-     */
     protected function getPoolOverallLimit(): ?int
     {
-        return $this->hasPoolSchedule()
-            ? null
-            : $this->pool_gui->getObject()->getOverallLimit();
+        return $this->pool_overall_limit;
     }
 
     /**
@@ -162,27 +178,16 @@ class ilBookingObjectGUI
      */
     public function executeCommand(): void
     {
-        $ilCtrl = $this->ctrl;
-
-        $next_class = $ilCtrl->getNextClass($this);
-
-        switch ($next_class) {
-            case "ilpropertyformgui":
+        switch (strtolower($this->ctrl->getNextClass($this))) {
+            case strtolower(ilPropertyFormGUI::class):
                 // only case is currently adv metadata internal link in info settings, see #24497
-                $form = $this->initForm();
-                $this->ctrl->forwardCommand($form);
+                $this->ctrl->forwardCommand($this->initForm());
                 break;
 
-            case "ilbookingprocesswithschedulegui":
-                if (!$this->pool_uses_preferences) {
-                    $ilCtrl->setReturn($this, "render");
-                } else {
-                    $ilCtrl->setReturn($this, "returnToPreferences");
-                }
-                /** @var ilObjBookingPool $pool */
-                $pool = $this->pool_gui->getObject();
+            case strtolower(ilBookingProcessWithScheduleGUI::class):
+                $this->ctrl->setReturn($this, $this->pool_uses_preferences ? 'returnToPreferences' : 'render');
                 $process_gui = $this->gui->process()->ilBookingProcessWithScheduleGUI(
-                    $pool,
+                    $this->pool,
                     $this->object_id,
                     $this->context_obj_id,
                     $this->seed ?? $this->sseed
@@ -190,16 +195,10 @@ class ilBookingObjectGUI
                 $this->ctrl->forwardCommand($process_gui);
                 break;
 
-            case "ilbookingprocesswithoutschedulegui":
-                if (!$this->pool_uses_preferences) {
-                    $ilCtrl->setReturn($this, "render");
-                } else {
-                    $ilCtrl->setReturn($this, "returnToPreferences");
-                }
-                /** @var ilObjBookingPool $pool */
-                $pool = $this->pool_gui->getObject();
+            case strtolower(ilBookingProcessWithoutScheduleGUI::class):
+                $this->ctrl->setReturn($this, $this->pool_uses_preferences ? 'returnToPreferences' : 'render');
                 $process_gui = $this->gui->process()->ilBookingProcessWithoutScheduleGUI(
-                    $pool,
+                    $this->pool,
                     $this->object_id,
                     $this->context_obj_id
                 );
@@ -207,131 +206,157 @@ class ilBookingObjectGUI
                 break;
 
             case strtolower(ilBookBulkCreationGUI::class):
-                $this->ctrl->setReturn($this, "");
+                $this->ctrl->setReturn($this, '');
                 $this->ctrl->forwardCommand($this->bulk_creation_gui);
                 break;
 
             default:
-                $cmd = $ilCtrl->getCmd("render");
+                $cmd = $this->ctrl->getCmd('render');
                 $this->$cmd();
                 break;
         }
     }
 
-    protected function showNoScheduleMessage(): void
-    {
-        $this->pool_gui->showNoScheduleMessage();
-    }
-
     protected function returnToPreferences(): void
     {
-        $this->ctrl->redirectByClass("ilBookingPreferencesGUI");
+        $this->ctrl->redirectByClass(ilBookingPreferencesGUI::class);
     }
 
-    /**
-     * Render list of booking objects
-     * uses ilBookingObjectsTableGUI
-     */
-    public function render(): void
+    public function render(?Modal $modal = null): void
     {
-        $this->showNoScheduleMessage();
+        $this->a_parent_obj->showNoScheduleMessage();
 
-        $tpl = $this->tpl;
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
+        $bar = '';
 
-        $bar = "";
-
-        if ($this->isManagementActivated() && $this->access->canManageObjects($this->getPoolRefId())) {
+        if ($this->isManagementActivated()) {
             $bar = new ilToolbarGUI();
-            $bar->addButton($lng->txt('book_add_object'), $ilCtrl->getLinkTarget($this, 'create'));
+            if ($this->access->canManageObjects($this->getPoolRefId())) {
+                $bar->addButton($this->lng->txt('book_add_object'), $this->ctrl->getLinkTarget($this, 'create'));
 
-            // bulk creation
-            $this->bulk_creation_gui->modifyToolbar($bar);
+                // bulk creation
+                $this->bulk_creation_gui->modifyToolbar($bar);
+            }
+
+            if ($bar->getItems() !== []) {
+                $bar->addSeparator();
+            }
 
             if ($this->hasPoolSchedule()) {
-                $bar->addSeparator();
-                $list_link = $this->ctrl->getLinkTarget($this, "");
-                $week_link = $this->ctrl->getLinkTargetByClass("ilBookingProcessWithScheduleGUI", "week");
-                $mode_control = $this->gui->ui()->factory()->viewControl()->mode([
-                   $this->lng->txt("book_list") => $list_link,
-                   $this->lng->txt("book_week") => $week_link
-                ], $this->lng->txt("book_view"));
+                $mode_control = $this->gui->ui()->factory()->viewControl()->mode(
+                    [
+                       $this->lng->txt('book_table') => $this->ctrl->getLinkTarget($this, ''),
+                       $this->lng->txt('book_week') => $this->ctrl->getLinkTargetByClass(ilBookingProcessWithScheduleGUI::class, 'week')
+                    ],
+                    $this->lng->txt('book_view')
+                );
                 $bar->addComponent($mode_control);
             }
+
             $bar = $bar->getHTML();
         }
 
-        $tpl->setPermanentLink('book', $this->getPoolRefId());
+        $components = $this->getTableComponents();
+        if ($modal !== null) {
+            $components[] = $modal;
+        }
 
-        $table = new ilBookingObjectsTableGUI($this, 'render', $this->getPoolRefId(), $this->getPoolObjId(), $this->hasPoolSchedule(), $this->getPoolOverallLimit(), $this->isManagementActivated());
-        $tpl->setContent($bar . $table->getHTML());
+        $this->tpl->setPermanentLink('book', $this->getPoolRefId());
+        $this->tpl->setContent($bar . $this->ui_renderer->render($components));
     }
 
-    public function applyFilter(): void
+    private function getTable(): BookableItemTable
     {
-        $table = new ilBookingObjectsTableGUI($this, 'render', $this->getPoolRefId(), $this->getPoolObjId(), $this->hasPoolSchedule(), $this->getPoolOverallLimit(), $this->isManagementActivated());
-        $table->resetOffset();
-        $table->writeFilterToSession();
-        $this->render();
+        if ($this->hasPoolSchedule()) {
+            return new BookableItemWithScheduleTable(
+                $this->ui_factory,
+                $this->ui_renderer,
+                $this->lng,
+                $this->http,
+                $this->ui_service,
+                $this->ctrl,
+                $this->tpl,
+                $this->refinery,
+                $this->access,
+                $this->pool,
+                $this->process_manager,
+                $this->settings,
+                $this->user,
+                $this->getPoolRefId(),
+                $this->isManagementActivated(),
+                $this->context_obj_id,
+            );
+        }
+
+        return new BookableItemWithoutScheduleTable(
+            $this->ui_factory,
+            $this->ui_renderer,
+            $this->lng,
+            $this->http,
+            $this->ui_service,
+            $this->ctrl,
+            $this->tpl,
+            $this->refinery,
+            $this->access,
+            $this->pool,
+            $this->process_manager,
+            $this->settings,
+            $this->user,
+            $this->getPoolRefId(),
+            $this->isManagementActivated(),
+            $this->context_obj_id,
+        );
     }
 
-    public function resetFilter(): void
+    private function getTableComponents(): array
     {
-        $table = new ilBookingObjectsTableGUI($this, 'render', $this->getPoolRefId(), $this->getPoolObjId(), $this->hasPoolSchedule(), $this->getPoolOverallLimit(), $this->isManagementActivated());
-        $table->resetOffset();
-        $table->resetFilter();
-        $this->render();
+        return $this->getTable()->getComponents($this->getURLBuilder());
     }
 
-    /**
-     * Render creation form
-     */
+    public function executeTableAction(): void
+    {
+        $modal = $this->getTable()->execute($this->getURLBuilder());
+        if ($modal !== null) {
+            $this->render($modal);
+            return;
+        }
+        $this->ctrl->redirectByClass(self::class, 'render');
+    }
+
+    private function getURLBuilder(): URLBuilder
+    {
+        return new URLBuilder(
+            $this->data_factory->uri(ILIAS_HTTP_PATH . "/{$this->ctrl->getLinkTarget($this, 'executeTableAction')}")
+        );
+    }
+
     public function create(?ilPropertyFormGUI $a_form = null): void
     {
         if (!$this->access->canManageObjects($this->ref_id)) {
             return;
         }
 
-        $ilCtrl = $this->ctrl;
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-        $ilTabs = $this->tabs;
-
-        $ilTabs->clearTargets();
-        $ilTabs->setBackTarget($lng->txt('book_back_to_list'), $ilCtrl->getLinkTarget($this, 'render'));
+        $this->tabs->clearTargets();
+        $this->tabs->setBackTarget($this->lng->txt('book_back_to_list'), $this->ctrl->getLinkTarget($this, 'render'));
 
         $this->setHelpId('create');
 
-        if (!$a_form) {
-            $a_form = $this->initForm();
-        }
-        $tpl->setContent($a_form->getHTML());
+        $a_form ??= $this->initForm();
+        $this->tpl->setContent($a_form->getHTML());
     }
 
-    /**
-     * Render edit form
-     */
     public function edit(?ilPropertyFormGUI $a_form = null): void
     {
         if (!$this->access->canManageObjects($this->ref_id)) {
             return;
         }
 
-        $tpl = $this->tpl;
-        $ilCtrl = $this->ctrl;
-        $ilTabs = $this->tabs;
-        $lng = $this->lng;
-
-        $ilTabs->clearTargets();
-        $ilTabs->setBackTarget($lng->txt('book_back_to_list'), $ilCtrl->getLinkTarget($this, 'render'));
+        $this->tabs->clearTargets();
+        $this->tabs->setBackTarget($this->lng->txt('book_back_to_list'), $this->ctrl->getLinkTarget($this, 'render'));
 
         $this->setHelpId('edit');
 
-        if (!$a_form) {
-            $a_form = $this->initForm('edit', $this->object_id);
-        }
-        $tpl->setContent($a_form->getHTML());
+        $a_form ??= $this->initForm('edit', $this->object_id);
+        $this->tpl->setContent($a_form->getHTML());
     }
 
     protected function setHelpId(string $a_id): void
@@ -339,80 +364,72 @@ class ilBookingObjectGUI
         $this->help->setHelpId($a_id);
     }
 
-    /**
-     * Build property form
-     */
-    public function initForm(
-        string $a_mode = "create",
-        ?int $id = null
-    ): ilPropertyFormGUI {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $ilObjDataCache = $this->obj_data_cache;
-
+    public function initForm(string $a_mode = 'create', ?int $id = null): ilPropertyFormGUI
+    {
         $form_gui = new ilPropertyFormGUI();
 
-        $title = new ilTextInputGUI($lng->txt("title"), "title");
+        $title = new ilTextInputGUI($this->lng->txt('title'), 'title');
         $title->setRequired(true);
         $title->setSize(40);
         $title->setMaxLength(120);
         $form_gui->addItem($title);
 
-        $desc = new ilTextAreaInputGUI($lng->txt("description"), "desc");
+        $desc = new ilTextAreaInputGUI($this->lng->txt('description'), 'desc');
         $desc->setCols(70);
         $desc->setRows(15);
         $desc->setMaxNumOfChars(1000);
         $form_gui->addItem($desc);
 
-        $file = new ilFileInputGUI($lng->txt("book_additional_info_file"), "file");
+        $file = new ilFileInputGUI($this->lng->txt('book_additional_info_file'), 'file');
         $file->setAllowDeletion(true);
         $form_gui->addItem($file);
 
-        $nr = new ilNumberInputGUI($lng->txt("booking_nr_of_items"), "items");
+        $nr = new ilNumberInputGUI($this->lng->txt('booking_nr_of_items'), 'items');
         $nr->setRequired(true);
         $nr->setSize(3);
         $nr->setMaxLength(3);
-        $nr->setSuffix($lng->txt("book_booking_objects"));
+        $nr->setSuffix($this->lng->txt('book_booking_objects'));
         $form_gui->addItem($nr);
 
+        $schedule = null;
         if ($this->hasPoolSchedule()) {
-            $options = array();
-            foreach ($this->schedule_manager->getScheduleList() as $schedule_id => $schedule_title) {
-                $options[$schedule_id] = $schedule_title;
-            }
-            $schedule = new ilSelectInputGUI($lng->txt("book_schedule"), "schedule");
+            $options = array_map(
+                static fn(string $schedule_title): string => $schedule_title,
+                $this->schedule_manager->getScheduleList()
+            );
+            $schedule = new ilSelectInputGUI($this->lng->txt('book_schedule'), 'schedule');
             $schedule->setRequired(true);
             $schedule->setOptions($options);
             $form_gui->addItem($schedule);
         }
 
         $post = new ilFormSectionHeaderGUI();
-        $post->setTitle($lng->txt("book_post_booking_information"));
+        $post->setTitle($this->lng->txt('book_post_booking_information'));
         $form_gui->addItem($post);
 
-        $pdesc = new ilTextAreaInputGUI($lng->txt("book_post_booking_text"), "post_text");
+        $pdesc = new ilTextAreaInputGUI($this->lng->txt('book_post_booking_text'), 'post_text');
         $pdesc->setCols(70);
         $pdesc->setRows(15);
-        $pdesc->setInfo($lng->txt("book_post_booking_text_info"));
+        $pdesc->setInfo($this->lng->txt('book_post_booking_text_info'));
         $form_gui->addItem($pdesc);
 
-        $pfile = new ilFileInputGUI($lng->txt("book_post_booking_file"), "post_file");
+        $pfile = new ilFileInputGUI($this->lng->txt('book_post_booking_file'), 'post_file');
         $pfile->setAllowDeletion(true);
         $form_gui->addItem($pfile);
 
         // #18214 - should also work for new objects
         $this->record_gui = new ilAdvancedMDRecordGUI(
             ilAdvancedMDRecordGUI::MODE_EDITOR,
-            "book",
+            'book',
             $this->getPoolObjId(),
-            "bobj",
+            'bobj',
             (int) $id
         );
         $this->record_gui->setPropertyForm($form_gui);
         $this->record_gui->parse();
 
-        if ($a_mode === "edit") {
-            $form_gui->setTitle($lng->txt("book_edit_object"));
+        if ($a_mode === 'edit') {
+            $form_gui->setTitle($this->lng->txt('book_edit_object'));
 
             $item = new ilHiddenInputGUI('object_id');
             $item->setValue($id);
@@ -426,135 +443,89 @@ class ilBookingObjectGUI
             $file->setValue($this->objects_manager->getObjectInfoFilename($id));
             $pfile->setValue($this->objects_manager->getBookingInfoFilename($id));
 
-            if (isset($schedule)) {
-                $schedule->setValue($obj->getScheduleId());
-            }
+            $schedule?->setValue($obj->getScheduleId());
 
-            $form_gui->addCommandButton("update", $lng->txt("save"));
+            $form_gui->addCommandButton('update', $this->lng->txt('save'));
         } else {
-            $form_gui->setTitle($lng->txt("book_add_object"));
-            $form_gui->addCommandButton("save", $lng->txt("save"));
-            $form_gui->addCommandButton("render", $lng->txt("cancel"));
+            $form_gui->setTitle($this->lng->txt('book_add_object'));
+            $form_gui->addCommandButton('save', $this->lng->txt('save'));
+            $form_gui->addCommandButton('render', $this->lng->txt('cancel'));
         }
-        $form_gui->setFormAction($ilCtrl->getFormAction($this));
 
+        $form_gui->setFormAction($this->ctrl->getFormAction($this));
         return $form_gui;
     }
 
     public function save(): void
     {
-        if (!$this->access->canManageObjects($this->ref_id)) {
-            return;
-        }
-
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-
-        $form = $this->initForm();
-        if ($form->checkInput()) {
-            $valid = true;
-            if ($this->record_gui &&
-                !$this->record_gui->importEditFormPostValues()) {
-                $valid = false;
-            }
-            if ($valid) {
-                $obj = new ilBookingObject();
-                $obj->setPoolId($this->getPoolObjId());
-                $obj->setTitle($form->getInput("title"));
-                $obj->setDescription($form->getInput("desc"));
-                $obj->setNrOfItems($form->getInput("items"));
-                $obj->setPostText($form->getInput("post_text"));
-
-                if ($this->hasPoolSchedule()) {
-                    $obj->setScheduleId($form->getInput("schedule"));
-                }
-
-                $obj->save();
-
-                $file = $form->getItemByPostVar("file");
-                if ($_FILES["file"]["tmp_name"]) {
-                    $this->objects_manager->importObjectInfoFromLegacyUpload($obj->getId(), $_FILES["file"]);
-                } elseif ($file !== null && $file->getDeletionFlag()) {
-                    $this->objects_manager->deleteObjectInfo($obj->getId());
-                }
-
-                $pfile = $form->getItemByPostVar("post_file");
-                if ($_FILES["post_file"]["tmp_name"]) {
-                    $this->objects_manager->importBookingInfoFromLegacyUpload($obj->getId(), $_FILES["post_file"]);
-                } elseif ($pfile !== null && $pfile->getDeletionFlag()) {
-                    $this->objects_manager->deleteBookingInfo($obj->getId());
-                }
-
-                $obj->update();
-
-                if ($this->record_gui) {
-                    $this->record_gui->writeEditForm(null, $obj->getId());
-                }
-
-                $this->tpl->setOnScreenMessage('success', $lng->txt("book_object_added"), true);
-                $ilCtrl->redirect($this, "render");
-            }
-        }
-
-        $form->setValuesByPost();
-        $this->create($form);
+        $this->handleForm(true);
     }
 
     public function update(): void
+    {
+        $this->handleForm(false);
+    }
+
+    private function handleForm(bool $create): void
     {
         if (!$this->access->canManageObjects($this->ref_id)) {
             return;
         }
 
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
+        $form = $create ? $this->initForm() : $this->initForm('edit', $this->object_id);
 
-        $form = $this->initForm('edit', $this->object_id);
-        if ($form->checkInput()) {
-            $valid = true;
-            if ($this->record_gui &&
-                !$this->record_gui->importEditFormPostValues()) {
-                $valid = false;
+        if (
+            $form->checkInput()
+            && (
+                !$this->record_gui instanceof ilAdvancedMDRecordGUI
+                || $this->record_gui->importEditFormPostValues()
+            )
+        ) {
+            $obj = new ilBookingObject($this->object_id);
+            $obj->setTitle($form->getInput('title'));
+            $obj->setDescription($form->getInput('desc'));
+            $obj->setNrOfItems($form->getInput('items'));
+            $obj->setPostText($form->getInput('post_text'));
+
+            if ($this->hasPoolSchedule()) {
+                $obj->setScheduleId($form->getInput('schedule'));
             }
 
-            if ($valid) {
-                $obj = new ilBookingObject($this->object_id);
-                $obj->setTitle($form->getInput("title"));
-                $obj->setDescription($form->getInput("desc"));
-                $obj->setNrOfItems($form->getInput("items"));
-                $obj->setPostText($form->getInput("post_text"));
-
-                $file = $form->getItemByPostVar("file");
-                if ($_FILES["file"]["tmp_name"]) {
-                    $this->objects_manager->importObjectInfoFromLegacyUpload($obj->getId(), $_FILES["file"]);
-                } elseif ($file !== null && $file->getDeletionFlag()) {
-                    $this->objects_manager->deleteObjectInfo($obj->getId());
-                }
-
-                $pfile = $form->getItemByPostVar("post_file");
-                if ($_FILES["post_file"]["tmp_name"]) {
-                    $this->objects_manager->importBookingInfoFromLegacyUpload($obj->getId(), $_FILES["post_file"]);
-                } elseif ($pfile !== null && $pfile->getDeletionFlag()) {
-                    $this->objects_manager->deleteBookingInfo($obj->getId());
-                }
-
-                if ($this->hasPoolSchedule()) {
-                    $obj->setScheduleId($form->getInput("schedule"));
-                }
-
+            if ($create) {
+                $obj->setPoolId($this->getPoolObjId());
+                $obj->save();
+            } else {
                 $obj->update();
-
-                if ($this->record_gui) {
-                    $this->record_gui->writeEditForm();
-                }
-
-                $this->tpl->setOnScreenMessage('success', $lng->txt("book_object_updated"), true);
-                $ilCtrl->redirect($this, "edit");
             }
+
+            if ($_FILES['file']['tmp_name']) {
+                $this->objects_manager->importObjectInfoFromLegacyUpload($obj->getId(), $_FILES['file']);
+            } elseif ($form->getItemByPostVar('file')?->getDeletionFlag()) {
+                $this->objects_manager->deleteObjectInfo($obj->getId());
+            }
+
+            if ($_FILES['post_file']['tmp_name']) {
+                $this->objects_manager->importBookingInfoFromLegacyUpload($obj->getId(), $_FILES['post_file']);
+            } elseif ($form->getItemByPostVar('post_file')?->getDeletionFlag()) {
+                $this->objects_manager->deleteBookingInfo($obj->getId());
+            }
+
+            $obj->update();
+
+            $create
+                ? $this->record_gui?->writeEditForm(null, $obj->getId())
+                : $this->record_gui?->writeEditForm();
+
+            $this->tpl->setOnScreenMessage(
+                'success',
+                $this->lng->txt($create ? 'book_object_added' : 'book_object_updated'),
+                true
+            );
+            $this->ctrl->redirect($this, $create ? 'render' : 'edit');
         }
 
         $form->setValuesByPost();
-        $this->edit($form);
+        $create ? $this->create($form) : $this->edit($form);
     }
 
     public function confirmDelete(): void
@@ -563,24 +534,19 @@ class ilBookingObjectGUI
             return;
         }
 
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $tpl = $this->tpl;
-        $ilTabs = $this->tabs;
-
-        $ilTabs->clearTargets();
-        $ilTabs->setBackTarget($lng->txt('book_back_to_list'), $ilCtrl->getLinkTarget($this, 'render'));
+        $this->tabs->clearTargets();
+        $this->tabs->setBackTarget($this->lng->txt('book_back_to_list'), $this->ctrl->getLinkTarget($this, 'render'));
 
         $conf = new ilConfirmationGUI();
-        $conf->setFormAction($ilCtrl->getFormAction($this));
-        $conf->setHeaderText($lng->txt('book_confirm_delete'));
+        $conf->setFormAction($this->ctrl->getFormAction($this));
+        $conf->setHeaderText($this->lng->txt('book_confirm_delete'));
 
         $type = new ilBookingObject($this->object_id);
         $conf->addItem('object_id', $this->object_id, $type->getTitle());
-        $conf->setConfirm($lng->txt('delete'), 'delete');
-        $conf->setCancel($lng->txt('cancel'), 'render');
+        $conf->setConfirm($this->lng->txt('delete'), 'delete');
+        $conf->setCancel($this->lng->txt('cancel'), 'render');
 
-        $tpl->setContent($conf->getHTML());
+        $this->tpl->setContent($conf->getHTML());
     }
 
     public function delete(): void
@@ -589,26 +555,21 @@ class ilBookingObjectGUI
             return;
         }
 
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-
         $obj = new ilBookingObject($this->object_id);
         $obj->deleteReservationsAndCalEntries($this->object_id);
         $obj->delete();
 
-        $this->tpl->setOnScreenMessage('success', $lng->txt('book_object_deleted'), true);
-        $ilCtrl->setParameter($this, 'object_id', "");
-        $ilCtrl->redirect($this, 'render');
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('book_object_deleted'), true);
+        $this->ctrl->setParameter($this, 'object_id', '');
+        $this->ctrl->redirect($this, 'render');
     }
-
 
     public function deliverInfo(): void
     {
-        $id = $this->object_id;
-        if (!$id) {
+        if (!$this->object_id) {
             return;
         }
 
-        $this->objects_manager->deliverObjectInfo($id);
+        $this->objects_manager->deliverObjectInfo($this->object_id);
     }
 }
