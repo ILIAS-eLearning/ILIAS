@@ -429,6 +429,12 @@ class ilTemplate extends HTML_Template_ITX
                 }
                 break;
             case 3:         // Plugin Templates
+                if(str_starts_with($component, $default_path)) {
+                    $component = str_replace($default_path . '/', '', $component);
+                }
+                if(!str_ends_with($component, '/templates/default')) {
+                    $component .= '/templates/default';
+                }
                 return $default_path . '/' . $component . '/' . $template_name;
             default:        // Basic Template
                 $default_path .= '/templates/default/';
