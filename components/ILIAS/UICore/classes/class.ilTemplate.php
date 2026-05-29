@@ -430,7 +430,7 @@ class ilTemplate extends HTML_Template_ITX
                 break;
             case 3:         // Plugin Templates
                 if($component === '') {
-                    return $template_name;
+                    return '/' . $a_tplname;
                 } else {
                     return '/' . $component . '/templates/default/' . $template_name;
                 }
