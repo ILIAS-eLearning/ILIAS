@@ -338,6 +338,7 @@ class ilTemplate extends HTML_Template_ITX
     protected function getTemplatePath(string $a_tplname, string $a_in_module = ''): string
     {
         $ilias_root = realpath(__DIR__ . '/../../../../');
+        $ui_component_base_path = 'components/ILIAS/UI/src';
 
         $skin = $this->getCurrentSkin();
         $style = $this->getCurrentStyle();
@@ -366,13 +367,10 @@ class ilTemplate extends HTML_Template_ITX
 
                 $template_name = substr($a_tplname, strrpos($a_tplname, '/') + 1);
                 $ui_path = str_replace('/' . $template_name, '', $a_tplname);
+                $ui_path = str_replace($ui_component_base_path . '/templates/default/', '', $ui_path);
+                $ui_component = trim($ui_path, '/');
 
-                if(!str_ends_with($ui_path, '/templates/default')) {
-                    $ui_component = substr($ui_path, strrpos($ui_path, '/') + 1);
-                    $ui_path = str_replace('/' . $ui_component, '', $ui_path);
-                }
-
-                $component = str_replace('/templates/default', '', $ui_path);
+                $component = $ui_component_base_path;
             }
         }
 
@@ -381,14 +379,14 @@ class ilTemplate extends HTML_Template_ITX
         ///
         switch($template_type) {
             case 1:         // Component Template
-                $default_path .= '/' . $component . '/templates/default';
+                $default_path .= '/' . $component . '/templates/default/';
                 $skin_path .= '/' . $component . '/';
                 $style_path .= '/' . $component . '/';
                 break;
             case 2:         // UI-Framework Template
-                $default_path .= '/' . $component . '/templates/default';
+                $default_path .= '/' . $component . '/templates/default/';
                 if($ui_component !== null) {
-                    $default_path .= '/' . $ui_component;
+                    $default_path .= $ui_component . '/';
                 }
 
                 break;
