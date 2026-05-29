@@ -402,6 +402,10 @@ class ilTemplate extends HTML_Template_ITX
             $template_type = 1;
         } elseif(str_contains($component, 'public/Customizing/global/plugins')) {
             $template_type = 3;
+            if($component === '') {
+                $component = substr($a_tplname, 0, strrpos($a_tplname, '/'));
+                $template_name = substr($a_tplname, strrpos($a_tplname, '/') + 1);
+            }
         } elseif($component === '' && str_contains($template_name, '/UI/')) {
             $template_type = 2;
 
