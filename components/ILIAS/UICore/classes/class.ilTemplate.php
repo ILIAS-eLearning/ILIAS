@@ -337,76 +337,103 @@ class ilTemplate extends HTML_Template_ITX
      */
     protected function getTemplatePath(string $a_tplname, string $a_in_module = ''): string
     {
-        $ilias_root = realpath(__DIR__ . '/../../../../') . '/';
-
-        if (str_starts_with($a_in_module, $ilias_root)) {
-            $a_in_module = str_replace($ilias_root, '', $a_in_module);
-        }
-
-        if (str_ends_with($a_in_module, '/')) {
-            $a_in_module = rtrim($a_in_module, '/');
-        }
-
-        $tpl_sub_path = '/templates/default/';
-        if (str_starts_with($a_tplname, 'components/ILIAS/UI/')) {
-            $a_in_module = 'components/ILIAS/UI/src';
-            $a_tplname = str_replace('components/ILIAS/UI/src/templates/default/', '', $a_tplname);
-        }
-
-        if (str_starts_with($a_tplname, $ilias_root)) {
-            $a_tplname = str_replace($ilias_root, '', $a_tplname);
-        }
-
-        // Special Cases for plugins
-        if (str_starts_with($a_tplname, 'Customizing/global/plugins/')) {
-            $a_tplname = "public/$a_tplname";
-        }
-
-        if (str_contains($a_tplname, 'public/Customizing/global/plugins')) {
-            $tpl_sub_path = '';
-        }
-
-        // Proceed with skin lookup
-        $base_path = $ilias_root;
-        $default = $base_path . $a_in_module . $tpl_sub_path . $a_tplname;
+        $ilias_root = realpath(__DIR__ . '/../../../../');
 
         $skin = $this->getCurrentSkin();
-        if ($skin === 'default') {
-            return $default;
-        }
-
         $style = $this->getCurrentStyle();
-        $base_skin_path = $ilias_root . 'public/Customizing/skin/' . $skin;
 
-        $paths = [
-            "$base_skin_path/$style/components/ILIAS/UI/src",
-            "$base_skin_path/$style/components/ILIAS/UI",
-            "$base_skin_path/$style/UI/src",
-            "$base_skin_path/$style/UI",
-            "$base_skin_path/components/ILIAS/UI/src",
-            "$base_skin_path/components/ILIAS/UI",
-            "$base_skin_path/UI/src",
-            "$base_skin_path/UI",
-        ];
+        $default_path = $ilias_root;
+        $skin_base_path = $ilias_root . '/public/Customizing/skin';
+        $skin_path = $skin_base_path . '/' . $skin;
+        $style_path = $skin_base_path . '/' . $skin . '/' . $style;
 
-        foreach ($paths as $path) {
-            if (is_dir($path)) {
-                $a_in_module = str_replace($base_skin_path . '/', '', $path);
-                break;
+        $is_custom_skin = !($skin === 'default' && $style === 'delos');
+
+        $template_type = 0;
+        $template_name = $a_tplname;
+        $component = $a_in_module;
+        $ui_component  = null;
+
+
+        /////////////////////////////////////////////////
+        /// Split & sort everything
+        ///
+        if(str_starts_with($component, 'components/')) {
+            $template_type = 1;
+        } else {
+            if($component === '' && str_contains($template_name, '/UI/')) {
+                $template_type = 2;
+
+                $template_name = substr($a_tplname, strrpos($a_tplname, '/') + 1);
+                $ui_path = str_replace('/' . $template_name, '', $a_tplname);
+
+                if(!str_ends_with($ui_path, '/templates/default')) {
+                    $ui_component = substr($ui_path, strrpos($ui_path, '/') + 1);
+                    $ui_path = str_replace('/' . $ui_component, '', $ui_path);
+                }
+
+                $component = str_replace('/templates/default', '', $ui_path);
             }
         }
 
-        $from_style = $base_skin_path . '/' . $style . '/' . $a_in_module . '/' . $a_tplname;
-        if ($this->fileexistsinskin($from_style)) {
-            return $from_style;
+        /////////////////////////////////////////////////
+        /// Build paths
+        ///
+        switch($template_type) {
+            case 1:         // Component Template
+                $default_path .= '/' . $component . '/templates/default';
+                $skin_path .= '/' . $component . '/';
+                $style_path .= '/' . $component . '/';
+                break;
+            case 2:         // UI-Framework Template
+                $default_path .= '/' . $component . '/templates/default';
+                if($ui_component !== null) {
+                    $default_path .= '/' . $ui_component;
+                }
+
+                break;
+            default:        // Basic Template
+                $default_path .= '/templates/default/';
+                break;
         }
 
-        $from_skin = $base_skin_path . '/' . $a_in_module . '/' . $a_tplname;
-        if ($this->fileexistsinskin($from_skin)) {
-            return $from_skin;
+        /////////////////////////////////////////////////
+        /// Return default template
+        ///
+        if (!$is_custom_skin) {
+            return $default_path . $template_name;
         }
 
-        return $default;
+        /////////////////////////////////////////////////
+        /// Return custom skins template or fallback
+        ///
+        $custom_skin_UI_paths = [
+            "$style_path/components/ILIAS/UI/src/",
+            "$style_path/components/ILIAS/UI",
+            "$style_path/UI/src",
+            "$style_path/UI",
+            "$skin_path/components/ILIAS/UI/src",
+            "$skin_path/components/ILIAS/UI",
+            "$skin_path/UI/src",
+            "$skin_path/UI",
+        ];
+
+        if($template_type === 2) {
+            foreach ($custom_skin_UI_paths as $custom_skin_UI_path) {
+                if ($this->fileexistsinskin($custom_skin_UI_path . $template_name)) {
+                    return $style_path . $template_name;
+                }
+            }
+        } else {
+            if ($this->fileexistsinskin($style_path . $template_name)) {
+                return $style_path . $template_name;
+            }
+            if ($this->fileexistsinskin($skin_path . $template_name)) {
+                return $skin_path . $template_name;
+            }
+        }
+
+        return $default_path .$template_name;
     }
 
     /**
