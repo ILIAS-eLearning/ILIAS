@@ -2543,7 +2543,8 @@ book#:#book_all_pools_need_schedules#:#Die Änderungen wurden nicht gespeichert.
 book#:#book_all_users#:#Alle Personen
 book#:#book_assign#:#Buchen
 book#:#book_assign_object#:#Für diese Person buchen
-book#:#book_assign_participant#:#Für andere Personen buchen
+book#:#book_assign_participant#:#Für andere Person buchen
+book#:#book_assign_participants#:#Für andere Person(en) buchen
 book#:#book_back_to_list#:#Zurück zur Liste
 book#:#book_bobj#:#Angebote
 book#:#book_book#:#Buchen
@@ -2565,9 +2566,13 @@ book#:#book_confirm_booking_schedule_number_of_objects#:#Buchungsbestätigung
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Bitte wählen Sie die Anzahl der zu buchenden Angebote.
 book#:#book_confirm_cancel#:#Sind Sie sicher, dass Sie die folgenden Buchungen stornieren möchten?
 book#:#book_confirm_cancel_aggregation#:#Anzahl Stornierungen
-book#:#book_confirm_delete#:#Sind Sie sicher, dass Sie die folgenden Angebote löschen wollen?
+book#:#book_confirm_cancel_info#:#Die ausgewählten Buchungen werden storniert.
+book#:#book_confirm_delete#:#Sind Sie sicher, dass Sie die folgenden Angebote löschen wollen inklusive aller zugehörigen Zeitfenster? Dabei werden auch alle zugehörigen Buchungen gelöscht.
+book#:#book_confirm_remove_participant#:#Sind Sie sicher, dass Sie die folgende(n) Teilnehmer entfernen wollen? Dabei werden alle zugehörigen Buchungen gelöscht.
 book#:#book_copy#:#Buchungspool kopieren
 book#:#book_create_objects#:#Angebote erstellen
+book#:#book_date_from#:#Von Datum
+book#:#book_date_to#:#Bis Datum
 book#:#book_deadline#:#Deadline
 book#:#book_deadline_hours#:#Bis n Stunden vor Beginn des Zeitfensters
 book#:#book_deadline_info#:#Minimale Zeit zwischen Buchung und Buchungszeitraum
@@ -2575,11 +2580,18 @@ book#:#book_deadline_options#:#Spätester Buchungszeitpunkt
 book#:#book_deadline_slot_end#:#Bis zum Ende des Zeitfensters
 book#:#book_deadline_slot_start#:#Bis zum Beginn des Zeitfensters
 book#:#book_deassign#:#Buchungen bearbeiten
+book#:#book_delete_object#:#Löschen
+book#:#book_deleted_booking#:#Gelöschte Buchung(en)
+book#:#book_deleted_object#:#Gelöschtes buchbares Objekt
 book#:#book_download_info#:#Zusätzliche Beschreibung herunterladen
 book#:#book_edit#:#Buchungspool bearbeiten
 book#:#book_edit_object#:#Angebot bearbeiten
 book#:#book_edit_schedule#:#Zeitplan bearbeiten
+book#:#book_filter_end_date#:#Enddatum
+book#:#book_filter_objects#:#Buchbare Objekte
 book#:#book_filter_past_reservations#:#Abgelaufene Buchungen anzeigen
+book#:#book_filter_period#:#Zeitraum
+book#:#book_filter_start_date#:#Startdatum
 book#:#book_fromto#:#Datumsbereich
 book#:#book_hours#:#Stunden vor Beginn des Zeitfensters
 book#:#book_is_used#:#In Benutzung
@@ -2594,14 +2606,23 @@ book#:#book_messages#:#Mitteilungen
 book#:#book_messages_info#:#Buchende können einer Buchung eine Mitteilung mitgeben.
 book#:#book_missing_availability#:#Es können leider nicht alle Termine gebucht werden.
 book#:#book_missing_items#:#Es fehlen $1.
+book#:#book_modal_booking_confirmation#:#Buchungsbestätigung
+book#:#book_modal_enter_quantity_intro#:#Bitte geben Sie die Anzahl der Buchungen ein.
+book#:#book_modal_recurrence#:#Wiederholung
+book#:#book_modal_recurrence_multiple#:#Mehrere Termine buchen
+book#:#book_modal_recurrence_single#:#Nur diesen Termin buchen
+book#:#book_modal_skipped_unknown_item#:#Unbekannte oder ungültige Auswahl (%s).
+book#:#book_modal_warning_skipped_selections#:#Einige ausgewählte Angebote oder Termine sind nicht buchbar und werden in dieser Buchungsbestätigung nicht berücksichtigt.
 book#:#book_new#:#Neuen Buchungspool anlegen
 book#:#book_no_bookings_for_you#:#Es wurden keine Buchungen für Sie durchgeführt.
 book#:#book_no_objects#:#Keine Buchungen
+book#:#book_no_objects_available#:#Keines der ausgewählten Angebote ist derzeit für eine Buchung verfügbar.
 book#:#book_no_of_objects#:#Anzahl Angebote
 book#:#book_no_pools_selected#:#Diesem Kurs ist kein Buchungspool zugewiesen. Buchungspools können über den Reiter „Ressourcen“ des Kurses zugewiesen werden.
 book#:#book_no_preferences_for_you#:#Sie haben keine Präferenzen abgespeichert.
 book#:#book_no_recurrence#:#Nur diesen Termin buchen
 book#:#book_not#:#Nicht
+book#:#book_not_cancelled#:#Nicht storniert
 book#:#book_not_enough_preferences#:#Sie haben nicht genügend Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
 book#:#book_notification#:#Benachrichtigungen über Reservierungen
 book#:#book_notification_cron_not_active#:#Achtung: Der notwendige Cron-Job "Benachrichtigungen über Reservierungen" ist zurzeit nicht aktiviert.
@@ -2613,13 +2634,18 @@ book#:#book_obj_select#:#Auswählen
 book#:#book_object_added#:#Ein Angebot wurde hinzugefügt.
 book#:#book_object_deleted#:#Das Angebot wurde gelöscht.
 book#:#book_object_selection#:#Angebotsauswahl
+book#:#book_object_title_or_description#:#Titel/Beschreibung
 book#:#book_object_updated#:#Das Angebot wurde geändert.
 book#:#book_objects_available#:#Verfügbare Angebote: %s
 book#:#book_open#:#Buchungspool öffnen
 book#:#book_overall_limit#:#Gesamtzahl der Buchungen pro Benutzer begrenzen
 book#:#book_overall_limit_warning#:#Sie haben die maximale Anzahl Buchungen erreicht.
+book#:#book_overall_limit_would_be_exceeded#:#Ungültige Auswahl. Die Gesamtzahl der Buchungen würde überschritten werden.
+book#:#book_participant#:#Teilnehmer
 book#:#book_participant_already_assigned#:#Mindestens eine Person war bereits zugewiesen.
 book#:#book_participant_assigned#:#Die Personen wurden hinzugefügt.
+book#:#book_participant_removed#:#Die Teilnehmer und alle zugehörigen Buchungen wurden erfolgreich entfernt.
+book#:#book_past_bookings#:#Vergangene Buchungen
 book#:#book_period#:#Dauer
 book#:#book_pool_added#:#Ein Buchungspool wurde angelegt.
 book#:#book_pool_selection#:#Auswahl Buchungspool
@@ -2635,6 +2661,7 @@ book#:#book_pref_overview#:#Übersicht
 book#:#book_preference_info#:#Bitte wählen Sie %1 Präferenzen bis %2. Nach der Frist werden die Angebote automatisch zugeordnet. Die Präferenzen aller Beteiligten werden nach Möglichkeit berücksichtigt.
 book#:#book_preferences#:#Präferenzen
 book#:#book_preferences_saved#:#Die Präferenzen wurden gespeichert.
+book#:#book_present_bookings#:#Aktuelle und zukünftige Buchungen
 book#:#book_public_log#:#Benutzer sehen alle Buchungen
 book#:#book_public_log_info#:#Benutzer mit Leserecht können im Reiter „Buchungen“ auch Buchungen anderer Benutzer einsehen.
 book#:#book_recurrence#:#Wiederholung
@@ -2645,14 +2672,16 @@ book#:#book_reminder_day#:#Versenden
 book#:#book_reminder_day_info#:#Sendet eine Liste eigener anstehender Buchungen und zusätzlich eine Gesamtliste an Personen mit dem Recht „Einstellungen bearbeiten“. Bitte beachten Sie: Um Benachrichtigungen zu erhalten, müssen die Personen diese über das Menü „Aktionen“ oben rechts im Buchungspool „Benachrichtigungen“ aktiviert haben.
 book#:#book_reminder_days#:#Tage vor der Buchung
 book#:#book_reminder_setting#:#Per Mail an eigene Buchung erinnern
+book#:#book_remove_participants#:#Teilnehmer entfernen
 book#:#book_rerun_assignments#:#Zuweisungen erneut durchführen
 book#:#book_rerun_confirmation#:#Achtung. Die Zuweisung nach Präferenzen ist bereits erfolgt. In seltenen Fällen kann ein Abbruch des Prozesses zu keinen oder unvollständigen Buchungen führen und ein erneutes Starten des Prozesses notwendig machen. Bevor sie den automatischen Prozess erneut starten, müssen sie alle bestehenden Buchungen entfernen, um Mehrfachzuweisungen zu verhindern.
 book#:#book_reservation_available#:#%s verfügbar
+book#:#book_reservation_cancelled#:#Buchung(en) storniert.
 book#:#book_reservation_confirmed#:#Die Buchung wurde erfolgreich durchgeführt.
 book#:#book_reservation_failed#:#Die Buchung ist fehlgeschlagen.
 book#:#book_reservation_failed_overbooked#:#Die Buchung ist fehlgeschlagen, da das betreffende Angebot nicht mehr verfügbar ist.
-book#:#book_reservation_filter_period#:#Voreinstellung für den Filter „Datumsbereich“
-book#:#book_reservation_filter_period_info#:#Im Reiter „Buchungen“ wird der Filter „Datumsbereich“ auf diesen Wert ab dem aktuellen Datum voreingestellt.
+book#:#book_reservation_filter_period#:#Voreinstellung für den Filter Zeitraum
+book#:#book_reservation_filter_period_info#:#Im Reiter „Buchungen“ und "Angebote" wird der Filter „Zeitraum“ auf diesen Wert ab dem aktuellen Datum voreingestellt. Bei einem Wert von "0" wird kein Filter gesetzt.
 book#:#book_reservation_fix_info#:#Buchungen können nur für die Zeitfenster durchgeführt werden, die unten als verfügbar angegeben werden.
 book#:#book_reservation_overview#:#Buchungen aller Benutzer
 book#:#book_reservation_status_5#:#Storniert
@@ -2680,17 +2709,28 @@ book#:#book_select_pool#:#Pool auswählen
 book#:#book_set_cancel#:#Stornieren
 book#:#book_set_delete#:#Löschen
 book#:#book_show_message#:#Mitteilung anzeigen
+book#:#book_show_past_bookings#:#Abgelaufene Buchungen anzeigen
+book#:#book_some_reservations_unavailable#:#Einige der ausgewählten Angebote konnten nicht gebucht werden, da sie nicht mehr verfügbar sind.
+book#:#book_table#:#Tabelle
+book#:#book_table_col_availability#:#Verfügbarkeit
+book#:#book_table_col_datetime#:#Datum/Uhrzeit
 book#:#book_title_description_nr#:#Titel; Beschreibung; Anzahl
 book#:#book_title_description_nr_info#:#Geben Sie bitte Titel, Beschreibung und Anzahl getrennt durch ein Semikolon oder TAB ein. Nutzen Sie einen Zeile je Buchungsobjekt.
 book#:#book_too_many_preferences#:#Sie haben zu viele Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
 book#:#book_total_individual_bookings_limit#:#Begrenze die Gesamtanzahl an Buchungen, die von/für einzelne Teilnehmende durchgeführt werden können – über alle verfügbaren Objekte hinweg. Jedes buchbare Objekt kann dabei weiterhin nur einmal pro Teilnehmendem gebucht werden.
 book#:#book_type_warning#:#Es sind momentan keine Angebote vorhanden. Um den Pool nutzen zu können, müssen zuerst Angebote angelegt werden.
+book#:#book_view#:#Ansicht
 book#:#book_week#:#Wochenansicht
+book#:#book_week_no_objects_selected#:#Wählen Sie rechts unter ‘Angebotsauswahl‘ mindestens ein Angebot aus und klicken Sie auf den Button ‘Aktualisieren‘.
 book#:#book_your_bookings#:#Ihre Buchungen
 book#:#book_your_preferences#:#Ihre Präferenzen
 book#:#book_your_reservations#:#Ihre Buchungen
 book#:#booking_multiple_succesfully#:#Buchungen erfolgreich durchgeführt
 book#:#booking_nr_of_items#:#Anzahl
+book#:#booking_process_error#:#Bei der Verarbeitung Ihrer Buchung(en) ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.
+book#:#bookings_log#:#Buchungen
+book#:#delete_bookable_item#:#Löschen des Angebots
+book#:#no_valid_selection#:#Keine gültige Auswahl
 book#:#obj_book_duplicate#:#Buchungspool kopieren
 book#:#participants#:#Personen
 book#:#reservation_deleted#:#Buchung gelöscht

@@ -2544,7 +2544,8 @@ book#:#book_all_pools_need_schedules#:#Settings not saved. All selected booking 
 book#:#book_all_users#:#All Participants
 book#:#book_assign#:#Book
 book#:#book_assign_object#:#Book Items for Participant
-book#:#book_assign_participant#:#Book for Other Participant(s)
+book#:#book_assign_participant#:#Book for Other Participant
+book#:#book_assign_participants#:#Book for other Participant(s)
 book#:#book_back_to_list#:#Back to List
 book#:#book_bobj#:#Bookable Item
 book#:#book_book#:#Book
@@ -2566,9 +2567,13 @@ book#:#book_confirm_booking_schedule_number_of_objects#:#Booking Confirmation
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Please enter the number of items that you would like to book.
 book#:#book_confirm_cancel#:#Are you sure you want to cancel the following booking(s)?
 book#:#book_confirm_cancel_aggregation#:#Number of Cancellations
-book#:#book_confirm_delete#:#Are you sure you want to delete the following items?
+book#:#book_confirm_cancel_info#:#The selected bookings will be cancelled.
+book#:#book_confirm_delete#:#Are you sure you want to delete the following items including all related time slots? This will also delete all related Bookings.
+book#:#book_confirm_remove_participant#:#Are you sure you want to remove the following Participant(s)? This will delete all related Bookings.
 book#:#book_copy#:#Copy Booking Pool
 book#:#book_create_objects#:#Create Items
+book#:#book_date_from#:#From date
+book#:#book_date_to#:#To date
 book#:#book_deadline#:#Deadline
 book#:#book_deadline_hours#:#X hours before time slot begins
 book#:#book_deadline_info#:#Minimum time between booking and booked period
@@ -2576,11 +2581,18 @@ book#:#book_deadline_options#:#Bookings Can Be Made Until:
 book#:#book_deadline_slot_end#:#Time slot ends
 book#:#book_deadline_slot_start#:#Time slot begins
 book#:#book_deassign#:#Edit Bookings
+book#:#book_delete_object#:#Delete
+book#:#book_deleted_booking#:#Deleted Booking(s)
+book#:#book_deleted_object#:#Deleted Bookable Item
 book#:#book_download_info#:#Download Additional Description
 book#:#book_edit#:#Edit Booking Pool
 book#:#book_edit_object#:#Edit Bookable Item
 book#:#book_edit_schedule#:#Edit Schedule
+book#:#book_filter_end_date#:#End Date
+book#:#book_filter_objects#:#Bookable Items
 book#:#book_filter_past_reservations#:#Show Past Bookings
+book#:#book_filter_period#:#Period
+book#:#book_filter_start_date#:#Start Date
 book#:#book_fromto#:#Date Range
 book#:#book_hours#:#Hours before start of timeslot.
 book#:#book_is_used#:#In Use
@@ -2595,14 +2607,23 @@ book#:#book_messages#:#Messages
 book#:#book_messages_info#:#Allow users to add a message when booking an item.
 book#:#book_missing_availability#:#It was not possible to book all items on all dates.
 book#:#book_missing_items#:#$1 missing item(s).
+book#:#book_modal_booking_confirmation#:#Booking Confirmation
+book#:#book_modal_enter_quantity_intro#:#Please enter the number of items that you would like to book.
+book#:#book_modal_recurrence#:#Recurrence
+book#:#book_modal_recurrence_multiple#:#Book multiple dates
+book#:#book_modal_recurrence_single#:#Book only this date
+book#:#book_modal_skipped_unknown_item#:#Unknown or invalid selection (%s).
+book#:#book_modal_warning_skipped_selections#:#Some selected items or periods are not available for booking and are excluded from this confirmation.
 book#:#book_new#:#New Booking Pool
 book#:#book_no_bookings_for_you#:#No bookings have been made for you.
 book#:#book_no_objects#:#No Bookings
+book#:#book_no_objects_available#:#None of the selected items are currently available for booking.
 book#:#book_no_of_objects#:#No. of Units
 book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.
 book#:#book_no_preferences_for_you#:#No preferences have been recorded for you.
 book#:#book_no_recurrence#:#Book only this date
 book#:#book_not#:#Not
+book#:#book_not_cancelled#:#Not cancelled
 book#:#book_not_enough_preferences#:#You have not selected enough preferences. Your preferences have not been saved.
 book#:#book_notification#:#Send Booking Notifications
 book#:#book_notification_cron_not_active#:#Note: The necessary cron job, 'Send Reservation Notifications', is currently not active.
@@ -2614,13 +2635,18 @@ book#:#book_obj_select#:#Select
 book#:#book_object_added#:#Bookable item added.
 book#:#book_object_deleted#:#Bookable item deleted.
 book#:#book_object_selection#:#Item Selection
+book#:#book_object_title_or_description#:#Title/Description
 book#:#book_object_updated#:#Bookable item updated.
 book#:#book_objects_available#:#Items available %s
 book#:#book_open#:#Open Booking Pool
 book#:#book_overall_limit#:#Limit Total Number of Bookings per User
 book#:#book_overall_limit_warning#:#You have reached the maximum number of bookings allowed.
+book#:#book_overall_limit_would_be_exceeded#:#Invalid selection. The overall limit would be exceeded.
+book#:#book_participant#:#Participant
 book#:#book_participant_already_assigned#:#One or more participants have already been added.
 book#:#book_participant_assigned#:#Participant(s) added.
+book#:#book_participant_removed#:#The participants and all related bookings have been removed successfully.
+book#:#book_past_bookings#:#Past bookings
 book#:#book_period#:#Period
 book#:#book_pool_added#:#Booking pool successfully created.
 book#:#book_pool_selection#:#Booking Pool Selection
@@ -2636,6 +2662,7 @@ book#:#book_pref_overview#:#Overview
 book#:#book_preference_info#:#Please select %1 preference(s) by %2. After this deadline, bookings will be allocated automatically, taking into consideration the preferences of all users.
 book#:#book_preferences#:#Preferences
 book#:#book_preferences_saved#:#Your preferences have been saved.
+book#:#book_present_bookings#:#Present bookings
 book#:#book_public_log#:#Bookings Visible to All Participants
 book#:#book_public_log_info#:#Users with the ‘Read’ permission are able to see the bookings of the other participants in the ‘Bookings’ tab.
 book#:#book_recurrence#:#Recurrence
@@ -2646,14 +2673,16 @@ book#:#book_reminder_day#:#Send Reminder
 book#:#book_reminder_day_info#:#Send list of own bookings to users and full list of all upcoming bookings to admins. Please note: in order to receive reminders, users need to have activated notifications via the ‘Actions’ menu at the top right-hand corner of the booking pool.
 book#:#book_reminder_days#:#day(s) before time-slot of booking
 book#:#book_reminder_setting#:#Reminder
+book#:#book_remove_participants#:#Remove Participant(s)
 book#:#book_rerun_assignments#:#Run Allocation Process
 book#:#book_rerun_confirmation#:#Attention. The process of allocating bookings according to preferences has already taken place. You may restart the process if any errors have occurred, e.g. no bookings have been saved. To prevent multiple allocations, please delete all existing bookings before restarting the process.
 book#:#book_reservation_available#:#%s available
+book#:#book_reservation_cancelled#:#Reservation(s) cancelled.
 book#:#book_reservation_confirmed#:#Your booking has been confirmed.
 book#:#book_reservation_failed#:#It was not possible to confirm your booking.
 book#:#book_reservation_failed_overbooked#:#Your booking failed because the bookable item in question is no longer available.
-book#:#book_reservation_filter_period#:#Default Value for ‘Date Range’ Filter
-book#:#book_reservation_filter_period_info#:#The default value for the ‘Date Range’ filter in the ‘Bookings’ tab (in days from the current date).
+book#:#book_reservation_filter_period#:#Default Value for ’Period’ Filter
+book#:#book_reservation_filter_period_info#:#The default value for the ‘Period’ filter in the ‘Bookings’ and 'Bookable Items' tab (in days from the current date). With a value '0'  no filter is set.
 book#:#book_reservation_fix_info#:#Bookings can only be made for the time slots shown as available below.
 book#:#book_reservation_overview#:#Bookings Overview
 book#:#book_reservation_status_5#:#Cancelled
@@ -2681,17 +2710,28 @@ book#:#book_select_pool#:#Select Pool
 book#:#book_set_cancel#:#Cancel Booking
 book#:#book_set_delete#:#Delete Booking
 book#:#book_show_message#:#Show Message
+book#:#book_show_past_bookings#:#Show past bookings
+book#:#book_some_reservations_unavailable#:#Some of the selected items could not be booked because they are no longer available.
+book#:#book_table#:#Table
+book#:#book_table_col_availability#:#Availability
+book#:#book_table_col_datetime#:#Date/Time
 book#:#book_title_description_nr#:#Title; Description; Number of Units
 book#:#book_title_description_nr_info#:#Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item.
 book#:#book_too_many_preferences#:#You have selected too many preferences. Your preferences have not been saved.
 book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.
 book#:#book_type_warning#:#There are currently no bookable items available. Please create some bookable items to be able to use this booking pool.
+book#:#book_view#:#View
 book#:#book_week#:#Week
+book#:#book_week_no_objects_selected#:#Select at least one Bookable Item at the ‘Item Selection’ section on the right and click the ‘Refresh’ button.
 book#:#book_your_bookings#:#Your Bookings
 book#:#book_your_preferences#:#Your Preferences
 book#:#book_your_reservations#:#Your Bookings
 book#:#booking_multiple_succesfully#:#Bookings successfully carried out.
 book#:#booking_nr_of_items#:#Number of Items
+book#:#booking_process_error#:#There was an error while processing your booking(s). Please try again.
+book#:#bookings_log#:#Bookings
+book#:#delete_bookable_item#:#Delete Bookable Item
+book#:#no_valid_selection#:#No valid selection
 book#:#obj_book_duplicate#:#Copy Booking Pool
 book#:#participants#:#Participants
 book#:#reservation_deleted#:#Booking deleted.
