@@ -333,6 +333,42 @@ class ilTemplate extends HTML_Template_ITX
     }
 
     /**
+     * Resolves the full filesystem path to a template while taking into account
+     * UI framework structure, component hierarchy, and custom skin/style overrides.
+     *
+     * The method supports three template types:
+     *  - Basic templates (default templates without UI or component context)
+     *     <ilias-root>/templates/default/
+     *  - Component templates (templates inside ILIAS components)
+     *     <ilias-root>/components/ILIAS/<component>/templates/default/
+     *  - UI framework templates (templates from the ILIAS UI framework)
+     *     <ilias-root>/components/ILIAS/UI/src/templates/default/<ui-component>/
+     *
+     * Additionally, it checks whether a custom skin is active. If so, the method
+     * first looks for an overridden version of the template in the skin or style
+     * directories. If no matching override is found, it falls back to the default
+     * template.
+     *
+     * Search order when a custom skin is active:
+     *  1. Style/SubStyle-specific paths (UI and component)
+     *  2. Skin-specific paths (UI and component)
+     *  3. Default template (fallback)
+     *
+     * Special notes:
+     *  - UI framework templates are automatically detected via the "/UI/" path segment
+     *  - Component templates are determined via the `$a_in_module` parameter
+     *  - UI components can be resolved in a more granular way
+     *  - fileexistsinskin() is used to check for skin overrides
+     *
+     * @param string $a_tplname
+     *   Relative path to the template (e.g. "tpl.std.html" or full UI path)
+     *
+     * @param string $a_in_module
+     *   Optional module path of the component (e.g. "components/ILIAS/XYZ")
+     *
+     * @return string
+     *   Fully resolved filesystem path to the template (skin, style, or default)
+     *
      * @throws ilSystemStyleException
      */
     protected function getTemplatePath(string $a_tplname, string $a_in_module = ''): string
@@ -350,6 +386,9 @@ class ilTemplate extends HTML_Template_ITX
 
         $is_custom_skin = !($skin === 'default' && $style === 'delos');
 
+        $a_in_module = trim($a_in_module, '/');
+        $a_tplname = trim($a_tplname, '/');
+        
         $template_type = 0;
         $template_name = $a_tplname;
         $component = $a_in_module;
