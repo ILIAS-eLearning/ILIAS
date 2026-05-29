@@ -189,7 +189,6 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                 $this->addMultiCommand('rsvConfirmCancel', $lng->txt('book_set_cancel'));
             }
             if ($this->access->canManageAllReservations($this->ref_id)) {
-                $this->addMultiCommand('redirectMailToBooker', $lng->txt('book_mail_to_booker'));
                 $this->addMultiCommand('rsvConfirmDelete', $lng->txt('delete'));
             }
         }
@@ -379,9 +378,9 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                     ilBookingReservation::getUserFilter(array_keys($this->objects));
                 $item = $this->addFilterItemByMetaType("user", ilTable2GUI::FILTER_SELECT);
                 $item->setOptions($options);
-                if (is_array($a_filter_pre) && isset($a_filter_pre["user_id"])) {
-                    $item->setValue($a_filter_pre["user_id"]);
-                    $this->filter["user_id"] = $a_filter_pre["user_id"];
+                if (is_array($a_filter_pre) && isset($a_filter_pre["user"])) {
+                    $item->setValue($a_filter_pre["user"]);
+                    $this->filter["user_id"] = $a_filter_pre["user"];
                 } else {
                     $this->filter["user_id"] = $item->getValue();
                 }
@@ -718,10 +717,6 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
         if ($this->access->canManageAllReservations($this->ref_id)) {
             $ilCtrl->setParameter($this->parent_obj, 'reservation_id', $a_set['booking_reservation_id']);
-            $dd_items[] = $f->button()->shy(
-                $lng->txt('book_mail_to_booker'),
-                $ilCtrl->getLinkTarget($this->parent_obj, 'redirectMailToBooker')
-            );
             $dd_items[] = $f->button()->shy(
                 $lng->txt('delete'),
                 $ilCtrl->getLinkTarget($this->parent_obj, 'rsvConfirmDelete')
