@@ -476,7 +476,7 @@ class TestScreenGUI
             $this->user->update();
         }
 
-        $password = $result->value()['exam_password']->toString() ?? '';
+        $password = isset($result->value()['exam_password']) ? $result->value()['exam_password']->toString() : '';
         if ($password === $this->main_settings->getAccessSettings()->getPassword()) {
             \ilSession::set('tst_password_' . $this->object->getTestId(), $password);
         } else {
