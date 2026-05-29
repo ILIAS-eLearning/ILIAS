@@ -398,10 +398,10 @@ class ilTemplate extends HTML_Template_ITX
         /////////////////////////////////////////////////
         /// Split & sort everything
         ///
-        if(str_starts_with($component, 'components/')) {
-            $template_type = 1;
-        } elseif(str_contains($component, 'public/Customizing/global/plugins')) {
+        if(str_contains($component, 'public/Customizing/global/plugins')) {
             $template_type = 3;
+        } elseif(str_starts_with($component, 'components/')) {
+            $template_type = 1;
         } elseif($component === '' && str_contains($template_name, '/UI/')) {
             $template_type = 2;
 
@@ -432,7 +432,7 @@ class ilTemplate extends HTML_Template_ITX
                 if($component === '') {
                     return $template_name;
                 } else {
-                    return $component . '/templates/default/' . $template_name;
+                    return '/' . $component . '/templates/default/' . $template_name;
                 }
             default:        // Basic Template
                 $default_path .= '/templates/default/';
