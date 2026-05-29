@@ -388,7 +388,7 @@ class ilTemplate extends HTML_Template_ITX
 
         $a_in_module = trim($a_in_module, '/');
         $a_tplname = trim($a_tplname, '/');
-        
+
         $template_type = 0;
         $template_name = $a_tplname;
         $component = $a_in_module;
@@ -400,17 +400,17 @@ class ilTemplate extends HTML_Template_ITX
         ///
         if(str_starts_with($component, 'components/')) {
             $template_type = 1;
-        } else {
-            if($component === '' && str_contains($template_name, '/UI/')) {
-                $template_type = 2;
+        } elseif(str_contains($component, 'public/Customizing/global/plugins')) {
+            $template_type = 3;
+        } elseif($component === '' && str_contains($template_name, '/UI/')) {
+            $template_type = 2;
 
-                $template_name = substr($a_tplname, strrpos($a_tplname, '/') + 1);
-                $ui_path = str_replace('/' . $template_name, '', $a_tplname);
-                $ui_path = str_replace($ui_component_base_path . '/templates/default/', '', $ui_path);
-                $ui_component = trim($ui_path, '/');
+            $template_name = substr($a_tplname, strrpos($a_tplname, '/') + 1);
+            $ui_path = str_replace('/' . $template_name, '', $a_tplname);
+            $ui_path = str_replace($ui_component_base_path . '/templates/default/', '', $ui_path);
+            $ui_component = trim($ui_path, '/');
 
-                $component = $ui_component_base_path;
-            }
+            $component = $ui_component_base_path;
         }
 
         /////////////////////////////////////////////////
@@ -427,8 +427,9 @@ class ilTemplate extends HTML_Template_ITX
                 if($ui_component !== null) {
                     $default_path .= $ui_component . '/';
                 }
-
                 break;
+            case 3:         // Plugin Templates
+                return $default_path . '/' . $component . '/' . $template_name;
             default:        // Basic Template
                 $default_path .= '/templates/default/';
                 break;
@@ -445,7 +446,7 @@ class ilTemplate extends HTML_Template_ITX
         /// Return custom skins template or fallback
         ///
         $custom_skin_UI_paths = [
-            "$style_path/components/ILIAS/UI/src/",
+            "$style_path/components/ILIAS/UI/src",
             "$style_path/components/ILIAS/UI",
             "$style_path/UI/src",
             "$style_path/UI",
@@ -457,8 +458,8 @@ class ilTemplate extends HTML_Template_ITX
 
         if($template_type === 2) {
             foreach ($custom_skin_UI_paths as $custom_skin_UI_path) {
-                if ($this->fileexistsinskin($custom_skin_UI_path . $template_name)) {
-                    return $style_path . $template_name;
+                if ($this->fileexistsinskin($custom_skin_UI_path . '/' . $ui_component . '/' . $template_name)) {
+                    return $custom_skin_UI_path . '/' . $ui_component . '/' . $template_name;
                 }
             }
         } else {
