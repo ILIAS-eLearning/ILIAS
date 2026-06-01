@@ -75,7 +75,7 @@ class PlainTextFallbackResponder
             ->setTimezone(new DateTimeZone('UTC'))
             ->format('Y-m-d\TH:i:s\Z');
 
-        echo ($status_message ?? 'Internal Server Error') . "\n";
+        echo ($public_message ?? 'Internal Server Error') . "\n";
         echo "Incident: $incident_id\n";
         echo "Timestamp: $timestamp\n";
 
