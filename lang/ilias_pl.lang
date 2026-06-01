@@ -310,6 +310,10 @@ administration#:#restoring_trash#:#Odtwarzanie kosza...
 administration#:#restoring_unbound_objs#:#Odtwarzanie niepodłączonych obiektów i podobiektów...
 administration#:#reuse_of_loginnames_contained_in_history#:#Ponowne użycie nazw użytkownika
 administration#:#reuse_of_loginnames_contained_in_history_info#:#Jeśli ta opcja jest aktywna, można ponownie używać nazw użytkownika zapisanych w historii.
+administration#:#rpc_pdf_configuration#:#PDF Configuration###26 05 2026 new variable
+administration#:#rpc_pdf_font#:#Fonts###26 05 2026 new variable
+administration#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than ‘Helvetica’ and ‘unifont’ must be installed on the ILIAS server.###26 05 2026 new variable
+administration#:#rpc_pdf_generation#:#Fonts for PDF Generation###26 05 2026 new variable
 administration#:#scan#:#Skanuj
 administration#:#scan_desc#:#Skanowanie systemu w poszukiwaniu uszkodzonych/błędnych/brakujących/niepodłączonych obiektów.
 administration#:#scan_details#:#Szczegóły skanowania
@@ -1471,6 +1475,7 @@ assessment#:#tst_eval_total_passed_average_points#:#Średnia punktów wykonanych
 assessment#:#tst_eval_total_passed_average_time#:#Średni czas wykonania wszystkich wykonanych testów
 assessment#:#tst_eval_total_persons#:#Ilość osób, które przystąpiły do testu
 assessment#:#tst_exam_access_code#:#Access Code###26 08 2024 new variable
+assessment#:#tst_exam_access_code_invalid_message#:#The code you provided is invalid.###26 05 2026 new variable
 assessment#:#tst_exam_access_code_label#:#Enter access code to continue your already started test.###26 08 2024 new variable
 assessment#:#tst_exam_conditions#:#Exam Conditions###26 08 2024 new variable
 assessment#:#tst_exam_conditions_label#:#Check to accept the conditions.###26 08 2024 new variable
@@ -1696,6 +1701,7 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#Uruchomiony pr
 assessment#:#tst_objective_progress_header#:#Postęp w celu dydaktycznym
 assessment#:#tst_objectives_progress_header#:#Postęp w celach dydaktycznych
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Ten test jest w stanie nieodwracalnym, ponieważ usunięto przyporządkowaną pulę pytań. Dlatego uczestnicy nie mogą już przeprowadzić.
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back.###26 05 2026 new variable
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Pytania dotyczące z powodzeniem przetworzonych celów dydaktycznych są opcjonalne.</b><br /><br />Chcesz przejść do innego pytania, które należy do już zaliczonego celu dydaktycznego.<br />Masz następujący wybór:<br /><br />Jeśli będziesz kontynuował, możesz przetworzyć pytania dotyczące tych celów dydaktycznych. Ponieważ dla tej próby wybrano nowe pytania, nie pobrano Twoich odpowiedzi z wcześniejszych prób. W przypadku ponownego przetwarzania pytań Twoje wyniki związane z celami dydaktycznymi mogą ulec pogorszeniu.<br /><br />Jeśli nie chcesz ponownie przetworzyć pytań, możesz się cofnąć. W takiej sytuacji pytania te nie będą uwzględnione przy ocenie.
 assessment#:#tst_out_of_time_message#:#You have reached the maximum allowed processing time of the test!###26 08 2024 new variable
 assessment#:#tst_participant#:#Uczestnicy
@@ -2919,9 +2925,12 @@ chatroom#:#chat_https_dhparam_info#:#Podaj tutaj ścieżkę bezwzględną serwer
 chatroom#:#chat_https_key_info#:#Podaj ścieżkę bezwzględną serwera dla osobistego kodu (np.: /etc/ssl/private/server.key).
 chatroom#:#chat_invitation#:#Zaproszenie od "[INVITER_NAME]" do pokoju czatu "[ROOM_NAME]"
 chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nZostałeś zaproszony do pokoju czatu:\nTytuł pokoju czatu: [ROOM_NAME]\nprzez: [INVITER_NAME]\nURL: [LINK]\n\nAby dołączyć do czatu, przejdź pod podany adres URL.
+chatroom#:#chat_invitation_modal_headline#:#Invitation to Chat Room###26 05 2026 new variable
+chatroom#:#chat_invitation_modal_section#:#Invite User###26 05 2026 new variable
 chatroom#:#chat_invitation_nc_inv_x#:#You have %s chat invitations.###29 07 2022 new variable
 chatroom#:#chat_invitation_nc_no_inv#:#You have no chat invitations.###29 07 2022 new variable
 chatroom#:#chat_invitation_short#:#Kliknij na tytuł, aby wejść do po pokoju czatu.
+chatroom#:#chat_invitation_username_input_label#:#Enter Username:###26 05 2026 new variable
 chatroom#:#chat_invitations#:#Chat invitations###29 07 2022 new variable
 chatroom#:#chat_invite#:#Zaproś
 chatroom#:#chat_join#:#Wejdź
@@ -4429,7 +4438,6 @@ common#:#italic_action#:#Insert Italic - Click to insert italic text.###26 08 20
 common#:#item#:#Pozycja
 common#:#itgr_add#:#Dodaj sekcję obiektów
 common#:#itgr_new#:#Nowa sekcja obiektów
-common#:#java_server#:#Serwer Java
 common#:#java_server_host#:#Host
 common#:#java_server_info#:#Jeżeli aktywny, to można przeszukiwać pliki PDF, HTML i moduły nauczania HTML.
 common#:#java_server_port#:#Port
@@ -5494,9 +5502,6 @@ common#:#rolt_edit#:#Edytuj szablon roli
 common#:#rolt_new#:#Nowy szablon roli
 common#:#row#:#Wiersz
 common#:#rows#:#Wiersze
-common#:#rpc_pdf_font#:#Czcionki
-common#:#rpc_pdf_font_info#:#Dodatkowe czcionki do tworzenia plików PDF. Wszystkie dodatkowe czcionki muszą być zainstalowane na serwerze lub zostać rozpoznane przez serwer Java przy uruchomieniu.
-common#:#rpc_pdf_generation#:#Tworzenie pliku PDF
 common#:#sad#:#Sad
 common#:#sahs#:#Moduł nauczania SCORM/AICC
 common#:#sahs_added#:#Dodano moduł nauczania SCORM/AICC
@@ -5979,7 +5984,6 @@ common#:#webdav_chosen_language_already_used#:#There already is another document
 common#:#webdav_doc_delete#:#Delete WebDav Mount Instructions###07 02 2020 new variable
 common#:#webdav_docs_mount_instructions#:#Mount Instructions Documents###07 02 2020 new variable
 common#:#webdav_duplicate_detected_title#:#Following objects could not be displayed, because an object with the same Title is already being shown:###07 02 2020 new variable
-common#:#webdav_enable_versioning#:#File Versioning###07 02 2020 new variable
 common#:#webdav_forbidden_chars_title#:#Following files cannot be displayed, because they contain one or more forbidden characters (\<>/:*?"|#):###07 02 2020 new variable
 common#:#webdav_form_document#:#Instructions Document###07 02 2020 new variable
 common#:#webdav_form_document_info#:#Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information###07 02 2020 new variable
@@ -5998,7 +6002,6 @@ common#:#webdav_sure_delete_documents_s#:#Are you sure you want to delete the Mo
 common#:#webdav_tbl_docs_head_title#:#Dokument title###07 02 2020 new variable
 common#:#webdav_tbl_docs_title#:#List of uploaded WebDAV Mount Instructions###07 02 2020 new variable
 common#:#webdav_upload_instructions#:#Upload Instructions###07 02 2020 new variable
-common#:#webdav_versioning_info#:#If enabled, already existing files will get a new version instead of beeing overwritten.###07 02 2020 new variable
 common#:#webfolder_dir_info#:#Znajdujesz się tutaj, ponieważ Twoja przeglądarka nie potrafi otwierać folderów sieciowych. Przeczytaj <a href=”%1$s”>Instrukcję o otwieraniu folderu sieciowego</a>.
 common#:#webfolder_index_of#:#Treść %1$s
 common#:#webfolder_instructions#:#Instrukcja dotycząca folderu sieciowego
@@ -11171,7 +11174,6 @@ lso#:#lso_print_list#:#Print list
 lso#:#lso_read#:#User has read access to Learning Sequence
 lso#:#lso_search_users#:#Search user
 lso#:#lso_settings_availability#:#availability
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date###26 08 2024 new variable
 lso#:#lso_settings_extro#:#Exitpage Settings
 lso#:#lso_settings_intro#:#Intropage Settings
 lso#:#lso_settings_old_extro#:#View Old Exit Page###26 08 2024 new variable
@@ -14549,6 +14551,9 @@ rbac#:#positions_override_operations#:#Nadpisz ustawienia globalne
 rbac#:#precondition_not_obligatory_alt#:#Warunek wstępny jest opcjonalny
 rbac#:#precondition_num_obligatory#:#Liczba potrzebnych materiałów
 rbac#:#precondition_num_optional_info#:#Podaj minimalną liczbę materiałów, które są konieczne do spełnienia warunku wstępnego.
+rbac#:#precondition_number_of_required_materials_bigger_preconditions_number#:#The number of required materials must be less than the total number of preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_compulsory_items#:#The number of required materials must be greater than the number of compulsory preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_than_one#:#The number of required materials must be at least 1.###26 05 2026 new variable
 rbac#:#precondition_obligatory#:#Obowiązkowe
 rbac#:#precondition_obligatory_alt#:#Warunek wstępny musi być spełniony
 rbac#:#precondition_obligatory_info#:#Aby uzyskać dostęp, należy spełnić obowiązkowe warunki wstępne.

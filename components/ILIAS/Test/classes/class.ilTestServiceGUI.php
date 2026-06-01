@@ -522,29 +522,16 @@ class ilTestServiceGUI
 
     /**
      * Returns the user data for a test results output
-     *
-     * @param ilTestSession
-     * @param integer $user_id The user ID of the user
-     * @param boolean $overwrite_anonymity TRUE if the anonymity status should be overwritten, FALSE otherwise
-     * @return string HTML code of the user data for the test results
-     * @access public
      */
-    public function getAdditionalUsrDataHtmlAndPopulateWindowTitle($testSession, $active_id, $overwrite_anonymity = false): string
+    public function getAdditionalUsrDataHtmlAndPopulateWindowTitle(int $active_id, bool $overwrite_anonymity = false): string
     {
-        if (!is_object($testSession)) {
-            throw new InvalidArgumentException('Not an object, expected ilTestSession');
-        }
         $template = new ilTemplate("tpl.il_as_tst_results_userdata.html", true, true, "components/ILIAS/Test");
-        $user_id = $this->object->_getUserIdFromActiveId($active_id);
-        if (strlen(ilObjUser::_lookupLogin($user_id)) > 0) {
+        $user_id = ilObjTest::_getUserIdFromActiveId($active_id);
+        if (ilObjUser::_lookupLogin($user_id) !== '') {
             $user = new ilObjUser($user_id);
         } else {
             $user = new ilObjUser();
             $user->setLastname($this->lng->txt('deleted_user'));
-        }
-        $t = $testSession->getSubmittedTimestamp();
-        if (!$t) {
-            $t = $this->object->_getLastAccess($testSession->getActiveId());
         }
 
         if ($this->getObjectiveOrientedContainer()?->isObjectiveOrientedPresentationRequired()) {
@@ -556,7 +543,10 @@ class ilTestServiceGUI
         }
 
         $title_matric = "";
-        if (strlen($user->getMatriculation()) && (($this->object->getAnonymity() == false) || ($overwrite_anonymity))) {
+        if (
+            $user->getMatriculation() !== ''
+            && ($overwrite_anonymity || !$this->object->getAnonymity())
+        ) {
             $template->setCurrentBlock("matriculation");
             $template->setVariable("TXT_USR_MATRIC", $this->lng->txt("matriculation"));
             $template->setVariable("VALUE_USR_MATRIC", $user->getMatriculation());

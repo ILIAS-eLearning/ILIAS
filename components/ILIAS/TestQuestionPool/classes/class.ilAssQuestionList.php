@@ -604,7 +604,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
     private function orderAndLimitByQuestionType(
         array $questions
     ): array {
-        $direction = Order::DESC ? -1 : 1;
+        $direction = $this->order_direction === Order::DESC ? -1 : 1;
         usort(
             $questions,
             fn(array $a, array $b): int => $direction * ($a['question_type'] <=> $b['question_type'])

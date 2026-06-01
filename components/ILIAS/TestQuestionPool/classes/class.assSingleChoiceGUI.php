@@ -844,8 +844,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         foreach ($this->aggregateAnswers($relevantAnswers, $this->object->getAnswers()) as $ans) {
             $answers[] = [
                 'answer' => $ans['answertext'],
-                'frequency' => $ans['count_checked'],
-                'sanitized' => true
+                'frequency' => $ans['count_checked']
             ];
         }
 

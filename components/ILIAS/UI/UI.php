@@ -624,8 +624,6 @@ class UI implements Component\Component
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\OfComponent($this, "ui-examples", "assets");
         $contribute[Component\Resource\PublicAsset::class] = static fn() =>
-            new Component\Resource\NodeModule("@yaireo/tagify/dist/tagify.js");
-        $contribute[Component\Resource\PublicAsset::class] = static fn() =>
             new Component\Resource\NodeModule("@yaireo/tagify/dist/tagify.css");
         $contribute[Component\Resource\PublicAsset::class] = static fn() =>
             new Component\Resource\NodeModule("chart.js/dist/chart.umd.js");

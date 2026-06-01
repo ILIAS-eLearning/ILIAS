@@ -309,6 +309,10 @@ administration#:#restoring_trash#:#Ripristino degli oggetti del cestino...
 administration#:#restoring_unbound_objs#:#Ripristino degli oggetti scollegati...
 administration#:#reuse_of_loginnames_contained_in_history#:#Non riutilizzare i Nomi di Login
 administration#:#reuse_of_loginnames_contained_in_history_info#:#Se attivato, è consentito riutilizzare qualsiasi nome di accesso già salvato nella cronologia (anche se appartiene a un utente eliminato).
+administration#:#rpc_pdf_configuration#:#PDF Configuration###26 05 2026 new variable
+administration#:#rpc_pdf_font#:#Fonts###26 05 2026 new variable
+administration#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than ‘Helvetica’ and ‘unifont’ must be installed on the ILIAS server.###26 05 2026 new variable
+administration#:#rpc_pdf_generation#:#Fonts for PDF Generation###26 05 2026 new variable
 administration#:#scan#:#Scansione
 administration#:#scan_desc#:#Esamina il sistema alla ricerca di oggetti corrotti/non validi/dispersi/scollegati.
 administration#:#scan_details#:#Dettagli della scansione
@@ -1470,6 +1474,7 @@ assessment#:#tst_eval_total_passed_average_points#:#Punteggio medio dei test pas
 assessment#:#tst_eval_total_passed_average_time#:#Tempo medio di esecuzione di tutti i test positivi
 assessment#:#tst_eval_total_persons#:#Numero totale delle persone che hanno iniziato il test
 assessment#:#tst_exam_access_code#:#Access Code###30 04 2024 new variable
+assessment#:#tst_exam_access_code_invalid_message#:#The code you provided is invalid.###26 05 2026 new variable
 assessment#:#tst_exam_access_code_label#:#Enter access code to continue your already started test.###30 04 2024 new variable
 assessment#:#tst_exam_conditions#:#Exam Conditions###30 04 2024 new variable
 assessment#:#tst_exam_conditions_label#:#Check to accept the conditions.###30 04 2024 new variable
@@ -1695,6 +1700,7 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#Il passaggio a
 assessment#:#tst_objective_progress_header#:#Progresso dell’obiettivo di apprendimento
 assessment#:#tst_objectives_progress_header#:#Progresso degli obiettivi di apprendimento
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Questo test casuale è in uno stato irreparabile perché una o più raccolte di domande sono state eliminate. Pertanto i partecipanti non possono più effettuare i test.
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back.###26 05 2026 new variable
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b> La domanda relativa agli obiettivi di apprendimento già superati è facoltativa. </b> <br /> <br /> Desideri passare a una domanda relativa a un obiettivo di apprendimento già superato. <br /> Puoi scegliere: <br /> <br /> se procedi, puoi lavorare su queste domande. Le tue risposte da precedenti tentativi non sono state adottate, poiché per questo tentativo sono state selezionate nuove domande casuali. Lavorando su queste domande puoi anche peggiorare il risultato del tuo obiettivo di apprendimento. <br /> <br /> Se decidi di non lavorare su queste domande, puoi tornare indietro. In questo caso queste domande non saranno prese in considerazione nella valutazione.
 assessment#:#tst_out_of_time_message#:#You have reached the maximum allowed processing time of the test!###30 04 2024 new variable
 assessment#:#tst_participant#:#Participante
@@ -2918,9 +2924,12 @@ chatroom#:#chat_https_dhparam_info#:#Si prega di definire un percorso server ass
 chatroom#:#chat_https_key_info#:#Si prega di definire un percorso server assoluto al file di chiave privata (ad es.: /etc/ssl/private/server.key).
 chatroom#:#chat_invitation#:#Invito da
 chatroom#:#chat_invitation_long#:#Sei stato invitato da
+chatroom#:#chat_invitation_modal_headline#:#Invitation to Chat Room###26 05 2026 new variable
+chatroom#:#chat_invitation_modal_section#:#Invite User###26 05 2026 new variable
 chatroom#:#chat_invitation_nc_inv_x#:#You have %s chat invitations.###31 03 2023 new variable
 chatroom#:#chat_invitation_nc_no_inv#:#You have no chat invitations.###31 03 2023 new variable
 chatroom#:#chat_invitation_short#:#Fare clic sul collegamento del titolo per accedere alla chat room.
+chatroom#:#chat_invitation_username_input_label#:#Enter Username:###26 05 2026 new variable
 chatroom#:#chat_invitations#:#Chat invitations###31 03 2023 new variable
 chatroom#:#chat_invite#:#Invita
 chatroom#:#chat_join#:#Partecipa
@@ -4428,7 +4437,6 @@ common#:#italic_action#:#Insert Italic - Click to insert italic text.###30 04 20
 common#:#item#:#voce
 common#:#itgr_add#:#Aggiungi gruppo di elementi
 common#:#itgr_new#:#Nuovo gruppo di elementi
-common#:#java_server#:#Server Java
 common#:#java_server_host#:#Host
 common#:#java_server_info#:#Se attivato, è possibile cercare nei file PDF, HTML e nelle unita' didattiche HTML.
 common#:#java_server_port#:#Porta
@@ -5493,9 +5501,6 @@ common#:#rolt_edit#:#Modifica template di ruolo
 common#:#rolt_new#:#Nuovo template di ruolo
 common#:#row#:#Riga
 common#:#rows#:#Righe
-common#:#rpc_pdf_font#:#Fonti
-common#:#rpc_pdf_font_info#:#Caratteri aggiuntivi per la generazione di file PDF. Font diversi da "Helvetica" e "unifont" devono essere installati sul server ILIAS.
-common#:#rpc_pdf_generation#:#Genera PDF
 common#:#sad#:#Triste
 common#:#sahs#:#Modulo SCORM/AICC
 common#:#sahs_added#:#Aggiunto modulo SCORM/AICC
@@ -5978,7 +5983,6 @@ common#:#webdav_chosen_language_already_used#:#Esiste già un documento associat
 common#:#webdav_doc_delete#:#Elimina le istruzioni di montaggio di WebDav
 common#:#webdav_docs_mount_instructions#:#Documenti di istruzioni di montaggio
 common#:#webdav_duplicate_detected_title#:#I seguenti oggetti non possono essere mostrati, perchè esiste già un oggetto con lo stesso titolo:
-common#:#webdav_enable_versioning#:#Versioning del File
 common#:#webdav_forbidden_chars_title#:#I seguenti file non possono essere mostrati, perchè contengono uno o più caratteri non consentiti (\<>/:*?"|#):
 common#:#webdav_form_document#:#Istruzioni Documento
 common#:#webdav_form_document_info#:#Carica un file di testo o .html qui. Dopo il caricamento, il file verrà processato dopo l'upload.
@@ -5997,7 +6001,6 @@ common#:#webdav_sure_delete_documents_s#:#Siete sicuri di voler rimuovere le Ist
 common#:#webdav_tbl_docs_head_title#:#Titolo Docuemnto:
 common#:#webdav_tbl_docs_title#:#Lista di Istruzioni di Mount WebDAV caricati:
 common#:#webdav_upload_instructions#:#Istruzioni di Upload
-common#:#webdav_versioning_info#:#Se abilitata, i file esistenti riceveranno una nuova versione invece che essere sovrascritti.
 common#:#webfolder_dir_info#:#Sei qui perché il tuo browser non può aprire le cartelle web. Leggi le <a href="%1$s">istruzioni per aprire le cartelle web</a>.
 common#:#webfolder_index_of#:#Indice di %1$s
 common#:#webfolder_instructions#:#Istruzioni cartella web
@@ -11170,7 +11173,6 @@ lso#:#lso_print_list#:#Stampa l'elenco
 lso#:#lso_read#:#L'utente ha accesso in lettura alla sequenza di apprendimento
 lso#:#lso_search_users#:#Cerca utente
 lso#:#lso_settings_availability#:#Disponibilità
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date###28 11 2025 new variable
 lso#:#lso_settings_extro#:#Impostazioni della pagina di uscita
 lso#:#lso_settings_intro#:#Impostazioni della pagina introduttiva
 lso#:#lso_settings_old_extro#:#View Old Exit Page###31 03 2023 new variable
@@ -14548,6 +14550,9 @@ rbac#:#positions_override_operations#:#Ignora impostazioni globali
 rbac#:#precondition_not_obligatory_alt#:#La condizione preliminare è facoltativa
 rbac#:#precondition_num_obligatory#:#Numero di materiali richiesti
 rbac#:#precondition_num_optional_info#:#Si prega di inserire il numero minimo di materiali che è richiesto per soddisfare questa precondizione.
+rbac#:#precondition_number_of_required_materials_bigger_preconditions_number#:#The number of required materials must be less than the total number of preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_compulsory_items#:#The number of required materials must be greater than the number of compulsory preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_than_one#:#The number of required materials must be at least 1.###26 05 2026 new variable
 rbac#:#precondition_obligatory#:#Obbligatorio
 rbac#:#precondition_obligatory_alt#:#La condizione preliminare deve essere soddisfatta
 rbac#:#precondition_obligatory_info#:#Devono essere soddisfatte precondizioni obbligatorie per avere accesso.

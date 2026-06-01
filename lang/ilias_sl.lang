@@ -310,6 +310,10 @@ administration#:#restoring_trash#:#Restoring trash...
 administration#:#restoring_unbound_objs#:#Restoring unbound objects and sub-objects...
 administration#:#reuse_of_loginnames_contained_in_history#:#Reuse of Login Names
 administration#:#reuse_of_loginnames_contained_in_history_info#:#If activated, it is allowed to reuse any login name that is already saved in the history (even if it belongs to a deleted user).
+administration#:#rpc_pdf_configuration#:#PDF Configuration###26 05 2026 new variable
+administration#:#rpc_pdf_font#:#Fonts###26 05 2026 new variable
+administration#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than ‘Helvetica’ and ‘unifont’ must be installed on the ILIAS server.###26 05 2026 new variable
+administration#:#rpc_pdf_generation#:#Fonts for PDF Generation###26 05 2026 new variable
 administration#:#scan#:#Scan
 administration#:#scan_desc#:#Scan system for corrupted/invalid/missing/unbound objects.
 administration#:#scan_details#:#Scan details
@@ -1471,6 +1475,7 @@ assessment#:#tst_eval_total_passed_average_points#:#Povprečno število točk op
 assessment#:#tst_eval_total_passed_average_time#:#Povprečni čas obdelave vseh opravljenih testov
 assessment#:#tst_eval_total_persons#:#Skupno število udeležencev, ki so začeli s testom
 assessment#:#tst_exam_access_code#:#Access Code###26 08 2024 new variable
+assessment#:#tst_exam_access_code_invalid_message#:#The code you provided is invalid.###26 05 2026 new variable
 assessment#:#tst_exam_access_code_label#:#Enter access code to continue your already started test.###26 08 2024 new variable
 assessment#:#tst_exam_conditions#:#Exam Conditions###26 08 2024 new variable
 assessment#:#tst_exam_conditions_label#:#Check to accept the conditions.###26 08 2024 new variable
@@ -1696,6 +1701,7 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#Začetek oprav
 assessment#:#tst_objective_progress_header#:#Napredek pri učnem cilju
 assessment#:#tst_objectives_progress_header#:#Napredek pri učnih ciljih
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Ta naključni test je v nepopravljivem stanju, ker so bile priključene skupine vprašanj izbrisane. Zato udeleženci ne morejo nadaljevati z opravljanjem tega testa.
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back.###26 05 2026 new variable
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Vprašanja v zvezi z že uspešno obdelanimi učnimi cilji so neobvezna.</b><br /><br />Zdaj želite preiti na vprašanje, ki se nanaša na že opravljeni učni cilj.<br />Izberete lahko:<br /><br />Če nadaljujete, lahko obdelate vprašanja, povezana s temi učnimi cilji. Ker pa so bila za ta poskus izbrana nova vprašanja, vaši odgovori iz prejšnjih poskusov niso bili prevzeti. Ob ponovni obdelavi vprašanj lahko tudi poslabšate rezultat svojega učnega cilja.<br /><br />Če teh vprašanj ne želite ponoviti, se lahko vrnete. V tem primeru ta vprašanja ne bodo upoštevana pri oceni.
 assessment#:#tst_out_of_time_message#:#You have reached the maximum allowed processing time of the test!###26 08 2024 new variable
 assessment#:#tst_participant#:#Udeleženec
@@ -2919,9 +2925,12 @@ chatroom#:#chat_https_dhparam_info#:#Please define an absolute server path to a 
 chatroom#:#chat_https_key_info#:#Please define an absolute server path to the private key file (e.g..
 chatroom#:#chat_invitation#:#"[INVITER_NAME]" invites you into chat room "[ROOM_NAME]"
 chatroom#:#chat_invitation_long#:#[SALUTATION]  You have been invited to a chat room
+chatroom#:#chat_invitation_modal_headline#:#Invitation to Chat Room###26 05 2026 new variable
+chatroom#:#chat_invitation_modal_section#:#Invite User###26 05 2026 new variable
 chatroom#:#chat_invitation_nc_inv_x#:#You have %s chat invitations.###19 08 2022 new variable
 chatroom#:#chat_invitation_nc_no_inv#:#You have no chat invitations.###19 08 2022 new variable
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chat room.
+chatroom#:#chat_invitation_username_input_label#:#Enter Username:###26 05 2026 new variable
 chatroom#:#chat_invitations#:#Chat invitations###19 08 2022 new variable
 chatroom#:#chat_invite#:#Invite
 chatroom#:#chat_join#:#Join
@@ -4429,7 +4438,6 @@ common#:#italic_action#:#Insert Italic - Click to insert italic text.###26 08 20
 common#:#item#:#Pojem
 common#:#itgr_add#:#Dodaj blok objektov
 common#:#itgr_new#:#Nov blok objektov
-common#:#java_server#:#Strežnik Java
 common#:#java_server_host#:#Gostitelj
 common#:#java_server_info#:#Če je aktivirano, so možna iskanja v učnih modulih HTML kot tudi v datotekah PDF.
 common#:#java_server_port#:#Vrata
@@ -5494,9 +5502,6 @@ common#:#rolt_edit#:#Uredi predlogo vlog
 common#:#rolt_new#:#Nova predloga vlog
 common#:#row#:#Vrstica
 common#:#rows#:#Vrstice
-common#:#rpc_pdf_font#:#Vrste pisave
-common#:#rpc_pdf_font_info#:#Dodatne vrste pisave za ustvarjanje datotek PDF. Vse dodatno navedene vrste pisave je treba namestiti na strežnik ali z njimi seznaniti strežnik Java.
-common#:#rpc_pdf_generation#:#Izdelava PDF-a
 common#:#sad#:#Žalostno
 common#:#sahs#:#Učni modul SCORM
 common#:#sahs_added#:#Učni modul SCORM je ustvarjen
@@ -5979,7 +5984,6 @@ common#:#webdav_chosen_language_already_used#:#There already is another document
 common#:#webdav_doc_delete#:#Delete WebDav Mount Instructions
 common#:#webdav_docs_mount_instructions#:#Mount Instructions Documents
 common#:#webdav_duplicate_detected_title#:#Following objects could not be displayed, because an object with the same Title is already being shown
-common#:#webdav_enable_versioning#:#File Versioning
 common#:#webdav_forbidden_chars_title#:#Following files cannot be displayed, because they contain one or more forbidden characters (\<>/
 common#:#webdav_form_document#:#Instructions Document
 common#:#webdav_form_document_info#:#Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information
@@ -5998,7 +6002,6 @@ common#:#webdav_sure_delete_documents_s#:#Are you sure you want to delete the Mo
 common#:#webdav_tbl_docs_head_title#:#Dokument title
 common#:#webdav_tbl_docs_title#:#List of uploaded WebDAV Mount Instructions
 common#:#webdav_upload_instructions#:#Upload Instructions
-common#:#webdav_versioning_info#:#If enabled, already existing files will get a new version instead of beeing overwritten.
 common#:#webfolder_dir_info#:#Tukaj ste pristali, ker vaš brskalnik ne more odpreti spletnih map. Preberite <a href="%1$s">Navodilo za odpiranje te spletne mape</a>.
 common#:#webfolder_index_of#:#Vsebina %1$s
 common#:#webfolder_instructions#:#Navodilo za spletne mape
@@ -11171,7 +11174,6 @@ lso#:#lso_print_list#:#Ustvari seznam
 lso#:#lso_read#:#Bralni dostop do učnega zaporedja
 lso#:#lso_search_users#:#Išči uporabnika
 lso#:#lso_settings_availability#:#Razpoložljivost
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date###26 08 2024 new variable
 lso#:#lso_settings_extro#:#Uredi zaključno stran
 lso#:#lso_settings_intro#:#Uredi uvodno stran
 lso#:#lso_settings_old_extro#:#View Old Exitpage###19 08 2022 new variable
@@ -14549,6 +14551,9 @@ rbac#:#positions_override_operations#:#Prepiši globalne nastavitve
 rbac#:#precondition_not_obligatory_alt#:#Predpogoj je neobvezen
 rbac#:#precondition_num_obligatory#:#Število potrebnega gradiva
 rbac#:#precondition_num_optional_info#:#Vnesite minimalno število gradiva, potrebnega za izpolnitev tega predpogoja.
+rbac#:#precondition_number_of_required_materials_bigger_preconditions_number#:#The number of required materials must be less than the total number of preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_compulsory_items#:#The number of required materials must be greater than the number of compulsory preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_than_one#:#The number of required materials must be at least 1.###26 05 2026 new variable
 rbac#:#precondition_obligatory#:#Obvezno
 rbac#:#precondition_obligatory_alt#:#Predpogoj mora biti izpolnjen
 rbac#:#precondition_obligatory_info#:#Za pridobitev dostopa morajo biti izpolnjeni obvezni predpogoji.

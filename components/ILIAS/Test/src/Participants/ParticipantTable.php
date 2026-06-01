@@ -368,14 +368,17 @@ class ParticipantTable implements DataRetrieval
             'name' => $column_factory->text($this->lng->txt('name'))
                 ->withIsSortable(!$this->test_object->getAnonymity())
         ];
+
         if (!$this->test_object->getAnonymity()) {
-            $columns['login'] = $column_factory->text($this->lng->txt('login'))->withIsSortable(true);
+            $columns += [
+                'login' => $column_factory->text($this->lng->txt('login'))->withIsSortable(true),
+                'matriculation' => $column_factory->text($this->lng->txt('matriculation'))
+                    ->withIsOptional(true, false)
+                    ->withIsSortable(true)
+            ];
         }
 
         $columns += [
-            'matriculation' => $column_factory->text($this->lng->txt('matriculation'))
-                ->withIsOptional(true, false)
-                ->withIsSortable(true),
             'ip_range' => $column_factory->text($this->lng->txt('client_ip_range'))
                 ->withIsOptional(true, false)
                 ->withIsSortable(true),

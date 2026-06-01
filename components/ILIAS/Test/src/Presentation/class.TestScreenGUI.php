@@ -495,18 +495,27 @@ class TestScreenGUI
             $this->user->update();
         }
 
-        $password = $result->value()['exam_password']->toString() ?? '';
-        if ($password === $this->main_settings->getAccessSettings()->getPassword()) {
-            \ilSession::set('tst_password_' . $this->object->getTestId(), $password);
-        } else {
-            \ilSession::set('tst_password_' . $this->object->getTestId(), '');
-            $this->test_session->setPasswordChecked(false);
+        if ($this->main_settings->getAccessSettings()->getPasswordEnabled()) {
+            $this->checkPassword($result);
         }
 
         $this->ctrl->redirectByClass(
             (new \ilTestPlayerFactory($this->object))->getPlayerGUI()::class,
             \ilTestPlayerCommands::INIT_TEST
         );
+    }
+
+    private function checkPassword(
+        Result $result
+    ): void {
+        $password = $result->value()['exam_password']?->toString();
+        if ($password === $this->main_settings->getAccessSettings()->getPassword()) {
+            \ilSession::set('tst_password_' . $this->object->getTestId(), $password);
+            return;
+        }
+
+        \ilSession::set('tst_password_' . $this->object->getTestId(), '');
+        $this->test_session->setPasswordChecked(false);
     }
 
     private function testCanBeStarted(): bool

@@ -225,6 +225,20 @@ trait StdObjProperties
             );
         }
 
+        if (\in_array(\ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS, $services, true)) {
+            $position_settings = \ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType(
+                \ilObject::_lookupType($obj_id)
+            );
+            if ($position_settings->isActive()) {
+                $form = $this->checkbox(
+                    \ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
+                    $lng->txt('obj_orgunit_positions'),
+                    $lng->txt('obj_orgunit_positions_info'),
+                    \ilOrgUnitGlobalSettings::getInstance()->isPositionAccessActiveForObject($obj_id),
+                    !$position_settings->isChangeableForObject()
+                );
+            }
+        }
 
         return $form;
     }
@@ -242,6 +256,17 @@ trait StdObjProperties
         $key = \ilObjectServiceSettingsGUI::TAXONOMIES;
         if (in_array($key, $services)) {
             \ilContainer::_writeContainerSetting($obj_id, $key, (string) $this->getData($key));
+        }
+        // extended user access
+        if (\in_array(\ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS, $services, true)) {
+            $position_settings = \ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType(
+                \ilObject::_lookupType($obj_id)
+            );
+            if ($position_settings->isActive() && $position_settings->isChangeableForObject()) {
+                $orgu_object_settings = new \ilOrgUnitObjectPositionSetting($obj_id);
+                $orgu_object_settings->setActive($this->getData(\ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS));
+                $orgu_object_settings->update();
+            }
         }
     }
 

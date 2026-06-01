@@ -115,12 +115,6 @@ class ilObjWebDAVGUI extends ilObjectGUI
         $cb_prop->setChecked($this->object->isWebdavEnabled());
         $form->addItem($cb_prop);
 
-        $cb_prop = new ilCheckboxInputGUI($this->lng->txt("webdav_enable_versioning"), "enable_versioning_webdav");
-        $cb_prop->setValue('1');
-        $cb_prop->setInfo($this->lng->txt("webdav_versioning_info"));
-        $cb_prop->setChecked($this->object->isWebdavVersioningEnabled());
-        $form->addItem($cb_prop);
-
         $form->addCommandButton(self::SETTING_COMMANDS['save'], $this->lng->txt('save'));
 
         return $form;
@@ -152,7 +146,6 @@ class ilObjWebDAVGUI extends ilObjectGUI
         $form = $this->initSettingsForm();
         if ($form->checkInput()) {
             $this->object->setWebdavEnabled(($form->getInput('enable_webdav') === '1'));
-            $this->object->setWebdavVersioningEnabled(($form->getInput('enable_versioning_webdav') === '1'));
             $this->object->update();
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, self::SETTING_COMMANDS['edit']);

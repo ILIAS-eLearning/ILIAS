@@ -310,6 +310,10 @@ administration#:#restoring_trash#:#ごみ箱をリストア中...
 administration#:#restoring_unbound_objs#:#非連結オブジェクトとサブオブジェクトをリストア中...
 administration#:#reuse_of_loginnames_contained_in_history#:#ログイン名再利用禁止
 administration#:#reuse_of_loginnames_contained_in_history_info#:#有効にすると既存の履歴に保存されているいずれかのログイン名(削除済ユーザを含む)の再利用が可能になります。
+administration#:#rpc_pdf_configuration#:#PDF Configuration###26 05 2026 new variable
+administration#:#rpc_pdf_font#:#Fonts###26 05 2026 new variable
+administration#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than ‘Helvetica’ and ‘unifont’ must be installed on the ILIAS server.###26 05 2026 new variable
+administration#:#rpc_pdf_generation#:#Fonts for PDF Generation###26 05 2026 new variable
 administration#:#scan#:#スキャン
 administration#:#scan_desc#:#破損、無効、欠落、非連結のシステムオブジェクトをスキャンする。
 administration#:#scan_details#:#スキャン詳細
@@ -1471,6 +1475,7 @@ assessment#:#tst_eval_total_passed_average_points#:#テスト受験者平均点
 assessment#:#tst_eval_total_passed_average_time#:#総テスト受験者の平均処理時間
 assessment#:#tst_eval_total_persons#:#受験開始者合計数
 assessment#:#tst_exam_access_code#:#アクセスコード
+assessment#:#tst_exam_access_code_invalid_message#:#The code you provided is invalid.###26 05 2026 new variable
 assessment#:#tst_exam_access_code_label#:#既に開始したテストを続けるにはアクセスコードを入力
 assessment#:#tst_exam_conditions#:#試験条件
 assessment#:#tst_exam_conditions_label#:#条件を承諾するにはチエック
@@ -1696,6 +1701,7 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#テスト "%s"
 assessment#:#tst_objective_progress_header#:#学習目標進捗
 assessment#:#tst_objectives_progress_header#:#学習目標進捗
 assessment#:#tst_old_style_rnd_quest_set_broken#:#1個以上の接続された問題集が削除されてしまっているのでこのランダムテストは修復できない状態です。よって受験者はテストを続行することができません。
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back.###26 05 2026 new variable
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>すでにパスした学習目標に関係する問題はオプションです。</b><br /><br />すでにパスした学習目標に関係する問題をナビゲートしたい。<br />選択できます:<br /><br />進むにはこれらの問題を実行することができます。新しいランダム問題がこの試みで選択されていないので以前の回答からは選択されていません。この問題の実行中は学習目標結果も下方修正できます。<br /><br />この問題の実行をしないと確定すると後戻りできます。この場合に問題は評価へ考慮されません。
 assessment#:#tst_out_of_time_message#:#コノテストの処理時間上限値に達しました!
 assessment#:#tst_participant#:#受験者
@@ -2919,9 +2925,12 @@ chatroom#:#chat_https_dhparam_info#:#Diffie Hellmanパラメータの(例 生成
 chatroom#:#chat_https_key_info#:#プライベートキーへの絶対サーバパスを定義してください。(例: /etc/ssl/private/server.key).
 chatroom#:#chat_invitation#:#[INVITER_NAME] はチャットルーム[ROOM_NAME]"へ相対しています。
 chatroom#:#chat_invitation_long#:#[SALUTATION][BR][BR]チャットルーム[BR]Chat Room Title: [ROOM_NAME][BR]Invited by: [INVITER_NAME][BR]URL: [LINK][BR][BR]へ招待されました。[LINK][BR][BR]へ参加するには次のURLをフォローしてください。URL: [LINK]チャットルームへ参加するには次のURLをフォローしてください。
+chatroom#:#chat_invitation_modal_headline#:#Invitation to Chat Room###26 05 2026 new variable
+chatroom#:#chat_invitation_modal_section#:#Invite User###26 05 2026 new variable
 chatroom#:#chat_invitation_nc_inv_x#:#%s チャット招待があります。
 chatroom#:#chat_invitation_nc_no_inv#:#チャット招待はありません。
 chatroom#:#chat_invitation_short#:#タイトルリンクをクリックしてチャットルームへ入室してください。
+chatroom#:#chat_invitation_username_input_label#:#Enter Username:###26 05 2026 new variable
 chatroom#:#chat_invitations#:#チャット
 chatroom#:#chat_invite#:#招待
 chatroom#:#chat_join#:#参加
@@ -4429,7 +4438,6 @@ common#:#italic_action#:#イタリックを挿入- クリックしてイタリ�
 common#:#item#:#アイテム
 common#:#itgr_add#:#アイテムグループを追加
 common#:#itgr_new#:#新規アイテムグループ
-common#:#java_server#:#Javaサーバー
 common#:#java_server_host#:#ホスト
 common#:#java_server_info#:#オンするとPDFやHTML ファイルとHTML-ラーニングモジュールの検索が可能です。
 common#:#java_server_port#:#ポート
@@ -5494,9 +5502,6 @@ common#:#rolt_edit#:#役割 テンプレート編集
 common#:#rolt_new#:#新規役割 テンプレート
 common#:#row#:#行
 common#:#rows#:#行
-common#:#rpc_pdf_font#:#Fonts
-common#:#rpc_pdf_font_info#:#PDFファイル作成用の追加フォントです。"Helvetica" と "unifont"以外のフォントはILIASサーバ上にインストールする必要があります。
-common#:#rpc_pdf_generation#:#PDF－作成
 common#:#sad#:#Sad
 common#:#sahs#:#SCORM/AICCラーニングモジュール
 common#:#sahs_added#:#SCORM/AICCラーニングモジュール追加
@@ -5979,7 +5984,6 @@ common#:#webdav_chosen_language_already_used#:#選択の言語に関連するド
 common#:#webdav_doc_delete#:#WebDavマウント手順書を削除
 common#:#webdav_docs_mount_instructions#:#マウント手順書
 common#:#webdav_duplicate_detected_title#:#同じタイトルのオブジェクトがすでに表示されているので次のオブジェクトを表示することができませんでした。
-common#:#webdav_enable_versioning#:#ファイルバージョニング
 common#:#webdav_forbidden_chars_title#:#禁止文字 (\<>/:*?"|#)が一つ以上含まているため次のファイルを表示できません:
 common#:#webdav_form_document#:#手順書
 common#:#webdav_form_document_info#:#txtまたはhtmlファイルをここへupload。 Uploadされたファイルは解析されて処理されます。詳細
@@ -5998,7 +6002,6 @@ common#:#webdav_sure_delete_documents_s#:#次のタイトルのマウント手�
 common#:#webdav_tbl_docs_head_title#:#ドキュメントタイトル
 common#:#webdav_tbl_docs_title#:#uploadされたWebDAV Mount手順リスト
 common#:#webdav_upload_instructions#:#手順書をupload
-common#:#webdav_versioning_info#:#有効にすると既に存在するファイルは上書きに代えて新バージョンになります。
 common#:#webfolder_dir_info#:#ブラウザがWebフォルダを開く事ができません。<a href="%1$s">Webフォルダを開くに関する説明</a>を読んでください。
 common#:#webfolder_index_of#:#%1$sのインデックス
 common#:#webfolder_instructions#:#Webフォルダ説明書
@@ -11171,7 +11174,6 @@ lso#:#lso_print_list#:#リストを印刷
 lso#:#lso_read#:#ユーザは学習シーケンスへ読み込みアクセス権があります。
 lso#:#lso_search_users#:#ユーザを検索
 lso#:#lso_settings_availability#:#アベイラビリティ()
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date###21 04 2026 new variable
 lso#:#lso_settings_extro#:#退出ページ設定
 lso#:#lso_settings_intro#:#イントロページ設定
 lso#:#lso_settings_old_extro#:#古いExitページを表示
@@ -14552,6 +14554,9 @@ rbac#:#positions_override_operations#:#グローバル設定を上書き
 rbac#:#precondition_not_obligatory_alt#:#前提条件はオプションです
 rbac#:#precondition_num_obligatory#:#必須教材数
 rbac#:#precondition_num_optional_info#:#この前提条件を満足させるのに必須となる最小教材数を入力してください。
+rbac#:#precondition_number_of_required_materials_bigger_preconditions_number#:#The number of required materials must be less than the total number of preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_compulsory_items#:#The number of required materials must be greater than the number of compulsory preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_than_one#:#The number of required materials must be at least 1.###26 05 2026 new variable
 rbac#:#precondition_obligatory#:#必須
 rbac#:#precondition_obligatory_alt#:#前提条件は記入しなければなりません
 rbac#:#precondition_obligatory_info#:#必須前提条件はアクセス用に記入しなければなりません。
