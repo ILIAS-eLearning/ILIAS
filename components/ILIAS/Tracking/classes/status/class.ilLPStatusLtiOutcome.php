@@ -75,6 +75,9 @@ class ilLPStatusLtiOutcome extends ilLPStatus
         int $a_usr_id,
         ?object $a_obj = null
     ): int {
+        global $DIC;
+        $logger = $DIC->logger()->root();
+
         $latestGrade = $this->getLatestAgsGrade($a_obj_id, $a_usr_id);
         if ($latestGrade !== null) {
             $activityProgress = (string) ($latestGrade['activity_progress'] ?? '');
