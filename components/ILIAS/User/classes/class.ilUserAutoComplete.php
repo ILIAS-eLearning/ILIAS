@@ -241,7 +241,7 @@ class ilUserAutoComplete
 
         while (count($usr_ids) <= $max) {
             $next_records = $this->fetchNextRecords($res, $max);
-            $records = array_merge($records, $next_records);
+            $records = array_replace($records, $next_records);
             $usr_ids = array_keys($records);
 
             $callable_name = null;

@@ -7126,6 +7126,7 @@ INSERT INTO `il_db_steps` VALUES ('ilCourseDBUpdateSteps',1,'2025-07-18 06:53:07
 INSERT INTO `il_db_steps` VALUES ('ilCourseObjectiveDBUpdateSteps',1,'2023-12-12 16:39:39.691358','2023-12-12 16:39:39.698495');
 INSERT INTO `il_db_steps` VALUES ('ilCourseObjectiveDBUpdateSteps',2,'2023-12-12 16:39:39.699161','2023-12-12 16:39:39.705726');
 INSERT INTO `il_db_steps` VALUES ('ilCourseObjectiveDBUpdateSteps',3,'2025-07-18 06:53:07.412535','2025-07-18 06:53:07.415155');
+INSERT INTO `il_db_steps` VALUES ('ilCourseObjectiveDBUpdateSteps',4,'2026-05-26 15:12:54.610946','2026-05-26 15:12:54.614978');
 INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',1,'2023-12-12 16:39:41.316207','2023-12-12 16:39:41.325405');
 INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',2,'2023-12-12 16:39:41.326018','2023-12-12 16:39:41.340462');
 INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',3,'2023-12-12 16:39:41.341252','2023-12-12 16:39:41.349406');
@@ -12139,7 +12140,7 @@ CREATE TABLE `loc_tst_run` (
   `user_id` int(11) NOT NULL DEFAULT 0,
   `test_id` int(11) NOT NULL DEFAULT 0,
   `objective_id` int(11) NOT NULL DEFAULT 0,
-  `max_points` int(11) DEFAULT 0,
+  `max_points` double DEFAULT 0,
   `questions` varchar(1000) DEFAULT '0',
   PRIMARY KEY (`container_id`,`user_id`,`test_id`,`objective_id`)
 ) ;
@@ -13897,7 +13898,7 @@ INSERT INTO `object_data` VALUES (34,'typ','lm','Learning module Object',-1,'200
 INSERT INTO `object_data` VALUES (35,'typ','notf','Note Folder Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL,NULL);
 INSERT INTO `object_data` VALUES (36,'typ','note','Note Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL,NULL);
 INSERT INTO `object_data` VALUES (37,'typ','frm','Forum object',-1,'2002-07-15 15:54:22','2003-08-15 12:36:40','',NULL,NULL);
-INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2026-04-21 16:00:11','',NULL,NULL);
+INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2026-05-26 15:12:54','',NULL,NULL);
 INSERT INTO `object_data` VALUES (71,'lng','de','not_installed',6,'2003-08-15 10:25:19','2015-12-22 16:29:24','',NULL,NULL);
 INSERT INTO `object_data` VALUES (72,'lng','es','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL,NULL);
 INSERT INTO `object_data` VALUES (73,'lng','it','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL,NULL);
@@ -16397,7 +16398,6 @@ INSERT INTO `rbac_operations` VALUES (52,'moderate','Moderate objects','object',
 INSERT INTO `rbac_operations` VALUES (55,'edit_learning_progress','edit learning progress','object',3600);
 INSERT INTO `rbac_operations` VALUES (57,'export_member_data','Export member data','object',0);
 INSERT INTO `rbac_operations` VALUES (58,'copy','Copy Object','general',4000);
-INSERT INTO `rbac_operations` VALUES (59,'create_feed','create external feed','create',9999);
 INSERT INTO `rbac_operations` VALUES (60,'create_mcst','create media cast','create',9999);
 INSERT INTO `rbac_operations` VALUES (61,'create_rcrs','create remote course','create',9999);
 INSERT INTO `rbac_operations` VALUES (62,'add_thread','Add Threads','object',3100);
@@ -20789,7 +20789,7 @@ INSERT INTO `settings` VALUES ('common','ilfrmnoti1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmreadidx1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmthri2','1');
 INSERT INTO `settings` VALUES ('common','ilGlobalTstPoolUsageSettingInitilisation','1');
-INSERT INTO `settings` VALUES ('common','ilias_version','10.7.0');
+INSERT INTO `settings` VALUES ('common','ilias_version','10.8.0');
 INSERT INTO `settings` VALUES ('common','ilinc_akclassvalues_required','1');
 INSERT INTO `settings` VALUES ('common','ilmpathix','1');
 INSERT INTO `settings` VALUES ('common','iloscmsgidx1','1');
@@ -25733,4 +25733,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2026-04-21 16:00:12
+-- Dump completed on 2026-05-26 15:12:55

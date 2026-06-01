@@ -668,16 +668,15 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     protected function getAnswerStatisticOrderingVariantHtml(ilAssOrderingElementList $list): string
     {
-        $list = array_map(
-            fn(ilAssOrderingElement $elem): string => htmlspecialchars(
-                $this->getAnswerStatisticOrderingElementHtml($elem) ?? '',
-                ENT_QUOTES | ENT_SUBSTITUTE,
-                'utf-8'
-            ),
-            $list->getElements()
+        return $this->ui->renderer()->render(
+            $this->ui->factory()->listing()->unordered(
+                array_map(
+                    fn(ilAssOrderingElement $elem): string
+                        => $this->getAnswerStatisticOrderingElementHtml($elem) ?? '',
+                    $list->getElements()
+                )
+            )
         );
-
-        return $this->ui->renderer()->render($this->ui->factory()->listing()->unordered($list));
     }
 
     public function getAnswersFrequency($relevantAnswers, $questionIndex): array
@@ -713,8 +712,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
                 $answers[$hash] = [
                     'answer' => $variantHtml,
-                    'frequency' => 0,
-                    'sanitized' => true
+                    'frequency' => 0
                 ];
             }
 

@@ -1461,6 +1461,7 @@ assessment#:#tst_eval_total_passed_average_points#:#Sikeres tesztek átlagpontsz
 assessment#:#tst_eval_total_passed_average_time#:#Sikeres tesztek átlagos kitöltési ideje
 assessment#:#tst_eval_total_persons#:#A tesztet elkezdő összes kitöltő száma
 assessment#:#tst_exam_access_code#:#Hozzáférési kód
+assessment#:#tst_exam_access_code_invalid_message#:#The code you provided is invalid.###26 05 2026 new variable
 assessment#:#tst_exam_access_code_label#:#Adja meg a hozzáférési kódot a már megkezdett tesztkitöltés folytatásához vagy hagyja üresen teljesen új kitöltés indításhoz.
 assessment#:#tst_exam_conditions#:#Vizsgafeltételek
 assessment#:#tst_exam_conditions_label#:#Jelölje be a feltételek elfogadásához.
@@ -1689,6 +1690,7 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#'%s' teszt ind
 assessment#:#tst_objective_progress_header#:#Tanulási célkitűzés folyamata
 assessment#:#tst_objectives_progress_header#:#Tanulási célkitűzések folyamata
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Ez a véletlen teszt nem helyreállítható állapotban van, mert egy vagy több kérdésgyűjteményét törölték. Ezt a tesztet nem tölthetik ki többé.
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back.###26 05 2026 new variable
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>A már teljesített tanulási célokhoz tartozó kérdés megválaszolása nem kötelező.</b><br /><br />Olyan kérdésre navigál, melyet már teljesített tanulási célhoz tartozik.<br />Választhat:<br /><br />Ha folytatja, tovább dolgozhat ezeken a kérdéseken. Válaszait korábbi teszkitöltéseiből nem fogadjuk el, mert új véletlen kérdéseket választunk ehhez a teszkitöltéshez, így le is ronthatja tanulási céljának eredményét.<br /><br />Ha nem kíván tovább dolgozni a kérdéseken, menjen vissza. Ebben az esetben a kérdéseket nem vesszük figyelembe a kiértékelésnél.
 assessment#:#tst_out_of_time_message#:#Sajnálom, elhasználta a teszt kitöltésére engedélyezett időkeretet!
 assessment#:#tst_participant#:#Kitöltő
@@ -2960,9 +2962,12 @@ chatroom#:#chat_https_dhparam_info#:#Kérem, adja meg a fájl abszolút útvonal
 chatroom#:#chat_https_key_info#:#Kérem, adja meg a privátkulcs-fájl abszolút útvonalát (pl: /etc/ssl/private/server.key).
 chatroom#:#chat_invitation#:#'[INVITER_NAME]' meghívja Ön '[ROOM_NAME]' csevegőszobába
 chatroom#:#chat_invitation_long#:#[SALUTATION][BR][BR]Meghívtak ebbe a csevegőszobába:[BR]Csevegőszoba neve: [ROOM_NAME][BR]A meghívó: [INVITER_NAME][BR]URL: [LINK][BR]Ha csatlakozni szeretne a csevegőszobához, kattintson a megadott URL-re!
+chatroom#:#chat_invitation_modal_headline#:#Invitation to Chat Room###26 05 2026 new variable
+chatroom#:#chat_invitation_modal_section#:#Invite User###26 05 2026 new variable
 chatroom#:#chat_invitation_nc_inv_x#:#%s meghívás van.
 chatroom#:#chat_invitation_nc_no_inv#:#Egy meghívása sincs.
 chatroom#:#chat_invitation_short#:#A csevegőszobába belépéshez kattintson a linkre.
+chatroom#:#chat_invitation_username_input_label#:#Enter Username:###26 05 2026 new variable
 chatroom#:#chat_invitations#:#Meghívások
 chatroom#:#chat_invite#:#Meghívás
 chatroom#:#chat_join#:#Csatlakozás
@@ -14515,6 +14520,9 @@ rbac#:#positions_override_operations#:#Globális beállítások felülírása
 rbac#:#precondition_not_obligatory_alt#:#Az előfeltétel opcionális
 rbac#:#precondition_num_obligatory#:#Kötelező anyagok száma
 rbac#:#precondition_num_optional_info#:#Adja meg az anyagok minimumszámát az előfeltételek teljesítettségéhez!
+rbac#:#precondition_number_of_required_materials_bigger_preconditions_number#:#The number of required materials must be less than the total number of preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_compulsory_items#:#The number of required materials must be greater than the number of compulsory preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_than_one#:#The number of required materials must be at least 1.###26 05 2026 new variable
 rbac#:#precondition_obligatory#:#Kötelező
 rbac#:#precondition_obligatory_alt#:#Az előfeltételeket teljesíteni kell
 rbac#:#precondition_obligatory_info#:#A kötelező előfeltételeket teljesíteni kell a hozzáféréshez.

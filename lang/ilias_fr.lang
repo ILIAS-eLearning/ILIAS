@@ -1446,6 +1446,7 @@ assessment#:#tst_eval_total_passed_average_points#:#Moyenne des points obtenus s
 assessment#:#tst_eval_total_passed_average_time#:#Temps moyen passé sur les tests réussis
 assessment#:#tst_eval_total_persons#:#Nombre total de personnes qui ont passé le test
 assessment#:#tst_exam_access_code#:#Access Code###31 10 2023 new variable
+assessment#:#tst_exam_access_code_invalid_message#:#The code you provided is invalid.###26 05 2026 new variable
 assessment#:#tst_exam_access_code_label#:#Enter access code to continue your already started test.###31 10 2023 new variable
 assessment#:#tst_exam_conditions#:#Exam Conditions###31 10 2023 new variable
 assessment#:#tst_exam_conditions_label#:#Check to accept the conditions.###31 10 2023 new variable
@@ -1674,6 +1675,7 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#L’essai comm
 assessment#:#tst_objective_progress_header#:#Progression d'Objectif d'Apprentissage
 assessment#:#tst_objectives_progress_header#:#Progression d'Objectif d'Apprentissage
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Ce test aléatoire se trouve dans un état irréparable car un ou plusieurs pools de questions connectés ont été supprimés. Par conséquent, les participants ne peuvent plus passer le test.
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back.###26 05 2026 new variable
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Question related to allready passed learning objectives are optional.</b><br /><br />You want to navigate to a question, that relates to an allready passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on these questions. Your answers from previous attempts were not adopted, since new random questions were selected for this attempt. With working on this questions you can also degrade your learning objective result.<br /><br />If you decide to not work on these questions, you can go back. In this case these questions won't be considered in the evaluation.
 assessment#:#tst_out_of_time_message#:#You have reached the maximum allowed processing time of the test!###31 10 2023 new variable
 assessment#:#tst_participant#:#Participant
@@ -2945,9 +2947,12 @@ chatroom#:#chat_https_dhparam_info#:#Veuillez définir un chemin de serveur abso
 chatroom#:#chat_https_key_info#:#Veuillez définir un chemin de serveur absolu pour le fichier clé privé (par ex.: /etc/ssl/privé/serveur.clé).
 chatroom#:#chat_invitation#:#Invitation de [INVITER_NAME] à la salle de Chat [ROOM_NAME]
 chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nVous avez été invité à la salle de Chat :\nTitre de la salle : [ROOM_NAME]\nInvité par : [INVITER_NAME]\nURL: [LINK]\n\nSi vous souhaitez entrer dans cette salle, cliquez sur le lien ci-dessus.
+chatroom#:#chat_invitation_modal_headline#:#Invitation to Chat Room###26 05 2026 new variable
+chatroom#:#chat_invitation_modal_section#:#Invite User###26 05 2026 new variable
 chatroom#:#chat_invitation_nc_inv_x#:#You have %s chat invitations.###31 10 2023 new variable
 chatroom#:#chat_invitation_nc_no_inv#:#You have no chat invitations.###31 10 2023 new variable
 chatroom#:#chat_invitation_short#:#Veuillez cliquer sur le titre pour entrer dans la salle de Chat.
+chatroom#:#chat_invitation_username_input_label#:#Enter Username:###26 05 2026 new variable
 chatroom#:#chat_invitations#:#Chat invitations###31 10 2023 new variable
 chatroom#:#chat_invite#:#Inviter
 chatroom#:#chat_join#:#Rejoindre
@@ -14500,6 +14505,9 @@ rbac#:#positions_override_operations#:#Ignorer les paramètres globaux
 rbac#:#precondition_not_obligatory_alt#:#La précondition est optionnelle
 rbac#:#precondition_num_obligatory#:#Nombre de Conditions Requises
 rbac#:#precondition_num_optional_info#:#Veuillez entrer un nombre minimum de préconditions à remplir pour permettre l'accès au cours.
+rbac#:#precondition_number_of_required_materials_bigger_preconditions_number#:#The number of required materials must be less than the total number of preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_compulsory_items#:#The number of required materials must be greater than the number of compulsory preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_than_one#:#The number of required materials must be at least 1.###26 05 2026 new variable
 rbac#:#precondition_obligatory#:#Obligatoire
 rbac#:#precondition_obligatory_alt#:#La précondition doit être remplie
 rbac#:#precondition_obligatory_info#:#Les préconditions obligatoires doivent être remplies pour avoir accès.

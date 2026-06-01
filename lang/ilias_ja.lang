@@ -1461,6 +1461,7 @@ assessment#:#tst_eval_total_passed_average_points#:#テスト受験者平均点
 assessment#:#tst_eval_total_passed_average_time#:#総テスト受験者の平均処理時間
 assessment#:#tst_eval_total_persons#:#受験開始者合計数
 assessment#:#tst_exam_access_code#:#アクセスコード
+assessment#:#tst_exam_access_code_invalid_message#:#The code you provided is invalid.###26 05 2026 new variable
 assessment#:#tst_exam_access_code_label#:#既に開始したテストを続けるにはアクセスコードを入力
 assessment#:#tst_exam_conditions#:#試験条件
 assessment#:#tst_exam_conditions_label#:#条件を承諾するにはチエック
@@ -1689,6 +1690,7 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#テスト "%s"
 assessment#:#tst_objective_progress_header#:#学習目標進捗
 assessment#:#tst_objectives_progress_header#:#学習目標進捗
 assessment#:#tst_old_style_rnd_quest_set_broken#:#1個以上の接続された問題集が削除されてしまっているのでこのランダムテストは修復できない状態です。よって受験者はテストを続行することができません。
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back.###26 05 2026 new variable
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>すでにパスした学習目標に関係する問題はオプションです。</b><br /><br />すでにパスした学習目標に関係する問題をナビゲートしたい。<br />選択できます:<br /><br />進むにはこれらの問題を実行することができます。新しいランダム問題がこの試みで選択されていないので以前の回答からは選択されていません。この問題の実行中は学習目標結果も下方修正できます。<br /><br />この問題の実行をしないと確定すると後戻りできます。この場合に問題は評価へ考慮されません。
 assessment#:#tst_out_of_time_message#:#コノテストの処理時間上限値に達しました!
 assessment#:#tst_participant#:#受験者
@@ -2960,9 +2962,12 @@ chatroom#:#chat_https_dhparam_info#:#Diffie Hellmanパラメータの(例 生成
 chatroom#:#chat_https_key_info#:#プライベートキーへの絶対サーバパスを定義してください。(例: /etc/ssl/private/server.key).
 chatroom#:#chat_invitation#:#[INVITER_NAME] はチャットルーム[ROOM_NAME]"へ相対しています。
 chatroom#:#chat_invitation_long#:#[SALUTATION][BR][BR]チャットルーム[BR]Chat Room Title: [ROOM_NAME][BR]Invited by: [INVITER_NAME][BR]URL: [LINK][BR][BR]へ招待されました。[LINK][BR][BR]へ参加するには次のURLをフォローしてください。URL: [LINK]チャットルームへ参加するには次のURLをフォローしてください。
+chatroom#:#chat_invitation_modal_headline#:#Invitation to Chat Room###26 05 2026 new variable
+chatroom#:#chat_invitation_modal_section#:#Invite User###26 05 2026 new variable
 chatroom#:#chat_invitation_nc_inv_x#:#%s チャット招待があります。
 chatroom#:#chat_invitation_nc_no_inv#:#チャット招待はありません。
 chatroom#:#chat_invitation_short#:#タイトルリンクをクリックしてチャットルームへ入室してください。
+chatroom#:#chat_invitation_username_input_label#:#Enter Username:###26 05 2026 new variable
 chatroom#:#chat_invitations#:#チャット
 chatroom#:#chat_invite#:#招待
 chatroom#:#chat_join#:#参加
@@ -14518,6 +14523,9 @@ rbac#:#positions_override_operations#:#グローバル設定を上書き
 rbac#:#precondition_not_obligatory_alt#:#前提条件はオプションです
 rbac#:#precondition_num_obligatory#:#必須教材数
 rbac#:#precondition_num_optional_info#:#この前提条件を満足させるのに必須となる最小教材数を入力してください。
+rbac#:#precondition_number_of_required_materials_bigger_preconditions_number#:#The number of required materials must be less than the total number of preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_compulsory_items#:#The number of required materials must be greater than the number of compulsory preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_than_one#:#The number of required materials must be at least 1.###26 05 2026 new variable
 rbac#:#precondition_obligatory#:#必須
 rbac#:#precondition_obligatory_alt#:#前提条件は記入しなければなりません
 rbac#:#precondition_obligatory_info#:#必須前提条件はアクセス用に記入しなければなりません。
