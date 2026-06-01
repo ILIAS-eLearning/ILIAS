@@ -74,7 +74,7 @@ class ilBlogImporter extends ilXmlImporter
                 foreach (ilBlogDataSet::$style_map[$old_sty_id] as $blog_id) {
                     $this->content_style_domain
                         ->styleForObjId($blog_id)
-                        ->updateStyleId($new_sty_id);
+                        ->updateStyleId((int) $new_sty_id);
                 }
             }
         }
