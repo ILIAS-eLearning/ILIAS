@@ -1,6 +1,6 @@
 # Git Guidelines
 
-This document defines the git practices we live by inside the ILIAS community when working on this repository. Its
+This document defines the Git practices we live by inside the ILIAS community when working on this repository. Its
 primary purpose is to ensure transparency, consistency, and clear responsibility when contributing code, reviewing
 changes, and integrating them into maintained branches. It also serves as a reference for [authorities who sign off on
 code changes](./maintenance.md#authorities).
@@ -9,43 +9,46 @@ code changes](./maintenance.md#authorities).
 
 All rules and recommendations in this document follow a small set of principles:
 
-- **Transparency**: Every code change must be traceable to a concrete reason (issue, feature, or release) and to the
-  discussion that led to its acceptance.
-- **Atomicity**: Each commit must leave the repository in a valid, buildable, and deployable state.
-- **Authority**: Changes are reviewed and approved by explicitly defined authorities, and this approval must be visible.
-- **Consistency**: Changes must be applied to all maintained versions of ILIAS by all persons in a controlled and
-  reproducible way.
+- **Transparency**: Every code change ****MUST**** be attributable to a specific cause (issue, feature, or release) and
+to the discussion that led to its acceptance.
+- **Atomicity**: Each commit **SHOULD** leave the repository in a valid, buildable, and deployable state.
+- **Authority**: Changes **SHOULD** be reviewed and explicitly approved by defined authorities in a visible manner.
+- **Consistency**: Changes **MUST** be applied to all maintained versions of ILIAS in a controlled and reproducible way.
 
 ## 2. Commit Types and Semantics
 
-We distinguish between three kinds of commits. The commit type is mandatory and is a first step to set expectations
+We distinguish between four kinds of commits. The commit type is mandatory and is a first step to set expectations
 about its changes.
 
-- **Bugfix**: Addresses a concrete issue reported in the issue tracker.
+- **Bugfix**: Fixes broken behaviour and/or addresses a specific issue reported in the issue tracker.
 - **Feature**: Introduces, changes, or removes functionality.
+- **Refactoring**: Improves or reorganises the internal structure of code without changing its behaviour. These changes
+do not necessarily address a reported issue or implement a feature.
 - **Release**: Updates version numbers and dump files.
 
-Every commit must only be associated to exactly one of these types. Mixing these concerns is not possible.
+Every commit **MUST** only be associated to exactly one of these types. Mixing these concerns is not possible.
 
 ## 3. Commit Message Conventions
 
-Commit messages must follow a strict structure to ensure readability and transparency. All authorities who sign off on
-code changes must ensure they comply with it.
+Commit messages **MUST** follow a strict structure to ensure readability and transparency. All authorities who sign off
+on code changes **MUST** ensure compliance. Commit messages **MUST** be written in English.
 
 ### 3.1 Bugfix
 
 ```
-[FIX] #<issue-nr> <component>: <summary>
+[FIX] #<issue-no> <component>: <summary>
 
 <description>
 ```
 
-* `<issue-nr>`: the issue number being addressed.
-* `<component>`: the ILIAS component responsible for the affected files. If multiple components are involved, list them
-  comma-separated. Responsibility is determined by ownership, not by syntactic location (e.g. `Setup` owns
-  `./cli/setup.php`, `Language` owns `./lang`).
-* `<summary>`: a concise, factual description of the change.
-* `<description>` (optional): further details, typically an unordered list.
+* `<issue-no>`: the issue number being addressed, if there is any.
+* `<component>`: the ILIAS component who owns the functionality that is affected by the changes. Multiple components
+**MUST** be separated by `/` (no spaces). Use [component substitutes](#35-components-and-component-substitutes) if there
+is no clear owner of an affected file(s).
+* `<summary>`: a concise, factual description of the change. Keep this under 50 characters if possible.
+* `<description>` (optional): further details explaining the change.
+
+Resulting in e.g. `[FIX] #12345 UI: open dropdown menus again`
 
 ### 3.2 Feature
 
@@ -55,77 +58,159 @@ code changes must ensure they comply with it.
 <description>
 ```
 
-* `<component>`: the component implementing the feature. Multiple components must be listed comma-separated. If only a
-  usage is adapted, this component may be omitted.
-* `<summary>`: a concise description of the functional change.
-* `<description>`: a detailed explanation of the implementation or behaviour, ideally linking the feature wiki entry.
+* `<component>`: the ILIAS component who owns the functionality that is affected by the changes. Multiple components
+**MUST** be separated by `/` (no spaces). Use [component substitutes](#35-components-and-component-substitutes) if there
+is no clear owner of an affected file(s).
+* `<summary>`: a concise description of the functional change. Keep this under 50 characters if possible.
+* `<description>`: a detailed explanation of the implementation or behaviour. A commit introducing a feature **SHOULD**
+provide a link to the corresponding feature request and/or relevant background information.
 
-### 3.3 Release
+Resulting in e.g. `[FEATURE] GlobalScreen: contribute head resources`
+
+### 3.3 Refactoring
+
+```
+[REFACTOR] <component>: <summary>
+ 
+<description>
+```
+
+* `<component>`: the ILIAS component who owns the functionality that is affected by the changes. Multiple components
+**MUST** be separated by `/` (no spaces). Use [component substitutes](#35-components-and-component-substitutes) if there
+is no clear owner of an affected file(s).
+* `<summary>`: a concise description of the structural change. Keep this under 50 characters if possible.
+* `<description>` (optional): further details explaining the motivation or scope of the refactoring.
+
+Resulting in e.g. `[REFACTOR] Setup: improve objective handling`
+
+### 3.4 Release
 
 ```
 [RELEASE] <version>
 ```
 
-* `<version>`: the release version, prefixed with `v`, mirroring the associated git tag.
+* `<version>`: the release version, prefixed with lowercase `v`, mirroring the associated Git tag.
 
-## 3.4 Components and Component Substitutes
+Resulting in e.g. `[RELEASE] v11.0` or `[RELEASE] v11.0-beta`
 
-Most commits can be attributed to a concrete ILIAS component. For other locations inside the repository without a clear
-component associated with it, the following substitutes must be used:
+## 3.5 Components and Component Substitutes
 
-* `Documentation`: changes to `./docs` and other top-level documentation files (e.g. `README.md`, `LICENSE`).
-* `CI`: changes to automation, QA tooling, scripts, or related configuration (e.g. `./scripts`, `./.github`,
-  `./captainhook.json`).
-* `Dependency`: changes to `composer` or `npm` related files. These files must not be edited manually and usually change
-  only due to dependency updates.
-* `Authority`: changes to `./docs/development/maintenance.md` that affect authority definitions only.
+Most commits can be attributed to a specific ILIAS component. For other locations inside the repository without a clear
+component associated with it, the following substitutes must be used instad of the commits `<component>` placeholder:
 
-_If none of these substitutes match the changes of the commit, this document may be extended and the component or
-substitute may be omitted for the time being._
+| Substitute      | Applies to                                                                        | Examples                                       |
+|-----------------|-----------------------------------------------------------------------------------|------------------------------------------------|
+| `Documentation` | Changes to `./docs` and other top-level documentation files.                      | `README.md`, `LICENSE`                         |
+| `CI`            | Changes to automation, QA tooling, scripts, or related configuration.             | `./scripts`, `./.github`, `./captainhook.json` |
+| `Dependency`    | Changes to `composer` or `npm` related files, which **SHOULD** be auto-generated. | ``composer.lock`, `package-lock.json`          |
+| `Authority`     | Changes to `./docs/development/maintenance.md` that affect authority changes.     | `./docs/development/maintenance.md`            |
 
-## 3.5 Commits Originating from Pull Requests
+Resulting in e.g. `[FIX] CI: update php-cs-fixer config`
 
-Commits that originate from pull requests must preserve a reference to the GitHub discussion. This ensures that design
-decisions and review outcomes remain easily traceable and accessible.
+If none of these substitutes match the changes of the commit, the component or substitute **MAY** be omitted for the
+time being. This document **COULD** be extended in future to take more cases into account.
 
-So when integrating a pull request, the final commit message must be amended as follows:
+## 3.6 Commits Originating from Pull Requests
+
+Commits that originate from pull requests **MUST** preserve a reference to the GitHub conversation. This ensures that
+design decisions and review outcomes ARE easily traceable and accessible. GitHub will automatocailly create link
+references to pull requests mentioned inside the commit message like below. When later cherry-picked to other branches
+of the repository, the pull request timeline will be updated as well.
+
+So when integrating a pull request, the final commit message **MUST** be amended as follows:
 
 ```
-<commit-message> (#<pr-number>)
+<commit-message> (#<pr-no>)
 ```
 
 * `<commit-message>`: a commit message that complies to the conventions above.
-* `<pr-number>`: the pull request number as shown in GitHub.
+* `<pr-no>`: the pull request number as shown on GitHub.
 
-**This appendix is mandatory for all PR-based commits.** GitHub will automatically create a link to the pull request and
-mention cherry-picked commits with the same appendix inside the pull requests timeline, leaving a transparent overview.
+If there is more than one commit message, the PR appendix **SHOULD** either be added to all commits, or the most
+relevant commit. This is for the code-authority to decide.
 
-## 6. Reviewing Pull Requests
+Resulting in e.g. `[FIX] #12345 UI: open dropdown menus again (#54321)`
 
-Pull requests are reviewed using GitHub's built-in review features. Reviews by authorities must be visible in the PR
-timeline and explicitly signal approval, rejection, or required changes.
+## 4. Integrating Commits
 
-Every pull request that is integrated into the repository should, ideally, be explicitly approved by the responsible
-authority.
+To preserve a linear history there **MUST NOT** be any merge commits inside the repository. Hence, all integrations
+**MUST** be performed using one of the following strategies.
 
-### 6.1 Review Structure
+### 4.1 Rebase and Merge
 
-Reviews should be structured and grouped into questions, suggestions, and change requests. Reviewers are encouraged to
-use the following template:
+When individual commits are meaningful and worth preserving separately, you **SHOULD** use this strategy.
 
-```markdown
+```bash
+git checkout "<source-branch>"
+git rebase "<source-branch>" "<target-branch>"
+git checkout "<target-branch>"
+git merge --ff-only "<source-branch>"
+```
+
+Where as the placeholders **MUST** be replaced like:
+
+- `<source-branch>`: the name of your source branch that contains the individual commits.
+- `<target-branch>`: the name of your target branch where your commits should be integrated.
+
+### 4.2 Squash and Merge
+
+When individual commits are not meaningful and worth preserving separately, you **SHOULD** use this strategy.
+
+```bash
+git checkout "<target-branch>"
+git merge --quash "<source-branch>"
+```
+
+Where as the placeholders **MUST** be replaced like:
+
+- `<source-branch>`: the name of your source branch that contains the individual commits.
+- `<target-branch>`: the name of your target branch where your commits should be integrated.
+
+### 4.3 Cherry-pick
+
+When one or more integrated commits from one branch of the repository need to be transferred to another, you **SHOULD**
+use this strategy.
+
+```bash
+git checkout "<target-branch>"
+git cherry-pick "<commit-id>"
+# possibly repeat for other commits
+# rebuild assets if need be
+```
+
+Where as the placeholders **MUST** be replaced like:
+
+- `<target-branch>`: the name of your target branch where your commits should be integrated.
+- `<commit-id>`: the hash of the commit which should be integrated from your source branch.
+
+Where possible, commits that affect compiled assets **SHOULD** be kept separate from the changes that drive them. This
+simplifies cherry-picking: the source changes can be cherry-picked normally, and the assets are then rebuilt on each
+target branch. Compiled assets are e.g. the `./templates/default/delos.css` or bundles ES6 modules using `rollup`.
+
+## 5. Reviewing Pull Requests
+
+Pull requests are reviewed using GitHub's built-in review features. Reviews by authorities **SHOULD** be visible in the
+pull requests timeline and explicitly signal approval, rejection, or required changes.
+
+A pull request **MAY** be integrated into the repository once it has been approved by the responsible authority.
+
+### 5.1 Review Structure
+
+Reviews **SHOULD** be structured and grouped into questions, suggestions, and change requests. Reviewers are encouraged
+to use the following template:
+
+```
 Hi @<contributor>,
 
-Thx a lot for your contribution to <component-name>!
+Thanks a lot for your contribution to <component-name>!
 
 <general-feedback>
 
-About the concrete changes, please answer the following questions:
+Please help me out in answering the following questions:
 
 - [ ] <reference>: <question>?
 
-Please consider the following suggestions. You do not need to follow them, but please indicate briefly why you prefer to
-do otherwise:
+Please consider the following suggestions. If you decide not to follow then, please indicate your reason(s) briefly.
 
 - [ ] <reference>: <suggestion>
 
@@ -137,78 +222,57 @@ Kind regards,
 @<member> (as <component-name> <authority>)
 ```
 
-The placeholders inside the template must be replaced by the following values, if necessary:
+The placeholders inside the template **MUST** be replaced by the following values, if necessary:
 
 * `<contributor>`: GitHub username of the person who opened the pull request.
 * `<general-feedback>`: general feedback on the proposed changes that does not fit into any of the specific categories,
-  such as background information, context, or relevant state of affairs.
-* `<reference>`: a concrete anchor for a review point that allows the contributor to respond precisely and enter a focused
-  discussion. This is typically a class name, object, method, file name, or a short descriptive identifier.
-  class-, object- or filename, or other few words that can be quickly referenced.
-* `<question>`: a concrete question about the changes that must be answered before the pull request can be integrated.
+such as background information, context, or relevant state of affairs.
+* `<reference>`: a concrete anchor for a review point that allows the contributor to respond precisely and enter a
+focused discussion. This is typically a class name, object, method, file name, or a short descriptive identifier.
+* `<question>`: a concrete question about the changes that **MUST** be answered before the pull request can be integrated.
 * `<suggestion>`: a concrete improvement proposal that requires either implementation or explicit feedback from the
-  contributor before integration.
-* `<change-request>`: a concrete change that must be implemented by the contributor before the pull request can be
-  integrated.
+contributor before integration.
+* `<change-request>`: a concrete change that **MUST** be implemented by the contributor before the pull request can be
+integrated.
 * `<member>`: GitHub username of the person reviewing the pull request.
 * `<component-name>`: name of the ILIAS component(s) the reviewer has authority over.
-* `<authority>`: tthe authority under which the review is performed (usually code).
-
-Sections of the template may be omitted if they are not applicable. For trivial or spotless changes, a minimal review or
-direct approval is acceptable, as long as the signature clearly indicates who signed off on the changes and for which
-components.
+* `<authority>`: the authority under which the review is performed (usually code). Sections of the template **MAY** be
+omitted if they are not applicable. For trivial or spotless changes, a minimal review or direct approval is acceptable,
+as long as the signature clearly indicates who signed off on the changes and for which components.
 
 If no clear authority exists for the affected code, the pull request falls into the shepherd model. In this case, the
-signature must reflect this by using "as shepherd" instead of a component-specific authority.
+signature **MUST** reflect this by using "as shepherd" instead of a component-specific authority.
 
-### 6.2 Review Outcomes
+### 5.2 Review Outcomes
 
 GitHub distinguishes between three review outcomes, which we interpret as follows:
 
 - **Comment**: no required changes or suggestions, but open questions.
-- **Request Changes**: at least one suggestion or change request must be addressed before integration.
+- **Request Changes**: at least one suggestion or change request **MUST** be addressed before integration.
 - **Approve**: the pull request is ready to be integrated or all review points have been resolved.
 
-## 7. Integrating Pull Requests
+## 6. Integrating Pull Requests
 
-All pull requests must be integrated using the **squash and merge** option. This ensures a clean history and enforces
-atomic commits to the repository. Squashing the commits also gives us the opportunity to amend the commit message, to
-make sure they all comply with our conventions. **For traceability its important to add the
-[PR appendix](#35-commits-originating-from-pull-requests) during this step**.
+Commits from pull requests that are integrated by code-authorities **MUST** adhere to this guideline as well. To
+preserve a linear history, there **MUST NOT** be a merge commit created during this process. Hence, all integrations
+**MUST** be performed using one of the following strategies.
 
-As a general rule of thumb, the following rules apply:
+Please note that the integration also includes the [cherry-picking of commits](#43-cherry-pick), **after the pull
+request is integrated into one target branch.**
 
-* Prefer a single commit per pull request.
-* Multiple commits are acceptable only if they represent clearly separable concerns. However, this will prevent adding
-  the PR appendix to the commit message, so an according change must be requested by the contributor.
-* The final commit message(s) must comply with the defined conventions.
-* The commit must include a PR reference appendix.
-* Integration must be performed by an authority responsible for the affected component(s). Integration also includes
-  the integration into other relevant branches of the repository.
+### 6.1 Rebase and Merge
 
-### 7.1 Recommended Integration Procedure
+When individual commits are meaningful and worth preserving separately, you **SHOULD** use this strategy.
 
-1. Review the pull request.
-2. Inspect the commit history and ensure all commits can be squashed.
-3. Determine the target branches for integration.
-4. Perform a squash merge and edit the commit message:
-    * ensure compliance with commit message conventions;
-    * append the PR number.
-5. Finalise the merge.
-6. Cherry-pick the resulting commit into all relevant maintained branches.
+1. Ensure the individual commits inside the pull request all adhere to this guideline.
+2. Ensure that either all or one of their commit messages contains the [PR appendix](#36-commits-originating-from-pull-requests)
+3. Signal your approval visibly inside the pull request, if not done already.
+4. Integrate the commits by using GitHubs "Rebase and merge" option. Click the dropdown if this option is not selected.
 
-## 8. Cherry-picking Commits
+### 6.2 Squash and Merge
 
-To apply changes across different major versions of ILIAS, we use `git cherry-pick`. This is all straightforward, except
-for changes that affect compiled assets (e.g. CSS or bundled JavaScript), that are tracked inside the repository.
+When individual commits are not meaningful and worth preserving separately, you **SHOULD** use this strategy.
 
-When cherry-picking commits that affect such resources:
-
-* Apply the cherry-pick as far as possible, but there may be conflicts.
-* Rebuild affected assets using the appropriate tools (e.g. `sass`, `npx rollup`). This should resolve conflicts if
-  there were any.
-* Rebuild assets even if no conflicts occur, to verify that no faulty changes are introduced.
-* When re-building assets results in changes, amend the commit using `git commit --amend`, preserving the original
-  commit message and all possible cross-references.
-
-This process ensures consistency across branches while keeping history, intent, and discussions intact.
+1. Signal your approval visibly inside the pull request, if not done already
+2. Integrate the commit(s) by using GitHubs "Squash and merge" option. Click the dropdown if this option is not selected.
+3. Ensure the final commit message adheres to this guideline ([PR appendix](#36-commits-originating-from-pull-requests)).
