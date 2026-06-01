@@ -250,22 +250,21 @@ class ilFileDataMail extends ilFileData
         return $name;
     }
 
-    /**
-     * @param array{name:string, tmp_name:string} $file
-     */
-    public function storeUploadedFile(array $file): string
+    public function storeUploadedFile(UploadResult $result): string
     {
-        $file['name'] = ilFileUtils::_sanitizeFilemame($file['name']);
-
-        $this->rotateFiles($this->getMailPath() . '/' . $this->user_id . '_' . $file['name']);
-
-        ilFileUtils::moveUploadedFile(
-            $file['tmp_name'],
-            $file['name'],
-            $this->getMailPath() . '/' . $this->user_id . '_' . $file['name']
+        $filename = ilFileUtils::_sanitizeFilemame(
+            $result->getName()
         );
 
-        return $file['name'];
+        $this->rotateFiles($this->getMailPath() . '/' . $this->user_id . '_' . $filename);
+
+        ilFileUtils::moveUploadedFile(
+            $result->getPath(),
+            $filename,
+            $this->getMailPath() . '/' . $this->user_id . '_' . $filename
+        );
+
+        return $filename;
     }
 
     public function copyAttachmentFile(string $a_abs_path, string $a_new_name): bool
