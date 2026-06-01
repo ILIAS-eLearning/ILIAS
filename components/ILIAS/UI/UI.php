@@ -577,7 +577,7 @@ class UI implements Component\Component
             new Component\Resource\ComponentJS($this, "js/Dropdown/dist/dropdown.js");
 
         $contribute[Component\Resource\PublicAsset::class] = static fn() =>
-            new Component\Resource\NodeModule("dropzone/dist/min/dropzone.min.js");
+            new Component\Resource\NodeModule("dropzone/dist/dropzone-min.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/Dropzone/File/dropzone.js");
 

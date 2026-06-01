@@ -25,7 +25,6 @@ describe('Presentation Table', () => {
   beforeEach(() => {
     const domString = fs.readFileSync('./components/ILIAS/UI/tests/Client/Table/Presentation/PresentationTest.html').toString();
     const dom = new JSDOM(domString);
-    dom.window.document.getElementById = (id) => document.querySelector(`#${id}`);
     global.window = dom.window;
     global.document = dom.window.document;
   });
