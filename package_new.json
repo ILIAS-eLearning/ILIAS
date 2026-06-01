@@ -11,6 +11,7 @@
     "npm": "^10.9.3 || ^11.3"
   },
   "dependencies": {
+    "jstree": "^3.3.17"
   },
   "devDependencies": {
   },
