@@ -62,7 +62,7 @@ $cursor-disabled: not-allowed !default;
 
   // The dropdown menu (ul)
   .dropdown-menu {
-	  width: 320px;
+	width: 320px;
 	position: absolute;
 	top: 100%;
 	z-index: $zindex-dropdown;
@@ -97,6 +97,7 @@ $cursor-disabled: not-allowed !default;
 	&.dropdown-menu__left {
 	  right: 0;
 	  left: auto;
+	  max-width: 100%;
 	}
 	
 
