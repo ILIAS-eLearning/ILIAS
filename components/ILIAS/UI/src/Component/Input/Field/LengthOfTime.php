@@ -30,27 +30,27 @@ use DateInterval;
 interface LengthOfTime extends Group, FilterInput
 {
     /**
-     *
+     * Controls which of the fields (days, hours, minutes, seconds) are visible.
      * @param LengthOfTimeFieldPatterns $fieldPattern
      * @return self
      */
     public function withFieldPattern(LengthOfTimeFieldPatterns $fieldPattern): self;
 
     /**
-     * Minimum duration length
+     * Minimum length of time
      */
-    public function withMinValue(DateInterval $date): Duration;
+    public function withMinValue(DateInterval $date): self;
 
 
     public function getMinValue(): ?DateInterval;
 
     /**
-     * Maximum Duration Length
+     * Maximum length of time
      */
-    public function withMaxValue(DateInterval $date): Duration;
+    public function withMaxValue(DateInterval $date): self;
 
     /**
      * Return the maximum date the input accepts.
      */
-    public function getMaxValue(): ?DateInterval;
+    public function getMaxValue(): ?self;
 }

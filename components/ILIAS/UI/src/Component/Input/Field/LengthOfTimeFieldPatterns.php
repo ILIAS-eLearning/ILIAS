@@ -21,8 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Input\Field;
 
 enum LengthOfTimeFieldPatterns: string {
-    case secondsMinutes = 'secondsMinutes';
-    case minutesHours = 'minutesHours';
-    case secondsMinutesHours = 'secondsMinutesHours';
-    case minutesHoursDays = 'minutesHoursDays';
+    case minutesSeconds = 'minutesSeconds';
+    case hoursMinutes = 'hoursMinutes';
+    case hoursMinutesSeconds = 'hoursMinutesSeconds';
+    case daysHoursMinutes = 'daysHoursMinutes';
 }

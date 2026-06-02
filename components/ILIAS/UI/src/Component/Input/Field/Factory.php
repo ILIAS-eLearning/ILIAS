@@ -797,4 +797,42 @@ interface Factory
      * @return \ILIAS\UI\Component\Input\Field\Rating
      */
     public function rating(string $label, ?string $byline = null): Rating;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      Use the Length of Time input to ask about durations in various units of time.
+     *   composition: >
+     *      Internally, the input consist of multiple numeric inputs to separate Days, Hours, Minutes etc. into
+     *      multiple fields.
+     *   effect: >
+     *      The fields can be operated like any number field. When a field looses focus, the inputs are transformed to
+     *      show the entered time in a human-readable form given the current field pattern.
+     *      For example: 0 hours, 135 minutes would turn into 2 hours, 15 minutes.
+     *   rivals: >
+     *      Duration: >
+     *          This field offers inputs to enter a start and end date (and optionally time). It's the better choice for
+     *          "big picture" planning of events. The Length of Time Field is the right choice for durations with a
+     *          flexible or an unknown start date. It is a good choice for timetable and schedule related items
+     *          where duration matters more than the specific time of day.
+     *
+     * rules:
+     *   wording:
+     *      1: >
+     *          Internally, we avoid calling this Field by the name Duration as it already exists. However, in many
+     *          cases "duration" is actually the best possible label to give. On the frontend you MAY call this field
+     *          using the word "duration".
+     * accessibility:
+     *     1: >
+     *          Aria Live Updates inform Screen Readers about the complete length of time entered throughout all input
+     *          fields after a re-calculation into the more optimal format.
+     *
+     * ---
+     * @param string $label
+     * @param string|null $byline
+     * @param LengthOfTimeFieldPatterns $fieldPattern
+     * @return LengthOfTime
+     */
+    public function lengthOfTime(string $label, ?string $byline = null, LengthOfTimeFieldPatterns $fieldPattern = LengthOfTimeFieldPatterns::hoursMinutes): LengthOfTime;
 }
