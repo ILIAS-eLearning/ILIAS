@@ -18,17 +18,12 @@
 
 declare(strict_types=1);
 
-exit; // Copy this script to the publically(!) available ILIAS (root) folder
+exit();
 
-chdir('../..');
+require_once __DIR__ . '/../../../../vendor/composer/vendor/autoload.php';
 
-require_once 'vendor/composer/vendor/autoload.php';
-
-global $HTTP_RAW_POST_DATA;
-
-// Initialize the error_reporting level, until it will be overwritte when ILIAS gets initialized
 ini_set('display_errors', '1');
 error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
 
-$server = new ilSoapDummyAuthServer();
+$server = new ILIAS\AuthSOAP\SoapDummyAuthServer();
 $server->start();
