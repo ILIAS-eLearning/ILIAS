@@ -69,7 +69,7 @@ class MarshalTest extends TestCase
             'custom' => ['transformation' => $custom],
             'kindlyTo' => ['string' => $to, 'bool' => $bool],
         ]);
-        $refinery->expects(self::once())->method('byTrying')->with([$bool, $custom])->willReturn($from);
+        $refinery->expects($this->once())->method('byTrying')->with([$bool, $custom])->willReturn($from);
 
         $convert = (new Marshal($refinery))->boolean();
         $this->assertSame($from, $convert->fromString());
@@ -96,7 +96,7 @@ class MarshalTest extends TestCase
             'null' => $null,
         ]);
         $consecutive = [[$nice_null, $decorate->fromString()], [$series, $decorate->toString()]];
-        $refinery->expects(self::exactly(2))->method('byTrying')->with(
+        $refinery->expects($this->exactly(2))->method('byTrying')->with(
             $this->callback(function ($value) use (&$consecutive) {
                 $this->assertSame(array_shift($consecutive), $value);
                 return true;

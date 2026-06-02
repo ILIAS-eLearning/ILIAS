@@ -115,7 +115,7 @@ class WiringTest extends TestCase
         $slot = $this->mockMethod(SlotConstructor::class, 'history', [$document], $history);
         $slot->method('id')->willReturn('foo');
         $map = $this->mockTree(Map::class, ['value' => ['document' => ['foo' => $document]]]);
-        $map->expects(self::once())->method('set')->with('history', 'foo', $history)->willReturn($map);
+        $map->expects($this->once())->method('set')->with('history', 'foo', $history)->willReturn($map);
 
         $instance = new Wiring($slot, $map);
         $this->assertSame($map, $instance->hasHistory()->map());

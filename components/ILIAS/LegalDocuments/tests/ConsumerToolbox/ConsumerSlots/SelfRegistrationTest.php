@@ -93,10 +93,10 @@ class SelfRegistrationTest extends TestCase
         );
 
         $checkbox = $this->mock(ilCheckboxInputGUI::class);
-        $checkbox->expects(self::once())->method('setAlert');
+        $checkbox->expects($this->once())->method('setAlert');
 
         $form = $this->mockTree(ilPropertyFormGUI::class, ['getInput' => false]);
-        $form->expects(self::once())->method('getItemByPostVar')->with('accept_foo')->willReturn($checkbox);
+        $form->expects($this->once())->method('getItemByPostVar')->with('accept_foo')->willReturn($checkbox);
 
         $this->assertFalse($instance->saveLegacyForm($form));
     }
@@ -105,7 +105,7 @@ class SelfRegistrationTest extends TestCase
     {
         $user = $this->mock(ilObjUser::class);
         $ldoc_user = $this->mock(User::class);
-        $ldoc_user->expects(self::once())->method('acceptMatchingDocument');
+        $ldoc_user->expects($this->once())->method('acceptMatchingDocument');
 
         $instance = new SelfRegistration(
             'foo',
@@ -127,11 +127,11 @@ class SelfRegistrationTest extends TestCase
     {
         $user = $this->mock(ilObjUser::class);
         $ldoc_user = $this->mock(User::class);
-        $ldoc_user->expects(self::once())->method('acceptMatchingDocument')->willReturnCallback(function () {
+        $ldoc_user->expects($this->once())->method('acceptMatchingDocument')->willReturnCallback(function () {
             throw new \ILIAS\Data\NotOKException('This is not ok.');
         });
 
-        $ldoc_user->expects(self::once())->method('acceptAnyDocument');
+        $ldoc_user->expects($this->once())->method('acceptAnyDocument');
 
         $instance = new SelfRegistration(
             'foo',

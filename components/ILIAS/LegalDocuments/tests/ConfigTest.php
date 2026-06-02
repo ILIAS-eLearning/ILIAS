@@ -55,7 +55,7 @@ class ConfigTest extends TestCase
 
     public function testNonEditableLegalDocuments(): void
     {
-        $provide = $this->mockMethod(Provide::class, 'allowEditing', [], $this->mock(Provide::class), self::never());
+        $provide = $this->mockMethod(Provide::class, 'allowEditing', [], $this->mock(Provide::class), $this->never());
         $this->assertSame($provide, (new Config($provide))->legalDocuments());
     }
 }

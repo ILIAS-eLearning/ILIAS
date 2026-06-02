@@ -41,7 +41,7 @@ class ShowOnScreenMessageTest extends TestCase
     public function testRender(): void
     {
         $template = $this->mock(ilGlobalTemplateInterface::class);
-        $template->expects(self::once())->method('setOnScreenMessage')->with('foo', 'bar', true);
+        $template->expects($this->once())->method('setOnScreenMessage')->with('foo', 'bar', true);
         $renderer = $this->mock(Renderer::class);
         $page = $this->mockMethod(PageFragment::class, 'render', [$template, $renderer], 'rendered');
 

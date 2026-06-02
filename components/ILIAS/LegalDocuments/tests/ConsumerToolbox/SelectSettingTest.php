@@ -54,8 +54,8 @@ class SelectSettingTest extends TestCase
         ]);
 
         $store = $this->mock(KeyValueStore::class);
-        $store->expects(self::once())->method('value')->with('foo')->willReturn($read_value);
-        $store->expects(self::once())->method('update')->with('foo', $write_value);
+        $store->expects($this->once())->method('value')->with('foo')->willReturn($read_value);
+        $store->expects($this->once())->method('update')->with('foo', $write_value);
 
         $instance = new SelectSetting($store, $marshal);
         $setting = $instance->typed('foo', function (Marshal $m) use ($marshal, $convert): Convert {

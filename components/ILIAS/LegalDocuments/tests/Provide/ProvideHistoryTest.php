@@ -89,7 +89,7 @@ class ProvideHistoryTest extends TestCase
         $document = $this->mock(Document::class);
 
         $repository = $this->mock(HistoryRepository::class);
-        $repository->expects(self::once())->method('acceptDocument')->with($user, $document);
+        $repository->expects($this->once())->method('acceptDocument')->with($user, $document);
 
         $instance = new ProvideHistory('foo', $repository, $this->mock(ProvideDocument::class), $this->mock(Container::class));
         $instance->acceptDocument($user, $document);

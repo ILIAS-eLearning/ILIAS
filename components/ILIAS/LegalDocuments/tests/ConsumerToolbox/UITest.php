@@ -59,7 +59,7 @@ class UITest extends TestCase
             ['ldoc_foo', true]
         ];
         $language
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('exists')
             ->willReturnCallback(
                 function (string $txt) use (&$consecutive) {
@@ -77,7 +77,7 @@ class UITest extends TestCase
         $consecutive = ['bar_foo', 'ldoc_foo'];
         $language = $this->mockMethod(ilLanguage::class, 'txt', ['foo'], 'baz');
         $language
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('exists')
             ->willReturnCallback(
                 function (string $txt) use (&$consecutive) {
