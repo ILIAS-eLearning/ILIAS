@@ -22,11 +22,9 @@ namespace ILIAS\UI\Implementation\Component\Panel\Listing;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
-use ILIAS\UI\Component as C;
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Panel\Listing\Standard as ListingStandard;
 use ILIAS\UI\Component\Item\Group;
-use ILIAS\UI\Implementation\Render\Template as Template;
-use ILIAS\UI\Implementation\Render\ResourceRegistry;
-use ILIAS\Data\URI;
 use ILIAS\UI\Implementation\Component\Panel\HasExpandableRenderer;
 
 class Renderer extends AbstractComponentRenderer
@@ -36,48 +34,49 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(C\Component $component, RendererInterface $default_renderer): string
+    public function render(Component $component, RendererInterface $default_renderer): string
     {
-        if ($component instanceof C\Panel\Listing\Standard) {
-            return $this->renderStandard($component, $default_renderer);
-        }
-        $this->cannotHandleComponent($component);
+        return match (true) {
+            $component instanceof ListingStandard => $this->renderStandard($component, $default_renderer),
+            default => $this->cannotHandleComponent($component),
+        };
     }
 
-    protected function renderStandard(C\Panel\Listing\Listing $component, RendererInterface $default_renderer): string
+    protected function renderStandard(ListingStandard $component, RendererInterface $default_renderer): string
     {
-        $tpl = $this->getTemplate("tpl.listing_standard.html", true, true);
-        $f = $this->getUIFactory();
+        $tpl = $this->getTemplate('tpl.listing_standard.html', true, true);
 
         if ($component->isExpandable()) {
             $component = $this->parseActions($component);
         }
-        $id = $this->bindJavaScript($component);
-        if ($id === null) {
-            $id = $this->createId();
-        }
-        $tpl->setVariable("ID", $id);
 
-        $tpl_heading = $this->parseHeader($component, $id, $default_renderer, $f);
-        $tpl->setVariable("HEADING", $tpl_heading->get());
+        $id = $this->bindJavaScript($component) ?? $this->createId();
+        $tpl->setVariable('ID', $id);
+
+        $tpl->setVariable(
+            'HEADING',
+            $this->parseHeading(
+                $component,
+                $id,
+                $default_renderer,
+                $this->getUIFactory()
+            )->get()
+        );
+
         if ($component->isExpandable()) {
             $tpl = $this->declareExpandable($component, $id, $tpl);
         }
 
         foreach ($component->getItemGroups() as $group) {
-            if ($group instanceof Group) {
-                $tpl->setCurrentBlock("group");
-                $tpl->setVariable("ITEM_GROUP", $default_renderer->render($group));
-                $tpl->parseCurrentBlock();
+            if (!$group instanceof Group) {
+                continue;
             }
+
+            $tpl->setCurrentBlock('group');
+            $tpl->setVariable('ITEM_GROUP', $default_renderer->render($group));
+            $tpl->parseCurrentBlock();
         }
 
         return $tpl->get();
-    }
-
-    public function registerResources(ResourceRegistry $registry): void
-    {
-        parent::registerResources($registry);
-        $registry->register('assets/js/panel.js');
     }
 }

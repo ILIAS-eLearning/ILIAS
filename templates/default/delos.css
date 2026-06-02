@@ -8339,9 +8339,6 @@ button .minimize, button .close {
 .c-drilldown .c-drilldown__menu > ul > li:not(.c-drilldown__menuitem--filtered) ~ .c-drilldown__menu--no-items {
   display: none;
 }
-.c-drilldown .c-drilldown__menu > ul > li:not(.c-drilldown__menuitem--filtered) ~ .c-drilldown__menu--no-items {
-  display: none;
-}
 .c-drilldown .c-drilldown__menulevel--engaged > li > .c-drilldown__branch,
 .c-drilldown .c-drilldown__menulevel--engaged > li > .btn-bulky,
 .c-drilldown .c-drilldown__menulevel--engaged > li > .c-drilldown__menulevel--trigger,
@@ -10324,13 +10321,14 @@ div.alert ul {
 
 .panel-expandable .panel-toggler {
   order: 1;
-  flex-grow: 1;
+  flex: 0 1 auto;
+  min-width: 0;
 }
 .panel-expandable .panel-toggler button {
   background-color: #f9f9f9;
   border: none;
   padding: 0;
-  width: 100%;
+  width: auto;
   min-height: 2.2rem;
   font-size: 1.115rem;
   line-height: 1.33;
@@ -10339,7 +10337,7 @@ div.alert ul {
 }
 @media screen and (min-width: 993px) {
   .panel-expandable .panel-viewcontrols {
-    flex-grow: 0;
+    flex-shrink: 0;
   }
 }
 .panel-expandable span[data-collapse-glyph-visibility="1"] {

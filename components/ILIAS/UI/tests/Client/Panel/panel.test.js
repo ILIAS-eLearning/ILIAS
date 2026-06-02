@@ -15,19 +15,19 @@
  ********************************************************************
  */
 
-import { expect } from 'chai';
+import { describe, it } from 'node:test';
+import { strict } from 'node:assert/strict';
 
-import panel from '../../../resources/js/Panel/src/panel.main';
+import panel from '../../../resources/js/Panel/src/panel.main.js';
 
 describe('Panel', () => {
   it('components are defined', () => {
-    // eslint-disable-next-line no-unused-expressions
-    expect(panel).to.not.be.undefined;
+    strict.notEqual(panel, undefined);
   });
 
   const p = panel();
 
   it('public interface is defined on panel', () => {
-    expect(p.initExpandable).to.be.a('function');
+    strict.equal(typeof p.initExpandable, 'function');
   });
 });

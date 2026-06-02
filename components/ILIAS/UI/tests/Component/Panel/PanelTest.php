@@ -486,14 +486,14 @@ EOT;
     <div class="panel-heading ilHeader">
         <div class="panel-title"><h2>Title</h2></div>
         <div class="panel-viewcontrols l-bar__space-keeper">
-            <div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element" id="id_1">
-                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-expanded="false" aria-controls="id_1_ctrl">
+            <div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element" id="id_2">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-expanded="false" aria-controls="id_2_ctrl">
                     <span class="label">vc_sort B</span>
                     <span class="glyphicon-sort"></span>
                 </button>
-                <ul id="id_1_ctrl" class="dropdown-menu">
-                   <li><button class="btn btn-link" data-action="?sortation=a" id="id_2">A</button></li>
-                   <li class="selected"><button class="btn btn-link" data-action="?sortation=b" id="id_3">B</button></li>
+                <ul id="id_2_ctrl" class="dropdown-menu">
+                   <li><button class="btn btn-link" data-action="?sortation=a" id="id_3">A</button></li>
+                   <li class="selected"><button class="btn btn-link" data-action="?sortation=b" id="id_4">B</button></li>
                 </ul>
             </div>
         </div>
@@ -531,15 +531,15 @@ EOT;
         <div class="panel-title"><h2>Title</h2></div>
         <div class="panel-viewcontrols l-bar__space-keeper">
             <div class="il-viewcontrol-pagination l-bar__element">
-                <button class="btn btn-default" aria-label="back" data-action="http://ilias.de?page=0" id="id_6">
+                <button class="btn btn-default" aria-label="back" data-action="http://ilias.de?page=0" id="id_7">
                     <span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
                 </button>
-                <button class="btn btn-link" data-action="http://ilias.de?page=0" id="id_1">1</button>
-                <button class="btn btn-link engaged" aria-pressed="true" data-action="http://ilias.de?page=1" id="id_2">2</button>
-                <button class="btn btn-link" data-action="http://ilias.de?page=2" id="id_3">3</button>
-                <button class="btn btn-link" data-action="http://ilias.de?page=3" id="id_4">4</button>
-                <button class="btn btn-link" data-action="http://ilias.de?page=4" id="id_5">5</button>
-                <button class="btn btn-default" aria-label="next" data-action="http://ilias.de?page=2" id="id_7">
+                <button class="btn btn-link" data-action="http://ilias.de?page=0" id="id_2">1</button>
+                <button class="btn btn-link engaged" aria-pressed="true" data-action="http://ilias.de?page=1" id="id_3">2</button>
+                <button class="btn btn-link" data-action="http://ilias.de?page=2" id="id_4">3</button>
+                <button class="btn btn-link" data-action="http://ilias.de?page=3" id="id_5">4</button>
+                <button class="btn btn-link" data-action="http://ilias.de?page=4" id="id_6">5</button>
+                <button class="btn btn-default" aria-label="next" data-action="http://ilias.de?page=2" id="id_8">
                     <span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
                 </button>
             </div>
@@ -648,14 +648,14 @@ EOT;
                 <button aria-expanded="true" aria-controls="body_id_1" id="header_id_1">
 				    <span>
                         <span data-collapse-glyph-visibility="1">
-                            <a class="glyph" aria-label="collapse_content">
+                            <span class="glyph" aria-label="collapse_content" role="img">
                                 <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                            </a>
+                            </span>
                         </span>
                         <span data-expand-glyph-visibility="0">
-                            <a class="glyph" aria-label="expand_content">
+                            <span class="glyph" aria-label="expand_content" role="img">
                                 <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                            </a>
+                            </span>
                         </span>Title
                     </span>
 			    </button>
@@ -690,14 +690,14 @@ EOT;
                 <button aria-expanded="false" aria-controls="body_id_1" id="header_id_1">
 				    <span>
                         <span data-collapse-glyph-visibility="0">
-                            <a class="glyph" aria-label="collapse_content">
+                            <span class="glyph" aria-label="collapse_content" role="img">
                                 <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                            </a>
+                            </span>
                         </span>
                         <span data-expand-glyph-visibility="1">
-                            <a class="glyph" aria-label="expand_content">
+                            <span class="glyph" aria-label="expand_content" role="img">
                                 <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                            </a>
+                            </span>
                         </span>Title
                     </span>
 			    </button>

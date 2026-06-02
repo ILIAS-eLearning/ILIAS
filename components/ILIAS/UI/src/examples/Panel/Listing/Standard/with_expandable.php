@@ -1,9 +1,35 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Panel\Listing\Standard;
 
+/**
+ * ---
+ * description: >
+ *   Example for rendering an expandable panel listing with view controls, actions, and modal signals.
+ *
+ * expected output: >
+ *   ILIAS shows a panel listing with a collapsible heading, pagination view control, actions dropdown,
+ *   and grouped item content.
+ * ---
+ */
 function with_expandable(): string
 {
     global $DIC;
@@ -55,9 +81,6 @@ function with_expandable(): string
                    "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
                );
 
-    $modal1 = $f->modal()->roundtrip("Expand", $f->legacy("Panel has been expanded."));
-    $modal2 = $f->modal()->roundtrip("Collapse", $f->legacy("Panel has been collapsed."));
-
     $std_list = $f->panel()->listing()->standard("List Title", [
         $f->item()->group("Subtitle 1", [
             $item1,
@@ -68,7 +91,7 @@ function with_expandable(): string
         ])
     ])->withActions($actions)
                   ->withViewControls($view_controls)
-                  ->withExpandable(true, false, $modal1->getShowSignal(), $modal2->getShowSignal());
+                  ->withExpandable(true, false);
 
-    return $renderer->render([$std_list, $modal1, $modal2]);
+    return $renderer->render([$std_list]);
 }

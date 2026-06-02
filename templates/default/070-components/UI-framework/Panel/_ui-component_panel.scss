@@ -127,13 +127,14 @@
 .panel-expandable {
 	.panel-toggler {
 		order: 1;
-		flex-grow: 1;
+		flex: 0 1 auto;
+		min-width: 0;
 
 		button {
 			background-color: $il-main-dark-bg;
 			border: none;
 			padding: 0;
-			width: 100%;
+			width: auto;
 			min-height: $il-btn-ctrl-outer-height;
 			font-size: $il-font-size-xlarge;
 			line-height: $il-line-height-large;
@@ -143,7 +144,7 @@
 	}
 	.panel-viewcontrols {
 		@include break.on-screen-size(large) {
-			flex-grow: 0;
+			flex-shrink: 0;
 		}
 	}
 	span[data-collapse-glyph-visibility="1"] {

@@ -25,6 +25,7 @@ use ILIAS\UI\Factory;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Implementation\Render\Template as Template;
+use ILIAS\UI\Implementation\Render\ResourceRegistry;
 
 trait HasExpandableRenderer
 {
@@ -44,7 +45,7 @@ trait HasExpandableRenderer
         return $tpl;
     }
 
-    protected function parseHeader(
+    protected function parseHeading(
         C\Panel\IsExpandable $component,
         string $component_id,
         RendererInterface $default_renderer,
@@ -162,5 +163,11 @@ trait HasExpandableRenderer
         );
 
         return $component;
+    }
+
+    public function registerResources(ResourceRegistry $registry): void
+    {
+        parent::registerResources($registry);
+        $registry->register('assets/js/panel.js');
     }
 }

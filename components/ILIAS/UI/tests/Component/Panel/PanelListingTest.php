@@ -29,18 +29,25 @@ use ILIAS\UI\Implementation as I;
  */
 class PanelListingTest extends ILIAS_UI_TestBase
 {
+    use LanguageStubs;
+
     public function getUIFactory(): NoUIFactory
     {
-        return new class () extends NoUIFactory {
+        return new class ($this->createRelayArgumentLanguageStub()) extends NoUIFactory {
+            public function __construct(
+                protected \ILIAS\Language\Language $language,
+            ) {
+            }
+
             public function button(): I\Component\Button\Factory
             {
                 return new I\Component\Button\Factory();
             }
-            public function symbol(): C\Symbol\Factory
+            public function symbol(): I\Component\Symbol\Factory
             {
                 return new I\Component\Symbol\Factory(
                     new I\Component\Symbol\Icon\Factory(),
-                    new I\Component\Symbol\Glyph\Factory(),
+                    new I\Component\Symbol\Glyph\Factory($this->language),
                     new I\Component\Symbol\Avatar\Factory()
                 );
             }
@@ -224,14 +231,14 @@ EOT;
                 <button aria-expanded="true" aria-controls="body_id_1" id="header_id_1">
 				    <span>
                         <span data-collapse-glyph-visibility="1">
-                            <a class="glyph" aria-label="collapse_content">
+                            <span class="glyph" aria-label="collapse_content" role="img">
                                 <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                            </a>
+                            </span>
                         </span>
                         <span data-expand-glyph-visibility="0">
-                            <a class="glyph" aria-label="expand_content">
+                            <span class="glyph" aria-label="expand_content" role="img">
                                 <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                            </a>
+                            </span>
                         </span>title
                     </span>
 			    </button>
@@ -267,14 +274,14 @@ EOT;
                 <button aria-expanded="false" aria-controls="body_id_1" id="header_id_1">
 				    <span>
                         <span data-collapse-glyph-visibility="0">
-                            <a class="glyph" aria-label="collapse_content">
+                            <span class="glyph" aria-label="collapse_content" role="img">
                                 <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                            </a>
+                            </span>
                         </span>
                         <span data-expand-glyph-visibility="1">
-                            <a class="glyph" aria-label="expand_content">
+                            <span class="glyph" aria-label="expand_content" role="img">
                                 <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                            </a>
+                            </span>
                         </span>title
                     </span>
 			    </button>
