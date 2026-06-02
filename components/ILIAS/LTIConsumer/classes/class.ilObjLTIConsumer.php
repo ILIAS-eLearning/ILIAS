@@ -1028,8 +1028,8 @@ class ilObjLTIConsumer extends ilObject2
                 break;
         }
 
-        $userIdLTI = ilCmiXapiUser::getIdentAsId($provider->getPrivacyIdent(), $DIC->user());
-        $emailPrimary = ilCmiXapiUser::getIdent($provider->getPrivacyIdent(), $DIC->user());
+        $userIdLTI = self::getDeepLinkingUserIdentifier($provider, $DIC->user());
+        $emailPrimary = self::getDeepLinkingUserEmail($provider, $DIC->user());
         $toolConsumerInstanceGuid = CLIENT_ID . ".";
         $parseIliasUrl = parse_url(self::getIliasHttpPath());
         if (array_key_exists("path", $parseIliasUrl)) {
@@ -1083,6 +1083,24 @@ class ilObjLTIConsumer extends ilObject2
             return null;
         }
         return self::LTISignJWT($content_select_vars, '', $clientId, $deploymentId, $nonce);
+    }
+
+    public static function getDeepLinkingUserIdentifier(ilLTIConsumeProvider $provider, ilObjUser $user): string
+    {
+        if (filter_var($user->getEmail(), FILTER_VALIDATE_EMAIL)) {
+            return $user->getEmail();
+        }
+
+        return ilCmiXapiUser::getIdentAsId($provider->getPrivacyIdent(), $user);
+    }
+
+    public static function getDeepLinkingUserEmail(ilLTIConsumeProvider $provider, ilObjUser $user): string
+    {
+        if (filter_var($user->getEmail(), FILTER_VALIDATE_EMAIL)) {
+            return $user->getEmail();
+        }
+
+        return ilCmiXapiUser::getIdent($provider->getPrivacyIdent(), $user);
     }
 
     public static function LTISignJWT(
