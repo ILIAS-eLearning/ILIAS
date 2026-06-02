@@ -25,6 +25,7 @@ declare(strict_types=1);
  */
 class ilGoogleMapGUI extends ilMapGUI
 {
+    protected const GOOGLE_MAP_ID = "DEMO_MAP_ID";
     protected static bool $google_maps_api_added = false;
     protected string $css_row = "";
 
@@ -54,7 +55,7 @@ class ilGoogleMapGUI extends ilMapGUI
             $html_tpl->setCurrentBlock("google_maps_api");
             $html_tpl->setVariable(
                 "GOOGLE_MAPS_API_SRC",
-                "https://maps.googleapis.com/maps/api/js?key=" . rawurlencode($api_key)
+                "https://maps.googleapis.com/maps/api/js?key=" . rawurlencode($api_key) . "&libraries=marker"
             );
             $html_tpl->parseCurrentBlock();
             self::$google_maps_api_added = true;
@@ -119,6 +120,7 @@ class ilGoogleMapGUI extends ilMapGUI
         $html_tpl->setVariable("HEIGHT", $this->getHeight());
 
         $js_tpl->setVariable("MAP_ID", $this->getMapId());
+        $js_tpl->setVariable("GOOGLE_MAP_ID", self::GOOGLE_MAP_ID);
         $js_tpl->setVariable("LAT", $this->getLatitude());
         $js_tpl->setVariable("LONG", $this->getLongitude());
         $js_tpl->setVariable("ZOOM", (int) $this->getZoom());

@@ -24,16 +24,15 @@ ilMapUserMarker["{MAP_ID}"] = Array();
 ilMapUserMarker["{UMAP_ID}"][{CNT}] = new Array({ULAT},{ULONG}, "<div style='width:220px;'><img style='float:right; margin-right:10px;' className='ilUserXXSmall' src='{IMG_USER}'\/><span className='small'>{USER_INFO}<\/span><\/div>");
 <!-- END user_marker -->
 
-if (google.maps)
+var ilAdvancedMarkerElement = null;
+if (typeof google !== "undefined" && google.maps)
 {
-    var ilMarkerImage = new google.maps.MarkerImage(
-        "./assets/images/standard/icon_mapm.svg",
-        new google.maps.Size(12, 20),
-        new google.maps.Point(0,0),
-        new google.maps.Point(6, 20));
+    ilAdvancedMarkerElement = google.maps.marker && google.maps.marker.AdvancedMarkerElement
+        ? google.maps.marker.AdvancedMarkerElement
+        : null;
 }
 
-if (google.maps)
+if (typeof google !== "undefined" && google.maps)
 {
 	ilInitMaps();
 }
@@ -75,7 +74,8 @@ function ilInitMap(id, latitude, longitude, zoom, type_control,
         streetViewControl: false,
         mapTypeControl: type_control,
         scaleControl: true,
-        panControl: (nav_control || large_map_control)
+        panControl: (nav_control || large_map_control),
+        mapId: "{GOOGLE_MAP_ID}"
     }
     var map = new google.maps.Map(document.getElementById(id), mapOptions);
 
@@ -138,7 +138,7 @@ function ilUpdateLocationInput(id, map, loc, address)
 
     if (ilCM[id])
     {
-        ilCM[id].setPosition(loc);
+        ilSetMarkerPosition(ilCM[id], loc);
     }
 }
 
@@ -193,19 +193,53 @@ function ilUpdateMap(id)
 
     if (ilCM[id])
     {
-        ilCM[id].setPosition(loc);
+        ilSetMarkerPosition(ilCM[id], loc);
     }
+}
+
+function ilCreateMarkerContent()
+{
+    var markerContent = document.createElement("img");
+    markerContent.src = "./assets/images/standard/icon_mapm.svg";
+    markerContent.width = 24;
+    markerContent.height = 40;
+    markerContent.alt = "";
+    return markerContent;
 }
 
 function ilCreateMarker(map, latitude, longitude)
 {
     var point = new google.maps.LatLng(latitude, longitude);
-    var marker = new google.maps.Marker({
+    if (ilAdvancedMarkerElement)
+    {
+        return new ilAdvancedMarkerElement({
+            position: point,
+            map: map,
+            content: ilCreateMarkerContent(),
+            anchorLeft: "-50%",
+            anchorTop: "-100%"
+        });
+    }
+
+    return new google.maps.Marker({
         position: point,
-        icon: ilMarkerImage,
+        icon: {
+            url: "./assets/images/standard/icon_mapm.svg",
+            scaledSize: new google.maps.Size(48, 80),
+            anchor: new google.maps.Point(24, 80)
+        },
         map: map
     });
-    return marker;
+}
+
+function ilSetMarkerPosition(marker, loc)
+{
+    if (typeof marker.setPosition === "function")
+    {
+        marker.setPosition(loc);
+        return;
+    }
+    marker.position = loc;
 }
 
 /**
@@ -234,7 +268,10 @@ function ilMapOpenInfoWindow(id, map, marker, j)
     var infowindow = new google.maps.InfoWindow({
         content: ilMapUserMarker[id][j][2]
     });
-    infowindow.open(map, marker);
+    infowindow.open({
+        anchor: marker,
+        map: map
+    });
 }
 
 function ilShowUserMarker(id, j)
@@ -245,7 +282,10 @@ function ilShowUserMarker(id, j)
     var infowindow = new google.maps.InfoWindow({
         content: ilMapUserMarker[id][j][2]
     });
-    infowindow.open(ilMap[id], ilMapUserMarker[id][j][3]);
+    infowindow.open({
+        anchor: ilMapUserMarker[id][j][3],
+        map: ilMap[id]
+    });
 
     return false;
 }
