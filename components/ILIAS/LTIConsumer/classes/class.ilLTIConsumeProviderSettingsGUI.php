@@ -107,7 +107,7 @@ class ilLTIConsumeProviderSettingsGUI
 
         $platform_client_id = $provider->getClientId();
         $deployment_id = $provider->getId();
-        $user_id = ilCmiXapiUser::getIdentAsId($provider->getPrivacyIdent(), $DIC->user());                          // or whatever you used as login_hint
+        $user_id = ilObjLTIConsumer::getDeepLinkingUserIdentifier($provider, $DIC->user());                          // or whatever you used as login_hint
 
         $lti_message_hint = json_encode([
             'deployment_id' => $deployment_id,
