@@ -75,8 +75,8 @@ class ModalTest extends TestCase
         $ui->method('factory')->willReturn($factory);
         $container->method('ui')->willReturn($ui);
         $container->method('language')->willReturn($language);
-        $image->expects(self::once())->method('responsive')->willReturn($image_component);
-        $divider->expects(self::once())->method('horizontal')->willReturn($divider_component);
+        $image->expects($this->once())->method('responsive')->willReturn($image_component);
+        $divider->expects($this->once())->method('horizontal')->willReturn($divider_component);
 
         $properties = [
             'lorem' => 'ipsum',
@@ -84,7 +84,7 @@ class ModalTest extends TestCase
         ];
 
         $item_component->method('withDescription')->willReturn($item_component);
-        $item_component->method('withProperties')->with($properties)->willReturn($item_component);
+        $item_component->expects($this->once())->method('withProperties')->with($properties)->willReturn($item_component);
 
         $content->method('badge')->willReturn($badge);
         $content->method('properties')->willReturn($properties);
