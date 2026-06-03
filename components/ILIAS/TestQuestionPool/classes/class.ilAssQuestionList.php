@@ -582,7 +582,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
             $row['description'] = $tags_trafo->transform($row['description'] ?? '');
             $row['author'] = $tags_trafo->transform($row['author']);
             $row['taxonomies'] = $this->loadTaxonomyAssignmentData($row['obj_fi'], $row['question_id']);
-            $row['question_type'] = $this->lng->txt($row['question_type']);
+            $row['question_type'] = $this->getQuestionTypeTranslation($row);
             $row['feedback'] = $row['feedback'] === 1;
             $row['comments'] = $this->getNumberOfCommentsForQuestion($row['question_id']);
 
@@ -702,6 +702,22 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
             ->getPluginSlotById('qst')
             ->getPluginByName($questionData['plugin_name'])
             ->isActive();
+    }
+
+    private function getQuestionTypeTranslation(array $questionData): string
+    {
+        if (!($questionData['plugin'] ?? false)) {
+            return $this->lng->txt($questionData['question_type']);
+        }
+
+        global $DIC;
+        foreach ($DIC['component.factory']->getActivePluginsInSlot('qst') as $plugin) {
+            if ($plugin->getQuestionType() === $questionData['question_type']) {
+                return $plugin->getQuestionTypeTranslation();
+            }
+        }
+
+        return $this->lng->txt($questionData['question_type']);
     }
 
     public function getDataArrayForQuestionId(int $questionId): array
