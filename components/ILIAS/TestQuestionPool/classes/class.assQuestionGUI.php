@@ -1063,6 +1063,17 @@ abstract class assQuestionGUI
             }
         }
 
+        return $this->getQuestionTypeTranslation();
+    }
+
+    private function getQuestionTypeTranslation(): string
+    {
+        $question_properties = $this->questionrepository->getForQuestionId($this->object->getId());
+        $type_name = $question_properties?->getTypeName($this->lng);
+        if ($type_name !== null && $type_name !== '') {
+            return $type_name;
+        }
+
         return $this->lng->txt($this->object->getQuestionType());
     }
 
