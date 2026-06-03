@@ -82,7 +82,7 @@ if (
     $provider = ilLTIConsumeProvider::getInstance($provider_id);
 
     $hint = sanitizeJson($ltiMessageHint);
-    if ($provider->getContentItemUrl() == $redirectUri && isset($hint['deployment_id'])) {
+    if (isset($hint['deployment_id'])) {
 
         $isDlMode = true;
         $deploymentId = (int) $hint['deployment_id'];

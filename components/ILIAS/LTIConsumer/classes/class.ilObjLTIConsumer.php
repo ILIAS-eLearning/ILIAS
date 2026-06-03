@@ -1082,7 +1082,7 @@ class ilObjLTIConsumer extends ilObject2
             $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', 'ERROR_OPEN_SSL_CONF', true);
             return null;
         }
-        return self::LTISignJWT($content_select_vars, '', $clientId, $deploymentId, $nonce);
+        return self::LTISignJWT($content_select_vars, $provider->getContentItemUrl(), $clientId, $deploymentId, $nonce);
     }
 
     public static function getDeepLinkingUserIdentifier(ilLTIConsumeProvider $provider, ilObjUser $user): string
