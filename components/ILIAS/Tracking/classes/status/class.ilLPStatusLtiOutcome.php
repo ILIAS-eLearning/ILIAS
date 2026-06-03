@@ -28,6 +28,54 @@ class ilLPStatusLtiOutcome extends ilLPStatus
 {
     private static array $userResultCache = array();
 
+    private static function getUsersByStatus(int $a_obj_id, int $a_status): array
+    {
+        global $DIC;
+
+        $ilDB = $DIC['ilDB'];
+
+        $usr_ids = array();
+        $query = 'SELECT DISTINCT usr_id FROM ut_lp_marks'
+            . ' WHERE obj_id = ' . $ilDB->quote($a_obj_id, 'integer')
+            . ' AND status = ' . $ilDB->quote($a_status, 'integer');
+
+        $res = $ilDB->query($query);
+        while ($row = $ilDB->fetchAssoc($res)) {
+            $usr_ids[] = (int) $row['usr_id'];
+        }
+
+        return $usr_ids;
+    }
+
+    public static function _getInProgress(int $a_obj_id): array
+    {
+        return self::getUsersByStatus($a_obj_id, self::LP_STATUS_IN_PROGRESS_NUM);
+    }
+
+    public static function _getCompleted(int $a_obj_id): array
+    {
+        return self::getUsersByStatus($a_obj_id, self::LP_STATUS_COMPLETED_NUM);
+    }
+
+    public static function _getFailed(int $a_obj_id): array
+    {
+        return self::getUsersByStatus($a_obj_id, self::LP_STATUS_FAILED_NUM);
+    }
+
+    public static function _getNotAttempted(int $a_obj_id): array
+    {
+        $members = ilObjectLP::getInstance($a_obj_id)->getMembers();
+        if (!$members) {
+            return array();
+        }
+
+        $users = array_diff((array) $members, self::_getInProgress($a_obj_id));
+        $users = array_diff($users, self::_getCompleted($a_obj_id));
+        $users = array_diff($users, self::_getFailed($a_obj_id));
+
+        return $users;
+    }
+
     private function getLtiUserResult(
         int $objId,
         int $usrId
