@@ -175,6 +175,11 @@ class ilLTIConsumerResult
         return $this->result;
     }
 
+    public function setAttended(bool $attended): void
+    {
+        $this->attended = $attended;
+    }
+
     /**
      * @param $objId
      * @return ilLTIConsumerResult[]
