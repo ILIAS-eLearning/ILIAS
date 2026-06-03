@@ -974,7 +974,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
             if (preg_match_all('/\S+/sm', $this->getInput('redirection_uris'), $redirect_uris_matches)) {
                 $provider->setRedirectionUris(implode(",", $redirect_uris_matches[0]));
             } else {
-                $provider->setRedirectionUris($this->provider->getInitiateLogin());
+                $provider->setRedirectionUris($this->provider->getRedirectionUris());
             }
             $provider->setKeyType($this->getInput('key_type'));
             if ($provider->getKeyType() == 'RSA_KEY') {

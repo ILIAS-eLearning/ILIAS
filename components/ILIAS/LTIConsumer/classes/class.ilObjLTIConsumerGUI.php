@@ -415,7 +415,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $tplLogin = new ilTemplate("tpl.lti_initial_login.html", true, true, "components/ILIAS/LTIConsumer");
             $tplLogin->setVariable("LTI_INITIAL_LOGIN_ACTION", $provider->getInitiateLogin());
             $tplLogin->setVariable("ISS", ilObjLTIConsumer::getIliasHttpPath());
-            $tplLogin->setVariable("TARGET_LINK_URL", $provider->getProviderUrl());
+            $tplLogin->setVariable("TARGET_LINK_URL", $provider->getContentItemUrl());
             $tplLogin->setVariable("LOGIN_HINT", $userIdLTI);
             $tplLogin->setVariable("LTI_MESSAGE_HINT", $ltiMessageHint);
             $tplLogin->setVariable("CLIENT_ID", $provider->getClientId());
@@ -424,10 +424,18 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             exit; //TODO: no exit
         } else {
             $loginData = ilSession::get('lti13_login_data');
+            $redirectUri = $loginData['redirect_uri'] ?? '';
+            $allowedRedirectUris = array_map('trim', explode(',', $provider->getRedirectionUris()));
+            if (!in_array($redirectUri, $allowedRedirectUris, true)) {
+                $DIC->http()->saveResponse($DIC->http()->response()->withStatus(400));
+                $DIC->http()->sendResponse();
+                $DIC->http()->close();
+                exit;
+            }
             // ToDo: correct Link!! replace ILIAS_HTTP_PATH
             $data = ilObjLTIConsumer::buildContentSelectionParameters($provider, (int) $ref_id, ilObjLTIConsumer::getIliasHttpPath() . "/" . $DIC->ctrl()->getLinkTarget($this, 'contentSelectionResponse'), $loginData['nonce']);
             $tplContentSelection = new ilTemplate("tpl.lti_jwt_autosubmit.html", true, true, "components/ILIAS/LTIConsumer");
-            $tplContentSelection->setVariable("LTI_JWT_FORM_ACTION", $provider->getContentItemUrl());
+            $tplContentSelection->setVariable("LTI_JWT_FORM_ACTION", $redirectUri);
             $tplContentSelection->setVariable("LTI_JWT_ID_TOKEN", $data['id_token']);
             $tplContentSelection->setVariable("LTI_JWT_STATE", $loginData['state']);
             ilSession::clear('lti13_login_data');
