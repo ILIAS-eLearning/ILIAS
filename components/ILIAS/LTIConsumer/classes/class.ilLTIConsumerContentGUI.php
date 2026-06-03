@@ -119,7 +119,8 @@ class ilLTIConsumerContentGUI
             return null;
         } else {
             $this->initCmixUser();
-            $params = $this->getLaunchParametersLTI13($loginData['redirect_uri'], $this->object->getProvider()->getClientId(), $this->object->getProvider()->getId(), $loginData['nonce']);
+            $targetLinkUri = $loginData['target_link_uri'] ?? $this->getTargetLinkUri();
+            $params = $this->getLaunchParametersLTI13($targetLinkUri, $this->object->getProvider()->getClientId(), $this->object->getProvider()->getId(), $loginData['nonce']);
             if (isset($loginData['state'])) {
                 $params['state'] = $loginData['state'];
             }
@@ -242,7 +243,7 @@ class ilLTIConsumerContentGUI
         $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $this->object->getProvider()->getInitiateLogin() . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
 
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'iss', ilObjLTIConsumer::getIliasHttpPath()) . "\n";
-        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'target_link_uri', $this->object->getProvider()->getProviderUrl()) . "\n";
+        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'target_link_uri', htmlspecialchars($this->getTargetLinkUri(), ENT_QUOTES)) . "\n";
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'login_hint', $user_ident) . "\n";
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'lti_message_hint', $ltiMessageHint) . "\n";
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'client_id', $this->object->getProvider()->getClientId()) . "\n";
@@ -279,7 +280,7 @@ class ilLTIConsumerContentGUI
         ilSession::set('lti_message_hint', $ltiMessageHint);
         $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $this->object->getProvider()->getInitiateLogin() . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'iss', ilObjLTIConsumer::getIliasHttpPath()) . "\n";
-        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'target_link_uri', $this->object->getProvider()->getProviderUrl()) . "\n";
+        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'target_link_uri', htmlspecialchars($this->getTargetLinkUri(), ENT_QUOTES)) . "\n";
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'login_hint', $user_ident) . "\n";
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'lti_message_hint', $ltiMessageHint) . "\n";
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'client_id', $this->object->getProvider()->getClientId()) . "\n";
@@ -382,6 +383,18 @@ class ilLTIConsumerContentGUI
             $launchContextId,
             $launchContextTitle
         );
+    }
+
+    private function getTargetLinkUri(): string
+    {
+        foreach (explode(';', $this->object->getCustomParams()) as $param) {
+            $parts = explode('=', $param, 2);
+            if (count($parts) === 2 && trim($parts[0]) === 'target_link_uri') {
+                return trim($parts[1]);
+            }
+        }
+
+        return $this->object->getProvider()->getProviderUrl();
     }
 
     public static function isEmbeddedLaunchRequest(): bool

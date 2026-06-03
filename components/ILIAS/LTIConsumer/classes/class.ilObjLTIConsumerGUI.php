@@ -516,8 +516,13 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $newObj->setProvider($provider);
             // custom params
             $customParams = [];
-            foreach ($item->{'custom'} as $key => $value) {
-                $customParams[] = $key . "=" . $value;
+            if (isset($item->url)) {
+                $customParams[] = 'target_link_uri=' . (string) $item->url;
+            }
+            if (isset($item->custom) && is_object($item->custom)) {
+                foreach ($item->custom as $key => $value) {
+                    $customParams[] = $key . "=" . $value;
+                }
             }
             if (count($customParams) > 0) {
                 $newObj->setCustomParams(implode(";", $customParams));
