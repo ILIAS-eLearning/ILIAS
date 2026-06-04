@@ -88,7 +88,7 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
 
                 $question_listing = $f->legacy()->content($r->render($question_listing));
 
-                $label = $lng->txt('mainbar_button_label_questionlist');
+                $label = $lng->txt('questionlist');
                 $entry = $f->maincontrols()->slate()->legacy(
                     $label,
                     $f->symbol()->icon()->standard('tst', $label),

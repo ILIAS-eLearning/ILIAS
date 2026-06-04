@@ -65,7 +65,7 @@ class EditOverview implements Viewable
         }
 
         return $this->environment->getUIFactory()->panel()->standard(
-            $this->environment->getLanguage()->txt('basic_answer_form_properites'),
+            $this->environment->getLanguage()->txt('basic_answer_form_properties'),
             $content
         );
     }

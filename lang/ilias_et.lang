@@ -422,7 +422,6 @@ adve#:#adve_use_tiny_mce#:#Võimalda TinyMCE WYSIWYG toimetamiseks
 assessment#:#activate_logging#:#aktiveeri testi ja hindamise logimine
 assessment#:#activate_manual_scoring#:#Enable Manual Scoring###28 10 2024 new variable
 assessment#:#activate_manual_scoring_desc#:#Enables manual Scoring for all question types.###28 10 2024 new variable
-assessment#:#addSuggestedSolution#:#Lisa soovituslik lahendus
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
 assessment#:#add_circle#:#Lisa ringiala
 assessment#:#add_gap#:#Lisa lünka tekst
@@ -447,7 +446,6 @@ assessment#:#answer_is_not_correct_but_positive#:#Said vastuse eest punkti(d), k
 assessment#:#answer_is_right#:#Lahendus on õige
 assessment#:#answer_is_wrong#:#Lahendus on vale
 assessment#:#answer_of#:#Answer of###07 02 2020 new variable
-assessment#:#answer_options#:#Answer Options: ###23 12 2015 new variable
 assessment#:#answer_question#:#Answer Question###30 08 2015 new variable
 assessment#:#answer_text#:#Vastustekst
 assessment#:#answer_types#:#Vastusetüübid
@@ -501,7 +499,6 @@ assessment#:#ass_completion_by_submission#:#Tööd saadetud
 assessment#:#ass_completion_by_submission_info#:#Võimaldamise korral loetakse antud küsimus vastatuks vähemalt ühe faili esitamisel ja selle eest saab maksimaalse punktisumma. Punktisummat saab hiljem käsitsi muuta. Antud seade vahetamine ei muuda olemasolevaid ehk juba ära saadetud vastuseid.
 assessment#:#ass_create_export_file_with_results#:#Create Test Export File (incl. Participant Results)###25 10 2016 new variable
 assessment#:#ass_create_export_test_archive#:#Create Test Archive File
-assessment#:#ass_create_question#:#Create Question
 assessment#:#ass_imap_hint#:#Hint to be shown as Tooltip###25 10 2016 new variable
 assessment#:#ass_imap_map_file_not_readable#:#The uploaded image map could not be read.###25 10 2016 new variable
 assessment#:#ass_imap_no_map_found#:#Could not find any form in the uploaded image map.###25 10 2016 new variable
@@ -571,10 +568,6 @@ assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer t
 assessment#:#cloze_fixed_textlength#:#Tekstivälja pikkus
 assessment#:#cloze_fixed_textlength_description#:#Kui sisestad nullist suurema väärtuse, luuakse kõik teksti- ja numbriväljad selles väärtuses fikseeritud pikkuses.
 assessment#:#cloze_gap_size_info#:#If you enter a value greater than 0, this gap text field will be created with the fixed length of this value. If you do not enter a value the gap text fiel will be created with the value of the global fixed length.
-assessment#:#cloze_text#:#Lünktekst
-assessment#:#cloze_textgap_case_insensitive#:#Mittetundlik variant
-assessment#:#cloze_textgap_case_sensitive#:#Tundlik variant
-assessment#:#cloze_textgap_levenshtein_of#:#Levenšteini kaugus of %s
 assessment#:#code#:#Kood
 assessment#:#codebase#:#Koodibaas
 assessment#:#concatenation#:#Jätkamine
@@ -757,9 +750,7 @@ assessment#:#fq_formula_desc#:#You may enter predefined variables ($v1 to $vn), 
 assessment#:#fq_no_restriction_info#:#Both decimals and fractions are accepted as input.
 assessment#:#fq_precision_info#:#Enter the number of desired decimal places.
 assessment#:#fq_question_desc#:#You can define variables by inserting $v1, $v2 ... $vn, results by inserting $r1, $r2 .... $rn at the desired position in the question text. Click on the button "Parse Question" to create editing forms for variables and results.
-assessment#:#gap#:#Lünk
 assessment#:#gap_combination#:#Gap Combination
-assessment#:#gaps#:#Gaps###29 10 2025 new variable
 assessment#:#glossary_term#:#Sõnastiku mõiste
 assessment#:#goto_first_question#:#Show First Question###29 10 2025 new variable
 assessment#:#grading_mark_msg#:#Your resulting mark is: &quot;[mark]&quot;
@@ -777,7 +768,6 @@ assessment#:#info_answer_type_change#:#Küsimus juba sisaldab pilte. Te ei saa m
 assessment#:#info_text_upload#:#Choose an answer file to upload###30 08 2015 new variable
 assessment#:#insert_after#:#Sisesta pärast
 assessment#:#insert_before#:#Sisesta enne
-assessment#:#insert_gap#:#Insert Gap
 assessment#:#interaction_type#:#Interaction Type###26 08 2024 new variable
 assessment#:#internal_links#:#Sisemised lingid
 assessment#:#intprecision#:#Divisible By
@@ -889,7 +879,6 @@ assessment#:#logs_wrong_test_password_provided#:#Participant entered wrong test 
 assessment#:#longmenu#:#Longmenu###10 11 2018 new variable
 assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###26 08 2024 new variable
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
-assessment#:#mainbar_button_label_questionlist#:#Questionlist###26 08 2024 new variable
 assessment#:#maintenance#:#Säilitamine
 assessment#:#manscoring#:#Käsitsi punktihaldus
 assessment#:#manscoring_done#:#Hinnatud osalejad
@@ -916,7 +905,6 @@ assessment#:#maximum_nr_of_tries_reached#:#Lubatud soorituste arv on täis. Test
 assessment#:#maximum_points#:#Maksimaalsed võimalikud punktid
 assessment#:#maxsize#:#Üleslaetava faili maksimaalne suurus
 assessment#:#maxsize_info#:#Sisesta üleslaetavate failide lubatud maksimumsuurus baitides. Kui jätad selle välja tühjaks, valib see installatsioon lubatud maksimumsuruse ise.
-assessment#:#min_auto_complete#:#Autocomplete###25 10 2016 new variable
 assessment#:#min_ip_label#:#Lowest IP With Access###26 08 2024 new variable
 assessment#:#min_percentage_ne_0#:#Sa pead määrama miinimumtasemeks 0 protsenti! Hindeskeemi ei salvestatud.
 assessment#:#misc#:#Misc Options
@@ -925,7 +913,6 @@ assessment#:#mode_onebyone#:#One by One###29 10 2025 new variable
 assessment#:#mode_question#:#Question oriented###29 10 2025 new variable
 assessment#:#mode_user#:#Participant oriented###29 10 2025 new variable
 assessment#:#msg_circle_added#:#Ringiala lisatud
-assessment#:#msg_no_questions_selected#:#No questions were selected.###26 08 2024 new variable
 assessment#:#msg_number_of_terms_too_low#:#Mõistete arv peab olema võrdne (või suurem) definitsioonide arvuga.
 assessment#:#msg_poly_added#:#Hulknurk lisatud
 assessment#:#msg_questions_moved#:#Küsimus(ed) on ümber tõstetud
@@ -984,7 +971,6 @@ assessment#:#order#:#Order###26 08 2024 new variable
 assessment#:#ordering_answer_sequence_info#:#Vastuste järjestust siin arvestatakse kui õige vastuse järjestust.
 assessment#:#ordertext#:#Teksti järjestamine
 assessment#:#ordertext_info#:#Palun sisesta tekst, mis peaks olema järjestatud horisontaalselt. Järjestatav tekst eraldatakse tekstis olevate valgete tühikutega. Kui vajad muud eraldajat, võid kasutada eraldajat %s oma tekstiosade eraldamiseks.
-assessment#:#out_of_range#:#Out of range
 assessment#:#output#:#Väljund
 assessment#:#output_mode#:#Väljundi olek
 assessment#:#parseQuestion#:#Parse Question
@@ -1053,7 +1039,6 @@ assessment#:#qpl_bulk_save_add#:#Add###28 10 2024 new variable
 assessment#:#qpl_bulk_save_overwrite#:#Overwrite###28 10 2024 new variable
 assessment#:#qpl_bulkedit_success#:#Modifications saved.###28 10 2024 new variable
 assessment#:#qpl_cancel_skill_assigns_update#:#Cancel###30 08 2015 new variable
-assessment#:#qpl_confirm_delete_questions#:#Kas oled kindel, et soovid järgmise(d) küsimuse(d) kustutada? Kui sa kustutad lukustatud küsimused, kustutatakse ka kõiki lukustatud küsimusi sisaldavad testitulemused.
 assessment#:#qpl_copy_insert_clipboard#:#Valitud küsimus(ed) on puhvrisse salvestatud.
 assessment#:#qpl_copy_select_none#:#Palun märgista puhvrisse kopeerimiseks vähemalt üks küsimus
 assessment#:#qpl_delete_rbac_error#:#Sul ei ole piisavalt õigusi selle küsimuse kustutamiseks!
@@ -1106,7 +1091,6 @@ assessment#:#qpl_qst_skl_usg_skill_col#:#Competence###30 08 2015 new variable
 assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Total Sum of Competence-Points per Competence###30 08 2015 new variable
 assessment#:#qpl_question_is_in_use#:#Küsimus, mida muuta soovid, on käigus juba %s testis. Kui muudad seda küsimust, ei muuda sa seda küsimust testi(de)s, sest süsteem loob testidesse sisestamiseks küsimusest koopia!
 assessment#:#qpl_questions_deleted#:#Küsimus(ed) on kustutatud.
-assessment#:#qpl_reset_preview#:#Reset Preview
 assessment#:#qpl_save_skill_assigns_update#:#Save Competence Assignments###30 08 2015 new variable
 assessment#:#qpl_settings_availability#:#Availability###26 08 2024 new variable
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#When enabled, possibly created taxonomies are shown for filtering.
@@ -1136,14 +1120,6 @@ assessment#:#qst_essay_chars_remaining#:#Remaining characters:###07 02 2020 new 
 assessment#:#qst_essay_wordcounter_enabled#:#Count Words###07 02 2020 new variable
 assessment#:#qst_essay_wordcounter_enabled_info#:#The entered words are counted. The number of written words is shown to the participants below the text input field.###07 02 2020 new variable
 assessment#:#qst_essay_written_words#:#Number of entered words:###07 02 2020 new variable
-assessment#:#qst_lifecycle#:#Lifecycle###07 02 2020 new variable
-assessment#:#qst_lifecycle_draft#:#Draft###07 02 2020 new variable
-assessment#:#qst_lifecycle_filter_all#:#All Lifecycles###07 02 2020 new variable
-assessment#:#qst_lifecycle_final#:#Final###07 02 2020 new variable
-assessment#:#qst_lifecycle_outdated#:#Outdated###07 02 2020 new variable
-assessment#:#qst_lifecycle_rejected#:#Rejected###07 02 2020 new variable
-assessment#:#qst_lifecycle_review#:#To be Reviewed###07 02 2020 new variable
-assessment#:#qst_lifecycle_sharable#:#Sharable###07 02 2020 new variable
 assessment#:#qst_nested_nested_answers_off#:#No indents, just order###29 07 2022 new variable
 assessment#:#qst_nested_nested_answers_on#:#Use indents in anwers###29 07 2022 new variable
 assessment#:#qst_nr_of_tries#:#Katsetuste arv
@@ -1167,17 +1143,14 @@ assessment#:#question_title#:#Küsimuse pealkiri
 assessment#:#question_type#:#Küsimuse liik
 assessment#:#questionpool_not_entered#:#Palun sisesta küsimustevaramu nimi!
 assessment#:#questionpool_not_selected#:#Please select a question pool!###07 02 2020 new variable
-assessment#:#questions#:#Questions###26 08 2024 new variable
 assessment#:#questions_from#:#küsimust
 assessment#:#questions_per_page_view#:#Lehe vaade
 assessment#:#random_accept_sample#:#Kinnita küsimused
 assessment#:#random_another_sample#:#Küsi uusi küsimusi
 assessment#:#random_selection#:#Juhuvalik
 assessment#:#range#:#Vahemik
-assessment#:#range_lower_limit#:#Alumine piir
 assessment#:#range_max#:#Range (Maximum)
 assessment#:#range_min#:#Range (Minimum)
-assessment#:#range_upper_limit#:#Ülemine piir
 assessment#:#rated_sign#:#Sign
 assessment#:#rated_unit#:#Unit
 assessment#:#rated_value#:#Value
@@ -1253,7 +1226,6 @@ assessment#:#search_roles#:#Otsi rolle
 assessment#:#search_term#:#Otsingusõna
 assessment#:#select_at_least_one_feedback_type_and_trigger#:#Please Select at least one type of feedback and a trigger.###26 08 2024 new variable
 assessment#:#select_at_least_one_lock_answer_type#:#Please select at least one type of answer lock.###29 10 2025 new variable
-assessment#:#select_gap#:#Vali lünk
 assessment#:#select_max_one_item#:#Palun vali ainult üks element.
 assessment#:#select_one_user#:#Palun vali vähemalt üks kasutaja.
 assessment#:#select_question#:#Select a Question###28 10 2024 new variable
@@ -1280,7 +1252,6 @@ assessment#:#show_old_introduction#:#Show old introduction###26 08 2024 new vari
 assessment#:#show_pass_overview#:#Näita märgistatud soorituse ülevaadet
 assessment#:#show_results#:#Show Results###28 10 2024 new variable
 assessment#:#show_user_answers#:#Näita kasutaja märgitud vastuseid
-assessment#:#shuffle_answers#:#Sega vastuseid
 assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable
 assessment#:#solution#:#Solution###28 10 2024 new variable
 assessment#:#solutionText#:#Tekst
@@ -13988,6 +13959,35 @@ qpl#:#qpl_page_type_qfbg#:#General Feedback###29 07 2022 new variable
 qpl#:#qpl_page_type_qfbs#:#Special Feedback###29 07 2022 new variable
 qpl#:#qpl_page_type_qht#:#Hint###29 07 2022 new variable
 qpl#:#qpl_page_type_qpl#:#Question Page###29 07 2022 new variable
+qsts#:#answer_options#:#Answer Options ###23 12 2015 new variable
+qsts#:#cloze_text#:#Lünktekst
+qsts#:#cloze_textgapcase_insensitive#:#Mittetundlik variant
+qsts#:#cloze_textgapcase_sensitive#:#Tundlik variant
+qsts#:#cloze_textgaplevenshtein_of#:#Levenšteini kaugus of %s
+qsts#:#confirm_delete_questions#:#Kas oled kindel, et soovid järgmise(d) küsimuse(d) kustutada? Kui sa kustutad lukustatud küsimused, kustutatakse ka kõiki lukustatud küsimusi sisaldavad testitulemused.
+qsts#:#create_question#:#Create Question
+qsts#:#gap#:#Lünk
+qsts#:#gaps#:#Gaps###29 10 2025 new variable
+qsts#:#insert_gap#:#Insert Gap
+qsts#:#min_auto_complete#:#Autocomplete###25 10 2016 new variable
+qsts#:#msg_no_questions_selected#:#No questions were selected.###26 08 2024 new variable
+qsts#:#out_of_range#:#Out of range
+qsts#:#qst_lifecycle#:#Lifecycle###07 02 2020 new variable
+qsts#:#qst_lifecycle_draft#:#Draft###07 02 2020 new variable
+qsts#:#qst_lifecycle_filter_all#:#All Lifecycles###07 02 2020 new variable
+qsts#:#qst_lifecycle_final#:#Final###07 02 2020 new variable
+qsts#:#qst_lifecycle_outdated#:#Outdated###07 02 2020 new variable
+qsts#:#qst_lifecycle_rejected#:#Rejected###07 02 2020 new variable
+qsts#:#qst_lifecycle_review#:#To be Reviewed###07 02 2020 new variable
+qsts#:#qst_lifecycle_sharable#:#Sharable###07 02 2020 new variable
+qsts#:#questionlist#:#Questionlist###26 08 2024 new variable
+qsts#:#questions#:#Questions###26 08 2024 new variable
+qsts#:#range_lower_limit#:#Alumine piir
+qsts#:#range_upper_limit#:#Ülemine piir
+qsts#:#reset_preview#:#Reset Preview
+qsts#:#select_gap#:#Vali lünk
+qsts#:#shuffle_answers#:#Sega vastuseid
+qsts#:#suggested_learning_content#:#Lisa soovituslik lahendus
 rating#:#rat_not_rated_yet#:#Pole veel hääletatud
 rating#:#rat_nr_ratings#:#%s Ratings
 rating#:#rat_one_rating#:#Üks hääletus
@@ -16637,7 +16637,6 @@ survey#:#questionblock#:#Küsimusteplokk
 survey#:#questionblock_inserted#:#Küsimusteplokk on sisestatud
 survey#:#questionblocks#:#Küsimusteplokid
 survey#:#questionblocks_inserted#:#Küsimusteplokid on sisestatud
-survey#:#questions#:#Küsimused
 survey#:#questions_inserted#:#Küsimus(ed) on sisestatud!
 survey#:#questions_removed#:#Küsimus(ed) ja/või küsimusteplok(id) on eemaldatud!
 survey#:#questiontype#:#Küsimuse tüüp
@@ -16938,6 +16937,7 @@ survey#:#svy_please_select_unused_codes#:#Please select at least one unused code
 survey#:#svy_print_hide_labels#:#Hide labels###31 08 2017 new variable
 survey#:#svy_print_show_labels#:#Show labels###31 08 2017 new variable
 survey#:#svy_privacy_info#:#Privacy###29 07 2022 new variable
+survey#:#svy_questions#:#Küsimused
 survey#:#svy_rater#:#Rater###29 07 2022 new variable
 survey#:#svy_rater_see_app_info#:#The names of appraisees will be presented to raters to enable them evaluating the questions.###29 07 2022 new variable
 survey#:#svy_reminder_mail_template#:#Mail Template###25 10 2016 new variable

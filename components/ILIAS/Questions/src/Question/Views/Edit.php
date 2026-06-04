@@ -129,7 +129,7 @@ class Edit
         return $environment->getPresentationFactory()->getEditForm(
             $ff->section(
                 $inputs,
-                $environment->getLanguage()->txt('edit_basic_form_properties')
+                $environment->getLanguage()->txt('edit_basic_question_properties')
             ),
             $environment
                 ->withSubActionParameter(self::CMD_SAVE_QUESTION)
@@ -160,7 +160,7 @@ class Edit
                     $environment->getUIFactory()->input()->field(),
                     $environment->getLanguage()
                 ),
-                $environment->getLanguage()->txt('edit_basic_form_properties')
+                $environment->getLanguage()->txt('edit_basic_question_properties')
             )->withAdditionalTransformation(
                 $this->buildAddBasicPropertiesToQuestionTrafo(
                     $environment->getRefinery()
