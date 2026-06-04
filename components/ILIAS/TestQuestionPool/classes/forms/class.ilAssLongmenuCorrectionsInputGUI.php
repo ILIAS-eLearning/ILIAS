@@ -55,7 +55,7 @@ class ilAssLongmenuCorrectionsInputGUI extends ilAnswerWizardInputGUI
         $this->answer_options_modal = $this->ui->factory()->modal()->lightbox(
             $this->ui->factory()->modal()->lightboxTextPage(
                 $inp->render(),
-                $this->lng->txt('answer_options')
+                "{$this->lng->txt('answer_options')}:"
             )
         );
 
@@ -72,7 +72,7 @@ class ilAssLongmenuCorrectionsInputGUI extends ilAnswerWizardInputGUI
                 )
             )
         );
-        $tpl->setVariable('TXT_ANSWERS', $this->lng->txt('answer_options'));
+        $tpl->setVariable('TXT_ANSWERS', "{$this->lng->txt('answer_options')}:");
         $tpl->setVariable('TXT_CORRECT_ANSWERS', $this->lng->txt('correct_answers') . ':');
 
         $tpl->setVariable('POSTVAR', $this->getPostVar());

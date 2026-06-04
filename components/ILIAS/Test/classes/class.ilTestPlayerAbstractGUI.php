@@ -1849,7 +1849,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         }
 
         $question_listing = $this->ui_factory->listing()->workflow()->linear(
-            $this->lng->txt('mainbar_button_label_questionlist'),
+            $this->lng->txt('questionlist'),
             $questions
         )->withActive($active);
 
