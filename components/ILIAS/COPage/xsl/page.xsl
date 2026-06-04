@@ -2784,6 +2784,10 @@
 	</div>
 </xsl:template>
 
+<xsl:template match="AnswerForm">
+	[[[ANSWER_FORM_<xsl:value-of select="@Uuid"/>]]]
+</xsl:template>
+
 <!-- PlaceHolder -->
 <xsl:template match="PlaceHolder">
 	  <xsl:if test="@ContentClass='Media'">
