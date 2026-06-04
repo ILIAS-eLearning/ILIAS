@@ -713,6 +713,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
     public function toJSON(): string
     {
         $this->lng->loadLanguageModule('assessment');
+        $this->lng->loadLanguageModule('qsts');
 
         $result = [];
         $result['id'] = $this->getId();

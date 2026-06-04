@@ -186,6 +186,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     {
         global $DIC;
         $DIC->language()->loadLanguageModule('assessment');
+        $DIC->language()->loadLanguageModule('qsts');
 
         return [
             [
