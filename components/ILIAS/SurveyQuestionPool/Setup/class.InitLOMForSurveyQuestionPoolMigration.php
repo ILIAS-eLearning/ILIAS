@@ -20,24 +20,17 @@ declare(strict_types=1);
 
 namespace ILIAS\SurveyQuestionPool\Setup;
 
-use ILIAS\Setup;
-use ILIAS\Setup\Objective;
-use ILIAS\Setup\Metrics;
+use ILIAS\MetaData\Setup\InitLOMForObjectTypeMigration;
 
-class Agent extends Setup\Agent\NullAgent
+class InitLOMForSurveyQuestionPoolMigration extends InitLOMForObjectTypeMigration
 {
-    public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
+    protected function objectType(): string
     {
-        return new \ilDatabaseUpdateStepsExecutedObjective(new SurveyQuestionPoolDBUpdateSteps());
+        return 'spl';
     }
 
-    public function getMigrations(): array
+    public function getLabel(): string
     {
-        return [new InitLOMForSurveyQuestionPoolMigration()];
-    }
-
-    public function getStatusObjective(Metrics\Storage $storage): Objective
-    {
-        return new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new SurveyQuestionPoolDBUpdateSteps());
+        return 'Creates LOM sets for pre-existing Survey Question Pools.';
     }
 }

@@ -18,26 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\SurveyQuestionPool\Setup;
+namespace ILIAS\Survey\Setup;
 
 use ILIAS\Setup;
-use ILIAS\Setup\Objective;
-use ILIAS\Setup\Metrics;
 
 class Agent extends Setup\Agent\NullAgent
 {
-    public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
-    {
-        return new \ilDatabaseUpdateStepsExecutedObjective(new SurveyQuestionPoolDBUpdateSteps());
-    }
-
     public function getMigrations(): array
     {
-        return [new InitLOMForSurveyQuestionPoolMigration()];
-    }
-
-    public function getStatusObjective(Metrics\Storage $storage): Objective
-    {
-        return new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new SurveyQuestionPoolDBUpdateSteps());
+        return [new InitLOMForSurveyMigration()];
     }
 }
