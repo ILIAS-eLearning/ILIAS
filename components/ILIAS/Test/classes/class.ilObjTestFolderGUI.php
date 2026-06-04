@@ -62,6 +62,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
         }
 
         $this->lng->loadLanguageModule('assessment');
+        $this->lng->loadLanguageModule('qsts');
     }
 
     private function getTestFolder(): ilObjTestFolder

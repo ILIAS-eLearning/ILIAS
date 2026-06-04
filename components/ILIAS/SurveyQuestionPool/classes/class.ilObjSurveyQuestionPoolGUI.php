@@ -270,7 +270,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         }
 
         $cgui = new ilConfirmationGUI();
-        $cgui->setHeaderText($this->lng->txt("qpl_confirm_delete_questions"));
+        $cgui->setHeaderText($this->lng->txt("confirm_delete_questions"));
 
         $cgui->setFormAction($this->ctrl->getFormAction($this));
         $cgui->setCancel($this->lng->txt("cancel"), "cancelDeleteQuestions");
