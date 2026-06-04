@@ -34,6 +34,8 @@ class Survey implements Component\Component
     ): void {
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentCSS($this, "survey.css");
-        $contribute[\ILIAS\Setup\Agent::class] = static fn() => new \ILIAS\Survey\Setup\Agent();
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() => new \ILIAS\Survey\Setup\Agent(
+            $pull[\ILIAS\Refinery\Factory::class]
+        );
     }
 }
