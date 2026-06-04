@@ -1,0 +1,86 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\Questions\AnswerForm;
+
+use ILIAS\Questions\AnswerForm\Definition;
+use ILIAS\Data\UUID\Factory as UuidFactory;
+
+class Factory
+{
+    /**
+     * @var array<string, \ILIAS\Questions\AnswerForm\Definition> $available_answer_form_types
+     */
+    private readonly array $available_answer_form_types;
+
+    /**
+     * @param array<\ILIAS\Questions\AnswerForm\Definition> $available_answer_form_types
+     */
+    public function __construct(
+        private readonly UuidFactory $uuid_factory,
+        array $available_answer_form_types
+    ) {
+        $this->available_answer_form_types = array_reduce(
+            $available_answer_form_types,
+            function (array $c, Type $v) {
+                $c[$this->getHashedClass($v::class)] = $v;
+                return $c;
+            },
+            []
+        );
+    }
+
+    /**
+     * @return array<string, \ILIAS\Questions\AnswerForm\Definition>
+     */
+    public function getAnswerFormTypesArrayForSelect(): array
+    {
+        return array_reduce(
+            $this->available_answer_form_types,
+            function (array $c, Definition $v): array {
+                $c[$this->getHashedClass($v::class)] = $v->getLabel($this->lng);
+                return $c;
+            },
+            []
+        );
+    }
+
+    public function getHashedClass(string $class): string
+    {
+        return md5($class);
+    }
+
+    public function buildTypeDefinitionFromSelectValue(string $value): Definition
+    {
+        $type = $this->available_answer_form_types[$value] ?? null;
+        if ($type === null) {
+            throw new InvalidArgumentException('This type of answer form does not exist.');
+        }
+        return $type;
+    }
+
+    public function getDefaultTypeGenericProperties(Uuid $question_id): TypeGenericProperties
+    {
+        return new TypeGenericProperties(
+            $this->uuid_factory->uuid4(),
+            $question_id
+        );
+    }
+}

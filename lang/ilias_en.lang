@@ -1137,14 +1137,6 @@ assessment#:#qst_essay_chars_remaining#:#Remaining characters:
 assessment#:#qst_essay_wordcounter_enabled#:#Count Words
 assessment#:#qst_essay_wordcounter_enabled_info#:#The entered words are counted. The number of written words is shown to the participants below the text input field.
 assessment#:#qst_essay_written_words#:#Number of entered words:
-assessment#:#qst_lifecycle#:#Lifecycle
-assessment#:#qst_lifecycle_draft#:#Draft
-assessment#:#qst_lifecycle_filter_all#:#All Lifecycles
-assessment#:#qst_lifecycle_final#:#Final
-assessment#:#qst_lifecycle_outdated#:#Outdated
-assessment#:#qst_lifecycle_rejected#:#Rejected
-assessment#:#qst_lifecycle_review#:#To be Reviewed
-assessment#:#qst_lifecycle_sharable#:#Shareable
 assessment#:#qst_nested_nested_answers_off#:#No indents, just order
 assessment#:#qst_nested_nested_answers_on#:#Use indents in answers
 assessment#:#qst_nr_of_tries#:#Number of Tries
@@ -5112,6 +5104,8 @@ common#:#obj_ps_desc#:#Configure global privacy and security settings here.
 common#:#obj_qpl#:#Question Pool for Tests
 common#:#obj_qpl_duplicate#:#Copy Question Pool for Tests
 common#:#obj_qpl_select#:#-- Please select one question pool for tests --
+common#:#obj_qsts#:#Questions
+common#:#obj_qsts_desc#:#Global Settings For Questions
 common#:#obj_rcat#:#ECS Category
 common#:#obj_rcrs#:#ECS Course
 common#:#obj_recf#:#Restored Objects
@@ -14118,6 +14112,23 @@ qpl#:#qpl_page_type_qfbg#:#General Feedback
 qpl#:#qpl_page_type_qfbs#:#Special Feedback
 qpl#:#qpl_page_type_qht#:#Hint
 qpl#:#qpl_page_type_qpl#:#Question Page
+qsts#:#cloze_enable_combinations#:#Lückenkombinationen aktivieren
+qsts#:#cont_ed_insert_answf#:#Insert Answer Form
+qsts#:#create_answer_form#:#Create Answer Form
+qsts#:#edit_basic_form_properties#:#Edit Basic Form Properties
+qsts#:#qst_lifecycle#:#Lifecycle
+qsts#:#qst_lifecycle_draft#:#Draft
+qsts#:#qst_lifecycle_filter_all#:#All Lifecycles
+qsts#:#qst_lifecycle_final#:#Final
+qsts#:#qst_lifecycle_outdated#:#Outdated
+qsts#:#qst_lifecycle_rejected#:#Rejected
+qsts#:#qst_lifecycle_review#:#To be Reviewed
+qsts#:#qst_lifecycle_sharable#:#Shareable
+qsts#:#qst_remarks#:#Remarks
+qsts#:#score_all#:#All Responses are Scored
+qsts#:#score_distinct#:#Identical Responses are Only Scored Once
+qsts#:#scoring_of_identical_responses#:#Scoring of Identical Responses
+qsts#:#select_answer_form_type#:#Select Type of Answer Form
 rating#:#rat_not_rated_yet#:#Not Rated Yet
 rating#:#rat_nr_ratings#:#%s Ratings
 rating#:#rat_one_rating#:#One Rating

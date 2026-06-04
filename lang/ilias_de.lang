@@ -1137,14 +1137,6 @@ assessment#:#qst_essay_chars_remaining#:#Noch übrige Zeichen:
 assessment#:#qst_essay_wordcounter_enabled#:#Wörter zählen
 assessment#:#qst_essay_wordcounter_enabled_info#:#Die eingegebenen Wörter werden gezählt. Die Anzahl der Wörter wird den Teilnehmern unterhalb des Texteingabefeldes angezeigt.
 assessment#:#qst_essay_written_words#:#Anzahl der eingegebenen Wörter:
-assessment#:#qst_lifecycle#:#Lebenszyklus
-assessment#:#qst_lifecycle_draft#:#Entwurf
-assessment#:#qst_lifecycle_filter_all#:#Alle Lebenszyklen
-assessment#:#qst_lifecycle_final#:#Endgültig
-assessment#:#qst_lifecycle_outdated#:#Veraltet
-assessment#:#qst_lifecycle_rejected#:#Abgelehnt
-assessment#:#qst_lifecycle_review#:#Überarbeitung notwendig
-assessment#:#qst_lifecycle_sharable#:#Verteilbar
 assessment#:#qst_nested_nested_answers_off#:#Ohne Einrückung
 assessment#:#qst_nested_nested_answers_on#:#Mit Einrückung
 assessment#:#qst_nr_of_tries#:#Anzahl der Versuche
@@ -5110,6 +5102,8 @@ common#:#obj_ps_desc#:#Globale Einstellungen für Datenschutz und Sicherheit
 common#:#obj_qpl#:#Fragenpool für Tests
 common#:#obj_qpl_duplicate#:#Fragenpool für Tests kopieren
 common#:#obj_qpl_select#:#-- Bitte wählen Sie einen Fragenpool für Tests aus --
+common#:#obj_qsts#:#Fragen
+common#:#obj_qsts_desc#:#Globale Einstellungen für Fragen
 common#:#obj_rcat#:#ECS-Kategorie
 common#:#obj_rcrs#:#ECS-Kurs
 common#:#obj_recf#:#Wiederhergestellte Objekte
@@ -14155,6 +14149,23 @@ qpl#:#qpl_page_type_qfbg#:#Generelles Feedback
 qpl#:#qpl_page_type_qfbs#:#Spezielles Feedback
 qpl#:#qpl_page_type_qht#:#Hinweis
 qpl#:#qpl_page_type_qpl#:#Fragenseite
+qsts#:#cloze_enable_combinations#:#Enable Gap Combination
+qsts#:#cont_ed_insert_answf#:#Antwortformular einfügen
+qsts#:#create_answer_form#:#Antwortformular erstellen
+qsts#:#edit_basic_form_properties#:#Grundeinstellungen der Frage bearbeiten
+qsts#:#qst_lifecycle#:#Lebenszyklus
+qsts#:#qst_lifecycle_draft#:#Entwurf
+qsts#:#qst_lifecycle_filter_all#:#Alle Lebenszyklen
+qsts#:#qst_lifecycle_final#:#Endgültig
+qsts#:#qst_lifecycle_outdated#:#Veraltet
+qsts#:#qst_lifecycle_rejected#:#Abgelehnt
+qsts#:#qst_lifecycle_review#:#Überarbeitung notwendig
+qsts#:#qst_lifecycle_sharable#:#Verteilbar
+qsts#:#qst_remarks#:#Bemerkungen
+qsts#:#score_all#:#Alle Antworten bewerten
+qsts#:#score_distinct#:#Gleiche Antworten nur einmal bewerten
+qsts#:#scoring_of_identical_responses#:#Bewertung gleicher Antworten
+qsts#:#select_answer_form_type#:#Art des Antwortformulars auswählen
 rating#:#rat_not_rated_yet#:#Noch nicht bewertet
 rating#:#rat_nr_ratings#:#%s Bewertungen
 rating#:#rat_one_rating#:#Eine Bewertung

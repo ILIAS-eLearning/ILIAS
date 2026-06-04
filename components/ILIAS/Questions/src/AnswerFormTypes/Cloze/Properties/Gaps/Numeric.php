@@ -1,0 +1,129 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
+
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Data\AnswerOptions;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Data\AnswerOption;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Data\Data;
+use ILIAS\Language\Language;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Refinery\Constraint;
+use ILIAS\Refinery\Transformation;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Component\Input\Field\Numeric as NumericInput;
+
+class Numeric extends Type
+{
+    private const float DEFAULT_STEP_SIZE = 0.0001;
+
+    public function __construct(
+        Refinery $refinery,
+        private readonly Language $lng,
+        private readonly UIFactory $ui_factory
+    ) {
+        parent::__construct($refinery);
+    }
+
+    public function getIdentifier(): string
+    {
+        return 'numeric';
+    }
+
+    public function getEditAnswerOptionsInputs(Data $data): array
+    {
+        $answer_option = $data->getAnswerOptions()->getAnswerOptionForPositionOrNew(0);
+        $ff = $this->ui_factory->input()->field();
+        return [
+            'lower_limit' => $ff->numeric($this->lng->txt('lower_limit'))
+                ->withStepSize($data->getStepSize() ?? self::DEFAULT_STEP_SIZE)
+                ->withRequired(true)
+                ->withValue($answer_option->getLowerLimit()),
+            'upper_limit' => $ff->numeric($this->lng->txt('upper_limit'))
+                ->withStepSize($data->getStepSize() ?? self::DEFAULT_STEP_SIZE)
+                ->withValue($answer_option->getUpperLimit()),
+            'step_size' => $ff->numeric($this->lng->txt('step_size'))
+                ->withStepSize(0.000001)
+                ->withRequired(true)
+                ->withValue($data->getStepSize() ?? self::DEFAULT_STEP_SIZE)
+        ];
+    }
+
+    public function getEditAnswerOptionsSectionConstraint(): ?Constraint
+    {
+        return $this->refinery->custom()->constraint(
+            fn(array $vs): bool => $vs['upper_limit'] === null
+                || $vs['upper_limit'] >= $vs['lower_limit']
+                    && $vs['upper_limit'] >= $vs['step_size'],
+            $this->lng->txt('upper_limit_bigger_than_lower')
+        );
+    }
+
+    public function getEditPointsInputs(AnswerOptions $answer_options): array
+    {
+        $inputs = $answer_options->getEditPointsInputs(
+            $this->ui_factory->input()->field(),
+            function (AnswerOption $v): string {
+                if ($v->getUpperLimit() === null) {
+                    return sprintf(
+                        $this->lng->txt('equal'),
+                        $v->getLowerLimit()
+                    );
+                }
+
+                return sprintf(
+                    $this->lng->txt('between'),
+                    $v->getLowerLimit(),
+                    $v->getUpperLimit()
+                );
+            }
+        );
+        return array_map(
+            fn(NumericInput $v): NumericInput => $v->withRequired(true),
+            $inputs
+        );
+    }
+
+    public function getEditPointsSectionConstraint(): ?Constraint
+    {
+        return null;
+    }
+
+    public function getBuildGapTransformation(Gap $gap): Transformation
+    {
+        $data = $gap->getData();
+        return $this->refinery->custom()->transformation(
+            fn(array $vs): Gap => $gap->withData(
+                $data->withAnswerOptions(
+                    $data->getAnswerOptions()->withAnswerOptions([
+                        $data->getAnswerOptions()->getAnswerOptionForPositionOrNew(0)
+                            ->withLowerLimit($vs['lower_limit'])
+                            ->withUpperLimit($vs['upper_limit'])
+                        ])
+                )->withStepSize($vs['step_size'])
+            )
+        );
+    }
+
+    public function getAnswerInput(): \ilFormPropertyGUI
+    {
+        ;
+    }
+}
