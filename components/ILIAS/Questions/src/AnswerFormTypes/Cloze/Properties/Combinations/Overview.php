@@ -269,8 +269,7 @@ class Overview implements Viewable, DataRetrieval
             ->withRequest($this->environment->getHttpServices()->request());
         $data = $set_values_modal->getData();
         if ($data === null) {
-            $this->modal = $this->initializeModal($set_values_modal)
-                ->withOnLoad($set_values_modal->getShowSignal());
+            $this->modal = $set_values_modal->withOnLoad($set_values_modal->getShowSignal());
             $inputs_builder->persistCarry();
             return $this;
         }
@@ -315,7 +314,6 @@ class Overview implements Viewable, DataRetrieval
         ?Combination $combination,
     ): InputsBuilderSession {
         $builder = $this->environment->getPresentationFactory()->getSessionBasedInputsBuilder(
-            $this->environment->getAnswerFormProperties()->getAnswerFormId()->toString(),
             $this->environment->getRefinery()->custom()->transformation(
                 function (?string $v) use ($combination): ?Section {
                     $properties = $this->environment->getAnswerFormProperties();
