@@ -17,14 +17,20 @@
  *********************************************************************/
 
 declare(strict_types=1);
-/**
- * Component logger with individual log levels by component id
- *
- * @deprecated Please use {@see \ILIAS\Logging\Logger\LoggerInterface} via
- *   {@see \ILIAS\Logging\Logger\LoggerFactoryInterface} instead.
- *
- * @author Stefan Meyer
- */
-class ilComponentLogger extends ilLogger
+
+namespace ILIAS\Logging\Logger\LevelFetcher;
+
+use ILIAS\Logging\Config\ByComponent\ConfigInterface as ConfigByComponentInterface;
+use ILIAS\Logging\Config\Basic\ConfigInterface as BasicConfigInterface;
+
+interface LevelFetcherFactoryInterface
 {
+    public function componentLevelFetcher(
+        ConfigByComponentInterface $config_by_component,
+        string $component_id
+    ): LevelFetcherInterface;
+
+    public function defaultLevelFetcher(
+        BasicConfigInterface $basic_config
+    ): LevelFetcherInterface;
 }

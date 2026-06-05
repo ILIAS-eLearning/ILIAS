@@ -16,20 +16,19 @@
  *
  *********************************************************************/
 
-chdir("./../../../");
-$ini = new ilIniFile("ilias.ini.php");
-$ini->read();
+declare(strict_types=1);
 
-$http = $ini->readVariable("server", "http_path");
-$http = preg_replace("/^(https:\/\/)|(http:\/\/)+/", "", $http);
+namespace ILIAS\Logging\Config\Basic;
 
-$_SERVER['HTTP_HOST'] = $http;
-$_SERVER['REQUEST_URI'] = "";
+use ILIAS\Logging\ILIASLogLevel;
 
-ilInitialisation::initILIAS();
+interface ConfigInterface
+{
+    public function isLoggingEnabled(): bool;
 
-global $DIC;
+    public function pathToLogFile(): string;
 
-$ilErr = $DIC['ilErr'];
+    public function pathToLogDirectory(): string;
 
-$ilErr->raiseError("This is your error message", $ilErr->FATAL);
+    public function defaultLevel(): ILIASLogLevel;
+}

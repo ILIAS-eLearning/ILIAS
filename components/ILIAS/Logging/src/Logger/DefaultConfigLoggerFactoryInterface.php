@@ -16,16 +16,18 @@
  *
  *********************************************************************/
 
-chdir("./../../../");
-$ini = new ilIniFile("ilias.ini.php");
-$ini->read();
+declare(strict_types=1);
 
-$http = $ini->readVariable("server", "http_path");
-$http = preg_replace("/^(https:\/\/)|(http:\/\/)+/", "", $http);
+namespace ILIAS\Logging\Logger;
 
-$_SERVER['HTTP_HOST'] = $http;
-$_SERVER['REQUEST_URI'] = "";
-
-ilInitialisation::initILIAS();
-
-throw new Exception("This is your error message");
+interface DefaultConfigLoggerFactoryInterface
+{
+    /**
+     * Only use this when you need to log something before
+     * the Database component is initialized.
+     *
+     * Otherwise, please get your fully config aware
+     * logger from {@see LoggerFactoryInterface}.
+     */
+    public function getLazy(string $component_id): LoggerInterface;
+}

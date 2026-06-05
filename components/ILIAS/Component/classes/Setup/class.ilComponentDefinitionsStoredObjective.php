@@ -143,7 +143,6 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
             new \ilBadgeDefinitionProcessor($db),
             new \ilCOPageDefinitionProcessor($db),
             new \ilComponentInfoDefinitionProcessor(),
-            new \ilLoggingDefinitionProcessor($db),
             new \ILIAS\Cron\Setup\DefinitionProcessor(
                 $db,
                 $settings_factory->settingsFor(),

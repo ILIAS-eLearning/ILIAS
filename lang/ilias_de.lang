@@ -11152,28 +11152,21 @@ lng#:#lng_disable_language_detection#:#Automatische Spracherkennung deaktivieren
 lng#:#lng_download_deprecated#:#Veraltete Einträge herunterladen
 lng#:#lng_enable_language_detection#:#Automatische Spracherkennung aktivieren
 lng#:#lng_switch_language_detection#:#Automatische Spracherkennung umschalten
-log#:#log_browser#:#Browser Konsolen-Log
-log#:#log_browser_users#:#Aktivierte Benutzer für Browser-Log
-log#:#log_cache_#:#Caching
-log#:#log_cache_info#:#Erst wenn eine Nachricht den eingestellten Caching-Level erreicht oder überschreitet, werden innerhalb des aktuellen Server-Requests alle Nachrichten protokolliert, deren Level mindestens dem Log-Level entspricht.
-log#:#log_cache_level#:#Caching-Level
 log#:#log_component_btn_reset#:#Einstellungen zurücksetzen
 log#:#log_component_col_component#:#Komponente
 log#:#log_component_col_level#:#Log-Level
-log#:#log_component_root_desc#:#Log-Level für Nachrichten, die keiner Komponente zugeordnet sind.
+log#:#log_component_unknown#:#Unbekannt (%s)
 log#:#log_components#:#Komponenten
-log#:#log_general_settings#:#Einstellungen zur Protokollierung
 log#:#log_level_alert#:#ALERT
 log#:#log_level_critical#:#CRITICAL
 log#:#log_level_debug#:#DEBUG
+log#:#log_level_default#:#Standard (%s)
 log#:#log_level_emergency#:#EMERGENCY
 log#:#log_level_error#:#ERROR
 log#:#log_level_info#:#INFO
 log#:#log_level_notice#:#NOTICE
 log#:#log_level_off#:#Deaktiviert
 log#:#log_level_warning#:#WARNING
-log#:#log_log_level#:#Log-Level
-log#:#log_memory#:#Logge Speicherbedarf
 logging#:#error_settings_saved#:#Einstellungen gespeichert
 logging#:#frm_clear_older_then#:#Dateien löschen die älter sind als
 logging#:#frm_clear_older_then_info#:#Bitte geben Sie den Zeitraum in Tagen ein.

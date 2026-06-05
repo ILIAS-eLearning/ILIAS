@@ -18,11 +18,15 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Logging\Setup;
+
 use ILIAS\Setup\Metrics\CollectedObjective;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Metrics\Storage;
+use ilIniFilesLoadedObjective;
+use ilIniFile;
 
-class ilLoggingMetricsCollectedObjective extends CollectedObjective
+class MetricsCollectedObjective extends CollectedObjective
 {
     protected function getTentativePreconditions(Environment $environment): array
     {
@@ -33,6 +37,7 @@ class ilLoggingMetricsCollectedObjective extends CollectedObjective
 
     protected function collectFrom(Environment $environment, Storage $storage): void
     {
+        /** @var ilIniFile $ini */
         $ini = $environment->getResource(Environment::RESOURCE_ILIAS_INI);
         if (!$ini) {
             return;
@@ -47,6 +52,11 @@ class ilLoggingMetricsCollectedObjective extends CollectedObjective
             "path_to_logfile",
             $ini->readVariable("log", "path") . "/" . $ini->readVariable("log", "file"),
             "The path to the logfile."
+        );
+        $storage->storeConfigText(
+            "default_level",
+            $ini->readVariable("log", "default_level"),
+            "The default log level."
         );
         $storage->storeConfigText(
             "errorlog_dir",

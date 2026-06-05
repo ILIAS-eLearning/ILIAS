@@ -18,28 +18,39 @@
 
 declare(strict_types=1);
 
-use ILIAS\Setup\Config;
+namespace ILIAS\Logging\Setup;
 
-class ilLoggingSetupConfig implements Config
+use ILIAS\Setup\Config as ConfigInterface;
+use InvalidArgumentException;
+use ILIAS\Logging\ILIASLogLevel;
+
+class Config implements ConfigInterface
 {
     protected bool $enabled;
-
     protected ?string $path_to_logfile;
-    protected ?string $path_to_errorlogfiles;
+    protected ?ILIASLogLevel $level;
     protected ?string $errorlog_dir;
 
     public function __construct(
         bool $enabled,
         ?string $path_to_logfile,
+        ?string $level,
         ?string $errorlog_dir
     ) {
         if ($enabled && !$path_to_logfile) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 "Expected a path to the logfile, if logging is enabled."
+            );
+        }
+        $level = ILIASLogLevel::tryFromString($level);
+        if ($enabled && !$level) {
+            throw new InvalidArgumentException(
+                "Expected a valid default log level, if logging is enabled."
             );
         }
         $this->enabled = $enabled;
         $this->path_to_logfile = $this->normalizePath($path_to_logfile);
+        $this->level = $level;
         $this->errorlog_dir = $this->normalizePath($errorlog_dir);
     }
 
@@ -60,6 +71,11 @@ class ilLoggingSetupConfig implements Config
     public function getPathToLogfile(): ?string
     {
         return $this->path_to_logfile;
+    }
+
+    public function getDefaultLevel(): ?ILIASLogLevel
+    {
+        return $this->level;
     }
 
     public function getErrorlogDir(): ?string

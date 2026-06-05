@@ -17,9 +17,15 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
 use ILIAS\DI\Container;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Services as Services;
+use ILIAS\Logging\Config\Basic\ConfigInterface as BasicConfig;
+use ILIAS\Logging\Config\ByComponent\ConfigInterface as ByComponentConfig;
+use ILIAS\Logging\Config\ByComponent\RepositoryInterface as ComponentConfigRepo;
+use ILIAS\Logging\ILIASLogLevel;
+use ILIAS\Logging\Logger\LegacyInitiator;
 
 /**
 *
@@ -31,21 +37,16 @@ use ILIAS\HTTP\Services as Services;
 */
 class ilObjLoggingSettingsGUI extends ilObjectGUI
 {
-    protected const SECTION_SETTINGS = 'settings';
-    protected const SUB_SECTION_MAIN = 'log_general_settings';
-    protected const SUB_SECTION_COMPONENTS = 'log_components';
-    protected const SUB_SECTION_ERROR = 'log_error_settings';
+    protected const string SECTION_SETTINGS = 'settings';
+    protected const string SUB_SECTION_COMPONENTS = 'log_components';
+    protected const string SUB_SECTION_ERROR = 'log_error_settings';
 
-    protected ilLoggingDBSettings $log_settings;
-    protected ilLogger $log;
     protected ilLoggingErrorSettings $error_settings;
     protected Refinery $refinery;
+    protected ilComponentRepository $component_repo;
+    protected BasicConfig $basic_log_config;
+    protected ComponentConfigRepo $component_config_repo;
 
-    /**
-     *
-     * @param mixed $a_data
-     * @param boolean $a_prepare_output
-     */
     public function __construct($a_data, int $a_id, bool $a_call_by_reference, bool $a_prepare_output = true)
     {
         global $DIC;
@@ -54,19 +55,17 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
         $this->lng = $DIC->language();
+        $this->component_repo = $DIC["component.repository"];
 
-        $this->initSettings();
         $this->initErrorSettings();
         $this->lng->loadLanguageModule('logging');
         $this->lng->loadLanguageModule('log');
-        $this->log = ilLoggerFactory::getLogger('log');
 
         $this->refinery = $DIC->refinery();
-    }
 
-    public function getLogger(): ilLogger
-    {
-        return $this->log;
+        $initiator = LegacyInitiator::getInstance();
+        $this->basic_log_config = $initiator->basicConfig();
+        $this->component_config_repo = $initiator->componentConfigRepository();
     }
 
     public function executeCommand(): void
@@ -74,6 +73,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
         $this->prepareOutput();
+        $this->checkPermission('read');
 
         switch ($next_class) {
             case 'ilpermissiongui':
@@ -84,7 +84,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 
             default:
                 if ($cmd == "" || $cmd == "view") {
-                    $cmd = "settings";
+                    $cmd = "errorSettings";
                 }
                 $this->$cmd();
 
@@ -112,11 +112,6 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
     public function setSubTabs(string $a_section): void
     {
         $this->tabs_gui->addSubTab(
-            static::SUB_SECTION_MAIN,
-            $this->lng->txt(static::SUB_SECTION_MAIN),
-            $this->ctrl->getLinkTarget($this, 'settings')
-        );
-        $this->tabs_gui->addSubTab(
             static::SUB_SECTION_ERROR,
             $this->lng->txt(static::SUB_SECTION_ERROR),
             $this->ctrl->getLinkTarget($this, 'errorSettings')
@@ -129,108 +124,6 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
         $this->tabs_gui->activateSubTab($a_section);
     }
 
-    protected function initSettings()
-    {
-        $this->log_settings = ilLoggingDBSettings::getInstance();
-    }
-
-    public function getSettings(): ilLoggingDBSettings
-    {
-        return $this->log_settings;
-    }
-
-    public function settings(?ilPropertyFormGUI $form = null)
-    {
-        if (!$this->rbac_system->checkAccess("read", $this->object->getRefId())) {
-            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
-        }
-
-        $this->tabs_gui->setTabActive(static::SECTION_SETTINGS);
-        $this->setSubTabs(static::SUB_SECTION_MAIN);
-
-        if (!$form instanceof ilPropertyFormGUI) {
-            $form = $this->initFormSettings();
-        }
-        $this->tpl->setContent($form->getHTML());
-        $this->getLogger()->debug('Currrent level is ' . $this->getSettings()->getLevel());
-        return true;
-    }
-
-    public function updateSettings(): void
-    {
-        if (!$this->rbac_system->checkAccess('write', $this->object->getRefId())) {
-            $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
-        }
-        $form = $this->initFormSettings();
-        if ($form->checkInput()) {
-            $this->getSettings()->setLevel((int) $form->getInput('level'));
-            $this->getSettings()->enableCaching((bool) $form->getInput('cache'));
-            $this->getSettings()->setCacheLevel((int) $form->getInput('cache_level'));
-            $this->getSettings()->enableMemoryUsage((bool) $form->getInput('memory'));
-            $this->getSettings()->enableBrowserLog((bool) $form->getInput('browser'));
-            $this->getSettings()->setBrowserUsers($form->getInput('browser_users'));
-
-            $this->getLogger()->info(print_r($form->getInput('browser_users'), true));
-
-            $this->getSettings()->update();
-
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
-            $this->ctrl->redirect($this, 'settings');
-            return;
-        }
-
-        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
-        $form->setValuesByPost();
-        $this->settings($form);
-    }
-
-    protected function initFormSettings(): ilPropertyFormGUI
-    {
-        $form = new ilPropertyFormGUI();
-        $form->setTitle($this->lng->txt('logs_settings'));
-        $form->setFormAction($this->ctrl->getFormAction($this));
-
-        if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
-            $form->addCommandButton('updateSettings', $this->lng->txt('save'));
-        }
-
-        $level = new ilSelectInputGUI($this->lng->txt('log_log_level'), 'level');
-        $level->setOptions(ilLogLevel::getLevelOptions());
-        $level->setValue($this->getSettings()->getLevel());
-        $form->addItem($level);
-
-        $cache = new ilCheckboxInputGUI($this->lng->txt('log_cache_'), 'cache');
-        $cache->setInfo($this->lng->txt('log_cache_info'));
-        $cache->setValue('1');
-        $cache->setChecked($this->getSettings()->isCacheEnabled());
-        $form->addItem($cache);
-
-        $cache_level = new ilSelectInputGUI($this->lng->txt('log_cache_level'), 'cache_level');
-        $cache_level->setOptions(ilLogLevel::getLevelOptions());
-        $cache_level->setValue($this->getSettings()->getCacheLevel());
-        $cache->addSubItem($cache_level);
-
-        $memory = new ilCheckboxInputGUI($this->lng->txt('log_memory'), 'memory');
-        $memory->setValue('1');
-        $memory->setChecked($this->getSettings()->isMemoryUsageEnabled());
-        $form->addItem($memory);
-
-        // Browser handler
-        $browser = new ilCheckboxInputGUI($this->lng->txt('log_browser'), 'browser');
-        $browser->setValue('1');
-        $browser->setChecked($this->getSettings()->isBrowserLogEnabled());
-        $form->addItem($browser);
-
-        // users
-        $users = new ilTextInputGUI($this->lng->txt('log_browser_users'), 'browser_users');
-        $users->setValue(current($this->getSettings()->getBrowserLogUsers()));
-        $users->setMulti(true);
-        $users->setMultiValues($this->getSettings()->getBrowserLogUsers());
-        $this->getLogger()->debug(print_r($this->getSettings()->getBrowserLogUsers(), true));
-        $browser->addSubItem($users);
-        return $form;
-    }
-
 
     /**
      * Show components
@@ -240,8 +133,14 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
         $this->tabs_gui->activateTab(static::SECTION_SETTINGS);
         $this->setSubTabs(static::SUB_SECTION_COMPONENTS);
 
-        $table = new ilLogComponentTableGUI($this, 'components');
-        $table->setEditable($this->checkPermissionBool('write'));
+        $table = new ilLogComponentTableGUI(
+            $this->checkPermissionBool('write'),
+            $this->component_repo,
+            $this->basic_log_config,
+            $this->component_config_repo,
+            $this,
+            'components'
+        );
         $table->init();
         $table->parse();
         $this->tpl->setContent($table->getHTML());
@@ -277,8 +176,14 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
             );
         }
         foreach ($levels as $component_id => $value) {
-            $level = new ilLogComponentLevel($component_id, $value);
-            $level->update();
+            if ($value === 0) {
+                $this->component_config_repo->resetLevelForComponent($component_id);
+            }
+            $level = ILIASLogLevel::tryFrom($value);
+            if ($level === null) {
+                continue;
+            }
+            $this->component_config_repo->updateLevelForComponent($component_id, $level);
         }
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'components');
@@ -287,10 +192,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
     protected function resetComponentLevels(): void
     {
         $this->checkPermission('write');
-        foreach (ilLogComponentLevels::getInstance()->getLogComponents() as $component) {
-            $component->setLevel(null);
-            $component->update();
-        }
+        $this->component_config_repo->resetLevelsForAllComponents();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'components');
     }

@@ -18,12 +18,16 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Logging\Setup;
+
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Config;
 use ILIAS\Setup\UnachievableException;
+use ilIniFilesLoadedObjective;
+use ilIniFile;
 
-class ilLoggingConfigStoredObjective implements Objective
+class ConfigStoredObjective implements Objective
 {
     protected Config $config;
 
@@ -39,7 +43,7 @@ class ilLoggingConfigStoredObjective implements Objective
 
     public function getLabel(): string
     {
-        return "Fill ini with settings for Services/Logging";
+        return "Fill ini with settings for ILIAS\Logging";
     }
 
     public function isNotable(): bool
@@ -56,6 +60,7 @@ class ilLoggingConfigStoredObjective implements Objective
 
     public function achieve(Environment $environment): Environment
     {
+        /** @var ilIniFile $ini */
         $ini = $environment->getResource(Environment::RESOURCE_ILIAS_INI);
 
         $logPath = '';
@@ -68,11 +73,8 @@ class ilLoggingConfigStoredObjective implements Objective
         $ini->setVariable("log", "enabled", $this->config->isEnabled() ? "1" : "0");
         $ini->setVariable("log", "path", $logPath);
         $ini->setVariable("log", "file", $logFile);
-        $ini->setVariable(
-            "log",
-            "error_path",
-            $this->config->getErrorlogDir() ?? ''
-        );
+        $ini->setVariable("log", "default_level", $this->config->getDefaultLevel()?->toString() ?? "");
+        $ini->setVariable("log", "error_path", $this->config->getErrorlogDir() ?? '');
 
         if (!$ini->write()) {
             throw new UnachievableException("Could not write ilias.ini.php");
@@ -81,13 +83,12 @@ class ilLoggingConfigStoredObjective implements Objective
         return $environment;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function isApplicable(Environment $environment): bool
     {
+        /** @var ilIniFile $ini */
         $ini = $environment->getResource(Environment::RESOURCE_ILIAS_INI);
         $enabled = $this->config->isEnabled() ? "1" : "0";
+        $level = $this->config->getDefaultLevel()?->toString() ?? "";
 
         $logPath = '';
         $logFile = '';
@@ -99,6 +100,7 @@ class ilLoggingConfigStoredObjective implements Objective
         return
             $ini->readVariable("log", "path") !== $logPath ||
             $ini->readVariable("log", "file") !== $logFile ||
+            $ini->readVariable("log", "default_level") !== $level ||
             $ini->readVariable("log", "error_path") !== $this->config->getErrorlogDir() ||
             $ini->readVariable("log", "enabled") !== $enabled
         ;

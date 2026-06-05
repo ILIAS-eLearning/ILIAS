@@ -18,20 +18,27 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Logging\Logger\Monolog;
+
 use Monolog\Formatter\LineFormatter as LineFormatter;
 use Monolog\LogRecord;
 
-/**
- * Custom line formatter
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @ingroup ServicesLogging
- */
-class ilLineFormatter extends LineFormatter
+class ILIASLineFormatter extends LineFormatter
 {
-    /**
-     * @inheritDoc
-     */
+    protected const string DEFAULT_FORMAT = "[%extra.suid%] [%datetime%] %channel%.%level_name%: %message% %context% %extra%\n";
+    protected const string DEFAULT_DATE_FORMAT = 'Y-m-d H:i:s.u';
+
+    public function __construct()
+    {
+        parent::__construct(
+            self::DEFAULT_FORMAT,
+            self::DEFAULT_DATE_FORMAT,
+            true,
+            true,
+            false
+        );
+    }
+
     public function format(LogRecord $record): string
     {
         if (isset($record["extra"]["trace"])) {

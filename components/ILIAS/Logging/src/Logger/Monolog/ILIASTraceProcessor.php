@@ -18,26 +18,16 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Logging\Logger\Monolog;
+
 use Monolog\LogRecord;
+use ILIAS\Logging\ILIASLogLevel;
 
-/**
- * Logging factory
- *
- * This class supplies an implementation for the locator.
- * The locator will send its output to ist own frame, enabling more flexibility in
- * the design of the desktop.
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
- *
- */
-class ilTraceProcessor
+class ILIASTraceProcessor
 {
-    private int $level = 0;
-
-    public function __construct(int $a_level)
-    {
-        $this->level = $a_level;
+    public function __construct(
+        protected ILIASLogLevel $level
+    ) {
     }
 
     /**
@@ -45,7 +35,7 @@ class ilTraceProcessor
      */
     public function __invoke(LogRecord $record): LogRecord
     {
-        if ($record['level'] < $this->level) {
+        if ($record['level'] < $this->level->value) {
             return $record;
         }
 

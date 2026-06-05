@@ -18,17 +18,23 @@
 
 declare(strict_types=1);
 
-use ILIAS\Setup;
-use ILIAS\Setup\Config;
+namespace ILIAS\Logging\Setup;
+
+use ILIAS\Setup\Agent as AgentInterface;
+use ILIAS\Setup\Agent\HasNoNamedObjective;
+use ILIAS\Setup\Objective\NullObjective;
+use ILIAS\Setup\ObjectiveCollection;
+use ILIAS\Setup\Config as ConfigInterface;
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\Metrics\Storage;
 use ILIAS\Refinery\Factory;
 use ILIAS\Refinery\Transformation;
-use ILIAS\UI;
+use ilDatabaseUpdateStepsExecutedObjective;
+use ILIAS\Logging\Setup\Steps\DBUpdateSteps12;
 
-class ilLoggingSetupAgent implements Setup\Agent
+class Agent implements AgentInterface
 {
-    use Setup\Agent\HasNoNamedObjective;
+    use HasNoNamedObjective;
 
     protected Factory $refinery;
 
@@ -37,79 +43,59 @@ class ilLoggingSetupAgent implements Setup\Agent
         $this->refinery = $refinery;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function hasConfig(): bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getArrayToConfigTransformation(): Transformation
     {
         return $this->refinery->custom()->transformation(function ($data) {
-            return new \ilLoggingSetupConfig(
+            return new Config(
                 $data["enable"] ?? false,
                 $data["path_to_logfile"] ?? null,
-                $data["errorlog_dir"] ?? null
+                $data["default_level"] ?? null,
+                $data["errorlog_dir"] ?? null,
             );
         });
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getInstallObjective(?Config $config = null): Objective
+    public function getInstallObjective(?ConfigInterface $config = null): Objective
     {
-        return new ilLoggingConfigStoredObjective($config);
+        return new ConfigStoredObjective($config);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getUpdateObjective(?Config $config = null): Objective
+    public function getUpdateObjective(?ConfigInterface $config = null): Objective
     {
-        $objective = new Setup\Objective\NullObjective();
+        $objective = new NullObjective();
         if ($config !== null) {
-            $objective = new ilLoggingConfigStoredObjective($config);
+            $objective = new ConfigStoredObjective($config);
         }
-        return new ILIAS\Setup\ObjectiveCollection(
-            'Update of Services/Logging',
+        return new ObjectiveCollection(
+            'Update of ILIAS\Logging',
             false,
             $objective,
+            new DefaultLevelMigratedObjective(),
             new ilDatabaseUpdateStepsExecutedObjective(
-                new ilLoggingUpdateSteps8()
+                new DBUpdateSteps12()
             )
         );
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getBuildObjective(): Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new NullObjective();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getStatusObjective(Storage $storage): Objective
     {
-        return new Setup\ObjectiveCollection(
-            'Component Logging',
+        return new ObjectiveCollection(
+            'Component ILIAS\Logging',
             true,
-            new ilLoggingMetricsCollectedObjective($storage),
-            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilLoggingUpdateSteps8())
+            new MetricsCollectedObjective($storage)
         );
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getMigrations(): array
     {
         return [];

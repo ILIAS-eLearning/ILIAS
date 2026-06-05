@@ -11124,28 +11124,21 @@ lng#:#lng_disable_language_detection#:#Disable Language Detection
 lng#:#lng_download_deprecated#:#Download Deprecated List
 lng#:#lng_enable_language_detection#:#Enable Language Detection
 lng#:#lng_switch_language_detection#:#Switch Language Detection
-log#:#log_browser#:#Browser Console Log
-log#:#log_browser_users#:#Usernames Using Console Log
-log#:#log_cache_#:#Caching
-log#:#log_cache_info#:#Only if a message reaches or surpasses the caching level, all messages which have at least the log level will be added to the log for the current request.
-log#:#log_cache_level#:#Caching-Level
 log#:#log_component_btn_reset#:#Reset Settings
 log#:#log_component_col_component#:#Component
 log#:#log_component_col_level#:#Log-Level
-log#:#log_component_root_desc#:#Leg-Level for message which are not assigned to any component.
+log#:#log_component_unknown#:#Unknown (%s)
 log#:#log_components#:#Components
-log#:#log_general_settings#:#Logging Settings
 log#:#log_level_alert#:#ALERT
 log#:#log_level_critical#:#CRITICAL
 log#:#log_level_debug#:#DEBUG
+log#:#log_level_default#:#Default (%s)
 log#:#log_level_emergency#:#EMERGENCY
 log#:#log_level_error#:#ERROR
 log#:#log_level_info#:#INFO
 log#:#log_level_notice#:#NOTICE
 log#:#log_level_off#:#Disabled
 log#:#log_level_warning#:#WARNING
-log#:#log_log_level#:#Log Level
-log#:#log_memory#:#Log Memory Usage
 logging#:#error_settings_saved#:#Settings saved
 logging#:#frm_clear_older_then#:#Deletes files older then
 logging#:#frm_clear_older_then_info#:#Please enter duration in days.

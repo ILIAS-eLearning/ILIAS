@@ -17,27 +17,21 @@
  *********************************************************************/
 
 declare(strict_types=1);
-/**
- * Class ilLoggingUpdateSteps8
- * contains update steps for release 8
- * @author Stefan Meyer <meyer@leifos.de>
- */
-class ilLoggingUpdateSteps8 implements ilDatabaseUpdateSteps
-{
-    protected ilDBInterface $db;
 
-    public function prepare(ilDBInterface $db): void
-    {
-        $this->db = $db;
+namespace ILIAS\Logging\Logger\LevelFetcher;
+
+use ILIAS\Logging\ILIASLogLevel;
+use ILIAS\Logging\Config\Basic\ConfigInterface;
+
+class DefaultLevelFetcher implements LevelFetcherInterface
+{
+    public function __construct(
+        protected ConfigInterface $basic_config
+    ) {
     }
 
-    /**
-     * Add consent table
-     */
-    public function step_1(): void
+    public function fetchLevel(): ILIASLogLevel
     {
-        $query = 'DELETE from log_components ' .
-            'WHERE component_id = ' . $this->db->quote('lchk', ilDBConstants::T_TEXT);
-        $this->db->manipulate($query);
+        return $this->basic_config->defaultLevel();
     }
 }

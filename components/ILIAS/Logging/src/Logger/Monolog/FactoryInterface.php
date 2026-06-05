@@ -17,14 +17,15 @@
  *********************************************************************/
 
 declare(strict_types=1);
-/**
- * Component logger with individual log levels by component id
- *
- * @deprecated Please use {@see \ILIAS\Logging\Logger\LoggerInterface} via
- *   {@see \ILIAS\Logging\Logger\LoggerFactoryInterface} instead.
- *
- * @author Stefan Meyer
- */
-class ilComponentLogger extends ilLogger
+
+namespace ILIAS\Logging\Logger\Monolog;
+
+use ILIAS\Logging\ILIASLogLevel;
+use Monolog\Logger as MonologLogger;
+
+interface FactoryInterface
 {
+    public function logger(string $name, ILIASLogLevel $level, string $file_path): MonologLogger;
+
+    public function nullLogger(string $name): MonologLogger;
 }

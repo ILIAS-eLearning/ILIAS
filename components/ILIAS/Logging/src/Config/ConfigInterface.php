@@ -17,14 +17,15 @@
  *********************************************************************/
 
 declare(strict_types=1);
-/**
- * Component logger with individual log levels by component id
- *
- * @deprecated Please use {@see \ILIAS\Logging\Logger\LoggerInterface} via
- *   {@see \ILIAS\Logging\Logger\LoggerFactoryInterface} instead.
- *
- * @author Stefan Meyer
- */
-class ilComponentLogger extends ilLogger
+
+namespace ILIAS\Logging\Config;
+
+use ILIAS\Logging\Config\Basic\ConfigInterface as BasicConfigInterface;
+use ILIAS\Logging\Config\ByComponent\ConfigInterface as ByComponentConfigInterface;
+
+interface ConfigInterface
 {
+    public function basic(): BasicConfigInterface;
+
+    public function byComponent(): ByComponentConfigInterface;
 }
