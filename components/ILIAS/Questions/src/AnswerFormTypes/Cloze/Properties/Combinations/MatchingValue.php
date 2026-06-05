@@ -24,6 +24,7 @@ use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gap;
 use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
+use ILIAS\Questions\Definitions\Range;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Replace;
 use ILIAS\Questions\Persistence\TableNameBuilder;
@@ -52,6 +53,11 @@ class MatchingValue
     public function getAnswerOption(): ?AnswerOption
     {
         return $this->answer_option;
+    }
+
+    public function getInRange(): ?Range
+    {
+        return $this->in_range;
     }
 
     public function buildPresentationString(
@@ -102,7 +108,7 @@ class MatchingValue
                 ),
                 $persistence_factory->value(
                     FieldDefinition::T_TEXT,
-                    $this->answer_option->getAnswerOptionId()->toString()
+                    $this->answer_option?->getAnswerOptionId()->toString()
                 ),
                 $persistence_factory->value(
                     FieldDefinition::T_TEXT,

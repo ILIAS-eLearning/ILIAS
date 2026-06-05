@@ -63,6 +63,11 @@ class Gaps
         private Uuid $answer_form_id,
         array $gaps
     ) {
+        uasort(
+            $gaps,
+            fn(Gap $a, Gap $b): int => $a->getPosition() <=> $b->getPosition()
+        );
+
         $this->gaps = array_reduce(
             $gaps,
             function (array $c, Gap $v): array {
@@ -130,6 +135,7 @@ class Gaps
         $new_gap = $this->factory->getNewGap($answer_form_id, $position);
         $clone = clone $this;
         $clone->gaps[$new_gap->getAnswerInputId()->toString()] = $new_gap;
+
         return $clone;
     }
 

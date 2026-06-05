@@ -47,9 +47,13 @@ class Combination
      */
     public function __construct(
         private readonly Uuid $id,
-        private ?float $available_points,
+        private readonly ?float $available_points,
         private array $matching_values = []
     ) {
+        uasort(
+            $this->matching_values,
+            fn(MatchingValue $a, MatchingValue $b): int => $a->getGap()->getPosition() <=> $b->getGap()->getPosition()
+        );
     }
 
     public function getId(): Uuid
@@ -60,14 +64,6 @@ class Combination
     public function getAvailablePoints(): ?float
     {
         return $this->available_points;
-    }
-
-    public function withAdditionalMatchingValue(
-        MatchingValue $matching_value
-    ): self {
-        $clone = clone $this;
-        $clone->matching_values[] = $matching_value;
-        return $clone;
     }
 
     public function getValuePresentation(
@@ -259,13 +255,12 @@ class Combination
         return $field_factory->section(
             [
                 'values' => $this->buildValuesInputs(
-                    $lng,
                     $field_factory,
                     $properties
                 ),
                 'points' => $field_factory->numeric(
                     $lng->txt('points')
-                )->withSubActionSize(0.01)
+                )->withStepSize(0.01)
                 ->withRequired(true)
                 ->withValue($this->getAvailablePoints())
             ],
@@ -306,7 +301,6 @@ class Combination
     }
 
     private function buildValuesInputs(
-        Language $lng,
         FieldFactory $field_factory,
         Properties $properties
     ): Group {
@@ -318,7 +312,6 @@ class Combination
                     MatchingValue $v
                 ) use (
                     $field_factory,
-                    $lng,
                     $properties
                 ): array {
                     $gap_id = $v->getGap()->getAnswerInputId();
@@ -328,7 +321,8 @@ class Combination
                         $gap->getType()->getCombinationsSelectValues($gap)
                     )->withRequired(true)
                     ->withValue(
-                        $v->getAnswerOption()?->getAnswerOptionId()->toString()
+                        $v->getInRange()?->value ?? $v->getAnswerOption()
+                            ?->getAnswerOptionId()->toString()
                     );
                     return $c;
                 },

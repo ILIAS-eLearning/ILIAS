@@ -29,7 +29,7 @@ class Edit
 {
     private const string SUB_ACTION_EDIT_COMBINATIONS_OVERVIEW = 'eco';
 
-    private const string LANG_VAR_EDIT_COMBINATIONS = 'edit_combinations';
+    private const string LANG_VAR_EDIT_COMBINATIONS = 'gap_combinations';
 
     public function __construct(
         private readonly Factory $combinations_factory

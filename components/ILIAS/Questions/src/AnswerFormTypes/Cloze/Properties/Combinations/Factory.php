@@ -23,8 +23,11 @@ namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations;
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
 use ILIAS\Questions\AnswerForm\TypeGenericProperties;
 use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gap;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gaps;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
+use ILIAS\Questions\Definitions\Range;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Query;
 use ILIAS\Questions\Persistence\TableSubNameSpace;
@@ -53,14 +56,13 @@ class Factory
             $combinations_enabled,
             !$combinations_enabled || $gaps === null || $query === null
                 ? []
-                : $this->retrieveMatchingValuesFromQuery(
-                    $type_generic_properties,
-                    $gaps,
-                    $this->retrieveCombinationsFromQuery(
-                        $type_generic_properties
-                            ->getDefinition()
-                            ->getTableDefinitions()
-                            ->getTableSubNameSpace(),
+                : $this->retrieveCombinationsFromQuery(
+                    $type_generic_properties
+                        ->getDefinition()
+                        ->getTableDefinitions()
+                        ->getTableSubNameSpace(),
+                    $this->retrieveMatchingValuesFromQuery(
+                        $gaps,
                         $query
                     ),
                     $query
@@ -124,11 +126,13 @@ class Factory
                 $gap = $properties->getGaps()->getGapById(
                     $this->uuid_factory->fromString($v)
                 );
-                $answer_option =
-                    $gap->getAnswerOptions()
-                    ->getAnswerOptionById(
-                        $this->uuid_factory->fromString($values_array[$v])
-                    );
+
+                $range = Range::tryFrom($values_array[$v]);
+                $answer_option = $this->retrieveAnswerOptionForFormValues(
+                    $gap,
+                    $values_array[$v],
+                    $range
+                );
 
                 if ($answer_option === null) {
                     return $c;
@@ -138,7 +142,7 @@ class Factory
                     $combination_id,
                     $gap,
                     $answer_option,
-                    null
+                    $range
                 );
                 return $c;
             },
@@ -172,6 +176,7 @@ class Factory
 
     private function retrieveCombinationsFromQuery(
         TableSubNameSpace $table_sub_name_space,
+        array $matching_values,
         Query $query
     ): array {
         return $query->retrieveCurrentRecord(
@@ -187,14 +192,16 @@ class Factory
                     array_filter(
                         $vs,
                         fn(array $v): bool => $v['answer_form_id'] !== null
-                    )
+                    ),
+                    $matching_values
                 )
             )
         );
     }
 
     private function buildCombinationsFromQuery(
-        array $values
+        array $values,
+        array $matching_values
     ): array {
         if ($values === []) {
             return [];
@@ -202,14 +209,17 @@ class Factory
 
         return array_reduce(
             $values,
-            function (array $c, array $v): array {
+            function (array $c, array $v) use ($matching_values): array {
                 if (array_key_exists($v['id'], $c)) {
                     return $c;
                 }
 
                 $c[$v['id']] = new Combination(
                     $this->uuid_factory->fromString($v['id']),
-                    $v['points']
+                    $v['points'],
+                    isset($matching_values[$v['id']])
+                        ? array_values($matching_values[$v['id']])
+                        : null
                 );
 
                 return $c;
@@ -219,60 +229,79 @@ class Factory
     }
 
     private function retrieveMatchingValuesFromQuery(
-        TypeGenericProperties $type_generic_properties,
         Gaps $gaps,
-        array $combinations,
         Query $query
     ): array {
         return $query->retrieveCurrentRecord(
             $this->persistence_factory->table(
                 $query->getTableNameBuilder(
-                    $type_generic_properties
-                        ->getDefinition()
-                        ->getTableDefinitions()
-                        ->getTableSubNameSpace(),
+                    $this->table_definitions->getTableSubNameSpace(),
                 ),
                 AnswerFormSpecificTableTypes::Additional,
                 $this->table_definitions->getCombinationToAnswerOptionsTableIdentifier()
             ),
             $query->getRefinery()->custom()->transformation(
-                function (array $vs) use (
-                    $gaps,
-                    $combinations
-                ): array {
-                    $already_added = [];
-                    foreach ($vs as $v) {
-                        if (!array_key_exists($v['combination_id'], $combinations)
-                            || in_array(
-                                $v['combination_id'] . $v['gap_id'],
-                                $already_added
-                            )
-                        ) {
-                            continue;
-                        }
-
-                        $already_added[] = $v['combination_id'] . $v['gap_id'];
-
-                        $gap = $gaps->getGapById(
-                            $this->uuid_factory->fromString($v['gap_id'])
-                        );
-
-                        $combinations[$v['combination_id']] = $combinations[$v['combination_id']]
-                            ->withAdditionalMatchingValue(
-                                new MatchingValue(
-                                    $this->uuid_factory->fromString($v['combination_id']),
-                                    $gap,
-                                    $gap->getAnswerOptions()
-                                        ->getAnswerOptionById(
-                                            $this->uuid_factory->fromString($v['answer_option_id'])
-                                        )
-                                )
-                            );
-                    }
-
-                    return array_values($combinations);
+                function (array $vs) use ($gaps): array {
+                    return $this->buildMatchingValuesArray(
+                        $gaps,
+                        $vs
+                    );
                 }
             )
+        );
+    }
+
+    private function retrieveAnswerOptionForFormValues(
+        Gap $gap,
+        string $value,
+        ?Range $range
+    ): AnswerOption {
+        if ($range === null) {
+            return $gap->getAnswerOptions()
+                ->getAnswerOptionById(
+                    $this->uuid_factory->fromString($value)
+                );
+        }
+
+        $answer_options_awarding_points = $gap
+            ->getAnswerOptions()
+            ->getAnswerOptionsAwardingPoints();
+
+        return array_shift($answer_options_awarding_points);
+    }
+
+    private function buildMatchingValuesArray(
+        Gaps $gaps,
+        array $values
+    ): array {
+        return array_reduce(
+            $values,
+            function (array $c, array $v) use ($gaps): array {
+                if (isset($c[$v['combination_id']][$v['gap_id']])) {
+                    return $c;
+                }
+
+                if (!array_key_exists($v['combination_id'], $c)) {
+                    $c[$v['combination_id']] = [];
+                }
+
+                $gap = $gaps->getGapById(
+                    $this->uuid_factory->fromString($v['gap_id'])
+                );
+
+                $c[$v['combination_id']][$v['gap_id']] = new MatchingValue(
+                    $this->uuid_factory->fromString($v['combination_id']),
+                    $gap,
+                    $gap->getAnswerOptions()
+                        ->getAnswerOptionById(
+                            $this->uuid_factory->fromString($v['answer_option_id'])
+                        ),
+                    Range::tryFrom($v['in_range'] ?? '')
+                );
+
+                return $c;
+            },
+            []
         );
     }
 }
