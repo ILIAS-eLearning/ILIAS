@@ -84,7 +84,7 @@ class SortationTest extends ILIAS_UI_TestBase
 
         $expected = <<<EOT
 <div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element" id="id_1">
-    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="id_1_ctrl">
+    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-expanded="false" aria-controls="id_1_ctrl">
         <span class="label">vc_sort Most Recent</span>
         <span class="glyphicon-sort"></span>
     </button>
@@ -108,7 +108,7 @@ EOT;
 
         $expected = <<<EOT
 <div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element" id="id_1">
-    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="id_1_ctrl">
+    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-expanded="false" aria-controls="id_1_ctrl">
         <span class="label">vc_sort Most Recent</span>
         <span class="glyphicon-sort"></span>
     </button>
@@ -144,7 +144,7 @@ EOT;
 
         $expected = <<<EOT
 <div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element"$id>
-    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="{$id_ctrl}">
+    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-expanded="false" aria-controls="{$id_ctrl}">
         <span class="label">vc_sort Best</span>
         <span class="glyphicon-sort"></span>
     </button>
