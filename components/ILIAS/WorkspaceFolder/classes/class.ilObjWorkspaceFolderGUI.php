@@ -220,7 +220,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
             $this->buildAvailableObjectTypes()
         );
-        $gui->render();
+        $gui->renderToolbarAction();
 
         ilObjectListGUI::prepareJsLinks(
             "",
