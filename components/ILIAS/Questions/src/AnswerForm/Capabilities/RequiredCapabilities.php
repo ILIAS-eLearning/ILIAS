@@ -25,6 +25,7 @@ use ILIAS\Questions\AnswerForm\Capabilities\Definitions\ActionWithTab;
 use ILIAS\Questions\AnswerForm\Capabilities\Definitions\AdditionalFormStepAction;
 use ILIAS\Questions\AnswerForm\Capabilities\Definitions\Marking;
 use ILIAS\Questions\AnswerForm\Capabilities\Definitions\MarkingProvider;
+use ILIAS\Questions\AnswerForm\Capabilities\Definitions\PageMigrationProvider;
 use ILIAS\Questions\AnswerForm\Capabilities\ParticipantViewProvider;
 use ILIAS\Questions\AnswerForm\Properties as AnswerFormProperties;
 use ILIAS\Questions\AnswerForm\Views\Edit as AnswerFormEditView;
@@ -40,6 +41,7 @@ class RequiredCapabilities
      * @param array<string, Viewable> $required_feedback_views
      * @param array<string, ActionWithTab> $required_actions_with_tab
      * @param array<string, AdditionalStepAction> $required_step_actions
+     * @param array<string, PageMigrationProvider> $required_step_actions
      */
     public function __construct(
         private readonly array $capabilities,
@@ -47,6 +49,7 @@ class RequiredCapabilities
         private array $required_feedback_providers,
         private array $required_actions_with_tab,
         private array $required_form_step_actions,
+        private array $required_page_migration_providers,
         private ?MarkingProvider $marking_provider
     ) {
 
@@ -88,6 +91,14 @@ class RequiredCapabilities
     public function getRequiredFormStepActions(): array
     {
         return $this->required_form_step_actions;
+    }
+
+    /**
+     * @return array<string, PageMigrationProviders>
+     */
+    public function getRequiredPageMigrationProviders(): array
+    {
+        return $this->required_page_migration_providers;
     }
 
     public function isMarkingRequired(): bool

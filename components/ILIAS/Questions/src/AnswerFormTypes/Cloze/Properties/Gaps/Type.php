@@ -29,6 +29,7 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Response\AnswerInput as AnswerInputRes
 use ILIAS\Questions\Attempt\AdditionalAttemptData;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Definitions\Range;
+use ILIAS\Data\Text\Markdown;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\FileUpload\FileUpload;
@@ -304,7 +305,7 @@ abstract class Type
 
         return $ui_factory->legacy()->content(
             $this->refinery->string()->markdown()->toHTML()->transform(
-                $specific_feedback
+                $specific_feedback->getRawRepresentation()
             )
         );
     }
