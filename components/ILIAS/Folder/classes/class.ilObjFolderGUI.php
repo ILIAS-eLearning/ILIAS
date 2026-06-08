@@ -539,7 +539,7 @@ class ilObjFolderGUI extends ilContainerGUI
                 $this->getCreatableObjectTypes()
             )
         );
-        $gui->render();
+        $gui->renderToolbarAction();
     }
 
 
