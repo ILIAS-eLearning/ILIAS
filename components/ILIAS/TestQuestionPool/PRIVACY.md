@@ -4,22 +4,25 @@
 
 ## General information
 
-The module TestQuestionPool and the module Test are still tied together in most intricate ways. The primary component of concern in regards to privacy related evaluations is the Test. As the lines between these components are blurred, it is advised to never look at only one of the components but always at both.
+The TestQuestionPool component is used to create, continuously update and manage a collection of questions. This is useful when questions are to be reused in multiple tests. They can be categorised, e.g. using taxonomies and the lifecycle. To run tests using questions from the TestQuestionPool component, the Test component must be used.
+
+The TestQuestionPool component and the Test component are still tied together in most intricate ways. The primary component of concern in regards to privacy related evaluations is the Test. As the lines between these components are blurred, it is advised to never look at only one of the components but always at both.
 
 ## Integrated components
 
 The TestQuestionPool component employs the following services, please consult the respective privacy.mds.
 
-  - [AccessControl](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/AccessControl/PRIVACY.md): Is used for permission handling and is able to present personal data.
-  - [COPage](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/COPage/PRIVACY.md): Is used for content creation/presentation and is able to store, present and delete personal data.
-  - Export: Is used for export creation and is able to export personal data.
-  - [InfoScreen](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/InfoScreen/PRIVACY.md): Is used as in any repository object and is able to present personal data.
-  - [Metadata](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/MetaData/Privacy.md): Stores the full name of the author of the test.
+  - [AccessControl](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/AccessControl/PRIVACY.md)
+  - [COPage](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/COPage/PRIVACY.md): Is used for content creation/presentation within questions and is able to store, present and delete personal data.
+  - [Export](https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/components/ILIAS/Export)
+  - [InfoScreen](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/InfoScreen/PRIVACY.md)
+  - [Metadata](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/MetaData/Privacy.md)
   - [Notes](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/Notes/Privacy.md): Is used to create, edit and present comments for questions and the question pool.
-  - [Object](https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/components/ILIAS/ILIASObject): Stores the account which created the object as it's owner and creation and update timestamps for the object.
+  - [Object](https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/components/ILIAS/ILIASObject)
   - [Skill (Competence) Service](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/Skill/PRIVACY.md)
   - [Taxonomy](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/Taxonomy/PRIVACY.md)
-  - [Test](tbd)
+  - [Test](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/Test/PRIVACY.md)
+  - [User](https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/components/ILIAS/User): Provides information about the account being used when creating questions.
 
 ## Data being stored
 
@@ -40,4 +43,4 @@ It is possible to delete questions. Within this the personal data at the field '
 ## Data being exported
 
 - The XML export of the question pool contains the personal data 'Author' of the questions and of the question pool itself within the metadata.
-- It's purpose is to being imported in ILIAS again, although the contained personal data is easily accesible. Including this information ensures that the authorship of the question is not lost after import.
+- It's purpose is to being imported in ILIAS again, although the contained personal data is easily accesible. Including this information ensures that the authorship of the question is not lost after import. In addition it is possible to contact the author, e.g. if there are problems with the question or the configuration of it.
