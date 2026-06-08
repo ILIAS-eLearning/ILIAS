@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Setup;
 
-use ILIAS\Questions\AnswerForm\Capabilities\Migration as CapabilityMigration;
+use ILIAS\Questions\AnswerForm\Capabilities\Definitions\Migration as CapabilityMigration;
 use ILIAS\Questions\AnswerForm\Migration\Migration as AnswerFormMigration;
 use ILIAS\Questions\AnswerForm\Migration\MigrationInsert as AnswerFormMigrationInsert;
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableDefinitions;
@@ -30,6 +30,7 @@ use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
+use ILIAS\Questions\Question\Persistence\Repository as QuestionRepository;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Database\FieldDefinition;
@@ -172,10 +173,11 @@ class QuestionsMigration implements Migration
 
         array_reduce(
             $this->capability_migrations,
-            fn(AnswerFormMigrationInsert $c, CapabilityMigration $v): AnswerFormMigration
+            fn(AnswerFormMigrationInsert $c, CapabilityMigration $v): AnswerFormMigrationInsert
                 => $v->completeMigrationInsert(
                     $environment,
-                    $migration_insert
+                    $answer_form_migration,
+                    $c
                 ),
             $migration_insert
         )->run();
@@ -411,7 +413,7 @@ class QuestionsMigration implements Migration
         ?Uuid $new_question_id
     ): Insert {
         return $this->persistence_factory->insert(
-            $this->persistence_factory->getColumns(
+            $this->question_table_definitions->getColumns(
                 $this->question_table_names_builder,
                 QuestionTableTypes::MigrationsTable
             ),
@@ -446,9 +448,7 @@ class QuestionsMigration implements Migration
             $this->uuid_factory,
             $this->persistence_factory,
             $this->answer_form_generic_table_definitions,
-            new TableNameBuilder(
-                $answer_form_migration->getTableNameSpace()
-            ),
+            QuestionRepository::COMPONENT_NAMESPACE,
             $question_inserts,
             $db_values->question_id,
             $new_question_id,

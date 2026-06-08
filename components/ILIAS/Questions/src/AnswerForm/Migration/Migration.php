@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerForm\Migration;
 
-use ILIAS\Questions\Persistence\TableNameSpace;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Setup\Environment;
 
@@ -33,8 +32,6 @@ interface Migration
     public function getOldQuestionTypeIdentifier(): string;
 
     public function getDefinitionClass(): string;
-
-    public function getTableNameSpace(): TableNameSpace;
 
     public function completeMigrationInsert(
         Environment $environment,

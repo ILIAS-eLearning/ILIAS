@@ -57,7 +57,8 @@ class Overview implements Viewable
 
         $content = [];
 
-        if ($this->feedback->hasLegacyTexts()) {
+        if ($this->feedback->hasLegacyTexts()
+            && !$this->set_legacy_texts_as_values) {
             $content[] = $ui_factory->messageBox()->info(
                 $lng->txt('insert_legacy_texts_info')
             )->withButtons([
@@ -204,8 +205,9 @@ class Overview implements Viewable
                         Types::BestResponse->getTranslatedOptionName($lng)
                     )->withValue(
                         $this->set_legacy_texts_as_values
-                            ? $this->feedback->getFeedbackBestResponseLegacy()
-                            : $this->feedback->getFeedbackBestResponse()
+                            ? $this->environment->getRefinery()->string()->stripTags()->transform(
+                                $this->feedback->getFeedbackBestResponseLegacy()
+                            ) : $this->feedback->getFeedbackBestResponse()
                                 ?->getRawRepresentation() ?? ''
                     ),
                     'not_max_points' => $if->field()->markdown(
@@ -213,8 +215,9 @@ class Overview implements Viewable
                         Types::OtherResponse->getTranslatedOptionName($lng)
                     )->withValue(
                         $this->set_legacy_texts_as_values
-                            ? $this->feedback->getFeedbackOtherResponseLegacy()
-                            : $this->feedback->getFeedbackOtherResponse()
+                            ? $this->environment->getRefinery()->string()->stripTags()->transform(
+                                $this->feedback->getFeedbackOtherResponseLegacy()
+                            ) : $this->feedback->getFeedbackOtherResponse()
                                 ?->getRawRepresentation() ?? ''
                     ),
                 ],

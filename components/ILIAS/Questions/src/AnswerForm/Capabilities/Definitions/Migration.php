@@ -22,16 +22,13 @@ namespace ILIAS\Questions\AnswerForm\Capabilities\Definitions;
 
 use ILIAS\Questions\AnswerForm\Migration\Migration as AnswerFormMigration;
 use ILIAS\Questions\AnswerForm\Migration\MigrationInsert;
-use ILIAS\Questions\Persistence\TableNameSpace;
 use ILIAS\Setup\Environment;
 
 interface Migration
 {
-    public function getTableNameSpace(): TableNameSpace;
-
     public function completeMigrationInsert(
         Environment $environment,
         AnswerFormMigration $answer_form_migration,
         MigrationInsert $migration_insert
-    ): ?MigrationInsert;
+    ): MigrationInsert;
 }

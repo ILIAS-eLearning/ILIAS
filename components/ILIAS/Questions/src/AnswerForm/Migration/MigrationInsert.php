@@ -25,6 +25,7 @@ use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableTypes;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\TableNameBuilder;
+use ILIAS\Questions\Persistence\TableSubNameSpace;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Database\FieldDefinition;
@@ -44,7 +45,7 @@ class MigrationInsert
         private readonly UuidFactory $uuid_factory,
         private readonly PersistenceFactory $persistence_factory,
         private readonly AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions,
-        private readonly TableNameBuilder $table_names_builder,
+        private readonly string $component_name_space,
         private array $inserts,
         private readonly int $old_question_id,
         private readonly Uuid $new_question_id,
@@ -74,9 +75,13 @@ class MigrationInsert
         return $this->persistence_factory;
     }
 
-    public function getTableNameBuilder(): TableNameBuilder
-    {
-        return $this->table_names_builder;
+    public function getTableNameBuilder(
+        ?TableSubNameSpace $table_sub_name_space
+    ): TableNameBuilder {
+        return new TableNameBuilder(
+            $this->component_name_space,
+            $table_sub_name_space
+        );
     }
 
     public function getOldQuestionId(): int
@@ -171,7 +176,7 @@ class MigrationInsert
     {
         return $this->persistence_factory->insert(
             $this->answer_form_generic_table_definitions->getColumns(
-                $this->table_names_builder,
+                $this->getTableNameBuilder(null),
                 AnswerFormGenericTableTypes::AnswerForms
             ),
             [

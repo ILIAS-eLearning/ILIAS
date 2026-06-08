@@ -23,6 +23,7 @@ namespace ILIAS\Questions\Question\Persistence;
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableDefinitions;
 use ILIAS\Questions\AnswerForm\Properties as AnswerFormProperties;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
+use ILIAS\Questions\Persistence\Delete;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\Manipulate;
@@ -139,9 +140,11 @@ class DatabaseStatementBuilder
 
         if ($page_id_updated) {
             $manipulate = $manipulate->withAdditionalStatement(
-                $this->buildUpdatePageIdStatement(),
-                $question_id,
-                $page_id
+                $this->buildUpdatePageIdStatement(
+                    $table_names_builder,
+                    $question_id,
+                    $page_id
+                )
             );
         }
 
@@ -177,7 +180,7 @@ class DatabaseStatementBuilder
     }
 
     public function buildDeleteQuestionStatement(
-        TableNamesBuilder $table_names_builder,
+        TableNameBuilder $table_names_builder,
         Uuid $question_id
     ): Delete {
         $table_type = TableTypes::Questions;

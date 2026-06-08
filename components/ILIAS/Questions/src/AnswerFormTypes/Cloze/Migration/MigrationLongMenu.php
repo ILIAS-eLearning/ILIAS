@@ -24,7 +24,7 @@ use ILIAS\Questions\AnswerForm\Migration\Migration;
 use ILIAS\Questions\AnswerForm\Migration\MigrationInsert;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Definition;
 use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
-use ILIAS\Questions\Persistence\TableNameSpace;
+use ILIAS\Questions\Persistence\TableSubNameSpace;
 use ILIAS\Setup\Environment;
 
 class MigrationLongMenu implements Migration
@@ -49,12 +49,6 @@ class MigrationLongMenu implements Migration
     }
 
     #[\Override]
-    public function getTableNameSpace(): TableNameSpace
-    {
-        return $this->table_definitions->getTableNameSpace();
-    }
-
-    #[\Override]
     public function completeMigrationInsert(
         Environment $environment,
         MigrationInsert $migration_insert
@@ -64,6 +58,7 @@ class MigrationLongMenu implements Migration
         $answer_input_mapping = [];
         $gaps_insert = null;
         $answer_options_to_insert = [];
+        $available_points = [];
 
         foreach ($this->fetchDBValues(
             $migration_insert->getDb(),
@@ -76,7 +71,9 @@ class MigrationLongMenu implements Migration
                 $gaps_insert = $this->buildGapInsertStatement(
                     $this->table_definitions,
                     $migration_insert->getPersistenceFactory(),
-                    $migration_insert->getTableNameBuilder(),
+                    $migration_insert->getTableNameBuilder(
+                        $this->table_definitions->getTableSubNameSpace()
+                    ),
                     $gaps_insert,
                     $answer_input_id,
                     $answer_form_id,
@@ -116,10 +113,8 @@ class MigrationLongMenu implements Migration
 
             if ($position !== null) {
                 $answer_options_to_insert[$answer_input_id_string][$position]['points'] = $db_row->points;
-                ;
+                $available_points[$answer_input_id_string] = $db_row->points;
             }
-
-
         }
 
         if (!isset($db_row)) {
@@ -135,7 +130,9 @@ class MigrationLongMenu implements Migration
             $answer_options_insert = $this->buildAnswerOptionInsertStatement(
                 $this->table_definitions,
                 $migration_insert->getPersistenceFactory(),
-                $migration_insert->getTableNameBuilder(),
+                $migration_insert->getTableNameBuilder(
+                    $this->table_definitions->getTableSubNameSpace()
+                ),
                 $answer_options_insert,
                 $answer['answer_option_id'],
                 $answer['answer_input_id'],
@@ -152,7 +149,9 @@ class MigrationLongMenu implements Migration
                 $this->buildAnswerFormInsertStatement(
                     $this->table_definitions,
                     $migration_insert->getPersistenceFactory(),
-                    $migration_insert->getTableNameBuilder(),
+                    $migration_insert->getTableNameBuilder(
+                        $this->table_definitions->getTableSubNameSpace()
+                    ),
                     $answer_form_id,
                     $this->buildScoringIdenticalFromOld($db_row->identical_scoring),
                     0
@@ -166,7 +165,14 @@ class MigrationLongMenu implements Migration
                     $migration_insert->wasIliasPageEditorUsedForAdditionalTexts()
                 )
             )->withAdditionalInsert($gaps_insert)
-            ->withAdditionalInsert($answer_options_insert);
+            ->withAdditionalInsert($answer_options_insert)
+            ->withAvailablePoints(
+                array_reduce(
+                    $available_points,
+                    fn(float $c, float $v): float => $c + $v,
+                    0.0
+                )
+            );
     }
 
     #[\Override]
