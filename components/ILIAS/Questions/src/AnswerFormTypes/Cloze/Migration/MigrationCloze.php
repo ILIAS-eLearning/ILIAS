@@ -30,7 +30,7 @@ use ILIAS\Questions\Definitions\Range;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\TableNameBuilder;
-use ILIAS\Questions\Persistence\TableNameSpace;
+use ILIAS\Questions\Persistence\TableSubNameSpace;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Database\FieldDefinition;
 use ILIAS\Setup\Environment;
@@ -60,12 +60,6 @@ class MigrationCloze implements Migration
     }
 
     #[\Override]
-    public function getTableNameSpace(): TableNameSpace
-    {
-        return $this->table_definitions->getTableNameSpace();
-    }
-
-    #[\Override]
     public function completeMigrationInsert(
         Environment $environment,
         MigrationInsert $migration_insert
@@ -74,6 +68,7 @@ class MigrationCloze implements Migration
         $answer_options_mapping = [];
         $gaps_insert = null;
         $answer_options_insert = null;
+        $available_points = [];
 
         foreach ($this->fetchDBValues(
             $migration_insert->getDb(),
@@ -91,7 +86,9 @@ class MigrationCloze implements Migration
                 $gaps_insert = $this->buildGapInsertStatement(
                     $this->table_definitions,
                     $migration_insert->getPersistenceFactory(),
-                    $migration_insert->getTableNameBuilder(),
+                    $migration_insert->getTableNameBuilder(
+                        $this->table_definitions->getTableSubNameSpace()
+                    ),
                     $gaps_insert,
                     $answer_input_mapping[$db_row->gap_id],
                     $answer_form_id,
@@ -112,10 +109,17 @@ class MigrationCloze implements Migration
             ];
             $this->answer_options_mapping_for_feedback[$db_row->gap_id]['answer_options'][$db_row->aorder] = $answer_option_id;
 
+            if (!isset($available_points[$answer_option_id->toString()])
+                || $available_points[$answer_option_id->toString()] < $db_row->points) {
+                $available_points[$answer_option_id->toString()] = $db_row->points;
+            }
+
             $answer_options_insert = $this->buildAnswerOptionInsertStatement(
                 $this->table_definitions,
                 $migration_insert->getPersistenceFactory(),
-                $migration_insert->getTableNameBuilder(),
+                $migration_insert->getTableNameBuilder(
+                    $this->table_definitions->getTableSubNameSpace()
+                ),
                 $answer_options_insert,
                 $answer_option_id,
                 $answer_input_mapping[$db_row->gap_id],
@@ -145,7 +149,9 @@ class MigrationCloze implements Migration
                 $this->buildAnswerFormInsertStatement(
                     $this->table_definitions,
                     $migration_insert->getPersistenceFactory(),
-                    $migration_insert->getTableNameBuilder(),
+                    $migration_insert->getTableNameBuilder(
+                        $this->table_definitions->getTableSubNameSpace()
+                    ),
                     $answer_form_id,
                     $this->buildScoringIdenticalFromOld((int) $db_row->identical_scoring),
                     $db_row->combinations_enabled
@@ -161,6 +167,12 @@ class MigrationCloze implements Migration
                     $db_row->cloze_text,
                     $answer_input_mapping,
                     $migration_insert->wasIliasPageEditorUsedForAdditionalTexts()
+                )
+            )->withAvailablePoints(
+                array_reduce(
+                    $available_points,
+                    fn(float $c, float $v): float => $c + $v,
+                    0.0
                 )
             );
     }
@@ -188,8 +200,12 @@ class MigrationCloze implements Migration
             return [Types::NoResponse->value];
         }
 
+        if ($answer === -2) {
+            return [Types::OtherResponse->value];
+        }
+
         if ($gap['is_numeric']) {
-            return [$this->buildRangeValue(true, $answer)];
+            return [$this->buildRangeValue(true, $answer)->value];
         }
 
         $answer_option_id = array_filter(
@@ -199,10 +215,10 @@ class MigrationCloze implements Migration
         );
 
         if ($answer_option_id !== []) {
-            return [$answer_option_id->toString()];
+            return [array_shift($answer_option_id)->toString()];
         }
 
-        return [''];
+        return null;
     }
 
     private function fetchDBValues(
@@ -266,7 +282,9 @@ class MigrationCloze implements Migration
                 $combination_mapping[$db_row->combination_id . $db_row->row_id] = $migration_insert->getUuid();
                 $combinations_insert = $this->buildCombinationsInsert(
                     $persistence_factory,
-                    $migration_insert->getTableNameBuilder(),
+                    $migration_insert->getTableNameBuilder(
+                        $this->table_definitions->getTableSubNameSpace()
+                    ),
                     $combinations_insert,
                     $combination_mapping[$db_row->combination_id . $db_row->row_id],
                     $migration_insert->getAnswerFormId(),
@@ -276,7 +294,9 @@ class MigrationCloze implements Migration
 
             $combinations_to_answer_options_insert = $this->buildCombinationsToAnswerOptionsInsert(
                 $persistence_factory,
-                $migration_insert->getTableNameBuilder(),
+                $migration_insert->getTableNameBuilder(
+                    $this->table_definitions->getTableSubNameSpace()
+                ),
                 $combinations_to_answer_options_insert,
                 $combination_mapping[$db_row->combination_id . $db_row->row_id],
                 $answer_input_mapping[$db_row->gap_fi],

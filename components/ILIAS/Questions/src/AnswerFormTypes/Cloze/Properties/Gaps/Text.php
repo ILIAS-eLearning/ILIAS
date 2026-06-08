@@ -221,7 +221,7 @@ class Text extends Type
     ): ?Component {
         $specific_feedbacks_by_condition = array_reduce(
             $specific_feedbacks,
-            function (array $c, SpecificFeedback $v): array {
+            function (array $c, SpecificTextFeedback $v): array {
                 if (!array_key_exists($v->getCondition(), $c)) {
                     $c[$v->getCondition()] = [];
                 }

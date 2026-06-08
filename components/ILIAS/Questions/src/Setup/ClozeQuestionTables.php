@@ -250,7 +250,7 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
             ]);
         }
 
-        if (!$this->db->addPrimaryKey($table_name, ['combination_id', 'gap_id'])) {
+        if (!$this->db->primaryExistsByFields($table_name, ['combination_id', 'gap_id'])) {
             $this->db->addPrimaryKey($table_name, ['combination_id', 'gap_id']);
         }
 
