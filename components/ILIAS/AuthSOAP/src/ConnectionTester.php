@@ -22,12 +22,14 @@ namespace ILIAS\AuthSOAP;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Factory;
+use ilLogger;
 
 readonly class ConnectionTester
 {
     public function __construct(
         private \ilSetting $settings,
         private Factory $ui_factory,
+        private ilLogger $logger,
     ) {
     }
 
@@ -41,6 +43,9 @@ readonly class ConnectionTester
         try {
             $result = $client->validateSession($ext_uid, $soap_pw, $new_user);
         } catch (\SoapFault $e) {
+            $this->logger->error('SOAP auth connection test failed: ' . $e->getMessage());
+            $this->logger->error($e->getTraceAsString());
+
             return [
                 $this->ui_factory->messageBox()->failure(
                     'SOAP Authentication Call Error: ' . $e->getMessage()
@@ -69,13 +74,17 @@ readonly class ConnectionTester
 
     private function renderXmlBlock(string $xml): Component
     {
-        return $this->ui_factory->legacy(
+        return $this->ui_factory->legacy()->content(
             $this->formatXmlForDisplay($xml)
         );
     }
 
     private function formatXmlForDisplay(string $xml): string
     {
+        if (trim($xml) === '') {
+            return '(no XML captured)';
+        }
+
         $formatted = $this->prettyPrintXml($xml);
         $escaped = htmlspecialchars($formatted, ENT_QUOTES);
         $escaped = str_replace(' ', '&nbsp;', $escaped);
@@ -85,6 +94,10 @@ readonly class ConnectionTester
 
     private function prettyPrintXml(string $xml): string
     {
+        if (trim($xml) === '') {
+            return '';
+        }
+
         $dom = new \DOMDocument('1.0', 'UTF-8');
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
