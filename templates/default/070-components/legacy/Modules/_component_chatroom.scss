@@ -337,3 +337,7 @@ td.chatroom {
 // #chat_users .il-item-title {
 // 	display: inline-block;
 // }
+
+#chat_function_list .btn + .btn {
+	margin-left: 0;
+}

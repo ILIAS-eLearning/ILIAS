@@ -13266,6 +13266,10 @@ td.chatroom {
   display: inline;
 }
 
+#chat_function_list .btn + .btn {
+  margin-left: 0;
+}
+
 /* Modules/Course */
 .ilValignTop {
   vertical-align: top;
