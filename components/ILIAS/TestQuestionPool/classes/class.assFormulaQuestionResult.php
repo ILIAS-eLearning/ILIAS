@@ -496,59 +496,83 @@ class assFormulaQuestionResult
         ])->transform(round($value, $this->precision));
     }
 
+    /**
+     * @return array{sign: int|float, value: int|float, unit: int|float, points: int|float}
+     */
     public function getResultInfo($variables, $results, $value, $unit, $units): array
     {
         if ($this->getRatingSimple()) {
-            if ($this->isCorrect($variables, $results, $value, $units[$unit] ?? null)) {
-                return ["points" => $this->getPoints()];
-            } else {
-                return ["points" => 0];
-            }
-        } else {
-            $totalpoints = 0;
-            $formula = $this->substituteFormula($variables, $results);
-            if (preg_match_all("/(\\\$v\\d+)/ims", $formula, $matches)) {
-                foreach ($matches[1] as $variable) {
-                    $varObj = $variables[$variable];
-                    $formula = preg_replace("/\\\$" . substr($variable, 1) . "(?![0-9]+)/", "(" . $varObj->getBaseValue() . ")" . "\\1", $formula);
-                }
-            }
-            $math = new EvalMath();
-            $math->suppress_errors = true;
-            $result = $math->evaluate($formula);
-            if ($this->getUnit() !== null) {
-                $result = ilMath::_mul($result, $this->getUnit()->getFactor(), 100);
-            }
-            if (is_object($unit)) {
-                $value = ilMath::_mul($value, $unit->getFactor(), 100);
-            } else {
-            }
-            $details = [];
-            if ($this->checkSign($result, $value)) {
-                $points = ilMath::_mul($this->getPoints(), $this->getRatingSign() / 100);
-                $totalpoints += $points;
-                $details['sign'] = $points;
-            }
-            if ($this->isInTolerance(abs($value), abs($result), $this->getTolerance())) {
-                $points = ilMath::_mul($this->getPoints(), $this->getRatingValue() / 100);
-                $totalpoints += $points;
-                $details['value'] = $points;
-            }
-            if ($this->getUnit() !== null) {
-                $base1 = $units[$unit];
-                if (is_object($base1)) {
-                    $base1 = $units[$base1->getBaseUnit()];
-                }
-                $base2 = $units[$this->getUnit()->getBaseUnit()];
-                if (is_object($base1) && is_object($base2) && $base1->getId() == $base2->getId()) {
-                    $points = ilMath::_mul($this->getPoints(), $this->getRatingUnit() / 100);
-                    $totalpoints += $points;
-                    $details['unit'] = $points;
-                }
-            }
-            $details['points'] = $totalpoints;
-            return $details;
+            return [
+                'sign' => 0,
+                'value' => 0,
+                'unit' => 0,
+                'points' => $this->isCorrect($variables, $results, $value, $units[$unit] ?? null)
+                    ? $this->getPoints()
+                    : 0,
+            ];
         }
+
+        $totalpoints = 0;
+        $formula = $this->substituteFormula($variables, $results);
+        if (preg_match_all("/(\\\$v\\d+)/ims", $formula, $matches)) {
+            foreach ($matches[1] as $variable) {
+                $varObj = $variables[$variable];
+                $formula = preg_replace("/\\\$" . substr($variable, 1) . "(?![0-9]+)/", "(" . $varObj->getBaseValue() . ")" . "\\1", $formula);
+            }
+        }
+
+        $math = new EvalMath();
+        $math->suppress_errors = true;
+        $result = $math->evaluate($formula);
+
+        if ($this->getUnit() instanceof assFormulaQuestionUnit) {
+            $result = ilMath::_mul($result, $this->getUnit()->getFactor(), 100);
+        }
+
+        if ($unit instanceof assFormulaQuestionUnit) {
+            $value = ilMath::_mul($value, $unit->getFactor(), 100);
+        }
+
+        $details = [
+            'sign' => 0,
+            'value' => 0,
+            'unit' => 0,
+            'points' => 0,
+        ];
+
+        if ($this->checkSign($result, $value)) {
+            $points = ilMath::_mul($this->getPoints(), $this->getRatingSign() / 100);
+            $totalpoints += $points;
+            $details['sign'] = $points;
+        }
+
+        if ($this->isInTolerance(abs($value), abs($result), $this->getTolerance())) {
+            $points = ilMath::_mul($this->getPoints(), $this->getRatingValue() / 100);
+            $totalpoints += $points;
+            $details['value'] = $points;
+        }
+
+        if ($this->getUnit() instanceof assFormulaQuestionUnit) {
+            $base1 = $units[$unit];
+            if ($base1 instanceof assFormulaQuestionUnit) {
+                $base1 = $units[$base1->getBaseUnit()];
+            }
+
+            $base2 = $units[$this->getUnit()->getBaseUnit()];
+            if (
+                $base1 instanceof assFormulaQuestionUnit
+                && $base2 instanceof assFormulaQuestionUnit
+                && $base1->getId() === $base2->getId()
+            ) {
+                $points = ilMath::_mul($this->getPoints(), $this->getRatingUnit() / 100);
+                $totalpoints += $points;
+                $details['unit'] = $points;
+            }
+        }
+
+        $details['points'] = $totalpoints;
+
+        return $details;
     }
 
     /************************************
