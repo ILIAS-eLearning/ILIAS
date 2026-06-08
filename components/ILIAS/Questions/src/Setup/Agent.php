@@ -117,7 +117,7 @@ class Agent implements SetupAgent
                 $storage,
                 new ClozeQuestionTables(
                     new SetupTableNameBuilder(
-                        new TableNameSpaceCore('cloze')
+                        new TableSubNameSpaceCore('cloze')
                     )
                 )
             )

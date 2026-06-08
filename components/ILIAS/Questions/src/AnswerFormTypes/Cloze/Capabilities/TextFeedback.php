@@ -96,7 +96,7 @@ class TextFeedback extends TextFeedbackBase
                 $gaps,
                 $response
             ): array {
-                $gap_id = $v[0]->getAnswerInputId();
+                $gap_id = $v[0]->getParentId();
 
                 /** @var ?AnswerInputResponse $answer_for_gap */
                 $answer_for_gap = $response?->getResponseForInput($gap_id);

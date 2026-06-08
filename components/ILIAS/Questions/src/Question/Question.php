@@ -210,6 +210,15 @@ class Question
         return $this->created;
     }
 
+    /**
+     * @todo skergomard, 2026-06-08: This we only need while the migrations exist, after
+     * this a question MUST never change the page assigned to it after its creation!
+     */
+    public function getFirstAnswerFormIdForMigration(): Uuid
+    {
+        return reset($this->answer_forms)->getAnswerFormId();
+    }
+
     public function getAnswerFormPropertiesByIdString(
         string $form_id
     ): ?AnswerFormProperties {

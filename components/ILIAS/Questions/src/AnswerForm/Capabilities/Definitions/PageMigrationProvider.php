@@ -20,15 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerForm\Capabilities\Definitions;
 
-use ILIAS\Questions\AnswerForm\Migration\Migration as AnswerFormMigration;
-use ILIAS\Questions\AnswerForm\Migration\MigrationInsert;
-use ILIAS\Setup\Environment;
-
-interface Migration
+interface PageMigrationProvider
 {
-    public function completeMigrationInsert(
-        Environment $environment,
-        AnswerFormMigration $answer_form_migration,
-        MigrationInsert $migration_insert
-    ): MigrationInsert;
+    public function runPageMigration(): void;
 }

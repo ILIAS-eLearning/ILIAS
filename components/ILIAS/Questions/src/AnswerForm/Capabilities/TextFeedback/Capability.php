@@ -25,13 +25,15 @@ use ILIAS\Questions\AnswerForm\Capabilities\Definitions\ActionWithTab;
 use ILIAS\Questions\AnswerForm\Capabilities\Definitions\AdditionalTabProvider;
 use ILIAS\Questions\AnswerForm\Capabilities\Definitions\Feedback;
 use ILIAS\Questions\AnswerForm\Capabilities\Definitions\FeedbackProvider;
+use ILIAS\Questions\AnswerForm\Capabilities\Definitions\PageMigrationProvider;
 use ILIAS\Questions\AnswerForm\Properties;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Async;
 use ILIAS\Questions\Presentation\Layout\Viewable;
 use ILIAS\Data\Text\Factory as TextFactory;
+use ILIAS\Data\UUID\Uuid;
 
-class Capability implements CapabilityInterface, AdditionalTabProvider, FeedbackProvider
+class Capability implements CapabilityInterface, AdditionalTabProvider, FeedbackProvider, PageMigrationProvider
 {
     private const string SUB_ACTION_SAVE = 's';
     private const string SUB_ACTION_INSERT_LEGACY_TEXTS = 'ilt';
@@ -75,12 +77,21 @@ class Capability implements CapabilityInterface, AdditionalTabProvider, Feedback
     public function getFeedback(
         Properties $answer_form_properties
     ): ?Feedback {
-        return $answer_form_properties
-            ->getTypeGenericProperties()
-            ->getDefinition()
-            ->getCapability(
-                self::getIdentifier()
-            );
+        return $this->retrieveMigratedFeedback(
+            $answer_form_properties->getAnswerFormId(),
+            $answer_form_properties
+                ->getTypeGenericProperties()
+                ->getDefinition()
+                ->getCapability(
+                    self::getIdentifier()
+                )
+        );
+    }
+
+    #[\Override]
+    public function runPageMigration(): void
+    {
+        $this->repository->migratePageFeedback();
     }
 
     #[\Override]
@@ -127,7 +138,7 @@ class Capability implements CapabilityInterface, AdditionalTabProvider, Feedback
         return new Overview(
             $environment,
             $this->text_factory,
-            $this->repository->getFor(
+            $this->retrieveMigratedFeedback(
                 $environment->getAnswerFormId(),
                 $environment
                     ->getAnswerFormProperties()
@@ -167,5 +178,25 @@ class Capability implements CapabilityInterface, AdditionalTabProvider, Feedback
         return $environment->redirectTo(
             $environment->withDefaultSubAction()->getUrlBuilder()
         );
+    }
+
+    private function retrieveMigratedFeedback(
+        Uuid $answer_form_id,
+        TextFeedback $feedback
+    ): TextFeedback {
+        $feedback_with_data = $this->repository->getFor(
+            $answer_form_id,
+            $feedback
+        );
+
+        if ($feedback_with_data->requiresPageMigration()) {
+            $feedback_with_data = $feedback_with_data->withMigratedPageFeedbacks();
+            $this->repository->store(
+                $answer_form_id,
+                $feedback_with_data
+            );
+        }
+
+        return $feedback_with_data;
     }
 }

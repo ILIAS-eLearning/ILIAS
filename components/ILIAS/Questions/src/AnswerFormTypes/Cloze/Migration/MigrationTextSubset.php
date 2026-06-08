@@ -25,7 +25,7 @@ use ILIAS\Questions\AnswerForm\Migration\MigrationInsert;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Definition;
 use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Definitions\ScoringIdentical;
-use ILIAS\Questions\Persistence\TableNameSpace;
+use ILIAS\Questions\Persistence\TableSubNameSpace;
 use ILIAS\Setup\Environment;
 
 class MigrationTextSubset implements Migration
@@ -50,12 +50,6 @@ class MigrationTextSubset implements Migration
     }
 
     #[\Override]
-    public function getTableNameSpace(): TableNameSpace
-    {
-        return $this->table_definitions->getTableNameSpace();
-    }
-
-    #[\Override]
     public function completeMigrationInsert(
         Environment $environment,
         MigrationInsert $migration_insert
@@ -63,6 +57,7 @@ class MigrationTextSubset implements Migration
         $answer_form_id = $migration_insert->getAnswerFormId();
         $answer_options_insert = null;
         $gaps = [];
+        $available_points = [];
 
         foreach ($this->fetchDBValues(
             $migration_insert->getDb(),
@@ -77,7 +72,9 @@ class MigrationTextSubset implements Migration
                     $gaps_insert = $this->buildGapInsertStatement(
                         $this->table_definitions,
                         $migration_insert->getPersistenceFactory(),
-                        $migration_insert->getTableNameBuilder(),
+                        $migration_insert->getTableNameBuilder(
+                            $this->table_definitions->getTableSubNameSpace()
+                        ),
                         $gaps_insert,
                         $gap_id,
                         $answer_form_id,
@@ -94,11 +91,15 @@ class MigrationTextSubset implements Migration
                 $migration_insert = $migration_insert->withAdditionalInsert($gaps_insert);
             }
 
+            $available_points[] = $db_row->points;
+
             foreach ($gaps as $gap_id) {
                 $answer_options_insert = $this->buildAnswerOptionInsertStatement(
                     $this->table_definitions,
                     $migration_insert->getPersistenceFactory(),
-                    $migration_insert->getTableNameBuilder(),
+                    $migration_insert->getTableNameBuilder(
+                        $this->table_definitions->getTableSubNameSpace()
+                    ),
                     $answer_options_insert,
                     $migration_insert->getUuid(),
                     $gap_id,
@@ -115,12 +116,16 @@ class MigrationTextSubset implements Migration
             return null;
         }
 
+        rsort($available_points);
+
         return $migration_insert
             ->withAdditionalInsert(
                 $this->buildAnswerFormInsertStatement(
                     $this->table_definitions,
                     $migration_insert->getPersistenceFactory(),
-                    $migration_insert->getTableNameBuilder(),
+                    $migration_insert->getTableNameBuilder(
+                        $this->table_definitions->getTableSubNameSpace()
+                    ),
                     $answer_form_id,
                     ScoringIdentical::OnlyScoreDistinct,
                     0
@@ -129,6 +134,14 @@ class MigrationTextSubset implements Migration
                 $answer_options_insert
             )->withAdditionalText(
                 $this->buildAdditionalTextFromGapsArray($gaps)
+            )->withAvailablePoints(
+                array_sum(
+                    array_slice(
+                        $available_points,
+                        0,
+                        count($gaps)
+                    )
+                )
             );
     }
 

@@ -64,6 +64,8 @@ trait BasicMigrationFunctions
         ?int $min_autocomplete,
         ?int $shuffle
     ): Insert {
+        $this->answer_inputs_mapping[$position] = $answer_input_id;
+
         if ($gaps_insert === null) {
             return $persistence_factory->insert(
                 $table_definitions->getColumns(
@@ -139,8 +141,6 @@ trait BasicMigrationFunctions
         ?float $lower_limit,
         ?float $upper_limit
     ): Insert {
-        $this->answer_options_mapping[$position] = $answer_option_id;
-
         if ($options_insert === null) {
             return $persistence_factory->insert(
                 $table_definitions->getColumns(

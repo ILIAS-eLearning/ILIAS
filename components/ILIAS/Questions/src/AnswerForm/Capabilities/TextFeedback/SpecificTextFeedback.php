@@ -33,7 +33,7 @@ class SpecificTextFeedback
         private readonly Uuid $parent_id,
         private readonly string $condition,
         private ?Markdown $feedback_text = null,
-        private readonly string $feedback_legacy = ''
+        private string $feedback_legacy = ''
     ) {
     }
 
@@ -63,6 +63,12 @@ class SpecificTextFeedback
         $clone = clone $this;
         $clone->feedback_text = $text;
         return $clone;
+    }
+
+    public function hasLegacyFeedback(): bool
+    {
+        return $this->feedback_text === null
+            && $this->feedback_legacy !== '';
     }
 
     public function toStorage(
@@ -100,5 +106,30 @@ class SpecificTextFeedback
                 $this->feedback_legacy
             )
         ];
+    }
+
+    public function requiresPageMigration(): bool
+    {
+        return preg_match('/####\d+####/', $this->feedback_legacy) === 1;
+    }
+
+    public function withMigratedPageFeedbacks(): self
+    {
+        $clone = clone $this;
+        $feedback = trim($clone->feedback_legacy, '#');
+        if (!is_numeric($feedback)) {
+            return $clone;
+        }
+
+        $feedback_page = (new \ilAssSpecFeedbackPageGUI(
+            (int) $feedback
+        ))->presentation();
+
+        $clone->feedback_legacy = '';
+        if (strip_tags($feedback_page) !== '') {
+            $clone->feedback_legacy = $feedback_page;
+        }
+
+        return $clone;
     }
 }

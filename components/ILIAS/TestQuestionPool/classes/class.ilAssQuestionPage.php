@@ -61,16 +61,15 @@ class ilAssQuestionPage extends ilPageObject
     private function migrateQuestionElementToAnswerForm(): void
     {
         global $DIC;
-        $dom_util = $DIC->copage()->internal()->domain()->domUtil();
-
-        /** @var \ILIAS\Questions\AnswerForm\Properties $answer_form_properties */
-        $answer_form_properties = $this->question->getAnswerFormProperties();
-
-        $dom_util->path($this->getDomDoc(), '//Question')
+        $DIC->copage()
+            ->internal()
+            ->domain()
+            ->domUtil()
+            ->path($this->getDomDoc(), '//Question')
             ->item(0)->parentNode->replaceWith(
                 $this->buildLegacyAnswerFormTextNode(),
                 $this->buildAnswerFormNode(
-                    reset($answer_form_properties)->getAnswerFormId()
+                    $this->question->getFirstAnswerFormIdForMigration()
                 )
             );
         $this->xml = $this->getXMLFromDom();

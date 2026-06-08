@@ -25,7 +25,6 @@ use ILIAS\Questions\AnswerForm\Migration\Migration as AnswerFormMigration;
 use ILIAS\Questions\AnswerForm\Migration\MigrationInsert;
 use ILIAS\Questions\AnswerForm\Migration\SanitizeLegacyText;
 use ILIAS\Questions\Persistence\Insert;
-use ILIAS\Questions\Persistence\TableNameSpace;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolution;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionFile;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
@@ -45,17 +44,11 @@ class Migration implements MigrationInterface
     }
 
     #[\Override]
-    public function getTableNameSpace(): TableNameSpace
-    {
-        return $this->table_definitions->getTableNameSpace();
-    }
-
-    #[\Override]
     public function completeMigrationInsert(
         Environment $environment,
         AnswerFormMigration $answer_form_migration,
         MigrationInsert $migration_insert
-    ): ?MigrationInsert {
+    ): MigrationInsert {
         if ($this->old_repository === null) {
             $this->old_repository = new SuggestedSolutionsDatabaseRepository(
                 $migration_insert->getDb()
@@ -71,16 +64,16 @@ class Migration implements MigrationInterface
         )[0] ?? null;
 
         if ($old_suggested_learning_content === null) {
-            return null;
+            return $migration_insert;
         }
 
         $insert = $this->buildInsertFromOldSuggestedSolution(
-            $migration_insert->getAnswerFormId(),
+            $migration_insert,
             $old_suggested_learning_content
         );
 
         if ($insert === null) {
-            return null;
+            return $migration_insert;
         }
 
         return $migration_insert->withAdditionalInsert($insert);
@@ -90,7 +83,7 @@ class Migration implements MigrationInterface
         MigrationInsert $migration_insert,
         SuggestedSolution $old_values
     ): ?Insert {
-        $type = $this->buildNewTypeFromOld($old_values->getType())->value;
+        $type = $this->buildNewTypeFromOld($old_values->getType());
         $content = $this->buildContentStringFromOldSuggesteSolution(
             $migration_insert->getDb(),
             $type,
@@ -104,7 +97,7 @@ class Migration implements MigrationInterface
         $pf = $migration_insert->getPersistenceFactory();
         return $pf->insert(
             $this->table_definitions->getColumns(
-                $migration_insert->getTableNameBuilder(),
+                $migration_insert->getTableNameBuilder(null),
                 TableTypes::SuggestedLearningContent
             ),
             [
@@ -114,7 +107,7 @@ class Migration implements MigrationInterface
                 ),
                 $pf->value(
                     FieldDefinition::T_TEXT,
-                    $type
+                    $type->value
                 ),
                 $pf->value(
                     FieldDefinition::T_TEXT,
@@ -205,7 +198,7 @@ class Migration implements MigrationInterface
     ): \stdClass {
         return $db->fetchObject(
             $db->queryF(
-                'SELECT obj_fi, owner FROM qpl_questions WHERE id = %s',
+                'SELECT obj_fi, owner FROM qpl_questions WHERE question_id = %s',
                 [FieldDefinition::T_INTEGER],
                 [$old_question_id]
             )
@@ -240,7 +233,7 @@ class Migration implements MigrationInterface
                 [FieldDefinition::T_INTEGER],
                 [$sub_object_id]
             )
-        )?->glo_id;
+        )?->glo_id ?? null;
     }
 
     private function determineNewOwner(

@@ -372,15 +372,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $question_gui->setObject($question);
                 $question_gui->setQuestionTabs();
 
-                if ($this->questionrepository->isInActiveTest($question_gui->getObject()->getObjId())) {
-                    $this->tpl->setOnScreenMessage(
-                        'failure',
-                        $this->lng->txt('question_is_part_of_running_test'),
-                        true
-                    );
-                    $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
-                }
-
                 $this->help->setScreenIdComponent('qpl');
 
                 if ($this->object->getType() == 'qpl' && $write_access) {

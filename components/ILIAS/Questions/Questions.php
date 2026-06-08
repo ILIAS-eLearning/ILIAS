@@ -34,6 +34,7 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions as ClozeTableDefiniti
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Persistence\TableSubNameSpace;
+use ILIAS\Questions\Question\Persistence\Repository as QuestionRepository;
 use ILIAS\Questions\Setup\Agent;
 use ILIAS\Setup\Agent as AgentInterface;
 
@@ -59,7 +60,7 @@ class Questions implements Component\Component
             new Agent(
                 $internal[PersistenceFactory::class],
                 new TableNameBuilder(
-                    'qsts',
+                    QuestionRepository::COMPONENT_NAMESPACE,
                     null
                 ),
                 $seek[AnswerFormMigration::class],

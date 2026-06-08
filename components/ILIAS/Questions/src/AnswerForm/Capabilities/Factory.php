@@ -25,6 +25,7 @@ use ILIAS\Questions\AnswerForm\Capabilities\Definitions\AdditionalTabProvider;
 use ILIAS\Questions\AnswerForm\Capabilities\Definitions\AdditionalStepProvider;
 use ILIAS\Questions\AnswerForm\Capabilities\Definitions\FeedbackProvider;
 use ILIAS\Questions\AnswerForm\Capabilities\Definitions\MarkingProvider;
+use ILIAS\Questions\AnswerForm\Capabilities\Definitions\PageMigrationProvider;
 use ILIAS\Questions\AnswerForm\Capabilities\ParticipantViewProvider;
 
 class Factory
@@ -63,6 +64,7 @@ class Factory
         $required_feedback_providers = [];
         $required_actions_with_tab = [];
         $required_form_step_actions = [];
+        $required_page_migration_providers = [];
 
         foreach ($capability_identifiers as $capability_identifier) {
             if (!isset($this->available_capabilities[$capability_identifier])) {
@@ -95,6 +97,10 @@ class Factory
                 $form_step_action = $capability->getAnswerFormEditAdditionalStep();
                 $required_form_step_actions[$form_step_action->getIdentifier()] = $form_step_action;
             }
+
+            if ($capability instanceof PageMigrationProvider) {
+                $required_page_migration_providers[] = $capability;
+            }
         }
 
         if (count($participant_view_providers) !== 1 || count($marking_providers) > 1) {
@@ -110,6 +116,7 @@ class Factory
             $required_feedback_providers,
             $required_actions_with_tab,
             $required_form_step_actions,
+            $required_page_migration_providers,
             $marking_providers[0] ?? null
         );
     }

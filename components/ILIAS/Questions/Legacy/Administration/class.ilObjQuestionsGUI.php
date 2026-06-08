@@ -34,7 +34,7 @@ use ILIAS\Data\URI;
  * @ilCtrl_isCalledBy ilObjQuestionsGUI: ilAdministrationGUI
  * @ilCtrl_Calls ilObjQuestionsGUI: ilPermissionGUI
  * @ilCtrl_Calls ilObjQuestionsGUI: ILIAS\Questions\Administration\ConfigurationGUI
- * @ilCtrl_Calls ilObjQuestionsGUI: QstsQuestionPageGUI
+ * @ilCtrl_Calls ilObjQuestionsGUI: QstsQuestionPageGUI, ilAssGenFeedbackPageGUI, ilAssSpecFeedbackPageGUI
  */
 class ilObjQuestionsGUI extends ilObjectGUI
 {

@@ -26,7 +26,7 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Definition;
 use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Definitions\ScoringIdentical;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gap;
-use ILIAS\Questions\Persistence\TableNameSpace;
+use ILIAS\Questions\Persistence\TableSubNameSpace;
 use ILIAS\Setup\Environment;
 
 class MigrationNumeric implements Migration
@@ -53,12 +53,6 @@ class MigrationNumeric implements Migration
     }
 
     #[\Override]
-    public function getTableNameSpace(): TableNameSpace
-    {
-        return $this->table_definitions->getTableNameSpace();
-    }
-
-    #[\Override]
     public function completeMigrationInsert(
         Environment $environment,
         MigrationInsert $migration_insert
@@ -78,7 +72,9 @@ class MigrationNumeric implements Migration
             $this->buildGapInsertStatement(
                 $this->table_definitions,
                 $migration_insert->getPersistenceFactory(),
-                $migration_insert->getTableNameBuilder(),
+                $migration_insert->getTableNameBuilder(
+                    $this->table_definitions->getTableSubNameSpace()
+                ),
                 null,
                 $gap_id,
                 $answer_form_id,
@@ -94,7 +90,9 @@ class MigrationNumeric implements Migration
             $this->buildAnswerOptionInsertStatement(
                 $this->table_definitions,
                 $migration_insert->getPersistenceFactory(),
-                $migration_insert->getTableNameBuilder(),
+                $migration_insert->getTableNameBuilder(
+                    $this->table_definitions->getTableSubNameSpace()
+                ),
                 null,
                 $migration_insert->getUuid(),
                 $gap_id,
@@ -108,14 +106,16 @@ class MigrationNumeric implements Migration
             $this->buildAnswerFormInsertStatement(
                 $this->table_definitions,
                 $migration_insert->getPersistenceFactory(),
-                $migration_insert->getTableNameBuilder(),
+                $migration_insert->getTableNameBuilder(
+                    $this->table_definitions->getTableSubNameSpace()
+                ),
                 $answer_form_id,
                 ScoringIdentical::ScoreAll,
                 0
             )
         )->withAdditionalText(
             '{{' . Gap::GAP_PLACEHOLDER_NAME . '_' . $gap_id->toString() . '}}'
-        );
+        )->withAvailablePoints($db_row->points);
     }
 
     #[\Override]

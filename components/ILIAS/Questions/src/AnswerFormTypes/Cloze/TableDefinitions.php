@@ -155,7 +155,7 @@ class TableDefinitions implements TableDefinitionsInterface
         if ($table_type === AnswerFormSpecificTableTypes::TypeSpecificAnswerForms) {
             return $this->persistence_factory->column(
                 $table,
-                self::ANSWER_FORM_TABLE_FOREIGN_KEY_COLUMN
+                self::ANSWER_FORM_TABLE_ID_COLUMN
             );
         }
 
@@ -193,7 +193,7 @@ class TableDefinitions implements TableDefinitionsInterface
         return match($table_type) {
             AnswerFormSpecificTableTypes::TypeSpecificAnswerForms => $this->persistence_factory->column(
                 $table,
-                self::ANSWER_FORM_TABLE_ID_COLUMN
+                self::ANSWER_FORM_TABLE_FOREIGN_KEY_COLUMN
             ),
             AnswerFormSpecificTableTypes::AnswerInputs => $this->persistence_factory->column(
                 $table,
