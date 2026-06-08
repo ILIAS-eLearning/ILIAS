@@ -491,7 +491,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             if (!is_null($result)) {
                 $panel_content = array_merge(
                     $panel_content,
-                    (new ConnectionTester($this->settings, $this->ui))->testConnection(
+                    (new ConnectionTester($this->settings, $this->ui, $this->logger))->testConnection(
                         $result['ext_uid'],
                         $result['soap_pw'],
                         $result['new_user']
