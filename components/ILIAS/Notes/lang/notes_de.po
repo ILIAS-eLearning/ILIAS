@@ -45,7 +45,7 @@ msgid "notes_add_comment"
 msgstr "Kommentar hinzufügen"
 
 msgid "notes_add_edit_comment"
-msgstr "Kommentar hinzufügen/editieren"
+msgstr "Kommentieren"
 
 msgid "notes_add_edit_message"
 msgstr "Mitteilung hinzufügen/editieren"
