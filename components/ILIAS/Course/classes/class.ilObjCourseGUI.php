@@ -1533,7 +1533,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
             $this->buildAddNewItemElements($createble_object_types)
         );
-        $gui->render();
+        $gui->renderToolbarAction();
     }
 
     /**

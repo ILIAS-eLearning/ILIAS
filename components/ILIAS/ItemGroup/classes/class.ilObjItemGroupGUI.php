@@ -235,7 +235,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $parent_gui_class = "ilObj{$this->obj_definition->getClassName($parent_type)}GUI";
         $this->ctrl->setParameterByClass($parent_gui_class, 'ref_id', $parent_ref_id);
         $add_new_item_gui = $this->resolveAddNewItemGUI();
-        $add_new_item_gui->render();
+        $add_new_item_gui->renderToolbarAction();
         $this->ctrl->clearParameterByClass($parent_gui_class, 'ref_id');
 
         $tab = new ilItemGroupItemsTableGUI($this->gui, $this, "listMaterials");

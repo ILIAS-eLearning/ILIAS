@@ -76,7 +76,7 @@ class AddNewItemGUI
     /**
      * Add new item selection to current page incl. toolbar (trigger) and overlay
      */
-    public function render(): void
+    public function renderToolbarAction(): void
     {
         $modal = $this->createModal();
 
