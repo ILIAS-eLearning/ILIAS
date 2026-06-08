@@ -19856,11 +19856,6 @@ div.ilStartupSection form.form-horizontal {
   padding: 3px 9px;
 }
 
-.ilLike {
-  padding: 5px 0px;
-  text-align: right;
-}
-
 .ilLike .modal {
   text-align: left;
 }
@@ -20447,6 +20442,12 @@ span.ilNewsRssIcon:hover {
 .ilTimeline > li > .ilTimelinePanel .panel h2 {
   display: none;
 }
+.ilTimeline > li > .ilTimelinePanel .ilTimelinePanelFooter {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
 .ilTimeline > li > .ilTimelineBadge {
   color: white;
   width: 50px;
@@ -20540,15 +20541,13 @@ span.ilNewsRssIcon:hover {
   z-index: 500;
 }
 
-.ilNewsTimelineUserImage {
-  float: left;
-  overflow: hidden;
-  width: 100px;
+.ilNewsTimelineHeader {
+  display: flex;
+  gap: 20px;
 }
-@media only screen and (max-width: 991px) {
-  .ilNewsTimelineUserImage {
-    width: 50px;
-  }
+
+.ilNewsTimelineUserImage {
+  flex-shrink: 0;
 }
 
 .ilNewsTimelineUserImage img {
@@ -20563,12 +20562,8 @@ span.ilNewsRssIcon:hover {
 }
 
 .ilNewsTimelineContentSection {
-  padding-left: 100px;
-}
-@media only screen and (max-width: 991px) {
-  .ilNewsTimelineContentSection {
-    padding-left: 50px;
-  }
+  flex: 1;
+  min-width: 0;
 }
 
 .ilNewsTimelineEditInfo {

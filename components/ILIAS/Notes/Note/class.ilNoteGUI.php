@@ -1515,12 +1515,11 @@ class ilNoteGUI
                     $code .= "$(\"#$id\").click(function(event) { ilNotes.clickTrigger(event)});";
                     return $code;
                 });
-            $comps[] = $f->divider()->vertical();
             $tpl->setVariable("GLYPH", $r->render($comps));
             $tpl->setVariable("TXT_LATEST", $this->getLatestItemText());
         }
 
-        $b = $f->button()->shy($this->getAddEditItemText(), "#")->withAdditionalOnLoadCode(function ($id) use ($hash, $query_url) {
+        $b = $f->button()->standard($this->getAddEditItemText(), "#")->withAdditionalOnLoadCode(function ($id) use ($hash, $query_url) {
             $code = "$('#$id').attr('data-note-key','$hash');\n";
             $code .= "$('#$id').attr('data-note-ui-type','trigger');\n";
             $code .= "$('#$id').attr('data-note-query-url','" . $query_url . "');\n";

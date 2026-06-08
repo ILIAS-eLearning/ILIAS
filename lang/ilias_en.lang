@@ -11026,7 +11026,7 @@ lhist#:#lhist_period#:#Period
 lhist#:#lhist_selected#:#Selected
 lhist#:#lhist_show_more#:#Show More
 lhist#:#lhist_type_of_achievement#:#Type of Achievement
-like#:#like#:#Like
+like#:#like#:#React
 like#:#reaction#:#Reaction
 link#:#link_chapters#:#Chapters
 link#:#link_link#:#Link
@@ -13084,7 +13084,7 @@ notes#:#note_update_note#:#Update Note
 notes#:#note_without_object#:#Without Reference
 notes#:#notes_activate_comments#:#Activate Public Comments
 notes#:#notes_add_comment#:#Add Comment
-notes#:#notes_add_edit_comment#:#Add/Edit Comment
+notes#:#notes_add_edit_comment#:#Comment
 notes#:#notes_add_edit_message#:#Add/Edit Message
 notes#:#notes_add_edit_note#:#Add/Edit Note
 notes#:#notes_all_comments#:#All Comments
