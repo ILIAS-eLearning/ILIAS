@@ -41,4 +41,9 @@ class Link extends Column implements C\Link
             $this->desc_label ?? $this->getTitle() . self::SEPERATOR . $this->lng->txt('order_option_alphabetical_descending')
         ];
     }
+
+    public function withIsNullable(bool $nullable): void
+    {
+        throw new \ILIAS\UI\NotImplementedException();
+    }
 }

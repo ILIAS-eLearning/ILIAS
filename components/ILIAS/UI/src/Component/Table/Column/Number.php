@@ -27,4 +27,5 @@ interface Number extends Column
 
     public function withDecimals(int $number_of_decimals): self;
     public function withUnit(string $unit, string $unit_position = self::UNIT_POSITION_AFT): self;
+    public function withIsNullable(bool $nullable): void;
 }
