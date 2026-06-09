@@ -74,6 +74,8 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
     private ?Order $order = null;
     private ?Range $range = null;
 
+    private ilComponentFactory $component_factory;
+
     public function __construct(
         private ilDBInterface $db,
         private ilLanguage $lng,
@@ -81,6 +83,8 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         private ilComponentRepository $component_repository,
         private ?NotesService $notes_service = null
     ) {
+        global $DIC;
+        $this->component_factory = $DIC['component.factory'];
     }
 
     public function setOrder(?Order $order = null): void
@@ -699,20 +703,19 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
             ->isActive();
     }
 
-    private function getQuestionTypeTranslation(array $questionData): string
+    private function getQuestionTypeTranslation(array $question_data): string
     {
-        if (!($questionData['plugin'] ?? false)) {
-            return $this->lng->txt($questionData['type_tag']);
+        if (!($question_data['plugin'] ?? false)) {
+            return $this->lng->txt($question_data['type_tag']);
         }
 
-        global $DIC;
-        foreach ($DIC['component.factory']->getActivePluginsInSlot('qst') as $plugin) {
-            if ($plugin->getQuestionType() === $questionData['type_tag']) {
+        foreach ($this->component_factory->getActivePluginsInSlot('qst') as $plugin) {
+            if ($plugin->getQuestionType() === $question_data['type_tag']) {
                 return $plugin->getQuestionTypeTranslation();
             }
         }
 
-        return $this->lng->txt($questionData['type_tag']);
+        return $this->lng->txt($question_data['type_tag']);
     }
 
     public function getDataArrayForQuestionId(int $questionId)
