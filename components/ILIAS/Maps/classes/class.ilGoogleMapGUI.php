@@ -49,7 +49,7 @@ class ilGoogleMapGUI extends ilMapGUI
             "components/ILIAS/Maps"
         );
 
-        $api_key = trim(ilMapUtil::getApiKey());
+        $api_key = trim(ilMapUtil::getApiKey() ?? '');
         if ($api_key !== "" && !self::$google_maps_api_added) {
             $html_tpl->setCurrentBlock("google_maps_api");
             $html_tpl->setVariable(
