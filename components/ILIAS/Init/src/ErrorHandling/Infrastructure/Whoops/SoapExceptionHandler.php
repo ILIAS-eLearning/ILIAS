@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Init\ErrorHandling\Infrastructure\Whoops;
 
+use ILIAS\Init\ErrorHandling\Application\DevmodeState;
+use ILIAS\Init\ErrorHandling\Incident\ErrorIncidentRegistry;
 use Throwable;
 use Whoops\Exception\Formatter;
 use Whoops\Handler\Handler;
@@ -29,18 +31,30 @@ use Whoops\Handler\Handler;
  */
 final class SoapExceptionHandler extends Handler
 {
+    public function __construct(
+        private readonly ErrorIncidentRegistry $incident_registry,
+        private readonly DevmodeState $devmode_state
+    ) {
+    }
+
     private function buildFaultString(): string
     {
-        if (!\defined('DEVMODE') || DEVMODE !== 1) {
-            return htmlspecialchars($this->getInspector()->getException()->getMessage());
+        $incident = $this->incident_registry->current();
+
+        if ($this->devmode_state->isActive()) {
+            $fault_string = Formatter::formatExceptionPlain($this->getInspector());
+            $exception = $this->getInspector()->getException();
+            $previous = $exception->getPrevious();
+            while ($previous) {
+                $fault_string .= "\n\nCaused by\n" . $this->getSimpleExceptionOutput($previous);
+                $previous = $previous->getPrevious();
+            }
+        } else {
+            $fault_string = $this->getInspector()->getException()->getMessage();
         }
 
-        $fault_string = Formatter::formatExceptionPlain($this->getInspector());
-        $exception = $this->getInspector()->getException();
-        $previous = $exception->getPrevious();
-        while ($previous) {
-            $fault_string .= "\n\nCaused by\n" . $this->getSimpleExceptionOutput($previous);
-            $previous = $previous->getPrevious();
+        if ($incident !== null) {
+            $fault_string .= "\n\n (incident code: " . $incident->identifier()->value() . ')';
         }
 
         return htmlspecialchars($fault_string);
