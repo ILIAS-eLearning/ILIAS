@@ -18,15 +18,24 @@
 
 declare(strict_types=1);
 
-class ilSoapExceptionHandler extends \Whoops\Handler\Handler
+namespace ILIAS\Init\ErrorHandling\Infrastructure\Whoops;
+
+use Throwable;
+use Whoops\Exception\Formatter;
+use Whoops\Handler\Handler;
+
+/**
+ * Whoops handler that renders SOAP fault responses for SOAP POST requests.
+ */
+final class SoapExceptionHandler extends Handler
 {
     private function buildFaultString(): string
     {
-        if (!defined('DEVMODE') || DEVMODE !== 1) {
+        if (!\defined('DEVMODE') || DEVMODE !== 1) {
             return htmlspecialchars($this->getInspector()->getException()->getMessage());
         }
 
-        $fault_string = \Whoops\Exception\Formatter::formatExceptionPlain($this->getInspector());
+        $fault_string = Formatter::formatExceptionPlain($this->getInspector());
         $exception = $this->getInspector()->getException();
         $previous = $exception->getPrevious();
         while ($previous) {
@@ -39,9 +48,9 @@ class ilSoapExceptionHandler extends \Whoops\Handler\Handler
 
     private function getSimpleExceptionOutput(Throwable $exception): string
     {
-        return sprintf(
+        return \sprintf(
             '%s: %s in file %s on line %d',
-            get_class($exception),
+            $exception::class,
             $exception->getMessage(),
             $exception->getFile(),
             $exception->getLine()
@@ -52,7 +61,7 @@ class ilSoapExceptionHandler extends \Whoops\Handler\Handler
     {
         echo $this->toXml();
 
-        return \Whoops\Handler\Handler::QUIT;
+        return Handler::QUIT;
     }
 
     private function toXml(): string

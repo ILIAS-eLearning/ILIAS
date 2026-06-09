@@ -18,13 +18,14 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Init\ErrorHandling\Infrastructure\Whoops;
+
 /**
  * A Whoops error handler for testing.
  * This yields the same output as the plain text handler, but prints a nice message to the tester on top of
  * the page.
- * @author Richard Klees <richard.klees@concepts-and-training.de>
  */
-class ilTestingHandler extends ilPlainTextHandler
+final class TestingHandler extends PlainTextHandler
 {
     public function generateResponse(): string
     {
