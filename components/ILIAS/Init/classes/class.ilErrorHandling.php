@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Init\ErrorHandling\Infrastructure\Whoops as ErrorHandlers;
+use ILIAS\Init\ErrorHandling\Infrastructure\Logging as ErrorLogging;
+use ILIAS\Init\ErrorHandling;
 use Whoops\Run;
 use Whoops\RunInterface;
 use Whoops\Handler\PrettyPageHandler;
@@ -34,7 +37,7 @@ use Whoops\Handler\HandlerInterface;
  * @todo        when an error occured and clicking the back button to return to previous page the referer-var in session is deleted -> server error
  * @todo        This class is a candidate for a singleton. initHandlers could only be called once per process anyways, as it checks for static $handlers_registered.
  */
-class ilErrorHandling
+class ilErrorHandling implements ErrorHandling\Application\ContextErrorHandlerProvider
 {
     /** @var list<string> */
     private const array SENSTIVE_PARAMETER_NAMES = [
@@ -55,6 +58,8 @@ class ilErrorHandling
 
     protected ?RunInterface $whoops;
     protected string $message;
+    protected ErrorHandling\Incident\ErrorIncidentRegistry $error_incident_registry;
+    protected ErrorHandling\Application\DevmodeState $devmode_state;
     /** Error level 1: exit application immedietly */
     public int $FATAL = 1;
     /** Error level 2: show warning page */
@@ -67,6 +72,8 @@ class ilErrorHandling
         $this->FATAL = 1;
         $this->WARNING = 2;
         $this->MESSAGE = 3;
+        $this->error_incident_registry = new ErrorHandling\Incident\InMemoryErrorIncidentRegistry();
+        $this->devmode_state = new ErrorHandling\Infrastructure\Environment\RuntimeDevmodeState();
 
         $this->initWhoopsHandlers();
 
@@ -89,10 +96,26 @@ class ilErrorHandling
 
         $runtime = $this->getRuntime();
         $this->whoops = $this->getWhoops();
-        $this->whoops->pushHandler(new ilDelegatingHandler($this, self::SENSTIVE_PARAMETER_NAMES));
+        $this->whoops->pushHandler(
+            new ErrorHandlers\DelegatingHandler($this, self::SENSTIVE_PARAMETER_NAMES)
+        );
         if ($runtime->shouldLogErrors()) {
             $this->whoops->pushHandler($this->loggingHandler());
         }
+        $this->whoops->pushHandler(
+            new ErrorHandlers\RecordErrorIncidentHandler(
+                new ErrorHandling\Application\ProductionOnlyErrorIncidentReporting(
+                    new ErrorHandling\Application\ReportErrorIncident(
+                        new ErrorLogging\LoggingErrorLogDirectory(),
+                        new ErrorLogging\LoggingErrorFileStorageAdapter(),
+                        new ErrorHandling\Incident\SessionPrefixedErrorIncidentFactory(),
+                        $this->error_incident_registry,
+                        self::SENSTIVE_PARAMETER_NAMES
+                    ),
+                    $this->devmode_state
+                )
+            )
+        );
         $this->whoops->register();
 
         self::$whoops_handlers_registered = true;
@@ -106,7 +129,10 @@ class ilErrorHandling
     {
         if (ilContext::getType() === ilContext::CONTEXT_SOAP &&
             strcasecmp($_SERVER['REQUEST_METHOD'] ?? '', 'post') === 0) {
-            return new ilSoapExceptionHandler();
+            return new ErrorHandlers\SoapExceptionHandler(
+                $this->error_incident_registry,
+                $this->devmode_state
+            );
         }
 
         // TODO: There might be more specific execution contexts (WebDAV, REST, etc.) that need specific error handling.
@@ -222,7 +248,7 @@ class ilErrorHandling
 
     protected function isDevmodeActive(): bool
     {
-        return defined('DEVMODE') && (int) DEVMODE === 1;
+        return $this->devmode_state->isActive();
     }
 
     protected function defaultHandler(): HandlerInterface
@@ -230,40 +256,18 @@ class ilErrorHandling
         return new CallbackHandler(function ($exception, Inspector $inspector, Run $run) {
             global $DIC;
 
-            $logger = ilLoggingErrorSettings::getInstance();
-
             $message = 'Sorry, an error occured.';
             if ($DIC->isDependencyAvailable('language')) {
                 $DIC->language()->loadLanguageModule('logging');
                 $message = $DIC->language()->txt('error_sry_error');
             }
 
-            if (!empty($logger->folder())) {
-                $session_id = substr(session_id(), 0, 5);
-                $r = new \Random\Randomizer();
-                $err_num = $r->getInt(1, 9999);
-                $file_name = $session_id . '_' . $err_num;
-
-                $lwriter = new ilLoggingErrorFileStorage($inspector, $logger->folder(), $file_name);
-                $lwriter = $lwriter->withExclusionList(self::SENSTIVE_PARAMETER_NAMES);
-                $lwriter->write();
-
-                if ($DIC->isDependencyAvailable('language')) {
-                    $message = sprintf($DIC->language()->txt('log_error_message'), $file_name);
-                    if ($logger->mail()) {
-                        $message .= ' ' . sprintf(
-                            $DIC->language()->txt('log_error_message_send_mail'),
-                            $logger->mail(),
-                            $file_name,
-                            $logger->mail()
-                        );
-                    }
-                } else {
-                    $message = 'Sorry, an error occured. A logfile has been created which can be identified via the code "' . $file_name . '"';
-                    if ($logger->mail()) {
-                        $message .= ' ' . 'Please send a mail to <a href="mailto:' . $logger->mail() . '?subject=code: ' . $file_name . '">' . $logger->mail() . '</a>';
-                    }
-                }
+            $incident = $this->error_incident_registry->current();
+            if ($incident !== null) {
+                $language = $DIC->isDependencyAvailable('language') ? $DIC->language() : null;
+                $message = new ErrorHandling\Notification\ErrorIncidentUserMessage(
+                    ilLoggingErrorSettings::getInstance()
+                )->format($incident, $language);
             }
 
             if ($DIC->isDependencyAvailable('ui') && isset($DIC['tpl']) && $DIC->isDependencyAvailable('ctrl')) {
@@ -283,10 +287,12 @@ class ilErrorHandling
 
         switch (ERROR_HANDLER) {
             case 'TESTING':
-                return (new ilTestingHandler())->withExclusionList(self::SENSTIVE_PARAMETER_NAMES);
+                return new ErrorHandlers\TestingHandler()
+                    ->withExclusionList(self::SENSTIVE_PARAMETER_NAMES);
 
             case 'PLAIN_TEXT':
-                return (new ilPlainTextHandler())->withExclusionList(self::SENSTIVE_PARAMETER_NAMES);
+                return new ErrorHandlers\PlainTextHandler()
+                    ->withExclusionList(self::SENSTIVE_PARAMETER_NAMES);
 
             case 'PRETTY_PAGE':
                 // fallthrough
