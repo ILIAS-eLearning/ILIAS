@@ -77,6 +77,34 @@ class assClozeTestTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
+    public function test_isComplete_shouldReturnFalseIfGapHasEmptyAnswer(): void
+    {
+        $instance = new assClozeTest();
+        $instance->setTitle('Title');
+        $instance->setAuthor('Author');
+        $instance->setClozeTextValue('Question with [gap][/gap]');
+        $gap = new assClozeGap(assClozeGap::TYPE_TEXT);
+        $gap->setShuffle(false);
+        $gap->addItem(new assAnswerCloze('', 1.0, 0));
+        $instance->addGapAtIndex($gap, 0);
+
+        $this->assertFalse($instance->isComplete());
+    }
+
+    public function test_isComplete_shouldReturnTrueIfGapAnswerIsWhitespaceOnly(): void
+    {
+        $instance = new assClozeTest();
+        $instance->setTitle('Title');
+        $instance->setAuthor('Author');
+        $instance->setClozeTextValue('Question with [gap][/gap]');
+        $gap = new assClozeGap(assClozeGap::TYPE_TEXT);
+        $gap->setShuffle(false);
+        $gap->addItem(new assAnswerCloze('   ', 1.0, 0));
+        $instance->addGapAtIndex($gap, 0);
+
+        $this->assertTrue($instance->isComplete());
+    }
+
     public function test_setGetStartTag_shouldReturnValueUnchanged(): void
     {
         $instance = new assClozeTest();
