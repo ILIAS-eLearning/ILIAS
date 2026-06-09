@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
+use ILIAS\UI\Component\Input\Field\LengthOfTimeFieldPatterns;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 use ILIAS\Data;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
@@ -242,5 +243,13 @@ class Factory implements I\Factory
     public function rating(string $label, string $byline = null): I\Rating
     {
         return new Rating($this->data_factory, $this->refinery, $label, $byline);
+    }
+
+    /**
+     * @ineritDoc
+     */
+    public function lengthOfTime(string $label, ?string $byline = null, LengthOfTimeFieldPatterns $field_pattern = LengthOfTimeFieldPatterns::hoursMinutes): LengthOfTime
+    {
+        return new LengthOfTime($this->data_factory, $this->refinery, $this->lng, $this, $label, $byline, $field_pattern);
     }
 }

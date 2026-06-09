@@ -98,6 +98,9 @@ class Renderer extends AbstractComponentRenderer
             case ($component instanceof F\Duration):
                 return $this->renderDurationField($component, $default_renderer);
 
+            case ($component instanceof F\LengthOfTime):
+                return $this->renderLengthOfTimeField($component, $default_renderer);
+
             case ($component instanceof F\Link):
                 return $this->renderLinkField($component, $default_renderer);
 
@@ -670,6 +673,13 @@ class Renderer extends AbstractComponentRenderer
         $label_id = $this->createId();
         $tpl->setVariable('ID', $label_id);
         return $this->wrapInFormContext($component, $component->getLabel(), $tpl->get(), $label_id);
+    }
+
+    protected function renderLengthOfTimeField(F\LengthOfTime $component, RendererInterface $default_renderer): string
+    {
+        $this->getTemplate("tpl.lengthoftime.html", true, true);
+        $inputs_html = $default_renderer->render($component->getInputs());
+        return $this->wrapInFormContext($component, $component->getLabel(), $inputs_html);
     }
 
     /**

@@ -810,7 +810,7 @@ interface Factory
      *      The fields can be operated like any number field. When a field looses focus, the inputs are transformed to
      *      show the entered time in a human-readable form given the current field pattern.
      *      For example: 0 hours, 135 minutes would turn into 2 hours, 15 minutes.
-     *   rivals: >
+     *   rivals:
      *      Duration: >
      *          This field offers inputs to enter a start and end date (and optionally time). It's the better choice for
      *          "big picture" planning of events. The Length of Time Field is the right choice for durations with a
@@ -831,8 +831,8 @@ interface Factory
      * ---
      * @param string $label
      * @param string|null $byline
-     * @param LengthOfTimeFieldPatterns $fieldPattern
-     * @return LengthOfTime
+     * @param LengthOfTimeFieldPatterns $field_pattern
+     * @return \ILIAS\UI\Component\Input\Field\LengthOfTime
      */
-    public function lengthOfTime(string $label, ?string $byline = null, LengthOfTimeFieldPatterns $fieldPattern = LengthOfTimeFieldPatterns::hoursMinutes): LengthOfTime;
+    public function lengthOfTime(string $label, ?string $byline = null, LengthOfTimeFieldPatterns $field_pattern = LengthOfTimeFieldPatterns::hoursMinutes): LengthOfTime;
 }

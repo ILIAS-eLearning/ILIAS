@@ -31,26 +31,8 @@ interface LengthOfTime extends Group, FilterInput
 {
     /**
      * Controls which of the fields (days, hours, minutes, seconds) are visible.
-     * @param LengthOfTimeFieldPatterns $fieldPattern
+     * @param LengthOfTimeFieldPatterns $field_pattern
      * @return self
      */
-    public function withFieldPattern(LengthOfTimeFieldPatterns $fieldPattern): self;
-
-    /**
-     * Minimum length of time
-     */
-    public function withMinValue(DateInterval $date): self;
-
-
-    public function getMinValue(): ?DateInterval;
-
-    /**
-     * Maximum length of time
-     */
-    public function withMaxValue(DateInterval $date): self;
-
-    /**
-     * Return the maximum date the input accepts.
-     */
-    public function getMaxValue(): ?self;
+    public function withFieldPattern(LengthOfTimeFieldPatterns $field_pattern): self;
 }
