@@ -260,22 +260,36 @@ class assClozeTestImport extends assQuestionImport
         foreach ($gaps as $gapidx => $gap) {
             $gapcontent = [];
             $clozegap = new assClozeGap($gap['type']);
+            $answer_minnumber = (string) ($gap['minnumber'] ?? '');
+            $answer_maxnumber = (string) ($gap['maxnumber'] ?? '');
+
             foreach ($gap['answers'] as $answer) {
-                $gapanswer = new assAnswerCloze($answer['answertext'], $answer['points'], $answer['answerorder']);
-                $gapanswer->setGapSize((int) ($gap['gap_size'] ?? 0));
+                $answer_text = (string) $answer['answertext'];
+                $answer_gap_size = (int) ($gap['gap_size'] ?? 0);
+
+                $gapanswer = new assAnswerCloze(
+                    $answer_text,
+                    (float) $answer['points'],
+                    (int) $answer['answerorder']
+                );
+                $gapanswer->setGapSize($answer_gap_size);
+
                 switch ($clozegap->getType()) {
                     case assClozeGap::TYPE_SELECT:
-                        $clozegap->setShuffle($answer['shuffle']);
+                        $clozegap->setShuffle((bool) ($answer['shuffle'] ?? true));
                         break;
                     case assClozeGap::TYPE_NUMERIC:
-                        $gapanswer->setLowerBound($gap['minnumber']);
-                        $gapanswer->setUpperBound($gap['maxnumber']);
+                        $gapanswer->setLowerBound($answer_minnumber);
+                        $gapanswer->setUpperBound($answer_maxnumber);
                         break;
                 }
-                $clozegap->setGapSize((int) ($gap['gap_size'] ?? 0));
+
+                $clozegap->setGapSize($answer_gap_size);
                 $clozegap->addItem($gapanswer);
-                array_push($gapcontent, $answer['answertext']);
+
+                $gapcontent[] = $answer_text;
             }
+
             $this->object->addGapAtIndex($clozegap, $gapidx);
             $gaptext[$gap['ident']] = '[gap]' . join(',', $gapcontent) . '[/gap]';
         }
