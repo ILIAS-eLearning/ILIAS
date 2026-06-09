@@ -1,8 +1,33 @@
-# Error Responders
+# Error Handling
 
-This package provides responders for rendering HTTP error pages in ILIAS.
+This package covers HTTP error responses and exception logging for ILIAS.
 
-## When to use which responder
+## Error incidents and log files
+
+If a dedicated error log folder is configured, uncaught exceptions are written
+to a file in that folder. The user-facing error message references the same
+identifier as the file name (for example `abcde_1234`), so reports can be matched
+to log files on disk.
+
+The identifier is represented as an `ErrorIncident` and kept for the current
+request in an `ErrorIncidentRegistry`. That way the handler writing the log file
+and the handler building the response message share one value.
+
+`ReportErrorIncident` performs the actual reporting. It is invoked from
+`RecordErrorIncidentHandler`, which is registered in the Whoops chain before the
+response handlers run. Implementation code is under `Init/src/ErrorHandling/`
+(`Incident`, `Application`, `Notification`, `Infrastructure`).
+
+## Whoops handler chain
+
+`ilErrorHandling` registers handlers in reverse order (the last pushed handler
+runs first):
+
+1. `RecordErrorIncidentHandler` — writes the dedicated log file when configured
+2. `loggingHandler()` — application log and `error_log()` where enabled
+3. `DelegatingHandler` — selects the response handler (production, SOAP, devmode, …)
+
+## When to use which HTTP responder
 
 - **ErrorPageResponder** (`Http\ErrorPageResponder`): Use when the DI container and all ILIAS services (UI, language, HTTP, etc.) are available. Renders a full ILIAS page with a UI-Framework MessageBox and optional back button. Use for expected errors (e.g. routing failures, access denied) that should be shown as a proper HTML page.
 
