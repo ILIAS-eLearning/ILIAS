@@ -18,16 +18,19 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Init\ErrorHandling\Infrastructure\Whoops;
+
+use Throwable;
 use Whoops\Exception\Formatter;
+use Whoops\Handler\PlainTextHandler as WhoopsPlainTextHandler;
 
 /**
  * A Whoops error handler that prints the same content as the PrettyPageHandler but as plain text.
  * This is used for better coexistence with xdebug, see #16627.
- * @author Richard Klees <richard.klees@concepts-and-training.de>
  */
-class ilPlainTextHandler extends \Whoops\Handler\PlainTextHandler
+class PlainTextHandler extends WhoopsPlainTextHandler
 {
-    protected const KEY_SPACE = 25;
+    protected const int KEY_SPACE = 25;
 
     /** @var list<string> */
     private array $exclusion_list = [];
@@ -39,6 +42,7 @@ class ilPlainTextHandler extends \Whoops\Handler\PlainTextHandler
     {
         $clone = clone $this;
         $clone->exclusion_list = $exclusion_list;
+
         return $clone;
     }
 
@@ -54,18 +58,15 @@ class ilPlainTextHandler extends \Whoops\Handler\PlainTextHandler
 
     protected function getSimpleExceptionOutput(Throwable $exception): string
     {
-        return sprintf(
+        return \sprintf(
             '%s: %s in file %s on line %d',
-            get_class($exception),
+            $exception::class,
             $exception->getMessage(),
             $exception->getFile(),
             $exception->getLine()
         );
     }
 
-    /**
-     * Get a short info about the exception.
-     */
     protected function getPlainTextExceptionOutput(bool $with_previous = true): string
     {
         $message = Formatter::formatExceptionPlain($this->getInspector());
@@ -82,20 +83,15 @@ class ilPlainTextHandler extends \Whoops\Handler\PlainTextHandler
         return $message;
     }
 
-    /**
-     * Get the header for the page.
-     */
     protected function tablesContent(): string
     {
         $ret = '';
         foreach ($this->tables() as $title => $content) {
             $ret .= "\n\n-- $title --\n\n";
-            if (count($content) > 0) {
+            if ($content !== []) {
                 foreach ($content as $key => $value) {
                     $key = str_pad((string) $key, self::KEY_SPACE);
 
-                    // indent multiline values, first print_r, split in lines,
-                    // indent all but first line, then implode again.
                     $first = true;
                     $indentation = str_pad('', self::KEY_SPACE);
                     $value = implode(
@@ -106,6 +102,7 @@ class ilPlainTextHandler extends \Whoops\Handler\PlainTextHandler
                                     $first = false;
                                     return $line;
                                 }
+
                                 return $indentation . $line;
                             },
                             explode("\n", print_r($value, true))
@@ -122,9 +119,6 @@ class ilPlainTextHandler extends \Whoops\Handler\PlainTextHandler
         return $this->stripNullBytes($ret);
     }
 
-    /**
-     * Get the tables that should be rendered.
-     */
     protected function tables(): array
     {
         $post = $_POST;
@@ -170,8 +164,7 @@ class ilPlainTextHandler extends \Whoops\Handler\PlainTextHandler
      */
     private function shortenPHPSessionId(array $server): array
     {
-        $cookie_content = $server['HTTP_COOKIE'];
-        $cookie_content = explode(';', $cookie_content);
+        $cookie_content = explode(';', $server['HTTP_COOKIE']);
 
         foreach ($cookie_content as $key => $content) {
             $content_array = explode('=', $content);
