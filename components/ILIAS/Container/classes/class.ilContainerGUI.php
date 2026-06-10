@@ -442,6 +442,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                         !$this->isActiveOrdering() &&
                         $this->supportsPageEditor()
                     ) {
+                        $this->ctrl->setParameter($this, "ref_id", $this->object->getRefId());
                         $toolbar->addButton(
                             $lng->txt("cntr_text_media_editor"),
                             $ilCtrl->getLinkTarget($this, "editPageFrame")
