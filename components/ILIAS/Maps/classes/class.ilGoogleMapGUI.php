@@ -25,6 +25,7 @@ declare(strict_types=1);
  */
 class ilGoogleMapGUI extends ilMapGUI
 {
+    protected static bool $google_maps_api_added = false;
     protected string $css_row = "";
 
     public function __construct()
@@ -48,7 +49,16 @@ class ilGoogleMapGUI extends ilMapGUI
             "components/ILIAS/Maps"
         );
 
-        $this->tpl->addJavaScript("//maps.google.com/maps/api/js?key=" . ilMapUtil::getApiKey(), false);
+        $api_key = trim(ilMapUtil::getApiKey() ?? '');
+        if ($api_key !== "" && !self::$google_maps_api_added) {
+            $html_tpl->setCurrentBlock("google_maps_api");
+            $html_tpl->setVariable(
+                "GOOGLE_MAPS_API_SRC",
+                "https://maps.googleapis.com/maps/api/js?key=" . rawurlencode($api_key)
+            );
+            $html_tpl->parseCurrentBlock();
+            self::$google_maps_api_added = true;
+        }
 
         // add user markers
         $cnt = 0;
