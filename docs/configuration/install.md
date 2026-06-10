@@ -560,15 +560,6 @@ sudo -uwww-data rsync -av --exclude='/public/' --exclude='/Customizing/' --exclu
 rm -rf /tmp/ilias_update
 ```
 </details>
-After upgrading the code from ILIAS 10 to ILIAS 11 due to structural changes, you need to move the `/Customizing/global/plugins`
-and `/data` folder to its new destination. Both are now located in the newly created `public` folder.
-
-```shell
-sudo -uwww-data mkdir -p public/Customizing/plugins
-mv data public/
-mv Customizing/global/plugins/Services/* public/Customizing/plugins/
-mv Customizing/global/plugins/Modules/* public/Customizing/plugins/
-```
 
 Then update the code of your plugins according to their documentation to ensure they are compatible with the new ILIAS version.
 If you are **not** using the tar.gz archive to upgrade your release, update your javascript and php dependencies. If you
