@@ -43,4 +43,10 @@ class ilScorm2004DatabaseUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->addIndex('sahs_user', ['user_id'], 'i1');
         }
     }
+
+    public function step_4(): void
+    {
+        $this->db->modifyTableColumn("cmi_correct_response", "pattern", array("type" => "text", "length" => 4000, "notnull" => false, 'default' => null));
+    }
+
 }
