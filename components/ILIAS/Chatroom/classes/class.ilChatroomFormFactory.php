@@ -137,21 +137,17 @@ class ilChatroomFormFactory
         ];
 
         $function_fields = [
-            self::PROP_ALLOW_ANONYMOUS => $field_factory->checkbox(
-                $this->lng->txt('allow_anonymous'),
-                $this->lng->txt('anonymous_hint')
-            )->withValue((bool) ($values['allow_anonymous'] ?? false)),
-            self::PROP_ALLOW_CUSTOM_NAMES => $field_factory->optionalGroup(
-                [
-                    self::PROP_AUTOGEN_USERNAMES => $field_factory->text(
-                        $this->lng->txt('autogen_usernames'),
-                        $this->lng->txt('autogen_usernames_info')
-                    )->withRequired(true),
-                ],
-                $this->lng->txt('allow_custom_usernames')
-            )->withValue(
-                ($values['allow_custom_usernames'] ?? false) ? [self::PROP_AUTOGEN_USERNAMES => $values['autogen_usernames'] ?? ''] : null
-            ),
+            self::PROP_ALLOW_ANONYMOUS => $field_factory->optionalGroup([
+                self::PROP_AUTOGEN_USERNAMES => $field_factory->text(
+                    $this->lng->txt('autogen_usernames'),
+                    $this->lng->txt('autogen_usernames_info')
+                )->withRequired(true)->withValue($this->lng->txt('chatroom_anonymous_default'))
+            ], $this->lng->txt('allow_anonymous'), $this->lng->txt('anonymous_hint'))
+                ->withValue(($values['allow_anonymous'] ?? false) ? [self::PROP_AUTOGEN_USERNAMES => $values['autogen_usernames'] ?? ''] : null),
+            self::PROP_ALLOW_CUSTOM_NAMES => $field_factory->checkbox(
+                $this->lng->txt('allow_custom_usernames'),
+                $this->lng->txt('allow_custom_usernames_info')
+            )->withValue((bool) ($values['allow_custom_usernames'] ?? false)),
         ];
 
         $sections = [
