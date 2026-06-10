@@ -98,6 +98,7 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
                 case "scorm":
                     $this->ctrl->redirectByClass(ilObjSCORMLearningModuleGUI::class, $cmd);
 
+                    // no break
                 case "scorm2004":
                     $this->ctrl->redirectByClass(ilObjSCORM2004LearningModuleGUI::class, $cmd);
             }
