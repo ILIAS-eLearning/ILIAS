@@ -107,12 +107,11 @@ class ilScormAiccDataSet extends ilDataSet
                     continue;
                 }
                 //end fix
-                if ( isset( $data[ $key ] ) ) {
+                if (isset($data[ $key ])) {
                     $data_value = '';
-                    if ( is_array( $data[ $key ] ) ) {
+                    if (is_array($data[ $key ])) {
                         $data_value = $data[ $key ][ 0 ] ?? '';
-                    }
-                    else {
+                    } else {
                         $data_value = $data[ $key ];
                     }
                     $columns [ $value[ "db_col" ] ] = [
@@ -135,12 +134,11 @@ class ilScormAiccDataSet extends ilDataSet
                 "Description" => ["db_col" => "description", "db_type" => "text"]
             ];
             foreach ($od_properties as $key => $value) {
-                if ( isset( $data[ $key ] ) ) {
+                if (isset($data[ $key ])) {
                     $data_value = '';
-                    if ( is_array( $data[ $key ] ) ) {
+                    if (is_array($data[ $key ])) {
                         $data_value = $data[ $key ][ 0 ] ?? '';
-                    }
-                    else {
+                    } else {
                         $data_value = $data[ $key ];
                     }
                     $od_columns [ $value[ "db_col" ] ] = [
