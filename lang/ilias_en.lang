@@ -2887,6 +2887,7 @@ certificate#:#persistent_certificate_mode_instant#:#Instant
 certificate#:#persistent_certificate_mode_instant_info#:#This option is recommended for systems with low up to medium levels of user interaction. Systems that tend towards longer loading times during the creation of multiple user certificates should switch to the ‘Cron Job’ option.
 chatroom#:#allow_anonymous#:#Allow Anonymous Login
 chatroom#:#allow_custom_usernames#:#Allow Custom User Names
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.
 chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the ‘Permissions’ tab to allow anonymous user access to this repository item.
 chatroom#:#auto_scroll#:#Scroll to Bottom
 chatroom#:#autogen_usernames#:#Auto Generated User Names
@@ -2985,6 +2986,7 @@ chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Room
 chatroom#:#chat_user_x_is_typing#:#User %s is typing ...
 chatroom#:#chat_users_are_typing#:#Multiple users are typing ...
 chatroom#:#chat_whisper#:#Whisper
+chatroom#:#chatroom_anonymous_default#:#Anonymous #
 chatroom#:#chatroom_auth#:#Authentication
 chatroom#:#chatroom_auth_btn_txt#:#Generate Keys
 chatroom#:#chatroom_auth_key#:#Authentication-Key

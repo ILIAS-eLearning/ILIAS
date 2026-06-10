@@ -361,7 +361,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
                 $this->showNameSelection($chat_user);
             }
         } else {
-            $chat_user->setUsername($this->ilUser->getPublicName());
+            $chat_user->setUsername($this->ilUser->isAnonymous() ? $chat_user->buildAnonymousName() : $this->ilUser->getPublicName());
             $chat_user->setProfilePictureVisible(true);
             $this->showRoom($room, $chat_user);
         }

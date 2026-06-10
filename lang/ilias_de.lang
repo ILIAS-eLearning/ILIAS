@@ -2886,6 +2886,7 @@ certificate#:#persistent_certificate_mode_instant#:#Direkt
 certificate#:#persistent_certificate_mode_instant_info#:#Diese Option wird für Systeme mit geringer bis zu mittelgroßer Benutzerinteraktion empfohlen. Für Systeme, die zu hoher Last während der Zertifikatserstellung neigen, wird die Option "Cron-Job" empfohlen.
 chatroom#:#allow_anonymous#:#Anonyme Anmeldung erlauben
 chatroom#:#allow_custom_usernames#:#Frei wählbare Chat-Namen
+chatroom#:#allow_custom_usernames_info#:#Erlaube Benutzern einen eigenen Namen innerhalb des Chatraums zu wählen. Falls diese Option nicht selektiert ist, wird der Benutzernamen des Users verwendet.
 chatroom#:#anonymous_hint#:#Bitte beachten Sie, dass für den Zugriff von anonymen Benutzer die entsprechenden Berechtigungen im "Berechtigungen"-Reiter gesetzt sein müssen.
 chatroom#:#auto_scroll#:#Automatisch an das Ende scrollen
 chatroom#:#autogen_usernames#:#Chat-Namen für anonyme Teilnahme
@@ -2984,6 +2985,7 @@ chatroom#:#chat_user_action_invite_public_room#:#In öffentlichen Chatraum einla
 chatroom#:#chat_user_x_is_typing#:#Benutzer %s tippt gerade ...
 chatroom#:#chat_users_are_typing#:#Mehrere Benutzer tippen gerade ...
 chatroom#:#chat_whisper#:#Flüstern
+chatroom#:#chatroom_anonymous_default#:#Anonym #
 chatroom#:#chatroom_auth#:#Authentifikation
 chatroom#:#chatroom_auth_btn_txt#:#Schlüssel generieren
 chatroom#:#chatroom_auth_key#:#Authentifikation-Schlüssel
