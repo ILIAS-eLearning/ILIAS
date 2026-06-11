@@ -264,7 +264,22 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
             return (int) $row['usr_id'];
         }
 
-        return ilCmiXapiUser::getUsrIdForObjectAndUsrIdent($objId, $userIdent);
+        $userId = ilCmiXapiUser::getUsrIdForObjectAndUsrIdent($objId, $userIdent);
+        if ($userId !== null) {
+            return $userId;
+        }
+
+        $query = 'SELECT usr_id, privacy_ident FROM cmix_users'
+            . ' WHERE obj_id = ' . $ilDB->quote($objId, 'integer');
+        $res = $ilDB->query($query);
+        while ($row = $ilDB->fetchAssoc($res)) {
+            $user = new ilObjUser((int) $row['usr_id']);
+            if (ilCmiXapiUser::getIdentAsId((int) $row['privacy_ident'], $user) === $userIdent) {
+                return (int) $row['usr_id'];
+            }
+        }
+
+        return null;
     }
 
     protected static function isValidActivityProgress(string $activityProgress): bool
