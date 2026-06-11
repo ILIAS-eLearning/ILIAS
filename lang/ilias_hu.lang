@@ -20,7 +20,7 @@
 * @module language file Hungarian
 * @modulegroup language
 * @author Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version 10.x 2026-01-23
+* @version 10.x 2026-06-11
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -652,7 +652,7 @@ assessment#:#enter_valid_values#:#Érvényes számot adj meg! Karakterek hibása
 assessment#:#errFormulaQuestion#:#A képlet-kérdés hibás információt tartalmaz!
 assessment#:#errRecursionInResult#:#A képlet végtelen rekurziót tartalmaz.
 assessment#:#err_category_in_use#:#Legalább egy kategória nem törölhető. A kategória egy vagy több mértékegysége még használatban van.
-assessment#:#err_divider_too_big#:#Ebben a kérdésben az egyik változó oszója túl nagy.
+assessment#:#err_divider_too_big#:#Ebben a kérdésben az egyik változó osztója túl nagy.
 assessment#:#err_division#:#Ennek az értéknek a maximumnál kisebbnek kell lennie.
 assessment#:#err_duplicate_results#:#Többször használtál egy végeredményt. Ez tesztkérdésben nem megengedett
 assessment#:#err_no_formula#:#Képletet írjon
@@ -1461,7 +1461,7 @@ assessment#:#tst_eval_total_passed_average_points#:#Sikeres tesztek átlagpontsz
 assessment#:#tst_eval_total_passed_average_time#:#Sikeres tesztek átlagos kitöltési ideje
 assessment#:#tst_eval_total_persons#:#A tesztet elkezdő összes kitöltő száma
 assessment#:#tst_exam_access_code#:#Hozzáférési kód
-assessment#:#tst_exam_access_code_invalid_message#:#The code you provided is invalid.###26 05 2026 new variable
+assessment#:#tst_exam_access_code_invalid_message#:#A megadott kód érvénytelen.
 assessment#:#tst_exam_access_code_label#:#Adja meg a hozzáférési kódot a már megkezdett tesztkitöltés folytatásához vagy hagyja üresen teljesen új kitöltés indításhoz.
 assessment#:#tst_exam_conditions#:#Vizsgafeltételek
 assessment#:#tst_exam_conditions_label#:#Jelölje be a feltételek elfogadásához.
@@ -1690,8 +1690,8 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#'%s' teszt ind
 assessment#:#tst_objective_progress_header#:#Tanulási célkitűzés folyamata
 assessment#:#tst_objectives_progress_header#:#Tanulási célkitűzések folyamata
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Ez a véletlen teszt nem helyreállítható állapotban van, mert egy vagy több kérdésgyűjteményét törölték. Ezt a tesztet nem tölthetik ki többé.
-assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back.###26 05 2026 new variable
-assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>A már teljesített tanulási célokhoz tartozó kérdés megválaszolása nem kötelező.</b><br /><br />Olyan kérdésre navigál, melyet már teljesített tanulási célhoz tartozik.<br />Választhat:<br /><br />Ha folytatja, tovább dolgozhat ezeken a kérdéseken. Válaszait korábbi teszkitöltéseiből nem fogadjuk el, mert új véletlen kérdéseket választunk ehhez a teszkitöltéshez, így le is ronthatja tanulási céljának eredményét.<br /><br />Ha nem kíván tovább dolgozni a kérdéseken, menjen vissza. Ebben az esetben a kérdéseket nem vesszük figyelembe a kiértékelésnél.
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>A már teljesített tanulási célokhoz tartozó kérdésekre már megválaszolták a kérdéseket.</b><br /><br />A következő kérdések a már teljesített tanulási célokhoz vannak rendelve. A korábbi tesztkísérletekből származó válaszai átkerülnek a korábbiakra.<br /><br />Ha folytatja, módosíthatja a válaszait. Ez megváltoztathatja a kapcsolódó tanulási célokban elért eredményeit.<br /><br />Ha nem szeretné módosítani a válaszait, visszaléphet.
+assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>A már teljesített tanulási célokhoz tartozó kérdések opcionálisak.</b><br /><br />A következő kérdések a már teljesített tanulási célokhoz vannak rendelve.<br /><br />Ha folytatja, átgondolhatja ezeket a kérdéseket. A kapcsolódó tanulási célokban elért eredményei megváltozhatnak.<br /><br />Ha visszalép, a kérdések nem fognak szerepet játszani a teszt értékelésében.
 assessment#:#tst_out_of_time_message#:#Sajnálom, elhasználta a teszt kitöltésére engedélyezett időkeretet!
 assessment#:#tst_participant#:#Kitöltő
 assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
@@ -2179,7 +2179,7 @@ auth#:#auth_saml_deleted_idp#:#Az azonosításszolgáltatót sikeresen törölte
 auth#:#auth_saml_enable#:#SAML támogatása bekapcsolása
 auth#:#auth_saml_err_sqlite_driver#:#Az SAML hitelesítéshez szükséges az PHP-SQLite. Telepítse az SQLite csomagot, majd próbálja újra.
 auth#:#auth_saml_idp#:#IDP
-auth#:#auth_saml_idp_deactivated_auth_failed#:#Authentication failed, the identity provider is disabled.###10 03 2026 new variable
+auth#:#auth_saml_idp_deactivated_auth_failed#:#A hitelesítés sikertelen, az azonosítószolgáltatót deaktivált.
 auth#:#auth_saml_idp_selection_table_desc#:#Válassza ki azt az azonosítószolgáltatót, amellyel be kíván jelentkezni.
 auth#:#auth_saml_idp_selection_table_title#:#Azonosításszolgáltató kiválasztása
 auth#:#auth_saml_idp_settings#:#IDP beállítások
@@ -2771,7 +2771,7 @@ buddysystem#:#buddy_bs_state_requested_p#:#Ismerősnek jelölés elküldve
 buddysystem#:#buddy_bs_state_unlinked#:#Nincs összekötve
 buddysystem#:#buddy_bs_state_unlinked_a#:#Ismeretlen
 buddysystem#:#buddy_bs_state_unlinked_p#:#Nincs összekötve
-buddysystem#:#buddy_confirm_unlink#:#Do you really want to disconnect from this contact?###10 03 2026 new variable
+buddysystem#:#buddy_confirm_unlink#:#Biztos, hogy bontja a kapcsolatot ezzel az ismerőssel?
 buddysystem#:#buddy_enable#:#'Kapcsolatok' aktiválása
 buddysystem#:#buddy_enable_info#:#Felhasználók kérések küldésével/elfogadásával ismerősnek jelölhetik meg egymást. Az összes felhasználó egyéni beállításában engedélyezheti/tilthatja, hogy őt ismerősnek jelöljék.
 buddysystem#:#buddy_handle_contact_request#:#Kapcsolat kérése
@@ -2956,18 +2956,18 @@ chatroom#:#chat_deletion_section_head#:#Régi üzenetek törlése
 chatroom#:#chat_enable_history#:#Előzmények bekapcsolása
 chatroom#:#chat_enable_history_info#:#Az 'Előzmények' lapon bárki elolvashatja és exportálhatja a korábbi csevegéseket.
 chatroom#:#chat_error_log_info#:#Kérem, adja meg a chatszerver hibanapló-fájljának abszolút útvonalát (pl.: /var/www/ilias/data/chat_error.log). Amennyiben üresen hagyja, a naplófájl a chatszerver mappájába kerül.
-chatroom#:#chat_functions#:#Chat-funktiók
+chatroom#:#chat_functions#:#Chat-funkciók
 chatroom#:#chat_https_cert_info#:#Kérem, adja meg az SSL tanúsítványfájl abszolút útvonalát (pl.: /etc/ssl/certs/server.pem).
 chatroom#:#chat_https_dhparam_info#:#Kérem, adja meg a fájl abszolút útvonalát (pl: /etc/ssl/private/dhparam.pem), amit a Diffie-Hellman paraméterek átadására használunk (például így generálták: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
 chatroom#:#chat_https_key_info#:#Kérem, adja meg a privátkulcs-fájl abszolút útvonalát (pl: /etc/ssl/private/server.key).
 chatroom#:#chat_invitation#:#'[INVITER_NAME]' meghívja Ön '[ROOM_NAME]' csevegőszobába
 chatroom#:#chat_invitation_long#:#[SALUTATION][BR][BR]Meghívtak ebbe a csevegőszobába:[BR]Csevegőszoba neve: [ROOM_NAME][BR]A meghívó: [INVITER_NAME][BR]URL: [LINK][BR]Ha csatlakozni szeretne a csevegőszobához, kattintson a megadott URL-re!
-chatroom#:#chat_invitation_modal_headline#:#Invitation to Chat Room###26 05 2026 new variable
-chatroom#:#chat_invitation_modal_section#:#Invite User###26 05 2026 new variable
+chatroom#:#chat_invitation_modal_headline#:#Meghívás csevegőszobába
+chatroom#:#chat_invitation_modal_section#:#Felhasználó meghívása
 chatroom#:#chat_invitation_nc_inv_x#:#%s meghívás van.
 chatroom#:#chat_invitation_nc_no_inv#:#Egy meghívása sincs.
 chatroom#:#chat_invitation_short#:#A csevegőszobába belépéshez kattintson a linkre.
-chatroom#:#chat_invitation_username_input_label#:#Enter Username:###26 05 2026 new variable
+chatroom#:#chat_invitation_username_input_label#:#Felhasználónév:
 chatroom#:#chat_invitations#:#Meghívások
 chatroom#:#chat_invite#:#Meghívás
 chatroom#:#chat_join#:#Csatlakozás
@@ -4659,7 +4659,7 @@ common#:#mails#:#Levelek
 common#:#mails_at_the_ilias_installation#:#%1$s új levelet kapott a(z) %2$s ILIAS-ban.
 common#:#mails_pl#:#levél/levelek
 common#:#main_menu#:#Főmenü
-common#:#mainbar_aria_label#:#Fő navigációs sáv###01 02 2026 changed content
+common#:#mainbar_aria_label#:#Főmenü
 common#:#mainbar_more_label#:#Több
 common#:#manage_members#:#Tagok kezelése
 common#:#marked_entries#:#Megjelölt bejegyzések
@@ -4723,7 +4723,7 @@ common#:#mm_contacts#:#Kapcsolatok
 common#:#mm_dashboard#:#Műszerfal
 common#:#mm_enrolments#:#Kurzustagságok
 common#:#mm_favorites#:#Kedvenceim
-common#:#mm_learning_history#:#Tanulási előzmények
+common#:#mm_learning_history#:#Tanulási történelem
 common#:#mm_learning_progress#:#Tanulási haladás
 common#:#mm_mail#:#Levelek
 common#:#mm_news#:#Hírek
@@ -5018,8 +5018,8 @@ common#:#obj_iass_duplicate#:#Személyes értékelés másolása
 common#:#obj_iass_select#:#-- Válasszon egy személyes értékelést --
 common#:#obj_itgr#:#Objektumcsoport
 common#:#obj_ldap_desc#:#Itt módosíthatja a globális LDAP-beállításokat.
-common#:#obj_lhts#:#Tanulási előzmények
-common#:#obj_lhts_desc#:#Tanulási előzmények beállításai
+common#:#obj_lhts#:#Tanulási történelem
+common#:#obj_lhts_desc#:#Tanulási történelem beállításai
 common#:#obj_lm#:#ILIAS-tananyag
 common#:#obj_lm_duplicate#:#Tananyag másolása
 common#:#obj_lng#:#Nyelv
@@ -5076,7 +5076,7 @@ common#:#obj_pecs#:#Tartalom-építőelem
 common#:#obj_pedt#:#Adattábla
 common#:#obj_pefl#:#Fájllista
 common#:#obj_peim#:#Interaktív média
-common#:#obj_pelh#:#Tanulási előzmények
+common#:#obj_pelh#:#Tanulási történelem
 common#:#obj_pemed#:#Kép/Hang/Videó
 common#:#obj_pemp#:#Térkép
 common#:#obj_pepd#:#Személyes adat
@@ -5482,7 +5482,7 @@ common#:#renderer_supported_file_types#:#Támogatott fájltípusok
 common#:#renderer_supported_repo_types#:#Támogatott Tartalomtár-típusok
 common#:#renderer_type_builtin#:#Beépített
 common#:#rep_main_page#:#Kezdőlap
-common#:#rep_main_page_logo_alt#:#Logo ILIAS - to the start page###10 03 2026 new variable
+common#:#rep_main_page_logo_alt#:#ILIAS logó - a kezdőoldalra
 common#:#repeat_scan#:#Víruskeresés ismétlése…
 common#:#repeat_scan_failed#:#Ismételt keresés sikertelen.
 common#:#repeat_scan_succeded#:#Ismételt keresés sikerült.
@@ -6220,7 +6220,7 @@ content#:#cont_TableContent#:#Táblázattartalom
 content#:#cont_Verse#:#Verssor/Strófa
 content#:#cont_WholePicture#:#Teljes kép
 content#:#cont_accented#:#Ékezetes
-content#:#cont_act_number#:#Chapter Numeration###23 09 2025 new variable
+content#:#cont_act_number#:#Fejezetszámozás
 content#:#cont_activate_html#:#HTML renderelés bekapcsolása
 content#:#cont_activate_js#:#JavaScript mód bekapcsolása
 content#:#cont_activate_media#:#Média bekapcsolása
@@ -6465,7 +6465,7 @@ content#:#cont_ed_insert_grid_info#:#Soronként 12 egységre osztott reszponzív
 content#:#cont_ed_insert_iim#:#Interaktív kép beszúrása
 content#:#cont_ed_insert_incl#:#Tartalom-építőelem beszúrása
 content#:#cont_ed_insert_lay#:#Elrendezéssablon beszúrása
-content#:#cont_ed_insert_lhist#:#Tanulási előzmények beszúrása
+content#:#cont_ed_insert_lhist#:#Tanulási történelem beszúrása
 content#:#cont_ed_insert_list#:#Fejlettebb felsorolás beszúrása
 content#:#cont_ed_insert_lpe#:#Bejelentkezési lap elemének beszúrása
 content#:#cont_ed_insert_map#:#Térkép beszúrása
@@ -7402,7 +7402,7 @@ copa#:#copa_value_reading_time_f_p#:#%s perc
 copa#:#copa_value_reading_time_f_s#:#%s perc
 copa#:#obj_copa_duplicate#:#Tartalomlap duplikálása
 copg#:#copg_active_to_small#:#A dátumnak a kezdő dátumnál későbbinek kell lennie.
-copg#:#copg_add_content#:#Add Content###10 03 2026 new variable
+copg#:#copg_add_content#:#Tartalom hozzáadása
 copg#:#copg_allow_html#:#HTML/Javascript bekapcsolása
 copg#:#copg_allow_html_info#:#HTML, illetve Javascript oldaltartalmakat használhat. Ez biztonsági rést okozhat, ezért ne kapcsolja be, ha lehet ártó szándékú felhasználója. Az ilyen módú HTML-tartalom hozzáadása várhatóan már nem lesz támogatott a későbbi verziókban.
 copg#:#copg_an_error_occured#:#Hiba történt.
@@ -7438,7 +7438,7 @@ copg#:#copg_remove_formats#:#Formázás eltávolítása
 copg#:#copg_sec_link_info#:#Válassza ki a célt, amire a blokk mutat. Figyelem: Ebben az esetben a blokk nem tartalmazhat további linket!
 copg#:#copg_snippet_cannot_be_edited#:#Ez egy előre definiált tartalom-építőelem, ezért itt nem módosítható.
 copg#:#copg_unsupported_media_type#:#Nem támogatott médiatípus.
-copg#:#copg_use_template#:#Use Template###10 03 2026 new variable
+copg#:#copg_use_template#:#Sablon használata
 copg#:#copg_x_minutes#:#%s perc
 cpad#:#cpad_reading_time_status#:#Olvasási idő
 cpad#:#cpad_reading_time_status_desc#:#A tartalomlap becsült olvasási idejét megállapítjuk és megjelenítjük.
@@ -8134,8 +8134,8 @@ crs#:#tutorial_support_block_title#:#Kapcsolattartó
 crs#:#user_fields#:#Felhasználói mezők
 crsv#:#crsv_create#:#Kurzustanúsítvány létrehozása
 crsv#:#crsv_create_info#:#Válasszon egy teljesített kurzust, hogy tanúsítványt generálhassunk hozzá
-dash#:#add_to_favourites#:#Add to Favourites###21 04 2026 new variable
-dash#:#added_to_favourites#:#The item has been added to your favourites.###21 04 2026 new variable
+dash#:#add_to_favourites#:#Hozzáadás a Kedvencekhez
+dash#:#added_to_favourites#:#az elemet sikeresen hozzáadta a kedvenceihez.
 dash#:#dash_activation#:#aktiválás
 dash#:#dash_added_to_favs#:#Az ajánlást sikeresen hozzáadta a kedvenceihez.
 dash#:#dash_avail_presentation#:#Elérhető megjelenítések
@@ -8144,18 +8144,18 @@ dash#:#dash_click_here#:#Kattintson ide
 dash#:#dash_co_delete#:#Műszerfalstílus törlése
 dash#:#dash_co_lang#:#Műszerfalstílus nyelvek szerint
 dash#:#dash_customization#:#Műszerfal tartalmának személyre szabása
-dash#:#dash_dash_fav_remove#:#Remove###10 03 2026 new variable
-dash#:#dash_dash_fav_remove_info#:#Are you sure you want to remove the following objects from your Favourites?###10 03 2026 new variable
-dash#:#dash_dash_fav_remove_multiple#:#Remove Multiple Favorites###10 03 2026 new variable
-dash#:#dash_dash_ls_remove#:#Unsubscribe###10 03 2026 new variable
-dash#:#dash_dash_ls_remove_info#:#Are you sure you want to unsubscribe from the following learning sequences?###10 03 2026 new variable
-dash#:#dash_dash_ls_remove_multiple#:#Unsubscribe Multiple Learning Sequences###10 03 2026 new variable
-dash#:#dash_dash_mem_remove#:#Unsubscribe###10 03 2026 new variable
-dash#:#dash_dash_mem_remove_info#:#Are you sure you want to unsubscribe from the following courses and groups?###10 03 2026 new variable
-dash#:#dash_dash_mem_remove_multiple#:#Unsubscribe Multiple Courses and Groups###10 03 2026 new variable
-dash#:#dash_dash_rc_remove#:#Remove###10 03 2026 new variable
-dash#:#dash_dash_rc_remove_info#:#Are you sure you want to remove the following objects from your recommended content?###10 03 2026 new variable
-dash#:#dash_dash_rc_remove_multiple#:#Remove Multiple Contents###10 03 2026 new variable
+dash#:#dash_dash_fav_remove#:#Eltávolítás
+dash#:#dash_dash_fav_remove_info#:#Biztos, hogy eltávolítja a következő objektumokat a Kedvencek közül?
+dash#:#dash_dash_fav_remove_multiple#:#Több kedvenc eltávolítása
+dash#:#dash_dash_ls_remove#:#Lejelentkezés
+dash#:#dash_dash_ls_remove_info#:#Biztos, hogy lejelentkezik a következő tanulási sorról?
+dash#:#dash_dash_ls_remove_multiple#:#Lejelentkezés több tanulási sorról
+dash#:#dash_dash_mem_remove#:#Lejelentkezés
+dash#:#dash_dash_mem_remove_info#:#Biztos, hogy lejelentkezik a következő kurzusokról és csoportokról?
+dash#:#dash_dash_mem_remove_multiple#:#Lejelentkezés több kurzusról és csoportról
+dash#:#dash_dash_rc_remove#:#Lejelentkezés
+dash#:#dash_dash_rc_remove_info#:#Biztos, hogy eltávolítja a következő objektumokat az ajánlott tartalmak közül?
+dash#:#dash_dash_rc_remove_multiple#:#Több tartalom eltávolítása
 dash#:#dash_dashboard#:#Műszerfal
 dash#:#dash_default_presentation#:#Alapértelmezett megjelenítése
 dash#:#dash_default_sortation#:#Alapértelmezett rendezés
@@ -8175,7 +8175,7 @@ dash#:#dash_list#:#Felsorolás
 dash#:#dash_main_panel#:#Főpanel
 dash#:#dash_member_main_alt#:#A kurzusok és a csoportok szintén beállíthatók, mint egy különálló főmenü-bejegyzés.
 dash#:#dash_memberships#:#Kurzusaim és csoportjaim
-dash#:#dash_no_items_to_manage#:#No items available for removal.###10 03 2026 new variable
+dash#:#dash_no_items_to_manage#:#Nincs eltávolítható elem.
 dash#:#dash_page_edit_info#:#Ennek a lapnak a tartalma az összes felhasználó műszefalán megjelenik. Lentenn látható a műszerfal különböző blokkjainak tartalma.
 dash#:#dash_presentation#:#Megjelenítés
 dash#:#dash_recommended_content#:#Ajánlott tartalom
@@ -8192,8 +8192,8 @@ dash#:#dash_view_courses_groups#:#'Kurzusaim és csoportjaim' rész
 dash#:#dash_view_favourites#:#'Kedvenceim' rész
 dash#:#favourites_disabled_info#:#A kedvencekhez hozzáadás ki van kapcsolva. Ezen a Tartalomtár beállításainál módosíthat.
 dash#:#memberships_disabled_info#:#A feliratkozás ki van kapcsolva. Ezen a kurzus beállításainál módosíthat.
-dash#:#remove_from_favourites#:#Remove from Favourites###21 04 2026 new variable
-dash#:#removed_from_favourites#:#The item has been removed from your favourites.###21 04 2026 new variable
+dash#:#remove_from_favourites#:#Eltávolítás a kedvencek közül
+dash#:#removed_from_favourites#:#Az elemet sikeresen eltávolította a kedvencek közül.
 dash#:#topitem_block#:#Blokk
 dateplaner#:#Fr_long#:#Péntek
 dateplaner#:#Fr_short#:#P
@@ -8643,7 +8643,7 @@ dcl#:#dcl_confirm_delete_detailed_view_title#:#Biztos, hogy törli ezt a részle
 dcl#:#dcl_confirm_delete_field#:#Biztos, hogy törli ezt a mezőt?
 dcl#:#dcl_confirm_delete_fields#:#Biztos, hogy törli ezeket a mezőket?
 dcl#:#dcl_confirm_delete_record#:#Biztos, hogy törli ezt a bejegyzést?
-dcl#:#dcl_confirm_delete_records#:#Biztos, hogy törli az alábbi bejegyzéseket?###
+dcl#:#dcl_confirm_delete_records#:#Biztos, hogy törli az alábbi bejegyzéseket?
 dcl#:#dcl_confirm_delete_table#:#Biztos, hogy törli a táblát annak tartalmával és szerkezetével?
 dcl#:#dcl_confirm_storing_records#:#Kérem, ellenőrizze és hagyja jóvá beírt adatát.
 dcl#:#dcl_confirm_storing_records_no_permission#:#Nincs jogosultsága a bejegyzést utólag módosítani.
@@ -9245,8 +9245,8 @@ ecs#:#ecs_wiki_export_enabled#:#Ezen wiki kiadása
 ecs#:#ecs_wiki_export_obj_settings#:#Wikikiadás beállításai
 error#:#error_back_to_repository#:#Vissza a Tartalomtárba
 error#:#error_sry_error#:#Sajnáljuk, hiba történt.
-error#:#http_404_not_found#:#The requested page could not be found.###21 04 2026 new variable
-error#:#http_500_internal_server_error#:#An internal server error occurred.###21 04 2026 new variable
+error#:#http_404_not_found#:#A kért oldal nem található.
+error#:#http_500_internal_server_error#:#Belső szerverhiba történt.
 etal#:#appointments#:#Találkozók
 etal#:#cal_type_tals#:#Megbeszélések
 etal#:#change_date_of_series#:#Megbeszéléssorozat dátumának módosítása
@@ -9639,7 +9639,7 @@ exc#:#exc_settings_feedback_mail_info#:#A tutorok az értékeléseiket egy levé
 exc#:#exc_settings_feedback_text#:#Szövegdobozban
 exc#:#exc_settings_feedback_text_info#:#A tutorok az értékeléseiket egy szöveges mezőben adják meg, melyről a résztvevők értesítést kapnak. Az értékelés a feladat áttekintésénél jelenik meg.
 exc#:#exc_show_instructions#:#Munkautasítások megjelenítése
-exc#:#exc_show_more#:#Show More###10 03 2026 new variable
+exc#:#exc_show_more#:#Több…
 exc#:#exc_show_peer_review#:#Hallgatói visszajelzések megjelenítése
 exc#:#exc_show_submissions#:#Megoldások közzététele a határidő után
 exc#:#exc_show_submissions_info#:#A fix beadási határidővel rendelkező feladatok esetén a résztvevők a beadási határidő lejárta után az összes megoldást megtekinthetik.
@@ -9755,7 +9755,7 @@ exc#:#exc_type_upload#:#Feltöltés
 exc#:#exc_type_upload_team#:#Csapatfeltöltés
 exc#:#exc_value_can_not_set#:#Ez az érték nem állítható be.
 exc#:#exc_view_portfolio#:#Portfólió megtekintése
-exc#:#exc_view_wiki#:#View Wiki###10 03 2026 new variable
+exc#:#exc_view_wiki#:#Wiki megjelenítése
 exc#:#exc_wait_for_files#:#Letöltése automatikusan elindul 5 másodpercen belül. Amennyiben mégsem, kattintson ide
 exc#:#exc_wiki_container#:#Wikitároló
 exc#:#exc_wiki_container_info#:#A hely, ahová a résztvevők a wikijeit létrehozzák.
@@ -10973,17 +10973,17 @@ ldoc#:#ldoc_tbl_hist_head_firstname#:#Családnév
 ldoc#:#ldoc_tbl_hist_head_lastname#:#Utónév
 ldoc#:#ldoc_tbl_hist_head_login#:#Felhasználónév (Login)
 ldoc#:#ldoc_updated_document#:#A dokumentumot sikeresen feltöltötte
-lhist#:#cont_create_lhist#:#Tanulási előzményelem létrehozása
-lhist#:#cont_update_lhist#:#Tanulási előzményelem módosítása
+lhist#:#cont_create_lhist#:#Tanulási történelemelem létrehozása
+lhist#:#cont_update_lhist#:#Tanulási történelemelem módosítása
 lhist#:#lhist_all#:#Összes
 lhist#:#lhist_cont_placeholder_text#:#Ez az elem a tanulási történelmet jeleníti meg a portfólióban.
-lhist#:#lhist_enable_learning_history#:#Tanulási előzmények
+lhist#:#lhist_enable_learning_history#:#Tanulási történelem
 lhist#:#lhist_enable_learning_history_info#:#Egy felhasználó összes elért eredménye áttekintésének bekapcsolása.
 lhist#:#lhist_first_login#:#Első bejelentkezés
-lhist#:#lhist_learning_history#:#Tanulási előzmények
-lhist#:#lhist_lhist#:#Tanulási előzmények
+lhist#:#lhist_learning_history#:#Tanulási történelem
+lhist#:#lhist_lhist#:#Tanulási történelem
 lhist#:#lhist_manual#:#Manuális
-lhist#:#lhist_no_entries#:#Érje el céljait! Még ma kezdjen tanulni, hogy növekedjen tanulási előzménye.
+lhist#:#lhist_no_entries#:#Érje el céljait! Még ma kezdjen tanulni, hogy növekedjen tanulási történelme.
 lhist#:#lhist_period#:#Időszak
 lhist#:#lhist_selected#:#Kiválasztott
 lhist#:#lhist_show_more#:#Több megjelenítése
@@ -10999,7 +10999,7 @@ lm#:#lm_btn_lp_toggle_state_completed#:#Nem teljesítettre állítás
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Sikeresen teljesítettre állítás
 lm#:#lm_copy#:#Tananyag másolása
 lm#:#lm_edit_chapters#:#Fejezetek módosítása
-lm#:#lm_edit_content#:#Edit Content###10 03 2026 new variable
+lm#:#lm_edit_content#:#Tartalom módosítás
 lm#:#lm_edit_lm_settings#:#Tananyag beállításainak módosítása
 lm#:#lm_est_reading_time#:#Becsült olvasási idő
 lm#:#lm_est_reading_time_info#:#A tananyagokban a becsült olvasási idő megállapítható és megjeleníthető.
@@ -11017,7 +11017,7 @@ lm#:#lm_insert_page_before#:#Új lap beszúrása elé
 lm#:#lm_insert_page_clip#:#Új lap beszúrása a vágólapről
 lm#:#lm_insert_page_clip_after#:#Új lap beszúrása a vágólapről mögé
 lm#:#lm_insert_page_clip_before#:#Új lap beszúrása a vágólapről elé
-lm#:#lm_list_pages#:#Edit Pages###10 03 2026 new variable
+lm#:#lm_list_pages#:#Oldalak módosítása
 lm#:#lm_page_added#:#Az oldalt sikeresen hozzáadta.
 lm#:#lm_page_type_lm#:#Tananyagoldal
 lm#:#lm_pages_added#:#Az oldalakat sikeresen hozzáadta.
@@ -11805,7 +11805,7 @@ mathjax#:#mathjax_polyfill_url_desc_line1#:#MathJax 2-höz és 3-hoz nem szüks�
 mathjax#:#mathjax_polyfill_url_desc_line2#:#Távolítson el minden polyfill.io hivatkozást! Lásd https://sansec.io/research/polyfill-supply-chain-attack
 mathjax#:#mathjax_script_url#:#MathJax Script URL-je
 mathjax#:#mathjax_script_url_desc_line1#:#Kérem, aktiválja a biztonságos módot, hogy elkerülje a MathJax kódon keresztüli javascript-alapú XSS-támadásokat. <br />MathJax 2-höz például %s
-mathjax#:#mathjax_script_url_desc_line2#:#MathJax 3-höz például %s<br />These scripts require the user’s browser to fetch MathJax from an external address (cdn.jsdelivr.net). If you host MathJax yourself, use a copy of the relevant script with the address modified.
+mathjax#:#mathjax_script_url_desc_line2#:#MathJax 3-höz például %s
 mathjax#:#mathjax_server_address#:#Szerver címe
 mathjax#:#mathjax_server_address_info#:#Például http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#A MathJax gyorsítótárát sikeresen ürítette.
@@ -12770,7 +12770,7 @@ mmbr#:#mmbr_awrn_my_groups_courses#:#Csoportjaim és kurzusaim
 mmbr#:#mmbr_awrn_my_groups_courses_info#:#A jelenlegi felhasználó kurzusainak vagy csoportjainak összes tagját felsoroljuk itt.
 mmbr#:#mmbr_btn_mail_selected_users#:#Levél küldése
 mmbr#:#mmbr_memberships#:#Tagság
-mmbr#:#mmbr_role_error#:#Members must have at least one role assigned.###10 03 2026 new variable
+mmbr#:#mmbr_role_error#:#Minden tagnak legalább egy szerepkörrel kell rendelkeznie.
 mmbr#:#mmbr_selected_users#:#Kiválasztott résztvevők
 mmbr#:#mmbr_unsubscribed_from_objs#:#Sikeresen leiratkozott a kiválaszott objektumokról.
 mme#:#add_languages#:#Nyelv hozzáadása
@@ -13049,7 +13049,7 @@ notes#:#notes_latest_comment#:#Utolsó hozzászólás
 notes#:#notes_latest_message#:#Utolsó üzenet
 notes#:#notes_message_author_counterpart#:#Válaszadó
 notes#:#notes_message_author_you#:#Én
-notes#:#notes_message_deleted#:#Message deleted.###21 04 2026 new variable
+notes#:#notes_message_deleted#:#Az üzenetet sikeresen törölte.
 notes#:#notes_messages#:#Uzenetek
 notes#:#notes_my_comments#:#Az én megjegyzéseim
 notes#:#notes_no_comments#:#Még egy megjegyzés sem érkezett.
@@ -14362,10 +14362,10 @@ rbac#:#itgr_read#:#A felhasználó olvashat objektumcsoportot
 rbac#:#itgr_visible#:#Elem csoport látható
 rbac#:#itgr_write#:#A felhasználó szerkesztheti objektumcsoport tartalmát és beállításait
 rbac#:#leave#:#Kilépés
-rbac#:#lhts_edit_permissions#:#A felhasználó módosíthatja a Rendszerbeállítások » Tanulási előzmények jogosultsági beállításait
-rbac#:#lhts_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Tanulási előzmények beállításaihoz
-rbac#:#lhts_visible#:#A felhasználó láthatja a Rendszerbeállítások » Tanulási előzmények menüpontot
-rbac#:#lhts_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Tanulási előzmények beállításait
+rbac#:#lhts_edit_permissions#:#A felhasználó módosíthatja a Rendszerbeállítások » Tanulási történelem jogosultsági beállításait
+rbac#:#lhts_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Tanulási történelem beállításaihoz
+rbac#:#lhts_visible#:#A felhasználó láthatja a Rendszerbeállítások » Tanulási történelem menüpontot
+rbac#:#lhts_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Tanulási történelem beállításait
 rbac#:#lm_copy#:#A felhasználó másolhat ILIAS-tananyagot
 rbac#:#lm_delete#:#A felhasználó áthelyezhet vagy törölhet ILIAS-tananyagot
 rbac#:#lm_edit_learning_progress#:#A felhasználó módosíthatja a tanulási haladás beállításait
@@ -14520,9 +14520,9 @@ rbac#:#positions_override_operations#:#Globális beállítások felülírása
 rbac#:#precondition_not_obligatory_alt#:#Az előfeltétel opcionális
 rbac#:#precondition_num_obligatory#:#Kötelező anyagok száma
 rbac#:#precondition_num_optional_info#:#Adja meg az anyagok minimumszámát az előfeltételek teljesítettségéhez!
-rbac#:#precondition_number_of_required_materials_bigger_preconditions_number#:#The number of required materials must be less than the total number of preconditions.###26 05 2026 new variable
-rbac#:#precondition_number_of_required_materials_lower_compulsory_items#:#The number of required materials must be greater than the number of compulsory preconditions.###26 05 2026 new variable
-rbac#:#precondition_number_of_required_materials_lower_than_one#:#The number of required materials must be at least 1.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_bigger_preconditions_number#:#A szükséges segédanyagok számának kevesebbnek kell lennie, mint az összes előfeltétel számának.
+rbac#:#precondition_number_of_required_materials_lower_compulsory_items#:#A szükséges segédanyagok számának nagyobbnak kell lennie, mint a kötelező előfeltételek számának.
+rbac#:#precondition_number_of_required_materials_lower_than_one#:#A szükséges segédanyagok számának legalább 1-nek kell lennie.
 rbac#:#precondition_obligatory#:#Kötelező
 rbac#:#precondition_obligatory_alt#:#Az előfeltételeket teljesíteni kell
 rbac#:#precondition_obligatory_info#:#A kötelező előfeltételeket teljesíteni kell a hozzáféréshez.
@@ -16105,7 +16105,7 @@ style#:#sty_individual_styles#:#Egyéni stílusok
 style#:#sty_keep_existing#:#Meglévők megtartása
 style#:#sty_left#:#Balra
 style#:#sty_left_right_padding#:#Cellaköz balra/jobbra
-style#:#sty_legacy_image_directory_found#:#Legacy image directory found. You may migrate the directory from ILIAS 9 by clicking "Migrate Images"###21 04 2026 new variable
+style#:#sty_legacy_image_directory_found#:#Van még egy régi képkönyvtár. A könyvtárat az ILIAS 9-ből a ‘Képek migrálása’ lehetőségre kattintva migrálhatja.
 style#:#sty_letter_spacing#:#Betűköz
 style#:#sty_lightness_border#:#Világosság szegély
 style#:#sty_lightness_cell1_bg#:#Világosság 1. cella háttér
@@ -16126,7 +16126,7 @@ style#:#sty_margin_and_padding#:#Margó és térköz
 style#:#sty_media_char#:#Média
 style#:#sty_media_queries#:#Médialekérdezés
 style#:#sty_media_query_info#:#Az alapértelmezett (nem speciális médialekérdezés) blokk után mindegyik médialekérdezéshez különálló CSS blokkot hozunk létre.
-style#:#sty_migrate_images#:#Migrate Images###21 04 2026 new variable
+style#:#sty_migrate_images#:#Képek migrálása
 style#:#sty_min_height#:#Minimális magasság
 style#:#sty_move_lm_styles#:#Tananyag stílusának cseréje
 style#:#sty_move_obj_styles#:#Objektumok stílusának a módosítása
@@ -16185,7 +16185,7 @@ style#:#sty_special#:#Speciális
 style#:#sty_style_chars#:#Stílusosztályok
 style#:#sty_style_class#:#Stílusosztályok
 style#:#sty_style_classes_copied#:#Stílusosztályokat sikeresen lemásolta.
-style#:#sty_style_not_migrated#:#This content style has not been migrated to the ILIAS 10 data structure yet. Changes will not be applied.###21 04 2026 new variable
+style#:#sty_style_not_migrated#:#Ez a tartalomstílus még nem lett migrálva az ILIAS 10 adatstruktúrába. A változtatások nem lépnek érvénybe.
 style#:#sty_substyle#:#Alstílus
 style#:#sty_substyle_of#:#alstílusa a következőnek:
 style#:#sty_substyles#:#Alstílusok
@@ -16732,7 +16732,7 @@ survey#:#survey_execution_sure_finish#:#Biztos, hogy befejezi a kérdőív kitö
 survey#:#survey_existing_pool#:#Már létező kérdésgyűjtemény használata
 survey#:#survey_finish#:#Kérdőív befejezése
 survey#:#survey_finished#:#Befejezte a kérdőív kitöltését. Köszönjük részvételét!
-survey#:#survey_from_x_points#:#X ponttól
+survey#:#survey_from_x_points#:#x ponttól (alsó érték)
 survey#:#survey_has_datasets_warning#:#A kérdőív tartalmaz már adathalmazokat. Amíg nem távolítja el ezeket a válaszadók részben, nem tudja szerkeszteni a kérdőív kérdéseit.
 survey#:#survey_has_datasets_warning_page_view#:#A kérdőív már tartalmaz válaszokat. Nem szerkesztheti a kérdőív kérdéseit, amíg el nem távolítja azokat.
 survey#:#survey_has_datasets_warning_page_view_link#:#Résztvevő eredményei
@@ -16808,7 +16808,6 @@ survey#:#survey_sync_insufficient_permissions#:#Nincs elegendő jogosultság
 survey#:#survey_sync_question_copies#:#Kérdésmásolatok szinkronizálása
 survey#:#survey_sync_question_copies_info#:#A kiválasztott kérdőívkérdések frissítése a gyűjteményben lévő jelenlegi változatra.
 survey#:#survey_sync_success#:#A kiválasztott kérdések frissültek.
-survey#:#survey_use_start_button#:#A kérdőívbe lépéshez használja a kezdés gombot.
 survey#:#svy_activation_limited_visibility_info#:#Az adott időszakon kívül csak a kérdőív címe látható, kérdései nem érhetőek el.
 survey#:#svy_activation_online_info#:#Felhasználók csak akkor vehetnek részt a kérdőív kitöltésében, ha az online.
 survey#:#svy_add_internal_user#:#Felhasználó hozzáadása
@@ -17099,7 +17098,7 @@ tax#:#tax_tax_settings#:#Taxonómia beállításai
 tax#:#tax_taxonomy#:#Taxonómia
 tbl#:#tbl_export_csv#:#Exportálás vesszővel tagolt (.csv) fájlba
 tbl#:#tbl_export_excel#:#Exportálás Excel (.xlsx) fájlba
-tbl#:#tbl_selection#:#Selection###21 04 2026 new variable
+tbl#:#tbl_selection#:#Kiválasztás
 tbl#:#tbl_template_create#:#Jelenlegi nézet mentése
 tbl#:#tbl_template_created#:#Ezt a nézetet sikeresen mentette.
 tbl#:#tbl_template_delete#:#Mentett nézet törlése
@@ -17886,7 +17885,7 @@ wsp#:#wsp_permission_registered_info#:#Az objektumot megosztotta az összes regi
 wsp#:#wsp_permission_removed#:#A bejegyzést sikeresen törölte.
 wsp#:#wsp_permissions#:#Megosztás
 wsp#:#wsp_personal_resources_description#:#Itt kezelheti személyes fájljait, blogjait és alkotásait.
-wsp#:#wsp_search_no_match#:#Your search did not match any results.###10 03 2026 new variable
+wsp#:#wsp_search_no_match#:#Nincs találat a keresésére.
 wsp#:#wsp_send_mail#:#Levél küldése
 wsp#:#wsp_set_permission_all#:#World Wide Web
 wsp#:#wsp_set_permission_all_password#:#World Wide Web (jelszóval)
