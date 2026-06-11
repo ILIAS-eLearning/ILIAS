@@ -28,20 +28,44 @@ class ilLPStatusLtiOutcome extends ilLPStatus
 {
     private static array $userResultCache = array();
 
-    private static function getUsersByStatus(int $a_obj_id, int $a_status): array
+    private static function getUsersWithLtiData(int $a_obj_id): array
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
 
         $usr_ids = array();
-        $query = 'SELECT DISTINCT usr_id FROM ut_lp_marks'
-            . ' WHERE obj_id = ' . $ilDB->quote($a_obj_id, 'integer')
-            . ' AND status = ' . $ilDB->quote($a_status, 'integer');
+        $query = 'SELECT DISTINCT usr_id FROM lti_consumer_results'
+            . ' WHERE obj_id = ' . $ilDB->quote($a_obj_id, 'integer');
 
         $res = $ilDB->query($query);
         while ($row = $ilDB->fetchAssoc($res)) {
             $usr_ids[] = (int) $row['usr_id'];
+        }
+
+        if ($ilDB->tableExists('lti_consumer_grades')) {
+            $query = 'SELECT DISTINCT usr_id FROM lti_consumer_grades'
+                . ' WHERE obj_id = ' . $ilDB->quote($a_obj_id, 'integer');
+
+            $res = $ilDB->query($query);
+            while ($row = $ilDB->fetchAssoc($res)) {
+                $usr_ids[] = (int) $row['usr_id'];
+            }
+        }
+
+        return array_values(array_unique($usr_ids));
+    }
+
+    private static function getUsersByStatus(int $a_obj_id, int $a_status): array
+    {
+        $usr_ids = array();
+        $lp_status = new self($a_obj_id);
+        $object = ilObjectFactory::getInstanceByObjId($a_obj_id);
+
+        foreach (self::getUsersWithLtiData($a_obj_id) as $usr_id) {
+            if ($lp_status->determineStatus($a_obj_id, $usr_id, $object) === $a_status) {
+                $usr_ids[] = $usr_id;
+            }
         }
 
         return $usr_ids;
@@ -128,7 +152,7 @@ class ilLPStatusLtiOutcome extends ilLPStatus
         $ltiResult = $this->getLtiUserResult($a_obj_id, $a_usr_id);
 
         if ($ltiResult instanceof ilLTIConsumerResult) {
-            return (int) $ltiResult->getResult() * 100;
+            return (int) round((float) $ltiResult->getResult() * 100);
         }
 
         return 0;
