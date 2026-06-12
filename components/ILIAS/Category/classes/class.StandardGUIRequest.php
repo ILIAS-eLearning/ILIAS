@@ -93,4 +93,9 @@ class StandardGUIRequest
         return $this->int("cat_tax_id");
     }
 
+    public function getItemRefId(): int
+    {
+        return $this->int("item_ref_id");
+    }
+
 }
