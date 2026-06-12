@@ -11187,7 +11187,6 @@ lti#:#conf_privacy_ident_il_uuid_sha256url_info#:#これはコール毎に同じ
 lti#:#conf_privacy_ident_il_uuid_user_id#:#EメールアドレスでユニークなILIASプラットフォームでフォーマットされて組み合されたILIASユーザ
 lti#:#conf_privacy_ident_il_uuid_user_id_info#:#内部数字ユーザIDを送信。これはコール毎に同じですが、ILIASユーザに関してはダイレクトに終結することがあります。
 lti#:#conf_privacy_ident_info#:#標準はメールアドレスです。ユニークなILIASプラットフォームIDは次の通りです：
-lti#:#conf_privacy_ident_info#:#標準は通常emailアドレスです。ユニークなILIASプラットフォームIDは:
 lti#:#conf_privacy_ident_real_email#:#E-Mail Address
 lti#:#conf_privacy_ident_real_email#:#emailアドレス
 lti#:#conf_privacy_ident_real_email_info#:#IDとしてユーザのE-Mail Addressを送信(警告: E-Mail Addressは複数のユーザで使用されている可能性があります!)
