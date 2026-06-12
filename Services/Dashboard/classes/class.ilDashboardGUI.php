@@ -67,8 +67,8 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         $this->ctrl = $DIC->ctrl();
 
         if ($this->user->getId() === ANONYMOUS_USER_ID) {
-            $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', $this->lng->txt('msg_not_available_for_anon'), true);
-            $DIC->ctrl()->redirectToURL('login.php?cmd=force_login');
+            $tpl->setOnScreenMessage('failure', $this->lng->txt('msg_not_available_for_anon'), true);
+            $this->ctrl->redirectToURL('login.php?cmd=force_login');
         }
 
         $this->tpl = $tpl;
@@ -344,7 +344,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
     public function jumpToMemberships(): void
     {
-        $viewSettings = new ilPDSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), $this->requested_view);
+        $viewSettings = new ilPDSelectedItemsBlockViewSettings($this->user, $this->requested_view);
         if ($viewSettings->enabledMemberships()) {
             $this->ctrl->setParameter($this, 'view', $viewSettings->getMembershipsView());
         }
@@ -353,7 +353,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
     public function jumpToSelectedItems(): void
     {
-        $viewSettings = new ilPDSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), $this->requested_view);
+        $viewSettings = new ilPDSelectedItemsBlockViewSettings($this->user, $this->requested_view);
         if ($viewSettings->enabledSelectedItems()) {
             $this->ctrl->setParameter($this, 'view', $viewSettings->getSelectedItemsView());
         }
@@ -472,7 +472,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 $html .= $this->renderView($view_position);
             }
         }
-
 
         $tpl->setVariable('CONTENT', $html);
 
