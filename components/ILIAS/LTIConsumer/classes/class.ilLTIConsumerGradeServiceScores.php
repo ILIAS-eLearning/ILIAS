@@ -122,9 +122,7 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
             (isset($score->scoreGiven) && !is_numeric($score->scoreGiven)) ||
             (isset($score->scoreGiven) && !isset($score->scoreMaximum)) ||
             (isset($score->scoreMaximum) && (!is_numeric($score->scoreMaximum) || (float) $score->scoreMaximum <= 0)) ||
-            (isset($score->scoreGiven) && isset($score->scoreMaximum) && (
-                (float) $score->scoreGiven < 0 || (float) $score->scoreGiven > (float) $score->scoreMaximum
-            )) ||
+            (isset($score->scoreGiven) && (float) $score->scoreGiven < 0) ||
             ($score->gradingProgress === 'FullyGraded' && (!isset($score->scoreGiven) || !isset($score->scoreMaximum)))
         ) {
             ilObjLTIConsumer::getLogger()->info('Incorrect score received');
@@ -140,10 +138,6 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
 
         $scoreGiven = isset($score->scoreGiven) ? (float) $score->scoreGiven : null;
         $scoreMaximum = isset($score->scoreMaximum) ? (float) $score->scoreMaximum : null;
-        $lineItemScoreMaximum = $this->getLineItemScoreMaximum($objId);
-        if ($scoreMaximum !== null && abs($scoreMaximum - $lineItemScoreMaximum) > 0.00001) {
-            throw new Exception('scoreMaximum does not match line item', 400);
-        }
 
         $result = null;
         $scoreProgress = null;
@@ -242,13 +236,6 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
 
 
         return 200;
-    }
-
-    protected function getLineItemScoreMaximum(int $objId): float
-    {
-        $object = new ilObjLTIConsumer($objId, false);
-        $scoreMaximum = $object->getScoreMaximum();
-        return $scoreMaximum > 0 ? $scoreMaximum : 1.0;
     }
 
     protected function getUsrIdForScoreUser(int $objId, string $userIdent): ?int
