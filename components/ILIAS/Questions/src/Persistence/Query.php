@@ -113,7 +113,7 @@ class Query
         return $clone;
     }
 
-    public function loadNextRecord(): \Generator
+    public function getRecords(): \Generator
     {
         $result = $this->toSql();
 
@@ -124,11 +124,11 @@ class Query
 
         if ($this->group_by === null) {
             yield $this;
-            yield from $this->loadNextRecordUngrouped($result);
+            yield from $this->getRecordsUngrouped($result);
             return;
         }
 
-        yield from $this->loadNextRecordGrouped(
+        yield from $this->getRecordsGrouped(
             $result,
             $this->group_by->getColumnAlias()
         );
@@ -214,7 +214,7 @@ class Query
         }
     }
 
-    private function loadNextRecordGrouped(
+    private function getRecordsGrouped(
         \ilDBStatement $result,
         string $group_by
     ): \Generator {
@@ -229,7 +229,7 @@ class Query
         yield $this;
     }
 
-    private function loadNextRecordUngrouped(
+    private function getRecordsUngrouped(
         \ilDBStatement $result
     ): \Generator {
         while (($db_record = $this->db->fetchAssoc($result)) !== null) {
