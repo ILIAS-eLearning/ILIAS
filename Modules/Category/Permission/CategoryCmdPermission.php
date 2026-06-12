@@ -31,11 +31,13 @@ class CategoryCmdPermission extends CmdPermission
     protected const CAT = "cat";
 
     public function __construct(
+        protected \ilLanguage $lng,
         protected \ilAccessHandler $access,
+        ?\ilGlobalTemplateInterface $tpl = null,
         protected ?\ilCtrlInterface $ctrl = null,
         protected ?StandardGUIRequest $request = null
     ) {
-        parent::__construct($ctrl);
+        parent::__construct($lng, $tpl, $ctrl);
     }
 
     public function isCommandPermitted(

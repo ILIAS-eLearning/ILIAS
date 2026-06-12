@@ -23,6 +23,8 @@ namespace ILIAS\Repository\Permission;
 abstract class CmdPermission implements CmdPermissionInterface
 {
     public function __construct(
+        protected \ilLanguage $lng,
+        protected ?\ilGlobalTemplateInterface $tpl = null,
         protected ?\ilCtrlInterface $ctrl = null,
     ) {
     }
@@ -110,7 +112,14 @@ abstract class CmdPermission implements CmdPermissionInterface
         }
         if ($this->isForwardPermitted(get_class($from_gui), get_class($to_gui))) {
             $this->ctrl->forwardCommand($to_gui);
+            return;
         }
+        if ($this->access->checkAccess("read", "", ROOT_FOLDER_ID)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->setParameterByClass("ilRepositoryGUI", "ref_id", ROOT_FOLDER_ID);
+            $this->ctrl->redirectByClass("ilRepositoryGUI");
+        }
+        throw new \ilPermissionException($this->lng->txt("permission_denied"));
     }
 
     /**

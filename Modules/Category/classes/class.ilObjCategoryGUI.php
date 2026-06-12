@@ -316,6 +316,10 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
 
                 if ($this->cmd_perm->classImplementsMethodDirectly(get_class($this), $cmd)) {
                     $cmd = $this->cmd_perm->getPermittedCommand();
+                    if ($cmd === "") {
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+                        self::_gotoRepositoryRoot();
+                    }
                     $cmd .= "Object";
                 }
                 $this->$cmd();
