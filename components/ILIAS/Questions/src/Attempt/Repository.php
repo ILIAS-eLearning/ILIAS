@@ -76,7 +76,7 @@ class Repository
                 $base_table_id_column
             ),
             $this->buildQuery($attempt_id)
-        )->loadNextRecord()
+        )->getRecords()
         ->current();
 
         if ($database_values === null) {
@@ -248,7 +248,7 @@ class Repository
         $database_values = $question->completeResponseQuery(
             $this->buildQuery($attempt_id),
             $base_table_id_column
-        )->loadNextRecord()
+        )->getRecords()
         ->current();
 
         if ($database_values === null) {

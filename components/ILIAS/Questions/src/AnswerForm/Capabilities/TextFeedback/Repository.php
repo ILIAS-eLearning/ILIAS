@@ -74,7 +74,7 @@ class Repository
                     $this->feedback_table_names_builder,
                     TableTypes::FeedbackGeneric
                 )
-            )->loadNextRecord()->current();
+            )->getRecords()->current();
 
         if ($database_values === null) {
             return $feedback;

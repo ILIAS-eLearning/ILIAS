@@ -97,7 +97,7 @@ class Repository
 
         foreach ($questions_query->withGroupBy(
             $this->buildGroupByColumn()
-        )->loadNextRecord() as $query_with_record) {
+        )->getRecords() as $query_with_record) {
             yield $this->retrieveQuestionFromQuery(
                 $query_with_record,
                 $this->retrieveAnswerFormsFromQuery($query_with_record, true)
@@ -141,7 +141,7 @@ class Repository
             )
         )->withGroupBy(
             $this->buildGroupByColumn()
-        )->loadNextRecord() as $query_with_record) {
+        )->getRecords() as $query_with_record) {
             yield $this->retrieveQuestionFromQuery(
                 $query_with_record,
                 $this->retrieveAnswerFormsFromQuery($query_with_record, true)
@@ -273,7 +273,7 @@ class Repository
 
         foreach ($query_with_answer_forms->withGroupBy(
             $this->buildGroupByColumn()
-        )->loadNextRecord() as $query_with_record) {
+        )->getRecords() as $query_with_record) {
             yield $this->retrieveQuestionFromQuery(
                 $query_with_record,
                 $this->retrieveAnswerFormsFromQuery($query_with_record)

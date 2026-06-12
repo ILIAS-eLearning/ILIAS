@@ -67,7 +67,7 @@ class Repository
     ): Content {
         $database_values = $this->buildQuery(
             $answer_form_id
-        )->loadNextRecord()->current();
+        )->getRecords()->current();
 
         if ($database_values === null) {
             return $this->getNew(
