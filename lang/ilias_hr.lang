@@ -31,50 +31,50 @@
 <!-- language file start -->
 acc#:#acc_add_document_btn_label#:#Add Document###04 06 2021 new variable
 acc#:#acc_crit_type_usr_language#:#Profile Language###04 06 2021 new variable
-acc#:#acc_criterion_assignment_must_be_unique_insert#:#You cannot attach this criterion with this value. There is already an identical criterion attached.###04 06 2021 new variable
-acc#:#acc_criterion_assignment_must_be_unique_update#:#You cannot change the criterion as desired. There is already an identical criterion attached.###04 06 2021 new variable
-acc#:#acc_ctrl_cpt_txt#:#Accessibility Control Concept###04 06 2021 new variable
+acc#:#acc_criterion_assignment_must_be_unique_insert#:#It is not possible to set the language you have selected as the criterion for displaying this document, as it has already been set as the criterion for displaying a different Accessibility document.###15 06 2026 new variable
+acc#:#acc_criterion_assignment_must_be_unique_update#:#It is not possible to change the criterion for displaying this document to the language you have selected. That language is being used as the criterion for displaying a different Accessibility document.###15 06 2026 new variable
+acc#:#acc_ctrl_cpt_txt#:#Accessibility Documents###15 06 2026 new variable
 acc#:#acc_deleted_documents_p#:#The documents have been deleted.###04 06 2021 new variable
 acc#:#acc_deleted_documents_s#:#The document has been deleted.###04 06 2021 new variable
-acc#:#acc_doc_crit_attached#:#The criterion has been attached.###04 06 2021 new variable
-acc#:#acc_doc_crit_changed#:#The criterion has been changed.###04 06 2021 new variable
-acc#:#acc_doc_crit_detached#:#The criterion has been detached.###04 06 2021 new variable
+acc#:#acc_doc_crit_attached#:#The criterion for displaying this Accessibility document has been set successfully.###15 06 2026 new variable
+acc#:#acc_doc_crit_changed#:#The criterion for displaying this Accessibility document has been changed.###15 06 2026 new variable
+acc#:#acc_doc_crit_detached#:#The criterion for displaying this Accessibility document has been removed.###15 06 2026 new variable
 acc#:#acc_doc_delete#:#Delete Document###04 06 2021 new variable
-acc#:#acc_doc_detach_crit_confirm_title#:#Detach Criterion###04 06 2021 new variable
-acc#:#acc_doc_sure_detach_crit#:#Are your sure you want to detach the criterion?###04 06 2021 new variable
+acc#:#acc_doc_detach_crit_confirm_title#:#Remove Language Criterion###15 06 2026 new variable
+acc#:#acc_doc_sure_detach_crit#:#Are you sure that you no longer want this language to be the criterion for displaying this Accessibility document?###15 06 2026 new variable
 acc#:#acc_document#:#Document###04 06 2021 new variable
-acc#:#acc_form_attach_criterion_head#:#Attach Criterion###04 06 2021 new variable
+acc#:#acc_form_attach_criterion_head#:#Select Language Criterion for Displaying Accessibility Info Document###15 06 2026 new variable
 acc#:#acc_form_criterion#:#Criterion###04 06 2021 new variable
 acc#:#acc_form_document#:#Document###04 06 2021 new variable
-acc#:#acc_form_document_content_changed#:#The contents of the uploaded file was purified by ILIAS. Please check the result and upload a new file, if necessary.###04 06 2021 new variable
-acc#:#acc_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used.###04 06 2021 new variable
+acc#:#acc_form_document_content_changed#:#The uploaded file has had its html &lt;head&gt; information removed by ILIAS. Please check the result and upload a new file if necessary.###15 06 2026 new variable
+acc#:#acc_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will have their &lt;head&gt; information removed – only the contents of the body element will be used.###15 06 2026 new variable
 acc#:#acc_form_document_new#:#Change Content###04 06 2021 new variable
-acc#:#acc_form_document_new_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used. The existing contents will be replaced.###04 06 2021 new variable
+acc#:#acc_form_document_new_info#:#Here you can select a file from your local filesystem to change the contents of this Accessibility document. You can either upload a plain text file, or a simple HTML file. HTML files will have their &lt;head&gt; information removed - only the contents of the body element will be used. The existing contents of the Accessibility document will be replaced. The document’s acceptance history will not be affected.###15 06 2026 new variable
 acc#:#acc_form_document_title#:#Title###04 06 2021 new variable
 acc#:#acc_form_document_title_info#:#Please enter a title for the document.###04 06 2021 new variable
-acc#:#acc_form_edit_criterion_head#:#Edit Criterion Assignment###04 06 2021 new variable
+acc#:#acc_form_edit_criterion_head#:#Edit Language Criterion###15 06 2026 new variable
 acc#:#acc_form_edit_doc_head#:#Edit Document###04 06 2021 new variable
 acc#:#acc_form_new_doc_head#:#Create Document###04 06 2021 new variable
 acc#:#acc_forward_mail#:#Forward Mail
 acc#:#acc_function#:#Function
 acc#:#acc_last_rep_visited#:#Repository/Last Visited
-acc#:#acc_saved_sorting#:#The sorting has been saved.###04 06 2021 new variable
+acc#:#acc_saved_sorting#:#The new order has been saved.###15 06 2026 new variable
 acc#:#acc_sure_delete_documents_p#:#Are you sure you want to delete the selected documents?###04 06 2021 new variable
-acc#:#acc_sure_delete_documents_s#:#Are you sure you want to delete the document?###04 06 2021 new variable
+acc#:#acc_sure_delete_documents_s#:#Are you sure you want to delete this document?###15 06 2026 new variable
 acc#:#acc_tbl_docs_action_add_criterion#:#Add Criterion###04 06 2021 new variable
-acc#:#acc_tbl_docs_cell_not_criterion#:#No criterion assigned###04 06 2021 new variable
+acc#:#acc_tbl_docs_cell_not_criterion#:#No language criterion assigned###15 06 2026 new variable
 acc#:#acc_tbl_docs_head_created#:#Creation Date###04 06 2021 new variable
-acc#:#acc_tbl_docs_head_criteria#:#Criteria###04 06 2021 new variable
+acc#:#acc_tbl_docs_head_criteria#:#Criterion###15 06 2026 new variable
 acc#:#acc_tbl_docs_head_last_change#:#Last Change###04 06 2021 new variable
-acc#:#acc_tbl_docs_head_sorting#:#Sorting###04 06 2021 new variable
+acc#:#acc_tbl_docs_head_sorting#:#Order###15 06 2026 new variable
 acc#:#acc_tbl_docs_head_title#:#Title###04 06 2021 new variable
 acc#:#acc_tbl_docs_title#:#Documents###04 06 2021 new variable
 acc#:#acc_tree_off#:#Tree Off
 acc#:#acc_tree_on#:#Tree On
-adm#:#adm_acc_ctrl_cpt_desc#:#If activated, the link for the Accessibility Control Concept shows up in the Footer.###04 06 2021 new variable
-adm#:#adm_acc_ctrl_cpt_enable#:#Enable Accessibility Control Concept###04 06 2021 new variable
-adm#:#adm_accessibility_contacts#:#Accessibility Point of Contact###04 06 2021 new variable
-adm#:#adm_accessibility_contacts_info#:#Contacts for reporting accessibility issues in the footer link. Comma separated list of account logins.###04 06 2021 new variable
+adm#:#adm_acc_ctrl_cpt_desc#:#Display the link to your Accessibility document in the footer of your installation.###15 06 2026 new variable
+adm#:#adm_acc_ctrl_cpt_enable#:#Accessibility Link in Footer###15 06 2026 new variable
+adm#:#adm_accessibility_contacts#:#Contact Point for Accessibility Issues###15 06 2026 new variable
+adm#:#adm_accessibility_contacts_info#:#Contacts for the ‘Report Accessibility Issue’ link in your installation’s footer. Comma-separated list of account usernames (logins).###15 06 2026 new variable
 adm#:#adm_awrn_support_contacts_info#:#All technical support contacts are listed. Users are defined as technical support contacts in the section "General Settings" > "Contact Information".
 adm#:#adm_support_contacts#:#Technical Support
 adm#:#adm_support_contacts_info#:#Support contacts used in the footer link and (if activated) in the ‘Who is online?’-Tool. Comma separated list of account logins.
@@ -373,9 +373,9 @@ adn#:#msg_form_title#:#Notification###04 06 2021 new variable
 adn#:#msg_has_language_limitation#:#Limited to selected languages###26 08 2024 new variable
 adn#:#msg_has_language_limitation_info#:#Only selected languages will see the notification.###26 08 2024 new variable
 adn#:#msg_languages#:#Languages###26 08 2024 new variable
-adn#:#msg_limit_to_roles#:#Role-sensitive Presentation###04 06 2021 new variable
-adn#:#msg_limit_to_roles_info#:#Only the selected roles will see the notification.###04 06 2021 new variable
-adn#:#msg_limited_to_role_ids#:#Roles###04 06 2021 new variable
+adn#:#msg_limit_to_roles#:#Limited to Selected Roles###15 06 2026 new variable
+adn#:#msg_limit_to_roles_info#:#Only selected roles will see the notification.###15 06 2026 new variable
+adn#:#msg_limited_to_role_ids#:#Presentation###15 06 2026 new variable
 adn#:#msg_permanent#:#Display###04 06 2021 new variable
 adn#:#msg_permanent_info#:#Display Notifications permanently or temporarily###04 06 2021 new variable
 adn#:#msg_permanent_no#:#Show Temporarily###04 06 2021 new variable
@@ -385,7 +385,7 @@ adn#:#msg_show_to_all_languages#:#Show to all languages###26 08 2024 new variabl
 adn#:#msg_show_to_all_roles#:#Show to all roles###26 08 2024 new variable
 adn#:#msg_show_to_all_roles_info#:#All users even when not logged-in will see notification.###26 08 2024 new variable
 adn#:#msg_success_created#:#Notification created###04 06 2021 new variable
-adn#:#msg_success_deleted#:#Notification sucessfully deleted###04 06 2021 new variable
+adn#:#msg_success_deleted#:#Notification(s) sucessfully deleted###15 06 2026 new variable
 adn#:#msg_success_duplicated#:#Notification sucessfully duplicated###26 08 2024 new variable
 adn#:#msg_success_reset#:#Notification reset###04 06 2021 new variable
 adn#:#msg_success_updated#:#Notification updated###04 06 2021 new variable
@@ -685,7 +685,7 @@ assessment#:#eval_all_users#:#Evaluacija za sve korisnike
 assessment#:#eval_legend_link#:#Za značenje simbola u naslovu stupca molimo pogledajte legendu.
 assessment#:#evaluated_users#:#Evaluated Users###04 06 2021 new variable
 assessment#:#exam_id#:#ID prolaza testa:
-assessment#:#exam_id_label#:#Exam Id###04 06 2021 new variable
+assessment#:#exam_id_label#:#Test ID###15 06 2026 new variable
 assessment#:#exam_id_of_attempt#:#ID of Attempt###28 10 2024 new variable
 assessment#:#examid_in_test_pass#:#Prikaži ID prolaza testa:
 assessment#:#examid_in_test_pass_desc#:#U testu se prikazuje ID prolaza testa. Za svaki prolaz tests generira se novi ID.
@@ -707,7 +707,7 @@ assessment#:#export_cert_ignored_for_users_s#:#The following account did not ach
 assessment#:#export_cert_no_users#:#A certificate archive cannot be created due to missing test participants.###26 08 2024 new variable
 assessment#:#export_essay_qst_with_html#:#Izvezi pitanje sa slobodnim tekstom s HTML kodom
 assessment#:#export_essay_qst_with_html_desc#:#Ako je aktivirana, možete pitanja sa slobodnim tekstom s HTML kodom izvesti u Excel.
-assessment#:#export_legacy_logs#:#Legacy Log-Daten exportieren###26 08 2024 new variable
+assessment#:#export_legacy_logs#:#Export Legacy Log Data###15 06 2026 new variable
 assessment#:#extra_time_byline#:#Put in extra time in minutes. Already entered extra time is added up.###28 10 2024 new variable
 assessment#:#extra_time_for_all_participants#:#You are adding some extra time to all participants.###28 10 2024 new variable
 assessment#:#extra_time_for_selected_participants#:#You are adding extra time to the selected participants.###28 10 2024 new variable
@@ -742,7 +742,7 @@ assessment#:#finalized_evaluation#:#Scoring completed###04 06 2021 new variable
 assessment#:#finalized_on#:#Completed at###04 06 2021 new variable
 assessment#:#finish_all_user_passes#:#Završi sve prolaze testa
 assessment#:#finish_pass_for_all_users#:#Jeste li sigurni da želite završiti prolaze testa za sve korisnike?
-assessment#:#finish_pass_for_multiple_users_in_processing_time#:#You cannot finish the passes of all users together, because for at least one user the processing time is not over yet.###26 08 2024 new variable
+assessment#:#finish_pass_for_multiple_users_in_processing_time#:#You cannot finish the passes of the selected users together, because for at least one selected user the processing time is not over yet.###15 06 2026 new variable
 assessment#:#finish_pass_for_user_confirmation#:#Jeste li sigurni da želite završiti ove prolaze testa za sudionike „%s”?
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test).###26 08 2024 new variable
 assessment#:#finish_test#:#Završi test
@@ -1127,7 +1127,7 @@ assessment#:#qst_lifecycle_final#:#Final###04 06 2021 new variable
 assessment#:#qst_lifecycle_outdated#:#Outdated###04 06 2021 new variable
 assessment#:#qst_lifecycle_rejected#:#Rejected###04 06 2021 new variable
 assessment#:#qst_lifecycle_review#:#To be Reviewed###04 06 2021 new variable
-assessment#:#qst_lifecycle_sharable#:#Sharable###04 06 2021 new variable
+assessment#:#qst_lifecycle_sharable#:#Shareable###15 06 2026 new variable
 assessment#:#qst_nested_nested_answers_off#:#No indents, just order###29 07 2022 new variable
 assessment#:#qst_nested_nested_answers_on#:#Use indents in anwers###29 07 2022 new variable
 assessment#:#qst_nr_of_tries#:#Broj pokušaja
@@ -1256,8 +1256,8 @@ assessment#:#show_best_solution#:#Show best solution###28 10 2024 new variable
 assessment#:#show_detailed_results#:#Prikaži detaljne rezultate korisnika (ocijenjen prolaz)
 assessment#:#show_examview_html#:#Na zaslonu
 assessment#:#show_hide_best_solution#:#Show or hide best solution###28 10 2024 new variable
-assessment#:#show_old_concluding_remarks#:#Show old conlcuding remarks###26 08 2024 new variable
-assessment#:#show_old_introduction#:#Show old introduction###26 08 2024 new variable
+assessment#:#show_old_concluding_remarks#:#Show Old Concluding Remarks###15 06 2026 new variable
+assessment#:#show_old_introduction#:#Show Old Introduction###15 06 2026 new variable
 assessment#:#show_pass_overview#:#Prikaži pregled rezultata ocijenjenog prolaza testa
 assessment#:#show_requested_question_hints#:#Prikaži zatražene savjete za odgovore
 assessment#:#show_results#:#Show Results###28 10 2024 new variable
@@ -1303,10 +1303,10 @@ assessment#:#test_move_page#:#Pomakni pitanje
 assessment#:#test_next_question#:#Sljedeće pitanje
 assessment#:#test_prev_question#:#Prethodno pitanje
 assessment#:#test_question_set_type#:#Selection of Test Questions###29 07 2022 new variable
-assessment#:#test_question_set_type_fixed#:#Use of a fixed set of questions###29 07 2022 new variable
-assessment#:#test_question_set_type_fixed_info#:#All testees see the same questions.<br>You can create questions directly in the test as well as reuse questions from a Question Pool. If you create new questions you can decide to save them in a Question Pool.###29 07 2022 new variable
-assessment#:#test_question_set_type_random#:#Use of a random set of questions###29 07 2022 new variable
-assessment#:#test_question_set_type_random_info#:#Every testee will see an individually generated set of questions. The questions are drawn from one or more Question Pools.###29 07 2022 new variable
+assessment#:#test_question_set_type_fixed#:#Fixed Questions###15 06 2026 new variable
+assessment#:#test_question_set_type_fixed_info#:#All test participants see the same questions.<br>You can create questions directly in the test as well as use questions from a Question Pool. If you create new questions, you can decide to save them in a Question Pool.###15 06 2026 new variable
+assessment#:#test_question_set_type_random#:#Random Questions###15 06 2026 new variable
+assessment#:#test_question_set_type_random_info#:#Each test participant will see an individually generated set of questions. The questions are drawn from one or more Question Pools.###15 06 2026 new variable
 assessment#:#test_results#:#Objava rezultata testa
 assessment#:#test_scoring#:#Ocjenjivanje testa
 assessment#:#test_template_reset#:#Predložak je uklonjen.
@@ -1392,7 +1392,7 @@ assessment#:#tst_back_to_top#:#Natrag na vrh
 assessment#:#tst_back_to_virtual_pass#:#Natrag na pregled pitanja
 assessment#:#tst_best_solution_is#:#Najbolje rješenje je:
 assessment#:#tst_block_passes_after_passed#:#Block Additional Passes After Test is Passed###04 06 2021 new variable
-assessment#:#tst_block_passes_after_passed_info#:#After a participant has passed the test, no further test passes are allowed to the participant with this option.###04 06 2021 new variable
+assessment#:#tst_block_passes_after_passed_info#:#After a participant has passed the test, no further test attempts are allowed to the participant with this option.###15 06 2026 new variable
 assessment#:#tst_browse_for_qpl_questions#:#Dodaj iz bazena
 assessment#:#tst_browse_for_tst_questions#:#Dodaj iz drugog testa
 assessment#:#tst_btn_hide_best_solutions#:#Sakrij najbolja rješenja
@@ -1462,7 +1462,7 @@ assessment#:#tst_eval_total_passed_average_time#:#Prosječno vrijeme obrade svih
 assessment#:#tst_eval_total_persons#:#Ukupan broj sudionika koji su započeli test
 assessment#:#tst_exam_access_code#:#Access Code###26 08 2024 new variable
 assessment#:#tst_exam_access_code_invalid_message#:#The code you provided is invalid.###26 05 2026 new variable
-assessment#:#tst_exam_access_code_label#:#Enter access code to continue your already started test.###26 08 2024 new variable
+assessment#:#tst_exam_access_code_label#:#Enter access code to continue your already started test. Leave the field empty to start a new test run.###15 06 2026 new variable
 assessment#:#tst_exam_conditions#:#Exam Conditions###26 08 2024 new variable
 assessment#:#tst_exam_conditions_label#:#Check to accept the conditions.###26 08 2024 new variable
 assessment#:#tst_exam_conditions_not_checked_message#:#You need to accept the exam conditions!###26 08 2024 new variable
@@ -2083,7 +2083,7 @@ assessment#:#without_solutions_participants#:#Sudionici bez odgovora
 assessment#:#worked_through#:#Obrađeno
 assessment#:#working_time#:#Vrijeme obrade
 assessment#:#you_received_a_of_b_points#:#Ostvarili ste %s od %s mogućih bodova
-assessment#:#your_results#:#Your Results###28 10 2024 new variable
+assessment#:#your_results#:#My Results###15 06 2026 new variable
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#To re-activate your account you can use an ILIAS account code.
 auth#:#auth_account_code_title#:#Account Code
@@ -2137,7 +2137,7 @@ auth#:#auth_oidc_settings_discovery_error#:#Retrieving the Discovery URL failed 
 auth#:#auth_oidc_settings_discovery_url#:#Discovery URL of the provider###26 08 2024 new variable
 auth#:#auth_oidc_settings_img#:#Bild
 auth#:#auth_oidc_settings_img_file_info#:#Laden Sie ein Bild hoch das auf der Anmeldeseite angezeigt werden soll. Das Bild verlinkt automatisch auf das OpenId Connect Anmeldeskript.
-auth#:#auth_oidc_settings_invalid_scopes#:#The following values are no valid Scopes: %s###04 06 2021 new variable
+auth#:#auth_oidc_settings_invalid_scopes#:#The following values are not valid scopes: %s###15 06 2026 new variable
 auth#:#auth_oidc_settings_le#:#Darstellung Anmeldeseite
 auth#:#auth_oidc_settings_login_option_default#:#Anmeldung nicht erzwingen
 auth#:#auth_oidc_settings_login_option_default_info#:#Eine Anmeldung beim OpenId Connect Server ist nicht notwendig, wenn bereits eine gültige Sitzung vorliegt.
@@ -2160,7 +2160,7 @@ auth#:#auth_oidc_settings_user_attr#:#Attributname der Benutzerzugänge
 auth#:#auth_oidc_settings_user_sync#:#Automatische Synchronisierung
 auth#:#auth_oidc_settings_user_sync_info#:#Wenn aktiviert, wird für Benutzer, die sich erfolgreich gegen Open ID Connect authentifiziert haben aber kein ILIAS-Benutzerkonto besitzen, automatisch ein neues Benutzerkonto erzeugt.
 auth#:#auth_oidc_settings_validate_scope_custom#:#Use custom OpenID Connect Discovery url###26 08 2024 new variable
-auth#:#auth_oidc_settings_validate_scope_default#:#Use :Provider-URL:/.well-known/openid-configuration###26 08 2024 new variable
+auth#:#auth_oidc_settings_validate_scope_default#:#Use [PROVIDER_URL]/.well-known/openid-configuration###15 06 2026 new variable
 auth#:#auth_oidc_settings_validate_scope_none#:#Do not validate Scopes on saving###26 08 2024 new variable
 auth#:#auth_oidc_settings_validate_scopes#:#Validate Scopes upon saving###26 08 2024 new variable
 auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
@@ -2250,7 +2250,7 @@ awrn#:#awrn_online_only#:#Online Only
 awrn#:#awrn_seconds#:#sec
 awrn#:#awrn_use_osd#:#Popup Online Users
 awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the ‘Who is online?’ list.
-awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###04 06 2021 new variable
+awrn#:#awrn_user_show#:#Show Your Account in "Who-Is-Online?"###15 06 2026 new variable
 awrn#:#user_awrn_default#:#Default###04 06 2021 new variable
 awrn#:#user_awrn_hide#:#Hide my status###04 06 2021 new variable
 awrn#:#user_awrn_show#:#Show my status###04 06 2021 new variable
@@ -2266,7 +2266,7 @@ background_tasks#:#ui_msg_no_files_found#:#No files have been found. The downloa
 background_tasks#:#ui_msg_num_files#:#%s file(-s) were detected for download, do you want to continue?###04 06 2021 new variable
 background_tasks#:#ui_msg_sum_file_sizes#:#The total download size before creating the zip-folder is %s. Do you want to continue?###04 06 2021 new variable
 background_tasks#:#waiting#:#Waiting
-badge#:#awarded_by#:#Awarded by###26 08 2024 new variable
+badge#:#awarded_by#:#Awarded By###15 06 2026 new variable
 badge#:#badge_activity_badges#:#Značke za aktivnosti
 badge#:#badge_add_template#:#Dodaj predložak
 badge#:#badge_add_to_profile#:#Dodaj profilu
@@ -2325,21 +2325,21 @@ badge#:#badge_template_types#:#Jeste li sigurni da želite izbrisati sljedeće p
 badge#:#badge_template_types_all#:#Sve
 badge#:#badge_template_types_specific#:#Određeni
 badge#:#badge_types#:#Tipovi
-badge#:#badge_update_image_processing_failed#:#The badge could not be updated, an error occurred while processing the image.###26 08 2024 new variable
+badge#:#badge_update_image_processing_failed#:#It was not possible to update the badge. An error occurred while processing the image.###15 06 2026 new variable
 badge#:#badge_uploaded_image_file_not_found#:#No uploaded image for the badge could be found.###26 08 2024 new variable
 badge#:#badge_user_profile#:#Korisnički profil
 badge#:#badge_valid#:#Važi do
 badge#:#criteria#:#Criteria###26 08 2024 new variable
-badge#:#endless#:#Always###26 08 2024 new variable
-badge#:#issued_on#:#Issued on###26 08 2024 new variable
-badge#:#position_updated#:#Profil assignment updated.###26 08 2024 new variable
-badge#:#sort_by_date_asc#:#Sort by Date Ascending###26 08 2024 new variable
-badge#:#sort_by_date_desc#:#Sort by Date Descending###26 08 2024 new variable
-badge#:#sort_by_title_asc#:#Sort by Title Ascending###26 08 2024 new variable
-badge#:#sort_by_title_desc#:#Sort by Title Descending###26 08 2024 new variable
+badge#:#endless#:#Forever###15 06 2026 new variable
+badge#:#issued_on#:#Issued On###15 06 2026 new variable
+badge#:#position_updated#:#The badges displayed in your profile have been updated.###15 06 2026 new variable
+badge#:#sort_by_date_asc#:#Date Ascending###15 06 2026 new variable
+badge#:#sort_by_date_desc#:#Date Descending###15 06 2026 new variable
+badge#:#sort_by_title_asc#:#Title Ascending###15 06 2026 new variable
+badge#:#sort_by_title_desc#:#Title Descending###15 06 2026 new variable
 badge#:#table_view#:#Table View###26 08 2024 new variable
 badge#:#tile_view#:#Tile View###26 08 2024 new variable
-badge#:#valid_until#:#Valid until###26 08 2024 new variable
+badge#:#valid_until#:#Valid Until###15 06 2026 new variable
 bgtask#:#bgtask_blocked#:#Concurrent download
 bgtask#:#bgtask_blocked_cancel_new#:#Cancel new download
 bgtask#:#bgtask_blocked_cancel_old#:#Cancel existing download
@@ -2511,7 +2511,7 @@ blog#:#blog_enable_notes#:#Javni komentari
 blog#:#blog_enable_rss#:#Aktiviraj RSS
 blog#:#blog_enable_rss_info#:#RSS feed je javan i neovisan o odobrenju blogova ili korisničkim pravima.
 blog#:#blog_est_reading_time#:#Estimated Reading Time###29 07 2022 new variable
-blog#:#blog_est_reading_time_info#:#For Blogs in the repository reading time can be determined and displayed.###29 07 2022 new variable
+blog#:#blog_est_reading_time_info#:#Add an automatically generated estimated reading time to blog posts in the repository.###15 06 2026 new variable
 blog#:#blog_exercise_info#:#Ovaj je blog dio zadatka "%s" u vježbi "%s".
 blog#:#blog_exercise_submitted_info#:#Vaša posljednja predaja bila je %s. Molimo provjerite datoteku za izvoz: %s
 blog#:#blog_finalize_blog#:#Dovršite i pošaljite blog
@@ -2554,7 +2554,7 @@ blog#:#blog_posting_deleted#:#Objava je izbrisana.
 blog#:#blog_posting_deletion_confirmation#:#Jeste li sigurni da želite izbrisati sljedeću objavu?
 blog#:#blog_posting_edit_approval_info#:#Prije objavljivanja, objavu još mora odobriti mentor.
 blog#:#blog_posting_not_found#:#Ova objava na blogu nije dostupna.
-blog#:#blog_postings#:#Postings###29 07 2022 new variable
+blog#:#blog_postings#:#Posts###15 06 2026 new variable
 blog#:#blog_presentation_frame#:#Prezentacija bloga
 blog#:#blog_presentation_overview#:#Početni pregled
 blog#:#blog_preview#:#Pregled
@@ -2562,26 +2562,26 @@ blog#:#blog_profile_picture#:#Prikaži sliku profila
 blog#:#blog_profile_picture_repository_info#:#Slike profila autora prikazuju se samo na stranicama s objavama, a ne i na stranicama s pregledom.
 blog#:#blog_properties#:#Svojstva bloga
 blog#:#blog_rename_posting#:#Preimenuj objavu
-blog#:#blog_selected_pages#:#Selected Postings###29 07 2022 new variable
+blog#:#blog_selected_pages#:#Selected posts###15 06 2026 new variable
 blog#:#blog_settings#:#Administracija bloga
 blog#:#blog_settings_navigation#:#Navigacijski stupac
 blog#:#blog_show_latest#:#Prikaži najnovije objave/nacrte
 blog#:#blog_show_print_view#:#Show Print View###29 07 2022 new variable
 blog#:#blog_side_blocks#:#Side Blocks###28 10 2024 new variable
 blog#:#blog_starting_page#:#Starting Page###26 08 2024 new variable
-blog#:#blog_task_publishing_draft_title#:#Publishing of Draft "%s"###04 06 2021 new variable
+blog#:#blog_task_publishing_draft_title#:#Publish Draft Blog Post "%s"###15 06 2026 new variable
 blog#:#blog_toggle_draft#:#Povuci objavu
 blog#:#blog_toggle_draft_admin#:#Deaktiviraj objavu
 blog#:#blog_toggle_final#:#Objavi objavu
-blog#:#blog_whole_blog#:#Whole Blog###29 07 2022 new variable
-book#:#X_reservations_of#:#%s reservations of###04 06 2021 new variable
+blog#:#blog_whole_blog#:#Whole blog###15 06 2026 new variable
+book#:#X_reservations_of#:#%s booking(s) of###15 06 2026 new variable
 book#:#book_add#:#Kreiraj bazen rezervacija
 book#:#book_add_object#:#Dodaj objekt
 book#:#book_add_participant#:#Add Participant###16 12 2025 new variable
 book#:#book_add_schedule#:#Dodaj raspored
 book#:#book_additional_info_file#:#Dodatni opis
 book#:#book_all#:#Pokaži sve
-book#:#book_all_pools_need_schedules#:#Settings not saved. All assigned pools need to have at least one schedule.###04 06 2021 new variable
+book#:#book_all_pools_need_schedules#:#Settings not saved. All selected booking pools need to have at least one schedule.###15 06 2026 new variable
 book#:#book_all_users#:#All Participants###04 06 2021 new variable
 book#:#book_assign#:#Dodijeli
 book#:#book_assign_object#:#Dodijeli objekt rezervacije
@@ -2591,10 +2591,10 @@ book#:#book_bobj#:#Predmet rezervacije
 book#:#book_book#:#Knjiži
 book#:#book_book_available#:#Book Available Dates###26 08 2024 new variable
 book#:#book_book_recurrence#:#Book multiple dates###26 08 2024 new variable
-book#:#book_booked_in#:#Booked in###04 06 2021 new variable
+book#:#book_booked_in#:#Booked In###15 06 2026 new variable
 book#:#book_booking#:#Booking###26 08 2024 new variable
 book#:#book_booking_information#:#Informacija
-book#:#book_booking_objects#:#Booking Objects###29 07 2022 new variable
+book#:#book_booking_objects#:#Bookable Items###15 06 2026 new variable
 book#:#book_booking_reminders#:#Nadolazeće rezervacije
 book#:#book_bulk_confirmation#:#Please check that all values are listed correctly.###26 08 2024 new variable
 book#:#book_bulk_creation#:#Bulk Creation###26 08 2024 new variable
@@ -2637,20 +2637,20 @@ book#:#book_messages_info#:#Allow users to add a message when booking an item.##
 book#:#book_missing_availability#:#It was not possible to book all items on all dates.###26 08 2024 new variable
 book#:#book_missing_items#:#$1 missing item(s).###26 08 2024 new variable
 book#:#book_new#:#Kreiraj novi bazen za rezervacije
-book#:#book_no_bookings_for_you#:#No reservations have been performed for you.###04 06 2021 new variable
-book#:#book_no_objects#:#No Assignment###04 06 2021 new variable
+book#:#book_no_bookings_for_you#:#No bookings have been made for you.###15 06 2026 new variable
+book#:#book_no_objects#:#No Bookings###15 06 2026 new variable
 book#:#book_no_of_objects#:#Broj objekata
 book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.###23 09 2025 new variable
-book#:#book_no_preferences_for_you#:#No preferences have been stored for you.###04 06 2021 new variable
+book#:#book_no_preferences_for_you#:#No preferences have been recorded for you.###15 06 2026 new variable
 book#:#book_no_recurrence#:#Book only this date###26 08 2024 new variable
 book#:#book_not#:#Ne
-book#:#book_not_enough_preferences#:#You selected not enough preferences. The preferences have not been saved.###04 06 2021 new variable
+book#:#book_not_enough_preferences#:#You have not selected enough preferences. Your preferences have not been saved.###15 06 2026 new variable
 book#:#book_notification#:#Pošalji obavijesti o rezervaciji
 book#:#book_notification_cron_not_active#:#Note: The necessary cron job, 'Send Reservation Notifications', is currently not active.###26 08 2024 new variable
 book#:#book_notification_info#:#Pošalji korisnicima (vlastite rezervacije) i administratorima (ako su aktivirani) popis rezervacija za sljedeći dan.
 book#:#book_nr_of_preferences#:#Number of Preferences###04 06 2021 new variable
-book#:#book_nr_of_preferences_info#:#Number of preferences each participant can indicate.###04 06 2021 new variable
-book#:#book_nr_preferences#:#Prefences###29 07 2022 new variable
+book#:#book_nr_of_preferences_info#:#Number of preferences each participant is required to state.###15 06 2026 new variable
+book#:#book_nr_preferences#:#Preferences###15 06 2026 new variable
 book#:#book_obj_select#:#Select###26 08 2024 new variable
 book#:#book_object_added#:#Dodan je objekt rezervacije.
 book#:#book_object_deleted#:#Objekt rezervacije je izbrisan.
@@ -2671,13 +2671,13 @@ book#:#book_post_booking_information#:#Informacije nakon rezervacije
 book#:#book_post_booking_text#:#Tekst
 book#:#book_post_booking_text_info#:#Koristite rezervirana mjesta za dodavanje pojedinosti o rezervacijama. <br /> Rezervirano mjesto [OBJECT] će biti zamijenjeno odgovarajućim objektom rezervacije. <br /> Rezervirano mjesto [PERIOD] će biti zamijenjen odgovarajućim razdobljem rezervacije.
 book#:#book_pref_book_cron#:#Booking with Preferences###04 06 2021 new variable
-book#:#book_pref_book_cron_info#:#Automatically book pools using preferences after the deadline###04 06 2021 new variable
+book#:#book_pref_book_cron_info#:#Automatically allocate bookings based on preferences after expiration of deadline.###15 06 2026 new variable
 book#:#book_pref_deadline#:#Deadline###04 06 2021 new variable
-book#:#book_pref_deadline_info#:#Preferences can be given up to this point.###29 07 2022 new variable
+book#:#book_pref_deadline_info#:#Preferences can be stated up to this point.###15 06 2026 new variable
 book#:#book_pref_overview#:#Overview###04 06 2021 new variable
-book#:#book_preference_info#:#Please select %1 preference(s) until %2. After the deadline bookings will be done automatically based on the preferences of all users.###04 06 2021 new variable
+book#:#book_preference_info#:#Please select %1 preference(s) by %2. After this deadline, bookings will be allocated automatically, taking into consideration the preferences of all users.###15 06 2026 new variable
 book#:#book_preferences#:#Preferences###04 06 2021 new variable
-book#:#book_preferences_saved#:#The preferences have been saved.###04 06 2021 new variable
+book#:#book_preferences_saved#:#Your preferences have been saved.###15 06 2026 new variable
 book#:#book_public_log#:#Javne rezervacije
 book#:#book_public_log_info#:#Korisnici koji imaju samo dopuštenje za čitanje vidjet će i rezervacije drugih korisnika.
 book#:#book_recurrence#:#Recurrence###26 08 2024 new variable
@@ -2712,31 +2712,31 @@ book#:#book_schedule_type_fixed#:#Fiksni raspored
 book#:#book_schedule_type_fixed_info#:#Ovaj tip se može koristiti za sobe, video projektore i slično.
 book#:#book_schedule_type_none#:#Nema rasporeda
 book#:#book_schedule_type_none_direct#:#No Schedule, Direct Booking###04 06 2021 new variable
-book#:#book_schedule_type_none_direct_info#:#This type can be used for seminar papers, seminar places and such. Participants can book items directly.###04 06 2021 new variable
+book#:#book_schedule_type_none_direct_info#:#This booking mode is ideal for presentation topics or places in seminars that do not require set times. Participants can book items directly on a first come, first served basis. Each item can only be booked once per participant.###15 06 2026 new variable
 book#:#book_schedule_type_none_info#:#Ova vrsta može se koristiti za seminarske radove, mjesta na seminarima i slično.
 book#:#book_schedule_type_none_preference#:#No Schedule, Using Preferences###04 06 2021 new variable
-book#:#book_schedule_type_none_preference_info#:#This type can be used for seminar papers, seminar places and such. Participants will indicate their preferences. Items will be assigned automatically after the preferences deadline.###04 06 2021 new variable
+book#:#book_schedule_type_none_preference_info#:#This booking mode is ideal for presentation topics, places in seminars or similar. Participants get to indicate their preferences in terms of which items they are most interested in. Items will then be allocated automatically after the preferences deadline has passed.###15 06 2026 new variable
 book#:#book_schedule_updated#:#Ažuriran je raspored rezervacija.
 book#:#book_schedule_warning_edit#:#Trenutno nema raspoloživog rasporeda. Kako biste koristili bazen za rezervacije, prvo morate kreirati raspored rezervacija (ili se prebaciti na drugi tip bazena rezervacija).
 book#:#book_schedules#:#Rasporedi
 book#:#book_select_pool#:#Select Pool###04 06 2021 new variable
 book#:#book_set_cancel#:#Otkaži rezervaciju
-book#:#book_set_delete#:#Delete###04 06 2021 new variable
+book#:#book_set_delete#:#Delete Booking###15 06 2026 new variable
 book#:#book_show_message#:#Show Message###26 08 2024 new variable
 book#:#book_title_description_nr#:#Title; Description; Number of Units###26 08 2024 new variable
 book#:#book_title_description_nr_info#:#Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item.###26 08 2024 new variable
-book#:#book_too_many_preferences#:#You selected too many preferences. The preferences have not been saved.###04 06 2021 new variable
+book#:#book_too_many_preferences#:#You have selected too many preferences. Your preferences have not been saved.###15 06 2026 new variable
 book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.###16 12 2025 new variable
 book#:#book_type_warning#:#Trenutno nema dostupnih objekata za rezervaciju. Kako biste koristili pool rezervacija, prvo morate kreirati objekte rezervacija.
 book#:#book_week#:#Week###26 08 2024 new variable
-book#:#book_your_bookings#:#Your Reservations###04 06 2021 new variable
+book#:#book_your_bookings#:#Your Bookings###15 06 2026 new variable
 book#:#book_your_preferences#:#Your Preferences###04 06 2021 new variable
 book#:#book_your_reservations#:#Vaše rezervacije
 book#:#booking_multiple_succesfully#:#Rezervacije su uspješno kreirane.
 book#:#booking_nr_of_items#:#Broj stavki
 book#:#obj_book_duplicate#:#Kopira bazen rezervacija
 book#:#participants#:#Sudionici
-book#:#reservation_deleted#:#Reservation deleted###04 06 2021 new variable
+book#:#reservation_deleted#:#Booking deleted.###15 06 2026 new variable
 buddysystem#:#buddy_allow_to_contact_me#:#Dopusti da me se kontaktira
 buddysystem#:#buddy_allow_to_contact_me_info#:#Ako je aktivirano, drugi korisnici mogu mi slati upite za kontakt.
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Potvrdite zahtjev
@@ -2835,7 +2835,7 @@ certificate#:#certificate_export#:#Izvoz
 certificate#:#certificate_failed#:#nije prošao
 certificate#:#certificate_file_basename#:#Certifikat
 certificate#:#certificate_id#:#Certificate ID###26 08 2024 new variable
-certificate#:#certificate_issue_date#:#Issue Date###26 08 2024 new variable
+certificate#:#certificate_issue_date#:#Date of Issue###15 06 2026 new variable
 certificate#:#certificate_learning_progress_must_be_active#:#Mogu se odabrati samo objekti s aktivnim napretkom učenja. Napredak učenja deaktiviran je za sljedeće objekte: %s
 certificate#:#certificate_letter#:#Pismo (11 inča x 8,5 inča)
 certificate#:#certificate_letter_landscape#:#Pismo, poprečno (8.5 inch x 11 inch)
@@ -2888,7 +2888,7 @@ certificate#:#certificate_settings#:#Postavke certifikata
 certificate#:#certificate_short_name#:#Kratki naslov datoteke certifikata
 certificate#:#certificate_short_name_description#:#Unesite kratki naslov za naziv certifikata. Kratki naslov bit će dio naziva certifikata: YYMMDD_ [prezime] _ [SHORT_TITLE] _certificate.pdf.
 certificate#:#certificate_text#:#Tekst certifikata
-certificate#:#certificate_text_info#:#Please enter the certificate text. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text.###26 08 2024 new variable
+certificate#:#certificate_text_info#:#Please enter the text you want to have displayed on the certificate. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text.###15 06 2026 new variable
 certificate#:#certificate_unit_description#:#Mjerne jedinice unesite uvijek u oblikz VRIJEDNOST [cm | mm | u | pt | pc | px | em], npr. 10 mm ili 3 inča
 certificate#:#certificate_usage#:#Imajte na umu da je upotreba i izdavanje certifikata moguće samo ako je pokrenut Java poslužitelj ILIAS-a. Konfiguracija za Java poslužitelja dostupna je na glavnoj stranici administracije pod 'Opće postavke' poslužitelja,  podkartica Java poslužitelj.
 certificate#:#certificate_var_max_points#:#46
@@ -2913,11 +2913,11 @@ certificate#:#certificate_var_user_title#:#Dr.
 certificate#:#certificate_var_user_zipcode#:#12345
 certificate#:#cmix_cert_ph_object_description#:#Description###04 06 2021 new variable
 certificate#:#cmix_cert_ph_object_title#:#Title of the xAPI/cmi5 Object###04 06 2021 new variable
-certificate#:#cmix_cert_ph_reached_score#:#Reached score as percentage###04 06 2021 new variable
+certificate#:#cmix_cert_ph_reached_score#:#Score achieved in percent###15 06 2026 new variable
 certificate#:#default_background_info#:#Ova će pozadinska slika biti odabrana kao zadana pozadina za sve certifikate. Ako vam treba druga pozadinska slika u certifikatu, morate je učitati u urednika certifikata.
 certificate#:#download_certificate#:#Preuzmi certifikat
 certificate#:#learning_progress_deactivated#:#Napredak učenja za ovaj objekt je deaktiviran. Da biste uredili predložak certifikata i dobili korisničke certifikate, napredak učenja za ovaj objekt mora biti aktiviran.
-certificate#:#lti_cert_ph_mastery_score#:#Mastery score as percentage###04 06 2021 new variable
+certificate#:#lti_cert_ph_mastery_score#:#Score achieved in percent###15 06 2026 new variable
 certificate#:#lti_cert_ph_object_description#:#Description###04 06 2021 new variable
 certificate#:#lti_cert_ph_object_title#:#Title of the LTI Consumer Object###04 06 2021 new variable
 certificate#:#lti_cert_ph_reached_score#:#Reached score as percentage###04 06 2021 new variable
@@ -2928,6 +2928,7 @@ certificate#:#persistent_certificate_mode_instant#:#Izravno
 certificate#:#persistent_certificate_mode_instant_info#:#Ova se opcija preporučuje za sustave s niskim do osrednjim korisničkim interakcijama. Sustavi koji su skloni dugom vremenu učitavanja tijekom izrade višestrukih korisničkih certifikata trebaju se prebaciti na opciju "Cron Job".
 chatroom#:#allow_anonymous#:#Allow Anonymous Login
 chatroom#:#allow_custom_usernames#:#Allow Custom User Names
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.###15 06 2026 new variable
 chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the ‘Permissions’ tab to allow anonymous user access to this repository item.
 chatroom#:#auto_scroll#:#Scroll to Bottom
 chatroom#:#autogen_usernames#:#Auto Generated User Names
@@ -2954,7 +2955,7 @@ chatroom#:#chat_deletion_interval_value#:#Value
 chatroom#:#chat_deletion_ival_max_val#:#The maximum value for the chose unit '%s' is: %s
 chatroom#:#chat_deletion_section_head#:#Deletion of old Messages
 chatroom#:#chat_enable_history#:#Enable History###29 07 2022 new variable
-chatroom#:#chat_enable_history_info#:#Everybody can read and export past public chat messages in the tab „History“. Messages from within private rooms are only accessible by invited users.###29 07 2022 new variable
+chatroom#:#chat_enable_history_info#:#Everybody can read and export past chat messages in the tab „History“.###15 06 2026 new variable
 chatroom#:#chat_error_log_info#:#Please define an absolute server path to the chat server's error log file (e.g.: /var/www/ilias/data/chat_error.log). If you do not specify a path, the chat server will automatically create a file located in the chat server directory.
 chatroom#:#chat_functions#:#Chat Functions###26 08 2024 new variable
 chatroom#:#chat_https_cert_info#:#Please define an absolute server path to the SSL certificate file (e.g.: /etc/ssl/certs/server.pem).
@@ -3024,6 +3025,7 @@ chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Chatroom
 chatroom#:#chat_user_x_is_typing#:#User %s is typing ...###29 07 2022 new variable
 chatroom#:#chat_users_are_typing#:#Multiple users are typing ...###29 07 2022 new variable
 chatroom#:#chat_whisper#:#Whisper
+chatroom#:#chatroom_anonymous_default#:#Anonymous ####15 06 2026 new variable
 chatroom#:#chatroom_auth#:#Authentication
 chatroom#:#chatroom_auth_btn_txt#:#Generate Keys
 chatroom#:#chatroom_auth_key#:#Authentication-Key
@@ -3130,14 +3132,14 @@ cmix#:#activity_id_info#:#This ID is primarily used for the display of data from
 cmix#:#answered_info#:#Indicates the actor replied to a question, where the object is generally an activity representing the question. The text of the answer will often be included in the response inside result.###04 06 2021 new variable
 cmix#:#answered_label#:#Statements with the verb 'answered'###04 06 2021 new variable
 cmix#:#btn_change_registration#:#Submit###04 06 2021 new variable
-cmix#:#btn_create_lrs_type#:#Add LRS-Type###04 06 2021 new variable
+cmix#:#btn_create_lrs_type#:#Add LRS Type###15 06 2026 new variable
 cmix#:#btn_create_registration#:#Submit###04 06 2021 new variable
 cmix#:#change_registration#:#E-Mail address for Registration###04 06 2021 new variable
 cmix#:#cmiexit#:#You can now close the window.###21 05 2025 new variable
 cmix#:#cmix_add#:#Add xAPI/cmi5 Object###04 06 2021 new variable
 cmix#:#cmix_add_cmi5_lm#:#cmi5 Learning Module###04 06 2021 new variable
 cmix#:#cmix_add_cmi5_lm_info#:#This option should be used when the content is a cmi5 compliant learning module. Related features like suitable reportings are available without further configurations.###04 06 2021 new variable
-cmix#:#cmix_add_lrs_type#:#LRS-Type###04 06 2021 new variable
+cmix#:#cmix_add_lrs_type#:#LRS Type###15 06 2026 new variable
 cmix#:#cmix_add_lrs_type_info#:#These Types of Learning Record Stores have been made available in the ILIAS Administration.###02 02 2025 new variable
 cmix#:#cmix_add_source#:#Source###04 06 2021 new variable
 cmix#:#cmix_add_source_external_app#:#Resource not launched by ILIAS###04 06 2021 new variable
@@ -3200,7 +3202,7 @@ cmix#:#conf_bypass_proxy_disabled#:#xAPI-Proxy to get immediately data###04 06 2
 cmix#:#conf_bypass_proxy_enabled#:#CronJob to check Learning Record Store###04 06 2021 new variable
 cmix#:#conf_bypass_proxy_info#:#In most cases it is recommended to use the xAPI-Proxy. Use the CronJob in case of Limitations regarding Resource or Server.###04 06 2021 new variable
 cmix#:#conf_cronjob_neccessary#:#CronJob necessary for Learning Progress###04 06 2021 new variable
-cmix#:#conf_cronjob_neccessary_info#:#By activating this option, xAPI-Objects using this LRS-Type could not use the xAPI-Proxy to get immediately data for Detection of Learning Progress. Use only the CronJob in case of limitations regarding resources or server.###04 06 2021 new variable
+cmix#:#conf_cronjob_neccessary_info#:#By activating this option, xAPI-Objects using this LRS type could not use the xAPI-Proxy to get immediately data for Detection of Learning Progress. Use only the CronJob in case of limitations regarding resources or server.###15 06 2026 new variable
 cmix#:#conf_delete_data#:#Delete Data in LRS###28 10 2024 new variable
 cmix#:#conf_delete_data_info#:#Deletion is currently only possible with the Learning Record Store (LRS) LearningLocker. Only use the options for deleting the user identification if the data has been pseudonymized in the LRS.###28 10 2024 new variable
 cmix#:#conf_delete_data_opt0#:#Never###28 10 2024 new variable
@@ -3226,8 +3228,8 @@ cmix#:#conf_new_window#:#New Window###29 07 2022 new variable
 cmix#:#conf_new_window_info#:#The content is opened in a new window. When leaving the content this window gets closed.###29 07 2022 new variable
 cmix#:#conf_own_window#:#Own Window###04 06 2021 new variable
 cmix#:#conf_own_window_info#:#The content is opened in the same window and replaces the ILIAS Screen. When leaving the content the user returns to ILIAS.###04 06 2021 new variable
-cmix#:#conf_privacy_comment_default#:#Indication to user###04 06 2021 new variable
-cmix#:#conf_privacy_ident#:#User identification###26 08 2024 new variable
+cmix#:#conf_privacy_comment_default#:#Indication to User###15 06 2026 new variable
+cmix#:#conf_privacy_ident#:#User Identification###15 06 2026 new variable
 cmix#:#conf_privacy_ident_il_uuid_ext_account#:#External User ID combined with a unique ILIAS platform id formatted as an E-Mail address###26 08 2024 new variable
 cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###26 08 2024 new variable
 cmix#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail address###26 08 2024 new variable
@@ -3264,7 +3266,7 @@ cmix#:#conf_use_proxy_info#:#The xAPI proxy provides real-time data to determine
 cmix#:#conf_use_proxy_info_cmi5#:#The xAPI proxy provides real-time data to determine learning progress in ILIAS. The proxy reduces personal data in accordance with the selected data protection options. The xAPI proxy is mandatory for cmi5 objects.###28 10 2024 new variable
 cmix#:#conf_use_proxy_info_xapi#:#The xAPI proxy provides real-time data to determine learning progress in ILIAS. The proxy reduces personal data in accordance with the selected data protection options. If the xAPI proxy is deactivated, the learning content writes the learning progress directly to the LRS. This data must then also be retrieved directly from the LRS. The cron job "xAPI/cmi5 get results" is required to determine the learning progress.###28 10 2024 new variable
 cmix#:#conf_user_ident#:#User identification###04 06 2021 new variable
-cmix#:#conf_user_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formatted as an E-Mail adress###04 06 2021 new variable
+cmix#:#conf_user_ident_il_uuid_ext_account#:#External User ID combined with a unique ILIAS platform id formatted as an E-Mail adress###15 06 2026 new variable
 cmix#:#conf_user_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###04 06 2021 new variable
 cmix#:#conf_user_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail adress###04 06 2021 new variable
 cmix#:#conf_user_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.###04 06 2021 new variable
@@ -3275,20 +3277,20 @@ cmix#:#conf_user_ident_il_uuid_user_id_info#:#This is identical to each call, bu
 cmix#:#conf_user_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:###04 06 2021 new variable
 cmix#:#conf_user_ident_real_email#:#E-Mail Address###04 06 2021 new variable
 cmix#:#conf_user_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)###04 06 2021 new variable
-cmix#:#conf_user_name#:#User name###04 06 2021 new variable
-cmix#:#conf_user_name_firstname#:#First name###04 06 2021 new variable
+cmix#:#conf_user_name#:#User Name###15 06 2026 new variable
+cmix#:#conf_user_name_firstname#:#First Name###15 06 2026 new variable
 cmix#:#conf_user_name_firstname_info#:#Sends the first name of the user name from ILIAS###04 06 2021 new variable
-cmix#:#conf_user_name_fullname#:#Entire name###04 06 2021 new variable
+cmix#:#conf_user_name_fullname#:#Entire Name###15 06 2026 new variable
 cmix#:#conf_user_name_fullname_info#:#Sends title, first name and last name###04 06 2021 new variable
 cmix#:#conf_user_name_info#:#Sending an user name is usually not required.###04 06 2021 new variable
-cmix#:#conf_user_name_lastname#:#Title and last name###04 06 2021 new variable
+cmix#:#conf_user_name_lastname#:#Title and Last Name###15 06 2026 new variable
 cmix#:#conf_user_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name###04 06 2021 new variable
 cmix#:#conf_user_name_none#:#No one###04 06 2021 new variable
 cmix#:#conf_user_name_none_info#:#Sends '-' instead of a name###04 06 2021 new variable
 cmix#:#conf_user_registered_mail#:#Registered E-Mail-Address###04 06 2021 new variable
 cmix#:#content_privacy_ident#:#User identification for resource###04 06 2021 new variable
 cmix#:#content_privacy_name#:#User name for resource###04 06 2021 new variable
-cmix#:#create_lrs_type_form#:#New LRS-Type###04 06 2021 new variable
+cmix#:#create_lrs_type_form#:#New LRS Type###15 06 2026 new variable
 cmix#:#create_registration#:#Register your E-Mail address###04 06 2021 new variable
 cmix#:#cron_xapi_del#:#Delete xAPI/cmi5 data in the Learning Record Store###18 07 2025 new variable
 cmix#:#cron_xapi_del_desc#:#Data is deleted according to the settings of the xAPI/cmi5 objects.###18 07 2025 new variable
@@ -3298,7 +3300,7 @@ cmix#:#description_info#:#The description will be shown below the title.###04 06
 cmix#:#download_certificate#:#Download Certificate###04 06 2021 new variable
 cmix#:#duration_info#:#The duration can be entered e.g. for answering a task. The duration is set to the default value 0 seconds (PT00.000S) by this option.###04 06 2021 new variable
 cmix#:#duration_label#:#Duration###04 06 2021 new variable
-cmix#:#edit_lrs_type_form#:#LRS-Type###04 06 2021 new variable
+cmix#:#edit_lrs_type_form#:#LRS Type###15 06 2026 new variable
 cmix#:#failed_info#:#Indicates the actor did not successfully pass an activity to a level of predetermined satisfaction.###04 06 2021 new variable
 cmix#:#failed_label#:#Statements with the verb 'failed'###04 06 2021 new variable
 cmix#:#fetch_xapi_statements#:#Fetch results from Learning Record Store###04 06 2021 new variable
@@ -3328,14 +3330,14 @@ cmix#:#highscore_top_table#:#Top Ranking###04 06 2021 new variable
 cmix#:#highscore_top_table_description#:#Participants are presented with a table containing the top rankings.###04 06 2021 new variable
 cmix#:#highscore_wtime#:#Duration###04 06 2021 new variable
 cmix#:#highscore_wtime_description#:#A column containing the duration will be included in the ranking.###04 06 2021 new variable
-cmix#:#info_availability#:#Hereby you can operate the availability of the LRS-type within the magazine. All types can set on "allow existing ones" instead of being deleted.###04 06 2021 new variable
+cmix#:#info_availability#:#Hereby you can operate the availability of the LRS type within the magazine. All types can set on "allow existing ones" instead of being deleted.###15 06 2026 new variable
 cmix#:#info_description#:#This description will be shown when choosing the type for new objects.###04 06 2021 new variable
 cmix#:#info_external_lrs#:#A hint will be shown to users when dealing with an external LRS. An external LRS is characterized by insufficient influence on the LRS the by the operator of the ILIAS-installation. This is the case when there are no rights to delete.###04 06 2021 new variable
 cmix#:#info_lrs_endpoint#:#URL of the endpoint without '/' at the end###04 06 2021 new variable
 cmix#:#info_lrs_key#:#Key or login for access, i.e. 12345###04 06 2021 new variable
 cmix#:#info_lrs_secret#:#Shared secret / Password, i.e. secret###04 06 2021 new variable
 cmix#:#info_privacy_comment_default#:#Please insert, if required, an additional indication on data security when using this LRS.###04 06 2021 new variable
-cmix#:#info_remarks#:#Place to write down your comments on this LRS-type here.###04 06 2021 new variable
+cmix#:#info_remarks#:#Place to write down your comments on this LRS type here.###15 06 2026 new variable
 cmix#:#info_title#:#This title will be shown when choosing the type for new objects.###04 06 2021 new variable
 cmix#:#initialized_info#:#Indicates the activity provider has determined that the actor successfully started an activity.###04 06 2021 new variable
 cmix#:#initialized_label#:#Statements with the verb 'initialized'###04 06 2021 new variable
@@ -3355,15 +3357,15 @@ cmix#:#passed_label#:#Statements with the verb 'passed'###04 06 2021 new variabl
 cmix#:#privacy_options#:#Options for data security###04 06 2021 new variable
 cmix#:#progressed_info#:#Indicates a value of how much of an actor has advanced or moved through an activity.###04 06 2021 new variable
 cmix#:#progressed_label#:#Statements with the verb 'progressed'###04 06 2021 new variable
-cmix#:#registration_saved_successfully#:#Registration saved successfully###04 06 2021 new variable
+cmix#:#registration_saved_successfully#:#Saved successfully###15 06 2026 new variable
 cmix#:#satisfied_info#:#Indicates that the authority or activity provider determined the actor has fulfilled the criteria of the object or activity.###04 06 2021 new variable
 cmix#:#satisfied_label#:#Statements with the verb 'satisfied'###04 06 2021 new variable
 cmix#:#sect_learning_progress_options#:#Options for Learning Progress###04 06 2021 new variable
 cmix#:#show_debug#:#Display Learning Experiences###04 06 2021 new variable
-cmix#:#show_debug_info#:#The Learning Experiences of other users could be displayed if the right 'View learning experiences of other users' is set.###04 06 2021 new variable
+cmix#:#show_debug_info#:#Shows tab ‘Learning Experiences’ with information about own interaction with cmi5 module. Data of other users is displayed if permission ‘View learning experiences of other users’ is given.###15 06 2026 new variable
 cmix#:#tab_export#:#Export###04 06 2021 new variable
 cmix#:#tab_info#:#Info###04 06 2021 new variable
-cmix#:#tab_lrs_types#:#LRS-Types###04 06 2021 new variable
+cmix#:#tab_lrs_types#:#LRS Types###15 06 2026 new variable
 cmix#:#tab_scoring#:#Ranking###04 06 2021 new variable
 cmix#:#tab_settings#:#Settings###04 06 2021 new variable
 cmix#:#tab_statements#:#Learning Experiences###04 06 2021 new variable
@@ -3371,7 +3373,7 @@ cmix#:#tbl_action_raw_data#:#View Raw Data###04 06 2021 new variable
 cmix#:#tbl_lrs_type_availability#:#Availability###04 06 2021 new variable
 cmix#:#tbl_lrs_type_title#:#Title###04 06 2021 new variable
 cmix#:#tbl_lrs_type_usages#:#Usages Count###04 06 2021 new variable
-cmix#:#tbl_lrs_types_header#:#LRS-Types###04 06 2021 new variable
+cmix#:#tbl_lrs_types_header#:#LRS Types###15 06 2026 new variable
 cmix#:#tbl_statements_actor#:#User###04 06 2021 new variable
 cmix#:#tbl_statements_date#:#Date###04 06 2021 new variable
 cmix#:#tbl_statements_object#:#Object###04 06 2021 new variable
@@ -3515,7 +3517,7 @@ common#:#access_unlimited#:#Neograničen
 common#:#access_until#:#Vrijedi do
 common#:#access_users#:#Prijavljeni korisnici
 common#:#accesscount_registered_users#:#Čitano od određenog broja različitih korisnika ILIAS-a
-common#:#accessibility_control_concept#:#Accessibility Control Concept###04 06 2021 new variable
+common#:#accessibility_control_concept#:#Accessibility###15 06 2026 new variable
 common#:#account#:#My Account###04 06 2021 new variable
 common#:#account_expires_body#:#Vaš račun je vremenski ograničen, istječe u:
 common#:#account_expires_subject#:#Vaš račun istječe
@@ -3850,7 +3852,7 @@ common#:#copy_all#:#Kopiraj sve
 common#:#copy_n_of_suffix#:#- Kopija (%1$s)
 common#:#copy_of#:#Kopija
 common#:#copy_of_suffix#:#=- kopija
-common#:#copy_perma_link#:#Copy link to clipboard###21 05 2025 new variable
+common#:#copy_perma_link#:#Copy Link to Clipboard###15 06 2026 new variable
 common#:#copy_selected_items#:#Kopiraj
 common#:#count#:#Količina
 common#:#counter_novelty#:#News###26 08 2024 new variable
@@ -3974,8 +3976,8 @@ common#:#deleted_user#:#Korisnik je izbrisan
 common#:#deleted_users#:#Izbrisani korisnici
 common#:#deletion_notification#:#"%s" has canceled the attendance of session "%s".###04 06 2021 new variable
 common#:#deliver#:#Isporuči
-common#:#deny_usr_agreement#:#Do not accept terms of service?###04 06 2021 new variable
-common#:#deny_usr_agreement_btn#:#Not Accept###04 06 2021 new variable
+common#:#deny_usr_agreement#:#Do Not Accept Terms of Service?###15 06 2026 new variable
+common#:#deny_usr_agreement_btn#:#Do Not Accept###15 06 2026 new variable
 common#:#department#:#Odjel
 common#:#desc#:#Opis
 common#:#description#:#Opis
@@ -4168,7 +4170,7 @@ common#:#file_info#:#Podaci o datoteci
 common#:#file_is_infected#:#Datoteka je zaražena virusom.
 common#:#file_no_valid_file_type#:#Ova vrsta datoteke nije dopuštena.
 common#:#file_not_found#:#Datoteka nije pronađena
-common#:#file_not_found_sec#:#This file cannot be found in ILIAS or has been blocked due to security reasons.###29 07 2022 new variable
+common#:#file_not_found_sec#:#This file cannot be found in ILIAS or has been blocked for security reasons.###15 06 2026 new variable
 common#:#file_not_valid#:#Datoteka nije važeća!
 common#:#file_notice#:#Maksimalna veličina prijenosa:
 common#:#file_objects#:#File Objects###04 06 2021 new variable
@@ -4178,8 +4180,8 @@ common#:#file_rollback_select_exact_one#:#Može se odabrati samo jedna verzija d
 common#:#file_some_invalid_file_types_removed#:#Neke vrste datoteka nisu dopuštene i uklonjene su.
 common#:#file_suffix_repl#:#Zamjena sufiksa učitanih datoteka
 common#:#file_suffix_repl_info#:#Unesite vrste datoteka sa sufiksom (odvojene zarezom) koji će se prenijeti u '.sec' prilikom prijenosa u web prostor kako bi se spriječilo izvršavanje ove datoteke. To se radi prema zadanim postavkama za ove sufikse:
-common#:#file_system_clean_temp_dir_cron#:#Clean temp directory###29 07 2022 new variable
-common#:#file_system_clean_temp_dir_cron_info#:#This job cleans the ILIAS temp-directory of files, which are older than 10 days. This counteracts the accumulation of unused files and therefore prevents an increased use of disk space by the temp directory.###29 07 2022 new variable
+common#:#file_system_clean_temp_dir_cron#:#Clean Temp Directory###15 06 2026 new variable
+common#:#file_system_clean_temp_dir_cron_info#:#This cron job cleans the ILIAS temp-directory of files which are older than 10 days. This prevents the accumulation of unused files which would otherwise lead to the temp directory taking up too much disk space.###15 06 2026 new variable
 common#:#file_updated#:#Datoteka je ažurirana.
 common#:#file_upload_pending#:#Datoteka na čekanju
 common#:#file_valid#:#Datoteka je valjana!
@@ -4283,7 +4285,7 @@ common#:#glo_new#:#Novi pojmovnik
 common#:#global#:#Globalno
 common#:#global_default#:#Globalni zadani
 common#:#global_fixed#:#Global fiksirano
-common#:#global_role_assignment#:#Globale Rollenzuweisung###04 06 2021 new variable
+common#:#global_role_assignment#:#Global Role Assignment###15 06 2026 new variable
 common#:#global_settings#:#Globalne postavke
 common#:#global_user#:#Globalni korisnici
 common#:#glossaries#:#Rječnici
@@ -4317,7 +4319,7 @@ common#:#grp_dismiss_myself#:#Jeste li sigurni da želite okončati članstvo u 
 common#:#grp_edit#:#Uredi skupinu
 common#:#grp_err_administrator_required#:#Član se nije mogao ukloniti, potreban je barem jedan administrator po skupini!
 common#:#grp_header_edit_members#:#Uredi članove
-common#:#grp_list_members#:#List members###04 06 2021 new variable
+common#:#grp_list_members#:#List Members###15 06 2026 new variable
 common#:#grp_list_reg#:#Registracija
 common#:#grp_list_reg_end#:#Kraj registracije
 common#:#grp_list_reg_limit_full#:#Nema slobodnih mjesta
@@ -4593,7 +4595,7 @@ common#:#local#:#Lokalno
 common#:#local_language_file#:#datoteka prilagođenog jezika
 common#:#local_language_files#:#datoteke prilagođenog jezika
 common#:#local_languages_already_installed#:#Odabrane datoteke prilagođenog jezika već su instalirane
-common#:#local_role_assignment#:#Lokale Rollenzuweisung###04 06 2021 new variable
+common#:#local_role_assignment#:#Local Role Assignment###15 06 2026 new variable
 common#:#location#:#Lokacija
 common#:#locator#:#Lokacija:
 common#:#log_in#:#Prijava
@@ -4721,13 +4723,13 @@ common#:#mm_comments#:#Comments###04 06 2021 new variable
 common#:#mm_communication#:#Communication###04 06 2021 new variable
 common#:#mm_contacts#:#Contacts###04 06 2021 new variable
 common#:#mm_dashboard#:#Dashboard###04 06 2021 new variable
-common#:#mm_enrolments#:#Enrolments###04 06 2021 new variable
+common#:#mm_enrolments#:#Course Memberships###15 06 2026 new variable
 common#:#mm_favorites#:#Favourites###04 06 2021 new variable
 common#:#mm_learning_history#:#Learning History###04 06 2021 new variable
 common#:#mm_learning_progress#:#Learning Progress###04 06 2021 new variable
 common#:#mm_mail#:#Mail###04 06 2021 new variable
 common#:#mm_news#:#News###04 06 2021 new variable
-common#:#mm_notes#:#Notes###04 06 2021 new variable
+common#:#mm_notes#:#Private Notes###15 06 2026 new variable
 common#:#mm_organisation#:#Organisation###04 06 2021 new variable
 common#:#mm_personal_and_shared_r#:#Personal and Shared Resources###04 06 2021 new variable
 common#:#mm_personal_workspace#:#Personal Workspace###04 06 2021 new variable
@@ -4779,7 +4781,7 @@ common#:#move#:#Pomakni
 common#:#moveChapter#:#Pomakni
 common#:#movePage#:#Pomakni
 common#:#move_selected_items#:#Pomakni
-common#:#msg_bt_download_started#:#ILIAS is generating a ZIP archive of all available files. You can download them from the Notification Center (bell icon) on top right.###04 06 2021 new variable
+common#:#msg_bt_download_started#:#A ZIP archive with all download files is now created in the background. You can see the status of your background processes at the top right in the Notification Centre. You can also download the ZIP archive there.###15 06 2026 new variable
 common#:#msg_cancel#:#Radnja otkazana
 common#:#msg_clear_clipboard#:#Međuspremnik je očišćen
 common#:#msg_cloned#:#Odabrani objekt(i) je(su) kopiran(i)
@@ -4793,7 +4795,7 @@ common#:#msg_deleted_role#:#Uloga je izbrisana
 common#:#msg_deleted_roles_rolts#:#Uloge i predlošci uloga su izbrisani
 common#:#msg_failed#:#Nažalost, akcija nije uspjela
 common#:#msg_form_save_error#:#Podaci iz obrasca nisu se mogli spremiti. Molimo provjerite u poljima za unos poruke o pogreškama.
-common#:#msg_info_blacklisted#:#The files cannot be uploaded due to security reasons.###04 06 2021 new variable
+common#:#msg_info_blacklisted#:#This file cannot be uploaded for security reasons.###15 06 2026 new variable
 common#:#msg_input_char_limit_max#:#You have entered more characters than allowed.###26 08 2024 new variable
 common#:#msg_input_char_limit_min#:#You have to enter the minimum of characters specified.###26 08 2024 new variable
 common#:#msg_input_does_not_match_regexp#:#Unesite valjanu vrijednost.
@@ -4883,7 +4885,7 @@ common#:#next#:#Dalje
 common#:#no#:#Ne
 common#:#no_access_item#:#Nemate dopuštenje za pristup ovoj stavci.
 common#:#no_access_item_public#:#Kako biste pristupili ovoj stavci, morate biti prijavljeni i imati odgovarajuća dopuštenja.
-common#:#no_accessibility_control_concept_description#:#There is currently no Accessibility Control Concept provided with this installation. Please contact the <a href="%1$s">Accessibility Point of Contact</a>.###04 06 2021 new variable
+common#:#no_accessibility_control_concept_description#:#There is currently no Accessibility document available for this installation. Please contact your <a href="%1$s">Contact Point for Accessibility Issues</a>.###15 06 2026 new variable
 common#:#no_checkbox#:#Niste odabrali nijednu stavku.
 common#:#no_condition_selected#:#Molimo odaberite jedan preduvjet.
 common#:#no_date#:#Nema datuma
@@ -4955,8 +4957,8 @@ common#:#obj_chap#:#Poglavlje
 common#:#obj_chta#:#Soba za razgovore
 common#:#obj_chtr#:#Soba za razgovore
 common#:#obj_chtr_duplicate#:#Copy Chat Room###29 07 2022 new variable
-common#:#obj_cmis#:#xAPI/cmi5###04 06 2021 new variable
-common#:#obj_cmis_desc#:#Learning Record Store Types Configuration###04 06 2021 new variable
+common#:#obj_cmis#:#LRS###15 06 2026 new variable
+common#:#obj_cmis_desc#:#Configure the Types of Learning Record Stores###15 06 2026 new variable
 common#:#obj_cmix#:#xAPI/cmi5###04 06 2021 new variable
 common#:#obj_cmps#:#Dodaci
 common#:#obj_cmps_desc#:#Opće postavke za dodatke
@@ -5052,7 +5054,7 @@ common#:#obj_mobs#:#Medijski objekti i bazeni
 common#:#obj_mobs_desc#:#Postavke za medijske objekte i bazene medija.
 common#:#obj_not_found#:#Objekt nije pronađen
 common#:#obj_nota#:#Notifications###29 07 2022 new variable
-common#:#obj_nota_desc#:#Notification Administration###29 07 2022 new variable
+common#:#obj_nota_desc#:#Notifications Administration###15 06 2026 new variable
 common#:#obj_nots#:#Notes###04 06 2021 new variable
 common#:#obj_nots_desc#:#Notes settings###04 06 2021 new variable
 common#:#obj_nwss#:#Vijesti i web sažeci
@@ -6071,17 +6073,17 @@ common#:#wiki#:#Wiki
 common#:#wiki_add#:#Dodaj Wiki
 common#:#wiki_new#:#Novi Wiki
 common#:#with#:#s
-common#:#withdraw_consent#:#Withdraw Acceptance###04 06 2021 new variable
-common#:#withdraw_consent_info_internal#:#If you confirm here, your account will be deleted.###04 06 2021 new variable
-common#:#withdraw_usr_agreement#:#Withdraw###04 06 2021 new variable
+common#:#withdraw_consent#:#Withdraw Consent###15 06 2026 new variable
+common#:#withdraw_consent_info_internal#:#If you click on ‘Withdraw Consent’, your account will be deleted.###15 06 2026 new variable
+common#:#withdraw_usr_agreement#:#Withdraw Consent###15 06 2026 new variable
 common#:#withdrawal_complete#:#Withdrawal of consent complete.###04 06 2021 new variable
 common#:#withdrawal_complete_deleted#:#Withdrawal of consent complete, account deleted.###04 06 2021 new variable
-common#:#withdrawal_complete_redirect#:#Withdrawal of consent complete. To have the account deleted, please contact your organisation.###04 06 2021 new variable
-common#:#withdrawal_mail_info#:#The following email will be sent to an administrator after confirming the withdrawal:[BR][BR]###04 06 2021 new variable
+common#:#withdrawal_complete_redirect#:#Withdrawal of consent complete. To have your account deleted, please contact your organisation.###15 06 2026 new variable
+common#:#withdrawal_mail_info#:#The following email will be sent to an administrator after confirming the withdrawal of your consent:[BR][BR]###15 06 2026 new variable
 common#:#withdrawal_mail_subject#:#Withdrawal of Consent to Terms of Service###04 06 2021 new variable
-common#:#withdrawal_mail_text#:#Dear Sir or Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installations terms of service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Kind regards[BR]%1$s###04 06 2021 new variable
-common#:#withdrawal_sure_account#:#Are you sure you want to confirm the withdrawal of consent?###04 06 2021 new variable
-common#:#withdrawal_sure_account_deletion#:#Are you sure you want to confirm the withdrawal of consent? Your user account will be irrevocably deleted.###04 06 2021 new variable
+common#:#withdrawal_mail_text#:#Dear Sir/Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installation’s Terms of Service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Yours faithfully[BR]%1$s###15 06 2026 new variable
+common#:#withdrawal_sure_account#:#Are you sure you want to confirm the withdrawal of your consent?###15 06 2026 new variable
+common#:#withdrawal_sure_account_deletion#:#Are you sure you want to confirm the withdrawal of your consent? This will result in your user account being irrevocably deleted.###15 06 2026 new variable
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure that you do not want to accept the Terms of Service? This will result in your user account being irrevocably deleted.###29 07 2022 new variable
 common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure that you do not want to accept the Terms of Service?###29 07 2022 new variable
 common#:#wizard_search_list#:#Vaša je pretraga dala sljedeće rezultate. Molimo odaberite jedan od njih.
@@ -6146,7 +6148,7 @@ cont#:#cont_skill_no_profile_selected#:#Please select a profile.###04 06 2021 ne
 cont#:#cont_skill_no_skill#:#Nema vrijednosti (resetiraj)
 cont#:#cont_skill_no_skills_selected#:#No competences have been selected yet. Please add at least one competence first under "Competence Selection".###26 08 2024 new variable
 cont#:#cont_skill_profile#:#Profile###04 06 2021 new variable
-cont#:#cont_skill_profiles#:#Assigned Profiles of Members###04 06 2021 new variable
+cont#:#cont_skill_profiles#:#Competence Profiles###15 06 2026 new variable
 cont#:#cont_skill_publish#:#Objavi
 cont#:#cont_skill_publish_auto#:#Automatski
 cont#:#cont_skill_publish_auto_info#:#Članovima su odmah vidljive dodjele kompetencija.
@@ -6238,7 +6240,7 @@ content#:#cont_add_file#:#Dodaj datoteku
 content#:#cont_add_images#:#Dodaj slike
 content#:#cont_add_popup#:#Dodaj skočni prozor
 content#:#cont_add_tab#:#Dodaj ploču
-content#:#cont_add_url#:#From URL###04 06 2021 new variable
+content#:#cont_add_url#:#Enter URL###15 06 2026 new variable
 content#:#cont_added_cell#:#Stupac je dodan
 content#:#cont_added_comment#:#Komentar je dodan u povijest.
 content#:#cont_added_tab#:#Dodan je panel.
@@ -6344,8 +6346,8 @@ content#:#cont_citation_selection_not_valid#:#Vaš odabir nije valjan
 content#:#cont_click_br_corner#:#Klikni na donji desni kut željenog područja.
 content#:#cont_click_center#:#Klikni na središte željenog područja.
 content#:#cont_click_circle#:#Klikni na točku kruga željenog područja.
-content#:#cont_click_edit#:#<b>Click</b> on elements to <b>edit</b> its properties.###04 06 2021 new variable
-content#:#cont_click_multi_select#:#<b>Click</b> on elements to <b>select</b> or deselect them.###04 06 2021 new variable
+content#:#cont_click_edit#:#To <b>edit</b> a page element, <b>click</b> on it.###15 06 2026 new variable
+content#:#cont_click_multi_select#:#<b>Click</b> on elements to <b>select</b> them.###15 06 2026 new variable
 content#:#cont_click_next_or_save#:#Klikni sljedeću točku poligona ili spremi područje. (Nije potrebno ponovno kliknuti na početnu točku ovog poligona!)
 content#:#cont_click_next_point#:#Klikni sljedeću točku poligona.
 content#:#cont_click_starting_point#:#Klikni početnu točku poligona.
@@ -6454,7 +6456,7 @@ content#:#cont_ed_go#:#Idi
 content#:#cont_ed_grid_col_width#:#Širina stupca
 content#:#cont_ed_grid_col_width_info#:#Širina stupca može se proširiti na više od 1/12 jedinica retka i ovisi o ukupnoj veličini zaslona. Uređaji su navedeni kao primjeri. Njihova veličina zaslona određuje konkretno ponašanje. 12/12 je jednako 100% širine.
 content#:#cont_ed_grid_col_widths#:#Širine stupaca
-content#:#cont_ed_insert_amdfrm#:#Insert Advanced Metadata###29 07 2022 new variable
+content#:#cont_ed_insert_amdfrm#:#Insert Custom Metadata###15 06 2026 new variable
 content#:#cont_ed_insert_amdpl#:#Insert Page List###04 06 2021 new variable
 content#:#cont_ed_insert_blog#:#Umetni blog
 content#:#cont_ed_insert_cach#:#Insert Consultation Hours###04 06 2021 new variable
@@ -6514,7 +6516,7 @@ content#:#cont_ed_split_page_next#:#Podijeli na sljedeću stranicu
 content#:#cont_ed_textitem#:#  Tekstualna stavka
 content#:#cont_ed_width#:#Širina
 content#:#cont_edit_base_image#:#Uredi pozadinsku sliku
-content#:#cont_edit_comp#:#Editing###04 06 2021 new variable
+content#:#cont_edit_comp#:#Edit###15 06 2026 new variable
 content#:#cont_edit_definition#:#Uredi definiciju
 content#:#cont_edit_file_list_properties#:#Uredi svojstva popisa datoteka
 content#:#cont_edit_language_version#:#Uredi verziju
@@ -6523,7 +6525,7 @@ content#:#cont_edit_marker_position#:#Uredi položaj oznake
 content#:#cont_edit_mob#:#Uredi medijski objekt
 content#:#cont_edit_mob_alias_prop#:#Uredi svojstva instance medijskog objekta
 content#:#cont_edit_mode#:#Način uređivanja
-content#:#cont_edit_multi#:#Selection###04 06 2021 new variable
+content#:#cont_edit_multi#:#Select###15 06 2026 new variable
 content#:#cont_edit_overlay_position#:#Uredi položaj preklapanja
 content#:#cont_edit_par#:#Uredi tekst
 content#:#cont_edit_personal_data#:#Uredi osobne podatke
@@ -6678,7 +6680,7 @@ content#:#cont_insert_mob#:#Umetni medijski objekt
 content#:#cont_insert_my_courses#:#Umetni Moje tečajeve
 content#:#cont_insert_page#:#Umetni stranicu
 content#:#cont_insert_page_from_clip#:#Zalijepi stranice iz međuspremnika
-content#:#cont_insert_pagelayout#:#Insert Template Page###04 06 2021 new variable
+content#:#cont_insert_pagelayout#:#Insert Page from Template###15 06 2026 new variable
 content#:#cont_insert_par#:#Umetni tekst
 content#:#cont_insert_profile#:#Objavi osobne podatke
 content#:#cont_insert_resources#:#Umetni popis resursa
@@ -6785,7 +6787,7 @@ content#:#cont_lrs_settings#:#Postavke
 content#:#cont_lvalue#:#Element podataka
 content#:#cont_maintenance#:#Održavanje
 content#:#cont_manifest#:#Manifest
-content#:#cont_manual_item_group#:#Manually Create Item Group###26 08 2024 new variable
+content#:#cont_manual_item_group#:#Manually Created Item Group###15 06 2026 new variable
 content#:#cont_map_file_not_generated#:#Žao mi je. Nije moguće generirati datoteku karte za uređivanje.
 content#:#cont_marker#:#Marker
 content#:#cont_master_language_only#:#Glavni jezik za prevođenje
@@ -7128,7 +7130,7 @@ content#:#cont_set_styles#:#Postavi stilove
 content#:#cont_set_tab_style_info#:#Aktivirajte potvrdne okvire u ćelijama tablice da biste postavili stil.
 content#:#cont_settings#:#Postavke za module učenja
 content#:#cont_shape#:#Oblik
-content#:#cont_shift_click_to_select#:#<b>Shift-click</b> on elements will <b>select</b> them and switch to the selection mode.###04 06 2021 new variable
+content#:#cont_shift_click_to_select#:#To select page elements for <b>deleting, copying etc</b>, press <b>Shift</b> ⇧ and <b>click</b> on the respective page elements.###15 06 2026 new variable
 content#:#cont_short_title#:#Kratki naslov
 content#:#cont_short_title_info#:#Kratki naslovi koriste se u lijevoj prezentaciji stabla i za naljepnice u prethodnoj/sljedećoj navigaciji.
 content#:#cont_short_titles#:#Kratki naslovi
@@ -7212,7 +7214,7 @@ content#:#cont_text_com#:#Komentar:
 content#:#cont_text_editing#:#Edit Text###26 08 2024 new variable
 content#:#cont_text_emp#:#Naglašeni tekst:
 content#:#cont_text_fn#:#Fusnota:
-content#:#cont_text_iln_link#:#Interal Link###04 06 2021 new variable
+content#:#cont_text_iln_link#:#Internal Link###15 06 2026 new variable
 content#:#cont_text_imp#:#Važno:
 content#:#cont_text_keyword#:#Ključna riječ
 content#:#cont_text_placeh#:#Kliknite i uredite da biste umetnuli tekst
@@ -7815,7 +7817,7 @@ crs#:#crs_objective_pretest#:#Nakon početnog testa
 crs#:#crs_objective_qst_summary#:#Pregled dodijeljenih pitanja
 crs#:#crs_objective_random_warn#:#Ne možete koristiti nasumične testove u kombinaciji s ciljevima učenja.
 crs#:#crs_objective_result#:#Nakon završnog testa
-crs#:#crs_objective_result_details#:#« Show Details###04 06 2021 new variable
+crs#:#crs_objective_result_details#:#⬅︎ Show Results###15 06 2026 new variable
 crs#:#crs_objective_result_summary_initial#:#Placement Test: %1$s (%2$s required)###04 06 2021 new variable
 crs#:#crs_objective_result_summary_qualifying#:#Achievement Test: %1$s (%2$s required)###04 06 2021 new variable
 crs#:#crs_objective_saved_sorting#:#Redoslijed je spremljen.
@@ -8181,10 +8183,10 @@ dash#:#dash_presentation#:#Presentation###04 06 2021 new variable
 dash#:#dash_recommended_content#:#Recommended Content###26 08 2024 new variable
 dash#:#dash_remove_from_list#:#Remove from List###04 06 2021 new variable
 dash#:#dash_side_panel#:#Side Panel###04 06 2021 new variable
-dash#:#dash_sort_by_alphabet#:#Sort by Alphabet###29 07 2022 new variable
-dash#:#dash_sort_by_location#:#Sort by Location###04 06 2021 new variable
-dash#:#dash_sort_by_start_date#:#Sort by Start Date###04 06 2021 new variable
-dash#:#dash_sort_by_type#:#Sort by Type###04 06 2021 new variable
+dash#:#dash_sort_by_alphabet#:#Alphabet###15 06 2026 new variable
+dash#:#dash_sort_by_location#:#Location###15 06 2026 new variable
+dash#:#dash_sort_by_start_date#:#Period of Event###15 06 2026 new variable
+dash#:#dash_sort_by_type#:#Type###15 06 2026 new variable
 dash#:#dash_sortation#:#Sortation###04 06 2021 new variable
 dash#:#dash_study_programmes#:#My Study Programmes###26 08 2024 new variable
 dash#:#dash_tile#:#Tile###04 06 2021 new variable
@@ -8659,7 +8661,7 @@ dcl#:#dcl_creation_date#:#Datum stvaranja
 dcl#:#dcl_creation_date_description#:#Datum kada je unos stvoren.
 dcl#:#dcl_datatype#:#Tip podataka
 dcl#:#dcl_date#:#Date Entry###21 05 2025 new variable
-dcl#:#dcl_date_desc#:#Field for a date.###21 05 2025 new variable
+dcl#:#dcl_date_desc#:#Users can enter a date of their choice or select one using a calendar.###15 06 2026 new variable
 dcl#:#dcl_date_selection#:#Odabir datuma
 dcl#:#dcl_date_selection_desc#:#Ponudi odabir opcija datuma.
 dcl#:#dcl_deactivate_view#:#Deaktiviraj ovaj prikaz
@@ -8678,9 +8680,9 @@ dcl#:#dcl_desc#:#Silazni poredak (DESC)
 dcl#:#dcl_description#:#Opis polja
 dcl#:#dcl_detailed_view#:#Detaljan prikaz
 dcl#:#dcl_display_action_menu#:#Omogućite mogućnost kopiranja ili stavljanja poveznice na modul na koji se upućuje
-dcl#:#dcl_display_action_menu_desc#:#Enable possibility to copy or link the referenced module###21 05 2025 new variable
+dcl#:#dcl_display_action_menu_desc#:#The object can be copied from the entry.###15 06 2026 new variable
 dcl#:#dcl_display_record_alt#:#Prikaži ovaj unos
-dcl#:#dcl_duplicate_non_unique_entries_exist#:#This may also concern existing records.###23 02 2024 new variable
+dcl#:#dcl_duplicate_non_unique_entries_exist#:#Some of the existing values for this field are identical. Please make sure that all existing entries are unique in order to change this setting.###15 06 2026 new variable
 dcl#:#dcl_edit#:#Uredi prikupljanje podataka
 dcl#:#dcl_edit_entry_rules#:#Entry Editing###04 06 2021 new variable
 dcl#:#dcl_edit_field#:#Uredi polje
@@ -8698,14 +8700,14 @@ dcl#:#dcl_export_finished#:#Izvoz je završen
 dcl#:#dcl_export_started#:#Započeo je asinkroni izvoz
 dcl#:#dcl_field_datatype#:#Vrsta podataka polja
 dcl#:#dcl_field_description#:#Opis
-dcl#:#dcl_field_description_desc#:#The description will be shown below the field inside the entry form.###21 05 2025 new variable
+dcl#:#dcl_field_description_desc#:#The description will be shown below the input field when making a new entry.###15 06 2026 new variable
 dcl#:#dcl_field_required#:#Potreban
 dcl#:#dcl_field_title_change_warning#:#Promijenili ste naslov polja, pa bi možda mogli biti oštećeni neki zamjenski znakovi u definiciji prikaza. Oni se moraju popraviti ručno ako se ukaže prilika.
 dcl#:#dcl_field_title_unique#:#Već postoji polje s ovim nazivom. Naziv mora biti jedinstven.
 dcl#:#dcl_field_visible#:#Vidljivo
 dcl#:#dcl_fieldtitle#:#Naziv polja
-dcl#:#dcl_file#:#Fileupload###26 08 2024 new variable
-dcl#:#dcl_file_desc#:#Field to upload arbitrary files. They can be downloaded with a link.###26 08 2024 new variable
+dcl#:#dcl_file#:#File Upload###15 06 2026 new variable
+dcl#:#dcl_file_desc#:#Allow the upload of a file which can then be downloaded directly from the data collection.###15 06 2026 new variable
 dcl#:#dcl_file_format_description#:#Datoteka mora biti excel .XLSX datoteka s podacima koje želite uvesti na prvi list. U prvom redu moraju biti točna imena polja (osjetljiva na velika i mala slova) koja želite uvesti, a u sljedeće retke možete dodati vrijednosti. Preporučuje se da prvo simulirate uvoz. Pri uvozu referentnih ili odabirnih polja s višestrukim odabirom, zarez i/ili točka zarez mogu se koristiti za razgraničenje.
 dcl#:#dcl_file_not_readable#:#Datoteka se ne može pročitati. Obavezno učitajte XLSX datoteku.
 dcl#:#dcl_filter#:#Dostupno u filtru
@@ -8714,7 +8716,7 @@ dcl#:#dcl_formula#:#Formula
 dcl#:#dcl_formula_desc#:#Možete agregirati nekoliko unosa u zapisu s pomoću formule.
 dcl#:#dcl_formula_detail_desc#:#Unosi se generiraju automatski, unos ne možete urediti.
 dcl#:#dcl_height#:#Visina
-dcl#:#dcl_height_desc#:#The file will be resized to the given height###21 05 2025 new variable
+dcl#:#dcl_height_desc#:#The height of the file will be reduced to this value during upload.###15 06 2026 new variable
 dcl#:#dcl_id#:#ID br.
 dcl#:#dcl_id_description#:#Interni ID.
 dcl#:#dcl_ilias_reference#:#Poveznica na modul ILIAS
@@ -8733,7 +8735,7 @@ dcl#:#dcl_last_edited_by_description#:#Korisnik koji je zadnji uredio ovaj unos.
 dcl#:#dcl_last_update#:#Posljednje uređen
 dcl#:#dcl_last_update_description#:#Datum posljednjeg uređivanja unosa.
 dcl#:#dcl_learning_progress#:#Pokaži napredak učenja povezanog modula gledatelja
-dcl#:#dcl_learning_progress_desc#:#Show the learning progress of the linked module of the viewer###21 05 2025 new variable
+dcl#:#dcl_learning_progress_desc#:#Show each user their own learning progress for the selected object.###15 06 2026 new variable
 dcl#:#dcl_legend_placeholders#:#Zamjenski znakovi
 dcl#:#dcl_length#:#Duljina
 dcl#:#dcl_length_info#:#(za više od 200 znakova upotrijebite dodatnu opciju Područje teksta)
@@ -8742,7 +8744,7 @@ dcl#:#dcl_limit_start#:#Početak
 dcl#:#dcl_limited#:#Ograničeno razdoblje dodavanja / uređivanja / brisanja
 dcl#:#dcl_limited_desc#:#Korisnici mogu uređivati unose samo u zadanom vremenskom rasponu.
 dcl#:#dcl_link_detail_page#:#Poveži unose sa stranicom s detaljima
-dcl#:#dcl_link_detail_page_desc#:#Additionaly, the detailed view must be activated and configured within the tab "Single".###21 05 2025 new variable
+dcl#:#dcl_link_detail_page_desc#:#Additionally, a detailed view template must have been created and activated within the tab ‘Detailed View’.###15 06 2026 new variable
 dcl#:#dcl_list_fields#:#Polja
 dcl#:#dcl_list_visibility_and_filter#:#Vidljivost i filtar
 dcl#:#dcl_locked#:#Zaključan
@@ -8770,7 +8772,7 @@ dcl#:#dcl_new#:#Stvori novu zbirku podataka
 dcl#:#dcl_new_field#:#Novo polje
 dcl#:#dcl_new_table#:#Nova tablica
 dcl#:#dcl_next_record#:#Sljedeći unos
-dcl#:#dcl_no_entries#:#No entries###21 05 2025 new variable
+dcl#:#dcl_no_entries#:#Action not permitted###15 06 2026 new variable
 dcl#:#dcl_no_entry#:#No entry###04 06 2021 new variable
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.###21 05 2025 new variable
 dcl#:#dcl_no_export_data_available#:#Nema podataka ili polja dostupnih za izvoz.
@@ -8821,7 +8823,7 @@ dcl#:#dcl_reference_desc#:#Polje za referentne opcije pohranjene u drugom polju 
 dcl#:#dcl_reference_link#:#Prikaži kao poveznicu na referencirani unos
 dcl#:#dcl_reference_link_info#:#Detaljan prikaz mora biti aktivan u referenciranoj tablici
 dcl#:#dcl_reference_title#:#Upućivanje na tablicu i polje
-dcl#:#dcl_reference_title_desc#:#Entries of the selected field are options of the target field.###21 05 2025 new variable
+dcl#:#dcl_reference_title_desc#:#The data entries of the selected field will be the selectable options in this field.###15 06 2026 new variable
 dcl#:#dcl_regex#:#Regularni izraz
 dcl#:#dcl_regex_info#:#(bez razgraničivača)
 dcl#:#dcl_required#:#Obvezno polje
@@ -8892,24 +8894,24 @@ dcl#:#dcl_update_record#:#Ažuriraj unos
 dcl#:#dcl_url#:#URL ili e-pošta
 dcl#:#dcl_view_configuration#:#View Configuration###04 06 2021 new variable
 dcl#:#dcl_view_own_records_perm#:#Prikaži samo vlastite unose
-dcl#:#dcl_view_own_records_perm_desc#:#Dont show entries of other users.###21 05 2025 new variable
+dcl#:#dcl_view_own_records_perm_desc#:#The entries of other users are not visible.###15 06 2026 new variable
 dcl#:#dcl_view_settings#:#View Settings###04 06 2021 new variable
 dcl#:#dcl_view_viewdefinition#:#Detaljan prikaz
 dcl#:#dcl_visible#:#Vidljivo svim korisnicima
 dcl#:#dcl_visible_desc#:#Korisnici mogu pristupiti ovoj tablici.
 dcl#:#dcl_width#:#Širina
-dcl#:#dcl_width_desc#:#The file will be resized to the given width.###21 05 2025 new variable
+dcl#:#dcl_width_desc#:#The width of the file will be reduced to this value during upload.###15 06 2026 new variable
 dcl#:#dcl_wrong_input_type#:#Vrijednost koju ste unijeli ne odgovara specifikaciji (pogrešan tip).
 dcl#:#dcl_wrong_length#:#Tekst koji ste unijeli je predugačak.
 dcl#:#dcl_wrong_regex#:#Tekst koji ste unijeli ne odgovara specifikaciji za ovo polje (regularni izraz).
-dcl#:#dcl_xls_async_export#:#Asynchronous XLSX-Export###26 08 2024 new variable
+dcl#:#dcl_xls_async_export#:#as XLSX (asynchronous)###15 06 2026 new variable
 dcl#:#disable_comments#:#Disable comments###26 08 2024 new variable
 dcl#:#disable_visible#:#Disable visible###26 08 2024 new variable
 dcl#:#enable_comments#:#Enable comments###26 08 2024 new variable
 dcl#:#enable_visible#:#Enable visible###26 08 2024 new variable
 dcl#:#entry_of#:#Entry %1$d of %2$d###26 08 2024 new variable
 dcl#:#fieldtitle_allow_chars#:#Nisu dopušteni znakovi: %s
-dcl#:#fileupload_not_migrated#:#File has not yet been migration and cannot be displayed. Please contact your System-Administrator.###26 08 2024 new variable
+dcl#:#fileupload_not_migrated#:#File has not yet been migrated and cannot be displayed. Please contact your system administrator.###15 06 2026 new variable
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
 dcl#:#table_not_found#:#Table not found!###16 12 2025 new variable
 dcl#:#tableview_not_found#:#Tableview not found!###16 12 2025 new variable
@@ -9061,7 +9063,7 @@ ecs#:#ecs_connection_settings#:#Connection Settings
 ecs#:#ecs_consent_modal_title#:#Consent for data transfer###26 08 2024 new variable
 ecs#:#ecs_consent_reset_confirm_title#:#Reset user consent for this participant###26 08 2024 new variable
 ecs#:#ecs_cron_task_scheduler#:#ECS Task Scheduler###04 06 2021 new variable
-ecs#:#ecs_cron_task_scheduler_info#:#ECS tasks will be executed according to the schedule settings. Only neccessary, if ECS servers are configured.###04 06 2021 new variable
+ecs#:#ecs_cron_task_scheduler_info#:#ECS tasks will be carried out according to the schedule settings. This will only take place if an ECS server has been configured via ‘Administration » Extending ILIAS » ECS’.###15 06 2026 new variable
 ecs#:#ecs_crs_alloc#:#Course Allocation
 ecs#:#ecs_crs_alloc_set#:#Edit Course Allocation
 ecs#:#ecs_crs_export#:#Course Releases
@@ -9808,8 +9810,8 @@ exp#:#exp_html#:#HTML###28 10 2024 new variable
 exp#:#exp_import_validation_err_no_matching_xsd#:#No valid schema file for version %s exists.###26 08 2024 new variable
 exp#:#exp_not_public_access_status#:#Not published###21 05 2025 new variable
 exp#:#exp_print_pdf#:#Print/PDF###29 07 2022 new variable
-exp#:#exp_print_pdf_info#:#To create a PDF please use the "Print to PDF" target as soon as the print view is presented.###29 07 2022 new variable
-exp#:#exp_public_access_status#:#Available on ‘Info’-tab###21 05 2025 new variable
+exp#:#exp_print_pdf_info#:#To create a PDF please select "Print to PDF" in the print modal that appears after clicking on ‘Print View’.###15 06 2026 new variable
+exp#:#exp_public_access_status#:#Available in ‘Info’-tab###15 06 2026 new variable
 exp#:#exp_really_delete#:#Želite li stvarno izbrisati ove datoteke za izvoz?
 exp#:#exp_show_print_view#:#Show Print View###29 07 2022 new variable
 exp#:#exp_xml#:#XML
@@ -9818,7 +9820,7 @@ exp#:#export_files_deleted#:#The selected export files have been deleted.###26 0
 exp#:#export_options#:#Export Options###28 10 2024 new variable
 exp#:#export_type#:#Export Type###28 10 2024 new variable
 export#:#exp_file#:#File Name###28 10 2024 new variable
-export#:#exp_public_access#:#Public Access###28 10 2024 new variable
+export#:#exp_public_access#:#Available in ‘Info’-tab###15 06 2026 new variable
 export#:#exp_size#:#File Size (MB)###28 10 2024 new variable
 export#:#exp_timestamp#:#Creation Date###28 10 2024 new variable
 export#:#exp_toggle_public_access#:#Toggle Public Access###28 10 2024 new variable
@@ -9827,7 +9829,7 @@ export#:#export_create#:#Kreiraj
 export#:#export_create_new_file#:#Kreiraj novu datoteku za izvoz
 export#:#export_existing#:#Ponovna upotreba
 export#:#export_export_date#:#Datum izvoza
-export#:#export_info_public_access#:#Public Access Export###28 10 2024 new variable
+export#:#export_info_public_access#:#Public Export###15 06 2026 new variable
 export#:#export_info_public_access_download#:#Download###28 10 2024 new variable
 export#:#export_last_export#:#Posljednji izvoz
 export#:#export_last_export_file#:#Koristi posljednju datoteku za izvoz
@@ -9870,7 +9872,7 @@ file#:#file_version_draft#:#Draft Version###26 08 2024 new variable
 file#:#file_version_draft_info#:#The latest version of this file has the status ‘Draft’. As long as this version has not been published, no new versions can be created. People with read permission for the file get the most recent previously published version.###26 08 2024 new variable
 file#:#form_icon_creation#:#Create Icon###26 08 2024 new variable
 file#:#form_icon_updating#:#Update Icon###26 08 2024 new variable
-file#:#general_upload_error_occured#:#An unexpected error occured during upload.###04 06 2021 new variable
+file#:#general_upload_error_occured#:#An unexpected error occurred during upload.###15 06 2026 new variable
 file#:#important_info#:#Important Information###26 08 2024 new variable
 file#:#important_info_byline#:#The information will be displayed in the ‘Info’ tab.###26 08 2024 new variable
 file#:#input_active#:#Active###26 08 2024 new variable
@@ -9878,7 +9880,7 @@ file#:#input_desc_active#:#Activate this icon.###26 08 2024 new variable
 file#:#input_desc_icon#:#Image to be used as the icon for files with the specified suffixes.###26 08 2024 new variable
 file#:#input_desc_suffixes#:#List of comma-separated suffixes (characters and numbers only, without preceding full stop).###26 08 2024 new variable
 file#:#input_icon#:#Icon###26 08 2024 new variable
-file#:#input_suffixes#:#Suffixes###26 08 2024 new variable
+file#:#input_suffixes#:#Suffix(es)###15 06 2026 new variable
 file#:#migrated#:#Status###29 07 2022 new variable
 file#:#mime_type#:#MIME Type###26 08 2024 new variable
 file#:#msg_cant_unpublish#:#File could not be unpublished.###26 08 2024 new variable
@@ -9896,7 +9898,7 @@ file#:#msg_success_icon_created#:#Icon successfully created.###26 08 2024 new va
 file#:#msg_success_icon_deactivated#:#Icon successfully deactivated.###26 08 2024 new variable
 file#:#msg_success_icon_deletion#:#Icon successfully deleted.###26 08 2024 new variable
 file#:#msg_success_icon_updated#:#Icon successfully updated.###26 08 2024 new variable
-file#:#msg_unzip_success#:#Archive has been successfully unziped.###29 07 2022 new variable
+file#:#msg_unzip_success#:#Archive successfully unzipped.###15 06 2026 new variable
 file#:#on_click_action#:#Action When Title Clicked###26 08 2024 new variable
 file#:#preview_caption#:#Preview %sof %s###26 08 2024 new variable
 file#:#preview_image_size_info#:#The preview versions of images will be downscaled or upscaled as appropriate, so that their longest side is the length (in px) entered here.###26 08 2024 new variable
@@ -9914,13 +9916,13 @@ file#:#show_amount_of_downloads#:#Show Number of Downloads###26 08 2024 new vari
 file#:#show_amount_of_downloads_info#:#Display the number of times a file object has been downloaded on its 'Info' page.###26 08 2024 new variable
 file#:#storage_id#:#Storage ID###29 07 2022 new variable
 file#:#suffix_specific_icons#:#Suffix-Specific Icons###26 08 2024 new variable
-file#:#suffixes#:#Suffixes###26 08 2024 new variable
+file#:#suffixes#:#Suffix(es)###15 06 2026 new variable
 file#:#upload_files#:#Upload Files###26 08 2024 new variable
 file#:#upload_files_limit#:#The maximum file size allowed is %s.###26 08 2024 new variable
 file#:#upload_files_title#:#Upload Files###26 08 2024 new variable
 file#:#upload_info#:#Učitaj
 file#:#upload_info_desc#:#Upravljanje učitavanjima i verzijama na kartici "Verzije"
-file#:#version_uploaded#:#Version uploaded###29 07 2022 new variable
+file#:#version_uploaded#:#Version Uploaded###15 06 2026 new variable
 file#:#versionname#:#Title###29 07 2022 new variable
 fils#:#add_upload_policy#:#Add Policy###26 08 2024 new variable
 fils#:#edit_upload_policy#:#Edit Policy###26 08 2024 new variable
@@ -9930,7 +9932,7 @@ fils#:#file_suffix_custom_expl_negative#:#Prohibited File Suffixes###04 06 2021 
 fils#:#file_suffix_custom_expl_negative_info#:#Files with these suffixes won't be accepted for upload.###04 06 2021 new variable
 fils#:#file_suffix_custom_negative#:#File Suffixes: Negative List (Adaptations)###04 06 2021 new variable
 fils#:#file_suffix_custom_negative_info#:#These file suffixes will be removed from the positive list.###04 06 2021 new variable
-fils#:#file_suffix_custom_positive#:#File Suffixes: Positive List (Adaptations)###04 06 2021 new variable
+fils#:#file_suffix_custom_positive#:#File Suffixes: Positive List (Additions)###15 06 2026 new variable
 fils#:#file_suffix_custom_positive_info#:#These file suffixes will be added to the positive list.###04 06 2021 new variable
 fils#:#file_suffix_default_positive#:#File Suffixes: Positive List (Default List)###04 06 2021 new variable
 fils#:#file_suffix_default_positive_info#:#Preset default list of accepted file suffixes.###04 06 2021 new variable
@@ -10027,7 +10029,7 @@ forum#:#content_censored_post#:#Sadržaj cenzurirane objave:
 forum#:#content_deleted_post#:#Sadržaj izbrisane objave:
 forum#:#content_deleted_thread#:#Sadržaj izbrisane teme:
 forum#:#content_post_updated#:#Sadržaj uređene objave:
-forum#:#deletePosting#:#Delete Posting###04 06 2021 new variable
+forum#:#deletePosting#:#Delete Post###15 06 2026 new variable
 forum#:#deletePostingDraft#:#Delete Draft###04 06 2021 new variable
 forum#:#delete_draft_successfully#:#Nacrt je uspješno izbrisan.
 forum#:#delete_drafts_successfully#:#Nacrti su uspješno izbrisani.
@@ -10183,7 +10185,7 @@ forum#:#merged_threads_successfully#:#Odabrane teme uspješno su spojene
 forum#:#move_chosen_topics#:#Premjesti odabrane teme
 forum#:#move_thread_to_forum#:#Premjesti temu na drugi forum
 forum#:#new_post#:#Nova objava
-forum#:#new_thread_with_post#:#New Thread with Posting###04 06 2021 new variable
+forum#:#new_thread_with_post#:#New Thread with Post###15 06 2026 new variable
 forum#:#no_forum_selected#:#Nijedan forum nije odabran za premještanje odabranih tema
 forum#:#not_allowed_to_merge_into_another_forum#:#Nije moguće spojiti teme različitih foruma.
 forum#:#notification_settings#:#Notification Settings###29 07 2022 new variable
@@ -10230,7 +10232,7 @@ forum#:#sorting#:#Sorting###04 06 2021 new variable
 forum#:#sticky#:#Top tema
 forum#:#sure_delete_drafts#:#Jeste li sigurni da želite izbrisati odabrane nacrte?
 forum#:#switch_threads_for_merge#:#Odabrana tema je starija od ciljane teme. Kako bi se osiguralo uspješno spajanje, izvorna i ciljana tema će se zamijeniti.
-forum#:#target_select#:#Select posting for limited view###29 07 2022 new variable
+forum#:#target_select#:#Select post for limited view###15 06 2026 new variable
 forum#:#thema#:#Threads###26 08 2024 new variable
 forum#:#thread#:#Tema
 forum#:#thread_deleted_by#:#sljedeću temu na forumu "%2$s" izbrisao je "%1$s":
@@ -10245,7 +10247,7 @@ glo#:#glo_add_glossary#:#Add Glossary###26 08 2024 new variable
 glo#:#glo_add_to_collection#:#Add Glossary to Collection Glossary###26 08 2024 new variable
 glo#:#glo_added_to_collection_info#:#The selected glossary has been added to the collection glossary.###26 08 2024 new variable
 glo#:#glo_answered_correctly#:#I got it right###26 08 2024 new variable
-glo#:#glo_answered_not_correctly#:#I was wrong###26 08 2024 new variable
+glo#:#glo_answered_not_correctly#:#I didn't know###15 06 2026 new variable
 glo#:#glo_box#:#Box###26 08 2024 new variable
 glo#:#glo_box_completed#:#You have completed the box.###26 08 2024 new variable
 glo#:#glo_box_last_presented#:#Box Last Presented###26 08 2024 new variable
@@ -10253,17 +10255,17 @@ glo#:#glo_boxes#:#Boxes###26 08 2024 new variable
 glo#:#glo_boxes_really_reset#:#Do you really want to reset all boxes? All flashcards will be moved to the first box.###26 08 2024 new variable
 glo#:#glo_boxes_reset#:#The boxes have been reset successfully.###26 08 2024 new variable
 glo#:#glo_bulk_confirmation#:#Please check if all terms and definitions are listed correctly.###26 08 2024 new variable
-glo#:#glo_bulk_creation#:#Bulk Creation###26 08 2024 new variable
+glo#:#glo_bulk_creation#:#Paste From Excel###15 06 2026 new variable
 glo#:#glo_change_to_collection_unavailable_info#:#To change the type of content assembly to "Collection Glossary", you first have to delete all existing terms within this glossary in tab "Content".###26 08 2024 new variable
 glo#:#glo_change_to_standard_unavailable_info#:#To change the type of content assembly to "Standard Glossary", you first have to remove the selected glossaries in tab "Content".###26 08 2024 new variable
 glo#:#glo_check#:#Check###21 05 2025 new variable
 glo#:#glo_collection#:#Collection Glossary###29 07 2022 new variable
 glo#:#glo_collection_empty_info#:#This collection glossary is currently empty. Please add at least one glossary to it.###26 08 2024 new variable
-glo#:#glo_collection_info#:#The glossary collects additional terms of other glossaries.###29 07 2022 new variable
+glo#:#glo_collection_info#:#The glossary automatically collects all terms from the selected glossaries.###15 06 2026 new variable
 glo#:#glo_content_assembly#:#Content Assembly###29 07 2022 new variable
 glo#:#glo_copy#:#Kopiraj pojmovnik
 glo#:#glo_copy_terms#:#Kopiraj pojmove
-glo#:#glo_create_term_definition_pairs#:#Create Term/Definition Pairs###26 08 2024 new variable
+glo#:#glo_create_term_definition_pairs#:#Create finally###15 06 2026 new variable
 glo#:#glo_days_ago#:#%s days ago###26 08 2024 new variable
 glo#:#glo_def_vs_term#:#Definition vs. Term###26 08 2024 new variable
 glo#:#glo_def_vs_term_info#:#Show a definition first, the learner has to guess the term.###26 08 2024 new variable
@@ -10299,8 +10301,8 @@ glo#:#glo_show_in_presentation_off#:#Hide in Presentation View###26 08 2024 new 
 glo#:#glo_show_in_presentation_on#:#Show in Presentation View###26 08 2024 new variable
 glo#:#glo_tax_info#:#A taxonomy in a Glossary classifies and filters the terms. It always is available in the editing view. For the presentation view, the taxonomy must first be activated. In glossaries, only one taxonomy can be used.###26 08 2024 new variable
 glo#:#glo_term#:#Pojam iz pojmovnika
-glo#:#glo_term_definition_pairs#:#Term/Definition Pairs###26 08 2024 new variable
-glo#:#glo_term_definition_pairs_info#:#Please enter a term and a definition pair in each line. Term and definition must be separated by a semicolon or a TAB character (usually provided by clipboard actions from spreadsheet applications).###26 08 2024 new variable
+glo#:#glo_term_definition_pairs#:#Data Copied From Excel###15 06 2026 new variable
+glo#:#glo_term_definition_pairs_info#:#Copy and paste data from your Excel spreadsheet to this input field. Generally speaking, you should be able to use your spreadsheet clipboard for this.<br />Otherwise please separate term and definition manually using a semicolon (;) or the TAB (↹ - key).###15 06 2026 new variable
 glo#:#glo_term_letter#:#Letter###26 08 2024 new variable
 glo#:#glo_term_reference#:#Poveznica na pojam
 glo#:#glo_term_vs_def#:#Term vs. Definition###26 08 2024 new variable
@@ -10698,7 +10700,7 @@ irss#:#sorting_3#:#By File Size (Ascending)###26 08 2024 new variable
 irss#:#sorting_4#:#By File Size (Descending)###26 08 2024 new variable
 irss#:#sorting_5#:#By Creation Date (Ascending)###26 08 2024 new variable
 irss#:#sorting_6#:#By Creation Date (Descending)###26 08 2024 new variable
-irss#:#stakeholders#:#Stakeholders###29 07 2022 new variable
+irss#:#stakeholders#:#Origin###15 06 2026 new variable
 irss#:#storage_id#:#Storage ID###29 07 2022 new variable
 irss#:#storage_info#:#Storage Information###29 07 2022 new variable
 irss#:#title_manage_container#:#Manage files and folders###26 08 2024 new variable
@@ -11112,7 +11114,7 @@ lso#:#lso_mail_unsubscribe_member_bod#:#potvrđujemo vaše otkazivanje članstva
 lso#:#lso_mail_unsubscribe_member_sub#:#Vaše otkazivanje članstva u sekvenci učenja "%s"
 lso#:#lso_mail_wl_bod#:#dodijeljeni ste listi čekanja za sekvencu učenja "%s".\nDodijeljeni ste na mjesto %s na popisu.\n\nPrimit ćete poruku od administratora sekvence učenja kada vaš zahtjev bude odobren ili odbijen.
 lso#:#lso_mail_wl_sub#:#Vaša registracija za sekvencu učenja "%s"
-lso#:#lso_mainbar_button_label_curriculum#:#Curriculum###04 06 2021 new variable
+lso#:#lso_mainbar_button_label_curriculum#:#Learning Sequence###15 06 2026 new variable
 lso#:#lso_mainbar_button_label_toc#:#Content###04 06 2021 new variable
 lso#:#lso_mem_tbl_header#:#Sudionik sekvence učenja
 lso#:#lso_member_administration#:#Uredi sudionike
@@ -11200,7 +11202,7 @@ lti#:#conf_privacy_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwis
 lti#:#conf_privacy_name_none#:#No one###26 08 2024 new variable
 lti#:#conf_privacy_name_none_info#:#Sends '-' instead of a name###26 08 2024 new variable
 lti#:#conf_user_ident#:#User identification###04 06 2021 new variable
-lti#:#conf_user_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formated as an email adress.###04 06 2021 new variable
+lti#:#conf_user_ident_il_uuid_ext_account#:#External User ID combined with a unique ILIAS platform id formated as an email adress.###15 06 2026 new variable
 lti#:#conf_user_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###04 06 2021 new variable
 lti#:#conf_user_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formated as an email adress.###04 06 2021 new variable
 lti#:#conf_user_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.###04 06 2021 new variable
@@ -11225,7 +11227,7 @@ lti#:#field_provider_xml#:#XML-File###04 06 2021 new variable
 lti#:#field_provider_xml_info#:#Supported are XML-Files for Tool Consumer and for Common Cartridge according to https://www.imsglobal.org/specs/lti/xml.###04 06 2021 new variable
 lti#:#form_import_provider#:#Import Global Provider###04 06 2021 new variable
 lti#:#gbl_roles_to_users#:#Globalna uloga dodijeljena LTI korisnicima
-lti#:#global_provider_subtab#:#Global Providers for all Users###04 06 2021 new variable
+lti#:#global_provider_subtab#:#Global Providers/Tools for all Users###15 06 2026 new variable
 lti#:#grade_activity_progress_all#:#All Information on Activity Progress###26 08 2024 new variable
 lti#:#grade_activity_progress_completed#:#Completed###26 08 2024 new variable
 lti#:#grade_activity_progress_initialized#:#Initialized###26 08 2024 new variable
@@ -11347,13 +11349,13 @@ lti#:#lti_con_prov_provider_key_global_info#:#If not set, users have to add key 
 lti#:#lti_con_prov_remarks#:#Internal Remarks###04 06 2021 new variable
 lti#:#lti_con_prov_secret#:#Secret###04 06 2021 new variable
 lti#:#lti_con_prov_title#:#Title###04 06 2021 new variable
-lti#:#lti_con_prov_url#:#URL of Provider###04 06 2021 new variable
+lti#:#lti_con_prov_url#:#URL of LTI Provider###15 06 2026 new variable
 lti#:#lti_con_prov_use_provider_id#:#Use Provider ID###04 06 2021 new variable
-lti#:#lti_con_prov_use_provider_id_info#:#Usually the Ref-Id of the LTI Consumer is transferred to the Provider. Some Providers map this Ref-Id with the Resource of the Provider. To get always the same Resource for these Providers this Option should be activated.###04 06 2021 new variable
+lti#:#lti_con_prov_use_provider_id_info#:#Usually the Ref-ID of the LTI Consumer is transferred to the Provider. Some Providers map this Ref-ID with the Resource of the Provider. To get always the same Resource for these Providers this Option should be activated.###15 06 2026 new variable
 lti#:#lti_con_prov_use_xapi#:#Provider supports request of xAPI-Statements###04 06 2021 new variable
 lti#:#lti_con_prov_use_xapi_info#:#Provider supports xAPI-Statements###04 06 2021 new variable
 lti#:#lti_con_prov_xapi_activity_id#:#Activity ID###04 06 2021 new variable
-lti#:#lti_con_prov_xapi_activity_id_info#:#The Activity ID is necessary to request data from the Learning Record Store. Only enter something here if the assignment of the provider's resource to an Activity Id is unique! If nothing is entered here, the Activity Id can be entered in LTI Consumer. The Activity Id could be requested from the LTI Provider.###04 06 2021 new variable
+lti#:#lti_con_prov_xapi_activity_id_info#:#The Activity ID is necessary to request data from the Learning Record Store. Only enter something here if the assignment of the provider's resource to an Activity ID is unique! If nothing is entered here, the Activity ID can be entered in LTI Consumer. The Activity ID could be requested from the LTI Provider.###15 06 2026 new variable
 lti#:#lti_con_prov_xapi_launch_key#:#Key of LRS Endpoint###04 06 2021 new variable
 lti#:#lti_con_prov_xapi_launch_key_info#:#&nbsp;###04 06 2021 new variable
 lti#:#lti_con_prov_xapi_launch_secret#:#Secret of LRS Endpoint###04 06 2021 new variable
@@ -11539,10 +11541,10 @@ mail#:#mail_deleted_entry#:#Unosi se brišu
 mail#:#mail_download_attachment#:#Download Attachment###28 10 2024 new variable
 mail#:#mail_download_zip_no_attachments#:#Nije moguće pronaći nijedan privitak.
 mail#:#mail_edit_tpl#:#Uredi predloške teksta
-mail#:#mail_email_sys_body#:#This is a test e-mail to test the delivery of system mails to the external mail account.###04 06 2021 new variable
-mail#:#mail_email_sys_subject#:#Test E-Mail System Mail###04 06 2021 new variable
-mail#:#mail_email_usr_body#:#This is a test e-mail to test the delivery of user mails to the external mail account.###04 06 2021 new variable
-mail#:#mail_email_usr_subject#:#Test E-Mail User Mail###04 06 2021 new variable
+mail#:#mail_email_sys_body#:#This is a test e-mail to test the delivery of system mails to external mail accounts.###15 06 2026 new variable
+mail#:#mail_email_sys_subject#:#Test E-Mail: System Mail###15 06 2026 new variable
+mail#:#mail_email_usr_body#:#This is a test e-mail to test the delivery of user mails to external mail accounts.###15 06 2026 new variable
+mail#:#mail_email_usr_subject#:#Test E-Mail: User Mail###15 06 2026 new variable
 mail#:#mail_empty_trash#:#Isprazni smeće
 mail#:#mail_empty_trash_confirmation#:#Jeste li sigurni da želite izbrisati svu poštu u smeću?
 mail#:#mail_enable_crs_admin_notification#:#Obavijestite administratore tečaja
@@ -11554,9 +11556,9 @@ mail#:#mail_enable_grp_admin_notification_info#:#U novim skupinama postavka 'Oba
 mail#:#mail_enable_grp_member_notification#:#Obavijesti članove grupe
 mail#:#mail_enable_grp_member_notification_info#:#ILIAS će automatski poslati e-poštu svakom članu grupe ako mu se promijeni status članstva. Ova se postavka odnosi na sve skupine na platformi.
 mail#:#mail_enable_lso_admin_notification#:#Notify Learning Sequence Administrators###04 06 2021 new variable
-mail#:#mail_enable_lso_admin_notification_info#:#In new Learning Sequences the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of Learning Sequences. Administrators will receive an e-mail when a member joins the Learning Sequence or leaves it.###04 06 2021 new variable
+mail#:#mail_enable_lso_admin_notification_info#:#In new learning sequences, the setting 'Notification’ will be activated by default for members with ‘Learning Sequence Administrator’ status. This can be altered in the 'Member' tab of a learning sequence (in the ‘Learning Sequence Members’ list for each administrator individually). With notifications active, administrators will receive an e-mail whenever a member joins or leaves the learning sequence.###15 06 2026 new variable
 mail#:#mail_enable_lso_member_notification#:#Notify Learning Sequence Members###04 06 2021 new variable
-mail#:#mail_enable_lso_member_notification_info#:#ILIAS will automatically send an e-mail to every member if his or her membership status is changed. This setting applies to all Learning Sequences on the platform.###04 06 2021 new variable
+mail#:#mail_enable_lso_member_notification_info#:#ILIAS will automatically send an e-mail to any member whose membership status changes. This setting applies to all learning sequences on the platform.###15 06 2026 new variable
 mail#:#mail_entry_of_contacts#:#Unos kontakata
 mail#:#mail_error_reading_attachment#:#Nije moguće utvrditi privitak.
 mail#:#mail_external_send_test_sys#:#Pošaljite testnu e-poštu (sistemska pošta)
@@ -11582,7 +11584,7 @@ mail#:#mail_filter_show_without_attachment#:#Show Without Attachment###28 10 202
 mail#:#mail_filter_subject#:#Predmet
 mail#:#mail_filter_txt#:#Filtriraj poruke prema
 mail#:#mail_first_email#:#Prva adresa e-pošte
-mail#:#mail_firstname_last_name_superior#:#Comma separated list for firstname and lastname of the user's superior(s)###04 06 2021 new variable
+mail#:#mail_firstname_last_name_superior#:#Comma separated list of first name and last name of user's superior(s)###15 06 2026 new variable
 mail#:#mail_folder_created#:#Stvorena je nova mapa
 mail#:#mail_folder_deleted#:#Mapa je izbrisana
 mail#:#mail_folder_exists#:#Mapa s tim imenom već postoji
@@ -11602,8 +11604,8 @@ mail#:#mail_incoming_smtp#:#proslijedi na adresu e-pošte
 mail#:#mail_insert_folder_name#:#Unesi naziv mape
 mail#:#mail_insert_query#:#Unesi upit
 mail#:#mail_invite_users_to_chat#:#Pozovi korisnike na razgovor
-mail#:#mail_is_read#:#gelesen###29 07 2022 new variable
-mail#:#mail_is_unread#:#ungelesen###29 07 2022 new variable
+mail#:#mail_is_read#:#Read###15 06 2026 new variable
+mail#:#mail_is_unread#:#Unread###15 06 2026 new variable
 mail#:#mail_list_members#:#Članovi s popisa
 mail#:#mail_mailing_list#:#Popis za slanje e-pošte
 mail#:#mail_mailing_lists#:#Popisi za slanje e-pošte
@@ -11664,7 +11666,7 @@ mail#:#mail_orphaned_mails#:#Izbrišite stare ili dugo nekorištene e-poruke
 mail#:#mail_orphaned_mails_desc#:#Izbrišite stare ili dugo nekorištene e-poruke
 mail#:#mail_recipient_not_found#:#%1$s (nisam mogao pronaći valjanog primatelja)
 mail#:#mail_rename_folder#:#Preimenuj mapu
-mail#:#mail_roles#:#to users with the following local roles###29 07 2022 new variable
+mail#:#mail_roles#:#All users with one or more of the following local roles###15 06 2026 new variable
 mail#:#mail_s#:#E-pošta(e)
 mail#:#mail_salutation_anonymous#:#Pozdrav
 mail#:#mail_salutation_f#:#Poštovana gospođo.
@@ -11675,7 +11677,7 @@ mail#:#mail_salutation_male#:#Izlaz za rezervirano mjesto &lbrace;&lbrace;MAIL_S
 mail#:#mail_salutation_n#:#Pozdrav
 mail#:#mail_saved#:#Poruka je spremljena
 mail#:#mail_second_email#:#Druga adresa e-pošte
-mail#:#mail_sel_label#:#Choose the Recipients###04 06 2021 new variable
+mail#:#mail_sel_label#:#Send mail to###15 06 2026 new variable
 mail#:#mail_sel_users#:#Pošaljite poštu odabranim korisnicima
 mail#:#mail_select_attachment#:#Odaberite privitak za preuzimanje.
 mail#:#mail_select_crs#:#Please select at least one course.###26 08 2024 new variable
@@ -11749,13 +11751,13 @@ mail#:#mail_tpl_deleted_p#:#Predlošci teksta uspješno su izbrisani.
 mail#:#mail_tpl_deleted_s#:#Predložak teksta uspješno je izbrisan.
 mail#:#mail_tpl_sure_delete_entries#:#Jeste li sigurni da želite izbrisati sljedeće unose?
 mail#:#mail_tpl_sure_delete_entry#:#Jeste li sigurni da želite izbrisati predložak teksta?
-mail#:#mail_use_global_reply_to_addr#:#Use Global Reply-To###04 06 2021 new variable
-mail#:#mail_use_global_reply_to_addr_info#:#If enabled, the email address entered below is used as value for the 'Reply-To' header. The sender's email address will be not disclosed to recipients. A direct reply is not possible anymore.###04 06 2021 new variable
+mail#:#mail_use_global_reply_to_addr#:#Use Global Reply-To Address###15 06 2026 new variable
+mail#:#mail_use_global_reply_to_addr_info#:#Use an email address as the reply-to address across the whole platform. Senders’ email addresses will not be disclosed to recipients. Direct replies to e-mails will also no longer be possible.###15 06 2026 new variable
 mail#:#nc_mail_noti_item_title#:#Inbox###04 06 2021 new variable
 mail#:#nc_mail_prop_time#:#Time###04 06 2021 new variable
 mail#:#nc_mail_unread_messages#:#You have %s in your inbox.###04 06 2021 new variable
-mail#:#nc_mail_unread_messages_number_p#:#%s Unread Mails###04 06 2021 new variable
-mail#:#nc_mail_unread_messages_number_s#:#1 Unread Mail###04 06 2021 new variable
+mail#:#nc_mail_unread_messages_number_p#:#%s unread mails###15 06 2026 new variable
+mail#:#nc_mail_unread_messages_number_s#:#1 unread mail###15 06 2026 new variable
 mail#:#only_inbox_trash#:#Uzmite u obzir samo pristiglu poštu / otpad
 mail#:#only_inbox_trash_info#:#Ako je omogućeno, e-poruke brišu se samo ako se nalaze u pristigloj pošti i otpadu određenog korisnika. U suprotnom, sve se poruke brišu bez obzira na mapu.
 mail#:#orphaned_mail_body#:#Sljedeće stare ili dugo nekorištene poruke e-pošte nalaze se u vašem poštanskom sandučiću. Imajte na umu da će se ove poruke uskoro automatski izbrisati.
@@ -11979,7 +11981,7 @@ mep#:#mobs_black_list_file_types_and_allowed_info#:#Enter a comma separated list
 mep#:#mobs_restrict_file_types#:#Dopuštene vrste datoteka
 mep#:#mobs_restrict_file_types_info#:#Unesite popis sufiksa datoteka (npr. jpg, gif) odvojenih zarezom koje je dopušteno prenositi u medijske objekte. Ako se ne unese vrijednost, dopuštene su sve vrste datoteka.
 meta#:#adt_error_max_length#:#Unesite kraći tekst.
-meta#:#md_adn_int_error_no_default#:#Please select on activated language as "Default-Language".###04 06 2021 new variable
+meta#:#md_adn_int_error_no_default#:#Please select an activated language as your "Default-Language".###15 06 2026 new variable
 meta#:#md_adv_active#:#Aktivan
 meta#:#md_adv_added_new_record#:#Dodan je novi skup podataka
 meta#:#md_adv_col_presentation_ordering#:#Položaj
@@ -12022,7 +12024,7 @@ meta#:#md_adv_number_suffix#:#Sufiks
 meta#:#md_adv_presentation#:#Prezentacija
 meta#:#md_adv_record_activate_languages#:#Activate Languages###04 06 2021 new variable
 meta#:#md_adv_record_list#:#Skupovi podataka
-meta#:#md_adv_record_lng_table#:#Language Managment###04 06 2021 new variable
+meta#:#md_adv_record_lng_table#:#Language Management###15 06 2026 new variable
 meta#:#md_adv_record_lng_table_active#:#Active###04 06 2021 new variable
 meta#:#md_adv_record_lng_table_default#:#Default###04 06 2021 new variable
 meta#:#md_adv_record_lng_table_inst#:#Installed###04 06 2021 new variable
@@ -12076,11 +12078,11 @@ meta#:#md_import_file_vocab#:#Import File###28 10 2024 new variable
 meta#:#md_import_vocab#:#Import###28 10 2024 new variable
 meta#:#md_import_vocab_modal#:#Import From File###28 10 2024 new variable
 meta#:#md_months#:#Mjesec:
-meta#:#md_oai_contact_mail#:#Contact E-Mail###28 10 2024 new variable
+meta#:#md_oai_contact_mail#:#Contact e-mail of this organisation###15 06 2026 new variable
 meta#:#md_oai_identifier_prefix#:#OAI Prefix###28 10 2024 new variable
 meta#:#md_oai_identifier_prefix_info#:#This prefix is used as a namespace in the identifiers of returned OER records.###28 10 2024 new variable
 meta#:#md_oai_pmh_enabled#:#Allow Querying via OAI-PMH Interface###28 10 2024 new variable
-meta#:#md_oai_pmh_enabled_info#:#If enabled, harvested OER can be queried by external interested parties, e.g. OER referatories.###28 10 2024 new variable
+meta#:#md_oai_pmh_enabled_info#:#If enabled, harvested OER can be queried by external interested parties, e.g. OER repositories.###15 06 2026 new variable
 meta#:#md_oai_repository_name#:#Repository Name###28 10 2024 new variable
 meta#:#md_oai_repository_name_info#:#This is returned as the name of this ILIAS installation when queried.###28 10 2024 new variable
 meta#:#md_obj_types#:#Dodijeljeni objekti
@@ -12138,7 +12140,7 @@ meta#:#meta_advmd_select_option_position#:#Position###26 08 2024 new variable
 meta#:#meta_advmd_select_option_value#:#Value###26 08 2024 new variable
 meta#:#meta_advmd_select_options#:#Unosi
 meta#:#meta_advmd_select_options_edit#:#Edit Entries###26 08 2024 new variable
-meta#:#meta_advmd_select_position_identifier#:#After %s###26 08 2024 new variable
+meta#:#meta_advmd_select_position_identifier#:#After ‘%s’###15 06 2026 new variable
 meta#:#meta_aggregation_level#:#Aggregation Level###26 08 2024 new variable
 meta#:#meta_amaya#:#Amaya###26 08 2024 new variable
 meta#:#meta_annotation#:#Bilješka
@@ -12880,7 +12882,7 @@ mob#:#mob_preview_picture#:#Preview Picture###26 08 2024 new variable
 mob#:#mob_really_delete_srt#:#Želite li zaista izbrisati sljedeće srt datoteke?
 mob#:#mob_second#:#Second###26 08 2024 new variable
 mob#:#mob_srt_files_deleted#:#Datoteke titlova su izbrisane.
-mob#:#mob_srt_not_allowed#:#Files with a .srt suffix are currently not allowed to be uploaded. If you would like to use srt files, contact your system administrator.###26 08 2024 new variable
+mob#:#mob_srt_not_allowed#:#Files with a .vtt suffix are currently not allowed to be uploaded. If you would like to use vtt files, contact your system administrator.###15 06 2026 new variable
 mob#:#mob_subtitle_file#:#Datoteka titlova
 mob#:#mob_subtitle_files#:#Datoteke titlova
 mob#:#mob_subtitles#:#Prevodi
@@ -13074,7 +13076,7 @@ notifications_adm#:#enable_osd#:#Enable Toasts###26 08 2024 new variable
 notifications_adm#:#enable_osd_desc#:#If enabled, users are notified by a pop-up about new notifications.###26 08 2024 new variable
 notifications_adm#:#notification_settings#:#Notification Settings###26 08 2024 new variable
 notifications_adm#:#osd_error_refresh_interval_too_small#:#The Refresh Interval has to be at least than 3000 miliseconds.###26 08 2024 new variable
-notifications_adm#:#osd_interval#:#Refreshinterval###26 08 2024 new variable
+notifications_adm#:#osd_interval#:#Refresh interval###15 06 2026 new variable
 notifications_adm#:#osd_interval_desc#:#Polling interval for checking of new notifications in miliseconds. A lower number will notify the user more quickly but increases the number of requests the web server must handle.###26 08 2024 new variable
 notifications_adm#:#osd_play_sound#:#Play a Sound###26 08 2024 new variable
 notifications_adm#:#osd_play_sound_desc#:#Play a sound when receiving a new notficiation.###26 08 2024 new variable
@@ -13214,7 +13216,7 @@ orgu#:#org_op_score_participants#:#Ocijeni sudionike
 orgu#:#org_op_view_certificates#:#View certificates of other users###04 06 2021 new variable
 orgu#:#org_op_view_competences#:#View competences of other users###04 06 2021 new variable
 orgu#:#org_op_view_individual_plan#:#View Individual Plan###04 06 2021 new variable
-orgu#:#org_op_view_members#:#View Members###04 06 2021 new variable
+orgu#:#org_op_view_members#:#View Assignments###15 06 2026 new variable
 orgu#:#org_op_write_learning_progress#:#Postavite napredak učenja drugih korisnika
 orgu#:#org_unit_not_found#:#Organizacijska jedinica nije pronađena.
 orgu#:#orgu_add#:#Dodaj organizacijsku jedinicu
@@ -13395,7 +13397,7 @@ prg#:#add_category#:#Add Category###04 06 2021 new variable
 prg#:#assignment_date#:#Assignment Date###04 06 2021 new variable
 prg#:#assignments#:#Assignments###29 07 2022 new variable
 prg#:#auto_add_success#:#Add automatism successfully.###04 06 2021 new variable
-prg#:#auto_membership_description#:#Rules are only executed when a criterion gets fulfilled after activation of the rule. Deleting rules will not remove assignments if any other active criterion is fulfilled by that time.###29 07 2022 new variable
+prg#:#auto_membership_description#:#Rules are only implemented when a criterion is fulfilled after a rule has been activated. Deleting rules will not remove allocations if any other active criterion has been fulfilled by that time.###15 06 2026 new variable
 prg#:#auto_membership_src_type#:#Type###04 06 2021 new variable
 prg#:#auto_membership_title#:#Sources for Membership Automation###04 06 2021 new variable
 prg#:#auto_memberships#:#Membership Automation###04 06 2021 new variable
@@ -13422,7 +13424,7 @@ prg#:#header_remove_certificate#:#Do you really want to remove the certificate f
 prg#:#header_update_certificate#:#Do you really want to update the certificate?###26 08 2024 new variable
 prg#:#header_update_current_plan#:#Do you really want to reset all individual settings for the selected assignments?###26 08 2024 new variable
 prg#:#inactive_only#:#inactive users only###26 08 2024 new variable
-prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>The validity of their participation in the study programm '% s' expires soon. Please sign in again.###04 06 2021 new variable
+prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>The validity of your participation in the study programm '%s' will soon expire. Please sign in again.###15 06 2026 new variable
 prg#:#info_to_re_assign_mail_subject#:#Reminder of renewed participation in the study programm###04 06 2021 new variable
 prg#:#invalidated#:#validity###26 08 2024 new variable
 prg#:#label_crs#:#Course Name###04 06 2021 new variable
@@ -13433,7 +13435,7 @@ prg#:#last_edited_by#:#Last Editor###04 06 2021 new variable
 prg#:#mail_assignments#:#Mail to assigned Users###29 07 2022 new variable
 prg#:#mails_foreign_assignment_failed#:#Selected assignments are not in current context. Mails should be sent from Study Programme's top node.###26 08 2024 new variable
 prg#:#manage_assignments#:#Manage Assignments###29 07 2022 new variable
-prg#:#membership_source_id#:#Id###04 06 2021 new variable
+prg#:#membership_source_id#:#ID###15 06 2026 new variable
 prg#:#membership_source_id_byline_objid#:#Please use the <b>object-id</b>###04 06 2021 new variable
 prg#:#membership_source_id_byline_refid#:#Please use the <b>reference-id</b>###04 06 2021 new variable
 prg#:#membership_source_type#:#Source###04 06 2021 new variable
@@ -13463,7 +13465,7 @@ prg#:#msg_update_from_settings_failed#:#Updated from settings failed:###29 07 20
 prg#:#msg_update_individual_plan#:#Individual plan: %s successfully updated.###29 07 2022 new variable
 prg#:#msg_update_individual_plan_failed#:#Update  of individual plan failed###29 07 2022 new variable
 prg#:#no_permission_to_update_certificate#:#You have no permission to update certificates.###26 08 2024 new variable
-prg#:#no_srctype_or_id#:#Id and type may not be empty.###04 06 2021 new variable
+prg#:#no_srctype_or_id#:#ID and type may not be empty.###15 06 2026 new variable
 prg#:#not_a_valid_cat_id#:#%s is not a valid ref-id of a category.###04 06 2021 new variable
 prg#:#obj_prg_select#:#-- Please select a study programme --###26 08 2024 new variable
 prg#:#optgrp_label_restart#:#Restart###26 08 2024 new variable
@@ -13528,7 +13530,7 @@ prg#:#prg_dash_label_unreachable#:#- cannot be achieved###26 08 2024 new variabl
 prg#:#prg_dash_label_valid#:#Valid###04 06 2021 new variable
 prg#:#prg_deadline#:#Rok
 prg#:#prg_deadline_date#:#Processing time expires at fixed date###04 06 2021 new variable
-prg#:#prg_deadline_date_desc#:#The programme must be finished until a given date.###04 06 2021 new variable
+prg#:#prg_deadline_date_desc#:#the programme must be finished until a given date.###15 06 2026 new variable
 prg#:#prg_deadline_date_label#:#Process until###26 08 2024 new variable
 prg#:#prg_deadline_period#:#Processing time is determined inividually###04 06 2021 new variable
 prg#:#prg_deadline_period_desc#:#The programme must be finished within a given timespan.###04 06 2021 new variable
@@ -13575,7 +13577,7 @@ prg#:#prg_multi_unmark_relevant#:#Poništi oznaku relevantno
 prg#:#prg_multi_update_certificate#:#Update Certificates###26 08 2024 new variable
 prg#:#prg_multi_update_from_current_plan#:#Ažuriranje iz trenutnog plana
 prg#:#prg_new#:#Novi studijski program
-prg#:#prg_no_deadline#:#No fixed prozessing time###04 06 2021 new variable
+prg#:#prg_no_deadline#:#No fixed processing time###15 06 2026 new variable
 prg#:#prg_no_members_not_active#:#Nije moguće dodati članove jer ovaj program nije aktivan.
 prg#:#prg_no_permission_to_remove_certificate#:#You do not have permission to remove certificates###26 08 2024 new variable
 prg#:#prg_no_restart#:#No restart required###04 06 2021 new variable
@@ -13636,7 +13638,7 @@ prg#:#prg_status_hide_irrelevant#:#hide irrelevant###26 08 2024 new variable
 prg#:#prg_status_in_progress#:#U nastajanju
 prg#:#prg_status_not_relevant#:#Nije bitno
 prg#:#prg_status_outdated#:#Zastario
-prg#:#prg_still_valid#:#still valid###04 06 2021 new variable
+prg#:#prg_still_valid#:#valid###15 06 2026 new variable
 prg#:#prg_subtype_add#:#Dodaj novi podtip
 prg#:#prg_subtypes#:#Podtipovi
 prg#:#prg_successfully_removed_certificate#:#Successfully removed certificate of selected Users###26 08 2024 new variable
@@ -13674,7 +13676,7 @@ prg#:#prg_user_not_restarted_title#:#Send warning mail about restart###04 06 202
 prg#:#prg_user_risky_to_fail_desc#:#Sends users a warning mail if they are at the risk to fail a study programme due to a deadline.###04 06 2021 new variable
 prg#:#prg_user_risky_to_fail_title#:#Send warning mail about possible failure###04 06 2021 new variable
 prg#:#prg_validity#:#Validity###04 06 2021 new variable
-prg#:#prg_validity_of_qualification#:#Validity of Achieved Qualifications###04 06 2021 new variable
+prg#:#prg_validity_of_qualification#:#Validity of achieved Qualifications###15 06 2026 new variable
 prg#:#prg_validity_of_qualification_limit#:#Qualification Expiry###04 06 2021 new variable
 prg#:#prg_validity_of_qualification_restart#:#Restart###04 06 2021 new variable
 prg#:#prg_view#:#Prikaz
@@ -13683,7 +13685,7 @@ prg#:#re_assigned_mail_body#:#%s %s,<br/><br/>you were reassigned to study progr
 prg#:#re_assigned_mail_subject#:#Renewed participation in the study programm###04 06 2021 new variable
 prg#:#restart_information#:#Information regarding automatic restart upon pending qualification expiration###04 06 2021 new variable
 prg#:#restart_period#:#Restart obligatory###04 06 2021 new variable
-prg#:#restart_period_desc#:#days before expiry###04 06 2021 new variable
+prg#:#restart_period_desc#:#automatic reassignment before expiry###15 06 2026 new variable
 prg#:#restart_period_info#:#Days before qualification expiration to restart qualification###04 06 2021 new variable
 prg#:#restart_period_label#:#Days before expiry###26 08 2024 new variable
 prg#:#restart_recheck_desc#:#For assignments made via an automatism, the system rechecks whether criteria for the assignment still exist.###26 08 2024 new variable
@@ -13720,7 +13722,7 @@ prg#:#usr_active#:#User###26 08 2024 new variable
 prg#:#validity_qualification_date#:#Qualification expires at fixed date###04 06 2021 new variable
 prg#:#validity_qualification_date_desc#:#expiry date###04 06 2021 new variable
 prg#:#validity_qualification_period#:#Qualification expires individually###04 06 2021 new variable
-prg#:#validity_qualification_period_desc#:#days after completion###04 06 2021 new variable
+prg#:#validity_qualification_period_desc#:#Qualification is valid for this amount of days and expires afterwards###15 06 2026 new variable
 prg#:#validity_updated#:#Updated validity###29 07 2022 new variable
 prg#:#vq_date#:#Expiration###26 08 2024 new variable
 prg#:#vq_date_info#:#Qualification expires at fixed date###04 06 2021 new variable
@@ -13911,7 +13913,7 @@ ps#:#ps_login_max_attempts_info#:# Sets the maximum number of unsuccessful attem
 ps#:#ps_not_accepted#:#Not Accepted
 ps#:#ps_participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###04 06 2021 new variable
 ps#:#ps_passwd_policy_change_force_user_reset_succ#:#The changes have been successfully applied.###04 06 2021 new variable
-ps#:#ps_passwd_policy_changed_force_user_reset#:#The changes were saved successfully. You just modified at least one password policy setting. Should local users be forced to change their password after the next successful login?###04 06 2021 new variable
+ps#:#ps_passwd_policy_changed_force_user_reset#:#Your changes have been saved successfully. You just modified at least one password policy setting. Should local users be forced to change their password after their next successful login?###15 06 2026 new variable
 ps#:#ps_password_change_on_first_login_enabled#:#Change Password on First Login
 ps#:#ps_password_change_on_first_login_enabled_info#:#If enabled, users have to change their password on first login (except users registered themselves).
 ps#:#ps_password_chars_and_numbers_enabled#:#Force Characters and Numbers
@@ -14426,11 +14428,11 @@ rbac#:#mail_to_global_roles#:#Globalne poruke e-pošte
 rbac#:#mail_visible#:#Administracija pošte je vidljiva
 rbac#:#mail_write#:#Korisnik može uređivati postavke u administraciji pošte
 rbac#:#manage_all_reservations#:#Manage All Reservations###28 10 2024 new variable
-rbac#:#manage_comp#:#User can edit Competences###29 07 2022 new variable
-rbac#:#manage_comp_temp#:#User can edit Competence Templates###29 07 2022 new variable
+rbac#:#manage_comp#:#Edit Competences###15 06 2026 new variable
+rbac#:#manage_comp_temp#:#Edit Competence Templates###15 06 2026 new variable
 rbac#:#manage_materials#:#Upravljanje materijalima
 rbac#:#manage_own_reservations#:#Manage Own Reservations###28 10 2024 new variable
-rbac#:#manage_profiles#:#User can edit Competence Profiles###29 07 2022 new variable
+rbac#:#manage_profiles#:#Edit Competence Profiles###15 06 2026 new variable
 rbac#:#mcst_copy#:#Korisnik može kopirati mediacast
 rbac#:#mcst_delete#:#Korisnik može premještati ili brisati mediacast
 rbac#:#mcst_edit_learning_progress#:#Korisnik može uređivati postavke napretka u učenju
@@ -14644,26 +14646,26 @@ rbac#:#rbac_delete_local_policies#:#Izbriši lokalna pravila
 rbac#:#rbac_delete_local_policies_info#:#Ako je aktivirano, izbrisat će se sva lokalna pravila. Dopuštenja za objekt bit će prepisana i zaštićena.
 rbac#:#rbac_delete_role#:#Izbriši ulogu
 rbac#:#rbac_edit_condition#:#Uredi preduvjet
-rbac#:#rbac_form_copy_roles_adjust_button#:#Rechte anpassen###04 06 2021 new variable
-rbac#:#rbac_form_copy_roles_adjust_type#:#Typ der Rechteanpassung###04 06 2021 new variable
-rbac#:#rbac_form_copy_roles_adjust_type_add#:#Rechte hinzufügen###04 06 2021 new variable
-rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Fügt MARKIERTE Rechte der ausgewählten globalen Rollenvorlage zu den lokalen Rechtevorgabe hinzu.###04 06 2021 new variable
-rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Rechte kopieren###04 06 2021 new variable
-rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#Alle Rechte der ausgewählten globalen Rollenvorlage überschreiben alle lokalen Rechtevorgaben.###04 06 2021 new variable
-rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Rechte entfernen###04 06 2021 new variable
-rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Entfernt die MARKIERTEN Rechte der ausgewählten globalen Rollenvorlage aus den lokalen Rechtevorgaben.###04 06 2021 new variable
-rbac#:#rbac_form_copy_roles_ce_add_no#:#Vorhandene Objekte NICHT anpassen###04 06 2021 new variable
-rbac#:#rbac_form_copy_roles_ce_add_no_info#:#Vorhandene lokale Rechtevorgaben entsprechend ergänzt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst.###04 06 2021 new variable
-rbac#:#rbac_form_copy_roles_ce_add_yes#:#Vorhandene Objekte nur um ausgewählte Rechte ergänzen###04 06 2021 new variable
-rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend ergänzt.###04 06 2021 new variable
-rbac#:#rbac_form_copy_roles_ce_clone_no#:#Vorhandene Objekte NICHT anpassen###04 06 2021 new variable
-rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#Vorhandene lokale Rechtevorgaben werden überschrieben, die vorhandenen Objekte werden nicht in ihren Rechten angepasst.###04 06 2021 new variable
-rbac#:#rbac_form_copy_roles_ce_clone_yes#:#Vorhandene Objekte ändern###04 06 2021 new variable
-rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#Vorhandene lokale Rechtevorgaben entsprechend überschreiben und IN GÄNZE mit allen gecheckten und ungecheckten Vorgaben auf vorhandene Objekte angewendet.###04 06 2021 new variable
-rbac#:#rbac_form_copy_roles_ce_remove_no#:#Vorhandene Objekte NICHT anpassen###04 06 2021 new variable
-rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#Markierte Rechte werden aus vorhandenen lokalen Rechtevorgaben entfernt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst.###04 06 2021 new variable
-rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Vorhandene Objekte nur um ausgewählte Rechte reduzieren###04 06 2021 new variable
-rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend reduziert.###04 06 2021 new variable
+rbac#:#rbac_form_copy_roles_adjust_button#:#Alter Permissions###15 06 2026 new variable
+rbac#:#rbac_form_copy_roles_adjust_type#:#Type of Permission Alteration###15 06 2026 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_add#:#Add Permissions###15 06 2026 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Adds the SELECTED permissions of the role or role template from which you are copying to the default permissions of the target role.###15 06 2026 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Overwrite Permissions###15 06 2026 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#Completely overwrites the permission settings of the target role with the permissions settings of the role or role template from which you are copying. This applies to both the selected AND unselected permissions.###15 06 2026 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Remove Permissions###15 06 2026 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Removes the SELECTED permissions (of the role or role template from which you are copying) from the default permissions of the target role.###15 06 2026 new variable
+rbac#:#rbac_form_copy_roles_ce_add_no#:#Do NOT Alter Existing Objects###15 06 2026 new variable
+rbac#:#rbac_form_copy_roles_ce_add_no_info#:#Only the permission settings of the target role(s) will be overwritten. Existing objects will not be affected.###15 06 2026 new variable
+rbac#:#rbac_form_copy_roles_ce_add_yes#:#Alter Existing Objects###15 06 2026 new variable
+rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#The selected permissions settings of the role from which you are copying will be added to both the target role(s) AND any existing objects.###15 06 2026 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_no#:#Do NOT Alter Existing Objects###15 06 2026 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#Only the permission settings of the target role(s) will be overwritten. Existing objects will not be affected.###15 06 2026 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_yes#:#Alter Existing Objects###15 06 2026 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#The permissions settings of the target role(s) AND of any existing objects will be overwritten.###15 06 2026 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_no#:#Do NOT Alter Existing Objects###15 06 2026 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#The selected permissions will only be removed from target role(s). The permission settings of existing objects will not be altered.###15 06 2026 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Remove From Existing Objects###15 06 2026 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#The selected permissions will be removed from the target role(s) AND from the permission settings of existing objects.###15 06 2026 new variable
 rbac#:#rbac_global_rolt#:#Predložak globalne uloge
 rbac#:#rbac_import_role#:#Uvezi ulogu
 rbac#:#rbac_info_only_position_access#:#Prikazuju vam se samo oni članovi koji imaju položaj u vašoj organizacijskoj jedinici. Članovi s drugim organizacijskim pozicijama vam se ne prikazuju, ali mogu biti na ovom tečaju, a da vam se ne prikažu.
@@ -14729,10 +14731,10 @@ rbac#:#rcrs_edit_permission#:#Korisnik može promijeniti postavke dozvole
 rbac#:#rcrs_read#:#Korisnik može koristiti tečaj ECS
 rbac#:#rcrs_visible#:#Tečaj ECS je vidljiv
 rbac#:#rcrs_write#:#Korisnik može uređivati postavke tečaja ECS
-rbac#:#read_comp#:#User has read access to Competences and Competence Templates###29 07 2022 new variable
+rbac#:#read_comp#:#Read Competences###15 06 2026 new variable
 rbac#:#read_learning_progress#:#Pogledajte napredak učenja ostalih korisnika
 rbac#:#read_outcomes#:#View learning experiences of other users###04 06 2021 new variable
-rbac#:#read_profiles#:#User has read access to Competence Profiles###29 07 2022 new variable
+rbac#:#read_profiles#:#Read Profiles###15 06 2026 new variable
 rbac#:#read_results#:#Rezultati ankete
 rbac#:#read_users#:#Pristup za čitanje korisničkim računima
 rbac#:#recf_edit_permission#:#Korisnik može promijeniti postavke dozvola administracije obnovljenih objekata
@@ -14895,7 +14897,7 @@ rbac#:#tst_tst_history_read#:#View History###21 05 2025 new variable
 rbac#:#tst_tst_results#:#Korisnik ima pristup rezultatima testova drugih
 rbac#:#tst_visible#:#Test je vidljiv
 rbac#:#tst_write#:#Korisnik može uređivati sadržaj i postavke testa
-rbac#:#upload_blacklisted_files#:#Bypass blacklist###04 06 2021 new variable
+rbac#:#upload_blacklisted_files#:#Bypass Negative List###15 06 2026 new variable
 rbac#:#usrf_delete#:#Korisnik može brisati korisničke račune
 rbac#:#usrf_edit_permission#:#Korisnik može promijeniti postavke dozvola u administraciji korisnika
 rbac#:#usrf_edit_roleassignment#:#Korisnik može promijeniti dodjelu uloga korisničkog računa
@@ -14975,7 +14977,7 @@ registration#:#reg_direct_info#:#Ako je ovo potvrđeno, svaki novi zahtjev za re
 registration#:#reg_disabled#:#Registracija nije moguća
 registration#:#reg_domain#:#Domena
 registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###26 08 2024 new variable
-registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###26 08 2024 new variable
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role.###15 06 2026 new variable
 registration#:#reg_email#:#Automatsko dodjeljivanje uloga
 registration#:#reg_email_domains#:#Sljedeće domene adresa e-pošte su važeće: %s
 registration#:#reg_email_domains_code#:#S registracijskim kodom vrijedi bilo koja adresa e-pošte.
@@ -15106,7 +15108,7 @@ rep#:#rep_new_item_group_unassigned#:#Not Assigned
 rep#:#rep_new_item_group_unassigned_subitems#:#Number of Unassigned Objects: %s
 rep#:#rep_new_item_groups#:#Grouping
 rep#:#rep_new_item_menu#:#‘Add New Item’-Menu
-rep#:#rep_no_last_visited_mess#:#You did not visited any resources yet.###04 06 2021 new variable
+rep#:#rep_no_last_visited_mess#:#You have not yet visited any objects in the Repository.###15 06 2026 new variable
 rep#:#rep_no_permission_to_delete#:#No permission to delete
 rep#:#rep_object_lists#:#Object Lists
 rep#:#rep_object_references_cannot_be_read#:#No permissions for %s more references.
@@ -15546,7 +15548,7 @@ search#:#search_show_inactive_user#:#Prikaži neaktivne korisnike
 search#:#search_show_inactive_user_info#:#Ako je omogućeno, pretraživanje korisnika prikazat će i neaktivne korisnike.
 search#:#search_show_limited_user#:#Prikaži korisnike s ograničenim pristupom
 search#:#search_show_limited_user_info#:#Ako je omogućeno, pretraživanje korisnika prikazat će i korisnike s ograničenim pristupom izvan dopuštenog vremenskog razdoblja.
-search#:#search_sort_by#:#Sortation: %s###28 10 2024 new variable
+search#:#search_sort_by#:#Sortation:###15 06 2026 new variable
 search#:#search_sort_creation_date_asc#:#Oldest###28 10 2024 new variable
 search#:#search_sort_creation_date_desc#:#Latest###28 10 2024 new variable
 search#:#search_sort_generic_asc#:#%s, asc.###28 10 2024 new variable
@@ -15756,7 +15758,7 @@ skmg#:#skmg_create_skill_template_reference#:#Create Competence Template Referen
 skmg#:#skmg_create_skll#:#Create Competence
 skmg#:#skmg_custom_image_alt#:#Custom image for competence profile###29 07 2022 new variable
 skmg#:#skmg_delete_profiles#:#Do you really want to delete the following profiles?
-skmg#:#skmg_delete_warning#:#Are you sure that you want to delete the following item(s)? When you delete the items, you also delete all usages, assignments and achievements of it. To be on the safe side, you find a list of all usages below. If the item is used in a competence profile, it will be removed from the profile, too. This may cause the fulfilment of the competence profile for the assigned users. If your are not sure whether an item should really be deleted, please use the statuses in the settings of a single item.###26 08 2024 new variable
+skmg#:#skmg_delete_warning#:#Are you sure that you want to delete the following competences, competence categories or competence trees? You also delete all record for objects and users. If the item is removed from a competence profile this may result in the competence profile being fulfilled for the assigned users. The list below shows how many times the item to be deleted is used in objects and by users. Please inspect the list below closely before actually deleting.###15 06 2026 new variable
 skmg#:#skmg_description_info#:#The description comes from the template.###04 06 2021 new variable
 skmg#:#skmg_edit_level#:#Edit Level
 skmg#:#skmg_edit_profile#:#Edit Profile
@@ -15796,7 +15798,7 @@ skmg#:#skmg_new_sktr#:#New Competence Template Reference
 skmg#:#skmg_next_step#:#Next Step
 skmg#:#skmg_no_nodes_selectable#:#Currently there are no competences selectable.
 skmg#:#skmg_no_skill_entries#:#You do not have any entries for this competence yet.###26 08 2024 new variable
-skmg#:#skmg_no_skills_selected_info#:#You have not selected any competences yet. Click on the button "Add Competence" to select a competence and to see it here. You can add any number of competences.###29 07 2022 new variable
+skmg#:#skmg_no_skills_selected_info#:#You have not selected or fulfilled any competences yet. Click on the "Add Competence"-button to select a competence. You can add any number of competences. If you fulfill competences by editing learning materials, they will be automatically listed here.###15 06 2026 new variable
 skmg#:#skmg_no_trigger#:#No Trigger
 skmg#:#skmg_nr#:#Nr
 skmg#:#skmg_number#:#Number
@@ -15814,7 +15816,7 @@ skmg#:#skmg_really_remove_skills#:#Do you really want to remove the following co
 skmg#:#skmg_recommended_learning_material_crs#:#Achieve your targets in this course###26 08 2024 new variable
 skmg#:#skmg_recommended_learning_material_global#:#Achieve your targets###26 08 2024 new variable
 skmg#:#skmg_recommended_learning_material_grp#:#Achieve your targets in this group###26 08 2024 new variable
-skmg#:#skmg_recommended_learning_material_info#:#Select exactly one of the following learning materials. Please work through it to achieve the competence target.###29 07 2022 new variable
+skmg#:#skmg_recommended_learning_material_info#:#Please work through the following learning materials to achieve the competence target. Select exactly one learning material per competence level.###15 06 2026 new variable
 skmg#:#skmg_refresh_view#:#Refresh
 skmg#:#skmg_remove#:#Remove###26 08 2024 new variable
 skmg#:#skmg_remove_levels#:#Remove Levels
@@ -15852,7 +15854,7 @@ skmg#:#skmg_skill_levels#:#Competence Levels
 skmg#:#skmg_skill_management_deactivated#:#Competence Management is currently deactivated.
 skmg#:#skmg_skill_needs_impr_no_res#:#You need to improve this competence. Unfortunately there are currently no learning resources available providing learning material aligned to your target competence level.
 skmg#:#skmg_skill_needs_impr_res#:#You need to improve this competence. The following resources provide learning material aligned to your target competence level.
-skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to see your competence target. Please click on "Actions" for that.###29 07 2022 new variable
+skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to see your competence target.###15 06 2026 new variable
 skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done.###29 07 2022 new variable
 skmg#:#skmg_skill_no_needs_impr#:#Your competence level is sufficient for the selected profile.
 skmg#:#skmg_skill_no_needs_impr_info#:#You achieved the target for this competence.###29 07 2022 new variable
@@ -15876,7 +15878,7 @@ skmg#:#skmg_suggested#:#Suggested Resource
 skmg#:#skmg_suggested_resources#:#Suggested Resources
 skmg#:#skmg_sure_delete_self_evaluation#:#Do you really want to delete the following self-evaluations?
 skmg#:#skmg_target_level#:#Profile Target Level
-skmg#:#skmg_target_levels#:#Target Levels###04 06 2021 new variable
+skmg#:#skmg_target_levels#:#Competence Targets###15 06 2026 new variable
 skmg#:#skmg_trigger#:#Trigger
 skmg#:#skmg_type#:#Type
 skmg#:#skmg_type_of_formation#:#Type of Formation
@@ -16707,7 +16709,7 @@ survey#:#survey_auto_block_title#:#Zaglavlje stranice
 survey#:#survey_available_question_pools#:#Dostupni bazeni
 survey#:#survey_calc_skills#:#Odredi razinu kompetencije
 survey#:#survey_calculate_sum_score#:#Calculate Sum Score###04 06 2021 new variable
-survey#:#survey_calculate_sum_score_info#:#Calculates the sum of all scale values for single choice, multiple choice and matrix questions for each participant. Caution: If participants skip these kind of questions, the whole sum score will not be calculated anymore.###04 06 2021 new variable
+survey#:#survey_calculate_sum_score_info#:#Calculate the sum of all scale values for single choice, multiple choice and matrix questions for each participant. Please note: If a participant skips any of these types of questions, their sum score will not be calculated.###15 06 2026 new variable
 survey#:#survey_cancel_preview#:#Otkaži pregled
 survey#:#survey_cannot_preview_survey#:#Pregled nije dostupan
 survey#:#survey_code#:#Pristupni kod za anketu
@@ -16745,7 +16747,7 @@ survey#:#survey_not_available#:#nije primjenjivo
 survey#:#survey_notification_finished_introduction#:#Sljedeći je sudionik završio anketu.
 survey#:#survey_notification_finished_reason#:#Ovu e-poštu primate jer ste aktivirali obavijesti za gore spomenutu anketu.
 survey#:#survey_notification_target_group#:#Ciljana skupina
-survey#:#survey_notification_target_group_invited#:#All users who got the survey put on their Personal Desktop###04 06 2021 new variable
+survey#:#survey_notification_target_group_invited#:#All users who have had the survey added as a task on their dashboard###15 06 2026 new variable
 survey#:#survey_notification_target_group_invited_info#:#Broj trenutnih primatelja: %s
 survey#:#survey_notification_target_group_parent_course#:#Svi članovi nadređenog tečaja/grupe
 survey#:#survey_notification_target_group_parent_course_inactive#:#Nije dat nijedan nadređeni tečaj/grupa - neće se slati podsjetnici!
@@ -16773,7 +16775,7 @@ survey#:#survey_questions#:#Pitanja
 survey#:#survey_questions_to_clipboard_copy#:#Pitanje(a) je(su) kopirano(a) u međuspremnik. Odaberi cilj ili isprazni međuspremnik.
 survey#:#survey_reached_level#:#Dosegnuta razina
 survey#:#survey_reminder_body#:#sljedeću anketu još niste završili
-survey#:#survey_reminder_cron#:#Remind users to participate / Send results to tutors###04 06 2021 new variable
+survey#:#survey_reminder_cron#:#Reminder for Surveys###15 06 2026 new variable
 survey#:#survey_reminder_cron_info#:#Ako je aktivirano, korisnici će se podsjetiti da sudjeluju u anketama.
 survey#:#survey_reminder_end#:#Kraj
 survey#:#survey_reminder_frequency#:#Učestalost
@@ -16811,8 +16813,8 @@ survey#:#survey_sync_success#:#Odabrana pitanja su ažurirana.
 survey#:#survey_use_start_button#:#U anketu morate ući pomoću gumba Start!
 survey#:#svy_activation_limited_visibility_info#:#Izvan naznačenog razdoblja prikazat će se samo naslov ankete dok pitanju nije moguće pristupiti.
 survey#:#svy_activation_online_info#:#Samo ako je anketa online, korisnici mogu sudjelovati u njoj.
-survey#:#svy_add_internal_user#:#Add User###29 07 2022 new variable
-survey#:#svy_add_internal_user_info#:#The rater has a registered user on this platform.###29 07 2022 new variable
+survey#:#svy_add_internal_user#:#Add User Manually###15 06 2026 new variable
+survey#:#svy_add_internal_user_info#:#Add someone as a rater who is a registered user on this platform.###15 06 2026 new variable
 survey#:#svy_add_rater#:#Add Rater###29 07 2022 new variable
 survey#:#svy_all_raters#:#All Raters###29 07 2022 new variable
 survey#:#svy_all_survey_competences#:#Sve anketne kompetencije
@@ -16825,7 +16827,7 @@ survey#:#svy_anonymous_participants_min_info#:#Popis će biti dostupan samo ako 
 survey#:#svy_anonymous_participants_svy#:#Popis sudionika
 survey#:#svy_anonymous_participants_svy_info#:#Ako je aktiviran, popis sudionika dostupan je nakon datuma završetka.
 survey#:#svy_answer_too_long#:#Vaš je trenutačni odgovor je predugačak (%s znakova). Molimo vas da skratite svoj odgovor.
-survey#:#svy_app_see_rater_info#:#Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters.###29 07 2022 new variable
+survey#:#svy_app_see_rater_info#:#Appraisees can access rater information via the ‘Results’ tab, including names and e-mail addresses, if this information was also entered when adding the raters.###15 06 2026 new variable
 survey#:#svy_appraisses_cannot_be_raters#:#Korisnik se ne može dodati kao ocjenjivač. Umjesto toga upotrijebite opciju samoevaluacije u postavkama ankete.
 survey#:#svy_back#:#Natrag
 survey#:#svy_categories#:#Odgovori
@@ -16833,7 +16835,7 @@ survey#:#svy_check_evaluation_access_introduction#:#Budući da ovoj evaluaciji a
 survey#:#svy_check_evaluation_authentication_needed#:#Potrebna je provjera autentičnosti
 survey#:#svy_check_evaluation_wrong_key#:#Unijeli ste pogrešan pristupni kod ankete ili niste sudjelovali u anketi. Vaš pristup evaluaciji ankete je odbijen.
 survey#:#svy_compress_view#:#Compressed View###04 06 2021 new variable
-survey#:#svy_compress_view_info#:#If activated, all single choice questions with similar scales will be presented matrix-like.###04 06 2021 new variable
+survey#:#svy_compress_view_info#:#Present all single choice questions that have the same answer scales in the manner of a matrix question.###15 06 2026 new variable
 survey#:#svy_copy#:#Kopiraj anketu
 survey#:#svy_create_question#:#Kreiraj pitanje
 survey#:#svy_delete_all_user_data#:#Izbriši sve korisničke podatke
@@ -16865,13 +16867,13 @@ survey#:#svy_export_pdf#:#Export PDF###04 06 2021 new variable
 survey#:#svy_ext_rater_firstname#:#First name of external rater###29 07 2022 new variable
 survey#:#svy_ext_rater_lastname#:#Last name of external rater###29 07 2022 new variable
 survey#:#svy_external_rater#:#Add External Rater###29 07 2022 new variable
-survey#:#svy_external_rater_info#:#The rater is not registered on this platform.###29 07 2022 new variable
+survey#:#svy_external_rater_info#:#Add someone who is not a registered user on this platform as a rater.###15 06 2026 new variable
 survey#:#svy_fraction_of_selections#:#Razlomak odabira
 survey#:#svy_gap_analysis#:#Analiza praznina
 survey#:#svy_general_properties#:#Opća svojstva
 survey#:#svy_import_codes#:#Uvezi kodove
 survey#:#svy_import_codes_info#:#Za ovaj uvoz potrebna je izvozna datoteka "%s".
-survey#:#svy_ind_feedb_info#:#Users get distinct evaluations by others.###29 07 2022 new variable
+survey#:#svy_ind_feedb_info#:#Enables users to receive evaluations on an individual basis from others users.###15 06 2026 new variable
 survey#:#svy_ind_feedb_mode#:#Individual Feedback###29 07 2022 new variable
 survey#:#svy_mail_confirmation_subject#:#Anketa "%s" - Vaša potvrda o sudjelovanju
 survey#:#svy_mail_context_rater_invitation_info#:#Invite raters to participate in a survey.###29 07 2022 new variable
@@ -16887,7 +16889,7 @@ survey#:#svy_mail_send_confirmation#:#Pošalji potvrdu o sudjelovanju
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#Postavke stupaca ne iznose u zbroju 100%.
 survey#:#svy_max_sum_score#:#Maximum Sum Score###04 06 2021 new variable
 survey#:#svy_neutral_answer#:#Tekst za neutralni odgovor (‘Nije određeno’, ‘Ne znam’ itd.)
-survey#:#svy_no_appraisees_found#:#No appraisees with feedbacks found.###26 08 2024 new variable
+survey#:#svy_no_appraisees_found#:#No appraisees have yet closed this survey to raters. As soon as an appraisee has done so, their competence results will be visible here.###15 06 2026 new variable
 survey#:#svy_notification_tutor_results#:#One E-Mail including Survey Results###04 06 2021 new variable
 survey#:#svy_notification_tutor_results_alert#:#This requires an end date.###04 06 2021 new variable
 survey#:#svy_notification_tutor_results_info#:#After reaching the end data a cron job will send an email with the detailed survey results attached to it.###04 06 2021 new variable
@@ -16903,7 +16905,7 @@ survey#:#svy_print_hide_labels#:#Sakrij oznake
 survey#:#svy_print_show_labels#:#Pokaži oznake
 survey#:#svy_privacy_info#:#Privacy###29 07 2022 new variable
 survey#:#svy_rater#:#Rater###29 07 2022 new variable
-survey#:#svy_rater_see_app_info#:#The names of appraisees will be presented to raters to enable them evaluating the questions.###29 07 2022 new variable
+survey#:#svy_rater_see_app_info#:#Raters are shown the names of their appraisees so that they can meaningfully respond to the questions concerning those individuals.###15 06 2026 new variable
 survey#:#svy_reminder_mail_template#:#Predložak pošte
 survey#:#svy_reminder_mail_template_none#:#Ne koristi predložak pošte
 survey#:#svy_result_mail_notification_info#:#Po završetku ankete odgovori svakog sudionika bit će poslani definiranim primateljima.
@@ -16916,8 +16918,8 @@ survey#:#svy_results_view_own#:#Sudionici mogu vidjeti vlastite odgovore
 survey#:#svy_results_view_own_info#:#Nakon završetka ankete sudionici mogu vidjeti popis svih odgovora koje su dali. Ne mogu promijeniti svoje odgovore
 survey#:#svy_save_and_continue#:#Save and Continue###29 07 2022 new variable
 survey#:#svy_save_sync#:#Spremi i sinkroniziraj kopije pitanja
-survey#:#svy_search_user#:#Search User###29 07 2022 new variable
-survey#:#svy_search_user_info#:#Search for users or roles and pick participants.###29 07 2022 new variable
+survey#:#svy_search_user#:#Look Up User###15 06 2026 new variable
+survey#:#svy_search_user_info#:#Look up for specific users of this platform or for the members of specific groups, courses, roles or organisational units.###15 06 2026 new variable
 survey#:#svy_search_users#:#Traži sudionike
 survey#:#svy_select_rater#:#Select Rater###29 07 2022 new variable
 survey#:#svy_selected_user_data_deleted#:#Anketni podaci odabranih korisnika uspješno su izbrisani
@@ -16934,9 +16936,9 @@ survey#:#svy_settings_section_reminders#:#Podsjetnici
 survey#:#svy_show_questiontitles#:#Prikaži naslov pitanja
 survey#:#svy_skl_comp_assignm_not_supported#:#Dodjela kompetencija nije podržana za ovu vrstu pitanja.
 survey#:#svy_sum_score#:#Sum Score###04 06 2021 new variable
-survey#:#svy_type_of_rater#:#Type of Rater###29 07 2022 new variable
+survey#:#svy_type_of_rater#:#Method###15 06 2026 new variable
 survey#:#svy_view_own_results#:#Pogledaj dane odgovore
-survey#:#svy_wrong_or_expired_code#:#Sorry, you entered an invalid or expired code.###26 08 2024 new variable
+survey#:#svy_wrong_or_expired_code#:#Unfortunately, the code you have entered is either invalid or has expired. Please try again and if that doesn’t work, contact the person conducting this survey.###15 06 2026 new variable
 survey#:#text_maximum_chars_allowed#:#Molimo unesite najviše %s znakova. Svi gornji znakovi bit će izrezani.
 survey#:#text_question_not_filled_out#:#Molimo ispunite polje za odgovor!
 survey#:#unfold#:#Raspusti
@@ -16957,40 +16959,40 @@ survey#:#warning_question_not_complete#:#Pitanje nije potpuno!
 survey#:#workingtime#:#Radno vrijeme
 svy#:#survey_360_appraisees_remind_info#:#Ako se aktivira samoprocjena, procijenjene osobe koje još nisu završile anketu dobit će podsjetnik.
 svy#:#survey_360_raters_remind_info#:#Ocjenjivači koji još nisu završili anketu dobit će podsjetnik.
-svy#:#svy_0_open_appraisees#:#You cannot perform the survey for any appraisee anymore.###28 10 2024 new variable
+svy#:#svy_0_open_appraisees#:#There are no more appraisees for you to rate or the survey is no longer open to raters.###15 06 2026 new variable
 svy#:#svy_all_pages#:#All Pages###29 07 2022 new variable
 svy#:#svy_all_participants#:#All Participants###29 07 2022 new variable
 svy#:#svy_all_questions#:#All Questions###29 07 2022 new variable
 svy#:#svy_code#:#Access Code###28 10 2024 new variable
 svy#:#svy_codes#:#Access Codes###04 06 2021 new variable
 svy#:#svy_current_page#:#Current Page###29 07 2022 new variable
-svy#:#svy_finish_survey#:#Finish survey '%1'###04 06 2021 new variable
-svy#:#svy_finished_x_appraisees#:#You have finished the survey for %s appraisee(s).###28 10 2024 new variable
+svy#:#svy_finish_survey#:#Take part in survey ‘%1’###15 06 2026 new variable
+svy#:#svy_finished_x_appraisees#:#You have already completed the survey for %s appraisee(s).###15 06 2026 new variable
 svy#:#svy_information#:#Information###28 10 2024 new variable
-svy#:#svy_invite_participants#:#Invite Participants###04 06 2021 new variable
+svy#:#svy_invite_participants#:#Add to Tasks of Users###15 06 2026 new variable
 svy#:#svy_link_to_svy#:#Link to Survey###26 08 2024 new variable
 svy#:#svy_part_overview#:#Overview###04 06 2021 new variable
 svy#:#svy_placeholders_label#:#Available Placeholders###26 08 2024 new variable
 svy#:#svy_print_selection#:#Print View Selection###29 07 2022 new variable
-svy#:#svy_remove_all_participants#:#Remove all Participants###04 06 2021 new variable
+svy#:#svy_remove_all_participants#:#Delete All Participant Data###15 06 2026 new variable
 svy#:#svy_remove_participants#:#Remove Participants###04 06 2021 new variable
 svy#:#svy_selected_participants#:#Selected Participants###29 07 2022 new variable
 svy#:#svy_selected_questions#:#Selected Questions###29 07 2022 new variable
 svy#:#svy_selection#:#Selection###29 07 2022 new variable
 svy#:#svy_status#:#Status###04 06 2021 new variable
 svy#:#svy_status_finished#:#Finished###04 06 2021 new variable
-svy#:#svy_status_in_progress#:#In Progress###04 06 2021 new variable
-svy#:#svy_status_invited#:#Invited###04 06 2021 new variable
-svy#:#svy_user_added_appraisee#:#Survey '%1'###26 08 2024 new variable
+svy#:#svy_status_in_progress#:#In progress###15 06 2026 new variable
+svy#:#svy_status_invited#:#Added to tasks###15 06 2026 new variable
+svy#:#svy_user_added_appraisee#:#Survey ‘%1’###15 06 2026 new variable
 svy#:#svy_user_added_appraisee_close_mail#:#The survey has been closed for your raters.###26 08 2024 new variable
 svy#:#svy_user_added_appraisee_mail#:#You have been added to the survey as an appraisee.###26 08 2024 new variable
-svy#:#svy_user_added_rater#:#Survey '%1'###26 08 2024 new variable
+svy#:#svy_user_added_rater#:#Survey ‘%1’###15 06 2026 new variable
 svy#:#svy_user_added_rater_mail#:#You have been added as a rater to the survey.###26 08 2024 new variable
-svy#:#svy_user_added_rater_reminder_mail#:#Please finish to rate the following appraisees:###26 08 2024 new variable
+svy#:#svy_user_added_rater_reminder_mail#:#Please don’t forget to rate the following appraisees:###15 06 2026 new variable
 svy#:#svy_user_not_found#:#User not found.###26 08 2024 new variable
-svy#:#svy_users_invited#:#Users have been invited.###04 06 2021 new variable
-svy#:#svy_x_appraisees_closed_for_raters#:#%s appraisee(s) has/have closed the survey for raters.###28 10 2024 new variable
-svy#:#svy_x_open_appraisees#:#%s appraisee(s) are open for you to rate.###28 10 2024 new variable
+svy#:#svy_users_invited#:#A ‘to do’, notifying users that they can take part in this survey, has been added to the ‘Tasks’ section of their dashboard(s).###15 06 2026 new variable
+svy#:#svy_x_appraisees_closed_for_raters#:#The survey has been closed to raters by %s appraisee(s).###15 06 2026 new variable
+svy#:#svy_x_open_appraisees#:#You have %s appraisee(s) awaiting your feedback.###15 06 2026 new variable
 svy#:#svy_your_appraisees#:#Your Appraisees###28 10 2024 new variable
 svy#:#svy_your_raters#:#Your Raters###28 10 2024 new variable
 svy#:#svy_your_raters_finished#:#%s of your raters have finished the survey.###28 10 2024 new variable
@@ -17120,7 +17122,7 @@ tos#:#tos_reset_successful#:#Uvjeti korištenja usluge uspješno su resetirani.
 tos#:#tos_status_desc#:#Ako je aktivirano, korisnici su prisiljeni prihvatiti uvjete korištenja usluge prije nego što uđu u ILIAS.
 tos#:#tos_status_enable#:#Omogući
 tos#:#tos_sure_reset_tos#:#Jeste li sigurni da želite resetirati uvjete korištenja usluge za sve korisnike u sustavu? To se također odnosi na one račune koji se na primjer koriste za internetsku uslugu SOAP.
-tos#:#tos_withdrawal_usr_deletion#:#Account Deletion on Terms Of Service Withdrawal ###04 06 2021 new variable
+tos#:#tos_withdrawal_usr_deletion#:#Account deletion upon ToS withdrawal###15 06 2026 new variable
 tos#:#tos_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from  a previously accepted Terms of Service document, this will result in the deletion of the user’s account.###26 08 2024 new variable
 trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated###04 06 2021 new variable
 trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.###04 06 2021 new variable
@@ -17182,7 +17184,7 @@ trac#:#trac_filter_has_status#:#Prikaži i objekte sa statusom 'još nije započ
 trac#:#trac_filter_hidden#:#Skriveno
 trac#:#trac_first_access#:#Prvi pristup
 trac#:#trac_first_and_last_access#:#Prvi i posljednji pristup
-trac#:#trac_frm_contribution_num_postings#:#Minimum number of Postings###29 07 2022 new variable
+trac#:#trac_frm_contribution_num_postings#:#Minimum number of Posts###15 06 2026 new variable
 trac#:#trac_frm_contribution_num_postings_info_p#:#%s: %s Posts###26 08 2024 new variable
 trac#:#trac_frm_contribution_num_postings_info_s#:#%s: %s Post###26 08 2024 new variable
 trac#:#trac_group_materials#:#Izradi grupiranje s neobveznim materijalima
@@ -17247,8 +17249,8 @@ trac#:#trac_mode_collection_tlt_info#:#Status će se automatski postaviti prema 
 trac#:#trac_mode_content_visited#:#Posjećeno
 trac#:#trac_mode_content_visited_info#:#Status napretka učenja postavlja se na 'dovršeno' kada je objekt predstavljen korisniku.
 trac#:#trac_mode_contribution_to_discussion#:#Contributions to Discussion###29 07 2022 new variable
-trac#:#trac_mode_contribution_to_discussion_info#:#The learning progress status will be determined by the number of written postings.###29 07 2022 new variable
-trac#:#trac_mode_course_reference#:#Adopted from Course###04 06 2021 new variable
+trac#:#trac_mode_contribution_to_discussion_info#:#The learning progress status will be determined by the number of written posts.###15 06 2026 new variable
+trac#:#trac_mode_course_reference#:#Adopted From Course###15 06 2026 new variable
 trac#:#trac_mode_course_reference_info#:#The mode is automatically adopted from the course this course link points to.###04 06 2021 new variable
 trac#:#trac_mode_deactivated#:#Napredak u učenju je deaktiviran
 trac#:#trac_mode_deactivated_info_new#:#Status napretka u učenja nije prikazan i ne utječe na nadređene objekte.
@@ -17317,7 +17319,7 @@ trac#:#trac_progress#:#Osobni napredak u učenju
 trac#:#trac_read_count#:#Broj pristupa
 trac#:#trac_read_count_spent_seconds#:#Utrošeno vrijeme / pristup
 trac#:#trac_reference#:#Reference
-trac#:#trac_reference_ids_column#:#Reference-Ids###29 07 2022 new variable
+trac#:#trac_reference_ids_column#:#Reference-IDs###15 06 2026 new variable
 trac#:#trac_refresh#:#Osvježi
 trac#:#trac_registered#:#Registriran
 trac#:#trac_release_materials#:#Dezintegrirajte grupiranje s neobaveznim materijalima
@@ -17409,16 +17411,16 @@ ui#:#label_pagination_offset#:#Pagination Offset###26 08 2024 new variable
 ui#:#label_sortation#:#Sortation###26 08 2024 new variable
 ui#:#order_option_alphabetical_ascending#:#A to Z###26 08 2024 new variable
 ui#:#order_option_alphabetical_descending#:#Z to A###26 08 2024 new variable
-ui#:#order_option_chronological_ascending#:#Earliest first###26 08 2024 new variable
-ui#:#order_option_chronological_descending#:#Most Recent first###26 08 2024 new variable
-ui#:#order_option_first#:#first###26 08 2024 new variable
-ui#:#order_option_generic_ascending#:#ascending###26 08 2024 new variable
-ui#:#order_option_generic_descending#:#descending###26 08 2024 new variable
+ui#:#order_option_chronological_ascending#:#Earliest First###15 06 2026 new variable
+ui#:#order_option_chronological_descending#:#Most Recent First###15 06 2026 new variable
+ui#:#order_option_first#:#First###15 06 2026 new variable
+ui#:#order_option_generic_ascending#:#Ascending###15 06 2026 new variable
+ui#:#order_option_generic_descending#:#Descending###15 06 2026 new variable
 ui#:#order_option_numerical_ascending#:#0 to 9###26 08 2024 new variable
 ui#:#order_option_numerical_descending#:#9 to 0###26 08 2024 new variable
-ui#:#presentation_table_collapse#:#collapse all###26 08 2024 new variable
-ui#:#presentation_table_expand#:#expand all###26 08 2024 new variable
-ui#:#rating_average#:#others rated %s of 5###26 08 2024 new variable
+ui#:#presentation_table_collapse#:#Collapse All###15 06 2026 new variable
+ui#:#presentation_table_expand#:#Expand All###15 06 2026 new variable
+ui#:#rating_average#:#Others rated %s of 5###15 06 2026 new variable
 ui#:#reset_stars#:#neutral###26 08 2024 new variable
 ui#:#table_posinput_col_title#:#Position###26 08 2024 new variable
 ui#:#ui_chars_max#:#Maksimum:
@@ -17446,7 +17448,7 @@ ui#:#vc_sort#:#Sort by:###21 05 2025 new variable
 ui#:#warning_url_too_long_msg#:#The amount of selected rows will result in a very large URL; the Server will probably block this request.<br>Please select less rows or perform the action on all entries.###26 08 2025 new variable
 user#:#all_roles_has_starting_point#:#All the roles have starting points###04 06 2021 new variable
 user#:#back_to_starting_points_list#:#Back to Starting Points###04 06 2021 new variable
-user#:#change_email_email_confirmation_body#:#The email address for the account %s was changed. To confirm this change, please click on this link %s. The link is valid for %s minutes.###28 10 2024 new variable
+user#:#change_email_email_confirmation_body#:#The email address for the account %s was changed. To confirm this change, please click on this link %s . The link is valid for %s minutes.###15 06 2026 new variable
 user#:#change_email_email_confirmation_subject#:#Confirm Email Address###28 10 2024 new variable
 user#:#change_email_email_information_body#:#The process to change the email address for the account %s to %s was started. An email with a link to confirm the change was sent to the new address. The link is valid for %s minutes.###28 10 2024 new variable
 user#:#change_email_email_information_subject#:#Information about Change of Email Address###28 10 2024 new variable
@@ -17463,18 +17465,18 @@ user#:#confirm_logout_for_email_change#:#You changed your email. To finalize thi
 user#:#confirm_logout_for_email_change_with_confirmation#:#Additionally, a confirmation that you control the new email address will be required. After you have logged in again, an email will be sent to you. Please click on the link in the email to confirm that you contoll the address. The change of the email address will only take effect once this second step is also finalized.###28 10 2024 new variable
 user#:#create_starting_point#:#Create Rule###04 06 2021 new variable
 user#:#criteria#:#Criteria###04 06 2021 new variable
-user#:#del_mail_body#:#Hello %1$s, %2$s you haven't logged in for a long period of time, on %3$s. So your account will be probably deleted on %4$s. You have to login again to prevent the deletion of your account.###04 06 2021 new variable
-user#:#del_mail_subject#:#(ILIAS) – Your account will be deleted###04 06 2021 new variable
+user#:#del_mail_body#:#Hello %1$s, %2$s You have not logged in to %3$s for a long time. Therefore, your ILIAS account %5$s is expected to be deleted on %4$s. In order to keep your ILIAS account, you must log in again before the aforementioned date.###15 06 2026 new variable
+user#:#del_mail_subject#:#Your ILIAS account will be deleted soon###15 06 2026 new variable
 user#:#delete_inactive_user_accounts_frequency#:#Frequency###04 06 2021 new variable
 user#:#delete_inactive_user_accounts_frequency_desc#:#Frequency, in which the deletion and e-mail distribution will be tested.###04 06 2021 new variable
 user#:#editing_this_role#:#Role###04 06 2021 new variable
 user#:#email_could_not_be_changed#:#The request to change your email could not be finalized.###26 08 2024 new variable
 user#:#enable_local_user_administration#:#Enable Local User Administration###04 06 2021 new variable
-user#:#enable_local_user_administration_info#:#If enabled, local user accounts can be administrated in categories and organisational units.###04 06 2021 new variable
+user#:#enable_local_user_administration_info#:#Allow local user accounts to be administrated in categories and organisational units.###15 06 2026 new variable
 user#:#feedhash#:#Newsfeedhash###04 06 2021 new variable
 user#:#has_role#:#Role###04 06 2021 new variable
 user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?###26 08 2024 new variable
-user#:#inform_user_mail_info#:#If activated, an e-mail will be sent to the user. Its content can be defined in Administration > User Management > Settings > New Account Mail.###04 06 2021 new variable
+user#:#inform_user_mail_info#:#If activated, an e-mail will be sent to the user. Its content can be defined in 'Administration » Users and Roles » User Management', tab 'Settings : New Account Mail'.###15 06 2026 new variable
 user#:#interests#:#Interests###04 06 2021 new variable
 user#:#interests_general#:#General Interests###04 06 2021 new variable
 user#:#interests_help_looking#:#Looking For Help###04 06 2021 new variable
@@ -17483,9 +17485,9 @@ user#:#ldoc_accepted_content#:#Accepted Content###26 08 2024 new variable
 user#:#ldoc_not_accepted_yet#:#Not accepted yet###26 08 2024 new variable
 user#:#msg_spoint_not_modified#:#Starting point not modified###04 06 2021 new variable
 user#:#no_deactivate_yourself#:#You cannot deactivate your own user account.###26 08 2024 new variable
-user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist###04 06 2021 new variable
-user#:#restrict_user_access#:#Restricted Access to User Accounts###04 06 2021 new variable
-user#:#restrict_user_access_info#:#Enabled this option only if you want to restrict the access to user accounts. If enabled access to local and global user accounts is only granted when a role has the permission ‘Read Access to User Account’.###04 06 2021 new variable
+user#:#obj_ref_id_not_exist#:#The entered Reference-ID does not exist###15 06 2026 new variable
+user#:#restrict_user_access#:#Restricted Search in User Accounts###15 06 2026 new variable
+user#:#restrict_user_access_info#:#ILIAS-accounts will only be autocompleted in search for roles with ‘Read Access to User Accounts’.###15 06 2026 new variable
 user#:#roles_without_starting_point#:#Roles without defined starting point:###04 06 2021 new variable
 user#:#save_order#:#Save Order###04 06 2021 new variable
 user#:#send_mail_reminder_window_too_small#:#Your Frequency setting is too large for this reminder value.###04 06 2021 new variable
@@ -17505,8 +17507,8 @@ user#:#user_account_code#:#Code###04 06 2021 new variable
 user#:#user_account_code_generated#:#Date Of Generation###04 06 2021 new variable
 user#:#user_account_code_generated_all#:#All Dates###04 06 2021 new variable
 user#:#user_account_code_not_valid#:#The given registration code is either invalid or already has been used.###04 06 2021 new variable
-user#:#user_account_code_setting#:#Enable Account Re-Activation By Code###04 06 2021 new variable
-user#:#user_account_code_setting_info#:#Inactive Accounts can be re-activated by users with pre-defined codes.###04 06 2021 new variable
+user#:#user_account_code_setting#:#Enable Account Re-Activation by Code###15 06 2026 new variable
+user#:#user_account_code_setting_info#:#Users can re-activate their expired user account with a pre-defined code. Corresponding codes for the renewal of temporary ILIAS accounts are generated in 'Administration » Users and Roles » Authentication and Registration', tab 'ILIAS Auth / Self-Registration : Registration Codes'. Inactive accounts cannot be re-activated by codes.###15 06 2026 new variable
 user#:#user_account_code_used#:#Date Of Use###04 06 2021 new variable
 user#:#user_account_code_valid_until#:#Valid Until###04 06 2021 new variable
 user#:#user_account_code_valid_until_dynamic#:#Number of Days###04 06 2021 new variable
@@ -17518,10 +17520,10 @@ user#:#user_account_codes_export#:#Export Codes###04 06 2021 new variable
 user#:#user_account_codes_number#:#Number Of Codes###04 06 2021 new variable
 user#:#user_account_deleted_confirmation#:#Your account has been deleted. An e-mail containing detailed information has been sent to you.###04 06 2021 new variable
 user#:#user_activate_public_profile#:#Activation###04 06 2021 new variable
-user#:#user_activate_public_profile_info#:#First and last name will always be visible in your profile, if it is activated.###04 06 2021 new variable
+user#:#user_activate_public_profile_info#:#Your first and last name will always be visible in your profile if it is activated.###15 06 2026 new variable
 user#:#user_activation#:#Activation###04 06 2021 new variable
 user#:#user_all#:#All###04 06 2021 new variable
-user#:#user_allow_delete_own_account#:#Allow users to delete own account###04 06 2021 new variable
+user#:#user_allow_delete_own_account#:#Allow Users to Delete Own Account###15 06 2026 new variable
 user#:#user_any#:#Any###04 06 2021 new variable
 user#:#user_awrn_all_users#:#All Users###04 06 2021 new variable
 user#:#user_awrn_all_users_info#:#All users of the platform are listed. Please not that the setting "Online and Offline" can reduce performance greatly on installations with a large number of users.###04 06 2021 new variable
@@ -17559,25 +17561,25 @@ user#:#user_profile_data_checked#:#Profile data checked###04 06 2021 new variabl
 user#:#user_profile_info#:#User Profile Info###04 06 2021 new variable
 user#:#user_profile_info_std#:#Default User Profile Info###04 06 2021 new variable
 user#:#user_profile_info_text_info#:#This text is presented on top of the form for entering personal data.###04 06 2021 new variable
-user#:#user_profile_portfolio#:#If you want to use a portfolio as your profile, go to the portfolio section and set ‘My Profile’ for that portfolio.###04 06 2021 new variable
+user#:#user_profile_portfolio#:#If you would like to use a portfolio as your profile, go to the portfolio section and select ‘Set As My Profile’ from the drop-down menu to the right of the portfolio you wish to use.###15 06 2026 new variable
 user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile. Activation can be set there using the ‘Share’ tab.###04 06 2021 new variable
-user#:#user_profile_preview#:#Preview###04 06 2021 new variable
+user#:#user_profile_preview#:#Preview of Profile###15 06 2026 new variable
 user#:#user_profile_prompt_text#:#Prompt Text###28 10 2024 new variable
-user#:#user_profile_prompt_text_info#:#This text will replace the default info text, if a user has been prompted to the profile.###04 06 2021 new variable
+user#:#user_profile_prompt_text_info#:#This texts replace the default info text shown when a user is prompted to complete the profile.###15 06 2026 new variable
 user#:#user_prompt_incomplete#:#Only if profile is incomplete###04 06 2021 new variable
 user#:#user_prompt_incomplete_info#:#If the user has to enter required fields, the profile will be shown after login.###04 06 2021 new variable
-user#:#user_prompt_once_after_login#:#Once after specific number of days after first login###04 06 2021 new variable
+user#:#user_prompt_once_after_login#:#Once, a specific number of days after first login###15 06 2026 new variable
 user#:#user_prompt_once_after_login_info#:#After this period the user will be prompted with the profile, if the user did not publish the profile yet.###04 06 2021 new variable
 user#:#user_prompt_repeat#:#Repeat every specific number of days###04 06 2021 new variable
-user#:#user_prompt_repeat_info#:#The user will be prompted periodically with the profile, if the user did not publish the profile yet.###04 06 2021 new variable
-user#:#user_prompting_recurrence#:#Prompting Recurrence###04 06 2021 new variable
+user#:#user_prompt_repeat_info#:#The user will be periodically prompted to publish their profile if they have not done so yet.###15 06 2026 new variable
+user#:#user_prompting_recurrence#:#When and How Often a User is Prompted###15 06 2026 new variable
 user#:#user_prompting_settings#:#Prompting Settings###04 06 2021 new variable
-user#:#user_public_profile_info#:#Please select which personal data is visible in your profile and which users should be able to visit your profile.###04 06 2021 new variable
+user#:#user_public_profile_info#:#Please select which personal data you would like to have visible in your profile and which users should be able to visit your profile.###15 06 2026 new variable
 user#:#user_publish_options#:#Publish Profile###04 06 2021 new variable
 user#:#user_role_selection#:#Role Selection###26 08 2024 new variable
 user#:#user_role_starting_point#:#User - Starting Point###04 06 2021 new variable
 user#:#user_save_continue#:#Save and Continue###04 06 2021 new variable
-user#:#user_save_ordering_and_titles#:#Save ordering and titles###04 06 2021 new variable
+user#:#user_save_ordering_and_titles#:#Save Order and Titles###15 06 2026 new variable
 user#:#user_select_course_group#:#Select Course/Group###04 06 2021 new variable
 user#:#user_set_publishing_options#:#Set publishing options###04 06 2021 new variable
 user#:#user_set_visibilty_options#:#Set visibility options###04 06 2021 new variable
@@ -17586,15 +17588,15 @@ user#:#user_visibility_settings#:#Visibility###04 06 2021 new variable
 user#:#user_visible_in_profile#:#Visible in Personal Data###04 06 2021 new variable
 user#:#usr_id#:#User ID###04 06 2021 new variable
 user#:#usr_letter_avatars#:#Letter Avatars###04 06 2021 new variable
-user#:#usr_letter_avatars_info#:#Shows initial of user name or login as profile picture, if no public picture is being provided.###04 06 2021 new variable
+user#:#usr_letter_avatars_info#:#Show the username (or the initials of the username) as the user’s profile picture if no public picture has been provided.###15 06 2026 new variable
 user#:#usr_public_profile_disabled#:#Profile Disabled###04 06 2021 new variable
 user#:#usr_public_profile_disabled_info#:#Your information is only visible to administrative staff.###04 06 2021 new variable
 user#:#usr_public_profile_global#:#WWW / Accessible for all Users on the Internet###04 06 2021 new variable
 user#:#usr_public_profile_logged_in#:#Visible for logged in Users###04 06 2021 new variable
 usr#:#user_action#:#User Action###04 06 2021 new variable
 usr#:#user_actions#:#User Actions###04 06 2021 new variable
-usr#:#user_actions_activation_info#:#Actions will only be listet for users, if the corresponding services are activated and all preconditions are given (e.g. permissions requirements).###04 06 2021 new variable
-validation#:#datetime_required#:#Time/Date required###29 07 2022 new variable
+usr#:#user_actions_activation_info#:#Actions will only be listed for users if the corresponding services have been activated and all preconditions are met (e.g. permissions requirements).###15 06 2026 new variable
+validation#:#datetime_required#:#Time/date required###15 06 2026 new variable
 validation#:#no_array#:#Given value is not an array###29 07 2022 new variable
 validation#:#not_a_null#:#Value of type '%s' is not a null.###04 06 2021 new variable
 validation#:#not_a_string#:#Value of type '%s' is not a string.###04 06 2021 new variable
@@ -17735,7 +17737,7 @@ wiki#:#wiki_other_pages_linking#:#Other Pages Linking to This Page###04 06 2021 
 wiki#:#wiki_page#:#Page###04 06 2021 new variable
 wiki#:#wiki_page_actions#:#Page Actions###04 06 2021 new variable
 wiki#:#wiki_page_already_exists#:#A page with this title already exists.###04 06 2021 new variable
-wiki#:#wiki_page_blocked#:#Wiki page is set to read-only. Only users with «Edit Settings» permission have write access.###04 06 2021 new variable
+wiki#:#wiki_page_blocked#:#Wiki page is set to 'read-only'. Only users with 'Edit Settings' permission have write access.###15 06 2026 new variable
 wiki#:#wiki_page_changes#:#Page Changes###04 06 2021 new variable
 wiki#:#wiki_page_deleted#:#Wiki page deleted.###04 06 2021 new variable
 wiki#:#wiki_page_deletion_confirmation#:#Do you really want to delete this wiki page?###04 06 2021 new variable
@@ -17746,7 +17748,7 @@ wiki#:#wiki_page_list_form_info#:#Adds a list of pages of this wiki that are all
 wiki#:#wiki_page_list_mode#:#Type of List###04 06 2021 new variable
 wiki#:#wiki_page_list_mode_ordered#:#Numbered###04 06 2021 new variable
 wiki#:#wiki_page_list_mode_unordered#:#Not numbered###04 06 2021 new variable
-wiki#:#wiki_page_lists#:#Page Lists###04 06 2021 new variable
+wiki#:#wiki_page_lists#:#Pages Overview###15 06 2026 new variable
 wiki#:#wiki_page_not_exist_select_templ#:#This page does not exist yet. Please select a template for the new page.###04 06 2021 new variable
 wiki#:#wiki_page_notification_activated#:#Notification Activated (Single Page)###04 06 2021 new variable
 wiki#:#wiki_page_status_blocked#:#Page is read-only.###04 06 2021 new variable
@@ -17847,13 +17849,13 @@ wopi#:#activate_saving_interval#:#Activate Saving Interval###28 10 2024 new vari
 wopi#:#activate_wopi#:#Activate WOPI###26 08 2024 new variable
 wopi#:#close_wopi_editor#:#Close Editor###26 08 2024 new variable
 wopi#:#close_wopi_editor_info#:#It can take up to several minutes for the external editor to transfer the changes to ILIAS. Visit this page again at a later time if the changes you have made are not yet visible.###26 08 2024 new variable
-wopi#:#currently_supported#:#Currently supported Suffixes: %s###26 08 2024 new variable
+wopi#:#currently_supported#:#Currently supported Suffixes###15 06 2026 new variable
 wopi#:#msg_error_wopi_invalid_discorvery_url#:#The Discovery URL entered is invalid or cannot be accessed.###26 08 2024 new variable
-wopi#:#msg_wopi_settings_modified#:#Settings stored###26 08 2024 new variable
-wopi#:#open_external_editor#:#Open in external Editor###26 08 2024 new variable
+wopi#:#msg_wopi_settings_modified#:#Settings saved.###15 06 2026 new variable
+wopi#:#open_external_editor#:#Open in External Editor###15 06 2026 new variable
 wopi#:#open_external_viewer#:#Show Content###28 10 2024 new variable
 wopi#:#saving_interval#:#Interval###28 10 2024 new variable
-wopi#:#saving_interval_byline#:#By default, ILIAS adds all changes made by an external editor to a draft version until this version is published manually. Activating the save interval causes a new version to be published after the specified number of seconds, if possible. Please note that a low value can lead to a large number of file versions, which in turn takes up a multiple of the hard disk space.###28 10 2024 new variable
+wopi#:#saving_interval_byline#:#By default, ILIAS adds all changes made by an external editor to a draft version until this version is published manually. Activating the saving interval causes a new version to be published, if possible, after the specified number of seconds. Please note that a low value can lead to a large number of file versions, which in turn will take up a much larger amount of hard disk space.###15 06 2026 new variable
 wopi#:#wopi_crawler_cronjob_description#:#Updates the information of the connected WOPI service.###26 08 2024 new variable
 wopi#:#wopi_crawler_cronjob_no_apps#:#No WOPI apps were found in the discovery.###26 08 2024 new variable
 wopi#:#wopi_crawler_cronjob_not_activated#:#WOPI is not activated.###26 08 2024 new variable
@@ -17861,7 +17863,7 @@ wopi#:#wopi_crawler_cronjob_success#:#WOPI information updated successfully.###2
 wopi#:#wopi_crawler_cronjob_title#:#Update WOPI Discovery###26 08 2024 new variable
 wopi#:#wopi_settings#:#WOPI###26 08 2024 new variable
 wopi#:#wopi_url#:#WOPI Discovery URL###26 08 2024 new variable
-wopi#:#wopi_url_byline#:#Complete URL of the WOPI-Discovery, this must be accessible through the ILIAS server. The XML data of the Discover is read in and stored by ILIAS, the information is regularly updated by the cronjob "Update WOPI Discovery". Example: https://example.org/hosting/discovery###26 08 2024 new variable
+wopi#:#wopi_url_byline#:#Complete URL of the WOPI Discovery, which must be accessible via the ILIAS server. The XML data of the Discovery is read and saved by ILIAS. This information is regularly updated by the cronjob "Update WOPI Discovery". Example: https://example.org/hosting/discovery###15 06 2026 new variable
 wsp#:#element_already_shared#:#This object is already shared with this user.###04 06 2021 new variable
 wsp#:#element_shared#:#Object shared.###04 06 2021 new variable
 wsp#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.###04 06 2021 new variable
@@ -17894,7 +17896,7 @@ wsp#:#wsp_set_permission_course#:#Members of Course###04 06 2021 new variable
 wsp#:#wsp_set_permission_group#:#Members of Group###04 06 2021 new variable
 wsp#:#wsp_set_permission_registered#:#All Registered Users###04 06 2021 new variable
 wsp#:#wsp_set_permission_single_user#:#A Single User###04 06 2021 new variable
-wsp#:#wsp_share_search_users#:#Search Users###04 06 2021 new variable
+wsp#:#wsp_share_search_users#:#Look Up Users###15 06 2026 new variable
 wsp#:#wsp_share_success#:#A new entry has been added.###04 06 2021 new variable
 wsp#:#wsp_share_with_members#:#Share with members###04 06 2021 new variable
 wsp#:#wsp_share_with_users#:#Share with users###04 06 2021 new variable

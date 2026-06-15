@@ -2928,6 +2928,7 @@ certificate#:#persistent_certificate_mode_instant#:#インスタント
 certificate#:#persistent_certificate_mode_instant_info#:#このオプションは比較的低めの並みまでのユーザインタラクションのシステム用として推奨します。複数のユーザー証明書の作成中に大きなロード時間のかかる傾向のシステムでは"Cron Job"へ切り替えるべきです。
 chatroom#:#allow_anonymous#:#匿名ログインを許可
 chatroom#:#allow_custom_usernames#:#カスタムユーザ名を許可
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.###15 06 2026 new variable
 chatroom#:#anonymous_hint#:#アクセス許可タブに対して匿名ユーザをこのリポジトリ項目へアクセス許可するための適切な設定がされている事を確認します。
 chatroom#:#auto_scroll#:#ページの最後までスクロール
 chatroom#:#autogen_usernames#:#自動ユーザ名の作成A
@@ -3024,6 +3025,7 @@ chatroom#:#chat_user_action_invite_public_room#:#パブリックチャットル�
 chatroom#:#chat_user_x_is_typing#:#ユーザ %s が入力中 ...
 chatroom#:#chat_users_are_typing#:#複数のユーザが入力中 ...
 chatroom#:#chat_whisper#:#ささやく
+chatroom#:#chatroom_anonymous_default#:#Anonymous ####15 06 2026 new variable
 chatroom#:#chatroom_auth#:#Authentication
 chatroom#:#chatroom_auth_btn_txt#:#Keyを生成
 chatroom#:#chatroom_auth_key#:#Authentication-Key

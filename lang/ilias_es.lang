@@ -2932,6 +2932,7 @@ certificate#:#persistent_certificate_mode_instant#:#Instantáneo
 certificate#:#persistent_certificate_mode_instant_info#:#Esta opción se recomienda para sistemas con niveles de interacción de usuarios bajos o medios. Los sistemas que tienden a tiempos de carga más largos durante la creación de múltiples certificados de usuario deberían cambiar a la opción 'Tarea programada'.
 chatroom#:#allow_anonymous#:#Permitir inicio de sesión anónimo
 chatroom#:#allow_custom_usernames#:#Permitir nombres de usuario personalizados
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.###15 06 2026 new variable
 chatroom#:#anonymous_hint#:#Asegúrese de establecer los permisos adecuados en la pestaña 'Permisos' para permitir el acceso de usuarios anónimos a este elemento del repositorio.
 chatroom#:#auto_scroll#:#Desplazar hacia abajo
 chatroom#:#autogen_usernames#:#Nombres de usuario generados automáticamente
@@ -3028,6 +3029,7 @@ chatroom#:#chat_user_action_invite_public_room#:#Invitar a sala pública
 chatroom#:#chat_user_x_is_typing#:#El usuario %s está escribiendo ...
 chatroom#:#chat_users_are_typing#:#Varios usuarios están escribiendo ...
 chatroom#:#chat_whisper#:#Susurrar
+chatroom#:#chatroom_anonymous_default#:#Anonymous ####15 06 2026 new variable
 chatroom#:#chatroom_auth#:#Autenticación
 chatroom#:#chatroom_auth_btn_txt#:#Generar claves
 chatroom#:#chatroom_auth_key#:#Clave de autenticación
