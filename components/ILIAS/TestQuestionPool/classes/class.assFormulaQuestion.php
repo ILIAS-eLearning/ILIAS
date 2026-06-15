@@ -834,8 +834,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                 $this->getVariables(),
                 $this->getResults(),
                 $user_solution[$result->getResult()]['value'] ?? '',
-                $user_solution[$result->getResult()]['unit'] ?? null,
-                $this->unitrepository->getUnits()
+                $user_solution[$result->getResult()]['unit'] ?? null
             );
         }
 
@@ -853,8 +852,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                 $this->getVariables(),
                 $this->getResults(),
                 $user_solution[$result->getResult()] ?? '',
-                $unit_id !== null ? $this->unitrepository->getUnit((int) $unit_id) : null,
-                $this->unitrepository->getUnits()
+                $unit_id !== null ? $this->unitrepository->getUnit((int) $unit_id) : null
             );
         }
 
