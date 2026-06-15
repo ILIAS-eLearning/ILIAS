@@ -1120,7 +1120,7 @@ assessment#:#redirect_always#:#常に決められたwebページへ
 assessment#:#redirect_always_to_logout#:#常時ログアウト画面へ
 assessment#:#redirect_in_kiosk_mode#:#試験ビューが有効の際にのみ
 assessment#:#redirect_url_invalid#:#ターゲットWebページの有効なURLを入力してください
-assessment#:#redirect_url_required_for_rule#:#"%s" が選択されている場合、WebページのURLが必要です。
+assessment#:#redirect_url_required_for_rule#:#%s が選択されている場合、WebページのURLが必要です。
 assessment#:#redirection_url#:#webページのURL
 assessment#:#region#:#Region
 assessment#:#remove_as_participant#:#固定の受験者として削除
@@ -2472,14 +2472,14 @@ blog#:#blog_toggle_draft#:#告知を取り消す
 blog#:#blog_toggle_draft_admin#:#ブログ投稿を解除
 blog#:#blog_toggle_final#:#投稿を公開
 blog#:#blog_whole_blog#:#全Blog
-book#:#X_reservations_of#:#%s reservations of
-book#:#book_add#:#Add Booking Pool###20 04 2026 new variable
+book#:#X_reservations_of#:#%s 件の予約
+book#:#book_add#:#予約枠へ追加
 book#:#book_add_object#:#オブジェクトを追加
 book#:#book_add_participant#:#参加者を追加
 book#:#book_add_schedule#:#スケジュールを追加
 book#:#book_additional_info_file#:#追加説明
 book#:#book_all#:#全表示
-book#:#book_all_pools_need_schedules#:#設定は保存されませんでした。全ての予約集は一つのスケジュールである必要があります。
+book#:#book_all_pools_need_schedules#:#設定は保存されませんでした。全ての予約枠は一つのスケジュールである必要があります。
 book#:#book_all_users#:#全受験者
 book#:#book_assign#:#割当て
 book#:#book_assign_object#:#予約オブジェクトを割当てる
@@ -2505,7 +2505,7 @@ book#:#book_confirm_booking_schedule_number_of_objects_info#:#予約するには
 book#:#book_confirm_cancel#:#本当に次の予約をキャンセルしますか?
 book#:#book_confirm_cancel_aggregation#:#キャンセル数
 book#:#book_confirm_delete#:#本当に次のアイテムを削除しますか?
-book#:#book_copy#:#予約集をコピー
+book#:#book_copy#:#予約枠をコピー
 book#:#book_create_objects#:#項目を生成
 book#:#book_deadline#:#期限
 book#:#book_deadline_hours#:#予約期間に先立つX hours
@@ -2515,7 +2515,7 @@ book#:#book_deadline_slot_end#:#予約期間締め切りまで
 book#:#book_deadline_slot_start#:#予約期間開始まで
 book#:#book_deassign#:#割り当て解除
 book#:#book_download_info#:#追加説明をダウンロード
-book#:#book_edit#:#予約集を編集
+book#:#book_edit#:#予約枠を編集
 book#:#book_edit_object#:#オブジェクトを編集
 book#:#book_edit_schedule#:#スケジュールを編集
 book#:#book_filter_past_reservations#:#過去の予約を表示
@@ -2525,7 +2525,7 @@ book#:#book_is_used#:#使用中
 book#:#book_limit_objects_available#:#アイテムのみしか利用できないので%sを受講者へ"%s"を割当てる事ができません。
 book#:#book_list#:#List
 book#:#book_log#:#予約
-book#:#book_mail_permanent_link#:#予約集へのリンク
+book#:#book_mail_permanent_link#:#予約枠へのリンク
 book#:#book_mail_to_booker#:#ユーザへメール
 book#:#book_message#:#Message
 book#:#book_message_info#:#予約組織用にメッセージをここで入力可能です。
@@ -2533,11 +2533,11 @@ book#:#book_messages#:#Messages
 book#:#book_messages_info#:#項目を予約した時にユーザはメッセージを追加できます。
 book#:#book_missing_availability#:#全ての日に全項目を予約することはできませんでした。
 book#:#book_missing_items#:#$1 missing item(s).
-book#:#book_new#:#新規予約集
+book#:#book_new#:#新規予約枠
 book#:#book_no_bookings_for_you#:#予約は何も実行されていません。
 book#:#book_no_objects#:#割当てなし
 book#:#book_no_of_objects#:#オブジェクト数
-book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.###20 04 2026 new variable
+book#:#book_no_pools_selected#:#このコースには予約枠が割り当てられていません。予約枠は、コースの「リソース」タブから割り当てることができます。
 book#:#book_no_preferences_for_you#:#preferenceが何も保存されていません。
 book#:#book_no_recurrence#:#この日にちのみ予約
 book#:#book_not#:#不明
@@ -2554,21 +2554,21 @@ book#:#book_object_deleted#:#予約オブジェクトが削除されました。
 book#:#book_object_selection#:#アイテム選択
 book#:#book_object_updated#:#予約オブジェクトが更新されました。
 book#:#book_objects_available#:#オブジェクト利用可能 %s
-book#:#book_open#:#予約集を開く
+book#:#book_open#:#予約枠を開く
 book#:#book_overall_limit#:#予約制限数
 book#:#book_overall_limit_warning#:#予約数上限に達しました。
 book#:#book_participant_already_assigned#:#参加者は既に割当て済です。
 book#:#book_participant_assigned#:#参加者を割当てました
 book#:#book_period#:#予定時間
-book#:#book_pool_added#:#予約集が追加されました。
+book#:#book_pool_added#:#予約枠が追加されました。
 book#:#book_pool_selection#:#要約集の選択
 book#:#book_post_booking_file#:#ファイル
 book#:#book_post_booking_information#:#投稿予約情報
 book#:#book_post_booking_text#:#テキスト
 book#:#book_post_booking_text_info#:#テキストへ予約詳細を追加するには[PERIOD]と[OBJECT]を使用。
 book#:#book_pref_book_cron#:#Preferencesで予約
-book#:#book_pref_book_cron_info#:#期限後preferenceを使い自動的に予約集へ追記
-book#:#book_pref_deadline#:#期限後preferenceを使い自動的に予約集へ追記
+book#:#book_pref_book_cron_info#:#期限後preferenceを使い自動的に予約枠へ追記
+book#:#book_pref_deadline#:#期限後preferenceを使い自動的に予約枠へ追記
 book#:#book_pref_deadline_info#:#Preferencesはこの時点で取り止め
 book#:#book_pref_overview#:#Overview
 book#:#book_preference_info#:#%2 まで %1 preference を選択して下さい。.期限を過ぎると予約は全てのユーザのpreferenceを基に自動的に実行されます。
@@ -2579,7 +2579,7 @@ book#:#book_public_log_info#:#予約リストは全ユーザへ表示されま�
 book#:#book_recurrence#:#再現
 book#:#book_refresh#:#Refresh
 book#:#book_rem_intro#:#これは今後の予約の概要です。
-book#:#book_rem_reason#:#予約集のやり取り通知を有効にしているのでこのメールを受信します。
+book#:#book_rem_reason#:#予約枠のやり取り通知を有効にしているのでこのメールを受信します。
 book#:#book_reminder_day#:#予約前
 book#:#book_reminder_day_info#:#自己予約リストをユーザと予約のフルリスト管理者へ送る
 book#:#book_reminder_days#:#Day(s)
@@ -2615,7 +2615,7 @@ book#:#book_schedule_type_none_preference_info#:#このタイプはセミナー�
 book#:#book_schedule_updated#:#予約スケジュールが更新されました。
 book#:#book_schedule_warning_edit#:#現在利用できるスケジュールはありません。ブッキング集を使用するにはブッキング用のスケジュールを作成する必要があります。
 book#:#book_schedules#:#スケジュール
-book#:#book_select_pool#:#予約集を選択
+book#:#book_select_pool#:#予約枠を選択
 book#:#book_set_cancel#:#予約キャンセル
 book#:#book_set_delete#:#削除
 book#:#book_show_message#:#メッセージを表示
@@ -2630,7 +2630,7 @@ book#:#book_your_preferences#:#Preference
 book#:#book_your_reservations#:#あなたの予約
 book#:#booking_multiple_succesfully#:#予約が正しく作成されました
 book#:#booking_nr_of_items#:#アイテム番号
-book#:#obj_book_duplicate#:#予約集をコピー
+book#:#obj_book_duplicate#:#予約枠をコピー
 book#:#participants#:#参加者
 book#:#reservation_deleted#:#予約を削除しました
 buddysystem#:#buddy_allow_to_contact_me#:#コンタクトを許可
@@ -4867,7 +4867,7 @@ common#:#obj_bibs#:#文献目録
 common#:#obj_bibs_desc#:#文献目録管理
 common#:#obj_blog#:#ブログ
 common#:#obj_blog_duplicate#:#ブログをコピー
-common#:#obj_book#:#予約集
+common#:#obj_book#:#予約枠
 common#:#obj_cadm#:#コンタクト
 common#:#obj_cadm_desc#:#コンタクト管理
 common#:#obj_cals#:#カレンダー
@@ -4961,7 +4961,7 @@ common#:#obj_lsos#:#学習シーケンス
 common#:#obj_lsos_desc#:#学習シーケンスの概要設定
 common#:#obj_lti#:#LTI Consumer
 common#:#obj_ltis#:#LTI
-common#:#obj_ltis_desc#:#学習ツール相互利用
+common#:#obj_ltis_desc#:#学習ツールの相互運用性
 common#:#obj_mail#:#メール
 common#:#obj_mail_desc#:#グローバルメイン設定をここで構成
 common#:#obj_mcst#:#メディアキャスト
@@ -5127,7 +5127,7 @@ common#:#objects#:#オブジェクト
 common#:#objf#:#オブジェクト定義
 common#:#objs_bibl#:#文献目録
 common#:#objs_blog#:#ブログ
-common#:#objs_book#:#予約集
+common#:#objs_book#:#予約枠
 common#:#objs_cat#:#カテゴリ
 common#:#objs_catr#:#カテゴリリンク
 common#:#objs_chtr#:#チャット
@@ -6673,7 +6673,7 @@ content#:#cont_left_float#:#左、フローティング
 content#:#cont_license#:#ライセンス
 content#:#cont_license_info#:#ライセンス機能を有効
 content#:#cont_light#:#明るく
-content#:#cont_link#:#Link###20 04 2026 new variable
+content#:#cont_link#:#Link
 content#:#cont_link_area#:#リンクエリヤ
 content#:#cont_link_ext#:#リンク(外部)
 content#:#cont_link_glo_in_lm#:#全ての用語集表現をラーニングモジュール中に今リンクしなければなりませんか。
@@ -7386,7 +7386,7 @@ copg#:#copg_questions_not_supported_here#:#問題はこのコンテキスト内�
 copg#:#copg_reload_page#:#ページの再読み込み
 copg#:#copg_remove_formats#:#書式を削除
 copg#:#copg_sec_link_info#:#全セクションのリンクを設定するには他のインタラクティブ要素がセクション内に含まれない事を確認して下さい。そうでないと動作が不安定になります。
-copg#:#copg_snippet_cannot_be_edited#:#これは定義済みコンテンツスニペットなのでここでは編集できません。
+copg#:#copg_snippet_cannot_be_edited#:#これは事前定義済みコンテンツスニペットなのでここでは編集できません。
 copg#:#copg_unsupported_media_type#:#このメディアオブジェクトは未サポートのメディアタイプがあります。
 copg#:#copg_x_minutes#:#%s 分
 cpad#:#cpad_reading_time_status#:#読込み時間
@@ -8710,8 +8710,8 @@ dcl#:#dcl_noturl_exception#:#リンク(http://で始まる)を入力する必要
 dcl#:#dcl_number#:#整数
 dcl#:#dcl_number_desc#:#整数値(最大9桁)用のフィールドです。小数や分数ではありません。
 dcl#:#dcl_online_info#:#データ収集がオンラインの場合に限りユーザはデータ収集を使用できます。
-dcl#:#dcl_open_detail_view#:#Open detail view###20 04 2026 new variable
-dcl#:#dcl_open_url#:#Open link###20 04 2026 new variable
+dcl#:#dcl_open_detail_view#:#詳細ビューを開く
+dcl#:#dcl_open_url#:#リンクを開く
 dcl#:#dcl_order#:#順
 dcl#:#dcl_origin_not_found#:#オリジンフィールドが見つかりませんでした。
 dcl#:#dcl_own_entries#:#自己エントリーのみ
@@ -8873,7 +8873,7 @@ didactic#:#more_translations#:#もっと翻訳
 didactic#:#sess_closed#:#非公開セッション
 didactic#:#sess_closed_info#:#非参加者にはセッションは表示されません。
 dpro#:#dpro_accept_usr_agreement_anonymous#:#データ保護規約
-dpro#:#dpro_accept_usr_agreement_anonymous_intro#:#ILIAS利用の前に次のデータ保護規約を承諾します。
+dpro#:#dpro_accept_usr_agreement_anonymous_intro#:#ILIAS利用の前に次のデータ保護規約を承諾するものとします。
 dpro#:#dpro_account_reg_not_possible#:#データ保護承諾の宣言書がないため現在自己登録はできません。 詳細は<a href="%1$s">システム管理者</a> へ尋ねてください。
 dpro#:#dpro_agree_date#:#データ保護承諾宣言書
 dpro#:#dpro_last_reset_date#:#データ保護規約は %s にリセットされます。ドキュメントへ変更が行われると、データ保護規約のみがリセットされて全ユーザへドキュメントへの承諾を要求します。
@@ -11003,14 +11003,14 @@ lti#:#clti_privacy_ident_il_uuid_sha256_info#:#これはコール毎に識別さ
 lti#:#clti_privacy_ident_il_uuid_sha256url#:#emailアドレスでフォーマットされたILIASドメイン付きの組合されたハッシュ
 lti#:#clti_privacy_ident_il_uuid_sha256url_info#:#これはコール毎に識別されますが、ILIASプラットフォームIDと異なるかなり短い最大80文字でILIASユーザに関するきわめて限定的な判断のみ許容されます。
 lti#:#clti_privacy_ident_il_uuid_user_id#:#emailアドレスとしてフォーマットされたユニークなILIASプラットフォームと組合されたILIASユーザ ID。
-lti#:#clti_privacy_ident_il_uuid_user_id_info#:#内部有事ユーザIDを送信します。これはコール毎に識別されますが、ILIASユーザに関して判断許可されることがあります。
+lti#:#clti_privacy_ident_il_uuid_user_id_info#:#内部数字ユーザIDを送信します。これはコール毎に識別されますが、ILIASユーザに関して判断許可されることがあります。
 lti#:#clti_privacy_ident_info#:#標準はemailアドレスが通常使われます。ユニークなILIASプラットフォームIDは:
 lti#:#clti_privacy_ident_real_email#:#E-Mail Address
 lti#:#clti_privacy_ident_real_email_info#:#識別用にユーザの E-Mail アドレスを送信します。(警告: E-Mail アドレスが複数ユーザで使用される事があります!)
 lti#:#clti_privacy_name#:#ユーザ名
 lti#:#clti_privacy_name_firstname#:#First name
 lti#:#clti_privacy_name_firstname_info#:#ILIASからユーザ名のfirst nameを送信
-lti#:#clti_privacy_name_fullname#:#フルネーム
+lti#:#clti_privacy_name_fullname#:#氏名
 lti#:#clti_privacy_name_fullname_info#:#タイトル, first name, last nameを送信
 lti#:#clti_privacy_name_info#:#ユーザ名の送信は通常必須ではありません。
 lti#:#clti_privacy_name_lastname#:#タイトルとlast name
@@ -11023,7 +11023,7 @@ lti#:#field_provider_xml#:#XML-ファイル
 lti#:#field_provider_xml_info#:#https://www.imsglobal.org/specs/lti/xml　準拠のサポートされるTool ConsumerとCommon CartridgXML-ファイル
 lti#:#form_import_provider#:#Global Providerをインポート
 lti#:#gbl_roles_to_users#:#LTIユーザへ割当るグローバル役割
-lti#:#global_provider_subtab#:#全ユーザのGlobal Providers
+lti#:#global_provider_subtab#:#全ユーザのGlobal Providers/tools
 lti#:#grade_activity_progress_all#:#アクティビティ進捗上の全てのインフォーメーション
 lti#:#grade_activity_progress_completed#:#完了しました
 lti#:#grade_activity_progress_initialized#:#初期化しました
@@ -11104,7 +11104,7 @@ lti#:#lti_con_key_type_rsa_public_key_info#:#PEMフォーマットのツール(p
 lti#:#lti_con_prov_always_learner#:#LTI ユーザは常時学習者です。
 lti#:#lti_con_prov_always_learner_info#:#通常ILIAS内の役割はLTI役割へマップされます。コース管理者はプロバイダー内にもっと権利(例、複数オブジェクト)がある可能性があります。役割マッピングを避けるにはこのオプションを有効にします。
 lti#:#lti_con_prov_authentication#:#認証
-lti#:#lti_con_prov_availability#:#利用期間
+lti#:#lti_con_prov_availability#:#Availability(都合)
 lti#:#lti_con_prov_availability_create#:#オブジェクト作成用
 lti#:#lti_con_prov_availability_existing#:#既存オブジェクト限定用
 lti#:#lti_con_prov_availability_non#:#利用不可
@@ -11125,7 +11125,7 @@ lti#:#lti_con_prov_has_outcome_service_info#:#LTI Outcome Serviceがサポート
 lti#:#lti_con_prov_hints#:#ヒント
 lti#:#lti_con_prov_icon#:#Icon
 lti#:#lti_con_prov_inc_usr_pic#:#ユーザ写真を送る。
-lti#:#lti_con_prov_inc_usr_pic_info#:#ILIASユーザ写真へのリンクじゃLTI consumerオブジェクト起動時に含まれます。
+lti#:#lti_con_prov_inc_usr_pic_info#:#ILIASユーザ写真へのリンクはLTI consumerオブジェクト起動時に含まれます。
 lti#:#lti_con_prov_instructor_email#:#インストラクターE-Mail
 lti#:#lti_con_prov_instructor_email_info#:#その前に選択された設定との違いはメールアドレスがインストラクター用に転送可能です。それを行うにはコース又はグループ管理者である必要があります。
 lti#:#lti_con_prov_instructor_name#:#インストラクター名
@@ -11135,14 +11135,14 @@ lti#:#lti_con_prov_keywords#:#キーワード
 lti#:#lti_con_prov_keywords_info#:#キーワードはセミコロン(:)で区切る必要があります。キーワードはキーワードとしてメタデータへ自動的に使われます。
 lti#:#lti_con_prov_launch_options#:#起動オプション
 lti#:#lti_con_prov_learning_progress_options#:#学習進捗のオプション
-lti#:#lti_con_prov_mastery_score_default#:#Default Mastery Score
+lti#:#lti_con_prov_mastery_score_default#:#デフォルト習熟度スコア
 lti#:#lti_con_prov_mastery_score_default_info#:#学習進捗はProvider Outcome Serviceから評価されてmastery scoreスレッショールドになります。
 lti#:#lti_con_prov_privacy_setting_conf#:#オプションの構成
 lti#:#lti_con_prov_privacy_setting_default#:#オブジェクト用の変更可能な既定の設定
 lti#:#lti_con_prov_privacy_setting_force#:#設定はオブジェクト用に変更されません。
 lti#:#lti_con_prov_privacy_setting_info#:#プライバシー設定用の構成オプション
 lti#:#lti_con_prov_privacy_settings#:#プライバシー設定
-lti#:#lti_con_prov_provider_key_global#:#定義済みのキーとシークレット
+lti#:#lti_con_prov_provider_key_global#:#事前定義済みのキーとシークレット
 lti#:#lti_con_prov_provider_key_global_info#:#設定していないとユーザはプロバイダを使用するためにキーとシークレットを追加しなければなりません。
 lti#:#lti_con_prov_remarks#:#内部の備考
 lti#:#lti_con_prov_secret#:#シークレット
@@ -11167,7 +11167,7 @@ lti#:#lti_con_version_1.1#:#Version 1.1
 lti#:#lti_con_version_1.3#:#Version 1.3
 lti#:#lti_con_version_1.3_before_id#:#ツールによる提供されるデータ入入力後にダイナミック登録がサポートされていない場合は、ツールで入力すべき追加データが表示されます。
 lti#:#lti_confirm_delete_providers#:#本当に次のプロバイダーを削除しますか?
-lti#:#lti_consumer#:#リリース用
+lti#:#lti_consumer#:#リリース対象
 lti#:#lti_consumer_created#:#Consumer作成
 lti#:#lti_consumer_deleted#:#Consumerを削除
 lti#:#lti_consumer_key#:#Consumer Key
@@ -11211,12 +11211,12 @@ lti#:#lti_obj_version#:#LTI Version
 lti#:#lti_obj_version_11#:#Version 1.1
 lti#:#lti_obj_version_13#:#Version 1.3
 lti#:#lti_object_consumer#:#LTI Consumers
-lti#:#lti_object_release_settings_form#:#LTI Shareを編集
-lti#:#lti_provider#:#LTI-Share
+lti#:#lti_object_release_settings_form#:#LTI Releaseを編集
+lti#:#lti_provider#:#LTI Release
 lti#:#lti_provider_not_avail_msg#:#LTI Providerを'利用不可'に設定する
 lti#:#lti_provider_not_set_msg#:#LTIプロバイダー / ツール構成が完全に終了していません。
 lti#:#lti_providing_tab#:#LTI ProviderとしてのILIAS
-lti#:#lti_released_objects#:#Object-Share
+lti#:#lti_released_objects#:#Object Release
 lti#:#lti_select_provider#:#プロバイダーを選択
 lti#:#lti_session#:#LTIセッション
 lti#:#lti_settings#:#LTI設定
@@ -11229,7 +11229,7 @@ lti#:#lti_success_reset_to_usr_def_multi#:#ユーザ定義のプロバイダー�
 lti#:#lti_tutor#:#LTIインストラクター
 lti#:#lti_user_role_created#:#LTIユーザの推奨グローバル役割が作成されました。
 lti#:#lti_user_role_info#:#LTIユーザの推奨グローバル役割がこのシステムではまだ作成されていません。この特別グローバル役割は、リポジトリとカテゴリのアクセス権'表示する' が入っているのみです。
-lti#:#mastery_score#:#Mastery Score
+lti#:#mastery_score#:#習熟度スコア
 lti#:#mastery_score_info#:#学習進捗はProvider Outcome Serviceとmastery scoreスレッショールドから評価されます。
 lti#:#obj_tile_image_info#:#四角形のイメージを使用
 lti#:#online_info#:#これはユーザーへオブジェクトを表示して利用可能にします。
@@ -11256,7 +11256,7 @@ lti#:#tbl_grade_period#:#期間
 lti#:#tbl_grade_score#:#点数
 lti#:#tbl_grade_stored#:#ILIASへ送信済
 lti#:#tbl_lti_prov_all_categories#:#全カテゴリー
-lti#:#tbl_lti_prov_availability#:#利用期間
+lti#:#tbl_lti_prov_availability#:#Availability(都合)
 lti#:#tbl_lti_prov_category#:#カテゴリー
 lti#:#tbl_lti_prov_description#:#説明
 lti#:#tbl_lti_prov_icon#:#Icon
@@ -11267,16 +11267,16 @@ lti#:#tbl_lti_prov_outcome#:#Outcome Service
 lti#:#tbl_lti_prov_own_provider#:#Own Provider
 lti#:#tbl_lti_prov_provider_creator#:#作成者
 lti#:#tbl_lti_prov_title#:#プロバイダーのタイトル
-lti#:#tbl_lti_prov_usages#:#利用状況
-lti#:#tbl_lti_prov_usages_trashed#:#利用状況を破棄
-lti#:#tbl_lti_prov_usages_untrashed#:#リポジトリ利用状況
+lti#:#tbl_lti_prov_usages#:#利用例
+lti#:#tbl_lti_prov_usages_trashed#:#利用例を破棄
+lti#:#tbl_lti_prov_usages_untrashed#:#リポジトリ利用例
 lti#:#tbl_lti_prov_used_by#:#ツリー構造のオブジェクト別利用のプロバイダー
-lti#:#tbl_lti_prov_with_key#:#Key / Secretで定義済み
+lti#:#tbl_lti_prov_with_key#:#Key / Secretで事前定義済み
 lti#:#tbl_provider_header#:#LTI Provider
 lti#:#tbl_provider_usage_header#:#LTI Provider
-lti#:#tbl_provider_usage_header_info#:#プロバイダー削除前にゴミ箱の利用状況も削除しなければなりません。
+lti#:#tbl_provider_usage_header_info#:#プロバイダー削除前にゴミ箱の利用例も削除しなければなりません。
 lti#:#title_info#:#タイトルをオブジェクトにする
-lti#:#usage_subtab#:#利用状況
+lti#:#usage_subtab#:#利用例
 lti#:#use_xapi#:#xAPI-Supportを使用
 lti#:#use_xapi_info#:#このLTI ProviderはxAPI-Statementsをサポートします。
 lti#:#user_lng#:#User言語
@@ -11838,7 +11838,7 @@ meta#:#md_copyright_alt_text#:#テキスト表現
 meta#:#md_copyright_alt_text_info#:#イメージ'alt'属性用に使用
 meta#:#md_copyright_default#:#Default
 meta#:#md_copyright_edit#:#著作権のプリセットを編集
-meta#:#md_copyright_enable_info#:#定義済みの著作権の選択を提供するには、このオプションを選択します。
+meta#:#md_copyright_enable_info#:#事前定義済みの著作権の選択を提供するには、このオプションを選択します。
 meta#:#md_copyright_enabled#:#著作権選択を可能にする
 meta#:#md_copyright_full_name#:#Full Name
 meta#:#md_copyright_image#:#Image
@@ -11864,7 +11864,7 @@ meta#:#md_record_export_table#:#エクスポート ファイル
 meta#:#md_record_list_table#:#利用可能なメタデータセット
 meta#:#md_separated_by#:#%sで区切る
 meta#:#md_time#:#時間
-meta#:#md_used#:#現在の利用状況
+meta#:#md_used#:#現在の利用例
 meta#:#meta_1#:#1
 meta#:#meta_2#:#2
 meta#:#meta_3#:#3
@@ -12157,10 +12157,10 @@ meta#:#meta_copyright_change_warning_title#:#Copyright設定の変更
 meta#:#meta_copyright_in_use#:#使用中
 meta#:#meta_copyright_outdated#:#旧 / 使用不可
 meta#:#meta_copyright_outdated_error#:#選択のCopyrightは期限が切れていて使用されていません。
-meta#:#meta_copyright_show_usages#:#使用中を表示
+meta#:#meta_copyright_show_usages#:#使用例を表示
 meta#:#meta_copyright_status#:#Status
 meta#:#meta_copyright_sub_items#:#Sub Items
-meta#:#meta_copyright_usage#:#利用状況
+meta#:#meta_copyright_usage#:#利用例
 meta#:#meta_cost#:#原価
 meta#:#meta_coverage#:#適用範囲
 meta#:#meta_coverage_plural#:#範囲
@@ -12866,7 +12866,7 @@ obj#:#obj_target_location#:#目標場所
 obj#:#obj_tile_image#:#タイルイメージ
 obj#:#obj_tile_image_info#:#この画像はサムネイルスタイルイメージ(通称タイトル)として配置されているコンテナ内のこのオブジェクト表示(例:カテゴリ、フォルダーグループ等)のために使用されます。タイトルは現在のコンテナ設定が'コンテンツ表示オプション'を('リスト'ではなく）'タイル'にした場合のみ使用されます。
 obj#:#obj_tool_booking#:#リソース
-obj#:#obj_tool_booking_info#:#リソースを予約するには予約集を使用
+obj#:#obj_tool_booking_info#:#リソースを予約するには予約枠を使用
 obj#:#obj_tool_ext_mail_subject_prefix#:#Mail Subject Prefix
 obj#:#obj_tool_ext_mail_subject_prefix_info#:#外部メールをメンバーへこのメールがわかりやすいように認識させるための件名へ追加するショートメッセージを入力します。
 obj#:#obj_tool_setting_badges#:#バッジ
@@ -13814,7 +13814,7 @@ rbac#:#blog_read#:#ユーザはブログ内容を読むことができます
 rbac#:#blog_redact#:#ユーザは他の寄稿者の投稿も編集できます。
 rbac#:#blog_visible#:#ブログを表示
 rbac#:#blog_write#:#ユーザはブログ設定を編集できます
-rbac#:#book_copy#:#ユーザは予約集をコピーできます。
+rbac#:#book_copy#:#ユーザは予約枠をコピーできます。
 rbac#:#book_delete#:#ユーザは予定集を移動もしくは削除する事ができます。
 rbac#:#book_edit_permission#:#ユーザはブッキング集のアクセス権設定を変更できます
 rbac#:#book_read#:#ブッキング集とブッキングリソースへの読込みアクセス
@@ -14288,7 +14288,7 @@ rbac#:#prtt_copy#:#ユーザはポートフォリオテンプレートをコピ�
 rbac#:#prtt_delete#:#ユーザはポートフォリオテンプレートを移動または削除できます
 rbac#:#prtt_edit_permission#:#ユーザはポートフォリオテンプレートのアクセス権設定を変更できます
 rbac#:#prtt_read#:#ユーザはポートフォリオテンプレートへの読込みアクセス権があります
-rbac#:#prtt_visible#:#予約集を表示
+rbac#:#prtt_visible#:#予約枠を表示
 rbac#:#prtt_write#:#ユーザはポ－トフォリオテンプレートの設定と内容を編集できます
 rbac#:#ps_edit_permission#:#ユーザはプライバシー・セキュリティのアクセス権設定を変更できます
 rbac#:#ps_export_member_data#:#ユーザはコースとグループのメンバーデータをエクスポートできます
@@ -14328,7 +14328,7 @@ rbac#:#rbac_copy_role_copy#:#アクセス権をコピー
 rbac#:#rbac_copy_role_remove_perm#:#アクセス権を削除
 rbac#:#rbac_create_bibl#:#文献目録を作成
 rbac#:#rbac_create_blog#:#ブログ作成
-rbac#:#rbac_create_book#:#予約集を作成
+rbac#:#rbac_create_book#:#予約枠を作成
 rbac#:#rbac_create_cat#:#カテゴリを表示作成
 rbac#:#rbac_create_catr#:#カテゴリリンクを作成
 rbac#:#rbac_create_chtr#:#チャットルームを作成
@@ -15485,7 +15485,7 @@ skmg#:#skmg_create_skill_template_reference#:#能力テンプレートレファ�
 skmg#:#skmg_create_skll#:#能力を作成
 skmg#:#skmg_custom_image_alt#:#Competenceプロファイルのカスタムイメージ
 skmg#:#skmg_delete_profiles#:#本当にこの次のプロファイルを削除しますか?
-skmg#:#skmg_delete_warning#:#次のアイテムを本当に削除しますか?アイテムを削除すると、利用状況、割り当て、達成度も合わせて削除されます。安全のために、以下の全利用リストが見つかります。アイテムが能力プロファイル内で使用されている場合は、プロファイルからも削除されます。割当られたユーザの能力プロファイルの達成につながることがあります。アイテムを削除すべきかどうか不明確な場合はシングルアイテム設定内のステータスを使用してください。
+skmg#:#skmg_delete_warning#:#次のアイテムを本当に削除しますか?アイテムを削除すると、利用例、割り当て、達成度も合わせて削除されます。安全のために、以下の全利用リストが見つかります。アイテムが能力プロファイル内で使用されている場合は、プロファイルからも削除されます。割当られたユーザの能力プロファイルの達成につながることがあります。アイテムを削除すべきかどうか不明確な場合はシングルアイテム設定内のステータスを使用してください。
 skmg#:#skmg_description_info#:#説明はテンプレートから来ます。
 skmg#:#skmg_edit_level#:#レベル編集
 skmg#:#skmg_edit_profile#:#プロファイル編集
@@ -15610,7 +15610,7 @@ skmg#:#skmg_trigger#:#トリガー
 skmg#:#skmg_type#:#タイプ
 skmg#:#skmg_type_of_formation#:#フォーメーションのタイプ
 skmg#:#skmg_update_order#:#順番を更新
-skmg#:#skmg_usage#:#使用
+skmg#:#skmg_usage#:#使用例
 skmg#:#skmg_usage_obj_objects#:#オブジェクト
 skmg#:#skmg_usage_obj_profiles#:#プロファイル
 skmg#:#skmg_usage_obj_users#:#ユーザ
@@ -15769,7 +15769,7 @@ style#:#sty_color#:#カラー
 style#:#sty_color_already_exists#:#この名前のカラーは、既にこのスタイルの中に存在します。
 style#:#sty_color_code#:#カラーコード
 style#:#sty_color_flavors#:#Color Flavors
-style#:#sty_color_info#:#定義済みの色は、別の目的で簡単に再利用できます。"!"で始まるスタイルクラスのカラー属性の名前を使って、定義済みの色を参照します。色合い(flavor)を使用するには、括弧内の明度色の名前に例えば MyColor(20)と追加します。
+style#:#sty_color_info#:#事前定義済みの色は、別の目的で簡単に再利用できます。"!"で始まるスタイルクラスのカラー属性の名前を使って、事前定義済みの色を参照します。色合い(flavor)を使用するには、括弧内の明度色の名前に例えば MyColor(20)と追加します。
 style#:#sty_color_name#:#カラー名
 style#:#sty_colors#:#カラー
 style#:#sty_commands#:#コマンド
@@ -16917,7 +16917,7 @@ tbl#:#tbl_template_delete#:#保存した表示を削除します
 tbl#:#tbl_template_deleted#:#保全した表示を削除しました。
 tbl#:#tbl_templates#:#表示
 tos#:#tos_accept_usr_agreement_anonymous#:#利用規約
-tos#:#tos_accept_usr_agreement_anonymous_intro#:#ILIASを利用する前に次の利用規約を承諾します。
+tos#:#tos_accept_usr_agreement_anonymous_intro#:#ILIASを利用する前に次の利用規約を承諾するものとします。
 tos#:#tos_account_reg_not_possible#:#ユーザ許諾が無いので自己登録はできません。詳細に関しては<a href="%1$s">システム管理者</a>へコンタクトしてください。
 tos#:#tos_agree_date#:#使用許諾 承諾日
 tos#:#tos_agreement#:#サービス使用許諾
