@@ -10466,6 +10466,7 @@ gsfo#:#entries_add#:#Eintrag hinzufügen
 gsfo#:#entries_edit#:#Einträge bearbeiten
 gsfo#:#entries_parent#:#Gruppe auswählen
 gsfo#:#entries_select_parent#:#Eintrag in Gruppe verschieben
+gsfo#:#entries_target_group#:#Ziel wählen
 gsfo#:#entry_action#:#Link
 gsfo#:#entry_action_info#:#Geben Sie die vollständige URL einschließlich des Protokolls an (z. B. https://www.ilias.de)
 gsfo#:#entry_activation_toggled#:#Aktivierung wurde umgeschaltet
@@ -10474,6 +10475,7 @@ gsfo#:#entry_active_info#:#Diesen Eintrag aktivieren
 gsfo#:#entry_add#:#Eintrag hinzufügen
 gsfo#:#entry_delete#:#Löschen
 gsfo#:#entry_deleted#:#Gelöscht
+gsfo#:#entry_deleted_failed#:#Löschen nicht möglich
 gsfo#:#entry_edit#:#Bearbeiten
 gsfo#:#entry_external#:#In neuem Tab öffnen
 gsfo#:#entry_move#:#Verschieben
@@ -10496,6 +10498,7 @@ gsfo#:#group_toggle_activation#:#(De-)Aktivieren
 gsfo#:#group_translate#:#Übersetzen
 gsfo#:#info_not_deletable_core#:#Standardelemente können nicht gelöscht werden.
 gsfo#:#info_not_deletable_not_empty#:#Gruppen mit Einträgen können nicht gelöscht werden.
+gsfo#:#item_moved#:#Eintrag verschoben
 gsfo#:#legal_information#:#Rechtliche Informationen
 gsfo#:#order_saved#:#Reihenfolge gespeichert
 gsfo#:#permanent#:#permanent

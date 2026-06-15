@@ -10467,6 +10467,7 @@ gsfo#:#entries_add#:#Add Entry
 gsfo#:#entries_edit#:#entries_edit
 gsfo#:#entries_parent#:#Select Group
 gsfo#:#entries_select_parent#:#Move Entry to Group
+gsfo#:#entries_target_group#:#Select target group
 gsfo#:#entry_action#:#Link
 gsfo#:#entry_action_info#:#Provide the full URL including the protocol (e.g. https://www.ilias.de)
 gsfo#:#entry_activation_toggled#:#Activation has been toggled
@@ -10475,6 +10476,7 @@ gsfo#:#entry_active_info#:#Activate this Entry
 gsfo#:#entry_add#:#Add Entry
 gsfo#:#entry_delete#:#Delete
 gsfo#:#entry_deleted#:#Deleted
+gsfo#:#entry_deleted_failed#:#Deletion not possible
 gsfo#:#entry_edit#:#Edit
 gsfo#:#entry_external#:#Open in new Tab
 gsfo#:#entry_move#:#Move
@@ -10497,6 +10499,7 @@ gsfo#:#group_toggle_activation#:#(De-)Activate
 gsfo#:#group_translate#:#Translate
 gsfo#:#info_not_deletable_core#:#Default Items cannot be deleted.
 gsfo#:#info_not_deletable_not_empty#:#Groups with Entries cannot be deleted.
+gsfo#:#item_moved#:#Entry moved
 gsfo#:#legal_information#:#Legal Information
 gsfo#:#order_saved#:#Order saved
 gsfo#:#permanent#:#permanent
