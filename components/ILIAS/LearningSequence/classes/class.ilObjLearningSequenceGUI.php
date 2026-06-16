@@ -663,6 +663,15 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         }
         $this->ctrl->redirectByClass('ilObjLearningSequenceLearnerGUI', self::CMD_LEARNER_VIEW);
     }
+
+    /**
+     * Initializes the header action for the object list GUI with optional subtype and sub-ID.
+     * Disables multi-download functionality for the object list GUI if initialized.
+     *
+     * @param string|null $sub_type Optional subtype identifier.
+     * @param int|null    $sub_id   Optional sub-ID.
+     * @return ilObjectListGUI|null Returns the initialized object list GUI instance or null.
+     */
     protected function initHeaderAction(?string $sub_type = null, ?int $sub_id = null): ?ilObjectListGUI
     {
         $lg = parent::initHeaderAction($sub_type, $sub_id);
