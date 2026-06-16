@@ -236,6 +236,12 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
                 $this->ctrl->setParameterByClass(ilMailFormGUI::class, self::PARAM_MAIL_ID, (string) $mail_ids[0]);
                 if ($this->folder->isOutbox()) {
                     $this->umail->moveMailsToFolder($mail_ids, $this->mbox->getDraftsFolder());
+                    ilSession::set('mail_scheduled_edit_from_outbox', true);
+                    $this->tpl->setOnScreenMessage(
+                        ilGlobalTemplateInterface::MESSAGE_TYPE_INFO,
+                        $this->lng->txt('mail_scheduled_edit_moved_info'),
+                        true
+                    );
                 }
                 $this->ctrl->setParameterByClass(
                     ilMailFormGUI::class,
@@ -490,6 +496,12 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
             $this->user->getTimeFormat(),
             new DateTimeZone($this->user->getTimeZone())
         );
+
+        if ($this->folder->isOutbox()) {
+            $components[] = $this->ui_factory->messageBox()->info(
+                $this->lng->txt('mail_message_scheduled_info')
+            );
+        }
 
         $components[] = $this->getFilterUI()->getComponent();
         $components[] = $table->getComponent();

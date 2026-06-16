@@ -847,6 +847,19 @@ class ilMailFormGUI
                 break;
         }
 
+        if (
+            $type === self::MAIL_FORM_TYPE_DRAFT
+            && !empty($mail_data['schedule_datetime'])
+            && !ilSession::get('mail_scheduled_edit_from_outbox')
+        ) {
+            $this->tpl->setOnScreenMessage(
+                ilGlobalTemplateInterface::MESSAGE_TYPE_INFO,
+                $this->lng->txt('mail_scheduled_edit_compose_info'),
+                true
+            );
+        }
+        ilSession::clear('mail_scheduled_edit_from_outbox');
+
         $this->tpl->parseCurrentBlock();
 
         $form ??= $this->buildForm($mail_data);

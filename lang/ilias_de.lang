@@ -4596,7 +4596,9 @@ common#:#mail_maxsize_attach#:#Maximale Größe des Mail-Anhangs
 common#:#mail_member#:#Mail an Mitglied
 common#:#mail_members#:#Mail an Mitglieder
 common#:#mail_message_scheduled#:#Mail planen
-common#:#mail_message_scheduled_info#:#Geplante Mails werden bis zum gewählten Zeitpunkt im Postausgang verbleiben.
+common#:#mail_message_scheduled_info#:#Geplante Mails bleiben bis zum gewählten Versandzeitpunkt im Postausgang. Beim Bearbeiten werden sie vorübergehend in Entwürfe verschoben, damit sie während der Bearbeitung nicht versendet werden. Nach dem erneuten Planen erscheinen sie wieder im Postausgang.
+common#:#mail_scheduled_edit_compose_info#:#Sie bearbeiten eine geplante Mail. Der Versand ist pausiert, bis Sie die Mail erneut planen..
+common#:#mail_scheduled_edit_moved_info#:#Diese geplante Mail wurde vorübergehend in Entwürfe verschoben, damit sie während der Bearbeitung nicht versendet wird. Nach dem erneuten Planen erscheint sie wieder im Postausgang.
 common#:#mail_not_sent#:#Ihre Mail konnte nicht verschickt werden
 common#:#mail_schedule_error_no_datetime#:#Das Planen einer Mail erfordert ein Datum und eine Uhrzeit.
 common#:#mail_schedule_error_past_datetime#:#Mails können nicht in der Vergangenheit geplant werden.
