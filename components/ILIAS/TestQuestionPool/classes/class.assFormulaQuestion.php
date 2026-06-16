@@ -1395,15 +1395,20 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
     public function getCorrectSolutionForTextOutput(int $active_id, int $pass): array
     {
         $best_solution = $this->getBestSolution($this->getSolutionValues($active_id, $pass));
-        return array_map(
-            function (string $v) use ($best_solution): string {
+        return array_reduce(
+            array_keys($best_solution),
+            function (array $c, string $v) use ($best_solution): array {
+                if (str_starts_with($v, '$v')) {
+                    return $c;
+                }
                 $solution = "{$v} = {$best_solution[$v]['value']}";
                 if (isset($best_solution['unit'])) {
                     $solution .= "{$this->unitrepository->getUnit($best_solution['unit'])->getUnit()}";
                 }
-                return $solution;
+                $c[] = $solution;
+                return $c;
             },
-            array_keys($best_solution)
+            []
         );
     }
 
