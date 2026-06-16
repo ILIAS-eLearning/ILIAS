@@ -61,6 +61,13 @@ class ilLearningSequenceImporter extends ilXmlImporter
         );
 
         $a_mapping->addMapping(
+            'components/ILIAS/MetaData',
+            'md',
+            $a_id . ':0:lso',
+            (string) $this->obj->getId() . ':0:lso'
+        );
+
+        $a_mapping->addMapping(
             "components/ILIAS/Taxonomy",
             "tax_item",
             "lso:obj:" . $a_id,

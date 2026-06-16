@@ -85,6 +85,8 @@ class ilObjLearningSequence extends ilContainer
         if (!$id) {
             return 0;
         }
+
+        $this->createMetaData();
         $this->raiseEvent(self::E_CREATE);
 
         return $this->getId();
@@ -95,6 +97,8 @@ class ilObjLearningSequence extends ilContainer
         if (!parent::update()) {
             return false;
         }
+
+        $this->updateMetaData();
         $this->raiseEvent(self::E_UPDATE);
 
         return true;
@@ -102,6 +106,8 @@ class ilObjLearningSequence extends ilContainer
 
     public function delete(): bool
     {
+        $this->deleteMetaData();
+
         if (!parent::delete()) {
             return false;
         }

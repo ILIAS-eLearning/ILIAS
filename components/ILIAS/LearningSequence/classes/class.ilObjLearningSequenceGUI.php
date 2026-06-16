@@ -540,7 +540,9 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
     protected function getGUIInfo(): ilInfoScreenGUI
     {
-        return new ilInfoScreenGUI($this);
+        $info = new ilInfoScreenGUI($this);
+        $info->addMetaDataSections($this->object->getId(), 0, 'lso');
+        return $info;
     }
 
     protected function getGUIPermissions(): ilPermissionGUI
@@ -746,20 +748,14 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             );
 
             // metadata
-            if (ilContainer::_lookupContainerSetting(
-                $this->object->getId(),
-                ilObjectServiceSettingsGUI::CUSTOM_METADATA,
-                '0'
-            )) {
-                $mdgui = new ilObjectMetaDataGUI($this->object);
-                $mdtab = $mdgui->getTab();
-                if ($mdtab) {
-                    $this->tabs->addTab(
-                        "meta_data",
-                        $this->lng->txt("meta_data"),
-                        $mdtab
-                    );
-                }
+            $mdgui = new ilObjectMetaDataGUI($this->object);
+            $mdtab = $mdgui->getTab();
+            if ($mdtab) {
+                $this->tabs->addTab(
+                    "meta_data",
+                    $this->lng->txt("meta_data"),
+                    $mdtab
+                );
             }
         }
 
