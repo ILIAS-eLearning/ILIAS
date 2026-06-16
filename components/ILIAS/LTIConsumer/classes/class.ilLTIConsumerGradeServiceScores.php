@@ -130,7 +130,7 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
             throw new Exception('Incorrect score received', 400);
         }
 
-        $userId = $this->getUsrIdForScoreUser($objId, (string) $score->userId);
+        $userId = $this->resolveUserIdFromLtiIdent($objId, (string) $score->userId);
         if ($userId == null) {
             ilObjLTIConsumer::getLogger()->info('User not available');
             throw new Exception('User not available', 404);
@@ -236,37 +236,6 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
 
 
         return 200;
-    }
-
-    protected function getUsrIdForScoreUser(int $objId, string $userIdent): ?int
-    {
-        global $DIC;
-        $ilDB = $DIC->database();
-        $query = 'SELECT usr_id FROM cmix_users'
-            . ' WHERE obj_id = ' . $ilDB->quote($objId, 'integer')
-            . ' AND usr_ident = ' . $ilDB->quote($userIdent, 'text');
-        $res = $ilDB->query($query);
-        $row = $ilDB->fetchAssoc($res);
-        if ($row) {
-            return (int) $row['usr_id'];
-        }
-
-        $userId = ilCmiXapiUser::getUsrIdForObjectAndUsrIdent($objId, $userIdent);
-        if ($userId !== null) {
-            return $userId;
-        }
-
-        $query = 'SELECT usr_id, privacy_ident FROM cmix_users'
-            . ' WHERE obj_id = ' . $ilDB->quote($objId, 'integer');
-        $res = $ilDB->query($query);
-        while ($row = $ilDB->fetchAssoc($res)) {
-            $user = new ilObjUser((int) $row['usr_id']);
-            if (ilCmiXapiUser::getIdentAsId((int) $row['privacy_ident'], $user) === $userIdent) {
-                return (int) $row['usr_id'];
-            }
-        }
-
-        return null;
     }
 
     protected static function isValidActivityProgress(string $activityProgress): bool
