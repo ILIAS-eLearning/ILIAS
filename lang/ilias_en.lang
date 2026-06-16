@@ -4597,12 +4597,14 @@ common#:#mail_maxsize_attach#:#Max. attachment size
 common#:#mail_member#:#Mail to Member
 common#:#mail_members#:#Mail to Members
 common#:#mail_message_scheduled#:#Scheduled mail
-common#:#mail_message_scheduled_info#:#Mails remain in the outbox until the scheduled sending time.
+common#:#mail_message_scheduled_info#:#Scheduled mails remain in the outbox until the chosen sending time. When editing, they are temporarily moved to drafts so they are not sent while you are editing. After scheduling again, they reappear in the outbox.
 common#:#mail_not_sent#:#Mail not sent!
 common#:#mail_schedule_error_no_datetime#:#To schedule a mail, a delivery date and time must be specified.
 common#:#mail_schedule_error_past_datetime#:#You cannot schedule emails in the past.
 common#:#mail_schedule_scheduled_datetime#:#Scheduled Send Time
 common#:#mail_scheduled#:#Mail stored in outbox for later delivery.
+common#:#mail_scheduled_edit_compose_info#:#You are editing a scheduled mail. Sending is paused until you schedule the mail again.
+common#:#mail_scheduled_edit_moved_info#:#This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox.
 common#:#mail_search_no#:#No entries found.
 common#:#mail_select_one#:#You must select one mail
 common#:#mail_send_error#:#Error sending mail
