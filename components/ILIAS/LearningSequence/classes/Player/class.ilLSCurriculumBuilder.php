@@ -48,8 +48,7 @@ class ilLSCurriculumBuilder
     public function getLearnerCurriculum(
         bool $with_action = false,
         ?string $title = null
-    ): ILIAS\UI\Component\Listing\Workflow\Linear
-    {
+    ): ILIAS\UI\Component\Listing\Workflow\Linear {
         $steps = [];
         $items = $this->ls_items->getItems();
         foreach ($items as $item) {
