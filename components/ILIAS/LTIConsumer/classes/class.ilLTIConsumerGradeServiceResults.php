@@ -107,7 +107,7 @@ class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
                 $identRes = $ilDB->query($identQuery);
                 $identRow = $ilDB->fetchAssoc($identRes);
                 $userIdent = $identRow['usr_ident'] ?? (string) $userId;
-                if ($filters['userId'] !== '' && !$this->matchesUserIdentFilter($userIdent, $filters['userId'])) {
+                if ($filters['userId'] !== '' && !$this->matchesLtiUserIdent($itemId, $userId, $userIdent, $filters['userId'])) {
                     continue;
                 }
 
@@ -143,15 +143,6 @@ class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
             'userId' => isset($_GET['user_id']) ? (string) $_GET['user_id'] : '',
             'limit' => isset($_GET['limit']) && is_numeric($_GET['limit']) ? max(0, (int) $_GET['limit']) : 0
         ];
-    }
-
-    protected function matchesUserIdentFilter(string $userIdent, string $filter): bool
-    {
-        if ($userIdent === $filter) {
-            return true;
-        }
-
-        return strpos($filter, '@') === false && strpos($userIdent, $filter . '@') === 0;
     }
 
     protected function getClientIdFromToken(object $token): string
