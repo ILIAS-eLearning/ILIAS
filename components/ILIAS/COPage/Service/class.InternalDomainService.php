@@ -69,6 +69,17 @@ class InternalDomainService
         );
     }
 
+    public function historyRetrieval(int $page_id, string $parent_type, string $lang): History\HistoryRetrieval
+    {
+        return new History\HistoryRetrieval(
+            $this->repo_service->history(),
+            $this->DIC->database(),
+            $page_id,
+            $parent_type,
+            $lang
+        );
+    }
+
     public function xsl(): Xsl\XslManager
     {
         return new Xsl\XslManager();
@@ -131,5 +142,15 @@ class InternalDomainService
             return $this->copg_log;
         }
         return null;
+    }
+
+    public function layoutRetrieval(): Layout\PageLayoutRetrieval
+    {
+        return new Layout\PageLayoutRetrieval();
+    }
+
+    public function testQuestion(): \ILIAS\TestQuestionPool\Questions\PublicInterface
+    {
+        return $this->DIC->testQuestion();
     }
 }

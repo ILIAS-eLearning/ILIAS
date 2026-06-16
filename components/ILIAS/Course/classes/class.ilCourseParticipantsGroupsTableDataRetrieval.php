@@ -134,7 +134,9 @@ class ilCourseParticipantsGroupsTableDataRetrieval implements ilTableDataRetriev
         [$column_name, $direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
         $rows = $this->applyFilter($filter_data);
         $groups_rights = $this->data['groups_rights'] ?? [];
-        $comparator = function (array $f1, array $f2) { return 0; };
+        $comparator = function (array $f1, array $f2) {
+            return 0;
+        };
         switch ($column_name) {
             case ilCourseParticipantsGroupsTableGUI::TABLE_COL_NAME:
                 $comparator = function (array $f1, array $f2) {

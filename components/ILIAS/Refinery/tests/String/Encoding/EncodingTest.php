@@ -43,7 +43,7 @@ class EncodingTest extends TestCase
             for ($j = 0; $j < $length; $j++) {
                 $string .= chr(random_int(0, 255));
             }
-            $strings[] = [$string, @utf8_encode($string)]; //  we must suppress the deprecation warning here
+            $strings[] = [$string, mb_convert_encoding($string, 'UTF-8', 'ISO-8859-1')];
         }
         return $strings;
     }

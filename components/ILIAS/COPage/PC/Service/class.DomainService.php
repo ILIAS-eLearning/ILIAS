@@ -31,6 +31,7 @@ use ILIAS\COPage\PC\MediaObject\MediaObjectManager;
 use ILIAS\COPage\PC\Question\QuestionManager;
 use ILIAS\COPage\PC\Resources\ResourcesManager;
 use ILIAS\COPage\PC\Plugged\PluggedManager;
+use ILIAS\COPage\PC\Grid\GridCellRetrieval;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -80,6 +81,14 @@ class DomainService
         return new FileListManager();
     }
 
+    public function fileListRetrieval(\ilPCFileList $file_list): FileList\FileListRetrieval
+    {
+        return new FileList\FileListRetrieval(
+            $this->domain_service,
+            $file_list
+        );
+    }
+
     public function mediaObject(): MediaObjectManager
     {
         return new MediaObjectManager();
@@ -88,6 +97,15 @@ class DomainService
     public function question(): QuestionManager
     {
         return new QuestionManager();
+    }
+
+    public function selfAssQuestionRetrieval(int $pool_ref_id, int $pool_obj_id): Question\SelfAssQuestionRetrieval
+    {
+        return new Question\SelfAssQuestionRetrieval(
+            $this->domain_service,
+            $pool_ref_id,
+            $pool_obj_id
+        );
     }
 
     public function interactiveImage(): InteractiveImage\IIMManager
@@ -105,6 +123,13 @@ class DomainService
     public function plugged(): PluggedManager
     {
         return new PluggedManager();
+    }
+
+    public function gridCellRetrieval(\ilPCGrid $grid): GridCellRetrieval
+    {
+        return new GridCellRetrieval(
+            $grid
+        );
     }
 
 }

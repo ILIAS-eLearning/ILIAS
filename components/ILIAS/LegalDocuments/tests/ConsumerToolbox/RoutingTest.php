@@ -64,7 +64,7 @@ class RoutingTest extends TestCase
         $called = false;
 
         $session = $this->mock(SelectSetting::class);
-        $session->expects(self::once())->method('typed')->willReturnCallback(function (string $key, callable $proc) {
+        $session->expects($this->once())->method('typed')->willReturnCallback(function (string $key, callable $proc) {
             $this->assertSame('orig_request_target', $key);
             return $this->mockTree(Setting::class, ['value' => null]);
         });
@@ -85,7 +85,7 @@ class RoutingTest extends TestCase
     {
         $setting = $this->mock(Setting::class);
         $setting->method('value')->willReturn('some url');
-        $setting->expects(self::once())->method('update')->with(null);
+        $setting->expects($this->once())->method('update')->with(null);
 
         $session = $this->mock(SelectSetting::class);
         $session->method('typed')->willReturnCallback(function (string $key, callable $proc) use ($setting) {
@@ -95,7 +95,7 @@ class RoutingTest extends TestCase
         });
 
         $ctrl = $this->mock(ilCtrl::class);
-        $ctrl->expects(self::once())->method('redirectToURL')->with('some url');
+        $ctrl->expects($this->once())->method('redirectToURL')->with('some url');
 
         (new Routing(
             $ctrl,

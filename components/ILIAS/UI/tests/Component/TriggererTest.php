@@ -72,8 +72,6 @@ class ILIAS_UI_Component_TriggererTest extends TestCase
         return $this
             ->getMockBuilder(Component\Signal::class)
             ->disableOriginalClone()
-            ->disableArgumentCloning()
-            ->disallowMockingUnknownTypes()
             ->setMockClassName("Signal_" . ((string) self::$signal_mock_counter))
             ->getMock();
     }

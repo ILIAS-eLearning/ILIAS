@@ -2506,8 +2506,11 @@ details[open] > summary::before {
 */
 /* UI Framework */
 .c-tooltip__container {
-  position: relative;
   display: inline-block;
+}
+
+.c-tooltip__container.c-tooltip--visible {
+  position: relative;
 }
 
 .c-tooltip__container::before {
@@ -4859,8 +4862,14 @@ hr.il-divider-with-label {
   border: 1px dashed #757575;
   border-radius: 4px;
   background-color: #f9f9f9;
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding: 15px 12px;
+}
+
+.ui-dropzone-container {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .ui-dropzone-wrapper {
@@ -4880,8 +4889,6 @@ hr.il-divider-with-label {
 
 .ui-dropzone-message {
   font-size: 0.875rem;
-  float: right;
-  margin-right: 12px;
 }
 
 .ui-dropzone .form-group {
@@ -5213,6 +5220,154 @@ hr.il-divider-with-label {
   width: 45px;
 }
 
+.il-maincontrols-metabar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style-type: none; /* Remove bullets */
+}
+.il-maincontrols-metabar > li > .btn-bulky > .bulky-label, .il-maincontrols-metabar > li > .link-bulky > .bulky-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  white-space: nowrap;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+.il-maincontrols-metabar .glyphicon {
+  filter: invert(50%);
+  font-family: "il-icons";
+  font-size: 1.0625rem;
+  margin-right: 6px;
+  position: relative;
+}
+.il-maincontrols-metabar .input-group {
+  display: block;
+}
+.il-maincontrols-metabar p {
+  padding: 0;
+}
+.il-maincontrols-metabar form#mm_search_form {
+  padding: 20px;
+}
+.il-maincontrols-metabar .badge {
+  position: absolute;
+}
+.il-maincontrols-metabar .btn, .il-maincontrols-metabar .il-link {
+  position: relative;
+}
+.il-maincontrols-metabar .il-counter {
+  font-size: 1.4375rem;
+}
+.il-maincontrols-metabar > li > .btn.btn-bulky:focus-visible, .il-maincontrols-metabar > li > a.il-link.link-bulky:focus-visible {
+  outline: none;
+  border: 3px solid #0078D7;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
+}
+.il-maincontrols-metabar > li > .btn.btn-bulky, .il-maincontrols-metabar > li > a.il-link.link-bulky {
+  border: none;
+  background-color: transparent;
+  height: 60px;
+  min-width: 60px;
+}
+@media only screen and (max-width: 991px) {
+  .il-maincontrols-metabar > li > .btn.btn-bulky, .il-maincontrols-metabar > li > a.il-link.link-bulky {
+    height: 45px;
+    min-width: 45px;
+  }
+}
+.il-maincontrols-metabar > li > .btn.btn-bulky:focus, .il-maincontrols-metabar > li > .btn.btn-bulky:active, .il-maincontrols-metabar > li > a.il-link.link-bulky:focus, .il-maincontrols-metabar > li > a.il-link.link-bulky:active {
+  box-shadow: none;
+}
+.il-maincontrols-metabar > li > .btn.btn-bulky.engaged, .il-maincontrols-metabar > li > a.il-link.link-bulky.engaged {
+  box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fafafa;
+  color: initial;
+  border: none;
+}
+.il-maincontrols-metabar > li > .btn.btn-bulky.engaged:focus-visible, .il-maincontrols-metabar > li > a.il-link.link-bulky.engaged:focus-visible {
+  outline: none;
+  border: 3px solid #0078D7;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
+}
+.il-maincontrols-metabar > li > .btn.btn-bulky .glyphicon, .il-maincontrols-metabar > li > a.il-link.link-bulky .glyphicon {
+  color: #737373;
+  font-size: 1.4375rem;
+}
+@media only screen and (max-width: 991px) {
+  .il-maincontrols-metabar .il-metabar-more-button {
+    padding-right: 18px;
+  }
+  .il-maincontrols-metabar .il-metabar-more-button .icon.custom {
+    position: relative;
+  }
+  .il-maincontrols-metabar .il-metabar-more-button .icon.custom img {
+    margin-right: 6px;
+  }
+  .il-maincontrols-metabar .il-metabar-more-button .icon.custom .badge {
+    position: absolute;
+    margin-right: 3px;
+  }
+  .il-maincontrols-metabar .il-metabar-more-button .icon.custom .badge.il-counter-novelty {
+    margin-top: -6px;
+  }
+  .il-maincontrols-metabar .il-metabar-more-button .icon.custom .badge.il-counter-status {
+    margin-top: 12px;
+  }
+}
+
+.il-metabar-slates {
+  box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fafafa;
+  position: absolute;
+  max-width: 500px;
+}
+.il-metabar-slates .il-maincontrols-slate {
+  min-width: 500px;
+}
+.il-metabar-slates {
+  max-height: 90vh;
+  overflow-y: auto;
+  right: 0;
+  top: 60px;
+}
+.il-metabar-slates .bulky-label {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+@media only screen and (max-width: 991px) {
+  .il-metabar-slates {
+    width: 100%;
+    top: 45px;
+    right: 0;
+  }
+  .il-metabar-slates .glyphicon {
+    color: #737373;
+    font-size: 1.25rem;
+  }
+  .il-metabar-slates .il-counter-spacer {
+    margin-left: -18px;
+  }
+  .il-metabar-slates .il-metabar-more-slate .btn-bulky:after {
+    content: "\e606";
+    font-family: "il-icons";
+    position: absolute;
+    font-size: 1.0625rem;
+    right: 12px;
+    top: 15px;
+    line-height: 20px;
+  }
+  .il-metabar-slates .il-maincontrols-slate {
+    min-width: 260px;
+  }
+  .il-metabar-slates .il-maincontrols-slate-content > .btn + .btn {
+    margin-left: 0;
+  }
+}
+
 /*
 *********************
 grid-based layout
@@ -5486,12 +5641,17 @@ main {
   }
   .il-header-locator .dropdown {
     position: static;
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
   .il-header-locator .dropdown-menu {
     top: 44px;
     width: 100%;
   }
   .il-header-locator .dropdown-toggle {
+    display: block;
+    max-width: calc(100vw - 60px - 40px - 40px);
     background-color: transparent;
     border: none;
     color: #2c2c2c;
@@ -5500,6 +5660,7 @@ main {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-align: center;
   }
   .il-header-locator .dropdown-toggle:before {
     content: " \e606";
@@ -8195,11 +8356,12 @@ button .minimize, button .close {
   padding: 6px;
 }
 .il-filter .input-group .btn-bulky {
-  border: none;
   background-color: #f0f0f0;
 }
 .il-filter .btn-bulky {
   min-height: 0;
+}
+.il-filter .btn-bulky:not(:focus-visible) {
   border: none;
 }
 .il-filter .leftaddon {
@@ -9905,6 +10067,10 @@ div.alert ul {
 }
 .panel-secondary .panel-body .il-item-group h3 {
   padding: 6px 15px;
+}
+.panel-secondary .panel-body .il-item-group .media .il-item-title {
+  margin: 0;
+  padding: 0;
 }
 .panel-secondary .panel-body .il-item-group:first-child {
   margin-top: -15px;
@@ -14863,6 +15029,10 @@ td.chatroom {
   display: inline;
 }
 
+#chat_function_list .btn + .btn {
+  margin-left: 0;
+}
+
 /* Modules/Course */
 .ilValignTop {
   vertical-align: top;
@@ -15872,7 +16042,6 @@ td.il_ScormTableValue {
     padding-right: 5px;
     border-style: inset;
     border-width: 1px;
-    display: inline-block;
     width: 400px;
   }
   .horizontal {
@@ -17920,6 +18089,12 @@ div.ilContainerListItemOuter {
 }
 div.ilContainerListItemOuter .subitem {
   margin-right: -15px;
+}
+
+.ilContainerItemsContainer {
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
 
 div.tblfooter.ilContainerListFooter {
@@ -20879,6 +21054,17 @@ div.ilRatingOverlay {
   display: none;
 }
 
+ul.il-rating-stars {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul.il-rating-stars li.il-rating-star {
+  display: inline-block;
+  vertical-align: middle;
+}
+
 #ilMMSearch ul li {
   padding: 5px;
 }
@@ -22101,6 +22287,11 @@ a.ilMediaLightboxClose:hover {
 }
 .nav > li > a > img {
   max-width: none;
+}
+
+.ilToolbarContainer {
+  position: relative;
+  z-index: 50;
 }
 
 .nav-tabs .dropdown-menu {

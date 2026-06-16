@@ -343,7 +343,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $test_session = $this->test_session_factory->getSession();
         $active_id = $test_session->getActiveId();
         $user_id = $this->user->getId();
-        $uname = $this->object->userLookupFullName($user_id, true);
 
         if (!$this->object->canShowTestResults($test_session)) {
             $this->ctrl->redirectByClass([ilRepositoryGUI::class, ilObjTestGUI::class, ilInfoScreenGUI::class]);
@@ -407,14 +406,22 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $grading_message_builder->sendMessage();
         }
 
-        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($test_session, $active_id, true);
-
         if (!$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
-            if ($this->object->getAnonymity()) {
+            $overwrite_anonymity = $test_session->getUserId() === $user_id;
+            if (!$overwrite_anonymity && $this->object->getAnonymity()) {
                 $template->setVariable('TEXT_HEADING', $this->lng->txt('tst_result'));
             } else {
-                $template->setVariable('TEXT_HEADING', sprintf($this->lng->txt('tst_result_user_name'), $uname));
-                $template->setVariable('USER_DATA', $user_data);
+                $template->setVariable(
+                    'TEXT_HEADING',
+                    sprintf(
+                        $this->lng->txt('tst_result_user_name'),
+                        $this->object->userLookupFullName($user_id, $overwrite_anonymity)
+                    )
+                );
+                $template->setVariable(
+                    'USER_DATA',
+                    $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($active_id, $overwrite_anonymity)
+                );
             }
         }
 
@@ -506,7 +513,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         );
         $template->setVariable('PASS_DETAILS', $answers);
 
-        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($test_session, $active_id, true);
+        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle(
+            $active_id,
+            $test_session->getUserId() === $user_id
+        );
         $template->setVariable('USER_DATA', $user_data);
         if (strlen($signature)) {
             $template->setVariable('SIGNATURE', $signature);

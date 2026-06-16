@@ -56,14 +56,14 @@ class ConsumerTest extends TestCase
             'settings' => $settings,
             'refinery' => ['byTrying' => $by_trying],
         ]);
-        $container->method('offsetGet')->with('ilObjDataCache')->willReturn($this->mock(ilObjectDataCache::class));
+        $container->expects($this->once())->method('offsetGet')->with('ilObjDataCache')->willReturn($this->mock(ilObjectDataCache::class));
 
         $slot = $this->mock(UseSlot::class);
-        $slot->expects(self::once())->method('hasDocuments')->willReturn($slot);
-        $slot->expects(self::once())->method('hasHistory')->willReturn($slot);
-        $slot->expects(self::once())->method('hasPublicApi')->willReturn($slot);
-        $slot->expects(self::once())->method('hasPublicPage')->willReturn($slot);
-        $slot->expects(self::once())->method('showInFooter')->willReturn($slot);
+        $slot->expects($this->once())->method('hasDocuments')->willReturn($slot);
+        $slot->expects($this->once())->method('hasHistory')->willReturn($slot);
+        $slot->expects($this->once())->method('hasPublicApi')->willReturn($slot);
+        $slot->expects($this->once())->method('hasPublicPage')->willReturn($slot);
+        $slot->expects($this->once())->method('showInFooter')->willReturn($slot);
 
         $instance = new Consumer($container);
 
@@ -75,7 +75,7 @@ class ConsumerTest extends TestCase
         $by_trying = $this->mockTree(ByTrying::class, ['transform' => true]);
         $settings = $this->mock(ilSetting::class);
         $consecutive = ['dpro_enabled', 'dpro_no_acceptance'];
-        $settings->method('get')->with(
+        $settings->expects($this->exactly(2))->method('get')->with(
             $this->callback(function ($value) use (&$consecutive) {
                 $this->assertSame(array_shift($consecutive), $value);
                 return true;
@@ -88,15 +88,15 @@ class ConsumerTest extends TestCase
             'refinery' => ['byTrying' => $by_trying],
             'ctrl' => $this->mock(ilCtrl::class),
         ]);
-        $container->method('offsetGet')->with('ilObjDataCache')->willReturn($this->mock(ilObjectDataCache::class));
+        $container->expects($this->once())->method('offsetGet')->with('ilObjDataCache')->willReturn($this->mock(ilObjectDataCache::class));
 
         $slot = $this->mock(UseSlot::class);
-        $slot->expects(self::once())->method('hasDocuments')->willReturn($slot);
-        $slot->expects(self::once())->method('hasHistory')->willReturn($slot);
-        $slot->expects(self::once())->method('showOnLoginPage')->willReturn($slot);
-        $slot->expects(self::once())->method('showInFooter')->willReturn($slot);
-        $slot->expects(self::once())->method('hasPublicPage')->willReturn($slot);
-        $slot->expects(self::once())->method('hasPublicApi')->willReturn($slot);
+        $slot->expects($this->once())->method('hasDocuments')->willReturn($slot);
+        $slot->expects($this->once())->method('hasHistory')->willReturn($slot);
+        $slot->expects($this->once())->method('showOnLoginPage')->willReturn($slot);
+        $slot->expects($this->once())->method('showInFooter')->willReturn($slot);
+        $slot->expects($this->once())->method('hasPublicPage')->willReturn($slot);
+        $slot->expects($this->once())->method('hasPublicApi')->willReturn($slot);
 
         $instance = new Consumer($container);
 
@@ -110,7 +110,7 @@ class ConsumerTest extends TestCase
 
         $settings = $this->mock(ilSetting::class);
         $consecutive = ['dpro_enabled', 'dpro_no_acceptance'];
-        $settings->method('get')->with(
+        $settings->expects($this->exactly(2))->method('get')->with(
             $this->callback(function ($value) use (&$consecutive) {
                 $this->assertSame(array_shift($consecutive), $value);
                 return true;
@@ -123,21 +123,21 @@ class ConsumerTest extends TestCase
             'refinery' => ['byTrying' => $by_trying],
             'ctrl' => $this->mock(ilCtrl::class),
         ]);
-        $container->method('offsetGet')->with('ilObjDataCache')->willReturn($this->mock(ilObjectDataCache::class));
+        $container->expects($this->once())->method('offsetGet')->with('ilObjDataCache')->willReturn($this->mock(ilObjectDataCache::class));
 
         $slot = $this->mock(UseSlot::class);
-        $slot->expects(self::once())->method('hasDocuments')->willReturn($slot);
-        $slot->expects(self::once())->method('hasHistory')->willReturn($slot);
-        $slot->expects(self::once())->method('showOnLoginPage')->willReturn($slot);
-        $slot->expects(self::once())->method('canWithdraw')->willReturn($slot);
-        $slot->expects(self::once())->method('hasAgreement')->willReturn($slot);
-        $slot->expects(self::once())->method('showInFooter')->willReturn($slot);
-        $slot->expects(self::once())->method('onSelfRegistration')->willReturn($slot);
-        $slot->expects(self::once())->method('hasOnlineStatusFilter')->willReturn($slot);
-        $slot->expects(self::once())->method('hasUserManagementFields')->willReturn($slot);
-        $slot->expects(self::once())->method('hasPublicApi')->willReturn($slot);
-        $slot->expects(self::once())->method('canReadInternalMails')->willReturn($slot);
-        $slot->expects(self::once())->method('canUseSoapApi')->willReturn($slot);
+        $slot->expects($this->once())->method('hasDocuments')->willReturn($slot);
+        $slot->expects($this->once())->method('hasHistory')->willReturn($slot);
+        $slot->expects($this->once())->method('showOnLoginPage')->willReturn($slot);
+        $slot->expects($this->once())->method('canWithdraw')->willReturn($slot);
+        $slot->expects($this->once())->method('hasAgreement')->willReturn($slot);
+        $slot->expects($this->once())->method('showInFooter')->willReturn($slot);
+        $slot->expects($this->once())->method('onSelfRegistration')->willReturn($slot);
+        $slot->expects($this->once())->method('hasOnlineStatusFilter')->willReturn($slot);
+        $slot->expects($this->once())->method('hasUserManagementFields')->willReturn($slot);
+        $slot->expects($this->once())->method('hasPublicApi')->willReturn($slot);
+        $slot->expects($this->once())->method('canReadInternalMails')->willReturn($slot);
+        $slot->expects($this->once())->method('canUseSoapApi')->willReturn($slot);
 
         $instance = new Consumer($container);
 

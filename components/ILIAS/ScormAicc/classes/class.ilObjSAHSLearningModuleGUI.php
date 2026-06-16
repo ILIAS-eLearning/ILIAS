@@ -521,10 +521,10 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         );
         // Handle ILIAS 9 Exports containing 'lm_x' directories
         $source_dir_for_copy = $content_unzip_dir;
-        $content_unzip_dir_iterator = new DirectoryIterator( $content_unzip_dir );
-        foreach ( $content_unzip_dir_iterator as $fileinfo ) {
-            if ( $fileinfo->isDir() && !$fileinfo->isDot() ) {
-                if ( preg_match( '/^lm_\d+$/', $fileinfo->getFilename() ) ) {
+        $content_unzip_dir_iterator = new DirectoryIterator($content_unzip_dir);
+        foreach ($content_unzip_dir_iterator as $fileinfo) {
+            if ($fileinfo->isDir() && !$fileinfo->isDot()) {
+                if (preg_match('/^lm_\d+$/', $fileinfo->getFilename())) {
                     $source_dir_for_copy = $source_dir_for_copy . '/' . $fileinfo->getFilename();
                     break;
                 }

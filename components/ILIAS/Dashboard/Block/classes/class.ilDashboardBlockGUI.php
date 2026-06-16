@@ -179,6 +179,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     {
         $this->lng->loadLanguageModule('dash');
         $this->lng->loadLanguageModule('pd');
+        $this->setLimit(PHP_INT_MAX);
         $this->initViewSettings();
         $this->view_settings->parse();
         $this->requested_item_ref_id = (int) ($this->http->request()->getQueryParams()['item_ref_id'] ?? 0);
@@ -604,10 +605,6 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         }
     }
 
-    public function getPaginationViewControl(): null
-    {
-        return null;
-    }
 
     public function addToDeskObject(): void
     {

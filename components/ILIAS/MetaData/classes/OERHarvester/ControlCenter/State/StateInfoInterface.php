@@ -48,4 +48,6 @@ interface StateInfoInterface
      * @return int[]
      */
     public function getAllEligibleCopyrightEntryIDs(): array;
+
+    public function hasEligibleCopyright(): bool;
 }

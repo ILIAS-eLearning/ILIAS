@@ -374,7 +374,7 @@ class ilStudyProgrammeUserTable
         return 'object id ' . $obj_id;
     }
 
-    protected function postOrder(array $list, \ILIAS\Data\Order $order): array
+    protected function postOrder(array $list, Order $order): array
     {
         [$aspect, $direction] = $order->join('', function ($i, $k, $v) {
             return [$k, $v];
@@ -385,28 +385,53 @@ class ilStudyProgrammeUserTable
         }
 
         $user_date_format = $this->getUserDateFormat();
-        usort($list, static function (ilStudyProgrammeUserTableRow $a, ilStudyProgrammeUserTableRow $b) use ($aspect, $user_date_format): int {
-            $a = $a->toArray();
-            $b = $b->toArray();
+        usort(
+            $list,
+            static function (ilStudyProgrammeUserTableRow $left_row, ilStudyProgrammeUserTableRow $right_row) use (
+                $aspect,
+                $user_date_format
+            ): int {
+                $left_record = $left_row->toArray();
+                $right_record = $right_row->toArray();
+                $left = $left_record[$aspect] ?? null;
+                $right = $right_record[$aspect] ?? null;
 
-            if (is_numeric($a[$aspect])) {
-                return $a[$aspect] <=> $b[$aspect];
-            }
-            if (is_bool($a[$aspect])) {
-                return (int) $a[$aspect] <=> (int) $b[$aspect];
-            }
+                if ($left === $right) {
+                    return 0;
+                }
 
-            if (in_array($aspect, [
-                'completion_date',
-                'deadline',
-                'assign_date',
-                'expiry_date',
-            ])) {
-                return \DateTimeImmutable::createFromFormat($user_date_format, $a[$aspect])
-                    <=> \DateTimeImmutable::createFromFormat($user_date_format, $b[$aspect]);
+                if (is_numeric($left) && is_numeric($right)) {
+                    return $left <=> $right;
+                }
+
+                if (is_bool($left) && is_bool($right)) {
+                    return (int) $left <=> (int) $right;
+                }
+
+                if (in_array($aspect, [
+                    'completion_date',
+                    'deadline',
+                    'assign_date',
+                    'expiry_date',
+                ], true)) {
+                    $left_date = is_string($left) && $left !== ''
+                        ? DateTimeImmutable::createFromFormat($user_date_format, $left)
+                        : false;
+                    $right_date = is_string($right) && $right !== ''
+                        ? DateTimeImmutable::createFromFormat($user_date_format, $right)
+                        : false;
+
+                    if ($left_date && $right_date) {
+                        return $left_date <=> $right_date;
+                    }
+                }
+
+                $left_string = is_scalar($left) ? (string) $left : '';
+                $right_string = is_scalar($right) ? (string) $right : '';
+
+                return strcmp($left_string, $right_string);
             }
-            return strcmp($a[$aspect], $b[$aspect]);
-        });
+        );
 
         if ($direction === $order::DESC) {
             $list = array_reverse($list);

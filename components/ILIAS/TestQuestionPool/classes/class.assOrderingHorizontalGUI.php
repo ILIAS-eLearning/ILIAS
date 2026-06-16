@@ -171,7 +171,12 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         foreach ($elements as $id => $element) {
             $template->setCurrentBlock("element");
             $template->setVariable("ELEMENT_ID", "sol_e_" . $this->object->getId() . "_$id");
-            $template->setVariable("ELEMENT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($element));
+            $template->setVariable(
+                "ELEMENT_VALUE",
+                $this->renderLatex(
+                    ilLegacyFormElementsUtil::prepareFormOutput($element)
+                )
+            );
             $template->parseCurrentBlock();
         }
 
@@ -391,8 +396,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 
                 $answers[$md5] = [
                     'answer' => $answer,
-                    'frequency' => 0,
-                    'sanitized' => true
+                    'frequency' => 0
                 ];
             }
 

@@ -171,6 +171,13 @@ class UI implements Component\Component
             $internal[UI\Implementation\Component\Input\UploadLimitResolver::class];
         $provide[UI\Implementation\Component\Navigation\Factory::class] = static fn() =>
             $internal[UI\Implementation\Component\Navigation\Factory::class];
+        $provide[UI\Implementation\Render\JavaScriptBinding::class] = static fn() =>
+            $internal[UI\Implementation\Render\JavaScriptBinding::class];
+        $provide[UI\Implementation\Component\SignalGeneratorInterface::class] = static fn() =>
+            $internal[UI\Implementation\Component\SignalGeneratorInterface::class];
+        $provide[UI\Implementation\Render\TemplateFactory::class] = static fn() =>
+            $internal[UI\Implementation\Render\TemplateFactory::class];
+
 
         // =================================================================================
 
@@ -570,7 +577,7 @@ class UI implements Component\Component
             new Component\Resource\ComponentJS($this, "js/Dropdown/dist/dropdown.js");
 
         $contribute[Component\Resource\PublicAsset::class] = static fn() =>
-            new Component\Resource\NodeModule("dropzone/dist/min/dropzone.min.js");
+            new Component\Resource\NodeModule("dropzone/dist/dropzone-min.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/Dropzone/File/dropzone.js");
 

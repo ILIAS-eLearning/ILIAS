@@ -5972,7 +5972,6 @@ common#:#webdav_chosen_language_already_used#:#There already is another document
 common#:#webdav_doc_delete#:#Delete WebDav Mount Instructions
 common#:#webdav_docs_mount_instructions#:#Mount Instructions Documents
 common#:#webdav_duplicate_detected_title#:#Following objects could not be displayed, because an object with the same Title is already being shown
-common#:#webdav_enable_versioning#:#File Versioning
 common#:#webdav_forbidden_chars_title#:#Following files cannot be displayed, because they contain one or more forbidden characters (\<>/
 common#:#webdav_form_document#:#Instructions Document
 common#:#webdav_form_document_info#:#Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information
@@ -5991,7 +5990,6 @@ common#:#webdav_sure_delete_documents_s#:#Are you sure you want to delete the Mo
 common#:#webdav_tbl_docs_head_title#:#Dokument title
 common#:#webdav_tbl_docs_title#:#List of uploaded WebDAV Mount Instructions
 common#:#webdav_upload_instructions#:#Upload Instructions
-common#:#webdav_versioning_info#:#If enabled, already existing files will get a new version instead of beeing overwritten.
 common#:#webfolder_dir_info#:#Tukaj ste pristali, ker vaš brskalnik ne more odpreti spletnih map. Preberite <a href="%1$s">Navodilo za odpiranje te spletne mape</a>.
 common#:#webfolder_index_of#:#Vsebina %1$s
 common#:#webfolder_instructions#:#Navodilo za spletne mape

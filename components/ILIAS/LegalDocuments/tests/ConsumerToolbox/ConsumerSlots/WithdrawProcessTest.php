@@ -87,7 +87,7 @@ class WithdrawProcessTest extends TestCase
     public function testWithdrawalRequested(): void
     {
         $setting = $this->mock(Setting::class);
-        $setting->expects(self::once())->method('update')->with(true);
+        $setting->expects($this->once())->method('update')->with(true);
 
         $instance = new WithdrawProcess(
             $this->mockTree(User::class, ['cannotAgree' => false, 'neverAgreed' => false, 'withdrawalRequested' => $setting]),
@@ -125,7 +125,7 @@ class WithdrawProcessTest extends TestCase
     public function testWithdrawalFinished(): void
     {
         $main_template = $this->mock(ilGlobalTemplateInterface::class);
-        $main_template->expects(self::once())->method('setOnScreenMessage');
+        $main_template->expects($this->once())->method('setOnScreenMessage');
 
         $instance = new WithdrawProcess(
             $this->mock(User::class),

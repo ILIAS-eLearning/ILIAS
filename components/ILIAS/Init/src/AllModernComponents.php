@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Init;
 
+use ILIAS\WebDAV\Environment;
+
 /**
  * This entry point can be thought of as a list of all modern components.
  * Modern components are those initialised using the new component bootstrap
@@ -95,6 +97,10 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         protected \ILIAS\UI\Implementation\Component\Input\UploadLimitResolver $ui_upload_limit_resolver,
         protected \ILIAS\Setup\AgentFinder $setup_agent_finder,
         protected \ILIAS\UI\Implementation\Component\Navigation\Factory $ui_factory_navigation,
+        protected Environment $webdav_environment,
+        protected \ILIAS\UI\Implementation\Render\JavaScriptBinding $ui_java_script_binding,
+        protected \ILIAS\UI\Implementation\Component\SignalGeneratorInterface $ui_signal_generator,
+        protected \ILIAS\UI\Implementation\Render\TemplateFactory $ui_template_factory,
     ) {
     }
 
@@ -172,6 +178,10 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         $DIC['ui.renderer'] = fn() => $this->ui_renderer;
         $DIC['setup.agentfinder'] = fn() => $this->setup_agent_finder;
         $DIC['ui.factory.navigation'] = fn() => $this->ui_factory_input_field;
+        $DIC[Environment::class] = fn() => $this->webdav_environment;
+        $DIC['ui.javascript_binding'] = fn() => $this->ui_java_script_binding;
+        $DIC['ui.signal_generator'] = fn() => $this->ui_signal_generator;
+        $DIC['ui.template_factory'] = fn() => $this->ui_template_factory;
     }
 
     public function getName(): string

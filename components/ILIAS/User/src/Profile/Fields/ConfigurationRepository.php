@@ -25,7 +25,7 @@ interface ConfigurationRepository
     public function hasMigrationBeenRun(): bool;
 
     /**
-     * @return array<\ILIAS\User\Profile\Fields\Field>
+     * @return list<Field>
      */
     public function get(): array;
     public function getByIdentifier(string $identifier): ?Field;
@@ -33,7 +33,7 @@ interface ConfigurationRepository
     public function storeConfiguration(Field $field): void;
 
     /**
-     * @return array<\ILIAS\User\Profile\Fields\FieldDefinition>
+     * @return list<Custom\Type>
      */
     public function getCustomFieldTypes(): array;
     public function getUnspecifiedCustomField(): Field;

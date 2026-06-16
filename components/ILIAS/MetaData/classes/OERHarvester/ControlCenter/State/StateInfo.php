@@ -34,7 +34,8 @@ class StateInfo implements StateInfoInterface
         protected array $all_statuses,
         protected array $relevant_actions,
         protected array $unavailable_actions,
-        protected array $eligible_copyright_entry_ids
+        protected array $eligible_copyright_entry_ids,
+        protected bool $has_eligible_copyright
     ) {
     }
 
@@ -75,5 +76,10 @@ class StateInfo implements StateInfoInterface
     public function getAllEligibleCopyrightEntryIDs(): array
     {
         return $this->eligible_copyright_entry_ids;
+    }
+
+    public function hasEligibleCopyright(): bool
+    {
+        return $this->has_eligible_copyright;
     }
 }

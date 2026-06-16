@@ -834,8 +834,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                 $this->getVariables(),
                 $this->getResults(),
                 $user_solution[$result->getResult()]['value'] ?? '',
-                $user_solution[$result->getResult()]['unit'] ?? null,
-                $this->unitrepository->getUnits()
+                $user_solution[$result->getResult()]['unit'] ?? null
             );
         }
 
@@ -849,7 +848,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
         $points = 0;
         foreach ($this->getResults() as $result) {
             $result_unit = "{$result->getResult()}_unit";
-            $unit_id = isset($user_solution[$result_unit]) && is_numeric($user_solution[$result_unit])
+            $answer_unit_id = isset($user_solution[$result_unit]) && is_numeric($user_solution[$result_unit])
                 ? (int) $user_solution[$result_unit]
                 : null;
 
@@ -857,8 +856,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                 $this->getVariables(),
                 $this->getResults(),
                 $user_solution[$result->getResult()] ?? '',
-                $unit_id !== null ? $this->unitrepository->getUnit($unit_id) : null,
-                $this->unitrepository->getUnits()
+                $answer_unit_id !== null ? $this->unitrepository->getUnit($answer_unit_id) : null
             );
         }
         return $this->ensureNonNegativePoints($points);
@@ -1397,23 +1395,24 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
 
     public function getCorrectSolutionForTextOutput(int $active_id, int $pass): array
     {
-        $output = [];
-
-        $best_solutions = $this->getBestSolution($this->getSolutionValues($active_id, $pass));
-        foreach ($best_solutions as $key => $best_solution) {
-            $solution = "{$key} = " . ($best_solution['value'] ?? $best_solution);
-
-            if (isset($best_solution['unit'])) {
-                $unit = $this->unitrepository->getUnit($best_solution['unit']);
-                if ($unit instanceof assFormulaQuestionUnit) {
-                    $solution .= $unit->getUnit();
+        $best_solution = $this->getBestSolution($this->getSolutionValues($active_id, $pass));
+        return array_map(
+            function (string $v) use ($best_solution): string {
+                $placeholder_definition = $best_solution[$v];
+                $solution = "{$v} = " . ($placeholder_definition['value'] ?? $placeholder_definition);
+                if (!isset($placeholder_definition['unit'])) {
+                    return $solution;
                 }
-            }
 
-            $output[$key] = $solution;
-        }
+                $unit = $this->unitrepository->getUnit($placeholder_definition['unit']);
+                if ($unit === null) {
+                    return $unit;
+                }
 
-        return $output;
+                return "{$solution}{$unit->getUnit()}";
+            },
+            array_keys($best_solution)
+        );
     }
 
     public function getVariablesAsTextArray(int $active_id, int $pass): array

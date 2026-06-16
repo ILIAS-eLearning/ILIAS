@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\Repository\Form\FormAdapterGUI;
+use ILIAS\Repository\Table\TableAdapterGUI;
+
 /**
  * Responsive Grid UI class
  *
@@ -28,6 +31,7 @@ class ilPCGridGUI extends ilPageContentGUI
     public const TEMPLATE_THREE_COLUMN = 2;
     public const TEMPLATE_MAIN_SIDE = 3;
     public const TEMPLATE_TWO_BY_TWO = 4;
+    protected \ILIAS\COPage\InternalDomainService $domain;
 
     protected ilToolbarGUI $toolbar;
     protected ilTabsGUI $tabs;
@@ -46,6 +50,7 @@ class ilPCGridGUI extends ilPageContentGUI
 
         $this->toolbar = $ilToolbar;
         $this->tabs = $ilTabs;
+        $this->domain = $DIC->copage()->internal()->domain();
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
@@ -204,25 +209,98 @@ class ilPCGridGUI extends ilPageContentGUI
 
         $this->setTabs();
         $this->tabs->activateTab("settings");
-        /** @var ilPCGrid $grid */
-        $grid = $this->content_obj;
-        $table_gui = new ilPCGridCellTableGUI($this, "edit", $grid);
-        $this->tpl->setContent($table_gui->getHTML());
+
+        $table = $this->gui->pc()->gridCellTableBuilder(
+            $this->content_obj,
+            $this,
+            "edit"
+        )->getTable();
+
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $this->tpl->setContent($table->render());
+    }
+
+    protected function getGridTable(): TableAdapterGUI
+    {
+        return $this->gui->pc()->gridCellTableBuilder(
+            $this->content_obj,
+            $this,
+            "edit"
+        )->getTable();
     }
 
     /**
-     * Save cell properties
+     * Save positions
      */
-    public function saveCells(): void
+    public function savePositions(): void
     {
-        $pos = $this->request->getStringArray("position");
-        if (count($pos) > 0) {
-            $this->content_obj->savePositions($pos);
+        $table = $this->getGridTable();
+
+        $ordered_ids = $table->getData();
+
+        if (is_array($ordered_ids) && count($ordered_ids) > 0) {
+            $this->content_obj->savePositions($ordered_ids);
         }
         $this->updated = $this->pg_obj->update();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "edit");
     }
+
+    public function editWidths(string $id): void
+    {
+        $form = $this->getEditWidthsForm($id);
+        $this->gui->modal($this->lng->txt("cont_ed_grid_col_widths"))
+            ->form($form)
+            ->send();
+    }
+
+    protected function getEditWidthsForm(string $id): FormAdapterGUI
+    {
+        $this->ctrl->setParameter($this, "tid", $id);
+        $options = ["" => ""] + ilPCGrid::getWidths();
+
+        $data = $this->content_obj->getCellData();
+        $row_data = [];
+        foreach ($data as $row) {
+            if ($row["hier_id"] . ":" . $row["pc_id"] === $id) {
+                $row_data = $row;
+                break;
+            }
+        }
+
+        $form = $this->gui->form([self::class], "saveWidths");
+        foreach (ilPCGrid::getSizes() as $s) {
+            $form->select(
+                "width_" . $s,
+                $this->lng->txt("cont_grid_width_" . $s),
+                $options,
+                "",
+                $row_data[$s] ?? ""
+            );
+        }
+
+        return $form;
+    }
+
+    protected function saveWidths(): void
+    {
+        $id = $this->request->getString("tid");
+        $form = $this->getEditWidthsForm($id);
+        if ($form->isValid()) {
+            $w_s = [$id => $form->getData("width_s")];
+            $w_m = [$id => $form->getData("width_m")];
+            $w_l = [$id => $form->getData("width_l")];
+            $w_xl = [$id => $form->getData("width_xl")];
+            $this->content_obj->saveWidths($w_s, $w_m, $w_l, $w_xl);
+            $this->updated = $this->pg_obj->update();
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
+            $this->ctrl->redirect($this, "edit");
+        }
+    }
+
 
     /**
      * Add cell
@@ -239,29 +317,32 @@ class ilPCGridGUI extends ilPageContentGUI
     /**
      * Confirm cell deletion
      */
-    public function confirmCellDeletion(): void
+    public function confirmCellDeletion(array $tids): void
     {
-        $this->setTabs();
+        $table = $this->getGridTable();
+        $ids = $table->getItemIds();
 
-        $tid = $this->request->getStringArray("tid");
-        if (count($tid) == 0) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_checkbox"), true);
+        if (count($ids) === 0) {
             $this->ctrl->redirect($this, "edit");
-        } else {
-            $cgui = new ilConfirmationGUI();
-            $cgui->setFormAction($this->ctrl->getFormAction($this));
-            $cgui->setHeaderText($this->lng->txt("cont_grid_cell_confirm_deletion"));
-            $cgui->setCancel($this->lng->txt("cancel"), "cancelCellDeletion");
-            $cgui->setConfirm($this->lng->txt("delete"), "deleteCells");
-
-            foreach ($tid as $k => $i) {
-                $id = explode(":", $k);
-                $id = explode("_", $id[0]);
-                $cgui->addItem("tid[]", $k, $this->lng->txt("cont_grid_cell") . " " . $id[count($id) - 1]);
-            }
-
-            $this->tpl->setContent($cgui->getHTML());
         }
+
+        $retrieval = $this->domain->pc()->gridCellRetrieval($this->content_obj);
+        $data = $retrieval->getData([]);
+        $items = [];
+        $cnt = 1;
+        foreach ($data as $row) {
+            if (in_array($row["id"], $ids)) {
+                $items[$row["id"]] = $this->lng->txt("cont_grid_cell") . " " . $cnt;
+            }
+            $cnt++;
+        }
+
+        $table->renderDeletionConfirmation(
+            $this->lng->txt("delete"),
+            $this->lng->txt("cont_grid_cell_confirm_deletion"),
+            "deleteCells",
+            $items
+        );
     }
 
     /**
@@ -279,8 +360,10 @@ class ilPCGridGUI extends ilPageContentGUI
     {
         $ilCtrl = $this->ctrl;
 
-        $tids = $this->request->getStringArray("tid");
-        foreach ($tids as $tid) {
+        $table = $this->getGridTable();
+        $ids = $table->getItemIds();
+
+        foreach ($ids as $tid) {
             $ids = explode(":", $tid);
             $this->content_obj->deleteGridCell($ids[0], $ids[1]);
         }

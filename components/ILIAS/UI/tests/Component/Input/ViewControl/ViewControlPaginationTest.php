@@ -137,9 +137,7 @@ class ViewControlPaginationTest extends ViewControlTestBase
         $input = $this->createMock(InputData::class);
         $input->expects($this->exactly(2))
             ->method("getOr")
-            ->will(
-                $this->onConsecutiveCalls($v[Pagination::FNAME_OFFSET], $v[Pagination::FNAME_LIMIT])
-            );
+            ->willReturnOnConsecutiveCalls($v[Pagination::FNAME_OFFSET], $v[Pagination::FNAME_LIMIT]);
 
         $vc = $this->buildVCFactory()->pagination()
             ->withNameFrom($this->getNamesource())

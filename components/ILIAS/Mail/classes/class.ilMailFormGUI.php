@@ -258,9 +258,7 @@ class ilMailFormGUI
             $this->http->close();
         }
 
-        $message = ilUtil::securePlainString($this->getBodyParam('m_message', $this->refinery->kindlyTo()->string(), ''));
-        $mail_body = new ilMailBody($message, $this->purifier);
-        $sanitized_message = $mail_body->getContent();
+        $sanitized_message = (new ilMailBody($form_values['m_message'], $this->purifier))->getContent();
 
         $outbox_folder_id = $this->mbox->getOutboxFolder();
         if (ilSession::get('outbox')) {

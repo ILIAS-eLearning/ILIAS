@@ -329,6 +329,14 @@ class ilTrQuery
             $udf_order = $a_order_field;
             $a_order_field = '';
         }
+
+        if (!in_array(
+            $a_order_field,
+            array_merge(["login", "active", "usr_pref.value"], $a_additional_fields)
+        )) {
+            $a_order_field = "login";
+        }
+
         $result = self::executeQueries(
             $queries,
             $a_order_field,

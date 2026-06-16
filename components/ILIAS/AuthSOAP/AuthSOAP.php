@@ -20,7 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
-class AuthSOAP implements Component\Component
+use ILIAS\Component\Component;
+use ILIAS\Component\Resource\Endpoint;
+use ILIAS\Component\Resource\PublicAsset;
+
+class AuthSOAP implements Component
 {
     public function init(
         array | \ArrayAccess &$define,
@@ -32,6 +36,10 @@ class AuthSOAP implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[PublicAsset::class] = fn(): Endpoint =>
+            new Endpoint($this, 'dummy_server.php', 'auth/soap/example');
+
+        $contribute[PublicAsset::class] = fn(): Endpoint =>
+            new Endpoint($this, 'dummy_client.php', 'auth/soap/example');
     }
 }

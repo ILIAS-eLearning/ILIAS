@@ -29,27 +29,30 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         $database->method('nextId')
             ->willReturn(141);
 
-        $database->method('insert')->with(
-            'il_cert_user_cert',
-            [
-                'id' => ['integer', 141],
-                'pattern_certificate_id' => ['integer', 1],
-                'obj_id' => ['integer', 20],
-                'obj_type' => ['text',  'crs'],
-                'usr_id' => ['integer', 400],
-                'user_name' => ['text', 'Niels Theen'],
-                'acquired_timestamp' => ['integer', 123_456_789],
-                'certificate_content' => ['clob', '<xml>Some Content</xml>'],
-                'template_values' => ['clob', '[]'],
-                'valid_until' => ['integer', null],
-                'version' => ['integer', 1],
-                'ilias_version' => ['text', 'v5.4.0'],
-                'currently_active' => ['integer', true],
-                'background_image_ident' => ['text', '-'],
-                'tile_image_ident' => ['text', '-'],
-                'certificate_id' => ['text', '11111111-2222-3333-4444-555555555555'],
-            ]
-        );
+        $database
+            ->expects($this->once())
+            ->method('insert')
+            ->with(
+                'il_cert_user_cert',
+                [
+                    'id' => ['integer', 141],
+                    'pattern_certificate_id' => ['integer', 1],
+                    'obj_id' => ['integer', 20],
+                    'obj_type' => ['text',  'crs'],
+                    'usr_id' => ['integer', 400],
+                    'user_name' => ['text', 'Niels Theen'],
+                    'acquired_timestamp' => ['integer', 123_456_789],
+                    'certificate_content' => ['clob', '<xml>Some Content</xml>'],
+                    'template_values' => ['clob', '[]'],
+                    'valid_until' => ['integer', null],
+                    'version' => ['integer', 1],
+                    'ilias_version' => ['text', 'v5.4.0'],
+                    'currently_active' => ['integer', true],
+                    'background_image_ident' => ['text', '-'],
+                    'tile_image_ident' => ['text', '-'],
+                    'certificate_id' => ['text', '11111111-2222-3333-4444-555555555555'],
+                ]
+            );
 
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()

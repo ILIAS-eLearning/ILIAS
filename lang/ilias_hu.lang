@@ -5972,7 +5972,6 @@ common#:#webdav_chosen_language_already_used#:#A kiválasztott nyelven már lét
 common#:#webdav_doc_delete#:#WebDav csatolási útmutató törlése
 common#:#webdav_docs_mount_instructions#:#A WebDAV csatolási útmutató dokumentumok
 common#:#webdav_duplicate_detected_title#:#Az következő objektumok nem jeleníthetőek meg, mert egy megjelenítettel azonos a címe:
-common#:#webdav_enable_versioning#:#Fájlverzió-támogatás
 common#:#webdav_forbidden_chars_title#:#A következő fájl nem jeleníthető meg, mert tiltott karaktereket tartalmaz (\<>/:*?"|#):
 common#:#webdav_form_document#:#Útmutató dokumentum
 common#:#webdav_form_document_info#:#Töltsön fel egy szöveges vagy HTML-fájlt. A feltöltés után a fájlt elemezzük és feldolgozzuk. További információkért
@@ -5991,7 +5990,6 @@ common#:#webdav_sure_delete_documents_s#:#Biztos, hogy törli a következő cím
 common#:#webdav_tbl_docs_head_title#:#Dokumentum címe
 common#:#webdav_tbl_docs_title#:#A feltöltött WebDAV csatolási útmutatók
 common#:#webdav_upload_instructions#:#Útmutató feltöltése
-common#:#webdav_versioning_info#:#Ha be van kapcsolva, a már létező fájlok a felülírás helyett új verziót kapnak.
 common#:#webfolder_dir_info#:#Böngészője nem tud webmappákat megnyitni. Olvassa el az <a href="%1$s">útmutatót a webmappák megnyitásához</a>.
 common#:#webfolder_index_of#:#%1$s indexe
 common#:#webfolder_instructions#:#Leírás webmappa használatához

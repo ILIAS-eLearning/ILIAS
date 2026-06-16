@@ -107,8 +107,8 @@ EOT;
         );
         $page->addHierIDs();
         $pc->savePositions([
-            "1_1:" => 20,
-            "1_2:" => 10
+            1 => "1_2:",
+            2 => "1_1:"
         ]);
         $page->stripHierIDs();
 

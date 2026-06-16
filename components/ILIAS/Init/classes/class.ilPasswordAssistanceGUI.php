@@ -23,13 +23,13 @@ use ILIAS\HTTP\Services as HTTPServices;
 
 class ilPasswordAssistanceGUI implements ilCtrlSecurityInterface
 {
-    private const PERMANENT_LINK_TARGET_PW = 'pwassist';
-    private const PERMANENT_LINK_TARGET_NAME = 'nameassist';
+    private const string PERMANENT_LINK_TARGET_PW = 'password';
+    private const string PERMANENT_LINK_TARGET_NAME = 'username';
 
-    private const PROP_USERNAME = 'username';
-    private const PROP_EMAIL = 'email';
-    private const PROP_PASSWORD = 'password';
-    private const PROP_KEY = 'key';
+    private const string PROP_USERNAME = 'username';
+    private const string PROP_EMAIL = 'email';
+    private const string PROP_PASSWORD = 'password';
+    private const string PROP_KEY = 'key';
 
     private ilCtrlInterface $ctrl;
     private ilLanguage $lng;
@@ -852,6 +852,6 @@ class ilPasswordAssistanceGUI implements ilCtrlSecurityInterface
 
     private function fillPermanentLink(string $context): void
     {
-        $this->tpl->setPermanentLink('usr', null, $context);
+        $this->tpl->setPermanentLink('assistant', null, $context);
     }
 }

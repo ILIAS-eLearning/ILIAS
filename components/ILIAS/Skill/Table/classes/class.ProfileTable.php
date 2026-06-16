@@ -206,7 +206,9 @@ class ProfileTable
                 mixed $additional_parameters
             ): \Generator {
                 [$column_name, $direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
-                $comparator = function (array $f1, array $f2) { return strcmp($f1['title']->getLabel(), $f2['title']->getLabel()); };
+                $comparator = function (array $f1, array $f2) {
+                    return strcmp($f1['title']->getLabel(), $f2['title']->getLabel());
+                };
                 $rows = $this->getRecords($range, $order);
                 uasort($rows, $comparator);
                 if ($direction === "DESC") {

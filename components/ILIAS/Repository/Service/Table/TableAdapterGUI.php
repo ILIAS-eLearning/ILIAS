@@ -180,9 +180,10 @@ class TableAdapterGUI
 
     public function multiAction(
         string $action,
-        string $title
+        string $title,
+        bool $async = false
     ): self {
-        $this->addAction(self::MULTI, $action, $title);
+        $this->addAction(self::MULTI, $action, $title, $async);
         return $this;
     }
 
@@ -238,7 +239,7 @@ class TableAdapterGUI
         }
     }
 
-    protected function getItemIds(): array
+    public function getItemIds(): array
     {
         if ($this->numeric_ids) {
             $ids = $this->intArray($this->row_id_token->getName());

@@ -5971,7 +5971,6 @@ common#:#webdav_chosen_language_already_used#:#There already is another document
 common#:#webdav_doc_delete#:#Delete WebDav Mount Instructions###07 02 2020 new variable
 common#:#webdav_docs_mount_instructions#:#Mount Instructions Documents###07 02 2020 new variable
 common#:#webdav_duplicate_detected_title#:#Following objects could not be displayed, because an object with the same Title is already being shown:###07 02 2020 new variable
-common#:#webdav_enable_versioning#:#File Versioning###07 02 2020 new variable
 common#:#webdav_forbidden_chars_title#:#Following files cannot be displayed, because they contain one or more forbidden characters (\<>/:*?"|#):###07 02 2020 new variable
 common#:#webdav_form_document#:#Instructions Document###07 02 2020 new variable
 common#:#webdav_form_document_info#:#Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information###07 02 2020 new variable
@@ -5990,7 +5989,6 @@ common#:#webdav_sure_delete_documents_s#:#Are you sure you want to delete the Mo
 common#:#webdav_tbl_docs_head_title#:#Dokument title###07 02 2020 new variable
 common#:#webdav_tbl_docs_title#:#List of uploaded WebDAV Mount Instructions###07 02 2020 new variable
 common#:#webdav_upload_instructions#:#Upload Instructions###07 02 2020 new variable
-common#:#webdav_versioning_info#:#If enabled, already existing files will get a new version instead of beeing overwritten.###07 02 2020 new variable
 common#:#webfolder_dir_info#:#您到了这里，是因为您的浏览器不能打开web文件夹。请读<a href="%1$s">打开web文件夹指导</a>。
 common#:#webfolder_index_of#:#%1$s 的索引
 common#:#webfolder_instructions#:#Web文件夹指导

@@ -1471,6 +1471,7 @@ assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tes
 assessment#:#tst_eval_total_passed_average_time#:#Average Time on Task of All Passed Tests
 assessment#:#tst_eval_total_persons#:#Total number of participants who started the test
 assessment#:#tst_exam_access_code#:#Access Code
+assessment#:#tst_exam_access_code_invalid_message#:#The code you provided is invalid.
 assessment#:#tst_exam_access_code_label#:#Enter access code to continue your already started test. Leave the field empty to start a new test run.
 assessment#:#tst_exam_conditions#:#Exam Conditions
 assessment#:#tst_exam_conditions_label#:#Check this box to confirm that you accept the conditions.
@@ -1696,7 +1697,8 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#The started pa
 assessment#:#tst_objective_progress_header#:#Learning Objective Progress
 assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress
 assessment#:#tst_old_style_rnd_quest_set_broken#:#This random test is in a irreparable state, because one or more connected question pools have been deleted. Therefor participants cannot take the test any longer.
-assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Question related to already passed learning objectives are optional.</b><br /><br />You want to navigate to a question, that relates to an already passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on these questions. Your answers from previous attempts were not adopted, since new random questions were selected for this attempt. With working on this questions you can also degrade your learning objective result.<br /><br />If you decide to not work on these questions, you can go back. In this case these questions won't be considered in the evaluation.
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back.
+assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Questions for already passed learning objectives are optional.</b><br /><br />The next questions are assigned to already passed learning objectives.<br /><br />If you continue, you can work through these questions. Your results in the related learning objectives may change.<br /><br />If you go back, the questions will not factor into the evaluation of this test.
 assessment#:#tst_out_of_time_message#:#The time available for taking this test has expired.
 assessment#:#tst_participant#:#Participant
 assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
@@ -2695,7 +2697,7 @@ book#:#participants#:#Participants
 book#:#reservation_deleted#:#Booking deleted.
 buddysystem#:#buddy_allow_to_contact_me#:#Allow Contact Requests
 buddysystem#:#buddy_allow_to_contact_me_default_info#:#Defines if users can send each other requests for getting into contact by default.
-buddysystem#:#buddy_allow_to_contact_me_info#:#Other users are able to send me request for getting into contact.
+buddysystem#:#buddy_allow_to_contact_me_info#:#Allow other users to send you contact requests.
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Confirm Request
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Cancel Request
 buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Unlink
@@ -2885,6 +2887,7 @@ certificate#:#persistent_certificate_mode_instant#:#Instant
 certificate#:#persistent_certificate_mode_instant_info#:#This option is recommended for systems with low up to medium levels of user interaction. Systems that tend towards longer loading times during the creation of multiple user certificates should switch to the ‘Cron Job’ option.
 chatroom#:#allow_anonymous#:#Allow Anonymous Login
 chatroom#:#allow_custom_usernames#:#Allow Custom User Names
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.
 chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the ‘Permissions’ tab to allow anonymous user access to this repository item.
 chatroom#:#auto_scroll#:#Scroll to Bottom
 chatroom#:#autogen_usernames#:#Auto Generated User Names
@@ -2920,9 +2923,12 @@ chatroom#:#chat_https_dhparam_info#:#Please define an absolute server path to a 
 chatroom#:#chat_https_key_info#:#Please define an absolute server path to the private key file (e.g..: /etc/ssl/private/server.key).
 chatroom#:#chat_invitation#:#"[INVITER_NAME]" invites you into chat room "[ROOM_NAME]"
 chatroom#:#chat_invitation_long#:#[SALUTATION][BR][BR]You have been invited to a chat room:[BR]Chat Room Title: [ROOM_NAME][BR]Invited by: [INVITER_NAME][BR]URL: [LINK][BR][BR]To join the chat room, please follow the given URL.
+chatroom#:#chat_invitation_modal_headline#:#Invitation to Chat Room
+chatroom#:#chat_invitation_modal_section#:#Invite User
 chatroom#:#chat_invitation_nc_inv_x#:#You have %s chat invitations.
 chatroom#:#chat_invitation_nc_no_inv#:#You have no chat invitations.
 chatroom#:#chat_invitation_short#:#Please click the link to enter the chat room.
+chatroom#:#chat_invitation_username_input_label#:#Enter Username:
 chatroom#:#chat_invitations#:#Chat invitations
 chatroom#:#chat_invite#:#Invite
 chatroom#:#chat_join#:#Join
@@ -2980,6 +2986,7 @@ chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Room
 chatroom#:#chat_user_x_is_typing#:#User %s is typing ...
 chatroom#:#chat_users_are_typing#:#Multiple users are typing ...
 chatroom#:#chat_whisper#:#Whisper
+chatroom#:#chatroom_anonymous_default#:#Anonymous #
 chatroom#:#chatroom_auth#:#Authentication
 chatroom#:#chatroom_auth_btn_txt#:#Generate Keys
 chatroom#:#chatroom_auth_key#:#Authentication-Key
@@ -4430,7 +4437,7 @@ common#:#italic_action#:#Insert Italic - Click to insert italic text.
 common#:#item#:#Item
 common#:#itgr_add#:#Add Item Group
 common#:#itgr_new#:#New Item Group
-common#:#java_server#:#Java-Server
+common#:#java_server#:#PDF Configuration
 common#:#java_server_host#:#Host
 common#:#java_server_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###Needs to be adapted to new content of German lang file.
 common#:#java_server_port#:#Port
@@ -5084,7 +5091,7 @@ common#:#obj_scov#:#SCORM Certificate
 common#:#obj_seas#:#Search
 common#:#obj_seas_desc#:#Manage the search settings here.
 common#:#obj_serv#:#Server
-common#:#obj_serv_desc#:#Settings of the sever
+common#:#obj_serv_desc#:#Status of Server, Settings and PDF Configuration
 common#:#obj_sess#:#Session
 common#:#obj_sess_duplicate#:#Copy Session
 common#:#obj_skmg#:#Competence Management
@@ -5497,7 +5504,7 @@ common#:#row#:#Row
 common#:#rows#:#Rows
 common#:#rpc_pdf_font#:#Fonts
 common#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than ‘Helvetica’ and ‘unifont’ must be installed on the ILIAS server.
-common#:#rpc_pdf_generation#:#PDF-Generation
+common#:#rpc_pdf_generation#:#Fonts for PDF Generation
 common#:#sad#:#Sad
 common#:#sahs#:#Learning Module SCORM
 common#:#sahs_added#:#SCORM Learning Module added
@@ -5535,7 +5542,7 @@ common#:#scorm_login_as_learner_id_info#:#If enabled, the Username instead of th
 common#:#scorm_lp_auto_activate#:#Default setting for learning progress
 common#:#scorm_lp_auto_activate_info#:#If learning progress is activated in general, the settings for new SCORM learning modules are set to ‘Collection of SCORM Items’ and all SCOs are selected for learning progress determination. Adjustments are still possible for every SCORM learning module.
 common#:#scorm_new#:#Create SCORM Learning Module (Authoring Mode)
-common#:#scorm_without_session#:#SCORM 2004: enable storing data without session
+common#:#scorm_without_session#:#SCORM 2004: Data Storage Without Session
 common#:#scorm_without_session_info#:#This ensures the storage of SCORM 2004 learning data even if ILIAS session expired. For SCORM 1.2, storage without session is always enabled.
 common#:#search#:#Search
 common#:#search_active#:#Include active users
@@ -5980,7 +5987,6 @@ common#:#webdav_chosen_language_already_used#:#There already is another document
 common#:#webdav_doc_delete#:#Delete WebDav Mount Instructions
 common#:#webdav_docs_mount_instructions#:#Mount Instructions Documents
 common#:#webdav_duplicate_detected_title#:#Following objects could not be displayed, because an object with the same Title is already being shown:
-common#:#webdav_enable_versioning#:#File Versioning
 common#:#webdav_forbidden_chars_title#:#Following files cannot be displayed, because they contain one or more forbidden characters (\<>/:*?"|#):
 common#:#webdav_form_document#:#Instructions Document
 common#:#webdav_form_document_info#:#Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information
@@ -5999,7 +6005,6 @@ common#:#webdav_sure_delete_documents_s#:#Are you sure you want to delete the Mo
 common#:#webdav_tbl_docs_head_title#:#Dokument title
 common#:#webdav_tbl_docs_title#:#List of uploaded WebDAV Mount Instructions
 common#:#webdav_upload_instructions#:#Upload Instructions
-common#:#webdav_versioning_info#:#If enabled, already existing files will get a new version instead of beeing overwritten.
 common#:#webfolder_dir_info#:#You got here, because your browser can't open web folders. Read the <a href="%1$s">instructions for opening web folders</a>.
 common#:#webfolder_index_of#:#Index of %1$s
 common#:#webfolder_instructions#:#Web folder instructions
@@ -7041,7 +7046,7 @@ content#:#cont_sc_stat_running#:#Running
 content#:#cont_sc_store_if_previous_score_was_lower#:#if achieved score in previous attempt was higher or equal
 content#:#cont_sc_title#:#title
 content#:#cont_sc_usession#:#Prevent from Logging-Out Automatically
-content#:#cont_sc_usession_info#:#Periodical requests will be sent to ILIAS to keep the session alive. Otherwise ILIAS will categorize working on the learning module as idleness, terminate the session and loose the tracking data.
+content#:#cont_sc_usession_info#:#While working on a learning module, logging out of ILIAS can be disruptive and lead to the loss of learning data. The SCORM RTE regularly sends requests to ILIAS to prevent automatic logouts. To prevent the loss of learning data for SCORM 2004, please also activate the "SCORM 2004: Data Storage Without Session" option. For SCORM 1.2, this option is permanently enabled. You can find this option in the system-wide administration of learning modules.
 content#:#cont_sc_version#:#Version of Learning Module
 content#:#cont_sc_version_info#:#The version number is provided automatically by the version management of the learning module.
 content#:#cont_scheduled_activation#:#Scheduled Activation
@@ -7369,6 +7374,7 @@ copg#:#copg_cron_keep_entries_info#:#This number is the minimum of entries that 
 copg#:#copg_days#:#Days
 copg#:#copg_details#:#Details
 copg#:#copg_edit_iframe_title#:#Text Editing of Page Editor
+copg#:#copg_edit_style_class#:#Edit Style Class
 copg#:#copg_entries#:#Entries
 copg#:#copg_error#:#Error
 copg#:#copg_error_occured_modal#:#An error occured while processing the page. Hit "Reload Page" to return to the previously saved state.
@@ -7391,6 +7397,7 @@ copg#:#copg_questions_not_supported_here#:#Questions are not supported in this c
 copg#:#copg_reload_page#:#Reload Page
 copg#:#copg_remove_formats#:#Remove Formatting
 copg#:#copg_sec_link_info#:#Select a target for linking the block. Attention: In this case, the content of the block must not contain any further links itself!
+copg#:#copg_select_two_versions#:#Select exactly two versions of the page to compare.
 copg#:#copg_snippet_cannot_be_edited#:#This is a predefined content snippet and cannot be edited here.
 copg#:#copg_templates#:#Templates
 copg#:#copg_unsupported_media_type#:#This media object has an unsupported media type.
@@ -9617,7 +9624,7 @@ exc#:#exc_submission_and_grades_notification_link#:#Link to "Submissions and Gra
 exc#:#exc_submission_downloads_notification_link#:#Download new submissions: %s
 exc#:#exc_submission_file#:#Submission File
 exc#:#exc_submission_no_new_files#:#No new submissions available.
-exc#:#exc_submission_notification#:#E-Mail Notification on Submissions
+exc#:#exc_submission_notification#:#E-Mail Notification
 exc#:#exc_submission_notification_body#:#A new submission for exercise "%s" has been uploaded.
 exc#:#exc_submission_notification_info#:#You will be notified when submissions are uploaded or individual deadlines are requested. This is a personal setting which does not affect other administrators of the exercise.
 exc#:#exc_submission_notification_link#:#Link to exercise: %s
@@ -10737,7 +10744,8 @@ irss#:#upload_modal_title#:#Add Files
 itgr#:#itgr_always_open#:#Always Open
 itgr#:#itgr_assign_materials#:#Assign Materials
 itgr#:#itgr_assigned_materials#:#Assigned Materials
-itgr#:#itgr_assignment#:#Assigned
+itgr#:#itgr_assignment#:#Assigned to this Item Group
+itgr#:#itgr_assignment_to_other_itgr#:#Already assigned to another Item Group
 itgr#:#itgr_behaviour#:#Block Behaviour
 itgr#:#itgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.
@@ -11175,7 +11183,6 @@ lso#:#lso_print_list#:#Generate list
 lso#:#lso_read#:#User has read access to Learning Sequence
 lso#:#lso_search_users#:#Look Up Users
 lso#:#lso_settings_availability#:#Availability
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date
 lso#:#lso_settings_extro#:#Edit Exit Page
 lso#:#lso_settings_intro#:#Edit Intro Page
 lso#:#lso_settings_old_extro#:#View Old Exit Page
@@ -13053,31 +13060,31 @@ news#:#passwd_equals_ilpasswd#:#Please enter a password different from your ILIA
 news#:#priv_feed_disabled#:#Private Newsfeed disabled.
 news#:#priv_feed_settings#:#Private Newsfeed settings
 note#:#note_comment_notification_link#:#Link
-note#:#note_comment_notification_reason#:#You receive this message because your account is listed as a global recipient for all comments in the ILIAS administration.
+note#:#note_comment_notification_reason#:#You have received this mail because your account is listed as a global recipient for all comments made on this installation.
 note#:#note_comment_notification_salutation#:#Hello %s,
 note#:#note_comment_notification_subject#:#A comment has been added to "%s"
 note#:#note_comment_notification_subjectc#:#A comment has been changed in "%s"
-note#:#note_comment_notification_user_has_written#:#%s has written:
-note#:#note_comments_notification#:#General notification about all comments
-note#:#note_comments_notification_info#:#Comma separated list of accounts that are notified for each comment
+note#:#note_comment_notification_user_has_written#:#%s has commented:
+note#:#note_comments_notification#:#General Notification Mail for All Comments
+note#:#note_comments_notification_info#:#Comma-separated list of accounts that are to be notified each time a comment is made.
 note#:#note_enable_comments#:#Enable Comments
-note#:#note_enable_comments_del_tutor#:#Any Comment may be deleted by tutors
-note#:#note_enable_comments_del_tutor_info#:#User with "Edit Settings" permission for an object can delete any comment made in this object.
-note#:#note_enable_comments_del_user#:#Comments may be deleted by their authors
+note#:#note_enable_comments_del_tutor#:#All Comments in Object Deletable
+note#:#note_enable_comments_del_tutor_info#:#Users with the "Edit Settings" permission for an object can delete any comment or comments made in this object.
+note#:#note_enable_comments_del_user#:#Own Comments Deletable
 note#:#note_enable_comments_del_user_info#:#Comments can be deleted by the person who created them.
-note#:#note_enable_comments_export_info#:#This option enables comments export for content objects like portfolio, blog and wiki.
+note#:#note_enable_comments_export_info#:#Enable the export of comments from within objects such as portfolios, blogs and wikis.
 note#:#note_enable_notes#:#Enable Notes
 note#:#note_html_export_include_comments#:#Should comments be included in the export?
 notes#:#comments_feature_currently_not_activated_for_object#:#The public comments feature is currently not activated for this resource.
 notes#:#note_add_comment#:#Add Comment
 notes#:#note_add_message#:#Add Message
 notes#:#note_add_note#:#Add Note
-notes#:#note_content_removed#:#The content has been removed.
+notes#:#note_content_removed#:#This content has been removed.
 notes#:#note_text#:#Text
 notes#:#note_update_comment#:#Update Comment
 notes#:#note_update_message#:#Update Message
 notes#:#note_update_note#:#Update Note
-notes#:#note_without_object#:#Without reference
+notes#:#note_without_object#:#Without Reference
 notes#:#notes_activate_comments#:#Activate Public Comments
 notes#:#notes_add_comment#:#Add Comment
 notes#:#notes_add_edit_comment#:#Add/Edit Comment
@@ -13085,13 +13092,13 @@ notes#:#notes_add_edit_message#:#Add/Edit Message
 notes#:#notes_add_edit_note#:#Add/Edit Note
 notes#:#notes_all_comments#:#All Comments
 notes#:#notes_comment#:#Comment
-notes#:#notes_comment_deleted#:#The comment has been deleted.
+notes#:#notes_comment_deleted#:#Comment deleted.
 notes#:#notes_comments#:#Comments
-notes#:#notes_comments_deleted#:#The comments have been deleted.
+notes#:#notes_comments_deleted#:#Comments deleted.
 notes#:#notes_deactivate_comments#:#Deactivate Public Comments
-notes#:#notes_delete_comment#:#Do you really want to delete this comment?
-notes#:#notes_delete_message#:#Do you really want to delete this message?
-notes#:#notes_delete_note#:#Do you really want to delete this note?
+notes#:#notes_delete_comment#:#Are you sure you want to delete this comment?
+notes#:#notes_delete_message#:#Are you sure you want to delete this message?
+notes#:#notes_delete_note#:#Are you sure you want to delete this note?
 notes#:#notes_hide_comments#:#Hide Comments
 notes#:#notes_html_export#:#HTML Export
 notes#:#notes_latest_comment#:#Latest Comment
@@ -13101,14 +13108,14 @@ notes#:#notes_message_author_you#:#You
 notes#:#notes_message_deleted#:#Message deleted.
 notes#:#notes_messages#:#Messages
 notes#:#notes_my_comments#:#My Comments
-notes#:#notes_no_comments#:#No comment has been posted yet.
-notes#:#notes_no_comments_found#:#No comments found that match your seach criteria.
-notes#:#notes_no_messages#:#No messages have been attached yet.
-notes#:#notes_no_messages_found#:#No messages found that match your seach criteria.
-notes#:#notes_no_notes#:#No notes have been attached yet.
-notes#:#notes_no_notes_found#:#No notes found that match your seach criteria.
-notes#:#notes_note_deleted#:#The note has been deleted.
-notes#:#notes_notes_deleted#:#The notes have been deleted.
+notes#:#notes_no_comments#:#No comments have been posted yet.
+notes#:#notes_no_comments_found#:#No comments found that match your search criteria.
+notes#:#notes_no_messages#:#No messages have been left yet.
+notes#:#notes_no_messages_found#:#No messages found that match your search criteria.
+notes#:#notes_no_notes#:#You have not yet added any notes to this object.
+notes#:#notes_no_notes_found#:#No notes found that match your search criteria.
+notes#:#notes_note_deleted#:#Note deleted.
+notes#:#notes_notes_deleted#:#Notes deleted.
 notes#:#notes_origin#:#Origin
 notes#:#notes_public_comments#:#Public Comments
 notes#:#notes_show_comments#:#Show Comments
@@ -13391,72 +13398,71 @@ pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either 
 pdesk#:#bookmark_moved_ok#:#Bookmark has been moved.
 pdesk#:#bookmark_select_target#:#Please select target.
 poll#:#poll_absolute#:#Current Votes
-poll#:#poll_activation_online_info#:#Activate this setting to make the poll accessible to users.
+poll#:#poll_activation_online_info#:#Make this poll accessible to users.
 poll#:#poll_add#:#Add Poll
-poll#:#poll_anonymous_warning#:#Individual votes are recorded, but your name will not be shown in the poll results.
+poll#:#poll_anonymous_warning#:#This is an anonymous poll. Individual votes are recorded, but your name will not be shown in the poll results.
 poll#:#poll_answer#:#Answer
 poll#:#poll_answer_selected_alt_text#:#Selected
 poll#:#poll_answers#:#Possible Answers
-poll#:#poll_barchart#:#Bar Chart
-poll#:#poll_block_message_already_voted#:#You already voted in this poll.
+poll#:#poll_barchart#:#Bar chart
+poll#:#poll_block_message_already_voted#:#You have already voted in this poll.
 poll#:#poll_block_message_no_answers#:#This poll is incomplete.
-poll#:#poll_block_results_available_on#:#The results will be available %s.
-poll#:#poll_cannot_set_online_no_answers#:#The status cannot be changed to &quot;online&quot; because this poll has no question!
+poll#:#poll_block_results_available_on#:#The results will be available: %s.
+poll#:#poll_cannot_set_online_no_answers#:#This poll cannot be set to &quot;Online&quot; because it doesn’t have a question!
 poll#:#poll_chart_votes#:#Votes
 poll#:#poll_comments#:#Comments
 poll#:#poll_copy#:#Copy Poll
-poll#:#poll_delete_votes#:#Delete Votes of All Users
-poll#:#poll_delete_votes_sure#:#Are you sure you want to delete the votes of all users who took part in this poll?
+poll#:#poll_delete_votes#:#Delete All Votes Cast
+poll#:#poll_delete_votes_sure#:#Are you sure you want to delete the votes of all users who have taken part in this poll?
 poll#:#poll_edit#:#Edit Poll
 poll#:#poll_edit_question#:#Edit Question
 poll#:#poll_image#:#Image
-poll#:#poll_import#:#Import Poll
-poll#:#poll_limit_not_below_answer_count#:#The answer limit must be below the number of possible answers.
-poll#:#poll_limit_number_of_answers#:#Limit Number of Answers per Participant
-poll#:#poll_max_number_of_answers#:#Max. Answers
+poll#:#poll_limit_not_below_answer_count#:#The maximum number of selectable answer options must be smaller than the total number of possible answers.
+poll#:#poll_limit_number_of_answers#:#Limit Number of Answers Selectable
+poll#:#poll_max_number_of_answers#:#Maximum Selectable per Participant
 poll#:#poll_max_number_of_answers_info#:#You may choose up to %s answers.
 poll#:#poll_mode#:#Mode
-poll#:#poll_mode_anonymous#:#Without Names / Anonymous
+poll#:#poll_mode_anonymous#:#Without names / anonymous
 poll#:#poll_mode_anonymous_info#:#The names of poll participants are not shown in the 'Results' tab. Please note: participant user IDs are, however, recorded in the database.
-poll#:#poll_mode_personal#:#With Names
-poll#:#poll_mode_personal_info#:#In the tab ‘Results’ the names of participants and their respective answers are listed. Users with access to this tab can inspect who has given which answer.
+poll#:#poll_mode_personal#:#With names
+poll#:#poll_mode_personal_info#:#The names of poll participants and their respective answers are listed in the ‘Results’ tab. Users with access to this tab can inspect who has given which answer.
 poll#:#poll_new#:#Add New Poll
-poll#:#poll_non_anonymous_warning#:#Your name and vote are visible for administrators in the results.
-poll#:#poll_notification_activated#:#Notification Activated
-poll#:#poll_notification_deactivated#:#Notification Deactivated
-poll#:#poll_notification_subscribe#:#Activate Notification
-poll#:#poll_notification_unsubscribe#:#Deactivate Notification
+poll#:#poll_non_anonymous_warning#:#Your name and how you have voted will be visible to anyone with administration permissions for this poll.
+poll#:#poll_notification_activated#:#Notifications activated.
+poll#:#poll_notification_deactivated#:#Notifications deactivated
+poll#:#poll_notification_subscribe#:#Activate Notifications
+poll#:#poll_notification_unsubscribe#:#Deactivate Notifications
 poll#:#poll_percentage#:#Current Percentage
-poll#:#poll_population#:#%s Participants
-poll#:#poll_population_singular#:#1 Participant
+poll#:#poll_population#:#%s votes cast
+poll#:#poll_population_singular#:#One vote cast
 poll#:#poll_question#:#Question
 poll#:#poll_result#:#Results
 poll#:#poll_result_answers#:#Votes
-poll#:#poll_result_sorting#:#Sorting
-poll#:#poll_result_sorting_answers#:#In the order of the answers
+poll#:#poll_result_sorting#:#Presentation Order
+poll#:#poll_result_sorting_answers#:#In the same order as the possible answers
 poll#:#poll_result_sorting_votes#:#By number of votes (descending)
 poll#:#poll_result_users#:#Participants
-poll#:#poll_show_results_as#:#Show Results as
+poll#:#poll_show_results_as#:#Results Format
 poll#:#poll_sortorder#:#Order
-poll#:#poll_stacked_chart#:#Stacked Chart
-poll#:#poll_view_results#:#Display Results
-poll#:#poll_view_results_after_period#:#After Voting Period
-poll#:#poll_view_results_after_period_impossible#:#The voting period is not limited.
-poll#:#poll_view_results_after_vote#:#After Vote
+poll#:#poll_stacked_chart#:#Stacked chart
+poll#:#poll_view_results#:#Show Results
+poll#:#poll_view_results_after_period#:#When voting period has ended
+poll#:#poll_view_results_after_period_impossible#:#In order for the results to be first shown when the voting period has ended, you need to establish a limited voting period by entering dates above.
+poll#:#poll_view_results_after_vote#:#After participant has voted
 poll#:#poll_view_results_always#:#Always
 poll#:#poll_view_results_never#:#Never
 poll#:#poll_vote#:#Vote
 poll#:#poll_vote_error_multi#:#Please select no more than %s answers.
-poll#:#poll_vote_error_multi_no_answer#:#Please select at least 1 answer.
-poll#:#poll_vote_error_single#:#Please select 1 answer.
-poll#:#poll_vote_notification_body#:#the following poll has received a vote.
+poll#:#poll_vote_error_multi_no_answer#:#Please select at least one of the answers.
+poll#:#poll_vote_error_single#:#Please select one of the answers.
+poll#:#poll_vote_notification_body#:#A vote has been cast in the following poll:
 poll#:#poll_vote_notification_link#:#Link to Poll
-poll#:#poll_vote_notification_reason#:#You are receiving this e-mail because you activated notifications for the poll mentioned above.
-poll#:#poll_vote_notification_subject#:#Poll "%s": new vote
-poll#:#poll_votes_no_edit#:#This poll already contains votes. You cannot edit the poll until you delete these votes.
+poll#:#poll_vote_notification_reason#:#You have received this e-mail because you activated notifications for the poll mentioned above.
+poll#:#poll_vote_notification_subject#:#Poll "%s" – new vote cast
+poll#:#poll_votes_no_edit#:#This poll has already received votes. You cannot edit the poll unless you delete these votes.
 poll#:#poll_voting_period_and_results#:#Voting Period and Results
 poll#:#poll_voting_period_ended_info#:#The voting period ended %s.
-poll#:#poll_voting_period_full_info#:#Voting period from %s to %s
+poll#:#poll_voting_period_full_info#:#Voting in this poll will be possible from %s until %s
 poll#:#poll_voting_period_info#:#The deadline for voting is %s.
 poll#:#poll_voting_period_limited#:#Limited Voting Period
 prg#:#access_ctr_by_orgu_position#:#Access control according to Organisational Unit Positions
@@ -14583,6 +14589,9 @@ rbac#:#positions_override_operations#:#Override global Settings
 rbac#:#precondition_not_obligatory_alt#:#Precondition is optional
 rbac#:#precondition_num_obligatory#:#Number of Required Materials
 rbac#:#precondition_num_optional_info#:#Please enter the minimum number of materials required to fulfill this precondition.
+rbac#:#precondition_number_of_required_materials_bigger_preconditions_number#:#The number of required materials must be less than the total number of preconditions.
+rbac#:#precondition_number_of_required_materials_lower_compulsory_items#:#The number of required materials must be greater than the number of compulsory preconditions.
+rbac#:#precondition_number_of_required_materials_lower_than_one#:#The number of required materials must be at least 1.
 rbac#:#precondition_obligatory#:#Compulsory
 rbac#:#precondition_obligatory_alt#:#Precondition must be fulfilled
 rbac#:#precondition_obligatory_info#:#Compulsory preconditions must be fulfilled, for having access.

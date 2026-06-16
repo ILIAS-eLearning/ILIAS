@@ -22,6 +22,7 @@ use ILIAS\UI\Implementation\Render\JavaScriptBinding;
 use ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\UI\Implementation\Component;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 require_once(__DIR__ . "/../../../../../../../vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -138,7 +139,7 @@ class TreeSelectTest extends \ILIAS_UI_TestBase
         };
     }
 
-    /** @dataProvider getInvalidArgumentsForWithValue */
+    #[DataProvider('getInvalidArgumentsForWithValue')]
     public function testWithValueForInvalidArguments(mixed $value): void
     {
         $node_retrieval = $this->getNodeRetrieval();
@@ -147,7 +148,7 @@ class TreeSelectTest extends \ILIAS_UI_TestBase
         $component = $component->withValue($value);
     }
 
-    /** @dataProvider getValidArgumentsForWithValue */
+    #[DataProvider('getValidArgumentsForWithValue')]
     public function testWithValueForValidArguments(string|int|null $value): void
     {
         $node_retrieval = $this->getNodeRetrieval();

@@ -208,7 +208,9 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $consecutive = ['Course Title', 'Test Title'];
-        $link->method('standard')
+        $link
+            ->expects($this->exactly(2))
+            ->method('standard')
             ->with(
                 $this->callback(function ($value) use (&$consecutive) {
                     $this->assertSame(array_shift($consecutive), $value);

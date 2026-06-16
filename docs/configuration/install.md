@@ -526,12 +526,13 @@ Then complete the update by [updating the database](#update-the-database).
 <a name="major-upgrade"></a>
 ## Major Upgrade
 
-To apply a major upgrade (e.g. v10.13 to v11.1) please check that your OS has the
-[proper dependency versions](#upgrading-dependencies) installed. If everything
-is fine, change your default skin to Delos and apply this change at least to
-your root user. Otherwise ILIAS might become unusable due to changes in the
-layout templates. Then execute the following commands in your ILIAS basepath
-(e.g. `/var/www/ilias`).
+To apply a major upgrade (e.g. v11.13 to v12.1) please check that your OS has the
+[proper dependency versions](#upgrading-dependencies) installed. Note that no major
+version can be omitted during the upgrade process. You can upgrade from 11 to 12, 
+but not directly from 10 to 12. If everything is fine, change your default skin to
+Delos and apply this change at least to your root user. Otherwise ILIAS might become
+unusable due to changes in the layout templates. Then execute the following commands
+in your ILIAS basepath (e.g. `/var/www/ilias`).
 
 ```shell
 sudo -uwww-data git fetch origin release_11:release_11

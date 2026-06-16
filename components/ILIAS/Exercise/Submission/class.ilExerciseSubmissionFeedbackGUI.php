@@ -130,18 +130,29 @@ class ilExerciseSubmissionFeedbackGUI
             $this->gui->modal($lng->txt("exc_tbl_action_feedback_text"))
                       ->form($form)
                       ->send();
+        } else {
+            $user_id = $request->getMemberId();
+            $ass_id = $request->getAssId();
+            $ass = $this->domain->assignment()->getAssignment($ass_id);
+            $comment = $form->getData("comment");
+            $member_status = $ass->getMemberStatus($user_id);
+            $member_status->setComment($comment);
+            $member_status->setFeedback(true);
+            $member_status->update();
+            if (trim($comment) !== '' && trim($comment) !== '0') {
+                $this->notification->sendFeedbackNotification(
+                    $ass_id,
+                    [$user_id],
+                    "",
+                    true
+                );
+            }
+            $cmd = $request->getParticipantId()
+                ? "showParticipant"
+                : "members";
+            $target = $ctrl->getLinkTargetByClass(ilExerciseManagementGUI::class, $cmd);
+            $this->gui->send("<script>window.location.href = '" . $target . "';</script>");
         }
-
-        $user_id = $request->getMemberId();
-        $ass_id = $request->getAssId();
-        $comment = $form->getData("comment");
-
-        $ctrl->setParameter($this, "member_id", $user_id);
-        $ctrl->setParameter($this, "ass_id", $ass_id);
-        $ctrl->setParameter($this, "comment", $comment);
-
-        $target = $ctrl->getLinkTarget($this, "saveCommentForLearners");
-        $this->gui->send("<script>window.location.href = '" . $target . "';</script>");
     }
 
     protected function saveCommentForLearners(): void

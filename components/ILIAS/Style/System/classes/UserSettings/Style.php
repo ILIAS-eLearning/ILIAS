@@ -98,9 +98,8 @@ class Style implements SettingDefinition
         Language $lng,
         \ilSetting $settings
     ): string {
-        $system_style_config = $this->style_definition->getSystemStylesConf();
-        return "{$this->style_definition->getStyle($system_style_config->getDefaultStyleId())->getName()} - "
-            . "{$this->style_definition->getSkin($system_style_config->getDefaultSkinId())->getName()} ";
+        $default_skin = $this->style_definition->getSkin();
+        return "{$default_skin->getName()} / {$default_skin->getDefaultStyle()->getName()}";
     }
 
     public function hasUserPersonalizedSetting(

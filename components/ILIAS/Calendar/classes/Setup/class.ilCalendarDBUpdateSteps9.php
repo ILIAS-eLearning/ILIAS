@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -43,17 +44,17 @@ class ilCalendarDBUpdateSteps9 implements ilDatabaseUpdateSteps
     public function step_2(): void
     {
         // Removes is_milestones column from cal_entries
-        if($this->db->tableExists('cal_entries')
+        if ($this->db->tableExists('cal_entries')
             && $this->db->tableColumnExists('cal_entries', 'is_milestone')) {
             $this->db->dropTableColumn('cal_entries', 'is_milestone');
         }
         // Removes completion column from cal_entries
-        if($this->db->tableExists('cal_entries')
+        if ($this->db->tableExists('cal_entries')
             && $this->db->tableColumnExists('cal_entries', 'completion')) {
             $this->db->dropTableColumn('cal_entries', 'completion');
         }
         // Deletes table cal_entry_responsible
-        if($this->db->tableExists('cal_entry_responsible')) {
+        if ($this->db->tableExists('cal_entry_responsible')) {
             $this->db->dropTable('cal_entry_responsible');
         }
 

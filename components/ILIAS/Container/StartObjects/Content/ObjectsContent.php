@@ -121,7 +121,7 @@ class ObjectsContent
                 $actions[$url] = $this->lng->txt('continue_work');
             }
 
-	    if ($this->enable_desktop) {
+            if ($this->enable_desktop) {
                 $this->lng->loadLanguageModule('dash');
                 // add to desktop link
                 if (!$this->fav_manager->ifIsFavourite($ilUser->getId(), $ref_id)) {

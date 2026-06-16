@@ -1870,42 +1870,43 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         // content -> pages
         $this->ctrl->setParameterByClass(static::class, "sub_type", "st");
-        $ilTabs->addTab(
-            "content",
-            $lng->txt("content"),
-            $this->ctrl->getLinkTargetByClass(EditSubObjectsGUI::class)
-        );
-
-        // media
-        $this->lng->loadLanguageModule('mob');
-        $ilTabs->addTab(
-            "media",
-            $lng->txt("mob_media"),
-            $this->ctrl->getLinkTargetByClass(ilMediaObjectOverviewGUI::class, "show")
-        );
-
-        // questions
-        $ilTabs->addTab(
-            "questions",
-            $lng->txt("objs_qst"),
-            $this->ctrl->getLinkTarget($this, "listQuestionUsages")
-        );
-
-        // info
-        if ($this->object->isInfoEnabled()) {
+        if ($this->access->checkAccess("write", "", $this->ref_id)) {
             $ilTabs->addTab(
-                "info",
-                $lng->txt("info_short"),
-                $this->ctrl->getLinkTargetByClass("ilinfoscreengui", 'showSummary')
+                "content",
+                $lng->txt("content"),
+                $this->ctrl->getLinkTargetByClass(EditSubObjectsGUI::class)
+            );
+
+            // media
+            $this->lng->loadLanguageModule('mob');
+            $ilTabs->addTab(
+                "media",
+                $lng->txt("mob_media"),
+                $this->ctrl->getLinkTargetByClass(ilMediaObjectOverviewGUI::class, "show")
+            );
+
+            // questions
+            $ilTabs->addTab(
+                "questions",
+                $lng->txt("objs_qst"),
+                $this->ctrl->getLinkTarget($this, "listQuestionUsages")
+            );
+
+            // info
+            if ($this->object->isInfoEnabled()) {
+                $ilTabs->addTab(
+                    "info",
+                    $lng->txt("info_short"),
+                    $this->ctrl->getLinkTargetByClass("ilinfoscreengui", 'showSummary')
+                );
+            }
+
+            $ilTabs->addTab(
+                "settings",
+                $lng->txt("settings"),
+                $this->ctrl->getLinkTarget($this, 'properties')
             );
         }
-
-        // settings
-        $ilTabs->addTab(
-            "settings",
-            $lng->txt("settings"),
-            $this->ctrl->getLinkTarget($this, 'properties')
-        );
 
         // learning progress
         if (ilLearningProgressAccess::checkAccess($this->lm->getRefId()) and ($this->lm->getType() == 'lm')) {
@@ -1917,22 +1918,24 @@ class ilObjContentObjectGUI extends ilObjectGUI
         }
 
         // meta data
-        $mdgui = new ilObjectMetaDataGUI($this->lm);
-        $mdtab = $mdgui->getTab();
-        if ($mdtab) {
+        if ($this->access->checkAccess("write", "", $this->ref_id)) {
+            $mdgui = new ilObjectMetaDataGUI($this->lm);
+            $mdtab = $mdgui->getTab();
+            if ($mdtab) {
+                $ilTabs->addTab(
+                    "meta",
+                    $lng->txt("meta_data"),
+                    $mdtab
+                );
+            }
+
+            // export
             $ilTabs->addTab(
-                "meta",
-                $lng->txt("meta_data"),
-                $mdtab
+                "export",
+                $lng->txt("export"),
+                $this->ctrl->getLinkTargetByClass("ilexportgui", "")
             );
         }
-
-        // export
-        $ilTabs->addTab(
-            "export",
-            $lng->txt("export"),
-            $this->ctrl->getLinkTargetByClass("ilexportgui", "")
-        );
 
         // permissions
         if ($rbacsystem->checkAccess('edit_permission', $this->lm->getRefId())) {
@@ -1947,12 +1950,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $ilTabs->activateTab($a_act);
         }
 
-        // presentation view
-        $ilTabs->addNonTabbedLink(
-            "pres_mode",
-            $lng->txt("cont_presentation_view"),
-            "ilias.php?baseClass=ilLMPresentationGUI&ref_id=" . $this->lm->getRefId()
-        );
+        if ($this->access->checkAccess("write", "", $this->ref_id)) {
+            // presentation view
+            $ilTabs->addNonTabbedLink(
+                "pres_mode",
+                $lng->txt("cont_presentation_view"),
+                "ilias.php?baseClass=ilLMPresentationGUI&ref_id=" . $this->lm->getRefId()
+            );
+        }
     }
 
     public function setSubTabs(string $a_active): void

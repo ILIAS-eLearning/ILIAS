@@ -131,10 +131,9 @@ EOT;
         $pc->appendItem("20", "file_loc2", "image/png");
         $page->addHierIDs();
         $pc->setHierId("1");
-
         $pc->savePositions([
-            "1_1:" => 20,
-            "1_2:" => 10,
+            0 => "1_2:",
+            1 => "1_1:",
         ]);
         $page->stripHierIDs();
         $expected = <<<EOT

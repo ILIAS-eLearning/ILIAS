@@ -68,7 +68,7 @@ class BundleTest extends TestCase
     {
         $user = $this->mock(ilObjUser::class);
         $self_registration = $this->mock(SelfRegistration::class);
-        $self_registration->expects(self::exactly(2))->method('userCreation')->with($user);
+        $self_registration->expects($this->exactly(2))->method('userCreation')->with($user);
 
         $bundle = new Bundle([
             $self_registration,

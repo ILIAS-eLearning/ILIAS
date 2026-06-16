@@ -9,7 +9,7 @@ contributors.
 # Special Roles
 
 * **Product Management**: [Matthias Kunkel](https://docu.ilias.de/go/usr/115)
-* **Technical Board**: [Rob Falkenstein](https://docu.ilias.de/go/usr/63946), [Marvin Hackfort](https://docu.ilias.de/go/usr/50523), [Michael Jansen](https://docu.ilias.de/go/usr/8784), [Franziska Wandelmaier](https://docu.ilias.de/go/usr/33833), [one vacant position]
+* **Technical Board**: [Rob Falkenstein](https://docu.ilias.de/go/usr/63946), [Marvin Hackfort](https://docu.ilias.de/go/usr/50523), [Michael Jansen](https://docu.ilias.de/go/usr/8784), [Franziska Wandelmaier](https://docu.ilias.de/go/usr/33833), [Maximilian Becker](https://docu.ilias.de/go/usr/27266)
 * **Testcase Management**: [Fabian Kruse](https://docu.ilias.de/go/usr/27631)
 * **Release Management**: [Fabian Wolf](https://docu.ilias.de/go/usr/29018)
 * **Technical Documentation**: [Ann-Christin Gruber](https://docu.ilias.de/go/usr/94025)
@@ -458,13 +458,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN CSSAndTemplates)
 
 * **CSS / Templates**
-    * Authority to Sign off on Conceptual Changes: [BettyFromHH](https://docu.ilias.de/go/usr/96573)
+    * Authority to Sign off on Conceptual Changes: [BettyFromHH](https://docu.ilias.de/go/usr/96573) [alinaseibt](https://docu.ilias.de/go/usr/70225)
     * Authority to Sign off on Code Changes: [BettyFromHH](https://docu.ilias.de/go/usr/96573), [rotegras](https://docu.ilias.de/go/usr/88399), [padvincenzo](https://docu.ilias.de/go/usr/87189)
     * Authority to Curate Test Cases: [BettyFromHH](https://docu.ilias.de/go/usr/96573)
     * Authority to (De-)Assign Authorities: [BettyFromHH](https://docu.ilias.de/go/usr/96573)
     * Assignee for Issues: [BettyFromHH](https://docu.ilias.de/go/usr/96573)
     * Assignee for Security Reports: [BettyFromHH](https://docu.ilias.de/go/usr/96573)
-    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
+    * Unit-specific Guidelines, Rules, and Regulations: [Guidelines_SCSS-Coding]('https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/templates/Guidelines_SCSS-Coding.md')
 
 [//]: # (END CSSAndTemplates)
 
@@ -1477,8 +1477,7 @@ of ILIAS. The file contains the following fields:
 
 * **Test and TestQuestionPool (aka Test & Assessment)**
 	* Authority to Sign off on Conceptual Changes: [dstrassner](https://docu.ilias.de/go/usr/48931)
-    * Authority to Sign off on Code Changes: [mbecker](https://docu.ilias.de/go/usr/27266)
-        , [skergomard](https://docu.ilias.de/go/usr/44474)
+    * Authority to Sign off on Code Changes: [skergomard](https://docu.ilias.de/go/usr/44474)
         , [dstrassner](https://docu.ilias.de/go/usr/48931)
         , [tjoussen](https://docu.ilias.de/go/usr/103745)
     * Authority to Curate Test Cases: [dstrassner](https://docu.ilias.de/go/usr/48931)

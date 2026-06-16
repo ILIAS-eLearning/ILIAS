@@ -56,9 +56,9 @@ class StartUpStepTest extends TestCase
     public function testExecute(): void
     {
         $ctrl = $this->mock(ilCtrl::class);
-        $ctrl->expects(self::once())->method('setParameterByClass')->with('foo', 'id', 'baz');
-        $ctrl->expects(self::once())->method('getLinkTargetByClass')->with(['foo'], 'bar')->willReturn('link');
-        $ctrl->expects(self::once())->method('redirectToURL')->with('link');
+        $ctrl->expects($this->once())->method('setParameterByClass')->with('foo', 'id', 'baz');
+        $ctrl->expects($this->once())->method('getLinkTargetByClass')->with(['foo'], 'bar')->willReturn('link');
+        $ctrl->expects($this->once())->method('redirectToURL')->with('link');
 
         $instance = new StartUpStep($ctrl, $this->mockTree(Conductor::class, ['intercepting' => [
             $this->mockTree(Intercept::class, ['intercept' => false, 'id' => 'ho', 'target' => ['guiName' => 'dummy', 'guiPath' => ['dummy'], 'command' => 'hej']]),

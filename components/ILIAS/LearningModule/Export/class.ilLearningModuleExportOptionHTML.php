@@ -96,6 +96,8 @@ class ilLearningModuleExportOptionHTML extends \ILIAS\Export\HTML\ExportOptionBa
         }
         $default_dirs = ["_html"];
         $default_dirs = array_merge($default_dirs, ["_html_all"]);
-        return array_merge($default_dirs, array_map(function ($la) { return "_html_" . $la; }, $langs));
+        return array_merge($default_dirs, array_map(function ($la) {
+            return "_html_" . $la;
+        }, $langs));
     }
 }

@@ -277,28 +277,35 @@ class ilObject
             }
         }
 
+        $this->object_properties = null;
+
         // multilingual support system objects (sys) & categories (db)
         $translation_type = $this->obj_definition->getTranslationType($this->type);
 
-        if ($translation_type == "sys") {
-            $this->title = $this->lng->txt("obj_" . $this->type);
-            $this->setDescription($this->lng->txt("obj_" . $this->type . "_desc"));
-        } elseif ($translation_type == "db") {
-            $sql =
-                "SELECT title, description" . PHP_EOL
-                . "FROM object_translation" . PHP_EOL
-                . "WHERE obj_id = " . $this->db->quote($this->id, 'integer') . PHP_EOL
-                . "AND lang_code = " . $this->db->quote($ilUser->getCurrentLanguage(), 'text') . PHP_EOL
-            ;
-            $r = $this->db->query($sql);
-            $row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-            if ($row) {
-                $this->title = (string) $row->title;
-                $this->setDescription((string) $row->description);
-            }
+        if ($translation_type === 'sys') {
+            $this->title = $this->lng->txt("obj_{$this->type}");
+            $this->setDescription($this->lng->txt("obj_{$this->type}_desc"));
+            return;
         }
 
-        $this->object_properties = null;
+        if ($translation_type !== 'db') {
+            return;
+        }
+
+        $translation = $this->translations_repository->getFor($this->id);
+
+        $language = $translation->getLaguageForCode(
+            $ilUser->getCurrentLanguage()
+        ) ?? $translation->getLaguageForCode(
+            $translation->getDefaultLanguage()
+        );
+
+        if ($language === null) {
+            return;
+        }
+
+        $this->title = $language->getTitle();
+        $this->setDescription($language->getDescription());
     }
 
     public function getId(): int

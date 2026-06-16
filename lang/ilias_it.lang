@@ -5973,7 +5973,6 @@ common#:#webdav_chosen_language_already_used#:#Esiste già un documento associat
 common#:#webdav_doc_delete#:#Elimina le istruzioni di montaggio di WebDav
 common#:#webdav_docs_mount_instructions#:#Documenti di istruzioni di montaggio
 common#:#webdav_duplicate_detected_title#:#I seguenti oggetti non possono essere mostrati, perchè esiste già un oggetto con lo stesso titolo:
-common#:#webdav_enable_versioning#:#Versioning del File
 common#:#webdav_forbidden_chars_title#:#I seguenti file non possono essere mostrati, perchè contengono uno o più caratteri non consentiti (\<>/:*?"|#):
 common#:#webdav_form_document#:#Istruzioni Documento
 common#:#webdav_form_document_info#:#Carica un file di testo o .html qui. Dopo il caricamento, il file verrà processato dopo l'upload.
@@ -5992,7 +5991,6 @@ common#:#webdav_sure_delete_documents_s#:#Siete sicuri di voler rimuovere le Ist
 common#:#webdav_tbl_docs_head_title#:#Titolo Docuemnto:
 common#:#webdav_tbl_docs_title#:#Lista di Istruzioni di Mount WebDAV caricati:
 common#:#webdav_upload_instructions#:#Istruzioni di Upload
-common#:#webdav_versioning_info#:#Se abilitata, i file esistenti riceveranno una nuova versione invece che essere sovrascritti.
 common#:#webfolder_dir_info#:#Sei qui perché il tuo browser non può aprire le cartelle web. Leggi le <a href="%1$s">istruzioni per aprire le cartelle web</a>.
 common#:#webfolder_index_of#:#Indice di %1$s
 common#:#webfolder_instructions#:#Istruzioni cartella web

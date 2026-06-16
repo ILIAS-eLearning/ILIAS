@@ -19,6 +19,7 @@
 *
 * @module             language file Spanish
 * @modulegroup        language
+* @author             Abraham Morales Rodríguez <amorales@surlabs.com> (active)
 * @author             Jose Ramon Balsas Almagro <jrbalsas@ujaen.es>
 * @author             Lina Guadalupe García Cabrera <lina@ujaen.es>
 * @author             Ildefonso Ruano Ruano <alonso@ujaen.es>
@@ -5985,7 +5986,6 @@ common#:#webdav_chosen_language_already_used#:#Ya existe otro documento asociado
 common#:#webdav_doc_delete#:#Eliminar instrucciones de montaje WebDav
 common#:#webdav_docs_mount_instructions#:#Documentos de instrucciones de montaje
 common#:#webdav_duplicate_detected_title#:#No se pudieron mostrar los siguientes objetos porque ya se muestra un objeto con el mismo título:
-common#:#webdav_enable_versioning#:#Versionado de archivos
 common#:#webdav_forbidden_chars_title#:#Los siguientes archivos no se pueden mostrar porque contienen uno o más caracteres prohibidos (\<>/:*?"|#):
 common#:#webdav_form_document#:#Documento de instrucciones
 common#:#webdav_form_document_info#:#Suba un archivo txt o html aquí. Después de la subida, el archivo será analizado y procesado. Para más información
@@ -6004,7 +6004,6 @@ common#:#webdav_sure_delete_documents_s#:#¿Está seguro de que desea eliminar l
 common#:#webdav_tbl_docs_head_title#:#Título del documento
 common#:#webdav_tbl_docs_title#:#Lista de instrucciones de montaje WebDAV subidas
 common#:#webdav_upload_instructions#:#Instrucciones de subida
-common#:#webdav_versioning_info#:#Si está habilitado, los archivos ya existentes obtendrán una nueva versión en lugar de ser sobrescritos.
 common#:#webfolder_dir_info#:#Ha llegado aquí porque su navegador no puede abrir carpetas web. Lea las <a href="%1$s">instrucciones para abrir carpetas web</a>.
 common#:#webfolder_index_of#:#Índice de %1$s
 common#:#webfolder_instructions#:#Instrucciones de carpeta web

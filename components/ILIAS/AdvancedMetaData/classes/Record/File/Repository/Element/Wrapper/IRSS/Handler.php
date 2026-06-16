@@ -72,7 +72,9 @@ class Handler implements FileRepositoryElementIRSSWrapperInterface
         $stream = $this->irss->consume()->stream($this->getResourceIdentification())->getStream();
         $xml = simplexml_load_string($stream->getContents());
         if ($xml instanceof SimpleXMLElement) {
-            $records = array_map(function ($title) { return (string) $title; }, $xml->xpath('Record/Title'));
+            $records = array_map(function ($title) {
+                return (string) $title;
+            }, $xml->xpath('Record/Title'));
         }
         return $records;
     }

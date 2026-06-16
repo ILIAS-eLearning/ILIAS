@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -270,7 +271,7 @@ class ilMStListCertificatesTableGUI extends \ilTable2GUI
                     $this->tpl->parseCurrentBlock();
                     break;
                 case 'issuedOnTimestamp':
-                        $date_time = new \ilDateTime($propGetter($k), IL_CAL_UNIX);
+                    $date_time = new \ilDateTime($propGetter($k), IL_CAL_UNIX);
                     $this->tpl->setCurrentBlock('td');
                     $this->tpl->setVariable('VALUE', $date_time->get(IL_CAL_DATE));
                     $this->tpl->parseCurrentBlock();

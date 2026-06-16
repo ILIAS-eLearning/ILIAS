@@ -188,7 +188,9 @@ class Handler extends TestCase
             $element_collection_mock->method("key")->willReturn(...array_keys($this->repository_elements));
             # next() does not return anything
             # rewind() does not return anything
-            $element_collection_mock->method("valid")->willReturn(...array_map(function ($element) { return !is_null($element); }, array_merge($this->repository_elements, [null])));
+            $element_collection_mock->method("valid")->willReturn(...array_map(function ($element) {
+                return !is_null($element);
+            }, array_merge($this->repository_elements, [null])));
             $element_collection_mock->method("count")->willReturn(count($this->repository_elements));
         }
         return $element_collection_mock;

@@ -68,7 +68,7 @@ class PHPResponseBuilder implements ResponseBuilder
         try {
             $response = $response->withHeader(
                 ResponseHeader::LAST_MODIFIED,
-                date("D, j M Y H:i:s", filemtime($uri) ?: time()) . " GMT"
+                date("D, j M Y H:i:s", @filemtime($uri) ?: time()) . " GMT"
             );
         } catch (\Throwable) {
         }

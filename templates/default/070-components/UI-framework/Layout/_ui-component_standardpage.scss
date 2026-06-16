@@ -3,6 +3,7 @@
 @use "../../../050-layout/layout_breakpoints" as *;
 @use "../../../050-layout/standardpage" as *;
 @use "../../../050-layout/layout_container-query" as container-query;
+@use "../../../070-components/UI-framework/MainControls/_ui-component_metabar.scss" as metabar;
 
 //== Standard Page
 $il-standard-page-small-mainbar-height-w-bottom-safe-area: calc($il-standard-page-small-mainbar-height + 1.2 * env(safe-area-inset-bottom));
@@ -322,6 +323,9 @@ main {
 
 		.dropdown {
 			position: static;
+			width: 100%;
+			display: flex;
+			justify-content: center;
 		}
 		.dropdown-menu {
 			top: $il-standard-page-small-header-height - 1;
@@ -329,6 +333,8 @@ main {
 		}
 
 		.dropdown-toggle {
+			display: block;
+			max-width: calc(100vw - metabar.$il-metabar-entry-width - $il-standard-page-small-logo-width - 40px);
 			background-color: transparent;
 			border: none;
 			color: $il-neutral-color;
@@ -337,6 +343,7 @@ main {
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
+			text-align: center;
 			&:before {
 			    content: " \e606";
 			    font-family: "il-icons";

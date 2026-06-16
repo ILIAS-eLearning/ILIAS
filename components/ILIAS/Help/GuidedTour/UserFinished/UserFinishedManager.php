@@ -50,4 +50,9 @@ class UserFinishedManager
     {
         $this->repo->resetTour($tour_id);
     }
+
+    public function deleteByUser(int $user_id): void
+    {
+        $this->repo->deleteByUser($user_id);
+    }
 }

@@ -36,7 +36,7 @@ trait IliasMocks
     {
         $ui_reflection = new ReflectionClass(UIFactory::class);
         $methods = array_map(
-            fn ($m) => $m->getName(),
+            fn($m) => $m->getName(),
             $ui_reflection->getMethods()
         );
 
@@ -50,11 +50,9 @@ trait IliasMocks
         $ui_factory->method('viewControl')
             ->willReturn(new CImpl\ViewControl\Factory($signal_generator));
         $ui_factory->method('breadcrumbs')
-            ->will(
-                $this->returnCallback(function ($crumbs) {
-                    return new CImpl\Breadcrumbs\Breadcrumbs($crumbs);
-                })
-            );
+            ->willReturnCallback(function ($crumbs) {
+                return new CImpl\Breadcrumbs\Breadcrumbs($crumbs);
+            });
         $ui_factory->method('link')
             ->willReturn(new CImpl\Link\Factory());
         $ui_factory->method('symbol')

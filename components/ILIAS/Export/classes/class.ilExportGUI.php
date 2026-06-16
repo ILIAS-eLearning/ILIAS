@@ -302,8 +302,12 @@ class ilExportGUI
         $eo->read();
         $ref_ids_export = [$this->parent_gui->getObject()->getRefId()];
         $ref_ids_all = [$this->parent_gui->getObject()->getRefId()];
-        $tree_ref_ids = array_map(function ($node) { return (int) $node['ref_id']; }, $tree_nodes);
-        $post_ref_ids = array_map(function ($key) {return (int) $key; }, array_keys($post_export_options));
+        $tree_ref_ids = array_map(function ($node) {
+            return (int) $node['ref_id'];
+        }, $tree_nodes);
+        $post_ref_ids = array_map(function ($key) {
+            return (int) $key;
+        }, array_keys($post_export_options));
         $valid_ref_ids = array_intersect($post_ref_ids, $tree_ref_ids);
         foreach ($valid_ref_ids as $ref_id) {
             $info = $post_export_options[$ref_id];
@@ -331,8 +335,12 @@ class ilExportGUI
             $manager->createExportOfObject($this->obj, $this->il_user->getId(), $export_configs);
         }
         if (count($ref_ids_all) > 1) {
-            $obj_ids_export = array_map(function (int $ref_id) { return ilObject::_lookupObjId($ref_id); }, $ref_ids_export);
-            $obj_ids_all = array_map(function (int $ref_id) { return ilObject::_lookupObjId($ref_id); }, $ref_ids_all);
+            $obj_ids_export = array_map(function (int $ref_id) {
+                return ilObject::_lookupObjId($ref_id);
+            }, $ref_ids_export);
+            $obj_ids_all = array_map(function (int $ref_id) {
+                return ilObject::_lookupObjId($ref_id);
+            }, $ref_ids_all);
             $object_id_collection_builder = $manager->getObjectIdCollectioBuilder();
             foreach ($obj_ids_all as $obj_id) {
                 $object_id_collection_builder = $object_id_collection_builder->addObjectId(

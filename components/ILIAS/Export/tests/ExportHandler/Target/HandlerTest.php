@@ -28,7 +28,9 @@ class HandlerTest extends TestCase
 {
     public function testExportHandlerTarget(): void
     {
-        $object_ids = array_map(function (string $id) {return $id + rand(0, 20); }, [0, 0, 0]);
+        $object_ids = array_map(function (string $id) {
+            return $id + rand(0, 20);
+        }, [0, 0, 0]);
         $type = "myType";
         $component = "componentcomponent";
         $class_name = "classclass";

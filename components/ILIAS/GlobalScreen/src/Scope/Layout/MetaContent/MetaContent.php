@@ -31,6 +31,7 @@ use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\Js;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\JsCollection;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\OnLoadCode;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\OnLoadCodeCollection;
+use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\VersionParameterFilter;
 use ILIAS\UI\Component\Layout\Page\Standard;
 use ILIAS\Data\Meta\Html\OpenGraph;
 use ILIAS\Data\Meta\Html;
@@ -53,15 +54,33 @@ class MetaContent
     private array $meta_data = [];
     private string $base_url = "";
     private string $text_direction;
+    /**
+     * @var VersionParameterFilter[]
+     */
+    private array $version_parameter_filters = [];
 
+    /**
+     * @param VersionParameterFilter[] $version_parameter_filters
+     */
     public function __construct(
         protected string $resource_version,
         protected bool $append_resource_version = true,
         protected bool $strip_queries = false,
         protected bool $allow_external = true,
         protected bool $allow_non_existing = false,
+        array $version_parameter_filters = [],
     ) {
+        foreach ($version_parameter_filters as $filter) {
+            $this->version_parameter_filters[] = $filter;
+        }
         $this->reset();
+    }
+
+    public function addVersionParameterFilter(VersionParameterFilter $filter): void
+    {
+        $this->version_parameter_filters[] = $filter;
+        $this->css->addVersionParameterFilter($filter);
+        $this->js->addVersionParameterFilter($filter);
     }
 
     public function reset(): void
@@ -71,14 +90,16 @@ class MetaContent
             $this->append_resource_version,
             $this->strip_queries,
             $this->allow_external,
-            $this->allow_non_existing
+            $this->allow_non_existing,
+            $this->version_parameter_filters
         );
         $this->js = new JsCollection(
             $this->resource_version,
             $this->append_resource_version,
             $this->strip_queries,
             $this->allow_external,
-            $this->allow_non_existing
+            $this->allow_non_existing,
+            $this->version_parameter_filters
         );
         $this->on_load_code = new OnLoadCodeCollection(
             $this->resource_version,

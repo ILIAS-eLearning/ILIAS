@@ -109,8 +109,6 @@ class ilPCGrid extends ilPageContent
      */
     public function savePositions(array $a_pos): void
     {
-        asort($a_pos);
-
         $nodes = array();
         foreach ($this->getChildNode()->childNodes as $c) {
             if ($c->nodeName === "GridCell") {
@@ -121,7 +119,7 @@ class ilPCGrid extends ilPageContent
         }
         $this->dom_util->deleteAllChildsByName($this->getChildNode(), ["GridCell"]);
 
-        foreach ($a_pos as $k => $v) {
+        foreach ($a_pos as $k) {
             if (is_object($nodes[$k])) {
                 $nodes[$k] = $this->getChildNode()->appendChild($nodes[$k]);
             }
@@ -142,11 +140,13 @@ class ilPCGrid extends ilPageContent
                 $pc_id = $c->getAttribute("PCID");
                 $hier_id = $c->getAttribute("HierId");
                 $k = $hier_id . ":" . $pc_id;
-                $c->setAttribute("WIDTH_XS", "");
-                $c->setAttribute("WIDTH_S", $a_width_s[$k]);
-                $c->setAttribute("WIDTH_M", $a_width_m[$k]);
-                $c->setAttribute("WIDTH_L", $a_width_l[$k]);
-                $c->setAttribute("WIDTH_XL", $a_width_xl[$k]);
+                if (isset($a_width_s[$k])) {
+                    $c->setAttribute("WIDTH_XS", "");
+                    $c->setAttribute("WIDTH_S", $a_width_s[$k]);
+                    $c->setAttribute("WIDTH_M", $a_width_m[$k]);
+                    $c->setAttribute("WIDTH_L", $a_width_l[$k]);
+                    $c->setAttribute("WIDTH_XL", $a_width_xl[$k]);
+                }
             }
         }
     }

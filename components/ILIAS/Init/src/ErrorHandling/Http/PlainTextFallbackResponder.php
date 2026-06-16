@@ -86,15 +86,16 @@ class PlainTextFallbackResponder
 
         error_log(
             \sprintf(
-            "[%s] INCIDENT %s — Uncaught %s: %s in %s:%d\nStack trace:\n%s\n",
-            $timestamp,
-            $incident_id,
-            \get_class($e),
-            $e->getMessage(),
-            $e->getFile(),
-            $e->getLine(),
-            $e->getTraceAsString()
-        ));
+                "[%s] INCIDENT %s — Uncaught %s: %s in %s:%d\nStack trace:\n%s\n",
+                $timestamp,
+                $incident_id,
+                \get_class($e),
+                $e->getMessage(),
+                $e->getFile(),
+                $e->getLine(),
+                $e->getTraceAsString()
+            )
+        );
 
         exit(1);
     }

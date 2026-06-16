@@ -41,7 +41,7 @@ class ilObjChatroomAdminAccessTest extends ilChatroomAbstractTestBase
 
     public function testGotoCheckFails(): void
     {
-        $this->ilAccessMock
+        $this->ilAccessMock->expects($this->once())
             ->method('checkAccess')
             ->with(
                 $this->equalTo('visible'),

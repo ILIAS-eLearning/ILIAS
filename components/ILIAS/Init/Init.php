@@ -123,6 +123,10 @@ class Init implements Component\Component
                 $pull[\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class],
                 $use[\ILIAS\Setup\AgentFinder::class],
                 $pull[\ILIAS\UI\Implementation\Component\Navigation\Factory::class],
+                $pull[\ILIAS\WebDAV\Environment::class],
+                $pull[\ILIAS\UI\Implementation\Render\JavaScriptBinding::class],
+                $pull[\ILIAS\UI\Implementation\Component\SignalGeneratorInterface::class],
+                $pull[\ILIAS\UI\Implementation\Render\TemplateFactory::class],
             );
     }
 }

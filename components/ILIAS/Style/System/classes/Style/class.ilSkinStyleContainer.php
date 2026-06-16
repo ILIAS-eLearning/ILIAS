@@ -108,17 +108,17 @@ class ilSkinStyleContainer
 
     public function getCSSFilePath(string $style_id): string
     {
-        return $this->getSkinDirectory() . $style_id . "/".$this->getSkin()->getStyle($style_id)->getCssFile() . '.css';
+        return $this->getSkinDirectory() . $style_id . "/" . $this->getSkin()->getStyle($style_id)->getCssFile() . '.css';
     }
 
     public function getScssFilePath(string $style_id): string
     {
-        return $this->getSkinDirectory() . $style_id . "/".$this->getSkin()->getStyle($style_id)->getCssFile() . '.scss';
+        return $this->getSkinDirectory() . $style_id . "/" . $this->getSkin()->getStyle($style_id)->getCssFile() . '.scss';
     }
 
     public function getScssSettingsPath(string $style_id): string
     {
-        return $this->getSkinDirectory() . $style_id . "/".$this->getScssSettingsFolderName();
+        return $this->getSkinDirectory() . $style_id . "/" . $this->getScssSettingsFolderName();
     }
 
     public function getScssSettingsFolderName(): string
@@ -128,17 +128,17 @@ class ilSkinStyleContainer
 
     public function getImagesStylePath(string $style_id): string
     {
-        return $this->getSkinDirectory().$style_id."/".$this->getSkin()->getStyle($style_id)->getImageDirectory();
+        return $this->getSkinDirectory() . $style_id . "/" . $this->getSkin()->getStyle($style_id)->getImageDirectory();
     }
 
     public function getSoundsStylePath(string $style_id): string
     {
-        return $this->getSkinDirectory().$style_id."/".$this->getSkin()->getStyle($style_id)->getSoundDirectory();
+        return $this->getSkinDirectory() . $style_id . "/" . $this->getSkin()->getStyle($style_id)->getSoundDirectory();
     }
 
     public function getFontsStylePath(string $style_id): string
     {
-        return $this->getSkinDirectory().$style_id."/".$this->getSkin()->getStyle($style_id)->getFontDirectory();
+        return $this->getSkinDirectory() . $style_id . "/" . $this->getSkin()->getStyle($style_id)->getFontDirectory();
     }
 
     public function getMessageStack(): ilSystemStyleMessageStack

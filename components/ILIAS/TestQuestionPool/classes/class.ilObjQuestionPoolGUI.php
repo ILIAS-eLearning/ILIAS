@@ -309,7 +309,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $page_gui->setTemplateTargetVar('ADM_CONTENT');
                 $page_gui->setOutputMode('edit');
                 $page_gui->setHeader($question->getTitleForHTMLOutput());
-                $page_gui->setPresentationTitle($question->getTitleForHTMLOutput());
+                $page_gui->setPresentationTitle($question->getTitle());
                 $ret = $this->ctrl->forwardCommand($page_gui);
                 if ($ret != '') {
                     $this->tpl->setContent($ret);

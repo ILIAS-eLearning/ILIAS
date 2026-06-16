@@ -143,6 +143,11 @@ trait GlobalDICDomainServices
         return $this->DIC['static_url'];
     }
 
+    public function componentRepository(): \ilComponentRepository
+    {
+        return $this->DIC['component.repository'];
+    }
+
     public function database(): \ilDBInterface
     {
         return $this->DIC->database();

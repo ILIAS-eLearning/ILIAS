@@ -473,18 +473,25 @@ class ilPCQuestionGUI extends ilPageContentGUI
         $this->setInsertTabs("copy_question");
 
         $ilCtrl->setParameter($this, "subCmd", "listPoolQuestions");
-        $table_gui = new ilCopySelfAssQuestionTableGUI(
+        $pool_ref_id = $this->edit_repo->getQuestionPool();
+        $table = $this->gui->pc()->copySelfAssQuestionTableBuilder(
+            $pool_ref_id,
+            \ilObject::_lookupObjId($pool_ref_id),
             $this,
-            'insert',
-            $this->edit_repo->getQuestionPool()
+            'insert'
         );
+        if ($table->getTable()->handleCommand()) {
+            return;
+        }
 
-        $tpl->setContent($table_gui->getHTML());
+        $tpl->setContent($table->getTable()->render());
     }
 
-    public function copyQuestion(): void
+    public function copyQuestion(int $q_id = 0): void
     {
         $ilCtrl = $this->ctrl;
+
+        $q_id = ($q_id > 0) ? $q_id : $this->request->getInt("q_id");
 
         $this->content_obj = new ilPCQuestion($this->getPage());
         $this->content_obj->create(
@@ -493,7 +500,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
         );
 
         $this->content_obj->copyPoolQuestionIntoPage(
-            $this->request->getInt("q_id"),
+            $q_id,
             $this->request->getHierId()
         );
 

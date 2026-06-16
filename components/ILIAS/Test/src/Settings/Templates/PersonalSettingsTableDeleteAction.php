@@ -74,10 +74,11 @@ class PersonalSettingsTableDeleteAction implements TableAction
             $url_builder->buildURI()->__toString()
         )->withAffectedItems(
             array_map(
-                 fn(PersonalSettingsTemplate $v) => $this->ui_factory->modal()->interruptiveItem()->standard(
-                     (string) $v->getId(), $v->getName()
-                 ),
-                 $selected_templates
+                fn(PersonalSettingsTemplate $v) => $this->ui_factory->modal()->interruptiveItem()->standard(
+                    (string) $v->getId(),
+                    $v->getName()
+                ),
+                $selected_templates
             )
         )->withActionButtonLabel($this->lng->txt('delete'));
     }

@@ -46,4 +46,15 @@ class GUIService
             $this->domain_service->refinery()
         );
     }
+    public function pageLayoutTableBuilder(
+        object $parent_gui,
+        string $parent_cmd
+    ): PageLayoutTableBuilder {
+        return new PageLayoutTableBuilder(
+            $this->domain_service,
+            $this->gui_service,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
 }

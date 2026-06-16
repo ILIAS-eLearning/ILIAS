@@ -3733,25 +3733,27 @@ class ilObjTest extends ilObject
     {
         foreach ($this->mob_ids as $mob_id) {
             $expLog->write(date("[y-m-d H:i:s] ") . "Media Object " . $mob_id);
-            if (ilObjMediaObject::_exists((int) $mob_id)) {
-                $target_dir = $a_target_dir . DIRECTORY_SEPARATOR . 'objects'
-                    . DIRECTORY_SEPARATOR . 'il_' . IL_INST_ID . '_mob_' . $mob_id;
-                ilFileUtils::createDirectory($target_dir);
-                $media_obj = new ilObjMediaObject((int) $mob_id);
-                $media_obj->exportXML($a_xml_writer, (int) $a_inst);
-                /** @var ilMediaItem $item */
-                foreach ($media_obj->getMediaItems() as $item) {
-                    $rid = $this->media_object_repository->getById($item->getMobId())['rid'] ?? null;
-                    if (!is_string($rid) || !$this->irss->manage()->find($rid) instanceof ResourceIdentification) {
-                        $expLog->write(date('[y-m-d H:i:s] ') . "The resource for Media Object {$item->getMobId()} does not exist (skipping)");
-                        continue;
-                    }
-                    $stream = $item->getLocationStream();
-                    file_put_contents($target_dir . DIRECTORY_SEPARATOR . $item->getLocation(), $stream);
-                    $stream->close();
-                }
-                unset($media_obj);
+            if (!ilObjMediaObject::_exists((int) $mob_id)) {
+                continue;
             }
+
+            $target_dir = $a_target_dir . DIRECTORY_SEPARATOR . 'objects'
+                . DIRECTORY_SEPARATOR . 'il_' . IL_INST_ID . '_mob_' . $mob_id;
+            ilFileUtils::createDirectory($target_dir);
+            $media_obj = new ilObjMediaObject((int) $mob_id);
+            $media_obj->exportXML($a_xml_writer, (int) $a_inst);
+            /** @var ilMediaItem $item */
+            foreach ($media_obj->getMediaItems() as $item) {
+                $rid = $this->media_object_repository->getById($item->getMobId())['rid'] ?? null;
+                if ($rid === null || $this->irss->manage()->find($rid) === null) {
+                    $expLog->write(date('[y-m-d H:i:s] ') . "The resource for Media Object {$item->getMobId()} does not exist (skipping)");
+                    continue;
+                }
+                $stream = $item->getLocationStream();
+                file_put_contents($target_dir . DIRECTORY_SEPARATOR . $item->getLocation(), $stream);
+                $stream->close();
+            }
+            unset($media_obj);
         }
     }
 
@@ -5651,23 +5653,6 @@ class ilObjTest extends ilObject
         }
 
         $this->db->insert('tst_manual_fb', $update_default);
-
-        if ($this->logger->isLoggingEnabled()) {
-            $this->logger->logScoringInteraction(
-                $this->logger->getInteractionFactory()->buildScoringInteraction(
-                    $this->getRefId(),
-                    $question_id,
-                    $this->user->getId(),
-                    self::_getUserIdFromActiveId($active_id),
-                    TestScoringInteractionTypes::QUESTION_GRADED,
-                    [
-                        AdditionalInformationGenerator::KEY_EVAL_FINALIZED => $this->logger
-                            ->getAdditionalInformationGenerator()->getTrueFalseTagForBool($finalized),
-                        AdditionalInformationGenerator::KEY_FEEDBACK => $feedback ? ilRTE::_replaceMediaObjectImageSrc($feedback, 0) : ''
-                    ]
-                )
-            );
-        }
     }
 
     /**

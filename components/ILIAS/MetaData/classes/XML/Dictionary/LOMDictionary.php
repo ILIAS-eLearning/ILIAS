@@ -22,7 +22,6 @@ namespace ILIAS\MetaData\XML\Dictionary;
 
 use ILIAS\MetaData\Elements\Base\BaseElementInterface;
 use ILIAS\MetaData\Structure\Dictionaries\Dictionary as BaseDictionary;
-
 use ILIAS\MetaData\XML\Version;
 
 use function PHPUnit\Framework\throwException;
