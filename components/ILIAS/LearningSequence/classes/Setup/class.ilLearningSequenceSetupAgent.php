@@ -69,6 +69,9 @@ class ilLearningSequenceSetupAgent implements Setup\Agent
             new ilDatabaseUpdateStepsExecutedObjective(
                 new LSODropActivationDBUpdateSteps()
             ),
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilLearningSequenceStreamlinePermissionsDBUpdateSteps()
+            ),
         );
     }
 
@@ -89,7 +92,8 @@ class ilLearningSequenceSetupAgent implements Setup\Agent
             'Component LearningSequence',
             true,
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilLearningSequenceRectifyPostConditionsTableDBUpdateSteps()),
-            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilLearningSequenceRegisterNotificationType())
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilLearningSequenceRegisterNotificationType()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilLearningSequenceStreamlinePermissionsDBUpdateSteps())
         );
     }
 
