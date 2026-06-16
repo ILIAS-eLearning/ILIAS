@@ -233,10 +233,15 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
                 return;
 
             case MailFolderTableUI::ACTION_EDIT:
+                $drafts_folder_id = $this->mbox->getDraftsFolder();
                 $this->ctrl->setParameterByClass(ilMailFormGUI::class, self::PARAM_MAIL_ID, (string) $mail_ids[0]);
                 if ($this->folder->isOutbox()) {
-                    $this->umail->moveMailsToFolder($mail_ids, $this->mbox->getDraftsFolder());
-                    ilSession::set('mail_scheduled_edit_from_outbox', true);
+                    $this->umail->moveMailsToFolder($mail_ids, $drafts_folder_id);
+                    $this->ctrl->setParameterByClass(
+                        ilMailFormGUI::class,
+                        ilMailFormGUI::PARAM_SCHEDULED_EDIT_FROM_OUTBOX,
+                        '1'
+                    );
                     $this->tpl->setOnScreenMessage(
                         ilGlobalTemplateInterface::MESSAGE_TYPE_INFO,
                         $this->lng->txt('mail_scheduled_edit_moved_info'),
@@ -246,7 +251,12 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
                 $this->ctrl->setParameterByClass(
                     ilMailFormGUI::class,
                     self::PARAM_FOLDER_ID,
-                    (string) $this->mbox->getDraftsFolder()
+                    (string) $drafts_folder_id
+                );
+                $this->ctrl->setParameterByClass(
+                    ilMailFolderGUI::class,
+                    self::PARAM_FOLDER_ID,
+                    (string) $drafts_folder_id
                 );
                 $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', ilMailFormGUI::MAIL_FORM_TYPE_DRAFT);
                 $this->ctrl->redirectByClass(ilMailFormGUI::class);

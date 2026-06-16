@@ -55,6 +55,7 @@ class ilMailFormGUI
     final public const string MAIL_FORM_TYPE_FORWARD = 'forward';
     final public const string MAIL_FORM_TYPE_DRAFT = 'draft';
     final public const string MAIL_FORM_TYPE_OUTBOX = 'outbox';
+    final public const string PARAM_SCHEDULED_EDIT_FROM_OUTBOX = 'scheduled_edit_from_outbox';
     final public const string MAIL_FORM_MODE_REGULAR_MAIL = 'regular_mail';
     final public const string MAIL_FORM_MODE_SERIAL_LETTER = 'serial_letter';
 
@@ -850,7 +851,13 @@ class ilMailFormGUI
         if (
             $type === self::MAIL_FORM_TYPE_DRAFT
             && !empty($mail_data['schedule_datetime'])
-            && !ilSession::get('mail_scheduled_edit_from_outbox')
+            && !(
+                $this->http->wrapper()->query()->has(self::PARAM_SCHEDULED_EDIT_FROM_OUTBOX)
+                && $this->http->wrapper()->query()->retrieve(
+                    self::PARAM_SCHEDULED_EDIT_FROM_OUTBOX,
+                    $this->refinery->kindlyTo()->int()
+                ) === 1
+            )
         ) {
             $this->tpl->setOnScreenMessage(
                 ilGlobalTemplateInterface::MESSAGE_TYPE_INFO,
@@ -858,7 +865,6 @@ class ilMailFormGUI
                 true
             );
         }
-        ilSession::clear('mail_scheduled_edit_from_outbox');
 
         $this->tpl->parseCurrentBlock();
 
