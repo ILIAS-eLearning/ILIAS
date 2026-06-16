@@ -241,21 +241,21 @@ class ilObjLearningSequenceSettingsGUI
         $lso = $this->obj;
         $obj_props = $lso->getObjectProperties();
 
-            ilContainer::_writeContainerSetting(
-                $lso->getId(),
-                ilObjectServiceSettingsGUI::CUSTOM_METADATA,
-                $values['additional'][ilObjectServiceSettingsGUI::CUSTOM_METADATA] ? '1' : '0'
-            );
-            ilContainer::_writeContainerSetting(
-                $lso->getId(),
-                ilObjectServiceSettingsGUI::TAXONOMIES,
-                $values['additional'][ilObjectServiceSettingsGUI::TAXONOMIES] ? '1' : '0'
-            );
+        ilContainer::_writeContainerSetting(
+            $lso->getId(),
+            ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+            $values['additional'][ilObjectServiceSettingsGUI::CUSTOM_METADATA] ? '1' : '0'
+        );
+        ilContainer::_writeContainerSetting(
+            $lso->getId(),
+            ilObjectServiceSettingsGUI::TAXONOMIES,
+            $values['additional'][ilObjectServiceSettingsGUI::TAXONOMIES] ? '1' : '0'
+        );
 
-            $status = ilObjLearningSequenceAccess::isOffline($lso->getRefId());
-            $lso->getObjectProperties()->storePropertyIsOnline(
-                new Online(! $status)
-            );
+        $status = ilObjLearningSequenceAccess::isOffline($lso->getRefId());
+        $lso->getObjectProperties()->storePropertyIsOnline(
+            new Online(! $status)
+        );
 
         $settings = $lso->getLSSettings()
             ->withMembersGallery($data['additional'][self::PROP_GALLERY]);
