@@ -25,6 +25,8 @@ use ILIAS\Data\Result;
 use ILIAS\Data\Text;
 use ILIAS\Data\Description;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\UI\Component\Input\Factory as InputFactory;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 
 /**
  * An Activity is an action on the domain layer action of a component.
@@ -46,7 +48,7 @@ interface Activity
 
     public function getDescription(): Text\SimpleDocumentMarkdown;
 
-    public function getInputDescription(): FormInput; // might better be ILIAS/UI/Input/Input, but we would need to promote many properties there before.
+    public function getInputDescription(FieldFactory $f): FormInput; // might better be ILIAS/UI/Input/Input, but we would need to promote many properties there before.
 
     public function getOutputDescription(Description\Factory $f): Description\Description;
 
@@ -76,5 +78,5 @@ interface Activity
      * is allowed to perform the action as requested and, if so, then attempts to
      * performs it. Wraps the result and possible errors in the `Result` type.
      */
-    public function maybePerformAs(int $usr_id, array $raw_parameters): Result;
+    public function maybePerformAs(InputFactory $input_factory, int $usr_id, array $raw_parameters): Result;
 }
