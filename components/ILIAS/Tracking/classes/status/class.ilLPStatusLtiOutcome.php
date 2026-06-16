@@ -27,6 +27,7 @@ declare(strict_types=0);
 class ilLPStatusLtiOutcome extends ilLPStatus
 {
     private static array $userResultCache = array();
+    private static array $objectCache = array();
 
     private static function getUsersWithLtiData(int $a_obj_id): array
     {
@@ -60,7 +61,7 @@ class ilLPStatusLtiOutcome extends ilLPStatus
     {
         $usr_ids = array();
         $lp_status = new self($a_obj_id);
-        $object = ilObjectFactory::getInstanceByObjId($a_obj_id);
+        $object = self::getObject($a_obj_id);
 
         foreach (self::getUsersWithLtiData($a_obj_id) as $usr_id) {
             if ($lp_status->determineStatus($a_obj_id, $usr_id, $object) === $a_status) {
@@ -69,6 +70,15 @@ class ilLPStatusLtiOutcome extends ilLPStatus
         }
 
         return $usr_ids;
+    }
+
+    private static function getObject(int $objId): ilObjLTIConsumer
+    {
+        if (!isset(self::$objectCache[$objId])) {
+            self::$objectCache[$objId] = ilObjectFactory::getInstanceByObjId($objId);
+        }
+
+        return self::$objectCache[$objId];
     }
 
     public static function _getInProgress(int $a_obj_id): array
@@ -118,7 +128,7 @@ class ilLPStatusLtiOutcome extends ilLPStatus
     private function ensureObject(int $objId, $object): ilObjLTIConsumer
     {
         if (!($object instanceof ilObjLTIConsumer)) {
-            $object = ilObjectFactory::getInstanceByObjId($objId);
+            $object = self::getObject($objId);
         }
         return $object;
     }
