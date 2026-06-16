@@ -790,49 +790,37 @@ class assFormulaQuestionGUI extends assQuestionGUI
         bool $show_question_text = true,
         bool $show_inline_feedback = true
     ): string {
-        $user_solution = [];
-        if ($pass !== null) {
-            $user_solution = $this->object->getVariableSolutionValuesForPass($active_id, $pass);
-        } else {
-            $user_solution = array_reduce(
-                $this->object->fetchAllVariables($this->object->getQuestion()),
-                static function (array $c, assFormulaQuestionVariable $v): array {
-                    $c[$v->getVariable()] = $v->getVariable();
-                    return $c;
-                },
-                []
+        if ($active_id > 0 && !$show_correct_solution) {
+            $user_solution = $this->object->buildBasicUserSolutionsArray(
+                $active_id,
+                $pass
             );
-        }
-        if (($active_id > 0) && (!$show_correct_solution)) {
-            $user_solution['active_id'] = $active_id;
-            $user_solution['pass'] = $pass;
-            $solutions = $this->object->getSolutionValues($active_id, $pass);
-            foreach ($solutions as $solution_value) {
-                if (preg_match('/^(\$v\d+)$/', $solution_value['value1'], $matches)) {
-                    $user_solution[$matches[1]] = $solution_value['value2'];
-                } elseif (preg_match('/^(\$r\d+)$/', $solution_value['value1'], $matches)) {
-                    if (!array_key_exists($matches[1], $user_solution)) {
-                        $user_solution[$matches[1]] = [];
-                    }
-                    $user_solution[$matches[1]]["value"] = $solution_value['value2'];
-                } elseif (preg_match('/^(\$r\d+)_unit$/', $solution_value['value1'], $matches)) {
-                    if (!array_key_exists($matches[1], $user_solution)) {
-                        $user_solution[$matches[1]] = [];
-                    }
-                    $user_solution[$matches[1]]['unit'] = $solution_value['value2'];
-                }
-            }
+
+            $user_solution = array_merge(
+                $user_solution,
+                $this->populateVariablesInUserSolution(
+                    $active_id,
+                    $pass,
+                    $user_solution
+                )
+            );
         } elseif ($active_id !== 0) {
             $user_solution = $this->object->getBestSolution($this->object->getSolutionValues($active_id, $pass));
         } elseif (is_object($this->getPreviewSession())) {
-            $solutionValues = [];
+            $solution_values = [];
             $participants_solution = $this->getPreviewSession()->getParticipantsSolution();
             if (is_array($participants_solution)) {
                 foreach ($participants_solution as $val1 => $val2) {
-                    $solutionValues[] = ['value1' => $val1, 'value2' => $val2];
+                    $solution_values[] = ['value1' => $val1, 'value2' => $val2];
                 }
             }
-            $user_solution = $this->object->getBestSolution($solutionValues);
+            $user_solution = $this->object->getBestSolution($solution_values);
+        } else {
+            $user_solution = $this->populateVariablesInUserSolution(
+                $active_id,
+                $pass,
+                []
+            );
         }
 
         return $this->renderSolutionOutput(
@@ -997,7 +985,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         }
 
         if ($user_solution === []) {
-            $user_solution = $this->object->getVariableSolutionValuesForPass($active_id, $pass);
+            $user_solution = $this->object->resolveVariableSolutionValuesForPass($active_id, $pass);
         }
 
         // generate the question output
@@ -1017,5 +1005,28 @@ class assFormulaQuestionGUI extends assQuestionGUI
     public function getSpecificFeedbackOutput(array $userSolution): string
     {
         return '';
+    }
+
+    private function populateVariablesInUserSolution(
+        int $active_id,
+        ?int $pass,
+        array $user_solution
+    ): array {
+        if ($pass !== null) {
+            return $this->object->resolveVariableSolutionValuesForPass(
+                $active_id,
+                $pass,
+                $user_solution
+            );
+        }
+
+        return array_reduce(
+            $this->object->fetchAllVariables($this->object->getQuestion()),
+            static function (array $c, assFormulaQuestionVariable $v): array {
+                $c[$v->getVariable()] = $v->getVariable();
+                return $c;
+            },
+            $user_solution
+        );
     }
 }
