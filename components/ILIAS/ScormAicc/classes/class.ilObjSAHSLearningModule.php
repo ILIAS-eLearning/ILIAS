@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\ResourceStorage\Resource\StorableContainerResource;
+
 //require_once "components/ILIAS/MetaData/classes/class.ilMDLanguageItem.php";
 /** @defgroup ModulesScormAicc Modules/ScormAicc
  */
@@ -70,6 +72,8 @@ class ilObjSAHSLearningModule extends ilObject
     protected string $api_adapter = 'API';
 
     protected \ILIAS\DI\UIServices $ui;
+
+    protected ?string $rid = null;
 
     /**
     * Constructor
@@ -168,6 +172,7 @@ class ilObjSAHSLearningModule extends ilObject
             }
             $this->setIdSetting((int) $lm_rec["id_setting"]);
             $this->setNameSetting((int) $lm_rec["name_setting"]);
+            $this->setRID((string) ($lm_rec["rid"] ?? ''));
             if (ilObject::_lookupType($this->getStyleSheetId()) !== "sty") {
                 $this->setStyleSheetId(0);
             }
@@ -301,6 +306,218 @@ class ilObjSAHSLearningModule extends ilObject
     {
         $lm_data_dir = ilFileUtils::getWebspaceDir($mode) . "/lm_data";
         return $lm_data_dir . "/lm_" . $this->getId();
+    }
+
+    public function getRID(): ?string
+    {
+        return $this->rid;
+    }
+
+    public function setRID(?string $rid): void
+    {
+        $this->rid = $rid;
+    }
+
+    protected function getIrss(): \ILIAS\ResourceStorage\Services
+    {
+        global $DIC;
+        return $DIC->resourceStorage();
+    }
+
+    /**
+     * True when the module's content lives in a Resource Storage container.
+     * The rid sentinel '-' marks a module whose migration failed, '' an
+     * un-migrated module; both fall back to the on-disk data directory.
+     */
+    public function hasContainerResource(): bool
+    {
+        return $this->getResource() !== null;
+    }
+
+    public function getResource(): ?StorableContainerResource
+    {
+        $rid = $this->getRID();
+        if ($rid === null || $rid === '' || $rid === '-') {
+            return null;
+        }
+        $identification = $this->getIrss()->manage()->find($rid);
+        if ($identification === null) {
+            return null;
+        }
+        $resource = $this->getIrss()->manage()->getResource($identification);
+        return $resource instanceof StorableContainerResource ? $resource : null;
+    }
+
+    /**
+     * Base URL of the content container, ending in the sub-request separator
+     * so the player can append relative paths (e.g. "<base>/-/sco1/index.html").
+     * Returns null for un-migrated modules; callers must then fall back to the
+     * web path of getDataDirectory().
+     */
+    public function getContainerBaseUri(float $valid_for_at_least_minutes = 480.0): ?string
+    {
+        $resource = $this->getResource();
+        if ($resource === null) {
+            return null;
+        }
+        $uri = $this->getIrss()->consume()->containerURI(
+            $resource->getIdentification(),
+            '',
+            $valid_for_at_least_minutes
+        )->getURI();
+        if ($uri === null) {
+            return null;
+        }
+
+        // The player appends relative file paths to this base, so it must end
+        // with the sub-request separator "/-/". new URI() strips the trailing
+        // slash for an empty start file, leaving ".../-" — restore it, otherwise
+        // requests miss the separator and the whole container ZIP is delivered.
+        $base = (string) $uri;
+        if (str_ends_with($base, '/-')) {
+            $base .= '/';
+        }
+        return $base;
+    }
+
+    public function removeContainerResource(): void
+    {
+        $resource = $this->getResource();
+        if ($resource === null) {
+            return;
+        }
+        $this->getIrss()->manage()->remove(
+            $resource->getIdentification(),
+            new ilSAHSStakeholder()
+        );
+        $this->setRID('');
+    }
+
+    /**
+     * Read the imsmanifest.xml of the current container revision (migrated
+     * modules). Returns null when the module is not migrated or the manifest
+     * is absent. Used to validate that a new package version matches the
+     * existing manifest structure (cp_* tables) before replacing the resource.
+     */
+    public function getManifestFromContainer(string $manifest_file = 'imsmanifest.xml'): ?string
+    {
+        $resource = $this->getResource();
+        if ($resource === null) {
+            return null;
+        }
+        $zip = $this->getIrss()->consume()->containerZIP($resource->getIdentification())->getZIP();
+        $files = iterator_to_array($zip->getFiles(), false);
+        foreach ($zip->getFileStreams() as $i => $stream) {
+            if (isset($files[$i]) && basename((string) $files[$i]) === $manifest_file) {
+                return (string) $stream;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Replace the content of the module's container resource with a new ZIP
+     * as a new revision (migrated modules only). Returns false when the module
+     * is not migrated.
+     */
+    public function replaceContainerFromZipPath(string $absolute_zip_path, ?string $revision_title = null): bool
+    {
+        $resource = $this->getResource();
+        if ($resource === null) {
+            return false;
+        }
+        $handle = fopen($absolute_zip_path, 'rb');
+        if ($handle === false) {
+            return false;
+        }
+        $this->getIrss()->manage()->appendNewRevisionFromStream(
+            $resource->getIdentification(),
+            \ILIAS\Filesystem\Stream\Streams::ofResource($handle),
+            new ilSAHSStakeholder(),
+            $revision_title ?? basename($absolute_zip_path)
+        );
+        return true;
+    }
+
+    /**
+     * Move the on-disk data directory into a new container resource and remove
+     * the directory. Call AFTER readObject() — manifest parsing reads the files
+     * from disk. The zip keeps the directory structure but strips the top
+     * lm_<id> folder, so files end up at the container root.
+     */
+    public function moveDataDirectoryToContainer(): bool
+    {
+        $dir = $this->getDataDirectory();
+        if (!is_dir($dir)) {
+            return false;
+        }
+        $zip = new \ILIAS\Filesystem\Util\Archive\Zip(
+            (new \ILIAS\Filesystem\Util\Archive\ZipOptions())
+                ->withDirectoryHandling(\ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling::KEEP_STRUCTURE)
+        );
+        $zip->addDirectory($dir);
+        try {
+            $zip_stream = $zip->get();
+        } catch (\Throwable) {
+            $zip->destroy();
+            return false;
+        }
+        $rid = $this->getIrss()->manageContainer()->containerFromStream(
+            $zip_stream,
+            new ilSAHSStakeholder(),
+            $this->getTitle()
+        );
+        $zip->destroy();
+
+        $this->setRID($rid->serialize());
+        $this->update();
+
+        ilFileUtils::delDir($dir);
+        return true;
+    }
+
+    /**
+     * Extract the current container revision back onto disk at
+     * getDataDirectory(). Used to re-parse the manifest (cp_* tables) for a
+     * freshly cloned module. The caller must remove the directory afterwards.
+     */
+    public function extractContainerToDataDirectory(): bool
+    {
+        $resource = $this->getResource();
+        if ($resource === null) {
+            return false;
+        }
+        $this->createDataDirectory();
+        $options = (new \ILIAS\Filesystem\Util\Archive\UnzipOptions())
+            ->withZipOutputPath($this->getDataDirectory())
+            ->withOverwrite(true);
+
+        return $this->getIrss()
+            ->consume()
+            ->containerZIP($resource->getIdentification())
+            ->getZIP($options)
+            ->extract();
+    }
+
+    /**
+     * Write the module content to $target_zip_path as a zip without the
+     * lm_<id> top directory (export "content.zip"). Sources from the container
+     * for migrated modules, otherwise from the on-disk data directory.
+     */
+    public function writeContentZip(string $target_zip_path): void
+    {
+        global $DIC;
+        $cleanup = false;
+        if ($this->hasContainerResource()) {
+            $this->extractContainerToDataDirectory();
+            $cleanup = true;
+        }
+
+        $DIC->legacyArchives()->zip($this->getDataDirectory(), $target_zip_path, false);
+
+        if ($cleanup) {
+            ilFileUtils::delDir($this->getDataDirectory());
+        }
     }
 
     /**
@@ -858,7 +1075,8 @@ class ilObjSAHSLearningModule extends ilObject
                 ie_force_render = %s,
                 mastery_score = %s,
                 id_setting = %s,
-                name_setting = %s
+                name_setting = %s,
+                rid = %s
             WHERE id = %s',
             array(	'text',
                 'text',
@@ -895,6 +1113,7 @@ class ilObjSAHSLearningModule extends ilObject
                 'integer',
                 'integer',
                 'integer',
+                'text',
                 'integer'
                 ),
             array(	$this->getAPIAdapterName(),
@@ -932,6 +1151,7 @@ class ilObjSAHSLearningModule extends ilObject
                 $this->getMasteryScore(),
                 $this->getIdSetting(),
                 $this->getNameSetting(),
+                $this->getRID() ?? '',
                 $this->getId())
         );
 
@@ -1008,6 +1228,9 @@ class ilObjSAHSLearningModule extends ilObject
 
         // delete meta data of scorm content object
         $this->deleteMetaData();
+
+        // delete content container resource (migrated modules)
+        $this->removeContainerResource();
 
         // delete data directory
         ilFileUtils::delDir($this->getDataDirectory());
@@ -1257,16 +1480,24 @@ class ilObjSAHSLearningModule extends ilObject
                     break;
             }
 
-            // copy data directory
-            $new_obj->populateByDirectoy($source_obj->getDataDirectory());
+            if ($source_obj->hasContainerResource()) {
+                // copy the content container into a new resource for the clone
+                $new_rid = $this->getIrss()->manage()->clone(
+                    $source_obj->getResource()->getIdentification()
+                );
+                $new_obj->setRID($new_rid->serialize());
+                $new_obj->update();
 
-            //        // copy authored content ...
-            //        if ($new_obj->getEditable()) {
-            //            $source_obj->copyAuthoredContent($new_obj);
-            //        } else {
-            // ... or read manifest file
-            $new_obj->readObject();
-            //        }
+                // re-parse the manifest (cp_* tables) for the new object id;
+                // readObject() reads from disk, so extract the container briefly
+                $new_obj->extractContainerToDataDirectory();
+                $new_obj->readObject();
+                ilFileUtils::delDir($new_obj->getDataDirectory());
+            } else {
+                // legacy on-disk module: copy the directory and re-parse
+                $new_obj->populateByDirectoy($source_obj->getDataDirectory());
+                $new_obj->readObject();
+            }
             $obj_settings = new ilLPObjSettings($this->getId());
             $obj_settings->cloneSettings($new_obj->getId());
             /** @var ilScormLP $olp */

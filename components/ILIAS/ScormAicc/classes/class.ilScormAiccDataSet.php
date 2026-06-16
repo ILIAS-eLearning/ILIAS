@@ -187,14 +187,12 @@ class ilScormAiccDataSet extends ilDataSet
             'scormFile' => "content.zip"
         ];
 
-        // build content zip file
+        // build content zip file (sources from the container for migrated modules)
         if (isset($this->_archive['files']['scormFile'])) {
-            $lmDir = './' . ILIAS_WEB_DIR . "/" . CLIENT_ID . "/lm_data/lm_" . $id;
+            $lm = new ilObjSAHSLearningModule($id, false);
             // Important: content zip should not contain a 'lm_x' directory
-            $DIC->legacyArchives()->zip(
-                $lmDir,
-                $exportArchiveDir . "/" . $this->_archive['files']['scormFile'],
-                false
+            $lm->writeContentZip(
+                $exportArchiveDir . "/" . $this->_archive['files']['scormFile']
             );
         }
 
