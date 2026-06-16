@@ -364,7 +364,9 @@ class ilSCORM13PlayerGUI
         global $DIC;
         $lng = $DIC->language();
         $ilSetting = $DIC->settings();
-        ilWACSignedPath::signFolderOfStartFile($this->getDataDirectory() . '/imsmanifest.xml');
+        if (!$this->slm->hasContainerResource()) {
+            ilWACSignedPath::signFolderOfStartFile($this->getDataDirectory() . '/imsmanifest.xml');
+        }
 
         // player basic config data
 
@@ -419,7 +421,7 @@ class ilSCORM13PlayerGUI
         $config['scorm_player_unload_url'] = $unload_url;
         $config['post_log_url'] = $DIC->ctrl()->getLinkTarget($this, 'postLogEntry');
         $config['livelog_url'] = $DIC->ctrl()->getLinkTarget($this, 'liveLogContent');
-        $config['package_url'] = $this->getDataDirectory() . "/";
+        $config['package_url'] = $this->slm->getContainerBaseUri() ?? ($this->getDataDirectory() . "/");
 
         //editor
         $config['envEditor'] = 0;
@@ -454,12 +456,15 @@ class ilSCORM13PlayerGUI
         $jQueryPath = str_replace('.min', '', iljQueryUtil::getLocaljQueryPath());
         $this->tpl->setVariable("JS_FILE", $jQueryPath);
 
-        // include ilias rte css, if given
-        $rte_css = $this->slm->getDataDirectory() . "/ilias_css_4_2/css/style.css";
-        if (is_file($rte_css)) {
-            $this->tpl->setCurrentBlock("rte_css");
-            $this->tpl->setVariable("RTE_CSS", $rte_css);
-            $this->tpl->parseCurrentBlock();
+        // include ilias rte css, if given (only legacy on-disk modules carry the
+        // ilias_css_4_2 editor stylesheet; imported/migrated packages do not)
+        if (!$this->slm->hasContainerResource()) {
+            $rte_css = $this->slm->getDataDirectory() . "/ilias_css_4_2/css/style.css";
+            if (is_file($rte_css)) {
+                $this->tpl->setCurrentBlock("rte_css");
+                $this->tpl->setVariable("RTE_CSS", $rte_css);
+                $this->tpl->parseCurrentBlock();
+            }
         }
 
 
@@ -607,7 +612,9 @@ class ilSCORM13PlayerGUI
 
     public function pingSession(): void
     {
-        ilWACSignedPath::signFolderOfStartFile($this->getDataDirectory() . '/imsmanifest.xml');
+        if (!$this->slm->hasContainerResource()) {
+            ilWACSignedPath::signFolderOfStartFile($this->getDataDirectory() . '/imsmanifest.xml');
+        }
         //do nothing except returning header
         header('Content-Type: text/plain; charset=UTF-8');
         print("");

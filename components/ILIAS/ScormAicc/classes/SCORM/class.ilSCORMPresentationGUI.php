@@ -117,7 +117,9 @@ class ilSCORMPresentationGUI
         //        }
 
         $this->increase_attemptAndsave_module_version();
-        ilWACSignedPath::signFolderOfStartFile($this->slm->getDataDirectory() . '/imsmanifest.xml');
+        if (!$this->slm->hasContainerResource()) {
+            ilWACSignedPath::signFolderOfStartFile($this->slm->getDataDirectory() . '/imsmanifest.xml');
+        }
 
         $debug = $this->slm->getDebug();
         if (count($items) > 1) {
@@ -487,7 +489,9 @@ class ilSCORMPresentationGUI
 
     public function pingSession(): bool
     {
-        ilWACSignedPath::signFolderOfStartFile($this->slm->getDataDirectory() . '/imsmanifest.xml');
+        if (!$this->slm->hasContainerResource()) {
+            ilWACSignedPath::signFolderOfStartFile($this->slm->getDataDirectory() . '/imsmanifest.xml');
+        }
         return true;
     }
 

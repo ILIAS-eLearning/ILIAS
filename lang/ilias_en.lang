@@ -6703,6 +6703,7 @@ content#:#cont_linked_mobs#:#Linked media objects
 content#:#cont_links#:#Links
 content#:#cont_list_files#:#List Files
 content#:#cont_list_indent#:#Indent List
+content#:#infobox_files_not_migrated#:#The files of this learning module have not yet been migrated to the Resource Storage Service and can therefore not be edited.
 content#:#cont_list_item_style#:#List Item Style
 content#:#cont_list_outdent#:#Outdent List
 content#:#cont_list_properties#:#List Properties
