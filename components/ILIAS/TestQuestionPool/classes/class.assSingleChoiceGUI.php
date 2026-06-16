@@ -756,7 +756,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         }
 
         if ($answer->getAnswertext() !== '') {
-            $answer_elements[] = $this->ui->factory()->legacy()->content(
+            $answer_elements[] = $this->ui->factory()->legacy(
                 $answer_text . $answer->getAnswertext()
             );
         }
