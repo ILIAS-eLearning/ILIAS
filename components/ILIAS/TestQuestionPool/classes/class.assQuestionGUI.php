@@ -109,6 +109,7 @@ abstract class assQuestionGUI
     private ilDBInterface $db;
     protected ilLogger $logger;
     private ilComponentRepository $component_repository;
+    private ilComponentFactory $component_factory;
     protected GeneralQuestionPropertiesRepository $questionrepository;
     protected GUIService $notes_gui;
     protected ilCtrl $ctrl;
@@ -177,6 +178,7 @@ abstract class assQuestionGUI
         $this->db = $DIC->database();
         $this->logger = $DIC['ilLog'];
         $this->component_repository = $DIC['component.repository'];
+        $this->component_factory = $DIC['component.factory'];
         $this->refinery = $DIC['refinery'];
 
         $local_dic = QuestionPoolDIC::dic();
@@ -1068,10 +1070,10 @@ abstract class assQuestionGUI
 
     private function getQuestionTypeTranslation(): string
     {
-        $question_properties = $this->questionrepository->getForQuestionId($this->object->getId());
-        $type_name = $question_properties?->getTypeName($this->lng);
-        if ($type_name !== null && $type_name !== '') {
-            return $type_name;
+        foreach ($this->component_factory->getActivePluginsInSlot('qst') as $plugin) {
+            if ($plugin->getQuestionType() === $this->object->getQuestionType()) {
+                return $plugin->getQuestionTypeTranslation();
+            }
         }
 
         return $this->lng->txt($this->object->getQuestionType());
