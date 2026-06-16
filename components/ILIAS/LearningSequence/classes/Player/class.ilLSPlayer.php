@@ -40,6 +40,7 @@ class ilLSPlayer
     public const LSO_CMD_FINISH = 'lsofinish';
 
     public const GS_DATA_LS_KIOSK_MODE = 'ls_kiosk_mode';
+    public const GS_DATA_LS_TITLE = 'ls_title';
     public const GS_DATA_LS_CONTENT = 'ls_content';
     public const GS_DATA_LS_MAINBARCONTROLS = 'ls_mainbar_controls';
     public const GS_DATA_LS_METABARCONTROLS = 'ls_metabar_controls';
@@ -59,6 +60,10 @@ class ilLSPlayer
 
     public function play(RequestWrapper $get): ?string
     {
+        $ls_ref_id = $this->ls_items->getLearningSequenceRefId();
+        $ls_obj_id = ilObject::_lookupObjId($ls_ref_id);
+        $ls_title = ilObject::_lookupTitle($ls_obj_id);
+
         $items = $this->ls_items->getItems();
 
         if (count($items) === 0) {
@@ -115,6 +120,7 @@ class ilLSPlayer
 
         //content
         $obj_title = $next_item->getTitle();
+        $obj_description = $next_item->getDescription();
         $icon = $this->ui_factory->symbol()->icon()->standard(
             $next_item->getType(),
             $next_item->getType(),
@@ -144,6 +150,7 @@ class ilLSPlayer
         $rendered_body = $this->page_renderer->render(
             $control_builder,
             $obj_title,
+            $obj_description,
             $icon,
             $content
         );
@@ -154,7 +161,7 @@ class ilLSPlayer
 
         $curriculum_slate = $this->page_renderer->buildCurriculumSlate(
             $this->curriculum_builder
-                ->getLearnerCurriculum(true)
+                ->getLearnerCurriculum(true, $ls_title)
                 ->withActive($item_position)
         );
         $mainbar_controls = [
@@ -169,6 +176,7 @@ class ilLSPlayer
 
         $cc = $this->current_context;
         $cc->addAdditionalData(self::GS_DATA_LS_KIOSK_MODE, true);
+        $cc->addAdditionalData(self::GS_DATA_LS_TITLE, $ls_title);
         $cc->addAdditionalData(self::GS_DATA_LS_METABARCONTROLS, $metabar_controls);
         $cc->addAdditionalData(self::GS_DATA_LS_MAINBARCONTROLS, $mainbar_controls);
         $cc->addAdditionalData(self::GS_DATA_LS_CONTENT, $rendered_body);
@@ -299,7 +307,12 @@ class ilLSPlayer
         if (!$control_builder->getNextControl()) {
             $direction_next = 1;
             $cmd = '';
-            if (!$is_last) {
+            $param = $direction_next;
+
+            if ($is_last) {
+                $cmd = self::LSO_CMD_FINISH;
+                $param = null;
+            } else {
                 $available = $this->getNextItem($items, $item, $direction_next)
                     ->getAvailability() === Step::AVAILABLE;
 
@@ -309,7 +322,7 @@ class ilLSPlayer
             }
 
             $control_builder = $control_builder
-                ->next($cmd, $direction_next);
+                ->next($cmd, $param);
         }
 
         return $control_builder;

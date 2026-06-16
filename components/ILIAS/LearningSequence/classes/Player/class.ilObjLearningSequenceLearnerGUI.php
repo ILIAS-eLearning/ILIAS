@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\UI\Component\Modal\Interruptive;
-
 class ilObjLearningSequenceLearnerGUI
 {
     public const CMD_STANDARD = 'learnerView';

@@ -45,7 +45,10 @@ class ilLSCurriculumBuilder
         $this->url_builder = $url_builder;
     }
 
-    public function getLearnerCurriculum(bool $with_action = false): ILIAS\UI\Component\Listing\Workflow\Linear
+    public function getLearnerCurriculum(
+        bool $with_action = false,
+        ?string $title = null
+    ): ILIAS\UI\Component\Listing\Workflow\Linear
     {
         $steps = [];
         $items = $this->ls_items->getItems();
@@ -69,7 +72,7 @@ class ilLSCurriculumBuilder
         }
 
         $workflow = $this->ui_factory->listing()->workflow()->linear(
-            $this->lng->txt('curriculum'),
+            $title ?? $this->lng->txt('curriculum'),
             $steps
         );
 
