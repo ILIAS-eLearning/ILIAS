@@ -2485,7 +2485,7 @@ book#:#book_assign#:#Assign###10 11 2018 new variable
 book#:#book_assign_object#:#Assign Booking Object###10 11 2018 new variable
 book#:#book_assign_participant#:#Assign to Participant###10 11 2018 new variable
 book#:#book_back_to_list#:#Listeye Geri Dön
-book#:#book_bobj#:#Booking Object###30 08 2015 new variable
+book#:#book_bobj#:#Rezervasyon nesnesi### OVB translated
 book#:#book_book#:#Kitap
 book#:#book_book_available#:#Book Available Dates###30 04 2024 new variable
 book#:#book_book_recurrence#:#Book multiple dates###30 04 2024 new variable
@@ -3832,7 +3832,7 @@ common#:#crs_status_blocked#:#[Erişim reddetti]
 common#:#crs_status_pending#:#[kaydı bekliyorum]
 common#:#crs_subscribers_assigned#:#Atanan yeni kullanıcı (lar)
 common#:#crs_title#:#Dersin Adı
-common#:#crs_unsubscribe#:#Ayrıl
+common#:#crs_unsubscribe#:#Kurstan abonelikten çıkın### OVB translated
 common#:#crs_wizard_page#:#Kopya Sahası (Adım 2/2)
 common#:#crsr#:#Kurs Başvuru
 common#:#crsr_add#:#Add Course Link###31 03 2023 new variable
@@ -4597,12 +4597,12 @@ common#:#mcst_add#:#Ekleme Mediacast
 common#:#mcst_new#:#yeni Mediacast
 common#:#mem_add_to_wl#:#Bekleme Listesi'ne ekle
 common#:#mem_alert_no_places#:#kullanılabilir hiçbir ücretsiz yerler vardır.
-common#:#mem_cron_min_members#:#Course/Group: Minimum Members Check###30 08 2015 new variable
-common#:#mem_cron_min_members_info#:#The administrators will be notified if the minimum number is not met.###30 08 2015 new variable
+common#:#mem_cron_min_members#:#Kurs/Grup: Minimum Üyeler Kontrolü### OVB translated
+common#:#mem_cron_min_members_info#:#Minimum sayı karşılanmazsa yöneticilere bildirilecektir.### OVB translated
 common#:#mem_end#:#Kayıt Bitiş:
 common#:#mem_free_places#:#Ücretsiz Yerleri
 common#:#mem_max_users#:#Kullanıcılar Maksimum:
-common#:#mem_min_users#:#Minimum of Users###30 08 2015 new variable
+common#:#mem_min_users#:#Minimum kullanıcı### OVB translated
 common#:#mem_participants#:#Katılımcıları
 common#:#mem_reg_expired#:#kayıt süresi dolmuş durumda.
 common#:#mem_reg_not_started#:#kayıt başlamamıştır
@@ -7479,10 +7479,10 @@ crs#:#crs_admission_link_failure_registration_period#:#Can't registrate: Course 
 crs#:#crs_admission_link_success_registration#:#Successfully registrated to course "%s".###27 01 2015 new variable
 crs#:#crs_agree#:#Kabul
 crs#:#crs_agreement_header#:#Kullanıcı Sözleşmesi
-crs#:#crs_agreement_required#:#Bu derse kayıt istiyorsanız Sen, kullanıcı anlaşmasını kabul etmeniz gerekir.
+crs#:#crs_agreement_required#:#Lütfen bağlayıcı rezervasyonu onaylayın.### OVB translated
 crs#:#crs_at_least_one_admin#:#There has to be at least one course administrator.###25 10 2016 new variable
 crs#:#crs_auto_notification#:#Yeni Üye İçin Bildirim
-crs#:#crs_auto_notification_info#:#Yeni üyeler derse eklendiklerinde bildirim e-postası alırlar.
+crs#:#crs_auto_notification_info#:#Bir eklenti aracılığıyla kursa eklenen üyelere otomatik olarak hoş geldiniz e-postaları gönderilir. CourseBooking ve MailAdministration eklentileri kurulu ve aktif ise Mail 16 gönderilecektir.### OVB translated
 crs#:#crs_awrn_current_course#:#Current Course###30 08 2015 new variable
 crs#:#crs_awrn_current_course_info#:#If the user navigates to a course in the repository, all members of the course are listed.###30 08 2015 new variable
 crs#:#crs_awrn_support_contacts#:#Tutorial Support###30 08 2015 new variable
@@ -7496,9 +7496,9 @@ crs#:#crs_cancel_subscr_request#:#Sil Üyelik İsteği
 crs#:#crs_cancel_subscription#:#Kullanıcı sol ders "% s"
 crs#:#crs_cancel_subscription_body#:#% s ders "% s" için onun / onun üyeliğini iptal etti.
 crs#:#crs_cancel_subscription_body2#:#Ders bir bekleme listesine diğer üyeleri olabilir \ nŞimdi bekleme listesi kontrol etmelisiniz \ nBir Ders üyelerini görüntülemek için tıklayın..:
-crs#:#crs_cancellation_end#:#Cancellation Limit###30 08 2015 new variable
+crs#:#crs_cancellation_end#:#İptal limiti### OVB translated
 crs#:#crs_cancellation_end_info#:#From this date on particiants cannot unsubscribe anymore.###30 08 2015 new variable
-crs#:#crs_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.###30 08 2015 new variable
+crs#:#crs_cancellation_end_rbac_info#:#İptal son tarihi %s'de karşılandı, artık bir iptal mümkün değil.### OVB translated
 crs#:#crs_cannot_find_role#:#Can't find this role.###25 10 2016 new variable
 crs#:#crs_cdf_edit_member#:#Edit Course Relevant User Data###26 09 2014 new variable
 crs#:#crs_cdf_tbl_last_edit#:#Last Update (Course-specific Data)###26 09 2014 new variable
@@ -7513,7 +7513,7 @@ crs#:#crs_contact_responsibility#:#Sorumluluk
 crs#:#crs_content#:#Dersin İçeriği
 crs#:#crs_copy#:#Kopya Kursu
 crs#:#crs_course_group_notification_link#:#Link:
-crs#:#crs_course_period_not_valid#:#The course period is not valid.###30 08 2015 new variable
+crs#:#crs_course_period_not_valid#:#Kurs dönemi geçerli değildir.### OVB translated
 crs#:#crs_course_status_of_users#:#Kullanıcılar Geçti Durumu
 crs#:#crs_create_date#:#tarih oluşturma
 crs#:#crs_custom_user_fields#:#Dersin Ilgili Kullanıcı Verileri
@@ -7696,9 +7696,9 @@ crs#:#crs_mail_type#:#Mail to Members###24 10 2013 new variable
 crs#:#crs_map_location#:#Ders Harita Konum
 crs#:#crs_map_settings#:#Harita Ayarları
 crs#:#crs_materials#:#Malzemeler
-crs#:#crs_max_and_min_members_invalid#:#The minimum number must be smaller than the maximum number of members.###30 08 2015 new variable
-crs#:#crs_max_and_min_members_needed#:#Set a minimum or maximum number of members - or both.###30 08 2015 new variable
-crs#:#crs_max_members_needed#:#A maximum number of members is needed for the waiting list feature.###30 08 2015 new variable
+crs#:#crs_max_and_min_members_invalid#:#Minimum sayı maksimum üye sayısından daha küçük olmalıdır.### OVB translated
+crs#:#crs_max_and_min_members_needed#:#Minimum veya maksimum üye sayısını veya her ikisini birden ayarlayın.### OVB translated
+crs#:#crs_max_members_needed#:#Bekleme listesi özelliği için maksimum sayıda üye gereklidir.### OVB translated
 crs#:#crs_max_members_reached#:#Maksimum üye sayısına ulaşılmıştır
 crs#:#crs_mem_contact#:#Support Contact###30 08 2015 new variable
 crs#:#crs_mem_contacts#:#Support Contacts###30 08 2015 new variable
@@ -7807,7 +7807,7 @@ crs#:#crs_passed_status_system#:#System###16 09 2013 new variable
 crs#:#crs_password_not_valid#:#Parolanız geçerli değil
 crs#:#crs_password_required#:#Bu kayıt işlemi bir parola gerektirir.
 crs#:#crs_pdf#:#PDF
-crs#:#crs_period#:#Course Period###30 08 2015 new variable
+crs#:#crs_period#:#Kurs dönemi### OVB translated
 crs#:#crs_period_end_mail_placeholder#:#Period End###07 02 2020 new variable
 crs#:#crs_period_info#:#Start to end date of the course###30 08 2015 new variable
 crs#:#crs_period_start_mail_placeholder#:#Period Start###07 02 2020 new variable
@@ -7885,9 +7885,9 @@ crs#:#crs_subscription_failed_limit#:#The maximum number of participants has bee
 crs#:#crs_subscription_max_members#:#Üye Sayısı Sınırla
 crs#:#crs_subscription_max_members_short#:#Üye sayısı
 crs#:#crs_subscription_max_members_short_info#:#The minimal respectively maximial number of members can be set. A waiting list can be set up.###23 12 2015 new variable
-crs#:#crs_subscription_min_members#:#Minimum Number###30 08 2015 new variable
+crs#:#crs_subscription_min_members#:#Asgari sayı### OVB translated
 crs#:#crs_subscription_min_members_err#:#The minimum number is not allowed to be greater than the maximum number of participants.###10 11 2018 new variable
-crs#:#crs_subscription_min_members_info#:#See cron job "Cancellation Limit".###30 08 2015 new variable
+crs#:#crs_subscription_min_members_info#:#Bkz. Cron Job "İptal Sınırı".### OVB translated
 crs#:#crs_subscription_options_confirmation#:#Üyelik Talebi
 crs#:#crs_subscription_options_direct#:#Doğrudan Katılım
 crs#:#crs_subscription_options_password#:#Ders Şifresi ile Katılım
@@ -7981,9 +7981,9 @@ crs#:#crs_visibility_until_info#:#The course will be visible to it's members in 
 crs#:#crs_visibility_unvisible#:#The course is not visible.###24 11 2022 new variable
 crs#:#crs_wait_info#:#Etkinse ve maksimum kullanıcı sayısına ulaşılmış ise, yeni kaydolan kişiler bekleme listesine alınacaktır.
 crs#:#crs_waiting_list#:#Bekleme Listesi
-crs#:#crs_waiting_list_autofill#:#With Auto-Fill###30 08 2015 new variable
-crs#:#crs_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations.###30 08 2015 new variable
-crs#:#crs_waiting_list_no_autofill#:#Without Auto-Fill###30 08 2015 new variable
+crs#:#crs_waiting_list_autofill#:#Otomatik dolgu### OVB translated
+crs#:#crs_waiting_list_autofill_info#:#Katılımcılar iptaller konusunda otomatik olarak bekleme listesinden alınır.### OVB translated
+crs#:#crs_waiting_list_no_autofill#:#Otomatik dolgu olmadan### OVB translated
 crs#:#crs_warn_no_max_set_on_waiting_list#:#Tabii üyelerinin sayısı aşıldı. Sen bekleme listesine Katılma isteğinizi ekleyebilirsiniz. İsteğiniz onay veya red edildiğinde bir kurs yöneticisi bir mesaj alacaksınız.
 crs#:#crs_warn_wl_set_on_waiting_list#:#Bazı kullanıcıların zaten bekleme listesi atanır. Sen bekleme listesine Katılma isteğinizi ekleyebilirsiniz. İsteğiniz onay veya red edildiğinde bir kurs yöneticisi bir mesaj alacaksınız.
 crs#:#crs_wiz_back#:#Geri
@@ -10226,9 +10226,9 @@ grp#:#grp_at_least_one_admin#:#There has to be at least one group administrator.
 grp#:#grp_auto_notification#:#Welcome-Mail For New Members###07 02 2020 new variable
 grp#:#grp_auto_notification_info#:#New members get a mail notification when added to the group.###07 02 2020 new variable
 grp#:#grp_cancel_subscr_request#:#Sil Üyelik İsteği
-grp#:#grp_cancellation_end#:#Cancellation Limit###30 08 2015 new variable
+grp#:#grp_cancellation_end#:#İptal limiti### OVB translated
 grp#:#grp_cancellation_end_info#:#From this date on particiants cannot unsubscribe anymore.###30 08 2015 new variable
-grp#:#grp_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.###30 08 2015 new variable
+grp#:#grp_cancellation_end_rbac_info#:#İptal son tarihi %s'de karşılandı, artık bir iptal mümkün değil.### OVB translated
 grp#:#grp_cdf_edit_member#:#Edit Group Relevant User Data###26 09 2014 new variable
 grp#:#grp_cdf_tbl_last_edit#:#Last Update (Group-specific Data)###26 09 2014 new variable
 grp#:#grp_change_type#:#Değişim Grubu Türü
@@ -10375,11 +10375,11 @@ grp#:#grp_warn_grp_type_changed#:#gerçekten grup türünü değiştirmek istiyo
 grp#:#grp_warn_no_max_set_on_waiting_list#:#Grup üyelerinin maksimum sayısı aşıldı. Sen bekleme listesine Katılma isteğinizi ekleyebilirsiniz. İsteğiniz onay veya red edildiğinde bir grup yöneticisi bir mesaj alacaksınız.
 grp#:#grp_warn_wl_set_on_waiting_list#:#Bazı kullanıcıların zaten bekleme listesi atanır. Sen bekleme listesine Katılma isteğinizi ekleyebilirsiniz. İsteğiniz onay veya red edildiğinde bir grup yöneticisi bir mesaj alacaksınız.
 grp#:#grp_wrong_max_members#:#en fazla kullanıcı sayısını kontrol edin.
-grp#:#grp_wrong_min_max_members#:#Please check the minimum and maximum number of users.###30 08 2015 new variable
+grp#:#grp_wrong_min_max_members#:#Lütfen minimum ve maksimum kullanıcı sayısını kontrol edin.### OVB translated
 grp#:#grp_wrong_reg_time_limit#:#kayıt başlangıç ​​ve bitiş saatlerini kontrol edin.
 grp#:#reg_grp_max_members#:#Üye Sınırlı sayısı
 grp#:#reg_grp_max_members_short#:#Üye sayısı
-grp#:#reg_grp_min_members#:#Minimum Number of Members###30 08 2015 new variable
+grp#:#reg_grp_min_members#:#Minimum üye sayısı### OVB translated
 help#:#help_all#:#Tüm
 help#:#help_component#:#Bileşen
 help#:#help_filter#:#Filtre
@@ -11789,7 +11789,7 @@ meta#:#md_adv_deleted_fields#:#The fields have been deleted.###30 08 2015 new va
 meta#:#md_adv_deleted_files#:#Silinmiş dışa aktarma dosyaları.
 meta#:#md_adv_deleted_records#:#Silinmiş Dataset
 meta#:#md_adv_desc_show#:#Göster Açıklama
-meta#:#md_adv_edit_complex_option#:#Edit Option Properties###07 02 2020 new variable
+meta#:#md_adv_edit_complex_option#:#Seçenek Özelliklerini Düzenle### OVB translated
 meta#:#md_adv_edit_field#:#Düzenleme Alanı
 meta#:#md_adv_edit_record#:#Edit Dataset
 meta#:#md_adv_field_fields#:#Alanlar
@@ -12495,7 +12495,7 @@ meta#:#meta_very_easy#:#Çok Kolay
 meta#:#meta_very_high#:#Çok Yüksek
 meta#:#meta_very_low#:#Çok Düşük
 meta#:#meta_yes#:#Evet
-meta#:#udf_type_address#:#Address###07 02 2020 new variable
+meta#:#udf_type_address#:#Adres### OVB translated
 meta#:#udf_type_externallink#:#External Link###31 08 2017 new variable
 meta#:#udf_type_float#:#Float###26 09 2014 new variable
 meta#:#udf_type_integer#:#Integer###26 09 2014 new variable
