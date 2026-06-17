@@ -957,7 +957,7 @@ assessment#:#passed_status#:#Passed Status###08 10 2015 new variable
 assessment#:#passes_finished#:#%s gehaald
 assessment#:#percentage#:#Percentage
 assessment#:#percentile#:#Percentiel
-assessment#:#picture#:#Afbeeldingen
+assessment#:#picture#:#Profielfoto### OVB translated
 assessment#:#please_select#:#-- selecteren --
 assessment#:#point#:#Punt
 assessment#:#points#:#Punten
@@ -2029,7 +2029,7 @@ auth#:#auth_ldap_server_ds#:#LDAP-Server###25 10 2016 new variable
 auth#:#auth_login_editor#:#Loginscherm Editor
 auth#:#auth_oidc#:#OpenId Connect###10 11 2018 new variable
 auth#:#auth_oidc_failed#:#Login via OpenID Connect failed###16 03 2023 new variable
-auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###30 04 2021 new variable
+auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###17 06 2026 new variable
 auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenId Connect Attributen  ###10 11 2018 new variable
 auth#:#auth_oidc_profile#:#Zuordnung der Profildaten###10 11 2018 new variable
 auth#:#auth_oidc_role_info#:#OpenID Connect Attribute::Value (e.g: "roles::employee").###07 02 2020 new variable
@@ -2143,7 +2143,7 @@ awrn#:#awrn_online_only#:#Online Only###30 08 2015 new variable
 awrn#:#awrn_seconds#:#sec###30 08 2015 new variable
 awrn#:#awrn_use_osd#:#Popup Online Users###25 10 2016 new variable
 awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the ‘Who is online?’ list.###25 10 2016 new variable
-awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###30 04 2021 new variable
+awrn#:#awrn_user_show#:#Mijn status weergeven in "Wie is online?### OVB translated
 awrn#:#user_awrn_default#:#Default###30 04 2021 new variable
 awrn#:#user_awrn_hide#:#Hide my status###30 04 2021 new variable
 awrn#:#user_awrn_show#:#Show my status###30 04 2021 new variable
@@ -2485,7 +2485,7 @@ book#:#book_assign#:#Assign###10 11 2018 new variable
 book#:#book_assign_object#:#Assign Booking Object###10 11 2018 new variable
 book#:#book_assign_participant#:#Assign to Participant###10 11 2018 new variable
 book#:#book_back_to_list#:#Terug naar lijst
-book#:#book_bobj#:#Booking Object###30 08 2015 new variable
+book#:#book_bobj#:#Boekingsobject### OVB translated
 book#:#book_book#:#Reserveren
 book#:#book_book_available#:#Book Available Dates###30 04 2024 new variable
 book#:#book_book_recurrence#:#Book multiple dates###30 04 2024 new variable
@@ -2633,7 +2633,7 @@ book#:#booking_nr_of_items#:#Aantal Items
 book#:#obj_book_duplicate#:#Kopieer reserveringspool
 book#:#participants#:#Participants###10 11 2018 new variable
 book#:#reservation_deleted#:#Reservation deleted###30 04 2021 new variable
-buddysystem#:#buddy_allow_to_contact_me#:#Allow to contact me###23 12 2015 new variable
+buddysystem#:#buddy_allow_to_contact_me#:#Contactverzoeken toestaan### OVB translated
 buddysystem#:#buddy_allow_to_contact_me_info#:#If enabled, other users are able to send me request for getting into contact.###23 12 2015 new variable
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Confirm Request###30 08 2015 new variable
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Cancel Request###30 08 2015 new variable
@@ -2869,7 +2869,7 @@ chatroom#:#chat_https_cert_info#:#Please define an absolute server path to the S
 chatroom#:#chat_https_dhparam_info#:#Please define an absolute server path to a file (e.g.: /etc/ssl/private/dhparam.pem), used for the negotiation of Diffie Hellman parameters (e.g. generated via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).###25 10 2016 new variable
 chatroom#:#chat_https_key_info#:#Please define an absolute server path to the private key file (e.g..: /etc/ssl/private/server.key).###25 10 2016 new variable
 chatroom#:#chat_invitation#:#Uitnodiging  ##inviter_name## voor chatroom
-chatroom#:#chat_invitation_long#:###salutation##\n\nJe bent uitgenodigd in een chatroom:\nChatroom Title: ##room_name##\nUitgenodigs door: ##inviter_name##\nURL: ##link##\n\nAls je op deze uitnodiging wilt ingaan, volg dan de opgegeven URL.
+chatroom#:#chat_invitation_long#:#[SALUTATION][BR][BR]You have been invited to a chat room:[BR]Chat Room Title: [ROOM_NAME][BR]Invited by: [INVITER_NAME][BR]URL: [LINK][BR][BR]To join the chat room, please follow the given URL.###17 06 2026 new variable
 chatroom#:#chat_invitation_nc_inv_x#:#You have %s chat invitations.###31 03 2023 new variable
 chatroom#:#chat_invitation_nc_no_inv#:#You have no chat invitations.###31 03 2023 new variable
 chatroom#:#chat_invitation_short#:#Klik op de titel om de chatroom in te gaan.
@@ -2886,7 +2886,7 @@ chatroom#:#chat_message_options#:#Toon
 chatroom#:#chat_message_to_all#:#To All
 chatroom#:#chat_no_use_typing_broadcast#:#Typing will not be broadcasted###31 03 2023 new variable
 chatroom#:#chat_not_use_osc#:#Not Using On-Screen-Chat###30 04 2021 new variable
-chatroom#:#chat_osc_accept_msg#:#Allow On-Screen Chat Conversations###25 10 2016 new variable
+chatroom#:#chat_osc_accept_msg#:#Chatten toestaan### OVB translated
 chatroom#:#chat_osc_accept_msg_info#:#If activated, other users are allowed start a conversation with me.###25 10 2016 new variable
 chatroom#:#chat_osc_accept_msg_info_slate#:#To have private conversations, you must enable your setting "Allow On-Screen Chat Conversations".###31 03 2023 new variable
 chatroom#:#chat_osc_accept_msg_info_slate_link_txt#:#Visibility (in Profile and Privacy)###31 03 2023 new variable
@@ -3468,7 +3468,7 @@ common#:#adve_assessment_settings#:#Toets&Beoordeling instellingen
 common#:#adve_frm_post_settings#:#Forum Posts
 common#:#adve_general_settings#:#Algemene instellingen
 common#:#adve_survey_settings#:#Enquête instellingen
-common#:#agree_date#:#Agreed on###27 08 2024 new variable
+common#:#agree_date#:#Goedgekeurd op### OVB translated
 common#:#all#:#All###07 02 2020 new variable
 common#:#all_global_roles#:#Globale rollen
 common#:#all_local_roles#:#Lokale rollen(allemaal)
@@ -3493,7 +3493,7 @@ common#:#applications#:#Aanmeldingen
 common#:#apply#:#Toepassen
 common#:#apply_filter#:#Filter toepassen
 common#:#appointment#:#Afspraak
-common#:#approve_date#:#Goedgekeurd op
+common#:#approve_date#:#Vrijgegeven op### OVB translated
 common#:#approve_recipient#:#login-ID van keurder
 common#:#archive#:#Archief
 common#:#archive_broken#:#Archive seems to be broken or empty.
@@ -3550,7 +3550,7 @@ common#:#auth_ldap_migration#:#Account Migration
 common#:#auth_ldap_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to LDAP authentication.
 common#:#auth_local#:#ILIAS database
 common#:#auth_login_instructions#:#instructie op login scherm
-common#:#auth_mode#:#Authenticatie modus
+common#:#auth_mode#:#Authentificatie modus### OVB translated
 common#:#auth_mode_not_changed#:#(Niets gewijzigd)
 common#:#auth_mode_roles_changed#:#Verander authenticatie methode voor deze rol
 common#:#auth_new_account_mail_desc#:#Stuur nieuwe account naar gebruiker als gebruiker automatisch aangemaakt is. Een wachtwoord zal enkel gegenereerd worden, als "Sta lokale authenticatie toe" ingeschakeld is.
@@ -3581,7 +3581,7 @@ common#:#auth_soap_use_dotnet#:#Use .NET SOAP Style
 common#:#auth_soap_use_https#:#Use HTTPS
 common#:#auth_soap_user_default_role_desc#:#This role is assigned to automatically created SOAP users.
 common#:#auth_user_default_role#:#Rol
-common#:#authenticate_ilias#:#Aanmelden in ILIAS
+common#:#authenticate_ilias#:#Aanmelden in Personal Development### OVB translated
 common#:#authentication_settings#:#Authenticatie instellingen
 common#:#author#:#Auteur
 common#:#authoring_mode#:#Auteursmodus
@@ -3780,7 +3780,7 @@ common#:#copy_selected_items#:#Copy
 common#:#count#:#Aantal
 common#:#counter_novelty#:#News###30 04 2024 new variable
 common#:#counter_status#:#Status###30 04 2024 new variable
-common#:#country#:#Land
+common#:#country#:#Directe coördinator### OVB translated
 common#:#country_free_text#:#Land (Free Text Input
 common#:#country_selection#:#Land (Drop Down Selection)
 common#:#course#:#Cursus
@@ -3832,7 +3832,7 @@ common#:#crs_status_blocked#:#[Toegang geweigerd]
 common#:#crs_status_pending#:#[Aanvraag wordt wijzigent]
 common#:#crs_subscribers_assigned#:#Toegewezen nieuwe gebruiker(s)
 common#:#crs_title#:#Course Title
-common#:#crs_unsubscribe#:#Afmelden
+common#:#crs_unsubscribe#:#Afmelden voor de cursus### OVB translated
 common#:#crs_wizard_page#:#Kopieer cursus (Stap 2/2)
 common#:#crsr#:#Course Reference
 common#:#crsr_add#:#Add Course Link###31 03 2023 new variable
@@ -3900,7 +3900,7 @@ common#:#deletion_notification#:#"%s" has canceled the attendance of session "%s
 common#:#deliver#:#Oefeningen leveren
 common#:#deny_usr_agreement#:#Do not accept terms of service?###30 04 2021 new variable
 common#:#deny_usr_agreement_btn#:#Not Accept###30 04 2021 new variable
-common#:#department#:#Afdeling
+common#:#department#:#Nationale coördinatie (naam, voornaam)### OVB translated
 common#:#desc#:#Beschrijving
 common#:#description#:#Beschrijving
 common#:#desired_password#:#Nieuw wachtwoord
@@ -4022,7 +4022,7 @@ common#:#error_empty_file_or_folder#:#De bestandsgrootte is 0 bytes of het is ee
 common#:#error_extraction_failed#:#Het uitpakken van het archiefbestand is mislukt omdat je geen rechten hebt om mappen of categorieën aan te maken binnen het huidige object.
 common#:#error_parser#:#Fout bij het starten van de parser.
 common#:#error_upload_was_zero_bytes#:#De upload is mislukt aangezien dit of een map is, of de bestandsgrootte was 0 bytes of het bestand was intussen hernoemd.
-common#:#etal_talks#:#Talks###31 03 2023 new variable
+common#:#etal_talks#:#Gesprekken### OVB translated
 common#:#event_ass_materials_prop#:#Sessie materialen
 common#:#event_assign_files#:#File Assignment
 common#:#exc#:#Oefening
@@ -4033,12 +4033,12 @@ common#:#exc_deassign_members#:#Verwijderen deelnemer(s)
 common#:#exc_download_files#:#Download Bestanden
 common#:#exc_edit#:#Nieuwe oefening aangemaakt
 common#:#exc_edit_exercise#:#Wijzigen oefening
-common#:#exc_edit_until#:#Wijzigen tot
+common#:#exc_edit_until#:#Uiterste datum### OVB translated
 common#:#exc_exercise_sent#:#Oefening verzonden
 common#:#exc_files#:#Bestanden
-common#:#exc_files_returned#:#Teruggekeerde bestanden
+common#:#exc_files_returned#:#Opgeladen bijscholingsattesten### OVB translated
 common#:#exc_instruction#:#Werkinstructies
-common#:#exc_last_submission#:#Laatste oefening
+common#:#exc_last_submission#:#Laatste upload### OVB translated
 common#:#exc_member_of_crs_grp#:#Member in Course/Group###30 04 2024 new variable
 common#:#exc_members_already_assigned#:#Deze gebruikers zijn al aan deze oefening toegewezen
 common#:#exc_members_assigned#:#Deelnemers toegewezen
@@ -4055,7 +4055,7 @@ common#:#exc_status#:#Status
 common#:#exc_status_saved#:#Oefening bijgewerkt
 common#:#exc_submission#:#Oefening
 common#:#exc_time_over_short#:#Tijd is verstreken
-common#:#exc_time_to_send#:#Overgebleven werktijd
+common#:#exc_time_to_send#:#Resterende werktijd### OVB translated
 common#:#exc_upload_error#:#Fout bij het uploaden van het bestand
 common#:#excs#:#Oefeningen
 common#:#execute#:#Uitvoeren
@@ -4074,7 +4074,7 @@ common#:#extracting#:#Bezig met uitpakken...
 common#:#eyeclosed#:#Eye Closed - Click to hide the input's contents###30 04 2021 new variable
 common#:#eyeopened#:#Eye Open - Click to reveal the input's contents###30 04 2021 new variable
 common#:#failure_message#:#Failure Message
-common#:#fax#:#Fax
+common#:#fax#:#Positie (voluit)### OVB translated
 common#:#feed#:#Nieuws Feed
 common#:#feedback#:#Feedback
 common#:#field_name#:#Veld naam
@@ -4292,8 +4292,8 @@ common#:#hist_webr_add#:#Nieuwe website toegevoegd met als titel: "%1"
 common#:#hist_webr_delete#:#Website verwijderd. Titel: "%1"
 common#:#hist_webr_update#:#Update website. Titel: "%1"
 common#:#history#:#Geschiedenis
-common#:#hits_per_page#:#Treffers/Bladzijde
-common#:#hobby#:#Interessen/Hobby's
+common#:#hits_per_page#:#Hits/pagina### OVB translated
+common#:#hobby#:#C-nummer### OVB translated
 common#:#home#:#Startscherm
 common#:#host#:#Host
 common#:#hour#:#Uur
@@ -4314,7 +4314,7 @@ common#:#id#:#ID
 common#:#identifier#:#Identificatiecode
 common#:#if_no_title_then_filename#:#Laat leeg om de bestandsnaam te tonen
 common#:#ignore_on_conflict#:#Negeer conflict
-common#:#ignore_required_fields#:#Negeren verplichte velden
+common#:#ignore_required_fields#:#Verplichte velden negeren### OVB translated
 common#:#ignore_required_fields_info#:#Indien ingeschakeld zullen verplichte velden, indien mogelijk, niet worden gevalideerd. De betrokken gebruiker zal zijn/haar persoonlijke profile moeten aanpassen na de eerstvolgende login.
 common#:#il_astpl_loc_initial#:#Instaptoets
 common#:#il_astpl_loc_qualified#:#Kwalificatietoets
@@ -4392,7 +4392,7 @@ common#:#info_remove_sure#:#Are you sure that you want to remove the following i
 common#:#info_short#:#Info
 common#:#info_status_info#:#Status informatie
 common#:#info_view_of_user#:#Gebruikersscherm
-common#:#inform_user_mail#:#Verzenden email om de gebruiker te informeren over de wijzigingen
+common#:#inform_user_mail#:#Gebruikers per e-mail informeren over wijzigingen### OVB translated
 common#:#inline_file_extensions#:#Web-enabled files
 common#:#inline_file_extensions_info#:#Files with these extensions are displayed in the browser window.<br/>For example: <b>gif jpg mp3 pdf png</b><br/> All other files are offered for downloading.
 common#:#insert#:#Invoegen
@@ -4406,7 +4406,7 @@ common#:#installation_status#:#Installation Status###30 04 2021 new variable
 common#:#installed#:#Geïnstalleerd
 common#:#installed_local#:#Lokaal geïnstalleerd
 common#:#instant_messengers#:#Chatprogramma's
-common#:#institution#:#Organisatie
+common#:#institution#:#Kantoor### OVB translated
 common#:#internal_local_roles_only#:#Lokale rollen(alleen automatisch gegenereerd)
 common#:#invalid_visible_required_options_selected#:#All fields set to required has to be set to visible in registration, too.
 common#:#invisible_block#:#Onzichtbare blok
@@ -4532,7 +4532,7 @@ common#:#login_information#:#Aanmeldingsinformatie
 common#:#login_information_desc#:#Geef de login informatie voor de respectievelijk taal.
 common#:#login_information_settings_saved#:#De aanmeldingsinformatie is opgeslagen.
 common#:#login_invalid#:#De gekozen gebruikersnaam is niet geldig! Alleen de volgende tekens zijn toegestaan (minimaal 4 tekens): A-Z a-z 0-9 _.-+*@!$%~
-common#:#login_to_ilias#:#Aanmelden in ILIAS
+common#:#login_to_ilias#:#Aanmelden in Personal Development### OVB translated
 common#:#login_to_ilias_via_cas#:#Login to ILIAS via Central Authentication Service
 common#:#login_to_ilias_via_login_form#:#Login to ILIAS###20 05 2025 new variable
 common#:#login_to_ilias_via_saml#:#Login to ILIAS via SAML Authentification###31 08 2017 new variable
@@ -4589,7 +4589,7 @@ common#:#mainbar_aria_label#:#Mainbar###30 04 2021 new variable
 common#:#mainbar_more_label#:#More###30 04 2021 new variable
 common#:#manage_members#:#Manage Members###30 08 2015 new variable
 common#:#marked_entries#:#Gemarkeerde invoer
-common#:#matriculation#:#Inschrijvingsnummer
+common#:#matriculation#:#Internationaal C-nummer### OVB translated
 common#:#max_previews_per_object#:#Aantal voorbeeldweergaves per bestand
 common#:#max_previews_per_object_info#:#Het maximale aantal voorbeeldweergaves dat per bestand wordt aangemaakt.
 common#:#mcst#:#MediaCast
@@ -4597,12 +4597,12 @@ common#:#mcst_add#:#Voeg MediaCast toe
 common#:#mcst_new#:#Nieuwe MediaCast
 common#:#mem_add_to_wl#:#Toevoegen aan wachtrij
 common#:#mem_alert_no_places#:#There are no free places available.
-common#:#mem_cron_min_members#:#Course/Group: Minimum Members Check###30 08 2015 new variable
-common#:#mem_cron_min_members_info#:#The administrators will be notified if the minimum number is not met.###30 08 2015 new variable
+common#:#mem_cron_min_members#:#Cursus/groep: Minimale ledencontrole### OVB translated
+common#:#mem_cron_min_members_info#:#De beheerders worden op de hoogte gebracht als niet is voldaan aan het minimumnummer.### OVB translated
 common#:#mem_end#:#Einde inschrijving:
 common#:#mem_free_places#:#Free Places:
 common#:#mem_max_users#:#Maximum of Users:
-common#:#mem_min_users#:#Minimum of Users###30 08 2015 new variable
+common#:#mem_min_users#:#Minimum aan gebruikers### OVB translated
 common#:#mem_participants#:#Participants
 common#:#mem_reg_expired#:#De registratie tijd is verlopen
 common#:#mem_reg_not_started#:#De inschrijving is begonnen
@@ -4626,7 +4626,7 @@ common#:#mep_new#:#Nieuwe mediapool
 common#:#mep_not_insert_already_exist#:#De volgende item zijn niet ingevoegd omdat ze reeds al in de mediapool zitten
 common#:#message#:#Bericht
 common#:#message_content#:#Bericht
-common#:#message_no_delivered_files#:#U hebt geen bestand afgeleverd
+common#:#message_no_delivered_files#:#U hebt geen bestand opgeladen### OVB translated
 common#:#meta_data#:#Metagegevens
 common#:#metabar_aria_label#:#Metabar###30 04 2021 new variable
 common#:#mgs_objects_linked_to_the_following_folders_p#:#The objects were linked to the following folder(s): %s###25 10 2016 new variable
@@ -4908,7 +4908,7 @@ common#:#obj_dshs#:#Dashboard###07 02 2020 new variable
 common#:#obj_dshs_desc#:#Dashboard settings###07 02 2020 new variable
 common#:#obj_ecss#:#ECS
 common#:#obj_ecss_desc#:#General ECS Settings
-common#:#obj_etal#:#Employee Talk###31 03 2023 new variable
+common#:#obj_etal#:#Werknemersgesprek### OVB translated
 common#:#obj_exc#:#Oefening
 common#:#obj_exc_duplicate#:#Copy Exercise###10 11 2018 new variable
 common#:#obj_excv#:#Exercise Certificate
@@ -5078,10 +5078,10 @@ common#:#obj_sysc#:#Systeemcontrole
 common#:#obj_sysc_desc#:#Systeemcontrole en Reparaties##24 10 2013 new variable
 common#:#obj_tags#:#Labels
 common#:#obj_tags_desc#:#Instellingen voor label feature.
-common#:#obj_tala#:#Talk Templates###31 03 2023 new variable
-common#:#obj_tala_desc#:#Talk Templates###31 03 2023 new variable
-common#:#obj_tals#:#Employee Talk Series###31 03 2023 new variable
-common#:#obj_talt#:#Talk Template###31 03 2023 new variable
+common#:#obj_tala#:#Gesprekssjablonen### OVB translated
+common#:#obj_tala_desc#:#Gesprekssjablonen### OVB translated
+common#:#obj_tals#:#Gespreksserie voor medewerkers### OVB translated
+common#:#obj_talt#:#Gesprekssjabloon### OVB translated
 common#:#obj_task#:#Task###07 02 2020 new variable
 common#:#obj_tax#:#Taxonomie
 common#:#obj_taxf#:#Taxonomies
@@ -5137,7 +5137,7 @@ common#:#objs_copa#:#Content Pages###10 11 2018 new variable
 common#:#objs_crs#:#Cursussen
 common#:#objs_crsr#:#Course References
 common#:#objs_dcl#:#Gegevensverzamelingen
-common#:#objs_etal#:#Employee Talks###31 03 2023 new variable
+common#:#objs_etal#:#Medewerkersgesprek### OVB translated
 common#:#objs_exc#:#Oefeningen
 common#:#objs_file#:#Bestanden
 common#:#objs_fold#:#Mappen
@@ -5179,10 +5179,10 @@ common#:#objs_skee#:#Competence Trees###28 11 2023 new variable
 common#:#objs_spl#:#vragenpoolen (Enquête)
 common#:#objs_st#:#Hoofdstukken
 common#:#objs_svy#:#Enquêtes
-common#:#objs_tala#:#Talk Templates###31 03 2023 new variable
-common#:#objs_talt#:#Talk Templates###31 03 2023 new variable
+common#:#objs_tala#:#Gesprekssjablonen### OVB translated
+common#:#objs_talt#:#Gesprekssjablonen### OVB translated
 common#:#objs_tst#:#Toetsen
-common#:#objs_webr#:#Websites
+common#:#objs_webr#:#Weblink### OVB translated
 common#:#objs_wiki#:#Wiki's
 common#:#of#:#Van
 common#:#offline#:#offline
@@ -5268,7 +5268,7 @@ common#:#permission_denied#:#Toegang geweigerd
 common#:#permission_settings#:#Instellingen van de rechten van het object
 common#:#person_title#:#Titel
 common#:#personal_data#:#Persoonlijke informatie
-common#:#personal_picture#:#Afbeelding
+common#:#personal_picture#:#Profielfoto### OVB translated
 common#:#personal_profile#:#Persoonlijk profiel
 common#:#personal_resources#:#Personal Resources###07 02 2020 new variable
 common#:#personal_settings#:#Instellingen
@@ -5276,9 +5276,9 @@ common#:#persons#:#Personen
 common#:#pg_add#:#Toevoegen van een pagina
 common#:#pg_new#:#Nieuwe pagina
 common#:#phone#:#Telefoon
-common#:#phone_home#:#Privé telefoon
+common#:#phone_home#:#Directe leidinggevende (naam)### OVB translated
 common#:#phone_mobile#:#Mobiele telefoon
-common#:#phone_office#:#Telefoon werk
+common#:#phone_office#:#Positie (afk.)### OVB translated
 common#:#phrase#:#Vraag
 common#:#please_choose#:#-- Kies --
 common#:#please_enter_target#:#Voer een doel in
@@ -5379,7 +5379,7 @@ common#:#readcount_users#:#Aantal niet-anonieme leestoegangen
 common#:#recipient#:#Ontvanger
 common#:#reference_deleted#:#Destination not available
 common#:#reference_of#:#Reference of:
-common#:#referral_comment#:#Hoe leerde je ons kennen?
+common#:#referral_comment#:#Van waar kent u Ilias?### OVB translated
 common#:#refresh#:#Verversen
 common#:#refresh_languages#:#Talen verversen
 common#:#refuse#:#Weiger
@@ -5525,7 +5525,7 @@ common#:#seas_max_hits#:#Max hits
 common#:#seas_max_hits_info#:#Gelieve een nummer in te voeren voor het maximum aantal gevonden resultaten.
 common#:#seas_settings#:#Zoekinstellingen
 common#:#second#:#Seconde
-common#:#second_email#:#Second Email###31 08 2017 new variable
+common#:#second_email#:#Tweede E-mail### OVB translated
 common#:#seconds#:#Seconden
 common#:#sel_country#:#Selecteren land
 common#:#select#:#Selecteren
@@ -5645,7 +5645,7 @@ common#:#side_frame#:#Side Frame
 common#:#signature#:#Handtekening
 common#:#size#:#Grootte
 common#:#skills#:#Mijn competenties
-common#:#skin_style#:#Standaard Skin / Stijl
+common#:#skin_style#:#Standaard thema/stijl### OVB translated
 common#:#smtp#:#SMTP
 common#:#soap_connect_timeout#:#Connection Timeout
 common#:#soap_connect_timeout_info#:#The maximum time in seconds until a connect attempt to the SOAP-Webservice is interrupted.
@@ -5722,8 +5722,8 @@ common#:#tagging_my_tags#:#Mijn Label Cloud
 common#:#tags#:#Tags###30 04 2021 new variable
 common#:#take_over_structure#:#Overnemen structuur
 common#:#take_over_structure_info#:#Als ingeschakeld zullen mappen in het zip bestand worden overgenomen als categorieën of mappen (indien in Groep of Cursus).
-common#:#tals_etal#:#Talk###31 03 2023 new variable
-common#:#talt_etal#:#Talk###31 03 2023 new variable
+common#:#tals_etal#:#Gesprek### OVB translated
+common#:#talt_etal#:#Gesprek### OVB translated
 common#:#target#:#Locatie
 common#:#tax#:#Taxonomie
 common#:#tax_add#:#Voeg een taxonomie toe
@@ -5954,7 +5954,7 @@ common#:#visible_registration#:#Zichtbaar bij registratie
 common#:#visitor#:#Bezoeker
 common#:#visitors#:#Bezoekers
 common#:#visits#:#Bezoeken
-common#:#web_resources#:#Websites
+common#:#web_resources#:#Weblink### OVB translated
 common#:#webdav#:#WebDAV
 common#:#webdav_add_instructions_btn_label#:#Add Mount Instructions Document###07 02 2020 new variable
 common#:#webdav_chosen_language_already_used#:#There already is another document associated with the chosen language###07 02 2020 new variable
@@ -6241,7 +6241,7 @@ content#:#cont_cc_sup#:#Superscript###30 08 2015 new variable
 content#:#cont_cell_properties#:#Table Cell Properties###30 04 2024 new variable
 content#:#cont_center#:#Center
 content#:#cont_change_alignment#:#Change Alignment###30 04 2024 new variable
-content#:#cont_change_notification_salutation#:#Hello %s,###07 02 2020 new variable
+content#:#cont_change_notification_salutation#:#Dag %s,### OVB translated
 content#:#cont_change_notification_subject_lm#:#Learning Module "%1$s" has been changed: %2$s###07 02 2020 new variable
 content#:#cont_change_object_reference#:#Verander Object Referentie
 content#:#cont_change_style#:#Change Style###30 04 2024 new variable
@@ -6994,8 +6994,8 @@ content#:#cont_sc_auto_review_completed_and_passed#:#als gedaan en geslaagd
 content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#als gedaan of geslaagd, maar niet gezakt (aanbevolen voor Automatische "herzien" modus)
 content#:#cont_sc_auto_review_completed_or_passed#:#als gedaan of geslaagd
 content#:#cont_sc_auto_review_info_2004#:#Als de "Herzien" modus is ingeschakeld, zullen de voortgangsgegevens van een hoofdstuk (SCO) van de leermodule niet worden opgeslagen als een van deze condities geldt. Echter, in het zeldzame geval dat de leermodule gebruikt maakt van Sequencing & Navigation volgens SCORM 2004, moet je deze optie niet inschakelen.
-content#:#cont_sc_auto_review_no#:#Uitgeschakeld
-content#:#cont_sc_auto_review_passed#:#als geslaagd
+content#:#cont_sc_auto_review_no#:#Altijd (aanbevolen)### OVB translated
+content#:#cont_sc_auto_review_passed#:#Niet opslaan tenzij status 'geslaagd'### OVB translated
 content#:#cont_sc_auto_review_passed_or_failed#:#asl geslaagd of gezakt
 content#:#cont_sc_id_setting#:#student_id according to SCORM 1.2###22 11 2017 new variable
 content#:#cont_sc_id_setting_2004#:#learner_id according to SCORM 2004###22 11 2017 new variable
@@ -7428,14 +7428,14 @@ cron#:#cron_result_status_no_action#:#Ok, no processing
 cron#:#cron_result_status_ok#:#Ok
 cron#:#cron_result_status_reset#:#Reset
 cron#:#cron_running_since#:#Running since
-cron#:#cron_schedule#:#Schedule
+cron#:#cron_schedule#:#Planning### OVB translated
 cron#:#cron_schedule_daily#:#Daily
 cron#:#cron_schedule_in_days#:#Every %s days
 cron#:#cron_schedule_in_hours#:#Every %s hours
 cron#:#cron_schedule_in_minutes#:#Every %s minutes
 cron#:#cron_schedule_monthly#:#Monthly
 cron#:#cron_schedule_quarterly#:#Quarterly
-cron#:#cron_schedule_type#:#Schedule
+cron#:#cron_schedule_type#:#Planning### OVB translated
 cron#:#cron_schedule_value#:#Interval
 cron#:#cron_schedule_weekly#:#Weekly
 cron#:#cron_schedule_yearly#:#Yearly
@@ -7479,10 +7479,10 @@ crs#:#crs_admission_link_failure_registration_period#:#Can't register: Course is
 crs#:#crs_admission_link_success_registration#:#Successfully registered to course "%s".###06 02 2015 new variable
 crs#:#crs_agree#:#Goedkeuring
 crs#:#crs_agreement_header#:#Gebruikersovereenkomst
-crs#:#crs_agreement_required#:#U heeft de gebruikersovereenkomst geaccepteerd.
+crs#:#crs_agreement_required#:#Bevestig de bindende boeking.### OVB translated
 crs#:#crs_at_least_one_admin#:#There has to be at least one course administrator.###25 10 2016 new variable
 crs#:#crs_auto_notification#:#Bericht voor nieuwe deelnemers
-crs#:#crs_auto_notification_info#:#Nieuwe deelnemers ontvangen een e-mailbericht als ze zijn ingeschreven voor een cursus
+crs#:#crs_auto_notification_info#:#Welkomstmails worden automatisch verzonden naar de leden die via een plug-in aan de cursus zijn toegevoegd. Als de plug-ins CourseBooking en MailAdministration geïnstalleerd en actief zijn, wordt Mail 16 verzonden.### OVB translated
 crs#:#crs_awrn_current_course#:#Current Course###30 08 2015 new variable
 crs#:#crs_awrn_current_course_info#:#If the user navigates to a course in the repository, all members of the course are listed.###30 08 2015 new variable
 crs#:#crs_awrn_support_contacts#:#Tutorial Support###30 08 2015 new variable
@@ -7496,9 +7496,9 @@ crs#:#crs_cancel_subscr_request#:#Verwijderen van aanmeldingsverzoek
 crs#:#crs_cancel_subscription#:#Uitgeschreven uit de cursus
 crs#:#crs_cancel_subscription_body#:#%s heeft zich uitgeschreven uit de cursus "%s".
 crs#:#crs_cancel_subscription_body2#:#Mogelijk staan andere deelnemers op een wachtrij voor deze cursus. \nControleer deze lijst nu. \nOm de deelnemers van de cursus te zien, klik je hier:
-crs#:#crs_cancellation_end#:#Cancellation Limit###30 08 2015 new variable
+crs#:#crs_cancellation_end#:#Annuleringslimiet### OVB translated
 crs#:#crs_cancellation_end_info#:#From this date on particiants cannot unsubscribe anymore.###30 08 2015 new variable
-crs#:#crs_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.###30 08 2015 new variable
+crs#:#crs_cancellation_end_rbac_info#:#De annuleringsdeadline werd gehaald op %s, een annulering is niet meer mogelijk.### OVB translated
 crs#:#crs_cannot_find_role#:#Can't find this role.###25 10 2016 new variable
 crs#:#crs_cdf_edit_member#:#Wijzigen cursusgerelateerde gebruikersgegevens
 crs#:#crs_cdf_tbl_last_edit#:#Laatste Update (cursus-specifieke gegevens)
@@ -7513,7 +7513,7 @@ crs#:#crs_contact_responsibility#:#Verantwoordelijkheid
 crs#:#crs_content#:#Cursusinhoud
 crs#:#crs_copy#:#Kopieer Cursus
 crs#:#crs_course_group_notification_link#:#Link:
-crs#:#crs_course_period_not_valid#:#The course period is not valid.###30 08 2015 new variable
+crs#:#crs_course_period_not_valid#:#De cursusperiode is niet geldig.### OVB translated
 crs#:#crs_course_status_of_users#:#Slaagstatus van gebruikers
 crs#:#crs_create_date#:#Datum aanmaken
 crs#:#crs_custom_user_fields#:#Cursus relevante gebruikers gegevens
@@ -7696,9 +7696,9 @@ crs#:#crs_mail_type#:#Email naar deelnemers
 crs#:#crs_map_location#:#Cursuslocatie op landkaart
 crs#:#crs_map_settings#:#Kaartinstellingen
 crs#:#crs_materials#:#Cursusmaterialen
-crs#:#crs_max_and_min_members_invalid#:#The minimum number must be smaller than the maximum number of members.###30 08 2015 new variable
-crs#:#crs_max_and_min_members_needed#:#Set a minimum or maximum number of members - or both.###30 08 2015 new variable
-crs#:#crs_max_members_needed#:#A maximum number of members is needed for the waiting list feature.###30 08 2015 new variable
+crs#:#crs_max_and_min_members_invalid#:#Het minimale aantal moet kleiner zijn dan het maximale aantal leden.### OVB translated
+crs#:#crs_max_and_min_members_needed#:#Stel een minimum of maximaal aantal leden in - of beide.### OVB translated
+crs#:#crs_max_members_needed#:#Een maximaal aantal leden is nodig voor de wachtlijstfunctie.### OVB translated
 crs#:#crs_max_members_reached#:#Het maximum aantal gebruikers is bereikt
 crs#:#crs_mem_contact#:#Support Contact###30 08 2015 new variable
 crs#:#crs_mem_contacts#:#Support Contacts###30 08 2015 new variable
@@ -7734,7 +7734,7 @@ crs#:#crs_no_users_added#:#Geen deelnemers toegevoegd
 crs#:#crs_no_users_selected#:#U hebt geen gebruiker geselecteerd
 crs#:#crs_not_available#:#- Niet beschikbaar-
 crs#:#crs_notification#:#Bericht
-crs#:#crs_notification_activated#:#Berichtgeving uitgeschakeld
+crs#:#crs_notification_activated#:#Berichtgeving ingeschakeld### OVB translated
 crs#:#crs_notification_deactivated#:#Berichtgeving uitgeschakeld
 crs#:#crs_notification_explanation_admin#:#Je ontvangt deze e-mail omdat je beheerder of docent bent voor deze cursus en je hebt aangegeven deze berichten te willen ontvangen.
 crs#:#crs_notification_list_title#:#Berichtgeving over nieuwe deelnemers
@@ -7807,7 +7807,7 @@ crs#:#crs_passed_status_system#:#Systeem
 crs#:#crs_password_not_valid#:#Je wachtwoord is niet geldig
 crs#:#crs_password_required#:#Deze aanmelding vereist een wachtwoord.
 crs#:#crs_pdf#:#PDF
-crs#:#crs_period#:#Course Period###30 08 2015 new variable
+crs#:#crs_period#:#Cursusperiode### OVB translated
 crs#:#crs_period_end_mail_placeholder#:#Period End###07 02 2020 new variable
 crs#:#crs_period_info#:#Start to end date of the course###30 08 2015 new variable
 crs#:#crs_period_start_mail_placeholder#:#Period Start###07 02 2020 new variable
@@ -7885,9 +7885,9 @@ crs#:#crs_subscription_failed_limit#:#Het maximaal toegestane aantal deelnemers 
 crs#:#crs_subscription_max_members#:#Maximum aantal gebruikers
 crs#:#crs_subscription_max_members_short#:#Aantal deelnemers
 crs#:#crs_subscription_max_members_short_info#:#The minimal respectively maximial number of members can be set. A waiting list can be set up.###23 12 2015 new variable
-crs#:#crs_subscription_min_members#:#Minimum Number###30 08 2015 new variable
+crs#:#crs_subscription_min_members#:#Minimumnummer### OVB translated
 crs#:#crs_subscription_min_members_err#:#The minimum number is not allowed to be greater than the maximum number of participants.###10 11 2018 new variable
-crs#:#crs_subscription_min_members_info#:#See cron job "Cancellation Limit".###30 08 2015 new variable
+crs#:#crs_subscription_min_members_info#:#Zie Cron Job "annuleringslimiet".### OVB translated
 crs#:#crs_subscription_options_confirmation#:#Aanmelden
 crs#:#crs_subscription_options_direct#:#Onmiddelijk toetreden
 crs#:#crs_subscription_options_password#:#Toetreden met cursuswachtwoord
@@ -7957,8 +7957,8 @@ crs#:#crs_unsubscribe_member_explanation#:#You receive this message because you 
 crs#:#crs_unsubscribe_sure#:#Wil je je uitschrijven uit deze cursus
 crs#:#crs_unsubscribed_from_crs#:#Je bent uitgeschreven
 crs#:#crs_update_subscr_request#:#Wijzigen deelnameverzoek
-crs#:#crs_user_agreement#:#Vrijgegeven gegevenstype
-crs#:#crs_user_agreement_info#:#Persoonlijke gegevens zijn zichtbaar voor de beheerder.
+crs#:#crs_user_agreement#:#CONTROL_LABEL_NO_DISPLAY### OVB translated
+crs#:#crs_user_agreement_info#:#INFOSCREEN_SEC_NO_DISPLAY### OVB translated
 crs#:#crs_user_already_assigned#:#De gekozen gebruiker is al toegewezen aan deze cursus
 crs#:#crs_users_added#:#Voeg gebruiker toe aan de cursus
 crs#:#crs_users_already_assigned#:#De gebruiker is reeds toegewezen aan deze cursus
@@ -7981,9 +7981,9 @@ crs#:#crs_visibility_until_info#:#The course will be visible to it's members in 
 crs#:#crs_visibility_unvisible#:#The course is not visible.###24 11 2022 new variable
 crs#:#crs_wait_info#:#Als het maximum aantal gebruikers is bereikt, zullen nieuwe registraties aan de wachtlijst toegevoegd worden.
 crs#:#crs_waiting_list#:#Wachtlijst
-crs#:#crs_waiting_list_autofill#:#With Auto-Fill###30 08 2015 new variable
-crs#:#crs_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations.###30 08 2015 new variable
-crs#:#crs_waiting_list_no_autofill#:#Without Auto-Fill###30 08 2015 new variable
+crs#:#crs_waiting_list_autofill#:#Automatisch vullen### OVB translated
+crs#:#crs_waiting_list_autofill_info#:#Deelnemers worden automatisch aangeworven uit de wachtlijst op annuleringen.### OVB translated
+crs#:#crs_waiting_list_no_autofill#:#Zonder automatisch te vullen### OVB translated
 crs#:#crs_warn_no_max_set_on_waiting_list#:#Het maximale aantal deelnemers is overschreden voor deze cursus. Je kunt je verzoek tot inschrijving in de wachtrij zetten.Je zult een bericht ontvangen van een cursusbeheerder als je verzoek is goedgekeurd of verworpen.
 crs#:#crs_warn_wl_set_on_waiting_list#:#Sommige gebruikers staan al in de wachtrij. Je kunt je aanmelden in de wachtrij. Je zult een bericht krijgen van de cursusbeheerder als je verzoek is goedgekeurd of niet.
 crs#:#crs_wiz_back#:#Terug
@@ -9157,47 +9157,47 @@ ecs#:#ecs_wiki_export_enabled#:#Release this Wiki
 ecs#:#ecs_wiki_export_obj_settings#:#Wiki Release Settings
 error#:#error_back_to_repository#:#Back to Repository###06 02 2015 new variable
 error#:#error_sry_error#:#Sorry, an error occurred.###06 02 2015 new variable
-etal#:#appointments#:#Appointments###31 03 2023 new variable
-etal#:#cal_type_tals#:#Talks###31 03 2023 new variable
-etal#:#change_date_of_series#:#Change date of talk series###31 03 2023 new variable
-etal#:#change_date_of_talk#:#Change date of talk###31 03 2023 new variable
-etal#:#date_of_talk#:#Start Date###31 03 2023 new variable
-etal#:#etal_add#:#Add Talk###31 03 2023 new variable
-etal#:#etal_add_new_item#:#Add new Talk###31 03 2023 new variable
+etal#:#appointments#:#Vergaderingen### OVB translated
+etal#:#cal_type_tals#:#Gesprekken### OVB translated
+etal#:#change_date_of_series#:#Gesprekkenreeks aanpassen### OVB translated
+etal#:#change_date_of_talk#:#Datum gesprek aanpassen### OVB translated
+etal#:#date_of_talk#:#Startdatum### OVB translated
+etal#:#etal_add#:#Toevoegen aan### OVB translated
+etal#:#etal_add_new_item#:#Een nieuw gesprek toevoegen### OVB translated
 etal#:#etal_create_invalid_template_ref#:#Invalid Talk Template ID###31 03 2023 new variable
-etal#:#etal_date_appointment_edit#:#Date of Talk###31 03 2023 new variable
-etal#:#etal_date_series_edit#:#Date of Talk Series###31 03 2023 new variable
+etal#:#etal_date_appointment_edit#:#Datum gesprek### OVB translated
+etal#:#etal_date_series_edit#:#Reeks gesprekken### OVB translated
 etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###30 04 2024 new variable
-etal#:#etal_edit#:#General###31 03 2023 new variable
+etal#:#etal_edit#:#Algemeen### OVB translated
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.###31 03 2023 new variable
 etal#:#etal_location#:#Location###04 11 2025 new variable
-etal#:#etal_new#:#New Talk###31 03 2023 new variable
+etal#:#etal_new#:#Nieuw gesprek### OVB translated
 etal#:#etal_open#:#Open Employee Talk###31 03 2023 new variable
 etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
-etal#:#etal_status_all#:#All###31 03 2023 new variable
-etal#:#etal_status_completed#:#Completed###31 03 2023 new variable
-etal#:#etal_status_pending#:#Pending###31 03 2023 new variable
-etal#:#etal_unknown_username#:#Unknown User###31 03 2023 new variable
+etal#:#etal_status_all#:#Alle### OVB translated
+etal#:#etal_status_completed#:#Afgesloten### OVB translated
+etal#:#etal_status_pending#:#Openstaand### OVB translated
+etal#:#etal_unknown_username#:#Onbekende gebruiker### OVB translated
 etal#:#lock_edititng_for_others#:#Lock editing for others###31 03 2023 new variable
-etal#:#meta_adv_records#:#Metadata###31 03 2023 new variable
-etal#:#mm_org_etal#:#Talks###31 03 2023 new variable
-etal#:#mm_talk_template#:#Talk Templates###31 03 2023 new variable
-etal#:#notification_talks_created#:#You have been invited to the following employee talks.###31 03 2023 new variable
-etal#:#notification_talks_date_list_header#:#Dates###31 03 2023 new variable
-etal#:#notification_talks_removed#:#The following appointments have been canceled.###31 03 2023 new variable
-etal#:#notification_talks_subject#:#Invitation: %s###31 03 2023 new variable
+etal#:#meta_adv_records#:#Metagegevens### OVB translated
+etal#:#mm_org_etal#:#Gesprek### OVB translated
+etal#:#mm_talk_template#:#Gesprekssjablonen### OVB translated
+etal#:#notification_talks_created#:#Je bent uitgenodigd voor een gesprek.### OVB translated
+etal#:#notification_talks_date_list_header#:#Gegevens### OVB translated
+etal#:#notification_talks_removed#:#De volgende data zijn geannuleerd.### OVB translated
+etal#:#notification_talks_subject#:#Uitnodiging afspraak### OVB translated
 etal#:#notification_talks_subject_update#:#Update: %s###31 03 2023 new variable
-etal#:#notification_talks_updated#:#The following talk appointments have been changed.###31 03 2023 new variable
+etal#:#notification_talks_updated#:#De volgende interviewdata zijn aangepast.### OVB translated
 etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:###28 11 2023 new variable
 etal#:#tala_no_content_without_admin_info#:#The Administrator role is required for access to Talk Templates.###08 07 2025 new variable
 etal#:#talk_serial#:#Talk Serial###31 03 2023 new variable
-etal#:#tals_add#:#Add Talks###31 03 2023 new variable
-etal#:#tals_new#:#New Talks###31 03 2023 new variable
-etal#:#talt_activation_online_info#:#Set the talk template online to make it visible and available for employees. If not, only administrators will have access to it.###31 03 2023 new variable
-etal#:#talt_add#:#Add Template###31 03 2023 new variable
-etal#:#talt_edit#:#General###31 03 2023 new variable
-etal#:#talt_etal#:#Employee Talk###31 03 2023 new variable
-etal#:#talt_new#:#New Talk Template###31 03 2023 new variable
+etal#:#tals_add#:#Gesprekken toevoegen### OVB translated
+etal#:#tals_new#:#Nieuwe gesprekkenreeks### OVB translated
+etal#:#talt_activation_online_info#:#Markeer de sjabloon als actief zodat deze beschikbaar is voor medewerkers.### OVB translated
+etal#:#talt_add#:#Creëren### OVB translated
+etal#:#talt_edit#:#Algemeen### OVB translated
+etal#:#talt_etal#:#Medewerkersgesprek### OVB translated
+etal#:#talt_new#:#Nieuw gesprekssjabloon### OVB translated
 etal#:#will_update_series_info_lock#:#Lock the editing of all appointments in this series###31 03 2023 new variable
 etal#:#will_update_series_info_title#:#Changes to the title will be made to all appointments in this series.###31 03 2023 new variable
 exc#:#exc_add_assignment#:#Toevoegen opdracht
@@ -9281,7 +9281,7 @@ exc#:#exc_edit_assignments#:#Edit Assignments
 exc#:#exc_edit_blog#:#Edit Blog###30 04 2024 new variable
 exc#:#exc_edit_criterias#:#Edit Criterias###30 08 2015 new variable
 exc#:#exc_edit_portfolio#:#Edit Portfolio###30 04 2024 new variable
-exc#:#exc_edit_submission#:#Edit Submission
+exc#:#exc_edit_submission#:#Opgeladen bestanden wijzigen/nieuwe upload### OVB translated
 exc#:#exc_edit_wiki#:#Edit Wiki###30 04 2024 new variable
 exc#:#exc_ended#:#Ended###30 04 2024 new variable
 exc#:#exc_ended_on#:#Ended On
@@ -9313,7 +9313,7 @@ exc#:#exc_go_to_exercise#:#Go to Exercise###31 08 2017 new variable
 exc#:#exc_graded_mem_notified#:#All graded participants have been notified.###30 04 2024 new variable
 exc#:#exc_grades#:#Overzicht punten
 exc#:#exc_grades_overview#:#Beeld punten
-exc#:#exc_hand_in#:#Inleveren
+exc#:#exc_hand_in#:#Opladen### OVB translated
 exc#:#exc_hand_in_lead_text#:#%s to Submit###30 04 2024 new variable
 exc#:#exc_idl_request_and_tutor_needed#:#Please send a request to your tutor for setting an individual deadline for you.###30 04 2024 new variable
 exc#:#exc_idl_tutor_needed#:#You already requested a deadline. The request is still pending. You will be notified once the individual deadline is set.###30 04 2024 new variable
@@ -9367,7 +9367,7 @@ exc#:#exc_msg_missed_minimum_number#:#Je hebt niet het minimale aantal opdrachte
 exc#:#exc_msg_new_feedback_file_uploaded#:#Een nieuwe feedbackbestand is toegevoegd aan oefening "%s".
 exc#:#exc_msg_new_feedback_file_uploaded2#:#a tutor has uploaded a new feedback file for you.
 exc#:#exc_msg_new_feedback_text_uploaded#:#Een nieuw commentaar is toegevoegd aan oefening "%s".
-exc#:#exc_msg_new_feedback_text_uploaded2#:#een leerkracht heeft commentaar toegevoegd voor je.
+exc#:#exc_msg_new_feedback_text_uploaded2#:#De administrator heeft commentaar toegevoegd voor je.### OVB translated
 exc#:#exc_msg_new_message_from_pf_giver#:#A new message from a peer feedback giver has been added to exercise "%s".###30 04 2024 new variable
 exc#:#exc_msg_new_message_from_pf_giver2#:#a peer feedback giver has added a new message for you:###30 04 2024 new variable
 exc#:#exc_msg_new_message_from_pf_recipient#:#A new message from a peer feedback recipient has been added to exercise "%s".###30 04 2024 new variable
@@ -9512,10 +9512,10 @@ exc#:#exc_reminder_mail_no_tpl#:#Do not use mail template###10 11 2018 new varia
 exc#:#exc_reminder_mail_template#:#Mail Template###10 11 2018 new variable
 exc#:#exc_reminder_peer_body#:#the following assignment has no feedback from you yet###10 11 2018 new variable
 exc#:#exc_reminder_peer_subject#:#Assignment "%s" has no feedback###10 11 2018 new variable
-exc#:#exc_reminder_salutation#:#Hello %s,###10 11 2018 new variable
+exc#:#exc_reminder_salutation#:#Dag %s,### OVB translated
 exc#:#exc_reminder_start#:#Start Reminders before Deadline###10 11 2018 new variable
 exc#:#exc_reminder_start_info#:#All members of the parent course/group will be sent reminders.<br>No parent course/group girven - no reminder will be sent!###10 11 2018 new variable
-exc#:#exc_reminder_submit_body#:#the following assignment has not been finished by you yet###10 11 2018 new variable
+exc#:#exc_reminder_submit_body#:#Deze oefening heb je tot op heden nog niet voltooid### OVB translated
 exc#:#exc_reminder_submit_setting#:#Remind Users to Submit###10 11 2018 new variable
 exc#:#exc_reminder_submit_subject#:#Assignment "%s" was not finished###10 11 2018 new variable
 exc#:#exc_reminders_cron#:#Reminders for Assignments###10 11 2018 new variable
@@ -9527,7 +9527,7 @@ exc#:#exc_save_all#:#Alles opslaan
 exc#:#exc_save_order#:#Opslaan volgorde
 exc#:#exc_save_selected#:#Geselecteerde opslaan
 exc#:#exc_saved_order#:#Saved presentation order.
-exc#:#exc_schedule#:#Schedule###31 08 2017 new variable
+exc#:#exc_schedule#:#Planning### OVB translated
 exc#:#exc_select_ass#:#Select Assignment
 exc#:#exc_select_blog#:#Use Existing Blog
 exc#:#exc_select_blog_change#:#Use different Blog
@@ -9702,7 +9702,7 @@ exercise#:#exc_notgraded#:#Geen graad
 exercise#:#exc_passed#:#Geslaagd
 exercise#:#exc_send_mail#:#Stuur e-mail
 exercise#:#exc_start_date_should_be_before_end_date#:#Start time should be before deadline.
-exercise#:#exc_your_submission#:#Uw voorlegging
+exercise#:#exc_your_submission#:#Uw ingediende bijscholingsattesten### OVB translated
 exp#:#exp_create_file#:#Aanmaken Export Bestand
 exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.###07 02 2020 new variable
 exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.###07 02 2020 new variable
@@ -10226,9 +10226,9 @@ grp#:#grp_at_least_one_admin#:#There has to be at least one group administrator.
 grp#:#grp_auto_notification#:#Welcome-Mail For New Members###07 02 2020 new variable
 grp#:#grp_auto_notification_info#:#New members get a mail notification when added to the group.###07 02 2020 new variable
 grp#:#grp_cancel_subscr_request#:#Verwijderen deelnameverzoek
-grp#:#grp_cancellation_end#:#Cancellation Limit###30 08 2015 new variable
+grp#:#grp_cancellation_end#:#Annuleringslimiet### OVB translated
 grp#:#grp_cancellation_end_info#:#From this date on particiants cannot unsubscribe anymore.###30 08 2015 new variable
-grp#:#grp_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.###30 08 2015 new variable
+grp#:#grp_cancellation_end_rbac_info#:#De annuleringsdeadline werd gehaald op %s, een annulering is niet meer mogelijk.### OVB translated
 grp#:#grp_cdf_edit_member#:#Wijzigen groepsgerelateerde gebruikersgegevens
 grp#:#grp_cdf_tbl_last_edit#:#Laatste Update (groep-specifieke gegevens)
 grp#:#grp_change_type#:#Wijzigen groepstype
@@ -10375,11 +10375,11 @@ grp#:#grp_warn_grp_type_changed#:#Wil je echt het type van deze groep wijzigen? 
 grp#:#grp_warn_no_max_set_on_waiting_list#:#Het maximum  aantal toegelate aantal groepsdeelnemers is overschreden. Je kunt je aanmelden in de wachtrij. Je zult een bericht krijgen van de groepsbeheerder als je verzoek is goedgekeurd of niet.
 grp#:#grp_warn_wl_set_on_waiting_list#:#Sommige gebruikers staan al in de wachtrij. Je kunt je aanmelden in de wachtrij. Je zult een bericht krijgen van de groepsbeheerder als je verzoek is goedgekeurd of niet.
 grp#:#grp_wrong_max_members#:#Controleer het maximum aantal gebruikers.
-grp#:#grp_wrong_min_max_members#:#Please check the minimum and maximum number of users.###30 08 2015 new variable
+grp#:#grp_wrong_min_max_members#:#Controleer het minimale en maximale aantal gebruikers.### OVB translated
 grp#:#grp_wrong_reg_time_limit#:#Controleer de begin- en eindtijden van registratie.
 grp#:#reg_grp_max_members#:#Maximale aantal gebruikers
 grp#:#reg_grp_max_members_short#:#Aantal deelnemers
-grp#:#reg_grp_min_members#:#Minimum Number of Members###30 08 2015 new variable
+grp#:#reg_grp_min_members#:#Minimaal aantal leden### OVB translated
 help#:#help_all#:#All
 help#:#help_component#:#Component
 help#:#help_filter#:#Filter
@@ -11789,7 +11789,7 @@ meta#:#md_adv_deleted_fields#:#The fields have been deleted.###30 08 2015 new va
 meta#:#md_adv_deleted_files#:#Deleted export files.
 meta#:#md_adv_deleted_records#:#Deleted Dataset
 meta#:#md_adv_desc_show#:#Toon omschrijving
-meta#:#md_adv_edit_complex_option#:#Edit Option Properties###07 02 2020 new variable
+meta#:#md_adv_edit_complex_option#:#Optie -eigenschappen bewerken### OVB translated
 meta#:#md_adv_edit_field#:#Edit Field
 meta#:#md_adv_edit_record#:#Edit Dataset
 meta#:#md_adv_field_fields#:#Fields
@@ -12495,7 +12495,7 @@ meta#:#meta_very_easy#:#Heel gemakkelijk
 meta#:#meta_very_high#:#Heel hoog
 meta#:#meta_very_low#:#Heel laag
 meta#:#meta_yes#:#Ja
-meta#:#udf_type_address#:#Address###07 02 2020 new variable
+meta#:#udf_type_address#:#Adres### OVB translated
 meta#:#udf_type_externallink#:#External Link###31 08 2017 new variable
 meta#:#udf_type_float#:#Float
 meta#:#udf_type_integer#:#Integer
@@ -12742,7 +12742,7 @@ news#:#priv_feed_disabled#:#Privé newsfeed niet actief
 news#:#priv_feed_settings#:#Instellingen Privé news feed
 note#:#note_comment_notification_link#:#Link###30 08 2015 new variable
 note#:#note_comment_notification_reason#:#You receive this message because your account is listed as a global recipient for all comments in the ILIAS administration (Personal Desktop settings).###25 10 2016 new variable
-note#:#note_comment_notification_salutation#:#Hello %s,###30 08 2015 new variable
+note#:#note_comment_notification_salutation#:#Dag %s,### OVB translated
 note#:#note_comment_notification_subject#:#A comment has been added to "%s"###30 08 2015 new variable
 note#:#note_comment_notification_subjectc#:#A comment has been changed in "%s"###30 08 2015 new variable
 note#:#note_comment_notification_user_has_written#:#%s has written:###25 10 2016 new variable
@@ -12923,7 +12923,7 @@ orgu#:#import_terminated_with_warnings#:#De import is met waarschuwingen beëind
 orgu#:#import_xml_file#:#Importeren Gegevens
 orgu#:#local_other_roles#:#Extra rollen %s
 orgu#:#local_staff#:#Werknemers %s
-orgu#:#mm_organisation#:#Organisation###31 03 2023 new variable
+orgu#:#mm_organisation#:#organisatie### OVB translated
 orgu#:#msg_assignment_to_employee_done#:#Zuweisung zur Position Mitarbeiter durchgeführt###22 11 2017 new variable
 orgu#:#msg_confirm_d_ua#:#Would you like to assign these person to the position Employee of their respective Organisational Units?###31 08 2017 new variable
 orgu#:#msg_confirm_deletion#:#Would you really like to delete tho following Position?###31 08 2017 new variable
@@ -17267,9 +17267,9 @@ user#:#has_role#:#Role###31 08 2017 new variable
 user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?###30 07 2024 new variable
 user#:#inform_user_mail_info#:#Als ingeschakeld zal een e-mail worden verstuurd naar de gebruiker. De inhoud ervan kan worden ingesteld in Beheer > Gebruikers > Instellingen > Nieuwe Account E-mail.
 user#:#interests#:#Interesses
-user#:#interests_general#:#Algemene interesse
-user#:#interests_help_looking#:#Hulpzoekend
-user#:#interests_help_offered#:#Aanbieden hulp
+user#:#interests_general#:#Algemene interesses### OVB translated
+user#:#interests_help_looking#:#Hulp zoeken### OVB translated
+user#:#interests_help_offered#:#Hulp aanbieden### OVB translated
 user#:#ldoc_accepted_content#:#Accepted Content###30 04 2024 new variable
 user#:#ldoc_not_accepted_yet#:#Not accepted yet###30 04 2024 new variable
 user#:#msg_spoint_not_modified#:#Starting point not modified###07 02 2020 new variable
@@ -17374,7 +17374,7 @@ user#:#user_set_visibilty_options#:#Set visibility options###07 02 2020 new vari
 user#:#user_store_last_visited#:#Laatst bezocht
 user#:#user_visibility_settings#:#Visibility###07 02 2020 new variable
 user#:#user_visible_in_profile#:#Zichtbaar in profiel
-user#:#usr_id#:#Systeem ID
+user#:#usr_id#:#Interne systeem ID### OVB translated
 user#:#usr_letter_avatars#:#Letter Avatars###31 08 2017 new variable
 user#:#usr_letter_avatars_info#:#Shows initial of user name or login as profile picture, if no public picture is being provided.###31 08 2017 new variable
 user#:#usr_public_profile_disabled#:#Publiek profiel uitgeschakeld
