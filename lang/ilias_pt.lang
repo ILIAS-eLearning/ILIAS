@@ -2485,7 +2485,7 @@ book#:#book_assign#:#Ficheiro plugin
 book#:#book_assign_object#:#Prefixos idioma plugin
 book#:#book_assign_participant#:#Ranhura de plugin
 book#:#book_back_to_list#:#Voltar à lista
-book#:#book_bobj#:#Objeto de reserva
+book#:#book_bobj#:#Objeto de reserva### OVB translated
 book#:#book_book#:#Reservar
 book#:#book_book_available#:#Book Available Dates###30 04 2024 new variable
 book#:#book_book_recurrence#:#Book multiple dates###30 04 2024 new variable
@@ -3832,7 +3832,7 @@ common#:#crs_status_blocked#:#De
 common#:#crs_status_pending#:#[À espera do registo]
 common#:#crs_subscribers_assigned#:#Atribuído novo(s) utilizador(es)
 common#:#crs_title#:#Nome completo
-common#:#crs_unsubscribe#:#Funções
+common#:#crs_unsubscribe#:#Cancelar a inscrição do curso### OVB translated
 common#:#crs_wizard_page#:#Copiar curso (passo 2/2)
 common#:#crsr#:#Pode usar um pseudónimo para o seu posting. Se deixar este campo vazio, o seu posting será marcado como escrito por ‘Anónimo’.
 common#:#crsr_add#:#Add Course Link###31 03 2023 new variable
@@ -4597,12 +4597,12 @@ common#:#mcst_add#:#Adicionar MediaCast
 common#:#mcst_new#:#Novo MediaCast
 common#:#mem_add_to_wl#:#Módulo de aprendizagem HTML
 common#:#mem_alert_no_places#:#Não há lugares livres disponíveis.
-common#:#mem_cron_min_members#:#Curso/Grupo: Controlo do mínimo de membros
-common#:#mem_cron_min_members_info#:#Os administradores serão notificados se o número mínimo não for alcançado.
+common#:#mem_cron_min_members#:#Curso/Grupo: Membros mínimos Verifique### OVB translated
+common#:#mem_cron_min_members_info#:#Os administradores serão notificados se o número mínimo não for atendido.### OVB translated
 common#:#mem_end#:#Fim do registo:
 common#:#mem_free_places#:#Configure aqui as definições globais de LDAP.
 common#:#mem_max_users#:#Mínimo de utilizadores:
-common#:#mem_min_users#:#Mínimo de utilizadores
+common#:#mem_min_users#:#Mínimo de usuários### OVB translated
 common#:#mem_participants#:#Participantes
 common#:#mem_reg_expired#:#O tempo de registo expirou
 common#:#mem_reg_not_started#:#O registo não iniciou
@@ -7479,10 +7479,10 @@ crs#:#crs_admission_link_failure_registration_period#:#Nome
 crs#:#crs_admission_link_success_registration#:#Aplicar
 crs#:#crs_agree#:#Dia
 crs#:#crs_agreement_header#:#Mês
-crs#:#crs_agreement_required#:#Semana
+crs#:#crs_agreement_required#:#Confirme a reserva de encadernação.### OVB translated
 crs#:#crs_at_least_one_admin#:#Tem de haver pelo menos um administrador de curso.
 crs#:#crs_auto_notification#:#Voltar
-crs#:#crs_auto_notification_info#:#Os novos membros recebem uma notificação por mail quando for adicionado ao curso.
+crs#:#crs_auto_notification_info#:#Os e-mails de boas-vindas são enviados automaticamente aos membros adicionados ao curso por meio de um plugin. Se os plugins CourseBooking e MailAdministration estiverem instalados e ativos, o Mail 16 será enviado.### OVB translated
 crs#:#crs_awrn_current_course#:#Curso atual
 crs#:#crs_awrn_current_course_info#:#Se o utilizador navegar para um curso no repositório, todos os membros do curso são listados.
 crs#:#crs_awrn_support_contacts#:#Suporte tutorial
@@ -7496,9 +7496,9 @@ crs#:#crs_cancel_subscr_request#:#Apagar pedido de adesão
 crs#:#crs_cancel_subscription#:#‘Apagar reserva’ não notifica os utilizadores por e-mail. Se quiser notificar os utilizadores, escolha a ação ‘Cancelar reserva’.
 crs#:#crs_cancel_subscription_body#:#Duração de cada marcação
 crs#:#crs_cancel_subscription_body2#:#Pode haver outros membros numa lista de espera do seu curso.\nDevia verificar a lista de espera agora.\nPara ver membros do seu curso, clique aqui:
-crs#:#crs_cancellation_end#:#Reserva recurso
+crs#:#crs_cancellation_end#:#Limite de cancelamento### OVB translated
 crs#:#crs_cancellation_end_info#:#‘Cancelar reserva’ envia mails de notificação aos utilizadores. Se não quiser notificar os utilizadores, escolha a opção ‘Apagar reserva’.
-crs#:#crs_cancellation_end_rbac_info#:#O prazo de cancelamento foi a %s, já não é possível cancelar.
+crs#:#crs_cancellation_end_rbac_info#:#O prazo de cancelamento foi cumprido em %S, um cancelamento não é mais possível.### OVB translated
 crs#:#crs_cannot_find_role#:#Não consegue encontrar esta função.
 crs#:#crs_cdf_edit_member#:#Editar dados do utilizador relevantes para o curso
 crs#:#crs_cdf_tbl_last_edit#:#Esta opção permite a gestão de consulta pessoais no calendário.
@@ -7513,7 +7513,7 @@ crs#:#crs_contact_responsibility#:#Responsabilidade
 crs#:#crs_content#:#Conteúdo do curso
 crs#:#crs_copy#:#Copiar curso
 crs#:#crs_course_group_notification_link#:#Link:
-crs#:#crs_course_period_not_valid#:#ILIAS está a criar um arquivo ZIP de todos os ficheiros disponíveis. Pode descarregá-los se clicar no ícone de saco na barra superior.
+crs#:#crs_course_period_not_valid#:#O período do curso não é válido.### OVB translated
 crs#:#crs_course_status_of_users#:#A lista de destinatários de notificação não é válida. Escolha apenas nomes de contas de utilizadores ILIAS ou endereços de e-mail válidos.
 crs#:#crs_create_date#:#Data/Hora
 crs#:#crs_custom_user_fields#:#Dados do utilizador relevantes para o curso
@@ -7696,9 +7696,9 @@ crs#:#crs_mail_type#:#E-mail aos membros
 crs#:#crs_map_location#:#Localização do mapa do curso
 crs#:#crs_map_settings#:#Ativar comentários públicos para entradas
 crs#:#crs_materials#:#Os utilizadores podem comentar sobre a entradas na tabela.
-crs#:#crs_max_and_min_members_invalid#:#O número mínimo tem de ser inferior ao número máximo de membros.
-crs#:#crs_max_and_min_members_needed#:#Definir um número mínimo e máximo de membros - ou ambos.
-crs#:#crs_max_members_needed#:#É necessário um número máximo de membros para a função da lista de espera.
+crs#:#crs_max_and_min_members_invalid#:#O número mínimo deve ser menor que o número máximo de membros.### OVB translated
+crs#:#crs_max_and_min_members_needed#:#Defina um número mínimo ou máximo de membros - ou ambos.### OVB translated
+crs#:#crs_max_members_needed#:#Um número máximo de membros é necessário para o recurso da lista de espera.### OVB translated
 crs#:#crs_max_members_reached#:#O número máximo de membros foi alcançado
 crs#:#crs_mem_contact#:#Entrada
 crs#:#crs_mem_contacts#:#Entrada apagada
@@ -7807,7 +7807,7 @@ crs#:#crs_passed_status_system#:#Sistema
 crs#:#crs_password_not_valid#:#A sua palavra-passe não é válida
 crs#:#crs_password_required#:#Este procedimento de registo requer uma palavra-passe.
 crs#:#crs_pdf#:#PDF
-crs#:#crs_period#:#As atribuições de árvore da gestão do campus foram apagadas.
+crs#:#crs_period#:#Período do curso### OVB translated
 crs#:#crs_period_end_mail_placeholder#:#Period End###07 02 2020 new variable
 crs#:#crs_period_info#:#Tem a certeza que quer apagar todas as atribuições para esta árvore da gestão do campus?
 crs#:#crs_period_start_mail_placeholder#:#Period Start###07 02 2020 new variable
@@ -7885,9 +7885,9 @@ crs#:#crs_subscription_failed_limit#:#O número máximo de participantes foi exc
 crs#:#crs_subscription_max_members#:#Tem a certeza que quer apagar os seguintes critérios?
 crs#:#crs_subscription_max_members_short#:#Editar critérios
 crs#:#crs_subscription_max_members_short_info#:#Pode ser definido o número máximo, respetivamente mínimo, de membros. Pode ser definida uma lista de espera.
-crs#:#crs_subscription_min_members#:#Número mínimo
+crs#:#crs_subscription_min_members#:#Número mínimo### OVB translated
 crs#:#crs_subscription_min_members_err#:#O número mínimo não pode ser superior ao número máximo de participantes.
-crs#:#crs_subscription_min_members_info#:#Ficheiros de avaliação
+crs#:#crs_subscription_min_members_info#:#Veja o trabalho de Cron "Limite de cancelamento".### OVB translated
 crs#:#crs_subscription_options_confirmation#:#Avaliação pelo tutor
 crs#:#crs_subscription_options_direct#:#Está a receber este e-mail porque é um participante do exercício mencionado acima.
 crs#:#crs_subscription_options_password#:#Solução amostra
@@ -7981,9 +7981,9 @@ crs#:#crs_visibility_until_info#:#O curso fica visível aos seus membros num det
 crs#:#crs_visibility_unvisible#:#The course is not visible.###24 11 2022 new variable
 crs#:#crs_wait_info#:#Introduza o tamanho máximo do ficheiro permitido para ficheiros descarregados em mebibyte.
 crs#:#crs_waiting_list#:#Lista de espera
-crs#:#crs_waiting_list_autofill#:#Com autopreenchimento
-crs#:#crs_waiting_list_autofill_info#:#Os utilizadores podem abrir categorias, cursos, grupos e pastas usando a ação ‘Abrir com gestor de ficheiros’ no repositório.
-crs#:#crs_waiting_list_no_autofill#:#Sem autopreenchimento
+crs#:#crs_waiting_list_autofill#:#Preenchimento automático### OVB translated
+crs#:#crs_waiting_list_autofill_info#:#Os participantes são recrutados na lista de espera automaticamente nos cancelamentos.### OVB translated
+crs#:#crs_waiting_list_no_autofill#:#Sem preenchimento automático### OVB translated
 crs#:#crs_warn_no_max_set_on_waiting_list#:#Importar pasta
 crs#:#crs_warn_wl_set_on_waiting_list#:#Alguns utilizadores já estão atribuídos à lista de espera. Pode adicionar o seu pedido de adesão à lista de espera. Receberá uma mensagem de um administrador do curso quando o seu pedido for aprovado ou rejeitado.
 crs#:#crs_wiz_back#:#Voltar
@@ -10226,9 +10226,9 @@ grp#:#grp_at_least_one_admin#:#Tem de haver pelo menos um administrador de grupo
 grp#:#grp_auto_notification#:#Welcome-Mail For New Members###07 02 2020 new variable
 grp#:#grp_auto_notification_info#:#New members get a mail notification when added to the group.###07 02 2020 new variable
 grp#:#grp_cancel_subscr_request#:#Apagar pedido de adesão
-grp#:#grp_cancellation_end#:#Quirguistão
+grp#:#grp_cancellation_end#:#Limite de cancelamento### OVB translated
 grp#:#grp_cancellation_end_info#:#Camboja
-grp#:#grp_cancellation_end_rbac_info#:#O prazo de cancelamento foi a %s, já não é possível cancelar.
+grp#:#grp_cancellation_end_rbac_info#:#O prazo de cancelamento foi cumprido em %S, um cancelamento não é mais possível.### OVB translated
 grp#:#grp_cdf_edit_member#:#Editar dados do utilizador relevantes para o grupo
 grp#:#grp_cdf_tbl_last_edit#:#São Cristóvão e Neves
 grp#:#grp_change_type#:#Mudar tipo de grupo
@@ -10375,11 +10375,11 @@ grp#:#grp_warn_grp_type_changed#:#Monserrate
 grp#:#grp_warn_no_max_set_on_waiting_list#:#O número máximo de membros do grupo foi excedido. Pode adicionar o seu pedido de adesão à lista de espera. Receberá uma mensagem de um administrador do grupo quando o seu pedido for aprovado ou rejeitado.
 grp#:#grp_warn_wl_set_on_waiting_list#:#Alguns utilizadores já estão atribuídos à lista de espera. Pode adicionar o seu pedido de adesão à lista de espera. Receberá uma mensagem de um administrador do grupo quando o seu pedido for aprovado ou rejeitado.
 grp#:#grp_wrong_max_members#:#Maldivas
-grp#:#grp_wrong_min_max_members#:#Maláui
+grp#:#grp_wrong_min_max_members#:#Verifique o número mínimo e máximo de usuários.### OVB translated
 grp#:#grp_wrong_reg_time_limit#:#México
 grp#:#reg_grp_max_members#:#Malásia
 grp#:#reg_grp_max_members_short#:#Moçambique
-grp#:#reg_grp_min_members#:#Número mínimo de membros
+grp#:#reg_grp_min_members#:#Número mínimo de membros### OVB translated
 help#:#help_all#:#Todos
 help#:#help_component#:#Componente
 help#:#help_filter#:#Filtrar
@@ -11789,7 +11789,7 @@ meta#:#md_adv_deleted_fields#:#Os campos foram apagados.
 meta#:#md_adv_deleted_files#:#Ficheiros de exportação apagados.
 meta#:#md_adv_deleted_records#:#O utilizador tem acesso de leitura à administração de edição
 meta#:#md_adv_desc_show#:#Mostrar descrição
-meta#:#md_adv_edit_complex_option#:#Edit Option Properties###07 02 2020 new variable
+meta#:#md_adv_edit_complex_option#:#Editar propriedades da opção### OVB translated
 meta#:#md_adv_edit_field#:#Editar campo
 meta#:#md_adv_edit_record#:#O utilizador pode editar definições da administração de edição
 meta#:#md_adv_field_fields#:#Campos
@@ -12495,7 +12495,7 @@ meta#:#meta_very_easy#:#Domínio
 meta#:#meta_very_high#:#Atribuição automática de função
 meta#:#meta_very_low#:#Os seguintes domínios de endereço de e-mail são válidos: %s
 meta#:#meta_yes#:#Atribuição de funções por domínio
-meta#:#udf_type_address#:#Address###07 02 2020 new variable
+meta#:#udf_type_address#:#Endereço### OVB translated
 meta#:#udf_type_externallink#:#Link externo
 meta#:#udf_type_float#:#Flutuar
 meta#:#udf_type_integer#:#Inteiro
