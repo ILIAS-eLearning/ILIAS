@@ -31,20 +31,20 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-acc#:#acc_add_document_btn_label#:#Add Document###07 02 2020 new variable
-acc#:#acc_crit_type_usr_language#:#Profile Language###07 02 2020 new variable
-acc#:#acc_criterion_assignment_must_be_unique_insert#:#You cannot attach this criterion with this value. There is already an identical criterion attached.###07 02 2020 new variable
-acc#:#acc_criterion_assignment_must_be_unique_update#:#You cannot change the criterion as desired. There is already an identical criterion attached.###07 02 2020 new variable
+acc#:#acc_add_document_btn_label#:#Añadir documento### OVB translated
+acc#:#acc_crit_type_usr_language#:#Lenguaje del usuario### OVB translated
+acc#:#acc_criterion_assignment_must_be_unique_insert#:#No puede adjuntar este criterio con este valor. Ya existe un criterio idéntico.### OVB translated
+acc#:#acc_criterion_assignment_must_be_unique_update#:#No se puede cambiar el criterio como requiere. Ya existe un criterio idéntico.### OVB translated
 acc#:#acc_ctrl_cpt_txt#:#Accessibility Control Concept###07 02 2020 new variable
-acc#:#acc_deleted_documents_p#:#The documents have been deleted.###07 02 2020 new variable
-acc#:#acc_deleted_documents_s#:#The document has been deleted.###07 02 2020 new variable
-acc#:#acc_doc_crit_attached#:#The criterion has been attached.###07 02 2020 new variable
-acc#:#acc_doc_crit_changed#:#The criterion has been changed.###07 02 2020 new variable
-acc#:#acc_doc_crit_detached#:#The criterion has been detached.###07 02 2020 new variable
-acc#:#acc_doc_delete#:#Delete Document###07 02 2020 new variable
+acc#:#acc_deleted_documents_p#:#Los documentos han sido borrados.### OVB translated
+acc#:#acc_deleted_documents_s#:#El documento ha sido borrado.### OVB translated
+acc#:#acc_doc_crit_attached#:#El criterio se ha adjuntado.### OVB translated
+acc#:#acc_doc_crit_changed#:#El criterio ha cambiado.### OVB translated
+acc#:#acc_doc_crit_detached#:#El criterio ya no está adjunto.### OVB translated
+acc#:#acc_doc_delete#:#Borrar documento### OVB translated
 acc#:#acc_doc_detach_crit_confirm_title#:#Detach Criterion###07 02 2020 new variable
 acc#:#acc_doc_sure_detach_crit#:#Are your sure you want to detach the criterion?###07 02 2020 new variable
-acc#:#acc_document#:#Document###07 02 2020 new variable
+acc#:#acc_document#:#Documento### OVB translated
 acc#:#acc_form_attach_criterion_head#:#Attach Criterion###07 02 2020 new variable
 acc#:#acc_form_criterion#:#Criterion###07 02 2020 new variable
 acc#:#acc_form_document#:#Document###07 02 2020 new variable
@@ -52,8 +52,8 @@ acc#:#acc_form_document_content_changed#:#The contents of the uploaded file was 
 acc#:#acc_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used.###07 02 2020 new variable
 acc#:#acc_form_document_new#:#Change Content###07 02 2020 new variable
 acc#:#acc_form_document_new_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used. The existing contents will be replaced.###07 02 2020 new variable
-acc#:#acc_form_document_title#:#Title###07 02 2020 new variable
-acc#:#acc_form_document_title_info#:#Please enter a title for the document.###07 02 2020 new variable
+acc#:#acc_form_document_title#:#Título### OVB translated
+acc#:#acc_form_document_title_info#:#Por favor, introduzca un título para el documento.### OVB translated
 acc#:#acc_form_edit_criterion_head#:#Edit Criterion Assignment###07 02 2020 new variable
 acc#:#acc_form_edit_doc_head#:#Edit Document###07 02 2020 new variable
 acc#:#acc_form_new_doc_head#:#Create Document###07 02 2020 new variable
@@ -69,7 +69,7 @@ acc#:#acc_tbl_docs_head_created#:#Creation Date###07 02 2020 new variable
 acc#:#acc_tbl_docs_head_criteria#:#Criteria###07 02 2020 new variable
 acc#:#acc_tbl_docs_head_last_change#:#Last Change###07 02 2020 new variable
 acc#:#acc_tbl_docs_head_sorting#:#Sorting###07 02 2020 new variable
-acc#:#acc_tbl_docs_head_title#:#Title###07 02 2020 new variable
+acc#:#acc_tbl_docs_head_title#:#Título### OVB translated
 acc#:#acc_tbl_docs_title#:#Documents###07 02 2020 new variable
 acc#:#acc_tree_off#:#Contraer
 acc#:#acc_tree_on#:#Expandir
@@ -80,7 +80,7 @@ adm#:#adm_accessibility_contacts_info#:#Contacts for reporting accessibility iss
 adm#:#adm_awrn_support_contacts_info#:#Se listan todos los contactos para soporte técnico. Los usuarios se definen como contactos para soporte técnico en la sección "Configuración general"  > "Información de contacto".
 adm#:#adm_support_contacts#:#Soporte técnico
 adm#:#adm_support_contacts_info#:#Contactos de soporte que aparecen en el enlace al pie y (si está activo) en la herramienta '¿Quién está conectado?'. Lista de identificadores de acceso separada por comas.
-administration#:#adm_achievements#:#Achievements###07 02 2020 new variable
+administration#:#adm_achievements#:#Resultados del aprendizaje### OVB translated
 administration#:#adm_activate_db_benchmark#:#Activar prueba
 administration#:#adm_activate_db_benchmark_desc#:#La realización de pruebas serán automáticamente deshabilitadas tras una petición.
 administration#:#adm_adm_role_protect#:#Proteger el rol de administrador
@@ -694,7 +694,7 @@ assessment#:#exp_eval_data#:#Exportar Datos de Evaluación.
 assessment#:#exp_file_created#:#Archivo de exportación creado.
 assessment#:#exp_grammar_as#:#as###30 04 2024 new variable
 assessment#:#exp_scored_test_run#:#Scored test attempt###30 04 2024 new variable
-assessment#:#exp_type_certificate#:#Informe (PDF)
+assessment#:#exp_type_certificate#:#Diploma (PDF)### OVB translated
 assessment#:#exp_type_excel#:#Excel
 assessment#:#exp_type_spss#:#SPSS
 assessment#:#expected_result_type#:#Tipo de resultado esperado
@@ -1758,7 +1758,7 @@ assessment#:#tst_remove_question#:#¿Está seguro que desea eliminar la siguient
 assessment#:#tst_remove_questions#:#Está seguro de que quiere eliminar las siguiente(s) preguntas del test?
 assessment#:#tst_remove_questions_and_results#:#Este test ya fue ejecutado por %s usuario(s).Eliminar preguntas de este test eliminará todos los resultados de test de estos usuarios. Está seguro de que quiere eliminar las siguientes pregunta(s) del test?
 assessment#:#tst_report_after_date#:#Después de una fecha de informe de puntuación prefijada
-assessment#:#tst_report_after_first_question#:#Ofrecer informe de puntuación cuando el test ha sido comenzado
+assessment#:#tst_report_after_first_question#:#Ofrecer diploma de puntuación cuando el test ha sido comenzado### OVB translated
 assessment#:#tst_report_after_passed#:#Offer test results when the test has been passed
 assessment#:#tst_report_after_test#:#Informar de la puntuación después de realizar el test completo
 assessment#:#tst_report_never#:#No hay resultados del test disponibles
@@ -1786,7 +1786,7 @@ assessment#:#tst_results_access_always_desc#:#Los participantes pueden acceder a
 assessment#:#tst_results_access_date#:#Fecha
 assessment#:#tst_results_access_date_desc#:#Los participantes acceden a los resultados del test con la pestaña 'Info' después de la fecha y hora especificada.
 assessment#:#tst_results_access_enabled#:#Acceso a los Resultados del Test
-assessment#:#tst_results_access_enabled_desc#:#Se mostrará un botón 'Mostrar Resultados Test' a los participantes en la pestaña 'Info'. Las opciones de configuración de las siguientes secciones determinan la información que se incluye en el informe y cuándo será accesible.
+assessment#:#tst_results_access_enabled_desc#:#Se mostrará un botón 'Mostrar Resultados Test' a los participantes en la pestaña 'Info'. Las opciones de configuración de las siguientes secciones determinan la información que se incluye en el Diploma y cuándo será accesible.### OVB translated
 assessment#:#tst_results_access_finished#:#Después de que el test sea finalizado
 assessment#:#tst_results_access_finished_desc#:#ILIAS muestra los resultados una vez finalizado la realización del test. Depués de finalizar el test los participantes pueden acceder a los resultado del test con la pestaña 'Info' en cualquier momento.
 assessment#:#tst_results_access_passed#:#After Test has been Passed
@@ -2031,7 +2031,7 @@ auth#:#auth_ldap_server_ds#:#Sevidor LDAP
 auth#:#auth_login_editor#:#Editor pantalla de acceso
 auth#:#auth_oidc#:#OpenId Connect
 auth#:#auth_oidc_failed#:#Login via OpenID Connect failed###16 03 2023 new variable
-auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###30 04 2021 new variable
+auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###17 06 2026 new variable
 auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenId Connect Attributen
 auth#:#auth_oidc_profile#:#Zuordnung der Profildaten
 auth#:#auth_oidc_role_info#:#OpenID Connect Attribute::Value (e.g: "roles::employee").###07 02 2020 new variable
@@ -2487,7 +2487,7 @@ book#:#book_assign#:#Assign
 book#:#book_assign_object#:#Assign Booking Object
 book#:#book_assign_participant#:#Assign to Participant
 book#:#book_back_to_list#:#Volver a la lista
-book#:#book_bobj#:#Objeto de Sistema de reservas
+book#:#book_bobj#:#Objeto de reserva### OVB translated
 book#:#book_book#:#Solicitar reserva
 book#:#book_book_available#:#Book Available Dates###30 04 2024 new variable
 book#:#book_book_recurrence#:#Book multiple dates###30 04 2024 new variable
@@ -2701,10 +2701,10 @@ cert#:#cert_download_label#:#Download
 cert#:#cert_error_no_access#:#You have no access to this certificate.
 cert#:#cert_issued_on_label#:#Issued On
 cert#:#cert_object_label#:#Object
-cert#:#cert_sortable_by_issue_date_asc#:#Nach Ausstellungsdatum aufsteigend
-cert#:#cert_sortable_by_issue_date_desc#:#Nach Ausstellungsdatum absteigend
-cert#:#cert_sortable_by_title_asc#:#Nach Titel aufsteigend
-cert#:#cert_sortable_by_title_desc#:#Nach Titel absteigend
+cert#:#cert_sortable_by_issue_date_asc#:#Por orden de antigüedad asendente### OVB translated
+cert#:#cert_sortable_by_issue_date_desc#:#Por orden de antigüedad descendente### OVB translated
+cert#:#cert_sortable_by_title_asc#:#Ordenado por título de la A a la Z### OVB translated
+cert#:#cert_sortable_by_title_desc#:#Ordenado por título de la Z a la A### OVB translated
 cert#:#certificate_achievement#:#%1$s achieved.
 cert#:#certificate_achievement_sub_obj#:#Certificate for %1$s
 cert#:#certificate_migration_confirm_start#:#ILIAS 5.4.x implemented changes to the certificates. If the download of acquired certificates was previously linked to your current authorizations and your status to the learning objects or the availability, certificates can now be acquired persistently. For this start the migration.
@@ -2715,9 +2715,9 @@ cert#:#certificate_no_object_desc#:#No object description available
 cert#:#certificate_no_object_title#:#No object title available
 cert#:#certificate_same_not_saved#:#No new version of certificate template was saved, because the values didn't change.
 cert#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.
-cert#:#user_certificates#:#Certificates
+cert#:#user_certificates#:#Diplomas### OVB translated
 certificate#:#cert_cron_task_desc#:#This job's responsibility is the creation of persisting certificate data based on learning achievements of users.
-certificate#:#cert_cron_task_title#:#Certificates
+certificate#:#cert_cron_task_title#:#Diplomas### OVB translated
 certificate#:#cert_form_sec_add_features#:#Additional Features
 certificate#:#cert_form_sec_availability#:#Availability
 certificate#:#cert_form_sec_layout#:#Layout and Text
@@ -2735,12 +2735,12 @@ certificate#:#certificate_error_import#:#Ocurrió un error durante la importaci�
 certificate#:#certificate_error_upload_bgimage#:#Ocurrió un error durante la carga de una imagen de fondo
 certificate#:#certificate_export#:#Exportar informe
 certificate#:#certificate_failed#:#suspenso
-certificate#:#certificate_file_basename#:#Informe
+certificate#:#certificate_file_basename#:#Diploma### OVB translated
 certificate#:#certificate_learning_progress_must_be_active#:#Only objects with an active Learning Progress can be selected. The Learning Progress is deactivated on the following objects: %s###07 02 2020 new variable
 certificate#:#certificate_letter#:#Carta (11 pulgadas x 8.5 pulgadas)
 certificate#:#certificate_letter_landscape#:#Carta Horizontal (8.5 pulgadas x 11 pulgadas)
 certificate#:#certificate_margin_body#:#Margen
-certificate#:#certificate_not_well_formed#:#El texto del informe no está bien definido. Por favor introduzca XHTML válido para el texto del informe
+certificate#:#certificate_not_well_formed#:#El texto del diploma no está bien definido. Por favor introduzca XHTML válido para el texto del informe### OVB translated
 certificate#:#certificate_page_format#:#Formato de página
 certificate#:#certificate_page_format_info#:#Por favor, seleccione el formato de página por defecto para los nuevos informes.
 certificate#:#certificate_pageheight#:#Altura de Página
@@ -2787,11 +2787,11 @@ certificate#:#certificate_ph_title#:#Título del usuario
 certificate#:#certificate_ph_title_sco#:#Título
 certificate#:#certificate_ph_zipcode#:#Código postal de la dirección del usuario
 certificate#:#certificate_points_notavailable#:#Este valor no puede ser calculado
-certificate#:#certificate_preview#:#Mostrar previsualización del informe
-certificate#:#certificate_settings#:#Configuración del informe
+certificate#:#certificate_preview#:#Mostrar previsualización del diploma### OVB translated
+certificate#:#certificate_settings#:#Configuración del diploma### OVB translated
 certificate#:#certificate_short_name#:#Título breve para el archivo de informe
-certificate#:#certificate_short_name_description#:#Por favor, introduzca un título breve para el nombre del informe. El título abreviado será parte del nombre del informe: AAMMDD_ [apellido] _ [SHORT_TITLE] _certificate.pdf.
-certificate#:#certificate_text#:#Texto del informe
+certificate#:#certificate_short_name_description#:#Por favor, introduzca un título breve para el nombre del diploma. El título abreviado será parte del nombre del informe: AAMMDD_ [apellido] _ [SHORT_TITLE] _certificate.pdf.### OVB translated
+certificate#:#certificate_text#:#Texto del diploma### OVB translated
 certificate#:#certificate_text_info#:#Please enter the certificate text. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text.###28 07 2023 new variable
 certificate#:#certificate_unit_description#:#Introduzca unidades de medida como valor [cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in
 certificate#:#certificate_usage#:#Por favor, tenga en cuenta que el uso de informes sólo está disponible si el servidor Java de ILIAS se está ejecutando. La configuración del servidor Java está disponible en la página principal de la administración ILIAS en la sección Webservices.
@@ -2822,10 +2822,10 @@ certificate#:#certificate_visibility_never#:#No visible
 certificate#:#certificate_visibility_passed#:#Sólo visible si un usuario superó el test
 certificate#:#certificate_visibility_passed_exercise#:#Solo visible si el usuario pasa el ejercicio
 certificate#:#cmix_cert_ph_object_description#:#Description###07 02 2020 new variable
-certificate#:#cmix_cert_ph_object_title#:#Title of the xAPI/cmi5 Object###07 02 2020 new variable
+certificate#:#cmix_cert_ph_object_title#:#título del objeto xAPI/cmi5### OVB translated
 certificate#:#cmix_cert_ph_reached_score#:#Reached score as percentage###07 02 2020 new variable
 certificate#:#default_background_info#:#Esta imagen de fondo será elegida como fondo por defecto para todos los informes. Si necesita otra imagen de fondo en una informe, tienes que subir uno en el editor de certificado.
-certificate#:#download_certificate#:#Descargar informe
+certificate#:#download_certificate#:#Descargar diploma### OVB translated
 certificate#:#learning_progress_deactivated#:#The Learning Progress for this object is deactivated. To edit the certificate template and achieve user certificates the learning progress for this object must be activated.###07 02 2020 new variable
 certificate#:#lti_cert_ph_mastery_score#:#Mastery score as percentage###07 02 2020 new variable
 certificate#:#lti_cert_ph_object_description#:#Description###07 02 2020 new variable
@@ -3167,7 +3167,7 @@ cmix#:#conf_privacy_setting_default#:#Default Settings, changeable for Objects##
 cmix#:#conf_privacy_setting_force#:#Settings are not changeable for Objects###07 02 2020 new variable
 cmix#:#conf_privacy_setting_info#:#Configuration Options for Privacy Settings###07 02 2020 new variable
 cmix#:#conf_remarks#:#Internal comments###07 02 2020 new variable
-cmix#:#conf_title#:#Title###07 02 2020 new variable
+cmix#:#conf_title#:#Título### OVB translated
 cmix#:#conf_use_proxy#:#xAPI-Proxy###30 04 2024 new variable
 cmix#:#conf_use_proxy_info#:#The xAPI proxy provides real-time data to determine learning progress in ILIAS. The proxy reduces personal data in accordance with the selected data protection options. If the xAPI proxy is deactivated, the learning content writes the learning progress directly to the LRS. This data must then also be retrieved directly from the LRS. The cron job "xAPI/cmi5 get results" is required to determine the learning progress. The xAPI proxy is mandatory for cmi5 objects and is activated automatically.###30 04 2024 new variable
 cmix#:#conf_use_proxy_info_cmi5#:#The xAPI proxy provides real-time data to determine learning progress in ILIAS. The proxy reduces personal data in accordance with the selected data protection options. The xAPI proxy is mandatory for cmi5 objects.###30 04 2024 new variable
@@ -3190,7 +3190,7 @@ cmix#:#conf_user_name_firstname_info#:#Sends the first name of the user name fro
 cmix#:#conf_user_name_fullname#:#Entire name###31 03 2023 new variable
 cmix#:#conf_user_name_fullname_info#:#Sends title, first name and last name###31 03 2023 new variable
 cmix#:#conf_user_name_info#:#Sending an user name is usually not required.###31 03 2023 new variable
-cmix#:#conf_user_name_lastname#:#Title and last name###31 03 2023 new variable
+cmix#:#conf_user_name_lastname#:#Título y apellido### OVB translated
 cmix#:#conf_user_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name###31 03 2023 new variable
 cmix#:#conf_user_name_none#:#No one###31 03 2023 new variable
 cmix#:#conf_user_name_none_info#:#Sends '-' instead of a name###31 03 2023 new variable
@@ -3203,7 +3203,7 @@ cmix#:#cron_xapi_del#:#Delete xAPI/cmi5 data in the Learning Record Store###30 0
 cmix#:#cron_xapi_del_desc#:#Data are deleted according to the settings of the xAPI/cmi5 objects.###30 04 2024 new variable
 cmix#:#cron_xapi_results_evaluation#:#Fetch xAPI/cmi5 Results###07 02 2020 new variable
 cmix#:#cron_xapi_results_evaluation_desc#:#Requests all xAPI results from learning record stores for objects not supporting the ILIAS xAPI proxy.###07 02 2020 new variable
-cmix#:#description_info#:#The description will be shown below the title.###07 02 2020 new variable
+cmix#:#description_info#:# La descripción se mostrará debajo del título.### OVB translated
 cmix#:#download_certificate#:#Download Certificate###07 02 2020 new variable
 cmix#:#duration_info#:#The duration can be entered e.g. for answering a task. The duration is set to the default value 0 seconds (PT00.000S) by this option.###30 04 2021 new variable
 cmix#:#duration_label#:#Duration###30 04 2021 new variable
@@ -3277,7 +3277,7 @@ cmix#:#tab_settings#:#Settings###07 02 2020 new variable
 cmix#:#tab_statements#:#Learning Experiences###07 02 2020 new variable
 cmix#:#tbl_action_raw_data#:#View Raw Data###07 02 2020 new variable
 cmix#:#tbl_lrs_type_availability#:#Availability###07 02 2020 new variable
-cmix#:#tbl_lrs_type_title#:#Title###07 02 2020 new variable
+cmix#:#tbl_lrs_type_title#:#título### OVB translated
 cmix#:#tbl_lrs_type_usages#:#Usages Count###07 02 2020 new variable
 cmix#:#tbl_lrs_types_header#:#LRS-Types###07 02 2020 new variable
 cmix#:#tbl_statements_actor#:#User###07 02 2020 new variable
@@ -3661,7 +3661,7 @@ common#:#catr_add#:#Add Category Link###31 03 2023 new variable
 common#:#catr_edit_info#:#Por favor, seleccione una categoría para crear un enlace nuevo.
 common#:#catr_new#:#Crear nuevo enlace a categoría
 common#:#catr_settings#:#Category Link Settings###31 03 2023 new variable
-common#:#certificate#:#Informe
+common#:#certificate#:#Diploma### OVB translated
 common#:#certificate_file_already_exists_error#:#The certificate file already exists in the file system.###07 02 2020 new variable
 common#:#certificate_file_input_output_error#:#The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator.###07 02 2020 new variable
 common#:#certificate_file_not_found_error#:#The certificate file doesn't exist in the file system anymore. Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden.###07 02 2020 new variable
@@ -3782,7 +3782,7 @@ common#:#copy_selected_items#:#Copiar
 common#:#count#:#Cuenta
 common#:#counter_novelty#:#News###30 04 2024 new variable
 common#:#counter_status#:#Status###30 04 2024 new variable
-common#:#country#:#País
+common#:#country#:#director directo### OVB translated
 common#:#country_free_text#:#País (Entrada de texto libre)
 common#:#country_selection#:#País (Selección de desplegable)
 common#:#course#:#Curso
@@ -3834,7 +3834,7 @@ common#:#crs_status_blocked#:#[Acceso denegado]
 common#:#crs_status_pending#:#[Esperando confirmación de matricula]
 common#:#crs_subscribers_assigned#:#Nuevo(s) usuario(s) asignado(s)
 common#:#crs_title#:#Título del curso
-common#:#crs_unsubscribe#:#Darse de baja
+common#:#crs_unsubscribe#:#Dar la baja del curso### OVB translated
 common#:#crs_wizard_page#:#Copiar Curso (Paso 2/2)
 common#:#crsr#:#Enlace a curso
 common#:#crsr_add#:#Add Course Link###31 03 2023 new variable
@@ -4024,7 +4024,7 @@ common#:#error_empty_file_or_folder#:#El tamaño del archivo es de 0 bytes o se 
 common#:#error_extraction_failed#:#La extracción del archivo y sus directorios falló. Probablemente no tiene permisos para crear carpetas o categorías dentro de este elemento.
 common#:#error_parser#:#Error ejecutando el 'parser'
 common#:#error_upload_was_zero_bytes#:#El envío ha fallado porque que es una carpeta, el tamaño del archivo es 0 bytes o se ha renombrado el archivo mientras tanto.
-common#:#etal_talks#:#Talks###31 03 2023 new variable
+common#:#etal_talks#:#Conversaciones### OVB translated
 common#:#event_ass_materials_prop#:#Materiales de la sesión
 common#:#event_assign_files#:#Asignación de Archivos
 common#:#exc#:#Entrega de ejercicios
@@ -4076,7 +4076,7 @@ common#:#extracting#:#Extrayendo...
 common#:#eyeclosed#:#Eye Closed - Click to hide the input's contents###30 04 2021 new variable
 common#:#eyeopened#:#Eye Open - Click to reveal the input's contents###30 04 2021 new variable
 common#:#failure_message#:#Mensaje de Error
-common#:#fax#:#Fax
+common#:#fax#:#Nivel de rango (largo)### OVB translated
 common#:#feed#:#Canal de noticias
 common#:#feedback#:#Comentarios
 common#:#field_name#:#Nombre de campo
@@ -4295,7 +4295,7 @@ common#:#hist_webr_delete#:#Eliminado Recurso Web con el título: "%1"
 common#:#hist_webr_update#:#Actualizar Recurso Web. Título: "%1"
 common#:#history#:#Historia
 common#:#hits_per_page#:#Elementos por página
-common#:#hobby#:#Intereses/hobbies
+common#:#hobby#:#C-Número### OVB translated
 common#:#home#:#Sección pública
 common#:#host#:#host
 common#:#hour#:#hora
@@ -4337,7 +4337,7 @@ common#:#il_lso_admin#:#Learning Sequence Admin
 common#:#il_lso_member#:#Learning Sequence Member
 common#:#il_lti_instructor#:#LTI Instructor###24 09 2021 new variable
 common#:#il_lti_learner#:#LTI Learner###24 09 2021 new variable
-common#:#il_orgu_employee#:#Empleado
+common#:#il_orgu_employee#:#Colaborador### OVB translated
 common#:#il_orgu_superior#:#Responsable
 common#:#ilias_version#:#versión de ILIAS
 common#:#image#:#Imagen
@@ -4508,8 +4508,8 @@ common#:#lm#:#Módulo de Aprendizaje
 common#:#lm_add#:#Añadir Módulo de Aprendizaje
 common#:#lm_added#:#Módulo de Aprendizaje añadido
 common#:#lm_new#:#Nuevo Módulo de Aprendizaje
-common#:#lm_type_scorm#:#SCORM
-common#:#lm_type_scorm2004#:#SCORM 2004
+common#:#lm_type_scorm#:#SCORM 1.2### OVB translated
+common#:#lm_type_scorm2004#:#SCORM 2004 3r y 4a edición### OVB translated
 common#:#lm_type_scorm2004_info#:#These are newer versions of SCORM with significantly enhanced functionality. The learning module is launched in an iFrame.###30 04 2024 new variable
 common#:#lm_type_scorm_info#:#This is the most widely used version of SCORM. The learning module is launched in a frame.###30 04 2024 new variable
 common#:#lng#:#Idioma
@@ -4534,7 +4534,7 @@ common#:#login_information#:#Información de Login
 common#:#login_information_desc#:#Por favor introduzca la información de login para el idioma respectivo.
 common#:#login_information_settings_saved#:#La información de entrada se almacenó correctamente
 common#:#login_invalid#:#El login escogido es inválido! Sólo los siguientes caracteres están permitidos (mínimo 4 caracteres): A-Z a-z 0-9 _.-+*@!$%~
-common#:#login_to_ilias#:#entrada a ILIAS
+common#:#login_to_ilias#:#Bienvenido a Personal Development### OVB translated
 common#:#login_to_ilias_via_cas#:#Entrar a ILIAS a través de un Servicio de Autenticación Centralizado
 common#:#login_to_ilias_via_login_form#:#Login to ILIAS###20 05 2025 new variable
 common#:#login_to_ilias_via_saml#:#Iniciar sesión en ILIAS mediante autenticación SAML
@@ -4591,7 +4591,7 @@ common#:#mainbar_aria_label#:#Mainbar###30 04 2021 new variable
 common#:#mainbar_more_label#:#More###30 04 2021 new variable
 common#:#manage_members#:#Gestionar miembros
 common#:#marked_entries#:#Entradas marcadas
-common#:#matriculation#:#Número de matrícula
+common#:#matriculation#:#internacional C-Número### OVB translated
 common#:#max_previews_per_object#:#Número de imágenes previas por archivo
 common#:#max_previews_per_object_info#:#Define el número máximo de imágenes de vista previa que se crean por archivo.
 common#:#mcst#:#MediaCast
@@ -4599,12 +4599,12 @@ common#:#mcst_add#:#Añadir MediaCast
 common#:#mcst_new#:#Nuevo MediaCast
 common#:#mem_add_to_wl#:#Añadir a la Lista de Espera
 common#:#mem_alert_no_places#:#No hay plazas disponibles.
-common#:#mem_cron_min_members#:#Curso/Grupo: comprobación de mínimo de miembros
-common#:#mem_cron_min_members_info#:#Los administradores serán notificados si no se alcanza el número mínimo.
+common#:#mem_cron_min_members#:#Curso/grupo: verificación mínima de los miembros### OVB translated
+common#:#mem_cron_min_members_info#:#Los administradores serán notificados si no se cumple el número mínimo.### OVB translated
 common#:#mem_end#:#Registro termina:
 common#:#mem_free_places#:#Plazas disponibles:
 common#:#mem_max_users#:#Máximo de Usuarios:
-common#:#mem_min_users#:#Número mínimo de usuarios
+common#:#mem_min_users#:#Mínimo de usuarios### OVB translated
 common#:#mem_participants#:#Participantes
 common#:#mem_reg_expired#:#El registro ha finalizado
 common#:#mem_reg_not_started#:#El registro no ha comenzado
@@ -4642,17 +4642,17 @@ common#:#missing_perm#:#Permiso no encontrado
 common#:#missing_precondition#:#Precondición inexistente
 common#:#mm_achievements#:#Achievements###07 02 2020 new variable
 common#:#mm_administration#:#Administration###07 02 2020 new variable
-common#:#mm_badges#:#Badges###07 02 2020 new variable
-common#:#mm_calendar#:#Calendar###07 02 2020 new variable
-common#:#mm_certificates#:#Certificates###07 02 2020 new variable
+common#:#mm_badges#:#Insignias### OVB translated
+common#:#mm_calendar#:#Calendario### OVB translated
+common#:#mm_certificates#:#Diplomas### OVB translated
 common#:#mm_comments#:#Comments###07 02 2020 new variable
 common#:#mm_communication#:#Communication###07 02 2020 new variable
 common#:#mm_contacts#:#Contacts###07 02 2020 new variable
 common#:#mm_dashboard#:#Dashboard###07 02 2020 new variable
 common#:#mm_enrolments#:#Enrolments###07 02 2020 new variable
 common#:#mm_favorites#:#Favourites###07 02 2020 new variable
-common#:#mm_learning_history#:#Learning History###07 02 2020 new variable
-common#:#mm_learning_progress#:#Learning Progress###07 02 2020 new variable
+common#:#mm_learning_history#:#histórico de cursos### OVB translated
+common#:#mm_learning_progress#:#Progreso de aprendizaje### OVB translated
 common#:#mm_mail#:#Mail###07 02 2020 new variable
 common#:#mm_news#:#News###07 02 2020 new variable
 common#:#mm_notes#:#Notes###07 02 2020 new variable
@@ -4794,7 +4794,7 @@ common#:#my_certificates#:#My Certificates
 common#:#my_contacts#:#Mi contacto
 common#:#my_courses#:#Mis Cursos
 common#:#my_courses_groups#:#Mis Cursos y Grupos
-common#:#my_staff#:#Empleados
+common#:#my_staff#:#Colaboradores### OVB translated
 common#:#name#:#Nombre
 common#:#nc_contact_requests_headline#:#Contact Requests###07 02 2020 new variable
 common#:#nc_contact_requests_number_p#:#You have %s Contact Requests.###07 02 2020 new variable
@@ -4877,8 +4877,8 @@ common#:#obj_cals_desc#:#Preferencias generales del calendario.
 common#:#obj_cat#:#Categoría
 common#:#obj_cat_duplicate#:#Copiar Categoría
 common#:#obj_catr#:#Enlace a categoría
-common#:#obj_cert#:#Informes
-common#:#obj_cert_desc#:#Ajustes para informes
+common#:#obj_cert#:#Diplomas### OVB translated
+common#:#obj_cert_desc#:#Ajustes para diplomas### OVB translated
 common#:#obj_chap#:#Capítulo
 common#:#obj_chta#:#Salas del chat
 common#:#obj_chtr#:#Sala de chat
@@ -4900,7 +4900,7 @@ common#:#obj_crs_duplicate#:#Copiar Curso
 common#:#obj_crsr#:#Enlace a curso
 common#:#obj_crss#:#Curso
 common#:#obj_crss_desc#:#Configuración general para cursos
-common#:#obj_crsv#:#Informe del Curso
+common#:#obj_crsv#:#Diploma del Curso### OVB translated
 common#:#obj_dbk#:#Libro Digital
 common#:#obj_dcl#:#Colección de datos
 common#:#obj_dcl_duplicate#:#Copiar colección de datos
@@ -4910,7 +4910,7 @@ common#:#obj_dshs#:#Dashboard###07 02 2020 new variable
 common#:#obj_dshs_desc#:#Dashboard settings###07 02 2020 new variable
 common#:#obj_ecss#:#ECS
 common#:#obj_ecss_desc#:#Configuración General ECS
-common#:#obj_etal#:#Employee Talk###31 03 2023 new variable
+common#:#obj_etal#:#RP Colaborador### OVB translated
 common#:#obj_exc#:#Entrega de ejercicios
 common#:#obj_exc_duplicate#:#Copiar ejercicio
 common#:#obj_excv#:#Informe de Entrega de Trabajo
@@ -4946,7 +4946,7 @@ common#:#obj_iass_select#:#-- Seleccione una valoración individual --
 common#:#obj_itgr#:#Grupo de elementos
 common#:#obj_ldap_desc#:#Configure las opciones globales de LDAP aquí
 common#:#obj_ldoc#:#Legal Documents###30 04 2024 new variable
-common#:#obj_lhts#:#Learning History###07 02 2020 new variable
+common#:#obj_lhts#:#histórico de cursos### OVB translated
 common#:#obj_lhts_desc#:#Learning history settings###07 02 2020 new variable
 common#:#obj_lm#:#Módulo de aprendizaje
 common#:#obj_lm_duplicate#:#Copiar modulo de aprendizaje
@@ -5003,7 +5003,7 @@ common#:#obj_pecs#:#Content Snippet###30 04 2021 new variable
 common#:#obj_pedt#:#Data Table###30 04 2021 new variable
 common#:#obj_pefl#:#File List###30 04 2021 new variable
 common#:#obj_peim#:#interactive Media###30 04 2021 new variable
-common#:#obj_pelh#:#Learning History###30 04 2021 new variable
+common#:#obj_pelh#:#histórico de cursos### OVB translated
 common#:#obj_pemed#:#Image/Audio/Video###30 04 2021 new variable
 common#:#obj_pemp#:#Map###30 04 2021 new variable
 common#:#obj_pepd#:#Personal Data###30 04 2021 new variable
@@ -5080,10 +5080,10 @@ common#:#obj_sysc#:#Comprobación de Sistema
 common#:#obj_sysc_desc#:#Comprobación de Sistema y Herramientas de Reparación
 common#:#obj_tags#:#Etiquetado
 common#:#obj_tags_desc#:#Ajustes de etiquetado
-common#:#obj_tala#:#Talk Templates###31 03 2023 new variable
-common#:#obj_tala_desc#:#Talk Templates###31 03 2023 new variable
-common#:#obj_tals#:#Employee Talk Series###31 03 2023 new variable
-common#:#obj_talt#:#Talk Template###31 03 2023 new variable
+common#:#obj_tala#:#Ejemplo conversaciones### OVB translated
+common#:#obj_tala_desc#:#Ejemplo conversaciones### OVB translated
+common#:#obj_tals#:#Serie de RP´s Colaboradores### OVB translated
+common#:#obj_talt#:#Ejemplo conversaciones### OVB translated
 common#:#obj_task#:#Task###07 02 2020 new variable
 common#:#obj_tax#:#Taxonomía
 common#:#obj_taxf#:#Taxonomías
@@ -5101,7 +5101,7 @@ common#:#obj_trac#:#Seguimiento y progreso de aprendizaje
 common#:#obj_trac_desc#:#Datos de seguimiento de usuario (accesos)
 common#:#obj_tst#:#Test
 common#:#obj_tst_duplicate#:#Copiar Test
-common#:#obj_tstv#:#Informe de realización de Test
+common#:#obj_tstv#:#Diploma de realización de Test### OVB translated
 common#:#obj_type#:#Tipo de Objeto
 common#:#obj_user#:#Usuario
 common#:#obj_usr#:#Usuario
@@ -5139,7 +5139,7 @@ common#:#objs_copa#:#Content Pages
 common#:#objs_crs#:#Cursos
 common#:#objs_crsr#:#Enlaces al curso
 common#:#objs_dcl#:#Colecciones de datos
-common#:#objs_etal#:#Employee Talks###31 03 2023 new variable
+common#:#objs_etal#:#RP Colaboradores### OVB translated
 common#:#objs_exc#:#Entrega de ejercicios
 common#:#objs_file#:#Archivos
 common#:#objs_fold#:#Carpetas
@@ -5181,8 +5181,8 @@ common#:#objs_skee#:#Competence Trees###28 11 2023 new variable
 common#:#objs_spl#:#Bancos de preguntas (Encuestas)
 common#:#objs_st#:#Capítulos
 common#:#objs_svy#:#Encuestas
-common#:#objs_tala#:#Talk Templates###31 03 2023 new variable
-common#:#objs_talt#:#Talk Templates###31 03 2023 new variable
+common#:#objs_tala#:#Ejemplo conversaciones### OVB translated
+common#:#objs_talt#:#Ejemplo conversaciones### OVB translated
 common#:#objs_tst#:#Tests
 common#:#objs_webr#:#Recursos Web
 common#:#objs_wiki#:#Wikis
@@ -5228,12 +5228,12 @@ common#:#parameter#:#Parámetro
 common#:#parse#:#Analizar
 common#:#participate#:#Subscribe###07 02 2020 new variable
 common#:#passed#:#Superado
-common#:#passwd#:#contraseña
+common#:#passwd#:#Contraseña### OVB translated
 common#:#passwd_generation#:#Generación de contraseñas
 common#:#passwd_invalid#:#La nueva contraseña no es válida! Por favor escoja otra contraseña
 common#:#passwd_not_match#:#¡La contraseña introducida no coincide! Por favor introduzca de nuevo su contraseña.
 common#:#passwd_wrong#:#La contraseña introducida es incorrecta!
-common#:#password#:#contraseña
+common#:#password#:#Contraseña### OVB translated
 common#:#password_allow_chars#:#Caracteres permitidos: %s
 common#:#password_assistance_info#:#Si la asistencia de contraseña está habilitada, un enlace con el texto "¿Olvidó su contraseña?" aparecerá en la página de entrada de ILIAS. Los usuarios pueden usar este enlace para asignar una nueva contraseña a su cuenta, sin necesitar asistencia del administrador del sistema.
 common#:#password_change_on_first_login_demand#:#Debe cambiar la clave inicial antes de comenzar a utilizar los servicios de ILIAS.
@@ -5278,9 +5278,9 @@ common#:#persons#:#Personas
 common#:#pg_add#:#Añadir página
 common#:#pg_new#:#Nueva página
 common#:#phone#:#Teléfono
-common#:#phone_home#:#Teléfono, casa
+common#:#phone_home#:#Responsable directo (nombre)### OVB translated
 common#:#phone_mobile#:#Teléfono, móvil
-common#:#phone_office#:#Teléfono, oficina
+common#:#phone_office#:#Nivel de rango (breve)### OVB translated
 common#:#phrase#:#Conjunto
 common#:#please_choose#:#-- Seleccionar --
 common#:#please_enter_target#:#Por favor introduzca un destino.
@@ -5483,7 +5483,7 @@ common#:#sahs_insert_chap_from_clip#:#Pegar capítulos desde el Portapapeles
 common#:#sahs_insert_page_from_clip#:#Pegar páginas desde el Portapapeles
 common#:#sahs_insert_sco_from_clip#:#Pegar SCOs desde el Portapapeles
 common#:#salutation#:#saludo
-common#:#salutation_f#:#Sr./Sra.
+common#:#salutation_f#:#Sra.### OVB translated
 common#:#salutation_m#:#Sr.
 common#:#salutation_n#:#No salutation desired
 common#:#saml_log_in#:#Inicio de sesión directo
@@ -5724,8 +5724,8 @@ common#:#tagging_my_tags#:#Mis etiquetas
 common#:#tags#:#Tags###30 04 2021 new variable
 common#:#take_over_structure#:#Adoptar Estructura
 common#:#take_over_structure_info#:#Si se activa, los directorios en el Archivo zip serán mapeados a categorías o, si se usan en grupos o cursos, a carpetas
-common#:#tals_etal#:#Talk###31 03 2023 new variable
-common#:#talt_etal#:#Talk###31 03 2023 new variable
+common#:#tals_etal#:#Conversación### OVB translated
+common#:#talt_etal#:#Conversación### OVB translated
 common#:#target#:#Destino
 common#:#tax#:#Taxonomía
 common#:#tax_add#:#Añadir Taxonomía
@@ -5773,7 +5773,7 @@ common#:#tos_withdraw_consent_description_internal#:#Please log in again to comp
 common#:#tos_withdraw_consent_header#:#Withdraw Terms of Service Consent###30 04 2024 new variable
 common#:#tos_withdraw_consent_info#:#Withdraw your consent to our Terms of Service.###30 04 2024 new variable
 common#:#tos_withdraw_consent_info_external#:#Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Terms of Service.###30 04 2024 new variable
-common#:#total#:#total
+common#:#total#:#Miembros del curso### OVB translated
 common#:#tracking_settings#:#Configuración de Seguimiento
 common#:#translation#:#Traducción
 common#:#trash#:#papelera
@@ -5967,7 +5967,7 @@ common#:#webdav_enable_versioning#:#File Versioning###07 02 2020 new variable
 common#:#webdav_forbidden_chars_title#:#Following files cannot be displayed, because they contain one or more forbidden characters (\<>/:*?"|#):###07 02 2020 new variable
 common#:#webdav_form_document#:#Instructions Document###07 02 2020 new variable
 common#:#webdav_form_document_info#:#Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information###07 02 2020 new variable
-common#:#webdav_form_document_title#:#Title###07 02 2020 new variable
+common#:#webdav_form_document_title#:#Título### OVB translated
 common#:#webdav_form_document_title_info#:#This title will be dislayed as the title of the modal when the Mount Instructions are opened###07 02 2020 new variable
 common#:#webdav_form_edit_doc_head#:#Edit Mount Instructions Document###07 02 2020 new variable
 common#:#webdav_form_new_doc_head#:#Create new Mount Instructions Document###07 02 2020 new variable
@@ -5979,7 +5979,7 @@ common#:#webdav_problem_info_duplicate#:#There is a file with the same title as 
 common#:#webdav_pwd_instruction#:#Se recomienda crear una contraseña local para abrir el repositorio como una carpeta web.<br />Esta contraseña solo se requerirá para las funciones de la carpeta web.
 common#:#webdav_pwd_instruction_success#:#Se creó una nueva contraseña local. Ahora puedes abrir el repositorio como una carpeta web.
 common#:#webdav_sure_delete_documents_s#:#Are you sure you want to delete the Mount Instructions with the following title:###07 02 2020 new variable
-common#:#webdav_tbl_docs_head_title#:#Dokument title###07 02 2020 new variable
+common#:#webdav_tbl_docs_head_title#:#Título del documento### OVB translated
 common#:#webdav_tbl_docs_title#:#List of uploaded WebDAV Mount Instructions###07 02 2020 new variable
 common#:#webdav_upload_instructions#:#Upload Instructions###07 02 2020 new variable
 common#:#webdav_versioning_info#:#If enabled, already existing files will get a new version instead of beeing overwritten.###07 02 2020 new variable
@@ -5987,7 +5987,7 @@ common#:#webfolder_dir_info#:#Llegó aquí porque su navegador no puede abrir Ca
 common#:#webfolder_index_of#:#índice de %1$s
 common#:#webfolder_instructions#:#Instrucciones de Carpeta Web
 common#:#webfolder_instructions_info#:#Las instrucciones de la Carpeta Web son mostradas en navegadores que no pueden abrir una Carpeta Web directamente. Puede usar código HTML y los siguientes marcadores de posición:<br /><b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>. Borre el campo para obtener las instrucciones por defecto.
-common#:#webfolder_instructions_text#:#<p>Seguir las siguientes instrucciones para abrir <b>[WEBFOLDER_TITLE]</b> como una carpeta web:</p>[IF_WINDOWS]<h3>Instrucciones para Windows XP con Internet Explorer</h3><ol><li>Abrir Internet Explorer</li><li>Seleccionar la opción de menú 'Archivo &gt; Abrir...'</li><li>En el campo 'Abrir' introducir la siguiente dirección:<br/><b>[WEBFOLDER_URI_IE]</b></li><li>Seleccionar la opción 'Abrir como carpeta web' y pulsar 'Aceptar'.</li><li>Introducir usuario, clave de acceso y pulsar 'Aceptar'.</li></ol><h3>Instrucciones para Windows XP sin Internet Explorer</h3><ol><li>Hacer Doble-click en el icono 'Mis sitios de red' en el escritorio.</li><li>Pulsar en 'Añadir sitio de red' en el menú 'Taréas de red' en la izquierda de la ventana.</li><li>Se abrirá el asistente 'Agregar un sitio de red' y pulsar 'Siguiente'.</li><li>Seleccionar la opción 'Elegir otra ubicación de red' y pulsar 'Siguiente'.<li>En el campo 'Dirección de red o Internet' introducir<br/><b>[WEBFOLDER_URI]</b><br/> y seleccionar 'Siguiente'.</li><li>Introducir nombre de usuario, clave y pulsar 'Aceptar'.</li></ol>[/IF_WINDOWS][IF_MAC]<h3>Instrucciones para Mac OS X</h3><ol><li>Open the Finder</li><li>Choose the menu 'Go &gt; Connect to server...'</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI]</b>, and select 'Connect'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/IF_MAC][IF_LINUX]<h3>Instrucciones para Linux usando Konqueror</h3><ol><li>Arrancar el navegador Konqueror</li><li>En la barra de dirección introducir la siguiente url:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b></li><li>Pulsar Enter.</li><li>Introducir usuario, clave y pulsar 'OK'.</li></ol><h3>Instrucciones para Linux con Nautilus</h3><ol><li>Arrancar el navegador Nautilus</li><li>En la barra de dirección introducir la url:<br/><b>[WEBFOLDER_URI_NAUTILUS]</b></li><li>Pulsar la tecla Enter.</li><li>Introducir el nombre del usuario, la clave y pulsar 'OK'.</li></ol>[/IF_LINUX]<p>Si no puede abrir la carpeta web, por favor, contacte con <a href="mailto:[ADMIN_MAIL]">[ADMIN_MAIL]</a>.</p>
+common#:#webfolder_instructions_text#:#<p>Seguir las siguientes instrucciones para abrir <b>[WEBFOLDER_TITLE]</b> como una carpeta web:</p>[IF_WINDOWS]Instrucciones para Windows XP con Internet Explorer<ol><li>Abrir Internet Explorer</li><li>Seleccionar la opción de menú 'Archivo &gt; Abrir...'</li><li>En el campo 'Abrir' introducir la siguiente dirección:<br/><b>[WEBFOLDER_URI_IE]</b></li><li>Seleccionar la opción 'Abrir como carpeta web' y pulsar 'Aceptar'.</li><li>Introducir usuario, clave de acceso y pulsar 'Aceptar'.</li></ol>Instrucciones para Windows XP sin Internet Explorer<ol><li>Hacer Doble-click en el icono 'Mis sitios de red' en el escritorio.</li><li>Pulsar en 'Añadir sitio de red' en el menú 'Taréas de red' en la izquierda de la ventana.</li><li>Se abrirá el asistente 'Agregar un sitio de red' y pulsar 'Siguiente'.</li><li>Seleccionar la opción 'Elegir otra ubicación de red' y pulsar 'Siguiente'.<li>En el campo 'Dirección de red o Internet' introducir<br/><b>[WEBFOLDER_URI]</b><br/> y seleccionar 'Siguiente'.</li><li>Introducir nombre de usuario, clave y pulsar 'Aceptar'.</li></ol>[/IF_WINDOWS][IF_MAC]Instrucciones para Mac OS X<ol><li>Open the Finder</li><li>Choose the menu 'Go &gt; Connect to server...'</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI]</b>, and select 'Connect'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/IF_MAC][IF_LINUX]Instrucciones para Linux usando Konqueror<ol><li>Arrancar el navegador Konqueror</li><li>En la barra de dirección introducir la siguiente url:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b></li><li>Pulsar Enter.</li><li>Introducir usuario, clave y pulsar 'OK'.</li></ol>Instrucciones para Linux con Nautilus<ol><li>Arrancar el navegador Nautilus</li><li>En la barra de dirección introducir la url:<br/><b>[WEBFOLDER_URI_NAUTILUS]</b></li><li>Pulsar la tecla Enter.</li><li>Introducir el nombre del usuario, la clave y pulsar 'OK'.</li></ol>[/IF_LINUX]<p>Si no puede abrir la carpeta web, por favor, contacte con <a href="mailto:[ADMIN_MAIL]">[ADMIN_MAIL]</a>.</p>### OVB translated
 common#:#webfolder_instructions_titletext#:#Abrir %1$s como carpeta web
 common#:#webfolder_mount_dir_with#:#Abrir esta página como carpeta web con <a href="%1$s">Internet Explorer</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">otro navegador</a>.
 common#:#webr#:#Recurso Web
@@ -6093,9 +6093,9 @@ cont#:#cont_skill_really_remove_profile_from_list#:#Do you really want to remove
 cont#:#cont_skill_really_remove_profiles_from_list#:#Do you really want to remove these profiles from the list?###30 04 2021 new variable
 cont#:#cont_skill_records#:#Competence Records###30 04 2024 new variable
 cont#:#cont_skill_removal_not_possible#:#Removing of local competence profiles is not possible. Please select only global competence profiles.###30 04 2021 new variable
-cont#:#cont_std_filter_title_1#:#Title###07 02 2020 new variable
+cont#:#cont_std_filter_title_1#:#Título### OVB translated
 cont#:#cont_std_filter_title_2#:#Description###07 02 2020 new variable
-cont#:#cont_std_filter_title_3#:#Title/Description###07 02 2020 new variable
+cont#:#cont_std_filter_title_3#:#Título/Descrición### OVB translated
 cont#:#cont_std_filter_title_4#:#Keyword###07 02 2020 new variable
 cont#:#cont_std_filter_title_5#:#Author###07 02 2020 new variable
 cont#:#cont_std_filter_title_6#:#Copyright###07 02 2020 new variable
@@ -6284,8 +6284,8 @@ content#:#cont_citation_selection_not_valid#:#Su selección no es válida
 content#:#cont_click_br_corner#:#Por favor haga click en la esquina inferior derecha del área deseada
 content#:#cont_click_center#:#Por favor haga click en el centro del área deseada.
 content#:#cont_click_circle#:#Por favor haga click en un punto de la circunferencia del área deseada
-content#:#cont_click_edit#:#<b>Click</b> on elements to <b>edit</b> its properties.###30 04 2021 new variable
-content#:#cont_click_multi_select#:#<b>Click</b> on elements to <b>select</b> or deselect them.###30 04 2021 new variable
+content#:#cont_click_edit#:#<b>Haz click</b> en un elemento para <b>editar</b> sus propiedades### OVB translated
+content#:#cont_click_multi_select#:#<b>Haz click</b> en un elemento <b>para seleccionar</b> o deseleccionar### OVB translated
 content#:#cont_click_next_or_save#:#Por favor haga click en el siguiente punto del polígono o guarde el área. (¡No es necesario hacer click de nuevo en el punto de comienzo de este polígono!)
 content#:#cont_click_next_point#:#Por favor haga click en el siguiente punto del polígono.
 content#:#cont_click_starting_point#:#Por favor haga click en el punto de comienzo del polígono.
@@ -6461,7 +6461,7 @@ content#:#cont_ed_split_page_next#:#Pasar a la siguiente página
 content#:#cont_ed_textitem#:#Objeto de texto
 content#:#cont_ed_width#:#Ancho
 content#:#cont_edit_base_image#:#Editar imagen base
-content#:#cont_edit_comp#:#Editing###30 04 2021 new variable
+content#:#cont_edit_comp#:#Editar### OVB translated
 content#:#cont_edit_definition#:#Editar Definición
 content#:#cont_edit_file_list_properties#:#Editar propiedades de la Lista de Archivos
 content#:#cont_edit_language_version#:#Editar Versión
@@ -6470,7 +6470,7 @@ content#:#cont_edit_marker_position#:#Editar posición del marcador
 content#:#cont_edit_mob#:#Editar Objeto Media
 content#:#cont_edit_mob_alias_prop#:#Editar propiedades del objeto Multimedia
 content#:#cont_edit_mode#:#Modo de edición
-content#:#cont_edit_multi#:#Selection###30 04 2021 new variable
+content#:#cont_edit_multi#:#Selección múltiple### OVB translated
 content#:#cont_edit_overlay_position#:#Editar posición de la superposición
 content#:#cont_edit_par#:#Editar Párrafo
 content#:#cont_edit_personal_data#:#Editar datos personales
@@ -7054,7 +7054,7 @@ content#:#cont_select_from_upload_dir#:#-- Seleccionar del directorio de envíos
 content#:#cont_select_item#:#Seleccione al menos un item.
 content#:#cont_select_max_one_item#:#Por favor seleccione sólo un item.
 content#:#cont_select_media_pool#:#Seleccionar banco multimedia
-content#:#cont_select_none#:#Clear Selection###30 04 2021 new variable
+content#:#cont_select_none#:#Anular selección### OVB translated
 content#:#cont_select_other_qpool#:#Seleccionar otro banco de preguntas
 content#:#cont_select_par_or_section#:#Por favor seleccione al menos un párrafo o sección
 content#:#cont_selected_items_have_been_copied#:#Los objetos seleccionados se han copiado al portapapeles. Pulse en el lugar apropiado para pegarlo en el módulo de aprendizaje
@@ -7076,7 +7076,7 @@ content#:#cont_set_styles#:#Configurar estilo
 content#:#cont_set_tab_style_info#:#Marcar las casillas en las celdas de la tabla para establecer el estilo
 content#:#cont_settings#:#Configuración para módulos de aprendizaje
 content#:#cont_shape#:#Forma
-content#:#cont_shift_click_to_select#:#<b>Shift-click</b> on elements will <b>select</b> them and switch to the selection mode.###30 04 2021 new variable
+content#:#cont_shift_click_to_select#:#<b>Shift y un click</b> en un elemento <b>lo seleccionará</b> y cambiará a modo selección### OVB translated
 content#:#cont_short_title#:#Título breve
 content#:#cont_short_title_info#:#Los títulos breves se utilizan en la presentación de árbol de la izquierda y en las etiquetas de la navegación anterior/siguiente.
 content#:#cont_short_titles#:#Títulos breves
@@ -7084,7 +7084,7 @@ content#:#cont_show_activation_info#:#Mostrar información de activación
 content#:#cont_show_activation_info_info#:#Si la activación programada no se ha alcanzado, la página no se omitirá. La información se mostrará al usuario cuando la página se active
 content#:#cont_show_adv#:#Mostrar conocimiento avanzado
 content#:#cont_show_content_after_focus#:#Continuar con el módulo de aprendizaje
-content#:#cont_show_fullscreen#:#Show Fullscreen###30 04 2021 new variable
+content#:#cont_show_fullscreen#:#Mostrar pantalla completa### OVB translated
 content#:#cont_show_info#:#Mostrar información
 content#:#cont_show_line_numbers#:#Mostrar números de línea
 content#:#cont_show_print_view#:#Mostrar vista de impresión
@@ -7481,10 +7481,10 @@ crs#:#crs_admission_link_failure_registration_period#:#No puedes registrarte: el
 crs#:#crs_admission_link_success_registration#:#Te has registrado correctamente en el curso "%s".
 crs#:#crs_agree#:#Aceptación
 crs#:#crs_agreement_header#:#Acuerdo de usuario
-crs#:#crs_agreement_required#:#Tienes que aceptar el acuerdo de usuario, si quieres matricularte en este curso
+crs#:#crs_agreement_required#:#Confirme la reserva vinculante.### OVB translated
 crs#:#crs_at_least_one_admin#:#Tiene que haber al menos un administrador de curso.
 crs#:#crs_auto_notification#:#Aviso para nuevo miembro
-crs#:#crs_auto_notification_info#:#Los miembros nuevos reciben un correo de aviso cuando se añaden al curso.
+crs#:#crs_auto_notification_info#:#Los correos de bienvenida se envían automáticamente a los miembros que se agregan al curso a través de un complemento. Si los complementos CourseBooking y MailAdministration están instalados y activos, se enviará Mail 16.### OVB translated
 crs#:#crs_awrn_current_course#:#Curso actual
 crs#:#crs_awrn_current_course_info#:#Si el usuario navega a un curso en el repositorio, se mostrarán todos los miembros del curso.
 crs#:#crs_awrn_support_contacts#:#Soporte para tutoría
@@ -7498,9 +7498,9 @@ crs#:#crs_cancel_subscr_request#:#Eliminar Petición de miembro.
 crs#:#crs_cancel_subscription#:#Su pertenencia al curso "%s" ha sido cancelada
 crs#:#crs_cancel_subscription_body#:#Un usuario se ha dado de baja en el curso "%s"
 crs#:#crs_cancel_subscription_body2#:#Podría haber otros miembros en lista de espera en su curso.\nDebe revisar la lista de espera.\nPara ver los miembros de tu curso, click aquí:
-crs#:#crs_cancellation_end#:#Límite de cancelación
+crs#:#crs_cancellation_end#:#Límite de cancelación### OVB translated
 crs#:#crs_cancellation_end_info#:#A partir de esta fecha no se pueden registrar nuevos miembros.
-crs#:#crs_cancellation_end_rbac_info#:#El límite para cancelar fue el %s, ya no es posible una cancelación.
+crs#:#crs_cancellation_end_rbac_info#:#La fecha límite de cancelación se cumplió en %s, una cancelación ya no es posible.### OVB translated
 crs#:#crs_cannot_find_role#:#No se puede encontrar este rol.
 crs#:#crs_cdf_edit_member#:#Editar datos relevantes de usuarios del curso
 crs#:#crs_cdf_tbl_last_edit#:#Última actualización (Datos específicos del curso)
@@ -7515,7 +7515,7 @@ crs#:#crs_contact_responsibility#:#Responsabilidad
 crs#:#crs_content#:#Contenido del curso
 crs#:#crs_copy#:#Copiar Curso
 crs#:#crs_course_group_notification_link#:#Enlace:
-crs#:#crs_course_period_not_valid#:#La duración del curso no es válida
+crs#:#crs_course_period_not_valid#:#El período del curso no es válido.### OVB translated
 crs#:#crs_course_status_of_users#:#Estado final de los usuarios
 crs#:#crs_create_date#:#Crear fecha
 crs#:#crs_custom_user_fields#:#Datos de usuario personalizados
@@ -7698,9 +7698,9 @@ crs#:#crs_mail_type#:#Correo a los miembros
 crs#:#crs_map_location#:#Localización de Mapa de Curso
 crs#:#crs_map_settings#:#Configuración del mapa
 crs#:#crs_materials#:#Materiales del Curso
-crs#:#crs_max_and_min_members_invalid#:#El número mínimo debe ser menor que el número máximo de miembros.
-crs#:#crs_max_and_min_members_needed#:#Establecer un número mínimo o máximo de miembros - o ambos.
-crs#:#crs_max_members_needed#:#Se necesita un número máximo de miembros para la función de lista de espera.
+crs#:#crs_max_and_min_members_invalid#:#El número mínimo debe ser menor que el número máximo de miembros.### OVB translated
+crs#:#crs_max_and_min_members_needed#:#Establezca un número mínimo o máximo de miembros, o ambos.### OVB translated
+crs#:#crs_max_members_needed#:#Se necesita un número máximo de miembros para la función de la lista de espera.### OVB translated
 crs#:#crs_max_members_reached#:#El número máximo de miembros ha sido alcanzado
 crs#:#crs_mem_contact#:#Contacto para ayuda
 crs#:#crs_mem_contacts#:#Contactos para ayuda
@@ -7809,7 +7809,7 @@ crs#:#crs_passed_status_system#:#Sistema
 crs#:#crs_password_not_valid#:#Su contraseña no es válida
 crs#:#crs_password_required#:#El procedimiento de registro requiere una clave de acceso.
 crs#:#crs_pdf#:#PDF
-crs#:#crs_period#:#Duración del Curso
+crs#:#crs_period#:#Período del curso### OVB translated
 crs#:#crs_period_end_mail_placeholder#:#Period End###07 02 2020 new variable
 crs#:#crs_period_info#:#Fechas de comienzo y finalización del curso
 crs#:#crs_period_start_mail_placeholder#:#Period Start###07 02 2020 new variable
@@ -7887,9 +7887,9 @@ crs#:#crs_subscription_failed_limit#:#Se ha superado el número máximo de parti
 crs#:#crs_subscription_max_members#:#Máximo nº de miembros
 crs#:#crs_subscription_max_members_short#:#Número de miembros
 crs#:#crs_subscription_max_members_short_info#:#Puede establecerse el mínimo y máximo número de miembros. También puede crearse una lista de espera.
-crs#:#crs_subscription_min_members#:#Número mínimo
+crs#:#crs_subscription_min_members#:#Número mínimo### OVB translated
 crs#:#crs_subscription_min_members_err#:#No está permitido que el número mínimo sea superior al número máximo de participantes.
-crs#:#crs_subscription_min_members_info#:#Ver trabajo cron "Cancellation Limit" (Límite de cancelación).
+crs#:#crs_subscription_min_members_info#:#Vea el trabajo de Cron "Límite de cancelación".### OVB translated
 crs#:#crs_subscription_options_confirmation#:#Confirmación de matrícula
 crs#:#crs_subscription_options_direct#:#Matricula Directa
 crs#:#crs_subscription_options_password#:#Matrícula con contraseña de curso
@@ -7959,8 +7959,8 @@ crs#:#crs_unsubscribe_member_explanation#:#Has recibido este mensaje porque has 
 crs#:#crs_unsubscribe_sure#:#¿Quiere darse de baja en este curso?
 crs#:#crs_unsubscribed_from_crs#:#Se ha suscrito en este curso
 crs#:#crs_update_subscr_request#:#Actualizar Peticiones de Membresía
-crs#:#crs_user_agreement#:#Tipos de datos liberados
-crs#:#crs_user_agreement_info#:#Datos personales visibles para administradores del Curso
+crs#:#crs_user_agreement#:#CONTROL_LABEL_NO_DISPLAY### OVB translated
+crs#:#crs_user_agreement_info#:#INFOSCREEN_SEC_NO_DISPLAY### OVB translated
 crs#:#crs_user_already_assigned#:#El usuario elegido ya está asignado a este curso
 crs#:#crs_users_added#:#Usuario añadido al curso
 crs#:#crs_users_already_assigned#:#El usuario ya está asignado a este curso
@@ -7983,9 +7983,9 @@ crs#:#crs_visibility_until_info#:#El curso estará visible a los miembros durant
 crs#:#crs_visibility_unvisible#:#The course is not visible.###24 11 2022 new variable
 crs#:#crs_wait_info#:#Si se habilita y el numero máximo de usuarios se sobrepasa, las nuevas matrículas serán colocadas en una lista de espera.
 crs#:#crs_waiting_list#:#Lista de espera
-crs#:#crs_waiting_list_autofill#:#Con auto-relleno
-crs#:#crs_waiting_list_autofill_info#:#Los participantes son asignados de la lista de espera de forma automática cuando se producen cancelaciones.
-crs#:#crs_waiting_list_no_autofill#:#Sin auto-relleno
+crs#:#crs_waiting_list_autofill#:#Llenado automático### OVB translated
+crs#:#crs_waiting_list_autofill_info#:#Los participantes son reclutados de la lista de espera automáticamente en cancelaciones.### OVB translated
+crs#:#crs_waiting_list_no_autofill#:#Sin autocompletar### OVB translated
 crs#:#crs_warn_no_max_set_on_waiting_list#:#Se ha llegado al número máximo de alumnos en el curso. Puedes añadir tu petición de pertenencia a la lista de espera. Recibirás un mensaje del administrador del curso cuando haya sido aprobada o rechazada.
 crs#:#crs_warn_wl_set_on_waiting_list#:#Algunos usuarios ya estan asignadas a la lista de espera. Puedes añadir tu petición a la lista de espera. Recibirás un mensaje del administrador del curso cuando tu petición sea aprobada o rechazada.
 crs#:#crs_wiz_back#:#Atrás
@@ -8082,7 +8082,7 @@ crs#:#tutor_email#:#Correo
 crs#:#tutor_name#:#Nombre
 crs#:#tutor_phone#:#Teléfono
 crs#:#user_fields#:#Campos de usuario
-crsv#:#crsv_create#:#Crear Informe del Curso
+crsv#:#crsv_create#:#Crear certificado o diploma del Curso### OVB translated
 crsv#:#crsv_create_info#:#Seleccione un curso completo para generar el certificado
 dash#:#dash_activation#:#activation###07 02 2020 new variable
 dash#:#dash_added_to_favs#:#Recommendation has been added to personal favourites.###07 02 2020 new variable
@@ -8140,7 +8140,7 @@ dateplaner#:#Th_short#:#Ju
 dateplaner#:#Tu_long#:#Martes
 dateplaner#:#Tu_short#:#Ma
 dateplaner#:#We_long#:#Miércoles
-dateplaner#:#We_short#:#Nosotros
+dateplaner#:#We_short#:#Mi### OVB translated
 dateplaner#:#add_appointment#:#Añadir cita
 dateplaner#:#app_consultation_hours#:#Horarios de tutoría
 dateplaner#:#app_day#:#Vista diaria
@@ -8891,7 +8891,7 @@ dpro#:#dpro_status_enable_desc#:#Display relevant language-based Declaration of 
 dpro#:#dpro_sure_reset_tos#:#Are you sure you want to reset the Declaration of Data Protection for all users in the system? This also applies, for example, to those accounts that are used for the SOAP web services.###30 04 2024 new variable
 dpro#:#dpro_withdrawal_usr_deletion#:#Account deletion upon Declaration of Data Protection withdrawal###30 04 2024 new variable
 dpro#:#dpro_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from a previously accepted Declaration of Data Protection document, this will result in the deletion of the user’s account.###30 04 2024 new variable
-ecs#:#cert_serial#:#Número de serie del informe
+ecs#:#cert_serial#:#Número de serie del diploma### OVB translated
 ecs#:#ecs_abr#:#Abreviatura
 ecs#:#ecs_account_duration#:#Activación del periodo de prórroga
 ecs#:#ecs_account_duration_info#:#Las nuevas cuentas de usuarios ECS se limitan a la duración del período de sesiones. Después de asignar un usuario a un curso el período de activación se extenderá por el mes número dado.
@@ -9159,47 +9159,47 @@ ecs#:#ecs_wiki_export_enabled#:#Anunciar esta wiki
 ecs#:#ecs_wiki_export_obj_settings#:#Configuración de anuncios de wiki
 error#:#error_back_to_repository#:#Volver al Repositorio
 error#:#error_sry_error#:#Lo siento, ha ocurrido un error.
-etal#:#appointments#:#Appointments###31 03 2023 new variable
-etal#:#cal_type_tals#:#Talks###31 03 2023 new variable
-etal#:#change_date_of_series#:#Change date of talk series###31 03 2023 new variable
-etal#:#change_date_of_talk#:#Change date of talk###31 03 2023 new variable
-etal#:#date_of_talk#:#Start Date###31 03 2023 new variable
-etal#:#etal_add#:#Add Talk###31 03 2023 new variable
-etal#:#etal_add_new_item#:#Add new Talk###31 03 2023 new variable
+etal#:#appointments#:#Reuniones### OVB translated
+etal#:#cal_type_tals#:#Conversaciones### OVB translated
+etal#:#change_date_of_series#:#Ajustar serie de RP´s### OVB translated
+etal#:#change_date_of_talk#:#Ajustar fecha cita RP### OVB translated
+etal#:#date_of_talk#:#Fecha inicio### OVB translated
+etal#:#etal_add#:#Añadir### OVB translated
+etal#:#etal_add_new_item#:#Añadir nueva cita RP### OVB translated
 etal#:#etal_create_invalid_template_ref#:#Invalid Talk Template ID###31 03 2023 new variable
-etal#:#etal_date_appointment_edit#:#Date of Talk###31 03 2023 new variable
-etal#:#etal_date_series_edit#:#Date of Talk Series###31 03 2023 new variable
+etal#:#etal_date_appointment_edit#:#Fecha conversación### OVB translated
+etal#:#etal_date_series_edit#:#Serie de conversaciones### OVB translated
 etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###30 04 2024 new variable
 etal#:#etal_edit#:#General###31 03 2023 new variable
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.###31 03 2023 new variable
 etal#:#etal_location#:#Location###04 11 2025 new variable
-etal#:#etal_new#:#New Talk###31 03 2023 new variable
+etal#:#etal_new#:#Nueva RP### OVB translated
 etal#:#etal_open#:#Open Employee Talk###31 03 2023 new variable
 etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
-etal#:#etal_status_all#:#All###31 03 2023 new variable
-etal#:#etal_status_completed#:#Completed###31 03 2023 new variable
-etal#:#etal_status_pending#:#Pending###31 03 2023 new variable
-etal#:#etal_unknown_username#:#Unknown User###31 03 2023 new variable
+etal#:#etal_status_all#:#Todos### OVB translated
+etal#:#etal_status_completed#:#Finalizado### OVB translated
+etal#:#etal_status_pending#:#Pendiente### OVB translated
+etal#:#etal_unknown_username#:#Usuario desconocido### OVB translated
 etal#:#lock_edititng_for_others#:#Lock editing for others###31 03 2023 new variable
-etal#:#meta_adv_records#:#Metadata###31 03 2023 new variable
-etal#:#mm_org_etal#:#Talks###31 03 2023 new variable
-etal#:#mm_talk_template#:#Talk Templates###31 03 2023 new variable
-etal#:#notification_talks_created#:#You have been invited to the following employee talks.###31 03 2023 new variable
-etal#:#notification_talks_date_list_header#:#Dates###31 03 2023 new variable
-etal#:#notification_talks_removed#:#The following appointments have been canceled.###31 03 2023 new variable
-etal#:#notification_talks_subject#:#Invitation: %s###31 03 2023 new variable
+etal#:#meta_adv_records#:#Metadatos### OVB translated
+etal#:#mm_org_etal#:#Conversación### OVB translated
+etal#:#mm_talk_template#:#Ejemplo conversaciones### OVB translated
+etal#:#notification_talks_created#:#Te han invitado a una entrevista.### OVB translated
+etal#:#notification_talks_date_list_header#:#Datos### OVB translated
+etal#:#notification_talks_removed#:#Las siguientes fechas han sido canceladas.### OVB translated
+etal#:#notification_talks_subject#:#Invitación a RP### OVB translated
 etal#:#notification_talks_subject_update#:#Update: %s###31 03 2023 new variable
-etal#:#notification_talks_updated#:#The following talk appointments have been changed.###31 03 2023 new variable
+etal#:#notification_talks_updated#:#Se han ajustado las siguientes fechas de entrevistas.### OVB translated
 etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:###28 11 2023 new variable
 etal#:#tala_no_content_without_admin_info#:#The Administrator role is required for access to Talk Templates.###08 07 2025 new variable
 etal#:#talk_serial#:#Talk Serial###31 03 2023 new variable
-etal#:#tals_add#:#Add Talks###31 03 2023 new variable
-etal#:#tals_new#:#New Talks###31 03 2023 new variable
-etal#:#talt_activation_online_info#:#Set the talk template online to make it visible and available for employees. If not, only administrators will have access to it.###31 03 2023 new variable
-etal#:#talt_add#:#Add Template###31 03 2023 new variable
+etal#:#tals_add#:#Añadir conversaciones### OVB translated
+etal#:#tals_new#:#Nueva serie de conversaciones### OVB translated
+etal#:#talt_activation_online_info#:#Marque el ejemplo como activo para que esté disponible para los colaboradores.### OVB translated
+etal#:#talt_add#:#Crear### OVB translated
 etal#:#talt_edit#:#General###31 03 2023 new variable
-etal#:#talt_etal#:#Employee Talk###31 03 2023 new variable
-etal#:#talt_new#:#New Talk Template###31 03 2023 new variable
+etal#:#talt_etal#:#RP Colaborador### OVB translated
+etal#:#talt_new#:#Nuevo ejemplo conversación### OVB translated
 etal#:#will_update_series_info_lock#:#Lock the editing of all appointments in this series###31 03 2023 new variable
 etal#:#will_update_series_info_title#:#Changes to the title will be made to all appointments in this series.###31 03 2023 new variable
 exc#:#exc_add_assignment#:#Añadir tarea
@@ -10228,9 +10228,9 @@ grp#:#grp_at_least_one_admin#:#Tiene que haber al menos un administrador de grup
 grp#:#grp_auto_notification#:#Welcome-Mail For New Members###07 02 2020 new variable
 grp#:#grp_auto_notification_info#:#New members get a mail notification when added to the group.###07 02 2020 new variable
 grp#:#grp_cancel_subscr_request#:#Eliminar la petición de pertenencia.
-grp#:#grp_cancellation_end#:#Límite de cancelación
+grp#:#grp_cancellation_end#:#Límite de cancelación### OVB translated
 grp#:#grp_cancellation_end_info#:#A partir de esta fecha no se pueden registrar nuevos miembros.
-grp#:#grp_cancellation_end_rbac_info#:#El límite para cancelar fue el %s, ya no es posible realizar una cancelación.
+grp#:#grp_cancellation_end_rbac_info#:#La fecha límite de cancelación se cumplió en %s, una cancelación ya no es posible.### OVB translated
 grp#:#grp_cdf_edit_member#:#Editar datos relevantes de usuarios del grupo
 grp#:#grp_cdf_tbl_last_edit#:#Última actualización (Datos específicos del grupo)
 grp#:#grp_change_type#:#Cambiar tipo de grupo
@@ -10377,11 +10377,11 @@ grp#:#grp_warn_grp_type_changed#:#Desea cambiar el tipo de grupo? Todos los perm
 grp#:#grp_warn_no_max_set_on_waiting_list#:#El máximo de miembros del grupo ha sido excedido. Puede añadir su petición de pertenencia a la lista de espera. Recibirá un mensaje del administrador del grupo cuando su petición sea aceptada o rechazada.
 grp#:#grp_warn_wl_set_on_waiting_list#:#Algunos usuarios estan ya en la lista de espera. Puedes añadir tu solicitud a la lista de espera. Recibirás un mensaje del administrador del grupo cuando tu petición sea aceptada o rechazada.
 grp#:#grp_wrong_max_members#:#Por favor compruebe el número máximo de usuarios.
-grp#:#grp_wrong_min_max_members#:#Por favor, compruebe el número mínimo y máximo de usuarios.
+grp#:#grp_wrong_min_max_members#:#Verifique el número mínimo y máximo de usuarios.### OVB translated
 grp#:#grp_wrong_reg_time_limit#:#Por favor, revise la hora de inicio y final.
 grp#:#reg_grp_max_members#:#Número máximo de usuarios
 grp#:#reg_grp_max_members_short#:#Número de miembros
-grp#:#reg_grp_min_members#:#Número mínimo de miembros
+grp#:#reg_grp_min_members#:#Número mínimo de miembros### OVB translated
 help#:#help_all#:#Todo
 help#:#help_component#:#Componente
 help#:#help_filter#:#Filtro
@@ -10611,7 +10611,7 @@ jscalendar#:#s_sa#:#Sá
 jscalendar#:#s_su#:#Do
 jscalendar#:#s_th#:#Ju
 jscalendar#:#s_tu#:#Ma
-jscalendar#:#s_we#:#Nosotros
+jscalendar#:#s_we#:#Mi### OVB translated
 jscalendar#:#select_date#:#Seleccione fecha
 jscalendar#:#time#:#Hora
 jscalendar#:#time_part#:#(Shift-)Click o arrastrar para cambiar valor
@@ -10813,13 +10813,13 @@ lhist#:#cont_create_lhist#:#Create Learning History Element
 lhist#:#cont_update_lhist#:#Edit Learning History Element
 lhist#:#lhist_all#:#All
 lhist#:#lhist_cont_placeholder_text#:#This element will show the learning history in the presentation mode of the portfolio.
-lhist#:#lhist_enable_learning_history#:#Learning History###07 02 2020 new variable
+lhist#:#lhist_enable_learning_history#:#histórico de cursos### OVB translated
 lhist#:#lhist_enable_learning_history_info#:#Enables an overview of all achievements of a user.###07 02 2020 new variable
-lhist#:#lhist_first_login#:#First Login
-lhist#:#lhist_learning_history#:#Learning History
-lhist#:#lhist_lhist#:#Learning History
+lhist#:#lhist_first_login#:#primer inicio de sesión### OVB translated
+lhist#:#lhist_learning_history#:#histórico de cursos### OVB translated
+lhist#:#lhist_lhist#:#histórico de cursos### OVB translated
 lhist#:#lhist_manual#:#Manual
-lhist#:#lhist_no_entries#:#Achieve your goals! Learn something today to further your learning history.
+lhist#:#lhist_no_entries#:#¡Cumple tus objetivos! Atiende alguna formación hoy para que tu histórico de aprendizaje vaya creciendo.### OVB translated
 lhist#:#lhist_period#:#Period
 lhist#:#lhist_selected#:#Selected
 lhist#:#lhist_show_more#:#Show More
@@ -10987,7 +10987,7 @@ lso#:#table_may_proceed#:#User may proceed
 lso#:#table_online#:#Online
 lso#:#table_position#:#Position
 lso#:#table_sequence_content#:#Content Management
-lso#:#table_title#:#Title
+lso#:#table_title#:#Título### OVB translated
 lso#:#unparticipate#:#Unsubscribe
 lti#:#act_lti_for_obj_type#:#Activar LTI para tipo de objeto
 lti#:#activity_id#:#Activity ID###07 02 2020 new variable
@@ -11148,7 +11148,7 @@ lti#:#lti_con_prov_provider_key_global#:#Predefined Key and Secret###07 02 2020 
 lti#:#lti_con_prov_provider_key_global_info#:#If not set, users have to add key and secret to use the provider.###07 02 2020 new variable
 lti#:#lti_con_prov_remarks#:#Internal Remarks###07 02 2020 new variable
 lti#:#lti_con_prov_secret#:#Secret###07 02 2020 new variable
-lti#:#lti_con_prov_title#:#Title###07 02 2020 new variable
+lti#:#lti_con_prov_title#:#Título### OVB translated
 lti#:#lti_con_prov_url#:#URL of Provider###07 02 2020 new variable
 lti#:#lti_con_prov_use_provider_id#:#Use Provider ID###07 02 2020 new variable
 lti#:#lti_con_prov_use_provider_id_info#:#Usually the Ref-Id of the LTI Consumer is transferred to the Provider. Some Providers map this Ref-Id with the Resource of the Provider. To get always the same Resource for these Providers this Option should be activated.###07 02 2020 new variable
@@ -11791,7 +11791,7 @@ meta#:#md_adv_deleted_fields#:#Los campos han sido borrados.
 meta#:#md_adv_deleted_files#:#Archivos de exportación eliminados.
 meta#:#md_adv_deleted_records#:#Conjunto de datos eliminados
 meta#:#md_adv_desc_show#:#Mostrar descripción
-meta#:#md_adv_edit_complex_option#:#Edit Option Properties###07 02 2020 new variable
+meta#:#md_adv_edit_complex_option#:#Editar propiedades de opción### OVB translated
 meta#:#md_adv_edit_field#:#Editar campo
 meta#:#md_adv_edit_record#:#Editar conjunto de datos
 meta#:#md_adv_field_fields#:#Campos
@@ -12216,7 +12216,7 @@ meta#:#meta_has_format#:#Tiene Formato
 meta#:#meta_has_part#:#Tiene Partes
 meta#:#meta_has_version#:#Tiene Versión
 meta#:#meta_hierarchical#:#Jerárquico
-meta#:#meta_high#:#superior
+meta#:#meta_high#:#Directivo### OVB translated
 meta#:#meta_higher_education#:#Educación superior
 meta#:#meta_id#:#ID
 meta#:#meta_idea#:#Idea
@@ -12379,7 +12379,7 @@ meta#:#meta_l_xx#:#none###30 04 2024 new variable
 meta#:#meta_l_yi#:#yidis
 meta#:#meta_l_yo#:#yoruba
 meta#:#meta_l_za#:#chuang
-meta#:#meta_l_zh#:#chino
+meta#:#meta_l_zh#:#aleman (AT)### OVB translated
 meta#:#meta_l_zu#:#zulu
 meta#:#meta_language#:#Idioma
 meta#:#meta_language_plural#:#Languages###30 04 2024 new variable
@@ -12497,7 +12497,7 @@ meta#:#meta_very_easy#:#Muy fácil
 meta#:#meta_very_high#:#Muy alto
 meta#:#meta_very_low#:#Muy bajo
 meta#:#meta_yes#:#Si
-meta#:#udf_type_address#:#Address###07 02 2020 new variable
+meta#:#udf_type_address#:#DIRECCIÓN### OVB translated
 meta#:#udf_type_externallink#:#Enlace externo
 meta#:#udf_type_float#:#Real
 meta#:#udf_type_integer#:#Entero
@@ -12556,7 +12556,7 @@ mme#:#sub_provider#:#Provider
 mme#:#sub_role_based_visibility#:#Visibility for roles###30 04 2021 new variable
 mme#:#sub_role_based_visibility_byline#:#Choose global roles which can see this item. If not activated, the item is always shown.###30 04 2021 new variable
 mme#:#sub_status#:#Status
-mme#:#sub_title#:#Title
+mme#:#sub_title#:#Título### OVB translated
 mme#:#sub_title_default#:#Title (Default Language)
 mme#:#sub_title_default_byline#:#Other Translations can be added with the Translation Action after.
 mme#:#sub_type#:#Type
@@ -12583,7 +12583,7 @@ mme#:#topitem_icon_byline#:#Upload a custom icon for this Item. Please note that
 mme#:#topitem_position#:#Position
 mme#:#topitem_provider#:#Provider
 mme#:#topitem_subentries#:#Items
-mme#:#topitem_title#:#Title
+mme#:#topitem_title#:#Título### OVB translated
 mme#:#topitem_title_default#:#Title (Default Language)
 mme#:#topitem_title_default_byline#:#Other Translations can be added with the Translation Action after.
 mme#:#topitem_translate#:#Translate
@@ -12637,11 +12637,11 @@ mst#:#mst_download_certificate#:#Download Certificate###07 02 2020 new variable
 mst#:#mst_list_certificates#:#Certificates###07 02 2020 new variable
 mst#:#mst_list_competences#:#Competences###07 02 2020 new variable
 mst#:#mst_list_courses#:#Inscripciones
-mst#:#mst_list_users#:#Lista de empleados
+mst#:#mst_list_users#:#Lista de usuarios### OVB translated
 mst#:#mst_memb_status_registered#:#Registrado
 mst#:#mst_memb_status_requested#:#Obligatorio
 mst#:#mst_memb_status_waitinglist#:#Lista de espera
-mst#:#mst_my_staff#:#Empleados
+mst#:#mst_my_staff#:#Colaboradores### OVB translated
 mst#:#mst_opt_all#:#Todos
 mst#:#mst_please_select_course#:#Seleccione un curso.
 mst#:#mst_profile_fulfilled#:#Not met, yet###07 02 2020 new variable
@@ -12908,13 +12908,13 @@ orgu#:#add_position#:#Añadir posición
 orgu#:#authorities#:#Autoridades
 orgu#:#authority#:#Autoridad
 orgu#:#backto_staff#:#Devolver al personal
-orgu#:#change_to_employee#:#Cambiar a empleado
-orgu#:#change_to_superior#:#Cambiar a superior
+orgu#:#change_to_employee#:#Cambiar a colaborador### OVB translated
+orgu#:#change_to_superior#:#Cambiar a directivo### OVB translated
 orgu#:#confirm_deletion_and_assign#:#Eliminar y asignar usuario
 orgu#:#confirm_deletion_button#:#Eliminar
 orgu#:#deassign_user_successful#:#Los usuarios se han desactivado exitosamente de este rol
 orgu#:#edit_translations#:#Titulo y descripción
-orgu#:#employee#:#Empleado
+orgu#:#employee#:#Colaborador### OVB translated
 orgu#:#ext_id#:#ID externo
 orgu#:#ext_id_updated#:#El ID externo se ha actualizado correctamente.
 orgu#:#form_title_org_default_permissions_update#:#Permisos predeterminados
@@ -12925,8 +12925,8 @@ orgu#:#import_terminated_with_warnings#:#La importación terminado con advertenc
 orgu#:#import_xml_file#:#Importar Dia
 orgu#:#local_other_roles#:#Roles Adicionales %s
 orgu#:#local_staff#:#Empleados %s
-orgu#:#mm_organisation#:#Organisation###31 03 2023 new variable
-orgu#:#msg_assignment_to_employee_done#:#Asignación a cargo del empleado
+orgu#:#mm_organisation#:#Organización### OVB translated
+orgu#:#msg_assignment_to_employee_done#:#Asignación a cargo del colaborador### OVB translated
 orgu#:#msg_confirm_d_ua#:#¿Desea asignar estas personas a la posición de empleados de sus respectivas unidades organizativas?
 orgu#:#msg_confirm_deletion#:#Would you really like to delete tho following Position?
 orgu#:#msg_confirm_remove_user#:#¿Seguro que desea quitar al usuario siguiente de la posición %s?
@@ -12959,7 +12959,7 @@ orgu#:#org_unit_not_found#:#No se ha encontrado ninguna Unidad Organizativa (Org
 orgu#:#orgu_add#:#Añadir unidad organizativa
 orgu#:#orgu_adv_settings#:#Ajustes avanzados
 orgu#:#orgu_already_deleted#:#El elemento ya se ha eliminado.
-orgu#:#orgu_enable_my_staff#:#Habilitar vista "Empleados"
+orgu#:#orgu_enable_my_staff#:#Habilitar vista "colaboradores"### OVB translated
 orgu#:#orgu_enable_my_staff_info#:#La vista "Empleados" muestra el progreso de aprendizaje de los empleados.
 orgu#:#orgu_global_set_form#:#Configuración de unidad organizativa global
 orgu#:#orgu_global_set_positions#:#Mostrar datos de usuario según posiciones en unidad organizativa
@@ -13015,7 +13015,7 @@ orgu#:#simple_import#:#Importar XML simple
 orgu#:#simple_user_import#:#XML de asignación de usuario
 orgu#:#simple_xls#:#Exportar a Excel
 orgu#:#simple_xml#:#Exportar XML simple
-orgu#:#superior#:#Superior
+orgu#:#superior#:#Directivo### OVB translated
 orgu#:#user_assignments#:#Tareas de usuario
 orgu#:#user_assignments_recursive#:#User Assignments Subtree###30 04 2021 new variable
 orgu#:#user_changed_successful#:#El usuario ha sido cambiado con éxito.
@@ -13381,7 +13381,7 @@ prg#:#prg_still_valid#:#still valid###07 02 2020 new variable
 prg#:#prg_subtype_add#:#Añadir nuevo subtipo
 prg#:#prg_subtypes#:#Subtipos
 prg#:#prg_successfully_removed_certificate#:#Successfully removed certificate of selected Users###30 04 2024 new variable
-prg#:#prg_title#:#Title###07 02 2020 new variable
+prg#:#prg_title#:#Título### OVB translated
 prg#:#prg_type#:#Tipo de programa de estudio
 prg#:#prg_type_add#:#Tipo de programa de estudio
 prg#:#prg_type_assign_amd_sets#:#Asignar conjuntos de metadatos avanzados
@@ -13848,7 +13848,7 @@ rbac#:#catr_visible#:#El enlace a la categoría es visible
 rbac#:#catr_write#:#Editar enlace a categoría
 rbac#:#cert_edit_permission#:#Cambiar configuración de permisos
 rbac#:#cert_read#:#Acceso de lectura a la Configuración del informe
-rbac#:#cert_visible#:#Las configuraciones de los informes son visibles
+rbac#:#cert_visible#:#Las configuraciones de los diplomas son visibles### OVB translated
 rbac#:#cert_write#:#Editar la configuraciones de los informes
 rbac#:#change_existing_object_type_desc#:#También modifica los permisos de objetos ya existentes de ese tipo
 rbac#:#change_existing_objects#:#Modificar Objetos existentes
@@ -17657,11 +17657,11 @@ wsp#:#share_with#:#Nombre de usuario
 wsp#:#wsp_copy_to_repository#:#Copiar al repositorio
 wsp#:#wsp_invalid_password#:#La clave proporcionada no es válida
 wsp#:#wsp_list_cmxv#:#Certificate of xAPI/cmi5 Object###07 02 2020 new variable
-wsp#:#wsp_list_crsv#:#Informe del Curso
-wsp#:#wsp_list_excv#:#Informe del Ejercicio
+wsp#:#wsp_list_crsv#:#Diploma del curso### OVB translated
+wsp#:#wsp_list_excv#:#Certificado del ejercicio### OVB translated
 wsp#:#wsp_list_ltiv#:#Certificate of LTI Consumer Object###07 02 2020 new variable
 wsp#:#wsp_list_scov#:#Informe de módulo SCORM
-wsp#:#wsp_list_tstv#:#Informe del Test
+wsp#:#wsp_list_tstv#:#Certificado del Test### OVB translated
 wsp#:#wsp_move_to_repository#:#Mover al repositorio
 wsp#:#wsp_password_for#:#clave para
 wsp#:#wsp_password_protected_resource#:#Protegido por contraseña los recursos
@@ -17704,7 +17704,7 @@ wsp#:#wsp_tab_personal#:#Mis recursos
 wsp#:#wsp_tab_shared#:#Compartido por otros usuarios
 wsp#:#wsp_type_blog#:#Blog
 wsp#:#wsp_type_cmxv#:#Certificate: xAPI/cmi5###07 02 2020 new variable
-wsp#:#wsp_type_crsv#:#Informe de Curso
+wsp#:#wsp_type_crsv#:#Diploma de Curso### OVB translated
 wsp#:#wsp_type_excv#:#Informe de Entrega de Ejercicios
 wsp#:#wsp_type_file#:#Archivo
 wsp#:#wsp_type_ltiv#:#Certificate: LTI Consumer###07 02 2020 new variable
