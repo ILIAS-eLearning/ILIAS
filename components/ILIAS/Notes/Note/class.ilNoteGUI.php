@@ -342,10 +342,7 @@ class ilNoteGUI
                 }
             }
 
-            $ascending = $this->manager->getSortAscending();
-            if ($this->only_latest) {
-                $order = false;
-            }
+            $ascending = !$this->only_latest && $this->manager->getSortAscending();
             $author_id = ($this->note_type === Note::PRIVATE)
                 ? $ilUser->getId()
                 : 0;
@@ -520,15 +517,19 @@ class ilNoteGUI
             $mess_txt = "";
             if ($this->show_empty_list_message) {
                 $mess_txt = $this->getNoEntriesText($this->search_text !== "");
-                $mess = $f->messageBox()->info($mess_txt);
-                //$html = $this->renderComponents([$panel, $mess]);
-                $html = $this->renderComponents([$mess]);
-                $tpl->setVariable("NOTES_LIST", $html);
+                if ($mess_txt !== "") {
+                    $mess = $f->messageBox()->info($mess_txt);
+                    //$html = $this->renderComponents([$panel, $mess]);
+                    $html = $this->renderComponents([$mess]);
+                    $tpl->setVariable("NOTES_LIST", $html);
+                }
             }
         } elseif ($this->search_text !== "") {
             $mess_txt = $this->getNoEntriesText(true);
-            $mess = $f->messageBox()->info($mess_txt);
-            $tpl->setVariable("NOTES_LIST", $this->renderComponents([$mess]));
+            if ($mess_txt !== "") {
+                $mess = $f->messageBox()->info($mess_txt);
+                $tpl->setVariable("NOTES_LIST", $this->renderComponents([$mess]));
+            }
         }
 
         ilDatePresentation::setUseRelativeDates($reldates);
