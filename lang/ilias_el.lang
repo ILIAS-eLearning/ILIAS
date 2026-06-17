@@ -51,7 +51,7 @@ acc#:#acc_form_document_content_changed#:#The contents of the uploaded file was 
 acc#:#acc_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used.###07 02 2020 new variable
 acc#:#acc_form_document_new#:#Change Content###07 02 2020 new variable
 acc#:#acc_form_document_new_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used. The existing contents will be replaced.###07 02 2020 new variable
-acc#:#acc_form_document_title#:#Title###07 02 2020 new variable
+acc#:#acc_form_document_title#:#Τίτλος### OVB translated
 acc#:#acc_form_document_title_info#:#Please enter a title for the document.###07 02 2020 new variable
 acc#:#acc_form_edit_criterion_head#:#Edit Criterion Assignment###07 02 2020 new variable
 acc#:#acc_form_edit_doc_head#:#Edit Document###07 02 2020 new variable
@@ -67,8 +67,8 @@ acc#:#acc_tbl_docs_cell_not_criterion#:#No criterion assigned###07 02 2020 new v
 acc#:#acc_tbl_docs_head_created#:#Creation Date###07 02 2020 new variable
 acc#:#acc_tbl_docs_head_criteria#:#Criteria###07 02 2020 new variable
 acc#:#acc_tbl_docs_head_last_change#:#Last Change###07 02 2020 new variable
-acc#:#acc_tbl_docs_head_sorting#:#Sorting###07 02 2020 new variable
-acc#:#acc_tbl_docs_head_title#:#Title###07 02 2020 new variable
+acc#:#acc_tbl_docs_head_sorting#:#Ταξινόμηση### OVB translated
+acc#:#acc_tbl_docs_head_title#:#Τίτλος### OVB translated
 acc#:#acc_tbl_docs_title#:#Documents###07 02 2020 new variable
 acc#:#acc_tree_off#:#Tree Off###30 04 2009 new variable
 acc#:#acc_tree_on#:#Tree On###30 04 2009 new variable
@@ -519,7 +519,7 @@ assessment#:#ass_lac_expression#:#Expression###30 08 2015 new variable
 assessment#:#ass_lac_show_legend_btn#:#Show Legend###30 08 2015 new variable
 assessment#:#ass_lac_unable_to_parse_condition#:#The condition "%s" can not be validated.###30 08 2015 new variable
 assessment#:#ass_lac_validation_error#:#Errors occured while validating the conditional expression(s)!###30 08 2015 new variable
-assessment#:#ass_location#:#Location###25 10 2016 new variable
+assessment#:#ass_location#:#Τοποθεσία### OVB translated
 assessment#:#ass_mc_sel_lim_exhausted_hint#:#Please do not select more than %s of %s answers!###25 10 2016 new variable
 assessment#:#ass_mc_sel_lim_hint#:#Please select %s of %s answers!###25 10 2016 new variable
 assessment#:#ass_mc_sel_lim_setting#:#Answering Limitation###25 10 2016 new variable
@@ -2030,7 +2030,7 @@ auth#:#auth_ldap_server_ds#:#LDAP-Server###25 10 2016 new variable
 auth#:#auth_login_editor#:#Loginscreen Editor###14 09 2011 new variable
 auth#:#auth_oidc#:#OpenId Connect###10 11 2018 new variable
 auth#:#auth_oidc_failed#:#Login via OpenID Connect failed###16 03 2023 new variable
-auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###30 04 2021 new variable
+auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###17 06 2026 new variable
 auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenId Connect Attributen  ###10 11 2018 new variable
 auth#:#auth_oidc_profile#:#Zuordnung der Profildaten###10 11 2018 new variable
 auth#:#auth_oidc_role_info#:#OpenID Connect Attribute::Value (e.g: "roles::employee").###07 02 2020 new variable
@@ -2144,7 +2144,7 @@ awrn#:#awrn_online_only#:#Online Only###30 08 2015 new variable
 awrn#:#awrn_seconds#:#sec###30 08 2015 new variable
 awrn#:#awrn_use_osd#:#Popup Online Users###25 10 2016 new variable
 awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the ‘Who is online?’ list.###25 10 2016 new variable
-awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###30 04 2021 new variable
+awrn#:#awrn_user_show#:#Εμφάνιση της κατάστασής μου στο "Ποιος είναι online"### OVB translated
 awrn#:#user_awrn_default#:#Default###30 04 2021 new variable
 awrn#:#user_awrn_hide#:#Hide my status###30 04 2021 new variable
 awrn#:#user_awrn_show#:#Show my status###30 04 2021 new variable
@@ -2188,7 +2188,7 @@ badge#:#badge_image_from_upload#:#Upload Image###25 10 2016 new variable
 badge#:#badge_image_template_form#:#Image Template###25 10 2016 new variable
 badge#:#badge_image_templates#:#Image Templates###25 10 2016 new variable
 badge#:#badge_in_profile#:#In Profile###25 10 2016 new variable
-badge#:#badge_issued_on#:#Issued On###25 10 2016 new variable
+badge#:#badge_issued_on#:#Έκδοση (ημ/νία)### OVB translated
 badge#:#badge_lhist_badge_completed#:#Badge $3$ was awarded.###10 11 2018 new variable
 badge#:#badge_lhist_badge_completed_in#:#Badge $3$ was awarded in $1$.###10 11 2018 new variable
 badge#:#badge_manual#:#Manual Awarding###25 10 2016 new variable
@@ -2210,11 +2210,11 @@ badge#:#badge_obi_organisation_info#:#This entry will be displayed as the Issuer
 badge#:#badge_obi_salt#:#Salt###25 10 2016 new variable
 badge#:#badge_obi_salt_info#:#Enter a combination of characters and numbers to allow third parties to validate the authenticity of a Badge. Please do not change the entry afterwards. ###25 10 2016 new variable
 badge#:#badge_object_badges#:#Object Badges###25 10 2016 new variable
-badge#:#badge_personal_badges#:#My Badges###25 10 2016 new variable
+badge#:#badge_personal_badges#:#Οι διακρίσεις μου### OVB translated
 badge#:#badge_profile_less#:#Show less###25 10 2016 new variable
-badge#:#badge_profile_manage#:#Manage###25 10 2016 new variable
+badge#:#badge_profile_manage#:#Διαχείριση### OVB translated
 badge#:#badge_profile_more#:#Show all###25 10 2016 new variable
-badge#:#badge_profile_view#:#View###25 10 2016 new variable
+badge#:#badge_profile_view#:#Ένδειξη### OVB translated
 badge#:#badge_remove_badge#:#Revoke Badge###25 10 2016 new variable
 badge#:#badge_remove_from_profile#:#Remove from Profile###25 10 2016 new variable
 badge#:#badge_service_activate#:#Activate Service###25 10 2016 new variable
@@ -2279,7 +2279,7 @@ bibl#:#bib_default_organization#:#Organizaton###23 10 2017 new variable
 bibl#:#bib_default_pages#:#Pages###24 10 2013 new variable
 bibl#:#bib_default_publisher#:#Publisher###23 10 2017 new variable
 bibl#:#bib_default_series#:#Series###23 10 2017 new variable
-bibl#:#bib_default_title#:#Title###24 10 2013 new variable
+bibl#:#bib_default_title#:#Τίτλος### OVB translated
 bibl#:#bib_default_type#:#Type###23 10 2017 new variable
 bibl#:#bib_default_url#:#URL###24 10 2013 new variable
 bibl#:#bib_default_volume#:#Volume###24 10 2013 new variable
@@ -2486,7 +2486,7 @@ book#:#book_assign#:#Assign###10 11 2018 new variable
 book#:#book_assign_object#:#Assign Booking Object###10 11 2018 new variable
 book#:#book_assign_participant#:#Assign to Participant###10 11 2018 new variable
 book#:#book_back_to_list#:#Back to List###16 07 2010 new variable
-book#:#book_bobj#:#Booking Object###30 08 2015 new variable
+book#:#book_bobj#:#Αντικείμενο κράτησης### OVB translated
 book#:#book_book#:#Book###16 07 2010 new variable
 book#:#book_book_available#:#Book Available Dates###30 04 2024 new variable
 book#:#book_book_recurrence#:#Book multiple dates###30 04 2024 new variable
@@ -2634,7 +2634,7 @@ book#:#booking_nr_of_items#:#Nr of Items###28 08 2012 new variable
 book#:#obj_book_duplicate#:#Copy Booking Pool###24 10 2013 new variable
 book#:#participants#:#Participants###10 11 2018 new variable
 book#:#reservation_deleted#:#Reservation deleted###30 04 2021 new variable
-buddysystem#:#buddy_allow_to_contact_me#:#Allow to contact me###23 12 2015 new variable
+buddysystem#:#buddy_allow_to_contact_me#:#Επιτρέψτε τα αιτήματα επικοινωνίας### OVB translated
 buddysystem#:#buddy_allow_to_contact_me_info#:#If enabled, other users are able to send me request for getting into contact.###23 12 2015 new variable
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Confirm Request###30 08 2015 new variable
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Cancel Request###30 08 2015 new variable
@@ -2716,9 +2716,9 @@ cert#:#certificate_same_not_saved#:#No new version of certificate template was s
 cert#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.###10 11 2018 new variable
 cert#:#user_certificates#:#Certificates###10 11 2018 new variable
 certificate#:#cert_cron_task_desc#:#This job's responsibility is the creation of persisting certificate data based on learning achievements of users.###10 11 2018 new variable
-certificate#:#cert_cron_task_title#:#Certificates###10 11 2018 new variable
+certificate#:#cert_cron_task_title#:#Πιστοποιητικό### OVB translated
 certificate#:#cert_form_sec_add_features#:#Additional Features###10 11 2018 new variable
-certificate#:#cert_form_sec_availability#:#Availability###10 11 2018 new variable
+certificate#:#cert_form_sec_availability#:#Διαθεσιμότητα### OVB translated
 certificate#:#cert_form_sec_layout#:#Layout and Text###10 11 2018 new variable
 certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)###30 04 2009 new variable
 certificate#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)###30 04 2009 new variable
@@ -2734,7 +2734,7 @@ certificate#:#certificate_error_import#:#An error occured during the import of a
 certificate#:#certificate_error_upload_bgimage#:#An error occured during the upload of the background image!###30 04 2009 new variable
 certificate#:#certificate_export#:#Export Certificate###30 04 2009 new variable
 certificate#:#certificate_failed#:#failed###30 04 2009 new variable
-certificate#:#certificate_file_basename#:#Certificate###28 08 2012 new variable
+certificate#:#certificate_file_basename#:#Πιστοποιητικό### OVB translated
 certificate#:#certificate_learning_progress_must_be_active#:#Only objects with an active Learning Progress can be selected. The Learning Progress is deactivated on the following objects: %s###07 02 2020 new variable
 certificate#:#certificate_letter#:#Letter (11 inch x 8.5 inch)###30 04 2009 new variable
 certificate#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)###30 04 2009 new variable
@@ -2783,7 +2783,7 @@ certificate#:#certificate_ph_scos#:#The following items were selected to determi
 certificate#:#certificate_ph_street#:#Street of the user's address###30 04 2009 new variable
 certificate#:#certificate_ph_testtitle#:#Title of the test###30 04 2009 new variable
 certificate#:#certificate_ph_title#:#Title of the user###30 04 2009 new variable
-certificate#:#certificate_ph_title_sco#:#title###04 10 2011 new variable
+certificate#:#certificate_ph_title_sco#:#Τίτλος### OVB translated
 certificate#:#certificate_ph_zipcode#:#ZIP code of the user's address###30 04 2009 new variable
 certificate#:#certificate_points_notavailable#:#This value cannot be calculated###07 09 2009 new variable
 certificate#:#certificate_preview#:#Show Certificate Preview###30 04 2009 new variable
@@ -2887,7 +2887,7 @@ chatroom#:#chat_message_options#:#Display###06 08 2011 new variable
 chatroom#:#chat_message_to_all#:#to all###06 08 2011 new variable
 chatroom#:#chat_no_use_typing_broadcast#:#Typing will not be broadcasted###31 03 2023 new variable
 chatroom#:#chat_not_use_osc#:#Not Using On-Screen-Chat###30 04 2021 new variable
-chatroom#:#chat_osc_accept_msg#:#Allow On-Screen Chat Conversations###25 10 2016 new variable
+chatroom#:#chat_osc_accept_msg#:#Επιτρέψτε τη συνομιλία### OVB translated
 chatroom#:#chat_osc_accept_msg_info#:#If activated, other users are allowed start a conversation with me.###25 10 2016 new variable
 chatroom#:#chat_osc_accept_msg_info_slate#:#To have private conversations, you must enable your setting "Allow On-Screen Chat Conversations".###31 03 2023 new variable
 chatroom#:#chat_osc_accept_msg_info_slate_link_txt#:#Visibility (in Profile and Privacy)###31 03 2023 new variable
@@ -3096,7 +3096,7 @@ cmix#:#cmix_lrs_type#:#Learning Record Store (LRS)###07 02 2020 new variable
 cmix#:#cmix_new#:#New xAPI/cmi5 Object###07 02 2020 new variable
 cmix#:#completed_info#:#Indicates the actor finished or concluded the activity normally.###30 04 2021 new variable
 cmix#:#completed_label#:#Statements with the verb 'completed'###30 04 2021 new variable
-cmix#:#conf_availability#:#Availability###07 02 2020 new variable
+cmix#:#conf_availability#:#Διαθεσιμότητα### OVB translated
 cmix#:#conf_availability_0#:#Not available###07 02 2020 new variable
 cmix#:#conf_availability_0_info#:#Existing xAPI/cmi5 objects that use this LRS type can no longer be used.###30 04 2024 new variable
 cmix#:#conf_availability_1#:#Existing ones allowed###07 02 2020 new variable
@@ -3166,7 +3166,7 @@ cmix#:#conf_privacy_setting_default#:#Default Settings, changeable for Objects##
 cmix#:#conf_privacy_setting_force#:#Settings are not changeable for Objects###07 02 2020 new variable
 cmix#:#conf_privacy_setting_info#:#Configuration Options for Privacy Settings###07 02 2020 new variable
 cmix#:#conf_remarks#:#Internal comments###07 02 2020 new variable
-cmix#:#conf_title#:#Title###07 02 2020 new variable
+cmix#:#conf_title#:#Τίτλος### OVB translated
 cmix#:#conf_use_proxy#:#xAPI-Proxy###30 04 2024 new variable
 cmix#:#conf_use_proxy_info#:#The xAPI proxy provides real-time data to determine learning progress in ILIAS. The proxy reduces personal data in accordance with the selected data protection options. If the xAPI proxy is deactivated, the learning content writes the learning progress directly to the LRS. This data must then also be retrieved directly from the LRS. The cron job "xAPI/cmi5 get results" is required to determine the learning progress. The xAPI proxy is mandatory for cmi5 objects and is activated automatically.###30 04 2024 new variable
 cmix#:#conf_use_proxy_info_cmi5#:#The xAPI proxy provides real-time data to determine learning progress in ILIAS. The proxy reduces personal data in accordance with the selected data protection options. The xAPI proxy is mandatory for cmi5 objects.###30 04 2024 new variable
@@ -3275,8 +3275,8 @@ cmix#:#tab_scoring#:#Ranking###07 02 2020 new variable
 cmix#:#tab_settings#:#Settings###07 02 2020 new variable
 cmix#:#tab_statements#:#Learning Experiences###07 02 2020 new variable
 cmix#:#tbl_action_raw_data#:#View Raw Data###07 02 2020 new variable
-cmix#:#tbl_lrs_type_availability#:#Availability###07 02 2020 new variable
-cmix#:#tbl_lrs_type_title#:#Title###07 02 2020 new variable
+cmix#:#tbl_lrs_type_availability#:#Διαθεσιμότητα### OVB translated
+cmix#:#tbl_lrs_type_title#:#Τίτλος### OVB translated
 cmix#:#tbl_lrs_type_usages#:#Usages Count###07 02 2020 new variable
 cmix#:#tbl_lrs_types_header#:#LRS-Types###07 02 2020 new variable
 cmix#:#tbl_statements_actor#:#User###07 02 2020 new variable
@@ -3376,8 +3376,8 @@ cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders o
 cntr#:#cntr_copy_crs_grp#:#My Courses and Groups###30 08 2015 new variable
 cntr#:#cntr_copy_repo_tree#:#Repository Tree###30 08 2015 new variable
 cntr#:#cntr_hide_title_and_icon#:#Hide Title and Icon
-cntr#:#cntr_manage#:#Manage###26 06 2009 new variable
-cntr#:#cntr_ordering#:#Sorting###26 06 2009 new variable
+cntr#:#cntr_manage#:#Διαχείριση### OVB translated
+cntr#:#cntr_ordering#:#Ταξινόμηση### OVB translated
 cntr#:#cntr_saved_sorting#:#Saved Sorting.###26 06 2009 new variable
 cntr#:#cntr_switch_to_new_editor_cmd#:#Switch to this page for presentation
 cntr#:#cntr_switch_to_new_editor_message#:#This is the supported standard editor. Please use it to setup the content page. If you click the following link, the content presentation in the repository will switch from the old editor's content to this page.
@@ -3387,7 +3387,7 @@ cntr#:#cntr_tax_settings_info#:#Taxonomies in categories classify and filter the
 cntr#:#cntr_taxonomy_definitions#:#Taxonomy Definition###27 01 2015 new variable
 cntr#:#cntr_taxonomy_show_sideblock#:#Show taxonomy in side block###26 09 2014 new variable
 cntr#:#cntr_taxonomy_sideblock_settings#:#Taxonomy Block Settings###26 09 2014 new variable
-cntr#:#cntr_text_media_editor#:#Text/Media Editor###26 06 2009 new variable
+cntr#:#cntr_text_media_editor#:#Διαμόρφωση σελίδας### OVB translated
 cntr#:#cntr_view_by_type#:#Grouped-by-Type View
 cntr#:#cntr_view_info_by_type#:#This content presentation groups all items by resource type.
 cntr#:#cntr_view_info_sessions#:#This content presentation groups all sessions first. After that the other course content is listed.
@@ -3419,10 +3419,10 @@ common#:#access_public#:#Public
 common#:#access_restricted#:#Set the selected user(s) to limited access
 common#:#access_scope#:#Access
 common#:#access_unlimited#:#unlimited
-common#:#access_until#:#Access until
+common#:#access_until#:#Προθεσμία πρόσβασης### OVB translated
 common#:#access_users#:#Logged in Users
 common#:#accesscount_registered_users#:#Read by number of distinct ILIAS users
-common#:#accessibility_control_concept#:#Accessibility Control Concept###07 02 2020 new variable
+common#:#accessibility_control_concept#:#Έλεγχος πρόσβασης### OVB translated
 common#:#account#:#My Account###07 02 2020 new variable
 common#:#account_expires_body#:#Ο λογαριασμός σας έχει περιορισμό, θα λήξει σε:
 common#:#account_expires_subject#:#[ILIAS] Ο λογαριασμός σας λήγει
@@ -3430,7 +3430,7 @@ common#:#action#:#Ενέργεια
 common#:#action_aborted#:#Η ενέργεια ακυρώθηκε
 common#:#actions#:#Ενέργειες
 common#:#actions_for#:#Actions for %s###15 12 2021 new variable
-common#:#activate#:#Set Active
+common#:#activate#:#Ενεργοποίηση### OVB translated
 common#:#activate_assessment_logging#:#Ενεργοποίηση καταγραφής διαγωνίσματος & αξιολόγησης
 common#:#activate_https#:#Διαχείρηση HTTPS από το ILIAS<br>(Πληρωμή, Σύνδεση)
 common#:#activate_tracking#:#Ενεργοποίηση Ιχνηλασίας
@@ -3604,7 +3604,7 @@ common#:#benchmark#:#Σημείο αναφοράς
 common#:#benchmarks#:#Σημεία αναφοράς
 common#:#bib_data#:#Βιβλιογραφικά δεδομένα
 common#:#bibl_add#:#Add Bibliography###31 03 2023 new variable
-common#:#birthday#:#Birthday###24 07 2009 new variable
+common#:#birthday#:#Γενέθλια### OVB translated
 common#:#bkm_import#:#Εισαγωγή σελιδοδεικτών
 common#:#bkm_import_ok#:#Εισαγώμενοι %d σελιδοδείκτες και %d φάκελοι σελιδοδεικτών με επιτυχία.
 common#:#bkm_sendmail#:#Αποστολή ως επισυναπτόμενου
@@ -3660,7 +3660,7 @@ common#:#catr_add#:#Add Category Link###31 03 2023 new variable
 common#:#catr_edit_info#:#Please choose one category, for creating a new reference.
 common#:#catr_new#:#Create new Category Reference
 common#:#catr_settings#:#Category Link Settings###31 03 2023 new variable
-common#:#certificate#:#Certificate###30 04 2009 new variable
+common#:#certificate#:#Πιστοποιητικό### OVB translated
 common#:#certificate_file_already_exists_error#:#The certificate file already exists in the file system.###07 02 2020 new variable
 common#:#certificate_file_input_output_error#:#The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator.###07 02 2020 new variable
 common#:#certificate_file_not_found_error#:#The certificate file doesn't exist in the file system anymore. Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden.###07 02 2020 new variable
@@ -3705,7 +3705,7 @@ common#:#chta_visible#:#Chatroom Administration is visible###28 08 2012 new vari
 common#:#chta_write#:#Edit Chatroom Administration###28 08 2012 new variable
 common#:#chtr_copy#:#Copy Chatroom###01 10 2011 new variable
 common#:#chtr_import#:#Import Chatroom###31 08 2017 new variable
-common#:#city#:#Πόλη, Πολιτεία
+common#:#city#:#Πόλη/Δήμος### OVB translated
 common#:#cld_abandoned#:#The Cloud Object has been abandoned as of ILIAS 8. No data has been lost. Contact your System Administration for more information.###31 03 2023 new variable
 common#:#cleaned_file#:#Το αρχείο καθαρίστηκε.
 common#:#cleaning_failed#:#Ο καθαρισμός απέτυχε.
@@ -3729,7 +3729,7 @@ common#:#collapse#:#Σύμπτηξη
 common#:#collapse_all#:#Collapse All###15 05 2009 new variable
 common#:#collapse_content#:#Collapse Content###30 04 2021 new variable
 common#:#collapsed#:#Collapsed###15 05 2009 new variable
-common#:#columns#:#Columns###26 03 2010 new variable
+common#:#columns#:#Στήλες### OVB translated
 common#:#comma_separated#:#Χωρισμένο με κόμμα
 common#:#comment#:#Σχόλιο
 common#:#comments#:#Comments###30 04 2021 new variable
@@ -3781,7 +3781,7 @@ common#:#copy_selected_items#:#Copy
 common#:#count#:#Αριθμός
 common#:#counter_novelty#:#News###30 04 2024 new variable
 common#:#counter_status#:#Status###30 04 2024 new variable
-common#:#country#:#Χώρα
+common#:#country#:#Άμεσος Direktor### OVB translated
 common#:#country_free_text#:#Country (Free Text Input###16 07 2010 new variable
 common#:#country_selection#:#Country (Drop Down Selection)###16 07 2010 new variable
 common#:#course#:#Μάθημα
@@ -3833,7 +3833,7 @@ common#:#crs_status_blocked#:#[Η πρόσβαση απορρίφθηκε]
 common#:#crs_status_pending#:#[Αναμονή για εγγραφή]
 common#:#crs_subscribers_assigned#:#Ανάθεση νέου χρήστη/ων
 common#:#crs_title#:#Course Title
-common#:#crs_unsubscribe#:#Unsubscribe###26 06 2009 new variable
+common#:#crs_unsubscribe#:#Διαγραφή από την πορεία### OVB translated
 common#:#crs_wizard_page#:#Copy Course (Step 2/2)
 common#:#crsr#:#Course Reference
 common#:#crsr_add#:#Add Course Link###31 03 2023 new variable
@@ -3864,7 +3864,7 @@ common#:#db_type#:#Τύπος βάσης δεδομένων
 common#:#db_user#:#Χρήστης βάσης δεδομένων
 common#:#db_version#:#Έκδοση βάσης δεδομένων
 common#:#dd_mm_yyyy#:#DD.MM.YYYY###16 07 2010 new variable
-common#:#deactivate#:#Set Inactive
+common#:#deactivate#:#Απενεργοποίηση### OVB translated
 common#:#decrease_attempts#:#Attempts - 1
 common#:#def_repository_view#:#Προεπιλεγμένη προβολή χώρου αποθήκευσης
 common#:#default#:#Προεπιλογή
@@ -3901,7 +3901,7 @@ common#:#deletion_notification#:#"%s" has canceled the attendance of session "%s
 common#:#deliver#:#Παράδοση άσκησης
 common#:#deny_usr_agreement#:#Do not accept terms of service?###30 04 2021 new variable
 common#:#deny_usr_agreement_btn#:#Not Accept###30 04 2021 new variable
-common#:#department#:#Τμήμα
+common#:#department#:#Ομάδα LD (επώνυμο, όνομα)### OVB translated
 common#:#desc#:#Περιγραφή
 common#:#description#:#Περιγραφή
 common#:#desired_password#:#Επιθυμητός κωδικός
@@ -3912,7 +3912,7 @@ common#:#disable_check#:#Απενεργοποίηση ελέγχου
 common#:#disable_ext_lang_maint#:#Disable Extended Maintenance
 common#:#disable_hide_user_toggle#:#Member is allowed to deactivate###28 10 2009 new variable
 common#:#disabled#:#Απενεργοποιημένο
-common#:#disclose#:#Disclose###30 04 2021 new variable
+common#:#disclose#:#Γνωστοποίηση### OVB translated
 common#:#dislike#:#Dislike###10 11 2018 new variable
 common#:#domain#:#Περιοχή
 common#:#down#:#Κάτω
@@ -3954,7 +3954,7 @@ common#:#edit_properties#:#Επεξεργασία Ιδιοτήτων
 common#:#edit_stylesheet#:#Επεξεργασία στυλ
 common#:#edited_on#:#Edited on###14 01 2013 new variable
 common#:#editor#:#Συντάκτης
-common#:#email#:#Ηλεκτρονικό ταχυδρομείο
+common#:#email#:#E-Mail### OVB translated
 common#:#email_not_valid#:#Η διεύθυνση Η/Τ που πληκτρολογήσατε δεν είναι έγκυρη!
 common#:#enable#:#Ενεργοποίηση
 common#:#enable_anonymous_fora#:#Allow posting with pseudonym###22 03 2011 new variable
@@ -4023,7 +4023,7 @@ common#:#error_empty_file_or_folder#:#The file size is 0 bytes or it is a folder
 common#:#error_extraction_failed#:#The extraction of the archive and its directories failed. Probably because you don't have the rights to create folders or categories within this object.###24 10 2013 new variable
 common#:#error_parser#:#Λάθος κατά την έναρξη της γραμματικής ανάλυσης.
 common#:#error_upload_was_zero_bytes#:#The upload failed as this is a folder, the file size is 0 bytes or the file was renamed meanwhile.###24 10 2013 new variable
-common#:#etal_talks#:#Talks###31 03 2023 new variable
+common#:#etal_talks#:#Συζητήσεις### OVB translated
 common#:#event_ass_materials_prop#:#Session Materials###24 07 2009 new variable
 common#:#event_assign_files#:#File Assignment###26 06 2009 new variable
 common#:#exc#:#Άσκηση
@@ -4075,7 +4075,7 @@ common#:#extracting#:#Extracting...###24 10 2013 new variable
 common#:#eyeclosed#:#Eye Closed - Click to hide the input's contents###30 04 2021 new variable
 common#:#eyeopened#:#Eye Open - Click to reveal the input's contents###30 04 2021 new variable
 common#:#failure_message#:#Failure Message###30 04 2009 new variable
-common#:#fax#:#Φαξ
+common#:#fax#:#Επίπεδο καριέρας (ολογράφως)### OVB translated
 common#:#feed#:#Τροφοδότηση Διαδικτύου
 common#:#feedback#:#Ανάδραση
 common#:#field_name#:#Όνομα Πεδίου
@@ -4280,7 +4280,7 @@ common#:#help#:#Βοήθεια
 common#:#hide#:#απόκρυψη
 common#:#hide_all_details#:#Hide all details###24 10 2013 new variable
 common#:#hide_details#:#Απόκρυψη λεπτομερειών
-common#:#hide_filter#:#Hide Filter###26 03 2010 new variable
+common#:#hide_filter#:#Απόκρυψη φίλτρου### OVB translated
 common#:#hide_own_online_status#:#Hide My Online Status
 common#:#hide_visible_sections#:#Hide More Information &raquo;###26 09 2014 new variable
 common#:#hint#:#Hint###24 07 2009 new variable
@@ -4294,7 +4294,7 @@ common#:#hist_webr_delete#:#Ο πόρος Ιστού διαγράφηκε. Τί�
 common#:#hist_webr_update#:#Αναβάθμιση πόρου Ιστού. Τίτλος: "%1"
 common#:#history#:#Ιστορικό
 common#:#hits_per_page#:#Επισκέψεις/Σελίδα
-common#:#hobby#:#Ενδιαφέροντα/Χόμπυ
+common#:#hobby#:#Κωδ. Συνεργάτη### OVB translated
 common#:#home#:#Δημόσια περιοχή
 common#:#host#:#Κεντρικός υπολογιστής
 common#:#hour#:#Ώρα
@@ -4315,7 +4315,7 @@ common#:#id#:#Αναγνωριστικό
 common#:#identifier#:#Αναγνωριστικό
 common#:#if_no_title_then_filename#:#Αφήστε κενό για εμφάνιση του ονόματος του αρχείου
 common#:#ignore_on_conflict#:#Αγνόηση διαμάχης
-common#:#ignore_required_fields#:#Ignore required fields###18 01 2012 new variable
+common#:#ignore_required_fields#:#Αγνοήστε τα υποχρεωτικά πεδία χρήστη### OVB translated
 common#:#ignore_required_fields_info#:#If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login.###18 01 2012 new variable
 common#:#il_astpl_loc_initial#:#Initial Test###26 09 2014 new variable
 common#:#il_astpl_loc_qualified#:#Qualifying Test###26 09 2014 new variable
@@ -4393,7 +4393,7 @@ common#:#info_remove_sure#:#Are you sure that you want to remove the following i
 common#:#info_short#:#Πληροφορίες
 common#:#info_status_info#:#Άδειες χρήστη
 common#:#info_view_of_user#:#Χρήστης
-common#:#inform_user_mail#:#Στείλε email για να ενημερώσεις το χρήστη για τις αλλαγές
+common#:#inform_user_mail#:#Ενημερώστε τον χρήστη για τις αλλαγές μέσω email### OVB translated
 common#:#inline_file_extensions#:#Web-enabled files
 common#:#inline_file_extensions_info#:#Files with these extensions are displayed in the browser window.<br/>For example: <b>gif jpg mp3 pdf png</b><br/> All other files are offered for downloading.
 common#:#insert#:#Εισαγωγή
@@ -4407,7 +4407,7 @@ common#:#installation_status#:#Installation Status###30 04 2021 new variable
 common#:#installed#:#Εγκαταστάθηκε
 common#:#installed_local#:#Εγκαταστάθηκε τοπικά
 common#:#instant_messengers#:#Instant Messengers
-common#:#institution#:#Ίδρυμα
+common#:#institution#:#Γραφείο### OVB translated
 common#:#internal_local_roles_only#:#Τοπικοί ρόλοι (μόνο αυτο-δημιουργημένοι)
 common#:#invalid_visible_required_options_selected#:#All fields set to required has to be set to visible in registration, too.###29 09 2009 new variable
 common#:#invisible_block#:#Invisible Block
@@ -4427,7 +4427,7 @@ common#:#join#:#ένωση
 common#:#join_session#:#Join###22 09 2009 new variable
 common#:#kb#:#KByte
 common#:#keywords#:#Λέξεις κλειδιά
-common#:#label_search_options#:#Search Area###30 04 2021 new variable
+common#:#label_search_options#:#Περιοχή αναζήτησης### OVB translated
 common#:#lang_dateformat#:#Y-m-d
 common#:#lang_path#:#Διαδρομή γλώσσας
 common#:#lang_refresh_confirm#:#Do you really want to refresh all languages?
@@ -4458,7 +4458,7 @@ common#:#last_login#:#Τελευταία σύνδεση
 common#:#last_refresh#:#Last Refresh###16 09 2009 new variable
 common#:#last_reminder#:#Last reminder###24 07 2009 new variable
 common#:#last_update#:#Τελευταία ενημέρωση
-common#:#last_visited#:#Last Visited
+common#:#last_visited#:#Τελευταία επίσκεψη### OVB translated
 common#:#lastname#:#Επώνυμο
 common#:#laugh#:#Laugh###10 11 2018 new variable
 common#:#launch#:#Έναρξη
@@ -4525,7 +4525,7 @@ common#:#locator#:#Τοποθεσία:
 common#:#log_in#:#Σύνδεση
 common#:#log_out#:#Logout###30 04 2021 new variable
 common#:#logic_or#:#η
-common#:#login#:#Σύνδεση
+common#:#login#:#Όνομα σύνδεσης### OVB translated
 common#:#login_as#:#Συνδεθήκατε ως
 common#:#login_data#:#Δεδομένα σύνδεσης
 common#:#login_exists#:#Υπάρχει άλλος χρήστης με αυτό το όνομα χρήστη! Παρακαλώ επιλέξτε ένα άλλο.
@@ -4590,7 +4590,7 @@ common#:#mainbar_aria_label#:#Mainbar###30 04 2021 new variable
 common#:#mainbar_more_label#:#More###30 04 2021 new variable
 common#:#manage_members#:#Manage Members###30 08 2015 new variable
 common#:#marked_entries#:#Marked Entries
-common#:#matriculation#:#Αριθμός Μητρώου
+common#:#matriculation#:#Διεθνής κωδ. Συνεργάτη### OVB translated
 common#:#max_previews_per_object#:#Number of preview images per file###24 10 2013 new variable
 common#:#max_previews_per_object_info#:#Defines the maximum number of preview images that are created per file.###24 10 2013 new variable
 common#:#mcst#:#MediaCast
@@ -4598,12 +4598,12 @@ common#:#mcst_add#:#Add MediaCast
 common#:#mcst_new#:#New MediaCast
 common#:#mem_add_to_wl#:#Add to Waiting List###26 06 2009 new variable
 common#:#mem_alert_no_places#:#There are no free places available.
-common#:#mem_cron_min_members#:#Course/Group: Minimum Members Check###30 08 2015 new variable
-common#:#mem_cron_min_members_info#:#The administrators will be notified if the minimum number is not met.###30 08 2015 new variable
+common#:#mem_cron_min_members#:#Μάθημα/Ομάδα: Έλεγχος ελάχιστης μελών### OVB translated
+common#:#mem_cron_min_members_info#:#Οι διαχειριστές θα ειδοποιηθούν εάν δεν πληρούται ο ελάχιστος αριθμός.### OVB translated
 common#:#mem_end#:#Registration End:
 common#:#mem_free_places#:#Free Places:
 common#:#mem_max_users#:#Maximum of Users:
-common#:#mem_min_users#:#Minimum of Users###30 08 2015 new variable
+common#:#mem_min_users#:#Ελάχιστο των χρηστών### OVB translated
 common#:#mem_participants#:#Participants
 common#:#mem_reg_expired#:#The registration time is expired.
 common#:#mem_reg_not_started#:#The registration has not started
@@ -4639,35 +4639,35 @@ common#:#minutes#:#Λεπτά
 common#:#missing#:#Λείπει
 common#:#missing_perm#:#Missing Permission
 common#:#missing_precondition#:#Missing Precondition
-common#:#mm_achievements#:#Achievements###07 02 2020 new variable
-common#:#mm_administration#:#Administration###07 02 2020 new variable
-common#:#mm_badges#:#Badges###07 02 2020 new variable
-common#:#mm_calendar#:#Calendar###07 02 2020 new variable
-common#:#mm_certificates#:#Certificates###07 02 2020 new variable
-common#:#mm_comments#:#Comments###07 02 2020 new variable
-common#:#mm_communication#:#Communication###07 02 2020 new variable
-common#:#mm_contacts#:#Contacts###07 02 2020 new variable
+common#:#mm_achievements#:#Επιτυχίες στην εκπαίδευση### OVB translated
+common#:#mm_administration#:#Διαχείριση### OVB translated
+common#:#mm_badges#:#Διακρίσεις### OVB translated
+common#:#mm_calendar#:#Ημερολόγιο### OVB translated
+common#:#mm_certificates#:#Πιστοποιητικά### OVB translated
+common#:#mm_comments#:#Σχόλια### OVB translated
+common#:#mm_communication#:#Επικοινωνία### OVB translated
+common#:#mm_contacts#:#Επαφές### OVB translated
 common#:#mm_dashboard#:#Dashboard###07 02 2020 new variable
 common#:#mm_enrolments#:#Enrolments###07 02 2020 new variable
-common#:#mm_favorites#:#Favourites###07 02 2020 new variable
-common#:#mm_learning_history#:#Learning History###07 02 2020 new variable
-common#:#mm_learning_progress#:#Learning Progress###07 02 2020 new variable
+common#:#mm_favorites#:#Αγαπημένα### OVB translated
+common#:#mm_learning_history#:#Ιστορικό εκπαίδευσης### OVB translated
+common#:#mm_learning_progress#:#Πρόοδος εκμάθησης### OVB translated
 common#:#mm_mail#:#Mail###07 02 2020 new variable
-common#:#mm_news#:#News###07 02 2020 new variable
-common#:#mm_notes#:#Notes###07 02 2020 new variable
-common#:#mm_organisation#:#Organisation###07 02 2020 new variable
+common#:#mm_news#:#Νέα### OVB translated
+common#:#mm_notes#:#Σημειώσεις### OVB translated
+common#:#mm_organisation#:#Οργάνωση### OVB translated
 common#:#mm_personal_and_shared_r#:#Personal and Shared Resources###07 02 2020 new variable
-common#:#mm_personal_workspace#:#Personal Workspace###07 02 2020 new variable
+common#:#mm_personal_workspace#:#Προσωπικός χώρος εργασίας### OVB translated
 common#:#mm_portfolio#:#Portfolio###07 02 2020 new variable
 common#:#mm_private_chats#:#Private Chats###31 03 2023 new variable
 common#:#mm_repo_tree_view#:#Tree View###07 02 2020 new variable
 common#:#mm_repo_tree_view_act#:#Activate Tree###07 02 2020 new variable
 common#:#mm_repo_tree_view_deact#:#Deactivate Tree###07 02 2020 new variable
-common#:#mm_repository#:#Repository###07 02 2020 new variable
-common#:#mm_skills#:#Competences###07 02 2020 new variable
+common#:#mm_repository#:#Απόθεμα### OVB translated
+common#:#mm_skills#:#Προσόντα### OVB translated
 common#:#mm_staff_list#:#Staff List###07 02 2020 new variable
 common#:#mm_tags#:#Tags###07 02 2020 new variable
-common#:#mm_task_derived_tasks#:#Tasks###07 02 2020 new variable
+common#:#mm_task_derived_tasks#:#Καθήκοντα### OVB translated
 common#:#mme_lost_item_reason#:#Item is no longer provided.###07 02 2020 new variable
 common#:#mme_lost_item_title#:#No assignment###07 02 2020 new variable
 common#:#mob#:#Αντικείμενο πολυμέσων
@@ -4792,7 +4792,7 @@ common#:#my_bms#:#Οι Σελιδοδείκτες μου
 common#:#my_certificates#:#My Certificates###10 11 2018 new variable
 common#:#my_contacts#:#My Contact###30 08 2015 new variable
 common#:#my_courses#:#My Courses
-common#:#my_courses_groups#:#My Courses & Groups###02 09 2011 new variable
+common#:#my_courses_groups#:#Τα σεμινάρια και οι ομάδες μου### OVB translated
 common#:#my_staff#:#Staff###31 08 2017 new variable
 common#:#name#:#Όνομα
 common#:#nc_contact_requests_headline#:#Contact Requests###07 02 2020 new variable
@@ -4816,7 +4816,7 @@ common#:#no_date#:#Χωρίς ημερομηνία
 common#:#no_gallery_users_available#:#There are currently no users in the gallery.###30 08 2015 new variable
 common#:#no_global_role_left#:#Σε κάθε χρήστη πρέπει να ανατεθεί ένας ρόλος.
 common#:#no_import_file_found#:#Δεν βρέθηκε αρχείο που να εισάχθηκε
-common#:#no_items#:#No Items
+common#:#no_items#:#Καμιά καταχώριση### OVB translated
 common#:#no_limit#:#Χωρίς όριο
 common#:#no_mkisofs_configured#:#You have to configure mkisofs utility in ILIAS setup to run ISO export###26 03 2010 new variable
 common#:#no_owner#:#No Owner###28 10 2009 new variable
@@ -4860,7 +4860,7 @@ common#:#obj_auth#:#Επικύρωση και εγγραφή
 common#:#obj_auth_desc#:#Ρυθμίστε την μέθοδο επικύρωσής σας (τοπικά, LDAP, ...) και ορίστε τις ρυθμίσεις δημιουργίας νέου λογαριασμού.
 common#:#obj_awra#:#‘Who is online?’-Tool###30 08 2015 new variable
 common#:#obj_awra_desc#:#Manage ‘Who is online?’-Tool###30 08 2015 new variable
-common#:#obj_bdga#:#Badges###25 10 2016 new variable
+common#:#obj_bdga#:#Διακρίσεις### OVB translated
 common#:#obj_bdga_desc#:#Administrate types, image templates and activity badges###25 10 2016 new variable
 common#:#obj_bgtk#:#Background Task###07 02 2020 new variable
 common#:#obj_bibl#:#Bibliography###24 10 2013 new variable
@@ -4909,7 +4909,7 @@ common#:#obj_dshs#:#Dashboard###07 02 2020 new variable
 common#:#obj_dshs_desc#:#Dashboard settings###07 02 2020 new variable
 common#:#obj_ecss#:#ECS###28 11 2012 new variable
 common#:#obj_ecss_desc#:#General ECS Settings###28 11 2012 new variable
-common#:#obj_etal#:#Employee Talk###31 03 2023 new variable
+common#:#obj_etal#:#Συζήτηση με τους Συνεργάτες### OVB translated
 common#:#obj_exc#:#Άσκηση
 common#:#obj_exc_duplicate#:#Copy Exercise###10 11 2018 new variable
 common#:#obj_excv#:#Exercise Certificate###28 08 2012 new variable
@@ -5079,10 +5079,10 @@ common#:#obj_sysc#:#System Check###24 10 2013 new variable
 common#:#obj_sysc_desc#:#System Check and Repair Tools###24 10 2013 new variable
 common#:#obj_tags#:#Ετικετοποίηση
 common#:#obj_tags_desc#:#Ρυθμίσεις δυνατοτήτων ετικετοποίησης.
-common#:#obj_tala#:#Talk Templates###31 03 2023 new variable
-common#:#obj_tala_desc#:#Talk Templates###31 03 2023 new variable
-common#:#obj_tals#:#Employee Talk Series###31 03 2023 new variable
-common#:#obj_talt#:#Talk Template###31 03 2023 new variable
+common#:#obj_tala#:#Πρότυπα συζήτησης### OVB translated
+common#:#obj_tala_desc#:#Πρότυπα συζήτησης### OVB translated
+common#:#obj_tals#:#Σειρά συζητήσεων με τους Συνεργάτες### OVB translated
+common#:#obj_talt#:#Πρότυπα συζήτησης### OVB translated
 common#:#obj_task#:#Task###07 02 2020 new variable
 common#:#obj_tax#:#Κατάταξη
 common#:#obj_taxf#:#Κατατάξεις
@@ -5138,7 +5138,7 @@ common#:#objs_copa#:#Content Pages###10 11 2018 new variable
 common#:#objs_crs#:#Μαθήματα
 common#:#objs_crsr#:#Course References
 common#:#objs_dcl#:#Data Collections###28 08 2012 new variable
-common#:#objs_etal#:#Employee Talks###31 03 2023 new variable
+common#:#objs_etal#:#Συζητήσεις με τους Συνεργάτες### OVB translated
 common#:#objs_exc#:#Ασκήσεις
 common#:#objs_file#:#Αρχεία
 common#:#objs_fold#:#Φάκελοι
@@ -5156,7 +5156,7 @@ common#:#objs_lti#:#LTI Consumers###07 02 2020 new variable
 common#:#objs_mail#:#Mail###02 03 2009 new variable
 common#:#objs_mcst#:#Εκπομπές Μέσων
 common#:#objs_mep#:#Δεξαμενή πολυμέσων
-common#:#objs_orgu#:#Organisational Unit###24 10 2013 new variable
+common#:#objs_orgu#:#Οργανωτικές μονάδες### OVB translated
 common#:#objs_poll#:#Polls###28 08 2012 new variable
 common#:#objs_prg#:#Study Programmes###30 08 2015 new variable
 common#:#objs_prgr#:#Links to Study Programmes###30 04 2021 new variable
@@ -5180,8 +5180,8 @@ common#:#objs_skee#:#Competence Trees###28 11 2023 new variable
 common#:#objs_spl#:#Δεξαμενή ερωτήσεων για Έρευνα
 common#:#objs_st#:#Κεφάλαια
 common#:#objs_svy#:#Έρευνες
-common#:#objs_tala#:#Talk Templates###31 03 2023 new variable
-common#:#objs_talt#:#Talk Templates###31 03 2023 new variable
+common#:#objs_tala#:#Πρότυπα συζήτησης### OVB translated
+common#:#objs_talt#:#Πρότυπα συζήτησης### OVB translated
 common#:#objs_tst#:#Διαγωνίσματα
 common#:#objs_webr#:#Πηγές Ιστού
 common#:#objs_wiki#:#Wikis
@@ -5272,14 +5272,14 @@ common#:#personal_data#:#Προσωπικές Πληροφορίες
 common#:#personal_picture#:#Προσωπική εικόνα
 common#:#personal_profile#:#Προσωπικό προφίλ
 common#:#personal_resources#:#Personal Resources###07 02 2020 new variable
-common#:#personal_settings#:#Personal Settings###01 04 2011 new variable
+common#:#personal_settings#:#Προσωπικές ρυθμίσεις### OVB translated
 common#:#persons#:#Πρόσωπα
 common#:#pg_add#:#Προσθήκη σελίδας
 common#:#pg_new#:#Νέα σελίδα
 common#:#phone#:#Τηλέφωνο
-common#:#phone_home#:#Τηλέφωνο, Οικία
+common#:#phone_home#:#Άμεσος συντονιστής (όνομα)### OVB translated
 common#:#phone_mobile#:#Τηλέφωνο, Κινητό
-common#:#phone_office#:#Τηλέφωνο, Γραφείο
+common#:#phone_office#:#Επίπεδο καριέρας (αρχικά)### OVB translated
 common#:#phrase#:#Φράση
 common#:#please_choose#:#-- Επιλογή --
 common#:#please_enter_target#:#Παρακαλώ εισάγετε ένα στόχο
@@ -5362,7 +5362,7 @@ common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, us
 common#:#public#:#δημόσιο
 common#:#public_notes#:#Δημόσιες σημειώσεις
 common#:#public_profile#:#Δημόσιο προφίλ
-common#:#public_room#:#Public room###02 09 2011 new variable
+common#:#public_room#:#Δημόσιος χώρος chat### OVB translated
 common#:#purpose#:#Σκοπός
 common#:#qpl#:#Μνήμη ερωτήσεων διαγωνίσματος
 common#:#qpl_add#:#Προσθήκη μνήμης ερωτήσεων για το διαγώνισμα
@@ -5411,7 +5411,7 @@ common#:#rename_file#:#Μετονομασία αρχείου
 common#:#renderer_supported_file_types#:#Supported File Types###24 10 2013 new variable
 common#:#renderer_supported_repo_types#:#Supported ILIAS Objects###24 10 2013 new variable
 common#:#renderer_type_builtin#:#Built-in###24 10 2013 new variable
-common#:#rep_main_page#:#Main Page###01 04 2011 new variable
+common#:#rep_main_page#:#Αρχική σελίδα### OVB translated
 common#:#repeat_scan#:#Επανάληψη ελέγχου για ιούς...
 common#:#repeat_scan_failed#:#Η επανάληψη ελέγχου απέτυχε.
 common#:#repeat_scan_succeded#:#Η επανάληψη ελέγχου πέτυχε.
@@ -5432,7 +5432,7 @@ common#:#required_field#:#Απαιτείται
 common#:#res_links#:#Repository Links
 common#:#res_links_short#:#Links
 common#:#reset#:#Επαναφορά
-common#:#reset_filter#:#Reset filter
+common#:#reset_filter#:#Αλλαγή φίλτρου### OVB translated
 common#:#resources#:#Πηγές
 common#:#right#:#Δικαίωμα
 common#:#rights#:#Δικαιώματα
@@ -5482,8 +5482,8 @@ common#:#sahs_insert_chap_from_clip#:#Paste Chapters from Clipboard###26 06 2009
 common#:#sahs_insert_page_from_clip#:#Paste Pages from Clipboard###26 06 2009 new variable
 common#:#sahs_insert_sco_from_clip#:#Paste SCOs from Clipboard###26 06 2009 new variable
 common#:#salutation#:#Χαιρετισμός
-common#:#salutation_f#:#Κα..
-common#:#salutation_m#:#Κ.
+common#:#salutation_f#:#κυρία### OVB translated
+common#:#salutation_m#:#κύριε### OVB translated
 common#:#salutation_n#:#No salutation desired###10 11 2018 new variable
 common#:#saml_log_in#:#Direct login###31 08 2017 new variable
 common#:#saml_login_form_info_txt#:#You can log in using the “Direct Login” button without having to enter your username or password.###31 08 2017 new variable
@@ -5526,9 +5526,9 @@ common#:#seas_max_hits#:#Μέγιστος αρ. επισκέψεων
 common#:#seas_max_hits_info#:#Παρακαλώ εισάγετε έναν αριθμό για το μέγιστο πλήθος των αποτελεσμάτων αναζήτησης.
 common#:#seas_settings#:#Ρυθμίσεις αναζήτησης
 common#:#second#:#Δευτερόλεπτο
-common#:#second_email#:#Second Email###31 08 2017 new variable
+common#:#second_email#:#Δεύτερο e-mail### OVB translated
 common#:#seconds#:#Δευτερόλεπτα
-common#:#sel_country#:#Country###16 07 2010 new variable
+common#:#sel_country#:#Χώρα### OVB translated
 common#:#select#:#Επιλογή
 common#:#select_all#:#Επιλογή όλων
 common#:#select_at_least_one_object#:#Please choose at least one object.###30 04 2009 new variable
@@ -5633,11 +5633,11 @@ common#:#show#:#Εμφάνιση
 common#:#show_all_details#:#Show all details###24 10 2013 new variable
 common#:#show_content#:#Show Content###31 03 2023 new variable
 common#:#show_details#:#Εμφάνιση λεπτομερειών
-common#:#show_filter#:#Show Filter###07 09 2009 new variable
+common#:#show_filter#:#Ένδειξη φίλτρου### OVB translated
 common#:#show_hidden_sections#:#Show More Information &raquo;###26 09 2014 new variable
 common#:#show_list#:#Εμφάνιση λίστας
 common#:#show_members#:#Παρουσίαση μελών
-common#:#show_more#:#Show More###30 04 2021 new variable
+common#:#show_more#:#Ένδειξη περισσότερου περιεχομένου### OVB translated
 common#:#show_owner#:#Εμφάνιση ιδιοκτήτη
 common#:#show_preview#:#Show Preview###30 04 2024 new variable
 common#:#show_users_online#:#Εμφάνιση ενεργών χρηστών
@@ -5656,7 +5656,7 @@ common#:#soap_wsdl_path#:#WSDL Path###26 06 2009 new variable
 common#:#soap_wsdl_path_info#:#Please enter the path to the ilias wsdl file which should be used for the webservice. If you leave this field blank, the following path will be used per default:%s###26 06 2009 new variable
 common#:#sort_ascending#:#Sort Ascending###30 04 2021 new variable
 common#:#sort_ascending_long#:#Change Sort Direction to Ascending###17 05 2023 new variable
-common#:#sort_by_this_column#:#Ταξινόμιση κατα αυτή τη στήλη
+common#:#sort_by_this_column#:#Ταξινόμηση κατα αυτή τη στήλη### OVB translated
 common#:#sort_descending#:#Sort Descending###30 04 2021 new variable
 common#:#sort_descending_long#:#Change Sort Direction to Descending###17 05 2023 new variable
 common#:#sort_inherit_prefix#:#Default###16 07 2010 new variable
@@ -5684,7 +5684,7 @@ common#:#stat_selected#:#Selected###30 04 2009 new variable
 common#:#statistic#:#Στατιστικά
 common#:#statistics#:#Statistics###24 07 2009 new variable
 common#:#status#:#Κατάσταση
-common#:#status_no_permission#:#No permission granted###21 09 2009 new variable
+common#:#status_no_permission#:#Δεν υπάρχει έγκριση πρόσβασης### OVB translated
 common#:#step#:#Βήμα
 common#:#street#:#Οδός
 common#:#structure#:#Δομή
@@ -5723,8 +5723,8 @@ common#:#tagging_my_tags#:#Οι ετικέττες μου
 common#:#tags#:#Tags###30 04 2021 new variable
 common#:#take_over_structure#:#Adopt Structure
 common#:#take_over_structure_info#:#If activated, directories in the zip file will be mapped to categories or, if used in groups or courses, to folders.
-common#:#tals_etal#:#Talk###31 03 2023 new variable
-common#:#talt_etal#:#Talk###31 03 2023 new variable
+common#:#tals_etal#:#Συζήτηση### OVB translated
+common#:#talt_etal#:#Συζήτηση### OVB translated
 common#:#target#:#Στόχος
 common#:#tax#:#Κατάταξη
 common#:#tax_add#:#Προσθήκη κατάταξης
@@ -5966,7 +5966,7 @@ common#:#webdav_enable_versioning#:#File Versioning###07 02 2020 new variable
 common#:#webdav_forbidden_chars_title#:#Following files cannot be displayed, because they contain one or more forbidden characters (\<>/:*?"|#):###07 02 2020 new variable
 common#:#webdav_form_document#:#Instructions Document###07 02 2020 new variable
 common#:#webdav_form_document_info#:#Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information###07 02 2020 new variable
-common#:#webdav_form_document_title#:#Title###07 02 2020 new variable
+common#:#webdav_form_document_title#:#Τίτλος### OVB translated
 common#:#webdav_form_document_title_info#:#This title will be dislayed as the title of the modal when the Mount Instructions are opened###07 02 2020 new variable
 common#:#webdav_form_edit_doc_head#:#Edit Mount Instructions Document###07 02 2020 new variable
 common#:#webdav_form_new_doc_head#:#Create new Mount Instructions Document###07 02 2020 new variable
@@ -6092,7 +6092,7 @@ cont#:#cont_skill_really_remove_profile_from_list#:#Do you really want to remove
 cont#:#cont_skill_really_remove_profiles_from_list#:#Do you really want to remove these profiles from the list?###30 04 2021 new variable
 cont#:#cont_skill_records#:#Competence Records###30 04 2024 new variable
 cont#:#cont_skill_removal_not_possible#:#Removing of local competence profiles is not possible. Please select only global competence profiles.###30 04 2021 new variable
-cont#:#cont_std_filter_title_1#:#Title###07 02 2020 new variable
+cont#:#cont_std_filter_title_1#:#Τίτλος### OVB translated
 cont#:#cont_std_filter_title_2#:#Description###07 02 2020 new variable
 cont#:#cont_std_filter_title_3#:#Title/Description###07 02 2020 new variable
 cont#:#cont_std_filter_title_4#:#Keyword###07 02 2020 new variable
@@ -6716,7 +6716,7 @@ content#:#cont_lm_starting_point_info#:#Page being opened when clicking a learni
 content#:#cont_localfile#:#Local File
 content#:#cont_localization#:#Localization###12 06 2011 new variable
 content#:#cont_localization_info#:#Language used for predifined texts, e.g. "Previous" and "Next".###12 06 2011 new variable
-content#:#cont_location#:#Location
+content#:#cont_location#:#Τοποθεσία### OVB translated
 content#:#cont_lpe_cas_login_form#:#CAS Login Form###10 11 2018 new variable
 content#:#cont_lpe_dpro_agreement_link#:#Declaration of Data Protection Link###30 04 2024 new variable
 content#:#cont_lpe_language_selection#:#Language Selection###10 11 2018 new variable
@@ -7480,10 +7480,10 @@ crs#:#crs_admission_link_failure_registration_period#:#Can't registrate: Course 
 crs#:#crs_admission_link_success_registration#:#Successfully registrated to course "%s".###27 01 2015 new variable
 crs#:#crs_agree#:#Acceptance
 crs#:#crs_agreement_header#:#User Agreement
-crs#:#crs_agreement_required#:#You have to accept the user agreement, if you want to register to this course.
+crs#:#crs_agreement_required#:#Επιβεβαιώστε την κράτηση δέσμευσης.### OVB translated
 crs#:#crs_at_least_one_admin#:#There has to be at least one course administrator.###25 10 2016 new variable
 crs#:#crs_auto_notification#:#Notification For New Member###27 10 2012 new variable
-crs#:#crs_auto_notification_info#:#New members get a mail notification when added to the course.###27 10 2012 new variable
+crs#:#crs_auto_notification_info#:#Τα μηνύματα καλωσορίσματος αποστέλλονται αυτόματα σε εκείνα τα μέλη που προστίθενται στο μάθημα μέσω μιας προσθήκης. Εάν τα πρόσθετα CourseBooking και MailAdministration είναι εγκατεστημένα και ενεργά, το Mail 16 θα σταλεί.### OVB translated
 crs#:#crs_awrn_current_course#:#Current Course###30 08 2015 new variable
 crs#:#crs_awrn_current_course_info#:#If the user navigates to a course in the repository, all members of the course are listed.###30 08 2015 new variable
 crs#:#crs_awrn_support_contacts#:#Tutorial Support###30 08 2015 new variable
@@ -7497,9 +7497,9 @@ crs#:#crs_cancel_subscr_request#:#Delete Membership Request###12 08 2009 new var
 crs#:#crs_cancel_subscription#:#Απεγγραφή Μαθήματος
 crs#:#crs_cancel_subscription_body#:#Ένας χρήστης έχει διαγραφεί από το μάθημα.
 crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course.\nYou should check for the waiting list now.\nTo view the members of your course, click here:###21 09 2009 new variable
-crs#:#crs_cancellation_end#:#Cancellation Limit###30 08 2015 new variable
+crs#:#crs_cancellation_end#:#Όριο ακύρωσης### OVB translated
 crs#:#crs_cancellation_end_info#:#From this date on particiants cannot unsubscribe anymore.###30 08 2015 new variable
-crs#:#crs_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.###30 08 2015 new variable
+crs#:#crs_cancellation_end_rbac_info#:#Η προθεσμία ακύρωσης εκπληρώθηκε σε %s, μια ακύρωση δεν είναι πλέον δυνατή.### OVB translated
 crs#:#crs_cannot_find_role#:#Can't find this role.###25 10 2016 new variable
 crs#:#crs_cdf_edit_member#:#Edit Course Relevant User Data###26 09 2014 new variable
 crs#:#crs_cdf_tbl_last_edit#:#Last Update (Course-specific Data)###26 09 2014 new variable
@@ -7514,7 +7514,7 @@ crs#:#crs_contact_responsibility#:#Ευθύνη
 crs#:#crs_content#:#Περιεχόμενο μαθήματος
 crs#:#crs_copy#:#Copy Course###28 08 2012 new variable
 crs#:#crs_course_group_notification_link#:#Link:###28 08 2012 new variable
-crs#:#crs_course_period_not_valid#:#The course period is not valid.###30 08 2015 new variable
+crs#:#crs_course_period_not_valid#:#Η περίοδος του μαθήματος δεν είναι έγκυρη.### OVB translated
 crs#:#crs_course_status_of_users#:#Passed Status of Users###28 08 2012 new variable
 crs#:#crs_create_date#:#Δημιουργία Ημερομηνίας
 crs#:#crs_custom_user_fields#:#Course Relevant User Data###16 07 2010 new variable
@@ -7697,12 +7697,12 @@ crs#:#crs_mail_type#:#Mail to Members###24 10 2013 new variable
 crs#:#crs_map_location#:#Course Map Location
 crs#:#crs_map_settings#:#Map Settings
 crs#:#crs_materials#:#Υλικό μαθήματος
-crs#:#crs_max_and_min_members_invalid#:#The minimum number must be smaller than the maximum number of members.###30 08 2015 new variable
-crs#:#crs_max_and_min_members_needed#:#Set a minimum or maximum number of members - or both.###30 08 2015 new variable
-crs#:#crs_max_members_needed#:#A maximum number of members is needed for the waiting list feature.###30 08 2015 new variable
+crs#:#crs_max_and_min_members_invalid#:#Ο ελάχιστος αριθμός πρέπει να είναι μικρότερος από τον μέγιστο αριθμό μελών.### OVB translated
+crs#:#crs_max_and_min_members_needed#:#Ορίστε έναν ελάχιστο ή μέγιστο αριθμό μελών - ή και τα δύο.### OVB translated
+crs#:#crs_max_members_needed#:#Απαιτείται μέγιστος αριθμός μελών για τη λειτουργία λίστας αναμονής.### OVB translated
 crs#:#crs_max_members_reached#:#Ο μέγιστος αριθμός των μελών έχει επιτευχθεί
 crs#:#crs_mem_contact#:#Support Contact###30 08 2015 new variable
-crs#:#crs_mem_contacts#:#Support Contacts###30 08 2015 new variable
+crs#:#crs_mem_contacts#:#Επαφές για υποστήριξη### OVB translated
 crs#:#crs_mem_send_mail#:#Αποστολή email
 crs#:#crs_mem_tbl_header#:#Course Participants###25 10 2016 new variable
 crs#:#crs_member#:#Μέλος
@@ -7808,7 +7808,7 @@ crs#:#crs_passed_status_system#:#System###16 09 2013 new variable
 crs#:#crs_password_not_valid#:#Ο κωδικός σας δεν είναι έγκυρος
 crs#:#crs_password_required#:#Η διαδικασία εγγραφής απαιτεί κωδικό πρόσβασης.
 crs#:#crs_pdf#:#PDF
-crs#:#crs_period#:#Course Period###30 08 2015 new variable
+crs#:#crs_period#:#Περίοδος μαθημάτων### OVB translated
 crs#:#crs_period_end_mail_placeholder#:#Period End###07 02 2020 new variable
 crs#:#crs_period_info#:#Start to end date of the course###30 08 2015 new variable
 crs#:#crs_period_start_mail_placeholder#:#Period Start###07 02 2020 new variable
@@ -7886,9 +7886,9 @@ crs#:#crs_subscription_failed_limit#:#The maximum number of participants has bee
 crs#:#crs_subscription_max_members#:#Μέγιστος αριθμός χρηστών
 crs#:#crs_subscription_max_members_short#:#Number of Members
 crs#:#crs_subscription_max_members_short_info#:#The minimal respectively maximial number of members can be set. A waiting list can be set up.###23 12 2015 new variable
-crs#:#crs_subscription_min_members#:#Minimum Number###30 08 2015 new variable
+crs#:#crs_subscription_min_members#:#Ελάχιστος αριθμός### OVB translated
 crs#:#crs_subscription_min_members_err#:#The minimum number is not allowed to be greater than the maximum number of participants.###10 11 2018 new variable
-crs#:#crs_subscription_min_members_info#:#See cron job "Cancellation Limit".###30 08 2015 new variable
+crs#:#crs_subscription_min_members_info#:#Δείτε το Cron Job "Limit Cancelation".### OVB translated
 crs#:#crs_subscription_options_confirmation#:#Αίτηση μέλους
 crs#:#crs_subscription_options_direct#:#Απευθείας συμμετοχή
 crs#:#crs_subscription_options_password#:#Συμμετοχή με κωδικό
@@ -7958,8 +7958,8 @@ crs#:#crs_unsubscribe_member_explanation#:#You receive this message because you 
 crs#:#crs_unsubscribe_sure#:#Θέλετε να διαγραφείτε από αυτό το μάθημα
 crs#:#crs_unsubscribed_from_crs#:#Διαγραφήκατε από αυτό το μάθημα
 crs#:#crs_update_subscr_request#:#Update Membership Request###12 08 2009 new variable
-crs#:#crs_user_agreement#:#Released Data Types
-crs#:#crs_user_agreement_info#:#Visible Personal Data for Course Administrators
+crs#:#crs_user_agreement#:#CONTROL_LABEL_NO_DISPLAY### OVB translated
+crs#:#crs_user_agreement_info#:#INFOSCREEN_SEC_NO_DISPLAY### OVB translated
 crs#:#crs_user_already_assigned#:#The chosen user is already assigned to this course.###02 03 2009 new variable
 crs#:#crs_users_added#:#Προσθήκη χρήστη στο μάθημα
 crs#:#crs_users_already_assigned#:#Ο χρήστης είναι ήδη καταχωρημένος σε αυτό το μάθημα
@@ -7982,9 +7982,9 @@ crs#:#crs_visibility_until_info#:#The course will be visible to it's members in 
 crs#:#crs_visibility_unvisible#:#The course is not visible.###24 11 2022 new variable
 crs#:#crs_wait_info#:#Αν είναι ενεργοποιημένο και ξεπεραστεί ο μέγιστος αριθμός χρηστών, θα τοποθετηθούν νέες εγγραφές στη λίστα αναμονής.
 crs#:#crs_waiting_list#:#Λίστα αναμονής
-crs#:#crs_waiting_list_autofill#:#With Auto-Fill###30 08 2015 new variable
-crs#:#crs_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations.###30 08 2015 new variable
-crs#:#crs_waiting_list_no_autofill#:#Without Auto-Fill###30 08 2015 new variable
+crs#:#crs_waiting_list_autofill#:#Αυτόματο πλήθος### OVB translated
+crs#:#crs_waiting_list_autofill_info#:#Οι συμμετέχοντες προσλαμβάνονται από τη λίστα αναμονής αυτόματα για ακυρώσεις.### OVB translated
+crs#:#crs_waiting_list_no_autofill#:#Χωρίς αυτόματη συμπλήρωση### OVB translated
 crs#:#crs_warn_no_max_set_on_waiting_list#:#The maximum number of course members is exceeded. You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.###26 06 2009 new variable
 crs#:#crs_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.###26 06 2009 new variable
 crs#:#crs_wiz_back#:#Back
@@ -8492,7 +8492,7 @@ dateplaner#:#cal_week_selection#:#Select Week###30 04 2009 new variable
 dateplaner#:#cal_week_start#:#Week Start
 dateplaner#:#cal_weekday#:#Weekday
 dateplaner#:#cal_weekly#:#Weekly
-dateplaner#:#cal_where#:#Location
+dateplaner#:#cal_where#:#Τοποθεσία### OVB translated
 dateplaner#:#cal_year_s#:#Year(s)
 dateplaner#:#cal_yearly#:#Yearly
 dateplaner#:#consultation_hours_block_title#:#Consultation Hours###17 01 2024 new variable
@@ -8664,7 +8664,7 @@ dcl#:#dcl_list_fields#:#List Fields###28 08 2012 new variable
 dcl#:#dcl_list_visibility_and_filter#:#Visibility and filter###07 02 2020 new variable
 dcl#:#dcl_locked#:#Locked###28 08 2012 new variable
 dcl#:#dcl_locked_tooltip#:#Disable this field for users to edit. Does not include roles with the permission 'Edit Settings'###08 10 2015 new variable
-dcl#:#dcl_manage#:#Manage###26 09 2014 new variable
+dcl#:#dcl_manage#:#Διαχείριση### OVB translated
 dcl#:#dcl_max_digits#:#Maximum Number of Digits###25 10 2016 new variable
 dcl#:#dcl_max_import#:#The maximum amount of imported entries is reached.###24 10 2013 new variable
 dcl#:#dcl_max_text_length#:#Maximum Length###28 08 2012 new variable
@@ -8797,7 +8797,7 @@ dcl#:#dcl_text#:#Text###28 08 2012 new variable
 dcl#:#dcl_text_area#:#Textarea###02 09 2012 new variable
 dcl#:#dcl_text_desc#:#Eingabefeld für Text, Links oder E-Mail-Adressen###30 08 2015 new variable
 dcl#:#dcl_text_email_detail_desc#:#Please enter a valid URL or E-Mail address.###30 08 2015 new variable
-dcl#:#dcl_text_email_title#:#Title###30 08 2015 new variable
+dcl#:#dcl_text_email_title#:#Τίτλος### OVB translated
 dcl#:#dcl_text_email_title_info#:#A Title for the above URL or E-Mail address (optional).###30 08 2015 new variable
 dcl#:#dcl_text_selection#:#Text Selection###31 08 2017 new variable
 dcl#:#dcl_text_selection_desc#:#Offer selection of text options.###31 08 2017 new variable
@@ -8906,7 +8906,7 @@ ecs#:#ecs_attribute_name#:#Attribute Name###30 04 2009 new variable
 ecs#:#ecs_auth_type#:#Authentication Type###18 07 2011 new variable
 ecs#:#ecs_auth_type_apache#:#Username/Password###18 07 2011 new variable
 ecs#:#ecs_auth_type_cert#:#Certificate-Base###18 07 2011 new variable
-ecs#:#ecs_availability#:#Availability###28 08 2012 new variable
+ecs#:#ecs_availability#:#Διαθεσιμότητα### OVB translated
 ecs#:#ecs_available_ecs#:#Available ECS###12 06 2011 new variable
 ecs#:#ecs_back_settings#:#ECS Settings###12 06 2011 new variable
 ecs#:#ecs_ca_cert#:#CA Certificate
@@ -9158,47 +9158,47 @@ ecs#:#ecs_wiki_export_enabled#:#Release this Wiki###28 08 2012 new variable
 ecs#:#ecs_wiki_export_obj_settings#:#Wiki Release Settings###28 08 2012 new variable
 error#:#error_back_to_repository#:#Back to Repository###27 01 2015 new variable
 error#:#error_sry_error#:#Sorry, an error occured.###27 01 2015 new variable
-etal#:#appointments#:#Appointments###31 03 2023 new variable
-etal#:#cal_type_tals#:#Talks###31 03 2023 new variable
-etal#:#change_date_of_series#:#Change date of talk series###31 03 2023 new variable
-etal#:#change_date_of_talk#:#Change date of talk###31 03 2023 new variable
-etal#:#date_of_talk#:#Start Date###31 03 2023 new variable
-etal#:#etal_add#:#Add Talk###31 03 2023 new variable
-etal#:#etal_add_new_item#:#Add new Talk###31 03 2023 new variable
+etal#:#appointments#:#Συνεδρίες### OVB translated
+etal#:#cal_type_tals#:#Συζητήσεις### OVB translated
+etal#:#change_date_of_series#:#Προσαρμογή σειράς συζητήσεων### OVB translated
+etal#:#change_date_of_talk#:#Προσαρμογή ημερομηνίας συζήτησης### OVB translated
+etal#:#date_of_talk#:#Ημερομηνία έναρξης### OVB translated
+etal#:#etal_add#:#Προσθήκη### OVB translated
+etal#:#etal_add_new_item#:#Προσθήκη νέας συζήτησης### OVB translated
 etal#:#etal_create_invalid_template_ref#:#Invalid Talk Template ID###31 03 2023 new variable
-etal#:#etal_date_appointment_edit#:#Date of Talk###31 03 2023 new variable
-etal#:#etal_date_series_edit#:#Date of Talk Series###31 03 2023 new variable
+etal#:#etal_date_appointment_edit#:#Ημερομηνία συζήτησης### OVB translated
+etal#:#etal_date_series_edit#:#Σειρά συζητήσεων### OVB translated
 etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###30 04 2024 new variable
-etal#:#etal_edit#:#General###31 03 2023 new variable
+etal#:#etal_edit#:#Γενικά### OVB translated
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.###31 03 2023 new variable
 etal#:#etal_location#:#Location###04 11 2025 new variable
-etal#:#etal_new#:#New Talk###31 03 2023 new variable
+etal#:#etal_new#:#Νέα συζήτηση### OVB translated
 etal#:#etal_open#:#Open Employee Talk###31 03 2023 new variable
 etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
-etal#:#etal_status_all#:#All###31 03 2023 new variable
-etal#:#etal_status_completed#:#Completed###31 03 2023 new variable
-etal#:#etal_status_pending#:#Pending###31 03 2023 new variable
-etal#:#etal_unknown_username#:#Unknown User###31 03 2023 new variable
-etal#:#lock_edititng_for_others#:#Lock editing for others###31 03 2023 new variable
-etal#:#meta_adv_records#:#Metadata###31 03 2023 new variable
-etal#:#mm_org_etal#:#Talks###31 03 2023 new variable
-etal#:#mm_talk_template#:#Talk Templates###31 03 2023 new variable
-etal#:#notification_talks_created#:#You have been invited to the following employee talks.###31 03 2023 new variable
-etal#:#notification_talks_date_list_header#:#Dates###31 03 2023 new variable
-etal#:#notification_talks_removed#:#The following appointments have been canceled.###31 03 2023 new variable
-etal#:#notification_talks_subject#:#Invitation: %s###31 03 2023 new variable
+etal#:#etal_status_all#:#Όλα### OVB translated
+etal#:#etal_status_completed#:#Έχει ολοκληρωθεί### OVB translated
+etal#:#etal_status_pending#:#Σε εκκρεμότητα### OVB translated
+etal#:#etal_unknown_username#:#Άγνωστος χρήστης### OVB translated
+etal#:#lock_edititng_for_others#:#Φραγή για την επεξεργασία από τρίτους### OVB translated
+etal#:#meta_adv_records#:#Μεταδεδομένα### OVB translated
+etal#:#mm_org_etal#:#Συζήτηση### OVB translated
+etal#:#mm_talk_template#:#Πρότυπα συζήτησης### OVB translated
+etal#:#notification_talks_created#:#Έχετε προσκληθεί για συνέντευξη.### OVB translated
+etal#:#notification_talks_date_list_header#:#Δεδομένα### OVB translated
+etal#:#notification_talks_removed#:#Οι ακόλουθες ημερομηνίες έχουν ακυρωθεί.### OVB translated
+etal#:#notification_talks_subject#:#Πρόσκληση για ραντεβού### OVB translated
 etal#:#notification_talks_subject_update#:#Update: %s###31 03 2023 new variable
-etal#:#notification_talks_updated#:#The following talk appointments have been changed.###31 03 2023 new variable
+etal#:#notification_talks_updated#:#Οι ακόλουθες ημερομηνίες συνεντεύξεων έχουν προσαρμοστεί.### OVB translated
 etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:###28 11 2023 new variable
 etal#:#tala_no_content_without_admin_info#:#The Administrator role is required for access to Talk Templates.###08 07 2025 new variable
 etal#:#talk_serial#:#Talk Serial###31 03 2023 new variable
-etal#:#tals_add#:#Add Talks###31 03 2023 new variable
-etal#:#tals_new#:#New Talks###31 03 2023 new variable
-etal#:#talt_activation_online_info#:#Set the talk template online to make it visible and available for employees. If not, only administrators will have access to it.###31 03 2023 new variable
-etal#:#talt_add#:#Add Template###31 03 2023 new variable
-etal#:#talt_edit#:#General###31 03 2023 new variable
-etal#:#talt_etal#:#Employee Talk###31 03 2023 new variable
-etal#:#talt_new#:#New Talk Template###31 03 2023 new variable
+etal#:#tals_add#:#Προσθήκη συζητήσεων### OVB translated
+etal#:#tals_new#:#Νέα σειρά συζητήσεων### OVB translated
+etal#:#talt_activation_online_info#:#Σημάνετε το πρότυπο συζήτησης ως ενεργό, ώστε να είναι διαθέσιμο στους Συνεργάτες### OVB translated
+etal#:#talt_add#:#Δημιουργία### OVB translated
+etal#:#talt_edit#:#Γενικά### OVB translated
+etal#:#talt_etal#:#Συζήτηση με τους Συνεργάτες### OVB translated
+etal#:#talt_new#:#Νέο πρότυπο συζήτησης### OVB translated
 etal#:#will_update_series_info_lock#:#Lock the editing of all appointments in this series###31 03 2023 new variable
 etal#:#will_update_series_info_title#:#Changes to the title will be made to all appointments in this series.###31 03 2023 new variable
 exc#:#exc_add_assignment#:#Add Assignment###26 03 2010 new variable
@@ -9216,7 +9216,7 @@ exc#:#exc_all#:#All###30 04 2024 new variable
 exc#:#exc_all_new_files_offered_already#:#All new files have already been offered for download. For another download, please click on the action links below.###31 08 2017 new variable
 exc#:#exc_ass_submission_zip#:#Submissions###10 11 2018 new variable
 exc#:#exc_ass_team_wiki#:#Assignment Team Wiki###10 11 2018 new variable
-exc#:#exc_assignment#:#Assignment###26 03 2010 new variable
+exc#:#exc_assignment#:#Μονάδα εξάσκησης### OVB translated
 exc#:#exc_assignment_list#:#Assignments List###30 04 2024 new variable
 exc#:#exc_assignment_type#:#Type of Submission###27 01 2015 new variable
 exc#:#exc_assignment_view#:#Assignment View###26 03 2010 new variable
@@ -9307,7 +9307,7 @@ exc#:#exc_global_feedback_file#:#Feedback file for all learners###24 10 2013 new
 exc#:#exc_global_feedback_file_after_date#:#After set Date###10 11 2018 new variable
 exc#:#exc_global_feedback_file_cron#:#Notification###24 10 2013 new variable
 exc#:#exc_global_feedback_file_cron_info#:#All learners will be notified via cron job when the feedback file becomes available.###24 10 2013 new variable
-exc#:#exc_global_feedback_file_date#:#Availability ###26 09 2014 new variable
+exc#:#exc_global_feedback_file_date#:#Διαθεσιμότητα### OVB translated
 exc#:#exc_global_feedback_file_date_deadline#:#After deadline###26 09 2014 new variable
 exc#:#exc_global_feedback_file_date_upload#:#After submission###26 09 2014 new variable
 exc#:#exc_go_to_exercise#:#Go to Exercise###31 08 2017 new variable
@@ -9683,7 +9683,7 @@ exc#:#feedback#:#Feedback###10 11 2018 new variable
 exc#:#feedback_from#:#Feedback from###10 11 2018 new variable
 exc#:#feedback_given#:#Feedback given###10 11 2018 new variable
 exc#:#feedback_received#:#Feedback received###10 11 2018 new variable
-exc#:#filter#:#Filter###10 11 2018 new variable
+exc#:#filter#:#Φίλτρο### OVB translated
 exc#:#fiter_no_results#:#The current filter did not match any submission.###10 11 2018 new variable
 exc#:#grade_evaluate#:#Grade and Evaluate###10 11 2018 new variable
 exc#:#not_yet#:#not yet###10 11 2018 new variable
@@ -9851,9 +9851,9 @@ fold#:#fold_import#:#Import Folder###10 09 2010 new variable
 fold#:#fold_presentation#:#Folder Presentation###10 11 2018 new variable
 fold#:#fold_settings#:#Folder Settings###24 10 2013 new variable
 form#:#email_not_match#:#Your entries for the email address don't match! Please re-enter your email address.###24 10 2013 new variable
-form#:#form_alphabet_all#:#All###16 07 2010 new variable
+form#:#form_alphabet_all#:#Όλα### OVB translated
 form#:#form_chars_remaining#:#Characters remaining:###10 11 2018 new variable
-form#:#form_date_aria_desc#:#The following input format is required:###30 04 2021 new variable
+form#:#form_date_aria_desc#:#Απαιτείται το ακόλουθο input format:### OVB translated
 form#:#form_date_duration_end#:#End###25 10 2016 new variable
 form#:#form_date_duration_start#:#Start###25 10 2016 new variable
 form#:#form_days#:#Days
@@ -10119,7 +10119,7 @@ forum#:#sort_by_date#:#Sort by date###27 10 2012 new variable
 forum#:#sort_by_date_desc#:#The thread is presented in a flat view. The postings are shown in chronological order of creation.###31 03 2023 new variable
 forum#:#sort_by_posts#:#Sort by Posts###27 10 2012 new variable
 forum#:#sort_by_posts_desc#:#The thread is presented in a tree view. Replies to posts are shown in the order in which they relate to each other.###31 03 2023 new variable
-forum#:#sorting#:#Sorting###07 02 2020 new variable
+forum#:#sorting#:#Ταξινόμηση### OVB translated
 forum#:#sticky#:#sticky
 forum#:#sure_delete_drafts#:#Are you sure, you want to delete the selected drafts?###25 10 2016 new variable
 forum#:#switch_threads_for_merge#:#The selected thread is older than the target thread. To ensure a successful merge, the source and target thread will be switched.###24 10 2013 new variable
@@ -10227,9 +10227,9 @@ grp#:#grp_at_least_one_admin#:#There has to be at least one group administrator.
 grp#:#grp_auto_notification#:#Welcome-Mail For New Members###07 02 2020 new variable
 grp#:#grp_auto_notification_info#:#New members get a mail notification when added to the group.###07 02 2020 new variable
 grp#:#grp_cancel_subscr_request#:#Delete Membership Request###12 08 2009 new variable
-grp#:#grp_cancellation_end#:#Cancellation Limit###30 08 2015 new variable
+grp#:#grp_cancellation_end#:#Όριο ακύρωσης### OVB translated
 grp#:#grp_cancellation_end_info#:#From this date on particiants cannot unsubscribe anymore.###30 08 2015 new variable
-grp#:#grp_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.###30 08 2015 new variable
+grp#:#grp_cancellation_end_rbac_info#:#Η προθεσμία ακύρωσης εκπληρώθηκε σε %s, μια ακύρωση δεν είναι πλέον δυνατή.### OVB translated
 grp#:#grp_cdf_edit_member#:#Edit Group Relevant User Data###26 09 2014 new variable
 grp#:#grp_cdf_tbl_last_edit#:#Last Update (Group-specific Data)###26 09 2014 new variable
 grp#:#grp_change_type#:#Change Group Type
@@ -10376,11 +10376,11 @@ grp#:#grp_warn_grp_type_changed#:#Do you really want to change the group type? A
 grp#:#grp_warn_no_max_set_on_waiting_list#:#The maximum number of group members is exceeded. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.###26 06 2009 new variable
 grp#:#grp_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.###26 06 2009 new variable
 grp#:#grp_wrong_max_members#:#Please check the maximum number of users.
-grp#:#grp_wrong_min_max_members#:#Please check the minimum and maximum number of users.###30 08 2015 new variable
+grp#:#grp_wrong_min_max_members#:#Ελέγξτε τον ελάχιστο και το μέγιστο αριθμό χρηστών.### OVB translated
 grp#:#grp_wrong_reg_time_limit#:#Please check the registration start and end times.###12 08 2009 new variable
 grp#:#reg_grp_max_members#:#Maximum Of Users
 grp#:#reg_grp_max_members_short#:#Number of Members
-grp#:#reg_grp_min_members#:#Minimum Number of Members###30 08 2015 new variable
+grp#:#reg_grp_min_members#:#Ελάχιστος αριθμός μελών### OVB translated
 help#:#help_all#:#All###28 08 2012 new variable
 help#:#help_component#:#Component###28 08 2012 new variable
 help#:#help_filter#:#Filter###28 08 2012 new variable
@@ -10449,7 +10449,7 @@ iass#:#iass_graded_by#:#Graded by###25 10 2016 new variable
 iass#:#iass_info_emails_expl#:#You may provide several addresses separated by a coma.###25 10 2016 new variable
 iass#:#iass_internal_note#:#Internal record note (should not be seen by examinee)###25 10 2016 new variable
 iass#:#iass_internal_note_info#:#Internal notes are only visible for tutors but not for examinees.###07 02 2017 new variable
-iass#:#iass_location#:#Location###10 11 2018 new variable
+iass#:#iass_location#:#Τοποθεσία### OVB translated
 iass#:#iass_mails#:#Mails###25 10 2016 new variable
 iass#:#iass_may_not_finalize#:#Examinee may not be finalised.###25 10 2016 new variable
 iass#:#iass_membership_finalized#:#Record finalised###25 10 2016 new variable
@@ -10961,7 +10961,7 @@ lso#:#lso_player_viewmodelabel#:#Learning Sequence###31 03 2023 new variable
 lso#:#lso_print_list#:#Print list###10 11 2018 new variable
 lso#:#lso_read#:#User has read access to Learning Sequence###10 11 2018 new variable
 lso#:#lso_search_users#:#Search user###10 11 2018 new variable
-lso#:#lso_settings_availability#:#availability###10 11 2018 new variable
+lso#:#lso_settings_availability#:#Διαθεσιμότητα### OVB translated
 lso#:#lso_settings_extro#:#Exitpage Settings###10 11 2018 new variable
 lso#:#lso_settings_intro#:#Intropage Settings###10 11 2018 new variable
 lso#:#lso_settings_old_extro#:#View Old Exit Page###31 03 2023 new variable
@@ -10972,7 +10972,7 @@ lso#:#lso_toast_completed_desc#:#You have completed this Learning Sequence. You 
 lso#:#lso_toast_completed_title#:#Congratulations###30 04 2024 new variable
 lso#:#lso_users_already_assigned#:#The user is already assigned to this learning sequence###10 11 2018 new variable
 lso#:#mail_lso_roles#:#Send mails to roles of learning sequence.###10 11 2018 new variable
-lso#:#manage#:#Manage###07 02 2020 new variable
+lso#:#manage#:#Διαχείριση### OVB translated
 lso#:#manage_content_maintab#:#Content###10 11 2018 new variable
 lso#:#members_gallery#:#Member Gallery###10 11 2018 new variable
 lso#:#no_entries_selected_for_delete#:#There has to be at least one entry selected.###10 11 2018 new variable
@@ -11105,7 +11105,7 @@ lti#:#lti_con_key_type_rsa_public_key_info#:#Insert the key provided by the tool
 lti#:#lti_con_prov_always_learner#:#LTI User is always Learner###07 02 2020 new variable
 lti#:#lti_con_prov_always_learner_info#:#Usually the role in ILIAS is mapped to a LTI role. Course Administrators could have more rights in the Provider, e.g. to manipulate the object. Activate this option to avoid the Role Mapping.###07 02 2020 new variable
 lti#:#lti_con_prov_authentication#:#Authentication###07 02 2020 new variable
-lti#:#lti_con_prov_availability#:#Availability###07 02 2020 new variable
+lti#:#lti_con_prov_availability#:#Διαθεσιμότητα### OVB translated
 lti#:#lti_con_prov_availability_create#:#For Creating Objects###07 02 2020 new variable
 lti#:#lti_con_prov_availability_existing#:#Only for existing Objects###07 02 2020 new variable
 lti#:#lti_con_prov_availability_non#:#not available###07 02 2020 new variable
@@ -11240,7 +11240,7 @@ lti#:#provider_info#:#Used Provider###07 02 2020 new variable
 lti#:#settings_subtab#:#Settings###07 02 2020 new variable
 lti#:#show_statements#:#Display Learning Experiences###07 02 2020 new variable
 lti#:#show_statements_info#:#The Learning Experiences of other users could be displayed if the right 'View learning experiences of other users' is set.###07 02 2020 new variable
-lti#:#subtab_certificate#:#Certificate###07 02 2020 new variable
+lti#:#subtab_certificate#:#Πιστοποιητικό### OVB translated
 lti#:#subtab_object_settings#:#Object Settings###07 02 2020 new variable
 lti#:#subtab_provider_settings#:#LTI Provider Settings###07 02 2020 new variable
 lti#:#tab_content#:#Content###07 02 2020 new variable
@@ -11257,7 +11257,7 @@ lti#:#tbl_grade_period#:#Period###31 03 2023 new variable
 lti#:#tbl_grade_score#:#Score###31 03 2023 new variable
 lti#:#tbl_grade_stored#:#Transmitted to ILIAS###30 04 2024 new variable
 lti#:#tbl_lti_prov_all_categories#:#All Categories###07 02 2020 new variable
-lti#:#tbl_lti_prov_availability#:#Availability###07 02 2020 new variable
+lti#:#tbl_lti_prov_availability#:#Διαθεσιμότητα### OVB translated
 lti#:#tbl_lti_prov_category#:#Category###07 02 2020 new variable
 lti#:#tbl_lti_prov_description#:#Description###07 02 2020 new variable
 lti#:#tbl_lti_prov_icon#:#Icon###07 02 2020 new variable
@@ -11652,7 +11652,7 @@ mcst#:#mcst_input_either_file_or_url#:#Please specify a file or an URL. If you p
 mcst#:#mcst_items#:#Items###30 04 2024 new variable
 mcst#:#mcst_last_submission#:#Τελευταία Υποβολή
 mcst#:#mcst_list#:#List###27 10 2012 new variable
-mcst#:#mcst_manage#:#Manage###27 10 2012 new variable
+mcst#:#mcst_manage#:#Διαχείριση### OVB translated
 mcst#:#mcst_media_cast#:#Εκπομπή Μέσων
 mcst#:#mcst_media_cast_not_online#:#Mediacast is not online
 mcst#:#mcst_media_cast_not_online_text#:#Mediacast is not online or has been disabled
@@ -11667,7 +11667,7 @@ mcst#:#mcst_next_items#:#Next Items###31 03 2023 new variable
 mcst#:#mcst_no_autoplay#:#No Autoplay###31 03 2023 new variable
 mcst#:#mcst_nr_items#:#Πλήθος Αντικειμένων
 mcst#:#mcst_nr_videos#:#Number of Initial Videos###31 03 2023 new variable
-mcst#:#mcst_ordering#:#Sorting###28 08 2012 new variable
+mcst#:#mcst_ordering#:#Ταξινόμηση### OVB translated
 mcst#:#mcst_ordering_creation_date_asc#:#By Creation Date (Ascending)###28 08 2012 new variable
 mcst#:#mcst_ordering_creation_date_desc#:#By Creation Date (Descending)###28 08 2012 new variable
 mcst#:#mcst_ordering_manual#:#Manual###28 08 2012 new variable
@@ -11790,7 +11790,7 @@ meta#:#md_adv_deleted_fields#:#The fields have been deleted.###30 08 2015 new va
 meta#:#md_adv_deleted_files#:#Deleted export files.
 meta#:#md_adv_deleted_records#:#Deleted Dataset
 meta#:#md_adv_desc_show#:#Show Description
-meta#:#md_adv_edit_complex_option#:#Edit Option Properties###07 02 2020 new variable
+meta#:#md_adv_edit_complex_option#:#Επεξεργασία ιδιοτήτων επιλογής### OVB translated
 meta#:#md_adv_edit_field#:#Edit Field
 meta#:#md_adv_edit_record#:#Edit Dataset
 meta#:#md_adv_field_fields#:#Fields
@@ -12496,12 +12496,12 @@ meta#:#meta_very_easy#:#Πολύ έυκολο
 meta#:#meta_very_high#:#Πολύ υψηλό
 meta#:#meta_very_low#:#Πολύ χαμηλό
 meta#:#meta_yes#:#Ναι
-meta#:#udf_type_address#:#Address###07 02 2020 new variable
+meta#:#udf_type_address#:#Διεύθυνση### OVB translated
 meta#:#udf_type_externallink#:#External Link###31 08 2017 new variable
 meta#:#udf_type_float#:#Float###26 09 2014 new variable
 meta#:#udf_type_integer#:#Integer###26 09 2014 new variable
 meta#:#udf_type_internallink#:#Internal Link###31 08 2017 new variable
-meta#:#udf_type_location#:#Location###26 09 2014 new variable
+meta#:#udf_type_location#:#Τοποθεσία### OVB translated
 meta#:#udf_type_selectmulti#:#Selection List (Checkboxes)###27 01 2015 new variable
 mmbr#:#info_refuse_sure#:#Are you sure you want to refuse the following user(s)?###23 12 2015 new variable
 mmbr#:#mmbr_awrn_my_groups_courses#:#My Groups and Courses###30 08 2015 new variable
@@ -12833,7 +12833,7 @@ obj#:#no_objects_selected#:#At least one object needs to be selected.###30 04 20
 obj#:#obj_activate_content_lang#:#Activate Translation for Page Editing###22 01 2014 new variable
 obj#:#obj_activate_multilang#:#Activate Multilinguality###22 01 2014 new variable
 obj#:#obj_activation#:#Activation###31 08 2017 new variable
-obj#:#obj_activation_list_gui#:#Availability###30 12 2013 new variable
+obj#:#obj_activation_list_gui#:#Διαθεσιμότητα### OVB translated
 obj#:#obj_add_languages#:#Add Languages###22 01 2014 new variable
 obj#:#obj_additional_langs#:#Additional Languages###22 01 2014 new variable
 obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###28 11 2023 new variable
@@ -12870,7 +12870,7 @@ obj#:#obj_tool_booking#:#Resources###07 02 2020 new variable
 obj#:#obj_tool_booking_info#:#Use the booking pools to book resources.###07 02 2020 new variable
 obj#:#obj_tool_ext_mail_subject_prefix#:#Mail Subject Prefix###30 04 2021 new variable
 obj#:#obj_tool_ext_mail_subject_prefix_info#:#Enter a short text that is added to the subject line of external mails send to members to make identifying these mails easier.###30 04 2021 new variable
-obj#:#obj_tool_setting_badges#:#Badges###25 10 2016 new variable
+obj#:#obj_tool_setting_badges#:#Διακρίσεις### OVB translated
 obj#:#obj_tool_setting_badges_info#:#If activated badges can be managed.###25 10 2016 new variable
 obj#:#obj_tool_setting_booking#:#Resources###07 02 2020 new variable
 obj#:#obj_tool_setting_filter#:#Filter###07 02 2020 new variable
@@ -12924,7 +12924,7 @@ orgu#:#import_terminated_with_warnings#:#The import terminated with warnings###2
 orgu#:#import_xml_file#:#Import Datei###24 10 2013 new variable
 orgu#:#local_other_roles#:#Additional Roles %s###24 10 2013 new variable
 orgu#:#local_staff#:#Employees %s###24 10 2013 new variable
-orgu#:#mm_organisation#:#Organisation###31 03 2023 new variable
+orgu#:#mm_organisation#:#Ομάδα### OVB translated
 orgu#:#msg_assignment_to_employee_done#:#Zuweisung zur Position Mitarbeiter durchgeführt###22 11 2017 new variable
 orgu#:#msg_confirm_d_ua#:#Would you like to assign these person to the position Employee of their respective Organisational Units?###31 08 2017 new variable
 orgu#:#msg_confirm_deletion#:#Would you really like to delete tho following Position?###31 08 2017 new variable
@@ -13105,7 +13105,7 @@ poll#:#poll_population_singular#:#1 Participant###30 04 2024 new variable
 poll#:#poll_question#:#Question###28 08 2012 new variable
 poll#:#poll_result#:#Voting Result###28 11 2012 new variable
 poll#:#poll_result_answers#:#Votes###26 09 2014 new variable
-poll#:#poll_result_sorting#:#Sorting###26 09 2014 new variable
+poll#:#poll_result_sorting#:#Ταξινόμηση### OVB translated
 poll#:#poll_result_sorting_answers#:#In the order of the answers###26 09 2014 new variable
 poll#:#poll_result_sorting_votes#:#By number of votes (descending)###26 09 2014 new variable
 poll#:#poll_result_users#:#Participants###26 09 2014 new variable
@@ -13241,7 +13241,7 @@ prg#:#prg_assigned_by#:#Assigned by###25 10 2016 new variable
 prg#:#prg_async_create#:#Add new tree-child###30 08 2015 new variable
 prg#:#prg_async_settings#:#Settings###30 08 2015 new variable
 prg#:#prg_auto_member_select_crs#:#Courses###07 02 2020 new variable
-prg#:#prg_auto_member_select_grp#:#Groups###07 02 2020 new variable
+prg#:#prg_auto_member_select_grp#:#Ομάδες### OVB translated
 prg#:#prg_auto_member_select_role#:#Roles###07 02 2020 new variable
 prg#:#prg_autoassignment#:#(auto)###07 02 2020 new variable
 prg#:#prg_belongs_to#:#Belongs to###30 08 2015 new variable
@@ -13292,7 +13292,7 @@ prg#:#prg_link#:#Link###30 04 2021 new variable
 prg#:#prg_mail_context_info#:#For the participant e-mails on the member and learning progress screens of a study programme###30 04 2021 new variable
 prg#:#prg_mail_context_title#:#Study Programme: Mail to Members###30 04 2021 new variable
 prg#:#prg_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the study programm:###07 02 2020 new variable
-prg#:#prg_manage#:#Manage###30 08 2015 new variable
+prg#:#prg_manage#:#Διαχείριση### OVB translated
 prg#:#prg_manage_members#:#Manage Enrolments of Study Programme###31 03 2023 new variable
 prg#:#prg_manage_members_short#:#Manage Assignments###24 09 2021 new variable
 prg#:#prg_manual_status#:#Manual Status###30 08 2015 new variable
@@ -14776,7 +14776,7 @@ rep#:#btn_undelete_new_location#:#Restore (new location)###07 02 2020 new variab
 rep#:#btn_undelete_origin_location#:#Restore (same location)###07 02 2020 new variable
 rep#:#rep_activation_access#:#Access###28 08 2012 new variable
 rep#:#rep_activation_access_ref_info#:#This setting only affects this and no other reference in the repository.###04 09 2012 new variable
-rep#:#rep_activation_availability#:#Availability###28 08 2012 new variable
+rep#:#rep_activation_availability#:#Διαθεσιμότητα### OVB translated
 rep#:#rep_activation_limited_end#:#Ending Time###28 08 2012 new variable
 rep#:#rep_activation_limited_start#:#Starting Time###28 08 2012 new variable
 rep#:#rep_activation_limited_visibility#:#Always Visible###28 08 2012 new variable
@@ -15174,7 +15174,7 @@ search#:#add_members_header#:#Προσθήκη μελών
 search#:#adv_md_search_title#:#Search in Extended Metadata
 search#:#append_results#:#Επισύναψη αποτελεσμάτων
 search#:#btn_search#:#Search###08 10 2015 new variable
-search#:#last_search_result#:#Last Search Result
+search#:#last_search_result#:#Τελευταίο αποτέλεσμα αναζήτησης### OVB translated
 search#:#lucene_activate_field#:#Activate Search###30 04 2009 new variable
 search#:#lucene_advanced_settings#:#Advanced Search###30 04 2009 new variable
 search#:#lucene_advanced_settings_table#:#Advanced Search Settings###06 08 2009 new variable
@@ -15251,7 +15251,7 @@ search#:#search_details_info#:#Λεπτομερής αναζήτηση. Παρα
 search#:#search_direct#:#Απευθείας αναζήτηση
 search#:#search_err_user_not_exist#:#A user with that login name does not exist.###10 11 2011 new variable
 search#:#search_fast_info#:#Αναζήτηση για τίτλους, περιγραφές και λέξεις κλειδιά σε όλους τους τύπους αντικειμένων.
-search#:#search_field#:#Search Input Field###30 04 2021 new variable
+search#:#search_field#:#Πεδίο εισαγωγής αναζήτησης### OVB translated
 search#:#search_field_perform#:#Perform Search###31 03 2023 new variable
 search#:#search_filter_by_type#:#Filter by Type###28 11 2012 new variable
 search#:#search_filter_cd#:#Filter by Creation Date###30 08 2015 new variable
@@ -16909,7 +16909,7 @@ tax#:#tax_target_within_nodes#:#The target must not be a subnode of the selected
 tax#:#tax_tax_assignment#:#Taxonomy Assignment###31 08 2017 new variable
 tax#:#tax_tax_deleted#:#The taxonomy has been deleted.###28 08 2012 new variable
 tax#:#tax_tax_settings#:#Taxonomy Settings###31 08 2017 new variable
-tax#:#tax_taxonomy#:#Taxonomy###28 08 2012 new variable
+tax#:#tax_taxonomy#:#Ταξινόμηση### OVB translated
 tbl#:#tbl_export_csv#:#Export .csv###16 07 2010 new variable
 tbl#:#tbl_export_excel#:#Export .xls###16 07 2010 new variable
 tbl#:#tbl_template_create#:#Save Current View###16 07 2010 new variable
@@ -17268,9 +17268,9 @@ user#:#has_role#:#Role###31 08 2017 new variable
 user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?###30 07 2024 new variable
 user#:#inform_user_mail_info#:#If activated, an email will be sent to the user. Its content can be defined in Administration > User Management > Settings > New Account Mail.###30 12 2013 new variable
 user#:#interests#:#Interests###26 09 2014 new variable
-user#:#interests_general#:#General Interests###26 09 2014 new variable
-user#:#interests_help_looking#:#Looking For Help###26 09 2014 new variable
-user#:#interests_help_offered#:#Offering Help###26 09 2014 new variable
+user#:#interests_general#:#Γενικά ενδιαφέροντα### OVB translated
+user#:#interests_help_looking#:#Αναζήτηση βοήθειας### OVB translated
+user#:#interests_help_offered#:#Προσφορά βοήθειας### OVB translated
 user#:#ldoc_accepted_content#:#Accepted Content###30 04 2024 new variable
 user#:#ldoc_not_accepted_yet#:#Not accepted yet###30 04 2024 new variable
 user#:#msg_spoint_not_modified#:#Starting point not modified###07 02 2020 new variable
@@ -17311,8 +17311,8 @@ user#:#user_account_codes_number#:#Number Of Codes###06 08 2011 new variable
 user#:#user_account_deleted_confirmation#:#Your account has been deleted. An email containing detailed information has been sent to you.###28 09 2012 new variable
 user#:#user_activate_public_profile#:#Activate Public Profile###30 04 2009 new variable
 user#:#user_activate_public_profile_info#:#Global activation of your public profile. If activated your first and last name will be visible to other users.###30 04 2009 new variable
-user#:#user_activation#:#Activation###15 05 2009 new variable
-user#:#user_all#:#All###15 05 2009 new variable
+user#:#user_activation#:#Ενεργοποίηση### OVB translated
+user#:#user_all#:#Όλα### OVB translated
 user#:#user_allow_delete_own_account#:#Allow users to delete own account###28 08 2012 new variable
 user#:#user_any#:#Any###15 05 2009 new variable
 user#:#user_awrn_all_users#:#All Users###30 08 2015 new variable
@@ -17330,7 +17330,7 @@ user#:#user_delete_own_account_logout_confirmation#:#Your account has been flagg
 user#:#user_delete_own_account_notification_email#:#Notification Email###28 08 2012 new variable
 user#:#user_field#:#Field###12 08 2009 new variable
 user#:#user_global_role#:#Global Role###15 05 2009 new variable
-user#:#user_last_login_before#:#Last Login Before###15 05 2009 new variable
+user#:#user_last_login_before#:#Τελευταία είσοδος πριν### OVB translated
 user#:#user_limited_access#:#Limited Access###15 05 2009 new variable
 user#:#user_local_role#:#Local Role###31 03 2023 new variable
 user#:#user_lv_do_not_store#:#Never remeber last visited###28 08 2012 new variable
