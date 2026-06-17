@@ -2029,7 +2029,7 @@ auth#:#auth_ldap_server_ds#:#LDAP szerver
 auth#:#auth_login_editor#:#Bejelentkezési képernyő szerkesztő
 auth#:#auth_oidc#:#OpenID-kapcsolat
 auth#:#auth_oidc_failed#:#Az OpenID-kapcsolaton keresztüli bejelenkezés sikertelen
-auth#:#auth_oidc_login_element_info#:#Bejelentkezés az ILIAS-ba OpenID hitelesítéssel
+auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###17 06 2026 new variable
 auth#:#auth_oidc_mapping_table#:#ILIAS felhasználói adatok és OpenID-attribútumok összerendelése
 auth#:#auth_oidc_profile#:#Profiladatok hozzárendelése
 auth#:#auth_oidc_role_info#:#OpenID csatlakozási attribútum::Érték (például: "szabályok::alkalmazottak").
@@ -2143,7 +2143,7 @@ awrn#:#awrn_online_only#:#Csak online
 awrn#:#awrn_seconds#:#másodperc
 awrn#:#awrn_use_osd#:#Online felhasználók felugróban
 awrn#:#awrn_use_osd_info#:#'Ki van online' felsorolásában új felhasználók felugróban jelenjenek meg.
-awrn#:#awrn_user_show#:#ILIAS-fiókom megjelenítése a 'Ki van online?' eszközben
+awrn#:#awrn_user_show#:#Fiókom látható a "Ki online?" menüben### OVB translated
 awrn#:#user_awrn_default#:#Alapértelmezett
 awrn#:#user_awrn_hide#:#Állapotom elrejtése
 awrn#:#user_awrn_show#:#Állapotom megjelenítése
@@ -2485,7 +2485,7 @@ book#:#book_assign#:#Lefoglalás
 book#:#book_assign_object#:#Foglalható objektum lefoglalása
 book#:#book_assign_participant#:#Résztvevőnek lefoglalás
 book#:#book_back_to_list#:#Vissza a listához
-book#:#book_bobj#:#Foglalható objektumok
+book#:#book_bobj#:#Foglalási objektum### OVB translated
 book#:#book_book#:#Lefoglalom
 book#:#book_book_available#:#Elérhető dátumok
 book#:#book_book_recurrence#:#Ismétlődő dátumok
@@ -2886,7 +2886,7 @@ chatroom#:#chat_message_options#:#Megjelenítés
 chatroom#:#chat_message_to_all#:#Mindenkinek
 chatroom#:#chat_no_use_typing_broadcast#:#A gépelést nem broadcastoljuk.
 chatroom#:#chat_not_use_osc#:#Képernyőbeszélgetések használatának kikapcsolása
-chatroom#:#chat_osc_accept_msg#:#Képernyőbeszélgetések bekapcsolása
+chatroom#:#chat_osc_accept_msg#:#Chat bekapcsolása### OVB translated
 chatroom#:#chat_osc_accept_msg_info#:#Mások beszélgetést kezdeményezhetnek Önnel.
 chatroom#:#chat_osc_accept_msg_info_slate#:#A privát beszélgetésekhez kapcsolja be a beállításokban a "Képernyőbeszélgetések bekapcsolása" lehetőséget.
 chatroom#:#chat_osc_accept_msg_info_slate_link_txt#:#Láthatóság (a Profilban és az Adatvédelemben)
@@ -3780,7 +3780,7 @@ common#:#copy_selected_items#:#Másolás
 common#:#count#:#Darabszám
 common#:#counter_novelty#:#Hírek
 common#:#counter_status#:#Állapot
-common#:#country#:#Ország
+common#:#country#:#közvetlen igazgató### OVB translated
 common#:#country_free_text#:#Ország (szabadszöveges mező)
 common#:#country_selection#:#Ország (legördülő lista)
 common#:#course#:#Kurzus
@@ -3832,7 +3832,7 @@ common#:#crs_status_blocked#:#[Hozzáférés megtagadva]
 common#:#crs_status_pending#:#[Regisztrációra vár]
 common#:#crs_subscribers_assigned#:#Új felhasználó(k) hozzárendelve.
 common#:#crs_title#:#Kurzuscím
-common#:#crs_unsubscribe#:#Lejelentkezés a kurzusról
+common#:#crs_unsubscribe#:#Leiratkozás a tanfolyamról### OVB translated
 common#:#crs_wizard_page#:#Kurzus másolása (2/2. lépés)
 common#:#crsr#:#Kurzuslink
 common#:#crsr_add#:#Kurzuslink hozzáadása
@@ -4022,7 +4022,7 @@ common#:#error_empty_file_or_folder#:#A fájl valójában mappa vagy a mérete 0
 common#:#error_extraction_failed#:#Az archívum fájl (és mappa) kicsomagolása sikertelen. Valószínűleg nincs jogosultsága mappát vagy kategóriákat létrehozni az objektum alá.
 common#:#error_parser#:#Hiba történt a szintaktikai elemző indulásakor.
 common#:#error_upload_was_zero_bytes#:#A feltöltés sikertelen, mert a fájl valójában mappa, vagy mérete 0 byte, vagy mérete meghaladja a feltölthet maximumot, vagy átnevezték.
-common#:#etal_talks#:#Megbeszélés
+common#:#etal_talks#:#Beszélgetések### OVB translated
 common#:#event_ass_materials_prop#:#Esemény segédanyagai
 common#:#event_assign_files#:#Fájlhozzárendelés
 common#:#exc#:#Beadandó feladat
@@ -4074,7 +4074,7 @@ common#:#extracting#:#Kicsomagolás…
 common#:#eyeclosed#:#Szem bezárása - Kattintson a bemenet tartalmának elrejtéséhez
 common#:#eyeopened#:#Szem megnyitása - Kattintson a bemenet tartalmának megjelenítéséhez
 common#:#failure_message#:#Hibaüzenet
-common#:#fax#:#Fax
+common#:#fax#:#Rangfokozat (hosszú)### OVB translated
 common#:#feed#:#Webhírforrás
 common#:#feedback#:#Visszajelzés
 common#:#field_name#:#Mezőnév
@@ -4293,7 +4293,7 @@ common#:#hist_webr_delete#:#'%1' című weblinket sikeresen törölte.
 common#:#hist_webr_update#:#'%1' című weblinket sikeresen módosította.
 common#:#history#:#Előzmények
 common#:#hits_per_page#:#Találatok száma oldalanként
-common#:#hobby#:#Érdeklődési körök/Hobbik
+common#:#hobby#:#Munkatársi szám### OVB translated
 common#:#home#:#Nyilvános terület
 common#:#host#:#Kiszolgáló
 common#:#hour#:#Óra
@@ -4470,7 +4470,7 @@ common#:#ldap_server#:#LDAP-kiszolgáló URL-je
 common#:#ldap_tls#:#TLS-titkosítás használata
 common#:#ldap_version#:#LDAP-verzió
 common#:#learning module#:#Tananyag
-common#:#learning_progress#:#Tanulási haladás
+common#:#learning_progress#:#Tanulási előmenetel### OVB translated
 common#:#leave_waiting_list#:#Várólista elhagyása
 common#:#legend#:#Jelmagyarázat
 common#:#level#:#Szint
@@ -4532,7 +4532,7 @@ common#:#login_information#:#Bejelentkezési információk
 common#:#login_information_desc#:#Adjon meg bejelentkezési információkat a megfelelő nyelven!
 common#:#login_information_settings_saved#:#A bejelentkezési információkat sikeresen mentette.
 common#:#login_invalid#:#A választott felhasználónév nem érvényes! Csak a következő karakterek használhatók (minimum 3 karakter): A-Z a-z 0-9 _.+*@!$%~
-common#:#login_to_ilias#:#Bejelentkezés az ILIAS-ba
+common#:#login_to_ilias#:#Bejelentkezés a Personal Development-be### OVB translated
 common#:#login_to_ilias_via_cas#:#Központi hitelesítési szolgáltatáson keresztüli bejelentkezés az ILIAS-ba
 common#:#login_to_ilias_via_login_form#:#Bejelentkezés az ILIAS-ba
 common#:#login_to_ilias_via_saml#:#Bejelentkezés az ILIAS-ba SAML hitelesítésen keresztül
@@ -4540,7 +4540,7 @@ common#:#login_to_ilias_via_shibboleth#:#ILIAS-ba bejelentkezés ezen keresztül
 common#:#loginname_already_exists#:#Már van ilyen felhasználónév.
 common#:#loginname_settings#:#Felhasználónév beállításai
 common#:#logout#:#Kijelentkezés
-common#:#logout_text#:#Kijelentkezett az ILIAS-ból. Munkamenete lezárult.
+common#:#logout_text#:#Kijelentkezett az Personal Development-ből. Munkamenete lezárult.### OVB translated
 common#:#logs#:#Naplófájladatok
 common#:#love#:#Szeret
 common#:#lres#:#Tananyagok
@@ -4589,7 +4589,7 @@ common#:#mainbar_aria_label#:#Főmenü
 common#:#mainbar_more_label#:#Több
 common#:#manage_members#:#Tagok kezelése
 common#:#marked_entries#:#Megjelölt bejegyzések
-common#:#matriculation#:#Nyilvántartási szám
+common#:#matriculation#:#Nemzetközi munkatársi szám### OVB translated
 common#:#max_previews_per_object#:#Előnézeti képek száma fájlonként
 common#:#max_previews_per_object_info#:#Megadja, hogy maximum hány előnézeti kép készüljön fájlonként.
 common#:#mcst#:#Médiasugárzás
@@ -4597,12 +4597,12 @@ common#:#mcst_add#:#Médiasugárzás létrehozása
 common#:#mcst_new#:#Új médiasugárzás
 common#:#mem_add_to_wl#:#Hozzáadás a várólistához
 common#:#mem_alert_no_places#:#Nincs több szabad hely.
-common#:#mem_cron_min_members#:#Kurzus/Csoport: Minimális taglétszám ellenőrzése
-common#:#mem_cron_min_members_info#:#A rendszergazdák értesítést kapnak, ha a minimális taglétszám nem jön össze.
+common#:#mem_cron_min_members#:#Tanfolyam/Csoport: A minimum tagok ellenőrzése### OVB translated
+common#:#mem_cron_min_members_info#:#Az adminisztrátorokat értesítjük, ha a minimális szám nem teljesül.### OVB translated
 common#:#mem_end#:#Regisztráció vége:
 common#:#mem_free_places#:#Szabad helyek száma
 common#:#mem_max_users#:#Felhasználók maximális száma:
-common#:#mem_min_users#:#Felhasználók minimális száma
+common#:#mem_min_users#:#Minimális felhasználó### OVB translated
 common#:#mem_participants#:#Résztvevők
 common#:#mem_reg_expired#:#A regisztrációs idő lejárt.
 common#:#mem_reg_not_started#:#A regisztráció még nem kezdődött el.
@@ -4650,7 +4650,7 @@ common#:#mm_dashboard#:#Műszerfal
 common#:#mm_enrolments#:#Kurzustagságok
 common#:#mm_favorites#:#Kedvenceim
 common#:#mm_learning_history#:#Tanulási előzmények
-common#:#mm_learning_progress#:#Tanulási haladás
+common#:#mm_learning_progress#:#Tanulási előmenetel### OVB translated
 common#:#mm_mail#:#Levelek
 common#:#mm_news#:#Hírek
 common#:#mm_notes#:#Jegyzetek
@@ -4908,7 +4908,7 @@ common#:#obj_dshs#:#Műszerfal
 common#:#obj_dshs_desc#:#Műszerfal beállításai
 common#:#obj_ecss#:#ECS
 common#:#obj_ecss_desc#:#Általános ECS beállítások
-common#:#obj_etal#:#Beosztotti megbeszélés
+common#:#obj_etal#:#Munkatársibeszélgetés### OVB translated
 common#:#obj_exc#:#Beadandó feladat
 common#:#obj_exc_duplicate#:#Feladat másolása
 common#:#obj_excv#:#Beadandó feladat tanúsítványa
@@ -5078,10 +5078,10 @@ common#:#obj_sysc#:#Rendszerellenőrzés
 common#:#obj_sysc_desc#:#Rendszerellenőrző és -javító eszközök
 common#:#obj_tags#:#Címkézés
 common#:#obj_tags_desc#:#Címkézési tulajdonság beállításai
-common#:#obj_tala#:#Megbeszélési sablonok
-common#:#obj_tala_desc#:#Megbeszélési sablonok
-common#:#obj_tals#:#Beosztotti megbeszéléssorozat
-common#:#obj_talt#:#Megbeszélési sablon
+common#:#obj_tala#:#Beszélgetési sablonok### OVB translated
+common#:#obj_tala_desc#:#Beszélgetési sablonok### OVB translated
+common#:#obj_tals#:#Munkatárs beszélgetési sorozat### OVB translated
+common#:#obj_talt#:#Beszélgetési sablon### OVB translated
 common#:#obj_task#:#Feladat
 common#:#obj_tax#:#Taxonómia
 common#:#obj_taxf#:#Taxonómiák
@@ -5137,7 +5137,7 @@ common#:#objs_copa#:#Tartalomlapok
 common#:#objs_crs#:#Kurzusok
 common#:#objs_crsr#:#Kurzuslink
 common#:#objs_dcl#:#Adatgyűjtések
-common#:#objs_etal#:#Munkavállói megbeszélések
+common#:#objs_etal#:#Munktársi beszélgetések### OVB translated
 common#:#objs_exc#:#Beadandó feladatok
 common#:#objs_file#:#Fájlok
 common#:#objs_fold#:#Mappák
@@ -5179,8 +5179,8 @@ common#:#objs_skee#:#Kompetencia-fák
 common#:#objs_spl#:#Kérdőívkérdés-gyűjtemény
 common#:#objs_st#:#Fejezetek
 common#:#objs_svy#:#Kérdőívek
-common#:#objs_tala#:#Megbeszéléssablonok
-common#:#objs_talt#:#Megbeszéléssablonok
+common#:#objs_tala#:#Beszélgetési sablonok### OVB translated
+common#:#objs_talt#:#Beszélgetési sablonok### OVB translated
 common#:#objs_tst#:#Tesztek
 common#:#objs_webr#:#Weblinkek
 common#:#objs_wiki#:#Wikik
@@ -5276,9 +5276,9 @@ common#:#persons#:#Személyek
 common#:#pg_add#:#Lap létrehozása
 common#:#pg_new#:#Új lap
 common#:#phone#:#Telefon
-common#:#phone_home#:#Telefon - otthoni
+common#:#phone_home#:#Közvetlen vezető (név)### OVB translated
 common#:#phone_mobile#:#Telefon - mobil
-common#:#phone_office#:#Telefon - munkahelyi
+common#:#phone_office#:#Rangfokozat (rövid)### OVB translated
 common#:#phrase#:#Választípus
 common#:#please_choose#:#--- Válasszon ---
 common#:#please_enter_target#:#Adjon meg célt.
@@ -5722,8 +5722,8 @@ common#:#tagging_my_tags#:#Saját címkéim
 common#:#tags#:#Címkék
 common#:#take_over_structure#:#Struktúra adaptálása
 common#:#take_over_structure_info#:#A ZIP-fájlban levő mappák csoportokban és kurzusokban mappaként, különben kategóriaként jönnek létre.
-common#:#tals_etal#:#Talk
-common#:#talt_etal#:#Talk
+common#:#tals_etal#:#Beszélgetés### OVB translated
+common#:#talt_etal#:#Beszélgetés### OVB translated
 common#:#target#:#Cél
 common#:#tax#:#Taxonómia
 common#:#tax_add#:#Taxonómia létrehozása
@@ -7479,10 +7479,10 @@ crs#:#crs_admission_link_failure_registration_period#:#Nem regisztrálhat, mert 
 crs#:#crs_admission_link_success_registration#:#'%s' kurzusba sikeresen regisztrált.
 crs#:#crs_agree#:#Elfogadás
 crs#:#crs_agreement_header#:#Felhasználói megállapodás
-crs#:#crs_agreement_required#:#El kell fogadnia a felhasználói megállapodást, ha regisztrálni szeretne erre a kurzusra.
+crs#:#crs_agreement_required#:#Kérjük, erősítse meg a kötési foglalást.### OVB translated
 crs#:#crs_at_least_one_admin#:#Legalább egy csoportvezető kell, hogy legyen.
 crs#:#crs_auto_notification#:#Új tagoknak üdvözlőlevél
-crs#:#crs_auto_notification_info#:#Kurzuscsatlakozáskor levelet küldünk az új tagoknak.
+crs#:#crs_auto_notification_info#:#A rendszer automatikusan üdvözlő e-maileket küld azoknak a tagoknak, akik egy plugin segítségével kerültek be a kurzusba. Ha a CourseBooking és a MailAdministration bővítmények telepítve vannak és aktívak, a 16. levél elküldésre kerül.### OVB translated
 crs#:#crs_awrn_current_course#:#Jelenlegi kurzus
 crs#:#crs_awrn_current_course_info#:#Ha a felhasználó a kurzushoz navigál a Tartalomtárban, a kurzus összes tagját felsoroljuk.
 crs#:#crs_awrn_support_contacts#:#Tutori segítségnyújtók
@@ -7496,9 +7496,9 @@ crs#:#crs_cancel_subscr_request#:#Tagsági kérelem törlése
 crs#:#crs_cancel_subscription#:#'%s' kurzust elhagyta egy tag
 crs#:#crs_cancel_subscription_body#:#'%s' kurzustagságát egy tag lemondta.
 crs#:#crs_cancel_subscription_body2#:#Lehet, hogy vannak még a kurzus várólistáján. A várólistát most kell ellenőriznie. Kurzusának tagjait ide kattintva tekintheti meg:
-crs#:#crs_cancellation_end#:#'Lejelentkezés a kurzusról' időkorlátja
+crs#:#crs_cancellation_end#:#Lemondási határ### OVB translated
 crs#:#crs_cancellation_end_info#:#Az itt megadott ideig tudnak a résztvevők lejelentkezni a kurzusról.
-crs#:#crs_cancellation_end_rbac_info#:#A lemondást határideje %s volt, lemondása utána már nem lehetséges.
+crs#:#crs_cancellation_end_rbac_info#:#A lemondási határidőt %s -nál tartották, a lemondás már nem lehetséges.### OVB translated
 crs#:#crs_cannot_find_role#:#Ez a szerep nem található.
 crs#:#crs_cdf_edit_member#:#Felhasználó kurzushoz kötődő adatainak módosítása
 crs#:#crs_cdf_tbl_last_edit#:#Módosítva (kurzusspecifikus adat)
@@ -7513,7 +7513,7 @@ crs#:#crs_contact_responsibility#:#Beosztás
 crs#:#crs_content#:#Kurzustartalom
 crs#:#crs_copy#:#Kurzus másolása
 crs#:#crs_course_group_notification_link#:#Link:
-crs#:#crs_course_period_not_valid#:#A kurzusidőszak nem érvényes.
+crs#:#crs_course_period_not_valid#:#A kurzus időszaka nem érvényes.### OVB translated
 crs#:#crs_course_status_of_users#:#Kurzus teljesítése
 crs#:#crs_create_date#:#Dátum létrehozása
 crs#:#crs_custom_user_fields#:#Kurzushoz tartozó felhasználói adatok
@@ -7696,9 +7696,9 @@ crs#:#crs_mail_type#:#Levél küldése tagoknak
 crs#:#crs_map_location#:#Kurzustérkép helye
 crs#:#crs_map_settings#:#Térkép
 crs#:#crs_materials#:#Segédanyagok
-crs#:#crs_max_and_min_members_invalid#:#A minimális taglétszámnak kisebbnek kell lennie, mint a maximális taglétszámnak.
-crs#:#crs_max_and_min_members_needed#:#Állítsa be a minimális, illetve a maximális taglétszámot.
-crs#:#crs_max_members_needed#:#Várólista használatához a maximális taglétszám beállítása szükséges.
+crs#:#crs_max_and_min_members_invalid#:#A minimális számnak kisebbnek kell lennie, mint a tagok maximális száma.### OVB translated
+crs#:#crs_max_and_min_members_needed#:#Állítsa be a tagok minimális vagy maximális számát - vagy mindkettőt.### OVB translated
+crs#:#crs_max_members_needed#:#A várakozási lista funkcióhoz maximális számra van szükség.### OVB translated
 crs#:#crs_max_members_reached#:#A tagok száma elérte a maximumot
 crs#:#crs_mem_contact#:#Technikai segítségnyújtó
 crs#:#crs_mem_contacts#:#Technikai segítségnyújtók
@@ -7807,7 +7807,7 @@ crs#:#crs_passed_status_system#:#Rendszer
 crs#:#crs_password_not_valid#:#Érvénytelen a jelszava.
 crs#:#crs_password_required#:#Ehhez a regisztrációs eljáráshoz jelszó szükséges.
 crs#:#crs_pdf#:#PDF
-crs#:#crs_period#:#Kurzusidőszak
+crs#:#crs_period#:#Tanfolyam -időszak### OVB translated
 crs#:#crs_period_end_mail_placeholder#:#Kurzusidőszak vége
 crs#:#crs_period_info#:#Információ a kurzusidőszak kezdő és záró dátumáról
 crs#:#crs_period_start_mail_placeholder#:#Kurzusidőszak kezdete
@@ -7885,9 +7885,9 @@ crs#:#crs_subscription_failed_limit#:#A maximális felhasználószámot elérte.
 crs#:#crs_subscription_max_members#:#Maximális szám
 crs#:#crs_subscription_max_members_short#:#Tagok számának korlátozása
 crs#:#crs_subscription_max_members_short_info#:#A minimális, illetve a maximális taglétszám, továbbá várólista is beállítható.
-crs#:#crs_subscription_min_members#:#Minimális szám
+crs#:#crs_subscription_min_members#:#Minimális szám### OVB translated
 crs#:#crs_subscription_min_members_err#:#A résztvevők minimális száma nem lehet kisebb a résztvevők maximális számánál.
-crs#:#crs_subscription_min_members_info#:#A kurzus indulásához szükséges minimális létszámot határozza meg. Amennyiben a kurzuslétszám nem éri el ezt a számot a kurzus regisztrációs, illetve lejelentkezési határidejéig, figyelmeztető levelet küldünk a kurzus azon vezetőinek és tutorainak, akinél aktív az értesítés a kurzus 'Tagok' lapján.
+crs#:#crs_subscription_min_members_info#:#Lásd: Cron Job "A lemondási határ".### OVB translated
 crs#:#crs_subscription_options_confirmation#:#Tagság kérése
 crs#:#crs_subscription_options_direct#:#Csatlakozás közvetlenül
 crs#:#crs_subscription_options_password#:#Csatlakozás kurzusjelszóval
@@ -7957,8 +7957,8 @@ crs#:#crs_unsubscribe_member_explanation#:#Azért kapta ezt a levelet, mert leir
 crs#:#crs_unsubscribe_sure#:#Biztos, hogy lejelentkezik erről a kurzusról?
 crs#:#crs_unsubscribed_from_crs#:#Sikeresen lejelentkezett a kurzusról.
 crs#:#crs_update_subscr_request#:#Tagsági kérelem frissítése
-crs#:#crs_user_agreement#:#Kibocsátott adattípusok
-crs#:#crs_user_agreement_info#:#Látható adatok a kurzusvezető számára
+crs#:#crs_user_agreement#:#CONTROL_LABEL_NO_DISPLAY### OVB translated
+crs#:#crs_user_agreement_info#:#INFOSCREEN_SEC_NO_DISPLAY### OVB translated
 crs#:#crs_user_already_assigned#:#A felhasználókat már korábban hozzárendelték ehhez a kurzushoz
 crs#:#crs_users_added#:#Felhasználók hozzáadva a kurzushoz.
 crs#:#crs_users_already_assigned#:#A felhasználót már korábban hozzárendelték ehhez a kurzushoz
@@ -7981,9 +7981,9 @@ crs#:#crs_visibility_until_info#:#A kurzus egy meghatározott ideig marad látha
 crs#:#crs_visibility_unvisible#:#A kurzus nem látható.
 crs#:#crs_wait_info#:#Ha a kurzushoz rendelhető maximális felhasználói létszám betelt, az új regisztrálók várólistára kerülnek be.
 crs#:#crs_waiting_list#:#Várólista
-crs#:#crs_waiting_list_autofill#:#Automatikus feltöltéssel
-crs#:#crs_waiting_list_autofill_info#:#A résztvevőket automatikusan felvesszük a várólistáról tagság lemondásakor. Ez nem alkalmazható együtt a 'Tagság kérése' regisztrációs eljárással, mert az automatikus felvétel kizárja a jóváhagyást.
-crs#:#crs_waiting_list_no_autofill#:#Automatikus feltöltés nélkül
+crs#:#crs_waiting_list_autofill#:#Automatikus töltés### OVB translated
+crs#:#crs_waiting_list_autofill_info#:#A résztvevőket a várakozási listából automatikusan toborozzák a lemondások során.### OVB translated
+crs#:#crs_waiting_list_no_autofill#:#Automatikus töltés nélkül### OVB translated
 crs#:#crs_warn_no_max_set_on_waiting_list#:#A kurzus elérte a maximális kurzuslétszámát. Feliratkozhat a várólistára. A kurzusvezető üzenetet fog küldeni Önnek, ha kérését jóváhagyják vagy elutasítják.
 crs#:#crs_warn_wl_set_on_waiting_list#:#Van már néhány felhasználó a várólistán. Csatlakozási kérelmével Ön is feliratkozhat a várólistára. A kurzusvezető üzenetet fog küldeni Önnek, ha kérését jóváhagyják vagy elutasítják.
 crs#:#crs_wiz_back#:#Vissza
@@ -9157,47 +9157,47 @@ ecs#:#ecs_wiki_export_enabled#:#Ezen wiki kiadása
 ecs#:#ecs_wiki_export_obj_settings#:#Wikikiadás beállításai
 error#:#error_back_to_repository#:#Vissza a Tartalomtárba
 error#:#error_sry_error#:#Sajnáljuk, hiba történt.
-etal#:#appointments#:#Találkozók
-etal#:#cal_type_tals#:#Megbeszélések
-etal#:#change_date_of_series#:#Megbeszéléssorozat dátumának módosítása
-etal#:#change_date_of_talk#:#Megbeszélés dátumának módosítása
-etal#:#date_of_talk#:#Megbeszélés dátuma
-etal#:#etal_add#:#Megbeszélés hozzáadása
-etal#:#etal_add_new_item#:#Új Megbeszélés hozzáadása
+etal#:#appointments#:#Megbeszélések### OVB translated
+etal#:#cal_type_tals#:#Beszélgetések### OVB translated
+etal#:#change_date_of_series#:#Beszélgetési sorozat beállítása### OVB translated
+etal#:#change_date_of_talk#:#Beszélgetési időpont beállítása### OVB translated
+etal#:#date_of_talk#:#Kezdés időpontja### OVB translated
+etal#:#etal_add#:#Hozzáadás### OVB translated
+etal#:#etal_add_new_item#:#Új beszélgetés hozzáadása### OVB translated
 etal#:#etal_create_invalid_template_ref#:#Érvénytelen Megbeszéléssablon ID
-etal#:#etal_date_appointment_edit#:#Megbeszélés dátuma
-etal#:#etal_date_series_edit#:#Megbeszéléssorozat dátuma
+etal#:#etal_date_appointment_edit#:#Beszélgetés időpontja### OVB translated
+etal#:#etal_date_series_edit#:#Beszélgetés sorozat### OVB translated
 etal#:#etal_delete_confirmation_msg#:#Biztos, hogy törli az alábbi megbeszélést?
 etal#:#etal_edit#:#Általános
 etal#:#etal_invalid_user#:#A felhasználó nem létezik vagy nem hívható meg.
 etal#:#etal_location#:#Location###04 11 2025 new variable
-etal#:#etal_new#:#Új Talk
+etal#:#etal_new#:#Új megbeszélés### OVB translated
 etal#:#etal_open#:#Munkavállalói megbeszélés megnyitása
 etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
-etal#:#etal_status_all#:#Összes
-etal#:#etal_status_completed#:#Befejezve
-etal#:#etal_status_pending#:#Függőben
+etal#:#etal_status_all#:#Mindenki### OVB translated
+etal#:#etal_status_completed#:#Lezárt### OVB translated
+etal#:#etal_status_pending#:#Függőben lévő### OVB translated
 etal#:#etal_unknown_username#:#Ismeretlen felhasználó
 etal#:#lock_edititng_for_others#:#Szerkesztés zárolása a többeiknél
-etal#:#meta_adv_records#:#Metaadat
-etal#:#mm_org_etal#:#Megbeszélés
-etal#:#mm_talk_template#:#Megbeszéléssablonok
-etal#:#notification_talks_created#:#Önt meghívták a következő munkavállalói megbeszélésre.
-etal#:#notification_talks_date_list_header#:#Dátumok
-etal#:#notification_talks_removed#:#Az alábbi találkozókat törölték.
-etal#:#notification_talks_subject#:#Meghívás: %s
+etal#:#meta_adv_records#:#Metaadatok### OVB translated
+etal#:#mm_org_etal#:#Beszélgetés### OVB translated
+etal#:#mm_talk_template#:#Beszélgetési sablonok### OVB translated
+etal#:#notification_talks_created#:#Meghívást kaptál egy interjúra.### OVB translated
+etal#:#notification_talks_date_list_header#:#Adat### OVB translated
+etal#:#notification_talks_removed#:#Az alábbi időpontok lemondásra kerültek.### OVB translated
+etal#:#notification_talks_subject#:#Meghívó### OVB translated
 etal#:#notification_talks_subject_update#:#Módosítás: %s
-etal#:#notification_talks_updated#:#Az alábbi találkozókat módosították.
+etal#:#notification_talks_updated#:#A következő találkozókat módosításra kerültek.### OVB translated
 etal#:#pending_talks_warning#:#A következő függőben lévő megbeszéléseket cseréljük le:
 etal#:#tala_no_content_without_admin_info#:#The Administrator role is required for access to Talk Templates.###08 07 2025 new variable
 etal#:#talk_serial#:#Megbeszéléssorozat
-etal#:#tals_add#:#Megbeszélés hozzáadása
-etal#:#tals_new#:#Új Megbeszélés
-etal#:#talt_activation_online_info#:#Állítsa be a beszélgetéssablont onlinera, hogy láthatóvá és elérhetővé tegye az alkalmazottak számára. Ha nem, akkor csak a rendszergazdák férhetnek hozzá.
-etal#:#talt_add#:#Sablon hozzáadása
+etal#:#tals_add#:#Beszélgetések hozzáadása### OVB translated
+etal#:#tals_new#:#Új beszélgetéssorozat### OVB translated
+etal#:#talt_activation_online_info#:#Aktiválja a sablont, hogy a munkatársai számára is elérhető legyen.### OVB translated
+etal#:#talt_add#:#Kiállítani### OVB translated
 etal#:#talt_edit#:#Általános
-etal#:#talt_etal#:#Munkavállalói megbeszélés
-etal#:#talt_new#:#Új Megbeszéléssablon
+etal#:#talt_etal#:#Személyes beszélgetés### OVB translated
+etal#:#talt_new#:#Új beszélgetési sablon### OVB translated
 etal#:#will_update_series_info_lock#:#A sorozat összes időpontjának szerkesztésének zárolása
 etal#:#will_update_series_info_title#:#A sorozat összes talákozójának címének módosítása.
 exc#:#exc_add_assignment#:#Feladat létrehozása
@@ -10226,9 +10226,9 @@ grp#:#grp_at_least_one_admin#:#Legalább egy kurzusvezető kell, hogy legyen.
 grp#:#grp_auto_notification#:#Új tagoknak üdvözlőlevél
 grp#:#grp_auto_notification_info#:#Csoportcsatlakozáskor levelet küldünk az új tagoknak.
 grp#:#grp_cancel_subscr_request#:#Tagsági kérelem törlése
-grp#:#grp_cancellation_end#:#Lemondás időkorlátja
+grp#:#grp_cancellation_end#:#Lemondási határ### OVB translated
 grp#:#grp_cancellation_end_info#:#Az itt megadott ideig tudnak a résztvevők leiratkozni a csoportról.
-grp#:#grp_cancellation_end_rbac_info#:#A lemondás határideje %s volt, lemondás utána már nem lehetséges.
+grp#:#grp_cancellation_end_rbac_info#:#A lemondási határidőt %s -nál tartották, a lemondás már nem lehetséges.### OVB translated
 grp#:#grp_cdf_edit_member#:#Felhasználó csoporthoz kötődő adatainak módosítása
 grp#:#grp_cdf_tbl_last_edit#:#Módosítva (csoportspecifikus adat)
 grp#:#grp_change_type#:#Csoporttípus változtatása
@@ -10375,11 +10375,11 @@ grp#:#grp_warn_grp_type_changed#:#Biztos, hogy megváltoztatja a csoport típus�
 grp#:#grp_warn_no_max_set_on_waiting_list#:#A csoport elérte a maximális taglétszámát. Csatlakozási kérelmével feliratkozhat a várólistára. A csoportvezető üzenetet fog küldeni Önnek, ha kérését jóváhagyják vagy elutasítják.
 grp#:#grp_warn_wl_set_on_waiting_list#:#Van már néhány felhasználó a várólistán. Csatlakozási kérelmével Ön is feliratkozhat a várólistára. A csoportvezető üzenetet fog küldeni Önnek, amikor kérését jóváhagyják vagy elutasítják.
 grp#:#grp_wrong_max_members#:#A várólista bekapcsolásához a taglétszám maximalizálása szükséges!
-grp#:#grp_wrong_min_max_members#:#Legyen szíves ellenőrizze a felhasználók minimális, illetve maximális számát.
+grp#:#grp_wrong_min_max_members#:#Kérjük, ellenőrizze a felhasználók minimális és maximális számát.### OVB translated
 grp#:#grp_wrong_reg_time_limit#:#Ellenőrizze a regisztráció kezdő és záró időpontját!
 grp#:#reg_grp_max_members#:#Tagok maximális száma
 grp#:#reg_grp_max_members_short#:#Felhasználószám korlátozása
-grp#:#reg_grp_min_members#:#Tagok minimális száma
+grp#:#reg_grp_min_members#:#Minimális tagok száma### OVB translated
 help#:#help_all#:#Összes
 help#:#help_component#:#Komponens
 help#:#help_filter#:#Szűrő
@@ -11789,7 +11789,7 @@ meta#:#md_adv_deleted_fields#:#A mező(ke)t sikeresen törölte.
 meta#:#md_adv_deleted_files#:#Az exportfájl(oka)t sikeresen törölte.
 meta#:#md_adv_deleted_records#:#Az adatcsoporto(ka)t sikeresen törölte.
 meta#:#md_adv_desc_show#:#Leírás megjelenítése
-meta#:#md_adv_edit_complex_option#:#Tulajdonságok módosítása
+meta#:#md_adv_edit_complex_option#:#Szerkesztés Opció tulajdonságai### OVB translated
 meta#:#md_adv_edit_field#:#Mező módosítása
 meta#:#md_adv_edit_record#:#Adatcsoport módosítása
 meta#:#md_adv_field_fields#:#Mezők
@@ -12495,7 +12495,7 @@ meta#:#meta_very_easy#:#Nagyon könnyű
 meta#:#meta_very_high#:#Nagyon magas
 meta#:#meta_very_low#:#Nagyon alacsony
 meta#:#meta_yes#:#Igen
-meta#:#udf_type_address#:#Cím
+meta#:#udf_type_address#:#Cím### OVB translated
 meta#:#udf_type_externallink#:#Külső link
 meta#:#udf_type_float#:#Lebegőpontos szám
 meta#:#udf_type_integer#:#Egész szám
@@ -17010,7 +17010,7 @@ trac#:#trac_info_edited#:#Állítsa 'Teljesített'-re az állapotot, ha úgy gon
 trac#:#trac_last_access#:#Utolsó hozzáférés
 trac#:#trac_last_aggregation#:#Utolsó aggregálás
 trac#:#trac_last_maxed_out_sessions#:#Utolsó teljes terhelés
-trac#:#trac_learning_progress#:#Tanulási haladás
+trac#:#trac_learning_progress#:#Tanulási előmenetel### OVB translated
 trac#:#trac_learning_progress_of#:#%s tanulási haladása
 trac#:#trac_learning_progress_settings_info#:#Bővített adatok bekapcsolása
 trac#:#trac_lhist_obj_completed#:#$1$ befejezve.
@@ -17268,8 +17268,8 @@ user#:#info_accessFree_sure#:#Biztos, hogy eltávoltja az érvényesség korlát
 user#:#inform_user_mail_info#:#Email-t küldünk a felhasználónak. Az e-mail tartalma megadható itt: Rendszerbeállítások » ILIAS-fiókok » Beállítások » Új felhasználónak levél.
 user#:#interests#:#Érdeklődési körök
 user#:#interests_general#:#Általános érdeklődési kör
-user#:#interests_help_looking#:#Segítséget várok ezekben
-user#:#interests_help_offered#:#Segíteni tudok ezekben
+user#:#interests_help_looking#:#Segítségre lenne szükségem ezekben a témákban…### OVB translated
+user#:#interests_help_offered#:#Segítséget tudok nyújtani ezekben a témákban…### OVB translated
 user#:#ldoc_accepted_content#:#Efogadott tartalom
 user#:#ldoc_not_accepted_yet#:#Még nincs elfogadva
 user#:#msg_spoint_not_modified#:#A kiindulási pont nem változott
