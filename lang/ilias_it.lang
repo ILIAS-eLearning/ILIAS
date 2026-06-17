@@ -2028,7 +2028,7 @@ auth#:#auth_ldap_server_ds#:#Server LDAP
 auth#:#auth_login_editor#:#Editor della schermata di accesso
 auth#:#auth_oidc#:#OpenId Connect
 auth#:#auth_oidc_failed#:#Login via OpenID Connect failed###16 03 2023 new variable
-auth#:#auth_oidc_login_element_info#:#Login a ILIAS via OpenID
+auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###17 06 2026 new variable
 auth#:#auth_oidc_mapping_table#:#Mappatura attributi utente ILIAS su attributi OpenID Connect
 auth#:#auth_oidc_profile#:#Mappatura attributi utente
 auth#:#auth_oidc_role_info#:#Attributo di connessione OpenID Connect Attribute::Value (per es: "roles::employee").
@@ -2149,7 +2149,7 @@ awrn#:#user_awrn_show#:#Mostra
 background_tasks#:#abort#:#Interrompi
 background_tasks#:#background_tasks#:#Attività in background
 background_tasks#:#background_tasks_running#:#Attività in background
-background_tasks#:#completed#:#Completato
+background_tasks#:#completed#:#Completate### OVB translated
 background_tasks#:#proceed_job#:#Procedi
 background_tasks#:#remove#:#Rimuovi
 background_tasks#:#scheduled#:#Programmato
@@ -2484,7 +2484,7 @@ book#:#book_assign#:#Assegnare
 book#:#book_assign_object#:#Assegna oggetto prenotazione
 book#:#book_assign_participant#:#Assegna al Partecipante
 book#:#book_back_to_list#:#Torna all’elenco
-book#:#book_bobj#:#Prenota oggetto
+book#:#book_bobj#:#Oggetto di prenotazione### OVB translated
 book#:#book_book#:#Prenota
 book#:#book_book_available#:#Book Available Dates###30 04 2024 new variable
 book#:#book_book_recurrence#:#Book multiple dates###30 04 2024 new variable
@@ -3779,7 +3779,7 @@ common#:#copy_selected_items#:#Copia
 common#:#count#:#Conta
 common#:#counter_novelty#:#News###30 04 2024 new variable
 common#:#counter_status#:#Status###30 04 2024 new variable
-common#:#country#:#Nazione
+common#:#country#:#direttore diretto### OVB translated
 common#:#country_free_text#:#Paese (inserimento di testo libero)
 common#:#country_selection#:#Paese (Selezione a discesa)
 common#:#course#:#Corso
@@ -3831,7 +3831,7 @@ common#:#crs_status_blocked#:#[Accesso negato]
 common#:#crs_status_pending#:#[In attesa della registrazione]
 common#:#crs_subscribers_assigned#:#Nuovo utente iscritto
 common#:#crs_title#:#Titolo del Corso
-common#:#crs_unsubscribe#:#Annulla l'iscrizione
+common#:#crs_unsubscribe#:#Annullare l'iscrizione dal corso### OVB translated
 common#:#crs_wizard_page#:#Copia Corso (Passo 2/2)
 common#:#crsr#:#Riferimento al Corso
 common#:#crsr_add#:#Add Course Link###31 03 2023 new variable
@@ -3899,7 +3899,7 @@ common#:#deletion_notification#:#"%s" has canceled the attendance of session "%s
 common#:#deliver#:#Spedire
 common#:#deny_usr_agreement#:#Do not accept terms of service?
 common#:#deny_usr_agreement_btn#:#Non Accettare
-common#:#department#:#Dipartimento
+common#:#department#:#Direzione nazionale (Cognome, Nome)### OVB translated
 common#:#desc#:#Descrizione
 common#:#description#:#Descrizione
 common#:#desired_password#:#Nuova password
@@ -4021,7 +4021,7 @@ common#:#error_empty_file_or_folder#:#La dimensione del file è 0 byte o è una 
 common#:#error_extraction_failed#:#L'estrazione dell'archivio e delle sue directory non è riuscita. Probabilmente perché non hai i diritti per creare cartelle o categorie all'interno di questo oggetto.
 common#:#error_parser#:#Errore durante l'avvio del parser.
 common#:#error_upload_was_zero_bytes#:#Caricamento non riuscito poiché si tratta di una cartella, la dimensione del file è 0 byte o il file è stato rinominato nel frattempo.
-common#:#etal_talks#:#Talks###31 03 2023 new variable
+common#:#etal_talks#:#Colloqui### OVB translated
 common#:#event_ass_materials_prop#:#Materiali sessioni
 common#:#event_assign_files#:#Assegnazione file
 common#:#exc#:#Esercitazione
@@ -4073,7 +4073,7 @@ common#:#extracting#:#Estrazione...
 common#:#eyeclosed#:#Occhio chiuso: fai clic per nascondere il contenuto del campo di input
 common#:#eyeopened#:#Occhio aperto: fai clic per mostrare il contenuto del campo di input
 common#:#failure_message#:#Messaggio di errore
-common#:#fax#:#Fax
+common#:#fax#:#Livello (lungo)### OVB translated
 common#:#feed#:#Feed Web
 common#:#feedback#:#Risposta
 common#:#field_name#:#Nome del campo
@@ -4188,7 +4188,7 @@ common#:#functions#:#Funzioni
 common#:#further_informations#:#Ulteriori informazioni
 common#:#gdf_add#:#Aggiungi definizione
 common#:#gdf_new#:#Nuova definizione
-common#:#gender#:#Sesso
+common#:#gender#:#Appellativo### OVB translated
 common#:#gender_f#:#Femminile
 common#:#gender_m#:#Maschile
 common#:#gender_n#:#Nessun saluto desiderato
@@ -4292,7 +4292,7 @@ common#:#hist_webr_delete#:#Eliminata risorsa web. Titolo: &
 common#:#hist_webr_update#:#Modificata risorsa web. Titolo: &
 common#:#history#:#Mostra la storia
 common#:#hits_per_page#:#Accessi/Pagina
-common#:#hobby#:#Interessi/Passatempi
+common#:#hobby#:#Numero C### OVB translated
 common#:#home#:#Home
 common#:#host#:#Macchina
 common#:#hour#:#Ora
@@ -4313,7 +4313,7 @@ common#:#id#:#ID
 common#:#identifier#:#Identificatore
 common#:#if_no_title_then_filename#:#Lascia vuoto se vuoi mostrare il nome del file
 common#:#ignore_on_conflict#:#Ignora i conflitti
-common#:#ignore_required_fields#:#Ignora campi richiesti
+common#:#ignore_required_fields#:#Ignora i campi utente obbligatori### OVB translated
 common#:#ignore_required_fields_info#:#Se attivo, potrai inviare questo form senza riempire tutti i campi obbligatori. L'utente dovrà inserirli manualmente al primo login.
 common#:#il_astpl_loc_initial#:#Test iniziale
 common#:#il_astpl_loc_qualified#:#Test di qualificazione
@@ -4405,7 +4405,7 @@ common#:#installation_status#:#Stato dell'installazione
 common#:#installed#:#Installata
 common#:#installed_local#:#Installato localmente
 common#:#instant_messengers#:#Messaggi istantanei
-common#:#institution#:#Istituzione
+common#:#institution#:#Ufficio### OVB translated
 common#:#internal_local_roles_only#:#Ruoli locali (generati automaticamente)
 common#:#invalid_visible_required_options_selected#:#Tutti i campi impostati su richiesto devono anche essere impostati su visibile nella registrazione.
 common#:#invisible_block#:#Blocco invisibile
@@ -4531,7 +4531,7 @@ common#:#login_information#:#Informazioni accesso
 common#:#login_information_desc#:#Inserire le informazioni di accesso per la rispettiva lingua.
 common#:#login_information_settings_saved#:#Le informazioni di accesso sono state salvate con successo
 common#:#login_invalid#:#L'accesso scelto non è valido! Sono ammessi solo i seguenti caratteri (minimo 3 caratteri): A-Z a-z 0-9 _.-+*@!$%~
-common#:#login_to_ilias#:#Entra in ILIAS
+common#:#login_to_ilias#:#Entra in Personal Development### OVB translated
 common#:#login_to_ilias_via_cas#:#Accesso a ILIAS tramite Servizio di autenticazione centrale
 common#:#login_to_ilias_via_login_form#:#Login to ILIAS###20 05 2025 new variable
 common#:#login_to_ilias_via_saml#:#Accedi a ILIAS tramite l’autenticazione SAML
@@ -4588,7 +4588,7 @@ common#:#mainbar_aria_label#:#Barra principale
 common#:#mainbar_more_label#:#More
 common#:#manage_members#:#Gestisci membri
 common#:#marked_entries#:#Voci contrassegnate
-common#:#matriculation#:#Numero di matricola
+common#:#matriculation#:#Numero C internazionale### OVB translated
 common#:#max_previews_per_object#:#Numero di immagini in anteprima per file
 common#:#max_previews_per_object_info#:#Definisce il numero massimo di immagini in anteprima create per file.
 common#:#mcst#:#MediaCast
@@ -4596,12 +4596,12 @@ common#:#mcst_add#:#Aggiungi MediaCast
 common#:#mcst_new#:#Nuovo MediaCast
 common#:#mem_add_to_wl#:#Aggiungi alla lista di attesa
 common#:#mem_alert_no_places#:#Non ci sono posti liberi disponibili.
-common#:#mem_cron_min_members#:#Corso/Gruppo: Controllo numero minimo dei membri
-common#:#mem_cron_min_members_info#:#Gli amministratori saranno avvisati se il numero minimo non è stato soddisfatto.
+common#:#mem_cron_min_members#:#Corso/Gruppo: controllo dei membri minimi### OVB translated
+common#:#mem_cron_min_members_info#:#Gli amministratori verranno notificati se il numero minimo non è soddisfatto.### OVB translated
 common#:#mem_end#:#Fine registrazione:
 common#:#mem_free_places#:#Spazi liberi:
 common#:#mem_max_users#:#Numero massimo utenti:
-common#:#mem_min_users#:#Minimo degli utenti
+common#:#mem_min_users#:#Minimo degli utenti### OVB translated
 common#:#mem_participants#:#Partecipanti
 common#:#mem_reg_expired#:#Il tempo di registrazione è scaduto.
 common#:#mem_reg_not_started#:#La registrazione non è iniziata
@@ -4871,7 +4871,7 @@ common#:#obj_cadm#:#Contatti
 common#:#obj_cadm_desc#:#Amministrazione contatti
 common#:#obj_cals#:#Calendario
 common#:#obj_cals_desc#:#Impostazioni Generali Calendario.
-common#:#obj_cat#:#Contesto
+common#:#obj_cat#:#Cartella### OVB translated
 common#:#obj_cat_duplicate#:#Copia Categoria
 common#:#obj_catr#:#Categoria Reference
 common#:#obj_cert#:#Certificati
@@ -4907,7 +4907,7 @@ common#:#obj_dshs#:#Dashboard
 common#:#obj_dshs_desc#:#Impostazioni Dashboard
 common#:#obj_ecss#:#ECS
 common#:#obj_ecss_desc#:#Impostazioni generali di ECS
-common#:#obj_etal#:#Employee Talk###31 03 2023 new variable
+common#:#obj_etal#:#Colloquio con il collaboratore### OVB translated
 common#:#obj_exc#:#Esercitazione
 common#:#obj_exc_duplicate#:#Copia esercizio
 common#:#obj_excv#:#Esercizio certificato
@@ -5077,10 +5077,10 @@ common#:#obj_sysc#:#Controllo del sistema
 common#:#obj_sysc_desc#:#Controllo del sistema e strumenti di riparazione
 common#:#obj_tags#:#Etichettatura
 common#:#obj_tags_desc#:#Impostazioni per la funzione di etichettatura.
-common#:#obj_tala#:#Talk Templates###31 03 2023 new variable
-common#:#obj_tala_desc#:#Talk Templates###31 03 2023 new variable
-common#:#obj_tals#:#Employee Talk Series###31 03 2023 new variable
-common#:#obj_talt#:#Talk Template###31 03 2023 new variable
+common#:#obj_tala#:#Modelli di colloquio### OVB translated
+common#:#obj_tala_desc#:#Modelli di colloquio### OVB translated
+common#:#obj_tals#:#Serie di colloqui con il collaboratore### OVB translated
+common#:#obj_talt#:#Modelli di colloquio### OVB translated
 common#:#obj_task#:#Da Fare
 common#:#obj_tax#:#Tassonomia
 common#:#obj_taxf#:#Tassonomie
@@ -5127,7 +5127,7 @@ common#:#objf#:#Oggetti
 common#:#objs_bibl#:#Bibliografie
 common#:#objs_blog#:#Blog
 common#:#objs_book#:#Gruppi di prenotazione
-common#:#objs_cat#:#Contesti
+common#:#objs_cat#:#Cartella### OVB translated
 common#:#objs_catr#:#Categoria References
 common#:#objs_chtr#:#Chats
 common#:#objs_cld#:#Oggetti Cloud
@@ -5136,7 +5136,7 @@ common#:#objs_copa#:#Content Pages
 common#:#objs_crs#:#Corsi
 common#:#objs_crsr#:#Riferimenti Corsi
 common#:#objs_dcl#:#Raccolte dati
-common#:#objs_etal#:#Employee Talks###31 03 2023 new variable
+common#:#objs_etal#:#Colloquio con il collaboratore### OVB translated
 common#:#objs_exc#:#Esercitazioni
 common#:#objs_file#:#File
 common#:#objs_fold#:#Cartelle
@@ -5178,8 +5178,8 @@ common#:#objs_skee#:#Competence Trees###28 11 2023 new variable
 common#:#objs_spl#:#Raccolte di domande (per sondaggi)
 common#:#objs_st#:#Capitoli
 common#:#objs_svy#:#Sondaggi
-common#:#objs_tala#:#Talk Templates###31 03 2023 new variable
-common#:#objs_talt#:#Talk Templates###31 03 2023 new variable
+common#:#objs_tala#:#Modelli di colloquio### OVB translated
+common#:#objs_talt#:#Modelli di colloquio### OVB translated
 common#:#objs_tst#:#Test
 common#:#objs_webr#:#Risorse web
 common#:#objs_wiki#:#Wiki
@@ -5267,7 +5267,7 @@ common#:#permission_denied#:#Permesso negato
 common#:#permission_settings#:#Permessi
 common#:#person_title#:#Titolo
 common#:#personal_data#:#Informazioni generali
-common#:#personal_picture#:#Immagine Personale
+common#:#personal_picture#:#Immagine del profilo### OVB translated
 common#:#personal_profile#:#Profilo personale
 common#:#personal_resources#:#Risorse Personali
 common#:#personal_settings#:#Impostazioni personali
@@ -5275,9 +5275,9 @@ common#:#persons#:#Persone
 common#:#pg_add#:#Aggiungi pagina
 common#:#pg_new#:#Nuova pagina
 common#:#phone#:#Telefono
-common#:#phone_home#:#Telefono casa
+common#:#phone_home#:#Dirigente diretto (nome)### OVB translated
 common#:#phone_mobile#:#Telefono cellulare
-common#:#phone_office#:#Telefono ufficio
+common#:#phone_office#:#Livello (breve)### OVB translated
 common#:#phrase#:#Frase
 common#:#please_choose#:#-- Seleziona --
 common#:#please_enter_target#:#Per favore, inserisci un target
@@ -5480,8 +5480,8 @@ common#:#sahs_insert_chap_from_clip#:#Incolla Capitoli dagli Appunti
 common#:#sahs_insert_page_from_clip#:#Incolla Pagine dagli Appunti
 common#:#sahs_insert_sco_from_clip#:#Incolla SCO dagli Appunti
 common#:#salutation#:#Titolo
-common#:#salutation_f#:#Signora/Signorina
-common#:#salutation_m#:#Signore
+common#:#salutation_f#:#Signora### OVB translated
+common#:#salutation_m#:#Signor### OVB translated
 common#:#salutation_n#:#Nessun saluto desiderato
 common#:#saml_log_in#:#Accesso diretto
 common#:#saml_login_form_info_txt#:#È possibile accedere utilizzando il pulsante "Accesso diretto" senza dover inserire il nome utente o la password.
@@ -5721,9 +5721,9 @@ common#:#tagging_my_tags#:#I miei tag
 common#:#tags#:#Tags
 common#:#take_over_structure#:#Adotta struttura dello zip
 common#:#take_over_structure_info#:#Se attivate, le  directories nel file zip saranno mappate in categorie oppure in cartelle.
-common#:#tals_etal#:#Talk###31 03 2023 new variable
-common#:#talt_etal#:#Talk###31 03 2023 new variable
-common#:#target#:#Obiettivo
+common#:#tals_etal#:#Colloquio### OVB translated
+common#:#talt_etal#:#Colloquio### OVB translated
+common#:#target#:#Destinazione del modello### OVB translated
 common#:#tax#:#Tassonomia
 common#:#tax_add#:#Aggiungi tassonomia
 common#:#tax_new#:#Nuova tassonomia
@@ -5734,7 +5734,7 @@ common#:#textbox#:#Casella di testo
 common#:#thread#:#Thread
 common#:#thumbnail#:#Anteprima
 common#:#time#:#Ora
-common#:#time_limit#:#Scadenza
+common#:#time_limit#:#Accesso### OVB translated
 common#:#time_limit_add_time_limit_for_selected#:#Inserisci un periodo di tempo per gli utenti selezionati
 common#:#time_limit_from#:#A partire da (limite di tempo)
 common#:#time_limit_message#:#Messaggio (limite di tempo)
@@ -6106,7 +6106,7 @@ cont#:#cont_tile_size_1#:#small (up to six tiles per row)###31 03 2023 new varia
 cont#:#cont_tile_size_2#:#large (up to three tiles per row)###31 03 2023 new variable
 cont#:#cont_tile_size_3#:#extra large (up to two tiles per row)###31 03 2023 new variable
 cont#:#cont_tile_size_4#:#full (one tile per row)###31 03 2023 new variable
-cont#:#cont_tile_view#:#Mattonelle
+cont#:#cont_tile_view#:#Riquadro### OVB translated
 cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###16 03 2023 new variable
 cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###08 10 2024 new variable
 contact#:#contact_awrn_ap_contacts#:#Contatti confermati
@@ -7022,7 +7022,7 @@ content#:#cont_sc_name_setting_salutation_lastname#:#Saluto e cognome
 content#:#cont_sc_new_version#:#Carica Nuova Versione
 content#:#cont_sc_preview#:#Anteprima
 content#:#cont_sc_stat_browsed#:#Visto
-content#:#cont_sc_stat_completed#:#Completato
+content#:#cont_sc_stat_completed#:#Completate### OVB translated
 content#:#cont_sc_stat_failed#:#Fallito
 content#:#cont_sc_stat_incomplete#:#Incompleto
 content#:#cont_sc_stat_not_attempted#:#Non eseguito
@@ -7478,10 +7478,10 @@ crs#:#crs_admission_link_failure_registration_period#:#Impossibile iscriversi: i
 crs#:#crs_admission_link_success_registration#:#Registrato correttamente al corso "%s".
 crs#:#crs_agree#:#Accettazione
 crs#:#crs_agreement_header#:#Accordo con l’utente
-crs#:#crs_agreement_required#:#Devi accettare questo user agreement se vuoi registrarti a questo corso.
+crs#:#crs_agreement_required#:#Si prega di confermare la prenotazione vincolante.### OVB translated
 crs#:#crs_at_least_one_admin#:#Deve esserci almeno un amministratore del corso.
 crs#:#crs_auto_notification#:#Notifica per il nuovo membro
-crs#:#crs_auto_notification_info#:#I nuovi membri riceveranno una mail dopo essere stati aggiunti al corso.
+crs#:#crs_auto_notification_info#:#Le e-mail di benvenuto vengono inviate automaticamente ai membri che vengono aggiunti al corso tramite un plug-in. Se i plugin CourseBooking e MailAdministration sono installati e attivi, verrà inviato Mail 16.### OVB translated
 crs#:#crs_awrn_current_course#:#Corso attuale
 crs#:#crs_awrn_current_course_info#:#Se l'utente accede a un corso nel repository, sono elencati tutti i membri del corso.
 crs#:#crs_awrn_support_contacts#:#Supporto tutorial
@@ -7495,9 +7495,9 @@ crs#:#crs_cancel_subscr_request#:#Cancella richiesta di membership
 crs#:#crs_cancel_subscription#:#Cancellato dal corso "%s"
 crs#:#crs_cancel_subscription_body#:#%s ha annullato la sua iscrizione al corso "%s".
 crs#:#crs_cancel_subscription_body2#:#Ci potrebbero essere altri membri in attesa per questo corso. Dovresti verificare la lista d'attesa. Per vedere i membri di questo corso clicca qui:
-crs#:#crs_cancellation_end#:#Limite di cancellazione
+crs#:#crs_cancellation_end#:#Limite di cancellazione### OVB translated
 crs#:#crs_cancellation_end_info#:#Da questa data in poi i partecipanti non potranno più annullare l'iscrizione.
-crs#:#crs_cancellation_end_rbac_info#:#La scadenza della cancellazione è stata soddisfatta su %s, non è più possibile una cancellazione.
+crs#:#crs_cancellation_end_rbac_info#:#La scadenza di cancellazione è stata rispettata su %s, una cancellazione non è più possibile.### OVB translated
 crs#:#crs_cannot_find_role#:#Non è possibile trovare questo ruolo.
 crs#:#crs_cdf_edit_member#:#Modifica dati utente relativi al corso
 crs#:#crs_cdf_tbl_last_edit#:#Last Update (Course-specific Data)
@@ -7512,7 +7512,7 @@ crs#:#crs_contact_responsibility#:#Responsibilità
 crs#:#crs_content#:#Contenuto del corso
 crs#:#crs_copy#:#Copia corso
 crs#:#crs_course_group_notification_link#:#Link:
-crs#:#crs_course_period_not_valid#:#Il periodo del corso non è valido.
+crs#:#crs_course_period_not_valid#:#Il periodo del corso non è valido.### OVB translated
 crs#:#crs_course_status_of_users#:#Convalida dell'utente
 crs#:#crs_create_date#:#Crea data
 crs#:#crs_custom_user_fields#:#Dati utente relativi al corso
@@ -7688,16 +7688,16 @@ crs#:#crs_mail_context_member_info#:#Per le e-mail di contatto nella schermata i
 crs#:#crs_mail_context_member_title#:#Membro del corso
 crs#:#crs_mail_context_tutor_info#:#Per i partecipanti e-mail sulle schermate membro e stato di avanzamento di un corso
 crs#:#crs_mail_context_tutor_title#:#Tutor del corso
-crs#:#crs_mail_permanent_link#:#Segli il link seguente per accedere a contenuto del corso:
+crs#:#crs_mail_permanent_link#:#Clicca sul link seguente per accedere al contenuto del corso:### OVB translated
 crs#:#crs_mail_tutors_only#:#Solo per tutor e amministratori
 crs#:#crs_mail_tutors_only_info#:#Solo gli amministratori e i tutor possono utilizzare la funzione "Invia ai membri" nella scheda "Membri".
 crs#:#crs_mail_type#:#Mail per i membri
 crs#:#crs_map_location#:#Mappa Località del corso
 crs#:#crs_map_settings#:#Impostazioni della mappa
 crs#:#crs_materials#:#Materiali del corso
-crs#:#crs_max_and_min_members_invalid#:#Il numero minimo deve essere minore del numero massimo dei membri.
-crs#:#crs_max_and_min_members_needed#:#Seleziona un numero minimo o massimo dei membri - o entrambi.
-crs#:#crs_max_members_needed#:#Per la funzionalità della lista di attesta è necessario un numero massimo dei membri.
+crs#:#crs_max_and_min_members_invalid#:#Il numero minimo deve essere inferiore al numero massimo di membri.### OVB translated
+crs#:#crs_max_and_min_members_needed#:#Imposta un numero minimo o massimo di membri - o entrambi.### OVB translated
+crs#:#crs_max_members_needed#:#È necessario un numero massimo di membri per la funzione Elenco di attesa.### OVB translated
 crs#:#crs_max_members_reached#:#E' stato raggiunto il numero massimo di iscritti
 crs#:#crs_mem_contact#:#Support Contact
 crs#:#crs_mem_contacts#:#Support Contacts
@@ -7806,7 +7806,7 @@ crs#:#crs_passed_status_system#:#Sistema
 crs#:#crs_password_not_valid#:#La tua password non è valida
 crs#:#crs_password_required#:#La procedura di registrazione richiede una password.
 crs#:#crs_pdf#:#PDF
-crs#:#crs_period#:#Periodo del corso
+crs#:#crs_period#:#Periodo del corso### OVB translated
 crs#:#crs_period_end_mail_placeholder#:#Period End
 crs#:#crs_period_info#:#Inizia alla fine del corso
 crs#:#crs_period_start_mail_placeholder#:#Period Start
@@ -7884,9 +7884,9 @@ crs#:#crs_subscription_failed_limit#:#È stato superato il numero massimo dei pa
 crs#:#crs_subscription_max_members#:#Numero massimo di iscritti
 crs#:#crs_subscription_max_members_short#:#Numero di iscritti
 crs#:#crs_subscription_max_members_short_info#:#È possibile impostare il numero minimo rispettivamente massimo di membri. Può essere impostata una lista di attesta.
-crs#:#crs_subscription_min_members#:#Numero minimo
+crs#:#crs_subscription_min_members#:#Numero minimo### OVB translated
 crs#:#crs_subscription_min_members_err#:#Il numero minimo non può essere maggiore del numero massimo di partecipanti.
-crs#:#crs_subscription_min_members_info#:#Vedi cron job "Limite cancellazione".
+crs#:#crs_subscription_min_members_info#:#Vedi Cron Job "Limite di cancellazione".### OVB translated
 crs#:#crs_subscription_options_confirmation#:#Iscrizione richista
 crs#:#crs_subscription_options_direct#:#Iscrizione diretta
 crs#:#crs_subscription_options_password#:#Iscrizione con password del corso
@@ -7956,8 +7956,8 @@ crs#:#crs_unsubscribe_member_explanation#:#Ricevi questo messaggio perché hai c
 crs#:#crs_unsubscribe_sure#:#Sei sicuro di voler annullare l'iscrizione a questo corso?
 crs#:#crs_unsubscribed_from_crs#:#Sei iscritto a questo corso.
 crs#:#crs_update_subscr_request#:#Aggiorna la tua richiesta per diventare membro
-crs#:#crs_user_agreement#:#Tipi di dati rilasciati
-crs#:#crs_user_agreement_info#:#Dati personali visibili per gli amministartori del corso
+crs#:#crs_user_agreement#:#CONTROL_LABEL_NO_DISPLAY### OVB translated
+crs#:#crs_user_agreement_info#:#INFOSCREEN_SEC_NO_DISPLAY### OVB translated
 crs#:#crs_user_already_assigned#:#L'utente scelto è gia assegnato a questo corso
 crs#:#crs_users_added#:#Utente iscritto a questo corso.
 crs#:#crs_users_already_assigned#:#L'utente è già iscritto a questo corso
@@ -7980,9 +7980,9 @@ crs#:#crs_visibility_until_info#:#Il corso sarà visibile ai suoi membri in un d
 crs#:#crs_visibility_unvisible#:#The course is not visible.###24 11 2022 new variable
 crs#:#crs_wait_info#:#Se viene superato il numero massimo di utenti, le nuove registrazioni verranno inserite in una lista di attesa.
 crs#:#crs_waiting_list#:#Lista di attesa
-crs#:#crs_waiting_list_autofill#:#Con riempimento automatico
-crs#:#crs_waiting_list_autofill_info#:#I partecipanti vengono reclutati automaticamente dalla lista di attesa in caso di cancellazione.
-crs#:#crs_waiting_list_no_autofill#:#Senza riempimento automatico
+crs#:#crs_waiting_list_autofill#:#Riempitura automatica### OVB translated
+crs#:#crs_waiting_list_autofill_info#:#I partecipanti vengono reclutati automaticamente dalla lista d'attesa per le cancellazioni.### OVB translated
+crs#:#crs_waiting_list_no_autofill#:#Senza riempirsi automaticamente### OVB translated
 crs#:#crs_warn_no_max_set_on_waiting_list#:#Il numero massimo di partecipanti al corso è stato superato. Puoi agiungere la tua richiesta alla lista di attesa. Riceverai un massaggio dall'amministratore se la tua richiesta è stata accettata o rifiutarta
 crs#:#crs_warn_wl_set_on_waiting_list#:#Alcuni utenti sono già inseriti in lista di attesa. Puoi aggiungere la tua richiesta alla lista. Riceverai un messaggio dall'amministratore se la tua richiesta è stata acettata o respinta.
 crs#:#crs_wiz_back#:#Indietro
@@ -9156,47 +9156,47 @@ ecs#:#ecs_wiki_export_enabled#:#Rilascia questo Wiki
 ecs#:#ecs_wiki_export_obj_settings#:#Impostazioni di rilascio Wiki
 error#:#error_back_to_repository#:#Torna all'archivio
 error#:#error_sry_error#:#Ci scusiamo, si é verificato un errore.
-etal#:#appointments#:#Appointments###31 03 2023 new variable
-etal#:#cal_type_tals#:#Talks###31 03 2023 new variable
-etal#:#change_date_of_series#:#Change date of talk series###31 03 2023 new variable
-etal#:#change_date_of_talk#:#Change date of talk###31 03 2023 new variable
-etal#:#date_of_talk#:#Start Date###31 03 2023 new variable
-etal#:#etal_add#:#Add Talk###31 03 2023 new variable
-etal#:#etal_add_new_item#:#Add new Talk###31 03 2023 new variable
+etal#:#appointments#:#Riunioni### OVB translated
+etal#:#cal_type_tals#:#Colloqui### OVB translated
+etal#:#change_date_of_series#:#Aggiorna la serie di colloqui### OVB translated
+etal#:#change_date_of_talk#:#Aggiorna la data del colloquio### OVB translated
+etal#:#date_of_talk#:#Data di inzio### OVB translated
+etal#:#etal_add#:#Aggiungi### OVB translated
+etal#:#etal_add_new_item#:#Aggiungi nuovo colloquio### OVB translated
 etal#:#etal_create_invalid_template_ref#:#Invalid Talk Template ID###31 03 2023 new variable
-etal#:#etal_date_appointment_edit#:#Date of Talk###31 03 2023 new variable
-etal#:#etal_date_series_edit#:#Date of Talk Series###31 03 2023 new variable
+etal#:#etal_date_appointment_edit#:#Data del colloquio### OVB translated
+etal#:#etal_date_series_edit#:#Serie di colloqui### OVB translated
 etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###30 04 2024 new variable
-etal#:#etal_edit#:#General###31 03 2023 new variable
+etal#:#etal_edit#:#In genere### OVB translated
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.###31 03 2023 new variable
 etal#:#etal_location#:#Location###04 11 2025 new variable
-etal#:#etal_new#:#New Talk###31 03 2023 new variable
+etal#:#etal_new#:#Nuovo colloquio### OVB translated
 etal#:#etal_open#:#Open Employee Talk###31 03 2023 new variable
 etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
-etal#:#etal_status_all#:#All###31 03 2023 new variable
-etal#:#etal_status_completed#:#Completed###31 03 2023 new variable
-etal#:#etal_status_pending#:#Pending###31 03 2023 new variable
-etal#:#etal_unknown_username#:#Unknown User###31 03 2023 new variable
+etal#:#etal_status_all#:#Tutto### OVB translated
+etal#:#etal_status_completed#:#Concluso### OVB translated
+etal#:#etal_status_pending#:#In attesa di### OVB translated
+etal#:#etal_unknown_username#:#Utente sconosciuto### OVB translated
 etal#:#lock_edititng_for_others#:#Lock editing for others###31 03 2023 new variable
-etal#:#meta_adv_records#:#Metadata###31 03 2023 new variable
-etal#:#mm_org_etal#:#Talks###31 03 2023 new variable
-etal#:#mm_talk_template#:#Talk Templates###31 03 2023 new variable
-etal#:#notification_talks_created#:#You have been invited to the following employee talks.###31 03 2023 new variable
-etal#:#notification_talks_date_list_header#:#Dates###31 03 2023 new variable
-etal#:#notification_talks_removed#:#The following appointments have been canceled.###31 03 2023 new variable
-etal#:#notification_talks_subject#:#Invitation: %s###31 03 2023 new variable
+etal#:#meta_adv_records#:#Metadati### OVB translated
+etal#:#mm_org_etal#:#Colloquio### OVB translated
+etal#:#mm_talk_template#:#Modelli di colloquio### OVB translated
+etal#:#notification_talks_created#:#Sei stato invitato per un colloquio.### OVB translated
+etal#:#notification_talks_date_list_header#:#Dati### OVB translated
+etal#:#notification_talks_removed#:#Le seguenti date sono state cancellate.### OVB translated
+etal#:#notification_talks_subject#:#Invito all'appuntamento### OVB translated
 etal#:#notification_talks_subject_update#:#Update: %s###31 03 2023 new variable
-etal#:#notification_talks_updated#:#The following talk appointments have been changed.###31 03 2023 new variable
+etal#:#notification_talks_updated#:#Le seguenti date delle interviste sono state modificate.### OVB translated
 etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:###28 11 2023 new variable
 etal#:#tala_no_content_without_admin_info#:#The Administrator role is required for access to Talk Templates.###08 07 2025 new variable
 etal#:#talk_serial#:#Talk Serial###31 03 2023 new variable
-etal#:#tals_add#:#Add Talks###31 03 2023 new variable
-etal#:#tals_new#:#New Talks###31 03 2023 new variable
-etal#:#talt_activation_online_info#:#Set the talk template online to make it visible and available for employees. If not, only administrators will have access to it.###31 03 2023 new variable
-etal#:#talt_add#:#Add Template###31 03 2023 new variable
-etal#:#talt_edit#:#General###31 03 2023 new variable
-etal#:#talt_etal#:#Employee Talk###31 03 2023 new variable
-etal#:#talt_new#:#New Talk Template###31 03 2023 new variable
+etal#:#tals_add#:#Aggiungi colloquio### OVB translated
+etal#:#tals_new#:#Nuova serie di colloqui### OVB translated
+etal#:#talt_activation_online_info#:#Contrassegna il modello come attivo in modo che sia disponibile per i collaboratori.### OVB translated
+etal#:#talt_add#:#Crea### OVB translated
+etal#:#talt_edit#:#In genere### OVB translated
+etal#:#talt_etal#:#Colloquio con il collaboratore### OVB translated
+etal#:#talt_new#:#Nuovo modello di colloquio### OVB translated
 etal#:#will_update_series_info_lock#:#Lock the editing of all appointments in this series###31 03 2023 new variable
 etal#:#will_update_series_info_title#:#Changes to the title will be made to all appointments in this series.###31 03 2023 new variable
 exc#:#exc_add_assignment#:#Aggiungi assegnazione
@@ -9312,7 +9312,7 @@ exc#:#exc_go_to_exercise#:#Vai all’esercizio
 exc#:#exc_graded_mem_notified#:#All graded participants have been notified.###30 04 2024 new variable
 exc#:#exc_grades#:#Panoramica Gradi
 exc#:#exc_grades_overview#:#Vista Gradi
-exc#:#exc_hand_in#:#Consegna
+exc#:#exc_hand_in#:#Carica file### OVB translated
 exc#:#exc_hand_in_lead_text#:#%s to Submit###30 04 2024 new variable
 exc#:#exc_idl_request_and_tutor_needed#:#Please send a request to your tutor for setting an individual deadline for you.###30 04 2024 new variable
 exc#:#exc_idl_tutor_needed#:#You already requested a deadline. The request is still pending. You will be notified once the individual deadline is set.###30 04 2024 new variable
@@ -10225,9 +10225,9 @@ grp#:#grp_at_least_one_admin#:#Deve esserci almeno un amministratore del gruppo.
 grp#:#grp_auto_notification#:#E-mail di benvenuto per i nuovi partecipanti
 grp#:#grp_auto_notification_info#:#Ricevono automaticamente notifiche e-mail, tali partecipanti che sono stati ammessi nel gruppo da un amministratore.
 grp#:#grp_cancel_subscr_request#:#Cancella l'iscrizione al gruppo
-grp#:#grp_cancellation_end#:#Limite di cancellazione
+grp#:#grp_cancellation_end#:#Limite di cancellazione### OVB translated
 grp#:#grp_cancellation_end_info#:#Da questa data in poi i partecipanti non potranno più annullare l'iscrizione.
-grp#:#grp_cancellation_end_rbac_info#:#La scadenza della cancellazione è stata soddisfatta su %s, non è più possibile una cancellazione.
+grp#:#grp_cancellation_end_rbac_info#:#La scadenza di cancellazione è stata rispettata su %s, una cancellazione non è più possibile.### OVB translated
 grp#:#grp_cdf_edit_member#:#Modifica dati utente relativi al gruppo
 grp#:#grp_cdf_tbl_last_edit#:#Aggiornati (Dati specifici dei gruppi)
 grp#:#grp_change_type#:#Modifica la tipologia del gruppo
@@ -10374,11 +10374,11 @@ grp#:#grp_warn_grp_type_changed#:#Vuoi davvero modificare la tipologia del grupp
 grp#:#grp_warn_no_max_set_on_waiting_list#:#È stato superato il numero massimo dei membri del gruppo. È possibile aggiungere la richiesta di partecipazione alla lista di attesa. Riceverai un messaggio da un amministratore di gruppo quando la tua richiesta sarà approvata o rifiutata.
 grp#:#grp_warn_wl_set_on_waiting_list#:#Alcuni utenti sono già assegnati alla lista di attesa. È possibile aggiungere la richiesta di partecipazione alla lista di attesa. Riceverai un messaggio da un amministratore di gruppo quando la tua richiesta sarà approvata o rifiutata.
 grp#:#grp_wrong_max_members#:#Si prega di verificare il numero massimo di utenti.
-grp#:#grp_wrong_min_max_members#:#Verifica il numero minimo e massimo di utenti.
+grp#:#grp_wrong_min_max_members#:#Si prega di controllare il numero minimo e massimo di utenti.### OVB translated
 grp#:#grp_wrong_reg_time_limit#:#Si prega di controllare gli orari di inizio e fine della registrazione.
 grp#:#reg_grp_max_members#:#Numero massimo di iscritti
 grp#:#reg_grp_max_members_short#:#Numero di membri
-grp#:#reg_grp_min_members#:#Numero minimo di membri
+grp#:#reg_grp_min_members#:#Numero minimo di membri### OVB translated
 help#:#help_all#:#Tutte
 help#:#help_component#:#Componente
 help#:#help_filter#:#Filtro
@@ -11455,13 +11455,13 @@ mail#:#mail_recipient_not_found#:#%1$s (non è possibile trovare un destinatario
 mail#:#mail_rename_folder#:#Rinomina cartella
 mail#:#mail_roles#:#Users with the following local roles###31 03 2023 new variable
 mail#:#mail_s#:#eMail
-mail#:#mail_salutation_anonymous#:#Salve
-mail#:#mail_salutation_f#:#Salve
+mail#:#mail_salutation_anonymous#:#Gentile### OVB translated
+mail#:#mail_salutation_f#:#Gentile### OVB translated
 mail#:#mail_salutation_female#:#Output per il segnaposto [MAIL_SALUTATION], se il saluto è 'Ms.'
 mail#:#mail_salutation_general#:#Output per il segnaposto [MAIL_SALUTATION], se nessun saluto è desiderato o specificato
-mail#:#mail_salutation_m#:#Salve
+mail#:#mail_salutation_m#:#Egregio### OVB translated
 mail#:#mail_salutation_male#:#Output per il segnaposto [MAIL_SALUTATION], se il saluto è 'Mr.'
-mail#:#mail_salutation_n#:#Salve
+mail#:#mail_salutation_n#:#Gentile### OVB translated
 mail#:#mail_saved#:#Il messaggio è stato salvato
 mail#:#mail_second_email#:#Secondo indirizzo email
 mail#:#mail_sel_label#:#Scegli i destinatari
@@ -11788,7 +11788,7 @@ meta#:#md_adv_deleted_fields#:#I campi sono stati eliminati.
 meta#:#md_adv_deleted_files#:#Esporta Files cancellati
 meta#:#md_adv_deleted_records#:#Dataset Cancellato
 meta#:#md_adv_desc_show#:#Descrizione Show
-meta#:#md_adv_edit_complex_option#:#Modifica delle proprietà delle opzioni
+meta#:#md_adv_edit_complex_option#:#Modifica proprietà dell'opzione### OVB translated
 meta#:#md_adv_edit_field#:#Edita Campo
 meta#:#md_adv_edit_record#:#Edita Dataset
 meta#:#md_adv_field_fields#:#Campi
@@ -12494,7 +12494,7 @@ meta#:#meta_very_easy#:#Molto facile
 meta#:#meta_very_high#:#Molto alto
 meta#:#meta_very_low#:#Molto basso
 meta#:#meta_yes#:#Si
-meta#:#udf_type_address#:#Indirizzo
+meta#:#udf_type_address#:#Indirizzo### OVB translated
 meta#:#udf_type_externallink#:#Collegamento esterno
 meta#:#udf_type_float#:#Valore decimale
 meta#:#udf_type_integer#:#Valore intero
@@ -12796,7 +12796,7 @@ notes#:#notes_no_notes_found#:#No notes found that match your seach criteria.###
 notes#:#notes_note_deleted#:#La nota è stata cancellata.
 notes#:#notes_notes_deleted#:#Le note sono state cancellate.
 notes#:#notes_origin#:#Origin###31 03 2023 new variable
-notes#:#notes_public_comments#:#Commenti pubblici
+notes#:#notes_public_comments#:#Commenti aperti### OVB translated
 notes#:#notes_show_comments#:#Mostra commenti
 notes#:#notes_sort_asc#:#Ordinamento ascendente
 notes#:#notes_sort_desc#:#Ordinamento discendente
@@ -12862,8 +12862,8 @@ obj#:#obj_settings_for_all_members#:#I membri riceveranno automaticamente la not
 obj#:#obj_show_header_actions#:#Mostra le azioni di intestazione
 obj#:#obj_show_title_and_icon#:#Mostra il titolo e l'icona
 obj#:#obj_target_location#:#Posizione di destinazione
-obj#:#obj_tile_image#:#Immagine mattonella
-obj#:#obj_tile_image_info#:#L'immagine sara' utilizzata se il contenitore (corso, contesto, gruppo, ...) e' in modalita' mattonelle (tiles).
+obj#:#obj_tile_image#:#Immagine riquadro### OVB translated
+obj#:#obj_tile_image_info#:#L'immagine sara' utilizzata se il contenitore (corso, contesto, gruppo, ...) e' in modalita' riquadro (tiles).### OVB translated
 obj#:#obj_tool_booking#:#Risorse
 obj#:#obj_tool_booking_info#:#Utilizza l'archivio di prenotazione per prenotare una risorsa
 obj#:#obj_tool_ext_mail_subject_prefix#:#Prefisso dell'oggetto della mail
@@ -12922,7 +12922,7 @@ orgu#:#import_terminated_with_warnings#:#L’importazione termina con avvisi
 orgu#:#import_xml_file#:#Importazione File
 orgu#:#local_other_roles#:#Ruoli locali aggiuntivi %s
 orgu#:#local_staff#:#Dipendenti %s
-orgu#:#mm_organisation#:#Organisation###31 03 2023 new variable
+orgu#:#mm_organisation#:#Organizzazione### OVB translated
 orgu#:#msg_assignment_to_employee_done#:#Assegnazione alla posizione dipendente eseguita
 orgu#:#msg_confirm_d_ua#:#Vuoi assegnare queste persone alla posizione dipendente delle rispettive unità organizzative?
 orgu#:#msg_confirm_deletion#:#Vuoi davvero cancellare la seguente Posizione?
@@ -13360,14 +13360,14 @@ prg#:#prg_some_users_may_not_be_marked_relevant#:#Parzialmente segnato come rile
 prg#:#prg_some_users_may_not_be_unmarked_accredited#:#Utenti parzialmente non contrassegnati accreditati.
 prg#:#prg_status#:#Stato
 prg#:#prg_status_1#:#In corso
-prg#:#prg_status_2#:#Completato
+prg#:#prg_status_2#:#Completate### OVB translated
 prg#:#prg_status_3#:#Accreditato
 prg#:#prg_status_4#:#Non rilevante
 prg#:#prg_status_5#:#Failed
 prg#:#prg_status_accredited#:#Accreditato
 prg#:#prg_status_active#:#Attiva
 prg#:#prg_status_byline#:#Usa lo stato per controllare se questo programma è assegnato agli studenti.
-prg#:#prg_status_completed#:#Completato
+prg#:#prg_status_completed#:#Completate### OVB translated
 prg#:#prg_status_draft#:#Bozza
 prg#:#prg_status_failed#:#non riuscito
 prg#:#prg_status_hide_irrelevant#:#hide irrelevant###31 03 2023 new variable
@@ -13616,7 +13616,7 @@ ps#:#ps_cdf_delete_sure#:#Vuoi cancellare realmente questi campi utente?
 ps#:#ps_cdf_deleted#:#Cancellati i campi utente
 ps#:#ps_cdf_deleted_field#:#valore cancellato
 ps#:#ps_cdf_edit_field#:#Modifica questo campo dati
-ps#:#ps_cdf_name#:#Nome
+ps#:#ps_cdf_name#:#Richiesta### OVB translated
 ps#:#ps_cdf_no_fields#:#Questo corso non contiene campi dati
 ps#:#ps_cdf_no_name_given#:#Inserisci Nome.
 ps#:#ps_cdf_required#:#Campo obbligatorio
@@ -14780,7 +14780,7 @@ rep#:#rep_activation_limited_start#:#Orario di inizio
 rep#:#rep_activation_limited_visibility#:#Sempre visibile
 rep#:#rep_activation_online#:#Online
 rep#:#rep_activation_online_object_info#:#Questa impostazione influisce su tutti i riferimenti nel repository.
-rep#:#rep_add_new_def_grp_assessment#:#Stima
+rep#:#rep_add_new_def_grp_assessment#:#Assessment### OVB translated
 rep#:#rep_add_new_def_grp_communication#:#Trasmissione di informazioni
 rep#:#rep_add_new_def_grp_content#:#Contenuto
 rep#:#rep_add_new_def_grp_feedback#:#Feedback e valutazione
