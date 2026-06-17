@@ -1518,19 +1518,20 @@ class ilNoteGUI
                 });
             $tpl->setVariable("GLYPH", $r->render($comps));
             $tpl->setVariable("TXT_LATEST", $this->getLatestItemText());
-        }
-
-        $b = $f->button()->standard($this->getAddEditItemText(), "#")->withAdditionalOnLoadCode(function ($id) use ($hash, $query_url) {
-            $code = "$('#$id').attr('data-note-key','$hash');\n";
-            $code .= "$('#$id').attr('data-note-ui-type','trigger');\n";
-            $code .= "$('#$id').attr('data-note-query-url','" . $query_url . "');\n";
-            $code .= "$(\"#$id\").click(function(event) { ilNotes.clickTrigger(event)});";
-            return $code;
-        });
-        if ($ctrl->isAsynch()) {
-            $tpl->setVariable("SHY_BUTTON", $r->renderAsync($b));
         } else {
-            $tpl->setVariable("SHY_BUTTON", $r->render($b));
+            $b = $f
+                ->button()
+                ->standard($this->getAddEditItemText(), "#")
+                ->withAdditionalOnLoadCode(
+                    fn(string $id) => <<<JS
+                        $('#{$id}').attr('data-note-key','{$hash}');
+                        $('#{$id}').attr('data-note-ui-type','trigger');
+                        $('#{$id}').attr('data-note-query-url','{$query_url}');
+                        $('#{$id}').click((event) => ilNotes.clickTrigger(event));
+                    JS
+                );
+
+            $tpl->setVariable("SHY_BUTTON", $ctrl->isAsynch() ? $r->renderAsync($b) : $r->render($b));
         }
 
         $this->widget_header = $tpl->get();
