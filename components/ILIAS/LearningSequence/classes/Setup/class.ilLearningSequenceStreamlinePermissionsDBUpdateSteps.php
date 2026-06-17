@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 class ilLearningSequenceStreamlinePermissionsDBUpdateSteps implements \ilDatabaseUpdateSteps
 {
-    private const TYPE_TITLE = 'lso';
+    private const string TYPE_TITLE = 'lso';
 
     protected \ilDBInterface $db;
 
