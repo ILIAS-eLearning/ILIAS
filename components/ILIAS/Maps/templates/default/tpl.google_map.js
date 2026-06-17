@@ -13,11 +13,11 @@
  * https://github.com/ILIAS-eLearning
  */
 
-ilMapData = Array();
-ilMap = Array();
-ilMapOptions = [];
-ilCM = Array();
-ilMapUserMarker = Array();
+window.ilMapData = window.ilMapData || [];
+window.ilMap = window.ilMap || [];
+window.ilMapOptions = window.ilMapOptions || [];
+window.ilCM = window.ilCM || [];
+window.ilMapUserMarker = window.ilMapUserMarker || [];
 ilMapData["{MAP_ID}"] = new Array({LAT},{LONG},{ZOOM},{TYPE_CONTROL},{NAV_CONTROL},{UPDATE_LISTENER},{LARGE_CONTROL},{CENTRAL_MARKER});
 ilMapUserMarker["{MAP_ID}"] = Array();
 <!-- BEGIN user_marker -->
@@ -60,7 +60,7 @@ function ilInitMaps()
     for (var i=0;i<obj.length;i++)
     {
         // if it has a class of helpLink
-        if(/ilGoogleMap/.test(obj[i].className))
+        if(/ilGoogleMap/.test(obj[i].className) && ilMapData[obj[i].id] && !ilMap[obj[i].id])
         {
             ilInitMap(obj[i].id, ilMapData[obj[i].id][0], ilMapData[obj[i].id][1],
                 ilMapData[obj[i].id][2], ilMapData[obj[i].id][3], ilMapData[obj[i].id][4],
@@ -84,7 +84,7 @@ function ilInitMap(id, latitude, longitude, zoom, type_control,
         mapTypeControl: type_control,
         scaleControl: true,
         panControl: (nav_control || large_map_control)
-    }
+    };
     var map = new google.maps.Map(document.getElementById(id), mapOptions);
 
     ilGetUserMarkers(id, map);
