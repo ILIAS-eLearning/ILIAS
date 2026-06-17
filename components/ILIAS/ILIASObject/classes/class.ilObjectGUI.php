@@ -1429,7 +1429,7 @@ class ilObjectGUI implements ImplementsCreationCallback
             $this->tmp_import_dir = $imp->getTemporaryImportDir();
             $this->tpl->setOnScreenMessage(
                 'failure',
-                $this->lng->txt('obj_import_file_error') . ' <br />' . $e->getMessage()
+                $this->lng->txt('obj_import_file_error')
             );
             $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
             return;
