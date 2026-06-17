@@ -24,16 +24,24 @@ ilMapUserMarker["{MAP_ID}"] = Array();
 ilMapUserMarker["{UMAP_ID}"][{CNT}] = new Array({ULAT},{ULONG}, "<div style='width:220px;'><img style='float:right; margin-right:10px;' className='ilUserXXSmall' src='{IMG_USER}'\/><span className='small'>{USER_INFO}<\/span><\/div>");
 <!-- END user_marker -->
 
-if (google.maps)
+var ilMarkerImage = null;
+if (typeof google !== "undefined" && google.maps)
 {
-    var ilMarkerImage = new google.maps.MarkerImage(
-        "./assets/images/standard/icon_mapm.svg",
-        new google.maps.Size(12, 20),
-        new google.maps.Point(0,0),
-        new google.maps.Point(6, 20));
+    // Google Maps still supports legacy `google.maps.Marker`, but `google.maps.MarkerImage`
+    // is an older wrapper API for marker icons. Using the icon as a plain object with
+    // `url`, `scaledSize`, `origin`, and `anchor` passes the same marker configuration in
+    // the format the current marker API expects. This keeps the existing legacy marker
+    // behavior and custom SVG icon, while avoiding the deprecated `MarkerImage` wrapper
+    // that no longer rendered reliably here.
+    ilMarkerImage = {
+        url: "./assets/images/standard/icon_mapm.svg",
+        scaledSize: new google.maps.Size(12, 20),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(6, 20)
+    };
 }
 
-if (google.maps)
+if (typeof google !== "undefined" && google.maps)
 {
 	ilInitMaps();
 }
