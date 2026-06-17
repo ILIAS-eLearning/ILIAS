@@ -29,7 +29,7 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-acc#:#acc_add_document_btn_label#:#Add Document
+acc#:#acc_add_document_btn_label#:#Ajouter Document### OVB translated
 acc#:#acc_crit_type_usr_language#:#Profile Language
 acc#:#acc_criterion_assignment_must_be_unique_insert#:#You cannot attach this criterion with this value. There is already an identical criterion attached.
 acc#:#acc_criterion_assignment_must_be_unique_update#:#You cannot change the criterion as desired. There is already an identical criterion attached.
@@ -78,7 +78,7 @@ adm#:#adm_accessibility_contacts_info#:#Contacts for reporting accessibility iss
 adm#:#adm_awrn_support_contacts_info#:#Tous les contacts de support technique sont répertoriés. Les utilisateurs sont définis comme des contacts de support technique dans la section « Paramètres Généraux → Informations de Contacts ».
 adm#:#adm_support_contacts#:#Support technique
 adm#:#adm_support_contacts_info#:#Contacts de support technique utilisés dans le lien de bas de page, et si activé dans le 'Qui est en ligne ?', comme liste séparée de comptes de connexion.
-administration#:#adm_achievements#:#Succès
+administration#:#adm_achievements#:#Réalisations### OVB translated
 administration#:#adm_activate_db_benchmark#:#Activer Benchmark
 administration#:#adm_activate_db_benchmark_desc#:#Le test de performance sera automatiquement désactivé après avoir été effectué.
 administration#:#adm_adm_role_protect#:#Protéger le Rôle Administrateur
@@ -2029,7 +2029,7 @@ auth#:#auth_ldap_server_ds#:#Serveur LDAP
 auth#:#auth_login_editor#:#Editeur de la page de connexion
 auth#:#auth_oidc#:#OpenId Connect
 auth#:#auth_oidc_failed#:#Login via OpenID Connect failed
-auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect
+auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###17 06 2026 new variable
 auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenId Connect Attributen
 auth#:#auth_oidc_profile#:#User Profile Mapping
 auth#:#auth_oidc_role_info#:#OpenID Connect Attribute::Value (e.g: "roles::employee").
@@ -2143,7 +2143,7 @@ awrn#:#awrn_online_only#:#En ligne Seulement
 awrn#:#awrn_seconds#:#sec
 awrn#:#awrn_use_osd#:#Pop-up utilisateurs en ligne
 awrn#:#awrn_use_osd_info#:#Un pop-up apparaît pour indiquer de nouveaux utilisateurs en ligne dans la liste «Qui est en ligne?».
-awrn#:#awrn_user_show#:#Montrer votre profil dans "Qui est en ligne ?"
+awrn#:#awrn_user_show#:#Afficher mon profil dans "Qui est en ligne ?"### OVB translated
 awrn#:#user_awrn_default#:#Par défaut
 awrn#:#user_awrn_hide#:#Cacher mon statut
 awrn#:#user_awrn_show#:#Montrer mon statut
@@ -2485,8 +2485,8 @@ book#:#book_assign#:#Assign
 book#:#book_assign_object#:#Assign Booking Object
 book#:#book_assign_participant#:#Assign to Participant
 book#:#book_back_to_list#:#Retour liste
-book#:#book_bobj#:#Réservation d'Objet
-book#:#book_book#:#Réserver
+book#:#book_bobj#:#Objet de la réservation### OVB translated
+book#:#book_book#:#Ajouter### OVB translated
 book#:#book_book_available#:#Book Available Dates###30 04 2024 new variable
 book#:#book_book_recurrence#:#Book multiple dates###30 04 2024 new variable
 book#:#book_booked_in#:#Booked in
@@ -2693,7 +2693,7 @@ cat#:#cat_hide_tax_in_side_block#:#Don't Present in Side Panel###30 04 2024 new 
 cat#:#cat_import#:#Importer Catégorie
 cat#:#cat_more_translations#:#Plus de Traductions
 cat#:#cat_show_tax_in_side_block#:#Present in Side Panel###30 04 2024 new variable
-cert#:#cert_currently_no_certs#:#Pour l'instant, vous n'avez pas encore obtenu de certificat.
+cert#:#cert_currently_no_certs#:#Actuellement, vous n'avez pas encore obtenu de certificat.### OVB translated
 cert#:#cert_description_label#:#Description
 cert#:#cert_download_label#:#Download
 cert#:#cert_error_no_access#:#You have no access to this certificate.
@@ -2886,7 +2886,7 @@ chatroom#:#chat_message_options#:#Afficher
 chatroom#:#chat_message_to_all#:#A Tous
 chatroom#:#chat_no_use_typing_broadcast#:#Typing will not be broadcasted###31 10 2023 new variable
 chatroom#:#chat_not_use_osc#:#Not Using On-Screen-Chat
-chatroom#:#chat_osc_accept_msg#:#Autoriser les discussions Chat à l’écran
+chatroom#:#chat_osc_accept_msg#:#Autoriser le chat### OVB translated
 chatroom#:#chat_osc_accept_msg_info#:#Si cette option est activée, les autres utilisateurs sont autorisés à entamer une discussion avec moi.
 chatroom#:#chat_osc_accept_msg_info_slate#:#To have private conversations, you must enable your setting "Allow On-Screen Chat Conversations".###31 10 2023 new variable
 chatroom#:#chat_osc_accept_msg_info_slate_link_txt#:#Visibility (in Profile and Privacy)###31 10 2023 new variable
@@ -3712,7 +3712,7 @@ common#:#clear#:#Effacer
 common#:#clear_clipboard#:#Vider le Presse-Papier
 common#:#client#:#Client
 common#:#client_id#:#ID Client
-common#:#client_ip#:#IP Client
+common#:#client_ip#:#Client IP### OVB translated
 common#:#clientlist_available_clients#:#Clients disponibles
 common#:#clientlist_clientlist#:#Liste de clients
 common#:#clientlist_installation_name#:#Nom d’installation
@@ -3780,7 +3780,7 @@ common#:#copy_selected_items#:#Copier
 common#:#count#:#Nombre
 common#:#counter_novelty#:#News###30 04 2024 new variable
 common#:#counter_status#:#Status###30 04 2024 new variable
-common#:#country#:#Pays
+common#:#country#:#Coördinateur direct### OVB translated
 common#:#country_free_text#:#Pays (Saisie Libre)
 common#:#country_selection#:#Pays (Menu Déroulant)
 common#:#course#:#Cours
@@ -3832,7 +3832,7 @@ common#:#crs_status_blocked#:#[Accès refusé]
 common#:#crs_status_pending#:#[En attente d'inscription]
 common#:#crs_subscribers_assigned#:#Nouveaux utilisateurs assignés
 common#:#crs_title#:#Titre du cours
-common#:#crs_unsubscribe#:#Se désinscrire
+common#:#crs_unsubscribe#:#Se désinscrire au cours### OVB translated
 common#:#crs_wizard_page#:#Copier Cours (Etape 2/2)
 common#:#crsr#:#Cours référent
 common#:#crsr_add#:#Add Course Link###31 10 2023 new variable
@@ -3900,7 +3900,7 @@ common#:#deletion_notification#:#"%s" has canceled the attendance of session "%s
 common#:#deliver#:#Remettre
 common#:#deny_usr_agreement#:#Do not accept terms of service?
 common#:#deny_usr_agreement_btn#:#Not Accept
-common#:#department#:#Département
+common#:#department#:#Coördination nationale (nom, prénom)### OVB translated
 common#:#desc#:#Description
 common#:#description#:#Description
 common#:#desired_password#:#Mot de passe souhaité
@@ -4022,7 +4022,7 @@ common#:#error_empty_file_or_folder#:#La taille du fichier est de 0 ou bien il s
 common#:#error_extraction_failed#:#L'extraction a échoué. Vous n'avez probablement pas les droits de création de dossiers ou de catégories dans l'objet.
 common#:#error_parser#:#Erreur au démarrage du parseur
 common#:#error_upload_was_zero_bytes#:#Le dépôt a échoué. Cela peut provenir d'un choix de dossier, d'un fichier dont la taille est 0 ou d'un renommage de fichier durant le dépôt.
-common#:#etal_talks#:#Talks###31 10 2023 new variable
+common#:#etal_talks#:#Entretiens### OVB translated
 common#:#event_ass_materials_prop#:#Matériaux de session
 common#:#event_assign_files#:#Assignation au fichier
 common#:#exc#:#Exercice
@@ -4036,9 +4036,9 @@ common#:#exc_edit_exercise#:#Editer l'Exercice
 common#:#exc_edit_until#:#Date Limite
 common#:#exc_exercise_sent#:#Exercice Envoyé
 common#:#exc_files#:#Fichiers
-common#:#exc_files_returned#:#Fichiers Remis
+common#:#exc_files_returned#:#Fichiers téléchargés### OVB translated
 common#:#exc_instruction#:#Consignes de Travail
-common#:#exc_last_submission#:#Dernière Proposition
+common#:#exc_last_submission#:#Dernier téléchargement### OVB translated
 common#:#exc_member_of_crs_grp#:#Member in Course/Group###30 04 2024 new variable
 common#:#exc_members_already_assigned#:#Ces utilisateurs sont déjà assignés à cet exercice
 common#:#exc_members_assigned#:#Membres assignés
@@ -4074,7 +4074,7 @@ common#:#extracting#:#Extraction en cours...
 common#:#eyeclosed#:#Eye Closed - Click to hide the input's contents
 common#:#eyeopened#:#Eye Open - Click to reveal the input's contents
 common#:#failure_message#:#Message d'échec
-common#:#fax#:#Fax
+common#:#fax#:#Position (entier)### OVB translated
 common#:#feed#:#FluxRSS)
 common#:#feedback#:#Retours d'Information
 common#:#field_name#:#Zone Nom
@@ -4292,8 +4292,8 @@ common#:#hist_webr_add#:#Nouvelle ressource web ajoutée avec le titre : "%1"
 common#:#hist_webr_delete#:#Ressource web détruite : "%1"
 common#:#hist_webr_update#:#Ressource web mise à jour : "%1"
 common#:#history#:#Historique
-common#:#hits_per_page#:#Lignes/Page
-common#:#hobby#:#Intérêts/Hobbies
+common#:#hits_per_page#:#Visites/page### OVB translated
+common#:#hobby#:#Numéro C### OVB translated
 common#:#home#:#Espace Public
 common#:#host#:#Hôte
 common#:#hour#:#Heure
@@ -4335,8 +4335,8 @@ common#:#il_lso_admin#:#Learning Sequence Admin
 common#:#il_lso_member#:#Learning Sequence Member
 common#:#il_lti_instructor#:#LTI Instructor
 common#:#il_lti_learner#:#LTI Learner
-common#:#il_orgu_employee#:#Employé
-common#:#il_orgu_superior#:#Supérieur
+common#:#il_orgu_employee#:#Collaborateur### OVB translated
+common#:#il_orgu_superior#:#Coach### OVB translated
 common#:#ilias_version#:#Version ILIAS
 common#:#image#:#Image
 common#:#import#:#Importer
@@ -4392,7 +4392,7 @@ common#:#info_remove_sure#:#Êtes-vous sûr de vouloir retirer le(s) objet(s) su
 common#:#info_short#:#Info
 common#:#info_status_info#:#Permissions de l'Utilisateur
 common#:#info_view_of_user#:#Utilisateur
-common#:#inform_user_mail#:#Envoyer un mail pour informer l'utilisateur des changements
+common#:#inform_user_mail#:#Informerl les utilisateurs des modifications  par e-mail### OVB translated
 common#:#inline_file_extensions#:#Fichiers Web-actif
 common#:#inline_file_extensions_info#:#Les fichiers avec ces extensions sont affichés dans la fenêtre du navigateur.<br>Par exemple : <b>gif jpg mp3 pdf png</b><br/> Tous les autres fichiers sont proposés au téléchargement.
 common#:#insert#:#Ajout
@@ -4406,7 +4406,7 @@ common#:#installation_status#:#Installation Status
 common#:#installed#:#Installé
 common#:#installed_local#:#Installé avec Fichiers Locaux
 common#:#instant_messengers#:#Messageries Instantanées
-common#:#institution#:#Institution
+common#:#institution#:#Bureau### OVB translated
 common#:#internal_local_roles_only#:#Rôles locaux (générés automatiquement)
 common#:#invalid_visible_required_options_selected#:#Toutes les zones rendues obligatoires doivent, aussi, être rendues visibles dans l'enregistrement.
 common#:#invisible_block#:#Bloc Invisible
@@ -4524,7 +4524,7 @@ common#:#locator#:#Emplacement :
 common#:#log_in#:#Se connecter
 common#:#log_out#:#Se déconnecter
 common#:#logic_or#:#ou
-common#:#login#:#Connexion
+common#:#login#:#Nom d'utilisateur### OVB translated
 common#:#login_as#:#...
 common#:#login_data#:#Données de connexion
 common#:#login_exists#:#Ce nom d'utilisateur est déjà pris ! Veuillez en choisir un autre.
@@ -4532,10 +4532,10 @@ common#:#login_information#:#Message de la Page de Connexion
 common#:#login_information_desc#:#Veuillez saisir un message pour la page de connexion.
 common#:#login_information_settings_saved#:#L'information de connexion a été enregistréeavec succès
 common#:#login_invalid#:#Le nom d'utilisateur choisi n'est pas valide ! Seuls les caractères suivants sont autorisés (au moins 3 caractères) : A-Z a-z 0-9 _.-+*@!$%~
-common#:#login_to_ilias#:#Connexion à ILIAS
+common#:#login_to_ilias#:#Connexion à Personal Development### OVB translated
 common#:#login_to_ilias_via_cas#:#Se connecter à ILIAS via le Service Central d'Authentification CAS
 common#:#login_to_ilias_via_login_form#:#Login to ILIAS###20 05 2025 new variable
-common#:#login_to_ilias_via_saml#:#Connexion à ILIAS par authentification SAML
+common#:#login_to_ilias_via_saml#:#Connexion à Personal Development par authentification SAML### OVB translated
 common#:#login_to_ilias_via_shibboleth#:#Se connecter à ILIAS via Shibboleth
 common#:#loginname_already_exists#:#Ce nom de connexion (login) existe déjà .
 common#:#loginname_settings#:#Paramètres-nom de connexion
@@ -4589,7 +4589,7 @@ common#:#mainbar_aria_label#:#Barre principale
 common#:#mainbar_more_label#:#Plus
 common#:#manage_members#:#Gérer les membres
 common#:#marked_entries#:#Entrées Marquées
-common#:#matriculation#:#Numéro de matricule
+common#:#matriculation#:#Numéro C international### OVB translated
 common#:#max_previews_per_object#:#Nombre d'aperçus par fichier
 common#:#max_previews_per_object_info#:#Définit le nombre maximum d'aperçus créés par fichier.
 common#:#mcst#:#Mediacast
@@ -4597,12 +4597,12 @@ common#:#mcst_add#:#Ajouter Mediacast
 common#:#mcst_new#:#Nouveau Mediacast
 common#:#mem_add_to_wl#:#Ajouter à la Liste d'Attente
 common#:#mem_alert_no_places#:#Il n'existe plus de places libres disponibles.
-common#:#mem_cron_min_members#:#Cours / Groupe: Vérification du Nombre Minimum des Membres
-common#:#mem_cron_min_members_info#:#Les administrateurs seront informés si le nombre minimum de membres n'est pas respecté.
+common#:#mem_cron_min_members#:#Cours/groupe : vérification du nombre minimum de participants.### OVB translated
+common#:#mem_cron_min_members_info#:#Les administrateurs seront informés si le nombre minimal n'est pas respecté.### OVB translated
 common#:#mem_end#:#Fin d'Inscription :
 common#:#mem_free_places#:#Places Disponibles :
 common#:#mem_max_users#:#Nombre Max. d'Utilisateurs :
-common#:#mem_min_users#:#Minimum d'utilisateurs
+common#:#mem_min_users#:#Minimum de participants### OVB translated
 common#:#mem_participants#:#Participants
 common#:#mem_reg_expired#:#La période d'inscription est expirée.
 common#:#mem_reg_not_started#:#L'inscription n'a pas commencé
@@ -4626,7 +4626,7 @@ common#:#mep_new#:#Nouvelle Galerie de Médias
 common#:#mep_not_insert_already_exist#:#Les objets suivants n'ont pas été ajoutés, car ils sont déjà  dans la galerie multimédia.
 common#:#message#:#Message
 common#:#message_content#:#Contenu du message
-common#:#message_no_delivered_files#:#Vous n'avez remis aucun fichier
+common#:#message_no_delivered_files#:#Vous n'avez téléchargé aucun fichier### OVB translated
 common#:#meta_data#:#Métadonnées
 common#:#metabar_aria_label#:#Metabar
 common#:#mgs_objects_linked_to_the_following_folders_p#:#Les objets étaient liés aux dossiers suivant(s): %s
@@ -4649,7 +4649,7 @@ common#:#mm_contacts#:#Contacts
 common#:#mm_dashboard#:#Tableau de bord
 common#:#mm_enrolments#:#Inscriptions
 common#:#mm_favorites#:#Favoris
-common#:#mm_learning_history#:#Parcours de formation
+common#:#mm_learning_history#:#Histoire de l'apprentissage### OVB translated
 common#:#mm_learning_progress#:#Progression
 common#:#mm_mail#:#Messagerie e-mail
 common#:#mm_news#:#Actualités
@@ -4908,7 +4908,7 @@ common#:#obj_dshs#:#Tableau de bord
 common#:#obj_dshs_desc#:#Administrer le tableau de bord
 common#:#obj_ecss#:#ECS
 common#:#obj_ecss_desc#:#Contient des paramètres globaux pour le E-Learning Community Server
-common#:#obj_etal#:#Employee Talk###31 10 2023 new variable
+common#:#obj_etal#:#Entretien collaborateur### OVB translated
 common#:#obj_exc#:#Exercice
 common#:#obj_exc_duplicate#:#Copier Exercice
 common#:#obj_excv#:#Certificat d'Exercice
@@ -4944,7 +4944,7 @@ common#:#obj_iass_select#:#-- Veuillez sélectionner une évaluation individuell
 common#:#obj_itgr#:#Groupe d'Objets
 common#:#obj_ldap_desc#:#Configurer les paramètres généraux LDAP ici.
 common#:#obj_ldoc#:#Legal Documents###30 04 2024 new variable
-common#:#obj_lhts#:#Parcours de formation
+common#:#obj_lhts#:#Histoire de l'apprentissage### OVB translated
 common#:#obj_lhts_desc#:#Paramétrage du parcours de formation
 common#:#obj_lm#:#Module ILIAS
 common#:#obj_lm_duplicate#:#Copier Module
@@ -5078,10 +5078,10 @@ common#:#obj_sysc#:#Vérification du système
 common#:#obj_sysc_desc#:#Vérification du système et outils de réparation
 common#:#obj_tags#:#Tagging
 common#:#obj_tags_desc#:#Paramètres pour la fonction tagging
-common#:#obj_tala#:#Talk Templates###31 10 2023 new variable
-common#:#obj_tala_desc#:#Talk Templates###31 10 2023 new variable
-common#:#obj_tals#:#Employee Talk Series###31 10 2023 new variable
-common#:#obj_talt#:#Talk Template###31 10 2023 new variable
+common#:#obj_tala#:#Modèles d'entretien### OVB translated
+common#:#obj_tala_desc#:#Modèles d'entretien### OVB translated
+common#:#obj_tals#:#Série d'entretien collaborateur### OVB translated
+common#:#obj_talt#:#Modèle d'entretien### OVB translated
 common#:#obj_task#:#Task
 common#:#obj_tax#:#Taxinomie
 common#:#obj_taxf#:#Taxinomies
@@ -5137,7 +5137,7 @@ common#:#objs_copa#:#Pages de contenu
 common#:#objs_crs#:#Cours
 common#:#objs_crsr#:#Cours référents
 common#:#objs_dcl#:#Collections de données
-common#:#objs_etal#:#Employee Talks###31 10 2023 new variable
+common#:#objs_etal#:#Entretiens collaborateurs### OVB translated
 common#:#objs_exc#:#Exercices
 common#:#objs_file#:#Fichiers
 common#:#objs_fold#:#Dossiers
@@ -5155,7 +5155,7 @@ common#:#objs_lti#:#LTI Consumers
 common#:#objs_mail#:#E-mails
 common#:#objs_mcst#:#Mediacasts
 common#:#objs_mep#:#Galeries de médias
-common#:#objs_orgu#:#Unité organisationnelle
+common#:#objs_orgu#:#Unités de l'organisation### OVB translated
 common#:#objs_poll#:#Votes
 common#:#objs_prg#:#Programmes d'études
 common#:#objs_prgr#:#Links to Study Programmes
@@ -5179,8 +5179,8 @@ common#:#objs_skee#:#Competence Trees###28 11 2023 new variable
 common#:#objs_spl#:#Banques de questions (Enquête)
 common#:#objs_st#:#Chapitres
 common#:#objs_svy#:#Enquêtes
-common#:#objs_tala#:#Talk Templates###31 10 2023 new variable
-common#:#objs_talt#:#Talk Templates###31 10 2023 new variable
+common#:#objs_tala#:#Modèles d'entretien### OVB translated
+common#:#objs_talt#:#Modèles d'entretien### OVB translated
 common#:#objs_tst#:#Tests
 common#:#objs_webr#:#Liens Web
 common#:#objs_wiki#:#Wikis
@@ -5268,7 +5268,7 @@ common#:#permission_denied#:#Permission refusée
 common#:#permission_settings#:#Réglage des Permissions
 common#:#person_title#:#Titre
 common#:#personal_data#:#Données personnelles
-common#:#personal_picture#:#Image personnelle
+common#:#personal_picture#:#image de profil### OVB translated
 common#:#personal_profile#:#Profil et données personnelles
 common#:#personal_resources#:#Ressources personnelles
 common#:#personal_settings#:#Paramètres personnels
@@ -5276,9 +5276,9 @@ common#:#persons#:#Personnes
 common#:#pg_add#:#Ajouter Page
 common#:#pg_new#:#Nouvelle page
 common#:#phone#:#Téléphone
-common#:#phone_home#:#PTT
+common#:#phone_home#:#Supérieur direct (nom)### OVB translated
 common#:#phone_mobile#:#Téléphone mobile
-common#:#phone_office#:#Téléphone travail
+common#:#phone_office#:#Position (abbr.)### OVB translated
 common#:#phrase#:#Expression
 common#:#please_choose#:#-- Sélectionnez --
 common#:#please_enter_target#:#Veuillez saisir une cible
@@ -5486,7 +5486,7 @@ common#:#salutation_m#:#Monsieur
 common#:#salutation_n#:#Autre
 common#:#saml_log_in#:#Connexion directe
 common#:#saml_login_form_info_txt#:#Vous pouvez vous connecter en utilisant le bouton «Connexion directe» sans avoir à entrer votre nom d’utilisateur ou mot de passe.
-common#:#saml_login_form_txt#:#Connexion à ILIAS via SAML
+common#:#saml_login_form_txt#:#Connexion à Personal Development via SAML### OVB translated
 common#:#save#:#Enregistrer
 common#:#save_and_back#:#Enregistrer et Retourner
 common#:#save_message#:#Enregistrer un brouillon
@@ -5722,8 +5722,8 @@ common#:#tagging_my_tags#:#Mes mots-clés
 common#:#tags#:#Tags
 common#:#take_over_structure#:#Adopter la Structure
 common#:#take_over_structure_info#:#Si cochée, les dossiers contenus dans le fichier ZIP seront convertis en catégories ou en dossiers si l'importation du ZIP est faite dans un groupe ou un cours.
-common#:#tals_etal#:#Talk###31 10 2023 new variable
-common#:#talt_etal#:#Talk###31 10 2023 new variable
+common#:#tals_etal#:#Entretien### OVB translated
+common#:#talt_etal#:#Entretien### OVB translated
 common#:#target#:#Cible
 common#:#tax#:#Taxinomie
 common#:#tax_add#:#Ajouter Taxinomie
@@ -5860,7 +5860,7 @@ common#:#user_defined_fields#:#Zones supplémentaires
 common#:#user_defined_list#:#Champs Utilisateur Personnalisés
 common#:#user_deleted#:#Utilisateur supprimé
 common#:#user_detail#:#Détail
-common#:#user_ext_account#:#Compte Externe
+common#:#user_ext_account#:#Compte de connexion externe### OVB translated
 common#:#user_ext_account_desc#:#Compte utilisé pour l'authentification externe (authentification CAS, SOAP, LDAP ou Radius)
 common#:#user_image#:#Image de l'Utilisateur
 common#:#user_import_failed#:#Echec d'importation utilisateur
@@ -5886,7 +5886,7 @@ common#:#userfolder_export_file#:#Fichier
 common#:#userfolder_export_file_size#:#Taille du Fichier
 common#:#userfolder_export_files#:#Fichiers
 common#:#userfolder_export_xml#:#.XML
-common#:#username#:#Nom d'utilisateur
+common#:#username#:#Adresse e-mail### OVB translated
 common#:#username_assistance#:#Username Assistance###30 04 2024 new variable
 common#:#users#:#Utilisateurs
 common#:#users_not_imported#:#Les utilisateurs suivants n'existent pas, leurs messages ne peuvent pas être importés
@@ -6241,7 +6241,7 @@ content#:#cont_cc_sup#:#Exposant
 content#:#cont_cell_properties#:#Table Cell Properties###30 04 2024 new variable
 content#:#cont_center#:#Centre
 content#:#cont_change_alignment#:#Change Alignment###30 04 2024 new variable
-content#:#cont_change_notification_salutation#:#Hello %s,
+content#:#cont_change_notification_salutation#:#Bonjour %s,### OVB translated
 content#:#cont_change_notification_subject_lm#:#Learning Module "%1$s" has been changed: %2$s
 content#:#cont_change_object_reference#:#Modifier la référence de l'objet
 content#:#cont_change_style#:#Change Style###30 04 2024 new variable
@@ -6739,7 +6739,7 @@ content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_mastery_score_12#:#écraser mastery_score
 content#:#cont_mastery_score_12_info#:#Si un SCO ne détermine pas un statut de façon autonome, un SCO est considéré comme réussi si la note atteint au moins un certain niveau - la mastery_score. Cette valeur peut être écrasée ici, par ex. pour réduire le niveau d’exigence. Si le champ est vide, les informations dans le manifeste SCORM sont valides. Les valeurs suivantes sont fournies dans le fichier manifeste:
 content#:#cont_mastery_score_2004#:#écraser scaled_passing_score
-content#:#cont_mastery_score_2004_info#:#Les objectifs d’apprentissage centraux de ce module d’apprentissage sont considérés comme atteints si la note obtenue atteint au moins un certain niveau - la scaled_passing_score. Cette valeur, qui doit être exprimée en pourcentage, peut être écrasée ici, par ex. pour réduire le niveau d’exigence. Si le champ est vide, les informations dans le manifeste SCORM sont valides. Les valeurs suivantes sont fournies dans le fichier manifeste 
+content#:#cont_mastery_score_2004_info#:#Les objectifs d’apprentissage centraux de ce module d’apprentissage sont considérés comme atteints si la note obtenue atteint au moins un certain niveau - la scaled_passing_score. Cette valeur, qui doit être exprimée en pourcentage, peut être écrasée ici, par ex. pour réduire le niveau d’exigence. Si le champ est vide, les informations dans le manifeste SCORM sont valides. Les valeurs suivantes sont fournies dans le fichier manifeste
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media#:#Images/Media###31 10 2023 new variable
 content#:#cont_media_placeh#:#Cliquer et modifier pour ajouter le média
@@ -7479,10 +7479,10 @@ crs#:#crs_admission_link_failure_registration_period#:#Can't registrate: Course 
 crs#:#crs_admission_link_success_registration#:#Successfully registrated to course "%s".
 crs#:#crs_agree#:#Validation
 crs#:#crs_agreement_header#:#Charte Utilisateur
-crs#:#crs_agreement_required#:#Vous devez accepter la charte d'utilisation pour accéder à ce cours.
+crs#:#crs_agreement_required#:#Veuillez confirmer l'inscription obligatoire.### OVB translated
 crs#:#crs_at_least_one_admin#:#Il doit y avoir au moins un administrateur de cours.
 crs#:#crs_auto_notification#:#Notification des Nouveaux Membres
-crs#:#crs_auto_notification_info#:#Les nouveaux membres reçoivent un mail dès leur inscription au cours.
+crs#:#crs_auto_notification_info#:#Les mails de bienvenue sont automatiquement envoyés aux membres ajoutés au cours via un plugin. Si les plugins CourseBooking et MailAdministration sont installés et actifs, le Mail 16 sera envoyé.### OVB translated
 crs#:#crs_awrn_current_course#:#Cours actuel
 crs#:#crs_awrn_current_course_info#:#Si l’utilisateur navigue vers un cours dans le répertoire, tous les membres du cours sont listés.
 crs#:#crs_awrn_support_contacts#:#Tutoriel d'aide
@@ -7496,9 +7496,9 @@ crs#:#crs_cancel_subscr_request#:#Supprimer requête d'adhésion
 crs#:#crs_cancel_subscription#:#Désabonnement du cours "%s"
 crs#:#crs_cancel_subscription_body#:#Un utilisateur ("%s") s'est désabonné du cours.
 crs#:#crs_cancel_subscription_body2#:#Il peut exister d'autres membres sur une liste d'attente de votre cours. \nVous pouvez vérifier la liste d'attente, maintenant. \nPour voir les membres de votre cours, cliquer ici :
-crs#:#crs_cancellation_end#:#Limite d'Annulation
+crs#:#crs_cancellation_end#:#Fin de l'annulation### OVB translated
 crs#:#crs_cancellation_end_info#:#A partir de cette date les participants ne peuvent plus se désinscrire.
-crs#:#crs_cancellation_end_rbac_info#:#Le délai d’annulation a eu lieu le %s, il n’est plus possible d’annuler.
+crs#:#crs_cancellation_end_rbac_info#:#La fin de l'annulation a été atteinte le %s, un départ n'est plus possible.### OVB translated
 crs#:#crs_cannot_find_role#:#Impossible de trouver ce rôle.
 crs#:#crs_cdf_edit_member#:#Éditer les données d'utilisateurs pertinentes pour le cours
 crs#:#crs_cdf_tbl_last_edit#:#Last Update (Course-specific Data)
@@ -7513,7 +7513,7 @@ crs#:#crs_contact_responsibility#:#Fonction
 crs#:#crs_content#:#Contenu du Cours
 crs#:#crs_copy#:#Copier Cours
 crs#:#crs_course_group_notification_link#:#Lien :
-crs#:#crs_course_period_not_valid#:#La durée du cours n'est pas valide.
+crs#:#crs_course_period_not_valid#:#La période de cours n'est pas valable.### OVB translated
 crs#:#crs_course_status_of_users#:#Validation des Utilisateurs
 crs#:#crs_create_date#:#Date de création
 crs#:#crs_custom_user_fields#:#Données Personnelles pour le Cours
@@ -7696,9 +7696,9 @@ crs#:#crs_mail_type#:#Envoyer un Message aux Membres
 crs#:#crs_map_location#:#Emplacement carte du cours
 crs#:#crs_map_settings#:#Paramètres de la Carte
 crs#:#crs_materials#:#Ressources
-crs#:#crs_max_and_min_members_invalid#:#Le nombre minimum doit être inférieur au nombre maximum de membres.
-crs#:#crs_max_and_min_members_needed#:#Définir un nombre minimum ou maximum de membres - ou les deux.
-crs#:#crs_max_members_needed#:#Un nombre maximum de membres est nécessaire pour la fonction de liste d’attente.
+crs#:#crs_max_and_min_members_invalid#:#Le nombre minimal doit être inférieur au nombre maximal.### OVB translated
+crs#:#crs_max_and_min_members_needed#:#Définissez un nombre minimal ou maximal - ou les deux.### OVB translated
+crs#:#crs_max_members_needed#:#Un nombre maximal de membres est nécessaire pour la liste d'attente.### OVB translated
 crs#:#crs_max_members_reached#:#Le nombre maximum de membres a été atteint
 crs#:#crs_mem_contact#:#Support Contact
 crs#:#crs_mem_contacts#:#Support Contacts
@@ -7807,7 +7807,7 @@ crs#:#crs_passed_status_system#:#Système
 crs#:#crs_password_not_valid#:#Votre mot de passe n'est pas valide
 crs#:#crs_password_required#:#Cette procédure d'inscription nécessite un mot de passe.
 crs#:#crs_pdf#:#PDF
-crs#:#crs_period#:#Durée du Cours
+crs#:#crs_period#:#Période de cours### OVB translated
 crs#:#crs_period_end_mail_placeholder#:#Period End
 crs#:#crs_period_info#:#Indiquer la date de début et de fin du cours
 crs#:#crs_period_start_mail_placeholder#:#Period Start
@@ -7885,9 +7885,9 @@ crs#:#crs_subscription_failed_limit#:#Le nombre maximum de participants a été 
 crs#:#crs_subscription_max_members#:#Nombre Limité de Membres
 crs#:#crs_subscription_max_members_short#:#Nombre de membres
 crs#:#crs_subscription_max_members_short_info#:#Le nombre minimal/maximal de membres peut être réglé. Une liste d'attente peut être mis en place.
-crs#:#crs_subscription_min_members#:#Nombre minimum
+crs#:#crs_subscription_min_members#:#Nombre minimal### OVB translated
 crs#:#crs_subscription_min_members_err#:#Le nombre minimum ne doit pas être supérieur au nombre maximum de participants.
-crs#:#crs_subscription_min_members_info#:#See cron job "Cancellation Limit".
+crs#:#crs_subscription_min_members_info#:#Voir le job cron "Fin d'annulation".### OVB translated
 crs#:#crs_subscription_options_confirmation#:#Inscription avec Approbation
 crs#:#crs_subscription_options_direct#:#Inscription Directe
 crs#:#crs_subscription_options_password#:#Inscription avec Mot de Passe
@@ -7957,8 +7957,8 @@ crs#:#crs_unsubscribe_member_explanation#:#Vous recevez ce message car vous vous
 crs#:#crs_unsubscribe_sure#:#Voulez-vous vous désinscrire de ce cours ?
 crs#:#crs_unsubscribed_from_crs#:#Vous avez été désinscrit de ce cours
 crs#:#crs_update_subscr_request#:#Mettre à  jour la requête d'adhésion
-crs#:#crs_user_agreement#:#Types de donnée affichés
-crs#:#crs_user_agreement_info#:#Données Personnelles Visibles par les Administrateurs du Cours
+crs#:#crs_user_agreement#:#CONTROL_LABEL_NO_DISPLAY### OVB translated
+crs#:#crs_user_agreement_info#:#INFOSCREEN_SEC_NO_DISPLAY<br />### OVB translated
 crs#:#crs_user_already_assigned#:#L'utilisateur choisi est déjà  assigné à  ce cours.
 crs#:#crs_users_added#:#Utilisateur ajouté au cours "%s".
 crs#:#crs_users_already_assigned#:#L'utilisateur est déjà inscrit au cours.
@@ -7981,9 +7981,9 @@ crs#:#crs_visibility_until_info#:#Le cours sera visible à  ses membres dans une
 crs#:#crs_visibility_unvisible#:#The course is not visible.
 crs#:#crs_wait_info#:#Les nouvelles demandes d'inscription seront placées en liste d'attente si le nombre maximum d'utilisateurs est atteint.
 crs#:#crs_waiting_list#:#Liste d'Attente
-crs#:#crs_waiting_list_autofill#:#Avec Liste d'Attente
-crs#:#crs_waiting_list_autofill_info#:#Les participants sont recrutés automatiquement dans la liste d'attente si annulations.
-crs#:#crs_waiting_list_no_autofill#:#Sans Liste d'Attente
+crs#:#crs_waiting_list_autofill#:#Auto-remplissage### OVB translated
+crs#:#crs_waiting_list_autofill_info#:#Les participants sont automatiquement recrutés sur la liste d'attente en cas d'annulation.### OVB translated
+crs#:#crs_waiting_list_no_autofill#:#Sans auto-remplissage### OVB translated
 crs#:#crs_warn_no_max_set_on_waiting_list#:#Le nombre maximum de membres du cours est dépassé. Vous pouvez ajouter votre requête d'inscription à  la liste d'attente. Vous revevrez un mail de l'administrateur du cours lorsque voutre requête aura été apprové ou rejeté.
 crs#:#crs_warn_wl_set_on_waiting_list#:#Des utilisateurs sont déjà  assignés à  la liste d'attente. Vous pouvez ajouter votre requête d'inscription à  la liste d'attente. Vous revevrez un mail de l'administrateur du cours lorsque voutre requête aura été apprové ou rejeté.
 crs#:#crs_wiz_back#:#Retour
@@ -8094,7 +8094,7 @@ dash#:#dash_enable_cal#:#Calendar
 dash#:#dash_enable_favourites#:#Favourites
 dash#:#dash_enable_learning_sequences#:#Learning Sequences###30 04 2024 new variable
 dash#:#dash_enable_mail#:#Mail
-dash#:#dash_enable_memberships#:#My Courses and Groups
+dash#:#dash_enable_memberships#:#Mes cours et groupes### OVB translated
 dash#:#dash_enable_news#:#News
 dash#:#dash_enable_recommended_content#:#Recommended Content###30 04 2024 new variable
 dash#:#dash_enable_study_programmes#:#Study Programmes###30 04 2024 new variable
@@ -8119,7 +8119,7 @@ dash#:#dash_sort_by_type#:#Trier par type
 dash#:#dash_sortation#:#Sortation
 dash#:#dash_study_programmes#:#My Study Programmes###30 04 2024 new variable
 dash#:#dash_tile#:#Tile
-dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’
+dash#:#dash_view_courses_groups#:#Bloquer ´Mes cours et groupes´### OVB translated
 dash#:#dash_view_favourites#:#Section ‘Favourites’
 dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.
 dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.
@@ -9157,47 +9157,47 @@ ecs#:#ecs_wiki_export_enabled#:#Publier ce Wiki
 ecs#:#ecs_wiki_export_obj_settings#:#Paramètres de Publication du Wiki
 error#:#error_back_to_repository#:#Retour au Catalogue
 error#:#error_sry_error#:#Désolé, une erreur s'est produite.
-etal#:#appointments#:#Appointments###31 10 2023 new variable
-etal#:#cal_type_tals#:#Talks###31 10 2023 new variable
-etal#:#change_date_of_series#:#Change date of talk series###31 10 2023 new variable
-etal#:#change_date_of_talk#:#Change date of talk###31 10 2023 new variable
-etal#:#date_of_talk#:#Start Date###31 10 2023 new variable
-etal#:#etal_add#:#Add Talk###31 10 2023 new variable
-etal#:#etal_add_new_item#:#Add new Talk###31 10 2023 new variable
+etal#:#appointments#:#Sessions### OVB translated
+etal#:#cal_type_tals#:#Entretiens### OVB translated
+etal#:#change_date_of_series#:#Adapter la série d'entretien### OVB translated
+etal#:#change_date_of_talk#:#Adapter la date d'entretien### OVB translated
+etal#:#date_of_talk#:#Date de démarrage### OVB translated
+etal#:#etal_add#:#Ajouter### OVB translated
+etal#:#etal_add_new_item#:#Ajouter un nouvel entretien### OVB translated
 etal#:#etal_create_invalid_template_ref#:#Invalid Talk Template ID###31 10 2023 new variable
-etal#:#etal_date_appointment_edit#:#Date of Talk###31 10 2023 new variable
-etal#:#etal_date_series_edit#:#Date of Talk Series###31 10 2023 new variable
+etal#:#etal_date_appointment_edit#:#Date d'entretien### OVB translated
+etal#:#etal_date_series_edit#:#Série d'entretien### OVB translated
 etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###30 04 2024 new variable
-etal#:#etal_edit#:#General###31 10 2023 new variable
+etal#:#etal_edit#:#Généralités### OVB translated
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.###31 10 2023 new variable
 etal#:#etal_location#:#Location###04 11 2025 new variable
-etal#:#etal_new#:#New Talk###31 10 2023 new variable
+etal#:#etal_new#:#Nouvel entretien### OVB translated
 etal#:#etal_open#:#Open Employee Talk###31 10 2023 new variable
 etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
-etal#:#etal_status_all#:#All###31 10 2023 new variable
-etal#:#etal_status_completed#:#Completed###31 10 2023 new variable
-etal#:#etal_status_pending#:#Pending###31 10 2023 new variable
-etal#:#etal_unknown_username#:#Unknown User###31 10 2023 new variable
-etal#:#lock_edititng_for_others#:#Lock editing for others###31 10 2023 new variable
-etal#:#meta_adv_records#:#Metadata###31 10 2023 new variable
-etal#:#mm_org_etal#:#Talks###31 10 2023 new variable
-etal#:#mm_talk_template#:#Talk Templates###31 10 2023 new variable
-etal#:#notification_talks_created#:#You have been invited to the following employee talks.###31 10 2023 new variable
-etal#:#notification_talks_date_list_header#:#Dates###31 10 2023 new variable
-etal#:#notification_talks_removed#:#The following appointments have been canceled.###31 10 2023 new variable
-etal#:#notification_talks_subject#:#Invitation: %s###31 10 2023 new variable
+etal#:#etal_status_all#:#Tous### OVB translated
+etal#:#etal_status_completed#:#Terminé### OVB translated
+etal#:#etal_status_pending#:#En cours### OVB translated
+etal#:#etal_unknown_username#:#Utilisateur inconnu### OVB translated
+etal#:#lock_edititng_for_others#:#Verrouiller l'édition pour les autres### OVB translated
+etal#:#meta_adv_records#:#Métadonnées### OVB translated
+etal#:#mm_org_etal#:#Entretien### OVB translated
+etal#:#mm_talk_template#:#Modèles d'entretien### OVB translated
+etal#:#notification_talks_created#:#Vous avez été invité à un entretien.### OVB translated
+etal#:#notification_talks_date_list_header#:#Données### OVB translated
+etal#:#notification_talks_removed#:#Les dates suivantes ont été annulées.### OVB translated
+etal#:#notification_talks_subject#:#Invitation à un rendez-vous### OVB translated
 etal#:#notification_talks_subject_update#:#Update: %s###31 10 2023 new variable
-etal#:#notification_talks_updated#:#The following talk appointments have been changed.###31 10 2023 new variable
+etal#:#notification_talks_updated#:#Les dates d'entretien suivantes ont été ajustées.### OVB translated
 etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:###31 10 2023 new variable
 etal#:#tala_no_content_without_admin_info#:#The Administrator role is required for access to Talk Templates.###08 07 2025 new variable
 etal#:#talk_serial#:#Talk Serial###31 10 2023 new variable
-etal#:#tals_add#:#Add Talks###31 10 2023 new variable
-etal#:#tals_new#:#New Talks###31 10 2023 new variable
-etal#:#talt_activation_online_info#:#Set the talk template online to make it visible and available for employees. If not, only administrators will have access to it.###31 10 2023 new variable
-etal#:#talt_add#:#Add Template###31 10 2023 new variable
-etal#:#talt_edit#:#General###31 10 2023 new variable
-etal#:#talt_etal#:#Employee Talk###31 10 2023 new variable
-etal#:#talt_new#:#New Talk Template###31 10 2023 new variable
+etal#:#tals_add#:#Ajouter des entretiens### OVB translated
+etal#:#tals_new#:#Nouvelle série d'entretien### OVB translated
+etal#:#talt_activation_online_info#:#Marquez le modèle comme actif afin qu'il soit disponible pour le collaborateur.### OVB translated
+etal#:#talt_add#:#Créer### OVB translated
+etal#:#talt_edit#:#Généralités### OVB translated
+etal#:#talt_etal#:#Entretien collaborateur### OVB translated
+etal#:#talt_new#:#Nouveau modèle d'entretien### OVB translated
 etal#:#will_update_series_info_lock#:#Lock the editing of all appointments in this series###31 10 2023 new variable
 etal#:#will_update_series_info_title#:#Changes to the title will be made to all appointments in this series.###31 10 2023 new variable
 exc#:#exc_add_assignment#:#Ajouter une Activité
@@ -9281,7 +9281,7 @@ exc#:#exc_edit_assignments#:#Modifier les tà¢ches
 exc#:#exc_edit_blog#:#Edit Blog###30 04 2024 new variable
 exc#:#exc_edit_criterias#:#Editer Critères
 exc#:#exc_edit_portfolio#:#Edit Portfolio###30 04 2024 new variable
-exc#:#exc_edit_submission#:#Modifier la proposition
+exc#:#exc_edit_submission#:#Modifier les fichiers téléchargés/nouveau téléchargement### OVB translated
 exc#:#exc_edit_wiki#:#Edit Wiki###30 04 2024 new variable
 exc#:#exc_ended#:#Ended###30 04 2024 new variable
 exc#:#exc_ended_on#:#Date limite
@@ -9313,7 +9313,7 @@ exc#:#exc_go_to_exercise#:#Aller à l’exercice
 exc#:#exc_graded_mem_notified#:#All graded participants have been notified.###30 04 2024 new variable
 exc#:#exc_grades#:#Vue d'Ensemble
 exc#:#exc_grades_overview#:#Vue évaluation
-exc#:#exc_hand_in#:#Déposer une proposition
+exc#:#exc_hand_in#:#Télécharger### OVB translated
 exc#:#exc_hand_in_lead_text#:#%s to Submit###30 04 2024 new variable
 exc#:#exc_idl_request_and_tutor_needed#:#Please send a request to your tutor for setting an individual deadline for you.###30 04 2024 new variable
 exc#:#exc_idl_tutor_needed#:#You already requested a deadline. The request is still pending. You will be notified once the individual deadline is set.###30 04 2024 new variable
@@ -9512,10 +9512,10 @@ exc#:#exc_reminder_mail_no_tpl#:#Do not use mail template
 exc#:#exc_reminder_mail_template#:#Mail Template
 exc#:#exc_reminder_peer_body#:#the following assignment has no feedback from you yet
 exc#:#exc_reminder_peer_subject#:#Assignment "%s" has no feedback
-exc#:#exc_reminder_salutation#:#Hello %s,
+exc#:#exc_reminder_salutation#:#Bonjour %s,### OVB translated
 exc#:#exc_reminder_start#:#Start Reminders before Deadline
 exc#:#exc_reminder_start_info#:#All members of the parent course/group will be sent reminders.<br>No parent course/group girven - no reminder will be sent!
-exc#:#exc_reminder_submit_body#:#the following assignment has not been finished by you yet
+exc#:#exc_reminder_submit_body#:#Vous n’avez pas encore terminé cet exercice### OVB translated
 exc#:#exc_reminder_submit_setting#:#Remind Users to Submit
 exc#:#exc_reminder_submit_subject#:#Assignment "%s" was not finished
 exc#:#exc_reminders_cron#:#Reminders for Assignments
@@ -10226,9 +10226,9 @@ grp#:#grp_at_least_one_admin#:#Il doit y avoir au moins un administrateur de gro
 grp#:#grp_auto_notification#:#Welcome-Mail For New Members
 grp#:#grp_auto_notification_info#:#New members get a mail notification when added to the group.
 grp#:#grp_cancel_subscr_request#:#Supprimer requête d'adhésion
-grp#:#grp_cancellation_end#:#Limite d'Annulation
+grp#:#grp_cancellation_end#:#Fin de l'annulation### OVB translated
 grp#:#grp_cancellation_end_info#:#A partir de cette date les participants ne peuvent plus se désinscrire.
-grp#:#grp_cancellation_end_rbac_info#:#Le délai d’annulation a eu lieu le %s, il n’est plus possible d’annuler.
+grp#:#grp_cancellation_end_rbac_info#:#La fin de l'annulation a été atteinte le %s, un départ n'est plus possible.### OVB translated
 grp#:#grp_cdf_edit_member#:#Éditer les données d'utilisateurs pertinentes pour le groupe
 grp#:#grp_cdf_tbl_last_edit#:#Last Update (Group-specific Data)
 grp#:#grp_change_type#:#Changer Type de Groupe
@@ -10375,11 +10375,11 @@ grp#:#grp_warn_grp_type_changed#:#Êtes-vous certain de vouloir changer le type 
 grp#:#grp_warn_no_max_set_on_waiting_list#:#Le nombre maximum de membres du groupe est dépassé. Vous pouvez ajouter votre requête à  la liste d'attente. Vous recevrez un mail de l'administrateur du groupe lorsque votre requête sera approuvée ou rejetée.
 grp#:#grp_warn_wl_set_on_waiting_list#:#Des utilisateurs sont déjà  assignés dans la liste d'attente. Vous pouvez ajouter votre requête d'inscription dans la liste d'attente. Vous recevrez un mail de l'administrateur du groupe lorsque votre requête sera approuvée ou rejetée.
 grp#:#grp_wrong_max_members#:#Veuillez vérifier le nombre maximum de membres.
-grp#:#grp_wrong_min_max_members#:#Veuillez vérifier le nombre minimum et maximum d'utilisateurs.
+grp#:#grp_wrong_min_max_members#:#Veuillez vérifier votre saisie pour le nombre minimal et maximal de participants.### OVB translated
 grp#:#grp_wrong_reg_time_limit#:#Veuillez vérifier les horaires de début et de fin d'inscription.
 grp#:#reg_grp_max_members#:#Nombre de Places Limité
 grp#:#reg_grp_max_members_short#:#Nombre de Places
-grp#:#reg_grp_min_members#:#Nombre minium de membres
+grp#:#reg_grp_min_members#:#Nombre minimal### OVB translated
 help#:#help_all#:#Tous
 help#:#help_component#:#Composant
 help#:#help_filter#:#Filtre
@@ -10811,13 +10811,13 @@ lhist#:#cont_create_lhist#:#Create Learning History Element
 lhist#:#cont_update_lhist#:#Edit Learning History Element
 lhist#:#lhist_all#:#All
 lhist#:#lhist_cont_placeholder_text#:#This element will show the learning history in the presentation mode of the portfolio.
-lhist#:#lhist_enable_learning_history#:#Learning History
+lhist#:#lhist_enable_learning_history#:#Histoire de l'apprentissage### OVB translated
 lhist#:#lhist_enable_learning_history_info#:#Enables an overview of all achievements of a user.
 lhist#:#lhist_first_login#:#Première connexion
-lhist#:#lhist_learning_history#:#Parcours de formation
-lhist#:#lhist_lhist#:#Learning History
+lhist#:#lhist_learning_history#:#Histoire de l'apprentissage### OVB translated
+lhist#:#lhist_lhist#:#Histoire de l'apprentissage### OVB translated
 lhist#:#lhist_manual#:#Manual
-lhist#:#lhist_no_entries#:#Atteignez vos objectifs ! Apprenez quelque chose aujourd'hui pour poursuivre votre parcours de formation.
+lhist#:#lhist_no_entries#:#Atteignez vos objectifs ! Apprenez quelque chose aujourd'hui pour faire avancer votre histoire d'apprentissage.### OVB translated
 lhist#:#lhist_period#:#Period
 lhist#:#lhist_selected#:#Selected
 lhist#:#lhist_show_more#:#Show More
@@ -11789,7 +11789,7 @@ meta#:#md_adv_deleted_fields#:#Les champs ont été supprimés.
 meta#:#md_adv_deleted_files#:#Fichiers d'export supprimés
 meta#:#md_adv_deleted_records#:#Ensemble de données supprimé
 meta#:#md_adv_desc_show#:#Afficher la Description
-meta#:#md_adv_edit_complex_option#:#Edit Option Properties
+meta#:#md_adv_edit_complex_option#:#Modifier les propriétés des options### OVB translated
 meta#:#md_adv_edit_field#:#Editer le Champ
 meta#:#md_adv_edit_record#:#Modifier ensemble de données
 meta#:#md_adv_field_fields#:#Zones
@@ -12495,7 +12495,7 @@ meta#:#meta_very_easy#:#Très Facile
 meta#:#meta_very_high#:#Très Elevé
 meta#:#meta_very_low#:#Très Bas
 meta#:#meta_yes#:#Oui
-meta#:#udf_type_address#:#Address
+meta#:#udf_type_address#:#Adresse### OVB translated
 meta#:#udf_type_externallink#:#Lien externe
 meta#:#udf_type_float#:#Marge
 meta#:#udf_type_integer#:#Nombre entier
@@ -12912,7 +12912,7 @@ orgu#:#confirm_deletion_and_assign#:#Supprimer et assigner les utilisateurs
 orgu#:#confirm_deletion_button#:#Supprimer
 orgu#:#deassign_user_successful#:#Le rôle a été retiré avec succès.
 orgu#:#edit_translations#:#Titre et Description
-orgu#:#employee#:#Employé
+orgu#:#employee#:#Collaborateur### OVB translated
 orgu#:#ext_id#:#ID Externe
 orgu#:#ext_id_updated#:#L'ID externe a été mis à jour avec succès..
 orgu#:#form_title_org_default_permissions_update#:#Permissions par défaut
@@ -12922,7 +12922,7 @@ orgu#:#import_terminated_with_errors#:#Des erreurs ont eu lieu durant l'import. 
 orgu#:#import_terminated_with_warnings#:#L'import s'est terminé avec des alertes
 orgu#:#import_xml_file#:#Importer Données
 orgu#:#local_other_roles#:#Additional Roles %s
-orgu#:#local_staff#:#Employés %s
+orgu#:#local_staff#:#Collaborateurs %s### OVB translated
 orgu#:#mm_organisation#:#Organisation###31 10 2023 new variable
 orgu#:#msg_assignment_to_employee_done#:#Affectation à la position de l'employé terminée
 orgu#:#msg_confirm_d_ua#:#Voulez-vous assigner cette personne à la position d’employé de ses unités organisationnelles respectives?
@@ -13001,7 +13001,7 @@ orgu#:#over#:#Sur
 orgu#:#over_-1#:#Tout le monde
 orgu#:#placeholder#:#...
 orgu#:#positions#:#Positions
-orgu#:#rec_staff#:#Employees %s recursivly
+orgu#:#rec_staff#:#Collaborateurs %s recursivly### OVB translated
 orgu#:#remove_successful#:#L’utilisateur a été retiré avec succès.
 orgu#:#remove_user#:#Retirer
 orgu#:#scope#:#Dans
@@ -13013,7 +13013,7 @@ orgu#:#simple_import#:#Simple Import XML
 orgu#:#simple_user_import#:#Assignation d'Utilisateurs par XML
 orgu#:#simple_xls#:#Simple Export Excel
 orgu#:#simple_xml#:#Simple Export XML
-orgu#:#superior#:#Supérieur
+orgu#:#superior#:#Coach### OVB translated
 orgu#:#user_assignments#:#Affectations d’utilisateur
 orgu#:#user_assignments_recursive#:#User Assignments Subtree
 orgu#:#user_changed_successful#:#L'utilisateur a été modifié avec succès.
@@ -13240,7 +13240,7 @@ prg#:#prg_assigned_by#:#Affectée par
 prg#:#prg_async_create#:#Ajouter une nouvelle structure de sous-dossiers
 prg#:#prg_async_settings#:#Paramètres
 prg#:#prg_auto_member_select_crs#:#Courses
-prg#:#prg_auto_member_select_grp#:#Groups
+prg#:#prg_auto_member_select_grp#:#Groupes### OVB translated
 prg#:#prg_auto_member_select_role#:#Roles
 prg#:#prg_autoassignment#:#(auto)
 prg#:#prg_belongs_to#:#Appartient à
@@ -13486,7 +13486,7 @@ prtf#:#prtf_add_portfolio_from_template#:#Add Portfolio From Template###30 04 20
 prtf#:#prtf_all_pages#:#Toutes les pages
 prtf#:#prtf_allow_html#:#Autoriser HTML/Javascript
 prtf#:#prtf_allow_html_info#:#Permet aux utilisateurs d' inclure du code HTML et / ou Javascript dans les pages du portefeuille. Cela peut conduire à  des problèmes de sécurité.
-prtf#:#prtf_allow_my_courses#:#Page Element "My Courses"
+prtf#:#prtf_allow_my_courses#:#Élément latéral "Mes Cours"### OVB translated
 prtf#:#prtf_allow_my_courses_info#:#Permet d’inclure une liste des adhésions aux cours actuels dans un portfolio.
 prtf#:#prtf_author#:#Auteur
 prtf#:#prtf_back_to_portfolio_owner#:#Edit Portfolio
@@ -17013,7 +17013,7 @@ trac#:#trac_last_maxed_out_sessions#:#Dernière Charge Maximale
 trac#:#trac_learning_progress#:#Progression
 trac#:#trac_learning_progress_of#:#Progression de %s
 trac#:#trac_learning_progress_settings_info#:#Activer l'affichage des valeurs suivantes dans les tables de suivi d'apprentissage :
-trac#:#trac_lhist_obj_completed#:#$1$ a été complété
+trac#:#trac_lhist_obj_completed#:#$1$ était terminée.### OVB translated
 trac#:#trac_lhist_obj_completed_in#:#$1$ a été complété en $2$.
 trac#:#trac_log_info#:#Dernière Agrégation : %s (Objets non traités : %s)
 trac#:#trac_log_info_link#:#Mettre à Jour
@@ -17374,7 +17374,7 @@ user#:#user_set_visibilty_options#:#Configurer la visibilité
 user#:#user_store_last_visited#:#Dernières pages visitées
 user#:#user_visibility_settings#:#Visibilité
 user#:#user_visible_in_profile#:#Visible dans les Données Personnelles
-user#:#usr_id#:#System ID
+user#:#usr_id#:#ID système interne### OVB translated
 user#:#usr_letter_avatars#:#Avatars de lettres
 user#:#usr_letter_avatars_info#:#Montre la lettre initiale du nom d'utilisateur comme photo de profil si aucune photo publique n’est fournie.
 user#:#usr_public_profile_disabled#:#Profil désactivé
