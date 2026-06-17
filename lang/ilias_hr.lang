@@ -78,69 +78,69 @@ adm#:#adm_accessibility_contacts_info#:#Contacts for reporting accessibility iss
 adm#:#adm_awrn_support_contacts_info#:#All technical support contacts are listed. Users are defined as technical support contacts in the section "General Settings" > "Contact Information".
 adm#:#adm_support_contacts#:#Technical Support
 adm#:#adm_support_contacts_info#:#Support contacts used in the footer link and (if activated) in the ‘Who is online?’-Tool. Comma separated list of account logins.
-administration#:#adm_achievements#:#Achievements###04 06 2021 new variable
-administration#:#adm_activate_db_benchmark#:#Activate Benchmark
-administration#:#adm_activate_db_benchmark_desc#:#Benchmarking will be automatically disabled after one request.
-administration#:#adm_adm_role_protect#:#Protect Administrator Role
-administration#:#adm_adm_role_protect_info#:#If enabled, only administrator are allowed to de/assign users from/to the administrator role.
-administration#:#adm_auth_login#:#Authentication Login###04 06 2021 new variable
-administration#:#adm_auth_reg#:#Authentication Registration###04 06 2021 new variable
-administration#:#adm_communication#:#Communication###04 06 2021 new variable
+administration#:#adm_achievements#:#Postignuća### OVB translated
+administration#:#adm_activate_db_benchmark#:#Omogućiti mjerenje### OVB translated
+administration#:#adm_activate_db_benchmark_desc#:#Mjerenje se automatski prekida nakon zahtjeva poslužitelja.### OVB translated
+administration#:#adm_adm_role_protect#:#Zaštitite ulogu administratora### OVB translated
+administration#:#adm_adm_role_protect_info#:#Ako je omogućeno, samo administrator može maknuti/dodati korisnike iz/na administratorsku ulogu.### OVB translated
+administration#:#adm_auth_login#:#Prijava za autentifikaciju### OVB translated
+administration#:#adm_auth_reg#:#Registracija provjere autentičnosti### OVB translated
+administration#:#adm_communication#:#Komunikacija### OVB translated
 administration#:#adm_db_bench_by_first_table#:#Aggregated by First Table in SQL
-administration#:#adm_db_bench_chronological#:#Chronological
+administration#:#adm_db_bench_chronological#:#Kronološki### OVB translated
 administration#:#adm_db_bench_slowest_first#:#Slowest First
-administration#:#adm_db_bench_sorted_by_sql#:#Sorted by SQL
+administration#:#adm_db_bench_sorted_by_sql#:#Razvrstano prema SQL### OVB translated
 administration#:#adm_db_benchmark#:#DB Benchmark
-administration#:#adm_db_benchmark_user#:#User Account Name
-administration#:#adm_db_benchmark_user_desc#:#Only measurements for this user will be made.
-administration#:#adm_extending_ilias#:#Extending ILIAS###04 06 2021 new variable
-administration#:#adm_external_setting_edit#:#Edit Settings
-administration#:#adm_hide#:#Hide in Settings Form
-administration#:#adm_hide_tabs#:#Hide Tabs
+administration#:#adm_db_benchmark_user#:#Korisničko ime### OVB translated
+administration#:#adm_db_benchmark_user_desc#:#Izvršit će se mjerenja samo za ovog korisnika.### OVB translated
+administration#:#adm_extending_ilias#:#Proširivanje ILIAS-a### OVB translated
+administration#:#adm_external_setting_edit#:#Uredi postavke### OVB translated
+administration#:#adm_hide#:#Sakrij u obrascu postavki### OVB translated
+administration#:#adm_hide_tabs#:#Sakrij kartice### OVB translated
 administration#:#adm_https#:#HTTPS
-administration#:#adm_imprint#:#Legal Notice
-administration#:#adm_imprint_inactive#:#Legal notice is not active and users are not able to access it.
+administration#:#adm_imprint#:#Pravna obavijest### OVB translated
+administration#:#adm_imprint_inactive#:#Pravna obavijest nije aktivna i korisnici joj ne mogu pristupiti.### OVB translated
 administration#:#adm_item_cmd_asynch#:#Load Resource Action Lists Asynchronously
 administration#:#adm_item_cmd_asynch_info#:#Action commands, e.g. in the repository, are loaded asynchronously. This increases performance in general, but slows down loading of action command lists a little bit.
-administration#:#adm_layout_and_navigation#:#Layout and Navigation###04 06 2021 new variable
+administration#:#adm_layout_and_navigation#:#Izgled i navigacija### OVB translated
 administration#:#adm_legal_regulations#:#Legal Regulations###30 04 2024 new variable
 administration#:#adm_locale#:#Locale
 administration#:#adm_locale_info#:#Locale setting influences e.g. sorting in lists. Examples are nl_NL or de_DE. Multiple locales can be separated by comma. The first valid one will be used.
-administration#:#adm_maintenance#:#Maintenance
-administration#:#adm_missing_entries#:#Missing Entries
-administration#:#adm_missing_entry_add#:#Add New Entry
-administration#:#adm_missing_entry_add_action#:#Add
-administration#:#adm_nr_statements#:#Number of Statements
-administration#:#adm_personal_workspace#:#Personal Workspace###04 06 2021 new variable
-administration#:#adm_predefined_settings#:#Predefined Settings
-administration#:#adm_pub_section_domain_filter#:#Domain Filter
-administration#:#adm_pub_section_domain_filter_info#:#Domain filters granting anonymous access. Enter one ore more domains, which allow anonymous access.
-administration#:#adm_rep_shorten_description#:#Limited Length of Descriptions
-administration#:#adm_rep_shorten_description_info#:#If activated all descriptions in object lists are presented with a maximum number of characters.
-administration#:#adm_rep_shorten_description_length#:#Maximum number of characters
-administration#:#adm_rep_tree_all_types#:#All Resource Types
-administration#:#adm_rep_tree_all_types_info#:#All types of resources are listed in the tree.
-administration#:#adm_rep_tree_limit_grp_crs#:#Show limited context tree in courses and groups.
-administration#:#adm_rep_tree_limit_grp_crs_info#:#This relies on and automatically activates the ‘Synchronize Tree Frame’ feature.
+administration#:#adm_maintenance#:#Održavanje sustava### OVB translated
+administration#:#adm_missing_entries#:#Unosi koji nedostaju### OVB translated
+administration#:#adm_missing_entry_add#:#Dodavanje novog unosa### OVB translated
+administration#:#adm_missing_entry_add_action#:#Dodaj### OVB translated
+administration#:#adm_nr_statements#:#Broj pregleda### OVB translated
+administration#:#adm_personal_workspace#:#Osobni radni prostor### OVB translated
+administration#:#adm_predefined_settings#:#Unaprijed definirane postavke### OVB translated
+administration#:#adm_pub_section_domain_filter#:#Filtar domene### OVB translated
+administration#:#adm_pub_section_domain_filter_info#:#Filtri domene koji omogućuju anonimni pristup. Unesite jednu ili više domena koje omogućuju anonimni pristup.### OVB translated
+administration#:#adm_rep_shorten_description#:#Ograničena duljina opisa### OVB translated
+administration#:#adm_rep_shorten_description_info#:#Ako je aktivirano, svi opisi u popisima objekata prikazani su s maksimalnim brojem znakova.### OVB translated
+administration#:#adm_rep_shorten_description_length#:#Maksimalan broj znakova### OVB translated
+administration#:#adm_rep_tree_all_types#:#Svi objekti### OVB translated
+administration#:#adm_rep_tree_all_types_info#:#Sve vrste objekata prikazane su u stablu.### OVB translated
+administration#:#adm_rep_tree_limit_grp_crs#:#Prikaži ograničeno stablo sadržaja u tečajevima i grupama.### OVB translated
+administration#:#adm_rep_tree_limit_grp_crs_info#:#Ovaj prikaz se temelji i automatski aktivira sinkronizirani prikaz stabla.### OVB translated
 administration#:#adm_rep_tree_only_cntr#:#Container Only
-administration#:#adm_rep_tree_only_cntr_info#:#Only categories, courses and groups are listed.
+administration#:#adm_rep_tree_only_cntr_info#:#Prikazane su samo kategorije, tečajevi i grupe.### OVB translated
 administration#:#adm_rep_tree_presentation#:#Repository Tree Presentation
-administration#:#adm_repository_and_objects#:#Repository and Objects###04 06 2021 new variable
-administration#:#adm_search_and_find#:#Search and Find###04 06 2021 new variable
-administration#:#adm_show_comments_tagging_in_lists#:#Show number of notes, comments and tags in object lists
-administration#:#adm_show_comments_tagging_in_lists_tags#:#Display tags instead of number
+administration#:#adm_repository_and_objects#:#Repozitorij i objekti### OVB translated
+administration#:#adm_search_and_find#:#Traži i pronađi### OVB translated
+administration#:#adm_show_comments_tagging_in_lists#:#Prikaži broj bilješki, komentara i oznaka na popisima objekata### OVB translated
+administration#:#adm_show_comments_tagging_in_lists_tags#:#Prikaži oznake umjesto brojeva### OVB translated
 administration#:#adm_sql#:#SQL
-administration#:#adm_table#:#Table
-administration#:#adm_time#:#Time
-administration#:#adm_user_administration#:#User Administration
-administration#:#adm_user_starting_point#:#Personal Starting Point
-administration#:#adm_user_starting_point_info#:#Select the page or object which is shown after login.
-administration#:#adm_user_starting_point_inherit#:#Use Standard-Settings
-administration#:#adm_user_starting_point_inherit_info#:#The settings that were made by the administrator of the platform as a whole will be used.
-administration#:#adm_user_starting_point_invalid_info#:#This feature is currently not active.
+administration#:#adm_table#:#Tablica### OVB translated
+administration#:#adm_time#:#Vrijeme### OVB translated
+administration#:#adm_user_administration#:#Korisnici i uloge### OVB translated
+administration#:#adm_user_starting_point#:#Osobna početna stranica### OVB translated
+administration#:#adm_user_starting_point_info#:#Odaberite stranicu ili objekt koji se prikazuje nakon prijave.### OVB translated
+administration#:#adm_user_starting_point_inherit#:#Prihvatite zadane postavke### OVB translated
+administration#:#adm_user_starting_point_inherit_info#:#Za cijelu platformu koriste se postavke koje je postavio administrator.### OVB translated
+administration#:#adm_user_starting_point_invalid_info#:#Ova značajka trenutno nije aktivna.### OVB translated
 administration#:#adm_user_starting_point_object#:#Repository Object
-administration#:#adm_user_starting_point_personal#:#Personal Setting
-administration#:#adm_user_starting_point_personal_info#:#If activated users may select their starting page.
+administration#:#adm_user_starting_point_personal#:#Osobne postavke### OVB translated
+administration#:#adm_user_starting_point_personal_info#:#Ako je omogućeno, korisnici mogu sami odabrati svoju početnu stranicu.### OVB translated
 administration#:#adm_user_starting_point_ref_id#:#Reference-Id
 administration#:#adm_user_starting_point_ref_id_info#:#Open the object that you would like to use as Personal Starting Point. Please copy the number directly following "ref_id=" in the browser bar into the text input field.
 administration#:#adm_value#:#Predefined Value
@@ -275,20 +275,20 @@ administration#:#nothing_to_purge#:#Nothing to purge...
 administration#:#nothing_to_remove#:#Nothing to remove...
 administration#:#nothing_to_restore#:#Nothing to restore...
 administration#:#obj_blga#:#Blog
-administration#:#obj_blga_desc#:#Global Blog Settings
-administration#:#obj_chta_desc#:#Chat Administration
-administration#:#obj_excs#:#Exercise
-administration#:#obj_excs_desc#:#Global Exercise Settings
+administration#:#obj_blga_desc#:#Globalne postavke bloga### OVB translated
+administration#:#obj_chta_desc#:#Administracija chata### OVB translated
+administration#:#obj_excs#:#Vježba### OVB translated
+administration#:#obj_excs_desc#:#Globalne postavke vježbi### OVB translated
 administration#:#obj_impr#:#Legal Notice###30 04 2024 new variable
 administration#:#obj_impr_desc#:#Deployment of Legal Notice###30 04 2024 new variable
 administration#:#obj_mds#:#Metadata
 administration#:#obj_mds_desc#:#Configure Metadata and Advanced Metadata Settings
-administration#:#obj_otpl#:#Didactic Templates
-administration#:#obj_otpl_desc#:#Template for creating new objects with predefined permission settings
-administration#:#obj_prfa#:#Portfolio
-administration#:#obj_prfa_desc#:#Global Portfolio Settings
-administration#:#obj_taxs#:#Taxonomy
-administration#:#obj_taxs_desc#:#Global Taxonomy Settings
+administration#:#obj_otpl#:#Didaktički predlošci### OVB translated
+administration#:#obj_otpl_desc#:#Predložak za stvaranje novih objekata s unaprijed definiranim postavkama dopuštenja### OVB translated
+administration#:#obj_prfa#:#Portfelj### OVB translated
+administration#:#obj_prfa_desc#:#Globalne postavke portfelja### OVB translated
+administration#:#obj_taxs#:#Taksonomija### OVB translated
+administration#:#obj_taxs_desc#:#Globalne postavke taksonomije### OVB translated
 administration#:#options#:#Options
 administration#:#org_op_edit_user_accounts#:#Edit User Accounts###04 06 2021 new variable
 administration#:#output_options#:#Output options
@@ -639,7 +639,7 @@ assessment#:#edit_test_questions#:#Pregled u obliku popisa
 assessment#:#element_height#:#Minimalna visina
 assessment#:#element_height_info#:#Ovo je minimalna visina u pikselima za pojmove i definicije/slike tijekom izdavanja testa.
 assessment#:#enable_examview#:#Pregled danih odgovora
-assessment#:#enable_examview_desc#:#Sudionicima se prija predaje testa prikazuju sva pitanja i odgovori koje su dali.
+assessment#:#enable_examview_desc#:#Prije predaje testa sudionicima se prikazuju sva pitanja zajedno s odgovorima koje su dali.### OVB translated
 assessment#:#end_tag#:#Završna oznaka
 assessment#:#enlarge#:#Povećaj
 assessment#:#enter_anonymous_code#:#Unesite anonimni pristupni kod
@@ -754,13 +754,13 @@ assessment#:#gap#:#Praznina
 assessment#:#gap_combination#:#Kombinacija praznina
 assessment#:#general#:#Općenito
 assessment#:#glossary_term#:#Pojam iz pojmovnika
-assessment#:#grading_mark_msg#:#Vaša ocjena je. &quot;[ocjena]&quot;
+assessment#:#grading_mark_msg#:#Možete izaći iz testa.### OVB translated
 assessment#:#grading_obligations_answered_listentry#:#Odgovoreno
 assessment#:#grading_obligations_answered_msg#:#Odgovorili ste na sva obavezna pitanja.
 assessment#:#grading_obligations_listlabel#:#Obavezna pitanja
 assessment#:#grading_obligations_missing_listentry#:#Otvoreno
 assessment#:#grading_obligations_missing_msg#:#Niste odgovorili na sva obavezna pitanja.
-assessment#:#grading_status_failed_msg#:#Nažalost ste <b>pali</b> na testu.
+assessment#:#grading_status_failed_msg#:#Nažalost <b>niste prošli</b> na testu. Molimo Vas pokušajte ponovno (maksimalni broj pokušaja je 3 puta).### OVB translated
 assessment#:#grading_status_passed_msg#:#Čestitke, <b>prošli</b> ste na testu.
 assessment#:#height#:#Visina
 assessment#:#hints#:#Hints###30 04 2024 new variable
@@ -2029,7 +2029,7 @@ auth#:#auth_ldap_server_ds#:#LDAP-Server
 auth#:#auth_login_editor#:#Loginscreen Editor
 auth#:#auth_oidc#:#OpenId Connect
 auth#:#auth_oidc_failed#:#Login via OpenID Connect failed###16 03 2023 new variable
-auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###04 06 2021 new variable
+auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###17 06 2026 new variable
 auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenId Connect Attributen
 auth#:#auth_oidc_profile#:#Zuordnung der Profildaten
 auth#:#auth_oidc_role_info#:#OpenID Connect Attribute::Value (e.g: "roles::employee").
@@ -2143,14 +2143,14 @@ awrn#:#awrn_online_only#:#Online Only
 awrn#:#awrn_seconds#:#sec
 awrn#:#awrn_use_osd#:#Popup Online Users
 awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the ‘Who is online?’ list.
-awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###04 06 2021 new variable
+awrn#:#awrn_user_show#:#Prikaži moj status u odjeljku "Tko je online?"### OVB translated
 awrn#:#user_awrn_default#:#Default###04 06 2021 new variable
 awrn#:#user_awrn_hide#:#Hide my status###04 06 2021 new variable
 awrn#:#user_awrn_show#:#Show my status###04 06 2021 new variable
 background_tasks#:#abort#:#Abort
 background_tasks#:#background_tasks#:#Background Tasks
 background_tasks#:#background_tasks_running#:#Background Tasks
-background_tasks#:#completed#:#Completed
+background_tasks#:#completed#:#Dovršeno### OVB translated
 background_tasks#:#proceed_job#:#Proceed
 background_tasks#:#remove#:#Remove
 background_tasks#:#scheduled#:#Scheduled
@@ -2485,7 +2485,7 @@ book#:#book_assign#:#Dodijeli
 book#:#book_assign_object#:#Dodijeli objekt rezervacije
 book#:#book_assign_participant#:#Dodijeli sudioniku
 book#:#book_back_to_list#:#Natrag na popis
-book#:#book_bobj#:#Predmet rezervacije
+book#:#book_bobj#:#Objekt za rezervaciju### OVB translated
 book#:#book_book#:#Knjiži
 book#:#book_book_available#:#Book Available Dates###30 04 2024 new variable
 book#:#book_book_recurrence#:#Book multiple dates###30 04 2024 new variable
@@ -2576,7 +2576,7 @@ book#:#book_preferences#:#Preferences###04 06 2021 new variable
 book#:#book_preferences_saved#:#The preferences have been saved.###04 06 2021 new variable
 book#:#book_public_log#:#Javne rezervacije
 book#:#book_public_log_info#:#Korisnici koji imaju samo dopuštenje za čitanje vidjet će i rezervacije drugih korisnika.
-book#:#book_recurrence#:#Recurrence###30 04 2024 new variable
+book#:#book_recurrence#:#Ponavljanja### OVB translated
 book#:#book_refresh#:#Refresh###30 04 2024 new variable
 book#:#book_rem_intro#:#Ovo je pregled predstojećih rezervacija:
 book#:#book_rem_reason#:#Primate ove mailove jer ste pretplaćeni na obavijesti o odgovarajućim bazenima rezervacija.
@@ -2809,7 +2809,7 @@ certificate#:#certificate_var_user_institution#:#ILIAS Open Source
 certificate#:#certificate_var_user_lastname#:#Anić
 certificate#:#certificate_var_user_login#:#aanić
 certificate#:#certificate_var_user_matriculation#:#12345
-certificate#:#certificate_var_user_salutation#:#Gđa
+certificate#:#certificate_var_user_salutation#:#Gđa.### OVB translated
 certificate#:#certificate_var_user_street#:#Glavna ulica 25
 certificate#:#certificate_var_user_title#:#Dr.
 certificate#:#certificate_var_user_zipcode#:#12345
@@ -2886,7 +2886,7 @@ chatroom#:#chat_message_options#:#Display
 chatroom#:#chat_message_to_all#:#To All
 chatroom#:#chat_no_use_typing_broadcast#:#Typing will not be broadcasted###31 03 2023 new variable
 chatroom#:#chat_not_use_osc#:#Not Using On-Screen-Chat###04 06 2021 new variable
-chatroom#:#chat_osc_accept_msg#:#Allow On-Screen Chat Conversations
+chatroom#:#chat_osc_accept_msg#:#Dopusti čavrljanje### OVB translated
 chatroom#:#chat_osc_accept_msg_info#:#If activated, other users are allowed start a conversation with me.
 chatroom#:#chat_osc_accept_msg_info_slate#:#To have private conversations, you must enable your setting "Allow On-Screen Chat Conversations".###31 03 2023 new variable
 chatroom#:#chat_osc_accept_msg_info_slate_link_txt#:#Visibility (in Profile and Privacy)###31 03 2023 new variable
@@ -3427,7 +3427,7 @@ common#:#account_expires_body#:#Vaš račun je vremenski ograničen, istječe u:
 common#:#account_expires_subject#:#Vaš račun istječe
 common#:#action#:#Akcija
 common#:#action_aborted#:#Akcija je prekinuta
-common#:#actions#:#Akcije
+common#:#actions#:#Radnje### OVB translated
 common#:#actions_for#:#Actions for %s###15 12 2021 new variable
 common#:#activate#:#Aktiviraj
 common#:#activate_assessment_logging#:#Aktivirajte protokoliranje testa i procjene
@@ -3468,7 +3468,7 @@ common#:#adve_assessment_settings#:#Postavke ispitivanja i ocjenjivanja
 common#:#adve_frm_post_settings#:#Objave na forumima
 common#:#adve_general_settings#:#Opće postavke
 common#:#adve_survey_settings#:#Postavke ankete
-common#:#agree_date#:#Agreed on###27 08 2024 new variable
+common#:#agree_date#:#Prihvaćeno dana### OVB translated
 common#:#all#:#Svi
 common#:#all_global_roles#:#Globalne uloge
 common#:#all_local_roles#:#Lokalne uloge (sve)
@@ -3550,7 +3550,7 @@ common#:#auth_ldap_migration#:#Migracija računa
 common#:#auth_ldap_migration_info#:#Aktiviraj ovu opciju da bi novi korisnici imali mogućnost migriranja svojih postojećih ILIAS računa na LDAP provjeru autentičnosti.
 common#:#auth_local#:#ILIAS Auth
 common#:#auth_login_instructions#:#Upute prikazane na stranici za prijavu
-common#:#auth_mode#:#Način provjere autentičnosti
+common#:#auth_mode#:#Način autentifikacije### OVB translated
 common#:#auth_mode_not_changed#:#(Ništa se nije promijenilo)
 common#:#auth_mode_roles_changed#:#Promijenjen način provjere autentičnosti za ovu ulogu
 common#:#auth_new_account_mail_desc#:#Pošalji e-poštu novog računa korisniku ako se korisnik automatski generira. Lozinka će se generirati samo ako je aktivirana i opcija 'Dopusti lokalnu provjeru autentičnosti'.
@@ -3704,7 +3704,7 @@ common#:#chta_visible#:#Administracija sobe za razgovor je vidljiva
 common#:#chta_write#:#Uredi administraciju sobe za razgovor
 common#:#chtr_copy#:#Kopiraj sobu za razgovor
 common#:#chtr_import#:#Uvezi sobu za razgovor
-common#:#city#:#Grad, država
+common#:#city#:#Grad### OVB translated
 common#:#cld_abandoned#:#The Cloud Object has been abandoned as of ILIAS 8. No data has been lost. Contact your System Administration for more information.###31 03 2023 new variable
 common#:#cleaned_file#:#Datoteka je očišćena.
 common#:#cleaning_failed#:#Čišćenje nije uspjelo.
@@ -3760,7 +3760,7 @@ common#:#contact_data#:#Podaci za kontakt
 common#:#contact_sysadmin#:#Obratite se tehničkoj podršci
 common#:#container#:#Spremnik
 common#:#container_no_items#:#Nema dostupnih materijala
-common#:#content#:#Sadržaj
+common#:#content#:#Sadržaj stranice### OVB translated
 common#:#content_frame#:#Okvir sadržaja
 common#:#content_styles#:#Stilovi sadržaja
 common#:#context#:#Kontekst
@@ -3780,7 +3780,7 @@ common#:#copy_selected_items#:#Kopiraj
 common#:#count#:#Količina
 common#:#counter_novelty#:#News###30 04 2024 new variable
 common#:#counter_status#:#Status###30 04 2024 new variable
-common#:#country#:#Država (padajući izbor)
+common#:#country#:#Direktni direktor### OVB translated
 common#:#country_free_text#:#Država (unos slobodnog teksta)
 common#:#country_selection#:#Država (padajući izbor)
 common#:#course#:#Tečaj
@@ -3832,7 +3832,7 @@ common#:#crs_status_blocked#:#[Pristup odbijen]
 common#:#crs_status_pending#:#[Čekanje na registraciju]
 common#:#crs_subscribers_assigned#:#Dodijeljeni novi korisnik(ici)
 common#:#crs_title#:#Naziv tečaja
-common#:#crs_unsubscribe#:#Odjavi se s tečaja
+common#:#crs_unsubscribe#:#Odjaviti se s tečaja### OVB translated
 common#:#crs_wizard_page#:#Kopiraj tečaj (korak 2/2)
 common#:#crsr#:#Poveznica na tečaj
 common#:#crsr_add#:#Add Course Link###31 03 2023 new variable
@@ -3900,7 +3900,7 @@ common#:#deletion_notification#:#"%s" has canceled the attendance of session "%s
 common#:#deliver#:#Isporuči
 common#:#deny_usr_agreement#:#Do not accept terms of service?###04 06 2021 new variable
 common#:#deny_usr_agreement_btn#:#Not Accept###04 06 2021 new variable
-common#:#department#:#Odjel
+common#:#department#:#Landesdirekcija (Prezime, Ime)### OVB translated
 common#:#desc#:#Opis
 common#:#description#:#Opis
 common#:#desired_password#:#Željena lozinka
@@ -3911,7 +3911,7 @@ common#:#disable_check#:#Onemogući provjeru
 common#:#disable_ext_lang_maint#:#Onemogući prošireno održavanje
 common#:#disable_hide_user_toggle#:#Član može deaktivirati
 common#:#disabled#:#Onemogućeno
-common#:#disclose#:#Disclose###04 06 2021 new variable
+common#:#disclose#:#Otkrij### OVB translated
 common#:#dislike#:#Ne sviđa mi se
 common#:#domain#:#Domena
 common#:#down#:#Dolje
@@ -4022,7 +4022,7 @@ common#:#error_empty_file_or_folder#:#Veličina datoteke je 0 bajta ili se radi 
 common#:#error_extraction_failed#:#Ekstrakcija arhive i njezinih direktorija nije uspjelo. Vjerojatno zato što nemate dopuštenje za kreiranje mapa ili kategorija unutar ovog objekta.
 common#:#error_parser#:#Pogreška prilikom pokretanja parsera.
 common#:#error_upload_was_zero_bytes#:#Učitavanje nije uspjelo jer je ovo ili mapa ili je veličina datoteke 0 bajta ili je premašena maksimalna veličina za učitavanje ili je datoteka u međuvremenu preimenovana.
-common#:#etal_talks#:#Talks###31 03 2023 new variable
+common#:#etal_talks#:#Razgovori### OVB translated
 common#:#event_ass_materials_prop#:#Materijali za sesiju
 common#:#event_assign_files#:#Dodjela datoteke
 common#:#exc#:#Vježba
@@ -4074,7 +4074,7 @@ common#:#extracting#:#Vađenje...
 common#:#eyeclosed#:#Eye Closed - Click to hide the input's contents###04 06 2021 new variable
 common#:#eyeopened#:#Eye Open - Click to reveal the input's contents###04 06 2021 new variable
 common#:#failure_message#:#Poruka o neuspjehu
-common#:#fax#:#Faks
+common#:#fax#:#Pozicija (dugo)### OVB translated
 common#:#feed#:#Web Feed
 common#:#feedback#:#Povratne informacije
 common#:#field_name#:#Naziv polja
@@ -4190,8 +4190,8 @@ common#:#further_informations#:#Daljnje informacije
 common#:#gdf_add#:#Dodaj definiciju
 common#:#gdf_new#:#Nova definicija
 common#:#gender#:#Oslovljavanje
-common#:#gender_f#:#Gđa
-common#:#gender_m#:#Gosp.
+common#:#gender_f#:#gđa.### OVB translated
+common#:#gender_m#:#g.### OVB translated
 common#:#gender_n#:#Ne želi oslovljavanje
 common#:#general#:#General###31 03 2023 new variable
 common#:#general_settings#:#Opće postavke
@@ -4293,7 +4293,7 @@ common#:#hist_webr_delete#:#Izbrisana web poveznica naziva: "%1"
 common#:#hist_webr_update#:#Izmijenjena web poveznica naziva: "%1"
 common#:#history#:#Povijest
 common#:#hits_per_page#:#Posjete/stranica
-common#:#hobby#:#Interesi/hobiji
+common#:#hobby#:#Suradnički broj### OVB translated
 common#:#home#:#Javno područje
 common#:#host#:#Domaćin
 common#:#hour#:#Sat
@@ -4406,7 +4406,7 @@ common#:#installation_status#:#Installation Status###04 06 2021 new variable
 common#:#installed#:#Instalirano
 common#:#installed_local#:#Instalirano s prilagođenom datotekom
 common#:#instant_messengers#:#Instant Messenger
-common#:#institution#:#Institucija
+common#:#institution#:#Ured### OVB translated
 common#:#internal_local_roles_only#:#Lokalne uloge (samo automatski generirane)
 common#:#invalid_visible_required_options_selected#:#Sva polja postavljena kao potrebna moraju biti vidljiva i prilikom registracije.
 common#:#invisible_block#:#Nevidljivi blok
@@ -4426,7 +4426,7 @@ common#:#join#:#Pridruži se
 common#:#join_session#:#Sudjeluju
 common#:#kb#:#KByte
 common#:#keywords#:#Ključne riječi
-common#:#label_search_options#:#Search Area###04 06 2021 new variable
+common#:#label_search_options#:#Područje pretraživanja### OVB translated
 common#:#lang_dateformat#:#G-m-d
 common#:#lang_path#:#Put jezične datoteke
 common#:#lang_refresh_confirm#:#Želite li stvarno ažurirati sve jezike?
@@ -4457,7 +4457,7 @@ common#:#last_login#:#Posljednja prijava
 common#:#last_refresh#:#Posljednje ažuriranje
 common#:#last_reminder#:#Posljednji podsjetnik
 common#:#last_update#:#Ažurirano
-common#:#last_visited#:#Posljednji posjet
+common#:#last_visited#:#Zadnje posjećeno### OVB translated
 common#:#lastname#:#Prezime
 common#:#laugh#:#Smijeh
 common#:#launch#:#Pokreni
@@ -4522,9 +4522,9 @@ common#:#local_role_assignment#:#Lokale Rollenzuweisung###04 06 2021 new variabl
 common#:#location#:#Lokacija
 common#:#locator#:#Lokacija:
 common#:#log_in#:#Prijava
-common#:#log_out#:#Logout###04 06 2021 new variable
+common#:#log_out#:#Odjaviti se### OVB translated
 common#:#logic_or#:#ili
-common#:#login#:#Prijava korisničkim imenom
+common#:#login#:#Korisničko ime### OVB translated
 common#:#login_as#:#prijavljen kao
 common#:#login_data#:#Podaci za prijavu
 common#:#login_exists#:#Već postoji korisnik s ovim korisničkim imenom za prijavu! Molimo odaberite drugo.
@@ -4532,7 +4532,7 @@ common#:#login_information#:#Podaci za prijavu
 common#:#login_information_desc#:#Unesite podatke za prijavu za odgovarajući jezik.
 common#:#login_information_settings_saved#:#Podaci za prijavu uspješno su spremljeni
 common#:#login_invalid#:#Odabrano korisničko ime za prijavu je nevažeće! Dopušteni su samo sljedeći znakovi (najmanje 3 znaka): A-Z a-z 0-9 _.-+*@!$%~
-common#:#login_to_ilias#:#Prijava u ILIAS
+common#:#login_to_ilias#:#Prijava u Personal Development### OVB translated
 common#:#login_to_ilias_via_cas#:#Prijava u ILIAS putem središnjeg sustava za provjeru autentičnosti
 common#:#login_to_ilias_via_login_form#:#Login to ILIAS###20 05 2025 new variable
 common#:#login_to_ilias_via_saml#:#Prijava u ILIAS putem SAML provjere autentičnosti
@@ -4585,7 +4585,7 @@ common#:#mails#:#E-pošte
 common#:#mails_at_the_ilias_installation#:#Primili ste %1$s novu poštu na ILIAS-instalaciji %2$s
 common#:#mails_pl#:#E-pošta(e)
 common#:#main_menu#:#Glavni izbornik
-common#:#mainbar_aria_label#:#Mainbar###04 06 2021 new variable
+common#:#mainbar_aria_label#:#Glavna traka### OVB translated
 common#:#mainbar_more_label#:#More###04 06 2021 new variable
 common#:#manage_members#:#Upravljanje članovima
 common#:#marked_entries#:#Označeni unosi
@@ -4597,12 +4597,12 @@ common#:#mcst_add#:#Dodaj Mediacast
 common#:#mcst_new#:#Novi Mediacast
 common#:#mem_add_to_wl#:#Dodaj na listu čekanja
 common#:#mem_alert_no_places#:#Nema slobodnih mjesta.
-common#:#mem_cron_min_members#:#Tečaj/skupina: Provjera minimalnog broja sudionika
-common#:#mem_cron_min_members_info#:#Administratori će biti obaviješteni ako nije dosegnut minimalni broj.
+common#:#mem_cron_min_members#:#Tečaj/grupa: Provjeri minimalnih članova### OVB translated
+common#:#mem_cron_min_members_info#:#Administratori će biti obaviješteni ako minimalni broj nije ispunjen.### OVB translated
 common#:#mem_end#:#Kraj registracije:
 common#:#mem_free_places#:#Slobodna mjesta
 common#:#mem_max_users#:#Maksimalan broj korisnika:
-common#:#mem_min_users#:#Minimalan broj korisnika
+common#:#mem_min_users#:#Minimalni korisnici### OVB translated
 common#:#mem_participants#:#Sudionici
 common#:#mem_reg_expired#:#Vrijeme registracije je isteklo.
 common#:#mem_reg_not_started#:#Registracija nije započela
@@ -4638,35 +4638,35 @@ common#:#minutes#:#Minute
 common#:#missing#:#Nedostaje
 common#:#missing_perm#:#Nedostaje dozvola
 common#:#missing_precondition#:#Nedostaje preduvjet
-common#:#mm_achievements#:#Achievements###04 06 2021 new variable
-common#:#mm_administration#:#Administration###04 06 2021 new variable
-common#:#mm_badges#:#Badges###04 06 2021 new variable
-common#:#mm_calendar#:#Calendar###04 06 2021 new variable
-common#:#mm_certificates#:#Certificates###04 06 2021 new variable
-common#:#mm_comments#:#Comments###04 06 2021 new variable
-common#:#mm_communication#:#Communication###04 06 2021 new variable
-common#:#mm_contacts#:#Contacts###04 06 2021 new variable
-common#:#mm_dashboard#:#Dashboard###04 06 2021 new variable
-common#:#mm_enrolments#:#Enrolments###04 06 2021 new variable
-common#:#mm_favorites#:#Favourites###04 06 2021 new variable
-common#:#mm_learning_history#:#Learning History###04 06 2021 new variable
-common#:#mm_learning_progress#:#Learning Progress###04 06 2021 new variable
-common#:#mm_mail#:#Mail###04 06 2021 new variable
-common#:#mm_news#:#News###04 06 2021 new variable
-common#:#mm_notes#:#Notes###04 06 2021 new variable
-common#:#mm_organisation#:#Organisation###04 06 2021 new variable
-common#:#mm_personal_and_shared_r#:#Personal and Shared Resources###04 06 2021 new variable
-common#:#mm_personal_workspace#:#Personal Workspace###04 06 2021 new variable
-common#:#mm_portfolio#:#Portfolio###04 06 2021 new variable
+common#:#mm_achievements#:#Postignuća### OVB translated
+common#:#mm_administration#:#Administracija### OVB translated
+common#:#mm_badges#:#Značke### OVB translated
+common#:#mm_calendar#:#Kalendar### OVB translated
+common#:#mm_certificates#:#Certifikati### OVB translated
+common#:#mm_comments#:#Komentari### OVB translated
+common#:#mm_communication#:#Komunikacija### OVB translated
+common#:#mm_contacts#:#Kontakti### OVB translated
+common#:#mm_dashboard#:#Nadzorna ploča### OVB translated
+common#:#mm_enrolments#:#Upisi### OVB translated
+common#:#mm_favorites#:#Favoriti### OVB translated
+common#:#mm_learning_history#:#Povijest učenja### OVB translated
+common#:#mm_learning_progress#:#Napredak u učenju### OVB translated
+common#:#mm_mail#:#E-pošta### OVB translated
+common#:#mm_news#:#Novosti### OVB translated
+common#:#mm_notes#:#Bilješke### OVB translated
+common#:#mm_organisation#:#Organizacija### OVB translated
+common#:#mm_personal_and_shared_r#:#Osobni i zajednički resursi### OVB translated
+common#:#mm_personal_workspace#:#Osobni radni prostor### OVB translated
+common#:#mm_portfolio#:#Portfelj### OVB translated
 common#:#mm_private_chats#:#Private Chats###31 03 2023 new variable
 common#:#mm_repo_tree_view#:#Tree View###04 06 2021 new variable
 common#:#mm_repo_tree_view_act#:#Activate Tree###04 06 2021 new variable
 common#:#mm_repo_tree_view_deact#:#Deactivate Tree###04 06 2021 new variable
-common#:#mm_repository#:#Repository###04 06 2021 new variable
-common#:#mm_skills#:#Competences###04 06 2021 new variable
-common#:#mm_staff_list#:#Staff List###04 06 2021 new variable
-common#:#mm_tags#:#Tags###04 06 2021 new variable
-common#:#mm_task_derived_tasks#:#Tasks###04 06 2021 new variable
+common#:#mm_repository#:#Repozitorij### OVB translated
+common#:#mm_skills#:#Kompetencije### OVB translated
+common#:#mm_staff_list#:#Popis poslovnih partnera### OVB translated
+common#:#mm_tags#:#Oznake### OVB translated
+common#:#mm_task_derived_tasks#:#Zadaci### OVB translated
 common#:#mme_lost_item_reason#:#Stavka više nije dostupna.
 common#:#mme_lost_item_title#:#Nema dodjele
 common#:#mob#:#Medijski objekt
@@ -4719,7 +4719,7 @@ common#:#msg_deleted_role#:#Uloga je izbrisana
 common#:#msg_deleted_roles_rolts#:#Uloge i predlošci uloga su izbrisani
 common#:#msg_failed#:#Nažalost, akcija nije uspjela
 common#:#msg_form_save_error#:#Podaci iz obrasca nisu se mogli spremiti. Molimo provjerite u poljima za unos poruke o pogreškama.
-common#:#msg_info_blacklisted#:#The files cannot be uploaded due to security reasons.###04 06 2021 new variable
+common#:#msg_info_blacklisted#:#Datoteke se ne mogu učitati iz sigurnosnih razloga.### OVB translated
 common#:#msg_input_char_limit_max#:#You have entered more characters than allowed.###26 04 2023 new variable
 common#:#msg_input_char_limit_min#:#You have to enter the minimum of characters specified.###26 04 2023 new variable
 common#:#msg_input_does_not_match_regexp#:#Unesite valjanu vrijednost.
@@ -4792,7 +4792,7 @@ common#:#my_certificates#:#Moji certifikati
 common#:#my_contacts#:#Moji kontakti
 common#:#my_courses#:#Moji tečajevi
 common#:#my_courses_groups#:#Tečajevi i skupine
-common#:#my_staff#:#Osoblje
+common#:#my_staff#:#Poslovni partner### OVB translated
 common#:#name#:#Ime
 common#:#nc_contact_requests_headline#:#Contact Requests###04 06 2021 new variable
 common#:#nc_contact_requests_number_p#:#You have %s Contact Requests.###04 06 2021 new variable
@@ -4887,8 +4887,8 @@ common#:#obj_cmis_desc#:#Learning Record Store Types Configuration###04 06 2021 
 common#:#obj_cmix#:#xAPI/cmi5###04 06 2021 new variable
 common#:#obj_cmps#:#Dodaci
 common#:#obj_cmps_desc#:#Opće postavke za dodatke
-common#:#obj_coms#:#Comments###04 06 2021 new variable
-common#:#obj_coms_desc#:#Comments settings###04 06 2021 new variable
+common#:#obj_coms#:#Komentari### OVB translated
+common#:#obj_coms_desc#:#Postavke komentara### OVB translated
 common#:#obj_copa#:#Stranica sa sadržajem
 common#:#obj_cpad#:#Content Pages###04 06 2021 new variable
 common#:#obj_cpad#_desc#:#Content Page Administration###04 06 2021 new variable
@@ -4908,7 +4908,7 @@ common#:#obj_dshs#:#Dashboard###04 06 2021 new variable
 common#:#obj_dshs_desc#:#Dashboard settings###04 06 2021 new variable
 common#:#obj_ecss#:#ECS
 common#:#obj_ecss_desc#:#Opće postavke ECS-a
-common#:#obj_etal#:#Employee Talk###31 03 2023 new variable
+common#:#obj_etal#:#Razgovor sa suradnikom### OVB translated
 common#:#obj_exc#:#Vježba
 common#:#obj_exc_duplicate#:#Kopiraj vježbu
 common#:#obj_excv#:#Certifikat za vježbu
@@ -4944,8 +4944,8 @@ common#:#obj_iass_select#:#- Odaberite jednu pojedinačnu procjenu -
 common#:#obj_itgr#:#Skupina stavki
 common#:#obj_ldap_desc#:#Ovdje konfigurirajte globalne postavke LDAP-a.
 common#:#obj_ldoc#:#Legal Documents###30 04 2024 new variable
-common#:#obj_lhts#:#Learning History###04 06 2021 new variable
-common#:#obj_lhts_desc#:#Learning history settings###04 06 2021 new variable
+common#:#obj_lhts#:#Povijest učenja### OVB translated
+common#:#obj_lhts_desc#:#Postavke povijesti učenja### OVB translated
 common#:#obj_lm#:#Modul učenja ILIAS
 common#:#obj_lm_duplicate#:#Kopiraj modul za učenja
 common#:#obj_lng#:#Jezik
@@ -4957,8 +4957,8 @@ common#:#obj_lrss#:#Moduli učenja
 common#:#obj_lrss_desc#:#Konfiguriraj sve vrste modula učenja.
 common#:#obj_lso#:#Sekvenca učenja
 common#:#obj_lso_duplicate#:#Kopiraj sekvencu učenja
-common#:#obj_lsos#:#Learning Sequences###04 06 2021 new variable
-common#:#obj_lsos_desc#:#General settings for Learning Sequences###04 06 2021 new variable
+common#:#obj_lsos#:#Sekvence učenja### OVB translated
+common#:#obj_lsos_desc#:#Opće postavke za sekvence učenja### OVB translated
 common#:#obj_lti#:#LTI Consumer###04 06 2021 new variable
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Interoperabilnost alata za učenje
@@ -4977,8 +4977,8 @@ common#:#obj_mobs_desc#:#Postavke za medijske objekte i bazene medija.
 common#:#obj_not_found#:#Objekt nije pronađen
 common#:#obj_nota#:#Notifications###31 03 2023 new variable
 common#:#obj_nota_desc#:#Notifications Administration###31 03 2023 new variable
-common#:#obj_nots#:#Notes###04 06 2021 new variable
-common#:#obj_nots_desc#:#Notes settings###04 06 2021 new variable
+common#:#obj_nots#:#Bilješke### OVB translated
+common#:#obj_nots_desc#:#Postavke bilješka### OVB translated
 common#:#obj_nwss#:#Vijesti i web sažeci
 common#:#obj_nwss_desc#:#Postavke za interne vijesti i vanjske web sažetke.
 common#:#obj_objf#:#Definicije objekata
@@ -5024,8 +5024,8 @@ common#:#obj_prgr#:#Link to Study Programme###04 06 2021 new variable
 common#:#obj_prgrs#:#Links to Study Programmes###04 06 2021 new variable
 common#:#obj_prgs#:#Studijski programi
 common#:#obj_prgs_desc#:#Administracija studijskog programa
-common#:#obj_prss#:#Personal Resources###04 06 2021 new variable
-common#:#obj_prss_desc#:#Personal resources settings###04 06 2021 new variable
+common#:#obj_prss#:#Osobni resursi### OVB translated
+common#:#obj_prss_desc#:#Postavke osobnih resursa### OVB translated
 common#:#obj_prtf#:#Portfelj
 common#:#obj_prtt#:#Predložak portfelja
 common#:#obj_prtt_duplicate#:#Kopiraj predložak portfelja
@@ -5078,10 +5078,10 @@ common#:#obj_sysc#:#Provjera sustava
 common#:#obj_sysc_desc#:#Alati za provjeru i popravak sustava
 common#:#obj_tags#:#Označavanje
 common#:#obj_tags_desc#:#Postavke za značajku označavanja.
-common#:#obj_tala#:#Talk Templates###31 03 2023 new variable
-common#:#obj_tala_desc#:#Talk Templates###31 03 2023 new variable
-common#:#obj_tals#:#Employee Talk Series###31 03 2023 new variable
-common#:#obj_talt#:#Talk Template###31 03 2023 new variable
+common#:#obj_tala#:#Predlošci za razgovor### OVB translated
+common#:#obj_tala_desc#:#Predlošci za razgovor### OVB translated
+common#:#obj_tals#:#Serija razgovora sa suradnikom### OVB translated
+common#:#obj_talt#:#Predlošci za razgovor### OVB translated
 common#:#obj_task#:#Task###04 06 2021 new variable
 common#:#obj_tax#:#Taksonomija
 common#:#obj_taxf#:#Taksonomije
@@ -5137,7 +5137,7 @@ common#:#objs_copa#:#Stranice sadržaja
 common#:#objs_crs#:#Tečajevi
 common#:#objs_crsr#:#Poveznica na tečaj
 common#:#objs_dcl#:#Zbirke podataka
-common#:#objs_etal#:#Employee Talks###31 03 2023 new variable
+common#:#objs_etal#:#Razgovori sa suradnikom### OVB translated
 common#:#objs_exc#:#Vježbe
 common#:#objs_file#:#Datoteke
 common#:#objs_fold#:#Mape
@@ -5179,8 +5179,8 @@ common#:#objs_skee#:#Competence Trees###28 11 2023 new variable
 common#:#objs_spl#:#Bazeni pitanja za ankete
 common#:#objs_st#:#Poglavlja
 common#:#objs_svy#:#Ankete
-common#:#objs_tala#:#Talk Templates###31 03 2023 new variable
-common#:#objs_talt#:#Talk Templates###31 03 2023 new variable
+common#:#objs_tala#:#Predlošci za razgovor### OVB translated
+common#:#objs_talt#:#Predlošci za razgovor### OVB translated
 common#:#objs_tst#:#Testovi
 common#:#objs_webr#:#Web poveznice
 common#:#objs_wiki#:#Wikis
@@ -5268,7 +5268,7 @@ common#:#permission_denied#:#Dozvola odbijena
 common#:#permission_settings#:#Postavke dozvole za objekt
 common#:#person_title#:#Titula
 common#:#personal_data#:#Osobni podaci
-common#:#personal_picture#:#Slika za profil
+common#:#personal_picture#:#Slika profila### OVB translated
 common#:#personal_profile#:#Osobni podaci i profil
 common#:#personal_resources#:#Personal Resources###04 06 2021 new variable
 common#:#personal_settings#:#Postavke
@@ -5276,9 +5276,9 @@ common#:#persons#:#Osobe
 common#:#pg_add#:#Dodaj stranicu
 common#:#pg_new#:#Nova stranica
 common#:#phone#:#Telefon
-common#:#phone_home#:#Telefon, pivatni
+common#:#phone_home#:#Direktni voditelj (Ime)### OVB translated
 common#:#phone_mobile#:#Telefon, mobitel
-common#:#phone_office#:#Telefon, ured
+common#:#phone_office#:#Pozicija (kratko)### OVB translated
 common#:#phrase#:#Fraza
 common#:#please_choose#:#-- Izaberi --
 common#:#please_enter_target#:#Molimo unesite cilj
@@ -5481,8 +5481,8 @@ common#:#sahs_insert_chap_from_clip#:#Zalijepi poglavlja iz međuspremnika
 common#:#sahs_insert_page_from_clip#:#Zalijepi stranice iz međuspremnika
 common#:#sahs_insert_sco_from_clip#:#Zalijepite SCO-ove iz međuspremnika
 common#:#salutation#:#Oslovljavanje
-common#:#salutation_f#:#Gđa
-common#:#salutation_m#:#G.
+common#:#salutation_f#:#gđa.### OVB translated
+common#:#salutation_m#:#g.### OVB translated
 common#:#salutation_n#:#Oslovljavanje nije željeno
 common#:#saml_log_in#:#Izravna prijava
 common#:#saml_login_form_info_txt#:#Možete se prijaviti pomoću gumba „Izravna prijava“ bez unošenja korisničkog imena ili lozinke.
@@ -5633,10 +5633,10 @@ common#:#show_all_details#:#Prikaži sve detalje
 common#:#show_content#:#Show Content###31 03 2023 new variable
 common#:#show_details#:#Prikaži detalje
 common#:#show_filter#:#Prikaži filtar
-common#:#show_hidden_sections#:#Prikaži više informacija & raquo;
+common#:#show_hidden_sections#:#Prikaži više informacija### OVB translated
 common#:#show_list#:#Prikaži popis
 common#:#show_members#:#Prikaži članove
-common#:#show_more#:#Show More###04 06 2021 new variable
+common#:#show_more#:#Pokaži više### OVB translated
 common#:#show_owner#:#Prikaži vlasnika
 common#:#show_preview#:#Show Preview###30 04 2024 new variable
 common#:#show_users_online#:#Prikaži aktivne korisnike
@@ -5722,8 +5722,8 @@ common#:#tagging_my_tags#:#Moje oznake
 common#:#tags#:#Tags###04 06 2021 new variable
 common#:#take_over_structure#:#Usvoji strukturu
 common#:#take_over_structure_info#:#Ako je aktivirano, direktoriji u zip datoteci pruzet će se u kategorije ili, ako se koriste u skupinama ili tečajevima, u mape.
-common#:#tals_etal#:#Talk###31 03 2023 new variable
-common#:#talt_etal#:#Talk###31 03 2023 new variable
+common#:#tals_etal#:#Razgovor### OVB translated
+common#:#talt_etal#:#Razgovor### OVB translated
 common#:#target#:#Cilj
 common#:#tax#:#Taksonomija
 common#:#tax_add#:#Dodaj taksonomiju
@@ -7479,10 +7479,10 @@ crs#:#crs_admission_link_failure_registration_period#:#Registracija nije moguća
 crs#:#crs_admission_link_success_registration#:#Uspješno registriran za tečaj "%s".
 crs#:#crs_agree#:#Prihvaćanje
 crs#:#crs_agreement_header#:#Korisnički ugovor
-crs#:#crs_agreement_required#:#Morate prihvatiti korisnički ugovor ako se želite registrirati za ovaj tečaj.
+crs#:#crs_agreement_required#:#Potvrdite obvezujuću rezervaciju.### OVB translated
 crs#:#crs_at_least_one_admin#:#Mora postojati barem jedan administrator tečaja.
 crs#:#crs_auto_notification#:#Mail dobrodošlice za nove članove
-crs#:#crs_auto_notification_info#:#Novi članovi dobivaju obavijest poštom kad se dodaju na tečaj.
+crs#:#crs_auto_notification_info#:#Pošta dobrodošlice automatski se šalje onim članovima koji su dodani u tečaj putem dodatka. Ako su dodaci CourseBooking i MailAdministration instalirani i aktivni, Mail 16 bit će poslan.### OVB translated
 crs#:#crs_awrn_current_course#:#Trenutačni tečaj
 crs#:#crs_awrn_current_course_info#:#Ako korisnik prijeđe na tečaj u repozitoriju, navedeni su svi članovi tečaja.
 crs#:#crs_awrn_support_contacts#:#Vodič za podršku
@@ -7496,9 +7496,9 @@ crs#:#crs_cancel_subscr_request#:#Izbriši zahtjev za članstvo
 crs#:#crs_cancel_subscription#:#Korisnik je napustio tečaj "%s"
 crs#:#crs_cancel_subscription_body#:#% s je otkazao svoje članstvo na tečaju "%s".
 crs#:#crs_cancel_subscription_body2#:#Na listi čekanja vašeg tečaja mogu biti i drugi članovi.\nTrebali biste odmah provjeriti listu čekanja.\nDa biste vidjeli članove svog tečaja, kliknite ovdje:
-crs#:#crs_cancellation_end#:#Ograničenje otkazivanja
+crs#:#crs_cancellation_end#:#Ograničenje otkaza### OVB translated
 crs#:#crs_cancellation_end_info#:#Do datuma odabrani članovi mogu se odjaviti s tečaja.
-crs#:#crs_cancellation_end_rbac_info#:#Krajnji rok za otkazivanje bio je dana %s, otkazivanje više nije moguće.
+crs#:#crs_cancellation_end_rbac_info#:#Rok za otkazivanje ispunjen je na %s, otkazivanje više nije moguće.### OVB translated
 crs#:#crs_cannot_find_role#:#Ne mogu pronaći ovu ulogu.
 crs#:#crs_cdf_edit_member#:#Uredi relevantne korisničke podatke o tečaju
 crs#:#crs_cdf_tbl_last_edit#:#Ažurirano (podaci o tečaju)
@@ -7513,7 +7513,7 @@ crs#:#crs_contact_responsibility#:#Odgovornost
 crs#:#crs_content#:#Sadržaj tečaja
 crs#:#crs_copy#:#Kopiraj tečaj
 crs#:#crs_course_group_notification_link#:#Poveznica:
-crs#:#crs_course_period_not_valid#:#Razdoblje tečaja nije važeće.
+crs#:#crs_course_period_not_valid#:#Razdoblje tečaja nije valjano.### OVB translated
 crs#:#crs_course_status_of_users#:#Položen tečaj
 crs#:#crs_create_date#:#Stvori datum
 crs#:#crs_custom_user_fields#:#Podaci o korisničkom tečaju
@@ -7557,7 +7557,7 @@ crs#:#crs_header_edit_members#:#Uredi članove
 crs#:#crs_hide_all_obj#:#Sažmi sve
 crs#:#crs_html#:#HTML
 crs#:#crs_import#:#Uvezi tečaj
-crs#:#crs_important_info#:#Važna informacija
+crs#:#crs_important_info#:#Important Information###17 06 2026 new variable
 crs#:#crs_info_agree#:#Prihvaćam da su gornje vrste podataka vidljive administratorima tečaja.
 crs#:#crs_info_agreement#:#Sljedeće vrste podataka vidljive su za administratore tečaja:
 crs#:#crs_info_download#:#Datoteke za preuzimanje
@@ -7696,9 +7696,9 @@ crs#:#crs_mail_type#:#E-pošta članovima
 crs#:#crs_map_location#:#Lokacija tečaja na karti
 crs#:#crs_map_settings#:#Karta
 crs#:#crs_materials#:#Materijali
-crs#:#crs_max_and_min_members_invalid#:#Minimalni broj mora biti manji od maksimalnog broja članova.
-crs#:#crs_max_and_min_members_needed#:#Postavite minimalni ili maksimalni broj članova - ili oba.
-crs#:#crs_max_members_needed#:#Za značajku liste čekanja potreban je maksimalan broj članova.
+crs#:#crs_max_and_min_members_invalid#:#Minimalni broj mora biti manji od maksimalnog broja članova.### OVB translated
+crs#:#crs_max_and_min_members_needed#:#Postavite minimalni ili maksimalni broj članova - ili oboje.### OVB translated
+crs#:#crs_max_members_needed#:#Za značajku liste čekanja potreban je maksimalan broj članova.### OVB translated
 crs#:#crs_max_members_reached#:#Dosegnut je maksimalan broj članova
 crs#:#crs_mem_contact#:#Vodič za podršku
 crs#:#crs_mem_contacts#:#Vodič za podršku
@@ -7807,7 +7807,7 @@ crs#:#crs_passed_status_system#:#Sustav
 crs#:#crs_password_not_valid#:#Vaša lozinka nije valjana
 crs#:#crs_password_required#:#Za ovaj postupak registracije potrebna je lozinka.
 crs#:#crs_pdf#:#PDF
-crs#:#crs_period#:#Razdoblje tečaja
+crs#:#crs_period#:#Razdoblje tečaja### OVB translated
 crs#:#crs_period_end_mail_placeholder#:#Period End###04 06 2021 new variable
 crs#:#crs_period_info#:#Informacije o datumu početka i završetka događaja koji tečaj podupire
 crs#:#crs_period_start_mail_placeholder#:#Period Start###04 06 2021 new variable
@@ -7885,15 +7885,15 @@ crs#:#crs_subscription_failed_limit#:#Premašen je maksimalan broj sudionika.
 crs#:#crs_subscription_max_members#:#Maksimalan broj
 crs#:#crs_subscription_max_members_short#:#Ograničeni broj članova
 crs#:#crs_subscription_max_members_short_info#:#Može se postaviti minimalni, odnosno maksimalni broj članova. Može se postaviti lista čekanja.
-crs#:#crs_subscription_min_members#:#Minimalni broj
+crs#:#crs_subscription_min_members#:#Minimalni broj### OVB translated
 crs#:#crs_subscription_min_members_err#:#Minimalni broj ne smije biti veći od maksimalnog broja sudionika.
-crs#:#crs_subscription_min_members_info#:#Vidi Cron Job "Ograničenje otkazivanja".
+crs#:#crs_subscription_min_members_info#:#Pogledajte Cron posao "Ograničenje otkaza".### OVB translated
 crs#:#crs_subscription_options_confirmation#:#Zahtjev za članstvo
 crs#:#crs_subscription_options_direct#:#Pridruži se izravno
 crs#:#crs_subscription_options_password#:#Pridruži se lozinkom za tečaj
 crs#:#crs_subscription_successful#:#Pridružili ste se tečaju
 crs#:#crs_sure_delete_selected_archives#:#Jeste li sigurni da žečite izbrisati odabrane arhive
-crs#:#crs_syllabus#:#Nastavni plan
+crs#:#crs_syllabus#:#Važne informacije### OVB translated
 crs#:#crs_sys_default#:#Zadani sustav
 crs#:#crs_table_start_objects#:#Početni objekti
 crs#:#crs_target_group#:#Target Group###04 06 2021 new variable
@@ -7981,9 +7981,9 @@ crs#:#crs_visibility_until_info#:#Tečaj će svojim članovima biti vidljiv u od
 crs#:#crs_visibility_unvisible#:#The course is not visible.###24 11 2022 new variable
 crs#:#crs_wait_info#:#Ako se premaši maksimalan broj korisnika, nove registracije stavit će se na listu čekanja.
 crs#:#crs_waiting_list#:#Lista čekanja
-crs#:#crs_waiting_list_autofill#:#Automatsko popunjavanje
-crs#:#crs_waiting_list_autofill_info#:#Sudionici se u slučaju otkazivanja automatski uključuju s popisa čekanja.
-crs#:#crs_waiting_list_no_autofill#:#Bez automatskog popunjavanja
+crs#:#crs_waiting_list_autofill#:#Automatski napuniti### OVB translated
+crs#:#crs_waiting_list_autofill_info#:#Sudionici se automatski regrutuju s liste čekanja na otkazivanju.### OVB translated
+crs#:#crs_waiting_list_no_autofill#:#Bez automatskog punjenja### OVB translated
 crs#:#crs_warn_no_max_set_on_waiting_list#:#Premašen je maksimalan broj članova tečaja. Možete se postaviti na listu čekanja. Primit ćete poruku od administratora tečaja kad vaš zahtjev bude odobren ili odbijen.
 crs#:#crs_warn_wl_set_on_waiting_list#:#Neki su korisnici već upisani na listu čekanja. Na listu čekanja možete dodati svoj zahtjev za pridruživanje. Primit ćete poruku od administratora tečaja kad vaš zahtjev bude odobren ili odbijen.
 crs#:#crs_wiz_back#:#Natrag
@@ -8087,7 +8087,7 @@ dash#:#dash_added_to_favs#:#Recommendation has been added to personal favourites
 dash#:#dash_avail_presentation#:#Available Presentations###04 06 2021 new variable
 dash#:#dash_avail_sortation#:#Available Sortations###04 06 2021 new variable
 dash#:#dash_click_here#:#Click here###04 06 2021 new variable
-dash#:#dash_dashboard#:#Dashboard###04 06 2021 new variable
+dash#:#dash_dashboard#:#Nadzorna ploča### OVB translated
 dash#:#dash_default_presentation#:#Default Presentation###04 06 2021 new variable
 dash#:#dash_default_sortation#:#Default Sortation###04 06 2021 new variable
 dash#:#dash_enable_cal#:#Calendar###04 06 2021 new variable
@@ -8162,7 +8162,7 @@ dateplaner#:#cal_agenda#:#Dnevni red
 dateplaner#:#cal_all_day#:#Cijeli dan
 dateplaner#:#cal_app_info#:#Informacije o imenovanju
 dateplaner#:#cal_app_other_materials_num#:#View other materials###04 06 2021 new variable
-dateplaner#:#cal_appointments#:#Imenovanje(a)
+dateplaner#:#cal_appointments#:#Termini### OVB translated
 dateplaner#:#cal_apps#:#Broj imenovanja
 dateplaner#:#cal_assigned_appointments#:#Dodijeljena imenovanja
 dateplaner#:#cal_back_to_cal#:#Natrag na kalendar
@@ -9157,49 +9157,49 @@ ecs#:#ecs_wiki_export_enabled#:#Release this Wiki
 ecs#:#ecs_wiki_export_obj_settings#:#Wiki Release Settings
 error#:#error_back_to_repository#:#Back to Repository
 error#:#error_sry_error#:#Sorry, an error occurred.
-etal#:#appointments#:#Appointments###31 03 2023 new variable
-etal#:#cal_type_tals#:#Talks###31 03 2023 new variable
-etal#:#change_date_of_series#:#Change date of talk series###31 03 2023 new variable
-etal#:#change_date_of_talk#:#Change date of talk###31 03 2023 new variable
-etal#:#date_of_talk#:#Start Date###31 03 2023 new variable
-etal#:#etal_add#:#Add Talk###31 03 2023 new variable
-etal#:#etal_add_new_item#:#Add new Talk###31 03 2023 new variable
+etal#:#appointments#:#Sastanci### OVB translated
+etal#:#cal_type_tals#:#Razgovori### OVB translated
+etal#:#change_date_of_series#:#Prilagodi seriju razgovora### OVB translated
+etal#:#change_date_of_talk#:#Prilagodi datum razgovora### OVB translated
+etal#:#date_of_talk#:#Datum početka### OVB translated
+etal#:#etal_add#:#Dodaj### OVB translated
+etal#:#etal_add_new_item#:#Dodaj novi razgovor### OVB translated
 etal#:#etal_create_invalid_template_ref#:#Invalid Talk Template ID###31 03 2023 new variable
-etal#:#etal_date_appointment_edit#:#Date of Talk###31 03 2023 new variable
-etal#:#etal_date_series_edit#:#Date of Talk Series###31 03 2023 new variable
+etal#:#etal_date_appointment_edit#:#Datum razgovora### OVB translated
+etal#:#etal_date_series_edit#:#Serija razgovora### OVB translated
 etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###30 04 2024 new variable
-etal#:#etal_edit#:#General###31 03 2023 new variable
+etal#:#etal_edit#:#Općenito### OVB translated
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.###31 03 2023 new variable
 etal#:#etal_location#:#Location###04 11 2025 new variable
-etal#:#etal_new#:#New Talk###31 03 2023 new variable
+etal#:#etal_new#:#Novi razgovor### OVB translated
 etal#:#etal_open#:#Open Employee Talk###31 03 2023 new variable
-etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
-etal#:#etal_status_all#:#All###31 03 2023 new variable
-etal#:#etal_status_completed#:#Completed###31 03 2023 new variable
-etal#:#etal_status_pending#:#Pending###31 03 2023 new variable
-etal#:#etal_unknown_username#:#Unknown User###31 03 2023 new variable
-etal#:#lock_edititng_for_others#:#Lock editing for others###31 03 2023 new variable
-etal#:#meta_adv_records#:#Metadata###31 03 2023 new variable
-etal#:#mm_org_etal#:#Talks###31 03 2023 new variable
-etal#:#mm_talk_template#:#Talk Templates###31 03 2023 new variable
-etal#:#notification_talks_created#:#You have been invited to the following employee talks.###31 03 2023 new variable
-etal#:#notification_talks_date_list_header#:#Dates###31 03 2023 new variable
-etal#:#notification_talks_removed#:#The following appointments have been canceled.###31 03 2023 new variable
-etal#:#notification_talks_subject#:#Invitation: %s###31 03 2023 new variable
+etal#:#etal_recurrence#:#Ponavljanja### OVB translated
+etal#:#etal_status_all#:#Svi### OVB translated
+etal#:#etal_status_completed#:#Dovršen### OVB translated
+etal#:#etal_status_pending#:#U tijeku### OVB translated
+etal#:#etal_unknown_username#:#Nepoznati korisnik### OVB translated
+etal#:#lock_edititng_for_others#:#Zaključaj uređivanje za druge### OVB translated
+etal#:#meta_adv_records#:#Metapodaci### OVB translated
+etal#:#mm_org_etal#:#Razgovor### OVB translated
+etal#:#mm_talk_template#:#Predlošci za razgovor### OVB translated
+etal#:#notification_talks_created#:#Pozvani ste na razgovor.### OVB translated
+etal#:#notification_talks_date_list_header#:#Podaci### OVB translated
+etal#:#notification_talks_removed#:#Sljedeći datumi su otkazani.### OVB translated
+etal#:#notification_talks_subject#:#Poziv na termin### OVB translated
 etal#:#notification_talks_subject_update#:#Update: %s###31 03 2023 new variable
-etal#:#notification_talks_updated#:#The following talk appointments have been changed.###31 03 2023 new variable
-etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:###28 11 2023 new variable
+etal#:#notification_talks_updated#:#Sljedeći datumi intervjua su prilagođeni.### OVB translated
+etal#:#pending_talks_warning#:#Sljedeći termini za razgovor bit će zamijenjeni:### OVB translated
 etal#:#tala_no_content_without_admin_info#:#The Administrator role is required for access to Talk Templates.###08 07 2025 new variable
-etal#:#talk_serial#:#Talk Serial###31 03 2023 new variable
-etal#:#tals_add#:#Add Talks###31 03 2023 new variable
-etal#:#tals_new#:#New Talks###31 03 2023 new variable
-etal#:#talt_activation_online_info#:#Set the talk template online to make it visible and available for employees. If not, only administrators will have access to it.###31 03 2023 new variable
-etal#:#talt_add#:#Add Template###31 03 2023 new variable
-etal#:#talt_edit#:#General###31 03 2023 new variable
-etal#:#talt_etal#:#Employee Talk###31 03 2023 new variable
-etal#:#talt_new#:#New Talk Template###31 03 2023 new variable
-etal#:#will_update_series_info_lock#:#Lock the editing of all appointments in this series###31 03 2023 new variable
-etal#:#will_update_series_info_title#:#Changes to the title will be made to all appointments in this series.###31 03 2023 new variable
+etal#:#talk_serial#:#Serija razgovora### OVB translated
+etal#:#tals_add#:#Dodaj razgovore### OVB translated
+etal#:#tals_new#:#Nova serija razgovora### OVB translated
+etal#:#talt_activation_online_info#:#Označite prodložak kao aktivan kako bi bio dostupan suradnicima.### OVB translated
+etal#:#talt_add#:#Napravi### OVB translated
+etal#:#talt_edit#:#Općenito### OVB translated
+etal#:#talt_etal#:#Razgovor sa suradnikom### OVB translated
+etal#:#talt_new#:#Novi predložak za razgovor### OVB translated
+etal#:#will_update_series_info_lock#:#Zaključaj uređivanje svih sastanaka u ovom nizu.### OVB translated
+etal#:#will_update_series_info_title#:#Promjene naziva bit će unesene u sve termine u ovoj seriji.### OVB translated
 exc#:#exc_add_assignment#:#Dodaj zadatak
 exc#:#exc_add_criteria#:#Dodajte kriterije
 exc#:#exc_add_criteria_catalogue#:#Dodaj katalog
@@ -9852,7 +9852,7 @@ fold#:#fold_settings#:#Postavke mape
 form#:#email_not_match#:#Vaši unosi za adresu e-pošte se ne podudaraju! Ponovno unesite svoju adresu e-pošte.
 form#:#form_alphabet_all#:#Svi
 form#:#form_chars_remaining#:#Preostali znakovi:
-form#:#form_date_aria_desc#:#The following input format is required:###04 06 2021 new variable
+form#:#form_date_aria_desc#:#Potreban je sljedeći format unosa:### OVB translated
 form#:#form_date_duration_end#:#Kraj
 form#:#form_date_duration_start#:#Početak
 form#:#form_days#:#Dani
@@ -10226,9 +10226,9 @@ grp#:#grp_at_least_one_admin#:#Mora postojati barem jedan administrator grupe.
 grp#:#grp_auto_notification#:#Welcome-Mail For New Members###04 06 2021 new variable
 grp#:#grp_auto_notification_info#:#New members get a mail notification when added to the group.###04 06 2021 new variable
 grp#:#grp_cancel_subscr_request#:#Izbriši zahtjev za članstvo
-grp#:#grp_cancellation_end#:#Završetak otkazivanja
+grp#:#grp_cancellation_end#:#Ograničenje otkaza### OVB translated
 grp#:#grp_cancellation_end_info#:#Do navedenog datuma odabrani se članovi mogu odjaviti iz grupe.
-grp#:#grp_cancellation_end_rbac_info#:#Krajnji rok za otkazivanja bio je dana %s, otkazivanje više nije moguće.
+grp#:#grp_cancellation_end_rbac_info#:#Rok za otkazivanje ispunjen je na %s, otkazivanje više nije moguće.### OVB translated
 grp#:#grp_cdf_edit_member#:#Uredi korisničke podatke relevantne za grupu
 grp#:#grp_cdf_tbl_last_edit#:#Ažurirano (podaci specifični za grupu)
 grp#:#grp_change_type#:#Promijeni vrstu grupe
@@ -10375,11 +10375,11 @@ grp#:#grp_warn_grp_type_changed#:#Želite li doista promijeniti vrstu grupe? Sve
 grp#:#grp_warn_no_max_set_on_waiting_list#:#Prekoračen je maksimalan broj članova grupe. Zahtjev za pridruživanje možete dodati na listu čekanja. Dobit ćete poruku od administratora grupe kada vaš zahtjev bude odobren ili odbijen.
 grp#:#grp_warn_wl_set_on_waiting_list#:#Neki su korisnici već stavljeni na listu čekanja. Zahtjev za pridruživanje možete dodati na listu čekanja. Dobit ćete poruku od administratora grupe kada vaš zahtjev bude odobren ili odbijen.
 grp#:#grp_wrong_max_members#:#Za značajku liste čekanja potreban je maksimalan broj članova.
-grp#:#grp_wrong_min_max_members#:#Molimo provjerite minimalni i maksimalni broj korisnika.
+grp#:#grp_wrong_min_max_members#:#Provjerite minimalni i maksimalni broj korisnika.### OVB translated
 grp#:#grp_wrong_reg_time_limit#:#Molimo provjerite vrijeme početka i završetka registracije.
 grp#:#reg_grp_max_members#:#Maksimalan broj članova
 grp#:#reg_grp_max_members_short#:#Ograničeni broj članova
-grp#:#reg_grp_min_members#:#Minimalan broj članova
+grp#:#reg_grp_min_members#:#Minimalni broj članova### OVB translated
 help#:#help_all#:#Opće informacije
 help#:#help_component#:#Ocjenjivanje
 help#:#help_filter#:#Informacije o ocjenjivanju
@@ -11461,7 +11461,7 @@ mail#:#mail_salutation_f#:#Poštovana gospođo.
 mail#:#mail_salutation_female#:#Izlaz za rezervirano mjesto [MAIL_SALUTATION], ako je oslovaljavanje "Gospođa"
 mail#:#mail_salutation_general#:#Izlaz za rezervirano mjesto [MAIL_SALUTATION], ako oslovljavanje nije poželjno ili navedeno
 mail#:#mail_salutation_m#:#Poštovani gospodine.
-mail#:#mail_salutation_male#:#Izlaz za rezervirano mjesto [MAIL_SALUTATION], ako je oslovljavanje "Gospodin"
+mail#:#mail_salutation_male#:#Izlaz za rezervirano mjesto [MAIL_SALUTATION], ako je oslovljavanje "gospodine"### OVB translated
 mail#:#mail_salutation_n#:#Pozdrav
 mail#:#mail_saved#:#Poruka je spremljena
 mail#:#mail_second_email#:#Druga adresa e-pošte
@@ -11789,7 +11789,7 @@ meta#:#md_adv_deleted_fields#:#Polja su izbrisana.
 meta#:#md_adv_deleted_files#:#Izbrisane izvozne datoteke.
 meta#:#md_adv_deleted_records#:#Izbrisani skup podataka
 meta#:#md_adv_desc_show#:#Prikaži opis
-meta#:#md_adv_edit_complex_option#:#Uredi svojstva opcije
+meta#:#md_adv_edit_complex_option#:#Uredi svojstva opcije### OVB translated
 meta#:#md_adv_edit_field#:#Uredi polje
 meta#:#md_adv_edit_record#:#Uredi skup podataka
 meta#:#md_adv_field_fields#:#Polja
@@ -12495,7 +12495,7 @@ meta#:#meta_very_easy#:#Vrlo jednostavno
 meta#:#meta_very_high#:#Vrlo visoko
 meta#:#meta_very_low#:#Vrlo nisko
 meta#:#meta_yes#:#Da
-meta#:#udf_type_address#:#Adresa
+meta#:#udf_type_address#:#Adresa### OVB translated
 meta#:#udf_type_externallink#:#Vanjska poveznica
 meta#:#udf_type_float#:#Klizni broj sa zarezom
 meta#:#udf_type_integer#:#Cijeli broj
@@ -12700,7 +12700,7 @@ news#:#news_news_item_def_visibility_public_info#:#Current news are accessible i
 news#:#news_news_item_def_visibility_users_info#:#Only authenticated users have access to current news.
 news#:#news_news_item_head#:#News Item
 news#:#news_news_item_title#:#Headline
-news#:#news_news_item_visibility#:#Access
+news#:#news_news_item_visibility#:#Pristup### OVB translated
 news#:#news_news_item_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.
 news#:#news_news_items#:#News Item(s)
 news#:#news_no_js_click_here#:#If news are not displayed, click here.
@@ -12912,7 +12912,7 @@ orgu#:#confirm_deletion_and_assign#:#Izbriši i dodijeli korisnike
 orgu#:#confirm_deletion_button#:#Izbriši
 orgu#:#deassign_user_successful#:#Korisnici su uspješno izpisani iz ove uloge.
 orgu#:#edit_translations#:#Naslov i opis
-orgu#:#employee#:#Zaposlenik
+orgu#:#employee#:#Poslovni partner### OVB translated
 orgu#:#ext_id#:#Vanjski ID
 orgu#:#ext_id_updated#:#Vanjski ID uspješno je ažuriran.
 orgu#:#form_title_org_default_permissions_update#:#Zadana dopuštenja
@@ -12923,7 +12923,7 @@ orgu#:#import_terminated_with_warnings#:#Uvoz je završen s upozorenjima
 orgu#:#import_xml_file#:#Uvezi datoteku
 orgu#:#local_other_roles#:#Dodatne lokalne uloge %s
 orgu#:#local_staff#:#Zaposlenici %s
-orgu#:#mm_organisation#:#Organisation###31 03 2023 new variable
+orgu#:#mm_organisation#:#Organizacija### OVB translated
 orgu#:#msg_assignment_to_employee_done#:#Dodjela ulozi zaposlenika uspješna
 orgu#:#msg_confirm_d_ua#:#Želite li ovu osobu rasporediti na radno mjesto zaposlenika u njezinoj organizacijskoj jedinici?
 orgu#:#msg_confirm_deletion#:#Želite li zaista izbrisati sljedeću poziciju?
@@ -14312,7 +14312,7 @@ rbac#:#rbac_auto_rolt#:#Automatski generirani predložak uloge
 rbac#:#rbac_back_to_overview#:#Povratak na popis uloga
 rbac#:#rbac_cant_import_role_wrong_type#:#Uvoz uloge iz stavke %s u stavku %s nije moguć.
 rbac#:#rbac_change_existing_confirm_tbl#:#Postavke za 'Promijeni postojeće objekate'
-rbac#:#rbac_change_existing_objects_desc_new_role#:#Postavke dozvole ove uloge usvojit će se za SVE postojeće objekte.
+rbac#:#rbac_change_existing_objects_desc_new_role#:#Postavke za prava ove uloge prenijet će se za SVE odgovarajuće objekte.### OVB translated
 rbac#:#rbac_changes#:#Promjene
 rbac#:#rbac_choose_copy_targets#:#Unesi upit za odabir ciljnih uloga.
 rbac#:#rbac_condition_delete_sure#:#Jeste li sigurni da želite izbrisati sljedeće preduvjete?
@@ -14421,7 +14421,7 @@ rbac#:#rbac_msg_user_already_assigned#:#Odabrani korisnici su već dodijeljeni o
 rbac#:#rbac_not_change_existing_objects#:#NE mijenjajte postojeće objekte
 rbac#:#rbac_permissions#:#Dozvole
 rbac#:#rbac_precondition_hide#:#Sakrij objekt
-rbac#:#rbac_precondition_hide_info#:#  Ova opcija omogućuje skrivanje objekta za korisnike koji trenutačno nisu ispunili preduvjete. Stoga su svi nepristupačni sadržaji nevidljivi.
+rbac#:#rbac_precondition_hide_info#:#Ova opcija omogućuje skrivanje objekta za korisnike koji trenutačno nisu ispunili preduvjete. Stoga su svi nepristupačni sadržaji nevidljivi.### OVB translated
 rbac#:#rbac_precondition_minimum_optional#:#Najmanje 2 preduvjeta moraju ostati neobavezna.
 rbac#:#rbac_precondition_mode#:#Način rada
 rbac#:#rbac_precondition_mode_all#:#Svi preduvjeti
@@ -14773,12 +14773,12 @@ registration#:#registration_used#:#Datum upotrebe
 registration#:#registration_user_new_account_mail#:#Uredi novi račun e-pošte
 rep#:#btn_undelete_new_location#:#Restore (new location)###04 06 2021 new variable
 rep#:#btn_undelete_origin_location#:#Restore (same location)###04 06 2021 new variable
-rep#:#rep_activation_access#:#Access
+rep#:#rep_activation_access#:#Pristup### OVB translated
 rep#:#rep_activation_access_ref_info#:#This setting only affects this and no other reference in the repository.
-rep#:#rep_activation_availability#:#Availability
+rep#:#rep_activation_availability#:#Dostupnost### OVB translated
 rep#:#rep_activation_limited_end#:#Finish Time
 rep#:#rep_activation_limited_start#:#Start Time
-rep#:#rep_activation_limited_visibility#:#Always Visible
+rep#:#rep_activation_limited_visibility#:#Uvijek vidljivo### OVB translated
 rep#:#rep_activation_online#:#Online
 rep#:#rep_activation_online_object_info#:#This setting affects all references in the repository.
 rep#:#rep_add_new_def_grp_assessment#:#Assessment
@@ -14787,9 +14787,9 @@ rep#:#rep_add_new_def_grp_content#:#Content
 rep#:#rep_add_new_def_grp_feedback#:#Feedback and Evaluation
 rep#:#rep_add_new_def_grp_organisation#:#Organisation
 rep#:#rep_add_new_def_grp_templates#:#Templates
-rep#:#rep_add_to_favourites#:#Add to Favourites###04 06 2021 new variable
+rep#:#rep_add_to_favourites#:#Dodaj u favorite### OVB translated
 rep#:#rep_added_rec_content#:#Recommended content has been added.###04 06 2021 new variable
-rep#:#rep_added_to_favourites#:#The item has been added to your favourites.###04 06 2021 new variable
+rep#:#rep_added_to_favourites#:#Ova stavka je dodana u favorite.### OVB translated
 rep#:#rep_allowed_types#:#Allowed Types###31 03 2023 new variable
 rep#:#rep_breadcr_crs#:#Breadcrumb starts with course
 rep#:#rep_breadcr_crs_config#:#Configuration###24 11 2022 new variable
@@ -15250,7 +15250,7 @@ search#:#search_details_info#:#Detaljna pretraga. Odaberite jednu ili više vrst
 search#:#search_direct#:#Izravno pretraživanje
 search#:#search_err_user_not_exist#:#Korisnik s tim imenom za prijavu ne postoji.
 search#:#search_fast_info#:#Pretraži naslove, opise i ključne riječi u svim tipovima objekata
-search#:#search_field#:#Search Input Field###04 06 2021 new variable
+search#:#search_field#:#Polje za unos pretraživanja### OVB translated
 search#:#search_field_perform#:#Perform Search###31 03 2023 new variable
 search#:#search_filter_by_type#:#Filtriraj prema vrsti
 search#:#search_filter_cd#:#Filtriraj prema datumu izrade
@@ -16531,7 +16531,7 @@ survey#:#survey_dnd_split_page#:#Podijeli stranicu
 survey#:#survey_edit_heading#:#Uredi naslov
 survey#:#survey_edit_settings#:#Uredi postavke
 survey#:#survey_error_insert_incomplete_question#:#Pokušali ste dodati nepotpuno pitanje u anketu! Pitanje nije dodano.
-survey#:#survey_execution_exit#:#Povratak na repozitorij
+survey#:#survey_execution_exit#:#Povratak na početnu stranicu### OVB translated
 survey#:#survey_execution_exit_360#:#Back###31 03 2023 new variable
 survey#:#survey_execution_sure_finish#:#Jeste li sigurni da želite završiti anketu? Nakon toga nećete moći uređivati svoje odgovore.
 survey#:#survey_existing_pool#:#Upotrijebite postojeći bazen pitanja
@@ -16702,7 +16702,7 @@ survey#:#svy_mail_context_reminder_title#:#Podsjetnik na anketu
 survey#:#svy_mail_own_results#:#Pošalji odgovore poštom
 survey#:#svy_mail_own_results_body#:#sudjelovali ste u sljedećoj anketi:
 survey#:#svy_mail_own_results_subject#:#Anketa "%s" - vaši odgovori
-survey#:#svy_mail_send_confirmation#:#Pošalji potvrdu o sudjelovanju
+survey#:#svy_mail_send_confirmation#:#Odgovori  iz ankete ce biti poslani na email.### OVB translated
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#Postavke stupaca ne iznose u zbroju 100%.
 survey#:#svy_max_sum_score#:#Maximum Sum Score###04 06 2021 new variable
 survey#:#svy_neutral_answer#:#Tekst za neutralni odgovor (‘Nije određeno’, ‘Ne znam’ itd.)
@@ -16733,7 +16733,7 @@ survey#:#svy_results_mail_own#:#Uključi dane odgovore
 survey#:#svy_results_mail_own_info#:#Dani odgovori bit će uključeni u potvrdu o sudjelovanju.
 survey#:#svy_results_view_own#:#Sudionici mogu vidjeti vlastite odgovore
 survey#:#svy_results_view_own_info#:#Nakon završetka ankete sudionici mogu vidjeti popis svih odgovora koje su dali. Ne mogu promijeniti svoje odgovore
-survey#:#svy_save_and_continue#:#Save and Continue###31 03 2023 new variable
+survey#:#svy_save_and_continue#:#Spremi i nastavi### OVB translated
 survey#:#svy_save_sync#:#Spremi i sinkroniziraj kopije pitanja
 survey#:#svy_search_user#:#Search User###31 03 2023 new variable
 survey#:#svy_search_user_info#:#Search for users or roles and pick participants.###31 03 2023 new variable
@@ -16756,7 +16756,7 @@ survey#:#svy_sum_score#:#Sum Score###04 06 2021 new variable
 survey#:#svy_type_of_rater#:#Type of Rater###31 03 2023 new variable
 survey#:#svy_view_own_results#:#Pogledaj dane odgovore
 survey#:#svy_wrong_or_expired_code#:#Sorry, you entered an invalid or expired code.###31 03 2023 new variable
-survey#:#text_maximum_chars_allowed#:#Molimo unesite najviše %s znakova. Svi gornji znakovi bit će izrezani.
+survey#:#text_maximum_chars_allowed#:#Molimo unesite najviše %s znakova. Svi znakovi izvan toga se automatski brišu.### OVB translated
 survey#:#text_question_not_filled_out#:#Molimo ispunite polje za odgovor!
 survey#:#unfold#:#Raspusti
 survey#:#upper_limit#:#Gornja granica
@@ -16875,7 +16875,7 @@ tagging#:#tagging_set_tag#:#Set Tags
 tagging#:#tagging_settings#:#Settings
 tagging#:#tagging_tag#:#Tag
 tagging#:#tagging_tag_info#:#To attach tags to a resource open the info screen of the resource and enter your tags.
-tagging#:#tagging_tags#:#Tags
+tagging#:#tagging_tags#:#Oznake### OVB translated
 tagging#:#tagging_users_using_tag#:#Users Using Tag
 task#:#task_deadline#:#End###04 06 2021 new variable
 task#:#task_derived_tasks#:#Tasks###04 06 2021 new variable
@@ -16908,7 +16908,7 @@ tax#:#tax_target_within_nodes#:#The target must not be a sub-node of the selecte
 tax#:#tax_tax_assignment#:#Taxonomy Assignment
 tax#:#tax_tax_deleted#:#The taxonomy has been deleted.
 tax#:#tax_tax_settings#:#Taxonomy Settings
-tax#:#tax_taxonomy#:#Taxonomy
+tax#:#tax_taxonomy#:#Taksonomija### OVB translated
 tbl#:#tbl_export_csv#:#Izvezi CSV
 tbl#:#tbl_export_excel#:#Izvezi Excel
 tbl#:#tbl_template_create#:#Spremi trenutni prikaz
@@ -17238,13 +17238,13 @@ ui#:#ui_link_label#:#Label###31 03 2023 new variable
 ui#:#ui_link_url#:#URL###31 03 2023 new variable
 ui#:#ui_md_input_edit#:#Edit###30 04 2024 new variable
 ui#:#ui_md_input_view#:#View###30 04 2024 new variable
-ui#:#ui_pagination_unlimited#:#Unlimited###30 04 2024 new variable
+ui#:#ui_pagination_unlimited#:#Ograničen pristup### OVB translated
 ui#:#ui_select_dropdown_label#:#Please select###30 04 2024 new variable
 ui#:#ui_table_no_records#:#No records###30 04 2024 new variable
 ui#:#ui_transcription#:#Transcript###31 03 2023 new variable
 user#:#all_roles_has_starting_point#:#All the roles have starting points###04 06 2021 new variable
 user#:#back_to_starting_points_list#:#Back to Starting Points###04 06 2021 new variable
-user#:#clipboard_add_btn#:#Add to Clipboard###04 06 2021 new variable
+user#:#clipboard_add_btn#:#Dodaj u međúspremnik### OVB translated
 user#:#clipboard_add_from_btn#:#Add from Clipboard###04 06 2021 new variable
 user#:#clipboard_empty_btn#:#Empty Clipboard###04 06 2021 new variable
 user#:#clipboard_remove_btn#:#Remove from Clipboard###04 06 2021 new variable
@@ -17266,10 +17266,10 @@ user#:#feedhash#:#Newsfeedhash###04 06 2021 new variable
 user#:#has_role#:#Role###04 06 2021 new variable
 user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?###30 07 2024 new variable
 user#:#inform_user_mail_info#:#If activated, an e-mail will be sent to the user. Its content can be defined in Administration > User Management > Settings > New Account Mail.###04 06 2021 new variable
-user#:#interests#:#Interests###04 06 2021 new variable
-user#:#interests_general#:#General Interests###04 06 2021 new variable
-user#:#interests_help_looking#:#Looking For Help###04 06 2021 new variable
-user#:#interests_help_offered#:#Offering Help###04 06 2021 new variable
+user#:#interests#:#Interesi### OVB translated
+user#:#interests_general#:#Opći interesi### OVB translated
+user#:#interests_help_looking#:#Zatražite pomoć### OVB translated
+user#:#interests_help_offered#:#Ponudite pomoć### OVB translated
 user#:#ldoc_accepted_content#:#Accepted Content###30 04 2024 new variable
 user#:#ldoc_not_accepted_yet#:#Not accepted yet###30 04 2024 new variable
 user#:#msg_spoint_not_modified#:#Starting point not modified###04 06 2021 new variable
@@ -17290,8 +17290,8 @@ user#:#starting_page#:#Starting Point###04 06 2021 new variable
 user#:#starting_point#:#Starting Point###04 06 2021 new variable
 user#:#starting_point_settings#:#Starting Point Settings###04 06 2021 new variable
 user#:#starting_points#:#Starting Points###04 06 2021 new variable
-user#:#user_access_limited#:#Limited###04 06 2021 new variable
-user#:#user_access_unlimited#:#Unlimited###04 06 2021 new variable
+user#:#user_access_limited#:#Ograničen pristup### OVB translated
+user#:#user_access_unlimited#:#Neograničen pristup### OVB translated
 user#:#user_account_code#:#Code###04 06 2021 new variable
 user#:#user_account_code_generated#:#Date Of Generation###04 06 2021 new variable
 user#:#user_account_code_generated_all#:#All Dates###04 06 2021 new variable
@@ -17302,16 +17302,16 @@ user#:#user_account_code_used#:#Date Of Use###04 06 2021 new variable
 user#:#user_account_code_valid_until#:#Valid Until###04 06 2021 new variable
 user#:#user_account_code_valid_until_dynamic#:#Number of Days###04 06 2021 new variable
 user#:#user_account_code_valid_until_static#:#End Date###04 06 2021 new variable
-user#:#user_account_code_valid_until_unlimited#:#Unlimited###04 06 2021 new variable
+user#:#user_account_code_valid_until_unlimited#:#Neograničen pristup### OVB translated
 user#:#user_account_codes_add#:#Add Codes###04 06 2021 new variable
 user#:#user_account_codes_edit_header#:#Add Codes###04 06 2021 new variable
 user#:#user_account_codes_export#:#Export Codes###04 06 2021 new variable
 user#:#user_account_codes_number#:#Number Of Codes###04 06 2021 new variable
 user#:#user_account_deleted_confirmation#:#Your account has been deleted. An e-mail containing detailed information has been sent to you.###04 06 2021 new variable
 user#:#user_activate_public_profile#:#Activation###04 06 2021 new variable
-user#:#user_activate_public_profile_info#:#First and last name will always be visible in your profile, if it is activated.###04 06 2021 new variable
-user#:#user_activation#:#Activation###04 06 2021 new variable
-user#:#user_all#:#All###04 06 2021 new variable
+user#:#user_activate_public_profile_info#:#Vaše ime i prezime bit će uvijek vidljivo ako je korisnički račun aktivan.### OVB translated
+user#:#user_activation#:#Aktivacija### OVB translated
+user#:#user_all#:#Sve### OVB translated
 user#:#user_allow_delete_own_account#:#Allow users to delete own account###04 06 2021 new variable
 user#:#user_any#:#Any###04 06 2021 new variable
 user#:#user_awrn_all_users#:#All Users###04 06 2021 new variable
@@ -17329,13 +17329,13 @@ user#:#user_delete_own_account_logout_confirmation#:#Your account has been flagg
 user#:#user_delete_own_account_notification_email#:#Notification E-Mail###04 06 2021 new variable
 user#:#user_field#:#Field###04 06 2021 new variable
 user#:#user_global_role#:#Global Role###04 06 2021 new variable
-user#:#user_last_login_before#:#Last Login Before###04 06 2021 new variable
-user#:#user_limited_access#:#Limited Access###04 06 2021 new variable
+user#:#user_last_login_before#:#Zadnja prijava prije### OVB translated
+user#:#user_limited_access#:#Ograničen pristup### OVB translated
 user#:#user_local_role#:#Local Role###31 03 2023 new variable
 user#:#user_lv_do_not_store#:#Never remember last visited###04 06 2021 new variable
 user#:#user_lv_keep_entries#:#Remember last visited###04 06 2021 new variable
 user#:#user_lv_keep_only_for_session#:#Remember only during current session###04 06 2021 new variable
-user#:#user_make_profile_public#:#Publish Profile###04 06 2021 new variable
+user#:#user_make_profile_public#:#Postavi profil### OVB translated
 user#:#user_member_of_course_group#:#Member of Course/Group###04 06 2021 new variable
 user#:#user_no_courses#:#No Courses Assigned###04 06 2021 new variable
 user#:#user_no_groups#:#No Groups Assigned###04 06 2021 new variable
@@ -17344,9 +17344,9 @@ user#:#user_ownership#:#Repository Objects###04 06 2021 new variable
 user#:#user_please_select_course_group#:#Please select a course or a group.###04 06 2021 new variable
 user#:#user_portfolios#:#Portfolios###04 06 2021 new variable
 user#:#user_portfolios_desc#:#Users can create portfolios and use them as profile.###04 06 2021 new variable
-user#:#user_privacy_checklist#:#Privacy Checklist###04 06 2021 new variable
-user#:#user_profile_data#:#Profile Data###04 06 2021 new variable
-user#:#user_profile_data_checked#:#Profile data checked###04 06 2021 new variable
+user#:#user_privacy_checklist#:#Provjeri profil### OVB translated
+user#:#user_profile_data#:#Osobni podaci### OVB translated
+user#:#user_profile_data_checked#:#Provjera osobnih podataka### OVB translated
 user#:#user_profile_info#:#User Profile Info###04 06 2021 new variable
 user#:#user_profile_info_std#:#Default User Profile Info###04 06 2021 new variable
 user#:#user_profile_info_text_info#:#This text is presented on top of the form for entering personal data.###04 06 2021 new variable
@@ -17360,13 +17360,13 @@ user#:#user_prompt_once_after_login#:#Once after specific number of days after f
 user#:#user_prompt_once_after_login_info#:#After this period the user will be prompted with the profile, if the user did not publish the profile yet.###04 06 2021 new variable
 user#:#user_prompt_repeat#:#Repeat every specific number of days###04 06 2021 new variable
 user#:#user_prompt_repeat_info#:#The user will be prompted periodically with the profile, if the user did not publish the profile yet.###04 06 2021 new variable
-user#:#user_prompting_recurrence#:#Prompting Recurrence###04 06 2021 new variable
+user#:#user_prompting_recurrence#:#Ponavljanja### OVB translated
 user#:#user_prompting_settings#:#Prompting Settings###04 06 2021 new variable
-user#:#user_public_profile_info#:#Please select which personal data is visible in your profile and which users should be able to visit your profile.###04 06 2021 new variable
-user#:#user_publish_options#:#Publish Profile###04 06 2021 new variable
+user#:#user_public_profile_info#:#Molimo odaberite koji su osobni podaci vidljivi u vašem profilu i koji korisnici bi trebali moći posjetiti vaš profil.### OVB translated
+user#:#user_publish_options#:#Postavi profil### OVB translated
 user#:#user_role_selection#:#Role Selection###28 11 2023 new variable
 user#:#user_role_starting_point#:#User - Starting Point###04 06 2021 new variable
-user#:#user_save_continue#:#Save and Continue###04 06 2021 new variable
+user#:#user_save_continue#:#Spremi i nastavi### OVB translated
 user#:#user_save_ordering_and_titles#:#Save ordering and titles###04 06 2021 new variable
 user#:#user_select_course_group#:#Select Course/Group###04 06 2021 new variable
 user#:#user_set_publishing_options#:#Set publishing options###04 06 2021 new variable
@@ -17374,13 +17374,13 @@ user#:#user_set_visibilty_options#:#Set visibility options###04 06 2021 new vari
 user#:#user_store_last_visited#:#Last Visited###04 06 2021 new variable
 user#:#user_visibility_settings#:#Visibility###04 06 2021 new variable
 user#:#user_visible_in_profile#:#Visible in Personal Data###04 06 2021 new variable
-user#:#usr_id#:#User ID###04 06 2021 new variable
+user#:#usr_id#:#Korisnički ID### OVB translated
 user#:#usr_letter_avatars#:#Letter Avatars###04 06 2021 new variable
 user#:#usr_letter_avatars_info#:#Shows initial of user name or login as profile picture, if no public picture is being provided.###04 06 2021 new variable
-user#:#usr_public_profile_disabled#:#Profile Disabled###04 06 2021 new variable
-user#:#usr_public_profile_disabled_info#:#Your information is only visible to administrative staff.###04 06 2021 new variable
+user#:#usr_public_profile_disabled#:#Neaktivni profil### OVB translated
+user#:#usr_public_profile_disabled_info#:#Vaši podaci su vidljivi samo administratorima.### OVB translated
 user#:#usr_public_profile_global#:#WWW / Accessible for all Users on the Internet###04 06 2021 new variable
-user#:#usr_public_profile_logged_in#:#Visible for logged in Users###04 06 2021 new variable
+user#:#usr_public_profile_logged_in#:#Vidljivo za prijavljene korisnike### OVB translated
 usr#:#user_action#:#User Action###04 06 2021 new variable
 usr#:#user_actions#:#User Actions###04 06 2021 new variable
 usr#:#user_actions_activation_info#:#Actions will only be listet for users, if the corresponding services are activated and all preconditions are given (e.g. permissions requirements).###04 06 2021 new variable
