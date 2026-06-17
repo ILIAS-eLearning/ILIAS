@@ -76,7 +76,7 @@ adm#:#adm_accessibility_contacts_info#:#Contacts for reporting accessibility iss
 adm#:#adm_awrn_support_contacts_info#:#All technical support contacts are listed. Users are defined as technical support contacts in the section "General Settings" > "Contact Information".
 adm#:#adm_support_contacts#:#Technical Support
 adm#:#adm_support_contacts_info#:#Support contacts used in the footer link and (if activated) in the ‘Who is online?’-Tool. Comma separated list of account logins.
-administration#:#adm_achievements#:#Achievements
+administration#:#adm_achievements#:#Dosežki### OVB translated
 administration#:#adm_activate_db_benchmark#:#Activate Benchmark
 administration#:#adm_activate_db_benchmark_desc#:#Benchmarking will be automatically disabled after one request.
 administration#:#adm_adm_role_protect#:#Protect Administrator Role
@@ -219,7 +219,7 @@ administration#:#language_load_local_changes#:#Load custom language file into th
 administration#:#language_load_local_changes_info#:#Load the file Customizing/global/lang/ilias_%s.lang.local to the database. New entries of this file are added to the database and existing entries are overwritten.
 administration#:#language_loaded_local#:#The custom language file was loaded into the database.
 administration#:#language_local_file_deleted#:#The custom language file was deleted.
-administration#:#language_maintain#:#Maintain
+administration#:#language_maintain#:#Obdelava### OVB translated
 administration#:#language_maintain_local_changes#:#Maintain local changes
 administration#:#language_maintenance#:#Language Maintenance
 administration#:#language_merge_local_changes#:#Merge local changes into the standard language file
@@ -260,7 +260,7 @@ administration#:#language_scope_merged_info#:#Export the standard ILIAS language
 administration#:#language_scope_unchanged#:#Unchanged entries only
 administration#:#language_scope_unchanged_info#:#Export all default language entries that are not changed in the database. This is the opposite to ‘Local changes only’. Both together are a complete backup of the current language in the database.
 administration#:#language_settings#:#Language Settings
-administration#:#language_statistics#:#Statistics
+administration#:#language_statistics#:#Statistika### OVB translated
 administration#:#language_translation_enabled#:#Page translation enabled
 administration#:#language_variables_saved#:#The changes to the language variables were saved successfully.
 administration#:#log_scan#:#Log scan results
@@ -417,7 +417,7 @@ adve#:#adve_grp_rep#:#Repository Pages
 adve#:#adve_grp_scorm#:#SCORM Editing
 adve#:#adve_grp_test#:#Test and Assessment
 adve#:#adve_grp_wiki#:#Wikis
-adve#:#adve_minutes#:#Minutes
+adve#:#adve_minutes#:#Minuta### OVB translated
 adve#:#adve_minutes_info#:#Minutes of inactivity before an edit lock expires and a page can be edited by another user.
 adve#:#adve_page_editor_settings#:#ILIAS Page Editor
 adve#:#adve_pe_general#:#General
@@ -2027,7 +2027,7 @@ auth#:#auth_ldap_server_ds#:#LDAP-Server
 auth#:#auth_login_editor#:#Loginscreen Editor
 auth#:#auth_oidc#:#OpenID Connect
 auth#:#auth_oidc_failed#:#Login via OpenID Connect failed###16 03 2023 new variable
-auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect
+auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###17 06 2026 new variable
 auth#:#auth_oidc_mapping_table#:#Assignment of ILIAS Profile Data to OpenID Connect Attributes
 auth#:#auth_oidc_profile#:#Assignment of Profile Data
 auth#:#auth_oidc_role_info#:#OpenID Connect Attribute::Value (e.g: "roles::employee").
@@ -2141,7 +2141,7 @@ awrn#:#awrn_online_only#:#Online Only
 awrn#:#awrn_seconds#:#sec
 awrn#:#awrn_use_osd#:#Popup Online Users
 awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the ‘Who is online?’ list.
-awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"
+awrn#:#awrn_user_show#:#Prikaži moj status v razdelku "Kdo je na spletu?"### OVB translated
 awrn#:#user_awrn_default#:#Default
 awrn#:#user_awrn_hide#:#Hide my status
 awrn#:#user_awrn_show#:#Show my status
@@ -2483,7 +2483,7 @@ book#:#book_assign#:#Dodeli
 book#:#book_assign_object#:#Dodeli objekt rezervacije
 book#:#book_assign_participant#:#Dodeli udeleženca
 book#:#book_back_to_list#:#Nazaj na seznam
-book#:#book_bobj#:#Objekt rezervacije
+book#:#book_bobj#:#Objekt za rezervacijo### OVB translated
 book#:#book_book#:#Rezerviraj
 book#:#book_book_available#:#Book Available Dates###30 04 2024 new variable
 book#:#book_book_recurrence#:#Book multiple dates###30 04 2024 new variable
@@ -2723,7 +2723,7 @@ certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
 certificate#:#certificate_a5_landscape#:#A5 vodoravno (148 mm x 210 mm)
 certificate#:#certificate_background_image#:#Slika ozadja
 certificate#:#certificate_card_thumbnail_image#:#Slika za prikaz ploščic
-certificate#:#certificate_change_active_status#:#Aktiven status certifikata je bil spremenjen
+certificate#:#certificate_change_active_status#:#Aktivni status certifikata je bil spremenjen### OVB translated
 certificate#:#certificate_confirm_deletion_text#:#Ali res želite izbrisati predlogo certifikata in vse povezane podatke?
 certificate#:#certificate_custom#:#Lastna oblika...
 certificate#:#certificate_edit#:#Ustvari/uredi predlogo certifikata
@@ -2798,8 +2798,8 @@ certificate#:#certificate_var_result_passed#:#opravljeno
 certificate#:#certificate_var_result_percent#:#83%
 certificate#:#certificate_var_result_points#:#38
 certificate#:#certificate_var_user_birthday#:#08.05.1977
-certificate#:#certificate_var_user_city#:#Köln
-certificate#:#certificate_var_user_country#:#Nemčija
+certificate#:#certificate_var_user_city#:#Ljubljana### OVB translated
+certificate#:#certificate_var_user_country#:#Slovenija### OVB translated
 certificate#:#certificate_var_user_department#:#Pomoč uporabnikom
 certificate#:#certificate_var_user_firstname#:#Janez
 certificate#:#certificate_var_user_fullname#:#Janez Novak
@@ -2807,10 +2807,10 @@ certificate#:#certificate_var_user_institution#:#ILIAS Open Source
 certificate#:#certificate_var_user_lastname#:#Novak
 certificate#:#certificate_var_user_login#:#jnovak
 certificate#:#certificate_var_user_matriculation#:#12345
-certificate#:#certificate_var_user_salutation#:#Gospa
-certificate#:#certificate_var_user_street#:#Heidestraße 17
+certificate#:#certificate_var_user_salutation#:#gospa### OVB translated
+certificate#:#certificate_var_user_street#:#Naslov udeleženca### OVB translated
 certificate#:#certificate_var_user_title#:#Dr.
-certificate#:#certificate_var_user_zipcode#:#51147
+certificate#:#certificate_var_user_zipcode#:#poštna številka### OVB translated
 certificate#:#certificate_visibility#:#Vidnost
 certificate#:#certificate_visibility_always#:#Vedno vidno
 certificate#:#certificate_visibility_introduction#:#Udeležencem je v pogledu rezultatov testa na voljo certifikat za prenos.
@@ -2884,7 +2884,7 @@ chatroom#:#chat_message_options#:#Display
 chatroom#:#chat_message_to_all#:#To All
 chatroom#:#chat_no_use_typing_broadcast#:#Typing will not be broadcasted###31 03 2023 new variable
 chatroom#:#chat_not_use_osc#:#Not Using On-Screen-Chat###19 08 2022 new variable
-chatroom#:#chat_osc_accept_msg#:#Allow On-Screen Chat Conversations
+chatroom#:#chat_osc_accept_msg#:#Omogočite klepetanje### OVB translated
 chatroom#:#chat_osc_accept_msg_info#:#If activated, other users are allowed start a conversation with me.
 chatroom#:#chat_osc_accept_msg_info_slate#:#To have private conversations, you must enable your setting "Allow On-Screen Chat Conversations".###31 03 2023 new variable
 chatroom#:#chat_osc_accept_msg_info_slate_link_txt#:#Visibility (in Profile and Privacy)###31 03 2023 new variable
@@ -3778,7 +3778,7 @@ common#:#copy_selected_items#:#Kopiraj
 common#:#count#:#Število
 common#:#counter_novelty#:#News###30 04 2024 new variable
 common#:#counter_status#:#Status###30 04 2024 new variable
-common#:#country#:#Država (izpisano)
+common#:#country#:#neposredni direktor### OVB translated
 common#:#country_free_text#:#Država (poljubno besedilo)
 common#:#country_selection#:#Država (izbirni seznam)
 common#:#course#:#Tečaj
@@ -3830,7 +3830,7 @@ common#:#crs_status_blocked#:#[Dostop je zaklenjen]
 common#:#crs_status_pending#:#[Prošnja je v obdelavi]
 common#:#crs_subscribers_assigned#:#Nov uporabnik je bil sprejet.
 common#:#crs_title#:#Naslov tečaja
-common#:#crs_unsubscribe#:#Prekini članstvo v tečaju
+common#:#crs_unsubscribe#:#Odjavi se iz tečaja### OVB translated
 common#:#crs_wizard_page#:#Kopiraj tečaj (korak 2/2)
 common#:#crsr#:#Povezava do tečaja
 common#:#crsr_add#:#Add Course Link###31 03 2023 new variable
@@ -3898,7 +3898,7 @@ common#:#deletion_notification#:#"%s" has canceled the attendance of session "%s
 common#:#deliver#:#Oddaj nalogo
 common#:#deny_usr_agreement#:#Do not accept terms of service?###19 08 2022 new variable
 common#:#deny_usr_agreement_btn#:#Not Accept###19 08 2022 new variable
-common#:#department#:#Deželna uprava (priimek, ime)
+common#:#department#:#Struktura (priimek, ime)### OVB translated
 common#:#desc#:#Opis
 common#:#description#:#Opis
 common#:#desired_password#:#Novo geslo
@@ -4020,7 +4020,7 @@ common#:#error_empty_file_or_folder#:#Velikost datoteke je 0 bajtov ali pa gre z
 common#:#error_extraction_failed#:#Razpakiranje arhiva in njegove strukture map ni bilo uspešno. Verjetno zato, ker nimate pravic za ustvarjanje map ali kategorij v tem objektu.
 common#:#error_parser#:#Napaka pri zagonu razčlenjevalnika.
 common#:#error_upload_was_zero_bytes#:#Nalaganje ni uspelo, ker je to mapa ali je velikost datoteke 0 bajtov,  ali je bila presežena velikost nalaganja ali pa je bila datoteka medtem izbrisana ali preimenovana.
-common#:#etal_talks#:#Talks###31 03 2023 new variable
+common#:#etal_talks#:#Razgovori### OVB translated
 common#:#event_ass_materials_prop#:#Gradivo za sejo
 common#:#event_assign_files#:#Dodeli datoteke
 common#:#exc#:#Vaja
@@ -4063,7 +4063,7 @@ common#:#expand#:#Razširi
 common#:#expand_all#:#Razširi vse
 common#:#expand_content#:#Expand Content
 common#:#expanded#:#Odprto
-common#:#export#:#Izvoz
+common#:#export#:#Izvozi### OVB translated
 common#:#export_format#:#Oblika za izvoz
 common#:#export_html#:#Izvozi kot datoteko HTML
 common#:#ext_cat_settings#:#Uredi napredne nastavitve
@@ -4072,7 +4072,7 @@ common#:#extracting#:#Razpakiraj...
 common#:#eyeclosed#:#Eye Closed - Click to hide the input's contents
 common#:#eyeopened#:#Eye Open - Click to reveal the input's contents
 common#:#failure_message#:#Sporočilo o napaki
-common#:#fax#:#Faks
+common#:#fax#:#Stopnja (dolgo)### OVB translated
 common#:#feed#:#Spletni vir
 common#:#feedback#:#Povratne informacije
 common#:#field_name#:#Ime polja
@@ -4187,7 +4187,7 @@ common#:#functions#:#Funkcije
 common#:#further_informations#:#Nadaljne informacije
 common#:#gdf_add#:#Dodaj definicijo
 common#:#gdf_new#:#Nova definicija
-common#:#gender#:#Naslavljanje
+common#:#gender#:#Nagovor### OVB translated
 common#:#gender_f#:#Gospa
 common#:#gender_m#:#Gospod
 common#:#gender_n#:#Naslavljanje ni zaželeno
@@ -4291,7 +4291,7 @@ common#:#hist_webr_delete#:#Spletna povezava je bila izbrisana. Naslov: "%1"
 common#:#hist_webr_update#:#Spletna povezava je bila posodobljena. Naslov: "%1"
 common#:#history#:#Potek
 common#:#hits_per_page#:#Zadetki/stran
-common#:#hobby#:#Interesi/hobiji
+common#:#hobby#:#Številka C### OVB translated
 common#:#home#:#Na javno področje
 common#:#host#:#Gostitelj
 common#:#hour#:#Ura
@@ -4404,7 +4404,7 @@ common#:#installation_status#:#Installation Status###19 08 2022 new variable
 common#:#installed#:#Nameščeno
 common#:#installed_local#:#Nameščeno z jezikovno datoteko po meri
 common#:#instant_messengers#:#Instant Messengers
-common#:#institution#:#Ustanova
+common#:#institution#:#Pisarna### OVB translated
 common#:#internal_local_roles_only#:#Lokalne vloge (samo samodejno ustvarjene)
 common#:#invalid_visible_required_options_selected#:#Vsa polja, pri katerih je nastavljena možnost "Obvezen podatek", morajo imeti nastavljeno tudi možnost "Vidno v obrazcu za registracijo".
 common#:#invisible_block#:#Nevidni blok
@@ -4436,8 +4436,8 @@ common#:#lang_size_bytes#:#bajtov
 common#:#lang_size_gb#:#GB
 common#:#lang_size_kb#:#KB
 common#:#lang_size_mb#:#MB
-common#:#lang_timeformat#:#H
-common#:#lang_timeformat_no_sec#:#H
+common#:#lang_timeformat#:#H:i:s### OVB translated
+common#:#lang_timeformat_no_sec#:#H:i### OVB translated
 common#:#lang_uninstall_changes#:#Odstrani lokalne spremembe
 common#:#lang_uninstall_changes_confirm#:#Ali res želite izbrisati vse lokalne spremembe za izbrane jezike in jih vrniti na privzete nastavitve aktualne različice ILIAS-a?
 common#:#lang_uninstall_confirm#:#Ali res želite odstraniti izbrane jezike?
@@ -4587,7 +4587,7 @@ common#:#mainbar_aria_label#:#Mainbar
 common#:#mainbar_more_label#:#More###19 08 2022 new variable
 common#:#manage_members#:#Upravljanje članov
 common#:#marked_entries#:#Označeni vnosi
-common#:#matriculation#:#Vpisna številka
+common#:#matriculation#:#Mednarodna številka C### OVB translated
 common#:#max_previews_per_object#:#Število slik za predogled na datoteko
 common#:#max_previews_per_object_info#:#Določa število slik za predogled, ustvarjenih na datoteko.
 common#:#mcst#:#Mediacast
@@ -4595,12 +4595,12 @@ common#:#mcst_add#:#Ustvari predvajanje medijskih vsebin
 common#:#mcst_new#:#Ustvari novo predvajanje medijskih vsebin
 common#:#mem_add_to_wl#:#Dodaj na čakalni seznam
 common#:#mem_alert_no_places#:#Ni razpoložljivih prostih mest.
-common#:#mem_cron_min_members#:#Tečaj/skupina: Preverjanje minimalnega števila udeležencev
-common#:#mem_cron_min_members_info#:#Administratorji bodo obveščeni, če ne bo doseženo minimalno število.
+common#:#mem_cron_min_members#:#Tečaj/skupina: Preverjanje minimalnih članov### OVB translated
+common#:#mem_cron_min_members_info#:#Administratorji bodo obveščeni, če minimalna številka ni izpolnjena.### OVB translated
 common#:#mem_end#:#Konec prijave:
 common#:#mem_free_places#:#Prosta mesta
 common#:#mem_max_users#:#Maksimalno število udeležencev:
-common#:#mem_min_users#:#Minimalno število udeležencev
+common#:#mem_min_users#:#Najmanj uporabnikov### OVB translated
 common#:#mem_participants#:#Udeleženec
 common#:#mem_reg_expired#:#Čas za prijavo je potekel.
 common#:#mem_reg_not_started#:#Prijava se še ni začela
@@ -4632,7 +4632,7 @@ common#:#mgs_objects_linked_to_the_following_folders_s#:#Objekt je bil povezan z
 common#:#migrate#:#Preselitev
 common#:#minimize#:#Minimize###31 03 2023 new variable
 common#:#minute#:#Minuta
-common#:#minutes#:#Minute
+common#:#minutes#:#Minuta### OVB translated
 common#:#missing#:#Ni na voljo
 common#:#missing_perm#:#Manjka dovoljenje
 common#:#missing_precondition#:#Manjka predpogoj
@@ -4906,7 +4906,7 @@ common#:#obj_dshs#:#Dashboard
 common#:#obj_dshs_desc#:#Dashboard settings
 common#:#obj_ecss#:#ECS
 common#:#obj_ecss_desc#:#Vsebuje globalne nastavitve za strežnik E-Learning Community
-common#:#obj_etal#:#Employee Talk###31 03 2023 new variable
+common#:#obj_etal#:#Razgovor s sodelavci### OVB translated
 common#:#obj_exc#:#Vaja
 common#:#obj_exc_duplicate#:#Kopiraj vajo
 common#:#obj_excv#:#Certifikat za vajo
@@ -5076,10 +5076,10 @@ common#:#obj_sysc#:#Preverjanje sistema
 common#:#obj_sysc_desc#:#Preverjanje sistema in orodja za odpravljanje napak
 common#:#obj_tags#:#Označevanje
 common#:#obj_tags_desc#:#Nastavitve za označevanje
-common#:#obj_tala#:#Talk Templates###31 03 2023 new variable
-common#:#obj_tala_desc#:#Talk Templates###31 03 2023 new variable
-common#:#obj_tals#:#Employee Talk Series###31 03 2023 new variable
-common#:#obj_talt#:#Talk Template###31 03 2023 new variable
+common#:#obj_tala#:#Predloge za razgovor### OVB translated
+common#:#obj_tala_desc#:#Predloge za razgovor### OVB translated
+common#:#obj_tals#:#Serija razgovorov s sodelavci### OVB translated
+common#:#obj_talt#:#Predloga za razgovor### OVB translated
 common#:#obj_task#:#Task
 common#:#obj_tax#:#Taksonomija
 common#:#obj_taxf#:#Mapa taksonomij
@@ -5135,7 +5135,7 @@ common#:#objs_copa#:#Strani z vsebino
 common#:#objs_crs#:#Tečaji
 common#:#objs_crsr#:#Povezave do tečajev
 common#:#objs_dcl#:#Zbirke podatkov
-common#:#objs_etal#:#Employee Talks###31 03 2023 new variable
+common#:#objs_etal#:#Razgovori s sodelavci### OVB translated
 common#:#objs_exc#:#Vaje
 common#:#objs_file#:#Datoteke
 common#:#objs_fold#:#Mape
@@ -5177,8 +5177,8 @@ common#:#objs_skee#:#Competence Trees###28 11 2023 new variable
 common#:#objs_spl#:#Skupine vprašanj za ankete
 common#:#objs_st#:#Poglavje
 common#:#objs_svy#:#Ankete
-common#:#objs_tala#:#Talk Templates###31 03 2023 new variable
-common#:#objs_talt#:#Talk Templates###31 03 2023 new variable
+common#:#objs_tala#:#Predloge za razgovor### OVB translated
+common#:#objs_talt#:#Predloge za razgovor### OVB translated
 common#:#objs_tst#:#Testi
 common#:#objs_webr#:#Spletne povezave
 common#:#objs_wiki#:#Wikis
@@ -5257,7 +5257,7 @@ common#:#path_to_unzip#:#Ukazna vrstica UNZIP
 common#:#path_to_zip#:#Ukazna vrstica ZIP
 common#:#pathes#:#Poti
 common#:#pd_items_news#:#Vključno z novostmi pri izbranih objektih
-common#:#pdf_export#:#Izvoz PDF
+common#:#pdf_export#:#Izvozi PDF### OVB translated
 common#:#perm_settings#:#Pravice
 common#:#perma_link#:#Povezava do te strani
 common#:#perma_link_copied#:#Link to this page has been copied to the clipboard.###10 12 2024 new variable
@@ -5274,9 +5274,9 @@ common#:#persons#:#Osebe
 common#:#pg_add#:#Ustvari stran
 common#:#pg_new#:#Nova stran
 common#:#phone#:#Phone
-common#:#phone_home#:#Zasebni telefon
+common#:#phone_home#:#Neposredni vodja (ime)### OVB translated
 common#:#phone_mobile#:#Mobilni telefon
-common#:#phone_office#:#Službeni telefon
+common#:#phone_office#:#Stopnja (kratko)### OVB translated
 common#:#phrase#:#Besedna zveza
 common#:#please_choose#:#-- Izberite --
 common#:#please_enter_target#:#Vnesite cilj.
@@ -5720,8 +5720,8 @@ common#:#tagging_my_tags#:#Moje oznake
 common#:#tags#:#Tags
 common#:#take_over_structure#:#Prevzemi strukturo map v arhivu
 common#:#take_over_structure_info#:#Če je aktivirano, bodo imeniki v arhivu prevzeti kot kategorije ali mape.
-common#:#tals_etal#:#Talk###31 03 2023 new variable
-common#:#talt_etal#:#Talk###31 03 2023 new variable
+common#:#tals_etal#:#Razgovor### OVB translated
+common#:#talt_etal#:#Razgovor### OVB translated
 common#:#target#:#Cilj
 common#:#tax#:#Taksonomija
 common#:#tax_add#:#Ustvari taksonomijo
@@ -7430,7 +7430,7 @@ cron#:#cron_schedule#:#Schedule
 cron#:#cron_schedule_daily#:#Daily
 cron#:#cron_schedule_in_days#:#Every %s days
 cron#:#cron_schedule_in_hours#:#Every %s hours
-cron#:#cron_schedule_in_minutes#:#Every %s minutes
+cron#:#cron_schedule_in_minutes#:#Vsak %s minute### OVB translated
 cron#:#cron_schedule_monthly#:#Monthly
 cron#:#cron_schedule_quarterly#:#Quarterly
 cron#:#cron_schedule_type#:#Schedule
@@ -7477,10 +7477,10 @@ crs#:#crs_admission_link_failure_registration_period#:#Pridružitev ni mogoča. 
 crs#:#crs_admission_link_success_registration#:#Uspešno ste se prijavili v tečaj "%s".
 crs#:#crs_agree#:#Soglasje
 crs#:#crs_agreement_header#:#Pogoji uporabe
-crs#:#crs_agreement_required#:#Če se želite pridružiti temu tečaju, morate soglašati s pogoji uporabe.
+crs#:#crs_agreement_required#:#Prosimo, potrdite zavezujočo rezervacijo.### OVB translated
 crs#:#crs_at_least_one_admin#:#Temu tečaju mora biti dodeljen vsaj en administrator.
 crs#:#crs_auto_notification#:#Pozdravna e-pošta za nove člane
-crs#:#crs_auto_notification_info#:#Obvestila se po e-pošti samodejno pošljejo tistim članom, ki jih je mentor ali administrator sprejel v tečaj.
+crs#:#crs_auto_notification_info#:#Pozdravna sporočila so samodejno poslana tistim članom, ki so v tečaj dodani prek vtičnika. Če sta vtičnika CourseBooking in MailAdministration nameščena in aktivna, bo poslana pošta 16.### OVB translated
 crs#:#crs_awrn_current_course#:#Aktualno tečaj
 crs#:#crs_awrn_current_course_info#:#Znotraj tečaja so našteti vsi člani tečaja.
 crs#:#crs_awrn_support_contacts#:#Podpora za tečaj
@@ -7494,9 +7494,9 @@ crs#:#crs_cancel_subscr_request#:#Umakni prošnjo za članstvo
 crs#:#crs_cancel_subscription#:#Izstop iz tečaja "%s"
 crs#:#crs_cancel_subscription_body#:#udeleženec/udeleženka %s je izstopil/-a tečaj "%s".
 crs#:#crs_cancel_subscription_body2#:#Morda so udeleženci uvrščeni na čakalni seznam tega tečaja. Za prikaz seznama udeležencev kliknite na naslednjo povezavo:
-crs#:#crs_cancellation_end#:#Rok za stornacijo
+crs#:#crs_cancellation_end#:#Omejitev odpovedi### OVB translated
 crs#:#crs_cancellation_end_info#:#Uporabniki lahko samo do določenega datuma sami zaključijo članstvo v tečaju.
-crs#:#crs_cancellation_end_rbac_info#:#Rok za stornacijo je bil %s, izstop ni več mogoč.
+crs#:#crs_cancellation_end_rbac_info#:#Rok odpovedi je bil izpolnjen na %s, odpoved ni več mogoča.### OVB translated
 crs#:#crs_cannot_find_role#:#Vloga ni bila najdena.
 crs#:#crs_cdf_edit_member#:#Uredi uporabniške podatke, ki so specifični za tečaj
 crs#:#crs_cdf_tbl_last_edit#:#Posodobljeno (specifični podatki o tečaju)
@@ -7511,7 +7511,7 @@ crs#:#crs_contact_responsibility#:#Mesto
 crs#:#crs_content#:#Vsebina tečaja
 crs#:#crs_copy#:#Kopiraj tečaj
 crs#:#crs_course_group_notification_link#:#Povezava:
-crs#:#crs_course_period_not_valid#:#Obdobje tečaja ni veljavno.
+crs#:#crs_course_period_not_valid#:#Obdobje tečaja ni veljavno.### OVB translated
 crs#:#crs_course_status_of_users#:#Opravljen tečaj
 crs#:#crs_create_date#:#Datum nastanka
 crs#:#crs_custom_user_fields#:#Uporabniški podatki, ki so specifični za tečaj
@@ -7694,9 +7694,9 @@ crs#:#crs_mail_type#:#E-pošta članom
 crs#:#crs_map_location#:#Lokacija tečaja na zemljevidu
 crs#:#crs_map_settings#:#Zemljevid
 crs#:#crs_materials#:#Gradivo
-crs#:#crs_max_and_min_members_invalid#:#Minimalno število mora biti manjše od maksimalnega števila.
-crs#:#crs_max_and_min_members_needed#:#Določite minimalno ali maksimalno število - ali oboje.
-crs#:#crs_max_members_needed#:#Za čakalni seznam je potrebno maksimalno število članov.
+crs#:#crs_max_and_min_members_invalid#:#Najmanjše število mora biti manjše od največjega števila članov.### OVB translated
+crs#:#crs_max_and_min_members_needed#:#Nastavite minimalno ali največje število članov - ali obojega.### OVB translated
+crs#:#crs_max_members_needed#:#Za funkcijo čakalnega seznama je potrebno največje število članov.### OVB translated
 crs#:#crs_max_members_reached#:#Maksimalno število udeležencev je bilo preseženo.
 crs#:#crs_mem_contact#:#Podpora mentorja
 crs#:#crs_mem_contacts#:#Podpora mentorja
@@ -7805,7 +7805,7 @@ crs#:#crs_passed_status_system#:#Sistem
 crs#:#crs_password_not_valid#:#Geslo ni pravilno
 crs#:#crs_password_required#:#Za to vrsto registracije je potrebno geslo.
 crs#:#crs_pdf#:#PDF
-crs#:#crs_period#:#Obdobje tečaja
+crs#:#crs_period#:#Obdobje tečaja### OVB translated
 crs#:#crs_period_end_mail_placeholder#:#Period End
 crs#:#crs_period_info#:#Informacije o začetku in koncu dogodka, ki ga podpira tečaj.
 crs#:#crs_period_start_mail_placeholder#:#Period Start
@@ -7883,9 +7883,9 @@ crs#:#crs_subscription_failed_limit#:#Maksimalno število udeležencev je bilo p
 crs#:#crs_subscription_max_members#:#Maksimalno število
 crs#:#crs_subscription_max_members_short#:#Omejeno število članov
 crs#:#crs_subscription_max_members_short_info#:#Določite lahko minimalno oz. maksimalno število članov. Ustvarite lahko čakalni seznam.
-crs#:#crs_subscription_min_members#:#Minimalno število
+crs#:#crs_subscription_min_members#:#Minimalno število### OVB translated
 crs#:#crs_subscription_min_members_err#:#Minimalno število ne sme biti večje od maksimalnega števila.
-crs#:#crs_subscription_min_members_info#:#Glej cron job "Rok za stornacijo"
+crs#:#crs_subscription_min_members_info#:#Glej Cron Job "Omejitev odpovedi".### OVB translated
 crs#:#crs_subscription_options_confirmation#:#Pridružitev po potrditvi
 crs#:#crs_subscription_options_direct#:#Neposredna pridružitev
 crs#:#crs_subscription_options_password#:#Pridružitev z geslom tečaja
@@ -7979,9 +7979,9 @@ crs#:#crs_visibility_until_info#:#Tečaj bo članom viden v določenem obdobju.
 crs#:#crs_visibility_unvisible#:#The course is not visible.###24 11 2022 new variable
 crs#:#crs_wait_info#:#Če je doseženo maksimalno število članov, se lahko nadaljnji uporabniki uvrstijo na čakalni seznam.
 crs#:#crs_waiting_list#:#Čakalni seznam
-crs#:#crs_waiting_list_autofill#:#Samodejno pomikanje navzgor
-crs#:#crs_waiting_list_autofill_info#:#V primeru stornacije se udeleženci samodejno premaknejo na čakalnem seznamu.
-crs#:#crs_waiting_list_no_autofill#:#Brez samodejnega pomikanja navzgor
+crs#:#crs_waiting_list_autofill#:#Samodejno polnjenje### OVB translated
+crs#:#crs_waiting_list_autofill_info#:#Udeleženci se samodejno zaposlijo s čakalnega seznama ob odpovedi.### OVB translated
+crs#:#crs_waiting_list_no_autofill#:#Brez samodejnega polnjenja### OVB translated
 crs#:#crs_warn_no_max_set_on_waiting_list#:#Doseženo je maksimalno število udeležencev. Lahko se uvrstite na čakalni seznam za ta tečaj in boste obveščeni, ko se boste lahko pridružili tečaju.
 crs#:#crs_warn_wl_set_on_waiting_list#:#Na čakalnem seznamu so že uporabniki. Lahko se uvrstite na čakalni seznam za ta tečaj. Ko bo vaša prošnja za sprejem odobrena ali zavrnjena, boste obveščeni po e-pošti.
 crs#:#crs_wiz_back#:#Nazaj
@@ -9155,47 +9155,47 @@ ecs#:#ecs_wiki_export_enabled#:#Release this Wiki
 ecs#:#ecs_wiki_export_obj_settings#:#Wiki Release Settings
 error#:#error_back_to_repository#:#Back to Repository
 error#:#error_sry_error#:#Sorry, an error occurred.
-etal#:#appointments#:#Appointments###31 03 2023 new variable
-etal#:#cal_type_tals#:#Talks###31 03 2023 new variable
-etal#:#change_date_of_series#:#Change date of talk series###31 03 2023 new variable
-etal#:#change_date_of_talk#:#Change date of talk###31 03 2023 new variable
-etal#:#date_of_talk#:#Start Date###31 03 2023 new variable
-etal#:#etal_add#:#Add Talk###31 03 2023 new variable
-etal#:#etal_add_new_item#:#Add new Talk###31 03 2023 new variable
+etal#:#appointments#:#Seje### OVB translated
+etal#:#cal_type_tals#:#Razgovori### OVB translated
+etal#:#change_date_of_series#:#Prilagodi serijo razgovorov### OVB translated
+etal#:#change_date_of_talk#:#Prilagodi datum razgovora### OVB translated
+etal#:#date_of_talk#:#Datum začetka### OVB translated
+etal#:#etal_add#:#Dodaj### OVB translated
+etal#:#etal_add_new_item#:#Dodaj nov razgovor### OVB translated
 etal#:#etal_create_invalid_template_ref#:#Invalid Talk Template ID###31 03 2023 new variable
-etal#:#etal_date_appointment_edit#:#Date of Talk###31 03 2023 new variable
-etal#:#etal_date_series_edit#:#Date of Talk Series###31 03 2023 new variable
+etal#:#etal_date_appointment_edit#:#Datum razgovora### OVB translated
+etal#:#etal_date_series_edit#:#Serija razgovorov### OVB translated
 etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###30 04 2024 new variable
-etal#:#etal_edit#:#General###31 03 2023 new variable
+etal#:#etal_edit#:#Splošno### OVB translated
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.###31 03 2023 new variable
 etal#:#etal_location#:#Location###04 11 2025 new variable
-etal#:#etal_new#:#New Talk###31 03 2023 new variable
+etal#:#etal_new#:#Nov razgovor### OVB translated
 etal#:#etal_open#:#Open Employee Talk###31 03 2023 new variable
 etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
-etal#:#etal_status_all#:#All###31 03 2023 new variable
-etal#:#etal_status_completed#:#Completed###31 03 2023 new variable
-etal#:#etal_status_pending#:#Pending###31 03 2023 new variable
-etal#:#etal_unknown_username#:#Unknown User###31 03 2023 new variable
+etal#:#etal_status_all#:#Vsi### OVB translated
+etal#:#etal_status_completed#:#Zaključeno### OVB translated
+etal#:#etal_status_pending#:#Odprto### OVB translated
+etal#:#etal_unknown_username#:#Neznan uporabnik### OVB translated
 etal#:#lock_edititng_for_others#:#Lock editing for others###31 03 2023 new variable
-etal#:#meta_adv_records#:#Metadata###31 03 2023 new variable
-etal#:#mm_org_etal#:#Talks###31 03 2023 new variable
-etal#:#mm_talk_template#:#Talk Templates###31 03 2023 new variable
-etal#:#notification_talks_created#:#You have been invited to the following employee talks.###31 03 2023 new variable
-etal#:#notification_talks_date_list_header#:#Dates###31 03 2023 new variable
-etal#:#notification_talks_removed#:#The following appointments have been canceled.###31 03 2023 new variable
-etal#:#notification_talks_subject#:#Invitation: %s###31 03 2023 new variable
+etal#:#meta_adv_records#:#Metapodatki### OVB translated
+etal#:#mm_org_etal#:#Razgovor### OVB translated
+etal#:#mm_talk_template#:#Predloge za razgovor### OVB translated
+etal#:#notification_talks_created#:#Povabljeni ste bili na razgovor.### OVB translated
+etal#:#notification_talks_date_list_header#:#Podatki### OVB translated
+etal#:#notification_talks_removed#:#Naslednji datumi so preklicani.### OVB translated
+etal#:#notification_talks_subject#:#Vabilo na razgovor### OVB translated
 etal#:#notification_talks_subject_update#:#Update: %s###31 03 2023 new variable
-etal#:#notification_talks_updated#:#The following talk appointments have been changed.###31 03 2023 new variable
+etal#:#notification_talks_updated#:#Naslednji datumi intervjujev so bili prilagojeni.### OVB translated
 etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:###28 11 2023 new variable
 etal#:#tala_no_content_without_admin_info#:#The Administrator role is required for access to Talk Templates.###08 07 2025 new variable
 etal#:#talk_serial#:#Talk Serial###31 03 2023 new variable
-etal#:#tals_add#:#Add Talks###31 03 2023 new variable
-etal#:#tals_new#:#New Talks###31 03 2023 new variable
-etal#:#talt_activation_online_info#:#Set the talk template online to make it visible and available for employees. If not, only administrators will have access to it.###31 03 2023 new variable
-etal#:#talt_add#:#Add Template###31 03 2023 new variable
-etal#:#talt_edit#:#General###31 03 2023 new variable
-etal#:#talt_etal#:#Employee Talk###31 03 2023 new variable
-etal#:#talt_new#:#New Talk Template###31 03 2023 new variable
+etal#:#tals_add#:#Dodaj razgovore### OVB translated
+etal#:#tals_new#:#Nova serija razgovorov### OVB translated
+etal#:#talt_activation_online_info#:#Označite predlogo kot aktivno, da bo na voljo sodelavcem.### OVB translated
+etal#:#talt_add#:#Ustvari### OVB translated
+etal#:#talt_edit#:#Splošno### OVB translated
+etal#:#talt_etal#:#Razgovor s sodelavci### OVB translated
+etal#:#talt_new#:#Nova predloga### OVB translated
 etal#:#will_update_series_info_lock#:#Lock the editing of all appointments in this series###31 03 2023 new variable
 etal#:#will_update_series_info_title#:#Changes to the title will be made to all appointments in this series.###31 03 2023 new variable
 exc#:#exc_add_assignment#:#Dodaj vadbeno enoto
@@ -9869,7 +9869,7 @@ form#:#form_location_radius#:#Okrožje
 form#:#form_location_radius_km#:#km
 form#:#form_max_value#:#Maksimalna vrednost
 form#:#form_min_value#:#Minimalna vrednost
-form#:#form_minutes#:#Minute
+form#:#form_minutes#:#Minuta### OVB translated
 form#:#form_months#:#Meseci
 form#:#form_msg_file_cannot_write_to_disk#:#Ni dostopa za pisanje na trdem disku
 form#:#form_msg_file_missing_file_ext#:#Naložena datoteka nima končnice vrste datoteke.
@@ -9894,7 +9894,7 @@ form#:#form_password_required_for_auth#:#Za izbrano metodo avtentikacije je potr
 form#:#form_please_select#:#Izberite
 form#:#form_retype_email#:#Ponovno vnesi e-pošto
 form#:#form_retype_password#:#Ponovno vnesite geslo
-form#:#form_seconds#:#Sekunde
+form#:#form_seconds#:#Sekund### OVB translated
 form#:#form_take_snapshot#:#Take Snapshot###31 03 2023 new variable
 form#:#form_use_camera#:#Use Camera###31 03 2023 new variable
 forum#:#activate_new_posts#:#Odobri nove objave
@@ -10224,9 +10224,9 @@ grp#:#grp_at_least_one_admin#:#Ta skupina mora imeti vsaj enega administratorja.
 grp#:#grp_auto_notification#:#Welcome-Mail For New Members
 grp#:#grp_auto_notification_info#:#New members get a mail notification when added to the group.
 grp#:#grp_cancel_subscr_request#:#Umakni prošnjo za članstvo
-grp#:#grp_cancellation_end#:#Rok za stornacijo
+grp#:#grp_cancellation_end#:#Omejitev odpovedi### OVB translated
 grp#:#grp_cancellation_end_info#:#Samo do določenega datuma lahko člani sami prekinejo članstvo v skupini.
-grp#:#grp_cancellation_end_rbac_info#:#Rok za stornacijo je bil %s, izstop ni več mogoč.
+grp#:#grp_cancellation_end_rbac_info#:#Rok odpovedi je bil izpolnjen na %s, odpoved ni več mogoča.### OVB translated
 grp#:#grp_cdf_edit_member#:#Uredi uporabniške podatke, specifične za skupino
 grp#:#grp_cdf_tbl_last_edit#:#Posodobljeno (podatki, specifični za skupino)
 grp#:#grp_change_type#:#Spremeni vrsto skupine
@@ -10373,11 +10373,11 @@ grp#:#grp_warn_grp_type_changed#:#Ali ste prepričani, da želite spremeniti vrs
 grp#:#grp_warn_no_max_set_on_waiting_list#:#Doseženo je maksimalno število udeležencev. Lahko se uvrstite na čakalni seznam in ko se boste pomaknili navzgor, boste obveščeni po e-pošti.
 grp#:#grp_warn_wl_set_on_waiting_list#:#Na čakalnem seznamu so že uporabniki. Lahko pa se vpišete na čakalni seznam za to skupino in ko se boste pomaknili navzgor, boste obveščeni po e-pošti.
 grp#:#grp_wrong_max_members#:#Za čakalni seznam je potrebno maksimalno število članov.
-grp#:#grp_wrong_min_max_members#:#Preverite vnos za minimalno in maksimalno število udeležencev.
+grp#:#grp_wrong_min_max_members#:#Preverite minimalno in največje število uporabnikov.### OVB translated
 grp#:#grp_wrong_reg_time_limit#:#Preverite vnos obdobja prijave.
 grp#:#reg_grp_max_members#:#Maksimalno število
 grp#:#reg_grp_max_members_short#:#Omejeno število članov
-grp#:#reg_grp_min_members#:#Minimalno število
+grp#:#reg_grp_min_members#:#Najmanjše število članov### OVB translated
 help#:#help_all#:#All
 help#:#help_component#:#Component
 help#:#help_filter#:#Filter
@@ -11054,7 +11054,6 @@ lti#:#highscore_top_table#:#Top Ranking
 lti#:#highscore_top_table_description#:#Participants are presented with a table containing the top rankings.
 lti#:#highscore_wtime#:#Duration
 lti#:#highscore_wtime_description#:#A column containing the duration will be included in the ranking.
-lti#:#launch_custom_params#:#Custom launch parameters###27 11 2025 new variable
 lti#:#launch_custom_params#:#Custom launch parameters###27 11 2025 new variable
 lti#:#launch_method#:#Options for Launch
 lti#:#launch_method_embedded#:#Embedded Content
@@ -11767,7 +11766,7 @@ mep#:#mobs_black_list_file_types_and_allowed_info#:#Enter a comma separated list
 mep#:#mobs_restrict_file_types#:#Dovoljeni tipi datotek
 mep#:#mobs_restrict_file_types_info#:#Določite vse tipe datotek, ki jih je dovoljeno nalagati v medijske objekte. Vnesite posamezne končnice datotek, ločenih z vejicami (npr. jpg, gif). Če ni nobenega vnosa, so dovoljeni vsi tipi.
 meta#:#adt_error_max_length#:#Vneseno besedilo je predolgo. Vnesite krajše besedilo.
-meta#:#md_adn_int_error_no_default#:#Please select on activated language as "Default-Language".###19 08 2022 new variable
+meta#:#md_adn_int_error_no_default#:#Izberite aktivirani jezik kot privzeti jezik.### OVB translated
 meta#:#md_adv_active#:#Aktivno
 meta#:#md_adv_added_new_record#:#Nov podatkovni zapis je bil ustvarjen.
 meta#:#md_adv_col_presentation_ordering#:#Položaj
@@ -11788,33 +11787,33 @@ meta#:#md_adv_deleted_fields#:#Polja so bila izbrisana.
 meta#:#md_adv_deleted_files#:#Datoteke so bile izbrisane.
 meta#:#md_adv_deleted_records#:#Podatkovni zapis je bil izbrisan
 meta#:#md_adv_desc_show#:#Prikaži opis
-meta#:#md_adv_edit_complex_option#:#Uredi lastnosti možnosti
+meta#:#md_adv_edit_complex_option#:#Uredi lastnosti možnosti### OVB translated
 meta#:#md_adv_edit_field#:#Uredi polje
 meta#:#md_adv_edit_record#:#Uredi podatkovni zapis
 meta#:#md_adv_field_fields#:#Polja
 meta#:#md_adv_field_filter_warning#:#Vrste polj %s trenutno niso podprte kot filtri tabel.
-meta#:#md_adv_field_list#:#Fields###19 08 2022 new variable
+meta#:#md_adv_field_list#:#Podatkovna polja### OVB translated
 meta#:#md_adv_field_names#:#Imena polj
 meta#:#md_adv_field_table#:#Uredi polja
 meta#:#md_adv_fields_show#:#Prikaži imena polj
 meta#:#md_adv_file_list#:#Datoteke za izvoz
 meta#:#md_adv_import_record#:#Uvozi podatkovni zapis
-meta#:#md_adv_int_current#:#Current Language:###19 08 2022 new variable
-meta#:#md_adv_int_default#:#Default Language:###19 08 2022 new variable
-meta#:#md_adv_int_translation_info#:#Translation:###19 08 2022 new variable
+meta#:#md_adv_int_current#:#Trenutni jezik:### OVB translated
+meta#:#md_adv_int_default#:#Privzeti jezik:### OVB translated
+meta#:#md_adv_int_translation_info#:#Prevod:### OVB translated
 meta#:#md_adv_no_fields#:#Nobeno polje ni definirano
 meta#:#md_adv_number_decimals#:#Decimalke
 meta#:#md_adv_number_max#:#Maksimalna vrednost
 meta#:#md_adv_number_min#:#Minimalna vrednost
 meta#:#md_adv_number_suffix#:#Končnica
 meta#:#md_adv_presentation#:#Prikaz
-meta#:#md_adv_record_activate_languages#:#Activate Languages###19 08 2022 new variable
+meta#:#md_adv_record_activate_languages#:#Aktiviraj jezike### OVB translated
 meta#:#md_adv_record_list#:#Podatkovni zapisi
-meta#:#md_adv_record_lng_table#:#Language Managment###19 08 2022 new variable
-meta#:#md_adv_record_lng_table_active#:#Active###19 08 2022 new variable
-meta#:#md_adv_record_lng_table_default#:#Default###19 08 2022 new variable
-meta#:#md_adv_record_lng_table_inst#:#Installed###19 08 2022 new variable
-meta#:#md_adv_record_lng_table_lng#:#Language###19 08 2022 new variable
+meta#:#md_adv_record_lng_table#:#Upravljanje jezikov### OVB translated
+meta#:#md_adv_record_lng_table_active#:#Aktivno### OVB translated
+meta#:#md_adv_record_lng_table_default#:#Privzeto### OVB translated
+meta#:#md_adv_record_lng_table_inst#:#Nameščeno### OVB translated
+meta#:#md_adv_record_lng_table_lng#:#Jezik### OVB translated
 meta#:#md_adv_records#:#Vsebovani podatkovni zapisi
 meta#:#md_adv_records_exported#:#Nova datoteka za izvoz je bila ustvarjena.
 meta#:#md_adv_scope#:#Področje veljave
@@ -11830,7 +11829,7 @@ meta#:#md_adv_text_multi#:#Večvrstični
 meta#:#md_adv_text_multi_val#:#Multilingual Values###30 04 2024 new variable
 meta#:#md_adv_text_multi_val_info#:#Allow multilingual field values for this data field. Deactivating this option is recommended for texts that do not need translating, such as personal names.###30 04 2024 new variable
 meta#:#md_advanced#:#Uporabniško definirani metapodatki
-meta#:#md_aria_language_selection#:#Language Selection###19 08 2022 new variable
+meta#:#md_aria_language_selection#:#Izbira jezika### OVB translated
 meta#:#md_copyright#:#Avtorske pravice
 meta#:#md_copyright_add#:#Nova smernica
 meta#:#md_copyright_alt_text#:#Text Representation###23 10 2023 new variable
@@ -12494,7 +12493,7 @@ meta#:#meta_very_easy#:#Zelo preprosto
 meta#:#meta_very_high#:#Zelo visoko
 meta#:#meta_very_low#:#Zelo nizko
 meta#:#meta_yes#:#Da
-meta#:#udf_type_address#:#Naslov
+meta#:#udf_type_address#:#Nagovor### OVB translated
 meta#:#udf_type_externallink#:#Zunanja povezava
 meta#:#udf_type_float#:#Premična vejica
 meta#:#udf_type_integer#:#Celo število
@@ -12922,7 +12921,7 @@ orgu#:#import_terminated_with_warnings#:#Pri uvozu so bila ustvarjena opozorila
 orgu#:#import_xml_file#:#Datoteka za uvoz
 orgu#:#local_other_roles#:#Nadaljnje lokalne vloge %s
 orgu#:#local_staff#:#Sodelavci %s
-orgu#:#mm_organisation#:#Organisation###31 03 2023 new variable
+orgu#:#mm_organisation#:#Organizacija### OVB translated
 orgu#:#msg_assignment_to_employee_done#:#Izvedena dodelitev položaju sodelavci
 orgu#:#msg_confirm_d_ua#:#Ali želite naslednje uporabnike dodeliti položaju sodelavec v svojih organizacijskih enotah?
 orgu#:#msg_confirm_deletion#:#Ali res želite izbrisati naslednji položaj?
@@ -17266,9 +17265,9 @@ user#:#has_role#:#Role
 user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?###30 07 2024 new variable
 user#:#inform_user_mail_info#:#If activated, an e-mail will be sent to the user. Its content can be defined in Administration > User Management > Settings > New Account Mail.
 user#:#interests#:#Interests
-user#:#interests_general#:#General Interests
-user#:#interests_help_looking#:#Looking For Help
-user#:#interests_help_offered#:#Offering Help
+user#:#interests_general#:#Splošni interesi### OVB translated
+user#:#interests_help_looking#:#Pomoč pri iskanju### OVB translated
+user#:#interests_help_offered#:#Ponudite pomoč### OVB translated
 user#:#ldoc_accepted_content#:#Accepted Content###30 04 2024 new variable
 user#:#ldoc_not_accepted_yet#:#Not accepted yet###30 04 2024 new variable
 user#:#msg_spoint_not_modified#:#Starting point not modified
@@ -17373,7 +17372,7 @@ user#:#user_set_visibilty_options#:#Set visibility options
 user#:#user_store_last_visited#:#Last Visited
 user#:#user_visibility_settings#:#Visibility
 user#:#user_visible_in_profile#:#Visible in Personal Data
-user#:#usr_id#:#User ID
+user#:#usr_id#:#Notranji sistemski ID### OVB translated
 user#:#usr_letter_avatars#:#Letter Avatars
 user#:#usr_letter_avatars_info#:#Shows initial of user name or login as profile picture, if no public picture is being provided.
 user#:#usr_public_profile_disabled#:#Profile Disabled
