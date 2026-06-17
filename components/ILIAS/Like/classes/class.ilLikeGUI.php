@@ -137,7 +137,7 @@ class ilLikeGUI
         $ctrl->setParameter($this, "repl_sig", $popover->getReplaceContentSignal()->getId());
         $asyn_url = $ctrl->getLinkTarget($this, "renderEmoticons", "", true, false);
         $popover = $popover->withAsyncContentUrl($asyn_url);
-        $button = $f->button()->standard($lng->txt("like"), '#')
+        $button = $f->button()->standard($lng->txt("react"), '#')
             ->withOnClick($popover->getShowSignal());
 
         $tpl->setVariable("LIKE", $r->render([$popover, $button]));
