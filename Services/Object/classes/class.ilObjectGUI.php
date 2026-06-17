@@ -1270,7 +1270,7 @@ class ilObjectGUI implements ImplementsCreationCallback
 
                 $this->tpl->setOnScreenMessage(
                     "failure",
-                    $this->lng->txt("obj_import_file_error") . " <br />" . $e->getMessage()
+                    $this->lng->txt("obj_import_file_error")
                 );
                 $form->setValuesByPost();
                 $this->tpl->setContent($form->getHTML());
