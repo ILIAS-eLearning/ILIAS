@@ -380,9 +380,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     public function contentSelection(string $providerId, string $newType, string $refId, ilLTIConsumeProvider $provider): void
     {
         global $DIC;
-        if (!ilLTIConsumerAccess::hasCustomProviderCreationAccess()) {
-            throw new ilLtiConsumerException('permission denied!');
-        }
+        $this->checkContentSelectionAccess($refId);
         $DIC->ctrl()->setParameter($this, "new_type", $newType);
         $DIC->ctrl()->setParameter($this, "provider_id", $providerId);
         $DIC->ctrl()->setParameter($this, "ref_id", $refId);
@@ -395,15 +393,13 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     public function contentSelectionRequest(): void
     {
         global $DIC;
-        if (!ilLTIConsumerAccess::hasCustomProviderCreationAccess()) {
-            throw new ilLtiConsumerException('permission denied!');
-        }
         $new_type = $this->getRequestValue("new_type");
         $DIC->ctrl()->setParameter($this, "new_type", $new_type);
         $provider_id = $this->getRequestValue("provider_id");
         $DIC->ctrl()->setParameter($this, "provider_id", $provider_id);
         $ref_id = $this->getRequestValue("ref_id");
         $DIC->ctrl()->setParameter($this, "ref_id", $ref_id);
+        $this->checkContentSelectionAccess($ref_id);
         $DIC->language()->loadLanguageModule($new_type);
         $provider = new ilLTIConsumeProvider((int) $provider_id);
         $redirectUrl = $DIC->ctrl()->getLinkTarget($this, 'contentSelectionRequest');
@@ -447,15 +443,13 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     public function contentSelectionResponse(): void
     {
         global $DIC;
-        if (!ilLTIConsumerAccess::hasCustomProviderCreationAccess()) {
-            throw new ilLtiConsumerException('permission denied!');
-        }
         $new_type = $this->getRequestValue("new_type");
         $DIC->ctrl()->setParameter($this, "new_type", $new_type);
         $provider_id = $this->getRequestValue("provider_id");
         $DIC->ctrl()->setParameter($this, "provider_id", $provider_id);
         $ref_id = $this->getRequestValue("ref_id");
         $DIC->ctrl()->setParameter($this, "ref_id", $ref_id);
+        $this->checkContentSelectionAccess($ref_id);
         $DIC->language()->loadLanguageModule($new_type);
         $token = '';
         if ($DIC->http()->wrapper()->post()->has('JWT')) {
@@ -477,12 +471,17 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     public function cancelContentSelection(): void
     {
         global $DIC;
-        if (!ilLTIConsumerAccess::hasCustomProviderCreationAccess()) {
-            throw new ilLtiConsumerException('permission denied!');
-        }
+        $this->checkContentSelectionAccess($this->getRequestValue("ref_id"));
         $new_type = $this->getRequestValue("new_type");
         $DIC->ctrl()->setParameterByClass(ilRepositoryGUI::class, 'new_type', $new_type);
         $DIC->ctrl()->redirectByClass(ilRepositoryGUI::class, 'create');
+    }
+
+    protected function checkContentSelectionAccess(?string $refId): void
+    {
+        if ($refId === null || !$this->checkPermissionBool('create', '', 'lti', (int) $refId)) {
+            throw new ilLtiConsumerException('permission denied!');
+        }
     }
 
     public function saveContentSelection(ilLTIConsumeProvider $provider, string $token): void
