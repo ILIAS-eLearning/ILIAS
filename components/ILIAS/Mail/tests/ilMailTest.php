@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Refinery\Factory;
 use PHPUnit\Framework\MockObject\MockObject;
 use ILIAS\Mail\Autoresponder\AutoresponderService;
+use ILIAS\Mail\Attachments\MailAttachments;
 use ILIAS\LegalDocuments\Conductor;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Result\Ok;
@@ -28,6 +29,7 @@ use ILIAS\Mail\Service\MailSignatureService;
 use PHPUnit\Framework\Attributes\DataProvider;
 use ILIAS\Mail\TemplateEngine\TemplateEngineFactoryInterface;
 use ILIAS\Mail\TemplateEngine\Mustache\MustacheTemplateEngineFactory;
+use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 
 class ilMailTest extends ilMailBaseTestCase
 {
@@ -264,7 +266,7 @@ class ilMailTest extends ilMailBaseTestCase
             implode(',', array_slice(array_keys($active_users_login_to_id_map), 5, 2)),
             'Subject',
             'Message',
-            [],
+            MailAttachments::empty(),
             false
         );
         $mail_service->sendMail($mail_data);
@@ -482,7 +484,7 @@ class ilMailTest extends ilMailBaseTestCase
             $draft_id,
             $instance->updateDraft(
                 $folder_id,
-                [],
+                MailAttachments::empty(),
                 $to,
                 $cc,
                 $bcc,
@@ -630,17 +632,34 @@ class ilMailTest extends ilMailBaseTestCase
     public function testSaveAttachments(): void
     {
         $usr_id = 89;
-        $attachments = new \ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification('657497dc-5079-4f95-b19d-aecdaf81ff1a');
+        $attachments = MailAttachments::fromIrss(
+            new ResourceCollectionIdentification('657497dc-5079-4f95-b19d-aecdaf81ff1a')
+        );
         $instance = $this->create(789, $usr_id);
+        $mock_statement = $this->getMockBuilder(ilDBStatement::class)->getMock();
 
-        $this->mock_database->expects($this->once())->method('update')->with(
+        $this->mock_database->expects($this->exactly(2))->method('queryF')->willReturnCallback(
+            $this->queryCallback($mock_statement, ['integer'], [$usr_id])
+        );
+        $this->mock_database->expects($this->exactly(2))->method('fetchAssoc')->with($mock_statement)->willReturn([
+            'attachments' => null,
+            'rcp_to' => '',
+            'rcp_cc' => '',
+            'rcp_bcc' => '',
+            'm_subject' => '',
+            'm_message' => '',
+            'use_placeholders' => 0,
+            'tpl_ctx_id' => null,
+            'tpl_ctx_params' => '[]',
+        ]);
+        $this->mock_database->expects($this->once())->method('replace')->with(
             'mail_saved',
             [
-                'attachments' => ['text', $attachments->serialize()],
-            ],
-            [
                 'user_id' => ['integer', $usr_id],
-            ]
+            ],
+            $this->callback(static function (array $fields) use ($attachments): bool {
+                return ($fields['attachments'][1] ?? null) === $attachments->rcid()->serialize();
+            })
         );
 
         $instance->saveAttachments($attachments);

@@ -26,6 +26,7 @@ use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
+use ILIAS\Mail\Attachments\MailAttachments;
 
 class ilMailDeliveryJob extends AbstractJob
 {
@@ -69,7 +70,7 @@ class ilMailDeliveryJob extends AbstractJob
             (string) $input[3]->getValue(),  // Bcc
             (string) $input[4]->getValue(),  // Subject
             (string) $input[5]->getValue(),  // Message
-            (array) unserialize($input[6]->getValue(), ['allowed_classes' => false]),  // Attachments
+            MailAttachments::fromBackgroundTask($input[6]->getValue()),  // Attachments
             (bool) $input[7]->getValue() // Use Placeholders
         );
         $mail->sendMail($mail_data);
