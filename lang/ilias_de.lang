@@ -16440,7 +16440,7 @@ survey#:#arithmetic_mean#:#Arithmetisches Mittel
 survey#:#browse_for_questions#:#Aus Pool hinzufügen
 survey#:#cancel_survey#:#Umfrage unterbrechen
 survey#:#cannot_read_survey#:#Sie haben keine ausreichende Berechtigung, um auf die Umfragedaten zugreifen zu können.
-survey#:#cannot_switch_to_online_no_questions#:#DDer Status kann nicht auf „online (aktiviert)“ geändert werden, da der Umfrage noch keine Fragen hinzugefügt wurden!
+survey#:#cannot_switch_to_online_no_questions#:#Der Status kann nicht auf „online (aktiviert)“ geändert werden, da der Umfrage noch keine Fragen hinzugefügt wurden!
 survey#:#cant_send_email_smtp_disabled#:#Das Versenden von externen E-Mails ist zurzeit global deaktiviert.
 survey#:#category#:#Antwort
 survey#:#category_nr_selected#:#Absolute Häufigkeit
