@@ -976,19 +976,20 @@ class ilFileDataMail extends ilFileData
     }
 
     /**
-     * @return list<array{path: string, name: string}>
+     * @return list<array{rid: string, name: string}>
      */
-    public function getPathsForMimeAttachments(ResourceCollectionIdentification $rcid): array
+    public function getIrssMimeAttachments(ResourceCollectionIdentification $rcid): array
     {
         $attachments = [];
-        foreach ($this->getCollection($rcid)->getResourceIdentifications() as $resource_identification) {
-            $revision = $this->irss->manage()->getCurrentRevision($resource_identification);
-            $info = $revision->getInformation();
-            $stream = $this->irss->consume()->stream($resource_identification);
-            $temp_path = ilFileUtils::ilTempnam();
-            file_put_contents($temp_path, (string) $stream->getStream());
+        foreach ($this->getAssignedRidStrings($rcid) as $rid) {
+            $resource_identification = $this->irss->manage()->find($rid);
+            if ($resource_identification === null) {
+                continue;
+            }
+
+            $info = $this->irss->manage()->getCurrentRevision($resource_identification)->getInformation();
             $attachments[] = [
-                'path' => $temp_path,
+                'rid' => $rid,
                 'name' => $info->getTitle(),
             ];
         }

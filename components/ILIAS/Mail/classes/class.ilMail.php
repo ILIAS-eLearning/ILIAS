@@ -26,6 +26,7 @@ use ILIAS\Mail\Service\MailSignatureService;
 use ILIAS\Mail\Transformation\Utf8Mb4Sanitizer;
 use ILIAS\Mail\Attachments\MailAttachments;
 use ILIAS\Mail\Folder\MailScheduleData;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 class ilMail
 {
@@ -1307,12 +1308,9 @@ class ilMail
         }
 
         if ($attachments->isIrss()) {
-            $mime_attachments = $this->mail_file_data->getPathsForMimeAttachments($attachments->rcid());
-            foreach ($mime_attachments as $attachment) {
-                $mailer->Attach(
-                    $attachment['path'],
-                    '',
-                    'inline',
+            foreach ($this->mail_file_data->getIrssMimeAttachments($attachments->rcid()) as $attachment) {
+                $mailer->AttachResource(
+                    new ResourceIdentification($attachment['rid']),
                     $attachment['name']
                 );
             }

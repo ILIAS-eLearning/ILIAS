@@ -19,6 +19,8 @@
 declare(strict_types=1);
 
 use PHPMailer\PHPMailer\PHPMailer;
+use ILIAS\Mail\Mime\MailMimeAttachment;
+use ILIAS\ResourceStorage\Services;
 
 abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 {
@@ -101,8 +103,8 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
             ilLoggerFactory::getLogger('mail')->warning('{error}', ['error' => $this->getMailer()->ErrorInfo]);
         }
 
-        foreach ($mail->getAttachments() as $attachment) {
-            if (!$this->getMailer()->addAttachment($attachment['path'], $attachment['name'])) {
+        foreach ($mail->getMimeAttachments() as $attachment) {
+            if (!$this->addMimeAttachment($attachment)) {
                 ilLoggerFactory::getLogger('mail')->warning('{error}', ['error' => $this->getMailer()->ErrorInfo]);
             }
         }
@@ -186,5 +188,47 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         ]);
 
         return $result;
+    }
+
+    private function addMimeAttachment(MailMimeAttachment $attachment): bool
+    {
+        if ($attachment->isResource()) {
+            return $this->addResourceAttachment($attachment);
+        }
+
+        $path = $attachment->getPath();
+        if ($path === null) {
+            return false;
+        }
+
+        return $this->getMailer()->addAttachment(
+            $path,
+            $attachment->getDisplayName(),
+            PHPMailer::ENCODING_BASE64,
+            $attachment->getMimeType(),
+            $attachment->getDisposition()
+        );
+    }
+
+    private function addResourceAttachment(MailMimeAttachment $attachment): bool
+    {
+        $resource_identification = $attachment->getResourceIdentification();
+        if ($resource_identification === null) {
+            return false;
+        }
+
+        /** @var Services $irss */
+        $irss = $GLOBALS['DIC']->resourceStorage();
+        $stream = $irss->consume()->stream($resource_identification)->getStream();
+
+        return $this->getMailer()->addStringAttachment(
+            (string) $stream,
+            $attachment->getDisplayName() !== ''
+                ? $attachment->getDisplayName()
+                : $resource_identification->serialize(),
+            PHPMailer::ENCODING_BASE64,
+            $attachment->getMimeType(),
+            $attachment->getDisposition()
+        );
     }
 }
