@@ -68,4 +68,21 @@ class MailDBUpdateSteps11 implements ilDatabaseUpdateSteps
             );
         }
     }
+
+    public function step_3(): void
+    {
+        if (!$this->db->tableColumnExists('mail_attachment', 'rcid')) {
+            $this->db->addTableColumn(
+                'mail_attachment',
+                'rcid',
+                [
+                    'type' => ilDBConstants::T_TEXT,
+                    'length' => 64,
+                    'notnull' => false,
+                    'default' => null,
+                ]
+            );
+        }
+    }
+
 }
