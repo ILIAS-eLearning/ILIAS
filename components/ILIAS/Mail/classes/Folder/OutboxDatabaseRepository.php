@@ -27,6 +27,7 @@ use ilDBInterface;
 use MailDeliveryData;
 use DateTimeImmutable;
 use ILIAS\Data\Clock\ClockFactory;
+use ILIAS\Mail\Attachments\MailAttachments;
 use ILIAS\Mail\Message\MailRecordMapper;
 
 readonly class OutboxDatabaseRepository implements OutboxRepository
@@ -87,15 +88,13 @@ readonly class OutboxDatabaseRepository implements OutboxRepository
                 continue;
             }
 
-            $attachments = $record->getAttachments();
-
             yield new MailDeliveryData(
                 $record->getRcpTo() ?? '',
                 $record->getRcpCc() ?? '',
                 $record->getRcpBc() ?? '',
                 $record->getSubject() ?? '',
                 $record->getMessage() ?? '',
-                is_array($attachments) ? $attachments : [],
+                $record->getAttachments() ?? MailAttachments::empty(),
                 (bool) $record->getUsePlaceholders(),
                 $record->getMailId(),
                 $record->getUserId()

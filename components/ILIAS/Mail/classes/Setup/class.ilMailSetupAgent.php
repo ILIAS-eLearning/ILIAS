@@ -23,6 +23,7 @@ use ILIAS\Refinery;
 use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Mail\Setup\MailDBUpdateSteps11;
 use ILIAS\Mail\Setup\Migration\MailOutboxMigration;
+use ILIAS\Mail\Setup\Migration\MigrateMailAttachmentsToIRSS;
 
 class ilMailSetupAgent implements Setup\Agent
 {
@@ -74,7 +75,8 @@ class ilMailSetupAgent implements Setup\Agent
     public function getMigrations(): array
     {
         return [
-            new MailOutboxMigration()
+            new MailOutboxMigration(),
+            new MigrateMailAttachmentsToIRSS(),
         ];
     }
 }

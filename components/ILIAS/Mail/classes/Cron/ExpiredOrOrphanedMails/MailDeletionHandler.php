@@ -31,6 +31,7 @@ use ilDBInterface;
 use Throwable;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
+use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use SplFileInfo;
 
 class MailDeletionHandler
@@ -41,6 +42,7 @@ class MailDeletionHandler
     private readonly ilSetting $settings;
     private readonly ilLogger $logger;
     private readonly ilDBStatement $mail_ids_for_path_stmt;
+    private readonly ilDBStatement $mail_ids_for_rcid_stmt;
     /** @var callable(string): void|null */
     private $delete_directory_callback;
 
@@ -53,7 +55,7 @@ class MailDeletionHandler
         ?ilDBInterface $db = null,
         ?ilSetting $setting = null,
         ?ilLogger $logger = null,
-        ?callable $delete_directory_callback = null
+        ?callable $delete_directory_callback = null,
     ) {
         global $DIC;
 
@@ -66,6 +68,46 @@ class MailDeletionHandler
             'SELECT COUNT(*) cnt FROM mail_attachment WHERE path = ?',
             [ilDBConstants::T_TEXT]
         );
+        $this->mail_ids_for_rcid_stmt = $this->db->prepare(
+            'SELECT COUNT(*) cnt FROM mail_attachment WHERE rcid = ?',
+            [ilDBConstants::T_TEXT]
+        );
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function determineDeletableAttachmentRcids(): array
+    {
+        $rcids = [];
+        $res = $this->db->query(
+            '
+                SELECT rcid, COUNT(mail_id) cnt_mail_ids
+                FROM mail_attachment
+                WHERE rcid IS NOT NULL AND rcid != "" AND rcid != "-"
+                AND ' . $this->db->in(
+                'mail_id',
+                $this->collector->mailIdsToDelete(),
+                false,
+                ilDBConstants::T_INTEGER
+            ) . ' GROUP BY rcid'
+        );
+
+        while ($row = $this->db->fetchAssoc($res)) {
+            $num_usages_total = (int) $this->db->fetchAssoc(
+                $this->db->execute(
+                    $this->mail_ids_for_rcid_stmt,
+                    [$row['rcid']]
+                )
+            )['cnt'];
+            $num_usages_within_deleted_mails = (int) $row['cnt_mail_ids'];
+
+            if ($num_usages_within_deleted_mails >= $num_usages_total) {
+                $rcids[] = $row['rcid'];
+            }
+        }
+
+        return $rcids;
     }
 
     /**
@@ -122,6 +164,15 @@ class MailDeletionHandler
 
     private function deleteAttachments(): void
     {
+        $mail_file_data = new ilFileDataMail();
+        foreach ($this->determineDeletableAttachmentRcids() as $rcid) {
+            try {
+                $mail_file_data->removeCollection(new ResourceCollectionIdentification($rcid));
+            } catch (Throwable $e) {
+                $this->logger->warning($e->getMessage());
+            }
+        }
+
         $attachment_paths = $this->determineDeletableAttachmentPaths();
 
         $i = 0;
