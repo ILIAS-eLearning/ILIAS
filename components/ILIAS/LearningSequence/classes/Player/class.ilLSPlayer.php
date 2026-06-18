@@ -147,12 +147,91 @@ class ilLSPlayer
         //amend controls not set by the view
         $control_builder = $this->buildDefaultControls($control_builder, $item, $item_position, $items);
 
+        $obj_rating_html = '';
+        $obj_id = ilObject::_lookupObjId($next_item->getRefId());
+        if ($obj_id > 0) {
+            $obj_type = ilObject::_lookupType($obj_id);
+            ilRating::preloadListGUIData([$obj_id]);
+            if ($obj_type !== '' && ilRating::hasRatingInListGUI($obj_id, $obj_type)) {
+                global $DIC;
+                $lng = $DIC->language();
+
+                $parent_ref_id = (int) $ls_ref_id;
+                $rating_container_id = 'lg_div_' . $next_item->getRefId() . '_pref_' . $parent_ref_id;
+
+                $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(
+                    ilCommonActionDispatcherGUI::TYPE_REPOSITORY,
+                    $next_item->getRefId(),
+                    $obj_type,
+                    $obj_id
+                );
+
+                $rating_gui = new ilRatingGUI();
+                $rating_gui->setObject($obj_id, $obj_type);
+                $rating_gui->setCtrlPath([
+                    ilCommonActionDispatcherGUI::class,
+                    ilRatingGUI::class
+                ]);
+                $rating_gui->setYourRatingText($lng->txt('rating_your_rating'));
+
+                $obj_rating_html = '<div id="' . $rating_container_id . '"' .
+                    ' data-lso-rating-refid="' . $next_item->getRefId() . '"' .
+                    ' data-lso-rating-hash="' . htmlspecialchars($ajax_hash, ENT_QUOTES) . '">' .
+                    '<div data-replace-marker="content">' .
+                    $rating_gui->getListGUIProperty(
+                        $next_item->getRefId(),
+                        true,
+                        $ajax_hash,
+                        $parent_ref_id
+                    ) .
+                    '</div>' .
+                    '</div>';
+
+                $ilCtrl = $DIC->ctrl();
+                $redraw_url = $ilCtrl->getLinkTargetByClass(
+                    ilObjLearningSequenceLearnerGUI::class,
+                    ilObjLearningSequenceLearnerGUI::CMD_REDRAW_LIST_ITEM,
+                    '',
+                    true,
+                    false
+                );
+
+                $rating_url = $ilCtrl->getLinkTargetByClass(
+                    [
+                        ilCommonActionDispatcherGUI::class,
+                        ilRatingGUI::class
+                    ],
+                    'saveRating',
+                    '',
+                    true,
+                    false
+                );
+
+                $this->page_renderer->addOnLoadCode(
+                    "if (window.il && window.il.Object) {" .
+                    " if (typeof window.il.Object.setRedrawListItemUrl === 'function') { window.il.Object.setRedrawListItemUrl(" . json_encode($redraw_url, JSON_THROW_ON_ERROR) . "); }" .
+                    " if (typeof window.il.Object.setRatingUrl === 'function') { window.il.Object.setRatingUrl(" . json_encode($rating_url, JSON_THROW_ON_ERROR) . "); }" .
+                    "}"
+                );
+
+                $this->page_renderer->addJs(
+                    'assets/js/lso_kiosk_rating.js',
+                    true
+                );
+                $this->page_renderer->addOnLoadCode(
+                    "if (window.il && window.il.LSO && window.il.LSO.KioskRating && " .
+                    "typeof window.il.LSO.KioskRating.init === 'function') { window.il.LSO.KioskRating.init(); }"
+                );
+            }
+        }
+
         $rendered_body = $this->page_renderer->render(
             $control_builder,
             $obj_title,
             $obj_description,
             $icon,
-            $content
+            $content,
+            $obj_rating_html
         );
 
         $metabar_controls = [

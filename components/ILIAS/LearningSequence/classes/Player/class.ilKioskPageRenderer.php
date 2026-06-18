@@ -81,12 +81,23 @@ class ilKioskPageRenderer
         );
     }
 
+    public function addOnLoadCode(string $code, int $batch = 2): void
+    {
+        $this->layout_meta_content->addOnloadCode($code, $batch);
+    }
+
+    public function addJs(string $path, bool $add_version_number = false, int $batch = 2): void
+    {
+        $this->layout_meta_content->addJs($path, $add_version_number, $batch);
+    }
+
     public function render(
         LSControlBuilder $control_builder,
         string $obj_title,
         string $obj_description,
         Component $icon,
-        array $content
+        array $content,
+        string $obj_rating_html = ''
     ): string {
         $this->tpl->setVariable(
             "OBJECT_ICON",
@@ -101,6 +112,13 @@ class ilKioskPageRenderer
                 'OBJECT_DESCRIPTION',
                 nl2br(ilLegacyFormElementsUtil::prepareFormOutput($obj_description, true))
             );
+            $this->tpl->parseCurrentBlock();
+        }
+
+        $obj_rating_html = trim($obj_rating_html);
+        if ($obj_rating_html !== '') {
+            $this->tpl->setCurrentBlock('obj_rating');
+            $this->tpl->setVariable('OBJECT_RATING', $obj_rating_html);
             $this->tpl->parseCurrentBlock();
         }
 

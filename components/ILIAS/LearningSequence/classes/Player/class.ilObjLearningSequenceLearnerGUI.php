@@ -18,11 +18,20 @@
 
 declare(strict_types=1);
 
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\HTTP\Response\ResponseHeader;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\UI\Component\Modal\Interruptive;
 
+/**
+ * @ilCtrl_Calls ilObjLearningSequenceLearnerGUI: ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls ilCommonActionDispatcherGUI: ilRatingGUI
+ */
 class ilObjLearningSequenceLearnerGUI
 {
+    public const CMD_SAVE_RATING = 'saveRating';
+    public const CMD_REDRAW_LIST_ITEM = 'redrawListItem';
+
     public const CMD_STANDARD = 'learnerView';
     public const CMD_EXTRO = 'learnerViewFinished';
     public const CMD_UNSUBSCRIBE_CONFIRMATION = 'unsubscribeConfirmation';
@@ -74,6 +83,15 @@ class ilObjLearningSequenceLearnerGUI
                 }
                 $this->ctrl->redirect($this, self::CMD_STANDARD);
                 break;
+            case self::CMD_SAVE_RATING:
+                $dispatcher = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+                if ($dispatcher instanceof ilCommonActionDispatcherGUI) {
+                    $dispatcher->executeCommand();
+                }
+                break;
+            case self::CMD_REDRAW_LIST_ITEM:
+                $this->redrawListItem();
+                break;
             case self::CMD_VIEW:
                 $this->play();
                 break;
@@ -84,6 +102,102 @@ class ilObjLearningSequenceLearnerGUI
                     "Command not supported: $cmd"
                 );
         }
+    }
+
+    protected function redrawListItem(): void
+    {
+        global $DIC;
+
+        $http = $DIC->http();
+        $response = $http->response();
+
+        $child_ref_id = (int) $this->get->retrieve('child_ref_id', $DIC->refinery()->kindlyTo()->int());
+        $parent_ref_id = (int) $this->get->retrieve('parent_ref_id', $DIC->refinery()->kindlyTo()->int());
+
+        if ($child_ref_id <= 0 || $parent_ref_id <= 0) {
+            $http->saveResponse(
+                $response
+                    ->withBody(Streams::ofString(''))
+                    ->withHeader(ResponseHeader::CONTENT_TYPE, 'text/html; charset=UTF-8')
+            );
+            $http->sendResponse();
+            $http->close();
+            return;
+        }
+
+        $obj_id = ilObject::_lookupObjId($child_ref_id);
+        if ($obj_id <= 0) {
+            $http->saveResponse(
+                $response
+                    ->withBody(Streams::ofString(''))
+                    ->withHeader(ResponseHeader::CONTENT_TYPE, 'text/html; charset=UTF-8')
+            );
+            $http->sendResponse();
+            $http->close();
+            return;
+        }
+
+        $obj_type = ilObject::_lookupType($obj_id);
+        if ($obj_type === '') {
+            $http->saveResponse(
+                $response
+                    ->withBody(Streams::ofString(''))
+                    ->withHeader(ResponseHeader::CONTENT_TYPE, 'text/html; charset=UTF-8')
+            );
+            $http->sendResponse();
+            $http->close();
+            return;
+        }
+
+        ilRating::preloadListGUIData([$obj_id]);
+        if (!ilRating::hasRatingInListGUI($obj_id, $obj_type)) {
+            $http->saveResponse(
+                $response
+                    ->withBody(Streams::ofString(''))
+                    ->withHeader(ResponseHeader::CONTENT_TYPE, 'text/html; charset=UTF-8')
+            );
+            $http->sendResponse();
+            $http->close();
+            return;
+        }
+
+        $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(
+            ilCommonActionDispatcherGUI::TYPE_REPOSITORY,
+            $child_ref_id,
+            $obj_type,
+            $obj_id
+        );
+
+        $rating_gui = new ilRatingGUI();
+        $rating_gui->setObject($obj_id, $obj_type);
+        $rating_gui->setCtrlPath([
+            ilCommonActionDispatcherGUI::class,
+            ilRatingGUI::class
+        ]);
+        $rating_gui->setYourRatingText($this->lng->txt('rating_your_rating'));
+
+        $container_id = 'lg_div_' . $child_ref_id . '_pref_' . $parent_ref_id;
+        $html = '<div id="' . $container_id . '"' .
+            ' data-lso-rating-refid="' . $child_ref_id . '"' .
+            ' data-lso-rating-hash="' . htmlspecialchars($ajax_hash, ENT_QUOTES) . '">' .
+            '<div data-replace-marker="content">' .
+            $rating_gui->getListGUIProperty(
+                $child_ref_id,
+                true,
+                $ajax_hash,
+                $parent_ref_id
+            ) .
+            '</div>' .
+            '</div>';
+
+        $http->saveResponse(
+            $response
+                ->withBody(Streams::ofString($html))
+                ->withHeader(ResponseHeader::CONTENT_TYPE, 'text/html; charset=UTF-8')
+        );
+        $http->sendResponse();
+        $http->close();
+        return;
     }
 
     protected function unsubscribeConfirmationModal(): Interruptive
