@@ -147,7 +147,9 @@ class ilLSPlayer
         //amend controls not set by the view
         $control_builder = $this->buildDefaultControls($control_builder, $item, $item_position, $items);
 
-        $obj_rating_html = '';
+        // Keep a stable header layout: reserve the rating slot even if rating is not available.
+        // Otherwise the navigation/buttons would shift vertically.
+        $obj_rating_html = '&nbsp;';
         $obj_id = ilObject::_lookupObjId($next_item->getRefId());
         if ($obj_id > 0) {
             $obj_type = ilObject::_lookupType($obj_id);
@@ -174,18 +176,24 @@ class ilLSPlayer
                 ]);
                 $rating_gui->setYourRatingText($lng->txt('rating_your_rating'));
 
-                $obj_rating_html = '<div id="' . $rating_container_id . '"' .
-                    ' data-lso-rating-refid="' . $next_item->getRefId() . '"' .
-                    ' data-lso-rating-hash="' . htmlspecialchars($ajax_hash, ENT_QUOTES) . '">' .
-                    '<div data-replace-marker="content">' .
-                    $rating_gui->getListGUIProperty(
-                        $next_item->getRefId(),
-                        true,
-                        $ajax_hash,
-                        $parent_ref_id
-                    ) .
-                    '</div>' .
-                    '</div>';
+                $rating_content = $rating_gui->getListGUIProperty(
+                    $next_item->getRefId(),
+                    true,
+                    $ajax_hash,
+                    $parent_ref_id
+                );
+
+                $tpl = new ilTemplate(
+                    'tpl.lso_kiosk_rating_container.html',
+                    true,
+                    true,
+                    'components/ILIAS/LearningSequence'
+                );
+                $tpl->setVariable('CONTAINER_ID', $rating_container_id);
+                $tpl->setVariable('CHILD_REF_ID', (string) $next_item->getRefId());
+                $tpl->setVariable('AJAX_HASH', htmlspecialchars($ajax_hash, ENT_QUOTES));
+                $tpl->setVariable('RATING_CONTENT', $rating_content);
+                $obj_rating_html = $tpl->get();
 
                 $ilCtrl = $DIC->ctrl();
                 $redraw_url = $ilCtrl->getLinkTargetByClass(

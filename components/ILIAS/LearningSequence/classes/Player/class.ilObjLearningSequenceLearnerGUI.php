@@ -177,18 +177,24 @@ class ilObjLearningSequenceLearnerGUI
         $rating_gui->setYourRatingText($this->lng->txt('rating_your_rating'));
 
         $container_id = 'lg_div_' . $child_ref_id . '_pref_' . $parent_ref_id;
-        $html = '<div id="' . $container_id . '"' .
-            ' data-lso-rating-refid="' . $child_ref_id . '"' .
-            ' data-lso-rating-hash="' . htmlspecialchars($ajax_hash, ENT_QUOTES) . '">' .
-            '<div data-replace-marker="content">' .
-            $rating_gui->getListGUIProperty(
-                $child_ref_id,
-                true,
-                $ajax_hash,
-                $parent_ref_id
-            ) .
-            '</div>' .
-            '</div>';
+        $rating_content = $rating_gui->getListGUIProperty(
+            $child_ref_id,
+            true,
+            $ajax_hash,
+            $parent_ref_id
+        );
+
+        $tpl = new ilTemplate(
+            'tpl.lso_kiosk_rating_container.html',
+            true,
+            true,
+            'components/ILIAS/LearningSequence'
+        );
+        $tpl->setVariable('CONTAINER_ID', $container_id);
+        $tpl->setVariable('CHILD_REF_ID', (string) $child_ref_id);
+        $tpl->setVariable('AJAX_HASH', htmlspecialchars($ajax_hash, ENT_QUOTES));
+        $tpl->setVariable('RATING_CONTENT', $rating_content);
+        $html = $tpl->get();
 
         $http->saveResponse(
             $response

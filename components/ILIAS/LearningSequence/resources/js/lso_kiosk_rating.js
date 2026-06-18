@@ -13,6 +13,35 @@
 
   window.il.LSO = window.il.LSO || {};
 
+  const STYLE_ID = 'il-lso-kiosk-rating-popover-style';
+
+  function ensurePopoverNoWrapStyles() {
+    if (document.getElementById(STYLE_ID)) {
+      return;
+    }
+
+    const style = document.createElement('style');
+    style.id = STYLE_ID;
+    style.type = 'text/css';
+    style.appendChild(
+      document.createTextNode(
+        '.webui-popover .ilRatingOverlay ul.il-rating-stars{'
+          + 'display:inline-flex !important;'
+          + 'flex-wrap:nowrap !important;'
+          + 'white-space:nowrap !important;'
+          + 'padding:0 !important;'
+          + 'margin:0 !important;'
+          + 'list-style:none !important;'
+        + '}'
+          + '.webui-popover .ilRatingOverlay ul.il-rating-stars>li{flex:0 0 auto !important;}'
+          + '.webui-popover .ilRatingOverlay ul.il-rating-stars button.btn{padding:0 !important;}'
+          + '.webui-popover .ilRatingOverlay ul.il-rating-stars img{max-width:none !important;}',
+      ),
+    );
+    document.head.appendChild(style);
+  }
+  ensurePopoverNoWrapStyles();
+
   /**
    * Rating support for the LSO kiosk player.
    *
@@ -80,13 +109,16 @@
           e.stopPropagation();
 
           try {
+            ensurePopoverNoWrapStyles();
+
             try {
               const dt = $t.attr('data-target');
               $t.webuiPopover('destroy');
               $t.removeData('plugin_webuiPopover');
               $t.removeAttr('data-target');
               if (dt) {
-                window.$(dt).remove();
+                const selector = dt.startsWith('#') ? dt : `#${dt}`;
+                window.$(selector).remove();
               }
             } catch (e2) {
               // ignore
@@ -95,6 +127,8 @@
             $t.webuiPopover({
               trigger: 'click',
               placement: 'auto',
+              // Let the plugin compute width.
+              width: 'auto',
               multi: true,
               container: window.$('body'),
               closeable: false,
@@ -163,6 +197,7 @@
         return;
       }
 
+      ensurePopoverNoWrapStyles();
       bindOverlayStars();
       bindTriggerPopover();
       overrideSaveRatingFromListGUI();

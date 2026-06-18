@@ -114,13 +114,7 @@ class ilKioskPageRenderer
             );
             $this->tpl->parseCurrentBlock();
         }
-
-        $obj_rating_html = trim($obj_rating_html);
-        if ($obj_rating_html !== '') {
-            $this->tpl->setCurrentBlock('obj_rating');
-            $this->tpl->setVariable('OBJECT_RATING', $obj_rating_html);
-            $this->tpl->parseCurrentBlock();
-        }
+        $this->tpl->setVariable('OBJECT_RATING', $obj_rating_html);
 
         $this->tpl->setVariable(
             "PLAYER_NAVIGATION",
