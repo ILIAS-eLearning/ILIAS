@@ -28,8 +28,8 @@ use ILIAS\Mail\Folder\MailFilterUI;
 use ILIAS\Mail\Folder\MailFolderSearch;
 use ILIAS\Mail\Folder\MailFolderTableUI;
 use ILIAS\Mail\Folder\MailFolderData;
-use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\User\Profile\PublicProfileGUI;
+use ILIAS\Mail\Attachments\MailAttachments;
+use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 
 /**
  * @ilCtrl_Calls ilMailFolderGUI: ILIAS\User\Profile\PublicProfileGUI
@@ -929,12 +929,20 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
 
         $form->addItem($message);
 
-        if ($mail_data['attachments']) {
+        $mail_attachments = $mail_data['attachments'] ?? null;
+        if ($mail_attachments instanceof MailAttachments && !$mail_attachments->isEmpty()) {
             $att = new ilCustomInputGUI($this->lng->txt('attachments') . ':');
+            $mail_file_data = new ilFileDataMail($this->user->getId());
 
             $radiog = new ilRadioGroupInputGUI('', 'filename');
-            foreach ($mail_data['attachments'] as $file) {
-                $radiog->addOption(new ilRadioOption($file, md5($file)));
+            if ($mail_attachments->isIrss()) {
+                foreach ($mail_file_data->getAttachmentListing($mail_attachments->rcid()) as $file) {
+                    $radiog->addOption(new ilRadioOption($file['name'], $file['md5']));
+                }
+            } else {
+                foreach ($mail_attachments->legacyFilenames() as $file) {
+                    $radiog->addOption(new ilRadioOption($file, md5($file)));
+                }
             }
 
             $att->setHtml($radiog->render());
@@ -1167,7 +1175,11 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
                 $mail_file_data = new ilFileDataMail($this->user->getId());
                 try {
                     $file = $mail_file_data->getAttachmentPathAndFilenameByMd5Hash($filename, (int) $mail_id);
-                    ilFileDelivery::deliverFileLegacy($file['path'], $file['filename']);
+                    if (isset($file['rcid']) && $file['rcid'] instanceof ResourceCollectionIdentification) {
+                        $mail_file_data->deliverFile($file['rcid'], $file['md5']);
+                    } else {
+                        ilFileDelivery::deliverFileLegacy($file['path'], $file['filename']);
+                    }
                 } catch (OutOfBoundsException $e) {
                     throw new ilMailException('mail_error_reading_attachment', $e->getCode(), $e);
                 }
@@ -1186,18 +1198,38 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
         try {
             $mail_id = $this->getMailIdsFromRequest()[0] ?? 0;
             $mail_data = $this->umail->getMail($mail_id);
-            if ($mail_data === null || [] === (array) $mail_data['attachments']) {
+            if ($mail_data === null
+                || !($mail_data['attachments'] instanceof MailAttachments)
+                || $mail_data['attachments']->isEmpty()) {
                 throw new ilMailException('mail_error_reading_attachment');
             }
 
+            $attachments = $mail_data['attachments'];
             $type = $this->http->wrapper()->query()->retrieve(
                 'type',
                 $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
             );
 
             $mail_file_data = new ilFileDataMail($this->user->getId());
-            if (count($mail_data['attachments']) === 1) {
-                $attachment = current($mail_data['attachments']);
+
+            if ($attachments->isIrss()) {
+                $listing = $mail_file_data->getAttachmentListing($attachments->rcid());
+                if (count($listing) === 1) {
+                    $file = reset($listing);
+                    $mail_file_data->deliverFile($attachments->rcid(), $file['md5']);
+                } else {
+                    $mail_file_data->deliverAttachmentsAsZip(
+                        $mail_data['m_subject'],
+                        $mail_id,
+                        [],
+                        $type === 'draft'
+                    );
+                }
+                return;
+            }
+
+            if ($attachments->isLegacy() && count($attachments->legacyFilenames()) === 1) {
+                $attachment = current($attachments->legacyFilenames());
 
                 try {
                     if ($type === 'draft') {
@@ -1206,25 +1238,30 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
                         }
                         $path_to_file = $mail_file_data->getAbsoluteAttachmentPoolPathByFilename($attachment);
                         $filename = $attachment;
+                        ilFileDelivery::deliverFileLegacy($path_to_file, $filename);
                     } else {
                         $file = $mail_file_data->getAttachmentPathAndFilenameByMd5Hash(
                             md5((string) $attachment),
                             $mail_id
                         );
-                        $path_to_file = $file['path'];
-                        $filename = $file['filename'];
+                        if (isset($file['rcid']) && $file['rcid'] instanceof ResourceCollectionIdentification) {
+                            $mail_file_data->deliverFile($file['rcid'], $file['md5']);
+                        } else {
+                            ilFileDelivery::deliverFileLegacy($file['path'], $file['filename']);
+                        }
                     }
-                    ilFileDelivery::deliverFileLegacy($path_to_file, $filename);
                 } catch (OutOfBoundsException $e) {
                     throw new ilMailException('mail_error_reading_attachment', $e->getCode(), $e);
                 }
-            } else {
+            } elseif ($attachments->isLegacy()) {
                 $mail_file_data->deliverAttachmentsAsZip(
                     $mail_data['m_subject'],
                     $mail_id,
-                    $mail_data['attachments'],
+                    $attachments->legacyFilenames(),
                     $type === 'draft'
                 );
+            } else {
+                throw new ilMailException('mail_error_reading_attachment');
             }
         } catch (Exception $e) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt($e->getMessage()), true);

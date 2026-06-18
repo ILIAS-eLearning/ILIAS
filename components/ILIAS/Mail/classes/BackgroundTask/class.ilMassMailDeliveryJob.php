@@ -26,6 +26,7 @@ use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
+use ILIAS\Mail\Attachments\MailAttachments;
 
 class ilMassMailDeliveryJob extends AbstractJob
 {
@@ -73,7 +74,7 @@ class ilMassMailDeliveryJob extends AbstractJob
                 $recipients_bcc,
                 $value_object->getSubject(),
                 $value_object->getBody(),
-                $value_object->getAttachments(),
+                MailAttachments::fromLegacyFilenames($value_object->getAttachments()),
                 $value_object->isUsingPlaceholders()
             );
             $mail->sendMail($mail_data);

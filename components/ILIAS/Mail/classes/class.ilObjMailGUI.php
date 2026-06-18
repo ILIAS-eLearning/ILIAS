@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Mail\Autoresponder\AutoresponderService;
+use ILIAS\Mail\Attachments\MailAttachments;
 use ILIAS\Mail\Signature\MailUserSignature;
 use ILIAS\Mail\Signature\Signature;
 use ILIAS\Mail\Signature\MailInstallationSignature;
@@ -388,7 +389,7 @@ class ilObjMailGUI extends ilObjectGUI
             '',
             $this->lng->txt('mail_email_' . $lng_variable_prefix . '_subject'),
             $this->lng->txt('mail_email_' . $lng_variable_prefix . '_body'),
-            []
+            MailAttachments::empty()
         );
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('mail_external_test_sent'));

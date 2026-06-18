@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Mail\Attachments\MailAttachments;
+
 abstract class ilMailNotification
 {
     final public const int SUBJECT_TITLE_LENGTH = 60;
@@ -239,7 +241,7 @@ abstract class ilMailNotification
             '',
             $this->getSubject(),
             $this->getBody(),
-            $this->getAttachments()
+            MailAttachments::fromLegacyFilenames($this->getAttachments())
         );
         if ($errors !== []) {
             ilLoggerFactory::getLogger('mail')->dump($errors, ilLogLevel::ERROR);

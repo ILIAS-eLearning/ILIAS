@@ -34,6 +34,7 @@ use ILIAS\Contact\BuddySystem\MailRecipientSearch\MailRecipientSearchProvider;
 use ILIAS\Mail\RecipientSearch\UserSearchEndpointConfigurator;
 use ILIAS\Data\Clock\ClockFactory;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Mail\Attachments\MailAttachments;
 use ILIAS\Mail\Folder\MailScheduleData;
 use ILIAS\UI\URLBuilder;
 use ILIAS\Data\URI;
@@ -69,7 +70,7 @@ class ilMailFormGUI
     private readonly ilFileDataMail $mfile;
     private readonly GlobalHttpState $http;
     private readonly Refinery $refinery;
-    private ?array $request_attachments = null;
+    private ?MailAttachments $request_attachments = null;
     protected ilMailTemplateService $template_service;
     private readonly ilMailBodyPurifier $purifier;
     private string $mail_form_type = '';
@@ -229,9 +230,9 @@ class ilMailFormGUI
 
     public function saveMessageToOutbox(array $form_values, Form $form): void
     {
-        $files = [];
+        $attachments = MailAttachments::empty();
         if (count($form_values['attachments']) > 0) {
-            $files = $this->handleAttachments($form_values['attachments']);
+            $attachments = MailAttachments::fromIrss($this->handleAttachments($form_values['attachments']));
         }
 
         $rcp_to = '';
@@ -276,7 +277,7 @@ class ilMailFormGUI
                     $rcp_bcc,
                     ilUtil::securePlainString($form_values['m_subject'] ?? $this->lng->txt('mail_no_subject')),
                     $sanitized_message,
-                    $files,
+                    $attachments,
                     $form_values['use_placeholders'],
                     $outbox_id ?? null
                 ),
@@ -323,9 +324,9 @@ class ilMailFormGUI
             return;
         }
 
-        $files = [];
+        $attachments = MailAttachments::empty();
         if (count($value['attachments']) > 0) {
-            $files = $this->handleAttachments($value['attachments']);
+            $attachments = MailAttachments::fromIrss($this->handleAttachments($value['attachments']));
         }
 
         $mailer = $this->umail
@@ -355,7 +356,7 @@ class ilMailFormGUI
             $rcp_bcc,
             ilUtil::securePlainString($value['m_subject']),
             (new ilMailBody($value['m_message'], $this->purifier))->getContent(),
-            $files,
+            $attachments,
             $value['use_placeholders']
         )) {
             $mailer->autoresponder()->disableAutoresponder();
@@ -419,9 +420,9 @@ class ilMailFormGUI
         if ($value['m_subject'] === '') {
             $value['m_subject'] = $this->lng->txt('mail_no_subject');
         }
-        $files = [];
+        $attachments = MailAttachments::empty();
         if (count($value['attachments']) > 0) {
-            $files = $this->handleAttachments($value['attachments']);
+            $attachments = MailAttachments::fromIrss($this->handleAttachments($value['attachments']));
         }
 
         $draft_folder_id = $this->mbox->getDraftsFolder();
@@ -431,7 +432,7 @@ class ilMailFormGUI
         $rcp_bcc = !empty($value['rcp_bcc']) ? implode(',', $value['rcp_bcc']) : '';
 
         if ($errors = $this->umail->validateRecipients($rcp_to, $rcp_cc, $rcp_bcc)) {
-            $this->request_attachments = $files;
+            $this->request_attachments = $attachments;
             $this->showSubmissionErrors($errors);
             $this->showForm($form);
             return;
@@ -446,7 +447,7 @@ class ilMailFormGUI
 
         $this->umail->updateDraft(
             $draft_folder_id,
-            $files,
+            $attachments,
             $rcp_to,
             $rcp_cc,
             $rcp_bcc,
@@ -711,8 +712,14 @@ class ilMailFormGUI
                 ilSession::set('draft', $mail_id);
                 $mail_data = $this->umail->getMail($mail_id);
 
-                if (!is_null($mail_data['attachments']) || !empty($mail_data['attachments'])) {
-                    $mail_data['attachments'] = $this->filesFromLegacyToIRSS($mail_data);
+                if ($mail_data['attachments'] instanceof MailAttachments) {
+                    if ($mail_data['attachments']->isIrss()) {
+                        $mail_data['attachments'] = $this->FilesFromIRSSToLegacy($mail_data['attachments']->rcid());
+                    } elseif ($mail_data['attachments']->isLegacy()) {
+                        $mail_data['attachments'] = $this->filesFromLegacyToIRSS($mail_data);
+                    } else {
+                        $mail_data['attachments'] = [];
+                    }
                 }
 
                 ilMailFormCall::setContextId($mail_data['tpl_ctx_id']);
@@ -731,15 +738,20 @@ class ilMailFormGUI
                 $mail_data['rcp_to'] = $mail_data['rcp_cc'] = $mail_data['rcp_bcc'] = '';
                 $mail_data['m_subject'] = $this->umail->formatForwardSubject($mail_data['m_subject'] ?? '');
                 $mail_data['m_message'] = $this->umail->prependSignature($mail_data['m_message'] ?? '');
-                if (is_array($mail_data['attachments']) && count($mail_data['attachments']) && $error = $this->mfile->adoptAttachments(
-                    $mail_data['attachments'],
-                    $mail_id
-                )) {
-                    $this->tpl->setOnScreenMessage('info', $error);
-                }
-
-                if (!is_null($mail_data['attachments']) || ($mail_data['attachments'] != '')) {
-                    $mail_data['attachments'] = $this->filesFromLegacyToIRSS($mail_data);
+                if ($mail_data['attachments'] instanceof MailAttachments) {
+                    if ($mail_data['attachments']->isIrss()) {
+                        $mail_data['attachments'] = $this->FilesFromIRSSToLegacy($mail_data['attachments']->rcid());
+                    } elseif ($mail_data['attachments']->isLegacy()) {
+                        if ($error = $this->mfile->adoptAttachments(
+                            $mail_data['attachments']->legacyFilenames(),
+                            $mail_id
+                        )) {
+                            $this->tpl->setOnScreenMessage('info', $error);
+                        }
+                        $mail_data['attachments'] = $this->filesFromLegacyToIRSS($mail_data);
+                    } else {
+                        $mail_data['attachments'] = [];
+                    }
                 }
                 break;
 
@@ -841,8 +853,12 @@ class ilMailFormGUI
                     }
                 }
 
-                if ($this->request_attachments) {
-                    $mail_data['attachments'] = $this->request_attachments;
+                if ($this->request_attachments instanceof MailAttachments) {
+                    if ($this->request_attachments->isIrss()) {
+                        $mail_data['attachments'] = $this->FilesFromIRSSToLegacy($this->request_attachments->rcid());
+                    } elseif ($this->request_attachments->isLegacy()) {
+                        $mail_data['attachments'] = $this->request_attachments->legacyFilenames();
+                    }
                 }
                 break;
         }
@@ -919,10 +935,11 @@ class ilMailFormGUI
             $result = $input_results;
         }
 
-        $resource_collection_id = null;
+        $stage_attachments = null;
         if (!empty($result['attachments']->getValue())) {
-            $files = $this->handleAttachments($result['attachments']->getValue());
-            $resource_collection_id = $this->getIdforCollection($files);
+            $stage_attachments = MailAttachments::fromIrss(
+                $this->handleAttachments($result['attachments']->getValue())
+            );
         }
 
         $rcp_to = implode(',', $result['rcp_to']->getValue() ?? []);
@@ -936,7 +953,7 @@ class ilMailFormGUI
             $rcp_bcc,
             ilUtil::securePlainString($result['m_subject']->getValue()),
             ilUtil::securePlainString($result['m_message']->getValue()),
-            $resource_collection_id,
+            $stage_attachments,
             (bool) $result['use_placeholders']->getValue(),
             ilMailFormCall::getContextId(),
             ilMailFormCall::getContextParameters()
@@ -982,6 +999,7 @@ class ilMailFormGUI
 
     protected function buildFormElements(?array $mail_data): array
     {
+        $mail_data ??= [];
         $ff = $this->ui_factory->input()->field();
 
         $rcp_to = $this->user_search->getInput(
@@ -1014,17 +1032,23 @@ class ilMailFormGUI
             }
         }
 
-        $has_files = !empty($mail_data['attachments']);
         $attachments = $ff->file(
             $this->upload_handler,
             $this->lng->txt('attachments')
         )->withMaxFiles(10);
 
-        if (isset($mail_data['attachments']) && $has_files) {
-            if ($mail_data['attachments'] instanceof \ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification) {
-                $mail_data['attachments'] = $this->FilesFromIRSSToLegacy($mail_data['attachments']);
+        $mail_attachments = $mail_data['attachments'] ?? null;
+        if ($mail_attachments instanceof MailAttachments && !$mail_attachments->isEmpty()) {
+            if ($mail_attachments->isIrss()) {
+                $mail_data['attachments'] = $this->FilesFromIRSSToLegacy($mail_attachments->rcid());
+            } elseif ($mail_attachments->isLegacy()) {
+                $mail_data['attachments'] = $mail_attachments->legacyFilenames();
+            } else {
+                $mail_data['attachments'] = [];
             }
-            $attachments = $attachments->withValue($mail_data['attachments'] ?? []);
+            $attachments = $attachments->withValue($mail_data['attachments']);
+        } elseif (is_array($mail_attachments) && $mail_attachments !== []) {
+            $attachments = $attachments->withValue($mail_attachments);
         }
 
         $template_chb = null;

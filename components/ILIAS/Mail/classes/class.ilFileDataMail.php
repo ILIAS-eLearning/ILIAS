@@ -19,7 +19,14 @@
 declare(strict_types=1);
 
 use ILIAS\Filesystem\Filesystem;
+use ILIAS\ResourceStorage\Services;
+use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\ResourceStorage\Collection\ResourceCollection;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Resource\Repository\CollectionDBRepository;
+use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
+use ILIAS\FileDelivery\Delivery as FileDelivery;
 
 class ilFileDataMail extends ilFileData
 {
@@ -29,6 +36,8 @@ class ilFileDataMail extends ilFileData
     protected Filesystem $storage_directory;
     protected ilDBInterface $db;
     protected ILIAS $ilias;
+    private readonly Services $irss;
+    private readonly ilMailAttachmentStakeholder $stakeholder;
 
     public function __construct(public int $user_id = 0)
     {
@@ -43,21 +52,12 @@ class ilFileDataMail extends ilFileData
         $this->db = $DIC->database();
         $this->tmp_directory = $DIC->filesystem()->temp();
         $this->storage_directory = $DIC->filesystem()->storage();
+        $this->irss = $DIC->resourceStorage();
+        $this->stakeholder = new ilMailAttachmentStakeholder();
+        $this->stakeholder->setOwner($this->user_id);
 
         $this->checkReadWrite();
         $this->initAttachmentMaxUploadSize();
-    }
-
-    public function initDirectory(): bool
-    {
-        if (is_writable($this->getPath())
-            && mkdir($this->getPath() . '/' . MAILPATH)
-            && chmod($this->getPath() . '/' . MAILPATH, 0755)) {
-            $this->mail_path = $this->getPath() . '/' . MAILPATH;
-            return true;
-        }
-
-        return false;
     }
 
     public function getUploadLimit(): int
@@ -91,6 +91,22 @@ class ilFileDataMail extends ilFileData
      */
     public function getAttachmentPathAndFilenameByMd5Hash(string $md5FileHash, int $mail_id): array
     {
+        $rcid = $this->getRcidForMail($mail_id);
+        if ($rcid !== null) {
+            $resource_identification = $this->getResourceIdByHash($rcid, $md5FileHash);
+            if ($resource_identification === null) {
+                throw new OutOfBoundsException();
+            }
+            $info = $this->irss->manage()->getCurrentRevision($resource_identification)->getInformation();
+
+            return [
+                'path' => '',
+                'filename' => $info->getTitle(),
+                'rcid' => $rcid,
+                'md5' => $md5FileHash,
+            ];
+        }
+
         $res = $this->db->queryF(
             'SELECT path FROM mail_attachment WHERE mail_id = %s',
             ['integer'],
@@ -375,6 +391,17 @@ class ilFileDataMail extends ilFileData
         return true;
     }
 
+    public function assignAttachmentsToCollection(
+        int $mail_id,
+        ResourceCollectionIdentification $rcid
+    ): void {
+        $this->db->manipulateF(
+            'INSERT INTO mail_attachment (mail_id, path, rcid) VALUES (%s, %s, %s)',
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
+            [$mail_id, '', $rcid->serialize()]
+        );
+    }
+
     public function assignAttachmentsToDirectory(int $a_mail_id, int $a_sent_mail_id): void
     {
         $storage = self::getStorage($a_sent_mail_id, $this->user_id);
@@ -387,18 +414,56 @@ class ilFileDataMail extends ilFileData
         );
     }
 
+    public function getRcidForMail(int $mail_id): ?ResourceCollectionIdentification
+    {
+        $res = $this->db->queryF(
+            'SELECT rcid FROM mail_attachment WHERE mail_id = %s',
+            ['integer'],
+            [$mail_id]
+        );
+
+        if ($this->db->numRows($res) !== 1) {
+            return null;
+        }
+
+        $row = $this->db->fetchAssoc($res);
+        $rcid = (string) ($row['rcid'] ?? '');
+        if ($rcid === '' || $rcid === '-') {
+            return null;
+        }
+
+        return new ResourceCollectionIdentification($rcid);
+    }
+
+    public function countMailsReferencingRcid(string $rcid): int
+    {
+        $res = $this->db->queryF(
+            'SELECT COUNT(mail_id) cnt FROM mail_attachment WHERE rcid = %s',
+            ['text'],
+            [$rcid]
+        );
+
+        return (int) $this->db->fetchObject($res)->cnt;
+    }
+
     public function deassignAttachmentFromDirectory(int $a_mail_id): bool
     {
         $res = $this->db->query(
-            'SELECT path FROM mail_attachment WHERE mail_id = ' . $this->db->quote($a_mail_id, 'integer')
+            'SELECT path, rcid FROM mail_attachment WHERE mail_id = ' . $this->db->quote($a_mail_id, 'integer')
         );
 
         $path = '';
+        $rcid = '';
         while ($row = $this->db->fetchObject($res)) {
             $path = (string) $row->path;
+            $rcid = (string) ($row->rcid ?? '');
         }
 
-        if ($path !== '') {
+        if ($rcid !== '' && $rcid !== '-') {
+            if ($this->countMailsReferencingRcid($rcid) === 1) {
+                $this->removeCollection(new ResourceCollectionIdentification($rcid));
+            }
+        } elseif ($path !== '') {
             $res = $this->db->query(
                 'SELECT COUNT(mail_id) count_mail_id FROM mail_attachment WHERE path = ' .
                 $this->db->quote($path, 'text')
@@ -495,6 +560,7 @@ class ilFileDataMail extends ilFileData
 			INNER JOIN mail
 				ON mail.mail_id = ma1.mail_id
 			WHERE mail.user_id = %s
+			AND ma1.path IS NOT NULL AND ma1.path != ""
 			AND (SELECT COUNT(tmp.path) FROM mail_attachment tmp WHERE tmp.path = ma1.path) = 1
 		';
         $res = $this->db->queryF(
@@ -518,6 +584,26 @@ class ilFileDataMail extends ilFileData
                     }
                 }
                 @rmdir($path);
+            } catch (Exception) {
+            }
+        }
+
+        $rcid_query = '
+            SELECT DISTINCT(ma1.rcid)
+            FROM mail_attachment ma1
+            INNER JOIN mail ON mail.mail_id = ma1.mail_id
+            WHERE mail.user_id = %s
+            AND ma1.rcid IS NOT NULL AND ma1.rcid != "" AND ma1.rcid != "-"
+            AND (SELECT COUNT(tmp.rcid) FROM mail_attachment tmp WHERE tmp.rcid = ma1.rcid) = 1
+        ';
+        $rcid_res = $this->db->queryF(
+            $rcid_query,
+            ['integer'],
+            [$this->user_id]
+        );
+        while ($row = $this->db->fetchAssoc($rcid_res)) {
+            try {
+                $this->removeCollection(new ResourceCollectionIdentification($row['rcid']));
             } catch (Exception) {
             }
         }
@@ -547,6 +633,12 @@ class ilFileDataMail extends ilFileData
         array $files = [],
         bool $is_draft = false
     ): void {
+        $rcid = $this->getRcidForMail($mail_id);
+        if ($rcid !== null && !$is_draft) {
+            $this->deliverCollectionAsZip($rcid, $basename);
+            return;
+        }
+
         $path = '';
         if (!$is_draft) {
             $path = $this->getAttachmentPathByMailId($mail_id);
@@ -599,5 +691,308 @@ class ilFileDataMail extends ilFileData
             $processing_directory . '/' . $download_filename . '.zip',
             ilFileUtils::getValidFilename($download_filename . '.zip')
         );
+    }
+
+    public function getStakeholder(): ilMailAttachmentStakeholder
+    {
+        return $this->stakeholder;
+    }
+
+    public function streamFromPath(string $absolute_path, ?string $revision_title = null): ResourceIdentification
+    {
+        $stream = Streams::ofResource(fopen($absolute_path, 'rb'));
+
+        return $this->irss->manage()->stream(
+            $stream,
+            $this->stakeholder,
+            $revision_title ?? md5(basename($absolute_path))
+        );
+    }
+
+    public function uploadToIrss(UploadResult $result): ResourceIdentification
+    {
+        return $this->irss->manage()->upload(
+            $result,
+            $this->stakeholder,
+            md5($result->getName())
+        );
+    }
+
+    /**
+     * @param list<ResourceIdentification> $resource_identifications
+     */
+    public function createCollectionFromResourceIdentifications(
+        array $resource_identifications
+    ): ResourceCollectionIdentification {
+        $rcid = $this->irss->collection()->id(null, $this->user_id);
+        $collection = $this->irss->collection()->get($rcid);
+        foreach ($resource_identifications as $resource_identification) {
+            $collection->add($resource_identification);
+        }
+        $this->irss->collection()->store($collection);
+
+        return $collection->getIdentification();
+    }
+
+    /**
+     * @param list<string> $filenames Pool filenames without user prefix
+     */
+    public function createCollectionFromPoolFilenames(array $filenames): ?ResourceCollectionIdentification
+    {
+        return $this->adoptPoolFilenamesToCollection(null, $filenames);
+    }
+
+    /**
+     * @param list<string> $filenames Pool filenames without user prefix
+     */
+    public function adoptPoolFilenamesToCollection(
+        ?ResourceCollectionIdentification $rcid,
+        array $filenames
+    ): ?ResourceCollectionIdentification {
+        if ($filenames === []) {
+            return null;
+        }
+
+        if ($rcid !== null && $this->irss->collection()->exists($rcid->serialize())) {
+            $collection_id = $this->irss->collection()->id($rcid->serialize(), $this->user_id);
+        } else {
+            $collection_id = $this->irss->collection()->id(null, $this->user_id);
+        }
+
+        $collection = $this->irss->collection()->get($collection_id);
+        $added = false;
+
+        foreach ($filenames as $filename) {
+            $path = $this->getAbsoluteAttachmentPoolPathByFilename($filename);
+            if (!is_file($path)) {
+                continue;
+            }
+
+            $hash = md5(basename($path));
+            if ($this->resourceIdByHashInCollection($collection, $hash) !== null) {
+                continue;
+            }
+
+            $collection->add($this->streamFromPath($path, $hash));
+            $added = true;
+        }
+
+        if (!$added) {
+            return null;
+        }
+
+        $this->irss->collection()->store($collection);
+
+        return $collection->getIdentification();
+    }
+
+    public function poolFilenameHash(string $pool_filename): string
+    {
+        return md5(basename($this->getAbsoluteAttachmentPoolPathByFilename($pool_filename)));
+    }
+
+    /**
+     * @param list<string> $absolute_paths
+     */
+    public function createCollectionFromPaths(array $absolute_paths): ?ResourceCollectionIdentification
+    {
+        $resource_identifications = [];
+        foreach ($absolute_paths as $absolute_path) {
+            if (!is_file($absolute_path)) {
+                continue;
+            }
+            $resource_identifications[] = $this->streamFromPath($absolute_path);
+        }
+
+        if ($resource_identifications === []) {
+            return null;
+        }
+
+        return $this->createCollectionFromResourceIdentifications($resource_identifications);
+    }
+
+    public function getCollection(ResourceCollectionIdentification $rcid): ResourceCollection
+    {
+        if (!$this->collectionIsKnown($rcid)) {
+            throw new OutOfBoundsException(
+                sprintf('Mail attachment collection "%s" does not exist.', $rcid->serialize())
+            );
+        }
+
+        $this->repairCollectionHeaderIfNeeded($rcid);
+
+        return $this->irss->collection()->get($rcid, $this->user_id);
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function getAssignedRidStrings(ResourceCollectionIdentification $rcid): array
+    {
+        $res = $this->db->queryF(
+            'SELECT ' . CollectionDBRepository::R_IDENTIFICATION .
+            ' FROM ' . CollectionDBRepository::COLLECTION_ASSIGNMENT_TABLE_NAME .
+            ' WHERE ' . CollectionDBRepository::C_IDENTIFICATION . ' = %s ORDER BY position ASC',
+            [ilDBConstants::T_TEXT],
+            [$rcid->serialize()]
+        );
+
+        $rids = [];
+        while ($row = $this->db->fetchAssoc($res)) {
+            $rids[] = (string) $row[CollectionDBRepository::R_IDENTIFICATION];
+        }
+
+        return $rids;
+    }
+
+    private function collectionIsKnown(ResourceCollectionIdentification $rcid): bool
+    {
+        return $this->irss->collection()->exists($rcid->serialize())
+            || $this->getAssignedRidStrings($rcid) !== [];
+    }
+
+    private function repairCollectionHeaderIfNeeded(ResourceCollectionIdentification $rcid): void
+    {
+        if ($this->irss->collection()->exists($rcid->serialize())
+            || $this->getAssignedRidStrings($rcid) === []) {
+            return;
+        }
+
+        $this->db->replace(
+            CollectionDBRepository::COLLECTION_TABLE_NAME,
+            [
+                CollectionDBRepository::C_IDENTIFICATION => [ilDBConstants::T_TEXT, $rcid->serialize()],
+            ],
+            [
+                'title' => [ilDBConstants::T_TEXT, ''],
+                'owner_id' => [ilDBConstants::T_INTEGER, $this->user_id],
+            ]
+        );
+    }
+
+    public function getResourceIdByHash(
+        ResourceCollectionIdentification $rcid,
+        string $hash
+    ): ?ResourceIdentification {
+        if (!$this->collectionIsKnown($rcid)) {
+            return null;
+        }
+
+        foreach ($this->getAssignedRidStrings($rcid) as $rid) {
+            $resource_identification = $this->irss->manage()->find($rid);
+            if ($resource_identification === null) {
+                continue;
+            }
+
+            $revision = $this->irss->manage()->getCurrentRevision($resource_identification);
+            if ($revision->getTitle() === $hash) {
+                return $resource_identification;
+            }
+        }
+
+        return null;
+    }
+
+    private function resourceIdByHashInCollection(ResourceCollection $collection, string $hash): ?ResourceIdentification
+    {
+        foreach ($collection->getResourceIdentifications() as $resource_identification) {
+            $revision = $this->irss->manage()->getCurrentRevision($resource_identification);
+            if ($revision->getTitle() === $hash) {
+                return $resource_identification;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @return list<string>
+     */
+    public function getRidsFromCollection(ResourceCollectionIdentification $rcid): array
+    {
+        $rids = [];
+        foreach ($this->getAssignedRidStrings($rcid) as $rid) {
+            if ($this->irss->manage()->find($rid) !== null) {
+                $rids[] = $rid;
+            }
+        }
+
+        return $rids;
+    }
+
+    /**
+     * @return array<string, array{md5: string, name: string, size: int, ctime: string}>
+     */
+    public function getAttachmentListing(ResourceCollectionIdentification $rcid): array
+    {
+        $files = [];
+        foreach ($this->getAssignedRidStrings($rcid) as $rid) {
+            $resource_identification = $this->irss->manage()->find($rid);
+            if ($resource_identification === null) {
+                continue;
+            }
+
+            $revision = $this->irss->manage()->getCurrentRevision($resource_identification);
+            $info = $revision->getInformation();
+            $file_title = $info->getTitle();
+            $files[$file_title] = [
+                'md5' => $revision->getTitle(),
+                'name' => $file_title,
+                'size' => $info->getSize(),
+                'ctime' => $info->getCreationDate()->format('Y-m-d H:i:s'),
+            ];
+        }
+
+        return $files;
+    }
+
+    public function deliverFile(ResourceCollectionIdentification $rcid, string $md5_hash): void
+    {
+        $resource_identification = $this->getResourceIdByHash($rcid, $md5_hash);
+        if ($resource_identification === null) {
+            throw new OutOfBoundsException('mail_error_reading_attachment');
+        }
+
+        $this->irss->consume()->download($resource_identification)->run();
+    }
+
+    public function deliverCollectionAsZip(ResourceCollectionIdentification $rcid, string $zip_basename): void
+    {
+        $zip_filename = FileDelivery::returnASCIIFileName($zip_basename . '.zip');
+        $this->irss
+            ->consume()
+            ->downloadCollection($rcid, $zip_filename)
+            ->useRevisionTitlesForFileNames(false)
+            ->run();
+    }
+
+    public function removeCollection(ResourceCollectionIdentification $rcid, bool $ignore_usage = true): void
+    {
+        $this->irss->collection()->remove(
+            $this->irss->collection()->id($rcid->serialize()),
+            $this->stakeholder,
+            $ignore_usage
+        );
+    }
+
+    /**
+     * @return list<array{path: string, name: string}>
+     */
+    public function getPathsForMimeAttachments(ResourceCollectionIdentification $rcid): array
+    {
+        $attachments = [];
+        foreach ($this->getCollection($rcid)->getResourceIdentifications() as $resource_identification) {
+            $revision = $this->irss->manage()->getCurrentRevision($resource_identification);
+            $info = $revision->getInformation();
+            $stream = $this->irss->consume()->stream($resource_identification);
+            $temp_path = ilFileUtils::ilTempnam();
+            file_put_contents($temp_path, (string) $stream->getStream());
+            $attachments[] = [
+                'path' => $temp_path,
+                'name' => $info->getTitle(),
+            ];
+        }
+
+        return $attachments;
     }
 }
