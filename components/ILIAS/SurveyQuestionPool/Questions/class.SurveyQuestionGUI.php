@@ -329,7 +329,7 @@ abstract class SurveyQuestionGUI
             $this->object->setAuthor($form->getInput("author"));
             $this->object->setDescription($form->getInput("description"));
 
-            $purifier = new HTMLPurifier();
+            $purifier = new ilSvyStandardPurifier();
             $question = $form->getInput("question");
 
             $question = $purifier->purify($question);
