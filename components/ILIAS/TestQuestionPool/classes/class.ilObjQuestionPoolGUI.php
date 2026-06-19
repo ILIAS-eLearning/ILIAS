@@ -1178,8 +1178,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
     private function renderImportSuccess(ImportStageRunner $runner, StageResult $result): void
     {
+        $pool_obj_id = $this->data_factory->objId($result->context->get('pool_obj_id'));
+        $pool_ref_id = $pool_obj_id->toReferenceIds()[0]->toInt();
+
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_imported'), true);
-        $this->ctrl->setParameter($this, 'ref_id', $result->context->get('pool_obj_id'));
+        $this->ctrl->setParameter($this, 'ref_id', $pool_ref_id);
         $this->ctrl->redirectByClass(self::class, self::DEFAULT_CMD);
     }
 
