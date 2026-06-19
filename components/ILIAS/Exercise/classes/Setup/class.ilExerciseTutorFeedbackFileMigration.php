@@ -56,7 +56,7 @@ class ilExerciseTutorFeedbackFileMigration implements Migration
     {
         $db = $this->helper->getDatabase();
         $r = $this->helper->getDatabase()->query(
-            "SELECT ass.id, ass.exc_id, ob.owner, st.usr_id FROM exc_assignment ass JOIN object_data ob ON ass.exc_id = ob.obj_id JOIN exc_mem_ass_status st ON st.ass_id = ass.id WHERE st.feedback_rcid IS NULL OR st.feedback_rcid = '' LIMIT 1;"
+            "SELECT ass.id, ass.exc_id, ob.owner, st.usr_id FROM exc_assignment ass JOIN object_data ob ON ass.exc_id = ob.obj_id JOIN exc_mem_ass_status st ON st.ass_id = ass.id WHERE ass.type <> 4 AND ass.type <> 6 AND st.feedback_rcid IS NULL OR st.feedback_rcid = '' LIMIT 1;"
         );
         $d = $this->helper->getDatabase()->fetchObject($r);
         $exec_id = (int) $d->exc_id;
@@ -92,7 +92,7 @@ class ilExerciseTutorFeedbackFileMigration implements Migration
     public function getRemainingAmountOfSteps(): int
     {
         $r = $this->helper->getDatabase()->query(
-            "SELECT count(*) AS amount FROM exc_assignment ass JOIN object_data ob ON ass.exc_id = ob.obj_id JOIN exc_mem_ass_status st ON st.ass_id = ass.id WHERE st.feedback_rcid IS NULL OR st.feedback_rcid = ''"
+            "SELECT count(*) AS amount FROM exc_assignment ass JOIN object_data ob ON ass.exc_id = ob.obj_id JOIN exc_mem_ass_status st ON st.ass_id = ass.id WHERE ass.type <> 4 AND ass.type <> 6 AND st.feedback_rcid IS NULL OR st.feedback_rcid = ''"
         );
         $d = $this->helper->getDatabase()->fetchObject($r);
 
