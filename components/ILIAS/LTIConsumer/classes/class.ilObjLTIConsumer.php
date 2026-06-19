@@ -885,9 +885,11 @@ class ilObjLTIConsumer extends ilObject2
                 break;
         }
 
-        $userIdLTI = ilCmiXapiUser::getIdentAsId($this->getProvider()->getPrivacyIdent(), $DIC->user());
-
         $emailPrimary = $cmixUser->getUsrIdent();
+        $userIdLTI = ilCmiXapiUser::getIdentAsId($this->getProvider()->getPrivacyIdent(), $DIC->user());
+        if ($this->getProvider()->getPrivacyIdent() == ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_RANDOM) {
+            $userIdLTI = strstr($emailPrimary, '@' . ilCmiXapiUser::getIliasUuid(), true);
+        }
 
         ilLTIConsumerResult::getByKeys($this->getId(), $DIC->user()->getId(), true);
 

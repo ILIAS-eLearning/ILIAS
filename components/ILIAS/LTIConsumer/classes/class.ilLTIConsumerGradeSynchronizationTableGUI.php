@@ -69,6 +69,7 @@ class ilLTIConsumerGradeSynchronizationTableGUI implements DataRetrieval
         $records = $this->applyOrdering($this->records, $order, $range);
         foreach ($records as $record) {
             $record['lti_timestamp'] = new DateTimeImmutable($record['lti_timestamp']);
+            $record['actor'] = ilObjUser::_lookupFullname((int) $record['usr_id']);
             $record['score_given'] = $record['score_given'] . ' / ' . $record['score_maximum'];
             $record['activity_progress'] = $this->lng->txt('grade_activity_progress_' . strtolower($record['activity_progress']));
             $record['grading_progress'] = $this->lng->txt('grade_grading_progress_' . strtolower($record['grading_progress']));
