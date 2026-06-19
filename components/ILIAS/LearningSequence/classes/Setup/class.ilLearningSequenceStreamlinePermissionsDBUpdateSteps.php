@@ -35,7 +35,17 @@ class ilLearningSequenceStreamlinePermissionsDBUpdateSteps implements \ilDatabas
         $participate_ops_id = $this->getOperationId('participate');
         $unparticipate_ops_id = $this->getOperationId('unparticipate');
 
-        if ($read_ops_id === null || $participate_ops_id === null || $unparticipate_ops_id === null) {
+        if ($read_ops_id === null) {
+            throw new \RuntimeException('Cannot migrate learning sequence permissions: RBAC operation "read" not found.');
+        }
+
+        $old_ops_ids = array_values(
+            array_filter([
+                $participate_ops_id,
+                $unparticipate_ops_id
+            ])
+        );
+        if ($old_ops_ids === []) {
             return;
         }
 
@@ -59,13 +69,19 @@ class ilLearningSequenceStreamlinePermissionsDBUpdateSteps implements \ilDatabas
             }
 
             $ops = array_map('intval', $ops);
-            $has_old = in_array($participate_ops_id, $ops, true) || in_array($unparticipate_ops_id, $ops, true);
+            $has_old = false;
+            foreach ($old_ops_ids as $old_ops_id) {
+                if (in_array((int) $old_ops_id, $ops, true)) {
+                    $has_old = true;
+                    break;
+                }
+            }
             if (!$has_old) {
                 continue;
             }
 
             $ops[] = $read_ops_id;
-            $ops = array_values(array_unique(array_diff($ops, [$participate_ops_id, $unparticipate_ops_id])));
+            $ops = array_values(array_unique(array_diff($ops, array_map('intval', $old_ops_ids))));
             sort($ops);
 
             $this->db->manipulateF(
