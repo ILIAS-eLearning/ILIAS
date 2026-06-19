@@ -289,7 +289,7 @@ class TestImporter
         $old_test_id = $test_object->getTestId();
 
         $test_object->setTestId(-1);
-        $test_object->setTitle("{$test_object->getTitle()} (Imported)"); //TODO: Remove after testing
+        $test_object->setTitle($test_object->getTitle());
         $new_obj_id = $test_object->create();
         $test_object->saveToDb(true);
         $this->log->debug("Created new test object: {$old_test_id} -> {$test_object->getTestId()} (Test ID), {$old_obj_id} -> {$new_obj_id} (Object ID)");
