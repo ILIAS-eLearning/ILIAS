@@ -10747,12 +10747,13 @@ irss#:#type#:#File Type
 irss#:#upload_field_title#:#Selected Files
 irss#:#upload_modal_title#:#Add Files
 itgr#:#itgr_always_open#:#Always Open
-itgr#:#itgr_assign_materials#:#Assign Materials
+itgr#:#itgr_assign_materials#:#Organize Objects
 itgr#:#itgr_assigned_materials#:#Assigned Materials
 itgr#:#itgr_assignment#:#Assigned to this Item Group
 itgr#:#itgr_assignment_to_other_itgr#:#Already assigned to another Item Group
 itgr#:#itgr_behaviour#:#Block Behaviour
 itgr#:#itgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.
+itgr#:#itgr_create_and_assign_object#:#Create and Assign Object
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.
 itgr#:#itgr_edit#:#Edit Item Groups
 itgr#:#itgr_expandable_closed#:#Expandable (initially closed)
@@ -10763,6 +10764,7 @@ itgr#:#itgr_list_default#:#Default
 itgr#:#itgr_list_default_info#:#Inherits value from upper container.
 itgr#:#itgr_list_presentation#:#Item Presentation
 itgr#:#itgr_materials#:#Materials
+itgr#:#itgr_organise_objects#:#Manage Objects
 itgr#:#itgr_show_title#:#Show Title
 itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.
 itgr#:#itgr_tile#:#Tiles

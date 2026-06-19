@@ -914,7 +914,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                 $this->ref_id
             )
         );
-        $gui->render();
+        $gui->renderToolbarAction();
         $this->ctrl->clearParametersByClass(ilRepositoryGUI::class);
     }
 

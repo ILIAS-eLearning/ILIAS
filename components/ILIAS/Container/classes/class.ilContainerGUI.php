@@ -347,7 +347,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
             $this->buildAddNewItemElements($this->getCreatableObjectTypes())
         );
-        $gui->render();
+        $gui->renderToolbarAction();
     }
 
     public function getContentGUI(): ilContainerContentGUI

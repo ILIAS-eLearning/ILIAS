@@ -20,6 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\ILIASObject\Creation;
 
+use ILIAS\UI\Component\Clickable;
+use ILIAS\UI\Component\Divider\Horizontal;
+use ILIAS\UI\Component\Menu\Sub;
+use ILIAS\UI\Component\Modal\RoundTrip;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 
@@ -31,10 +35,6 @@ use ILIAS\UI\Renderer as UIRenderer;
 class AddNewItemGUI
 {
     private \ilLanguage $lng;
-    private \ilObjectDefinition $obj_definition;
-    private \ilSetting $settings;
-    private \ilAccessHandler $access;
-    private \ilCtrl $ctrl;
     private \ilToolbarGUI $toolbar;
     private \ilGlobalTemplateInterface $tpl;
 
@@ -42,7 +42,7 @@ class AddNewItemGUI
     private UIRenderer $ui_renderer;
 
     /**
-     * @param array<ILIAS\ILIASObject\Creation\AddNewItemElement> $elements
+     * @param array<AddNewItemElement> $elements
      * The Key MUST contain the object type or the
      */
     public function __construct(
@@ -58,21 +58,31 @@ class AddNewItemGUI
         $this->ui_renderer = $DIC['ui.renderer'];
     }
 
-    /**
-     * Add new item selection to current page incl. toolbar (trigger) and overlay
-     */
-    public function render(): void
+    public function createModal(): ?RoundTrip
     {
         if ($this->elements === []) {
-            return;
+            return null;
         }
-        $modal = $this->ui_factory->modal()->roundtrip(
+
+        return $this->ui_factory->modal()->roundtrip(
             $this->lng->txt('cntr_add_new_item'),
             $this->ui_factory->menu()->drilldown(
                 $this->lng->txt('object_list'),
                 $this->buildAddNewItemsMenu($this->elements)
             )
         );
+    }
+
+    /**
+     * Add new item selection to current page incl. toolbar (trigger) and overlay
+     */
+    public function renderToolbarAction(): void
+    {
+        $modal = $this->createModal();
+
+        if ($modal === null) {
+            return;
+        }
 
         $this->toolbar->addComponent(
             $this->ui_factory->button()->primary(
@@ -87,7 +97,8 @@ class AddNewItemGUI
     }
 
     /**
-     * @return 	array<Component\Menu\Sub|Component\Clickable|Divider\Horizontal>
+     * @param array<AddNewItemElement> $elements
+     * @return ?array<Sub|Clickable|Horizontal>
      */
     private function buildAddNewItemsMenu(array $elements): ?array
     {
@@ -99,6 +110,7 @@ class AddNewItemGUI
                     $element->getLabel(),
                     $this->buildAddNewItemsMenu($element->getSubElements())
                 );
+                continue;
             }
             if ($element->getType() === AddNewItemElementTypes::Object) {
                 $sub_menu[] = $this->ui_factory->link()->bulky(
@@ -106,7 +118,6 @@ class AddNewItemGUI
                     $element->getLabel(),
                     $element->getCreationUri()
                 );
-                continue;
             }
         }
 
