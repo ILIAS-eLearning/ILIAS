@@ -132,7 +132,7 @@ When using the 'Print Answers' action from a question, all answers to a question
 
 ### Test > Participants
 
-The table 'Participants' at the tab Test > Participants shows following personal data linked to the test attempt. Those are also shown, if the action 'Show Results' is used. The purpose of the presentation is giving accounts with 'Edit Settings' permission an overview of all test attempts and the related data.
+The table 'Participants' at the tab Test > Participants shows following personal data linked to the test attempt. Those are also shown, if the action 'Show Results' is used. The purpose of the presentation is giving accounts with 'Edit Settings' or 'Test Results' permission an overview of all test attempts and the related data.
 
 - Name (originates from the user component)
 - Login (originates from the user component)
@@ -157,7 +157,9 @@ At the subtabs Test > My Results > Test Results and Test > My Results > Printabl
 
 ### Test > Scoring
 
-The tab Test > Scoring shows following personal data linked to the test attempt. This is needed in order to review and probably change the scoring ot test attempts. If the test is set to anonymous (see above), 'Name' and 'Login' are replaced by the 'Test ID'.
+The tab Test > Scoring shows following personal data linked to the test attempt for accounts with 'Edit Settings' permission. This is needed in order to review and probably change the scoring ot test attempts. If the test is set to anonymous (see above), 'Name' and 'Login' are replaced by the 'Test ID'.
+
+Accounts with 'Score anonymously' permission are able to access the tab Test > Scoring, but are not able to see 'Name' and 'Login'.
 
 - Name
 - Login
@@ -236,3 +238,12 @@ The 'XML export incl. Participant Results' contains all personal data, which is 
 ### Administration > Repository and Objects > Test and Assessment > Log Data > Log Data Output
 
 Accounts with the 'Edit Settings' permission of the administration node Administration > Repository and Objects > Test and Assessment > Log Data > Log Data Output are able to export any log entries and all linked personal data from all tests of the platform.
+
+## Summary
+
+| Data | Stored in DB | Presented to accounts with 'Read' Permission | Presented to accounts with 'Edit Settings' Permission |  Presented to accounts with 'Test Results' Permission | Presented to accounts with 'Score anonymously' Permission | Exported | Deleted with removing test attempt | Deleted with removing test object | special settings |
+|------|---------------|---------------------------------------------|------------------------------------------------------|----------------------------------------------------------------|------------------------------------------------------|------------------------------------------------------|------------------------------------|--------------------------------------|-------------------|
+| test attempt data (e.g. account, timestamps, scoring) | reference to by ID | if activated | yes | yes | yes, but anonymised| yes | yes | yes | anonymous test without account presentation, gamification with presentation to all accounts |
+| question data (e.g. author, statistics) | yes & reference to by ID | no | yes | no | no | yes | no | if question only was used at the deleted test object | value for author can be changed manually |
+| assignment of account as 'Participant' | reference to by ID | if setting 'Select Participants Manually' is used | yes | yes | no | yes | no, but with deletion of assignment | yes | anonymous test without account presentation |
+| Personal Test Settings Templates author | yes & reference to by ID | no | only own templates | only own templates | only own templates | yes | no | no, can be deleted separately |
