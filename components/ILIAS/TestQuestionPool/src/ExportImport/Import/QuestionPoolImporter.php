@@ -147,7 +147,7 @@ class QuestionPoolImporter
         $pool_object = $transformations->denormalize($normalized, ilObjQuestionPool::class);
         $old_pool_id = $pool_object->getId();
 
-        $pool_object->setTitle('Imported'); //TODO: Remove after testing
+        $pool_object->setTitle($pool_object->getTitle());
         $new_pool_id = $pool_object->create(true);
         $pool_object->getObjectProperties()->storePropertyIsOnline(
             $pool_object->getObjectProperties()->getPropertyIsOnline()->withOffline()
