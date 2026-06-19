@@ -57,7 +57,7 @@ class ilItemGroupAR extends ActiveRecord
      * @con_length    255
      * @con_is_notnull yes
      */
-    protected string $display = self::DISPLAY_WITH_TITLE;
+    protected ?string $display = self::DISPLAY_WITH_TITLE;
 
     /**
      * @var string
@@ -67,7 +67,7 @@ class ilItemGroupAR extends ActiveRecord
      * @con_length    255
      * @con_is_notnull yes
      */
-    protected string $toggleable_initially = self::DISPLAY_WITH_TITLE_AND_TOGGLEABLE_INITIALLY_OPEN;
+    protected ?string $toggleable_initially = self::DISPLAY_WITH_TITLE_AND_TOGGLEABLE_INITIALLY_OPEN;
 
     /**
      * @var string
@@ -101,7 +101,7 @@ class ilItemGroupAR extends ActiveRecord
 
     public function getDisplay(): string
     {
-        return $this->display;
+        return $this->display ?? self::DISPLAY_WITH_TITLE;
     }
 
     public function setDisplay(string $a_val): void
@@ -111,7 +111,7 @@ class ilItemGroupAR extends ActiveRecord
 
     public function getDisplayWithTitleAndToggleableInitially(): string
     {
-        return $this->toggleable_initially;
+        return $this->toggleable_initially ?? self::DISPLAY_WITH_TITLE_AND_TOGGLEABLE_INITIALLY_OPEN;
     }
 
     public function setDisplayWithTitleAndToggleableInitially(string $a_val): void
