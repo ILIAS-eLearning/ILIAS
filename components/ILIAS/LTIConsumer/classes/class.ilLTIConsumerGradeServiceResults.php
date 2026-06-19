@@ -57,6 +57,10 @@ class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
             global $DIC;
             $ilDB = $DIC->database();
             $scoreMaximum = 1.0;
+            $filters = $this->getFilters();
+            $filterUserId = $filters['userId'] !== ''
+                ? $this->resolveUserIdFromLtiIdent($itemId, $filters['userId'])
+                : null;
 
             if (ilObject::_lookupType($itemId) === 'lti') {
                 $object = new ilObjLTIConsumer($itemId, false);
@@ -96,7 +100,6 @@ class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
             $res = $ilDB->query($query);
 
             $resultsArr = [];
-            $filters = $this->getFilters();
             $lineItemUrl = ilLTIConsumerGradeServiceLineItem::buildLineItemUrl($contextId, $itemId);
             while ($row = $ilDB->fetchAssoc($res)) {
                 $userId = (int) $row['usr_id'];
@@ -107,7 +110,10 @@ class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
                 $identRes = $ilDB->query($identQuery);
                 $identRow = $ilDB->fetchAssoc($identRes);
                 $userIdent = $identRow['usr_ident'] ?? (string) $userId;
-                if ($filters['userId'] !== '' && !$this->matchesLtiUserIdent($itemId, $userId, $userIdent, $filters['userId'])) {
+                if ($filterUserId !== null && $filterUserId !== $userId) {
+                    continue;
+                }
+                if ($filters['userId'] !== '' && $filterUserId === null && !$this->matchesLtiUserIdent($itemId, $userId, $userIdent, $filters['userId'])) {
                     continue;
                 }
 
@@ -120,6 +126,46 @@ class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
                         'userId' => $userIdent,
                         'resultScore' => (float) $resultValue * $scoreMaximum,
                         'resultMaximum' => $scoreMaximum
+                    ];
+                }
+            }
+
+            if (empty($resultsArr)) {
+                $gradeQuery = 'SELECT * FROM lti_consumer_grades'
+                    . ' WHERE obj_id = ' . $ilDB->quote($itemId, 'integer')
+                    . ' AND score_given IS NOT NULL'
+                    . ' AND score_maximum IS NOT NULL';
+                if ($filterUserId !== null) {
+                    $gradeQuery .= ' AND usr_id = ' . $ilDB->quote($filterUserId, 'integer');
+                }
+                $gradeQuery .= ' ORDER BY lti_timestamp DESC, stored DESC';
+                $gradeRes = $ilDB->query($gradeQuery);
+                $seenUsers = [];
+                while ($gradeRow = $ilDB->fetchAssoc($gradeRes)) {
+                    $userId = (int) $gradeRow['usr_id'];
+                    if (isset($seenUsers[$userId])) {
+                        continue;
+                    }
+                    $seenUsers[$userId] = true;
+
+                    $identQuery = 'SELECT usr_ident FROM cmix_users'
+                        . ' WHERE obj_id = ' . $ilDB->quote($itemId, 'integer')
+                        . ' AND usr_id = ' . $ilDB->quote($userId, 'integer');
+                    $identRes = $ilDB->query($identQuery);
+                    $identRow = $ilDB->fetchAssoc($identRes);
+                    $userIdent = $identRow['usr_ident'] ?? (string) $userId;
+                    if ($filterUserId === null && $filters['userId'] !== '' && !$this->matchesLtiUserIdent($itemId, $userId, $userIdent, $filters['userId'])) {
+                        continue;
+                    }
+
+                    $resultMaximum = (float) $gradeRow['score_maximum'];
+                    $resultsArr[] = [
+                        'id' => $lineItemUrl . '/results'
+                            . '?user_id=' . rawurlencode($userIdent),
+                        'scoreOf' => $lineItemUrl,
+                        'userId' => $userIdent,
+                        'resultScore' => (float) $gradeRow['score_given'],
+                        'resultMaximum' => $resultMaximum > 0 ? $resultMaximum : $scoreMaximum
                     ];
                 }
             }
