@@ -22,9 +22,8 @@ namespace ILIAS\Questions\AnswerForm;
 
 use ILIAS\Questions\Persistence\Storable;
 use ILIAS\Questions\Presentation\Definitions\Environment;
+use ILIAS\Questions\Presentation\Layout\EditOverview;
 use ILIAS\Data\UUID\Uuid;
-use ILIAS\UI\Component\Table\Data as DataTable;
-use ILIAS\UI\Component\Table\Ordering as OrderingTable;
 
 interface Properties extends Storable
 {
@@ -40,7 +39,8 @@ interface Properties extends Storable
         Environment $lng
     ): array;
 
-    public function getOverviewTable(
-        Environment $environment
-    ): DataTable|OrderingTable;
+    public function completeEditOverview(
+        Environment $environment,
+        EditOverview $edit_overview
+    ): EditOverview;
 }

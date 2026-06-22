@@ -22,11 +22,22 @@ namespace ILIAS\Questions\Presentation\Layout;
 
 use ILIAS\Questions\Presentation\Definitions\Editability;
 use ILIAS\Questions\Presentation\Definitions\Environment;
+use ILIAS\UI\Component\Button\Standard as StandardButton;
 use ILIAS\UI\Component\Panel\Standard as StandardPanel;
+use ILIAS\UI\Component\Table\Data as DataTable;
+use ILIAS\UI\Component\Table\Ordering as OrderingTable;
+use ILIAS\UI\Component\ViewControl\Mode as ViewControlMode;
 use ILIAS\UI\URLBuilder;
 
 class EditOverview implements Viewable
 {
+    private ?ViewControlMode $view_control = null;
+    /**
+     * @var list<StandardButton> $buttons
+     */
+    private array $buttons = [];
+    private DataTable|OrderingTable|null $table = null;
+
     public function __construct(
         private readonly Environment $environment,
         private readonly URLBuilder $target_to_edit_basic_answer_form_properties
@@ -36,12 +47,49 @@ class EditOverview implements Viewable
     #[\Override]
     public function getUI(): array
     {
-        return [
+        $ui = [
             $this->buildBasicAnswerFormPanel(),
-            $this->environment->getAnswerFormProperties()->getOverviewTable(
-                $this->environment
-            )
+
         ];
+
+        if ($this->view_control !== null) {
+            $ui[] = $this->view_control;
+        }
+
+        $ui_with_buttons = [
+            ...$ui,
+            ...$this->buttons
+        ];
+
+        if ($this->table !== null) {
+            $ui_with_buttons[] = $this->table;
+        }
+
+        return $ui_with_buttons;
+    }
+
+    public function withViewControl(
+        ViewControlMode $view_control
+    ): self {
+        $clone = clone $this;
+        $clone->view_control = $view_control;
+        return $clone;
+    }
+
+    public function withAdditionalButton(
+        StandardButton $button
+    ): self {
+        $clone = clone $this;
+        $clone->buttons[] = $button;
+        return $clone;
+    }
+
+    public function withTable(
+        DataTable|OrderingTable $table
+    ): self {
+        $clone = clone $this;
+        $clone->table = $table;
+        return $clone;
     }
 
     private function buildBasicAnswerFormPanel(): StandardPanel
