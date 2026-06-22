@@ -148,20 +148,12 @@ class TreeSelectTest extends \ILIAS_UI_TestBase
     }
 
     /** @dataProvider getValidArgumentsForWithValue */
-    public function testWithValueForValidArguments(string|int $value): void
+    public function testWithValueForValidArguments(string|int|null $value): void
     {
         $node_retrieval = $this->getNodeRetrieval();
         $component = $this->getFieldFactory()->treeSelect($node_retrieval, '');
         $component = $component->withValue($value);
         $this->assertEquals([$value], $component->getValue());
-    }
-
-    public function testWithValueForEmptyValidArguments(): void
-    {
-        $node_retrieval = $this->getNodeRetrieval();
-        $component = $this->getFieldFactory()->treeSelect($node_retrieval, '');
-        $component = $component->withValue(null);
-        $this->assertEquals([], $component->getValue());
     }
 
     public function testRenderWithValue(): void
@@ -340,6 +332,7 @@ HTML;
             ['1'],
             [''],
             [' '],
+            [null],
         ];
     }
 
