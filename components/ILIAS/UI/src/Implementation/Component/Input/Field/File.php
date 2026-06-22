@@ -140,12 +140,14 @@ class File extends HasDynamicInputs implements C\Input\Field\File
         $this->checkArg("value", $this->isClientSideValueOk($value), "Display value does not match input type.");
 
         $clone = clone $this;
-        foreach ($value as $data) {
-            $file_id = ($clone->hasMetadataInputs()) ? $data[0] : $data;
+        if (is_array($value)) {
+            foreach ($value as $data) {
+                $file_id = ($clone->hasMetadataInputs()) ? $data[0] : $data;
 
-            // that was not implicitly intended, but mapping dynamic inputs
-            // to the file-id is also a duplicate protection.
-            $clone->generated_dynamic_inputs[$file_id] = $clone->getTemplateForDynamicInputs()->withValue($data);
+                // that was not implicitly intended, but mapping dynamic inputs
+                // to the file-id is also a duplicate protection.
+                $clone->generated_dynamic_inputs[$file_id] = $clone->getTemplateForDynamicInputs()->withValue($data);
+            }
         }
 
         return $clone;
