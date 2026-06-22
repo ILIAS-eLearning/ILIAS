@@ -33,4 +33,8 @@ interface Capability
     public function onAnswerFormUpdate(
         Properties $answer_form_properties
     ): void;
+
+    public function onAnswerFormDelete(
+        Properties $answer_form_properties
+    ): void;
 }

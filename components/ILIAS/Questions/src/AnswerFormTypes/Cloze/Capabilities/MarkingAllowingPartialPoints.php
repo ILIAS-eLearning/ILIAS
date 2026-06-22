@@ -38,6 +38,21 @@ class MarkingAllowingPartialPoints extends MarkingAllowingPartialPointsInterface
     }
 
     #[\Override]
+    public function calculateAwardedPoints(
+        Properties $properties,
+        Response $response
+    ): float {
+        return $response->calculateAwardedPoints($properties);
+    }
+
+    #[\Override]
+    public function getBestResponse(
+        Properties $properties
+    ): Response {
+        return $this->response_factory->getBestResponse($properties);
+    }
+
+    #[\Override]
     public function getEditFormInputsBuilder(
         Environment $environment,
     ): InputsBuilderSession {
@@ -60,20 +75,5 @@ class MarkingAllowingPartialPoints extends MarkingAllowingPartialPointsInterface
                 }
             )
         );
-    }
-
-    #[\Override]
-    public function calculateAwardedPoints(
-        Properties $properties,
-        Response $response
-    ): float {
-        return $response->calculateAwardedPoints($properties);
-    }
-
-    #[\Override]
-    public function getBestResponse(
-        Properties $properties
-    ): Response {
-        return $this->response_factory->getBestResponse($properties);
     }
 }
