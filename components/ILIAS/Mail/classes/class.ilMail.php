@@ -474,7 +474,7 @@ class ilMail
             $this->table_mail,
             [
                 'folder_id' => ['integer', $a_folder_id],
-                'attachments' => [ilDBConstants::T_BLOB, $a_attachments->toDb()],
+                'attachments' => [ilDBConstants::T_CLOB, $a_attachments->toDb()],
                 'send_time' => ['timestamp', date('Y-m-d H:i:s')],
                 'rcp_to' => ['clob', $a_rcp_to],
                 'rcp_cc' => ['clob', $a_rcp_cc],
