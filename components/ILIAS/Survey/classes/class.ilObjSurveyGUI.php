@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Survey\Participants;
 use ILIAS\Survey\InternalGUIService;
 use ILIAS\User\Profile\PublicProfileGUI;
