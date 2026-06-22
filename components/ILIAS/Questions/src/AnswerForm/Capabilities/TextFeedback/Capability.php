@@ -112,6 +112,14 @@ class Capability implements CapabilityInterface, AdditionalTabProvider, Feedback
         );
     }
 
+    public function onAnswerFormDelete(
+        Properties $answer_form_properties
+    ): void {
+        $this->repository->delete(
+            $answer_form_properties->getAnswerFormId()
+        );
+    }
+
     private function buildDoEditActionClosure(): \Closure
     {
         return function (

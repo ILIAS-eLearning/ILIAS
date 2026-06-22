@@ -80,4 +80,10 @@ class Capability implements CapabilityInterface, AdditionalStepProvider, Marking
         Properties $answer_form_properties
     ): void {
     }
+
+    #[\Override]
+    public function onAnswerFormDelete(
+        Properties $answer_form_properties
+    ): void {
+    }
 }
