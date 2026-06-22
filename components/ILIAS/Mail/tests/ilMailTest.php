@@ -463,7 +463,7 @@ class ilMailTest extends ilMailBaseTestCase
 
         $this->mock_database->expects($this->once())->method('update')->with('mail', [
             'folder_id' => ['integer', $folder_id],
-            'attachments' => ['clob', serialize([])],
+            'attachments' => [ilDBConstants::T_CLOB, serialize([])],
             'send_time' => ['timestamp', date('Y-m-d H:i:s')],
             'rcp_to' => ['clob', $to],
             'rcp_cc' => ['clob', $cc],
