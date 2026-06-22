@@ -1,8 +1,6 @@
 # IpAddress Privacy
 
-This documentation does not warrant completeness or correctness. Please report any
-missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
-or contribute a fix via [Pull Request](../../docs/development/contributing.md#pull-request-to-the-repositories).
+> **Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information via [Pull Request](docs/development/contributing.md#pull-request-to-the-repositories).**
 
 ### General Information
 
@@ -65,4 +63,3 @@ component.
     - Title
     - Description
     - IP address ranges
-

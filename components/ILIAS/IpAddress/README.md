@@ -1,7 +1,7 @@
 # IpAddress Component
 
-This directory contains the IpAddress component, which is responsible for the handling of IP-Address
-based access restrictions.
+This directory contains the IpAddress component, which is responsible for managing named IP address
+ranges (so-called IP address definitions) for later use in access control by other components.
 
 Currently, this component is integrated into the Test component, with plans to integrate into the User
 component (by replacing `ClientIP` (`components/ILIAS/User/src/Profile/Fields/Standard/ClientIP.php`)
@@ -9,7 +9,7 @@ once `ilFormPropertyGUI` has been removed.
 
 ## Conceptual summary
 
-This component stores named IP addresses as ILIAS objects.
+This component stores named IP address ranges (so-called IP address definitions) as ILIAS objects.
 These objects have the following properties:
 - Title
 - Description
@@ -19,7 +19,7 @@ These objects have the following properties:
 An IP address range can consist of one ("check if the user's IP address is N")
 or two ("check if the user's IP address is between N and M") IP addresses.
 
-Only IP Address Definitions that are set to "online" can be used in other components.
+Only IP address definitions that are set to "online" can be used in other components.
 
 ## Derived Tasks
 
