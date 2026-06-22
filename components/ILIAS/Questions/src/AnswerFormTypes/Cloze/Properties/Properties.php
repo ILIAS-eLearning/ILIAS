@@ -39,10 +39,10 @@ use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Persistence\ManipulationType;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Presentation\Definitions\Environment;
+use ILIAS\Questions\Presentation\Layout\EditOverview;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Database\FieldDefinition;
 use ILIAS\UI\Component\Input\Field\Section;
-use ILIAS\UI\Component\Table\Data as DataTable;
 
 class Properties implements PropertiesInterface
 {
@@ -198,12 +198,15 @@ class Properties implements PropertiesInterface
     }
 
     #[\Override]
-    public function getOverviewTable(
-        Environment $environment
-    ): DataTable {
-        return new OverviewTable(
-            $environment
-        )->getTable();
+    public function completeEditOverview(
+        Environment $environment,
+        EditOverview $edit_overview
+    ): EditOverview {
+        return $edit_overview->withTable(
+            new OverviewTable(
+                $environment
+            )->getTable()
+        );
     }
 
     public function buildBasicEditingInputs(
