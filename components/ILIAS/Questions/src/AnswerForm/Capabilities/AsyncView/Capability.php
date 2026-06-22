@@ -59,4 +59,10 @@ class Capability implements CapabilityInterface, ParticipantViewProvider
         Properties $answer_form_properties
     ): void {
     }
+
+    #[\Override]
+    public function onAnswerFormDelete(
+        Properties $answer_form_properties
+    ): void {
+    }
 }
