@@ -87,6 +87,15 @@ class Capability implements CapabilityInterface, AdditionalTabProvider, Feedback
     }
 
     #[\Override]
+    public function onAnswerFormDelete(
+        Properties $answer_form_properties
+    ): void {
+        $this->repository->delete(
+            $answer_form_properties->getAnswerFormId()
+        );
+    }
+
+    #[\Override]
     public function getParticipantOutput(
         Language $lng,
         Refinery $refinery,
