@@ -81,11 +81,14 @@ class Edit implements EditViewInterface
         }
 
         if ($sub_action === '') {
-            return $environment->getPresentationFactory()->getEditOverview(
+            return $environment->getAnswerFormProperties()->completeEditOverview(
                 $environment,
-                $environment->withSubActionParameter(self::SUB_ACTION_EDIT_BASIC_PROPERTIES)
-                    ->withFormStartSubActionParameter(self::SUB_ACTION_EDIT_BASIC_PROPERTIES)
-                    ->getUrlBuilder()
+                $environment->getPresentationFactory()->getEditOverview(
+                    $environment,
+                    $environment->withSubActionParameter(self::SUB_ACTION_EDIT_BASIC_PROPERTIES)
+                        ->withFormStartSubActionParameter(self::SUB_ACTION_EDIT_BASIC_PROPERTIES)
+                        ->getUrlBuilder()
+                )
             );
         }
 
