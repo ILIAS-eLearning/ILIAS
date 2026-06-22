@@ -765,18 +765,22 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $ctrl = $DIC->ctrl();
 
         $t_arr = explode("_", $a_target);
-        $ref_id = (int) $t_arr[0];
-        if ($a_access_code === "" && isset($t_arr[1])) {
-            $a_access_code = $t_arr[1];
-        }
-        // see ilObjSurveyAccess::_checkGoto()
-        if ($a_access_code !== '') {
-            $sess = $DIC->survey()->internal()->repo()
-                ->execution()->runSession();
+		$ref_id = (int) $t_arr[0];
+		if ($a_access_code === "" && isset($t_arr[1])) {
+		    $a_access_code = $t_arr[1];
+		}
+		$lang = $t_arr[2] ?? "";
+
+		// see ilObjSurveyAccess::_checkGoto()
+		if ($a_access_code !== '') {
+            $sess = $DIC->survey()->internal()->repo()->execution()->runSession();
             $sess->setCode(ilObject::_lookupObjId($ref_id), $a_access_code);
             $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $ref_id);
-            $ctrl->redirectByClass("ilObjSurveyGUI", "run");
-        }
+		if ($lang !== "") {
+		    $ctrl->setParameterByClass("ilObjSurveyGUI", "lang", $lang);
+		}
+		    $ctrl->redirectByClass("ilObjSurveyGUI", "run");
+		}
 
         // write permission -> info screen
         if ($ilAccess->checkAccess("write", "", $ref_id)) {
