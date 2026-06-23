@@ -44,7 +44,7 @@ class Exercise implements Component\Component
             new Component\Resource\ComponentJS($this, "ilExcPeerReview.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "exc-text-more.js");
-        $contribute[\ILIAS\StaticURL\Handler\Handler::class] = static fn(): \ILIAS\StaticURL\Handler\Handler =>
+        $contribute[\ILIAS\StaticURL\Handler\Handler::class] = static fn() =>
             new \ILIAS\Exercise\PermanentLink\StaticURLHandler();
     }
 }

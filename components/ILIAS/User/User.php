@@ -56,7 +56,7 @@ class User implements Component\Component
             new CustomTypeTextArea();
         $contribute[CustomProfileFieldType::class] = fn() =>
             new CustomTypeSelect();
-        $contribute[\ILIAS\StaticURL\Handler\Handler::class] = static fn(): \ILIAS\StaticURL\Handler\Handler =>
+        $contribute[\ILIAS\StaticURL\Handler\Handler::class] = static fn() =>
             new \ILIAS\User\StaticURLHandler();
     }
 }
