@@ -30,13 +30,13 @@ use ILIAS\Scripts\PHPStan\Attributes\AllowSuperglobalWrite;
 /**
  * Class ExamplesTest Checks if all examples are implemented and properly returning strings
  */
-final class ExamplesTest extends ILIAS_UI_TestBase
+class ExamplesTest extends ILIAS_UI_TestBase
 {
     /**
      * @var string[] please only add components to this list, if there is a good reason
      *               for not having any examples.
      */
-    private const MAY_NOT_HAVE_EXAMPLES = [
+    protected const MAY_NOT_HAVE_EXAMPLES = [
         \ILIAS\UI\Help\Topic::class,
         \ILIAS\UI\Component\Progress\State\Bar\State::class,
         \ILIAS\UI\Component\Input\Field\Node\Node::class,
@@ -44,9 +44,9 @@ final class ExamplesTest extends ILIAS_UI_TestBase
         \ILIAS\UI\Component\Input\Field\Node\Leaf::class,
     ];
 
-    private static string $path_to_base_factory = "components/ILIAS/UI/src/Factory.php";
-    private Container $dic;
-    private Crawler\ExamplesYamlParser $example_parser;
+    protected static string $path_to_base_factory = "components/ILIAS/UI/src/Factory.php";
+    protected Container $dic;
+    protected Crawler\ExamplesYamlParser $example_parser;
 
     #[AllowSuperglobalWrite('Bypass Undefined index: ilfilehash for the moment. This is for examples only.', 12)]
     public function setUp(): void
@@ -97,7 +97,7 @@ final class ExamplesTest extends ILIAS_UI_TestBase
         $this->dic["ilCtrl"]->method("getLinkTargetByClass")->willReturn("2");
         $this->dic["ilCtrl"]->method("isAsynch")->willReturn(false);
 
-        $this->dic["upload"] = $this->createMock(FileUpload::class);
+        $this->dic["upload"] = $this->getMockBuilder(FileUpload::class)->getMock();
 
         $this->dic["tree"] = $this->getMockBuilder(ilTree::class)
                                   ->disableOriginalConstructor()
@@ -156,7 +156,7 @@ final class ExamplesTest extends ILIAS_UI_TestBase
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('getFullFunctionNamesAndPathExample')]
-    public function testAllExamplesHaveExpectedOutcomeInDocs(string $example_function_name, string $example_path): void
+    public function testAllExamplesHaveExpectedOutcomeInDocs(string $example_function_name, string $example_path)
     {
         $docs = $this->example_parser->parseYamlStringArrayFromFile($example_path);
         $this->assertArrayHasKey('expected output', $docs);
@@ -199,14 +199,16 @@ final class ExamplesTest extends ILIAS_UI_TestBase
         }
     }
 
-    public static function getListOfFullscreenExamples(): \Iterator
+    public static function getListOfFullscreenExamples(): array
     {
-        yield ['ILIAS\UI\examples\MainControls\Footer\base', "components/ILIAS/UI/src/examples/MainControls/Footer/base.php"];
-        yield ['ILIAS\UI\examples\MainControls\MetaBar\renderMetaBarInFullscreenMode', "components/ILIAS/UI/src/examples/MainControls/MetaBar/base_metabar.php"];
-        yield ['ILIAS\UI\examples\MainControls\MetaBar\renderExtendedMetaBarInFullscreenMode', "components/ILIAS/UI/src/examples/MainControls/MetaBar/extended_example_for_developers.php"];
-        yield ['ILIAS\UI\examples\Layout\Page\Standard\getUIMainbarExampleCondensed', "components/ILIAS/UI/src/examples/Layout/Page/Standard/ui_mainbar.php"];
-        yield ['ILIAS\UI\examples\Layout\Page\Standard\getUIMainbarExampleFull', "components/ILIAS/UI/src/examples/Layout/Page/Standard/ui_mainbar.php"];
-        yield ['ILIAS\UI\examples\Layout\Page\Standard\ui', "components/ILIAS/UI/src/examples/Layout/Page/Standard/ui.php"];
-        yield ['ILIAS\UI\examples\MainControls\ModeInfo\renderModeInfoFullscreenMode', "components/ILIAS/UI/src/examples/MainControls/ModeInfo/modeinfo.php"];
+        return [
+            ['ILIAS\UI\examples\MainControls\Footer\base', "components/ILIAS/UI/src/examples/MainControls/Footer/base.php"],
+            ['ILIAS\UI\examples\MainControls\MetaBar\renderMetaBarInFullscreenMode', "components/ILIAS/UI/src/examples/MainControls/MetaBar/base_metabar.php"],
+            ['ILIAS\UI\examples\MainControls\MetaBar\renderExtendedMetaBarInFullscreenMode', "components/ILIAS/UI/src/examples/MainControls/MetaBar/extended_example_for_developers.php"],
+            ['ILIAS\UI\examples\Layout\Page\Standard\getUIMainbarExampleCondensed', "components/ILIAS/UI/src/examples/Layout/Page/Standard/ui_mainbar.php"],
+            ['ILIAS\UI\examples\Layout\Page\Standard\getUIMainbarExampleFull', "components/ILIAS/UI/src/examples/Layout/Page/Standard/ui_mainbar.php"],
+            ['ILIAS\UI\examples\Layout\Page\Standard\ui', "components/ILIAS/UI/src/examples/Layout/Page/Standard/ui.php"],
+            ['ILIAS\UI\examples\MainControls\ModeInfo\renderModeInfoFullscreenMode', "components/ILIAS/UI/src/examples/MainControls/ModeInfo/modeinfo.php"]
+        ];
     }
 }
