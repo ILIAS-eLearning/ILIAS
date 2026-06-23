@@ -42,9 +42,15 @@ use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 abstract class TextFeedback implements TypeSpecification, Feedback
 {
+    private const string KEY_PANEL_TITEL = 'panelTitle';
+    private const string KEY_SPECIFIC_FEEDBACK_END_POINT = 'specificFeedbackEndpoint';
+    private const string KEY_BEST_RESPONSE = 'best';
+    private const string KEY_OTHER_RESPONSE = 'other';
+
     private ?Markdown $feedback_best_response = null;
     private string $feedback_best_response_legacy = '';
     private ?Markdown $feedback_other_response = null;
@@ -65,11 +71,11 @@ abstract class TextFeedback implements TypeSpecification, Feedback
         Environment $environment
     ): ?OverviewTable;
 
-    abstract public function specificFeedbackInputsHaveLegacyTexts(): bool;
-
     abstract public function onAnswerFormUpdate(
         Properties $answer_form_properties
     ): static;
+
+    abstract protected function specificFeedbackInputsHaveLegacyTexts(): bool;
 
     /**
      * @return list<Component>
@@ -78,7 +84,24 @@ abstract class TextFeedback implements TypeSpecification, Feedback
         UIFactory $ui_factory,
         Refinery $refinery,
         Properties $properties,
-        Response $response
+        ?Response $response
+    ): array;
+
+    /**
+     * The endpoint must point to a javascript namespace containing the functions
+     * `retrieveSpecificFeedback(data, bestResponse, response)` where `data` is
+     * the array produced by `getSpecificFeedbackForClientSideCode()`, `bestResponse`
+     * it the array produced by `Reponse::toClientSideRepresentation()` and `response`
+     * is an object containing all the inputs and their values as set in the
+     * interface.
+     */
+    abstract protected function getSpecificFeedbackClientSideEndPoint(): string;
+
+    abstract protected function getSpecificFeedbackForClientSideCode(
+        Language $lng,
+        Refinery $refinery,
+        UIFactory $ui_factory,
+        Properties $properties
     ): array;
 
     #[\Override]
@@ -233,9 +256,7 @@ abstract class TextFeedback implements TypeSpecification, Feedback
         return $clone;
     }
 
-    /**
-     * @return list<Component>
-     */
+    #[\Override]
     public function getParticipantOutput(
         Language $lng,
         Refinery $refinery,
@@ -282,6 +303,53 @@ abstract class TextFeedback implements TypeSpecification, Feedback
                 $feedback
             )
         );
+    }
+
+    #[\Override]
+    public function getFeedbackClientSideEndPoint(): string
+    {
+        return 'il.questions.textFeedback.retrieve';
+    }
+
+    #[\Override]
+    public function getAllFeedbacksForClientSideCode(
+        Language $lng,
+        Refinery $refinery,
+        UIFactory $ui_factory,
+        UIRenderer $ui_renderer,
+        RequiredCapabilities $required_capabilities,
+        Properties $properties
+    ): array {
+        $feedbacks = [];
+        if ($required_capabilities->isMarkingRequired()) {
+            $feedbacks[self::KEY_BEST_RESPONSE] = $ui_renderer->render(
+                $this->getRenderedFeedbackBestResponse(
+                    $lng,
+                    $refinery,
+                    $ui_factory
+                )
+            );
+
+            $feedbacks[self::KEY_OTHER_RESPONSE] = $ui_renderer->render(
+                $this->getRenderedFeedbackOtherResponse(
+                    $lng,
+                    $refinery,
+                    $ui_factory
+                )
+            );
+        }
+
+        return [
+            self::KEY_PANEL_TITEL => $lng->txt('feedback'),
+            self::KEY_SPECIFIC_FEEDBACK_END_POINT => $this->getSpecificFeedbackClientSideEndPoint(),
+            ...$feedbacks,
+            ...$this->getSpecificFeedbackForClientSideCode(
+                $lng,
+                $refinery,
+                $ui_factory,
+                $properties
+            )
+        ];
     }
 
     public function requiresPageMigration(): bool
@@ -454,7 +522,7 @@ abstract class TextFeedback implements TypeSpecification, Feedback
     ): Component {
         if ($this->feedback_best_response === null) {
             return $ui_factory->messageBox()->success(
-                $this->feedback_other_response_legacy === ''
+                $this->feedback_best_response_legacy === ''
                     ? $lng->txt('best_response_given')
                     : $this->feedback_best_response_legacy
             );

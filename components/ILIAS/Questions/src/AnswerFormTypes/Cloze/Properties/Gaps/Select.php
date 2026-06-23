@@ -96,7 +96,7 @@ class Select extends Type
 
         $gaptemplate->setVariable(
             'GAP_NAME',
-            $this->buildGapName($gap)
+            $gap->getAnswerInputId()->toString()
         );
 
         return $gaptemplate->get();
@@ -176,7 +176,7 @@ class Select extends Type
         return new AnswerInputResponse(
             $gap,
             $post_wrapper->retrieve(
-                $this->buildGapName($gap),
+                $gap->getAnswerInputId()->toString(),
                 $this->refinery->byTrying([
                     $this->refinery->custom()->transformation(
                         function (?string $v) use ($uuid_factory, $gap): ?Uuid {

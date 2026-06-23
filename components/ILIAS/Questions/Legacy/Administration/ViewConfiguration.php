@@ -104,6 +104,14 @@ class ViewConfiguration
         );
     }
 
+    public function isAsync(): bool
+    {
+        return in_array(
+            AsyncView::getIdentifier(),
+            $this->current_configuration
+        );
+    }
+
     public function getCurrentConfiguration(): array
     {
         return $this->current_configuration;

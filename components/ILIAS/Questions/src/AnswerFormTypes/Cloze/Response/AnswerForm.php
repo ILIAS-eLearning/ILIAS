@@ -136,6 +136,19 @@ class AnswerForm implements Response
         );
     }
 
+    #[\Override]
+    public function toClientSideRepresentation(): array
+    {
+        return array_reduce(
+            $this->answer_input_responses,
+            function (array $c, AnswerInput $v): array {
+                $c[$v->getAnswerInputId()->toString()] = $v->toClientSideRepresentation();
+                return $c;
+            },
+            []
+        );
+    }
+
     public function getResponseForInput(
         Uuid $answer_input_id
     ): Uuid|string|null {

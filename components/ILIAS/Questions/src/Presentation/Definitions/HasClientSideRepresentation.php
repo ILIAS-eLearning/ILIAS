@@ -20,9 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Presentation\Definitions;
 
-enum ViewMode
+interface HasClientSideRepresentation
 {
-    case Respond;
-    case ViewResponse;
-    case ViewBestResponse;
+    public function toClientSideRepresentation(): array;
 }

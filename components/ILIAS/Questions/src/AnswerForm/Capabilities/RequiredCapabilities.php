@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerForm\Capabilities;
 
-use ILIAS\Questions\AnswerForm\Capabilities\Capability;
-use ILIAS\Questions\AnswerForm\Capabilities\Definitions\ActionWithTab;
 use ILIAS\Questions\AnswerForm\Capabilities\Definitions\AdditionalFormStepAction;
 use ILIAS\Questions\AnswerForm\Capabilities\Definitions\Marking;
 use ILIAS\Questions\AnswerForm\Capabilities\Definitions\MarkingProvider;

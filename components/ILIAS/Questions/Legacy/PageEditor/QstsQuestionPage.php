@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Questions\AnswerForm\Capabilities\RequiredCapabilities;
 use ILIAS\Questions\Attempt\Attempt;
+use ILIAS\Questions\Presentation\Definitions\ViewConfiguration;
 use ILIAS\Questions\Presentation\Layout\Viewable;
 use ILIAS\Questions\Presentation\Views\Edit;
 use ILIAS\Questions\Question\Question;
@@ -31,9 +32,7 @@ class QstsQuestionPage extends ilPageObject
     private ?Attempt $attempt_data = null;
     private ?Viewable $participant_view = null;
     private ?RequiredCapabilities $required_capabilites = null;
-    private bool $interactive = true;
-    private bool $show_best_response = true;
-    private bool $show_feedback = false;
+    private ?ViewConfiguration $view_configuration = null;
 
     #[\Override]
     public function getParentType(): string
@@ -96,37 +95,15 @@ class QstsQuestionPage extends ilPageObject
         $this->required_capabilites = $required_capabilities;
     }
 
-    public function getInteractive(): bool
+    public function getViewConfiguration(): ?ViewConfiguration
     {
-        return $this->interactive;
+        return $this->view_configuration;
     }
 
-    public function setInteractive(
-        bool $interactive
+    public function setViewConfiguration(
+        ViewConfiguration $view_configuration
     ): void {
-        $this->interactive = $interactive;
-    }
-
-    public function getShowBestResponse(): bool
-    {
-        return $this->show_best_response;
-    }
-
-    public function setShowBestResponse(
-        bool $show_best_response
-    ): void {
-        $this->show_best_response = $show_best_response;
-    }
-
-    public function getShowFeedback(): bool
-    {
-        return $this->show_feedback;
-    }
-
-    public function setShowFeedback(
-        bool $show_feedback
-    ): void {
-        $this->show_feedback = $show_feedback;
+        $this->view_configuration = $view_configuration;
     }
 
     public function addQuestionText(

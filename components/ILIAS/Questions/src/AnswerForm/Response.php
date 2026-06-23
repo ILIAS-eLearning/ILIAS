@@ -21,9 +21,10 @@ declare(strict_types=1);
 namespace ILIAS\Questions\AnswerForm;
 
 use ILIAS\Questions\Persistence\Storable;
+use ILIAS\Questions\Presentation\Definitions\HasClientSideRepresentation;
 use ILIAS\Data\UUID\Uuid;
 
-interface Response extends Storable
+interface Response extends Storable, HasClientSideRepresentation
 {
     public function getAnswerFormId(): Uuid;
 

@@ -64,7 +64,7 @@ class LongMenu extends Type
         ?AdditionalAttemptData $additional_attempt_data,
         ?Response $response_data
     ): string {
-        $gap_name = $this->buildGapName($gap);
+        $gap_name = $gap->getAnswerInputId()->toString();
 
         $gaptemplate = new \ilTemplate(
             'tpl.cloze_gap_longmenu.html',
@@ -92,7 +92,7 @@ class LongMenu extends Type
             );
         }
 
-        $this->global_tpl->addOnLoadCode('il.test.player.longmenu.init('
+        $this->global_tpl->addOnLoadCode('il.questions.cloze.initLongmenuGap('
             . "document.querySelector('input[name=\"{$gap_name}\"]'), "
             . "{$gap->getMinAutocomplete()}, "
             . json_encode(
@@ -256,7 +256,7 @@ class LongMenu extends Type
         Gap $gap
     ): Uuid|string {
         return $post_wrapper->retrieve(
-            $this->buildGapName($gap),
+            $gap->getAnswerInputId()->toString(),
             $this->refinery->byTrying([
                 $this->refinery->custom()->transformation(
                     function (?string $v) use ($gap): Uuid|string {

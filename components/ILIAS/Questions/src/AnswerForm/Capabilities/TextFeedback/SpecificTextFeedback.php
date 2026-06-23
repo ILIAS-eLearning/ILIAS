@@ -24,6 +24,7 @@ use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Data\Text\Markdown;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Database\FieldDefinition;
+use ILIAS\Refinery\Factory as Refinery;
 
 class SpecificTextFeedback
 {
@@ -65,10 +66,16 @@ class SpecificTextFeedback
         return $clone;
     }
 
-    public function hasLegacyFeedback(): bool
-    {
-        return $this->feedback_text === null
-            && $this->feedback_legacy !== '';
+    public function getFeedbackTextForPresentation(
+        Refinery $refinery
+    ): string {
+        if ($this->feedback_text !== null) {
+            return $refinery->string()->markdown()->toHTML()->transform(
+                $this->feedback_text->getRawRepresentation()
+            );
+        }
+
+        return $this->feedback_legacy;
     }
 
     public function toStorage(

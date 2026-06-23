@@ -23,21 +23,14 @@ namespace ILIAS\Questions\AnswerForm\Capabilities\SuggestedLearningContent;
 use ILIAS\Questions\AnswerForm\Capabilities\Capability as CapabilityInterface;
 use ILIAS\Questions\AnswerForm\Capabilities\Definitions\ActionWithTab;
 use ILIAS\Questions\AnswerForm\Capabilities\Definitions\AdditionalTabProvider;
-use ILIAS\Questions\AnswerForm\Capabilities\Definitions\Feedback;
 use ILIAS\Questions\AnswerForm\Capabilities\Definitions\FeedbackProvider;
-use ILIAS\Questions\AnswerForm\Capabilities\Definitions\FeedbackView;
-use ILIAS\Questions\AnswerForm\Capabilities\RequiredCapabilities;
 use ILIAS\Questions\AnswerForm\Properties;
-use ILIAS\Questions\AnswerForm\Response;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Async;
 use ILIAS\Questions\Presentation\Layout\Viewable;
-use ILIAS\Language\Language;
-use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\StaticURL\Services as StaticURLServices;
-use ILIAS\UI\Factory as UIFactory;
 
-class Capability implements CapabilityInterface, AdditionalTabProvider, FeedbackProvider, Feedback
+class Capability implements CapabilityInterface, AdditionalTabProvider, FeedbackProvider
 {
     public function __construct(
         private readonly \ilCtrl $ctrl,
@@ -77,7 +70,11 @@ class Capability implements CapabilityInterface, AdditionalTabProvider, Feedback
     public function getFeedback(
         Properties $answer_form_properties
     ): ?Feedback {
-        return $this;
+        return new Feedback(
+            $this->ctrl,
+            $this->static_url,
+            $this->repository
+        );
     }
 
     #[\Override]
@@ -92,35 +89,6 @@ class Capability implements CapabilityInterface, AdditionalTabProvider, Feedback
     ): void {
         $this->repository->delete(
             $answer_form_properties->getAnswerFormId()
-        );
-    }
-
-    #[\Override]
-    public function getParticipantOutput(
-        Language $lng,
-        Refinery $refinery,
-        UIFactory $ui_factory,
-        Properties $properties,
-        ?Response $response,
-        RequiredCapabilities $required_capabilities
-    ): ?FeedbackView {
-        $content = $this->repository->getFor(
-            $properties->getAnswerFormId()
-        )->getContentForPresentation(
-            $lng,
-            $this->ctrl,
-            $this->static_url,
-            $ui_factory
-        );
-        if ($content === null) {
-            return null;
-        }
-
-        return new FeedbackView(
-            $ui_factory->panel()->standard(
-                $lng->txt('suggested_learning_content'),
-                $content
-            )
         );
     }
 

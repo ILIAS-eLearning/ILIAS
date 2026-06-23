@@ -22,6 +22,7 @@ namespace ILIAS\Questions\Question\Views;
 
 use ILIAS\Questions\AnswerForm\Capabilities\RequiredCapabilities;
 use ILIAS\Questions\Attempt\Attempt;
+use ILIAS\Questions\Presentation\Definitions\ViewConfiguration;
 use ILIAS\Questions\Presentation\Layout\Viewable;
 use ILIAS\Questions\Question\Question;
 use ILIAS\Data\UUID\Uuid;
@@ -38,10 +39,7 @@ class Participant implements Viewable
         private readonly RequiredCapabilities $required_capabilities,
         private readonly Question $question,
         private readonly ?Attempt $attempt_data,
-        private readonly bool $interactive,
-        private readonly bool $show_marks,
-        private readonly bool $show_best_response,
-        private readonly bool $show_feedback
+        private readonly ViewConfiguration $view_configuration
     ) {
     }
 
@@ -57,14 +55,12 @@ class Participant implements Viewable
             $this->question,
             $this->question->getParentObjId(),
             $this->required_capabilities,
-            $this->interactive,
-            $this->show_best_response,
-            $this->show_feedback
+            $this->view_configuration
         )->withAttemptData($this->attempt_data);
         $question_page->setPresentationTitle($this->question->getTitle());
 
 
-        if ($this->show_marks) {
+        if ($this->view_configuration->showMarks()) {
             $content[] = $this->ui_factory->listing()->characteristicValue()->text(
                 [
                     $this->lng->txt('awarded_points') => $this->refinery->kindlyTo()->string()->transform(

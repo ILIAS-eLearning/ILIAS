@@ -59,6 +59,10 @@ class ilObjQuestionPreviewGUI implements DataRetrieval
     private const string CMD_RESPOND = 'respond';
     private const string CMD_DELETE_RESPONSES = 'deleteResponses';
 
+    private const string TEMPLATE_VARIABLE_FORM_ACTION = 'FORM_ACTION';
+    private const string TEMPLATE_VARIABLE_QUESTION_OUTPUT = 'QUESTION_OUTPUT';
+    private const string TEMPLATE_VARIABLE_SUBMIT_BUTTON_LABEL = 'SUBMIT_BUTTON_LABEL';
+
     private readonly Repository $repository;
     private readonly AnswerFormFactory $answer_form_factory;
     private readonly Participant $participant_view;
@@ -206,6 +210,7 @@ class ilObjQuestionPreviewGUI implements DataRetrieval
 
     private function showQuestionCmd(): void
     {
+        $is_async = $this->view_configuration->isAsync();
         $question_id = $this->retrieveQuestionIdFromQuery();
         $attempt = $this->temp_attempt_repository->get(
             $this->current_user->getId()
@@ -244,8 +249,8 @@ class ilObjQuestionPreviewGUI implements DataRetrieval
             $attempt?->getAttemptId(),
             true,
             false,
-            false,
-            false
+            $is_async ? true : false,
+            $is_async ? true : false
         );
 
         if ($attempt === null) {
@@ -258,13 +263,15 @@ class ilObjQuestionPreviewGUI implements DataRetrieval
         $content = [
             $this->ui_factory->panel()->standard(
                 $this->lng->txt('question'),
-                $this->ui_factory->legacy()->content(
-                    $this->buildQuestionForm($view, $question_id)
-                )
+                $is_async
+                    ? $view->getUI()
+                    : $this->ui_factory->legacy()->content(
+                        $this->buildQuestionForm($view, $question_id)
+                    )
             )
         ];
 
-        if ($attempt?->isQuestionSolved($question_id) ?? false) {
+        if (!$is_async && $attempt?->isQuestionSolved($question_id) ?? false) {
             $content[] = $this->ui_factory->panel()->standard(
                 $this->lng->txt('feedback'),
                 $this->participant_view->getQuestionView(
@@ -489,7 +496,7 @@ class ilObjQuestionPreviewGUI implements DataRetrieval
         );
 
         $tpl->setVariable(
-            'FORM_ACTION',
+            self::TEMPLATE_VARIABLE_FORM_ACTION,
             $this->view_configuration->getURLBuilderWithPreservedConfigurationParameter(
                 $this->getUrlBuilderWithPreservedQuestionParameter(
                     $question_id,
@@ -500,12 +507,12 @@ class ilObjQuestionPreviewGUI implements DataRetrieval
         );
 
         $tpl->setVariable(
-            'QUESTION_OUTPUT',
+            self::TEMPLATE_VARIABLE_QUESTION_OUTPUT,
             $this->ui_renderer->render($view->getUI())
         );
 
         $tpl->setVariable(
-            'SUBMIT_BUTTON_LABEL',
+            self::TEMPLATE_VARIABLE_SUBMIT_BUTTON_LABEL,
             $this->lng->txt('send')
         );
 

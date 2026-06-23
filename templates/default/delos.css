@@ -16237,6 +16237,19 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   visibility: hidden;
 }
 
+.c-questions__solution-value {
+  background: rgb(226.2857142857, 231.6428571429, 238.7142857143);
+  padding: 3px;
+}
+
+.c-questions__async-answerform {
+  padding-bottom: 6px;
+}
+
+.c-questions_async-answerform-feedback {
+  padding-top: 6px;
+}
+
 /* Modules/ScormAicc */
 table.il_ScormTable {
   color: #161616;
@@ -17369,10 +17382,6 @@ div.ilc_Page.readonly textarea[disabled] {
 .c-sequence__segment:has(.c-layout-alignment--horizontal-evenly .c-consecutive-scoring__answer) form .c-input[data-il-ui-component=markdown-field-input] .c-field-markdown textarea,
 .panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__contents form .c-input[data-il-ui-component=markdown-field-input] .c-field-markdown textarea {
   height: 50vh;
-}
-
-.c-test__solution-value {
-  background: rgb(226.2857142857, 231.6428571429, 238.7142857143);
 }
 
 /* Modules/Wiki */

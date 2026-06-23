@@ -27,6 +27,7 @@ use ILIAS\Questions\AnswerForm\Capabilities\Definitions\FeedbackView;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 interface Feedback
 {
@@ -38,4 +39,30 @@ interface Feedback
         ?Response $response,
         RequiredCapabilities $required_capabilities
     ): ?FeedbackView;
+
+    /**
+     *
+     * @return string A javascript callable that will receive an array with all
+     * the inputs provided by the user as well as JSON generated from the return
+     * of getAllFeedbacksForClientSide and has to return the string that will be
+     * shown to the participant as feedback.
+     */
+    public function getFeedbackClientSideEndPoint(): string;
+
+    /**
+     *
+     * @return array<string, FeedbackView> An array of all possible feedbacks
+     * as FeedbackViews structured in a way that makes it possible to retrieve
+     * the correct array corresponding to the answer of the user in the callback
+     * provided in getClientSideFeedbackEndPoint. The component takes care of
+     * transporting the information to javascript.
+     */
+    public function getAllFeedbacksForClientSideCode(
+        Language $lng,
+        Refinery $refinery,
+        UIFactory $ui_factory,
+        UIRenderer $ui_renderer,
+        RequiredCapabilities $required_capabilities,
+        Properties $properties
+    ): array;
 }
