@@ -176,7 +176,7 @@ class DateTime extends FormInput implements C\Input\Field\DateTime
 
     protected function isClientSideValueOk($value): bool
     {
-        if ($value instanceof \DateTimeImmutable || is_null($value)) {
+        if ($value instanceof \DateTimeImmutable) {
             return true;
         }
 

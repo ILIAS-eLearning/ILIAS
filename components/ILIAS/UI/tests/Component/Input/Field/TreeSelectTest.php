@@ -156,7 +156,7 @@ class TreeSelectTest extends \ILIAS_UI_TestBase
         $this->assertEquals([$value], $component->getValue());
     }
 
-    public function testWithValueForEmptyValidArguments(): void
+    public function testWithValueForNull(): void
     {
         $node_retrieval = $this->getNodeRetrieval();
         $component = $this->getFieldFactory()->treeSelect($node_retrieval, '');

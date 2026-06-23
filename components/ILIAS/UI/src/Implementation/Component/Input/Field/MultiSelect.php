@@ -51,9 +51,6 @@ class MultiSelect extends FormInput implements C\Input\Field\MultiSelect, HasOpt
      */
     protected function isClientSideValueOk($value): bool
     {
-        if (is_null($value)) {
-            return true;
-        }
         if (is_array($value)) {
             foreach ($value as $v) {
                 if (!array_key_exists($v, $this->options)) {
