@@ -23,7 +23,7 @@ namespace ILIAS\Environment\Configuration\Instance;
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class ClientIniFile extends IniFileConfigurationRepository implements ClientIni
+class ClientIniFile extends IniFileReadRepository implements ClientIni
 {
     // [server]
 

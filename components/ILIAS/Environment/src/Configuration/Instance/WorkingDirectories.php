@@ -33,7 +33,13 @@ class WorkingDirectories implements Directories
 
     public function getRoot(): string
     {
-        return realpath(__DIR__ . '/../../../../../../');
+        $root = realpath(__DIR__ . '/../../../../../../');
+        if ($root === false) {
+            throw new \RuntimeException(
+                'Could not resolve the ILIAS root directory relative to ' . __DIR__ . '.'
+            );
+        }
+        return $root;
     }
 
     public function getPublic(): string

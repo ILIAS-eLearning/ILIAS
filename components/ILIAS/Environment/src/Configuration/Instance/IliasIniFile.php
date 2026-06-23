@@ -23,7 +23,7 @@ namespace ILIAS\Environment\Configuration\Instance;
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class IliasIniFile extends IniFileConfigurationRepository implements IliasIni
+class IliasIniFile extends IniFileReadRepository implements IliasIni
 {
     // [server]
 
