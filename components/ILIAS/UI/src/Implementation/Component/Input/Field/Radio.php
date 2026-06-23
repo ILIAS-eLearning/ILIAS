@@ -47,7 +47,7 @@ class Radio extends FormInput implements C\Input\Field\Radio, HasOptionFilterInt
      */
     protected function isClientSideValueOk($value): bool
     {
-        return ($value === null || array_key_exists($value, $this->getOptions()));
+        return array_key_exists($value, $this->getOptions());
     }
 
     /**
