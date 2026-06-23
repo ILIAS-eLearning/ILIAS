@@ -20,13 +20,13 @@ declare(strict_types=1);
 
 use ILIAS\Environment\Configuration\Instance\ConfigurationReadRepository;
 use ILIAS\Environment\Configuration\Instance\ConfigurationWriteRepository;
-use ILIAS\Environment\Configuration\Instance\IniFileConfigurationRepository;
+use ILIAS\Environment\Configuration\Instance\IniFileWriteRepository;
 
 /**
  * INI file parser — compatibility wrapper.
  *
  * All file I/O is now delegated to
- * {@see \ILIAS\Environment\Configuration\Instance\IniFileConfigurationRepository}.
+ * {@see \ILIAS\Environment\Configuration\Instance\IniFileWriteRepository}.
  * Use the typed interfaces {@see \ILIAS\Environment\Configuration\Instance\IliasIni}
  * and {@see \ILIAS\Environment\Configuration\Instance\ClientIni} for new code.
  *
@@ -58,10 +58,10 @@ class ilIniFile
             $this->repository = $repository;
         } else {
             try {
-                $this->repository = new IniFileConfigurationRepository($a_ini_file_name);
+                $this->repository = new IniFileWriteRepository($a_ini_file_name);
             } catch (\RuntimeException $e) {
                 $this->ERROR = $e->getMessage();
-                $this->repository = new IniFileConfigurationRepository(''); // empty fallback
+                $this->repository = new IniFileWriteRepository(''); // empty fallback
                 return;
             }
         }
