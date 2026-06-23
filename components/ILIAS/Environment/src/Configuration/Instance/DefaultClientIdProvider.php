@@ -47,6 +47,8 @@ readonly class DefaultClientIdProvider implements ClientIdProvider
             ?? $cookies['ilClientId']
             ?? $this->ilias_ini->getDefaultClientId();
 
-        return new ClientId(strip_tags((string) $raw));
+        // No sanitising here: ClientId only accepts [A-Za-z0-9#_.-] and rejects
+        // anything else (including markup), so it is the single validation point.
+        return new ClientId((string) $raw);
     }
 }
