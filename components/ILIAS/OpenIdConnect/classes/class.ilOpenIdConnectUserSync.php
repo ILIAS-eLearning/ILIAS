@@ -304,17 +304,15 @@ class ilOpenIdConnectUserSync
                 continue;
             }
 
-            if (!isset($this->user_info->{$role_attribute})) {
-                $this->logger->debug('No user info passed');
-                continue;
-            }
-
             if (!$role_info['update'] && !$this->needsCreation()) {
                 $this->logger->debug('No user role update for role: ' . $role_id);
                 continue;
             }
 
-            if (is_array($this->user_info->{$role_attribute})) {
+            $role_matches = false;
+            if (!isset($this->user_info->{$role_attribute})) {
+                $this->logger->debug('No user info passed');
+            } elseif (is_array($this->user_info->{$role_attribute})) {
                 $roles_claim = array_map(
                     static function (mixed $value): string {
                         return match (true) {
@@ -329,12 +327,27 @@ class ilOpenIdConnectUserSync
                     },
                     $this->user_info->{$role_attribute}
                 );
-                if (!in_array($role_value, $roles_claim, true)) {
-                    $this->logger->debug('User account has no ' . $role_value);
-                    continue;
-                }
-            } elseif (strcmp(trim((string) $this->user_info->{$role_attribute}), $role_value) !== 0) {
+                $role_matches = in_array($role_value, $roles_claim, true);
+            } else {
+                $role_matches = strcmp(trim((string) $this->user_info->{$role_attribute}), $role_value) === 0;
+            }
+
+            if (!$role_matches) {
                 $this->logger->debug('User account has no ' . $role_value);
+                if (!$this->needsCreation()) {
+                    $roles_assignable[(int) $role_id] = (int) $role_id;
+                    $long_role_id = ('il_' . IL_INST_ID . '_role_' . $role_id);
+
+                    $this->writer->xmlElement(
+                        'Role',
+                        [
+                            'Id' => $long_role_id,
+                            'Type' => 'Global',
+                            'Action' => 'Detach'
+                        ],
+                        null
+                    );
+                }
                 continue;
             }
 
