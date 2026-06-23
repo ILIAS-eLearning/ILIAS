@@ -92,8 +92,13 @@ abstract class HasDynamicInputs extends FormInput
      */
     public function withValue($value): self
     {
-        $this->checkArg('value', $this->isClientSideValueOk($value), "Display value does not match input(-template) type.");
+        $this->checkArg('value', null === $value || $this->isClientSideValueOk($value), "Display value does not match input(-template) type.");
         $clone = clone $this;
+
+        if (null === $value) {
+            $clone->generated_dynamic_inputs = [];
+            return $clone;
+        }
 
         if (!is_array($value)) {
             $clone->generated_dynamic_inputs[] = $clone->getTemplateForDynamicInputs()->withValue($value);

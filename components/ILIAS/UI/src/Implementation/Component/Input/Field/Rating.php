@@ -45,10 +45,10 @@ class Rating extends FormInput implements C\Input\Field\Rating
     {
         return $this->refinery->custom()->transformation(
             static function ($v): ?FiveStarRatingScale {
-                if(is_null($v) || $v instanceof FiveStarRatingScale) {
+                if (is_null($v) || $v instanceof FiveStarRatingScale) {
                     return $v;
                 }
-                return FiveStarRatingScale::from((int)$v);
+                return FiveStarRatingScale::from((int) $v);
             }
         );
     }
@@ -67,15 +67,15 @@ class Rating extends FormInput implements C\Input\Field\Rating
 
     public function withValue($value): self
     {
-        if(!$value instanceof FiveStarRatingScale) {
+        if (!$value instanceof FiveStarRatingScale) {
             $value = $this->getFiveStarRatingScaleTransformation()->transform($value);
         }
         return parent::withValue($value);
     }
 
-    public function isClientSideValueOk($value): bool
+    protected function isClientSideValueOk($value): bool
     {
-        return is_null($value) || is_numeric($value) || $value instanceof FiveStarRatingScale;
+        return is_numeric($value) || $value instanceof FiveStarRatingScale;
     }
 
     protected function getConstraintForRequirement(): ?Constraint
@@ -100,7 +100,7 @@ class Rating extends FormInput implements C\Input\Field\Rating
     public function withCurrentAverage(?float $current_average): static
     {
         $max = count(FiveStarRatingScale::cases()) - 1;
-        if($current_average < 0 || $current_average > $max) {
+        if ($current_average < 0 || $current_average > $max) {
             throw new \InvalidArgumentException('current_average must be between 0 and ' . $max);
         }
         $clone = clone $this;

@@ -127,34 +127,6 @@ class File extends HasDynamicInputs implements C\Input\Field\File
     // END IMPLEMENTATION OF FileUpload
     // ===============================================
 
-    // ===============================================
-    // BEGIN OVERWRITTEN METHODS OF HasDynamicInputs
-    // ===============================================
-
-    /**
-     * Maps generated dynamic inputs to their file-id, which must be
-     * provided in or as $value.
-     */
-    public function withValue($value): HasDynamicInputs
-    {
-        $this->checkArg("value", $this->isClientSideValueOk($value), "Display value does not match input type.");
-
-        $clone = clone $this;
-        foreach ($value as $data) {
-            $file_id = ($clone->hasMetadataInputs()) ? $data[0] : $data;
-
-            // that was not implicitly intended, but mapping dynamic inputs
-            // to the file-id is also a duplicate protection.
-            $clone->generated_dynamic_inputs[$file_id] = $clone->getTemplateForDynamicInputs()->withValue($data);
-        }
-
-        return $clone;
-    }
-
-    // ===============================================
-    // END OVERWRITTEN METHODS OF HasDynamicInputs
-    // ===============================================
-
     public function hasMetadataInputs(): bool
     {
         return $this->has_metadata_inputs;
@@ -200,20 +172,14 @@ class File extends HasDynamicInputs implements C\Input\Field\File
         if (!is_array($value)) {
             return false;
         }
-
         foreach ($value as $data) {
-            // if no dynamic input template was provided, the values
-            // must all be strings (possibly file-ids).
-            if (!is_string($data) && !$this->hasMetadataInputs()) {
+            if (!$this->hasMetadataInputs() && !is_string($data)) {
                 return false;
             }
-            // if a dynamic input template was provided, the values
-            // must be valid for the template input.
-            if ($this->hasMetadataInputs() && !$this->dynamic_input_template->isClientSideValueOk($data)) {
+            if ($this->hasMetadataInputs() && !is_string($data[0])) {
                 return false;
             }
         }
-
         return true;
     }
 

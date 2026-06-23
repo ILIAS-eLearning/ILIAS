@@ -51,7 +51,7 @@ class Mode extends ViewControlInput implements VCInterface\Mode
 
     protected function isClientSideValueOk($value): bool
     {
-        return is_null($value) || is_string($value);
+        return is_string($value);
     }
 
     public function getOptions(): array

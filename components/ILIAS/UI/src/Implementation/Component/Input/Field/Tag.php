@@ -176,7 +176,7 @@ class Tag extends FormInput implements C\Input\Field\Tag
             ->applyTo(new Ok($value))
             ->isOK();
 
-        return ($this->refinery->null()->accepts($value) || $valueCanBeAddedAsStringToList);
+        return $valueCanBeAddedAsStringToList;
     }
 
 
