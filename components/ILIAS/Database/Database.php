@@ -39,9 +39,9 @@ class Database implements Component
     ): void {
         $define[] = External::class;
 
-        $implement[External::class] = static fn(): External => new Database\DBLegacyProxy();
+        $implement[External::class] = static fn() => new Database\DBLegacyProxy();
 
-        $contribute[Agent::class] = static fn(): \ilDatabaseSetupAgent => new \ilDatabaseSetupAgent(
+        $contribute[Agent::class] = static fn() => new \ilDatabaseSetupAgent(
             $pull[Factory::class]
         );
     }

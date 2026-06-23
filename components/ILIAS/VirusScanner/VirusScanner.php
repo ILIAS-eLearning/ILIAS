@@ -38,14 +38,14 @@ class VirusScanner implements Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[Agent::class] = static fn(): \ilVirusScannerSetupAgent =>
+        $contribute[Agent::class] = static fn() =>
             new \ilVirusScannerSetupAgent(
                 $pull[Factory::class]
             );
 
-        $contribute[PreProcessor::class] = static fn(): PreProcessor =>
+        $contribute[PreProcessor::class] = static fn() =>
             new VirusScannerPreProcessor(
-                static fn(): ?\ilVirusScanner => \ilVirusScannerFactory::_getInstance()
+                static fn() => \ilVirusScannerFactory::_getInstance()
             );
     }
 }

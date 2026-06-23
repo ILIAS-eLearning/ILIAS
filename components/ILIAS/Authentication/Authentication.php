@@ -69,7 +69,7 @@ class Authentication implements Component\Component
             new Component\Resource\ComponentJS($this, 'js/dist/SessionReminder.min.js');
         $contribute[User\Settings\UserSettings::class] = fn() =>
             new Authentication\UserSettings\Settings();
-        $contribute[\ILIAS\StaticURL\Handler\Handler::class] = static fn(): \ILIAS\StaticURL\Handler\Handler =>
+        $contribute[\ILIAS\StaticURL\Handler\Handler::class] = static fn() =>
             new \ILIAS\Authentication\StaticUrlHandler();
     }
 }
