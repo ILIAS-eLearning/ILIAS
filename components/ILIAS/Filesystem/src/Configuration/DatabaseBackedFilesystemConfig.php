@@ -43,11 +43,20 @@ class DatabaseBackedFilesystemConfig implements FilesystemConfig
     private ?array $white_list_overall = null;
     private array $black_list_prohibited = [];
     private ?array $black_list_overall = null;
-    private array $white_list_default = [];
+    private ?array $white_list_default = null;
 
     public function __construct(private readonly External $db)
     {
-        $this->white_list_default = include __DIR__ . "/../../../FileServices/defaults/default_whitelist.php";
+    }
+
+    /**
+     * Lazily includes the default whitelist on first access. Done outside the
+     * constructor so building this config (e.g. during bootstrap) does not
+     * eagerly hit the filesystem; the include runs at most once.
+     */
+    private function defaultWhitelist(): array
+    {
+        return $this->white_list_default ??= include __DIR__ . "/../../../FileServices/defaults/default_whitelist.php";
     }
 
     private function determineFileAdminRefId(): int
@@ -132,7 +141,7 @@ class DatabaseBackedFilesystemConfig implements FilesystemConfig
             explode(",", (string) $this->fromSettingsTable('common', "suffix_custom_white_list", ''))
         );
 
-        $this->white_list_overall = array_merge($this->white_list_default, $this->white_list_positive);
+        $this->white_list_overall = array_merge($this->defaultWhitelist(), $this->white_list_positive);
         $this->white_list_overall = array_diff($this->white_list_overall, $this->white_list_negative);
         $this->white_list_overall = array_diff($this->white_list_overall, $this->black_list_overall);
         $this->white_list_overall[] = '';
@@ -173,7 +182,7 @@ class DatabaseBackedFilesystemConfig implements FilesystemConfig
 
     public function getDefaultWhitelist(): array
     {
-        return $this->white_list_default;
+        return $this->defaultWhitelist();
     }
 
     public function getWhiteListNegative(): array
