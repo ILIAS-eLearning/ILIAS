@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\ResourceStorage\Consumer;
 
 use ILIAS\FileUpload\MimeType;
-use ILIAS\HTTP\Services;
 use ILIAS\FileDelivery\Delivery\StreamDelivery;
 use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
 use ILIAS\ResourceStorage\Policy\FileNamePolicy;
@@ -35,11 +34,9 @@ abstract class BaseHTTPResponseBasedConsumer extends BaseConsumer implements Del
 {
     // Firefox determines the content type from the file content anyway for some content.
     private const NON_VALID_EXTENSION_MIME = MimeType::APPLICATION__OCTET_STREAM;
-    private Services $http;
     private StreamDelivery $delivery;
 
     public function __construct(
-        Services $http,
         StorableResource $resource,
         StreamAccess $stream_access,
         FileNamePolicy $file_name_policy
