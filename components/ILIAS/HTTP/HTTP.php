@@ -55,31 +55,31 @@ class HTTP implements Component
         $define[] = GlobalHttpState::class;
         $define[] = HeaderSettings::class;
 
-        $implement[HeaderSettings::class] = static fn(): HeaderSettings => new HeaderSettingsFromIni(
+        $implement[HeaderSettings::class] = static fn() => new HeaderSettingsFromIni(
             $use[IliasIni::class]
         );
 
         // REQUEST FACTORY
-        $implement[RequestFactory::class] = static fn(): RequestFactory => new RequestFactoryImpl(
+        $implement[RequestFactory::class] = static fn() => new RequestFactoryImpl(
             $use[HeaderSettings::class]
         );
 
         // RESPONSE FACTORY
-        $implement[ResponseFactory::class] = static fn(): ResponseFactory => new ResponseFactoryImpl();
+        $implement[ResponseFactory::class] = static fn() => new ResponseFactoryImpl();
 
         // COOKIE JAR FACTORY
-        $implement[CookieJarFactory::class] = static fn(): CookieJarFactory => new CookieJarFactoryImpl();
+        $implement[CookieJarFactory::class] = static fn() => new CookieJarFactoryImpl();
 
         // RESPONSE SENDER STRATEGY
         $internal[ResponseSenderStrategy::class] = static fn(
-        ): ResponseSenderStrategy => new DefaultResponseSenderStrategy();
+        ) => new DefaultResponseSenderStrategy();
 
-        $internal[DurationFactory::class] = static fn(): DurationFactory => new DurationFactory(
+        $internal[DurationFactory::class] = static fn() => new DurationFactory(
             new IncrementFactory()
         );
 
         // GLOBAL HTTP STATE / SERVICE
-        $implement[GlobalHttpState::class] = static fn(): GlobalHttpState => new Services(
+        $implement[GlobalHttpState::class] = static fn() => new Services(
             $use[RequestFactory::class],
             $use[ResponseFactory::class],
             $use[CookieJarFactory::class],

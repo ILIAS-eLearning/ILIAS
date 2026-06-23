@@ -39,7 +39,7 @@ class Badge implements Component\Component
             $this,
             'PublicProfileBadges.js'
         );
-        $contribute[\ILIAS\StaticURL\Handler\Handler::class] = static fn(): \ILIAS\StaticURL\Handler\Handler =>
+        $contribute[\ILIAS\StaticURL\Handler\Handler::class] = static fn() =>
             new \ILIAS\Badge\URL\StaticUrlHandler();
     }
 }
