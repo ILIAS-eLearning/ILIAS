@@ -32,6 +32,7 @@ use ILIAS\Questions\Presentation\Definitions\DefaultEnvironment;
 use ILIAS\Questions\Presentation\Definitions\Editability;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Definitions\ForImmediateStorage;
+use ILIAS\Questions\Presentation\Definitions\ViewConfiguration;
 use ILIAS\Questions\Presentation\Layout\Async;
 use ILIAS\Questions\Presentation\Layout\EditForm;
 use ILIAS\Questions\Presentation\Layout\Factory as LayoutFactory;
@@ -171,10 +172,12 @@ class Edit
                     ),
                     $this->owner_object_id,
                     $this->required_capabilities,
-                    true,
-                    false,
-                    false,
-                    false
+                    new ViewConfiguration(
+                        true,
+                        false,
+                        false,
+                        false
+                    )
                 )->withEditView(
                     $this
                 )->withReturnURI(

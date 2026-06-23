@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Questions\AnswerForm\Capabilities\RequiredCapabilities;
 use ILIAS\Questions\Attempt\Attempt;
+use ILIAS\Questions\Presentation\Definitions\ViewConfiguration;
 use ILIAS\Questions\Presentation\Layout\Viewable;
 use ILIAS\Questions\Presentation\Views\Edit;
 use ILIAS\Questions\Question\Question;
@@ -39,9 +40,7 @@ class QstsQuestionPageGUI extends ilPageObjectGUI
         Question $question,
         int $obj_id,
         RequiredCapabilities $required_capabilities,
-        bool $interactive,
-        bool $show_best_response,
-        bool $show_feedback
+        ViewConfiguration $view_configuration
     ) {
         parent::__construct('qsts', $question->getPageId());
 
@@ -50,9 +49,7 @@ class QstsQuestionPageGUI extends ilPageObjectGUI
         $this->obj->setQuestion($question);
         $this->obj->setParentId($obj_id);
         $this->obj->setRequiredCapabilities($required_capabilities);
-        $this->obj->setInteractive($interactive);
-        $this->obj->setShowBestResponse($show_best_response);
-        $this->obj->setShowFeedback($show_feedback);
+        $this->obj->setViewConfiguration($view_configuration);
     }
 
     #[\Override]

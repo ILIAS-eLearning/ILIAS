@@ -257,12 +257,6 @@ class LocalDIC extends PimpleContainer
                 $c[Cloze\Properties\ClozeText\Factory::class],
                 $c[Cloze\Properties\Gaps\Edit::class]
             );
-        $dic[Cloze\Views\Participant::class] = static fn($c): Cloze\Views\Participant
-            => new Cloze\Views\Participant(
-                $DIC['tpl'],
-                $c[MustacheEngine::class],
-                $c[Cloze\Response\Factory::class]
-            );
         $dic[Cloze\Definition::class] = static fn($c): Cloze\Definition => new Cloze\Definition(
             $c[Cloze\TableDefinitions::class],
             [
@@ -275,10 +269,13 @@ class LocalDIC extends PimpleContainer
                     $c[Cloze\Response\Factory::class]
                 ),
                 new Cloze\Capabilities\DefaultView(
-                    $c[Cloze\Views\Participant::class]
+                    $c[MustacheEngine::class],
+                    $c[Cloze\Response\Factory::class]
                 ),
                 new Cloze\Capabilities\AsyncView(
-                    $c[Cloze\Views\Participant::class]
+                    $DIC['ui.renderer'],
+                    $c[MustacheEngine::class],
+                    $c[Cloze\Response\Factory::class]
                 )
             ],
             $c[Cloze\Properties\Factory::class],

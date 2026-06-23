@@ -29,7 +29,6 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Response\AnswerInput as AnswerInputRes
 use ILIAS\Questions\Attempt\AdditionalAttemptData;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Definitions\Range;
-use ILIAS\Data\Text\Markdown;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\FileUpload\FileUpload;
@@ -44,6 +43,8 @@ use Ramsey\Uuid\Exception\InvalidUuidStringException;
 
 abstract class Type
 {
+    protected const string KEY_RESPONSE = 'given_response';
+
     public function __construct(
         protected readonly Language $lng,
         protected readonly Refinery $refinery
@@ -217,6 +218,15 @@ abstract class Type
         return $answer_option->getAvailablePoints() ?? 0.0;
     }
 
+    public function buildClientSideRepresentationOfResponse(
+        Gap $gap,
+        AnswerInputResponse $response
+    ): array {
+        return [
+            self::KEY_RESPONSE => $response->getResponse()->toString()
+        ];
+    }
+
     public function getSpecificFeedbackParticipantOutput(
         UIFactory $ui_factory,
         Gap $gap,
@@ -230,7 +240,7 @@ abstract class Type
                     $c[$v->getCondition()] = [];
                 }
 
-                $c[$v->getCondition()] = $v->getFeedbackText();
+                $c[$v->getCondition()] = $v->getFeedbackTextForPresentation($this->refinery);
 
                 return $c;
             },
@@ -251,17 +261,13 @@ abstract class Type
         if ($this->getBestResponse($gap)->getResponse() === $answer_input_response) {
             return isset($specific_feedbacks_by_condition[TextFeedbackTypes::BestResponse->value])
                 ? $ui_factory->legacy()->content(
-                    $this->refinery->string()->markdown()->toHTML()->transform(
-                        $specific_feedbacks_by_condition[TextFeedbackTypes::BestResponse->value]->getRawRepresentation()
-                    )
+                    $specific_feedbacks_by_condition[TextFeedbackTypes::BestResponse->value]
                 ) : null;
         }
 
         return isset($specific_feedbacks_by_condition[TextFeedbackTypes::OtherResponse->value])
             ? $ui_factory->legacy()->content(
-                $this->refinery->string()->markdown()->toHTML()->transform(
-                    $specific_feedbacks_by_condition[TextFeedbackTypes::OtherResponse]->getRawRepresentation()
-                )
+                $specific_feedbacks_by_condition[TextFeedbackTypes::OtherResponse]
             ) : null;
     }
 
@@ -289,24 +295,14 @@ abstract class Type
         return '';
     }
 
-    final protected function buildGapName(
-        Gap $gap
-    ): string {
-        return "gap_{$gap->getAnswerInputId()->toString()}";
-    }
-
     private function getSpecificFeedbackParticipantOutputForAnswerOption(
         UIFactory $ui_factory,
-        ?Markdown $specific_feedback
+        ?string $specific_feedback
     ): ?Component {
         if ($specific_feedback === null) {
             return null;
         }
 
-        return $ui_factory->legacy()->content(
-            $this->refinery->string()->markdown()->toHTML()->transform(
-                $specific_feedback->getRawRepresentation()
-            )
-        );
+        return $ui_factory->legacy()->content($specific_feedback);
     }
 }

@@ -35,6 +35,7 @@ use ILIAS\Questions\Persistence\ManipulationType;
 use ILIAS\Questions\Persistence\Query;
 use ILIAS\Questions\Presentation\Definitions\DefaultEnvironment;
 use ILIAS\Questions\Presentation\Definitions\OverviewTableColumns;
+use ILIAS\Questions\Presentation\Definitions\ViewConfiguration;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
 use ILIAS\Questions\Question\Persistence\DatabaseStatementBuilder;
 use ILIAS\Questions\UserSettings\CreateModes;
@@ -331,10 +332,12 @@ class Question
             $required_capabilities,
             $this,
             $attempt_data,
-            $interactive,
-            $show_marks,
-            $show_best_response,
-            $show_feedback
+            new ViewConfiguration(
+                $interactive,
+                $show_marks,
+                $show_best_response,
+                $show_feedback
+            )
         );
     }
 
