@@ -127,10 +127,8 @@ class TextFeedbackOverviewDataRetrieval implements DataRetrieval
             [
                 'gap' => $gap->buildShortenedGapRepresentation(),
                 'answer_options' => implode('<br>', $answer_options),
-                'feedback' => $this->refinery->string()->markdown()->toHTML()->transform(
-                    $feedbacks[0]->getFeedbackText()
-                        ->getRawRepresentation()
-                )
+                'feedback' => $feedbacks[0]
+                    ->getFeedbackTextForPresentation($this->refinery)
             ]
         );
     }

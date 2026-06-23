@@ -39,33 +39,4 @@ enum Range: string
             self::AboveRange => $lng->txt('above_range')
         };
     }
-
-    public function isValueInRange(
-        float $lower_limit,
-        float $upper_limit,
-        float $value
-    ): self {
-        if ($value < $lower_limit
-            || $value > $upper_limit) {
-            return self::OutOfRange;
-        }
-
-        return self::InRange;
-    }
-
-    public function checkValue(
-        float $lower_limit,
-        float $upper_limit,
-        float $value
-    ): self {
-        if ($value < $lower_limit) {
-            return self::BelowRange;
-        }
-
-        if ($value > $upper_limit) {
-            return self::AboveRange;
-        }
-
-        return self::InRange;
-    }
 }

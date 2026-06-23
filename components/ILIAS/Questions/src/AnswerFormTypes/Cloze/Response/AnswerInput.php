@@ -35,6 +35,9 @@ class AnswerInput
     public const string KEY_SELECTED_ANSWER_OPTION = 'selected_answer_option';
     public const string KEY_TEXT = 'text';
 
+    private const string KEY_RESPONSE = 'response';
+    private const string KEY_GAP_TYPE = 'gap_type';
+
     public function __construct(
         private readonly Gap $gap,
         private readonly ?Uuid $selected_answer_option,
@@ -63,6 +66,17 @@ class AnswerInput
     public function isBest(): bool
     {
         return $this->gap->getType()->isBestResponse($this->gap, $this);
+    }
+
+    public function toClientSideRepresentation(): array
+    {
+        return [
+            self::KEY_GAP_TYPE => $this->gap->getType()->getIdentifier(),
+            self::KEY_RESPONSE => $this->gap->getType()->buildClientSideRepresentationOfResponse(
+                $this->gap,
+                $this
+            )
+        ];
     }
 
     public function toPreviewStorage(): array

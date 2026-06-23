@@ -50,8 +50,7 @@ class Capability implements CapabilityInterface, ParticipantViewProvider
     ): Participant {
         return $answer_form_properties
             ->getDefinition()
-            ->getCapability(self::getIdentifier())
-            ->getParticipantView();
+            ->getCapability(self::getIdentifier());
     }
 
     #[\Override]

@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\Questions;
 
 use ILIAS\Questions\Administration\ConfigurationRepository;
-use ILIAS\Questions\AnswerForm\Capabilities\Edit as CapabilitiesEditView;
 use ILIAS\Questions\AnswerForm\Capabilities\Factory as CapabilitiesFactory;
 use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
 use ILIAS\Questions\Attempt\Repository as AttemptRepository;

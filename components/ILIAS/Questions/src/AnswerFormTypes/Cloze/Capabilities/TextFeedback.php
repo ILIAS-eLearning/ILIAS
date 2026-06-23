@@ -41,7 +41,6 @@ class TextFeedback extends TextFeedbackBase
         private readonly UuidFactory $uuid_factory,
         private readonly TextFactory $text_factory,
     ) {
-
     }
 
     #[\Override]
@@ -71,7 +70,42 @@ class TextFeedback extends TextFeedbackBase
     }
 
     #[\Override]
-    public function getSpecificFeedbackParticipantOutput(
+    public function onAnswerFormUpdate(
+        Properties $answer_form_properties
+    ): static {
+        $gaps = $answer_form_properties->getGaps();
+
+        return array_reduce(
+            $this->getSpecificFeedbacks(),
+            function (
+                TextFeedback $c,
+                SpecificTextFeedback $v
+            ) use ($gaps): self {
+                $gap = $gaps->getGapById($v->getParentId());
+                if ($gap === null
+                    || !$gap->getType()->isValidFeedbackCondition(
+                        $this->uuid_factory,
+                        $gap,
+                        $v->getCondition()
+                    )
+                ) {
+                    return $c->withoutSpecificFeedback($v);
+                }
+
+                return $c;
+            },
+            clone $this
+        );
+    }
+
+    #[\Override]
+    public function specificFeedbackInputsHaveLegacyTexts(): bool
+    {
+        return false;
+    }
+
+    #[\Override]
+    protected function getSpecificFeedbackParticipantOutput(
         UIFactory $ui_factory,
         Refinery $refinery,
         Properties $properties,
@@ -129,37 +163,35 @@ class TextFeedback extends TextFeedbackBase
     }
 
     #[\Override]
-    public function specificFeedbackInputsHaveLegacyTexts(): bool
+    protected function getSpecificFeedbackClientSideEndPoint(): string
     {
-        return false;
+        return 'il.questions.cloze.specificTextFeedback';
     }
 
     #[\Override]
-    public function onAnswerFormUpdate(
-        Properties $answer_form_properties
-    ): static {
-        $gaps = $answer_form_properties->getGaps();
+    protected function getSpecificFeedbackForClientSideCode(
+        Language $lng,
+        Refinery $refinery,
+        UIFactory $ui_factory,
+        Properties $properties
+    ): array {
+        $specific_feedbacks = $this->getSpecificFeedbacks();
+        if ($specific_feedbacks === []) {
+            return [];
+        }
 
-        return array_reduce(
-            $this->getSpecificFeedbacks(),
-            function (
-                TextFeedback $c,
-                SpecificTextFeedback $v
-            ) use ($gaps): self {
-                $gap = $gaps->getGapById($v->getParentId());
-                if ($gap === null
-                    || !$gap->getType()->isValidFeedbackCondition(
-                        $this->uuid_factory,
-                        $gap,
-                        $v->getCondition()
-                    )
-                ) {
-                    return $c->withoutSpecificFeedback($v);
-                }
-
-                return $c;
-            },
-            clone $this
+        return array_map(
+            fn(array $v): array => array_reduce(
+                $v,
+                function (array $c, SpecificTextFeedback $v) use ($refinery): array {
+                    $c[$v->getCondition()] = $v->getFeedbackTextForPresentation(
+                        $refinery
+                    );
+                    return $c;
+                },
+                []
+            ),
+            $this->orderFeedbacksByAnswerInputId($specific_feedbacks)
         );
     }
 
@@ -210,16 +242,14 @@ class TextFeedback extends TextFeedbackBase
     ): array {
         $feedback_nothing_selected = array_filter(
             $specific_feedbacks,
-            fn(SpecificFeedback $v): bool => TextFeedbackTypes::tryFrom($v->getCondition()) === TextFeedbackTypes::NoResponse
+            fn(SpecificTextFeedback $v): bool => TextFeedbackTypes::tryFrom($v->getCondition()) === TextFeedbackTypes::NoResponse
         );
 
         if ($feedback_nothing_selected !== []) {
             $participant_output[] = $ui_factory->legacy()->content(
-                $refinery->string()->markdown()->toHTML()
-                    ->transform(
-                        $feedback_nothing_selected[0]->getFeedbackText()
-                            ->getRawRepresentation()
-                    )
+                $feedback_nothing_selected[0]->getFeedbackTextForPresentation(
+                    $refinery
+                )
             );
         }
 

@@ -20,23 +20,35 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerForm\Views;
 
+use ILIAS\Questions\AnswerForm\Capabilities\RequiredCapabilities;
 use ILIAS\Questions\AnswerForm\Properties;
 use ILIAS\Questions\AnswerForm\Response;
 use ILIAS\Questions\Attempt\AdditionalAttemptData;
-use ILIAS\Questions\Presentation\Definitions\ViewMode;
+use ILIAS\Questions\Presentation\Definitions\ViewConfiguration;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Component\Component;
+use ILIAS\UICore\GlobalTemplate;
 
 interface Participant
 {
+    /**
+     * @return list<Component>|Component
+     */
     public function show(
+        GlobalTemplate $global_template,
         Language $lng,
+        Refinery $refinery,
+        UIFactory $ui_factory,
+        RequiredCapabilities $required_capabilities,
+        ViewConfiguration $view_configuration,
         Properties $properties,
         ?AdditionalAttemptData $attempt_data,
-        ?Response $response_data,
-        ViewMode $view_mode
-    ): string;
+        ?Response $response_data
+    ): array|Component;
 
     public function retrieveResponse(
         Uuid $response_id,
