@@ -34,7 +34,7 @@ use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Persistence\Operator;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Presentation\Definitions\Environment;
-use ILIAS\Questions\Presentation\Definitions\ViewMode;
+use ILIAS\Questions\Presentation\Definitions\ViewConfiguration;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Database\FieldDefinition;
@@ -200,7 +200,7 @@ class Gaps
 
     public function getPlaceholderArray(
         Language $lng,
-        ViewMode $view_mode,
+        ViewConfiguration $view_configuration,
         ?AdditionalAttemptData $additional_attempt_data,
         ?Response $response_data
     ): array {
@@ -211,11 +211,11 @@ class Gaps
                 Gap $v
             ) use (
                 $lng,
-                $view_mode,
+                $view_configuration,
                 $additional_attempt_data,
                 $response_data
             ): array {
-                $c[$v->buildGapPlaceholderNameWithId($v)] = $view_mode === ViewMode::Respond
+                $c[$v->buildGapPlaceholderNameWithId($v)] = $view_configuration->isInteractive()
                     ? $v->buildParticipantViewLegacyInput(
                         $lng,
                         $this->refinery,
@@ -223,7 +223,7 @@ class Gaps
                         $response_data
                     ) : $this->buildStaticGapReplacement(
                         $lng,
-                        $view_mode,
+                        $view_configuration->showBestResponse(),
                         $response_data,
                         $v
                     );
@@ -676,7 +676,7 @@ class Gaps
 
     private function buildStaticGapReplacement(
         Language $lng,
-        ViewMode $view_mode,
+        bool $show_best_response,
         ?Response $response_data,
         Gap $gap
     ): string {
@@ -690,7 +690,7 @@ class Gaps
             'SOLUTION_VALUE',
             $this->retrieveStaticGapReplacementValue(
                 $lng,
-                $view_mode,
+                $show_best_response,
                 $response_data,
                 $gap
             )
@@ -700,12 +700,12 @@ class Gaps
 
     private function retrieveStaticGapReplacementValue(
         Language $lng,
-        ViewMode $view_mode,
+        bool $show_best_response,
         ?Response $response_data,
         Gap $gap
     ): string {
         $empty_gap_text = $lng->txt(
-            $view_mode === ViewMode::ViewBestResponse
+            $show_best_response
                 ? 'no_best_response_available'
                 : 'no_response_given'
         );

@@ -48,6 +48,10 @@ class Edit
 
     private const string SESSION_VAR_RESPONSE_DATA = 'response_data';
 
+    private const string TEMPLATE_VARIABLE_FORM_ACTION = 'FORM_ACTION';
+    private const string TEMPLATE_VARIABLE_QUESTION_OUTPUT = 'QUESTION_OUTPUT';
+    private const string TEMPLATE_VARIABLE_SUBMIT_BUTTON_LABEL = 'SUBMIT_BUTTON_LABEL';
+
     public function __construct(
         private readonly \ilObjUser $current_user,
         private readonly \ilCtrl $ctrl,
@@ -331,7 +335,7 @@ class Edit
         );
 
         $tpl->setVariable(
-            'FORM_ACTION',
+            self::TEMPLATE_VARIABLE_FORM_ACTION,
             $environment
                 ->withSubActionParameter(self::CMD_SEND_RESPONSE)
                 ->getUrlBuilder()
@@ -340,7 +344,7 @@ class Edit
         );
 
         $tpl->setVariable(
-            'QUESTION_OUTPUT',
+            self::TEMPLATE_VARIABLE_QUESTION_OUTPUT,
             $this->ui_renderer->render(
                 $this->question->getParticipantView(
                     $environment->getLanguage(),
@@ -353,7 +357,7 @@ class Edit
         );
 
         $tpl->setVariable(
-            'SUBMIT_BUTTON_LABEL',
+            self::TEMPLATE_VARIABLE_SUBMIT_BUTTON_LABEL,
             $environment->getLanguage()->txt('send')
         );
 

@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
 use ILIAS\Questions\AnswerForm\Response;
+use ILIAS\Questions\AnswerForm\Capabilities\TextFeedback\SpecificTextFeedback;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Response\AnswerInput as AnswerInputResponse;
@@ -33,12 +34,17 @@ use ILIAS\FileUpload\FileUpload;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Transformation;
+use ILIAS\UI\Component\Component;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Input\Field\Numeric as NumericInput;
 
 class Numeric extends Type
 {
     private const float DEFAULT_SUB_ACTION_SIZE = 0.0001;
+
+    private const string KEY_LOWER_LIMIT = 'lower_limit';
+    private const string KEY_UPPER_LIMIT = 'upper_limit';
+    private const string KEY_STEP_SIZE = 'upper_limit';
 
     #[\Override]
     public function getIdentifier(): string
@@ -61,7 +67,7 @@ class Numeric extends Type
 
         $gaptemplate->setVariable(
             'GAP_NAME',
-            $this->buildGapName($gap)
+            $gap->getAnswerInputId()->toString()
         );
 
         $response = $response_data?->getResponseForInput($gap->getAnswerInputId());
@@ -87,14 +93,14 @@ class Numeric extends Type
 
         $ff = $environment->getUIFactory()->input()->field();
         return [
-            'lower_limit' => $ff->numeric($environment->getLanguage()->txt('range_lower_limit'))
+            self::KEY_LOWER_LIMIT => $ff->numeric($environment->getLanguage()->txt('range_lower_limit'))
                 ->withStepSize($gap->getStepSize() ?? self::DEFAULT_SUB_ACTION_SIZE)
                 ->withRequired(true)
                 ->withValue($answer_option->getLowerLimit()),
-            'upper_limit' => $ff->numeric($environment->getLanguage()->txt('range_upper_limit'))
+            self::KEY_UPPER_LIMIT => $ff->numeric($environment->getLanguage()->txt('range_upper_limit'))
                 ->withStepSize($gap->getStepSize() ?? self::DEFAULT_SUB_ACTION_SIZE)
                 ->withValue($answer_option->getUpperLimit()),
-            'step_size' => $ff->numeric($environment->getLanguage()->txt('step_size'))
+            self::KEY_STEP_SIZE => $ff->numeric($environment->getLanguage()->txt('step_size'))
                 ->withStepSize(0.000001)
                 ->withRequired(true)
                 ->withValue($gap->getStepSize() ?? self::DEFAULT_SUB_ACTION_SIZE)
@@ -105,9 +111,9 @@ class Numeric extends Type
     public function getEditAnswerOptionsSectionConstraint(): ?Constraint
     {
         return $this->refinery->custom()->constraint(
-            fn(array $vs): bool => $vs['upper_limit'] === null
-                || $vs['upper_limit'] >= $vs['lower_limit']
-                    && $vs['upper_limit'] >= $vs['step_size'],
+            fn(array $vs): bool => $vs[self::KEY_UPPER_LIMIT] === null
+                || $vs[self::KEY_UPPER_LIMIT] >= $vs[self::KEY_LOWER_LIMIT]
+                    && $vs[self::KEY_UPPER_LIMIT] >= $vs[self::KEY_LOWER_LIMIT],
             $this->lng->txt('upper_limit_bigger_than_lower')
         );
     }
@@ -207,7 +213,7 @@ class Numeric extends Type
             $gap,
             null,
             $post_wrapper->retrieve(
-                $this->buildGapName($gap),
+                $gap->getAnswerInputId()->toString(),
                 $this->refinery->byTrying([
                     $this->refinery->in()->series([
                         $this->refinery->kindlyTo()->float(),
@@ -236,20 +242,10 @@ class Numeric extends Type
             return false;
         }
 
-        $response_as_float = $this->refinery->kindlyTo()->float()->transform(
+        return $this->getRangeValueFromResponseValue(
+            $answer_option,
             $response->getResponse()
-        );
-
-        $upper_limit = $answer_option->getUpperLimit();
-        $lower_limit = $answer_option->getLowerLimit();
-        if ($upper_limit === null
-                && $response_as_float === $lower_limit
-            || $response_as_float >= $lower_limit
-                && $response_as_float <= $upper_limit) {
-            return true;
-        }
-
-        return false;
+        ) === Range::InRange;
     }
 
     #[\Override]
@@ -257,32 +253,81 @@ class Numeric extends Type
         Gap $gap,
         Uuid|string|null $response
     ): float {
-        /** @var ?AnswerOption $answer_option */
-        $answer_options_awarding_points = $gap->getAnswerOptions()
-            ->getAnswerOptionsAwardingPoints();
+        if ($response === null) {
+            return 0.0;
+        }
 
-        $answer_option = $answer_options_awarding_points === null
-            ? null
-            : array_shift($answer_options_awarding_points);
+        $answer_option = $this->getAnswerOptionAwardingPoints($gap);
 
         if ($answer_option === null) {
             return 0.0;
         }
 
-        $response_as_float = $this->refinery->kindlyTo()->float()->transform(
+        if ($this->getRangeValueFromResponseValue(
+            $answer_option,
             $response
-        );
-
-        $upper_limit = $answer_option->getUpperLimit();
-        $lower_limit = $answer_option->getLowerLimit();
-        if ($upper_limit === null
-                && $response_as_float === $lower_limit
-            || $response_as_float >= $lower_limit
-                && $response_as_float <= $upper_limit) {
+        ) === Range::InRange) {
             return $answer_option->getAvailablePoints();
         }
 
         return 0.0;
+    }
+
+    #[\Override]
+    public function buildClientSideRepresentationOfResponse(
+        Gap $gap,
+        AnswerInputResponse $response
+    ): array {
+        $answer_option = $this->getAnswerOptionAwardingPoints($gap);
+
+        return [
+            self::KEY_RESPONSE => $response->getResponse(),
+            self::KEY_LOWER_LIMIT => $answer_option->getLowerLimit(),
+            self::KEY_UPPER_LIMIT => $answer_option->getUpperLimit()
+        ];
+    }
+
+    #[\Override]
+    public function getSpecificFeedbackParticipantOutput(
+        UIFactory $ui_factory,
+        Gap $gap,
+        array $specific_feedbacks,
+        Uuid|string $answer_input_response
+    ): ?Component {
+        $specific_feedbacks_by_condition = array_reduce(
+            $specific_feedbacks,
+            function (array $c, SpecificTextFeedback $v): array {
+                if (!array_key_exists($v->getCondition(), $c)) {
+                    $c[$v->getCondition()] = [];
+                }
+
+                $c[$v->getCondition()] = $v->getFeedbackTextForPresentation($this->refinery);
+
+                return $c;
+            },
+            []
+        );
+
+        $range_value = $this->getRangeValueFromResponseValue(
+            $this->getAnswerOptionAwardingPoints($gap),
+            $answer_input_response
+        );
+
+        if (isset($specific_feedbacks_by_condition[$range_value->value])) {
+            return $ui_factory->legacy()->content(
+                $specific_feedbacks_by_condition[$range_value->value]
+            );
+        }
+
+        if (($range_value === Range::BelowRange
+                || $range_value === Range::BelowRange)
+            && isset($specific_feedbacks_by_condition[Range::OutOfRange->value])) {
+            return $ui_factory->legacy()->content(
+                $specific_feedbacks_by_condition[Range::OutOfRange->value]
+            );
+        }
+
+        return null;
     }
 
     #[\Override]
@@ -297,5 +342,41 @@ class Numeric extends Type
         return $upper_limit === null
             ? $lower_limit_string
             : "{$lower_limit_string} - {$trafo->transform($upper_limit)}";
+    }
+
+    private function getAnswerOptionAwardingPoints(
+        Gap $gap
+    ): AnswerOption {
+        /** @var ?AnswerOption $answer_option */
+        $answer_options_awarding_points = $gap->getAnswerOptions()
+            ->getAnswerOptionsAwardingPoints();
+
+        return $answer_options_awarding_points === null
+            ? null
+            : array_shift($answer_options_awarding_points);
+    }
+
+    private function getRangeValueFromResponseValue(
+        AnswerOption $answer_option,
+        string $response
+    ): Range {
+        $response_as_float = $this->refinery->kindlyTo()->float()->transform(
+            $response
+        );
+
+        $upper_limit = $answer_option->getUpperLimit();
+        $lower_limit = $answer_option->getLowerLimit();
+
+        if ($response < $lower_limit) {
+            return Range::BelowRange;
+        }
+
+        if ($upper_limit === null
+                && $response_as_float === $lower_limit
+            || $response_as_float <= $upper_limit) {
+            return Range::InRange;
+        }
+
+        return Range::AboveRange;
     }
 }

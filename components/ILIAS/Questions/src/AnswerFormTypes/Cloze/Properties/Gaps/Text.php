@@ -69,7 +69,7 @@ class Text extends Type
         }
         $gaptemplate->setVariable(
             'GAP_NAME',
-            $this->buildGapName($gap)
+            $gap->getAnswerInputId()->toString()
         );
 
         $response = $response_data?->getResponseForInput($gap->getAnswerInputId());
@@ -175,7 +175,7 @@ class Text extends Type
             $gap,
             null,
             $post_wrapper->retrieve(
-                $this->buildGapName($gap),
+                $gap->getAnswerInputId()->toString(),
                 $this->refinery->byTrying([
                     $this->refinery->kindlyTo()->string(),
                     $this->refinery->always('')
@@ -213,6 +213,16 @@ class Text extends Type
     }
 
     #[\Override]
+    public function buildClientSideRepresentationOfResponse(
+        Gap $gap,
+        AnswerInputResponse $response
+    ): array {
+        return [
+            self::KEY_RESPONSE => $response->getResponse()
+        ];
+    }
+
+    #[\Override]
     public function getSpecificFeedbackParticipantOutput(
         UIFactory $ui_factory,
         Gap $gap,
@@ -222,12 +232,7 @@ class Text extends Type
         $specific_feedbacks_by_condition = array_reduce(
             $specific_feedbacks,
             function (array $c, SpecificTextFeedback $v): array {
-                if (!array_key_exists($v->getCondition(), $c)) {
-                    $c[$v->getCondition()] = [];
-                }
-
                 $c[$v->getCondition()] = $v->getFeedbackText();
-
                 return $c;
             },
             []
