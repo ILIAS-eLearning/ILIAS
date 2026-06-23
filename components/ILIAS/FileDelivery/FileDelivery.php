@@ -57,11 +57,11 @@ class FileDelivery implements Component
         $define[] = DataSigning::class;
         $define[] = FileDeliveryServices::class;
 
-        $contribute[Agent::class] = static fn(): \ILIAS\FileDelivery\Setup\Agent => new \ILIAS\FileDelivery\Setup\Agent(
+        $contribute[Agent::class] = static fn() => new \ILIAS\FileDelivery\Setup\Agent(
             $pull[Factory::class]
         );
 
-        $contribute[PublicAsset::class] = fn(): Endpoint => new Endpoint($this, "deliver.php");
+        $contribute[PublicAsset::class] = fn() => new Endpoint($this, "deliver.php");
 
         // INITIALIZATION OF SERVICES
         $internal[ResponseBuilder::class] = static function (): ResponseBuilder {
@@ -74,12 +74,12 @@ class FileDelivery implements Component
             };
         };
 
-        $internal[PHPResponseBuilder::class] = (static fn(): ResponseBuilder => new PHPResponseBuilder());
+        $internal[PHPResponseBuilder::class] = (static fn() => new PHPResponseBuilder());
 
         $internal[DataSigning::class] = static function (): DataSigning {
             $key_strings = (array) ((@include KeyRotationObjective::PATH()) ?? []);
             $keys = array_map(
-                static fn(string $key): SecretKey => new SecretKey($key),
+                static fn(string $key) => new SecretKey($key),
                 $key_strings
             );
 
@@ -93,31 +93,31 @@ class FileDelivery implements Component
             );
         };
 
-        $implement[DataSigning::class] = static fn(): DataSigning => $internal[DataSigning::class];
+        $implement[DataSigning::class] = static fn() => $internal[DataSigning::class];
 
-        $internal[StreamDelivery::class] = (static fn(): StreamDelivery => new StreamDelivery(
+        $internal[StreamDelivery::class] = (static fn() => new StreamDelivery(
             $use[DataSigning::class],
             $use[GlobalHttpState::class],
             $internal[ResponseBuilder::class],
             $internal[PHPResponseBuilder::class],
         ));
 
-        $internal[LegacyDelivery::class] = (static fn(): LegacyDelivery => new LegacyDelivery(
+        $internal[LegacyDelivery::class] = (static fn() => new LegacyDelivery(
             $use[GlobalHttpState::class],
             $internal[ResponseBuilder::class],
             $internal[PHPResponseBuilder::class],
         ));
 
-        $internal[FileDeliveryServices::class] = (static fn(): Services => new Services(
+        $internal[FileDeliveryServices::class] = (static fn() => new Services(
             $internal[StreamDelivery::class],
             $internal[LegacyDelivery::class],
             $use[DataSigning::class],
             $use[GlobalHttpState::class],
         ));
 
-        $implement[FileDeliveryServices::class] = static fn(): FileDeliveryServices => $internal[FileDeliveryServices::class];
+        $implement[FileDeliveryServices::class] = static fn() => $internal[FileDeliveryServices::class];
 
-        $contribute[EntryPoint::class] = static fn(): EntryPoint => new \ILIAS\FileDelivery\EntryPoint(
+        $contribute[EntryPoint::class] = static fn() => new \ILIAS\FileDelivery\EntryPoint(
             $internal[FileDeliveryServices::class],
             $use[GlobalHttpState::class],
         );

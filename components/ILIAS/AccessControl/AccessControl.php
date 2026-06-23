@@ -47,18 +47,18 @@ class AccessControl implements Component\Component
         $define[] = RBAC::class;
 
         // Internal proxies (concrete classes — no interfaces)
-        $internal[UserIdProviderProxy::class] = static fn(): UserIdProviderProxy => new UserIdProviderProxy();
-        $internal[RepositoryTreeAccessProxy::class] = static fn(): RepositoryTreeAccessProxy => new RepositoryTreeAccessProxy();
-        $internal[ObjectDataAccessProxy::class] = static fn(): ObjectDataAccessProxy => new ObjectDataAccessProxy();
-        $internal[ObjectDefinitionAccessProxy::class] = static fn(): ObjectDefinitionAccessProxy => new ObjectDefinitionAccessProxy();
+        $internal[UserIdProviderProxy::class] = static fn() => new UserIdProviderProxy();
+        $internal[RepositoryTreeAccessProxy::class] = static fn() => new RepositoryTreeAccessProxy();
+        $internal[ObjectDataAccessProxy::class] = static fn() => new ObjectDataAccessProxy();
+        $internal[ObjectDefinitionAccessProxy::class] = static fn() => new ObjectDefinitionAccessProxy();
 
         // Internal RBAC services (legacy concrete classes)
-        $internal[\ilRbacReview::class] = static fn(): \ilRbacReview => new \ilRbacReview(
+        $internal[\ilRbacReview::class] = static fn() => new \ilRbacReview(
             $use[External::class],
             $use[\ILIAS\Logging\Logger\LoggerFactoryInterface::class]->getLazy('ac'),
         );
 
-        $internal[\ilRbacSystem::class] = static fn(): \ilRbacSystem => new \ilRbacSystem(
+        $internal[\ilRbacSystem::class] = static fn() => new \ilRbacSystem(
             $internal[UserIdProviderProxy::class],
             $use[External::class],
             $internal[\ilRbacReview::class],
@@ -68,20 +68,20 @@ class AccessControl implements Component\Component
             $internal[ObjectDataAccessProxy::class],
         );
 
-        $internal[\ilRbacAdmin::class] = static fn(): \ilRbacAdmin => new \ilRbacAdmin(
+        $internal[\ilRbacAdmin::class] = static fn() => new \ilRbacAdmin(
             $use[External::class],
             $internal[\ilRbacReview::class],
             $use[\ILIAS\Logging\Logger\LoggerFactoryInterface::class]->getLazy('ac'),
         );
 
         // Public implementations (in case of RBAC for legacy reasons only)
-        $implement[RBAC::class] = static fn(): RBAC => new DefaultRBAC(
+        $implement[RBAC::class] = static fn() => new DefaultRBAC(
             $internal[\ilRbacReview::class],
             $internal[\ilRbacSystem::class],
             $internal[\ilRbacAdmin::class],
         );
 
-        $implement[Access::class] = static fn(): Access => new \ilAccess(
+        $implement[Access::class] = static fn() => new \ilAccess(
             $internal[UserIdProviderProxy::class],
             $use[External::class],
             $internal[\ilRbacSystem::class],

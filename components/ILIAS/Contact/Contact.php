@@ -36,7 +36,7 @@ class Contact implements Component\Component
             new Component\Resource\ComponentJS($this, "buddy_system.js");
         $contribute[User\Settings\UserSettings::class] = fn() =>
             new Contact\UserSettings\Settings();
-        $contribute[\ILIAS\StaticURL\Handler\Handler::class] = static fn(): \ILIAS\StaticURL\Handler\Handler =>
+        $contribute[\ILIAS\StaticURL\Handler\Handler::class] = static fn() =>
             new \ILIAS\Contact\URL\StaticUrlHandler();
     }
 }

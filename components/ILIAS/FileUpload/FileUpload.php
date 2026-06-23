@@ -44,13 +44,13 @@ class FileUpload implements Component
     ): void {
         $define[] = FileUploadInterface::class;
 
-        $internal[PreProcessorCollection::class] = static fn(): PreProcessorCollection =>
+        $internal[PreProcessorCollection::class] = static fn() =>
             new PreProcessorCollectionImpl($seek[PreProcessor::class]);
 
-        $internal[PreProcessorManagerImpl::class] = static fn(): PreProcessorManagerImpl =>
+        $internal[PreProcessorManagerImpl::class] = static fn() =>
             new PreProcessorManagerImpl($internal[PreProcessorCollection::class]);
 
-        $implement[FileUploadInterface::class] = static fn(): FileUploadInterface =>
+        $implement[FileUploadInterface::class] = static fn() =>
             new FileUploadImpl(
                 $internal[PreProcessorManagerImpl::class],
                 $use[Filesystems::class],

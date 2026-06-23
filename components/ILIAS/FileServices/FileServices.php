@@ -42,16 +42,16 @@ class FileServices implements Component
         array|\ArrayAccess &$pull,
         array|\ArrayAccess &$internal,
     ): void {
-        $implement[PhpUploadLimit::class] = static fn(): PhpUploadLimit => new FileServicesLegacyInitialisationAdapter(
+        $implement[PhpUploadLimit::class] = static fn() => new FileServicesLegacyInitialisationAdapter(
         );
         $implement[GlobalUploadLimit::class] = static fn(
-        ): GlobalUploadLimit => new FileServicesLegacyInitialisationAdapter();
+        ) => new FileServicesLegacyInitialisationAdapter();
 
-        $contribute[Agent::class] = static fn(): \ilFileServicesSetupAgent => new \ilFileServicesSetupAgent(
+        $contribute[Agent::class] = static fn() => new \ilFileServicesSetupAgent(
             $pull[Factory::class]
         );
 
-        $contribute[PreProcessor::class] = static fn(): PreProcessor =>
+        $contribute[PreProcessor::class] = static fn() =>
             new FileServicesPreProcessor($use[FilesystemConfig::class]);
     }
 }

@@ -56,28 +56,28 @@ class StaticURL implements Component
         $define[] = StaticURLServices::class;
         $define[] = URIBuilder::class;
 
-        $contribute[Agent::class] = static fn(): SetupAgent =>
+        $contribute[Agent::class] = static fn() =>
             new SetupAgent(
                 $pull[Factory::class]
             );
 
-        $contribute[PublicAsset::class] = fn(): Endpoint =>
+        $contribute[PublicAsset::class] = fn() =>
             new Endpoint($this, "goto.php");
 
 
-        $internal[Context::class] = static fn(): Context =>
+        $internal[Context::class] = static fn() =>
             new Context(static function (): Container {
                 global $DIC;
                 return $DIC;
             });
 
-        $internal[StaticURLConfig::class] = static fn(): StaticURLConfig =>
+        $internal[StaticURLConfig::class] = static fn() =>
             new StaticURLConfig();
 
-        $contribute[Handler::class] = static fn(): Handler => new LegacyGotoHandler();
-        $contribute[Handler::class] = static fn(): Handler => new ShortlinksHandler();
+        $contribute[Handler::class] = static fn() => new LegacyGotoHandler();
+        $contribute[Handler::class] = static fn() => new ShortlinksHandler();
 
-        $internal[HandlerService::class] = static fn(): HandlerService =>
+        $internal[HandlerService::class] = static fn() =>
             new HandlerService(
                 new BundledRequestBuilder(),
                 $internal[Context::class],
@@ -85,10 +85,10 @@ class StaticURL implements Component
                 new ILIASSessionStore()
             );
 
-        $implement[URIBuilder::class] = static fn(): URIBuilder =>
+        $implement[URIBuilder::class] = static fn() =>
             new StandardURIBuilder($internal[StaticURLConfig::class]);
 
-        $implement[StaticURLServices::class] = static fn(): StaticURLServices =>
+        $implement[StaticURLServices::class] = static fn() =>
             new Services(
                 $internal[HandlerService::class],
                 $use[URIBuilder::class],

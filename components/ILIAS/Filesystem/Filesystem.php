@@ -84,48 +84,48 @@ class Filesystem implements Component
         $define[] = FilesystemFactory::class;
 
         // Implementations
-        $implement[FilenameSanitizer::class] = static fn(): FilenameSanitizer => new DefaultFilenameSanitizer(
+        $implement[FilenameSanitizer::class] = static fn() => new DefaultFilenameSanitizer(
             $use[FilesystemConfig::class]
         );
 
         $implement[DirectoryPathConfig::class] = static fn(
-        ): DirectoryPathConfig => new DirectoryPathConfigFromIni(
+        ) => new DirectoryPathConfigFromIni(
             $use[IliasIni::class],
             $use[ClientIni::class],
             $use[ClientIdProvider::class]
         );
-        $implement[FilesystemConfig::class] = static fn(): FilesystemConfig => new DatabaseBackedFilesystemConfig(
+        $implement[FilesystemConfig::class] = static fn() => new DatabaseBackedFilesystemConfig(
             $use[External::class]
         );
 
         $implement[FilesystemFactory::class] = static fn(
-        ): FilesystemFactory => new DelegatingFilesystemFactory(
+        ) => new DelegatingFilesystemFactory(
             $use[FilenameSanitizer::class],
             $use[DirectoryPathConfig::class]
         );
 
-        $implement[FilesystemWeb::class] = static fn(): FilesystemWeb => new ConfiguredFilesystemWeb(
+        $implement[FilesystemWeb::class] = static fn() => new ConfiguredFilesystemWeb(
             $use[FilesystemFactory::class]
         );
-        $implement[FilesystemStorage::class] = static fn(): FilesystemStorage => new ConfiguredFilesystemStorage(
+        $implement[FilesystemStorage::class] = static fn() => new ConfiguredFilesystemStorage(
             $use[FilesystemFactory::class]
         );
-        $implement[FilesystemTemp::class] = static fn(): FilesystemTemp => new ConfiguredFilesystemTemp(
+        $implement[FilesystemTemp::class] = static fn() => new ConfiguredFilesystemTemp(
             $use[FilesystemFactory::class]
         );
         $implement[FilesystemCustomizing::class] = static fn(
-        ): FilesystemCustomizing => new ConfiguredFilesystemCustomizing(
+        ) => new ConfiguredFilesystemCustomizing(
             $use[FilesystemFactory::class]
         );
-        $implement[FilesystemLibs::class] = static fn(): FilesystemLibs => new ConfiguredFilesystemLibs(
+        $implement[FilesystemLibs::class] = static fn() => new ConfiguredFilesystemLibs(
             $use[FilesystemFactory::class]
         );
         $implement[FilesystemNodeModules::class] = static fn(
-        ): FilesystemNodeModules => new ConfiguredFilesystemNodeModules(
+        ) => new ConfiguredFilesystemNodeModules(
             $use[FilesystemFactory::class]
         );
 
-        $implement[Filesystems::class] = static fn(): Filesystems => new FilesystemsImpl(
+        $implement[Filesystems::class] = static fn() => new FilesystemsImpl(
             $use[FilesystemStorage::class],
             $use[FilesystemWeb::class],
             $use[FilesystemTemp::class],
@@ -135,13 +135,13 @@ class Filesystem implements Component
         );
 
         // ASSETS AND AGENTS
-        $contribute[Agent::class] = static fn(): \ilFileSystemSetupAgent => new \ilFileSystemSetupAgent(
+        $contribute[Agent::class] = static fn() => new \ilFileSystemSetupAgent(
             $pull[Factory::class]
         );
 
         // UPLOAD PRE-PROCESSORS
-        $contribute[PreProcessor::class] = static fn(): PreProcessor => new FilenameSanitizerPreProcessor();
-        $contribute[PreProcessor::class] = static fn(): PreProcessor => new InsecureFilenameSanitizerPreProcessor();
-        $contribute[PreProcessor::class] = static fn(): PreProcessor => new SVGBlacklistPreProcessor();
+        $contribute[PreProcessor::class] = static fn() => new FilenameSanitizerPreProcessor();
+        $contribute[PreProcessor::class] = static fn() => new InsecureFilenameSanitizerPreProcessor();
+        $contribute[PreProcessor::class] = static fn() => new SVGBlacklistPreProcessor();
     }
 }

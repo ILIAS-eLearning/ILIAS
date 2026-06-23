@@ -51,25 +51,25 @@ class Environment implements Component
         $define[] = ServerConfiguration::class;
         $define[] = Directories::class;
 
-        $implement[IliasIni::class] = static fn(): IliasIniFile => new IliasIniFile(
+        $implement[IliasIni::class] = static fn() => new IliasIniFile(
             __DIR__ . '/../../../ilias.ini.php'
         );
 
-        $implement[ClientIdProvider::class] = static fn(): DefaultClientIdProvider => new DefaultClientIdProvider(
+        $implement[ClientIdProvider::class] = static fn() => new DefaultClientIdProvider(
             $use[IliasIni::class],
             $use[GlobalHttpState::class],
         );
 
-        $implement[ClientIni::class] = static fn(): ClientIniFile => new ClientIniFile(
+        $implement[ClientIni::class] = static fn() => new ClientIniFile(
             $use[IliasIni::class]->getAbsolutePath()
             . '/' . $use[IliasIni::class]->getClientsPath()
             . '/' . $use[ClientIdProvider::class]->getClientId()->toString()
             . '/' . $use[IliasIni::class]->getClientIniFile()
         );
 
-        $implement[ServerConfiguration::class] = static fn(): PhpServerConfiguration => new PhpServerConfiguration();
+        $implement[ServerConfiguration::class] = static fn() => new PhpServerConfiguration();
 
-        $implement[Directories::class] = static fn(): Directories => new WorkingDirectories(
+        $implement[Directories::class] = static fn() => new WorkingDirectories(
             $use[IliasIni::class],
             $use[ClientIdProvider::class],
         );
