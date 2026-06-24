@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Participants;
 
-use ILIAS\Language\Language;
 use ILIAS\Test\Results\Data\AttemptOverview;
 
 class Participant
@@ -29,15 +28,10 @@ class Participant
     private ?\DateTimeImmutable $running_attempt_start = null;
 
     public function __construct(
-        private readonly int $user_id,
+        private readonly User $user,
         private readonly ?int $active_id = null,
         private readonly ?int $test_id = null,
         private readonly ?string $anonymous_id = null,
-        private readonly string $firstname = '',
-        private readonly string $lastname = '',
-        private readonly string $login = '',
-        private readonly ?string $importname = null,
-        private readonly string $matriculation = '',
         private int $extra_time = 0,
         private readonly int $attempts = 0,
         private ?string $client_ip_from = null,
@@ -52,9 +46,9 @@ class Participant
     ) {
     }
 
-    public function getUserId(): int
+    public function getUser(): User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
     public function getActiveId(): ?int
@@ -70,31 +64,6 @@ class Participant
     public function getAnonymousId(): ?string
     {
         return $this->anonymous_id;
-    }
-
-    public function getFirstname(): string
-    {
-        return $this->firstname;
-    }
-
-    public function getLastname(): string
-    {
-        return $this->lastname;
-    }
-
-    public function getLogin(): string
-    {
-        return $this->login;
-    }
-
-    public function getImportname(): ?string
-    {
-        return $this->importname;
-    }
-
-    public function getMatriculation(): string
-    {
-        return $this->matriculation;
     }
 
     public function getExtraTime(): int
@@ -235,31 +204,5 @@ class Participant
         $clone = clone $this;
         $clone->running_attempt_start = $start_date;
         return $clone;
-    }
-
-    public function getDisplayName(Language $language, bool $anonymous_test = false): string
-    {
-        if ($this->user_id === ANONYMOUS_USER_ID && $this->importname !== null && $this->importname !== '') {
-            return "{$this->importname} ({$language->txt('imported')})";
-        }
-
-        if ($anonymous_test) {
-            return $language->txt('anonymous');
-        }
-
-        if ($this->login === '' && $this->firstname === '' && $this->lastname === '') {
-            return $language->txt('user_deleted');
-        }
-
-        $display_name = '';
-
-        if ($this->firstname !== '') {
-            $display_name .= $this->firstname . ' ';
-        }
-        if ($this->lastname !== '') {
-            $display_name .= $this->lastname;
-        }
-
-        return $display_name;
     }
 }

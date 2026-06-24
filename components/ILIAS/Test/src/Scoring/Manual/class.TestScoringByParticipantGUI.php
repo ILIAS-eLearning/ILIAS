@@ -177,9 +177,12 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
 
         $table = new TestScoringByParticipantPassesOverviewTableGUI($this, 'showManScoringParticipantScreen');
 
-        $participant = $this->participant_repository->getParticipantByActiveId($this->object->getTestId(), $active_id);
+        $user = $this->participant_repository->getUsersByActiveIds($this->object->getTestId(), [$active_id])[$active_id] ?? null;
         $table->setTitle(
-            sprintf($this->lng->txt('tst_pass_overview_for_participant'), $participant->getDisplayName($this->lng))
+            sprintf(
+                $this->lng->txt('tst_pass_overview_for_participant'),
+                $user?->getDisplayName($this->lng) ?? ''
+            )
         );
 
         $passOverviewData = $this->service->getPassOverviewData($active_id);

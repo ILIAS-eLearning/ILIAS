@@ -106,6 +106,43 @@ class ParticipantRepository
         );
     }
 
+    /**
+     * @param array<int> $active_ids
+     *
+     * @return array<int, User>
+     */
+    public function getUsersByActiveIds(int $test_id, array $active_ids): array
+    {
+        $active_ids = array_values(array_unique(array_filter($active_ids)));
+
+        if ($active_ids === []) {
+            return [];
+        }
+
+        $in_active_ids = $this->database->in(
+            'ta.active_id',
+            $active_ids,
+            false,
+            \ilDBConstants::T_INTEGER
+        );
+
+        $statement = $this->database->queryF(
+            "SELECT ta.active_id, ta.user_fi, ta.importname, ud.firstname, ud.lastname, ud.login, ud.matriculation
+             FROM tst_active ta
+             LEFT JOIN usr_data ud ON ud.usr_id = ta.user_fi
+             WHERE ta.test_fi = %s AND {$in_active_ids}",
+            [\ilDBConstants::T_INTEGER],
+            [$test_id]
+        );
+
+        $users = [];
+        while ($row = $this->database->fetchAssoc($statement)) {
+            $users[(int) $row['active_id']] = $this->rowToUser($row);
+        }
+
+        return $users;
+    }
+
     public function getParticipantByUserId(int $test_id, int $user_id): ?Participant
     {
         return $this->fetchParticipant(
@@ -121,7 +158,7 @@ class ParticipantRepository
             "INSERT INTO tst_addtime (user_fi, test_fi, additionaltime, tstamp) VALUES (%s, %s, %s, %s)
                         ON DUPLICATE KEY UPDATE tstamp = %s, additionaltime = %s",
             ['integer', 'integer', 'integer','timestamp','timestamp', 'integer'],
-            [$participant->getUserId(), $participant->getTestId(), $participant->getExtraTime(), time(), time(), $participant->getExtraTime()]
+            [$participant->getUser()->getUserId(), $participant->getTestId(), $participant->getExtraTime(), time(), time(), $participant->getExtraTime()]
         );
     }
 
@@ -135,7 +172,7 @@ class ParticipantRepository
                 'tst_invited_user',
                 [
                     'test_fi' => [\ilDBConstants::T_INTEGER, $participant->getTestId()],
-                    'user_fi' => [\ilDBConstants::T_INTEGER, $participant->getUserId()]
+                    'user_fi' => [\ilDBConstants::T_INTEGER, $participant->getUser()->getUserId()]
                 ],
                 [
                     'ip_range_from' => [\ilDBConstants::T_TEXT, $participant->getClientIpFrom()],
@@ -173,7 +210,7 @@ class ParticipantRepository
                 . $this->database->in(
                     'user_fi',
                     array_map(
-                        fn(Participant $participant): int => $participant->getUserId(),
+                        fn(Participant $participant): int => $participant->getUser()->getUserId(),
                         $selected_participants
                     ),
                     false,
@@ -185,7 +222,7 @@ class ParticipantRepository
                 . $this->database->in(
                     'user_fi',
                     array_map(
-                        fn(Participant $participant): int => $participant->getUserId(),
+                        fn(Participant $participant): int => $participant->getUser()->getUserId(),
                         $selected_participants
                     ),
                     false,
@@ -321,15 +358,10 @@ class ParticipantRepository
     private function arrayToObject(array $row): Participant
     {
         return new Participant(
-            $row['user_fi'],
+            $this->rowToUser($row),
             $row['active_id'],
             $row['test_fi'],
             $row['anonymous_id'],
-            $row['firstname'] ?? '',
-            $row['lastname'] ?? '',
-            $row['login'] ?? '',
-            $row['importname'] ?? null,
-            $row['matriculation'] ?? '',
             $row['extra_time'] ?? 0,
             $row['tries'] ?? 0,
             $row['ip_range_from'],
@@ -341,6 +373,18 @@ class ParticipantRepository
             $row['unfinished_attempts'] === 1,
             $row['first_access'] === null ? null : new \DateTimeImmutable($row['first_access']),
             $row['last_access'] === null ? null : new \DateTimeImmutable($row['last_access'])
+        );
+    }
+
+    private function rowToUser(array $row): User
+    {
+        return new User(
+            (int) $row['user_fi'],
+            $row['login'] ?? '',
+            $row['firstname'] ?? '',
+            $row['lastname'] ?? '',
+            $row['matriculation'] ?? '',
+            $row['importname'] ?? null
         );
     }
 
@@ -360,7 +404,6 @@ class ParticipantRepository
 						ta.last_finished_pass,
 						ta.last_started_pass,
 						COALESCE(ta.last_started_pass, -1) <> COALESCE(ta.last_finished_pass, -1) as unfinished_attempts,
-                        ta.importname,
 						ud.firstname,
 						ud.lastname,
 						ud.login,
@@ -400,7 +443,6 @@ class ParticipantRepository
 						ta.last_finished_pass,
 						ta.last_started_pass,
 						COALESCE(ta.last_started_pass, -1) <> COALESCE(ta.last_finished_pass, -1) as unfinished_attempts,
-                        ta.importname,
 						ud.firstname,
 						ud.lastname,
 						ud.login,

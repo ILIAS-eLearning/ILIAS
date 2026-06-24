@@ -90,8 +90,22 @@ class DataRetrieval implements \ILIAS\UI\Component\Table\DataRetrieval
         ?array $filter_data,
         ?array $additional_parameters
     ): \Generator {
-        foreach ($this->loadToplistData() as $row) {
-            $item = $this->buildBasicItemFromRowArray($row);
+        $rows = iterator_to_array($this->loadToplistData(), false);
+        $active_ids = array_values(
+            array_filter(
+                array_map(
+                    static fn(array $row): ?int => $row['rank'] === '...' ? null : (int) $row['active_id'],
+                    $rows
+                )
+            )
+        );
+        $users_by_active_id = $this->participant_repository->getUsersByActiveIds(
+            $this->test_obj->getTestId(),
+            $active_ids
+        );
+
+        foreach ($rows as $row) {
+            $item = $this->buildBasicItemFromRowArray($row, $users_by_active_id);
 
             if (isset($row['tstamp']) && in_array('achieved', $visible_column_ids, true)) {
                 $item['achieved'] = new \DateTimeImmutable('@' . $row['tstamp']);
@@ -141,7 +155,7 @@ class DataRetrieval implements \ILIAS\UI\Component\Table\DataRetrieval
         return sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
     }
 
-    private function buildBasicItemFromRowArray(array $row): array
+    private function buildBasicItemFromRowArray(array $row, array $users_by_active_id): array
     {
         if ($row['rank'] === '...') {
             return [
@@ -150,11 +164,15 @@ class DataRetrieval implements \ILIAS\UI\Component\Table\DataRetrieval
             ];
         }
 
+        $participant_name = '-, -';
+        if (!$this->test_obj->isHighscoreAnon() || (int) $row['usr_id'] === $this->user->getId()) {
+            $user = $users_by_active_id[(int) $row['active_id']] ?? null;
+            $participant_name = $user?->getDisplayName($this->lng) ?? '-, -';
+        }
+
         return [
             'rank' => "{$row['rank']}.",
-            'participant' => $this->test_obj->isHighscoreAnon() && (int) $row['usr_id'] !== $this->user->getId()
-                ? '-, -'
-                : $this->participant_repository->getParticipantByActiveId($this->test_obj->getTestId(), $row['active_id'])->getDisplayName($this->lng),
+            'participant' => $participant_name,
             'is_actor' => isset($row['usr_id']) && ((int) $row['usr_id'] === $this->user->getId())
         ];
     }

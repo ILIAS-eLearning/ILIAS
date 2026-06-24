@@ -99,10 +99,14 @@ class ScoringByQuestionTableBinder implements DataRetrieval
             $participants,
             static fn(\ilTestEvaluationUserData $v): bool => in_array($v->getUserID(), $accessible_user_ids)
         );
+        $users_by_active_id = $this->participant_repository->getUsersByActiveIds(
+            $this->test_obj->getTestId(),
+            array_keys($accessible_participants)
+        );
 
         return array_reduce(
             array_keys($accessible_participants),
-            $this->getDataRowClosure($question_id, $accessible_participants, $complete_feedback),
+            $this->getDataRowClosure($question_id, $accessible_participants, $complete_feedback, $users_by_active_id),
             []
         );
     }
@@ -128,17 +132,19 @@ class ScoringByQuestionTableBinder implements DataRetrieval
     private function getDataRowClosure(
         int $question_id,
         array $filtered_participants,
-        array $complete_feedback
+        array $complete_feedback,
+        array $users_by_active_id
     ): \Closure {
         return function (
             array $c,
             int $active_id
-        ) use ($question_id, $filtered_participants, $complete_feedback): array {
+        ) use ($question_id, $filtered_participants, $complete_feedback, $users_by_active_id): array {
             $array_of_attempts = $this->buildFilteredArrayOfAttempts(
                 $question_id,
                 $active_id,
                 $filtered_participants,
-                $complete_feedback
+                $complete_feedback,
+                $users_by_active_id
             );
             return [...$c, ...$array_of_attempts];
         };
@@ -148,14 +154,15 @@ class ScoringByQuestionTableBinder implements DataRetrieval
         int $question_id,
         int $active_id,
         array $filtered_participants,
-        array $complete_feedback
+        array $complete_feedback,
+        array $users_by_active_id
     ): array {
         return array_reduce(
             $filtered_participants[$active_id]->getPasses(),
             function (
                 array $c,
                 \ilTestEvaluationPassData $pd
-            ) use ($question_id, $active_id, $filtered_participants, $complete_feedback): array {
+            ) use ($question_id, $active_id, $filtered_participants, $complete_feedback, $users_by_active_id): array {
                 $question_result = $pd->getAnsweredQuestionByQuestionId($question_id);
                 $feedback_data = $complete_feedback[$active_id][$pd->getPass()][$question_id] ?? [];
                 if ($this->isFilteredAttempt($pd, $question_result, $feedback_data)) {
@@ -171,7 +178,7 @@ class ScoringByQuestionTableBinder implements DataRetrieval
 
                 $row = [
                     "{$active_id}_{$pd->getPass()}",
-                    ScoringByQuestionTable::COLUMN_NAME => $this->buildParticipantName($current_participant, $active_id),
+                    ScoringByQuestionTable::COLUMN_NAME => $this->buildParticipantName($current_participant, $active_id, $users_by_active_id),
                     ScoringByQuestionTable::COLUMN_ATTEMPT => $pd->getPass() + 1,
                     ScoringByQuestionTable::COLUMN_POINTS_REACHED => $current_pass->getStatusOfAttempt()->isFinished() ? ($question_result['reached'] ?? 0.0) : 0.0,
                     ScoringByQuestionTable::COLUMN_POINTS_AVAILABLE => $current_participant->getQuestionByAttemptAndId($pd->getPass(), $question_id)['points'] ?? 0.0,
@@ -238,12 +245,19 @@ class ScoringByQuestionTableBinder implements DataRetrieval
         );
     }
 
-    private function buildParticipantName(\ilTestEvaluationUserData $participant_data, int $active_id): string
-    {
-        $participant = $this->participant_repository->getParticipantByActiveId($this->test_obj->getTestId(), $active_id);
-        $importname = $participant->getImportname();
-        return $participant->getUserId() === ANONYMOUS_USER_ID && $importname !== null && $importname !== ''
-            ? $participant->getDisplayName($this->lng)
+    private function buildParticipantName(
+        \ilTestEvaluationUserData $participant_data,
+        int $active_id,
+        array $users_by_active_id
+    ): string {
+        $user = $users_by_active_id[$active_id] ?? null;
+        if ($user === null) {
+            return $participant_data->getName();
+        }
+
+        $importname = $user->getImportname();
+        return $user->getUserId() === ANONYMOUS_USER_ID && $importname !== null && $importname !== ''
+            ? $user->getDisplayName($this->lng)
             : $participant_data->getName();
     }
 

@@ -267,22 +267,31 @@ class ilTestParticipantList implements Iterator
     public function getScoringTableRows(): array
     {
         $rows = [];
+        $anonymous_active_ids = [];
+
+        foreach ($this as $participant) {
+            if ($participant->getUsrId() === ANONYMOUS_USER_ID) {
+                $anonymous_active_ids[] = $participant->getActiveId();
+            }
+        }
+
+        $users_by_active_id = $this->participant_repository->getUsersByActiveIds(
+            $this->test_obj->getTestId(),
+            $anonymous_active_ids
+        );
 
         foreach ($this as $participant) {
             $firstname = $participant->getFirstname();
             $lastname = $participant->getLastname();
 
             if ($participant->getUsrId() === ANONYMOUS_USER_ID) {
-                $name = explode(
-                    ',',
-                    $this->participant_repository->getParticipantByActiveId(
-                        $this->test_obj->getTestId(),
-                        $participant->getActiveId()
-                    )->getDisplayName($this->lng)
-                );
-                if (isset($name[0], $name[1])) {
-                    $firstname = explode(' ', trim($name[1]))[0] ?? '';
-                    $lastname = explode(' ', trim($name[0]))[0] ?? '';
+                $user = $users_by_active_id[$participant->getActiveId()] ?? null;
+                if ($user !== null) {
+                    $name = explode(',', $user->getDisplayName($this->lng));
+                    if (isset($name[0], $name[1])) {
+                        $firstname = explode(' ', trim($name[1]))[0] ?? '';
+                        $lastname = explode(' ', trim($name[0]))[0] ?? '';
+                    }
                 }
             }
 

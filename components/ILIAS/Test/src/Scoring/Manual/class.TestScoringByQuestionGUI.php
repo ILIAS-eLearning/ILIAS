@@ -393,8 +393,8 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
 
     private function getModalTitle(int $active_id): string
     {
-        $participant = $this->participant_repository->getParticipantByActiveId($this->object->getTestId(), $active_id);
-        return "{$this->lng->txt('answers_of')} {$participant->getDisplayName($this->lng, $this->object->getAnonymity())}";
+        $user = $this->participant_repository->getUsersByActiveIds($this->object->getTestId(), [$active_id])[$active_id] ?? null;
+        return "{$this->lng->txt('answers_of')} " . ($user?->getDisplayName($this->lng, $this->object->getAnonymity()) ?? '');
     }
 
     private function buildForm(
