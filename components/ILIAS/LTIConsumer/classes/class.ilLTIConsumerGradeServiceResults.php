@@ -95,6 +95,8 @@ class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
                 return;
             }
 
+            $privacyIdent = $provider->getPrivacyIdent();
+
             $query = 'SELECT * FROM lti_consumer_results'
                 . ' WHERE obj_id = ' . $ilDB->quote($itemId, 'integer');
             $res = $ilDB->query($query);
@@ -119,13 +121,31 @@ class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
 
                 $resultValue = $row['result'];
                 if ($resultValue !== null) {
+                    $ltiUserId = $this->getLtiUserId($privacyIdent, $userId, $userIdent);
+
+                    $latestGradeQuery = 'SELECT score_given, score_maximum FROM lti_consumer_grades'
+                        . ' WHERE obj_id = ' . $ilDB->quote($itemId, 'integer')
+                        . ' AND usr_id = ' . $ilDB->quote($userId, 'integer')
+                        . ' AND score_given IS NOT NULL'
+                        . ' AND score_maximum IS NOT NULL'
+                        . ' ORDER BY lti_timestamp DESC, stored DESC';
+                    $latestGradeRes = $ilDB->query($latestGradeQuery);
+                    $latestGradeRow = $ilDB->fetchAssoc($latestGradeRes);
+
+                    $resultScore = $latestGradeRow !== null
+                        ? (float) $latestGradeRow['score_given']
+                        : (float) $resultValue * $scoreMaximum;
+                    $resultMaximum = $latestGradeRow !== null && (float) $latestGradeRow['score_maximum'] > 0
+                        ? (float) $latestGradeRow['score_maximum']
+                        : $scoreMaximum;
+
                     $resultsArr[] = [
                         'id' => $lineItemUrl . '/results'
-                            . '?user_id=' . rawurlencode($userIdent),
+                            . '?user_id=' . rawurlencode($ltiUserId),
                         'scoreOf' => $lineItemUrl,
-                        'userId' => $userIdent,
-                        'resultScore' => (float) $resultValue * $scoreMaximum,
-                        'resultMaximum' => $scoreMaximum
+                        'userId' => $ltiUserId,
+                        'resultScore' => $resultScore,
+                        'resultMaximum' => $resultMaximum
                     ];
                 }
             }
@@ -158,12 +178,13 @@ class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
                         continue;
                     }
 
+                    $ltiUserId = $this->getLtiUserId($privacyIdent, $userId, $userIdent);
                     $resultMaximum = (float) $gradeRow['score_maximum'];
                     $resultsArr[] = [
                         'id' => $lineItemUrl . '/results'
-                            . '?user_id=' . rawurlencode($userIdent),
+                            . '?user_id=' . rawurlencode($ltiUserId),
                         'scoreOf' => $lineItemUrl,
-                        'userId' => $userIdent,
+                        'userId' => $ltiUserId,
                         'resultScore' => (float) $gradeRow['score_given'],
                         'resultMaximum' => $resultMaximum > 0 ? $resultMaximum : $scoreMaximum
                     ];
@@ -198,5 +219,18 @@ class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
             throw new Exception('invalid request', 401);
         }
         return $clientId;
+    }
+
+    protected function getLtiUserId(int $privacyIdent, int $userId, string $userIdent): string
+    {
+        $userObj = new ilObjUser($userId);
+        $ltiUserId = ilCmiXapiUser::getIdentAsId($privacyIdent, $userObj);
+        if ($privacyIdent === ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_RANDOM) {
+            $randomPart = strstr($userIdent, '@' . ilCmiXapiUser::getIliasUuid(), true);
+            if ($randomPart !== false && $randomPart !== '') {
+                $ltiUserId = $randomPart;
+            }
+        }
+        return $ltiUserId !== '' ? $ltiUserId : $userIdent;
     }
 }
