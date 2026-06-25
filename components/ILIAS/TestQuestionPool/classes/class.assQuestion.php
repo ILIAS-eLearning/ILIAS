@@ -1228,8 +1228,27 @@ abstract class assQuestion implements Question
         ]);
     }
 
+    /**
+     *
+     * @deprecated This is a momentary helper function to update the original id,
+     * when cloning a test. Do not use anywhere else. 2026-06-25, sk
+     */
+    public function updateOriginalId(?int $original_id = null): void
+    {
+        $this->original_id = $original_id;
+        $this->db->update(
+            'qpl_questions',
+            [
+                'original_id' => [ilDBConstants::T_INTEGER, $original_id],
+            ],
+            [
+                'question_id' => [ilDBConstants::T_INTEGER, $this->getId()]
+            ]
+        );
+    }
+
     public function duplicate(
-        bool $for_test = true,
+        bool $set_original_id = true,
         string $title = '',
         string $author = '',
         int $owner = -1,
@@ -1256,7 +1275,7 @@ abstract class assQuestion implements Question
         if ($owner) {
             $clone->setOwner($owner);
         }
-        if ($for_test) {
+        if ($set_original_id) {
             $clone->saveToDb($this->id);
         } else {
             $clone->saveToDb();
