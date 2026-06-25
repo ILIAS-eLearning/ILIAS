@@ -71,12 +71,19 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
         foreach ($this->test_obj->questions as $key => $question_id) {
             $question_orig = assQuestion::instantiateQuestion($question_id);
 
-            $clone_test_obj->questions[$key] = $question_orig->duplicate(true, '', '', -1, $clone_test_obj->getId());
-
-            $original_id = $this->questionrepository->getForQuestionId($question_id)->getOriginalId();
-
-            $question_clone = assQuestion::instantiateQuestion($clone_test_obj->questions[$key]);
-            $question_clone->saveToDb($original_id);
+            $clone_test_obj->questions[$key] = $question_orig->duplicate(
+                false,
+                '',
+                '',
+                -1,
+                $clone_test_obj->getId()
+            );
+            $question_clone = assQuestion::instantiateQuestion(
+                $clone_test_obj->questions[$key]
+            );
+            $question_clone->updateOriginalId(
+                $question_orig->getOriginalId()
+            );
 
             // Save the mapping of old question id <-> new question id
             // This will be used in class.ilObjCourse::cloneDependencies to copy learning objectives
