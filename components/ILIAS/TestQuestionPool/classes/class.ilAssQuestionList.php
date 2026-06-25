@@ -711,16 +711,16 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
     private function getQuestionTypeTranslation(array $question_data): string
     {
         if (!($question_data['plugin'] ?? false)) {
-            return $this->lng->txt($question_data['type_tag']);
+            return $this->lng->txt($question_data['question_type']);
         }
 
         foreach ($this->component_factory->getActivePluginsInSlot('qst') as $plugin) {
-            if ($plugin->getQuestionType() === $question_data['type_tag']) {
+            if ($plugin->getQuestionType() === $question_data['question_type']) {
                 return $plugin->getQuestionTypeTranslation();
             }
         }
 
-        return $this->lng->txt($question_data['type_tag']);
+        return $this->lng->txt($question_data['question_type']);
     }
 
     public function getDataArrayForQuestionId(int $questionId): array
