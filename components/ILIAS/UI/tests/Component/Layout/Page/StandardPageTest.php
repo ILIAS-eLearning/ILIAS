@@ -470,7 +470,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         <main class="il-layout-page-content">
                 <div class="breadcrumbs">
                     <nav aria-label="breadcrumbs_aria_label" class="breadcrumb-wrapper">
-                        <div class="breadcrumb" dir="rtl"><span class="breadcrumb-crumb" dir="ltr"><a href="#">label3</a></span><span class="breadcrumb-separator" dir="rtl">&#9247;</span><span class="breadcrumb-crumb" dir="ltr"><a href="#">label2</a></span><span class="breadcrumb-separator" dir="rtl">&#9247;</span><span class="breadcrumb-crumb" dir="ltr"><a href="#">label1</a></span></div>
+                        <div class="breadcrumb" dir="rtl"><span class="breadcrumb-crumb" dir="ltr"><a href="#">label3</a></span><span class="breadcrumb-separator" dir="rtl"></span><span class="breadcrumb-crumb" dir="ltr"><a href="#">label2</a></span><span class="breadcrumb-separator" dir="rtl"></span><span class="breadcrumb-crumb" dir="ltr"><a href="#">label1</a></span></div>
                     </nav>
                 </div>some content
         </main>
