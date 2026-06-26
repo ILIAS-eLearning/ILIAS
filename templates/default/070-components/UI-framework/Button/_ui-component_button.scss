@@ -40,6 +40,10 @@ $input-min-height-large: s-form.$il-input-min-height * 1.8;
   .glyph,
   .glyph .glyphicon {
     color: unset;
+
+    &:hover, &:focus {
+      color: unset;
+    }
   }
 }
 
