@@ -51,7 +51,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
     protected ilHelpGUI $help;
     protected ilSetting $settings;
     protected ilTabsGUI $tabs;
-    protected ilLogger $logger;
 
     protected StandardGUIRequest $std_request;
     protected InternalDomainService $domain;
