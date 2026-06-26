@@ -1049,7 +1049,12 @@ class ilNoteGUI
     public function editNoteForm(
         bool $a_init_form = true
     ): string {
-        $this->edit_note_form = true;
+        $this->edit_note_form = false;
+        if ($this->notes_access->canEdit(
+            $this->manager->getById($this->requested_note_id)
+        )) {
+            $this->edit_note_form = true;
+        }
 
         return $this->getListHTML($a_init_form);
     }
