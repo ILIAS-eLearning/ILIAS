@@ -23,7 +23,6 @@ namespace ILIAS\UI\Implementation\Component\Listing;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
-use ILIAS\UI\Implementation\Render\ResourceRegistry;
 
 /**
  * Class Renderer
@@ -31,29 +30,28 @@ use ILIAS\UI\Implementation\Render\ResourceRegistry;
  */
 class Renderer extends AbstractComponentRenderer
 {
-    private const int TRUNCATION_DISPLAY_LIMIT = 2;
     /**
      * @inheritdocs
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        if ($component instanceof Component\Listing\Descriptive) {
-            return $this->render_descriptive($component, $default_renderer);
+        if ($component instanceof Descriptive) {
+            return $this->renderDescriptive($component, $default_renderer);
         }
 
-        if ($component instanceof Component\Listing\Property) {
+        if ($component instanceof Property) {
             return $this->renderProperty($component, $default_renderer);
         }
 
-        if ($component instanceof Component\Listing\Listing) {
-            return $this->render_simple($component, $default_renderer);
+        if ($component instanceof Unordered || $component instanceof Ordered) {
+            return $this->renderSimple($component, $default_renderer);
         }
 
         $this->cannotHandleComponent($component);
     }
 
-    protected function render_descriptive(
-        Component\Listing\Descriptive $component,
+    protected function renderDescriptive(
+        Descriptive $component,
         RendererInterface $default_renderer
     ): string {
         $tpl = $this->getTemplate("tpl.descriptive.html", true, true);
@@ -75,53 +73,30 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function render_simple(Component\Listing\Listing $component, RendererInterface $default_renderer): string
+    protected function renderSimple(Unordered|Ordered $component, RendererInterface $default_renderer): string
     {
-        $tpl_name = "";
-
         if ($component instanceof Component\Listing\Ordered) {
             $tpl_name = "tpl.ordered.html";
-        }
-        if ($component instanceof Component\Listing\Unordered) {
+        } else {
             $tpl_name = "tpl.unordered.html";
         }
 
         $tpl = $this->getTemplate($tpl_name, true, true);
 
-        if ($component->getItems() === []) {
-            return $tpl->get();
-        }
-
-        $is_truncated = $component->isTruncated();
-        $nr_of_items = 0;
-        $additional_elements = [];
-        foreach ($component->getItems() as $item) {
-            $tpl->setCurrentBlock("item");
-            if (!is_string($item)) {
-                $item = $default_renderer->render($item);
-            }
-
-            if (!$is_truncated || $is_truncated && $nr_of_items < self::TRUNCATION_DISPLAY_LIMIT) {
-                $tpl->setVariable("ITEM", $item);
+        if (count($component->getItems()) > 0) {
+            foreach ($component->getItems() as $item) {
+                $tpl->setCurrentBlock("item");
+                if (is_string($item)) {
+                    $tpl->setVariable("ITEM", $item);
+                } else {
+                    $tpl->setVariable("ITEM", $default_renderer->render($item));
+                }
                 $tpl->parseCurrentBlock();
-                $nr_of_items += 1;
-                continue;
             }
-            $additional_elements[] = $item;
         }
 
-        $id_attribute = '';
-        if ($additional_elements !== []) {
-            $component = $component->withAdditionalOnLoadCode(
-                fn($id): string => 'il.UI.Listing.initTruncation('
-                . "document.querySelector('#{$id}'), "
-                . json_encode($additional_elements) . ', '
-                . '"' . sprintf($this->txt('show_all_items'), $nr_of_items + count($additional_elements)) . '", '
-                . '"' . sprintf($this->txt('hide_items'), count($additional_elements)) . '");'
-            );
-            $id_attribute = " id='{$this->bindJavaScript($component)}'";
-        }
-        $tpl->setVariable("ID", $id_attribute);
+        $id = $this->bindJavaScript($component) ?? $this->createId();
+        $tpl->setVariable('ID', $id);
 
         return $tpl->get();
     }
@@ -146,14 +121,5 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
         return $tpl->get();
-    }
-
-    /**
-    * @inheritdoc
-    */
-    public function registerResources(ResourceRegistry $registry): void
-    {
-        parent::registerResources($registry);
-        $registry->register('assets/js/listing.min.js');
     }
 }

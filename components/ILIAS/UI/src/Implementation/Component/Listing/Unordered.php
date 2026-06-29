@@ -27,23 +27,7 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
  * Class Listing
  * @package ILIAS\UI\Implementation\Component\Listing\Listing
  */
-class Unordered extends Listing implements C\Listing\Unordered, C\JavaScriptBindable
+class Unordered extends Listing implements C\Listing\Unordered
 {
     use JavaScriptBindable;
-
-    protected ?int $limit = null;
-
-    protected bool $truncated = false;
-
-    public function withIsTruncated(bool $truncated = false): self
-    {
-        $clone = clone $this;
-        $clone->truncated = $truncated;
-        return $clone;
-    }
-
-    public function isTruncated(): bool
-    {
-        return $this->truncated;
-    }
 }

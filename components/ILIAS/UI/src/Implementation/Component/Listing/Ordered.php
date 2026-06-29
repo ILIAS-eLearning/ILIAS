@@ -27,21 +27,7 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
  * Class Listing
  * @package ILIAS\UI\Implementation\Component\Listing\Listing
  */
-class Ordered extends Listing implements C\Listing\Ordered, C\JavaScriptBindable
+class Ordered extends Listing implements C\Listing\Ordered
 {
     use JavaScriptBindable;
-
-    protected bool $truncated = false;
-
-    public function withIsTruncated(bool $truncated = false): self
-    {
-        $clone = clone $this;
-        $clone->truncated = $truncated;
-        return $clone;
-    }
-
-    public function isTruncated(): bool
-    {
-        return $this->truncated;
-    }
 }
