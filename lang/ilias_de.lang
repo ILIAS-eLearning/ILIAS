@@ -13048,7 +13048,11 @@ news#:#news_attached_to#:#Quelle
 news#:#news_block_information#:#Der Block "Neuigkeiten" zeigt chronologisch alle <b>Neuigkeiten</b> zu Ihren Favoriten an.
 news#:#news_cache#:#Neuigkeiten-Cache (Minuten)
 news#:#news_cache_info#:#Der Block "Neuigkeiten" wird alle x-Minuten aktualisiert. '0' bedeutet, dass Neuigkeiten-Blocks sofort aktualisiert werden. Höhere Werte erhöhen die Performanz entsprechend. Allerdings können Links in Einzelfällen auf nicht mehr zugängliche Objekte verweisen.
-news#:#news_default_visibility#:#Voreinstellung Zugriff
+news#:#news_co_period#:#Zeitraum für Neuigkeiten in Container-Objekten
+news#:#news_co_period_info#:#Legen Sie den Standardzeitraum fest, für den Neuigkeiten in Container-Objekten angezeigt werden. Diese Einstellung kann für jedes Objekt individuell überschrieben werden. Wählen Sie einen kürzeren Zeitraum, wenn Sie Performanzprobleme haben.
+news#:#news_container_object_visibility_settings#:#Sichtbarkeitseinstellungen für Neuigkeiten in Container-Objekten
+news#:#news_dashboard_visibility_settings#:#Sichtbarkeitseinstellungen für Neuigkeiten auf dem Dashboard
+news#:#news_default_visibility#:#Standard-Zugriffswert
 news#:#news_edit_news_settings#:#Einstellungen
 news#:#news_enable_internal_news#:#Interne Neuigkeiten aktivieren
 news#:#news_enable_internal_news_info#:#Ermöglichen Sie die Anzeige von Neuigkeiten-Blöcken in Kategorien, Kursen, Gruppen und anderen Objekten. Die Neuigkeiten dieser Objekte können von Benutzern abonniert werden, diese Neuigkeiten erscheinen dann auf deren Dashboards.
@@ -13058,14 +13062,18 @@ news#:#news_enable_private_feed#:#Privaten RSS-Feed ermöglichen
 news#:#news_enable_private_feed_info#:#Erlaubt den Zugriff auf private und öffentliche Neuigkeiten über RSS. Authentifizierung erfolgt mittels speziellem Feed-Passwort.
 news#:#news_feed_url#:#Feed-URL
 news#:#news_feed_url_for#:#Feed-URL für „%s“
+news#:#news_general_settings#:#Allgemeine Einstellungen für Neuigkeiten
 news#:#news_get_feed_info#:#Dies ist die URL Ihres persönlichen Newsfeeds, in dem alle öffentlich zugänglichen Neuigkeiten aus den Kursen und Gruppen, denen Sie angehören, gesammelt werden (mit Ausnahme automatisch generierter Neuigkeiten). Der Feed enthält nur Neuigkeiten, die von den Autoren als öffentlich gekennzeichnet wurden. Der Feed ist nicht durch ein Authentifizierungsverfahren geschützt. Bitte geben Sie diese URL nicht an andere Personen weiter.
 news#:#news_get_feed_title#:#URL Ihres persönlichen Newsfeeds
 news#:#news_get_feed_url#:#Newsfeed-URL bekommen
 news#:#news_get_priv_feed_info#:#Dies ist die URL Ihres privaten Newsfeeds. Der Feed enthält sowohl öffentlich zugängliche Neuigkeiten als auch solche, die ausschließlich für „Angemeldete Personen“ dieser Installation bestimmt sind. Dieser Feed ist durch ein Passwort geschützt, das Sie unter „Einstellungen“ im Block „News“ auf Ihrem Dashboard ändern können. Bitte geben Sie diese URL nicht an andere Personen weiter. Bitte ersetzen Sie -password- in dieser URL durch das von Ihnen vergebene Feed-Passwort.
 news#:#news_get_priv_feed_title#:#URL Ihres privaten Newsfeeds
+news#:#news_hide_news_by_period#:#Neuigkeiten der letzten Woche, des Monats oder des Jahres anzeigen
 news#:#news_hide_news_date#:#Startdatum
-news#:#news_hide_news_per_date#:#Startdatum für Neuigkeiten
-news#:#news_hide_news_per_date_info#:#Neuigkeiten werden erst ab einem bestimmten Datum angezeigt. Ältere Neuigkeiten werden ausgeblendet.
+news#:#news_hide_news_global#:#Benutze globale Einstellung
+news#:#news_hide_news_mode#:#Zeitbasierte Einschränkung für Neuigkeiten
+news#:#news_hide_news_none#:#Neuigkeiten nicht beschränken
+news#:#news_hide_news_per_date#:#Neuigkeiten ab einem bestimmten Datum anzeigen
 news#:#news_inactive_private_feed_info#:#Ihr privater Newsfeed ist derzeit nicht aktiv. Um ihn zu aktivieren, legen Sie bitte in den Einstellungen dieses Newsblocks ein Passwort fest.
 news#:#news_internal_news#:#Neuigkeiten
 news#:#news_keep_minimal_x_items#:#Ältere Einträge behalten
@@ -13085,10 +13093,11 @@ news#:#news_no_news_items#:#Es sind keine Neuigkeiten für Sie vorhanden.
 news#:#news_not_available#:#Neuigkeit nicht verfügbar
 news#:#news_notifications_public#:#Öffentliche Benachrichtigungen
 news#:#news_notifications_public_info#:#Wenn diese Option gewählt wird, können Benachrichtigungen auch außerhalb von ILIAS über den persönlichen Newsfeed empfangen werden. Beachten Sie bitte, dass diese Benachrichtigungen ohne Authentifizierung zugänglich sind.
-news#:#news_nr_of_items#:#Anzahl der maximalen Neuigkeiten pro Objekt
+news#:#news_nr_of_items#:#Maximale Anzahl gespeicherter Neuigkeiten pro Objekt
 news#:#news_nr_of_items_info#:#Anzahl der Neuigkeiten, die für ein Objekt (z. B. eine Datei oder ein Lernmodul) in der Datenbank vorgehalten werden. Beachten Sie bitte, dass Containerobjekte wie Kategorien oder Kurse mehr Neuigkeiten enthalten können, da Sie auch die Neuigkeiten ihrer Unterobjekte anzeigen.
+news#:#news_old_period#:#Wert für '%s': %s
 news#:#news_pd_period#:#Zeitraum für Neuigkeitenanzeige auf dem Dashboard
-news#:#news_pd_period_info#:#Zeitraum, der für Neuigkeiten auf dem Dashboard berücksichtigt wird. Bei Performanzproblemen sollten niedrigere Werte gewählt werden.
+news#:#news_pd_period_info#:#Legen Sie fest, wie lange (Woche, Monat oder Jahr) Neuigkeiten auf dem Dashboard angezeigt werden. Wählen Sie einen kürzeren Zeitraum, wenn Sie Performanzprobleme haben.
 news#:#news_period_1_month#:#Letzter Monat
 news#:#news_period_1_week#:#Letzte Woche
 news#:#news_period_1_year#:#Letztes Jahr
@@ -13101,7 +13110,7 @@ news#:#news_rss_period#:#RSS-Zeitraum
 news#:#news_rss_title_format#:#RSS-Titelformat
 news#:#news_rss_title_format_news_obj#:#Neuigkeitentitel (Objekttitel)
 news#:#news_rss_title_format_obj_news#:#Objekttitel - Neuigkeitentitel
-news#:#news_settings#:#Einstellungen für interne Neuigkeiten
+news#:#news_settings#:#Einstellungen für Neuigkeiten
 news#:#news_sorry_not_accessible_anymore#:#Leider ist es nicht mehr möglich, auf diese Neuigkeit zuzugreifen.
 news#:#news_time_period#:#Zeitspanne
 news#:#news_timline_add_entries_info#:#Zurzeit sind noch keine Neuigkeiten vorhanden. Klicken Sie auf "Beitrag hinzufügen" um Neuigkeiten anzulegen.
