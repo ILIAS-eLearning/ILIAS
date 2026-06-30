@@ -14,11 +14,14 @@
  */
 
 import il from 'ilias';
-import truncate from './truncate.js';
+import document from 'document';
+import createExpandableList from './createExpandableList.js';
 
 il.UI = il.UI || {};
-il.UI.Listing = il.UI.Listing || {};
 
-il.UI.Listing.initTruncation = (listing, additional_items, lang_var_more, lang_var_less) => {
-  truncate(listing, additional_items, lang_var_more, lang_var_less);
+il.UI.Listing = {
+  createExpandableList: (id) => createExpandableList(
+    { txt: (key) => il.Language.txt(key) },
+    document.getElementById(id),
+  ),
 };

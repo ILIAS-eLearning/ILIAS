@@ -207,15 +207,15 @@ class BookingTableGUI implements DataRetrieval
             'booking_participant' => $this->ui_factory
                     ->table()
                     ->column()
-                    ->linkListing($this->lng->txt('cal_ch_booking_participants')),
+                    ->listing($this->lng->txt('cal_ch_booking_participants')),
             'booking_comment' => $this->ui_factory
                 ->table()
                 ->column()
-                ->linkListing($this->lng->txt('cal_ch_booking_col_comments')),
+                ->listing($this->lng->txt('cal_ch_booking_col_comments')),
             'booking_location' => $this->ui_factory
                 ->table()
                 ->column()
-                ->linkListing($this->lng->txt('cal_ch_target_object'))
+                ->listing($this->lng->txt('cal_ch_target_object'))
         ];
 
     }

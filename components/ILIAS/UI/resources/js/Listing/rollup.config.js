@@ -24,6 +24,7 @@ export default {
     'document',
   ],
   output: {
+    // file: '../../../../../../public/assets/js/listing.min.js',
     file: './dist/listing.min.js',
     format: 'iife',
     banner: copyright,

@@ -31,7 +31,7 @@ class Listing extends Column implements C\Listing
     {
         $listing = $this->toArray($value);
         $this->checkArgListElements('value', $listing, [Ordered::class, Unordered::class]);
-        return $value->withIsTruncated(true);
+        return $value;
     }
 
     public function getOrderingLabels(): array

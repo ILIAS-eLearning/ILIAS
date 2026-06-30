@@ -81,18 +81,13 @@ class Factory implements I\Factory
         return new Link($this->lng, $title);
     }
 
-    public function linkListing(string $title): LinkListing
+    public function listing(string $title): Listing
     {
-        return new LinkListing($this->lng, $title);
+        return new Listing($this->lng, $title);
     }
 
     public function breadcrumb(string $title): I\Breadcrumb
     {
         return new Breadcrumb($this->lng, $title);
-    }
-
-    public function listing(string $title): Listing
-    {
-        return new Listing($this->lng, $title);
     }
 }

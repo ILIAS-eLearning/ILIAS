@@ -137,7 +137,7 @@ class TableAdapterGUI
         string $title,
         bool $sortable = false
     ): self {
-        $column = $this->ui->factory()->table()->column()->linkListing($title)->withIsSortable($sortable);
+        $column = $this->ui->factory()->table()->column()->listing($title)->withIsSortable($sortable);
         $this->addColumn($key, $column);
         return $this;
     }

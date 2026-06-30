@@ -23,6 +23,7 @@ namespace ILIAS\UI\Implementation\Component\Listing;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use ILIAS\UI\Implementation\Render\Template;
 
 /**
  * Class Renderer
@@ -36,21 +37,21 @@ class Renderer extends AbstractComponentRenderer
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         if ($component instanceof Descriptive) {
-            return $this->renderDescriptive($component, $default_renderer);
+            return $this->renderDescriptiveList($component, $default_renderer);
         }
 
         if ($component instanceof Property) {
-            return $this->renderProperty($component, $default_renderer);
+            return $this->renderPropertyList($component, $default_renderer);
         }
 
         if ($component instanceof Unordered || $component instanceof Ordered) {
-            return $this->renderSimple($component, $default_renderer);
+            return $this->renderList($component, $default_renderer);
         }
 
         $this->cannotHandleComponent($component);
     }
 
-    protected function renderDescriptive(
+    protected function renderDescriptiveList(
         Descriptive $component,
         RendererInterface $default_renderer
     ): string {
@@ -73,7 +74,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderSimple(Unordered|Ordered $component, RendererInterface $default_renderer): string
+    protected function renderList(Unordered|Ordered $component, RendererInterface $default_renderer): string
     {
         if ($component instanceof Component\Listing\Ordered) {
             $tpl_name = "tpl.ordered.html";
@@ -83,25 +84,22 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl = $this->getTemplate($tpl_name, true, true);
 
-        if (count($component->getItems()) > 0) {
-            foreach ($component->getItems() as $item) {
-                $tpl->setCurrentBlock("item");
-                if (is_string($item)) {
-                    $tpl->setVariable("ITEM", $item);
-                } else {
-                    $tpl->setVariable("ITEM", $default_renderer->render($item));
-                }
-                $tpl->parseCurrentBlock();
+        foreach ($component->getItems() as $item) {
+            $tpl->setCurrentBlock("item");
+            if (is_string($item)) {
+                $tpl->setVariable("ITEM", $item);
+            } else {
+                $tpl->setVariable("ITEM", $default_renderer->render($item));
             }
+            $tpl->parseCurrentBlock();
         }
 
-        $id = $this->bindJavaScript($component) ?? $this->createId();
-        $tpl->setVariable('ID', $id);
+        $this->bindAndApplyJavaScript($component, $tpl);
 
         return $tpl->get();
     }
 
-    protected function renderProperty(
+    protected function renderPropertyList(
         Component\Listing\Property $component,
         RendererInterface $default_renderer
     ): string {
@@ -109,7 +107,7 @@ class Renderer extends AbstractComponentRenderer
 
         foreach ($component->getItems() as $property) {
             list($label, $value, $show_label) = $property;
-            if (! is_string($value)) {
+            if (!is_string($value)) {
                 $value = $default_renderer->render($value);
             }
 
@@ -121,5 +119,10 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
         return $tpl->get();
+    }
+
+    protected function bindAndApplyJavaScript(Component\JavaScriptBindable $component, Template $template): void
+    {
+        $template->setVariable('ID', $this->bindJavaScript($component) ?? $this->createId());
     }
 }
