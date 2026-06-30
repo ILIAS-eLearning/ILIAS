@@ -36,7 +36,7 @@ final class Configuration
         private int $items_per_page = 100,
         private bool $user_can_upload = false,
         private bool $user_can_administrate = false,
-        private bool $append_duplicate_filenames_as_revision = false
+        private OnDuplicate $on_duplicate = OnDuplicate::ALLOW
     ) {
     }
 
@@ -80,8 +80,8 @@ final class Configuration
         return $this->user_can_administrate;
     }
 
-    public function preventDuplicates(): bool
+    public function getOnDuplicate(): OnDuplicate
     {
-        return $this->append_duplicate_filenames_as_revision;
+        return $this->on_duplicate;
     }
 }
