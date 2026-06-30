@@ -28,6 +28,7 @@ use ILIAS\Questions\AnswerForm\Capabilities\Definitions\MarkingProvider;
 use ILIAS\Questions\AnswerForm\Properties;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Tools\InputsBuilderSession;
+use ILIAS\Data\UUID\Factory as UuidFactory;
 
 class Capability implements CapabilityInterface, AdditionalStepProvider, MarkingProvider
 {
@@ -73,6 +74,14 @@ class Capability implements CapabilityInterface, AdditionalStepProvider, Marking
         return $answer_form_properties
             ->getDefinition()
             ->getCapability(self::getIdentifier());
+    }
+
+    #[\Override]
+    public function onAnswerFormClone(
+        UuidFactory $uuid_factory,
+        Properties $old_answer_form_properties,
+        Properties $new_answer_form_properties
+    ): void {
     }
 
     #[\Override]

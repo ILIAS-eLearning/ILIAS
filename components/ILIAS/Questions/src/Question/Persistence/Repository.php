@@ -207,13 +207,16 @@ class Repository
     ): void {
         $this->store(
             array_map(
-                fn(Question $v): Question => $v
-                    ->withPageId($this->buildQuestionPage($v->getParentObjId())),
+                fn(Question $v): Question => $v->getPageId() === null
+                    ? $v->withPageId(
+                        $this->buildQuestionPage(
+                            $v->getParentObjId()
+                        )
+                    ) : $v,
                 $questions
             ),
-            $this->buildManipulate(
-                ManipulationType::Create
-            )
+            ManipulationType::Create,
+            $this->buildManipulate()
         );
     }
 
@@ -225,9 +228,8 @@ class Repository
     ): void {
         $this->store(
             $questions,
-            $this->buildManipulate(
-                ManipulationType::Update
-            )
+            ManipulationType::Update,
+            $this->buildManipulate()
         );
     }
 
@@ -241,14 +243,47 @@ class Repository
                     $this->database_statement_builder,
                     $c
                 ),
-            $this->buildManipulate(
-                ManipulationType::Delete
-            )
+            $this->buildManipulate()
         )->run();
 
         foreach ($questions as $question) {
             (new \QstsQuestionPage($question->getPageId()))->delete();
         }
+    }
+
+    public function getQuestionForAnswerFormId(
+        Uuid $answer_form_id
+    ): ?Question {
+        $question_id = $this->db->fetchObject(
+            $this->db->query(
+                "SELECT question_id FROM qsts_answer_forms" . PHP_EOL
+                . "WHERE id = {$this->db->quote($answer_form_id->toString(), FieldDefinition::T_TEXT)}"
+            )
+        )?->question_id;
+
+        if ($question_id === null) {
+            return null;
+        }
+
+        return $this->getForQuestionId(
+            $this->uuid_factory->fromString($question_id)
+        );
+    }
+
+    public function getNextAvailableQuestionPageId(): int
+    {
+
+        $last_id = $this->db->fetchObject(
+            $this->db->query(
+                'SELECT MAX(page_id) AS last FROM page_object '
+                . 'WHERE parent_type = "qsts"'
+            )
+        )->last;
+        if ($last_id === null) {
+            return 1;
+        }
+
+        return $last_id + 1;
     }
 
     /**
@@ -397,12 +432,14 @@ class Repository
      */
     private function store(
         array $questions,
+        ManipulationType $manipulation_type,
         Manipulate $manipulate
     ): void {
         array_reduce(
             $questions,
             fn(Manipulate $c, Question $v): Manipulate => $v->toStorage(
                 $this->database_statement_builder,
+                $manipulation_type,
                 $c
             ),
             $manipulate
@@ -479,12 +516,10 @@ class Repository
         return $question_query;
     }
 
-    private function buildManipulate(
-        ManipulationType $manipulation_type
-    ): Manipulate {
+    private function buildManipulate(): Manipulate
+    {
         return new Manipulate(
             $this->db,
-            $manipulation_type,
             self::COMPONENT_NAMESPACE
         );
     }
@@ -551,22 +586,6 @@ class Repository
         $page->setParentId($parent_obj_id);
         $page->createFromXML();
         return $page->getId();
-    }
-
-    private function getNextAvailableQuestionPageId(): int
-    {
-
-        $last_id = $this->db->fetchObject(
-            $this->db->query(
-                'SELECT MAX(page_id) AS last FROM page_object '
-                . 'WHERE parent_type = "qsts"'
-            )
-        )->last;
-        if ($last_id === null) {
-            return 1;
-        }
-
-        return $last_id + 1;
     }
 
     private function migrateQuestionPage(

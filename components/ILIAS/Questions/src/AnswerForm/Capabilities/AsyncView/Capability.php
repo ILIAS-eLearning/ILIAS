@@ -24,6 +24,7 @@ use ILIAS\Questions\AnswerForm\Capabilities\Capability as CapabilityInterface;
 use ILIAS\Questions\AnswerForm\Capabilities\ParticipantViewProvider;
 use ILIAS\Questions\AnswerForm\Properties;
 use ILIAS\Questions\AnswerForm\Views\Participant;
+use ILIAS\Data\UUID\Factory as UuidFactory;
 
 class Capability implements CapabilityInterface, ParticipantViewProvider
 {
@@ -51,6 +52,14 @@ class Capability implements CapabilityInterface, ParticipantViewProvider
         return $answer_form_properties
             ->getDefinition()
             ->getCapability(self::getIdentifier());
+    }
+
+    #[\Override]
+    public function onAnswerFormClone(
+        UuidFactory $uuid_factory,
+        Properties $old_answer_form_properties,
+        Properties $new_answer_form_properties
+    ): void {
     }
 
     #[\Override]

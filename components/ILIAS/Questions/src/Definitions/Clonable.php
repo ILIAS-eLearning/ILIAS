@@ -18,17 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Presentation\Definitions;
+namespace ILIAS\Questions\Definitions;
 
-use ILIAS\Questions\Presentation\Layout\Async;
+use ILIAS\Data\UUID\Factory as UuidFactory;
 
-interface Actor
+interface Clonable
 {
-    public function can(
-        string $action
-    ): bool;
-
-    public function do(
-        string $action
-    ): Async;
+    public function clone(
+        UuidFactory $uuid_factory,
+        array $environment = []
+    ): static;
 }

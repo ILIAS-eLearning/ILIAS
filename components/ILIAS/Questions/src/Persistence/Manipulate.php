@@ -26,14 +26,8 @@ class Manipulate
 
     public function __construct(
         private readonly \ilDBInterface $db,
-        private readonly ManipulationType $type,
         private readonly string $component_name_space
     ) {
-    }
-
-    public function getManipulationType(): ManipulationType
-    {
-        return $this->type;
     }
 
     public function getTableNameBuilder(

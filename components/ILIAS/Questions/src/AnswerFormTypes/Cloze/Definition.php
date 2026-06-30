@@ -122,7 +122,7 @@ class Definition implements DefinitionInterface
     #[\Override]
     public function getCapability(
         string $capability_identifier
-    ): mixed {
+    ): ?TypeSpecification {
         return $this->available_capabilities[$capability_identifier] ?? null;
     }
 

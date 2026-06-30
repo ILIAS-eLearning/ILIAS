@@ -31,6 +31,7 @@ use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Async;
 use ILIAS\Questions\Presentation\Layout\Viewable;
 use ILIAS\Data\Text\Factory as TextFactory;
+use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
 
 class Capability implements CapabilityInterface, AdditionalTabProvider, FeedbackProvider, PageMigrationProvider
@@ -92,6 +93,28 @@ class Capability implements CapabilityInterface, AdditionalTabProvider, Feedback
     public function runPageMigration(): void
     {
         $this->repository->migratePageFeedback();
+    }
+
+    #[\Override]
+    public function onAnswerFormClone(
+        UuidFactory $uuid_factory,
+        Properties $old_answer_form_properties,
+        Properties $new_answer_form_properties
+    ): void {
+        $this->repository->store(
+            $new_answer_form_properties->getAnswerFormId(),
+            $this->repository->getFor(
+                $old_answer_form_properties->getAnswerFormId(),
+                $old_answer_form_properties
+                    ->getTypeGenericProperties()
+                    ->getDefinition()
+                    ->getCapability(self::getIdentifier())
+            )->onAnswerFormClone(
+                $uuid_factory,
+                $old_answer_form_properties,
+                $new_answer_form_properties
+            )
+        );
     }
 
     #[\Override]

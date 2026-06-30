@@ -27,6 +27,7 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\Manipulate;
+use ILIAS\Questions\Persistence\ManipulationType;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Database\FieldDefinition;
 
@@ -87,6 +88,7 @@ class AnswerForm implements Response
     #[\Override]
     public function toStorage(
         PersistenceFactory $persistence_factory,
+        ManipulationType $manipulation_type,
         Manipulate $manipulate
     ): Manipulate {
         return $manipulate->withAdditionalStatement(

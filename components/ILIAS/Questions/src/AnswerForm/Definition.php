@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerForm;
 
+use ILIAS\Questions\AnswerForm\Capabilities\TypeSpecification;
 use ILIAS\Questions\AnswerForm\Properties as AnswerFormProperties;
 use ILIAS\Questions\AnswerForm\Views\Edit;
 use ILIAS\Questions\Attempt\Attempt;
@@ -57,7 +58,7 @@ interface Definition
 
     public function getCapability(
         string $capability_identifier
-    ): mixed;
+    ): ?TypeSpecification;
 
     public function initializeAttemptData(
         Attempt $attempt,
