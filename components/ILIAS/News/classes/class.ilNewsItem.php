@@ -1718,6 +1718,11 @@ class ilNewsItem
         return $per;
     }
 
+    public static function _lookupDefaultCOPeriod(): int
+    {
+        return (int) (new ilSetting("news"))->get("co_period") ?: 30;
+    }
+
     /**
      * @deprecated will move to settings->user
      */
