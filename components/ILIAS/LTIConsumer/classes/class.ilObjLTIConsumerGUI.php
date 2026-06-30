@@ -172,7 +172,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         /* @var \ILIAS\DI\Container $DIC */
         $provider = new ilLTIConsumeProvider();
         $form = new ilLTIConsumeProviderFormGUI($provider);
-        $form->initDynRegForm($this->ctrl->getFormAction($this, "cancelDynReg"));
+        $form->initDynRegForm($this->ctrl->getFormAction($this, "addDynReg"));
         $form->setTitle($DIC->language()->txt($a_new_type . '_dynamic_registration'));
         return $form;
     }
@@ -854,6 +854,10 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
                         $DIC->ctrl()->redirectToURL($this->ctrl->getLinkTargetByClass(ilInfoScreenGUI::class));
                     }
                     $command = $DIC->ctrl()->getCmd(self::DEFAULT_CMD);
+                    if (!$this->object instanceof ilObjLTIConsumer && $command === self::DEFAULT_CMD) {
+                        $DIC->ctrl()->setParameterByClass(ilRepositoryGUI::class, 'new_type', $this->getType());
+                        $DIC->ctrl()->redirectByClass(ilRepositoryGUI::class, 'create');
+                    }
                     $this->{$command}();
                 }
         }
