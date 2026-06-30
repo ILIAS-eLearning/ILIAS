@@ -24,15 +24,26 @@ use ILIAS\Questions\Presentation\Definitions\ViewConfiguration;
 use ILIAS\Questions\Presentation\Layout\Viewable;
 use ILIAS\Questions\Presentation\Views\Edit;
 use ILIAS\Questions\Question\Question;
+use ILIAS\Data\UUID\Factory as UuidFactory;
 
 class QstsQuestionPage extends ilPageObject
 {
+    private UuidFactory $uuid_factory;
+
     private readonly Edit $edit_view;
-    private readonly Question $question;
+    private Question $question;
     private ?Attempt $attempt_data = null;
     private ?Viewable $participant_view = null;
     private ?RequiredCapabilities $required_capabilites = null;
     private ?ViewConfiguration $view_configuration = null;
+
+    private static array $answer_form_mapping = [];
+
+    #[\Override]
+    public function afterConstructor(): void
+    {
+        $this->uuid_factory = new UuidFactory();
+    }
 
     #[\Override]
     public function getParentType(): string
@@ -104,6 +115,60 @@ class QstsQuestionPage extends ilPageObject
         ViewConfiguration $view_configuration
     ): void {
         $this->view_configuration = $view_configuration;
+    }
+
+    #[\Override]
+    public function pasteContents(
+        string $page_content_id,
+        bool $a_self_ass = false
+    ): array|bool {
+        $answer_form_element = $this->page_manager
+            ->content($this->getDomDoc())
+            ->getContentDomNode(...explode(':', $page_content_id))
+            ?->getElementsByTagName(ilPCAnswerForm::ANSWER_FORM_ELEMENT_TAG);
+
+        if ($answer_form_element?->length > 0) {
+            foreach ($answer_form_element->getIterator() as $node) {
+                self::$answer_form_mapping[$node->getAttribute(ilPCAnswerForm::ANSWER_FORM_ID_ATTRIBUTE)]
+                    = $this->uuid_factory->uuid4AsString();
+            }
+        }
+
+        return parent::pasteContents($page_content_id, $a_self_ass);
+    }
+
+    #[\Override]
+    public function cutContents(
+        array $page_content_ids
+    ): array|bool {
+        return parent::cutContents(
+            array_filter(
+                $page_content_ids,
+                fn(string $v): bool => $this->page_manager
+                    ->content($this->getDomDoc())
+                    ->getContentDomNode(...explode(':', $v))
+                    ?->getElementsByTagName('AnswerForm')
+                    ?->length < 1
+            )
+        );
+    }
+
+    /**
+     * 2026-06-30, sk:This is awfull, but as there are statics used in the copy
+     * process this is the only way I found to do this. If somebody has a better
+     * idea...
+     *
+     * @return array|null
+     */
+    public static function getAnswerFormMapping(): array
+    {
+        return self::$answer_form_mapping;
+    }
+
+    public static function setAnswerFormMapping(
+        array $answer_form_mapping
+    ): void {
+        self::$answer_form_mapping = $answer_form_mapping;
     }
 
     public function addQuestionText(

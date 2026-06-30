@@ -24,15 +24,17 @@ use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gap;
 use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
+use ILIAS\Questions\Definitions\Clonable;
 use ILIAS\Questions\Definitions\Range;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Replace;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Language\Language;
+use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Database\FieldDefinition;
 
-class MatchingValue
+class MatchingValue implements Clonable
 {
     public const string SEPARATOR_IDS = '/';
     public const string SEPARATOR_IN_RANGE = '|';
@@ -77,6 +79,18 @@ class MatchingValue
         }
 
         return mb_substr($value, 0, 10) . '...';
+    }
+
+    public function clone(
+        UuidFactory $uuid_factory,
+        array $environment = []
+    ): static {
+        $clone = clone $this;
+        $clone->combination_id = $environment['combination_id'];
+        $clone->gap = $environment['gaps']->getGapByPosition(
+            $this->gap->getPosition()
+        );
+        return $clone;
     }
 
     public function toStorage(

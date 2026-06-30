@@ -29,6 +29,7 @@ use ILIAS\Questions\AnswerForm\Response as AnswerFormResponse;
 use ILIAS\Questions\Attempt\Attempt;
 use ILIAS\Questions\Attempt\Repository as AttemptRepository;
 use ILIAS\Questions\Attempt\Response;
+use ILIAS\Questions\Definitions\Clonable;
 use ILIAS\Questions\Persistence\Column;
 use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Persistence\ManipulationType;
@@ -51,22 +52,23 @@ use ILIAS\UI\Component\Table\DataRow;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 
-class Question
+class Question implements Clonable
 {
     private ?CreateModes $create_mode = null;
     private bool $linking_information_updated = false;
     private bool $self_updated = false;
     private bool $page_id_updated = false;
+    private array $new_answer_forms = [];
     private array $updated_answer_forms = [];
     private array $deleted_answer_forms = [];
 
     private array $answer_forms;
 
     /**
-     * @param array{string, \ILIAS\Questions\AnswerForm\Properties} $answer_forms
+     * @param array{string, AnswerFormProperties} $answer_forms
      */
     public function __construct(
-        private readonly Uuid $id,
+        private Uuid $id,
         private int $parent_obj_id,
         private ?int $position = null,
         private ?int $page_id = null,
@@ -211,6 +213,54 @@ class Question
         return $this->created;
     }
 
+    #[\Override]
+    public function clone(
+        UuidFactory $uuid_factory,
+        array $environment = []
+    ): static {
+        $clone = clone $this;
+        $clone->id = $uuid_factory->uuid4();
+        $clone->parent_obj_id = $environment['parent_obj_id'];
+        $clone->page_id = $environment['new_question_page_id'];
+        $mapping = [];
+        $clone->answer_forms = array_map(
+            function (
+                AnswerFormProperties $v
+            ) use (
+                $uuid_factory,
+                $environment,
+                $clone,
+                &$mapping
+            ): AnswerFormProperties {
+                $old_answer_form_id = $v->getAnswerFormId()->toString();
+
+                $cloned_answer_form = $v->clone(
+                    $uuid_factory,
+                    [
+                        'new_question_id' => $clone->id,
+                        'answer_form_id' => $uuid_factory->uuid4()
+                    ]
+                );
+
+                $mapping[$old_answer_form_id] = $cloned_answer_form
+                    ->getAnswerFormId()->toString();
+
+                $environment['required_capabilities']->onAnswerFormClone(
+                    $uuid_factory,
+                    $v,
+                    $cloned_answer_form
+                );
+
+                return $cloned_answer_form;
+            },
+            $this->answer_forms
+        );
+        \QstsQuestionPage::setAnswerFormMapping($mapping);
+        $question_page = new \QstsQuestionPage($this->page_id);
+        $question_page->copy($clone->page_id);
+        return $clone;
+    }
+
     /**
      * @todo skergomard, 2026-06-08: This we only need while the migrations exist, after
      * this a question MUST never change the page assigned to it after its creation!
@@ -230,8 +280,12 @@ class Question
         AnswerFormProperties $answer_form
     ): self {
         $clone = clone $this;
+        if (isset($clone->answer_forms[$answer_form->getAnswerFormId()->toString()])) {
+            $clone->updated_answer_forms[] = $answer_form;
+        } else {
+            $clone->new_answer_forms[] = $answer_form;
+        }
         $clone->answer_forms[$answer_form->getAnswerFormId()->toString()] = $answer_form;
-        $clone->updated_answer_forms[] = $answer_form;
         return $clone;
     }
 
@@ -398,9 +452,10 @@ class Question
 
     public function toStorage(
         DatabaseStatementBuilder $database_statement_builder,
+        ManipulationType $manipulation_type,
         Manipulate $manipulate
     ): Manipulate {
-        return $manipulate->getManipulationType() === ManipulationType::Create
+        return $manipulation_type === ManipulationType::Create
             ? $database_statement_builder->addInsertStatementsToManipulation(
                 $manipulate,
                 $this->id,
@@ -411,7 +466,8 @@ class Question
                 $this->remarks,
                 $this->original_id,
                 $this->parent_obj_id,
-                $this->position
+                $this->position,
+                $this->answer_forms
             ) : $database_statement_builder->addUpdateStatementsToManipulation(
                 $manipulate,
                 $this->self_updated,
@@ -426,6 +482,7 @@ class Question
                 $this->original_id,
                 $this->parent_obj_id,
                 $this->position,
+                $this->new_answer_forms,
                 $this->updated_answer_forms,
                 $this->deleted_answer_forms
             );

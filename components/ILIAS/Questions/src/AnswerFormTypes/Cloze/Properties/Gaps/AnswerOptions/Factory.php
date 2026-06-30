@@ -91,6 +91,10 @@ class Factory
             ),
             $query->getRefinery()->custom()->transformation(
                 function (array $vs): array {
+                    if ($vs === []) {
+                        return [];
+                    }
+
                     $previous_answer_input_id = null;
                     $return_array = [];
                     $answer_options = [];

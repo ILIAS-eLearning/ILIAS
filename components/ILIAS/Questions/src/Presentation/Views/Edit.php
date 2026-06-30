@@ -61,6 +61,7 @@ class Edit
 {
     private const string ACTION_CREATE_QUESTION = 'create';
     public const string ACTION_EDIT_QUESTION = 'edit';
+    public const string ACTION_CLONE_QUESTION = 'clone';
     public const string ACTION_DELETE_QUESTIONS = 'delete';
     private const string ACTION_CREATE_ANSWER_FORM = 'create_af';
     public const string ACTION_OTHER_ANSWER_FORM = 'other_af';
@@ -133,6 +134,7 @@ class Edit
                 $environment->withIsInCreationContext(true)
             ),
             self::ACTION_EDIT_QUESTION => $this->editQuestion($environment),
+            self::ACTION_CLONE_QUESTION => $this->cloneQuestion($environment),
             self::ACTION_DELETE_QUESTIONS => $this->deleteQuestions($environment),
             default => $this->showTable($environment)
         };
@@ -338,7 +340,7 @@ class Edit
         );
 
         $create = $this->questions_repository->getNew(
-            $environment->getOwnerObjId()
+            $environment->getParentObjId()
         )->getEditView(
             $this->current_user,
             $this->ctrl,
@@ -405,6 +407,37 @@ class Edit
                 ->withDefaultSubAction()
                 ->withActionParameter(self::ACTION_EDIT_QUESTION),
             $edit
+        );
+    }
+
+    private function cloneQuestion(
+        DefaultEnvironment $environment
+    ): QuestionsTable {
+        $question_to_clone = $environment->getQuestionIds();
+
+        if (!isset($question_to_clone[0])) {
+            return $this->showTable($environment);
+        }
+
+        $question = $this->questions_repository->getForQuestionId(
+            $question_to_clone[0]
+        );
+        $this->questions_repository->create(
+            [
+                $question->clone(
+                    $this->uuid_factory,
+                    [
+                        'parent_obj_id' => $environment->getParentObjId(),
+                        'new_question_page_id' => $this->questions_repository
+                            ->getNextAvailableQuestionPageId(),
+                        'required_capabilities' => $this->required_capabilities
+                    ]
+                )->withParentObjId($environment->getParentObjId())
+            ]
+        );
+
+        $this->ctrl->redirectToURL(
+            $environment->getUrlBuilder()->buildURI()->__toString()
         );
     }
 
@@ -609,7 +642,7 @@ class Edit
         Question $question,
         \ilPCAnswerForm $content_object
     ): never {
-        $this->questions_repository->create(
+        $this->questions_repository->update(
             [$question]
         );
 

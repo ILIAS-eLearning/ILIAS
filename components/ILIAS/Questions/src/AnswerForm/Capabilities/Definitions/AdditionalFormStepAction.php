@@ -160,7 +160,7 @@ class AdditionalFormStepAction
             $environment->withSubActionParameter(
                 self::SUB_ACTION_SAVE
             )->getUrlBuilder(),
-            $environment->getFormStartSubAction() === ''
+            $this->previous === null
                 ? null
                 : $environment->withSubActionParameter(
                     self::SUB_ACTION_BACK

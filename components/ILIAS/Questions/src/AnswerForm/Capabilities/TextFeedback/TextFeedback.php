@@ -71,6 +71,12 @@ abstract class TextFeedback implements TypeSpecification, Feedback
         Environment $environment
     ): ?OverviewTable;
 
+    abstract public function onAnswerFormClone(
+        UuidFactory $uuid_factory,
+        Properties $old_answer_form_properties,
+        Properties $new_answer_form_properties
+    ): static;
+
     abstract public function onAnswerFormUpdate(
         Properties $answer_form_properties
     ): static;

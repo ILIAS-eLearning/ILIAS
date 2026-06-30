@@ -26,11 +26,13 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOp
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
 use ILIAS\Questions\Attempt\AdditionalAttemptData;
+use ILIAS\Questions\Definitions\Clonable;
 use ILIAS\Questions\Definitions\TextMatchingOptions;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Replace;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Presentation\Definitions\Environment;
+use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Database\FieldDefinition;
 use ILIAS\FileUpload\FileUpload;
@@ -41,7 +43,7 @@ use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Table\DataRow;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 
-class Gap
+class Gap implements Clonable
 {
     public const string GAP_PLACEHOLDER_NAME = 'GAP';
 
@@ -58,8 +60,8 @@ class Gap
      * @param list<AnswerOption> $answer_options
      */
     public function __construct(
-        private readonly Uuid $answer_input_id,
-        private readonly Uuid $answer_form_id,
+        private Uuid $answer_input_id,
+        private Uuid $answer_form_id,
         private int $position,
         private AnswerOptions $answer_options,
         private ?Type $type = null,
@@ -370,6 +372,22 @@ class Gap
         return $section->withAdditionalTransformation(
             $this->type->getAddPointsTransformation($this)
         );
+    }
+
+    #[\Override]
+    public function clone(
+        UuidFactory $uuid_factory,
+        array $environment = []
+    ): static {
+        $environment['answer_input_id'] = $uuid_factory->uuid4();
+        $clone = clone $this;
+        $clone->answer_input_id = $environment['answer_input_id'];
+        $clone->answer_form_id = $environment['answer_form_id'];
+        $clone->answer_options = $clone->answer_options->clone(
+            $uuid_factory,
+            $environment
+        );
+        return $clone;
     }
 
     public function toTableRow(

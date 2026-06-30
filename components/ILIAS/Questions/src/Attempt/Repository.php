@@ -121,9 +121,9 @@ class Repository
             $this->persistence_factory,
             $this->table_definitions,
             $this->table_names_builder,
+            ManipulationType::Create,
             new Manipulate(
                 $this->db,
-                ManipulationType::Create,
                 QuestionRepository::COMPONENT_NAMESPACE
             )
         )->run();
@@ -135,7 +135,6 @@ class Repository
     ): void {
         $manipulate = new Manipulate(
             $this->db,
-            ManipulationType::Delete,
             QuestionRepository::COMPONENT_NAMESPACE
         );
         foreach ($this->getAllResponsesFor($attempt_id, $question) as $response) {
@@ -193,7 +192,6 @@ class Repository
     ): void {
         $manipulate = (new Manipulate(
             $this->db,
-            ManipulationType::Create,
             QuestionRepository::COMPONENT_NAMESPACE
         ))->withAdditionalStatement(
             $attempt->basicDataToStorage(

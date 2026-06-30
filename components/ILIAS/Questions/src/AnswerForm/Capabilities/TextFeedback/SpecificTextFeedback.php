@@ -32,7 +32,7 @@ class SpecificTextFeedback
         private readonly Uuid $id,
         private readonly Uuid $answer_form_id,
         private readonly Uuid $parent_id,
-        private readonly string $condition,
+        private string $condition,
         private ?Markdown $feedback_text = null,
         private string $feedback_legacy = ''
     ) {
@@ -51,6 +51,14 @@ class SpecificTextFeedback
     public function getCondition(): string
     {
         return $this->condition;
+    }
+
+    public function withCondition(
+        string $condition
+    ): self {
+        $clone = clone $this;
+        $clone->condition = $condition;
+        return $clone;
     }
 
     public function getFeedbackText(): Markdown

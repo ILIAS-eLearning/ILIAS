@@ -21,14 +21,16 @@ declare(strict_types=1);
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations;
 
 use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
+use ILIAS\Questions\Definitions\Clonable;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Persistence\TableNameBuilder;
+use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 
-class Combinations
+class Combinations implements Clonable
 {
     private array $combinations;
 
@@ -37,7 +39,7 @@ class Combinations
     public function __construct(
         private readonly Factory $combinations_factory,
         private readonly PersistenceFactory $persistence_factory,
-        private readonly Uuid $answer_form_id,
+        private Uuid $answer_form_id,
         private bool $enabled,
         array $combinations
     ) {
@@ -103,6 +105,24 @@ class Combinations
         return new Edit(
             $this->combinations_factory
         );
+    }
+
+    #[\Override]
+    public function clone(
+        UuidFactory $uuid_factory,
+        array $environment = []
+    ): static {
+        $clone = clone $this;
+        $clone->answer_form_id = $environment['answer_form_id'];
+        $clone->combinations = array_map(
+            fn(Combination $v): Combination => $v->clone(
+                $uuid_factory,
+                $environment
+            ),
+            $this->combinations
+        );
+        return
+        $clone;
     }
 
     public function toStorage(

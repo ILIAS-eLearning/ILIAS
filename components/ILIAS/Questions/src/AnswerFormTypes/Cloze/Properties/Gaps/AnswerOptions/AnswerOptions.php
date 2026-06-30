@@ -21,18 +21,20 @@ declare(strict_types=1);
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions;
 
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
+use ILIAS\Questions\Definitions\Clonable;
 use ILIAS\Questions\Persistence\Delete;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Replace;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
+use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Database\FieldDefinition;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 
-class AnswerOptions
+class AnswerOptions implements Clonable
 {
     private const string KEY_IS_INCOMPLETE = 'is_incomplete';
     private const string KEY_ANSWER_OPIONS = 'answer_options';
@@ -44,7 +46,7 @@ class AnswerOptions
 
     public function __construct(
         private readonly Factory $factory,
-        private readonly Uuid $answer_input_id,
+        private Uuid $answer_input_id,
         private array $answer_options
     ) {
         $this->answer_options_awarding_points = $this->buildAnswerOptionsAwardingPointsFromAnswerOptions($answer_options);
@@ -86,9 +88,13 @@ class AnswerOptions
     public function getAnswerOptionById(
         Uuid $answer_option_id
     ): ?AnswerOption {
+        $answer_option_id_string = $answer_option_id->toString();
         return array_find(
             $this->answer_options,
-            fn(AnswerOption $v): bool => $v->getAnswerOptionId()->toString() === $answer_option_id->toString()
+            function (AnswerOption $v) use ($answer_option_id_string): bool {
+                $id_string = $v->getAnswerOptionId()->toString();
+                return $id_string === $answer_option_id_string;
+            }
         );
     }
 
@@ -282,6 +288,23 @@ class AnswerOptions
             },
             []
         );
+    }
+
+    #[\Override]
+    public function clone(
+        UuidFactory $uuid_factory,
+        array $environment = []
+    ): static {
+        $clone = clone $this;
+        $clone->answer_input_id = $environment['answer_input_id'];
+        $clone->answer_options = array_map(
+            fn(AnswerOption $v): AnswerOption => $v->clone(
+                $uuid_factory,
+                $environment
+            ),
+            $this->answer_options
+        );
+        return $clone;
     }
 
     public function buildReplace(

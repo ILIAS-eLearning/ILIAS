@@ -172,6 +172,12 @@ class QuestionsTable implements Viewable, DataRetrieval
     private function getActions(): array
     {
         return [
+            'clone' => $this->environment->getUIFactory()->table()->action()->standard(
+                $this->environment->getLanguage()->txt('copy'),
+                $this->environment->withActionParameter(Edit::ACTION_CLONE_QUESTION)
+                    ->getUrlBuilder(),
+                $this->environment->getTableRowIdToken()
+            ),
             'delete' => $this->environment->getUIFactory()->table()->action()->standard(
                 $this->environment->getLanguage()->txt('delete'),
                 $this->environment->withActionParameter(Edit::ACTION_DELETE_QUESTIONS)

@@ -26,8 +26,6 @@ use ILIAS\Questions\Persistence\ManipulationType;
 use ILIAS\Questions\Persistence\Query;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Question\Persistence\Repository as QuestionRepository;
-use ILIAS\Data\Order as DataOrder;
-use ILIAS\Data\Range as DataRange;
 use ILIAS\Data\Text\Factory as TextFactory;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
@@ -117,7 +115,6 @@ class Repository
             $answer_form_id,
             new Manipulate(
                 $this->db,
-                ManipulationType::Replace,
                 QuestionRepository::COMPONENT_NAMESPACE
             )
         )->run();
@@ -128,7 +125,6 @@ class Repository
     ): void {
         (new Manipulate(
             $this->db,
-            ManipulationType::Delete,
             QuestionRepository::COMPONENT_NAMESPACE
         ))->withAdditionalStatement(
             $this->persistence_factory->delete(

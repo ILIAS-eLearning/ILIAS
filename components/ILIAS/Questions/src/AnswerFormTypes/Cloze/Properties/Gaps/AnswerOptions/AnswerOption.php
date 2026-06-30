@@ -20,12 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions;
 
+use ILIAS\Questions\Definitions\Clonable;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Replace;
+use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Database\FieldDefinition;
 
-class AnswerOption
+class AnswerOption implements Clonable
 {
     public const string FORM_KEY_ID = 'id';
     public const string FORM_KEY_POSITION = 'position';
@@ -35,8 +37,8 @@ class AnswerOption
     public const string FORM_KEY_AVAILABLE_POINTS = 'points';
 
     public function __construct(
-        private readonly Uuid $answer_option_id,
-        private readonly Uuid $answer_input_id,
+        private Uuid $answer_option_id,
+        private Uuid $answer_input_id,
         private int $position,
         private string $text_value = '',
         private ?float $lower_limit = null,
@@ -136,6 +138,16 @@ class AnswerOption
         }
 
         return $values;
+    }
+
+    public function clone(
+        UuidFactory $uuid_factory,
+        array $environment = []
+    ): static {
+        $clone = clone $this;
+        $clone->answer_input_id = $environment['answer_input_id'];
+        $clone->answer_option_id = $uuid_factory->uuid4();
+        return $clone;
     }
 
     public function buildReplace(

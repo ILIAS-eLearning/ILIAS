@@ -22,12 +22,9 @@ namespace ILIAS\Questions\AnswerForm\Capabilities\SuggestedLearningContent;
 
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Manipulate;
-use ILIAS\Questions\Persistence\ManipulationType;
 use ILIAS\Questions\Persistence\Query;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Question\Persistence\Repository as QuestionRepository;
-use ILIAS\Data\Order as DataOrder;
-use ILIAS\Data\Range as DataRange;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Database\FieldDefinition;
 use ILIAS\Refinery\Factory as Refinery;
@@ -97,7 +94,6 @@ class Repository
     ): void {
         (new Manipulate(
             $this->db,
-            ManipulationType::Replace,
             QuestionRepository::COMPONENT_NAMESPACE
         ))->withAdditionalStatement(
             $this->persistence_factory->replace(
@@ -117,7 +113,6 @@ class Repository
     ): void {
         (new Manipulate(
             $this->db,
-            ManipulationType::Delete,
             QuestionRepository::COMPONENT_NAMESPACE
         ))->withAdditionalStatement(
             $this->persistence_factory->delete(

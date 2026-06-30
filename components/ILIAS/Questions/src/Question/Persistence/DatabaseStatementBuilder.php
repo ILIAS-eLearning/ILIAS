@@ -27,6 +27,7 @@ use ILIAS\Questions\Persistence\Delete;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\Manipulate;
+use ILIAS\Questions\Persistence\ManipulationType;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Persistence\Update;
 use ILIAS\Database\FieldDefinition;
@@ -51,46 +52,32 @@ class DatabaseStatementBuilder
         string $remarks,
         ?Uuid $original_id,
         int $parent_obj_id,
-        ?int $position
+        ?int $position,
+        array $answer_forms
     ): Manipulate {
-        if ($this->created === null) {
-            $manipulate = $manipulate
-                ->withAdditionalStatement(
-                    $this->buildInsertLinkingStatement(
-                        $manipulate->getTableNameBuilder(null),
-                        $question_id,
-                        $parent_obj_id,
-                        $position
-                    )
-                )->withAdditionalStatement(
-                    $this->buildInsertQuestionStatement(
-                        $manipulate->getTableNameBuilder(null),
-                        $question_id,
-                        $page_id,
-                        $title,
-                        $author,
-                        $lifecycle,
-                        $remarks,
-                        $original_id
-                    )
-                );
-        }
-
-        if ($this->updated_answer_forms !== []) {
-            return $this->addAnswerFormStatementsToManipulate(
-                $manipulate,
-                $this->updated_answer_forms
-            );
-        }
-
-        if ($this->answer_forms !== []) {
-            return $this->addAnswerFormStatementsToManipulate(
-                $manipulate,
-                $this->answer_forms
-            );
-        }
-
-        return $manipulate;
+        return $this->addAnswerFormStatementsToManipulate(
+            $manipulate
+                    ->withAdditionalStatement(
+                        $this->buildInsertLinkingStatement(
+                            $manipulate->getTableNameBuilder(null),
+                            $question_id,
+                            $parent_obj_id,
+                            $position
+                        )
+                    )->withAdditionalStatement(
+                        $this->buildInsertQuestionStatement(
+                            $manipulate->getTableNameBuilder(null),
+                            $question_id,
+                            $page_id,
+                            $title,
+                            $author,
+                            $lifecycle,
+                            $remarks,
+                            $original_id
+                        )
+                    ),
+            $answer_forms
+        );
     }
 
     public function addUpdateStatementsToManipulation(
@@ -107,6 +94,7 @@ class DatabaseStatementBuilder
         ?Uuid $original_id,
         int $parent_obj_id,
         ?int $position,
+        array $new_answer_forms,
         array $updated_answer_forms,
         array $deleted_answer_forms
     ): Manipulate {
@@ -157,6 +145,7 @@ class DatabaseStatementBuilder
 
         return $this->addAnswerFormStatementsToManipulate(
             $manipulate,
+            $new_answer_forms,
             $updated_answer_forms
         );
     }
@@ -260,27 +249,49 @@ class DatabaseStatementBuilder
 
     private function addAnswerFormStatementsToManipulate(
         Manipulate $manipulate,
-        array $answer_forms
+        array $new_answer_forms,
+        array $updated_answer_forms = []
     ): Manipulate {
-        return array_reduce(
-            $answer_forms,
-            function (
-                Manipulate $c,
-                AnswerFormProperties $v
-            ): Manipulate {
-                $manipulate_with_generic_properties = $v->getTypeGenericProperties()
-                    ->toStorage(
-                        $this->persistence_factory,
-                        $this->answer_form_generic_table_definitions,
-                        $c
-                    );
-
-                return $v->toStorage(
-                    $this->persistence_factory,
-                    $manipulate_with_generic_properties
-                );
-            },
+        $manipulate_with_new_answer_form_statements = array_reduce(
+            $new_answer_forms,
+            fn(Manipulate $c, AnswerFormProperties $v): Manipulate =>
+            $this->addAnswerFormStatementToManipulate(
+                $v,
+                ManipulationType::Create,
+                $c
+            ),
             $manipulate
+        );
+
+        return array_reduce(
+            $updated_answer_forms,
+            fn(Manipulate $c, AnswerFormProperties $v): Manipulate =>
+                $this->addAnswerFormStatementToManipulate(
+                    $v,
+                    ManipulationType::Update,
+                    $c
+                ),
+            $manipulate_with_new_answer_form_statements
+        );
+    }
+
+    private function addAnswerFormStatementToManipulate(
+        AnswerFormProperties $answer_form_properties,
+        ManipulationType $manipulation_type,
+        Manipulate $manipulate
+    ): Manipulate {
+        $manipulate_with_generic_properties = $answer_form_properties->getTypeGenericProperties()
+            ->toStorage(
+                $this->persistence_factory,
+                $this->answer_form_generic_table_definitions,
+                $manipulation_type,
+                $manipulate
+            );
+
+        return $answer_form_properties->toStorage(
+            $this->persistence_factory,
+            $manipulation_type,
+            $manipulate_with_generic_properties
         );
     }
 

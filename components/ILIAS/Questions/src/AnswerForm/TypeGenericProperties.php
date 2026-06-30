@@ -88,6 +88,7 @@ class TypeGenericProperties
     public function toStorage(
         PersistenceFactory $persistence_factory,
         AnswerFormGenericTableDefinitions $answer_form_generic_definitions,
+        ManipulationType $manipulation_type,
         Manipulate $manipulate
     ): Manipulate {
         if ($this->definition === null) {
@@ -99,7 +100,7 @@ class TypeGenericProperties
         $table_names_builder = $manipulate->getTableNameBuilder(null);
 
         return $manipulate->withAdditionalStatement(
-            $manipulate->getManipulationType() === ManipulationType::Create
+            $manipulation_type === ManipulationType::Create
                 ? $this->buildInsertStatement(
                     $persistence_factory,
                     $answer_form_generic_definitions,
