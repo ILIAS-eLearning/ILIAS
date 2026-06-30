@@ -28,6 +28,7 @@ use ILIAS\Questions\AnswerForm\Properties;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Async;
 use ILIAS\Questions\Presentation\Layout\Viewable;
+use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\StaticURL\Services as StaticURLServices;
 
 class Capability implements CapabilityInterface, AdditionalTabProvider, FeedbackProvider
@@ -74,6 +75,23 @@ class Capability implements CapabilityInterface, AdditionalTabProvider, Feedback
             $this->ctrl,
             $this->static_url,
             $this->repository
+        );
+    }
+
+    #[\Override]
+    public function onAnswerFormClone(
+        UuidFactory $uuid_factory,
+        Properties $old_answer_form_properties,
+        Properties $new_answer_form_properties
+    ): void {
+        $suggested_learning_content = $this->repository->getFor(
+            $old_answer_form_properties->getAnswerFormId()
+        );
+        $this->repository->store(
+            $suggested_learning_content->clone(
+                $uuid_factory,
+                ['answer_form_id' => $new_answer_form_properties->getAnswerFormId()]
+            )
         );
     }
 

@@ -24,11 +24,13 @@ use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations\MatchingValue;
 use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
+use ILIAS\Questions\Definitions\Clonable;
 use ILIAS\Questions\Persistence\Delete;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Persistence\Replace;
 use ILIAS\Questions\Persistence\TableNameBuilder;
+use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Database\FieldDefinition;
 use ILIAS\Language\Language;
@@ -39,14 +41,14 @@ use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Table\DataRow;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 
-class Combination
+class Combination implements Clonable
 {
     /**
      * @param Uuid $id
      * @param list<MatchingValue> $matching_values
      */
     public function __construct(
-        private readonly Uuid $id,
+        private Uuid $id,
         private readonly ?float $available_points,
         private array $matching_values = []
     ) {
@@ -88,6 +90,24 @@ class Combination
                 $this->matching_values
             )
         ) === [];
+    }
+
+    #[\Override]
+    public function clone(
+        UuidFactory $uuid_factory,
+        array $environment = []
+    ): static {
+        $environment['combination_id'] = $uuid_factory->uuid4();
+        $clone = clone $this;
+        $clone->id = $environment['combination_id'];
+        $clone->matching_values = array_map(
+            fn(MatchingValue $v): MatchingValue => $v->clone(
+                $uuid_factory,
+                $environment
+            ),
+            $clone->matching_values
+        );
+        return $clone;
     }
 
     public function toStorage(

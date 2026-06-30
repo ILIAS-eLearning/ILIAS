@@ -31,6 +31,7 @@ use ILIAS\Questions\Presentation\Definitions\DefaultEnvironment;
 use ILIAS\Questions\Presentation\Layout\Async;
 use ILIAS\Questions\Presentation\Layout\EditForm;
 use ILIAS\Questions\Presentation\Layout\Viewable;
+use ILIAS\Data\UUID\Factory as UuidFactory;
 
 class RequiredCapabilities
 {
@@ -114,6 +115,20 @@ class RequiredCapabilities
         string $identifier
     ): bool {
         return array_key_exists($identifier, $this->capabilities);
+    }
+
+    public function onAnswerFormClone(
+        UuidFactory $uuid_factory,
+        AnswerFormProperties $old_properties,
+        AnswerFormProperties $new_properties
+    ): void {
+        foreach ($this->capabilities as $capability) {
+            $capability->onAnswerFormClone(
+                $uuid_factory,
+                $old_properties,
+                $new_properties
+            );
+        }
     }
 
     public function onAnswerFormUpdate(

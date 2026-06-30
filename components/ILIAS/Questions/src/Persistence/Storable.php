@@ -24,6 +24,7 @@ interface Storable
 {
     public function toStorage(
         Factory $persistence_factory,
+        ManipulationType $manipulation_type,
         Manipulate $manipulate
     ): Manipulate;
 

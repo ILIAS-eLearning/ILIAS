@@ -20,8 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerForm\Capabilities\SuggestedLearningContent;
 
+use ILIAS\Questions\Definitions\Clonable;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Presentation\Definitions\Environment;
+use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
@@ -30,7 +32,7 @@ use ILIAS\StaticURL\Services as StaticURLServices;
 use ILIAS\UI\Component\Link\Standard as StandardLink;
 use ILIAS\UI\Factory as UIFactory;
 
-class Content
+class Content implements Clonable
 {
     public const string KEY_TARGET_REF_ID = 'target_ref_id';
     public const string KEY_SUB_OBJECT_ID = 'sub_object_id';
@@ -44,7 +46,7 @@ class Content
 
     public function __construct(
         private readonly IRSS $irss,
-        private readonly Uuid $answer_form_id,
+        private Uuid $answer_form_id,
         private Types $type,
         string $content
     ) {
@@ -142,6 +144,16 @@ class Content
                     $environment->getUIFactory()
                 ) ?? ''
         ];
+    }
+
+    #[\Override]
+    public function clone(
+        UuidFactory $uuid_factory,
+        array $environment = []
+    ): static {
+        $clone = clone $this;
+        $clone->answer_form_id = $environment['answer_form_id'];
+        return $clone;
     }
 
     public function toStorage(

@@ -27,6 +27,7 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Response\AnswerInput as AnswerInputRes
 use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
 use ILIAS\Questions\Attempt\AdditionalAttemptData;
 use ILIAS\Questions\Attempt\Attempt;
+use ILIAS\Questions\Definitions\Clonable;
 use ILIAS\Questions\Persistence\Delete;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Junctor;
@@ -50,7 +51,7 @@ use ILIAS\UI\Component\Input\Field\Select;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Factory as UIFactory;
 
-class Gaps
+class Gaps implements Clonable
 {
     /**
      * @var array<string, \ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gap>
@@ -108,6 +109,17 @@ class Gaps
         string $tag_name
     ): ?Gap {
         return $this->gaps[$this->extractIdFromTagName($tag_name)] ?? null;
+    }
+
+    public function getGapByPosition(
+        int $position
+    ): ?Gap {
+        foreach ($this->gaps as $gap) {
+            if ($gap->getPosition() === $position) {
+                return $gap;
+            }
+        }
+        return null;
     }
 
     public function getNumberOfGaps(
@@ -496,6 +508,19 @@ class Gaps
             },
             []
         );
+    }
+
+    public function clone(
+        UuidFactory $uuid_factory,
+        array $environment = []
+    ): static {
+        $clone = clone $this;
+        $clone->answer_form_id = $environment['answer_form_id'];
+        $clone->gaps = array_map(
+            fn(Gap $v): Gap => $v->clone($uuid_factory, $environment),
+            $this->gaps
+        );
+        return $clone;
     }
 
     public function toTableRows(

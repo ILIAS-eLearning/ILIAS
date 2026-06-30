@@ -29,6 +29,7 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\ClozeText\Text;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\ClozeText\Factory as ClozeTextFactory;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations\Combinations;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Definitions\ScoringIdentical;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gap;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gaps;
 use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
 use ILIAS\Questions\Persistence\Delete;
@@ -40,6 +41,7 @@ use ILIAS\Questions\Persistence\ManipulationType;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\EditOverview;
+use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Database\FieldDefinition;
 use ILIAS\UI\Component\Input\Field\Section;
@@ -58,12 +60,12 @@ class Properties implements PropertiesInterface
      * @param array<string, \ILIAS\Questions\AnswerFormTypes\Cloze\Gap> $gaps
      */
     public function __construct(
-        private readonly Uuid $answer_form_id,
-        private readonly Uuid $question_id,
+        private Uuid $answer_form_id,
+        private Uuid $question_id,
         private readonly Definition $definition,
         private readonly ?float $available_points,
         private Text $cloze_text,
-        private readonly string $legacy_cloze_text,
+        private string $legacy_cloze_text,
         private ScoringIdentical $scoring_identical,
         private Gaps $gaps,
         private Combinations $combinations
@@ -298,8 +300,32 @@ class Properties implements PropertiesInterface
     }
 
     #[\Override]
+    public function clone(
+        UuidFactory $uuid_factory,
+        array $environment = []
+    ): static {
+        $clone = clone $this;
+        $clone->answer_form_id = $environment['answer_form_id'];
+        $clone->question_id = $environment['new_question_id'];
+        $environment['gaps'] = $clone->gaps->clone($uuid_factory, $environment);
+
+        $update_text_closure = $this->buildReplaceClonedGapsInTextsClosure(
+            $environment['gaps']
+        );
+        $clone->cloze_text = $clone->cloze_text->withUpdateMarkdownAfterCloning(
+            $update_text_closure
+        );
+        $clone->legacy_cloze_text = $update_text_closure($this->legacy_cloze_text);
+
+        $clone->gaps = $environment['gaps'];
+        $clone->combinations->clone($uuid_factory, $environment);
+        return $clone;
+    }
+
+    #[\Override]
     public function toStorage(
         PersistenceFactory $persistence_factory,
+        ManipulationType $manipulation_type,
         Manipulate $manipulate
     ): Manipulate {
         $table_definitions = $this->definition->getTableDefinitions();
@@ -308,7 +334,7 @@ class Properties implements PropertiesInterface
             $table_definitions->getTableSubNameSpace()
         );
 
-        $answer_form_statement = $manipulate->getManipulationType() === ManipulationType::Create
+        $answer_form_statement = $manipulation_type === ManipulationType::Create
             ? $this->buildInsertAnswerFormStatement(
                 $table_definitions,
                 $persistence_factory,
@@ -477,5 +503,22 @@ class Properties implements PropertiesInterface
         }
 
         return 1.1;
+    }
+
+    private function buildReplaceClonedGapsInTextsClosure(
+        Gaps $new_gaps
+    ): \Closure {
+        return function ($text) use ($new_gaps): string {
+            $position = 0;
+            return mb_ereg_replace_callback(
+                '{{' . Gap::GAP_PLACEHOLDER_NAME
+                . '_[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}}}',
+                function ($matches) use ($new_gaps, &$position): string {
+                    return  '{{' . Gap::GAP_PLACEHOLDER_NAME
+                        . "_{$new_gaps->getGapByPosition($position++)->getAnswerInputId()->toString()}}}";
+                },
+                $text
+            );
+        };
     }
 }

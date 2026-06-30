@@ -44,7 +44,7 @@ class Numeric extends Type
 
     private const string KEY_LOWER_LIMIT = 'lower_limit';
     private const string KEY_UPPER_LIMIT = 'upper_limit';
-    private const string KEY_STEP_SIZE = 'upper_limit';
+    private const string KEY_STEP_SIZE = 'step_size';
 
     #[\Override]
     public function getIdentifier(): string

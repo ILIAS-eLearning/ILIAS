@@ -20,12 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerForm;
 
+use ILIAS\Questions\Definitions\Clonable;
 use ILIAS\Questions\Persistence\Storable;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\EditOverview;
 use ILIAS\Data\UUID\Uuid;
 
-interface Properties extends Storable
+interface Properties extends Storable, Clonable
 {
     public function getAnswerFormId(): Uuid;
 
