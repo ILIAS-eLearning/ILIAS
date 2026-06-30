@@ -74,6 +74,20 @@ class ilMailTemplateContextAdapter
             }
         }
 
+        if ($this->recipient === null) {
+            foreach ($this->contexts as $context) {
+                if (!$context->requiresRecipientByPlaceholderName($name)) {
+                    continue;
+                }
+
+                if ($context->supportsConditionByPlaceholderName($name)) {
+                    return '';
+                }
+
+                return $name;
+            }
+        }
+
         return '';
     }
 }

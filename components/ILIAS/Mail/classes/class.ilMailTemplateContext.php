@@ -18,8 +18,8 @@
 
 declare(strict_types=1);
 
-use OrgUnit\PublicApi\OrgUnitUserService;
 use OrgUnit\User\ilOrgUnitUser;
+use OrgUnit\PublicApi\OrgUnitUserService;
 
 abstract class ilMailTemplateContext
 {
@@ -53,7 +53,16 @@ abstract class ilMailTemplateContext
     abstract public function getDescription(): string;
 
     /**
-     * @return array{mail_salutation: array{placeholder: string, label: string, supportsNestedPlaceholders?: true}, first_name: array{placeholder: string, label: string}, last_name: array{placeholder: string, label: string}, login: array{placeholder: string, label: string}, title: array{placeholder: string, label: string, supportsCondition: true}, firstname_lastname_superior: array{placeholder: string, label: string}, ilias_url: array{placeholder: string, label: string}, installation_name: array{placeholder: string, label: string}}
+     * @return array{
+     *     mail_salutation: array{placeholder: string, label: string, supportsNestedPlaceholders?: true},
+     *     first_name: array{placeholder: string, label: string},
+     *     last_name: array{placeholder: string, label: string},
+     *     login: array{placeholder: string, label: string},
+     *     title: array{placeholder: string, label: string, supportsCondition: true},
+     *     firstname_lastname_superior: array{placeholder: string, label: string},
+     *     ilias_url: array{placeholder: string, label: string},
+     *     installation_name: array{placeholder: string, label: string}
+     *     }
      */
     private function getGenericPlaceholders(): array
     {
@@ -61,36 +70,44 @@ abstract class ilMailTemplateContext
             'mail_salutation' => [
                 'placeholder' => 'MAIL_SALUTATION',
                 'label' => $this->getLanguage()->txt('mail_nacc_salutation'),
+                'requiresRecipient' => true,
                 'supportsNestedPlaceholders' => true,
             ],
             'first_name' => [
                 'placeholder' => 'FIRST_NAME',
                 'label' => $this->getLanguage()->txt('firstname'),
+                'requiresRecipient' => true,
             ],
             'last_name' => [
                 'placeholder' => 'LAST_NAME',
                 'label' => $this->getLanguage()->txt('lastname'),
+                'requiresRecipient' => true,
             ],
             'login' => [
                 'placeholder' => 'LOGIN',
                 'label' => $this->getLanguage()->txt('mail_nacc_login'),
+                'requiresRecipient' => true,
             ],
             'title' => [
                 'placeholder' => 'TITLE',
                 'label' => $this->getLanguage()->txt('mail_nacc_title'),
+                'requiresRecipient' => true,
                 'supportsCondition' => true,
             ],
             'firstname_lastname_superior' => [
                 'placeholder' => 'FIRSTNAME_LASTNAME_SUPERIOR',
                 'label' => $this->getLanguage()->txt('mail_firstname_last_name_superior'),
+                'requiresRecipient' => true,
             ],
             'ilias_url' => [
                 'placeholder' => 'ILIAS_URL',
                 'label' => $this->getLanguage()->txt('mail_nacc_ilias_url'),
+                'requiresRecipient' => false,
             ],
             'installation_name' => [
                 'placeholder' => 'INSTALLATION_NAME',
                 'label' => $this->getLanguage()->txt('mail_nacc_installation_name'),
+                'requiresRecipient' => false,
             ],
         ];
     }
@@ -111,7 +128,13 @@ abstract class ilMailTemplateContext
     }
 
     /**
-     * @return list<array<string, array{placeholder: string, crs_period_end_mail_placeholder: string}>>
+     * @return array<string, array{
+     *     placeholder: string,
+     *     label: string,
+     *     requiresRecipient?: bool,
+     *     supportsCondition?: bool,
+     *     supportsNestedPlaceholders?: bool
+     * }>
      */
     final public function getPlaceholders(): array
     {
@@ -122,9 +145,77 @@ abstract class ilMailTemplateContext
     }
 
     /**
-     * @return list<array<string, array{placeholder: string, crs_period_end_mail_placeholder: string}>>
+     * @return array<string, array{
+     *     placeholder: string,
+     *     label: string,
+     *     requiresRecipient?: bool,
+     *     supportsCondition?: bool,
+     *     supportsNestedPlaceholders?: bool
+     * }>
      */
     abstract public function getSpecificPlaceholders(): array;
+
+    public function requiresRecipientByPlaceholderName(string $placeholder_name): bool
+    {
+        $found = $this->findPlaceholderByMustacheName($placeholder_name);
+        if ($found === null) {
+            return false;
+        }
+
+        return $this->placeholderDefinitionRequiresRecipient($found['key'], $found['definition']);
+    }
+
+    public function supportsConditionByPlaceholderName(string $placeholder_name): bool
+    {
+        $found = $this->findPlaceholderByMustacheName($placeholder_name);
+        if ($found === null) {
+            return false;
+        }
+
+        return isset($found['definition']['supportsCondition']) &&
+            $found['definition']['supportsCondition'];
+    }
+
+    /**
+     * @return array{key: string, definition: array{
+     *     placeholder: string,
+     *     label: string,
+     *     requiresRecipient?: bool,
+     *     supportsCondition?: bool,
+     *     supportsNestedPlaceholders?: bool
+     * }}|null
+     */
+    private function findPlaceholderByMustacheName(string $placeholder_name): ?array
+    {
+        foreach ($this->getPlaceholders() as $key => $placeholder_definition) {
+            if (strtoupper($placeholder_definition['placeholder']) !== strtoupper($placeholder_name)) {
+                continue;
+            }
+
+            return [
+                'key' => (string) $key,
+                'definition' => $placeholder_definition,
+            ];
+        }
+
+        return null;
+    }
+
+    /**
+     * @param array{
+     *     placeholder: string,
+     *     label: string,
+     *     requiresRecipient?: bool,
+     *     supportsCondition?: bool,
+     *     supportsNestedPlaceholders?: bool
+     * } $placeholder_definition
+     */
+    private function placeholderDefinitionRequiresRecipient(string $key, array $placeholder_definition): bool
+    {
+        return $placeholder_definition['requiresRecipient'] ??
+            (array_key_exists($key, $this->getGenericPlaceholders()) &&
+            !in_array($key, ['ilias_url', 'installation_name'], true));
+    }
 
     /**
      * @param array<string, mixed> $context_parameters
