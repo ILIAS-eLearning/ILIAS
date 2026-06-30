@@ -24,6 +24,7 @@ use ILIAS\News\Aggregation\NewsAggregator;
 use ILIAS\News\Data\NewsCollection;
 use ILIAS\News\Data\NewsContext;
 use ILIAS\News\Data\NewsCriteria;
+use ILIAS\News\Data\NewsItem;
 use ILIAS\News\Persistence\NewsCache;
 use ILIAS\News\Persistence\NewsRepository;
 
@@ -216,22 +217,91 @@ class NewsCollectionService
         $date_filter = [];
 
         foreach ($contexts as $context) {
-            if (
-                !in_array($context->getObjType(), ['grp', 'crs']) ||
-                !\ilBlockSetting::_lookup('news', 'hide_news_per_date', 0, $context->getObjId())
-            ) {
-                continue;
+            $start_date = $this->getContainerStartDateForContext(
+                $context->getObjId(),
+                $context->getObjType() ?? ''
+            );
+            if ($start_date instanceof \DateTimeImmutable) {
+                $date_filter[$context->getObjId()] = $start_date;
             }
-
-            $hide_date = \ilBlockSetting::_lookup('news', 'hide_news_date', 0, $context->getObjId());
-            if (empty($hide_date)) {
-                continue;
-            }
-
-            $date_filter[$context->getObjId()] = new \DateTimeImmutable($hide_date);
         }
 
         return $criteria->withStartDates($date_filter);
+    }
+
+    /**
+     * Return the start date for container (crs/grp) news filtering, or null if no filter applies.
+     */
+    private function getContainerStartDateForContext(int $context_obj_id, string $context_type, bool $dashboard = false): ?\DateTimeImmutable
+    {
+        if (!in_array($context_type, ['grp', 'crs', 'cat'], true)) {
+            return null;
+        }
+
+        $hide_news_date_setting = \ilBlockSetting::_lookup('news', 'hide_news_date', 0, $context_obj_id);
+        $hide_news_mode = \ilBlockSetting::_lookup('news', 'hide_news_mode', 0, $context_obj_id)
+            ?? ($hide_news_date_setting != "" ? "per_date" : "global");
+
+        if ($dashboard) {
+            $pd_period = \ilNewsItem::_lookupDefaultPDPeriod();
+
+            switch ($hide_news_mode) {
+                case 'none':
+                case 'global':
+                    return new \DateTimeImmutable("-{$pd_period} days");
+                case 'per_date':
+                    $hide_date = new \DateTimeImmutable(\ilBlockSetting::_lookup('news', 'hide_news_date', 0, $context_obj_id));
+                    $pd_period_datetime = new \DateTimeImmutable("-{$pd_period} days");
+                    return $pd_period_datetime > $hide_date ? $pd_period_datetime : $hide_date;
+                case 'by_period':
+                    $hide_period = \ilBlockSetting::_lookup('news', 'news_co_period', 0, $context_obj_id);
+                    $hide_period = $hide_period <= 0 ? $pd_period : $hide_period;
+                    $hide_period = min($hide_period, $pd_period);
+                    return new \DateTimeImmutable("-{$hide_period} days");
+                default:
+                    return null;
+            }
+        }
+
+        switch ($hide_news_mode) {
+            case 'global':
+                $co_period = \ilNewsItem::_lookupDefaultCOPeriod();
+                return $co_period > 0 ? new \DateTimeImmutable("-{$co_period} days") : null;
+            case 'per_date':
+                $hide_date = \ilBlockSetting::_lookup('news', 'hide_news_date', 0, $context_obj_id);
+                return !empty($hide_date) ? new \DateTimeImmutable($hide_date) : null;
+            case 'by_period':
+                $hide_period = \ilBlockSetting::_lookup('news', 'news_co_period', 0, $context_obj_id);
+                return !empty($hide_period) ? new \DateTimeImmutable("-{$hide_period} days") : null;
+            case 'none':
+            default:
+                return null;
+        }
+    }
+
+    /**
+     * Filter collection by container (crs/grp) hide_news_mode settings: exclude items
+     * whose context has a start date and the item's creation date is before it.
+     */
+    private function filterByContainerDateSettings(NewsCollection $collection, bool $dashboard = false): NewsCollection
+    {
+        if ($collection instanceof \ILIAS\News\Data\LazyNewsCollection) {
+            $collection->load();
+        }
+
+        $exclude_ids = [];
+        foreach ($collection->getNewsItems() as $item) {
+            if (!$item instanceof NewsItem) {
+                continue;
+            }
+
+            $start_date = $this->getContainerStartDateForContext($item->getContextObjId(), $item->getContextObjType(), $dashboard);
+            if ($start_date instanceof \DateTimeImmutable && $item->getCreationDate() < $start_date) {
+                $exclude_ids[] = $item->getId();
+            }
+        }
+
+        return $collection->exclude($exclude_ids);
     }
 
     /**
