@@ -458,7 +458,19 @@ class ilAuthFrontend
         $usr_id_candidates = [];
         foreach (array_filter($auth_modes) as $auth_mode) {
             if ((int) $auth_mode === ilAuthUtils::AUTH_LOCAL) {
-                $usr_id_candidates[] = ilObjUser::_lookupId($this->getCredentials()->getUsername());
+                $local_usr_id = ilObjUser::_lookupId($this->getCredentials()->getUsername());
+                // Mantis #47987: A failed local login must only count against an
+                // account that can actually be authenticated locally. Without this
+                // check, external accounts (e.g., Shibboleth/SAML) whose login name
+                // is entered in the local login form get their login attempts
+                // incremented and are eventually deactivated - even though a local
+                // login is impossible for them because "Allow Local Authentication"
+                // is disabled. This mirrors the gate in ilAuthProviderDatabase.
+                if (is_int($local_usr_id) && $local_usr_id > 0 && ilAuthUtils::isLocalPasswordEnabledForAuthMode(
+                    (int) ilAuthUtils::_getAuthMode(ilObjUser::_lookupAuthMode($local_usr_id))
+                )) {
+                    $usr_id_candidates[] = $local_usr_id;
+                }
                 continue;
             }
 
