@@ -3330,7 +3330,7 @@ cmix#:#highscore_top_table#:#Bestenliste
 cmix#:#highscore_top_table_description#:#Teilnehmern wird eine Tabelle mit den besten Platzierungen angezeigt.
 cmix#:#highscore_wtime#:#Dauer
 cmix#:#highscore_wtime_description#:#Eine Spalte mit der Dauer wird in die Rangliste aufgenommen.
-cmix#:#info_availability#:#Hereby you can operate the availability of the LRS-type within the magazine. All types can set on "allow existing ones" instead of being deleted.###26 08 2024 new variable
+cmix#:#info_availability#:#Hereby you can operate the availability of the LRS type within the magazine. All types can set on "allow existing ones" instead of being deleted.###15 06 2026 new variable
 cmix#:#info_description#:#Diese Beschreibung wird bei der Auswahl des LRS-Typs für neue Objekte angezeigt.
 cmix#:#info_external_lrs#:#Bei einem externen Learning Record Store (LRS) wird dem Anwender ein Hinweis angezeigt. Ein externer LRS ist gekennzeichnet durch einen unzureichenden Einfluss auf den LRS und durch den Betreiber von ILIAS. Dies ist der Fall, wenn es keine Rechte zum Löschen gibt.
 cmix#:#info_lrs_endpoint#:#URL des Endpoints ohne „/“ am Ende

@@ -691,7 +691,7 @@ assessment#:#examid_in_test_pass#:#Visa ILIAS provnummer
 assessment#:#examid_in_test_pass_desc#:#Ett ILIAS-examensnummer visas i testet. Ett separat nummer genereras för varje testkörning.
 assessment#:#examid_in_test_res#:#Visa ILIAS provnummer
 assessment#:#examid_in_test_res_desc#:#I testresultaten, statistiken och Excel-exporten visas ILIAS-examensnumret.
-assessment#:#exp_all_test_runs#:#All test runs###21 11 2023 new variable
+assessment#:#exp_all_test_runs#:#All test attempts###15 06 2026 new variable
 assessment#:#exp_eval_data#:#Exportera utvärderingsdata som
 assessment#:#exp_file_created#:#Exportfil genererad.
 assessment#:#exp_grammar_as#:#as###26 08 2024 new variable
@@ -707,7 +707,7 @@ assessment#:#export_cert_ignored_for_users_s#:#The following account did not ach
 assessment#:#export_cert_no_users#:#A certificate archive cannot be created due to missing test participants.###26 08 2024 new variable
 assessment#:#export_essay_qst_with_html#:#Exportera fritextfrågor med HTML-kod
 assessment#:#export_essay_qst_with_html_desc#:#Om aktiverat har du möjlighet att exportera fritextfrågor med den angivna HTML-koden till Excel.
-assessment#:#export_legacy_logs#:#Legacy Log-Daten exportieren###26 08 2024 new variable
+assessment#:#export_legacy_logs#:#Export Legacy Log Data###15 06 2026 new variable
 assessment#:#extra_time_byline#:#Put in extra time in minutes. Already entered extra time is added up.###28 10 2024 new variable
 assessment#:#extra_time_for_all_participants#:#You are adding some extra time to all participants.###28 10 2024 new variable
 assessment#:#extra_time_for_selected_participants#:#You are adding extra time to the selected participants.###28 10 2024 new variable
@@ -1256,8 +1256,8 @@ assessment#:#show_best_solution#:#Show best solution###28 10 2024 new variable
 assessment#:#show_detailed_results#:#Detaljerade testresultat (poängsatt testkörning)
 assessment#:#show_examview_html#:#På skärmen
 assessment#:#show_hide_best_solution#:#Show or hide best solution###28 10 2024 new variable
-assessment#:#show_old_concluding_remarks#:#Show old conlcuding remarks###21 11 2023 new variable
-assessment#:#show_old_introduction#:#Show old introduction###21 11 2023 new variable
+assessment#:#show_old_concluding_remarks#:#Show Old Concluding Remarks###15 06 2026 new variable
+assessment#:#show_old_introduction#:#Show Old Introduction###15 06 2026 new variable
 assessment#:#show_pass_overview#:#Resultatöversikt (poängsatt provkörning)
 assessment#:#show_requested_question_hints#:#Visa begärda lösningsanteckningar
 assessment#:#show_results#:#Show Results###28 10 2024 new variable
@@ -1462,7 +1462,7 @@ assessment#:#tst_eval_total_passed_average_time#:#Genomsnittlig behandlingstid f
 assessment#:#tst_eval_total_persons#:#Totalt antal personer som startade testet
 assessment#:#tst_exam_access_code#:#Access Code###21 11 2023 new variable
 assessment#:#tst_exam_access_code_invalid_message#:#The code you provided is invalid.###26 05 2026 new variable
-assessment#:#tst_exam_access_code_label#:#Enter access code to continue your already started test.###21 11 2023 new variable
+assessment#:#tst_exam_access_code_label#:#Enter access code to continue your already started test. Leave the field empty to start a new test run.###15 06 2026 new variable
 assessment#:#tst_exam_conditions#:#Exam Conditions###21 11 2023 new variable
 assessment#:#tst_exam_conditions_label#:#Check to accept the conditions.###21 11 2023 new variable
 assessment#:#tst_exam_conditions_not_checked_message#:#You need to accept the exam conditions!###21 11 2023 new variable
@@ -2083,7 +2083,7 @@ assessment#:#without_solutions_participants#:#Deltagare utan svar
 assessment#:#worked_through#:#Editerad
 assessment#:#working_time#:#Bearbetningstid
 assessment#:#you_received_a_of_b_points#:#Du har uppnått %s av %s möjliga poäng.
-assessment#:#your_results#:#Your Results###28 10 2024 new variable
+assessment#:#your_results#:#My Results###15 06 2026 new variable
 auth#:#auth_account_code#:#Kod
 auth#:#auth_account_code_info#:#För att återaktivera ditt ILIAS-konto kan du använda en ILIAS-inloggningskontokod.
 auth#:#auth_account_code_title#:#Registrering kontokod
@@ -2266,7 +2266,7 @@ background_tasks#:#ui_msg_no_files_found#:#Inga filer hittades. Nedladdningen ha
 background_tasks#:#ui_msg_num_files#:#%s fil(er) har hittats, vill du fortsätta?
 background_tasks#:#ui_msg_sum_file_sizes#:#Den totala nedladdningsstorleken innan zip-mappen skapas är %s. Vill du fortsätta?
 background_tasks#:#waiting#:#Väntar
-badge#:#awarded_by#:#Awarded by###21 11 2023 new variable
+badge#:#awarded_by#:#Awarded By###15 06 2026 new variable
 badge#:#badge_activity_badges#:#Automatiskt tilldelad badge
 badge#:#badge_add_template#:#Lägg till mall
 badge#:#badge_add_to_profile#:#Lägg till i profil
@@ -2325,21 +2325,21 @@ badge#:#badge_template_types#:#Valida typer
 badge#:#badge_template_types_all#:#Alla
 badge#:#badge_template_types_specific#:#Bestämd
 badge#:#badge_types#:#Typer
-badge#:#badge_update_image_processing_failed#:#The badge could not be updated, an error occurred while processing the image.###26 08 2024 new variable
+badge#:#badge_update_image_processing_failed#:#It was not possible to update the badge. An error occurred while processing the image.###15 06 2026 new variable
 badge#:#badge_uploaded_image_file_not_found#:#No uploaded image for the badge could be found.###26 08 2024 new variable
 badge#:#badge_user_profile#:#Profil publicerad###Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
 badge#:#badge_valid#:#Giltig tills
 badge#:#criteria#:#Criteria###21 11 2023 new variable
-badge#:#endless#:#Always###21 11 2023 new variable
-badge#:#issued_on#:#Issued on###21 11 2023 new variable
-badge#:#position_updated#:#Profil assignment updated.###21 11 2023 new variable
-badge#:#sort_by_date_asc#:#Sort by Date Ascending###21 11 2023 new variable
-badge#:#sort_by_date_desc#:#Sort by Date Descending###21 11 2023 new variable
-badge#:#sort_by_title_asc#:#Sort by Title Ascending###21 11 2023 new variable
-badge#:#sort_by_title_desc#:#Sort by Title Descending###21 11 2023 new variable
+badge#:#endless#:#Forever###15 06 2026 new variable
+badge#:#issued_on#:#Issued On###15 06 2026 new variable
+badge#:#position_updated#:#The badges displayed in your profile have been updated.###15 06 2026 new variable
+badge#:#sort_by_date_asc#:#Date Ascending###15 06 2026 new variable
+badge#:#sort_by_date_desc#:#Date Descending###15 06 2026 new variable
+badge#:#sort_by_title_asc#:#Title Ascending###15 06 2026 new variable
+badge#:#sort_by_title_desc#:#Title Descending###15 06 2026 new variable
 badge#:#table_view#:#Table View###21 11 2023 new variable
 badge#:#tile_view#:#Tile View###21 11 2023 new variable
-badge#:#valid_until#:#Valid until###21 11 2023 new variable
+badge#:#valid_until#:#Valid Until###15 06 2026 new variable
 bgtask#:#bgtask_blocked#:#Running nedladdning
 bgtask#:#bgtask_blocked_cancel_new#:#Avbryt ny nedladdning
 bgtask#:#bgtask_blocked_cancel_old#:#Avbryt pågående nedladdning
@@ -2596,9 +2596,9 @@ book#:#book_booking#:#Booking###21 11 2023 new variable
 book#:#book_booking_information#:#Information
 book#:#book_booking_objects#:#Bokningsobjekt
 book#:#book_booking_reminders#:#Väntande reservationer
-book#:#book_bulk_confirmation#:#Please check, if all values are listed correctly.###21 11 2023 new variable
+book#:#book_bulk_confirmation#:#Please check that all values are listed correctly.###15 06 2026 new variable
 book#:#book_bulk_creation#:#Bulk Creation###21 11 2023 new variable
-book#:#book_bulk_data#:#Object Data###21 11 2023 new variable
+book#:#book_bulk_data#:#Item Data###15 06 2026 new variable
 book#:#book_cal_entry#:#Bokning från
 book#:#book_confirm_booking#:#Gör en bokning
 book#:#book_confirm_booking_for_users#:#Are you sure you want to book this item for the following user(s)?###26 08 2025 new variable
@@ -2609,7 +2609,7 @@ book#:#book_confirm_cancel#:#Är du säker på att du vill avboka följande bokn
 book#:#book_confirm_cancel_aggregation#:#Antal avbokningar
 book#:#book_confirm_delete#:#Vill du verkligen ta bort följande objekt?
 book#:#book_copy#:#Kopiera bokningspool
-book#:#book_create_objects#:#Create Objects###21 11 2023 new variable
+book#:#book_create_objects#:#Create Items###15 06 2026 new variable
 book#:#book_deadline#:#Tidsspann
 book#:#book_deadline_hours#:#Till n timmar före starten av tidsfönstret
 book#:#book_deadline_info#:#Minsta tid mellan bokning och bokningsperiod
@@ -2631,9 +2631,9 @@ book#:#book_log#:#Reserveringar
 book#:#book_mail_permanent_link#:#Link to Booking Pool###21 11 2023 new variable
 book#:#book_mail_to_booker#:#Mail to User###21 11 2023 new variable
 book#:#book_message#:#Message###21 11 2023 new variable
-book#:#book_message_info#:#You may enter a message for the booking organisator here.###21 11 2023 new variable
+book#:#book_message_info#:#You may enter a message for the booking organiser here.###15 06 2026 new variable
 book#:#book_messages#:#Messages###21 11 2023 new variable
-book#:#book_messages_info#:#Users may add a message when booking an object.###21 11 2023 new variable
+book#:#book_messages_info#:#Allow users to add a message when booking an item.###15 06 2026 new variable
 book#:#book_missing_availability#:#It was not possible to book all items on all dates.###21 11 2023 new variable
 book#:#book_missing_items#:#$1 missing item(s).###21 11 2023 new variable
 book#:#book_new#:#Skapa ny bokningspool
@@ -2654,7 +2654,7 @@ book#:#book_nr_preferences#:#Preferenser
 book#:#book_obj_select#:#Select###21 11 2023 new variable
 book#:#book_object_added#:#Ett bokningsobjekt har lagts till.
 book#:#book_object_deleted#:#Bokningsobjektet har tagits bort.
-book#:#book_object_selection#:#Object Selection###21 11 2023 new variable
+book#:#book_object_selection#:#Item Selection###15 06 2026 new variable
 book#:#book_object_updated#:#Bokningsobjektet har ändrats.
 book#:#book_objects_available#:#Tillgängliga objekt
 book#:#book_open#:#Öppen bokningspool
@@ -2723,8 +2723,8 @@ book#:#book_select_pool#:#Välj pool
 book#:#book_set_cancel#:#Avbryt
 book#:#book_set_delete#:#Radera
 book#:#book_show_message#:#Show Message###21 11 2023 new variable
-book#:#book_title_description_nr#:#Title; Description; Number of Objects###21 11 2023 new variable
-book#:#book_title_description_nr_info#:#Enter title, description and number of objects separated by semicolon or TAB character. Use one line per object.###21 11 2023 new variable
+book#:#book_title_description_nr#:#Title; Description; Number of Units###15 06 2026 new variable
+book#:#book_title_description_nr_info#:#Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item.###15 06 2026 new variable
 book#:#book_too_many_preferences#:#Du har valt för många inställningar. Inställningarna har inte sparats.
 book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.###16 12 2025 new variable
 book#:#book_type_warning#:#Det finns för närvarande inga bokningsobjekt tillgängliga. För att kunna använda poolen måste bokningsobjekt först skapas.
@@ -2835,7 +2835,7 @@ certificate#:#certificate_export#:#Export
 certificate#:#certificate_failed#:#Misslyckad
 certificate#:#certificate_file_basename#:#Certifikat
 certificate#:#certificate_id#:#Certificate ID###26 08 2024 new variable
-certificate#:#certificate_issue_date#:#Issue Date###26 08 2024 new variable
+certificate#:#certificate_issue_date#:#Date of Issue###15 06 2026 new variable
 certificate#:#certificate_learning_progress_must_be_active#:#Endast objekt med aktiv inlärningsprocess kan väljas. Inlärningsförloppet är inte aktivt för följande objekt
 certificate#:#certificate_letter#:#US Letter (11 tum x 8,5 tum)
 certificate#:#certificate_letter_landscape#:#US Letter Landscape (8,5 tum x 11 tum)
@@ -2928,6 +2928,7 @@ certificate#:#persistent_certificate_mode_instant#:#Direkt
 certificate#:#persistent_certificate_mode_instant_info#:#Detta alternativ rekommenderas för system med låg till medelhög användarinteraktion. För system som är utsatta för hög belastning under skapandet av certifikat rekommenderas alternativet "Cron Job".
 chatroom#:#allow_anonymous#:#Tillåt anonym inloggning
 chatroom#:#allow_custom_usernames#:#Fritt valbara chattnamn
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.###15 06 2026 new variable
 chatroom#:#anonymous_hint#:#Observera att för åtkomst av anonyma användare måste motsvarande behörigheter ställas in på fliken "Behörigheter".
 chatroom#:#auto_scroll#:#Automatiskt bläddra till slutet
 chatroom#:#autogen_usernames#:#Chat-namn för anonymt deltagande
@@ -3024,6 +3025,7 @@ chatroom#:#chat_user_action_invite_public_room#:#Inbjuda till offentligt chattru
 chatroom#:#chat_user_x_is_typing#:#Användaren %s skriver ...
 chatroom#:#chat_users_are_typing#:#Flera användare skriver ...
 chatroom#:#chat_whisper#:#Viskning
+chatroom#:#chatroom_anonymous_default#:#Anonymous ####15 06 2026 new variable
 chatroom#:#chatroom_auth#:#Autentisering
 chatroom#:#chatroom_auth_btn_txt#:#Generera nyckel
 chatroom#:#chatroom_auth_key#:#Autentiseringsnyckel
@@ -3561,7 +3563,7 @@ common#:#adve_assessment_settings#:#Inställningar för test och bedömning
 common#:#adve_frm_post_settings#:#Inlägg i forumet
 common#:#adve_general_settings#:#Allmänna inställningar
 common#:#adve_survey_settings#:#Inställningar för undersökningar
-common#:#agree_date#:#Agreed on###26 08 2024 new variable
+common#:#agree_date#:#ToS agreed to on###15 06 2026 new variable
 common#:#all#:#Alla
 common#:#all_global_roles#:#Globala roller
 common#:#all_local_roles#:#Lokala roller (alla)
@@ -3850,7 +3852,7 @@ common#:#copy_all#:#Kopiera alla
 common#:#copy_n_of_suffix#:#- Kopie (%1$s)
 common#:#copy_of#:#Kopia från
 common#:#copy_of_suffix#:#- Kopia
-common#:#copy_perma_link#:#Copy link to clipboard###21 05 2025 new variable
+common#:#copy_perma_link#:#Copy Link to Clipboard###15 06 2026 new variable
 common#:#copy_selected_items#:#Kopia
 common#:#count#:#Nummer
 common#:#counter_novelty#:#News###26 08 2024 new variable
@@ -3998,19 +4000,19 @@ common#:#download_multiple_objects#:#Ladda ner flera objekt
 common#:#download_selected_items#:#Ladda ner
 common#:#downloading_settings#:#Inställningar
 common#:#dpro_accept_usr_agreement#:#Accept Declaration of Data Protection?###21 11 2023 new variable
-common#:#dpro_accept_usr_agreement_intro#:#There is a new data protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.###21 11 2023 new variable
+common#:#dpro_accept_usr_agreement_intro#:#There is a new Declaration of Data Protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.###15 06 2026 new variable
 common#:#dpro_agreed_on#:#DoDP agreed to on###21 05 2025 new variable
-common#:#dpro_force_accept_usr_agreement#:#You must accept the Data Protection!###21 11 2023 new variable
+common#:#dpro_force_accept_usr_agreement#:#You must accept the Declaration of Data Protection!###15 06 2026 new variable
 common#:#dpro_no_agreement_description#:#There is currently no Declaration of Data Protection document available for this installation. Please contact the <a href="%1$s">system administrator</a>.###26 08 2024 new variable
-common#:#dpro_refuse_acceptance#:#Refuse to Accept Data Protection###21 11 2023 new variable
-common#:#dpro_usr_agreement#:#Data Protection###21 11 2023 new variable
+common#:#dpro_refuse_acceptance#:#Refuse to Accept the Declaration of Data Protection###15 06 2026 new variable
+common#:#dpro_usr_agreement#:#Declaration of Data Protection###15 06 2026 new variable
 common#:#dpro_usr_agreement_footer_intro#:#You have declared your consent to this Declaration of Data Protection.###21 11 2023 new variable
 common#:#dpro_withdraw_consent_description#:#Withdraw your consent to our Declaration of Data Protection here.###21 11 2023 new variable
-common#:#dpro_withdraw_consent_description_external#:#Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Data Protection.###21 11 2023 new variable
-common#:#dpro_withdraw_consent_description_internal#:#Please log in again to complete the process of withdrawing your consent to the Data Protection.###21 11 2023 new variable
+common#:#dpro_withdraw_consent_description_external#:#Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Declaration of Data Protection.###15 06 2026 new variable
+common#:#dpro_withdraw_consent_description_internal#:#Please log in again to complete the process of withdrawing your consent to the Declaration of Data Protection.###15 06 2026 new variable
 common#:#dpro_withdraw_consent_header#:#Withdraw to Consent of Declaration of Data Protection###21 11 2023 new variable
-common#:#dpro_withdraw_consent_info#:#Withdraw your consent to our Data Protection.###21 11 2023 new variable
-common#:#dpro_withdraw_consent_info_external#:#Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Data Protection.###21 11 2023 new variable
+common#:#dpro_withdraw_consent_info#:#Withdraw your consent to our Declaration of Data Protection.###15 06 2026 new variable
+common#:#dpro_withdraw_consent_info_external#:#Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Declaration of Data Protection.###15 06 2026 new variable
 common#:#drafts#:#Designs
 common#:#drag_file_here#:#Dra filen till detta område
 common#:#drag_files_here#:#Dra filerna till detta område
@@ -4240,8 +4242,8 @@ common#:#forums_disable_forum_notification#:#Stoppmeddelande för hela forumet
 common#:#forums_enable_forum_notification#:#Startmeddelande för hela forumet
 common#:#forums_forum_notification_enabled#:#Du kommer att meddelas om nya inlägg i detta forum.
 common#:#forums_last_post#:#Sista inlägget
-common#:#forums_last_posting_asc#:#Last Posting Ascending###21 11 2023 new variable
-common#:#forums_last_posting_dsc#:#Last Posting Descending###21 11 2023 new variable
+common#:#forums_last_posting_asc#:#Last Post Ascending###15 06 2026 new variable
+common#:#forums_last_posting_dsc#:#Last Post Descending###15 06 2026 new variable
 common#:#forums_notification_settings#:#Notifiering om nya och ändrade foruminlägg
 common#:#forums_rating_asc#:#Rating Ascending###21 11 2023 new variable
 common#:#forums_rating_dsc#:#Rating Descending###21 11 2023 new variable
@@ -4975,8 +4977,8 @@ common#:#obj_crsv#:#Kursintyg
 common#:#obj_dbk#:#Digilib bok
 common#:#obj_dcl#:#Insamling av data
 common#:#obj_dcl_duplicate#:#Kopiering av datainsamling
-common#:#obj_dpro#:#Data Protection###21 11 2023 new variable
-common#:#obj_dpro_desc#:#Data Protection Settings###21 11 2023 new variable
+common#:#obj_dpro#:#Declaration of Data Protection###15 06 2026 new variable
+common#:#obj_dpro_desc#:#Declaration of Data Protection Settings###15 06 2026 new variable
 common#:#obj_dshs#:#Dashboard
 common#:#obj_dshs_desc#:#Administrera instrumentpanelen
 common#:#obj_ecss#:#ECS
@@ -6785,7 +6787,7 @@ content#:#cont_lrs_settings#:#Inställningar
 content#:#cont_lvalue#:#Data element
 content#:#cont_maintenance#:#Underhåll
 content#:#cont_manifest#:#Manifest
-content#:#cont_manual_item_group#:#Manually Create Item Group###21 11 2023 new variable
+content#:#cont_manual_item_group#:#Manually Created Item Group###15 06 2026 new variable
 content#:#cont_map_file_not_generated#:#Tyvärr kunde bildkartfilen inte genereras.
 content#:#cont_marker#:#Markeringspunkt
 content#:#cont_master_language_only#:#Basspråk för översättning - Master
@@ -8659,7 +8661,7 @@ dcl#:#dcl_creation_date#:#Datum för skapande
 dcl#:#dcl_creation_date_description#:#Det datum då denna post skapades.
 dcl#:#dcl_datatype#:#Typ av data
 dcl#:#dcl_date#:#Date Entry###21 05 2025 new variable
-dcl#:#dcl_date_desc#:#Field for a date.###21 05 2025 new variable
+dcl#:#dcl_date_desc#:#Users can enter a date of their choice or select one using a calendar.###15 06 2026 new variable
 dcl#:#dcl_date_selection#:#Meny för val av datum
 dcl#:#dcl_date_selection_desc#:#Ange alternativ för urval (datum)
 dcl#:#dcl_deactivate_view#:#Inaktivera mall för enskild vy
@@ -8678,9 +8680,9 @@ dcl#:#dcl_desc#:#Descendent ordning (DESC)
 dcl#:#dcl_description#:#Beskrivning
 dcl#:#dcl_detailed_view#:#Singelutsikt
 dcl#:#dcl_display_action_menu#:#Kopia
-dcl#:#dcl_display_action_menu_desc#:#Enable possibility to copy or link the referenced module###21 05 2025 new variable
+dcl#:#dcl_display_action_menu_desc#:#The object can be copied from the entry.###15 06 2026 new variable
 dcl#:#dcl_display_record_alt#:#Visa denna post
-dcl#:#dcl_duplicate_non_unique_entries_exist#:#This may also concern existing records.###23 02 2024 new variable
+dcl#:#dcl_duplicate_non_unique_entries_exist#:#Some of the existing values for this field are identical. Please make sure that all existing entries are unique in order to change this setting.###15 06 2026 new variable
 dcl#:#dcl_edit#:#Redigera datainsamling
 dcl#:#dcl_edit_entry_rules#:#Bearbetning av ingångar
 dcl#:#dcl_edit_field#:#Redigera fält
@@ -8698,14 +8700,14 @@ dcl#:#dcl_export_finished#:#Export slutförd
 dcl#:#dcl_export_started#:#Asynkron export påbörjad
 dcl#:#dcl_field_datatype#:#Fält Datatyp
 dcl#:#dcl_field_description#:#Beskrivning
-dcl#:#dcl_field_description_desc#:#The description will be shown below the field inside the entry form.###21 05 2025 new variable
+dcl#:#dcl_field_description_desc#:#The description will be shown below the input field when making a new entry.###15 06 2026 new variable
 dcl#:#dcl_field_required#:#Åtagande
 dcl#:#dcl_field_title_change_warning#:#Du har ändrat titeln på fältet. Som ett resultat fungerar motsvarande platshållare i mallen för den individuella vyn inte längre. Du måste fortfarande justera den manuellt.
 dcl#:#dcl_field_title_unique#:#Det finns redan ett fält med denna titel. Titeln måste vara unik.
 dcl#:#dcl_field_visible#:#Visible
 dcl#:#dcl_fieldtitle#:#Fältets titel
-dcl#:#dcl_file#:#Fileupload###21 11 2023 new variable
-dcl#:#dcl_file_desc#:#Field to upload arbitrary files. They can be downloaded with a link.###21 11 2023 new variable
+dcl#:#dcl_file#:#File Upload###15 06 2026 new variable
+dcl#:#dcl_file_desc#:#Allow the upload of a file which can then be downloaded directly from the data collection.###15 06 2026 new variable
 dcl#:#dcl_file_format_description#:#Importfilen måste vara i Excel-format .xlsx, med de data som ska importeras på första sidan. Den första raden måste innehålla de exakta namnen på fälten (inklusive versaler) och de följande raderna värdena för de postposter som ska importeras. Vi rekomme
 dcl#:#dcl_file_not_readable#:#Filen kunde inte läsas. Vänligen använd filformatet .xlsx.
 dcl#:#dcl_filter#:#Tillgänglig i filter
@@ -8714,7 +8716,7 @@ dcl#:#dcl_formula#:#Formel
 dcl#:#dcl_formula_desc#:#I likhet med kalkylblad kan poster länkas eller beräknas med en formel.
 dcl#:#dcl_formula_detail_desc#:#Poster i detta fält genereras automatiskt. Du kan inte göra en post här.
 dcl#:#dcl_height#:#Höjd
-dcl#:#dcl_height_desc#:#The file will be resized to the given height###21 05 2025 new variable
+dcl#:#dcl_height_desc#:#The height of the file will be reduced to this value during upload.###15 06 2026 new variable
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#Det interna ID:t.
 dcl#:#dcl_ilias_reference#:#Objekt i tidningen
@@ -8733,7 +8735,7 @@ dcl#:#dcl_last_edited_by_description#:#Den användare som senast ändrade denna 
 dcl#:#dcl_last_update#:#Sista förändringen
 dcl#:#dcl_last_update_description#:#Det datum då denna post senast ändrades.
 dcl#:#dcl_learning_progress#:#Visa framsteg i inlärningen
-dcl#:#dcl_learning_progress_desc#:#Show the learning progress of the linked module of the viewer###21 05 2025 new variable
+dcl#:#dcl_learning_progress_desc#:#Show each user their own learning progress for the selected object.###15 06 2026 new variable
 dcl#:#dcl_legend_placeholders#:#platshållare
 dcl#:#dcl_length#:#Längd
 dcl#:#dcl_length_info#:#Antal tecken som användaren kan ange (max 4000). För mer än 200 tecken, aktivera dessutom alternativet "Flerradigt textinmatningsfält".
@@ -8742,7 +8744,7 @@ dcl#:#dcl_limit_start#:#Start
 dcl#:#dcl_limited#:#Tidsbegränsad bearbetning
 dcl#:#dcl_limited_desc#:#Användare kan bara lägga till, redigera och ta bort poster fram till det valda datumet.
 dcl#:#dcl_link_detail_page#:#Länk till enskild vy
-dcl#:#dcl_link_detail_page_desc#:#Additionaly, the detailed view must be activated and configured within the tab "Single".###21 05 2025 new variable
+dcl#:#dcl_link_detail_page_desc#:#Additionally, a detailed view template must have been created and activated within the tab ‘Detailed View’.###15 06 2026 new variable
 dcl#:#dcl_list_fields#:#Fält
 dcl#:#dcl_list_visibility_and_filter#:#Översikt
 dcl#:#dcl_locked#:#Låst
@@ -8770,7 +8772,7 @@ dcl#:#dcl_new#:#Skapa ny datainsamling
 dcl#:#dcl_new_field#:#Nytt fält
 dcl#:#dcl_new_table#:#Ny tabell
 dcl#:#dcl_next_record#:#Nästa post
-dcl#:#dcl_no_entries#:#No entries###21 05 2025 new variable
+dcl#:#dcl_no_entries#:#Action not permitted###15 06 2026 new variable
 dcl#:#dcl_no_entry#:#Ingen post
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.###21 05 2025 new variable
 dcl#:#dcl_no_export_data_available#:#Inga data eller fält tillgängliga för export.
@@ -8821,7 +8823,7 @@ dcl#:#dcl_reference_desc#:#Ange urvalsalternativ som underhålls i ett annat fä
 dcl#:#dcl_reference_link#:#Visa som en länk till den refererade posten
 dcl#:#dcl_reference_link_info#:#Mallen för enkelvisning måste vara aktiv i den refererade tabellen.
 dcl#:#dcl_reference_title#:#Hänvisning till tabell och fält
-dcl#:#dcl_reference_title_desc#:#Entries of the selected field are options of the target field.###21 05 2025 new variable
+dcl#:#dcl_reference_title_desc#:#The data entries of the selected field will be the selectable options in this field.###15 06 2026 new variable
 dcl#:#dcl_regex#:#Regelbundet uttryck
 dcl#:#dcl_regex_info#:#Inmatning utan separatorsymbol/avgränsare
 dcl#:#dcl_required#:#Åtagande
@@ -8892,24 +8894,24 @@ dcl#:#dcl_update_record#:#Uppdatera inmatning
 dcl#:#dcl_url#:#URL eller e-post
 dcl#:#dcl_view_configuration#:#Visa konfiguration
 dcl#:#dcl_view_own_records_perm#:#Visa endast egna poster
-dcl#:#dcl_view_own_records_perm_desc#:#Dont show entries of other users.###21 05 2025 new variable
+dcl#:#dcl_view_own_records_perm_desc#:#The entries of other users are not visible.###15 06 2026 new variable
 dcl#:#dcl_view_settings#:#Visa inställningar
 dcl#:#dcl_view_viewdefinition#:#Mall för enskild vy
 dcl#:#dcl_visible#:#Synlig för alla användare
 dcl#:#dcl_visible_desc#:#Users har tillgång till denna tabell.
 dcl#:#dcl_width#:#Bredd
-dcl#:#dcl_width_desc#:#The file will be resized to the given width.###21 05 2025 new variable
+dcl#:#dcl_width_desc#:#The width of the file will be reduced to this value during upload.###15 06 2026 new variable
 dcl#:#dcl_wrong_input_type#:#Den inmatade texten stämmer inte överens med typen av fält (Fel typ).
 dcl#:#dcl_wrong_length#:#Den angivna texten är för lång.
 dcl#:#dcl_wrong_regex#:#Den inmatade texten stämmer inte överens med specifikationen för detta fält (reguljärt uttryck).
-dcl#:#dcl_xls_async_export#:#Asynchronous XLSX-Export###26 08 2024 new variable
+dcl#:#dcl_xls_async_export#:#as XLSX (asynchronous)###15 06 2026 new variable
 dcl#:#disable_comments#:#Disable comments###26 08 2024 new variable
 dcl#:#disable_visible#:#Disable visible###26 08 2024 new variable
 dcl#:#enable_comments#:#Enable comments###26 08 2024 new variable
 dcl#:#enable_visible#:#Enable visible###26 08 2024 new variable
 dcl#:#entry_of#:#Entry %1$d of %2$d###26 08 2024 new variable
 dcl#:#fieldtitle_allow_chars#:#Inte tillåtna tecken
-dcl#:#fileupload_not_migrated#:#File has not yet been migration and cannot be displayed. Please contact your System-Administrator.###21 11 2023 new variable
+dcl#:#fileupload_not_migrated#:#File has not yet been migrated and cannot be displayed. Please contact your system administrator.###15 06 2026 new variable
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
 dcl#:#table_not_found#:#Table not found!###16 12 2025 new variable
 dcl#:#tableview_not_found#:#Tableview not found!###16 12 2025 new variable
@@ -8962,21 +8964,21 @@ didactic#:#sess_closed#:#Avslutad session
 didactic#:#sess_closed_info#:#Sessionen är osynlig för icke-deltagare.
 dpro#:#dpro_accept_usr_agreement_anonymous#:#Declaration of Data Protection###26 08 2024 new variable
 dpro#:#dpro_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Declaration of Data Protection.###26 08 2024 new variable
-dpro#:#dpro_account_reg_not_possible#:#Self-registration is currently not possible because there is no Data Protection agreement available. Please contact your <a href="%1$s">system administrator</a> for further information.###21 11 2023 new variable
-dpro#:#dpro_agree_date#:#Data Protection agreed on###21 11 2023 new variable
-dpro#:#dpro_last_reset_date#:#The Data Protection were reset on %s. Only reset the Data Protection if changes have been made to the document(s) and you require all users to agree to the documents.###21 11 2023 new variable
-dpro#:#dpro_mode#:#Mode###21 11 2023 new variable
-dpro#:#dpro_mode_desc#:#Please configure when and how the Data Protection should be accepted.###21 11 2023 new variable
+dpro#:#dpro_account_reg_not_possible#:#Self-registration is currently not possible because there is no Declaration of Data Protection agreement available. Please contact your <a href="%1$s">system administrator</a> for further information.###15 06 2026 new variable
+dpro#:#dpro_agree_date#:#Declaration of Data Protection agreed on###15 06 2026 new variable
+dpro#:#dpro_last_reset_date#:#The Declaration of Data Protection were reset on %s. Only reset the Declaration of Data Protection if changes have been made to the document(s) and you require all users to agree to the documents.###15 06 2026 new variable
+dpro#:#dpro_mode#:#Agreement Mode###15 06 2026 new variable
+dpro#:#dpro_mode_desc#:#Please configure when and how the Declaration of Data Protection should be accepted.###15 06 2026 new variable
 dpro#:#dpro_no_acceptance#:#Never, only informative###21 11 2023 new variable
 dpro#:#dpro_no_documents_exist#:#There are currently no Declaration of Data Protection documents available.###26 08 2024 new variable
 dpro#:#dpro_no_documents_exist_cant_save#:#There are currently no Declaration of Data Protection documents available. Please add at least one document in order to activate this service.###26 08 2024 new variable
 dpro#:#dpro_once#:#Accept once###21 11 2023 new variable
-dpro#:#dpro_reset_for_all_users#:#Reset Data Protection###21 11 2023 new variable
-dpro#:#dpro_status_enable#:#Enable Data Protection###21 11 2023 new variable
-dpro#:#dpro_status_enable_desc#:#Display relevant language-based Data Protection documents at the end of the registration form for new users and, if applicable, upon the user’s first login. Users are required to accept the Data Protection before they can enter ILIAS.###21 11 2023 new variable
-dpro#:#dpro_sure_reset_tos#:#Are you sure you want to reset the Data Protection for all users in the system? This also applies, for example, to those accounts that are used for the SOAP web services.###21 11 2023 new variable
-dpro#:#dpro_withdrawal_usr_deletion#:#Account deletion upon Data Protection withdrawal###21 11 2023 new variable
-dpro#:#dpro_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from a previously accepted Data Protection document, this will result in the deletion of the user’s account.###21 11 2023 new variable
+dpro#:#dpro_reset_for_all_users#:#Reset the Declaration of Data Protection###15 06 2026 new variable
+dpro#:#dpro_status_enable#:#Enable the Declaration of Data Protection###15 06 2026 new variable
+dpro#:#dpro_status_enable_desc#:#Display relevant language-based Declaration of Data Protection documents at the end of the registration form for new users and, if applicable, upon the user’s first login. Users are required to accept the Declaration of Data Protection before they can enter ILIAS.###15 06 2026 new variable
+dpro#:#dpro_sure_reset_tos#:#Are you sure you want to reset the Declaration of Data Protection for all users in the system? This also applies, for example, to those accounts that are used for the SOAP web services.###15 06 2026 new variable
+dpro#:#dpro_withdrawal_usr_deletion#:#Account deletion upon Declaration of Data Protection withdrawal###15 06 2026 new variable
+dpro#:#dpro_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from a previously accepted Declaration of Data Protection document, this will result in the deletion of the user’s account.###15 06 2026 new variable
 ecs#:#cert_serial#:#Certifikatets serienummer
 ecs#:#ecs_abr#:#Abkortning
 ecs#:#ecs_account_duration#:#Förlängning av aktiveringstiden
@@ -9809,7 +9811,7 @@ exp#:#exp_import_validation_err_no_matching_xsd#:#No valid schema file for versi
 exp#:#exp_not_public_access_status#:#Not published###21 05 2025 new variable
 exp#:#exp_print_pdf#:#Print/PDF
 exp#:#exp_print_pdf_info#:#För att skapa en PDF, välj "Spara som PDF" som destination i utskriftsvyn.
-exp#:#exp_public_access_status#:#Available on ‘Info’-tab###21 05 2025 new variable
+exp#:#exp_public_access_status#:#Available in ‘Info’-tab###15 06 2026 new variable
 exp#:#exp_really_delete#:#Vill du verkligen ta bort dessa exportfiler?
 exp#:#exp_show_print_view#:#Visa utskriftsvy
 exp#:#exp_xml#:#XML
@@ -9818,7 +9820,7 @@ exp#:#export_files_deleted#:#The selected export files have been deleted.###26 0
 exp#:#export_options#:#Export Options###28 10 2024 new variable
 exp#:#export_type#:#Export Type###28 10 2024 new variable
 export#:#exp_file#:#File Name###28 10 2024 new variable
-export#:#exp_public_access#:#Public Access###28 10 2024 new variable
+export#:#exp_public_access#:#Available in ‘Info’-tab###15 06 2026 new variable
 export#:#exp_size#:#File Size (MB)###28 10 2024 new variable
 export#:#exp_timestamp#:#Creation Date###28 10 2024 new variable
 export#:#exp_toggle_public_access#:#Toggle Public Access###28 10 2024 new variable
@@ -9827,7 +9829,7 @@ export#:#export_create#:#Skapa ny
 export#:#export_create_new_file#:#Skapa ny exportfil
 export#:#export_existing#:#Återanvändning
 export#:#export_export_date#:#Exportdatum
-export#:#export_info_public_access#:#Public Access Export###28 10 2024 new variable
+export#:#export_info_public_access#:#Public Export###15 06 2026 new variable
 export#:#export_info_public_access_download#:#Download###28 10 2024 new variable
 export#:#export_last_export#:#Senaste export
 export#:#export_last_export_file#:#Använd den senaste exportfilen
@@ -9845,7 +9847,7 @@ file#:#copyright_custom#:#Custom###21 11 2023 new variable
 file#:#copyright_custom_info#:#Choose a custom copyright which will be applied to all unzipped files of this archive.###21 11 2023 new variable
 file#:#copyright_inherited#:#Inherited###21 11 2023 new variable
 file#:#copyright_inherited_info#:#Apply the copyright of the zip archive to its unzipped files. <br \>Copyright of zip archive: %s.###21 11 2023 new variable
-file#:#could_not_create_file_objs#:#An error occurred while creating the file objects, contact the administrators of the platform.###21 11 2023 new variable
+file#:#could_not_create_file_objs#:#An error occurred while creating your file objects. Please contact the administrators of this platform.###15 06 2026 new variable
 file#:#de_activate_icon#:#Activate / Deactivate###21 11 2023 new variable
 file#:#download_ascii_filename#:#Allow Only ASCII Characters in Downloaded Filenames###21 11 2023 new variable
 file#:#download_ascii_filename_info#:#Downloaded files should only have ASCII-characters in their filename. Deactivate to use all characters.###21 11 2023 new variable
@@ -9861,13 +9863,13 @@ file#:#file_import#:#Fil import
 file#:#file_new_version#:#Skapa ny version
 file#:#file_new_version_info#:#Create en ny filversion. Gamla versioner behålls.
 file#:#file_publish#:#Publish Draft###21 11 2023 new variable
-file#:#file_rollback_rollback_first#:#The version could not be reset because an unpublished draft exists.###21 11 2023 new variable
-file#:#file_rollback_same_version#:#This is already the current version###21 11 2023 new variable
+file#:#file_rollback_rollback_first#:#The selected version could not be published because an unpublished draft exists.###15 06 2026 new variable
+file#:#file_rollback_same_version#:#This is already the published version!###15 06 2026 new variable
 file#:#file_unpublish#:#Mark as Draft###21 11 2023 new variable
 file#:#file_upload_info_file_with_critical_extension#:#Minst en fil innehåller en kritisk eller okänd filändelse. Filändelsen ändras till .sec vid varje nedladdning. Kontakta din administratör om det behövs. Filens namn
 file#:#file_uploaded_by#:#Version uppladdad av
 file#:#file_version_draft#:#Draft Version###21 11 2023 new variable
-file#:#file_version_draft_info#:#The latest version is in "Draft" status. As long as the version has not been published, no new versions can be created. People with read permission on the file get the latest published version.###21 11 2023 new variable
+file#:#file_version_draft_info#:#The latest version of this file has the status ‘Draft’. As long as this version has not been published, no new versions can be created. People with read permission for the file get the most recent previously published version.###15 06 2026 new variable
 file#:#form_icon_creation#:#Create Icon###21 11 2023 new variable
 file#:#form_icon_updating#:#Update Icon###21 11 2023 new variable
 file#:#general_upload_error_occured#:#Ett oväntat fel uppstod under bearbetningen av filen.
@@ -9878,10 +9880,10 @@ file#:#input_desc_active#:#Activate this icon.###21 11 2023 new variable
 file#:#input_desc_icon#:#Image to be used as the icon for files with the specified suffixes.###21 11 2023 new variable
 file#:#input_desc_suffixes#:#List of comma-separated suffixes (characters and numbers only, without preceding full stop).###21 11 2023 new variable
 file#:#input_icon#:#Icon###21 11 2023 new variable
-file#:#input_suffixes#:#Suffixes###21 11 2023 new variable
+file#:#input_suffixes#:#Suffix(es)###15 06 2026 new variable
 file#:#migrated#:#Status
 file#:#mime_type#:#MIME Type###21 11 2023 new variable
-file#:#msg_cant_unpublish#:#Action could not be executed###21 11 2023 new variable
+file#:#msg_cant_unpublish#:#File could not be unpublished.###15 06 2026 new variable
 file#:#msg_confirm_entry_deletion#:#Are you sure you want to delete the following entry?:###21 11 2023 new variable
 file#:#msg_error_active_suffixes_blacklisted#:#One of the selected file extensions is on the global blacklist and cannot therefore be currently used.###21 11 2023 new variable
 file#:#msg_error_active_suffixes_conflict#:#Error: It is not possible to have multiple icons activated for the same suffix. Please deactivate either this icon or the other activated icon whose suffixes overlap with those of this icon.###21 11 2023 new variable
@@ -9904,7 +9906,7 @@ file#:#preview_persisting#:#Persistent Preview Images###21 11 2023 new variable
 file#:#preview_persisting_info#:#Generated preview images will be stored by ILIAS and used from then on each time the preview icon for that file is clicked on. If deactivated, previews will be generated anew each time.###21 11 2023 new variable
 file#:#previews_for_tiles#:#Tiles###21 05 2025 new variable
 file#:#previews_for_tiles_info#:#Use Preview for Tiles where possible.###21 05 2025 new variable
-file#:#publish_before_delete#:#Version(s) could not be deleted because an unpublished draft exists.###21 11 2023 new variable
+file#:#publish_before_delete#:#It was not possible to delete any of the existing versions because an unpublished draft exists.###15 06 2026 new variable
 file#:#replace_file_info#:#Alla filversioner raderas.
 file#:#resource_id#:#Resurser ID
 file#:#service_settings#:#Additional Features###26 08 2024 new variable
@@ -9914,9 +9916,9 @@ file#:#show_amount_of_downloads#:#Show Number of Downloads###21 11 2023 new vari
 file#:#show_amount_of_downloads_info#:#Display the number of times a file object has been downloaded on its 'Info' page.###21 11 2023 new variable
 file#:#storage_id#:#ID för lagring
 file#:#suffix_specific_icons#:#Suffix-Specific Icons###21 11 2023 new variable
-file#:#suffixes#:#Suffixes###21 11 2023 new variable
+file#:#suffixes#:#Suffix(es)###15 06 2026 new variable
 file#:#upload_files#:#Upload Files###21 11 2023 new variable
-file#:#upload_files_limit#:#The maximum size of a file is %s.###21 11 2023 new variable
+file#:#upload_files_limit#:#The maximum file size allowed is %s.###15 06 2026 new variable
 file#:#upload_files_title#:#Upload Files###21 11 2023 new variable
 file#:#upload_info#:#Fil
 file#:#upload_info_desc#:#Du kan hantera filerna och filversionerna på fliken "Versioner".
@@ -9936,21 +9938,21 @@ fils#:#file_suffix_default_positive#:#Filtillägg
 fils#:#file_suffix_default_positive_info#:#Förinställd utdatalista för accepterade filtillägg.
 fils#:#file_suffix_overall_positive#:#Effektiv positiv lista
 fils#:#file_suffix_overall_positive_info#:#Detta är den slutliga listan över godkända filändelser.
-fils#:#policy_audience#:#Audience###21 11 2023 new variable
-fils#:#policy_audience_all_users_option_desc#:#Apply policy for all users.###21 11 2023 new variable
-fils#:#policy_audience_global_roles_option_desc#:#Apply policy for users with specific global roles.###21 11 2023 new variable
+fils#:#policy_audience#:#Target Group###15 06 2026 new variable
+fils#:#policy_audience_all_users_option_desc#:#Apply policy to all users.###15 06 2026 new variable
+fils#:#policy_audience_global_roles_option_desc#:#Apply policy to users with specific global roles.###15 06 2026 new variable
 fils#:#policy_confirm_deletion#:#Are you sure you want to delete the policy with the following properties?:###21 11 2023 new variable
-fils#:#policy_deletion_failure_not_found#:#Error: Deletion failed due to policy not being found.###21 11 2023 new variable
-fils#:#policy_deletion_successful#:#Deletion of policy was successful.###21 11 2023 new variable
+fils#:#policy_deletion_failure_not_found#:#Error: Deletion failed because policy could not be found.###15 06 2026 new variable
+fils#:#policy_deletion_successful#:#Policy successfully deleted.###15 06 2026 new variable
 fils#:#policy_filter#:#Policy Filter###21 11 2023 new variable
 fils#:#policy_no_validity_limitation_set#:#Valid indefinitely###21 11 2023 new variable
 fils#:#policy_scope#:#Scope###21 11 2023 new variable
 fils#:#policy_table_info_no_policies#:#No upload policies have been created yet.###21 11 2023 new variable
-fils#:#policy_title_desc#:#Descriptive title for the policy.###21 11 2023 new variable
+fils#:#policy_title_desc#:#Descriptive title for this policy.###15 06 2026 new variable
 fils#:#policy_upload_limit#:#Upload Limit###21 11 2023 new variable
-fils#:#policy_upload_limit_desc#:#Upload limit which is set by this policy in MB.###21 11 2023 new variable
+fils#:#policy_upload_limit_desc#:#Upload limit (in MB) imposed by this policy.###15 06 2026 new variable
 fils#:#policy_valid_until#:#Valid Until###21 11 2023 new variable
-fils#:#policy_valid_until_desc#:#Set an optional 'valid until' date after which the policy expires.###21 11 2023 new variable
+fils#:#policy_valid_until_desc#:#Set an optional ‘valid until’ date, after which the policy expires.###15 06 2026 new variable
 fils#:#policy_validity#:#Validity###21 11 2023 new variable
 fils#:#upload_limits#:#Upload Limits###21 11 2023 new variable
 fils#:#upload_policies#:#Upload Policies###21 11 2023 new variable
@@ -10198,7 +10200,7 @@ forum#:#post_activation_desc#:#Alla bidrag måste aktiveras av moderatorn ###Mod
 forum#:#post_censored_by#:#följande inlägg i forumet "%2$s" censurerades av "%1$s
 forum#:#post_censored_comment_by_moderator#:#Inlägget censurerat! Moderatorns anmärkning###Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
 forum#:#post_deleted_by#:#följande inlägg i forumet "%2$s" raderades av "%1$s
-forum#:#post_draft_info#:#This posting draft is only visible for you.###21 11 2023 new variable
+forum#:#post_draft_info#:#This post draft is only visible for you.###15 06 2026 new variable
 forum#:#post_reply#:#Re
 forum#:#post_reply_count#:#Re (%s)
 forum#:#post_uncensored_by#:#för följande inlägg har censuren av "%1$s" upphävts
@@ -10245,7 +10247,7 @@ glo#:#glo_add_glossary#:#Add Glossary###21 11 2023 new variable
 glo#:#glo_add_to_collection#:#Add Glossary to Collection Glossary###21 11 2023 new variable
 glo#:#glo_added_to_collection_info#:#The selected glossary has been added to the collection glossary.###21 11 2023 new variable
 glo#:#glo_answered_correctly#:#I got it right###21 11 2023 new variable
-glo#:#glo_answered_not_correctly#:#I was wrong###21 11 2023 new variable
+glo#:#glo_answered_not_correctly#:#I didn't know###15 06 2026 new variable
 glo#:#glo_box#:#Box###21 11 2023 new variable
 glo#:#glo_box_completed#:#You have completed the box.###21 11 2023 new variable
 glo#:#glo_box_last_presented#:#Box Last Presented###21 11 2023 new variable
@@ -10253,7 +10255,7 @@ glo#:#glo_boxes#:#Boxes###21 11 2023 new variable
 glo#:#glo_boxes_really_reset#:#Do you really want to reset all boxes? All flashcards will be moved to the first box.###21 11 2023 new variable
 glo#:#glo_boxes_reset#:#The boxes have been reset successfully.###21 11 2023 new variable
 glo#:#glo_bulk_confirmation#:#Please check if all terms and definitions are listed correctly.###21 11 2023 new variable
-glo#:#glo_bulk_creation#:#Bulk Creation###21 11 2023 new variable
+glo#:#glo_bulk_creation#:#Paste From Excel###15 06 2026 new variable
 glo#:#glo_change_to_collection_unavailable_info#:#To change the type of content assembly to "Collection Glossary", you first have to delete all existing terms within this glossary in tab "Content".###21 11 2023 new variable
 glo#:#glo_change_to_standard_unavailable_info#:#To change the type of content assembly to "Standard Glossary", you first have to remove the selected glossaries in tab "Content".###21 11 2023 new variable
 glo#:#glo_check#:#Check###21 05 2025 new variable
@@ -10263,7 +10265,7 @@ glo#:#glo_collection_info#:#Ordlistan samlar automatiskt in ytterligare termer f
 glo#:#glo_content_assembly#:#Sammansättning av innehållet
 glo#:#glo_copy#:#Kopiera ordlista
 glo#:#glo_copy_terms#:#Kopieringsvillkor
-glo#:#glo_create_term_definition_pairs#:#Create Term/Definition Pairs###21 11 2023 new variable
+glo#:#glo_create_term_definition_pairs#:#Create finally###15 06 2026 new variable
 glo#:#glo_days_ago#:#%s days ago###21 11 2023 new variable
 glo#:#glo_def_vs_term#:#Definition vs. Term###21 11 2023 new variable
 glo#:#glo_def_vs_term_info#:#Show a definition first, the learner has to guess the term.###21 11 2023 new variable
@@ -10299,8 +10301,8 @@ glo#:#glo_show_in_presentation_off#:#Hide in Presentation View###21 11 2023 new 
 glo#:#glo_show_in_presentation_on#:#Show in Presentation View###21 11 2023 new variable
 glo#:#glo_tax_info#:#A taxonomy in a Glossary classifies and filters the terms. It always is available in the editing view. For the presentation view, the taxonomy must first be activated. In glossaries, only one taxonomy can be used.###21 11 2023 new variable
 glo#:#glo_term#:#Glossarisk term
-glo#:#glo_term_definition_pairs#:#Term/Definition Pairs###21 11 2023 new variable
-glo#:#glo_term_definition_pairs_info#:#Please enter a term and a definition pair in each line. Term and definition must be separated by a semicolon or a TAB character (usually provided by clipboard actions from spreadsheet applications).###21 11 2023 new variable
+glo#:#glo_term_definition_pairs#:#Data Copied From Excel###15 06 2026 new variable
+glo#:#glo_term_definition_pairs_info#:#Copy and paste data from your Excel spreadsheet to this input field. Generally speaking, you should be able to use your spreadsheet clipboard for this.<br />Otherwise please separate term and definition manually using a semicolon (;) or the TAB (↹ - key).###15 06 2026 new variable
 glo#:#glo_term_letter#:#Letter###21 11 2023 new variable
 glo#:#glo_term_reference#:#termlink
 glo#:#glo_term_vs_def#:#Term vs. Definition###21 11 2023 new variable
@@ -10671,7 +10673,7 @@ irss#:#directory_name#:#Directory Name###26 08 2024 new variable
 irss#:#directory_name_info#:#Name of the directory to be inserted at the current location.###26 08 2024 new variable
 irss#:#download_zip#:#Download all files as ZIP###26 08 2024 new variable
 irss#:#file_size#:#File Size (This Revision)###21 11 2023 new variable
-irss#:#file_size_bigger_than#:#File Size greater than (MB)###21 11 2023 new variable
+irss#:#file_size_bigger_than#:#File Size > MB###15 06 2026 new variable
 irss#:#full_size#:#Resource Size (All Revisions)###21 11 2023 new variable
 irss#:#home_directory#:#Root-Directory###26 08 2024 new variable
 irss#:#max_revision#:#Max. Revision
@@ -10931,7 +10933,7 @@ ldoc#:#ldoc_doc_crit_changed#:#The criterion for displaying your document has be
 ldoc#:#ldoc_doc_crit_detached#:#The criterion has been removed.###21 11 2023 new variable
 ldoc#:#ldoc_doc_delete#:#Delete Document###21 11 2023 new variable
 ldoc#:#ldoc_doc_detach_crit_confirm_title#:#Remove Criterion###21 11 2023 new variable
-ldoc#:#ldoc_doc_sure_detach_crit#:#Are you sure that you want to remove this as the criterion for displaying your Terms of Service document?###21 11 2023 new variable
+ldoc#:#ldoc_doc_sure_detach_crit#:#Are you sure that you want to remove this as the criterion for displaying your document?###15 06 2026 new variable
 ldoc#:#ldoc_document#:#Document###21 11 2023 new variable
 ldoc#:#ldoc_enabled#:#Enabled###21 11 2023 new variable
 ldoc#:#ldoc_form_attach_criterion_head#:#Select Criterion for Displaying your Document###21 11 2023 new variable
@@ -11497,13 +11499,13 @@ mail#:#link_check_perma_link#:#Permanent länk
 mail#:#link_check_reason#:#Du får detta meddelande eftersom du har aktiverat meddelandet om ogiltiga externa länkar.
 mail#:#mail_1#:#1 Mail###28 10 2024 new variable
 mail#:#mail_absence_auto_responder_body#:#Message###21 11 2023 new variable
-mail#:#mail_absence_auto_responder_body_hint#:#This is an automatically created message. You will not receive this kind of message until [NEXT_AUTO_RESPONDER_DATETIME].###21 11 2023 new variable
-mail#:#mail_absence_auto_responder_body_info#:#This message will be sent automatically during your absence when users send you an ILIAS internal message.<br>Users will be notified of your absence every %1$s days if they send further messages.###21 11 2023 new variable
-mail#:#mail_absence_auto_responder_body_info_single_day#:#This message will be sent automatically during your absence when users send you an ILIAS internal message.<br>Users will be notified again of your absence the next day if they send further messages.###21 11 2023 new variable
+mail#:#mail_absence_auto_responder_body_hint#:#This is an automatically generated message. If you send further messages to this user during their absence, you will not receive another automatic reply until [NEXT_AUTO_RESPONDER_DATETIME].###15 06 2026 new variable
+mail#:#mail_absence_auto_responder_body_info#:#This message will be sent automatically during your absence if users send you a Mail from within ILIAS. <br>Users will be notified of your absence every %1$s days if they send further messages.###15 06 2026 new variable
+mail#:#mail_absence_auto_responder_body_info_single_day#:#This message will be sent automatically during your absence if users send you a Mail from within ILIAS. <br>Users will be notified again of your absence the next day if they send further messages.###15 06 2026 new variable
 mail#:#mail_absence_auto_responder_subject#:#Subject###21 11 2023 new variable
 mail#:#mail_absence_duration#:#Duration###21 11 2023 new variable
 mail#:#mail_absence_status#:#Enable Autoresponder###21 11 2023 new variable
-mail#:#mail_absence_status_info#:#Activation of the automatic sending of an out of office message###21 11 2023 new variable
+mail#:#mail_absence_status_info#:#Activate an automatic out-of-office message.###15 06 2026 new variable
 mail#:#mail_absent_from#:#Absent from###21 11 2023 new variable
 mail#:#mail_absent_until#:#Absent until###21 11 2023 new variable
 mail#:#mail_account_mail#:#Informera om nytt konto
@@ -11521,8 +11523,8 @@ mail#:#mail_attachment_file_not_exist#:#Minst en av följande bilagor kunde inte
 mail#:#mail_attachments#:#Attachments
 mail#:#mail_auto_generated_info#:#Detta e-postmeddelande skickades automatiskt till dig av ILIAS-installationen %s, %s.
 mail#:#mail_auto_responder#:#Autoresponder###21 11 2023 new variable
-mail#:#mail_auto_responder_idle_time#:#Sending again###21 11 2023 new variable
-mail#:#mail_auto_responder_idle_time_info#:#Specify here how many days should elapse between resending an out-of-office note to the same sender.###21 11 2023 new variable
+mail#:#mail_auto_responder_idle_time#:#Resend###15 06 2026 new variable
+mail#:#mail_auto_responder_idle_time_info#:#Specify here how many days should elapse before your out-of-office reply is resent to a mail correspondent who has sent you further mails.###15 06 2026 new variable
 mail#:#mail_bcc#:#BCC
 mail#:#mail_bg_task_desc#:#Ämne
 mail#:#mail_bg_task_title#:#Utskick av e-post
@@ -12076,11 +12078,11 @@ meta#:#md_import_file_vocab#:#Import File###28 10 2024 new variable
 meta#:#md_import_vocab#:#Import###28 10 2024 new variable
 meta#:#md_import_vocab_modal#:#Import From File###28 10 2024 new variable
 meta#:#md_months#:#Månader
-meta#:#md_oai_contact_mail#:#Contact E-Mail###28 10 2024 new variable
+meta#:#md_oai_contact_mail#:#Contact e-mail of this organisation###15 06 2026 new variable
 meta#:#md_oai_identifier_prefix#:#OAI Prefix###28 10 2024 new variable
 meta#:#md_oai_identifier_prefix_info#:#This prefix is used as a namespace in the identifiers of returned OER records.###28 10 2024 new variable
 meta#:#md_oai_pmh_enabled#:#Allow Querying via OAI-PMH Interface###28 10 2024 new variable
-meta#:#md_oai_pmh_enabled_info#:#If enabled, harvested OER can be queried by external interested parties, e.g. OER referatories.###28 10 2024 new variable
+meta#:#md_oai_pmh_enabled_info#:#If enabled, harvested OER can be queried by external interested parties, e.g. OER repositories.###15 06 2026 new variable
 meta#:#md_oai_repository_name#:#Repository Name###28 10 2024 new variable
 meta#:#md_oai_repository_name_info#:#This is returned as the name of this ILIAS installation when queried.###28 10 2024 new variable
 meta#:#md_obj_types#:# Tilldelade objekt
@@ -12138,7 +12140,7 @@ meta#:#meta_advmd_select_option_position#:#Position###26 08 2024 new variable
 meta#:#meta_advmd_select_option_value#:#Value###26 08 2024 new variable
 meta#:#meta_advmd_select_options#:#Inträden
 meta#:#meta_advmd_select_options_edit#:#Edit Entries###26 08 2024 new variable
-meta#:#meta_advmd_select_position_identifier#:#After %s###26 08 2024 new variable
+meta#:#meta_advmd_select_position_identifier#:#After ‘%s’###15 06 2026 new variable
 meta#:#meta_aggregation_level#:#Aggregation Level###21 11 2023 new variable
 meta#:#meta_amaya#:#Amaya###21 11 2023 new variable
 meta#:#meta_annotation#:#Note
@@ -13080,7 +13082,7 @@ notifications_adm#:#osd_play_sound#:#Spela upp ljud
 notifications_adm#:#osd_play_sound_desc#:#Spela upp ljud när ett nytt meddelande tas emot.
 notifications_adm#:#osd_settings#:#Popup-aviseringar
 obj#:#activation_visible_when_disabled#:#Visibility###21 11 2023 new variable
-obj#:#activation_visible_when_disabled_info#:#If chosen, the material is visible even outside of the given availability.###21 11 2023 new variable
+obj#:#activation_visible_when_disabled_info#:#The item is visible outside of the selected availability period, but it cannot be opened.###15 06 2026 new variable
 obj#:#availability_period_changed#:#The availability period for the selected objects has been changed successfully.###21 11 2023 new variable
 obj#:#cont_filter_empty#:#Välkomna att använda filtret för att visa objekt.
 obj#:#cont_skll_published#:#Alla kompetensuppdrag har publicerats.
@@ -13089,7 +13091,7 @@ obj#:#copy_container_page_no_label#:#Don't Copy Content Page###21 11 2023 new va
 obj#:#copy_container_page_yes_byline#:#The content page and corresponding style settings of the source object will be copied to this object. Pre-existing page elements will be overwritten.###21 11 2023 new variable
 obj#:#copy_container_page_yes_label#:#Copy Content Page###21 11 2023 new variable
 obj#:#custom_icon#:#Custom Icon###21 11 2023 new variable
-obj#:#edit_availability_period#:#Edit Availability Period###21 11 2023 new variable
+obj#:#edit_availability_period#:#Availability Period###15 06 2026 new variable
 obj#:#edit_questions#:#Redigera frågor
 obj#:#multiple_reference_deletion_info#:#Further references exist for the following objects.###21 05 2025 new variable
 obj#:#no_objects_selected#:#At least one object needs to be selected.###21 11 2023 new variable
@@ -13456,7 +13458,7 @@ prg#:#msg_mark_relevant_failed#:#Markeras inte som relevant
 prg#:#msg_points_must_be_positive#:#Endast positiva poäng är tillåtna.
 prg#:#msg_unmark_accredited#:#%s Användare markerad som ej ackrediterad.
 prg#:#msg_unmark_accredited_failed#:#Remove ackreditering lyckades inte på
-prg#:#msg_update_certificate#:#%s Certificate updated.###21 11 2023 new variable
+prg#:#msg_update_certificate#:#%s Certificate(s) updated.###15 06 2026 new variable
 prg#:#msg_update_certificate_failed#:#Certificate(s) not updated:###26 08 2024 new variable
 prg#:#msg_update_from_settings#:#%s Användaren uppdaterad från inställningarna.
 prg#:#msg_update_from_settings_failed#:#Uppdateringen lyckades inte
@@ -13471,8 +13473,8 @@ prg#:#optgrp_label_validity#:#Avlopp
 prg#:#orgu#:#Organisatorisk enhet
 prg#:#pc_prg_action_note_label#:#Required Actions Study Programme###21 11 2023 new variable
 prg#:#pc_prg_statusinfo_label#:#Statusinformation Study Programme###21 11 2023 new variable
-prg#:#pc_prgactionnote_complete_content#:#Please complete the content.###21 11 2023 new variable
-prg#:#pc_prgactionnote_complete_content_with_deadline#:#Please complete the content until###21 11 2023 new variable
+prg#:#pc_prgactionnote_complete_content#:#You are assigned to the Study Programme, but have not completed its content. Please complete the content.###15 06 2026 new variable
+prg#:#pc_prgactionnote_complete_content_with_deadline#:#You are assigned to the Study Programme, but have not completed its content. Please complete the content until###15 06 2026 new variable
 prg#:#pc_prgactionnote_headline#:#Required actions###21 11 2023 new variable
 prg#:#pc_prgactionnote_no_actions_required#:#No actions required.###21 11 2023 new variable
 prg#:#pc_prgstatus_edit_qualification#:#Re-processing required from###21 11 2023 new variable
@@ -13568,11 +13570,11 @@ prg#:#prg_multi_change_expire_date#:#Anpassa kvalificeringsprocessen
 prg#:#prg_multi_mail_user#:#Skicka e-post
 prg#:#prg_multi_mark_accredited#:#Kredit
 prg#:#prg_multi_mark_relevant#:#Markera som relevant
-prg#:#prg_multi_remove_certificate#:#Remove Certificate###21 11 2023 new variable
+prg#:#prg_multi_remove_certificate#:#Remove Certificates###15 06 2026 new variable
 prg#:#prg_multi_remove_user#:#Ta bort användare
 prg#:#prg_multi_unmark_accredited#:#Ta bort ackreditering
 prg#:#prg_multi_unmark_relevant#:#Markera som irrelevant
-prg#:#prg_multi_update_certificate#:#Update Certificate###21 11 2023 new variable
+prg#:#prg_multi_update_certificate#:#Update Certificates###15 06 2026 new variable
 prg#:#prg_multi_update_from_current_plan#:#Uppdatera från den aktuella planen
 prg#:#prg_new#:#Skapa ett nytt studieprogram
 prg#:#prg_no_deadline#:#Ingen behandlingsperiod
@@ -14975,7 +14977,7 @@ registration#:#reg_direct_info#:#Om den är påslagen aktiveras alla nyregistrer
 registration#:#reg_disabled#:#Ingen registrering möjlig
 registration#:#reg_domain#:#domän (t.ex. "@din_domän.de")
 registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###26 08 2024 new variable
-registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###26 08 2024 new variable
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role.###15 06 2026 new variable
 registration#:#reg_email#:#Automatisk rolltilldelning
 registration#:#reg_email_domains#:#Följande domäner för e-postadresser är giltiga
 registration#:#reg_email_domains_code#:#När du använder en kod är alla e-postadresser möjliga.
@@ -15546,7 +15548,7 @@ search#:#search_show_inactive_user#:#Visa inaktiva användare
 search#:#search_show_inactive_user_info#:#Användarsökningen visar även användare vars konto inte är aktivt.
 search#:#search_show_limited_user#:#Visa tidsbegränsade användare
 search#:#search_show_limited_user_info#:#Användarsökningen visar även användare med tidsbegränsad åtkomst som antingen ännu inte har åtkomst till ILIAS eller inte längre har åtkomst.
-search#:#search_sort_by#:#Sortation: %s###28 10 2024 new variable
+search#:#search_sort_by#:#Sortation:###15 06 2026 new variable
 search#:#search_sort_creation_date_asc#:#Oldest###28 10 2024 new variable
 search#:#search_sort_creation_date_desc#:#Latest###28 10 2024 new variable
 search#:#search_sort_generic_asc#:#%s, asc.###28 10 2024 new variable
@@ -15756,7 +15758,7 @@ skmg#:#skmg_create_skill_template_reference#:#Infoga mall
 skmg#:#skmg_create_skll#:#Skapa kompetens
 skmg#:#skmg_custom_image_alt#:#Användardefinierad bild för kompetensprofil
 skmg#:#skmg_delete_profiles#:#Vill du verkligen radera följande profiler?
-skmg#:#skmg_delete_warning#:#Are you sure that you want to delete the following item(s)? When you delete the items, you also delete all usages, assignments and achievements of it. To be on the safe side, you find a list of all usages below. If the item is used in a competence profile, it will be removed from the profile, too. This may cause the fulfilment of the competence profile for the assigned users. If your are not sure whether an item should really be deleted, please use the statuses in the settings of a single item.###21 11 2023 new variable
+skmg#:#skmg_delete_warning#:#Are you sure that you want to delete the following competences, competence categories or competence trees? You also delete all record for objects and users. If the item is removed from a competence profile this may result in the competence profile being fulfilled for the assigned users. The list below shows how many times the item to be deleted is used in objects and by users. Please inspect the list below closely before actually deleting.###15 06 2026 new variable
 skmg#:#skmg_description_info#:#Beskrivningen är hämtad från mallen.
 skmg#:#skmg_edit_level#:#Redigera uttryck
 skmg#:#skmg_edit_profile#:#Redigera profil
@@ -15943,7 +15945,7 @@ style#:#icons_gallery#:#Icon Gallery
 style#:#image_dir#:#Icon folder
 style#:#image_dir_description#:#Mapp för att spara bilder (främst ikoner) av skinnet i fråga. Denna mapp kan delas med andra stilar och understilar.
 style#:#in_main_scss_file#:#is not imported inside the system styles main scss file:###21 11 2023 new variable
-style#:#invalid_scss_path#:#The provided sass/scss path is not valid or the webserver does not have the proper permission to read and execute sass/scss. Sass/scss (or the file linked to by the file pointed to by the scss path) has to be readabele and executable by your webserver.###21 11 2023 new variable
+style#:#invalid_scss_path#:#The provided sass/scss path is either not valid or the webserver does not have the proper permission to read and execute sass/scss. Sass/scss (or the file linked to by the file pointed to by the scss path) has to be readable and executable by your webserver.###15 06 2026 new variable
 style#:#ks_documentation_of_style#:#Dokumentärer om "Kitchen Sink" efter stil
 style#:#ks_documentation_of_substyle#:#"Kitchen Sink"-dokumentation efter understil
 style#:#main_scss_created#:#Main SCSS has been created:###26 08 2024 new variable
@@ -16887,7 +16889,7 @@ survey#:#svy_mail_send_confirmation#:#Skicka bekräftelse på deltagande
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#Kolumninställningarna summerar inte till 100%.
 survey#:#svy_max_sum_score#:#Maximal skala punkt summa
 survey#:#svy_neutral_answer#:#Text för ett neutralt svar ("Ej definierat", "Jag vet inte", "Ingen indikation" etc.).
-survey#:#svy_no_appraisees_found#:#No appraisees with feedbacks found.###21 11 2023 new variable
+survey#:#svy_no_appraisees_found#:#No appraisees have yet closed this survey to raters. As soon as an appraisee has done so, their competence results will be visible here.###15 06 2026 new variable
 survey#:#svy_notification_tutor_results#:#Ett e-postmeddelande med undersökningsresultaten
 survey#:#svy_notification_tutor_results_alert#:#Denna funktion kräver ett slutdatum.
 survey#:#svy_notification_tutor_results_info#:#Efter slutdatumet kommer ett e-postmeddelande att skickas med de detaljerade undersökningsresultaten.
@@ -16957,7 +16959,7 @@ survey#:#warning_question_not_complete#:#Frågan är ofullständig!
 survey#:#workingtime#:#Bearbetningstid
 svy#:#survey_360_appraisees_remind_info#:#Om självutvärdering är aktiverat kommer feedbackmottagare som ännu inte har slutfört undersökningen att få ett påminnelsemeddelande.
 svy#:#survey_360_raters_remind_info#:#Feedback-donatorer som ännu inte har slutfört undersökningen kommer att få ett påminnelsemeddelande.
-svy#:#svy_0_open_appraisees#:#You cannot perform the survey for any appraisee anymore.###28 10 2024 new variable
+svy#:#svy_0_open_appraisees#:#There are no more appraisees for you to rate or the survey is no longer open to raters.###15 06 2026 new variable
 svy#:#svy_all_pages#:#Alla sidor
 svy#:#svy_all_participants#:#Alla deltagare
 svy#:#svy_all_questions#:#Alla frågor
@@ -16965,7 +16967,7 @@ svy#:#svy_code#:#Access Code###28 10 2024 new variable
 svy#:#svy_codes#:#Nyckel för åtkomst
 svy#:#svy_current_page#:#Aktuell sida
 svy#:#svy_finish_survey#:#Redigera undersökning "%1
-svy#:#svy_finished_x_appraisees#:#You have finished the survey for %s appraisee(s).###28 10 2024 new variable
+svy#:#svy_finished_x_appraisees#:#You have already completed the survey for %s appraisee(s).###15 06 2026 new variable
 svy#:#svy_information#:#Information###28 10 2024 new variable
 svy#:#svy_invite_participants#:#Bjud in deltagare
 svy#:#svy_link_to_svy#:#Länk till undersökningen
@@ -16989,8 +16991,8 @@ svy#:#svy_user_added_rater_mail#:#Du har lagts till som en feedbackgivare.
 svy#:#svy_user_added_rater_reminder_mail#:#Bedöm fortfarande följande feedbackmottagare
 svy#:#svy_user_not_found#:#Ingen motsvarande användare hittades.
 svy#:#svy_users_invited#:#Användarna har bjudits in.
-svy#:#svy_x_appraisees_closed_for_raters#:#%s appraisee(s) has/have closed the survey for raters.###28 10 2024 new variable
-svy#:#svy_x_open_appraisees#:#%s appraisee(s) are open for you to rate.###28 10 2024 new variable
+svy#:#svy_x_appraisees_closed_for_raters#:#The survey has been closed to raters by %s appraisee(s).###15 06 2026 new variable
+svy#:#svy_x_open_appraisees#:#You have %s appraisee(s) awaiting your feedback.###15 06 2026 new variable
 svy#:#svy_your_appraisees#:#Your Appraisees###28 10 2024 new variable
 svy#:#svy_your_raters#:#Your Raters###28 10 2024 new variable
 svy#:#svy_your_raters_finished#:#%s of your raters have finished the survey.###28 10 2024 new variable
@@ -17387,11 +17389,11 @@ ui#:#4stars#:#four of five stars###26 08 2024 new variable
 ui#:#5stars#:#five of five stars###26 08 2024 new variable
 ui#:#datatable_close_warning#:#OK###26 08 2025 new variable
 ui#:#datatable_multiaction_label#:#Bulk Actions###26 08 2024 new variable
-ui#:#datatable_multiactionmodal_actionlabel#:#operation###21 11 2023 new variable
+ui#:#datatable_multiactionmodal_actionlabel#:#Action for All Entries###15 06 2026 new variable
 ui#:#datatable_multiactionmodal_apply#:#Apply###26 08 2024 new variable
-ui#:#datatable_multiactionmodal_listentry#:#apply to all objects###21 11 2023 new variable
-ui#:#datatable_multiactionmodal_msg#:#<b>Caution!</b> multiple objects affected.###21 11 2023 new variable
-ui#:#datatable_multiactionmodal_title#:#Operation on multiple objects###21 11 2023 new variable
+ui#:#datatable_multiactionmodal_listentry#:#Actions for Entire Table###15 06 2026 new variable
+ui#:#datatable_multiactionmodal_msg#:#Selected action will affect all entries in this table.###15 06 2026 new variable
+ui#:#datatable_multiactionmodal_title#:#Actions for Entire Table###15 06 2026 new variable
 ui#:#drilldown_no_items#:#No Matching Elements###26 08 2024 new variable
 ui#:#duration_default_label_end#:#Slut
 ui#:#duration_default_label_start#:#Begin
@@ -17409,16 +17411,16 @@ ui#:#label_pagination_offset#:#Pagination Offset###21 11 2023 new variable
 ui#:#label_sortation#:#Sortation###21 11 2023 new variable
 ui#:#order_option_alphabetical_ascending#:#A to Z###26 08 2024 new variable
 ui#:#order_option_alphabetical_descending#:#Z to A###26 08 2024 new variable
-ui#:#order_option_chronological_ascending#:#Earliest first###26 08 2024 new variable
-ui#:#order_option_chronological_descending#:#Most Recent first###26 08 2024 new variable
-ui#:#order_option_first#:#first###26 08 2024 new variable
-ui#:#order_option_generic_ascending#:#ascending###26 08 2024 new variable
-ui#:#order_option_generic_descending#:#descending###26 08 2024 new variable
+ui#:#order_option_chronological_ascending#:#Earliest First###15 06 2026 new variable
+ui#:#order_option_chronological_descending#:#Most Recent First###15 06 2026 new variable
+ui#:#order_option_first#:#First###15 06 2026 new variable
+ui#:#order_option_generic_ascending#:#Ascending###15 06 2026 new variable
+ui#:#order_option_generic_descending#:#Descending###15 06 2026 new variable
 ui#:#order_option_numerical_ascending#:#0 to 9###26 08 2024 new variable
 ui#:#order_option_numerical_descending#:#9 to 0###26 08 2024 new variable
-ui#:#presentation_table_collapse#:#collapse all###21 11 2023 new variable
-ui#:#presentation_table_expand#:#expand all###21 11 2023 new variable
-ui#:#rating_average#:#others rated %s of 5###26 08 2024 new variable
+ui#:#presentation_table_collapse#:#Collapse All###15 06 2026 new variable
+ui#:#presentation_table_expand#:#Expand All###15 06 2026 new variable
+ui#:#rating_average#:#Others rated %s of 5###15 06 2026 new variable
 ui#:#reset_stars#:#neutral###26 08 2024 new variable
 ui#:#table_posinput_col_title#:#Position###26 08 2024 new variable
 ui#:#ui_chars_max#:#Maximum
@@ -17446,7 +17448,7 @@ ui#:#vc_sort#:#Sort by:###21 05 2025 new variable
 ui#:#warning_url_too_long_msg#:#The amount of selected rows will result in a very large URL; the Server will probably block this request.<br>Please select less rows or perform the action on all entries.###26 08 2025 new variable
 user#:#all_roles_has_starting_point#:#Alla roller med definierad startsida
 user#:#back_to_starting_points_list#:#Tillbaka till startsidorna
-user#:#change_email_email_confirmation_body#:#The email address for the account %s was changed. To confirm this change, please click on this link %s. The link is valid for %s minutes.###28 10 2024 new variable
+user#:#change_email_email_confirmation_body#:#The email address for the account %s was changed. To confirm this change, please click on this link %s . The link is valid for %s minutes.###15 06 2026 new variable
 user#:#change_email_email_confirmation_subject#:#Confirm Email Address###28 10 2024 new variable
 user#:#change_email_email_information_body#:#The process to change the email address for the account %s to %s was started. An email with a link to confirm the change was sent to the new address. The link is valid for %s minutes.###28 10 2024 new variable
 user#:#change_email_email_information_subject#:#Information about Change of Email Address###28 10 2024 new variable
@@ -17594,7 +17596,7 @@ user#:#usr_public_profile_logged_in#:#Synlig för inloggade användare
 usr#:#user_action#:#Användaråtgärd
 usr#:#user_actions#:#Användaråtgärder
 usr#:#user_actions_activation_info#:#Åtgärderna erbjuds endast om motsvarande tjänster är aktiverade och de nödvändiga förutsättningarna (t.ex. tillstånd) är givna för användarna.
-validation#:#datetime_required#:#Time/Date required###21 11 2023 new variable
+validation#:#datetime_required#:#Time/date required###15 06 2026 new variable
 validation#:#no_array#:#Value är inte ett fält
 validation#:#not_a_null#:#Värde av typen '%s' är inte en nolla.
 validation#:#not_a_string#:#Värde av typen '%s' är inte en sträng.
@@ -17847,13 +17849,13 @@ wopi#:#activate_saving_interval#:#Activate Saving Interval###28 10 2024 new vari
 wopi#:#activate_wopi#:#Activate WOPI###21 11 2023 new variable
 wopi#:#close_wopi_editor#:#Close Editor###26 08 2024 new variable
 wopi#:#close_wopi_editor_info#:#It can take up to several minutes for the external editor to transfer the changes to ILIAS. Visit this page again at a later time if the changes you have made are not yet visible.###26 08 2024 new variable
-wopi#:#currently_supported#:#Currently supported Suffixes: %s###26 08 2024 new variable
+wopi#:#currently_supported#:#Currently supported Suffixes###15 06 2026 new variable
 wopi#:#msg_error_wopi_invalid_discorvery_url#:#The Discovery URL entered is invalid or cannot be accessed.###21 11 2023 new variable
-wopi#:#msg_wopi_settings_modified#:#Settings stored###21 11 2023 new variable
-wopi#:#open_external_editor#:#Open in external Editor###21 11 2023 new variable
+wopi#:#msg_wopi_settings_modified#:#Settings saved.###15 06 2026 new variable
+wopi#:#open_external_editor#:#Open in External Editor###15 06 2026 new variable
 wopi#:#open_external_viewer#:#Show Content###28 10 2024 new variable
 wopi#:#saving_interval#:#Interval###28 10 2024 new variable
-wopi#:#saving_interval_byline#:#By default, ILIAS adds all changes made by an external editor to a draft version until this version is published manually. Activating the save interval causes a new version to be published after the specified number of seconds, if possible. Please note that a low value can lead to a large number of file versions, which in turn takes up a multiple of the hard disk space.###28 10 2024 new variable
+wopi#:#saving_interval_byline#:#By default, ILIAS adds all changes made by an external editor to a draft version until this version is published manually. Activating the saving interval causes a new version to be published, if possible, after the specified number of seconds. Please note that a low value can lead to a large number of file versions, which in turn will take up a much larger amount of hard disk space.###15 06 2026 new variable
 wopi#:#wopi_crawler_cronjob_description#:#Updates the information of the connected WOPI service.###21 11 2023 new variable
 wopi#:#wopi_crawler_cronjob_no_apps#:#No WOPI apps were found in the discovery.###21 11 2023 new variable
 wopi#:#wopi_crawler_cronjob_not_activated#:#WOPI is not activated.###21 11 2023 new variable
@@ -17861,7 +17863,7 @@ wopi#:#wopi_crawler_cronjob_success#:#WOPI information updated successfully.###2
 wopi#:#wopi_crawler_cronjob_title#:#Update WOPI Discovery###21 11 2023 new variable
 wopi#:#wopi_settings#:#WOPI###21 11 2023 new variable
 wopi#:#wopi_url#:#WOPI Discovery URL###21 11 2023 new variable
-wopi#:#wopi_url_byline#:#Complete URL of the WOPI-Discovery, this must be accessible through the ILIAS server. The XML data of the Discover is read in and stored by ILIAS, the information is regularly updated by the cronjob "Update WOPI Discovery".###21 11 2023 new variable
+wopi#:#wopi_url_byline#:#Complete URL of the WOPI Discovery, which must be accessible via the ILIAS server. The XML data of the Discovery is read and saved by ILIAS. This information is regularly updated by the cronjob "Update WOPI Discovery". Example: https://example.org/hosting/discovery###15 06 2026 new variable
 wsp#:#element_already_shared#:#Resursen har redan släppts för denna person.###Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
 wsp#:#element_shared#:#Resursen har frigjorts.
 wsp#:#error_creating_certificate_pdf#:#Certifikatet kunde inte skapas. Låt en administratör kontrollera certifikatservern.
