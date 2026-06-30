@@ -13,4 +13,8 @@
 		<event type="raise" id="readNews" />
 		<event type="raise" id="unreadNews" />
 	</events>
+	<crons>
+		<cron id="news_delete_old" class="ilNewsCronDeleteOldItems" path="classes/Cron/" />
+	</crons>
+	<logging />
 </service>
