@@ -23,6 +23,7 @@ namespace ILIAS\Questions\Attempt;
 use ILIAS\Questions\AnswerForm\Response as AnswerFormResponse;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Manipulate;
+use ILIAS\Questions\Persistence\ManipulationType;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Database\FieldDefinition;
@@ -115,6 +116,7 @@ class Response
         PersistenceFactory $persistence_factory,
         TableDefinitions $table_definitions,
         TableNameBuilder $table_names_builder,
+        ManipulationType $manipulation_type,
         Manipulate $manipulate
     ): Manipulate {
         return array_reduce(
@@ -122,6 +124,7 @@ class Response
             fn(Manipulate $c, AnswerFormResponse $v): Manipulate
                 => $v->toStorage(
                     $persistence_factory,
+                    $manipulation_type,
                     $c
                 ),
             $manipulate->withAdditionalStatement(

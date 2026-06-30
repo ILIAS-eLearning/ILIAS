@@ -70,9 +70,54 @@ class TextFeedback extends TextFeedbackBase
     }
 
     #[\Override]
+    public function onAnswerFormClone(
+        UuidFactory $uuid_factory,
+        Properties $old_answer_form_properties,
+        Properties $new_answer_form_properties
+    ): static {
+        /** @var Gaps $old_gaps */
+        $old_gaps = $old_answer_form_properties->getGaps();
+        /** @var Gaps $new_gaps */
+        $new_gaps = $new_answer_form_properties->getGaps();
+
+        return array_reduce(
+            $this->getSpecificFeedbacks(),
+            function (
+                TextFeedback $c,
+                SpecificTextFeedback $v
+            ) use ($uuid_factory, $old_gaps, $new_gaps): self {
+                $old_gap = $old_gaps->getGapById($v->getParentId());
+                try {
+                    $answer_option_position = $old_gap
+                        ->getAnswerOptions()
+                        ->getAnswerOptionById(
+                            $uuid_factory->fromString($v->getCondition())
+                        )->getPosition();
+                    $new_answer_option_id = $new_gaps
+                        ->getGapByPosition($old_gap->getPosition())
+                        ->getAnswerOptions()
+                        ->getAnswerOptionForPositionOrNew($answer_option_position)
+                        ->getAnswerOptionId();
+
+                    return $c->withoutSpecificFeedback($v)
+                        ->withSpecificFeedback(
+                            $v->withCondition(
+                                $new_answer_option_id->toString()
+                            )
+                        );
+                } catch (InvalidUuidStringException $e) {
+                    return $c;
+                }
+            },
+            clone $this
+        );
+    }
+
+    #[\Override]
     public function onAnswerFormUpdate(
         Properties $answer_form_properties
     ): static {
+        /** @var Gaps $gaps */
         $gaps = $answer_form_properties->getGaps();
 
         return array_reduce(

@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Questions\AnswerForm\Capabilities;
 
 use ILIAS\Questions\AnswerForm\Properties;
+use ILIAS\Data\UUID\Factory as UuidFactory;
 
 interface Capability
 {
@@ -29,6 +30,12 @@ interface Capability
     public function isAvailableFor(
         Properties $answer_form_properties
     ): bool;
+
+    public function onAnswerFormClone(
+        UuidFactory $uuid_factory,
+        Properties $old_answer_form_properties,
+        Properties $new_answer_form_properties
+    ): void;
 
     public function onAnswerFormUpdate(
         Properties $answer_form_properties

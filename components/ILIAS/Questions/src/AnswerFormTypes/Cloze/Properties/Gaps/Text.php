@@ -104,7 +104,7 @@ class Text extends Type
             )->withRequired(true)
             ->withValue($gap->getTextMatchingMethod()?->value ?? self::DEFAULT_TECT_MATCHING_METHOD->value),
             'max_chars' => $ff->numeric(
-                $environment->getLanguage()->txt('max_chars'),
+                $environment->getLanguage()->txt('max_characters'),
             )->withValue($gap->getMaxChars())
         ];
     }

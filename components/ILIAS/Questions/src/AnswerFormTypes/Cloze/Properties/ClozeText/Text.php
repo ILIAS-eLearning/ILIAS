@@ -153,6 +153,16 @@ class Text
         );
     }
 
+    public function withUpdateMarkdownAfterCloning(
+        \Closure $replace_gaps
+    ): self {
+        $clone = clone $this;
+        $clone->cloze_text = $this->text_factory->markdown(
+            $replace_gaps($clone->cloze_text->getRawRepresentation())
+        );
+        return $clone;
+    }
+
     public function withIdsOfNewGapsInClozeText(
         array $new_gaps
     ): self {

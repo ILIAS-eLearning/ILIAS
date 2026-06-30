@@ -29,11 +29,12 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UICore\GlobalTemplate;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\Data\UUID\Factory as UuidFactory;
 
 class ilPCAnswerForm extends ilPageContent
 {
-    private const string ANSWER_FORM_ELEMENT_TAG = 'AnswerForm';
-    private const string ANSWER_FORM_ID_ATTRIBUTE = 'Uuid';
+    public const string ANSWER_FORM_ELEMENT_TAG = 'AnswerForm';
+    public const string ANSWER_FORM_ID_ATTRIBUTE = 'Uuid';
     private const string ANSWER_FORM_PLACEHOLDER = '\[\[\[ANSWER_FORM_([0-9a-f\-]+)\]\]\]';
 
     public function init(): void
@@ -92,74 +93,83 @@ class ilPCAnswerForm extends ilPageContent
 
         global $DIC;
         $dom_util = $DIC->copage()->internal()->domain()->domUtil();
+        /** @var Repository $question_repository */
         $question_repository = LocalDIC::dic()[Repository::class];
+
+        $uuid_factory = new UuidFactory();
 
         /** @var \ILIAS\Questions\Question\Question $question */
         $question = $page->getQuestion();
 
+        $answer_form_mapping = \QstsQuestionPage::getAnswerFormMapping();
+        \QstsQuestionPage::setAnswerFormMapping([]);
+
         $answer_forms = [];
         foreach ($dom_util->path($domdoc, '//AnswerForm') as $node) {
-            $answer_forms[] = $node->getAttribute(self::ANSWER_FORM_ID_ATTRIBUTE);
+            $answer_form_id = $node->getAttribute(self::ANSWER_FORM_ID_ATTRIBUTE);
+            $answer_form = $question->getAnswerFormPropertiesByIdString($answer_form_id);
+
+            if ($answer_form === null && in_array($answer_form_id, $answer_form_mapping)) {
+                $old_answer_form_id = array_search($answer_form_id, $answer_form_mapping);
+                $old_answer_form = $question->getAnswerFormPropertiesByIdString(
+                    $old_answer_form_id
+                );
+
+                if ($old_answer_form === null) {
+                    $old_answer_form_uuid = $uuid_factory->fromString($answer_form_id);
+                    $old_answer_form = $question_repository->getQuestionForAnswerFormId(
+                        $old_answer_form_uuid
+                    )->getAnswerFormPropertiesByIdString(
+                        $old_answer_form_uuid
+                    );
+                }
+
+                $question = $question->withAnswerFormProperties(
+                    $old_answer_form->clone(
+                        $uuid_factory,
+                        [
+                            'new_question_id' => $question->getId(),
+                            'answer_form_id' => $uuid_factory->fromString(
+                                $answer_form_id
+                            )
+                        ]
+                    )
+                );
+            }
+
+            $answer_forms[] = $answer_form_id;
         }
 
+        $page->setQuestion($question->withoutDeletedAnswerForms($answer_forms));
+
         $question_repository->update(
-            [$question->withoutDeletedAnswerForms($answer_forms)]
+            [$page->getQuestion()]
         );
     }
 
     #[\Override]
     public static function handleCopiedContent(
-        DOMDocument $a_domdoc,
-        bool $a_self_ass = true,
-        bool $a_clone_mobs = false,
+        DOMDocument $domdoc,
+        bool $self_ass = true,
+        bool $clone_mobs = false,
         int $new_parent_id = 0,
         int $obj_copy_id = 0
     ): void {
         global $DIC;
-
         $dom_util = $DIC->copage()->internal()->domain()->domUtil();
 
-        // handle question elements
-        if ($a_self_ass) {
-            // copy questions
-            $path = "//Question";
-            $nodes = $dom_util->path($a_domdoc, $path);
-            foreach ($nodes as $node) {
-                $qref = $node->getAttribute("QRef");
+        $answer_form_mapping = \QstsQuestionPage::getAnswerFormMapping();
+        if ($answer_form_mapping === []) {
+            return;
+        }
 
-                $inst_id = ilInternalLink::_extractInstOfTarget($qref);
-                $q_id = ilInternalLink::_extractObjIdOfTarget($qref);
-
-                if (!($inst_id > 0)) {
-                    if ($q_id > 0) {
-                        $question = null;
-                        try {
-                            $question = assQuestion::instantiateQuestion($q_id);
-                        } catch (Exception $e) {
-                        }
-                        // check due to #16557
-                        if (is_object($question) && $question->isComplete()) {
-                            // check if page for question exists
-                            // due to a bug in early 4.2.x version this is possible
-                            if (!ilPageObject::_exists("qpl", $q_id)) {
-                                $question->createPageObject();
-                            }
-
-                            // now copy this question and change reference to
-                            // new question id
-                            $duplicate_id = $question->duplicate(false);
-                            $node->setAttribute("QRef", "il__qst_" . $duplicate_id);
-                        }
-                    }
-                }
-            }
-        } else {
-            // remove question
-            $path = "//Question";
-            $nodes = $dom_util->path($a_domdoc, $path);
-            foreach ($nodes as $node) {
-                $parent = $node->parentNode;
-                $parent->parentNode->removeChild($parent);
+        foreach ($dom_util->path($domdoc, '//AnswerForm') as $node) {
+            $old_answer_form_id = $node->getAttribute(self::ANSWER_FORM_ID_ATTRIBUTE);
+            if (isset($answer_form_mapping[$old_answer_form_id])) {
+                $node->setAttribute(
+                    self::ANSWER_FORM_ID_ATTRIBUTE,
+                    $answer_form_mapping[$old_answer_form_id]
+                );
             }
         }
     }
