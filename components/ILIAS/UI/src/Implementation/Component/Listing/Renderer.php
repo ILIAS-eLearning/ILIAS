@@ -123,6 +123,9 @@ class Renderer extends AbstractComponentRenderer
 
     protected function bindAndApplyJavaScript(Component\JavaScriptBindable $component, Template $template): void
     {
-        $template->setVariable('ID', $this->bindJavaScript($component) ?? $this->createId());
+        $id = $this->bindJavaScript($component);
+        if (null !== $id) {
+            $template->setVariable('ID', $id);
+        }
     }
 }

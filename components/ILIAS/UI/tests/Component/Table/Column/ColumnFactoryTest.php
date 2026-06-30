@@ -67,7 +67,7 @@ class ColumnFactoryTest extends AbstractFactoryTestCase
             [static fn($f) => [Column\StatusIcon::class, $f->statusIcon("")]],
             [static fn($f) => [Column\Link::class, $f->link("")]],
             [static fn($f) => [Column\EMail::class, $f->eMail("")]],
-            [static fn($f) => [Column\LinkListing::class, $f->linkListing("")]]
+            [static fn($f) => [Column\Listing::class, $f->listing("")]]
         ];
     }
 

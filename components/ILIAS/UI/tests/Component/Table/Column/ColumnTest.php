@@ -143,28 +143,6 @@ class ColumnTest extends ILIAS_UI_TestBase
         };
         return [
             [
-                'column' => new Column\LinkListing($lng, ''),
-                'value' => (new Listing\Unordered([(new Link\Standard('label', '#')),(new Link\Standard('label', '#'))]))
-                    ->withIsTruncated(true),
-                'ok' => true
-            ],
-            [
-                'column' => new Column\LinkListing($lng, ''),
-                'value' => (new Listing\Unordered(['string', 'string']))->withIsTruncated(true),
-                'ok' => false
-            ],
-            [
-                'column' => new Column\LinkListing($lng, ''),
-                'value' => (new Listing\Ordered([(new Link\Standard('label', '#')),(new Link\Standard('label', '#'))]))
-                    ->withIsTruncated(true),
-                'ok' => true
-            ],
-            [
-                'column' => new Column\LinkListing($lng, ''),
-                'value' => 123,
-                'ok' => false
-            ],
-            [
                 'column' => new Column\Link($lng, ''),
                 'value' => new Link\Standard('label', '#'),
                 'ok' => true
@@ -186,12 +164,12 @@ class ColumnTest extends ILIAS_UI_TestBase
             ],
             [
                 'column' => new Column\Listing($lng, ''),
-                'value' => (new Listing\Ordered(['1', '2', '3']))->withIsTruncated(true),
+                'value' => (new Listing\Ordered(['1', '2', '3'])),
                 'ok' => true
             ],
             [
                 'column' => new Column\Listing($lng, ''),
-                'value' => (new Listing\Unordered(['1', '2', '3']))->withIsTruncated(true),
+                'value' => (new Listing\Unordered(['1', '2', '3'])),
                 'ok' => true
             ],
             [
@@ -216,35 +194,17 @@ class ColumnTest extends ILIAS_UI_TestBase
     }
 
 
-    public function testDataTableColumnLinkListingFormat(): void
+    public function testDataTableColumnListingFormat(): void
     {
-        $col = new Column\LinkListing($this->lng, 'col');
+        $col = new Column\Listing($this->lng, 'col');
         $link = new Link\Standard('label', '#');
-        $linklisting = (new Listing\Unordered([$link, $link, $link]))->withIsTruncated(true);
+        $linklisting = (new Listing\Unordered([$link, $link, $link]));
         $this->assertEquals($linklisting, $col->format($linklisting));
-    }
-
-    public function testDataTableColumnLinkListingFormatAcceptsOnlyLinkListings(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $col = new Column\LinkListing($this->lng, 'col');
-        $linklisting_invalid = new Link\Standard('label', '#');
-        $this->assertEquals($linklisting_invalid, $col->format($linklisting_invalid));
-    }
-
-    public function testDataTableColumnLinkListingItemsFormatAcceptsOnlyLinks(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $col = new Column\LinkListing($this->lng, 'col');
-        $link = 'some string';
-        $linklisting_invalid = new Listing\Unordered([$link, $link, $link]);
-        $this->assertEquals($linklisting_invalid, $col->format($linklisting_invalid));
     }
 
     public function testDataTableColumnCustomOrderingLabels(): void
     {
-        $col = (new Column\LinkListing($this->lng, 'col'))
-            ->withIsSortable(true)
+        $col = (new Column\Listing($this->lng, 'col'))
             ->withOrderingLabels(
                 'custom label ASC',
                 'custom label DESC',
