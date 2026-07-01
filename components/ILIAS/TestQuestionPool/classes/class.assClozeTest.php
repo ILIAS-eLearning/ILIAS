@@ -1800,7 +1800,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             $clone->cloze_text = $tt->string($normalized['cloze_text']);
             $clone->textgap_rating = $tt->string($normalized['textgap_rating']);
             $clone->identical_scoring = $tt->bool($normalized['identical_scoring']);
-            $clone->fixed_text_length = $tt->int($normalized['fixed_text_length']);
+            $clone->fixed_text_length = $tt->nullableInt($normalized['fixed_text_length']);
             $clone->gap_combinations_exist = $tt->bool($normalized['gap_combinations_exist']);
             $clone->gap_combinations = $normalized['gap_combinations'];
 
