@@ -54,15 +54,15 @@ abstract class ilMailTemplateContext
 
     /**
      * @return array{
-     *     mail_salutation: array{placeholder: string, label: string, supportsNestedPlaceholders?: true},
-     *     first_name: array{placeholder: string, label: string},
-     *     last_name: array{placeholder: string, label: string},
-     *     login: array{placeholder: string, label: string},
-     *     title: array{placeholder: string, label: string, supportsCondition: true},
-     *     firstname_lastname_superior: array{placeholder: string, label: string},
+     *     mail_salutation: array{placeholder: string, label: string, requiresRecipient: true, supportsNestedPlaceholders: true},
+     *     first_name: array{placeholder: string, label: string, requiresRecipient: true},
+     *     last_name: array{placeholder: string, label: string, requiresRecipient: true},
+     *     login: array{placeholder: string, label: string, requiresRecipient: true},
+     *     title: array{placeholder: string, label: string, requiresRecipient: true},
+     *     firstname_lastname_superior: array{placeholder: string, label: string, requiresRecipient: true},
      *     ilias_url: array{placeholder: string, label: string},
      *     installation_name: array{placeholder: string, label: string}
-     *     }
+     * }
      */
     private function getGenericPlaceholders(): array
     {
@@ -92,7 +92,6 @@ abstract class ilMailTemplateContext
                 'placeholder' => 'TITLE',
                 'label' => $this->getLanguage()->txt('mail_nacc_title'),
                 'requiresRecipient' => true,
-                'supportsCondition' => true,
             ],
             'firstname_lastname_superior' => [
                 'placeholder' => 'FIRSTNAME_LASTNAME_SUPERIOR',
@@ -132,7 +131,6 @@ abstract class ilMailTemplateContext
      *     placeholder: string,
      *     label: string,
      *     requiresRecipient?: bool,
-     *     supportsCondition?: bool,
      *     supportsNestedPlaceholders?: bool
      * }>
      */
@@ -149,7 +147,6 @@ abstract class ilMailTemplateContext
      *     placeholder: string,
      *     label: string,
      *     requiresRecipient?: bool,
-     *     supportsCondition?: bool,
      *     supportsNestedPlaceholders?: bool
      * }>
      */
@@ -162,18 +159,7 @@ abstract class ilMailTemplateContext
             return false;
         }
 
-        return $this->placeholderDefinitionRequiresRecipient($found['key'], $found['definition']);
-    }
-
-    public function supportsConditionByPlaceholderName(string $placeholder_name): bool
-    {
-        $found = $this->findPlaceholderByMustacheName($placeholder_name);
-        if ($found === null) {
-            return false;
-        }
-
-        return isset($found['definition']['supportsCondition']) &&
-            $found['definition']['supportsCondition'];
+        return $this->placeholderDefinitionRequiresRecipient($found['definition']);
     }
 
     /**
@@ -181,7 +167,6 @@ abstract class ilMailTemplateContext
      *     placeholder: string,
      *     label: string,
      *     requiresRecipient?: bool,
-     *     supportsCondition?: bool,
      *     supportsNestedPlaceholders?: bool
      * }}|null
      */
@@ -206,15 +191,12 @@ abstract class ilMailTemplateContext
      *     placeholder: string,
      *     label: string,
      *     requiresRecipient?: bool,
-     *     supportsCondition?: bool,
      *     supportsNestedPlaceholders?: bool
      * } $placeholder_definition
      */
-    private function placeholderDefinitionRequiresRecipient(string $key, array $placeholder_definition): bool
+    private function placeholderDefinitionRequiresRecipient(array $placeholder_definition): bool
     {
-        return $placeholder_definition['requiresRecipient'] ??
-            (array_key_exists($key, $this->getGenericPlaceholders()) &&
-            !in_array($key, ['ilias_url', 'installation_name'], true));
+        return $placeholder_definition['requiresRecipient'] ?? false;
     }
 
     /**

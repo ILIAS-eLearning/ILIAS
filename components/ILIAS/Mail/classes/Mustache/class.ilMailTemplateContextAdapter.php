@@ -76,15 +76,9 @@ class ilMailTemplateContextAdapter
 
         if ($this->recipient === null) {
             foreach ($this->contexts as $context) {
-                if (!$context->requiresRecipientByPlaceholderName($name)) {
-                    continue;
+                if ($context->requiresRecipientByPlaceholderName($name)) {
+                    return $name;
                 }
-
-                if ($context->supportsConditionByPlaceholderName($name)) {
-                    return '';
-                }
-
-                return $name;
             }
         }
 
