@@ -17,11 +17,12 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
+use ILIAS\Refinery\Transformation;
+use ILIAS\TestQuestionPool\ExportImport\Envelopes\QuestionImage;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
-use ILIAS\Refinery\Transformation;
-use ILIAS\TestQuestionPool\ExportImport\Envelopes\QuestionImage;
 
 /**
 * Class represents an ordering element for assOrderingQuestion
@@ -474,7 +475,12 @@ class ilAssOrderingElement implements Normalizable
                         ->withPosition($tt->int($normalized['position']))
                         ->withIndentation($tt->int($normalized['indentation']));
 
-            $clone->setContent($tt->denormalize($normalized['content'], QuestionImage::class)?->getFilename());
+            if (is_array($normalized['content'])) {
+                $clone->setContent($tt->denormalize($normalized['content'], QuestionImage::class)?->getFilename());
+            } else {
+                $clone->setContent((string) $normalized['content']);
+            }
+
             $clone->setId($tt->denormalize($normalized['id'], Id::class)->getId());
 
             return $clone;
