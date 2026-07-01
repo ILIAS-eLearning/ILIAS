@@ -241,7 +241,28 @@ class ilFileXMLParser extends ilSaxParser
 
                 $baseDecodedFilename = ilFileUtils::ilTempnam();
                 if ($this->mode === ilFileXMLParser::$CONTENT_COPY) {
-                    $this->tmpFilename = $this->getImportDirectory() . "/" . self::normalizeRelativePath($this->cdata);
+                    // SECURITY (ILIAS10-025): COPY mode is only valid inside a trusted
+                    // import/zip context where setImportDirectory() has been called.
+                    // A null import directory produces an absolute attacker-controlled
+                    // path -> arbitrary file read as www-data.
+                    $importDir = $this->getImportDirectory();
+                    if ($importDir === null || $importDir === '') {
+                        throw new ilFileException(
+                            'COPY mode requires a sandboxed import directory.',
+                            ilFileException::$ID_MISMATCH
+                        );
+                    }
+                    $rel      = self::normalizeRelativePath($this->cdata);
+                    $base     = realpath($importDir);
+                    $resolved = realpath($importDir . '/' . $rel);
+                    if ($base === false || $resolved === false
+                        || !str_starts_with($resolved, $base . DIRECTORY_SEPARATOR)) {
+                        throw new ilFileException(
+                            'COPY mode path must stay within the import directory.',
+                            ilFileException::$ID_MISMATCH
+                        );
+                    }
+                    $this->tmpFilename = $resolved;
                 } // begin-patch fm
                 elseif ($this->mode === ilFileXMLParser::$CONTENT_REST) {
                     $storage = new ilRestFileStorage();
