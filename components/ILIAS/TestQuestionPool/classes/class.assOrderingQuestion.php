@@ -1389,10 +1389,11 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
             $clone = parent::fromNormalized($tt)->transform($normalized);
             $clone->ordering_type = $tt->int($normalized['ordering_type']);
-            $clone->getOrderingElementList()->setElements(array_map(
+            $denormalized_elements = array_map(
                 fn(array $element) => $tt->denormalize($element, new ilAssOrderingElement()),
                 $normalized['ordering_elements']
-            ));
+            );
+            $clone->element_list_for_deferred_saving = new ilAssOrderingElementList(null, $denormalized_elements);
 
             return $clone;
         });
