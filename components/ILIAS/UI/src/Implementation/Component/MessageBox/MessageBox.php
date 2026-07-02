@@ -42,7 +42,7 @@ class MessageBox implements C\MessageBox\MessageBox, IsPromptContentInternal
     private string $message_text;
     private array $buttons = [];
     private array $links = [];
-    private ?C\Listing\Entity\EntityListing $entity_list = null;
+    private ?C\Listing\Entity\Entity $entity_list = null;
 
     public function __construct($type, string $message_text)
     {
@@ -113,7 +113,7 @@ class MessageBox implements C\MessageBox\MessageBox, IsPromptContentInternal
         return $clone;
     }
 
-    public function withEntityListing(C\Listing\Entity\EntityListing $entity_list): C\MessageBox\MessageBox
+    public function withEntityListing(C\Listing\Entity\Entity $entity_list): C\MessageBox\MessageBox
     {
         if (!empty($this->links)) {
             throw new C\MessageBox\Exception\LinksAndEntitiesMustBeExclusiveException();
@@ -125,7 +125,7 @@ class MessageBox implements C\MessageBox\MessageBox, IsPromptContentInternal
         return $clone;
     }
 
-    public function getEntityListing(): ?C\Listing\Entity\EntityListing
+    public function getEntityListing(): ?C\Listing\Entity\Entity
     {
         return $this->entity_list;
     }

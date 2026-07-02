@@ -20,13 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Listing\Entity;
 
-use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Component\Entity\Entity;
+use ILIAS\UI\Component\Component;
 
 /**
- * Listings will have to map records to Entities.
+ * This is what an EntityListings looks like
  */
-interface RecordToEntity
+interface Entity extends Component
 {
-    public function map(UIFactory $ui_factory, mixed $record): Entity;
 }
