@@ -41,15 +41,16 @@ class EntityTest extends ILIAS_UI_TestBase
 
     public function testEntityFactory(): void
     {
-        $entity = $this->getEntityFactory()->standard('primary', 'secondary');
+        $entity = $this->getEntityFactory()->standard(1, 'primary', 'secondary');
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Entity\\Standard", $entity);
+        $this->assertEquals(1, $entity->getId());
         $this->assertEquals('primary', $entity->getPrimaryIdentifier());
         $this->assertEquals('secondary', $entity->getSecondaryIdentifier());
     }
 
     public function testEntityBasicProperties(): void
     {
-        $entity = $this->getEntityFactory()->standard('primary', 'secondary');
+        $entity = $this->getEntityFactory()->standard(1, 'primary', 'secondary');
         $this->assertEquals([$this->legacy('bc')], $entity->withBlockingAvailabilityConditions($this->legacy('bc'))->getBlockingAvailabilityConditions());
         $this->assertEquals([$this->legacy('fp')], $entity->withFeaturedProperties($this->legacy('fp'))->getFeaturedProperties());
         $this->assertEquals([$this->legacy('md')], $entity->withMainDetails($this->legacy('md'))->getMainDetails());
@@ -58,7 +59,7 @@ class EntityTest extends ILIAS_UI_TestBase
         $this->assertEquals([$this->legacy('d')], $entity->withDetails($this->legacy('d'))->getDetails());
     }
 
-    public static function getEntityAllowedIdentiferTypes(): array
+    public static function getEntityAllowedVisualTypes(): array
     {
         $shy_button = new Button\Shy('the label', '#');
         $shy_link = new Link\Standard('the label', '#');
@@ -73,12 +74,13 @@ class EntityTest extends ILIAS_UI_TestBase
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('getEntityAllowedIdentiferTypes')]
-    public function testEntityIdentifiers($identifier): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('getEntityAllowedVisualTypes')]
+    public function testEntityVisualIdentifiers($visual_identifier): void
     {
-        $entity = $this->getEntityFactory()->standard($identifier, $identifier);
-        $this->assertEquals($identifier, $entity->getPrimaryIdentifier());
-        $this->assertEquals($identifier, $entity->getSecondaryIdentifier());
+        $entity = $this->getEntityFactory()->standard(1, $visual_identifier, $visual_identifier);
+        $this->assertEquals(1, $entity->getId());
+        $this->assertEquals($visual_identifier, $entity->getPrimaryIdentifier());
+        $this->assertEquals($visual_identifier, $entity->getSecondaryIdentifier());
     }
 
     public function testEntityActionProperties(): void
@@ -86,7 +88,7 @@ class EntityTest extends ILIAS_UI_TestBase
         $glyph = new Symbol\Glyph\Glyph('laugh', 'some glyph');
         $tag = new Button\Tag('tag', '#');
         $shy = new Button\Shy('shy', '#');
-        $entity = $this->getEntityFactory()->standard('primary', 'secondary')
+        $entity = $this->getEntityFactory()->standard(1, 'primary', 'secondary')
             ->withPrioritizedReactions($glyph, $tag)
             ->withReactions($glyph, $glyph, $glyph)
             ->withManagingActions($shy);
@@ -101,7 +103,7 @@ class EntityTest extends ILIAS_UI_TestBase
         $glyph = new Symbol\Glyph\Glyph('laugh', 'some glyph');
         $tag = new Button\Tag('tag', '#');
         $shy = new Button\Shy('shy', '#');
-        $entity = $this->getEntityFactory()->standard('primary', 'secondary')
+        $entity = $this->getEntityFactory()->standard(1, 'primary', 'secondary')
             ->withPrioritizedReactions($glyph, $tag)
             ->withReactions($glyph)
             ->withManagingActions($shy);
@@ -176,7 +178,7 @@ class EntityTest extends ILIAS_UI_TestBase
         $glyph = new Symbol\Glyph\Glyph('laugh', 'some glyph');
         $tag = new Button\Tag('tag', '#');
         $shy = new Button\Shy('shy', '#');
-        $entity = $this->getEntityFactory()->standard('primary', 'secondary')
+        $entity = $this->getEntityFactory()->standard(1, 'primary', 'secondary')
             ->withPrioritizedReactions($glyph, $tag)
             ->withReactions($glyph, $glyph)
             ->withManagingActions($shy, $shy)
