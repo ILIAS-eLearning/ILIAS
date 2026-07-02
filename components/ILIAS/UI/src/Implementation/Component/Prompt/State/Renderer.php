@@ -21,8 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Prompt\State;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
-use ILIAS\UI\Implementation\Render\Template;
-use ILIAS\UI\Implementation\Component\Prompt\State\State;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 
@@ -37,9 +35,18 @@ class Renderer extends AbstractComponentRenderer
             return $this->renderState($component, $default_renderer);
         }
 
+        if ($component instanceof Confirmation) {
+            return $this->renderConfirmation($component, $default_renderer);
+        }
+
         $this->cannotHandleComponent($component);
     }
 
+    protected function renderConfirmation(Confirmation $component, RendererInterface $default_renderer): string
+    {
+        return $default_renderer->render($component->getMessageBox())
+            . $default_renderer->render($component->getForm());
+    }
 
     protected function renderState(State $component, RendererInterface $default_renderer): string
     {
@@ -58,29 +65,57 @@ class Renderer extends AbstractComponentRenderer
             return $tpl->get();
         }
 
-        $tpl->setVariable('CONTENT', $default_renderer->render($content_component));
-        $tpl->setVariable('TITLE', $component->getTitle());
+        if ($content_component instanceof Confirmation) {
+            $tpl->setVariable('CONTENT', $this->renderConfirmation($content_component, $default_renderer));
+            $buttons = $this->getConfirmationButtons($content_component);
+        } else {
+            $tpl->setVariable('CONTENT', $default_renderer->render($content_component));
+            $buttons = $component->getButtons();
 
-        $buttons = $component->getButtons();
-        if ($content_component instanceof \ILIAS\UI\Component\Input\Container\Form\Form) {
-            $submit_button = $this->getUIFactory()->button()->standard(
-                $content_component->getSubmitLabel() ?? $this->txt("save"),
-                $content_component->getSubmitSignal()
-            );
-            $buttons[] = $submit_button;
+            if ($content_component instanceof \ILIAS\UI\Component\Input\Container\Form\Form) {
+                $buttons[] = $this->getFormSubmitButton($content_component);
+            }
+
+            $buttons[] = $this->getPromptCloseButton();
         }
 
-        $buttons[] = $this->getUIFactory()->button()
-            ->standard($this->txt('close'), '')
+        $tpl->setVariable('TITLE', $component->getTitle());
+        $tpl->setVariable('BUTTONS', $default_renderer->render($buttons));
+        return $tpl->get();
+    }
+
+    /**
+     * @return \ILIAS\UI\Component\Button\Button[]
+     */
+    protected function getConfirmationButtons(Confirmation $confirmation): array
+    {
+        return [
+            $this->getUIFactory()->button()->primary(
+                'Confirm',
+                $confirmation->getForm()->getSubmitSignal()
+            ),
+            $this->getPromptCloseButton($this->txt('cancel')),
+        ];
+    }
+
+    protected function getFormSubmitButton(
+        \ILIAS\UI\Component\Input\Container\Form\Form $form
+    ): \ILIAS\UI\Component\Button\Button {
+        return $this->getUIFactory()->button()->standard(
+            $form->getSubmitLabel() ?? $this->txt('save'),
+            $form->getSubmitSignal()
+        );
+    }
+
+    protected function getPromptCloseButton(?string $label = null): \ILIAS\UI\Component\Button\Button
+    {
+        return $this->getUIFactory()->button()
+            ->standard($label ?? $this->txt('close'), '')
             ->withOnLoadCode(
                 fn($id) => "$('#$id').on('click', (e)=> {
                     let promptId = e.target.closest('dialog').parentNode.id;
                     il.UI.prompt.get(promptId).close();
                 });"
             );
-
-        $tpl->setVariable('BUTTONS', $default_renderer->render($buttons));
-        return $tpl->get();
     }
-
 }

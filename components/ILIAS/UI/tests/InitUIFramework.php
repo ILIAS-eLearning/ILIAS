@@ -439,8 +439,19 @@ class InitUIFramework
             return new ILIAS\UI\Implementation\Component\Entity\Factory();
         };
 
+        $c["ui.factory.prompt.state"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Prompt\State\Factory(
+                $c["ui.factory.listing"]->entity(),
+                $c["ui.factory.messagebox"],
+                $c["ui.factory.input"],
+            );
+        };
+
         $c["ui.factory.prompt"] = function ($c) {
-            return new ILIAS\UI\Implementation\Component\Prompt\Factory($c["ui.signal_generator"]);
+            return new ILIAS\UI\Implementation\Component\Prompt\Factory(
+                $c["ui.signal_generator"],
+                $c["ui.factory.prompt.state"]
+            );
         };
 
         $c["ui.factory.navigation"] = function ($c) {

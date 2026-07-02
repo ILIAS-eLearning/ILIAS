@@ -20,15 +20,55 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Prompt\State;
 
-use ILIAS\UI\Component\Prompt as I;
-use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\Data\URI;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
+use ILIAS\UI\Component\Prompt as I;
+use ILIAS\UI\Component\Entity\EntityRetrieval;
+use ILIAS\UI\Component\Input\Factory as InputFactory;
+use ILIAS\UI\Component\MessageBox\Factory as MessageBoxFactory;
+use ILIAS\UI\Component\Listing\Entity\Factory as ListingEntityFactory;
 
 class Factory implements I\State\Factory
 {
+    public function __construct(
+        private readonly ListingEntityFactory $listing_entity_factory,
+        private readonly MessageBoxFactory $messagebox_factory,
+        private readonly InputFactory $input_factory,
+    ) {
+    }
+
     public function show(I\IsPromptContent $content): State
     {
         return new State($content);
+    }
+
+    public function confirm(
+        EntityRetrieval $entity_retrieval,
+        URLBuilder $post_url,
+        URLBuilderToken $post_parameter,
+        array $entity_ids,
+        string $question,
+        string $title,
+    ): State {
+        $listing_retrieval = new SubsetEntityRetrieval($entity_retrieval, $entity_ids);
+        $listing = $this->listing_entity_factory->standard($listing_retrieval);
+
+        $message_box = $this->messagebox_factory->confirmation($question)
+            ->withEntityListing($listing);
+
+        $form = $this->input_factory->container()->form()->standard(
+            (string) $post_url->withParameter($post_parameter, $entity_ids)->buildURI(),
+            []
+        );
+
+        $content = new Confirmation(
+            $message_box,
+            $form,
+            $title,
+        );
+
+        return (new State($content))->withTitle($title);
     }
 
     public function close(): State
@@ -42,5 +82,4 @@ class Factory implements I\State\Factory
         return (new State(null))
             ->withRedirect($redirect);
     }
-
 }

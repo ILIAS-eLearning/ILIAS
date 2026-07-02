@@ -27,7 +27,8 @@ use ILIAS\Data\URI;
 class Factory implements I\Factory
 {
     public function __construct(
-        protected SignalGeneratorInterface $signal_generator
+        protected SignalGeneratorInterface $signal_generator,
+        protected State\Factory $state_factory,
     ) {
     }
 
@@ -38,6 +39,6 @@ class Factory implements I\Factory
 
     public function state(): State\Factory
     {
-        return new State\Factory();
+        return $this->state_factory;
     }
 }
