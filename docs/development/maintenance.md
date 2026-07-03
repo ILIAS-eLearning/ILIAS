@@ -556,7 +556,7 @@ of ILIAS. The file contains the following fields:
 
 * **ECS Interface**
     * Authority to Sign off on Conceptual Changes: [bogen](https://docu.ilias.de/go/usr/13815), [mglaubitz](https://docu.ilias.de/go/usr/28309)
-    * Authority to Sign off on Code Changes: [sdyhr](https://docu.ilias.de/go/usr/102107)
+    * Authority to Sign off on Code Changes: [sdyhr](https://docu.ilias.de/go/usr/102107), [tjoussen](https://docu.ilias.de/go/usr/103745)
     * Authority to Curate Test Cases: [jheim](https://docu.ilias.de/go/usr/40167), [SIG CampusConnect und ECS(A)](https://docu.ilias.de/go/grp/7893)
     * Authority to (De-)Assign Authorities: [bogen](https://docu.ilias.de/go/usr/13815), [mglaubitz](https://docu.ilias.de/go/usr/28309)
     * Assignee for Issues: [sdyhr](https://docu.ilias.de/go/usr/102107)
