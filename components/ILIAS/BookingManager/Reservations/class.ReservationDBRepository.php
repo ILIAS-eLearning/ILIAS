@@ -147,11 +147,17 @@ class ReservationDBRepository
             ? " AND date_to > {$this->db->quote(time(), ilDBConstants::T_INTEGER)}"
             : '';
 
+        $date_to_match = 'date_to = ' . $this->db->quote($to, ilDBConstants::T_INTEGER);
+        if ($to > 0 && $to % 60 === 0) {
+            $date_to_match = '(' . $date_to_match
+                . ' OR date_to = ' . $this->db->quote($to - 1, ilDBConstants::T_INTEGER) . ')';
+        }
+
         $set = $this->db->query(
             'SELECT count(*) cnt, object_id FROM booking_reservation'
             . " WHERE {$this->db->in('object_id', $ids, '', ilDBConstants::T_INTEGER)}{$date}"
             . " AND (status IS NULL OR status <> {$this->db->quote(ilBookingReservation::STATUS_CANCELLED, ilDBConstants::T_INTEGER)})"
-            . " AND date_from = {$this->db->quote($from, ilDBConstants::T_INTEGER)} AND date_to = {$this->db->quote($to, ilDBConstants::T_INTEGER)}"
+            . " AND date_from = {$this->db->quote($from, ilDBConstants::T_INTEGER)} AND {$date_to_match}"
             . ' GROUP BY object_id'
         );
 
@@ -243,7 +249,7 @@ class ReservationDBRepository
 
             if ($a_has_schedule && ($filter["slot"] ?? false)) {
                 $slot_idx = date("w", $row["date_from"]) . "_" . date("H:i", $row["date_from"]) .
-                    "-" . date("H:i", $row["date_to"] + 1);
+                    "-" . $this->formatReservationEndTimeLabel((int) $row["date_to"]);
                 if ($filter["slot"] != $slot_idx) {
                     continue;
                 }
@@ -270,7 +276,7 @@ class ReservationDBRepository
                     $res[$idx]["booking_reservation_id"] = $idx;
                     $res[$idx]["date"] = date("Y-m-d", $row["date_from"]);
                     $res[$idx]["slot"] = date("H:i", $row["date_from"]) . " - " .
-                        date("H:i", $row["date_to"] + 1);
+                        $this->formatReservationEndTimeLabel((int) $row["date_to"]);
                     $res[$idx]["week"] = date("W", $row["date_from"]);
                     $res[$idx]["weekday"] = date("w", $row["date_from"]);
                     $res[$idx]["can_be_cancelled"] = ($row["status"] != \ilBookingReservation::STATUS_CANCELLED &&
@@ -342,5 +348,18 @@ class ReservationDBRepository
         }
 
         return $ret;
+    }
+
+    /**
+     * Display end time for reservations not yet migrated off legacy second-59 ends.
+     */
+    private function formatReservationEndTimeLabel(int $date_to): string
+    {
+        $timestamp = $date_to;
+        if ($date_to > 0 && $date_to % 60 === 59) {
+            $timestamp++;
+        }
+
+        return date('H:i', $timestamp);
     }
 }
