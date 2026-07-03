@@ -46,6 +46,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
     private Refinery $refinery;
     private ilTabsGUI $tabs;
     protected NotificationHandlerInterface $notif_handler;
+    private ilTree $tree;
     private ilObjEmployeeTalk $talk;
 
     public function __construct(
@@ -56,6 +57,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
         Refinery $refinery,
         ilTabsGUI $tabs,
         NotificationHandlerInterface $notif_handler,
+        ilTree $tree,
         ilObjEmployeeTalk $talk
     ) {
         $this->template = $template;
@@ -65,6 +67,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
         $this->refinery = $refinery;
         $this->tabs = $tabs;
         $this->notif_handler = $notif_handler;
+        $this->tree = $tree;
         $this->talk = $talk;
 
         $this->language->loadLanguageModule('cal');
@@ -534,7 +537,10 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
     private function deleteTalks(array $talks): void
     {
         foreach ($talks as $talk) {
+            $ref_id = $talk->getRefId();
+            $node_data = $this->tree->getNodeData($talk->getRefId());
             $talk->delete();
+            $this->tree->deleteNode($node_data['tree'], $ref_id);
         }
     }
 
