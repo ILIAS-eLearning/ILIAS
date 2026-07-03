@@ -21,6 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\BookingManager\BookableItem\Table\Action;
 
 use ilBookingObjectGUI;
+use ilBookingProcessWithScheduleGUI;
+use ilBookingProcessWithoutScheduleGUI;
 use ilBookingReservation;
 use ilCtrlInterface;
 use ilDatePresentation;
@@ -43,8 +45,6 @@ use ILIAS\UI\Component\Modal\RoundTrip;
 use ilBookingObject;
 use ILIAS\BookingManager\BookingProcess\BookingProcessManager;
 use ilObjUser;
-use DateTimeZone;
-use DateTime;
 
 class BookableItemTableBookAction implements TableAction
 {
@@ -290,6 +290,7 @@ class BookableItemTableBookAction implements TableAction
 
         $booked_total = 0;
         $unavailable = [];
+        $booking_ids = [];
 
         foreach ($data as $object_id => $section) {
             $message = $section['message'] ?? '';
@@ -318,6 +319,9 @@ class BookableItemTableBookAction implements TableAction
 
                 if ($booked !== []) {
                     $booked_total += count($booked);
+                    foreach ($booked as $booking_id) {
+                        $booking_ids[] = $booking_id;
+                    }
                     continue;
                 }
 
@@ -347,6 +351,15 @@ class BookableItemTableBookAction implements TableAction
                 $this->lng->txt('book_reservation_confirmed'),
                 true
             );
+
+            $booking_process_gui_class = $this->pool->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE
+                ? ilBookingProcessWithScheduleGUI::class
+                : ilBookingProcessWithoutScheduleGUI::class;
+
+            $this->ctrl->setParameterByClass($booking_process_gui_class, 'rsv_ids', implode(';', array_unique($booking_ids)));
+            $this->ctrl->setParameterByClass($booking_process_gui_class, 'returnCmd', 'render');
+            $this->ctrl->redirectByClass($booking_process_gui_class, 'displayPostInfo');
+            return null;
         }
 
         $this->ctrl->redirectByClass(ilBookingObjectGUI::class, 'render');
