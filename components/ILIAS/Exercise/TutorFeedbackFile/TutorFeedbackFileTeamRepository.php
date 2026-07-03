@@ -24,6 +24,7 @@ use ILIAS\Repository\IRSS\IRSSWrapper;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\Repository\IRSS\ResourceInformation;
+use ilLoggerFactory;
 
 class TutorFeedbackFileTeamRepository implements TutorFeedbackFileRepositoryInterface
 {
@@ -49,6 +50,20 @@ class TutorFeedbackFileTeamRepository implements TutorFeedbackFileRepositoryInte
         );
         if ($rec = $this->db->fetchAssoc($set)) {
             return (int) $rec["id"];
+        }
+        return 0;
+    }
+
+    protected function getOneUserIdOfTeam(int $ass_id, int $team_id): int
+    {
+        $set = $this->db->queryF(
+            "SELECT user_id FROM il_exc_team " .
+            " WHERE ass_id = %s AND id = %s",
+            ["integer", "integer"],
+            [$ass_id, $team_id]
+        );
+        if ($rec = $this->db->fetchAssoc($set)) {
+            return (int) $rec["user_id"];
         }
         return 0;
     }
@@ -81,6 +96,12 @@ class TutorFeedbackFileTeamRepository implements TutorFeedbackFileRepositoryInte
         );
         $rec = $this->db->fetchAssoc($set);
         return (int) ($rec["id"] ?? 0);
+    }
+
+    public function getUserIdForRcid(int $ass_id, string $rcid): int
+    {
+        $team_id = $this->getParticipantIdForRcid($ass_id, $rcid);
+        return $this->getOneUserIdOfTeam($ass_id, $team_id);
     }
 
 
@@ -123,10 +144,10 @@ class TutorFeedbackFileTeamRepository implements TutorFeedbackFileRepositoryInte
         return 0;
     }
 
-    public function deliverFile($ass_id, $participant_id, $file): void
+    public function deliverFile($ass_id, $user_id, $file): void
     {
         /** @var ResourceInformation $info */
-        foreach ($this->getCollectionResourcesInfo($ass_id, $participant_id) as $info) {
+        foreach ($this->getCollectionResourcesInfo($ass_id, $user_id) as $info) {
             if ($file === $info->getTitle()) {
                 $this->wrapper->deliverFile($info->getRid());
             }
@@ -134,11 +155,10 @@ class TutorFeedbackFileTeamRepository implements TutorFeedbackFileRepositoryInte
         throw new \ilExerciseException("Resource $file not found.");
     }
 
-    public function getFilenameForRid(int $ass_id, int $part_id, string $rid): string
+    public function getFilenameForRid(int $ass_id, int $user_id, string $rid): string
     {
-        foreach ($this->getCollectionResourcesInfo($ass_id, $part_id) as $info) {
+        foreach ($this->getCollectionResourcesInfo($ass_id, $user_id) as $info) {
             if ($rid === $info->getRid()) {
-                $this->wrapper->deliverFile($info->getRid());
                 return $info->getTitle();
             }
         }
