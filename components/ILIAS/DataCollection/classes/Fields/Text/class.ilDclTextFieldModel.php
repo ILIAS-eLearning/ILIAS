@@ -45,8 +45,8 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
     {
         if ($this->getProperty(ilDclBaseFieldModel::PROP_URL)) {
             $value = [
-                'link' => $form->getInput("field_" . $this->getId()),
                 'title' => $form->getInput("field_" . $this->getId() . "_title"),
+                'link' => $form->getInput("field_" . $this->getId()),
             ];
         } else {
             $value = $form->getInput('field_' . $this->getId());

@@ -26,8 +26,8 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
     {
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
             $value = [
-                "link" => $form->getInput("field_" . $this->getField()->getId()),
                 "title" => $form->getInput("field_" . $this->getField()->getId() . '_title'),
+                "link" => $form->getInput("field_" . $this->getField()->getId()),
             ];
         } else {
             $value = $form->getInput("field_" . $this->getField()->getId());
@@ -116,7 +116,7 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
             if ($excel->getCell(1, $col + 1) == $this->getField()->getTitle() . '_title') {
                 $title = $excel->getCell($row, $col + 1);
             }
-            $value = ['link' => $value, 'title' => $title];
+            $value = ['title' => $title, 'link' => $value];
         }
 
         if ($value) {
