@@ -309,7 +309,7 @@ $cursor-disabled: not-allowed !default;
 //Note, this is a rather nasty fix for #27751
 //Should be removed in upcoming version
 .il-maincontrols-slate-content{
-	.dropdown-menu{
+	.ilFloatRight .dropdown-menu{
 		right: 0;
 		left: inherit;
 	}
