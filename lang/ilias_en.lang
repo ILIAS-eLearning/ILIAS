@@ -2657,6 +2657,7 @@ book#:#book_pool_added#:#Booking pool successfully created.
 book#:#book_pool_selection#:#Booking Pool Selection
 book#:#book_post_booking_file#:#File
 book#:#book_post_booking_information#:#Booking Information
+book#:#book_post_booking_information_for#:#Booking Information for "%s"
 book#:#book_post_booking_text#:#Text
 book#:#book_post_booking_text_info#:#Use placeholders to include booking-specific information. <br />[OBJECT] will be replaced by the respective Bookable Item. <br />[PERIOD] will be replaced by the respective schedule.
 book#:#book_pref_book_cron#:#Booking with Preferences

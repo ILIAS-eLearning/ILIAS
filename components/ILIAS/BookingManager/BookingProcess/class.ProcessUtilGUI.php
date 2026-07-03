@@ -76,6 +76,11 @@ class ProcessUtilGUI
             return;
         }
 
+        if ($retCmd === 'render') {
+            $this->redirectToRender();
+            return;
+        }
+
         if ($retCmd !== "") {
             $this->ctrl->redirectByClass(get_class($this->parent_gui), $retCmd);
         } else {
@@ -184,107 +189,205 @@ class ProcessUtilGUI
         int $user_id,
         string $file_deliver_cmd
     ): void {
-        $this->log->debug("displayPostInfo");
-        $main_tpl = $this->gui->mainTemplate();
-        $ctrl = $this->gui->ctrl();
-        $lng = $this->domain->lng();
-        $id = $book_obj_id;
-        $request = $this->gui->standardRequest();
+        $this->log->debug('displayPostInfo');
+        $booking_ids = $this->request->getReservationIdsFromString();
 
-        if (!$id) {
+        $objects_with_periods = $this->resolveObjectsWithPeriodsForPostInfo(
+            $book_obj_id,
+            $user_id,
+            $booking_ids
+        );
+
+        if ($objects_with_periods === []) {
+            $this->ctrl->redirect($this->parent_gui, 'back');
             return;
         }
 
-        $rsv_ids = $request->getReservationIdsFromString();
+        $booking_objects = [];
+        $booking_info_filenames = [];
 
-        $tmp = [];
-        if ($rsv_ids === [] && $request->getReservationId() !== '') {
-            $reservationIdParts = explode('_', $request->getReservationId());
+        $objects_with_info = [];
+        foreach ($objects_with_periods as $object_id => $periods) {
+            $booking_objects[$object_id] = new \ilBookingObject($object_id);
+            $booking_info_filenames[$object_id] = trim($this->objects_manager->getBookingInfoFilename($object_id));
 
-            $user_id = (int) ($reservationIdParts[1] ?? 0);
-            $from = (int) ($reservationIdParts[2] ?? 0);
+            if (
+                trim($booking_objects[$object_id]->getPostText()) === ''
+                && $booking_info_filenames[$object_id] === ''
+            ) {
+                continue;
+            }
+
+            $objects_with_info[$object_id] = $periods;
+        }
+
+        if ($objects_with_info === []) {
+            $this->ctrl->redirect($this->parent_gui, 'back');
+            return;
+        }
+
+        $template = new \ilTemplate(
+            'tpl.booking_reservation_post.html',
+            true,
+            true,
+            'components/ILIAS/BookingManager/BookingProcess'
+        );
+        $multiple_objects = count($objects_with_info) > 1;
+        $submit_url = $this->ctrl->getLinkTarget($this->parent_gui, 'back');
+
+        foreach ($objects_with_info as $object_id => $periods) {
+            $booking_object = $booking_objects[$object_id];
+            $post_text = trim($booking_object->getPostText());
+
+            $template->setCurrentBlock('info_block');
+            $title = $multiple_objects
+                ? sprintf($this->lng->txt('book_post_booking_information_for'), $booking_object->getTitle())
+                : $this->lng->txt('book_post_booking_information');
+            $template->setVariable('TITLE', $title);
+
+            if ($post_text !== '') {
+                $post_text = str_replace(
+                    ['[OBJECT]', '[PERIOD]'],
+                    [$booking_object->getTitle(), implode('<br />', $periods)],
+                    $post_text
+                );
+                $template->setVariable('POST_TEXT', nl2br($post_text));
+            }
+
+            if ($booking_info_filenames[$object_id] === '') {
+                $template->parseCurrentBlock();
+                continue;
+            }
+
+            $this->ctrl->setParameter($this->parent_gui, 'object_id', $object_id);
+            $url = $this->ctrl->getLinkTarget($this->parent_gui, $file_deliver_cmd);
+            $this->ctrl->clearParameterByClass($this->parent_gui::class, 'object_id');
+
+            $template->setCurrentBlock('download');
+            $template->setVariable('DOWNLOAD', $this->lng->txt('download'));
+            $template->setVariable('URL_FILE', $url);
+            $template->setVariable('TXT_FILE', $booking_info_filenames[$object_id]);
+            $template->parseCurrentBlock();
+            $template->setCurrentBlock('info_block');
+
+            $template->parseCurrentBlock();
+        }
+
+        $template->setCurrentBlock('submit');
+        $template->setVariable('TXT_SUBMIT', $this->lng->txt('ok'));
+        $template->setVariable('URL_SUBMIT', $submit_url);
+        $template->parseCurrentBlock();
+
+        $this->tpl->setContent($template->get());
+    }
+
+    /**
+     * @return array<int, string[]>
+     */
+    protected function resolveObjectsWithPeriodsForPostInfo(
+        int $book_obj_id,
+        int $user_id,
+        array $booking_ids
+    ): array {
+        if ($booking_ids !== []) {
+            return $this->resolvePeriodsFromReservationIds($booking_ids);
+        }
+
+        if ($book_obj_id <= 0) {
+            return [];
+        }
+
+        $period_slots = [];
+        if ($this->request->getReservationId() !== '') {
+            $reservation_id_parts = explode('_', $this->request->getReservationId());
+            $user_id = (int) ($reservation_id_parts[1] ?? 0);
+            $from = (int) ($reservation_id_parts[2] ?? 0);
 
             if ($from > time()) {
-                $to = (int) ($reservationIdParts[3] ?? 0);
-                $tmp["$from-" . ($to + 1)] = 1;
+                $to = (int) ($reservation_id_parts[3] ?? 0);
+                $period_slots["$from-$to"] = 1;
             }
-            $rsv_ids = [0];
+            $booking_ids = [0];
         }
 
-        // placeholder
-
-        $book_ids = \ilBookingReservation::getObjectReservationForUser($id, $user_id);
+        $book_ids = \ilBookingReservation::getObjectReservationForUser($book_obj_id, $user_id);
         foreach ($book_ids as $book_id) {
-            if (in_array($book_id, $rsv_ids) || count($rsv_ids) === 0) {
-                $obj = new \ilBookingReservation($book_id);
-                $from = $obj->getFrom();
-                $to = $obj->getTo();
-                if ($from > time()) {
-                    $tmp[$from . "-" . $to + 1] = $tmp[$from . "-" . $to + 1] ?? 0;
-                    $tmp[$from . "-" . $to + 1]++;
-                }
+            if (!in_array($book_id, $booking_ids, true) && $booking_ids !== []) {
+                continue;
+            }
+
+            $reservation = new \ilBookingReservation($book_id);
+            $from = $reservation->getFrom();
+            $to = $reservation->getTo();
+            if ($from > time()) {
+                $key = "$from-$to";
+                $period_slots[$key] = ($period_slots[$key] ?? 0) + 1;
             }
         }
 
+        return $period_slots === []
+            ? []
+            : [$book_obj_id => $this->formatPeriodSlots($period_slots)];
+    }
+
+    /**
+     * @param string[] $booking_ids
+     * @return array<int, string[]>
+     */
+    protected function resolvePeriodsFromReservationIds(array $booking_ids): array
+    {
+        $period_slots_by_object = [];
+
+        foreach ($booking_ids as $booking_id) {
+            $booking_id = (int) $booking_id;
+            if ($booking_id <= 0) {
+                continue;
+            }
+
+            $reservation = new \ilBookingReservation($booking_id);
+            $object_id = $reservation->getObjectId();
+            $key = "{$reservation->getFrom()}-{$reservation->getTo()}";
+            $period_slots_by_object[$object_id][$key] = ($period_slots_by_object[$object_id][$key] ?? 0) + 1;
+        }
+
+        $objects_with_periods = [];
+        foreach ($period_slots_by_object as $object_id => $period_slots) {
+            $objects_with_periods[$object_id] = $this->formatPeriodSlots($period_slots);
+        }
+
+        ksort($objects_with_periods);
+
+        return $objects_with_periods;
+    }
+
+    /**
+     * @param array<string, int> $period_slots
+     * @return string[]
+     */
+    protected function formatPeriodSlots(array $period_slots): array
+    {
         $olddt = \ilDatePresentation::useRelativeDates();
         \ilDatePresentation::setUseRelativeDates(false);
 
-        $period = array();
-        ksort($tmp);
-        foreach ($tmp as $time => $counter) {
-            $time = explode("-", $time);
-            $time = \ilDatePresentation::formatPeriod(
-                new \ilDateTime($time[0], IL_CAL_UNIX),
-                new \ilDateTime($time[1], IL_CAL_UNIX)
+        $period = [];
+        ksort($period_slots);
+        foreach ($period_slots as $time => $counter) {
+            $time_parts = explode('-', $time);
+            $formatted = \ilDatePresentation::formatPeriod(
+                new \ilDateTime((int) $time_parts[0], IL_CAL_UNIX),
+                new \ilDateTime((int) $time_parts[1], IL_CAL_UNIX)
             );
+
             if ($counter > 1) {
-                $time .= " (" . $counter . ")";
+                $formatted .= " ($counter)";
             }
-            $period[] = $time;
+
+            $period[] = $formatted;
         }
-        $book_id = array_shift($book_ids);
 
         \ilDatePresentation::setUseRelativeDates($olddt);
 
-        /*
-        #23578 since Booking pool participants.
-        $obj = new ilBookingReservation($book_id);
-        if ($obj->getUserId() != $ilUser->getId())
-        {
-            return;
-        }
-        */
-
-        $obj = new \ilBookingObject($id);
-        $pfile = $this->objects_manager->getBookingInfoFilename($id);
-        $ptext = $obj->getPostText();
-
-        $mytpl = new \ilTemplate('tpl.booking_reservation_post.html', true, true, 'components/ILIAS/BookingManager/BookingProcess');
-        $mytpl->setVariable("TITLE", $lng->txt('book_post_booking_information'));
-
-        if ($ptext) {
-            // placeholder
-            $ptext = str_replace(
-                ["[OBJECT]", "[PERIOD]"],
-                [$obj->getTitle(), implode("<br />", $period)],
-                $ptext
-            );
-
-            $mytpl->setVariable("POST_TEXT", nl2br($ptext));
-        }
-
-        if ($pfile) {
-            $url = $ctrl->getLinkTarget($this->parent_gui, $file_deliver_cmd);
-
-            $mytpl->setVariable("DOWNLOAD", $lng->txt('download'));
-            $mytpl->setVariable("URL_FILE", $url);
-            $mytpl->setVariable("TXT_FILE", $pfile);
-        }
-
-        $mytpl->setVariable("TXT_SUBMIT", $lng->txt('ok'));
-        $mytpl->setVariable("URL_SUBMIT", $ctrl->getLinkTarget($this->parent_gui, "back"));
-
-        $main_tpl->setContent($mytpl->get());
+        return $period;
     }
 
     /**
