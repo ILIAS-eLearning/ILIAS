@@ -105,14 +105,19 @@ div.il-system-infos {
 
 // logo-container
 .il-logo {
-	height: $il-standard-page-logo-height;
 	overflow: hidden;
 	justify-self: start;
 	display: flex;
-  	align-items: center;
+  align-items: center;
+
 	a {
 		display: block; // so keyboard focus surrounds logo
 	}
+
+  span a img {
+    height: $il-standard-page-logo-height;
+    width: auto;
+  }
 }
 
 .il-pagetitle {
@@ -305,7 +310,10 @@ main {
 
 	// mobile logo
 	.il-logo {
-		width: $il-standard-page-small-logo-width;
+    span a img {
+      width: $il-standard-page-small-logo-width;
+      height: auto;
+    }
 	}
 
 	// pagetitle
