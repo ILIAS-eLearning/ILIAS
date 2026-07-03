@@ -102,10 +102,10 @@ class TutorFeedbackFileRepository implements TutorFeedbackFileRepositoryInterfac
         return 0;
     }
 
-    public function deliverFile($ass_id, $participant_id, $file): void
+    public function deliverFile($ass_id, $user_id, $file): void
     {
         /** @var ResourceInformation $info */
-        foreach ($this->getCollectionResourcesInfo($ass_id, $participant_id) as $info) {
+        foreach ($this->getCollectionResourcesInfo($ass_id, $user_id) as $info) {
             if ($file === $info->getTitle()) {
                 $this->wrapper->deliverFile($info->getRid());
             }
@@ -113,9 +113,9 @@ class TutorFeedbackFileRepository implements TutorFeedbackFileRepositoryInterfac
         throw new \ilExerciseException("Resource $file not found.");
     }
 
-    public function getFilenameForRid(int $ass_id, int $part_id, string $rid): string
+    public function getFilenameForRid(int $ass_id, int $user_id, string $rid): string
     {
-        foreach ($this->getCollectionResourcesInfo($ass_id, $part_id) as $info) {
+        foreach ($this->getCollectionResourcesInfo($ass_id, $user_id) as $info) {
             if ($rid === $info->getRid()) {
                 return $info->getTitle();
             }
@@ -133,6 +133,11 @@ class TutorFeedbackFileRepository implements TutorFeedbackFileRepositoryInterfac
         );
         $rec = $this->db->fetchAssoc($set);
         return (int) ($rec["usr_id"] ?? 0);
+    }
+
+    public function getUserIdForRcid(int $ass_id, string $rcid): int
+    {
+        return $this->getParticipantIdForRcid($ass_id, $rcid);
     }
 
     /**

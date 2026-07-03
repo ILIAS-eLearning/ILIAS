@@ -46,6 +46,6 @@ interface TutorFeedbackFileRepositoryInterface
 
     public function getParticipantIdForRcid(int $ass_id, string $rcid): int;
 
-    public function getFilenameForRid(int $ass_id, int $part_id, string $rid): string;
+    public function getFilenameForRid(int $ass_id, int $user_id, string $rid): string;
 
 }
