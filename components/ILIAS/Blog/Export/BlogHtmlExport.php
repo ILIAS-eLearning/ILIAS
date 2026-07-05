@@ -378,9 +378,11 @@ class BlogHtmlExport
             $tabs->setBackTarget($this->lng->txt("back"), $a_back_url);
         }
 
-        /** @var \ILIAS\DI\Container $DIC */
-        global $DIC;
-        $tpl = new \ilGlobalPageTemplate($this->global_screen, $DIC->ui(), $DIC->http());
+        $tpl = new \ilGlobalPageTemplate(
+            $this->global_screen,
+            $this->gui->ui(),
+            $this->gui->http()
+        );
 
         $this->co_page_html_export->getPreparedMainTemplate($tpl);
 

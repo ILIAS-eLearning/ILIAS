@@ -1,5 +1,11 @@
 # Change Log
 
+## ILIAS 12
+- Separated presentation and editing GUI
+- Moved month, author and keyword block to separate classes
+- Removed all static function declarations (that are not enforced by other components)
+- Removed all DIC access outside of constructors
+
 ## ILIAS 11
 - Data/Repository/Domain classes for Postings
 - Refactored news and notification related code
