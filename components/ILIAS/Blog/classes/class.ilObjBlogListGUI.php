@@ -147,4 +147,26 @@ class ilObjBlogListGUI extends ilObjectListGUI
         return $modalt;
     }
 
+    public function getCommandLink(string $cmd): string
+    {
+        switch ($cmd) {
+            case "render":
+                $this->ctrl->setParameterByClass(ilObjBlogGUI::class, "ref_id", $this->ref_id);
+                return $this->ctrl->getLinkTargetByClass(
+                    [ilObjBlogGUI::class, \ILIAS\Blog\Editing\EditingGUI::class],
+                    ""
+                );
+                break;
+            case "preview":
+                $this->ctrl->setParameterByClass(ilObjBlogGUI::class, "ref_id", $this->ref_id);
+                return $this->ctrl->getLinkTargetByClass(
+                    [ilObjBlogGUI::class, \ILIAS\Blog\Presentation\PresentationGUI::class],
+                    ""
+                );
+                break;
+        }
+        return parent::getCommandLink($cmd);
+    }
+
+
 }

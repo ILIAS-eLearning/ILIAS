@@ -23,18 +23,21 @@ namespace ILIAS\Blog\Navigation;
 use ILIAS\Blog\InternalDomainService;
 use ILIAS\Blog\InternalGUIService;
 use ILIAS\Blog\Posting\Posting;
+use ILIAS\Blog\Navigation\Link\LinkBuilder;
+use ILIAS\Blog\Navigation\Link\ExportLinkBuilder;
 
 class MonthBlockGUI
 {
-    protected InternalDomainService $domain;
-    protected InternalGUIService $gui;
-
     public function __construct(
-        InternalDomainService $domain,
-        InternalGUIService $gui
+        protected InternalDomainService $domain,
+        protected InternalGUIService $gui,
+        protected LinkBuilder $link_builder
     ) {
-        $this->domain = $domain;
-        $this->gui = $gui;
+    }
+
+    protected function isExport(): bool
+    {
+        return $this->link_builder instanceof ExportLinkBuilder;
     }
 
     /**
@@ -42,33 +45,21 @@ class MonthBlockGUI
      */
     public function render(
         array $items,
-        string $list_cmd = "render",
-        string $posting_cmd = "preview",
-        ?string $link_template = null,
         bool $show_inactive = false,
         int $blpg = 0
     ): string {
         $ctrl = $this->gui->ctrl();
         $lng = $this->domain->lng();
-        $settings = $this->domain->blogSettings()->getByObjId(
-            \ilObject::_lookupObjId($this->gui->standardRequest()->getRefId())
-        );
+        $obj_id = \ilObject::_lookupObjId($this->gui->standardRequest()->getRefId());
+        $settings = $this->domain->blogSettings()->getByObjId($obj_id);
 
-        // gather page active status
-        foreach ($items as $month => $postings) {
-            foreach (array_keys($postings) as $id) {
-                $active = \ilBlogPosting::_lookupActive($id, "blp");
-                if (!$show_inactive && !$active) {
-                    unset($items[$month][$id]);
-                }
-            }
-            if (!count($items[$month])) {
-                unset($items[$month]);
-            }
+        if (!$show_inactive) {
+            $items = $this->domain->postingList($obj_id, $settings, false)->getPostingsGroupedByMonth();
         }
 
         // list month (incl. postings)
-        if ($settings->getNavMode() === \ilObjBlog::NAV_MODE_LIST || $link_template) {
+        if ($settings->getNavMode() === \ilObjBlog::NAV_MODE_LIST ||
+            $this->isExport()) {
             $max_months = $settings->getNavModeListMonths();
 
             $wtpl = new \ilTemplate("tpl.blog_list_navigation_by_date.html", true, true, "components/ILIAS/Blog");
@@ -77,7 +68,7 @@ class MonthBlockGUI
 
             $counter = $mon_counter = $last_year = 0;
             foreach ($items as $month => $postings) {
-                if (!$link_template && $max_months && $mon_counter >= $max_months) {
+                if (!$this->isExport() && $max_months && $mon_counter >= $max_months) {
                     break;
                 }
 
@@ -91,12 +82,7 @@ class MonthBlockGUI
                 $mon_counter++;
 
                 $month_name = \ilCalendarUtil::_numericMonthToString((int) substr((string) $month, 5));
-                if (!$link_template) {
-                    $ctrl->setParameterByClass(\ilObjBlogGUI::class, "bmn", $month);
-                    $month_url = $ctrl->getLinkTargetByClass(\ilObjBlogGUI::class, $list_cmd);
-                } else {
-                    $month_url = $this->buildExportLink($link_template, "list", (string) $month);
-                }
+                $month_url = $this->link_builder->forMonth($month);
 
                 if ($mon_counter <= $settings->getNavModeListMonthsWithPostings()) {
                     if ($add_year) {
@@ -106,17 +92,8 @@ class MonthBlockGUI
                     }
 
                     foreach ($postings as $id => $posting) {
-                        $counter++;
                         $caption = $posting->getTitle();
-
-                        if (!$link_template) {
-                            $ctrl->setParameterByClass(\ilBlogPostingGUI::class, "bmn", $month);
-                            $ctrl->setParameterByClass(\ilBlogPostingGUI::class, "blpg", (string) $id);
-                            $url = $ctrl->getLinkTargetByClass(\ilBlogPostingGUI::class, $posting_cmd);
-                        } else {
-                            $url = $this->buildExportLink($link_template, "posting", (string) $id);
-                        }
-
+                        $url = $this->link_builder->forPosting($posting->getId());
                         if (!$posting->isActive()) {
                             $wtpl->setVariable("NAV_ITEM_DRAFT", $lng->txt("blog_draft"));
                         } elseif ($settings->getApproval() && !$posting->isApproved()) {
@@ -149,12 +126,7 @@ class MonthBlockGUI
                     $wtpl->parseCurrentBlock();
                 }
             }
-            if (!$link_template) {
-                $ctrl->setParameterByClass(\ilObjBlogGUI::class, "bmn", null);
-                $url = $ctrl->getLinkTargetByClass(\ilObjBlogGUI::class, $list_cmd);
-            } else {
-                $url = "index.html";
-            }
+            $url = $this->link_builder->forMainList();
 
             $wtpl->setVariable(
                 "STARTING_PAGE",
@@ -182,23 +154,11 @@ class MonthBlockGUI
                 $month_options[(string) $month] = $month_name;
 
                 if ($month == $this->gui->standardRequest()->getMonth()) {
-                    if (!$link_template) {
-                        $ctrl->setParameterByClass(\ilObjBlogGUI::class, "bmn", (string) $month);
-                        $month_url = $ctrl->getLinkTargetByClass(\ilObjBlogGUI::class, $list_cmd);
-                    } else {
-                        $month_url = $this->buildExportLink($link_template, "list", (string) $month);
-                    }
+                    $month_url = $this->link_builder->forMonth($month);
 
                     foreach ($postings as $id => $posting) {
                         $caption = $posting->getTitle();
-
-                        if (!$link_template) {
-                            $ctrl->setParameterByClass(\ilBlogPostingGUI::class, "bmn", (string) $month);
-                            $ctrl->setParameterByClass(\ilBlogPostingGUI::class, "blpg", (string) $id);
-                            $url = $ctrl->getLinkTargetByClass(\ilBlogPostingGUI::class, $posting_cmd);
-                        } else {
-                            $url = $this->buildExportLink($link_template, "posting", (string) $id);
-                        }
+                        $url = $this->link_builder->forPosting($id);
 
                         if (!$posting->isActive()) {
                             $wtpl->setVariable("NAV_ITEM_DRAFT", $lng->txt("blog_draft"));
@@ -221,6 +181,7 @@ class MonthBlockGUI
                 }
             }
 
+            /*
             if ($blpg === 0) {
                 $wtpl->setCurrentBlock("option_bl");
                 foreach ($month_options as $value => $caption) {
@@ -234,20 +195,10 @@ class MonthBlockGUI
 
                 $wtpl->setVariable("FORM_ACTION", $ctrl->getFormActionByClass(\ilObjBlogGUI::class, $list_cmd));
             }
+            */
         }
         $ctrl->setParameterByClass(\ilObjBlogGUI::class, "bmn", $this->gui->standardRequest()->getMonth());
         $ctrl->setParameterByClass(\ilBlogPostingGUI::class, "bmn", "");
         return $wtpl->get();
-    }
-
-    protected function buildExportLink(
-        string $template,
-        string $type,
-        string $id
-    ): string {
-        $blog_export = new \ILIAS\Blog\Export\BlogHtmlExport($this->gui->standardRequest()->getRefId());
-        // Note: this might need adjustment since the original used $this->getKeywords(false)
-        // For now we assume keywords are not needed for these links or handled elsewhere
-        return $blog_export->buildExportLink($template, $type, $id, []);
     }
 }

@@ -117,4 +117,9 @@ class PermissionManager
         return (\ilBlogPosting::_lookupActive($posting_id, "blp"));
     }
 
+    public function getAccessHandler(): \ilAccessHandler|\ilWorkspaceAccessHandler
+    {
+        return $this->access;
+    }
+
 }

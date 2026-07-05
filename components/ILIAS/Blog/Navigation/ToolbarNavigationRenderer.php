@@ -24,9 +24,12 @@ use ILIAS\Blog\InternalDomainService;
 use ILIAS\Blog\InternalGUIService;
 use ILIAS\Blog\Permission\PermissionManager;
 use ILIAS\Blog\Posting\Posting;
+use ILIAS\Blog\Navigation\Link\LinkBuilder;
+use ILIAS\Blog\Editing\EditingGUI;
 
 class ToolbarNavigationRenderer
 {
+    protected Link\EditingLinkBuilder $edit_link_builder;
     protected array $items;
     protected InternalGUIService $gui;
     protected int $portfolio_page;
@@ -39,11 +42,13 @@ class ToolbarNavigationRenderer
 
     public function __construct(
         InternalDomainService $domain,
-        InternalGUIService $gui
+        InternalGUIService $gui,
+        protected LinkBuilder $pres_link_builder
     ) {
         $this->domain = $domain;
         $this->gui = $gui;
         $this->util = $gui->presentation()->util();
+        $this->edit_link_builder = $gui->navigation()->editingLink();
     }
 
     public function renderToolbarNavigation(
@@ -62,21 +67,19 @@ class ToolbarNavigationRenderer
         $this->blog_page = $blog_page;
         $this->portfolio_page = $portfolio_page;
 
-        $cmd = "previewFullscreen";
-
         if ($single_posting) {	// single posting view
             $next_posting = $this->getNextPosting($blog_page);
             if ($next_posting > 0) {
-                $this->renderPreviousButton($this->getPostingTarget($next_posting, $cmd));
+                $this->renderPreviousButton($this->getPostingTarget($next_posting));
             } else {
                 $this->renderPreviousButton("");
             }
 
-            $this->renderPostingDropdown($cmd);
+            $this->renderPostingDropdown();
 
             $prev_posting = $this->getPreviousPosting($blog_page);
             if ($prev_posting > 0) {
-                $this->renderNextButton($this->getPostingTarget($prev_posting, $cmd));
+                $this->renderNextButton($this->getPostingTarget($prev_posting));
             } else {
                 $this->renderNextButton("");
             }
@@ -117,13 +120,7 @@ class ToolbarNavigationRenderer
         $ctrl = $this->ctrl;
         $actions = [];
         if ($this->blog_access->mayContribute()) {
-            $ctrl->setParameterByClass(\ilObjBlogGUI::class, "prvm", "");
-
-            $ctrl->setParameterByClass(\ilObjBlogGUI::class, "bmn", "");
-            $ctrl->setParameterByClass(\ilObjBlogGUI::class, "blpg", "");
-            $link = $ctrl->getLinkTargetByClass(\ilObjBlogGUI::class, "");
-            $ctrl->setParameterByClass(\ilObjBlogGUI::class, "blpg", $this->blog_page);
-            $ctrl->setParameterByClass(\ilObjBlogGUI::class, "bmn", $this->current_month);
+            $link = $this->edit_link_builder->forMainList();
             $actions[] = $f->button()->shy(
                 $lng->txt("blog_edit"),
                 $link
@@ -131,8 +128,7 @@ class ToolbarNavigationRenderer
         }
 
         if ($single_posting && $this->blog_access->mayContribute() && $this->blog_access->mayEditPosting($this->blog_page)) {
-            $ctrl->setParameterByClass(\ilBlogPostingGUI::class, "blpg", $this->blog_page);
-            $link = $ctrl->getLinkTargetByClass(\ilBlogPostingGUI::class, "edit");
+            $link = $this->edit_link_builder->forPosting($this->blog_page);
             $actions[] = $f->button()->shy(
                 $lng->txt("blog_edit_posting"),
                 $link
@@ -204,16 +200,14 @@ class ToolbarNavigationRenderer
         return $prev_blpg;
     }
 
-    protected function getPostingTarget(int $posting, string $cmd): string
+    protected function getPostingTarget(int $posting): string
     {
-        $this->ctrl->setParameterByClass(\ilBlogPostingGUI::class, "blpg", (string) $posting);
-        return $this->ctrl->getLinkTargetByClass(\ilBlogPostingGUI::class, $cmd);
+        return $this->pres_link_builder->forPosting($posting);
     }
 
     protected function getMonthTarget(string $month): string
     {
-        $this->ctrl->setParameterByClass(\ilObjBlogGUI::class, "bmn", $month);
-        return $this->ctrl->getLinkTargetByClass(\ilObjBlogGUI::class, "preview");
+        return $this->pres_link_builder->forMonth($month);
     }
 
     protected function renderMonthDropdown(): void
@@ -296,7 +290,7 @@ class ToolbarNavigationRenderer
         $toolbar->addStickyItem($b);
     }
 
-    protected function renderPostingDropdown(string $cmd): void
+    protected function renderPostingDropdown(): void
     {
         $toolbar = $this->gui->toolbar();
         $f = $this->gui->ui()->factory();
@@ -321,7 +315,7 @@ class ToolbarNavigationRenderer
                 $label = str_pad("", 12, "&nbsp;") . $label;
                 $m[] = $f->link()->standard(
                     $label,
-                    $this->getPostingTarget((int) $item->getId(), $cmd)
+                    $this->getPostingTarget((int) $item->getId())
                 );
             }
         }

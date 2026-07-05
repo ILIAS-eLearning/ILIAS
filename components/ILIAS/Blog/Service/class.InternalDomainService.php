@@ -114,6 +114,19 @@ class InternalDomainService
         );
     }
 
+    public function postingList(
+        int $obj_id,
+        Settings\Settings $settings,
+        bool $include_inactive = true
+    ): Posting\PostingList {
+        return new Posting\PostingList(
+            $obj_id,
+            $this->posting(),
+            $settings,
+            $include_inactive
+        );
+    }
+
     public function news(): NewsManager
     {
         return self::$instance["news"] ??= new NewsManager(

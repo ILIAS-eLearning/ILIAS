@@ -25,6 +25,8 @@ use ILIAS\components\Export\HTML\Util;
 
 class BlogHtmlExport
 {
+    protected ?\ILIAS\Blog\Settings\Settings $settings;
+    protected \ILIAS\Blog\InternalGUIService $gui;
     protected \ILIAS\Blog\Posting\PostingManager $posting_manager;
     protected \ILIAS\components\Export\HTML\ExportCollector $collector;
     protected \ilObjBlog $blog;
@@ -47,6 +49,7 @@ class BlogHtmlExport
 
     public function __construct(
         \ilObjBlogGUI $blog_gui,
+        protected bool $is_repository,
         string $exp_dir,
         string $sub_dir,
         bool $set_export_key = true
@@ -59,6 +62,8 @@ class BlogHtmlExport
         $this->blog = $blog;
 
         $blog_service = $DIC->blog()->internal();
+        $this->gui = $blog_service->gui();
+        $this->settings = $blog_service->domain()->blogSettings()->getByObjId($blog->getId());
 
         $this->collector = $DIC->export()->domain()->html()->collector($blog->getId());
         $this->collector->init();
@@ -83,7 +88,7 @@ class BlogHtmlExport
         }
 
         $cs = $DIC->contentStyle();
-        if ($this->blog_gui->getIdType() === \ilObject2GUI::REPOSITORY_NODE_ID) {
+        if ($this->is_repository) {
             $this->content_style_domain = $cs->domain()->styleForRefId($this->blog->getRefId());
         } else {
             $this->content_style_domain = $cs->domain()->styleForObjId($this->blog->getId());
@@ -178,7 +183,17 @@ class BlogHtmlExport
         // lists
 
         // global nav
-        $nav = $this->blog_gui->renderNavigation("", "", $a_link_template);
+        $nav = $this->gui->navigation()->sideBar(
+            null,
+            $this->gui->navigation()->exportLink(
+                $a_link_template,
+                []
+            ),
+            $this->settings
+        )->render(
+            $this->blog_gui,
+            $this->items
+        );
 
         // month list
         $has_index = false;
@@ -256,10 +271,16 @@ class BlogHtmlExport
                     : "";
 
                 // posting nav
-                $nav = $this->blog_gui->renderNavigation(
-                    "",
-                    "",
-                    $a_link_template,
+                $nav = $this->gui->navigation()->sideBar(
+                    null,
+                    $this->gui->navigation()->exportLink(
+                        $a_link_template,
+                        []
+                    ),
+                    $this->settings
+                )->render(
+                    $this->blog_gui,
+                    $this->items,
                     false,
                     $page_id
                 );

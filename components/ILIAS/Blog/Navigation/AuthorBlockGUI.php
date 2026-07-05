@@ -23,51 +23,27 @@ namespace ILIAS\Blog\Navigation;
 use ILIAS\Blog\InternalDomainService;
 use ILIAS\Blog\InternalGUIService;
 use ILIAS\Blog\Posting\Posting;
+use ILIAS\Blog\Navigation\Link\LinkBuilder;
 
 class AuthorBlockGUI
 {
-    protected InternalDomainService $domain;
-    protected InternalGUIService $gui;
-
     public function __construct(
-        InternalDomainService $domain,
-        InternalGUIService $gui
+        protected InternalDomainService $domain,
+        protected InternalGUIService $gui,
+        protected LinkBuilder $link_builder
     ) {
-        $this->domain = $domain;
-        $this->gui = $gui;
     }
 
-    /**
-     * @param Posting[][] $items
-     */
     public function render(
-        array $items,
-        string $list_cmd = "render",
         bool $show_inactive = false
     ): string {
-        $ctrl = $this->gui->ctrl();
-        $lng = $this->domain->lng();
-
-        $authors = array();
-        foreach ($items as $month => $month_items) {
-            foreach ($month_items as $item) {
-                $item_id = $item->getId();
-                if (($show_inactive || \ilBlogPosting::_lookupActive($item_id, "blp"))) {
-                    $author_id = $item->getAuthor();
-                    if ($author_id) {
-                        $authors[] = $author_id;
-                    }
-                    foreach (\ilPageObject::getPageContributors("blp", $item_id) as $editor) {
-                        $editor_id = (int) $editor["user_id"];
-                        if ($editor_id !== $author_id) {
-                            $authors[] = $editor_id;
-                        }
-                    }
-                }
-            }
-        }
-
-        $authors = array_unique($authors);
+        $obj_id = \ilObject::_lookupObjId($this->gui->standardRequest()->getRefId());
+        $posting_list = $this->domain->postingList(
+            $obj_id,
+            $this->domain->blogSettings()->getByObjId($obj_id),
+            $show_inactive
+        );
+        $authors = $posting_list->getAuthors();
 
         // filter out deleted users
         $authors = array_filter($authors, function ($id) {
@@ -78,9 +54,7 @@ class AuthorBlockGUI
             $list = array();
             foreach ($authors as $user_id) {
                 if ($user_id) {
-                    $ctrl->setParameterByClass(\ilObjBlogGUI::class, "ath", (string) $user_id);
-                    $url = $ctrl->getLinkTargetByClass(\ilObjBlogGUI::class, $list_cmd);
-                    $ctrl->setParameterByClass(\ilObjBlogGUI::class, "ath", "");
+                    $url = $this->link_builder->forAuthor($user_id);
 
                     $base_name = \ilUserUtil::getNamePresentation($user_id);
                     if (str_starts_with($base_name, "[")) {

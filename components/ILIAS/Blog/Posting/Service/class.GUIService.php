@@ -23,6 +23,7 @@ namespace ILIAS\Blog\Posting\Service;
 use ILIAS\Blog\InternalDataService;
 use ILIAS\Blog\InternalDomainService;
 use ILIAS\Blog\InternalGUIService;
+use ILIAS\Blog\Permission\PermissionManager;
 
 /**
  * GUI service for blog postings
@@ -53,6 +54,25 @@ class GUIService
             $a_enable_public_notes,
             $a_may_contribute,
             $a_style_sheet_id
+        );
+    }
+
+    public function postingList(
+        \ilObjBlogGUI $parent_gui,
+        PermissionManager $perm,
+        ?string $current_month = null,
+        ?int $node_id = null,
+        int $id_type = \ilObjBlogGUI::REPOSITORY_NODE_ID
+    ): \ILIAS\Blog\Posting\PostingListGUI {
+        return new \ILIAS\Blog\Posting\PostingListGUI(
+            $this->data,
+            $this->domain,
+            $this->gui,
+            $parent_gui,
+            $perm,
+            $current_month,
+            $node_id,
+            $id_type
         );
     }
 

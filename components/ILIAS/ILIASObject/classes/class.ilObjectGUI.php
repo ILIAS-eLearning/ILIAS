@@ -306,6 +306,7 @@ class ilObjectGUI implements ImplementsCreationCallback
 
     public function prepareOutput(bool $show_sub_objects = true): bool
     {
+
         $this->tpl->loadStandardTemplate();
         $base_class = $this->request_wrapper->retrieve("baseClass", $this->refinery->kindlyTo()->string());
         if (strtolower($base_class) == "iladministrationgui") {

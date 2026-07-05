@@ -52,7 +52,17 @@ class InternalGUIService
 
     public function presentation(): Presentation\GUIService
     {
-        return new Presentation\GUIService(
+        return self::$instance["presentation"] ??= new Presentation\GUIService(
+            $this->data_service,
+            $this->domain_service,
+            $this
+        );
+    }
+
+    public function editing(): Editing\GUIService
+    {
+        return self::$instance["editing"] ??= new Editing\GUIService(
+            $this->data_service,
             $this->domain_service,
             $this
         );

@@ -22,6 +22,12 @@ namespace ILIAS\Blog\Navigation;
 
 use ILIAS\Blog\InternalDomainService;
 use ILIAS\Blog\InternalGUIService;
+use ILIAS\Blog\Permission\PermissionManager;
+use ILIAS\Blog\Navigation\Link\PresentationLinkBuilder;
+use ILIAS\Blog\Navigation\Link\EditingLinkBuilder;
+use ILIAS\Blog\Navigation\Link\ExportLinkBuilder;
+use ILIAS\Blog\Navigation\Link\LinkBuilder;
+use ILIAS\Blog\Settings\Settings;
 
 class GUIService
 {
@@ -37,34 +43,97 @@ class GUIService
     }
 
     public function toolbarNavigationRenderer(
+        LinkBuilder $link_builder
     ): ToolbarNavigationRenderer {
         return new ToolbarNavigationRenderer(
             $this->domain,
-            $this->gui
+            $this->gui,
+            $link_builder
         );
     }
 
-    public function monthBlock(): MonthBlockGUI
-    {
+    public function monthBlock(
+        LinkBuilder $link_builder
+    ): MonthBlockGUI {
         return new MonthBlockGUI(
             $this->domain,
-            $this->gui
+            $this->gui,
+            $link_builder
         );
     }
 
-    public function authorBlock(): AuthorBlockGUI
-    {
+    public function authorBlock(
+        LinkBuilder $link_builder
+    ): AuthorBlockGUI {
         return new AuthorBlockGUI(
             $this->domain,
-            $this->gui
+            $this->gui,
+            $link_builder
         );
     }
 
-    public function keywordBlock(): KeywordBlockGUI
-    {
+    public function keywordBlock(
+        LinkBuilder $link_builder
+    ): KeywordBlockGUI {
         return new KeywordBlockGUI(
             $this->domain,
-            $this->gui
+            $this->gui,
+            $link_builder
         );
     }
+
+    public function sideBar(
+        ?PermissionManager $perm,
+        LinkBuilder $link_builder,
+        Settings $settings,
+        ?int $node_id = null,
+        int $id_type = \ilObjBlogGUI::REPOSITORY_NODE_ID
+    ): SideBarGUI {
+        return new SideBarGUI(
+            $this->domain,
+            $this->gui,
+            $perm,
+            $link_builder,
+            $settings,
+            $node_id,
+            $id_type
+        );
+    }
+
+    public function presentationHeader(
+        \ilObjBlog $blog,
+        PermissionManager $perm,
+    ): PresentationHeaderGUI {
+        return new PresentationHeaderGUI(
+            $this->domain,
+            $this->gui,
+            $blog,
+            $perm
+        );
+    }
+
+    public function presentationLink(): PresentationLinkBuilder
+    {
+        return new PresentationLinkBuilder(
+            $this->gui->ctrl(),
+        );
+    }
+
+    public function editingLink(): EditingLinkBuilder
+    {
+        return new EditingLinkBuilder(
+            $this->gui->ctrl(),
+        );
+    }
+
+    public function exportLink(
+        string $link_template = "",
+        array $keyword_map = []
+    ): ExportLinkBuilder {
+        return new ExportLinkBuilder(
+            $link_template,
+            $keyword_map
+        );
+    }
+
 }

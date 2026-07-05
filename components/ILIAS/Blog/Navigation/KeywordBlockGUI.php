@@ -23,34 +23,22 @@ namespace ILIAS\Blog\Navigation;
 use ILIAS\Blog\InternalDomainService;
 use ILIAS\Blog\InternalGUIService;
 use ILIAS\Blog\Posting\Posting;
+use ILIAS\Blog\Navigation\Link\LinkBuilder;
 
 class KeywordBlockGUI
 {
-    protected InternalDomainService $domain;
-    protected InternalGUIService $gui;
-
     public function __construct(
-        InternalDomainService $domain,
-        InternalGUIService $gui
+        protected InternalDomainService $domain,
+        protected InternalGUIService $gui,
+        protected LinkBuilder $link_builder
     ) {
-        $this->domain = $domain;
-        $this->gui = $gui;
     }
 
-    /**
-     * @param Posting[][] $items
-     */
     public function render(
-        array $items,
-        string $list_cmd = "render",
         bool $show_inactive = false,
-        string $link_template = "",
         int $blpg = 0
     ): string {
-        $ctrl = $this->gui->ctrl();
-        $lng = $this->domain->lng();
-
-        $keywords = $this->getKeywords($items, $show_inactive, $blpg);
+        $keywords = $this->getKeywords($show_inactive, $blpg);
         if ($keywords) {
             $wtpl = new \ilTemplate("tpl.blog_list_navigation_keywords.html", true, true, "components/ILIAS/Blog");
 
@@ -58,13 +46,7 @@ class KeywordBlockGUI
 
             $wtpl->setCurrentBlock("keyword");
             foreach ($keywords as $keyword => $counter) {
-                if (!$link_template) {
-                    $ctrl->setParameterByClass(\ilObjBlogGUI::class, "kwd", urlencode((string) $keyword));
-                    $url = $ctrl->getLinkTargetByClass(\ilObjBlogGUI::class, $list_cmd);
-                    $ctrl->setParameterByClass(\ilObjBlogGUI::class, "kwd", "");
-                } else {
-                    $url = $this->buildExportLink($link_template, "keyword", (string) $keyword);
-                }
+                $url = $this->link_builder->forKeyword($keyword);
 
                 $wtpl->setVariable("TXT_KEYWORD", (string) $keyword);
                 $wtpl->setVariable("CLASS_KEYWORD", \ilTagging::getRelevanceClass((int) $counter, (int) $max));
@@ -77,11 +59,7 @@ class KeywordBlockGUI
         return "";
     }
 
-    /**
-     * @param Posting[][] $items
-     */
     protected function getKeywords(
-        array $items,
         bool $show_inactive,
         ?int $posting_id = null
     ): array {
@@ -98,16 +76,20 @@ class KeywordBlockGUI
                 }
             }
         } else {
-            foreach ($items as $month => $month_items) {
+            $posting_list = $this->domain->postingList(
+                $obj_id,
+                $this->domain->blogSettings()->getByObjId($obj_id),
+                $show_inactive
+            );
+            $all_items = $posting_list->getPostingsGroupedByMonth();
+            foreach ($all_items as $month => $month_items) {
                 foreach ($month_items as $item) {
                     $item_id = $item->getId();
-                    if ($show_inactive || \ilBlogPosting::_lookupActive($item_id, "blp")) {
-                        foreach ($posting_manager->getKeywords($obj_id, $item_id) as $keyword) {
-                            if (isset($keywords[$keyword])) {
-                                $keywords[$keyword]++;
-                            } else {
-                                $keywords[$keyword] = 1;
-                            }
+                    foreach ($posting_manager->getKeywords($obj_id, $item_id) as $keyword) {
+                        if (isset($keywords[$keyword])) {
+                            $keywords[$keyword]++;
+                        } else {
+                            $keywords[$keyword] = 1;
                         }
                     }
                 }
@@ -125,14 +107,5 @@ class KeywordBlockGUI
             $keywords[(string) $item["keyword"]] = $item["counter"];
         }
         return $keywords;
-    }
-
-    protected function buildExportLink(
-        string $template,
-        string $type,
-        string $id
-    ): string {
-        $blog_export = new \ILIAS\Blog\Export\BlogHtmlExport($this->gui->standardRequest()->getRefId());
-        return $blog_export->buildExportLink($template, $type, $id, []);
     }
 }

@@ -18,11 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Blog\Presentation;
+namespace ILIAS\Blog\Editing;
 
 use ILIAS\Blog\InternalDataService;
 use ILIAS\Blog\InternalDomainService;
 use ILIAS\Blog\InternalGUIService;
+use ILIAS\File\Capabilities\Permissions;
 use ILIAS\Blog\Permission\PermissionManager;
 
 class GUIService
@@ -34,29 +35,24 @@ class GUIService
     ) {
     }
 
-    public function util(): Util
-    {
-        return new Util();
-    }
-
-    public function presentationGUI(
-        \ilObjBlogGUI $parent_gui,
+    public function editingGUI(
+        int $node_id,
+        int $id_type,
         PermissionManager $perm,
+        ?string $month,
         \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain,
-        string $current_month,
-        ?int $node_id = null,
-        int $id_type = \ilObjBlogGUI::REPOSITORY_NODE_ID
-    ): PresentationGUI {
-        return new PresentationGUI(
+        \ilObjBlogGUI $parent_gui
+    ): EditingGUI {
+        return new EditingGUI(
             $this->data,
             $this->domain,
             $this->gui,
-            $parent_gui,
-            $perm,
-            $content_style_domain,
-            $current_month,
             $node_id,
-            $id_type
+            $id_type,
+            $perm,
+            $month,
+            $content_style_domain,
+            $parent_gui
         );
     }
 }
