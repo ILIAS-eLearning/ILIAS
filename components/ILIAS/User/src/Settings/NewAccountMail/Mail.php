@@ -31,4 +31,5 @@ interface Mail
     public function getSalutationMale(): string;
     public function getSalutationFemale(): string;
     public function getAttachment(ResourceStorage $irss): ?MailAttachment;
+    public function getAttachmentRid(): ?string;
 }

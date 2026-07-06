@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
 use ILIAS\Cron\CronJob;
+use ILIAS\Mail\Attachments\MailAttachments;
 
 class ilTimingsCronReminder extends CronJob
 {
@@ -309,7 +310,7 @@ class ilTimingsCronReminder extends CronJob
                     '',
                     $this->user_lang->txt('timings_cron_reminder_exceeded_subject'),
                     $mail_body,
-                    [],
+                    MailAttachments::empty(),
                     true
                 );
                 $this->log->debug('...mail send for user ' . $user_id . ' to mail ' . $login . ' has exceeded timings for ' . $mail_body);

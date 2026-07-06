@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Mail\Attachments\MailAttachments;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -360,7 +362,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
             '',
             ilStr::strLen($subjectText) > 255 ? ilStr::substr($subjectText, 0, 255) : $subjectText,
             $bodyText,
-            $this->provider->getAttachments(),
+            $this->provider->getMailAttachments(),
             false,
             false
         );
@@ -393,7 +395,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
             '',
             ilStr::strLen($subjectText) > 255 ? ilStr::substr($subjectText, 0, 255) : $subjectText,
             $bodyText,
-            [],
+            MailAttachments::empty(),
             false,
             false
         );
