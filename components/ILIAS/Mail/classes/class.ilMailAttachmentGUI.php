@@ -310,10 +310,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
         $records = [];
         $checked_items = [];
         foreach ($files as $file) {
-            if ($stage_attachments instanceof MailAttachments && $stage_attachments->isLegacy()
-                && in_array($file['name'], $stage_attachments->legacyFilenames(), true)) {
-                $checked_items[] = urlencode($file['name']);
-            } elseif (isset($adopted_pool_hashes[$this->fdm->poolFilenameHash($file['name'])])) {
+            if (isset($adopted_pool_hashes[$this->fdm->poolFilenameHash($file['name'])])) {
                 $checked_items[] = urlencode($file['name']);
             }
 

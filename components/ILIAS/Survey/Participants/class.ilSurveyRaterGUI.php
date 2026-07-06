@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Mail\Attachments\MailAttachments;
+
 /**
  * @author       Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilSurveyRaterGUI: ilRepositorySearchGUI
@@ -385,7 +387,7 @@ class ilSurveyRaterGUI
                         "", // bcc
                         $subj, // subject
                         $mytxt, // message
-                        array() // attachments
+                        MailAttachments::empty() // attachments
                     );
 
                     $this->survey->set360RaterSent(

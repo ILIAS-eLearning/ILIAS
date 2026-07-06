@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Mail\Attachments\MailAttachments;
+
 /**
  * Interface ilForumNotificationMailData
  * @author Nadia Matuschek <nmatuschek@databay.de>
@@ -70,6 +72,8 @@ interface ilForumNotificationMailData
     public function getCensorshipComment(): string;
 
     public function getAttachments(): array;
+
+    public function getMailAttachments(): MailAttachments;
 
     public function getDeletedBy(): string;
 }
