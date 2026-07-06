@@ -5705,6 +5705,7 @@ common#:#show_content#:#Inhalt anzeigen
 common#:#show_details#:#Details anzeigen
 common#:#show_filter#:#Filter anzeigen
 common#:#show_hidden_sections#:#Weitere Informationen anzeigen &raquo;
+common#:#show_less#:#Weniger zeigen
 common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
 common#:#show_more#:#Mehr zeigen

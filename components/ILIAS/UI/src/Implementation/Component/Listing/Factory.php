@@ -46,6 +46,14 @@ class Factory implements L\Factory
         return new Descriptive($items);
     }
 
+    public function inline(array $items): Inline
+    {
+        return new Inline($items);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function workflow(): Workflow\Factory
     {
         return $this->workflow_factory;
