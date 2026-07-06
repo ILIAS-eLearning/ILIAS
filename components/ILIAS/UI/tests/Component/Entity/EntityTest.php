@@ -23,11 +23,9 @@ use ILIAS\UI\Implementation\Component\Symbol;
 use ILIAS\UI\Implementation\Component\Button;
 use ILIAS\UI\Implementation\Component\Link;
 use ILIAS\UI\Implementation\Component\Image;
-use ILIAS\UI\Implementation\Component\Dropdown;
 use ILIAS\UI\Implementation\Component\Legacy\Content;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
-use ILIAS\UI\Component as I;
-use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Implementation\Component as I;
 
 class EntityTest extends ILIAS_UI_TestBase
 {
@@ -91,11 +89,11 @@ class EntityTest extends ILIAS_UI_TestBase
         $entity = $this->getEntityFactory()->standard('primary', 'secondary')
             ->withPrioritizedReactions($glyph, $tag)
             ->withReactions($glyph, $glyph, $glyph)
-            ->withActions($shy);
+            ->withManagingActions($shy);
 
         $this->assertEquals([$glyph, $tag], $entity->getPrioritizedReactions());
         $this->assertEquals([$glyph,$glyph,$glyph], $entity->getReactions());
-        $this->assertEquals([$shy], $entity->getActions());
+        $this->assertEquals([$shy], $entity->getManagingActions());
     }
 
     public function testEntityComponentProperties(): void
@@ -106,20 +104,70 @@ class EntityTest extends ILIAS_UI_TestBase
         $entity = $this->getEntityFactory()->standard('primary', 'secondary')
             ->withPrioritizedReactions($glyph, $tag)
             ->withReactions($glyph)
-            ->withActions($shy);
+            ->withManagingActions($shy);
 
         $this->assertEquals([$glyph, $tag], $entity->getPrioritizedReactions());
         $this->assertEquals([$glyph], $entity->getReactions());
-        $this->assertEquals([$shy], $entity->getActions());
+        $this->assertEquals([$shy], $entity->getManagingActions());
     }
 
+    public function testEntityWorkflowButtons(): void
+    {
+        $workflow_factory = $this->getUIFactory()->listing()->workflow();
+        $dummy_step = $workflow_factory->step('', '');
+
+        // Creating Workflow Steps
+        $steps = [
+            $workflow_factory->step("Upload video file", "Upload an .mp4 file or start a recording.", "#")
+                ->withAvailability($dummy_step::NOT_ANYMORE)->withStatus($dummy_step::SUCCESSFULLY),
+            $workflow_factory->step("Cut video", "Trim or remove parts of the video.", "#")
+                ->withAvailability($dummy_step::AVAILABLE)->withStatus($dummy_step::NOT_STARTED),
+            $workflow_factory->step("Add subtitles", "You must upload or generate subtitles for every video.", "#")
+                ->withAvailability($dummy_step::AVAILABLE)->withStatus($dummy_step::NOT_STARTED),
+            $workflow_factory->step("Publish", "Set who can see this video.", "#")
+                ->withAvailability($dummy_step::NOT_AVAILABLE)->withStatus($dummy_step::NOT_AVAILABLE),
+        ];
+
+        $video_workflow = $workflow_factory->linear("Video Curation", $steps);
+
+        $entity = $this->getEntityFactory()->standard('primary', 'secondary')
+            ->withWorkflow($video_workflow);
+
+        $rendered_entity = $this->getDefaultRenderer()->render($entity);
+
+        $x = 1;
+
+        $this->assertStringContainsString("Cut video</button>", $rendered_entity);
+        $this->assertStringContainsString("Add subtitles</button>", $rendered_entity);
+        $this->assertStringNotContainsString("Upload video file</button>", $rendered_entity);
+        $this->assertStringNotContainsString("Publish</button>", $rendered_entity);
+    }
 
     public function getUIFactory(): NoUIFactory
     {
-        return new class () extends NoUIFactory {
-            public function dropdown(): Dropdown\Factory
+        return new class (
+            $this->createMock(I\Listing\CharacteristicValue\Factory::class),
+        ) extends NoUIFactory {
+            public function __construct(
+                protected I\Listing\CharacteristicValue\Factory $characteristic_value_factory,
+            ) {
+            }
+
+            public function dropdown(): I\Dropdown\Factory
             {
-                return new Dropdown\Factory();
+                return new I\Dropdown\Factory();
+            }
+            public function button(): I\Button\Factory
+            {
+                return new I\Button\Factory();
+            }
+            public function listing(): I\Listing\Factory
+            {
+                return new I\Listing\Factory(
+                    new I\Listing\Workflow\Factory,
+                    $this->characteristic_value_factory,
+                    new I\Listing\Entity\Factory(),
+                );
             }
         };
     }
@@ -131,7 +179,7 @@ class EntityTest extends ILIAS_UI_TestBase
         $entity = $this->getEntityFactory()->standard('primary', 'secondary')
             ->withPrioritizedReactions($glyph, $tag)
             ->withReactions($glyph, $glyph)
-            ->withActions($shy, $shy)
+            ->withManagingActions($shy, $shy)
             ->withBlockingAvailabilityConditions($this->legacy('bc'))
             ->withFeaturedProperties($this->legacy('fp'))
             ->withMainDetails($this->legacy('md'))
@@ -142,34 +190,48 @@ class EntityTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $html = $this->brutallyTrimHTML($r->render($entity));
         $expected = $this->brutallyTrimHTML('
-<div class="c-entity __container">
-    <div class="c-entity __blocking-conditions">bc</div>
-    <div class="c-entity __actions">
-        <div class="dropdown" id="id_9">
-            <button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_9_menu"><span class="caret"></span></button>
-            <ul id="id_9_menu" class="dropdown-menu">
-                <li><button class="btn btn-link" data-action="#" id="id_7">shy</button></li>
-                <li><button class="btn btn-link" data-action="#" id="id_8">shy</button></li>
-            </ul>
-        </div>
-    </div>
-    <div class="c-entity __secondary-identifier --string ">secondary</div>
-    <div class="c-entity __primary-identifier">primary</div>
-    <div class="c-entity __featured">fp</div>
-    <div class="c-entity __personal-status">ps</div>
-    <div class="c-entity __main-details">md</div>
-    <div class="c-entity __availability">a</div>
-    <div class="c-entity __details">d</div>
-    <div class="c-entity __reactions">
-        <span class="glyph" aria-label="some glyph" role="img"><span class="glyphicon il-glyphicon-laugh" aria-hidden="true"></span></span>
-        <span class="glyph" aria-label="some glyph" role="img"><span class="glyphicon il-glyphicon-laugh" aria-hidden="true"></span></span>
-    </div>
-    <div class="c-entity __featured-reactions">
-        <span class="glyph" aria-label="some glyph" role="img"><span class="glyphicon il-glyphicon-laugh" aria-hidden="true"></span></span>
-        <button class="btn btn-tag btn-tag-relevance-veryhigh" data-action="#" id="id_10">tag</button>
-    </div>
-</div>
-        ');
+<section aria-labelledby="id_1" class="c-entity__container">
+   <div class="c-entity__featured-headerbar l-bar__container">
+      <div class="l-bar__space-keeper l-bar__space-keeper--space-between">
+         <div class="l-bar__group">
+            <div class="l-bar__element">
+               <div class="c-entity__blocking-conditions l-bar__element">bc</div>
+               <div id="id_1" class="c-entity__primary-identifier">primary</div>
+            </div>
+         </div>
+         <div class="c-entity__actions-container l-bar__group">
+            <div class="c-entity__actions-manage l-bar__element">
+               <div class="dropdown" id="id_10">
+                  <button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_10_menu"><span class="caret"></span></button>
+                  <ul id="id_10_menu" class="dropdown-menu">
+                     <li><button class="btn btn-link" data-action="#" id="id_8">shy</button></li>
+                     <li><button class="btn btn-link" data-action="#" id="id_9">shy</button></li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="c-entity__secondary-identifier --string ">secondary</div>
+   <div class="c-entity__featured l-bar__element">fp</div>
+   <div class="c-entity__personal-status">ps</div>
+   <div class="c-entity__main-details">md</div>
+   <div class="c-entity__availability">a</div>
+   <div class="c-entity__details">d</div>
+   <div class="c-entity__reactionbar l-bar__container">
+      <div class="l-bar__space-keeper l-bar__space-keeper--space-between">
+         <div class="l-bar__group">
+            <div class="l-bar__element">
+               <div class="c-entity__reactions"><span class="glyph" aria-label="some glyph" role="img"><span class="glyphicon il-glyphicon-laugh" aria-hidden="true"></span></span><span class="glyph" aria-label="some glyph" role="img"><span class="glyphicon il-glyphicon-laugh" aria-hidden="true"></span></span></div>
+            </div>
+         </div>
+         <div class="l-bar__group">
+            <div class="c-entity__featured-reactions"><span class="glyph" aria-label="some glyph" role="img"><span class="glyphicon il-glyphicon-laugh" aria-hidden="true"></span></span><button class="btn btn-tag btn-tag-relevance-veryhigh" data-action="#" id="id_11">tag</button></div>
+         </div>
+      </div>
+   </div>
+</section>
+');
         $this->assertEquals($expected, $html);
     }
 }

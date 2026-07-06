@@ -55,10 +55,12 @@ trait IliasMocks
             });
         $ui_factory->method('link')
             ->willReturn(new CImpl\Link\Factory());
+        $language_mock = $this->createMock(\ILIAS\Language\Language::class);
+        $language_mock->method('txt')->willReturnArgument(0);
         $ui_factory->method('symbol')
             ->willReturn(new CImpl\Symbol\Factory(
                 new CImpl\Symbol\Icon\Factory(),
-                new CImpl\Symbol\Glyph\Factory(),
+                new CImpl\Symbol\Glyph\Factory($language_mock),
                 new CImpl\Symbol\Avatar\Factory()
             ));
 

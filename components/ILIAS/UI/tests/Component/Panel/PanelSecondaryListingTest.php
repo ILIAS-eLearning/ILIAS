@@ -30,9 +30,16 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
  */
 class PanelSecondaryListingTest extends ILIAS_UI_TestBase
 {
+    use LanguageStubs;
+
     public function getUIFactory(): NoUIFactory
     {
-        return new class () extends NoUIFactory {
+        return new class ($this->createRelayArgumentLanguageStub()) extends NoUIFactory {
+            public function __construct(
+                protected \ILIAS\Language\Language $language,
+            ) {
+            }
+
             public function panelSecondary(): I\Component\Panel\Secondary\Factory
             {
                 return new I\Component\Panel\Secondary\Factory();
@@ -57,7 +64,7 @@ class PanelSecondaryListingTest extends ILIAS_UI_TestBase
             {
                 return new I\Component\Symbol\Factory(
                     new I\Component\Symbol\Icon\Factory(),
-                    new I\Component\Symbol\Glyph\Factory(),
+                    new I\Component\Symbol\Glyph\Factory($this->language),
                     new I\Component\Symbol\Avatar\Factory()
                 );
             }
