@@ -48,6 +48,10 @@ class ListingTest extends ILIAS_UI_TestBase
             $f->unordered(array("1"))
         );
         $this->assertInstanceOf(
+            "ILIAS\\UI\\Component\\Listing\\Inline",
+            $f->inline(array("1"))
+        );
+        $this->assertInstanceOf(
             "ILIAS\\UI\\Component\\Listing\\Descriptive",
             $f->descriptive(array("k1" => "c1"))
         );
@@ -83,7 +87,14 @@ class ListingTest extends ILIAS_UI_TestBase
         $items = array("1","2");
         $this->assertEquals($l->getItems(), $items);
     }
+    public function testInlineGetItems(): void
+    {
+        $f = $this->getListingFactory();
+        $l = $f->inline(array("1","2"));
 
+        $items = array("1","2");
+        $this->assertEquals($l->getItems(), $items);
+    }
     public function testDescriptiveGetItems(): void
     {
         $f = $this->getListingFactory();
@@ -106,6 +117,14 @@ class ListingTest extends ILIAS_UI_TestBase
     {
         $f = $this->getListingFactory();
         $l = $f->unordered(array())->withItems(array("1","2"));
+
+        $items = array("1","2");
+        $this->assertEquals($l->getItems(), $items);
+    }
+    public function testInlineWithItems(): void
+    {
+        $f = $this->getListingFactory();
+        $l = $f->inline(array())->withItems(array("1","2"));
 
         $items = array("1","2");
         $this->assertEquals($l->getItems(), $items);
@@ -170,6 +189,21 @@ class ListingTest extends ILIAS_UI_TestBase
                 "\t\t<li>1</li>" .
                 "\t\t<li>2</li>\t" .
                 "</ul>";
+
+        $this->assertEquals($expected, $html);
+    }
+    public function testRenderInlineListing(): void
+    {
+        $f = $this->getListingFactory();
+        $r = $this->getDefaultRenderer();
+        $l = $f->inline(array("1","2"));
+
+        $html = $this->brutallyTrimHTML($r->render($l));
+
+        $expected = <<< 'HTML'
+        <ul class="c-listing-inline l-bar__space-keeper"><li class="c-listing-inline__item l-bar__element">1</li><li class="c-listing-inline__item l-bar__element">2</li></ul>
+        HTML;
+        $expected = $this->brutallyTrimHTML($expected);
 
         $this->assertEquals($expected, $html);
     }

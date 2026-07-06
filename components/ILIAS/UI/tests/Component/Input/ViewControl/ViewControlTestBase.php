@@ -29,6 +29,8 @@ use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 
 abstract class ViewControlTestBase extends ILIAS_UI_TestBase
 {
+    use LanguageStubs;
+
     protected function getNamesource()
     {
         return new class () implements NameSource {
@@ -80,10 +82,11 @@ abstract class ViewControlTestBase extends ILIAS_UI_TestBase
 
     public function getUIFactory(): NoUIFactory
     {
-        $factory = new class () extends NoUIFactory {
+        $factory = new class ($this->createRelayArgumentLanguageStub()) extends NoUIFactory {
             protected SignalGenerator $sig_gen;
-            public function __construct()
-            {
+            public function __construct(
+                protected ILIAS\Language\Language $language,
+            ) {
                 $this->sig_gen = new SignalGenerator();
             }
             public function button(): I\Button\Factory
@@ -96,7 +99,7 @@ abstract class ViewControlTestBase extends ILIAS_UI_TestBase
             {
                 return new I\Symbol\Factory(
                     new I\Symbol\Icon\Factory(),
-                    new I\Symbol\Glyph\Factory(),
+                    new I\Symbol\Glyph\Factory($this->language),
                     new I\Symbol\Avatar\Factory()
                 );
             }

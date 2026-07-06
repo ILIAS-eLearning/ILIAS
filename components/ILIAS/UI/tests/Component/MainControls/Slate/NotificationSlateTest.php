@@ -30,6 +30,8 @@ use ILIAS\UI\Implementation\Component\Counter\Factory;
  */
 class NotificationSlateTest extends ILIAS_UI_TestBase
 {
+    use LanguageStubs;
+
     protected I\SignalGenerator $sig_gen;
 
     public function setUp(): void
@@ -44,8 +46,13 @@ class NotificationSlateTest extends ILIAS_UI_TestBase
 
     public function getUIFactory(): NoUIFactory
     {
-        $factory = new class () extends NoUIFactory {
+        $factory = new class ($this->createRelayArgumentLanguageStub()) extends NoUIFactory {
             public I\SignalGenerator $sig_gen;
+
+            public function __construct(
+                protected \ILIAS\Language\Language $language,
+            ) {
+            }
 
             public function button(): C\Button\Factory
             {
@@ -55,7 +62,7 @@ class NotificationSlateTest extends ILIAS_UI_TestBase
             {
                 return new I\Symbol\Factory(
                     new I\Symbol\Icon\Factory(),
-                    new I\Symbol\Glyph\Factory(),
+                    new I\Symbol\Glyph\Factory($this->language),
                     new I\Symbol\Avatar\Factory()
                 );
             }

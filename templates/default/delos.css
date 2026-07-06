@@ -703,6 +703,160 @@ table.mceToolbar tbody, table.mceToolbar tr, table.mceToolbar td {
 }
 
 /*
+	These classes are used to limit the number of rows when displaying larger chunks of text.
+	The mixin receives $height-in-rows as an integer. The classes il-multi-line-cap-2,3,5,10
+	can be used to limit the number of rows for text to 2,3,5 or 10 lines in any template,
+	e.g. the Standard Listing Panels limit the property values to 3 lines using il-multi-line-cap-3
+
+	Technical discussion can be found in https://mantis.ilias.de/view.php?id=21583
+	The background/gradient fallback can be removed as soon as all browsers support line-clamp.
+ */
+.t-text-more-less__toggle:checked + .t-text-more-less__label .t-text-more-less__label__more {
+  display: none;
+}
+.t-text-more-less__toggle:not(:checked) + .t-text-more-less__label .t-text-more-less__label__less {
+  display: none;
+}
+.t-text-more-less__label {
+  color: #4c6586;
+  text-decoration: none;
+}
+.t-text-more-less__label:hover {
+  color: #3a4c65;
+  text-decoration: underline;
+}
+@media screen and (min-width: 769px) {
+  .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body {
+    /* edge, chrome, safari go here... */
+    /* may come with next firefox 68, https://caniuse.com/#search=clamp */
+  }
+  .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body {
+    position: relative;
+    max-height: 1.5em;
+    overflow: hidden;
+    line-height: 1.5;
+  }
+  .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body:after {
+    content: "";
+    text-align: right;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 30%;
+    height: 1.5em;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgb(255, 255, 255) 80%);
+  }
+  @supports (-webkit-line-clamp: 2) {
+    .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+    .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body:after {
+      display: none;
+    }
+  }
+  @supports (-moz-line-clamp: 2) {
+    .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -moz-box;
+      -moz-line-clamp: 1;
+      -moz-box-orient: vertical;
+    }
+    .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body:after {
+      display: none;
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body {
+    /* edge, chrome, safari go here... */
+    /* may come with next firefox 68, https://caniuse.com/#search=clamp */
+  }
+  .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body {
+    position: relative;
+    max-height: 3em;
+    overflow: hidden;
+    line-height: 1.5;
+  }
+  .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body:after {
+    content: "";
+    text-align: right;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 30%;
+    height: 1.5em;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgb(255, 255, 255) 80%);
+  }
+  @supports (-webkit-line-clamp: 2) {
+    .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body:after {
+      display: none;
+    }
+  }
+  @supports (-moz-line-clamp: 2) {
+    .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -moz-box;
+      -moz-line-clamp: 2;
+      -moz-box-orient: vertical;
+    }
+    .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body:after {
+      display: none;
+    }
+  }
+}
+
+input[type=checkbox].t-text-more-less__toggle {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+input[type=checkbox].t-text-more-less__toggle:focus {
+  border: inherit;
+  box-shadow: inherit;
+  outline: none;
+  outline-offset: 0px;
+}
+input[type=checkbox].t-text-more-less__toggle:focus-visible {
+  border: inherit;
+  box-shadow: inherit;
+  outline: none;
+  outline-offset: 0px;
+}
+input[type=checkbox].t-text-more-less__toggle:focus ~ label, input[type=checkbox].t-text-more-less__toggle:focus-visible ~ label {
+  position: relative;
+  outline: 2px solid #FFFFFF;
+  outline-offset: 5px;
+}
+input[type=checkbox].t-text-more-less__toggle:focus ~ label::after, input[type=checkbox].t-text-more-less__toggle:focus-visible ~ label::after {
+  content: " ";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid #FFFFFF;
+  outline: 3px solid #0078D7;
+}
+
+/*
 * Normalize
 */
 /* print less */
@@ -1754,6 +1908,12 @@ th {
   flex-wrap: wrap;
   align-items: center;
 }
+.l-bar__space-keeper .l-bar__group,
+.l-bar__space-keeper .l-bar__element,
+.l-bar__group .l-bar__group,
+.l-bar__group .l-bar__element {
+  flex-wrap: nowrap;
+}
 
 .l-bar__space-keeper:not(:empty) {
   margin-bottom: calc(-1 * var(--l-bar__element__margin-bottom));
@@ -1766,14 +1926,14 @@ th {
 .l-bar__group > .l-bar__element {
   margin-bottom: var(--l-bar__element__margin-bottom);
 }
-.l-bar__space-keeper > .l-bar__element:last-child,
-.l-bar__group > .l-bar__element:last-child {
-  margin-right: 0;
-}
 
 .l-bar__group > .l-bar__element,
 .l-bar__space-keeper > .l-bar__element {
   margin-right: var(--l-bar__gap--elements);
+}
+.l-bar__group > .l-bar__element:last-child,
+.l-bar__space-keeper > .l-bar__element:last-child {
+  margin-right: 0;
 }
 
 .l-bar__space-keeper > .l-bar__group,
@@ -2125,21 +2285,19 @@ fieldset[disabled] input[type=checkbox] {
   cursor: not-allowed;
 }
 
-input[type=file]:focus,
+input[type=file]:focus, input[type=file]:focus-visible,
 input[type=radio]:focus,
-input[type=checkbox]:focus {
-  outline: none;
-  outline-offset: 0px;
-}
-input[type=file]:focus-visible,
 input[type=radio]:focus-visible,
+input[type=checkbox]:focus,
 input[type=checkbox]:focus-visible {
   position: relative;
   outline: 2px solid #FFFFFF;
   outline-offset: 5px;
 }
-input[type=file]:focus-visible::after,
+input[type=file]:focus::after, input[type=file]:focus-visible::after,
+input[type=radio]:focus::after,
 input[type=radio]:focus-visible::after,
+input[type=checkbox]:focus::after,
 input[type=checkbox]:focus-visible::after {
   content: " ";
   position: absolute;
@@ -2197,6 +2355,37 @@ img {
     /* height: auto; messes e.g. survey progress bar */
     max-width: 100%;
   }
+}
+
+a:has(img) {
+  display: inline-block;
+}
+a:has(img):focus {
+  border: inherit;
+  box-shadow: inherit;
+  outline: none;
+  outline-offset: 0px;
+}
+a:has(img):focus-visible {
+  border: inherit;
+  box-shadow: inherit;
+  outline: none;
+  outline-offset: 0px;
+}
+a:has(img):focus, a:has(img):focus-visible {
+  position: relative;
+  outline: 2px solid #FFFFFF;
+  outline-offset: 5px;
+}
+a:has(img):focus::after, a:has(img):focus-visible::after {
+  content: " ";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid #FFFFFF;
+  outline: 3px solid #0078D7;
 }
 
 script {
@@ -4110,70 +4299,111 @@ hr.il-divider-with-label {
   width: 100%;
 }
 
-.c-entity.__container {
+.c-entity__container {
   display: grid;
-  grid-template-areas: "f-blocking f-blocking f-blocking f-blocking actions" "second-id f-prop f-prop f-prop actions" "second-id prim-id prim-id prim-id actions" "second-id status status status status" "second-id f-details f-details f-details f-details" "second-id availab availab availab availab" "second-id details details details details" "second-id reaction reaction f-reaction f-reaction";
-  grid-template-columns: min-content auto auto min-content min-content;
+  grid-template-columns: max-content auto;
+  grid-template-rows: repeat(9, minmax(min-content, auto));
   border: 1px solid #dddddd;
   background-color: white;
   padding: 4.5px 7.5px;
 }
-.c-entity.__container > *:not(:empty) {
+.c-entity__container > * {
   padding: 4.5px 7.5px;
 }
-.c-entity.__blocking-conditions {
-  grid-area: f-blocking;
-  font-size: 1.115rem;
+@media screen and (max-width: 768px) {
+  .c-entity__container {
+    display: block;
+  }
 }
-.c-entity.__actions {
-  display: flex;
-  justify-content: end;
-  grid-area: actions;
+.c-entity__featured-headerbar {
+  column-span: 2;
 }
-.c-entity.__actions .dropdown {
-  height: max-content;
+.c-entity__featured-headerbar > .l-bar__space-keeper {
+  flex-wrap: nowrap;
 }
-.c-entity.__secondary-identifier {
-  grid-area: second-id;
+.c-entity__featured-headerbar > .l-bar__space-keeper .l-bar__group,
+.c-entity__featured-headerbar > .l-bar__space-keeper .l-bar__element {
+  align-self: flex-start;
 }
-.c-entity.__secondary-identifier.--string, .c-entity.__secondary-identifier.--shy, .c-entity.__secondary-identifier.--shylink {
+.c-entity__secondary-identifier {
+  grid-column: 1;
+  grid-row: 1/10;
+}
+.c-entity__secondary-identifier.--string, .c-entity__secondary-identifier.--shy, .c-entity__secondary-identifier.--shylink {
   width: 10rem;
 }
-.c-entity.__secondary-identifier.--symbol {
-  min-width: 3rem;
+.c-entity__secondary-identifier.--symbol img {
+  width: auto;
 }
-.c-entity.__secondary-identifier.--image {
-  width: 15rem;
+.c-entity__secondary-identifier.--image img {
+  max-width: 360px;
 }
-.c-entity.__primary-identifier {
-  grid-area: prim-id;
+.c-entity__primary-identifier {
   font-weight: 600;
   font-size: 1.5rem;
 }
-.c-entity.__featured {
-  grid-area: f-prop;
-  font-size: 1.115rem;
+.c-entity__featured {
+  font-size: 1rem;
 }
-.c-entity.__personal-status {
-  grid-area: status;
+.c-entity__workflow-actions {
+  padding-top: 18px;
 }
-.c-entity.__main-details {
-  grid-area: f-details;
+.c-entity__blocking-conditions {
+  padding-bottom: 18px;
+  font-size: 1rem;
 }
-.c-entity.__availability {
-  grid-area: availab;
+.c-entity__main-details {
+  padding-top: 18px;
 }
-.c-entity.__details {
-  grid-area: details;
+.c-entity__details {
+  font-size: 0.75rem;
 }
-.c-entity.__reactions {
-  grid-area: reaction;
+.c-entity__reactions {
+  padding-top: 18px;
 }
-.c-entity.__featured-reactions {
-  display: flex;
-  justify-content: end;
-  grid-area: f-reaction;
+.c-entity__reactionbar {
+  align-self: stretch;
+  align-content: flex-end;
+  grid-column: 2;
+  grid-row: 9;
+}
+.c-entity__featured-reactions {
+  padding-top: 18px;
+  text-align: end;
   min-width: max-content;
+}
+@media screen and (max-width: 768px) {
+  .c-entity__container {
+    display: flex;
+    flex-direction: column;
+  }
+  .c-entity__container > * {
+    order: 2;
+  }
+  .c-entity__secondary-identifier {
+    order: 1;
+  }
+  .c-entity__secondary-identifier.--image img {
+    width: calc(100% + 30px);
+    max-width: unset;
+    margin-left: -15px;
+    margin-top: -9px;
+  }
+  .c-entity__reactionbar {
+    flex-grow: 1;
+  }
+}
+
+.c-listing-inline {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.c-listing-inline > .c-listing-inline__item::after {
+  content: ", ";
+}
+.c-listing-inline > .c-listing-inline__item:last-child::after {
+  content: "";
 }
 
 .c-field-tag {
@@ -5736,7 +5966,7 @@ a[aria-disabled].il-link.link-bulky:hover {
   background-color: unset;
 }
 
-.c-listing-property__propertylabel:after {
+.c-listing-property__propertylabel:not(:has(.glyphicon)):after {
   content: ":";
 }
 
@@ -5950,9 +6180,47 @@ a[aria-disabled].il-link.link-bulky:hover {
   padding: 15px 15px;
 }
 
-.c-listing-entity {
+.c-listing-entity,
+.c-listing-entity-grid {
   list-style: none;
   padding-left: 0;
+}
+
+.c-listing-entity {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(650px, 1fr));
+  gap: 15px;
+}
+
+.c-listing-entity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 15px;
+}
+.c-listing-entity-grid .c-entity__container {
+  display: flex;
+  flex-direction: column;
+}
+.c-listing-entity-grid .c-entity__container > * {
+  order: 2;
+}
+.c-listing-entity-grid .c-entity__secondary-identifier {
+  order: 1;
+}
+.c-listing-entity-grid .c-entity__secondary-identifier.--image img {
+  width: calc(100% + 30px);
+  max-width: unset;
+  margin-left: -15px;
+  margin-top: -9px;
+}
+.c-listing-entity-grid .c-entity__reactionbar {
+  flex-grow: 1;
+}
+.c-listing-entity-grid .c-entity__container {
+  height: 100%;
+}
+.c-listing-entity-grid .c-entity__container .c-listing-property__propertyvalue:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body {
+  height: 2lh;
 }
 
 .il-maincontrols-slate.disengaged {
@@ -15309,16 +15577,12 @@ div.ilc_va_icont_VAccordICont {
   border-bottom: 1px solid #dddddd;
   background-color: white;
 }
-.ilAwarenessItem > div[role=button]:focus-visible:focus {
-  outline: none;
-  outline-offset: 0px;
-}
-.ilAwarenessItem > div[role=button]:focus-visible:focus-visible {
+.ilAwarenessItem > div[role=button]:focus-visible:focus, .ilAwarenessItem > div[role=button]:focus-visible:focus-visible {
   position: relative;
   outline: 2px solid #FFFFFF;
   outline-offset: 5px;
 }
-.ilAwarenessItem > div[role=button]:focus-visible:focus-visible::after {
+.ilAwarenessItem > div[role=button]:focus-visible:focus::after, .ilAwarenessItem > div[role=button]:focus-visible:focus-visible::after {
   content: " ";
   position: absolute;
   top: -2px;
@@ -17157,16 +17421,12 @@ p#copg-auto-save {
   position: static;
 }
 
-.ilPageVideo button:focus, .ilPageAudio button:focus {
-  outline: none;
-  outline-offset: 0px;
-}
-.ilPageVideo button:focus-visible, .ilPageAudio button:focus-visible {
+.ilPageVideo button:focus, .ilPageVideo button:focus-visible, .ilPageAudio button:focus, .ilPageAudio button:focus-visible {
   position: relative;
   outline: 2px solid #FFFFFF;
   outline-offset: 5px;
 }
-.ilPageVideo button:focus-visible::after, .ilPageAudio button:focus-visible::after {
+.ilPageVideo button:focus::after, .ilPageVideo button:focus-visible::after, .ilPageAudio button:focus::after, .ilPageAudio button:focus-visible::after {
   content: " ";
   position: absolute;
   top: -2px;
@@ -18220,18 +18480,15 @@ a.mailunread, a.mailunread:visited {
   background-image: url("../images/media/bigplay.svg");
 }
 
-.mejs__overlay-button:focus,
-.ilPlayerPreviewPlayButton:focus {
-  outline: none;
-  outline-offset: 0px;
-}
-.mejs__overlay-button:focus-visible,
+.mejs__overlay-button:focus, .mejs__overlay-button:focus-visible,
+.ilPlayerPreviewPlayButton:focus,
 .ilPlayerPreviewPlayButton:focus-visible {
   position: relative;
   outline: 2px solid #FFFFFF;
   outline-offset: 5px;
 }
-.mejs__overlay-button:focus-visible::after,
+.mejs__overlay-button:focus::after, .mejs__overlay-button:focus-visible::after,
+.ilPlayerPreviewPlayButton:focus::after,
 .ilPlayerPreviewPlayButton:focus-visible::after {
   content: " ";
   position: absolute;
@@ -18243,16 +18500,12 @@ a.mailunread, a.mailunread:visited {
   outline: 3px solid #0078D7;
 }
 
-.mejs__time-total:focus {
-  outline: none;
-  outline-offset: 0px;
-}
-.mejs__time-total:focus-visible {
+.mejs__time-total:focus, .mejs__time-total:focus-visible {
   position: relative;
   outline: 1px solid #FFFFFF;
   outline-offset: 2px;
 }
-.mejs__time-total:focus-visible::after {
+.mejs__time-total:focus::after, .mejs__time-total:focus-visible::after {
   content: " ";
   position: absolute;
   top: -1px;
@@ -20325,18 +20578,15 @@ a.ilMediaLightboxClose:hover {
 #ilTab > li > .c-tooltip__container > a:focus-visible::after {
   content: none;
 }
-#ilTab > li > a:focus,
-#ilTab > li > .c-tooltip__container > a:focus {
-  outline: none;
-  outline-offset: 0px;
-}
-#ilTab > li > a:focus-visible,
+#ilTab > li > a:focus, #ilTab > li > a:focus-visible,
+#ilTab > li > .c-tooltip__container > a:focus,
 #ilTab > li > .c-tooltip__container > a:focus-visible {
   position: relative;
   outline: 2px solid #FFFFFF;
   outline-offset: 5px;
 }
-#ilTab > li > a:focus-visible::after,
+#ilTab > li > a:focus::after, #ilTab > li > a:focus-visible::after,
+#ilTab > li > .c-tooltip__container > a:focus::after,
 #ilTab > li > .c-tooltip__container > a:focus-visible::after {
   content: " ";
   position: absolute;
@@ -20407,18 +20657,15 @@ a.ilMediaLightboxClose:hover {
 #ilSubTab > li > .c-tooltip__container > a:focus-visible::after {
   content: none;
 }
-#ilSubTab > li > a:focus,
-#ilSubTab > li > .c-tooltip__container > a:focus {
-  outline: none;
-  outline-offset: 0px;
-}
-#ilSubTab > li > a:focus-visible,
+#ilSubTab > li > a:focus, #ilSubTab > li > a:focus-visible,
+#ilSubTab > li > .c-tooltip__container > a:focus,
 #ilSubTab > li > .c-tooltip__container > a:focus-visible {
   position: relative;
   outline: 2px solid #FFFFFF;
   outline-offset: 5px;
 }
-#ilSubTab > li > a:focus-visible::after,
+#ilSubTab > li > a:focus::after, #ilSubTab > li > a:focus-visible::after,
+#ilSubTab > li > .c-tooltip__container > a:focus::after,
 #ilSubTab > li > .c-tooltip__container > a:focus-visible::after {
   content: " ";
   position: absolute;
@@ -20581,16 +20828,12 @@ img.ilUserXXSmall {
 .webdav-view-control {
   text-align: center;
 }
-.webdav-view-control:focus {
-  outline: none;
-  outline-offset: 0px;
-}
-.webdav-view-control:focus-visible {
+.webdav-view-control:focus, .webdav-view-control:focus-visible {
   position: relative;
   outline: 2px solid #FFFFFF;
   outline-offset: 5px;
 }
-.webdav-view-control:focus-visible::after {
+.webdav-view-control:focus::after, .webdav-view-control:focus-visible::after {
   content: " ";
   position: absolute;
   top: -2px;
@@ -20601,15 +20844,6 @@ img.ilUserXXSmall {
   outline: 3px solid #0078D7;
 }
 
-/*
-	These classes are used to limit the number of rows when displaying larger chunks of text.
-	The mixin receives $height-in-rows as an integer. The classes il-multi-line-cap-2,3,5,10
-	can be used to limit the number of rows for text to 2,3,5 or 10 lines in any template,
-	e.g. the Standard Listing Panels limit the property values to 3 lines using il-multi-line-cap-3
-
-	Technical discussion can be found in https://mantis.ilias.de/view.php?id=21583
-	The background/gradient fallback can be removed as soon as all browsers support line-clamp.
- */
 /*
 * Hacks & Tweaks
 */

@@ -21,14 +21,14 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Entity;
 
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Image\Image;
-use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Component\Symbol\Glyph\Glyph;
+use ILIAS\UI\Component\Button\Standard as StandardButton;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Button\Tag;
 use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\UI\Component\Listing\Property as PropertyListing;
 use ILIAS\UI\Component\Link\Standard as StandardLink;
+use ILIAS\UI\Component\Listing\Workflow;
 
 /**
  * This describes an Entity
@@ -70,15 +70,14 @@ interface Entity extends Component
      * Another way of distinguishing Reactions might be the availability/significance
      * for everybody in contrast to the current user (e.g. rating vs. my favorite)
      */
-    public function withPrioritizedReactions(Glyph | Tag ...$prio_reactions): self;
-
+    public function withPrioritizedReactions(Glyph | Tag | StandardButton | Shy ...$prio_reactions): self;
 
     //Further Areas
 
     /**
      * Reactions that are less prominent than Prioritized Reactions go here.
      */
-    public function withReactions(Glyph | Tag ...$reactions): self;
+    public function withReactions(Glyph | Tag | Shy | StandardButton ...$reactions): self;
 
     /**
      * Properties that could potentially limit a users access to the object
@@ -98,8 +97,13 @@ interface Entity extends Component
     ): self;
 
     /**
-     * Actions are the things you can actually _do_ with the entity,
-     * e.g. in context of repository items: view, copy, delete, etc.
+     * ManagingActions are the things an owner or admin can actually do _with_ the entity,
+     * e.g. in context of repository items: view, copy, delete, set online etc.
+     */
+    public function withManagingActions(Shy ...$managing_actions): static;
+
+    /**
+     * @deprecated for semantic reasons, "actions" is not precise enough.
      */
     public function withActions(Shy ...$actions): self;
 
@@ -111,4 +115,11 @@ interface Entity extends Component
     public function withPersonalStatus(
         PropertyListing | Legacy ...$personal_status
     ): self;
+
+    /**
+     * This Workflow is used to create buttons on the entity.
+     * Only Workflow Steps which are AVAILABLE and either NOT_STARTED or IN_PROGRESS
+     * will be rendered as buttons.
+     */
+    public function withWorkflow(Workflow\Linear $workflow): static;
 }

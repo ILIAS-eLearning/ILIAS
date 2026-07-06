@@ -30,6 +30,8 @@ use ILIAS\UI\Implementation\Component\Table\PresentationRow;
  */
 class PresentationTest extends TableTestBase
 {
+    use LanguageStubs;
+
     private function getFactory(): I\Component\Table\Factory
     {
         return new I\Component\Table\Factory(
@@ -98,8 +100,13 @@ class PresentationTest extends TableTestBase
 
     public function getUIFactory(): NoUIFactory
     {
-        $factory = new class () extends NoUIFactory {
+        $factory = new class ($this->createRelayArgumentLanguageStub()) extends NoUIFactory {
             public I\Component\SignalGenerator $sig_gen;
+
+            public function __construct(
+                protected \ILIAS\Language\Language $language,
+            ) {
+            }
 
             public function button(): C\Button\Factory
             {
@@ -111,7 +118,7 @@ class PresentationTest extends TableTestBase
             {
                 return new I\Component\Symbol\Factory(
                     new I\Component\Symbol\Icon\Factory(),
-                    new I\Component\Symbol\Glyph\Factory(),
+                    new I\Component\Symbol\Glyph\Factory($this->language),
                     new I\Component\Symbol\Avatar\Factory()
                 );
             }

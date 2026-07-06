@@ -17,13 +17,20 @@ $l-bar__element__margin-bottom: $il-margin-xlarge-vertical; // this margin separ
 
 .l-bar__space-keeper,
 .l-bar__group {
-    // you MUST NOT add padding or margin and SHOULD NOT add any styling (e.g. background-color) in consumer code 
+    // you MUST NOT add padding or margin and SHOULD NOT add any styling (e.g. background-color) in consumer code
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
+    // avoid nested elements breaking off
+    .l-bar__group,
+    .l-bar__element {
+        flex-wrap: nowrap;
+    }
 }
 
+// elements inside have a margin bottom to keep lines apart
+// compensate this line gap so elementbar does not have a margin-bottom below
 .l-bar__space-keeper:not(:empty) {
     margin-bottom: calc(-1 * var(--l-bar__element__margin-bottom)); // counteract element margin-bottom, so outer edge doesn't have a visible margin-bottom
     &.l-bar__space-keeper--space-between {
@@ -31,19 +38,22 @@ $l-bar__element__margin-bottom: $il-margin-xlarge-vertical; // this margin separ
     }
 }
 
+// bottom margin to separate lines
 .l-bar__space-keeper > .l-bar__element,
 .l-bar__group > .l-bar__element {
     margin-bottom: var(--l-bar__element__margin-bottom);
+}
+
+// gap between two elements
+.l-bar__group > .l-bar__element,
+.l-bar__space-keeper > .l-bar__element {
+    margin-right: var(--l-bar__gap--elements);
     &:last-child {
         margin-right: 0;
     }
 }
 
-.l-bar__group > .l-bar__element,
-.l-bar__space-keeper > .l-bar__element {
-    margin-right: var(--l-bar__gap--elements);
-}
-
+// gap between two groups
 .l-bar__space-keeper > .l-bar__group,
 .l-bar__group > .l-bar__group {
     margin-right: var(--l-bar__gap--groups);

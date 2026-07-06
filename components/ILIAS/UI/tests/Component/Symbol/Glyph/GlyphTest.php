@@ -34,9 +34,11 @@ use ILIAS\UI\HelpTextRetriever;
  */
 class GlyphTest extends ILIAS_UI_TestBase
 {
+    use LanguageStubs;
+
     public function getGlyphFactory(): G\Factory
     {
-        return new I\Symbol\Glyph\Factory();
+        return new I\Symbol\Glyph\Factory($this->createRelayArgumentLanguageStub());
     }
 
     public function getCounterFactory(): C\Factory
