@@ -33,6 +33,7 @@ use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use SplFileInfo;
+use ilFileDataMail;
 
 class MailDeletionHandler
 {

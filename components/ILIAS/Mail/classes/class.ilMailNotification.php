@@ -29,7 +29,7 @@ abstract class ilMailNotification
     protected ?ilMail $mail = null;
     protected string $subject = '';
     protected string $body = '';
-    protected array $attachments = [];
+    protected MailAttachments $attachments;
     protected ilLanguage $language;
     protected array $lang_modules = [];
     protected array $recipients = [];
@@ -43,6 +43,7 @@ abstract class ilMailNotification
     public function __construct(protected bool $is_in_wsp = false)
     {
         global $DIC;
+        $this->attachments = MailAttachments::empty();
         $this->setSender(ANONYMOUS_USER_ID);
         $this->language = ilLanguageFactory::_getLanguage($DIC->language()->getDefaultLanguage());
 
@@ -111,12 +112,12 @@ abstract class ilMailNotification
         return $this->recipients;
     }
 
-    public function setAttachments(array $a_att): void
+    public function setAttachments(MailAttachments $attachments): void
     {
-        $this->attachments = $a_att;
+        $this->attachments = $attachments;
     }
 
-    public function getAttachments(): array
+    public function getAttachments(): MailAttachments
     {
         return $this->attachments;
     }
@@ -241,7 +242,7 @@ abstract class ilMailNotification
             '',
             $this->getSubject(),
             $this->getBody(),
-            MailAttachments::fromLegacyFilenames($this->getAttachments())
+            $this->getAttachments()
         );
         if ($errors !== []) {
             ilLoggerFactory::getLogger('mail')->dump($errors, ilLogLevel::ERROR);

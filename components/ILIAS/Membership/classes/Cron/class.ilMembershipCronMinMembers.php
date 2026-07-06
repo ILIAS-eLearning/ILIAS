@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
 use ILIAS\Cron\CronJob;
+use ILIAS\Mail\Attachments\MailAttachments;
 
 /**
  * Cron for course/group minimum members
@@ -162,7 +163,7 @@ class ilMembershipCronMinMembers extends CronJob
             '',
             $lng->txt("mem_cron_min_members_subject"),
             $ntf->composeAndGetMessage($a_reci_id, null, "read", true),
-            []
+            MailAttachments::empty()
         );
     }
 }

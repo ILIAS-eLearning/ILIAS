@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Notes;
 
+use ILIAS\Mail\Attachments\MailAttachments;
+
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
@@ -183,7 +185,7 @@ class NotificationsManager
                     "",
                     $subject,
                     $message,
-                    array()
+                    MailAttachments::empty()
                 );
             }
         }

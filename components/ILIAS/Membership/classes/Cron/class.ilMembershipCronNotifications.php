@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
 use ILIAS\Cron\CronJob;
+use ILIAS\Mail\Attachments\MailAttachments;
 
 /**
  * Course/group notifications
@@ -475,7 +476,7 @@ class ilMembershipCronNotifications extends CronJob
             (string) null,
             $subject,
             $mail_content,
-            []
+            MailAttachments::empty()
         );
     }
 

@@ -30,6 +30,8 @@
  *
  */
 // From include/Unicode/UtfNormal.php
+use ILIAS\Mail\Attachments\MailAttachments;
+
 if (!defined('UTF8_REPLACEMENT')) {
     define('UTF8_REPLACEMENT', "\xef\xbf\xbd" /*codepointToUtf8( UNICODE_REPLACEMENT )*/);
 }
@@ -628,7 +630,7 @@ class ilWikiUtil
                     "",
                     $subject,
                     $message,
-                    array()
+                    MailAttachments::empty()
                 );*/
                 $message .= ilMail::_getInstallationSignature();
                 $mails[] = new ilMailValueObject(
@@ -638,7 +640,7 @@ class ilWikiUtil
                     '',
                     $subject,
                     $message,
-                    [],
+                    MailAttachments::empty(),
                     false,
                     false
                 );

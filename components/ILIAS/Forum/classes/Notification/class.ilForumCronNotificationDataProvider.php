@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Mail\Attachments\MailAttachments;
+use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
+
 /**
  * Class ilForumCronNotificationDataProvider
  * @author Nadia Matuschek <nmatuschek@databay.de>
@@ -46,6 +49,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
     private readonly string $import_name;
     /** @var list<string> */
     private array $attachments = [];
+    private ?MailAttachments $mail_attachments = null;
     /** @var int[] */
     private array $cron_recipients = [];
     private readonly int $post_update_user_id;
@@ -105,13 +109,31 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 
     private function readAttachments(): void
     {
-        if (ilForumProperties::isSendAttachmentsByMailEnabled()) {
-            $fileDataForum = new ilFileDataForum($this->getObjId(), $this->getPostId());
-            $filesOfPost = $fileDataForum->getFilesOfPost();
+        if (!ilForumProperties::isSendAttachmentsByMailEnabled()) {
+            return;
+        }
 
-            foreach ($filesOfPost as $attachment) {
-                $this->attachments[] = $attachment['name'];
-            }
+        $fileDataForum = new ilFileDataForum($this->getObjId(), $this->getPostId());
+        foreach ($fileDataForum->getFilesOfPost() as $attachment) {
+            $this->attachments[] = $attachment['name'];
+        }
+
+        $post = new ilForumPost($this->getPostId());
+        $rcid_string = $post->getRCID();
+        if ($rcid_string === '' || $rcid_string === ilForumPost::NO_RCID) {
+            return;
+        }
+
+        global $DIC;
+        $forum_collection = $DIC->resourceStorage()->collection()->get(
+            new ResourceCollectionIdentification($rcid_string)
+        );
+        $fileDataMail = new ilFileDataMail(ANONYMOUS_USER_ID);
+        $mail_rcid = $fileDataMail->createCollectionFromForeignResources(
+            iterator_to_array($forum_collection->getResourceIdentifications(), false)
+        );
+        if ($mail_rcid !== null) {
+            $this->mail_attachments = MailAttachments::fromIrss($mail_rcid);
         }
     }
 
@@ -214,6 +236,11 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
     public function getAttachments(): array
     {
         return $this->attachments;
+    }
+
+    public function getMailAttachments(): MailAttachments
+    {
+        return $this->mail_attachments ?? MailAttachments::empty();
     }
 
     public function getPosDisplayUserId(): int
