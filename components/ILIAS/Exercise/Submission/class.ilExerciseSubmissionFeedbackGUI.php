@@ -132,17 +132,21 @@ class ilExerciseSubmissionFeedbackGUI
             $ass_id = $request->getAssId();
             $ass = $this->domain->assignment()->getAssignment($ass_id);
             $comment = $form->getData("comment");
-            $member_status = $ass->getMemberStatus($user_id);
-            $member_status->setComment($comment);
-            $member_status->setFeedback(true);
-            $member_status->update();
-            if (trim($comment) !== '' && trim($comment) !== '0') {
-                $this->notification->sendFeedbackNotification(
-                    $ass_id,
-                    [$user_id],
-                    "",
-                    true
-                );
+            $submission = new ilExSubmission($ass, $user_id);
+            $user_ids = $submission->getUserIds();
+            foreach ($user_ids as $user_id) {
+                $member_status = $ass->getMemberStatus($user_id);
+                $member_status->setComment($comment);
+                $member_status->setFeedback(true);
+                $member_status->update();
+                if (trim($comment) !== '' && trim($comment) !== '0') {
+                    $this->notification->sendFeedbackNotification(
+                        $ass_id,
+                        [$user_id],
+                        "",
+                        true
+                    );
+                }
             }
             $cmd = $request->getParticipantId()
                 ? "showParticipant"

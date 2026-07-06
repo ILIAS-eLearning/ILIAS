@@ -566,17 +566,20 @@ class ilCmiXapiLrsType
 
     public function getLrsEndpointStatementsAggregationLink(): string
     {
-        return dirname($this->getLrsEndpoint(), 2) . '/api/' . self::ENDPOINT_AGGREGATE_SUFFIX;
+        $depth = substr_count(trim($this->getLrsEndpoint(), '/'), '/') - 2;
+        return dirname($this->getLrsEndpoint(), $depth) . '/api/' . self::ENDPOINT_AGGREGATE_SUFFIX;
     }
 
     public function getLrsEndpointDeleteLink()
     {
-        return dirname($this->getLrsEndpoint(), 2) . '/api/' . self::ENDPOINT_DELETE_SUFFIX;
+        $depth = substr_count(trim($this->getLrsEndpoint(), '/'), '/') - 2;
+        return dirname($this->getLrsEndpoint(), $depth) . '/api/' . self::ENDPOINT_DELETE_SUFFIX;
     }
 
     public function getLrsEndpointBatchLink()
     {
-        return dirname($this->getLrsEndpoint(), 2) . '/api/' . self::ENDPOINT_BATCH_SUFFIX;
+        $depth = substr_count(trim($this->getLrsEndpoint(), '/'), '/') - 2;
+        return dirname($this->getLrsEndpoint(), $depth) . '/api/' . self::ENDPOINT_BATCH_SUFFIX;
     }
 
     public function getLrsEndpointStateLink()

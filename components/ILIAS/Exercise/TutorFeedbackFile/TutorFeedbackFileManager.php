@@ -69,6 +69,8 @@ class TutorFeedbackFileManager
 
     public function addObserver(): void
     {
+        $log = $this->domain->log();
+        $log->debug("------------- addObserver ---------------");
         $this->domain->resourceStorage()->events()->attach(
             $this->file_observer,
             Event::COLLECTION_RESOURCE_ADDED
@@ -78,6 +80,7 @@ class TutorFeedbackFileManager
     public function sendNotification(string $rcid, string $rid): void
     {
         $log = $this->domain->log();
+        $log->debug("------------- sendNotification ---------------");
         $log->debug("Ass id: " . $this->ass_id);
 
         $exc_id = \ilExAssignment::lookupExerciseId($this->ass_id);
@@ -91,21 +94,26 @@ class TutorFeedbackFileManager
         $log->debug("Get notification");
         $notification = $this->domain->notification($ref_id);
         $log->debug("Get participant");
+        // this might be a team id (or a user id)
         $part_id = $this->repo->getParticipantIdForRcid($this->ass_id, $rcid);
+        // this is a user id (might be first from team)
+        $user_id = $this->repo->getUserIdForRcid($this->ass_id, $rcid);
         $log->debug("Get filename");
-        $filename = $this->repo->getFilenameForRid($this->ass_id, $part_id, $rid);
+        $filename = $this->repo->getFilenameForRid($this->ass_id, $user_id, $rid);
         $log->debug("Get assignment");
         $ass = new \ilExAssignment($this->ass_id);
         $log->debug("Get submission");
-        $submission = new \ilExSubmission($ass, $part_id);
+        $log->debug("Part id: " . $part_id);
+        $log->debug("User id: " . $user_id);
+        $submission = new \ilExSubmission($ass, $user_id);
         $feedback_id = $submission->getFeedbackId();
         $noti_rec_ids = $submission->getUserIds();
 
         $log->debug("Feedback id: " . $feedback_id);
         if ($feedback_id) {
             if ($noti_rec_ids) {
-                foreach ($noti_rec_ids as $user_id) {
-                    $member_status = $ass->getMemberStatus($user_id);
+                foreach ($noti_rec_ids as $note_user_id) {
+                    $member_status = $ass->getMemberStatus($note_user_id);
                     $member_status->setFeedback(true);
                     $member_status->update();
                 }
@@ -177,27 +185,27 @@ class TutorFeedbackFileManager
         );
     }
 
-    public function getFiles(int $participant_id): array
+    public function getFiles(int $user_id): array
     {
         $files = [];
-        if ($this->repo->hasCollection($this->ass_id, $participant_id)) {
+        if ($this->repo->hasCollection($this->ass_id, $user_id)) {
             $files = array_map(function (ResourceInformation $info): string {
                 return $info->getTitle();
-            }, iterator_to_array($this->repo->getCollectionResourcesInfo($this->ass_id, $participant_id)));
+            }, iterator_to_array($this->repo->getCollectionResourcesInfo($this->ass_id, $user_id)));
         }
         return $files;
     }
 
-    public function deliver(int $participant_id, string $file): void
+    public function deliver(int $user_id, string $file): void
     {
         $assignment = $this->domain->assignment()->getAssignment($this->ass_id);
         if ($assignment->notStartedYet()) {
             return;
         }
 
-        if ($this->repo->hasCollection($this->ass_id, $participant_id)) {
+        if ($this->repo->hasCollection($this->ass_id, $user_id)) {
             // IRSS
-            $this->repo->deliverFile($this->ass_id, $participant_id, $file);
+            $this->repo->deliverFile($this->ass_id, $user_id, $file);
         }
     }
 

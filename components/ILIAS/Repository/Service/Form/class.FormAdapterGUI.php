@@ -182,7 +182,9 @@ class FormAdapterGUI
         int $max_length = 0
     ): self {
         $this->values[$key] = $value;
-        $field = $this->ui->factory()->input()->field()->text($title, $description);
+        $field = $this->ui->factory()->input()->field()->text($title, $description)
+            ->withoutStripTags()
+            ->withAdditionalTransformation(new TagsSpaceTransformation());
         if ($max_length > 0) {
             $field = $field->withMaxLength($max_length);
         }
@@ -252,7 +254,9 @@ class FormAdapterGUI
         ?string $value = null
     ): self {
         $this->values[$key] = $value;
-        $field = $this->ui->factory()->input()->field()->textarea($title, $description);
+        $field = $this->ui->factory()->input()->field()->textarea($title, $description)
+            ->withoutStripTags()
+            ->withAdditionalTransformation(new TagsSpaceTransformation());
         if (!is_null($value)) {
             $field = $field->withValue($value);
         }
