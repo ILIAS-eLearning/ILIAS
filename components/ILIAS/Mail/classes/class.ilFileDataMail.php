@@ -811,6 +811,56 @@ class ilFileDataMail extends ilFileData
         return $this->createCollectionFromResourceIdentifications($resource_identifications);
     }
 
+    public function createCollectionFromContent(string $name, string $content): ?ResourceCollectionIdentification
+    {
+        if ($name === '' || $content === '') {
+            return null;
+        }
+
+        if (strlen($content) >= $this->getUploadLimit()) {
+            throw new DomainException(
+                sprintf(
+                    'Mail upload limit reached for user with id %s',
+                    $this->user_id
+                )
+            );
+        }
+
+        $sanitized_name = ilFileUtils::_sanitizeFilemame($name);
+
+        return $this->createCollectionFromResourceIdentifications([
+            $this->irss->manage()->stream(
+                Streams::ofString($content),
+                $this->stakeholder,
+                md5($sanitized_name)
+            ),
+        ]);
+    }
+
+    /**
+     * @param list<ResourceIdentification> $resource_identifications
+     */
+    public function createCollectionFromForeignResources(
+        array $resource_identifications
+    ): ?ResourceCollectionIdentification {
+        if ($resource_identifications === []) {
+            return null;
+        }
+
+        $mail_resources = [];
+        foreach ($resource_identifications as $source) {
+            $revision = $this->irss->manage()->getCurrentRevision($source);
+            $stream = $this->irss->consume()->stream($source);
+            $mail_resources[] = $this->irss->manage()->stream(
+                $stream->getStream(),
+                $this->stakeholder,
+                $revision->getTitle()
+            );
+        }
+
+        return $this->createCollectionFromResourceIdentifications($mail_resources);
+    }
+
     public function getCollection(ResourceCollectionIdentification $rcid): ResourceCollection
     {
         if (!$this->collectionIsKnown($rcid)) {
@@ -918,6 +968,34 @@ class ilFileDataMail extends ilFileData
         }
 
         return $rids;
+    }
+
+
+    /**
+     * @param list<ResourceIdentification> $resource_identifications
+     */
+    public function collectionContainsResources(
+        ResourceCollectionIdentification $rcid,
+        array $resource_identifications
+    ): bool {
+        if ($resource_identifications === []) {
+            return true;
+        }
+
+        $collection_serials = [];
+        foreach ($this->getCollection($rcid)->getResourceIdentifications() as $resource_identification) {
+            $collection_serials[] = $resource_identification->serialize();
+        }
+
+        $expected_serials = [];
+        foreach ($resource_identifications as $resource_identification) {
+            $expected_serials[] = $resource_identification->serialize();
+        }
+
+        sort($collection_serials);
+        sort($expected_serials);
+
+        return $collection_serials === $expected_serials;
     }
 
     /**

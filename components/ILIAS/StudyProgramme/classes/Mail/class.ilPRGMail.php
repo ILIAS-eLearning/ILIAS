@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\User\Settings\Settings as UserSettings;
+use ILIAS\Mail\Attachments\MailAttachments;
 
 /**
  * Send mails to users (usually triggered by cron)
@@ -96,7 +97,7 @@ class ilPRGMail
 
         $mail = new ilMail(ANONYMOUS_USER_ID);
         try {
-            $mail->enqueue($login, '', '', $subject, $body, []);
+            $mail->enqueue($login, '', '', $subject, $body, MailAttachments::empty());
             return true;
         } catch (Exception $e) {
             $this->log->write($e->getMessage());

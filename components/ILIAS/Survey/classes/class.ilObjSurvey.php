@@ -19,6 +19,7 @@
 use ILIAS\Survey\Participants;
 use ILIAS\Survey\Mode;
 use ILIAS\Survey\InternalDomainService;
+use ILIAS\Mail\Attachments\MailAttachments;
 
 /**
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
@@ -3817,7 +3818,7 @@ class ilObjSurvey extends ilObject
                         "", // bcc
                         $subject, // subject
                         $messagetext, // message
-                        array() // attachments
+                        MailAttachments::empty() // attachments
                     );
                 }
             }
@@ -4321,7 +4322,7 @@ class ilObjSurvey extends ilObject
             "",
             $subject,
             $ntf->composeAndGetMessage($a_user_id, null, "read", true),
-            []
+            MailAttachments::empty()
         );
     }
 
@@ -4350,7 +4351,7 @@ class ilObjSurvey extends ilObject
             "",
             $subject,
             $ntf->composeAndGetMessage($a_user_id, null, "read", true),
-            []
+            MailAttachments::empty()
         );
     }
 
@@ -4381,7 +4382,7 @@ class ilObjSurvey extends ilObject
             "",
             $subject,
             $ntf->composeAndGetMessage($a_user_id, null, "read", true),
-            []
+            MailAttachments::empty()
         );
     }
 
@@ -5244,7 +5245,7 @@ class ilObjSurvey extends ilObject
             "",
             $subject,
             $ntf->composeAndGetMessage($a_user_id, null, "read", true),
-            []
+            MailAttachments::empty()
         );
     }
 
@@ -5307,7 +5308,7 @@ class ilObjSurvey extends ilObject
                 "",
                 $subject,
                 $message,
-                array()
+                MailAttachments::empty()
             );
         }
     }
@@ -5461,7 +5462,7 @@ class ilObjSurvey extends ilObject
                 "",
                 $subject,
                 $message,
-                array()
+                MailAttachments::empty()
             );
         }
     }

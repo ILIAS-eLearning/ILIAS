@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Mail\Attachments\MailAttachments;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 trait FileDataRCHandling
 {
@@ -48,13 +49,12 @@ trait FileDataRCHandling
             throw new InvalidArgumentException('Legacy mail attachments expected.');
         }
 
-        $path_to_files = [];
-        foreach ($attachments->legacyFilenames() as $file) {
-            $path_to_files[] = $this->fdm->getAbsoluteAttachmentPoolPathByFilename($file);
+        $rcid = $this->fdm->createCollectionFromPoolFilenames($attachments->legacyFilenames());
+        if ($rcid === null) {
+            return [];
         }
-        $collection = $this->getCurrentCollection($path_to_files);
 
-        return $this->fdm->getRidsFromCollection($collection->getIdentification());
+        return $this->fdm->getRidsFromCollection($rcid);
     }
 
     /**
@@ -71,6 +71,43 @@ trait FileDataRCHandling
     public function FilesFromIRSSToLegacy(ResourceCollectionIdentification $identification): array
     {
         return $this->fdm->getRidsFromCollection($identification);
+    }
+
+    /**
+     * @param list<string> $form_attachment_rids
+     */
+    protected function attachmentsFromFormUpload(
+        array $form_attachment_rids,
+        ?MailAttachments $stage_attachments = null
+    ): MailAttachments {
+        if ($form_attachment_rids === []) {
+            return $stage_attachments ?? MailAttachments::empty();
+        }
+
+        $resource_identifications = [];
+        foreach ($form_attachment_rids as $attachment) {
+            $found = $this->storage->manage()->find($attachment);
+            if ($found === null) {
+                continue;
+            }
+            $resource_identifications[] = $found;
+        }
+
+        if ($resource_identifications === []) {
+            return $stage_attachments ?? MailAttachments::empty();
+        }
+
+        $stage_rcid = ($stage_attachments instanceof MailAttachments && $stage_attachments->isIrss())
+            ? $stage_attachments->rcid()
+            : null;
+
+        if ($stage_rcid !== null && $this->fdm->collectionContainsResources($stage_rcid, $resource_identifications)) {
+            return MailAttachments::fromIrss($stage_rcid);
+        }
+
+        return MailAttachments::fromIrss(
+            $this->fdm->createCollectionFromResourceIdentifications($resource_identifications)
+        );
     }
 
     /**
@@ -96,5 +133,42 @@ trait FileDataRCHandling
         }
 
         return $this->fdm->createCollectionFromResourceIdentifications($resource_identifications);
+    }
+
+    protected function stageAttachmentsFromMailAttachments(MailAttachments $attachments): MailAttachments
+    {
+        if ($attachments->isEmpty()) {
+            return MailAttachments::empty();
+        }
+
+        if ($attachments->isIrss()) {
+            $foreign = iterator_to_array(
+                $this->fdm->getCollection($attachments->rcid())->getResourceIdentifications(),
+                false
+            );
+            $cloned_rcid = $this->fdm->createCollectionFromForeignResources($foreign);
+
+            return $cloned_rcid !== null
+                ? MailAttachments::fromIrss($cloned_rcid)
+                : MailAttachments::empty();
+        }
+
+        $rcid = $this->fdm->createCollectionFromPoolFilenames($attachments->legacyFilenames());
+
+        return $rcid !== null
+            ? MailAttachments::fromIrss($rcid)
+            : MailAttachments::empty();
+    }
+
+    /**
+     * @return list<string>
+     */
+    protected function formRidsFromMailAttachments(MailAttachments $attachments): array
+    {
+        if ($attachments->isIrss()) {
+            return $this->FilesFromIRSSToLegacy($attachments->rcid());
+        }
+
+        return [];
     }
 }

@@ -74,7 +74,7 @@ class ilMassMailDeliveryJob extends AbstractJob
                 $recipients_bcc,
                 $value_object->getSubject(),
                 $value_object->getBody(),
-                MailAttachments::fromLegacyFilenames($value_object->getAttachments()),
+                $value_object->getAttachments(),
                 $value_object->isUsingPlaceholders()
             );
             $mail->sendMail($mail_data);
