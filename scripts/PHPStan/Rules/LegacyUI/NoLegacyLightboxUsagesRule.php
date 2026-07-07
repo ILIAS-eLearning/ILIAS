@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Scripts\PHPStan\Rules;
+namespace ILIAS\Scripts\PHPStan\Rules\LegacyUI;
 
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
@@ -24,20 +24,21 @@ use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\RuleErrorBuilder;
 
-class NoLegacyButtonUsagesRule extends LegacyClassUsageRule implements Rule
+class NoLegacyLightboxUsagesRule extends LegacyClassUsageRule implements Rule
 {
     protected function getHumanReadableRuleName(): string
     {
-        return 'Legacy Button Usages';
+        return 'Legacy Lightbox Usages';
     }
 
     protected function getRelevantILIASVersion(): int
     {
-        return 9;
+        return 10;
     }
+
 
     protected function getForbiddenClasses(): array
     {
-        return ['ilLinkButton'];
+        return ['ilLightboxGUI'];
     }
 }

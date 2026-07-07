@@ -16,19 +16,15 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Scripts\PHPStan\Rules;
+namespace ILIAS\Scripts\PHPStan\Rules\LegacyUI;
 
-use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
-use PhpParser\Node;
-use PHPStan\Analyser\Scope;
-use PHPStan\Rules\RuleErrorBuilder;
 
-class NoLegacyLightboxUsagesRule extends LegacyClassUsageRule implements Rule
+class NoLegacyTabsUsagesRule extends LegacyClassUsageRule implements Rule
 {
     protected function getHumanReadableRuleName(): string
     {
-        return 'Legacy Lightbox Usages';
+        return 'Legacy Tabs Usages';
     }
 
     protected function getRelevantILIASVersion(): int
@@ -36,9 +32,13 @@ class NoLegacyLightboxUsagesRule extends LegacyClassUsageRule implements Rule
         return 10;
     }
 
-
     protected function getForbiddenClasses(): array
     {
-        return ['ilLightboxGUI'];
+        return ['ilTabsGUI'];
+    }
+
+    protected function findMethodUsages(): bool
+    {
+        return true;
     }
 }
