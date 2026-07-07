@@ -5702,6 +5702,7 @@ common#:#show_content#:#コンテンツを表示
 common#:#show_details#:#詳細を表示
 common#:#show_filter#:#フィルタを表示
 common#:#show_hidden_sections#:#詳細を表示  &raquo;
+common#:#show_less#:#Show less###07 07 2026 new variable
 common#:#show_list#:#リストを表示
 common#:#show_members#:#メンバーを表示
 common#:#show_more#:#詳しく表示
@@ -10711,9 +10712,14 @@ itgr#:#itgr_always_open#:#常時オープン
 itgr#:#itgr_assign_materials#:#教材を割当てる
 itgr#:#itgr_assigned_materials#:#割り当てる教材
 itgr#:#itgr_assignment#:#割り当て
-itgr#:#itgr_behaviour#:#ブロックの動作
-itgr#:#itgr_behaviour_info#:#現在のユーザがログアウトするまでの間システムは開いたもの/閉じたものを保存します。
 itgr#:#itgr_desc_info#:#説明はコンテナ内のグループプレゼンテーションの部分アイテムにはなりません。
+itgr#:#itgr_display#:#Display###07 07 2026 new variable
+itgr#:#itgr_display_with_title#:#With Title###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened###07 07 2026 new variable
+itgr#:#itgr_display_without_title#:#Without Title###07 07 2026 new variable
 itgr#:#itgr_edit#:#アイテムグループを編集
 itgr#:#itgr_expandable_closed#:#拡張可(初期値は閉じている)
 itgr#:#itgr_expandable_open#:#拡張可(初期値は開いている)
@@ -10723,8 +10729,6 @@ itgr#:#itgr_list_default#:#Default
 itgr#:#itgr_list_default_info#:#上位コンテナからボリュームを引き継ぐ
 itgr#:#itgr_list_presentation#:#アイテムプレゼンテーション
 itgr#:#itgr_materials#:#材料
-itgr#:#itgr_show_title#:#タイトルを表示
-itgr#:#itgr_show_title_info#:#学習者用のプレゼンテーション内にアイテムグループのタイトルを表示します。
 itgr#:#itgr_tile#:#Tiles
 itgr#:#itgr_tile_size#:#Tile Size
 jscalendar#:#about_calendar#:#カレンダーについて

@@ -2928,6 +2928,7 @@ certificate#:#persistent_certificate_mode_instant#:#Izravno
 certificate#:#persistent_certificate_mode_instant_info#:#Ova se opcija preporučuje za sustave s niskim do osrednjim korisničkim interakcijama. Sustavi koji su skloni dugom vremenu učitavanja tijekom izrade višestrukih korisničkih certifikata trebaju se prebaciti na opciju "Cron Job".
 chatroom#:#allow_anonymous#:#Allow Anonymous Login
 chatroom#:#allow_custom_usernames#:#Allow Custom User Names
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.###07 07 2026 new variable
 chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the ‘Permissions’ tab to allow anonymous user access to this repository item.
 chatroom#:#auto_scroll#:#Scroll to Bottom
 chatroom#:#autogen_usernames#:#Auto Generated User Names
@@ -3024,6 +3025,7 @@ chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Chatroom
 chatroom#:#chat_user_x_is_typing#:#User %s is typing ...###29 07 2022 new variable
 chatroom#:#chat_users_are_typing#:#Multiple users are typing ...###29 07 2022 new variable
 chatroom#:#chat_whisper#:#Whisper
+chatroom#:#chatroom_anonymous_default#:#Anonymous ####07 07 2026 new variable
 chatroom#:#chatroom_auth#:#Authentication
 chatroom#:#chatroom_auth_btn_txt#:#Generate Keys
 chatroom#:#chatroom_auth_key#:#Authentication-Key
@@ -5700,6 +5702,7 @@ common#:#show_content#:#Show Content###29 07 2022 new variable
 common#:#show_details#:#Prikaži detalje
 common#:#show_filter#:#Prikaži filtar
 common#:#show_hidden_sections#:#Prikaži više informacija & raquo;
+common#:#show_less#:#Show less###07 07 2026 new variable
 common#:#show_list#:#Prikaži popis
 common#:#show_members#:#Prikaži članove
 common#:#show_more#:#Show More###04 06 2021 new variable
@@ -10709,9 +10712,14 @@ itgr#:#itgr_always_open#:#Uvijek otvoreno
 itgr#:#itgr_assign_materials#:#Assign Materials###29 07 2022 new variable
 itgr#:#itgr_assigned_materials#:#Dodijeljeni materijali
 itgr#:#itgr_assignment#:#Zadatak
-itgr#:#itgr_behaviour#:#Blokiraj ponašanje
-itgr#:#itgr_behaviour_info#:#Sustav će pohraniti otvoreno/zatvoreno stanje za trenutnog korisnika do odjave.
 itgr#:#itgr_desc_info#:#Opis neće biti dio prezentacije predmeta grupe u njezinom spremniku.
+itgr#:#itgr_display#:#Display###07 07 2026 new variable
+itgr#:#itgr_display_with_title#:#With Title###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened###07 07 2026 new variable
+itgr#:#itgr_display_without_title#:#Without Title###07 07 2026 new variable
 itgr#:#itgr_edit#:#Uredi stavke grupe
 itgr#:#itgr_expandable_closed#:#Proširivo (inicijalno zatvoreno)
 itgr#:#itgr_expandable_open#:#Proširivo (inicijalno otvoreno)
@@ -10721,8 +10729,6 @@ itgr#:#itgr_list_default#:#Default###29 07 2022 new variable
 itgr#:#itgr_list_default_info#:#Inherits value from upper container.###29 07 2022 new variable
 itgr#:#itgr_list_presentation#:#Item Presentation###29 07 2022 new variable
 itgr#:#itgr_materials#:#Materijali
-itgr#:#itgr_show_title#:#Prikaži naslov
-itgr#:#itgr_show_title_info#:#Prikazuje naslov grupe predmeta u prezentaciji za sudionike.
 itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
 itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
 jscalendar#:#about_calendar#:#O kalendaru

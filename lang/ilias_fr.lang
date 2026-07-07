@@ -2913,6 +2913,7 @@ certificate#:#persistent_certificate_mode_instant#:#Instant
 certificate#:#persistent_certificate_mode_instant_info#:#This option is recommended for systems with low up to mediocre user interactions. Systems that tend to big loading times during creation for multiple user certificates should switch to the "Cron Job" option.
 chatroom#:#allow_anonymous#:#Autoriser l'Accès Anonyme
 chatroom#:#allow_custom_usernames#:#Autoriser les Noms d'Utilisateur Personnalisés
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.###07 07 2026 new variable
 chatroom#:#anonymous_hint#:#Assurez vous de régler correctement les permissions dans l'onglet "Permissions" pour permettre aux utilisateurs anonymes d'accéder à cet objet.
 chatroom#:#auto_scroll#:#Défiler automatiquement
 chatroom#:#autogen_usernames#:#Noms d'Utilisateur Générés Automatiquement
@@ -3009,6 +3010,7 @@ chatroom#:#chat_user_action_invite_public_room#:#Inviter au salon de discussion 
 chatroom#:#chat_user_x_is_typing#:#User %s is typing ...###31 10 2023 new variable
 chatroom#:#chat_users_are_typing#:#Multiple users are typing ...###31 10 2023 new variable
 chatroom#:#chat_whisper#:#Discuter en privé
+chatroom#:#chatroom_anonymous_default#:#Anonymous ####07 07 2026 new variable
 chatroom#:#chatroom_auth#:#Authentification
 chatroom#:#chatroom_auth_btn_txt#:#Générer clés
 chatroom#:#chatroom_auth_key#:#Clé d’authentification
@@ -5685,6 +5687,7 @@ common#:#show_content#:#Show Content
 common#:#show_details#:#Afficher Détails
 common#:#show_filter#:#Afficher le filtre
 common#:#show_hidden_sections#:#Afficher plus d'informations &raquo;
+common#:#show_less#:#Show less###07 07 2026 new variable
 common#:#show_list#:#Afficher Liste
 common#:#show_members#:#Afficher Membres
 common#:#show_more#:#Afficher plus
@@ -10694,9 +10697,14 @@ itgr#:#itgr_always_open#:#Toujours ouvert
 itgr#:#itgr_assign_materials#:#Assign Materials###31 10 2023 new variable
 itgr#:#itgr_assigned_materials#:#Ressources Associées
 itgr#:#itgr_assignment#:#Association
-itgr#:#itgr_behaviour#:#Comportement du bloc
-itgr#:#itgr_behaviour_info#:#Le système stockera l’état ouvert/fermé pour l’utilisateur actuel jusqu’à la déconnexion.
 itgr#:#itgr_desc_info#:#La description ne fera pas partie de la présentation des groupes d’articles dans son conteneur.
+itgr#:#itgr_display#:#Display###07 07 2026 new variable
+itgr#:#itgr_display_with_title#:#With Title###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened###07 07 2026 new variable
+itgr#:#itgr_display_without_title#:#Without Title###07 07 2026 new variable
 itgr#:#itgr_edit#:#Editer Objets du Groupe
 itgr#:#itgr_expandable_closed#:#Extensible (initialement fermé)
 itgr#:#itgr_expandable_open#:#Extensible (initialement ouvert)
@@ -10706,8 +10714,6 @@ itgr#:#itgr_list_default#:#Default###31 10 2023 new variable
 itgr#:#itgr_list_default_info#:#Inherits value from upper container.###31 10 2023 new variable
 itgr#:#itgr_list_presentation#:#Item Presentation###31 10 2023 new variable
 itgr#:#itgr_materials#:#Ressources
-itgr#:#itgr_show_title#:#Montrer titre
-itgr#:#itgr_show_title_info#:#Montre le titre du groupe d'articles dans la présentation pour l’apprenant.
 itgr#:#itgr_tile#:#Tiles###31 10 2023 new variable
 itgr#:#itgr_tile_size#:#Tile Size###31 10 2023 new variable
 jscalendar#:#about_calendar#:#A propos du calendrier

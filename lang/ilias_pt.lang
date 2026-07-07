@@ -2928,6 +2928,7 @@ certificate#:#persistent_certificate_mode_instant#:#Anexos
 certificate#:#persistent_certificate_mode_instant_info#:#Autenticação nativa ILIAS
 chatroom#:#allow_anonymous#:#Permitir login anónimo
 chatroom#:#allow_custom_usernames#:#Autor
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.###07 07 2026 new variable
 chatroom#:#anonymous_hint#:#Autores
 chatroom#:#auto_scroll#:#Deslocar para baixo
 chatroom#:#autogen_usernames#:#Funções globais disponíveis no formulário de registo
@@ -3024,6 +3025,7 @@ chatroom#:#chat_user_action_invite_public_room#:#Convidar para sala de chat púb
 chatroom#:#chat_user_x_is_typing#:#User %s is typing ...###29 07 2022 new variable
 chatroom#:#chat_users_are_typing#:#Multiple users are typing ...###29 07 2022 new variable
 chatroom#:#chat_whisper#:#Sussurrar
+chatroom#:#chatroom_anonymous_default#:#Anonymous ####07 07 2026 new variable
 chatroom#:#chatroom_auth#:#Autenticação
 chatroom#:#chatroom_auth_btn_txt#:#Criar chaves
 chatroom#:#chatroom_auth_key#:#Chave de autenticação
@@ -5700,6 +5702,7 @@ common#:#show_content#:#Show Content###29 07 2022 new variable
 common#:#show_details#:#Capítulo marcado para mover. Selecione destino agora.
 common#:#show_filter#:#Classe de estilo
 common#:#show_hidden_sections#:#Mostrar mais informação &raquo;
+common#:#show_less#:#Show less###07 07 2026 new variable
 common#:#show_list#:#Verificar valores enviados a partir de SCO
 common#:#show_members#:#Círculo
 common#:#show_more#:#Show More###29 07 2022 new variable
@@ -10709,9 +10712,14 @@ itgr#:#itgr_always_open#:#Sempre aberto
 itgr#:#itgr_assign_materials#:#Assign Materials###29 07 2022 new variable
 itgr#:#itgr_assigned_materials#:#Materiais atribuídos
 itgr#:#itgr_assignment#:#Atribuição
-itgr#:#itgr_behaviour#:#Bloquear comportamento
-itgr#:#itgr_behaviour_info#:#O sistema guarda o estado aberto/fechado para o utilizador atual até ao logout.
 itgr#:#itgr_desc_info#:#A descrição não fará parte da apresentação do grupos de itens no seu recipiente.
+itgr#:#itgr_display#:#Display###07 07 2026 new variable
+itgr#:#itgr_display_with_title#:#With Title###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened###07 07 2026 new variable
+itgr#:#itgr_display_without_title#:#Without Title###07 07 2026 new variable
 itgr#:#itgr_edit#:#Editar grupos de itens
 itgr#:#itgr_expandable_closed#:#Expansível (inicialmente fechado)
 itgr#:#itgr_expandable_open#:#Expansível (inicialmente aberto)
@@ -10721,8 +10729,6 @@ itgr#:#itgr_list_default#:#Default###29 07 2022 new variable
 itgr#:#itgr_list_default_info#:#Inherits value from upper container.###29 07 2022 new variable
 itgr#:#itgr_list_presentation#:#Item Presentation###29 07 2022 new variable
 itgr#:#itgr_materials#:#Materiais
-itgr#:#itgr_show_title#:#Mostrar título
-itgr#:#itgr_show_title_info#:#Mostrar título do grupos de itens em apresentação para aluno.
 itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
 itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
 jscalendar#:#about_calendar#:#Suazilândia

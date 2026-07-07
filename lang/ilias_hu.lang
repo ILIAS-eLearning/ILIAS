@@ -2928,6 +2928,7 @@ certificate#:#persistent_certificate_mode_instant#:#Azonnali
 certificate#:#persistent_certificate_mode_instant_info#:#Ez a lehetőség közepes, illetve alacsony felhasználói igénybevétel esetén ajánlott. Amennyiben a tanúsítványok azonnali előállítása túl sok időt vesz igénybe, célszerű ütemezett feladatra váltani.
 chatroom#:#allow_anonymous#:#Anonymous bejelentkezés engedélyezett
 chatroom#:#allow_custom_usernames#:#Egyéni felhasználónevek megengedettek
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.###07 07 2026 new variable
 chatroom#:#anonymous_hint#:#Bizonyosodjon meg arról, hogy a megfelelő jogosultságokat állította be a 'Jogosultságok' lapon az anonymous felhasználók számára ehhez a Tartalomtárbeli objektumokhoz.
 chatroom#:#auto_scroll#:#Görgetés az aljára
 chatroom#:#autogen_usernames#:#Automatikusan generált felhasználónevek
@@ -3024,6 +3025,7 @@ chatroom#:#chat_user_action_invite_public_room#:#Meghívás nyilvános csevegős
 chatroom#:#chat_user_x_is_typing#:#%s ír…
 chatroom#:#chat_users_are_typing#:#Több felhasználó ír…
 chatroom#:#chat_whisper#:#Suttogás
+chatroom#:#chatroom_anonymous_default#:#Anonymous ####07 07 2026 new variable
 chatroom#:#chatroom_auth#:#Hitelesítés
 chatroom#:#chatroom_auth_btn_txt#:#Kulcsok generálása
 chatroom#:#chatroom_auth_key#:#Hitelesítés-kulcs
@@ -5700,6 +5702,7 @@ common#:#show_content#:#Tartalom megjelenítése
 common#:#show_details#:#Részletek megjelenítése
 common#:#show_filter#:#Szűrő megjelenítése
 common#:#show_hidden_sections#:#További információk megjelenítése &raquo;
+common#:#show_less#:#Show less###07 07 2026 new variable
 common#:#show_list#:#Lista megjelenítése
 common#:#show_members#:#Tagok megjelenítése
 common#:#show_more#:#Több…
@@ -10709,9 +10712,14 @@ itgr#:#itgr_always_open#:#Mindig nyitva
 itgr#:#itgr_assign_materials#:#Objektumok hozzárendelése
 itgr#:#itgr_assigned_materials#:#Hozzárendelt objektumok
 itgr#:#itgr_assignment#:#Hozzárendelve
-itgr#:#itgr_behaviour#:#Blokkviselkedés
-itgr#:#itgr_behaviour_info#:#A rendszer megőrzi a nyitott/zárt állapotot a jelenlegi felhasználó számára kijelentkezéséig.
 itgr#:#itgr_desc_info#:#Az objektumcsoport leírása nem jelenik meg az objektumcsoport tárolójában.
+itgr#:#itgr_display#:#Display###07 07 2026 new variable
+itgr#:#itgr_display_with_title#:#With Title###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened###07 07 2026 new variable
+itgr#:#itgr_display_without_title#:#Without Title###07 07 2026 new variable
 itgr#:#itgr_edit#:#Objektumcsoportok módosítása
 itgr#:#itgr_expandable_closed#:#Kibontható (kezdetben zárt)
 itgr#:#itgr_expandable_open#:#Kibontható (kezdetben nyitott)
@@ -10721,8 +10729,6 @@ itgr#:#itgr_list_default#:#Alapértelmezett
 itgr#:#itgr_list_default_info#:#Értékek örökítése a feljebbi tárolókból.
 itgr#:#itgr_list_presentation#:#Elemmegjelenítés
 itgr#:#itgr_materials#:#Objektumok
-itgr#:#itgr_show_title#:#Cím megjelenítése
-itgr#:#itgr_show_title_info#:#A objektumcsoport címének megjelenítése.
 itgr#:#itgr_tile#:#Csempe
 itgr#:#itgr_tile_size#:#Csempe mérete
 jscalendar#:#about_calendar#:#Súgó
@@ -16808,6 +16814,7 @@ survey#:#survey_sync_insufficient_permissions#:#Nincs elegendő jogosultság
 survey#:#survey_sync_question_copies#:#Kérdésmásolatok szinkronizálása
 survey#:#survey_sync_question_copies_info#:#A kiválasztott kérdőívkérdések frissítése a gyűjteményben lévő jelenlegi változatra.
 survey#:#survey_sync_success#:#A kiválasztott kérdések frissültek.
+survey#:#survey_use_start_button#:#To take part in the survey, you need to use the start button.###07 07 2026 new variable
 survey#:#svy_activation_limited_visibility_info#:#Az adott időszakon kívül csak a kérdőív címe látható, kérdései nem érhetőek el.
 survey#:#svy_activation_online_info#:#Felhasználók csak akkor vehetnek részt a kérdőív kitöltésében, ha az online.
 survey#:#svy_add_internal_user#:#Felhasználó hozzáadása

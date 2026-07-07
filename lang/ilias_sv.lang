@@ -2928,6 +2928,7 @@ certificate#:#persistent_certificate_mode_instant#:#Direkt
 certificate#:#persistent_certificate_mode_instant_info#:#Detta alternativ rekommenderas för system med låg till medelhög användarinteraktion. För system som är utsatta för hög belastning under skapandet av certifikat rekommenderas alternativet "Cron Job".
 chatroom#:#allow_anonymous#:#Tillåt anonym inloggning
 chatroom#:#allow_custom_usernames#:#Fritt valbara chattnamn
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.###07 07 2026 new variable
 chatroom#:#anonymous_hint#:#Observera att för åtkomst av anonyma användare måste motsvarande behörigheter ställas in på fliken "Behörigheter".
 chatroom#:#auto_scroll#:#Automatiskt bläddra till slutet
 chatroom#:#autogen_usernames#:#Chat-namn för anonymt deltagande
@@ -3024,6 +3025,7 @@ chatroom#:#chat_user_action_invite_public_room#:#Inbjuda till offentligt chattru
 chatroom#:#chat_user_x_is_typing#:#Användaren %s skriver ...
 chatroom#:#chat_users_are_typing#:#Flera användare skriver ...
 chatroom#:#chat_whisper#:#Viskning
+chatroom#:#chatroom_anonymous_default#:#Anonymous ####07 07 2026 new variable
 chatroom#:#chatroom_auth#:#Autentisering
 chatroom#:#chatroom_auth_btn_txt#:#Generera nyckel
 chatroom#:#chatroom_auth_key#:#Autentiseringsnyckel
@@ -5700,6 +5702,7 @@ common#:#show_content#:#Visa innehåll
 common#:#show_details#:#Visa detaljer
 common#:#show_filter#:#Visa filter
 common#:#show_hidden_sections#:#Visa mer information "
+common#:#show_less#:#Show less###07 07 2026 new variable
 common#:#show_list#:#Visa lista
 common#:#show_members#:#Visa medlemmar
 common#:#show_more#:#Visa mer
@@ -10709,9 +10712,14 @@ itgr#:#itgr_always_open#:#Alltid öppen
 itgr#:#itgr_assign_materials#:#Välj objekt
 itgr#:#itgr_assigned_materials#:#Objekt i objektblocket
 itgr#:#itgr_assignment#:#Integrerad
-itgr#:#itgr_behaviour#:#Beteende
-itgr#:#itgr_behaviour_info#:#Systemet kommer ihåg status (öppen/stängd) för varje användare fram till utloggningen.
 itgr#:#itgr_desc_info#:#Beskrivningen visas inte när objektblocket visas.
+itgr#:#itgr_display#:#Display###07 07 2026 new variable
+itgr#:#itgr_display_with_title#:#With Title###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened###07 07 2026 new variable
+itgr#:#itgr_display_without_title#:#Without Title###07 07 2026 new variable
 itgr#:#itgr_edit#:#Inställningar för objektblocket
 itgr#:#itgr_expandable_closed#:#Fold-out (ursprungligen stängd)
 itgr#:#itgr_expandable_open#:#Fold-out (inledningsvis öppen)
@@ -10721,8 +10729,6 @@ itgr#:#itgr_list_default#:#Standard
 itgr#:#itgr_list_default_info#:#Tar över inställningarna för den överordnade behållaren.
 itgr#:#itgr_list_presentation#:#Presentationsvy för innehåll
 itgr#:#itgr_materials#:#Objekt
-itgr#:#itgr_show_title#:#Visa titel
-itgr#:#itgr_show_title_info#:#Objektblockets titel visas.###Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
 itgr#:#itgr_tile#:#Kakelplattor
 itgr#:#itgr_tile_size#:#Storlek på kakel
 jscalendar#:#about_calendar#:#Om kalendern

@@ -2928,6 +2928,7 @@ certificate#:#persistent_certificate_mode_instant#:#Instant###07 02 2020 new var
 certificate#:#persistent_certificate_mode_instant_info#:#This option is recommended for systems with low up to mediocre user interactions. Systems that tend to big loading times during creation for multiple user certificates should switch to the "Cron Job" option.###07 02 2020 new variable
 chatroom#:#allow_anonymous#:#Zezwalaj na anonimowe logowanie
 chatroom#:#allow_custom_usernames#:#Zezwalaj na niestandardowe nazwy użytkowników
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.###07 07 2026 new variable
 chatroom#:#anonymous_hint#:#Proszę pamiętaj, że w przypadku dostępu dla anonimowych użytkowników w zakładce "Uprawnienia" należy aktywować odpowiednie uprawnienia.
 chatroom#:#auto_scroll#:#Auto przewijanie do dołu
 chatroom#:#autogen_usernames#:#Automatycznie generowane nazwy użytkowników
@@ -3024,6 +3025,7 @@ chatroom#:#chat_user_action_invite_public_room#:#Zaproś do czatu publicznego
 chatroom#:#chat_user_x_is_typing#:#User %s is typing ...###29 07 2022 new variable
 chatroom#:#chat_users_are_typing#:#Multiple users are typing ...###29 07 2022 new variable
 chatroom#:#chat_whisper#:#Rozmowa prywatna
+chatroom#:#chatroom_anonymous_default#:#Anonymous ####07 07 2026 new variable
 chatroom#:#chatroom_auth#:#Identyfikacja
 chatroom#:#chatroom_auth_btn_txt#:#Generuj kod
 chatroom#:#chatroom_auth_key#:#Kod identyfikacji
@@ -5700,6 +5702,7 @@ common#:#show_content#:#Show Content###29 07 2022 new variable
 common#:#show_details#:#Pokaż szczegóły
 common#:#show_filter#:#Zastosuj filtr
 common#:#show_hidden_sections#:#Pokaż dodatkowe informacje &raquo;
+common#:#show_less#:#Show less###07 07 2026 new variable
 common#:#show_list#:#Pokaż listę
 common#:#show_members#:#Wyświetl użytkowników
 common#:#show_more#:#Show More###29 07 2022 new variable
@@ -10709,9 +10712,14 @@ itgr#:#itgr_always_open#:#Zawsze otwarty
 itgr#:#itgr_assign_materials#:#Assign Materials###29 07 2022 new variable
 itgr#:#itgr_assigned_materials#:#Obiekty w sekcji obiektów
 itgr#:#itgr_assignment#:#Włączone
-itgr#:#itgr_behaviour#:#Reakcja
-itgr#:#itgr_behaviour_info#:#System zapamiętuje status każdego użytkownika (otwarty/zamknięty) do momentu wylogowania (logout).
 itgr#:#itgr_desc_info#:#Przy wyświetlaniu sekcji obiektu opis nie jest pokazywany.
+itgr#:#itgr_display#:#Display###07 07 2026 new variable
+itgr#:#itgr_display_with_title#:#With Title###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened###07 07 2026 new variable
+itgr#:#itgr_display_without_title#:#Without Title###07 07 2026 new variable
 itgr#:#itgr_edit#:#Edytuj sekcję obiektów
 itgr#:#itgr_expandable_closed#:#Rozwijany (najpierw zamknięty)
 itgr#:#itgr_expandable_open#:#Rozwijany (najpierw otwarty)
@@ -10721,8 +10729,6 @@ itgr#:#itgr_list_default#:#Default###29 07 2022 new variable
 itgr#:#itgr_list_default_info#:#Inherits value from upper container.###29 07 2022 new variable
 itgr#:#itgr_list_presentation#:#Item Presentation###29 07 2022 new variable
 itgr#:#itgr_materials#:#Materiały
-itgr#:#itgr_show_title#:#Pokaż tytuł
-itgr#:#itgr_show_title_info#:#Tytuł sekcji obiektu wyświetlany jest w prezentacji dla uczestników kursu.
 itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
 itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
 jscalendar#:#about_calendar#:#O kalendarzu

@@ -2928,6 +2928,7 @@ certificate#:#persistent_certificate_mode_instant#:#Okamžitý
 certificate#:#persistent_certificate_mode_instant_info#:#Tato možnost se doporučuje pro systémy s nízkou až střední interakcí uživatele. Systémy, které mají tendenci k dlouhým dobám načítání během vytváření certifikátů pro více uživatelů, se musí přepnout na možnost „Cronová úloha“.
 chatroom#:#allow_anonymous#:#Povolit anonymní přihlášení
 chatroom#:#allow_custom_usernames#:#Povolit volitelné uživatelské jméno
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.###07 07 2026 new variable
 chatroom#:#anonymous_hint#:#Zajistěte nastavení řádného oprávnění v tabulce "Oprávnění" k povolení anonymních uživatelů k položkám úložiště.
 chatroom#:#auto_scroll#:#Rolovat dolů
 chatroom#:#autogen_usernames#:#Automatické generování uživatelských jmen
@@ -3024,6 +3025,7 @@ chatroom#:#chat_user_action_invite_public_room#:#Pozvat do veřejné chatovací 
 chatroom#:#chat_user_x_is_typing#:#User %s is typing ...###29 07 2022 new variable
 chatroom#:#chat_users_are_typing#:#Multiple users are typing ...###29 07 2022 new variable
 chatroom#:#chat_whisper#:#Šeptání
+chatroom#:#chatroom_anonymous_default#:#Anonymous ####07 07 2026 new variable
 chatroom#:#chatroom_auth#:#Ověření
 chatroom#:#chatroom_auth_btn_txt#:#Generovat klíče
 chatroom#:#chatroom_auth_key#:#Autentizační klíč
@@ -5700,6 +5702,7 @@ common#:#show_content#:#Show Content###29 07 2022 new variable
 common#:#show_details#:#Zobrazit podrobnosti
 common#:#show_filter#:#Zobrazit filtr
 common#:#show_hidden_sections#:#Show More Information &raquo;
+common#:#show_less#:#Show less###07 07 2026 new variable
 common#:#show_list#:#Zobrazit seznam
 common#:#show_members#:#Zobrazit členy
 common#:#show_more#:#Show More###29 07 2022 new variable
@@ -10709,9 +10712,14 @@ itgr#:#itgr_always_open#:#Vždy otevřené
 itgr#:#itgr_assign_materials#:#Assign Materials###29 07 2022 new variable
 itgr#:#itgr_assigned_materials#:#Přiřazené materiály
 itgr#:#itgr_assignment#:#Přiřazení
-itgr#:#itgr_behaviour#:#Blokovat chování
-itgr#:#itgr_behaviour_info#:#Systém uloží otevřený/zavřený stav pro aktuálního uživatele až do odhlášení.
 itgr#:#itgr_desc_info#:#Popis nebude součástí prezentace skupin položek v kontejneru.
+itgr#:#itgr_display#:#Display###07 07 2026 new variable
+itgr#:#itgr_display_with_title#:#With Title###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened###07 07 2026 new variable
+itgr#:#itgr_display_without_title#:#Without Title###07 07 2026 new variable
 itgr#:#itgr_edit#:#Upravit skupiny položek
 itgr#:#itgr_expandable_closed#:#Rozšiřitelné (původně zavřené)
 itgr#:#itgr_expandable_open#:#Rozšiřitelné (původně otevřené)
@@ -10721,8 +10729,6 @@ itgr#:#itgr_list_default#:#Default###29 07 2022 new variable
 itgr#:#itgr_list_default_info#:#Inherits value from upper container.###29 07 2022 new variable
 itgr#:#itgr_list_presentation#:#Item Presentation###29 07 2022 new variable
 itgr#:#itgr_materials#:#Materiály
-itgr#:#itgr_show_title#:#Zobrazit nadpis
-itgr#:#itgr_show_title_info#:#Zobrazuje název skupiny položek v prezentaci pro žáka.
 itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
 itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
 jscalendar#:#about_calendar#:#O tomto kalendáři

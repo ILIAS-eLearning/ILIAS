@@ -2932,6 +2932,7 @@ certificate#:#persistent_certificate_mode_instant#:#Instantáneo
 certificate#:#persistent_certificate_mode_instant_info#:#Esta opción se recomienda para sistemas con niveles de interacción de usuarios bajos o medios. Los sistemas que tienden a tiempos de carga más largos durante la creación de múltiples certificados de usuario deberían cambiar a la opción 'Tarea programada'.
 chatroom#:#allow_anonymous#:#Permitir inicio de sesión anónimo
 chatroom#:#allow_custom_usernames#:#Permitir nombres de usuario personalizados
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.###07 07 2026 new variable
 chatroom#:#anonymous_hint#:#Asegúrese de establecer los permisos adecuados en la pestaña 'Permisos' para permitir el acceso de usuarios anónimos a este elemento del repositorio.
 chatroom#:#auto_scroll#:#Desplazar hacia abajo
 chatroom#:#autogen_usernames#:#Nombres de usuario generados automáticamente
@@ -3028,6 +3029,7 @@ chatroom#:#chat_user_action_invite_public_room#:#Invitar a sala pública
 chatroom#:#chat_user_x_is_typing#:#El usuario %s está escribiendo ...
 chatroom#:#chat_users_are_typing#:#Varios usuarios están escribiendo ...
 chatroom#:#chat_whisper#:#Susurrar
+chatroom#:#chatroom_anonymous_default#:#Anonymous ####07 07 2026 new variable
 chatroom#:#chatroom_auth#:#Autenticación
 chatroom#:#chatroom_auth_btn_txt#:#Generar claves
 chatroom#:#chatroom_auth_key#:#Clave de autenticación
@@ -5704,6 +5706,7 @@ common#:#show_content#:#Mostrar contenido
 common#:#show_details#:#Mostrar detalles
 common#:#show_filter#:#Mostrar filtro
 common#:#show_hidden_sections#:#Mostrar más información &raquo;
+common#:#show_less#:#Show less###07 07 2026 new variable
 common#:#show_list#:#Mostrar lista
 common#:#show_members#:#Mostrar Miembros
 common#:#show_more#:#Mostrar más
@@ -10713,9 +10716,14 @@ itgr#:#itgr_always_open#:#Siempre abierto
 itgr#:#itgr_assign_materials#:#Asignar materiales
 itgr#:#itgr_assigned_materials#:#Materiales asignados
 itgr#:#itgr_assignment#:#Asignado
-itgr#:#itgr_behaviour#:#Comportamiento del bloque
-itgr#:#itgr_behaviour_info#:#El sistema almacenará el estado abierto/cerrado para el usuario actual hasta que cierre la sesión.
 itgr#:#itgr_desc_info#:#La descripción no formará parte de la presentación del grupo de elementos en su contenedor.
+itgr#:#itgr_display#:#Display###07 07 2026 new variable
+itgr#:#itgr_display_with_title#:#With Title###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened###07 07 2026 new variable
+itgr#:#itgr_display_without_title#:#Without Title###07 07 2026 new variable
 itgr#:#itgr_edit#:#Editar grupos de elementos
 itgr#:#itgr_expandable_closed#:#Expandible (inicialmente cerrado)
 itgr#:#itgr_expandable_open#:#Expandible (inicialmente abierto)
@@ -10725,8 +10733,6 @@ itgr#:#itgr_list_default#:#Predeterminado
 itgr#:#itgr_list_default_info#:#Hereda el valor del contenedor superior.
 itgr#:#itgr_list_presentation#:#Presentación de elementos
 itgr#:#itgr_materials#:#Materiales
-itgr#:#itgr_show_title#:#Mostrar título
-itgr#:#itgr_show_title_info#:#Muestra el título del grupo de elementos en la presentación para el alumno.
 itgr#:#itgr_tile#:#Mosaicos
 itgr#:#itgr_tile_size#:#Tamaño del mosaico
 jscalendar#:#about_calendar#:#Acerca del calendario
