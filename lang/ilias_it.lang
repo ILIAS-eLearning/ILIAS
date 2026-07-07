@@ -2542,11 +2542,13 @@ book#:#book_add_participant#:#Add Participant###04 05 2026 new variable
 book#:#book_add_schedule#:#Aggiungi programma
 book#:#book_additional_info_file#:#Descrizione aggiuntiva
 book#:#book_all#:#Mostra tutto
+book#:#book_all_day#:#All-Day###07 07 2026 new variable
 book#:#book_all_pools_need_schedules#:#Le modifiche non sono state salvate. Tutti i gruppi di prenotazione assegnati necessitano  di un orario.
 book#:#book_all_users#:#Tutti i partecipanti
 book#:#book_assign#:#Assegnare
 book#:#book_assign_object#:#Assegna oggetto prenotazione
 book#:#book_assign_participant#:#Assegna al Partecipante
+book#:#book_assign_participants#:#Book for other Participant(s)###07 07 2026 new variable
 book#:#book_back_to_list#:#Torna all’elenco
 book#:#book_bobj#:#Prenota oggetto
 book#:#book_book#:#Prenota
@@ -2568,9 +2570,13 @@ book#:#book_confirm_booking_schedule_number_of_objects#:#Conferma prenotazione
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Si prega di indicare il numero di oggetti da prenotare.
 book#:#book_confirm_cancel#:#Sei sicuro di voler cancellare la seguente prenotazione?
 book#:#book_confirm_cancel_aggregation#:#Numero di cancellazioni
+book#:#book_confirm_cancel_info#:#The selected bookings will be cancelled.###07 07 2026 new variable
 book#:#book_confirm_delete#:#Vuoi davvero eliminare i seguenti articoli?
+book#:#book_confirm_remove_participant#:#Are you sure you want to remove the following Participant(s)? This will delete all related Bookings.###07 07 2026 new variable
 book#:#book_copy#:#Copia gruppo di prenotazione
 book#:#book_create_objects#:#Create Items###30 04 2024 new variable
+book#:#book_date_from#:#From date###07 07 2026 new variable
+book#:#book_date_to#:#To date###07 07 2026 new variable
 book#:#book_deadline#:#Scadenza
 book#:#book_deadline_hours#:#X ore prima del periodo di prenotazione
 book#:#book_deadline_info#:#Tempo minimo tra prenotazione e periodo prenotato
@@ -2578,11 +2584,18 @@ book#:#book_deadline_options#:#Scadenza di prenotazione
 book#:#book_deadline_slot_end#:#Fino alla fine per periodo di prenotazione
 book#:#book_deadline_slot_start#:#Fino all’inizio del periodo di prenotazione
 book#:#book_deassign#:#Togli assegnazione
+book#:#book_delete_object#:#Delete###07 07 2026 new variable
+book#:#book_deleted_booking#:#Deleted Booking(s)###07 07 2026 new variable
+book#:#book_deleted_object#:#Deleted Bookable Item###07 07 2026 new variable
 book#:#book_download_info#:#Scarica descrizione aggiuntiva
 book#:#book_edit#:#Modifica gruppo di prenotazione
 book#:#book_edit_object#:#Modifica oggetto
 book#:#book_edit_schedule#:#Modifica programma
+book#:#book_filter_end_date#:#End Date###07 07 2026 new variable
+book#:#book_filter_objects#:#Bookable Items###07 07 2026 new variable
 book#:#book_filter_past_reservations#:#Mostra prenotazioni passate
+book#:#book_filter_period#:#Period###07 07 2026 new variable
+book#:#book_filter_start_date#:#Start Date###07 07 2026 new variable
 book#:#book_fromto#:#Intervallo di tempo
 book#:#book_hours#:#Ore
 book#:#book_is_used#:#Usate
@@ -2597,14 +2610,23 @@ book#:#book_messages#:#Messages###30 04 2024 new variable
 book#:#book_messages_info#:#Allow users to add a message when booking an item.###30 04 2024 new variable
 book#:#book_missing_availability#:#It was not possible to book all items on all dates.###30 04 2024 new variable
 book#:#book_missing_items#:#$1 missing item(s).###30 04 2024 new variable
+book#:#book_modal_booking_confirmation#:#Booking Confirmation###07 07 2026 new variable
+book#:#book_modal_enter_quantity_intro#:#Please enter the number of items that you would like to book.###07 07 2026 new variable
+book#:#book_modal_recurrence#:#Recurrence###07 07 2026 new variable
+book#:#book_modal_recurrence_multiple#:#Book multiple dates###07 07 2026 new variable
+book#:#book_modal_recurrence_single#:#Book only this date###07 07 2026 new variable
+book#:#book_modal_skipped_unknown_item#:#Unknown or invalid selection (%s).###07 07 2026 new variable
+book#:#book_modal_warning_skipped_selections#:#Some selected items or periods are not available for booking and are excluded from this confirmation.###07 07 2026 new variable
 book#:#book_new#:#Crea nuovo gruppo di prenotazione
 book#:#book_no_bookings_for_you#:#Non sono state finora effettuate prenotazioni per Lei.
 book#:#book_no_objects#:#Nessuna assegnazione
+book#:#book_no_objects_available#:#None of the selected items are currently available for booking.###07 07 2026 new variable
 book#:#book_no_of_objects#:#Numero di oggetti
 book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.###23 09 2025 new variable
 book#:#book_no_preferences_for_you#:#Non ha salvato alcuna preferenza.
 book#:#book_no_recurrence#:#Book only this date###30 04 2024 new variable
 book#:#book_not#:#No
+book#:#book_not_cancelled#:#Not cancelled###07 07 2026 new variable
 book#:#book_not_enough_preferences#:#Non è stato selezionato un numero sufficiente di preferenze. Le preferenze non sono state salvate.
 book#:#book_notification#:#Invia notifiche di prenotazione
 book#:#book_notification_cron_not_active#:#Note: The corresponding cron job "Send Reservation Notifications" is currently not activated.###16 03 2023 new variable
@@ -2616,13 +2638,18 @@ book#:#book_obj_select#:#Select###30 04 2024 new variable
 book#:#book_object_added#:#È stato aggiunto un oggetto di prenotazione.
 book#:#book_object_deleted#:#L’oggetto di prenotazione è stato eliminato.
 book#:#book_object_selection#:#Item Selection###30 04 2024 new variable
+book#:#book_object_title_or_description#:#Title/Description###07 07 2026 new variable
 book#:#book_object_updated#:#L’oggetto di prenotazione è stato aggiornato.
 book#:#book_objects_available#:#Oggetti disponibili %s
 book#:#book_open#:#Apri gruppo di prenotazione
 book#:#book_overall_limit#:#Limita numero di prenotazioni
 book#:#book_overall_limit_warning#:#Hai raggiunto il numero massimo di prenotazioni.
+book#:#book_overall_limit_would_be_exceeded#:#Invalid selection. The overall limit would be exceeded.###07 07 2026 new variable
+book#:#book_participant#:#Participant###07 07 2026 new variable
 book#:#book_participant_already_assigned#:#Partecipante/i già assegnato/i.
 book#:#book_participant_assigned#:#Partecipante/i assegnato/i
+book#:#book_participant_removed#:#The participants and all related bookings have been removed successfully.###07 07 2026 new variable
+book#:#book_past_bookings#:#Past bookings###07 07 2026 new variable
 book#:#book_period#:#Periodo
 book#:#book_pool_added#:#È stato aggiunto un gruppo di prenotazione.
 book#:#book_pool_selection#:#Scelta del pool di prenotazione
@@ -2638,6 +2665,7 @@ book#:#book_pref_overview#:#Panoramica
 book#:#book_preference_info#:#Si prega di selezionare %1 preferenza/e fino a %2. Dopo la scadenza, le assegnazioni vengono effettuate automaticamente in base alle preferenze di tutti i partecipanti.
 book#:#book_preferences#:#Preferenze
 book#:#book_preferences_saved#:#Le preferenze sono state salvate
+book#:#book_present_bookings#:#Present bookings###07 07 2026 new variable
 book#:#book_public_log#:#Prenotazioni pubbliche
 book#:#book_public_log_info#:#L'elenco delle prenotazioni può essere visualizzato da tutti gli utenti.
 book#:#book_recurrence#:#Recurrence###30 04 2024 new variable
@@ -2648,9 +2676,11 @@ book#:#book_reminder_day#:#Prima della prenotazione
 book#:#book_reminder_day_info#:#Invia l'elenco delle proprie prenotazioni agli utenti e l'elenco completo delle prenotazioni agli amministratori.
 book#:#book_reminder_days#:#Giorno(i)
 book#:#book_reminder_setting#:#Promemoria
+book#:#book_remove_participants#:#Remove Participant(s)###07 07 2026 new variable
 book#:#book_rerun_assignments#:#Run Assignment Process###26 04 2023 new variable
 book#:#book_rerun_confirmation#:#Attention. The assignments via preference process has already run. You may restart the process, if any errors have occured, e.g. no assignments have been saved. To prevent multiple assignments delete all reservations before restarting the process.###26 04 2023 new variable
 book#:#book_reservation_available#:#%s disponibile
+book#:#book_reservation_cancelled#:#Reservation(s) cancelled.###07 07 2026 new variable
 book#:#book_reservation_confirmed#:#La tua prenotazione è stata confermata.
 book#:#book_reservation_failed#:#La tua prenotazione è fallita.
 book#:#book_reservation_failed_overbooked#:#La prenotazione è fallita perché l’oggetto non è più disponibile.
@@ -2663,6 +2693,7 @@ book#:#book_reservation_title#:#Prenota prenotazione per
 book#:#book_reservations_list#:#Prenotazioni
 book#:#book_schedule#:#Programma
 book#:#book_schedule_added#:#È stato aggiunto un programma di prenotazione.
+book#:#book_schedule_all_day#:#All-Day Schedule###07 07 2026 new variable
 book#:#book_schedule_days#:#Giorni della settimana
 book#:#book_schedule_days_info#:#Orari di prenotazione validi per ogni giorno (HH:MM-HH:MM)
 book#:#book_schedule_deleted#:#Il programma di prenotazione è stato eliminato.
@@ -2683,20 +2714,32 @@ book#:#book_select_pool#:#Seleziona gruppo
 book#:#book_set_cancel#:#Cancella prenotazione
 book#:#book_set_delete#:#Cancella
 book#:#book_show_message#:#Show Message###30 04 2024 new variable
+book#:#book_show_past_bookings#:#Show past bookings###07 07 2026 new variable
+book#:#book_some_reservations_unavailable#:#Some of the selected items could not be booked because they are no longer available.###07 07 2026 new variable
+book#:#book_table#:#Table###07 07 2026 new variable
+book#:#book_table_col_availability#:#Availability###07 07 2026 new variable
+book#:#book_table_col_datetime#:#Date/Time###07 07 2026 new variable
 book#:#book_title_description_nr#:#Title; Description; Number of Units###30 04 2024 new variable
 book#:#book_title_description_nr_info#:#Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item.###30 04 2024 new variable
 book#:#book_too_many_preferences#:#Sono state selezionate troppe preferenze. Le preferenze non sono state salvate.
 book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.###04 05 2026 new variable
 book#:#book_type_warning#:#Attualmente non ci sono oggetti di prenotazione disponibili. Per utilizzare il gruppo di prenotazione è necessario creare oggetti di prenotazione.
+book#:#book_view#:#View###07 07 2026 new variable
 book#:#book_week#:#Week###30 04 2024 new variable
+book#:#book_week_no_objects_selected#:#Select at least one Bookable Item at the ‘Item Selection’ section on the right and click the ‘Refresh’ button.###07 07 2026 new variable
 book#:#book_your_bookings#:#Le Sue prenotazioni
 book#:#book_your_preferences#:#Le Sue preferenze
 book#:#book_your_reservations#:#Le Sue prenotazioni
 book#:#booking_multiple_succesfully#:#Prenotazioni create correttamente.
 book#:#booking_nr_of_items#:#Numero di elementi
+book#:#booking_process_error#:#There was an error while processing your booking(s). Please try again.###07 07 2026 new variable
+book#:#bookings_log#:#Bookings###07 07 2026 new variable
+book#:#delete_bookable_item#:#Delete Bookable Item###07 07 2026 new variable
+book#:#no_valid_selection#:#No valid selection###07 07 2026 new variable
 book#:#obj_book_duplicate#:#Copia gruppo di prenotazione
 book#:#participants#:#Partecipanti
 book#:#reservation_deleted#:#Prenotazione cancellata
+book#:#schedule_type#:#Schedule Type###07 07 2026 new variable
 buddysystem#:#buddy_allow_to_contact_me#:#Consenti di contattarmi
 buddysystem#:#buddy_allow_to_contact_me_default_info#:#Defines if users can send each other requests for getting into contact by default.###28 11 2025 new variable
 buddysystem#:#buddy_allow_to_contact_me_info#:#Se consentito, altri utenti possono inviare delle richieste per contattarmi.
@@ -2889,6 +2932,7 @@ certificate#:#persistent_certificate_mode_instant#:#Immediato
 certificate#:#persistent_certificate_mode_instant_info#:#Questa opzione è consigliata per i sistemi con interazioni utente da basse a mediocri. I sistemi che tendono a richiedere maggiori prestazioni durante la creazione di più certificati utente dovrebbero passare all'opzione "Cron Job".
 chatroom#:#allow_anonymous#:#Consenti accesso anonimo
 chatroom#:#allow_custom_usernames#:#Consenti nomi utente personalizzati
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.###07 07 2026 new variable
 chatroom#:#anonymous_hint#:#Assicurarsi di impostare le autorizzazioni appropriate nella scheda "Autorizzazioni" per consentire l'accesso degli utenti anonimi.
 chatroom#:#auto_scroll#:#Scorri fino alla fine
 chatroom#:#autogen_usernames#:#Nomi utente generati automaticamente
@@ -2987,6 +3031,7 @@ chatroom#:#chat_user_action_invite_public_room#:#Invita alla chat room pubblica
 chatroom#:#chat_user_x_is_typing#:#User %s is typing ...###31 03 2023 new variable
 chatroom#:#chat_users_are_typing#:#Multiple users are typing ...###31 03 2023 new variable
 chatroom#:#chat_whisper#:#Bisbiglia
+chatroom#:#chatroom_anonymous_default#:#Anonymous ####07 07 2026 new variable
 chatroom#:#chatroom_auth#:#Autenticazione
 chatroom#:#chatroom_auth_btn_txt#:#Genera chiavi
 chatroom#:#chatroom_auth_key#:#Chiave di autenticazione
@@ -4599,6 +4644,8 @@ common#:#mail_schedule_error_no_datetime#:#To schedule a mail, a delivery date a
 common#:#mail_schedule_error_past_datetime#:#You cannot schedule emails in the past.###28 11 2025 new variable
 common#:#mail_schedule_scheduled_datetime#:#Scheduled Send Time###28 11 2025 new variable
 common#:#mail_scheduled#:#Mail stored in outbox for later delivery.###28 11 2025 new variable
+common#:#mail_scheduled_edit_compose_info#:#You are editing a scheduled mail. Sending is paused until you schedule the mail again.###07 07 2026 new variable
+common#:#mail_scheduled_edit_moved_info#:#This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox.###07 07 2026 new variable
 common#:#mail_search_no#:#Nessuna voce trovata
 common#:#mail_select_one#:#Devi scegliere una eMail.
 common#:#mail_send_error#:#Errore durante l'invio della posta
@@ -5657,6 +5704,7 @@ common#:#show_content#:#Show Content###31 03 2023 new variable
 common#:#show_details#:#Mostra dettagli
 common#:#show_filter#:#Mostra filtro
 common#:#show_hidden_sections#:#Mostra maggiori informazioni &raquo;
+common#:#show_less#:#Show less###07 07 2026 new variable
 common#:#show_list#:#Mostra lista
 common#:#show_members#:#Mostra iscritti
 common#:#show_more#:#Mostra di più
@@ -10463,6 +10511,7 @@ gsfo#:#entries_add#:#Add Entry###28 11 2025 new variable
 gsfo#:#entries_edit#:#entries_edit###28 11 2025 new variable
 gsfo#:#entries_parent#:#Select Group###28 11 2025 new variable
 gsfo#:#entries_select_parent#:#Move Entry to Group###28 11 2025 new variable
+gsfo#:#entries_target_group#:#Select target group###07 07 2026 new variable
 gsfo#:#entry_action#:#Link###28 11 2025 new variable
 gsfo#:#entry_action_info#:#Provide the full URL including the protocol (e.g. https://www.ilias.de)###28 11 2025 new variable
 gsfo#:#entry_activation_toggled#:#Activation has been toggled###28 11 2025 new variable
@@ -10471,6 +10520,7 @@ gsfo#:#entry_active_info#:#Activate this Entry###28 11 2025 new variable
 gsfo#:#entry_add#:#Add Entry###28 11 2025 new variable
 gsfo#:#entry_delete#:#Delete###28 11 2025 new variable
 gsfo#:#entry_deleted#:#Deleted###28 11 2025 new variable
+gsfo#:#entry_deleted_failed#:#Deletion not possible###07 07 2026 new variable
 gsfo#:#entry_edit#:#Edit###28 11 2025 new variable
 gsfo#:#entry_external#:#Open in new Tab###28 11 2025 new variable
 gsfo#:#entry_move#:#Move###28 11 2025 new variable
@@ -10493,6 +10543,7 @@ gsfo#:#group_toggle_activation#:#(De-)Activate###28 11 2025 new variable
 gsfo#:#group_translate#:#Translate###28 11 2025 new variable
 gsfo#:#info_not_deletable_core#:#Default Items cannot be deleted.###28 11 2025 new variable
 gsfo#:#info_not_deletable_not_empty#:#Groups with Entries cannot be deleted.###28 11 2025 new variable
+gsfo#:#item_moved#:#Entry moved###07 07 2026 new variable
 gsfo#:#legal_information#:#Legal Information###28 11 2025 new variable
 gsfo#:#order_saved#:#Order saved###28 11 2025 new variable
 gsfo#:#permanent#:#permanent###28 11 2025 new variable
@@ -10739,9 +10790,14 @@ itgr#:#itgr_always_open#:#Sempre aperto
 itgr#:#itgr_assign_materials#:#Assign Materials###31 03 2023 new variable
 itgr#:#itgr_assigned_materials#:#materiali assegnati
 itgr#:#itgr_assignment#:#assegnazione
-itgr#:#itgr_behaviour#:#Comportamento del blocco
-itgr#:#itgr_behaviour_info#:#Il sistema memorizzerà lo stato aperto/chiuso per l'utente attuale fino alla disconnessione.
 itgr#:#itgr_desc_info#:#La descrizione non sarà una parte della voce del gruppo di articoli nel relativo contenitore.
+itgr#:#itgr_display#:#Display###07 07 2026 new variable
+itgr#:#itgr_display_with_title#:#With Title###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened###07 07 2026 new variable
+itgr#:#itgr_display_without_title#:#Without Title###07 07 2026 new variable
 itgr#:#itgr_edit#:#modifica gruppi di oggetti
 itgr#:#itgr_expandable_closed#:#Espandibile (inizialmente chiuso)
 itgr#:#itgr_expandable_open#:#Espandibile (inizialmente aperto)
@@ -10751,8 +10807,6 @@ itgr#:#itgr_list_default#:#Default###31 03 2023 new variable
 itgr#:#itgr_list_default_info#:#Inherits value from upper container.###31 03 2023 new variable
 itgr#:#itgr_list_presentation#:#Item Presentation###31 03 2023 new variable
 itgr#:#itgr_materials#:#Materiali
-itgr#:#itgr_show_title#:#Mostra titolo
-itgr#:#itgr_show_title_info#:#Mostra il titolo del gruppo di articoli nella presentazione per l’allievo.
 itgr#:#itgr_tile#:#Tiles###31 03 2023 new variable
 itgr#:#itgr_tile_size#:#Tile Size###31 03 2023 new variable
 jscalendar#:#about_calendar#:#Informazioni sul calendario

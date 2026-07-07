@@ -10740,8 +10740,6 @@ itgr#:#itgr_always_open#:#Mindig nyitva
 itgr#:#itgr_assign_materials#:#Objektumok hozzárendelése
 itgr#:#itgr_assigned_materials#:#Hozzárendelt objektumok
 itgr#:#itgr_assignment#:#Hozzárendelve
-itgr#:#itgr_behaviour#:#Blokkviselkedés
-itgr#:#itgr_behaviour_info#:#A rendszer megőrzi a nyitott/zárt állapotot a jelenlegi felhasználó számára kijelentkezéséig.
 itgr#:#itgr_desc_info#:#Az objektumcsoport leírása nem jelenik meg az objektumcsoport tárolójában.
 itgr#:#itgr_edit#:#Objektumcsoportok módosítása
 itgr#:#itgr_expandable_closed#:#Kibontható (kezdetben zárt)
@@ -10752,8 +10750,6 @@ itgr#:#itgr_list_default#:#Alapértelmezett
 itgr#:#itgr_list_default_info#:#Értékek örökítése a feljebbi tárolókból.
 itgr#:#itgr_list_presentation#:#Elemmegjelenítés
 itgr#:#itgr_materials#:#Objektumok
-itgr#:#itgr_show_title#:#Cím megjelenítése
-itgr#:#itgr_show_title_info#:#A objektumcsoport címének megjelenítése.
 itgr#:#itgr_tile#:#Csempe
 itgr#:#itgr_tile_size#:#Csempe mérete
 jscalendar#:#about_calendar#:#Súgó
@@ -18006,3 +18002,61 @@ wsp#:#wsp_type_scov#:#Tanúsítvány: SCORM
 wsp#:#wsp_type_tstv#:#Tanúsítvány: teszt
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Mappa
+book#:#book_all_day#:#All-Day###07 07 2026 new variable
+book#:#book_assign_participants#:#Book for other Participant(s)###07 07 2026 new variable
+book#:#book_confirm_cancel_info#:#The selected bookings will be cancelled.###07 07 2026 new variable
+book#:#book_confirm_remove_participant#:#Are you sure you want to remove the following Participant(s)? This will delete all related Bookings.###07 07 2026 new variable
+book#:#book_date_from#:#From date###07 07 2026 new variable
+book#:#book_date_to#:#To date###07 07 2026 new variable
+book#:#book_delete_object#:#Delete###07 07 2026 new variable
+book#:#book_deleted_booking#:#Deleted Booking(s)###07 07 2026 new variable
+book#:#book_deleted_object#:#Deleted Bookable Item###07 07 2026 new variable
+book#:#book_filter_end_date#:#End Date###07 07 2026 new variable
+book#:#book_filter_objects#:#Bookable Items###07 07 2026 new variable
+book#:#book_filter_period#:#Period###07 07 2026 new variable
+book#:#book_filter_start_date#:#Start Date###07 07 2026 new variable
+book#:#book_modal_booking_confirmation#:#Booking Confirmation###07 07 2026 new variable
+book#:#book_modal_enter_quantity_intro#:#Please enter the number of items that you would like to book.###07 07 2026 new variable
+book#:#book_modal_recurrence#:#Recurrence###07 07 2026 new variable
+book#:#book_modal_recurrence_multiple#:#Book multiple dates###07 07 2026 new variable
+book#:#book_modal_recurrence_single#:#Book only this date###07 07 2026 new variable
+book#:#book_modal_skipped_unknown_item#:#Unknown or invalid selection (%s).###07 07 2026 new variable
+book#:#book_modal_warning_skipped_selections#:#Some selected items or periods are not available for booking and are excluded from this confirmation.###07 07 2026 new variable
+book#:#book_no_objects_available#:#None of the selected items are currently available for booking.###07 07 2026 new variable
+book#:#book_not_cancelled#:#Not cancelled###07 07 2026 new variable
+book#:#book_object_title_or_description#:#Title/Description###07 07 2026 new variable
+book#:#book_overall_limit_would_be_exceeded#:#Invalid selection. The overall limit would be exceeded.###07 07 2026 new variable
+book#:#book_participant#:#Participant###07 07 2026 new variable
+book#:#book_participant_removed#:#The participants and all related bookings have been removed successfully.###07 07 2026 new variable
+book#:#book_past_bookings#:#Past bookings###07 07 2026 new variable
+book#:#book_present_bookings#:#Present bookings###07 07 2026 new variable
+book#:#book_remove_participants#:#Remove Participant(s)###07 07 2026 new variable
+book#:#book_reservation_cancelled#:#Reservation(s) cancelled.###07 07 2026 new variable
+book#:#book_schedule_all_day#:#All-Day Schedule###07 07 2026 new variable
+book#:#book_show_past_bookings#:#Show past bookings###07 07 2026 new variable
+book#:#book_some_reservations_unavailable#:#Some of the selected items could not be booked because they are no longer available.###07 07 2026 new variable
+book#:#book_table#:#Table###07 07 2026 new variable
+book#:#book_table_col_availability#:#Availability###07 07 2026 new variable
+book#:#book_table_col_datetime#:#Date/Time###07 07 2026 new variable
+book#:#book_view#:#View###07 07 2026 new variable
+book#:#book_week_no_objects_selected#:#Select at least one Bookable Item at the ‘Item Selection’ section on the right and click the ‘Refresh’ button.###07 07 2026 new variable
+book#:#booking_process_error#:#There was an error while processing your booking(s). Please try again.###07 07 2026 new variable
+book#:#bookings_log#:#Bookings###07 07 2026 new variable
+book#:#delete_bookable_item#:#Delete Bookable Item###07 07 2026 new variable
+book#:#no_valid_selection#:#No valid selection###07 07 2026 new variable
+book#:#schedule_type#:#Schedule Type###07 07 2026 new variable
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.###07 07 2026 new variable
+chatroom#:#chatroom_anonymous_default#:#Anonymous ####07 07 2026 new variable
+common#:#mail_scheduled_edit_compose_info#:#You are editing a scheduled mail. Sending is paused until you schedule the mail again.###07 07 2026 new variable
+common#:#mail_scheduled_edit_moved_info#:#This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox.###07 07 2026 new variable
+common#:#show_less#:#Show less###07 07 2026 new variable
+gsfo#:#entries_target_group#:#Select target group###07 07 2026 new variable
+gsfo#:#entry_deleted_failed#:#Deletion not possible###07 07 2026 new variable
+gsfo#:#item_moved#:#Entry moved###07 07 2026 new variable
+itgr#:#itgr_display#:#Display###07 07 2026 new variable
+itgr#:#itgr_display_with_title#:#With Title###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened###07 07 2026 new variable
+itgr#:#itgr_display_without_title#:#Without Title###07 07 2026 new variable

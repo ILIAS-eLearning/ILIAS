@@ -2543,11 +2543,13 @@ book#:#book_add_participant#:#参加者を追加
 book#:#book_add_schedule#:#スケジュールを追加
 book#:#book_additional_info_file#:#追加説明
 book#:#book_all#:#全表示
+book#:#book_all_day#:#All-Day###07 07 2026 new variable
 book#:#book_all_pools_need_schedules#:#設定は保存されませんでした。全ての予約集は一つのスケジュールである必要があります。
 book#:#book_all_users#:#全受験者
 book#:#book_assign#:#割当て
 book#:#book_assign_object#:#予約オブジェクトを割当てる
 book#:#book_assign_participant#:#受験者へ割当てる
+book#:#book_assign_participants#:#Book for other Participant(s)###07 07 2026 new variable
 book#:#book_back_to_list#:#リストへ戻る
 book#:#book_bobj#:#ブッキングオブジェクト
 book#:#book_book#:#予約
@@ -2569,9 +2571,13 @@ book#:#book_confirm_booking_schedule_number_of_objects#:#予約確認
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#予約するにはオブジェクト数を宣言してください。
 book#:#book_confirm_cancel#:#本当に次の予約をキャンセルしますか?
 book#:#book_confirm_cancel_aggregation#:#キャンセル数
+book#:#book_confirm_cancel_info#:#The selected bookings will be cancelled.###07 07 2026 new variable
 book#:#book_confirm_delete#:#本当に次のアイテムを削除しますか?
+book#:#book_confirm_remove_participant#:#Are you sure you want to remove the following Participant(s)? This will delete all related Bookings.###07 07 2026 new variable
 book#:#book_copy#:#予約集をコピー
 book#:#book_create_objects#:#項目を生成
+book#:#book_date_from#:#From date###07 07 2026 new variable
+book#:#book_date_to#:#To date###07 07 2026 new variable
 book#:#book_deadline#:#期限
 book#:#book_deadline_hours#:#予約期間に先立つX hours
 book#:#book_deadline_info#:#予約受付と終了時間の最短間隔
@@ -2579,11 +2585,18 @@ book#:#book_deadline_options#:#予約可能期間:
 book#:#book_deadline_slot_end#:#予約期間締め切りまで
 book#:#book_deadline_slot_start#:#予約期間開始まで
 book#:#book_deassign#:#割り当て解除
+book#:#book_delete_object#:#Delete###07 07 2026 new variable
+book#:#book_deleted_booking#:#Deleted Booking(s)###07 07 2026 new variable
+book#:#book_deleted_object#:#Deleted Bookable Item###07 07 2026 new variable
 book#:#book_download_info#:#追加説明をダウンロード
 book#:#book_edit#:#予約集を編集
 book#:#book_edit_object#:#オブジェクトを編集
 book#:#book_edit_schedule#:#スケジュールを編集
+book#:#book_filter_end_date#:#End Date###07 07 2026 new variable
+book#:#book_filter_objects#:#Bookable Items###07 07 2026 new variable
 book#:#book_filter_past_reservations#:#過去の予約を表示
+book#:#book_filter_period#:#Period###07 07 2026 new variable
+book#:#book_filter_start_date#:#Start Date###07 07 2026 new variable
 book#:#book_fromto#:#日付範囲
 book#:#book_hours#:#時間
 book#:#book_is_used#:#使用中
@@ -2598,14 +2611,23 @@ book#:#book_messages#:#Messages
 book#:#book_messages_info#:#項目を予約した時にユーザはメッセージを追加できます。
 book#:#book_missing_availability#:#全ての日に全項目を予約することはできませんでした。
 book#:#book_missing_items#:#$1 missing item(s).
+book#:#book_modal_booking_confirmation#:#Booking Confirmation###07 07 2026 new variable
+book#:#book_modal_enter_quantity_intro#:#Please enter the number of items that you would like to book.###07 07 2026 new variable
+book#:#book_modal_recurrence#:#Recurrence###07 07 2026 new variable
+book#:#book_modal_recurrence_multiple#:#Book multiple dates###07 07 2026 new variable
+book#:#book_modal_recurrence_single#:#Book only this date###07 07 2026 new variable
+book#:#book_modal_skipped_unknown_item#:#Unknown or invalid selection (%s).###07 07 2026 new variable
+book#:#book_modal_warning_skipped_selections#:#Some selected items or periods are not available for booking and are excluded from this confirmation.###07 07 2026 new variable
 book#:#book_new#:#新規予約集
 book#:#book_no_bookings_for_you#:#予約は何も実行されていません。
 book#:#book_no_objects#:#割当てなし
+book#:#book_no_objects_available#:#None of the selected items are currently available for booking.###07 07 2026 new variable
 book#:#book_no_of_objects#:#ユニット数
 book#:#book_no_pools_selected#:#このコースには予約プールが割り当てられていません。予約プールはコースの「リソース」タブから割り当てることができます。
 book#:#book_no_preferences_for_you#:#preferenceが何も保存されていません。
 book#:#book_no_recurrence#:#この日にちのみ予約
 book#:#book_not#:#不明
+book#:#book_not_cancelled#:#Not cancelled###07 07 2026 new variable
 book#:#book_not_enough_preferences#:#十分なpreferenceが選択されました。preferenceはまだ保存されていません。
 book#:#book_notification#:#予約通知を送信
 book#:#book_notification_cron_not_active#:#注意: 対応のcron job"予約通知を送信"は現在アクティブではありません。
@@ -2617,13 +2639,18 @@ book#:#book_obj_select#:#選択
 book#:#book_object_added#:#予約オブジェクトが追加されました。
 book#:#book_object_deleted#:#予約オブジェクトが削除されました。
 book#:#book_object_selection#:#アイテム選択
+book#:#book_object_title_or_description#:#Title/Description###07 07 2026 new variable
 book#:#book_object_updated#:#予約オブジェクトが更新されました。
 book#:#book_objects_available#:#オブジェクト利用可能 %s
 book#:#book_open#:#予約集を開く
 book#:#book_overall_limit#:#予約制限数
 book#:#book_overall_limit_warning#:#予約数上限に達しました。
+book#:#book_overall_limit_would_be_exceeded#:#Invalid selection. The overall limit would be exceeded.###07 07 2026 new variable
+book#:#book_participant#:#Participant###07 07 2026 new variable
 book#:#book_participant_already_assigned#:#参加者は既に割当て済です。
 book#:#book_participant_assigned#:#参加者を割当てました
+book#:#book_participant_removed#:#The participants and all related bookings have been removed successfully.###07 07 2026 new variable
+book#:#book_past_bookings#:#Past bookings###07 07 2026 new variable
 book#:#book_period#:#予定時間
 book#:#book_pool_added#:#予約集が追加されました。
 book#:#book_pool_selection#:#要約集の選択
@@ -2639,6 +2666,7 @@ book#:#book_pref_overview#:#Overview
 book#:#book_preference_info#:#%2 まで %1 preference を選択して下さい。.期限を過ぎると予約は全てのユーザのpreferenceを基に自動的に実行されます。
 book#:#book_preferences#:#Preferences
 book#:#book_preferences_saved#:#Preferencesは保存されました。
+book#:#book_present_bookings#:#Present bookings###07 07 2026 new variable
 book#:#book_public_log#:#パブリック予約
 book#:#book_public_log_info#:#予約リストは全ユーザへ表示されます。
 book#:#book_recurrence#:#再現
@@ -2649,9 +2677,11 @@ book#:#book_reminder_day#:#予約前
 book#:#book_reminder_day_info#:#自己予約リストをユーザと予約のフルリスト管理者へ送る
 book#:#book_reminder_days#:#Day(s)
 book#:#book_reminder_setting#:#注意喚起
+book#:#book_remove_participants#:#Remove Participant(s)###07 07 2026 new variable
 book#:#book_rerun_assignments#:#割当てプロセスを走らせる
 book#:#book_rerun_confirmation#:#注意。すでにプレファレンスプロセス経由の割当ての当途中です。何らかのエラー(例:割当をまだ保存していない）が発生した場合はプロセスを再開できます。複数の割当てを回避するにはプロセス再開前に全ての予約を削除します。
 book#:#book_reservation_available#:#%s利用可能
+book#:#book_reservation_cancelled#:#Reservation(s) cancelled.###07 07 2026 new variable
 book#:#book_reservation_confirmed#:#予約が確認されました。
 book#:#book_reservation_failed#:#予約できませんでした。
 book#:#book_reservation_failed_overbooked#:#オブジェクトが利用できないので予約に失敗しました。
@@ -2664,6 +2694,7 @@ book#:#book_reservation_title#:#予約確定
 book#:#book_reservations_list#:#予約
 book#:#book_schedule#:#スケジュール
 book#:#book_schedule_added#:#予約スケジュールが追加されました。
+book#:#book_schedule_all_day#:#All-Day Schedule###07 07 2026 new variable
 book#:#book_schedule_days#:#週日
 book#:#book_schedule_days_info#:#各曜日の有効予約時間(HH:MM-HH:MM)
 book#:#book_schedule_deleted#:#予約スケジュールが削除されました。
@@ -2684,20 +2715,32 @@ book#:#book_select_pool#:#予約集を選択
 book#:#book_set_cancel#:#予約キャンセル
 book#:#book_set_delete#:#削除
 book#:#book_show_message#:#メッセージを表示
+book#:#book_show_past_bookings#:#Show past bookings###07 07 2026 new variable
+book#:#book_some_reservations_unavailable#:#Some of the selected items could not be booked because they are no longer available.###07 07 2026 new variable
+book#:#book_table#:#Table###07 07 2026 new variable
+book#:#book_table_col_availability#:#Availability###07 07 2026 new variable
+book#:#book_table_col_datetime#:#Date/Time###07 07 2026 new variable
 book#:#book_title_description_nr#:#タイトル; 説明; ユニット数
 book#:#book_title_description_nr_info#:#セミコロンまたはタブ文字で区切られたタイトル, 説明とユニット数 (スプレッドシートソフトウエアからインポートした場合). アイテム別に1ライン使用。
 book#:#book_too_many_preferences#:#Preference選択が多すぎます。Preferenceは保存されませんでした。
 book#:#book_total_individual_bookings_limit#:#個々の参加者によって、または個々の参加者のために、すべての利用可能なアイテムにわたって実行できる予約の総数を制限します。各予約可能なアイテムは、それぞれの参加者につき1回だけ予約できます。
 book#:#book_type_warning#:#現在利用できるオブジェクトはありませんブッキング集を使用するにはブッキングオブジェクトを作成する必要があります
+book#:#book_view#:#View###07 07 2026 new variable
 book#:#book_week#:#Week
+book#:#book_week_no_objects_selected#:#Select at least one Bookable Item at the ‘Item Selection’ section on the right and click the ‘Refresh’ button.###07 07 2026 new variable
 book#:#book_your_bookings#:#予約
 book#:#book_your_preferences#:#Preference
 book#:#book_your_reservations#:#あなたの予約
 book#:#booking_multiple_succesfully#:#予約が正しく作成されました
 book#:#booking_nr_of_items#:#アイテム番号
+book#:#booking_process_error#:#There was an error while processing your booking(s). Please try again.###07 07 2026 new variable
+book#:#bookings_log#:#Bookings###07 07 2026 new variable
+book#:#delete_bookable_item#:#Delete Bookable Item###07 07 2026 new variable
+book#:#no_valid_selection#:#No valid selection###07 07 2026 new variable
 book#:#obj_book_duplicate#:#予約集をコピー
 book#:#participants#:#参加者
 book#:#reservation_deleted#:#予約を削除しました
+book#:#schedule_type#:#Schedule Type###07 07 2026 new variable
 buddysystem#:#buddy_allow_to_contact_me#:#コンタクトを許可
 buddysystem#:#buddy_allow_to_contact_me_default_info#:#ユーザーがデフォルトで互いに連絡を取るためのリクエストを送信できるかどうかを定義します。
 buddysystem#:#buddy_allow_to_contact_me_info#:#有効にすると他のユーザがコンタクト要求を送れるようになります。
@@ -4602,6 +4645,8 @@ common#:#mail_schedule_error_no_datetime#:#メールをスケジュールする�
 common#:#mail_schedule_error_past_datetime#:#過去のメールをスケジュールすることはできません。
 common#:#mail_schedule_scheduled_datetime#:#送信予定時刻
 common#:#mail_scheduled#:#メールは後で送信するために送信トレイに保存されました。
+common#:#mail_scheduled_edit_compose_info#:#You are editing a scheduled mail. Sending is paused until you schedule the mail again.###07 07 2026 new variable
+common#:#mail_scheduled_edit_moved_info#:#This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox.###07 07 2026 new variable
 common#:#mail_search_no#:#エントリーが見つかりません。
 common#:#mail_select_one#:#メールを一つ選択しなければなりません
 common#:#mail_send_error#:#エラー送信メール
@@ -5660,6 +5705,7 @@ common#:#show_content#:#コンテンツを表示
 common#:#show_details#:#詳細を表示
 common#:#show_filter#:#フィルタを表示
 common#:#show_hidden_sections#:#詳細を表示  &raquo;
+common#:#show_less#:#Show less###07 07 2026 new variable
 common#:#show_list#:#リストを表示
 common#:#show_members#:#メンバーを表示
 common#:#show_more#:#詳しく表示
@@ -10466,6 +10512,7 @@ gsfo#:#entries_add#:#エントリーを追加
 gsfo#:#entries_edit#:#エントリー編集
 gsfo#:#entries_parent#:#グルークを選択
 gsfo#:#entries_select_parent#:#エントリをグループへ移動
+gsfo#:#entries_target_group#:#Select target group###07 07 2026 new variable
 gsfo#:#entry_action#:#リンク
 gsfo#:#entry_action_info#:#プロトコルを含むフルURLを提供(例: https://www.ilias.de)
 gsfo#:#entry_activation_toggled#:#アクティベーションが切り替えられました
@@ -10474,6 +10521,7 @@ gsfo#:#entry_active_info#:#このエントリーヲアクティブ化
 gsfo#:#entry_add#:#エントリを追加
 gsfo#:#entry_delete#:#削除
 gsfo#:#entry_deleted#:#削除しました
+gsfo#:#entry_deleted_failed#:#Deletion not possible###07 07 2026 new variable
 gsfo#:#entry_edit#:#編集
 gsfo#:#entry_external#:#新しいタブを開く
 gsfo#:#entry_move#:#移動
@@ -10496,6 +10544,7 @@ gsfo#:#group_toggle_activation#:#(De-)Activate
 gsfo#:#group_translate#:#翻訳
 gsfo#:#info_not_deletable_core#:#デフォルトアイテムは削除できません。
 gsfo#:#info_not_deletable_not_empty#:#エントリの含まれるグループは削除できません。
+gsfo#:#item_moved#:#Entry moved###07 07 2026 new variable
 gsfo#:#legal_information#:#リーガル情報
 gsfo#:#order_saved#:#順番を保存
 gsfo#:#permanent#:#永久的に
@@ -10742,9 +10791,14 @@ itgr#:#itgr_always_open#:#常時オープン
 itgr#:#itgr_assign_materials#:#教材を割当てる
 itgr#:#itgr_assigned_materials#:#割り当てる教材
 itgr#:#itgr_assignment#:#割り当て
-itgr#:#itgr_behaviour#:#ブロックの動作
-itgr#:#itgr_behaviour_info#:#現在のユーザがログアウトするまでの間システムは開いたもの/閉じたものを保存します。
 itgr#:#itgr_desc_info#:#説明はコンテナ内のグループプレゼンテーションの部分アイテムにはなりません。
+itgr#:#itgr_display#:#Display###07 07 2026 new variable
+itgr#:#itgr_display_with_title#:#With Title###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened###07 07 2026 new variable
+itgr#:#itgr_display_without_title#:#Without Title###07 07 2026 new variable
 itgr#:#itgr_edit#:#アイテムグループを編集
 itgr#:#itgr_expandable_closed#:#拡張可(初期値は閉じている)
 itgr#:#itgr_expandable_open#:#拡張可(初期値は開いている)
@@ -10754,8 +10808,6 @@ itgr#:#itgr_list_default#:#Default
 itgr#:#itgr_list_default_info#:#上位コンテナからボリュームを引き継ぐ
 itgr#:#itgr_list_presentation#:#アイテムプレゼンテーション
 itgr#:#itgr_materials#:#材料
-itgr#:#itgr_show_title#:#タイトルを表示
-itgr#:#itgr_show_title_info#:#学習者用のプレゼンテーション内にアイテムグループのタイトルを表示します。
 itgr#:#itgr_tile#:#Tiles
 itgr#:#itgr_tile_size#:#Tile Size
 jscalendar#:#about_calendar#:#カレンダーについて

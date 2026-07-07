@@ -2547,11 +2547,13 @@ book#:#book_add_participant#:#Añadir participante
 book#:#book_add_schedule#:#Añadir horario
 book#:#book_additional_info_file#:#Descripción adicional
 book#:#book_all#:#Mostrar todo
+book#:#book_all_day#:#All-Day###07 07 2026 new variable
 book#:#book_all_pools_need_schedules#:#Ajustes no guardados. Todos los grupos de reserva seleccionados deben tener al menos un horario.
 book#:#book_all_users#:#Todos los participantes
 book#:#book_assign#:#Reservar
 book#:#book_assign_object#:#Reservar objetos para el participante
 book#:#book_assign_participant#:#Reservar para otro(s) participante(s)
+book#:#book_assign_participants#:#Book for other Participant(s)###07 07 2026 new variable
 book#:#book_back_to_list#:#Volver a la lista
 book#:#book_bobj#:#Objeto reservable
 book#:#book_book#:#Reservar
@@ -2573,9 +2575,13 @@ book#:#book_confirm_booking_schedule_number_of_objects#:#Confirmación de reserv
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Por favor, introduzca el número de objetos que desea reservar.
 book#:#book_confirm_cancel#:#¿Está seguro de que desea cancelar la(s) siguiente(s) reserva(s)?
 book#:#book_confirm_cancel_aggregation#:#Número de cancelaciones
+book#:#book_confirm_cancel_info#:#The selected bookings will be cancelled.###07 07 2026 new variable
 book#:#book_confirm_delete#:#¿Está seguro de que desea eliminar los siguientes elementos?
+book#:#book_confirm_remove_participant#:#Are you sure you want to remove the following Participant(s)? This will delete all related Bookings.###07 07 2026 new variable
 book#:#book_copy#:#Copiar Pool de Reservas
 book#:#book_create_objects#:#Crear elementos
+book#:#book_date_from#:#From date###07 07 2026 new variable
+book#:#book_date_to#:#To date###07 07 2026 new variable
 book#:#book_deadline#:#Fecha límite
 book#:#book_deadline_hours#:#X horas antes de que comience la franja horaria
 book#:#book_deadline_info#:#Tiempo mínimo entre la reserva y el período reservado
@@ -2583,11 +2589,18 @@ book#:#book_deadline_options#:#Las reservas se pueden realizar hasta:
 book#:#book_deadline_slot_end#:#Finalización de la franja horaria
 book#:#book_deadline_slot_start#:#Comienzo de la franja horaria
 book#:#book_deassign#:#Editar Reservas
+book#:#book_delete_object#:#Delete###07 07 2026 new variable
+book#:#book_deleted_booking#:#Deleted Booking(s)###07 07 2026 new variable
+book#:#book_deleted_object#:#Deleted Bookable Item###07 07 2026 new variable
 book#:#book_download_info#:#Descargar descripción adicional
 book#:#book_edit#:#Editar Pool de Reservas
 book#:#book_edit_object#:#Editar elemento reservable
 book#:#book_edit_schedule#:#Editar horario
+book#:#book_filter_end_date#:#End Date###07 07 2026 new variable
+book#:#book_filter_objects#:#Bookable Items###07 07 2026 new variable
 book#:#book_filter_past_reservations#:#Mostrar reservas pasadas
+book#:#book_filter_period#:#Period###07 07 2026 new variable
+book#:#book_filter_start_date#:#Start Date###07 07 2026 new variable
 book#:#book_fromto#:#Rango de fechas
 book#:#book_hours#:#Horas antes del inicio de la franja horaria.
 book#:#book_is_used#:#En uso
@@ -2602,14 +2615,23 @@ book#:#book_messages#:#Mensajes
 book#:#book_messages_info#:#Permitir que los usuarios añadan un mensaje al reservar un elemento.
 book#:#book_missing_availability#:#No ha sido posible reservar todos los elementos en todas las fechas.
 book#:#book_missing_items#:#$1 elemento(s) faltante(s).
+book#:#book_modal_booking_confirmation#:#Booking Confirmation###07 07 2026 new variable
+book#:#book_modal_enter_quantity_intro#:#Please enter the number of items that you would like to book.###07 07 2026 new variable
+book#:#book_modal_recurrence#:#Recurrence###07 07 2026 new variable
+book#:#book_modal_recurrence_multiple#:#Book multiple dates###07 07 2026 new variable
+book#:#book_modal_recurrence_single#:#Book only this date###07 07 2026 new variable
+book#:#book_modal_skipped_unknown_item#:#Unknown or invalid selection (%s).###07 07 2026 new variable
+book#:#book_modal_warning_skipped_selections#:#Some selected items or periods are not available for booking and are excluded from this confirmation.###07 07 2026 new variable
 book#:#book_new#:#Nuevo Pool de Reservas
 book#:#book_no_bookings_for_you#:#No se han realizado reservas para usted.
 book#:#book_no_objects#:#Sin reservas
+book#:#book_no_objects_available#:#None of the selected items are currently available for booking.###07 07 2026 new variable
 book#:#book_no_of_objects#:#Nº de unidades
 book#:#book_no_pools_selected#:#No se han asignado repositorios de reserva a este curso. Los repositorios de reserva pueden asignarse a través de la pestaña 'Recursos' del curso.
 book#:#book_no_preferences_for_you#:#No se han registrado preferencias para usted.
 book#:#book_no_recurrence#:#Reservar solo esta fecha
 book#:#book_not#:#No
+book#:#book_not_cancelled#:#Not cancelled###07 07 2026 new variable
 book#:#book_not_enough_preferences#:#No ha seleccionado suficientes preferencias. Sus preferencias no se han guardado.
 book#:#book_notification#:#Enviar notificaciones de reserva
 book#:#book_notification_cron_not_active#:#Nota: La tarea programada (cron job) necesaria, 'Enviar notificaciones de reserva', no está activa actualmente.
@@ -2621,13 +2643,18 @@ book#:#book_obj_select#:#Seleccionar
 book#:#book_object_added#:#Elemento reservable añadido.
 book#:#book_object_deleted#:#Elemento reservable eliminado.
 book#:#book_object_selection#:#Selección de elementos
+book#:#book_object_title_or_description#:#Title/Description###07 07 2026 new variable
 book#:#book_object_updated#:#Elemento reservable actualizado.
 book#:#book_objects_available#:#Elementos disponibles %s
 book#:#book_open#:#Abrir repositorio de reserva
 book#:#book_overall_limit#:#Limitar número total de reservas por usuario
 book#:#book_overall_limit_warning#:#Ha alcanzado el número máximo de reservas permitidas.
+book#:#book_overall_limit_would_be_exceeded#:#Invalid selection. The overall limit would be exceeded.###07 07 2026 new variable
+book#:#book_participant#:#Participant###07 07 2026 new variable
 book#:#book_participant_already_assigned#:#Uno o más participantes ya han sido añadidos.
 book#:#book_participant_assigned#:#Participante(s) añadido(s).
+book#:#book_participant_removed#:#The participants and all related bookings have been removed successfully.###07 07 2026 new variable
+book#:#book_past_bookings#:#Past bookings###07 07 2026 new variable
 book#:#book_period#:#Periodo
 book#:#book_pool_added#:#Repositorio de reserva creado con éxito.
 book#:#book_pool_selection#:#Selección de repositorio de reserva
@@ -2643,6 +2670,7 @@ book#:#book_pref_overview#:#Resumen
 book#:#book_preference_info#:#Por favor, seleccione %1 preferencia(s) antes del %2. Una vez finalizado este plazo, las reservas se asignarán automáticamente, teniendo en cuenta las preferencias de todos los usuarios.
 book#:#book_preferences#:#Preferencias
 book#:#book_preferences_saved#:#Sus preferencias han sido guardadas.
+book#:#book_present_bookings#:#Present bookings###07 07 2026 new variable
 book#:#book_public_log#:#Reservas visibles para todos los participantes
 book#:#book_public_log_info#:#Los usuarios con el permiso 'Lectura' podrán ver las reservas de los demás participantes en la pestaña 'Reservas'.
 book#:#book_recurrence#:#Recurrencia
@@ -2653,9 +2681,11 @@ book#:#book_reminder_day#:#Enviar recordatorio
 book#:#book_reminder_day_info#:#Enviar la lista de reservas propias a los usuarios y la lista completa de todas las próximas reservas a los administradores. Tenga en cuenta que: para recibir recordatorios, los usuarios deben haber activado las notificaciones a través del menú 'Acciones' en la esquina superior derecha del pool de reservas.
 book#:#book_reminder_days#:#día(s) antes del intervalo de tiempo de la reserva
 book#:#book_reminder_setting#:#Recordatorio
+book#:#book_remove_participants#:#Remove Participant(s)###07 07 2026 new variable
 book#:#book_rerun_assignments#:#Ejecutar proceso de asignación
 book#:#book_rerun_confirmation#:#Atención. El proceso de asignación de reservas según las preferencias ya se ha llevado a cabo. Puede reiniciar el proceso si se ha producido algún error, por ejemplo, si no se han guardado las reservas. Para evitar asignaciones múltiples, elimine todas las reservas existentes antes de reiniciar el proceso.
 book#:#book_reservation_available#:#%s disponible(s)
+book#:#book_reservation_cancelled#:#Reservation(s) cancelled.###07 07 2026 new variable
 book#:#book_reservation_confirmed#:#Su reserva ha sido confirmada.
 book#:#book_reservation_failed#:#No ha sido posible confirmar su reserva.
 book#:#book_reservation_failed_overbooked#:#Su reserva ha fallado porque el objeto reservable en cuestión ya no está disponible.
@@ -2668,6 +2698,7 @@ book#:#book_reservation_title#:#Reserva de Reserva para
 book#:#book_reservations_list#:#Reservas
 book#:#book_schedule#:#Horario
 book#:#book_schedule_added#:#Horario de reserva añadido.
+book#:#book_schedule_all_day#:#All-Day Schedule###07 07 2026 new variable
 book#:#book_schedule_days#:#Franjas Horarias
 book#:#book_schedule_days_info#:#Horas de reserva válidas para cada día (HH:MM-HH:MM)
 book#:#book_schedule_deleted#:#Horario de reserva eliminado.
@@ -2688,20 +2719,32 @@ book#:#book_select_pool#:#Seleccionar Repositorio
 book#:#book_set_cancel#:#Cancelar Reserva
 book#:#book_set_delete#:#Eliminar Reserva
 book#:#book_show_message#:#Mostrar Mensaje
+book#:#book_show_past_bookings#:#Show past bookings###07 07 2026 new variable
+book#:#book_some_reservations_unavailable#:#Some of the selected items could not be booked because they are no longer available.###07 07 2026 new variable
+book#:#book_table#:#Table###07 07 2026 new variable
+book#:#book_table_col_availability#:#Availability###07 07 2026 new variable
+book#:#book_table_col_datetime#:#Date/Time###07 07 2026 new variable
 book#:#book_title_description_nr#:#Título; Descripción; Número de Unidades
 book#:#book_title_description_nr_info#:#Introduzca el título, la descripción y el número de unidades separados por punto y coma o carácter de tabulación (si se importa desde un software de hoja de cálculo). Use una línea por objeto.
 book#:#book_too_many_preferences#:#Ha seleccionado demasiadas preferencias. Sus preferencias no han sido guardadas.
 book#:#book_total_individual_bookings_limit#:#Limite el número total de reservas que pueden realizar los participantes individuales, a través de todos los objetos disponibles. Cada objeto reservable solo puede ser reservado una vez por participante.
 book#:#book_type_warning#:#Actualmente no hay elementos reservables disponibles. Por favor, cree algunos elementos reservables para poder utilizar este fondo de reserva.
+book#:#book_view#:#View###07 07 2026 new variable
 book#:#book_week#:#Semana
+book#:#book_week_no_objects_selected#:#Select at least one Bookable Item at the ‘Item Selection’ section on the right and click the ‘Refresh’ button.###07 07 2026 new variable
 book#:#book_your_bookings#:#Sus reservas
 book#:#book_your_preferences#:#Sus preferencias
 book#:#book_your_reservations#:#Sus reservas
 book#:#booking_multiple_succesfully#:#Reservas realizadas con éxito.
 book#:#booking_nr_of_items#:#Número de elementos
+book#:#booking_process_error#:#There was an error while processing your booking(s). Please try again.###07 07 2026 new variable
+book#:#bookings_log#:#Bookings###07 07 2026 new variable
+book#:#delete_bookable_item#:#Delete Bookable Item###07 07 2026 new variable
+book#:#no_valid_selection#:#No valid selection###07 07 2026 new variable
 book#:#obj_book_duplicate#:#Copiar fondo de reserva
 book#:#participants#:#Participantes
 book#:#reservation_deleted#:#Reserva eliminada.
+book#:#schedule_type#:#Schedule Type###07 07 2026 new variable
 buddysystem#:#buddy_allow_to_contact_me#:#Permitir solicitudes de contacto
 buddysystem#:#buddy_allow_to_contact_me_default_info#:#Defines if users can send each other requests for getting into contact by default.
 buddysystem#:#buddy_allow_to_contact_me_info#:#Otros usuarios pueden enviarme solicitudes para ponerse en contacto.
@@ -2894,6 +2937,7 @@ certificate#:#persistent_certificate_mode_instant#:#Instantáneo
 certificate#:#persistent_certificate_mode_instant_info#:#Esta opción se recomienda para sistemas con niveles de interacción de usuarios bajos o medios. Los sistemas que tienden a tiempos de carga más largos durante la creación de múltiples certificados de usuario deberían cambiar a la opción 'Tarea programada'.
 chatroom#:#allow_anonymous#:#Permitir inicio de sesión anónimo
 chatroom#:#allow_custom_usernames#:#Permitir nombres de usuario personalizados
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.###07 07 2026 new variable
 chatroom#:#anonymous_hint#:#Asegúrese de establecer los permisos adecuados en la pestaña 'Permisos' para permitir el acceso de usuarios anónimos a este elemento del repositorio.
 chatroom#:#auto_scroll#:#Desplazar hacia abajo
 chatroom#:#autogen_usernames#:#Nombres de usuario generados automáticamente
@@ -2992,6 +3036,7 @@ chatroom#:#chat_user_action_invite_public_room#:#Invitar a sala pública
 chatroom#:#chat_user_x_is_typing#:#El usuario %s está escribiendo ...
 chatroom#:#chat_users_are_typing#:#Varios usuarios están escribiendo ...
 chatroom#:#chat_whisper#:#Susurrar
+chatroom#:#chatroom_anonymous_default#:#Anonymous ####07 07 2026 new variable
 chatroom#:#chatroom_auth#:#Autenticación
 chatroom#:#chatroom_auth_btn_txt#:#Generar claves
 chatroom#:#chatroom_auth_key#:#Clave de autenticación
@@ -4604,6 +4649,8 @@ common#:#mail_schedule_error_no_datetime#:#To schedule a mail, a delivery date a
 common#:#mail_schedule_error_past_datetime#:#You cannot schedule emails in the past.
 common#:#mail_schedule_scheduled_datetime#:#Scheduled Send Time
 common#:#mail_scheduled#:#Mail stored in outbox for later delivery.
+common#:#mail_scheduled_edit_compose_info#:#You are editing a scheduled mail. Sending is paused until you schedule the mail again.###07 07 2026 new variable
+common#:#mail_scheduled_edit_moved_info#:#This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox.###07 07 2026 new variable
 common#:#mail_search_no#:#No se han encontrado entradas.
 common#:#mail_select_one#:#Debe seleccionar un correo
 common#:#mail_send_error#:#Error al enviar el correo
@@ -5662,6 +5709,7 @@ common#:#show_content#:#Mostrar contenido
 common#:#show_details#:#Mostrar detalles
 common#:#show_filter#:#Mostrar filtro
 common#:#show_hidden_sections#:#Mostrar más información &raquo;
+common#:#show_less#:#Show less###07 07 2026 new variable
 common#:#show_list#:#Mostrar lista
 common#:#show_members#:#Mostrar Miembros
 common#:#show_more#:#Mostrar más
@@ -10468,6 +10516,7 @@ gsfo#:#entries_add#:#Añadir entrada
 gsfo#:#entries_edit#:#editar_entradas
 gsfo#:#entries_parent#:#Seleccionar grupo
 gsfo#:#entries_select_parent#:#Mover entrada al grupo
+gsfo#:#entries_target_group#:#Select target group###07 07 2026 new variable
 gsfo#:#entry_action#:#Enlace
 gsfo#:#entry_action_info#:#Proporcione la URL completa incluyendo el protocolo (ej. https://www.ilias.de)
 gsfo#:#entry_activation_toggled#:#Se ha conmutado la activación
@@ -10476,6 +10525,7 @@ gsfo#:#entry_active_info#:#Activar esta entrada
 gsfo#:#entry_add#:#Añadir entrada
 gsfo#:#entry_delete#:#Eliminar
 gsfo#:#entry_deleted#:#Eliminado
+gsfo#:#entry_deleted_failed#:#Deletion not possible###07 07 2026 new variable
 gsfo#:#entry_edit#:#Editar
 gsfo#:#entry_external#:#Abrir en una nueva pestaña
 gsfo#:#entry_move#:#Mover
@@ -10498,6 +10548,7 @@ gsfo#:#group_toggle_activation#:#(Des)activar
 gsfo#:#group_translate#:#Traducir
 gsfo#:#info_not_deletable_core#:#Los elementos predeterminados no se pueden eliminar.
 gsfo#:#info_not_deletable_not_empty#:#Los grupos con entradas no se pueden eliminar.
+gsfo#:#item_moved#:#Entry moved###07 07 2026 new variable
 gsfo#:#legal_information#:#Información legal
 gsfo#:#order_saved#:#Orden guardado
 gsfo#:#permanent#:#permanente
@@ -10744,9 +10795,14 @@ itgr#:#itgr_always_open#:#Siempre abierto
 itgr#:#itgr_assign_materials#:#Asignar materiales
 itgr#:#itgr_assigned_materials#:#Materiales asignados
 itgr#:#itgr_assignment#:#Asignado
-itgr#:#itgr_behaviour#:#Comportamiento del bloque
-itgr#:#itgr_behaviour_info#:#El sistema almacenará el estado abierto/cerrado para el usuario actual hasta que cierre la sesión.
 itgr#:#itgr_desc_info#:#La descripción no formará parte de la presentación del grupo de elementos en su contenedor.
+itgr#:#itgr_display#:#Display###07 07 2026 new variable
+itgr#:#itgr_display_with_title#:#With Title###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened###07 07 2026 new variable
+itgr#:#itgr_display_without_title#:#Without Title###07 07 2026 new variable
 itgr#:#itgr_edit#:#Editar grupos de elementos
 itgr#:#itgr_expandable_closed#:#Expandible (inicialmente cerrado)
 itgr#:#itgr_expandable_open#:#Expandible (inicialmente abierto)
@@ -10756,8 +10812,6 @@ itgr#:#itgr_list_default#:#Predeterminado
 itgr#:#itgr_list_default_info#:#Hereda el valor del contenedor superior.
 itgr#:#itgr_list_presentation#:#Presentación de elementos
 itgr#:#itgr_materials#:#Materiales
-itgr#:#itgr_show_title#:#Mostrar título
-itgr#:#itgr_show_title_info#:#Muestra el título del grupo de elementos en la presentación para el alumno.
 itgr#:#itgr_tile#:#Mosaicos
 itgr#:#itgr_tile_size#:#Tamaño del mosaico
 jscalendar#:#about_calendar#:#Acerca del calendario

@@ -2543,11 +2543,13 @@ book#:#book_add_participant#:#Add Participant###04 05 2026 new variable
 book#:#book_add_schedule#:#Прибавяне на график
 book#:#book_additional_info_file#:#Допълнително описание
 book#:#book_all#:#Покажи всичко
+book#:#book_all_day#:#All-Day###07 07 2026 new variable
 book#:#book_all_pools_need_schedules#:#Настройките не са запазени. Всички зададени басейни трябва да имат поне един график.
 book#:#book_all_users#:#Всички участници
 book#:#book_assign#:#Присвояване
 book#:#book_assign_object#:#Придаване на обект за резервация
 book#:#book_assign_participant#:#Придаване на участник
+book#:#book_assign_participants#:#Book for other Participant(s)###07 07 2026 new variable
 book#:#book_back_to_list#:#Обртно към списъка
 book#:#book_bobj#:#Обект за резервиране
 book#:#book_book#:#Резервирай
@@ -2569,9 +2571,13 @@ book#:#book_confirm_booking_schedule_number_of_objects#:#Потвърждени�
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Моля, посочете броя на обектите, които искате да резервирате.
 book#:#book_confirm_cancel#:#Сигурни ли сте, че искате да отмените следната резервация?
 book#:#book_confirm_cancel_aggregation#:#Брой анулирания
+book#:#book_confirm_cancel_info#:#The selected bookings will be cancelled.###07 07 2026 new variable
 book#:#book_confirm_delete#:# Наистина ли искате да изтриете следните елементи?
+book#:#book_confirm_remove_participant#:#Are you sure you want to remove the following Participant(s)? This will delete all related Bookings.###07 07 2026 new variable
 book#:#book_copy#:#Пул за резервиране на копия
 book#:#book_create_objects#:#Create Items###30 04 2024 new variable
+book#:#book_date_from#:#From date###07 07 2026 new variable
+book#:#book_date_to#:#To date###07 07 2026 new variable
 book#:#book_deadline#:#Deadline
 book#:#book_deadline_hours#:#X часа преди периода на резервация
 book#:#book_deadline_info#:#Минимално време между резервацията и резервирания период
@@ -2579,11 +2585,18 @@ book#:#book_deadline_options#:#Краен срок за резервация
 book#:#book_deadline_slot_end#:#До края на периода на резервация
 book#:#book_deadline_slot_start#:#До началото на периода на резервация
 book#:#book_deassign#:#Deassign
+book#:#book_delete_object#:#Delete###07 07 2026 new variable
+book#:#book_deleted_booking#:#Deleted Booking(s)###07 07 2026 new variable
+book#:#book_deleted_object#:#Deleted Bookable Item###07 07 2026 new variable
 book#:#book_download_info#:#Download Допълнително описание
 book#:#book_edit#:#Едит на резервационен басейн
 book#:#book_edit_object#:#Обект за редактиране
 book#:#book_edit_schedule#:#Редактиране на график
+book#:#book_filter_end_date#:#End Date###07 07 2026 new variable
+book#:#book_filter_objects#:#Bookable Items###07 07 2026 new variable
 book#:#book_filter_past_reservations#:#Показване на минали резервации
+book#:#book_filter_period#:#Period###07 07 2026 new variable
+book#:#book_filter_start_date#:#Start Date###07 07 2026 new variable
 book#:#book_fromto#:#Диапазон от дати
 book#:#book_hours#:#Часове
 book#:#book_is_used#:#Използва се
@@ -2598,14 +2611,23 @@ book#:#book_messages#:#Messages###30 04 2024 new variable
 book#:#book_messages_info#:#Allow users to add a message when booking an item.###30 04 2024 new variable
 book#:#book_missing_availability#:#It was not possible to book all items on all dates.###30 04 2024 new variable
 book#:#book_missing_items#:#$1 missing item(s).###30 04 2024 new variable
+book#:#book_modal_booking_confirmation#:#Booking Confirmation###07 07 2026 new variable
+book#:#book_modal_enter_quantity_intro#:#Please enter the number of items that you would like to book.###07 07 2026 new variable
+book#:#book_modal_recurrence#:#Recurrence###07 07 2026 new variable
+book#:#book_modal_recurrence_multiple#:#Book multiple dates###07 07 2026 new variable
+book#:#book_modal_recurrence_single#:#Book only this date###07 07 2026 new variable
+book#:#book_modal_skipped_unknown_item#:#Unknown or invalid selection (%s).###07 07 2026 new variable
+book#:#book_modal_warning_skipped_selections#:#Some selected items or periods are not available for booking and are excluded from this confirmation.###07 07 2026 new variable
 book#:#book_new#:#Нова резервация
 book#:#book_no_bookings_for_you#:#Няма извършени резервации за вас.
 book#:#book_no_objects#:#No Assignment
+book#:#book_no_objects_available#:#None of the selected items are currently available for booking.###07 07 2026 new variable
 book#:#book_no_of_objects#:#No. of Objects
 book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.###29 10 2025 new variable
 book#:#book_no_preferences_for_you#:#Няма запазени предпочитания за вас.
 book#:#book_no_recurrence#:#Book only this date###30 04 2024 new variable
 book#:#book_not#:#No
+book#:#book_not_cancelled#:#Not cancelled###07 07 2026 new variable
 book#:#book_not_enough_preferences#:#Избрали сте недостатъчно предпочитания. Предпочитанията не са запазени.
 book#:#book_notification#:#Изпращане на известия за резервация
 book#:#book_notification_cron_not_active#:#Note: The corresponding cron job "Send Reservation Notifications" is currently not activated.###16 03 2023 new variable
@@ -2617,13 +2639,18 @@ book#:#book_obj_select#:#Select###30 04 2024 new variable
 book#:#book_object_added#:#Добавен е обект за резервация.
 book#:#book_object_deleted#:#Обектът на резервацията е изтрит.
 book#:#book_object_selection#:#Item Selection###30 04 2024 new variable
+book#:#book_object_title_or_description#:#Title/Description###07 07 2026 new variable
 book#:#book_object_updated#:#Обектът на резервацията е актуализиран.
 book#:#book_objects_available#:#Достъпни обекти %s
 book#:#book_open#:#Отворен басейн за резервации
 book#:#book_overall_limit#:#Лимит на броя на резервациите
 book#:#book_overall_limit_warning#:#Постигнали сте максималния брой резервации.
+book#:#book_overall_limit_would_be_exceeded#:#Invalid selection. The overall limit would be exceeded.###07 07 2026 new variable
+book#:#book_participant#:#Participant###07 07 2026 new variable
 book#:#book_participant_already_assigned#:#Участникът(ците) вече е(са) назначен(и).
 book#:#book_participant_assigned#:#Посочен(и) участник(и)
+book#:#book_participant_removed#:#The participants and all related bookings have been removed successfully.###07 07 2026 new variable
+book#:#book_past_bookings#:#Past bookings###07 07 2026 new variable
 book#:#book_period#:#Период
 book#:#book_pool_added#:#Добавен е басейн за резервации.
 book#:#book_pool_selection#:#Избор на басейн за резервации
@@ -2639,6 +2666,7 @@ book#:#book_pref_overview#:#Overview
 book#:#book_preference_info#:#Моля, изберете %1 предпочитание(я) до %2. След изтичането на крайния срок резервациите ще се извършват автоматично въз основа на предпочитанията на всички потребители.
 book#:#book_preferences#:#Preferences
 book#:#book_preferences_saved#:#Предпочитанията са запазени.
+book#:#book_present_bookings#:#Present bookings###07 07 2026 new variable
 book#:#book_public_log#:#Публични резервации
 book#:#book_public_log_info#:#Списъкът с резервации може да се види от всички потребители.
 book#:#book_recurrence#:#Recurrence###30 04 2024 new variable
@@ -2649,9 +2677,11 @@ book#:#book_reminder_day#:#Преди резервация
 book#:#book_reminder_day_info#:#Изпращане на списък със собствени резервации на потребителите и пълен списък с резервации на администраторите.
 book#:#book_reminder_days#:#Ден/дни
 book#:#book_reminder_setting#:#Reminder
+book#:#book_remove_participants#:#Remove Participant(s)###07 07 2026 new variable
 book#:#book_rerun_assignments#:#Run Assignment Process###26 04 2023 new variable
 book#:#book_rerun_confirmation#:#Attention. The assignments via preference process has already run. You may restart the process, if any errors have occured, e.g. no assignments have been saved. To prevent multiple assignments delete all reservations before restarting the process.###26 04 2023 new variable
 book#:#book_reservation_available#:#%s available
+book#:#book_reservation_cancelled#:#Reservation(s) cancelled.###07 07 2026 new variable
 book#:#book_reservation_confirmed#:#Вашата резервация е потвърдена.
 book#:#book_reservation_failed#:#Вашата резервация се е провалила.
 book#:#book_reservation_failed_overbooked#:#Резервацията се е провалила, защото обектът вече не е наличен.
@@ -2664,6 +2694,7 @@ book#:#book_reservation_title#:#Резервация за
 book#:#book_reservations_list#:#Reservations
 book#:#book_schedule#:#График
 book#:#book_schedule_added#:#Добавен е график за резервации.
+book#:#book_schedule_all_day#:#All-Day Schedule###07 07 2026 new variable
 book#:#book_schedule_days#:#Дни от седмицата
 book#:#book_schedule_days_info#:#Валидно време за резервация за всеки ден (HH:MM-HH:MM)
 book#:#book_schedule_deleted#:#Разписанието за резервации е изтрито.
@@ -2684,20 +2715,32 @@ book#:#book_select_pool#:#Избор на басейн
 book#:#book_set_cancel#:#Отмяна на резервация
 book#:#book_set_delete#:#Delete
 book#:#book_show_message#:#Show Message###30 04 2024 new variable
+book#:#book_show_past_bookings#:#Show past bookings###07 07 2026 new variable
+book#:#book_some_reservations_unavailable#:#Some of the selected items could not be booked because they are no longer available.###07 07 2026 new variable
+book#:#book_table#:#Table###07 07 2026 new variable
+book#:#book_table_col_availability#:#Availability###07 07 2026 new variable
+book#:#book_table_col_datetime#:#Date/Time###07 07 2026 new variable
 book#:#book_title_description_nr#:#Title; Description; Number of Units###30 04 2024 new variable
 book#:#book_title_description_nr_info#:#Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item.###30 04 2024 new variable
 book#:#book_too_many_preferences#:#Избрали сте твърде много предпочитания. Предпочитанията не са запазени.
 book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.###04 05 2026 new variable
 book#:#book_type_warning#:#Понастоящем няма налични обекти за резервации. За да използвате пула за резервации, трябва да създадете обекти за резервации.
+book#:#book_view#:#View###07 07 2026 new variable
 book#:#book_week#:#Week###30 04 2024 new variable
+book#:#book_week_no_objects_selected#:#Select at least one Bookable Item at the ‘Item Selection’ section on the right and click the ‘Refresh’ button.###07 07 2026 new variable
 book#:#book_your_bookings#:#Вашите резервации
 book#:#book_your_preferences#:#Вашите предпочитания
 book#:#book_your_reservations#:#Вашите резервации
 book#:#booking_multiple_succesfully#:#Успешно създадени резервации.
 book#:#booking_nr_of_items#:#Nr of Items
+book#:#booking_process_error#:#There was an error while processing your booking(s). Please try again.###07 07 2026 new variable
+book#:#bookings_log#:#Bookings###07 07 2026 new variable
+book#:#delete_bookable_item#:#Delete Bookable Item###07 07 2026 new variable
+book#:#no_valid_selection#:#No valid selection###07 07 2026 new variable
 book#:#obj_book_duplicate#:#Copy Booking Pool
 book#:#participants#:#Участници
 book#:#reservation_deleted#:#Изтрита резервация
+book#:#schedule_type#:#Schedule Type###07 07 2026 new variable
 buddysystem#:#buddy_allow_to_contact_me#:#Да се свържете с мен
 buddysystem#:#buddy_allow_to_contact_me_default_info#:#Defines if users can send each other requests for getting into contact by default.###29 10 2025 new variable
 buddysystem#:#buddy_allow_to_contact_me_info#:#Ако е разрешено, другите потребители могат да ми изпращат заявки за контакт.
@@ -2890,6 +2933,7 @@ certificate#:#persistent_certificate_mode_instant#:#Незабавно###22 06 2
 certificate#:#persistent_certificate_mode_instant_info#:#Тази опция се препоръчва за системи с ниско до средно ниво на взаимодействие с потребителите. Системите, които са склонни към голямо време за зареждане по време на създаването на множество потребителски сертификати, трябва да преминат към опцията "Cron Job".
 chatroom#:#allow_anonymous#:#Позволяване на анонимно влизане
 chatroom#:#allow_custom_usernames#:#Предоставяне на потребителски потребителски имена
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.###07 07 2026 new variable
 chatroom#:#anonymous_hint#:#Не забравяйте да зададете правилните разрешения в раздела "Разрешения", за да разрешите достъпа на анонимен потребител до този елемент от хранилището.
 chatroom#:#auto_scroll#:#Превърнете се към дъното
 chatroom#:#autogen_usernames#:#Автоматично генерирани потребителски имена
@@ -2988,6 +3032,7 @@ chatroom#:#chat_user_action_invite_public_room#:#Покана за участи�
 chatroom#:#chat_user_x_is_typing#:#User %s is typing ...###31 03 2023 new variable
 chatroom#:#chat_users_are_typing#:#Multiple users are typing ...###31 03 2023 new variable
 chatroom#:#chat_whisper#:#Шепот###22 06 2022 new variable
+chatroom#:#chatroom_anonymous_default#:#Anonymous ####07 07 2026 new variable
 chatroom#:#chatroom_auth#:#Аутентикация
 chatroom#:#chatroom_auth_btn_txt#:#Генериране на ключове
 chatroom#:#chatroom_auth_key#:#Authentication-Key
@@ -4600,6 +4645,8 @@ common#:#mail_schedule_error_no_datetime#:#To schedule a mail, a delivery date a
 common#:#mail_schedule_error_past_datetime#:#You cannot schedule emails in the past.###29 10 2025 new variable
 common#:#mail_schedule_scheduled_datetime#:#Scheduled Send Time###04 05 2026 new variable
 common#:#mail_scheduled#:#Mail stored in outbox for later delivery.###29 10 2025 new variable
+common#:#mail_scheduled_edit_compose_info#:#You are editing a scheduled mail. Sending is paused until you schedule the mail again.###07 07 2026 new variable
+common#:#mail_scheduled_edit_moved_info#:#This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox.###07 07 2026 new variable
 common#:#mail_search_no#:#Няма намерени записи
 common#:#mail_select_one#:#Трябва да изберете едно съобщение
 common#:#mail_send_error#:#Грешка при изпращане на съобщение
@@ -5658,6 +5705,7 @@ common#:#show_content#:#Show Content###29 07 2022 new variable
 common#:#show_details#:#показване на детайлите
 common#:#show_filter#:#Show Filter###07 09 2009 new variable
 common#:#show_hidden_sections#:#Show More Information &raquo;###26 09 2014 new variable
+common#:#show_less#:#Show less###07 07 2026 new variable
 common#:#show_list#:#Показване на списъка
 common#:#show_members#:#Визуализиране на членовете
 common#:#show_more#:#Show More###29 07 2022 new variable
@@ -10464,6 +10512,7 @@ gsfo#:#entries_add#:#Add Entry###28 10 2024 new variable
 gsfo#:#entries_edit#:#entries_edit###28 10 2024 new variable
 gsfo#:#entries_parent#:#Select Group###28 10 2024 new variable
 gsfo#:#entries_select_parent#:#Move Entry to Group###28 10 2024 new variable
+gsfo#:#entries_target_group#:#Select target group###07 07 2026 new variable
 gsfo#:#entry_action#:#Link###28 10 2024 new variable
 gsfo#:#entry_action_info#:#Provide the full URL including the protocol (e.g. https://www.ilias.de)###28 10 2024 new variable
 gsfo#:#entry_activation_toggled#:#Activation has been toggled###28 10 2024 new variable
@@ -10472,6 +10521,7 @@ gsfo#:#entry_active_info#:#Activate this Entry###28 10 2024 new variable
 gsfo#:#entry_add#:#Add Entry###28 10 2024 new variable
 gsfo#:#entry_delete#:#Delete###28 10 2024 new variable
 gsfo#:#entry_deleted#:#Deleted###28 10 2024 new variable
+gsfo#:#entry_deleted_failed#:#Deletion not possible###07 07 2026 new variable
 gsfo#:#entry_edit#:#Edit###28 10 2024 new variable
 gsfo#:#entry_external#:#Open in new Tab###28 10 2024 new variable
 gsfo#:#entry_move#:#Move###28 10 2024 new variable
@@ -10494,6 +10544,7 @@ gsfo#:#group_toggle_activation#:#(De-)Activate###28 10 2024 new variable
 gsfo#:#group_translate#:#Translate###28 10 2024 new variable
 gsfo#:#info_not_deletable_core#:#Default Items cannot be deleted.###28 10 2024 new variable
 gsfo#:#info_not_deletable_not_empty#:#Groups with Entries cannot be deleted.###28 10 2024 new variable
+gsfo#:#item_moved#:#Entry moved###07 07 2026 new variable
 gsfo#:#legal_information#:#Legal Information###28 10 2024 new variable
 gsfo#:#order_saved#:#Order saved###28 10 2024 new variable
 gsfo#:#permanent#:#permanent###28 10 2024 new variable
@@ -10740,9 +10791,14 @@ itgr#:#itgr_always_open#:#Always Open###31 08 2017 new variable
 itgr#:#itgr_assign_materials#:#Assign Materials###29 07 2022 new variable
 itgr#:#itgr_assigned_materials#:#Assigned Materials###28 08 2012 new variable
 itgr#:#itgr_assignment#:#Assignment###28 08 2012 new variable
-itgr#:#itgr_behaviour#:#Block Behaviour###31 08 2017 new variable
-itgr#:#itgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.###31 08 2017 new variable
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###25 10 2016 new variable
+itgr#:#itgr_display#:#Display###07 07 2026 new variable
+itgr#:#itgr_display_with_title#:#With Title###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened###07 07 2026 new variable
+itgr#:#itgr_display_without_title#:#Without Title###07 07 2026 new variable
 itgr#:#itgr_edit#:#Edit Item Groups###28 08 2012 new variable
 itgr#:#itgr_expandable_closed#:#Expandable (initially closed)###31 08 2017 new variable
 itgr#:#itgr_expandable_open#:#Expandable (initially opened)###31 08 2017 new variable
@@ -10752,8 +10808,6 @@ itgr#:#itgr_list_default#:#Default###29 07 2022 new variable
 itgr#:#itgr_list_default_info#:#Inherits value from upper container.###29 07 2022 new variable
 itgr#:#itgr_list_presentation#:#Item Presentation###29 07 2022 new variable
 itgr#:#itgr_materials#:#Materials###28 08 2012 new variable
-itgr#:#itgr_show_title#:#Show Title###31 08 2017 new variable
-itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.###31 08 2017 new variable
 itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
 itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
 jscalendar#:#about_calendar#:#За календара

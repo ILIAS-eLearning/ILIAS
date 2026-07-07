@@ -2542,11 +2542,13 @@ book#:#book_add_participant#:#Add Participant###04 05 2026 new variable
 book#:#book_add_schedule#:#添加计划
 book#:#book_additional_info_file#:#附加描述
 book#:#book_all#:#显示所有
+book#:#book_all_day#:#All-Day###07 07 2026 new variable
 book#:#book_all_pools_need_schedules#:#Settings not saved. All assigned pools need to have at least one schedule.###07 02 2020 new variable
 book#:#book_all_users#:#All Participants###07 02 2020 new variable
 book#:#book_assign#:#Assign###10 11 2018 new variable
 book#:#book_assign_object#:#Assign Booking Object###10 11 2018 new variable
 book#:#book_assign_participant#:#Assign to Participant###10 11 2018 new variable
+book#:#book_assign_participants#:#Book for other Participant(s)###07 07 2026 new variable
 book#:#book_back_to_list#:#返回列表
 book#:#book_bobj#:#Booking Object###30 08 2015 new variable
 book#:#book_book#:#预定
@@ -2568,9 +2570,13 @@ book#:#book_confirm_booking_schedule_number_of_objects#:#Booking Confirmation###
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Please state the numbers of objects to book.###24 10 2013 new variable
 book#:#book_confirm_cancel#:#Are you sure you want to cancel the following reservation?###30 12 2013 new variable
 book#:#book_confirm_cancel_aggregation#:#Number of Cancellations###26 09 2014 new variable
+book#:#book_confirm_cancel_info#:#The selected bookings will be cancelled.###07 07 2026 new variable
 book#:#book_confirm_delete#:#您确定要删除以下项？
+book#:#book_confirm_remove_participant#:#Are you sure you want to remove the following Participant(s)? This will delete all related Bookings.###07 07 2026 new variable
 book#:#book_copy#:#Copy Booking Pool###24 10 2013 new variable
 book#:#book_create_objects#:#Create Items###26 08 2024 new variable
+book#:#book_date_from#:#From date###07 07 2026 new variable
+book#:#book_date_to#:#To date###07 07 2026 new variable
 book#:#book_deadline#:#最后期限
 book#:#book_deadline_hours#:#X hours prior to booking period###25 10 2016 new variable
 book#:#book_deadline_info#:#预订之间最小间隔时间和预订时间段
@@ -2578,11 +2584,18 @@ book#:#book_deadline_options#:#Booking deadline###25 10 2016 new variable
 book#:#book_deadline_slot_end#:#Until end of booking period###25 10 2016 new variable
 book#:#book_deadline_slot_start#:#Until begin of booking period###25 10 2016 new variable
 book#:#book_deassign#:#Deassign###10 11 2018 new variable
+book#:#book_delete_object#:#Delete###07 07 2026 new variable
+book#:#book_deleted_booking#:#Deleted Booking(s)###07 07 2026 new variable
+book#:#book_deleted_object#:#Deleted Bookable Item###07 07 2026 new variable
 book#:#book_download_info#:#下载附加的描述
 book#:#book_edit#:#编辑预订池
 book#:#book_edit_object#:#编辑对象
 book#:#book_edit_schedule#:#编辑计划
+book#:#book_filter_end_date#:#End Date###07 07 2026 new variable
+book#:#book_filter_objects#:#Bookable Items###07 07 2026 new variable
 book#:#book_filter_past_reservations#:#Show past reservations###25 10 2016 new variable
+book#:#book_filter_period#:#Period###07 07 2026 new variable
+book#:#book_filter_start_date#:#Start Date###07 07 2026 new variable
 book#:#book_fromto#:#日期范围
 book#:#book_hours#:#Hours
 book#:#book_is_used#:#用以
@@ -2597,14 +2610,23 @@ book#:#book_messages#:#Messages###26 08 2024 new variable
 book#:#book_messages_info#:#Allow users to add a message when booking an item.###26 08 2024 new variable
 book#:#book_missing_availability#:#It was not possible to book all items on all dates.###26 08 2024 new variable
 book#:#book_missing_items#:#$1 missing item(s).###26 08 2024 new variable
+book#:#book_modal_booking_confirmation#:#Booking Confirmation###07 07 2026 new variable
+book#:#book_modal_enter_quantity_intro#:#Please enter the number of items that you would like to book.###07 07 2026 new variable
+book#:#book_modal_recurrence#:#Recurrence###07 07 2026 new variable
+book#:#book_modal_recurrence_multiple#:#Book multiple dates###07 07 2026 new variable
+book#:#book_modal_recurrence_single#:#Book only this date###07 07 2026 new variable
+book#:#book_modal_skipped_unknown_item#:#Unknown or invalid selection (%s).###07 07 2026 new variable
+book#:#book_modal_warning_skipped_selections#:#Some selected items or periods are not available for booking and are excluded from this confirmation.###07 07 2026 new variable
 book#:#book_new#:#新的预订池
 book#:#book_no_bookings_for_you#:#No reservations have been performed for you.###07 02 2020 new variable
 book#:#book_no_objects#:#No Assignment###07 02 2020 new variable
+book#:#book_no_objects_available#:#None of the selected items are currently available for booking.###07 07 2026 new variable
 book#:#book_no_of_objects#:#对象的编号
 book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.###29 10 2025 new variable
 book#:#book_no_preferences_for_you#:#No preferences have been stored for you.###07 02 2020 new variable
 book#:#book_no_recurrence#:#Book only this date###26 08 2024 new variable
 book#:#book_not#:#No
+book#:#book_not_cancelled#:#Not cancelled###07 07 2026 new variable
 book#:#book_not_enough_preferences#:#You selected not enough preferences. The preferences have not been saved.###07 02 2020 new variable
 book#:#book_notification#:#Send Reservation Notifications###10 11 2018 new variable
 book#:#book_notification_cron_not_active#:#Note: The necessary cron job, 'Send Reservation Notifications', is currently not active.###26 08 2024 new variable
@@ -2616,13 +2638,18 @@ book#:#book_obj_select#:#Select###26 08 2024 new variable
 book#:#book_object_added#:#一个预订对象已被添加。
 book#:#book_object_deleted#:#预订对象已被删除。
 book#:#book_object_selection#:#Item Selection###26 08 2024 new variable
+book#:#book_object_title_or_description#:#Title/Description###07 07 2026 new variable
 book#:#book_object_updated#:#预订对象已经更新
 book#:#book_objects_available#:#Objects available %s###10 11 2018 new variable
 book#:#book_open#:#Open Booking Pool###31 08 2017 new variable
 book#:#book_overall_limit#:#Limit number of bookings###26 09 2014 new variable
 book#:#book_overall_limit_warning#:#You have reached the maximum number of bookings.###26 09 2014 new variable
+book#:#book_overall_limit_would_be_exceeded#:#Invalid selection. The overall limit would be exceeded.###07 07 2026 new variable
+book#:#book_participant#:#Participant###07 07 2026 new variable
 book#:#book_participant_already_assigned#:#Participant(s) already assigned.###10 11 2018 new variable
 book#:#book_participant_assigned#:#Participant(s) assigned###10 11 2018 new variable
+book#:#book_participant_removed#:#The participants and all related bookings have been removed successfully.###07 07 2026 new variable
+book#:#book_past_bookings#:#Past bookings###07 07 2026 new variable
 book#:#book_period#:#周期
 book#:#book_pool_added#:#一个预订池已被添加
 book#:#book_pool_selection#:#Booking Pool Selection###07 02 2020 new variable
@@ -2638,6 +2665,7 @@ book#:#book_pref_overview#:#Overview###07 02 2020 new variable
 book#:#book_preference_info#:#Please select %1 preference(s) until %2. After the deadline bookings will be done automatically based on the preferences of all users.###07 02 2020 new variable
 book#:#book_preferences#:#Preferences###07 02 2020 new variable
 book#:#book_preferences_saved#:#The preferences have been saved.###07 02 2020 new variable
+book#:#book_present_bookings#:#Present bookings###07 07 2026 new variable
 book#:#book_public_log#:#公共预订
 book#:#book_public_log_info#:#所有用户可查看的预订清单。
 book#:#book_recurrence#:#Recurrence###26 08 2024 new variable
@@ -2648,9 +2676,11 @@ book#:#book_reminder_day#:#Before Reservation###10 11 2018 new variable
 book#:#book_reminder_day_info#:#Send list of own reservations to users and full list of reservations to admins.###10 11 2018 new variable
 book#:#book_reminder_days#:#Day(s)###10 11 2018 new variable
 book#:#book_reminder_setting#:#Reminder###10 11 2018 new variable
+book#:#book_remove_participants#:#Remove Participant(s)###07 07 2026 new variable
 book#:#book_rerun_assignments#:#Run Allocation Process###26 08 2024 new variable
 book#:#book_rerun_confirmation#:#Attention. The process of allocating bookings according to preferences has already taken place. You may restart the process if any errors have occurred, e.g. no bookings have been saved. To prevent multiple allocations, please delete all existing bookings before restarting the process.###26 08 2024 new variable
 book#:#book_reservation_available#:#%s available###24 10 2013 new variable
+book#:#book_reservation_cancelled#:#Reservation(s) cancelled.###07 07 2026 new variable
 book#:#book_reservation_confirmed#:#您的预订已经被确认
 book#:#book_reservation_failed#:#您的预订已经失败
 book#:#book_reservation_failed_overbooked#:#The booking failed because the object is not available anymore.###24 10 2013 new variable
@@ -2663,6 +2693,7 @@ book#:#book_reservation_title#:#预订保留
 book#:#book_reservations_list#:#保留
 book#:#book_schedule#:#计划
 book#:#book_schedule_added#:#一个预订计划已经添加
+book#:#book_schedule_all_day#:#All-Day Schedule###07 07 2026 new variable
 book#:#book_schedule_days#:#Weekdays
 book#:#book_schedule_days_info#:#每天的有效预订时间(HH:MM-HH:MM)
 book#:#book_schedule_deleted#:#预订计划已被删除。
@@ -2683,20 +2714,32 @@ book#:#book_select_pool#:#Select Pool###07 02 2020 new variable
 book#:#book_set_cancel#:#取消保留
 book#:#book_set_delete#:#Delete###29 07 2022 new variable
 book#:#book_show_message#:#Show Message###26 08 2024 new variable
+book#:#book_show_past_bookings#:#Show past bookings###07 07 2026 new variable
+book#:#book_some_reservations_unavailable#:#Some of the selected items could not be booked because they are no longer available.###07 07 2026 new variable
+book#:#book_table#:#Table###07 07 2026 new variable
+book#:#book_table_col_availability#:#Availability###07 07 2026 new variable
+book#:#book_table_col_datetime#:#Date/Time###07 07 2026 new variable
 book#:#book_title_description_nr#:#Title; Description; Number of Units###26 08 2024 new variable
 book#:#book_title_description_nr_info#:#Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item.###26 08 2024 new variable
 book#:#book_too_many_preferences#:#You selected too many preferences. The preferences have not been saved.###07 02 2020 new variable
 book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.###04 05 2026 new variable
 book#:#book_type_warning#:#当前，没有预订对象可用。使用预订池您需要创建预订对象。
+book#:#book_view#:#View###07 07 2026 new variable
 book#:#book_week#:#Week###26 08 2024 new variable
+book#:#book_week_no_objects_selected#:#Select at least one Bookable Item at the ‘Item Selection’ section on the right and click the ‘Refresh’ button.###07 07 2026 new variable
 book#:#book_your_bookings#:#Your Reservations###07 02 2020 new variable
 book#:#book_your_preferences#:#Your Preferences###07 02 2020 new variable
 book#:#book_your_reservations#:#Your Reservations###10 11 2018 new variable
 book#:#booking_multiple_succesfully#:#Bookings created successfully.###10 11 2018 new variable
 book#:#booking_nr_of_items#:#项目的Nr
+book#:#booking_process_error#:#There was an error while processing your booking(s). Please try again.###07 07 2026 new variable
+book#:#bookings_log#:#Bookings###07 07 2026 new variable
+book#:#delete_bookable_item#:#Delete Bookable Item###07 07 2026 new variable
+book#:#no_valid_selection#:#No valid selection###07 07 2026 new variable
 book#:#obj_book_duplicate#:#Copy Booking Pool###24 10 2013 new variable
 book#:#participants#:#Participants###10 11 2018 new variable
 book#:#reservation_deleted#:#Reservation deleted###29 07 2022 new variable
+book#:#schedule_type#:#Schedule Type###07 07 2026 new variable
 buddysystem#:#buddy_allow_to_contact_me#:#Allow to contact me###23 12 2015 new variable
 buddysystem#:#buddy_allow_to_contact_me_default_info#:#Defines if users can send each other requests for getting into contact by default.###29 10 2025 new variable
 buddysystem#:#buddy_allow_to_contact_me_info#:#If enabled, other users are able to send me request for getting into contact.###23 12 2015 new variable
@@ -2889,6 +2932,7 @@ certificate#:#persistent_certificate_mode_instant#:#Instant###07 02 2020 new var
 certificate#:#persistent_certificate_mode_instant_info#:#This option is recommended for systems with low up to mediocre user interactions. Systems that tend to big loading times during creation for multiple user certificates should switch to the "Cron Job" option.###07 02 2020 new variable
 chatroom#:#allow_anonymous#:#允许匿名登录
 chatroom#:#allow_custom_usernames#:#允许自定义用户名
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.###07 07 2026 new variable
 chatroom#:#anonymous_hint#:#确保在“权限”选项卡中设置正确的权限来允许匿名用户访问这个知识库的条目。
 chatroom#:#auto_scroll#:#滚动到底部
 chatroom#:#autogen_usernames#:#自动生成用户名
@@ -2987,6 +3031,7 @@ chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Chatroom###25 
 chatroom#:#chat_user_x_is_typing#:#User %s is typing ...###29 07 2022 new variable
 chatroom#:#chat_users_are_typing#:#Multiple users are typing ...###29 07 2022 new variable
 chatroom#:#chat_whisper#:#耳语(悄悄话)
+chatroom#:#chatroom_anonymous_default#:#Anonymous ####07 07 2026 new variable
 chatroom#:#chatroom_auth#:#Authentication###25 10 2016 new variable
 chatroom#:#chatroom_auth_btn_txt#:#Generate Keys###25 10 2016 new variable
 chatroom#:#chatroom_auth_key#:#Authentication-Key###25 10 2016 new variable
@@ -4599,6 +4644,8 @@ common#:#mail_schedule_error_no_datetime#:#To schedule a mail, a delivery date a
 common#:#mail_schedule_error_past_datetime#:#You cannot schedule emails in the past.###29 10 2025 new variable
 common#:#mail_schedule_scheduled_datetime#:#Scheduled Send Time###04 05 2026 new variable
 common#:#mail_scheduled#:#Mail stored in outbox for later delivery.###29 10 2025 new variable
+common#:#mail_scheduled_edit_compose_info#:#You are editing a scheduled mail. Sending is paused until you schedule the mail again.###07 07 2026 new variable
+common#:#mail_scheduled_edit_moved_info#:#This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox.###07 07 2026 new variable
 common#:#mail_search_no#:#未找到条目
 common#:#mail_select_one#:#您必须选择一个邮件
 common#:#mail_send_error#:#发送邮件出错
@@ -5657,6 +5704,7 @@ common#:#show_content#:#Show Content###29 07 2022 new variable
 common#:#show_details#:#显示详细情况
 common#:#show_filter#:#显示过滤器
 common#:#show_hidden_sections#:#Show More Information &raquo;###26 09 2014 new variable
+common#:#show_less#:#Show less###07 07 2026 new variable
 common#:#show_list#:#显示列表
 common#:#show_members#:#显示成员
 common#:#show_more#:#Show More###29 07 2022 new variable
@@ -10463,6 +10511,7 @@ gsfo#:#entries_add#:#Add Entry###28 10 2024 new variable
 gsfo#:#entries_edit#:#entries_edit###28 10 2024 new variable
 gsfo#:#entries_parent#:#Select Group###28 10 2024 new variable
 gsfo#:#entries_select_parent#:#Move Entry to Group###28 10 2024 new variable
+gsfo#:#entries_target_group#:#Select target group###07 07 2026 new variable
 gsfo#:#entry_action#:#Link###28 10 2024 new variable
 gsfo#:#entry_action_info#:#Provide the full URL including the protocol (e.g. https://www.ilias.de)###28 10 2024 new variable
 gsfo#:#entry_activation_toggled#:#Activation has been toggled###28 10 2024 new variable
@@ -10471,6 +10520,7 @@ gsfo#:#entry_active_info#:#Activate this Entry###28 10 2024 new variable
 gsfo#:#entry_add#:#Add Entry###28 10 2024 new variable
 gsfo#:#entry_delete#:#Delete###28 10 2024 new variable
 gsfo#:#entry_deleted#:#Deleted###28 10 2024 new variable
+gsfo#:#entry_deleted_failed#:#Deletion not possible###07 07 2026 new variable
 gsfo#:#entry_edit#:#Edit###28 10 2024 new variable
 gsfo#:#entry_external#:#Open in new Tab###28 10 2024 new variable
 gsfo#:#entry_move#:#Move###28 10 2024 new variable
@@ -10493,6 +10543,7 @@ gsfo#:#group_toggle_activation#:#(De-)Activate###28 10 2024 new variable
 gsfo#:#group_translate#:#Translate###28 10 2024 new variable
 gsfo#:#info_not_deletable_core#:#Default Items cannot be deleted.###28 10 2024 new variable
 gsfo#:#info_not_deletable_not_empty#:#Groups with Entries cannot be deleted.###28 10 2024 new variable
+gsfo#:#item_moved#:#Entry moved###07 07 2026 new variable
 gsfo#:#legal_information#:#Legal Information###28 10 2024 new variable
 gsfo#:#order_saved#:#Order saved###28 10 2024 new variable
 gsfo#:#permanent#:#permanent###28 10 2024 new variable
@@ -10739,9 +10790,14 @@ itgr#:#itgr_always_open#:#Always Open###31 08 2017 new variable
 itgr#:#itgr_assign_materials#:#Assign Materials###29 07 2022 new variable
 itgr#:#itgr_assigned_materials#:#已分配资料
 itgr#:#itgr_assignment#:#分配
-itgr#:#itgr_behaviour#:#Block Behaviour###31 08 2017 new variable
-itgr#:#itgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.###31 08 2017 new variable
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###25 10 2016 new variable
+itgr#:#itgr_display#:#Display###07 07 2026 new variable
+itgr#:#itgr_display_with_title#:#With Title###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened###07 07 2026 new variable
+itgr#:#itgr_display_without_title#:#Without Title###07 07 2026 new variable
 itgr#:#itgr_edit#:#编辑项目(Item)组织
 itgr#:#itgr_expandable_closed#:#Expandable (initially closed)###31 08 2017 new variable
 itgr#:#itgr_expandable_open#:#Expandable (initially opened)###31 08 2017 new variable
@@ -10751,8 +10807,6 @@ itgr#:#itgr_list_default#:#Default###29 07 2022 new variable
 itgr#:#itgr_list_default_info#:#Inherits value from upper container.###29 07 2022 new variable
 itgr#:#itgr_list_presentation#:#Item Presentation###29 07 2022 new variable
 itgr#:#itgr_materials#:#资料
-itgr#:#itgr_show_title#:#Show Title###31 08 2017 new variable
-itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.###31 08 2017 new variable
 itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
 itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
 jscalendar#:#about_calendar#:#关于这个日历
