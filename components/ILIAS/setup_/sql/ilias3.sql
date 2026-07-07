@@ -1256,6 +1256,7 @@ CREATE TABLE `booking_schedule` (
   `auto_break` int(11) DEFAULT NULL,
   `av_from` int(11) DEFAULT NULL,
   `av_to` int(11) DEFAULT NULL,
+  `schedule_type` varchar(64) NOT NULL DEFAULT 'time_period',
   PRIMARY KEY (`booking_schedule_id`),
   KEY `i1_idx` (`pool_id`)
 ) ;
@@ -2039,7 +2040,7 @@ CREATE TABLE `cmi_comment_seq` (
 CREATE TABLE `cmi_correct_response` (
   `cmi_correct_resp_id` int(11) NOT NULL DEFAULT 0,
   `cmi_interaction_id` int(11) DEFAULT NULL,
-  `pattern` varchar(255) DEFAULT NULL,
+  `pattern` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`cmi_correct_resp_id`),
   KEY `i1_idx` (`cmi_interaction_id`)
 ) ;
@@ -2115,7 +2116,7 @@ CREATE TABLE `cmi_interaction` (
   `cmi_interaction_id` int(11) NOT NULL DEFAULT 0,
   `cmi_node_id` int(11) DEFAULT NULL,
   `description` longtext DEFAULT NULL,
-  `id` varchar(255) DEFAULT NULL,
+  `id` varchar(4000) DEFAULT NULL,
   `latency` varchar(20) DEFAULT NULL,
   `result` varchar(4000) DEFAULT NULL,
   `c_timestamp` varchar(40) DEFAULT NULL,
@@ -2123,7 +2124,7 @@ CREATE TABLE `cmi_interaction` (
   `weighting` double DEFAULT NULL,
   `learner_response` longtext DEFAULT NULL,
   PRIMARY KEY (`cmi_interaction_id`),
-  KEY `i2_idx` (`id`),
+  KEY `i2_idx` (`id`(1024)),
   KEY `i3_idx` (`c_type`),
   KEY `i4_idx` (`cmi_node_id`)
 ) ;
@@ -7167,6 +7168,7 @@ INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',4,'2023-12-12 16:3
 INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',5,'2023-12-12 16:39:41.357629','2023-12-12 16:39:41.364305');
 INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',6,'2023-12-12 16:39:41.364838','2023-12-12 16:39:41.371618');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps10',1,'2025-08-26 15:16:08.639522','2025-08-26 15:16:08.640706');
+INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps10',2,'2026-07-07 14:57:25.355149','2026-07-07 14:57:25.355840');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps11',1,'2026-05-04 14:42:11.820636','2026-05-04 14:42:11.822789');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps11',2,'2026-05-04 14:42:11.823073','2026-05-04 14:42:11.825106');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps11',3,'2026-05-04 14:42:11.825394','2026-05-04 14:42:11.825941');
@@ -7260,6 +7262,7 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\BookingManager\\Setup\\ilBookingManage
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\BookingManager\\Setup\\ilBookingManagerDBUpdateSteps',7,'2023-12-12 16:39:38.786336','2023-12-12 16:39:38.797865');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\BookingManager\\Setup\\ilBookingManagerDBUpdateSteps',8,'2025-07-18 06:53:07.031473','2025-07-18 06:53:07.033393');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\BookingManager\\Setup\\ilBookingManagerDBUpdateSteps',9,'2025-07-18 06:53:07.033694','2025-07-18 06:53:07.035764');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\BookingManager\\Setup\\ilBookingManagerDBUpdateSteps',10,'2026-07-07 14:57:25.332722','2026-07-07 14:57:25.335418');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Chatroom\\Setup\\UpdateSteps',1,'2023-12-12 16:39:39.450025','2023-12-12 16:39:39.490305');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Chatroom\\Setup\\UpdateSteps',2,'2023-12-12 16:39:39.490976','2023-12-12 16:39:39.502927');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Chatroom\\Setup\\UpdateSteps',3,'2023-12-12 16:39:39.503552','2023-12-12 16:39:39.510145');
@@ -7343,6 +7346,7 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\History\\Setup\\HistoryDatabaseUpdateS
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\ILIASObject\\Setup\\DBUpdateSteps11',1,'2026-05-04 14:42:12.164904','2026-05-04 14:42:12.170425');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\ItemGroup\\Setup\\ilItemGroupDBUpdateSteps',1,'2023-12-12 16:39:38.894598','2023-12-12 16:39:38.900233');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\ItemGroup\\Setup\\ilItemGroupDBUpdateSteps',2,'2023-12-12 16:39:38.900874','2023-12-12 16:39:38.906340');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\ItemGroup\\Setup\\ilItemGroupDBUpdateSteps',3,'2026-07-07 14:57:25.347311','2026-07-07 14:57:25.350981');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\LDAP\\Setup\\LDAPBindPasswordFieldMigration',1,'2025-07-18 06:53:07.061046','2025-07-18 06:53:07.065188');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\LearningModule\\Setup\\LearningModuleDBUpdateSteps',1,'2023-12-12 16:39:38.907450','2023-12-12 16:39:38.912966');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\LearningModule\\Setup\\LearningModuleDBUpdateSteps',2,'2023-12-12 16:39:38.913604','2023-12-12 16:39:38.919087');
@@ -7636,6 +7640,8 @@ INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB90',4,'2023-12-12 16:39:40
 INSERT INTO `il_db_steps` VALUES ('ilScorm2004DatabaseUpdateSteps',1,'2025-11-04 16:18:51.922597','2025-11-04 16:18:51.925280');
 INSERT INTO `il_db_steps` VALUES ('ilScorm2004DatabaseUpdateSteps',2,'2025-11-04 16:18:51.925565','2025-11-04 16:18:51.931400');
 INSERT INTO `il_db_steps` VALUES ('ilScorm2004DatabaseUpdateSteps',3,'2026-03-10 16:31:24.633455','2026-03-10 16:31:24.637422');
+INSERT INTO `il_db_steps` VALUES ('ilScorm2004DatabaseUpdateSteps',4,'2026-07-07 14:57:25.336300','2026-07-07 14:57:25.338214');
+INSERT INTO `il_db_steps` VALUES ('ilScorm2004DatabaseUpdateSteps',5,'2026-07-07 14:57:25.338496','2026-07-07 14:57:25.341074');
 INSERT INTO `il_db_steps` VALUES ('ilScormAiccDatabaseUpdateSteps',1,'2024-01-31 14:38:25.408514','2024-01-31 14:38:25.417677');
 INSERT INTO `il_db_steps` VALUES ('ilSessionDBUpdateSteps9',1,'2023-12-12 16:39:40.848750','2023-12-12 16:39:40.854713');
 INSERT INTO `il_db_steps` VALUES ('ilSessionDBUpdateSteps9',2,'2023-12-12 16:39:40.855241','2023-12-12 16:39:40.869825');
@@ -11580,6 +11586,8 @@ CREATE TABLE `itgr_data` (
   `behaviour` tinyint(4) DEFAULT 0,
   `list_presentation` varchar(10) DEFAULT NULL,
   `tile_size` tinyint(4) NOT NULL DEFAULT 0,
+  `display` varchar(255) NOT NULL DEFAULT 'with_title',
+  `toggleable_initially` varchar(255) NOT NULL DEFAULT 'with_title_and_toggleable_initially_open',
   PRIMARY KEY (`id`)
 ) ;
 
@@ -14050,7 +14058,7 @@ INSERT INTO `object_data` VALUES (34,'typ','lm','Learning module Object',-1,'200
 INSERT INTO `object_data` VALUES (35,'typ','notf','Note Folder Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL,NULL);
 INSERT INTO `object_data` VALUES (36,'typ','note','Note Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL,NULL);
 INSERT INTO `object_data` VALUES (37,'typ','frm','Forum object',-1,'2002-07-15 15:54:22','2003-08-15 12:36:40','',NULL,NULL);
-INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2026-05-26 15:46:32','',NULL,NULL);
+INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2026-07-07 14:57:24','',NULL,NULL);
 INSERT INTO `object_data` VALUES (71,'lng','de','not_installed',6,'2003-08-15 10:25:19','2015-12-22 16:29:24','',NULL,NULL);
 INSERT INTO `object_data` VALUES (72,'lng','es','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL,NULL);
 INSERT INTO `object_data` VALUES (73,'lng','it','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL,NULL);
@@ -20871,7 +20879,7 @@ INSERT INTO `settings` VALUES ('common','ilfrmnoti1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmreadidx1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmthri2','1');
 INSERT INTO `settings` VALUES ('common','ilGlobalTstPoolUsageSettingInitilisation','1');
-INSERT INTO `settings` VALUES ('common','ilias_version','11.1.0');
+INSERT INTO `settings` VALUES ('common','ilias_version','11.2.0');
 INSERT INTO `settings` VALUES ('common','ilinc_akclassvalues_required','1');
 INSERT INTO `settings` VALUES ('common','ilmpathix','1');
 INSERT INTO `settings` VALUES ('common','iloscmsgidx1','1');
@@ -25888,5 +25896,5 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2026-05-26 15:46:33
+-- Dump completed on 2026-07-07 14:57:26
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
