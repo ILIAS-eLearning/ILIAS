@@ -15,6 +15,7 @@ matching namespace) per topic, and are autoloaded via composer PSR-4
 
 ```
 Rules/
+  SuperGlobals/   ILIAS\Scripts\PHPStan\Rules\SuperGlobals   — no-superglobal-write rule
   LegacyUI/       ILIAS\Scripts\PHPStan\Rules\LegacyUI       — legacy UI component rules
 Attributes/       ILIAS\Scripts\PHPStan\Attributes           — the AllowRuleViolation exemption attribute + checker
 ```
@@ -51,6 +52,7 @@ appends to the GitHub step summary.
 
 | Rule classes | Identifier | Policy |
 |---|---|---|
+| `SuperglobalAssignRule`, `SuperglobalAssignOpRule`, `SuperglobalAssignRefRule` | `ilias.superglobalWrite` | No writing to request-input superglobals (`$_GET`, `$_POST`, `$_REQUEST`, `$_COOKIE`, `$_FILES`). The request is immutable — use the HTTP service / request wrapper instead. |
 
 ### Adding a policy rule
 
