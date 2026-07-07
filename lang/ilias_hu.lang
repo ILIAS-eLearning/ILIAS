@@ -310,11 +310,11 @@ administration#:#restoring_trash#:#Törölt objektumok visszaállítása…
 administration#:#restoring_unbound_objs#:#Kapcsolódás nélküli objektumok és alobjektumok visszaállítása…
 administration#:#reuse_of_loginnames_contained_in_history#:#Felhasználónevek újra felhasználhatók
 administration#:#reuse_of_loginnames_contained_in_history_info#:#A felhasználó újra használtatja a korábbi felhasználóneveket (még abban az esetben is, ha a felhasználónév törölt felhasználóhoz tartozik).
-administration#:#scan#:#Vizsgálat
 administration#:#rpc_pdf_configuration#:#PDF-generálás
 administration#:#rpc_pdf_font#:#Betűtípusok
 administration#:#rpc_pdf_font_info#:#További betűtípusok PDF fájlok létrehozásához. A ‘Helvetica’ és az ‘unifont’ betűtípusoktól eltérőket telepíteni kell az ILIAS szerverre.
 administration#:#rpc_pdf_generation#:#Betűtípusok PDF létrehozásához
+administration#:#scan#:#Vizsgálat
 administration#:#scan_desc#:#Rendszer átvizsgálása korrupt/érvénytelen/elveszett/kapcsolódás nélküli objektumok után.
 administration#:#scan_details#:#Vizsgálat részletei
 administration#:#scan_modes#:#Használt vizsgálati módok
@@ -2543,11 +2543,13 @@ book#:#book_add_participant#:#Résztvevő hozzáadása
 book#:#book_add_schedule#:#Időterv létrehozása
 book#:#book_additional_info_file#:#További leírás
 book#:#book_all#:#Összes megjelenítése
+book#:#book_all_day#:#All-Day###07 07 2026 new variable
 book#:#book_all_pools_need_schedules#:#A beállításokat nem mentettük. Az összes hozzárendelt gyűjteménynek kell, hogy legyen legalább egy időterve.
 book#:#book_all_users#:#Összes résztvevő
 book#:#book_assign#:#Lefoglalás
 book#:#book_assign_object#:#Foglalható objektum lefoglalása
 book#:#book_assign_participant#:#Résztvevőnek lefoglalás
+book#:#book_assign_participants#:#Book for other Participant(s)###07 07 2026 new variable
 book#:#book_back_to_list#:#Vissza a listához
 book#:#book_bobj#:#Foglalható objektumok
 book#:#book_book#:#Lefoglalom
@@ -2569,9 +2571,13 @@ book#:#book_confirm_booking_schedule_number_of_objects#:#Foglalás visszaigazol�
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Adja meg a lefoglalandó objektumok számát.
 book#:#book_confirm_cancel#:#Biztos, hogy lemondja az alábbi foglalásokat?
 book#:#book_confirm_cancel_aggregation#:#Lemondandó foglalások száma
+book#:#book_confirm_cancel_info#:#The selected bookings will be cancelled.###07 07 2026 new variable
 book#:#book_confirm_delete#:#Biztos, hogy törli az alábbi tételeket?
+book#:#book_confirm_remove_participant#:#Are you sure you want to remove the following Participant(s)? This will delete all related Bookings.###07 07 2026 new variable
 book#:#book_copy#:#Foglalásgyűjtemény másolása
 book#:#book_create_objects#:#Objektumok létrehozása
+book#:#book_date_from#:#From date###07 07 2026 new variable
+book#:#book_date_to#:#To date###07 07 2026 new variable
 book#:#book_deadline#:#Határidő
 book#:#book_deadline_hours#:#X órával a foglalási időszak előttig
 book#:#book_deadline_info#:#Minimális idő a foglalás és a foglalt időszakok között
@@ -2579,11 +2585,18 @@ book#:#book_deadline_options#:#Foglalási határidő
 book#:#book_deadline_slot_end#:#Foglalási időszak végéig
 book#:#book_deadline_slot_start#:#Foglalási időszak elejéig
 book#:#book_deassign#:#Foglalás megszüntetése
+book#:#book_delete_object#:#Delete###07 07 2026 new variable
+book#:#book_deleted_booking#:#Deleted Booking(s)###07 07 2026 new variable
+book#:#book_deleted_object#:#Deleted Bookable Item###07 07 2026 new variable
 book#:#book_download_info#:#További leírás letöltése
 book#:#book_edit#:#Foglalásgyűjtemény módosítása
 book#:#book_edit_object#:#Objektum módosítása
 book#:#book_edit_schedule#:#Időterv módosítása
+book#:#book_filter_end_date#:#End Date###07 07 2026 new variable
+book#:#book_filter_objects#:#Bookable Items###07 07 2026 new variable
 book#:#book_filter_past_reservations#:#Múltbéli foglalások megjelenítése
+book#:#book_filter_period#:#Period###07 07 2026 new variable
+book#:#book_filter_start_date#:#Start Date###07 07 2026 new variable
 book#:#book_fromto#:#Dátumtartomány
 book#:#book_hours#:#Óra
 book#:#book_is_used#:#Használja
@@ -2598,14 +2611,23 @@ book#:#book_messages#:#Üzenetek
 book#:#book_messages_info#:#A felhasználók üzenetet írhatnak a foglaláskor.
 book#:#book_missing_availability#:#Nem lehetséges az összes időpont összes elemét lefoglalni.
 book#:#book_missing_items#:#$1 elem hiányzik.
+book#:#book_modal_booking_confirmation#:#Booking Confirmation###07 07 2026 new variable
+book#:#book_modal_enter_quantity_intro#:#Please enter the number of items that you would like to book.###07 07 2026 new variable
+book#:#book_modal_recurrence#:#Recurrence###07 07 2026 new variable
+book#:#book_modal_recurrence_multiple#:#Book multiple dates###07 07 2026 new variable
+book#:#book_modal_recurrence_single#:#Book only this date###07 07 2026 new variable
+book#:#book_modal_skipped_unknown_item#:#Unknown or invalid selection (%s).###07 07 2026 new variable
+book#:#book_modal_warning_skipped_selections#:#Some selected items or periods are not available for booking and are excluded from this confirmation.###07 07 2026 new variable
 book#:#book_new#:#Új foglalásgyűjtemény
 book#:#book_no_bookings_for_you#:#Nem foglaltunk le semmi az Ön számára.
 book#:#book_no_objects#:#Nincs hozzárendelés
+book#:#book_no_objects_available#:#None of the selected items are currently available for booking.###07 07 2026 new variable
 book#:#book_no_of_objects#:#Objektumok száma
 book#:#book_no_pools_selected#:#Ehhez a kurzushoz nincsenek hozzárendelve foglalási csoportok. A foglalási csoportokat a kurzus ‘Erőforrások’ lapján tud hozzárendelni.
 book#:#book_no_preferences_for_you#:#Egy előzetes választását sem tároltunk el.
 book#:#book_no_recurrence#:#Foglalás csak erre a dátumra
 book#:#book_not#:#Nem
+book#:#book_not_cancelled#:#Not cancelled###07 07 2026 new variable
 book#:#book_not_enough_preferences#:#Az előzetes választása túl kevés, azokat nem mentettük.
 book#:#book_notification#:#Foglalási értesítők küldése
 book#:#book_notification_cron_not_active#:#Megjegyzés: A ‘Foglalási értesítők küldése’ ütemezett feladat nem aktív.
@@ -2617,13 +2639,18 @@ book#:#book_obj_select#:#Kiválasztás
 book#:#book_object_added#:#Sikeresen létrehozott egy foglalástípust.
 book#:#book_object_deleted#:#A foglalható objektumot sikeresen törölte.
 book#:#book_object_selection#:#Objektumválasztás
+book#:#book_object_title_or_description#:#Title/Description###07 07 2026 new variable
 book#:#book_object_updated#:#A foglalható objektumot sikeresen frissítette.
 book#:#book_objects_available#:#%s elérhető objektum
 book#:#book_open#:#Foglalásgyűjtemény megnyitása
 book#:#book_overall_limit#:#Felhasználonkénti összes foglalás maximális száma
 book#:#book_overall_limit_warning#:#Foglalásai elérték a maximális megengedett számot.
+book#:#book_overall_limit_would_be_exceeded#:#Invalid selection. The overall limit would be exceeded.###07 07 2026 new variable
+book#:#book_participant#:#Participant###07 07 2026 new variable
 book#:#book_participant_already_assigned#:#Egy vagy több résztvevőt már korábban hozzárendeltek.
 book#:#book_participant_assigned#:#A résztvevő(k)nek sikeresen lefoglalta.
+book#:#book_participant_removed#:#The participants and all related bookings have been removed successfully.###07 07 2026 new variable
+book#:#book_past_bookings#:#Past bookings###07 07 2026 new variable
 book#:#book_period#:#Időszak
 book#:#book_pool_added#:#Sikeresen létrehozott egy foglalásgyűjteményt.
 book#:#book_pool_selection#:#Foglalásgyűjtemény kiválasztása
@@ -2639,6 +2666,7 @@ book#:#book_pref_overview#:#Áttekintés
 book#:#book_preference_info#:#Kérem, válasszon %1 lehetőséget %2-ig. A foglalásokat automatikusan megtesszük a határidő után az összes felhasználó előzetes választása alapján.
 book#:#book_preferences#:#Előzetes választások
 book#:#book_preferences_saved#:#Az előzetes választásait sikeresen mentette.
+book#:#book_present_bookings#:#Present bookings###07 07 2026 new variable
 book#:#book_public_log#:#A foglalások nyilvánosak
 book#:#book_public_log_info#:#Az olvasási jogosultsággal rendelkezők a többi felhasználó foglalását is megtekinthetik.
 book#:#book_recurrence#:#Ismétlődés
@@ -2649,9 +2677,11 @@ book#:#book_reminder_day#:#Emlékeztető küldése
 book#:#book_reminder_day_info#:#A felhasználóknak saját foglalásuk, a vezetőknek az összes foglalás megküldése.
 book#:#book_reminder_days#:#nappal a foglalás előtt
 book#:#book_reminder_setting#:#Emlékeztető
+book#:#book_remove_participants#:#Remove Participant(s)###07 07 2026 new variable
 book#:#book_rerun_assignments#:#Hozzárendelési folyamat futtatása
 book#:#book_rerun_confirmation#:#Figyelem. A preferencián keresztüli hozzárendelések már lefutottak. A folyamatot újraindíthatja, ha bármilyen hiba történt, például nem sikerült menteni az összes hozzárendelést. A többszöri hozzárendelés elkerülése érdekében törölje az összes foglalást a folyamat újraindítása előtt.
 book#:#book_reservation_available#:#%s elérhető
+book#:#book_reservation_cancelled#:#Reservation(s) cancelled.###07 07 2026 new variable
 book#:#book_reservation_confirmed#:#Foglalását megerősítette.
 book#:#book_reservation_failed#:#Foglalása sikertelen.
 book#:#book_reservation_failed_overbooked#:#Foglalás sikertelen, mert az objektum már nem elérhető.
@@ -2664,6 +2694,7 @@ book#:#book_reservation_title#:#Foglalás ehhez:
 book#:#book_reservations_list#:#Foglalások
 book#:#book_schedule#:#Időterv
 book#:#book_schedule_added#:#Sikeresen létrehozta a foglalás időtervét.
+book#:#book_schedule_all_day#:#All-Day Schedule###07 07 2026 new variable
 book#:#book_schedule_days#:#Hétköznap
 book#:#book_schedule_days_info#:#Érvényes foglalási idők az egyes napokra (ÓÓ:PP-ÓÓ:PP)
 book#:#book_schedule_deleted#:#A foglalási időtervet sikeresen törölte.
@@ -2684,20 +2715,32 @@ book#:#book_select_pool#:#Válasszon gyűjteményt
 book#:#book_set_cancel#:#Foglalás törlése
 book#:#book_set_delete#:#Törlése
 book#:#book_show_message#:#Üzenet megjelenítése
+book#:#book_show_past_bookings#:#Show past bookings###07 07 2026 new variable
+book#:#book_some_reservations_unavailable#:#Some of the selected items could not be booked because they are no longer available.###07 07 2026 new variable
+book#:#book_table#:#Table###07 07 2026 new variable
+book#:#book_table_col_availability#:#Availability###07 07 2026 new variable
+book#:#book_table_col_datetime#:#Date/Time###07 07 2026 new variable
 book#:#book_title_description_nr#:#Cím; Leírás; Objektumok száma
 book#:#book_title_description_nr_info#:#Adja meg a címet, a leírást és az objektumok számát pontosvesszővel vagy TAB karakterrel elválasztva (ha táblázatkezelőből importálja). Minden objektum új sorba kerüljön.
 book#:#book_too_many_preferences#:#Az előzetes választása túl sok, azokat nem mentettük.
 book#:#book_total_individual_bookings_limit#:#Az egyes résztvevők által/az egyes résztvevők számára az összes foglalás számának korlátozása. Mindegyik elem továbbra is csak egyszer foglalható résztvevőnként.
 book#:#book_type_warning#:#Jelenleg nem érhető el foglalható objektum. A foglalásgyűjtemény használatához foglalható objektumot is létre kell hoznia.
+book#:#book_view#:#View###07 07 2026 new variable
 book#:#book_week#:#hét
+book#:#book_week_no_objects_selected#:#Select at least one Bookable Item at the ‘Item Selection’ section on the right and click the ‘Refresh’ button.###07 07 2026 new variable
 book#:#book_your_bookings#:#Foglalásaim
 book#:#book_your_preferences#:#Előzetes választásaim
 book#:#book_your_reservations#:#Foglalásaim
 book#:#booking_multiple_succesfully#:#A foglalásokat sikeresen létrehozta.
 book#:#booking_nr_of_items#:#Darabszám
+book#:#booking_process_error#:#There was an error while processing your booking(s). Please try again.###07 07 2026 new variable
+book#:#bookings_log#:#Bookings###07 07 2026 new variable
+book#:#delete_bookable_item#:#Delete Bookable Item###07 07 2026 new variable
+book#:#no_valid_selection#:#No valid selection###07 07 2026 new variable
 book#:#obj_book_duplicate#:#Foglalásgyűjtemény másolása
 book#:#participants#:#Résztvevők
 book#:#reservation_deleted#:#A foglalást sikeresen törölte
+book#:#schedule_type#:#Schedule Type###07 07 2026 new variable
 buddysystem#:#buddy_allow_to_contact_me#:#Ismerősnek jelölhetnek
 buddysystem#:#buddy_allow_to_contact_me_default_info#:#Meghatározza, hogy a felhasználók alapértelmezés szerint küldhetnek-e egymásnak kapcsolatfelvételi kéréseket.
 buddysystem#:#buddy_allow_to_contact_me_info#:#A többi felhasználó kérést küldhet felém, hogy ismerősnek kíván megjelölni.
@@ -2890,6 +2933,7 @@ certificate#:#persistent_certificate_mode_instant#:#Azonnali
 certificate#:#persistent_certificate_mode_instant_info#:#Ez a lehetőség közepes, illetve alacsony felhasználói igénybevétel esetén ajánlott. Amennyiben a tanúsítványok azonnali előállítása túl sok időt vesz igénybe, célszerű ütemezett feladatra váltani.
 chatroom#:#allow_anonymous#:#Anonymous bejelentkezés engedélyezett
 chatroom#:#allow_custom_usernames#:#Egyéni felhasználónevek megengedettek
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.###07 07 2026 new variable
 chatroom#:#anonymous_hint#:#Bizonyosodjon meg arról, hogy a megfelelő jogosultságokat állította be a ‘Jogosultságok’ lapon az anonymous felhasználók számára ehhez a Tartalomtárbeli objektumokhoz.
 chatroom#:#auto_scroll#:#Görgetés az aljára
 chatroom#:#autogen_usernames#:#Automatikusan generált felhasználónevek
@@ -2988,6 +3032,7 @@ chatroom#:#chat_user_action_invite_public_room#:#Meghívás nyilvános csevegős
 chatroom#:#chat_user_x_is_typing#:#%s ír…
 chatroom#:#chat_users_are_typing#:#Több felhasználó ír…
 chatroom#:#chat_whisper#:#Suttogás
+chatroom#:#chatroom_anonymous_default#:#Anonymous ####07 07 2026 new variable
 chatroom#:#chatroom_auth#:#Hitelesítés
 chatroom#:#chatroom_auth_btn_txt#:#Kulcsok generálása
 chatroom#:#chatroom_auth_key#:#Hitelesítés-kulcs
@@ -4600,6 +4645,8 @@ common#:#mail_schedule_error_no_datetime#:#A kézbesítés ütemezéséhez meg k
 common#:#mail_schedule_error_past_datetime#:#Nem ütemezhetsz leveleket a múltba.
 common#:#mail_schedule_scheduled_datetime#:#Ütemezett küldési idő
 common#:#mail_scheduled#:#A leveleket a kimenő mappában tároljuk későbbi kézbesítés céljából.
+common#:#mail_scheduled_edit_compose_info#:#You are editing a scheduled mail. Sending is paused until you schedule the mail again.###07 07 2026 new variable
+common#:#mail_scheduled_edit_moved_info#:#This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox.###07 07 2026 new variable
 common#:#mail_search_no#:#Egy bejegyzés sem felel meg a keresési feltételnek.
 common#:#mail_select_one#:#Legalább egy levelet ki kell választania!
 common#:#mail_send_error#:#Hiba lépett fel az e-mail küldése közben
@@ -5658,6 +5705,7 @@ common#:#show_content#:#Tartalom megjelenítése
 common#:#show_details#:#Részletek megjelenítése
 common#:#show_filter#:#Szűrő megjelenítése
 common#:#show_hidden_sections#:#További információk megjelenítése &raquo;
+common#:#show_less#:#Show less###07 07 2026 new variable
 common#:#show_list#:#Lista megjelenítése
 common#:#show_members#:#Tagok megjelenítése
 common#:#show_more#:#Több…
@@ -10464,6 +10512,7 @@ gsfo#:#entries_add#:#Elem hozzáadása
 gsfo#:#entries_edit#:#Elem módosítása
 gsfo#:#entries_parent#:#Blokk kiválasztása
 gsfo#:#entries_select_parent#:#Elem mozgatása a csoportba
+gsfo#:#entries_target_group#:#Select target group###07 07 2026 new variable
 gsfo#:#entry_action#:#Link
 gsfo#:#entry_action_info#:#Teljes link a protokollal (pl. https://www.ilias.hu)
 gsfo#:#entry_activation_toggled#:#Az aktiválás megváltozott
@@ -10472,6 +10521,7 @@ gsfo#:#entry_active_info#:#Elem aktiválása
 gsfo#:#entry_add#:#Elem hozzáadása
 gsfo#:#entry_delete#:#Törlés
 gsfo#:#entry_deleted#:#Törölt
+gsfo#:#entry_deleted_failed#:#Deletion not possible###07 07 2026 new variable
 gsfo#:#entry_edit#:#Módosítás
 gsfo#:#entry_external#:#Megnyitás új lapon
 gsfo#:#entry_move#:#Áthelyezés
@@ -10494,6 +10544,7 @@ gsfo#:#group_toggle_activation#:#(In-)aktiválás
 gsfo#:#group_translate#:#Fordítás
 gsfo#:#info_not_deletable_core#:#Az alapértelmezett elemek nem törölhetők
 gsfo#:#info_not_deletable_not_empty#:#Csak üres blokk törlhetők.
+gsfo#:#item_moved#:#Entry moved###07 07 2026 new variable
 gsfo#:#legal_information#:#Jogi információk
 gsfo#:#order_saved#:#A sorbarendezést sikeresen mentette
 gsfo#:#permanent#:#állandó
@@ -10741,6 +10792,13 @@ itgr#:#itgr_assign_materials#:#Objektumok hozzárendelése
 itgr#:#itgr_assigned_materials#:#Hozzárendelt objektumok
 itgr#:#itgr_assignment#:#Hozzárendelve
 itgr#:#itgr_desc_info#:#Az objektumcsoport leírása nem jelenik meg az objektumcsoport tárolójában.
+itgr#:#itgr_display#:#Display###07 07 2026 new variable
+itgr#:#itgr_display_with_title#:#With Title###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened###07 07 2026 new variable
+itgr#:#itgr_display_without_title#:#Without Title###07 07 2026 new variable
 itgr#:#itgr_edit#:#Objektumcsoportok módosítása
 itgr#:#itgr_expandable_closed#:#Kibontható (kezdetben zárt)
 itgr#:#itgr_expandable_open#:#Kibontható (kezdetben nyitott)
@@ -18002,61 +18060,3 @@ wsp#:#wsp_type_scov#:#Tanúsítvány: SCORM
 wsp#:#wsp_type_tstv#:#Tanúsítvány: teszt
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Mappa
-book#:#book_all_day#:#All-Day###07 07 2026 new variable
-book#:#book_assign_participants#:#Book for other Participant(s)###07 07 2026 new variable
-book#:#book_confirm_cancel_info#:#The selected bookings will be cancelled.###07 07 2026 new variable
-book#:#book_confirm_remove_participant#:#Are you sure you want to remove the following Participant(s)? This will delete all related Bookings.###07 07 2026 new variable
-book#:#book_date_from#:#From date###07 07 2026 new variable
-book#:#book_date_to#:#To date###07 07 2026 new variable
-book#:#book_delete_object#:#Delete###07 07 2026 new variable
-book#:#book_deleted_booking#:#Deleted Booking(s)###07 07 2026 new variable
-book#:#book_deleted_object#:#Deleted Bookable Item###07 07 2026 new variable
-book#:#book_filter_end_date#:#End Date###07 07 2026 new variable
-book#:#book_filter_objects#:#Bookable Items###07 07 2026 new variable
-book#:#book_filter_period#:#Period###07 07 2026 new variable
-book#:#book_filter_start_date#:#Start Date###07 07 2026 new variable
-book#:#book_modal_booking_confirmation#:#Booking Confirmation###07 07 2026 new variable
-book#:#book_modal_enter_quantity_intro#:#Please enter the number of items that you would like to book.###07 07 2026 new variable
-book#:#book_modal_recurrence#:#Recurrence###07 07 2026 new variable
-book#:#book_modal_recurrence_multiple#:#Book multiple dates###07 07 2026 new variable
-book#:#book_modal_recurrence_single#:#Book only this date###07 07 2026 new variable
-book#:#book_modal_skipped_unknown_item#:#Unknown or invalid selection (%s).###07 07 2026 new variable
-book#:#book_modal_warning_skipped_selections#:#Some selected items or periods are not available for booking and are excluded from this confirmation.###07 07 2026 new variable
-book#:#book_no_objects_available#:#None of the selected items are currently available for booking.###07 07 2026 new variable
-book#:#book_not_cancelled#:#Not cancelled###07 07 2026 new variable
-book#:#book_object_title_or_description#:#Title/Description###07 07 2026 new variable
-book#:#book_overall_limit_would_be_exceeded#:#Invalid selection. The overall limit would be exceeded.###07 07 2026 new variable
-book#:#book_participant#:#Participant###07 07 2026 new variable
-book#:#book_participant_removed#:#The participants and all related bookings have been removed successfully.###07 07 2026 new variable
-book#:#book_past_bookings#:#Past bookings###07 07 2026 new variable
-book#:#book_present_bookings#:#Present bookings###07 07 2026 new variable
-book#:#book_remove_participants#:#Remove Participant(s)###07 07 2026 new variable
-book#:#book_reservation_cancelled#:#Reservation(s) cancelled.###07 07 2026 new variable
-book#:#book_schedule_all_day#:#All-Day Schedule###07 07 2026 new variable
-book#:#book_show_past_bookings#:#Show past bookings###07 07 2026 new variable
-book#:#book_some_reservations_unavailable#:#Some of the selected items could not be booked because they are no longer available.###07 07 2026 new variable
-book#:#book_table#:#Table###07 07 2026 new variable
-book#:#book_table_col_availability#:#Availability###07 07 2026 new variable
-book#:#book_table_col_datetime#:#Date/Time###07 07 2026 new variable
-book#:#book_view#:#View###07 07 2026 new variable
-book#:#book_week_no_objects_selected#:#Select at least one Bookable Item at the ‘Item Selection’ section on the right and click the ‘Refresh’ button.###07 07 2026 new variable
-book#:#booking_process_error#:#There was an error while processing your booking(s). Please try again.###07 07 2026 new variable
-book#:#bookings_log#:#Bookings###07 07 2026 new variable
-book#:#delete_bookable_item#:#Delete Bookable Item###07 07 2026 new variable
-book#:#no_valid_selection#:#No valid selection###07 07 2026 new variable
-book#:#schedule_type#:#Schedule Type###07 07 2026 new variable
-chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.###07 07 2026 new variable
-chatroom#:#chatroom_anonymous_default#:#Anonymous ####07 07 2026 new variable
-common#:#mail_scheduled_edit_compose_info#:#You are editing a scheduled mail. Sending is paused until you schedule the mail again.###07 07 2026 new variable
-common#:#mail_scheduled_edit_moved_info#:#This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox.###07 07 2026 new variable
-common#:#show_less#:#Show less###07 07 2026 new variable
-gsfo#:#entries_target_group#:#Select target group###07 07 2026 new variable
-gsfo#:#entry_deleted_failed#:#Deletion not possible###07 07 2026 new variable
-gsfo#:#item_moved#:#Entry moved###07 07 2026 new variable
-itgr#:#itgr_display#:#Display###07 07 2026 new variable
-itgr#:#itgr_display_with_title#:#With Title###07 07 2026 new variable
-itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible###07 07 2026 new variable
-itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state###07 07 2026 new variable
-itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed###07 07 2026 new variable
-itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened###07 07 2026 new variable
-itgr#:#itgr_display_without_title#:#Without Title###07 07 2026 new variable
