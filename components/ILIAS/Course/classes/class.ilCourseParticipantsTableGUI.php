@@ -27,6 +27,7 @@ use ILIAS\User\Profile\Data as ProfileData;
  */
 class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 {
+    protected \ILIAS\Refinery\Factory $refinery;
     protected bool $show_learning_progress = false;
     protected bool $show_timings = false;
     protected bool $show_lp_status_sync = false;
@@ -37,8 +38,11 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
     protected ilAccessHandler $access;
     protected ilRbacReview $rbacReview;
     protected ilObjUser $user;
+<<<<<<< HEAD
     protected Profile $profile;
     protected \ILIAS\Refinery $refinery;
+=======
+>>>>>>> 51a322a5b5c (48038: Course Membership View throws error (current test10.ilias.de))
     protected array $cached_user_names = [];
 
     public function __construct(
