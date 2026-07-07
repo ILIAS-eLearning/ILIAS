@@ -56,4 +56,31 @@ class ilDataCollectionDBUpdateSteps10 implements ilDatabaseUpdateSteps
             ['text_area']
         );
     }
+
+    public function step_2(): void
+    {
+        $stmt = $this->db->queryF(
+            'SELECT il_dcl_stloc1_value.* FROM il_dcl_stloc1_value ' .
+            'INNER JOIN il_dcl_record_field ON il_dcl_record_field.id = il_dcl_stloc1_value.record_field_id ' .
+            'INNER JOIN il_dcl_field ON il_dcl_field.id = il_dcl_record_field.field_id ' .
+            'WHERE il_dcl_field.datatype_id = %s AND il_dcl_stloc1_value.value LIKE %s',
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT],
+            [ilDclDatatype::INPUTFORMAT_TEXT, "{%"]
+        );
+
+        while ($row = $this->db->fetchAssoc($stmt)) {
+            $old = json_decode($row['value'], true);
+            if (isset($old['title']) && isset($old['link'])) {
+                $value = json_encode([
+                    'title' => $old['title'],
+                    'link' => $old['link'],
+                ]);
+                $this->db->update(
+                    'il_dcl_stloc1_value',
+                    ['value' => [ilDBConstants::T_TEXT, $value]],
+                    ['id' => [ilDBConstants::T_INTEGER, $row['id']]],
+                );
+            }
+        }
+    }
 }

@@ -125,7 +125,7 @@ class ColorSelectTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
         $color_select = $f->colorSelect("label", "byline");
-        $this->expectException(\InvalidArgumentException::class);
         $color_select->withValue(null);
+        $this->assertEquals(null, $color_select->getValue());
     }
 }

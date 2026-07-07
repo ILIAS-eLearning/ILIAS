@@ -22,6 +22,10 @@
  */
 class ilBookingSchedule
 {
+    public const SCHEDULE_TYPE_TIME_PERIOD = 'time_period';
+    public const SCHEDULE_TYPE_ALL_DAY = 'all_day';
+    public const ALL_DAY_SLOT = '00:00-24:00';
+
     protected ilDBInterface $db;
     protected int $id = 0;
     protected string $title = "";
@@ -34,6 +38,7 @@ class ilBookingSchedule
     protected array $definition;
     protected ?ilDateTime $av_from = null;
     protected ?ilDateTime $av_to = null;
+    protected string $schedule_type = self::SCHEDULE_TYPE_TIME_PERIOD;
 
     public function __construct(
         ?int $a_id = null
@@ -169,13 +174,23 @@ class ilBookingSchedule
         return $this->av_to;
     }
 
+    public function getScheduleType(): string
+    {
+        return $this->schedule_type;
+    }
+
+    public function setScheduleType(string $a_schedule_type): void
+    {
+        $this->schedule_type = $a_schedule_type;
+    }
+
     protected function read(): void
     {
         $ilDB = $this->db;
 
         if ($this->id) {
             $set = $ilDB->query('SELECT title,raster,rent_min,rent_max,auto_break,' .
-                'deadline,av_from,av_to' .
+                'deadline,av_from,av_to,schedule_type' .
                 ' FROM booking_schedule' .
                 ' WHERE booking_schedule_id = ' . $ilDB->quote($this->id, 'integer'));
             $row = $ilDB->fetchAssoc($set);
@@ -189,6 +204,7 @@ class ilBookingSchedule
                 $this->setMaxRental($row['rent_max']);
                 $this->setAutoBreak($row['auto_break']);
             }
+            $this->setScheduleType($row['schedule_type'] ?? self::SCHEDULE_TYPE_TIME_PERIOD);
 
             // load definition
             $definition = array();
@@ -221,12 +237,13 @@ class ilBookingSchedule
 
         $ilDB->manipulate('INSERT INTO booking_schedule' .
             ' (booking_schedule_id,title,pool_id,raster,rent_min,rent_max,auto_break,' .
-            'deadline,av_from,av_to)' .
+            'deadline,av_from,av_to,schedule_type)' .
             ' VALUES (' . $ilDB->quote($this->id, 'integer') . ',' . $ilDB->quote($this->getTitle(), 'text') .
             ',' . $ilDB->quote($this->getPoolId(), 'integer') . ',' . $ilDB->quote($this->getRaster(), 'integer') .
             ',' . $ilDB->quote($this->getMinRental(), 'integer') . ',' . $ilDB->quote($this->getMaxRental(), 'integer') .
             ',' . $ilDB->quote($this->getAutoBreak(), 'integer') . ',' . $ilDB->quote($this->getDeadline(), 'integer') .
-            ',' . $ilDB->quote($av_from, 'integer') . ',' . $ilDB->quote($av_to, 'integer') . ')');
+            ',' . $ilDB->quote($av_from, 'integer') . ',' . $ilDB->quote($av_to, 'integer') .
+            ',' . $ilDB->quote($this->getScheduleType(), 'text') . ')');
 
         $this->saveDefinition();
 
@@ -258,6 +275,7 @@ class ilBookingSchedule
             ', deadline = ' . $ilDB->quote($this->getDeadline(), 'integer') .
             ', av_from = ' . $ilDB->quote($av_from, 'integer') .
             ', av_to = ' . $ilDB->quote($av_to, 'integer') .
+            ', schedule_type = ' . $ilDB->quote($this->getScheduleType(), 'text') .
             ' WHERE booking_schedule_id = ' . $ilDB->quote($this->id, 'integer'));
 
         $this->saveDefinition();
@@ -277,6 +295,7 @@ class ilBookingSchedule
         $new_obj->setDefinition($this->getDefinition());
         $new_obj->setAvailabilityFrom($this->getAvailabilityFrom());
         $new_obj->setAvailabilityTo($this->getAvailabilityTo());
+        $new_obj->setScheduleType($this->getScheduleType());
         return $new_obj->save();
     }
 

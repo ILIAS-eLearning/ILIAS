@@ -71,7 +71,7 @@ class InternalGUIService
                     (string) $this->manager->getDashboardNewsPeriod(),
                     true
                 )
-                ->select("news_ref_id", $lng->txt("context"), $context_options, true, null, true);
+                ->select("news_ref_id", $lng->txt("context"), $context_options, true, "0", true);
         }
         return $this->filter;
     }
@@ -79,7 +79,7 @@ class InternalGUIService
     public function getTimelineGUI(): \ilNewsTimelineGUI
     {
         $ctrl = $this->gui->ctrl();
-        if ($ctrl->isAsynch() && ! $this->gui->standardRequest()->getFilterOff()) {
+        if ($ctrl->isAsynch() && !$this->gui->standardRequest()->getFilterOff()) {
             $period = $this->manager->getDashboardNewsPeriod();
             $news_ref_id = $this->manager->getDashboardSelectedRefId();
         } else {

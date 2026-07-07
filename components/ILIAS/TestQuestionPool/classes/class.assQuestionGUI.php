@@ -109,6 +109,7 @@ abstract class assQuestionGUI
     private ilDBInterface $db;
     protected ilLogger $logger;
     private ilComponentRepository $component_repository;
+    private ilComponentFactory $component_factory;
     protected GeneralQuestionPropertiesRepository $questionrepository;
     protected GUIService $notes_gui;
     protected ilCtrl $ctrl;
@@ -177,6 +178,7 @@ abstract class assQuestionGUI
         $this->db = $DIC->database();
         $this->logger = $DIC['ilLog'];
         $this->component_repository = $DIC['component.repository'];
+        $this->component_factory = $DIC['component.factory'];
         $this->refinery = $DIC['refinery'];
 
         $local_dic = QuestionPoolDIC::dic();
@@ -1065,6 +1067,17 @@ abstract class assQuestionGUI
         if ($this->questionrepository->questionExistsInPool($this->object->getId()) && $count) {
             if ($this->rbacsystem->checkAccess("write", $this->request_data_collector->getRefId())) {
                 $this->tpl->setOnScreenMessage('info', sprintf($this->lng->txt("qpl_question_is_in_use"), $count));
+            }
+        }
+
+        return $this->getQuestionTypeTranslation();
+    }
+
+    private function getQuestionTypeTranslation(): string
+    {
+        foreach ($this->component_factory->getActivePluginsInSlot('qst') as $plugin) {
+            if ($plugin->getQuestionType() === $this->object->getQuestionType()) {
+                return $plugin->getQuestionTypeTranslation();
             }
         }
 

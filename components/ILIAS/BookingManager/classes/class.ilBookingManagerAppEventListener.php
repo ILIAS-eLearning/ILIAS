@@ -42,6 +42,14 @@ class ilBookingManagerAppEventListener
                         break;
                 }
                 break;
+            case "components/ILIAS/ILIASObject":
+                switch ($a_event) {
+                    case "toTrash":
+                    case "delete":
+                        $DIC->bookingManager()->internal()->domain()->objectEvent()->handleDeletion([$a_parameter["ref_id"]]);
+                        break;
+                }
+                break;
         }
     }
 }

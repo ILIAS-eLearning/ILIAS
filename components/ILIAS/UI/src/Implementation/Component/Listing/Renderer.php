@@ -21,8 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Listing;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
+use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Renderer as RendererInterface;
-use ILIAS\UI\Component;
+use ILIAS\UI\Component\Component;
 
 /**
  * Class Renderer
@@ -30,28 +31,35 @@ use ILIAS\UI\Component;
  */
 class Renderer extends AbstractComponentRenderer
 {
+    /** @var int amount of characters that fits into one line on desktop. */
+    protected const MAX_CHARS_IN_LINE = 260;
+
     /**
      * @inheritdocs
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    public function render(Component $component, RendererInterface $default_renderer): string
     {
-        if ($component instanceof Component\Listing\Descriptive) {
-            return $this->render_descriptive($component, $default_renderer);
+        if ($component instanceof Descriptive) {
+            return $this->renderDescriptive($component, $default_renderer);
         }
-
-        if ($component instanceof Component\Listing\Property) {
+        if ($component instanceof Property) {
             return $this->renderProperty($component, $default_renderer);
         }
-
-        if ($component instanceof Component\Listing\Listing) {
-            return $this->render_simple($component, $default_renderer);
+        if ($component instanceof Ordered) {
+            return $this->renderOrdered($component, $default_renderer);
+        }
+        if ($component instanceof Unordered) {
+            return $this->renderUnordered($component, $default_renderer);
+        }
+        if ($component instanceof Inline) {
+            return $this->renderInline($component, $default_renderer);
         }
 
         $this->cannotHandleComponent($component);
     }
 
-    protected function render_descriptive(
-        Component\Listing\Descriptive $component,
+    protected function renderDescriptive(
+        Descriptive $component,
         RendererInterface $default_renderer
     ): string {
         $tpl = $this->getTemplate("tpl.descriptive.html", true, true);
@@ -73,49 +81,75 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function render_simple(Component\Listing\Listing $component, RendererInterface $default_renderer): string
+    protected function renderOrdered(Ordered $component, RendererInterface $default_renderer): string
     {
-        $tpl_name = "";
+        $tpl = $this->getTemplate("tpl.ordered.html", true, true);
 
-        if ($component instanceof Component\Listing\Ordered) {
-            $tpl_name = "tpl.ordered.html";
-        }
-        if ($component instanceof Component\Listing\Unordered) {
-            $tpl_name = "tpl.unordered.html";
-        }
+        $tpl = $this->fillItems($tpl, $component, $default_renderer);
 
-        $tpl = $this->getTemplate($tpl_name, true, true);
-
-        if (count($component->getItems()) > 0) {
-            foreach ($component->getItems() as $item) {
-                $tpl->setCurrentBlock("item");
-                if (is_string($item)) {
-                    $tpl->setVariable("ITEM", $item);
-                } else {
-                    $tpl->setVariable("ITEM", $default_renderer->render($item));
-                }
-                $tpl->parseCurrentBlock();
-            }
-        }
         return $tpl->get();
     }
 
+    protected function renderUnordered(Unordered $component, RendererInterface $default_renderer): string
+    {
+        $tpl = $this->getTemplate("tpl.unordered.html", true, true);
+
+        $tpl = $this->fillItems($tpl, $component, $default_renderer);
+
+        return $tpl->get();
+    }
+
+    protected function renderInline(Inline $component, RendererInterface $default_renderer): string
+    {
+        $tpl = $this->getTemplate("tpl.inline.html", true, true);
+
+        $tpl = $this->fillItems($tpl, $component, $default_renderer);
+
+        return $tpl->get();
+    }
+
+    protected function fillItems(Template $tpl, Listing $component, RendererInterface $default_renderer): Template
+    {
+        $items = $component->getItems();
+
+        foreach ($items as $item) {
+            $tpl->setCurrentBlock("item");
+            if ($item instanceof Component) {
+                $tpl->setVariable("ITEM", $default_renderer->render($item));
+            } else {
+                $tpl->setVariable("ITEM", $item);
+            }
+            $tpl->parseCurrentBlock();
+        }
+
+        return $tpl;
+    }
+
     protected function renderProperty(
-        Component\Listing\Property $component,
+        Property $component,
         RendererInterface $default_renderer
     ): string {
         $tpl = $this->getTemplate("tpl.propertylisting.html", true, true);
 
-        foreach ($component->getItems() as $property) {
-            list($label, $value, $show_label) = $property;
-            if (! is_string($value)) {
-                $value = $default_renderer->render($value);
-            }
-
+        foreach ($component->getItems() as [$label, $value, $show_label]) {
             $tpl->setCurrentBlock("property");
-            $tpl->setVariable("VALUE", $value);
             if ($show_label) {
-                $tpl->setVariable("LABEL", $label);
+                if ($label instanceof Component) {
+                    $tpl->setVariable('LABEL', $default_renderer->render($label));
+                } else {
+                    $tpl->setVariable('LABEL', $this->convertSpecialCharacters($label));
+                }
+            }
+            if (is_string($value) && self::MAX_CHARS_IN_LINE <= mb_strlen($value)) {
+                $tpl->setVariable("ID_SHOW_MORE_TOGGLE", $this->createId());
+                $tpl->setVariable("MORE", $this->txt("show_more"));
+                $tpl->setVariable("LESS", $this->txt("show_less"));
+                $tpl->setVariable("LONG_VALUE", $this->convertSpecialCharacters($value));
+                $tpl->parseCurrentBlock();
+            } elseif (is_string($value)) {
+                $tpl->setVariable("SHORT_VALUE", $this->convertSpecialCharacters($value));
+            } elseif ($value instanceof Component) {
+                $tpl->setVariable("SHORT_VALUE", $default_renderer->render($value));
             }
             $tpl->parseCurrentBlock();
         }

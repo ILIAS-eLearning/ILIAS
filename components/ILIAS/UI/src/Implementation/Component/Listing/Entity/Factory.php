@@ -28,4 +28,9 @@ class Factory implements I\Factory
     {
         return new Standard($mapping);
     }
+
+    public function grid(I\RecordToEntity $mapping): Grid
+    {
+        return new Grid($mapping);
+    }
 }

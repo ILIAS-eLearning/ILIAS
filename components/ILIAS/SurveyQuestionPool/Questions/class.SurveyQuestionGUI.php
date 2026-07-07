@@ -335,10 +335,12 @@ abstract class SurveyQuestionGUI
             $this->object->setAuthor($form->getInput("author"));
             $this->object->setDescription($form->getInput("description"));
 
-            $this->object->setQuestiontext(
-                $this->purifier->purify($form->getInput("question"))
-            );
+            $purifier = new ilSvyStandardPurifier();
+            $question = $form->getInput("question");
 
+            $question = $purifier->purify($question);
+
+            $this->object->setQuestiontext($question);
             $this->object->setObligatory((bool) $form->getInput("obligatory"));
 
             $this->importEditFormValues($form);

@@ -29,4 +29,11 @@ class Agent extends Setup\Agent\NullAgent
     {
         return new \ilDatabaseUpdateStepsExecutedObjective(new ilItemGroupDBUpdateSteps());
     }
+
+    public function getMigrations(): array
+    {
+        return [
+            new ilItemGroupDisplayMigration()
+        ];
+    }
 }

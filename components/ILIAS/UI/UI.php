@@ -444,7 +444,7 @@ class UI implements Component\Component
         $internal[UI\Implementation\Component\Symbol\Icon\Factory::class] = static fn() =>
             new UI\Implementation\Component\Symbol\Icon\Factory();
         $internal[UI\Implementation\Component\Symbol\Glyph\Factory::class] = static fn() =>
-            new UI\Implementation\Component\Symbol\Glyph\Factory();
+            new UI\Implementation\Component\Symbol\Glyph\Factory($use[Language\Language::class]);
         $internal[UI\Implementation\Component\Symbol\Avatar\Factory::class] = static fn() =>
             new UI\Implementation\Component\Symbol\Avatar\Factory();
 

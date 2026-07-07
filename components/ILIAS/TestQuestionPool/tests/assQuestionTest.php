@@ -69,7 +69,7 @@ class assQuestionTest extends assBaseTestCase
                 return '';
             }
 
-            public function duplicate(bool $for_test = true, string $title = "", string $author = "", int $owner = -1, $testObjId = null): int
+            public function duplicate(bool $set_original_id = true, string $title = "", string $author = "", int $owner = -1, $testObjId = null): int
             {
                 return 0;
             }
