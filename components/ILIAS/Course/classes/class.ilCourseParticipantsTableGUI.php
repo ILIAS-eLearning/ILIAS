@@ -38,11 +38,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
     protected ilAccessHandler $access;
     protected ilRbacReview $rbacReview;
     protected ilObjUser $user;
-<<<<<<< HEAD
     protected Profile $profile;
-    protected \ILIAS\Refinery $refinery;
-=======
->>>>>>> 51a322a5b5c (48038: Course Membership View throws error (current test10.ilias.de))
     protected array $cached_user_names = [];
 
     public function __construct(
