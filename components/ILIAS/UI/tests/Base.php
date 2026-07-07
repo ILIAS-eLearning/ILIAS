@@ -479,6 +479,16 @@ trait BaseUITestTrait
                         $data_factory,
                         $help_text_retriever,
                         $this->getUploadLimitResolver(),
+                    ),
+                    new I\Listing\ListingRendererFactory(
+                        $ui_factory,
+                        $tpl_factory,
+                        $lng,
+                        $js_binding,
+                        $image_path_resolver,
+                        $data_factory,
+                        $help_text_retriever,
+                        $this->getUploadLimitResolver(),
                     )
                 )
             )

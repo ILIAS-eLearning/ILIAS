@@ -20,7 +20,9 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Listing;
 
 use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 class Inline extends Listing implements C\Listing\Inline
 {
+    use JavaScriptBindable;
 }

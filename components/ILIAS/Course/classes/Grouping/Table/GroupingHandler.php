@@ -95,7 +95,7 @@ class GroupingHandler
             self::COL_DESCRIPTION => $f->text($this->lng->txt('description'))->withIsSortable(true),
             self::COL_SOURCE => $f->link($this->lng->txt('groupings_source'))->withIsSortable(true),
             self::COL_UNIQUE_FIELD => $f->text($this->lng->txt('unambiguousness'))->withIsSortable(true),
-            self::COL_ASSIGNED_OBJS => $f->linkListing($this->lng->txt('groupings_assigned_obj_' . $type))->withIsSortable(true)
+            self::COL_ASSIGNED_OBJS => $f->listing($this->lng->txt('groupings_assigned_obj_' . $type))->withIsSortable(true)
         ];
     }
 

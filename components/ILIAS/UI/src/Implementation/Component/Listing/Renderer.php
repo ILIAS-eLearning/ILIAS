@@ -21,9 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Listing;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
-use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Renderer as RendererInterface;
-use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component;
+use ILIAS\UI\Implementation\Render\Template;
 
 /**
  * Class Renderer
@@ -37,28 +37,27 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    public function render(Component $component, RendererInterface $default_renderer): string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         if ($component instanceof Descriptive) {
-            return $this->renderDescriptive($component, $default_renderer);
+            return $this->renderDescriptiveList($component, $default_renderer);
         }
+
         if ($component instanceof Property) {
-            return $this->renderProperty($component, $default_renderer);
+            return $this->renderPropertyList($component, $default_renderer);
         }
-        if ($component instanceof Ordered) {
-            return $this->renderOrdered($component, $default_renderer);
-        }
-        if ($component instanceof Unordered) {
-            return $this->renderUnordered($component, $default_renderer);
-        }
-        if ($component instanceof Inline) {
-            return $this->renderInline($component, $default_renderer);
+
+        if ($component instanceof Unordered ||
+            $component instanceof Ordered ||
+            $component instanceof Inline
+        ) {
+            return $this->renderList($component, $default_renderer);
         }
 
         $this->cannotHandleComponent($component);
     }
 
-    protected function renderDescriptive(
+    protected function renderDescriptiveList(
         Descriptive $component,
         RendererInterface $default_renderer
     ): string {
@@ -81,51 +80,36 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderOrdered(Ordered $component, RendererInterface $default_renderer): string
+    protected function renderList(Unordered|Ordered|Inline $component, RendererInterface $default_renderer): string
     {
-        $tpl = $this->getTemplate("tpl.ordered.html", true, true);
+        if ($component instanceof Unordered) {
+            $tpl_name = "tpl.unordered.html";
+        } elseif ($component instanceof Ordered) {
+            $tpl_name = "tpl.ordered.html";
+        } elseif ($component instanceof Inline) {
+            $tpl_name = "tpl.inline.html";
+        } else {
+            $this->cannotHandleComponent($component);
+        }
 
-        $tpl = $this->fillItems($tpl, $component, $default_renderer);
+        $tpl = $this->getTemplate($tpl_name, true, true);
 
-        return $tpl->get();
-    }
-
-    protected function renderUnordered(Unordered $component, RendererInterface $default_renderer): string
-    {
-        $tpl = $this->getTemplate("tpl.unordered.html", true, true);
-
-        $tpl = $this->fillItems($tpl, $component, $default_renderer);
-
-        return $tpl->get();
-    }
-
-    protected function renderInline(Inline $component, RendererInterface $default_renderer): string
-    {
-        $tpl = $this->getTemplate("tpl.inline.html", true, true);
-
-        $tpl = $this->fillItems($tpl, $component, $default_renderer);
-
-        return $tpl->get();
-    }
-
-    protected function fillItems(Template $tpl, Listing $component, RendererInterface $default_renderer): Template
-    {
-        $items = $component->getItems();
-
-        foreach ($items as $item) {
+        foreach ($component->getItems() as $item) {
             $tpl->setCurrentBlock("item");
-            if ($item instanceof Component) {
-                $tpl->setVariable("ITEM", $default_renderer->render($item));
-            } else {
+            if (is_string($item)) {
                 $tpl->setVariable("ITEM", $item);
+            } else {
+                $tpl->setVariable("ITEM", $default_renderer->render($item));
             }
             $tpl->parseCurrentBlock();
         }
 
-        return $tpl;
+        $this->bindAndApplyJavaScript($component, $tpl);
+
+        return $tpl->get();
     }
 
-    protected function renderProperty(
+    protected function renderPropertyList(
         Property $component,
         RendererInterface $default_renderer
     ): string {
@@ -134,7 +118,7 @@ class Renderer extends AbstractComponentRenderer
         foreach ($component->getItems() as [$label, $value, $show_label]) {
             $tpl->setCurrentBlock("property");
             if ($show_label) {
-                if ($label instanceof Component) {
+                if ($label instanceof Component\Component) {
                     $tpl->setVariable('LABEL', $default_renderer->render($label));
                 } else {
                     $tpl->setVariable('LABEL', $this->convertSpecialCharacters($label));
@@ -148,11 +132,19 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->parseCurrentBlock();
             } elseif (is_string($value)) {
                 $tpl->setVariable("SHORT_VALUE", $this->convertSpecialCharacters($value));
-            } elseif ($value instanceof Component) {
+            } elseif ($value instanceof Component\Component) {
                 $tpl->setVariable("SHORT_VALUE", $default_renderer->render($value));
             }
             $tpl->parseCurrentBlock();
         }
         return $tpl->get();
+    }
+
+    protected function bindAndApplyJavaScript(Component\JavaScriptBindable $component, Template $template): void
+    {
+        $id = $this->bindJavaScript($component);
+        if (null !== $id) {
+            $template->setVariable('ID', $id);
+        }
     }
 }
