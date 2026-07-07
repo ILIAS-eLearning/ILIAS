@@ -25,6 +25,7 @@ use ILIAS\UI\Implementation\Crawler as Crawler;
 use ILIAS\DI\Container;
 use ILIAS\UI\NotImplementedException;
 use ILIAS\FileUpload\FileUpload;
+use ILIAS\Scripts\PHPStan\Attributes\AllowSuperglobalWrite;
 
 /**
  * Class ExamplesTest Checks if all examples are implemented and properly returning strings
@@ -47,6 +48,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
     protected Container $dic;
     protected Crawler\ExamplesYamlParser $example_parser;
 
+    #[AllowSuperglobalWrite('Bypass Undefined index: ilfilehash for the moment. This is for examples only.')]
     public function setUp(): void
     {
         //This avoids various index not set warnings, which are only relevant in test context.
