@@ -9,6 +9,7 @@
 /.settings
 /errors
 /extern
+/tmp
 /components/ILIAS/PHPUnit/config/cfg.phpunit.php
 /nbproject
 /templates/default/delos.css.map

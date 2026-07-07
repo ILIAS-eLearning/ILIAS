@@ -1,0 +1,63 @@
+name: code-rules
+on: [pull_request, push]
+permissions:
+  contents: read
+  pull-requests: read
+jobs:
+  code-rules:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: dom, curl, libxml, mbstring, zip, gd, json, readline, xsl, imagick
+          tools: composer:v2
+          coverage: none
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor/composer/vendor
+          key: composer-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-
+
+      - name: Prepare Customizing directory
+        # The composer classmap includes ./public/Customizing/global/plugins; --no-scripts
+        # skips the pre-install-cmd that would create it, so create it here — otherwise
+        # autoload generation aborts ("Could not scan for classes inside ...").
+        run: mkdir -p public/Customizing/global/plugins
+
+      - name: Install Composer packages
+        # --no-scripts skips the post-autoload-dump build (cli/setup.php build), which
+        # copies front-end assets from node_modules. PHPStan only needs the autoloader
+        # and classmap (still generated), so neither the build nor Node.js is required.
+        run: composer install --no-interaction --no-progress --no-scripts
+
+      - name: Cache PHPStan result cache
+        uses: actions/cache@v4
+        with:
+          path: tmp/phpstan-code-rules
+          key: phpstan-code-rules-${{ github.run_id }}
+          restore-keys: phpstan-code-rules-
+
+      - name: ILIAS Code Rules
+        # Non-blocking for now: the gate reports violations (annotations + report) but
+        # does not fail the job while the existing findings are being fixed / exempted.
+        # Remove continue-on-error to make it a hard gate once the count reaches zero.
+        continue-on-error: true
+        run: scripts/PHPStan/run_code_rules.sh
+        env:
+          GHRUN: "yes"
+          ERROR_FORMAT: github
+
+      - name: Code Rules Summary
+        if: always()
+        run: ERROR_FORMAT=stepSummary scripts/PHPStan/run_code_rules.sh >> "$GITHUB_STEP_SUMMARY" || true
+        env:
+          GHRUN: "yes"
