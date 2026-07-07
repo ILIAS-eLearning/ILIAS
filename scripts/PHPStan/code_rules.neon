@@ -1,4 +1,7 @@
-rules: []
+rules:
+    - ILIAS\Scripts\PHPStan\Rules\SuperGlobals\SuperglobalAssignRule
+    - ILIAS\Scripts\PHPStan\Rules\SuperGlobals\SuperglobalAssignOpRule
+    - ILIAS\Scripts\PHPStan\Rules\SuperGlobals\SuperglobalAssignRefRule
 services:
     errorFormatter.stepSummary:
         class: ILIAS\Scripts\PHPStan\ErrorFormatter\StepSummaryFormatter
