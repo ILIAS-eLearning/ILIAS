@@ -1,5 +1,3 @@
-<?php
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,13 +11,17 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
+ */
 
-declare(strict_types=1);
+import il from 'ilias';
+import document from 'document';
+import createExpandableList from './createExpandableList.js';
 
-namespace ILIAS\UI\Component\Table\Column;
+il.UI = il.UI || {};
 
-interface LinkListing extends Column
-{
-}
+il.UI.Listing = {
+  createExpandableList: (id) => createExpandableList(
+    { txt: (key) => il.Language.txt(key) },
+    document.getElementById(id),
+  ),
+};

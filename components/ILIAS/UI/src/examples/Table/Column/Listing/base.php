@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\examples\Table\Column\LinkListing;
+namespace ILIAS\UI\examples\Table\Column\Listing;
 
 use ILIAS\UI\Component\Table as I;
 use ILIAS\Data\Range;
@@ -32,28 +32,39 @@ use ILIAS\Data\Order;
  */
 function base(): string
 {
+    /** @var \ILIAS\DI\Container $DIC */
     global $DIC;
     $f = $DIC->ui()->factory();
     $r = $DIC->ui()->renderer();
 
     $columns = [
-        'l1' => $f->table()->column()->linkListing("a link list column")
+        'l1' => $f->table()->column()->listing('A list column')
     ];
 
-    $some_link = $f->link()->standard('ILIAS Homepage', 'http://www.ilias.de');
-    $some_linklisting = $f->listing()->unordered([$some_link, $some_link, $some_link]);
-
-    $dummy_records = [
-        ['l1' => $some_linklisting],
-        ['l1' => $some_linklisting]
+    $records = [
+        [
+            'l1' => $f->listing()->unordered([
+                'Apples',
+                'Oranges',
+                'Bananas',
+                'Pears'
+            ])
+        ],
+        [
+            'l1' => $f->listing()->unordered([
+                'Bun',
+                'Croissant',
+                'Pumpernickel'
+            ])
+        ]
     ];
 
-    $data_retrieval = new class ($dummy_records) implements I\DataRetrieval {
+    $data_retrieval = new class ($records) implements I\DataRetrieval {
         protected array $records;
 
-        public function __construct(array $dummy_records)
+        public function __construct(array $records)
         {
-            $this->records = $dummy_records;
+            $this->records = $records;
         }
 
         public function getRows(
@@ -80,7 +91,7 @@ function base(): string
         }
     };
 
-    $table = $f->table()->data($data_retrieval, 'Link List Columns', $columns)
+    $table = $f->table()->data($data_retrieval, 'List Columns', $columns)
                ->withRequest($DIC->http()->request());
     return $r->render($table);
 }

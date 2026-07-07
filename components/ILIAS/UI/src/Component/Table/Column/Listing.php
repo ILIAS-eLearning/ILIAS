@@ -18,14 +18,8 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Listing;
+namespace ILIAS\UI\Component\Table\Column;
 
-use ILIAS\UI\Component\JavaScriptBindable;
-
-/**
- * Interface Ordered
- * @package ILIAS\UI\Component\Listing
- */
-interface Ordered extends Listing, JavaScriptBindable
+interface Listing extends Column
 {
 }

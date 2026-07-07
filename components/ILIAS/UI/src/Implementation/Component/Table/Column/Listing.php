@@ -21,19 +21,16 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Table\Column;
 
 use ILIAS\UI\Component\Table\Column as C;
-use ILIAS\UI\Component\Link\Standard;
 use ILIAS\UI\Component\Listing\Ordered;
 use ILIAS\UI\Component\Listing\Unordered;
 use ILIAS\UI\Component\Component;
 
-class LinkListing extends Column implements C\LinkListing
+class Listing extends Column implements C\Listing
 {
     public function format($value): string|Component
     {
         $listing = $this->toArray($value);
-        $this->checkArgListElements("value", $listing, [Ordered::class, Unordered::class]);
-        $listing_items = $value->getItems();
-        $this->checkArgListElements("list items", $listing_items, Standard::class);
+        $this->checkArgListElements('value', $listing, [Ordered::class, Unordered::class]);
         return $value;
     }
 

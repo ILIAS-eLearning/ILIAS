@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Listing;
 
 use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
  * Class Listing
@@ -28,4 +29,5 @@ use ILIAS\UI\Component as C;
  */
 class Ordered extends Listing implements C\Listing\Ordered
 {
+    use JavaScriptBindable;
 }

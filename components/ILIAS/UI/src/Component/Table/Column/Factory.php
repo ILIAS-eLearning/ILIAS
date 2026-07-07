@@ -136,12 +136,21 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *      The LinkListing Column features an Ordered or Unordered Listing of Standard Links.
-     *
+     *     The Listing Column is used for representing lists inside a table. To
+     *     account for large lists, the Listing Column caps the amount of items
+     *     which are initially visible and provides a toggle to show/hide them.
+     *   composition: >
+     *     The Listing Column either consists of an Unordered or Ordered Listing.
+     *     If the Listing contains many items, some of them will be initially
+     *     hidden and a Shy Button appears below the Listing.
+     *   effect: >
+     *     Clicking the Shy Button will toggle the visibility of initially hidden
+     *     items of the Listing.
      * ---
-     * @return \ILIAS\UI\Component\Table\Column\LinkListing
+     * @param string $title
+     * @return \ILIAS\UI\Component\Table\Column\Listing
      */
-    public function linkListing(string $title): LinkListing;
+    public function listing(string $title): Listing;
 
     /**
      * ---
