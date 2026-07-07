@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Scripts\PHPStan\Rules;
+namespace ILIAS\Scripts\PHPStan\Rules\LegacyUI;
 
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
