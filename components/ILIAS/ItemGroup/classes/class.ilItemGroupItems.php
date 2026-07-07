@@ -249,7 +249,7 @@ class ilItemGroupItems
             'SELECT ref_id, title FROM item_group_item '
             . 'LEFT JOIN object_data ON item_group_item.item_group_id = object_data.obj_id '
             . 'LEFT JOIN object_reference ON object_data.obj_id = object_reference.obj_id '
-            . 'WHERE %s '
+            . 'WHERE item_ref_id = %s '
             . 'AND item_group_id != %s '
             . 'AND object_data.type = \'itgr\'',
             [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
