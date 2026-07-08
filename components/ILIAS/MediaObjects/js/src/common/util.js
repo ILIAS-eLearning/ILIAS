@@ -29,23 +29,6 @@ export default class Util {
       svg.style.width = '100%';
       svg.style.height = '100%';
       mobElement.appendChild(svg);
-      svg.addEventListener('click', (e) => {
-        // Prevent SVG from handling the click normally
-        e.preventDefault();
-        e.stopPropagation();
-
-        // Temporarily disable pointer events to find what's underneath
-        svg.style.pointerEvents = 'none';
-
-        const underlying = document.elementFromPoint(e.clientX, e.clientY);
-
-        // Restore pointer events
-        svg.style.pointerEvents = '';
-
-        if (underlying) {
-          underlying.click(); // trigger click on img/area
-        }
-      });
     }
     return svg;
   }

@@ -95,12 +95,12 @@ abstract class Input implements InputInternal
      * Get an input like this with another value displayed on the
      * client side.
      *
-     * @param   mixed $value
-     * @throws  InvalidArgumentException    if value does not fit client side input
+     * @param mixed $value              provide null to set the inputs default value (may not be null!)
+     * @throws InvalidArgumentException if value does not fit client side input
      */
     public function withValue($value): self
     {
-        $this->checkArg("value", $this->isClientSideValueOk($value), "Display value does not match input type.");
+        $this->checkArg("value", null === $value || $this->isClientSideValueOk($value), "Display value does not match input type.");
         $clone = clone $this;
         $clone->value = $value;
         return $clone;
@@ -108,6 +108,9 @@ abstract class Input implements InputInternal
 
     /**
      * Check if the value is good to be displayed client side.
+     *
+     * Do not handle null, as this is a special case which is
+     * already handled by {@see Input::withValue()}.
      *
      * @param mixed $value
      */

@@ -138,6 +138,11 @@ class ilXapiResultsCronjob extends CronJob
                 continue;
             }
 
+            if (!$object->getLRSType()->isAvailable()) {
+                $this->log->debug('skipped object due to LRSType is not available (' . $object->getLRSType()->getTitle(). ')');
+                continue;
+            }
+
             $report = $this->getXapiStatementsReport($object, $filter);
 
             $evaluation->evaluateReport($report);

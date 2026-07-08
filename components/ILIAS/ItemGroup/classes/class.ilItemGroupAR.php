@@ -23,6 +23,14 @@
  */
 class ilItemGroupAR extends ActiveRecord
 {
+    public const DISPLAY = 'display';
+    public const DISPLAY_WITHOUT_TITLE = 'without_title';
+    public const DISPLAY_WITH_TITLE = 'with_title';
+    public const DISPLAY_WITH_TITLE_AND_TOGGLEABLE = 'with_title_and_toggleable';
+    public const DISPLAY_WITH_TITLE_AND_TOGGLEABLE_INITIALLY = self::DISPLAY_WITH_TITLE_AND_TOGGLEABLE . '_initially';
+    public const DISPLAY_WITH_TITLE_AND_TOGGLEABLE_INITIALLY_CLOSED = self::DISPLAY_WITH_TITLE_AND_TOGGLEABLE_INITIALLY . '_closed';
+    public const DISPLAY_WITH_TITLE_AND_TOGGLEABLE_INITIALLY_OPEN = self::DISPLAY_WITH_TITLE_AND_TOGGLEABLE_INITIALLY . '_open';
+
     public static function returnDbTableName(): string
     {
         return 'itgr_data';
@@ -45,21 +53,21 @@ class ilItemGroupAR extends ActiveRecord
      * @var string
      *
      * @con_has_field true
-     * @con_fieldtype integer
-     * @con_length    1
-     * @con_is_notnull false
+     * @con_fieldtype text
+     * @con_length    255
+     * @con_is_notnull yes
      */
-    protected ?string $hide_title = '';
+    protected ?string $display = self::DISPLAY_WITH_TITLE;
 
     /**
-     * @var int
+     * @var string
      *
      * @con_has_field true
-     * @con_fieldtype integer
-     * @con_length    1
-     * @con_is_notnull false
+     * @con_fieldtype text
+     * @con_length    255
+     * @con_is_notnull yes
      */
-    protected ?int $behaviour = 0;
+    protected ?string $toggleable_initially = self::DISPLAY_WITH_TITLE_AND_TOGGLEABLE_INITIALLY_OPEN;
 
     /**
      * @var string
@@ -91,24 +99,24 @@ class ilItemGroupAR extends ActiveRecord
         $this->id = $id;
     }
 
-    public function setHideTitle(bool $a_hide_title): void
+    public function getDisplay(): string
     {
-        $this->hide_title = $a_hide_title;
+        return $this->display ?? self::DISPLAY_WITH_TITLE;
     }
 
-    public function getHideTitle(): bool
+    public function setDisplay(string $a_val): void
     {
-        return $this->hide_title;
+        $this->display = $a_val;
     }
 
-    public function setBehaviour(int $a_val): void
+    public function getDisplayWithTitleAndToggleableInitially(): string
     {
-        $this->behaviour = $a_val;
+        return $this->toggleable_initially ?? self::DISPLAY_WITH_TITLE_AND_TOGGLEABLE_INITIALLY_OPEN;
     }
 
-    public function getBehaviour(): int
+    public function setDisplayWithTitleAndToggleableInitially(string $a_val): void
     {
-        return $this->behaviour;
+        $this->toggleable_initially = $a_val;
     }
 
     public function getListPresentation(): string

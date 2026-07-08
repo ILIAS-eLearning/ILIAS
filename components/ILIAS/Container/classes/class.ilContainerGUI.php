@@ -442,6 +442,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                         !$this->isActiveOrdering() &&
                         $this->supportsPageEditor()
                     ) {
+                        $this->ctrl->setParameter($this, "ref_id", $this->object->getRefId());
                         $toolbar->addButton(
                             $lng->txt("cntr_text_media_editor"),
                             $ilCtrl->getLinkTarget($this, "editPageFrame")
@@ -602,19 +603,19 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $num_files = $this->tree->getChildsByType($ref_id, "file");
             $num_folders = $this->tree->getChildsByType($ref_id, "fold");
             if (count($num_files) > 0 || count($num_folders) > 0) {
-                // #11843
-                $GLOBALS['tpl']->setPageFormAction($this->ctrl->getFormAction($this));
-
                 $toolbar = new ilToolbarGUI();
                 $this->ctrl->setParameter($this, "type", "");
                 $this->ctrl->setParameter($this, "item_ref_id", "");
+
+                // #11843
+                $main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
 
                 $toolbar->addFormButton(
                     $this->lng->txt('download_selected_items'),
                     'download'
                 );
 
-                $GLOBALS['tpl']->addAdminPanelToolbar(
+                $main_tpl->addAdminPanelToolbar(
                     $toolbar,
                     $this->gotItems(),
                     $this->gotItems()
@@ -2108,8 +2109,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $this->initFormPasswordInstruction();
         }
 
-        $uri_builder = new ilWebDAVUriBuilder($DIC->http()->request());
-        $href = $uri_builder->getUriToMountInstructionModalByRef($this->object->getRefId());
+        global $DIC;
+        /** @var ILIAS\WebDAV\Environment $webdav */
+        $webdav = $DIC[ILIAS\WebDAV\Environment::class];
+        $href = $webdav->getUriToMountInstructionModalByRef($this->object->getRefId());
 
         $this->gui->button(
             $this->lng->txt("mount_webfolder"),

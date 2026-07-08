@@ -101,6 +101,11 @@ class Textarea extends FormInput implements C\Input\Field\Textarea, HasMustacheV
         return $this->min_limit;
     }
 
+    public function withValue($value): self
+    {
+        return parent::withValue($value ?? "");
+    }
+
     /**
      * @inheritdoc
      */

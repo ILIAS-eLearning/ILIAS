@@ -30,9 +30,16 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
  */
 class PanelSecondaryListingTest extends ILIAS_UI_TestBase
 {
+    use LanguageStubs;
+
     public function getUIFactory(): NoUIFactory
     {
-        return new class () extends NoUIFactory {
+        return new class ($this->createRelayArgumentLanguageStub()) extends NoUIFactory {
+            public function __construct(
+                protected \ILIAS\Language\Language $language,
+            ) {
+            }
+
             public function panelSecondary(): I\Component\Panel\Secondary\Factory
             {
                 return new I\Component\Panel\Secondary\Factory();
@@ -57,7 +64,7 @@ class PanelSecondaryListingTest extends ILIAS_UI_TestBase
             {
                 return new I\Component\Symbol\Factory(
                     new I\Component\Symbol\Icon\Factory(),
-                    new I\Component\Symbol\Glyph\Factory(),
+                    new I\Component\Symbol\Glyph\Factory($this->language),
                     new I\Component\Symbol\Avatar\Factory()
                 );
             }
@@ -190,7 +197,7 @@ EOT;
         <div class="panel-title"><h2>Title</h2></div>
         <div class="panel-viewcontrols  l-bar__space-keeper">
             <div class="dropdown il-viewcontrol  il-viewcontrol-sortation l-bar__element" id="id_1">
-                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="id_1_ctrl">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-expanded="false" aria-controls="id_1_ctrl">
                     <span class="label">vc_sort A</span>
                     <span class="glyphicon-sort"></span>
                 </button>

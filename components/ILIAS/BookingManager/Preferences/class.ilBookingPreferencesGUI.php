@@ -20,6 +20,7 @@ use ILIAS\UI\Component\Input\Container\Form;
 use ILIAS\BookingManager\Objects\ObjectsManager;
 use ILIAS\BookingManager\Access\AccessManager;
 use ILIAS\BookingManager\InternalService;
+use ILIAS\Data\Factory as DataFactory;
 
 /**
  * Booking preferences ui class
@@ -216,9 +217,10 @@ class ilBookingPreferencesGUI
         $preferences = $preferences->getPreferences();
         $cnt = 1;
         if (isset($preferences[$this->user->getId()])) {
+            $book_deleted_object = "[{$this->lng->txt("book_deleted_object")}]";
             foreach ($preferences[$this->user->getId()] as $book_obj_id) {
                 $book_obj = new ilBookingObject($book_obj_id);
-                $info_gui->addProperty((string) $cnt++, $book_obj->getTitle());
+                $info_gui->addProperty((string) $cnt++, $book_obj->getTitle() ?: $book_deleted_object);
             }
         } else {
             $info_gui->addProperty("", $lng->txt("book_no_preferences_for_you"));
@@ -257,22 +259,33 @@ class ilBookingPreferencesGUI
             $info_gui->addSection($lng->txt("book_all_users"));
             $preferences = $repo->getPreferences($this->pool->getId());
             $preferences = $preferences->getPreferences();
+            $book_deleted_object = "[{$this->lng->txt("book_deleted_object")}]";
+            $book_deleted_booking = "[{$this->lng->txt("book_deleted_booking")}]";
+
+            $markdown = (new DataFactory())->text()->markdown();
+
             foreach ($preferences as $user_id => $obj_ids) {
-                $booking_str = "<br>" . $lng->txt("book_log") . ": -";
-                if (isset($bookings[$user_id])) {
-                    $booking_str = "<br>" . $lng->txt("book_log") . ": " . implode(", ", array_map(
-                        static function ($obj_id) {
-                            return (new ilBookingObject($obj_id))->getTitle();
-                        },
+                $booking_titles = !isset($bookings[$user_id])
+                    ? [$book_deleted_booking]
+                    : array_map(
+                        static fn(int $obj_id): string => (new ilBookingObject($obj_id))->getTitle(),
                         $bookings[$user_id]
-                    ));
-                }
+                    );
+
+                $booking_str = "{$lng->txt("book_log")}: " . implode(", ", $booking_titles);
+
+                $preferences_str = "{$lng->txt("book_preferences")}: " . implode(
+                    ", ",
+                    array_map(
+                        fn(int $obj_id): string
+                            => (new ilBookingObject($obj_id))->getTitle() ?: $book_deleted_object,
+                        $obj_ids
+                    )
+                );
 
                 $info_gui->addProperty(
                     ilUserUtil::getNamePresentation($user_id, false, false, "", true),
-                    $lng->txt("book_preferences") . ": " . implode(", ", array_map(static function ($obj_id) {
-                        return (new ilBookingObject($obj_id))->getTitle();
-                    }, $obj_ids)) . $booking_str
+                    (string) $markdown->simpleDocument("{$preferences_str}\n{$booking_str}")->toHTML()
                 );
             }
         }

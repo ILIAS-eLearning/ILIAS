@@ -204,7 +204,11 @@ class ilLTIConsumerContentGUI
         $button = '<input class="btn btn-default ilPre" type="button" onClick="ltilaunch()" value = "' . $this->lng->txt("show_content") . '" />';
         $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $this->object->getProvider()->getProviderUrl() . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
         foreach ($launchParameters as $field => $value) {
-            $output .= sprintf('<input type="hidden" name="%s" value="%s" />', $field, $value) . "\n";
+            $output .= sprintf(
+                '<input type="hidden" name="%s" value="%s" />',
+                htmlspecialchars((string) $field, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'),
+                htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')
+            ) . "\n";
         }
         $output .= $button;
         $output .= '</form>';
@@ -315,8 +319,8 @@ class ilLTIConsumerContentGUI
             $tpl = new ilTemplate('tpl.lti_embedded.html', true, true, 'components/ILIAS/LTIConsumer');
             foreach ($this->getLaunchParameters() as $field => $value) {
                 $tpl->setCurrentBlock('launch_parameter');
-                $tpl->setVariable('LAUNCH_PARAMETER', $field);
-                $tpl->setVariable('LAUNCH_PARAM_VALUE', $value);
+                $tpl->setVariable('LAUNCH_PARAMETER', htmlspecialchars((string) $field, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'));
+                $tpl->setVariable('LAUNCH_PARAM_VALUE', htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'));
                 $tpl->parseCurrentBlock();
             }
 

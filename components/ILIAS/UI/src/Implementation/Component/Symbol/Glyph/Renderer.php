@@ -45,8 +45,7 @@ class Renderer extends AbstractComponentRenderer
         $label = $component->getLabel();
         if ('' !== $label) {
             $tpl->touchBlock('with_aria_label');
-            // @todo: move translation to factory, this breaks custom labels...
-            $tpl->setVariable("LABEL", $this->txt($label));
+            $tpl->setVariable("LABEL", $label);
             $tpl->touchBlock('with_role');
         } else {
             // glyph must be hidden if there is no label (semantic meaning)

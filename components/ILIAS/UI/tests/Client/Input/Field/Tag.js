@@ -32,16 +32,43 @@ describe('Tag Input Field', () => {
     dropdownCloseOnSelect: true,
     highlight: true,
   };
+  const labelMock = {
+    id: '',
+    addEventListener: mock.fn(() => {
+    }),
+  };
+  const formContextMock = {
+    querySelector: () => labelMock,
+  };
   const inputMock = {
     id: 'test-id',
+    readOnly: false,
+    disabled: false,
+    closest: () => formContextMock,
   };
   const tagifyWindowMock = {
     setTimeout: mock.fn(() => {}),
     clearTimeout: () => {
     },
   };
+  const editableInputOwnerDocumentMock = {
+    getElementById: () => null,
+  };
+  const editableInputMock = {
+    ownerDocument: editableInputOwnerDocumentMock,
+    setAttribute: mock.fn(() => {
+    }),
+    focus: mock.fn(() => {
+    }),
+  };
   const tagifyInstanceMock = {
-    DOM: { scope: { ownerDocument: { defaultView: tagifyWindowMock } } },
+    DOM: {
+      scope: {
+        ownerDocument: { defaultView: tagifyWindowMock },
+        querySelector: () => editableInputMock,
+      },
+      input: editableInputMock,
+    },
     on: mock.fn(() => {
     }),
     loading: () => {
@@ -114,6 +141,23 @@ describe('Tag Input Field', () => {
     assert.strict.equal(tagifyInstanceMock.settings.dropdown.maxItems, pseudoConfig.dropdownMaxItems);
     assert.strict.equal(tagifyInstanceMock.settings.dropdown.closeOnSelect, pseudoConfig.dropdownCloseOnSelect);
     assert.strict.equal(tagifyInstanceMock.settings.dropdown.highlightFirst, pseudoConfig.highlight);
+
+    mock.reset();
+  });
+
+  it('should apply label relation to editable input.', () => {
+    mock.reset();
+    labelMock.id = '';
+    init(tagifyMock, inputMock, pseudoConfig, [], urlBuilderMock, urlBuilderTokenMock);
+
+    assert.ok(editableInputMock.setAttribute.mock.callCount() > 0);
+    const latestCall = editableInputMock.setAttribute.mock.calls[
+      editableInputMock.setAttribute.mock.calls.length - 1
+    ];
+    assert.deepEqual(
+      latestCall.arguments,
+      ['aria-labelledby', 'test-id-label'],
+    );
 
     mock.reset();
   });

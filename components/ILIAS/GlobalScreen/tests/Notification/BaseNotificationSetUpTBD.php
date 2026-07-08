@@ -78,8 +78,16 @@ abstract class BaseNotificationSetUp extends TestCase
 
     public function getUIFactory(): NoUIFactory
     {
-        $factory = new class () extends NoUIFactory {
-            public function item(): I\Item\Factory
+        $language_mock = $this->createMock(\ILIAS\Language\Language::class);
+        $language_mock->method('txt')->willReturnArgument(0);
+
+        $factory = new class ($language_mock) extends NoUIFactory {
+            public function __construct(
+                protected \ILIAS\Language\Language $language,
+            ) {
+            }
+
+            public function item(): ILIAS\UI\Component\Item\Factory
             {
                 return new I\Item\Factory();
             }
@@ -88,7 +96,7 @@ abstract class BaseNotificationSetUp extends TestCase
             {
                 return new I\Symbol\Factory(
                     new I\Symbol\Icon\Factory(),
-                    new I\Symbol\Glyph\Factory(),
+                    new I\Symbol\Glyph\Factory($this->language),
                     new I\Symbol\Avatar\Factory()
                 );
             }
@@ -102,7 +110,7 @@ abstract class BaseNotificationSetUp extends TestCase
                         new Factory(),
                         new I\Symbol\Factory(
                             new I\Symbol\Icon\Factory(),
-                            new I\Symbol\Glyph\Factory(),
+                            new I\Symbol\Glyph\Factory($this->language),
                             new I\Symbol\Avatar\Factory()
                         )
                     )

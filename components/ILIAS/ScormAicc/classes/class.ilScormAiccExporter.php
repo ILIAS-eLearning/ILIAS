@@ -36,7 +36,7 @@ class ilScormAiccExporter extends ilXmlExporter
     {
         $this->dataset->initByExporter($this);
         //using own getXmlRepresentation function in ilScormAiccDataSet
-        return $this->dataset->getExtendedXmlRepresentation( $this->getExport()->export_run_dir, $a_entity, $a_schema_version, [ $a_id ], "", false, true );
+        return $this->dataset->getExtendedXmlRepresentation($this->getExport()->export_run_dir, $a_entity, $a_schema_version, [ $a_id ], "", false, true);
     }
     //todo:check if xsd files must be provided
 

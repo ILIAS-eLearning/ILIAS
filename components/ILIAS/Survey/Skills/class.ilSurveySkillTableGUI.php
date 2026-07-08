@@ -58,7 +58,7 @@ class ilSurveySkillTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("survey_skill"));
         $this->addColumn($this->lng->txt("survey_skill_nr_q"));
         $this->addColumn($this->lng->txt("survey_skill_max_scale_points"));
-        $this->addColumn($this->lng->txt("survey_up_to_x_points"));
+        $this->addColumn($this->lng->txt("survey_from_x_points"));
         $this->addColumn($this->lng->txt("actions"));
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));

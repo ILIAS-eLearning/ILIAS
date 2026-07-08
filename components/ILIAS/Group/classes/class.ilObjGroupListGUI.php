@@ -67,12 +67,16 @@ class ilObjGroupListGUI extends ilObjectListGUI
         switch ($cmd) {
             // BEGIN WebDAV: Mount Webfolder.
             case 'mount_webfolder':
-                if (ilDAVActivationChecker::_isActive()) {
-                    global $DIC;
-                    $uri_builder = new ilWebDAVUriBuilder($DIC->http()->request());
-                    $cmd_link = $uri_builder->getUriToMountInstructionModalByRef($this->ref_id);
-                    break;
-                } // fall through if plugin is not active
+                global $DIC;
+                /** @var ILIAS\WebDAV\Environment $webdav */
+                $webdav = $DIC[ILIAS\WebDAV\Environment::class];
+                if ($webdav->isActive()) {
+                    $cmd_link = $webdav->getUriToMountInstructionModalByRef($this->ref_id);
+                } else {
+                    $cmd_link = "";
+                }
+                break;
+                // fall through if plugin is not active
                 // END Mount Webfolder.
 
                 // no break

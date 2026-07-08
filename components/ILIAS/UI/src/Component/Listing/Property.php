@@ -23,6 +23,7 @@ namespace ILIAS\UI\Component\Listing;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Component\Legacy\Content;
 use ILIAS\UI\Component\Link\Standard as StandardLink;
+use ILIAS\UI\Component\Listing\Inline;
 
 /**
  * Interface Property
@@ -31,8 +32,8 @@ use ILIAS\UI\Component\Link\Standard as StandardLink;
 interface Property extends Listing
 {
     public function withProperty(
-        string $label,
-        string | Symbol | Content | StandardLink $value,
-        bool $show_label = true
+        string | Symbol $label,
+        string | Symbol | Content | StandardLink | Inline $value,
+        bool $show_label = true,
     ): self;
 }

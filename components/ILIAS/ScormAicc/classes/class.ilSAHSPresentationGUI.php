@@ -261,7 +261,7 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
         global $DIC;
         $ilAccess = $DIC->access();
         $refId = $this->refId;
-        
+
         $this->setInfoTabs("info_short");
 
         $this->lng->loadLanguageModule("meta");

@@ -97,21 +97,37 @@ class ilCollectFilesJob extends AbstractJob
 
         foreach ($object_ref_ids as $object_ref_id) {
             $object = ilObjectFactory::getInstanceByRefId($object_ref_id);
+            if (!$object instanceof ilObject) {
+                continue;
+            }
+
             $object_type = $object->getType();
             $object_name = $object->getTitle();
-            $object_temp_dir = ""; // empty as content will be added in recurseFolder and getFileDirs
+            $object_temp_dir = ''; // empty as content will be added in recurseFolder and getFileDirs
 
-            if ($object_type === "fold" || $object_type === "crs") {
+            if (in_array($object_type, ['fold', 'crs', 'grp'], true)) {
                 $num_recursions = 0;
-                $files_from_folder = $this->recurseFolder($object_ref_id, $object_name, $object_temp_dir, $num_recursions, $initiated_by_folder_action);
+                $files_from_folder = $this->recurseFolder(
+                    $object_ref_id,
+                    $object_name,
+                    $object_temp_dir,
+                    $num_recursions,
+                    $initiated_by_folder_action
+                );
                 $files = array_merge($files, $files_from_folder);
-            } elseif (($object_type === "file") && (($file_dirs = $this->getFileDirs(
-                $object_ref_id,
-                $object_name,
-                $object_temp_dir
-            )) !== false)) {
-                $files[] = $file_dirs;
+                continue;
             }
+
+            if ($object_type !== 'file') {
+                continue;
+            }
+
+            $file_dirs = $this->getFileDirs($object_ref_id, $object_name, $object_temp_dir);
+            if (!is_array($file_dirs)) {
+                continue;
+            }
+
+            $files[] = $file_dirs;
         }
         $this->logger->debug('Collected files:');
         $this->logger->dump($files);

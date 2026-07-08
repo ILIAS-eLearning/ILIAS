@@ -33,6 +33,11 @@ class ilBookBookingInfoStakeholder extends AbstractResourceStakeholder
         return $this->default_owner;
     }
 
+    public function getConsumerNameForPresentation(): string
+    {
+        return parent::getConsumerNameForPresentation() . '/BookingInfo';
+    }
+
     public function canBeAccessedByCurrentUser(ResourceIdentification $identification): bool
     {
         global $DIC;

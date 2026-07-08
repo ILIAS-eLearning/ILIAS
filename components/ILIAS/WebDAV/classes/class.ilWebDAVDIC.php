@@ -20,11 +20,13 @@ declare(strict_types=1);
 
 use Pimple\Container;
 use ILIAS\DI\Container as ILIASContainer;
-use Sabre\DAV\Auth\Plugin as AuthPlugin;
-use Sabre\DAV\Locks\Plugin as LocksPlugin;
-use Sabre\DAV\Browser\Plugin as BrowserPlugin;
-use Sabre\DAV\Auth\Backend\BasicCallBack;
+use ILIAS\WebDAV\Mount\Repository as MountRepository;
+use ILIAS\WebDAV\Mount\RepositoryDB as MountRepositoryDB;
+use ILIAS\WebDAV\Mount\UploadGUI as MountUploadGUI;
 
+/**
+ * @deprecated
+ */
 class ilWebDAVDIC extends Container
 {
     public function initWithoutDIC(): void
@@ -35,68 +37,16 @@ class ilWebDAVDIC extends Container
 
     public function init(ILIASContainer $DIC): void
     {
-        $this['dav_settings'] = fn($c): ilSetting => new ilSetting('webdav');
+        $this['mountinstructions.repository'] = static fn($c): MountRepository
+            => new MountRepositoryDB($DIC->database());
 
-        $this['locks.repository'] = fn($c): ilWebDAVLocksRepository => new ilWebDAVLocksRepository($DIC->database());
-
-        $this['repository.helper'] = fn($c): ilWebDAVRepositoryHelper => new ilWebDAVRepositoryHelper(
-            $DIC->access(),
-            $DIC->repositoryTree(),
-            new ilRepUtil(),
-            $c['locks.repository'],
-            new ilObjFileInfoRepository()
-        );
-
-        $this['uriresolver'] = fn($c): ilWebDAVLockUriPathResolver => new ilWebDAVLockUriPathResolver(
-            $c['repository.helper']
-        );
-
-        $this['davobj.factory'] = fn($c): ilWebDAVObjFactory => new ilWebDAVObjFactory(
-            $c['repository.helper'],
-            $DIC->user(),
-            $DIC->resourceStorage(),
-            $DIC->http()->request(),
-            $DIC->language(),
-            $DIC['ilias']->getClientId(),
-            (bool) $c['dav_settings']->get('webdav_versioning_enabled', 'true')
-        );
-
-        $this['locks.backend'] = fn($c): ilWebDAVLocksBackend => new ilWebDAVLocksBackend(
-            $c['locks.repository'],
-            $c['repository.helper'],
-            $c['davobj.factory'],
-            $c['uriresolver'],
-            $DIC->user()
-        );
-
-        $this['mountinstructions.repository'] = fn(
-            $c
-        ): ilWebDAVMountInstructionsRepository => new ilWebDAVMountInstructionsRepositoryImpl($DIC->database());
-
-        $this['mountinstructions.facory'] = fn(
-            $c
-        ): ilWebDAVMountInstructionsFactory => new ilWebDAVMountInstructionsFactory(
-            $c['mountinstructions.repository'],
-            $DIC->http()->request(),
-            $DIC->user()
-        );
-
-        $this['mountinstructions.gui'] = fn($c): ilWebDAVMountInstructionsGUI => new ilWebDAVMountInstructionsGUI(
-            $c['mountinstructions.facory']->getMountInstructionsObject(),
-            $DIC->language(),
-            $DIC->ui(),
-            $DIC->http()
-        );
-
-        $this['mountinstructions.uploadgui'] = fn(
-            $c
-        ): ilWebDAVMountInstructionsUploadGUI => new ilWebDAVMountInstructionsUploadGUI(
+        $this['mountinstructions.uploadgui'] = static fn($c): MountUploadGUI => new MountUploadGUI(
             $DIC->ui()->mainTemplate(),
             $DIC->user(),
             $DIC->ctrl(),
             $DIC->language(),
             $DIC->rbac()->system(),
-            $DIC["ilErr"],
+            $DIC['ilErr'],
             $DIC->toolbar(),
             $DIC->http(),
             $DIC->refinery(),
@@ -105,65 +55,10 @@ class ilWebDAVDIC extends Container
             $DIC->upload(),
             $c['mountinstructions.repository']
         );
-
-        $this['sabre.authplugin'] = function ($c) use ($DIC): AuthPlugin {
-            $webdav_auth = new ilWebDAVAuthentication(
-                $DIC->user(),
-                $DIC['ilAuthSession'],
-                ilLoggerFactory::getLogger('webdav')
-            );
-            $auth_callback_class = new BasicCallBack(
-                fn($username, $password): bool => $webdav_auth->authenticate($username, $password)
-            );
-
-            return new AuthPlugin($auth_callback_class);
-        };
-
-        $this['sabre.locksplugin'] = fn($c): LocksPlugin => new LocksPlugin($c['locks.backend']);
-
-        $this['sabre.browserplugin'] = fn($c): ilWebDAVSabreBrowserPlugin => new ilWebDAVSabreBrowserPlugin(
-            $DIC->ctrl(),
-            $DIC->http()->request()->getUri()
-        );
     }
 
-    public function dav_settings(): ilSetting
-    {
-        return $this['dav_settings'];
-    }
-
-    public function dav_factory(): ilWebDAVObjFactory
-    {
-        return $this['davobj.factory'];
-    }
-
-    public function mountinstructions(): ilWebDAVMountInstructionsGUI
-    {
-        return $this['mountinstructions.gui'];
-    }
-
-    public function mountinstructions_upload(): ilWebDAVMountInstructionsUploadGUI
+    public function mountinstructions_upload(): MountUploadGUI
     {
         return $this['mountinstructions.uploadgui'];
-    }
-
-    public function authplugin(): AuthPlugin
-    {
-        return $this['sabre.authplugin'];
-    }
-
-    public function locksbackend(): ilWebDAVLocksBackend
-    {
-        return $this['locks.backend'];
-    }
-
-    public function locksplugin(): LocksPlugin
-    {
-        return $this['sabre.locksplugin'];
-    }
-
-    public function browserplugin(): BrowserPlugin
-    {
-        return $this['sabre.browserplugin'];
     }
 }

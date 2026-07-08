@@ -28,11 +28,9 @@ interface DataRepository
 {
     public function getDefault(): Data;
     public function getSingle(int $id): Data;
-
     /**
-     *
-     * @param array<int> $user_ids
-     * @return Generator<UserData>
+     * @param list<int> $user_ids
+     * @return \Generator<int, Data>
      */
     public function getMultiple(array $user_ids): \Generator;
     public function store(Data $user_data): void;
@@ -51,17 +49,18 @@ interface DataRepository
     public function storeLastVisitedFor(
         int $usr_id,
         array $last_visited
-    );
+    ): void;
+    /**
+     * @return list<\ILIAS\User\Search\AutocompleteItem>
+     */
     public function searchUsers(
         SettingsDataRepository $settings_data_repository,
         ProfileFieldsConfigurationRepository $profile_fields_config_repo,
         AutocompleteQuery $search_term
     ): array;
-
     public function getProfileDataQuery(array $select_fields): DataQuery;
-
     /**
-     * @return array{cnt: int, set: array{string, mixed}}
+     * @return array{cnt: int, set: list<array<string, mixed>>}
      */
     public function getCountAndRecordsForQuery(
         DataQuery $query,

@@ -60,4 +60,14 @@ class UserFinishedDBRepository
             [$tour_id]
         );
     }
+
+    public function deleteByUser(int $user_id): void
+    {
+        $this->db->manipulateF(
+            "DELETE FROM help_gt_user_finished WHERE " .
+            "user_id = %s",
+            ["integer"],
+            [$user_id]
+        );
+    }
 }

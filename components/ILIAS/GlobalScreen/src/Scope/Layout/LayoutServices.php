@@ -23,6 +23,7 @@ namespace ILIAS\GlobalScreen\Scope\Layout;
 
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ModificationFactory;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
+use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\DeliverPhpFilter;
 
 /**
  * Class LayoutServices
@@ -40,25 +41,20 @@ class LayoutServices
     {
         $this->meta_content = new MetaContent(
             $resource_version,
+            true,
+            true,
+            true,
             false,
-            true,
-            true,
-            false
+            [new DeliverPhpFilter()]
         );
         $this->modification_factory = new ModificationFactory();
     }
 
-    /**
-     * @return ModificationFactory
-     */
     public function factory(): ModificationFactory
     {
         return $this->modification_factory;
     }
 
-    /**
-     * @return MetaContent
-     */
     public function meta(): MetaContent
     {
         return $this->meta_content;

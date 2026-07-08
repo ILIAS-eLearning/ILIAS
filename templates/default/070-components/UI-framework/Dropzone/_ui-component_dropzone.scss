@@ -19,9 +19,15 @@
 		border: $il-dropzone-bulky-border-width $il-dropzone-bulky-border-style $il-dropzone-bulky-border-color;
 		border-radius: $il-dropzone-bulky-border-radius;
 		background-color: $il-main-dark-bg;
-		padding-top: $il-padding-xxlarge-horizontal;
-		padding-bottom: $il-padding-xxlarge-horizontal;
+		padding: $il-padding-xxxlarge-vertical $il-padding-large-horizontal;
 	}
+}
+
+.ui-dropzone-container:not(.ilObjListRow .ui-dropzone-container) {
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: space-between;	
+	align-items: center;
 }
 
 .ui-dropzone-wrapper {
@@ -41,8 +47,6 @@
 
 .ui-dropzone-message {
 	font-size: $il-font-size-base;
-	float: right;
-	margin-right: $il-padding-large-horizontal;
 }
 
 .ui-dropzone .form-group {

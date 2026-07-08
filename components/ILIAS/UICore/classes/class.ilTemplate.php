@@ -379,7 +379,7 @@ class ilTemplate extends HTML_Template_ITX
         $base_path = $ilias_root . 'public/Customizing/skin/' . $skin;
 
         if ($a_in_module === 'components/ILIAS/UI/src') {
-            $a_in_module = 'UI';
+            $a_in_module = 'components/ILIAS/UI';
         }
 
         $from_style = $base_path . '/' . $style . '/' . $a_in_module . '/' . $a_tplname;

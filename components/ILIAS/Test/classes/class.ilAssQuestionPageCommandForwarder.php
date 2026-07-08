@@ -92,7 +92,7 @@ class ilAssQuestionPageCommandForwarder
         $page_gui->setOutputMode($this->test_obj->evalTotalPersons() == 0 ? "edit" : 'preview');
         $page_gui->setHeader($question->getTitleForHTMLOutput());
         $page_gui->setPresentationTitle(
-            $question->getTitleForHTMLOutput()
+            $question->getTitle()
             . ' [' . $this->lng->txt('question_id_short')
             . ': ' . $question->getId() . ']'
         );

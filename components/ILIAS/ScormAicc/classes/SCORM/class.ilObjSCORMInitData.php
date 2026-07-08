@@ -247,12 +247,12 @@ class ilObjSCORMInitData
         //		$s_out="";
         $a_out = array();
         $s_resourceIds = "";//necessary if resources exist having different href with same identifier
+        $resource_query = "SELECT sc_resource.obj_id
+				FROM scorm_tree, sc_resource
+				WHERE scorm_tree.slm_id=%s
+				AND sc_resource.obj_id=scorm_tree.child";
         $val_set = $ilDB->queryF(
-            "
-			SELECT sc_resource.obj_id
-			FROM scorm_tree, sc_resource
-			WHERE scorm_tree.slm_id=%s 
-			AND sc_resource.obj_id=scorm_tree.child",
+            $resource_query,
             array('integer'),
             array($a_packageId)
         );
@@ -261,14 +261,42 @@ class ilObjSCORMInitData
         }
         $s_resourceIds = substr($s_resourceIds, 1);
 
-        $tquery = "SELECT scorm_tree.lft, scorm_tree.child, 
+        $xml_base_prefix = '';
+        $xml_query = "SELECT xml_base
+			FROM sc_manifest
+			WHERE obj_id in
+			(SELECT child from scorm_tree WHERE slm_id=%s)";
+        $val_set = $ilDB->queryF(
+            $xml_query,
+            array('integer'),
+            array($a_packageId)
+        );
+        while ($val_rec = $ilDB->fetchAssoc($val_set)) {
+            $xml_base_prefix .= $val_rec["xml_base"];
+        }
+
+        $xml_query = "SELECT xml_base
+			FROM sc_resources
+			WHERE obj_id in
+			(SELECT child from scorm_tree WHERE slm_id=%s)";
+        $val_set = $ilDB->queryF(
+            $xml_query,
+            array('integer'),
+            array($a_packageId)
+        );
+        while ($val_rec = $ilDB->fetchAssoc($val_set)) {
+            $xml_base_prefix .= $val_rec["xml_base"];
+        }
+
+        $tquery = "SELECT scorm_tree.lft, scorm_tree.child,
 			CASE WHEN sc_resource.scormtype = 'asset' THEN 1 ELSE 0 END AS asset,
-			sc_resource.href
+			sc_resource.href,
+			sc_resource.xml_base
 			FROM scorm_tree, sc_resource, sc_item
-			WHERE scorm_tree.slm_id=%s 
-			AND sc_item.obj_id=scorm_tree.child 
-			AND sc_resource.import_id=sc_item.identifierref 
-			AND sc_resource.obj_id in (" . $s_resourceIds . ") 
+			WHERE scorm_tree.slm_id=%s
+			AND sc_item.obj_id=scorm_tree.child
+			AND sc_resource.import_id=sc_item.identifierref
+			AND sc_resource.obj_id in (" . $s_resourceIds . ")
 			ORDER BY scorm_tree.lft";
         $val_set = $ilDB->queryF(
             $tquery,
@@ -277,7 +305,7 @@ class ilObjSCORMInitData
         );
         while ($val_rec = $ilDB->fetchAssoc($val_set)) {
             //			$s_out.='['.$val_rec["lft"].','.$val_rec["child"].','.$val_rec["asset"].',"'.self::encodeURIComponent($val_rec["href"]).'"],';
-            $a_out[] = array( (int) $val_rec["lft"], (int) $val_rec["child"], (int) $val_rec["asset"], self::encodeURIComponent($val_rec["href"]) );
+            $a_out[] = array( (int) $val_rec["lft"], (int) $val_rec["child"], (int) $val_rec["asset"], self::encodeURIComponent($xml_base_prefix . $val_rec["xml_base"] . $val_rec["href"]) );
         }
         //		if(substr($s_out,(strlen($s_out)-1))==",") $s_out=substr($s_out,0,(strlen($s_out)-1));
         //		return "[".$s_out."]";

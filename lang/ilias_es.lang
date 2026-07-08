@@ -19,10 +19,10 @@
 *
 * @module             language file Spanish
 * @modulegroup        language
+* @author             Abraham Morales Rodríguez <amorales@surlabs.com> (active)
 * @author             Jose Ramon Balsas Almagro <jrbalsas@ujaen.es>
 * @author             Lina Guadalupe García Cabrera <lina@ujaen.es>
 * @author             Ildefonso Ruano Ruano <alonso@ujaen.es>
-* @author             Abraham Morales Rodríguez <amorales@surlabs.com>
 * @version            $Id$
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
@@ -313,6 +313,10 @@ administration#:#restoring_trash#:#Restaurando la papelera...
 administration#:#restoring_unbound_objs#:#Restaurando objetos no vinculados y subobjetos...
 administration#:#reuse_of_loginnames_contained_in_history#:#Reutilización de nombres de usuario
 administration#:#reuse_of_loginnames_contained_in_history_info#:#Permitir a los usuarios reutilizar cualquier nombre de inicio de sesión (que no esté actualmente en uso) que ya aparezca en el historial (incluso si pertenece a un usuario eliminado).
+administration#:#rpc_pdf_configuration#:#PDF Configuration###26 05 2026 new variable
+administration#:#rpc_pdf_font#:#Fonts###26 05 2026 new variable
+administration#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than ‘Helvetica’ and ‘unifont’ must be installed on the ILIAS server.###26 05 2026 new variable
+administration#:#rpc_pdf_generation#:#Fonts for PDF Generation###26 05 2026 new variable
 administration#:#scan#:#Escanear
 administration#:#scan_desc#:#Escanear el sistema en busca de objetos corruptos/invalidos/faltantes/no vinculados.
 administration#:#scan_details#:#Detalles del escaneo
@@ -646,7 +650,6 @@ assessment#:#errFormulaQuestion#:#¡Una pregunta de fórmula contiene informaci�
 assessment#:#errRecursionInResult#:#La fórmula contiene una recursión infinita.
 assessment#:#err_category_in_use#:#Al menos una categoría no puede eliminarse. Una o más unidades de la categoría ya están en uso.
 assessment#:#err_divider_too_big#:#El divisor de una de las variables en esta pregunta es demasiado grande.
-assessment#:#err_divider_too_big_specific#:#El divisor de esta variable es demasiado grande.
 assessment#:#err_division#:#El valor que eligió haría imposible generar un valor válido para la variable.
 assessment#:#err_duplicate_results#:#Ha utilizado una variable de resultado más de una vez. Esto no está permitido en el texto de la pregunta.
 assessment#:#err_no_formula#:#Debe introducir una fórmula
@@ -1475,6 +1478,7 @@ assessment#:#tst_eval_total_passed_average_points#:#Puntuación media de las pru
 assessment#:#tst_eval_total_passed_average_time#:#Tiempo medio de realización de todas las pruebas aprobadas
 assessment#:#tst_eval_total_persons#:#Número total de participantes que iniciaron la prueba
 assessment#:#tst_exam_access_code#:#Código de acceso
+assessment#:#tst_exam_access_code_invalid_message#:#The code you provided is invalid.###26 05 2026 new variable
 assessment#:#tst_exam_access_code_label#:#Introduzca el código de acceso para continuar una prueba ya iniciada. Deje el campo vacío para iniciar una nueva ejecución.
 assessment#:#tst_exam_conditions#:#Condiciones del examen
 assessment#:#tst_exam_conditions_label#:#Marque para aceptar las condiciones.
@@ -1700,6 +1704,7 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#El intento ini
 assessment#:#tst_objective_progress_header#:#Progreso del objetivo de aprendizaje
 assessment#:#tst_objectives_progress_header#:#Progreso de los objetivos de aprendizaje
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Esta prueba aleatoria está en un estado irreparable, porque uno o más bancos de preguntas conectados han sido eliminados. Por lo tanto, los participantes ya no pueden realizar la prueba.
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back.###26 05 2026 new variable
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Las preguntas relacionadas con objetivos de aprendizaje ya aprobados son opcionales.</b><br /><br />Desea navegar a una pregunta que está relacionada con un objetivo de aprendizaje ya aprobado.<br />Puede elegir:<br /><br />Si continúa, puede trabajar en estas preguntas. Sus respuestas de intentos anteriores no fueron adoptadas, ya que se seleccionaron nuevas preguntas aleatorias para este intento. Al trabajar en estas preguntas también puede degradar el resultado de su objetivo de aprendizaje.<br /><br />Si decide no trabajar en estas preguntas, puede volver atrás. En ese caso, estas preguntas no se considerarán en la evaluación.
 assessment#:#tst_out_of_time_message#:#¡Ha alcanzado el tiempo máximo permitido para realizar la prueba!
 assessment#:#tst_participant#:#Participante
@@ -2542,11 +2547,13 @@ book#:#book_add_participant#:#Añadir participante
 book#:#book_add_schedule#:#Añadir horario
 book#:#book_additional_info_file#:#Descripción adicional
 book#:#book_all#:#Mostrar todo
+book#:#book_all_day#:#All-Day###07 07 2026 new variable
 book#:#book_all_pools_need_schedules#:#Ajustes no guardados. Todos los grupos de reserva seleccionados deben tener al menos un horario.
 book#:#book_all_users#:#Todos los participantes
 book#:#book_assign#:#Reservar
 book#:#book_assign_object#:#Reservar objetos para el participante
 book#:#book_assign_participant#:#Reservar para otro(s) participante(s)
+book#:#book_assign_participants#:#Book for other Participant(s)###07 07 2026 new variable
 book#:#book_back_to_list#:#Volver a la lista
 book#:#book_bobj#:#Objeto reservable
 book#:#book_book#:#Reservar
@@ -2568,9 +2575,13 @@ book#:#book_confirm_booking_schedule_number_of_objects#:#Confirmación de reserv
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Por favor, introduzca el número de objetos que desea reservar.
 book#:#book_confirm_cancel#:#¿Está seguro de que desea cancelar la(s) siguiente(s) reserva(s)?
 book#:#book_confirm_cancel_aggregation#:#Número de cancelaciones
+book#:#book_confirm_cancel_info#:#The selected bookings will be cancelled.###07 07 2026 new variable
 book#:#book_confirm_delete#:#¿Está seguro de que desea eliminar los siguientes elementos?
+book#:#book_confirm_remove_participant#:#Are you sure you want to remove the following Participant(s)? This will delete all related Bookings.###07 07 2026 new variable
 book#:#book_copy#:#Copiar Pool de Reservas
 book#:#book_create_objects#:#Crear elementos
+book#:#book_date_from#:#From date###07 07 2026 new variable
+book#:#book_date_to#:#To date###07 07 2026 new variable
 book#:#book_deadline#:#Fecha límite
 book#:#book_deadline_hours#:#X horas antes de que comience la franja horaria
 book#:#book_deadline_info#:#Tiempo mínimo entre la reserva y el período reservado
@@ -2578,11 +2589,18 @@ book#:#book_deadline_options#:#Las reservas se pueden realizar hasta:
 book#:#book_deadline_slot_end#:#Finalización de la franja horaria
 book#:#book_deadline_slot_start#:#Comienzo de la franja horaria
 book#:#book_deassign#:#Editar Reservas
+book#:#book_delete_object#:#Delete###07 07 2026 new variable
+book#:#book_deleted_booking#:#Deleted Booking(s)###07 07 2026 new variable
+book#:#book_deleted_object#:#Deleted Bookable Item###07 07 2026 new variable
 book#:#book_download_info#:#Descargar descripción adicional
 book#:#book_edit#:#Editar Pool de Reservas
 book#:#book_edit_object#:#Editar elemento reservable
 book#:#book_edit_schedule#:#Editar horario
+book#:#book_filter_end_date#:#End Date###07 07 2026 new variable
+book#:#book_filter_objects#:#Bookable Items###07 07 2026 new variable
 book#:#book_filter_past_reservations#:#Mostrar reservas pasadas
+book#:#book_filter_period#:#Period###07 07 2026 new variable
+book#:#book_filter_start_date#:#Start Date###07 07 2026 new variable
 book#:#book_fromto#:#Rango de fechas
 book#:#book_hours#:#Horas antes del inicio de la franja horaria.
 book#:#book_is_used#:#En uso
@@ -2597,14 +2615,23 @@ book#:#book_messages#:#Mensajes
 book#:#book_messages_info#:#Permitir que los usuarios añadan un mensaje al reservar un elemento.
 book#:#book_missing_availability#:#No ha sido posible reservar todos los elementos en todas las fechas.
 book#:#book_missing_items#:#$1 elemento(s) faltante(s).
+book#:#book_modal_booking_confirmation#:#Booking Confirmation###07 07 2026 new variable
+book#:#book_modal_enter_quantity_intro#:#Please enter the number of items that you would like to book.###07 07 2026 new variable
+book#:#book_modal_recurrence#:#Recurrence###07 07 2026 new variable
+book#:#book_modal_recurrence_multiple#:#Book multiple dates###07 07 2026 new variable
+book#:#book_modal_recurrence_single#:#Book only this date###07 07 2026 new variable
+book#:#book_modal_skipped_unknown_item#:#Unknown or invalid selection (%s).###07 07 2026 new variable
+book#:#book_modal_warning_skipped_selections#:#Some selected items or periods are not available for booking and are excluded from this confirmation.###07 07 2026 new variable
 book#:#book_new#:#Nuevo Pool de Reservas
 book#:#book_no_bookings_for_you#:#No se han realizado reservas para usted.
 book#:#book_no_objects#:#Sin reservas
+book#:#book_no_objects_available#:#None of the selected items are currently available for booking.###07 07 2026 new variable
 book#:#book_no_of_objects#:#Nº de unidades
 book#:#book_no_pools_selected#:#No se han asignado repositorios de reserva a este curso. Los repositorios de reserva pueden asignarse a través de la pestaña 'Recursos' del curso.
 book#:#book_no_preferences_for_you#:#No se han registrado preferencias para usted.
 book#:#book_no_recurrence#:#Reservar solo esta fecha
 book#:#book_not#:#No
+book#:#book_not_cancelled#:#Not cancelled###07 07 2026 new variable
 book#:#book_not_enough_preferences#:#No ha seleccionado suficientes preferencias. Sus preferencias no se han guardado.
 book#:#book_notification#:#Enviar notificaciones de reserva
 book#:#book_notification_cron_not_active#:#Nota: La tarea programada (cron job) necesaria, 'Enviar notificaciones de reserva', no está activa actualmente.
@@ -2616,13 +2643,18 @@ book#:#book_obj_select#:#Seleccionar
 book#:#book_object_added#:#Elemento reservable añadido.
 book#:#book_object_deleted#:#Elemento reservable eliminado.
 book#:#book_object_selection#:#Selección de elementos
+book#:#book_object_title_or_description#:#Title/Description###07 07 2026 new variable
 book#:#book_object_updated#:#Elemento reservable actualizado.
 book#:#book_objects_available#:#Elementos disponibles %s
 book#:#book_open#:#Abrir repositorio de reserva
 book#:#book_overall_limit#:#Limitar número total de reservas por usuario
 book#:#book_overall_limit_warning#:#Ha alcanzado el número máximo de reservas permitidas.
+book#:#book_overall_limit_would_be_exceeded#:#Invalid selection. The overall limit would be exceeded.###07 07 2026 new variable
+book#:#book_participant#:#Participant###07 07 2026 new variable
 book#:#book_participant_already_assigned#:#Uno o más participantes ya han sido añadidos.
 book#:#book_participant_assigned#:#Participante(s) añadido(s).
+book#:#book_participant_removed#:#The participants and all related bookings have been removed successfully.###07 07 2026 new variable
+book#:#book_past_bookings#:#Past bookings###07 07 2026 new variable
 book#:#book_period#:#Periodo
 book#:#book_pool_added#:#Repositorio de reserva creado con éxito.
 book#:#book_pool_selection#:#Selección de repositorio de reserva
@@ -2638,6 +2670,7 @@ book#:#book_pref_overview#:#Resumen
 book#:#book_preference_info#:#Por favor, seleccione %1 preferencia(s) antes del %2. Una vez finalizado este plazo, las reservas se asignarán automáticamente, teniendo en cuenta las preferencias de todos los usuarios.
 book#:#book_preferences#:#Preferencias
 book#:#book_preferences_saved#:#Sus preferencias han sido guardadas.
+book#:#book_present_bookings#:#Present bookings###07 07 2026 new variable
 book#:#book_public_log#:#Reservas visibles para todos los participantes
 book#:#book_public_log_info#:#Los usuarios con el permiso 'Lectura' podrán ver las reservas de los demás participantes en la pestaña 'Reservas'.
 book#:#book_recurrence#:#Recurrencia
@@ -2648,9 +2681,11 @@ book#:#book_reminder_day#:#Enviar recordatorio
 book#:#book_reminder_day_info#:#Enviar la lista de reservas propias a los usuarios y la lista completa de todas las próximas reservas a los administradores. Tenga en cuenta que: para recibir recordatorios, los usuarios deben haber activado las notificaciones a través del menú 'Acciones' en la esquina superior derecha del pool de reservas.
 book#:#book_reminder_days#:#día(s) antes del intervalo de tiempo de la reserva
 book#:#book_reminder_setting#:#Recordatorio
+book#:#book_remove_participants#:#Remove Participant(s)###07 07 2026 new variable
 book#:#book_rerun_assignments#:#Ejecutar proceso de asignación
 book#:#book_rerun_confirmation#:#Atención. El proceso de asignación de reservas según las preferencias ya se ha llevado a cabo. Puede reiniciar el proceso si se ha producido algún error, por ejemplo, si no se han guardado las reservas. Para evitar asignaciones múltiples, elimine todas las reservas existentes antes de reiniciar el proceso.
 book#:#book_reservation_available#:#%s disponible(s)
+book#:#book_reservation_cancelled#:#Reservation(s) cancelled.###07 07 2026 new variable
 book#:#book_reservation_confirmed#:#Su reserva ha sido confirmada.
 book#:#book_reservation_failed#:#No ha sido posible confirmar su reserva.
 book#:#book_reservation_failed_overbooked#:#Su reserva ha fallado porque el objeto reservable en cuestión ya no está disponible.
@@ -2663,6 +2698,7 @@ book#:#book_reservation_title#:#Reserva de Reserva para
 book#:#book_reservations_list#:#Reservas
 book#:#book_schedule#:#Horario
 book#:#book_schedule_added#:#Horario de reserva añadido.
+book#:#book_schedule_all_day#:#All-Day Schedule###07 07 2026 new variable
 book#:#book_schedule_days#:#Franjas Horarias
 book#:#book_schedule_days_info#:#Horas de reserva válidas para cada día (HH:MM-HH:MM)
 book#:#book_schedule_deleted#:#Horario de reserva eliminado.
@@ -2683,20 +2719,32 @@ book#:#book_select_pool#:#Seleccionar Repositorio
 book#:#book_set_cancel#:#Cancelar Reserva
 book#:#book_set_delete#:#Eliminar Reserva
 book#:#book_show_message#:#Mostrar Mensaje
+book#:#book_show_past_bookings#:#Show past bookings###07 07 2026 new variable
+book#:#book_some_reservations_unavailable#:#Some of the selected items could not be booked because they are no longer available.###07 07 2026 new variable
+book#:#book_table#:#Table###07 07 2026 new variable
+book#:#book_table_col_availability#:#Availability###07 07 2026 new variable
+book#:#book_table_col_datetime#:#Date/Time###07 07 2026 new variable
 book#:#book_title_description_nr#:#Título; Descripción; Número de Unidades
 book#:#book_title_description_nr_info#:#Introduzca el título, la descripción y el número de unidades separados por punto y coma o carácter de tabulación (si se importa desde un software de hoja de cálculo). Use una línea por objeto.
 book#:#book_too_many_preferences#:#Ha seleccionado demasiadas preferencias. Sus preferencias no han sido guardadas.
 book#:#book_total_individual_bookings_limit#:#Limite el número total de reservas que pueden realizar los participantes individuales, a través de todos los objetos disponibles. Cada objeto reservable solo puede ser reservado una vez por participante.
 book#:#book_type_warning#:#Actualmente no hay elementos reservables disponibles. Por favor, cree algunos elementos reservables para poder utilizar este fondo de reserva.
+book#:#book_view#:#View###07 07 2026 new variable
 book#:#book_week#:#Semana
+book#:#book_week_no_objects_selected#:#Select at least one Bookable Item at the ‘Item Selection’ section on the right and click the ‘Refresh’ button.###07 07 2026 new variable
 book#:#book_your_bookings#:#Sus reservas
 book#:#book_your_preferences#:#Sus preferencias
 book#:#book_your_reservations#:#Sus reservas
 book#:#booking_multiple_succesfully#:#Reservas realizadas con éxito.
 book#:#booking_nr_of_items#:#Número de elementos
+book#:#booking_process_error#:#There was an error while processing your booking(s). Please try again.###07 07 2026 new variable
+book#:#bookings_log#:#Bookings###07 07 2026 new variable
+book#:#delete_bookable_item#:#Delete Bookable Item###07 07 2026 new variable
+book#:#no_valid_selection#:#No valid selection###07 07 2026 new variable
 book#:#obj_book_duplicate#:#Copiar fondo de reserva
 book#:#participants#:#Participantes
 book#:#reservation_deleted#:#Reserva eliminada.
+book#:#schedule_type#:#Schedule Type###07 07 2026 new variable
 buddysystem#:#buddy_allow_to_contact_me#:#Permitir solicitudes de contacto
 buddysystem#:#buddy_allow_to_contact_me_default_info#:#Defines if users can send each other requests for getting into contact by default.
 buddysystem#:#buddy_allow_to_contact_me_info#:#Otros usuarios pueden enviarme solicitudes para ponerse en contacto.
@@ -2889,6 +2937,7 @@ certificate#:#persistent_certificate_mode_instant#:#Instantáneo
 certificate#:#persistent_certificate_mode_instant_info#:#Esta opción se recomienda para sistemas con niveles de interacción de usuarios bajos o medios. Los sistemas que tienden a tiempos de carga más largos durante la creación de múltiples certificados de usuario deberían cambiar a la opción 'Tarea programada'.
 chatroom#:#allow_anonymous#:#Permitir inicio de sesión anónimo
 chatroom#:#allow_custom_usernames#:#Permitir nombres de usuario personalizados
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.###07 07 2026 new variable
 chatroom#:#anonymous_hint#:#Asegúrese de establecer los permisos adecuados en la pestaña 'Permisos' para permitir el acceso de usuarios anónimos a este elemento del repositorio.
 chatroom#:#auto_scroll#:#Desplazar hacia abajo
 chatroom#:#autogen_usernames#:#Nombres de usuario generados automáticamente
@@ -2924,9 +2973,12 @@ chatroom#:#chat_https_dhparam_info#:#Por favor, defina una ruta absoluta del ser
 chatroom#:#chat_https_key_info#:#Por favor, defina una ruta absoluta del servidor al archivo de clave privada (ej.: /etc/ssl/private/server.key).
 chatroom#:#chat_invitation#:#"[INVITER_NAME]" le invita a la sala de chat "[ROOM_NAME]"
 chatroom#:#chat_invitation_long#:# [SALUTATION][BR][BR] Ha sido invitado a una sala de chat:[BR]Título de la sala: [ROOM_NAME][BR]Invitado por: [INVITER_NAME][BR]URL: [LINK][BR][BR]Para unirse a la sala de chat, por favor siga la URL facilitada.
+chatroom#:#chat_invitation_modal_headline#:#Invitation to Chat Room###26 05 2026 new variable
+chatroom#:#chat_invitation_modal_section#:#Invite User###26 05 2026 new variable
 chatroom#:#chat_invitation_nc_inv_x#:#Tiene %s invitaciones de chat.
 chatroom#:#chat_invitation_nc_no_inv#:#No tiene invitaciones de chat.
 chatroom#:#chat_invitation_short#:#Por favor, haga clic en el enlace para entrar en la sala de chat.
+chatroom#:#chat_invitation_username_input_label#:#Enter Username:###26 05 2026 new variable
 chatroom#:#chat_invitations#:#Invitaciones de chat
 chatroom#:#chat_invite#:#Invitar
 chatroom#:#chat_join#:#Unirse
@@ -2984,6 +3036,7 @@ chatroom#:#chat_user_action_invite_public_room#:#Invitar a sala pública
 chatroom#:#chat_user_x_is_typing#:#El usuario %s está escribiendo ...
 chatroom#:#chat_users_are_typing#:#Varios usuarios están escribiendo ...
 chatroom#:#chat_whisper#:#Susurrar
+chatroom#:#chatroom_anonymous_default#:#Anonymous ####07 07 2026 new variable
 chatroom#:#chatroom_auth#:#Autenticación
 chatroom#:#chatroom_auth_btn_txt#:#Generar claves
 chatroom#:#chatroom_auth_key#:#Clave de autenticación
@@ -4434,7 +4487,6 @@ common#:#italic_action#:#Insertar cursiva - Haga clic para insertar texto en cur
 common#:#item#:#Elemento
 common#:#itgr_add#:#Añadir grupo de elementos
 common#:#itgr_new#:#Nuevo grupo de elementos
-common#:#java_server#:#Servidor Java
 common#:#java_server_host#:#Host
 common#:#java_server_info#:#Si se activa, es posible realizar búsquedas en archivos PDF, HTML y módulos de aprendizaje HTML.
 common#:#java_server_port#:#Puerto
@@ -4597,6 +4649,8 @@ common#:#mail_schedule_error_no_datetime#:#To schedule a mail, a delivery date a
 common#:#mail_schedule_error_past_datetime#:#You cannot schedule emails in the past.
 common#:#mail_schedule_scheduled_datetime#:#Scheduled Send Time
 common#:#mail_scheduled#:#Mail stored in outbox for later delivery.
+common#:#mail_scheduled_edit_compose_info#:#You are editing a scheduled mail. Sending is paused until you schedule the mail again.###07 07 2026 new variable
+common#:#mail_scheduled_edit_moved_info#:#This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox.###07 07 2026 new variable
 common#:#mail_search_no#:#No se han encontrado entradas.
 common#:#mail_select_one#:#Debe seleccionar un correo
 common#:#mail_send_error#:#Error al enviar el correo
@@ -5094,7 +5148,6 @@ common#:#obj_sess_duplicate#:#Copiar sesión
 common#:#obj_skmg#:#Gestión de Competencias
 common#:#obj_skmg_desc#:#Administrar competencias y categorías de competencias.
 common#:#obj_spl#:#Banco de preguntas para encuestas
-common#:#obj_spl_select#:#-- Seleccione un banco de preguntas para encuestas --
 common#:#obj_st#:#Capítulo
 common#:#obj_stus#:#Shortlinks
 common#:#obj_stus_desc#:#Global Shortlinks Settings
@@ -5412,6 +5465,8 @@ common#:#refresh#:#Actualizar
 common#:#refresh_languages#:#Actualizar todos los idiomas
 common#:#refuse#:#Rechazar solicitud
 common#:#reg_account_confirmation_successful#:#Su cuenta de usuario ha sido activada.
+common#:#reg_delete_expired_pending_registrations#:#Delete Expired Pending Registrations###04 05 2026 new variable
+common#:#reg_delete_expired_pending_registrations_desc#:#Deletes all ILIAS accounts that have not been confirmed after a registration with e-mail confirmation.###04 05 2026 new variable
 common#:#reg_goto_parent_membership_info#:#Solo los miembros pueden acceder al objeto de destino.
 common#:#reg_mail_body_2_confirmation#:#Este enlace solo es válido durante %s. Una vez transcurrido este periodo, el enlace caducará y tendrá que reiniciar el proceso de registro desde el principio.
 common#:#reg_mail_body_3_confirmation#:#Si este correo electrónico no significa nada para usted, es posible que otra persona haya introducido su dirección de correo electrónico de forma deliberada o accidental; por favor, ignore este mensaje.
@@ -5498,9 +5553,6 @@ common#:#rolt_edit#:#Editar plantilla de rol
 common#:#rolt_new#:#Nueva plantilla de rol
 common#:#row#:#Fila
 common#:#rows#:#Filas
-common#:#rpc_pdf_font#:#Fuentes
-common#:#rpc_pdf_font_info#:#Fuentes adicionales para la generación de archivos PDF. Otras fuentes distintas a 'Helvetica' y 'unifont' deben instalarse en el servidor ILIAS.
-common#:#rpc_pdf_generation#:#Generación de PDF
 common#:#sad#:#Triste
 common#:#sahs#:#Módulo de aprendizaje SCORM
 common#:#sahs_added#:#Módulo de aprendizaje SCORM añadido
@@ -5657,6 +5709,7 @@ common#:#show_content#:#Mostrar contenido
 common#:#show_details#:#Mostrar detalles
 common#:#show_filter#:#Mostrar filtro
 common#:#show_hidden_sections#:#Mostrar más información &raquo;
+common#:#show_less#:#Show less###07 07 2026 new variable
 common#:#show_list#:#Mostrar lista
 common#:#show_members#:#Mostrar Miembros
 common#:#show_more#:#Mostrar más
@@ -5983,7 +6036,6 @@ common#:#webdav_chosen_language_already_used#:#Ya existe otro documento asociado
 common#:#webdav_doc_delete#:#Eliminar instrucciones de montaje WebDav
 common#:#webdav_docs_mount_instructions#:#Documentos de instrucciones de montaje
 common#:#webdav_duplicate_detected_title#:#No se pudieron mostrar los siguientes objetos porque ya se muestra un objeto con el mismo título:
-common#:#webdav_enable_versioning#:#Versionado de archivos
 common#:#webdav_forbidden_chars_title#:#Los siguientes archivos no se pueden mostrar porque contienen uno o más caracteres prohibidos (\<>/:*?"|#):
 common#:#webdav_form_document#:#Documento de instrucciones
 common#:#webdav_form_document_info#:#Suba un archivo txt o html aquí. Después de la subida, el archivo será analizado y procesado. Para más información
@@ -6002,7 +6054,6 @@ common#:#webdav_sure_delete_documents_s#:#¿Está seguro de que desea eliminar l
 common#:#webdav_tbl_docs_head_title#:#Título del documento
 common#:#webdav_tbl_docs_title#:#Lista de instrucciones de montaje WebDAV subidas
 common#:#webdav_upload_instructions#:#Instrucciones de subida
-common#:#webdav_versioning_info#:#Si está habilitado, los archivos ya existentes obtendrán una nueva versión en lugar de ser sobrescritos.
 common#:#webfolder_dir_info#:#Ha llegado aquí porque su navegador no puede abrir carpetas web. Lea las <a href="%1$s">instrucciones para abrir carpetas web</a>.
 common#:#webfolder_index_of#:#Índice de %1$s
 common#:#webfolder_instructions#:#Instrucciones de carpeta web
@@ -8094,6 +8145,8 @@ crs#:#tutorial_support_block_title#:#Persona de contacto
 crs#:#user_fields#:#Campos de Usuario
 crsv#:#crsv_create#:#Crear Certificado de curso
 crsv#:#crsv_create_info#:#Seleccione un curso completado para generar un certificado para el mismo
+dash#:#add_to_favourites#:#Add to Favourites###04 05 2026 new variable
+dash#:#added_to_favourites#:#The item has been added to your favourites.###04 05 2026 new variable
 dash#:#dash_activation#:#activación
 dash#:#dash_added_to_favs#:#La recomendación se ha añadido a sus favoritos personales.
 dash#:#dash_avail_presentation#:#Presentaciones Disponibles
@@ -8131,7 +8184,6 @@ dash#:#dash_item_removed#:#La recomendación ha sido eliminada de la lista.
 dash#:#dash_learning_sequences#:#Mis secuencias de aprendizaje
 dash#:#dash_list#:#Lista
 dash#:#dash_main_panel#:#Panel principal
-dash#:#dash_make_favourite#:#Añadir a favoritos
 dash#:#dash_manual_new_item_pos#:#Position of New Objects
 dash#:#dash_manual_new_item_pos_bot#:#Bottom
 dash#:#dash_manual_new_item_pos_top#:#Top
@@ -8159,6 +8211,8 @@ dash#:#dash_view_courses_groups#:#Sección ‘Mis cursos y grupos’
 dash#:#dash_view_favourites#:#Sección ‘Favoritos’
 dash#:#favourites_disabled_info#:#La función añadir a favoritos está desactivada. Puede cambiar esto en la configuración del repositorio.
 dash#:#memberships_disabled_info#:#Las suscripciones están desactivadas. Puede cambiar esto en la configuración del curso.
+dash#:#remove_from_favourites#:#Remove from Favourites###04 05 2026 new variable
+dash#:#removed_from_favourites#:#The item has been removed from your favourites.###04 05 2026 new variable
 dash#:#topitem_block#:#Bloque
 dateplaner#:#Fr_long#:#Viernes
 dateplaner#:#Fr_short#:#Vi
@@ -9210,6 +9264,8 @@ ecs#:#ecs_wiki_export_enabled#:#Publicar este Wiki
 ecs#:#ecs_wiki_export_obj_settings#:#Ajustes de publicación de Wiki
 error#:#error_back_to_repository#:#Volver al Repositorio
 error#:#error_sry_error#:#Lo sentimos, se ha producido un error.
+error#:#http_404_not_found#:#The requested page could not be found.###04 05 2026 new variable
+error#:#http_500_internal_server_error#:#An internal server error occurred.###04 05 2026 new variable
 etal#:#appointments#:#Citas
 etal#:#cal_type_tals#:#Charlas
 etal#:#change_date_of_series#:#Cambiar fecha de la serie de charlas
@@ -9382,6 +9438,7 @@ exc#:#exc_late_submission_warning#:#Las entregas posteriores a %s se marcarán c
 exc#:#exc_lead_request_idl#:#Solicitar fecha límite
 exc#:#exc_lead_wait_for_idl#:#Esperando fecha límite individual
 exc#:#exc_limit_characters#:#Límite de caracteres
+exc#:#exc_link_to_assignment#:#Link to assignment###04 05 2026 new variable
 exc#:#exc_list_submission#:#Listar todas las entregas
 exc#:#exc_list_text_assignment#:#Listar todas las entregas
 exc#:#exc_mail_context_grade_reminder_info#:#Recordatorio a los tutores/profesores para calificar una tarea
@@ -10459,6 +10516,7 @@ gsfo#:#entries_add#:#Añadir entrada
 gsfo#:#entries_edit#:#editar_entradas
 gsfo#:#entries_parent#:#Seleccionar grupo
 gsfo#:#entries_select_parent#:#Mover entrada al grupo
+gsfo#:#entries_target_group#:#Select target group###07 07 2026 new variable
 gsfo#:#entry_action#:#Enlace
 gsfo#:#entry_action_info#:#Proporcione la URL completa incluyendo el protocolo (ej. https://www.ilias.de)
 gsfo#:#entry_activation_toggled#:#Se ha conmutado la activación
@@ -10467,6 +10525,7 @@ gsfo#:#entry_active_info#:#Activar esta entrada
 gsfo#:#entry_add#:#Añadir entrada
 gsfo#:#entry_delete#:#Eliminar
 gsfo#:#entry_deleted#:#Eliminado
+gsfo#:#entry_deleted_failed#:#Deletion not possible###07 07 2026 new variable
 gsfo#:#entry_edit#:#Editar
 gsfo#:#entry_external#:#Abrir en una nueva pestaña
 gsfo#:#entry_move#:#Mover
@@ -10489,6 +10548,7 @@ gsfo#:#group_toggle_activation#:#(Des)activar
 gsfo#:#group_translate#:#Traducir
 gsfo#:#info_not_deletable_core#:#Los elementos predeterminados no se pueden eliminar.
 gsfo#:#info_not_deletable_not_empty#:#Los grupos con entradas no se pueden eliminar.
+gsfo#:#item_moved#:#Entry moved###07 07 2026 new variable
 gsfo#:#legal_information#:#Información legal
 gsfo#:#order_saved#:#Orden guardado
 gsfo#:#permanent#:#permanente
@@ -10735,9 +10795,14 @@ itgr#:#itgr_always_open#:#Siempre abierto
 itgr#:#itgr_assign_materials#:#Asignar materiales
 itgr#:#itgr_assigned_materials#:#Materiales asignados
 itgr#:#itgr_assignment#:#Asignado
-itgr#:#itgr_behaviour#:#Comportamiento del bloque
-itgr#:#itgr_behaviour_info#:#El sistema almacenará el estado abierto/cerrado para el usuario actual hasta que cierre la sesión.
 itgr#:#itgr_desc_info#:#La descripción no formará parte de la presentación del grupo de elementos en su contenedor.
+itgr#:#itgr_display#:#Display###07 07 2026 new variable
+itgr#:#itgr_display_with_title#:#With Title###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened###07 07 2026 new variable
+itgr#:#itgr_display_without_title#:#Without Title###07 07 2026 new variable
 itgr#:#itgr_edit#:#Editar grupos de elementos
 itgr#:#itgr_expandable_closed#:#Expandible (inicialmente cerrado)
 itgr#:#itgr_expandable_open#:#Expandible (inicialmente abierto)
@@ -10747,8 +10812,6 @@ itgr#:#itgr_list_default#:#Predeterminado
 itgr#:#itgr_list_default_info#:#Hereda el valor del contenedor superior.
 itgr#:#itgr_list_presentation#:#Presentación de elementos
 itgr#:#itgr_materials#:#Materiales
-itgr#:#itgr_show_title#:#Mostrar título
-itgr#:#itgr_show_title_info#:#Muestra el título del grupo de elementos en la presentación para el alumno.
 itgr#:#itgr_tile#:#Mosaicos
 itgr#:#itgr_tile_size#:#Tamaño del mosaico
 jscalendar#:#about_calendar#:#Acerca del calendario
@@ -11169,7 +11232,6 @@ lso#:#lso_print_list#:#Generar lista
 lso#:#lso_read#:#El usuario tiene acceso de lectura a la Secuencia de aprendizaje
 lso#:#lso_search_users#:#Buscar usuarios
 lso#:#lso_settings_availability#:#Disponibilidad
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date
 lso#:#lso_settings_extro#:#Editar página de salida
 lso#:#lso_settings_intro#:#Editar página de introducción
 lso#:#lso_settings_old_extro#:#Ver página de salida antigua
@@ -13062,6 +13124,7 @@ notes#:#notes_latest_comment#:#Último comentario
 notes#:#notes_latest_message#:#Último mensaje
 notes#:#notes_message_author_counterpart#:#Remitente
 notes#:#notes_message_author_you#:#Usted
+notes#:#notes_message_deleted#:#Message deleted.###04 05 2026 new variable
 notes#:#notes_messages#:#Mensajes
 notes#:#notes_my_comments#:#Mis comentarios
 notes#:#notes_no_comments#:#Aún no se ha publicado ningún comentario.
@@ -14546,6 +14609,9 @@ rbac#:#positions_override_operations#:#Anular configuración global
 rbac#:#precondition_not_obligatory_alt#:#La precondición es opcional
 rbac#:#precondition_num_obligatory#:#Número de materiales obligatorios
 rbac#:#precondition_num_optional_info#:#Por favor, introduzca el número mínimo de materiales necesarios para cumplir con esta precondición.
+rbac#:#precondition_number_of_required_materials_bigger_preconditions_number#:#The number of required materials must be less than the total number of preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_compulsory_items#:#The number of required materials must be greater than the number of compulsory preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_than_one#:#The number of required materials must be at least 1.###26 05 2026 new variable
 rbac#:#precondition_obligatory#:#Obligatorio
 rbac#:#precondition_obligatory_alt#:#La precondición debe cumplirse
 rbac#:#precondition_obligatory_info#:#Las precondiciones obligatorias deben cumplirse para tener acceso.
@@ -15087,9 +15153,7 @@ rep#:#rep_add_new_def_grp_content#:#Contenido
 rep#:#rep_add_new_def_grp_feedback#:#Feedback y Evaluación
 rep#:#rep_add_new_def_grp_organisation#:#Organización
 rep#:#rep_add_new_def_grp_templates#:#Plantillas
-rep#:#rep_add_to_favourites#:#Añadir a Favoritos
 rep#:#rep_added_rec_content#:#Se ha añadido el contenido recomendado.
-rep#:#rep_added_to_favourites#:#El elemento se ha añadido a sus favoritos.
 rep#:#rep_allowed_types#:#Tipos permitidos
 rep#:#rep_breadcr_crs#:#La ruta de navegación comienza con el curso
 rep#:#rep_breadcr_crs_config#:#Configuración
@@ -15144,9 +15208,7 @@ rep#:#rep_object_references_cannot_be_read#:#Sin permisos para %s referencias m�
 rep#:#rep_object_to_delete#:#Para eliminar
 rep#:#rep_rec_content_removed#:#El contenido recomendado ha sido eliminado.
 rep#:#rep_recommended_content#:#Contenido recomendado
-rep#:#rep_remove_from_favourites#:#Eliminar de Favoritos
 rep#:#rep_remove_rec_content#:#¿Está seguro de que desea eliminar el siguiente contenido recomendado?
-rep#:#rep_removed_from_favourites#:#El elemento ha sido eliminado de sus favoritos.
 rep#:#rep_target_location#:#Ubicación de destino
 rep#:#rep_target_location_info#:#Por favor, seleccione ahora el destino en el que deben restaurarse los objetos seleccionados.
 rep#:#rep_time_based_availability#:#Periodo de disponibilidad limitado
@@ -16163,6 +16225,7 @@ style#:#sty_individual_styles#:#Estilos Individuales
 style#:#sty_keep_existing#:#Mantener Existente
 style#:#sty_left#:#Izquierda
 style#:#sty_left_right_padding#:#Relleno de Celda Izquierda/Derecha
+style#:#sty_legacy_image_directory_found#:#Legacy image directory found. You may migrate the directory from ILIAS 9 by clicking "Migrate Images"###04 05 2026 new variable
 style#:#sty_letter_spacing#:#Espaciado entre Letras
 style#:#sty_lightness_border#:#Luminosidad del Borde
 style#:#sty_lightness_cell1_bg#:#Luminosidad del Fondo de Celda 1
@@ -16183,6 +16246,7 @@ style#:#sty_margin_and_padding#:#Margen y Relleno (Padding)
 style#:#sty_media_char#:#Media
 style#:#sty_media_queries#:#Media Queries
 style#:#sty_media_query_info#:#Se añade un bloque CSS independiente para cada media query después del bloque predeterminado (sin media query especial).
+style#:#sty_migrate_images#:#Migrate Images###04 05 2026 new variable
 style#:#sty_min_height#:#Altura mínima
 style#:#sty_move_lm_styles#:#Cambiar estilo de los módulos de aprendizaje
 style#:#sty_move_obj_styles#:#Cambiar estilo de los objetos
@@ -16241,6 +16305,7 @@ style#:#sty_special#:#Especial
 style#:#sty_style_chars#:#Clases de Estilo
 style#:#sty_style_class#:#Clases de Estilo
 style#:#sty_style_classes_copied#:#Se han copiado las clases de estilo.
+style#:#sty_style_not_migrated#:#This content style has not been migrated to the ILIAS 10 data structure yet. Changes will not be applied.###04 05 2026 new variable
 style#:#sty_substyle#:#Subestilo
 style#:#sty_substyle_of#:#Subestilo de
 style#:#sty_substyles#:#Subestilos
@@ -16495,7 +16560,6 @@ survey#:#default_codes_mail_subject#:#Su código de acceso para %s
 survey#:#define_questionblock#:#Combinar en bloque de preguntas
 survey#:#delete_saved_message#:#Eliminar plantilla de texto
 survey#:#display_all_available#:#Mostrar todos los disponibles
-survey#:#dont_use_questionpool#:#No insertar las preguntas en un banco de preguntas (solo disponible en esta encuesta)
 survey#:#duplicate#:#Duplicar
 survey#:#edit_heading#:#Editar encabezado
 survey#:#end_date#:#Fecha de finalización
@@ -16676,8 +16740,6 @@ survey#:#search_groups#:#Grupos encontrados
 survey#:#search_term#:#Término de búsqueda
 survey#:#select_option#:#––– Por favor, seleccione una opción –––
 survey#:#select_prior_question#:#Seleccione una pregunta anterior
-survey#:#select_questionpool#:#Por favor, seleccione un banco de preguntas para almacenar la pregunta creada
-survey#:#select_questionpool_short#:#Banco de preguntas de la encuesta
 survey#:#select_relation#:#Seleccione una relación
 survey#:#select_target_position_for_move_question#:#Por favor, seleccione dónde desea mover su pregunta dentro de la lista. Para ello, marque la casilla correspondiente a la izquierda de una pregunta y seleccione ‘Insertar antes’ o ‘Insertar después’.
 survey#:#select_value#:#Introduzca un valor
@@ -16694,7 +16756,6 @@ survey#:#spl_move_insert_clipboard#:#Las preguntas seleccionadas se han añadido
 survey#:#spl_move_same_pool#:#No puede mover preguntas dentro del mismo banco de preguntas. Para mover sus preguntas, por favor navegue a un banco de preguntas diferente y haga clic en ‘Pegar’ allí.
 survey#:#spl_move_select_none#:#Por favor, seleccione al menos una pregunta que desee mover.
 survey#:#spl_online_property#:#En línea
-survey#:#spl_online_property_description#:#Si el banco de preguntas no está en línea, no podrá utilizarse en las encuestas.
 survey#:#spl_paste_no_objects#:#No hay preguntas en el portapapeles. Por favor, copie o mueva una pregunta al portapapeles para poder pegarla aquí.
 survey#:#spl_paste_success#:#Pregunta(s) pegada(s) con éxito en el banco de preguntas.
 survey#:#spl_save_obligatory_state#:#Guardar ‘Obligatorio’
@@ -16712,7 +16773,6 @@ survey#:#survey_360_appraisee_close_action_status#:#Encuesta cerrada el %s.
 survey#:#survey_360_appraisee_close_action_success#:#Ha cerrado su encuesta de 360° para sus evaluadores.
 survey#:#survey_360_appraisee_close_action_success_admin#:#Encuesta(s) de 360° seleccionada(s) cerrada(s) para los evaluadores.
 survey#:#survey_360_appraisee_close_table#:#Cerrada el
-survey#:#survey_360_appraisee_info#:#Información del evaluado
 survey#:#survey_360_appraisee_is_closed#:#Esta encuesta ha sido cerrada por el evaluado.
 survey#:#survey_360_appraisees#:#Evaluados
 survey#:#survey_360_edit_raters#:#Gestionar Evaluadores
@@ -16729,7 +16789,6 @@ survey#:#survey_360_rater_message_content_registered_default#:#Puede comenzar la
 survey#:#survey_360_rater_subject_default#:#Ha sido invitado como evaluador a una encuesta de 360°.
 survey#:#survey_360_raters#:#Evaluadores
 survey#:#survey_360_raters_finished#:#Evaluadores que han terminado
-survey#:#survey_360_raters_status_info#:#Evaluadores terminados
 survey#:#survey_360_remove_appraisees#:#Eliminar Evaluado(s)
 survey#:#survey_360_results#:#Acceso a los Resultados para los Evaluados
 survey#:#survey_360_results_all#:#Todo el Feedback
@@ -16781,17 +16840,15 @@ survey#:#survey_error_insert_incomplete_question#:#Ha intentado añadir una preg
 survey#:#survey_execution_exit#:#Volver al repositorio
 survey#:#survey_execution_exit_360#:#Atrás
 survey#:#survey_execution_sure_finish#:#¿Está seguro de que desea finalizar la encuesta? No podrá editar sus respuestas después de hacerlo.
-survey#:#survey_existing_pool#:#Usar banco de preguntas existente
 survey#:#survey_finish#:#Finalizar encuesta
-survey#:#survey_finished#:#Ha finalizado la encuesta. ¡Gracias por su participación!
-survey#:#survey_has_datasets_warning#:#Esta encuesta ya contiene conjuntos de datos. No puede sincronizar las preguntas de la encuesta hasta que elimine estos conjuntos de datos a través de la pestaña 'Participantes' de la encuesta. Para hacer esto, deberá eliminar a cualquier participante que haya comenzado la encuesta y, al hacerlo, haya generado un conjunto de datos.
-survey#:#survey_has_datasets_warning_page_view#:#Esta encuesta ya contiene conjuntos de datos. No puede editar las preguntas de la encuesta hasta que elimine estos conjuntos de datos. Para hacer esto, deberá eliminar a cualquier participante que haya comenzado la encuesta y, al hacerlo, haya generado un conjunto de datos.
+survey#:#survey_finished#:#La encuesta ha finalizado. ¡Gracias por su participación!
+survey#:#survey_from_x_points#:#Desde X puntos
+survey#:#survey_has_datasets_warning#:#La encuesta ya contiene conjuntos de datos. No puede editar las preguntas de la encuesta hasta que elimine dichos datos en la sección mantenimiento.
+survey#:#survey_has_datasets_warning_page_view#:#La encuesta ya contiene datos. No puede editar las preguntas de la encuesta hasta que se eliminen estos resultados.
 survey#:#survey_has_datasets_warning_page_view_link#:#Editar participantes
 survey#:#survey_introduction_info#:#Este mensaje se muestra permanentemente en la pestaña 'Información' de la encuesta.
 survey#:#survey_is_offline#:#No puede iniciar la encuesta ya que actualmente está fuera de línea.
-survey#:#survey_new_pool#:#Crear nuevo banco de preguntas
 survey#:#survey_next#:#Siguiente →
-survey#:#survey_no_pool#:#No usar banco de preguntas
 survey#:#survey_not_available#:#n/d
 survey#:#survey_notification_finished_introduction#:#Un participante ha finalizado la siguiente encuesta:
 survey#:#survey_notification_finished_reason#:#Ha recibido este correo electrónico porque activó las notificaciones para la encuesta mencionada anteriormente.
@@ -16808,17 +16865,11 @@ survey#:#survey_notification_tutor_salutation#:#Hola %s,
 survey#:#survey_notification_tutor_setting#:#Un correo electrónico cuando todos los participantes terminen
 survey#:#survey_notification_tutor_subject#:#Todos los participantes han terminado la encuesta "%s"
 survey#:#survey_order#:#Orden
-survey#:#survey_pool_selection#:#Selección de repositorio
 survey#:#survey_previous#:#← Anterior
 survey#:#survey_question_editor#:#Vista de lista
 survey#:#survey_question_obligatory#:#Esta pregunta es obligatoria. ¡Debe ser respondida!
 survey#:#survey_question_pool#:#Repositorio de preguntas
 survey#:#survey_question_pool_title#:#Título del repositorio
-survey#:#survey_question_pool_usage#:#Usar repositorio de preguntas
-survey#:#survey_question_pool_usage_active#:#Preguntas creadas en la encuesta o reutilizadas del repositorio
-survey#:#survey_question_pool_usage_active_info#:#Las preguntas se pueden crear directamente en la encuesta o añadirse a la encuesta desde un repositorio de preguntas.
-survey#:#survey_question_pool_usage_inactive#:#Crear preguntas solo en la encuesta
-survey#:#survey_question_pool_usage_inactive_info#:#Todas las preguntas deben crearse directamente en la encuesta. No es posible reutilizar preguntas existentes de un repositorio.
 survey#:#survey_question_title#:#Título de la pregunta
 survey#:#survey_questions#:#Preguntas
 survey#:#survey_questions_to_clipboard_copy#:#Pregunta(s) copiada(s) al portapapeles. Por favor, seleccione un destino o vacíe el portapapeles.
@@ -16859,7 +16910,6 @@ survey#:#survey_sync_insufficient_permissions#:#Permisos insuficientes.
 survey#:#survey_sync_question_copies#:#Sincronizar copias de preguntas
 survey#:#survey_sync_question_copies_info#:#Por favor, seleccione las instancias de la pregunta que deben ser reemplazadas por la versión actual del repositorio.
 survey#:#survey_sync_success#:#Las preguntas seleccionadas han sido actualizadas.
-survey#:#survey_up_to_x_points#:#Up to x points
 survey#:#survey_use_start_button#:#Para participar en la encuesta, debe utilizar el botón de inicio.
 survey#:#svy_activation_limited_visibility_info#:#Permitir a los usuarios ver siempre el título de la encuesta y su periodo de disponibilidad. Las preguntas de la encuesta solo seguirán siendo accesibles durante el periodo de disponibilidad indicado.
 survey#:#svy_activation_online_info#:#Los usuarios solo pueden participar en una encuesta si está en línea.
@@ -16932,7 +16982,6 @@ survey#:#svy_mail_context_rater_invitation_title#:#Encuesta: Invitación para ev
 survey#:#svy_mail_context_reminder_info#:#Recordar a los usuarios que participen en la encuesta
 survey#:#svy_mail_context_reminder_survey_title#:#Título de la encuesta
 survey#:#svy_mail_context_reminder_title#:#Encuesta: Recordatorio de encuesta
-survey#:#svy_mail_own_results#:#Enviar respuestas dadas por correo
 survey#:#svy_mail_own_results_body#:#Esto es para confirmar que usted ha participado en la siguiente encuesta:
 survey#:#svy_mail_own_results_subject#:#Encuesta '%s' - Confirmación de su participación
 survey#:#svy_mail_send_confirmation#:#Enviar confirmación de participación
@@ -16944,7 +16993,6 @@ survey#:#svy_notification_tutor_results#:#Un correo electrónico con los resulta
 survey#:#svy_notification_tutor_results_alert#:#Esto requiere una fecha de finalización.
 survey#:#svy_notification_tutor_results_info#:#Tras alcanzar la fecha de finalización, una tarea programada (cron job) enviará un correo electrónico con los resultados detallados de la encuesta adjuntos.
 survey#:#svy_only_max_one_external_rater#:#Por favor, seleccione solo un evaluador externo.
-survey#:#svy_page_add_question#:#Añadir nuevo %s
 survey#:#svy_page_error#:#Se ha producido un error al responder a una pregunta. Por favor, consulte la pregunta para obtener más información sobre el error.
 survey#:#svy_page_errors#:#Se han producido errores con las respuestas a varias preguntas de la encuesta. ¡Por favor, consulte las preguntas para obtener más información sobre los errores!
 survey#:#svy_participant#:#Participante
@@ -16964,8 +17012,6 @@ survey#:#svy_results_mail_confirm#:#Confirmación de participación
 survey#:#svy_results_mail_confirm_info#:#Permitir que los participantes soliciten un correo confirmando su participación en la encuesta al finalizarla.
 survey#:#svy_results_mail_own#:#Incluir respuestas dadas
 survey#:#svy_results_mail_own_info#:#Las respuestas dadas por el participante se incluirán en su correo de confirmación de participación.
-survey#:#svy_results_view_own#:#Los participantes pueden ver sus propias respuestas
-survey#:#svy_results_view_own_info#:#Tras finalizar la encuesta, los participantes pueden ver una lista de todas las respuestas que han proporcionado. No pueden cambiar sus respuestas.
 survey#:#svy_save_and_continue#:#Guardar y continuar
 survey#:#svy_save_sync#:#Guardar y sincronizar copias de preguntas
 survey#:#svy_search_user#:#Buscar usuario
@@ -17151,6 +17197,12 @@ tax#:#tax_tax_settings#:#Ajustes de taxonomía
 tax#:#tax_taxonomy#:#Taxonomía
 tbl#:#tbl_export_csv#:#Exportar CSV
 tbl#:#tbl_export_excel#:#Exportar Excel
+tbl#:#tbl_selection#:#Selection###04 05 2026 new variable
+tbl#:#tbl_template_create#:#Save Current View###04 05 2026 new variable
+tbl#:#tbl_template_created#:#The current view has been saved.###04 05 2026 new variable
+tbl#:#tbl_template_delete#:#Delete Saved View###04 05 2026 new variable
+tbl#:#tbl_template_deleted#:#The saved view has been deleted.###04 05 2026 new variable
+tbl#:#tbl_templates#:#View###04 05 2026 new variable
 tos#:#tos_accept_usr_agreement_anonymous#:#Condiciones del servicio
 tos#:#tos_accept_usr_agreement_anonymous_intro#:#Antes de continuar a ILIAS, debe aceptar las siguientes Condiciones del servicio.
 tos#:#tos_account_reg_not_possible#:#El registro autónomo no es posible actualmente porque no hay un acuerdo de Condiciones del servicio disponible. Por favor, contacte con su <a href="%1$s">administrador del sistema</a> para más información.

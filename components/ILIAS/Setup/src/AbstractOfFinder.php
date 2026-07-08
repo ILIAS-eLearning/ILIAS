@@ -52,8 +52,6 @@ abstract class AbstractOfFinder
         '.*/components/ILIAS/UI/tests/',
         '.*/components/ILIAS/VirusScanner/tests/',
         '.*/components/ILIAS/setup_/',
-        // Classes using removed Auth-class from PEAR
-        '.*ilSOAPAuth.*',
         // Classes using unknown
         '.*ilPDExternalFeedBlockGUI.*',
     ];

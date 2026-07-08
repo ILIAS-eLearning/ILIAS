@@ -37,6 +37,8 @@ class ProcessUtilGUI
     protected InternalGUIService $gui;
     protected InternalDomainService $domain;
     protected object $parent_gui;
+    protected \ilLanguage $lng;
+    protected \ilGlobalTemplateInterface $tpl;
 
     public function __construct(
         InternalDomainService $domain_service,
@@ -53,6 +55,8 @@ class ProcessUtilGUI
         $this->ctrl = $this->gui->ctrl();
         $this->request = $this->gui->standardRequest();
         $this->objects_manager = $domain_service->objects($pool->getId());
+        $this->lng = $domain_service->lng();
+        $this->tpl = $this->gui->mainTemplate();
     }
 
     // Back to parent
@@ -126,38 +130,50 @@ class ProcessUtilGUI
     public function handleBookingSuccess(
         int $a_obj_id,
         string $post_info_cmd,
-        ?array $a_rsv_ids = null
+        ?array $a_rsv_ids = null,
+        ?string $message = null
     ): void {
-        $this->log->debug("handleBookingSuccess");
-        $main_tpl = $this->gui->mainTemplate();
-        $ctrl = $this->gui->ctrl();
-        $lng = $this->domain->lng();
-        $request = $this->gui->standardRequest();
+        $this->log->debug('handleBookingSuccess');
+        $this->tpl->setOnScreenMessage(
+            'success',
+            $message ?: $this->lng->txt('book_reservation_confirmed'),
+            true
+        );
 
-        $main_tpl->setOnScreenMessage('success', $lng->txt('book_reservation_confirmed'), true);
+        $this->redirectToReturnCmdIfAsynchronous();
+        $this->redirectToBookingInformationIfAvailable($a_obj_id, $post_info_cmd, $a_rsv_ids);
+        $this->redirectToRender();
+    }
 
-        // show post booking information?
+    public function redirectToBookingInformationIfAvailable(int $a_obj_id, string $post_info_cmd, ?array $a_rsv_ids = null): void
+    {
         $obj = new \ilBookingObject($a_obj_id);
-        $pfile = $this->objects_manager->getBookingInfoFilename($a_obj_id);
-        $ptext = $obj->getPostText();
-
-        if (trim($ptext) || $pfile) {
-            if (count($a_rsv_ids)) {
-                $ctrl->setParameter(
-                    $this->parent_gui,
-                    'rsv_ids',
-                    implode(";", $a_rsv_ids)
-                );
-            }
-            $ctrl->redirect($this->parent_gui, $post_info_cmd);
-        } else {
-            if ($ctrl->isAsynch()) {
-                $this->gui->send("<script>window.location.href = '" .
-                    $ctrl->getLinkTarget($this->parent_gui, $request->getReturnCmd()) . "';</script>");
-            } else {
-                $this->back();
-            }
+        if (trim($obj->getPostText()) === '' && $this->objects_manager->getBookingInfoFilename($a_obj_id) === '') {
+            return;
         }
+
+        $a_rsv_ids ??= [];
+        if ($a_rsv_ids !== []) {
+            $this->ctrl->setParameter($this->parent_gui, 'rsv_ids', implode(';', $a_rsv_ids));
+        }
+        $this->ctrl->redirect($this->parent_gui, $post_info_cmd);
+    }
+
+    private function redirectToReturnCmdIfAsynchronous(): void
+    {
+        if (!$this->ctrl->isAsynch()) {
+            return;
+        }
+
+        $this->gui->send(
+            "<script>window.location.href = '{$this->ctrl->getLinkTarget($this->parent_gui, $this->request->getReturnCmd())}';</script>"
+        );
+    }
+
+    private function redirectToRender(): void
+    {
+        $this->ctrl->saveParameterByClass(\ilObjBookingPoolGUI::class, 'ref_id');
+        $this->ctrl->redirectByClass(\ilObjBookingPoolGUI::class, 'render');
     }
 
     /**

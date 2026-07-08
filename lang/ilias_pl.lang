@@ -19,7 +19,7 @@
 *
 * @module			language file Polish
 * @modulegroup		language
-* @author			Dariusz Poczekalewicz <d.poczekalewicz@aon.edu.pl>
+* @author			Dariusz Poczekalewicz
 * @version			$Id$
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
@@ -310,6 +310,10 @@ administration#:#restoring_trash#:#Odtwarzanie kosza...
 administration#:#restoring_unbound_objs#:#Odtwarzanie niepodłączonych obiektów i podobiektów...
 administration#:#reuse_of_loginnames_contained_in_history#:#Ponowne użycie nazw użytkownika
 administration#:#reuse_of_loginnames_contained_in_history_info#:#Jeśli ta opcja jest aktywna, można ponownie używać nazw użytkownika zapisanych w historii.
+administration#:#rpc_pdf_configuration#:#PDF Configuration###26 05 2026 new variable
+administration#:#rpc_pdf_font#:#Fonts###26 05 2026 new variable
+administration#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than ‘Helvetica’ and ‘unifont’ must be installed on the ILIAS server.###26 05 2026 new variable
+administration#:#rpc_pdf_generation#:#Fonts for PDF Generation###26 05 2026 new variable
 administration#:#scan#:#Skanuj
 administration#:#scan_desc#:#Skanowanie systemu w poszukiwaniu uszkodzonych/błędnych/brakujących/niepodłączonych obiektów.
 administration#:#scan_details#:#Szczegóły skanowania
@@ -1165,6 +1169,7 @@ assessment#:#question_summary#:#Lista pytań
 assessment#:#question_summary_btn#:#Status przetwarzania
 assessment#:#question_title#:#Tytuł pytania
 assessment#:#question_type#:#Typ pytania
+assessment#:#questionlist_cannot_be_altered#:#The questionlist cannot be altered as the test already contains participant data sets.###04 05 2026 new variable
 assessment#:#questionpool_not_entered#:#Podaj nazwę puli pytań!
 assessment#:#questionpool_not_selected#:#Please select a question pool!###07 02 2020 new variable
 assessment#:#questions#:#Questions###26 08 2024 new variable
@@ -1470,6 +1475,7 @@ assessment#:#tst_eval_total_passed_average_points#:#Średnia punktów wykonanych
 assessment#:#tst_eval_total_passed_average_time#:#Średni czas wykonania wszystkich wykonanych testów
 assessment#:#tst_eval_total_persons#:#Ilość osób, które przystąpiły do testu
 assessment#:#tst_exam_access_code#:#Access Code###26 08 2024 new variable
+assessment#:#tst_exam_access_code_invalid_message#:#The code you provided is invalid.###26 05 2026 new variable
 assessment#:#tst_exam_access_code_label#:#Enter access code to continue your already started test.###26 08 2024 new variable
 assessment#:#tst_exam_conditions#:#Exam Conditions###26 08 2024 new variable
 assessment#:#tst_exam_conditions_label#:#Check to accept the conditions.###26 08 2024 new variable
@@ -1695,6 +1701,7 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#Uruchomiony pr
 assessment#:#tst_objective_progress_header#:#Postęp w celu dydaktycznym
 assessment#:#tst_objectives_progress_header#:#Postęp w celach dydaktycznych
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Ten test jest w stanie nieodwracalnym, ponieważ usunięto przyporządkowaną pulę pytań. Dlatego uczestnicy nie mogą już przeprowadzić.
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back.###26 05 2026 new variable
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Pytania dotyczące z powodzeniem przetworzonych celów dydaktycznych są opcjonalne.</b><br /><br />Chcesz przejść do innego pytania, które należy do już zaliczonego celu dydaktycznego.<br />Masz następujący wybór:<br /><br />Jeśli będziesz kontynuował, możesz przetworzyć pytania dotyczące tych celów dydaktycznych. Ponieważ dla tej próby wybrano nowe pytania, nie pobrano Twoich odpowiedzi z wcześniejszych prób. W przypadku ponownego przetwarzania pytań Twoje wyniki związane z celami dydaktycznymi mogą ulec pogorszeniu.<br /><br />Jeśli nie chcesz ponownie przetworzyć pytań, możesz się cofnąć. W takiej sytuacji pytania te nie będą uwzględnione przy ocenie.
 assessment#:#tst_out_of_time_message#:#You have reached the maximum allowed processing time of the test!###26 08 2024 new variable
 assessment#:#tst_participant#:#Uczestnicy
@@ -2123,6 +2130,7 @@ auth#:#auth_saml_deleted_idp#:#Usunięto system identyfikacyjny.
 auth#:#auth_saml_enable#:#Aktywuj obsługę SAML
 auth#:#auth_saml_err_sqlite_driver#:#The SAML authentication requires the SQLite driver for PHP. Please install the SQLite package and try again.###29 07 2022 new variable
 auth#:#auth_saml_idp#:#IDP
+auth#:#auth_saml_idp_deactivated_auth_failed#:#Authentication failed, the identity provider is disabled.###04 05 2026 new variable
 auth#:#auth_saml_idp_selection_table_desc#:#Wybierz dostawcę tożsamości, za pomocą którego chcesz się zalogować.
 auth#:#auth_saml_idp_selection_table_title#:#System identyfikacyjny
 auth#:#auth_saml_idp_settings#:#Ustawienia IDP
@@ -2531,14 +2539,17 @@ blog#:#blog_whole_blog#:#Whole Blog###29 07 2022 new variable
 book#:#X_reservations_of#:#%s reservations of###29 07 2022 new variable
 book#:#book_add#:#Dodaj pulę rejestracji
 book#:#book_add_object#:#Dodaj obiekt
+book#:#book_add_participant#:#Add Participant###04 05 2026 new variable
 book#:#book_add_schedule#:#Dodaj siatkę czasową
 book#:#book_additional_info_file#:#Dodatkowy opis
 book#:#book_all#:#Pokaż wszystkie
+book#:#book_all_day#:#All-Day###07 07 2026 new variable
 book#:#book_all_pools_need_schedules#:#Settings not saved. All assigned pools need to have at least one schedule.###07 02 2020 new variable
 book#:#book_all_users#:#All Participants###07 02 2020 new variable
 book#:#book_assign#:#Assign
 book#:#book_assign_object#:#Assign Booking Object
 book#:#book_assign_participant#:#Assign to Participant
+book#:#book_assign_participants#:#Book for other Participant(s)###07 07 2026 new variable
 book#:#book_back_to_list#:#Powrót do listy
 book#:#book_bobj#:#Obiekt podlegające rejestracji
 book#:#book_book#:#Zarejestruj
@@ -2560,9 +2571,13 @@ book#:#book_confirm_booking_schedule_number_of_objects#:#Potwierdzenie rezerwacj
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Wybierz liczbę rezerwowanych obiektów
 book#:#book_confirm_cancel#:#Jesteś pewien, że chcesz anulować poniższą rezerwację?
 book#:#book_confirm_cancel_aggregation#:#Liczba anulowań
+book#:#book_confirm_cancel_info#:#The selected bookings will be cancelled.###07 07 2026 new variable
 book#:#book_confirm_delete#:#Czy naprawdę chcesz usunąć następujące obiekty?
+book#:#book_confirm_remove_participant#:#Are you sure you want to remove the following Participant(s)? This will delete all related Bookings.###07 07 2026 new variable
 book#:#book_copy#:#Kopiuj pulę rejestracji
 book#:#book_create_objects#:#Create Items###26 08 2024 new variable
+book#:#book_date_from#:#From date###07 07 2026 new variable
+book#:#book_date_to#:#To date###07 07 2026 new variable
 book#:#book_deadline#:#Okres
 book#:#book_deadline_hours#:#Do n godzin przed rozpoczęciem okna czasowego
 book#:#book_deadline_info#:#Minimalny czas między rejestracją a okresem rejestracji
@@ -2570,11 +2585,18 @@ book#:#book_deadline_options#:#Najpóźniejsza rezerwacja
 book#:#book_deadline_slot_end#:#Do końca okna czasowego
 book#:#book_deadline_slot_start#:#Do rozpoczęcia okna czasowego
 book#:#book_deassign#:#Deassign
+book#:#book_delete_object#:#Delete###07 07 2026 new variable
+book#:#book_deleted_booking#:#Deleted Booking(s)###07 07 2026 new variable
+book#:#book_deleted_object#:#Deleted Bookable Item###07 07 2026 new variable
 book#:#book_download_info#:#Pobierz dodatkowy opis
 book#:#book_edit#:#Edytuj grafik obłożenia
 book#:#book_edit_object#:#Zmień obiekt
 book#:#book_edit_schedule#:#Edytuj harmonogram
+book#:#book_filter_end_date#:#End Date###07 07 2026 new variable
+book#:#book_filter_objects#:#Bookable Items###07 07 2026 new variable
 book#:#book_filter_past_reservations#:#Pokaż rezerwacje, których termin upłynął
+book#:#book_filter_period#:#Period###07 07 2026 new variable
+book#:#book_filter_start_date#:#Start Date###07 07 2026 new variable
 book#:#book_fromto#:#Zakres dat
 book#:#book_hours#:#Godziny
 book#:#book_is_used#:#W użytkowaniu
@@ -2589,14 +2611,23 @@ book#:#book_messages#:#Messages###26 08 2024 new variable
 book#:#book_messages_info#:#Allow users to add a message when booking an item.###26 08 2024 new variable
 book#:#book_missing_availability#:#It was not possible to book all items on all dates.###26 08 2024 new variable
 book#:#book_missing_items#:#$1 missing item(s).###26 08 2024 new variable
+book#:#book_modal_booking_confirmation#:#Booking Confirmation###07 07 2026 new variable
+book#:#book_modal_enter_quantity_intro#:#Please enter the number of items that you would like to book.###07 07 2026 new variable
+book#:#book_modal_recurrence#:#Recurrence###07 07 2026 new variable
+book#:#book_modal_recurrence_multiple#:#Book multiple dates###07 07 2026 new variable
+book#:#book_modal_recurrence_single#:#Book only this date###07 07 2026 new variable
+book#:#book_modal_skipped_unknown_item#:#Unknown or invalid selection (%s).###07 07 2026 new variable
+book#:#book_modal_warning_skipped_selections#:#Some selected items or periods are not available for booking and are excluded from this confirmation.###07 07 2026 new variable
 book#:#book_new#:#Dodaj nową pulę rejestracji
 book#:#book_no_bookings_for_you#:#No reservations have been performed for you.###07 02 2020 new variable
 book#:#book_no_objects#:#No Assignment###07 02 2020 new variable
+book#:#book_no_objects_available#:#None of the selected items are currently available for booking.###07 07 2026 new variable
 book#:#book_no_of_objects#:#Liczba obiektów
 book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.###29 10 2025 new variable
 book#:#book_no_preferences_for_you#:#No preferences have been stored for you.###07 02 2020 new variable
 book#:#book_no_recurrence#:#Book only this date###26 08 2024 new variable
 book#:#book_not#:#Nie
+book#:#book_not_cancelled#:#Not cancelled###07 07 2026 new variable
 book#:#book_not_enough_preferences#:#You selected not enough preferences. The preferences have not been saved.###07 02 2020 new variable
 book#:#book_notification#:#Send Reservation Notifications
 book#:#book_notification_cron_not_active#:#Note: The necessary cron job, 'Send Reservation Notifications', is currently not active.###26 08 2024 new variable
@@ -2608,13 +2639,18 @@ book#:#book_obj_select#:#Select###26 08 2024 new variable
 book#:#book_object_added#:#Dodano obiekt rejestracji.
 book#:#book_object_deleted#:#Usunięto obiekt rejestracji.
 book#:#book_object_selection#:#Item Selection###26 08 2024 new variable
+book#:#book_object_title_or_description#:#Title/Description###07 07 2026 new variable
 book#:#book_object_updated#:#Zmieniono obiekt rejestracji.
 book#:#book_objects_available#:#Objects available %s
 book#:#book_open#:#Otwórz pulę rejestracji
 book#:#book_overall_limit#:#Ograniczenie liczby rejestracji
 book#:#book_overall_limit_warning#:#Osiągnąłeś maksymalną liczbę rejestracji.
+book#:#book_overall_limit_would_be_exceeded#:#Invalid selection. The overall limit would be exceeded.###07 07 2026 new variable
+book#:#book_participant#:#Participant###07 07 2026 new variable
 book#:#book_participant_already_assigned#:#Participant(s) already assigned.
 book#:#book_participant_assigned#:#Participant(s) assigned
+book#:#book_participant_removed#:#The participants and all related bookings have been removed successfully.###07 07 2026 new variable
+book#:#book_past_bookings#:#Past bookings###07 07 2026 new variable
 book#:#book_period#:#Czas trwania
 book#:#book_pool_added#:#Dodano pulę rejestracji.
 book#:#book_pool_selection#:#Booking Pool Selection###07 02 2020 new variable
@@ -2630,6 +2666,7 @@ book#:#book_pref_overview#:#Overview###07 02 2020 new variable
 book#:#book_preference_info#:#Please select %1 preference(s) until %2. After the deadline bookings will be done automatically based on the preferences of all users.###07 02 2020 new variable
 book#:#book_preferences#:#Preferences###07 02 2020 new variable
 book#:#book_preferences_saved#:#The preferences have been saved.###07 02 2020 new variable
+book#:#book_present_bookings#:#Present bookings###07 07 2026 new variable
 book#:#book_public_log#:#Uczestnicy widzą wszystkie rezerwacje
 book#:#book_public_log_info#:#Uczestnicy uprawnieni do odczytu mają wgląd w rezerwacje innych użytkowników w zakładce „Rezerwacje”.
 book#:#book_recurrence#:#Recurrence###26 08 2024 new variable
@@ -2640,9 +2677,11 @@ book#:#book_reminder_day#:#Before Reservation
 book#:#book_reminder_day_info#:#Send list of own reservations to users and full list of reservations to admins.
 book#:#book_reminder_days#:#Day(s)
 book#:#book_reminder_setting#:#Reminder
+book#:#book_remove_participants#:#Remove Participant(s)###07 07 2026 new variable
 book#:#book_rerun_assignments#:#Run Allocation Process###26 08 2024 new variable
 book#:#book_rerun_confirmation#:#Attention. The process of allocating bookings according to preferences has already taken place. You may restart the process if any errors have occurred, e.g. no bookings have been saved. To prevent multiple allocations, please delete all existing bookings before restarting the process.###26 08 2024 new variable
 book#:#book_reservation_available#:#%s dostępne
+book#:#book_reservation_cancelled#:#Reservation(s) cancelled.###07 07 2026 new variable
 book#:#book_reservation_confirmed#:#Udało się dokonać rejestracji.
 book#:#book_reservation_failed#:#Nie udało się dokonać rejestracji.
 book#:#book_reservation_failed_overbooked#:#Rejestracja się nie udała, ponieważ obiekt nie jest już dostępny.
@@ -2655,6 +2694,7 @@ book#:#book_reservation_title#:#Zapytanie dotyczące rejestracji dla
 book#:#book_reservations_list#:#Rezerwacje
 book#:#book_schedule#:#Harmonogram
 book#:#book_schedule_added#:#Dodano harmonogram
+book#:#book_schedule_all_day#:#All-Day Schedule###07 07 2026 new variable
 book#:#book_schedule_days#:#Dni tygodnia
 book#:#book_schedule_days_info#:#Ważne okresy czasu dla każdego dnia (HH:MM-HH:MM)
 book#:#book_schedule_deleted#:#Usunięto harmonogram.
@@ -2675,19 +2715,32 @@ book#:#book_select_pool#:#Select Pool###07 02 2020 new variable
 book#:#book_set_cancel#:#Anulowanie
 book#:#book_set_delete#:#Delete###29 07 2022 new variable
 book#:#book_show_message#:#Show Message###26 08 2024 new variable
+book#:#book_show_past_bookings#:#Show past bookings###07 07 2026 new variable
+book#:#book_some_reservations_unavailable#:#Some of the selected items could not be booked because they are no longer available.###07 07 2026 new variable
+book#:#book_table#:#Table###07 07 2026 new variable
+book#:#book_table_col_availability#:#Availability###07 07 2026 new variable
+book#:#book_table_col_datetime#:#Date/Time###07 07 2026 new variable
 book#:#book_title_description_nr#:#Title; Description; Number of Units###26 08 2024 new variable
 book#:#book_title_description_nr_info#:#Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item.###26 08 2024 new variable
 book#:#book_too_many_preferences#:#You selected too many preferences. The preferences have not been saved.###07 02 2020 new variable
+book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.###04 05 2026 new variable
 book#:#book_type_warning#:#Aktualnie nie ma obiektów podlegających rejestracji. Aby móc korzystać z puli, należy najpierw dodać obiekty podlegające rejestracji.
+book#:#book_view#:#View###07 07 2026 new variable
 book#:#book_week#:#Week###26 08 2024 new variable
+book#:#book_week_no_objects_selected#:#Select at least one Bookable Item at the ‘Item Selection’ section on the right and click the ‘Refresh’ button.###07 07 2026 new variable
 book#:#book_your_bookings#:#Your Reservations###07 02 2020 new variable
 book#:#book_your_preferences#:#Your Preferences###07 02 2020 new variable
 book#:#book_your_reservations#:#Your Reservations
 book#:#booking_multiple_succesfully#:#Bookings created successfully.
 book#:#booking_nr_of_items#:#Liczba
+book#:#booking_process_error#:#There was an error while processing your booking(s). Please try again.###07 07 2026 new variable
+book#:#bookings_log#:#Bookings###07 07 2026 new variable
+book#:#delete_bookable_item#:#Delete Bookable Item###07 07 2026 new variable
+book#:#no_valid_selection#:#No valid selection###07 07 2026 new variable
 book#:#obj_book_duplicate#:#Kopiuj pulę rejestracji
 book#:#participants#:#Participants
 book#:#reservation_deleted#:#Reservation deleted###29 07 2022 new variable
+book#:#schedule_type#:#Schedule Type###07 07 2026 new variable
 buddysystem#:#buddy_allow_to_contact_me#:#Pozwól na zapytania dotyczące punktu kontaktowego
 buddysystem#:#buddy_allow_to_contact_me_default_info#:#Defines if users can send each other requests for getting into contact by default.###29 10 2025 new variable
 buddysystem#:#buddy_allow_to_contact_me_info#:#Jeśli ta opcja jest aktywna, inni użytkownicy mogą wysyłać mi zapytania dotyczące punktu kontaktowego.
@@ -2723,6 +2776,7 @@ buddysystem#:#buddy_bs_state_requested_p#:#Złożono zapytanie
 buddysystem#:#buddy_bs_state_unlinked#:#Unlinked###29 07 2022 new variable
 buddysystem#:#buddy_bs_state_unlinked_a#:#Niesieciowy
 buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked###29 07 2022 new variable
+buddysystem#:#buddy_confirm_unlink#:#Do you really want to disconnect from this contact?###04 05 2026 new variable
 buddysystem#:#buddy_enable#:#Aktywuj „Kontakty“
 buddysystem#:#buddy_enable_info#:#Jeśli ta opcja jest aktywna, użytkownicy mogą się w systemie ze sobą kontaktować za pomocą zapytań dotyczących punktów kontaktowych. Dodatkowe indywidualne ustawienie umożliwia każdemu użytkownikowi na akceptowanie lub odrzucanie zapytań o kontakt.
 buddysystem#:#buddy_handle_contact_request#:#Zapytanie dotyczące punktu kontaktowego
@@ -2775,7 +2829,7 @@ certificate#:#certificate_a4_landscape#:#A4 poziomo (210 mm x 297 mm)
 certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
 certificate#:#certificate_a5_landscape#:#A5 poziomo (148 mm x 210 mm)
 certificate#:#certificate_background_image#:#Obraz tła
-certificate#:#certificate_card_thumbnail_image#:#Card Thumbnail
+certificate#:#certificate_card_tile_image#:#Thumbnail Image###04 05 2026 new variable
 certificate#:#certificate_change_active_status#:#The active state of the certificate has been changed
 certificate#:#certificate_confirm_deletion_text#:#Czy chcesz usunąć certyfikat i wszystkie jego dane?
 certificate#:#certificate_custom#:#Użytkownika...
@@ -2879,6 +2933,7 @@ certificate#:#persistent_certificate_mode_instant#:#Instant###07 02 2020 new var
 certificate#:#persistent_certificate_mode_instant_info#:#This option is recommended for systems with low up to mediocre user interactions. Systems that tend to big loading times during creation for multiple user certificates should switch to the "Cron Job" option.###07 02 2020 new variable
 chatroom#:#allow_anonymous#:#Zezwalaj na anonimowe logowanie
 chatroom#:#allow_custom_usernames#:#Zezwalaj na niestandardowe nazwy użytkowników
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.###07 07 2026 new variable
 chatroom#:#anonymous_hint#:#Proszę pamiętaj, że w przypadku dostępu dla anonimowych użytkowników w zakładce "Uprawnienia" należy aktywować odpowiednie uprawnienia.
 chatroom#:#auto_scroll#:#Auto przewijanie do dołu
 chatroom#:#autogen_usernames#:#Automatycznie generowane nazwy użytkowników
@@ -2914,9 +2969,12 @@ chatroom#:#chat_https_dhparam_info#:#Podaj tutaj ścieżkę bezwzględną serwer
 chatroom#:#chat_https_key_info#:#Podaj ścieżkę bezwzględną serwera dla osobistego kodu (np.: /etc/ssl/private/server.key).
 chatroom#:#chat_invitation#:#Zaproszenie od "[INVITER_NAME]" do pokoju czatu "[ROOM_NAME]"
 chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nZostałeś zaproszony do pokoju czatu:\nTytuł pokoju czatu: [ROOM_NAME]\nprzez: [INVITER_NAME]\nURL: [LINK]\n\nAby dołączyć do czatu, przejdź pod podany adres URL.
+chatroom#:#chat_invitation_modal_headline#:#Invitation to Chat Room###26 05 2026 new variable
+chatroom#:#chat_invitation_modal_section#:#Invite User###26 05 2026 new variable
 chatroom#:#chat_invitation_nc_inv_x#:#You have %s chat invitations.###29 07 2022 new variable
 chatroom#:#chat_invitation_nc_no_inv#:#You have no chat invitations.###29 07 2022 new variable
 chatroom#:#chat_invitation_short#:#Kliknij na tytuł, aby wejść do po pokoju czatu.
+chatroom#:#chat_invitation_username_input_label#:#Enter Username:###26 05 2026 new variable
 chatroom#:#chat_invitations#:#Chat invitations###29 07 2022 new variable
 chatroom#:#chat_invite#:#Zaproś
 chatroom#:#chat_join#:#Wejdź
@@ -2974,6 +3032,7 @@ chatroom#:#chat_user_action_invite_public_room#:#Zaproś do czatu publicznego
 chatroom#:#chat_user_x_is_typing#:#User %s is typing ...###29 07 2022 new variable
 chatroom#:#chat_users_are_typing#:#Multiple users are typing ...###29 07 2022 new variable
 chatroom#:#chat_whisper#:#Rozmowa prywatna
+chatroom#:#chatroom_anonymous_default#:#Anonymous ####07 07 2026 new variable
 chatroom#:#chatroom_auth#:#Identyfikacja
 chatroom#:#chatroom_auth_btn_txt#:#Generuj kod
 chatroom#:#chatroom_auth_key#:#Kod identyfikacji
@@ -4424,7 +4483,6 @@ common#:#italic_action#:#Insert Italic - Click to insert italic text.###26 08 20
 common#:#item#:#Pozycja
 common#:#itgr_add#:#Dodaj sekcję obiektów
 common#:#itgr_new#:#Nowa sekcja obiektów
-common#:#java_server#:#Serwer Java
 common#:#java_server_host#:#Host
 common#:#java_server_info#:#Jeżeli aktywny, to można przeszukiwać pliki PDF, HTML i moduły nauczania HTML.
 common#:#java_server_port#:#Port
@@ -4585,7 +4643,10 @@ common#:#mail_message_scheduled_info#:#Mails remain in the outbox until the sche
 common#:#mail_not_sent#:#Poczta nie została wysłana!
 common#:#mail_schedule_error_no_datetime#:#To schedule a mail, a delivery date and time must be specified.###29 10 2025 new variable
 common#:#mail_schedule_error_past_datetime#:#You cannot schedule emails in the past.###29 10 2025 new variable
+common#:#mail_schedule_scheduled_datetime#:#Scheduled Send Time###04 05 2026 new variable
 common#:#mail_scheduled#:#Mail stored in outbox for later delivery.###29 10 2025 new variable
+common#:#mail_scheduled_edit_compose_info#:#You are editing a scheduled mail. Sending is paused until you schedule the mail again.###07 07 2026 new variable
+common#:#mail_scheduled_edit_moved_info#:#This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox.###07 07 2026 new variable
 common#:#mail_search_no#:#Nie znaleziono pozycji
 common#:#mail_select_one#:#Musisz wybrać jedną wiadomość
 common#:#mail_send_error#:#Błąd wysyłania wiadomości
@@ -4928,8 +4989,6 @@ common#:#obj_etal#:#Employee Talk
 common#:#obj_exc#:#Ćwiczenie
 common#:#obj_exc_duplicate#:#Kopiuj ćwiczenie
 common#:#obj_excv#:#Certyfikat ćwiczeń
-common#:#obj_extt#:#Oprogramowanie innych firm
-common#:#obj_extt_desc#:#Konfiguruj zewnętrzne oprogramowanie lub serwis obsługiwane przez ILIAS
 common#:#obj_facs#:#Pliki i foldery
 common#:#obj_facs_desc#:#Konfiguracja dostępu do obiektów.
 common#:#obj_file#:#Plik
@@ -5002,7 +5061,6 @@ common#:#obj_nots_desc#:#Notes settings###07 02 2020 new variable
 common#:#obj_nwss#:#Wiadomości i kanały komunikacji
 common#:#obj_nwss_desc#:#Ustawienia dla wewnętrznych wiadomości i zewnętrznych web feed
 common#:#obj_objf#:#Definicja obiektu
-common#:#obj_objf_desc#:#Zarządzanie typami obiektów ILIAS i uprawnieniami do nich. (tylko dla ekspertów!)
 common#:#obj_orgu#:#Jednostka organizacyjna
 common#:#obj_orgu_description#:#Utworzenie i zarządzanie strukturą organizacyjną
 common#:#obj_page#:#Strona
@@ -5086,7 +5144,6 @@ common#:#obj_sess_duplicate#:#Kopiuj sesję
 common#:#obj_skmg#:#Zarządzanie kompetencjami
 common#:#obj_skmg_desc#:#Zarządzanie kompetencjami i kategoriami kompetencji
 common#:#obj_spl#:#Pula pytań (ankieta)
-common#:#obj_spl_select#:#-- Proszę wybierz jedną pulę pytań ankietowych --
 common#:#obj_st#:#Rozdział
 common#:#obj_stus#:#Shortlinks###29 10 2025 new variable
 common#:#obj_stus_desc#:#Global Shortlinks Settings###29 10 2025 new variable
@@ -5404,6 +5461,8 @@ common#:#refresh#:#Odśwież
 common#:#refresh_languages#:#Odśwież języki
 common#:#refuse#:#Odmowa
 common#:#reg_account_confirmation_successful#:#Twoje konto w systemie LMS ILIAS zostało aktywowane.
+common#:#reg_delete_expired_pending_registrations#:#Delete Expired Pending Registrations###04 05 2026 new variable
+common#:#reg_delete_expired_pending_registrations_desc#:#Deletes all ILIAS accounts that have not been confirmed after a registration with e-mail confirmation.###04 05 2026 new variable
 common#:#reg_goto_parent_membership_info#:#Tylko członkowie mają dostęp do obiektu docelowego.
 common#:#reg_mail_body_2_confirmation#:#Link będzie ważny przez %s, po tym czasie procedurę rejestracji będziesz musiał rozpocząć od nowa.
 common#:#reg_mail_body_3_confirmation#:#Jeżeli treść tego e-maila nic Ci nie mówi, oznacza to, iż ktoś inny celowo lub przypadkowo podał Twój adres e-mail. Prosimy o zignorowanie tej wiadomości.
@@ -5431,6 +5490,7 @@ common#:#renderer_supported_file_types#:#Obsługiwane typy plików
 common#:#renderer_supported_repo_types#:#Obsługiwane obiekty ILIAS
 common#:#renderer_type_builtin#:#Zainstalowane
 common#:#rep_main_page#:#Start
+common#:#rep_main_page_logo_alt#:#Logo ILIAS - to the start page###04 05 2026 new variable
 common#:#repeat_scan#:#Powtórzenie skanowania antywirusowego...
 common#:#repeat_scan_failed#:#Powtórzone skanowanie nieudane.
 common#:#repeat_scan_succeded#:#Powtórzone skanowanie udane.
@@ -5489,9 +5549,6 @@ common#:#rolt_edit#:#Edytuj szablon roli
 common#:#rolt_new#:#Nowy szablon roli
 common#:#row#:#Wiersz
 common#:#rows#:#Wiersze
-common#:#rpc_pdf_font#:#Czcionki
-common#:#rpc_pdf_font_info#:#Dodatkowe czcionki do tworzenia plików PDF. Wszystkie dodatkowe czcionki muszą być zainstalowane na serwerze lub zostać rozpoznane przez serwer Java przy uruchomieniu.
-common#:#rpc_pdf_generation#:#Tworzenie pliku PDF
 common#:#sad#:#Sad
 common#:#sahs#:#Moduł nauczania SCORM/AICC
 common#:#sahs_added#:#Dodano moduł nauczania SCORM/AICC
@@ -5555,6 +5612,7 @@ common#:#select#:#Wybierz
 common#:#select_all#:#Wybierz wszystkie
 common#:#select_at_least_one_object#:#Proszę wybierz przynajmniej jeden obiekt.
 common#:#select_file#:#Wybierz plik
+common#:#select_file_from_computer#:#Select File###04 05 2026 new variable
 common#:#select_files_from_computer#:#Wybierz pliki
 common#:#select_max_one_item#:#Wybierz tylko jedną pozycję.
 common#:#select_object_to_link#:#Wybierz obiekt, który chcesz połączyć.
@@ -5647,6 +5705,7 @@ common#:#show_content#:#Show Content###29 07 2022 new variable
 common#:#show_details#:#Pokaż szczegóły
 common#:#show_filter#:#Zastosuj filtr
 common#:#show_hidden_sections#:#Pokaż dodatkowe informacje &raquo;
+common#:#show_less#:#Show less###07 07 2026 new variable
 common#:#show_list#:#Pokaż listę
 common#:#show_members#:#Wyświetl użytkowników
 common#:#show_more#:#Show More###29 07 2022 new variable
@@ -5851,6 +5910,7 @@ common#:#upload_settings#:#Ustawienia dotyczące wysyłania
 common#:#upload_svg_rejection_message#:#An uploaded SVG file contains possibily malicious code and cannot be processed.###26 08 2024 new variable
 common#:#upload_svg_rejection_message_base64#:#The file contains base64 encoded content.###26 08 2024 new variable
 common#:#upload_svg_rejection_message_elements#:#The file contains elements or attributes which are not allowed or known.###26 08 2024 new variable
+common#:#upload_svg_rejection_message_foreign_object#:#The file contains foreign objects.###04 05 2026 new variable
 common#:#upload_svg_rejection_message_script#:#The file contains script-Elements.###26 08 2024 new variable
 common#:#uploaded_and_checked#:#Plik został załadowany i sprawdzony, teraz możesz rozpocząć jego import.
 common#:#uploading#:#Wyślij...
@@ -5972,7 +6032,6 @@ common#:#webdav_chosen_language_already_used#:#There already is another document
 common#:#webdav_doc_delete#:#Delete WebDav Mount Instructions###07 02 2020 new variable
 common#:#webdav_docs_mount_instructions#:#Mount Instructions Documents###07 02 2020 new variable
 common#:#webdav_duplicate_detected_title#:#Following objects could not be displayed, because an object with the same Title is already being shown:###07 02 2020 new variable
-common#:#webdav_enable_versioning#:#File Versioning###07 02 2020 new variable
 common#:#webdav_forbidden_chars_title#:#Following files cannot be displayed, because they contain one or more forbidden characters (\<>/:*?"|#):###07 02 2020 new variable
 common#:#webdav_form_document#:#Instructions Document###07 02 2020 new variable
 common#:#webdav_form_document_info#:#Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information###07 02 2020 new variable
@@ -5991,7 +6050,6 @@ common#:#webdav_sure_delete_documents_s#:#Are you sure you want to delete the Mo
 common#:#webdav_tbl_docs_head_title#:#Dokument title###07 02 2020 new variable
 common#:#webdav_tbl_docs_title#:#List of uploaded WebDAV Mount Instructions###07 02 2020 new variable
 common#:#webdav_upload_instructions#:#Upload Instructions###07 02 2020 new variable
-common#:#webdav_versioning_info#:#If enabled, already existing files will get a new version instead of beeing overwritten.###07 02 2020 new variable
 common#:#webfolder_dir_info#:#Znajdujesz się tutaj, ponieważ Twoja przeglądarka nie potrafi otwierać folderów sieciowych. Przeczytaj <a href=”%1$s”>Instrukcję o otwieraniu folderu sieciowego</a>.
 common#:#webfolder_index_of#:#Treść %1$s
 common#:#webfolder_instructions#:#Instrukcja dotycząca folderu sieciowego
@@ -6069,6 +6127,7 @@ cont#:#cont_news_timeline_landing_page#:#Strona startowa
 cont#:#cont_news_timeline_landing_page_info#:#Linia czasu jako strona startowa
 cont#:#cont_news_timeline_tab#:#Linia czasu
 cont#:#cont_no_title#:#Empty Title###26 08 2024 new variable
+cont#:#cont_only_crs_grp_fold_download#:#Only courses, groups, folders or files can be downloaded.###04 05 2026 new variable
 cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###29 07 2022 new variable
 cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###29 07 2022 new variable
 cont#:#cont_path#:#Ścieżka
@@ -6148,10 +6207,8 @@ content#:#cont_Headline2#:#Nagłówek 2
 content#:#cont_Headline3#:#Nagłówek 3
 content#:#cont_Information#:#Information###07 02 2020 new variable
 content#:#cont_Interaction#:#Interaction###07 02 2020 new variable
-content#:#cont_Link#:#Link###07 02 2020 new variable
 content#:#cont_List#:#Lista
 content#:#cont_Literature#:#Literature###07 02 2020 new variable
-content#:#cont_Media#:#Media (standard)
 content#:#cont_Mnemonic#:#Pamięciowy
 content#:#cont_Numbers#:#Numbers###29 07 2022 new variable
 content#:#cont_Poly#:#Wielobok
@@ -6261,6 +6318,8 @@ content#:#cont_chapters_after_pages#:#Pamiętaj, że na jednym poziomie najpierw
 content#:#cont_chapters_and_pages#:#Rozdziały i strony
 content#:#cont_chapters_only#:#Tylko rozdziały
 content#:#cont_char_format#:#Format znaku
+content#:#cont_char_link#:#Link###04 05 2026 new variable
+content#:#cont_char_media#:#Media (Standard)###04 05 2026 new variable
 content#:#cont_char_style_acc#:#Akcentowany
 content#:#cont_char_style_code#:#Kod
 content#:#cont_char_style_com#:#Komentarz
@@ -7348,6 +7407,7 @@ copa#:#copa_value_reading_time_f_p#:#%s Minutes###29 07 2022 new variable
 copa#:#copa_value_reading_time_f_s#:#%s Minute###29 07 2022 new variable
 copa#:#obj_copa_duplicate#:#Duplicate Content Page
 copg#:#copg_active_to_small#:#This date must be higher than the starting date.###26 08 2024 new variable
+copg#:#copg_add_content#:#Add Content###04 05 2026 new variable
 copg#:#copg_allow_html#:#Enable HTML/Javascript###29 07 2022 new variable
 copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.###29 07 2022 new variable
 copg#:#copg_an_error_occured#:#An error occured.###29 07 2022 new variable
@@ -7384,6 +7444,7 @@ copg#:#copg_sec_link_info#:#Jeśli ustawisz link na całą sekcję, upewnij się
 copg#:#copg_snippet_cannot_be_edited#:#Jest to wstępnie zdefiniowany moduł treści, którego nie można w tym miejscu edytować.
 copg#:#copg_templates#:#Templates###29 10 2025 new variable
 copg#:#copg_unsupported_media_type#:#This media object has an unsupported media type.###26 08 2024 new variable
+copg#:#copg_use_template#:#Use Template###04 05 2026 new variable
 copg#:#copg_x_minutes#:#%s minute(s)###29 07 2022 new variable
 cpad#:#cpad_reading_time_status#:#Reading Time###29 07 2022 new variable
 cpad#:#cpad_reading_time_status_desc#:#If enabled, the estimated reading time for content page objects will be determined and displayed.###29 07 2022 new variable
@@ -8080,6 +8141,8 @@ crs#:#tutorial_support_block_title#:#Contact Person###28 10 2024 new variable
 crs#:#user_fields#:#Pola użytkownika
 crsv#:#crsv_create#:#Utwórz certyfikat kursu
 crsv#:#crsv_create_info#:#Wybierz kurs, dla którego potrzebujesz certyfikatu
+dash#:#add_to_favourites#:#Add to Favourites###04 05 2026 new variable
+dash#:#added_to_favourites#:#The item has been added to your favourites.###04 05 2026 new variable
 dash#:#dash_activation#:#activation###07 02 2020 new variable
 dash#:#dash_added_to_favs#:#Recommendation has been added to personal favourites.###07 02 2020 new variable
 dash#:#dash_avail_presentation#:#Available Presentations###07 02 2020 new variable
@@ -8088,6 +8151,18 @@ dash#:#dash_click_here#:#Click here###07 02 2020 new variable
 dash#:#dash_co_delete#:#Delete Dashboard style###28 10 2024 new variable
 dash#:#dash_co_lang#:#Dashboard style by languages###28 10 2024 new variable
 dash#:#dash_customization#:#Customize Dashboard Content###28 10 2024 new variable
+dash#:#dash_dash_fav_remove#:#Remove###04 05 2026 new variable
+dash#:#dash_dash_fav_remove_info#:#Are you sure you want to remove the following objects from your Favourites?###04 05 2026 new variable
+dash#:#dash_dash_fav_remove_multiple#:#Remove Multiple Favorites###04 05 2026 new variable
+dash#:#dash_dash_ls_remove#:#Unsubscribe###04 05 2026 new variable
+dash#:#dash_dash_ls_remove_info#:#Are you sure you want to unsubscribe from the following learning sequences?###04 05 2026 new variable
+dash#:#dash_dash_ls_remove_multiple#:#Unsubscribe Multiple Learning Sequences###04 05 2026 new variable
+dash#:#dash_dash_mem_remove#:#Unsubscribe###04 05 2026 new variable
+dash#:#dash_dash_mem_remove_info#:#Are you sure you want to unsubscribe from the following courses and groups?###04 05 2026 new variable
+dash#:#dash_dash_mem_remove_multiple#:#Unsubscribe Multiple Courses and Groups###04 05 2026 new variable
+dash#:#dash_dash_rc_remove#:#Remove###04 05 2026 new variable
+dash#:#dash_dash_rc_remove_info#:#Are you sure you want to remove the following objects from your recommended content?###04 05 2026 new variable
+dash#:#dash_dash_rc_remove_multiple#:#Remove Multiple Contents###04 05 2026 new variable
 dash#:#dash_dashboard#:#Dashboard###07 02 2020 new variable
 dash#:#dash_default_presentation#:#Default Presentation###07 02 2020 new variable
 dash#:#dash_default_sortation#:#Default Sortation###07 02 2020 new variable
@@ -8101,18 +8176,17 @@ dash#:#dash_enable_recommended_content#:#Recommended Content###26 08 2024 new va
 dash#:#dash_enable_study_programmes#:#Study Programmes###26 08 2024 new variable
 dash#:#dash_enable_task#:#Tasks###07 02 2020 new variable
 dash#:#dash_favourites#:#Favourites###07 02 2020 new variable
-dash#:#dash_info_sure_remove_from_favs#:#Are you sure you want to remove the following objects from your Favourites?###07 02 2020 new variable
 dash#:#dash_item_removed#:#Recommendation has been removed from the list.###07 02 2020 new variable
 dash#:#dash_learning_sequences#:#My Learning Sequences###26 08 2024 new variable
 dash#:#dash_list#:#List###07 02 2020 new variable
 dash#:#dash_main_panel#:#Main Panel###07 02 2020 new variable
-dash#:#dash_make_favourite#:#Add to Favourites###07 02 2020 new variable
 dash#:#dash_manual_new_item_pos#:#Position of New Objects###29 10 2025 new variable
 dash#:#dash_manual_new_item_pos_bot#:#Bottom###29 10 2025 new variable
 dash#:#dash_manual_new_item_pos_top#:#Top###29 10 2025 new variable
 dash#:#dash_manual_sorting_title#:#Manual Sorting of Favorites###29 10 2025 new variable
 dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.###07 02 2020 new variable
 dash#:#dash_memberships#:#My Courses and Groups###07 02 2020 new variable
+dash#:#dash_no_items_to_manage#:#No items available for removal.###04 05 2026 new variable
 dash#:#dash_page_edit_info#:#The content of this page is displayed to all users on their dashboard. The contents of the various blocks of the dashboard are presented below.###28 10 2024 new variable
 dash#:#dash_presentation#:#Presentation###07 02 2020 new variable
 dash#:#dash_recommended_content#:#Recommended Content###26 08 2024 new variable
@@ -8133,6 +8207,8 @@ dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’###07 02 20
 dash#:#dash_view_favourites#:#Section ‘Favourites’###07 02 2020 new variable
 dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.###26 08 2024 new variable
 dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.###26 08 2024 new variable
+dash#:#remove_from_favourites#:#Remove from Favourites###04 05 2026 new variable
+dash#:#removed_from_favourites#:#The item has been removed from your favourites.###04 05 2026 new variable
 dash#:#topitem_block#:#Block###26 08 2024 new variable
 dateplaner#:#Fr_long#:#Piątek
 dateplaner#:#Fr_short#:#Pt
@@ -8622,7 +8698,6 @@ dcl#:#dcl_datetime#:#Wprowadzenie daty
 dcl#:#dcl_datetime_desc#:#Wprowadzenie daty za pomocą menu wyboru lub kalendarza
 dcl#:#dcl_datetime_selection#:#Datetime Selection###29 10 2025 new variable
 dcl#:#dcl_datetime_selection_desc#:#Allow a date and time to be chosen from among a predefined selection of datetime options.###29 10 2025 new variable
-dcl#:#dcl_deactivate_view#:#Wyłącz szablon strony
 dcl#:#dcl_default_sort_field#:#Sortowanie
 dcl#:#dcl_default_sort_field_order#:#Kierunek sortowania
 dcl#:#dcl_default_sort_field_order_desc#:#Arrange the order of the entries in the table based on this field.###29 10 2025 new variable
@@ -8651,12 +8726,9 @@ dcl#:#dcl_err_formula_field_not_found#:#Pole z tytułem '%s' nie istnieje
 dcl#:#dcl_error_parsing_expression#:#Błąd przy ewaluacji stwierdzenia
 dcl#:#dcl_export_enabled#:#Eksportuj tabelę
 dcl#:#dcl_export_enabled_desc#:#Wszyscy użytkownicy mogą samodzielnie eksportować dane tabeli. W tym celu należy w menu "Pola wybranej tabeli" każde pole zaznaczyć jako eksportowalne.
-dcl#:#dcl_export_finished#:#Eksportuj zakończony
-dcl#:#dcl_export_started#:#Rozpoczęto niesynchroniczny eksport
 dcl#:#dcl_field_datatype#:#Pole typ danych
 dcl#:#dcl_field_description#:#Opis
 dcl#:#dcl_field_description_desc#:#The description will be shown below the input field when making a new entry.###29 10 2025 new variable
-dcl#:#dcl_field_required#:#Wymagany
 dcl#:#dcl_field_title_change_warning#:#Zmieniłeś tytuł pola, w wyniku czego w szablonie strony mogą nie działać pola do wypełniania; w razie potrzeby należy je ręcznie dostosować.
 dcl#:#dcl_field_title_unique#:#Pole o tym tytule już istnieje. Tytuł musi być jednoznaczny.
 dcl#:#dcl_field_visible#:#Widoczne
@@ -8677,7 +8749,6 @@ dcl#:#dcl_id_description#:#Wewnętrzny nr ID
 dcl#:#dcl_ilias_reference#:#Obiekt w dostępnych zasobach
 dcl#:#dcl_ilias_reference_desc#:#Pole do wyszukiwania, aby wybrać obiekt w ILIAS i go podlinkować
 dcl#:#dcl_ilias_reference_link#:#Pokaż jako link w widoku tabeli
-dcl#:#dcl_import#:#Importuj zbiór danych
 dcl#:#dcl_import_enabled#:#Importuj tabelę
 dcl#:#dcl_import_enabled_desc#:#Wszyscy użytkownicy mogą samodzielnie importować dane do tabeli, jeśli posiadają odpowiednie prawa do pisania.
 dcl#:#dcl_import_records .xls#:#Import pliku Excel
@@ -8702,8 +8773,6 @@ dcl#:#dcl_link_detail_page#:#Link do strony ze szczegółami
 dcl#:#dcl_link_detail_page_desc#:#Additionally, a detailed view template must have been created and activated within the tab ‘Detailed View’.###29 10 2025 new variable
 dcl#:#dcl_list_fields#:#Pola
 dcl#:#dcl_list_visibility_and_filter#:#Visibility and filter###07 02 2020 new variable
-dcl#:#dcl_locked#:#Zablokowany
-dcl#:#dcl_locked_tooltip#:#Użytkownicy nie mogą edytować zablokowanego pola. Ta zasada nie dotyczy ról posiadających uprawnienie 'Edytuj ustawienia'
 dcl#:#dcl_manage#:#Zarządzaj
 dcl#:#dcl_max_digits#:#Maksymalna liczba cyfr
 dcl#:#dcl_max_import#:#Maksymalnie dopuszczalna liczba importowanych rekordów danych została przekroczona.
@@ -8712,7 +8781,6 @@ dcl#:#dcl_mob#:#Obiekt multimedialny
 dcl#:#dcl_mob_desc#:#Możliwość wysłania plików zdjęciowych, audio lub video, które są prezentowane bezpośrednio w zbiorze danych. Dopuszczalne typy plików: %s
 dcl#:#dcl_msg_field_modified#:#Zaktualizowano pole
 dcl#:#dcl_msg_fields_deleted#:#Usunięte pola
-dcl#:#dcl_msg_info_alternatives#:#Nie udało się wyświetlić wybranego pojedynczego widoku, ponieważ dla tej tabeli nie ma pojedynczego widoku lub nie posiadasz wystarczających uprawnień dostępu. Wybierz z listy pojedynczy widok, który jest dla Ciebie dostępny, aby wyświetlić rekord danych.
 dcl#:#dcl_msg_mc_to_sc_confirmation#:#Przejście z wyboru kilkakrotnego na wybór pojedynczy może w przypadku istniejących rekordów danych prowadzić do utraty danych. Jesteś pewien, że chcesz kontynuować?
 dcl#:#dcl_msg_no_perm_edit#:#Nie masz uprawnień, aby edytować ten post
 dcl#:#dcl_msg_no_perm_view#:#Nie masz uprawnień, aby oglądać ten post
@@ -8722,22 +8790,20 @@ dcl#:#dcl_msg_tableview_created#:#Dodano widok
 dcl#:#dcl_msg_tableview_deleted#:#Usunięto widok
 dcl#:#dcl_msg_tableview_updated#:#Zaktualizowano widok
 dcl#:#dcl_msg_tableviews_delete_all#:#Usunięcie nie jest możliwe: Musi istnieć co najmniej jeden widok
-dcl#:#dcl_msg_tableviews_order_updated#:#Zaktualizowano układ widoków
 dcl#:#dcl_multiple_selection#:#Wybór wielokrotny
 dcl#:#dcl_new#:#Utwórz nowy zbiór danych
 dcl#:#dcl_new_entries#:#New Entries###29 10 2025 new variable
 dcl#:#dcl_new_field#:#Nowe pole
 dcl#:#dcl_new_table#:#Nowa tabela
 dcl#:#dcl_new_view#:#New View###29 10 2025 new variable
-dcl#:#dcl_next_record#:#Kolejny wpis
 dcl#:#dcl_no_entries#:#Action not permitted###29 10 2025 new variable
 dcl#:#dcl_no_entry#:#No entry###07 02 2020 new variable
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.###29 10 2025 new variable
 dcl#:#dcl_no_export_data_available#:#Brak danych lub pól dostępnych dla eksportu.
 dcl#:#dcl_no_fields_yet#:#Brak pola zdefiniowanego dla tej tabeli, w związku z czym nie można tworzyć żadnych wpisów.
-dcl#:#dcl_no_read_access_on_any_standard_view#:#Nie masz prawa czytania dla standardowych widoków tabel.
 dcl#:#dcl_no_search_results_found_for#:#Nie znaleziono żadnych modułów z:
 dcl#:#dcl_no_such_reference#:#Poniższa wartość nie istnieje w tabeli rekomendacji:
+dcl#:#dcl_no_table_found#:#No table found.###04 05 2026 new variable
 dcl#:#dcl_no_tableview_found#:#No visible tableview found!###29 10 2025 new variable
 dcl#:#dcl_not_checked#:#Niewybrane
 dcl#:#dcl_not_supported_in_import#:#Ten typ pola nie jest obsługiwany na potrzeby importu.
@@ -8747,7 +8813,6 @@ dcl#:#dcl_notification_deactivate#:#Deactivate Notification for Data Collection#
 dcl#:#dcl_notification_deactivated#:#Powiadomienia wyłączone
 dcl#:#dcl_notification_info#:#Aktywuje funkcję indywidualnego powiadamiania użytkowników.
 dcl#:#dcl_notification_settings#:#Notification Settings###29 10 2025 new variable
-dcl#:#dcl_notimage_exception#:#Plik musi być obrazem.
 dcl#:#dcl_noturl_exception#:#Podaj link (na początku wpisz http:// lub www.) lub adres mailowy.
 dcl#:#dcl_number#:#Liczby całkowite
 dcl#:#dcl_number_desc#:#Pole do wprowadzania liczb całkowitych (maks. 9 cyfr). Ułamki i liczby dziesiętne nie są dozwolone.
@@ -8763,20 +8828,12 @@ dcl#:#dcl_owner_name#:#Właściciel (nazwa)
 dcl#:#dcl_page_type_dclf#:#Details View###29 07 2022 new variable
 dcl#:#dcl_placeholder_info#:#To use data from the data collection in this view, please use the corresponding placeholders. These are available in the page element 'Text' and 'Data Table'.###29 10 2025 new variable
 dcl#:#dcl_please_select#:#-- Wybierz --
-dcl#:#dcl_plugin#:#Wtyczka
-dcl#:#dcl_plugin_desc#:#DataCollection, pole, rozszerzenia
-dcl#:#dcl_plugin_no_hooks_available#:#Nie znaleziono żadnych aktywnych wtyczek field type
-dcl#:#dcl_prev_record#:#Poprzedni wpis
 dcl#:#dcl_prop_expression#:#Stwierdzenie
 dcl#:#dcl_prop_expression_info#:#Ważne operatory: <b>%s</b><br>Obsługiwane funkcje: <b>%s</b><br>Do grupowania stwierdzeń używaj nawiasów <b>"(", ")"</b> .<br>Łańcuchy znaków i pola do wypełniania połącz za pomocą &: <b>"Wynik to" & [[Int 1]] * [[Int 2]]</b><br>Stosowanie funkcji: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Ważne pola (kliknij na tytuł, aby pole do wypełnienia umieścić w stwierdzeniu):<br>%s
-dcl#:#dcl_public_comments#:#Komentarze
-dcl#:#dcl_public_comments_desc#:#Użytkownicy mogą komentować rekordy danych tej tabeli
 dcl#:#dcl_rating#:#Klasyfikacja
 dcl#:#dcl_rating_desc#:#Przy ocenianiu wpisów użytkownicy mogą nadawać maksymalnie pięć gwiazdek.
-dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#Poniższe role RBAC mają prawo czytania zbioru danych, nie dotyczy to jednak standardowego widoku tabeli:
 dcl#:#dcl_record#:#Wpis
 dcl#:#dcl_record_deleted#:#Usunięto post
-dcl#:#dcl_record_from_total#:#%d z %d
 dcl#:#dcl_record_settings#:#Record Settings###29 10 2025 new variable
 dcl#:#dcl_reference#:#Odnośnik
 dcl#:#dcl_reference_desc#:#Udostępnienie opcji wyboru, które znajdują się w innym polu tabeli
@@ -8786,12 +8843,9 @@ dcl#:#dcl_reference_title#:#Odniesienie do tabeli i pola
 dcl#:#dcl_reference_title_desc#:#The data entries of the selected field will be the selectable options in this field.###29 10 2025 new variable
 dcl#:#dcl_regex#:#Standardowe stwierdzenie
 dcl#:#dcl_regex_info#:#Wprowadzanie danych bez separatora/delimitera
-dcl#:#dcl_required#:#Obowiązkowe
 dcl#:#dcl_row_not_found#:# - Tego pola nie znaleziono w tabeli.
 dcl#:#dcl_save_confirmation#:#Zatwierdzenie zapisu
 dcl#:#dcl_save_confirmation_desc#:#Użytkownik musi zatwierdzić zapisanie nowych rekordów danych
-dcl#:#dcl_save_order#:#Zapisz sortowanie
-dcl#:#dcl_select#:#Wybór tabeli
 dcl#:#dcl_selection_options#:#Opcje
 dcl#:#dcl_selection_type#:#Typ
 dcl#:#dcl_selection_type_combobox#:#Combobox (lista rozwijana)
@@ -8805,12 +8859,8 @@ dcl#:#dcl_std_field_not_importable#:# - Standardowe pola nie są importowalne.
 dcl#:#dcl_std_filter#:#Wstępna aktywacja filtra
 dcl#:#dcl_supported_filetypes#:#Dopuszczalne końcówki plików
 dcl#:#dcl_supported_filetypes_desc#:#Tutaj możesz wpisać końcówki plików przedzielone przecinkami. Np.: pdf, docx
-dcl#:#dcl_switch_table#:#Switch Table###26 08 2024 new variable
-dcl#:#dcl_switch_view#:#Change View###26 08 2024 new variable
 dcl#:#dcl_table#:#Tabela
 dcl#:#dcl_table_id#:#Numer ID tabelki
-dcl#:#dcl_table_list_fields#:#Pola wybranej tabeli
-dcl#:#dcl_table_list_tables#:#Dostępne tabele
 dcl#:#dcl_table_settings#:#Table Settings.###29 10 2025 new variable
 dcl#:#dcl_table_settings_saved#:#Zapisano ustawienia dotyczące tabeli.
 dcl#:#dcl_table_title_not_matching#:#Tytuł arkuszu Excel oraz tytuł tabeli w zbiorze danych nie są zgodne. Zmień nazwę arkuszu, aby móc przeprowadzić prawidłowy import.
@@ -8825,16 +8875,13 @@ dcl#:#dcl_tableview_default_value_fail#:#Some numeric default values couldn't be
 dcl#:#dcl_tableview_field_access#:#Field Access###29 07 2022 new variable
 dcl#:#dcl_tableview_fieldsettings#:#Ustawienia dotyczące pola
 dcl#:#dcl_tableview_fieldtitle#:#Field Title###29 07 2022 new variable
-dcl#:#dcl_tableview_locked#:#Locked###29 07 2022 new variable
 dcl#:#dcl_tableview_locked_visible#:#Locked & Visible###29 07 2022 new variable
 dcl#:#dcl_tableview_not_visible#:#Not Visible###29 07 2022 new variable
 dcl#:#dcl_tableview_required#:#Required###29 07 2022 new variable
 dcl#:#dcl_tableview_required_visible#:#Required & Visible###29 07 2022 new variable
 dcl#:#dcl_tableview_visible#:#Visible###29 07 2022 new variable
 dcl#:#dcl_tableviews#:#Widoki
-dcl#:#dcl_tableviews_confirm_delete#:#Jesteś pewien, że poniższe widoki mają zostać usunięte?
 dcl#:#dcl_tableviews_of_X#:#Views of table %s###26 08 2024 new variable
-dcl#:#dcl_tableviews_table#:#Widoki wybranej tabeli
 dcl#:#dcl_text#:#Wprowadzony tekst
 dcl#:#dcl_text_desc#:#Pole do wprowadzania tekstu, linków lub adresów mailowych
 dcl#:#dcl_text_email_detail_desc#:#Wpisz aktualny adres mailowy lub adres URL.
@@ -8842,7 +8889,7 @@ dcl#:#dcl_text_email_title#:#Tytuł
 dcl#:#dcl_text_email_title_info#:#Nazwa dla adresu URL lub adresu mailowego (opcjonalnie).
 dcl#:#dcl_text_selection#:#Menu wyboru tekstu
 dcl#:#dcl_text_selection_desc#:#Udostępnienie opcji wyboru (tekst)
-dcl#:#dcl_title_standardview#:#Standard Views
+dcl#:#dcl_title_standard#:#Standard###04 05 2026 new variable
 dcl#:#dcl_unique#:#Zapobiegaj identycznym wpisom
 dcl#:#dcl_unique_desc#:#W tym pola można tylko raz wpisać identyczne dane.
 dcl#:#dcl_unique_exception#:#Wprowadzona wartość używana jest przez inny wpis.
@@ -8853,7 +8900,6 @@ dcl#:#dcl_update_field#:#Dodaj pole
 dcl#:#dcl_update_record#:#Zaktualizuj wpis
 dcl#:#dcl_updated_entries#:#Updated Entries###29 10 2025 new variable
 dcl#:#dcl_url#:#Adres URL lub mailowy
-dcl#:#dcl_view_configuration#:#View Configuration###29 07 2022 new variable
 dcl#:#dcl_view_own_records_perm#:#Pokaż tylko własne wpisy
 dcl#:#dcl_view_own_records_perm_desc#:#The entries of other users are not visible.###29 10 2025 new variable
 dcl#:#dcl_view_viewdefinition#:#Szablon strony
@@ -8877,6 +8923,8 @@ dcl#:#role_limitation#:#Role-based View Limitation###29 10 2025 new variable
 dcl#:#roles#:#Roles with Access###29 10 2025 new variable
 dcl#:#roles_desc#:#Define wich roles have access to the view.###29 10 2025 new variable
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
+dcl#:#table_not_found#:#Table not found!###04 05 2026 new variable
+dcl#:#tableview_not_found#:#Table view not found!###04 05 2026 new variable
 didactic#:#activate_exclusive_template#:#Wyłącz standard
 didactic#:#activate_exclusive_template_info#:#Szablon standardowy wyłączany jest wszędzie tam, gdzie szablon dydaktyczny jest aktywny.
 didactic#:#activate_local_didactic_template#:#Obszar obowiązywania
@@ -8917,6 +8965,7 @@ didactic#:#didactic_selected_tpl_option#:#Zastosowany szablon dydaktyczny:
 didactic#:#didactic_template_applied#:#Zastosowano szablon dydaktyczny.
 didactic#:#didactic_template_update_import#:#Aktualizacja szablonów dydaktycznych
 didactic#:#didactic_template_update_import_info#:#Wszystkie właściwości zostaną dostosowane zgodnie z importem. Obiekty, dla których zastosowano ten szablon, nie będą zmieniane.
+didactic#:#didactic_translation_add_languages#:#Add Languages###04 05 2026 new variable
 didactic#:#dtpl_obj_type_info#:#Informuje, dla jakich typów obiektu można zastosować szablon dydaktyczny.
 didactic#:#effective_form#:#Szablon ważny od
 didactic#:#grp_closed#:#Zamknięta grupa
@@ -9211,6 +9260,8 @@ ecs#:#ecs_wiki_export_enabled#:#Udostępnić
 ecs#:#ecs_wiki_export_obj_settings#:#Ustawienia dotyczące udostępnionych stron Wiki
 error#:#error_back_to_repository#:#Wróć do dostępnych zasobów
 error#:#error_sry_error#:#Niestety pojawił się błąd.
+error#:#http_404_not_found#:#The requested page could not be found.###04 05 2026 new variable
+error#:#http_500_internal_server_error#:#An internal server error occurred.###04 05 2026 new variable
 etal#:#appointments#:#Appointments
 etal#:#cal_type_tals#:#Talks
 etal#:#change_date_of_series#:#Change date of talk series
@@ -9383,6 +9434,7 @@ exc#:#exc_late_submission_warning#:#Zadania oddane po %s uznawana są za oddane 
 exc#:#exc_lead_request_idl#:#Request Deadline###26 08 2024 new variable
 exc#:#exc_lead_wait_for_idl#:#Waiting For Individual Deadline###26 08 2024 new variable
 exc#:#exc_limit_characters#:#Ogranicz liczbę znaków
+exc#:#exc_link_to_assignment#:#Link to assignment###04 05 2026 new variable
 exc#:#exc_list_submission#:#Wszystkie oddane rozwiązania
 exc#:#exc_list_text_assignment#:#Lista wszystkich oddanych elementów
 exc#:#exc_mail_context_grade_reminder_info#:#Reminder Tutors/Teachers to Grade an Assignment
@@ -9475,6 +9527,7 @@ exc#:#exc_passed_status_determination#:#Ocena „Zaliczone“
 exc#:#exc_passing_exc#:#Zaliczenie ćwiczenia
 exc#:#exc_past#:#Past###26 08 2024 new variable
 exc#:#exc_peer_deadline_mismatch#:#Ponieważ feedback można dać dopiero po terminie oddania zadania, ostateczny termin feedbacku nie może być przed terminem oddania.
+exc#:#exc_peer_feedback_status#:#Feedback Status###04 05 2026 new variable
 exc#:#exc_peer_review#:#Feedback dotyczący oceny
 exc#:#exc_peer_review_ass_setting_info#:#Po upływie terminu oddania oraz ewentualnie terminu dodatkowego uczestnicy mogą nawzajem oceniać wyniki swojej pracy. Dokładne ustawienia dla feedbacku dotyczącego oceny włączane są w zakładce o takiej samej nazwie. Zakładka jest widoczna, gdy opcja została aktywowana i zapisana.
 exc#:#exc_peer_review_chars_invalid#:#Twój tekst jeszcze nie osiągnął wymaganej długości %s znaków.
@@ -9602,6 +9655,7 @@ exc#:#exc_settings_feedback_mail_info#:#Opiekunowie przekazują komunikaty zwrot
 exc#:#exc_settings_feedback_text#:#Wprowadzony tekst
 exc#:#exc_settings_feedback_text_info#:#Opiekunowie wpisują komunikaty zwrotne w polu tekstowym. Dany uczestnik otrzymuje powiadomienie, a tekst zostanie mu zaprezentowany w widoku ogólnym zadania.
 exc#:#exc_show_instructions#:#Show Work Instructions###26 08 2024 new variable
+exc#:#exc_show_more#:#Show More###04 05 2026 new variable
 exc#:#exc_show_peer_review#:#Pokaż feedback dotyczący oceny
 exc#:#exc_show_submissions#:#Opublikuj oddane rozwiązania
 exc#:#exc_show_submissions_info#:#Po terminie oddania wszyscy uczestnicy mają wgląd we wszystkie oddane rozwiązania.
@@ -9716,6 +9770,7 @@ exc#:#exc_type_upload#:#Plik
 exc#:#exc_type_upload_team#:#Dostarczyć plik jako zespół
 exc#:#exc_value_can_not_set#:#This value can not be set.
 exc#:#exc_view_portfolio#:#View Portfolio###26 08 2024 new variable
+exc#:#exc_view_wiki#:#View Wiki###04 05 2026 new variable
 exc#:#exc_wait_for_files#:#Proces pobierania powinien uruchomić się automatycznie. W razie problemów kliknij tutaj.
 exc#:#exc_wiki_container#:#Wiki Container
 exc#:#exc_wiki_container_info#:#Location where wikis of participants will be created.
@@ -10457,6 +10512,7 @@ gsfo#:#entries_add#:#Add Entry###28 10 2024 new variable
 gsfo#:#entries_edit#:#entries_edit###28 10 2024 new variable
 gsfo#:#entries_parent#:#Select Group###28 10 2024 new variable
 gsfo#:#entries_select_parent#:#Move Entry to Group###28 10 2024 new variable
+gsfo#:#entries_target_group#:#Select target group###07 07 2026 new variable
 gsfo#:#entry_action#:#Link###28 10 2024 new variable
 gsfo#:#entry_action_info#:#Provide the full URL including the protocol (e.g. https://www.ilias.de)###28 10 2024 new variable
 gsfo#:#entry_activation_toggled#:#Activation has been toggled###28 10 2024 new variable
@@ -10465,6 +10521,7 @@ gsfo#:#entry_active_info#:#Activate this Entry###28 10 2024 new variable
 gsfo#:#entry_add#:#Add Entry###28 10 2024 new variable
 gsfo#:#entry_delete#:#Delete###28 10 2024 new variable
 gsfo#:#entry_deleted#:#Deleted###28 10 2024 new variable
+gsfo#:#entry_deleted_failed#:#Deletion not possible###07 07 2026 new variable
 gsfo#:#entry_edit#:#Edit###28 10 2024 new variable
 gsfo#:#entry_external#:#Open in new Tab###28 10 2024 new variable
 gsfo#:#entry_move#:#Move###28 10 2024 new variable
@@ -10487,6 +10544,7 @@ gsfo#:#group_toggle_activation#:#(De-)Activate###28 10 2024 new variable
 gsfo#:#group_translate#:#Translate###28 10 2024 new variable
 gsfo#:#info_not_deletable_core#:#Default Items cannot be deleted.###28 10 2024 new variable
 gsfo#:#info_not_deletable_not_empty#:#Groups with Entries cannot be deleted.###28 10 2024 new variable
+gsfo#:#item_moved#:#Entry moved###07 07 2026 new variable
 gsfo#:#legal_information#:#Legal Information###28 10 2024 new variable
 gsfo#:#order_saved#:#Order saved###28 10 2024 new variable
 gsfo#:#permanent#:#permanent###28 10 2024 new variable
@@ -10523,12 +10581,15 @@ help#:#gdtr_language#:#Language###29 10 2025 new variable
 help#:#gdtr_language_info#:#Activates a guided tour only for users with the selected language.###29 10 2025 new variable
 help#:#gdtr_list_tours_mess#:#To activate the presentation of screen and element IDs as tooltips, switch to ID Settings and enter your account name.###29 10 2025 new variable
 help#:#gdtr_mainbar#:#Mainbar###29 10 2025 new variable
+help#:#gdtr_mainbar_ID_info#:#ID of the desired entry in the main menu. Move the mouse over the entry to see the ID as a tooltip.###04 05 2026 new variable
 help#:#gdtr_mainbar_info#:#The mainbar ist the main menu on the left side. If element-ID presentation is activated, the IDs will be shown in tooltips for the distinct items.###29 10 2025 new variable
 help#:#gdtr_metabar#:#Metabar###29 10 2025 new variable
+help#:#gdtr_metabar_ID_info#:#ID of the desired element in the metabar. Move your mouse over the element to see the ID as a tooltip.###04 05 2026 new variable
 help#:#gdtr_metabar_info#:#The metabar is the menu on the top, right. If element-ID presentation is activated, the IDs will be shown in tooltips for the distinct items.###29 10 2025 new variable
 help#:#gdtr_next_step#:#Next Step###29 10 2025 new variable
 help#:#gdtr_permission#:#Permission###29 10 2025 new variable
 help#:#gdtr_permission_info#:#Activates a guided tour only for users with a certain permission on the current repository object, e.g. only for users with "edit settings" permission for a course. If you "Create" is selected, the tour is active, if the user has any creation permission.###29 10 2025 new variable
+help#:#gdtr_presentation_limitation#:#Presentation Limitation###04 05 2026 new variable
 help#:#gdtr_primary_button#:#Primary Button###29 10 2025 new variable
 help#:#gdtr_primary_button_info#:#The first primary button of the main content area. Primary buttons are presented emphasised compared to standard buttons. Usually views should only contain one primary button.###29 10 2025 new variable
 help#:#gdtr_reset_tour#:#Reset Tour###29 10 2025 new variable
@@ -10540,10 +10601,12 @@ help#:#gdtr_step_type#:#User Interface Element###29 10 2025 new variable
 help#:#gdtr_table#:#Table###29 10 2025 new variable
 help#:#gdtr_table_info#:#The first table of the main content area. Usually views should only contain one table.###29 10 2025 new variable
 help#:#gdtr_tabs#:#Tabs###29 10 2025 new variable
+help#:#gdtr_tabs_ID_info#:#ID of the desired tab. Move your mouse over a tab to see the ID as a tooltip.###04 05 2026 new variable
 help#:#gdtr_tabs_info#:#The tabs are displayed below the main header of the screen. If element-ID presentation is activated, the IDs will be shown in tooltips for the distinct items.###29 10 2025 new variable
 help#:#gdtr_toolbar#:#Toolbar###29 10 2025 new variable
 help#:#gdtr_toolbar_info#:#The first toolbar of the main content area, usually presented below the tabs. Views should only contain one toolbar.###29 10 2025 new variable
 help#:#gdtr_tour_has_been_reset#:#Tour has been reset.###29 10 2025 new variable
+help#:#gdtr_tour_settings#:#Edit Settings###04 05 2026 new variable
 help#:#gdtr_tour_steps#:#Tour Steps###29 10 2025 new variable
 help#:#gdtr_tours#:#Tours###29 10 2025 new variable
 help#:#gdtr_type#:#Type###29 10 2025 new variable
@@ -10684,14 +10747,19 @@ irss#:#creation_date#:#Creation Date (This Revision)###26 08 2024 new variable
 irss#:#directory_name#:#Directory Name###26 08 2024 new variable
 irss#:#directory_name_info#:#Name of the directory to be inserted at the current location.###26 08 2024 new variable
 irss#:#download_zip#:#Download all files as ZIP###26 08 2024 new variable
+irss#:#entries_target_group#:#Select target group###04 05 2026 new variable
+irss#:#entry_deleted_failed#:#Deletion not possible###04 05 2026 new variable
 irss#:#file_size#:#File Size (This Revision)###26 08 2024 new variable
 irss#:#file_size_bigger_than#:#File Size > MB###26 08 2024 new variable
 irss#:#full_size#:#Resource Size (All Revisions)###26 08 2024 new variable
 irss#:#home_directory#:#Root-Directory###26 08 2024 new variable
+irss#:#item_moved#:#Entry moved###04 05 2026 new variable
 irss#:#max_revision#:#Max. Revision###29 07 2022 new variable
 irss#:#msg_error_adding_directory#:#The directory could not be created.###26 08 2024 new variable
+irss#:#msg_paths_deleted#:#Path(s) deleted###04 05 2026 new variable
 irss#:#msg_success_adding_directory#:#The directory was created successfully.###26 08 2024 new variable
 irss#:#msg_upload#:#Drop Files to upload###26 08 2024 new variable
+irss#:#no_parent_selected#:#No target group selected###04 05 2026 new variable
 irss#:#resource_id#:#Resource ID###29 07 2022 new variable
 irss#:#resource_no_stakeholder_uri#:#No Stakeholder provides a valid Link to the usage of this Resource.###26 08 2024 new variable
 irss#:#resource_overview#:#Resource Overview###26 08 2024 new variable
@@ -10723,9 +10791,14 @@ itgr#:#itgr_always_open#:#Zawsze otwarty
 itgr#:#itgr_assign_materials#:#Assign Materials###29 07 2022 new variable
 itgr#:#itgr_assigned_materials#:#Obiekty w sekcji obiektów
 itgr#:#itgr_assignment#:#Włączone
-itgr#:#itgr_behaviour#:#Reakcja
-itgr#:#itgr_behaviour_info#:#System zapamiętuje status każdego użytkownika (otwarty/zamknięty) do momentu wylogowania (logout).
 itgr#:#itgr_desc_info#:#Przy wyświetlaniu sekcji obiektu opis nie jest pokazywany.
+itgr#:#itgr_display#:#Display###07 07 2026 new variable
+itgr#:#itgr_display_with_title#:#With Title###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened###07 07 2026 new variable
+itgr#:#itgr_display_without_title#:#Without Title###07 07 2026 new variable
 itgr#:#itgr_edit#:#Edytuj sekcję obiektów
 itgr#:#itgr_expandable_closed#:#Rozwijany (najpierw zamknięty)
 itgr#:#itgr_expandable_open#:#Rozwijany (najpierw otwarty)
@@ -10735,8 +10808,6 @@ itgr#:#itgr_list_default#:#Default###29 07 2022 new variable
 itgr#:#itgr_list_default_info#:#Inherits value from upper container.###29 07 2022 new variable
 itgr#:#itgr_list_presentation#:#Item Presentation###29 07 2022 new variable
 itgr#:#itgr_materials#:#Materiały
-itgr#:#itgr_show_title#:#Pokaż tytuł
-itgr#:#itgr_show_title_info#:#Tytuł sekcji obiektu wyświetlany jest w prezentacji dla uczestników kursu.
 itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
 itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
 jscalendar#:#about_calendar#:#O kalendarzu
@@ -10951,6 +11022,7 @@ ldoc#:#ldoc_document#:#Document###26 08 2024 new variable
 ldoc#:#ldoc_enabled#:#Enabled###26 08 2024 new variable
 ldoc#:#ldoc_form_attach_criterion_head#:#Select Criterion for Displaying your Document###26 08 2024 new variable
 ldoc#:#ldoc_form_criterion#:#Criterion###26 08 2024 new variable
+ldoc#:#ldoc_form_criterion_standard_fields_info_text#:#Please check the settings of the standard fields before defining the criterion.###04 05 2026 new variable
 ldoc#:#ldoc_form_document#:#Document###26 08 2024 new variable
 ldoc#:#ldoc_form_document_content_changed#:#The uploaded file has had its html &lt;head&gt; information removed by ILIAS. Please check the result and upload a new file if necessary.###26 08 2024 new variable
 ldoc#:#ldoc_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will have their &lt;head/gt; information removed – only the contents of the body element will be used.###26 08 2024 new variable
@@ -11013,6 +11085,7 @@ lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###29 07 2022 new varia
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###29 07 2022 new variable
 lm#:#lm_copy#:#Kopiuj moduł nauczania ILIAS
 lm#:#lm_edit_chapters#:#Edit Chapters###26 08 2024 new variable
+lm#:#lm_edit_content#:#Edit Content###04 05 2026 new variable
 lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###26 08 2024 new variable
 lm#:#lm_est_reading_time#:#Estimated Reading Time###29 07 2022 new variable
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.###29 07 2022 new variable
@@ -11030,6 +11103,7 @@ lm#:#lm_insert_page_before#:#Insert page before###28 10 2024 new variable
 lm#:#lm_insert_page_clip#:#Insert page from clipboard###28 10 2024 new variable
 lm#:#lm_insert_page_clip_after#:#Insert page from clipboard after###28 10 2024 new variable
 lm#:#lm_insert_page_clip_before#:#Insert page from clipboard before###28 10 2024 new variable
+lm#:#lm_list_pages#:#Edit Pages###04 05 2026 new variable
 lm#:#lm_page_added#:#Page has been added.###26 08 2024 new variable
 lm#:#lm_page_type_lm#:#LM Page###29 07 2022 new variable
 lm#:#lm_pages_added#:#Pages have been added.###26 08 2024 new variable
@@ -11154,7 +11228,6 @@ lso#:#lso_print_list#:#Print list
 lso#:#lso_read#:#User has read access to Learning Sequence
 lso#:#lso_search_users#:#Search user
 lso#:#lso_settings_availability#:#availability
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date###26 08 2024 new variable
 lso#:#lso_settings_extro#:#Exitpage Settings
 lso#:#lso_settings_intro#:#Intropage Settings
 lso#:#lso_settings_old_extro#:#View Old Exit Page###26 08 2024 new variable
@@ -11524,6 +11597,7 @@ mail#:#mail_add_folder#:#Utwórz nowy folder
 mail#:#mail_add_recipient#:#Podaj odbiorcę
 mail#:#mail_add_subfolder#:#Dodaj podfolder
 mail#:#mail_add_subject#:#Podaj temat
+mail#:#mail_adopt_selected_attachements#:#Adopt selected Attachments###04 05 2026 new variable
 mail#:#mail_all_in_trash#:#All in Trash###28 10 2024 new variable
 mail#:#mail_allow_external#:#Zewnętrzne wiadomości mailowe
 mail#:#mail_allow_external_info#:#Jeśli ta opcja nie jest aktywna, wysyłanie zewnętrznych wiadomości mailowej (SMTP) będzie globalnie uniemożliwione.
@@ -11634,6 +11708,8 @@ mail#:#mail_member_notification#:#Powiadomienie uczestników
 mail#:#mail_members_of_mailing_list#:#Członkowie listy mailingowej
 mail#:#mail_members_search_continue#:#Dalej
 mail#:#mail_message_send#:#Wiadomość została wysłana.
+mail#:#mail_mode_switch_label#:#Switch between „Personal Mail” and „Serial Letter” mode###04 05 2026 new variable
+mail#:#mail_mode_switch_locked#:#You cannot switch to „%s” mode.###04 05 2026 new variable
 mail#:#mail_move_error#:#Błąd podczas przesuwania wiadomości
 mail#:#mail_move_to#:#Przesuń do:
 mail#:#mail_move_to_folder_btn_label#:#Move Mail###26 08 2024 new variable
@@ -11776,6 +11852,7 @@ mail#:#only_inbox_trash_info#:#Jeśli ta opcja jest aktywna, usuwane są tylko t
 mail#:#orphaned_mail_body#:#W poniższych folderach poczty znajdują się starsze lub osierocone wiadomości mailowe. Pamiętaj, że wkrótce te maile zostaną usunięte.
 mail#:#orphaned_mail_subject#:#Powiadomienie o osieroconych wiadomościach mailowych
 mail#:#placeholders_advise#:#Osobiste pola do wypełnienia używane są wyłącznie do odbiorców w polu «Do».%sW przypadku odbiorców umieszczonych w polach Do wiadomości i Do ukrytej wiadomości osobiste pola do wypełnienia zostają zachowane.
+mail#:#regular_mail#:#Personal Mail###04 05 2026 new variable
 mail#:#search_content#:#Wynik szukania
 mail#:#search_recipients#:#Szukaj odbiorcy
 mail#:#second_email_missing_info#:#Wybór nie jest możliwy, ponieważ nie wpisano żadnego drugiego adresu mailowego
@@ -11784,6 +11861,7 @@ mail#:#send_mail_admins#:#Wszyscy administratorzy
 mail#:#send_mail_members#:#Wszyscy członkowie
 mail#:#send_mail_to#:#Wiadomość do
 mail#:#send_mail_tutors#:#Wszyscy opiekunowie
+mail#:#serial_letter#:#Serial Letter###04 05 2026 new variable
 mail#:#show_mail_settings#:#Show Mail Settings
 mail#:#show_mail_settings_info#:#If enabled, the user's `Mail Settings` are accessible via the `Personal Settings` or `Mail` section.
 mail#:#system_notification_installation_changed_by#:#Zmieniono przez
@@ -11913,6 +11991,7 @@ mep#:#mep_all_mobs#:#Wszystkie obiekty
 mep#:#mep_bulk_upload#:#Bulk Upload
 mep#:#mep_choose_from_folder#:#Wybierz z folderu
 mep#:#mep_choose_from_mep#:#Wybierz z puli
+mep#:#mep_clipboard_info#:#Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users.###04 05 2026 new variable
 mep#:#mep_content#:#Obiekty multimedialne
 mep#:#mep_content_snippet_in_use#:#moduł treści '%s' jest używany i dlatego nie można ich usunąć.
 mep#:#mep_content_snippet_used_in_older_versions#:#Uwaga: w starszych wersjach moduł treści był używany przed kilka stron. Jeśli przywrócona zostanie jedna z wersji takiej strony, nie będzie w niej tego modułu treści.
@@ -12706,7 +12785,6 @@ meta#:#meta_source#:#Źródło
 meta#:#meta_status#:#Status
 meta#:#meta_string#:#Text###26 08 2024 new variable
 meta#:#meta_structure#:#Struktura
-meta#:#meta_subjectmatterexpert#:#Ekspert tematyczny
 meta#:#meta_tab_advmd#:#Metadane właściwe dla użytkownika
 meta#:#meta_tab_advmd_def#:#Zarządzaj metadanymi
 meta#:#meta_tab_lom#:#LOM
@@ -12749,9 +12827,8 @@ mmbr#:#info_refuse_sure#:#Jesteś pewien, że chcesz odrzucić poniższego użyt
 mmbr#:#mmbr_awrn_my_groups_courses#:#Moje kursy i grupy
 mmbr#:#mmbr_awrn_my_groups_courses_info#:#Wszyscy użytkownicy grup i kursów użytkownika zostaną ujęci w liście.
 mmbr#:#mmbr_btn_mail_selected_users#:#Wyślij e-mail
-mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?###07 02 2020 new variable
 mmbr#:#mmbr_memberships#:#Memberships###29 07 2022 new variable
-mmbr#:#mmbr_selected_users#:#Wybrani uczestnicy
+mmbr#:#mmbr_role_error#:#Members must have at least one role assigned.###04 05 2026 new variable
 mmbr#:#mmbr_unsubscribed_from_objs#:#You have been unsubscribed from the selected objects.###07 02 2020 new variable
 mme#:#add_languages#:#Add Language
 mme#:#additional_langs#:#Additional Languages
@@ -12773,6 +12850,7 @@ mme#:#item_updated#:#Item stored###29 10 2025 new variable
 mme#:#main#:#Main Menu
 mme#:#mm_translation_lang#:#Language
 mme#:#mm_translation_trans#:#Translation
+mme#:#mme_lost_items#:#Nowhere assigned###04 05 2026 new variable
 mme#:#move_to_item#:#Move to Items###29 07 2022 new variable
 mme#:#move_to_top_item#:#Move to Top Items###29 07 2022 new variable
 mme#:#msg_languages_added#:#Added languages
@@ -12961,6 +13039,7 @@ news#:#news_news_item_visibility_info#:#Publiczne wiadomości mogą być dostęp
 news#:#news_news_items#:#Pozycje wiadomości
 news#:#news_no_js_click_here#:#Jeśli wiadomości się nie pokazały, kliknij tutaj.
 news#:#news_no_news_items#:#Nie ma dostępnych wiadomości.
+news#:#news_not_available#:#Unavailable News###04 05 2026 new variable
 news#:#news_notifications#:#Zawiadomienie
 news#:#news_notifications_public#:#Publiczne zawiadomienia
 news#:#news_notifications_public_info#:#Jeśli ta opcja jest wybrana, zawiadomienia mogą być otrzymywane poprzez osobiste RSS poza ILIAS. Oznacza to dostęp bez autoryzacji.
@@ -13041,6 +13120,7 @@ notes#:#notes_latest_comment#:#Latest Comment
 notes#:#notes_latest_message#:#Latest Message###26 08 2024 new variable
 notes#:#notes_message_author_counterpart#:#Respondent###26 08 2024 new variable
 notes#:#notes_message_author_you#:#You###26 08 2024 new variable
+notes#:#notes_message_deleted#:#Message deleted.###04 05 2026 new variable
 notes#:#notes_messages#:#Messages###26 08 2024 new variable
 notes#:#notes_my_comments#:#Moje komentarze
 notes#:#notes_no_comments#:#Do tej pory nie dodano żadnego komentarza.
@@ -13062,6 +13142,8 @@ noti#:#noti_deactivate_notification#:#Deactivate Notification
 noti#:#noti_notification_activated#:#Notification Activated
 noti#:#noti_notification_deactivated#:#Notification Deactivated
 notifications#:#push_notification#:#Push Notifications###29 10 2025 new variable
+notifications_adm#:#available_providers#:#Available Providers###04 05 2026 new variable
+notifications_adm#:#client_settings#:#Client Settings###04 05 2026 new variable
 notifications_adm#:#enable_osd#:#Enable Toasts###26 08 2024 new variable
 notifications_adm#:#enable_osd_desc#:#If enabled, users are notified by a pop-up about new notifications.###26 08 2024 new variable
 notifications_adm#:#enable_push#:#Enable Push Notifications###29 10 2025 new variable
@@ -13080,6 +13162,7 @@ notifications_adm#:#push_client_ios_case#:#If you are using IOS (Iphone, Ipad, I
 notifications_adm#:#push_settings#:#Push Notifications###29 10 2025 new variable
 notifications_adm#:#push_subscription_successfull#:#Push Notifications activation successful###29 10 2025 new variable
 notifications_adm#:#push_subscription_successfull_desc#:#This is a dummy notification to verify the successful activation of push notifications.###29 10 2025 new variable
+notifications_adm#:#user_settings#:#User Settings###04 05 2026 new variable
 obj#:#activation_visible_when_disabled#:#Widzialność
 obj#:#activation_visible_when_disabled_info#:#Jeśli ta opcja jest aktywna, materiał nauczania widoczny jest również poza przewidzianym zakresem dostępności.
 obj#:#availability_period_changed#:#The availability period for the selected objects has been changed successfully.###26 08 2024 new variable
@@ -13219,10 +13302,8 @@ orgu#:#org_op_edit_employee_talk#:#Edit Talk appointments
 orgu#:#org_op_edit_individual_plan#:#Edit Individual Plan###07 02 2020 new variable
 orgu#:#org_op_edit_submissions_grades#:#Przetwarzaj zadania oddane przez innych użytkowników
 orgu#:#org_op_manage_members#:#Przetwarzaj uczestników
-orgu#:#org_op_manage_participants#:#Manage Participants
 orgu#:#org_op_read_employee_talk#:#Read access talk appointments
 orgu#:#org_op_read_learning_progress#:#Obejrzyj postęp w nauce innych użytkowników
-orgu#:#org_op_score_participants#:#Score Participants
 orgu#:#org_op_view_certificates#:#View certificates of other users###07 02 2020 new variable
 orgu#:#org_op_view_competences#:#View competences of other users###07 02 2020 new variable
 orgu#:#org_op_view_individual_plan#:#View Individual Plan###07 02 2020 new variable
@@ -13318,7 +13399,6 @@ pd#:#pd_ended#:#Zakończone
 pd#:#pd_export_profile#:#Eksportuj dane osobowe
 pd#:#pd_import_personal_data#:#Importuj dane osobowe
 pd#:#pd_my_memberships_sort_default#:#Domyślna opcja sortowania
-pd#:#pd_no_items_to_manage#:#No items available for removal.###26 08 2024 new variable
 pd#:#pd_not_dated#:#Not Dated###26 08 2024 new variable
 pd#:#pd_ongoing#:#Aktualne
 pd#:#pd_personal_items_default_view#:#Domyślny widok
@@ -13328,9 +13408,6 @@ pd#:#pd_presentation_mode_tile#:#Tile Presentation###07 02 2020 new variable
 pd#:#pd_private_calendars#:#Prywatny kalendarz
 pd#:#pd_profile_data#:#Dane profilu
 pd#:#pd_remove_multi_confirm#:#Obiekty zostały usunięte.
-pd#:#pd_remove_multiple#:#Usuń kilka obiektów
-pd#:#pd_unsubscribe_memberships#:#Zakończ członkostwa
-pd#:#pd_unsubscribe_multiple_memberships#:#Zakończ kilka członkostw
 pd#:#pd_upcoming#:#Planowane
 pd#:#pd_view_select_at_least_one#:#Musisz wybrać co najmniej jeden widok, albo 'Wybrane elementy' i/lub 'Moje członkostwo'.
 pdesk#:#bookmark_moved_ok#:#Przesunięto zakładkę.
@@ -14243,10 +14320,6 @@ rbac#:#excs_read#:#Prawo czytania ustawień systemowych dotyczących ćwiczeń
 rbac#:#excs_visible#:#Ustawienia systemowe dotyczące ćwiczeń są widoczne
 rbac#:#excs_write#:#Edytuj ustawienia systemowe dotyczące ćwiczeń
 rbac#:#export_member_data#:#Dostęp do danych użytkownika
-rbac#:#extt_edit_permission#:#Zmiana ustawień praw dostępu
-rbac#:#extt_read#:#Ustawienia dostępu do oprogramowania innych firm
-rbac#:#extt_visible#:#Ustawienia oprogramowania innych firm jest widoczne
-rbac#:#extt_write#:#Konfiguruj oprogramowanie innych firm
 rbac#:#facs_edit_permission#:#Zmień ustawienia uprawnień
 rbac#:#facs_read#:#Prawo czytania ustawień systemowych dotyczących plików i folderów
 rbac#:#facs_upload_blacklisted_files#:#Upload indexed file types despite blacklist###07 02 2020 new variable
@@ -14532,6 +14605,9 @@ rbac#:#positions_override_operations#:#Nadpisz ustawienia globalne
 rbac#:#precondition_not_obligatory_alt#:#Warunek wstępny jest opcjonalny
 rbac#:#precondition_num_obligatory#:#Liczba potrzebnych materiałów
 rbac#:#precondition_num_optional_info#:#Podaj minimalną liczbę materiałów, które są konieczne do spełnienia warunku wstępnego.
+rbac#:#precondition_number_of_required_materials_bigger_preconditions_number#:#The number of required materials must be less than the total number of preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_compulsory_items#:#The number of required materials must be greater than the number of compulsory preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_than_one#:#The number of required materials must be at least 1.###26 05 2026 new variable
 rbac#:#precondition_obligatory#:#Obowiązkowe
 rbac#:#precondition_obligatory_alt#:#Warunek wstępny musi być spełniony
 rbac#:#precondition_obligatory_info#:#Aby uzyskać dostęp, należy spełnić obowiązkowe warunki wstępne.
@@ -15073,9 +15149,7 @@ rep#:#rep_add_new_def_grp_content#:#Zawartość
 rep#:#rep_add_new_def_grp_feedback#:#Feedback i ewaluacja
 rep#:#rep_add_new_def_grp_organisation#:#Organizacja
 rep#:#rep_add_new_def_grp_templates#:#Szablony
-rep#:#rep_add_to_favourites#:#Add to Favourites###07 02 2020 new variable
 rep#:#rep_added_rec_content#:#Recommended content has been added.###07 02 2020 new variable
-rep#:#rep_added_to_favourites#:#The item has been added to your favourites.###07 02 2020 new variable
 rep#:#rep_allowed_types#:#Allowed Types###26 08 2024 new variable
 rep#:#rep_breadcr_crs#:#Breadcrumb starts with course
 rep#:#rep_breadcr_crs_config#:#Configuration###26 08 2024 new variable
@@ -15130,9 +15204,7 @@ rep#:#rep_object_references_cannot_be_read#:#Brak uprawnień dla %s kolejnych re
 rep#:#rep_object_to_delete#:#Do usunięcia
 rep#:#rep_rec_content_removed#:#Recommended content has been removed.###07 02 2020 new variable
 rep#:#rep_recommended_content#:#Recommended Content###07 02 2020 new variable
-rep#:#rep_remove_from_favourites#:#Remove from Favourites###07 02 2020 new variable
 rep#:#rep_remove_rec_content#:#Are you sure you want to remove the following recommended content?###07 02 2020 new variable
-rep#:#rep_removed_from_favourites#:#The item has been removed from your favourites.###07 02 2020 new variable
 rep#:#rep_target_location#:#Target Location###07 02 2020 new variable
 rep#:#rep_target_location_info#:#Bitte wählen Sie nun das Ziel aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen.###07 02 2020 new variable
 rep#:#rep_time_based_availability#:#Dostępny tymczasowo
@@ -15156,8 +15228,6 @@ rtst#:#rtst_call#:#Wywołaj test ECS
 rwik#:#rwik_call#:#Wywołaj stronę Wiki ECS
 sahs#:#cont_insert_after_chap#:#Wstaw elementy wg rozdziału.
 sahs#:#cont_insert_into_chap#:#Wstaw elementy w rozdziale.
-sahs#:#sahs_activate_expert_mode#:#Aktywuj tryb ekspercki sekwencjonowania
-sahs#:#sahs_activate_expert_mode_info#:#W tym trybie możesz bezpośrednio edytować informacje dotyczące sekwencjonowania pakietu SCORM. Uwaga: ILIAS nie sprawdza Twoich danych pod kątem prawidłowości.
 sahs#:#sahs_add#:#Utwórz moduł nauczania SCORM/AICC
 sahs#:#sahs_authoring_mode#:#Tryb edycji
 sahs#:#sahs_authoring_mode_info#:#Pakiet musi być utworzony w edytorze ILIAS SCORM i wyeksportowany do pakietu SCORM w wersji 1.2/2004.
@@ -15489,7 +15559,9 @@ search#:#lucene_or#:#LUB
 search#:#lucene_port#:#Port
 search#:#lucene_prefix_wildcard#:#Pole do wypełnienia na początku słowa
 search#:#lucene_prefix_wildcard_info#:#Umożliwia stosowania pól do wypełnienia również na początku szukanego słowa: "*LIAS" znajduje "ILIAS"
+search#:#lucene_settings_index_section#:#Index Backup###04 05 2026 new variable
 search#:#lucene_settings_tab#:#Lucene
+search#:#lucene_settings_text_section#:#Presentation of Search Results###04 05 2026 new variable
 search#:#lucene_settings_title#:#Ustawienia dotyczące wyszukiwania Lucene
 search#:#lucene_size_frag_info#:#Wpisz maksymalną długość fragmentów tekstu, które mają zostać wyświetlone w celu podkreślenia wyników wyszukiwań.
 search#:#lucene_size_fragments#:#Długość fragmentów tekstu
@@ -15500,6 +15572,7 @@ search#:#search_any#:#-- dowolny --
 search#:#search_area#:#Pole wyszukiwania
 search#:#search_area_info#:#Wybierz pole, na którym rozpocznie się wyszukanie
 search#:#search_auto_complete_length#:#Liczba wpisów na liście auto-complete
+search#:#search_auto_complete_length_info#:#Choose ‘0‘ to switch off the auto-complete list.###04 05 2026 new variable
 search#:#search_cdate_filter#:#Szukaj daty sporządzenia
 search#:#search_cdate_filter_info#:#Jeśli ta opcja jest aktywna, wyszukiwanie można przeprowadzić za pomocą filtra dla daty sporządzenia obiektów.
 search#:#search_content#:#Zawartość strony
@@ -15517,6 +15590,7 @@ search#:#search_field#:#Search Input Field###29 07 2022 new variable
 search#:#search_field_perform#:#Perform Search###26 08 2024 new variable
 search#:#search_filter_by_type#:#Filtr typu
 search#:#search_filter_cd#:#Filtr wg daty utworzenia
+search#:#search_filter_settings_section#:#Filters for the Search Results###04 05 2026 new variable
 search#:#search_for_crs_members#:#Wyszukaj wśród uczestników kursu
 search#:#search_for_grp_members#:#Szukanie członków grup
 search#:#search_for_orgu_members#:#Search for Organisational Units###07 02 2020 new variable
@@ -15620,6 +15694,7 @@ sess#:#sess_members_gallery#:#Session Gallery
 sess#:#sess_members_print_title#:#Uczestnicy sesji
 sess#:#sess_msg_applicants_assigned#:#Użytkownik został zarejestrowany do sesji.
 sess#:#sess_msg_applicants_removed#:#Wniosek został odrzucony i usunięty z listy.
+sess#:#sess_new#:#Create Session###04 05 2026 new variable
 sess#:#sess_new_registrations#:#Wnioski o udział
 sess#:#sess_notification_option#:#Option###07 02 2020 new variable
 sess#:#sess_notification_option_inherit#:#Inherit from Parent###07 02 2020 new variable
@@ -16146,6 +16221,7 @@ style#:#sty_individual_styles#:#Indywidualne style
 style#:#sty_keep_existing#:#Zachowaj istniejącą klasę
 style#:#sty_left#:#Lewy
 style#:#sty_left_right_padding#:#Rozciągnięcie po lewej stronie/po prawej stronie
+style#:#sty_legacy_image_directory_found#:#Legacy image directory found. You may migrate the directory from ILIAS 9 by clicking "Migrate Images"###04 05 2026 new variable
 style#:#sty_letter_spacing#:#Spacjowanie liter
 style#:#sty_lightness_border#:#Jasność, ramka
 style#:#sty_lightness_cell1_bg#:#Jasność, komórka 1, tło
@@ -16166,8 +16242,10 @@ style#:#sty_margin_and_padding#:#Margines zewnętrzny i rozciągnięcie
 style#:#sty_media_char#:#Media
 style#:#sty_media_queries#:#Media Queries
 style#:#sty_media_query_info#:#Dla każdego zapytania mediów wstawiany jest arkusz CSS wg arkuszu domyślnego (bez zapytania mediów).
+style#:#sty_migrate_images#:#Migrate Images###04 05 2026 new variable
 style#:#sty_min_height#:#Minimalna wysokość
 style#:#sty_move_lm_styles#:#Zmień styl modułów nauczania
+style#:#sty_move_obj_styles#:#Change Style of Objects###04 05 2026 new variable
 style#:#sty_move_style#:#Zmień styl
 style#:#sty_move_user_styles#:#Zmień arkusz stylów użytkowników
 style#:#sty_move_user_styles_saved#:#The assignment of the users assigned to skind-id %s has been changed to skin-id %s.###29 10 2025 new variable
@@ -16223,6 +16301,7 @@ style#:#sty_special#:#Specjalny
 style#:#sty_style_chars#:#Klasa stylu
 style#:#sty_style_class#:#Klasy stylów
 style#:#sty_style_classes_copied#:#Skopiono klasy stylów.
+style#:#sty_style_not_migrated#:#This content style has not been migrated to the ILIAS 10 data structure yet. Changes will not be applied.###04 05 2026 new variable
 style#:#sty_substyle#:#Style obszaru częściowego
 style#:#sty_substyle_of#:#Podstyl
 style#:#sty_substyles#:#Style obszaru częściowego
@@ -16477,7 +16556,6 @@ survey#:#default_codes_mail_subject#:#Twój kod dostępu do ankiety %s
 survey#:#define_questionblock#:#Definiuj blok pytań
 survey#:#delete_saved_message#:#Usuń tekst wiadomości
 survey#:#display_all_available#:#Wyświetl wszystkie dostępne
-survey#:#dont_use_questionpool#:#Nie wstawaj pytań do puli pytań, udostępnij tylko dla tej ankiety
 survey#:#duplicate#:#Kopiuj
 survey#:#edit_heading#:#Edytuj nagłówek
 survey#:#end_date#:#Data końcowa
@@ -16491,7 +16569,6 @@ survey#:#err_minvalueganswers#:#Wartość minimalna nie może być większa niż
 survey#:#err_no_exact_answers#:#Wybierz dokładnie %s odpowiedzi.
 survey#:#err_no_max_answers#:#Wybierz najwyżej %s odpowiedzi.
 survey#:#err_no_min_answers#:#Wybierz co najmniej %s odpowiedzi.
-survey#:#err_no_pool_name#:#Podaj nazwę puli pytań
 survey#:#error_retrieving_anonymous_survey#:#System nie może odnaleźć danych ankiety dla kodu ankiety %s. Sprawdź podany kod ankiety!
 survey#:#error_save_code#:#Wartości nie zostały prawidłowo zapisane. <b>Adres mailowy '%s' jest nieaktualny.</b>. Imię: '%s', nazwisko: '%s'.<br>
 survey#:#evaluation#:#Wyniki
@@ -16659,8 +16736,6 @@ survey#:#search_groups#:#Grupy
 survey#:#search_term#:#Szukany termin
 survey#:#select_option#:#--- Wybierz opcję ---
 survey#:#select_prior_question#:#Wybierz z góry pytanie
-survey#:#select_questionpool#:#Wybierz pulę pytań dla zachowania utworzonego pytania
-survey#:#select_questionpool_short#:#Pula pytań dla ankiety
 survey#:#select_relation#:#Wybierz relację
 survey#:#select_target_position_for_move_question#:#Wybierz pozycję docelową dla przesunięcia pytania i naciśnij jeden z przycisków wstawiających!
 survey#:#select_value#:#Wybierz wartość
@@ -16677,7 +16752,6 @@ survey#:#spl_move_insert_clipboard#:#Zaznaczone pytania zostały wybrane do prze
 survey#:#spl_move_same_pool#:#Nie możesz przesunąć pytań w ramach tej samej puli pytań
 survey#:#spl_move_select_none#:#Wybierz co najmniej jedno pytanie do przesunięcia
 survey#:#spl_online_property#:#Online
-survey#:#spl_online_property_description#:#Jeżeli pula pytań nie jest aktywna, to nie może być użyta w testach.
 survey#:#spl_paste_no_objects#:#W schowku nie ma dostępnych pytań. Użyj do tego przycisków do kopiowania lub przesuwania.
 survey#:#spl_paste_success#:#Wstawiono pytanie (pytania)
 survey#:#spl_save_obligatory_state#:#zapisz zobowiązujący status
@@ -16695,16 +16769,13 @@ survey#:#survey_360_appraisee_close_action_status#:#Ankieta została zamknięta 
 survey#:#survey_360_appraisee_close_action_success#:#Zamknąłeś ankietę 360° dla autorów feedbacku.
 survey#:#survey_360_appraisee_close_action_success_admin#:#Ankiety 360° odbiorców feedbacku zostały zamknięte.
 survey#:#survey_360_appraisee_close_table#:#Zamknięto w dniu
-survey#:#survey_360_appraisee_info#:#Informacja o odbiorcy feedbacku
 survey#:#survey_360_appraisee_is_closed#:#Odbiorca feedbacku zamknął ankietę.
 survey#:#survey_360_appraisees#:#Odbiorcy feedbacku
 survey#:#survey_360_edit_raters#:#Zarządzaj autorami feedbacku
 survey#:#survey_360_mode#:#Feedback 360°
 survey#:#survey_360_mode_info#:#Dla oceny kilku osób
 survey#:#survey_360_no_appraisees#:#Aktualnie nie możesz dawać feedbacku.
-survey#:#survey_360_no_closed_appraisees#:#Jeszcze nie zamknięto żadnej ankiety.
 survey#:#survey_360_rate_other_appraisee#:#Rate Appraisee###28 10 2024 new variable
-survey#:#survey_360_rate_other_appraisees#:#Daj feedback
 survey#:#survey_360_rater_finished#:#Ankieta zakończona
 survey#:#survey_360_rater_mail_sent#:#Wysłano wiadomość mailową
 survey#:#survey_360_rater_message_content_anonymous#:#Treść (anonim)
@@ -16714,7 +16785,6 @@ survey#:#survey_360_rater_message_content_registered_default#:#Ankietę możesz 
 survey#:#survey_360_rater_subject_default#:#Zostałeś zaproszony jako autor feedbacku do ankiety 360°.
 survey#:#survey_360_raters#:#Autorzy feedbacku
 survey#:#survey_360_raters_finished#:#Zakończone feedbacki
-survey#:#survey_360_raters_status_info#:#Ankieta zakończona
 survey#:#survey_360_remove_appraisees#:#Usuń odbiorcę feedbacku
 survey#:#survey_360_results#:#Odbiorcy feedbacku mają wgląd w odpowiedzi
 survey#:#survey_360_results_all#:#Wszystkie feedbacki
@@ -16766,17 +16836,15 @@ survey#:#survey_error_insert_incomplete_question#:#Próbowałeś dodać niekompl
 survey#:#survey_execution_exit#:#Wróć do dostępnych zasobów
 survey#:#survey_execution_exit_360#:#Back###26 08 2024 new variable
 survey#:#survey_execution_sure_finish#:#Czy naprawdę chcesz zakończyć ankietę? Po tej czynności nie będziesz mógł poprawić swoich odpowiedzi.
-survey#:#survey_existing_pool#:#Użyj istniejącej puli pytań
 survey#:#survey_finish#:#Zapisz i zakończ ankietę >>>
 survey#:#survey_finished#:#Ankieta jest zakończona. Dziękujemy za uczestnictwo!
+survey#:#survey_from_x_points#:#Od X punktów
 survey#:#survey_has_datasets_warning#:#Ankieta już zawiera zestaw danych. Nie możesz edytować pytań ankiety bez usunięcia tego zestawu danych w sekcji konserwacji.
 survey#:#survey_has_datasets_warning_page_view#:#Ankieta już zawiera zestaw danych. Nie możesz edytować pytań ankiety bez usunięcia tego zestawu danych.
 survey#:#survey_has_datasets_warning_page_view_link#:#Edytuj uczestników
 survey#:#survey_introduction_info#:#Ten tekst wyświetlany jest stale w zakładce 'Info'.
 survey#:#survey_is_offline#:#Nie możesz rozpocząć ankiety! Ankieta nie jest aktywna.
-survey#:#survey_new_pool#:#Utwórz nową pulę pytań
 survey#:#survey_next#:#Zapisz i przejdź do nast. strony >>>
-survey#:#survey_no_pool#:#Nie używaj puli pytań
 survey#:#survey_not_available#:#nie podano
 survey#:#survey_notification_finished_introduction#:#poniższy uczestnik zakończył ankietę.
 survey#:#survey_notification_finished_reason#:#Otrzymałeś tę wiadomość, ponieważ aktywowałeś funkcję powiadomień dla powyżej wymienionej ankiety.
@@ -16793,17 +16861,11 @@ survey#:#survey_notification_tutor_salutation#:#Witaj %s,
 survey#:#survey_notification_tutor_setting#:#Wiadomość mailowa po zakończeniu przez wszystkich uczestników
 survey#:#survey_notification_tutor_subject#:#Wszyscy uczestnicy ukończyli ankietę "%s"
 survey#:#survey_order#:#Sortowanie
-survey#:#survey_pool_selection#:#Wybór puli
 survey#:#survey_previous#:#<<< Zapisz i przejdź do poprz. strony
 survey#:#survey_question_editor#:#Edytuj pytania ankiety
 survey#:#survey_question_obligatory#:#(To pytanie jest obowiązkowe. Musisz na to pytanie odpowiedzieć)
 survey#:#survey_question_pool#:#Pula pytań
 survey#:#survey_question_pool_title#:#Tytuł puli
-survey#:#survey_question_pool_usage#:#Użyj puli pytań
-survey#:#survey_question_pool_usage_active#:#Opcjonalnie pytania można utworzyć w puli pytań
-survey#:#survey_question_pool_usage_active_info#:#Przy tworzeniu pytania należy zdecydować, czy powinna być używana pula pytań.
-survey#:#survey_question_pool_usage_inactive#:#Pytania tworzone są bezpośrednio w ankiecie.
-survey#:#survey_question_pool_usage_inactive_info#:#Pytanie jest w pierwszej kolejności tworzone dla tej ankiety, a dopiero później może być ręcznie dodane do puli pytań.
 survey#:#survey_question_title#:#Tytuł pytania
 survey#:#survey_questions#:#Pytania
 survey#:#survey_questions_to_clipboard_copy#:#Skopiowano pytania do schowka. Wybierz element docelowy lub opróżnij schowek.
@@ -16844,7 +16906,6 @@ survey#:#survey_sync_insufficient_permissions#:#Brak wymaganych warunków.
 survey#:#survey_sync_question_copies#:#Synchronizuj kopie pytań
 survey#:#survey_sync_question_copies_info#:#Wszystkie wybrane pytania zostaną zaktualizowane do aktualnego statusu puli pytań.
 survey#:#survey_sync_success#:#Zaktualizowano wybrane pytania.
-survey#:#survey_up_to_x_points#:#Do x punktów
 survey#:#survey_use_start_button#:#Musisz rozpocząć ankietę używając przycisku start!
 survey#:#svy_activation_limited_visibility_info#:#Poza podanym okresem czasu wyświetlany jest tylko tytuł ankiety, pytania natomiast są niedostępne.
 survey#:#svy_activation_online_info#:#Uczestnicy mogą uczestniczyć w ankiecie tylko wówczas, gdy jest ona w trybie online.
@@ -16917,7 +16978,6 @@ survey#:#svy_mail_context_rater_invitation_title#:#Survey: Rater Invitation###29
 survey#:#svy_mail_context_reminder_info#:#Przypomina użytkownikom o udziale w ankiecie
 survey#:#svy_mail_context_reminder_survey_title#:#Nazwa ankiety
 survey#:#svy_mail_context_reminder_title#:#Przypomnienie dotyczące ankiety
-survey#:#svy_mail_own_results#:#Wyślij własne odpowiedzi mailem
 survey#:#svy_mail_own_results_body#:#Wziąłeś udział w następującej ankiecie:
 survey#:#svy_mail_own_results_subject#:#Ankieta "%s" - Twoje odpowiedzi
 survey#:#svy_mail_send_confirmation#:#Wyślij potwierdzenie udziału
@@ -16929,7 +16989,6 @@ survey#:#svy_notification_tutor_results#:#One E-Mail including Survey Results###
 survey#:#svy_notification_tutor_results_alert#:#This requires an end date.###07 02 2020 new variable
 survey#:#svy_notification_tutor_results_info#:#After reaching the end data a cron job will send an email with the detailed survey results attached to it.###07 02 2020 new variable
 survey#:#svy_only_max_one_external_rater#:#Please select only one external rater.###29 07 2022 new variable
-survey#:#svy_page_add_question#:#Dodaj nowe %s
 survey#:#svy_page_error#:#Wystąpił błąd przy odpowiedzi na pytanie ankiety. Zajrzyj do pytania, aby otrzymać więcej informacji o błędzie!
 survey#:#svy_page_errors#:#Wystąpiły błędy przy odpowiedzi na pytania ankiety. Zajrzyj do pytań, aby otrzymać więcej informacji o błędach!
 survey#:#svy_participant#:#Participant
@@ -16949,8 +17008,6 @@ survey#:#svy_results_mail_confirm#:#Uczestnik może wysłać sobie potwierdzenie
 survey#:#svy_results_mail_confirm_info#:#Po zakończeniu ankiety uczestnicy mogą wysłać sobie mailem potwierdzenie udziału.
 survey#:#svy_results_mail_own#:#Dołącz własne odpowiedzi
 survey#:#svy_results_mail_own_info#:#Do potwierdzenia udziału dołączone zostaną własne odpowiedzi.
-survey#:#svy_results_view_own#:#Uczestnik może obejrzeć własne odpowiedzi
-survey#:#svy_results_view_own_info#:#Uczestnicy mogą po zakończeniu ankiety wyświetlić sobie listę z własnymi odpowiedziami. Nie mogą zmienić odpowiedzi.
 survey#:#svy_save_and_continue#:#Save and Continue###29 07 2022 new variable
 survey#:#svy_save_sync#:#Zapisz i zaktualizuj kopie
 survey#:#svy_search_user#:#Search User###29 07 2022 new variable
@@ -17136,6 +17193,12 @@ tax#:#tax_tax_settings#:#Ustawienia dotyczące klasyfikacji
 tax#:#tax_taxonomy#:#Klasyfikacja
 tbl#:#tbl_export_csv#:#Eksportuj do .csv
 tbl#:#tbl_export_excel#:#Eksportuj do .xls
+tbl#:#tbl_selection#:#Selection###04 05 2026 new variable
+tbl#:#tbl_template_create#:#Save Current View###04 05 2026 new variable
+tbl#:#tbl_template_created#:#The current view has been saved.###04 05 2026 new variable
+tbl#:#tbl_template_delete#:#Delete Saved View###04 05 2026 new variable
+tbl#:#tbl_template_deleted#:#The saved view has been deleted.###04 05 2026 new variable
+tbl#:#tbl_templates#:#View###04 05 2026 new variable
 tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###26 08 2024 new variable
 tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###26 08 2024 new variable
 tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.
@@ -17346,6 +17409,7 @@ trac#:#trac_paths#:#Paths###29 07 2022 new variable
 trac#:#trac_percentage#:#Procent
 trac#:#trac_periodic_system_load#:#Cykliczne przedstawienie wartości dotyczących obciążenia
 trac#:#trac_progress#:#Osobisty postęp nauczania
+trac#:#trac_progress_block_details#:#View Details###04 05 2026 new variable
 trac#:#trac_progress_block_title#:#Your Learning Progress###29 10 2025 new variable
 trac#:#trac_read_count#:#Ilość wejść
 trac#:#trac_read_count_spent_seconds#:#Spędzony czas / Ilość wejść
@@ -17408,6 +17472,7 @@ trac#:#trac_view_mode_all#:#Wszystkie obiekty
 trac#:#trac_view_mode_collection#:#Tylko obiekty, które określają status łączny
 trac#:#trac_visits#:#Liczba wizyt
 trac#:#trac_visits_info#:#Każda wizyta na stronie jest liczona jako jedna wizyta.
+trac#:#trac_visits_nr#:#Number of Visits###04 05 2026 new variable
 trac#:#user_total#:#Liczba użytkowników
 trac#:#view_mode#:#Tryb widoku
 trac#:#view_mode_all#:#All###29 10 2025 new variable
@@ -17498,6 +17563,7 @@ ui#:#ui_transcription#:#Transcript###29 07 2022 new variable
 ui#:#unselect_node#:#Remove node %s from selection###29 10 2025 new variable
 ui#:#vc_sort#:#Sort by:###29 10 2025 new variable
 ui#:#warning_url_too_long_msg#:#The amount of selected rows will result in a very large URL; the Server will probably block this request.<br>Please select less rows or perform the action on all entries.###29 10 2025 new variable
+user#:#account_not_flagged_for_deletion#:#The account is not flagged for deletion.###04 05 2026 new variable
 user#:#activate_in_profile_fields#:#To change this setting, the user must first be allowed to change their login name under Profile > Profile Fields###29 10 2025 new variable
 user#:#administrative_settings#:#Administrative Settings###29 10 2025 new variable
 user#:#all_roles_has_starting_point#:#Wszystkie role ze zdefiniowaną stroną startową
@@ -17932,7 +17998,6 @@ wopi#:#wopi_url_byline#:#Complete URL of the WOPI-Discovery, this must be access
 wsp#:#element_already_shared#:#Te zasoby zostały temu użytkownikowi już udostępnione.
 wsp#:#element_shared#:#Udostępniono zasoby.
 wsp#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.
-wsp#:#search_no_match#:#Nie znaleziono użytkownika o tej nazwie.
 wsp#:#share#:#Udostępnij
 wsp#:#share_content#:#Udostępnij zasoby
 wsp#:#share_with#:#Użytkownik
@@ -17954,6 +18019,7 @@ wsp#:#wsp_permission_registered_info#:#Ten obiekt jest dostępny dla wszystkich 
 wsp#:#wsp_permission_removed#:#Wpis został usunięty.
 wsp#:#wsp_permissions#:#Udostępnij
 wsp#:#wsp_personal_resources_description#:#Here you can manage your private files, blogs and artifacts.###07 02 2020 new variable
+wsp#:#wsp_search_no_match#:#Your search did not match any results.###04 05 2026 new variable
 wsp#:#wsp_send_mail#:#Send Mail###26 08 2024 new variable
 wsp#:#wsp_set_permission_all#:#Publiczne
 wsp#:#wsp_set_permission_all_password#:#Publiczne (Wymagane hasło)

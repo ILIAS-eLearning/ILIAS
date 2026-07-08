@@ -32,6 +32,7 @@ abstract class ilUnitConfigurationGUI
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
     protected ilCtrlInterface $ctrl;
+    protected ilAccessHandler $access;
 
     public function __construct(
         protected ilUnitConfigurationRepository $repository
@@ -40,6 +41,7 @@ abstract class ilUnitConfigurationGUI
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
+        $this->access = $DIC->access();
 
         $local_dic = QuestionPoolDIC::dic();
         $this->request = $local_dic['request_data_collector'];
@@ -74,6 +76,22 @@ abstract class ilUnitConfigurationGUI
 
     protected function checkPermissions(string $cmd): void
     {
+        if (!$this->access->checkAccess('read', '', $this->request->getRefId())) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->redirectToURL(ilUserUtil::getStartingPointAsUrl());
+            return;
+        }
+
+        if (in_array($cmd, ['showUnitCategories', 'showUnitsOfCategory', 'showGlobalUnitCategories'], true)) {
+            return;
+        }
+
+        if ($this->access->checkAccess('write', '', $this->request->getRefId())) {
+            return;
+        }
+
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+        $this->ctrl->redirect($this, $this->getDefaultCommand());
     }
 
     public function executeCommand(): void
@@ -462,7 +480,7 @@ abstract class ilUnitConfigurationGUI
             $this->lng->txt('back'),
             $this->ctrl->getLinkTarget($this, $this->getUnitCategoryOverviewCommand())
         );
-        if ($this->isCRUDContext()) {
+        if ($this->isCRUDContext() && $this->access->checkAccess('write', '', $this->request->getRefId())) {
             $this->ctrl->setParameterByClass(get_class($this), 'category_id', $category->getId());
             $ilToolbar->addButton(
                 $this->lng->txt('un_add_unit'),

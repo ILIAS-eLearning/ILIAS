@@ -310,6 +310,10 @@ administration#:#restoring_trash#:#Stellt gelöschte Objekte wieder her...
 administration#:#restoring_unbound_objs#:#Stellt nicht zugeordnete Objekte und Teilobjekte wieder her...
 administration#:#reuse_of_loginnames_contained_in_history#:#Wiederverwendung von Anmeldenamen
 administration#:#reuse_of_loginnames_contained_in_history_info#:#Anmeldenamen, die von einer Person bereits zuvor genutzt wurden, können erneut verwendet werden.
+administration#:#rpc_pdf_configuration#:#PDF-Konfiguration
+administration#:#rpc_pdf_font#:#Schriftarten
+administration#:#rpc_pdf_font_info#:#Geben Sie hier zusätzliche Schriftarten zur Erzeugung von PDF-Dateien an. Alle eingetragenen Schriftarten müssen auf dem Java-Server installiert sein oder dem Java-Server beim Starten bekannt gemacht werden.
+administration#:#rpc_pdf_generation#:#Schriften für PDF-Erstellung
 administration#:#scan#:#Untersuche
 administration#:#scan_desc#:#Durchsuche System nach korrupten/ungültigen/verlorenen/nicht zugeordneten Objekten
 administration#:#scan_details#:#Details der Untersuchung
@@ -1471,6 +1475,7 @@ assessment#:#tst_eval_total_passed_average_points#:#Durchschnittliche Punktezahl
 assessment#:#tst_eval_total_passed_average_time#:#Mittlere Bearbeitungsdauer aller bestandenen Tests
 assessment#:#tst_eval_total_persons#:#Gesamtzahl der Personen, die den Test gestartet haben
 assessment#:#tst_exam_access_code#:#Zugangscode
+assessment#:#tst_exam_access_code_invalid_message#:#Der Zugangscode ist ungültig.
 assessment#:#tst_exam_access_code_label#:#Geben Sie den Zugangscode ein, um Ihren bereits begonnenen Test fortzusetzen. Lassen Sie das Feld leer, um einen neuen Testdurchlauf zu starten.
 assessment#:#tst_exam_conditions#:#Prüfungsbedingungen
 assessment#:#tst_exam_conditions_label#:#Ankreuzen, um die Bedingungen zu akzeptieren.
@@ -1696,7 +1701,8 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#Der gestartete
 assessment#:#tst_objective_progress_header#:#Fortschritt im Lernziel
 assessment#:#tst_objectives_progress_header#:#Fortschritte in den Lernzielen
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Dieser Random Test befindet sich in einem irreparablen Zustand, da angeschlossene Fragepools gelöscht wurden. Aus diesem Grund können Teilnehmer diesen Test nicht länger absolvieren.
-assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Fragen zu bereits erfolgreich bearbeiteten Lernzielen sind optional.</b><br /><br />Sie wollen nun zu einer Frage wechseln, welche zu einem bereits bestandenen Lernziel gehört.<br />Sie können wählen:<br /><br />Wenn Sie fortfahren, können Sie die Fragen zu diesen Lernzielen bearbeiten. Da für diesen Versuch aber neue Fragen ausgewählt wurden, wurden Ihre Antworten aus vorherigen Versuchen nicht übernommen. Sie können sich bei erneuter Bearbeitung der Fragen Ihr Lernzielergebnis auch verschlechtern.<br /><br />Wenn Sie die Fragen nicht erneut bearbeiten möchten können Sie zurück gehen. Die Fragen werden dann in der Auswertung nicht berücksichtigt.
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Fragen zu bereits bestandenen Lernzielen sind schon bearbeitet.</b><br /><br />Die nächsten Fragen gehören zu bereits bestandenen Lernzielen. Die Fragen werden in der Auswertung berücksichtigt, Ihre Antworten aus früheren Versuchen werden übernommen.<br /><br />Wenn Sie fortfahren, können Sie Ihre Antworten einsehen und überarbeiten. Wenn Sie Ihre früheren Antworten verändern, können sich Ihre Lernzielergebnisse verbessern oder verschlechtern.<br /><br />Wenn Sie Ihre Antworten nicht einsehen möchten, können Sie zurück gehen.
+assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Fragen zu bereits bestandenen Lernzielen sind optional.</b><br /><br />Die nächsten Fragen gehören zu bereits bestandenen Lernzielen.<br /><br />Wenn Sie fortfahren, können Sie die Fragen zu diesen Lernzielen bearbeiten. Dabei können sich Ihre Lernzielergebnisse verbessern oder verschlechtern.<br /><br />Wenn Sie die Fragen nicht bearbeiten möchten, können Sie zurück gehen. Die Fragen werden dann in der Auswertung nicht berücksichtigt.
 assessment#:#tst_out_of_time_message#:#Sie haben die maximal erlaubte Bearbeitungszeit des Tests erreicht!
 assessment#:#tst_participant#:#Teilnehmer
 assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
@@ -2500,10 +2506,10 @@ blog#:#blog_news_posting_authors#:#Mitwirkende: %s
 blog#:#blog_news_posting_published#:#Ein neuer Blogbeitrag wurde veröffentlicht von %s.
 blog#:#blog_news_posting_updated#:#Ein Blogbeitrag wurde aktualisiert von %s.
 blog#:#blog_no_keywords#:#Es sind bisher keine Schlagwörter vergeben worden.
-blog#:#blog_notification_activated#:#Änderungs-Benachrichtigung aktiviert
-blog#:#blog_notification_deactivated#:#Änderungs-Benachrichtigung deaktiviert
-blog#:#blog_notification_toggle_off#:#Änderungs-Benachrichtigung deaktivieren
-blog#:#blog_notification_toggle_on#:#Änderungs-Benachrichtigung aktivieren
+blog#:#blog_notification_activated#:#Sie haben die Benachrichtigung aktiviert.
+blog#:#blog_notification_deactivated#:#Sie haben die Benachrichtigung deaktiviert.
+blog#:#blog_notification_toggle_off#:#Benachrichtigung deaktivieren
+blog#:#blog_notification_toggle_on#:#Benachrichtigung aktivieren
 blog#:#blog_number_users_notes_or_comments#:#Anzahl der Benutzer, die zu diesem Beitrag Notizen oder Kommentare verfasst haben.
 blog#:#blog_posting#:#Beitrag
 blog#:#blog_posting_deleted#:#Der Beitrag wurde gelöscht.
@@ -2537,11 +2543,13 @@ book#:#book_add_participant#:#Teilnehmer hinzufügen
 book#:#book_add_schedule#:#Zeitplan hinzufügen
 book#:#book_additional_info_file#:#Zusätzliche Beschreibung
 book#:#book_all#:#Alle anzeigen
+book#:#book_all_day#:#Ganztägig
 book#:#book_all_pools_need_schedules#:#Die Änderungen wurden nicht gespeichert. Alle ausgewählten Buchungspools benötigen mindestens einen Zeitplan.
 book#:#book_all_users#:#Alle Personen
 book#:#book_assign#:#Buchen
 book#:#book_assign_object#:#Für diese Person buchen
-book#:#book_assign_participant#:#Für andere Personen buchen
+book#:#book_assign_participant#:#Für andere Person buchen
+book#:#book_assign_participants#:#Für andere Person(en) buchen
 book#:#book_back_to_list#:#Zurück zur Liste
 book#:#book_bobj#:#Angebote
 book#:#book_book#:#Buchen
@@ -2563,9 +2571,13 @@ book#:#book_confirm_booking_schedule_number_of_objects#:#Buchungsbestätigung
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Bitte wählen Sie die Anzahl der zu buchenden Angebote.
 book#:#book_confirm_cancel#:#Sind Sie sicher, dass Sie die folgenden Buchungen stornieren möchten?
 book#:#book_confirm_cancel_aggregation#:#Anzahl Stornierungen
-book#:#book_confirm_delete#:#Sind Sie sicher, dass Sie die folgenden Angebote löschen wollen?
+book#:#book_confirm_cancel_info#:#Die ausgewählten Buchungen werden storniert.
+book#:#book_confirm_delete#:#Sind Sie sicher, dass Sie die folgenden Angebote löschen wollen inklusive aller zugehörigen Zeitfenster? Dabei werden auch alle zugehörigen Buchungen gelöscht.
+book#:#book_confirm_remove_participant#:#Sind Sie sicher, dass Sie die folgende(n) Teilnehmer entfernen wollen? Dabei werden alle zugehörigen Buchungen gelöscht.
 book#:#book_copy#:#Buchungspool kopieren
 book#:#book_create_objects#:#Angebote erstellen
+book#:#book_date_from#:#Von Datum
+book#:#book_date_to#:#Bis Datum
 book#:#book_deadline#:#Deadline
 book#:#book_deadline_hours#:#Bis n Stunden vor Beginn des Zeitfensters
 book#:#book_deadline_info#:#Minimale Zeit zwischen Buchung und Buchungszeitraum
@@ -2573,11 +2585,18 @@ book#:#book_deadline_options#:#Spätester Buchungszeitpunkt
 book#:#book_deadline_slot_end#:#Bis zum Ende des Zeitfensters
 book#:#book_deadline_slot_start#:#Bis zum Beginn des Zeitfensters
 book#:#book_deassign#:#Buchungen bearbeiten
+book#:#book_delete_object#:#Löschen
+book#:#book_deleted_booking#:#Gelöschte Buchung(en)
+book#:#book_deleted_object#:#Gelöschtes buchbares Objekt
 book#:#book_download_info#:#Zusätzliche Beschreibung herunterladen
 book#:#book_edit#:#Buchungspool bearbeiten
 book#:#book_edit_object#:#Angebot bearbeiten
 book#:#book_edit_schedule#:#Zeitplan bearbeiten
+book#:#book_filter_end_date#:#Enddatum
+book#:#book_filter_objects#:#Buchbare Objekte
 book#:#book_filter_past_reservations#:#Abgelaufene Buchungen anzeigen
+book#:#book_filter_period#:#Zeitraum
+book#:#book_filter_start_date#:#Startdatum
 book#:#book_fromto#:#Datumsbereich
 book#:#book_hours#:#Stunden vor Beginn des Zeitfensters
 book#:#book_is_used#:#In Benutzung
@@ -2592,14 +2611,23 @@ book#:#book_messages#:#Mitteilungen
 book#:#book_messages_info#:#Buchende können einer Buchung eine Mitteilung mitgeben.
 book#:#book_missing_availability#:#Es können leider nicht alle Termine gebucht werden.
 book#:#book_missing_items#:#Es fehlen $1.
+book#:#book_modal_booking_confirmation#:#Buchungsbestätigung
+book#:#book_modal_enter_quantity_intro#:#Bitte geben Sie die Anzahl der Buchungen ein.
+book#:#book_modal_recurrence#:#Wiederholung
+book#:#book_modal_recurrence_multiple#:#Mehrere Termine buchen
+book#:#book_modal_recurrence_single#:#Nur diesen Termin buchen
+book#:#book_modal_skipped_unknown_item#:#Unbekannte oder ungültige Auswahl (%s).
+book#:#book_modal_warning_skipped_selections#:#Einige ausgewählte Angebote oder Termine sind nicht buchbar und werden in dieser Buchungsbestätigung nicht berücksichtigt.
 book#:#book_new#:#Neuen Buchungspool anlegen
 book#:#book_no_bookings_for_you#:#Es wurden keine Buchungen für Sie durchgeführt.
 book#:#book_no_objects#:#Keine Buchungen
+book#:#book_no_objects_available#:#Keines der ausgewählten Angebote ist derzeit für eine Buchung verfügbar.
 book#:#book_no_of_objects#:#Anzahl Angebote
 book#:#book_no_pools_selected#:#Diesem Kurs ist kein Buchungspool zugewiesen. Buchungspools können über den Reiter „Ressourcen“ des Kurses zugewiesen werden.
 book#:#book_no_preferences_for_you#:#Sie haben keine Präferenzen abgespeichert.
 book#:#book_no_recurrence#:#Nur diesen Termin buchen
 book#:#book_not#:#Nicht
+book#:#book_not_cancelled#:#Nicht storniert
 book#:#book_not_enough_preferences#:#Sie haben nicht genügend Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
 book#:#book_notification#:#Benachrichtigungen über Reservierungen
 book#:#book_notification_cron_not_active#:#Achtung: Der notwendige Cron-Job "Benachrichtigungen über Reservierungen" ist zurzeit nicht aktiviert.
@@ -2611,13 +2639,18 @@ book#:#book_obj_select#:#Auswählen
 book#:#book_object_added#:#Ein Angebot wurde hinzugefügt.
 book#:#book_object_deleted#:#Das Angebot wurde gelöscht.
 book#:#book_object_selection#:#Angebotsauswahl
+book#:#book_object_title_or_description#:#Titel/Beschreibung
 book#:#book_object_updated#:#Das Angebot wurde geändert.
 book#:#book_objects_available#:#Verfügbare Angebote: %s
 book#:#book_open#:#Buchungspool öffnen
 book#:#book_overall_limit#:#Gesamtzahl der Buchungen pro Benutzer begrenzen
 book#:#book_overall_limit_warning#:#Sie haben die maximale Anzahl Buchungen erreicht.
+book#:#book_overall_limit_would_be_exceeded#:#Ungültige Auswahl. Die Gesamtzahl der Buchungen würde überschritten werden.
+book#:#book_participant#:#Teilnehmer
 book#:#book_participant_already_assigned#:#Mindestens eine Person war bereits zugewiesen.
 book#:#book_participant_assigned#:#Die Personen wurden hinzugefügt.
+book#:#book_participant_removed#:#Die Teilnehmer und alle zugehörigen Buchungen wurden erfolgreich entfernt.
+book#:#book_past_bookings#:#Vergangene Buchungen
 book#:#book_period#:#Dauer
 book#:#book_pool_added#:#Ein Buchungspool wurde angelegt.
 book#:#book_pool_selection#:#Auswahl Buchungspool
@@ -2633,6 +2666,7 @@ book#:#book_pref_overview#:#Übersicht
 book#:#book_preference_info#:#Bitte wählen Sie %1 Präferenzen bis %2. Nach der Frist werden die Angebote automatisch zugeordnet. Die Präferenzen aller Beteiligten werden nach Möglichkeit berücksichtigt.
 book#:#book_preferences#:#Präferenzen
 book#:#book_preferences_saved#:#Die Präferenzen wurden gespeichert.
+book#:#book_present_bookings#:#Aktuelle und zukünftige Buchungen
 book#:#book_public_log#:#Benutzer sehen alle Buchungen
 book#:#book_public_log_info#:#Benutzer mit Leserecht können im Reiter „Buchungen“ auch Buchungen anderer Benutzer einsehen.
 book#:#book_recurrence#:#Wiederholung
@@ -2643,14 +2677,16 @@ book#:#book_reminder_day#:#Versenden
 book#:#book_reminder_day_info#:#Sendet eine Liste eigener anstehender Buchungen und zusätzlich eine Gesamtliste an Personen mit dem Recht „Einstellungen bearbeiten“. Bitte beachten Sie: Um Benachrichtigungen zu erhalten, müssen die Personen diese über das Menü „Aktionen“ oben rechts im Buchungspool „Benachrichtigungen“ aktiviert haben.
 book#:#book_reminder_days#:#Tage vor der Buchung
 book#:#book_reminder_setting#:#Per Mail an eigene Buchung erinnern
+book#:#book_remove_participants#:#Teilnehmer entfernen
 book#:#book_rerun_assignments#:#Zuweisungen erneut durchführen
 book#:#book_rerun_confirmation#:#Achtung. Die Zuweisung nach Präferenzen ist bereits erfolgt. In seltenen Fällen kann ein Abbruch des Prozesses zu keinen oder unvollständigen Buchungen führen und ein erneutes Starten des Prozesses notwendig machen. Bevor sie den automatischen Prozess erneut starten, müssen sie alle bestehenden Buchungen entfernen, um Mehrfachzuweisungen zu verhindern.
 book#:#book_reservation_available#:#%s verfügbar
+book#:#book_reservation_cancelled#:#Buchung(en) storniert.
 book#:#book_reservation_confirmed#:#Die Buchung wurde erfolgreich durchgeführt.
 book#:#book_reservation_failed#:#Die Buchung ist fehlgeschlagen.
 book#:#book_reservation_failed_overbooked#:#Die Buchung ist fehlgeschlagen, da das betreffende Angebot nicht mehr verfügbar ist.
-book#:#book_reservation_filter_period#:#Voreinstellung für den Filter „Datumsbereich“
-book#:#book_reservation_filter_period_info#:#Im Reiter „Buchungen“ wird der Filter „Datumsbereich“ auf diesen Wert ab dem aktuellen Datum voreingestellt.
+book#:#book_reservation_filter_period#:#Voreinstellung für den Filter Zeitraum
+book#:#book_reservation_filter_period_info#:#Im Reiter „Buchungen“ und "Angebote" wird der Filter „Zeitraum“ auf diesen Wert ab dem aktuellen Datum voreingestellt. Bei einem Wert von "0" wird kein Filter gesetzt.
 book#:#book_reservation_fix_info#:#Buchungen können nur für die Zeitfenster durchgeführt werden, die unten als verfügbar angegeben werden.
 book#:#book_reservation_overview#:#Buchungen aller Benutzer
 book#:#book_reservation_status_5#:#Storniert
@@ -2658,6 +2694,7 @@ book#:#book_reservation_title#:#Buchungsanfrage für
 book#:#book_reservations_list#:#Buchungen
 book#:#book_schedule#:#Zeitplan
 book#:#book_schedule_added#:#Ein Zeitplan wurde hinzugefügt.
+book#:#book_schedule_all_day#:#Ganztägiger Zeitplan
 book#:#book_schedule_days#:#Zeitfenster
 book#:#book_schedule_days_info#:#Gültige Zeiten für jeden Tag (HH:MM-HH:MM)
 book#:#book_schedule_deleted#:#Der Zeitplan wurde gelöscht.
@@ -2678,20 +2715,32 @@ book#:#book_select_pool#:#Pool auswählen
 book#:#book_set_cancel#:#Stornieren
 book#:#book_set_delete#:#Löschen
 book#:#book_show_message#:#Mitteilung anzeigen
+book#:#book_show_past_bookings#:#Abgelaufene Buchungen anzeigen
+book#:#book_some_reservations_unavailable#:#Einige der ausgewählten Angebote konnten nicht gebucht werden, da sie nicht mehr verfügbar sind.
+book#:#book_table#:#Tabelle
+book#:#book_table_col_availability#:#Verfügbarkeit
+book#:#book_table_col_datetime#:#Datum/Uhrzeit
 book#:#book_title_description_nr#:#Titel; Beschreibung; Anzahl
 book#:#book_title_description_nr_info#:#Geben Sie bitte Titel, Beschreibung und Anzahl getrennt durch ein Semikolon oder TAB ein. Nutzen Sie einen Zeile je Buchungsobjekt.
 book#:#book_too_many_preferences#:#Sie haben zu viele Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
 book#:#book_total_individual_bookings_limit#:#Begrenze die Gesamtanzahl an Buchungen, die von/für einzelne Teilnehmende durchgeführt werden können – über alle verfügbaren Objekte hinweg. Jedes buchbare Objekt kann dabei weiterhin nur einmal pro Teilnehmendem gebucht werden.
 book#:#book_type_warning#:#Es sind momentan keine Angebote vorhanden. Um den Pool nutzen zu können, müssen zuerst Angebote angelegt werden.
+book#:#book_view#:#Ansicht
 book#:#book_week#:#Wochenansicht
+book#:#book_week_no_objects_selected#:#Wählen Sie rechts unter ‘Angebotsauswahl‘ mindestens ein Angebot aus und klicken Sie auf den Button ‘Aktualisieren‘.
 book#:#book_your_bookings#:#Ihre Buchungen
 book#:#book_your_preferences#:#Ihre Präferenzen
 book#:#book_your_reservations#:#Ihre Buchungen
 book#:#booking_multiple_succesfully#:#Buchungen erfolgreich durchgeführt
 book#:#booking_nr_of_items#:#Anzahl
+book#:#booking_process_error#:#Bei der Verarbeitung Ihrer Buchung(en) ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.
+book#:#bookings_log#:#Buchungen
+book#:#delete_bookable_item#:#Löschen des Angebots
+book#:#no_valid_selection#:#Keine gültige Auswahl
 book#:#obj_book_duplicate#:#Buchungspool kopieren
 book#:#participants#:#Personen
 book#:#reservation_deleted#:#Buchung gelöscht
+book#:#schedule_type#:#Zeitplantyp
 buddysystem#:#buddy_allow_to_contact_me#:#Kontaktanfragen erlauben
 buddysystem#:#buddy_allow_to_contact_me_default_info#:#Bestimmt ob standardmässig Kontaktanfragen verschickt werden können.
 buddysystem#:#buddy_allow_to_contact_me_info#:#Wenn aktiviert, können andere Benutzer mir Kontaktanfragen senden.
@@ -2884,6 +2933,7 @@ certificate#:#persistent_certificate_mode_instant#:#Direkt
 certificate#:#persistent_certificate_mode_instant_info#:#Diese Option wird für Systeme mit geringer bis zu mittelgroßer Benutzerinteraktion empfohlen. Für Systeme, die zu hoher Last während der Zertifikatserstellung neigen, wird die Option "Cron-Job" empfohlen.
 chatroom#:#allow_anonymous#:#Anonyme Anmeldung erlauben
 chatroom#:#allow_custom_usernames#:#Frei wählbare Chat-Namen
+chatroom#:#allow_custom_usernames_info#:#Erlaube Benutzern einen eigenen Namen innerhalb des Chatraums zu wählen. Falls diese Option nicht selektiert ist, wird der Benutzernamen des Users verwendet.
 chatroom#:#anonymous_hint#:#Bitte beachten Sie, dass für den Zugriff von anonymen Benutzer die entsprechenden Berechtigungen im "Berechtigungen"-Reiter gesetzt sein müssen.
 chatroom#:#auto_scroll#:#Automatisch an das Ende scrollen
 chatroom#:#autogen_usernames#:#Chat-Namen für anonyme Teilnahme
@@ -2912,21 +2962,24 @@ chatroom#:#chat_deletion_ival_max_val#:#Der maximale Wert für die gewählte Ein
 chatroom#:#chat_deletion_section_head#:#Löschen alter Nachrichten
 chatroom#:#chat_enable_history#:#Verlauf
 chatroom#:#chat_enable_history_info#:#Alle können im Reiter „Verlauf“ Chat-Beiträge aus der Vergangenheit lesen und exportieren.
-chatroom#:#chat_error_log_info#:#Bitte geben Sier hier den absoluten Serverpfad zu jener Datei an (bspw. /var/www/ilias/data/chat_errors.log), in die der Chat-Server Fehler protokolliert. Wird kein Pfad eingetragen, wird die eine Protokolldatei im selben Verzeichnis erstellt, in dem der Chat-Server liegt.
+chatroom#:#chat_error_log_info#:#Bitte geben Sie hier den absoluten Serverpfad zu jener Datei an (bspw. /var/www/ilias/data/chat_errors.log), in die der Chat-Server Fehler protokolliert. Wird kein Pfad eingetragen, wird die eine Protokolldatei im selben Verzeichnis erstellt, in dem der Chat-Server liegt.
 chatroom#:#chat_functions#:#Chat Funktionen
 chatroom#:#chat_https_cert_info#:#Bitte geben Sie den absoluten Serverpfad zum SSL-Zertifikat an (bspw.: /etc/ssl/certs/server.pem).
 chatroom#:#chat_https_dhparam_info#:#Bitte geben Sie hier den absoluten Serverpfad zu einer Datei an (bspw.: /etc/ssl/private/dhparam.pem), um Diffie-Hellman-Parameter auszuhandeln (z.B. generiert via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
 chatroom#:#chat_https_key_info#:#Bitte geben Sie den absoluten Serverpfad zum privaten Schlüssel an (bspw.: /etc/ssl/private/server.key).
 chatroom#:#chat_invitation#:#"[INVITER_NAME]" lädt ein in Chatraum "[ROOM_NAME]"
 chatroom#:#chat_invitation_long#:#[SALUTATION][BR][BR]Sie wurden in einen Chatraum eingeladen:[BR]Titel des Chatraums: [ROOM_NAME][BR]Eingeladen von: [INVITER_NAME][BR]URL: [LINK][BR][BR]Zum Betreten des Chatraums folgen Sie bitte der angegebenen URL.
+chatroom#:#chat_invitation_modal_headline#:#Chatraum Einladung
+chatroom#:#chat_invitation_modal_section#:#Benutzer einladen
 chatroom#:#chat_invitation_nc_inv_x#:#Sie haben %s Chateinladungen.
 chatroom#:#chat_invitation_nc_no_inv#:#Sie haben keine Chateinaldungen.
 chatroom#:#chat_invitation_short#:#Klicken Sie auf den Link, um den Chatraum zu betreten.
+chatroom#:#chat_invitation_username_input_label#:#Benutzer eingeben:
 chatroom#:#chat_invitations#:#Chateinladungen
 chatroom#:#chat_invite#:#Einladen
 chatroom#:#chat_join#:#Betreten
 chatroom#:#chat_kick#:#Rauswerfen
-chatroom#:#chat_log_info#:#Bitte geben Sier hier den absoluten Serverpfad zu jener Datei an (bspw. /var/www/ilias/data/chat.log), in die der Chat-Server allgemeine Ereignisse protokolliert. Wird kein Pfad eingetragen, wird die eine Protokolldatei im selben Verzeichnis erstellt, in dem der Chat-Server liegt.
+chatroom#:#chat_log_info#:#Bitte geben Sie hier den absoluten Serverpfad zu jener Datei an (bspw. /var/www/ilias/data/chat.log), in die der Chat-Server allgemeine Ereignisse protokolliert. Wird kein Pfad eingetragen, wird die eine Protokolldatei im selben Verzeichnis erstellt, in dem der Chat-Server liegt.
 chatroom#:#chat_log_level#:#Log-Level
 chatroom#:#chat_mainroom#:#Hauptraum
 chatroom#:#chat_message#:#Nachricht
@@ -2979,6 +3032,7 @@ chatroom#:#chat_user_action_invite_public_room#:#In öffentlichen Chatraum einla
 chatroom#:#chat_user_x_is_typing#:#Benutzer %s tippt gerade ...
 chatroom#:#chat_users_are_typing#:#Mehrere Benutzer tippen gerade ...
 chatroom#:#chat_whisper#:#Flüstern
+chatroom#:#chatroom_anonymous_default#:#Anonym #
 chatroom#:#chatroom_auth#:#Authentifikation
 chatroom#:#chatroom_auth_btn_txt#:#Schlüssel generieren
 chatroom#:#chatroom_auth_key#:#Authentifikation-Schlüssel
@@ -3810,7 +3864,7 @@ common#:#create_export_file#:#Exportdatei erstellen
 common#:#create_stylesheet#:#Style erstellen
 common#:#created#:#Erstellt am
 common#:#cron_forum_notification#:#Foren-Benachrichtigungen via Cron-Job versenden
-common#:#cron_forum_notification_crob_desc#:#Wenn aktiviert, sendet ILIAS täglich Benachrichtigungen an die Benutzer, die bei ausgewählten Foren oder Foren-Themen über neue und geänderte Beiträge benachrichtigt werden wollen. Bitte beachten Sie: Wenn Sie diese Form der Foren-Benachrichtigungen aktivieren, werden keine direkten Benachrichtungen mehr verschickt (Administration / Foren / Foren-Benachrichtigungen versenden).
+common#:#cron_forum_notification_crob_desc#:#Wenn aktiviert, sendet ILIAS täglich Benachrichtigungen an die Benutzer, die bei ausgewählten Foren oder Foren-Themen über neue und geänderte Beiträge benachrichtigt werden wollen. Bitte beachten Sie: Wenn Sie diese Form der Foren-Benachrichtigungen aktivieren, werden keine direkten Benachrichtigungen mehr verschickt (Administration / Foren / Foren-Benachrichtigungen versenden).
 common#:#cron_forum_notification_disabled#:#Kann nicht deaktiviert werden, wenn der Cron-Job aktiv ist.
 common#:#cron_jobs#:#Cron-Jobs
 common#:#cron_lucene_index#:#Lucene-Suchindex aktualisieren
@@ -4429,7 +4483,6 @@ common#:#italic_action#:#Kursiv einfügen - Klicken Sie um kursiven Text einzuf�
 common#:#item#:#Begriff
 common#:#itgr_add#:#Objekteblock anlegen
 common#:#itgr_new#:#Neuen Objekteblock anlegen
-common#:#java_server#:#Java-Server
 common#:#java_server_host#:#Host
 common#:#java_server_info#:#Es wird ein Suchindex der ILIAS-Datenbank samt enthaltener Dateien und Objekte erstellt. Um die Lucene-Suche verwenden zu können, muss der JAVA-basierte ilServer installiert und konfiguriert sein: siehe Reiter „Lucene“.
 common#:#java_server_port#:#Port
@@ -4586,12 +4639,14 @@ common#:#mail_maxsize_attach#:#Maximale Größe des Mail-Anhangs
 common#:#mail_member#:#Mail an Mitglied
 common#:#mail_members#:#Mail an Mitglieder
 common#:#mail_message_scheduled#:#Mail planen
-common#:#mail_message_scheduled_info#:#Geplante Mails werden bis zum gewählten Zeitpunkt im Postausgang verbleiben.
+common#:#mail_message_scheduled_info#:#Geplante Mails bleiben bis zum gewählten Versandzeitpunkt im Postausgang. Beim Bearbeiten werden sie vorübergehend in Entwürfe verschoben, damit sie während der Bearbeitung nicht versendet werden. Nach dem erneuten Planen erscheinen sie wieder im Postausgang.
 common#:#mail_not_sent#:#Ihre Mail konnte nicht verschickt werden
 common#:#mail_schedule_error_no_datetime#:#Das Planen einer Mail erfordert ein Datum und eine Uhrzeit.
 common#:#mail_schedule_error_past_datetime#:#Mails können nicht in der Vergangenheit geplant werden.
 common#:#mail_schedule_scheduled_datetime#:#Geplanter Versandzeitpunkt
 common#:#mail_scheduled#:#Mail zur späteren Zustellung im Postausgang abgelegt.
+common#:#mail_scheduled_edit_compose_info#:#Sie bearbeiten eine geplante Mail. Der Versand ist pausiert, bis Sie die Mail erneut planen..
+common#:#mail_scheduled_edit_moved_info#:#Diese geplante Mail wurde vorübergehend in Entwürfe verschoben, damit sie während der Bearbeitung nicht versendet wird. Nach dem erneuten Planen erscheint sie wieder im Postausgang.
 common#:#mail_search_no#:#Es wurden keine passenden Ergebnisse gefunden
 common#:#mail_select_one#:#Sie müssen mindestens eine Mail auswählen
 common#:#mail_send_error#:#Fehler beim Verschicken der Mail
@@ -5083,13 +5138,12 @@ common#:#obj_scov#:#SCORM-Zertifikat
 common#:#obj_seas#:#Suche
 common#:#obj_seas_desc#:#Einstellungen zur systemweiten Suche, Personensuche und Volltextsuche (Lucene)
 common#:#obj_serv#:#Server
-common#:#obj_serv_desc#:#Einstellungen des Severs
+common#:#obj_serv_desc#:#Serverstatus, Einstellungen und PDF-Konfiguration
 common#:#obj_sess#:#Sitzung
 common#:#obj_sess_duplicate#:#Sitzung kopieren
 common#:#obj_skmg#:#Kompetenzmanagement
 common#:#obj_skmg_desc#:#Kompetenzen und Kategorien verwalten
 common#:#obj_spl#:#Fragenpool für Umfragen
-common#:#obj_spl_select#:#-- Bitte wählen Sie einen Fragenpool für Umfragen aus --
 common#:#obj_st#:#Kapitel
 common#:#obj_stus#:#Kurz-URLs
 common#:#obj_stus_desc#:#Globale Kurz-URL-Einstellungen
@@ -5495,9 +5549,6 @@ common#:#rolt_edit#:#Rollenvorlage bearbeiten
 common#:#rolt_new#:#Neue Rollenvorlage
 common#:#row#:#Zeile
 common#:#rows#:#Zeilen
-common#:#rpc_pdf_font#:#Schriftarten
-common#:#rpc_pdf_font_info#:#Zusätzliche Schriftarten zur Erzeugung von PDF-Dateien. Alle zusätzlich angegebenen Schriftarten müssen serverseitig installiert sein oder dem Java-Server beim Starten bekannt gemacht werden.
-common#:#rpc_pdf_generation#:#PDF-Erstellung
 common#:#sad#:#Sad
 common#:#sahs#:#Lernmodul SCORM
 common#:#sahs_added#:#SCORM-Lernmodul angelegt
@@ -5535,7 +5586,7 @@ common#:#scorm_login_as_learner_id_info#:#An Stelle der ILIAS-Benutzer-ID wird d
 common#:#scorm_lp_auto_activate#:#Standardeinstellungen für den Lernfortschritt
 common#:#scorm_lp_auto_activate_info#:#Wenn der Lernfortschritt im Allgemeinen aktiviert ist, wird bei neuen SCORM-Lernmodulen der Gesamtstatus des Lernfortschritts bestimmt durch ausgewählte SCORM-Materialien (SCOs) und alle SCOs werden für die Lernfortschritts-Bestimmung ausgewählt. Anpassungen sind weiterhin bei jedem SCORM-Lernmodul möglich.
 common#:#scorm_new#:#Neues SCORM-Lernmodul anlegen
-common#:#scorm_without_session#:#SCORM 2004-Speicherung ohne Session aktivieren
+common#:#scorm_without_session#:#SCORM 2004: Speicherung ohne Session
 common#:#scorm_without_session_info#:#Dies sichert die Speicherung von SCORM 2004-Lernstandsdaten auch bei abgelaufener ILIAS-Session. Bei SCORM 1.2 ist die Speicherung ohne Session immer aktiviert.
 common#:#search#:#Suche
 common#:#search_active#:#Aktive Benutzer
@@ -5654,6 +5705,7 @@ common#:#show_content#:#Inhalt anzeigen
 common#:#show_details#:#Details anzeigen
 common#:#show_filter#:#Filter anzeigen
 common#:#show_hidden_sections#:#Weitere Informationen anzeigen &raquo;
+common#:#show_less#:#Weniger zeigen
 common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
 common#:#show_more#:#Mehr zeigen
@@ -5980,7 +6032,6 @@ common#:#webdav_chosen_language_already_used#:#Für die ausgewählte Sprache gib
 common#:#webdav_doc_delete#:#WebDAV-Anleitung löschen
 common#:#webdav_docs_mount_instructions#:#Datei mit WevDAV-Anleitung
 common#:#webdav_duplicate_detected_title#:#Folgende Objekte konnten nicht angezeigt werden, da bereits ein Objekt mit dem selben Titel angezeigt wird:
-common#:#webdav_enable_versioning#:#Datei Versionierung
 common#:#webdav_forbidden_chars_title#:#Folgende Objekte konnten nicht angezeigt werden, da sie verbotene Zeichen enthalten (\<>/:*?"|#):
 common#:#webdav_form_document#:#WebDAV-Anleitung
 common#:#webdav_form_document_info#:#Ein txt- oder html-Dokument mit einer Anleitung zum Anbinden von WebDAV an die Systeme Ihrer Wahl hochladen.
@@ -5999,7 +6050,6 @@ common#:#webdav_sure_delete_documents_s#:#Soll die WebDAV-Anleitung mit folgende
 common#:#webdav_tbl_docs_head_title#:#Titel
 common#:#webdav_tbl_docs_title#:#Liste hochgeladener WebDAV-Anleitungen
 common#:#webdav_upload_instructions#:#WebDAV-Anleitung hochladen
-common#:#webdav_versioning_info#:#Wenn diese Einstellung aktiviert ist, wird für bereits existierende Dateien eine neue Version angelegt. An sonst werden diese überschrieben.
 common#:#webfolder_dir_info#:#Sie sind hierher gelangt, weil Ihr Browser keine Webordner öffnen kann. Lesen Sie die <a href="%1$s">Anleitung zum Öffnen dieses Webordners</a>.
 common#:#webfolder_index_of#:#Inhalt von %1$s
 common#:#webfolder_instructions#:#Anleitung für Webordner
@@ -6799,14 +6849,14 @@ content#:#cont_nomenu#:#Oberes Navigationsmenü ausblenden
 content#:#cont_nomenu_info#:#Falls das SCORM-Lernmodul eigene Möglichkeiten zum Beenden und Navigieren mitbringt, kann das von der SCORM-Spezifikation vorgesehene obere Navigationsmenü ausgeblendet werden.
 content#:#cont_none#:#Keine
 content#:#cont_not_saved_edit_lock_expired#:#Entschuldigung, Ihre Änderungen konnten nicht gespeichert werden. Die Seite wurde zwischenzeitlich von einem anderen Benutzer zur Bearbeitung gesperrt. Sie können diesen Dialog schließen und dann den Inhalt in Ihre Zwischenablage kopieren.
-content#:#cont_notification_activate_lm#:#Benachrichtigungen für Lernmodul aktivieren
-content#:#cont_notification_activate_page#:#Benachrichtigungen für Seite aktivieren
-content#:#cont_notification_activated#:#Benachrichtigung aktiviert (Gesamtes Lernmodul)
+content#:#cont_notification_activate_lm#:#Benachrichtigung für das Lernmodul aktivieren
+content#:#cont_notification_activate_page#:#Benachrichtigung für diese Seite aktivieren
+content#:#cont_notification_activated#:#Sie haben die Benachrichtigung für das gesamte Lernmodul aktiviert.
 content#:#cont_notification_comment_lm#:#die folgende Seite wurde kommentiert
 content#:#cont_notification_comment_subject_lm#:#Es wurde ein Kommentar zur Seite %s: %s" hinzugefügt
-content#:#cont_notification_deactivate_lm#:#Benachrichtigungen für Lernmodul deaktivieren
-content#:#cont_notification_deactivate_page#:#Benachrichtigungen für Seite deaktivieren
-content#:#cont_notification_deactivated#:#Benachrichtigungen wurden deaktiviert.
+content#:#cont_notification_deactivate_lm#:#Benachrichtigung für das Lernmodul deaktivieren
+content#:#cont_notification_deactivate_page#:#Benachrichtigung für diese Seite deaktivieren
+content#:#cont_notification_deactivated#:#Sie haben die Benachrichtigung deaktiviert.
 content#:#cont_notification_update_lm#:#das folgende Lernmodul wurde geändert
 content#:#cont_notify_on_blocked_users#:#Benachrichtigung über gesperrte Benutzer
 content#:#cont_notify_on_blocked_users_info#:#Sie werden benachrichtigt, sobald Benutzer gesperrt werden, weil Sie die maximale Anzahl an Antwortversuchen überschritten haben.
@@ -7041,7 +7091,7 @@ content#:#cont_sc_stat_running#:#Aktiv
 content#:#cont_sc_store_if_previous_score_was_lower#:#wenn der zuvor erzielte Punktestand höher oder gleich war
 content#:#cont_sc_title#:#Titel
 content#:#cont_sc_usession#:#Automatische Abmeldung aus ILIAS verhindern
-content#:#cont_sc_usession_info#:#Um das automatische Ausloggen und den Verlust von Bearbeitungsdaten zu verhindern, sendet das Lernmodul regelmäßig Anfragen an ILIAS. Die Bearbeitung des SCORM-Lernmoduls würde ansonsten nicht als Aktivität gewertet und die ILIAS-Sitzung beendet werden.
+content#:#cont_sc_usession_info#:#Während das Lernmodul bearbeitet wird, kann eine Abmeldung aus ILIAS als störend empfunden werden und zum Verlust von Bearbeitungsdaten führen. Die SCORM RTE sendet regelmäßig Anfragen an ILIAS, um das automatische Abmelden zu verhindern. Um den Verlust von Bearbeitungsdaten für SCORM 2004 zu verhindern, aktivieren Sie ebenfalls die Option „SCORM 2004: Speicherung ohne Session“. Für SCORM 1.2 ist diese Option dauerhaft aktiviert. Sie finden die Option in der systemweiten Administration von Lernmodulen.
 content#:#cont_sc_version#:#Version des Lernmoduls
 content#:#cont_sc_version_info#:#Die laufende Nummer wird automatisch aus dem Versionsmanagement des Lernmoduls gelesen.
 content#:#cont_scheduled_activation#:#Zeitliche Aktivierung
@@ -7741,8 +7791,8 @@ crs#:#crs_no_users_added#:#Es wurden keine Benutzer hinzugefügt
 crs#:#crs_no_users_selected#:#Sie haben keinen Benutzer ausgewählt
 crs#:#crs_not_available#:#-Nicht angegeben-
 crs#:#crs_notification#:#Benachrichtigungen
-crs#:#crs_notification_activated#:#Benachrichtigung aktiviert
-crs#:#crs_notification_deactivated#:#Benachrichtigung deaktiviert
+crs#:#crs_notification_activated#:#Sie haben die Benachrichtigung aktiviert.
+crs#:#crs_notification_deactivated#:#Sie haben die Benachrichtigung deaktiviert.
 crs#:#crs_notification_explanation_admin#:#Sie erhalten diese Mail, da für Sie als Kursbetreuung die Benachrichtigungen aktiviert sind.
 crs#:#crs_notification_list_title#:#Benachrichtigung
 crs#:#crs_notification_salutation#:#Hallo,
@@ -8270,7 +8320,7 @@ dateplaner#:#cal_ch_cancel_booking_info#:#Bei der Absage von Terminbuchungen wer
 dateplaner#:#cal_ch_cancel_booking_sure#:#Sind Sie sicher, dass die ausgewählten Terminbuchungen abgesagt werden sollen?
 dateplaner#:#cal_ch_canceled_bookings#:#Die ausgewählten Buchungen wurden abgesagt.
 dateplaner#:#cal_ch_ch#:#Sprechstundentermine
-dateplaner#:#cal_ch_cron_reminder#:#Sprechstunden-Benachrichtigungen versenden
+dateplaner#:#cal_ch_cron_reminder#:#Benachrichtigungen über Sprechstunden versenden
 dateplaner#:#cal_ch_cron_reminder_days#:#Anzahl Tage
 dateplaner#:#cal_ch_cron_reminder_info#:#Wenn aktiviert, erhalten Benutzer, die einen Sprechstundentermin gebucht haben, eine Erinnerungsmail über bevorstehende Termine. Bitte legen Sie fest, wieviele Tage im voraus die Erinnerungen verschickt werden sollen.
 dateplaner#:#cal_ch_current_booking_comment#:#Kommentar
@@ -8648,7 +8698,6 @@ dcl#:#dcl_datetime#:#Datumseingabe mit Uhrzeit
 dcl#:#dcl_datetime_desc#:#Datum und Uhrzeit wird eingegeben oder im Kalender ausgewählt.
 dcl#:#dcl_datetime_selection#:#Datum mit Uhrzeit per Auswahl
 dcl#:#dcl_datetime_selection_desc#:#Aus vorgegebenen Optionen kann ein Datum mit Uhrzeit ausgewählt werden.
-dcl#:#dcl_deactivate_view#:#Diese Ansicht deaktivieren
 dcl#:#dcl_default_sort_field#:#Sortierung
 dcl#:#dcl_default_sort_field_order#:#Sortierrichtung
 dcl#:#dcl_default_sort_field_order_desc#:#Tabelle wird standardmässig nach dem ausgewählten Feld sortiert.
@@ -8677,12 +8726,9 @@ dcl#:#dcl_err_formula_field_not_found#:#Feld mit dem Titel „%s“ existiert ni
 dcl#:#dcl_error_parsing_expression#:#Fehler beim Evaluieren des Ausdrucks
 dcl#:#dcl_export_enabled#:#Tabelle exportieren
 dcl#:#dcl_export_enabled_desc#:#Die Daten dieser Tabelle können exportiert werden. Achtung: In dem Export tauchen nur Felder auf, für die im Reiter "Felder" dieser Tabelle die Checkbox "Exportierbar" aktiviert wurde.
-dcl#:#dcl_export_finished#:#Export abgeschlossen
-dcl#:#dcl_export_started#:#Asynchroner Export gestartet
 dcl#:#dcl_field_datatype#:#Feldtyp
 dcl#:#dcl_field_description#:#Beschreibung
 dcl#:#dcl_field_description_desc#:#Wird ein Eintrag hinzugefügt, erscheint der Text unterhalb des Feldes.
-dcl#:#dcl_field_required#:#Verpflichtend
 dcl#:#dcl_field_title_change_warning#:#Sie haben den Titel des Feldes geändert. Dadurch funktioniert der entsprechende Platzhalter in der Vorlage zur Einzelansicht nicht mehr. Sie müssen diesen noch manuell angepassen.
 dcl#:#dcl_field_title_unique#:#Es existiert bereits ein Feld mit diesem Titel. Titel muss eindeutig sein.
 dcl#:#dcl_field_visible#:#Sichtbar
@@ -8703,7 +8749,6 @@ dcl#:#dcl_id_description#:#Die interne ID.
 dcl#:#dcl_ilias_reference#:#Objekt im Magazin
 dcl#:#dcl_ilias_reference_desc#:#Auswahl eines Obiektes im Magazin
 dcl#:#dcl_ilias_reference_link#:#Ausgewähltes Objekt verlinken
-dcl#:#dcl_import#:#Datensammlung importieren
 dcl#:#dcl_import_enabled#:#Daten in Tabelle importieren
 dcl#:#dcl_import_enabled_desc#:#Es können per Excel Daten in die Tabelle importiert werden.
 dcl#:#dcl_import_records .xls#:#Excel-Import
@@ -8728,8 +8773,6 @@ dcl#:#dcl_link_detail_page#:#Link zur Einzelansicht
 dcl#:#dcl_link_detail_page_desc#:#Die Einzelansicht muss zusätzlich für die gewünschten Ansichten im Reiter „Einzelansicht“ aktiviert und konfiguriert werden.
 dcl#:#dcl_list_fields#:#Felder
 dcl#:#dcl_list_visibility_and_filter#:#Übersicht
-dcl#:#dcl_locked#:#Gesperrt
-dcl#:#dcl_locked_tooltip#:#Ein gesperrtes Feld lässt sich von Benutzern nicht mehr bearbeiten. Dies gilt nicht für Rollen mit dem Recht „Einstellungen bearbeiten“.
 dcl#:#dcl_manage#:#Verwalten
 dcl#:#dcl_max_digits#:#Maximale Anzahl Ziffern
 dcl#:#dcl_max_import#:#Die maximal erlaubte Anzahl an importierten Datensätze wurde überschritten.
@@ -8738,7 +8781,6 @@ dcl#:#dcl_mob#:#Bild, Audio, Video
 dcl#:#dcl_mob_desc#:#Hochgeladene Datei wird direkt in der Datensammlung präsentiert. Erlaubte Dateitypen: %s
 dcl#:#dcl_msg_field_modified#:#Feld wurde aktualisiert.
 dcl#:#dcl_msg_fields_deleted#:#Gelöschte Felder
-dcl#:#dcl_msg_info_alternatives#:#Die gewünschte Einzelansicht konnte nicht angezeigt werden. Entweder existiert keine Einzelansicht für diese Tabellenansicht oder Sie besitzen nicht die notwendigen Zugriffsrechte. Wählen Sie aus der Liste eine für Sie verfügbare Einzelansicht, um den Datensatz dennoch anzuzeigen.
 dcl#:#dcl_msg_mc_to_sc_confirmation#:#Ein Wechsel von Mehrfachauswahl auf Einfachauswahl kann bei existierenden Datensätzen zu einem Datenverlust führen. Sind Sie sicher, dass Sie fortfahren möchten?
 dcl#:#dcl_msg_no_perm_edit#:#Keine Berechtigung zum Bearbeiten dieses Eintrags
 dcl#:#dcl_msg_no_perm_view#:#Keine Berechtigung zum Ansehen dieses Eintrags
@@ -8754,13 +8796,11 @@ dcl#:#dcl_new_entries#:#Neue Einträge
 dcl#:#dcl_new_field#:#Neues Feld
 dcl#:#dcl_new_table#:#Neue Tabelle
 dcl#:#dcl_new_view#:#Neue Ansicht
-dcl#:#dcl_next_record#:#Nächster Eintrag
 dcl#:#dcl_no_entries#:#Keine Einträge
 dcl#:#dcl_no_entry#:#Kein Eintrag
 dcl#:#dcl_no_export_async_config#:#Keine SOAP-Konfiguration für asyncrone Exporte verfügbar.
 dcl#:#dcl_no_export_data_available#:#Keine Daten oder Felder für den Export verfügbar.
 dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt. Daher können noch keine Einträge eingefügt werden. Klicken Sie im Reiter "Tabellen" auf eine Tabelle und erstellen Sie mithilfe des Buttons "Feld hinzufügen" neue Felder.
-dcl#:#dcl_no_read_access_on_any_standard_view#:#Sie haben auf keine Standard-Tabellenansicht Lesezugriff.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
 dcl#:#dcl_no_such_reference#:#Der folgende Wert ist in der Referenztabelle nicht vorhanden:
 dcl#:#dcl_no_table_found#:#Keine Tabelle verfügbar.
@@ -8788,20 +8828,12 @@ dcl#:#dcl_owner_name#:#Im Besitz von (Name)
 dcl#:#dcl_page_type_dclf#:#Detailansicht
 dcl#:#dcl_placeholder_info#:#Um Daten aus Einträgen dieser Tabelle in deren Einzelansicht zu verwenden, nutzen Sie bitte die entsprechenden Platzhalter. Diese sind in den Tools für die Elemente „Text“ und „Datentabelle“ verfügbar.
 dcl#:#dcl_please_select#:#--- Bitte wählen ---
-dcl#:#dcl_plugin#:#Plugin
-dcl#:#dcl_plugin_desc#:#DataCollection-Feld Erweiterungen
-dcl#:#dcl_plugin_no_hooks_available#:#Keine aktiven Field-Type Plugins gefunden.
-dcl#:#dcl_prev_record#:#Vorheriger Eintrag
 dcl#:#dcl_prop_expression#:#Ausdruck
 dcl#:#dcl_prop_expression_info#:#Gültige Operatoren: <b>%s</b><br>Unterstützte Funktionen: <b>%s</b><br>Verwenden Sie Klammern <b>"(", ")"</b> zum Gruppieren von Ausdrücken.<br>Zeichenketten und Platzhalter verbinden mit &: <b>"Das Resultat ist " & [[Int 1]] * [[Int 2]]</b><br>Verwenden der Funktionen: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Gültige Felder (auf den Titel klicken um als Platzhalter in Ausdruck einzufügen):<br>%s<br><b>(Erlaubte Felder sind Checkbox, Zahl, Text und Datum die keine Formular-sensitiven Zeichen im Titel enthalten)</b>
-dcl#:#dcl_public_comments#:#Kommentare
-dcl#:#dcl_public_comments_desc#:#Benutzer können Datensätze dieser Tabelle kommentieren.
 dcl#:#dcl_rating#:#Bewertung
 dcl#:#dcl_rating_desc#:#Bestehende Einträge mit ein bis fünf Sternen bewerten.
-dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#Die folgenden Rollen haben Lesezugriff auf die Datensammlung, jedoch auf keine Standard-Ansicht der Tabellen:
 dcl#:#dcl_record#:#Eintrag
 dcl#:#dcl_record_deleted#:#Eintrag gelöscht.
-dcl#:#dcl_record_from_total#:#%d von %d
 dcl#:#dcl_record_settings#:#Eintragseinstellungen
 dcl#:#dcl_reference#:#Referenz
 dcl#:#dcl_reference_desc#:#Ein Feld, das ausgewählte Einträge aus einem anderen Feld anzeigt. Dieses andere Feld kann sich in einer anderen Tabelle befinden. Änderungen, die am ursprünglichen Eintrag vorgenommen wurden, wirken sich auf die in diesem Feld angezeigten Werte aus.
@@ -8811,12 +8843,9 @@ dcl#:#dcl_reference_title#:#Referenziertes Feld
 dcl#:#dcl_reference_title_desc#:#Eingaben aus dem ausgewählten Feld werden Auswahloptionen für dieses Feld.
 dcl#:#dcl_regex#:#Texteingabe einschränken
 dcl#:#dcl_regex_info#:#Es kann ein regulärer Ausdruck ohne Delimiter eingegeben werden. Automatisch werden dann bestimmte Einträge zurückgewiesen.
-dcl#:#dcl_required#:#Verpflichtend
 dcl#:#dcl_row_not_found#:# - Dieses Feld wurde in der Tabelle nicht gefunden.
 dcl#:#dcl_save_confirmation#:#Eingabe zusätzlich bestätigen
 dcl#:#dcl_save_confirmation_desc#:#Benutzer muss das Eintragen von neuen Datensätzen bestätigen.
-dcl#:#dcl_save_order#:#Sortierung speichern
-dcl#:#dcl_select#:#Auswahl der Tabelle
 dcl#:#dcl_selection_options#:#Optionen
 dcl#:#dcl_selection_type#:#Format
 dcl#:#dcl_selection_type_combobox#:#Einfachauswahl aus Auswahlmenü
@@ -8832,8 +8861,6 @@ dcl#:#dcl_supported_filetypes#:#Erlaubte Dateiendungen
 dcl#:#dcl_supported_filetypes_desc#:#Sie können hier kommagetrennt Dateiendungen angeben. Zum Beispiel: pdf, docx
 dcl#:#dcl_table#:#Tabelle
 dcl#:#dcl_table_id#:#Tabellen ID
-dcl#:#dcl_table_list_fields#:#Felder der ausgewählten Tabelle
-dcl#:#dcl_table_list_tables#:#Verfügbare Tabellen
 dcl#:#dcl_table_settings#:#Tabelleneinstellungen
 dcl#:#dcl_table_settings_saved#:#Tabelleneinstellungen wurden gespeichert.
 dcl#:#dcl_table_title_not_matching#:#Die Titel des Excel-Arbeitsblatts und der Tabelle in der Datensammlung stimmen nicht überein. Benennen Sie das Arbeitsblatt um, um einen korrekten Import zu gewährleisten.
@@ -8848,16 +8875,13 @@ dcl#:#dcl_tableview_default_value_fail#:#Einige numerische Standardwerte konnten
 dcl#:#dcl_tableview_field_access#:#Zugriffsrecht
 dcl#:#dcl_tableview_fieldsettings#:#Feldspezifische Einstellungen
 dcl#:#dcl_tableview_fieldtitle#:#Feld-Titel
-dcl#:#dcl_tableview_locked#:#Gesperrt
 dcl#:#dcl_tableview_locked_visible#:#Gesperrt & Sichtbar
 dcl#:#dcl_tableview_not_visible#:#Nicht sichtbar
 dcl#:#dcl_tableview_required#:#Verpflichtend
 dcl#:#dcl_tableview_required_visible#:#Verpflichtend & Sichtbar
 dcl#:#dcl_tableview_visible#:#Sichtbar
 dcl#:#dcl_tableviews#:#Ansichten
-dcl#:#dcl_tableviews_confirm_delete#:#Sind Sie sicher, dass die folgenden Ansichten gelöscht werden sollen?
 dcl#:#dcl_tableviews_of_X#:#Ansichten der Tabelle %s
-dcl#:#dcl_tableviews_table#:#Ansichten der ausgewählten Tabelle
 dcl#:#dcl_text#:#Texteingabe
 dcl#:#dcl_text_desc#:#Eingabefeld für Text, Links oder E-Mail-Adressen
 dcl#:#dcl_text_email_detail_desc#:#Bitte geben Sie eine gültige E-Mail-Adresse oder eine URL ein.
@@ -8876,7 +8900,6 @@ dcl#:#dcl_update_field#:#Feld aktualisieren
 dcl#:#dcl_update_record#:#Eintrag aktualisieren
 dcl#:#dcl_updated_entries#:#Bearbeitete Einträge
 dcl#:#dcl_url#:#Obligatorische URL oder E-Mail
-dcl#:#dcl_view_configuration#:#Ansichtskonfiguration
 dcl#:#dcl_view_own_records_perm#:#Nur eigene Einträge anzeigen
 dcl#:#dcl_view_own_records_perm_desc#:#Einträge von anderen Personen werden nicht angezeigt.
 dcl#:#dcl_view_viewdefinition#:#Vorlage für Einzelansicht
@@ -9644,9 +9667,9 @@ exc#:#exc_submission_and_grades_notification_link#:#Link zur Übung (Abgaben und
 exc#:#exc_submission_downloads_notification_link#:#Neue Abgaben herunterladen: %s
 exc#:#exc_submission_file#:#Dateiabgabe
 exc#:#exc_submission_no_new_files#:#Keine neuen Abgaben vorhanden.
-exc#:#exc_submission_notification#:#Benachrichtigung bei Abgabe
+exc#:#exc_submission_notification#:#Mail-Benachrichtigungen
 exc#:#exc_submission_notification_body#:#Eine neue Abgabe für die Übung „%s“ liegt vor.
-exc#:#exc_submission_notification_info#:#Sobald neue Lösungen abgegeben wurden, erhalten Sie eine Mail. Dies ist eine persönliche Einstellung, die nur für Sie gilt. Andere Personen, die Abgaben bewerten, erhalten nur dann eine Mail, wenn auch sie diese Checkbox aktivieren.
+exc#:#exc_submission_notification_info#:#Sie werden per Mail benachrichtigt, wenn neue Lösungen abgegeben werden oder Teilnehmende einen individuellen Abgabetermin beantragen. Dies ist eine persönliche Einstellung, die nur für Sie gilt. Andere Personen, die Abgaben bewerten, erhalten nur dann eine Mail, wenn auch sie diese Checkbox aktivieren.
 exc#:#exc_submission_notification_link#:#Link zur Übung: %s
 exc#:#exc_submission_notification_subject#:#Eine neue Abgabe für die Übung „%s“ liegt vor
 exc#:#exc_submission_open_notification_link#:#Abgabe öffnen: %s
@@ -10489,6 +10512,7 @@ gsfo#:#entries_add#:#Eintrag hinzufügen
 gsfo#:#entries_edit#:#Einträge bearbeiten
 gsfo#:#entries_parent#:#Gruppe auswählen
 gsfo#:#entries_select_parent#:#Eintrag in Gruppe verschieben
+gsfo#:#entries_target_group#:#Ziel wählen
 gsfo#:#entry_action#:#Link
 gsfo#:#entry_action_info#:#Geben Sie die vollständige URL einschließlich des Protokolls an (z. B. https://www.ilias.de)
 gsfo#:#entry_activation_toggled#:#Aktivierung wurde umgeschaltet
@@ -10497,6 +10521,7 @@ gsfo#:#entry_active_info#:#Diesen Eintrag aktivieren
 gsfo#:#entry_add#:#Eintrag hinzufügen
 gsfo#:#entry_delete#:#Löschen
 gsfo#:#entry_deleted#:#Gelöscht
+gsfo#:#entry_deleted_failed#:#Löschen nicht möglich
 gsfo#:#entry_edit#:#Bearbeiten
 gsfo#:#entry_external#:#In neuem Tab öffnen
 gsfo#:#entry_move#:#Verschieben
@@ -10519,6 +10544,7 @@ gsfo#:#group_toggle_activation#:#(De-)Aktivieren
 gsfo#:#group_translate#:#Übersetzen
 gsfo#:#info_not_deletable_core#:#Standardelemente können nicht gelöscht werden.
 gsfo#:#info_not_deletable_not_empty#:#Gruppen mit Einträgen können nicht gelöscht werden.
+gsfo#:#item_moved#:#Eintrag verschoben
 gsfo#:#legal_information#:#Rechtliche Informationen
 gsfo#:#order_saved#:#Reihenfolge gespeichert
 gsfo#:#permanent#:#permanent
@@ -10765,9 +10791,14 @@ itgr#:#itgr_always_open#:#Immer offen
 itgr#:#itgr_assign_materials#:#Objekte auswählen
 itgr#:#itgr_assigned_materials#:#Objekte im Objekteblock
 itgr#:#itgr_assignment#:#Eingebunden
-itgr#:#itgr_behaviour#:#Verhalten
-itgr#:#itgr_behaviour_info#:#Das System merkt sich den Zustand (geöffnet/geschlossen) je Benutzer bis zur Abmeldung (Logout).
 itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks nicht mit ausgegeben.
+itgr#:#itgr_display#:#Anzeige
+itgr#:#itgr_display_with_title#:#Mit Titel
+itgr#:#itgr_display_with_title_and_toggleable#:#Mit Titel, Objekteblock ein- und ausklappbar
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Ausgangszustand
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#zunächst geschlossen
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#zunächst geöffnet
+itgr#:#itgr_display_without_title#:#Ohne Titel
 itgr#:#itgr_edit#:#Einstellungen des Objekteblocks
 itgr#:#itgr_expandable_closed#:#Ausklappbar (zunächst geschlossen)
 itgr#:#itgr_expandable_open#:#Ausklappbar (zunächst geöffnet)
@@ -10777,8 +10808,6 @@ itgr#:#itgr_list_default#:#Standard
 itgr#:#itgr_list_default_info#:#Übernimmt die Einstellung des übergeordneten Containers.
 itgr#:#itgr_list_presentation#:#Präsentationsansicht für Inhalte
 itgr#:#itgr_materials#:#Objekte
-itgr#:#itgr_show_title#:#Titel anzeigen
-itgr#:#itgr_show_title_info#:#Der Titel des Objekteblocks wird angezeigt.
 itgr#:#itgr_tile#:#Kacheln
 itgr#:#itgr_tile_size#:#Kachelgröße
 jscalendar#:#about_calendar#:#Über den Kalender
@@ -11199,7 +11228,6 @@ lso#:#lso_print_list#:#Liste erstellen
 lso#:#lso_read#:#Lesezugriff auf Learning Sequence
 lso#:#lso_search_users#:#Benutzer suchen
 lso#:#lso_settings_availability#:#Verfügbarkeit
-lso#:#lso_settings_availability_error#:#Das Enddatum darf nicht vor dem Startdatum liegen
 lso#:#lso_settings_extro#:#Abschlussseite bearbeiten
 lso#:#lso_settings_intro#:#Einleitungsseite bearbeiten
 lso#:#lso_settings_old_extro#:#Alte Abschlussseite ansehen
@@ -13111,8 +13139,8 @@ notes#:#notes_sort_desc#:#Absteigend sortieren
 notes#:#notes_text#:#Text
 noti#:#noti_activate_notification#:#Benachrichtigung aktivieren
 noti#:#noti_deactivate_notification#:#Benachrichtigung deaktivieren
-noti#:#noti_notification_activated#:#Benachrichtigungen sind aktiviert
-noti#:#noti_notification_deactivated#:#Benachrichtigungen sind deaktiviert
+noti#:#noti_notification_activated#:#Sie haben Benachrichtigungen aktiviert.
+noti#:#noti_notification_deactivated#:#Sie haben Benachrichtigungen deaktiviert.
 notifications#:#push_notification#:#Push-Benachrichtigungen
 notifications_adm#:#available_providers#:#Verfügbare Provider
 notifications_adm#:#client_settings#:#Browsereinstellungen
@@ -13175,7 +13203,7 @@ obj#:#obj_deactivate_multilang#:#Mehrsprachigkeit deaktivieren
 obj#:#obj_deactivate_multilang_conf#:#Wollen Sie die Unterstützung für mehrsprachige Inhalte wirklich deaktivieren? Nur die Inhalte der Standardsprache werden verfügbar bleiben.
 obj#:#obj_fallback_lang#:#Standardsprache
 obj#:#obj_features#:#Zusätzliche Funktionen
-obj#:#obj_import_file_error#:#Die Datei konnte nicht importiert werden. Bitte stellen Sie sicher, dass es sich um eine ILIAS-Exportdatei (XML-Export) des gleichen Objekttyps handelt und der Dateiname unverändert ist. Fehlermeldung:
+obj#:#obj_import_file_error#:#Die Datei konnte nicht importiert werden. Bitte stellen Sie sicher, dass es sich um eine ILIAS-Exportdatei (XML-Export) des gleichen Objekttyps handelt und der Dateiname unverändert ist.
 obj#:#obj_insert_into_clipboard#:#In Zwischenablage übernehmen
 obj#:#obj_inserted_clipboard#:#Die Objekte wurden in die Zwischenablage übernommen.
 obj#:#obj_master_lang#:#Basissprache
@@ -13218,8 +13246,8 @@ obj#:#obj_tool_setting_taxonomies_info#:#Taxonomien erlauben das Filtern von Obj
 obj#:#obj_tool_setting_use_news#:#Neuigkeiten
 obj#:#obj_tool_setting_use_news_info#:#Nutzung des Blocks „Neuigkeiten“ oder der Timeline für Neuigkeiten. Benutzer können Benachrichtigungen für Neuigkeiten aktivieren, sobald der Block oder die Timeline aktiv sind.
 obj#:#obj_tool_setting_use_news_open_settings#:#Einstellungen für Block und Timeline öffnen
-obj#:#obj_user_decides_notification#:#Mitglieder müssen Benachrichtigungen selbst aktivieren
-obj#:#obj_user_not_disable_not#:#Mitglieder können die Benachrichtigung nicht deaktiveren
+obj#:#obj_user_decides_notification#:#Mitglieder müssen Benachrichtigungen selbst aktivieren.
+obj#:#obj_user_not_disable_not#:#Mitglieder können die Benachrichtigung nicht deaktiveren.
 obj#:#online_input_byline#:#Objekt ist veröffentlicht und kann von allen Personen mit dem Recht „Lesezugriff“ genutzt werden. Die Verfügbarkeit kann aber noch durch Vorbedingungen oder zeitliche Zugriffsbeschränkungen eingeschränkt sein. Diese Einstellungen wirkt sich auf alle Referenzen des Objektes aus.
 obj#:#select_import_type_info#:#Der Typ des zu importierenden Objekts konnte nicht automatisch ermittelt werden. Vermutlich wurde die Datei umbenannt. Bitte wählen Sie den Objekt-Typen aus, den Sie importieren möchten.
 obj#:#select_object_type#:#Objekttyp wählen
@@ -13385,9 +13413,9 @@ pd#:#pd_view_select_at_least_one#:#Bitte wählen Sie mindestens eine Sicht, entw
 pdesk#:#bookmark_moved_ok#:#Bookmark wurde verschoben.
 pdesk#:#bookmark_select_target#:#Bitte wählen Sie das Ziel.
 poll#:#poll_absolute#:#Aktuelle Stimmen
-poll#:#poll_activation_online_info#:#Wählen Sie diese Einstellung, um die Abstimmung für Benutzer verfügbar zumachen.
+poll#:#poll_activation_online_info#:#Diese Abstimmung verfügbar machen.
 poll#:#poll_add#:#Abstimmung anlegen
-poll#:#poll_anonymous_warning#:#Ihre Stimme wurde einzeln erfasst, aber Ihr Name wird in den Abstimmungsergebnissen nicht angezeigt.
+poll#:#poll_anonymous_warning#:#Dies ist eine anonyme Abstimmung. Ihre Stimme wird gespeichert, Ihr Name aber nicht in den Abstimmungsergebnissen angezeigt.
 poll#:#poll_answer#:#Antwort
 poll#:#poll_answer_selected_alt_text#:#Ausgewählt
 poll#:#poll_answers#:#Mögliche Antworten
@@ -13401,25 +13429,25 @@ poll#:#poll_comments#:#Kommentare
 poll#:#poll_copy#:#Abstimmung kopieren
 poll#:#poll_delete_votes#:#Alle Stimmabgaben löschen
 poll#:#poll_delete_votes_sure#:#Sind Sie sicher, dass Sie alle Stimmabgaben löschen möchten?
-poll#:#poll_edit#:#Abstimmung editieren
+poll#:#poll_edit#:#Abstimmung bearbeiten
 poll#:#poll_edit_question#:#Frage bearbeiten
 poll#:#poll_image#:#Bild
 poll#:#poll_import#:#Abstimmung importieren
-poll#:#poll_limit_not_below_answer_count#:#Die begrenzte Anzahl muss kleiner sein als die Anzahl der möglichen Antworten.
-poll#:#poll_limit_number_of_answers#:#Anzahl Antworten begrenzen
+poll#:#poll_limit_not_below_answer_count#:#Die maximale Anzahl der auswählbaren Antworten muss geringer sein als die Gesamtzahl der möglichen Antworten.
+poll#:#poll_limit_number_of_answers#:#Anzahl der auswählbaren Antworten begrenzen
 poll#:#poll_max_number_of_answers#:#Maximale Anzahl pro Person
 poll#:#poll_max_number_of_answers_info#:#Sie dürfen bis zu %s Antworten auswählen.
 poll#:#poll_mode#:#Modus
 poll#:#poll_mode_anonymous#:#Ohne Namen / Anonym
 poll#:#poll_mode_anonymous_info#:#Im Reiter „Abstimmungsergebnisse“ werden keine Namen aufgeführt. Systeminterne IDs der teilnehmenden Personen werden in der Datenbank gespeichert.
 poll#:#poll_mode_personal#:#Mit Namen
-poll#:#poll_mode_personal_info#:#Im Reiter „Abstimmungsergebnisse“ werden die Namen der teilnehmenden Personen mit ihren Antworten aufgeführt.
+poll#:#poll_mode_personal_info#:#Im Reiter „Abstimmungsergebnisse“ werden die Namen der teilnehmenden Personen mit ihren Antworten aufgeführt. Personen, die Zugriff auf diesen Reiter haben, können sehen, wer welche Antwort gegeben hat.
 poll#:#poll_new#:#Neue Abstimmung anlegen
 poll#:#poll_non_anonymous_warning#:#Ihr Name und Votum sind für die Administration in den Ergebnissen sichtbar.
-poll#:#poll_notification_activated#:#Änderungs-Benachrichtigung aktiviert
-poll#:#poll_notification_deactivated#:#Änderungs-Benachrichtigung deaktiviert
-poll#:#poll_notification_subscribe#:#Benachrichtigung aktivieren
-poll#:#poll_notification_unsubscribe#:#Benachrichtigung deaktivieren
+poll#:#poll_notification_activated#:#Benachrichtigungen aktiviert.
+poll#:#poll_notification_deactivated#:#Benachrichtigungen deaktiviert.
+poll#:#poll_notification_subscribe#:#Benachrichtigungen aktivieren
+poll#:#poll_notification_unsubscribe#:#Benachrichtigungen deaktivieren
 poll#:#poll_percentage#:#Aktueller Anteil
 poll#:#poll_population#:#%s Stimmabgaben
 poll#:#poll_population_singular#:#Eine Stimmabgabe
@@ -13435,7 +13463,7 @@ poll#:#poll_sortorder#:#Sortierung
 poll#:#poll_stacked_chart#:#Stapeldiagramm
 poll#:#poll_view_results#:#Ergebnisse anzeigen
 poll#:#poll_view_results_after_period#:#Nach Stimmperiode
-poll#:#poll_view_results_after_period_impossible#:#Die Stimmperiode ist nicht zeitlich begrenzt.
+poll#:#poll_view_results_after_period_impossible#:#Damit die Abstimmungsergebnisse erst nach Ende der Stimmperiode gezeigt werden können, müssen Sie oben eine zeitlich begrenzte Stimmperiode einrichten.
 poll#:#poll_view_results_after_vote#:#Nach Stimmabgabe
 poll#:#poll_view_results_always#:#Immer
 poll#:#poll_view_results_never#:#Niemals
@@ -13446,12 +13474,12 @@ poll#:#poll_vote_error_single#:#Wählen Sie eine Antwort aus.
 poll#:#poll_vote_notification_body#:#die folgende Abstimmung hat eine Stimme erhalten
 poll#:#poll_vote_notification_link#:#Link zur Abstimmung
 poll#:#poll_vote_notification_reason#:#Sie erhalten diese Nachricht, da Sie die Benachrichtigungsfunktion für die oben genannte Abstimmung aktiviert haben.
-poll#:#poll_vote_notification_subject#:#Abstimmung „%s“: neue Stimme
+poll#:#poll_vote_notification_subject#:#Abstimmung „%s“ – neue Stimmabgabe
 poll#:#poll_votes_no_edit#:#Diese Abstimmung beinhaltet bereits Stimmen. Sie kann nicht bearbeitet werden so lange Sie die Stimmen nicht löschen.
 poll#:#poll_voting_period_and_results#:#Stimmperiode und Ergebnisse
 poll#:#poll_voting_period_ended_info#:#Das Ende der Abstimmung war %s.
-poll#:#poll_voting_period_full_info#:#Abstimmung von %s bis %s
-poll#:#poll_voting_period_info#:#Das Ende der Abstimmung ist %s.
+poll#:#poll_voting_period_full_info#:#Die Abstimmung in dieser Umfrage ist vom %s bis zum %s möglich
+poll#:#poll_voting_period_info#:#Die Frist für die Abstimmung endet am %s.
 poll#:#poll_voting_period_limited#:#Zeitlich begrenzte Stimmperiode
 prg#:#access_ctr_by_orgu_position#:#Berechtigungen anhand Positionen in Organisationseinheiten
 prg#:#active_only#:#nur aktive
@@ -14577,6 +14605,9 @@ rbac#:#positions_override_operations#:#Globale Einstellungen überschreiben
 rbac#:#precondition_not_obligatory_alt#:#Die Vorbedingung ist optional
 rbac#:#precondition_num_obligatory#:#Geforderte Anzahl Materialien
 rbac#:#precondition_num_optional_info#:#Anzahl von Materialien, die bis zum festgelegten Status / Ergebnis zu bearbeiten sind
+rbac#:#precondition_number_of_required_materials_bigger_preconditions_number#:#Die Anzahl der geforderten Materialien muss kleiner sein als die Anzahl der Vorbedingungen.
+rbac#:#precondition_number_of_required_materials_lower_compulsory_items#:#Die Anzahl der geforderten Materialien muss größer sein als die Anzahl der verpflichtenden Vorbedingungen.
+rbac#:#precondition_number_of_required_materials_lower_than_one#:#Die Anzahl der geforderten Materialien muss mindestens 1 sein.
 rbac#:#precondition_obligatory#:#Verpflichtend
 rbac#:#precondition_obligatory_alt#:#Die Vorbedingung muss erfüllt werden
 rbac#:#precondition_obligatory_info#:#Verpflichtende Vorbedingungen müssen erfüllt werden, um Zugriff zu erhalten.
@@ -15534,7 +15565,7 @@ search#:#lucene_settings_text_section#:#Präsentation der Suchergebnisse
 search#:#lucene_settings_title#:#Volltextsuche mit Lucene
 search#:#lucene_size_frag_info#:#Maximale Anzahl der Zeichen je Textabschnitt, der zur Hervorhebung des Suchbegriffs ausgegeben wird
 search#:#lucene_size_fragments#:#Länge der Textabschnitte
-search#:#lucene_tbl_create_ini#:#Java-Server Konfigurationsdatei erstellen
+search#:#lucene_tbl_create_ini#:#Konfigurationsdatei für Java-Server erstellen
 search#:#search_add_members_from_container_crs#:#Benutzer aus aktuellem Kurs hinzufügen
 search#:#search_add_members_from_container_grp#:#Benutzer aus aktueller Gruppe hinzufügen
 search#:#search_any#:#-- Beliebig --
@@ -16525,7 +16556,6 @@ survey#:#default_codes_mail_subject#:#Ihr Zugangscode für die Umfrage %s
 survey#:#define_questionblock#:#Fragenblock anlegen
 survey#:#delete_saved_message#:#Textvorlage löschen
 survey#:#display_all_available#:#Alle verfügbaren anzeigen
-survey#:#dont_use_questionpool#:#Fragen nicht in einen Fragenpool einfügen und nur für diese Umfrage verfügbar machen
 survey#:#duplicate#:#Kopieren
 survey#:#edit_heading#:#Überschrift bearbeiten
 survey#:#end_date#:#Enddatum
@@ -16539,7 +16569,6 @@ survey#:#err_minvalueganswers#:#Der Minimalwert darf nicht größer sein als die
 survey#:#err_no_exact_answers#:#Bitte wählen Sie genau %s Antwort(en) aus.
 survey#:#err_no_max_answers#:#Bitte wählen Sie höchstens %s Antworten aus.
 survey#:#err_no_min_answers#:#Bitte wählen Sie mindestens %s Antwort(en) aus.
-survey#:#err_no_pool_name#:#Bitte geben Sie den Namen eines Fragenpools an.
 survey#:#error_retrieving_anonymous_survey#:#Das System konnte Ihre Umfragedaten unter dem Zugangsschlüssel %s nicht finden. Bitte überprüfen Sie den Zugangsschlüssel!
 survey#:#error_save_code#:#Werte wurden nicht korrekt gespeichert. <b>Die E-Mail %s ist nicht gültig.</b>. Vorname: „%s“, Nachname: „%s“.<br>
 survey#:#evaluation#:#Statistik
@@ -16707,8 +16736,6 @@ survey#:#search_groups#:#Gruppen
 survey#:#search_term#:#Suchbegriff(e)
 survey#:#select_option#:#--- Bitte wählen Sie eine Antwort aus ---
 survey#:#select_prior_question#:#Eine vorherige Frage auswählen
-survey#:#select_questionpool#:#Bitte geben Sie einen Fragenpool an, dem Sie die neu erstellte Frage zuordnen
-survey#:#select_questionpool_short#:#Fragenpool für Umfragen
 survey#:#select_relation#:#Relation auswählen
 survey#:#select_target_position_for_move_question#:#Bitte wählen Sie die Frage aus, die Sie in der Liste verschieben möchten. Sie können diese vor oder nach bestehenden Fragen einfügen.
 survey#:#select_value#:#Wert festlegen
@@ -16725,7 +16752,6 @@ survey#:#spl_move_insert_clipboard#:#Die ausgewählten Fragen wurden zum Verschi
 survey#:#spl_move_same_pool#:#Sie können Fragen nicht innerhalb desselben Fragenpools verschieben. Um Ihre Frage(n) zu verschieben, navigieren Sie bitte zu einem anderen Fragenpool und klicken Sie dort auf „Einfügen”.
 survey#:#spl_move_select_none#:#Bitte wählen Sie mindestens eine Frage zum Verschieben aus.
 survey#:#spl_online_property#:#Online
-survey#:#spl_online_property_description#:#Nur wenn der Fragenpool online ist, können die enthaltenen Fragen in Umfragen verwendet werden.
 survey#:#spl_paste_no_objects#:#Es befinden sich keine Fragen in der Zwischenablage. Bitte kopieren oder verschieben Sie eine Frage in die Zwischenablage, um sie hier einfügen zu können.
 survey#:#spl_paste_success#:#Frage(n) erfolgreich in den Fragenpool eingefügt.
 survey#:#spl_save_obligatory_state#:#„Verpflichtend“-Status speichern
@@ -16743,16 +16769,13 @@ survey#:#survey_360_appraisee_close_action_status#:#Umfrage wurde am %s geschlos
 survey#:#survey_360_appraisee_close_action_success#:#Sie haben Ihre 360°-Umfrage für Ihre Feedback-Geber geschlossen.
 survey#:#survey_360_appraisee_close_action_success_admin#:#Ausgewählte 360°-Umfragen für Feedback-Geber geschlossen.
 survey#:#survey_360_appraisee_close_table#:#Geschlossen am
-survey#:#survey_360_appraisee_info#:#Informationen über Feedback-Nehmer
 survey#:#survey_360_appraisee_is_closed#:#Diese Umfrage wurde vom Feedback-Nehmer geschlossen.
 survey#:#survey_360_appraisees#:#Feedback-Nehmer
 survey#:#survey_360_edit_raters#:#Feedback-Geber verwalten
 survey#:#survey_360_mode#:#360°-Feedback
 survey#:#survey_360_mode_info#:#Ermöglicht es Einzelpersonen, von mehreren Personen bewertet zu werden. Die Ergebnisse werden zusammengefasst.
 survey#:#survey_360_no_appraisees#:#Zur Zeit benötigen keine Feedback-Nehmer Ihre Bewertung
-survey#:#survey_360_no_closed_appraisees#:#Es sind noch keine Umfragen geschlossen worden.
 survey#:#survey_360_rate_other_appraisee#:#Feedback geben
-survey#:#survey_360_rate_other_appraisees#:#Feedback geben
 survey#:#survey_360_rater_finished#:#Umfrage abgeschlossen
 survey#:#survey_360_rater_mail_sent#:#Mail versendet
 survey#:#survey_360_rater_message_content_anonymous#:#Inhalt (Anonym)
@@ -16762,7 +16785,6 @@ survey#:#survey_360_rater_message_content_registered_default#:#Sie können die U
 survey#:#survey_360_rater_subject_default#:#Sie wurden als Feedback-Geber zu einer 360°-Umfrage eingeladen.
 survey#:#survey_360_raters#:#Feedback-Geber
 survey#:#survey_360_raters_finished#:#Bewertungen abgeschlossen
-survey#:#survey_360_raters_status_info#:#Umfrage abgeschlossen
 survey#:#survey_360_remove_appraisees#:#Feedback-Nehmer entfernen
 survey#:#survey_360_results#:#Zugang zu Ergebnissen für Feedback-Nehmer
 survey#:#survey_360_results_all#:#Alle Feedbacks
@@ -16814,17 +16836,15 @@ survey#:#survey_error_insert_incomplete_question#:#Sie haben versucht, eine unvo
 survey#:#survey_execution_exit#:#Zurück zum Magazin
 survey#:#survey_execution_exit_360#:#Zurück
 survey#:#survey_execution_sure_finish#:#Möchten Sie die Umfrage wirklich beenden? Danach können Sie Ihre Antworten nicht mehr bearbeiten.
-survey#:#survey_existing_pool#:#Vorhandenen Fragenpool verwenden
 survey#:#survey_finish#:#Umfrage beenden →
 survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
+survey#:#survey_from_x_points#:#Ab X Punkten
 survey#:#survey_has_datasets_warning#:#Diese Umfrage enthält bereits Datensätze. Sie können die Fragen erst synchronisieren, wenn Sie diese Datensätze über die Reiter „Befragten“ bzw. "Feedback-Nehmer" der Umfrage löschen. Dazu müssen Sie alle entfernen, die mit der Umfrage begonnen und dadurch einen Datensatz erstellt haben.
 survey#:#survey_has_datasets_warning_page_view#:#Diese Umfrage enthält bereits Datensätze. Sie können die Umfrage erst bearbeiten, wenn Sie diese Datensätze gelöscht haben. Dazu müssen Sie alle Personen entfernen, die mit der Umfrage begonnen und dadurch einen Datensatz erstellt haben.
 survey#:#survey_has_datasets_warning_page_view_link#:#Teilnehmende Personen bearbeiten
 survey#:#survey_introduction_info#:#Dieser Text wird dauerhaft im Reiter „Info“ angezeigt.
 survey#:#survey_is_offline#:#Die Umfrage ist offline und kann somit nicht gestartet werden.
-survey#:#survey_new_pool#:#Neuen Fragenpool anlegen
 survey#:#survey_next#:#Weiter →
-survey#:#survey_no_pool#:#Keinen Fragenpool verwenden
 survey#:#survey_not_available#:#n.a.
 survey#:#survey_notification_finished_introduction#:#Eine teilnehmende Person has die folgende Umfrage beendet:
 survey#:#survey_notification_finished_reason#:#Sie erhalten diese Nachricht, da Sie die Benachrichtigungsfunktion für die oben genannte Umfrage aktiviert haben.
@@ -16841,17 +16861,11 @@ survey#:#survey_notification_tutor_salutation#:#Hallo %s,
 survey#:#survey_notification_tutor_setting#:#Eine E-Mail nachdem alle Befragten die Umfrage beendet haben
 survey#:#survey_notification_tutor_subject#:#Alle Befragten haben die Umfrage „%s“ beendet
 survey#:#survey_order#:#Sortierung
-survey#:#survey_pool_selection#:#Poolauswahl
 survey#:#survey_previous#:#← Zurück
 survey#:#survey_question_editor#:#Listenansicht
 survey#:#survey_question_obligatory#:#(Diese Frage ist eine Pflichtfrage. Sie muss beantwortet werden!)
 survey#:#survey_question_pool#:#Fragenpool
 survey#:#survey_question_pool_title#:#Pool-Titel
-survey#:#survey_question_pool_usage#:#Fragenpool verwenden
-survey#:#survey_question_pool_usage_active#:#Fragen optional aus Pool hinzufügen
-survey#:#survey_question_pool_usage_active_info#:#Beim Anlegen einer Frage kann gewählt werden, ob die Frage direkt in der Umfrage erstellt oder aus einem bestehenden Fragenpool übernommen wird.
-survey#:#survey_question_pool_usage_inactive#:#Fragen nur in der Umfrage erstellen
-survey#:#survey_question_pool_usage_inactive_info#:#Die Umfrage bietet nur die Möglichkeit, Fragen direkt in der Umfrage zu erstellen. Eine Wiederverwendung von Fragen aus einem Fragenpool wird nicht unterstützt.
 survey#:#survey_question_title#:#Fragetitel
 survey#:#survey_questions#:#Fragen
 survey#:#survey_questions_to_clipboard_copy#:#Es wurden Fragen in die Zwischenablage kopiert. Wählen Sie ein Ziel oder leeren Sie die Zwischenablage.
@@ -16892,7 +16906,6 @@ survey#:#survey_sync_insufficient_permissions#:#Keine ausreichende Berechtigunge
 survey#:#survey_sync_question_copies#:#Fragenkopien synchronisieren
 survey#:#survey_sync_question_copies_info#:#Alle ausgewählten Fragen werden auf den aktuellen Stand der Poolfrage gebracht.
 survey#:#survey_sync_success#:#Die ausgewählten Fragen wurden aktualisiert.
-survey#:#survey_up_to_x_points#:#Bis zu x Punkten
 survey#:#survey_use_start_button#:#Die Umfrage kann ausschließlich durch durch den Button „Umfrage beginnen“ gestartet werden.
 survey#:#svy_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird nur der Titel der Umfrage angezeigt, die Fragen sind nicht zugänglich.
 survey#:#svy_activation_online_info#:#Nur wenn die Umfrage online ist, können Personen an dieser teilnehmen.
@@ -16965,7 +16978,6 @@ survey#:#svy_mail_context_rater_invitation_title#:#Umfrage: Feedback-Geber einla
 survey#:#svy_mail_context_reminder_info#:#Personen daran erinnern, an der Umfrage teilzunehmen
 survey#:#svy_mail_context_reminder_survey_title#:#Umfragetitel
 survey#:#svy_mail_context_reminder_title#:#Umfrage: Teilnahme-Erinnerung
-survey#:#svy_mail_own_results#:#Eigene Antworten per E-Mail versenden
 survey#:#svy_mail_own_results_body#:#Sie haben an folgender Umfrage teilgenommen:
 survey#:#svy_mail_own_results_subject#:#Umfrage „%s“ - Ihre Teilnahmebestätigung mit Antworten
 survey#:#svy_mail_send_confirmation#:#Teilnahmebestätigung anfordern
@@ -16977,7 +16989,6 @@ survey#:#svy_notification_tutor_results#:#Eine E-Mail mit den Umfrageergebnissen
 survey#:#svy_notification_tutor_results_alert#:#Diese Funktion erfordert ein Enddatum.
 survey#:#svy_notification_tutor_results_info#:#Nach dem Ablauf des Enddatum wird eine E-Mail mit den detailierten Umfrageergebnissen versendet.
 survey#:#svy_only_max_one_external_rater#:#Bitte wählen Sie nur einen externen Feedback-Geber aus.
-survey#:#svy_page_add_question#:#Neue %s hinzufügen
 survey#:#svy_page_error#:#Beim Beantworten einer Frage ist ein Fehler aufgetreten. Die Fehlermeldung finden Sie bei der betroffenen Frage!
 survey#:#svy_page_errors#:#Beim Beantworten mehrerer Fragen sind Fehler aufgetreten. Die Fehlermeldungen finden Sie bei den betroffenen Fragen!
 survey#:#svy_participant#:#Befragte
@@ -16997,8 +17008,6 @@ survey#:#svy_results_mail_confirm#:#Teilnahmebestätigung
 survey#:#svy_results_mail_confirm_info#:#Nach Beendigung der Umfrage kann eine Teilnahmebestätigung angefordert werden.
 survey#:#svy_results_mail_own#:#Eigene Antworten mitsenden
 survey#:#svy_results_mail_own_info#:#Die Antworten der teilnehmenden Person werden in ihrer Teilnahmebestätigungs-E-Mail aufgeführt.
-survey#:#svy_results_view_own#:#Eigene Antworten einsehen
-survey#:#svy_results_view_own_info#:#Eigene Antworten können nach Beendigung der Umfrage eingesehen werden. Die Antworten sind nicht änderbar.
 survey#:#svy_save_and_continue#:#Speichern und fortfahren
 survey#:#svy_save_sync#:#Speichern und Kopien aktualisieren
 survey#:#svy_search_user#:#Benutzer suchen

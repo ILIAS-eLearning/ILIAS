@@ -881,6 +881,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                 if (!$tree->isDeleted($ref_id)) {
                     $visible = false;
                     $active = ilObjCourseAccess::_isActivated($obj_id, $visible, false);
+                    if (ilObject::lookupOfflineStatus($obj_id)) {
+                        $visible = false;
+                    }
                     if ($active && $visible) {
                         $references[$ref_id] = array(
                             'ref_id' => $ref_id,

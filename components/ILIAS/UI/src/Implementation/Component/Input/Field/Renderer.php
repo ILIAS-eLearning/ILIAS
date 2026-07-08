@@ -941,7 +941,6 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('assets/css/tagify.css');
-        $registry->register('assets/js/tagInput.js');
 
         $registry->register('assets/js/dropzone.min.js');
         $registry->register('assets/js/dropzone.js');

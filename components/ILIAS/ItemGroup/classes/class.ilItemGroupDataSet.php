@@ -146,8 +146,16 @@ class ilItemGroupDataSet extends ilDataSet
 
                 $newObj->setTitle($a_rec["Title"]);
                 $newObj->setDescription($a_rec["Description"]);
-                $newObj->setBehaviour($a_rec["Behaviour"]);
-                $newObj->setHideTitle($a_rec["HideTitle"]);
+                $newObj->setDisplay(
+                    $a_rec["HideTitle"] === "1"
+                        ? ilItemGroupAR::DISPLAY_WITHOUT_TITLE
+                        : ilItemGroupAR::DISPLAY_WITH_TITLE
+                );
+                $newObj->setDisplayWithTitleAndToggleableInitially(
+                    $a_rec["Behaviour"] === "1"
+                        ? ilItemGroupAR::DISPLAY_WITH_TITLE_AND_TOGGLEABLE_INITIALLY_OPEN
+                        : ilItemGroupAR::DISPLAY_WITH_TITLE_AND_TOGGLEABLE_INITIALLY_CLOSED
+                );
                 $newObj->update();
                 $this->current_obj = $newObj;
                 $a_mapping->addMapping("components/ILIAS/ItemGroup", "itgr", $a_rec["Id"], $newObj->getId());
