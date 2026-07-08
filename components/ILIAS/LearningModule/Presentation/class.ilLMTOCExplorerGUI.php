@@ -75,7 +75,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
         $this->export_all_languages = $export_all_languages;
 
         $this->activation_repo = new ilPageActivationDBRepository();
-
+        $this->setPreloadChilds(false);
         $this->initTreeData();
     }
 
