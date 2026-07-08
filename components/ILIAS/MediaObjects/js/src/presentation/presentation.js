@@ -35,6 +35,7 @@ const presentation = (function () {
           const coordsAtt = areaEl.getAttribute('coords');
           const hlMode = areaEl.getAttribute('data-hl-mode');
           const hlClass = areaEl.getAttribute('data-hl-class');
+          const title = areaEl.getAttribute('title');
           const area = areaFactory.area(
             shapeAtt,
             coordsAtt,
@@ -47,6 +48,11 @@ const presentation = (function () {
           shapeEl.classList.add(`copg-iim-hl-class-${hlClass}`);
           shapeEl.style.pointerEvents = 'auto';
           shapeEl.style.cursor = 'pointer';
+          if (title) {
+            const titleEl = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+            shapeEl.prepend(titleEl);
+            titleEl.textContent = title;
+          }
           shapeEl.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
