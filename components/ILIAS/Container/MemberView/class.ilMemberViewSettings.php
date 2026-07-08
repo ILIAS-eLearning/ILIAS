@@ -180,15 +180,6 @@ class ilMemberViewSettings
             $this->active = true;
             $this->container = (int) ilSession::get(self::SESSION_MEMBER_VIEW_CONTAINER);
             $this->container_items = $this->tree->getSubTreeIds($this->getContainer());
-
-            // deactivate if out of scope
-            if (
-                $this->getCurrentRefId() &&
-                !in_array($this->getCurrentRefId(), $this->container_items) &&
-                $this->getCurrentRefId() !== $this->getContainer()
-            ) {
-                $this->deactivate();
-            }
         }
     }
 
