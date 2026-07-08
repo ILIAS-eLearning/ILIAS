@@ -84,10 +84,10 @@ Package names may vary depending on the Linux distribution.
 # Installation on Ubuntu 24.04
 
 Depending on your Linux Distribution, you have several ways to install the required
-dependencies. We recommend to always use your distribution's package manager to
-easily keep your packages up to date and avoid security issues.
+dependencies. We recommend that you always use your distribution's package manager in order 
+to keep your packages up to date and avoid security issues.
 
-In this guide we choose Ubuntu 24.04 because it already meets the recommended PHP version 8.3.
+In this guide we have chosen Ubuntu 24.04 because it already meets the recommended PHP version 8.3.
 For other Ubuntu or Debian-based Linux systems, we recommend using [DEB.SURY.ORG](https://deb.sury.org/) to install the correct 
 PHP version later on.
 
@@ -130,7 +130,7 @@ Composer may be optional when using the prepacked ILIAS from [Download & Release
 apt install apache2 libapache2-mod-php php php-gd php-xsl php-imagick php-curl php-mysql php-soap php-ldap composer
 ```
 
-Create a directory for the html sources (e.g. `/var/www/ilias`) which is referenced in the apache2 vhost (the apache2 vhost will use `/var/www/ilias/public`) and also a directory outside the web servers docroot (e.g. `/var/www/files`) for files stored by ILIAS. 
+Create a directory for the html sources (e.g. `/var/www/ilias`) which is referenced in the apache2 vhost (the apache2 vhost will use `/var/www/ilias/public`) and also a directory outside the web server's docroot (e.g. `/var/www/files`) for files stored by ILIAS. 
 Make sure that the web server user is the owner of the files and directories that were created by changing the group and owner to `www-data` (on Debian/Ubuntu), `apache` (on RHEL) or `wwwrun` (on SLES).
 
 In addition to the file folder, ILIAS also needs a place to create the log files
@@ -138,7 +138,9 @@ In addition to the file folder, ILIAS also needs a place to create the log files
 error_log files, which are created in case of errors and are referenced in ILIAS by
 an errorcode.
 
-Also, to store the ILIAS configuration, which is later used to configure ILIAS, we create the folder `/var/www/config`. To prevent future issues with npm we create `/var/www/.npm` which needs to be writable by the web server user.
+Also, to store the ILIAS configuration, which is later used to configure ILIAS, 
+we need to create the folder `/var/www/config`. To prevent future issues with npm we 
+also need to create `/var/www/.npm` which needs to be writable by the web server user.
 
 ```shell
 mkdir /var/www/ilias
@@ -191,8 +193,9 @@ phpinfo();
 
 Then point your browser to ```http://example.com/phpinfo.php```. 
 If you see the content of the file as shown above, your configuration is **not** working. 
-If you can see details of your PHP configuration, everything works fine. 
-Search for the entry ```Loaded configuration file``` as we now make some changes to it (e.g. `/etc/php8.4/apache2/php.ini`).
+If you can see details of your PHP configuration, everything is working correctly.
+Search for the entry ```Loaded configuration file``` as we will now 
+make some changes to it (e.g. `/etc/php8.4/apache2/php.ini`).
 Delete the file `phpinfo.php` afterwards.
 
 We recommend at least the following settings for your php.ini:
@@ -226,7 +229,7 @@ allow_url_fopen = 1
 max_input_vars = 10000
 ```
 
-Restart the apache2 webserver after you installed and configured your dependencies.
+Restart the apache2 webserver after having installed and configured your dependencies.
 
 ```shell
 systemctl restart apache2.service
@@ -251,7 +254,7 @@ apt install mariadb-server
 > Please note that installing ILIAS in utf8mb4-collations is currently not supported!
 > ILIAS supports utf8-collations with 3 bytes per character, such as `utf8_general_ci`, only.
 
-We **strongly recommend** to use MariaDB with the following settings:
+We **strongly recommend** using MariaDB with the following settings:
 
 * InnoDB storage engine (default)
 * `character-set-server` = `utf8mb3`
@@ -269,7 +272,7 @@ is set to `COMPACT`.
 systemctl restart mariadb.service
 ```
 
-We recommend to create a dedicated database user for ILIAS:
+We recommend creating a dedicated database user for ILIAS:
 
 ```shell
 mysql -e "CREATE DATABASE ilias CHARACTER SET utf8 COLLATE utf8_general_ci;"
@@ -287,10 +290,10 @@ ILIAS release or clone it from [GitHub](https://github.com/ILIAS-eLearning/ILIAS
 For production use make sure to checkout the latest stable release, not the trunk,
 which is the development branch of the repository.
 
-We recommend to clone from GitHub and use git to update the code, since this simplifies
+We recommend cloning from GitHub and using git to update the code, since this simplifies
 the update to future releases and versions.
 
-Clone the code to the web servers docroot (e.g. `/var/www/ilias`) with the following
+Clone the code to the web server's docroot (e.g. `/var/www/ilias`) with the following
 commands:
 
 ```shell
@@ -339,7 +342,7 @@ the [ILIAS Setup on the command-line](../../components/ILIAS/setup_/README.md).
 
 To do so, create a configuration file for the setup by copying the [minimal-config.json](../../components/ILIAS/setup_/minimal-config.json)
 to a location outside your docroot. Fill in the configuration fields that are already
-contained in the minimal config. Have a look into the [list of available config options](../../components/ILIAS/setup_/README.md#about-the-config-file)
+contained in the minimal config. Have a look at the [list of available config options](../../components/ILIAS/setup_/README.md#about-the-config-file)
 and add the fields that your environment and installation requires.
 
 ```shell
@@ -396,9 +399,9 @@ file (located outside your doc-root!) as a parameter:
 sudo -u www-data php cli/setup.php install /var/www/config/ilias.json
 ```
 
-The installation will display what currently happens and might prompt you with
-questions. You might want to have a look into the [documentation of the command line setup](../../components/ILIAS/setup_/README.md)
-or into the help of the program itself `php cli/setup.php help`. It is the tool
+The installation will display what is currently happening and might prompt you with
+questions. You might want to have a look at the [documentation of the command line setup](../../components/ILIAS/setup_/README.md)
+or at the help of the program itself `php cli/setup.php help`. It is the tool
 to manage and monitor your ILIAS installation.
 
 Now that you have ILIAS installed, you can start by logging in as root. Go to your http path and log in with the 
@@ -413,14 +416,14 @@ Optionally you can continue with the installation of further components to get t
 A cron job can be automatically executed to perform recurring tasks, such as sending notifications or deleting inactive user accounts. 
 For details on how to configure the automatic execution of cron jobs, see [Configure Cron Jobs](#configure-cron).
 2. **ILIAS Java RPC server**
-It is used for certain optional functions such as Lucene Search
+This is used for certain optional functions such as Lucene Search
 or generating PDF Certificates. See [Lucene RPC-Server](../../components/ILIAS/WebServices/RPC/lib/README.md) for details
 on how to install the RPC server.
 3. **ILIAS Chat Server** 
-It is used to provide an interactive chat experience between users.
+This is used to provide an interactive chat experience between users.
 See [Chat Server](../../components/ILIAS/Chatroom/README.md) for details on how to install the chat server.
 4. **E-Mail**
-You either use a MTA of your liking to send e-mail generated by ILIAS or configure a SMTP Connection in ILIAS 
+You either use an MTA of your liking to send e-mail generated by ILIAS or configure an SMTP Connection in ILIAS 
 "Administration > Communication > Settings > Extern" by activating and configuring "Send via SMTP". We recommend
 to use a MTA installed to your OS like `postfix`. On Debian/Ubuntu execute and configure it according to their instructions:
 ```shell
@@ -571,23 +574,23 @@ sudo -u www-data composer install --no-dev
 Complete the update of the base system by [updating the database](#update-the-database).
 
 As a last step, you should log in with a User using your custom skin. If everything
-works fine, change back from Delos to your custom system style. If not, you probably
+works correctly, change back from Delos to your custom system style. If not, you probably
 will need to update your style to match the new release.
 
 <a name="update-the-database"></a>
-## Update the Database and doing migrations to IRSS
+## Update the Database and carrying out migrations to IRSS
 
 Database updates must be done for both minor and major updates, the schema and content
 of the database probably won't match the code otherwise. Database updates are performed
 via the [command line setup program](../../components/ILIAS/setup_/README.md). The required updates
 are split into two groups. **Updates** are tasks that need to be run immediately to
-make your installation work properly. **Migrations** are tasks, that potentially take
-some time, but which can also be executed while the installation is in productive use.
+make your installation work properly. **Migrations** are tasks that potentially take
+some time, but which can also be executed while the installation is live.
 
 Run the `status` command on the command line to check if there are any updates
 available and if ILIAS is responding. After this you need to perform the update.
 
-Please make sure to check for migrations before you run the update especially if it's a 
+Please make sure to check for migrations before you run the update, especially if it's a 
 major upgrade. If there are migrations left please make sure to run these before updating.
 
 ```
@@ -596,13 +599,13 @@ sudo -u www-data php cli/setup.php migrate
 ```
 
 The command will show you if there are migrations that need to be run for your
-installation. Run them by using the `--run` parameter and have a look into
+installation. Run them by using the `--run` parameter and refering to
 the help of the command for more details: `php cli/setup.php migrate --help`.
 
-Both commands will display what currently happens and might prompt you with
+Both commands will display what is currently happening and might prompt you with
 questions. You might want to have a look into the [documentation of the command line setup](../../components/ILIAS/setup_/README.md)
-or into the help of the program itself `php cli/setup.php help`. It is the tool
-to manage and monitor your ILIAS installation.
+or into the help of the program itself `php cli/setup.php help`. This is the tool
+for managing and monitoring your ILIAS installation.
 
 As soon as all migrations are done you can do the database update:
 ```
@@ -614,8 +617,8 @@ sudo -u www-data php cli/setup.php update
 
 Database updates are performed in steps; it might happen that a step fails, e.g. due
 to some edge case or inconsistency in existing data, files, etc.
-In this case, a consecutive command `php setup/setup.php update` will error with
-a message like
+In this case, a consecutive command `php setup/setup.php update` will indicate
+an error error with a message like
 > step 2 was started last, but step 1 was finished last.
 > Aborting because of that mismatch.
 
@@ -623,8 +626,8 @@ You may reset the records for those steps by running:
 ```shell
 php cli/setup.php achieve database.resetFailedSteps
 ```
-However, be sure to understand the cause for the failing steps and tend to it before
-resetting and running update again.
+However, be sure to understand why the steps failed and address the issue 
+before resetting and rerunning the update.
 
 <a name="information-updates"></a>
 ## Information on Updates
@@ -698,7 +701,7 @@ php /var/www/ilias/cli/cron.php run-jobs <user> <client_id>
 The `<user>` is a valid, arbitrary user account within the ILIAS installation.
 The `<client_id>` corresponds to the client ID of the ILIAS installation.
 
-To configure automated Cron Jobs in your system, you need to create an user in ILIAS, for example named `cron`.
+To configure automated Cron Jobs in your system, you need to create a user in ILIAS, for example named `cron`.
 Then create a new file in the Linux Cron configuration for ILIAS at `/etc/cron.d/ilias`, 
 including a line to execute `./cli/cron.php` every 5 minutes. 
 Other methods for executing Linux cron tasks, such as using the user crontab, can also be utilized.
