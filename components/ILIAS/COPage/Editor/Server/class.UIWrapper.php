@@ -248,8 +248,9 @@ class UIWrapper
         }
         $html = $form->render();
         $tag = "button";
+        /* not necessary, since top buttons have been removed in general for forms
         $del_count = $in_modal ? 2 : 1;
-        $html = preg_replace("#\\<" . $tag . "([^>]*)btn-default(.*)/" . $tag . ">#iUs", "", $html, $del_count);
+        $html = preg_replace("#\\<" . $tag . "([^>]*)btn-default(.*)/" . $tag . ">#iUs", "", $html, $del_count);*/
         $footer_pos = stripos($html, "il-standard-form-footer");
         if (!is_int($footer_pos)) {
             $footer_pos = stripos($html, "c-form__footer");
