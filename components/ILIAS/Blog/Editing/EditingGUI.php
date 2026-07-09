@@ -47,7 +47,7 @@ class EditingGUI
         protected int $node_id,
         protected int $id_type,
         protected PermissionManager $perm,
-        protected ?string $current_month = null,
+        protected ?string $current_month,
         protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain,
         protected ilObjBlogGUI $parent_gui
     ) {
