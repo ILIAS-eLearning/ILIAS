@@ -54,7 +54,11 @@ class ilTrackingImporter extends ilXmlImporter
         string $a_xml,
         ilImportMapping $a_mapping
     ): void {
-        $new_id = $this->getNewId($a_id, $a_mapping);
+        try {
+            $new_id = $this->getNewId($a_id, $a_mapping);
+        } catch (TrackingExportException $e) {
+            return;
+        }
         $export_factory = $this->tracking_factory->export();
         $db_factory = $this->tracking_factory->db();
         $reader = $export_factory->xml()->reader();
