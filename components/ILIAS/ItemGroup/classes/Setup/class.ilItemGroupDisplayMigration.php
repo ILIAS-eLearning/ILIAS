@@ -30,7 +30,7 @@ use ILIAS\Setup\Migration;
 
 class ilItemGroupDisplayMigration implements Migration
 {
-    private const MIGRATED_MARKER = -1;
+    public const MIGRATED_MARKER = -1;
 
     private ilDBInterface $db;
 
