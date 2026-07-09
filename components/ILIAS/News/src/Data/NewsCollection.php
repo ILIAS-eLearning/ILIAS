@@ -442,7 +442,7 @@ class NewsCollection implements \Countable, \IteratorAggregate, \JsonSerializabl
 
         uasort(
             $ordered->news_items,
-            fn(NewsItem $a, NewsItem $b): int => $a->getCreationDate() <=> $b->getCreationDate()
+            fn(NewsItem $a, NewsItem $b): int => $b->getCreationDate() <=> $a->getCreationDate()
         );
 
         return $ordered;
