@@ -144,6 +144,12 @@ class ilTestImporter extends ilXmlImporter
             $a_id . ":0:tst",
             $new_obj->getId() . ":0:tst"
         );
+        $a_mapping->addMapping(
+            "components/ILIAS/Tracking",
+            "obj",
+            $a_id,
+            (string) $new_obj->getId()
+        );
     }
 
     public function addTaxonomyAndQuestionsMapping(

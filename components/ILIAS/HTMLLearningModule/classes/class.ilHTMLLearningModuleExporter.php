@@ -52,6 +52,11 @@ class ilHTMLLearningModuleExporter extends ilXmlExporter
             "ids" => $a_ids
         ];
 
+        $deps[] = [
+            "component" => "components/ILIAS/Tracking",
+            "entity" => "lpsettings",
+            "ids" => $a_ids
+        ];
         return $deps;
     }
 

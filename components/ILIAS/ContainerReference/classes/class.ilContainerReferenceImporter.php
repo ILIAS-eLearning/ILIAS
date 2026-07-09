@@ -87,6 +87,12 @@ abstract class ilContainerReferenceImporter extends ilXmlImporter
                 $a_id,
                 (string) $this->getReference()->getId()
             );
+            $a_mapping->addMapping(
+                "components/ILIAS/Tracking",
+                "obj",
+                $a_id,
+                (string) $this->getReference()->getId()
+            );
         } catch (ilSaxParserException | Exception $e) {
             $log->error(__METHOD__ . ': Parsing failed with message, "' . $e->getMessage() . '".');
         }

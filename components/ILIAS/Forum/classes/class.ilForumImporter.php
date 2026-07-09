@@ -49,6 +49,12 @@ class ilForumImporter extends ilXmlImporter implements ilForumObjectConstants
         $parser->startParsing();
 
         $a_mapping->addMapping('components/ILIAS/Forum', 'frm', $a_id, (string) $newObj->getId());
+        $a_mapping->addMapping(
+            "components/ILIAS/Tracking",
+            "obj",
+            $a_id,
+            (string) $newObj->getId()
+        );
     }
 
     public function finalProcessing(ilImportMapping $a_mapping): void

@@ -104,6 +104,12 @@ class ilSurveyExporter extends ilXmlExporter
                     "ids" => $md_ids
                 ];
             }
+
+            $dependencies[] = [
+                "component" => "components/ILIAS/Tracking",
+                "entity" => "lpsettings",
+                "ids" => $a_ids
+            ];
             return $dependencies;
         }
         return array();

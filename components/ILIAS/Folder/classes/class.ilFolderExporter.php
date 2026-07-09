@@ -28,6 +28,17 @@ class ilFolderExporter extends ilXmlExporter
     {
     }
 
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
+    {
+        return [
+            [
+                "component" => "components/ILIAS/Tracking",
+                "entity" => "lpsettings",
+                "ids" => $a_ids
+            ]
+        ];
+    }
+
     public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         // always trigger container because of co-page(s)

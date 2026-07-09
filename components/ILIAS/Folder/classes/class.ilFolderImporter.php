@@ -47,6 +47,12 @@ class ilFolderImporter extends ilXmlImporter
             $parser = new ilFolderXmlParser($this->folder, $a_xml);
             $parser->start();
             $a_mapping->addMapping('components/ILIAS/Folder', 'fold', $a_id, (string) $this->folder->getId());
+            $a_mapping->addMapping(
+                "components/ILIAS/Tracking",
+                "obj",
+                $a_id,
+                (string) $this->folder->getId()
+            );
         } catch (ilSaxParserException $e) {
             $GLOBALS['ilLog']->write(__METHOD__ . ': Parsing failed with message, "' . $e->getMessage() . '".');
         }

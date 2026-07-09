@@ -59,8 +59,12 @@ class ilIndividualAssessmentExporter extends ilXmlExporter
                 "entity" => "common",
                 "ids" => $a_ids
             ];
+            $res[] = [
+                "component" => "components/ILIAS/Tracking",
+                "entity" => "lpsettings",
+                "ids" => $a_ids
+            ];
         }
-
         return $res;
     }
 
