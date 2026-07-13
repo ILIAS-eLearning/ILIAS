@@ -15607,7 +15607,7 @@ search#:#lucene_tbl_create_ini#:#Create Java-Server Ini-File
 search#:#search_add_members_from_container_crs#:#Add Users From Current Course
 search#:#search_add_members_from_container_grp#:#Add Users From Current Group
 search#:#search_any#:#-- Any --
-search#:#search_area#:#Search Area
+search#:#search_area_filter#:#Scope
 search#:#search_area_info#:#Please select an area where the search should start.
 search#:#search_auto_complete_length#:#Number of Auto-Complete List Entries
 search#:#search_auto_complete_length_info#:#Choose ‘0‘ to switch off the auto-complete list.
