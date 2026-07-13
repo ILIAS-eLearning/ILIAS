@@ -13386,6 +13386,17 @@ tr.c-table-data__row.c-table-data__row--drag-settle {
   content: "\e013";
 }
 
+.il-viewcontrol-pagination__num-of-items li .btn.btn-link {
+  padding-left: 36px;
+}
+.il-viewcontrol-pagination__num-of-items li.selected .btn::before {
+  position: absolute;
+  left: 12px;
+  font-family: "Glyphicons Halflings";
+  color: #4c6586;
+  content: "\e013";
+}
+
 .il-viewcontrol-fieldselection .dropdown-menu {
   padding: 15px 9px;
 }

@@ -22,6 +22,7 @@ namespace ILIAS\UI\Implementation\Component\Input\ViewControl;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
+use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use LogicException;
@@ -132,14 +133,17 @@ class Renderer extends AbstractComponentRenderer
             $internal_signal->addOption('value', $opt_value);
             $item = $ui_factory->button()->shy((string) $opt_label, '#')
                 ->withOnClick($internal_signal);
-            $tpl->setCurrentBlock("option");
-            $tpl->setVariable("OPTION", $default_renderer->render($item));
-
-            if ($opt_value === $component->getValue()) {
-                $tpl->touchBlock("selected");
-                $tpl->setCurrentBlock("option");
-            }
-            $tpl->parseCurrentBlock();
+            $this->appendDropdownMenuItem(
+                $tpl,
+                'option',
+                'OPTION',
+                $default_renderer->render($item),
+                $this->isDropdownOptionSelected(
+                    $opt_value,
+                    $component->getValue(),
+                    $opt_label === array_key_first($component->getOptions())
+                )
+            );
         }
 
         if ($container_submit_signal = $component->getOnChangeSignal()) {
@@ -306,13 +310,13 @@ class Renderer extends AbstractComponentRenderer
 
             $item = $ui_factory->button()->shy($option_label, '#')
                 ->withOnClick($signal);
-            $tpl->setCurrentBlock("option_limit");
-            $tpl->setVariable("OPTION_LIMIT", $default_renderer->render($item));
-            if ($option === $limit) {
-                $tpl->touchBlock("selected");
-                $tpl->setCurrentBlock("option_limit");
-            }
-            $tpl->parseCurrentBlock();
+            $this->appendDropdownMenuItem(
+                $tpl,
+                'option_limit',
+                'OPTION_LIMIT',
+                $default_renderer->render($item),
+                $option === $limit
+            );
         }
 
         if ($container_submit_signal = $component->getOnChangeSignal()) {
@@ -382,6 +386,51 @@ class Renderer extends AbstractComponentRenderer
 
         $id = $this->bindJavaScript($component);
         return $tpl->get();
+    }
+
+    protected function appendDropdownMenuItem(
+        Template $tpl,
+        string $block,
+        string $content_variable,
+        string $content,
+        bool $is_selected
+    ): void {
+        $tpl->setCurrentBlock($block);
+        $tpl->setVariable($content_variable, $content);
+        if ($is_selected) {
+            $tpl->touchBlock('selected');
+            $tpl->setCurrentBlock($block);
+        }
+        $tpl->parseCurrentBlock();
+    }
+
+    /**
+     * @param array<int|string, mixed>|null $current_value
+     */
+    protected function isDropdownOptionSelected(
+        mixed $option_value,
+        ?array $current_value,
+        bool $is_sortation_default_option
+    ): bool {
+        if ($this->isUnsetViewControlValue($current_value)) {
+            return $is_sortation_default_option;
+        }
+
+        return $option_value === $current_value;
+    }
+
+    /**
+     * @param array<int|string, mixed>|null $value
+     */
+    protected function isUnsetViewControlValue(?array $value): bool
+    {
+        if ($value === null) {
+            return true;
+        }
+
+        $first = $value[0] ?? null;
+
+        return $first === null || $first === '';
     }
 
     /**

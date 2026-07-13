@@ -93,7 +93,7 @@ class ViewControlSortationTest extends ViewControlTestBase
 <div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element" id="id_3">
     <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown" aria-label="label_sortation" aria-expanded="false" aria-controls="id_3_ctrl"><span class="glyphicon-sort"></span></button>
     <ul id="id_3_ctrl" class="dropdown-menu">
-        <li><button class="btn btn-link" id="id_1">A</button></li>
+        <li class="selected"><button class="btn btn-link" id="id_1">A</button></li>
         <li><button class="btn btn-link" id="id_2">B</button></li>
     </ul>
     <div class="il-viewcontrol-value" role="none">
@@ -128,7 +128,7 @@ class ViewControlSortationTest extends ViewControlTestBase
 <div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element" id="id_3">
     <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown" aria-label="label_sortation" aria-expanded="false" aria-controls="id_3_ctrl"><span class="glyphicon-sort"></span></button>
     <ul id="id_3_ctrl" class="dropdown-menu">
-        <li><button class="btn btn-link" id="id_1">A</button></li>
+        <li class="selected"><button class="btn btn-link" id="id_1">A</button></li>
         <li><button class="btn btn-link" id="id_2">B</button></li>
     </ul>
     <div class="il-viewcontrol-value" role="none">
