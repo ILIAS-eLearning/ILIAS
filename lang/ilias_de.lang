@@ -15569,7 +15569,7 @@ search#:#lucene_tbl_create_ini#:#Konfigurationsdatei für Java-Server erstellen
 search#:#search_add_members_from_container_crs#:#Benutzer aus aktuellem Kurs hinzufügen
 search#:#search_add_members_from_container_grp#:#Benutzer aus aktueller Gruppe hinzufügen
 search#:#search_any#:#-- Beliebig --
-search#:#search_area#:#Suchbereich
+search#:#search_area_filter#:#Suchbereich
 search#:#search_area_info#:#Bitte wählen Sie einen Bereich aus, innerhalb dem die Suche starten soll.
 search#:#search_auto_complete_length#:#Anzahl der Einträge in Auto-Complete-Liste
 search#:#search_auto_complete_length_info#:#Wählen Sie „0“, um keine Auto-Complete-Liste anzubieten.
