@@ -1119,7 +1119,7 @@ class ilMail
                 $externalMailRecipientsBcc,
                 $mail_data->getSubject(),
                 $mail_data->isUsePlaceholder() ?
-                            $this->replacePlaceholders($mail_data->getMessage()) :
+                    $this->replacePlaceholders($mail_data->getMessage()) :
                     $mail_data->getMessage(),
                 $mail_data->getAttachments()
             );
