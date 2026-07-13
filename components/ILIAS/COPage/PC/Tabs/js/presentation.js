@@ -160,9 +160,11 @@ const presentation = (function () {
           });
           if (behaviour === 'FirstOpen') {
             const firstToggler = tabContainer.querySelector(`.${toggleClass}`);
-            const firstTogglerParent = firstToggler.parentNode;
-            const firstContentNode = firstTogglerParent.querySelector(`.${contentClass}`);
-            showTab(firstToggler, firstContentNode, activeHeadClass);
+            if (firstToggler) {
+              const firstTogglerParent = firstToggler.parentNode;
+              const firstContentNode = firstTogglerParent.querySelector(`.${contentClass}`);
+              showTab(firstToggler, firstContentNode, activeHeadClass);
+            }
           }
         }
       }

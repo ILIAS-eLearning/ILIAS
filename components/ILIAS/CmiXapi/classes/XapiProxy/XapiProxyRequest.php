@@ -23,6 +23,7 @@ namespace XapiProxy;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
 use ILIAS\DI\Container;
+use GuzzleHttp\Psr7\Response;
 
 class XapiProxyRequest
 {
@@ -250,13 +251,13 @@ class XapiProxyRequest
         $body = $request->getBody()->getContents();
 
         // Default request ausführen
-        $responseDefault = $this->sendCurlRequest($upstreamDefault, $authDefault, $request->getMethod(), $body);
+        $responseDefault = $this->sendCurlRequest($upstreamDefault, $authDefault, $request, $body);
 
         // Falls Fallback definiert, zweites Ziel testen
         $responseFallback = null;
         if ($hasFallback) {
             $upstreamFallback = $endpointFallback . $cmd;
-            $responseFallback = $this->sendCurlRequest($upstreamFallback, $authFallback, $request->getMethod(), $body);
+            $responseFallback = $this->sendCurlRequest($upstreamFallback, $authFallback, $request, $body);
         }
 
         // Reaktionen auswerten
@@ -280,15 +281,43 @@ class XapiProxyRequest
         }
     }
 
-    private function sendCurlRequest(string $url, string $authHeader, string $method, string $body = ''): \GuzzleHttp\Psr7\Response
+    private function sendCurlRequest(string $url, string $authHeader, \Psr\Http\Message\RequestInterface $request, string $body = ''): \GuzzleHttp\Psr7\Response
     {
+        $method = strtoupper($request->getMethod());
         $ch = curl_init($url);
         $headers = [
             "Authorization: $authHeader",
-            "X-Experience-API-Version: 1.0.3",
-            "Accept: application/json",
-            "Content-Type: application/json"
+//            "X-Experience-API-Version: 1.0.3",
+//            "Accept: application/json",
+//            "Content-Type: application/json",
+            "Cache-Control: no-cache, no-store, must-revalidate",
+            "Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With",
+            "Pragma: no-cache",
         ];
+        if ($request->hasHeader('X-Experience-API-Version')) {
+            $headers[]= "X-Experience-API-Version: " . $request->getHeader('X-Experience-API-Version')[0];
+        }
+        if ($request->hasHeader('Origin')) {
+            $headers[] = "Origin: " . $request->getHeader('Origin')[0];
+            $headers[] = "Access-Control-Allow-Origin: " . $request->getHeader('Origin')[0];
+            $headers[] = "Content-Security-Policy: frame-ancestors 'self' " . $request->getHeader('Origin')[0];
+        }
+        if ($request->hasHeader('Referrer')) {
+            $headers[] = "Referrer: " . $request->getHeader('Referrer')[0];
+        }
+        if ($request->hasHeader('Connection')) {
+            $headers[] = "Connection: " . $request->getHeader('Connection')[0];
+        }
+//        if ($request->hasHeader('Content-Length')) {
+//            $contentLength = $request->getHeader('Content-Length');
+//            if (is_array($contentLength) && $contentLength[0] != '') {
+//                $headers[] = "Content-Length: " . $contentLength[0];
+//            }
+//        }
+        if ($request->hasHeader('Content-Type')) {
+            $headers[] = "Content-Type: " . $request->getHeader('Content-Type')[0];
+            $headers[] = "Accept: application/json";
+        }
 
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
@@ -297,6 +326,7 @@ class XapiProxyRequest
             CURLOPT_TIMEOUT => 30,
             CURLOPT_SSL_VERIFYPEER => true,
             CURLOPT_HTTPHEADER => $headers,
+//            CURLOPT_FAILONERROR => false,
             CURLOPT_CUSTOMREQUEST => strtoupper($method),
         ]);
 
@@ -314,50 +344,92 @@ class XapiProxyRequest
             $rawBody = '';
         }
 
-        return new \GuzzleHttp\Psr7\Response($statusCode, [], $rawBody);
-    }
 
-    private function createProxyRequest(\Psr\Http\Message\RequestInterface $request, \GuzzleHttp\Psr7\Uri $uri, string $auth, string $body): \GuzzleHttp\Psr7\Request
-    {
+        //Headers to send to content
         $headers = array(
             'Cache-Control' => 'no-cache, no-store, must-revalidate',
-            'Authorization' => $auth
+            'Content-Type' => "application/json",
+            'Accept' => "application/json"
         );
 
         if ($request->hasHeader('X-Experience-API-Version')) {
             $headers['X-Experience-API-Version'] = $request->getHeader('X-Experience-API-Version');
         }
 
-        if ($request->hasHeader('Referrer')) {
-            $headers['Referrer'] = $request->getHeader('Referrer');
-        }
+//        if ($request->hasHeader('Referrer')) {
+//            $headers['Referrer'] = $request->getHeader('Referrer');
+//        }
 
-        if ($request->hasHeader('Content-Type')) {
-            $headers['Content-Type'] = $request->getHeader('Content-Type');
-        }
+//        if ($request->hasHeader('Content-Type')) {
+//            $headers['Content-Type'] = $request->getHeader('Content-Type');
+//        }
 
         if ($request->hasHeader('Origin')) {
-            $headers['Origin'] = $request->getHeader('Origin');
+//            $headers['Origin'] = $request->getHeader('Origin');
+            $headers['Access-Control-Allow-Origin'] = $request->getHeader('Origin');
+            //$headers["Content-Security-Policy"] = "frame-ancestors 'self' " . $request->getHeader('Origin')[0];
         }
 
-        if ($request->hasHeader('Content-Length')) {
-            $contentLength = $request->getHeader('Content-Length');
-            if (is_array($contentLength) && $contentLength[0] === '') {
-                $contentLength = array(0);
-            } elseif ($contentLength === '') {
-                $contentLength = array(0);
-            }
-            $headers['Content-Length'] = $contentLength;
-        }
+//        if ($request->hasHeader('Content-Length')) {
+//            $contentLength = $request->getHeader('Content-Length');
+//            if (is_array($contentLength) && $contentLength[0] === '') {
+//                $contentLength = array(0);
+//            } elseif ($contentLength === '') {
+//                $contentLength = array(0);
+//            }
+//            $headers['Content-Length'] = $contentLength;
+//        }
 
-        if ($request->hasHeader('Connection')) {
-            $headers['Connection'] = $request->getHeader('Connection');
-        }
+//        if ($request->hasHeader('Connection')) {
+//            $headers['Connection'] = $request->getHeader('Connection');
+//        }
 
-        //$this->xapiproxy->log()->debug($this->msg($body));
 
-        $req = new Request(strtoupper($request->getMethod()), $uri, $headers, $body);
 
-        return $req;
+        return new \GuzzleHttp\Psr7\Response($statusCode, $headers, $rawBody);
     }
+
+//    private function createProxyRequest(\Psr\Http\Message\RequestInterface $request, \GuzzleHttp\Psr7\Uri $uri, string $auth, string $body): \GuzzleHttp\Psr7\Request
+//    {
+//        $headers = array(
+//            'Cache-Control' => 'no-cache, no-store, must-revalidate',
+//            'Authorization' => $auth
+//        );
+//
+//        if ($request->hasHeader('X-Experience-API-Version')) {
+//            $headers['X-Experience-API-Version'] = $request->getHeader('X-Experience-API-Version');
+//        }
+//
+//        if ($request->hasHeader('Referrer')) {
+//            $headers['Referrer'] = $request->getHeader('Referrer');
+//        }
+//
+//        if ($request->hasHeader('Content-Type')) {
+//            $headers['Content-Type'] = $request->getHeader('Content-Type');
+//        }
+//
+//        if ($request->hasHeader('Origin')) {
+//            $headers['Origin'] = $request->getHeader('Origin');
+//        }
+//
+//        if ($request->hasHeader('Content-Length')) {
+//            $contentLength = $request->getHeader('Content-Length');
+//            if (is_array($contentLength) && $contentLength[0] === '') {
+//                $contentLength = array(0);
+//            } elseif ($contentLength === '') {
+//                $contentLength = array(0);
+//            }
+//            $headers['Content-Length'] = $contentLength;
+//        }
+//
+//        if ($request->hasHeader('Connection')) {
+//            $headers['Connection'] = $request->getHeader('Connection');
+//        }
+//
+//        //$this->xapiproxy->log()->debug($this->msg($body));
+//
+//        $req = new Request(strtoupper($request->getMethod()), $uri, $headers, $body);
+//
+//        return $req;
+//    }
 }

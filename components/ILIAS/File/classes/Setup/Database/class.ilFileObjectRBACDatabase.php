@@ -45,13 +45,7 @@ class ilFileObjectRBACDatabase extends ilDatabaseUpdateStepsExecutedObjective
                     "object",
                     2001,
                     ["file"]
-                ),
-                new AccessRBACOperationClonedObjective(
-                    "file",
-                    Permissions::READ->value,
-                    Permissions::VIEW_CONTENT->value
-                ),
-
+                )
             ]
         );
     }

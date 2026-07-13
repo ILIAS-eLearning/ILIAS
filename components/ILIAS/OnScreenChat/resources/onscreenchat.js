@@ -435,7 +435,7 @@
 			const setAttributes = obj => node => Object.entries(obj)
 			      .forEach(([k, v]) => node.setAttribute(k, v));
 
-			dummyParent.querySelectorAll('[href="addUser"]').forEach(setAttributes({
+			dummyParent.querySelectorAll('[data-action="addUser"]').forEach(setAttributes({
 				"title":                 il.Language.txt('chat_osc_add_user'),
 				"data-onscreenchat-add": conversation.id,
 				"data-toggle":           "tooltip",

@@ -170,7 +170,6 @@ class ilSharedResourceGUI implements ilCtrlBaseClassInterface
         bool $a_is_portfolio = false
     ): bool {
         global $DIC;
-
         $ilUser = $DIC->user();
         $ilSetting = $DIC->settings();
 
@@ -196,8 +195,7 @@ class ilSharedResourceGUI implements ilCtrlBaseClassInterface
             }
 
             // #12039
-            $prtf = new ilObjPortfolio($a_node_id, false);
-            if (!$prtf->isOnline()) {
+            if (ilObject::lookupOfflineStatus((int) $a_node_id)) {
                 return false;
             }
 

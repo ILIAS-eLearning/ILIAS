@@ -166,7 +166,7 @@ class Repository
 
         $roles = [];
         while ($sp = $this->db->fetchAssoc($res)) {
-            $options = unserialize($sp['rule_options']);
+            $options = unserialize($sp['rule_options'], ['allowed_classes' => false]);
 
             $roles[(int) $options['role_id']] = [
                 'id' => (int) $sp['id'],
@@ -182,6 +182,9 @@ class Repository
         return $roles;
     }
 
+    /**
+     * @return list<array{id: int, title: string}>
+     */
     public function getGlobalRolesWithoutStartingPoint(): array
     {
         $global_roles = $this->rbac_review->getGlobalRoles();
@@ -308,6 +311,10 @@ class Repository
         return $order_val;
     }
 
+    /**
+     * @param list<array<string, mixed>> $a_items
+     * @return array<int, array<string, mixed>>
+     */
     public function reArrangePositions(array $a_items): array
     {
         $ord_const = 0;
@@ -336,7 +343,10 @@ class Repository
         }
     }
 
-    public function getPossibleStartingPoints(bool $force_all = false): array //checked
+    /**
+     * @return array<int, string>
+     */
+    public function getPossibleStartingPoints(bool $force_all = false): array
     {
         $all = [];
 

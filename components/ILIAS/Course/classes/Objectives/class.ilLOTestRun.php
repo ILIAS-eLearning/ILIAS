@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -26,7 +27,7 @@ class ilLOTestRun
     protected int $user_id = 0;
     protected int $test_id = 0;
     protected int $objective_id = 0;
-    protected int $max_points = 0;
+    protected float $max_points = 0;
     protected array $questions = array();
 
     protected ilDBInterface $db;
@@ -142,12 +143,12 @@ class ilLOTestRun
         return $this->objective_id;
     }
 
-    public function getMaxPoints(): int
+    public function getMaxPoints(): float
     {
         return $this->max_points;
     }
 
-    public function setMaxPoints(int $a_points): void
+    public function setMaxPoints(float $a_points): void
     {
         $this->max_points = $a_points;
     }
@@ -215,7 +216,7 @@ class ilLOTestRun
             $this->db->quote($this->getUserId(), 'integer') . ', ' .
             $this->db->quote($this->getTestId(), 'integer') . ', ' .
             $this->db->quote($this->getObjectiveId(), 'integer') . ', ' .
-            $this->db->quote($this->getMaxPoints(), 'integer') . ', ' .
+            $this->db->quote($this->getMaxPoints(), 'float') . ', ' .
             $this->db->quote(serialize($this->getQuestions()), 'text') . ' ' .
             ')';
         $this->db->manipulate($query);
@@ -224,7 +225,7 @@ class ilLOTestRun
     public function update(): void
     {
         $query = 'UPDATE loc_tst_run SET ' .
-            'max_points = ' . $this->db->quote($this->getMaxPoints(), 'integer') . ', ' .
+            'max_points = ' . $this->db->quote($this->getMaxPoints(), 'float') . ', ' .
             'questions = ' . $this->db->quote(serialize($this->getQuestions()), 'text') . ' ' .
             'WHERE container_id = ' . $this->db->quote($this->container_id, 'integer') . ' ' .
             'AND user_id = ' . $this->db->quote($this->getUserId(), 'integer') . ' ' .

@@ -44,7 +44,9 @@ class Init
             $settings = (@include DeliveryMethodObjective::PATH()) ?? [];
 
             return match ($settings[DeliveryMethodObjective::SETTINGS] ?? null) {
-                DeliveryMethodObjective::XACCEL => new XAccelResponseBuilder(),
+                DeliveryMethodObjective::XACCEL => new XAccelResponseBuilder(
+                    $settings[DeliveryMethodObjective::SETTINGS_EXTERNAL_DATA_DIR]
+                ),
                 DeliveryMethodObjective::XSENDFILE => new XSendFileResponseBuilder(),
                 default => new PHPResponseBuilder(),
             };

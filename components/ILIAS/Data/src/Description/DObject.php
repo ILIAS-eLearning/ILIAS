@@ -87,7 +87,6 @@ class DObject extends Description
         }
 
         if ($errors) {
-            die("foo");
             return $this->mergeErrors($errors);
         }
 

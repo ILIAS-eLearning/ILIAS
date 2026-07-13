@@ -29,8 +29,8 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     private ?int $id = null;
     private ?int $pool_id = null;
     private ?int $pool_ref_id = null;
-    private ?string $pool_title = null;
-    private ?string $pool_path = null;
+    private string $pool_title = '';
+    private string $pool_path = '';
     private ?int $pool_question_count = null;
 
     /**
@@ -96,12 +96,12 @@ class ilTestRandomQuestionSetSourcePoolDefinition
         return $this->pool_title;
     }
 
-    public function setPoolPath(?string $pool_path): void
+    public function setPoolPath(string $pool_path): void
     {
         $this->pool_path = $pool_path;
     }
 
-    public function getPoolPath(): ?string
+    public function getPoolPath(): string
     {
         return $this->pool_path;
     }

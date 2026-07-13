@@ -923,6 +923,10 @@ input.ilc_qsubmit_Submit {
   margin-top: 20px;
   background-color: #4C6586;
 }
+input.ilc_qsubmit_Submit:hover {
+  cursor: pointer;
+  background-color: #314157;
+}
 input.ilc_qinput_TextInput {
   padding-left: 4px;
 }

@@ -43,12 +43,12 @@ class ilDashboardLearningSequenceGUI extends ilDashboardBlockGUI
 
     public function initViewSettings(): void
     {
-        $this->viewSettings = new ilPDSelectedItemsBlockViewSettings(
+        $this->view_settings = new ilPDSelectedItemsBlockViewSettings(
             $this->user,
             ilPDSelectedItemsBlockConstants::VIEW_LEARNING_SEQUENCES
         );
 
-        $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
+        $this->ctrl->setParameter($this, 'view', $this->view_settings->getView());
     }
 
     public function initData(): void
@@ -88,7 +88,7 @@ class ilDashboardLearningSequenceGUI extends ilDashboardBlockGUI
 
     public function getBlockType(): string
     {
-        return 'pdlern';
+        return 'dash_ls';
     }
 
     public function confirmedRemove(array $ids): void
@@ -113,10 +113,5 @@ class ilDashboardLearningSequenceGUI extends ilDashboardBlockGUI
     public function removeMultipleEnabled(): bool
     {
         return true;
-    }
-
-    public function getRemoveMultipleActionText(): string
-    {
-        return $this->lng->txt('pd_unsubscribe_multiple_memberships');
     }
 }

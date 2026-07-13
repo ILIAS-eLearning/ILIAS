@@ -40,17 +40,33 @@ class StyleManager
         $this->repo = $repo->style();
     }
 
-    public function writeCss(): void
+    public function createRid(): string
     {
-        $builder = $this->domain->cssBuilder(
-            new \ilObjStyleSheet($this->style_id)
-        );
-        $css = $builder->getCss();
-        $this->repo->writeCss(
+        return $this->repo->getOrCreateRid(
             $this->style_id,
-            $css,
             $this->stakeholder
         );
+    }
+
+    public function writeCss(): bool
+    {
+        if ($this->isMigrated()) {
+            $builder = $this->domain->cssBuilder(
+                new \ilObjStyleSheet($this->style_id)
+            );
+            $css = $builder->getCss();
+            $this->repo->writeCss(
+                $this->style_id,
+                $css,
+                $this->stakeholder
+            );
+            $this->repo->saveUpToDate(
+                $this->style_id,
+                true
+            );
+            return true;
+        }
+        return false;
     }
 
     public function getPath(
@@ -114,6 +130,17 @@ class StyleManager
             $from_style_id,
             $this->style_id
         );
+    }
+
+    public function isMigrated(): bool
+    {
+        return ((string) $this->repo->getResourceIdentification($this->style_id)
+            !== "");
+    }
+
+    public function migrateImages(
+    ): void {
+        $this->repo->migrateImages($this->style_id);
     }
 
 }

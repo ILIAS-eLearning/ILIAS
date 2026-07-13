@@ -212,7 +212,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
             return $value;
         }
         if (is_numeric($value)) {
-            return round((float)$value, 2);
+            return round((float) $value, 2);
         }
         return $value;
     }

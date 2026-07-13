@@ -225,7 +225,7 @@ class Setting implements SettingDefinition
         Language $lng,
         \ilPropertyFormGUI $form
     ): bool {
-        if ($form->getInput($this->getIdentifier()) !== Repository::START_REPOSITORY_OBJ) {
+        if ((int) $form->getInput($this->getIdentifier()) !== Repository::START_REPOSITORY_OBJ) {
             return true;
         }
 
@@ -244,7 +244,7 @@ class Setting implements SettingDefinition
     ): CustomConstraint {
         return $refinery->custom()->constraint(
             function (array $v): bool {
-                if ($v[0] !== Repository::START_REPOSITORY_OBJ) {
+                if ((int) $v[0] !== Repository::START_REPOSITORY_OBJ) {
                     return true;
                 }
                 if (!is_int($v[1]['usr_start_ref_id']) || !\ilObject::_exists($v[1]['usr_start_ref_id'], true)) {
@@ -256,6 +256,9 @@ class Setting implements SettingDefinition
         );
     }
 
+    /**
+     * @return array{start: int, ref_id: int|null}
+     */
     public function retrieveValueFromUser(\ilObjUser $user): array
     {
         return [

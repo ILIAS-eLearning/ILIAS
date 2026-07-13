@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Survey\Participants;
 use ILIAS\Survey\InternalGUIService;
 use ILIAS\User\Profile\PublicProfileGUI;
@@ -769,12 +771,16 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         if ($a_access_code === "" && isset($t_arr[1])) {
             $a_access_code = $t_arr[1];
         }
+        $lang = $t_arr[2] ?? "";
+
         // see ilObjSurveyAccess::_checkGoto()
         if ($a_access_code !== '') {
-            $sess = $DIC->survey()->internal()->repo()
-                ->execution()->runSession();
+            $sess = $DIC->survey()->internal()->repo()->execution()->runSession();
             $sess->setCode(ilObject::_lookupObjId($ref_id), $a_access_code);
             $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $ref_id);
+            if ($lang !== "") {
+                $ctrl->setParameterByClass("ilObjSurveyGUI", "lang", $lang);
+            }
             $ctrl->redirectByClass("ilObjSurveyGUI", "run");
         }
 

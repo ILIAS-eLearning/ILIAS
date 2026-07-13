@@ -44,6 +44,7 @@ class ilObjMapsGUI extends ilObjectGUI
 
         $this->lng->loadLanguageModule('maps');
         $this->tpl->setTitle($this->lng->txt('obj_maps'));
+        $this->tpl->setTitleIcon(ilObject::_getIcon($this->object->getId()));
         $this->initTabs();
         switch ($this->ctrl->getNextClass()) {
             case strtolower(ilPermissionGUI::class):

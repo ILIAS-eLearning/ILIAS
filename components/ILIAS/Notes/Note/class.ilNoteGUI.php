@@ -1051,7 +1051,12 @@ class ilNoteGUI
     public function editNoteForm(
         bool $a_init_form = true
     ): string {
-        $this->edit_note_form = true;
+        $this->edit_note_form = false;
+        if ($this->notes_access->canEdit(
+            $this->manager->getById($this->requested_note_id)
+        )) {
+            $this->edit_note_form = true;
+        }
 
         return $this->getListHTML($a_init_form);
     }
@@ -1364,13 +1369,15 @@ class ilNoteGUI
         $query_url = $ctrl->getLinkTarget($this, "getListHtml", "", true, false);
         $comps = array();
         $c = $f->counter()->status((int) $cnt);
-        $comps[] = $f->symbol()->glyph()->comment()->withCounter($c)->withAdditionalOnLoadCode(function ($id) use ($hash, $query_url) {
-            $code = "$('#$id').attr('data-note-key','$hash');\n";
-            $code .= "$('#$id').attr('data-note-ui-type','trigger');\n";
-            $code .= "$('#$id').attr('data-note-query-url','" . $query_url . "');\n";
-            $code .= "$(\"#$id\").click(function(event) { ilNotes.clickTrigger(event)});";
-            return $code;
-        });
+        $comps[] = $f->button()->shy('', '')
+            ->withSymbol($f->symbol()->glyph()->comment()->withCounter($c))
+            ->withAdditionalOnLoadCode(function ($id) use ($hash, $query_url) {
+                $code = "$('#$id').attr('data-note-key','$hash');\n";
+                $code .= "$('#$id').attr('data-note-ui-type','trigger');\n";
+                $code .= "$('#$id').attr('data-note-query-url','" . $query_url . "');\n";
+                $code .= "$(\"#$id\").click(function(event) { ilNotes.clickTrigger(event)});";
+                return $code;
+            });
         if ($this->ctrl->isAsynch()) {
             $html = $r->renderAsync($comps);
         } else {
@@ -1504,13 +1511,15 @@ class ilNoteGUI
         $comps = array();
         if ($cnt > 0) {
             $c = $f->counter()->status((int) $cnt);
-            $comps[] = $f->symbol()->glyph()->comment()->withCounter($c)->withAdditionalOnLoadCode(function ($id) use ($hash, $query_url) {
-                $code = "$('#$id').attr('data-note-key','$hash');\n";
-                $code .= "$('#$id').attr('data-note-ui-type','trigger');\n";
-                $code .= "$('#$id').attr('data-note-query-url','" . $query_url . "');\n";
-                $code .= "$(\"#$id\").click(function(event) { ilNotes.clickTrigger(event)});";
-                return $code;
-            });
+            $comps[] = $f->button()->shy('', '#')
+                ->withSymbol($f->symbol()->glyph()->comment()->withCounter($c))
+                ->withAdditionalOnLoadCode(function ($id) use ($hash, $query_url) {
+                    $code = "$('#$id').attr('data-note-key','$hash');\n";
+                    $code .= "$('#$id').attr('data-note-ui-type','trigger');\n";
+                    $code .= "$('#$id').attr('data-note-query-url','" . $query_url . "');\n";
+                    $code .= "$(\"#$id\").click(function(event) { ilNotes.clickTrigger(event)});";
+                    return $code;
+                });
             $comps[] = $f->divider()->vertical();
             $tpl->setVariable("GLYPH", $r->render($comps));
             $tpl->setVariable("TXT_LATEST", $this->getLatestItemText());

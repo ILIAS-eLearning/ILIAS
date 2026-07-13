@@ -338,7 +338,7 @@ class BlogHtmlExport
     ): \ilGlobalPageTemplate {
         global $DIC;
 
-        $this->global_screen->layout()->meta()->reset();
+        $this->export_util->resetGlobalScreen();
 
         $location_stylesheet = \ilUtil::getStyleSheetLocation();
         $this->global_screen->layout()->meta()->addCss($location_stylesheet);

@@ -389,7 +389,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             $cnt_note_users = $this->notes->domain()->getUserCount(
                 $this->getBlogPosting()->getParentId(),
                 $this->getBlogPosting()->getId(),
-                "wpg"
+                "blp"
             );
             $dtpl->setVariable(
                 "TXT_NUMBER_USERS_NOTES_OR_COMMENTS",
@@ -788,6 +788,14 @@ class ilBlogPostingGUI extends ilPageObjectGUI
                 $mob_obj = new ilObjMediaObject((int) $mob_id);
                 $mob_item = $mob_obj->getMediaItem("Standard");
                 if (stripos($mob_item->getFormat(), "image") !== false) {
+                    if ($mob_item->getFormat() === "image/svg+xml") {
+                        $location = $mob_obj->getStandardSrc();
+                        return '<img' .
+                            ' src="' . $location . '"' .
+                            ' style="max-width: ' . $a_width . 'px; height: auto;"' .
+                            ' class="ilBlogListItemSnippetPreviewImage ilFloatLeft noMirror"' .
+                            ' />';
+                    }
                     $mob_size = $mob_item->getOriginalSize();
                     if (is_null($mob_size)) {
                         continue;

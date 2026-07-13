@@ -29,9 +29,9 @@ use ILIAS\UI\Implementation\Render\TemplateFactory;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\JavaScriptBinding;
 use ILIAS\UI\Implementation\Render\DefaultRendererFactory;
+use ILIAS\UI\Implementation\Component\Button\ButtonRendererFactory;
 use ILIAS\UI\Implementation\DefaultRenderer;
 use ILIAS\UI\Implementation\Render;
-use ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory;
 use ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory;
 use ILIAS\UI\Implementation\FactoryInternal;
 use ILIAS\UI\Renderer;
@@ -430,7 +430,7 @@ trait BaseUITestTrait
                         $help_text_retriever,
                         $this->getUploadLimitResolver()
                     ),
-                    new GlyphRendererFactory(
+                    new ButtonRendererFactory(
                         $ui_factory,
                         $tpl_factory,
                         $lng,

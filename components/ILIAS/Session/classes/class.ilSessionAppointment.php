@@ -72,7 +72,11 @@ class ilSessionAppointment implements ilDatePeriod
 
             return $info;
         }
-        return [];
+        return [
+            'fullday' => 0,
+            'start' => 0,
+            'end' => 0,
+        ];
     }
 
     /**

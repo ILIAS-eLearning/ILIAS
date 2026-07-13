@@ -92,7 +92,6 @@ class ilSubscriberTableGUI extends ilTable2GUI
         $this->addMultiCommand('addToClipboard', $this->lng->txt('clipboard_add_btn'));
         // end-patch clipboard
 
-        $this->setPrefix('subscribers');
         $this->setSelectAllCheckbox('subscribers', true);
         $this->setRowTemplate("tpl.show_subscribers_row.html", "components/ILIAS/Membership");
 

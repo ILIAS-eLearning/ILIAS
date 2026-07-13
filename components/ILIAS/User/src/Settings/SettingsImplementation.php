@@ -30,7 +30,6 @@ class SettingsImplementation implements Settings
     public function __construct(
         private readonly Language $lng,
         private readonly \ilSetting $settings,
-        private readonly \ilGlobalTemplateInterface $tpl,
         private readonly UIFactory $ui_factory,
         private readonly Refinery $refinery,
         private readonly ConfigurationRepository $user_settings_configuration_repository,
@@ -39,7 +38,8 @@ class SettingsImplementation implements Settings
     }
 
     /**
-     * @param array<ILIAS\User\Settings\AvailablePages> $pages
+     * @param array<AvailablePages> $pages
+     * @return array<string, \ILIAS\UI\Component\Input\Input>
      */
     public function buildFormInputs(
         array $pages,
@@ -85,7 +85,7 @@ class SettingsImplementation implements Settings
     }
 
     /**
-     * @param array<ILIAS\User\Settings\AvailablePages> $pages
+     * @param array<AvailablePages> $pages
      */
     public function addSectionsToLegacyForm(
         \ilPropertyFormGUI $form,
@@ -105,16 +105,20 @@ class SettingsImplementation implements Settings
     }
 
     public function performAdditionalChecks(
+        \ilGlobalTemplateInterface $tpl,
         \ilPropertyFormGUI $form
     ): bool {
-        return $this->checkStartingPointValue($form);
+        return $this->checkStartingPointValue(
+            $tpl,
+            $form
+        );
     }
 
     /**
      * If it is possible to set the preference on the user, this is what will be
      * done, the user needs to be updated/stored after calling this function.
      *
-     * @param array<ILIAS\User\Settings\AvailablePages> $pages
+     * @param array<AvailablePages> $pages
      */
     public function saveForm(
         \ilPropertyFormGUI|array $form,
@@ -180,17 +184,20 @@ class SettingsImplementation implements Settings
         return $this->user_settings_data_repository->getFor($user_id)[$key] ?? null;
     }
 
+    /**
+     * @return list<Setting>
+     */
     public function getExportableSettings(): array
     {
         $context = Context::Export;
         return array_filter(
             $this->user_settings_configuration_repository->get(),
-            fn(Setting $v): bool => $context->isSettingAvailable($v)
+            static fn(Setting $v): bool => $context->isSettingAvailable($v)
         );
     }
 
     /**
-     * @param array<ILIAS\User\Settings\AvailablePages> $pages
+     * @param array<AvailablePages> $pages
      */
     private function getSettingsForPagesBySections(
         array $pages
@@ -350,7 +357,7 @@ class SettingsImplementation implements Settings
         );
     }
 
-    private function retrieveValuefromInputs(
+    private function retrieveValueFromInputs(
         \ilPropertyFormGUI|array $form,
         Setting $setting
     ): mixed {
@@ -366,9 +373,17 @@ class SettingsImplementation implements Settings
         return $form[$section_key][$setting->getIdentifier()];
     }
 
-    private function checkStartingPointValue(\ilPropertyFormGUI $form): bool
-    {
+    private function checkStartingPointValue(
+        \ilGlobalTemplateInterface $tpl,
+        \ilPropertyFormGUI $form
+    ): bool {
         return $form->getInput('additional') === ''
-            || $this->user_settings_configuration_repository->getByIdentifier('starting_point')->validateUserChoice($this->tpl, $this->lng, $form);
+            || $this->user_settings_configuration_repository
+                ->getByIdentifier('starting_point')
+                ->validateUserChoice(
+                    $tpl,
+                    $this->lng,
+                    $form
+                );
     }
 }

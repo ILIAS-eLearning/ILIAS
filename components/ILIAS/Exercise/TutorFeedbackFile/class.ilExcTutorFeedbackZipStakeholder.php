@@ -95,4 +95,10 @@ class ilExcTutorFeedbackZipStakeholder extends AbstractResourceStakeholder
             $this->database = $DIC->database();
         }
     }
+
+    public function getConsumerNameForPresentation(): string
+    {
+        return "ILIAS/Exercise/TutorFeedbackZip";
+    }
+
 }

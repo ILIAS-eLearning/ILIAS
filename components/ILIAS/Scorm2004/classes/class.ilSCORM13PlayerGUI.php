@@ -478,7 +478,7 @@ class ilSCORM13PlayerGUI
         $this->tpl->setVariable('JS_DATA', json_encode($config));
         list($tsfrac, $tsint) = explode(' ', microtime());
         $this->tpl->setVariable('TIMESTAMP', sprintf('%d%03d', $tsint, 1000 * (float) $tsfrac));
-        $this->tpl->setVariable('BASE_DIR', '../components/ILIAS/Scorm2004/');
+        $this->tpl->setVariable('BASE_DIR', './components/ILIAS/Scorm2004/');
         $this->tpl->setVariable('TXT_COLLAPSE', $lng->txt('scplayer_collapsetree'));
         if ($this->slm->getDebug()) {
             $this->tpl->setVariable('TXT_DEBUGGER', $lng->txt('scplayer_debugger'));

@@ -20,12 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Search;
 
-class DefaultEndpointConfigurator implements EndpointConfigurator
+readonly class DefaultEndpointConfigurator implements EndpointConfigurator
 {
     /**
-     *
-     * @param list<string> $parent_class_path see:
-     * `\ILIAS\User\Search\EndpointConfigurator::getParentClassPath()`
+     * @param list<string> $parent_class_path like in {@see EndpointConfigurator::getParentClassPath()}
      */
     public function __construct(
         private array $parent_class_path

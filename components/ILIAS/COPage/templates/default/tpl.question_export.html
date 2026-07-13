@@ -19,9 +19,8 @@
 		jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
 		{HANDLE_IMAGES}
 
-		if (typeof MathJax != "undefined" && typeof MathJax.Hub != "undefined") {
-			MathJax.Hub.Queue(["Typeset",MathJax.Hub, "container{VAL_ID}"]);
-		}
+		const el = document.getElementById("container{VAL_ID}");
+		il.Util.renderMathJax([el]);
 	}
 </script>
 <!-- END singlechoice -->
@@ -54,9 +53,8 @@ function renderILQuestion{VAL_ID}(){
 
 	question.init();
 
-	if (typeof MathJax != "undefined" && typeof MathJax.Hub != "undefined") {
-		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "container{VAL_ID}"]);
-	}
+	const el = document.getElementById("container{VAL_ID}");
+	il.Util.renderMathJax([el]);
 };
 </script>
 <!-- END multiplechoice -->
@@ -107,9 +105,8 @@ function renderILQuestion{VAL_ID}(){
 
 		{HANDLE_IMAGES}
 
-		if (typeof MathJax != "undefined") {
-			MathJax.Hub.Queue(["Typeset", MathJax.Hub, "container{VAL_ID}"]);
-		}
+		const el = document.getElementById("container{VAL_ID}");
+		il.Util.renderMathJax([el]);
 
 	})(questions[{VAL_ID}]);
 };
@@ -134,10 +131,9 @@ function renderILQuestion{VAL_ID}() {
 	ilias.questions.shuffle(questions[{VAL_ID}]);
 	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
 	{HANDLE_IMAGES}
-	if (typeof MathJax != "undefined") {
-		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "container{VAL_ID}"]);
-	}
-    il.test.orderingvertical.init(document.querySelector('#container{VAL_ID}'));
+	const el = document.getElementById("container{VAL_ID}");
+	il.Util.renderMathJax([el]);
+  	il.test.orderingvertical.init(document.querySelector('#container{VAL_ID}'));
 }
 </script>
 <!-- END orderingquestion -->
@@ -152,6 +148,8 @@ function renderILQuestion{VAL_ID}() {
 function renderILQuestion{VAL_ID}()
 {
 	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
+	const el = document.getElementById("container{VAL_ID}");
+	il.Util.renderMathJax([el]);
 	ilias.questions.initClozeTest({VAL_ID});
 }
 </script>
@@ -287,10 +285,9 @@ function renderILQuestion{VAL_ID}()
 
 		$(document).ready(
             function () {
-                if (typeof MathJax != "undefined" && typeof MathJax.Hub != "undefined") {
-                    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "container{VAL_ID}"]);
-                }
-                il.test.matching.init(document.querySelector('#ilMatchingQuestionContainer_{VAL_ID}'), questionData.matching_mode);
+				const el = document.getElementById("container{VAL_ID}");
+				il.Util.renderMathJax([el]);
+				il.test.matching.init(document.querySelector('#ilMatchingQuestionContainer_{VAL_ID}'), questionData.matching_mode);
             }
 		);
 

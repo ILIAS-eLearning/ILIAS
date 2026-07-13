@@ -25,7 +25,6 @@ declare(strict_types=1);
 class ilObjWebDAV extends ilObject
 {
     private bool $webdavEnabled;
-    private bool $webdavVersioningEnabled;
 
     public function __construct(int $id = 0, bool $call_by_reference = true)
     {
@@ -55,16 +54,6 @@ class ilObjWebDAV extends ilObject
         return $this->webdavEnabled;
     }
 
-    public function setWebdavVersioningEnabled(bool $newValue): void
-    {
-        $this->webdavVersioningEnabled = $newValue;
-    }
-
-    public function isWebdavVersioningEnabled(): bool
-    {
-        return $this->webdavVersioningEnabled;
-    }
-
     #[\Override]
     public function create(): int
     {
@@ -86,7 +75,6 @@ class ilObjWebDAV extends ilObject
         $settings = new ilSetting('webdav');
 
         $settings->set('webdav_enabled', $this->webdavEnabled ? '1' : '0');
-        $settings->set('webdav_versioning_enabled', $this->webdavVersioningEnabled ? '1' : '0');
     }
 
     #[\Override]
@@ -96,8 +84,6 @@ class ilObjWebDAV extends ilObject
 
         $settings = new ilSetting('webdav');
         $this->webdavEnabled = $settings->get('webdav_enabled', '0') == '1';
-        // default_value = 1 for versionigEnabled because it was already standard before ilias5.4
-        $this->webdavVersioningEnabled = $settings->get('webdav_versioning_enabled', '1') == '1';
     }
 
     /**

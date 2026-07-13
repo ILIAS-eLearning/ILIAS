@@ -30,6 +30,8 @@ use ILIAS\UI\Implementation\Component\Table\PresentationRow;
  */
 class PresentationTest extends TableTestBase
 {
+    use LanguageStubs;
+
     private function getFactory(): I\Component\Table\Factory
     {
         return new I\Component\Table\Factory(
@@ -98,8 +100,13 @@ class PresentationTest extends TableTestBase
 
     public function getUIFactory(): NoUIFactory
     {
-        $factory = new class () extends NoUIFactory {
+        $factory = new class ($this->createRelayArgumentLanguageStub()) extends NoUIFactory {
             public I\Component\SignalGenerator $sig_gen;
+
+            public function __construct(
+                protected \ILIAS\Language\Language $language,
+            ) {
+            }
 
             public function button(): I\Component\Button\Factory
             {
@@ -109,7 +116,7 @@ class PresentationTest extends TableTestBase
             {
                 return new I\Component\Symbol\Factory(
                     new I\Component\Symbol\Icon\Factory(),
-                    new I\Component\Symbol\Glyph\Factory(),
+                    new I\Component\Symbol\Glyph\Factory($this->language),
                     new I\Component\Symbol\Avatar\Factory()
                 );
             }
@@ -146,7 +153,7 @@ class PresentationTest extends TableTestBase
 
         $expected = <<<EXP
 <div class="il-table-presentation" id="id_3">
-    <h3 class="ilHeader">title</h3>
+    <h2 class="ilHeader">title</h2>
     <div class="il-table-presentation-viewcontrols">
         <div class="l-bar__space-keeper l-bar__space-keeper--space-between">
             <div class="l-bar__group">
@@ -163,33 +170,31 @@ class PresentationTest extends TableTestBase
 
             <div class="il-table-presentation-row-controls col-lg-auto col-sm-12">
                 <div class="il-table-presentation-row-controls-expander inline">
-                    <a tabindex="0" class="glyph" href="#" aria-label="expand_content" id="id_5">
-                        <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                    </a>
+                    <button class="btn btn-link" aria-label="expand_content" id="id_5"><span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></span></button>
                 </div>
                 <div class="il-table-presentation-row-controls-collapser">
-                    <a tabindex="0" class="glyph" href="#" aria-label="collapse_content" id="id_6">
-                        <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                    </a>
+                    <button class="btn btn-link" aria-label="collapse_content" id="id_6"><span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></span></button>
                 </div>
             </div>
 
             <div class="il-table-presentation-row-contents col-lg col-sm-12">
                 <div class="row">
                    <div class="il-table-presentation-row-header col-lg col-sm-12">
-                       <h4 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal...');">some title<br /><small>some type</small>
-                       </h4>
+                       <h3 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal...');">some title<br /><small>some type</small>
+                       </h3>
                        <div class="il-table-presentation-row-header-fields">
-                          <div class="l-bar__space-keeper">
-                              <div class="l-bar__group">
-                                  <div class="il-table-presentation-row-header-fields-value l-bar__element">important-1</div>
+                          <dl>
+                              <div class="l-bar__space-keeper">
+                                  <div class="l-bar__group">
+                                      <dd class="il-table-presentation-row-header-fields-value l-bar__element">important-1</dd>
+                                  </div>
                               </div>
-                          </div>
-                          <div class="l-bar__space-keeper">
-                              <div class="l-bar__group">
-                                  <div class="il-table-presentation-row-header-fields-value l-bar__element">important-2</div>
+                              <div class="l-bar__space-keeper">
+                                  <div class="l-bar__group">
+                                      <dd class="il-table-presentation-row-header-fields-value l-bar__element">important-2</dd>
+                                  </div>
                               </div>
-                          </div>
+                          </dl>
                           <button class="btn btn-link" id="id_7">presentation_table_more</button>
                        </div>
                    </div>
@@ -208,7 +213,7 @@ class PresentationTest extends TableTestBase
                             </div>
                             <div class="il-table-presentation-details col-lg-5 col-sm-12">
                                 <div class="il-table-presentation-fields">
-                                    <h5>further fields</h5>
+                                    <h4>further fields</h4>
                                     <span class="il-item-property-name">f-1</span>
                                     <span class="il-item-property-value">further</span>
                                     <br />
@@ -247,7 +252,7 @@ EXP;
 
         $expected = <<<EXP
 <div class="il-table-presentation" id="id_3">
-    <h3 class="ilHeader">title</h3>
+    <h2 class="ilHeader">title</h2>
     <div class="il-table-presentation-viewcontrols">
 
         <div class="l-bar__space-keeper l-bar__space-keeper--space-between">
@@ -266,22 +271,19 @@ EXP;
 
             <div class="il-table-presentation-row-controls col-lg-auto col-sm-12">
                 <div class="il-table-presentation-row-controls-expander inline">
-                    <a tabindex="0" class="glyph" href="#" aria-label="expand_content" id="id_5">
-                        <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                    </a>
+                    <button class="btn btn-link" aria-label="expand_content" id="id_5"><span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></span></button>
                 </div>
                 <div class="il-table-presentation-row-controls-collapser">
-                    <a tabindex="0" class="glyph" href="#" aria-label="collapse_content" id="id_6">
-                        <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                    </a>
+                    <button class="btn btn-link" aria-label="collapse_content" id="id_6"><span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></span></button>
                 </div>
             </div>
 
             <div class="il-table-presentation-row-contents col-lg col-sm-12">
                 <div class="row">
                     <div class="il-table-presentation-row-header col-lg col-sm-12">
-                        <h4 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal...');">some title</h4>
-                        <div class="il-table-presentation-row-header-fields">                  
+                        <h3 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal...');">some title</h3>
+                        <div class="il-table-presentation-row-header-fields">
+                            <dl></dl>
                             <button class="btn btn-link" id="id_7">presentation_table_more</button>
                         </div>
                     </div>

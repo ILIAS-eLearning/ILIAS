@@ -116,4 +116,15 @@ class SkillTreeAccess
         }
         return $this->access->checkAccessOfUser($a_usr_id, "manage_profiles", $this->ref_id);
     }
+
+    public function hasDeleteTreePermission(int $a_tree_ref_id = 0, int $a_usr_id = 0): bool
+    {
+        if ($a_tree_ref_id == 0) {
+            $a_tree_ref_id = $this->ref_id;
+        }
+        if ($a_usr_id == 0) {
+            $a_usr_id = $this->usr_id;
+        }
+        return $this->access->checkAccessOfUser($a_usr_id, "delete", $a_tree_ref_id);
+    }
 }

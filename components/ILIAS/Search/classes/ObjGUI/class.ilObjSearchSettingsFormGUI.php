@@ -119,6 +119,7 @@ class ilObjSearchSettingsFormGUI
         $settings = $this->getSettings();
 
         $main_data = $form->getData()['section'];
+        $filter_data = $form->getData()['filter_section'];
         $user_data = $form->getData()['user_section'];
 
         $settings->setMaxHits((int) $main_data['max_hits']);
@@ -132,11 +133,11 @@ class ilObjSearchSettingsFormGUI
                 break;
         }
         $settings->setDefaultOperator((int) $main_data['operator']);
-        $settings->enableLuceneItemFilter(!is_null($main_data['filter']));
-        if (!is_null($main_data['filter'])) {
-            $settings->setLuceneItemFilter((array) $main_data['filter']);
+        $settings->enableLuceneItemFilter(!is_null($filter_data['filter']));
+        if (!is_null($filter_data['filter'])) {
+            $settings->setLuceneItemFilter((array) $filter_data['filter']);
         }
-        $settings->enableDateFilter((bool) $main_data['cdate']);
+        $settings->enableDateFilter((bool) $filter_data['cdate']);
         $settings->setAutoCompleteLength((int) $user_data['auto_complete_length']);
         $settings->showInactiveUser((bool) $user_data['inactive_user']);
         $settings->showLimitedUser((bool) $user_data['limited_user']);
@@ -243,7 +244,8 @@ class ilObjSearchSettingsFormGUI
         ];
         $auto_complete = $field_factory->select(
             $this->lng->txt('search_auto_complete_length'),
-            $options
+            $options,
+            $this->lng->txt('search_auto_complete_length_info'),
         )->withRequired(true)->withValue($settings->getAutoCompleteLength());
 
         // Show inactive users
@@ -258,18 +260,21 @@ class ilObjSearchSettingsFormGUI
             $this->lng->txt('search_show_limited_user_info')
         )->withValue($settings->isLimitedUserVisible());
 
-        /**
-         * TODO: Split up the form into two or three sections.
-         */
         $section = $this->factory->input()->field()->section(
             [
-                'max_hits' => $hits,
                 'search_type' => $type,
-                'operator' => $operator,
+                'max_hits' => $hits,
+                'operator' => $operator
+            ],
+            $this->lng->txt('seas_settings')
+        )->withDisabled($read_only);
+
+        $filter_section = $this->factory->input()->field()->section(
+            [
                 'filter' => $item_filter,
                 'cdate' => $cdate
             ],
-            $this->lng->txt('seas_settings')
+            $this->lng->txt('search_filter_settings_section')
         )->withDisabled($read_only);
 
         $user_section = $this->factory->input()->field()->section(
@@ -291,7 +296,8 @@ class ilObjSearchSettingsFormGUI
             $action,
             [
                 'section' => $section,
-                'user_section' => $user_section,
+                'filter_section' => $filter_section,
+                'user_section' => $user_section
             ]
         );
     }

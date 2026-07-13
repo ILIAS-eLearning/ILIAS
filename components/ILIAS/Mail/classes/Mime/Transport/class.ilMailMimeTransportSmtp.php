@@ -32,6 +32,16 @@ class ilMailMimeTransportSmtp extends ilMailMimeTransportBase
             $this->mailer->Password = $this->settings->get('mail_smtp_password', '');
         }
         $this->mailer->SMTPSecure = $this->settings->get('mail_smtp_encryption', '');
-        $this->mailer->SMTPDebug = 4;
+        $this->mailer->SMTPDebug = PHPMailer\PHPMailer\SMTP::DEBUG_LOWLEVEL;
+        $this->mailer->SMTPKeepAlive = true;
+    }
+
+    public function __destruct()
+    {
+        try {
+            $this->mailer->SMTPDebug = PHPMailer\PHPMailer\SMTP::DEBUG_OFF;
+            $this->mailer->smtpClose();
+        } catch (Throwable) {
+        }
     }
 }

@@ -357,7 +357,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML(
             "
             <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\" id=\"id_8\" tabindex=\"0\">
-                <label>$label<span class=\"asterisk\" aria-label=\"required_field\">*</span></label>
+                <label>$label<span class=\"sr-only\">required_field</span><span class=\"asterisk\" aria-hidden=\"true\">*</span></label>
                 <div class=\"c-input__field\">
 
                         <div class=\"c-field-markdown\">
@@ -537,8 +537,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
     {
         $glyph = $this->createMock(Glyph::class);
         $glyph->method('getCanonicalName')->willReturn($name);
-        // will be called in the rendering process of this input.
-        $glyph->method('withUnavailableAction')->willReturnSelf();
+        $glyph->method('withLabel')->willReturnSelf();
 
         return $glyph;
     }

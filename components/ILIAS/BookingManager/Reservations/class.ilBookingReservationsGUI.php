@@ -16,21 +16,31 @@
  *
  *********************************************************************/
 
-/**
- * Reservations screen
- * @author Alexander Killing <killing@leifos.de>
- */
+use ILIAS\BookingManager\Access\AccessManager;
+use ILIAS\BookingManager\BookingProcess\ProcessUtilGUI;
+use ILIAS\BookingManager\Bookings\Table\BookingsTable;
+use ILIAS\BookingManager\Bookings\Table\BookingsWithoutScheduleTable;
+use ILIAS\BookingManager\Bookings\Table\BookingsWithScheduleTable;
+use ILIAS\BookingManager\Common\HttpService;
+use ILIAS\BookingManager\InternalService;
+use ILIAS\BookingManager\StandardGUIRequest;
+use ILIAS\Data\Factory;
+use ILIAS\DI\UIServices;
+use ILIAS\UI\URLBuilder;
+
 class ilBookingReservationsGUI
 {
-    protected \ILIAS\BookingManager\BookingProcess\ProcessUtilGUI $util_gui;
-    protected \ILIAS\BookingManager\Access\AccessManager $access;
+    public const string DEFAULT_CMD = 'log';
+
+    protected ProcessUtilGUI $util_gui;
+    protected AccessManager $access;
     protected ilToolbarGUI $toolbar;
-    protected \ILIAS\DI\UIServices $ui;
-    protected \ILIAS\BookingManager\InternalService $service;
+    protected UIServices $ui;
+    protected InternalService $service;
     protected array $raw_post_data;
-    protected \ILIAS\BookingManager\StandardGUIRequest $book_request;
+    protected StandardGUIRequest $book_request;
     protected ilBookingHelpAdapter $help;
-    protected int $context_obj_id;
+    protected ?int $context_obj_id;
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
@@ -39,15 +49,12 @@ class ilBookingReservationsGUI
     protected ilObjBookingPool $pool;
     protected int $ref_id;
     protected int $book_obj_id;
-    protected int $pbooked_user;
     protected string $reservation_id;  // see BookingReservationDBRepo, obj_user_(slot)_context
     protected int $booked_user;
+    protected ilUIService $ui_service;
 
-    public function __construct(
-        ilObjBookingPool $pool,
-        ilBookingHelpAdapter $help,
-        int $context_obj_id = 0
-    ) {
+    public function __construct(ilObjBookingPool $pool, ilBookingHelpAdapter $help, ?int $context_obj_id = null)
+    {
         global $DIC;
 
         $this->tpl = $DIC->ui()->mainTemplate();
@@ -59,67 +66,66 @@ class ilBookingReservationsGUI
         $this->tabs_gui = $DIC->tabs();
         $this->help = $help;
         $this->user = $DIC->user();
-        $this->book_request = $DIC->bookingManager()
-                                  ->internal()
-                                  ->gui()
-                                  ->standardRequest();
+        $this->book_request = $DIC->bookingManager()->internal()->gui()->standardRequest();
         $this->service = $DIC->bookingManager()->internal();
         $this->ui = $DIC->ui();
         $this->toolbar = $DIC->toolbar();
+        $this->ui_service = $DIC->uiservice();
 
         $this->book_obj_id = $this->book_request->getObjectId();
 
         $this->context_obj_id = $context_obj_id;
 
-        // user who's reservation is being tackled (e.g. canceled)
         $this->booked_user = $this->book_request->getBookedUser();
         if ($this->booked_user === 0) {
             $this->booked_user = $DIC->user()->getId();
         }
-        // we get this from the reservation screen
         $this->reservation_id = $this->book_request->getReservationId();
 
-        $this->ctrl->saveParameter($this, ["object_id", "bkusr"]);
+        $this->ctrl->saveParameter($this, ['object_id', 'bkusr']);
 
         if ($this->book_request->getObjectId() > 0 && ilBookingObject::lookupPoolId($this->book_request->getObjectId()) !== $this->pool->getId()) {
-            throw new ilException("Booking Object ID does not match Booking Pool.");
+            throw new ilException('Booking Object ID does not match Booking Pool.');
         }
 
         $this->raw_post_data = $DIC->http()->request()->getParsedBody();
-        $this->util_gui = $DIC->bookingManager()->internal()->gui()->process()->ProcessUtilGUI(
-            $this->pool,
-            $this
-        );
+        $this->util_gui = $DIC
+            ->bookingManager()
+            ->internal()
+            ->gui()
+            ->process()
+            ->ProcessUtilGUI($this->pool, $this);
     }
 
-    /**
-     * Reservations IDs as currently provided from
-     */
     protected function getLogReservationIds(): array
     {
-        $mrsv = $this->book_request->getReservationIds();
-        if (count($mrsv) > 0) {
-            return $mrsv;
+        $reservation_ids = $this->book_request->getReservationIds();
+        if ($reservation_ids !== []) {
+            return $reservation_ids;
         }
-        if ($this->reservation_id > 0) {
-            return array($this->reservation_id);
-        }
-        return [];
+
+        return $this->reservation_id > 0 ? [$this->reservation_id] : [];
     }
 
     public function executeCommand(): void
     {
-        $ctrl = $this->ctrl;
+        $cmd = $this->ctrl->getCmd(self::DEFAULT_CMD);
+        if ($cmd === '') {
+            $cmd = self::DEFAULT_CMD;
+        }
 
-        $next_class = $ctrl->getNextClass($this);
-        $cmd = $ctrl->getCmd("log");
-
-        switch ($next_class) {
-            default:
-                if (in_array($cmd, array("log", "logDetails", "changeStatusObject", "rsvConfirmCancelUser", "rsvCancelUser",
-                    "applyLogFilter", "resetLogFilter", "rsvConfirmCancel", "rsvCancel", "back", "rsvConfirmDelete", "rsvDelete", "confirmResetRun", "resetRun", "displayPostInfo", "deliverPostFile", "redirectMailToBooker"))) {
-                    $this->$cmd();
-                }
+        $cmds = [
+            self::DEFAULT_CMD,
+            'executeTableAction',
+            'changeStatusObject',
+            'back',
+            'confirmResetRun',
+            'resetRun',
+            'displayPostInfo',
+            'deliverPostFile'
+        ];
+        if (in_array($cmd, $cmds, true)) {
+            $this->$cmd();
         }
     }
 
@@ -128,621 +134,165 @@ class ilBookingReservationsGUI
         $this->help->setHelpId($a_id);
     }
 
-    /**
-     *  List reservations
-     */
-    public function log(): void
+    private function getBookingsTable(): BookingsTable
     {
+        global $DIC;
+
         $this->showRerunPreferenceAssignment();
-        $this->tpl->setContent($this->getReservationsTable()->getHTML());
+        $booking_table_class = $this->pool->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE
+            ? BookingsWithScheduleTable::class
+            : BookingsWithoutScheduleTable::class;
+
+        return new $booking_table_class(
+            $this->ui->factory(),
+            $this->ui->renderer(),
+            $this->access,
+            $this->tpl,
+            $DIC->refinery(),
+            $this->lng,
+            new HttpService($DIC->http(), $DIC->refinery()),
+            $this->user,
+            $DIC->bookingManager()->internal()->repo()->reservation(),
+            $this->ctrl,
+            $DIC->uiService(),
+            $this->service->domain()->bookingSettings()->getByObjId($this->pool->getId()),
+            $this->pool
+        );
     }
 
-    /**
-     * Get reservationsTable
-     */
-    protected function getReservationsTable(?string $reservation_id = null): ilBookingReservationsTableGUI
+    private function getTableActionUrlBuilder(): URLBuilder
     {
-        $show_all = $this->access->canManageAllReservations($this->ref_id) || $this->pool->hasPublicLog();
+        return new URLBuilder((new Factory())->uri(
+            ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(self::class, 'executeTableAction')
+        ));
+    }
 
-        $filter = [];
-        if ($this->book_obj_id > 0) {
-            $filter['object'] = $this->book_obj_id;
-        }
-        // coming from participants tab to cancel reservations.
-        if ($this->book_request->getUserId() > 0) {
-            $filter['user_id'] = $this->book_request->getUserId();
+    private function presetBookingsFilterFromRequest(): void
+    {
+        $object_id = $this->book_request->getObjectId();
+        if ($object_id <= 0) {
+            return;
         }
 
-        return new ilBookingReservationsTableGUI(
+        $filter_id = $this->pool->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE
+            ? BookingsWithScheduleTable::ID . '_filter'
+            : BookingsWithoutScheduleTable::ID . '_filter';
+
+        $gateway = new ilUIFilterServiceSessionGateway();
+        $gateway->writeValue($filter_id, 'object', (string) $object_id);
+        $gateway->writeActivated($filter_id, true);
+    }
+
+    public function log(): void
+    {
+        $this->presetBookingsFilterFromRequest();
+
+        $bookings_table = $this->getBookingsTable();
+        $this->tpl->setContent(
+            $this->ui->renderer()->render(
+                $bookings_table->getComponents($this->getTableActionUrlBuilder())
+            )
+        );
+
+        $reservations_table = new ilBookingReservationsTableGUI(
             $this,
             'log',
             $this->ref_id,
             $this->pool,
-            $show_all,
-            $filter,
-            $reservation_id,
-            $this->context_obj_id > 0 ? [$this->context_obj_id] : null
+            $this->access->canManageAllReservations($this->ref_id) || $this->pool->hasPublicLog(),
+            $this->ui_service->filter()->getData($bookings_table->getFilter()) ?? [],
+            null,
+            $this->context_obj_id !== null ? [$this->context_obj_id] : null
         );
+        $reservations_table->getExportMode() > 0 && $reservations_table->exportData($reservations_table->getExportMode(), true);
     }
 
-    public function logDetails(): void
+    public function executeTableAction(): void
     {
-        $tpl = $this->tpl;
-
-        $this->tabs_gui->clearTargets();
-        $this->tabs_gui->setBackTarget(
-            $this->lng->txt("back"),
-            $this->ctrl->getLinkTarget($this, "log")
-        );
-
-        $table = $this->getReservationsTable($this->reservation_id);
-        $tpl->setContent($table->getHTML());
+        $this->getBookingsTable()->execute($this->getTableActionUrlBuilder());
+        $this->ctrl->redirectByClass(self::class, 'log');
     }
 
-    /**
-     * Change status of given reservations
-     */
     public function changeStatusObject(): void
     {
         $rsv_ids = $this->book_request->getReservationIds();
-        if (count($rsv_ids) === 0) {
+        if ($rsv_ids === []) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->log();
         }
 
         if ($this->access->canManageAllReservations($this->ref_id)) {
-            ilBookingReservation::changeStatus(
-                $rsv_ids,
-                $this->book_request->getStatus()
-            );
+            ilBookingReservation::changeStatus($rsv_ids, $this->book_request->getStatus());
         }
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
-        $this->ctrl->redirect($this, 'log');
-    }
-
-    public function applyLogFilter(): void
-    {
-        $table = $this->getReservationsTable();
-        $table->resetOffset();
-        $table->writeFilterToSession();
         $this->log();
     }
 
-    public function resetLogFilter(): void
-    {
-        $table = $this->getReservationsTable();
-        $table->resetOffset();
-        $table->resetFilter();
-        $this->log();
-    }
-
-    //
-    // Cancelation reservations
-    //
-
-    /**
-     * (C1) Confirmation screen for canceling booking without schedule from booking objects screen
-     * or from participants screen, if only one object has been selected.
-     *
-     * If the process is started form the booking objects screen, the current user
-     * is the owner of the reservation.
-     *
-     * From the participants screen the user id is provided as bkusr
-     */
-    public function rsvConfirmCancelUser(): void
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $tpl = $this->tpl;
-        $id = $this->book_obj_id;
-        if (!$id) {
-            return;
-        }
-
-        $this->setHelpId("cancel_booking");
-
-        $conf = new ilConfirmationGUI();
-        $conf->setFormAction($ilCtrl->getFormAction($this));
-        $conf->setHeaderText($lng->txt('book_confirm_cancel'));
-
-        $type = new ilBookingObject($id);
-        $conf->addItem('object_id', $id, $type->getTitle());
-        $conf->setConfirm($lng->txt('book_set_cancel'), 'rsvCancelUser');
-        $conf->setCancel($lng->txt('cancel'), 'back');
-
-        $tpl->setContent($conf->getHTML());
-    }
-
-    /**
-     * (C1.a) Confirmed (C1)
-     */
-    public function rsvCancelUser(): void
-    {
-        $lng = $this->lng;
-
-        $id = $this->book_obj_id;
-        $user_id = $this->booked_user;
-
-        if (!$id || !$user_id) {
-            return;
-        }
-
-        $ids = ilBookingReservation::getObjectReservationForUser($id, $user_id);
-        $id = current($ids);
-        $obj = new ilBookingReservation($id);
-        if ($obj->getUserId() !== $user_id) {
-            $this->tpl->setOnScreenMessage('failure', $lng->txt('permission_denied'), true);
-            $this->back();
-        }
-
-        $obj->setStatus(ilBookingReservation::STATUS_CANCELLED);
-        $obj->update();
-
-        $this->tpl->setOnScreenMessage('success', $lng->txt('settings_saved'), true);
-        $this->back();
-    }
-
-    /**
-     * Back to reservation list
-     */
     protected function back(): void
     {
-        $this->ctrl->redirect($this, "log");
-    }
-
-    /**
-     * (C2) Confirmation screen for canceling booking from reservations screen (with and without schedule)
-     */
-    public function rsvConfirmCancel(): void
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $tpl = $this->tpl;
-        $ilUser = $this->user;
-
-        $ids = $this->getLogReservationIds();
-        if (count($ids) === 0) {
-            $this->back();
-        }
-        $max = array();
-        foreach ($ids as $idx => $id) {
-            if (!is_numeric($id)) {
-                [$obj_id, $user_id, $from, $to] = explode("_", $id);
-
-                $valid_ids = array();
-                foreach (ilBookingObject::getList($this->pool->getId()) as $item) {
-                    $valid_ids[$item["booking_object_id"]] = $item["title"];
-                }
-                if (array_key_exists($obj_id, $valid_ids) && $from > time() && ($this->access->canManageAllReservations($this->ref_id) || (int) $user_id === $ilUser->getId())) {
-                    $rsv_ids = ilBookingReservation::getCancelDetails($obj_id, $user_id, $from, $to);
-                    if (!count($rsv_ids)) {
-                        unset($ids[$idx]);
-                    }
-                    if (count($rsv_ids) > 1) {
-                        $max[$id] = count($rsv_ids);
-                        $ids[$idx] = $rsv_ids;
-                    } else {
-                        // only 1 in group?  treat as normal reservation
-                        $ids[$idx] = array_shift($rsv_ids);
-                    }
-                } else {
-                    unset($ids[$idx]);
-                }
-            }
-        }
-
-        if (!is_array($ids) || !count($ids)) {
-            $this->ctrl->redirect($this, 'log');
-        }
-
-        // show form instead
-        if (count($max) && max($max) > 1) {
-            $this->rsvConfirmCancelAggregation($ids);
-            return;
-        }
-
-        $this->tabs_gui->clearTargets();
-        $this->tabs_gui->setBackTarget(
-            $lng->txt("back"),
-            $ilCtrl->getLinkTargetByClass("ilBookingReservationsGUI", "")
-        );
-
-        $this->setHelpId("cancel_booking");
-
-        $conf = new ilConfirmationGUI();
-        $conf->setFormAction($ilCtrl->getFormAction($this, 'rsvCancel'));
-        $conf->setHeaderText($lng->txt('book_confirm_cancel'));
-        $conf->setConfirm($lng->txt('book_set_cancel'), 'rsvCancel');
-        $conf->setCancel($lng->txt('cancel'), 'back');
-
-        foreach ($ids as $id) {
-            $rsv = new ilBookingReservation($id);
-            $obj = new ilBookingObject($rsv->getObjectId());
-
-            $details = $obj->getTitle();
-            if ($this->pool->getScheduleType() !== ilObjBookingPool::TYPE_NO_SCHEDULE) {
-                $details .= ", " . ilDatePresentation::formatPeriod(
-                    new ilDateTime($rsv->getFrom(), IL_CAL_UNIX),
-                    new ilDateTime($rsv->getTo() + 1, IL_CAL_UNIX)
-                );
-            }
-
-            $conf->addItem('rsv_id[]', $id, $details);
-        }
-
-        $tpl->setContent($conf->getHTML());
-    }
-
-
-    /**
-     * (C2.a) Cancel aggregated booking from reservations screen (with and without schedule)
-     *        called in (C2)
-     */
-    public function rsvConfirmCancelAggregation(?array $a_ids = null): void
-    {
-        $tpl = $this->tpl;
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-
-        $this->tabs_gui->clearTargets();
-        $this->tabs_gui->setBackTarget(
-            $lng->txt("back"),
-            $ilCtrl->getLinkTarget($this, "log")
-        );
-
-        $this->setHelpId("cancel_booking");
-
-        // #13511
-        $this->tpl->setOnScreenMessage('question', $lng->txt("book_confirm_cancel"));
-
-        $form = $this->rsvConfirmCancelAggregationForm($a_ids);
-
-        $tpl->setContent($form->getHTML());
-    }
-
-    /**
-     * Form being used in (C2.a)
-     */
-    public function rsvConfirmCancelAggregationForm(
-        array $a_ids
-    ): ilPropertyFormGUI {
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this, "rsvCancel"));
-        $form->setTitle($this->lng->txt("book_confirm_cancel_aggregation"));
-
-        ilDatePresentation::setUseRelativeDates(false);
-
-        foreach ($a_ids as $idx => $ids) {
-            $first = $ids;
-            if (is_array($ids)) {
-                $first = array_shift($first);
-            }
-
-            $rsv = new ilBookingReservation($first);
-            $obj = new ilBookingObject($rsv->getObjectId());
-
-            $caption = $obj->getTitle() . ", " . ilDatePresentation::formatPeriod(
-                new ilDateTime($rsv->getFrom(), IL_CAL_UNIX),
-                new ilDateTime($rsv->getTo() + 1, IL_CAL_UNIX)
-            );
-
-            // #17869
-            if (is_array($ids)) {
-                $caption .= " (" . count($ids) . ")";
-            }
-
-            $item = new ilNumberInputGUI($caption, "rsv_id_" . $idx);
-            $item->setRequired(true);
-            $item->setMinValue(0);
-            $item->setSize(4);
-            $form->addItem($item);
-
-            if (is_array($ids)) {
-                $item->setMaxValue(count($ids));
-
-                foreach ($ids as $id) {
-                    $hidden = new ilHiddenInputGUI("rsv_aggr[" . $idx . "][]");
-                    $hidden->setValue($id);
-                    $form->addItem($hidden);
-                }
-            } else {
-                $item->setMaxValue(1);
-
-                $hidden = new ilHiddenInputGUI("rsv_aggr[" . $idx . "]");
-                $hidden->setValue($ids);
-                $form->addItem($hidden);
-            }
-
-            if ($this->book_request->getCancelNr($idx)) {
-                $item->setValue($this->book_request->getCancelNr($idx));
-            }
-        }
-
-        $form->addCommandButton("rsvCancel", $this->lng->txt("confirm"));
-        $form->addCommandButton("log", $this->lng->txt("cancel"));
-
-        return $form;
-    }
-
-    /**
-     * (C2.b) Cancel reservations (coming from C2 or C2.a)
-     */
-    public function rsvCancel(): void
-    {
-        $ilUser = $this->user;
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
-        // simple version of reservation id
-        $ids = $this->book_request->getReservationIds();
-
-        $rsv_aggr = $this->raw_post_data["rsv_aggr"] ?? null;
-        // aggregated version: determine reservation ids
-        if (!is_null($rsv_aggr)) {
-            $form = $this->rsvConfirmCancelAggregationForm($rsv_aggr);
-            if (!$form->checkInput()) {
-                $this->tabs_gui->clearTargets();
-                $this->tabs_gui->setBackTarget(
-                    $lng->txt("back"),
-                    $ilCtrl->getLinkTarget($this, "log")
-                );
-
-                $tpl->setContent($form->getHTML());
-                return;
-            }
-
-            $ids = array();
-            foreach ($rsv_aggr as $idx => $aggr_ids) {
-                $max = $this->book_request->getCancelNr($idx);
-                if ($max) {
-                    if (!is_array($aggr_ids)) {
-                        $ids[] = $aggr_ids;
-                    } else {
-                        $aggr_ids = array_slice($aggr_ids, 0, $max);
-                        $ids = array_merge($ids, $aggr_ids);
-                    }
-                }
-            }
-        }
-
-        // for all reservation ids -> set reservation status to cancelled (and remove calendar entry)
-        if ($ids) {
-            foreach ($ids as $id) {
-                $res = new ilBookingReservation($id);
-
-                // either write permission or own booking
-                if (!$this->access->canManageReservationForUser($this->ref_id, $res->getUserId())) {
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-                    $this->ctrl->redirect($this, 'log');
-                }
-
-                $res->setStatus(ilBookingReservation::STATUS_CANCELLED);
-                $res->update();
-
-                if ($this->pool->getScheduleType() !== ilObjBookingPool::TYPE_NO_SCHEDULE) {
-                    // remove user calendar entry (#11086)
-                    $cal_entry_id = $res->getCalendarEntry();
-                    if ($cal_entry_id) {
-                        $entry = new ilCalendarEntry($cal_entry_id);
-                        $entry->delete();
-                    }
-                }
-            }
-        }
-
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
-        $this->log();
-    }
-
-    public function rsvConfirmDelete(): void
-    {
-        global $DIC;
-        if (!$this->access->canManageAllReservations($this->ref_id)) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-            $this->ctrl->redirect($this, 'log');
-        }
-
-        $ids = $this->getLogReservationIds();
-        if (count($ids) === 0) {
-            $this->back();
-        }
-
-        $this->tabs_gui->clearTargets();
-        $this->tabs_gui->setBackTarget(
-            $this->lng->txt("back"),
-            $this->ctrl->getLinkTarget($this, "log")
-        );
-
-        $conf = new ilConfirmationGUI();
-        $conf->setFormAction($this->ctrl->getFormAction($this, 'rsvDelete'));
-        $conf->setHeaderText($this->lng->txt('book_confirm_delete'));
-        $conf->setConfirm($this->lng->txt('book_set_delete'), 'rsvDelete');
-        $conf->setCancel($this->lng->txt('cancel'), 'log');
-
-        if ($this->pool->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE) {
-            foreach ($ids as $idx => $id) {
-                [$obj_id, $user_id, $from, $to] = explode("_", $id);
-                $rsv_ids = ilBookingReservation::getCancelDetails($obj_id, $user_id, $from, $to);
-                $rsv_id = $rsv_ids[0];
-
-                $rsv = new ilBookingReservation($rsv_id);
-                $obj = new ilBookingObject($rsv->getObjectId());
-
-                $details = sprintf($this->lng->txt('X_reservations_of'), count($rsv_ids)) . ' ' . $obj->getTitle();
-                $details .= ", " . ilDatePresentation::formatPeriod(
-                    new ilDateTime($rsv->getFrom(), IL_CAL_UNIX),
-                    new ilDateTime($rsv->getTo() + 1, IL_CAL_UNIX)
-                );
-                $conf->addItem('mrsv[]', $id, $details);
-            }
-        } else {
-            foreach ($ids as $idx => $rsv_id) {
-                $rsv = new ilBookingReservation($rsv_id);
-                $obj = new ilBookingObject($rsv->getObjectId());
-                $details = sprintf($this->lng->txt('X_reservations_of'), 1) . ' ' . $obj->getTitle();
-                $conf->addItem('mrsv[]', $rsv_id, $details);
-            }
-        }
-        $this->tpl->setContent($conf->getHTML());
-    }
-
-    public function rsvDelete(): void
-    {
-        global $DIC;
-        $get = $DIC->http()->request()->getParsedBody()['mrsv'];
-        if ($get) {
-            foreach ($get as $id) {
-                if ($this->pool->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE) {
-                    list($obj_id, $user_id, $from, $to) = explode("_", $id);
-                    $rsv_ids = ilBookingReservation::getCancelDetails($obj_id, $user_id, $from, $to);
-                } else {
-                    $rsv_ids = [$id];
-                }
-
-                foreach ($rsv_ids as $rsv_id) {
-                    $res = new ilBookingReservation($rsv_id);
-                    $obj = new ilBookingObject($res->getObjectId());
-                    if (!$this->access->canManageAllReservations($this->ref_id) || $obj->getPoolId() !== $this->pool->getId()) {
-                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-                        $this->ctrl->redirect($this, 'log');
-                    }
-                    if ($this->pool->getScheduleType() !== ilObjBookingPool::TYPE_NO_SCHEDULE) {
-                        $cal_entry_id = $res->getCalendarEntry();
-                        if ($cal_entry_id) {
-                            $entry = new ilCalendarEntry($cal_entry_id);
-                            $entry->delete();
-                        }
-                    }
-                    $res->delete();
-                }
-            }
-        }
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('reservation_deleted'), true);
         $this->ctrl->redirect($this, 'log');
     }
 
     protected function showRerunPreferenceAssignment(): void
     {
-        if (!$this->access->canManageAllReservations($this->ref_id)) {
+        if (
+            !$this->access->canManageAllReservations($this->ref_id)
+            || $this->pool->getScheduleType() !== ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES
+        ) {
             return;
         }
-        if ($this->pool->getScheduleType() === ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES) {
-            $pref_manager = $this->service->domain()->preferences($this->pool);
-            if ($pref_manager->hasRun()) {
-                $this->toolbar->addComponent($this->ui->factory()->button()->standard(
-                    $this->lng->txt("book_rerun_assignments"),
-                    $this->ctrl->getLinkTarget($this, "confirmResetRun")
-                ));
-            }
+
+        if ($this->service->domain()->preferences($this->pool)->hasRun()) {
+            $this->toolbar->addComponent($this->ui->factory()->button()->standard(
+                $this->lng->txt('book_rerun_assignments'),
+                $this->ctrl->getLinkTarget($this, 'confirmResetRun')
+            ));
         }
     }
 
-    protected function confirmResetRun()
+    protected function confirmResetRun(): void
     {
         if (!$this->access->canManageAllReservations($this->ref_id)) {
             return;
         }
-        $this->tabs_gui->activateTab("log");
-        $mess = $this->ui->factory()->messageBox()->confirmation($this->lng->txt("book_rerun_confirmation"))->withButtons(
+
+        $this->tabs_gui->activateTab('log');
+        $mess = $this->ui->factory()->messageBox()->confirmation($this->lng->txt('book_rerun_confirmation'))->withButtons(
             [
-                $this->ui->factory()->button()->standard(
-                    $this->lng->txt("book_rerun_assignments"),
-                    $this->ctrl->getLinkTarget($this, "resetRun")
-                ),
-                $this->ui->factory()->button()->standard(
-                    $this->lng->txt("cancel"),
-                    $this->ctrl->getLinkTarget($this, "log")
-                )
+                $this->ui->factory()->button()->standard($this->lng->txt('book_rerun_assignments'), $this->ctrl->getLinkTarget($this, 'resetRun')),
+                $this->ui->factory()->button()->standard($this->lng->txt('cancel'), $this->ctrl->getLinkTarget($this, 'log'))
             ]
         );
-        $this->tpl->setContent(
-            $this->ui->renderer()->render($mess)
-        );
+        $this->tpl->setContent($this->ui->renderer()->render($mess));
     }
 
-    protected function resetRun()
+    protected function resetRun(): void
     {
         if (!$this->access->canManageAllReservations($this->ref_id)) {
             return;
         }
-        if ($this->pool->getScheduleType() === ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES
-            && $this->access->canManageAllReservations($this->pool->getRefId())) {
+
+        if (
+            $this->pool->getScheduleType() === ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES
+            && $this->access->canManageAllReservations($this->pool->getRefId())
+        ) {
             $pref_manager = $this->service->domain()->preferences($this->pool);
             $repo = $this->service->repo()->preferences();
             $pref_manager->resetRun();
-            $pref_manager->storeBookings(
-                $repo->getPreferences($this->pool->getId())
-            );
+            $pref_manager->storeBookings($repo->getPreferences($this->pool->getId()));
         }
-        $this->ctrl->redirect($this, "log");
+        $this->ctrl->redirect($this, 'log');
     }
 
     public function displayPostInfo(): void
     {
-        $this->ctrl->saveParameter($this, "object_id");
-        $this->util_gui->displayPostInfo(
-            $this->book_obj_id,
-            0,
-            "deliverPostFile"
-        );
+        $this->ctrl->saveParameter($this, 'object_id');
+        $this->util_gui->displayPostInfo($this->book_obj_id, 0, 'deliverPostFile');
     }
 
     public function deliverPostFile(): void
     {
-        $this->util_gui->deliverPostFile(
-            $this->book_obj_id,
-            $this->user->getId()
-        );
+        $this->util_gui->deliverPostFile($this->book_obj_id, $this->user->getId());
     }
-
-    public function redirectMailToBooker(): void
-    {
-        if (!$this->access->canManageAllReservations($this->ref_id)) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-            $this->ctrl->redirect($this, 'log');
-        }
-
-        $ids = $this->getLogReservationIds();
-        if (count($ids) === 0) {
-            $this->back();
-        }
-
-        $users = [];
-        if ($this->pool->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE) {
-            foreach ($ids as $idx => $id) {
-                [$obj_id, $user_id, $from, $to] = explode("_", $id);
-                $rsv_ids = ilBookingReservation::getCancelDetails($obj_id, $user_id, $from, $to);
-                $rsv_id = $rsv_ids[0];
-                $rsv = new ilBookingReservation($rsv_id);
-                $users[$rsv->getUserId()] = ilObjUser::_lookupLogin($rsv->getUserId());
-            }
-        } else {
-            foreach ($ids as $idx => $rsv_id) {
-                $rsv = new ilBookingReservation($rsv_id);
-                $users[$rsv->getUserId()] = ilObjUser::_lookupLogin($rsv->getUserId());
-            }
-        }
-        $logins = implode(",", $users);
-        // #16530 - see ilObjCourseGUI::createMailSignature
-        $sig = chr(13) . chr(10) . chr(13) . chr(10) . chr(13) . chr(10);
-        $sig .= $this->lng->txt('book_mail_permanent_link') . ": ";
-        $sig .= chr(13) . chr(10);
-        $sig .= ilLink::_getLink($this->book_request->getRefId());
-        $sig = rawurlencode(base64_encode($sig));
-
-        ilMailFormCall::setRecipients($users);
-        \ilUtil::redirect(ilMailFormCall::getRedirectTarget(
-            $this,
-            "log",
-            array(),
-            array(
-                'type' => 'new',
-                'rcp_to' => $logins,
-                ilMailFormCall::SIGNATURE_KEY => $sig
-            )
-        ));
-    }
-
 }

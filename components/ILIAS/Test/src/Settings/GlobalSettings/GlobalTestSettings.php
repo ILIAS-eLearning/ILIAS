@@ -33,7 +33,6 @@ class GlobalTestSettings
         private string $image_map_line_color = 'FF0000',
         private UserIdentifiers $user_identifier = UserIdentifiers::USER_ID,
         private int $skill_triggering_number_of_answers = 1,
-        private bool $export_essay_questions_as_html = false,
         private array $disabled_question_types = [],
         private bool $manual_scoring_enabled = false,
         private bool $adjusting_questions_with_results_allowed = false,
@@ -122,18 +121,6 @@ class GlobalTestSettings
         return $clone;
     }
 
-    public function getExportEssayQuestionsAsHtml(): bool
-    {
-        return $this->export_essay_questions_as_html;
-    }
-
-    public function withExportEssayQuestionsAsHtml(bool $export_essay_questions_as_html): self
-    {
-        $clone = clone $this;
-        $clone->export_essay_questions_as_html = $export_essay_questions_as_html;
-        return $clone;
-    }
-
     /**
      * @return array<int>
      */
@@ -203,7 +190,6 @@ class GlobalTestSettings
                     substr($vs['general_settings']['image_map_line_color']->asHex(), 1),
                     UserIdentifiers::from($vs['general_settings']['user_identifier']),
                     $vs['general_settings']['skill_triggering_number_of_answers'],
-                    $vs['general_settings']['export_essay_questions_as_html'],
                     array_reduce(
                         $all_question_types,
                         static function (array $c, array $v) use ($vs): array {
@@ -262,10 +248,7 @@ class GlobalTestSettings
                 'skill_triggering_number_of_answers' => $ff->numeric($lng->txt('tst_skill_triggerings_num_req_answers'))
                     ->withAdditionalTransformation($refinery->int()->isGreaterThan(0))
                     ->withByline($lng->txt('tst_skill_triggerings_num_req_answers_desc'))
-                    ->withValue($this->skill_triggering_number_of_answers),
-                'export_essay_questions_as_html' => $ff->checkbox($lng->txt('export_essay_qst_with_html'))
-                    ->withByline($lng->txt('export_essay_qst_with_html_desc'))
-                    ->withValue($this->export_essay_questions_as_html)
+                    ->withValue($this->skill_triggering_number_of_answers)
             ],
             $lng->txt('settings')
         );

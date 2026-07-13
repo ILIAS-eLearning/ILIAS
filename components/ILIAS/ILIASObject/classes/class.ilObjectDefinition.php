@@ -111,14 +111,15 @@ class ilObjectDefinition
     {
         global $DIC;
 
-        $component_repository = $DIC["component.repository"];
+        $component_repository = $DIC['component.repository'];
         $plugins = $component_repository->getPluginSlotById($slotId)->getActivePlugins();
+
         foreach ($plugins as $plugin) {
             $pl_id = $plugin->getId();
             if (!isset($grouped_obj[$pl_id])) {
                 $grouped_obj[$pl_id] = [
-                    "pos" => "99992000", // "unassigned" group
-                    "objs" => [0 => $pl_id]
+                    'pos' => '99992000', // "unassigned" group
+                    'objs' => [0 => $pl_id]
                 ];
             }
         }
@@ -329,22 +330,22 @@ class ilObjectDefinition
     public function getSubObjects(string $obj_type, bool $filter = true): array
     {
         $subs = [];
-        if ($subobjects = ($this->obj_data[$obj_type]["subobjects"] ?? false)) {
+        if ($subobjects = ($this->obj_data[$obj_type]['subobjects'] ?? [])) {
             // Filter some objects e.g. chat object are creatable if chat is active
             if ($filter) {
                 $this->__filterObjects($subobjects);
             }
             foreach ($subobjects as $data => $sub) {
-                if (!isset($sub["module"]) || $sub["module"] != "n") {
-                    if (!($this->settings->get("obj_dis_creation_" . $data))) {
+                if (!isset($sub['module']) || $sub['module'] !== 'n') {
+                    if (!($this->settings->get('obj_dis_creation_' . $data))) {
                         $subs[$data] = $sub;
 
                         // determine position
-                        $pos = (int) $this->obj_data[$data]["default_pos"];
-                        if ($this->settings->get("obj_add_new_pos_" . $data) > 0) {
+                        $pos = (int) $this->obj_data[$data]['default_pos'];
+                        if ($this->settings->get('obj_add_new_pos_' . $data) > 0) {
                             $pos = (int) $this->settings->get("obj_add_new_pos_" . $data);
                         }
-                        $subs[$data]["pos"] = $pos;
+                        $subs[$data]['pos'] = $pos;
                     }
                 }
             }
@@ -873,6 +874,8 @@ class ilObjectDefinition
     protected function parsePluginData(string $slotId, bool $isInAdministration): void
     {
         $plugins = $this->component_repository->getPluginSlotById($slotId)->getActivePlugins();
+
+        $pos = 0;
         foreach ($plugins as $plugin) {
             $pl_id = $plugin->getId();
             if ($pl_id != "" && !isset($this->obj_data[$pl_id])) {
@@ -895,7 +898,7 @@ class ilObjectDefinition
                     "rbac" => "1",
                     "group" => null,
                     "system" => "0",
-                    "default_pos" => "99992000", // "unassigned" group
+                    'default_pos' => (string) (99992000 + $pos++),
                     'repository' => '1',
                     'workspace' => '0',
                     'administration' => $isInAdministration ? '1' : '0',

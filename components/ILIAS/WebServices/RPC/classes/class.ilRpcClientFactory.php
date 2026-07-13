@@ -17,26 +17,22 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
 /**
- * @classDescription Factory for ILIAS rpc client
  * @author Stefan Meyer <meyer@leifos.com>
  */
 class ilRpcClientFactory
 {
     /**
-     * Creates an ilRpcClient instance to our ilServer
-     *
-     * @param string $a_package Package name
-     * @param int $a_timeout The maximum number of seconds to allow ilRpcClient to connect.
-     * @return ilRpcClient
+     * @param string $package Package name
+     * @param int    $timeout The maximum number of seconds to allow ilRpcClient to connect.
      */
-    public static function factory(string $a_package, int $a_timeout = 0): ilRpcClient
+    public static function factory(string $package, int $timeout = 0): ilRpcClient
     {
         return new ilRpcClient(
             ilRPCServerSettings::getInstance()->getServerUrl(),
-            $a_package . '.',
-            $a_timeout,
-            'UTF-8'
+            $package . '.',
+            $timeout
         );
     }
 }

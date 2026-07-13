@@ -19,7 +19,6 @@
 declare(strict_types=1);
 
 use ILIAS\Test\Settings\MainSettings\SettingsMainGUI;
-
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 
@@ -212,27 +211,6 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
         return md5($_COOKIE[session_name()] . time());
     }
 
-    private function hasFixedQuestionSetSkillAssignsLowerThanBarrier(): bool
-    {
-        if (!$this->test_obj->isFixedTest()) {
-            return false;
-        }
-
-        $assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
-        $assignmentList->setParentObjId($this->test_obj->getId());
-        $assignmentList->loadFromDb();
-
-        return $assignmentList->hasSkillsAssignedLowerThanBarrier();
-    }
-
-    private function getSkillAssignBarrierInfo(): string
-    {
-        return sprintf(
-            $this->lng->txt('tst_skill_triggerings_num_req_answers_not_reached_warn'),
-            $this->getTestOBJ()->getGlobalSettings()->getSkillTriggeringNumberOfAnswers()
-        );
-    }
-
     public function build(): void
     {
         $this->ensureInitialisedSessionLockString();
@@ -284,10 +262,6 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
                 $msgBox = $this->ui_factory->messageBox()->failure($message)->withButtons([$button]);
 
                 $this->populateMessage($this->ui_renderer->render($msgBox));
-            } elseif ($this->getTestOBJ()->isSkillServiceToBeConsidered()) {
-                if ($this->hasFixedQuestionSetSkillAssignsLowerThanBarrier()) {
-                    $this->addInfoMessage($this->getSkillAssignBarrierInfo());
-                }
             }
         }
     }

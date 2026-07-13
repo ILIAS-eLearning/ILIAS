@@ -60,6 +60,6 @@ while ($lm_rec = $ilDB->fetchAssoc($lm_set)) {
 if ($doUnload) {
     ilSCORM2004StoreData::scormPlayerUnload($packageId, $refId, $time_from_lms, null);
 } else {
-//    $data = file_get_contents('php://input');
+    //    $data = file_get_contents('php://input');
     ilSCORM2004StoreData::persistCMIData($packageId, $refId, $defaultLessonMode, $comments, $interactions, $objectives, $time_from_lms, null, null);
 }

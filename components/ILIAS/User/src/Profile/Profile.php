@@ -24,7 +24,9 @@ use ILIAS\User\Profile\Fields\Field as ProfileField;
 interface Profile
 {
     /**
-     * @return array<\ILIAS\User\Profile\Fields\Field>
+     * @param list<\ILIAS\User\Profile\Fields\AvailableSections> $fields_to_skip
+     * @param list<class-string<\ILIAS\User\Profile\Fields\FieldDefinition>> $fields_to_skip
+     * @return array<string, ProfileField>
      */
     public function getFields(
         array $sections_to_skip = [],
@@ -32,7 +34,9 @@ interface Profile
     ): array;
 
     /**
-     * @return array<\ILIAS\User\Profile\Fields\Field>
+     * @param list<\ILIAS\User\Profile\Fields\AvailableSections> $fields_to_skip
+     * @param list<class-string<\ILIAS\User\Profile\Fields\FieldDefinition>> $fields_to_skip
+     * @return array<int, ProfileField>
      */
     public function getVisibleFields(
         Context $context,
@@ -43,6 +47,9 @@ interface Profile
 
     public function getFieldByIdentifier(string $identifier): ?ProfileField;
 
+    /**
+     * @param list<class-string<\ILIAS\User\Profile\Fields\FieldDefinition>> $fields_to_skip
+     */
     public function addFieldsToForm(
         \ilPropertyFormGUI $form,
         Context $context,
@@ -64,7 +71,7 @@ interface Profile
     /**
      *
      * @param array $usr_ids
-     * @return \Generator<ILIAS\User\Profile\Data>
+     * @return \Generator<int, Data>
      */
     public function getDataForMultiple(
         array $usr_ids
@@ -79,18 +86,18 @@ interface Profile
     public function userFieldEditableByUser(string $definition_class): bool;
 
     /**
-     * @return array<\ILIAS\User\Profile\Fields\Field>
+     * @return list<ProfileField>
      */
     public function getIgnorableRequiredFields(): array;
 
     /**
      * @deprecated since version 11 will be removed with 13
-     * @return array<string, \ILIAS\User\Profile\Field>
+     * @return array<string, ProfileField>
      */
     public function getAllUserDefinedFields(): array;
     /**
      * @deprecated since version 11 will be removed with 13
-     * @return array<string, \ILIAS\User\Profile\Field>
+     * @return array<string, ProfileField>
      */
     public function getVisibleUserDefinedFields(
         Context $context

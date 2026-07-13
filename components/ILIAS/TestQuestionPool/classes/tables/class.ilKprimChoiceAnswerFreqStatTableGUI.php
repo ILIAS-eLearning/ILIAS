@@ -59,7 +59,10 @@ class ilKprimChoiceAnswerFreqStatTableGUI extends ilAnswerFrequencyStatisticTabl
     public function fillRow(array $a_set): void
     {
         $this->tpl->setCurrentBlock('answer');
-        $this->tpl->setVariable('ANSWER', ilLegacyFormElementsUtil::prepareFormOutput($a_set['answer']));
+        $this->tpl->setVariable(
+            'ANSWER',
+            $this->purifier->purify($a_set['answer'])
+        );
         $this->tpl->parseCurrentBlock();
 
         $this->tpl->setCurrentBlock('frequency');

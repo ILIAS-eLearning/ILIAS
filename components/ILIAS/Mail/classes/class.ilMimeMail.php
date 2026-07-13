@@ -50,6 +50,8 @@ class ilMimeMail
     /** @var string[] */
     protected array $adisplay = [];
     private readonly Refinery $refinery;
+    /** @var Closure(string): string|null */
+    private ?Closure $to_html_transformation = null;
 
     public function __construct()
     {
@@ -150,9 +152,13 @@ class ilMimeMail
         return $this->abcc;
     }
 
-    public function Body(string $body): void
+    /**
+     * @param Closure(string): string|null $to_html_transformation
+     */
+    public function Body(string $body, ?Closure $to_html_transformation = null): void
     {
         $this->body = $body;
+        $this->to_html_transformation = $to_html_transformation;
     }
 
     public function getFinalBody(): string
@@ -258,12 +264,15 @@ class ilMimeMail
             $this->body = ' ';
         }
 
-        $contains_html = $this->containsHtmlBlockElementsOrLineBreaks($this->body);
+        $transformed_body = $this->to_html_transformation ? ($this->to_html_transformation)($this->body) : $this->body;
+
+        $contains_html = $this->containsHtmlBlockElementsOrLineBreaks($transformed_body);
         if ($contains_html) {
             $this->final_body_alt = strip_tags(str_ireplace(['<br />', '<br>', '<br/>'], "\n", $this->body));
+            $this->body = $transformed_body;
         } else {
             $this->final_body_alt = strip_tags($this->body);
-            $this->body = nl2br($this->body);
+            $this->body = nl2br($transformed_body);
         }
 
         $body_with_clickable_urls = $this->refinery->string()->makeClickable()->transform($this->body);

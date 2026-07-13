@@ -52,11 +52,6 @@ class Renderer extends AbstractComponentRenderer
 
         $additional_form_actions = $component->getAdditionalFormActions();
         foreach ($additional_form_actions as $action => $label) {
-            $tpl->setCurrentBlock('with_additional_form_action_top');
-            $tpl->setVariable('ACTION_TOP', $action);
-            $tpl->setVariable('ACTION_LABEL_TOP', $label);
-            $tpl->parseCurrentBlock();
-
             $tpl->setCurrentBlock('with_additional_form_action_bottom');
             $tpl->setVariable('ACTION_BOTTOM', $action);
             $tpl->setVariable('ACTION_LABEL_BOTTOM', $label);
@@ -74,7 +69,6 @@ class Renderer extends AbstractComponentRenderer
             ""
         );
 
-        $tpl->setVariable("BUTTONS_TOP", $default_renderer->render($main_submit_button));
         $tpl->setVariable("BUTTONS_BOTTOM", $default_renderer->render($main_submit_button));
         $tpl->setVariable("INPUTS", $default_renderer->render($component->getInputGroup()));
 

@@ -136,17 +136,21 @@ class Inline implements C\Launcher\Inline
     {
         $clone = clone $this;
         $clone->request = $request;
+
+        if ($request->getMethod() === 'POST') {
+            $clone->modal = $clone->modal->withRequest($request);
+        }
+
         return $clone;
     }
 
     public function getResult(): ?Result
     {
-        if ($this->request && $this->request->getMethod() == "POST") {
-            $modal = $this->modal->withRequest($this->request);
-            $result = $modal->getForm()->getInputGroup()->getContent();
-            return $result;
+        if ($this->request === null) {
+            return null;
         }
-        return null;
+
+        return $this->modal?->getForm()?->getInputGroup()?->getContent();
     }
 
     public function getModal(): ?I\Modal\Roundtrip

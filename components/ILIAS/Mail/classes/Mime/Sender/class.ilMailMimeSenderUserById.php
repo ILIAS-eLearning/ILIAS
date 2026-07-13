@@ -18,18 +18,20 @@
 
 declare(strict_types=1);
 
+use ILIAS\Mail\TemplateEngine\TemplateEngineFactoryInterface;
+
 class ilMailMimeSenderUserById extends ilMailMimeSenderUser
 {
     /** @var array<int, ilObjUser> */
     protected static array $user_instances = [];
 
-    public function __construct(ilSetting $settings, int $usr_id, ilMustacheFactory $mustache_factory)
+    public function __construct(ilSetting $settings, int $usr_id, TemplateEngineFactoryInterface $template_engine_factory)
     {
         if (!array_key_exists($usr_id, self::$user_instances)) {
             self::$user_instances[$usr_id] = new ilObjUser($usr_id);
         }
 
-        parent::__construct($settings, self::$user_instances[$usr_id], $mustache_factory);
+        parent::__construct($settings, self::$user_instances[$usr_id], $template_engine_factory);
     }
 
     public static function addUserToCache(int $usr_id, ilObjUser $user): void

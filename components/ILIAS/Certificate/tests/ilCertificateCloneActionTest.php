@@ -98,6 +98,8 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
 
         $objectHelper->method('lookupObjId')
             ->willReturn(1000);
+        $objectHelper->method('lookupType')
+            ->willReturn('crs');
 
         $global_certificate_settings = $this->getMockBuilder(ilObjCertificateSettings::class)
             ->disableOriginalConstructor()

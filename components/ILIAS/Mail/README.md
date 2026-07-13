@@ -919,11 +919,13 @@ For **system mails**:
 For each recipient account, delivery is decided as follows:
 
 - **Not active OR expired**  
-  → Mail is sent **internally only** (no external).
+  → Mail is sent **internally only** (no external), even if the check
+    in [paragraph 1](#1-internal-mail-eligibility) evaluates to `false`.
 
 - **Active AND not expired**
     - **Has not accepted all legal documents**  
-      → Mail is always sent **externally**, optionally **internally**.
+      → Mail is always sent **externally**, optionally **internally** (even if
+        the check in [paragraph 1](#1-internal-mail-eligibility) evaluates to `false`).
     - **Wants both internal and external**  
       → Mail is sent **internally and externally**.
     - **Configured for external only**  

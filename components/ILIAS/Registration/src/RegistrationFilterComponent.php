@@ -101,7 +101,7 @@ class RegistrationFilterComponent
             'absolute' => $this->lng->txt('reg_access_limitation_mode_absolute'),
             'relative' => $this->lng->txt('reg_access_limitation_mode_relative')
         ];
-        $filters['alimit'] = [$field_factory->select($this->lng->txt('reg_access_limitations'), $options), true];
+        $filters['access_limitation'] = [$field_factory->select($this->lng->txt('reg_access_limitations'), $options), true];
 
         $options = ['' => $this->lng->txt('registration_generated_all')];
         foreach ($this->code_repository->getGenerationDates() as $date) {

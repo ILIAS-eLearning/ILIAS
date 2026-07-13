@@ -38,9 +38,15 @@ class ilShibbolethSettingsForm
     protected Renderer $renderer;
     protected RequestInterface $request;
     protected UIFactory $ui;
+    protected ilRbacSystem $rbac_system;
 
-    public function __construct(protected ilShibbolethSettings $settings, protected string $action)
-    {
+    public function __construct(
+        private readonly int $ref_id,
+        private readonly object $parentObject,
+        protected ilShibbolethSettings $settings,
+        protected readonly string $action,
+        protected readonly string $show_command = ''
+    ) {
         global $DIC;
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -49,6 +55,7 @@ class ilShibbolethSettingsForm
         $this->renderer = $DIC->ui()->renderer();
         $this->request = $DIC->http()->request();
         $this->ui = $DIC->ui()->factory();
+        $this->rbac_system = $DIC->rbac()->system();
 
         $this->initForm();
     }
@@ -206,15 +213,25 @@ class ilShibbolethSettingsForm
         );
 
         // COMPLETE FORM
+        $access = $this->rbac_system->checkAccess('write', $this->ref_id);
+        if (!$access) {
+            $basic_section = $basic_section->withDisabled(true);
+            $federation_section = $federation_section->withDisabled(true);
+            $user_fields = $user_fields->withDisabled(true);
+        }
 
         $this->form = $this->ui->input()->container()->form()->standard(
-            $this->action,
+            $this->ctrl->getFormAction($this->parentObject, $access ? $this->action : $this->show_command),
             [
                 $basic_section,
                 $federation_section,
                 $user_fields
             ]
         );
+
+        if (!$access) {
+            $this->form = $this->form->withSubmitLabel($this->lng->txt('refresh'));
+        }
     }
 
     public function setValuesByPost(): void

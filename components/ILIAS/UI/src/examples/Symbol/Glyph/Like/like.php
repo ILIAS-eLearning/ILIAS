@@ -23,19 +23,14 @@ namespace ILIAS\UI\examples\Symbol\Glyph\Like;
 /**
  * ---
  * description: >
- *   Example for rendring a like glyph.
+ *   Example for rendering a like glyph.
  *
  * expected output: >
- *   Active:
- *   ILIAS shows a monochrome thumbs-up symbol on a grey background. Moving the cursor above the symbol will darken it's
- *   color slightly. Additionally the cursor's form will change and it indicates a linking.
- *
- *   Inactive:
- *   ILIAS shows the same symbol, but it's greyed out. Moving the cursor will not change the presentation.
+ *   Standard:
+ *   ILIAS shows a monochrome thumbs-up symbol on a grey background.
  *
  *   Highlighted:
- *   ILIAS shows the same symbol but it's highlighted particularly. Moving the cursor above the symbol will darken it's
- *   color slightly. Additionally the cursor's form will change and it indicates a linking.
+ *   ILIAS shows the same symbol, but it's highlighted particularly.
  * ---
  */
 function like()
@@ -44,13 +39,12 @@ function like()
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
-    $glyph = $f->symbol()->glyph()->like("#");
+    $glyph = $f->symbol()->glyph()->like();
 
     //Showcase the various states of this Glyph
     $list = $f->listing()->descriptive([
-        "Active" => $glyph,
-        "Inactive" => $glyph->withUnavailableAction(),
-        "Highlighted" => $glyph->withHighlight()
+        "Standard" => $glyph,
+        "Highlighted" => $glyph->withHighlight(),
     ]);
 
     return $renderer->render($list);

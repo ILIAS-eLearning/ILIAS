@@ -62,6 +62,12 @@ class ilStyleIRSSMigration implements Migration
 
         $style_path = $this->buildBasePath($object_id);
 
+        if (!is_dir($style_path)) {
+            if (!mkdir($style_path) && !is_dir($style_path)) {
+                throw new \RuntimeException(sprintf('Failed to create directory "%s"', $style_path));
+            }
+        }
+
         $rid = $this->helper->moveDirectoryToContainerResource(
             $style_path,
             $resource_owner_id
@@ -76,12 +82,7 @@ class ilStyleIRSSMigration implements Migration
 
             //$this->recursiveRmDir($lm_path);
         } else {
-            /*
-            $this->helper->getDatabase()->update(
-                'style_data',
-                ['rid' => ['text', '-']],
-                ['id' => ['integer', $object_id],]
-            );*/
+            throw new \RuntimeException(sprintf('Failed to migrate directory "%s" was not created', $style_path));
         }
     }
 

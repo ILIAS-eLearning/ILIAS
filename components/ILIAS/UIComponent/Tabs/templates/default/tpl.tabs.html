@@ -7,7 +7,9 @@
 	<li><a href="{BACK_TAB_LINK}" {BACK_TAB_TARGET}>{BACK_ICON} {BACK_TAB_TEXT}</a></li>
 	<!-- END back_tab -->
 	<!-- BEGIN tab -->
-	<li id="{ID}" class="{TAB_TYPE}">{LINK}<!-- BEGIN sel_text --> <span class="ilAccHidden">({TXT_SELECTED})</span><!-- END sel_text --></li>
+	<li id="{ID}" class="{TAB_TYPE}">
+		{LINK}
+	</li>
 	<!-- END tab -->
 	<li id="ilLastTab">
 		<a class="btn dropdown-toggle ilNoDisplay" aria-label="{LAST_TAB_LABEL}" href="#">
@@ -17,4 +19,4 @@
 		</ul>
 	</li>
 </ul>
-<!-- BEGIN after_tabs --><span class="ilAccHidden"><a id="after_tabs">{TXT_SUBTABS}</a></span><!-- END after_tabs -->
+<!-- BEGIN after_tabs --><span class="ilAccHidden"><span id="after_tabs">{TXT_SUBTABS}</span></span><!-- END after_tabs -->

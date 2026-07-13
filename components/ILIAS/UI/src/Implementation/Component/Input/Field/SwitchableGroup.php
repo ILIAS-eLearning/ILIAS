@@ -23,6 +23,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Constraint;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\UI\Implementation\Component\Input\Input;
 use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\UI\Component\Input\InputData;
 use ILIAS\UI\Component\Input\Field as I;
@@ -94,14 +95,14 @@ class SwitchableGroup extends Group implements I\SwitchableGroup
      */
     public function withValue($value): self
     {
-        $this->checkArg('value', $this->isClientSideValueOk($value), 'Display value does not match input type.');
-        if (is_string($value) || is_int($value)) {
+        $this->checkArg('value', null === $value || $this->isClientSideValueOk($value), 'Display value does not match input type.');
+        if (null === $value || is_string($value) || is_int($value)) {
             /** @noinspection PhpIncompatibleReturnTypeInspection */
-            return FormInput::withValue($value);
+            return Input::withValue($value);
         }
         [$key, $group_value] = $value;
         /** @var $clone self */
-        $clone = FormInput::withValue($key);
+        $clone = Input::withValue($key);
         $clone->setInputs($clone->getInputsWithOperationForKey($key, fn($i) => $i->withValue($group_value)));
         return $clone;
     }
@@ -111,7 +112,7 @@ class SwitchableGroup extends Group implements I\SwitchableGroup
      */
     public function getValue()
     {
-        $key = FormInput::getValue();
+        $key = Input::getValue();
         if (is_null($key)) {
             return null;
         }

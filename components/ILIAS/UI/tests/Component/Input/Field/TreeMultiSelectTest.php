@@ -223,7 +223,7 @@ HTML;
         $renderer = $this->getDefaultRenderer();
 
         $expected_html = <<<HTML
-<label for="id_2"><span class="asterisk" aria-label="required_field">*</span></label>
+<label for="id_2"><span class="sr-only">required_field</span><span class="asterisk" aria-hidden="true">*</span></label>
 HTML;
 
         $actual_html = $renderer->render($component);

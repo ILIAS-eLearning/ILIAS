@@ -22,6 +22,7 @@ namespace ILIAS\Mail\Provider;
 
 use ilCtrlException;
 use ilCtrlInterface;
+use ILIAS\Data\URI;
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\Tool;
@@ -31,7 +32,7 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 use ILIAS\HTTP\Wrapper\WrapperFactory as HttpWrapper;
 use ILIAS\Mail\Folder\MailFolderData;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\UI\Component\Button\Bulky as BulkyButton;
+use ILIAS\UI\Component\Link\Bulky as BulkyLink;
 use ILIAS\UI\Component\Clickable;
 use ILIAS\UI\Component\Legacy\Content as LegacyContent;
 use ILIAS\UI\Component\Symbol\Icon\Custom as CustomIcon;
@@ -175,7 +176,7 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
                             $this->buildFolderLink($folder->getFolderId(), ilMailFolderGUI::class)
                         ),
                         ...array_map(
-                            function (MailFolderData $folder) use ($icon_name): BulkyButton {
+                            function (MailFolderData $folder) use ($icon_name): BulkyLink {
                                 return $this->buildItem(
                                     $folder->getTitle(),
                                     $icon_name,
@@ -212,12 +213,12 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
         return $url;
     }
 
-    private function buildItem(string $title, string $icon_name, string $link): BulkyButton
+    private function buildItem(string $title, string $icon_name, string $link): BulkyLink
     {
-        return $this->ui_factory->button()->bulky(
+        return $this->ui_factory->link()->bulky(
             $this->buildIcon($title, $icon_name),
             $title,
-            $link
+            new URI(ILIAS_HTTP_PATH . '/' . $link)
         );
     }
 

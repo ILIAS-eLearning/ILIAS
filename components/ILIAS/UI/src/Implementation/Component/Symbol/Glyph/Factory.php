@@ -24,303 +24,308 @@ use ILIAS\UI\Component\Symbol\Glyph as G;
 
 class Factory implements G\Factory
 {
-    public function settings(?string $action = null): Glyph
-    {
-        return new Glyph(G\Glyph::SETTINGS, "settings", $action);
+    public function __construct(
+        protected \ILIAS\Language\Language $language,
+    ) {
     }
 
-    public function collapse(?string $action = null): Glyph
+    public function settings(): G\Glyph
     {
-        return new Glyph(G\Glyph::COLLAPSE, "collapse_content", $action);
+        return new Glyph(G\Glyph::SETTINGS, $this->language->txt("settings"));
     }
 
-    public function expand(?string $action = null): Glyph
+    public function collapse(): Glyph
     {
-        return new Glyph(G\Glyph::EXPAND, "expand_content", $action);
+        return new Glyph(G\Glyph::COLLAPSE, $this->language->txt("collapse_content"));
     }
 
-    public function add(?string $action = null): Glyph
+    public function expand(): Glyph
     {
-        return new Glyph(G\Glyph::ADD, "add", $action);
+        return new Glyph(G\Glyph::EXPAND, $this->language->txt("expand_content"));
     }
 
-    public function remove(?string $action = null): Glyph
+    public function add(): Glyph
     {
-        return new Glyph(G\Glyph::REMOVE, "remove", $action);
+        return new Glyph(G\Glyph::ADD, $this->language->txt("add"));
     }
 
-    public function up(?string $action = null): Glyph
+    public function remove(): Glyph
     {
-        return new Glyph(G\Glyph::UP, "up", $action);
+        return new Glyph(G\Glyph::REMOVE, $this->language->txt("remove"));
     }
 
-    public function down(?string $action = null): Glyph
+    public function up(): Glyph
     {
-        return new Glyph(G\Glyph::DOWN, "down", $action);
+        return new Glyph(G\Glyph::UP, $this->language->txt("up"));
     }
 
-    public function back(?string $action = null): Glyph
+    public function down(): Glyph
     {
-        return new Glyph(G\Glyph::BACK, "back", $action);
+        return new Glyph(G\Glyph::DOWN, $this->language->txt("down"));
     }
 
-    public function next(?string $action = null): Glyph
+    public function back(): Glyph
     {
-        return new Glyph(G\Glyph::NEXT, "next", $action);
+        return new Glyph(G\Glyph::BACK, $this->language->txt("back"));
     }
 
-    public function sortAscending(?string $action = null): Glyph
+    public function next(): Glyph
     {
-        return new Glyph(G\Glyph::SORT_ASCENDING, "sort_ascending", $action);
+        return new Glyph(G\Glyph::NEXT, $this->language->txt("next"));
     }
 
-    public function briefcase(?string $action = null): Glyph
+    public function sortAscending(): Glyph
     {
-        return new Glyph(G\Glyph::BRIEFCASE, "briefcase", $action);
+        return new Glyph(G\Glyph::SORT_ASCENDING, $this->language->txt("sort_ascending"));
     }
 
-    public function sortDescending(?string $action = null): Glyph
+    public function briefcase(): Glyph
     {
-        return new Glyph(G\Glyph::SORT_DESCENDING, "sort_descending", $action);
+        return new Glyph(G\Glyph::BRIEFCASE, $this->language->txt("briefcase"));
     }
 
-    public function user(?string $action = null): Glyph
+    public function sortDescending(): Glyph
     {
-        return new Glyph(G\Glyph::USER, "show_who_is_online", $action);
+        return new Glyph(G\Glyph::SORT_DESCENDING, $this->language->txt("sort_descending"));
     }
 
-    public function mail(?string $action = null): Glyph
+    public function user(): Glyph
     {
-        return new Glyph(G\Glyph::MAIL, "mail", $action);
+        return new Glyph(G\Glyph::USER, $this->language->txt("show_who_is_online"));
     }
 
-    public function notification(?string $action = null): Glyph
+    public function mail(): Glyph
     {
-        return new Glyph(G\Glyph::NOTIFICATION, "notifications", $action);
+        return new Glyph(G\Glyph::MAIL, $this->language->txt("mail"));
     }
 
-    public function tag(?string $action = null): Glyph
+    public function notification(): Glyph
     {
-        return new Glyph(G\Glyph::TAG, "tags", $action);
+        return new Glyph(G\Glyph::NOTIFICATION, $this->language->txt("notifications"));
     }
 
-    public function note(?string $action = null): Glyph
+    public function tag(): Glyph
     {
-        return new Glyph(G\Glyph::NOTE, "notes", $action);
+        return new Glyph(G\Glyph::TAG, $this->language->txt("tags"));
     }
 
-    public function comment(?string $action = null): Glyph
+    public function note(): Glyph
     {
-        return new Glyph(G\Glyph::COMMENT, "comments", $action);
+        return new Glyph(G\Glyph::NOTE, $this->language->txt("notes"));
     }
 
-    public function like(?string $action = null): Glyph
+    public function comment(): Glyph
     {
-        return new Glyph(G\Glyph::LIKE, "like", $action);
+        return new Glyph(G\Glyph::COMMENT, $this->language->txt("comments"));
     }
 
-    public function love(?string $action = null): Glyph
+    public function like(): Glyph
     {
-        return new Glyph(G\Glyph::LOVE, "love", $action);
+        return new Glyph(G\Glyph::LIKE, $this->language->txt("like"));
     }
 
-    public function dislike(?string $action = null): Glyph
+    public function love(): Glyph
     {
-        return new Glyph(G\Glyph::DISLIKE, "dislike", $action);
+        return new Glyph(G\Glyph::LOVE, $this->language->txt("love"));
     }
 
-    public function laugh(?string $action = null): Glyph
+    public function dislike(): Glyph
     {
-        return new Glyph(G\Glyph::LAUGH, "laugh", $action);
+        return new Glyph(G\Glyph::DISLIKE, $this->language->txt("dislike"));
     }
 
-    public function astounded(?string $action = null): Glyph
+    public function laugh(): Glyph
     {
-        return new Glyph(G\Glyph::ASTOUNDED, "astounded", $action);
+        return new Glyph(G\Glyph::LAUGH, $this->language->txt("laugh"));
     }
 
-    public function sad(?string $action = null): Glyph
+    public function astounded(): Glyph
     {
-        return new Glyph(G\Glyph::SAD, "sad", $action);
+        return new Glyph(G\Glyph::ASTOUNDED, $this->language->txt("astounded"));
     }
 
-    public function angry(?string $action = null): Glyph
+    public function sad(): Glyph
     {
-        return new Glyph(G\Glyph::ANGRY, "angry", $action);
+        return new Glyph(G\Glyph::SAD, $this->language->txt("sad"));
     }
 
-    public function eyeopen(?string $action = null): Glyph
+    public function angry(): Glyph
     {
-        return new Glyph(G\Glyph::EYEOPEN, "eyeopened", $action);
+        return new Glyph(G\Glyph::ANGRY, $this->language->txt("angry"));
     }
 
-    public function eyeclosed(?string $action = null): Glyph
+    public function eyeopen(): Glyph
     {
-        return new Glyph(G\Glyph::EYECLOSED, "eyeclosed", $action);
+        return new Glyph(G\Glyph::EYEOPEN, $this->language->txt("eyeopened"));
     }
 
-    public function attachment(?string $action = null): Glyph
+    public function eyeclosed(): Glyph
     {
-        return new Glyph(G\Glyph::ATTACHMENT, "attachment", $action);
+        return new Glyph(G\Glyph::EYECLOSED, $this->language->txt("eyeclosed"));
     }
 
-    public function reset(?string $action = null): Glyph
+    public function attachment(): Glyph
     {
-        return new Glyph(G\Glyph::RESET, "reset", $action);
+        return new Glyph(G\Glyph::ATTACHMENT, $this->language->txt("attachment"));
     }
 
-    public function apply(?string $action = null): Glyph
+    public function reset(): Glyph
     {
-        return new Glyph(G\Glyph::APPLY, "apply", $action);
+        return new Glyph(G\Glyph::RESET, $this->language->txt("reset"));
     }
 
-    public function search(?string $action = null): Glyph
+    public function apply(): Glyph
     {
-        return new Glyph(G\Glyph::SEARCH, "search", $action);
+        return new Glyph(G\Glyph::APPLY, $this->language->txt("apply"));
     }
 
-    public function help(?string $action = null): Glyph
+    public function search(): Glyph
     {
-        return new Glyph(G\Glyph::HELP, "help", $action);
+        return new Glyph(G\Glyph::SEARCH, $this->language->txt("search"));
     }
 
-    public function calendar($action = null): Glyph
+    public function help(): Glyph
     {
-        return new Glyph(G\Glyph::CALENDAR, "calendar", $action);
+        return new Glyph(G\Glyph::HELP, $this->language->txt("help"));
     }
 
-    public function time($action = null): Glyph
+    public function calendar(): Glyph
     {
-        return new Glyph(G\Glyph::TIME, "time", $action);
+        return new Glyph(G\Glyph::CALENDAR, $this->language->txt("calendar"));
     }
 
-    public function close($action = null): Glyph
+    public function time(): Glyph
     {
-        return new Glyph(G\Glyph::CLOSE, "close", $action);
+        return new Glyph(G\Glyph::TIME, $this->language->txt("time"));
     }
 
-    public function more($action = null): Glyph
+    public function close(): Glyph
     {
-        return new Glyph(G\Glyph::MORE, "show_more", $action);
+        return new Glyph(G\Glyph::CLOSE, $this->language->txt("close"));
     }
 
-    public function disclosure($action = null): Glyph
+    public function more(): Glyph
     {
-        return new Glyph(G\Glyph::DISCLOSURE, "disclose", $action);
+        return new Glyph(G\Glyph::MORE, $this->language->txt("show_more"));
     }
 
-    public function language(?string $action = null): Glyph
+    public function disclosure(): Glyph
     {
-        return new Glyph(G\Glyph::LANGUAGE, "switch_language", $action);
+        return new Glyph(G\Glyph::DISCLOSURE, $this->language->txt("disclose"));
     }
 
-    public function login(?string $action = null): Glyph
+    public function language(): Glyph
     {
-        return new Glyph(G\Glyph::LOGIN, "log_in", $action);
+        return new Glyph(G\Glyph::LANGUAGE, $this->language->txt("switch_language"));
     }
 
-    public function logout(?string $action = null): Glyph
+    public function login(): Glyph
     {
-        return new Glyph(G\Glyph::LOGOUT, "log_out", $action);
+        return new Glyph(G\Glyph::LOGIN, $this->language->txt("log_in"));
     }
 
-    public function bulletlist(?string $action = null): Glyph
+    public function logout(): Glyph
     {
-        return new Glyph(G\Glyph::BULLETLIST, "bulletlist_action", $action);
+        return new Glyph(G\Glyph::LOGOUT, $this->language->txt("log_out"));
     }
 
-    public function numberedlist(?string $action = null): Glyph
+    public function bulletlist(): Glyph
     {
-        return new Glyph(G\Glyph::NUMBEREDLIST, "numberedlist_action", $action);
+        return new Glyph(G\Glyph::BULLETLIST, $this->language->txt("bulletlist_action"));
     }
 
-    public function listindent(?string $action = null): Glyph
+    public function numberedlist(): Glyph
     {
-        return new Glyph(G\Glyph::LISTINDENT, "listindent", $action);
+        return new Glyph(G\Glyph::NUMBEREDLIST, $this->language->txt("numberedlist_action"));
     }
 
-    public function listoutdent(?string $action = null): Glyph
+    public function listindent(): Glyph
     {
-        return new Glyph(G\Glyph::LISTOUTDENT, "listoutdent", $action);
+        return new Glyph(G\Glyph::LISTINDENT, $this->language->txt("listindent"));
     }
 
-    public function filter(?string $action = null): Glyph
+    public function listoutdent(): Glyph
     {
-        return new Glyph(G\Glyph::FILTER, "filter", $action);
+        return new Glyph(G\Glyph::LISTOUTDENT, $this->language->txt("listoutdent"));
     }
 
-    public function collapseHorizontal(?string $action = null): Glyph
+    public function filter(): Glyph
     {
-        return new Glyph(G\Glyph::COLLAPSE_HORIZONTAL, "collapse/back", $action);
+        return new Glyph(G\Glyph::FILTER, $this->language->txt("filter"));
     }
 
-    public function header(?string $action = null): Glyph
+    public function collapseHorizontal(): Glyph
     {
-        return new Glyph(G\Glyph::HEADER, "header_action", $action);
+        return new Glyph(G\Glyph::COLLAPSE_HORIZONTAL, $this->language->txt("collapse/back"));
     }
 
-    public function italic(?string $action = null): Glyph
+    public function header(): Glyph
     {
-        return new Glyph(G\Glyph::ITALIC, "italic_action", $action);
+        return new Glyph(G\Glyph::HEADER, $this->language->txt("header_action"));
     }
 
-    public function bold(?string $action = null): Glyph
+    public function italic(): Glyph
     {
-        return new Glyph(G\Glyph::BOLD, "bold_action", $action);
+        return new Glyph(G\Glyph::ITALIC, $this->language->txt("italic_action"));
     }
 
-    public function link(?string $action = null): Glyph
+    public function bold(): Glyph
     {
-        return new Glyph(G\Glyph::LINK, "link_action", $action);
+        return new Glyph(G\Glyph::BOLD, $this->language->txt("bold_action"));
     }
 
-    public function launch(?string $action = null): Glyph
+    public function link(): Glyph
     {
-        return new Glyph(G\Glyph::LAUNCH, "launch", $action);
+        return new Glyph(G\Glyph::LINK, $this->language->txt("link_action"));
     }
 
-    public function enlarge(?string $action = null): Glyph
+    public function launch(): Glyph
     {
-        return new Glyph(G\Glyph::ENLARGE, "enlarge", $action);
+        return new Glyph(G\Glyph::LAUNCH, $this->language->txt("launch"));
     }
 
-    public function listView(?string $action = null): Glyph
+    public function enlarge(): Glyph
     {
-        return new Glyph(G\Glyph::LIST_VIEW, "list_view", $action);
+        return new Glyph(G\Glyph::ENLARGE, $this->language->txt("enlarge"));
     }
 
-    public function preview(?string $action = null): Glyph
+    public function listView(): Glyph
     {
-        return new Glyph(G\Glyph::PREVIEW, "preview", $action);
+        return new Glyph(G\Glyph::LIST_VIEW, $this->language->txt("list_view"));
     }
 
-    public function sort(?string $action = null): Glyph
+    public function preview(): Glyph
     {
-        return new Glyph(G\Glyph::SORT, "sort", $action);
+        return new Glyph(G\Glyph::PREVIEW, $this->language->txt("preview"));
     }
 
-    public function columnSelection(?string $action = null): Glyph
+    public function sort(): Glyph
     {
-        return new Glyph(G\Glyph::COLUMN_SELECTION, "column_selection", $action);
+        return new Glyph(G\Glyph::SORT, $this->language->txt("sort"));
     }
 
-    public function tileView(?string $action = null): Glyph
+    public function columnSelection(): Glyph
     {
-        return new Glyph(G\Glyph::TILE_VIEW, "tile_view", $action);
+        return new Glyph(G\Glyph::COLUMN_SELECTION, $this->language->txt("column_selection"));
     }
 
-    public function dragHandle(?string $action = null): G\Glyph
+    public function tileView(): Glyph
     {
-        return new Glyph(G\Glyph::DRAG_HANDLE, "drag_handle", $action);
+        return new Glyph(G\Glyph::TILE_VIEW, $this->language->txt("tile_view"));
+    }
+
+    public function dragHandle(): G\Glyph
+    {
+        return new Glyph(G\Glyph::DRAG_HANDLE, $this->language->txt("drag_handle"));
     }
 
     public function checked(): G\Glyph
     {
-        return new Glyph(G\Glyph::CHECKED, "checked");
+        return new Glyph(G\Glyph::CHECKED, $this->language->txt("checked"));
     }
 
     public function unchecked(): G\Glyph
     {
-        return new Glyph(G\Glyph::UNCHECKED, "unchecked");
+        return new Glyph(G\Glyph::UNCHECKED, $this->language->txt("unchecked"));
     }
 }

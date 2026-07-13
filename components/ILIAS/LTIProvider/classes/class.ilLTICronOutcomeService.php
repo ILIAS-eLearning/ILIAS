@@ -91,7 +91,7 @@ class ilLTICronOutcomeService extends CronJob
 
         $result = new \ILIAS\Cron\Job\JobResult();
         $result->setStatus($status);
-        ilLTIProviderAppEventListener::handleCronUpdate($since);
+        ilLTIAppEventListener::handleCronUpdate($since);
         $result->setStatus(JobResult::STATUS_OK);
 
         return $result;

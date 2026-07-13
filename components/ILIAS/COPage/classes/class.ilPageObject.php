@@ -2369,6 +2369,7 @@ s     */
         global $DIC;
 
         $db = $DIC->database();
+        $profile = $DIC->copage()->internal()->domain()->profile();
 
         $and_lang = "";
         if ($a_lang != "") {
@@ -2411,7 +2412,7 @@ s     */
 
         $c = array();
         foreach ($contributors as $k => $co) {
-            if (ilObject::_lookupType($k) == "usr") {
+            if ($profile->exists($k)) {
                 $name = ilObjUser::_lookupName($k);
                 $c[] = array("user_id" => $k,
                              "pages" => $co,

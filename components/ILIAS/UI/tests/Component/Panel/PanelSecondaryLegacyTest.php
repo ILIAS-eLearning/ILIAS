@@ -30,9 +30,16 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
  */
 class PanelSecondaryLegacyTest extends ILIAS_UI_TestBase
 {
+    use LanguageStubs;
+
     public function getUIFactory(): NoUIFactory
     {
-        return new class () extends NoUIFactory {
+        return new class ($this->createRelayArgumentLanguageStub()) extends NoUIFactory {
+            public function __construct(
+                protected \ILIAS\Language\Language $language,
+            ) {
+            }
+
             public function legacyPanel(string $title, C\Legacy\Content $content): I\Component\Panel\Secondary\Legacy
             {
                 return new I\Component\Panel\Secondary\Legacy($title, $content);
@@ -62,7 +69,7 @@ class PanelSecondaryLegacyTest extends ILIAS_UI_TestBase
             {
                 return new I\Component\Symbol\Factory(
                     new I\Component\Symbol\Icon\Factory(),
-                    new I\Component\Symbol\Glyph\Factory(),
+                    new I\Component\Symbol\Glyph\Factory($this->language),
                     new I\Component\Symbol\Avatar\Factory()
                 );
             }
@@ -232,7 +239,7 @@ EOT;
         <div class="panel-title"><h2>Title</h2></div>
         <div class="panel-viewcontrols l-bar__space-keeper">
             <div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element" id="id_1">
-                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="id_1_ctrl">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-expanded="false" aria-controls="id_1_ctrl">
                     <span class="label">vc_sort B</span>
                     <span class="glyphicon-sort"></span>
                 </button>
@@ -271,16 +278,16 @@ EOT;
         <div class="panel-title"><h2>Title</h2></div>
         <div class="panel-viewcontrols l-bar__space-keeper">
             <div class="il-viewcontrol-pagination l-bar__element">
-                <button class="btn btn-default" data-action="http://ilias.de?page=0" id="id_6">
-                    <span class="glyph" aria-label="back" role="img"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
+                <button class="btn btn-default" aria-label="back" data-action="http://ilias.de?page=0" id="id_6">
+                    <span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
                 </button>
                 <button class="btn btn-link" data-action="http://ilias.de?page=0" id="id_1">1</button>
                 <button class="btn btn-link engaged" aria-pressed="true" data-action="http://ilias.de?page=1" id="id_2">2</button>
                 <button class="btn btn-link" data-action="http://ilias.de?page=2" id="id_3">3</button>
                 <button class="btn btn-link" data-action="http://ilias.de?page=3" id="id_4">4</button>
                 <button class="btn btn-link" data-action="http://ilias.de?page=4" id="id_5">5</button>
-                <button class="btn btn-default" data-action="http://ilias.de?page=2" id="id_7">
-                    <span class="glyph" aria-label="next" role="img"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
+                <button class="btn btn-default" aria-label="next" data-action="http://ilias.de?page=2" id="id_7">
+                    <span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
                 </button>
             </div>
         </div>

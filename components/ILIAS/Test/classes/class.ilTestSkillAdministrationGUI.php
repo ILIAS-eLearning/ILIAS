@@ -99,7 +99,8 @@ class ilTestSkillAdministrationGUI
                     $this->refinery,
                     $this->http,
                     $this->toolbar,
-                    $this->tabs
+                    $this->tabs,
+                    $this->test_obj
                 );
                 $gui->setAssignmentEditingEnabled($this->isAssignmentEditingRequired());
                 $gui->setQuestionContainerId($questionContainerId);

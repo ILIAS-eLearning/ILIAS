@@ -78,7 +78,7 @@ class GroupsTable implements OrderingRetrieval
             if ($group->isCore()) {
                 $title = $this->collector->getSingleItemFromRaw(
                     $this->identification->fromSerializedIdentification($group->getId()),
-                )?->getTitle()??'';
+                )?->getTitle() ?? 'Unknown';
             } else {
                 $title = $this->translations_repository->get($group)->getDefault()?->getTranslation(
                 ) ?? $group->getTitle();

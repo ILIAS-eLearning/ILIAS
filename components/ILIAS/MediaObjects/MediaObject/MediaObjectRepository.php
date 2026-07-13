@@ -179,12 +179,20 @@ class MediaObjectRepository
 
     public function getLocalSrc(int $mob_id, string $location): string
     {
-        return $this->irss->getContainerUri($this->getRidForMobId($mob_id), $location);
+        $rid = $this->getRidForMobId($mob_id);
+        if ($rid === "") {
+            return "";
+        }
+        return $this->irss->getContainerUri($rid, $location);
     }
 
     public function hasLocalFile(int $mob_id, string $location): bool
     {
-        return $this->irss->hasContainerEntry($this->getRidForMobId($mob_id), $location);
+        $rid = $this->getRidForMobId($mob_id);
+        if ($rid === "") {
+            return false;
+        }
+        return $this->irss->hasContainerEntry($rid, $location);
     }
 
     public function getLocationStream(
@@ -200,8 +208,7 @@ class MediaObjectRepository
     public function getLocationContent(
         int $mob_id,
         string $location
-    ) : string
-    {
+    ): string {
         $content = "";
         if (str_starts_with($location, "/")) {
             $location = substr($location, 1);

@@ -23,7 +23,7 @@ namespace ILIAS\User\Settings;
 interface ConfigurationRepository
 {
     /**
-     * @return array<\ILIAS\User\Settings\Setting>
+     * @return list<Setting>
      */
     public function get(): array;
     public function getByIdentifier(string $identifier): ?Setting;

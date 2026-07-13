@@ -1,3 +1,19 @@
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 var ilSingleChoiceWizardInputTemplate = {
 
 	tag_container: 'tbody.scwzd',
@@ -80,29 +96,45 @@ var ilSingleChoiceWizardInputTemplate = {
 		var that = this;
 
 		if (typeof tinyMCE === 'undefined' || $(rootel).closest('table').find('textarea').length === 0) {
-			$(rootel).find('div.' + this.tag_button + '_add .glyph').click(function(e) {
+			$(rootel).find('div.' + this.tag_button + '_add').off('click');
+			$(rootel).find('div.' + this.tag_button + '_add .btn').click(function(e) {
+				e.preventDefault();
 				that.addRow(e);
 			});
-			$(rootel).find('div.' + this.tag_button + '_remove .glyph').click(function(e) {
+			$(rootel).find('div.' + this.tag_button + '_remove').off('click');
+			$(rootel).find('div.' + this.tag_button + '_remove .btn').click(function(e) {
+				e.preventDefault();
 				that.removeRow(e);
 			});
-			$(rootel).find('div.' + this.tag_button + '_up .glyph').click(function(e) {
+			$(rootel).find('div.' + this.tag_button + '_up').off('click');
+			$(rootel).find('div.' + this.tag_button + '_up .btn').click(function(e) {
+				e.preventDefault();
 				that.moveRowUp(e);
 			});
-			$(rootel).find('div.' + this.tag_button + '_down .glyph').click(function(e) {
+			$(rootel).find('div.' + this.tag_button + '_down').off('click');
+			$(rootel).find('div.' + this.tag_button + '_down .btn').click(function(e) {
+				e.preventDefault();
 				that.moveRowDown(e);
 			});
 		} else {
-			$(rootel).find('div.' + this.tag_button + '_add .glyph').click((e) => {
+			$(rootel).find('div.' + this.tag_button + '_add').off('click');
+			$(rootel).find('div.' + this.tag_button + '_add .btn').click((e) => {
+				e.preventDefault();
 				that.onClickHandler('add', e);
 			});
-			$(rootel).find('div.' + this.tag_button + '_remove .glyph').click((e) => {
+			$(rootel).find('div.' + this.tag_button + '_remove').off('click');
+			$(rootel).find('div.' + this.tag_button + '_remove .btn').click((e) => {
+				e.preventDefault();
 				that.onClickHandler('remove', e);
 			});
-			$(rootel).find('div.' + this.tag_button + '_up .glyph').click((e) => {
+			$(rootel).find('div.' + this.tag_button + '_up').off('click');
+			$(rootel).find('div.' + this.tag_button + '_up .btn').click((e) => {
+				e.preventDefault();
 				that.onClickHandler('up', e);
 			});
-			$(rootel).find('div.' + this.tag_button + '_down .glyph').click((e) => {
+			$(rootel).find('div.' + this.tag_button + '_down').off('click');
+			$(rootel).find('div.' + this.tag_button + '_down .btn').click((e) => {
+				e.preventDefault();
 				that.onClickHandler('down', e);
 			});
 		}

@@ -33,6 +33,7 @@ use ILIAS\Language\Language;
 class DurationInputTest extends ILIAS_UI_TestBase
 {
     use CommonFieldRendering;
+    use LanguageStubs;
 
     protected DefNamesource $name_source;
     protected Data\Factory $data_factory;
@@ -74,12 +75,17 @@ class DurationInputTest extends ILIAS_UI_TestBase
 
     public function getUIFactory(): NoUIFactory
     {
-        return new class () extends NoUIFactory {
+        return new class ($this->createRelayArgumentLanguageStub()) extends NoUIFactory {
+            public function __construct(
+                protected ILIAS\Language\Language $language,
+            ) {
+            }
+
             public function symbol(): I\Symbol\Factory
             {
                 return new S\Factory(
                     new S\Icon\Factory(),
-                    new S\Glyph\Factory(),
+                    new S\Glyph\Factory($this->language),
                     new S\Avatar\Factory()
                 );
             }
@@ -199,7 +205,7 @@ class DurationInputTest extends ILIAS_UI_TestBase
             '<div class="c-field-duration">' . $f1 . $f2 . '</div>',
             'byline',
         );
-        $this->assertEquals($expected, $this->render($duration));
+        $this->assertEquals($expected, $this->renderInsideContainer($duration));
         return $duration;
     }
 
@@ -242,7 +248,7 @@ class DurationInputTest extends ILIAS_UI_TestBase
             '<div class="c-field-duration">' . $f1 . $f2 . '</div>',
             'byline'
         );
-        $this->assertEquals($expected, $this->render($duration));
+        $this->assertEquals($expected, $this->renderInsideContainer($duration));
     }
 
     public function testCommonRendering(): void

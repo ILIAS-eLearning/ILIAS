@@ -32,6 +32,8 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class MetaBarTest extends ILIAS_UI_TestBase
 {
+    use LanguageStubs;
+
     protected I\Component\Button\Factory $button_factory;
     protected I\Component\Symbol\Icon\Factory $icon_factory;
     protected I\Component\Counter\Factory $counter_factory;
@@ -50,7 +52,7 @@ class MetaBarTest extends ILIAS_UI_TestBase
             $this->counter_factory,
             new I\Component\Symbol\Factory(
                 new I\Component\Symbol\Icon\Factory(),
-                new I\Component\Symbol\Glyph\Factory(),
+                new I\Component\Symbol\Glyph\Factory($this->createRelayArgumentLanguageStub()),
                 new I\Component\Symbol\Avatar\Factory()
             )
         );
@@ -110,10 +112,15 @@ class MetaBarTest extends ILIAS_UI_TestBase
 
     public function getUIFactory(): NoUIFactory
     {
-        $factory = new class () extends NoUIFactory {
+        $factory = new class ($this->createRelayArgumentLanguageStub()) extends NoUIFactory {
             public I\Component\Button\Factory $button_factory;
             public I\Component\MainControls\Factory $mc_factory;
             public I\Component\Counter\Factory $counter_factory;
+
+            public function __construct(
+                protected \ILIAS\Language\Language $language,
+            ) {
+            }
 
             public function button(): I\Component\Button\Factory
             {
@@ -127,7 +134,7 @@ class MetaBarTest extends ILIAS_UI_TestBase
             {
                 return new I\Component\Symbol\Factory(
                     new I\Component\Symbol\Icon\Factory(),
-                    new I\Component\Symbol\Glyph\Factory(),
+                    new I\Component\Symbol\Glyph\Factory($this->language),
                     new I\Component\Symbol\Avatar\Factory()
                 );
             }
@@ -176,7 +183,7 @@ class MetaBarTest extends ILIAS_UI_TestBase
       </li>
       <li role="none">
          <button class="btn btn-bulky" id="id_3" role="menuitem" aria-haspopup="true" >
-             <span class="glyph" role="img">
+             <span class="glyph" aria-hidden="true">
                 <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
                 <span class="il-counter"><span class="badge badge-notify il-counter-status" style="display:none">0</span></span>
                 <span class="il-counter"><span class="badge badge-notify il-counter-novelty" style="display:none">0</span></span>

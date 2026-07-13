@@ -189,7 +189,7 @@ class ilTestQuestionNavigationGUI
             );
         }
 
-        if ($this->instant_feedback_command === ilTestPlayerCommands::SHOW_INSTANT_RESPONSE) {
+        if ($this->instant_feedback_command !== '') {
             $this->renderInstantFeedbackButton(
                 $tpl,
                 $this->instant_feedback_command,

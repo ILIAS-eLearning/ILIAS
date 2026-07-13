@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Mail\TemplateEngine\TemplateEngineFactoryInterface;
+
 class ilMailMimeSenderFactory
 {
     /** @var array<int, ilMailMimeSender> */
@@ -26,7 +28,7 @@ class ilMailMimeSenderFactory
 
     public function __construct(
         protected ilSetting $settings,
-        protected ilMustacheFactory $mustache_factory,
+        protected TemplateEngineFactoryInterface $template_engine_factory,
         ?int $anonymous_usr_id = null
     ) {
         if ($anonymous_usr_id === null && defined('ANONYMOUS_USER_ID')) {
@@ -68,11 +70,11 @@ class ilMailMimeSenderFactory
 
     public function user(int $usr_id): ilMailMimeSenderUser
     {
-        return new ilMailMimeSenderUserById($this->settings, $usr_id, $this->mustache_factory);
+        return new ilMailMimeSenderUserById($this->settings, $usr_id, $this->template_engine_factory);
     }
 
     public function userByEmailAddress(string $email_address): ilMailMimeSenderUser
     {
-        return new ilMailMimeSenderUserByEmailAddress($this->settings, $email_address, $this->mustache_factory);
+        return new ilMailMimeSenderUserByEmailAddress($this->settings, $email_address, $this->template_engine_factory);
     }
 }

@@ -219,16 +219,19 @@ class ilBookingPreferencesManager
     /**
      * Calculate popularity (number of preferences each object got from users)
      */
-    protected function calculatePopularity(
-        array $booking_object_ids,
-        array $preferences
-    ): array {
+    protected function calculatePopularity(array $booking_object_ids, array $preferences): array
+    {
         $popularity = [];
         foreach ($booking_object_ids as $book_obj_id) {
             $popularity[$book_obj_id] = 0;
         }
-        foreach ($preferences as $user_id => $bobj_ids) {
+
+        foreach ($preferences as $bobj_ids) {
             foreach ($bobj_ids as $bobj_id) {
+                if (!isset($popularity[$bobj_id])) {
+                    continue;
+                }
+
                 ++$popularity[$bobj_id];
             }
         }

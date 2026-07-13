@@ -57,7 +57,7 @@ class ilLTIConsumerProviderSelectionFormTableGUI extends ilPropertyFormGUI
         $providerList->setKeywordFilter($filter_params['keywords'] ?? '');
         $providerList->setHasOutcomeFilter(($filter_params['outcome'] ?? '') === '' ? null : $filter_params['outcome'] === 'yes');
         $providerList->setIsExternalFilter(($filter_params['internal'] ?? '') === '' ? null : $filter_params['internal'] !== 'yes');
-        $providerList->setIsProviderKeyCustomizableFilter(($filter_params['with_key'] ?? '') === '' ? null : $filter_params['with_key'] === 'yes');
+        $providerList->setIsProviderKeyCustomizableFilter(($filter_params['with_key'] ?? '') === '' ? null : !($filter_params['with_key'] === 'yes'));
         $providerList->setCategoryFilter($filter_params['category'] ?? '');
 
         $providerList->load();

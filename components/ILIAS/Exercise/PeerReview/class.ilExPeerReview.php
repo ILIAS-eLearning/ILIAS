@@ -96,11 +96,12 @@ class ilExPeerReview
                 foreach ($distribution->getPeersOfRater($rater_id) as $peer_id) {
                     $next_id = $ilDB->nextId("exc_assignment_peer");
                     $ilDB->manipulate("INSERT INTO exc_assignment_peer" .
-                        " (id, ass_id, giver_id, peer_id)" .
+                        " (id, ass_id, giver_id, peer_id, migrated)" .
                         " VALUES (" . $ilDB->quote($next_id, "integer") .
                         ", " . $ilDB->quote($this->assignment_id, "integer") .
                         ", " . $ilDB->quote($rater_id, "integer") .
-                        ", " . $ilDB->quote($peer_id, "integer") . ")");
+                        ", " . $ilDB->quote($peer_id, "integer") .
+                        ", " . $ilDB->quote(1, "integer") . ")");
                 }
             }
         }

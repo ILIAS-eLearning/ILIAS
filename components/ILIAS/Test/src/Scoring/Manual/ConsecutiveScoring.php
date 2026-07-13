@@ -20,10 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Scoring\Manual;
 
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\Language\Language;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestScoringInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
+use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\TestManScoringDoneHelper;
 
 class ConsecutiveScoring
@@ -37,6 +38,8 @@ class ConsecutiveScoring
         private TestManScoringDoneHelper $scoring_done_helper,
         private \ilObjUser $current_user,
         private readonly \ilTestAccess $test_access,
+        private readonly ParticipantRepository $participant_repository,
+        private readonly Language $lng,
     ) {
     }
 
@@ -94,9 +97,16 @@ class ConsecutiveScoring
         ) {
             return \ilObjTest::buildExamId($usr_active_id, $attempt, $this->object->getId());
         }
-        $user_id = (string) $this->object->_getUserIdFromActiveId($usr_active_id);
-        $user_data = $this->object->getUserData([$user_id]);
-        $user = $user_data[$user_id];
+
+        $participant = $this->participant_repository->getParticipantByActiveId($this->object->getTestId(), $usr_active_id);
+        $importname = $participant->getImportname();
+        $user_id = $participant->getUserId();
+        if ($user_id === ANONYMOUS_USER_ID && $importname !== null && $importname !== '') {
+            return $participant->getDisplayName($this->lng);
+        }
+
+        $user_id = (string) $user_id;
+        $user = $this->object->getUserData([$user_id])[$user_id];
         return sprintf(
             "%s %s [%s]",
             $user["firstname"],

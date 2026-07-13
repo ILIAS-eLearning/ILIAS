@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\UICore\Exceptions\ilCtrlPathException;
+
 /**
  * Class ilCtrlExistingPath
  *
@@ -56,7 +58,7 @@ class ilCtrlExistingPath extends ilCtrlAbstractPath
             $child_class = $this->structure->getClassNameByCid($child_cid);
             $allowed_children = $this->structure->getChildrenByCid($parent_cid) ?? [];
             if (null === $child_class || !in_array($child_class, $allowed_children, true)) {
-                throw new RuntimeException('ilCtrl: invalid ' . ilCtrlInterface::PARAM_CID_PATH . ' parameter requested.');
+                throw new ilCtrlPathException('ilCtrl: invalid ' . ilCtrlInterface::PARAM_CID_PATH . ' parameter requested.');
             }
         }
     }

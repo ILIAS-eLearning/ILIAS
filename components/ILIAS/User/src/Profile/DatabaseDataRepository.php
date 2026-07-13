@@ -67,8 +67,15 @@ class DatabaseDataRepository implements DataRepository
             'SELECT field_id, value FROM ' . self::USER_VALUES_TABLE . " WHERE usr_id = {$id}"
         );
 
+        $base_data = $this->db->fetchObject($base_query);
+        if ($base_data === null) {
+            throw new \InvalidArgumentException(
+                'This user does not exist.'
+            );
+        }
+
         return $this->buildFromData(
-            $this->db->fetchObject($base_query),
+            $base_data,
             $this->db->fetchAll(
                 $additional_query,
                 \ilDBConstants::FETCHMODE_OBJECT
@@ -181,7 +188,7 @@ class DatabaseDataRepository implements DataRepository
 
     public function deleteForFieldIdentifier(string $identifier): void
     {
-        $this->db->manipulateF(
+        $this->db->manipulate(
             'DELETE FROM ' . self::USER_VALUES_TABLE
                 . " WHERE field_id='{$this->db->quote($identifier, \ilDBConstants::T_TEXT)}'"
         );
@@ -238,9 +245,6 @@ class DatabaseDataRepository implements DataRepository
         );
     }
 
-    /**
-     * @return list<\ILIAS\User\Search\AutocompleteItem>
-     */
     public function searchUsers(
         SettingsDataRepository $settings_data_repository,
         ProfileFieldsConfigurationRepository $profile_fields_config_repo,
@@ -286,9 +290,6 @@ class DatabaseDataRepository implements DataRepository
         );
     }
 
-    /**
-     * @return array{cnt: int, set: array{string, mixed}}
-     */
     public function getCountAndRecordsForQuery(
         DataQuery $query,
         int $offset,

@@ -65,20 +65,25 @@ class Renderer extends AbstractComponentRenderer
         Component\Table\Presentation $component,
         RendererInterface $default_renderer
     ): string {
+        $default_renderer = $default_renderer->withHeaderNesting(
+            $default_renderer->getHeaderNesting(1)
+        );
+
         $tpl = $this->getTemplate("tpl.presentationtable.html", true, true);
+        $tpl->setVariable("HEADING_LEVEL", $default_renderer->getHeaderNesting());
         $tpl->setVariable("TITLE", $component->getTitle());
         $expcollapsebtns = [];
         if ($sig_ta = $component->getExpandCollapseAllSignal()) {
             $sig_ta_expand = clone $sig_ta;
             $sig_ta_expand->addOption('expand', true);
             $expcollapsebtns[] = $this->getUIFactory()->button()
-                ->standard($this->txt('presentation_table_expand'), '')
-                ->withOnClick($sig_ta_expand);
+                                      ->standard($this->txt('presentation_table_expand'), '')
+                                      ->withOnClick($sig_ta_expand);
             $sig_ta_collapse = clone $sig_ta;
             $sig_ta_collapse->addOption('expand', false);
             $expcollapsebtns[] = $this->getUIFactory()->button()
-                ->standard($this->txt('presentation_table_collapse'), '')
-                ->withOnClick($sig_ta_collapse);
+                                      ->standard($this->txt('presentation_table_collapse'), '')
+                                      ->withOnClick($sig_ta_collapse);
             $component = $component->withAdditionalOnLoadCode(
                 static fn($id) => "
                     il.UI.table.presentation.init('{$id}');
@@ -106,6 +111,9 @@ class Renderer extends AbstractComponentRenderer
             return $tpl->get();
         }
 
+        $default_renderer = $default_renderer->withHeaderNesting(
+            $default_renderer->getHeaderNesting(1)
+        );
         foreach ($data as $record) {
             $row = $row_mapping(
                 new PresentationRow($component->getSignalGenerator(), $component_id),
@@ -118,7 +126,6 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("ROW", $default_renderer->render($row));
             $tpl->parseCurrentBlock();
         }
-
         return $tpl->get();
     }
 
@@ -135,18 +142,19 @@ class Renderer extends AbstractComponentRenderer
         $sig_toggle = $component->getToggleSignal();
         $id = $this->bindJavaScript($component);
 
-        $expander = $f->symbol()->glyph()->expand("#")
-            ->withOnClick($sig_show);
-        $collapser = $f->symbol()->glyph()->collapse("#")
-            ->withOnClick($sig_hide);
-        $shy_expander = $f->button()->shy($this->txt("presentation_table_more"), "#")
-            ->withOnClick($sig_show);
+        $expander = $f->button()->shy('', '')->withSymbol($f->symbol()->glyph()->expand())
+                      ->withOnClick($sig_show);
+        $collapser = $f->button()->shy('', '')->withSymbol($f->symbol()->glyph()->collapse())
+                       ->withOnClick($sig_hide);
+        $shy_expander = $f->button()->shy($this->txt("presentation_table_more"), "")
+                          ->withOnClick($sig_show);
 
         $tpl->setVariable("ID", $id);
         $tpl->setVariable("EXPANDER", $default_renderer->render($expander));
         $tpl->setVariable("COLLAPSER", $default_renderer->render($collapser));
         $tpl->setVariable("SHY_EXPANDER", $default_renderer->render($shy_expander));
 
+        $tpl->setVariable("HEADING_LEVEL", $default_renderer->getHeaderNesting());
         if ($symbol = $component->getLeadingSymbol()) {
             $tpl->setVariable("SYMBOL", $default_renderer->render($symbol));
         }
@@ -175,6 +183,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->touchBlock("has_further_fields");
 
             if ($further_fields_headline) {
+                $tpl->setVariable("HEADING_LEVEL_FURTHER", $default_renderer->getHeaderNesting(1));
                 $tpl->setVariable("FURTHER_FIELDS_HEADLINE", $further_fields_headline);
             }
 
@@ -233,6 +242,7 @@ class Renderer extends AbstractComponentRenderer
 
         $id = $this->bindJavaScript($component);
         $tpl->setVariable('ID', $id);
+        $tpl->setVariable("HEADING_LEVEL", $default_renderer->getHeaderNesting(1));
         $tpl->setVariable('TITLE', $component->getTitle());
         $tpl->setVariable('COL_COUNT', (string) $component->getColumnCount() + $compensate_col_count);
         $tpl->setVariable('VIEW_CONTROLS', $default_renderer->render($view_controls));
@@ -294,12 +304,11 @@ class Renderer extends AbstractComponentRenderer
             if ($col_id === $sort_col) {
                 if ($sort_direction === Order::ASC) {
                     $sortation = "ascending"; // aria-sort should not be translated and always be in English
-                    $sortation_glyph = $glyph_factory->sortAscending("#");
                     $param_sort_direction = Order::DESC;
                 }
                 if ($sort_direction === Order::DESC) {
                     $sortation = "descending"; // aria-sort should not be translated and always be in English
-                    $sortation_glyph = $glyph_factory->sortDescending("#");
+                    $param_sort_direction = Order::ASC;
                 }
             }
 
@@ -315,9 +324,15 @@ class Renderer extends AbstractComponentRenderer
                 );
 
                 if ($col_id === $sort_col) {
-                    $sortation_glyph = $default_renderer->render($sortation_glyph->withOnClick($sort_signal));
+                    $sortation_glyph = $this->getUIFactory()->button()->shy('', '')
+                                            ->withSymbol(
+                                                $sort_direction === Order::ASC ?
+                                                    $glyph_factory->sortAscending() :
+                                                    $glyph_factory->sortDescending()
+                                            )
+                                            ->withOnClick($sort_signal);
                     $tpl->setVariable('COL_SORTATION', $sortation);
-                    $tpl->setVariable('COL_SORTATION_GLYPH', $sortation_glyph);
+                    $tpl->setVariable('COL_SORTATION_GLYPH', $default_renderer->render($sortation_glyph));
                 }
             }
 
@@ -339,13 +354,18 @@ class Renderer extends AbstractComponentRenderer
         }
 
         if ($component->hasMultiActions()) {
-            $glyph_factory = $this->getUIFactory()->symbol()->glyph();
+            $f = $this->getUIFactory();
+            $glyph_factory = $f->symbol()->glyph();
             $signal = $component->getSelectionSignal();
             $sig_all = clone $signal;
             $sig_all->addOption('select', true);
-            $select_all = $glyph_factory->add()->withOnClick($sig_all);
+            $select_all = $f->button()->shy('', '')
+                            ->withSymbol($glyph_factory->add())
+                            ->withOnClick($sig_all);
             $signal->addOption('select', false);
-            $select_none = $glyph_factory->close()->withOnClick($signal);
+            $select_none = $f->button()->shy('', '')
+                             ->withSymbol($glyph_factory->close())
+                             ->withOnClick($signal);
             $tpl->setVariable('SELECTION_CONTROL_SELECT', $default_renderer->render($select_all));
             $tpl->setVariable('SELECTION_CONTROL_DESELECT', $default_renderer->render($select_none));
         }
@@ -390,7 +410,9 @@ class Renderer extends AbstractComponentRenderer
 
         $actions = [];
         foreach ($component->getAllActions() as $action_id => $action) {
-            $component = $component->withAdditionalOnLoadCode($this->getActionRegistration((string) $action_id, $action));
+            $component = $component->withAdditionalOnLoadCode(
+                $this->getActionRegistration((string) $action_id, $action)
+            );
             if ($action->isAsync()) {
                 $signal = clone $component->getAsyncActionSignal();
                 $signal->addOption(Action::OPT_ACTIONID, $action_id);
@@ -402,8 +424,7 @@ class Renderer extends AbstractComponentRenderer
 
         $component = $component
             ->withAdditionalOnLoadCode(
-                static fn($id): string =>
-                    "il.UI.table.data.init('{$id}','{$opt_action_id}','{$opt_row_id}');"
+                static fn($id): string => "il.UI.table.data.init('{$id}','{$opt_action_id}','{$opt_row_id}');"
             )
             ->withAdditionalOnLoadCode($this->getAsyncActionHandler($component->getAsyncActionSignal()))
             ->withAdditionalOnLoadCode($this->getMultiActionHandler($component->getMultiActionSignal()))
@@ -428,8 +449,11 @@ class Renderer extends AbstractComponentRenderer
         }
     }
 
-    protected function renderEmptyPresentationRow(Template $tpl, RendererInterface $default_renderer, string $content): void
-    {
+    protected function renderEmptyPresentationRow(
+        Template $tpl,
+        RendererInterface $default_renderer,
+        string $content
+    ): void {
         $row_tpl = $this->getTemplate('tpl.presentationrow_empty.html', true, true);
         $row_tpl->setVariable('CONTENT', $content);
         $tpl->setVariable('ROW', $row_tpl->get());
@@ -455,12 +479,14 @@ class Renderer extends AbstractComponentRenderer
             ""
         )->withRequired(true);
         $submit = $f->button()->primary($this->txt('datatable_multiactionmodal_apply'), '')
-            ->withOnLoadCode(
-                static fn($id): string => "$('#{$id}').click(function() { il.UI.table.data.get('{$table_id}').doActionForAll(this); return false; });"
-            );
+                    ->withOnLoadCode(
+                        static fn(
+                            $id
+                        ): string => "$('#{$id}').click(function() { il.UI.table.data.get('{$table_id}').doActionForAll(this); return false; });"
+                    );
         $modal = $f->modal()
-            ->roundtrip($this->txt('datatable_multiactionmodal_title'), [$msg, $select])
-            ->withActionButtons([$submit]);
+                   ->roundtrip($this->txt('datatable_multiactionmodal_title'), [$msg, $select])
+                   ->withActionButtons([$submit]);
         return $modal;
     }
 
@@ -492,7 +518,9 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $buttons[] = $f->divider()->horizontal();
-        $buttons[] = $f->button()->shy($this->txt('datatable_multiactionmodal_listentry'), '#')->withOnClick($modal_signal);
+        $buttons[] = $f->button()->shy($this->txt('datatable_multiactionmodal_listentry'), '#')->withOnClick(
+            $modal_signal
+        );
 
         return $f->dropdown()->standard($buttons)->withLabel($this->txt('datatable_multiaction_label'));
     }
@@ -507,6 +535,7 @@ class Renderer extends AbstractComponentRenderer
                 });";
         };
     }
+
     protected function getMultiActionHandler(Component\Signal $action_signal): \Closure
     {
         return static function ($id) use ($action_signal): string {
@@ -550,15 +579,15 @@ class Renderer extends AbstractComponentRenderer
         $cell_tpl = $this->getTemplate("tpl.datacell.html", true, true);
         $this->fillCells($component, $cell_tpl, $default_renderer);
 
-
         return $cell_tpl->get();
     }
 
-    public function renderOrderingRow(Component\Table\OrderingRow $component, RendererInterface $default_renderer): string
-    {
+    public function renderOrderingRow(
+        Component\Table\OrderingRow $component,
+        RendererInterface $default_renderer
+    ): string {
         $cell_tpl = $this->getTemplate("tpl.orderingcell.html", true, true);
         $this->fillCells($component, $cell_tpl, $default_renderer);
-
 
         if ($component->isOrderingDisabled()) {
             return $cell_tpl->get();
@@ -569,6 +598,7 @@ class Renderer extends AbstractComponentRenderer
             {
                 return '';
             }
+
             public function getNewDedicatedName(string $dedicated_name): string
             {
                 return $dedicated_name;
@@ -577,14 +607,13 @@ class Renderer extends AbstractComponentRenderer
 
         $numeric_label = $this->txt("ui_table_order");
         $input = $this->getUIFactory()->input()->field()->numeric($numeric_label)
-            ->withDedicatedName($component->getId())
-            ->withNameFrom($namesource)
-            ->withValue($component->getPosition() * 10);
+                      ->withDedicatedName($component->getId())
+                      ->withNameFrom($namesource)
+                      ->withValue($component->getPosition() * 10);
         $cell_tpl->setVariable('ORDER_INPUT', $default_renderer->render($input));
 
         return $cell_tpl->get();
     }
-
 
     protected function fillCells(
         Component\Table\DataRow $row,
@@ -645,9 +674,10 @@ class Renderer extends AbstractComponentRenderer
         return $f->dropdown()->standard($buttons);
     }
 
-
-    public function renderOrderingTable(Component\Table\Ordering $component, RendererInterface $default_renderer): string
-    {
+    public function renderOrderingTable(
+        Component\Table\Ordering $component,
+        RendererInterface $default_renderer
+    ): string {
         $tpl = $this->getTemplate("tpl.orderingtable.html", true, true);
         $component = $this->registerActions($component);
 
@@ -657,7 +687,6 @@ class Renderer extends AbstractComponentRenderer
             $component->getRowBuilder(),
             array_keys($component->getVisibleColumns()),
         );
-
 
         if (!$component->isOrderingDisabled()) {
             $component = $component->withAdditionalOnLoadCode(
@@ -690,17 +719,19 @@ class Renderer extends AbstractComponentRenderer
 
         if (!$component->isOrderingDisabled()) {
             $submit = $this->getUIFactory()->button()->standard($this->txt('sorting_save'), "")
-                ->withOnLoadCode(static fn($id) => "document.getElementById('$id').addEventListener('click',
-                    function() {document.querySelector('#$tableid form.c-table-ordering__form').submit();return false;});");
+                           ->withOnLoadCode(
+                               static fn($id) => "document.getElementById('$id').addEventListener('click',
+                    function() {document.querySelector('#$tableid form.c-table-ordering__form').submit();return false;});"
+                           );
 
             $tpl->setVariable('FORM_BUTTONS', $default_renderer->render($submit));
             $tpl->setVariable('POS_INPUT_TITLE', $this->txt('table_posinput_col_title'));
-
         }
 
         $tpl->setVariable('ID', $tableid);
         $tpl->setVariable('TARGET_URL', $component->getTargetURL() ? $component->getTargetURL()->__toString() : '#');
         $tpl->setVariable('TITLE', $component->getTitle());
+        $tpl->setVariable("HEADING_LEVEL", $default_renderer->getHeaderNesting(1));
         $tpl->setVariable('COL_COUNT', (string) $component->getColumnCount() + $compensate_col_count);
         $tpl->setVariable('VIEW_CONTROLS', $default_renderer->render($view_controls));
 
@@ -764,10 +795,11 @@ class Renderer extends AbstractComponentRenderer
         $toggle = $component->getToggleSignal();
         $table_id = $component->getTableId();
         return $component->withAdditionalOnLoadCode(
-            static fn($id): string =>
-            "$(document).on('$show', function() { il.UI.table.presentation.get('$table_id').expandRow('$id'); return false; });" .
-            "$(document).on('$close', function() { il.UI.table.presentation.get('$table_id').collapseRow('$id'); return false; });" .
-            "$(document).on('$toggle', function() { il.UI.table.presentation.get('$table_id').toggleRow('$id'); return false; });"
+            static fn(
+                $id
+            ): string => "$(document).on('$show', function() { il.UI.table.presentation.get('$table_id').expandRow('$id'); return false; });" .
+                "$(document).on('$close', function() { il.UI.table.presentation.get('$table_id').collapseRow('$id'); return false; });" .
+                "$(document).on('$toggle', function() { il.UI.table.presentation.get('$table_id').toggleRow('$id'); return false; });"
         );
     }
 }

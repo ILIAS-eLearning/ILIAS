@@ -43,7 +43,7 @@ $il-toolbar-border: 1px solid $il-main-border-color !default;
 		position: relative;
 		display: block;
 
-		>a {
+		> a, > .c-tooltip__container > a {
 			position: relative;
 			display: block;
 			padding: $nav-link-padding;
@@ -51,12 +51,11 @@ $il-toolbar-border: 1px solid $il-main-border-color !default;
 			&:hover,
 			&:focus {
 				text-decoration: none;
-				background-color: $nav-link-hover-bg;
 			}
 		}
 
 		// Disabled state sets text to gray and nukes hover/tab effects
-		&.disabled>a {
+		&.disabled>a, &.disabled>.c-tooltip__container>a {
 			color: $nav-disabled-link-color;
 
 			&:hover,
@@ -95,6 +94,11 @@ $il-toolbar-border: 1px solid $il-main-border-color !default;
 	>li>a>img {
 		max-width: none;
 	}
+}
+
+.ilToolbarContainer {
+	position: relative;
+	z-index: 50;
 }
 
 // Dropdowns

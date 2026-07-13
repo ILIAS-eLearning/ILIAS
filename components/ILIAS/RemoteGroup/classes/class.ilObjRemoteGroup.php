@@ -137,7 +137,8 @@ class ilObjRemoteGroup extends ilRemoteObjectBase
                 return false;
 
             case self::ACTIVATION_LIMITED:
-                return time() > $row->r_start && time < $row->r_end;
+                $now = time();
+                return $now > $row->r_start && $now < $row->r_end;
 
             default:
                 return false;

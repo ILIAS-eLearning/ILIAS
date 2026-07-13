@@ -57,7 +57,12 @@ div.ilHeadAction .prop {
 	padding-right: 10px;
 }
 
-div.ilHeadAction a:hover {
+div.ilHeadAction .btn.btn-link {
+	padding-right: 10px;
+}
+
+div.ilHeadAction a:hover,
+div.ilHeadAction button.btn-link:hover {
 	text-decoration: none;
 }
 

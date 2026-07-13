@@ -308,7 +308,7 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
     public function getTabTooltipText(string $a_tab_id): string
     {
         if ($this->screen_id_component != "") {
-            return $this->internal()->domain()->tooltips()->getTooltipPresentationText($this->screen_id_component . "_" . $a_tab_id);
+            return $this->screen_id_component . "_" . $a_tab_id;
         }
         return "";
     }

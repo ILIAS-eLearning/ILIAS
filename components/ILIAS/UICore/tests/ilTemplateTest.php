@@ -119,7 +119,7 @@ class ilTemplateTest extends TestCase
                 'skin' => 'mySkin', 'style' => 'myStyle', 'file_exists' => true,
                 'tpl_filename' => 'components/ILIAS/UI/src/templates/default/Input/tpl.standard.html',
                 'component' => '',
-                'expected' => $il_root . '/public/Customizing/skin/mySkin/myStyle/UI/Input/tpl.standard.html',
+                'expected' => $il_root . '/public/Customizing/skin/mySkin/myStyle/components/ILIAS/UI/Input/tpl.standard.html',
             ],
             'ui template from skin, unaltered' => [
                 'skin' => 'mySkin', 'style' => 'myStyle', 'file_exists' => false,

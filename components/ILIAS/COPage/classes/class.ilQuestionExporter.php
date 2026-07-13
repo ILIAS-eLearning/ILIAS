@@ -88,7 +88,7 @@ class ilQuestionExporter
 
         $this->q_gui = assQuestionGUI::_getQuestionGUI("", $q_id);
 
-        if (!is_object($this->q_gui->getObject())) {
+        if (is_null($this->q_gui) || !is_object($this->q_gui->getObject())) {
             return "Error: Question not found.";
         }
 

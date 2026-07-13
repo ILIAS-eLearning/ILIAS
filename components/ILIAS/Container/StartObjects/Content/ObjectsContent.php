@@ -121,7 +121,8 @@ class ObjectsContent
                 $actions[$url] = $this->lng->txt('continue_work');
             }
 
-            if ($this->enable_desktop) {
+	    if ($this->enable_desktop) {
+                $this->lng->loadLanguageModule('dash');
                 // add to desktop link
                 if (!$this->fav_manager->ifIsFavourite($ilUser->getId(), $ref_id)) {
                     if ($ilAccess->checkAccess('read', '', $ref_id)) {
@@ -129,14 +130,14 @@ class ObjectsContent
                         $this->ctrl->setParameter($this->parent_obj, 'item_id', $ref_id);
                         $this->ctrl->setParameter($this->parent_obj, 'type', $type);
                         $url = $this->ctrl->getLinkTarget($this->parent_obj, 'addToDesk');
-                        $actions[$url] = $this->lng->txt("rep_add_to_favourites");
+                        $actions[$url] = $this->lng->txt("add_to_favourites");
                     }
                 } else {
                     $this->ctrl->setParameter($this->parent_obj, 'item_ref_id', $ref_id);
                     $this->ctrl->setParameter($this->parent_obj, 'item_id', $ref_id);
                     $this->ctrl->setParameter($this->parent_obj, 'type', $type);
                     $url = $this->ctrl->getLinkTarget($this->parent_obj, 'removeFromDesk');
-                    $actions[$url] = $this->lng->txt("rep_remove_from_favourites");
+                    $actions[$url] = $this->lng->txt("remove_from_favourites");
                 }
             }
 

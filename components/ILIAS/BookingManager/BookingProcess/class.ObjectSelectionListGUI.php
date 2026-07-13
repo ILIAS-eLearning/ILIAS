@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\BookingManager\BookingProcess;
 
+use ilGlobalTemplateInterface;
+
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
@@ -51,6 +53,14 @@ class ObjectSelectionListGUI
         $tpl = new \ilTemplate("tpl.obj_selection.html", true, true, "components/ILIAS/BookingManager/BookingProcess");
 
         $selected = $this->object_selection->getSelectedObjects();
+
+        if ($selected === []) {
+            $this->ui->mainTemplate()->setOnScreenMessage(
+                ilGlobalTemplateInterface::MESSAGE_TYPE_INFO,
+                $this->lng->txt("book_week_no_objects_selected")
+            );
+        }
+
         foreach ($this->object_manager->getObjectTitles() as $id => $title) {
             $tpl->setCurrentBlock("item");
             if (in_array($id, $selected)) {

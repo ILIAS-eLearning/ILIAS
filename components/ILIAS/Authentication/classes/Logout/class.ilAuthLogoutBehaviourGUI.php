@@ -39,11 +39,13 @@ class ilAuthLogoutBehaviourGUI
     private Refinery $refinery;
     private ilSetting $settings;
     private UIFactory $ui_factory;
+    private ilErrorHandling $ilErr;
     private UIRenderer $ui_renderer;
+    private ilRbacSystem $rbac_system;
     private ilGlobalTemplateInterface $tpl;
     private ConfigurableLogoutTarget $configurable_logout_target;
 
-    public function __construct()
+    public function __construct(private readonly int $ref_id)
     {
         global $DIC;
         $this->ctrl = $DIC->ctrl();
@@ -52,7 +54,9 @@ class ilAuthLogoutBehaviourGUI
         $this->refinery = $DIC->refinery();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->ui_factory = $DIC->ui()->factory();
+        $this->rbac_system = $DIC->rbac()->system();
         $this->ui_renderer = $DIC->ui()->renderer();
+        $this->ilErr = $DIC['ilErr'];
         $this->lng->loadLanguageModule('auth');
         $this->settings = new ilSetting('auth');
         $this->configurable_logout_target = new ConfigurableLogoutTarget(
@@ -157,6 +161,11 @@ class ilAuthLogoutBehaviourGUI
                 )
             );
 
+        $access = $this->rbac_system->checkAccess('write', $this->ref_id);
+        if (!$access) {
+            $logout_behaviour_switchable_group = $logout_behaviour_switchable_group->withDisabled(true);
+        }
+
         $section = $this->ui_factory->input()->field()
             ->section(
                 ['logout_behaviour_settings' => $logout_behaviour_switchable_group],
@@ -165,11 +174,17 @@ class ilAuthLogoutBehaviourGUI
 
         $form = $this->ui_factory->input()->container()->form()
             ->standard(
-                $this->ctrl->getFormAction($this, 'saveForm'),
+                $access ?
+                    $this->ctrl->getFormAction($this, 'saveForm') :
+                    $this->ctrl->getFormAction($this, 'showForm'),
                 ['logout_behaviour' => $section]
             );
         if ($request) {
             $form = $form->withRequest($request);
+        }
+
+        if (!$access) {
+            $form = $form->withSubmitLabel($this->lng->txt('refresh'));
         }
 
         return $form;
@@ -195,6 +210,11 @@ class ilAuthLogoutBehaviourGUI
 
     public function saveForm(): void
     {
+        if (!$this->rbac_system->checkAccess('write', $this->ref_id)) {
+            $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->WARNING);
+            return;
+        }
+
         $form = $this->getForm();
         $form = $form->withRequest($this->http->request());
         $section = $form->getInputs()['logout_behaviour'];

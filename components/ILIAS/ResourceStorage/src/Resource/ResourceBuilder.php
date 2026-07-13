@@ -526,7 +526,6 @@ class ResourceBuilder
 
     /**
      * @description Remove a complete revision. if there are other Stakeholder, only your stakeholder gets removed
-     * @param ResourceStakeholder|null $stakeholder
      * @return bool whether ResourceStakeholders handled this successful
      */
     public function remove(StorableResource $resource, ?ResourceStakeholder $stakeholder = null): bool
@@ -591,30 +590,31 @@ class ResourceBuilder
 
     private function ensurePathInZIP(\ZipArchive $zip, string $path, bool $is_file): string
     {
-        if ($path === '' || $path === '/') {
-            return $path;
+        // ZIP entries must be stored as relative paths. Some extraction tools
+        // (e.g. Windows Explorer) silently hide entries whose names start with
+        // "/". See Mantis 0045580 / 0047237.
+        $path = ltrim($path, '/');
+        if ($path === '') {
+            return '';
         }
 
         $filename = '';
         if ($is_file) {
             $filename = basename($path);
             $path = dirname($path);
+            if (in_array($path, ['.', '/', ''], true)) {
+                return $filename;
+            }
         }
 
-        // try to determine if a path inside the zip exists with or without a slash at the beginning
-        // determine root directory of the path using regex
         $parts = explode('/', $path);
         $root = array_shift($parts);
-        $root = $root === '' ? array_shift($parts) : $root;
 
-        // check if the root directory exists without a slash at the beginning
-        if ($zip->locateName($root . '/') !== false) {
-            $root = $root;
-        } elseif ($zip->locateName('/' . $root . '/') !== false) {
-            // check if the root directory exists with a slash at the beginning
-            $root = '/' . $root;
-        } else {
-            // if the root directory does not exist, create it
+        // ensure the root directory exists (tolerate legacy entries that were
+        // stored with a leading slash)
+        if ($zip->locateName($root . '/') === false
+            && $zip->locateName('/' . $root . '/') === false
+        ) {
             $zip->addEmptyDir($root);
         }
 
@@ -626,7 +626,11 @@ class ResourceBuilder
             }
         }
 
-        return rtrim((string) $path_inside_container, '/') . '/' . $filename;
+        if ($filename === '') {
+            return $path_inside_container . '/';
+        }
+
+        return $path_inside_container . '/' . $filename;
     }
 
     public function removePathInsideContainer(
@@ -753,7 +757,7 @@ class ResourceBuilder
         $revisions = $this->revision_repository->get($resource);
         $resource->setRevisions($revisions);
 
-        foreach ($revisions->getAll(true) as $i => $revision) {
+        foreach ($revisions->getAll(true) as $revision) {
             $information = $this->information_repository->get($revision);
             $revision->setInformation($information);
             $revision->setStorageID($resource->getStorageID());

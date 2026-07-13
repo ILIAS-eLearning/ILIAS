@@ -75,7 +75,11 @@ class ilImportContainer extends ilImport
         $class_name = "ilObj" . $this->objDefinition->getClassName($a_type);
 
         $new = new $class_name();
-        $new->setTitle('Import');
+
+        # Patch Start: Fix multilingualism replaces course title
+        $new->setTitle('NO TITLE');
+        # Patch End: Fix multilingualism replaces course title
+
         $new->create(true);
         $new->createReference();
         $new->putInTree($this->getMapping()->getTargetId());

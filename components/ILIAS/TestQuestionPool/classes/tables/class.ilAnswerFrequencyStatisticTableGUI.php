@@ -26,6 +26,7 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
     protected RefineryFactory $refinery;
+    protected ilAssHtmlUserSolutionPurifier $purifier;
     protected ilCtrl $ctrl;
     protected int $questionIndex;
     protected bool $actionsColumnEnabled = false;
@@ -47,6 +48,9 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
         $this->ui_renderer = $DIC['ui.renderer'];
         $this->refinery = $DIC['refinery'];
         $this->ctrl = $DIC['ilCtrl'];
+        $this->purifier = ilHtmlPurifierFactory::getInstanceByType(
+            'qpl_usersolution'
+        );
 
         $this->setId('tstAnswerStatistic');
         $this->setPrefix('tstAnswerStatistic');
@@ -111,7 +115,7 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
 
     public function fillRow(array $a_set): void
     {
-        $a_set['answer'] = ilLegacyFormElementsUtil::prepareFormOutput((string) $a_set['answer']);
+        $a_set['answer'] = $this->purifier->purify($a_set['answer']);
 
         $this->tpl->setCurrentBlock('answer');
         $this->tpl->setVariable('ANSWER', $a_set['answer']);

@@ -25,7 +25,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 class Data
 {
-    private array $system_information;
+    private array $system_information = [];
 
     public function __construct(
         private ?int $id = null,

@@ -13,7 +13,7 @@
 		<div class="row">
 			<div class="il-table-presentation-row-header col-lg col-sm-12">
 
-				<h4 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('{TOGGLE_SIGNAL}');">
+				<h{HEADING_LEVEL} class="il-table-presentation-row-header-headline" onClick="$(document).trigger('{TOGGLE_SIGNAL}');">
 					{SYMBOL}
 					{HEADLINE}
 					<!-- BEGIN subheadline -->
@@ -22,21 +22,23 @@
 						{SUBHEADLINE}
 					</small>
 					<!-- END subheadline -->
-				</h4>
+				</h{HEADING_LEVEL}>
 
 				<div class="il-table-presentation-row-header-fields">
-					<!-- BEGIN important_field -->
-					<div class="l-bar__space-keeper">
-						<div class="l-bar__group">
-							<!-- BEGIN important_field_label -->
-							<div class="il-table-presentation-row-header-fields-label l-bar__element">{IMPORTANT_FIELD_LABEL}</div>
-							<!-- END important_field_label -->
-							<!-- BEGIN important_field_value -->
-							<div class="il-table-presentation-row-header-fields-value l-bar__element">{IMPORTANT_FIELD_VALUE}</div>
-							<!-- END important_field_value -->
+					<dl>
+						<!-- BEGIN important_field -->
+						<div class="l-bar__space-keeper">
+							<div class="l-bar__group">
+								<!-- BEGIN important_field_label -->
+								<dt class="il-table-presentation-row-header-fields-label l-bar__element">{IMPORTANT_FIELD_LABEL}</dt>
+								<!-- END important_field_label -->
+								<!-- BEGIN important_field_value -->
+								<dd class="il-table-presentation-row-header-fields-value l-bar__element">{IMPORTANT_FIELD_VALUE}</dd>
+								<!-- END important_field_value -->
+							</div>
 						</div>
-					</div>
-					<!-- END important_field -->
+						<!-- END important_field -->
+					</dl>
 					{SHY_EXPANDER}
 				</div>
 			</div>
@@ -54,7 +56,7 @@
 
 						<div class="il-table-presentation-fields">
 							<!-- BEGIN further_fields_headline -->
-							<h5>{FURTHER_FIELDS_HEADLINE}</h5>
+							<h{HEADING_LEVEL_FURTHER}>{FURTHER_FIELDS_HEADLINE}</h{HEADING_LEVEL_FURTHER}>
 							<!-- END further_fields_headline -->
 
 							<!-- BEGIN further_field -->

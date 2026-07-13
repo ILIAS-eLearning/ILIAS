@@ -44,12 +44,17 @@ class PHPResponseBuilder implements ResponseBuilder
     ): ResponseInterface {
         $response = $this->buildHeaders($response, $stream);
         $server_params = $request->getServerParams();
+        $has_range = isset($server_params['HTTP_RANGE']) && $this->supportPartial();
 
         if ($request->getMethod() === 'HEAD') {
+            if ($has_range) {
+                return $this->buildPartialHeaders($request, $response, $stream)
+                    ->withBody(Streams::ofString(''));
+            }
             return $response->withStatus(200);
         }
 
-        if (isset($server_params['HTTP_RANGE']) && $this->supportPartial()) {
+        if ($has_range) {
             return $this->deliverPartial($request, $response, $stream);
         }
         return $this->deliverFull($response, $stream);
@@ -68,7 +73,7 @@ class PHPResponseBuilder implements ResponseBuilder
         try {
             $response = $response->withHeader(
                 ResponseHeader::LAST_MODIFIED,
-                date("D, j M Y H:i:s", filemtime($uri) ?: time()) . " GMT"
+                date("D, j M Y H:i:s", @filemtime($uri) ?: time()) . " GMT"
             );
         } catch (\Throwable) {
         }
@@ -92,49 +97,31 @@ class PHPResponseBuilder implements ResponseBuilder
         if (!$this->supportPartial()) {
             return $response;
         }
-        $request->getServerParams();
 
-        $start = 0;
-        $content_length = $stream->getSize();
-        $end = null;
-
-        $range_header = $request->getHeaderLine('Range');
-
-        if ($range_header && preg_match(
-            '%bytes=(\d+)-(\d+)?%i',
-            $range_header,
-            $match
-        )) {
-            $start = (int) $match[1];
-            if (isset($match[2])) {
-                $end = (int) $match[2];
-            }
-            $end ??= $content_length - 1;
-        }
+        [$start, $end, $content_length] = $this->parseRange($request, $stream);
 
         $response = $response->withStatus(206);
 
-        $length = $end - $start + 1;
+        $range_length = $end - $start + 1;
         $fh = $stream->detach();
 
-        // set $buffer_size to 8MB
-        $buffer_size = 8048 * 1000; // 8,048,000 bytes
+        // 8 MiB read buffer
+        $buffer_size = 8 * 1024 * 1024;
 
-        $output_length = 0;
         if ($stream->isSeekable()) {
             fseek($fh, $start);
-            while (!feof($fh) && $length > 0) {
-                $chunk_size_requested = min($buffer_size, $end - $start);
-                $content = fread($fh, $length);
+            $remaining = $range_length;
+            while (!feof($fh) && $remaining > 0) {
+                $content = fread($fh, min($buffer_size, $remaining));
                 if ($content === false) {
                     break;
                 }
-                $length -= strlen($content);
+                $remaining -= strlen($content);
                 $response->getBody()->write($content);
-                $output_length = strlen($content);
             }
+            $output_length = $range_length - $remaining;
         } else {
-            $length = $buffer_size;
+            $length = min($range_length, $buffer_size);
             $content = stream_get_contents($fh, $length, $start);
             $output_length = strlen($content);
             $response = $response->withBody(
@@ -149,6 +136,38 @@ class PHPResponseBuilder implements ResponseBuilder
         );
 
         return $response->withHeader(ResponseHeader::CONTENT_LENGTH, $output_length);
+    }
+
+    private function parseRange(
+        RequestInterface|ServerRequestInterface $request,
+        FileStream $stream,
+    ): array {
+        $content_length = $stream->getSize();
+        $start = 0;
+        $end = $content_length - 1;
+
+        $range_header = $request->getHeaderLine('Range');
+        if ($range_header && preg_match('%bytes=(\d+)-(\d+)?%i', $range_header, $match)) {
+            $start = (int) $match[1];
+            if (isset($match[2])) {
+                $end = (int) $match[2];
+            }
+        }
+
+        return [$start, $end, $content_length];
+    }
+
+    private function buildPartialHeaders(
+        RequestInterface|ServerRequestInterface $request,
+        ResponseInterface $response,
+        FileStream $stream,
+    ): ResponseInterface {
+        [$start, $end, $content_length] = $this->parseRange($request, $stream);
+
+        return $response
+            ->withStatus(206)
+            ->withHeader(ResponseHeader::CONTENT_RANGE, "bytes {$start}-{$end}/{$content_length}")
+            ->withHeader(ResponseHeader::CONTENT_LENGTH, (string) ($end - $start + 1));
     }
 
     public function supportPartial(): bool

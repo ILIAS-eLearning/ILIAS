@@ -18,8 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Results\Presentation\TitlesBuilder as ResultsTitlesBuilder;
 use ILIAS\Test\Presentation\PrintLayoutProvider;
+use ILIAS\Test\TestDIC;
 use ILIAS\UI\Component\ViewControl\Mode as ViewControlMode;
 use ILIAS\UI\Component\Link\Standard as StandardLink;
 use ILIAS\UI\Component\Panel\Sub as SubPanel;
@@ -48,11 +50,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     private const DEFAULT_CMD = 'outUserListOfAnswerPasses';
     protected ilTestAccess $testAccess;
     protected ilTestProcessLockerFactory $processLockerFactory;
+    private readonly ParticipantRepository $participant_repository;
 
     public function __construct(ilObjTest $object)
     {
         parent::__construct($object);
         $this->participant_access_filter = new ilTestParticipantAccessFilterFactory($this->access);
+        $this->participant_repository = TestDIC::dic()['participant.repository'];
 
         $this->processLockerFactory = new ilTestProcessLockerFactory(
             new ilSetting('assessment'),
@@ -138,10 +142,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                     $attempt_id = ilObjTest::_getResultPass($value);
                     $components = $this->buildAttemptComponents($value, $attempt_id, false, true);
                     return $this->ui_factory->panel()->sub(
-                        $this->buildResultsTitle(
-                            ilObjUser::_lookupFullname($this->object->_getUserIdFromActiveId($value)),
-                            $attempt_id
-                        ),
+                        $this->buildResultsTitle($value, $attempt_id),
                         $components
                     );
                 },
@@ -177,16 +178,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
 
         if ($this->testrequest->isset('attempt')) {
-            $attempt_id = $this->testrequest->int('attempt');
+            $attempt_id = min($this->testrequest->int('attempt'), ilObjTest::_getMaxPass($current_active_id));
         } else {
             $attempt_id = ilObjTest::_getResultPass($current_active_id);
         }
 
         $results_panel = $this->ui_factory->panel()->report(
-            $this->buildResultsTitle(
-                ilObjUser::_lookupFullname($this->object->_getUserIdFromActiveId($current_active_id)),
-                $attempt_id
-            ),
+            $this->buildResultsTitle($current_active_id, $attempt_id),
             $this->buildAttemptComponents($current_active_id, $attempt_id, true, false)
         );
 
@@ -327,7 +325,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 true
             ),
             $settings,
-            $this->buildResultsTitle($this->user->getFullname(), $pass),
+            $this->buildResultsTitle($active_id, $pass),
             false
         );
 
@@ -345,7 +343,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $test_session = $this->test_session_factory->getSession();
         $active_id = $test_session->getActiveId();
         $user_id = $this->user->getId();
-        $uname = $this->object->userLookupFullName($user_id, true);
 
         if (!$this->object->canShowTestResults($test_session)) {
             $this->ctrl->redirectByClass([ilRepositoryGUI::class, ilObjTestGUI::class, ilInfoScreenGUI::class]);
@@ -409,14 +406,22 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $grading_message_builder->sendMessage();
         }
 
-        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($test_session, $active_id, true);
-
         if (!$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
-            if ($this->object->getAnonymity()) {
+            $overwrite_anonymity = $test_session->getUserId() === $user_id;
+            if (!$overwrite_anonymity && $this->object->getAnonymity()) {
                 $template->setVariable('TEXT_HEADING', $this->lng->txt('tst_result'));
             } else {
-                $template->setVariable('TEXT_HEADING', sprintf($this->lng->txt('tst_result_user_name'), $uname));
-                $template->setVariable('USER_DATA', $user_data);
+                $template->setVariable(
+                    'TEXT_HEADING',
+                    sprintf(
+                        $this->lng->txt('tst_result_user_name'),
+                        $this->object->userLookupFullName($user_id, $overwrite_anonymity)
+                    )
+                );
+                $template->setVariable(
+                    'USER_DATA',
+                    $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($active_id, $overwrite_anonymity)
+                );
             }
         }
 
@@ -508,7 +513,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         );
         $template->setVariable('PASS_DETAILS', $answers);
 
-        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($test_session, $active_id, true);
+        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle(
+            $active_id,
+            $test_session->getUserId() === $user_id
+        );
         $template->setVariable('USER_DATA', $user_data);
         if (strlen($signature)) {
             $template->setVariable('SIGNATURE', $signature);
@@ -569,7 +577,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         switch ($context) {
             case ilTestPassDeletionConfirmationGUI::CONTEXT_PASS_OVERVIEW:
 
-                $this->ctrl->redirect($this, 'outUserResultsOverview');
+                $this->ctrl->redirect($this);
 
                 // no break
             case ilTestPassDeletionConfirmationGUI::CONTEXT_INFO_SCREEN:
@@ -783,7 +791,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $this->http->close();
     }
 
-    protected function buildResultsTitle(string $fullname, int $pass): string
+    protected function buildResultsTitle(int $active_id, int $pass): string
     {
         if ($this->object->getAnonymity()) {
             return sprintf(
@@ -794,7 +802,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         return sprintf(
             $this->lng->txt('tst_result_user_name_pass'),
             $pass + 1,
-            $fullname
+            $this->participant_repository->getParticipantByActiveId($this->object->getTestId(), $active_id)->getDisplayName($this->lng)
         );
     }
 

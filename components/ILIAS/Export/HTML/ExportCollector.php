@@ -26,6 +26,7 @@ use ILIAS\Export\HTML\DataService;
 class ExportCollector
 {
     protected string $rid = "";
+    protected array $paths_added = [];
 
     public function __construct(
         protected DataService $data,
@@ -86,6 +87,10 @@ class ExportCollector
         if ($this->rid === "") {
             throw $this->data->exportException("HTML Export has not been initialised.");
         }
+        if (in_array($target_path, $this->paths_added, true)) {
+            return;
+        }
+        $this->paths_added[] = $target_path;
         $this->repo->addFile(
             $this->rid,
             $fullpath,

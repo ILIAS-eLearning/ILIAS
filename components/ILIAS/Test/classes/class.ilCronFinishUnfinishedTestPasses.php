@@ -270,7 +270,7 @@ class ilCronFinishUnfinishedTestPasses extends CronJob
 
             (new ilTestPassFinishTasks(
                 $test_session,
-                $obj_id,
+                new ilObjTest($obj_id, false),
                 $this->test_result_repository
             ))->performFinishTasks($processLocker, StatusOfAttempt::FINISHED_BY_CRONJOB);
             $this->logger->info('Test session with active id (' . $active_id . ') and obj_id (' . $obj_id . ') is now finished.');

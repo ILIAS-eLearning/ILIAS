@@ -20,10 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\MainControls\Slate\Drilldown;
 
-use ILIAS\UI\examples\Menu\Drilldown;
-
 /**
  * ---
+ * description: >
+ *   Pressing the slate reveals a drilldown component.
+ *
  * expected output: >
  *   ILIAS shows the rendered Component.
  * ---

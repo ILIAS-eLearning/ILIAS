@@ -134,7 +134,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
     public function testScoreSettingsSectionScoring(): void
     {
         $s = new SettingsScoring(666);
-        $actual = $this->render(
+        $actual = $this->renderInsideContainer(
             $s->toForm(...$this->getUIPack())
         );
 
@@ -223,12 +223,20 @@ class ScoreSettingsTest extends ilTestBaseTestCase
 
     public function getUIFactory(): NoUIFactory
     {
-        return new class () extends NoUIFactory {
+        $language_mock = $this->createMock(\ILIAS\Language\Language::class);
+        $language_mock->method('txt')->willReturnArgument(0);
+
+        return new class ($language_mock) extends NoUIFactory {
+            public function __construct(
+                protected \ILIAS\Language\Language $language,
+            ) {
+            }
+
             public function symbol(): S\Factory
             {
                 return new S\Factory(
                     new S\Icon\Factory(),
-                    new S\Glyph\Factory(),
+                    new S\Glyph\Factory($this->language),
                     new S\Avatar\Factory()
                 );
             }
@@ -252,7 +260,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
         $ui = [$language, $field_factory, $refinery];
 
         $s = new SettingsResultSummary(666);
-        $actual = $this->render(
+        $actual = $this->renderInsideContainer(
             $s->toForm(...array_merge($ui, [[
                 'user_time_zone' => 'Europe/Berlin',
                 'user_date_format' => $data_factory->dateFormat()->withTime24(
@@ -291,7 +299,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
 
         $i1_1_4_1 = $this->getFormWrappedHtml(
             'date-time-field-input',
-            'tst_reporting_date<span class="asterisk" aria-label="required_field">*</span>',
+            'tst_reporting_date<span class="sr-only">required_field</span><span class="asterisk" aria-hidden="true">*</span>',
             '<div class="c-input-group">
                 <input id="id_6" type="datetime-local" class="c-field-datetime" />
             </div>',
@@ -303,7 +311,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
 
         $i1_1_4 = $this->getFormWrappedHtml(
             'group-field-input',
-            '<input type="radio" id="id_5" value="3" /><span>tst_results_access_date</span><span class="asterisk" aria-label="required_field">*</span>',
+            '<input type="radio" id="id_5" value="3" /><span>tst_results_access_date</span><span class="sr-only">required_field</span><span class="asterisk" aria-hidden="true">*</span>',
             $i1_1_4_1,
             'tst_results_access_date_desc',
             'id_5',
@@ -313,7 +321,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
 
         $i1_1 = $this->getFormWrappedHtml(
             'switchable-group-field-input',
-            'tst_results_access_setting<span class="asterisk" aria-label="required_field">*</span>',
+            'tst_results_access_setting<span class="sr-only">required_field</span><span class="asterisk" aria-hidden="true">*</span>',
             $i1_1_1 . $i1_1_2 . $i1_1_3 . $i1_1_4,
             null,
             null,
@@ -385,7 +393,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
     {
         $s = new SettingsResultDetails(666);
         $tax_ids = [1,2];
-        $actual = $this->render(
+        $actual = $this->renderInsideContainer(
             $s->toForm(
                 ...array_merge(
                     $this->getUIPack(),
@@ -435,13 +443,13 @@ class ScoreSettingsTest extends ilTestBaseTestCase
     public function testScoreSettingsSectionGamification(): void
     {
         $s = new SettingsGamification(666);
-        $actual = $this->render(
+        $actual = $this->renderInsideContainer(
             $s->toForm(...$this->getUIPack())
         );
 
         $fields = $this->getFormWrappedHtml(
             'radio-field-input',
-            'tst_highscore_mode<span class="asterisk" aria-label="required_field">*</span>',
+            'tst_highscore_mode<span class="sr-only">required_field</span><span class="asterisk" aria-hidden="true">*</span>',
             '<div class="c-field-radio">
                 <div class="c-field-radio__item">
                     <input type="radio" id="id_2_1_opt" value="1" /><label for="id_2_1_opt">tst_highscore_own_table</label><div class="c-input__help-byline">tst_highscore_own_table_description</div>
@@ -460,7 +468,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
         );
         $fields .= $this->getFormWrappedHtml(
             'numeric-field-input',
-            'tst_highscore_top_num<span class="asterisk" aria-label="required_field">*</span>',
+            'tst_highscore_top_num<span class="sr-only">required_field</span><span class="asterisk" aria-hidden="true">*</span>',
             '<input id="id_3" type="number" step="1" value="10" class="c-field-number" />',
             'tst_highscore_top_num_description',
             'id_3',

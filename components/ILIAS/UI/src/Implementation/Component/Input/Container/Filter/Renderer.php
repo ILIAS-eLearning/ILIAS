@@ -106,9 +106,9 @@ class Renderer extends AbstractComponentRenderer
         $tpl->parseCurrentBlock();
 
         $tpl->setVariable("TITLE_FILTER", $this->txt("filter"));
-        $glyph_collapse = $f->symbol()->glyph()->collapse();
+        $glyph_collapse = $f->symbol()->glyph()->collapse()->withLabel('');
         $tpl->setVariable("COLLAPSE_GLYPH", $default_renderer->render($glyph_collapse));
-        $glyph_expand = $f->symbol()->glyph()->expand();
+        $glyph_expand = $f->symbol()->glyph()->expand()->withLabel('');
         $tpl->setVariable("EXPAND_GLYPH", $default_renderer->render($glyph_expand));
 
         $is_expanded = $component->isExpanded();

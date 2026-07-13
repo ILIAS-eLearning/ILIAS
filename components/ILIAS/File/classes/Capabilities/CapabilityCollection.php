@@ -58,4 +58,16 @@ class CapabilityCollection
         return new Capability(Capabilities::NONE, Permissions::NONE);
     }
 
+    public function getBestOf(Capabilities ...$capabilities): Capability
+    {
+        foreach ($capabilities as $capability) {
+            foreach ($this->capabilities as $cap) {
+                if ($cap->getCapability() === $capability && $cap->isUnlocked()) {
+                    return $cap;
+                }
+            }
+        }
+        return new Capability(Capabilities::NONE, Permissions::NONE);
+    }
+
 }

@@ -109,7 +109,7 @@ class ilObjServerInfoGUI extends ilObject2GUI
 
         $this->tabs_gui->addTab(
             'java_server',
-            $this->lng->txt('java_server'),
+            $this->lng->txt('rpc_pdf_configuration'),
             $this->ctrl->getLinkTargetByClass([self::class, JavaServerGUI::class]),
         );
 

@@ -24,6 +24,9 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
 {
     private const OIDC_AUTH_IDTOKEN = 'oidc_auth_idtoken';
 
+    private const ERR_AUTH_FAILED = 'auth_oidc_failed';
+    private const ERR_AUTH_WRONG_LOGIN = 'err_wrong_login';
+
     private readonly ilOpenIdConnectSettings $settings;
     /** @var array $body */
     private readonly ilLogger $logger;
@@ -65,6 +68,13 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
 
     public function doAuthentication(ilAuthStatus $status): bool
     {
+        if (!$this->settings->getActive()) {
+            $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
+            $status->setTranslatedReason($this->lng->txt(self::ERR_AUTH_FAILED));
+            $this->logger->info('Authentication aborted, OIDC authentication is disabled');
+            return false;
+        }
+
         try {
             $oidc = $this->initClient();
             $oidc->setRedirectURL(ILIAS_HTTP_PATH . '/openidconnect.php');
@@ -107,7 +117,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
             $this->logger->warning($e->getMessage());
             $this->logger->warning((string) $e->getCode());
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
-            $status->setTranslatedReason($this->lng->txt('auth_oidc_failed'));
+            $status->setTranslatedReason($this->lng->txt(self::ERR_AUTH_FAILED));
             return false;
         }
     }
@@ -121,7 +131,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
             $this->logger->error('Received invalid user credentials: ');
             $this->logger->dump($user_info, ilLogLevel::ERROR);
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
-            $status->setReason('err_wrong_login');
+            $status->setReason(self::ERR_AUTH_WRONG_LOGIN);
             return $status;
         }
 
@@ -132,7 +142,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
             $this->logger->error('Could not determine valid external account, value is empty or not a string.');
             $this->logger->dump($user_info, ilLogLevel::ERROR);
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
-            $status->setReason('err_wrong_login');
+            $status->setReason(self::ERR_AUTH_WRONG_LOGIN);
             return $status;
         }
 
@@ -156,7 +166,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
             //$_GET['target'] = $this->getCredentials()->getRedirectionTarget();// TODO PHP8-REVIEW Please eliminate this. Mutating the request is not allowed and will not work in ILIAS 8.
         } catch (ilOpenIdConnectSyncForbiddenException) {
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
-            $status->setReason('err_wrong_login');
+            $status->setReason(self::ERR_AUTH_WRONG_LOGIN);
         }
 
         return $status;

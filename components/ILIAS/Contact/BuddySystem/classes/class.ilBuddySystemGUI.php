@@ -18,7 +18,11 @@
 
 declare(strict_types=1);
 
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\HTTP\Response\ResponseHeader;
 use ILIAS\HTTP\Services;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 /**
  * Class ilBuddySystemGUI
@@ -39,6 +43,8 @@ class ilBuddySystemGUI
     protected ilLanguage $lng;
     protected Services $http;
     private readonly ilGlobalTemplateInterface $main_tpl;
+    private UIFactory $ui_factory;
+    private UIRenderer $ui_renderer;
 
     public function __construct()
     {
@@ -49,6 +55,8 @@ class ilBuddySystemGUI
         $this->ctrl = $DIC['ilCtrl'];
         $this->user = $DIC['ilUser'];
         $this->lng = $DIC['lng'];
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         $this->buddyList = ilBuddyList::getInstanceByGlobalUser();
         $this->stateFactory = ilBuddySystemRelationStateFactory::getInstance();
@@ -68,8 +76,14 @@ class ilBuddySystemGUI
             $DIC->language()->loadLanguageModule('buddysystem');
 
             $page->addJavaScript('./assets/js/buddy_system.js');
+            $page->addJavaScript('./assets/js/modal.min.js');
 
             $config = new stdClass();
+            $config->async_get_unlink_modal_confirmation_html = $DIC->ctrl()->getLinkTargetByClass([
+                ilUIPluginRouterGUI::class,
+                self::class
+            ], 'asyncGetUnlinkModalConfirmationHtml', '', true, false);
+
             $config->http_post_url = $DIC->ctrl()->getFormActionByClass([
                 ilUIPluginRouterGUI::class,
                 self::class
@@ -85,6 +99,40 @@ class ilBuddySystemGUI
 
             self::$isFrontendInitialized = true;
         }
+    }
+
+    public function asyncGetUnlinkModalConfirmationHtmlCommand(): never
+    {
+        $modal_id = null;
+        $confirmation_modal = $this
+            ->ui_factory
+            ->modal()
+            ->interruptive(
+                $this->lng->txt('confirmation'),
+                $this->lng->txt('buddy_confirm_unlink'),
+                ''
+            )
+            ->withActionButtonLabel($this->lng->txt('confirm'))
+            ->withAdditionalOnLoadCode(function ($id) use (&$modal_id) {
+                $modal_id = $id;
+                return '';
+            });
+
+        $this->http->saveResponse(
+            $this->http->response()->withBody(
+                Streams::ofString(
+                    json_encode([
+                        'html' => $this->ui_renderer->renderAsync($confirmation_modal),
+                        'signals' => [
+                            'close' => $confirmation_modal->getCloseSignal()->getId()
+                        ],
+                        'modalId' => $modal_id
+                    ], JSON_THROW_ON_ERROR)
+                )
+            )->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
+        );
+        $this->http->sendResponse();
+        $this->http->close();
     }
 
     /**

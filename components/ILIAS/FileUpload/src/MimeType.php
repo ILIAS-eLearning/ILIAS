@@ -341,6 +341,7 @@ class MimeType
     public const IMAGE__VND_RN_REALPIX = 'image/vnd.rn-realpix';
     public const IMAGE__VND_WAP_WBMP = 'image/vnd.wap.wbmp';
     public const IMAGE__VND_XIFF = 'image/vnd.xiff';
+    public const IMAGE__WEBP = 'image/webp';
     public const IMAGE__XBM = 'image/xbm';
     public const IMAGE__XPM = 'image/xpm';
     public const IMAGE__X_ADOBE_DNG = 'image/x-adobe-dng';

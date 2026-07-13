@@ -63,7 +63,7 @@ class WeekGridGUI
 
     protected function getHoursOfDay(): array
     {
-        $hours = array();
+        $hours = [0 => ['caption' => $this->lng->txt('book_all_day'), 'start' => '00:00', 'end' => '24:00']];
         $sep = "<br>-<br>";
         for ($i = $this->day_start;$i <= $this->day_end;$i++) {
             $caption = "";
@@ -178,7 +178,7 @@ class WeekGridGUI
         foreach ($hours as $hour => $days) {
             $caption = $days["caption"];
             $day_of_week = 0;
-            foreach (\ilCalendarUtil::_buildWeekDayList($this->seed, $this->week_start)->get() as $date) {
+            foreach ($weekday_list as $date) {
                 $data = $cells[$day_of_week][$hour];
                 $total_tds = $cells[$day_of_week]["col_span"];
                 foreach ($data["entries"] as $e) {
@@ -216,10 +216,13 @@ class WeekGridGUI
      */
     protected function getEntriesForCell(int $start_ts, int $end_ts): array
     {
-        return array_filter($this->entries, function ($e) use ($start_ts, $end_ts) {
-            /** @var WeekGridEntry $e */
-            return ($e->getStart() < $end_ts && $e->getEnd() > $start_ts);
-        });
+        $all_day_cell = ($end_ts - $start_ts) === 86400;
+        return array_filter(
+            $this->entries,
+            static fn(WeekGridEntry $e) =>
+                ($all_day_cell && $e->isAllDay() && $e->getStart() === $start_ts && $e->getEnd() === $end_ts)
+                || (!$all_day_cell && !$e->isAllDay() && $e->getStart() < $end_ts && $e->getEnd() > $start_ts)
+        );
     }
 
     protected function renderCell(array $data)

@@ -131,19 +131,19 @@ class MenuGUI
 
 
         $numbered_list = $ui->renderer()->render(
-            $ui->factory()->symbol()->glyph()->numberedlist(null)
+            $ui->factory()->symbol()->glyph()->numberedlist()
         );
 
         $bullet_list = $ui->renderer()->render(
-            $ui->factory()->symbol()->glyph()->bulletlist(null)
+            $ui->factory()->symbol()->glyph()->bulletlist()
         );
 
         $indent = $ui->renderer()->render(
-            $ui->factory()->symbol()->glyph()->listindent(null)
+            $ui->factory()->symbol()->glyph()->listindent()
         );
 
         $outdent = $ui->renderer()->render(
-            $ui->factory()->symbol()->glyph()->listoutdent(null)
+            $ui->factory()->symbol()->glyph()->listoutdent()
         );
 
         // menu

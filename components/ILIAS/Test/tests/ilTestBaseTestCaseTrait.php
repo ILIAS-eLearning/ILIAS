@@ -424,6 +424,14 @@ trait ilTestBaseTestCaseTrait
         $this->setGlobalVariable('ui.upload_limit_resolver', $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class));
     }
 
+    protected function addGlobal_mail(): void
+    {
+        $this->setGlobalVariable(
+            \ILIAS\Mail\TemplateEngine\TemplateEngineFactoryInterface::class,
+            $this->createMock(\ILIAS\Mail\TemplateEngine\TemplateEngineFactoryInterface::class)
+        );
+    }
+
     protected function getFileDelivery(): \ILIAS\FileDelivery\Services
     {
         $data_signer = new ILIAS\FileDelivery\Token\DataSigner(

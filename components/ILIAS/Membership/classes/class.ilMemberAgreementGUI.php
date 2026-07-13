@@ -353,7 +353,10 @@ class ilMemberAgreementGUI
                     $field_id = $exp[0];
                     $option_id = $exp[1] ?? null;
                     $open_answer_indexes = $field_obj->getValueOptions();
-                    if (in_array($option_id, $open_answer_indexes)) {
+
+                    if ($option_id === null) {
+                        $value = '';
+                    } elseif (in_array($option_id, $open_answer_indexes)) {
                         $value = $form->getInput('cdf_oa_' . $field_obj->getId() . '_' . $option_id);
                     } else {
                         $value = $field_obj->getValueById((int) $option_id);

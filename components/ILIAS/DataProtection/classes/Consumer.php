@@ -22,7 +22,6 @@ namespace ILIAS\DataProtection;
 
 use ilLink;
 use ILIAS\Data\URI;
-use ILIAS\LegalDocuments\ConsumerToolbox\UI;
 use ILIAS\LegalDocuments\ConsumerToolbox\User;
 use ilDBConstants;
 use ilDBInterface;
@@ -71,7 +70,8 @@ final class Consumer implements ConsumerInterface
                      ->hasPublicApi($public_api);
 
         if (!$is_active) {
-            return $slot->hasPublicPage($blocks->notAvailable(...), self::GOTO_NAME);
+            return $slot->hasPublicPage($blocks->notAvailable(...), self::GOTO_NAME)
+                        ->showInFooter($blocks->slot()->dummyFooter(...));
         }
 
         $user = $build_user($this->container->user());
@@ -82,7 +82,7 @@ final class Consumer implements ConsumerInterface
         $constraint = $this->container->refinery()->custom()->constraint(...);
 
         if ($global_settings->noAcceptance()->value()) {
-            $slot = $slot->showInFooter($this->showMatchingDocument($user, $blocks->ui(), $provide))
+            $slot = $slot->showInFooter($this->showMatchingDocument($user, $blocks, $provide))
                          ->hasPublicPage($agreement->showAgreement(...), self::GOTO_NAME);
         } else {
             $slot = $slot->canWithdraw($blocks->slot()->withdrawProcess($user, $global_settings, $this->userHasWithdrawn(...)))
@@ -98,18 +98,18 @@ final class Consumer implements ConsumerInterface
         return $slot;
     }
 
-    private function showMatchingDocument(User $user, UI $ui, Provide $legal_documents): Closure
+    private function showMatchingDocument(User $user, Blocks $blocks, Provide $legal_documents): Closure
     {
-        return function (Closure $footer) use ($user, $ui, $legal_documents) {
-            $in_footer = fn($v) => $footer('usr_agreement', $ui->txt('usr_agreement'), $v);
+        return function (Closure $footer) use ($user, $blocks, $legal_documents) {
+            $in_footer = fn($v) => $footer($this->id(), $blocks->ui()->txt('usr_agreement'), $v);
             if (!$user->isLoggedIn()) {
                 return $in_footer(new URI(ilLink::_getLink(null, 'usr', [], self::GOTO_NAME)));
             }
             if ($user->cannotAgree()) {
-                return $footer;
+                return $blocks->slot()->dummyFooter($footer);
             }
 
-            $render = fn(Document $document): Closure => $in_footer($ui->create()->modal()->roundtrip(
+            $render = fn(Document $document): Closure => $in_footer($blocks->ui()->create()->modal()->roundtrip(
                 $document->content()->title(),
                 [$legal_documents->document()->contentAsComponent($document->content())]
             ));

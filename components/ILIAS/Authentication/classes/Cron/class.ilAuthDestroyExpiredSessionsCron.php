@@ -87,7 +87,7 @@ class ilAuthDestroyExpiredSessionsCron extends CronJob
         $result->setStatus(JobResult::STATUS_OK);
 
         $num_destroyed_sessions = ilSession::_destroyExpiredSessions();
-        ilSessionStatistics::aggretateRaw(time());
+        ilSessionStatistics::aggregateRaw(time());
         $result->setMessage('Number of destroyed sessions: ' . $num_destroyed_sessions);
 
         return $result;

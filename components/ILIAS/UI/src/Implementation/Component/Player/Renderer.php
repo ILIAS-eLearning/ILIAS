@@ -45,7 +45,7 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.audio.html", true, true);
 
-        $id = $this->bindJavaScript($component);
+        $id = $this->bindJavaScript($component) ?? $this->createId();
 
         if ($component->getTranscription() != "") {
             $factory = $this->getUIFactory();
@@ -96,7 +96,7 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl = $this->getTemplate("tpl.video_vimeo.html", true, true);
 
-        $id = $this->bindJavaScript($component);
+        $id = $this->bindJavaScript($component) ?? $this->createId();
 
         $tpl->setVariable("ID", $id);
         $tpl->setVariable("SOURCE", $component->getSource());
@@ -111,7 +111,7 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl = $this->getTemplate("tpl.video_youtube.html", true, true);
 
-        $id = $this->bindJavaScript($component);
+        $id = $this->bindJavaScript($component) ?? $this->createId();
 
         $tpl->setVariable("ID", $id);
         $tpl->setVariable("SOURCE", $component->getSource());
@@ -126,7 +126,7 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl = $this->getTemplate("tpl.video.html", true, true);
 
-        $id = $this->bindJavaScript($component);
+        $id = $this->bindJavaScript($component) ?? $this->createId();
 
         foreach ($component->getSubtitleFiles() as $lang_key => $file) {
             $tpl->setCurrentBlock("track");

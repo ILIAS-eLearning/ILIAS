@@ -114,4 +114,10 @@ class ilExcTutorFeedbackFileStakeholder extends AbstractResourceStakeholder
             $this->database = $DIC->database();
         }
     }
+
+    public function getConsumerNameForPresentation(): string
+    {
+        return "ILIAS/Exercise/TutorFeedbackFile";
+    }
+
 }

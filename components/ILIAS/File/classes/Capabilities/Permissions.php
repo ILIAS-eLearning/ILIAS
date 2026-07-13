@@ -27,7 +27,7 @@ enum Permissions: string
     case NONE = 'none';
     case VISIBLE = 'visible';
     case READ = 'read';
-    case VIEW_CONTENT = 'view_content';
+    case VIEW_CONTENT = 'file_view_content';
     case READ_LP = 'read_learning_progress';
     case EDIT_LP = 'edit_learning_progress';
     case EDIT_PERMISSIONS = 'edit_permission';

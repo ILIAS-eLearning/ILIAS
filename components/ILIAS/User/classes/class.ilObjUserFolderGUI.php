@@ -36,6 +36,7 @@ use ILIAS\Filesystem\Util\Archive\LegacyArchives;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\ResourceStorage\Services as ResourceStorage;
+use ILIAS\Mail\TemplateEngine\TemplateEngineFactoryInterface;
 
 ;
 
@@ -78,7 +79,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     private AdminTabs $admin_tabs;
     private int $user_owner_id = 0;
     private ilDBInterface $db;
-    private \ilMustacheFactory $mail_mustache_factory;
+    private TemplateEngineFactoryInterface $mail_template_engine_factory;
     private ilLogger $log;
     private ilAppEventHandler $event;
     private Filesystem $filesystem;
@@ -102,7 +103,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->filesystem = $DIC->filesystem()->storage();
         $this->upload = $DIC['upload'];
         $this->db = $DIC['ilDB'];
-        $this->mail_mustache_factory = $DIC->mail()->mustacheFactory();
+        $this->mail_template_engine_factory = $DIC->mail()->templateEngineFactory();
         $this->archives = $DIC->legacyArchives();
         $this->irss = $DIC['resource_storage'];
 
@@ -263,7 +264,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                         $this->ctrl,
                         $this->access,
                         $this->tpl,
-                        $this->mail_mustache_factory,
+                        $this->mail_template_engine_factory,
                         $this->ui_factory,
                         $this->ui_renderer,
                         $this->refinery,

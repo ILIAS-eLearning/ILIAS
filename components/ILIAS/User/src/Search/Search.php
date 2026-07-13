@@ -44,7 +44,8 @@ class Search
 
         return $this->ui_factory->input()->field()->tag($label, [], $byline)
             ->withSuggestionsStartAfter($endpoint->getSuggestionsStartAfter())
-            ->withAsyncAutocomplete(...$endpoint->acquireBuilderAndToken());
+            ->withAsyncAutocomplete(...$endpoint->acquireBuilderAndToken())
+            ->withoutStripTags();
     }
 
     /**

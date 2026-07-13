@@ -124,11 +124,18 @@ class ilBlogPosting extends ilPageObject
         bool $a_import = false
     ): void {
         $data = $this->internal_data;
+
+        if (!$a_import) {
+            $created = ilUtil::now();
+        } else {
+            $created = $this->getCreated()->get(IL_CAL_DATETIME);
+        }
+
         $post = $data->posting(
             0,
             $this->getBlogId(),
             $this->getTitle(),
-            new ilDateTime(ilUtil::now(), IL_CAL_DATETIME),
+            new ilDateTime($created, IL_CAL_DATETIME),
             $this->getAuthor(),
             $this->isApproved(),
             $this->getWithdrawn()

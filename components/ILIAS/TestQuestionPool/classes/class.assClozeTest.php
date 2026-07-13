@@ -311,24 +311,24 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $this->db->manipulateF(
             'INSERT INTO qpl_a_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, gap_size) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)',
             [
-                'integer',
-                'integer',
-                'integer',
-                'text',
-                'float',
-                'integer',
-                'text',
-                'integer'
+                ilDBConstants::T_INTEGER,
+                ilDBConstants::T_INTEGER,
+                ilDBConstants::T_INTEGER,
+                ilDBConstants::T_TEXT,
+                ilDBConstants::T_FLOAT,
+                ilDBConstants::T_INTEGER,
+                ilDBConstants::T_TEXT,
+                ilDBConstants::T_INTEGER
             ],
             [
                 $next_id,
                 $this->getId(),
                 $key,
-                strlen($item->getAnswertext()) ? $item->getAnswertext() : '',
+                $item->getAnswertext(),
                 $item->getPoints(),
                 $item->getOrder(),
                 $gap->getType(),
-                (int) $gap->getGapSize()
+                $gap->getGapSize()
             ]
         );
     }
@@ -342,24 +342,24 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $this->db->manipulateF(
             'INSERT INTO qpl_a_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, shuffle) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)',
             [
-                'integer',
-                'integer',
-                'integer',
-                'text',
-                'float',
-                'integer',
-                'text',
-                'text'
+                ilDBConstants::T_INTEGER,
+                ilDBConstants::T_INTEGER,
+                ilDBConstants::T_INTEGER,
+                ilDBConstants::T_TEXT,
+                ilDBConstants::T_FLOAT,
+                ilDBConstants::T_INTEGER,
+                ilDBConstants::T_TEXT,
+                ilDBConstants::T_TEXT
             ],
             [
                 $next_id,
                 $this->getId(),
                 $key,
-                strlen($item->getAnswertext()) ? $item->getAnswertext() : '',
+                $item->getAnswertext(),
                 $item->getPoints(),
                 $item->getOrder(),
                 $gap->getType(),
-                ($gap->getShuffle()) ? '1' : '0'
+                $gap->getShuffle() ? '1' : '0'
             ]
         );
     }
@@ -375,32 +375,32 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $this->db->manipulateF(
             'INSERT INTO qpl_a_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, lowerlimit, upperlimit, gap_size) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
             [
-                'integer',
-                'integer',
-                'integer',
-                'text',
-                'float',
-                'integer',
-                'text',
-                'text',
-                'text',
-                'integer'
+                ilDBConstants::T_INTEGER,
+                ilDBConstants::T_INTEGER,
+                ilDBConstants::T_INTEGER,
+                ilDBConstants::T_TEXT,
+                ilDBConstants::T_FLOAT,
+                ilDBConstants::T_INTEGER,
+                ilDBConstants::T_TEXT,
+                ilDBConstants::T_TEXT,
+                ilDBConstants::T_TEXT,
+                ilDBConstants::T_INTEGER
             ],
             [
                 $next_id,
                 $this->getId(),
                 $key,
-                strlen($item->getAnswertext()) ? $item->getAnswertext() : '',
+                $item->getAnswertext(),
                 $item->getPoints(),
                 $item->getOrder(),
                 $gap->getType(),
-                ($eval->e($item->getLowerBound()) !== false && strlen(
-                    $item->getLowerBound()
-                ) > 0) ? $item->getLowerBound() : $item->getAnswertext(),
-                ($eval->e($item->getUpperBound()) !== false && strlen(
-                    $item->getUpperBound()
-                ) > 0) ? $item->getUpperBound() : $item->getAnswertext(),
-                (int) $gap->getGapSize()
+                ($eval->e($item->getLowerBound()) !== false && ($item->getLowerBound() ?? '') !== '')
+                    ? $item->getLowerBound()
+                    : $item->getAnswertext(),
+                ($eval->e($item->getUpperBound()) !== false && ($item->getUpperBound() ?? '') !== '')
+                    ? $item->getUpperBound()
+                    : $item->getAnswertext(),
+                $gap->getGapSize()
             ]
         );
     }
@@ -791,7 +791,12 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 $target->getId(),
                 $this->gap_combinations,
             );
+
+            // Mantis 46713: The maximum points may have changed due to the combinations,
+            // so the question must be saved again
+            $target->saveToDb();
         }
+
         return $target;
     }
 

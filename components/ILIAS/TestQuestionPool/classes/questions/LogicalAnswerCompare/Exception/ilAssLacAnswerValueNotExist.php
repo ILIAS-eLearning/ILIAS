@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilAssLacQuestionNotReachable
  * @package
@@ -27,101 +29,51 @@
  */
 class ilAssLacAnswerValueNotExist extends ilAssLacException implements ilAssLacFormAlertProvider
 {
-    /**
-     * @var int
-     */
-    protected $question_index;
-
-    /**
-     * @var string
-     */
-    protected $value;
-
-    /**
-     * @var int
-     */
-    protected $answer_index;
-
-    /**
-     * @param int $question_index
-     * @param string $value
-     * @param int $answer_index
-     */
-    public function __construct($question_index, $value, $answer_index = null)
-    {
-        $this->question_index = $question_index;
-        $this->answer_index = $answer_index;
-        $this->value = $value;
-
+    public function __construct(
+        protected ?int $question_index,
+        protected string $value,
+        protected ?int $answer_index = null
+    ) {
         if ($this->getQuestionIndex() === null && $this->getAnswerIndex() === null) {
-            $msg = sprintf(
-                'The value "%s" does not exist for the current question',
-                $value
-            );
+            $msg = "The value \"{$value}\" does not exist for the current question";
         } elseif ($this->getQuestionIndex() === null) {
-            $msg = sprintf(
-                'The value "%s" does not exist for the answer with index "%s" of the current question',
-                $value,
-                $this->getAnswerIndex()
-            );
+            $msg = "The value \"{$value}\" does not exist for the answer with index \"{$this->getAnswerIndex()}\" of the current question";
         } elseif ($this->getAnswerIndex() === null) {
-            $msg = sprintf(
-                'The value "%s" does not exist for the question Q%s',
-                $value,
-                $this->getQuestionIndex()
-            );
+            $msg = "The value \"{$value}\" does not exist for the question Q{$this->getQuestionIndex()}";
         } else {
-            $msg = sprintf(
-                'The value "%s" does not exist for the question Q%s[%s]',
-                $value,
-                $this->getQuestionIndex(),
-                $this->getAnswerIndex()
-            );
+            $msg = "The value \"{$value}\" does not exist for the question Q{$this->getQuestionIndex()}[{$this->getAnswerIndex()}]";
         }
 
         parent::__construct($msg);
     }
 
-    /**
-     * @return int
-     */
-    public function getQuestionIndex(): int
+    public function getQuestionIndex(): ?int
     {
         return $this->question_index;
     }
 
-    /**
-     * @return int
-     */
     public function getAnswerIndex(): ?int
     {
         return $this->answer_index;
     }
 
-    /**
-     * @return string
-     */
     public function getValue(): string
     {
         return $this->value;
     }
 
-    /**
-     * @param ilLanguage $lng
-     * @return string
-     */
     public function getFormAlert(ilLanguage $lng): string
     {
         if ($this->getQuestionIndex() === null && $this->getAnswerIndex() === null) {
             return sprintf(
-                $lng->txt("ass_lac_answer_value_not_exists_cur_qst_one_answer"),
+                $lng->txt('ass_lac_answer_value_not_exists_cur_qst_one_answer'),
                 $this->getValue()
             );
         }
 
         if ($this->getQuestionIndex() === null) {
             return sprintf(
-                $lng->txt("ass_lac_answer_value_not_exists_cur_qst"),
+                $lng->txt('ass_lac_answer_value_not_exists_cur_qst'),
                 $this->getValue(),
                 $this->getAnswerIndex()
             );
@@ -129,14 +81,14 @@ class ilAssLacAnswerValueNotExist extends ilAssLacException implements ilAssLacF
 
         if ($this->getAnswerIndex() === null) {
             return sprintf(
-                $lng->txt("ass_lac_answer_value_not_exists_one_answer"),
+                $lng->txt('ass_lac_answer_value_not_exists_one_answer'),
                 $this->getValue(),
                 $this->getQuestionIndex()
             );
         }
 
         return sprintf(
-            $lng->txt("ass_lac_answer_value_not_exists"),
+            $lng->txt('ass_lac_answer_value_not_exists'),
             $this->getValue(),
             $this->getQuestionIndex(),
             $this->getAnswerIndex()

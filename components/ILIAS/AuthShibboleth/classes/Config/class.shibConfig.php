@@ -457,9 +457,6 @@ class shibConfig
         $this->update_title = $update_title;
     }
 
-    /**
-     * @return mixed
-     */
     public function getUpdateTitle(): bool
     {
         return $this->update_title;

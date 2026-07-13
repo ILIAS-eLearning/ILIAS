@@ -305,7 +305,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 
             $actions = [];
 
-            if ($a_set["url"]) {
+            if ($a_set["url"] ?? false) {
                 $actions[] = $ui_factory->link()->standard(
                     $lng->txt("edit"),
                     $a_set["url"]
@@ -342,7 +342,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
 
             // #11186
-            if ($a_set["url"]) {
+            if ($a_set["url"] ?? false) {
                 $this->tpl->setCurrentBlock("title_edit");
                 $this->tpl->setVariable("TITLE", $a_set["title"]);
                 $this->tpl->setVariable("URL_TITLE", $a_set["url"]);

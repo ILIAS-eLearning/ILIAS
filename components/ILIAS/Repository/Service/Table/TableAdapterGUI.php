@@ -156,9 +156,10 @@ class TableAdapterGUI
         string $title,
         array $class_path,
         string $cmd = "",
-        string $id_param = ""
+        string $id_param = "",
+        bool $async = false
     ): self {
-        $this->addAction(self::SINGLE, $action, $title);
+        $this->addAction(self::SINGLE, $action, $title, $async);
         $act = $this->actions[$this->last_action_key] ?? false;
         if ($act && $act["type"] === self::SINGLE) {
             $act["redirect_class_path"] = $class_path;

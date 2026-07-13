@@ -155,4 +155,51 @@ class Test11DBUpdateSteps implements \ilDatabaseUpdateSteps
             $this->db->modifyTableColumn('tst_test_settings', $column, ['length' => 8]);
         }
     }
+
+    public function step_4(): void
+    {
+        $table = 'qpl_a_cloze';
+        $column = 'answertext';
+        if ($this->db->tableExists($table) && $this->db->tableColumnExists($table, $column)) {
+            $this->db->manipulate("UPDATE {$table} SET {$column} = '' WHERE {$column} IS NULL");
+            $this->db->modifyTableColumn($table, $column, ['default' => '', 'notnull' => true]);
+        }
+    }
+
+    public function step_5(): void
+    {
+        $this->db->manipulate(
+            'DELETE FROM settings WHERE module="assessment" AND keyword="export_essay_qst_with_html"'
+        );
+    }
+
+    public function step_6(): void
+    {
+        $this->db->manipulate(
+            'UPDATE tst_rnd_quest_set_qpls SET pool_path = "" WHERE pool_path IS NULL'
+        );
+        $this->db->modifyTableColumn(
+            'tst_rnd_quest_set_qpls',
+            'pool_path',
+            [
+                'default' => '',
+                'notnull' => true
+            ]
+        );
+    }
+
+    public function step_7(): void
+    {
+        $this->db->manipulate(
+            'UPDATE tst_rnd_quest_set_qpls SET pool_title = "" WHERE pool_title IS NULL'
+        );
+        $this->db->modifyTableColumn(
+            'tst_rnd_quest_set_qpls',
+            'pool_title',
+            [
+                'default' => '',
+                'notnull' => true
+            ]
+        );
+    }
 }

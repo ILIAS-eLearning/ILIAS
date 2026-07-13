@@ -94,6 +94,11 @@ class ImageMapGUIRequest
         return $this->str("name_" . $nr);
     }
 
+    public function hasRow(int $nr): bool
+    {
+        return $this->has("name_" . $nr);
+    }
+
     public function getAreaName(): string
     {
         return $this->str("area_name");

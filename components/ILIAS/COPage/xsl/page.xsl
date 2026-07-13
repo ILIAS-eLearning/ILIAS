@@ -234,26 +234,11 @@
 <!-- output image map areas -->
 <xsl:template name="outputImageMapAreas">
 	<xsl:for-each select="../MapArea">
-
-		<!-- highlight mode -->
-		<xsl:variable name="hl_class">
-			<xsl:choose>
-				<xsl:when test="@HighlightClass = 'Dark'">"fillColor":"202020","strokeColor":"202020"</xsl:when>
-				<xsl:when test="@HighlightClass = 'Light'">"fillColor":"F0F0F0","strokeColor":"F0F0F0"</xsl:when>
-				<xsl:otherwise>"fillColor":"FF6633","strokeColor":"FF6633"</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:variable name="hl_mode">
-			<xsl:choose>
-				<xsl:when test="@HighlightMode = 'Hover'">,"fade":true</xsl:when>
-				<xsl:otherwise>,"alwaysOn":true,"fade":false</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-
 		<xsl:if test="@Shape != 'WholePicture' and $map_edit_mode = ''">
 			<area>
 				<xsl:if test="@HighlightMode != '' and $map_edit_mode = ''">
-					<xsl:attribute name="data-maphilight">{"neverOn":false, "fillOpacity":0, "strokeWidth":2,<xsl:value-of select = "$hl_class"/><xsl:value-of select = "$hl_mode"/>}</xsl:attribute>
+					<xsl:attribute name="data-hl-class"><xsl:value-of select = "@HighlightClass"/></xsl:attribute>
+					<xsl:attribute name="data-hl-mode"><xsl:value-of select = "@HighlightMode"/></xsl:attribute>
 				</xsl:if>
 				<xsl:attribute name="shape"><xsl:value-of select="@Shape"/></xsl:attribute>
 				<xsl:attribute name="coords"><xsl:value-of select="@Coords"/></xsl:attribute>
@@ -3591,7 +3576,7 @@
 
 <!-- GridCell -->
 <xsl:template match="GridCell">
-	<xsl:variable name="container_edit_class"><xsl:if test="$mode = 'edit'"> copg-edit-container</xsl:if></xsl:variable>
+	<xsl:variable name="container_edit_class"></xsl:variable>
 	<div style="position: relative;">
 		<xsl:attribute name="class">
 			<xsl:if test="@WIDTH_S != ''"> col-sm-<xsl:value-of select="@WIDTH_S"/></xsl:if>
@@ -3603,33 +3588,35 @@
 		</xsl:attribute>
 		<!-- we had a div height=100% here, this div enforced margin collapsing, see bug 31536, for height see 32067, removed due to 45294, cols are different in 9 now -->
 			<xsl:if test="$mode = 'edit'">
-				<xsl:call-template name="EditReturnAnchors"/>
+				<div class="copg-edit-container">
+					<xsl:call-template name="EditReturnAnchors"/>
+					<!-- drop area (js) -->
+					<xsl:if test="$javascript = 'enable'">
+						<xsl:call-template name="DropArea">
+							<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
+							<xsl:with-param name="pc_id"><xsl:value-of select="@PCID"/></xsl:with-param>
+						</xsl:call-template>
+					</xsl:if>
+					<!-- insert dropdown (no js) -->
+					<xsl:if test= "$javascript = 'disable'">
+						<select size="1" class="ilEditSelect">
+							<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
+							</xsl:attribute>
+							<xsl:call-template name="EditMenuInsertItems"/>
+						</select>
+						<input class="ilEditSubmit" type="submit">
+							<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
+							<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>]</xsl:attribute>
+						</input>
+						<br/>
+					</xsl:if>
+					<xsl:apply-templates select="PageContent"/>
+					<xsl:comment>End of Grid Cell</xsl:comment>
+				</div>
 			</xsl:if>
-			<!-- insert commands -->
-			<!-- <xsl:value-of select="@HierId"/> -->
-			<xsl:if test="$mode = 'edit'">
-				<!-- drop area (js) -->
-				<xsl:if test="$javascript = 'enable'">
-					<xsl:call-template name="DropArea">
-						<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
-						<xsl:with-param name="pc_id"><xsl:value-of select="@PCID"/></xsl:with-param>
-					</xsl:call-template>
-				</xsl:if>
-				<!-- insert dropdown (no js) -->
-				<xsl:if test= "$javascript = 'disable'">
-					<select size="1" class="ilEditSelect">
-						<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
-						</xsl:attribute>
-						<xsl:call-template name="EditMenuInsertItems"/>
-					</select>
-					<input class="ilEditSubmit" type="submit">
-						<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
-						<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>]</xsl:attribute>
-					</input>
-					<br/>
-				</xsl:if>
+			<xsl:if test="$mode != 'edit'">
+				<xsl:apply-templates select="PageContent"/>
 			</xsl:if>
-			<xsl:apply-templates select="PageContent"/>
 			<xsl:comment>End of Grid Cell</xsl:comment>
 	</div>
 </xsl:template>

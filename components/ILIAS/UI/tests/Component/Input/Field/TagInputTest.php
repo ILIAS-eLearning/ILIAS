@@ -75,7 +75,7 @@ class TagInputTest extends ILIAS_UI_TestBase
             'id_1',
             'id_2'
         );
-        $this->assertEquals($expected, $this->render($tag));
+        $this->assertEquals($expected, $this->renderInsideContainer($tag));
     }
 
     public function testCommonRendering(): void
@@ -302,5 +302,17 @@ class TagInputTest extends ILIAS_UI_TestBase
 
         $renderer = $this->getDefaultRenderer();
         $renderer->render($tag);
+    }
+
+    public function testWithoutStripTags(): void
+    {
+        $tag = $this->getFieldFactory()->tag('my_tag', [])
+            ->withoutStripTags()
+            ->withNameFrom($this->name_source)
+            ->withInput(new DefInputData(['name_0' => '<member>']));
+
+        $result = $tag->getContent();
+        $this->assertTrue($result->isOk());
+        $this->assertSame(['<member>'], $result->value());
     }
 }

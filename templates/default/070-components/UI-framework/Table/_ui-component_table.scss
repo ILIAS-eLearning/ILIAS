@@ -74,7 +74,7 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
             font-size: $il-font-size-large;
             font-weight: $il-font-weight-base;
             padding: 0;
-            margin: 0;
+            margin-top: 0;
             cursor: pointer;
         }
 
@@ -93,11 +93,11 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
     // add : to both importantfields and desclist keys
     .il-table-presentation-row-header-fields-label::after,
     .il-table-presentation-desclist .il-listing-characteristic-value-label::after {
-        content: ":";
+        content: ":\00a0";
     }
 
     .il-table-presentation-row-expanded {
-        margin-top:  $il-margin-large-vertical;
+        margin-top: 0;
 
         @include brk.on-screen-size('small') {
             order: 2;

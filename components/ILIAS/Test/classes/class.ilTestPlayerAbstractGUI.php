@@ -1030,30 +1030,33 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->test_result_repository->updateTestResultCache($this->test_session->getActiveId());
     }
 
-    protected function afterTestPassFinishedCmd()
+    protected function afterTestPassFinishedCmd(): void
     {
         // show final statement
-        if (!$this->testrequest->isset('skipfinalstatement')) {
-            if ($this->object->getMainSettings()->getFinishingSettings()->getConcludingRemarksEnabled()) {
-                $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_FINAL_STATMENT);
-            }
+        if (!$this->testrequest->isset('skipfinalstatement')
+            && $this->object->getMainSettings()->getFinishingSettings()->getConcludingRemarksEnabled()) {
+            $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_FINAL_STATMENT);
+        }
+
+        if ($this->object->canShowTestResults($this->test_session)) {
+            $this->redirectBackCmd();
         }
 
         // redirect after test
         $redirection_mode = $this->object->getMainSettings()->getFinishingSettings()->getRedirectionMode();
+        if ($redirection_mode === RedirectionModes::ALWAYS_TO_LOGOUT) {
+            $this->ctrl->redirectToURL(ilStartUpGUI::logoutUrl());
+        }
+
         $redirection_url = $this->object->getMainSettings()->getFinishingSettings()->getRedirectionUrl();
         if (empty($redirection_url)
-            || $this->object->canShowTestResults($this->test_session)
             || $redirection_mode === RedirectionModes::NONE
-            || $redirection_mode === RedirectionModes::IF_KIOSK_ACTIVATED && !$this->object->getKioskMode()) {
+            || $redirection_mode === RedirectionModes::IF_KIOSK_ACTIVATED
+                && !$this->object->getKioskMode()) {
             $this->redirectBackCmd();
         }
 
-        if ($redirection_mode === RedirectionModes::ALWAYS_TO_LOGOUT) {
-            $redirection_url = ilStartUpGUI::logoutUrl();
-        }
-
-        ilUtil::redirect($redirection_url);
+        $this->ctrl->redirectToURL($redirection_url);
     }
 
     public function buildFinishTestModal(): InterruptiveModal
@@ -2018,7 +2021,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         $this->tpl->setCurrentBlock("adm_content");
         $this->tpl->setVariable("TXT_ANSWER_SHEET", $this->lng->txt("tst_list_of_answers"));
-        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($this->test_session, $active_id, true);
+        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($active_id);
         $signature = $this->getResultsSignature();
         $this->tpl->setVariable("USER_DETAILS", $user_data);
         $this->tpl->setVariable("SIGNATURE", $signature);

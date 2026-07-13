@@ -45,6 +45,7 @@ class ilPasswordAssistanceGUI implements ilCtrlSecurityInterface
     private ilObjUser $actor;
     private ILIAS\Data\Clock\ClockInterface $clock;
     private ILIAS\Init\PasswordAssitance\PasswordAssistanceRepository $pwa_repository;
+    private readonly \ILIAS\Mail\Service\MailSignatureService $signature_service;
 
     public function __construct()
     {
@@ -68,6 +69,7 @@ class ilPasswordAssistanceGUI implements ilCtrlSecurityInterface
             $this->clock
         );
         $this->help->setScreenIdComponent('init');
+        $this->signature_service = $DIC->mail()->signature();
     }
 
     private function retrieveRequestedKey(): string
@@ -419,9 +421,7 @@ class ilPasswordAssistanceGUI implements ilCtrlSecurityInterface
         $mm->From($sender);
         $mm->To($userObj->getEmail());
         $mm->Body(
-            str_replace(
-                ["\\n", "\\t"],
-                ["\n", "\t"],
+            $this->buildSystemMailBody(
                 sprintf(
                     $this->lng->txt('pwassist_mail_body'),
                     $pwassist_url,
@@ -816,9 +816,7 @@ class ilPasswordAssistanceGUI implements ilCtrlSecurityInterface
         $mm->From($sender);
         $mm->To($email);
         $mm->Body(
-            str_replace(
-                ["\\n", "\\t"],
-                ["\n", "\t"],
+            $this->buildSystemMailBody(
                 sprintf(
                     $this->lng->txt('pwassist_username_mail_body'),
                     implode(",\n", $logins),
@@ -853,5 +851,22 @@ class ilPasswordAssistanceGUI implements ilCtrlSecurityInterface
     private function fillPermanentLink(string $context): void
     {
         $this->tpl->setPermanentLink('usr', null, $context);
+    }
+
+    /**
+     * Appends the installation signature using line breaks that match the resolved mail body format.
+     * This should be not needed once "Mail" does not accept primitive strings anymore but supports
+     * real "Text" handling {@see docs/development/text-representation.md}
+     */
+    private function buildSystemMailBody(string $content): string
+    {
+        $body = str_replace(["\\n", "\\t"], ["\n", "\t"], $content);
+        $signature = $this->signature_service->installation();
+
+        if (strip_tags($body) !== $body) {
+            $signature = nl2br($signature);
+        }
+
+        return $body . $signature;
     }
 }

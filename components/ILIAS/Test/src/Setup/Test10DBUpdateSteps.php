@@ -349,6 +349,10 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
         }
 
         if (!$this->db->primaryExistsByFields('tst_addtime', ['user_fi', 'test_fi'])) {
+            $this->db->manipulate(
+                'DELETE FROM tst_addtime WHERE test_fi = 0 OR user_fi = 0'
+            );
+
             $this->db->addPrimaryKey('tst_addtime', ['user_fi', 'test_fi']);
         }
     }

@@ -71,8 +71,11 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
     protected array $questions = [];
 
-    private ?Order $order = null;
+    private ?string $order_field = null;
+    private ?string $order_direction = null;
     private ?Range $range = null;
+
+    private ilComponentFactory $component_factory;
 
     public function __construct(
         private ilDBInterface $db,
@@ -81,11 +84,16 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         private ilComponentRepository $component_repository,
         private ?NotesService $notes_service = null
     ) {
+        global $DIC;
+        $this->component_factory = $DIC['component.factory'];
     }
 
     public function setOrder(?Order $order = null): void
     {
-        $this->order = $order;
+        [
+            'order_field' => $this->order_field,
+            'order_direction' => $this->order_direction
+        ] = $this->getOrderFieldAndDirection($order);
     }
 
     public function setRange(?Range $range = null): void
@@ -213,7 +221,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $expressions;
     }
 
-    private function handleFeedbackJoin(string $tableJoin): string
+    private function addFeedbackJoinIfNeeded(string $table_join): string
     {
         $feedback_join = match ($this->fieldFilters['feedback'] ?? null) {
             'true' => 'INNER',
@@ -222,11 +230,11 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         };
 
         if (isset($feedback_join)) {
-            $SQL = "$feedback_join JOIN qpl_fb_generic ON qpl_fb_generic.question_fi = qpl_questions.question_id ";
-            $tableJoin .= !str_contains($tableJoin, $SQL) ? $SQL : '';
+            $sql = "{$feedback_join} JOIN qpl_fb_generic ON qpl_fb_generic.question_fi = qpl_questions.question_id ";
+            $table_join .= !str_contains($table_join, $sql) ? $sql : '';
         }
 
-        return $tableJoin;
+        return $table_join;
     }
 
     private function getTaxonomyFilterExpressions(): array
@@ -368,36 +376,33 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
     private function getTableJoinExpression(): string
     {
-        $tableJoin = '
-			INNER JOIN	qpl_qst_type
-			ON			qpl_qst_type.question_type_id = qpl_questions.question_type_fi
-		';
+        $table_join = 'INNER JOIN qpl_qst_type ON qpl_qst_type.question_type_id = qpl_questions.question_type_fi ';
 
         if ($this->join_obj_data) {
-            $tableJoin .= '
-				INNER JOIN	object_data
-				ON			object_data.obj_id = qpl_questions.obj_fi
-			';
+            $table_join .= '
+                INNER JOIN object_data ON object_data.obj_id = qpl_questions.obj_fi
+                INNER JOIN object_reference ON object_reference.obj_id = object_data.obj_id
+            ';
         }
 
         if (
             $this->parentObjType === 'tst'
             && $this->questionInstanceTypeFilter === self::QUESTION_INSTANCE_TYPE_ALL
         ) {
-            $tableJoin .= 'INNER JOIN tst_test_question tstquest ON tstquest.question_fi = qpl_questions.question_id';
+            $table_join .= 'INNER JOIN tst_test_question tstquest ON tstquest.question_fi = qpl_questions.question_id';
         }
 
-        $tableJoin = $this->handleFeedbackJoin($tableJoin);
+        $table_join = $this->addFeedbackJoinIfNeeded($table_join);
 
         if ($this->answerStatusActiveId) {
-            $tableJoin .= "
+            $table_join .= "
 				LEFT JOIN	tst_test_result
 				ON			tst_test_result.question_fi = qpl_questions.question_id
 				AND			tst_test_result.active_fi = {$this->db->quote($this->answerStatusActiveId, ilDBConstants::T_INTEGER)}
 			";
         }
 
-        return $tableJoin;
+        return $table_join;
     }
 
     private function getConditionalFilterExpression(): string
@@ -428,14 +433,14 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
     {
         $select_fields = [
             'qpl_questions.*',
-            'qpl_qst_type.type_tag',
+            'qpl_qst_type.type_tag AS question_type',
             'qpl_qst_type.plugin',
             'qpl_qst_type.plugin_name',
             'qpl_questions.points max_points'
         ];
 
         if ($this->join_obj_data) {
-            $select_fields[] = 'object_data.title parent_title';
+            $select_fields[] = 'object_data.title parent_title, object_data.type parent_type, object_reference.ref_id parent_ref_id';
         }
 
         if ($this->answerStatusActiveId) {
@@ -513,35 +518,43 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
     private function buildOrderQueryExpression(): string
     {
-        $order = $this->order;
-        if ($order === null) {
-            return '';
-        }
-
-        [$order_field, $order_direction] = $order->join(
-            '',
-            static fn(string $index, string $key, string $value): array => [$key, $value]
-        );
-
-        $order_direction = strtoupper($order_direction);
-        if (!in_array($order_direction, [Order::ASC, Order::DESC], true)) {
-            $order_direction = Order::ASC;
-        }
-
-        return " ORDER BY `$order_field` $order_direction";
+        return $this->order_field === null || $this->order_direction === null || $this->order_field === 'question_type'
+            ? ''
+            : " ORDER BY `$this->order_field` $this->order_direction";
     }
 
     private function buildLimitQueryExpression(): string
     {
-        $range = $this->range;
-        if ($range === null) {
+        if ($this->order_field === 'question_type'
+            || $this->range === null) {
             return '';
         }
 
-        $limit = max($range->getLength(), 0);
-        $offset = max($range->getStart(), 0);
+        $limit = max($this->range->getLength(), 0);
+        $offset = max($this->range->getStart(), 0);
 
-        return " LIMIT $limit OFFSET $offset";
+        return " LIMIT {$limit} OFFSET {$offset}";
+    }
+
+    private function getOrderFieldAndDirection(?Order $order): ?array
+    {
+        if ($order === null) {
+            return ['order_field' => null, 'order_direction' => null];
+        }
+
+        [$order_field, $order_direction] = $order->join(
+            '',
+            static fn(string $index, string $key, string $value): array => [
+                $key,
+                strtoupper($value)
+            ]
+        );
+
+        if (!in_array($order_direction, [Order::ASC, Order::DESC], true)) {
+            $order_direction = Order::ASC;
+        }
+
+        return ['order_field' => $order_field, 'order_direction' => $order_direction];
     }
 
     private function buildQuery(): string
@@ -562,8 +575,8 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         $tags_trafo = $this->refinery->encode()->htmlSpecialCharsAsEntities();
 
         $res = $this->db->query($this->buildQuery());
-        while ($row = $this->db->fetchAssoc($res)) {
-            $row = ilAssQuestionType::completeMissingPluginName($row);
+        while ($row_from_db = $this->db->fetchAssoc($res)) {
+            $row = ilAssQuestionType::completeMissingPluginName($row_from_db);
 
             if (!$this->isActiveQuestionType($row)) {
                 continue;
@@ -573,7 +586,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
             $row['description'] = $tags_trafo->transform($row['description'] ?? '');
             $row['author'] = $tags_trafo->transform($row['author']);
             $row['taxonomies'] = $this->loadTaxonomyAssignmentData($row['obj_fi'], $row['question_id']);
-            $row['ttype'] = $this->lng->txt($row['type_tag']);
+            $row['question_type'] = $this->getQuestionTypeTranslation($row);
             $row['feedback'] = $row['feedback'] === 1;
             $row['comments'] = $this->getNumberOfCommentsForQuestion($row['question_id']);
 
@@ -586,6 +599,30 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
             $this->questions[$row['question_id']] = $row;
         }
+
+        if ($this->order_field === 'question_type') {
+            $this->questions = $this->orderAndLimitByQuestionType($this->questions);
+        }
+    }
+
+    private function orderAndLimitByQuestionType(
+        array $questions
+    ): array {
+        $direction = $this->order_direction === Order::DESC ? -1 : 1;
+        usort(
+            $questions,
+            fn(array $a, array $b): int => $direction * ($a['question_type'] <=> $b['question_type'])
+        );
+
+        if ($this->range !== null) {
+            $questions = array_slice(
+                $questions,
+                $this->range->getStart(),
+                $this->range->getLength()
+            );
+        }
+
+        return $questions;
     }
 
     public function getTotalRowCount(
@@ -669,6 +706,21 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
             ->getPluginSlotById('qst')
             ->getPluginByName($questionData['plugin_name'])
             ->isActive();
+    }
+
+    private function getQuestionTypeTranslation(array $question_data): string
+    {
+        if (!($question_data['plugin'] ?? false)) {
+            return $this->lng->txt($question_data['question_type']);
+        }
+
+        foreach ($this->component_factory->getActivePluginsInSlot('qst') as $plugin) {
+            if ($plugin->getQuestionType() === $question_data['question_type']) {
+                return $plugin->getQuestionTypeTranslation();
+            }
+        }
+
+        return $this->lng->txt($question_data['question_type']);
     }
 
     public function getDataArrayForQuestionId(int $questionId): array

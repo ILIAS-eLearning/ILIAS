@@ -20,7 +20,6 @@ use ILIAS\components\File\Preview\Form;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
-use ILIAS\HTTP\Services;
 use ILIAS\File\Icon\ilObjFileIconsOverviewGUI;
 use ILIAS\components\File\Preview\Settings;
 use ILIAS\components\File\Settings\General;
@@ -47,6 +46,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     private ilLanguage $language;
     private Form $preview_settings;
     private \ILIAS\components\File\Settings\Form $file_object_settings;
+    private bool $write_access;
     protected Factory $ui_factory;
     protected Renderer $ui_renderer;
 
@@ -60,8 +60,15 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         global $DIC;
         $this->type = "facs";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
-        $this->preview_settings = new Form(new Settings());
-        $this->file_object_settings = new \ILIAS\components\File\Settings\Form(new General());
+        $this->write_access = $this->access->checkAccess('write', '', $this->object->getRefId());
+        $this->preview_settings = new Form(
+            new Settings(),
+            $this->write_access
+        );
+        $this->file_object_settings = new \ILIAS\components\File\Settings\Form(
+            new General(),
+            $this->write_access
+        );
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->language = $DIC->language();
@@ -104,7 +111,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
             case strtolower(ilObjFileIconsOverviewGUI::class):
-                $this->tabs_gui->setTabActive('file_objects');
+                $this->tabs_gui->setTabActive('settings');
                 $this->addFileObjectsSubTabs();
                 $this->tabs_gui->setSubTabActive(self::SUBTAB_SUFFIX_SPECIFIC_ICONS);
                 $icon_overview = new ilObjFileIconsOverviewGUI();
@@ -112,7 +119,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
                 break;
             default:
                 $cmd = $this->ctrl->getCmd(self::CMD_EDIT_SETTINGS);
-                $this->tabs_gui->setTabActive('file_objects');
+                $this->tabs_gui->setTabActive('settings');
                 switch ($cmd) {
                     case self::CMD_VIEW:
                     case self::CMD_EDIT_SETTINGS:
@@ -135,7 +142,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     {
         if ($this->rbac_system->checkAccess("read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
-                'file_objects',
+                'settings',
                 $this->ctrl->getLinkTarget($this, self::CMD_EDIT_SETTINGS),
                 [self::CMD_EDIT_SETTINGS, self::CMD_VIEW]
             );
@@ -169,7 +176,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     {
         $this->addFileObjectsSubTabs();
         $this->tabs_gui->setSubTabActive("settings");
-        $form = $this->buildForm();
         $this->tpl->setContent($this->ui_renderer->render($this->buildForm()));
     }
 

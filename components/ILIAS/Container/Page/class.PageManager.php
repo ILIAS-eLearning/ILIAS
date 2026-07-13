@@ -103,4 +103,23 @@ class PageManager
         return $page->getDomDoc();
     }
 
+    public function getPage(): ?\ilContainerPage
+    {
+        $page = null;
+        if (\ilContainerPage::_exists(
+            "cont",
+            $this->container->getId()
+        )) {
+            $page = new \ilContainerPage($this->container->getId());
+        }
+        return $page;
+    }
+
+    public function deletePage(): void
+    {
+        if ($page = $this->getPage()) {
+            $page->delete();
+        }
+    }
+
 }

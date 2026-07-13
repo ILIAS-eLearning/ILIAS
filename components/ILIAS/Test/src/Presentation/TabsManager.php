@@ -724,15 +724,11 @@ class TabsManager
 
     protected function getYourResultsTabTarget(): string
     {
-        if ($this->needsLoResultsSubTab()) {
-            return $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, \ilTestResultsGUI::class, \ilTestEvalObjectiveOrientedGUI::class]);
-        }
-
-        if ($this->needsYourSolutionsSubTab()) {
-            return $this->ctrl->getLinkTargetByClass([\ilTestResultsGUI::class, \ilMyTestSolutionsGUI::class, \ilTestEvaluationGUI::class]);
-        }
-
-        return $this->ctrl->getLinkTargetByClass([\ilTestResultsGUI::class, \ilMyTestResultsGUI::class, \ilTestEvaluationGUI::class]);
+        return $this->ctrl->getLinkTargetByClass(
+            $this->needsLoResultsSubTab()
+                ? [\ilObjTestGUI::class, \ilTestResultsGUI::class, \ilTestEvalObjectiveOrientedGUI::class]
+                : [\ilTestResultsGUI::class, \ilMyTestResultsGUI::class, \ilTestEvaluationGUI::class]
+        );
     }
 
     protected function needsYourResultsSubTab(): bool
@@ -816,7 +812,10 @@ class TabsManager
             $this->tabs->addSubTab(
                 self::SUBTAB_ID_MY_SOLUTIONS,
                 $this->lng->txt('tst_list_of_answers_show'),
-                $this->ctrl->getLinkTargetByClass([\ilTestResultsGUI::class, \ilMyTestSolutionsGUI::class, \ilTestEvaluationGUI::class])
+                $this->ctrl->getLinkTargetByClass(
+                    [\ilTestResultsGUI::class, \ilMyTestResultsGUI::class, \ilTestEvaluationGUI::class],
+                    'outUserListOfAnswerPasses'
+                )
             );
         }
     }

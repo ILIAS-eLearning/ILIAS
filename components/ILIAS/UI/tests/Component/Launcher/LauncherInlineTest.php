@@ -28,6 +28,8 @@ use ILIAS\Refinery\Factory as Refinery;
 
 class LauncherInlineTest extends ILIAS_UI_TestBase
 {
+    use LanguageStubs;
+
     protected ILIAS\Data\Factory $df;
     protected ILIAS\Language\Language $language;
 
@@ -65,9 +67,14 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
 
     public function getUIFactory(): NoUIFactory
     {
-        $factory = new class () extends NoUIFactory {
+        $factory = new class ($this->createRelayArgumentLanguageStub()) extends NoUIFactory {
             public I\SignalGenerator $sig_gen;
             public I\Input\Field\Factory $input_factory;
+
+            public function __construct(
+                protected \ILIAS\Language\Language $language,
+            ) {
+            }
 
             public function button(): I\Button\Factory
             {
@@ -77,7 +84,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
             {
                 return new I\Symbol\Factory(
                     new I\Symbol\Icon\Factory(),
-                    new I\Symbol\Glyph\Factory(),
+                    new I\Symbol\Glyph\Factory($this->language),
                     new I\Symbol\Avatar\Factory()
                 );
             }
@@ -218,7 +225,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
     <div class="c-launcher__description">
         some description
     </div>
-    <button class="btn btn-bulky" id="id_5" disabled="disabled"><span class="glyph" role="img"><span class="glyphicon glyphicon-launch" aria-hidden="true"></span></span><span class="bulky-label">different label</span></button>
+    <button class="btn btn-bulky" id="id_5" disabled="disabled"><span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-launch" aria-hidden="true"></span></span><span class="bulky-label">different label</span></button>
     <div class="c-launcher__form">
         <dialog class="c-modal il-modal-roundtrip" tabindex="-1" id="id_1">
             <div class="modal-dialog" role="document" data-replace-marker="component">

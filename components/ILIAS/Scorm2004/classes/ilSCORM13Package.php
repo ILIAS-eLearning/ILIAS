@@ -203,7 +203,7 @@ class ilSCORM13Package
         $j['foreignId'] = floatval($x['foreignId']); // manifest cp_node_id for associating global (package wide) objectives
         $j['id'] = strval($x['id']); // manifest id for associating global (package wide) objectives
         $j['item']['title'] = ilUtil::stripSlashes($j['item']['title']);
-        for($i = 0; $i < count($j['item']['item']); $i++) {
+        for ($i = 0; $i < count($j['item']['item']); $i++) {
             $j['item']['item'][$i]['title'] = ilUtil::stripSlashes($j['item']['item'][$i]['title']);
         }
 

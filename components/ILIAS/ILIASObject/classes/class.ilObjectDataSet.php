@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\ILIASObject\LocalDIC;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Services as ResourceStorage;
 use ILIAS\ILIASObject\Properties\Aggregator;
 use ILIAS\ILIASObject\Properties\Translations\Language;
@@ -217,12 +218,14 @@ class ilObjectDataSet extends ilDataSet
         if ($entity == "tile") {
             $this->data = [];
             foreach ($ids as $id) {
-                $rid = $this->properties_aggregator->getFor((int) $id)
+                $rid_string = $this->properties_aggregator->getFor((int) $id)
                     ->getPropertyTileImage()->getTileImage()->getRid();
-                if ($rid === null) {
+                if ($rid_string === null
+                    || ($rid = $this->storage->manage()->find($rid_string)) === null) {
                     continue;
                 }
 
+                ;
                 $temp_dir = $this->copyTileToTempFolderForExport($rid);
 
                 $this->data[] = [
@@ -250,15 +253,20 @@ class ilObjectDataSet extends ilDataSet
         }
     }
 
-    private function copyTileToTempFolderForExport(string $rid): string
+    private function copyTileToTempFolderForExport(ResourceIdentification $rid): string
     {
-        $i = $this->storage->manage()->find($rid);
-        $resource = $this->storage->manage()->getResource($i);
-        $path_in_container = "/dsDir_" . $this->dircnt . "/" . $resource->getCurrentRevision()->getTitle();
+        $path_in_container = "/dsDir_{$this->dircnt}/"
+            . $this->storage->manage()->getResource($rid)
+                ->getCurrentRevision()->getTitle();
         $path_in_container = $this->export->isContainerExport()
-            ? $this->export->getPathToComponentExpDirInContainerWithLeadingSetNumber() . $path_in_container
-            : $this->export->getPathToComponentExpDirInContainer() . $path_in_container;
-        $this->export->getExportWriter()->writeFilesByResourceId($rid, $path_in_container);
+            ? $this->export->getPathToComponentExpDirInContainerWithLeadingSetNumber()
+                . $path_in_container
+            : $this->export->getPathToComponentExpDirInContainer()
+                . $path_in_container;
+        $this->export->getExportWriter()->writeFilesByResourceId(
+            $rid->serialize(),
+            $path_in_container
+        );
         return $path_in_container;
     }
     /**
@@ -327,13 +335,14 @@ class ilObjectDataSet extends ilDataSet
                     break;
                 }
                 $transl = $this->translations_repository->getFor($new_id);
-                if ($transl->getLaguageForCode($rec['LangCode']) === null) {
-                    self::$base_lang = $rec['LangCode'];
+                $lang_code = $rec['LangCode'] ?? $rec['MasterLang'];
+                if ($transl->getLaguageForCode($lang_code) === null) {
+                    self::$base_lang = $lang_code;
                     break;
                 }
 
                 $this->translations_repository->store(
-                    $transl->withBaseLanguage($rec['LangCode'])
+                    $transl->withBaseLanguage($lang_code)
                 );
                 break;
 

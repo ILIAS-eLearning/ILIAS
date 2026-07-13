@@ -69,7 +69,7 @@ abstract class ilWebLinkBaseItem
 
     public function getTarget(): string
     {
-        return $this->target;
+        return trim($this->target);
     }
 
     public function isActive(): bool

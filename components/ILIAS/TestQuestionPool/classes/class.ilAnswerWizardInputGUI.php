@@ -19,6 +19,7 @@
 use ILIAS\TestQuestionPool\ilTestLegacyFormsHelper;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
+use ILIAS\UI\Component\Button\Factory as ButtonFactory;
 
 /**
 * This class represents a single choice wizard property in a property form.
@@ -39,6 +40,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 
     protected ilTestLegacyFormsHelper $forms_helper;
     protected GlyphFactory $glyph_factory;
+    protected ButtonFactory $button_factory;
     protected Renderer $renderer;
 
     /**
@@ -54,6 +56,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
         global $DIC;
 
         $this->forms_helper = new ilTestLegacyFormsHelper();
+        $this->button_factory = $DIC->ui()->factory()->button();
         $this->glyph_factory = $DIC->ui()->factory()->symbol()->glyph();
         $this->renderer = $DIC->ui()->renderer();
 
@@ -315,10 +318,10 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
                 $tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][$i]");
                 $tpl->setVariable("ID", $this->getPostVar() . "[$i]");
                 $tpl->setVariable("UP_BUTTON", $this->renderer->render(
-                    $this->glyph_factory->up()->withAction('#')
+                    $this->button_factory->shy('', '')->withSymbol($this->glyph_factory->up())
                 ));
                 $tpl->setVariable("DOWN_BUTTON", $this->renderer->render(
-                    $this->glyph_factory->down()->withAction('#')
+                    $this->button_factory->shy('', '')->withSymbol($this->glyph_factory->down())
                 ));
                 $tpl->parseCurrentBlock();
             }
@@ -332,10 +335,10 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
                 $tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
                 $tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
                 $tpl->setVariable("ADD_BUTTON", $this->renderer->render(
-                    $this->glyph_factory->add()->withAction('#')
+                    $this->button_factory->shy('', '')->withSymbol($this->glyph_factory->add())
                 ));
                 $tpl->setVariable("REMOVE_BUTTON", $this->renderer->render(
-                    $this->glyph_factory->remove()->withAction('#')
+                    $this->button_factory->shy('', '')->withSymbol($this->glyph_factory->remove())
                 ));
             }
             if ($this->getDisabled()) {

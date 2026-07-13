@@ -35,6 +35,7 @@ use ILIAS\FileDelivery\Init;
 use ILIAS\LegalDocuments\Conductor;
 use ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Factory as CustomIconFactory;
 use ILIAS\User\PublicInterface as UserPublicInterface;
+use ILIAS\Mail\Service\MailService;
 
 // needed for slow queries, etc.
 if (!isset($GLOBALS['ilGlobalStartTime']) || !$GLOBALS['ilGlobalStartTime']) {
@@ -764,6 +765,11 @@ class ilInitialisation
         $c['legalDocuments'] = static fn(Container $c) => new Conductor($c);
     }
 
+    protected static function initMail(Container $c): void
+    {
+        MailService::init($c);
+    }
+
     protected static function initAccessibilityControlConcept(\ILIAS\DI\Container $c): void
     {
         $c['acc.criteria.type.factory'] = function (\ILIAS\DI\Container $c) {
@@ -1011,7 +1017,7 @@ class ilInitialisation
     /**
      * $lng initialisation
      */
-    protected static function initLanguage(bool $a_use_user_language = true): void
+    public static function initLanguage(bool $a_use_user_language = true): void
     {
         global $DIC;
 
@@ -1312,6 +1318,7 @@ class ilInitialisation
         self::initAvatar($GLOBALS['DIC']);
         self::initCustomObjectIcons($GLOBALS['DIC']);
         self::initLegalDocuments($GLOBALS['DIC']);
+        self::initMail($GLOBALS['DIC']);
         self::initAccessibilityControlConcept($GLOBALS['DIC']);
         self::initLearningObjectMetadata($GLOBALS['DIC']);
 

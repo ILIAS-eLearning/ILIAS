@@ -63,7 +63,8 @@ class Consumer implements ConsumerInterface
                      ->hasPublicApi($public_api);
 
         if (!$is_active) {
-            return $slot->hasPublicPage($blocks->notAvailable(...), self::GOTO_NAME);
+            return $slot->hasPublicPage($blocks->notAvailable(...), self::GOTO_NAME)
+                        ->showInFooter($blocks->slot()->dummyFooter(...));
         }
 
         $user = $build_user($this->container->user());

@@ -19,6 +19,7 @@
 use ILIAS\TestQuestionPool\ilTestLegacyFormsHelper;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
+use ILIAS\UI\Component\Button\Factory as ButtonFactory;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 
 /**
@@ -43,6 +44,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 
     protected ilTestLegacyFormsHelper $forms_helper;
     protected GlyphFactory $glyph_factory;
+    protected ButtonFactory $button_factory;
     protected Renderer $renderer;
     protected UploadLimitResolver $upload_limit;
 
@@ -54,6 +56,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 
         $this->forms_helper = new ilTestLegacyFormsHelper();
         $this->glyph_factory = $DIC->ui()->factory()->symbol()->glyph();
+        $this->button_factory = $DIC->ui()->factory()->button();
         $this->renderer = $DIC->ui()->renderer();
         $this->upload_limit = $DIC['ui.upload_limit_resolver'];
 
@@ -331,10 +334,10 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
             $tpl->setVariable("ROW_IDENTIFIER", $value->getIdentifier());
             $tpl->setVariable("ID", $this->getPostVar() . "[answer][$i]");
             $tpl->setVariable("ADD_BUTTON", $this->renderer->render(
-                $this->glyph_factory->add()->withAction('#')
+                $this->button_factory->shy('', '')->withSymbol($this->glyph_factory->add())
             ));
             $tpl->setVariable("REMOVE_BUTTON", $this->renderer->render(
-                $this->glyph_factory->remove()->withAction('#')
+                $this->button_factory->shy('', '')->withSymbol($this->glyph_factory->remove())
             ));
             $tpl->parseCurrentBlock();
             $i++;

@@ -97,8 +97,6 @@ class ilUserXMLWriter extends ilXmlWriter
 
         $this->__buildHeader();
 
-        $this->addUDFsToXML();
-
         foreach ($this->users as $user) {
             $this->__handleUser($user);
         }
@@ -230,8 +228,15 @@ class ilUserXMLWriter extends ilXmlWriter
         $this->__addElement('ClientIP', $row['client_ip'], null, 'client_ip');
         $this->__addElement('TimeLimitOwner', (string) $row['time_limit_owner'], null, 'time_limit_owner');
         $this->__addElement('TimeLimitUnlimited', (string) $row['time_limit_unlimited'], null, 'time_limit_unlimited');
-        $this->__addElement('TimeLimitFrom', (string) $row['time_limit_from'], null, 'time_limit_from');
-        $this->__addElement('TimeLimitUntil', (string) $row['time_limit_until'], null, 'time_limit_until');
+
+        if ($row['time_limit_from'] !== null) {
+            $this->__addElement('TimeLimitFrom', (string) $row['time_limit_from'], null, 'time_limit_from');
+        }
+
+        if ($row['time_limit_from'] !== null) {
+            $this->__addElement('TimeLimitUntil', (string) $row['time_limit_until'], null, 'time_limit_until');
+        }
+
         $this->__addElement('ApproveDate', $row['approve_date'], null, 'approve_date');
         $this->__addElement('AgreeDate', $row['agree_date'], null, 'agree_date');
 
@@ -263,7 +268,7 @@ class ilUserXMLWriter extends ilXmlWriter
         $this->__addElement('LastUpdate', $row['last_update'], null, 'last_update');
         $this->__addElement('LastLogin', $row['last_login'], null, 'last_login');
 
-        $udf_data = $this->addUDFsToXML();
+        $this->addUDFsToXML($row);
 
         $this->__addElement('AccountInfo', $row['ext_account'], ['Type' => 'external']);
 
@@ -377,10 +382,12 @@ class ilUserXMLWriter extends ilXmlWriter
     /**
      * add user defined field data to xml (using usr dtd)
      */
-    private function addUDFsToXML(): void
-    {
+    private function addUDFsToXML(
+        array $row
+    ): void {
         foreach ($this->user_profile->getVisibleFields(Context::Export) as $field) {
-            if (!$field->isCustom()) {
+            if (!$field->isCustom()
+                || !array_key_exists($field->getIdentifier(), $row)) {
                 continue;
             }
             $this->xmlElement(
@@ -389,7 +396,7 @@ class ilUserXMLWriter extends ilXmlWriter
                     'Id' => $field->getIdentifier(),
                     'Name' => $field->getLabel($this->lng)
                 ],
-                (string) ($this->user_data['f_' . $field->getIdentifier()] ?? '')
+                json_encode($row[$field->getIdentifier()])
             );
         }
     }

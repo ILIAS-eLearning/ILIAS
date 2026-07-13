@@ -43,6 +43,7 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.linear.html", true, true);
         $tpl->setVariable("TITLE", $component->getTitle());
+        $tpl->setVariable("HEADING_LEVEL", $default_renderer->getHeaderNesting(1));
 
         foreach ($component->getSteps() as $index => $step) {
             $tpl->setCurrentBlock("step");
@@ -69,6 +70,7 @@ class Renderer extends AbstractComponentRenderer
 
             if ($index === $component->getActive()) {
                 $tpl->touchBlock('active');
+                $tpl->touchBlock('active_aria');
                 $component = $component->withAdditionalOnLoadCode(
                     fn($id) => "
                         window.requestAnimationFrame(() => {

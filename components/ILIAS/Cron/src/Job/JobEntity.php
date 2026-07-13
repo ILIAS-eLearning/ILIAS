@@ -27,7 +27,9 @@ class JobEntity
     private string $job_id;
     private string $component;
     private ?JobScheduleType $schedule_type;
+    private ?int $raw_schedule_type;
     private int $schedule_value;
+    private ?int $raw_schedule_value;
     private int $job_status;
     private int $job_status_usr_id;
     private int $job_status_type;
@@ -65,7 +67,9 @@ class JobEntity
         $this->schedule_type = is_numeric($record['schedule_type']) ? JobScheduleType::tryFrom(
             (int) $record['schedule_type']
         ) : null;
+        $this->raw_schedule_type = $record['schedule_type'];
         $this->schedule_value = (int) $record['schedule_value'];
+        $this->raw_schedule_value = $record['schedule_value'];
         $this->job_status = (int) $record['job_status'];
         $this->job_status_usr_id = (int) $record['job_status_user_id'];
         $this->job_status_type = (int) $record['job_status_type'];
@@ -113,9 +117,19 @@ class JobEntity
         return $this->schedule_type;
     }
 
+    public function getRawScheduleType(): ?int
+    {
+        return $this->raw_schedule_type;
+    }
+
     public function getScheduleValue(): int
     {
         return $this->schedule_value;
+    }
+
+    public function getRawScheduleValue(): ?int
+    {
+        return $this->raw_schedule_value;
     }
 
     public function getJobStatus(): int

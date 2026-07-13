@@ -345,5 +345,17 @@ class ilStyleDBUpdateSteps implements \ilDatabaseUpdateSteps
         }
     }
 
+    public function step_22()
+    {
+        $this->db->update(
+            "style_data",
+            [
+                "uptodate" => ["integer", 0]
+            ],
+            [    // where
+                 "uptodate" => ["integer", 1]
+            ]
+        );
+    }
 
 }

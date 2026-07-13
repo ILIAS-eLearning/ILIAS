@@ -20,12 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Entity;
 
-//use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
-use ILIAS\UI\Implementation\Render\ResourceRegistry;
-use ILIAS\UI\Implementation\Render\Template;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -34,7 +31,7 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        if ($component instanceof Component\Entity\Entity) {
+        if ($component instanceof Entity) {
             return $this->renderEntity($component, $default_renderer);
         }
         $this->cannotHandleComponent($component);
@@ -49,11 +46,11 @@ class Renderer extends AbstractComponentRenderer
             $tpl->touchBlock('secondid_string');
         } elseif ($secondary_identifier instanceof Component\Image\Image) {
             $tpl->touchBlock('secondid_image');
-        } elseif ($secondary_identifier instanceof Component\Image\Symbol) {
+        } elseif ($secondary_identifier instanceof Component\Symbol\Symbol) {
             $tpl->touchBlock('secondid_symbol');
-        } elseif ($secondary_identifier instanceof Component\Image\Link) {
+        } elseif ($secondary_identifier instanceof Component\Link\Link) {
             $tpl->touchBlock('secondid_link');
-        } elseif ($secondary_identifier instanceof Component\Image\Shy) {
+        } elseif ($secondary_identifier instanceof Component\Button\Shy) {
             $tpl->touchBlock('secondid_shy');
         }
 
@@ -62,6 +59,7 @@ class Renderer extends AbstractComponentRenderer
         $primary_identifier = $component->getPrimaryIdentifier();
         $primary_identifier = is_string($primary_identifier) ? $primary_identifier : $this->maybeRender($default_renderer, $primary_identifier);
         $tpl->setVariable('PRIMARY_IDENTIFIER', $primary_identifier);
+        $tpl->setVariable('PRIMARY_IDENTIFIER_ID', $this->createId());
 
         $tpl->setVariable('BLOCKING_CONDITIONS', $this->maybeRender($default_renderer, ...$component->getBlockingAvailabilityConditions()));
         $tpl->setVariable('FEATURES', $this->maybeRender($default_renderer, ...$component->getFeaturedProperties()));
@@ -70,9 +68,13 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('AVAILABILITY', $this->maybeRender($default_renderer, ...$component->getAvailability()));
         $tpl->setVariable('DETAILS', $this->maybeRender($default_renderer, ...$component->getDetails()));
 
-        if ($actions = $component->getActions()) {
+        if (null !== $component->getWorkflow()) {
+            $button_components = $this->createUnfinishedWorkflowActions($component->getWorkflow());
+            $tpl->setVariable('WORKFLOW_ACTIONS', $default_renderer->render($button_components));
+        }
+        if ($actions = $component->getManagingActions()) {
             $actions_dropdown = $this->getUIFactory()->dropdown()->standard($actions);
-            $tpl->setVariable('ACTIONS', $default_renderer->render($actions_dropdown));
+            $tpl->setVariable('MANAGING_ACTIONS', $default_renderer->render($actions_dropdown));
         }
         if ($reactions = $component->getReactions()) {
             $tpl->setVariable('REACTIONS', $default_renderer->render($reactions));
@@ -92,5 +94,22 @@ class Renderer extends AbstractComponentRenderer
         }
 
         return $default_renderer->render($values);
+    }
+
+    /** @return Component\Button\Standard[] */
+    protected function createUnfinishedWorkflowActions(Component\Listing\Workflow\Workflow $workflow): array
+    {
+        $actions = [];
+        foreach ($workflow->getSteps() as $step) {
+            if (null === $step->getAction() ||
+                $step->getAvailability() !== Component\Listing\Workflow\Step::AVAILABLE ||
+                ($step->getStatus() !== Component\Listing\Workflow\Step::NOT_STARTED &&
+                $step->getStatus() !== Component\Listing\Workflow\Step::IN_PROGRESS)
+            ) {
+                continue;
+            }
+            $actions[] = $this->getUIFactory()->button()->standard($step->getLabel(), $step->getAction());
+        }
+        return $actions;
     }
 }

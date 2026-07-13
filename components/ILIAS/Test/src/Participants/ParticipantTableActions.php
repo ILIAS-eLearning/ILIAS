@@ -197,21 +197,45 @@ class ParticipantTableActions
         );
     }
 
-    protected function resolveSelectedParticipants(TableAction $action, array|string $selected_participants): array
-    {
+    protected function resolveSelectedParticipants(
+        TableAction $action,
+        array|string $selected_participants
+    ): array {
         if ($selected_participants === 'ALL_OBJECTS') {
             return array_filter(
                 iterator_to_array($this->repository->getParticipants($this->test_obj->getTestId())),
-                fn(Participant $participant) => $action->allowActionForRecord($participant)
+                static fn(Participant $participant): bool => $action->allowActionForRecord($participant)
             );
+        }
+
+        if (!is_array($selected_participants)) {
+            return [];
         }
 
         return array_filter(
             array_map(
-                fn(int $user_id) => $this->repository->getParticipantByUserId($this->test_obj->getTestId(), $user_id),
+                function (string $ids_string): ?Participant {
+                    [$user_id, $active_id] = array_map(
+                        'intval',
+                        explode('_', $ids_string)
+                    );
+
+                    if ($user_id === ANONYMOUS_USER_ID) {
+                        return $this->repository->getParticipantByActiveId(
+                            $this->test_obj->getTestId(),
+                            $active_id
+                        );
+                    }
+
+                    return $this->repository->getParticipantByUserId(
+                        $this->test_obj->getTestId(),
+                        $user_id
+                    );
+
+                },
                 $selected_participants
             ),
-            fn(Participant $participant) => $action->allowActionForRecord($participant)
+            static fn(?Participant $participant): bool => $participant instanceof Participant && $action->allowActionForRecord($participant)
         );
     }
 }

@@ -134,7 +134,7 @@ class SelectInputTest extends ILIAS_UI_TestBase
             $byline,
             'id_1'
         );
-        $this->assertEquals($expected, $this->render($select));
+        $this->assertEquals($expected, $this->renderInsideContainer($select));
     }
 
 
@@ -159,7 +159,7 @@ class SelectInputTest extends ILIAS_UI_TestBase
             $byline,
             'id_1'
         );
-        $this->assertEquals($expected, $this->render($select));
+        $this->assertEquals($expected, $this->renderInsideContainer($select));
     }
 
     public function testCommonRendering(): void

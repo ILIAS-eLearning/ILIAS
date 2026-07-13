@@ -117,6 +117,7 @@ class Renderer extends AbstractComponentRenderer
         $title = $component->getTitle();
         if ($title !== null) {
             $tpl->setVariable('TITLE', $title);
+            $tpl->setVariable("HEADING_LEVEL", $default_renderer->getHeaderNesting(1));
         }
 
         return $tpl->get();

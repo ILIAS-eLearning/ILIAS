@@ -403,9 +403,15 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
         $this->tpl->setCurrentBlock("new_app");
         //$this->tpl->setVariable('NEW_APP_LINK',$new_app_url);
-        $this->tpl->setVariable('NEW_APP_GLYPH', $this->ui_renderer->render(
-            $this->ui_factory->symbol()->glyph()->add($new_app_url)
-        ));
+        $this->tpl->setVariable(
+            'NEW_APP_GLYPH',
+            $this->ui_renderer->render(
+                $this->ui_factory->button()->shy(
+                    '',
+                    $new_app_url
+                )->withSymbol($this->ui_factory->symbol()->glyph()->add())
+            )
+        );
         // $this->tpl->setVariable('NEW_APP_ALT',$this->lng->txt('cal_new_app'));
         $this->tpl->parseCurrentBlock();
 
@@ -523,7 +529,12 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
                     $new_app_url = $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui', 'add');
                     $this->tpl->setVariable(
                         "DAY_NEW_APP_LINK",
-                        $this->ui_renderer->render($this->ui_factory->symbol()->glyph()->add($new_app_url))
+                        $this->ui_renderer->render(
+                            $this->ui_factory->button()->shy(
+                                '',
+                                $new_app_url
+                            )->withSymbol($this->ui_factory->symbol()->glyph()->add())
+                        )
                     );
                     $this->tpl->setVariable('DAY_NEW_ID', ++$new_link_counter);
                     $this->tpl->parseCurrentBlock();

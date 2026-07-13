@@ -33,7 +33,7 @@ class CSVReader
     private string $line_ends;
     private array $data = [];
     private string $separator = ';';
-    private string $delimiter = '""';
+    private string $delimiter = '"';
     private string $escape = '\\';
     private int $length = 1024;
 
@@ -41,7 +41,7 @@ class CSVReader
     {
         $row = 0;
 
-        while (($line = fgetcsv($this->file_resource, $this->length, $this->separator, $this->escape)) !== false) {
+        while (($line = fgetcsv($this->file_resource, $this->length, $this->separator, $this->delimiter, $this->escape)) !== false) {
             $line_count = count($line);
             for ($col = 0; $col < $line_count; $col++) {
                 $this->data[$row][$col] = $this->unquote($line[$col]);
