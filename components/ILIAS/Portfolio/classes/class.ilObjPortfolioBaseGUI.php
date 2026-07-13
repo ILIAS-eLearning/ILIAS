@@ -73,6 +73,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $this->lng->loadLanguageModule("prtf");
         $this->lng->loadLanguageModule("user");
         $this->lng->loadLanguageModule("obj");
+        $this->lng->loadLanguageModule("prtt");
 
         $this->requested_ppage = $this->port_request->getPortfolioPageId();
         $this->requested_user_page = $this->port_request->getUserPage();
