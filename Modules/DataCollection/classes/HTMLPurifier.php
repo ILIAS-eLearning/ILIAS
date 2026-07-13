@@ -32,6 +32,7 @@ class HTMLPurifier extends ilHtmlPurifierAbstractLibWrapper
         $config->set('HTML.DefinitionID', 'ilias datacollection');
         $config->set('HTML.DefinitionRev', 1);
         $config->set('HTML.Doctype', 'XHTML 1.0 Strict');
+        $config->set('Cache.SerializerPath', ilHtmlPurifierAbstractLibWrapper::_getCacheDirectory());
 
         $tags = $this->makeElementListTinyMceCompliant(ilObjAdvancedEditing::_getUsedHTMLTags("dcl"));
         $config->set('HTML.AllowedElements', $this->removeUnsupportedElements($tags));
