@@ -15675,6 +15675,8 @@ search#:#search_sort_generic_desc#:#%s, desc.
 search#:#search_sort_relevance#:#By Relevance
 search#:#search_sort_title_asc#:#Alphabetically: A-Z
 search#:#search_sort_title_desc#:#Alphabetically: Z-A
+search#:#search_tab_content#:#Content
+search#:#search_tab_user#:#Users
 search#:#search_term_combination#:#Combination
 search#:#search_title_description#:#Title / Description
 search#:#search_tst_svy#:#Tests/Surveys

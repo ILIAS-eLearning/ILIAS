@@ -15704,6 +15704,8 @@ search#:#search_sort_generic_desc#:#%s, abst.
 search#:#search_sort_relevance#:#Nach Relevanz
 search#:#search_sort_title_asc#:#Alphabetisch: A-Z
 search#:#search_sort_title_desc#:#Alphabetisch: Z-A
+search#:#search_tab_content#:#Inhalt
+search#:#search_tab_user#:#Personen
 search#:#search_term_combination#:#Kombination
 search#:#search_title_description#:#Titel / Beschreibung
 search#:#search_tst_svy#:#Tests/Umfragen
