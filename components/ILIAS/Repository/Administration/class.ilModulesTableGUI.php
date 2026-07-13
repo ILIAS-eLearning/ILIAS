@@ -131,7 +131,7 @@ class ilModulesTableGUI extends ilTable2GUI
                 if ($this->obj_definition->isSystemObject($id)) {
                     continue;
                 }
-                if (in_array($id, ["lng", "rolt", "sty", "tax", "usr"])) {
+                if (in_array($id, ["lng", "rolt", "sty", "tax", "usr", "gdtr"])) {
                     continue;
                 }
                 $obj_types[$id] = [
