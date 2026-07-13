@@ -334,6 +334,8 @@ class ilCourseXMLWriter extends ilXmlWriter
             $this->xmlElement('TimingMode', null, $this->course_obj->getTimingMode());
         }
 
+        $this->xmlElement('AboStatus', null, $this->course_obj->getAboStatus() ? 1 : 0);
+
         $this->xmlElement('TutorialSupportBlock', [
             'active' => $this->course_obj->getTutorialSupportBlockSettingValue()
         ]);

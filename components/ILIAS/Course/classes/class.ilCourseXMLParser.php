@@ -635,6 +635,10 @@ class ilCourseXMLParser extends ilSaxParser implements ilSaxSubsetParser
                 $this->course_obj->setTimingMode((int) $this->cdata);
                 break;
 
+            case 'AboStatus':
+                $this->course_obj->setAboStatus((int) $this->cdata);
+                break;
+
             case 'StatusDetermination':
                 $this->course_obj->setStatusDetermination((int) $this->cdata);
                 break;
