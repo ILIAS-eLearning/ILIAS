@@ -136,10 +136,6 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
         global $DIC;
         $ilObjDataCache = $DIC['ilObjDataCache'];
 
-        if (!in_array($placeholder_id, ['sahs_title', 'sahs_link'])) {
-            return '';
-        }
-
         $obj_id = $ilObjDataCache->lookupObjId((int) $context_parameters['ref_id']);
         $tracking = new ilObjUserTracking();
 
@@ -154,6 +150,7 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
                 if ($recipient === null) {
                     return '';
                 }
+
                 $status = ilLPStatus::_lookupStatus($obj_id, $recipient->getId());
                 if (!$status) {
                     $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
@@ -167,7 +164,9 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
                 if ($recipient === null) {
                     return '';
                 }
+
                 $mark = ilLPMarks::_lookupMark($recipient->getId(), $obj_id);
+
                 return trim($mark) !== '' ? $mark : '-';
 
             case 'scorm_score':
@@ -190,6 +189,7 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
                         $scores[] = $item['title'] . ': ' . $item['score'];
                     }
                 }
+
                 return implode("\n", $scores);
 
             case 'scorm_time_spent':

@@ -30,6 +30,8 @@ use ILIAS\UI\Implementation\Component\Card\Factory;
  */
 class RepositoryObjectTest extends ILIAS_UI_TestBase
 {
+    use LanguageStubs;
+
     /**
      * @return NoUIFactory
      */
@@ -38,6 +40,7 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
         $mocks = [
             'button' => $this->createMock(C\Button\Factory::class),
             'divider' => $this->createMock(C\Divider\Factory::class),
+            'language' => $this->createRelayArgumentLanguageStub(),
         ];
         $factory = new class ($mocks) extends NoUIFactory {
             public function __construct(
@@ -61,7 +64,7 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
             {
                 return new I\Component\Symbol\Factory(
                     new I\Component\Symbol\Icon\Factory(),
-                    new I\Component\Symbol\Glyph\Factory(),
+                    new I\Component\Symbol\Glyph\Factory($this->mocks['language']),
                     new I\Component\Symbol\Avatar\Factory()
                 );
             }

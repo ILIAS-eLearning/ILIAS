@@ -408,9 +408,12 @@ class ilMathJax
 
                 case self::OUTPUT_SVG:
                 default:
-                    $svg = simplexml_load_string(file_get_contents($image->absolutePath()));
-                    $width = round($svg['width'] * $this->zoom_factor);
-                    $height = round($svg['height'] * $this->zoom_factor);
+                    try {
+                        $svg = simplexml_load_string(file_get_contents($image->absolutePath()));
+                        $width = round($svg['width'] * $this->zoom_factor);
+                        $height = round($svg['height'] * $this->zoom_factor);
+                    } catch (Throwable $e) {
+                    }
                     $mime = 'image/svg+xml';
                     break;
             }
@@ -423,9 +426,9 @@ class ilMathJax
 
                 case self::RENDER_SVG_AS_IMG_EMBED:
                 case self::RENDER_PNG_AS_IMG_EMBED:
-                    $html = '<img src="data:' . $mime . ';base64,'
-                        . base64_encode($image->read())
-                        . '" style="width:' . $width . '; height:' . $height . ';" />';
+                    $html = '<img src="data:' . $mime . ';base64,' . base64_encode($image->read()) . '"'
+                        . (isset($width) && isset($height) ? ' style="width:' . $width . '; height:' . $height . ';" ' : '')
+                        . ' />';
                     break;
 
                 case self::RENDER_PNG_AS_FO_FILE:

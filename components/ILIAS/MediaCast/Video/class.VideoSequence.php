@@ -58,9 +58,12 @@ class VideoSequence
 
             $mime = '';
             $resource = '';
-
+            $local = false;
             if (is_object($med)) {
                 $resource = $mob->getStandardSrc();
+                if ($med->getLocationType() !== "Reference") {
+                    $local = true;
+                }
                 $mime = $med->getFormat();
             }
             if (in_array($mime, iterator_to_array($this->media_types->getAllowedVideoMimeTypes()), true)) {
@@ -73,7 +76,9 @@ class VideoSequence
                     $preview_pic,
                     (string) $item["content"],
                     (string) $item["playtime"],
-                    $med->getDuration()
+                    $med->getDuration(),
+                    $local,
+                    $item["id"]
                 );
             }
         }

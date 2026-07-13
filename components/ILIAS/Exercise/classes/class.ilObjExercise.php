@@ -441,7 +441,8 @@ class ilObjExercise extends ilObject
 
         // body
 
-        $body = $a_ass->getInstruction();
+        $purifier = new ilExcInstructionPurifier();
+        $body = $purifier->purify($a_ass->getInstruction());
         $body .= "\n\n";
 
         $body .= $lng->txt("exc_edit_until") . ": ";

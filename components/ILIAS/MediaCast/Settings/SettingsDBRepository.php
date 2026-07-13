@@ -52,7 +52,7 @@ class SettingsDBRepository
             'def_access' => ['integer', $settings->getDefaultAccess()],
             'sortmode' => ['integer', $settings->getSortMode()],
             'viewmode' => ['text', $settings->getViewMode()],
-            'autoplaymode' => ['integer', (int) $settings->getAutoplayMode()],
+            'autoplaymode' => ['integer', 0],
             'nr_initial_videos' => ['integer', $settings->getNumberInitialVideos()],
             'new_items_in_lp' => ['integer', (int) $settings->getNewItemsInLearningProgress()],
         ], [
@@ -69,7 +69,7 @@ class SettingsDBRepository
             'def_access' => ['integer', $settings->getDefaultAccess()],
             'sortmode' => ['integer', $settings->getSortMode()],
             'viewmode' => ['text', $settings->getViewMode()],
-            'autoplaymode' => ['integer', (int) $settings->getAutoplayMode()],
+            'autoplaymode' => ['integer', 0],
             'nr_initial_videos' => ['integer', $settings->getNumberInitialVideos()],
             'new_items_in_lp' => ['integer', (int) $settings->getNewItemsInLearningProgress()],
         ]);
@@ -93,7 +93,6 @@ class SettingsDBRepository
             (int) $record['def_access'],
             (int) $record['sortmode'],
             (string) $record['viewmode'],
-            (bool) $record['autoplaymode'],
             (int) $record['nr_initial_videos'],
             (bool) $record['new_items_in_lp']
         );

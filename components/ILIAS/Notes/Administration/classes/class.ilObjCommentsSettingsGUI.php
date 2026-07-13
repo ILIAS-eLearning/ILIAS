@@ -171,6 +171,15 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
             $fields["enable_comments"] = $fields["enable_comments"]->withValue(null);
         }
 
+        if (!$this->access->checkAccess("write", "", $this->object->getRefId())) {
+            foreach ($fields as $k => $field) {
+                $fields[$k] = $field->withDisabled(true);
+            }
+            foreach ($subfields as $k => $subfield) {
+                $subfields[$k] = $subfield->withDisabled(true);
+            }
+        }
+
         // section
         $section1 = $f->input()->field()->section($fields, $lng->txt("settings"));
 
@@ -186,24 +195,28 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
         $ctrl = $this->ctrl;
         $setting = $this->setting;
 
-        if ($request->getMethod() === "POST") {
-            $form = $form->withRequest($request);
-            $data = $form->getData();
-            if (isset($data["sec"])) {
-                $data = $data["sec"]["enable_comments"];
-                $disable_comments = (bool) (is_array($data) ? 0 : 1);
-                $setting->set("disable_comments", (is_array($data) ? 0 : 1));
-                if (!$disable_comments) {
-                    $setting->set("comments_del_user", ($data["comm_del_user"] ? 1 : 0));
-                    $setting->set("comments_del_tutor", ($data["comm_del_tutor"] ? 1 : 0));
-                    $setting->set("comments_noti_recip", $data["comments_noti_recip"]);
+        if ($this->access->checkAccess("write", "", $this->object->getRefId())) {
+            if ($request->getMethod() === "POST") {
+                $form = $form->withRequest($request);
+                $data = $form->getData();
+                if (isset($data["sec"])) {
+                    $data = $data["sec"]["enable_comments"];
+                    $disable_comments = (bool) (is_array($data) ? 0 : 1);
+                    $setting->set("disable_comments", (is_array($data) ? 0 : 1));
+                    if (!$disable_comments) {
+                        $setting->set("comments_del_user", ($data["comm_del_user"] ? 1 : 0));
+                        $setting->set("comments_del_tutor", ($data["comm_del_tutor"] ? 1 : 0));
+                        $setting->set("comments_noti_recip", $data["comments_noti_recip"]);
 
-                    $privacy = ilPrivacySettings::getInstance();
-                    $privacy->enableCommentsExport((bool) $data['enable_comments_export']);
-                    $privacy->save();
+                        $privacy = ilPrivacySettings::getInstance();
+                        $privacy->enableCommentsExport((bool) $data['enable_comments_export']);
+                        $privacy->save();
+                    }
+                    $this->main_tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
                 }
-                $this->main_tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
             }
+        } else {
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("no_permission"), true);
         }
         $ctrl->redirect($this, "editSettings");
     }

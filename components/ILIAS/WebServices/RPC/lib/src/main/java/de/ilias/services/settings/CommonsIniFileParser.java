@@ -88,6 +88,18 @@ public class CommonsIniFileParser
                         serverSettings.setMaxFileSizeMB(getConfig(ini, section, "IndexMaxFileSizeMB", false));
                     }
                 }
+                if (section.equals("FOP")) {
+                    logger.debug("Parsing FOP settings");
+                    if (sectionConfig.containsKey("FontDirectory")) {
+                        logger.debug("FontDirectory {}", getConfig(ini, section, "FontDirectory", false));
+                        try {
+                            serverSettings.setFopFontDirectory(getConfig(ini, section, "FontDirectory", false));
+                        } catch (ConfigurationException e) {
+                            logger.warn("Ignoring invalid configuration option FOP FontDirectory: {}", e);
+                        }
+                    }
+                }
+
                 logger.debug("check section client");
                 if (section.startsWith("Client") && parseClientSettings) {
                     logger.debug("section client");

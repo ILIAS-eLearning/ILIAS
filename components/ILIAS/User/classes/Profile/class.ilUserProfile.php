@@ -753,7 +753,7 @@ class ilUserProfile
         return false;
     }
 
-    protected function isEditableByUser(string $setting): bool
+    public function isEditableByUser(string $setting): bool
     {
         return $this->user_settings_config->isVisibleAndChangeable($setting);
     }

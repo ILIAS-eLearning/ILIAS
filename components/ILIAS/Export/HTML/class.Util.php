@@ -45,8 +45,7 @@ class Util
         string $export_dir,
         string $sub_dir,
         protected ?ExportCollector $export_collector = null
-    )
-    {
+    ) {
         global $DIC;
 
         $this->export_dir = $export_dir;
@@ -62,8 +61,7 @@ class Util
      */
     public function exportSystemStyle(
         array $standard_icons = []
-    ): void
-    {
+    ): void {
         // legacy export
         if (is_null($this->export_collector)) {
             $sys_style_html_export = new \ilSystemStyleHTMLExport($this->target_dir);
@@ -156,11 +154,32 @@ class Util
         $target_dir = $this->target_dir;
         $css = $global_screen->layout()->meta()->getCss();
         foreach ($css->getItemsInOrderOfDelivery() as $item) {
+            // skip dummy "assets/content_style/style.css"
+            if (str_contains($item->getContent(), "assets/content_style")) {
+                continue;
+            }
             $this->exportResourceFile($target_dir, $item->getContent());
         }
         $js = $global_screen->layout()->meta()->getJs();
         foreach ($js->getItemsInOrderOfDelivery() as $item) {
             $this->exportResourceFile($target_dir, $item->getContent());
+        }
+    }
+
+    public function resetGlobalScreen(): void
+    {
+        // we reset to get rid of collected onload code
+        // however we accumulate js and css files, since the
+        // ui framework renderer do not register their resources each time
+        // the renderer is being called.
+        $css = $this->global_screen->layout()->meta()->getCss();
+        $js = $this->global_screen->layout()->meta()->getJs();
+        $this->global_screen->layout()->meta()->reset();
+        foreach ($css->getItemsInOrderOfDelivery() as $item) {
+            $this->global_screen->layout()->meta()->addCss($item->getContent());
+        }
+        foreach ($js->getItemsInOrderOfDelivery() as $item) {
+            $this->global_screen->layout()->meta()->addJs($item->getContent());
         }
     }
 

@@ -553,7 +553,6 @@ class ilObjSurvey extends ilObject
         $ilDB = $this->db;
 
         $this->svy_log->debug("insert question, id:" . $question_id);
-
         if (!SurveyQuestion::_isComplete($question_id)) {
             $this->svy_log->debug("question is not complete");
             return false;
@@ -758,7 +757,7 @@ class ilObjSurvey extends ilObject
             $this->setSurveyId($next_id);
         } else {
             $affectedRows = $ilDB->update("svy_svy", array(
-                "author" => array("text", $this->getAuthor()),
+                "author" => array("text", ilStr::subStr($this->getAuthor(), 0, 50)),
                 "introduction" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getIntroduction(), 0)),
                 "outro" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getOutro(), 0)),
                 "startdate" => array("text", $this->getStartDate()),

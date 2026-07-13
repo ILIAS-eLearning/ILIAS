@@ -56,7 +56,6 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
     public function getItems(): void
     {
         $usages = $this->page->getUsages($this->incl_hist);
-
         $clip_cnt = 0;
         $agg_usages = array();
         foreach ($usages as $k => $usage) {
@@ -158,6 +157,15 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
                         break;
 
                     case "cont":
+                        $type = ilObject::_lookupType($page_obj->getId());
+                        $item["obj_type_txt"] = $this->lng->txt("obj_" . $type);
+                        $item["obj_title"] = ilObject::_lookupTitle($page_obj->getId());
+                        $ref_id = $this->getFirstWritableRefId($page_obj->getId());
+                        if ($ref_id > 0) {
+                            $item["obj_link"] = ilLink::_getStaticLink($ref_id, $type);
+                        }
+                        break;
+
                     case "copa":
                         $item["obj_type_txt"] = $this->lng->txt("obj_" . $cont_type);
                         $item["obj_title"] = ilObject::_lookupTitle($page_obj->getId());

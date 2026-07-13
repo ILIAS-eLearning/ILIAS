@@ -85,6 +85,7 @@ class ilDclRecordListGUI
 
         $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, self::GET_TABLE_ID, $this->table_id);
         $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, self::GET_TABLEVIEW_ID, $this->tableview_id);
+        $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, self::GET_TABLE_ID, $this->table_id);
         $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, self::GET_TABLEVIEW_ID, $this->tableview_id);
 
         $this->mode = self::MODE_VIEW;
@@ -152,6 +153,9 @@ class ilDclRecordListGUI
         $list = $this->getRecordListTableGUI();
 
         $this->createSwitchers();
+
+        $this->ctrl->setParameter($this, 'table_id', $this->table_id);
+        $this->ctrl->setParameter($this, 'tableview_id', $this->tableview_id);
 
         $permission_to_add_or_import = ilObjDataCollectionAccess::hasPermissionToAddRecord(
             $this->parent_obj->getRefId(),
@@ -543,14 +547,16 @@ class ilDclRecordListGUI
         $switcher->addTableSwitcherToToolbar(
             $tables,
             self::class,
-            self::CMD_SHOW
+            self::CMD_SHOW,
+            $this->getTableId()
         );
 
         $switcher->addViewSwitcherToToolbar(
             $this->table_obj->getVisibleTableViews(),
             $this->getTableId(),
             self::class,
-            self::CMD_SHOW
+            self::CMD_SHOW,
+            $this->getTableviewId()
         );
     }
 

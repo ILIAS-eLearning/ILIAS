@@ -76,7 +76,7 @@ class AccessManager
         array $participant_ids
     ): array {
         return $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
-            'render',
+            'write',
             'render',
             $ref_id,
             $participant_ids
@@ -169,14 +169,14 @@ class AccessManager
         return false;
     }
 
-    public function validateBookingObjId(int $book_obj_id, int $pool_id) : void
+    public function validateBookingObjId(int $book_obj_id, int $pool_id): void
     {
         if ($book_obj_id > 0 && \ilBookingObject::lookupPoolId($book_obj_id) !== $pool_id) {
             throw new \ilPermissionException("Booking object pool id does not match pool id.");
         }
     }
 
-    public function validateScheduleId(int $schedule_id, int $pool_id) : void
+    public function validateScheduleId(int $schedule_id, int $pool_id): void
     {
         $sm = $this->domain->schedules($pool_id);
         if (!$sm->hasScheduleId($schedule_id)) {

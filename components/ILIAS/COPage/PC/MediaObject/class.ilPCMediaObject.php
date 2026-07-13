@@ -25,6 +25,7 @@ use ILIAS\MediaObjects\Usage\UsageDBRepository;
  */
 class ilPCMediaObject extends ilPageContent
 {
+    protected \ILIAS\MediaObjects\MediaObjectManager $mob_manager;
     protected ilCtrlInterface $ctrl;
     protected UsageDBRepository $mob_usage_repo;
     protected DOMNode $mal_node;
@@ -50,6 +51,7 @@ class ilPCMediaObject extends ilPageContent
             ->repo()
             ->usage();
         $this->ctrl = $DIC->ctrl();
+        $this->mob_manager = $DIC->mediaObjects()->internal()->domain()->mediaObject();
     }
 
     public function readMediaObject(int $a_mob_id = 0): void
@@ -259,7 +261,9 @@ class ilPCMediaObject extends ilPageContent
                 0,
                 $a_page->getLanguage()
             );
-            self::saveMobUsage($a_page, $a_domdoc);
+        }
+        self::saveMobUsage($a_page, $a_domdoc);
+        if (!$a_page->getImportMode()) {
             foreach ($mob_ids as $mob) {	// check, whether media object can be deleted
                 if (ilObject::_exists($mob) && ilObject::_lookupType($mob) == "mob") {
                     $mob_obj = new ilObjMediaObject($mob);
@@ -407,8 +411,23 @@ class ilPCMediaObject extends ilPageContent
                 $srts = $mob->getSrtFiles();
                 foreach ($srts as $srt) {
                     if ($ilUser->getLanguage() == $srt["language"]) {
-                        $srt_content = file_get_contents(ilObjMediaObject::_getDirectory($mob->getId()) . "/" . $srt["full_path"]);
-                        $a_output = str_replace("[[[[[mobsubtitle;il__mob_" . $mob->getId() . "_Standard]]]]]", $srt_content, $a_output);
+                        $srt_content = "";
+                        $file_path = ilObjMediaObject::_getDirectory($mob->getId()) . "/" . $srt["full_path"];
+                        if (is_file($file_path)) {
+                            $srt_content = $file_path;
+                        } else {
+                            $srt_content = $this->mob_manager->getLocationContent(
+                                $mob->getId(),
+                                $srt["full_path"]
+                            );
+                        }
+                        if ($srt_content !== "") {
+                            $a_output = str_replace(
+                                "[[[[[mobsubtitle;il__mob_" . $mob->getId() . "_Standard]]]]]",
+                                $srt_content,
+                                $a_output
+                            );
+                        }
                     }
                 }
             }
@@ -476,7 +495,8 @@ class ilPCMediaObject extends ilPageContent
         } else {
             $html = $this->ui->renderer()->render($modal);
         }
-        return $a_output . "<div class='il-copg-mob-fullscreen-modal'>" . $html . "</div>";
+        return $a_output . "<div class='il-copg-mob-fullscreen-modal'>" . $html . "</div>" .
+            '<script type="module" src="./components/ILIAS/MediaObjects/js/src/presentation/presentation.js"></script>';
     }
 
     public function getOnloadCode(string $a_mode): array

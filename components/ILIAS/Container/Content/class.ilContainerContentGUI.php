@@ -121,7 +121,6 @@ abstract class ilContainerContentGUI
             ->content()
             ->block();
         $this->item_presentation = $item_presentation;
-
         $this->block_limit = (int) ilContainer::_lookupContainerSetting($container_gui_obj->getObject()->getId(), "block_limit");
     }
 
@@ -713,48 +712,14 @@ abstract class ilContainerContentGUI
         string $type
     ): string {
         $this->initRenderer();
-        // get all sub items
-        $this->items = $this->getContainerObject()->getSubItems(
-            $this->getContainerGUI()->isActiveAdministrationPanel()
-        );
-
-        $exhausted = false;
         $ref_ids = $this->request->getAlreadyRenderedRefIds();
 
-        // iterate all types
-        if (is_array($this->items[$type]) &&
-            $this->renderer->addTypeBlock($type)) {
-            //$this->renderer->setBlockPosition($type, ++$pos);
-
-            $position = 1;
-            $counter = 1;
-            foreach ($this->items[$type] as $item_data) {
-                $item_ref_id = $item_data["child"];
-
-                if (in_array($item_ref_id, $ref_ids)) {
-                    continue;
-                }
-                if ($this->block_limit > 0 && $counter == $this->block_limit + 1) {
-                    if ($counter == $this->block_limit + 1) {
-                        // render more button
-                        $this->renderer->addShowMoreButton($type);
-                        $exhausted = true;
-                    }
-                    continue;
-                }
-
-                if (!$this->renderer->hasItem($item_ref_id)) {
-                    $html = $this->renderItem($item_data, $position++);
-
-                    if ($html != "") {
-                        $counter++;
-                        $this->renderer->addItemToBlock($type, $item_data["type"], $item_ref_id, $html);
-                    }
-                }
-            }
-        }
-
-        return $this->renderer->renderSingleTypeBlock($type, $exhausted);
+        return $this->renderer->renderSingleTypeBlockAsynch(
+            $this->item_presentation->getItemBlockSequence($ref_ids),
+            $type,
+            $ref_ids,
+            $this->block_limit
+        );
     }
 
     /**
@@ -844,34 +809,24 @@ abstract class ilContainerContentGUI
             $a_itgr["title"],
             $a_itgr["description"]
         );
-        $commands_html = $item_list_gui->getCommandsHTML($a_itgr["title"], false);
 
         // determine behaviour
-        $item_group = new ilObjItemGroup($a_itgr["ref_id"]);
-        $beh = $item_group->getBehaviour();
-        $stored_val = $this->block_repo->getProperty(
-            "itgr_" . $a_itgr["ref_id"],
-            $ilUser->getId(),
-            "opened"
+        $item_group = new ilObjItemGroup($a_itgr['ref_id']);
+        $opened = $this->block_repo->getProperty("itgr_{$a_itgr['ref_id']}", $ilUser->getId(), 'opened');
+
+        $this->ctrl->setParameterByClass(ilContainerBlockPropertiesStorageGUI::class, 'cont_block_id', "itgr_{$a_itgr['ref_id']}");
+        $store_url = $this->ctrl->getLinkTargetByClass(ilContainerBlockPropertiesStorageGUI::class, 'store');
+        $this->ctrl->clearParameterByClass(ilContainerBlockPropertiesStorageGUI::class, 'cont_block_id');
+
+        $this->renderer->addCustomBlock(
+            $a_itgr["ref_id"],
+            $item_group->getShowTitle() || $this->container_gui->isActiveAdministrationPanel() ? $a_itgr['title'] : '',
+            $item_list_gui->getCommandsHTML($a_itgr['title'], false),
+            [
+                'behaviour' => $item_group->getBehaviour(in_array($opened, ['0', '1'], true) ? (bool) $opened : null),
+                'store-url' => "./{$store_url}"
+            ]
         );
-        if ($stored_val !== "" && $beh !== ilItemGroupBehaviour::ALWAYS_OPEN) {
-            $beh = ($stored_val === "1")
-                ? ilItemGroupBehaviour::EXPANDABLE_OPEN
-                : ilItemGroupBehaviour::EXPANDABLE_CLOSED;
-        }
-
-        $data = [
-            "behaviour" => $beh,
-            "store-url" => "./ilias.php?baseClass=ilcontainerblockpropertiesstoragegui&cmd=store" .
-                "&cont_block_id=itgr_" . $a_itgr['ref_id']
-        ];
-        if (ilObjItemGroup::lookupHideTitle($a_itgr["obj_id"]) &&
-            !$this->getContainerGUI()->isActiveAdministrationPanel()) {
-            $this->renderer->addCustomBlock($a_itgr["ref_id"], "", $commands_html, $data);
-        } else {
-            $this->renderer->addCustomBlock($a_itgr["ref_id"], $a_itgr["title"], $commands_html, $data);
-        }
-
 
         // render item group sub items
 

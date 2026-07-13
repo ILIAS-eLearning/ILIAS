@@ -21,7 +21,6 @@ il.COPagePres = {
   init() {
     this.initToc();
     this.updateQuestionOverviews();
-    this.initMapAreas();
     this.initAdvancedContent();
     this.initAudioVideo();
     this.initAccordions();
@@ -195,11 +194,6 @@ il.COPagePres = {
   // Map area functions
   //
 
-  // init map areas
-  initMapAreas() {
-    // $('img[usemap^="#map_il_"][class!="ilIim"]').maphilight({ neverOn: true });
-  },
-
   /// /
   /// / Handle advanced content
   /// /
@@ -245,6 +239,69 @@ il.COPagePres = {
   /// / Audio/Video
   /// /
 
+  normalizePath(p) {
+    return (p || '').trim().replace(/^\.\//, '');
+  },
+
+  vttTextFromScript(scriptEl) {
+    // Use textContent; trim to avoid accidental leading whitespace before WEBVTT
+    return (scriptEl.textContent || '').replace(/^\uFEFF/, '').trim();
+  },
+
+  replaceTrackSrcWithBlob(trackEl, blobUrl) {
+    // Cloning is more reliable than setting trackEl.src in-place
+    const replacement = trackEl.cloneNode(true);
+    replacement.src = blobUrl;
+
+    // Optional: preserve current mode if it was toggled already
+    try {
+      replacement.default = trackEl.default;
+    } catch (_) {}
+
+    trackEl.parentNode.replaceChild(replacement, trackEl);
+    return replacement;
+  },
+
+  processVideo(videoEl) {
+    const tracks = Array.from(videoEl.querySelectorAll('track[src]'));
+
+    tracks.forEach((trackEl) => {
+      const src = il.COPagePres.normalizePath(trackEl.getAttribute('src'));
+      if (!src) return;
+
+      const scriptEl = document.querySelector(
+        `script[type="text/vtt"][data-mob-path="${CSS.escape(src)}"]`,
+      );
+
+      if (!scriptEl) return;
+
+      const vtt = il.COPagePres.vttTextFromScript(scriptEl);
+      if (!vtt) return;
+
+      const blob = new Blob([vtt], { type: 'text/vtt' });
+      const blobUrl = URL.createObjectURL(blob);
+
+      const newTrackEl = il.COPagePres.replaceTrackSrcWithBlob(trackEl, blobUrl);
+
+      // Cleanup: revoke when the video element goes away (best-effort)
+      // (No perfect "track unlil.COPagePres.oaded" event; this is a reasonable compromise.)
+      const revoke = () => URL.revokeObjectURL(blobUrl);
+      videoEl.addEventListener('emptied', revoke, { once: true });
+      window.addEventListener('beforeunload', revoke, { once: true });
+
+      // If you want subtitles to show automatically when the track is default:
+      // (Browser may require user interaction depending on settings.)
+      newTrackEl.track.mode = newTrackEl.default ? 'showing' : 'disabled';
+    });
+  },
+
+  replaceTrackForOffline(accEl) {
+    if (!accEl) {
+      accEl = document;
+    }
+    document.querySelectorAll('video').forEach(il.COPagePres.processVideo);
+  },
+
   initAudioVideo(acc_el) {
     let $elements;
     if (acc_el) {
@@ -252,6 +309,8 @@ il.COPagePres = {
     } else {
       $elements = $('video.ilPageVideo,audio.ilPageAudio');
     }
+
+    il.COPagePres.replaceTrackForOffline(acc_el);
 
     if ($elements.mediaelementplayer) {
       $elements.each((i, el) => {

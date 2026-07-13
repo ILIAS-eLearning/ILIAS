@@ -25,7 +25,6 @@ use ILIAS\Refinery\Custom\Transformation;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\UI\Component\Input\Container\Form;
-use ILIAS\UI\Component\MessageBox\MessageBox;
 
 /**
  * @ilCtrl_Calls ilBulkEditQuestionsGUI: ilFormPropertyDispatchGUI

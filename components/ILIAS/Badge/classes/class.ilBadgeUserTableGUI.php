@@ -41,7 +41,6 @@ use DateTimeImmutable;
 use ILIAS\UI\URLBuilderToken;
 use ilObjectDataDeletionLog;
 use ilTree;
-use ilCalendarSettings;
 use ilObjUser;
 use ILIAS\Data\DateFormat\DateFormat;
 use ILIAS\UI\Component\Table\Column\Column;
@@ -381,8 +380,9 @@ class ilBadgeUserTableGUI implements DataRetrieval
         $table = $this->factory
             ->table()
             ->data($title, $this->getColumns(), $this)
-            ->withId(self::class . '_' . $this->parent_ref_id)
+            ->withId(str_replace('\\', '', self::class) . '_' . $this->parent_ref_id)
             ->withOrder(new Order('name', Order::ASC))
+            ->withRange(new Range(0, 100))
             ->withActions($this->getActions($url_builder, $action_parameter_token, $row_id_token))
             ->withRequest($this->request);
 

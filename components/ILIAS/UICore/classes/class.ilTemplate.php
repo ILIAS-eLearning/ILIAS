@@ -356,10 +356,17 @@ class ilTemplate extends HTML_Template_ITX
         if (str_starts_with($a_tplname, $ilias_root)) {
             $a_tplname = str_replace($ilias_root, '', $a_tplname);
         }
-        if (strpos($a_tplname, 'public/Customizing/global/plugins')) {
+
+        // Special Cases for plugins
+        if (str_starts_with($a_tplname, 'Customizing/global/plugins/')) {
+            $a_tplname = "public/$a_tplname";
+        }
+
+        if (str_contains($a_tplname, 'public/Customizing/global/plugins')) {
             $tpl_sub_path = '';
         }
 
+        // Proceed with skin lookup
         $base_path = $ilias_root;
         $default = $base_path . $a_in_module . $tpl_sub_path . $a_tplname;
 
@@ -369,15 +376,40 @@ class ilTemplate extends HTML_Template_ITX
         }
 
         $style = $this->getCurrentStyle();
-        $base_path .= 'public/Customizing/skin/' . $skin . '/' . $style;
+        $base_skin_path = $ilias_root . 'public/Customizing/skin/' . $skin;
 
         if ($a_in_module === 'components/ILIAS/UI/src') {
-            $a_in_module = 'UI';
+            $paths = [
+                "$base_skin_path/$style/components/ILIAS/UI/src/",
+                "$base_skin_path/$style/components/ILIAS/UI/",
+                "$base_skin_path/$style/UI/src/",
+                "$base_skin_path/$style/UI/",
+                "$base_skin_path/components/ILIAS/UI/src/",
+                "$base_skin_path/components/ILIAS/UI/",
+                "$base_skin_path/UI/src/",
+                "$base_skin_path/UI/",
+            ];
+
+            foreach ($paths as $path) {
+                $ui_template_path = $path . $a_tplname;
+
+                if ($this->fileexistsinskin($ui_template_path)) {
+                    return $ui_template_path;
+                }
+            }
+        } else {
+            $from_style = $base_skin_path . '/' . $style . '/' . $a_in_module . '/' . $a_tplname;
+            if ($this->fileexistsinskin($from_style)) {
+                return $from_style;
+            }
+
+            $from_skin = $base_skin_path . '/' . $a_in_module . '/' . $a_tplname;
+            if ($this->fileexistsinskin($from_skin)) {
+                return $from_skin;
+            }
         }
 
-        $from_skin = $base_path . '/' . $a_in_module . '/' . $a_tplname;
-
-        return $this->fileExistsInSkin($from_skin) ? $from_skin : $default;
+        return $default;
     }
 
     /**

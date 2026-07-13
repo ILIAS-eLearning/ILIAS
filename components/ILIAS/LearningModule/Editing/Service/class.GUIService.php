@@ -85,34 +85,44 @@ class GUIService
         $table = $table
             ->ordering("saveOrder")
             ->iconColumn("type", $lng->txt("type"))
-            ->textColumn("title", $lng->txt("title"));
+            ->linkColumn("title", $lng->txt("title"));
         if (!in_array($transl, ["-", ""])) {
             $table = $table->textColumn("trans_title", $lng->txt("title") .
-            " (".$lng->txt("meta_l_". $transl).")");
+            " (" . $lng->txt("meta_l_" . $transl) . ")");
         }
 
         if ($type === "st") {
             $acts = [
                 [
                     "editPages",
-                    $lng->txt("edit"),
+                    $lng->txt("lm_list_pages"),
                     [\ilObjLearningModuleGUI::class, \ilStructureObjectGUI::class, EditSubObjectsGUI::class],
                     "editPages",
                     "obj_id"
                 ],
                 [
+                    "editTitle",
+                    $lng->txt("cont_edit_title"),
+                    null,
+                    "",
+                    "",
+                    true
+                ],
+                [
                     "insertChapterAfter",
                     $lng->txt("lm_insert_chapter_after"),
-                    [EditSubObjectsGUI::class],
-                    "insertChapterAfter",
-                    "target_id"
+                    null,
+                    "",
+                    "",
+                    true
                 ],
                 [
                     "insertChapterBefore",
                     $lng->txt("lm_insert_chapter_before"),
-                    [EditSubObjectsGUI::class],
-                    "insertChapterBefore",
-                    "target_id"
+                    null,
+                    "",
+                    "",
+                    true
                 ]
             ];
             if ($user->clipboardHasObjectsOfType("st")) {
@@ -135,24 +145,34 @@ class GUIService
             $acts = [
                 [
                     "editPage",
-                    $lng->txt("edit"),
+                    $lng->txt("lm_edit_content"),
                     [\ilObjLearningModuleGUI::class, \ilLMPageObjectGUI::class],
                     "edit",
                     "obj_id"
                 ],
                 [
+                    "editTitle",
+                    $lng->txt("cont_edit_title"),
+                    null,
+                    "",
+                    "",
+                    true
+                ],
+                [
                     "insertPageAfter",
                     $lng->txt("lm_insert_page_after"),
-                    [EditSubObjectsGUI::class],
-                    "insertPageAfter",
-                    "target_id"
+                    null,
+                    "",
+                    "",
+                    true
                 ],
                 [
                     "insertPageBefore",
                     $lng->txt("lm_insert_page_before"),
-                    [EditSubObjectsGUI::class],
-                    "insertPageBefore",
-                    "target_id"
+                    null,
+                    "",
+                    "",
+                    true
                 ]
             ];
             if ($user->clipboardHasObjectsOfType("pg")) {
@@ -171,36 +191,17 @@ class GUIService
                     "target_id"
                 ];
             }
-            if (count($this->page_layouts) > 0) {
-                $acts[] = [
-                    "insertLayoutAfter",
-                    $lng->txt("lm_insert_layout_after"),
-                    [EditSubObjectsGUI::class],
-                    "insertLayoutAfter",
-                    "target_id"
-                ];
-                $acts[] = [
-                    "insertLayoutBefore",
-                    $lng->txt("lm_insert_layout_before"),
-                    [EditSubObjectsGUI::class],
-                    "insertLayoutBefore",
-                    "target_id"
-                ];
-            }
         }
         foreach ($acts as $a) {
-            $table = $table->singleAction($a[0], $a[1])
-                           ->redirect($a[2], $a[3], $a[4]);
+            $table = $table->singleAction($a[0], $a[1], $a[5] ?? false);
+            if (!is_null($a[2])) {
+                $table = $table->redirect($a[2], $a[3], $a[4]);
+            }
         }
         $table = $table
             ->standardAction(
                 "delete",
                 $lng->txt("delete")
-            )
-            ->singleAction(
-                "editTitle",
-                $lng->txt("cont_edit_title"),
-                true
             )
             ->standardAction(
                 "cutItems",

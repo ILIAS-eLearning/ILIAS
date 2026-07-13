@@ -441,6 +441,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                         !$this->isActiveOrdering() &&
                         $this->supportsPageEditor()
                     ) {
+                        $this->ctrl->setParameter($this, "ref_id", $this->object->getRefId());
                         $toolbar->addButton(
                             $lng->txt("cntr_text_media_editor"),
                             $ilCtrl->getLinkTarget($this, "editPageFrame")
@@ -601,19 +602,19 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $num_files = $this->tree->getChildsByType($ref_id, "file");
             $num_folders = $this->tree->getChildsByType($ref_id, "fold");
             if (count($num_files) > 0 || count($num_folders) > 0) {
-                // #11843
-                $GLOBALS['tpl']->setPageFormAction($this->ctrl->getFormAction($this));
-
                 $toolbar = new ilToolbarGUI();
                 $this->ctrl->setParameter($this, "type", "");
                 $this->ctrl->setParameter($this, "item_ref_id", "");
+
+                // #11843
+                $main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
 
                 $toolbar->addFormButton(
                     $this->lng->txt('download_selected_items'),
                     'download'
                 );
 
-                $GLOBALS['tpl']->addAdminPanelToolbar(
+                $main_tpl->addAdminPanelToolbar(
                     $toolbar,
                     $this->gotItems(),
                     $this->gotItems()
@@ -1141,6 +1142,14 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             }
         }
 
+        foreach ($ids as $ref_id) {
+            if (!in_array(ilObject::_lookupType($ref_id, true), ["crs", "grp", "fold", "file"])) {
+                $this->lng->loadLanguageModule("cont");
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cont_only_crs_grp_fold_download"), true);
+                $this->ctrl->redirect($this, "");
+            }
+        }
+
         $download_job = new ilDownloadContainerFilesBackgroundTask(
             $GLOBALS['DIC']->user()->getId(),
             $ids,
@@ -1422,6 +1431,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                     $rbacadmin->adjustMovedObjectPermissions($ref_id, $old_parent);
 
                     ilConditionHandler::_adjustMovedObjectConditions($ref_id);
+                    $availability = new ilObjectActivation();
+                    $availability->read($ref_id);
+                    $availability->update($ref_id, $folder_ref_id);
 
                     // BEGIN ChangeEvent: Record cut event.
                     $node_data = $tree->getNodeData($ref_id);
@@ -1738,6 +1750,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $rbacadmin->adjustMovedObjectPermissions($ref_id, $old_parent);
 
                 ilConditionHandler::_adjustMovedObjectConditions($ref_id);
+                $availability = new ilObjectActivation();
+                $availability->read($ref_id);
+                $availability->update($ref_id, $this->object->getRefId());
 
                 // BEGIN ChangeEvent: Record cut event.
                 $node_data = $tree->getNodeData($ref_id);

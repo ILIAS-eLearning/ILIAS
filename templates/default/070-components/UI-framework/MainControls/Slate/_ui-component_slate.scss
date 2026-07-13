@@ -31,6 +31,11 @@ $il-slate-tree-padding: $il-padding-small-vertical 0;
 			filter: invert(50%);
 		}
 	}
+	.c-tooltip__container:has(.btn-bulky),
+	.c-tooltip__container:has(.link-bulky) {
+		width: 100%;
+	}
+
 	.il-maincontrols-slate .btn-bulky {
 		background-color: $il-slate-bulky-level2-bg-color;
 	}

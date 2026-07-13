@@ -587,6 +587,9 @@ class ilContainer extends ilObject
         // delete translations
         $this->obj_trans->delete();
 
+        // delete content page
+        $this->domain->page($this)->deletePage();
+
         return true;
     }
 
@@ -884,7 +887,7 @@ class ilContainer extends ilObject
 
         $log = ilLoggerFactory::getLogger("cont");
         $log->debug(":::::::::::::::::::::::::::");
-        $log->logStack(10);
+        $log->logStack(ilLogLevel::DEBUG);
 
         //ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 
@@ -998,6 +1001,13 @@ class ilContainer extends ilObject
             $pg = new ilContainerPage($obj_id);
             $pg->handleRepositoryLinksOnCopy($mapping, $a_source_ref_id);
             $pg->update(true, true);
+            foreach (ilContainerPage::lookupTranslations("cont", $obj_id) as $trans) {
+                if ($trans !== "-" && ilContainerPage::_exists("cont", $obj_id, $trans, true)) {
+                    $pg = new ilContainerPage($obj_id, 0, $trans);
+                    $pg->handleRepositoryLinksOnCopy($mapping, $a_source_ref_id);
+                    $pg->update(true, true);
+                }
+            }
         }
 
         foreach ($mapping as $old_ref_id => $new_ref_id) {

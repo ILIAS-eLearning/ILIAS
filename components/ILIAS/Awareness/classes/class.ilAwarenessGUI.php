@@ -91,10 +91,12 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
 
     public function initJS(): void
     {
-        $ilUser = $this->user;
-        // init js
-        //$this->main_tpl->addJavaScript("../components/ILIAS/Awareness/resources/Awareness.js");
-        $this->main_tpl->addJavaScript("./assets/js/Awareness.js");
+        $debug = false;
+        if ($debug) {
+            $this->main_tpl->addJavaScript("../components/ILIAS/Awareness/resources/Awareness.js");
+        } else {
+            $this->main_tpl->addJavaScript("./assets/js/Awareness.js");
+        }
         $this->ctrl->setParameter($this, "ref_id", $this->ref_id);
         $this->main_tpl->addOnLoadCode("il.Awareness.setBaseUrl('" . $this->ctrl->getLinkTarget(
             $this,

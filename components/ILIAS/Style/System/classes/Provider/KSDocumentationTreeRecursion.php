@@ -40,13 +40,15 @@ class KSDocumentationTreeRecursion implements \ILIAS\UI\Component\Tree\TreeRecur
             $this->current_node = $entries->getEntryById($current_opened_entry_id);
         }
     }
-
+    /**
+     * @param Entry $record
+     * @return Entry[]
+     */
     public function getChildren($record, $environment = null): array
     {
-        /**
-         * @var Entry $record
-         */
-        return $this->entries->getChildrenOfEntry($record->getId());
+        $entries = $this->entries->getChildrenOfEntry($record->getId());
+        usort($entries, static fn(Entry $a, Entry $b): int => ilStr::strCmp($a->getTitle(), $b->getTitle()));
+        return $entries;
     }
 
     public function build(

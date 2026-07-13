@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class ilScorm2004DatabaseUpdateSteps implements ilDatabaseUpdateSteps
 {
@@ -35,6 +35,23 @@ class ilScorm2004DatabaseUpdateSteps implements ilDatabaseUpdateSteps
     public function step_2(): void
     {
         $this->db->modifyTableColumn("cp_dependency", "resourceid", array("type" => "text", "length" => 200, "notnull" => false, 'default' => null));
+    }
+
+    public function step_3(): void
+    {
+        if (!$this->db->indexExistsByFields('sahs_user', ['user_id'])) {
+            $this->db->addIndex('sahs_user', ['user_id'], 'i1');
+        }
+    }
+
+    public function step_4(): void
+    {
+        $this->db->modifyTableColumn("cmi_correct_response", "pattern", array("type" => "text", "length" => 4000, "notnull" => false, 'default' => null));
+    }
+
+    public function step_5(): void
+    {
+        $this->db->modifyTableColumn("cmi_interaction", "id", array("type" => "text", "length" => 4000, "notnull" => false, 'default' => null));
     }
 
 }

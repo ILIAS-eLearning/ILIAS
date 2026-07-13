@@ -70,11 +70,11 @@ class ilBlogImporter extends ilXmlImporter
 
         $sty_map = $a_mapping->getMappingsOfEntity("components/ILIAS/Style", "sty");
         foreach ($sty_map as $old_sty_id => $new_sty_id) {
-            if (is_array(ilBlogDataSet::$style_map[$old_sty_id])) {
+            if (is_array(ilBlogDataSet::$style_map[$old_sty_id] ?? false)) {
                 foreach (ilBlogDataSet::$style_map[$old_sty_id] as $blog_id) {
                     $this->content_style_domain
                         ->styleForObjId($blog_id)
-                        ->updateStyleId($new_sty_id);
+                        ->updateStyleId((int) $new_sty_id);
                 }
             }
         }

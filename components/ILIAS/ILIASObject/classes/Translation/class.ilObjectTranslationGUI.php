@@ -147,7 +147,7 @@ class ilObjectTranslationGUI
         foreach ($titles as $k => $v) {
             $vals[] = [
                 'title' => $v,
-                'desc' => $descriptions[$k],
+                'desc' => $descriptions[$k] ?? '',
                 'lang' => $languages[$k],
                 'default' => ($default == $k)
             ];

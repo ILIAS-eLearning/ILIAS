@@ -5,16 +5,14 @@ img.ilBadgeImage {
 	max-height: 150px;
 }
 
-.ilBadgeImageThumbnail a .img-responsive {
-	max-width: 50px;
-	max-height: 50px;
-	display: inline-block;
-}
-
-.ilBadgeImageThumbnail .modal .img-responsive {
-	margin: auto;
-	width: 50%;
-	height: auto;
+.badge_table-wrapper {
+  button, a {
+    > img.img-responsive {
+      max-width: 150px;
+      max-height: 150px;
+      display: inline-block;
+    }
+  }
 }
 
 div.ilBadgeBackpackPanelContent {

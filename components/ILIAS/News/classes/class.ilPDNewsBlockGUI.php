@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\News\StandardGUIRequest;
+use ILIAS\News\Data\NewsCriteria;
 use ILIAS\Authentication\Password\LocalUserPasswordManager;
 
 /**
@@ -28,82 +28,31 @@ use ILIAS\Authentication\Password\LocalUserPasswordManager;
 class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 {
     public static string $block_type = "pdnews";
-    protected bool $cache_hit = false;
-    protected ilNewsCache $acache;
-    protected bool $dynamic = false;
-    protected bool $acc_results = false;
-    protected StandardGUIRequest $std_request;
 
     public function __construct()
     {
-        global $DIC;
-
+        $this->prevent_initial_loading = true; // prevents loading in the parent constructor!
         parent::__construct();
 
-        $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $this->obj_definition = $DIC["objDefinition"];
-
-        // NOT ilNewsForContextBlockGUI::__construct() !
-        ilBlockGUI::__construct();
-
-        $lng->loadLanguageModule("news");
-        $this->setLimit(5);
-
         $this->dynamic = false;
-
-        $this->std_request = $DIC->news()
-            ->internal()
-            ->gui()
-            ->standardRequest();
-
-        $this->acache = new ilNewsCache();
-        $cres = unserialize((string) $this->acache->getEntry($this->user->getId() . ":0"), ["allowed_classes" => false]);
-        $this->cache_hit = false;
-        if (is_array($cres) && $this->acache->getLastAccessStatus() === "hit") {
-            self::$st_data = ilNewsItem::prepareNewsDataFromCache($cres);
-            $this->cache_hit = true;
-        }
-
-
-        if (empty(self::$st_data)) {
-            self::$st_data = $this->getNewsData();
-        }
-        $data = self::$st_data;
-
-        $this->setTitle($lng->txt("news_internal_news"));
+        $this->setLimit(5);
+        $this->setTitle($this->lng->txt("news_internal_news"));
         $this->setRowTemplate("tpl.block_row_news_for_context.html", "components/ILIAS/News");
 
-        $this->setData($data);
-
+        $this->loadNewsData();
         $this->handleView();
-
-        // reset access check results
-        $ilAccess->setResults((array) $this->acc_results);
-
         $this->setPresentation(self::PRES_SEC_LIST);
     }
 
-    public function getNewsData(): array
+    private function loadNewsData(): void
     {
-        $ilUser = $this->user;
-
-        $this->acache = new ilNewsCache();
-
-        $per = ilNewsItem::_lookupUserPDPeriod($ilUser->getId());
-        $data = ilNewsItem::_getNewsItemsOfUser(
-            $ilUser->getId(),
-            false,
-            false,
-            $per
+        $news_period = ilNewsItem::_lookupUserPDPeriod($this->user->getId());
+        $collection = $this->domain->collection()->getNewsForUser(
+            $this->user,
+            new NewsCriteria(period: $news_period, only_public: false),
+            true
         );
-
-        $this->acache->storeEntry(
-            $ilUser->getId() . ":0",
-            serialize($data)
-        );
-
-        return $data;
+        $this->initData($collection->groupFiles()->groupForums(false));
     }
 
     public function getBlockType(): string
@@ -131,15 +80,8 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 
     public function executeCommand()
     {
-        $ilCtrl = $this->ctrl;
-
-        $next_class = $ilCtrl->getNextClass();
-        $cmd = $ilCtrl->getCmd("getHTML");
-
-        switch ($next_class) {
-            default:
-                return $this->$cmd();
-        }
+        $cmd = $this->ctrl->getCmd();
+        return $this->$cmd();
     }
 
     public function getHTML(): string
@@ -355,8 +297,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
             0
         );
 
-        $cache = new ilNewsCache();
-        $cache->deleteEntry($ilUser->getId() . ":0");
+        $this->domain->collection()->invalidateCache($this->user->getId());
 
         $ilCtrl->returnToParent($this);
         return "";

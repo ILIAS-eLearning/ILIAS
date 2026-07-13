@@ -39,6 +39,7 @@
     </xs:sequence>
     <xs:attribute name="obj_id" type="xs:string" use="required"/>
     <xs:attribute name="ref_id" type="xs:string" use="required"/>
+    <xs:attribute name="position" type="xs:string" use="optional"/>
   </xs:complexType>
 
   <xs:complexType name="Condition">

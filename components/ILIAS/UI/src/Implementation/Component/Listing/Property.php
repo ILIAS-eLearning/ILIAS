@@ -33,11 +33,6 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 class Property extends Listing implements IListing\Property
 {
     use ComponentHelper;
-    protected const ALLOWED_VALUE_TYPES = [
-        Symbol::class,
-        Legacy::class,
-        StandardLink::class
-    ];
 
     public function __construct()
     {
@@ -58,13 +53,10 @@ class Property extends Listing implements IListing\Property
     }
 
     public function withProperty(
-        string $label,
-        string | Symbol | Legacy | StandardLink $value,
-        bool $show_label = true
+        string | Symbol $label,
+        string | Symbol | Legacy | StandardLink | IListing\Inline $value,
+        bool $show_label = true,
     ): self {
-        if (is_array($value)) {
-            $this->checkArgListElements("value", $value, self::ALLOWED_VALUE_TYPES);
-        }
         $clone = clone $this;
         $clone->items[] = [$label, $value, $show_label];
         return $clone;

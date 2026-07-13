@@ -394,6 +394,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 break;
 
             case "ilcommonactiondispatchergui":
+                $this->prepareOutput();
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -1400,7 +1401,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $html = $internal_gui->ui()->renderer()->render($modal);
         $html = str_replace(
             "<iframe id='ilMepPreviewContent'",
-            "<iframe data-signal='".$modal->getShowSignal()->getId()."' id='ilMepPreviewContent'",
+            "<iframe data-signal='" . $modal->getShowSignal()->getId() . "' id='ilMepPreviewContent'",
             $html
         );
 

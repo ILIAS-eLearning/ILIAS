@@ -221,6 +221,8 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
     public function getUrlForm(
         ilLanguage $lng
     ): ilPropertyFormGUI {
+        global $DIC;
+        $media_types = $DIC->mediaObjects()->internal()->domain()->mediaType();
         $form = new ilPropertyFormGUI();
         $form->setShowTopButtons(false);
 
@@ -240,8 +242,11 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
         $form->addItem($hi3);
 
         // standard reference
+        $lng->loadLanguageModule("mob");
         $ti = new ilTextInputGUI($lng->txt("url"), "standard_reference");
-        $ti->setInfo($lng->txt("cont_url_info"));
+        $info = $lng->txt("mob_url_info1") . " " . implode(", ", iterator_to_array($media_types->getAllowedSuffixes())) . ".";
+        $info .= " " . $lng->txt("mob_url_info_video");
+        $ti->setInfo($info);
         $ti->setRequired(true);
         $form->addItem($ti);
 

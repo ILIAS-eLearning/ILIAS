@@ -190,18 +190,17 @@ class RequestDataCollector
      */
     public function getMultiSelectionIds(string $key): array|string
     {
-        $p = $this->http->wrapper()->query();
-        $r = $this->refinery;
-
-        if (!$p->has($key)) {
+        if (!$this->http->wrapper()->query()->has($key)) {
             return [];
         }
 
-        return $p->retrieve(
+        return $this->http->wrapper()->query()->retrieve(
             $key,
-            $r->custom()->transformation(function ($value) {
-                return $value === 'ALL_OBJECTS' || $value[0] === 'ALL_OBJECTS' ? 'ALL_OBJECTS' : array_map('intval', $value);
-            })
+            $this->refinery->custom()->transformation(
+                static fn($v): array|string => $v === 'ALL_OBJECTS' || $v[0] === 'ALL_OBJECTS'
+                    ? 'ALL_OBJECTS'
+                    : $v
+            )
         );
     }
 }

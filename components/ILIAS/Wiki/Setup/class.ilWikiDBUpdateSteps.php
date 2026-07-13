@@ -144,4 +144,27 @@ class ilWikiDBUpdateSteps implements \ilDatabaseUpdateSteps
 
     }
 
+    public function step_7(): void
+    {
+        $db = $this->db;
+        if (!$db->tableColumnExists('il_wiki_page', 'create_date')) {
+            $this->db->addTableColumn('il_wiki_page', 'create_date', array(
+                'type' => 'timestamp',
+                'notnull' => false
+            ));
+        }
+    }
+
+    public function step_8(): void
+    {
+        $db = $this->db;
+        if (!$db->tableColumnExists('il_wiki_page', 'import_id')) {
+            $this->db->addTableColumn('il_wiki_page', 'import_id', array(
+                'type' => 'text',
+                'notnull' => false,
+                'length' => 50
+            ));
+        }
+    }
+
 }

@@ -22,12 +22,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
 {
     public const REFERENCE_SEPARATOR = " -> ";
 
-    /**
-     * @param ilPropertyFormGUI $form
-     * @param int|null          $record_id
-     * @return ilSelectInputGUI|ilMultiSelectInputGUI
-     */
-    public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilFormPropertyGUI
+    public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilSelectInputGUI|ilMultiSelectInputGUI
     {
         if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
             $input = new ilMultiSelectInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
@@ -39,11 +34,50 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
 
         $this->setupInputField($input, $this->getField());
 
-        $options = [];
+        $options = $this->getSortedRecords();
         if (!$this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
-            $options[''] = $this->lng->txt('dcl_please_select');
+            $options = ['' => $this->lng->txt('dcl_please_select')] + $options;
         }
 
+        $input->setOptions($options);
+        if ($input instanceof ilMultiSelectInputGUI) {
+            $input->setHeight(32 * min(5, max(1, count($options))));
+        }
+
+        $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+
+        $fieldref = (int) $this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE);
+        $reffield = ilDclCache::getFieldCache($fieldref);
+        if (ilObjDataCollectionAccess::hasPermissionToAddRecord($ref_id, $reffield->getTableId())) {
+            $input->addCustomAttribute('data-ref="1"');
+            $input->addCustomAttribute('data-ref-table-id="' . $reffield->getTableId() . '"');
+            $input->addCustomAttribute('data-ref-field-id="' . $reffield->getId() . '"');
+        }
+
+        return $input;
+    }
+
+    public function addFilterInputFieldToTable(ilTable2GUI $table): array|string|null
+    {
+        $input = $table->addFilterItemByMetaType(
+            "filter_" . $this->getField()->getId(),
+            ilTable2GUI::FILTER_SELECT,
+            false,
+            $this->getField()->getId()
+        );
+        $options = ['' => $this->lng->txt('dcl_all_entries')]
+            + $this->getSortedRecords()
+            + ['none' => $this->lng->txt('dcl_no_entry')];
+        $input->setOptions($options);
+
+        $this->setupFilterInputField($input);
+
+        return $this->getFilterInputFieldValue($input);
+    }
+
+    protected function getSortedRecords(): array
+    {
+        $options = [];
         $fieldref = (int) $this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE);
         $reffield = ilDclCache::getFieldCache($fieldref);
         $reftable = ilDclCache::getTableCache($reffield->getTableId());
@@ -85,63 +119,15 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
         }
         asort($options, SORT_NATURAL | SORT_FLAG_CASE);
 
-        // TT #0019091: restore the actual values after sorting with timestamp
         if ($reffield->getDatatypeId() === ilDclDatatype::INPUTFORMAT_DATE) {
             foreach ($options as $key => $opt) {
                 if ($key != "" && isset($options2) && is_array($options2)) {
                     $options[$key] = $options2[$key];
                 }
             }
-            // the option 'please select' messes with the order, therefore we reset it
-            unset($options[""]);
-            $options = ["" => $this->lng->txt('dcl_please_select')] + $options;
         }
 
-        $input->setOptions($options);
-        if ($input instanceof ilMultiSelectInputGUI) {
-            $input->setHeight(32 * min(5, max(1, count($options))));
-        }
-
-
-        $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
-
-        if (ilObjDataCollectionAccess::hasPermissionToAddRecord($ref_id, $reftable->getId())) {
-            $input->addCustomAttribute('data-ref="1"');
-            $input->addCustomAttribute('data-ref-table-id="' . $reftable->getId() . '"');
-            $input->addCustomAttribute('data-ref-field-id="' . $reffield->getId() . '"');
-        }
-
-        return $input;
-    }
-
-    /**
-     * @return string|array|null
-     */
-    public function addFilterInputFieldToTable(ilTable2GUI $table)
-    {
-        $input = $table->addFilterItemByMetaType(
-            "filter_" . $this->getField()->getId(),
-            ilTable2GUI::FILTER_SELECT,
-            false,
-            $this->getField()->getId()
-        );
-        $ref_field_id = (int) $this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE);
-        $ref_field = ilDclCache::getFieldCache($ref_field_id);
-        $ref_table = ilDclCache::getTableCache($ref_field->getTableId());
-        $options = [];
-        foreach ($ref_table->getRecords() as $record) {
-            $options[$record->getId()] = $record->getRecordField($ref_field_id)->getPlainText();
-        }
-        // Sort by values ASC
-        asort($options);
-        $options = ['' => $this->lng->txt('dcl_all_entries')]
-            + $options
-            + ['none' => $this->lng->txt('dcl_no_entry')];
-        $input->setOptions($options);
-
-        $this->setupFilterInputField($input);
-
-        return $this->getFilterInputFieldValue($input);
+        return $options;
     }
 
     /**

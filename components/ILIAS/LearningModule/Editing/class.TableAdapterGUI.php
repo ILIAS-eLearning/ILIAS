@@ -99,6 +99,16 @@ class TableAdapterGUI
         return $this;
     }
 
+    public function linkColumn(
+        string $key,
+        string $title,
+        bool $sortable = false
+    ): self {
+        $column = $this->ui->factory()->table()->column()->link($title)->withIsSortable($sortable);
+        $this->addColumn($key, $column);
+        return $this;
+    }
+
     public function iconColumn(
         string $key,
         string $title,

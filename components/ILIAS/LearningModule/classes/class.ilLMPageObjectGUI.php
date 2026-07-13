@@ -542,7 +542,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
         $fields["description"] = $f->input()->field()->textarea($lng->txt("description"));
 
-        $ts = ilPageLayoutGUI::getTemplateSelection(ilPageLayout::MODULE_LM);
+        $ts = ilPageLayoutGUI::getTemplateSelection(ilPageLayout::MODULE_LM, true);
         if (!is_null($ts)) {
             $fields["layout_id"] = $ts;
         }

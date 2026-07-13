@@ -33,6 +33,7 @@ abstract class ilLearningSequencePageObjectGUI extends ilPageObjectGUI
     {
         $this->page_config->setEnablePCType(ilPCCurriculum::PCELEMENT, true);
         $this->page_config->setEnablePCType(ilPCLauncher::PCELEMENT, true);
+        $this->page_config->setEnableInternalLinks(true);
         return $this->page_config;
     }
 }

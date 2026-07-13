@@ -147,6 +147,8 @@ class ilFileXMLWriter extends ilXmlWriter
         $this->xmlElement("Title", null, $this->file->getTitle());
         $this->xmlElement("Description", null, $this->file->getDescription());
         $this->xmlElement("Rating", null, (int) $this->file->hasRating());
+        $this->xmlElement("ImportantInformation", null, (string) $this->file->getImportantInfo());
+        $this->xmlElement("OnClickMode", null, (int) $this->file->getOnClickMode());
 
         $versions = $this->file->getVersions();
 

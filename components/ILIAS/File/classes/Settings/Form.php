@@ -43,7 +43,7 @@ class Form
     {
         return $this->field_factory->section(
             [$this->asFormGroup()],
-            $this->language->txt('obj_file')
+            $this->language->txt('settings')
         );
     }
 

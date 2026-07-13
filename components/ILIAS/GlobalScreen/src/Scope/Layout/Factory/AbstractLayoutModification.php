@@ -147,7 +147,7 @@ abstract class AbstractLayoutModification implements LayoutModification
             }
             // First argument has wrong type
             if ($param->getType()->getName() !== $requested_first_argument_type) {
-                throw new InvalidModification($this, "Modification's first parameter does not match the requested type");
+                throw new InvalidModification($this, "Modification's first parameter does not match the requested type `$requested_first_argument_type`");
             }
             // First argument nullable
             if ($this->firstArgumentAllowsNull() && !$param->allowsNull()) {
@@ -162,7 +162,7 @@ abstract class AbstractLayoutModification implements LayoutModification
             }
             // return type check
             if ($r->getReturnType()->getName() !== $requested_return_type) {
-                throw new InvalidModification($this, "Modification's return type does not match the requested type");
+                throw new InvalidModification($this, "Modification's return type does not match the requested type `$requested_return_type`");
             }
 
             // Return type nullable

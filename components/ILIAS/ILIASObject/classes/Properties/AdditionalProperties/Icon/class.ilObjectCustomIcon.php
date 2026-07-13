@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\CustomIconTempUploadPath;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\FileUpload\DTO\UploadResult;
@@ -113,7 +114,12 @@ class ilObjectCustomIcon
             $this->filesystem->delete($relative_path);
         }
 
-        rename(ilFileUtils::getDataDir() . '/temp/' . $tempfile_name, $this->getFullPath());
+        $temp_icon = new CustomIconTempUploadPath(
+            $tempfile_name,
+            ilFileUtils::getDataDir()
+        );
+
+        rename($temp_icon->getAbsolutePath(), $this->getFullPath());
         $this->filesystem->setVisibility($relative_path, 'public');
 
 

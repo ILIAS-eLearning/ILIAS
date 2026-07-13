@@ -849,6 +849,7 @@ return [
     'wbmp' => ILIAS\FileUpload\MimeType::IMAGE__VND_WAP_WBMP,
     'web' => ILIAS\FileUpload\MimeType::APPLICATION__VND_XARA,
     'webm' => ILIAS\FileUpload\MimeType::VIDEO__WEBM,
+    'webp' => ILIAS\FileUpload\MimeType::IMAGE__WEBP,
     'wiz' => ILIAS\FileUpload\MimeType::APPLICATION__MSWORD,
     'wk1' => ILIAS\FileUpload\MimeType::APPLICATION__X_123,
     'wm' => ILIAS\FileUpload\MimeType::VIDEO__X_MS_WM,

@@ -234,26 +234,11 @@
 <!-- output image map areas -->
 <xsl:template name="outputImageMapAreas">
 	<xsl:for-each select="../MapArea">
-
-		<!-- highlight mode -->
-		<xsl:variable name="hl_class">
-			<xsl:choose>
-				<xsl:when test="@HighlightClass = 'Dark'">"fillColor":"202020","strokeColor":"202020"</xsl:when>
-				<xsl:when test="@HighlightClass = 'Light'">"fillColor":"F0F0F0","strokeColor":"F0F0F0"</xsl:when>
-				<xsl:otherwise>"fillColor":"FF6633","strokeColor":"FF6633"</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:variable name="hl_mode">
-			<xsl:choose>
-				<xsl:when test="@HighlightMode = 'Hover'">,"fade":true</xsl:when>
-				<xsl:otherwise>,"alwaysOn":true,"fade":false</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-
 		<xsl:if test="@Shape != 'WholePicture' and $map_edit_mode = ''">
 			<area>
 				<xsl:if test="@HighlightMode != '' and $map_edit_mode = ''">
-					<xsl:attribute name="data-maphilight">{"neverOn":false, "fillOpacity":0, "strokeWidth":2,<xsl:value-of select = "$hl_class"/><xsl:value-of select = "$hl_mode"/>}</xsl:attribute>
+					<xsl:attribute name="data-hl-class"><xsl:value-of select = "@HighlightClass"/></xsl:attribute>
+					<xsl:attribute name="data-hl-mode"><xsl:value-of select = "@HighlightMode"/></xsl:attribute>
 				</xsl:if>
 				<xsl:attribute name="shape"><xsl:value-of select="@Shape"/></xsl:attribute>
 				<xsl:attribute name="coords"><xsl:value-of select="@Coords"/></xsl:attribute>
@@ -2591,6 +2576,7 @@
 				<iframe allow="fullscreen; autoplay; picture-in-picture;" referrerpolicy="strict-origin-when-cross-origin">
 					<!-- see #bug22632 -->
 					<xsl:attribute name="src"><xsl:value-of select="$httpprefix"/>//www.youtube.com/embed/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='v']/@Value" /></xsl:attribute>
+					<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
 				</iframe>
 			</div>
 		</xsl:when>
@@ -2682,7 +2668,7 @@
 					<xsl:attribute name="style">max-width: 100%; width: 100%; max-height: 100%;</xsl:attribute>
 				</xsl:if>
 				<xsl:if test="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/PreviewPic/@File != ''">
-					<xsl:attribute name="poster"><xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/PreviewPic/@File"/></xsl:attribute>
+					<xsl:attribute name="poster"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/PreviewPic/@File"/></xsl:attribute>
 				</xsl:if>
 				<xsl:if test="$mode != 'edit' and
 					(../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
@@ -2724,7 +2710,10 @@
 			<xsl:if test="$mode = 'offline'" >
 				<xsl:for-each select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Subtitle">
 					<xsl:if test = "@Default = 'true'">
-						<div class="ilMobSubtitleText" style="display:none;"><xsl:attribute name="name"><xsl:value-of select="$cmobid"/>_<xsl:value-of select="$curPurpose"/></xsl:attribute>[[[[[mobsubtitle;<xsl:value-of select="$cmobid"/>_<xsl:value-of select="$curPurpose"/>]]]]]</div>
+						<script type="text/vtt">
+							<xsl:attribute name="data-mob-path"><xsl:value-of select="@File"/></xsl:attribute>
+							<xsl:attribute name="name"><xsl:value-of select="$cmobid"/>_<xsl:value-of select="$curPurpose"/></xsl:attribute>[[[[[mobsubtitle;<xsl:value-of select="$cmobid"/>_<xsl:value-of select="$curPurpose"/>]]]]]
+						</script>
 					</xsl:if>
 				</xsl:for-each>
 			</xsl:if>
@@ -2743,6 +2732,7 @@
 			<iframe allow="fullscreen; autoplay; picture-in-picture;" referrerpolicy="strict-origin-when-cross-origin">
 				<!-- see #bug22632 -->
 				<xsl:attribute name="src">//player.vimeo.com/video/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='id']/@Value" /></xsl:attribute>
+				<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
 			</iframe>
 			</div>
 		</xsl:when>
@@ -2948,7 +2938,7 @@
 	<xsl:if test="@Overlay != ''">
 		<xsl:variable name="cur_nr" select="@Nr" />
 		<xsl:variable name="mobid" select="../MediaAlias/@OriginId" />
-		<img style="display:none;">
+		<img style="display:none; z-index:1; pointer-events:none;">
 		<xsl:attribute name="src"><xsl:value-of select="//MediaObject[@Id=$mobid]/MediaItem[@Purpose = 'Standard']/Url/@Base"/>/overlays/<xsl:value-of select="@Overlay"/></xsl:attribute>
 		<xsl:attribute name="id">iim_ov_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
 		<xsl:if test="$mode != 'edit'">
@@ -3586,7 +3576,7 @@
 
 <!-- GridCell -->
 <xsl:template match="GridCell">
-	<xsl:variable name="container_edit_class"><xsl:if test="$mode = 'edit'"> copg-edit-container</xsl:if></xsl:variable>
+	<xsl:variable name="container_edit_class"></xsl:variable>
 	<div style="position: relative;">
 		<xsl:attribute name="class">
 			<xsl:if test="@WIDTH_S != ''"> col-sm-<xsl:value-of select="@WIDTH_S"/></xsl:if>
@@ -3598,33 +3588,35 @@
 		</xsl:attribute>
 		<!-- we had a div height=100% here, this div enforced margin collapsing, see bug 31536, for height see 32067, removed due to 45294, cols are different in 9 now -->
 			<xsl:if test="$mode = 'edit'">
-				<xsl:call-template name="EditReturnAnchors"/>
+				<div class="copg-edit-container">
+					<xsl:call-template name="EditReturnAnchors"/>
+					<!-- drop area (js) -->
+					<xsl:if test="$javascript = 'enable'">
+						<xsl:call-template name="DropArea">
+							<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
+							<xsl:with-param name="pc_id"><xsl:value-of select="@PCID"/></xsl:with-param>
+						</xsl:call-template>
+					</xsl:if>
+					<!-- insert dropdown (no js) -->
+					<xsl:if test= "$javascript = 'disable'">
+						<select size="1" class="ilEditSelect">
+							<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
+							</xsl:attribute>
+							<xsl:call-template name="EditMenuInsertItems"/>
+						</select>
+						<input class="ilEditSubmit" type="submit">
+							<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
+							<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>]</xsl:attribute>
+						</input>
+						<br/>
+					</xsl:if>
+					<xsl:apply-templates select="PageContent"/>
+					<xsl:comment>End of Grid Cell</xsl:comment>
+				</div>
 			</xsl:if>
-			<!-- insert commands -->
-			<!-- <xsl:value-of select="@HierId"/> -->
-			<xsl:if test="$mode = 'edit'">
-				<!-- drop area (js) -->
-				<xsl:if test="$javascript = 'enable'">
-					<xsl:call-template name="DropArea">
-						<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
-						<xsl:with-param name="pc_id"><xsl:value-of select="@PCID"/></xsl:with-param>
-					</xsl:call-template>
-				</xsl:if>
-				<!-- insert dropdown (no js) -->
-				<xsl:if test= "$javascript = 'disable'">
-					<select size="1" class="ilEditSelect">
-						<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
-						</xsl:attribute>
-						<xsl:call-template name="EditMenuInsertItems"/>
-					</select>
-					<input class="ilEditSubmit" type="submit">
-						<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
-						<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>]</xsl:attribute>
-					</input>
-					<br/>
-				</xsl:if>
+			<xsl:if test="$mode != 'edit'">
+				<xsl:apply-templates select="PageContent"/>
 			</xsl:if>
-			<xsl:apply-templates select="PageContent"/>
 			<xsl:comment>End of Grid Cell</xsl:comment>
 	</div>
 </xsl:template>

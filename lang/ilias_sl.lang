@@ -653,7 +653,6 @@ assessment#:#errFormulaQuestion#:#Vprašanje v obliki formule vsebuje napačne p
 assessment#:#errRecursionInResult#:#Formula vsebuje nerešljivo rekurzijo.
 assessment#:#err_category_in_use#:#Kategorije ni mogoče izbrisati. Ena ali več enot te kategorije je že v uporabi.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.
-assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#This value has to be smaller than the maximum range.
 assessment#:#err_duplicate_results#:#Večkrat ste uporabili eno spremenljivko rezultata. To v besedilu naloge ni dovoljeno!
 assessment#:#err_no_formula#:#Vnesite formulo za izračun rezultata.
@@ -1150,6 +1149,7 @@ assessment#:#question_summary#:#Stanje obdelave
 assessment#:#question_summary_btn#:#Stanje obdelave
 assessment#:#question_title#:#Naslov vprašanja
 assessment#:#question_type#:#Tip vprašanja
+assessment#:#questionlist_cannot_be_altered#:#The questionlist cannot be altered as the test already contains participant data sets.###20 01 2026 new variable
 assessment#:#questionpool_not_entered#:#Vnesite ime za skupino vprašanj!
 assessment#:#questionpool_not_selected#:#Please select a question pool!
 assessment#:#questions#:#Questions###26 08 2024 new variable
@@ -1461,6 +1461,7 @@ assessment#:#tst_eval_total_passed_average_points#:#Povprečno število točk op
 assessment#:#tst_eval_total_passed_average_time#:#Povprečni čas obdelave vseh opravljenih testov
 assessment#:#tst_eval_total_persons#:#Skupno število udeležencev, ki so začeli s testom
 assessment#:#tst_exam_access_code#:#Access Code###26 08 2024 new variable
+assessment#:#tst_exam_access_code_invalid_message#:#The code you provided is invalid.###26 05 2026 new variable
 assessment#:#tst_exam_access_code_label#:#Enter access code to continue your already started test.###26 08 2024 new variable
 assessment#:#tst_exam_conditions#:#Exam Conditions###26 08 2024 new variable
 assessment#:#tst_exam_conditions_label#:#Check to accept the conditions.###26 08 2024 new variable
@@ -1689,6 +1690,7 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#Začetek oprav
 assessment#:#tst_objective_progress_header#:#Napredek pri učnem cilju
 assessment#:#tst_objectives_progress_header#:#Napredek pri učnih ciljih
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Ta naključni test je v nepopravljivem stanju, ker so bile priključene skupine vprašanj izbrisane. Zato udeleženci ne morejo nadaljevati z opravljanjem tega testa.
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back.###26 05 2026 new variable
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Vprašanja v zvezi z že uspešno obdelanimi učnimi cilji so neobvezna.</b><br /><br />Zdaj želite preiti na vprašanje, ki se nanaša na že opravljeni učni cilj.<br />Izberete lahko:<br /><br />Če nadaljujete, lahko obdelate vprašanja, povezana s temi učnimi cilji. Ker pa so bila za ta poskus izbrana nova vprašanja, vaši odgovori iz prejšnjih poskusov niso bili prevzeti. Ob ponovni obdelavi vprašanj lahko tudi poslabšate rezultat svojega učnega cilja.<br /><br />Če teh vprašanj ne želite ponoviti, se lahko vrnete. V tem primeru ta vprašanja ne bodo upoštevana pri oceni.
 assessment#:#tst_out_of_time_message#:#You have reached the maximum allowed processing time of the test!###26 08 2024 new variable
 assessment#:#tst_participant#:#Udeleženec
@@ -1740,7 +1742,6 @@ assessment#:#tst_postpone_on_desc#:#Vprašanja, pri katerih udeleženci odgovore
 assessment#:#tst_presentation_properties#:#Izvedba: Lastnosti vprašanj
 assessment#:#tst_presentation_settings_section#:#Prikaz
 assessment#:#tst_previous_access_code_not_available#:#No previous code available!###26 08 2024 new variable
-assessment#:#tst_print#:#Test in ocena - prikaz za tiskanje
 assessment#:#tst_proceed#:#Nadaljuj
 assessment#:#tst_processing_time#:#Omeji trajanje obdelave
 assessment#:#tst_processing_time_desc#:#Udeleženci imajo omejen čas opravljanja testa. Čas teče od trenutka, ko udeleženec prvič začne s testom. "Prekini test" ne ustavi časa obdelave. Če je število možnih opravljanj testa omejeno, se na zavihku »Nadzorna plošča« prikaže dodatna funkcija, ki udeležencem omogoči dodatni čas.
@@ -2178,6 +2179,7 @@ auth#:#auth_saml_deleted_idp#:#The Identity Provider has been deleted.
 auth#:#auth_saml_enable#:#Enable SAML Support
 auth#:#auth_saml_err_sqlite_driver#:#The SAML authentication requires the SQLite driver for PHP. Please install the SQLite package and try again.
 auth#:#auth_saml_idp#:#IDP
+auth#:#auth_saml_idp_deactivated_auth_failed#:#Authentication failed, the identity provider is disabled.###10 03 2026 new variable
 auth#:#auth_saml_idp_selection_table_desc#:#Bitte wählen Sie den Identity Provider mit dem Sie sich anmelden möchten.
 auth#:#auth_saml_idp_selection_table_title#:#Identity Provider Selection
 auth#:#auth_saml_idp_settings#:#IDP Settings
@@ -2575,6 +2577,7 @@ blog#:#blog_whole_blog#:#Whole Blog###19 08 2022 new variable
 book#:#X_reservations_of#:#%s reservations of
 book#:#book_add#:#Ustvari skupino rezervacij
 book#:#book_add_object#:#Dodaj objekt
+book#:#book_add_participant#:#Add Participant###16 12 2025 new variable
 book#:#book_add_schedule#:#Dodaj časovni raster
 book#:#book_additional_info_file#:#Dodaten opis
 book#:#book_all#:#Prikaži vse
@@ -2593,7 +2596,6 @@ book#:#book_booking#:#Booking###26 08 2024 new variable
 book#:#book_booking_information#:#Informacija
 book#:#book_booking_objects#:#Booking Objects###19 08 2022 new variable
 book#:#book_booking_reminders#:#Rezervacije na čakanju
-book#:#book_bookings_per_user#:#Bookings per User###19 08 2022 new variable
 book#:#book_bulk_confirmation#:#Please check that all values are listed correctly.###26 08 2024 new variable
 book#:#book_bulk_creation#:#Bulk Creation###26 08 2024 new variable
 book#:#book_bulk_data#:#Item Data###26 08 2024 new variable
@@ -2724,6 +2726,7 @@ book#:#book_show_message#:#Show Message###26 08 2024 new variable
 book#:#book_title_description_nr#:#Title; Description; Number of Units###26 08 2024 new variable
 book#:#book_title_description_nr_info#:#Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item.###26 08 2024 new variable
 book#:#book_too_many_preferences#:#You selected too many preferences. The preferences have not been saved.
+book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.###16 12 2025 new variable
 book#:#book_type_warning#:#Trenutno ni na voljo nobenih objektov rezervacije. Če želite uporabiti skupino, morate najprej ustvariti objekte rezervacije.
 book#:#book_week#:#Week###26 08 2024 new variable
 book#:#book_your_bookings#:#Your Reservations
@@ -2768,6 +2771,7 @@ buddysystem#:#buddy_bs_state_requested_p#:#Zahtevano
 buddysystem#:#buddy_bs_state_unlinked#:#Unlinked
 buddysystem#:#buddy_bs_state_unlinked_a#:#Ni povezano
 buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked
+buddysystem#:#buddy_confirm_unlink#:#Do you really want to disconnect from this contact?###10 03 2026 new variable
 buddysystem#:#buddy_enable#:#Aktiviraj „Stiki uporabnika“
 buddysystem#:#buddy_enable_info#:#Če je aktivirano, se lahko uporabniki povežejo tako, da preko sistema pošljejo zahtevo za stik. Dodatna osebna nastavitev vsakemu uporabniku omogoča, da dovoli ali prepreči vzpostavljanje stikov.
 buddysystem#:#buddy_handle_contact_request#:#Zahteva za stik
@@ -2924,6 +2928,7 @@ certificate#:#persistent_certificate_mode_instant#:#Neposredno
 certificate#:#persistent_certificate_mode_instant_info#:#Ta možnost je priporočljiva za sisteme z nizko do zmerno interakcijo uporabnikov. Za sisteme, ki so nagnjeni k visoki obremenjenosti pri ustvarjanju certifikatov, je priporočljiva možnost "Cron job".
 chatroom#:#allow_anonymous#:#Allow Anonymous Login
 chatroom#:#allow_custom_usernames#:#Allow Custom User Names
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.###07 07 2026 new variable
 chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the ‘Permissions’ tab to allow anonymous user access to this repository item.
 chatroom#:#auto_scroll#:#Scroll to Bottom
 chatroom#:#autogen_usernames#:#Auto Generated User Names
@@ -2958,9 +2963,12 @@ chatroom#:#chat_https_dhparam_info#:#Please define an absolute server path to a 
 chatroom#:#chat_https_key_info#:#Please define an absolute server path to the private key file (e.g..
 chatroom#:#chat_invitation#:#"[INVITER_NAME]" invites you into chat room "[ROOM_NAME]"
 chatroom#:#chat_invitation_long#:#[SALUTATION]  You have been invited to a chat room
+chatroom#:#chat_invitation_modal_headline#:#Invitation to Chat Room###26 05 2026 new variable
+chatroom#:#chat_invitation_modal_section#:#Invite User###26 05 2026 new variable
 chatroom#:#chat_invitation_nc_inv_x#:#You have %s chat invitations.###19 08 2022 new variable
 chatroom#:#chat_invitation_nc_no_inv#:#You have no chat invitations.###19 08 2022 new variable
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chat room.
+chatroom#:#chat_invitation_username_input_label#:#Enter Username:###26 05 2026 new variable
 chatroom#:#chat_invitations#:#Chat invitations###19 08 2022 new variable
 chatroom#:#chat_invite#:#Invite
 chatroom#:#chat_join#:#Join
@@ -3017,6 +3025,7 @@ chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Chat Room
 chatroom#:#chat_user_x_is_typing#:#User %s is typing ...###19 08 2022 new variable
 chatroom#:#chat_users_are_typing#:#Multiple users are typing ...###19 08 2022 new variable
 chatroom#:#chat_whisper#:#Whisper
+chatroom#:#chatroom_anonymous_default#:#Anonymous ####07 07 2026 new variable
 chatroom#:#chatroom_auth#:#Authentication
 chatroom#:#chatroom_auth_btn_txt#:#Generate Keys
 chatroom#:#chatroom_auth_key#:#Authentication-Key
@@ -4652,7 +4661,7 @@ common#:#mails#:#E-pošta
 common#:#mails_at_the_ilias_installation#:#Na namestitvi ILIAS %2$s ste prejeli %1$s novih sporočil
 common#:#mails_pl#:#E-pošta
 common#:#main_menu#:#Glavni meni
-common#:#mainbar_aria_label#:#Mainbar
+common#:#mainbar_aria_label#:#Main navigation bar###01 02 2026 changed content
 common#:#mainbar_more_label#:#More###19 08 2022 new variable
 common#:#manage_members#:#Upravljanje članov
 common#:#marked_entries#:#Označeni vnosi
@@ -5475,6 +5484,7 @@ common#:#renderer_supported_file_types#:#Podprti tipi datotek
 common#:#renderer_supported_repo_types#:#Podprti objekti ILIAS
 common#:#renderer_type_builtin#:#Vgrajeno
 common#:#rep_main_page#:#Domača stran
+common#:#rep_main_page_logo_alt#:#Logo ILIAS - to the start page###10 03 2026 new variable
 common#:#repeat_scan#:#Ponovi skeniranje virusov...
 common#:#repeat_scan_failed#:#Ponovno skeniranje ni uspelo.
 common#:#repeat_scan_succeded#:#Ponovno skeniranje je bilo uspešno.
@@ -5599,6 +5609,7 @@ common#:#select#:#Izberi
 common#:#select_all#:#Izberi vse
 common#:#select_at_least_one_object#:#Izberite vsaj en objekt.
 common#:#select_file#:#Izberi datoteko
+common#:#select_file_from_computer#:#Select File###16 12 2025 new variable
 common#:#select_files_from_computer#:#Izberi datoteke
 common#:#select_max_one_item#:#Izberite samo en objekt.
 common#:#select_object_to_link#:#Izberite objekt, ki ga želite povezati.
@@ -5691,6 +5702,7 @@ common#:#show_content#:#Show Content###19 08 2022 new variable
 common#:#show_details#:#Prikaži podrobnosti
 common#:#show_filter#:#Prikaži filter
 common#:#show_hidden_sections#:#Prikaži nadaljnje informacije &raquo;
+common#:#show_less#:#Show less###07 07 2026 new variable
 common#:#show_list#:#Prikaži seznam
 common#:#show_members#:#Prikaži člane
 common#:#show_more#:#Show More
@@ -5895,6 +5907,7 @@ common#:#upload_settings#:#Nastavitve nalaganja
 common#:#upload_svg_rejection_message#:#An uploaded SVG file contains possibily malicious code and cannot be processed.###26 08 2024 new variable
 common#:#upload_svg_rejection_message_base64#:#The file contains base64 encoded content.###26 08 2024 new variable
 common#:#upload_svg_rejection_message_elements#:#The file contains elements or attributes which are not allowed or known.###26 08 2024 new variable
+common#:#upload_svg_rejection_message_foreign_object#:#The file contains foreign objects.###20 01 2026 new variable
 common#:#upload_svg_rejection_message_script#:#The file contains script-Elements.###26 08 2024 new variable
 common#:#uploaded_and_checked#:#Datoteka je bila naložena in preverjena, zdaj jo lahko uvozite.
 common#:#uploading#:#Nalaganje...
@@ -6115,6 +6128,7 @@ cont#:#cont_news_timeline_landing_page#:#Začetna stran
 cont#:#cont_news_timeline_landing_page_info#:#Časovnica kot začetna stran
 cont#:#cont_news_timeline_tab#:#Časovnica
 cont#:#cont_no_title#:#Empty Title###26 08 2024 new variable
+cont#:#cont_only_crs_grp_fold_download#:#Only courses, groups, folders or files can be downloaded.###20 01 2026 new variable
 cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)
 cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)
 cont#:#cont_path#:#Pot
@@ -6194,10 +6208,8 @@ content#:#cont_Headline2#:#Naslov 2
 content#:#cont_Headline3#:#Naslov 3
 content#:#cont_Information#:#Informacija
 content#:#cont_Interaction#:#Interakcija
-content#:#cont_Link#:#Link###19 08 2022 new variable
 content#:#cont_List#:#Seznam
 content#:#cont_Literature#:#Literatura
-content#:#cont_Media#:#Mediji (privzeto)
 content#:#cont_Mnemonic#:#Opomba
 content#:#cont_Numbers#:#Numbers###19 08 2022 new variable
 content#:#cont_Poly#:#Poligon
@@ -6307,6 +6319,8 @@ content#:#cont_chapters_after_pages#:#Upoštevajte, da so znotraj ravni najprej 
 content#:#cont_chapters_and_pages#:#Poglavja in strani
 content#:#cont_chapters_only#:#Samo poglavja
 content#:#cont_char_format#:#Oblika znakov
+content#:#cont_char_link#:#Link###20 01 2026 new variable
+content#:#cont_char_media#:#Media (Standard)###20 01 2026 new variable
 content#:#cont_char_style_acc#:#Poudarjeno
 content#:#cont_char_style_code#:#Koda
 content#:#cont_char_style_com#:#Komentar
@@ -7391,6 +7405,7 @@ copa#:#copa_value_reading_time_f_p#:#%s Minutes###19 08 2022 new variable
 copa#:#copa_value_reading_time_f_s#:#%s Minute###19 08 2022 new variable
 copa#:#obj_copa_duplicate#:#Podvoji stran z vsebino
 copg#:#copg_active_to_small#:#This date must be higher than the starting date.###26 08 2024 new variable
+copg#:#copg_add_content#:#Add Content###10 03 2026 new variable
 copg#:#copg_allow_html#:#Enable HTML/Javascript
 copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.
 copg#:#copg_an_error_occured#:#An error occured.###19 08 2022 new variable
@@ -7426,6 +7441,7 @@ copg#:#copg_remove_formats#:#Remove Formatting###26 08 2024 new variable
 copg#:#copg_sec_link_info#:#Če ustvarite povezavo do celotnega bloka, se prepričajte, da ta ne vsebuje nadaljnjih interaktivnih elementov (npr. drugih povezav). Njihovo delovanje ni zagotovljeno.
 copg#:#copg_snippet_cannot_be_edited#:#To je vnaprej določen sestavni del vsebine, ki ga na tem mestu ni mogoče urejati.
 copg#:#copg_unsupported_media_type#:#This media object has an unsupported media type.###26 08 2024 new variable
+copg#:#copg_use_template#:#Use Template###10 03 2026 new variable
 copg#:#copg_x_minutes#:#%s minute(s)###19 08 2022 new variable
 cpad#:#cpad_reading_time_status#:#Reading Time###19 08 2022 new variable
 cpad#:#cpad_reading_time_status_desc#:#If enabled, the estimated reading time for content page objects will be determined and displayed.###19 08 2022 new variable
@@ -8121,6 +8137,8 @@ crs#:#tutorial_support_block_title#:#Contact Person###28 10 2024 new variable
 crs#:#user_fields#:#Uporabniški podatki
 crsv#:#crsv_create#:#Ustvari certifikat o tečaju
 crsv#:#crsv_create_info#:#Izberite tečaj, za katerega potrebujete certifikat
+dash#:#add_to_favourites#:#Add to Favourites###21 04 2026 new variable
+dash#:#added_to_favourites#:#The item has been added to your favourites.###21 04 2026 new variable
 dash#:#dash_activation#:#activation
 dash#:#dash_added_to_favs#:#Recommendation has been added to personal favourites.
 dash#:#dash_avail_presentation#:#Available Presentations
@@ -8129,6 +8147,18 @@ dash#:#dash_click_here#:#Click here
 dash#:#dash_co_delete#:#Delete Dashboard style###28 10 2024 new variable
 dash#:#dash_co_lang#:#Dashboard style by languages###28 10 2024 new variable
 dash#:#dash_customization#:#Customize Dashboard Content###28 10 2024 new variable
+dash#:#dash_dash_fav_remove#:#Remove###10 03 2026 new variable
+dash#:#dash_dash_fav_remove_info#:#Are you sure you want to remove the following objects from your Favourites?###10 03 2026 new variable
+dash#:#dash_dash_fav_remove_multiple#:#Remove Multiple Favorites###10 03 2026 new variable
+dash#:#dash_dash_ls_remove#:#Unsubscribe###10 03 2026 new variable
+dash#:#dash_dash_ls_remove_info#:#Are you sure you want to unsubscribe from the following learning sequences?###10 03 2026 new variable
+dash#:#dash_dash_ls_remove_multiple#:#Unsubscribe Multiple Learning Sequences###10 03 2026 new variable
+dash#:#dash_dash_mem_remove#:#Unsubscribe###10 03 2026 new variable
+dash#:#dash_dash_mem_remove_info#:#Are you sure you want to unsubscribe from the following courses and groups?###10 03 2026 new variable
+dash#:#dash_dash_mem_remove_multiple#:#Unsubscribe Multiple Courses and Groups###10 03 2026 new variable
+dash#:#dash_dash_rc_remove#:#Remove###10 03 2026 new variable
+dash#:#dash_dash_rc_remove_info#:#Are you sure you want to remove the following objects from your recommended content?###10 03 2026 new variable
+dash#:#dash_dash_rc_remove_multiple#:#Remove Multiple Contents###10 03 2026 new variable
 dash#:#dash_dashboard#:#Dashboard
 dash#:#dash_default_presentation#:#Default Presentation
 dash#:#dash_default_sortation#:#Default Sortation
@@ -8142,14 +8172,13 @@ dash#:#dash_enable_recommended_content#:#Recommended Content###26 08 2024 new va
 dash#:#dash_enable_study_programmes#:#Study Programmes###26 08 2024 new variable
 dash#:#dash_enable_task#:#Tasks
 dash#:#dash_favourites#:#Favourites
-dash#:#dash_info_sure_remove_from_favs#:#Are you sure you want to remove the following objects from your Favourites?
 dash#:#dash_item_removed#:#Recommendation has been removed from the list.
 dash#:#dash_learning_sequences#:#My Learning Sequences###26 08 2024 new variable
 dash#:#dash_list#:#List
 dash#:#dash_main_panel#:#Main Panel
-dash#:#dash_make_favourite#:#Add to Favourites
 dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.
 dash#:#dash_memberships#:#My Courses and Groups
+dash#:#dash_no_items_to_manage#:#No items available for removal.###10 03 2026 new variable
 dash#:#dash_page_edit_info#:#The content of this page is displayed to all users on their dashboard. The contents of the various blocks of the dashboard are presented below.###28 10 2024 new variable
 dash#:#dash_presentation#:#Presentation
 dash#:#dash_recommended_content#:#Recommended Content###26 08 2024 new variable
@@ -8166,6 +8195,8 @@ dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’
 dash#:#dash_view_favourites#:#Section ‘Favourites’
 dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.###26 08 2024 new variable
 dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.###26 08 2024 new variable
+dash#:#remove_from_favourites#:#Remove from Favourites###21 04 2026 new variable
+dash#:#removed_from_favourites#:#The item has been removed from your favourites.###21 04 2026 new variable
 dash#:#topitem_block#:#Block###26 08 2024 new variable
 dateplaner#:#Fr_long#:#Petek
 dateplaner#:#Fr_short#:#Pet
@@ -8737,7 +8768,6 @@ dcl#:#dcl_msg_tableview_created#:#Pogled je dodan
 dcl#:#dcl_msg_tableview_deleted#:#Pogled je izbrisan
 dcl#:#dcl_msg_tableview_updated#:#Pogled je posodobljen
 dcl#:#dcl_msg_tableviews_delete_all#:#Brisanje ni mogoče: Obstajati mora vsaj en pogled
-dcl#:#dcl_msg_tableviews_order_updated#:#Razvrstitev pogledov je posodobljena
 dcl#:#dcl_multiple_selection#:#Večkratna izbira
 dcl#:#dcl_new#:#Ustvari novo zbirko podatkov
 dcl#:#dcl_new_field#:#Novo polje
@@ -8751,6 +8781,7 @@ dcl#:#dcl_no_fields_yet#:#Za to tabelo še niso bila ustvarjena polja, zato ne m
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Nimate bralnega dostopa do nobenega od privzetih pogledov tabele.
 dcl#:#dcl_no_search_results_found_for#:#Najden ni bil noben modul z:
 dcl#:#dcl_no_such_reference#:#Naslednja vrednost ni na voljo v referenčni tabeli:
+dcl#:#dcl_no_table_found#:#No visible table found!###16 12 2025 new variable
 dcl#:#dcl_no_tableview_found#:#No visible tableview found!###18 07 2025 new variable
 dcl#:#dcl_not_checked#:#Ni izbrano
 dcl#:#dcl_not_supported_in_import#:#Ta tip polja ni podprt za uvoz.
@@ -8759,7 +8790,6 @@ dcl#:#dcl_notification_activated#:#Obveščanje je aktivirano
 dcl#:#dcl_notification_deactivate_dcl#:#Onemogoči obveščanje
 dcl#:#dcl_notification_deactivated#:#Obveščanje je onemogočeno
 dcl#:#dcl_notification_info#:#Aktivira individualno funkcijo obveščanja za uporabnike.
-dcl#:#dcl_notimage_exception#:#Datoteka mora biti slika.
 dcl#:#dcl_noturl_exception#:#Vnesite povezavo (začenši s http:// ali www.) ali e-poštni naslov.
 dcl#:#dcl_number#:#Cela števila
 dcl#:#dcl_number_desc#:#Vnosno polje za cela števila (maksimalno 9 števk). Ulomki in decimalna števila niso dovoljeni.
@@ -8818,8 +8848,6 @@ dcl#:#dcl_std_field_not_importable#:# - Privzetih polj ni mogoče uvoziti.
 dcl#:#dcl_std_filter#:#Prednastavitev filtra
 dcl#:#dcl_supported_filetypes#:#Dovoljene končnice datotek
 dcl#:#dcl_supported_filetypes_desc#:#Tukaj lahko vnesete končnice datotek, ločene z vejicami. Na primer: pdf, docx
-dcl#:#dcl_switch_table#:#Switch Table###26 08 2024 new variable
-dcl#:#dcl_switch_view#:#Change View###26 08 2024 new variable
 dcl#:#dcl_table#:#Tabela
 dcl#:#dcl_table_id#:#ID tabele
 dcl#:#dcl_table_list_fields#:#Polja izbrane tabele
@@ -8855,7 +8883,7 @@ dcl#:#dcl_text_email_title#:#Naslov
 dcl#:#dcl_text_email_title_info#:#Naslov za URL ali e-poštni naslov (izbirno).
 dcl#:#dcl_text_selection#:#Izbirni meni besedilo
 dcl#:#dcl_text_selection_desc#:#Zagotovitev izbirnih možnosti (besedilo)
-dcl#:#dcl_title_standardview#:#Privzeti pogled
+dcl#:#dcl_title_standard#:#Standard###20 01 2026 new variable
 dcl#:#dcl_unique#:#Prepreči enake vnose
 dcl#:#dcl_unique_desc#:#V tem polju je dovoljen samo en identičen vnos.
 dcl#:#dcl_unique_exception#:#Vneseno vrednost že uporablja drug vnos.
@@ -8886,6 +8914,8 @@ dcl#:#entry_of#:#Entry %1$d of %2$d###26 08 2024 new variable
 dcl#:#fieldtitle_allow_chars#:#Nedovoljeni znaki: %s
 dcl#:#fileupload_not_migrated#:#File has not yet been migration and cannot be displayed. Please contact your System-Administrator.###26 08 2024 new variable
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
+dcl#:#table_not_found#:#Table not found!###16 12 2025 new variable
+dcl#:#tableview_not_found#:#Tableview not found!###16 12 2025 new variable
 didactic#:#activate_exclusive_template#:#Privzeto sivo
 didactic#:#activate_exclusive_template_info#:#Privzeta predloga bo siva povsod, kjer je ta didaktična predloga aktivirana.
 didactic#:#activate_local_didactic_template#:#Področje veljave
@@ -9218,6 +9248,8 @@ ecs#:#ecs_wiki_export_enabled#:#Release this Wiki
 ecs#:#ecs_wiki_export_obj_settings#:#Wiki Release Settings
 error#:#error_back_to_repository#:#Back to Repository
 error#:#error_sry_error#:#Sorry, an error occurred.
+error#:#http_404_not_found#:#The requested page could not be found.###21 04 2026 new variable
+error#:#http_500_internal_server_error#:#An internal server error occurred.###21 04 2026 new variable
 etal#:#appointments#:#Appointments###19 08 2022 new variable
 etal#:#cal_type_tals#:#Talks###19 08 2022 new variable
 etal#:#change_date_of_series#:#Change date of talk series###19 08 2022 new variable
@@ -9482,6 +9514,7 @@ exc#:#exc_passed_status_determination#:#Ocena kot „Opravljeno".
 exc#:#exc_passing_exc#:#Opravljena vaja
 exc#:#exc_past#:#Past###26 08 2024 new variable
 exc#:#exc_peer_deadline_mismatch#:#Ker je povratno informacijo mogoče oddati šele po roku za oddajo vadbene enote, rok za povratno informacijo ne sme biti pred datumom oddaje.
+exc#:#exc_peer_feedback_status#:#Feedback Status###20 01 2026 new variable
 exc#:#exc_peer_review#:#Povratne informacije kolegov
 exc#:#exc_peer_review_ass_setting_info#:#Potem ko sta potekla rok za oddajo in po potrebi naknadni rok, lahko udeleženci med sabo ocenjujejo svoje rezultate dela. Točne nastavitve povratnih informacij kolegov se izvedejo v zavihku z enakim imenom. Zavihek se prikaže, ko je ta možnost aktivirana in shranjena.
 exc#:#exc_peer_review_chars_invalid#:#Niste še dosegli zahtevane dolžine besedila, ki je %s znakov.
@@ -9609,6 +9642,7 @@ exc#:#exc_settings_feedback_mail_info#:#Mentorji vnesejo svoje povratne informac
 exc#:#exc_settings_feedback_text#:#Vnos besedila
 exc#:#exc_settings_feedback_text_info#:#Mentorji vnesejo svoje povratne informacije v besedilno polje. Vsak udeleženec prejme obvestilo in besedilo se mu prikaže v pregledu vadbenih enot.
 exc#:#exc_show_instructions#:#Show Work Instructions###26 08 2024 new variable
+exc#:#exc_show_more#:#Show More###10 03 2026 new variable
 exc#:#exc_show_peer_review#:#Prikaži povratne informacije kolegov
 exc#:#exc_show_submissions#:#Objavi oddane rešitve
 exc#:#exc_show_submissions_info#:#Po roku za oddajo imajo vsi udeleženci vpogled v vse oddane rešitve vadbene enote.
@@ -9724,6 +9758,7 @@ exc#:#exc_type_upload#:#Datoteka
 exc#:#exc_type_upload_team#:#Vloži datoteko kot ekipa
 exc#:#exc_value_can_not_set#:#Te vrednosti ni mogoče nastaviti
 exc#:#exc_view_portfolio#:#View Portfolio###26 08 2024 new variable
+exc#:#exc_view_wiki#:#View Wiki###10 03 2026 new variable
 exc#:#exc_wait_for_files#:#Prenos bi se moral začeti samodejno. V primeru težav kliknite tukaj.
 exc#:#exc_wiki_container#:#Shramba Wiki
 exc#:#exc_wiki_container_info#:#Mesto, kjer bodo ustvarjeni novi Wiki-ji udeležencev.
@@ -10677,9 +10712,14 @@ itgr#:#itgr_always_open#:#Vedno odprto
 itgr#:#itgr_assign_materials#:#Assign Materials###19 08 2022 new variable
 itgr#:#itgr_assigned_materials#:#Objekti v bloku objektov
 itgr#:#itgr_assignment#:#Vključeno
-itgr#:#itgr_behaviour#:#Vedenje
-itgr#:#itgr_behaviour_info#:#Sistem si zapomni stanje (odprto/zaprto) uporabnika, dokler se ta ne odjavi (logout).
 itgr#:#itgr_desc_info#:#Opis ne bo izpisan v objavi bloka objektov.
+itgr#:#itgr_display#:#Display###07 07 2026 new variable
+itgr#:#itgr_display_with_title#:#With Title###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened###07 07 2026 new variable
+itgr#:#itgr_display_without_title#:#Without Title###07 07 2026 new variable
 itgr#:#itgr_edit#:#Uredi blok objektov
 itgr#:#itgr_expandable_closed#:#Razširljivo (sprva zaprto)
 itgr#:#itgr_expandable_open#:#Razširljivo (sprva odprto)
@@ -10689,8 +10729,6 @@ itgr#:#itgr_list_default#:#Default###19 08 2022 new variable
 itgr#:#itgr_list_default_info#:#Inherits value from upper container.###19 08 2022 new variable
 itgr#:#itgr_list_presentation#:#Item Presentation###19 08 2022 new variable
 itgr#:#itgr_materials#:#Objekti
-itgr#:#itgr_show_title#:#Prikaži naslov
-itgr#:#itgr_show_title_info#:#Naslov bloka objektov se prikaže v predstavitvi za učence.
 itgr#:#itgr_tile#:#Tiles###19 08 2022 new variable
 itgr#:#itgr_tile_size#:#Tile Size###19 08 2022 new variable
 jscalendar#:#about_calendar#:#O koledarju
@@ -10967,6 +11005,7 @@ lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###19 08 2022 new varia
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###19 08 2022 new variable
 lm#:#lm_copy#:#Kopiraj učni modul ILIAS
 lm#:#lm_edit_chapters#:#Edit Chapters###26 08 2024 new variable
+lm#:#lm_edit_content#:#Edit Content###10 03 2026 new variable
 lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###26 08 2024 new variable
 lm#:#lm_est_reading_time#:#Estimated Reading Time###19 08 2022 new variable
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.###19 08 2022 new variable
@@ -10984,6 +11023,7 @@ lm#:#lm_insert_page_before#:#Insert page before###28 10 2024 new variable
 lm#:#lm_insert_page_clip#:#Insert page from clipboard###28 10 2024 new variable
 lm#:#lm_insert_page_clip_after#:#Insert page from clipboard after###28 10 2024 new variable
 lm#:#lm_insert_page_clip_before#:#Insert page from clipboard before###28 10 2024 new variable
+lm#:#lm_list_pages#:#Edit Pages###10 03 2026 new variable
 lm#:#lm_page_added#:#Page has been added.###26 08 2024 new variable
 lm#:#lm_page_type_lm#:#LM Page
 lm#:#lm_pages_added#:#Pages have been added.###26 08 2024 new variable
@@ -11477,6 +11517,7 @@ mail#:#mail_add_folder#:#Ustvari novo mapo
 mail#:#mail_add_recipient#:#Vnesite prejemnika
 mail#:#mail_add_subfolder#:#Dodaj podmapo
 mail#:#mail_add_subject#:#Vnesite zadevo
+mail#:#mail_adopt_selected_attachements#:#Adopt selected Attachments###20 01 2026 new variable
 mail#:#mail_all_in_trash#:#All in Trash###28 10 2024 new variable
 mail#:#mail_allow_external#:#Zunanja e-pošta
 mail#:#mail_allow_external_info#:#Če ni aktivirana, je pošiljanje zunanje e-pošte (prek SMTP) globalno onemogočeno.
@@ -11770,7 +11811,7 @@ mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 and MathJax 3 with cur
 mathjax#:#mathjax_polyfill_url_desc_line2#:#Please remove any reference to polyfill.io! See https://sansec.io/research/polyfill-supply-chain-attack
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script###31 03 2023 new variable
 mathjax#:#mathjax_script_url_desc_line1#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. <br />For MathJax 2 e.g. %s
-mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. %s
+mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. %s<br />These scripts require the user’s browser to fetch MathJax from an external address (cdn.jsdelivr.net). If you host MathJax yourself, use a copy of the relevant script with the address modified.
 mathjax#:#mathjax_server_address#:#Server Address
 mathjax#:#mathjax_server_address_info#:#E.g. http
 mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.
@@ -11897,6 +11938,7 @@ mep#:#mep_all_mobs#:#Vsi medijski objekti
 mep#:#mep_bulk_upload#:#Masovno nalaganje
 mep#:#mep_choose_from_folder#:#Izberi iz mape
 mep#:#mep_choose_from_mep#:#Izberi iz skupine
+mep#:#mep_clipboard_info#:#Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users.###20 01 2026 new variable
 mep#:#mep_content#:#Medijski objekti
 mep#:#mep_content_snippet_in_use#:#Sestavni del vsebine '%s' je v uporabi in ga zato ni mogoče izbrisati.
 mep#:#mep_content_snippet_used_in_older_versions#:#Pozor: Ta sestavni del vsebine so v starejših različicah uporabljale nekatere strani. Če je taka različica strani obnovljena, bo v njej manjkal ta sestavni del vsebine.
@@ -12733,8 +12775,8 @@ mmbr#:#info_refuse_sure#:#Ali ste prepričani, da želite zavrniti naslednje upo
 mmbr#:#mmbr_awrn_my_groups_courses#:#Moji tečaji in skupine
 mmbr#:#mmbr_awrn_my_groups_courses_info#:#Navedeni so vsi člani uporabnikovih skupin in tečajev.
 mmbr#:#mmbr_btn_mail_selected_users#:#Pošlji e-pošto
-mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?
 mmbr#:#mmbr_memberships#:#Memberships
+mmbr#:#mmbr_role_error#:#Members must have at least one role assigned.###10 03 2026 new variable
 mmbr#:#mmbr_selected_users#:#Izbrani udeleženci
 mmbr#:#mmbr_unsubscribed_from_objs#:#You have been unsubscribed from the selected objects.
 mme#:#add_languages#:#Dodaj jezik
@@ -12932,6 +12974,7 @@ news#:#news_news_item_visibility_info#:#Public news can be accessed without auth
 news#:#news_news_items#:#News Item(s)
 news#:#news_no_js_click_here#:#If news are not displayed, click here.
 news#:#news_no_news_items#:#No news available.
+news#:#news_not_available#:#Unavailable News###20 01 2026 new variable
 news#:#news_notifications#:#Notifications
 news#:#news_notifications_public#:#Public Notifications
 news#:#news_notifications_public_info#:#If this option is enabled, notifications can be obtained by personal RSS feeds outside of ILIAS. Please note that this makes notifications accessible without authentication.
@@ -13012,6 +13055,7 @@ notes#:#notes_latest_comment#:#Latest Comment
 notes#:#notes_latest_message#:#Latest Message###26 08 2024 new variable
 notes#:#notes_message_author_counterpart#:#Respondent###26 08 2024 new variable
 notes#:#notes_message_author_you#:#You###26 08 2024 new variable
+notes#:#notes_message_deleted#:#Message deleted.###21 04 2026 new variable
 notes#:#notes_messages#:#Messages###26 08 2024 new variable
 notes#:#notes_my_comments#:#My Comments
 notes#:#notes_no_comments#:#No comment has been posted yet.
@@ -13268,7 +13312,6 @@ pd#:#pd_ended#:#Zaključeno
 pd#:#pd_export_profile#:#Izvozi osebne podatke
 pd#:#pd_import_personal_data#:#Uvozi osebne podatke
 pd#:#pd_my_memberships_sort_default#:#Privzeta razvrstitev
-pd#:#pd_no_items_to_manage#:#No items available for removal.###26 08 2024 new variable
 pd#:#pd_not_dated#:#Not Dated###26 08 2024 new variable
 pd#:#pd_ongoing#:#Trenutno
 pd#:#pd_personal_items_default_view#:#Privzeti pogled
@@ -13278,9 +13321,6 @@ pd#:#pd_presentation_mode_tile#:#Tile Presentation
 pd#:#pd_private_calendars#:#Zasebni koledarji
 pd#:#pd_profile_data#:#Podatki o profilu
 pd#:#pd_remove_multi_confirm#:#Objekti so bili odstranjeni.
-pd#:#pd_remove_multiple#:#Odstrani več objektov
-pd#:#pd_unsubscribe_memberships#:#Prekini članstva
-pd#:#pd_unsubscribe_multiple_memberships#:#Prekini več članstev
 pd#:#pd_upcoming#:#Predhodno
 pd#:#pd_view_select_at_least_one#:#Izberite vsaj en pogled, ali 'Izbrane ponudbe' in/ali 'Tečaji in skupine'.
 pdesk#:#bookmark_moved_ok#:#Zaznamek je bil premaknjen.
@@ -14486,6 +14526,9 @@ rbac#:#positions_override_operations#:#Prepiši globalne nastavitve
 rbac#:#precondition_not_obligatory_alt#:#Predpogoj je neobvezen
 rbac#:#precondition_num_obligatory#:#Število potrebnega gradiva
 rbac#:#precondition_num_optional_info#:#Vnesite minimalno število gradiva, potrebnega za izpolnitev tega predpogoja.
+rbac#:#precondition_number_of_required_materials_bigger_preconditions_number#:#The number of required materials must be less than the total number of preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_compulsory_items#:#The number of required materials must be greater than the number of compulsory preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_than_one#:#The number of required materials must be at least 1.###26 05 2026 new variable
 rbac#:#precondition_obligatory#:#Obvezno
 rbac#:#precondition_obligatory_alt#:#Predpogoj mora biti izpolnjen
 rbac#:#precondition_obligatory_info#:#Za pridobitev dostopa morajo biti izpolnjeni obvezni predpogoji.
@@ -15021,9 +15064,7 @@ rep#:#rep_add_new_def_grp_content#:#Content
 rep#:#rep_add_new_def_grp_feedback#:#Feedback and Evaluation
 rep#:#rep_add_new_def_grp_organisation#:#Organisation
 rep#:#rep_add_new_def_grp_templates#:#Templates
-rep#:#rep_add_to_favourites#:#Add to Favourites
 rep#:#rep_added_rec_content#:#Recommended content has been added.
-rep#:#rep_added_to_favourites#:#The item has been added to your favourites.
 rep#:#rep_allowed_types#:#Allowed Types###26 08 2024 new variable
 rep#:#rep_breadcr_crs#:#Breadcrumb starts with course
 rep#:#rep_breadcr_crs_config#:#Configuration###26 08 2024 new variable
@@ -15078,9 +15119,7 @@ rep#:#rep_object_references_cannot_be_read#:#No permissions for %s more referenc
 rep#:#rep_object_to_delete#:#To Delete
 rep#:#rep_rec_content_removed#:#Recommended content has been removed.
 rep#:#rep_recommended_content#:#Recommended Content
-rep#:#rep_remove_from_favourites#:#Remove from Favourites
 rep#:#rep_remove_rec_content#:#Are you sure you want to remove the following recommended content?
-rep#:#rep_removed_from_favourites#:#The item has been removed from your favourites.
 rep#:#rep_target_location#:#Target Location
 rep#:#rep_target_location_info#:#Bitte wählen Sie nun das Ziel aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen.
 rep#:#rep_time_based_availability#:#Limited Availability Period
@@ -15859,7 +15898,6 @@ skmg#:#skmg_usage_type_info_prof#:#Used in Skill Profiles
 skmg#:#skmg_usage_type_info_res#:#Repository Objects Assigned as Suggested Resource
 skmg#:#skmg_usage_type_info_user#:#Assigned to Users
 skmg#:#skmg_your_self_evaluation#:#Your Self-Evaluation
-style#:#Style#:#Style###19 08 2022 new variable
 style#:#adapt_icon#:#Adapt Icon
 style#:#adapt_icon_description#:#Adapt icon colors or change the icon itself.
 style#:#adapt_icons#:#Adapt Icon Colors
@@ -16073,6 +16111,7 @@ style#:#sty_individual_styles#:#Individual Styles
 style#:#sty_keep_existing#:#Keep Existing
 style#:#sty_left#:#Left
 style#:#sty_left_right_padding#:#Cell Padding Left/Right
+style#:#sty_legacy_image_directory_found#:#Legacy image directory found. You may migrate the directory from ILIAS 9 by clicking "Migrate Images"###21 04 2026 new variable
 style#:#sty_letter_spacing#:#Letter Spacing
 style#:#sty_lightness_border#:#Lightness Border
 style#:#sty_lightness_cell1_bg#:#Lightness Cell 1 Background
@@ -16093,6 +16132,7 @@ style#:#sty_margin_and_padding#:#Margin and Padding
 style#:#sty_media_char#:#Media
 style#:#sty_media_queries#:#Media Queries
 style#:#sty_media_query_info#:#A separate CSS block is added for each media query after the default (no special media query) block.
+style#:#sty_migrate_images#:#Migrate Images###21 04 2026 new variable
 style#:#sty_min_height#:#Minimum Height
 style#:#sty_move_lm_styles#:#Change Style of Learning Modules
 style#:#sty_move_obj_styles#:#Change Style of Objects###23 09 2025 new variable
@@ -16151,6 +16191,7 @@ style#:#sty_special#:#Special
 style#:#sty_style_chars#:#Style Classes
 style#:#sty_style_class#:#Style Classes
 style#:#sty_style_classes_copied#:#Style classes have been copied.
+style#:#sty_style_not_migrated#:#This content style has not been migrated to the ILIAS 10 data structure yet. Changes will not be applied.###21 04 2026 new variable
 style#:#sty_substyle#:#Substyle
 style#:#sty_substyle_of#:#Sub Style of
 style#:#sty_substyles#:#Substyles
@@ -16662,7 +16703,7 @@ survey#:#survey_360_sure_appraisee_close#:#Ali res želite zapreti anketo za vse
 survey#:#survey_360_sure_appraisee_close_admin#:#Ali res želite zapreti anketo za naslednje prejemnike povratnih informacij?
 survey#:#survey_360_sure_delete_appraises#:#Ali res želite odstraniti naslednje ocenjevane osebe?
 survey#:#survey_360_sure_delete_raters#:#Ali res želite odstraniti naslednje dajalce povratnih informacij za %s?
-survey#:#survey_access_codes#:#Avtentikacija s kodo za dostop
+survey#:#survey_access_code#:#Avtentikacija s kodo za dostop
 survey#:#survey_access_codes_info#:#Uporabniki dobijo dostop do ankete z vnosom kode za dostop v zavihku 'Info'.  Te kode za dostop se ustvarijo v istoimenskem podzavihku zavihku 'Udeleženec'.
 survey#:#survey_activate_skill_service#:#Aktiviraj kompetenčno podporo
 survey#:#survey_activate_skill_service_info#:#Prikazal se bo nadaljnji zavihek 'Kompetence'. Tukaj so najprej vprašanjem dodeljene kompetence in nato se nastavijo mejne vrednosti za doseganje določene ravni kompetenc.
@@ -16697,6 +16738,7 @@ survey#:#survey_execution_sure_finish#:#Ali res želite zaključiti anketo? Po t
 survey#:#survey_existing_pool#:#Uporabi obstoječo skupino vprašanj
 survey#:#survey_finish#:#Zaključi anketo >>
 survey#:#survey_finished#:#Anketa je zaključena. Hvala za sodelovanje!
+survey#:#survey_from_x_points#:#Od X točk
 survey#:#survey_has_datasets_warning#:#Anketa že vsebuje podatkovne zapise udeleženca. Vprašanja lahko ponovno urejate šele, ko izbrišete vse podatkovne zapise udeleženca.
 survey#:#survey_has_datasets_warning_page_view#:#Anketa že vsebuje podatkovne zapise udeleženca. Vprašanja lahko ponovno urejate šele, ko izbrišete vse podatkovne zapise udeleženca.
 survey#:#survey_has_datasets_warning_page_view_link#:#Uredi podatkovne zapise udeleženca
@@ -16772,7 +16814,6 @@ survey#:#survey_sync_insufficient_permissions#:#Ni dovolj pogojev.
 survey#:#survey_sync_question_copies#:#Sinhroniziraj kopije vprašanj
 survey#:#survey_sync_question_copies_info#:#Vsa izbrana vprašanja bodo zamenjana aktualno različico vprašanja v skupini.
 survey#:#survey_sync_success#:#Izbrana vprašanja so bila posodobljena.
-survey#:#survey_up_to_x_points#:#Do x točk
 survey#:#survey_use_start_button#:#Anketo lahko začnete samo preko gumba "Začni anketo"!
 survey#:#svy_activation_limited_visibility_info#:#Izven navedenega obdobja bo prikazan samo naslov ankete, dostop do vprašanj ni možen.
 survey#:#svy_activation_online_info#:#Le če je anketa na spletu, lahko uporabniki v njej sodelujejo.
@@ -17064,6 +17105,7 @@ tax#:#tax_tax_settings#:#Taxonomy Settings
 tax#:#tax_taxonomy#:#Taxonomy
 tbl#:#tbl_export_csv#:#Izvoz .CSV
 tbl#:#tbl_export_excel#:#Izvoz Excel
+tbl#:#tbl_selection#:#Selection###21 04 2026 new variable
 tbl#:#tbl_template_create#:#Shrani aktualni pogled
 tbl#:#tbl_template_created#:#Aktualni pogled je bil shranjen.
 tbl#:#tbl_template_delete#:#Izbriši shranjeni pogled
@@ -17339,6 +17381,7 @@ trac#:#trac_view_mode_all#:#Vsi objekti
 trac#:#trac_view_mode_collection#:#Samo objekti, ki določajo skupen status
 trac#:#trac_visits#:#Minimalno število obiskov
 trac#:#trac_visits_info#:#Obisk se šteje kot nov obisk šele po %s sekundah.
+trac#:#trac_visits_nr#:#Number of Visits###20 01 2026 new variable
 trac#:#user_total#:#Število uporabnikov
 trac#:#view_mode#:#Način prikaza
 tstv#:#tstv_create#:#Ustvari certifikat za test
@@ -17828,7 +17871,6 @@ wopi#:#wopi_url_byline#:#Complete URL of the WOPI-Discovery, this must be access
 wsp#:#element_already_shared#:#This object is already shared with this user.
 wsp#:#element_shared#:#Object shared.
 wsp#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.
-wsp#:#search_no_match#:#Your search did not match any results.
 wsp#:#share#:#Share
 wsp#:#share_content#:#Share Object
 wsp#:#share_with#:#Username
@@ -17850,6 +17892,7 @@ wsp#:#wsp_permission_registered_info#:#This object is shared with all registered
 wsp#:#wsp_permission_removed#:#Entry has been removed.
 wsp#:#wsp_permissions#:#Share
 wsp#:#wsp_personal_resources_description#:#Here you can manage your private files, blogs and artifacts.
+wsp#:#wsp_search_no_match#:#Your search did not match any results.###10 03 2026 new variable
 wsp#:#wsp_send_mail#:#Send Mail###26 08 2024 new variable
 wsp#:#wsp_set_permission_all#:#World Wide Web
 wsp#:#wsp_set_permission_all_password#:#World Wide Web with Password

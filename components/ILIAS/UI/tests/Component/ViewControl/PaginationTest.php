@@ -31,14 +31,21 @@ use ILIAS\UI\Implementation\Component\ViewControl\Factory;
  */
 class PaginationTest extends ILIAS_UI_TestBase
 {
+    use LanguageStubs;
+
     public function getUIFactory(): NoUIFactory
     {
-        return new class () extends NoUIFactory {
+        return new class ($this->createRelayArgumentLanguageStub()) extends NoUIFactory {
+            public function __construct(
+                protected \ILIAS\Language\Language $language,
+            ) {
+            }
+
             public function symbol(): C\Symbol\Factory
             {
                 return new IC\Symbol\Factory(
                     new IC\Symbol\Icon\Factory(),
-                    new IC\Symbol\Glyph\Factory(),
+                    new IC\Symbol\Glyph\Factory($this->language),
                     new IC\Symbol\Avatar\Factory()
                 );
             }

@@ -161,7 +161,9 @@ class Renderer extends AbstractComponentRenderer
                              container = event.target.closest('.il-viewcontrol-sortation');
                         }
                         let inputs = container.querySelectorAll('.il-viewcontrol-value > input');
-                        let val = signal_data.options.value.split(':');
+                        let val = Array.isArray(signal_data.options.value)
+                          ? signal_data.options.value
+                          : signal_data.options.value.split(':');
                         inputs[0].value = val[0];
                         inputs[1].value = val[1];
                         $(event.target).trigger('{$container_submit_signal}');

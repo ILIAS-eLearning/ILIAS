@@ -23,6 +23,7 @@
  */
 class ilMediaPoolPresentationGUI implements ilCtrlBaseClassInterface
 {
+    protected \ILIAS\MediaPool\InternalGUIService $gui;
     protected \ILIAS\MediaPool\StandardGUIRequest $request;
     protected ilCtrl $ctrl;
     protected ilAccessHandler $access;
@@ -49,6 +50,7 @@ class ilMediaPoolPresentationGUI implements ilCtrlBaseClassInterface
         $this->tpl = $tpl;
         $this->lng = $lng;
         $this->objDefinition = $objDefinition;
+        $this->gui = $DIC->mediaPool()->internal()->gui();
         $DIC->globalScreen()->tool()->context()->claim()->repository();
         $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(ilMediaPoolGSToolProvider::SHOW_FOLDERS_TOOL, true);
 
@@ -77,6 +79,7 @@ class ilMediaPoolPresentationGUI implements ilCtrlBaseClassInterface
 
         switch ($next_class) {
             case "ilobjmediapoolgui":
+                $this->gui->permanentLink($this->request->getRefId())->setPermanentLink();
                 $mep_gui = new ilObjMediaPoolGUI($this->request->getRefId());
                 $ilCtrl->forwardCommand($mep_gui);
                 break;

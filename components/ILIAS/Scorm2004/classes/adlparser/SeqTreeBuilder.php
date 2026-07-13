@@ -168,8 +168,8 @@ class SeqTreeBuilder
                 } elseif ($curNode->localName === "completionThreshold") {
                     $tempVal = $curNode->getAttribute("minProgressMeasure");
 
-                    if ($tempVal) {
-                        $act->setCompletionThreshold($tempVal);
+                    if ($tempVal != null && $tempVal != '') {
+                        $act->setCompletionThreshold((float) $tempVal);
                     } elseif ($curNode->nodeValue != null && $curNode->nodeValue != '') {
                         $act->setCompletionThreshold((float) $curNode->nodeValue);
                     }
@@ -676,7 +676,7 @@ class SeqTreeBuilder
         // Look for 'objectiveMeasureWeight'
         $tempVal = $iNode->getAttribute("objectiveMeasureWeight");
         if ($tempVal) {
-            $ioAct->setObjMeasureWeight((float)$tempVal);
+            $ioAct->setObjMeasureWeight((float) $tempVal);
         }
         // Look for 'rollupProgressCompletion'
         $tempVal = $iNode->getAttribute("rollupProgressCompletion");

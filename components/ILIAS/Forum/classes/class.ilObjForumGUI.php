@@ -237,8 +237,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             );
 
             $this->tpl->addOnLoadCode('il.ForumDraftsAutosave.init(' . json_encode([
-                'loading_img_src' => ilUtil::getImagePath('media/loader.svg'),
-                'draft_id' => $this->retrieveDraftId(),
+                'loadingImgSrc' => ilUtil::getImagePath('media/loader.svg'),
+                'draftId' => $this->retrieveDraftId(),
                 'interval' => $interval * 1000,
                 'url' => $this->ctrl->getFormAction($this, $autosave_cmd, '', true),
                 'selectors' => [
@@ -613,7 +613,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
             }
 
-            $this->showThreadsObject();
+            $this->ctrl->redirect($this, 'showThreads');
         }
     }
 
@@ -818,15 +818,31 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->tpl->setContent($forwarder->forward() . $default_html . $modals);
     }
 
-    private function getRequestedThreadSortation(): ?int
+    private function getEffectiveThreadSortation(): ThreadSortation
     {
-        return $this->http->wrapper()->query()->retrieve(
+        $requested_sortation = $this->http->wrapper()->query()->retrieve(
             'thread_sortation',
             $this->refinery->byTrying([
                 $this->refinery->kindlyTo()->int(),
                 $this->refinery->always(null)
             ])
         );
+
+        $session_key = 'frm_' . $this->object->getRefId() . '_thread_sortation';
+        if ($requested_sortation !== null) {
+            ilSession::set($session_key, (int) $requested_sortation);
+        } else {
+            $requested_sortation = ilSession::get($session_key);
+        }
+
+        $sortation = ThreadSortation::tryFrom(
+            (int) ($requested_sortation ?? ThreadSortation::DEFAULT_SORTATION->value)
+        );
+        if ($sortation === null) {
+            $sortation = ThreadSortation::DEFAULT_SORTATION;
+        }
+
+        return $sortation;
     }
 
     private function getRequestedThreadOffset(): int
@@ -851,12 +867,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
     private function initializeThreadSortation(ilForumThreadObjectTableGUI $tbl): void
     {
-        $sortation = ThreadSortation::tryFrom(
-            $this->getRequestedThreadSortation() ?? ThreadSortation::DEFAULT_SORTATION->value
-        );
-        if ($sortation === null) {
-            $sortation = ThreadSortation::DEFAULT_SORTATION;
-        }
+        $sortation = $this->getEffectiveThreadSortation();
         $tbl->setOrderDirection($sortation->direction());
         $tbl->setOrderField($sortation->field());
     }
@@ -869,22 +880,18 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
 
         $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
-        $this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
         $base_url = $this->ctrl->getLinkTarget($this, 'showThreads');
 
-        $translationKeys = [];
+        $translation_keys = [];
         foreach (ThreadSortation::cases() as $sortation) {
-            $this->ctrl->setParameter($this, 'thread_sortation', $sortation->value);
-            $url = $this->ctrl->getLinkTarget($this, 'showThreads');
-
-            $translationKeys[$url] = $this->lng->txt($sortation->languageId());
+            $translation_keys[$sortation->value] = $this->lng->txt($sortation->languageId());
         }
         $this->ctrl->clearParameters($this);
+
         return $this->factory->viewControl()->sortation(
-            $translationKeys,
-            current(array_keys($translationKeys))
-        )
-        ->withTargetURL($base_url, 'thread_sortation');
+            $translation_keys,
+            (string) $this->getEffectiveThreadSortation()->value
+        )->withTargetURL($base_url, 'thread_sortation');
     }
 
     /**
@@ -3532,21 +3539,21 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         );
 
         $this->tpl->addOnLoadCode(
-            <<<'EOD'
-        document.querySelectorAll('.ilFrmPostContent img').forEach((img) => {
-          const maxWidth = img.getAttribute('width');
-          const maxHeight = img.getAttribute('height');
-        
-          if (maxWidth) {
-            img.style.maxWidth = maxWidth + 'px';
-            img.removeAttribute('width');
-          }
-        
-          if (maxHeight) {
-            img.style.maxHeight = maxHeight + 'px';
-            img.removeAttribute('height');
-          }
-        });
+            <<<EOD
+                document.querySelectorAll('.ilFrmPostContent img').forEach((img) => {
+                  const maxWidth = img.getAttribute('width');
+                  const maxHeight = img.getAttribute('height');
+                
+                  if (maxWidth) {
+                    img.style.maxWidth = maxWidth + 'px';
+                    img.removeAttribute('width');
+                  }
+                
+                  if (maxHeight) {
+                    img.style.maxHeight = maxHeight + 'px';
+                    img.removeAttribute('height');
+                  }
+                });
 EOD
         );
 

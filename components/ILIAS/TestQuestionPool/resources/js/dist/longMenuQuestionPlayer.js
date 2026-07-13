@@ -30,7 +30,7 @@
             return a.length > b.length ? a : b;
           });
           input.setAttribute('size', longest.length);
-          input.addEventListener('keydown', keyHandler);
+          input.addEventListener('input', keyHandler);
         }
       });
 

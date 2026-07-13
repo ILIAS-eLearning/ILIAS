@@ -30,6 +30,8 @@ use ILIAS\UI\Component as C;
  */
 class DrilldownTest extends ILIAS_UI_TestBase
 {
+    use LanguageStubs;
+
     protected C\Symbol\Icon\Standard $icon;
     protected C\Symbol\Glyph\Glyph $glyph;
     protected C\Button\Standard $button;
@@ -38,7 +40,12 @@ class DrilldownTest extends ILIAS_UI_TestBase
 
     public function getUIFactory(): NoUIFactory
     {
-        return new class () extends NoUIFactory {
+        return new class ($this->createRelayArgumentLanguageStub()) extends NoUIFactory {
+            public function __construct(
+                protected \ILIAS\Language\Language $language,
+            ) {
+            }
+
             public function menu(): C\Menu\Factory
             {
                 return new Menu\Factory(
@@ -60,7 +67,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
             {
                 return new I\Symbol\Factory(
                     new I\Symbol\Icon\Factory(),
-                    new I\Symbol\Glyph\Factory(),
+                    new I\Symbol\Glyph\Factory($this->language),
                     new I\Symbol\Avatar\Factory()
                 );
             }
@@ -70,7 +77,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
     public function setUp(): void
     {
         $icon_factory = new I\Symbol\Icon\Factory();
-        $glyph_factory = new I\Symbol\Glyph\Factory();
+        $glyph_factory = new I\Symbol\Glyph\Factory($this->createRelayArgumentLanguageStub());
         $button_factory = new I\Button\Factory();
         $divider_factory = new I\Divider\Factory();
         $this->icon = $icon_factory->standard('', '');

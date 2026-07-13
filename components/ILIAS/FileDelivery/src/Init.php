@@ -44,9 +44,13 @@ class Init
 
             switch ($settings[DeliveryMethodObjective::SETTINGS] ?? null) {
                 case DeliveryMethodObjective::XACCEL:
-                    return new XAccelResponseBuilder();
+                    return new XAccelResponseBuilder(
+                        $settings[DeliveryMethodObjective::SETTINGS_EXTERNAL_DATA_DIR]
+                    );
+
                 case DeliveryMethodObjective::XSENDFILE:
                     return new XSendFileResponseBuilder();
+
                 case DeliveryMethodObjective::PHP:
                 default:
                     return new PHPResponseBuilder();

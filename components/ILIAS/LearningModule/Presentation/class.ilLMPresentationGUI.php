@@ -1015,12 +1015,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         }
 
         if (!$this->offlineMode()) {
-            // LTI
-            if ($ltiview->isActive()) {
-                // Do nothing, its complicated...
-            } else {
-                $ilLocator->addRepositoryItems();
-            }
+            $ilLocator->addRepositoryItems();
         } else {
             $ilLocator->setOffline(true);
         }
@@ -1032,25 +1027,21 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 if ($row["type"] != "pg") {
                     if ($row["child"] != $this->lm_tree->getRootId()) {
                         $ilLocator->addItem(
-                            ilStr::shortenTextExtended(
-                                ilStructureObject::_getPresentationTitle(
-                                    $row["child"],
-                                    ilLMObject::CHAPTER_TITLE,
-                                    $this->lm->isActiveNumbering(),
-                                    (bool) $this->lm_set->get("time_scheduled_page_activation"),
-                                    false,
-                                    0,
-                                    $this->lang
-                                ),
-                                50,
-                                true
+                            ilStructureObject::_getPresentationTitle(
+                                $row["child"],
+                                ilLMObject::CHAPTER_TITLE,
+                                $this->lm->isActiveNumbering(),
+                                (bool) $this->lm_set->get("time_scheduled_page_activation"),
+                                false,
+                                0,
+                                $this->lang
                             ),
                             $this->linker->getLink("layout", $row["child"], $frame_param, "StructureObject"),
                             $frame_target
                         );
                     } else {
                         $ilLocator->addItem(
-                            ilStr::shortenTextExtended($this->getLMPresentationTitle(), 50, true),
+                            $this->getLMPresentationTitle(),
                             $this->linker->getLink("layout", 0, $frame_param),
                             $frame_target,
                             $this->requested_ref_id
@@ -1090,10 +1081,16 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     protected function setContentStyles(): void
     {
         // content style
-        $this->content_style_gui->addCss(
-            $this->tpl,
-            $this->lm->getRefId()
-        );
+        if ($this->offlineMode()) {
+            $this->content_style_gui->addExportCss(
+                $this->tpl
+            );
+        } else {
+            $this->content_style_gui->addCss(
+                $this->tpl,
+                $this->lm->getRefId()
+            );
+        }
         $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
     }
 
@@ -1612,7 +1609,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $op3 = new ilRadioOption($lng->txt("cont_selected_pg_chap"), "selection");
         $radg->addOption($op3);
 
-        $nl = new ilNestedListInputGUI("", "obj_id");
+        $nl = new ilNestedListInputGUI("", "sel_obj_id");
         $this->nl = $nl;
         $op3->addSubItem($nl);
 
@@ -1751,9 +1748,9 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
             // print all subchapters/subpages if higher chapter
             // has been selected
-            if ($node["depth"] <= $act_level) {
+            if (($node["depth"] ?? 0) <= $act_level) {
                 if (in_array($node["obj_id"], $sel_obj_ids)) {
-                    $act_level = $node["depth"];
+                    $act_level = $node["depth"] ?? 0;
                     $activated = true;
                 } else {
                     $act_level = 99999;

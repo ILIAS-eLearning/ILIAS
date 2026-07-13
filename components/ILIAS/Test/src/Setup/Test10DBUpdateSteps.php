@@ -351,6 +351,10 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
         }
 
         if (!$this->db->primaryExistsByFields('tst_addtime', ['user_fi', 'test_fi'])) {
+            $this->db->manipulate(
+                'DELETE FROM tst_addtime WHERE test_fi = 0 OR user_fi = 0'
+            );
+
             $this->db->addPrimaryKey('tst_addtime', ['user_fi', 'test_fi']);
         }
     }
@@ -471,6 +475,43 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
     {
         $this->db->manipulate(
             'DELETE FROM settings WHERE module="assessment" AND keyword="assessment_man_scoring_fix_run"'
+        );
+    }
+
+    public function step_15(): void
+    {
+        $this->db->manipulate(
+            'DELETE FROM settings WHERE module="assessment" AND keyword="export_essay_qst_with_html"'
+        );
+    }
+
+    public function step_16(): void
+    {
+        $this->db->manipulate(
+            'UPDATE tst_rnd_quest_set_qpls SET pool_path = "" WHERE pool_path IS NULL'
+        );
+        $this->db->modifyTableColumn(
+            'tst_rnd_quest_set_qpls',
+            'pool_path',
+            [
+                'default' => '',
+                'notnull' => true
+            ]
+        );
+    }
+
+    public function step_17(): void
+    {
+        $this->db->manipulate(
+            'UPDATE tst_rnd_quest_set_qpls SET pool_title = "" WHERE pool_title IS NULL'
+        );
+        $this->db->modifyTableColumn(
+            'tst_rnd_quest_set_qpls',
+            'pool_title',
+            [
+                'default' => '',
+                'notnull' => true
+            ]
         );
     }
 }

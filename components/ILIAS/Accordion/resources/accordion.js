@@ -1,4 +1,18 @@
-/* */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ******************************************************************** */
 
 il.Accordion = {
 
@@ -474,10 +488,7 @@ il.Accordion = {
 	rerenderContent: function(acc_el) {
 
 		// rerender mathjax
-		if (typeof MathJax != "undefined" && typeof MathJax.Hub != "undefined") {
-			MathJax.Hub.Queue(["Reprocess",MathJax.Hub, acc_el[0]]);
-		}
-		// see http://docs.mathjax.org/en/latest/typeset.html
+		il.Util.renderMathJax([acc_el[0]], true);
 
 		// rerender google maps
 		if (typeof ilMapRerender != "undefined") {

@@ -885,6 +885,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $question->setObjId($this->getTestObject()->getId());
                 $question_gui->setObject($question);
                 $question_gui->setQuestionTabs();
+                $question_gui->setContextAllowsSyncToPool(true);
 
                 $this->addQuestionTitleToObjectTitle($question->getTitle());
 
@@ -1034,7 +1035,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->ref_id
         );
 
-        if ($nr_of_participants_with_results > 0) {
+        if ($nr_of_participants_with_results > 0
+            && $this->getTestObject()->getGlobalSettings()->isAdjustingQuestionsWithResultsAllowed()) {
             $gui->addAdditionalCmd(
                 $this->lng->txt('tst_corrections_qst_form'),
                 $this->ctrl->getLinkTargetByClass(ilTestCorrectionsGUI::class, 'showQuestion')
@@ -1657,6 +1659,14 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $data = $data_with_section[0];
 
         $qpl_mode = $data['pool_selection']['qpl_type'];
+
+        if ($qpl_mode === self::QUESTION_CREATION_POOL_SELECTION_NEW_POOL
+            && ! $this->userCanCreatePoolAtCurrentLocation()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->showQuestionsObject();
+            return;
+        }
+
         if ($qpl_mode === self::QUESTION_CREATION_POOL_SELECTION_NEW_POOL && $data['pool_selection']['title'] === ''
             || $qpl_mode === self::QUESTION_CREATION_POOL_SELECTION_EXISTING_POOL && $data['pool_selection']['pool_ref_id'] === 0) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("questionpool_not_entered"));
@@ -1822,7 +1832,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 if ($return['qpl_type'] === self::QUESTION_CREATION_POOL_SELECTION_NEW_POOL) {
                     return $return + ['title' => $kt->string()->transform($values[1][0])];
                 }
-                return $return + ['pool_ref_id' => $kt->int()->transform($values[1][0])];
+                return $return + [
+                    'pool_ref_id' => $kt->int()->transform($values[1][0])
+                ];
             }
         );
 
@@ -1835,14 +1847,22 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $inputs = [
             self::QUESTION_CREATION_POOL_SELECTION_NO_POOL => $f->group([], $this->lng->txt('assessment_no_pool')),
             self::QUESTION_CREATION_POOL_SELECTION_EXISTING_POOL => $f->group(
-                [$f->select($this->lng->txt('select_questionpool'), $pools_data)],
+                [
+                    $f->select(
+                        $this->lng->txt('select_questionpool'),
+                        $pools_data
+                    )->withRequired(true)
+                ],
                 $this->lng->txt('assessment_existing_pool')
-            ),
-            self::QUESTION_CREATION_POOL_SELECTION_NEW_POOL => $f->group(
-                [$f->text($this->lng->txt('name'))],
-                $this->lng->txt('assessment_new_pool')
             )
         ];
+
+        if ($this->userCanCreatePoolAtCurrentLocation()) {
+            $inputs[self::QUESTION_CREATION_POOL_SELECTION_NEW_POOL] = $f->group(
+                [$f->text($this->lng->txt('name'))],
+                $this->lng->txt('assessment_new_pool')
+            );
+        }
 
         return $f->switchableGroup(
             $inputs,
@@ -1921,9 +1941,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
             $message = $this->lng->txt('test_has_datasets_warning_page_view');
             $massage_box = $this->ui_factory->messageBox()->info($message)->withLinks([$link]);
-            $this->tpl->setCurrentBlock('mess');
+            $this->tpl->setCurrentBlock('pax_info_message');
             $this->tpl->setVariable(
-                'MESSAGE',
+                'PAX_INFO_MESSAGE',
                 $this->ui_renderer->render($massage_box)
             );
             $this->tpl->parseCurrentBlock();
@@ -2820,5 +2840,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->test_questions_repository,
             $this->title_builder
         );
+    }
+
+    private function userCanCreatePoolAtCurrentLocation(): bool
+    {
+        return $this->settings->get('obj_dis_creation_qpl') !== '1'
+            && $this->checkPermissionBool('create', '', 'qpl', $this->tree->getParentId($this->ref_id));
     }
 }

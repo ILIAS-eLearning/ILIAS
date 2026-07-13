@@ -18,41 +18,47 @@
 
 declare(strict_types=1);
 
-/** @noRector */
 require_once("../vendor/composer/vendor/autoload.php");
 
-
-/**
- * There is no way to process a $_GET Request with
- * a valid third-party client_id param in regular initILIAS
- */
-if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST') {
-    $orig = new ArrayObject($_POST);
-    $data = $orig->getArrayCopy();
-} elseif (strtoupper($_SERVER['REQUEST_METHOD']) == 'GET') {
-    $orig = new ArrayObject($_GET);
-    $data = $orig->getArrayCopy();
-    // early removing client_id from $_GET
-    // otherwise the client_id is interpreted as ILIAS client_id
-    // and client.ini.php will not be found
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $data = $_POST;
+} else {
+    $data = $_GET;
     if (isset($_GET['client_id'])) {
         unset($_GET['client_id']);
     }
-} else {
-    header($_SERVER["SERVER_PROTOCOL"] . " 405 Method Not Allowed", true, 405);
-    exit;
+}
+
+function sanitizeJson(string $string)
+{
+    $string = preg_replace('/(\w+):(\w+)/', '"$1":"$2"', $string);
+    $string = str_replace("'", '"', $string);
+    $string = str_replace('{', '{', $string);
+    $string = str_replace('}', '}', $string);
+    return json_decode($string, true);
 }
 
 ilInitialisation::initILIAS();
-
 global $DIC;
+$scope = $data['scope'] ?? '';
+$responseType = $data['response_type'] ?? '';
+$redirectUri = $data['redirect_uri'] ?? '';
+$clientId = $data['client_id'] ?? $data['id'] ?? '';
+$state = $data['state'] ?? '';
+$nonce = $data['nonce'] ?? '';
+$ltiMessageHint = $data['lti_message_hint'] ?? '';
+$loginHint = $data['login_hint'] ?? '';
 
-$ltiMessageHint = $data['lti_message_hint'];
+$hint = null;
+$deploymentId = null;
+$provider_id = 0;
+$childRefId = 0;
+$refId = 0;
+
 
 if (empty($ltiMessageHint)) {
     $DIC->http()->saveResponse(
-        $DIC->http()->response()
-        ->withStatus(400)
+        $DIC->http()->response()->withStatus(400)
     );
     try {
         $DIC->http()->sendResponse();
@@ -61,29 +67,34 @@ if (empty($ltiMessageHint)) {
         $DIC->http()->close();
     }
 }
-$mh = explode(":", $ltiMessageHint);
+
+$parts = explode(":", $ltiMessageHint);
 $isContentSelection = false;
 $ref_id = '';
-$client_id = '';
+$il_client_id = '';
 $redirect_uri = '';
-if (count($mh) == 2) { // launch message auth
-    list($ref_id, $client_id) = explode(":", $ltiMessageHint);
-} else { // contentSelection message auth
+if (count($parts) === 2) {
+    [$ref_id, $il_client_id] = $parts;
+} elseif (count($parts) === 3) {
+    [$first, $second, $third] = $parts;
+    $il_client_id = $third;
+    $ref_id = explode(",", $second)[0];
+} else {
     $isContentSelection = true;
-    list($ref_id, $client_id, $redirect_uri) = explode(":", $ltiMessageHint);
+    [$ref_id, $il_client_id, $redirect_uri] = $parts;
 }
 
 ilSession::set('lti13_login_data', $data);
+
 if ($isContentSelection) {
     $url = "../../../" . base64_decode($redirect_uri);
 } else {
-    $url = "../../../goto.php?target=lti_" . $ref_id . "&client_id=" . $client_id;
+    $url = "../../../goto.php?target=lti_" . $ref_id . "&client_id=" . $il_client_id;
 }
-
 $DIC->http()->saveResponse(
     $DIC->http()->response()
-    ->withStatus(302)
-    ->withAddedHeader('Location', $url)
+        ->withStatus(302)
+        ->withAddedHeader('Location', $url)
 );
 try {
     $DIC->http()->sendResponse();

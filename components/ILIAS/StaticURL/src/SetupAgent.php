@@ -20,14 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\StaticURL;
 
-use ILIAS\Setup\Agent;
+use ILIAS\Setup\Agent\NullAgent;
 use ILIAS\Setup\Objective;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class SetupAgent extends Agent\NullAgent implements Agent
+class SetupAgent extends NullAgent
 {
+    #[\Override]
     public function getBuildObjective(): Objective
     {
         return new ArtifactObjective();

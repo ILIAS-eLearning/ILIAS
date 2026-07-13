@@ -517,6 +517,7 @@ class ilLTIDataConnector extends DataConnector
     {
         $ilDB = $this->database;
 
+        $signatureMethod = \ceLTIc\LTI\Enum\LtiVersion::V1P3 === $platform->ltiVersion ? "RS256" : "HMAC-SHA1";
         $id = $platform->getRecordId();
         $key = $platform->getKey();
         $protected = ($platform->protected) ? 1 : 0;
@@ -551,57 +552,59 @@ class ilLTIDataConnector extends DataConnector
             // $query = "INSERT INTO {$this->dbTableNamePrefix}" . $this->CONSUMER_TABLE_NAME . ' (consumer_key256, consumer_key, name, ' .
             $query = 'INSERT INTO lti2_consumer (consumer_key, name, ' .
                 'secret, lti_version, consumer_name, consumer_version, consumer_guid, profile, tool_proxy, settings, protected, enabled, ' .
-                'enable_from, enable_until, last_access, created, updated, consumer_pk, ext_consumer_id, ref_id, platform_id, client_id, deployment_id, public_key) ' .
-                'VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)';
+                'enable_from, enable_until, last_access, created, updated, consumer_pk, ext_consumer_id, ref_id, platform_id, client_id, deployment_id, public_key, signature_method) ' .
+                'VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)';
             $types = array("text",
-                           "text",
-                           "text",
-                           "text",
-                           "text",
-                           "text",
-                           "text",
-                           "text",
-                           "text",
-                           "text",
-                           "integer",
-                           "integer",
-                           "timestamp",
-                           "timestamp",
-                           "timestamp",
-                           "timestamp",
-                           "timestamp",
-                           "integer",
-                           'integer',
-                           'integer',
-                           "text",
-                           "text",
-                           "text",
-                           "text"
+                "text",
+                "text",
+                "text",
+                "text",
+                "text",
+                "text",
+                "text",
+                "text",
+                "text",
+                "integer",
+                "integer",
+                "timestamp",
+                "timestamp",
+                "timestamp",
+                "timestamp",
+                "timestamp",
+                "integer",
+                'integer',
+                'integer',
+                "text",
+                "text",
+                "text",
+                "text",
+                "text"
             );
             $values = array($key,
-                            $platform->name,
-                            $platform->secret,
-                            $platform->ltiVersion->value,
-                            $platform->consumerName,
-                            $platform->consumerVersion,
-                            $platform->consumerGuid,
-                            $profile,
-                            $platform->toolProxy,
-                            $settingsValue,
-                            $protected,
-                            $enabled,
-                            $from,
-                            $until,
-                            $last,
-                            $now,
-                            $now,
-                            $id,
-                            $platform->getExtConsumerId(),
-                            $platform->getRefId(),
-                            (string) $platform->platformId,
-                            $platform->clientId,
-                            $platform->deploymentId,
-                            $platform->rsaKey
+                $platform->name,
+                $platform->secret,
+                $platform->ltiVersion->value,
+                $platform->consumerName,
+                $platform->consumerVersion,
+                $platform->consumerGuid,
+                $profile,
+                $platform->toolProxy,
+                $settingsValue,
+                $protected,
+                $enabled,
+                $from,
+                $until,
+                $last,
+                $now,
+                $now,
+                $id,
+                $platform->getExtConsumerId(),
+                $platform->getRefId(),
+                (string) $platform->platformId,
+                $platform->clientId,
+                $platform->deploymentId,
+                $platform->rsaKey,
+                $signatureMethod
             );
             $ilDB->manipulateF($query, $types, $values);
         } else {
@@ -612,51 +615,55 @@ class ilLTIDataConnector extends DataConnector
                 'secret= %s, lti_version = %s, consumer_name = %s, consumer_version = %s, consumer_guid = %s, ' .
                 'profile = %s, tool_proxy = %s, settings = %s, protected = %s, enabled = %s, ' .
                 'enable_from = %s, enable_until = %s, last_access = %s, updated = %s, ' .
-                'platform_id = %s, client_id = %s, deployment_id = %s, public_key = %s ' .
+                'platform_id = %s, client_id = %s, deployment_id = %s, public_key = %s, signature_method = %s ' .
                 'WHERE consumer_pk = %s';
             $types = array("text",
-                           "text",
-                           "text",
-                           "text",
-                           "text",
-                           "text",
-                           "text",
-                           "text",
-                           "text",
-                           "text",
-                           "integer",
-                           "integer",
-                           "timestamp",
-                           "timestamp",
-                           "timestamp",
-                           "timestamp",
-                           "text",
-                           "text",
-                           "text",
-                           "text",
-                           "integer"
+                "text",
+                "text",
+                "text",
+                "text",
+                "text",
+                "text",
+                "text",
+                "text",
+                "text",
+                "integer",
+                "integer",
+                "timestamp",
+                "timestamp",
+                "timestamp",
+                "timestamp",
+                "text",
+                "text",
+                "text",
+                "text",
+                "text",
+                "integer"
+
             );
             $values = array($key,
-                            $platform->name,
-                            $platform->secret,
-                            $platform->ltiVersion->value,
-                            $platform->consumerName,
-                            $platform->consumerVersion,
-                            $platform->consumerGuid,
-                            $profile,
-                            $platform->toolProxy,
-                            $settingsValue,
-                            $protected,
-                            $enabled,
-                            $from,
-                            $until,
-                            $last,
-                            $now,
-                            $platform->platformId,
-                            $platform->clientId,
-                            $platform->deploymentId,
-                            $platform->rsaKey,
-                            $id
+                $platform->name,
+                $platform->secret,
+                $platform->ltiVersion->value,
+                $platform->consumerName,
+                $platform->consumerVersion,
+                $platform->consumerGuid,
+                $profile,
+                $platform->toolProxy,
+                $settingsValue,
+                $protected,
+                $enabled,
+                $from,
+                $until,
+                $last,
+                $now,
+                $platform->platformId,
+                $platform->clientId,
+                $platform->deploymentId,
+                $platform->rsaKey,
+                $signatureMethod,
+                $id
+
             );
             $ilDB->manipulateF($query, $types, $values);
         }
@@ -1214,24 +1221,24 @@ class ilLTIDataConnector extends DataConnector
                 'lti_resource_link_id, settings, primary_resource_link_pk, share_approved, created, updated) ' .
                 'VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)';
             $types = array("integer",
-                           "integer",
-                           "integer",
-                           "text",
-                           "text",
-                           "integer",
-                           "integer",
-                           "timestamp",
-                           "timestamp"
+                "integer",
+                "integer",
+                "text",
+                "text",
+                "integer",
+                "integer",
+                "timestamp",
+                "timestamp"
             );
             $values = array($id,
-                            $platformId,
-                            $contextId,
-                            $resourceLink->getId(),
-                            $settingsValue,
-                            $primaryResourceLinkId,
-                            $approved,
-                            $now,
-                            $now
+                $platformId,
+                $contextId,
+                $resourceLink->getId(),
+                $settingsValue,
+                $primaryResourceLinkId,
+                $approved,
+                $now,
+                $now
             );
         } elseif (!is_null($contextId)) {
             $query = "UPDATE {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_TABLE_NAME . ' SET ' .
@@ -1240,13 +1247,13 @@ class ilLTIDataConnector extends DataConnector
                 'WHERE (context_pk = %s) AND (resource_link_pk = %s)';
             $types = array("integer", "text", "text", "integer", "integer", "timestamp", "integer", "integer");
             $values = array($platformId,
-                            $resourceLink->getId(),
-                            $settingsValue,
-                            $primaryResourceLinkId,
-                            $approved,
-                            $now,
-                            $contextId,
-                            $id
+                $resourceLink->getId(),
+                $settingsValue,
+                $primaryResourceLinkId,
+                $approved,
+                $now,
+                $contextId,
+                $id
             );
         } else {
             $query = "UPDATE {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_TABLE_NAME . ' SET ' .
@@ -1255,13 +1262,13 @@ class ilLTIDataConnector extends DataConnector
                 'WHERE (consumer_pk = %s) AND (resource_link_pk = %s)';
             $types = array("integer", "text", "text", "integer", "integer", "timestamp", "integer", "integer");
             $values = array($contextId,
-                            $resourceLink->getId(),
-                            $settingsValue,
-                            $primaryResourceLinkId,
-                            $approved,
-                            $now,
-                            $platformId,
-                            $id
+                $resourceLink->getId(),
+                $settingsValue,
+                $primaryResourceLinkId,
+                $approved,
+                $now,
+                $platformId,
+                $id
             );
         }
         $ok = (bool) $ilDB->manipulateF($query, $types, $values);

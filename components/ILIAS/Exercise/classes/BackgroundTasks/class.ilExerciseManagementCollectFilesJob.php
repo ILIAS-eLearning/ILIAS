@@ -561,8 +561,10 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
                     //Get the submission Text
                     if (!in_array($assignment_type, $this->ass_types_with_files)) {
                         foreach ($submissions as $sub) {
+                            $purifier = new ilExcTextSubmissionPurifier();
+                            $atext = $purifier->purify($sub->getText());
                             $this->excel->setCell($row, self::SUBMISSION_DATE_COLUMN, $sub->getTimestamp());
-                            $this->excel->setCell($row, self::FIRST_DEFAULT_SUBMIT_COLUMN, $sub->getText());
+                            $this->excel->setCell($row, self::FIRST_DEFAULT_SUBMIT_COLUMN, $atext);
                         }
                     } else {
                         $col = self::FIRST_DEFAULT_SUBMIT_COLUMN;

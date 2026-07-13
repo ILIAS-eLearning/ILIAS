@@ -93,9 +93,9 @@ class SettingsDBRepository
     {
         return $this->data->settings(
             (int) $rec['obj_id'],
-            $rec['instruction'],
+            (string) $rec['instruction'],
             (int) $rec['time_stamp'],
-            $rec['pass_mode'],
+            (string) $rec['pass_mode'],
             (int) $rec['nr_mandatory_random'],
             (int) $rec['pass_nr'],
             (bool) $rec['show_submissions'],

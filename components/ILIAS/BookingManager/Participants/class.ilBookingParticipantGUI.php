@@ -76,7 +76,7 @@ class ilBookingParticipantGUI
                         $a_user_id
                     );
                 });
-                $rep_search->setTitle($this->lng->txt("exc_add_participant"));
+                $rep_search->setTitle($this->lng->txt("book_add_participant"));
                 $rep_search->setCallback($this, 'addParticipantObject');
                 $this->ctrl->setReturn($this, 'render');
                 $this->ctrl->forwardCommand($rep_search);

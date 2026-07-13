@@ -27,12 +27,15 @@ use PHPUnit\Framework\TestCase;
  */
 class ilLDAPServerTest extends TestCase
 {
-    private Container $dic;
+    private ?Container $dic = null;
 
     protected function setUp(): void
     {
-        $this->dic = new Container();
-        $GLOBALS['DIC'] = $this->dic;
+        global $DIC;
+
+        $this->dic = is_object($DIC) ? clone $DIC : $DIC;
+
+        $DIC = new Container();
 
         $this->setGlobalVariable('lng', $this->getLanguageMock());
         $this->setGlobalVariable(
@@ -48,7 +51,25 @@ class ilLDAPServerTest extends TestCase
             'ilErr',
             $this->getMockBuilder(ilErrorHandling::class)->getMock()
         );
+
+        $logger = $this->getMockBuilder(ilLogger::class)->disableOriginalConstructor()->getMockForAbstractClass();
+        $logger_factory = $this->getMockBuilder(ilLoggerFactory::class)->disableOriginalConstructor()->getMock();
+        $logger_factory->method('getComponentLogger')->willReturn($logger);
+        $this->setGlobalVariable(
+            ilLoggerFactory::class,
+            $logger_factory
+        );
+
         parent::setUp();
+    }
+
+    protected function tearDown(): void
+    {
+        global $DIC;
+
+        $DIC = $this->dic;
+
+        parent::tearDown();
     }
 
     /**
@@ -62,9 +83,7 @@ class ilLDAPServerTest extends TestCase
         $GLOBALS[$name] = $value;
 
         unset($DIC[$name]);
-        $DIC[$name] = static function ($c) use ($name) {
-            return $GLOBALS[$name];
-        };
+        $DIC[$name] = static fn(Container $c) => $GLOBALS[$name];
     }
 
     /**

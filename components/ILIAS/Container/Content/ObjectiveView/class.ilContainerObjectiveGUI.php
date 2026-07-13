@@ -160,7 +160,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         return $tpl->get();
     }
 
-    public function initRenderer() : void
+    public function initRenderer(): void
     {
         parent::initRenderer();
         $this->loc_settings = ilLOSettings::getInstanceByObjId($this->getContainerObject()->getId());
@@ -688,7 +688,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                     $has_sections = true;
 
                     $title = $item['title'] .
-                        " &rsaquo; " . ilLMObject::_lookupTitle($chapter['obj_id']) .
+                        " › " . ilLMObject::_lookupTitle($chapter['obj_id']) .
                         " (" . $lng->txt('obj_' . $chapter['type']) . ")";
 
                     $item_list_gui2->setDefaultCommandParameters([

@@ -35,7 +35,6 @@ class InternalDataService
         int $default_access,
         int $sort_mode,
         string $view_mode,
-        bool $autoplay_mode,
         int $nr_initial_videos,
         bool $new_items_in_lp
     ): Settings {
@@ -46,7 +45,6 @@ class InternalDataService
             $default_access,
             $sort_mode,
             $view_mode,
-            $autoplay_mode,
             $nr_initial_videos,
             $new_items_in_lp
         );

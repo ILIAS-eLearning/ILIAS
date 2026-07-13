@@ -33,6 +33,7 @@ class ilPathGUI
     protected ilCtrlInterface $ctrl;
     protected ilObjectDefinition $objectDefinition;
     protected \ILIAS\Refinery\Factory $refinery;
+    private ilAccessHandler $access;
 
     /**
      * Constructor
@@ -48,6 +49,7 @@ class ilPathGUI
         $this->ctrl = $DIC['ilCtrl'];
         $this->objectDefinition = $DIC['objDefinition'];
         $this->refinery = $DIC->refinery();
+        $this->access = $DIC->access();
     }
 
     /**
@@ -194,7 +196,9 @@ class ilPathGUI
                     $tpl->parseCurrentBlock();
                 }
 
-                if (!$this->tree->isDeleted($ref_id)) {
+                if (!$this->tree->isDeleted($ref_id) &&
+                    ($this->access->checkAccess('visible', '', (int) $ref_id)
+                        || $this->access->checkAccess('read', '', (int) $ref_id))) {
                     $tpl->setCurrentBlock('locator_item');
                     $tpl->setVariable('LINK_ITEM', $this->buildLink($ref_id, $type));
                     $tpl->setVariable('ITEM', $title);

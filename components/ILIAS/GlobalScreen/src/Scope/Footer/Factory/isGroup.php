@@ -25,6 +25,9 @@ namespace ILIAS\GlobalScreen\Scope\Footer\Factory;
  */
 interface isGroup extends isItem, hasTitle
 {
+    /**
+     * @return canHaveParent[]
+     */
     public function getEntries(): array;
 
     /**
@@ -41,4 +44,5 @@ interface isGroup extends isItem, hasTitle
      * @mutable
      */
     public function addEntry(canHaveParent $entry): isGroup;
+    public function removeEntry(canHaveParent $entry): isGroup;
 }

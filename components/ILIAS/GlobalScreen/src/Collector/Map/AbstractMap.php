@@ -23,12 +23,6 @@ namespace ILIAS\GlobalScreen\Collector\Map;
 use ArrayObject;
 use Closure;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\GlobalScreen\Identification\NullIdentification;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\isGlobalScreenItem;
 
 /**
@@ -62,7 +56,7 @@ abstract class AbstractMap implements Filterable, Walkable
     public function add(isGlobalScreenItem $item): void
     {
         $serialize = $item->getProviderIdentification()->serialize();
-        if (0 < strlen($serialize)) {
+        if ((string) $serialize !== '') {
             $this->raw[$serialize] = $item;
         }
     }
@@ -148,7 +142,7 @@ abstract class AbstractMap implements Filterable, Walkable
     public function walk(Closure $c): void
     {
         $this->applyFilters();
-        $to_walk = (array) $this->filtered->getArrayCopy();
+        $to_walk = $this->filtered->getArrayCopy();
         array_walk($to_walk, $c);
         $this->filtered = new ArrayObject($to_walk);
     }

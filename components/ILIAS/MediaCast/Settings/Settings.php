@@ -29,7 +29,6 @@ class Settings
         protected int $default_access,
         protected int $sort_mode,
         protected string $view_mode,
-        protected bool $autoplay_mode,
         protected int $nr_initial_videos,
         protected bool $new_items_in_lp
     ) {
@@ -63,11 +62,6 @@ class Settings
     public function getViewMode(): string
     {
         return $this->view_mode;
-    }
-
-    public function getAutoplayMode(): bool
-    {
-        return $this->autoplay_mode;
     }
 
     public function getNumberInitialVideos(): int

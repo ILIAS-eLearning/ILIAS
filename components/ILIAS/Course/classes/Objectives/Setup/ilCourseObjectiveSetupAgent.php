@@ -22,11 +22,11 @@ use ILIAS\Setup;
 use ILIAS\Setup\Config;
 use ILIAS\Setup\Metrics;
 use ILIAS\Setup\Objective;
-use ILIAS\Setup\Agent\NullAgent;
+use ILIAS\Setup\Agent;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Setup\ObjectiveCollection;
 
-class ilCourseObjectiveSetupAgent extends NullAgent
+class ilCourseObjectiveSetupAgent implements Agent
 {
     use Setup\Agent\HasNoNamedObjective;
 
@@ -61,5 +61,17 @@ class ilCourseObjectiveSetupAgent extends NullAgent
     public function getBuildObjective(): Objective
     {
         return new Objective\NullObjective();
+    }
+
+    public function getMigrations(): array
+    {
+        return [
+            new ilCourseCleanupActivationMigration()
+        ];
+    }
+
+    public function hasConfig(): bool
+    {
+        return false;
     }
 }

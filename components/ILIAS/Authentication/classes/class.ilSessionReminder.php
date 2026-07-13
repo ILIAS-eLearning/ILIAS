@@ -109,7 +109,7 @@ class ilSessionReminder
     {
         $expires = ilSession::getSessionExpireValue();
 
-        return max(self::MIN_LEAD_TIME, ($expires / 60) - 1);
+        return max(self::MIN_LEAD_TIME, (int) (floor($expires / 60) - 1));
     }
 
     private function init(): void

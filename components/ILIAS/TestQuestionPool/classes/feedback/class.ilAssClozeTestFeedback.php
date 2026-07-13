@@ -651,10 +651,10 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
         );
     }
 
-    protected function cloneSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId): void
+    protected function cloneSpecificFeedback(int $original_question_id, int $duplicate_question_id): void
     {
-        $this->cloneSpecificFeedbackSetting($originalQuestionId, $duplicateQuestionId);
-        parent::cloneSpecificFeedback($originalQuestionId, $duplicateQuestionId);
+        $this->cloneSpecificFeedbackSetting($original_question_id, $duplicate_question_id);
+        parent::cloneSpecificFeedback($original_question_id, $duplicate_question_id);
     }
 
     /**

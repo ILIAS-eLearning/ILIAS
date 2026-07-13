@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\BookingManager\BookingProcess;
 
+use ilBookingProcessWithScheduleGUI;
 use ILIAS\BookingManager\InternalDomainService;
 use ILIAS\BookingManager\InternalGUIService;
 use ILIAS\BookingManager\Objects\ObjectsManager;
@@ -60,6 +61,17 @@ class ProcessUtilGUI
         $this->log->debug("back");
         $retCmd = $this->request->getReturnCmd();
         $this->log->debug("returnCmd is " . $retCmd);
+
+        $class = get_class($this->parent_gui);
+        if ($retCmd === 'week' && $class === ilBookingProcessWithScheduleGUI::class) {
+            if ($this->request->getOriginCmd() === 'book') {
+                $this->domain->objectSelection($this->pool->getId())->setSelectedObjects([$this->request->getObjectId()]);
+            }
+            $this->ctrl->setParameterByClass($class, 'seed', $this->request->getSeed());
+            $this->ctrl->redirectByClass($class, $retCmd);
+            return;
+        }
+
         if ($retCmd !== "") {
             $this->ctrl->redirectByClass(get_class($this->parent_gui), $retCmd);
         } else {

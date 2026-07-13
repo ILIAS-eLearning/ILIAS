@@ -189,7 +189,7 @@ class ilFFmpeg
 
         $command1 = "unzip -p $zip $path > $tmp_file";
         shell_exec($command1);
-        $command2 = "ffmpeg -i $tmp_file -f image2 -vframes 1 -ss $sec -vcodec png pipe:1";
+        $command2 = self::getCmd() . " -i $tmp_file -f image2 -vframes 1 -ss $sec -vcodec png pipe:1";
 
         $ret = (string) shell_exec($command2);
         unlink($tfile);

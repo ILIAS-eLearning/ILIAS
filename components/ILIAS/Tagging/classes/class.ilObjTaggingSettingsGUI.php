@@ -265,7 +265,9 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
         $ta->setValue($forb_str);
         $form->addItem($ta);
 
-        $form->addCommandButton("saveForbiddenTags", $lng->txt("save"));
+        if ($this->access->checkAccess("write", "", $this->object->getRefId())) {
+            $form->addCommandButton("saveForbiddenTags", $lng->txt("save"));
+        }
 
         $form->setTitle($lng->txt("tagging_forbidden_tags"));
         $form->setFormAction($ilCtrl->getFormAction($this));

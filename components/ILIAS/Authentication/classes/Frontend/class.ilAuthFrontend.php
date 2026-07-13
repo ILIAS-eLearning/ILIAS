@@ -43,8 +43,6 @@ class ilAuthFrontend
 
     private ilUserProfile $user_profile;
 
-    private bool $authenticated = false;
-
     /**
      * @param ilAuthSession $session
      * @param ilAuthStatus $status
@@ -282,8 +280,8 @@ class ilAuthFrontend
             return false;
         }
 
-        // check simultaneos logins
-        $this->logger->debug('Check simutaneous login');
+        // check simultaneous logins
+        $this->logger->debug('Check simultaneous login');
         if (!$this->checkSimultaneousLogins($user)) {
             $this->logger->info('Authentication failed: simultaneous logins forbidden for user: ' . $this->getStatus()->getAuthenticatedUserId());
             $this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
@@ -292,13 +290,20 @@ class ilAuthFrontend
         }
 
         // check if profile is complete
-        if (
-            $this->user_profile->isProfileIncomplete($user) &&
-            ilAuthFactory::getContext() !== ilAuthFactory::CONTEXT_ECS &&
-            ilContext::getType() !== ilContext::CONTEXT_LTI_PROVIDER
-        ) {
+        $profile_incomplete = ilAuthFactory::getContext() !== ilAuthFactory::CONTEXT_ECS
+            && ilContext::getType() !== ilContext::CONTEXT_LTI_PROVIDER
+            && $this->user_profile->isProfileIncomplete($user);
+        if ($profile_incomplete) {
             ilLoggerFactory::getLogger('auth')->info('User profile is incomplete.');
             $user->setProfileIncomplete(true);
+        }
+
+        $has_login_attempts = $user->getLoginAttempts() > 0;
+        if ($has_login_attempts) {
+            $user->setLoginAttempts(0);
+        }
+
+        if ($profile_incomplete || $has_login_attempts) {
             $user->update();
         }
 
@@ -321,12 +326,6 @@ class ilAuthFrontend
             $user->resetLastPasswordChange();
         }
         $user->refreshLogin();
-
-        if ($user->getLoginAttempts() > 0) {
-            $user->setLoginAttempts(0);
-            $user->update();
-        }
-
 
         $this->logger->info('Successfully authenticated: ' . ilObjUser::_lookupLogin($this->getStatus()->getAuthenticatedUserId()));
         $this->getAuthSession()->setAuthenticated(true, $this->getStatus()->getAuthenticatedUserId());
@@ -459,7 +458,19 @@ class ilAuthFrontend
         $usr_id_candidates = [];
         foreach (array_filter($auth_modes) as $auth_mode) {
             if ((int) $auth_mode === ilAuthUtils::AUTH_LOCAL) {
-                $usr_id_candidates[] = ilObjUser::_lookupId($this->getCredentials()->getUsername());
+                $local_usr_id = ilObjUser::_lookupId($this->getCredentials()->getUsername());
+                // Mantis #47987: A failed local login must only count against an
+                // account that can actually be authenticated locally. Without this
+                // check, external accounts (e.g., Shibboleth/SAML) whose login name
+                // is entered in the local login form get their login attempts
+                // incremented and are eventually deactivated - even though a local
+                // login is impossible for them because "Allow Local Authentication"
+                // is disabled. This mirrors the gate in ilAuthProviderDatabase.
+                if (is_int($local_usr_id) && $local_usr_id > 0 && ilAuthUtils::isLocalPasswordEnabledForAuthMode(
+                    (int) ilAuthUtils::_getAuthMode(ilObjUser::_lookupAuthMode($local_usr_id))
+                )) {
+                    $usr_id_candidates[] = $local_usr_id;
+                }
                 continue;
             }
 

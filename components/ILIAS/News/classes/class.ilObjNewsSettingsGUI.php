@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\News\Persistence\NewsCache;
+
 /**
  * News Settings.
  *
@@ -24,10 +26,13 @@
  */
 class ilObjNewsSettingsGUI extends ilObjectGUI
 {
-    protected ilNewsCache $acache;
+    protected readonly NewsCache $cache;
 
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
     {
+        global $DIC;
+        $this->cache = $DIC->news()->internal()->repo()->cache();
+
         $this->type = 'nwss';
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
@@ -272,8 +277,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         }
 
         // empty news cache
-        $this->acache = new ilNewsCache();
-        $this->acache->deleteAllEntries();
+        $this->cache->flush();
 
         $news_set = new ilSetting("news");
         $feed_set = new ilSetting("feed");

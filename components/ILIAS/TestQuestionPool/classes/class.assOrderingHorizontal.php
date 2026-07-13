@@ -505,19 +505,29 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         }
     }
 
-    /**
-     * @param $value
-     * @return float
-     */
-    protected function calculateReachedPointsForSolution(?string $value): float
+    protected function calculateReachedPointsForSolution(?string $user_response): float
     {
-        $value = $this->splitAndTrimOrderElementText($value ?? "", $this->answer_separator);
-        $value = join($this->answer_separator, $value);
-        if (strcmp($value, join($this->answer_separator, $this->getOrderingElements())) == 0) {
-            $points = $this->getPoints();
-            return $points;
+        if ($user_response === null) {
+            return 0.0;
         }
-        return 0;
+
+        $cleaned_user_response = implode(
+            $this->answer_separator,
+            $this->splitAndTrimOrderElementText(
+                $user_response,
+                $this->answer_separator
+            )
+        );
+
+        $correct_solution = implode(
+            $this->answer_separator,
+            $this->getOrderingElements()
+        );
+
+        if ($cleaned_user_response === $correct_solution) {
+            return $this->getPoints();
+        }
+        return 0.0;
     }
 
     public function buildTestPresentationConfig(): ilTestQuestionConfig

@@ -103,5 +103,13 @@ class ilGlossaryImporter extends ilXmlImporter
                 }
             }
         }
+        // update parent id of definition page
+        $maps = $a_mapping->getMappingsOfEntity("components/ILIAS/Glossary", "term");
+        foreach ($maps as $old => $new) {
+            $glo_id = ilGlossaryTerm::_lookGlossaryID($new);
+            if ($glo_id > 0) {
+                ilGlossaryDefPage::_writeParentId("term", $new, $glo_id);
+            }
+        }
     }
 }

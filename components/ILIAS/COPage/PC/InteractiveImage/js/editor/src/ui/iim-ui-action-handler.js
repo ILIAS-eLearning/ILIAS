@@ -398,7 +398,6 @@ export default class IIMUIActionHandler {
     const af = this.actionFactory;
     const dispatch = this.dispatcher;
     const { util } = this;
-
     this.util.sendFiles(params.form).then(() => {
       const data = new FormData(params.form);
       save_action = af.interactiveImage().command().saveSettings(

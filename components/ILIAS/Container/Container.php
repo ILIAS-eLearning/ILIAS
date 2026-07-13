@@ -32,6 +32,10 @@ class Container implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
+        new \ILIAS\Container\Setup\ContainerSetupAgent(
+            $pull[\ILIAS\Refinery\Factory::class]
+        );
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "Container.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>

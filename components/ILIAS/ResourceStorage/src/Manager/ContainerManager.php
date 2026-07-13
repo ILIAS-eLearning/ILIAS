@@ -31,12 +31,12 @@ use ILIAS\ResourceStorage\Resource\ResourceType;
  */
 final class ContainerManager extends BaseManager
 {
-    protected function normalizePath(string $path_inside_container): string
+    private function normalizePath(string $path_inside_container): string
     {
-        $path_inside_container = '/' . ltrim($path_inside_container, './');
-        $path_inside_container = rtrim($path_inside_container, '/');
-
-        return $path_inside_container;
+        // Paths inside a ZIP container must be relative (no leading slash).
+        // Some extraction tools (e.g. Windows Explorer) hide entries whose
+        // names start with "/". See Mantis 0045580 / 0047237.
+        return rtrim(ltrim($path_inside_container, './'), '/');
     }
 
     public function containerFromUpload(
@@ -99,9 +99,6 @@ final class ContainerManager extends BaseManager
         string $parent_path_inside_container,
     ): bool {
         $parent_path_inside_container = $this->normalizePath($parent_path_inside_container);
-        if (empty($parent_path_inside_container)) {
-            $parent_path_inside_container = '/';
-        }
         return $this->resource_builder->addUploadToContainer(
             $this->getResource($container),
             $result,

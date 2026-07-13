@@ -203,7 +203,7 @@ class ilSCORM13Package
         $j['foreignId'] = floatval($x['foreignId']); // manifest cp_node_id for associating global (package wide) objectives
         $j['id'] = strval($x['id']); // manifest id for associating global (package wide) objectives
         $j['item']['title'] = ilUtil::stripSlashes($j['item']['title']);
-        for($i = 0; $i < count($j['item']['item']); $i++) {
+        for ($i = 0; $i < count($j['item']['item']); $i++) {
             $j['item']['item'][$i]['title'] = ilUtil::stripSlashes($j['item']['item'][$i]['title']);
         }
 
@@ -341,11 +341,10 @@ class ilSCORM13Package
                             break;
                         case 'language': $names[] = 'c_language';
                             break;
-                            //                        case 'condition': $names[] = 'c_condition';
-                            //                            break;
+                        case 'condition': $names[] = 'c_condition';
+                            break;
                         case 'operator': $names[] = 'c_operator';
                             break;
-                            //                        case 'condition': $names[] = 'c_condition';break;
                         case 'readnormalizedmeasure': $names[] = 'readnormalmeasure';
                             break;
                         case 'writenormalizedmeasure': $names[] = 'writenormalmeasure';
@@ -354,7 +353,6 @@ class ilSCORM13Package
                             break;
                         case 'primary': $names[] = 'c_primary';
                             break;
-                            //                        case 'minnormalizedmeasure': $names[] = 'minnormalmeasure';break;
                         case 'persistpreviousattempts': $names[] = 'persistprevattempts';
                             break;
                         case 'identifier': $names[] = 'c_identifier';

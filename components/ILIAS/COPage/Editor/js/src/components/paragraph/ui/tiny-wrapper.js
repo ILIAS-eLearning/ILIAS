@@ -212,8 +212,6 @@ export default class TinyWrapper {
         plugins: 'save,lists',
         license_key: 'gpl',
         smart_paste: false,
-        save_onsavecallback: 'saveParagraph',
-        mode: 'exact',
         selector: `#${this.id}`,
         content_css: this.content_css,
         fix_list_elements: true,
@@ -226,8 +224,6 @@ export default class TinyWrapper {
         removeformat_selector: 'span,code',
         remove_linebreaks: true,
         convert_newlines_to_brs: false,
-        force_p_newlines: true,
-        force_br_newlines: false,
         /* not found in 3 docu (anymore?) */
         cleanup_on_startup: true,
         cleanup: true,
@@ -1133,7 +1129,11 @@ export default class TinyWrapper {
         children = dummy.childNodes;
         for (let k = 0; k < children.length; k++) {
           if (children[k].nodeName === 'P') { // paragraphs
-            contents.push(html.p2br(children[k].innerHTML));
+            if (children[k].textContent === '') { // see #42980
+              contents.push('');
+            } else {
+              contents.push(html.p2br(children[k].innerHTML));
+            }
           } else if (children[k].nodeType === 3) { // text nodes (seems to be only \n)
             //            contents.push(html.p2br(children[k].textContent));
           } else {

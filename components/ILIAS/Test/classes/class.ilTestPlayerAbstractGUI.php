@@ -416,7 +416,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         if ($this->isParticipantsAnswerFixed($q_id)) {
             // should only be reached by firebugging the disabled form in ui
-            throw new ilTestException('not allowed request');
+            $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $this->lng->txt('tst_player_answer_saved_and_locked'), true);
+            $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
         }
 
         if ($q_id === null) {
@@ -2077,7 +2078,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         $this->tpl->setCurrentBlock("adm_content");
         $this->tpl->setVariable("TXT_ANSWER_SHEET", $this->lng->txt("tst_list_of_answers"));
-        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($this->test_session, $active_id, true);
+        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($active_id);
         $signature = $this->getResultsSignature();
         $this->tpl->setVariable("USER_DETAILS", $user_data);
         $this->tpl->setVariable("SIGNATURE", $signature);

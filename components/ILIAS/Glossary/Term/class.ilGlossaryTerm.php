@@ -642,9 +642,12 @@ class ilGlossaryTerm
         int $a_term_id,
         int $a_glossary_id
     ): int {
-        $old_term = new ilGlossaryTerm($a_term_id);
-
         // copy the term
+        try {
+            $old_term = new ilGlossaryTerm($a_term_id);
+        } catch (Exception $e) {
+            return 0;
+        }
         $new_term = new ilGlossaryTerm();
         $new_term->setTerm($old_term->getTerm());
         $new_term->setLanguage($old_term->getLanguage());

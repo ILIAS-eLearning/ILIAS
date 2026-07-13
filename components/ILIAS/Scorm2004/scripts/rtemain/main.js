@@ -1313,49 +1313,61 @@ function createHttpRequest()
 	}
 }
 
-function sendAndLoad(url, data, callback, user, password, headers) 
-{
-	function HttpResponse(xhttp) 
-	{
-		this.status = Number(xhttp.status);
-		this.content = String(xhttp.responseText);
-		this.type = String(xhttp.getResponseHeader('Content-Type'));
+function sendAndLoad( url, data, callback, user, password, headers ){
+
+	function HttpResponse( xhttp ){
+		this.status = Number( xhttp.status );
+		this.content = String( xhttp.responseText );
+		this.type = String( xhttp.getResponseHeader( 'Content-Type' ) );
 	}
-	function onStateChange() 
-	{
-		if (xhttp.readyState === 4) { // COMPLETED
-			if (typeof callback === 'function') {
-				callback(new HttpResponse(xhttp));
-			} else {
-				return new HttpResponse(xhttp);
-			} 
+
+	function onStateChange(){
+		if ( xhttp.readyState === 4 ){ // COMPLETED
+			if ( typeof callback === 'function' ){
+				callback( new HttpResponse( xhttp ) );
+			}
+			else {
+				return new HttpResponse( xhttp );
+			}
 		}
-	}		
+	}
+
+	function sendData( data ){
+		try {
+			xhttp.send( data ? String( data ) : '' );
+		}
+		catch ( e ){
+			console.log( 'Failed xhttp.send' );
+			// add timed retries on failure?
+		}
+	}
+
 	var xhttp = createHttpRequest();
 	var async = !!callback;
-	var post = !!data; 
-	xhttp.open(post ? 'POST' : 'GET', url, async, user, password);
-	if (typeof headers !== 'object') 
-	{
-		headers = new Object();
+	var post = !!data;
+
+	xhttp.open( post ? 'POST' : 'GET', url, async, user, password );
+
+	if ( typeof headers !== 'object' ){
+		headers = {};
 	}
-	if (post) 
-	{
-		headers['Content-Type'] = 'application/x-www-form-urlencoded';
+
+	if ( post ){
+		headers[ 'Content-Type' ] = 'application/x-www-form-urlencoded';
 	}
-	if (headers && headers instanceof Object) 
-	{
-		for (var k in headers) {
-			xhttp.setRequestHeader(k, headers[k]);
+
+	if ( headers && headers instanceof Object ){
+		for ( var k in headers ){
+			xhttp.setRequestHeader( k, headers[ k ] );
 		}
 	}
-	if (async) 
-	{
+
+	if ( async ){
 		xhttp.onreadystatechange = onStateChange;
-		xhttp.send(data ? String(data) : '');				
-	} else 
-	{
-		xhttp.send(data ? String(data) : '');				
+		sendData( data );
+	}
+	else {
+		sendData( data );
 		return onStateChange();
 	}
 }
@@ -1440,7 +1452,7 @@ function sendJSONRequest (url, data, callback, user, password, headers)
 	if (r.content) {
 		if (r.content.indexOf("login.php")>-1 || r.content.indexOf("formlogin")>-1) {
 			var thref=window.location.href;
-			thref=thref.substring(0,thref.indexOf('ilias.php'))+"Modules/Scorm2004/templates/default/session_timeout.html";
+			thref=thref.substring(0,thref.indexOf('ilias.php'))+"components/ILIAS/Scorm2004/templates/default/session_timeout.html";
 			window.location.href = thref;
 		}
 	}

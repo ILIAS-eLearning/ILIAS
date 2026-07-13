@@ -26,6 +26,7 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
     protected array $filter; // Missing array type.
     protected \ILIAS\UI\Factory $factory;
     protected \ILIAS\UI\Renderer $renderer;
+    protected ilAccess $access;
 
     protected ilObjectDefinition $objectDefinition;
     protected bool $edit_access;
@@ -42,7 +43,7 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         $this->objectDefinition = $DIC['objDefinition'];
         $this->factory = $DIC->ui()->factory();
         $this->renderer = $DIC->ui()->renderer();
-
+        $this->access = $DIC['ilAccess'];
 
         $lng->loadLanguageModule('rbac');
         $this->setId("usrroleass");
@@ -122,19 +123,22 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         $this->ctrl->setParameterByClass("ilobjrolegui", "ref_id", $a_set['ref_id']);
         $this->ctrl->setParameterByClass("ilobjrolegui", "obj_id", $a_set["obj_id"]);
 
-        $this->tpl->setVariable(
-            'ROLE',
-            $this->renderer->render(
+        $role = ilObjRole::_getTranslation($a_set['title']);
+        if ($this->access->checkAccess('edit_permission', '', (int) $a_set['ref_id'])) {
+            $role = $this->renderer->render(
                 $this->factory->link()->standard(
                     ilObjRole::_getTranslation($a_set['title']),
                     $this->ctrl->getLinkTargetByClass(ilObjRoleGUI::class, 'perm')
                 )
-            )
-        );
+            );
+        }
+        $this->tpl->setVariable('ROLE', $role);
         $this->tpl->setVariable('DESCRIPTION', $a_set['description']);
         // Add link to objector local Rores
         $context = $a_set['context'];
-        if ($a_set['role_type'] === 'local') {
+        if ($a_set['role_type'] === 'local' &&
+            ($this->access->checkAccess('visible', '', (int) $a_set['ref_id']) ||
+             $this->access->checkAccess('read', '', (int) $a_set['ref_id']))) {
             $context = $this->renderer->render(
                 $this->factory->link()->standard(
                     $context,

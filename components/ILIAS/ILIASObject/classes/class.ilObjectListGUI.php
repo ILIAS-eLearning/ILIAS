@@ -1807,15 +1807,16 @@ class ilObjectListGUI
             $this->ctrl->setParameter($this->container_obj, 'type', $type);
             $this->ctrl->setParameter($this->container_obj, 'item_ref_id', $this->getCommandId());
 
+            $this->lng->loadLanguageModule('dash');
             if (!$this->fav_manager->ifIsFavourite($this->user->getId(), $this->getCommandId())) {
                 // Pass type and object ID to ilAccess to improve performance
                 if ($this->checkCommandAccess('read', '', $this->ref_id, $this->type, $this->obj_id)) {
                     $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, 'addToDesk');
-                    $this->insertCommand($cmd_link, $this->lng->txt('rep_add_to_favourites'));
+                    $this->insertCommand($cmd_link, $this->lng->txt('add_to_favourites'));
                 }
             } else {
                 $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, 'removeFromDesk');
-                $this->insertCommand($cmd_link, $this->lng->txt('rep_remove_from_favourites'));
+                $this->insertCommand($cmd_link, $this->lng->txt('remove_from_favourites'));
             }
 
             $this->ctrl->clearParameters($this->container_obj);
@@ -1923,6 +1924,11 @@ class ilObjectListGUI
         ) {
             $this->ctrl->setParameterByClass(
                 get_class($this->container_obj),
+                'ref_id',
+                $this->container_obj->getObject()->getRefId()
+            );
+            $this->ctrl->setParameterByClass(
+                get_class($this->container_obj),
                 'tl_id',
                 $this->ref_id
             );
@@ -1934,6 +1940,11 @@ class ilObjectListGUI
             $this->ctrl->clearParameterByClass(
                 get_class($this->container_obj),
                 'tl_id',
+            );
+            $this->ctrl->setParameterByClass(
+                get_class($this->container_obj),
+                'ref_id',
+                $this->ref_id
             );
 
             $this->ctrl->setParameterByClass(

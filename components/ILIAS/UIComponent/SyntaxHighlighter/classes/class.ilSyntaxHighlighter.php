@@ -124,21 +124,4 @@ class ilSyntaxHighlighter
         }
         return $langs;
     }
-
-    public function highlight(string $a_code): string
-    {
-        include_once("./vendor/composer/vendor/geshi/geshi/src/geshi.php");
-        $geshi = new Geshi(html_entity_decode($a_code), $this->lang);
-
-        //var_dump($geshi->get_supported_languages()); exit;
-
-        //$geshi->set_header_type(GESHI_HEADER_NONE); // does not work as expected, see below
-        $a_code = $geshi->parse_code();
-
-        // remove geshi pre tag (setting GESHI_HEADER_NONE gives us undesired br tags)
-        $a_code = substr($a_code, strpos($a_code, ">") + 1);
-        $a_code = substr($a_code, 0, strrpos($a_code, "<"));
-
-        return $a_code;
-    }
 }

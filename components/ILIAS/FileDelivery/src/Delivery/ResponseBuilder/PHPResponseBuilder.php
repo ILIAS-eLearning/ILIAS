@@ -70,7 +70,7 @@ class PHPResponseBuilder implements ResponseBuilder
             $file_modification_time = '';
             $response = $response->withHeader(ResponseHeader::CONTENT_LENGTH, $stream->getSize());
             try {
-                $file_modification_time = date("D, j M Y H:i:s", filemtime($uri) ?: time()) . " GMT";
+                $file_modification_time = date("D, j M Y H:i:s", @filemtime($uri) ?: time()) . " GMT";
                 $response = $response->withHeader(
                     ResponseHeader::LAST_MODIFIED,
                     $file_modification_time

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\SurveyQuestionPool\Editing\EditingGUIRequest;
 use ILIAS\SurveyQuestionPool\Editing\EditManager;
 
@@ -27,6 +29,7 @@ use ILIAS\SurveyQuestionPool\Editing\EditManager;
  */
 abstract class SurveyQuestionGUI
 {
+    protected \ILIAS\Survey\InternalDomainService $domain;
     protected \ILIAS\Survey\InternalGUIService $gui;
     protected EditingGUIRequest $request;
     protected EditManager $edit_manager;
@@ -43,6 +46,7 @@ abstract class SurveyQuestionGUI
     protected string $parent_url = "";
     protected ilLogger $log;
     public ?SurveyQuestion $object = null;
+    protected \ilHtmlPurifierInterface $purifier;
 
     public function __construct($a_id = -1)
     {
@@ -88,6 +92,8 @@ abstract class SurveyQuestionGUI
             ->domain()
             ->editing();
         $this->gui = $DIC->survey()->internal()->gui();
+        $this->domain = $DIC->survey()->internal()->domain();
+        $this->purifier = new ilSvyStandardPurifier();
     }
 
     abstract protected function initObject(): void;
@@ -262,11 +268,13 @@ abstract class SurveyQuestionGUI
             $question->setUseRte(true);
             $question->setRteTagSet("mini");
         }
+        $question->usePurifier(true);
+        $question->setPurifier($this->purifier);
         $form->addItem($question);
 
         // obligatory
         $shuffle = new ilCheckboxInputGUI($this->lng->txt("obligatory"), "obligatory");
-        $shuffle->setValue(1);
+        $shuffle->setValue("1");
         $shuffle->setRequired(false);
         $form->addItem($shuffle);
 
@@ -326,8 +334,12 @@ abstract class SurveyQuestionGUI
             $this->object->label = ($form->getInput("label"));
             $this->object->setAuthor($form->getInput("author"));
             $this->object->setDescription($form->getInput("description"));
-            $this->object->setQuestiontext($form->getInput("question"));
-            $this->object->setObligatory($form->getInput("obligatory"));
+
+            $this->object->setQuestiontext(
+                $this->purifier->purify($form->getInput("question"))
+            );
+
+            $this->object->setObligatory((bool) $form->getInput("obligatory"));
 
             $this->importEditFormValues($form);
 
@@ -374,6 +386,15 @@ abstract class SurveyQuestionGUI
                     $this->ctrl->setParameter($this, 'rtrn', 1);
                 }
                 $this->ctrl->redirect($this, 'originalSyncForm');
+            }
+
+            // if we got a survey, already save in survey
+            if ($this->request->getNewForSurvey() > 0) {
+                $survey = new ilObjSurvey($this->request->getNewForSurvey());
+                $this->domain->sequence(
+                    $survey->getSurveyId(),
+                    $survey
+                )->appendQuestion($this->object->getId());  // will check if question is already in survey
             }
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);

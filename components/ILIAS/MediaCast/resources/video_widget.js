@@ -119,7 +119,7 @@ il.VideoWidget = il.VideoWidget || {};
       t.wrapper_ids.push(wrapper_id);
     };
 
-    const setMeta = (wrapper_id, title, description) => {
+    const setMeta = (wrapper_id, title, description, downloadUrl) => {
       const $wrap = $(`#${wrapper_id}`);
       $wrap.parent().find("[data-elementtype='title']").html(title);
       if (description !== '') {
@@ -130,6 +130,14 @@ il.VideoWidget = il.VideoWidget || {};
       } else {
         $wrap.parent().find("[data-elementtype='description']").html('');
         // $wrap.parent().find("[data-elementtype='description-wrapper']").addClass("ilNoDisplay");
+      }
+      const downEl = $wrap.parent().find("[data-elementtype='download']");
+      if (downloadUrl !== '') {
+        downEl.closest('a').removeClass('ilNoDisplay');
+        downEl.closest('a').attr('href', downloadUrl);
+      } else {
+        downEl.closest('a').addClass('ilNoDisplay');
+        downEl.closest('a').attr('href', '#');
       }
     };
 
@@ -172,7 +180,12 @@ il.VideoWidget = il.VideoWidget || {};
         },
       );
 
-      setMeta(wrapper_id, video_data.title, video_data.description);
+      setMeta(
+        wrapper_id,
+        video_data.title,
+        video_data.description,
+        video_data.download_url
+      );
 
       t.widget[wrapper_id].progress_cb = progress_cb;
     };
@@ -403,21 +416,10 @@ il.VideoPlaylist = il.VideoPlaylist || {};
                   }
                 }
               }
-
-              // check if we should play the next item
-              if (t.playlist[list_wrapper].autoplay) {
-                if (ended || (v.mime === 'video/vimeo' && v.duration <= Math.ceil(current_time))) {
-                  autoplayNext(list_wrapper);
-                }
-              }
             }
           });
         }
       }
-
-      // console.log("duration " + duration);
-      // console.log("current time " + current_time);
-      // console.log("ended " + ended);
     };
 
     const refreshNavigation = (list_wrapper) => {
@@ -468,45 +470,6 @@ il.VideoPlaylist = il.VideoPlaylist || {};
     };
 
     /**
-     * @param list_wrapper
-     */
-    const autoplayNext = (list_wrapper) => {
-      const current = t.current_item[t.playlist[list_wrapper].player_wrapper];
-      let found = false;
-      let nextItem = 0;
-
-      t.playlist[list_wrapper].items.forEach((v, i, a) => {
-        if (nextItem === 0 && found) {
-          if (v.hidden === true) {
-            nextItems(list_wrapper);
-          }
-          nextItem = v.id;
-        }
-        if (v.id === current) {
-          found = true;
-        }
-      });
-      if (nextItem > 0) {
-        loadItem(list_wrapper, nextItem, true);
-      }
-    };
-
-    const toggleItem = (list_wrapper, id) => {
-      const current = t.current_item[t.playlist[list_wrapper].player_wrapper];
-
-      //const player = il.VideoWidget.player(t.playlist[list_wrapper].player_wrapper);
-
-      // const isVideoPlaying = video => !!(video.currentTime > 0 && !video.paused && !video.ended && video.readyState > 2);
-      /*if (current !== id) {
-        loadItem(list_wrapper, id, true);
-      }*/ /*else if (player.domNode.paused) {
-        player.play();
-      } else {
-        player.pause();
-      }*/
-    };
-
-    /**
      * Load item from playlist
      * @param list_wrapper
      * @param id
@@ -525,6 +488,13 @@ il.VideoPlaylist = il.VideoPlaylist || {};
         }
       });
       refreshNavigation(list_wrapper);
+    };
+
+    const toggleItem = (listWrapper, id) => {
+      const current = t.current_item[t.playlist[listWrapper].player_wrapper];
+      if (current !== id) {
+        loadItem(listWrapper, id, true);
+      }
     };
 
     /**
@@ -601,13 +571,6 @@ il.VideoPlaylist = il.VideoPlaylist || {};
       loadFirst(list_wrapper, false);
     };
 
-    const autoplay = (list_wrapper, active) => {
-      t.playlist[list_wrapper].autoplay = active;
-      $.ajax({
-        type: 'GET',
-        url: `${t.playlist[list_wrapper].autoplay_cb}&autoplay=${active ? '1' : '0'}`,
-      });
-    };
 
     const loadComments = (id) => {
       const el = document.querySelector('[data-mcst-comments]');
@@ -625,7 +588,6 @@ il.VideoPlaylist = il.VideoPlaylist || {};
       init,
       loadItem,
       toggleItem,
-      autoplay,
       nextItems,
       previousItems,
     };

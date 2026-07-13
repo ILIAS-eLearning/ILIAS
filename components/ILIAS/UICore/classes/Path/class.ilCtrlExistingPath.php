@@ -1,8 +1,24 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
-/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
+use ILIAS\UICore\Exceptions\ilCtrlPathException;
 
 /**
  * Class ilCtrlExistingPath
@@ -42,7 +58,7 @@ class ilCtrlExistingPath extends ilCtrlAbstractPath
             $child_class = $this->structure->getClassNameByCid($child_cid);
             $allowed_children = $this->structure->getChildrenByCid($parent_cid) ?? [];
             if (null === $child_class || !in_array($child_class, $allowed_children, true)) {
-                throw new RuntimeException('ilCtrl: invalid ' . ilCtrlInterface::PARAM_CID_PATH . ' parameter requested.');
+                throw new ilCtrlPathException('ilCtrl: invalid ' . ilCtrlInterface::PARAM_CID_PATH . ' parameter requested.');
             }
         }
     }

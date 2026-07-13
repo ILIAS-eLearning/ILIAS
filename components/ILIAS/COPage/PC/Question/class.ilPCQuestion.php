@@ -207,7 +207,6 @@ class ilPCQuestion extends ilPageContent
         $lng = $this->lng;
 
         $qhtml = "";
-
         if ($this->getPage()->getPageConfig()->getEnableSelfAssessment()) {
             // #14154
             $q_ids = $this->getQuestionIds();
@@ -215,7 +214,7 @@ class ilPCQuestion extends ilPageContent
                 foreach ($q_ids as $q_id) {
                     $q_gui = assQuestionGUI::_getQuestionGUI("", $q_id);
                     // object check due to #16557
-                    if (is_object($q_gui->getObject()) && !$q_gui->getObject()->isComplete()) {
+                    if (!is_null($q_gui) && is_object($q_gui->getObject()) && !$q_gui->getObject()->isComplete()) {
                         $a_output = str_replace(
                             "{{{{{Question;il__qst_" . $q_id . "}}}}}",
                             "<i>" . $lng->txt("cont_empty_question") . "</i>",
@@ -280,7 +279,9 @@ class ilPCQuestion extends ilPageContent
 
             foreach ($this->getQuestionIds() as $qId) {
                 $qstGui = assQuestionGUI::_getQuestionGUI('', $qId);
-                $js_files = array_merge($js_files, $qstGui->getPresentationJavascripts());
+                if (!is_null($qstGui)) {
+                    $js_files = array_merge($js_files, $qstGui->getPresentationJavascripts());
+                }
             }
         }
 
@@ -335,13 +336,20 @@ class ilPCQuestion extends ilPageContent
         if ($get_stored_tries) {
             if (count($q_ids) > 0) {
                 foreach ($q_ids as $q_id) {
-                    $as = ilPageQuestionProcessor::getAnswerStatus($q_id, $ilUser->getId());
-                    $code[] = "ilias.questions.initAnswer(" . $q_id . ", " . (int) ($as["try"] ?? 0) . ", " . ($as["passed"] ? "true" : "null") . ");";
+                    $status = ilPageQuestionProcessor::getAnswerStatus($q_id, $ilUser->getId());
+                    $status = $status[$q_id] ?? $status;
+
+                    $try = (int) ($status["try"] ?? 0);
+                    $passed = isset($status["passed"]) && $status["passed"] ? "true" : "null";
+                    $points = $status["points"] ?? "null";
+                    $code[] = "ilias.questions.initAnswer(" . $q_id . ", " . $try . ", " . $passed . ", " . $points . ");";
                 }
             }
         }
 
-        $code[] = "ilias.questions.refresh_lang();";
+        if ($this->getPage()->getPageConfig()->getEnableSelfAssessment()) {
+            $code[] = "ilias.questions.refresh_lang();";
+        }
         return $code;
     }
 

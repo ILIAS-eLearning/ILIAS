@@ -902,12 +902,14 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
     protected function readOptions(): void
     {
+        $options = null;
         if ($this->getFieldId()) {
-            $this->options = $this->db_gateway->readByID($this->getFieldId());
+            $options = $this->db_gateway->readByID($this->getFieldId());
         }
-        if (!isset($this->options)) {
-            $this->options = new SelectSpecificDataImplementation();
+        if ($options === null) {
+            $options = new SelectSpecificDataImplementation();
         }
+        $this->options = $options;
 
         $record = ilAdvancedMDRecord::_getInstanceByRecordId($this->getRecordId());
         $this->default_language = $record->getDefaultLanguage();

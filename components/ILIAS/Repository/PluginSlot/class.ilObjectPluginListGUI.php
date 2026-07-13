@@ -82,7 +82,7 @@ abstract class ilObjectPluginListGUI extends ilObjectListGUI
 
     public function getCommandFrame(string $cmd): string
     {
-        return ilFrameTargetInfo::_getFrame("MainContent");
+        return "";
     }
 
     public function getProperties(): array

@@ -341,6 +341,7 @@ class ilInitialisation
                 $c->language()->txt("upload_svg_rejection_message"),
                 $c->language()->txt("upload_svg_rejection_message_script"),
                 $c->language()->txt("upload_svg_rejection_message_base64"),
+                $c->language()->txt("upload_svg_rejection_message_foreign_object"),
                 $c->language()->txt("upload_svg_rejection_message_elements")
             ));
 
@@ -1016,7 +1017,7 @@ class ilInitialisation
     /**
      * $lng initialisation
      */
-    protected static function initLanguage(bool $a_use_user_language = true): void
+    public static function initLanguage(bool $a_use_user_language = true): void
     {
         global $DIC;
 

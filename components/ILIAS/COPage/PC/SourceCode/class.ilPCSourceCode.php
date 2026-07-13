@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+use Phiki\Phiki;
+use Phiki\Grammar\Grammar;
+use Phiki\Theme\Theme;
+
 /**
  * Class ilPCSourceCode
  *
@@ -109,7 +113,7 @@ class ilPCSourceCode extends ilPCParagraph
             //if we have to show line numbers
             if (strcmp($showlinenumbers, "y") == 0) {
                 $linenumbers = "<td nowrap=\"nowrap\" class=\"ilc_LineNumbers\" >";
-                $linenumbers .= "<pre class=\"ilc_Code ilc_code_block_Code\">";
+                $linenumbers .= "<pre class=\"ilc_Code ilc_code_block_Code\"><code>";
 
                 for ($j = 0; $j < $rownums; $j++) {
                     $indentno = strlen($rownums) - strlen($j + 1) + 2;
@@ -119,7 +123,7 @@ class ilPCSourceCode extends ilPCParagraph
                         $linenumbers .= "\n";
                     }
                 }
-                $linenumbers .= "</pre>";
+                $linenumbers .= "</code></pre>";
                 $linenumbers .= "</td>";
             }
 
@@ -153,6 +157,30 @@ class ilPCSourceCode extends ilPCParagraph
         return $a_output;
     }
 
+    protected function phikiMap(string $lang): ?Grammar
+    {
+        $grammar = match ($lang) {
+            "java" => Grammar::Java,
+            "php" => Grammar::Php,
+            "c" => Grammar::C,
+            "cpp" => Grammar::Cpp,
+            "html4strict" => Grammar::Html,
+            "xml" => Grammar::Xml,
+            "vb" => Grammar::Vb,
+            "latex" => Grammar::Latex,
+            "delphi" => Grammar::Pascal,
+            "python" => Grammar::Python,
+            "css" => Grammar::Css,
+            "javascript" => Grammar::Javascript,
+            "sql" => Grammar::Sql,
+            "bash" => Grammar::Shellscript,
+            "powershell" => Grammar::Powershell,
+            default => Grammar::Markdown
+        };
+
+        return $grammar;
+    }
+
     /**
      * Highlights Text with given ProgLang
      */
@@ -167,8 +195,14 @@ class ilPCSourceCode extends ilPCParagraph
             $proglang = $map[$proglang];
         }
 
-        $geshi = new GeSHi(html_entity_decode($a_text), $proglang);
-        $a_code = $geshi->parse_code();
+        $phiki = new Phiki();
+        $grammar = $this->phikiMap($proglang);
+        if (!is_null($grammar)) {
+            $a_code = $phiki->codeToHtml(html_entity_decode($a_text), $grammar, Theme::GithubLight);
+        } else {
+            $a_code = $a_text;
+        }
+
         $a_code = substr($a_code, strpos($a_code, ">") + 1);
         $a_code = substr($a_code, 0, strrpos($a_code, "<"));
         return $a_code;

@@ -23,6 +23,7 @@ use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\FileUpload\Handler\FileInfoResult;
 use ILIAS\components\ResourceStorage\Collections\View\Configuration;
 use ILIAS\components\ResourceStorage\Collections\View\Request;
+use ILIAS\components\ResourceStorage\Collections\View\UploadStorer;
 use ILIAS\components\ResourceStorage\Collections\View\ViewFactory;
 use ILIAS\components\ResourceStorage\Collections\DataProvider\TableDataProvider;
 use ILIAS\components\ResourceStorage\BinToHexSerializer;
@@ -220,15 +221,21 @@ class ilResourceCollectionGUI implements UploadHandler
             return;
         }
         $collection = $this->view_request->getCollection();
+        $stakeholder = $this->view_configuration->getStakeholder();
+        $on_duplicate = $this->view_request->getOnDuplicate();
+        $storer = new UploadStorer($this->irss->manage(), $this->irss->collection());
+        $rid = null;
         foreach ($this->upload->getResults() as $result) {
             if (!$result->isOK()) {
                 continue;
             }
-            $rid = $this->irss->manage()->upload(
-                $result,
-                $this->view_configuration->getStakeholder()
-            );
-            $collection->add($rid);
+
+            $stored_rid = $storer->store($collection, $stakeholder, $on_duplicate, $result);
+            if ($stored_rid === null) {
+                // the upload was rejected (OnDuplicate::REJECT), nothing was stored
+                continue;
+            }
+            $rid = $stored_rid;
 
             // ensure flavour
             $this->irss->flavours()->ensure(
@@ -240,7 +247,7 @@ class ilResourceCollectionGUI implements UploadHandler
         $upload_result = new BasicHandlerResult(
             self::P_RESOURCE_ID,
             BasicHandlerResult::STATUS_OK,
-            $rid->serialize(),
+            $rid?->serialize() ?? '',
             ''
         );
         $response = $this->http->response()->withBody(Streams::ofString(json_encode($upload_result)));
@@ -452,7 +459,7 @@ class ilResourceCollectionGUI implements UploadHandler
             );
         }
 
-        if(empty($rid_strings)) {
+        if (empty($rid_strings)) {
             // try single resource
             $rid_strings = $this->http->wrapper()->query()->has(self::P_RESOURCE_ID)
                 ? [$this->http->wrapper()->query()->retrieve(self::P_RESOURCE_ID, $this->refinery->kindlyTo()->string())]

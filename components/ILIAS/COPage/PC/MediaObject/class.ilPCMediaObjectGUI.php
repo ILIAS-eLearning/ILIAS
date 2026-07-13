@@ -89,12 +89,12 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         $this->setCharacteristics(self::_getStandardCharacteristics());
     }
 
-    protected function insert_applyFilter() : void
+    protected function insert_applyFilter(): void
     {
         $this->insert();
     }
 
-    protected function insert_resetFilter() : void
+    protected function insert_resetFilter(): void
     {
         $this->insert();
     }
@@ -592,7 +592,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         return null;
     }
 
-    protected function create_mob() : void
+    protected function create_mob(): void
     {
         $this->create();
     }
@@ -1447,7 +1447,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         $lng = $DIC->language();
 
         return array(
-            "MediaContainer" => $lng->txt("cont_Media"),
+            "MediaContainer" => $lng->txt("cont_char_media"),
             "MediaContainerMax50" => "MediaContainerMax50",
             "MediaContainerFull100" => "MediaContainerFull100",
             "MediaContainerHighlighted" => "MediaContainerHighlighted",

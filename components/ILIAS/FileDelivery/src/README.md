@@ -242,8 +242,107 @@ remain secure over time.
 - **Location:** The rotation keys are stored and managed as an artifact in:
   `./data/key_rotation.php`
 
-# Important for System Administrators
+#### Important for System Administrators
 
-The artifact file `./data/key_rotation.php` must be synchronized across all 
-php host deployments. But this should be the case anyway because the `./data` 
+The artifact file `./data/key_rotation.php` must be synchronized across all
+php host deployments. But this should be the case anyway because the `./data`
 folder must be the same for all deployments as well.
+
+## Configuring the delivery method (X-Accel and xSendFile)
+
+The service supports three delivery methods:
+
+- **PHP** (default): Files are streamed through PHP, no additional/manual
+  configuration is needed.
+- **xSendFile** (Apache): Uses the Apache `mod_xsendfile` module for efficient
+  delivery. ILIAS tries to detect this delivery method automatically
+  when the module is loaded. No additional/manual configuration needed.
+- **X-Accel** (nginx): Uses nginx’s `X-Accel-Redirect` for efficient delivery.
+  Requires manual configuration of the delivery method and nginx.
+
+Unlike Apache’s `mod_xsendfile`, the delivery method is not auto-detected for
+`X-Accel`; it must be set explicitly in the delivery method artifact.
+
+### Enabling X-Accel for nginx
+
+#### 1. Delivery method artifact
+
+The active delivery method is read from the artifact file in the ILIAS data
+directory, e.g. `data/delivery_method.php` (relative to your document root).
+This file is created and updated by **ILIAS Setup** on install or update.
+Setup always writes the path to the external ILIAS data directory from
+`ilias.ini` → `[clients]` → `datadir` (this ini setting is required for Setup).
+If the artifact already exists, Setup preserves the current `delivery_method`;
+it only switches to `xsendfile` when Apache’s mod_xsendfile is detected.
+
+To use `X-Accel`, set the artifact content to:
+
+```php
+<?php return [
+    'delivery_method' => 'xaccel',
+    'ext_data_dir' => '/path/to/your/ilias/external/data/dir',  // must match ilias.ini [clients] datadir
+];
+```
+
+- **`delivery_method`**: Set to `'xaccel'` for nginx.
+- **`ext_data_dir`**: Absolute path to the external ILIAS data directory
+  (trailing slash is optional). This must match `ilias.ini` → `[clients]` → `datadir`.
+  It is required so that files stored in the external data directory can
+  be delivered via the internal location `secured-ext-data` (see below).
+  When you run ILIAS Setup, this value is already written into the artifact
+  from `ilias.ini`; when switching to `X-Accel`, keep it so that both
+  in- and out-of-docroot data paths work.
+
+Setup creates or updates the artifact whenever it runs. To use `X-Accel`,
+edit the file after Setup has run: set `delivery_method` to `'xaccel'` and
+leave `ext_data_dir` as is (it is already set from `ilias.ini`). This choice is
+preserved when you run Setup again (e.g., on update).
+
+#### 2. nginx server configuration
+
+When `X-Accel` is used, `deliver.php` responds with an `X-Accel-Redirect` header
+pointing to an internal location. `nginx` must define two **internal** locations
+that alias to your data directories:
+
+| Internal location     | Purpose |
+|-----------------------|--------|
+| `/secured-data`       | ILIAS data directory under the document root (e.g. `data/`) |
+| `/secured-ext-data`   | External ILIAS data directory (path from `ilias.ini` → `[clients]` → `datadir`) |
+
+Example (adjust paths and `$document_root` to your setup):
+
+```nginx
+server {
+    # ... your existing server block (root, index, php, etc.) ...
+
+    # Internal location: ILIAS data directory (inside document root)
+    location ^~ /secured-data {
+        alias $document_root/data;
+        internal;
+        location ~ [^/]\.php(/|$) {
+            access_log off;
+            log_not_found off;
+            deny all;
+        }
+    }
+
+    # Internal location: external ILIAS data directory (path must match ext_data_dir in delivery_method.php and datadir in ilias.ini)
+    location ^~ /secured-ext-data {
+        alias /var/iliasdata;   # replace with your actual external data path (no trailing slash)
+        internal;
+        location ~ [^/]\.php(/|$) {
+            access_log off;
+            log_not_found off;
+            deny all;
+        }
+    }
+}
+```
+
+- Replace `$document_root/data` with the real path to your ILIAS `data`
+  directory if it is not directly under the server’s document root.
+- Replace `/var/iliasdata` with the same absolute path you use for
+  `ext_data_dir` in `data/delivery_method.php` (and for `datadir` in `ilias.ini`).
+  Omit the trailing slash in the `alias` value.
+- The `internal` directive ensures these locations are only used for `X-Accel-Redirect`
+  subrequests, not for direct client access.

@@ -75,6 +75,12 @@ interface UIModifier
         \ilTemplate $eval_tpl
     ): void;
 
+    public function setResultsParticipantToolbar(
+        \ilObjSurvey $survey,
+        \ilToolbarGUI $toolbar,
+        int $user_id
+    ): void;
+
     public function setResultsCompetenceToolbar(
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,

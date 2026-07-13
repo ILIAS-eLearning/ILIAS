@@ -36,13 +36,13 @@ class ilMainMenuSearchGUI
     protected ilTree $tree;
     protected ilCtrl $ctrl;
     protected ilObjUser $user;
+    protected ilGlobalTemplateInterface $global_template;
 
     private GlobalHttpState $http;
     private Factory $refinery;
 
 
     private int $ref_id;
-    private bool $isContainer = true;
 
     public function __construct()
     {
@@ -56,7 +56,7 @@ class ilMainMenuSearchGUI
 
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-        $DIC->ui()->mainTemplate()->addJavascript('assets/js/SearchMainMenu.js');
+        $this->global_template = $DIC->ui()->mainTemplate();
 
         $this->initRefIdFromQuery();
     }
@@ -75,6 +75,9 @@ class ilMainMenuSearchGUI
     public function getHTML(): string
     {
         iljQueryUtil::initjQuery();
+
+        $this->global_template->addJavaScript('assets/js/legacyAutocomplete.js', true, 3);
+        $this->global_template->addJavascript('assets/js/SearchMainMenu.js');
 
         $this->tpl = new ilTemplate('tpl.main_menu_search.html', true, true, 'components/ILIAS/Search');
         if ($this->user->getId() != ANONYMOUS_USER_ID) {
@@ -109,10 +112,6 @@ class ilMainMenuSearchGUI
         );
         $this->tpl->setVariable('BTN_SEARCH', $this->lng->txt('search'));
         $this->tpl->setVariable('SEARCH_INPUT_LABEL', $this->lng->txt('search_field'));
-        $this->tpl->setVariable(
-            'AC_DATASOURCE',
-            $this->buildSearchLink('autoComplete', true)
-        );
 
         $this->tpl->setVariable('IMG_MM_SEARCH', ilUtil::img(
             ilUtil::getImagePath("standard/icon_seas.svg"),
@@ -122,7 +121,7 @@ class ilMainMenuSearchGUI
         if ($this->user->getId() != ANONYMOUS_USER_ID) {
             $this->tpl->setVariable(
                 'HREF_SEARCH_LINK',
-                $this->buildSearchLink('', false)
+                $this->buildSearchLink('')
             );
             $this->tpl->setVariable('TXT_SEARCH_LINK', $this->lng->txt("last_search_result"));
         }
@@ -131,7 +130,7 @@ class ilMainMenuSearchGUI
         return $this->tpl->get();
     }
 
-    protected function buildSearchLink(string $cmd, bool $async): string
+    protected function buildSearchLink(string $cmd): string
     {
         if (ilSearchSettings::getInstance()->enabledLucene()) {
             $default = strtolower(ilLuceneSearchGUI::class);
@@ -139,22 +138,32 @@ class ilMainMenuSearchGUI
             $default = strtolower(ilSearchGUI::class);
         }
 
-        $root_id = 0;
-        if ($this->http->wrapper()->post()->has('root_id')) {
-            $root_id = $this->http->wrapper()->post()->retrieve(
-                'root_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        if ($root_id == ilSearchControllerGUI::TYPE_USER_SEARCH) {
-            $default = strtolower(ilLuceneUserSearchGUI::class);
-        }
-
         return $this->ctrl->getLinkTargetByClass(
             [strtolower(ilSearchControllerGUI::class), $default],
-            $cmd,
+            $cmd
+        );
+    }
+
+    public function getStandardSearchAction(): string
+    {
+        return $this->buildSearchLink('remoteSearch');
+    }
+
+    public function getUserSearchAction(): string
+    {
+        return $this->ctrl->getLinkTargetByClass(
+            [strtolower(ilSearchControllerGUI::class), strtolower(ilLuceneUserSearchGUI::class)],
+            'remoteSearch'
+        );
+    }
+
+    public function getAutocompleteSource(): string
+    {
+        return $this->ctrl->getLinkTargetByClass(
+            [strtolower(ilSearchControllerGUI::class)],
+            'autoComplete',
             null,
-            $async
+            true
         );
     }
 }

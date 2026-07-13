@@ -287,8 +287,7 @@ class ilObjMediaObject extends ilObject
         bool $a_create_meta_data = false,
         bool $a_save_media_items = true,
         int $from_mob_id = 0
-    ): int
-    {
+    ): int {
         $id = parent::create();
 
         if (!$a_create_meta_data) {
@@ -605,12 +604,15 @@ class ilObjMediaObject extends ilObject
                                 $ilUser->getLanguage() == $srt["language"]) {
                                 $def = ' Default="true" ';
                             }
-                            $xml .= "<Subtitle File=\"" . $srt["src"] .
+                            $src = $offline
+                                ? "mobs/mm_" . $this->getId() . $srt["full_path"]
+                                : $srt["src"];
+                            $xml .= "<Subtitle File=\"" . $src .
                                 "\" Language=\"" . $srt["language"] . "\" " . $def . "/>";
                         }
                     }
-                    if ($this->getVideoPreviewPic(true)) {
-                        $xml .= "<PreviewPic File=\"" . $this->getVideoPreviewPic(true) .
+                    if ($this->getVideoPreviewPic(false)) {
+                        $xml .= "<PreviewPic File=\"" . $this->handleAmps($this->getVideoPreviewPic(false)) .
                             "\" />";
                     }
                     if ($item->getLocationType() == "LocalFile") {
@@ -1194,41 +1196,6 @@ class ilObjMediaObject extends ilObject
     }
 
     /**
-     * Resize image and return new image file ("_width_height" string appended)
-     */
-    public static function _resizeImage(
-        string $a_file,
-        int $a_width,
-        int $a_height,
-        bool $a_constrain_prop = false
-    ): string {
-        global $DIC;
-        $file_path = pathinfo($a_file);
-        $location = substr($file_path["basename"], 0, strlen($file_path["basename"]) -
-                strlen($file_path["extension"]) - 1) . "_" .
-            $a_width . "_" .
-            $a_height . "." . $file_path["extension"];
-        $target_file = $file_path["dirname"] . "/" .
-            $location;
-
-        $returned_target_file = $DIC->fileConverters()
-            ->legacyImages()
-            ->resizeToFixedSize(
-                $a_file,
-                $target_file,
-                $a_width,
-                $a_height,
-                $a_constrain_prop
-            );
-
-        if ($returned_target_file !== $target_file) {
-            throw new RuntimeException('Could not resize image');
-        }
-
-        return $location;
-    }
-
-    /**
      * get mime type for file
      */
     public static function getMimeType(
@@ -1704,7 +1671,6 @@ class ilObjMediaObject extends ilObject
 
         $logger->debug("Generate preview pic...");
         $logger->debug("..." . $item->getFormat());
-
         $this->thumbs->createPreview(
             $this->getId(),
             $item->getLocation(),

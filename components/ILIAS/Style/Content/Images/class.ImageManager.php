@@ -69,6 +69,15 @@ class ImageManager
         return $this->repo->getImages($this->style_id, $rid, $include_size_info);
     }
 
+    public function hasLegacyDirAndNoImages(): bool
+    {
+        return $this->repo->hasLegacyDir($this->style_id) &&
+            !$this->repo->hasImages(
+                $this->style_id,
+                $this->style_repo->readRid($this->style_id)
+            );
+    }
+
     public function filenameExists(string $filename): bool
     {
         /** @var Image $i */
@@ -148,11 +157,13 @@ class ImageManager
     public function importFromUploadResult(
         UploadResult $result
     ): void {
-        $rid = $this->style_repo->getOrCreateRid($this->style_id, $this->stakeholder);
-        $this->repo->importFromUploadResult(
-            $rid,
-            $result
-        );
+        $rid = $this->style_repo->readRid($this->style_id);
+        if ($rid !== "") {
+            $this->repo->importFromUploadResult(
+                $rid,
+                $result
+            );
+        }
     }
 
 }

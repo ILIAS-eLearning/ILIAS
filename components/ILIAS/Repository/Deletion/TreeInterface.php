@@ -46,4 +46,6 @@ interface TreeInterface
      */
     public function getTrashedSubtrees(int $ref_id): array;
 
+    public function isInTree(int $id): bool;
+
 }

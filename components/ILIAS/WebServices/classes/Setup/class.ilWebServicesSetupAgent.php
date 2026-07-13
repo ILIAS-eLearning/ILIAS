@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Setup;
 use ILIAS\Refinery;
 use ILIAS\UI;
+use ILIAS\WebServices\Setup\WebServicesMetricsCollectedObjective;
 
 class ilWebServicesSetupAgent implements Setup\Agent
 {
@@ -113,7 +114,19 @@ class ilWebServicesSetupAgent implements Setup\Agent
      */
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new Setup\ObjectiveCollection(
+            'Component WebServices',
+            true,
+            new WebServicesMetricsCollectedObjective($storage),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective(
+                $storage,
+                new ilECSUpdateSteps8()
+            ),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective(
+                $storage,
+                new ilSoapWsdlPathUpdateStep()
+            )
+        );
     }
 
     /**

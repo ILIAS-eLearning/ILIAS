@@ -25,7 +25,7 @@ namespace ILIAS\Component\Resource;
  */
 class PublicAssetManager
 {
-    public const REGEXP = '%^(/\w+|\w+[\-.]\w+)+$%';
+    public const REGEXP = '%^/[A-Za-z0-9_]+(?:[.-][A-Za-z0-9_]+)*(?:/[A-Za-z0-9_]+(?:[.-][A-Za-z0-9_]+)*)*$%';
 
     public const DONT_PURGE = ["data", "Customizing"];
 
@@ -69,6 +69,8 @@ class PublicAssetManager
         );
     }
 
+
+
     /**
      * @param string $ilias_base full path to ILIAS base folder
      * @param string $target full path to public folder
@@ -86,7 +88,7 @@ class PublicAssetManager
             );
         }
 
-        $this->purge($target, array_map(fn($v) => $target . "/" . $v, self::DONT_PURGE));
+        $this->purge($target, array_map(fn(string $v): string => $target . "/" . $v, self::DONT_PURGE));
         $this->makeDir($target);
         $this->buildPublicFolderRecursivelyArray($ilias_base, $target, $this->assets);
     }

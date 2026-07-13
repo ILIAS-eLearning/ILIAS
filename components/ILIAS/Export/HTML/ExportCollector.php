@@ -26,20 +26,20 @@ use ILIAS\Export\HTML\DataService;
 class ExportCollector
 {
     protected string $rid = "";
+    protected array $paths_added = [];
 
     public function __construct(
         protected DataService $data,
         protected ExportFileDBRepository $repo,
         protected int $obj_id,
         protected string $type = ""
-    )
-    {
+    ) {
     }
 
     /**
      * @throws ExportException
      */
-    public function init(string $zipname = "") : string
+    public function init(string $zipname = ""): string
     {
         if ($this->rid !== "") {
             throw $this->data->exportException("HTML Export has been initialised twice.");
@@ -87,6 +87,10 @@ class ExportCollector
         if ($this->rid === "") {
             throw $this->data->exportException("HTML Export has not been initialised.");
         }
+        if (in_array($target_path, $this->paths_added, true)) {
+            return;
+        }
+        $this->paths_added[] = $target_path;
         $this->repo->addFile(
             $this->rid,
             $fullpath,
@@ -132,12 +136,12 @@ class ExportCollector
         return $this->repo->getFilePath($this->rid);
     }
 
-    public function deliver(string $filename) : void
+    public function deliver(string $filename): void
     {
         $this->repo->deliverFile($this->rid);
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $this->repo->delete($this->obj_id, $this->rid);
     }

@@ -93,9 +93,9 @@ class ilTemplateTest extends TestCase
             ],
             'plugin template_file_no_component' => [
                 'skin' => 'default', 'style' => 'delos', 'file_exists' => true,
-                'tpl_filename' => $il_root . '/components/ILIAS/Component/classes/../../../../public/Customizing/global/plugins/Services/User/UDFDefinition/CascadingSelect/templates/tpl.prop_cascading_select.html',
+                'tpl_filename' => $il_root . '/public/Customizing/global/plugins/Services/User/UDFDefinition/CascadingSelect/templates/tpl.prop_cascading_select.html',
                 'component' => '',
-                'expected' => $il_root . '/components/ILIAS/Component/classes/../../../../public/Customizing/global/plugins/Services/User/UDFDefinition/CascadingSelect/templates/tpl.prop_cascading_select.html',
+                'expected' => $il_root . '/public/Customizing/global/plugins/Services/User/UDFDefinition/CascadingSelect/templates/tpl.prop_cascading_select.html',
             ],
             'custom skin' => [
                 'skin' => 'mySkin', 'style' => 'myStyle', 'file_exists' => true,
@@ -115,16 +115,16 @@ class ilTemplateTest extends TestCase
                 'component' => '',
                 'expected' => $il_root . '/components/ILIAS/UI/src/templates/default/Input/tpl.standard.html',
             ],
-            'ui template from skin' => [
+            'ui template from custom skin' => [
                 'skin' => 'mySkin', 'style' => 'myStyle', 'file_exists' => true,
-                'tpl_filename' => 'components/ILIAS/UI/src/templates/default/Input/tpl.standard.html',
-                'component' => '',
-                'expected' => $il_root . '/public/Customizing/skin/mySkin/myStyle/UI/Input/tpl.standard.html',
+                'tpl_filename' => 'tpl.standard.html',
+                'component' => 'components/ILIAS/UI/src/Input',
+                'expected' => $il_root . '/public/Customizing/skin/mySkin/myStyle/components/ILIAS/UI/src/Input/tpl.standard.html',
             ],
-            'ui template from skin, unaltered' => [
+            'ui template from custom skin, unaltered' => [
                 'skin' => 'mySkin', 'style' => 'myStyle', 'file_exists' => false,
-                'tpl_filename' => 'components/ILIAS/UI/src/templates/default/Input/tpl.standard.html',
-                'component' => '',
+                'tpl_filename' => 'Input/tpl.standard.html',
+                'component' => 'components/ILIAS/UI/src',
                 'expected' => $il_root . '/components/ILIAS/UI/src/templates/default/Input/tpl.standard.html',
             ],
             'trailing slash' => [

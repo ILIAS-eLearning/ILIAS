@@ -45,8 +45,8 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
     {
         if ($this->getProperty(ilDclBaseFieldModel::PROP_URL)) {
             $value = [
-                'link' => $form->getInput("field_" . $this->getId()),
                 'title' => $form->getInput("field_" . $this->getId() . "_title"),
+                'link' => $form->getInput("field_" . $this->getId()),
             ];
         } else {
             $value = $form->getInput('field_' . $this->getId());
@@ -106,7 +106,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
                 throw new ilDclInputException(ilDclInputException::REGEX_CONFIG_EXCEPTION);
             }
 
-            if ($preg_match === false) {
+            if ($preg_match !== 1) {
                 throw new ilDclInputException(ilDclInputException::REGEX_EXCEPTION);
             }
         }

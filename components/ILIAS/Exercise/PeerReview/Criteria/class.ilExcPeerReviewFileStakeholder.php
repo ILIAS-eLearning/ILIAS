@@ -88,14 +88,14 @@ class ilExcPeerReviewFileStakeholder extends AbstractResourceStakeholder
         );
         if (($d = $this->database->fetchObject($r)) !== null) {
             $r2 = $this->database->queryF(
-                "SELECT obj_id FROM exc_assignment WHERE ass_id = %s",
+                "SELECT exc_id FROM exc_assignment WHERE id = %s",
                 ['integer'],
                 [$d->ass_id]
             );
             $d2 = $this->database->fetchObject($r2);
         }
 
-        return (isset($d2->obj_id) ? (int) $d2->obj_id : null);
+        return (isset($d2->exc_id) ? (int) $d2->exc_id : null);
     }
 
     private function initDB(): void

@@ -95,8 +95,9 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
                 $this->getColumnDefinition(),
                 $this
             )
-            ->withId(self::class)
+            ->withId(str_replace('\\', '', self::class))
             ->withOrder(new Order('date', Order::DESC))
+            ->withRange(new Range(0, 50))
             ->withActions($this->getActions())
             ->withRequest($this->http_request);
     }
@@ -358,7 +359,7 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
         if (!\array_key_exists($record->getSenderId(), $this->avatars)) {
             if ($record->getSenderId() === ANONYMOUS_USER_ID) {
                 $avatar = $this->ui_factory->symbol()->avatar()->picture(
-                    \ilUtil::getImagePath('logo/ilias_logo_centered.png'),
+                    \ilUtil::getImagePath('logo/HeaderIconAvatar.svg'),
                     $this->getSender($record)
                 );
             } else {

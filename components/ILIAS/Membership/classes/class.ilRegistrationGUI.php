@@ -323,10 +323,13 @@ abstract class ilRegistrationGUI
 
                     // Split value id from post
                     $cdf_parts = explode('_', $cdf_value);
-                    $option_id = (int) ($cdf_parts[1] ?? 0);
+                    $option_id = $cdf_parts[1] ?? null;
 
                     $open_answer_indexes = $field_obj->getValueOptions();
-                    if (in_array($option_id, $open_answer_indexes)) {
+
+                    if ($option_id === null) {
+                        $value = '';
+                    } elseif (in_array($option_id, $open_answer_indexes)) {
                         $value = $this->http->wrapper()->post()->retrieve(
                             'cdf_oa_' . $field_obj->getId() . '_' . $option_id,
                             $this->refinery->byTrying([

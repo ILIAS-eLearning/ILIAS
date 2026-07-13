@@ -229,7 +229,7 @@ class PageManager
             }
 
             // cross check existence of sources in il_wiki_page
-            if (count($ids) === 0 || !$this->page_repo->doesAtLeastOnePageExist($this->getWikiId(), $ids)) {
+            if ($this->page_repo->doesAtLeastOnePageExist($this->getWikiId(), $ids)) {
                 continue;
             }
 
@@ -297,5 +297,11 @@ class PageManager
     ): bool {
         return $this->page_repo->getWikiIdByPageId($id) === $this->getWikiId();
     }
+
+    public function writeImportId(int $id, string $lang, string $import_id): void
+    {
+        $this->page_repo->writeImportId($id, $lang, $import_id);
+    }
+
 
 }

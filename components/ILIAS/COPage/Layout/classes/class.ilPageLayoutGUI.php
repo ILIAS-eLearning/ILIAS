@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\UI\Component\Input\Field\Radio;
+use ILIAS\Repository\Form\FormAdapterGUI;
 
 /**
  * Class ilPageLayoutGUI GUI class
@@ -189,7 +190,7 @@ class ilPageLayoutGUI extends ilPageObjectGUI
     /**
      * Get template selection radio
      */
-    public static function getTemplateSelection(string $module): ?Radio
+    public static function getTemplateSelection(string $module, bool $include_none = false): ?Radio
     {
         global $DIC;
         $ui = $DIC->ui();
@@ -200,10 +201,13 @@ class ilPageLayoutGUI extends ilPageObjectGUI
             return null;
         }
         $radio = $f->input()->field()->radio($lng->txt("cont_page_template"), "");
-        $first = 0;
+        $first = "0";
+        if ($include_none) {
+            $radio = $radio->withOption("0", $lng->txt("none"));
+        }
         /** @var ilPageLayout $templ */
         foreach ($arr_templates as $templ) {
-            if ($first == 0) {
+            if ($first == "0" && !$include_none) {
                 $first = $templ->getId();
             }
             $templ->readObject();
@@ -211,6 +215,33 @@ class ilPageLayoutGUI extends ilPageObjectGUI
         }
         $radio = $radio->withValue($first);
         return $radio;
+    }
+
+    public static function addTemplateSelection(string $module, FormAdapterGUI $form, bool $include_none = false): FormAdapterGUI
+    {
+        global $DIC;
+        $ui = $DIC->ui();
+        $f = $ui->factory();
+        $lng = $DIC->language();
+        $arr_templates = ilPageLayout::activeLayouts($module);
+        if (count($arr_templates) == 0) {
+            return $form;
+        }
+        $form = $form->radio("template_id", $lng->txt("cont_page_template"));
+        $radio = $f->input()->field()->radio($lng->txt("cont_page_template"), "");
+        $first = "0";
+        if ($include_none) {
+            $form = $form->radioOption("0", $lng->txt("none"));
+        }
+        /** @var ilPageLayout $templ */
+        foreach ($arr_templates as $templ) {
+            if ($first == "0" && !$include_none) {
+                $first = $templ->getId();
+            }
+            $templ->readObject();
+            $form = $form->radioOption($templ->getId(), $templ->getPreview(), $templ->getTitle());
+        }
+        return $form;
     }
 
     public function finishEditing(): void

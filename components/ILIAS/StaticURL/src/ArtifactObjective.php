@@ -20,29 +20,31 @@ declare(strict_types=1);
 
 namespace ILIAS\StaticURL;
 
+use ILIAS\Setup\Artifact\BuildArtifactObjective;
+use ILIAS\Setup\ImplementationOfInterfaceFinder;
+use ILIAS\StaticURL\Handler\Handler;
+use ILIAS\Setup\Artifact\ArrayArtifact;
 use ILIAS\Setup\Artifact;
-use ILIAS\Setup;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class ArtifactObjective extends Artifact\BuildArtifactObjective
+class ArtifactObjective extends BuildArtifactObjective
 {
-
     public function getArtifactName(): string
     {
         return "static_url_handlers";
     }
 
 
-    public function build(): Setup\Artifact
+    public function build(): Artifact
     {
-        $implementation_of = new Setup\ImplementationOfInterfaceFinder();
+        $implementation_of = new ImplementationOfInterfaceFinder();
         $implementations = iterator_to_array(
-            $implementation_of->getMatchingClassNames(Handler\Handler::class)
+            $implementation_of->getMatchingClassNames(Handler::class)
         );
 
-        return new Artifact\ArrayArtifact($implementations);
+        return new ArrayArtifact($implementations);
     }
 
 }

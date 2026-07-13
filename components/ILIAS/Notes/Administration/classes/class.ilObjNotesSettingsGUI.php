@@ -142,6 +142,10 @@ class ilObjNotesSettingsGUI extends ilObjectGUI
         $fields["enable_notes"] = $f->input()->field()->checkbox($lng->txt("note_enable_notes"))
             ->withValue(!($setting->get("disable_notes")));
 
+        if (!$this->access->checkAccess("write", "", $this->object->getRefId())) {
+            $fields["enable_notes"] = $fields["enable_notes"]->withDisabled(true);
+        }
+
         // section
         $section1 = $f->input()->field()->section($fields, $lng->txt("settings"));
 
@@ -157,14 +161,19 @@ class ilObjNotesSettingsGUI extends ilObjectGUI
         $ctrl = $this->ctrl;
         $setting = $this->setting;
 
-        if ($request->getMethod() === "POST") {
-            $form = $form->withRequest($request);
-            $data = $form->getData();
-            if (is_array($data["sec"])) {
-                $setting->set("disable_notes", $data["sec"]["enable_notes"] ? 0 : 1);
-                $this->main_tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
+        if ($this->access->checkAccess("write", "", $this->object->getRefId())) {
+            if ($request->getMethod() === "POST") {
+                $form = $form->withRequest($request);
+                $data = $form->getData();
+                if (is_array($data["sec"])) {
+                    $setting->set("disable_notes", $data["sec"]["enable_notes"] ? 0 : 1);
+                    $this->main_tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
+                }
             }
+        } else {
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("no_permission"), true);
         }
+
         $ctrl->redirect($this, "editSettings");
     }
 }

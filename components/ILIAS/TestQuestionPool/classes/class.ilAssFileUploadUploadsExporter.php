@@ -212,10 +212,9 @@ class ilAssFileUploadUploadsExporter
                     $dir .= $this->getPassSubDirName($file['pass']) . '/';
 
                     // IRSS Version
-                    if ($file['value2'] === 'rid') {
-                        $revision = $this->irss->manage()->getCurrentRevision(
-                            $rid = $this->irss->manage()->find($file['value1'])
-                        );
+                    if ($file['value2'] === 'rid'
+                        && ($rid = $this->irss->manage()->find($file['value1'])) !== null) {
+                        $revision = $this->irss->manage()->getCurrentRevision($rid);
                         $streams[$dir . $revision->getTitle()] = $this->irss->consume()->stream($rid)->getStream();
                         continue;
                     }

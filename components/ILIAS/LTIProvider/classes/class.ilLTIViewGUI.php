@@ -175,7 +175,7 @@ class ilLTIViewGUI
         // context_id = ref_id in request
         if (ilSession::has('lti_' . $ref_id . '_post_data')) {
             $this->log->debug("lti context session exists for " . $ref_id);
-            //            return $ref_id;
+            return $ref_id;
         }
         // sub item request
         $this->log->debug("ref_id not exists as context_id, walking tree backwards to find a valid context_id");
@@ -202,6 +202,11 @@ class ilLTIViewGUI
             } else { // only fallback and not reliable on multiple browser LTi contexts
                 if (ilSession::has('referer_ref_id')) {
                     $this->effectiveRefId = ilSession::get('referer_ref_id');
+                }
+                // fix redirect loop
+                if (ilSession::has('lti_context_ids') && isset(ilSession::get('lti_context_ids')[0])) {
+                    $context_id = (int) ilSession::get('lti_context_ids')[0];
+                    $this->effectiveRefId = $context_id;
                 }
             }
 

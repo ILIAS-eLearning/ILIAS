@@ -11,6 +11,7 @@
 
 // ## Tools
 // include patterns and tools with @use in component when needed
+@forward "./030-tools"; // avoid creating new tools like these that generate CSS utility classes
 
 // ## Normalize
 @use "./040-normalize/" as *;

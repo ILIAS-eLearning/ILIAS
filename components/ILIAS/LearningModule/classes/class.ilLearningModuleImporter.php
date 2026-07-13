@@ -178,16 +178,15 @@ class ilLearningModuleImporter extends ilXmlImporter
             }
         }
 
-        // assign style
-        /*
+        // assign style (old values ilias 7)
         $alls_map = $a_mapping->getMappingsOfEntity("components/ILIAS/LearningModule", "lm_style");
         foreach ($alls_map as $new_lm_id => $old_style_id) {
             $new_style_id = (int) $a_mapping->getMapping("components/ILIAS/Style", "sty", $old_style_id);
             if ($new_lm_id > 0 && $new_style_id > 0) {
-                $lm = new ilObjLearningModule($new_lm_id, false);
-                $lm->writeStyleSheetId($new_style_id);
+                ilObjStyleSheet::writeStyleUsage($new_lm_id, $new_style_id);
+                ilObjStyleSheet::writeOwner($new_lm_id, $new_style_id);
             }
-        }*/
+        }
 
         // menu item ref ids
         $ref_mapping = $a_mapping->getMappingsOfEntity('components/ILIAS/Container', 'refs');

@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Map;
 
 use ILIAS\GlobalScreen\Collector\Map\AbstractMap;
-use ArrayObject;
 use Closure;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
@@ -42,6 +41,7 @@ class Map extends AbstractMap
         parent::__construct();
     }
 
+    #[\Override]
     protected function getTitleSorter(): Closure
     {
         return static function (isItem $item_one, isItem $item_two): int {
@@ -53,11 +53,13 @@ class Map extends AbstractMap
         };
     }
 
+    #[\Override]
     protected function getPositionSorter(): Closure
     {
         return static fn(isItem $item_one, isItem $item_two): int => $item_one->getPosition() - $item_two->getPosition();
     }
 
+    #[\Override]
     public function sort(): void
     {
         parent::sort();

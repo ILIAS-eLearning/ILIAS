@@ -92,7 +92,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         $this->setShowRowsSelector(true);
         $this->setEnableTitle(true);
         $this->setTitle($table->getTitle());
-        $this->setDescription($this->tableview->getTitle());
         $this->setDefaultOrderDirection($this->table->getDefaultSortFieldOrder());
         // Set a default sorting?
         $default_sort_title = 'id';
@@ -176,11 +175,8 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             }
 
             $this->ctrl->setParameterByClass(ilDclFieldEditGUI::class, "record_id", $record->getId());
-            $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, "table_id", $record->getTableId());
             $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, "record_id", $record->getId());
-            $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, "tableview_id", $this->tableview->getId());
             $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, "record_id", $record->getId());
-            $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, "tableview_id", $this->tableview->getId());
             $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, "mode", $this->mode);
 
             if (ilDclDetailedViewDefinition::isActive($this->tableview->getId())) {
@@ -191,7 +187,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
 
             if (ilDclDetailedViewDefinition::isActive($this->tableview->getId())) {
                 $action_links[] = $this->ui->factory()->link()->standard(
-                    $this->lng->txt('view'),
+                    $this->lng->txt('dcl_detailed_view'),
                     $this->ctrl->getLinkTargetByClass(ilDclDetailedViewGUI::class, 'renderRecord')
                 );
             }

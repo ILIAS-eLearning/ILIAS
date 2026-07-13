@@ -90,7 +90,11 @@ class ilRepUtil
                     $node_data = $saved_tree->getNodeData($id);
                     $subtree_nodes = $saved_tree->getSubTree($node_data);
                 } else {
-                    throw new ilRepositoryException('No valid tree id found for node id: ' . $id);
+                    if (isset($affected_ids[$id])) {    // see #43992
+                        continue;
+                    } else {
+                        throw new ilRepositoryException('No valid tree id found for node id: ' . $id);
+                    }
                 }
             } else {
                 $node_data = $tree->getNodeData($id);
@@ -138,13 +142,7 @@ class ilRepUtil
                                                     "old_parent_ref_id" => $node["parent"]
                 ];
 
-                // this is due to bug #1860 (even if this will not completely fix it)
-                // and the fact, that media pool folders may find their way into
-                // the recovery folder (what results in broken pools, if the are deleted)
-                // Alex, 2006-07-21
-                if (!$a_from_recovery_folder || $node_obj->getType() !== "fold") {
-                    $node_obj->delete();
-                }
+                $node_obj->delete();
             }
 
             // Use the saved tree object here (negative tree_id)

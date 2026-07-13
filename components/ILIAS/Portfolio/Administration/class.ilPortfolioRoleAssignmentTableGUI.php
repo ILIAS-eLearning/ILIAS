@@ -28,7 +28,8 @@ class ilPortfolioRoleAssignmentTableGUI extends ilTable2GUI
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
-        PortfolioRoleAssignmentManager $manager
+        PortfolioRoleAssignmentManager $manager,
+        protected $edit = false
     ) {
         global $DIC;
 
@@ -49,7 +50,9 @@ class ilPortfolioRoleAssignmentTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.prtf_role_assignment_row.html", "components/ILIAS/Portfolio/Administration");
 
-        $this->addMultiCommand("confirmAssignmentDeletion", $this->lng->txt("prtf_delete_assignment"));
+        if ($this->edit) {
+            $this->addMultiCommand("confirmAssignmentDeletion", $this->lng->txt("prtf_delete_assignment"));
+        }
     }
 
     protected function getItems(): array

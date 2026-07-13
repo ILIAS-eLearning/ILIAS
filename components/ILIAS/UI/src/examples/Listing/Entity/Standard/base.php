@@ -13,8 +13,11 @@ use ILIAS\Data\Range;
 
 /**
  * ---
+ * description: >
+ *      A component to list many entities. Has multiple columns on very large screens.
  * expected output: >
- *   ILIAS shows the rendered Component.
+ *      ILIAS shows a list of entities. If there is a lot of space available, the list will switch to a layout with two
+ *      columns.
  * ---
  */
 function base()

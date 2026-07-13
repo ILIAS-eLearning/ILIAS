@@ -154,20 +154,16 @@ class TitleColumnsBuilder
         return $this->buildPossiblyLinkedTitle(
             $qpl_obj_id,
             $title ?? \ilObject::_lookupTitle($qpl_obj_id),
-            \ilObjQuestionPoolGUI::class,
-            $reference
+            \ilObjQuestionPoolGUI::class
         );
     }
 
     private function buildPossiblyLinkedTitle(
         int $obj_id,
         string $title,
-        string $target_class_type,
-        bool $reference = false
+        string $target_class_type
     ): StandardLink {
         $ref_id = $this->getFirstReferenceWithCurrentUserAccess(
-            $reference,
-            $obj_id,
             \ilObject::_getAllReferences($obj_id)
         );
 
@@ -198,14 +194,8 @@ class TitleColumnsBuilder
     }
 
     private function getFirstReferenceWithCurrentUserAccess(
-        bool $reference,
-        int $obj_id,
         array $all_ref_ids
     ): ?int {
-        if ($reference && $this->access->checkAccess('read', '', $obj_id)) {
-            return $obj_id;
-        }
-
         $references_with_access = array_filter(
             array_values($all_ref_ids),
             function (int $ref_id): bool {

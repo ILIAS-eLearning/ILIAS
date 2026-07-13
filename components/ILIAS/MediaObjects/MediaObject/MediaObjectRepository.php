@@ -41,11 +41,15 @@ class MediaObjectRepository
         string $title,
         \ilMobStakeholder $stakeholder,
         int $from_mob_id = 0
-    ) : void {
+    ): void {
+        $rid = "";
         if ($from_mob_id > 0) {
             $from_rid = $this->getRidForMobId($from_mob_id);
-            $rid = $this->irss->cloneContainer($from_rid);
-        } else {
+            if ($from_rid !== "") {
+                $rid = $this->irss->cloneContainer($from_rid);
+            }
+        }
+        if ($rid === "") {
             $rid = $this->irss->createContainer(
                 $stakeholder,
                 "mob.zip"
@@ -57,7 +61,7 @@ class MediaObjectRepository
         ]);
     }
 
-    public function getById(int $id) : ?array
+    public function getById(int $id): ?array
     {
         $set = $this->db->queryF(
             'SELECT * FROM mob_data WHERE id = %s',
@@ -76,7 +80,7 @@ class MediaObjectRepository
         return null;
     }
 
-    public function delete(int $id) : void
+    public function delete(int $id): void
     {
         $this->db->manipulateF(
             'DELETE FROM mob_data WHERE id = %s',
@@ -85,7 +89,7 @@ class MediaObjectRepository
         );
     }
 
-    protected function getRidForMobId(int $mob_id) : string
+    protected function getRidForMobId(int $mob_id): string
     {
         $set = $this->db->queryF(
             "SELECT * FROM mob_data " .
@@ -99,7 +103,7 @@ class MediaObjectRepository
         return "";
     }
 
-    public function addFileFromLegacyUpload(int $mob_id, string $tmp_name, string $target_path = "") : void
+    public function addFileFromLegacyUpload(int $mob_id, string $tmp_name, string $target_path = ""): void
     {
         if ($rid = $this->getRidForMobId($mob_id)) {
             if ($target_path === "") {
@@ -117,7 +121,7 @@ class MediaObjectRepository
         int $mob_id,
         UploadResult $result,
         string $path = "/"
-    ) : void {
+    ): void {
         if ($rid = $this->getRidForMobId($mob_id)) {
             $this->irss->importFileFromUploadResultToContainer(
                 $rid,
@@ -127,7 +131,7 @@ class MediaObjectRepository
         }
     }
 
-    public function addFileFromLocal(int $mob_id, string $tmp_name, string $path) : void
+    public function addFileFromLocal(int $mob_id, string $tmp_name, string $path): void
     {
         if ($rid = $this->getRidForMobId($mob_id)) {
             $this->irss->addLocalFileToContainer(
@@ -138,7 +142,7 @@ class MediaObjectRepository
         }
     }
 
-    public function addLocalDirectory(int $mob_id, string $dir) : void
+    public function addLocalDirectory(int $mob_id, string $dir): void
     {
         if ($rid = $this->getRidForMobId($mob_id)) {
             $this->irss->addDirectoryToContainer(
@@ -148,31 +152,52 @@ class MediaObjectRepository
         }
     }
 
-    public function getLocalSrc(int $mob_id, string $location) : string
+    public function getLocalSrc(int $mob_id, string $location): string
     {
-        return $this->irss->getContainerUri($this->getRidForMobId($mob_id), $location);
+        $rid = $this->getRidForMobId($mob_id);
+        if ($rid === "") {
+            return "";
+        }
+        return $this->irss->getContainerUri($rid, $location);
     }
 
-    public function hasLocalFile(int $mob_id, string $location) : bool
+    public function hasLocalFile(int $mob_id, string $location): bool
     {
-        return $this->irss->hasContainerEntry($this->getRidForMobId($mob_id), $location);
+        $rid = $this->getRidForMobId($mob_id);
+        if ($rid === "") {
+            return false;
+        }
+        return $this->irss->hasContainerEntry($rid, $location);
     }
 
     public function getLocationStream(
         int $mob_id,
         string $location
-    ) : ZIPStream {
+    ): ZIPStream {
         return $this->irss->getStreamOfContainerEntry(
             $this->getRidForMobId($mob_id),
             $location
         );
     }
 
+    public function getLocationContent(
+        int $mob_id,
+        string $location
+    ): string {
+        $content = "";
+        if (str_starts_with($location, "/")) {
+            $location = substr($location, 1);
+        }
+        if ($this->irss->hasContainerEntry($this->getRidForMobId($mob_id), $location)) {
+            $content = stream_get_contents($this->getLocationStream($mob_id, $location)->detach());
+        }
+        return $content;
+    }
+
     public function getInfoOfEntry(
         int $mob_id,
         string $path
-    )
-    {
+    ) {
         return $this->irss->getContainerEntryInfo(
             $this->getRidForMobId($mob_id),
             $path
@@ -182,8 +207,7 @@ class MediaObjectRepository
     public function deliverEntry(
         int $mob_id,
         string $path
-    ) : void
-    {
+    ): void {
         $this->irss->deliverContainerEntry(
             $this->getRidForMobId($mob_id),
             $path
@@ -192,7 +216,7 @@ class MediaObjectRepository
 
     public function getContainerPath(
         int $mob_id
-    ) : string {
+    ): string {
         return $this->irss->getResourcePath($this->getRidForMobId($mob_id));
     }
 
@@ -200,7 +224,7 @@ class MediaObjectRepository
         int $mob_id,
         string $location,
         FileStream $stream
-    ) : void {
+    ): void {
         $this->irss->addStreamToContainer(
             $this->getRidForMobId($mob_id),
             $stream,
@@ -212,7 +236,7 @@ class MediaObjectRepository
         int $mob_id,
         string $location,
         string $content
-    ) : void {
+    ): void {
         $this->irss->addStringToContainer(
             $this->getRidForMobId($mob_id),
             $content,
@@ -222,27 +246,27 @@ class MediaObjectRepository
 
     public function getContainerResource(
         int $mob_id
-    ) : ?StorableResource {
+    ): ?StorableResource {
         return $this->irss->getResource($this->getRidForMobId($mob_id));
     }
 
     public function getContainerResourceId(
         int $mob_id
-    ) : ?ResourceIdentification {
+    ): ?ResourceIdentification {
         return $this->irss->getResourceIdForIdString($this->getRidForMobId($mob_id));
     }
 
     public function removeLocation(
         int $mob_id,
         string $location
-    ) : void {
+    ): void {
         $this->irss->removePathFromContainer($this->getRidForMobId($mob_id), $location);
     }
 
     public function getFilesOfPath(
         int $mob_id,
         string $dir_path
-    ) : array {
+    ): array {
         return $this->irss->getContainerEntriesOfPath(
             $this->getRidForMobId($mob_id),
             $dir_path

@@ -514,7 +514,8 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
             if (!isset($answers[$error_text_hashed])) {
                 $answers[$error_text_hashed] = [
-                    'answer' => $error_text, 'frequency' => 0
+                    'answer' => $error_text,
+                    'frequency' => 0
                 ];
             }
 

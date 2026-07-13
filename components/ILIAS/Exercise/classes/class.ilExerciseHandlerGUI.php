@@ -23,6 +23,7 @@
  */
 class ilExerciseHandlerGUI implements ilCtrlBaseClassInterface
 {
+    protected \ILIAS\GlobalScreen\Services $gs;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilAccessHandler $access;
@@ -37,6 +38,7 @@ class ilExerciseHandlerGUI implements ilCtrlBaseClassInterface
 
         $request = $DIC->exercise()->internal()->gui()->request();
         $this->requested_ref_id = $request->getRefId();
+        $this->gs = $DIC->globalScreen();
 
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
@@ -72,6 +74,7 @@ class ilExerciseHandlerGUI implements ilCtrlBaseClassInterface
 
         switch ($next_class) {
             case 'ilobjexercisegui':
+                $this->gs->tool()->context()->claim()->repository();
                 $ex_gui = new ilObjExerciseGUI("", $this->requested_ref_id, true);
                 $this->ctrl->forwardCommand($ex_gui);
                 break;

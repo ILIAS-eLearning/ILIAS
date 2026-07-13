@@ -719,14 +719,23 @@ class ilObjectGUI implements ImplementsCreationCallback
     protected function getTitleForCreationFormPage(): string
     {
         if (!$this->obj_definition->isPlugin($this->requested_new_type)) {
-            return $this->lng->txt('obj_' . $this->requested_new_type);
+            return $this->lng->txt("obj_{$this->requested_new_type}");
         }
-        return ilObjectPlugin::lookupTxtById($this->requested_new_type, "obj_{$this->requested_new_type}");
+        return ilObjectPlugin::lookupTxtById(
+            $this->requested_new_type,
+            "obj_{$this->requested_new_type}"
+        );
     }
 
     protected function getCreationFormTitle(): string
     {
-        return $this->lng->txt($this->requested_new_type . '_new');
+        if (!$this->obj_definition->isPlugin($this->requested_new_type)) {
+            return $this->lng->txt("{$this->requested_new_type}_new");
+        }
+        return ilObjectPlugin::lookupTxtById(
+            $this->requested_new_type,
+            "{$this->requested_new_type}_new"
+        );
     }
 
     protected function initCreateForm(string $new_type): StandardForm|ilPropertyFormGUI|array
@@ -768,18 +777,22 @@ class ilObjectGUI implements ImplementsCreationCallback
 
         $didactic_templates_radio = $this->ui_factory->input()->field()->radio($this->lng->txt('type'));
 
+        $values = [];
         foreach ($options as $value => $option) {
             if ($existing_exclusive && $value == 'dtpl_0') {
                 //Skip default disabled if an exclusive template exists - Whatever the f*** that means!
                 continue;
             }
+            $values[] = $value;
             $didactic_templates_radio = $didactic_templates_radio->withOption($value, $option[0], $option[1] ?? '');
         }
 
         if (!$this->getCreationMode()) {
-            $value = 'dtpl_' . ilDidacticTemplateObjSettings::lookupTemplateId($this->object->getRefId());
+            $current_value = 'dtpl_' . ilDidacticTemplateObjSettings::lookupTemplateId($this->object->getRefId());
 
-            $didactic_templates_radio = $didactic_templates_radio->withValue($value);
+            if (in_array($current_value, $values)) {
+                $didactic_templates_radio = $didactic_templates_radio->withValue($current_value);
+            }
 
             if (!in_array($value, array_keys($options)) || ($existing_exclusive && $value == "dtpl_0")) {
                 //add or rename actual value to not available
@@ -1416,7 +1429,7 @@ class ilObjectGUI implements ImplementsCreationCallback
             $this->tmp_import_dir = $imp->getTemporaryImportDir();
             $this->tpl->setOnScreenMessage(
                 'failure',
-                $this->lng->txt('obj_import_file_error') . ' <br />' . $e->getMessage()
+                $this->lng->txt('obj_import_file_error')
             );
             $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
             return;
@@ -2034,17 +2047,17 @@ class ilObjectGUI implements ImplementsCreationCallback
             $this->user->getId(),
             $this->request_wrapper->retrieve("item_ref_id", $this->refinery->kindlyTo()->int())
         );
-        $this->lng->loadLanguageModule("rep");
-        $this->tpl->setOnScreenMessage("success", $this->lng->txt("rep_added_to_favourites"), true);
+        $this->lng->loadLanguageModule("dash");
+        $this->tpl->setOnScreenMessage("success", $this->lng->txt("added_to_favourites"), true);
         $this->ctrl->redirectToURL(ilLink::_getLink($this->requested_ref_id));
     }
 
     public function removeFromDeskObject(): void
     {
-        $this->lng->loadLanguageModule("rep");
         $item_ref_id = $this->request_wrapper->retrieve("item_ref_id", $this->refinery->kindlyTo()->int());
         $this->favourites->remove($this->user->getId(), $item_ref_id);
-        $this->tpl->setOnScreenMessage("success", $this->lng->txt("rep_removed_from_favourites"), true);
+        $this->lng->loadLanguageModule("dash");
+        $this->tpl->setOnScreenMessage("success", $this->lng->txt("removed_from_favourites"), true);
         $this->ctrl->redirectToURL(ilLink::_getLink($this->requested_ref_id));
     }
 
@@ -2074,6 +2087,10 @@ class ilObjectGUI implements ImplementsCreationCallback
         if ($redirect_target_ref_id !== null) {
             $this->ctrl->setParameterByClass($create_target_class, 'crtcb', (string) $redirect_target_ref_id);
         }
+
+        $this->lng->loadLanguageModule('wsp');
+        $this->lng->loadLanguageModule('rep');
+        $this->lng->loadLanguageModule('cntr');
 
         $elements = $this->initAddNewItemElementsFromNewItemGroups(
             $create_target_class,

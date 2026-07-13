@@ -146,6 +146,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
                     $this->refinery,
                     $this->tabs_gui,
                     $this->notif_handler,
+                    $this->tree,
                     $this->object
                 );
                 $this->ctrl->forwardCommand($appointmentGUI);
@@ -226,17 +227,20 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
             return;
         }
 
+        $ref_ids = [];
         if ($this->post_wrapper->has("interruptive_items")) {
-            $ref_id = $this->post_wrapper->retrieve(
+            $ref_ids = $this->post_wrapper->retrieve(
                 "interruptive_items",
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
             );
-            $saved_post = array_unique(array_merge(ilSession::get('saved_post') ?? [], $ref_id));
-            ilSession::set('saved_post', $saved_post);
+        }
+
+        if ($ref_ids === []) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
+            $this->redirectToParentGUI();
         }
 
         $ru = new ilRepositoryTrashGUI($this);
-        $ref_ids = ilSession::get("saved_post");
         $talks = [];
 
         foreach ($ref_ids as $refId) {

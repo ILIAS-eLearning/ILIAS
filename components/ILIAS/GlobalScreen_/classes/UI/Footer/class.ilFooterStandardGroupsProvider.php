@@ -65,7 +65,13 @@ final class ilFooterStandardGroupsProvider extends AbstractStaticFooterProvider
     private function buildURI(string $from_path): URI
     {
         $request = $this->dic->http()->request()->getUri();
-        return new URI($request->getScheme() . '://' . $request->getHost() . '/' . ltrim($from_path, '/'));
+        $base_path = dirname($request->getPath());
+        $base_path = $base_path === '/' ? '/' : $base_path . '/';
+
+        return new URI(
+            $request->getScheme() . '://' . $request->getHost()
+            . $base_path . ltrim($from_path, '/')
+        );
     }
 
     public function getEntries(): array
@@ -92,14 +98,14 @@ final class ilFooterStandardGroupsProvider extends AbstractStaticFooterProvider
         }
 
         // system support contacts
-        if (($system_support_url = \ilSystemSupportContactsGUI::getFooterLink()) !== '') {
+        if (($system_support_url = \ilSystemSupportContactsGUI::getFooterLink()) !== null) {
             $system_support_title = \ilSystemSupportContactsGUI::getFooterText();
             $entries[] = $this->item_factory
                 ->link(
                     $this->id_factory->identifier('system_support'),
                     $system_support_title
                 )
-                ->withAction($this->buildURI($system_support_url))
+                ->withAction($system_support_url)
                 ->withParent($this->getIdentificationFor(ilFooterStandardGroups::SUPPORT));
         }
 

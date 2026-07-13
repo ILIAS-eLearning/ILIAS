@@ -41,7 +41,7 @@ class ilObjMediaCastListGUI extends ilObjectListGUI
         switch ($cmd) {
 
             case "learningProgress":
-                $this->ctrl->setParameterByClass(ilObjMediaCastGUI::class, "ref_id", $this->ref_id);
+                $this->ctrl->setParameterByClass(ilLearningProgressGUI::class, "ref_id", $this->ref_id);
                 $cmd_link = $this->ctrl->getLinkTargetByClass(
                     [ilMediaCastHandlerGUI::class, ilObjMediaCastGUI::class, ilLearningProgressGUI::class   ],
                     ""

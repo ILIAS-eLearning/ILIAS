@@ -94,10 +94,12 @@ class ilForumXMLWriter extends ilXmlWriter
         $res = $ilDB->query($query_frm);
         $row = $ilDB->fetchObject($res);
 
+        $attributes = [];
+
         $style = $this->content_style_domain->styleForObjId((int) $row->obj_id);
-        $attributes = [
-            'Style' => $style->getStyleId()
-        ];
+        if ($style->getEffectiveStyleId() > 0) {
+            $attributes['Style'] = $style->getEffectiveStyleId();
+        }
 
         $this->xmlStartTag('Forum', $attributes);
 

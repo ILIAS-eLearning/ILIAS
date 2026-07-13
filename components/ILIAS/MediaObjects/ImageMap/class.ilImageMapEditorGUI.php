@@ -204,6 +204,9 @@ class ilImageMapEditorGUI
         $st_item = $this->media_object->getMediaItem("Standard");
         $max = ilMapArea::_getMaxNr($st_item->getId());
         for ($i = 1; $i <= $max; $i++) {
+            if (!$this->request->hasRow($i)) {
+                continue;
+            }
             $area = new ilMapArea($st_item->getId(), $i);
             $area->setTitle(
                 $this->request->getAreaTitle($i)
@@ -616,36 +619,52 @@ class ilImageMapEditorGUI
         }
         switch ($a_type) {
             case "StructureObject":
-                $title = ilLMObject::_lookupTitle($t_arr[count($t_arr) - 1]);
-                $link_str = $lng->txt("chapter") .
-                    ": " . $title . " [" . $t_arr[count($t_arr) - 1] . "]" . $frame_str;
+                $id = (int) $t_arr[count($t_arr) - 1];
+                if (ilLMObject::_exists($id)) {
+                    $title = ilLMObject::_lookupTitle($id);
+                    $link_str = $lng->txt("chapter") .
+                        ": " . $title . " [" . $t_arr[count($t_arr) - 1] . "]" . $frame_str;
+                }
                 break;
 
             case "PageObject":
-                $title = ilLMObject::_lookupTitle($t_arr[count($t_arr) - 1]);
-                $link_str = $lng->txt("page") .
-                    ": " . $title . " [" . $t_arr[count($t_arr) - 1] . "]" . $frame_str;
+                $id = (int) $t_arr[count($t_arr) - 1];
+                if (ilLMObject::_exists($id)) {
+                    $title = ilLMObject::_lookupTitle($id);
+                    $link_str = $lng->txt("page") .
+                        ": " . $title . " [" . $t_arr[count($t_arr) - 1] . "]" . $frame_str;
+                }
                 break;
 
             case "GlossaryItem":
-                $term = new ilGlossaryTerm($t_arr[count($t_arr) - 1]);
-                $link_str = $lng->txt("term") .
-                    ": " . $term->getTerm() . " [" . $t_arr[count($t_arr) - 1] . "]" . $frame_str;
+                $id = (int) $t_arr[count($t_arr) - 1];
+                if (ilGlossaryTerm::_exists($id)) {
+                    $term = new ilGlossaryTerm($id);
+                    $link_str = $lng->txt("term") .
+                        ": " . $term->getTerm() . " [" . $t_arr[count($t_arr) - 1] . "]" . $frame_str;
+                }
                 break;
 
             case "MediaObject":
-                $mob = new ilObjMediaObject($t_arr[count($t_arr) - 1]);
-                $link_str = $lng->txt("mob") .
-                    ": " . $mob->getTitle() . " [" . $t_arr[count($t_arr) - 1] . "]" . $frame_str;
+                $id = (int) $t_arr[count($t_arr) - 1];
+                if (ilObjMediaObject::_exists($id)) {
+                    $mob = new ilObjMediaObject($id);
+                    $link_str = $lng->txt("mob") .
+                        ": " . $mob->getTitle() . " [" . $t_arr[count($t_arr) - 1] . "]" . $frame_str;
+                }
                 break;
 
             case "RepositoryItem":
                 if (trim($a_target) !== "") {
-                    $title = ilObject::_lookupTitle(
-                        ilObject::_lookupObjId((int) $t_arr[count($t_arr) - 1])
-                    );
-                    $link_str = $lng->txt("obj_" . $t_arr[count($t_arr) - 2]) .
-                        ": " . $title . " [" . $t_arr[count($t_arr) - 1] . "]" . $frame_str;
+                    $id = (int) $t_arr[count($t_arr) - 1];
+                    $obj_id = ilObject::_lookupObjId($id);
+                    if (ilObject::_exists($obj_id)) {
+                        $title = ilObject::_lookupTitle(
+                            $obj_id
+                        );
+                        $link_str = $lng->txt("obj_" . $t_arr[count($t_arr) - 2]) .
+                            ": " . $title . " [" . $t_arr[count($t_arr) - 1] . "]" . $frame_str;
+                    }
                 } else {
                     $title = "";
                     $link_str = "";
@@ -653,9 +672,12 @@ class ilImageMapEditorGUI
                 break;
 
             case "WikiPage":
-                $wpg = new ilWikiPage($t_arr[count($t_arr) - 1]);
-                $link_str = $lng->txt("cont_wiki_page") .
-                    ": " . $wpg->getTitle() . " [" . $t_arr[count($t_arr) - 1] . "]" . $frame_str;
+                $id = (int) $t_arr[count($t_arr) - 1];
+                if (ilWikiPage::_exists("wpg", $id)) {
+                    $wpg = new ilWikiPage($id);
+                    $link_str = $lng->txt("cont_wiki_page") .
+                        ": " . $wpg->getTitle() . " [" . $t_arr[count($t_arr) - 1] . "]" . $frame_str;
+                }
                 break;
 
         }

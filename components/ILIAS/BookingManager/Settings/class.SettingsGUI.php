@@ -127,9 +127,8 @@ class SettingsGUI
             )
             ->number(
                 "limit",
-                $lng->txt("book_bookings_per_user") . " - " .
                 $lng->txt("book_overall_limit"),
-                "",
+                $lng->txt("book_total_individual_bookings_limit"),
                 $settings->getOverallLimit()
             );
 

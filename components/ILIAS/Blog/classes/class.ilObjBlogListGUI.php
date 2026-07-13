@@ -69,6 +69,9 @@ class ilObjBlogListGUI extends ilObjectListGUI
         string $cmd = "",
         string $onclick = ""
     ): void {
+        global $DIC;
+
+        $tpl = $this->ui->mainTemplate();
         $ctrl = $this->ctrl;
         if ($cmd === "export"
             && ilObjBlogAccess::isCommentsExportPossible($this->obj_id)
@@ -93,40 +96,45 @@ class ilObjBlogListGUI extends ilObjectListGUI
             $prevent_background_click = false;
 
             if (ilObjBlogAccess::isCommentsExportPossible($this->obj_id)) {
-                $comment_export_helper = new \ILIAS\Notes\Export\ExportHelperGUI();
-                $this->lng->loadLanguageModule("note");
-                $this->comment_modal = $comment_export_helper->getCommentIncludeModalDialog(
-                    'HTML Export',
-                    $this->lng->txt("note_html_export_include_comments"),
-                    $ctrl->getLinkTargetByClass([ilRepositoryGUI::class, ilObjBlogGUI::class], "export"),
-                    $ctrl->getLinkTargetByClass([ilRepositoryGUI::class, ilObjBlogGUI::class], "exportWithComments")
-                );
-                $signal = $this->comment_modal->getShowSignal()->getId();
-                /*$this->current_selection_list->addItem(
-                    $text,
-                    "",
-                    $href,
-                    $img,
-                    $text,
-                    $frame,
-                    "",
-                    $prevent_background_click,
-                    "( function() { $(document).trigger('" . $signal . "', {'id': '" . $signal . "','triggerer':$(this), 'options': JSON.parse('[]')}); return false;})()"
-                );*/
+
+                $modal = $this->getModalTemplate();
+                $signal = $modal["show"];
+                $tpl->addJavaScript('assets/js/blog.js');
+                $tpl->addOnLoadCode('il.blog.setModalTemplate("' . $signal . '", "' . addslashes(json_encode($modal["template"])) . '");');
+
 
                 $action = $this->ui->factory()
                                    ->button()
-                                   ->shy($text, $href);
+                                   ->shy($text, "#");
 
-                if ($frame !== '') {
-                    $action = $this->ui->factory()->link()->standard($text, $href)->withOpenInNewViewport(true);
-                }
-
-                $action = $action->withAdditionalOnLoadCode(function ($id) use ($onclick, $signal): string {
-                    return "$('#$id').click(( function() { $(document).trigger('" . $signal . "', {'id': '" . $signal . "','triggerer':$(this), 'options': JSON.parse('[]')}); return false;})());";
+                $action = $action->withOnLoadCode(function ($id) use ($onclick, $signal): string {
+                    return "document.getElementById('$id').addEventListener('click', (event) => {event.preventDefault(); il.blog.showModal('$signal');});";
                 });
                 $this->current_actions[] = $action;
             }
         }
     }
+
+
+    public function getModalTemplate(): array
+    {
+        $ctrl = $this->ctrl;
+        $ui = $this->ui;
+
+        $comment_export_helper = new \ILIAS\Notes\Export\ExportHelperGUI();
+        $this->lng->loadLanguageModule("note");
+        $modal = $comment_export_helper->getCommentIncludeModalDialog(
+            'HTML Export',
+            $this->lng->txt("note_html_export_include_comments"),
+            $ctrl->getLinkTargetByClass([ilRepositoryGUI::class, ilObjBlogGUI::class], "export"),
+            $ctrl->getLinkTargetByClass([ilRepositoryGUI::class, ilObjBlogGUI::class], "exportWithComments")
+        );
+
+        $modalt["show"] = $modal->getShowSignal()->getId();
+        $modalt["close"] = $modal->getCloseSignal()->getId();
+        $modalt["template"] = $ui->renderer()->renderAsync($modal);
+
+        return $modalt;
+    }
+
 }

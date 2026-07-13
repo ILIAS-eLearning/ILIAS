@@ -63,6 +63,8 @@ class FilterInputsTestNoUIFactories extends NoUIFactory
 
 class FilterInputTest extends ILIAS_UI_TestBase
 {
+    use LanguageStubs;
+
     protected function buildFactory(): I\Input\Container\Filter\Factory
     {
         return new I\Input\Container\Filter\Factory(
@@ -88,7 +90,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
     {
         return new I\Symbol\Factory(
             new I\Symbol\Icon\Factory(),
-            new I\Symbol\Glyph\Factory(),
+            new I\Symbol\Glyph\Factory($this->createRelayArgumentLanguageStub()),
             new I\Symbol\Avatar\Factory()
         );
     }
@@ -123,7 +125,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
         <div class="col-md-6 col-lg-4 il-popover-container">
-            <div class="input-group">
+            <div data-il-ui-component="text-field-input" data-il-ui-input-name="" class="input-group">
                 <label for="id_1" class="input-group-addon leftaddon">label</label>
                 <input id="id_1" type="text" class="c-field-text" />
                 <span class="input-group-addon rightaddon">
@@ -147,8 +149,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($fr->render($numeric));
 
         $expected = $this->brutallyTrimHTML('
-        <div class="col-md-6 col-lg-4 il-popover-container">
-            <div class="input-group">
+        <div class="col-md-6 col-lg-4 il-popover-container"><div data-il-ui-component="numeric-field-input" data-il-ui-input-name="" class="input-group">
                 <label for="id_1" class="input-group-addon leftaddon">label</label>
                 <input id="id_1" type="number" class="c-field-number" />
                 <span class="input-group-addon rightaddon">
@@ -173,8 +174,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($fr->render($select));
 
         $expected = $this->brutallyTrimHTML('
-        <div class="col-md-6 col-lg-4 il-popover-container">
-            <div class="input-group">
+        <div class="col-md-6 col-lg-4 il-popover-container"><div data-il-ui-component="select-field-input" data-il-ui-input-name="" class="input-group">
                 <label for="id_1" class="input-group-addon leftaddon">label</label>
                 <select id="id_1">
                     <option selected="selected" value="">-</option>
@@ -202,8 +202,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($fr->render($multi));
 
         $expected = $this->brutallyTrimHTML('
-        <div class="col-md-6 col-lg-4 il-popover-container">
-            <div class="input-group">
+        <div class="col-md-6 col-lg-4 il-popover-container"><div data-il-ui-component="multi-select-field-input" data-il-ui-input-name="" class="input-group">
                 <label class="input-group-addon leftaddon">label</label>
                 <span role="button" tabindex="0" class="form-control il-filter-field" id="id_3" data-placement="bottom"></span>
                 <div class="il-standard-popover-content" style="display:none;" id="id_1"></div>
@@ -213,7 +212,6 @@ class FilterInputTest extends ILIAS_UI_TestBase
                     </a>
                 </span>
             </div>
-            {POPOVER}
         </div>
         ');
         $this->assertHTMLEquals($expected, $html);
@@ -229,8 +227,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($fr->render($datetime));
 
         $expected = $this->brutallyTrimHTML('
-        <div class="col-md-6 col-lg-4 il-popover-container">
-            <div class="input-group">
+        <div class="col-md-6 col-lg-4 il-popover-container"><div data-il-ui-component="date-time-field-input" data-il-ui-input-name="" class="input-group">
                 <label for="id_1" class="input-group-addon leftaddon">label</label>
                 <div class="c-input-group">
                     <input id="id_1" type="date" class="c-field-datetime" />
@@ -283,18 +280,16 @@ class FilterInputTest extends ILIAS_UI_TestBase
 
 
         $expected = $this->brutallyTrimHTML('
-        <div class="col-md-6 col-lg-4 il-popover-container">
-            <div class="input-group">
+        <div class="col-md-6 col-lg-4 il-popover-container"><div data-il-ui-component="duration-field-input" data-il-ui-input-name="" class="input-group">
                 <label class="input-group-addon leftaddon">label</label>
-                <span role="button" tabindex="0" class="form-control il-filter-field" id="id_7" data-placement="bottom"></span>
-                <div class="il-standard-popover-content" style="display:none;" id="id_5"></div>
+                <span role="button" tabindex="0" class="form-control il-filter-field" id="id_6" data-placement="bottom"></span>
+                <div class="il-standard-popover-content" style="display:none;" id="id_4"></div>
                 <span class="input-group-addon rightaddon">
-                    <a class="glyph" href="" aria-label="remove" id="id_8">
+                    <a class="glyph" href="" aria-label="remove" id="id_7">
                         <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
                     </a>
                 </span>
             </div>
-            {POPOVER}
         </div>
         ');
         $this->assertHTMLEquals($expected, $html);
