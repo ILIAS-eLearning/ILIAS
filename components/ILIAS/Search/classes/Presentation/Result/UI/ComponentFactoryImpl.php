@@ -213,4 +213,9 @@ class ComponentFactoryImpl implements ComponentFactory
                                 ->withDescription($this->sanitizer->sanitizeAndSetUpPlaceholders($content))
                                 ->withProperties($properties);
     }
+
+    public function getNoResultItem(): Item
+    {
+        return $this->ui_factory->item()->shy($this->lng->txt('search_no_further_match'));
+    }
 }

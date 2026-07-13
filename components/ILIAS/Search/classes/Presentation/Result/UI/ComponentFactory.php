@@ -63,4 +63,6 @@ interface ComponentFactory
         bool $show_too_many_items_warning,
         Item ...$items
     ): ?Modal;
+
+    public function getNoResultItem(): Item;
 }
