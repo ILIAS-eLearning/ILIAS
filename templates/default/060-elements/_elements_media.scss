@@ -10,7 +10,7 @@ img {
 }
 
 a:has(img) {
-	display: inline-block;
+	//display: inline-block;  // removed for fix mt-48050
 	@include focus.clear-focus-for-override();
 	@include focus.il-focus();
 }
