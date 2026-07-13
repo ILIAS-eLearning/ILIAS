@@ -22,16 +22,18 @@ use OrgUnit\PublicApi\OrgUnitUserService;
 
 class ilMailTemplatePlaceholderToEmptyResolverTest extends ilMailBaseTestCase
 {
+    protected function tearDown(): void
+    {
+        $lang_property = new ReflectionProperty(ilDatePresentation::class, 'lang');
+        $lang_property->setValue(null, null);
+
+        parent::tearDown();
+    }
+
     public function testNullRecipientResolvesContextPlaceholdersAndKeepsRecipientDependentNames(): void
     {
-        $lng = $this->getMockBuilder(ilLanguage::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['txt', 'loadLanguageModule'])
-            ->getMock();
-        $lng->method('txt')->willReturnArgument(0);
+        $lng = $this->createMock(ilLanguage::class);
         $this->setGlobalVariable('lng', $lng);
-        ilDatePresentation::setLanguage($lng);
-
         $env_helper = $this->createMock(ilMailEnvironmentHelper::class);
         $env_helper->method('getClientId')->willReturn('phpunit_client');
         $env_helper->method('getHttpPath')->willReturn('https://ilias.example/');
