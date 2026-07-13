@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Mail\TemplateEngine\TemplateEngineFactoryInterface;
 use ILIAS\Mail\Templates\TemplateSubjectSyntaxException;
 use ILIAS\Mail\Templates\TemplateMessageSyntaxException;
 
@@ -25,7 +26,7 @@ class ilMailTemplateService implements ilMailTemplateServiceInterface
 {
     public function __construct(
         protected ilMailTemplateRepository $repository,
-        protected ilMustacheFactory $mustache_factory
+        protected TemplateEngineFactoryInterface $template_engine_factory
     ) {
     }
 
@@ -37,13 +38,13 @@ class ilMailTemplateService implements ilMailTemplateServiceInterface
         string $language
     ): ilMailTemplate {
         try {
-            $this->mustache_factory->getBasicEngine()->render($subject, []);
+            $this->template_engine_factory->getBasicEngine()->render($subject, []);
         } catch (Exception) {
             throw new TemplateSubjectSyntaxException('Invalid mail template for subject');
         }
 
         try {
-            $this->mustache_factory->getBasicEngine()->render($message, []);
+            $this->template_engine_factory->getBasicEngine()->render($message, []);
         } catch (Exception) {
             throw new TemplateMessageSyntaxException('Invalid mail template for message');
         }
@@ -69,13 +70,13 @@ class ilMailTemplateService implements ilMailTemplateServiceInterface
         string $language
     ): void {
         try {
-            $this->mustache_factory->getBasicEngine()->render($subject, []);
+            $this->template_engine_factory->getBasicEngine()->render($subject, []);
         } catch (Exception) {
             throw new TemplateSubjectSyntaxException('Invalid mail template for subject');
         }
 
         try {
-            $this->mustache_factory->getBasicEngine()->render($message, []);
+            $this->template_engine_factory->getBasicEngine()->render($message, []);
         } catch (Exception) {
             throw new TemplateMessageSyntaxException('Invalid mail template for message');
         }

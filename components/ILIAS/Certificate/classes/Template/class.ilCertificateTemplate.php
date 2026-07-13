@@ -18,8 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -40,6 +38,12 @@ class ilCertificateTemplate
         private readonly ?int $id = null,
         private readonly bool $deleted = false
     ) {
+        if ($this->obj_type === '' || is_numeric($this->obj_type)) {
+            throw new ilInvalidCertificateException(
+                'Certificate template object type must be a non-numeric string '
+                    . ', got ' . var_export($this->obj_type, true)
+            );
+        }
     }
 
     public function getObjId(): int

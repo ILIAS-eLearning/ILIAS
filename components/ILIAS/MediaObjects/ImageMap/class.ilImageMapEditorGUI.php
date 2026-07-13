@@ -204,6 +204,9 @@ class ilImageMapEditorGUI
         $st_item = $this->media_object->getMediaItem("Standard");
         $max = ilMapArea::_getMaxNr($st_item->getId());
         for ($i = 1; $i <= $max; $i++) {
+            if (!$this->request->hasRow($i)) {
+                continue;
+            }
             $area = new ilMapArea($st_item->getId(), $i);
             $area->setTitle(
                 $this->request->getAreaTitle($i)

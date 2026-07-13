@@ -437,7 +437,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         }
 
         if ($score_reporting === ScoreReportingTypes::SCORE_REPORTING_DATE
-            && self::$settings_result_summaries_by_obj_id->getReportingDate() < new \DateTimeImmutable('now', new DateTimeZone('UTC'))) {
+            && self::$settings_result_summaries_by_obj_id[$obj_id]->getReportingDate() < new \DateTimeImmutable('now', new DateTimeZone('UTC'))) {
             return true;
         }
 

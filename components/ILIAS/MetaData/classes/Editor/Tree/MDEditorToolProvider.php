@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Editor\Tree;
 
+use Generator;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\Tool;
 use ILIAS\UI\Component\Tree\Tree;
@@ -118,9 +119,9 @@ class MDEditorToolProvider extends AbstractDynamicToolProvider
     {
         $recursion = new Recursion(
             $this->services->paths()->pathFactory(),
-            $this->services->editor()->presenter(),
-            $this->services->editor()->dictionary(),
-            $this->services->editor()->linkFactory(),
+            $this->services->editor()->internal()->presenter(),
+            $this->services->editor()->internal()->dictionary(),
+            $this->services->editor()->internal()->linkFactory(),
             ...$this->getElements($set, $path)
         );
         $f = $this->services->dic()->ui()->factory();
@@ -132,9 +133,9 @@ class MDEditorToolProvider extends AbstractDynamicToolProvider
     }
 
     /**
-     * @return ElementInterface[]
+     * @return Generator<ElementInterface>
      */
-    protected function getElements(SetInterface $set, PathInterface $path): \Generator
+    protected function getElements(SetInterface $set, PathInterface $path): Generator
     {
         yield from $this->services->paths()->navigatorFactory()->navigator(
             $path,

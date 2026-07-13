@@ -33,6 +33,7 @@ use ILIAS\MetaData\Presentation\Services\Services as PresentationServices;
 use ILIAS\MetaData\XML\Services\Services as XMLServices;
 use ILIAS\MetaData\OERHarvester\Services\Services as OERHarvesterServices;
 use ILIAS\MetaData\Search\Services\Services as SearchServices;
+use ILIAS\MetaData\OERExposer\Services\Services as OERExposerServices;
 
 class InternalServices
 {
@@ -49,6 +50,7 @@ class InternalServices
     protected XMLServices $xml_services;
     protected OERHarvesterServices $oer_harvester_services;
     protected SearchServices $search_services;
+    protected OERExposerServices $oer_exposer_services;
 
     public function __construct(GlobalContainer $dic)
     {
@@ -87,15 +89,6 @@ class InternalServices
             $this->data_helper_services,
             $this->manipulator_services
         );
-        $this->editor_services = new EditorServices(
-            $this->dic,
-            $this->path_services,
-            $this->structure_services,
-            $this->repository_services,
-            $this->manipulator_services,
-            $this->presentation_services,
-            $this->vocabularies_services
-        );
         $this->xml_services = new XMLServices(
             $this->dic,
             $this->path_services,
@@ -104,7 +97,28 @@ class InternalServices
             $this->copyright_services
         );
         $this->oer_harvester_services = new OERHarvesterServices(
-            $this->dic
+            $this->dic,
+            $this->presentation_services,
+            $this->copyright_services,
+            $this->path_services,
+            $this->repository_services,
+            $this->xml_services
+        );
+        $this->oer_exposer_services = new OERExposerServices(
+            $this->dic,
+            $this->oer_harvester_services
+        );
+        $this->editor_services = new EditorServices(
+            $this->dic,
+            $this->path_services,
+            $this->structure_services,
+            $this->repository_services,
+            $this->manipulator_services,
+            $this->presentation_services,
+            $this->vocabularies_services,
+            $this->data_helper_services,
+            $this->copyright_services,
+            $this->oer_harvester_services
         );
     }
 
@@ -171,5 +185,10 @@ class InternalServices
     public function search(): SearchServices
     {
         return $this->search_services;
+    }
+
+    public function OERExposer(): OERExposerServices
+    {
+        return $this->oer_exposer_services;
     }
 }

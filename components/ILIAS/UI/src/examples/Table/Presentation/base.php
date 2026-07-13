@@ -73,7 +73,7 @@ function base()
                     array(
                         $record['begin_date'],
                         $record['location'],
-                        'Available Slots: ' => $record['bookings_available']
+                        'Available Slots' => $record['bookings_available']
                     )
                 )
 
@@ -90,11 +90,11 @@ function base()
                 ->withFurtherFieldsHeadline('Detailed Information')
                 ->withFurtherFields(
                     array(
-                        'Location: ' => $record['location'],
+                        'Location' => $record['location'],
                         $record['address'],
-                        'Date: ' => $record['date'],
-                        'Available Slots: ' => $record['bookings_available'],
-                        'Fee: ' => $record['fee']
+                        'Date' => $record['date'],
+                        'Available Slots' => $record['bookings_available'],
+                        'Fee' => $record['fee']
                     )
                 )
                 ->withAction(

@@ -60,10 +60,12 @@ trait Group
      */
     public function withValue($value): self
     {
-        $this->checkArg("value", $this->isClientSideValueOk($value), "Display value does not match input type.");
+        $this->checkArg("value", null === $value || $this->isClientSideValueOk($value), "Display value does not match input type.");
         $clone = clone $this;
         foreach ($this->getInputs() as $k => $i) {
-            $clone->inputs[$k] = $i->withValue($value[$k]);
+            // note isClientSideValueOk() verifies the structure, there
+            // are no false-positives due to coalescing
+            $clone->inputs[$k] = $i->withValue($value[$k] ?? null);
         }
         return $clone;
     }

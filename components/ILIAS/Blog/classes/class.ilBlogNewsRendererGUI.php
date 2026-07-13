@@ -18,17 +18,21 @@
 
 declare(strict_types=1);
 
-/**
- * Blog news renderer
- * @author Alexander Killing <killing@leifos.de>
- */
 class ilBlogNewsRendererGUI extends ilNewsDefaultRendererGUI
 {
-    public function getObjectLink(): string
+    protected \ILIAS\Blog\InternalGUIService $blog_gui;
+
+    public function __construct()
     {
         global $DIC;
+        parent::__construct();
+        $service = $DIC->blog()->internal();
+        $this->blog_gui = $service->gui();
+    }
 
-        $pl = $DIC->blog()->internal()->gui()->permanentLink($this->getNewsRefId());
+    public function getObjectLink(): string
+    {
+        $pl = $this->blog_gui->permanentLink($this->getNewsRefId());
 
         $n = $this->getNewsItem();
         $posting_id = 0;

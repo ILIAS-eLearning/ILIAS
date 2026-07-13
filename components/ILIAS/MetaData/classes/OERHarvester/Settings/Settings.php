@@ -52,8 +52,11 @@ class Settings implements SettingsInterface
      * @var int[]
      */
     protected array $selected_cp_entry_ids;
-    protected int $target_for_harvesting_ref_id;
+    protected bool $editorial_step_enabled;
+    protected int $editorial_ref_id;
     protected int $source_for_exposing_ref_id;
+    protected bool $manual_publishing_enabled;
+    protected bool $automatic_publishing_enabled;
 
     public function __construct()
     {
@@ -63,7 +66,7 @@ class Settings implements SettingsInterface
     /**
      * @return string[]
      */
-    public function getObjectTypesEligibleForHarvesting(): array
+    public function getObjectTypesEligibleForPublishing(): array
     {
         return self::ELIGIBLE_TYPES;
     }
@@ -71,7 +74,7 @@ class Settings implements SettingsInterface
     /**
      * @return string[]
      */
-    public function getObjectTypesSelectedForHarvesting(): array
+    public function getObjectTypesSelectedForPublishing(): array
     {
         if (isset($this->selected_obj_types)) {
             return $this->selected_obj_types;
@@ -79,23 +82,23 @@ class Settings implements SettingsInterface
         $types_from_storage = unserialize(
             $this->settings->get(
                 'collected_types',
-                serialize($this->getObjectTypesEligibleForHarvesting()),
+                serialize($this->getObjectTypesEligibleForPublishing()),
             ),
             ['allowed_classes' => false]
         );
         return $this->selected_obj_types = array_intersect(
             $types_from_storage,
-            $this->getObjectTypesEligibleForHarvesting()
+            $this->getObjectTypesEligibleForPublishing()
         );
     }
 
-    public function isObjectTypeSelectedForHarvesting(string $type): bool
+    public function isObjectTypeSelectedForPublishing(string $type): bool
     {
-        $types = $this->getObjectTypesSelectedForHarvesting();
+        $types = $this->getObjectTypesSelectedForPublishing();
         return in_array($type, $types);
     }
 
-    public function saveObjectTypesSelectedForHarvesting(string ...$types): void
+    public function saveObjectTypesSelectedForPublishing(string ...$types): void
     {
         $this->selected_obj_types = $types;
         $this->settings->set('collected_types', serialize($types));
@@ -104,7 +107,7 @@ class Settings implements SettingsInterface
     /**
      * @return int[]
      */
-    public function getCopyrightEntryIDsSelectedForHarvesting(): array
+    public function getCopyrightEntryIDsSelectedForPublishing(): array
     {
         if (isset($this->selected_cp_entry_ids)) {
             return $this->selected_cp_entry_ids;
@@ -120,36 +123,53 @@ class Settings implements SettingsInterface
         return $this->selected_cp_entry_ids;
     }
 
-    public function isCopyrightEntryIDSelectedForHarvesting(int $id): bool
+    public function isCopyrightEntryIDSelectedForPublishing(int $id): bool
     {
-        $entry_ids = $this->getCopyrightEntryIDsSelectedForHarvesting();
+        $entry_ids = $this->getCopyrightEntryIDsSelectedForPublishing();
         return in_array($id, $entry_ids);
     }
 
-    public function saveCopyrightEntryIDsSelectedForHarvesting(int ...$ids): void
+    public function saveCopyrightEntryIDsSelectedForPublishing(int ...$ids): void
     {
         $this->selected_cp_entry_ids = $ids;
         $this->settings->set('templates', serialize($ids));
     }
 
-    public function getContainerRefIDForHarvesting(): int
+    public function isEditorialStepEnabled(): bool
     {
-        if (isset($this->target_for_harvesting_ref_id)) {
-            return $this->target_for_harvesting_ref_id;
+        if (isset($this->editorial_step_enabled)) {
+            return $this->editorial_step_enabled;
         }
-        return $this->target_for_harvesting_ref_id = (int) $this->settings->get(
+        return $this->editorial_step_enabled = (bool) $this->settings->get(
+            'editorial_step',
+            '0'
+        );
+    }
+
+    public function saveEditorialStepEnabled(bool $enabled): void
+    {
+        $this->editorial_step_enabled = $enabled;
+        $this->settings->set('editorial_step', $enabled ? '1' : '0');
+    }
+
+    public function getContainerRefIDForEditorialStep(): int
+    {
+        if (isset($this->editorial_ref_id)) {
+            return $this->editorial_ref_id;
+        }
+        return $this->editorial_ref_id = (int) $this->settings->get(
             'target',
             '0'
         );
     }
 
-    public function saveContainerRefIDForHarvesting(int $ref_id): void
+    public function saveContainerRefIDForEditorialStep(int $ref_id): void
     {
-        $this->target_for_harvesting_ref_id = $ref_id;
+        $this->editorial_ref_id = $ref_id;
         $this->settings->set('target', (string) $ref_id);
     }
 
-    public function getContainerRefIDForExposing(): int
+    public function getContainerRefIDForPublishing(): int
     {
         if (isset($this->source_for_exposing_ref_id)) {
             return $this->source_for_exposing_ref_id;
@@ -160,9 +180,45 @@ class Settings implements SettingsInterface
         );
     }
 
-    public function saveContainerRefIDForExposing(int $ref_id): void
+    public function saveContainerRefIDForPublishing(int $ref_id): void
     {
         $this->source_for_exposing_ref_id = $ref_id;
         $this->settings->set('exposed_container', (string) $ref_id);
+    }
+
+
+
+    public function isManualPublishingEnabled(): bool
+    {
+        if (isset($this->manual_publishing_enabled)) {
+            return $this->manual_publishing_enabled;
+        }
+        return $this->manual_publishing_enabled = (bool) $this->settings->get(
+            'manual_publishing',
+            '0'
+        );
+    }
+
+    public function saveManualPublishingEnabled(bool $enabled): void
+    {
+        $this->editorial_step_enabled = $enabled;
+        $this->settings->set('manual_publishing', $enabled ? '1' : '0');
+    }
+
+    public function isAutomaticPublishingEnabled(): bool
+    {
+        if (isset($this->automatic_publishing_enabled)) {
+            return $this->automatic_publishing_enabled;
+        }
+        return $this->automatic_publishing_enabled = (bool) $this->settings->get(
+            'automatic_publishing',
+            '0'
+        );
+    }
+
+    public function saveAutomaticPublishingEnabled(bool $enabled): void
+    {
+        $this->editorial_step_enabled = $enabled;
+        $this->settings->set('automatic_publishing', $enabled ? '1' : '0');
     }
 }

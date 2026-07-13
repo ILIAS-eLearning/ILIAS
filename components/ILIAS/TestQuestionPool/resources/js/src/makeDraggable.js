@@ -91,6 +91,10 @@ export default function makeDraggable(
    * @returns {void}
    */
   function startMoving(target) {
+    if (!target.draggable) {
+      return;
+    }
+
     draggedElement = target;
     draggedElement.style.opacity = 0.5;
 

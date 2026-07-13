@@ -71,8 +71,18 @@ class SearchMetaBarProvider extends AbstractStaticMetaBarProvider implements Sta
                 $html = $main_search->getHTML();
             }
 
+            $ac_datasource = $main_search->getAutocompleteSource();
+            $standard_search_action = $main_search->getStandardSearchAction();
+            $user_search_action = $main_search->getUserSearchAction();
+
             return $this->dic->ui()->factory()->legacy()->content($uip->getHTML($html))->withAdditionalOnLoadCode(
-                fn($id) => 'il.SearchMainMenu.init()'
+                fn($id) => <<<JS
+                il.SearchMainMenu.init(
+                  "$ac_datasource",
+                  "$standard_search_action",
+                  "$user_search_action"
+                )
+                JS
             );
         };
 

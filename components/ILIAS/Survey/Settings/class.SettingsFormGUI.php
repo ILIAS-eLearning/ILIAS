@@ -23,6 +23,7 @@ namespace ILIAS\Survey\Settings;
 use ILIAS\Survey\InternalGUIService;
 use ILIAS\Survey\Mode\UIModifier;
 use ILIAS\Survey\InternalDomainService;
+use ilSvyStandardPurifier;
 
 /**
  * Settings form
@@ -38,13 +39,15 @@ class SettingsFormGUI
     protected \ILIAS\Survey\Mode\FeatureConfig $feature_config;
     protected \ilRbacSystem $rbacsystem;
     private \ilGlobalTemplateInterface $main_tpl;
+    protected \ilHtmlPurifierInterface $purifier;
 
     public function __construct(
         InternalGUIService $ui_service,
         InternalDomainService $domain_service,
         \ilObjectService $object_service,
         \ilObjSurvey $survey,
-        UIModifier $modifier
+        UIModifier $modifier,
+        \ilHtmlPurifierInterface $purifier
     ) {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
@@ -57,6 +60,7 @@ class SettingsFormGUI
         $this->domain_service = $domain_service;
         $this->modifier = $modifier;
         $this->feature_config = $this->domain_service->modeFeatureConfig($survey->getMode());
+        $this->purifier = $purifier;
     }
 
     public function checkForm(\ilPropertyFormGUI $form): bool
@@ -332,6 +336,9 @@ class SettingsFormGUI
             $intro->setUseRte(true);
             $intro->setRteTagSet("mini");
         }
+        $intro->usePurifier(true);
+        $intro->setPurifier(new \ilSvyStandardPurifier());
+
         $form->addItem($intro);
 
         return $form;
@@ -375,7 +382,7 @@ class SettingsFormGUI
 
         // anonymization
         if ($feature_config->supportsAccessCodes()) {
-            $codes = new \ilCheckboxInputGUI($lng->txt("survey_access_codes"), "acc_codes");
+            $codes = new \ilCheckboxInputGUI($lng->txt("survey_access_code"), "acc_codes");
             $codes->setInfo($lng->txt("survey_access_codes_info"));
             $codes->setChecked(!$survey->isAccessibleWithoutCode());
             $form->addItem($codes);
@@ -450,6 +457,8 @@ class SettingsFormGUI
             $finalstatement->setUseRte(true);
             $finalstatement->setRteTagSet("mini");
         }
+        $finalstatement->usePurifier(true);
+        $finalstatement->setPurifier(new \ilSvyStandardPurifier());
         $form->addItem($finalstatement);
 
         // mail notification
@@ -883,8 +892,11 @@ class SettingsFormGUI
         } else {
             $survey->setEndDate("");
         }
-        $survey->setIntroduction($form->getInput("introduction"));
-        $survey->setOutro($form->getInput("outro"));
+        $introduction = $this->purifier->purify($form->getInput('introduction'));
+
+        $survey->setIntroduction($introduction);
+        $outro = $this->purifier->purify($form->getInput('outro'));
+        $survey->setOutro($outro);
         $survey->setShowQuestionTitles((bool) $form->getInput("show_question_titles"));
 
         // "separate mail for each participant finished"

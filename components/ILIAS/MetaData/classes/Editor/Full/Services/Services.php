@@ -20,175 +20,80 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Editor\Full\Services;
 
-use ILIAS\MetaData\Editor\Full\Services\Actions\Actions;
-use ILIAS\MetaData\Editor\Full\Services\Inputs\InputFactory;
-use ILIAS\MetaData\Editor\Full\Services\Tables\TableFactory;
+use ILIAS\MetaData\Editor\Full\Services\InternalServices as FullEditorInternalServices;
+use ILIAS\MetaData\Editor\Full\FullEditor;
+use ILIAS\MetaData\Editor\Full\RootContent;
+use ILIAS\MetaData\Editor\Full\PanelContent;
+use ILIAS\MetaData\Editor\Full\FormContent;
+use ILIAS\MetaData\Editor\Full\TableContent;
+use ILIAS\MetaData\Editor\Full\ManipulatorAdapter;
 use ILIAS\DI\Container as GlobalContainer;
 use ILIAS\MetaData\Paths\Services\Services as PathServices;
 use ILIAS\MetaData\Repository\Services\Services as RepositoryServices;
-use ILIAS\MetaData\Editor\Services\Services as EditorServices;
-use ILIAS\MetaData\Editor\Full\Services\Actions\LinkProvider;
-use ILIAS\MetaData\Editor\Full\Services\Actions\ButtonFactory;
-use ILIAS\MetaData\Editor\Full\Services\Actions\ModalFactory;
-use ILIAS\MetaData\Editor\Full\Services\Inputs\Conditions\FactoryWithConditionTypesService;
 use ILIAS\MetaData\DataHelper\Services\Services as DataHelperServices;
+use ILIAS\MetaData\Editor\Services\InternalServices as InternalEditorServices;
 
 class Services
 {
-    protected Actions $actions;
-    protected InputFactory $input_factory;
-    protected PropertiesFetcher $properties_fetcher;
-    protected FormFactory $form_factory;
-    protected TableFactory $table_factory;
-    protected DataFinder $data_finder;
     protected ManipulatorAdapter $manipulator_adapter;
-    protected LinkProvider $link_provider;
-
-    protected GlobalContainer $dic;
-    protected PathServices $path_services;
-    protected RepositoryServices $repository_services;
-    protected EditorServices $editor_services;
-    protected DataHelperServices $data_helper_services;
+    protected FullEditor $full_editor;
+    protected FullEditorInternalServices $internal_services;
 
     public function __construct(
-        GlobalContainer $dic,
-        PathServices $path_services,
-        RepositoryServices $repository_services,
-        EditorServices $editor_services,
-        DataHelperServices $data_helper_services
+        protected GlobalContainer $dic,
+        protected InternalEditorServices $internal_editor_services,
+        protected PathServices $path_services,
+        protected RepositoryServices $repository_services,
+        protected DataHelperServices $data_helper_services
     ) {
-        $this->dic = $dic;
-        $this->path_services = $path_services;
-        $this->repository_services = $repository_services;
-        $this->editor_services = $editor_services;
-        $this->data_helper_services = $data_helper_services;
     }
 
-    public function dataFinder(): DataFinder
+    public function fullEditor(): FullEditor
     {
-        if (isset($this->data_finder)) {
-            return $this->data_finder;
-        }
-        return $this->data_finder = new DataFinder();
-    }
-
-    public function inputFactory(): InputFactory
-    {
-        if (isset($this->input_factory)) {
-            return $this->input_factory;
-        }
-        $field_factory = $this->dic->ui()->factory()->input()->field();
-        $refinery = $this->dic->refinery();
-        $presenter = $this->editor_services->presenter();
-        $path_factory = $this->path_services->pathFactory();
-        $vocabulary_adapter = $this->editor_services->vocabularyAdapter();
-        return $this->input_factory = new InputFactory(
-            $field_factory,
-            $refinery,
-            $presenter,
-            $path_factory,
-            $this->dataFinder(),
-            $this->repository_services->databaseDictionary(),
-            new FactoryWithConditionTypesService(
-                $field_factory,
-                $presenter,
-                $this->repository_services->constraintDictionary(),
-                $refinery,
-                $path_factory,
-                $this->data_helper_services->dataHelper(),
-                $vocabulary_adapter
+        return $this->full_editor ??= new FullEditor(
+            $this->internal_editor_services->dictionary(),
+            $this->path_services->navigatorFactory(),
+            new FormContent(
+                $this->internal()->actions(),
+                $this->internal()->formFactory()
             ),
-            $vocabulary_adapter
-        );
-    }
-
-    public function propertiesFetcher(): PropertiesFetcher
-    {
-        if (isset($this->properties_fetcher)) {
-            return $this->properties_fetcher;
-        }
-        return $this->properties_fetcher = new PropertiesFetcher(
-            $this->editor_services->dictionary(),
-            $this->editor_services->presenter(),
-            $this->dataFinder()
-        );
-    }
-
-    public function actions(): Actions
-    {
-        if (isset($this->actions)) {
-            return $this->actions;
-        }
-        $ui_factory = $this->dic->ui()->factory();
-        $presenter = $this->editor_services->presenter();
-        $link_provider = $this->linkProvider();
-        return $this->actions = new Actions(
-            $link_provider,
-            new ButtonFactory(
-                $ui_factory,
-                $presenter
+            new TableContent(
+                $this->internal()->actions(),
+                $this->internal()->tableFactory()
             ),
-            new ModalFactory(
-                $link_provider,
+            $panel_content = new PanelContent(
+                $this->internal()->actions(),
+                $this->internal()->propertiesFetcher(),
+                $ui_factory = $this->dic->ui()->factory(),
+                $presenter = $this->internal_editor_services->presenter()
+            ),
+            new RootContent(
+                $this->internal()->actions(),
                 $ui_factory,
                 $presenter,
-                $this->propertiesFetcher(),
-                $this->formFactory(),
-                $this->repository_services->constraintDictionary(),
-                $this->path_services->pathFactory()
-            )
-        );
-    }
-
-    public function formFactory(): FormFactory
-    {
-        if (isset($this->form_factory)) {
-            return $this->form_factory;
-        }
-        return $this->form_factory = new FormFactory(
-            $this->dic->ui()->factory(),
-            $this->linkProvider(),
-            $this->inputFactory(),
-            $this->editor_services->dictionary(),
-            $this->path_services->navigatorFactory()
-        );
-    }
-
-    public function tableFactory(): TableFactory
-    {
-        if (isset($this->table_factory)) {
-            return $this->table_factory;
-        }
-        return $this->table_factory = new TableFactory(
-            $this->dic->ui()->factory(),
-            $this->dic->ui()->renderer(),
-            $this->editor_services->presenter(),
-            $this->dataFinder(),
-            $this->actions()->getButton()
+                $panel_content
+            ),
         );
     }
 
     public function manipulatorAdapter(): ManipulatorAdapter
     {
-        if (isset($this->manipulator_adapter)) {
-            return $this->manipulator_adapter;
-        }
-        return $this->manipulator_adapter = new ManipulatorAdapter(
-            $this->editor_services->manipulator(),
-            $this->formFactory(),
+        return $this->manipulator_adapter ??= new ManipulatorAdapter(
+            $this->internal_editor_services->manipulator(),
+            $this->internal()->formFactory(),
             $this->path_services->pathFactory(),
             $this->path_services->navigatorFactory()
         );
     }
 
-    protected function linkProvider(): LinkProvider
+    protected function internal(): InternalServices
     {
-        if (isset($this->link_provider)) {
-            return $this->link_provider;
-        }
-        return $this->link_provider = new LinkProvider(
-            $this->editor_services->linkFactory(),
-            $this->path_services->pathFactory()
+        return $this->internal_services ??= new FullEditorInternalServices(
+            $this->dic,
+            $this->path_services,
+            $this->repository_services,
+            $this->internal_editor_services,
+            $this->data_helper_services
         );
     }
 }

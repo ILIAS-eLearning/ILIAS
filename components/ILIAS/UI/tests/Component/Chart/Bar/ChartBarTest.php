@@ -18,11 +18,9 @@
 
 declare(strict_types=1);
 
-require_once(__DIR__ . "/../../../../../../../vendor/composer/vendor/autoload.php");
-require_once(__DIR__ . "/../../../Base.php");
-
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation as I;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test on Bar Chart implementation.
@@ -345,7 +343,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
 
         $expected_html = <<<EOT
 <div class="il-chart-bar-horizontal">
-    <canvas id="id_1" height="150px" aria-label="bar123" role="img"></canvas>
+    <canvas id="id_1" height="150" aria-label="bar123" role="img"></canvas>
 </div>
 <div class="sr-only">
     <dl>
@@ -378,7 +376,7 @@ EOT;
 
         $expected_html = <<<EOT
 <div class="il-chart-bar-vertical">
-    <canvas id="id_1" height="165px" aria-label="bar123" role="img"></canvas>
+    <canvas id="id_1" height="165" aria-label="bar123" role="img"></canvas>
 </div>
 <div class="sr-only">
     <dl>
@@ -394,6 +392,96 @@ EOT;
             <ul>
                 <li>Item 1: -2 - -1</li>
                 <li>Item 2: 0 - 0.5</li>
+            </ul>
+        </dd>
+    </dl>
+</div>
+EOT;
+
+        $this->assertHTMLEquals("<div>" . $expected_html . "</div>", "<div>" . $html . "</div>");
+    }
+
+    public static function provideRiskyData(): array
+    {
+        return [
+            "ampersand" => ["this&that", "this&amp;that"],
+            "single quote" => ["it's a kind of magic", "it&#039;s a kind of magic"],
+            "double quote" => ['Dwayne "The Rock" Johnson', 'Dwayne &quot;The Rock&quot; Johnson'],
+            "tags" => ['<script>alert("XSS")</script>', '&lt;script&gt;alert(&quot;XSS&quot;)&lt;/script&gt;'],
+        ];
+    }
+
+    #[DataProvider('provideRiskyData')]
+    public function testRenderConvertSpecialCharactersInDatasetLabel(
+        string $risky_datum,
+        string $expected_in_html
+    ): void {
+        $r = $this->getDefaultRenderer();
+        $f = $this->getFactory();
+        $df = $this->getDataFactory();
+
+        $c_dimension = $df->dimension()->cardinal();
+
+        $dataset = $df->dataset([$risky_datum => $c_dimension]);
+        $dataset = $dataset->withPoint("Item", [$risky_datum => 123]);
+
+        $vertical = $f->vertical(
+            "bar123",
+            $dataset
+        );
+
+        $html = $r->render($vertical);
+
+        $expected_html = <<<EOT
+<div class="il-chart-bar-vertical">
+    <canvas id="id_1" height="150" aria-label="bar123" role="img"></canvas>
+</div>
+<div class="sr-only">
+    <dl>
+        <dt>$expected_in_html</dt>
+        <dd>
+            <ul>
+                <li>Item: 123</li>
+            </ul>
+        </dd>
+    </dl>
+</div>
+EOT;
+
+        $this->assertHTMLEquals("<div>" . $expected_html . "</div>", "<div>" . $html . "</div>");
+    }
+
+    #[DataProvider('provideRiskyData')]
+    public function testRenderConvertSpecialCharactersInItemLabel(
+        string $risky_datum,
+        string $expected_in_html
+    ): void {
+        $r = $this->getDefaultRenderer();
+        $f = $this->getFactory();
+        $df = $this->getDataFactory();
+
+        $c_dimension = $df->dimension()->cardinal();
+
+        $dataset = $df->dataset(["Dataset" => $c_dimension]);
+        $dataset = $dataset->withPoint($risky_datum, ["Dataset" => 123]);
+
+        $vertical = $f->vertical(
+            "bar123",
+            $dataset
+        );
+
+        $html = $r->render($vertical);
+
+        $expected_html = <<<EOT
+<div class="il-chart-bar-vertical">
+    <canvas id="id_1" height="150" aria-label="bar123" role="img"></canvas>
+</div>
+<div class="sr-only">
+    <dl>
+        <dt>Dataset</dt>
+        <dd>
+            <ul>
+                <li>$expected_in_html: 123</li>
             </ul>
         </dd>
     </dl>

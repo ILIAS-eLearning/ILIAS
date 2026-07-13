@@ -1013,12 +1013,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         }
 
         if (!$this->offlineMode()) {
-            // LTI
-            if ($ltiview->isActive()) {
-                // Do nothing, its complicated...
-            } else {
-                $ilLocator->addRepositoryItems();
-            }
+            $ilLocator->addRepositoryItems();
         } else {
             $ilLocator->setOffline(true);
         }
@@ -1030,25 +1025,21 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 if ($row["type"] != "pg") {
                     if ($row["child"] != $this->lm_tree->getRootId()) {
                         $ilLocator->addItem(
-                            ilStr::shortenTextExtended(
-                                ilStructureObject::_getPresentationTitle(
-                                    $row["child"],
-                                    ilLMObject::CHAPTER_TITLE,
-                                    $this->lm->isActiveNumbering(),
-                                    (bool) $this->lm_set->get("time_scheduled_page_activation"),
-                                    false,
-                                    0,
-                                    $this->lang
-                                ),
-                                50,
-                                true
+                            ilStructureObject::_getPresentationTitle(
+                                $row["child"],
+                                ilLMObject::CHAPTER_TITLE,
+                                $this->lm->isActiveNumbering(),
+                                (bool) $this->lm_set->get("time_scheduled_page_activation"),
+                                false,
+                                0,
+                                $this->lang
                             ),
                             $this->linker->getLink("layout", $row["child"], $frame_param, "StructureObject"),
                             $frame_target
                         );
                     } else {
                         $ilLocator->addItem(
-                            ilStr::shortenTextExtended($this->getLMPresentationTitle(), 50, true),
+                            $this->getLMPresentationTitle(),
                             $this->linker->getLink("layout", 0, $frame_param),
                             $frame_target,
                             $this->requested_ref_id
@@ -1088,10 +1079,16 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     protected function setContentStyles(): void
     {
         // content style
-        $this->content_style_gui->addCss(
-            $this->tpl,
-            $this->lm->getRefId()
-        );
+        if ($this->offlineMode()) {
+            $this->content_style_gui->addExportCss(
+                $this->tpl
+            );
+        } else {
+            $this->content_style_gui->addCss(
+                $this->tpl,
+                $this->lm->getRefId()
+            );
+        }
         $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
     }
 

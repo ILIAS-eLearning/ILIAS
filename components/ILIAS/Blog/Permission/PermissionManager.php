@@ -29,7 +29,7 @@ class PermissionManager
     protected int $user_id;
 
     public function __construct(
-        $access_handler,
+        \ilWorkspaceAccessHandler|\ilAccessHandler $access_handler,
         ?int $node_id,
         int $id_type,
         int $user_id,
@@ -115,6 +115,11 @@ class PermissionManager
     public function isActive(int $posting_id): bool
     {
         return (\ilBlogPosting::_lookupActive($posting_id, "blp"));
+    }
+
+    public function getAccessHandler(): \ilAccessHandler|\ilWorkspaceAccessHandler
+    {
+        return $this->access;
     }
 
 }

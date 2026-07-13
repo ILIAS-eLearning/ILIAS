@@ -9,7 +9,7 @@ contributors.
 # Special Roles
 
 * **Product Management**: [Matthias Kunkel](https://docu.ilias.de/go/usr/115)
-* **Technical Board**: [Rob Falkenstein](https://docu.ilias.de/go/usr/63946), [Marvin Hackfort](https://docu.ilias.de/go/usr/50523), [Michael Jansen](https://docu.ilias.de/go/usr/8784), [Franziska Wandelmaier](https://docu.ilias.de/go/usr/33833), [one vacant position]
+* **Technical Board**: [Rob Falkenstein](https://docu.ilias.de/go/usr/63946), [Marvin Hackfort](https://docu.ilias.de/go/usr/50523), [Michael Jansen](https://docu.ilias.de/go/usr/8784), [Franziska Wandelmaier](https://docu.ilias.de/go/usr/33833), [Maximilian Becker](https://docu.ilias.de/go/usr/27266)
 * **Testcase Management**: [Fabian Kruse](https://docu.ilias.de/go/usr/27631)
 * **Release Management**: [Fabian Wolf](https://docu.ilias.de/go/usr/29018)
 * **Technical Documentation**: [Ann-Christin Gruber](https://docu.ilias.de/go/usr/94025)
@@ -176,12 +176,12 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN ActiveRecord)
 
 * **ActiveRecord**
-    * Authority to Sign off on Conceptual Changes: MISSING
-    * Authority to Sign off on Code Changes: MISSING
+    * Authority to Sign off on Conceptual Changes: [fwolf-ilias](https://docu.ilias.de/go/usr/29018)
+    * Authority to Sign off on Code Changes: [fwolf-ilias](https://docu.ilias.de/go/usr/29018)
     * Authority to Curate Test Cases: MISSING
-    * Authority to (De-)Assign Authorities: MISSING
-    * Assignee for Issues: MISSING
-    * Assignee for Security Reports: MISSING
+    * Authority to (De-)Assign Authorities: [fwolf-ilias](https://docu.ilias.de/go/usr/29018)
+    * Assignee for Issues: [fwolf-ilias](https://docu.ilias.de/go/usr/29018)
+    * Assignee for Security Reports: [fwolf-ilias](https://docu.ilias.de/go/usr/29018)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END ActiveRecord)
@@ -259,8 +259,8 @@ of ILIAS. The file contains the following fields:
 
 * **Bibliographic List Item**
     * Authority to Sign off on Conceptual Changes: [lschmidt-tf](https://docu.ilias.de/go/usr/120143)
-    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087), [maalers](https://docu.ilias.de/go/usr/119188)
-    * Authority to Curate Test Cases: [maalers](https://docu.ilias.de/go/usr/119188)
+    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087), [maalers](https://docu.ilias.de/go/usr/119188), [mhomann-tf](https://docu.ilias.de/go/usr/120211)
+    * Authority to Curate Test Cases: [maalers](https://docu.ilias.de/go/usr/119188), [mhomann-tf](https://docu.ilias.de/go/usr/120211)
     * Authority to (De-)Assign Authorities: [maalers](https://docu.ilias.de/go/usr/119188)
     * Assignee for Issues: [maalers](https://docu.ilias.de/go/usr/119188)
     * Assignee for Security Reports: [maalers](https://docu.ilias.de/go/usr/119188)
@@ -415,19 +415,6 @@ of ILIAS. The file contains the following fields:
 
 [//]: # (END ContentPage)
 
-[//]: # (BEGIN Context)
-
-* **Context**
-    * Authority to Sign off on Conceptual Changes: [MISSING]
-    * Authority to Sign off on Code Changes: [MISSING]
-    * Authority to Curate Test Cases: [MISSING]
-    * Authority to (De-)Assign Authorities: [MISSING]
-    * Assignee for Issues: [MISSING]
-    * Assignee for Security Reports: [MISSING]
-    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
-
-[//]: # (END Context)
-
 [//]: # (BEGIN ILIASPageEditor)
 
 * **COPage (aka ILIAS Page Editor)**
@@ -471,13 +458,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN CSSAndTemplates)
 
 * **CSS / Templates**
-    * Authority to Sign off on Conceptual Changes: [BettyFromHH](https://docu.ilias.de/go/usr/96573)
+    * Authority to Sign off on Conceptual Changes: [BettyFromHH](https://docu.ilias.de/go/usr/96573) [alinaseibt](https://docu.ilias.de/go/usr/70225)
     * Authority to Sign off on Code Changes: [BettyFromHH](https://docu.ilias.de/go/usr/96573), [rotegras](https://docu.ilias.de/go/usr/88399), [padvincenzo](https://docu.ilias.de/go/usr/87189)
     * Authority to Curate Test Cases: [BettyFromHH](https://docu.ilias.de/go/usr/96573)
     * Authority to (De-)Assign Authorities: [BettyFromHH](https://docu.ilias.de/go/usr/96573)
     * Assignee for Issues: [BettyFromHH](https://docu.ilias.de/go/usr/96573)
     * Assignee for Security Reports: [BettyFromHH](https://docu.ilias.de/go/usr/96573)
-    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
+    * Unit-specific Guidelines, Rules, and Regulations: [Guidelines_SCSS-Coding]('https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/templates/Guidelines_SCSS-Coding.md')
 
 [//]: # (END CSSAndTemplates)
 
@@ -964,12 +951,12 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN LTIConsumer)
 
 * **LTI Consumer**
-    * Authority to Sign off on Conceptual Changes: [sergiosantiago02](https://docu.ilias.de/go/usr/110174)
-    * Authority to Sign off on Code Changes: [Zallax](https://docu.ilias.de/go/usr/101102), [sdiaz](https://docu.ilias.de/go/usr/105654), [sergiosantiago02](https://docu.ilias.de/go/usr/110174)
-    * Authority to Curate Test Cases: [jcop](https://docu.ilias.de/go/usr/30511)
-    * Authority to (De-)Assign Authorities: [jcop](https://docu.ilias.de/go/usr/30511)
-    * Assignee for Issues: [jcop](https://docu.ilias.de/go/usr/30511)
-    * Assignee for Security Reports: [jcop](https://docu.ilias.de/go/usr/30511)
+    * Authority to Sign off on Conceptual Changes: [Saaweel](https://docu.ilias.de/go/usr/105654)
+    * Authority to Sign off on Code Changes: [Zallax](https://docu.ilias.de/go/usr/101102), [Saaweel](https://docu.ilias.de/go/usr/105654)
+    * Authority to Curate Test Cases: [jcopado](https://docu.ilias.de/go/usr/30511)
+    * Authority to (De-)Assign Authorities: [jcopado](https://docu.ilias.de/go/usr/30511)
+    * Assignee for Issues: [jcopado](https://docu.ilias.de/go/usr/30511)
+    * Assignee for Security Reports: [jcopado](https://docu.ilias.de/go/usr/30511)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LTIConsumer)
@@ -977,12 +964,12 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN LTI)
 
 * **LTI Provider**
-    * Authority to Sign off on Conceptual Changes: [sergiosantiago02](https://docu.ilias.de/go/usr/110174)
-    * Authority to Sign off on Code Changes: [Zallax](https://docu.ilias.de/go/usr/101102), [sdiaz](https://docu.ilias.de/go/usr/105654), [smeyer](https://docu.ilias.de/goto_docu_usr_191.html), [sergiosantiago02](https://docu.ilias.de/go/usr/110174)
-    * Authority to Curate Test Cases: [jcop](https://docu.ilias.de/go/usr/30511)
-    * Authority to (De-)Assign Authorities: [jcop](https://docu.ilias.de/go/usr/30511)
-    * Assignee for Issues: [jcop](https://docu.ilias.de/go/usr/30511)
-    * Assignee for Security Reports: [jcop](https://docu.ilias.de/go/usr/30511)
+    * Authority to Sign off on Conceptual Changes: [Saaweel](https://docu.ilias.de/go/usr/105654)
+    * Authority to Sign off on Code Changes: [Zallax](https://docu.ilias.de/go/usr/101102), [Saaweel](https://docu.ilias.de/go/usr/105654), [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Curate Test Cases: [jcopado](https://docu.ilias.de/go/usr/30511)
+    * Authority to (De-)Assign Authorities: [jcopado](https://docu.ilias.de/go/usr/30511)
+    * Assignee for Issues: [jcopado](https://docu.ilias.de/go/usr/30511)
+    * Assignee for Security Reports: [jcopado](https://docu.ilias.de/go/usr/30511)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LTI)
@@ -1189,7 +1176,7 @@ of ILIAS. The file contains the following fields:
 
 * **Organisational Units**
     * Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/go/usr/21087), [lschmidt-tf](https://docu.ilias.de/go/usr/120143)
-    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087), [maalers](https://docu.ilias.de/go/usr/119188)
+    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087), [maalers](https://docu.ilias.de/go/usr/119188), [mhomann-tf](https://docu.ilias.de/go/usr/120211)
     * Authority to Curate Test Cases: [wischniak](https://docu.ilias.de/go/usr/21896)
     * Authority to (De-)Assign Authorities: [maalers](https://docu.ilias.de/go/usr/119188)
     * Assignee for Issues: [maalers](https://docu.ilias.de/go/usr/119188) 
@@ -1398,8 +1385,8 @@ of ILIAS. The file contains the following fields:
 
 * **Study Programme**
     * Authority to Sign off on Conceptual Changes: [lschmidt-tf](https://docu.ilias.de/go/usr/120143)
-    * Authority to Sign off on Code Changes: [maalers](https://docu.ilias.de/go/usr/119188)
-    * Authority to Curate Test Cases: [maalers](https://docu.ilias.de/go/usr/119188)
+    * Authority to Sign off on Code Changes: [maalers](https://docu.ilias.de/go/usr/119188), [mhomann-tf](https://docu.ilias.de/go/usr/120211)
+    * Authority to Curate Test Cases: [maalers](https://docu.ilias.de/go/usr/119188), [mhomann-tf](https://docu.ilias.de/go/usr/120211)
     * Authority to (De-)Assign Authorities: [maalers](https://docu.ilias.de/go/usr/119188)
     * Assignee for Issues: [maalers](https://docu.ilias.de/go/usr/119188)
     * Assignee for Security Reports: [maalers](https://docu.ilias.de/go/usr/119188)
@@ -1410,9 +1397,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Survey)
 
 * **Survey**
-    * Authority to Sign off on Conceptual Changes: [sergiosant02](https://docu.ilias.de/go/usr/110174)
-    * Authority to Sign off on Code Changes: [sergiosant02](https://docu.ilias.de/go/usr/110174), [abrahammordev](https://docu.ilias.de/go/usr/110909), [juanma1331](https://docu.ilias.de/go/usr/107249)
-    * Authority to Curate Test Cases: [ezenzen](https://docu.ilias.de/go/usr/42910)
+    * Authority to Sign off on Conceptual Changes: [jcopado](https://docu.ilias.de/go/usr/30511)
+    * Authority to Sign off on Code Changes: [abrahammordev](https://docu.ilias.de/go/usr/110909), [juanma1331](https://docu.ilias.de/go/usr/107249)
+    * Authority to Curate Test Cases: [jcopado](https://docu.ilias.de/go/usr/30511)
     * Authority to (De-)Assign Authorities: [jcopado](https://docu.ilias.de/go/usr/30511)
     * Assignee for Issues: [jcopado](https://docu.ilias.de/go/usr/30511)
     * Assignee for Security Reports: [jcopado](https://docu.ilias.de/go/usr/30511)
@@ -1490,8 +1477,7 @@ of ILIAS. The file contains the following fields:
 
 * **Test and TestQuestionPool (aka Test & Assessment)**
 	* Authority to Sign off on Conceptual Changes: [dstrassner](https://docu.ilias.de/go/usr/48931)
-    * Authority to Sign off on Code Changes: [mbecker](https://docu.ilias.de/go/usr/27266)
-        , [skergomard](https://docu.ilias.de/go/usr/44474)
+    * Authority to Sign off on Code Changes: [skergomard](https://docu.ilias.de/go/usr/44474)
         , [dstrassner](https://docu.ilias.de/go/usr/48931)
         , [tjoussen](https://docu.ilias.de/go/usr/103745)
     * Authority to Curate Test Cases: [dstrassner](https://docu.ilias.de/go/usr/48931)
@@ -1571,12 +1557,12 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN WebAccessChecker)
 
 * **Web Access Checker**
-    * Authority to Sign off on Conceptual Changes: MISSING 
-    * Authority to Sign off on Code Changes: [ukohnle](https://docu.ilias.de/go/usr/21855)
+    * Authority to Sign off on Conceptual Changes: [fwolf-ilias](https://docu.ilias.de/go/usr/29018)
+    * Authority to Sign off on Code Changes: [fwolf-ilias](https://docu.ilias.de/go/usr/29018), [ukohnle](https://docu.ilias.de/go/usr/21855)
     * Authority to Curate Test Cases: [AUTHOR MISSING](https://docu.ilias.de/go/pg/64423_4793)
-    * Authority to (De-)Assign Authorities: MISSING
-    * Assignee for Issues: MISSING
-    * Assignee for Security Reports: MISSING
+    * Authority to (De-)Assign Authorities: [fwolf-ilias](https://docu.ilias.de/go/usr/29018)
+    * Assignee for Issues: [fwolf-ilias](https://docu.ilias.de/go/usr/29018)
+    * Assignee for Security Reports: [fwolf-ilias](https://docu.ilias.de/go/usr/29018)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END WebAccessChecker)
@@ -1663,7 +1649,6 @@ of ILIAS. The file contains the following fields:
 
 The following directories are currently unmaintained:
 
-* ILIAS/Context
 * ILIAS/CSV
 * ILIAS/EventHandling
 

@@ -199,14 +199,7 @@ class Factory
         );
 
         // params of getSolutionOutput
-        $graphical_output = false;
-        $result_output = false;
         $show_question_only = $settings->getQuestionTextOnly();
-        $show_feedback = false; //general
-        $show_correct_solution = false;
-        $show_manual_scoring = false;
-        $show_question_text = true;
-        $show_inline_feedback = true;
 
         foreach ($results as $idx => $qresult) {
             if (!is_numeric($idx)) {
@@ -227,20 +220,18 @@ class Factory
             $question->setShuffler($shuffle_trafo);
             $question_gui->setObject($question);
 
-            $graphical_output = true;
-            $show_correct_solution = false;
             $show_feedback = $settings->getShowFeedback();
             $usr_solution = $question_gui->getSolutionOutput(
                 $active_id,
                 $attempt_id,
-                $graphical_output,
-                $result_output,
+                true,
+                false,
                 $show_question_only,
                 $show_feedback,
-                $show_correct_solution,
-                $show_manual_scoring,
-                $show_question_text,
-                $show_inline_feedback
+                false,
+                false,
+                true,
+                true
             );
 
             if ($test_obj->getAutosave() &&
@@ -260,21 +251,17 @@ class Factory
                 );
             }
 
-            $graphical_output = false;
-            $show_correct_solution = true;
-            $show_feedback = false;
-            $show_inline_feedback = false;
             $best_solution = $question_gui->getSolutionOutput(
                 $active_id,
                 $attempt_id,
-                $graphical_output,
-                $result_output,
+                false,
+                false,
                 $show_question_only,
-                $show_feedback,
-                $show_correct_solution,
-                $show_manual_scoring,
-                $show_question_text,
-                $show_inline_feedback
+                false,
+                true,
+                false,
+                true,
+                false
             );
 
             if ($show_question_only) {
@@ -284,10 +271,9 @@ class Factory
 
             $feedback = $question_gui->getGenericFeedbackOutput($active_id, $attempt_id);
 
-            $recapitulation = null;
-            if ($is_user_output && $settings->getShowRecapitulation()) {
-                $recapitulation = $question_gui->getObject()->getSuggestedSolutionOutput();
-            }
+            $recapitulation = $is_user_output && $settings->getShowRecapitulation()
+                ? $question->getSuggestedSolutionOutput()
+                : null;
 
             $question_results[] = new QuestionResult(
                 $qid,

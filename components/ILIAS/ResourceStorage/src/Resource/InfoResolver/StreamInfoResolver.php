@@ -77,10 +77,12 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
         /** @noRector */
         if (class_exists('finfo')) {
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
-            //We only need the first few bytes to determine the mime-type this helps to reduce RAM-Usage
-            $this->mime_type = finfo_buffer($finfo, $this->file_stream->read(255));
             if ($this->file_stream->isSeekable()) {
+                //We only need the first few bytes to determine the mime-type this helps to reduce RAM-Usage
+                $this->mime_type = finfo_buffer($finfo, $this->file_stream->read(255));
                 $this->file_stream->rewind();
+            } else {
+                $this->mime_type = $this->getFileTypeFromSuffix();
             }
             //All MS-Types are 'application/zip' we need to look at the extension to determine the type.
             if ($this->mime_type === 'application/zip' && $this->suffix !== 'zip') {
@@ -107,8 +109,17 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
                     $this->size += strlen($content);
                 }
             }
-
+        } catch (\Throwable $exception) {
             if ($this->file_stream->isSeekable()) {
+                $mb_strlen_exists = function_exists('mb_strlen');
+                //We only read one MB at a time as this radically reduces RAM-Usage
+                while ($content = $this->file_stream->read(1_048_576)) {
+                    if ($mb_strlen_exists) {
+                        $this->size += mb_strlen($content, '8bit');
+                    } else {
+                        $this->size += strlen($content);
+                    }
+                }
                 $this->file_stream->rewind();
             }
         }

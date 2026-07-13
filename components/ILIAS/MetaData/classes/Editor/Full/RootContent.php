@@ -20,43 +20,35 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Editor\Full;
 
+use Generator;
 use ILIAS\MetaData\Paths\PathInterface;
 use ILIAS\MetaData\Elements\ElementInterface;
-use ILIAS\MetaData\Editor\Full\Services\Services as FullEditorServices;
-use ILIAS\MetaData\Editor\Full\Services\Actions\FlexibleModal;
+use ILIAS\MetaData\Editor\Full\Components\Actions\FlexibleModal;
 use ILIAS\UI\Component\Panel\Panel;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\MetaData\Editor\Presenter\PresenterInterface;
 use ILIAS\UI\Component\Dropdown\Standard as StandardDropdown;
 use ILIAS\MetaData\Editor\Http\RequestForFormInterface;
+use ILIAS\MetaData\Editor\Full\Components\Actions\Actions;
 
 class RootContent
 {
-    protected UIFactory $ui_factory;
-    protected FullEditorServices $services;
-    protected PresenterInterface $presenter;
-    protected PanelContent $panel_content;
-
     public function __construct(
-        FullEditorServices $services,
-        UIFactory $ui_factory,
-        PresenterInterface $presenter,
-        PanelContent $panel_content
+        protected Actions $actions,
+        protected UIFactory $ui_factory,
+        protected PresenterInterface $presenter,
+        protected PanelContent $panel_content
     ) {
-        $this->services = $services;
-        $this->ui_factory = $ui_factory;
-        $this->presenter = $presenter;
-        $this->panel_content = $panel_content;
     }
 
     /**
-     * @return Panel[]|FlexibleModal[]
+     * @return Generator<Panel|FlexibleModal>
      */
     public function content(
         PathInterface $base_path,
         ElementInterface $element,
         ?RequestForFormInterface $request
-    ): \Generator {
+    ): Generator {
         yield from $this->createModalsAndDropdown(
             $base_path,
             $element,
@@ -94,24 +86,24 @@ class RootContent
     }
 
     /**
-     * @return FlexibleModal[]|StandardDropdown[]
+     * @return Generator<FlexibleModal|StandardDropdown>
      */
     protected function createModalsAndDropdown(
         PathInterface $base_path,
         ElementInterface $element,
         ?RequestForFormInterface $request
-    ): \Generator {
+    ): Generator {
         $buttons = [];
         foreach ($element->getSubElements() as $sub) {
             if (!$sub->isScaffold()) {
                 continue;
             }
-            $create_modal = $this->services->actions()->getModal()->create(
+            $create_modal = $this->actions->getModal()->create(
                 $base_path,
                 $sub,
                 $request
             );
-            $buttons[] = $this->services->actions()->getButton()->create(
+            $buttons[] = $this->actions->getButton()->create(
                 $create_modal->getFlexibleSignal(),
                 $sub,
                 true

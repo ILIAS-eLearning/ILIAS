@@ -197,4 +197,9 @@ final class Request
     {
         return $this->view_configuration->canUserAdministrate();
     }
+
+    public function getOnDuplicate(): OnDuplicate
+    {
+        return $this->view_configuration->getOnDuplicate();
+    }
 }

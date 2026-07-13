@@ -45,6 +45,18 @@ class MediaObjects implements Component\Component
             new Component\Resource\ComponentJS($this, "MediaObjectsCompletion.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ServiceMediaObjectPropWidthHeight.js");
+
+        $contribute[Component\Resource\PublicAsset::class] = static fn() => new class () implements Component\Resource\PublicAsset {
+            public function getSource(): string
+            {
+                return "components/ILIAS/MediaObjects/js";
+            }
+            public function getTarget(): string
+            {
+                return "components/ILIAS/MediaObjects/js";
+            }
+        };
+
         /* This library was missing after discussing dependencies for ILIAS 10
         $contribute[Component\Resource\PublicAsset::class] = static fn() =>
             new Component\Resource\NodeModule("mediaelement/build/mediaelement-and-player.min.js");

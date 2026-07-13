@@ -408,6 +408,10 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
             });
         }
 
+        $node = $node->withHighlighted(
+            $this->isNodeHighlighted($record)
+        );
+
         return $node;
     }
 

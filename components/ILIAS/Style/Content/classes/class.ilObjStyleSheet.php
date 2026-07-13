@@ -373,7 +373,8 @@ class ilObjStyleSheet extends ilObject
             "a" => ["hover"],
             "div" => ["hover", "before"],
             "img" => ["hover"],
-            "li" => ["before"]
+            "li" => ["before"],
+            "input" => ["hover"],
         ];
 
     // core styles these styles MUST exists -> see also basic_style/style.xml
@@ -794,6 +795,7 @@ class ilObjStyleSheet extends ilObject
                     "(" . $ilDB->quote($this->getId(), "integer") . ", 0," .
                     $ilDB->quote($this->getScope(), "integer") . ")";
                 $ilDB->manipulate($q);
+                $service->domain()->style($this->getId())->createRid();
             }
         } else {
             // get style parameter records
@@ -843,6 +845,7 @@ class ilObjStyleSheet extends ilObject
                 "(" . $ilDB->quote($this->getId(), "integer") . ", 0," .
                 $ilDB->quote($this->getScope(), "integer") . ")";
             $ilDB->manipulate($q);
+            $service->domain()->style($this->getId())->createRid();
 
             // copy images
             $this->domain->style($this->getId())->cloneResourceContainer($from_style->getId());
@@ -945,6 +948,12 @@ class ilObjStyleSheet extends ilObject
         }
 
         return $chars;
+    }
+
+    public function hasCharacteristic(string $type, string $char): bool
+    {
+        $chars = $this->getCharacteristics($type);
+        return in_array($char, $chars);
     }
 
     public function setCharacteristics(array $a_chars): void
@@ -1321,198 +1330,10 @@ class ilObjStyleSheet extends ilObject
         string $a_target_file = "",
         string $a_image_dir = ""
     ): void {
-
-        if (true) {
-            $style_manager = $this->domain->style($this->getId());
-            $style_manager->writeCss();
-
+        $style_manager = $this->domain->style($this->getId());
+        if ($style_manager->writeCss()) {
             $this->setUpToDate();
-            $this->_writeUpToDate($this->getId(), true);
-
-            return;
         }
-
-        $style = $this->getStyle();
-
-        if (!is_dir(ilFileUtils::getWebspaceDir() . "/css")) {
-            ilFileUtils::makeDirParents(ilFileUtils::getWebspaceDir() . "/css");
-        }
-
-        if ($a_target_file == "") {
-            $css_file_name = ilFileUtils::getWebspaceDir() . "/css/style_" . $this->getId() . ".css";
-        } else {
-            $css_file_name = $a_target_file;
-        }
-        $css_file = fopen($css_file_name, 'wb');
-
-        $page_background = "";
-
-        $mqs = array(array("mquery" => "", "id" => 0));
-        foreach ($this->getMediaQueries() as $mq) {
-            $mqs[] = $mq;
-        }
-
-        // iterate all media queries
-        foreach ($mqs as $mq) {
-            if ($mq["id"] > 0) {
-                fwrite($css_file, "@media " . $mq["mquery"] . " {\n");
-            }
-            reset($style);
-            foreach ($style as $tag) {
-                if ($tag[0]["mq_id"] != $mq["id"]) {
-                    continue;
-                }
-                if (is_int(strpos($tag[0]["class"], "before")) && !is_int(strpos($tag[0]["class"], "::before"))) {
-                    $tag[0]["class"] = str_replace(":before", "::before", $tag[0]["class"]);
-                }
-                fwrite($css_file, $tag[0]["tag"] . ".ilc_" . $tag[0]["type"] . "_" . $tag[0]["class"] . "\n");
-                //				echo "<br>";
-                //				var_dump($tag[0]["type"]);
-                if ($tag[0]["tag"] == "td") {
-                    fwrite($css_file, ",th" . ".ilc_" . $tag[0]["type"] . "_" . $tag[0]["class"] . "\n");
-                }
-                if (in_array($tag[0]["tag"], array("h1", "h2", "h3"))) {
-                    fwrite($css_file, ",div.ilc_text_block_" . $tag[0]["class"] . "\n");
-                    fwrite($css_file, ",html.il-no-tiny-bg body#tinymce.ilc_text_block_" . $tag[0]["class"] . " > p \n");
-                }
-                if ($tag[0]["type"] == "section") {	// sections can use a tags, if links are used
-                    fwrite($css_file, ",div a.ilc_" . $tag[0]["type"] . "_" . $tag[0]["class"] . "\n");
-                }
-                if ($tag[0]["type"] == "strong") {
-                    fwrite($css_file, ",span.ilc_text_inline_" . $tag[0]["class"] . "\n");
-                }
-                if ($tag[0]["type"] == "em") {
-                    fwrite($css_file, ",span.ilc_text_inline_" . $tag[0]["class"] . "\n");
-                }
-                if ($tag[0]["type"] == "text_block") {
-                    fwrite($css_file, ",html.il-no-tiny-bg body#tinymce.ilc_text_block_" . $tag[0]["class"] . " > p, #copg-editor-slate-content p.ilc_text_block_" . $tag[0]["class"] . "\n");
-                }
-                if ($tag[0]["class"] == "VAccordCntr") {
-                    fwrite($css_file, ",div.ilc_va_cntr_AccordCntr\n");
-                }
-                if ($tag[0]["class"] == "VAccordICntr") {
-                    fwrite($css_file, ",div.ilc_va_icntr_AccordICntr\n");
-                }
-                if ($tag[0]["class"] == "VAccordICont") {
-                    fwrite($css_file, ",div.ilc_va_icont_AccordICont\n");
-                }
-                if ($tag[0]["class"] == "VAccordIHead") {
-                    fwrite($css_file, ",div.ilc_va_ihead_AccordIHead\n");
-                }
-                if ($tag[0]["class"] == "VAccordIHead:hover") {
-                    fwrite($css_file, ",div.ilc_va_ihead_AccordIHead:hover\n");
-                }
-                if ($tag[0]["class"] == "VAccordIHeadActive") {
-                    fwrite($css_file, ",div.ilc_va_iheada_AccordIHeadActive\n");
-                }
-                if ($tag[0]["class"] == "VAccordIHeadActive:hover") {
-                    fwrite($css_file, ",div.ilc_va_iheada_AccordIHeadActive:hover\n");
-                }
-                fwrite($css_file, "{\n");
-
-                // collect table border attributes
-                $t_border = array();
-
-                foreach ($tag as $par) {
-                    $cur_par = $par["parameter"] ?? '';
-                    $cur_val = $par["value"] ?? '';
-
-                    // replace named colors
-                    if (is_int(strpos($cur_par, "color")) && substr(trim($cur_val), 0, 1) == "!") {
-                        $cur_val = $this->getColorCodeForName(substr($cur_val, 1));
-                    }
-
-                    if ($tag[0]["type"] == "table" && is_int(strpos($par["parameter"], "border"))) {
-                        $t_border[$cur_par] = $cur_val;
-                    }
-
-                    if (in_array($cur_par, array("background-image", "list-style-image"))) {
-                        if (is_int(strpos($cur_val, "/"))) {	// external
-                            $cur_val = "url(" . $cur_val . ")";
-                        } else {		// internal
-                            if ($a_image_dir == "") {
-                                $cur_val = "url(../sty/sty_" . $this->getId() . "/images/" . $cur_val . ")";
-                            } else {
-                                $cur_val = "url(" . $a_image_dir . "/" . $cur_val . ")";
-                            }
-                        }
-                    }
-
-                    if ($cur_par == "opacity") {
-                        $cur_val = ((int) $cur_val) / 100;
-                    }
-
-                    fwrite($css_file, "\t" . $cur_par . ": " . $cur_val . ";\n");
-
-                    // IE6 fix for minimum height
-                    /*
-                    if ($cur_par == "min-height") {
-                        fwrite($css_file, "\t" . "height" . ": " . "auto !important" . ";\n");
-                        fwrite($css_file, "\t" . "height" . ": " . $cur_val . ";\n");
-                    }*/
-
-                    // opacity fix
-                    if ($cur_par == "opacity") {
-                        fwrite($css_file, "\t" . '-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=' . ($cur_val * 100) . ')"' . ";\n");
-                        fwrite($css_file, "\t" . 'filter: alpha(opacity=' . ($cur_val * 100) . ')' . ";\n");
-                        fwrite($css_file, "\t" . '-moz-opacity: ' . $cur_val . ";\n");
-                    }
-
-                    // transform fix
-                    if ($cur_par == "transform") {
-                        fwrite($css_file, "\t" . '-webkit-transform: ' . $cur_val . ";\n");
-                        fwrite($css_file, "\t" . '-moz-transform: ' . $cur_val . ";\n");
-                        fwrite($css_file, "\t" . '-ms-transform: ' . $cur_val . ";\n");
-                    }
-
-                    // transform-origin fix
-                    if ($cur_par == "transform-origin") {
-                        fwrite($css_file, "\t" . '-webkit-transform-origin: ' . $cur_val . ";\n");
-                        fwrite($css_file, "\t" . '-moz-transform-origin: ' . $cur_val . ";\n");
-                        fwrite($css_file, "\t" . '-ms-transform-origin: ' . $cur_val . ";\n");
-                    }
-
-                    // save page background
-                    if ($tag[0]["tag"] == "div" && $tag[0]["class"] == "Page"
-                        && $cur_par == "background-color") {
-                        $page_background = $cur_val;
-                    }
-                }
-                fwrite($css_file, "}\n");
-                fwrite($css_file, "\n");
-
-                // use table border attributes for th td as well
-                /*			if ($tag[0]["type"] == "table")
-                            {
-                                if (count($t_border) > 0)
-                                {
-                                    fwrite ($css_file, $tag[0]["tag"].".ilc_".$tag[0]["type"]."_".$tag[0]["class"]." th,".
-                                        $tag[0]["tag"].".ilc_".$tag[0]["type"]."_".$tag[0]["class"]." td\n");
-                                    fwrite ($css_file, "{\n");
-                                    foreach ($t_border as $p => $v)
-                                    {
-                //						fwrite ($css_file, "\t".$p.": ".$v.";\n");
-                                    }
-                                    fwrite ($css_file, "}\n");
-                                    fwrite ($css_file, "\n");
-                                }
-                            }*/
-            }
-
-            if ($page_background != "") {
-                fwrite($css_file, "td.ilc_Page\n");
-                fwrite($css_file, "{\n");
-                fwrite($css_file, "\t" . "background-color: " . $page_background . ";\n");
-                fwrite($css_file, "}\n");
-            }
-            if ($mq["id"] > 0) {
-                fwrite($css_file, "}\n");
-            }
-        }
-        fclose($css_file);
-        //	exit;
-        $this->setUpToDate();
-        $this->_writeUpToDate($this->getId(), true);
     }
 
     /**
@@ -1559,7 +1380,7 @@ class ilObjStyleSheet extends ilObject
 
     public static function getExportContentStylePath(): string
     {
-        return "content_style/style.css";
+        return "assets/content_style/style.css";
     }
 
     /**
@@ -1587,7 +1408,6 @@ class ilObjStyleSheet extends ilObject
         if ($a_style_id <= 0) {
             $a_style_id = (int) $ilSetting->get("default_content_style_id");
         }
-
         if ($a_style_id > 0 && ilObject::_exists($a_style_id)) {
             // check whether file is up to date
             if (!ilObjStyleSheet::_lookupUpToDate($a_style_id)) {
@@ -1994,6 +1814,7 @@ class ilObjStyleSheet extends ilObject
         $q = "INSERT INTO style_data (id, uptodate) VALUES " .
             "(" . $ilDB->quote($this->getId(), "integer") . ", 0)";
         $ilDB->manipulate($q);
+        $this->domain->style($this->getId())->createRid();
 
         $this->update();
         $this->read();

@@ -22,6 +22,7 @@ use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use ILIAS\Skill\Access\SkillManagementAccess;
 use ILIAS\Skill\Service\SkillInternalManagerService;
+use ILIAS\UICore\GlobalTemplate;
 
 /**
  * Skill management main GUI class
@@ -197,6 +198,12 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         if ($this->request->getMethod() == "POST"
             && $this->request->getQueryParams()["skill_settings"] == "skill_settings_config") {
             if (!$this->management_access_manager->hasEditManagementSettingsPermission()) {
+                $this->tpl->setOnScreenMessage(
+                    GlobalTemplate::MESSAGE_TYPE_FAILURE,
+                    $this->lng->txt("no_permission"),
+                    true
+                );
+                $this->tpl->setContent($this->ui_ren->render([$form]));
                 return;
             }
 

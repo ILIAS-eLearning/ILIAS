@@ -3,4 +3,7 @@
 	<events>
 		<event type="listen" id="Services/User" />
 	</events>
+	<crons>
+		<cron id="reg_delete_expired_pending_registrations" class="ILIAS\Registration\DualOptIn\Cron\DeleteExpiredPendingRegistrationsCronJob" />
+	</crons>
 </service>

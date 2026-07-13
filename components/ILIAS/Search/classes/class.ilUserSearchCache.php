@@ -427,7 +427,7 @@ class ilUserSearchCache
                 $this->failed = (array) unserialize((string) $row->failed);
             }
             $this->page_number = (int) $row->page;
-            $this->setQuery(unserialize((string) $row->query));
+            $this->setQuery((string) unserialize((string) $row->query));
             $this->setRoot((int) $row->root);
             $this->setItemFilter((array) unserialize((string) $row->item_filter));
             $this->setCreationFilter((array) unserialize((string) $row->creation_filter));

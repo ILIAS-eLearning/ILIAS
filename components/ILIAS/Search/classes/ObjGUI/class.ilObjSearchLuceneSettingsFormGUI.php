@@ -118,17 +118,19 @@ class ilObjSearchLuceneSettingsFormGUI
 
         $settings = $this->getSettings();
         $data = $form->getData()['section'];
+        $text_data = $form->getData()['text_section'];
+        $index_data = $form->getData()['index_section'];
 
         $settings->enableLuceneUserSearch((bool) $data['user_search_enabled']);
-        $settings->setFragmentCount((int) $data['fragmentCount']);
-        $settings->setFragmentSize((int) $data['fragmentSize']);
+        $settings->setFragmentCount((int) $text_data['fragmentCount']);
+        $settings->setFragmentSize((int) $text_data['fragmentSize']);
         $settings->enableLuceneMimeFilter(!is_null($data['mime']));
         if (!is_null($data['mime'])) {
             $settings->setLuceneMimeFilter((array) $data['mime']);
         }
         $settings->enablePrefixWildcardQuery((bool) $data['prefix']);
         $settings->setLastIndexTime(new ilDateTime(
-            $data['last_index']->getTimestamp(),
+            $index_data['last_index']->getTimestamp(),
             IL_CAL_UNIX
         ));
         $settings->update();
@@ -227,19 +229,28 @@ class ilObjSearchLuceneSettingsFormGUI
             $datetime->format($last_index->getFormat()->toString() . ' H:i')
         );
 
-        /**
-         * TODO: Split up the form into two or three sections.
-         */
         $section = $this->factory->input()->field()->section(
             [
                 'user_search_enabled' => $user_search,
                 'mime' => $item_filter,
-                'prefix' => $prefix,
-                'fragmentCount' => $frag_count,
-                'fragmentSize' => $frag_size,
-                'last_index' => $last_index
+                'prefix' => $prefix
             ],
             $this->lng->txt('lucene_settings_title')
+        )->withDisabled($read_only);
+
+        $text_section = $this->factory->input()->field()->section(
+            [
+                'fragmentCount' => $frag_count,
+                'fragmentSize' => $frag_size
+            ],
+            $this->lng->txt('lucene_settings_text_section')
+        )->withDisabled($read_only);
+
+        $index_section = $this->factory->input()->field()->section(
+            [
+                'last_index' => $last_index
+            ],
+            $this->lng->txt('lucene_settings_index_section')
         )->withDisabled($read_only);
 
         if ($read_only) {
@@ -250,7 +261,11 @@ class ilObjSearchLuceneSettingsFormGUI
 
         return $this->factory->input()->container()->form()->standard(
             $action,
-            ['section' => $section]
+            [
+                'section' => $section,
+                'text_section' => $text_section,
+                'index_section' => $index_section
+            ]
         );
     }
 

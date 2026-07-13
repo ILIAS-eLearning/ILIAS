@@ -67,6 +67,11 @@ class Text extends FormInput implements C\Input\Field\Text
         return $this->max_length;
     }
 
+    public function withValue($value): self
+    {
+        return parent::withValue($value ?? "");
+    }
+
     /**
      * @inheritdoc
      */

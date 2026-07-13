@@ -38,7 +38,10 @@ class Intermediate
 
     public function value(): int
     {
-        return ord($this->todo);
+        if ($this->todo === '') {
+            return 0;
+        }
+        return ord($this->todo[0]);
     }
 
     public function accept(): Result

@@ -62,10 +62,10 @@ class ProvideWithdrawalTest extends TestCase
         $called = false;
 
         $auth_session = $this->mock(ilAuthSession::class);
-        $auth_session->expects(self::once())->method('logout');
+        $auth_session->expects($this->once())->method('logout');
 
         $ctrl = $this->mock(ilCtrl::class);
-        $ctrl->expects(self::once())->method('redirectToURL')->with('login.php?bar=baz&withdrawal_finished=foo&cmd=force_login');
+        $ctrl->expects($this->once())->method('redirectToURL')->with('login.php?bar=baz&withdrawal_finished=foo&cmd=force_login');
 
         $instance = new ProvideWithdrawal(
             'foo',

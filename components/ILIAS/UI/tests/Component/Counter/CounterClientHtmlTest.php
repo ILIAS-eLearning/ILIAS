@@ -27,9 +27,11 @@ use ILIAS\UI\Component as C;
  */
 class CounterClientHtmlTest extends ILIAS_UI_TestBase
 {
+    use LanguageStubs;
+
     public function getGlyphFactory(): \ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory
     {
-        return new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory();
+        return new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory($this->createRelayArgumentLanguageStub());
     }
 
     public function getCounterFactory(): \ILIAS\UI\Implementation\Component\Counter\Factory

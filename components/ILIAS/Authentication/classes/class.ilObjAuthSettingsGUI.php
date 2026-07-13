@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\AuthSOAP\ConnectionTester;
 use ILIAS\Authentication\Form\ApacheAuthSettingsForm;
 use ILIAS\Style\Content\GUIService;
 use ILIAS\components\Authentication\Pages\AuthPageEditorContext;
@@ -115,6 +116,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         );
 
         $this->logger->debug(print_r($auth_modes, true));
+        $access = $this->rbac_system->checkAccess('write', $this->object->getRefId());
         foreach ($auth_modes as $mode => $mode_name) {
             if (!in_array($mode, $valid_modes, true) && !ilLDAPServer::isAuthModeLDAP(
                 (string) $mode
@@ -165,6 +167,11 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             }
             $generalSettingsTpl->setVariable('AUTH_ID', $mode_name);
             $generalSettingsTpl->setVariable('AUTH_VAL', $mode);
+
+            if (!$access) {
+                $generalSettingsTpl->touchBlock('DISABLED');
+            }
+            $generalSettingsTpl->setCurrentBlock('auth_mode');
             $generalSettingsTpl->parseCurrentBlock();
         }
 
@@ -210,7 +217,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
     private function buildRegistrationRoleMappingForm(): ILIAS\UI\Component\Input\Container\Form\Form
     {
-        $disabled_fields = !$this->rbac_system->checkAccess('write', $this->object->getRefId());
+        $access = $this->rbac_system->checkAccess('write', $this->object->getRefId());
 
         $fields = [];
         $reg_roles = ilObjRole::_lookupRegisterAllowed();
@@ -272,15 +279,26 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 ->withRequired(true)
                 ->withValue($value)
                 ->withDedicatedName('r_' . $role['id'])
-                ->withDisabled($disabled_fields);
+                ->withDisabled(!$access);
         }
 
-        return $this->ui_factory
+        $form = $this->ui_factory
             ->input()
             ->container()
             ->form()
-            ->standard($this->ctrl->getFormAction($this, 'updateRegistrationRoleMapping'), $fields)
+            ->standard(
+                $access ?
+                    $this->ctrl->getFormAction($this, 'updateRegistrationRoleMapping') :
+                    $this->ctrl->getFormAction($this, 'authSettings'),
+                $fields
+            )
             ->withDedicatedName('registration_role_mapping');
+
+        if (!$access) {
+            $form = $form->withSubmitLabel($this->lng->txt('refresh'));
+        }
+
+        return $form;
     }
 
     private function updateRegistrationRoleMappingObject(): void
@@ -328,7 +346,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             return null;
         }
 
-        $disabled_fields = !$this->rbac_system->checkAccess('write', $this->object->getRefId());
+        $access = $this->rbac_system->checkAccess('write', $this->object->getRefId());
 
         $automatic_options = [];
         $counter = 1;
@@ -364,7 +382,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 ->numeric($text)
                 ->withDedicatedName('m' . $auth_mode)
                 ->withValue($counter++)
-                ->withDisabled($disabled_fields);
+                ->withDisabled(!$access);
         }
 
         $options = [
@@ -376,7 +394,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                     $this->lng->txt('auth_by_user')
                 )
                 ->withDedicatedName((string) ilAuthModeDetermination::TYPE_MANUAL)
-                ->withDisabled($disabled_fields),
+                ->withDisabled(!$access),
             (string) ilAuthModeDetermination::TYPE_AUTOMATIC => $this->ui_factory
                 ->input()
                 ->field()
@@ -385,7 +403,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                     $this->lng->txt('auth_automatic')
                 )
                 ->withDedicatedName((string) ilAuthModeDetermination::TYPE_AUTOMATIC)
-                ->withDisabled($disabled_fields)
+                ->withDisabled(!$access)
         ];
 
         $sections = [
@@ -399,15 +417,20 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 )
                 ->withDedicatedName(self::PROP_AUTH_MODE_KIND)
                 ->withValue((string) $det->getKind())
-                ->withDisabled($disabled_fields)
+                ->withDisabled(!$access)
                 ->withRequired(true)
         ];
 
-        return $this->ui_factory
+        $form = $this->ui_factory
             ->input()
             ->container()
             ->form()
-            ->standard($this->ctrl->getFormAction($this, 'updateAuthModeDetermination'), $sections)
+            ->standard(
+                $access ?
+                    $this->ctrl->getFormAction($this, 'updateAuthModeDetermination') :
+                    $this->ctrl->getFormAction($this, 'authSettings'),
+                $sections
+            )
             ->withDedicatedName('auth_mode_determination')
             ->withAdditionalTransformation(
                 $this->refinery->custom()->transformation(function ($value): array {
@@ -429,6 +452,12 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                     return $merged_values;
                 })
             );
+
+        if (!$access) {
+            $form = $form->withSubmitLabel($this->lng->txt('refresh'));
+        }
+
+        return $form;
     }
 
     private function updateAuthModeDeterminationObject(): void
@@ -763,8 +792,13 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             $test_form = $test_form->withRequest($this->request);
             $result = $test_form->getData();
             if ($result !== null) {
-                $panel_content[] = $this->ui_factory->legacy()->content(
-                    ilAuthSOAP::testConnection($result['ext_uid'], $result['soap_pw'], $result['new_user'])
+                $panel_content = array_merge(
+                    $panel_content,
+                    (new ConnectionTester($this->settings, $this->ui_factory, $this->logger))->testConnection(
+                        $result['ext_uid'],
+                        $result['soap_pw'],
+                        $result['new_user']
+                    )
                 );
             }
         }
@@ -941,7 +975,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 break;
 
             case strtolower(ilObjectContentStyleSettingsGUI::class):
-                $this->checkPermission('write');
                 $this->setTitleAndDescription();
                 $this->setSubTabs('authSettings');
                 $this->tabs_gui->activateTab('authentication_settings');
@@ -960,7 +993,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 $this->tabs_gui->setTabActive('authentication_settings');
                 $this->tabs_gui->setSubTabActive('logout_behaviour');
 
-                $gui = new ilAuthLogoutBehaviourGUI();
+                $gui = new ilAuthLogoutBehaviourGUI($this->object->getRefId());
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -1056,7 +1089,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
     {
         $this->lng->loadLanguageModule('auth');
 
-        if ($a_tab === 'authSettings' && $this->access->checkAccess('write', '', $this->object->getRefId())) {
+        if ($a_tab === 'authSettings' && $this->access->checkAccess('read', '', $this->object->getRefId())) {
             $this->tabs_gui->addSubTabTarget(
                 'auth_settings',
                 $this->ctrl->getLinkTarget($this, 'authSettings'),

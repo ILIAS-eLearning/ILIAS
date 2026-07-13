@@ -18,11 +18,17 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\Factory;
 use ILIAS\Refinery\Factory as Refinery;
 
 class ilMimeMail
 {
     final public const string MAIL_SUBJECT_PREFIX = '[ILIAS]';
+    private const string SKIN_LOGO_PATH = '/public/Customizing/skin/%s/images/logo';
+    private const string SKIN_CSS_PATH = '/public/Customizing/skin/%s/mail.css';
+    private const string MAIL_CSS_PATH = 'assets/css/mail.css';
+    private const string MAIL_LOGO_PATH = '/public/assets/images/logo/HeaderIcon.svg';
+    private const string ROOT_DIR_IDENTIFICATION_FILE = '/ilias_version.php';
 
     protected static ?ilMailMimeTransport $default_transport = null;
 
@@ -39,7 +45,7 @@ class ilMimeMail
     protected array $acc = [];
     /** @var string[] */
     protected array $abcc = [];
-    /** @var array<string, array{path: string, cid: string, name: string}> */
+    /** @var array<string, array{path: string, cid: string, name: string, as_logo: bool}> */
     protected array $images = [];
     /** @var string[] */
     protected array $aattach = [];
@@ -50,6 +56,8 @@ class ilMimeMail
     /** @var string[] */
     protected array $adisplay = [];
     private readonly Refinery $refinery;
+    /** @var Closure(string): string|null */
+    private ?Closure $to_html_transformation = null;
 
     public function __construct()
     {
@@ -150,9 +158,13 @@ class ilMimeMail
         return $this->abcc;
     }
 
-    public function Body(string $body): void
+    /**
+     * @param Closure(string): string|null $to_html_transformation
+     */
+    public function Body(string $body, ?Closure $to_html_transformation = null): void
     {
         $this->body = $body;
+        $this->to_html_transformation = $to_html_transformation;
     }
 
     public function getFinalBody(): string
@@ -238,8 +250,22 @@ class ilMimeMail
             $skin = $DIC['ilClientIniFile']->readVariable('layout', 'skin');
             $style = $DIC['ilClientIniFile']->readVariable('layout', 'style');
 
-            $this->buildBodyMultiParts($skin, $style);
-            $this->buildHtmlInlineImages($skin, $style);
+            $data_factory = new Factory();
+            $factory = $DIC->ui()->factory();
+            $renderer = $DIC->ui()->renderer();
+
+            $this->prepareHTMLBody();
+
+            $page = $factory->layout()->page()->mail(
+                $this->getStyleSheetPath($skin, $style),
+                "cid:{$this->getLogoCid($skin, $style)}",
+                ilObjSystemFolder::_getHeaderTitle(),
+                $factory->legacy()->content($this->body),
+                $data_factory->link(ilUtil::_getHttpPath(), $data_factory->uri(ilUtil::_getHttpPath())),
+            );
+
+            $this->final_body = $renderer->render($page);
+            $this->final_body_alt = $this->removeHtmlTags($this->body);
         } else {
             $this->final_body = $this->removeHtmlTags($this->body);
         }
@@ -252,27 +278,39 @@ class ilMimeMail
         return html_entity_decode(strip_tags($maybe_html), ENT_QUOTES);
     }
 
-    protected function buildBodyMultiParts(string $skin, string $style): void
+    private function getPathToRootDirectory(): string
+    {
+        $current_dir = realpath(__DIR__);
+
+        while ($current_dir !== '.') {
+            if (file_exists($current_dir . self::ROOT_DIR_IDENTIFICATION_FILE)) {
+                break;
+            }
+
+            $current_dir = dirname($current_dir);
+        }
+
+        return $current_dir;
+    }
+
+    private function prepareHTMLBody(): void
     {
         if ($this->body === '') {
             $this->body = ' ';
         }
 
-        $contains_html = $this->containsHtmlBlockElementsOrLineBreaks($this->body);
+        $transformed_body = $this->to_html_transformation ? ($this->to_html_transformation)($this->body) : $this->body;
+
+        $contains_html = $this->containsHtmlBlockElementsOrLineBreaks($transformed_body);
         if ($contains_html) {
             $this->final_body_alt = strip_tags(str_ireplace(['<br />', '<br>', '<br/>'], "\n", $this->body));
+            $this->body = $transformed_body;
         } else {
             $this->final_body_alt = strip_tags($this->body);
-            $this->body = nl2br($this->body);
+            $this->body = nl2br($transformed_body);
         }
 
-        $body_with_clickable_urls = $this->refinery->string()->makeClickable()->transform($this->body);
-
-        $this->final_body = str_replace(
-            '{PLACEHOLDER}',
-            $body_with_clickable_urls,
-            $this->getHtmlEnvelope($skin, $style)
-        );
+        $this->body = $this->refinery->string()->makeClickable()->transform($this->body);
     }
 
     private function containsHtmlBlockElementsOrLineBreaks(string $email_body): bool
@@ -290,54 +328,73 @@ class ilMimeMail
         return strip_tags($email_body, '<b><u><i><a>') !== $email_body;
     }
 
-    private function getPathToRootDirectory(): string
+    private function getStyleSheetPath(string $skin, string $style): string
     {
-        return realpath(dirname(__DIR__, 4) . '/');
-    }
-
-    protected function getHtmlEnvelope(string $skin, string $style): string
-    {
-        $bracket_path = $this->getPathToRootDirectory() . '/components/ILIAS/Mail/templates/default/tpl.html_mail_template.html';
         if ($skin !== 'default') {
             $locations = [
                 $skin,
-                $skin . '/' . $style
+                "$skin/$style"
             ];
 
             foreach ($locations as $location) {
-                $custom_path = $this->getPathToRootDirectory(
-                ) . '/public/Customizing/skin/' . $location . '/components/ILIAS/Mail/tpl.html_mail_template.html';
+                $custom_path = $this->getPathToRootDirectory() . sprintf(self::SKIN_CSS_PATH, $location);
                 if (is_file($custom_path)) {
-                    $bracket_path = $custom_path;
-                    break;
+                    return $custom_path;
                 }
             }
         }
 
-        return file_get_contents($bracket_path);
+        return self::MAIL_CSS_PATH;
     }
 
-    protected function buildHtmlInlineImages(string $skin, string $style): void
+    private function getLogoCid(string $skin, string $style): string
     {
-        $this->gatherImagesFromDirectory(
-            $this->getPathToRootDirectory() . '/components/ILIAS/Mail/templates/default/img'
-        );
-
         if ($skin !== 'default') {
             $locations = [
                 $skin,
-                $skin . '/' . $style
+                "$skin/$style"
             ];
 
             foreach ($locations as $location) {
-                $custom_directory = $this->getPathToRootDirectory(
-                ) . '/public/Customizing/skin/' . $location . '/components/ILIAS/Mail/img';
+                $custom_directory = $this->getPathToRootDirectory() . sprintf(self::SKIN_LOGO_PATH, $location);
                 if (is_dir($custom_directory) && is_readable($custom_directory)) {
-                    $this->gatherImagesFromDirectory($custom_directory, true);
-                    break;
+                    $this->gatherImagesFromDirectory($custom_directory);
                 }
             }
+        } else {
+            $path = $this->getPathToRootDirectory() . self::MAIL_LOGO_PATH;
+            if (is_file($path) && is_readable($path)) {
+                return $this->addImage(new SplFileInfo($path), true);
+            }
         }
+
+        foreach ($this->images as $image) {
+            if ($image['as_logo']) {
+                return $image['cid'];
+            }
+        }
+
+        $logo_cid = count($this->images) > 1 ? current($this->images)['cid'] : null;
+
+        foreach ($this->images as $cid => $image) {
+            $file_name = basename($image['path'], '.' . pathinfo($image['path'], PATHINFO_EXTENSION));
+            if (in_array(strtolower($file_name), ['logo', 'headericon'], true)) {
+                $logo_cid = $cid;
+                break;
+            }
+        }
+
+        if (is_string($logo_cid)) {
+            $this->images[$logo_cid]['as_logo'] = true;
+            return $logo_cid;
+        }
+
+        $path = $this->getPathToRootDirectory() . self::MAIL_LOGO_PATH;
+        if (is_file($path) && is_readable($path)) {
+            return $this->addImage(new SplFileInfo($path), true);
+        }
+
+        return '';
     }
 
     protected function gatherImagesFromDirectory(string $directory, bool $clear_previous = false): void
@@ -350,15 +407,22 @@ class ilMimeMail
             new DirectoryIterator($directory),
             '/\.(jpg|jpeg|gif|svg|png)$/i'
         ) as $file) {
-            /** @var SplFileInfo $file */
-            $cid = 'img/' . $file->getFilename();
-
-            $this->images[$cid] = [
-                'path' => $file->getPathname(),
-                'cid' => $cid,
-                'name' => $file->getFilename()
-            ];
+            $this->addImage($file);
         }
+    }
+
+    private function addImage(SplFileInfo $file, bool $as_logo = false): string
+    {
+        $cid = 'img/' . $file->getFilename();
+
+        $this->images[$cid] = [
+            'path' => $file->getPathname(),
+            'cid' => $cid,
+            'name' => $file->getFilename(),
+            'as_logo' => $as_logo
+        ];
+
+        return $cid;
     }
 
     public function Send(?ilMailMimeTransport $transport = null): bool

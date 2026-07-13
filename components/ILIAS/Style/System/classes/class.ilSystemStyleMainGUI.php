@@ -231,19 +231,22 @@ class ilSystemStyleMainGUI
         return true;
     }
 
-    protected function setTabs(string $skin_id, string $style_id, string $active = '') {
+    protected function setTabs(string $skin_id, string $style_id, string $active = '')
+    {
         $this->ctrl->setParameterByClass(ilSystemStyleDocumentationGUI::class, 'skin_id', $skin_id);
         $this->ctrl->setParameterByClass(ilSystemStyleDocumentationGUI::class, 'style_id', $style_id);
 
         $this->tabs->addSubTab(
             'overview',
             $this->lng->txt('overview'),
-            $this->ctrl->getLinkTargetByClass(self::class), 'documentation');
-        $this->tabs->addSubTab('documentation',
+            $this->ctrl->getLinkTargetByClass(self::class),
+            'documentation'
+        );
+        $this->tabs->addSubTab(
+            'documentation',
             $this->lng->txt('documentation'),
             $this->ctrl->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class, 'entries')
         );
-
     }
     /**
      * Sets the tab correctly if one system style is open (navigational underworld opened)

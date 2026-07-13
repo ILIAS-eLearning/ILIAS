@@ -134,9 +134,9 @@ class ilSurveyEvaluationResults
     }
 
     /**
-     * @return array|string
+     * @return array|string|null
      */
-    public function getMedian(): string|array
+    public function getMedian(): string|array|null
     {
         return $this->median;
     }

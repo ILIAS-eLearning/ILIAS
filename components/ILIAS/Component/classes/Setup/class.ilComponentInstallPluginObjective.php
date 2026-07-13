@@ -112,7 +112,7 @@ class ilComponentInstallPluginObjective implements Setup\Objective
         $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY);
         $plugin = $component_repository->getPluginByName($this->plugin_name);
 
-        return !$plugin->isInstalled();
+        return $plugin->supportsCLISetup() && !$plugin->isInstalled();
     }
 
     protected function initEnvironment(

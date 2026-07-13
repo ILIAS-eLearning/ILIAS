@@ -73,6 +73,11 @@ class NullRepository implements RepositoryInterface
         return false;
     }
 
+    public function doesUndeletedRecordExistForObjID(int $obj_id): bool
+    {
+        return false;
+    }
+
     public function createRecord(int $obj_id, string $identifier, \DOMDocument $metadata): void
     {
     }

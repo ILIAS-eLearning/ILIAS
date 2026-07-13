@@ -73,9 +73,6 @@ class TreeSelect extends HasDynamicInputs implements C\Input\Field\TreeSelect
 
     protected function isClientSideValueOk($value): bool
     {
-        if (is_null($value)) {
-            return parent::isClientSideValueOk($value);
-        }
         if (!is_string($value) && !is_int($value)) {
             return false;
         }

@@ -285,12 +285,12 @@ class ilBookingProcessWithoutScheduleGUI implements \ILIAS\BookingManager\Bookin
     {
         $participants = $this->book_request->getParticipants();
         $object_id = $this->book_request->getObjectId();
-        if (count($participants) > 0 && $object_id > 0) {
+        if ($participants !== [] && $object_id > 0) {
             $this->book_obj_id = $object_id;
         } else {
             $this->util_gui->back();
         }
-        $rsv_ids = array();
+        $rsv_ids = [];
         foreach ($participants as $id) {
             if (!$this->access->canManageReservationForUser($this->pool->getRefId(), $id)) {
                 $this->showNoPermission();
@@ -305,24 +305,29 @@ class ilBookingProcessWithoutScheduleGUI implements \ILIAS\BookingManager\Bookin
             );
         }
 
-        if (count($rsv_ids)) {
-            $this->tpl->setOnScreenMessage('success', "booking_multiple_succesfully");
-        } else {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('book_reservation_failed_overbooked'), true);
+        if ($rsv_ids !== []) {
+            $this->util_gui->handleBookingSuccess(
+                $object_id,
+                'displayPostInfo',
+                $rsv_ids,
+                $this->lng->txt('booking_multiple_succesfully')
+            );
+            return;
         }
+
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('book_reservation_failed_overbooked'), true);
         $this->util_gui->back();
     }
-
 
     //
     // Step 2: Confirmation
     //
 
     // Book object - either of type or specific - for given dates
-    public function confirmedBooking($message = ""): bool
+    public function confirmedBooking($message = ''): void
     {
         $success = false;
-        $rsv_ids = array();
+        $rsv_ids = [];
 
         if ($this->book_obj_id > 0) {
             $object_id = $this->book_obj_id;
@@ -349,12 +354,12 @@ class ilBookingProcessWithoutScheduleGUI implements \ILIAS\BookingManager\Bookin
         }
 
         if ($success) {
-            $this->util_gui->handleBookingSuccess($success, "displayPostInfo", $rsv_ids);
-        } else {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('book_reservation_failed'), true);
-            $this->ctrl->redirect($this, 'book');
+            $this->util_gui->handleBookingSuccess($success, 'displayPostInfo', $rsv_ids);
+            return;
         }
-        return true;
+
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('book_reservation_failed'), true);
+        $this->ctrl->redirect($this, 'book');
     }
 
     public function displayPostInfo(): void

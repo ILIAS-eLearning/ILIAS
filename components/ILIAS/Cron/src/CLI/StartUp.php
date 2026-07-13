@@ -37,7 +37,9 @@ class StartUp
 
         // TODO @see mantis 20371: To get rid of this, the authentication service has to provide a mechanism to pass the client_id
         $_GET['client_id'] = $this->client;
-        \ilInitialisation::initILIAS();
+
+        require_once __DIR__ . '/../../../../../artifacts/bootstrap_default.php';
+        entry_point('ILIAS Legacy Initialisation Adapter');
 
         if ($authSession === null) {
             global $DIC;
@@ -71,6 +73,10 @@ class StartUp
             case \ilAuthStatus::STATUS_AUTHENTICATED:
                 $this->is_authenticated = true;
                 \ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
+
+                // https://mantis.ilias.de/view.php?id=47354
+                \ilInitialisation::initLanguage(true);
+
                 return true;
 
             case \ilAuthStatus::STATUS_AUTHENTICATION_FAILED:

@@ -25,7 +25,7 @@ use ILIAS\Data\Result;
 
 class NullControl extends ViewControlInput implements VCInterface\NullControl
 {
-    public function isClientSideValueOk($value): bool
+    protected function isClientSideValueOk($value): bool
     {
         return true;
     }

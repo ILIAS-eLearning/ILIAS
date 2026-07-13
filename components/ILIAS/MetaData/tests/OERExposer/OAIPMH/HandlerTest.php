@@ -42,150 +42,132 @@ class HandlerTest extends TestCase
         return $url;
     }
 
-    protected function getInitiator(
-        bool $activated,
-        string $content,
-        bool $processor_throws_exception = false,
-        bool $processor_throws_error = false,
-        bool $processor_triggers_error = false
-    ): InitiatorInterface {
-        return new class (
-            $activated,
-            $content,
-            $processor_throws_exception,
-            $processor_throws_error,
-            $processor_triggers_error
-        ) extends NullInitiator {
-            protected HTTPWrapperInterface $wrapper;
+    protected function getHTTPWrapper(): HTTPWrapperInterface
+    {
+        return new class () extends NullWrapper {
+            public array $exposed_responses = [];
 
+            public function sendResponseAndClose(
+                int $status_code,
+                string $message = '',
+                ?\DOMDocument $body = null
+            ): void {
+                $this->exposed_responses[] = [
+                    'status' => $status_code,
+                    'message' => $message,
+                    'body' => $body?->saveXML($body->documentElement)
+                ];
+            }
+        };
+    }
+
+    protected function getSettings(bool $activated): SettingsInterface
+    {
+        return new class ($activated) extends NullSettings {
             public function __construct(
-                protected bool $activated,
-                protected string $content,
-                protected bool $processor_throws_exception,
-                protected bool $processor_throws_error,
-                protected bool $processor_triggers_error
+                protected bool $activated
             ) {
-                $this->wrapper = new class () extends NullWrapper {
-                    public array $exposed_responses = [];
-
-                    public function sendResponseAndClose(
-                        int $status_code,
-                        string $message = '',
-                        ?\DOMDocument $body = null
-                    ): void {
-                        $this->exposed_responses[] = [
-                            'status' => $status_code,
-                            'message' => $message,
-                            'body' => $body?->saveXML($body->documentElement)
-                        ];
-                    }
-                };
             }
 
-            public function settings(): SettingsInterface
+            public function isOAIPMHActive(): bool
             {
-                return new class ($this->activated) extends NullSettings {
+                return $this->activated;
+            }
+        };
+    }
+
+    protected function getRequestParser(string $content): RequestParserInterface
+    {
+        return new class ($content) extends NullParser {
+            public function __construct(protected string $content)
+            {
+            }
+
+            public function parseFromHTTP(URI $base_url): RequestInterface
+            {
+                return new class ($this->content, $base_url) extends NullRequest {
                     public function __construct(
-                        protected bool $activated
+                        protected string $content,
+                        protected URI $base_url
                     ) {
                     }
 
-                    public function isOAIPMHActive(): bool
+                    public function baseURL(): URI
                     {
-                        return $this->activated;
+                        return $this->base_url;
+                    }
+
+                    public function exposeContent(): string
+                    {
+                        return $this->content;
                     }
                 };
             }
+        };
+    }
 
-            public function requestParser(): RequestParserInterface
-            {
-                return new class ($this->content) extends NullParser {
-                    public function __construct(protected string $content)
-                    {
-                    }
-
-                    public function parseFromHTTP(URI $base_url): RequestInterface
-                    {
-                        return new class ($this->content, $base_url) extends NullRequest {
-                            public function __construct(
-                                protected string $content,
-                                protected URI $base_url
-                            ) {
-                            }
-
-                            public function baseURL(): URI
-                            {
-                                return $this->base_url;
-                            }
-
-                            public function exposeContent(): string
-                            {
-                                return $this->content;
-                            }
-                        };
-                    }
-                };
+    protected function getRequestProcessor(
+        bool $throws_exception = false,
+        bool $throws_error = false,
+        bool $triggers_error = false
+    ): RequestProcessorInterface {
+        return new class (
+            $throws_exception,
+            $throws_error,
+            $triggers_error
+        ) extends NullRequestProcessor {
+            public function __construct(
+                protected bool $throws_exception,
+                protected bool $throws_error,
+                protected bool $triggers_error
+            ) {
             }
 
-            public function requestProcessor(): RequestProcessorInterface
+            public function getResponseToRequest(RequestInterface $request): \DomDocument
             {
-                return new class (
-                    $this->processor_throws_exception,
-                    $this->processor_throws_error,
-                    $this->processor_triggers_error
-                ) extends NullRequestProcessor {
-                    public function __construct(
-                        protected bool $throws_exception,
-                        protected bool $throws_error,
-                        protected bool $triggers_error
-                    ) {
-                    }
+                if ($this->throws_exception) {
+                    throw new \ilMDOERExposerException('exception message');
+                }
+                if ($this->throws_error) {
+                    throw new \Error('thrown error message');
+                }
+                if ($this->triggers_error) {
+                    /** @noinspection PhpExpressionResultUnusedInspection */
+                    /** @noinspection PhpDivisionByZeroInspection */
+                    1 / 0;
+                }
 
-                    public function getResponseToRequest(RequestInterface $request): \DomDocument
-                    {
-                        if ($this->throws_exception) {
-                            throw new \ilMDOERExposerException('exception message');
-                        }
-                        if ($this->throws_error) {
-                            throw new \Error('thrown error message');
-                        }
-                        if ($this->triggers_error) {
-                            /** @noinspection PhpExpressionResultUnusedInspection */
-                            1 / 0;
-                        }
-
-                        $url = (string) $request->baseURL();
-                        $content = $request->exposeContent();
-                        $doc = new \DOMDocument();
-                        $doc->appendChild($doc->createElement('content', $url . '~!~' . $content));
-                        return $doc;
-                    }
-                };
-            }
-
-            public function httpWrapper(): HTTPWrapperInterface
-            {
-                // must always be the same instance to make the expose work
-                return $this->wrapper;
-            }
-
-            public function exposeHTTPResponses(): array
-            {
-                return $this->httpWrapper()->exposed_responses;
+                $url = (string) $request->baseURL();
+                $content = $request->exposeContent();
+                $doc = new \DOMDocument();
+                $doc->appendChild($doc->createElement('content', $url . '~!~' . $content));
+                return $doc;
             }
         };
     }
 
     protected function getHandler(
         string $base_url,
-        InitiatorInterface $initiator
+        SettingsInterface $settings,
+        HTTPWrapperInterface $http_wrapper,
+        RequestParserInterface $request_parser,
+        RequestProcessorInterface $request_processor,
     ): Handler {
         $base_url = $this->getURI($base_url);
-        return new class ($initiator, $base_url) extends Handler {
+        return new class (
+            $settings,
+            $http_wrapper,
+            $request_parser,
+            $request_processor,
+            $base_url
+        ) extends Handler {
             public array $exposed_logged_errors = [];
 
             public function __construct(
-                protected InitiatorInterface $initiator,
+                protected SettingsInterface $settings,
+                protected HTTPWrapperInterface $http_wrapper,
+                protected RequestParserInterface $request_parser,
+                protected RequestProcessorInterface $request_processor,
                 protected readonly URI $base_url
             ) {
             }
@@ -199,64 +181,58 @@ class HandlerTest extends TestCase
 
     public function testSendResponseToRequestAvailable(): void
     {
-        $initiator = $this->getInitiator(
-            true,
-            'some content'
-        );
         $handler = $this->getHandler(
             'some url',
-            $initiator
+            $this->getSettings(true),
+            $wrapper = $this->getHTTPWrapper(),
+            $this->getRequestParser('some content'),
+            $this->getRequestProcessor()
         );
 
         $handler->sendResponseToRequest();
 
-        $this->assertCount(1, $initiator->exposeHTTPResponses());
+        $this->assertCount(1, $wrapper->exposed_responses);
         $this->assertEquals(
             ['status' => 200, 'message' => '', 'body' => '<content>some url~!~some content</content>'],
-            $initiator->exposeHTTPResponses()[0] ?? []
+            $wrapper->exposed_responses[0] ?? []
         );
     }
 
     public function testSendResponseToRequestNotAvailable(): void
     {
-        $initiator = $this->getInitiator(
-            false,
-            'some content'
-        );
         $handler = $this->getHandler(
             'some url',
-            $initiator
+            $this->getSettings(false),
+            $wrapper = $this->getHTTPWrapper(),
+            $this->getRequestParser('some content'),
+            $this->getRequestProcessor()
         );
 
         $handler->sendResponseToRequest();
 
-        $this->assertCount(1, $initiator->exposeHTTPResponses());
+        $this->assertCount(1, $wrapper->exposed_responses);
         $this->assertEquals(
             ['status' => 404, 'message' => '', 'body' => null],
-            $initiator->exposeHTTPResponses()[0] ?? []
+            $wrapper->exposed_responses[0] ?? []
         );
     }
 
     public function testSendResponseToRequestProcessorThrowsException(): void
     {
-        $initiator = $this->getInitiator(
-            true,
-            '',
-            true,
-            false,
-            false
-        );
         $handler = $this->getHandler(
             'some url',
-            $initiator
+            $this->getSettings(true),
+            $wrapper = $this->getHTTPWrapper(),
+            $this->getRequestParser(''),
+            $this->getRequestProcessor(true)
         );
 
         $handler->sendResponseToRequest();
 
-        $this->assertCount(1, $initiator->exposeHTTPResponses());
+        $this->assertCount(1, $wrapper->exposed_responses);
         $this->assertEquals(
             ['status' => 500, 'message' => 'exception message', 'body' => null],
-            $initiator->exposeHTTPResponses()[0] ?? []
+            $wrapper->exposed_responses[0] ?? []
         );
         $this->assertEquals(
             ['exception message'],
@@ -266,24 +242,20 @@ class HandlerTest extends TestCase
 
     public function testSendResponseToRequestProcessorThrowsError(): void
     {
-        $initiator = $this->getInitiator(
-            true,
-            '',
-            false,
-            true,
-            false
-        );
         $handler = $this->getHandler(
             'some url',
-            $initiator
+            $this->getSettings(true),
+            $wrapper = $this->getHTTPWrapper(),
+            $this->getRequestParser(''),
+            $this->getRequestProcessor(false, true)
         );
 
         $handler->sendResponseToRequest();
 
-        $this->assertCount(1, $initiator->exposeHTTPResponses());
+        $this->assertCount(1, $wrapper->exposed_responses);
         $this->assertEquals(
             ['status' => 500, 'message' => 'thrown error message', 'body' => null],
-            $initiator->exposeHTTPResponses()[0] ?? []
+            $wrapper->exposed_responses[0] ?? []
         );
         $this->assertEquals(
             ['thrown error message'],
@@ -293,24 +265,20 @@ class HandlerTest extends TestCase
 
     public function testSendResponseToRequestProcessorTriggersError(): void
     {
-        $initiator = $this->getInitiator(
-            true,
-            '',
-            false,
-            false,
-            true
-        );
         $handler = $this->getHandler(
             'some url',
-            $initiator
+            $this->getSettings(true),
+            $wrapper = $this->getHTTPWrapper(),
+            $this->getRequestParser(''),
+            $this->getRequestProcessor(false, false, true)
         );
 
         $handler->sendResponseToRequest();
 
-        $this->assertCount(1, $initiator->exposeHTTPResponses());
+        $this->assertCount(1, $wrapper->exposed_responses);
         $this->assertEquals(
             ['status' => 500, 'message' => 'Division by zero', 'body' => null],
-            $initiator->exposeHTTPResponses()[0] ?? []
+            $wrapper->exposed_responses[0] ?? []
         );
         $this->assertEquals(
             ['Division by zero'],

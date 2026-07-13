@@ -13,7 +13,7 @@
          displayDetailsOnSkippedTests="true"
          backupGlobals="false"
          bootstrap="./tests/bootstrap.php"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd">
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/13.1/phpunit.xsd">
     <coverage>
         <report>
             <html outputDirectory="build/coverage" highLowerBound="80"/>

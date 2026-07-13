@@ -19,7 +19,7 @@
 *
 * @module		language file Svensk
 * @modulegroup	language
-* @author 		Maximilian Lemmer <maximilian.lemmer@abus-kransysteme.de>
+* @author 		Maximilian Lemmer
 * @version		$Id$
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
@@ -643,7 +643,6 @@ assessment#:#errFormulaQuestion#:#En formelfråga innehåller felaktig informati
 assessment#:#errRecursionInResult#:#Formeln innehåller en icke-lösbar rekursion.
 assessment#:#err_category_in_use#:#Kategorin kan inte raderas. En eller flera enheter i kategorin används redan.
 assessment#:#err_divider_too_big#:#Divisorn för en av variablerna i denna fråga är för stor.
-assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###29 10 2025 new variable
 assessment#:#err_division#:#Det värde du anger gör det omöjligt att generera ett giltigt värde för variabeln.
 assessment#:#err_duplicate_results#:#Du har använt en resultatvariabel mer än en gång. Detta är inte tillåtet i uppgiftstexten!
 assessment#:#err_no_formula#:#Ange en formel för att beräkna resultatet.
@@ -5973,7 +5972,6 @@ common#:#webdav_chosen_language_already_used#:#Det finns redan en WebDAV-guide f
 common#:#webdav_doc_delete#:#Radera WebDAV Instruktion
 common#:#webdav_docs_mount_instructions#:#Fil med WevDAV-instruktion
 common#:#webdav_duplicate_detected_title#:#Följande objekt kunde inte visas, eftersom ett objekt med samma titel redan visas.
-common#:#webdav_enable_versioning#:#Versionering av filer
 common#:#webdav_forbidden_chars_title#:#Följande objekt kunde inte visas eftersom de innehåller förbjudna tecken (\&lt;&gt;/
 common#:#webdav_form_document#:#Handledning för WebDAV
 common#:#webdav_form_document_info#:#Ladda upp ett txt- eller html-dokument med instruktioner om hur du ansluter WebDAV till de system du väljer.
@@ -5992,7 +5990,6 @@ common#:#webdav_sure_delete_documents_s#:#Ska WebDAV-instruktionen med följande
 common#:#webdav_tbl_docs_head_title#:#Titel
 common#:#webdav_tbl_docs_title#:#Lista över uppladdade WebDAV-instruktioner
 common#:#webdav_upload_instructions#:#Instruktioner för uppladdning av WebDAV
-common#:#webdav_versioning_info#:#Om denna inställning är aktiverad skapas en ny version för redan befintliga filer. I annat fall kommer de att skrivas över.
 common#:#webfolder_dir_info#:#Du har hamnat här eftersom din webbläsare inte kan öppna webbmappar. Läs <a href="%1$s">instruktionerna om hur du öppnar den här webbmappen</a>.
 common#:#webfolder_index_of#:#Innehåll i %1$s
 common#:#webfolder_instructions#:#Instruktion för webbmappar
@@ -16719,7 +16716,7 @@ survey#:#survey_360_sure_appraisee_close#:#Vill du verkligen stänga enkäten f�
 survey#:#survey_360_sure_appraisee_close_admin#:#Vill du verkligen stänga enkäten för följande feedbackmottagare?
 survey#:#survey_360_sure_delete_appraises#:#Vill du verkligen ta bort följande feedbackmottagare?
 survey#:#survey_360_sure_delete_raters#:#Vill du verkligen ta bort följande feedbackgivare för %s?
-survey#:#survey_access_codes#:#Autentisering med åtkomstnycklar
+survey#:#survey_access_code#:#Autentisering med åtkomstnycklar
 survey#:#survey_access_codes_info#:#Användare får tillgång till undersökningen genom att ange en åtkomstnyckel på fliken "Info". Dessa åtkomstnycklar genereras i underfliken med samma namn i fliken "Deltagare".
 survey#:#survey_activate_skill_service#:#Aktivera kompetenstjänst
 survey#:#survey_activate_skill_service_info#:#Ytterligare en flik "Kompetenser" visas. Här tilldelas först kompetenser till frågorna, sedan sätts tröskelvärden för att uppnå vissa kompetensnivåer.

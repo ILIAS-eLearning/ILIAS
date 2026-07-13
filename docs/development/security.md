@@ -1,4 +1,4 @@
-#@ ILIAS Security Group
+# ILIAS Security Policy
 
 ## Table of Contents
 * [Reporting Security Issues](#reporting-security-issues)
@@ -137,5 +137,8 @@ on the mailing list.
 * Tim Bongers, CaT Concepts and Training GmbH, Cologne, Germany
 * Alex Hartwig, Qualitus GmbH, Cologne, Germany
 * David Tokar, WEKA Media GmbH & Co. KG, Kissing, Germany
+* André Schweigert, FAU Kompetenzzentrum Lehre, Fürth, Germany
+* Lukas Scharmer, Databay AG, Würselen, Germany
+* Guido Vollbach, Databay AG, Würselen, Germany
 
 [//]: # (END Contributors)

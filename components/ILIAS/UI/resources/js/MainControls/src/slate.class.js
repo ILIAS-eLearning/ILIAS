@@ -14,6 +14,8 @@
  *
  ******************************************************************** */
 
+import Metabar from './metabar.class.js';
+
 /**
  * @type {string}
  */
@@ -133,7 +135,7 @@ export default class Slate {
     const metabarId = slate.closest('.il-maincontrols-metabar').attr('id');
     const metabar = this.#metabarFactory.get(metabarId);
 
-    if (triggerer.attr('id') === metabar.getMoreButton().attr('id')) {
+    if (metabar instanceof Metabar && triggerer.attr('id') === metabar.getMoreButton().attr('id')) {
       if (metabar.getEngagedSlates().length > 0) {
         metabar.disengageAllSlates();
       } else {

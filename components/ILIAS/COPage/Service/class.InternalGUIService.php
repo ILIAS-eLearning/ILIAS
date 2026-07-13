@@ -76,4 +76,22 @@ class InternalGUIService
         );
     }
 
+    public function historyTableBuilder(
+        object $parent_gui,
+        string $parent_cmd,
+        int $page_id,
+        string $parent_type,
+        string $lang
+    ): History\HistoryTableBuilder {
+        return new History\HistoryTableBuilder(
+            $this->domain_service,
+            $this,
+            $parent_gui,
+            $parent_cmd,
+            $page_id,
+            $parent_type,
+            $lang
+        );
+    }
+
 }

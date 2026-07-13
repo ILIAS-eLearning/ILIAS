@@ -643,7 +643,6 @@ assessment#:#errFormulaQuestion#:#Vprašanje v obliki formule vsebuje napačne p
 assessment#:#errRecursionInResult#:#Formula vsebuje nerešljivo rekurzijo.
 assessment#:#err_category_in_use#:#Kategorije ni mogoče izbrisati. Ena ali več enot te kategorije je že v uporabi.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.
-assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###29 10 2025 new variable
 assessment#:#err_division#:#This value has to be smaller than the maximum range.
 assessment#:#err_duplicate_results#:#Večkrat ste uporabili eno spremenljivko rezultata. To v besedilu naloge ni dovoljeno!
 assessment#:#err_no_formula#:#Vnesite formulo za izračun rezultata.
@@ -5973,7 +5972,6 @@ common#:#webdav_chosen_language_already_used#:#There already is another document
 common#:#webdav_doc_delete#:#Delete WebDav Mount Instructions
 common#:#webdav_docs_mount_instructions#:#Mount Instructions Documents
 common#:#webdav_duplicate_detected_title#:#Following objects could not be displayed, because an object with the same Title is already being shown
-common#:#webdav_enable_versioning#:#File Versioning
 common#:#webdav_forbidden_chars_title#:#Following files cannot be displayed, because they contain one or more forbidden characters (\<>/
 common#:#webdav_form_document#:#Instructions Document
 common#:#webdav_form_document_info#:#Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information
@@ -5992,7 +5990,6 @@ common#:#webdav_sure_delete_documents_s#:#Are you sure you want to delete the Mo
 common#:#webdav_tbl_docs_head_title#:#Dokument title
 common#:#webdav_tbl_docs_title#:#List of uploaded WebDAV Mount Instructions
 common#:#webdav_upload_instructions#:#Upload Instructions
-common#:#webdav_versioning_info#:#If enabled, already existing files will get a new version instead of beeing overwritten.
 common#:#webfolder_dir_info#:#Tukaj ste pristali, ker vaš brskalnik ne more odpreti spletnih map. Preberite <a href="%1$s">Navodilo za odpiranje te spletne mape</a>.
 common#:#webfolder_index_of#:#Vsebina %1$s
 common#:#webfolder_instructions#:#Navodilo za spletne mape
@@ -11360,7 +11357,7 @@ lti#:#lti_con_prov_xapi_launch_secret_info#:#&nbsp;
 lti#:#lti_con_prov_xapi_launch_url#:#URL of LRS Endpoint
 lti#:#lti_con_prov_xapi_launch_url_info#:#Please add full URL with https
 lti#:#lti_con_redirection_uris#:#Redirection URI###19 08 2022 new variable
-lti#:#lti_con_tool_url#:#Login URL###19 08 2022 new variable
+lti#:#lti_con_tool_url#:#Launch URL###19 08 2022 new variable
 lti#:#lti_con_version#:#LTI Version###19 08 2022 new variable
 lti#:#lti_con_version_1.1#:#Version 1.1###19 08 2022 new variable
 lti#:#lti_con_version_1.3#:#Version 1.3###19 08 2022 new variable
@@ -16719,7 +16716,7 @@ survey#:#survey_360_sure_appraisee_close#:#Ali res želite zapreti anketo za vse
 survey#:#survey_360_sure_appraisee_close_admin#:#Ali res želite zapreti anketo za naslednje prejemnike povratnih informacij?
 survey#:#survey_360_sure_delete_appraises#:#Ali res želite odstraniti naslednje ocenjevane osebe?
 survey#:#survey_360_sure_delete_raters#:#Ali res želite odstraniti naslednje dajalce povratnih informacij za %s?
-survey#:#survey_access_codes#:#Avtentikacija s kodo za dostop
+survey#:#survey_access_code#:#Avtentikacija s kodo za dostop
 survey#:#survey_access_codes_info#:#Uporabniki dobijo dostop do ankete z vnosom kode za dostop v zavihku 'Info'.  Te kode za dostop se ustvarijo v istoimenskem podzavihku zavihku 'Udeleženec'.
 survey#:#survey_activate_skill_service#:#Aktiviraj kompetenčno podporo
 survey#:#survey_activate_skill_service_info#:#Prikazal se bo nadaljnji zavihek 'Kompetence'. Tukaj so najprej vprašanjem dodeljene kompetence in nato se nastavijo mejne vrednosti za doseganje določene ravni kompetenc.

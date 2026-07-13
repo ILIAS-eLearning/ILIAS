@@ -30,6 +30,7 @@ use ILIAS\Exercise\Submission\SubmissionManager;
 use ILIAS\Exercise\PeerReview\DomainService;
 use ILIAS\Exercise\Settings\SettingsManager;
 use ILIAS\Exercise\User\UserEvent;
+use ILIAS\Exercise\Permission\PermissionManager;
 
 class InternalDomainService
 {
@@ -132,6 +133,13 @@ class InternalDomainService
     {
         return new UserEvent(
             $this->repo,
+            $this
+        );
+    }
+
+    public function permission(): PermissionManager
+    {
+        return $this->instance["perm"] ??= new PermissionManager(
             $this
         );
     }

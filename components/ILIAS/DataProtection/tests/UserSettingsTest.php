@@ -47,7 +47,7 @@ class UserSettingsTest extends TestCase
         $marshal = $this->mockMethod(Marshal::class, 'boolean', [], $convert);
 
         $settings = $this->mock(SelectSetting::class);
-        $settings->expects(self::once())->method('typed')->willReturnCallback(function (string $key, callable $select) use ($marshal, $convert, $setting) {
+        $settings->expects($this->once())->method('typed')->willReturnCallback(function (string $key, callable $select) use ($marshal, $convert, $setting) {
             $this->assertSame('dpro_withdrawal_requested', $key);
             $this->assertSame($convert, $select($marshal));
             return $setting;
@@ -64,10 +64,10 @@ class UserSettingsTest extends TestCase
         $date = $this->mock(Convert::class);
 
         $marshal = $this->mockMethod(Marshal::class, 'nullable', [$date], $convert);
-        $marshal->expects(self::once())->method('dateTime')->willReturn($date);
+        $marshal->expects($this->once())->method('dateTime')->willReturn($date);
 
         $settings = $this->mock(SelectSetting::class);
-        $settings->expects(self::once())->method('typed')->willReturnCallback(function (string $key, callable $select) use ($marshal, $convert, $setting) {
+        $settings->expects($this->once())->method('typed')->willReturnCallback(function (string $key, callable $select) use ($marshal, $convert, $setting) {
             $this->assertSame('dpro_agree_date', $key);
             $this->assertSame($convert, $select($marshal));
             return $setting;

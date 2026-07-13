@@ -109,10 +109,10 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
      * If the user is given, only positions with an authority over the given user are used to
      * check the position rights.
      *
-     * @param ilObjUser|null $talkParticipant   The talk participant which should get invited into the new talk.
+     * @param int|null $talk_participant_id The talk participant which should get invited into the new talk.
      * @return bool                             True if the user has creation rights otherwise false.
      */
-    public function canCreate(?ilObjUser $talkParticipant = null): bool
+    public function canCreate(?int $talk_participant_id = null): bool
     {
         try {
             $currentUserId = $this->getCurrentUsersId();
@@ -130,7 +130,7 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
             $positions = $this->ua->getPositionsOfUserId($currentUserId);
 
             // If we don't have a user just check if the current user has the right in any position to create a new talk
-            if ($talkParticipant === null) {
+            if ($talk_participant_id === null) {
                 foreach ($positions as $position) {
                     // Check if the position has any relevant position rights
                     $permissionSet = ilOrgUnitPermissionQueries::getTemplateSetForContextName(ilObjEmployeeTalk::TYPE, strval($position->getId() ?? 0));
@@ -151,16 +151,16 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
             }
 
             // Validate authority and position rights over the given participant
-            return $this->hasAuthorityAndOperationPermissionOverUser($talkParticipant, EmployeeTalkPositionAccessLevel::CREATE);
+            return $this->hasAuthorityAndOperationPermissionOverUser($talk_participant_id, EmployeeTalkPositionAccessLevel::CREATE);
         } catch (\Exception $ex) {
             return false;
         }
     }
 
-    public function hasPermissionToReadUnownedTalksOfUser(int $userId): bool
+    public function hasPermissionToReadUnownedTalksOfUser(int $user_id): bool
     {
         try {
-            return $this->hasAuthorityAndOperationPermissionOverUser(new ilObjUser($userId), EmployeeTalkPositionAccessLevel::VIEW);
+            return $this->hasAuthorityAndOperationPermissionOverUser($user_id, EmployeeTalkPositionAccessLevel::VIEW);
         } catch (\Exception $ex) {
             return false;
         }
@@ -203,7 +203,8 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
         $user = $this->getCurrentUsersId();
         if (
             $user === $talk->getOwner() &&
-            $this->container->access()->checkAccess('read', '', ilObjTalkTemplateAdministration::getRootRefId())
+            $this->container->access()->checkAccess('read', '', ilObjTalkTemplateAdministration::getRootRefId()) &&
+            $this->talkPositionSettings->isActive()
         ) {
             return true;
         }
@@ -233,7 +234,7 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
 
         $talk = new ilObjEmployeeTalk($refId);
         $series = $talk->getParent();
-        $hasAuthority = $this->hasAuthorityAndOperationPermissionOverUser(new ilObjUser($talk->getData()->getEmployee()), $operation);
+        $hasAuthority = $this->hasAuthorityAndOperationPermissionOverUser($talk->getData()->getEmployee(), $operation);
         $data = $talk->getData();
         $seriesSettings = $this->seriesSettingsRepository->readEmployeeTalkSerieSettings($series->getId());
         $canExecuteOperation = $this->orgUnitAccess->checkPositionAccess($operation, $refId);
@@ -290,11 +291,10 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
         return $this->container->user()->getId();
     }
 
-    private function hasAuthorityAndOperationPermissionOverUser(ilObjUser $user, string $operation): bool
+    private function hasAuthorityAndOperationPermissionOverUser(int $user_id, string $operation): bool
     {
         $myStaffAccess = ilMyStaffAccess::getInstance();
         $currentUserId = $this->getCurrentUsersId();
-        $userId = $user->getId();
 
         /**
          * @var Array<int, Array<string>> $managedOrgUnitUsersOfUserByPosition
@@ -313,7 +313,7 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
             }
 
             foreach ($managedOrgUnitUserByPosition as $managedOrgUnitUser) {
-                if (intval($managedOrgUnitUser) === $userId) {
+                if (intval($managedOrgUnitUser) === $user_id) {
                     return true;
                 }
             }

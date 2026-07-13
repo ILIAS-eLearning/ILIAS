@@ -44,13 +44,15 @@ class ilBlogDataSet extends ilDataSet
     {
         global $DIC;
         parent::__construct();
+
+        $blog_service = $DIC->blog()->internal();
+
         $this->content_style_domain = $DIC
             ->contentStyle()
             ->domain();
         $this->notes = $DIC->notes();
-        $this->reading_time = $DIC->blog()->internal()->domain()->readingTime();
-        $this->blog_settings = $DIC->blog()->internal()->domain()->blogSettings();
-        $this->service = $DIC->blog()->internal();
+        $this->reading_time = $blog_service->domain()->readingTime();
+        $this->blog_settings = $blog_service->domain()->blogSettings();
     }
 
     public function getSupportedVersions(): array
@@ -285,8 +287,8 @@ class ilBlogDataSet extends ilDataSet
 
             // keywords
             foreach ($this->data as $idx => $item) {
-                $blog_id = ilBlogPosting::lookupBlogId($item["Id"]);
-                $keywords = ilBlogPosting::getKeywords($blog_id, $item["Id"]);
+                $blog_id = $this->service->domain()->posting()->lookupBlogId((int) $item["Id"]);
+                $keywords = $this->service->domain()->posting()->getKeywords((int) $blog_id, (int) $item["Id"]);
                 if ($keywords) {
                     foreach ($keywords as $kidx => $keyword) {
                         $this->data[$idx]["Keyword" . $kidx] = $keyword;

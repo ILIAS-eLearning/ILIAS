@@ -73,7 +73,6 @@ class LocalDIC extends PimpleContainer
             new UserSettingsImplementation(
                 $DIC['lng'],
                 $DIC['ilSetting'],
-                $DIC['tpl'],
                 $DIC['ui.factory'],
                 $DIC['refinery'],
                 $c[UserSettingsConfigurationRepository::class],

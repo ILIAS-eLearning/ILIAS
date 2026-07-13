@@ -68,7 +68,7 @@ class Table
 
         $this->components[] = $this->ui_factory->table()->data(
             $data_retrieval,
-            $this->lng->txt('notifications'),
+            $this->lng->txt('msg_table_title'),
             $columns,
         )->withActions($actions)->withRequest(
             $DIC->http()->request()

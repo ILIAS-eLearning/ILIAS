@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Refinery\Factory;
+use ILIAS\Mail\TemplateEngine\TemplateEngineFactoryInterface;
 
 class ilMailMimeTest extends ilMailBaseTestCase
 {
@@ -156,9 +157,9 @@ class ilMailMimeTest extends ilMailBaseTestCase
             'set',
             'get',
         ])->getMock();
-        $mustache_factory = $this->getMockBuilder(ilMustacheFactory::class)->getMock();
+        $template_engine_factory = $this->createMock(TemplateEngineFactoryInterface::class);
 
-        $factory = new ilMailMimeSenderFactory($settings, $mustache_factory);
+        $factory = new ilMailMimeSenderFactory($settings, $template_engine_factory);
         $this->assertInstanceOf(ilMailMimeSenderSystem::class, $factory->getSenderByUsrId(ANONYMOUS_USER_ID));
     }
 
@@ -168,9 +169,9 @@ class ilMailMimeTest extends ilMailBaseTestCase
             'set',
             'get',
         ])->getMock();
-        $mustache_factory = $this->getMockBuilder(ilMustacheFactory::class)->getMock();
+        $template_engine_factory = $this->createMock(TemplateEngineFactoryInterface::class);
 
-        $factory = new ilMailMimeSenderFactory($settings, $mustache_factory);
+        $factory = new ilMailMimeSenderFactory($settings, $template_engine_factory);
         $this->assertInstanceOf(ilMailMimeSenderSystem::class, $factory->system());
     }
 
@@ -191,9 +192,9 @@ class ilMailMimeTest extends ilMailBaseTestCase
             'set',
             'get',
         ])->getMock();
-        $mustache_factory = $this->getMockBuilder(ilMustacheFactory::class)->getMock();
+        $template_engine_factory = $this->createMock(TemplateEngineFactoryInterface::class);
 
-        $factory = new ilMailMimeSenderFactory($settings, $mustache_factory);
+        $factory = new ilMailMimeSenderFactory($settings, $template_engine_factory);
         $this->assertInstanceOf(ilMailMimeSenderUser::class, $factory->getSenderByUsrId(self::USER_ID));
     }
 
@@ -203,9 +204,9 @@ class ilMailMimeTest extends ilMailBaseTestCase
             'set',
             'get',
         ])->getMock();
-        $mustache_factory = $this->getMockBuilder(ilMustacheFactory::class)->getMock();
+        $template_engine_factory = $this->createMock(TemplateEngineFactoryInterface::class);
 
-        $factory = new ilMailMimeSenderFactory($settings, $mustache_factory);
+        $factory = new ilMailMimeSenderFactory($settings, $template_engine_factory);
         $this->assertInstanceOf(ilMailMimeSenderUser::class, $factory->user(self::USER_ID));
     }
 }

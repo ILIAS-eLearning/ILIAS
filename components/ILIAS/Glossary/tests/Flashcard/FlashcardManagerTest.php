@@ -25,7 +25,6 @@ use ILIAS\Glossary;
 use ILIAS\Glossary\InternalDomainService;
 use ILIAS\Glossary\InternalRepoServiceInterface;
 
-
 class FlashcardManagerTest extends TestCase
 {
     protected function getManagerMock(): FlashcardManager
@@ -39,8 +38,7 @@ class FlashcardManagerTest extends TestCase
                 Glossary\InternalRepoServiceInterface $repo,
                 int $glo_ref_id,
                 int $user_id
-            )
-            {
+            ) {
                 $this->domain = $domain_service;
                 $this->glo_id = $glo_ref_id;
                 $this->user_id = $user_id;

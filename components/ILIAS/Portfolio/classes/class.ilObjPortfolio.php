@@ -67,6 +67,7 @@ class ilObjPortfolio extends ilObjPortfolioBase implements ilAdvancedMetaDataSub
             " ORDER BY od.title");
         $res = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
+            $rec["is_online"] = !ilObject::lookupOfflineStatus($rec["id"]);
             $res[] = $rec;
         }
         return $res;

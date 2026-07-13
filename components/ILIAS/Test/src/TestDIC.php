@@ -178,7 +178,7 @@ class TestDIC extends PimpleContainer
 
         $dic['logging.information_generator'] = static fn($c): Logging\AdditionalInformationGenerator =>
              new Logging\AdditionalInformationGenerator(
-                 (new \ilMustacheFactory())->getBasicEngine(),
+                 $DIC[\ILIAS\Mail\TemplateEngine\TemplateEngineFactoryInterface::class]->getBasicEngine(),
                  $DIC['lng'],
                  $DIC['ui.factory'],
                  $DIC['refinery'],

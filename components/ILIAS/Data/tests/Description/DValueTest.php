@@ -27,12 +27,11 @@ namespace ILIAS\Data\Description;
 use ILIAS\Data\Description\DValue;
 use ILIAS\Data\Description\ValueType;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class DDValueTest extends TestCase
 {
-    /**
-     * @dataProvider casesProvider
-     */
+    #[DataProvider('casesProvider')]
     public function testIntRepresentation(ValueType $type, $value, $is_match): void
     {
         $desc = new DValue(

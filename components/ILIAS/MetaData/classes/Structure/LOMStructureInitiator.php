@@ -20,12 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Structure;
 
-use ILIAS\MetaData\Elements\Base\BaseElementInterface;
+use Generator;
+use ilMDStructureException;
 use ILIAS\MetaData\Elements\Structure\StructureFactory;
-use ILIAS\MetaData\Elements\ElementInterface;
 use ILIAS\MetaData\Elements\Structure\StructureElement;
-use ILIAS\MetaData\Paths\FactoryInterface as PathFactoryInterface;
-use ILIAS\MetaData\Paths\Navigator\NavigatorFactoryInterface;
 use ILIAS\MetaData\Elements\Structure\StructureSetInterface;
 use ILIAS\MetaData\Structure\Definitions\ReaderFactoryInterface;
 use ILIAS\MetaData\Structure\Definitions\ReaderInterface;
@@ -33,15 +31,10 @@ use ILIAS\MetaData\Elements\Structure\StructureElementInterface;
 
 class LOMStructureInitiator
 {
-    protected ReaderFactoryInterface $reader_factory;
-    protected StructureFactory $structure_factory;
-
     public function __construct(
-        ReaderFactoryInterface $reader_factory,
-        StructureFactory $structure_factory
+        protected ReaderFactoryInterface $reader_factory,
+        protected StructureFactory $structure_factory
     ) {
-        $this->reader_factory = $reader_factory;
-        $this->structure_factory = $structure_factory;
     }
 
     public function set(): StructureSetInterface
@@ -61,14 +54,15 @@ class LOMStructureInitiator
     }
 
     /**
-     * @return StructureElement[]
+     * @return Generator<StructureElement>
+     * @throws ilMDStructureException
      */
     protected function getSubElements(
         int $depth,
         ReaderInterface ...$readers
-    ): \Generator {
+    ): Generator {
         if ($depth > 20) {
-            throw new \ilMDStructureException('LOM Structure is nested to deep.');
+            throw new ilMDStructureException('LOM Structure is nested to deep.');
         }
         foreach ($readers as $reader) {
             yield $this->structure_factory->structure(

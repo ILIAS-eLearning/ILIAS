@@ -41,7 +41,7 @@ class ilLPStatusStudyProgramme extends ilLPStatus
      */
     protected static function getStatusForAssignments(array $assignments, int $prg_obj_id): int
     {
-        if($assignments === []) {
+        if ($assignments === []) {
             return ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
         }
         $now = new DateTimeImmutable();

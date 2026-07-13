@@ -22,7 +22,7 @@ use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
-
+use ILIAS\UI\Component\MessageBox\MessageBox;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -87,19 +87,11 @@ class ilUserActionAdminGUI
 
     public function show(): void
     {
-        if (!$this->rbabsystem->checkAccess('write', $this->ref_id)) {
-            $this->ctrl->redirect($this, 'show');
+        if (!$this->rbabsystem->checkAccess('read', $this->ref_id)) {
+            $this->ctrl->redirectByClass(ilObjRootFolderGUI::class);
         }
 
         $this->tpl->setOnScreenMessage('info', $this->lng->txt('user_actions_activation_info'));
-
-        $inputs = [];
-
-        foreach($this->getActions() as $action) {
-            $inputs["{$action['action_comp_id']}:{$action['action_type_id']}"] =
-                $this->ui_factory->input()->field()->checkbox($action["action_type_name"])
-                    ->withValue($action['active']);
-        }
 
         $this->tpl->setContent(
             $this->ui_renderer->render(
@@ -112,10 +104,12 @@ class ilUserActionAdminGUI
     {
         $inputs = [];
 
-        foreach($this->getActions() as $action) {
+        foreach ($this->getActions() as $action) {
             $inputs["{$action['action_comp_id']}:{$action['action_type_id']}"] =
                 $this->ui_factory->input()->field()->checkbox($action["action_type_name"])
-                    ->withValue($action['active']);
+                    ->withDisabled(
+                        !$this->rbabsystem->checkAccess('write', $this->ref_id)
+                    )->withValue($action['active']);
         }
 
         return $this->ui_factory->input()->container()->form()->standard(
@@ -127,7 +121,12 @@ class ilUserActionAdminGUI
     public function save(): void
     {
         if (!$this->rbabsystem->checkAccess('write', $this->ref_id)) {
-            $this->ctrl->redirect($this, 'show');
+            $this->tpl->setOnScreenMessage(
+                MessageBox::FAILURE,
+                $this->lng->txt('no_permission'),
+                true
+            );
+            $this->ctrl->redirectByClass(self::class, 'show');
         }
 
         $form = $this->buildForm()->withRequest($this->request);

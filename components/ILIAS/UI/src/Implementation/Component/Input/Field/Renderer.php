@@ -466,13 +466,13 @@ class Renderer extends AbstractComponentRenderer
             });
 
             $f = $this->getUIFactory();
-            $glyph_reveal = $f->symbol()->glyph()->eyeopen("#")
-                              ->withOnClick($sig_reveal);
-            $glyph_mask = $f->symbol()->glyph()->eyeclosed("#")
-                            ->withOnClick($sig_mask);
+            $btn_reveal = $f->button()->shy('', '')->withSymbol($f->symbol()->glyph()->eyeopen())
+                ->withOnClick($sig_reveal);
+            $btn_mask = $f->button()->shy('', '')->withSymbol($f->symbol()->glyph()->eyeclosed())
+               ->withOnClick($sig_mask);
 
-            $tpl->setVariable('PASSWORD_REVEAL', $default_renderer->render($glyph_reveal));
-            $tpl->setVariable('PASSWORD_MASK', $default_renderer->render($glyph_mask));
+            $tpl->setVariable('PASSWORD_REVEAL', $default_renderer->render($btn_reveal));
+            $tpl->setVariable('PASSWORD_MASK', $default_renderer->render($btn_mask));
         }
 
         $this->applyValue($component, $tpl, $this->escapeSpecialChars());
@@ -488,17 +488,18 @@ class Renderer extends AbstractComponentRenderer
         $this->applyName($component, $tpl);
 
         $value = $component->getValue();
+        $value_is_empty = $value === null || $value === '';
         //disable first option if required.
         $tpl->setCurrentBlock("options");
-        if (!$value) {
+        if ($value_is_empty) {
             $tpl->setVariable("SELECTED", 'selected="selected"');
         }
-        if ($component->isRequired() && !$value) {
+        if ($value_is_empty && $component->isRequired()) {
             $tpl->setVariable("DISABLED_OPTION", "disabled");
             $tpl->setVariable("HIDDEN", "hidden");
         }
 
-        if (!($value && $component->isRequired())) {
+        if ($value_is_empty || !$component->isRequired()) {
             $tpl->setVariable("VALUE", null);
             $tpl->setVariable("VALUE_STR", $component->isRequired() ? $this->txt('ui_select_dropdown_label') : '-');
             $tpl->parseCurrentBlock();
@@ -506,7 +507,7 @@ class Renderer extends AbstractComponentRenderer
 
         foreach ($component->getOptions() as $option_key => $option_value) {
             $tpl->setCurrentBlock("options");
-            if ($value == $option_key) {
+            if (!$value_is_empty && $value == $option_key) {
                 $tpl->setVariable("SELECTED", 'selected="selected"');
             }
             $tpl->setVariable("VALUE", $option_key);
@@ -570,10 +571,6 @@ class Renderer extends AbstractComponentRenderer
         ];
 
         foreach ($markdown_actions_glyphs as $tpl_variable => $glyph) {
-            if ($component->isDisabled()) {
-                $glyph = $glyph->withUnavailableAction();
-            }
-
             $action = $this->getUIFactory()->button()->standard('', '#')->withSymbol($glyph);
 
             if ($component->isDisabled()) {
@@ -944,9 +941,8 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('assets/css/tagify.css');
-        $registry->register('assets/js/tagInput.js');
 
-        $registry->register('assets/js/dropzone.min.js');
+        $registry->register('assets/js/dropzone-min.js');
         $registry->register('assets/js/dropzone.js');
         $registry->register('assets/js/input.js');
         $registry->register('assets/js/core.js');
@@ -1011,9 +1007,10 @@ class Renderer extends AbstractComponentRenderer
         ?FileInfoResult $file_info,
         Template $template
     ): Template {
+        $f = $this->getUIFactory();
         $template->setCurrentBlock('block_file_preview');
         $template->setVariable('REMOVAL_GLYPH', $default_renderer->render(
-            $this->getUIFactory()->symbol()->glyph()->close()->withAction("#")
+            $f->button()->shy('', '')->withSymbol($f->symbol()->glyph()->close())
         ));
 
         if (null !== $file_info) {
@@ -1028,10 +1025,10 @@ class Renderer extends AbstractComponentRenderer
         // contains actual (unhidden) inputs.
         if ($file_input->hasMetadataInputs()) {
             $template->setVariable('EXPAND_GLYPH', $default_renderer->render(
-                $this->getUIFactory()->symbol()->glyph()->expand()->withAction("#")
+                $f->button()->shy('', '')->withSymbol($f->symbol()->glyph()->expand())
             ));
             $template->setVariable('COLLAPSE_GLYPH', $default_renderer->render(
-                $this->getUIFactory()->symbol()->glyph()->collapse()->withAction("#")
+                $f->button()->shy('', '')->withSymbol($f->symbol()->glyph()->collapse())
             ));
         }
 
@@ -1336,13 +1333,13 @@ class Renderer extends AbstractComponentRenderer
         $option_filter_template->setVariable('NO_MATCH', $this->txt('ui_field_option_filter_no_match'));
         $option_filter_template->setVariable('OPTIONS_SHOWN', $this->txt('ui_field_option_filter_options_shown'));
 
-        $expand_icon = $default_renderer->render($this->getUIFactory()->symbol()->glyph()->expand());
+        $expand_icon = $default_renderer->render($this->getUIFactory()->symbol()->glyph()->expand()->withLabel(''));
         $option_filter_template->setVariable('EXPAND_TEXT', $expand_icon . $this->txt('ui_field_option_filter_show_all_options'));
 
-        $collapse_icon = $default_renderer->render($this->getUIFactory()->symbol()->glyph()->collapseHorizontal());
+        $collapse_icon = $default_renderer->render($this->getUIFactory()->symbol()->glyph()->collapseHorizontal()->withLabel(''));
         $option_filter_template->setVariable('COLLAPSE_TEXT', $collapse_icon . $this->txt('ui_field_option_filter_show_less'));
 
-        $remove_icon = $default_renderer->render($this->getUIFactory()->symbol()->glyph()->remove());
+        $remove_icon = $default_renderer->render($this->getUIFactory()->symbol()->glyph()->remove()->withLabel(''));
         $option_filter_template->setVariable('CLEAR_SEARCH_BTN', $remove_icon . $this->txt('ui_field_option_filter_clear_search'));
 
         $component = $component->withAdditionalOnLoadCode(

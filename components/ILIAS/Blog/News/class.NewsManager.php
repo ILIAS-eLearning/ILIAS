@@ -29,11 +29,15 @@ use ILIAS\Blog\InternalDomainService;
  */
 class NewsManager
 {
+    protected \ILIAS\Blog\Posting\Service\GUIService $posting_gui;
+
     public function __construct(
         protected InternalDataService $data,
         protected InternalRepoService $repo,
-        protected InternalDomainService $domain
+        protected InternalDomainService $domain,
+        \ILIAS\Blog\InternalGUIService $gui
     ) {
+        $this->posting_gui = $gui->posting();
     }
 
     /**
@@ -110,7 +114,7 @@ class NewsManager
         $news_item->setContentTextIsLangVar(false);
         $news_item->setContent($content);
 
-        $snippet = \ilBlogPostingGUI::getSnippet($page->getId());
+        $snippet = $this->posting_gui->getSnippet($page->getId());
         $news_item->setContentLong($snippet);
 
         if (!$news_item->getId()) {

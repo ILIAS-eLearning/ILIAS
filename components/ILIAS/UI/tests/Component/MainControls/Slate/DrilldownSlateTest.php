@@ -30,9 +30,16 @@ use ILIAS\UI\Implementation\Component\MainControls\Slate\Drilldown;
  */
 class DrilldownSlateTest extends ILIAS_UI_TestBase
 {
+    use LanguageStubs;
+
     public function getUIFactory(): NoUIFactory
     {
-        return new class () extends NoUIFactory {
+        return new class ($this->createRelayArgumentLanguageStub()) extends NoUIFactory {
+            public function __construct(
+                protected \ILIAS\Language\Language $language,
+            ) {
+            }
+
             protected function getSigGen()
             {
                 return new I\SignalGenerator();
@@ -49,7 +56,7 @@ class DrilldownSlateTest extends ILIAS_UI_TestBase
             {
                 return new I\Symbol\Factory(
                     new I\Symbol\Icon\Factory(),
-                    new I\Symbol\Glyph\Factory(),
+                    new I\Symbol\Glyph\Factory($this->language),
                     new I\Symbol\Avatar\Factory()
                 );
             }
@@ -102,7 +109,7 @@ class DrilldownSlateTest extends ILIAS_UI_TestBase
                             </div>
                             <div class="c-drilldown__backnav">
                                 <button class="btn btn-bulky" id="id_1" aria-label="back">
-                                    <span class="glyph" aria-label="collapse/back" role="img">
+                                    <span class="glyph" aria-hidden="true">
                                         <span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
                                     </span>
                                     <span class="bulky-label"></span>

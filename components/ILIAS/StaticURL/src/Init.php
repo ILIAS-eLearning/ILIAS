@@ -27,6 +27,8 @@ use ILIAS\StaticURL\Request\BundledRequestBuilder;
 use ILIAS\StaticURL\Builder\URIBuilder;
 use ILIAS\StaticURL\Builder\StandardURIBuilder;
 use ILIAS\StaticURL\Handler\Handler;
+use ILIAS\StaticURL\Session\SessionStore;
+use ILIAS\StaticURL\Session\ILIASSessionStore;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -39,6 +41,8 @@ final class Init
 
         $c['static_url.context'] = (static fn(Container $c): Context => new Context($c));
 
+        $c['static_url.session_store'] = (static fn(Container $c): SessionStore => new ILIASSessionStore());
+
         $c['static_url.handler'] = static function (Container $c): HandlerService {
             $handlers = (require ArtifactObjective::PATH() ?? []);
             $handlers = array_map(static fn(string $handler): Handler => new $handler(), $handlers);
@@ -46,7 +50,8 @@ final class Init
             return new HandlerService(
                 $c['static_url.request_builder'],
                 $c['static_url.context'],
-                $handlers
+                $handlers,
+                $c['static_url.session_store']
             );
         };
 

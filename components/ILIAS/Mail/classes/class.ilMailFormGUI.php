@@ -55,6 +55,7 @@ class ilMailFormGUI
     final public const string MAIL_FORM_TYPE_FORWARD = 'forward';
     final public const string MAIL_FORM_TYPE_DRAFT = 'draft';
     final public const string MAIL_FORM_TYPE_OUTBOX = 'outbox';
+    final public const string PARAM_SCHEDULED_EDIT_FROM_OUTBOX = 'scheduled_edit_from_outbox';
     final public const string MAIL_FORM_MODE_REGULAR_MAIL = 'regular_mail';
     final public const string MAIL_FORM_MODE_SERIAL_LETTER = 'serial_letter';
 
@@ -258,9 +259,7 @@ class ilMailFormGUI
             $this->http->close();
         }
 
-        $message = ilUtil::securePlainString($this->getBodyParam('m_message', $this->refinery->kindlyTo()->string(), ''));
-        $mail_body = new ilMailBody($message, $this->purifier);
-        $sanitized_message = $mail_body->getContent();
+        $sanitized_message = (new ilMailBody($form_values['m_message'], $this->purifier))->getContent();
 
         $outbox_folder_id = $this->mbox->getOutboxFolder();
         if (ilSession::get('outbox')) {
@@ -341,14 +340,14 @@ class ilMailFormGUI
         $rcp_to = '';
         $rcp_cc = '';
         $rcp_bcc = '';
-        if ($value['rcp_to'] != []) {
-            $rcp_to = $value['rcp_to'][0];
+        if (!empty($value['rcp_to'])) {
+            $rcp_to = implode(',', $value['rcp_to']);
         }
-        if ($value['rcp_cc'] != []) {
-            $rcp_cc = $value['rcp_cc'][0];
+        if (!empty($value['rcp_cc'])) {
+            $rcp_cc = implode(',', $value['rcp_cc']);
         }
-        if ($value['rcp_bcc'] != []) {
-            $rcp_bcc = $value['rcp_bcc'][0];
+        if (!empty($value['rcp_bcc'])) {
+            $rcp_bcc = implode(',', $value['rcp_bcc']);
         }
 
         if ($errors = $mailer->enqueue(
@@ -428,15 +427,11 @@ class ilMailFormGUI
 
         $draft_folder_id = $this->mbox->getDraftsFolder();
 
-        $rcp_to = ilUtil::securePlainString($this->getBodyParam('rcp_to', $this->refinery->kindlyTo()->string(), ''));
-        $rcp_cc = ilUtil::securePlainString($this->getBodyParam('rcp_cc', $this->refinery->kindlyTo()->string(), ''));
-        $rcp_bcc = ilUtil::securePlainString($this->getBodyParam('rcp_bcc', $this->refinery->kindlyTo()->string(), ''));
+        $rcp_to = !empty($value['rcp_to']) ? implode(',', $value['rcp_to']) : '';
+        $rcp_cc = !empty($value['rcp_cc']) ? implode(',', $value['rcp_cc']) : '';
+        $rcp_bcc = !empty($value['rcp_bcc']) ? implode(',', $value['rcp_bcc']) : '';
 
-        if ($errors = $this->umail->validateRecipients(
-            $rcp_to,
-            $rcp_cc,
-            $rcp_bcc,
-        )) {
+        if ($errors = $this->umail->validateRecipients($rcp_to, $rcp_cc, $rcp_bcc)) {
             $this->request_attachments = $files;
             $this->showSubmissionErrors($errors);
             $this->showForm($form);
@@ -453,9 +448,9 @@ class ilMailFormGUI
         $this->umail->updateDraft(
             $draft_folder_id,
             $files,
-            implode(',', $value['rcp_to']),
-            implode(',', $value['rcp_cc']),
-            implode(',', $value['rcp_bcc']),
+            $rcp_to,
+            $rcp_cc,
+            $rcp_bcc,
             ilUtil::securePlainString($value['m_subject']),
             $value['m_message'],
             $draft_id,
@@ -851,6 +846,24 @@ class ilMailFormGUI
                     $mail_data['attachments'] = $this->request_attachments;
                 }
                 break;
+        }
+
+        if (
+            $type === self::MAIL_FORM_TYPE_DRAFT
+            && !empty($mail_data['schedule_datetime'])
+            && !(
+                $this->http->wrapper()->query()->has(self::PARAM_SCHEDULED_EDIT_FROM_OUTBOX)
+                && $this->http->wrapper()->query()->retrieve(
+                    self::PARAM_SCHEDULED_EDIT_FROM_OUTBOX,
+                    $this->refinery->kindlyTo()->int()
+                ) === 1
+            )
+        ) {
+            $this->tpl->setOnScreenMessage(
+                ilGlobalTemplateInterface::MESSAGE_TYPE_INFO,
+                $this->lng->txt('mail_scheduled_edit_compose_info'),
+                true
+            );
         }
 
         $this->tpl->parseCurrentBlock();
@@ -1272,7 +1285,7 @@ class ilMailFormGUI
                         let submitBtn = mailform.querySelector('button[type=\"submit\"]');
                         if (submitBtn) {
                             submitBtn.formAction = action;
-                            mailform.requestSubmit(btn);   
+                            mailform.requestSubmit(submitBtn);
                         } else {
                             mailform.action = action;
                             mailform.submit();
@@ -1288,14 +1301,7 @@ class ilMailFormGUI
             $this->lng->txt('search_recipients'),
             ''
         )->withAdditionalOnLoadCode(
-            function ($id) use ($action) {
-                return "document.getElementById('{$id}').addEventListener('click', function (event) {
-                    let mailform = document.querySelector('form.c-form');
-                    let btn = mailform.querySelector('button');
-                    btn.formAction = '{$action}'; 
-                    mailform.requestSubmit(btn);   
-                });";
-            }
+            fn(string $id): string => $this->mailFormToolbarDelegatedSubmitJs($id, $action)
         );
 
         $this->toolbar->addComponent($btn);
@@ -1305,14 +1311,7 @@ class ilMailFormGUI
             $this->lng->txt('mail_my_courses'),
             ''
         )->withAdditionalOnLoadCode(
-            function ($id) use ($action) {
-                return "document.getElementById('{$id}').addEventListener('click', function (event) {
-                    let mailform = document.querySelector('form.c-form');
-                    let btn = mailform.querySelector('button');
-                    btn.formAction = '{$action}'; 
-                    mailform.requestSubmit(btn);   
-                });";
-            }
+            fn(string $id): string => $this->mailFormToolbarDelegatedSubmitJs($id, $action)
         );
         $this->toolbar->addComponent($btn);
 
@@ -1321,14 +1320,7 @@ class ilMailFormGUI
             $this->lng->txt('mail_my_groups'),
             ''
         )->withAdditionalOnLoadCode(
-            function ($id) use ($action) {
-                return "document.getElementById('{$id}').addEventListener('click', function (event) {
-                    let mailform = document.querySelector('form.c-form');
-                    let btn = mailform.querySelector('button');
-                    btn.formAction = '{$action}'; 
-                    mailform.requestSubmit(btn);   
-                });";
-            }
+            fn(string $id): string => $this->mailFormToolbarDelegatedSubmitJs($id, $action)
         );
         $this->toolbar->addComponent($btn);
 
@@ -1338,14 +1330,7 @@ class ilMailFormGUI
                 $this->lng->txt('mail_my_mailing_lists'),
                 ''
             )->withAdditionalOnLoadCode(
-                function ($id) use ($action) {
-                    return "document.getElementById('{$id}').addEventListener('click', function (event) {
-                    let mailform = document.querySelector('form.c-form');
-                    let btn = mailform.querySelector('button');
-                    btn.formAction = '{$action}'; 
-                    mailform.requestSubmit(btn);   
-                });";
-                }
+                fn(string $id): string => $this->mailFormToolbarDelegatedSubmitJs($id, $action)
             );
             $this->toolbar->addComponent($btn);
         }
@@ -1357,16 +1342,27 @@ class ilMailFormGUI
             $this->lng->txt('edit_attachments'),
             ''
         )->withAdditionalOnLoadCode(
-            function ($id) use ($action) {
-                return "document.getElementById('{$id}').addEventListener('click', function (event) {
-                    let mailform = document.querySelector('form.c-form');
-                    let btn = mailform.querySelector('button');
-                    btn.formAction = '{$action}'; 
-                    mailform.requestSubmit(btn);   
-                });";
-            }
+            fn(string $id): string => $this->mailFormToolbarDelegatedSubmitJs($id, $action)
         );
         $this->toolbar->addComponent($btn);
+    }
+
+    private function mailFormToolbarDelegatedSubmitJs(string $toolbar_button_id, string $form_action): string
+    {
+        return "document.getElementById('{$toolbar_button_id}').addEventListener('click', function () {
+            let mailform = document.querySelector('form.c-form');
+            if (!mailform) {
+                return;
+            }
+            let submitBtn = mailform.querySelector('button[type=\"submit\"]');
+            if (submitBtn) {
+                submitBtn.formAction = '$form_action';
+                mailform.requestSubmit(submitBtn);
+            } else {
+                mailform.action = '$form_action';
+                mailform.submit();
+            }
+        });";
     }
 
     private function toggleMailMode(): never

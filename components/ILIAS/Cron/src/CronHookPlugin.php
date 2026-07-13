@@ -22,6 +22,9 @@ namespace ILIAS\Cron;
 
 use ILIAS\Cron\Job\JobProvider;
 
+/**
+ * @deprecated 11.0 Cron jobs will be contributed by a component's <Component>.php file in future versions of ILIAS
+ */
 abstract class CronHookPlugin extends \ilPlugin implements JobProvider
 {
 }

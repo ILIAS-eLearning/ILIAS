@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -24,5 +26,5 @@
  */
 interface ilAssLacFormAlertProvider
 {
-    public function getFormAlert(ilLanguage $lng);
+    public function getFormAlert(ilLanguage $lng): string;
 }

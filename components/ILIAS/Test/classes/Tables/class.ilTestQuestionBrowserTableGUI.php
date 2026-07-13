@@ -50,6 +50,7 @@ class ilTestQuestionBrowserTableGUI
         private readonly ilDBInterface $db,
         private readonly TestLogger $logger,
         private readonly ilComponentRepository $component_repository,
+        private readonly ilComponentFactory $component_factory,
         private readonly ilObjTest $test_obj,
         private readonly ilObjUser $current_user,
         private readonly ilAccessHandler $access,
@@ -126,8 +127,15 @@ class ilTestQuestionBrowserTableGUI
 
     private function getQuestionsBrowserTable(string $parent_title = ''): QuestionsBrowserTable
     {
-        $question_list = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $this->component_repository);
-        $question_list = $this->addModeParametersToQuestionList($question_list);
+        $question_list = $this->addModeParametersToQuestionList(
+            new ilAssQuestionList(
+                $this->db,
+                $this->lng,
+                $this->refinery,
+                $this->component_repository,
+                $this->component_factory
+            )
+        );
 
         return new QuestionsBrowserTable(
             (string) $this->test_obj->getId(),

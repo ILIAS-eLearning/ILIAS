@@ -205,7 +205,7 @@ class NewsCollection implements \Countable, \IteratorAggregate, \JsonSerializabl
             'parent' => $item,
             'aggregation' => [$item, ...array_map(fn($id) => $this->news_items[$id], $aggregation['aggregation'])],
             'agg_ref_id' => $item->getContextRefId(),
-            'no_context_title' => $item->getContextObjType() === 'frm'
+            'no_context_title' => false
         ];
     }
 
@@ -430,6 +430,22 @@ class NewsCollection implements \Countable, \IteratorAggregate, \JsonSerializabl
             fn($item) => !in_array($item->getId(), $news_ids)
         ));
         return $filtered;
+    }
+
+    /**
+     * Returns a new collection with news items ordered by creation date
+     */
+    public function orderByDate(): static
+    {
+        $ordered = new static();
+        $ordered->addNewsItems($this->news_items);
+
+        uasort(
+            $ordered->news_items,
+            fn(NewsItem $a, NewsItem $b): int => $a->getCreationDate() <=> $b->getCreationDate()
+        );
+
+        return $ordered;
     }
 
     public function load(array $news_ids = []): static

@@ -54,6 +54,7 @@ class QuestionTableTest extends assBaseTestCase
             $this->createMock(ilDBInterface::class),
             $this->createMock(ilLanguage::class),
             $this->createMock(ilComponentRepository::class),
+            $this->createMock(ilComponentFactory::class),
             $this->createMock(ilRbacSystem::class),
             $this->createMock(ilObjUser::class),
             $this->createMock(TaxonomyService::class),

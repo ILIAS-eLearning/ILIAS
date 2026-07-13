@@ -45,6 +45,7 @@ class ilNewsTimelineGUI
     protected ilToolbarGUI $toolbar;
     protected ilObjUser $user;
     protected ilAccessHandler $access;
+    protected ilObjectDataCache $object_data_cache;
     protected static int $items_per_load = 20;
     protected bool $user_edit_all = false;
     protected StandardGUIRequest $std_request;
@@ -67,6 +68,7 @@ class ilNewsTimelineGUI
         $this->access = $DIC->access();
         $this->http = $DIC->http();
         $this->notes = $DIC->notes();
+        $this->object_data_cache = $DIC['ilObjDataCache'];
 
         $this->std_request = $DIC->news()
             ->internal()
@@ -182,15 +184,17 @@ class ilNewsTimelineGUI
 
     protected function readNewsData($excluded = []): void
     {
+        $context_obj_id = $this->object_data_cache->lookupObjId($this->ref_id);
+
         $this->news_collection = $this->manager->getNewsData(
             $this->ref_id,
-            $this->ctrl->getContextObjId(),
-            $this->ctrl->getContextObjType(),
+            $context_obj_id,
+            $this->object_data_cache->lookupType($context_obj_id),
             $this->period,
             $this->include_auto_entries,
             self::$items_per_load,
             $excluded
-        );
+        )->orderByDate();
     }
 
     public function getHTML(?ilPropertyFormGUI $form = null): string

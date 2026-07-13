@@ -172,7 +172,7 @@ class FooterMainCollector extends AbstractBaseCollector implements ItemCollector
     /**
      * @deprecated
      */
-    public function getSingleItemFromFilter(IdentificationInterface $identification): isItem
+    public function getSingleItemFromFilter(IdentificationInterface $identification): ?isItem
     {
         return $this->map->getSingleItemFromFilter($identification);
     }
@@ -180,7 +180,7 @@ class FooterMainCollector extends AbstractBaseCollector implements ItemCollector
     /**
      * @deprecated
      */
-    public function getSingleItemFromRaw(IdentificationInterface $identification): isItem
+    public function getSingleItemFromRaw(IdentificationInterface $identification): ?isItem
     {
         return $this->map->getSingleItemFromRaw($identification);
     }

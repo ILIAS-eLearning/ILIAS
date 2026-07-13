@@ -43,7 +43,8 @@ class PostingDBRepository
             (bool) $rec['approved'],
             $rec['last_withdrawn'] !== null
                 ? new ilDateTime($rec['last_withdrawn'], IL_CAL_DATETIME)
-                : null
+                : null,
+            \ilBlogPosting::_lookupActive((int) $rec['id'], "blp")
         );
     }
 

@@ -584,6 +584,9 @@ class ilContainer extends ilObject
         // delete translations
         $this->getObjectProperties()->deletePropertyTranslations();
 
+        // delete content page
+        $this->domain->page($this)->deletePage();
+
         return true;
     }
 
@@ -882,7 +885,7 @@ class ilContainer extends ilObject
 
         $log = ilLoggerFactory::getLogger("cont");
         $log->debug(":::::::::::::::::::::::::::");
-        $log->logStack(10);
+        $log->logStack(ilLogLevel::DEBUG);
 
         //ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 

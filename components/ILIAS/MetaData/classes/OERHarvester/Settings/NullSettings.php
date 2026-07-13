@@ -25,12 +25,12 @@ class NullSettings implements SettingsInterface
     /**
      * @return string[]
      */
-    public function getObjectTypesSelectedForHarvesting(): array
+    public function getObjectTypesSelectedForPublishing(): array
     {
         return [];
     }
 
-    public function isObjectTypeSelectedForHarvesting(string $type): bool
+    public function isObjectTypeSelectedForPublishing(string $type): bool
     {
         return false;
     }
@@ -38,47 +38,74 @@ class NullSettings implements SettingsInterface
     /**
      * @return int[]
      */
-    public function getCopyrightEntryIDsSelectedForHarvesting(): array
+    public function getCopyrightEntryIDsSelectedForPublishing(): array
     {
         return [];
     }
 
-    public function isCopyrightEntryIDSelectedForHarvesting(int $id): bool
+    public function isCopyrightEntryIDSelectedForPublishing(int $id): bool
     {
         return false;
     }
 
-    public function saveCopyrightEntryIDsSelectedForHarvesting(int ...$ids): void
+    public function saveCopyrightEntryIDsSelectedForPublishing(int ...$ids): void
     {
     }
 
-    public function getContainerRefIDForHarvesting(): int
+    public function isEditorialStepEnabled(): bool
+    {
+        return false;
+    }
+
+    public function saveEditorialStepEnabled(bool $enabled): void
+    {
+    }
+
+    public function getContainerRefIDForEditorialStep(): int
     {
         return 0;
     }
 
-    public function saveContainerRefIDForHarvesting(int $ref_id): void
+    public function saveContainerRefIDForEditorialStep(int $ref_id): void
     {
     }
 
-    public function getContainerRefIDForExposing(): int
+    public function getContainerRefIDForPublishing(): int
     {
         return 0;
     }
 
-    public function saveContainerRefIDForExposing(int $ref_id): void
+    public function saveContainerRefIDForPublishing(int $ref_id): void
     {
     }
 
     /**
      * @return string[]
      */
-    public function getObjectTypesEligibleForHarvesting(): array
+    public function getObjectTypesEligibleForPublishing(): array
     {
         return [];
     }
 
-    public function saveObjectTypesSelectedForHarvesting(string ...$types): void
+    public function saveObjectTypesSelectedForPublishing(string ...$types): void
+    {
+    }
+
+    public function isManualPublishingEnabled(): bool
+    {
+        return false;
+    }
+
+    public function saveManualPublishingEnabled(bool $enabled): void
+    {
+    }
+
+    public function isAutomaticPublishingEnabled(): bool
+    {
+        return false;
+    }
+
+    public function saveAutomaticPublishingEnabled(bool $enabled): void
     {
     }
 }

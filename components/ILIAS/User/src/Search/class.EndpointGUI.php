@@ -100,18 +100,25 @@ class EndpointGUI
             ])
         );
 
-        $response = array_map(
-            static fn(AutocompleteItem $v) => $v->getTagArray(),
-            array_merge(
-                $this->endpoint_configurator->getAdditionalAnswerElements(
-                    $this->current_user,
-                    $autocomplete_query
+        $response = array_values(
+            array_reduce(
+                array_merge(
+                    $this->endpoint_configurator->getAdditionalAnswerElements(
+                        $this->current_user,
+                        $autocomplete_query
+                    ),
+                    $this->profile_data_repository->searchUsers(
+                        $this->settings_data_repository,
+                        $this->field_configuration_repository,
+                        $autocomplete_query
+                    )
                 ),
-                $this->profile_data_repository->searchUsers(
-                    $this->settings_data_repository,
-                    $this->field_configuration_repository,
-                    $autocomplete_query
-                )
+                static function (array $c, AutocompleteItem $v): array {
+                    $tag_array = $v->getTagArray();
+                    $c[$tag_array['display']] = $tag_array;
+                    return $c;
+                },
+                []
             )
         );
 

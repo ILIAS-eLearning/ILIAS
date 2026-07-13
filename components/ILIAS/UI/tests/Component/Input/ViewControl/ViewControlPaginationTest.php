@@ -137,9 +137,7 @@ class ViewControlPaginationTest extends ViewControlTestBase
         $input = $this->createMock(InputData::class);
         $input->expects($this->exactly(2))
             ->method("getOr")
-            ->will(
-                $this->onConsecutiveCalls($v[Pagination::FNAME_OFFSET], $v[Pagination::FNAME_LIMIT])
-            );
+            ->willReturnOnConsecutiveCalls($v[Pagination::FNAME_OFFSET], $v[Pagination::FNAME_LIMIT]);
 
         $vc = $this->buildVCFactory()->pagination()
             ->withNameFrom($this->getNamesource())
@@ -169,8 +167,8 @@ class ViewControlPaginationTest extends ViewControlTestBase
         $expected = $this->brutallyTrimHTML('
 <div class="il-viewcontrol il-viewcontrol-pagination l-bar__element" id="id_13">
     <div class="dropdown il-viewcontrol-pagination__sectioncontrol">
-        <button class="btn btn-link" id="id_8">
-            <span class="glyph" aria-label="back" role="img"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
+        <button class="btn btn-link" aria-label="back" id="id_8">
+            <span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
         </button>
 
         <button class="btn btn-link" id="id_1">1</button>
@@ -183,8 +181,8 @@ class ViewControlPaginationTest extends ViewControlTestBase
         <span class="il-viewcontrol-pagination__spacer">...</span>
         <button class="btn btn-link" id="id_7">21</button>
 
-        <button class="btn btn-link" id="id_9">
-            <span class="glyph" aria-label="next" role="img"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
+        <button class="btn btn-link" aria-label="next" id="id_9">
+            <span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
         </button>
     </div>
 

@@ -18,6 +18,9 @@
 
 namespace ILIAS\BookingManager\Reservations;
 
+use ilBookingReservation;
+use ilDBConstants;
+
 /**
  * Repo class for reservations
  * Acts on tables booking_reservation (rw), booking_reservation_group (rw) and booking_object (r)
@@ -140,27 +143,21 @@ class ReservationDBRepository
         int $to,
         bool $only_not_over_yet = false
     ): array {
-        $ilDB = $this->db;
-
-        $from = $ilDB->quote($from, 'integer');
-        $to = $ilDB->quote($to, 'integer');
-
         $date = $only_not_over_yet
-            ? ' AND date_to > ' . $ilDB->quote(time(), "integer")
-            : "";
+            ? " AND date_to > {$this->db->quote(time(), ilDBConstants::T_INTEGER)}"
+            : '';
 
-        $set = $ilDB->query('SELECT count(*) cnt, object_id' .
-            ' FROM booking_reservation' .
-            ' WHERE ' . $ilDB->in('object_id', $ids, '', 'integer') . $date .
-            ' AND (status IS NULL OR status <> ' . $ilDB->quote(
-                \ilBookingReservation::STATUS_CANCELLED,
-                'integer'
-            ) . ')' .
-            ' AND date_from <= ' . $to . ' AND date_to >= ' . $from .
-            ' GROUP BY object_id');
+        $set = $this->db->query(
+            'SELECT count(*) cnt, object_id FROM booking_reservation'
+            . " WHERE {$this->db->in('object_id', $ids, '', ilDBConstants::T_INTEGER)}{$date}"
+            . " AND (status IS NULL OR status <> {$this->db->quote(ilBookingReservation::STATUS_CANCELLED, ilDBConstants::T_INTEGER)})"
+            . " AND date_from = {$this->db->quote($from, ilDBConstants::T_INTEGER)} AND date_to = {$this->db->quote($to, ilDBConstants::T_INTEGER)}"
+            . ' GROUP BY object_id'
+        );
+
         $res = [];
-        while ($row = $ilDB->fetchAssoc($set)) {
-            $res[$row["object_id"]] = $row;
+        while ($row = $this->db->fetchAssoc($set)) {
+            $res[$row['object_id']] = $row;
         }
         return $res;
     }

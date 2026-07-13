@@ -1,27 +1,25 @@
-# OER Harvester and OAI-PMH Interface
+# OER Publishing and OAI-PMH Interface
 
 > This documentation does not warrant completeness or correctness. Please report any
 missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
 or contribute a fix via [Pull Request](../../../../docs/development/contributing.md#pull-request-to-the-repositories).
 
-The OER Harvester is a cron job that can find and collect Objects under
-appropriate [copyright licences](copyrights.md) in the Repository of the installation.
-These objects are referenced in a pre-configured Category such that for
-example a public area on an installation can automatically be populated
-with OER found on the installation. Additionally, the Harvester automatically
-generates 'Public Access' export files for harvested Objects without one.
+Objects in ILIAS under appropriate [copyright licences](copyrights.md) can be published
+as OER: they are then referenced in a pre-configured Category such that for
+example a public area on an installation can be populated with OER found on
+the installation. Additionally, a 'Public Access' export files is generated
+for published Objects without one.
 
-Further, an OAI-PMH interface can be activated, with which appropriate Objects
-in a Category can be queried externally. The information given out contains,
+Further, an OAI-PMH interface can be activated, with which published
+Objects can be queried externally. The information given out contains,
 among other useful metadata, static links to the Objects, and download links
-for their 'Public Access' export files. For example, OER referatories can
-then harvest the OER previously collected in the public area, and directly link
+for their 'Public Access' export files. OER referatories can then harvest
+the published OER previously collected in the public area, and directly link
 to the Objects and their exports.
 
 ### Supported Object Types
 
-Currently, the OER Harvester and OAI-PMH interface only work with the
-following objects:
+Currently, only the following Objects can be published:
 
 - Blog
 - Content Page
@@ -37,123 +35,128 @@ following objects:
 - Question Pool Survey
 - Question Pool Test
 - Weblink
-- wiki
+- Wiki
 
-In the OER Harvester cron job configuration, these types can be disabled
-individually.
+these types can be disabled individually in the Publishing settings
+in the Metadata Administration.
 
-## OER Harvester
+## OER Publishing
 
 ### Prerequisites and Settings
 
-The OER Harvester needs to be activated in the 'Cron Jobs' Administration.
-For it to actually harvest Objects, copyright selection has to be enabled in
-the 'Metadata' Administration. In the cron job configuration of the Harvester,
-to-be-collected licences then need to be chosen, along with Categories
-for the harvested and published OER (see below for details). Further,
-supported object types can be disabled indivdiually.
+Publishing of Objects can be activated (either manual, automatic, or both)
+and configured in the Metadata Administration. There the Category that OER
+are published to can be selected, along with Object types and
+[copyright licences](copyrights.md) eligible for publishing. As a prerequisite,
+Copyright selection has to be enabled.
 
-Disabling the copyright selection again after Objects have already had
-licences assigned is not recommended, and can lead to unpredictable results
-when running the OER Harvester.
+Further, an editorial step can be added to the publishing workflow. If
+enabled, OER are first linked to in a separate editorial Category, where
+it can be checked by an editorial team before publication proper.
 
-### Harvesting
+Lastly, the [OER Harvester](#oer-harvester-and-automatic-publishing)
+cron job must be running for publishing to function properly. It can be
+activated in the 'Cron Jobs' Administration.
 
-When executed, the OER Harvester will search the installation for eligible
-Objects. All Objects found are then referenced in the pre-configured Category
-for harvested OER. In addition, if the Objects do not have an export file flagged
-as 'Public Access', a new export file is automatically generated for
-them, and set to 'Public Access'.
+### Publishing Control Center
 
-The following conditions must be fulfilled for an Object to be harvested:
+If publishing is enabled in the Metadata Administration, even when set to
+automatic, the 'Metadata'-tab of Objects with eligible type offers access
+to a sort of publishing control center. There, the publishing status of the
+Object is shown as follows:
 
-- The Object must be in the Repository, and it must not be in the
-  Trash (or deleted entirely).
-- The Object must be of a supported type, and that type must not be
-  disabled in the Harvester's cron job configuration.
-- In the Object's LOM, the copyright must be one of those selected in the
-  Harvester's cron job configuration.
-- The Object must not be blocked from being harvested (see 
-  [below](#blocking-individual-objects)).
-- The Object must not already be harvested. Objects whose reference was 
-  manually deleted from the Category for harvested OER still count as harvested.
-- In the Harvester's cron job configuration, a Category for harvested OER
-  must be set.
+- **Unpublished:** Default status for new objects.
+- **Blocked:** Only shown when automatic publishing is enabled. The Object
+  will not be automatically published, regardless of the selected copyright licence.
+- **Under Review:** Only shown when the editorial step is enabled. The Object
+  is waiting for final approval in the editorial Category.
+- **Published:** The Object is published as OER. It is referenced in the
+  OER Category, a 'Public Access' export file was created for it, and it has
+  a pre-compiled record for the OAI-PMH interface.
 
-If any of these conditions except the last two are not fulfilled any more for a
-previously harvested Object, the Harvester deletes its reference from the
-Category for harvested OER. It does however not also deleted automatically
-generated export files. The Object then does not count as harvested
-any more, and could thus be harvested again in the future. Only Objects
-unflagged in this way can be harvested again.
+Further, related actions are offered to the user, according to the
+configuration of the publishing workflow:
 
-### Blocking Individual Objects
+- **Block:** Only offered for unpublished Objects when automatic publishing
+ is enabled. Blocks the Object from publishing.
+- **Unblock:** Only offered for blocked Objects when automatic publishing is
+  enabled. Reverts the Object's status to unpublished.
+- **Publish:** Only offered for unpublished Objects when the editorial step
+  is not enabled. Creates a reference to the Object in the previously configured
+  OER Category, creates a new export file and flags it as 'Public Access' (if
+  there isn't one such export file already), and compiles a record for the
+  OAI-PMH interface.<br/>
+  'Publish' is disabled if the user does not have permission to create Objects
+  of the current Object's type in the OER Category.
+- **Withdraw:** Only offered for published Objects, or for Objects under review
+  when viewed outside the editorial Category (if the editorial step is enabled).
+  Removes the Object's reference from the previously configured OER Category, or
+  from the editorial Category as applicable. If a record exists in the OAI-PMH
+  interface, it is marked as deleted (see [below](#implementation) for details).
+  When automatic publishing is enabled, the Object is also blocked from publishing.<br/>
+  'Withdraw' is disabled if the user does not have permission to delete the Object's
+  reference from the editorial or OER Category.
+- **Submit:** Only offered for unpublished Objects when the editorial step
+  is enabled. Creates a reference to the Object in the editorial Category, and
+  creates a new export file and flags it as 'Public Access' (if there isn't one
+  such export file already).<br/>
+  'Submit' is disabled if the user does not have permission to create Objects 
+  of the current Object's type in the editorial Category.
+- **Accept:** Only offered for unpublished Objects when viewed in the editorial
+  Category, when the editorial step is enabled. Moves the Object's reference from
+  the editorial to the OER Category, and compiles a record for the OAI-PMH interface.<br/>
+  'Publish' is disabled if the user does not have permission to create Objects
+  of the current Object's type in the OER Category.<br/>
+  'Accept' is disabled if the user does not have permission to create Objects
+  of the current Object's type in the OER Category, or to delete the Object's
+  reference from the editorial Category.
+- **Reject:** Only offered for unpublished Objects when viewed in the editorial
+  Category, when the editorial step is enabled. Functions identically to 'Withdraw'.<br/>
+  'Reject' is disabled if the user does not have permission to delete the Object's
+  reference from the editorial Category.
 
-Users with access to an Object's 'Metadata'-tab can block the Object from
-being harvested. The option is offered when choosing an eligible copyright
-licence for an Object with a type supported by the Harvester (and not
-disabled in the configuration).
+### OER Harvester and Automatic Publishing
 
-Note that when an Object's copyright is changed in the 'Metadata'-tab (but
-not in the full LOM editor), and the option to block an object from
-being harvested is offered but not taken, the user is notified about the
-Object potentially being published, and asked for confirmation.
+The OER Harvester is a cron job that automatically collects and publishes
+(or submits) eligible Objects in the Repository, if automatic publishing is
+enabled. It is also responsible for a number of clean-up tasks to make
+publishing function properly. It has to be active, even if only manual
+publishing is enabled.
 
-Blocking an already harvested Object will lead to its reference in the
-Category for harvested OER being deleted when the Harvester is executed next.
+On each run, the OER Harvester does the following (see [above](#publishing-control-center)
+for details on statuses and actions):
 
-### Exposed Records
-
-In addition to harvesting OER, the Harvester also complies records of OER
-to be exposed for querying through the OAI-PMH interface. A record is
-compiled for an Object if the following conditions are fulfilled:
-
-- The Object must be in the Repository, and it must not be in the
-  Trash (or deleted entirely).
-- The Object must be of a supported type, and that type must not be
-  disabled in the Harvester's cron job configuration.
-- In the Object's LOM, the copyright must be one of those selected in the
-  Harvester's cron job configuration.
-- The Object must not be blocked from being harvested (see
-  [below](#blocking-individual-objects)).
-- The Object must have a reference in the Category for published OER.
-  That reference can also be in a (nested) Subobject of the Category.
-- In the Harvester's cron job configuration, a Category for published OER
-  must be set.
-
-Note that most of these conditions match those [for harvesting](#harvesting),
-such that for the most part records are compiled for Objects that were
-previously harvested, although this is not technically a prerequisite.
-
-If any of these conditions are not fulfilled any more for a previously exposed
-Object, the Object's record available through the OAI-PMH interface will
-be marked as deleted, and it will not contain any metadata anymore. After
-a grace period of 30 days the record will be fully deleted.
-
-If changes were made to the LOM of a previously exposed object, its record
-will be updated accordingly if necessary (see [below](#mapping-of-metadata)
-for details), including the date of change.
-
-#### Automatic Publishing
-
-The OER Harvester can be configured in such a way that for every harvested
-Object, a record is compiled immediately. Then OER on the installation are
-effectively published automatically through the OAI-PMH interface, as soon as an
-eligible copyright is chosen for them. If that is the desired behaviour, choose
-the same Category for harvested and published OER in the Harvester's cron
-job configuration.
-
-If on the other hand OER should not be published automatically, for example
-for quality control, two different Categories should be selected. In this case,
-Objects must be moved (or linked) manually from the Category for harvested OER to that for
-published OER.
+- Objects that are published or under review, but are not eligible for
+  publishing anymore, are withdrawn. An Object can become ineligible as
+  follows:
+  - Either the copyright licence selected for the Object is changed, or the
+    selection of eligible licences is changed in the Metadata Administration,
+    such that the Object's licence is not eligible anymore.
+  - The Object's type is removed from the selection of eligible Object types
+    in the Metadata Administration.
+  - The Object is deleted from the Repository.
+  - The Object's reference in the editorial or OER Category created during
+    publishing is deleted.
+- The record for the OAI-PMH interface of published Objects is updated, if
+  they or their LOM have changed in such a way that the fields defined
+  [below](#mapping-of-metadata) change.
+- Records for the OAI-PMH interface [marked as deleted](#implementation) are
+  removed if they are older than 30 days.
+- If automatic publishing is enabled, eligible Objects are published, or
+  submitted for review if the editorial step is enabled. An Object is
+  eligible if all the following conditions are fulfilled:
+  - It must have an eligible copyright licence selected, as configured in
+    the Metadata Administration.
+  - It must be of an [eligible type](#supported-object-types) as configured
+    in the Metadata Administration.
+  - It must be in the Repository and not deleted.
+  - It must not already be published or under review.
 
 ## OAI-PMH Interface
 
 If enabled in the Metadata Administration, records compiled by the OER
 Harvester can be queried by external parties via an interface implementing
-the [OAI-PMH protocol](https://www.openarchives.org/OAI/openarchivesprotocol.html).
-The associated endpoint is `{ILIAS base path}/oai.php`.
+the [OAI-PMH protocol](https://www.openarchives.org/OAI/openarchivesprotocol.html). The associated endpoint is `{ILIAS base path}/oai.php`.
 
 Note that records of OER in responses contain static links
 to the associated Objects in the Category for published OER. For exposed

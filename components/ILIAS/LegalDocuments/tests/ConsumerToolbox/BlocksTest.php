@@ -94,8 +94,8 @@ class BlocksTest extends TestCase
     public function testUi(): void
     {
         $container = $this->mock(Container::class);
-        $container->expects(self::once())->method('ui')->willReturn($this->mock(UIServices::class));
-        $container->expects(self::once())->method('language')->willReturn($this->mock(ilLanguage::class));
+        $container->expects($this->once())->method('ui')->willReturn($this->mock(UIServices::class));
+        $container->expects($this->once())->method('language')->willReturn($this->mock(ilLanguage::class));
 
         $instance = new Blocks(
             'foo',
@@ -145,8 +145,8 @@ class BlocksTest extends TestCase
     public function testUserManagementAgreeDateField(): void
     {
         $result = $this->mockTree(Result::class, ['value' => 'dummy']);
-        $result->expects(self::once())->method('map')->willReturn($result);
-        $result->expects(self::once())->method('except')->willReturn($result);
+        $result->expects($this->once())->method('map')->willReturn($result);
+        $result->expects($this->once())->method('except')->willReturn($result);
         $user = $this->mock(ilObjUser::class);
         $date = new DateTimeImmutable();
         $ldoc_user = $this->mockTree(User::class, [
@@ -156,7 +156,7 @@ class BlocksTest extends TestCase
 
         $language = $this->mock(ilLanguage::class);
         $consecutive = ['dummy lang', 'ldoc'];
-        $language->expects(self::exactly(2))->method('loadLanguageModule')->with(
+        $language->expects($this->exactly(2))->method('loadLanguageModule')->with(
             $this->callback(function ($value) use (&$consecutive) {
                 $this->assertSame(array_shift($consecutive), $value);
                 return true;
@@ -190,8 +190,8 @@ class BlocksTest extends TestCase
         ]);
 
         $form = $this->mock(Form::class);
-        $form->expects(self::once())->method('withRequest')->with($container->http()->request())->willReturn($form);
-        $form->expects(self::once())->method('getData')->willReturn($data);
+        $form->expects($this->once())->method('withRequest')->with($container->http()->request())->willReturn($form);
+        $form->expects($this->once())->method('getData')->willReturn($data);
 
         $instance = new Blocks('foo', $container, $this->mock(Provide::class));
         $this->assertSame($form, $instance->withRequest($form, function ($x) use ($data, &$called) {

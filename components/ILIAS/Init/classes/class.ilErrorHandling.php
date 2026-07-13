@@ -36,7 +36,8 @@ use Whoops\Handler\HandlerInterface;
  */
 class ilErrorHandling
 {
-    private const SENSTIVE_PARAMETER_NAMES = [
+    /** @var list<string> */
+    private const array SENSTIVE_PARAMETER_NAMES = [
         'password',
         'passwd',
         'passwd_retype',
@@ -47,35 +48,22 @@ class ilErrorHandling
         'new_password_retype',
     ];
 
-    protected ?RunInterface $whoops;
-
-    protected string $message;
-    protected bool $DEBUG_ENV;
-
-    /**
-     * Error level 1: exit application immedietly
-     */
-    public int $FATAL = 1;
-
-    /**
-     * Error level 2: show warning page
-     */
-    public int $WARNING = 2;
-
-    /**
-     * Error level 3: show message in recent page
-     */
-    public int $MESSAGE = 3;
-
     /**
      * Are the whoops error handlers already registered?
-     * @var bool
      */
     protected static bool $whoops_handlers_registered = false;
 
+    protected ?RunInterface $whoops;
+    protected string $message;
+    /** Error level 1: exit application immedietly */
+    public int $FATAL = 1;
+    /** Error level 2: show warning page */
+    public int $WARNING = 2;
+    /** Error level 3: show message in recent page */
+    public int $MESSAGE = 3;
+
     public function __construct()
     {
-        $this->DEBUG_ENV = true;
         $this->FATAL = 1;
         $this->WARNING = 2;
         $this->MESSAGE = 3;
@@ -89,7 +77,7 @@ class ilErrorHandling
 
     /**
      * Initialize Error and Exception Handlers.
-     * Initializes Whoops, a logging handler and a delegate handler for the late initialisation
+     * Initializes Whoops, a logging handler and a delegate handler for the late initialization
      * of an appropriate error handler.
      */
     protected function initWhoopsHandlers(): void
@@ -98,13 +86,15 @@ class ilErrorHandling
             // Only register whoops error handlers once.
             return;
         }
-        $ilRuntime = $this->getIlRuntime();
+
+        $runtime = $this->getRuntime();
         $this->whoops = $this->getWhoops();
         $this->whoops->pushHandler(new ilDelegatingHandler($this, self::SENSTIVE_PARAMETER_NAMES));
-        if ($ilRuntime->shouldLogErrors()) {
+        if ($runtime->shouldLogErrors()) {
             $this->whoops->pushHandler($this->loggingHandler());
         }
         $this->whoops->register();
+
         self::$whoops_handlers_registered = true;
     }
 
@@ -133,7 +123,7 @@ class ilErrorHandling
         ?int $code = null
     ): void {
         $backtrace = debug_backtrace();
-        if (isset($backtrace[0], $backtrace[0]['object'])) {
+        if (isset($backtrace[0]['object'])) {
             unset($backtrace[0]['object']);
         }
 
@@ -150,38 +140,13 @@ class ilErrorHandling
         global $log;
 
         $session_failure = ilSession::get('failure');
-        if ($session_failure && !str_starts_with($message, 'Cannot find this block')) {
+        if ($session_failure) {
             $m = 'Fatal Error: Called raise error two times.<br>' .
                 'First error: ' . $session_failure . '<br>' .
                 'Last Error:' . $message;
             $log->write($m);
             ilSession::clear('failure');
             die($m);
-        }
-
-        if (str_starts_with($message, 'Cannot find this block')) {
-            if ($this->isDevmodeActive()) {
-                echo '<b>DEVMODE</b><br><br>';
-                echo '<b>Template Block not found.</b><br>';
-                echo 'You used a template block in your code that is not available.<br>';
-                echo 'Native Messge: <b>' . $message . '</b><br>';
-                echo 'Backtrace:<br>';
-                foreach ($backtrace as $b) {
-                    if ($b['function'] === 'setCurrentBlock' &&
-                        basename($b['file']) !== 'class.ilTemplate.php') {
-                        echo '<b>';
-                    }
-                    echo 'File: ' . $b['file'] . ', ';
-                    echo 'Line: ' . $b['line'] . ', ';
-                    echo $b['function'] . '()<br>';
-                    if ($b['function'] === 'setCurrentBlock' &&
-                        basename($b['file']) !== 'class.ilTemplate.php') {
-                        echo '</b>';
-                    }
-                }
-                exit;
-            }
-            return;
         }
 
         if ($log instanceof ilLogger) {
@@ -192,16 +157,11 @@ class ilErrorHandling
         }
 
         if ($code === $this->WARNING) {
-            if (!$this->DEBUG_ENV) {
-                $message = 'Under Construction';
-            }
-
             ilSession::set('failure', $message);
-
-            if (!defined('ILIAS_MODULE')) {
-                ilUtil::redirect('error.php');
-            } else {
+            if (defined('ILIAS_MODULE')) {
                 ilUtil::redirect('../error.php');
+            } else {
+                ilUtil::redirect('error.php');
             }
         }
         $updir = '';
@@ -250,7 +210,7 @@ class ilErrorHandling
         $this->message .= $a_message;
     }
 
-    protected function getIlRuntime(): ilRuntime
+    protected function getRuntime(): ilRuntime
     {
         return ilRuntime::getInstance();
     }
@@ -270,38 +230,42 @@ class ilErrorHandling
         return new CallbackHandler(function ($exception, Inspector $inspector, Run $run) {
             global $DIC;
 
-            $session_id = substr(session_id(), 0, 5);
-            $r = new \Random\Randomizer();
-            $err_num = $r->getInt(1, 9999);
-            $file_name = $session_id . '_' . $err_num;
-
             $logger = ilLoggingErrorSettings::getInstance();
+
+            $message = 'Sorry, an error occured.';
+            if ($DIC->isDependencyAvailable('language')) {
+                $DIC->language()->loadLanguageModule('logging');
+                $message = $DIC->language()->txt('error_sry_error');
+            }
+
             if (!empty($logger->folder())) {
+                $session_id = substr(session_id(), 0, 5);
+                $r = new \Random\Randomizer();
+                $err_num = $r->getInt(1, 9999);
+                $file_name = $session_id . '_' . $err_num;
+
                 $lwriter = new ilLoggingErrorFileStorage($inspector, $logger->folder(), $file_name);
                 $lwriter = $lwriter->withExclusionList(self::SENSTIVE_PARAMETER_NAMES);
                 $lwriter->write();
-            }
 
-            //Use $lng if defined or fallback to english
-            if ($DIC->isDependencyAvailable('language')) {
-                $DIC->language()->loadLanguageModule('logging');
-                $message = sprintf($DIC->language()->txt('log_error_message'), $file_name);
-
-                if ($logger->mail()) {
-                    $message .= ' ' . sprintf(
-                        $DIC->language()->txt('log_error_message_send_mail'),
-                        $logger->mail(),
-                        $file_name,
-                        $logger->mail()
-                    );
-                }
-            } else {
-                $message = 'Sorry, an error occured. A logfile has been created which can be identified via the code "' . $file_name . '"';
-
-                if ($logger->mail()) {
-                    $message .= ' ' . 'Please send a mail to <a href="mailto:' . $logger->mail() . '?subject=code: ' . $file_name . '">' . $logger->mail() . '</a>';
+                if ($DIC->isDependencyAvailable('language')) {
+                    $message = sprintf($DIC->language()->txt('log_error_message'), $file_name);
+                    if ($logger->mail()) {
+                        $message .= ' ' . sprintf(
+                            $DIC->language()->txt('log_error_message_send_mail'),
+                            $logger->mail(),
+                            $file_name,
+                            $logger->mail()
+                        );
+                    }
+                } else {
+                    $message = 'Sorry, an error occured. A logfile has been created which can be identified via the code "' . $file_name . '"';
+                    if ($logger->mail()) {
+                        $message .= ' ' . 'Please send a mail to <a href="mailto:' . $logger->mail() . '?subject=code: ' . $file_name . '">' . $logger->mail() . '</a>';
+                    }
                 }
             }
+
             if ($DIC->isDependencyAvailable('ui') && isset($DIC['tpl']) && $DIC->isDependencyAvailable('ctrl')) {
                 $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', $message, true);
                 $DIC->ctrl()->redirectToURL('error.php');
@@ -395,7 +359,7 @@ class ilErrorHandling
         return new CallbackHandler(function ($exception, Inspector $inspector, Run $run) {
             /**
              * Don't move this out of this callable
-             * @var ilLogger $ilLog ;
+             * @var ilLogger $ilLog
              */
             global $ilLog;
 

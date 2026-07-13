@@ -32,7 +32,7 @@ class DatabaseDataRepository implements DataRepository
     {
         $query = $this->db->queryF(
             'SELECT * FROM ' . self::TABLE_NAME . ' WHERE usr_id = %s',
-            ['integer'],
+            [\ilDBConstants::T_INTEGER],
             [$user_id]
         );
 

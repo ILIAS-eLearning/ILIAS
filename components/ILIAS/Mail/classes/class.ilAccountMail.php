@@ -171,7 +171,7 @@ class ilAccountMail
         } else {
             $attachment = $amail->getAttachment($this->irss);
             if ($attachment !== null) {
-                $mmail->Attach($attachment[0], '', 'attachment', $attachment[1]);
+                $mmail->Attach($attachment->getPath(), '', 'attachment', $attachment->getFilename());
             }
 
             // replace placeholders
@@ -193,12 +193,12 @@ class ilAccountMail
     {
         global $DIC;
         $settings = $DIC->settings();
-        $mustache_factory = $DIC->mail()->mustacheFactory();
+        $template_engine_factory = $DIC->mail()->templateEngineFactory();
 
         $replacements = [];
 
         // determine salutation
-        $replacements['MAIL_SALUTATION'] = $mustache_factory->getBasicEngine()->render(
+        $replacements['MAIL_SALUTATION'] = $template_engine_factory->getBasicEngine()->render(
             match ($a_user->getGender()) {
                 'f' => trim($a_amail->getSalutationFemale()),
                 'm' => trim($a_amail->getSalutationMale()),
@@ -252,6 +252,6 @@ class ilAccountMail
             }
         }
 
-        return $mustache_factory->getBasicEngine()->render($a_string, $replacements);
+        return $template_engine_factory->getBasicEngine()->render($a_string, $replacements);
     }
 }

@@ -104,7 +104,8 @@ class ilLTIConsumerProviderTableGUI implements DataRetrieval
         mixed $filter_data,
         mixed $additional_parameters
     ): Generator {
-        foreach ($this->records as $record) {
+        $records = $this->applyOrdering($this->records, $order, $range);
+        foreach ($records as $record) {
             $record["icon"] = $record["icon"] ?? "lti";
             $record["icon"] = $this->ui_factory->symbol()->icon()->standard($record["icon"], $record["icon"], IconAlias::SMALL);
 
@@ -143,14 +144,61 @@ class ilLTIConsumerProviderTableGUI implements DataRetrieval
         $this->records = $data;
     }
 
+    protected function applyOrdering(array $records, Order $order, ?Range $range = null): array
+    {
+        [$order_field, $order_direction] = $order->join(
+            [],
+            fn($ret, $key, $value) => [$key, $value]
+        );
+
+        $order_field = (string) $order_field;
+        $sortable_records = array_map(function (array $record) use ($order_field): array {
+            return [
+                'sort_key' => $this->getSortableValue($record, $order_field),
+                'record' => $record,
+            ];
+        }, $records);
+
+        usort($sortable_records, static function (array $left, array $right): int {
+            return ilStr::strCmp($left['sort_key'], $right['sort_key']);
+        });
+
+        $records = array_column($sortable_records, 'record');
+
+        if ($order_direction === Order::DESC) {
+            $records = array_reverse($records);
+        }
+
+        if ($range !== null) {
+            $records = array_slice($records, $range->getStart(), $range->getLength());
+        }
+
+        return $records;
+    }
+
+    protected function getSortableValue(array $record, string $order_field): string
+    {
+        return match ($order_field) {
+            'category' => $this->getCategoryTranslation((string) ($record['category'] ?? '')),
+            'outcome' => $this->getHasOutcomeFormatted((bool) ($record['outcome'] ?? false)),
+            'internal' => $this->getIsInternalFormatted(!(bool) ($record['external'] ?? false)),
+            'with_key' => $this->getIsWithKeyFormatted(!(bool) ($record['provider_key_customizable'] ?? false)),
+            'availability' => $this->getAvailabilityLabel($record),
+            'own_provider' => $this->getOwnProviderLabel($record),
+            'provider_creator' => $this->getProviderCreatorLabel($record),
+            default => (string) ($record[$order_field] ?? ''),
+        };
+    }
+
     /**
      * @throws ilCtrlException
      */
     public function getHTML(bool $hasWriteAccess = false): string
     {
         $table = $this->ui_factory->table()
-            ->data($this->lng->txt('tbl_provider_header'), $this->getColumns(), $this)
+            ->data($this, $this->lng->txt('tbl_provider_header'), $this->getColumns())
             ->withOrder(new Order('title', Order::ASC))
+            ->withRange(new Range(0, 20))
             ->withRequest($this->request);
 
         if ($hasWriteAccess) {

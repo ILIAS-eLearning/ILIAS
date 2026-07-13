@@ -170,7 +170,7 @@ class ilMediaCreationGUI
     {
         $mimes = [];
         if (in_array(self::TYPE_ALL, $this->accept_types)) {
-            $mimes = iterator_to_array($this->type_manager->getAllowedMimeTypes());
+            $mimes = iterator_to_array($this->type_manager->getAllowedMimeTypes($local_only));
         }
         if (in_array(self::TYPE_VIDEO, $this->accept_types)) {
             $mimes = array_merge($mimes, iterator_to_array($this->type_manager->getAllowedVideoMimeTypes($local_only)));
@@ -287,7 +287,7 @@ class ilMediaCreationGUI
         //
         $ti = new \ilTextInputGUI($lng->txt("mob_url"), "url");
         $info = $lng->txt("mob_url_info1") . " " . implode(", ", $this->getSuffixes()) . ".";
-        if (in_array(self::TYPE_VIDEO, $this->accept_types)) {
+        if (in_array(self::TYPE_VIDEO, $this->accept_types) || in_array(self::TYPE_ALL, $this->accept_types)) {
             $info .= " " . $lng->txt("mob_url_info_video");
         }
         $ti->setInfo($info);

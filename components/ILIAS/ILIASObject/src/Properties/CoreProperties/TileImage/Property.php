@@ -24,14 +24,12 @@ use ILIAS\ILIASObject\Properties\Property as PropertyInterface;
 use ILIAS\UI\Component\Input\Field\File;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\FileUpload\MimeType;
 
 /**
  * @author Stephan Kergomard
  */
 class Property implements PropertyInterface
 {
-    public const SUPPORTED_MIME_TYPES = [MimeType::IMAGE__PNG, MimeType::IMAGE__JPEG];
     private const SUPPORTED_FILE_EXTENSIONS = ['png', 'jpg', 'jpeg'];
 
     protected const INPUT_LABEL = 'obj_tile_image';
@@ -91,7 +89,7 @@ class Property implements PropertyInterface
 
         $tile_image = $field_factory
             ->file(new \TileImageUploadHandlerGUI($this->tile_image), $language->txt(self::INPUT_LABEL), $language->txt(self::INPUT_BYLINE))
-            ->withAcceptedMimeTypes(self::SUPPORTED_MIME_TYPES)
+            ->withAcceptedMimeTypes(TileImage::SUPPORTED_MIME_TYPES)
             ->withAdditionalTransformation($trafo);
 
         if ($this->tile_image->getRid() === null

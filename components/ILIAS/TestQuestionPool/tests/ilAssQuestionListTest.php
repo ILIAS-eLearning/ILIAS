@@ -35,13 +35,14 @@ class ilAssQuestionListTest extends assBaseTestCase
     {
         parent::setUp();
 
-        $db = $this->createMock(ilDBInterface::class);
-        $lng = $this->createMock(ilLanguage::class);
-        $refinery = $this->createMock(ILIAS\Refinery\Factory::class);
-        $component_repository = $this->createMock(ilComponentRepository::class);
-        $notes_service = $this->createMock(ILIAS\Notes\Service::class);
-
-        $this->object = new ilAssQuestionList($db, $lng, $refinery, $component_repository, $notes_service);
+        $this->object = new ilAssQuestionList(
+            $this->createMock(ilDBInterface::class),
+            $this->createMock(ilLanguage::class),
+            $this->createMock(ILIAS\Refinery\Factory::class),
+            $this->createMock(ilComponentRepository::class),
+            $this->createMock(ilComponentFactory::class),
+            $this->createMock(ILIAS\Notes\Service::class)
+        );
     }
 
     public function testConstruct(): void

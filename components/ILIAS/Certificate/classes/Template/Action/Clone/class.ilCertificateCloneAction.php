@@ -69,8 +69,6 @@ class ilCertificateCloneAction
             ));
         }
 
-        $certificatePath = $this->pathFactory->create($newObject);
-
         $templates = $this->templateRepository->fetchCertificateTemplatesByObjId($oldObject->getId());
 
         /** @var ilCertificateTemplate $template */

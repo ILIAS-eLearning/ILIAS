@@ -81,10 +81,6 @@ class ilMDOERSettingsGUI
         $form = $this->initSettingsForm();
         if ($form->checkInput()) {
             $this->MDSettings()->activateCopyrightSelection((bool) $form->getInput('active'));
-            $this->MDSettings()->activateOAIPMH((bool) $form->getInput('oai_active'));
-            $this->MDSettings()->saveOAIRepositoryName((string) $form->getInput('oai_repository_name'));
-            $this->MDSettings()->saveOAIIdentifierPrefix((string) $form->getInput('oai_identifier_prefix'));
-            $this->MDSettings()->saveOAIContactMail((string) $form->getInput('oai_contact_mail'));
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'showOERSettings');
         }
@@ -112,43 +108,6 @@ class ilMDOERSettingsGUI
         $check->setInfo($this->lng->txt('md_copyright_enable_info'));
         $form->addItem($check);
 
-        $header = new ilFormSectionHeaderGUI();
-        $header->setTitle($this->lng->txt('md_settings_harvester'));
-        $form->addItem($header);
-
-        ilAdministrationSettingsFormHandler::addFieldsToForm(
-            $this->getAdministrationFormId(),
-            $form,
-            $this->parent_obj_gui
-        );
-
-        $header = new ilFormSectionHeaderGUI();
-        $header->setTitle($this->lng->txt('md_settings_publishing'));
-        $form->addItem($header);
-
-        $oai_check = new ilCheckboxInputGUI($this->lng->txt('md_oai_pmh_enabled'), 'oai_active');
-        $oai_check->setChecked($this->MDSettings()->isOAIPMHActive());
-        $oai_check->setValue('1');
-        $oai_check->setInfo($this->lng->txt('md_oai_pmh_enabled_info'));
-        $form->addItem($oai_check);
-
-        $oai_repo_name = new ilTextInputGUI($this->lng->txt('md_oai_repository_name'), 'oai_repository_name');
-        $oai_repo_name->setValue($this->MDSettings()->getOAIRepositoryName());
-        $oai_repo_name->setInfo($this->lng->txt('md_oai_repository_name_info'));
-        $oai_repo_name->setRequired(true);
-        $oai_check->addSubItem($oai_repo_name);
-
-        $oai_id_prefix = new ilTextInputGUI($this->lng->txt('md_oai_identifier_prefix'), 'oai_identifier_prefix');
-        $oai_id_prefix->setValue($this->MDSettings()->getOAIIdentifierPrefix());
-        $oai_id_prefix->setInfo($this->lng->txt('md_oai_identifier_prefix_info'));
-        $oai_id_prefix->setRequired(true);
-        $oai_check->addSubItem($oai_id_prefix);
-
-        $oai_contact_mail = new ilTextInputGUI($this->lng->txt('md_oai_contact_mail'), 'oai_contact_mail');
-        $oai_contact_mail->setValue($this->MDSettings()->getOAIContactMail());
-        $oai_contact_mail->setRequired(true);
-        $oai_check->addSubItem($oai_contact_mail);
-
         return $form;
     }
 
@@ -158,10 +117,5 @@ class ilMDOERSettingsGUI
             $this->md_settings = ilMDSettings::_getInstance();
         }
         return $this->md_settings;
-    }
-
-    protected function getAdministrationFormId(): int
-    {
-        return ilAdministrationSettingsFormHandler::FORM_META_COPYRIGHT;
     }
 }

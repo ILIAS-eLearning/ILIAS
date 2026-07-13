@@ -143,13 +143,19 @@ class FilterContextRenderer extends Renderer
         $f = $this->getUIFactory();
         $tpl = $this->getTemplate("tpl.context_filter.html", true, true);
 
-        /**
-         * @var $remove_glyph Component\Symbol\Glyph\Glyph
-         */
-        $remove_glyph = $f->symbol()->glyph()->remove("")->withAdditionalOnLoadCode(fn($id) => "$('#$id').on('click', function(event) {
+        $remove_button = $f->button()->shy('', '')->withSymbol($f->symbol()->glyph()->remove())
+            ->withAdditionalOnLoadCode(fn($id) => "$('#$id').on('click', function(event) {
 							il.UI.filter.onRemoveClick(event, '$id');
 							return false; // stop event propagation
 					});");
+
+        $tpl->setVariable("UI_COMPONENT_NAME", $this->getComponentCanonicalNameAttribute($component));
+        $tpl->setVariable("INPUT_NAME", $component->getName());
+
+        if ($component->getOnLoadCode() !== null) {
+            $binding_id = $this->bindJavaScript($component) ?? $this->createId();
+            $tpl->setVariable("BINDING_ID", $binding_id);
+        }
 
         $tpl->setCurrentBlock("addon_left");
         $tpl->setVariable("LABEL", $component->getLabel());
@@ -161,13 +167,13 @@ class FilterContextRenderer extends Renderer
         $tpl->parseCurrentBlock();
         $tpl->setCurrentBlock("filter_field");
         if ($component->isComplex()) {
-            $tpl->setVariable("FILTER_FIELD", $this->renderProxyField($input_html, $default_renderer));
+            $tpl->setVariable("FILTER_FIELD", $this->renderProxyField($component, $input_html, $default_renderer));
         } else {
             $tpl->setVariable("FILTER_FIELD", $input_html);
         }
         $tpl->parseCurrentBlock();
         $tpl->setCurrentBlock("addon_right");
-        $tpl->setVariable("DELETE", $default_renderer->render($remove_glyph));
+        $tpl->setVariable("DELETE", $default_renderer->render($remove_button));
         $tpl->parseCurrentBlock();
 
         return $tpl->get();
@@ -179,6 +185,7 @@ class FilterContextRenderer extends Renderer
     }
 
     protected function renderProxyField(
+        FormInput $component,
         string $input_html,
         RendererInterface $default_renderer
     ): string {
@@ -190,6 +197,7 @@ class FilterContextRenderer extends Renderer
 
         $prox = new ProxyFilterField();
         $prox = $prox->withOnClick($popover->getShowSignal());
+        $prox = $this->addTriggererOnLoadCode($prox);
         $tpl->touchBlock("tabindex");
 
         $this->bindJSandApplyId($prox, $tpl);
@@ -210,7 +218,6 @@ class FilterContextRenderer extends Renderer
         $input_html .= $default_renderer->render($input);
 
         $tpl = $this->getTemplate("tpl.duration.html", true, true);
-        $id = $this->bindJSandApplyId($component, $tpl);
         $tpl->setVariable('DURATION', $input_html);
 
         return $this->wrapInFormContext($component, $component->getLabel(), $tpl->get());

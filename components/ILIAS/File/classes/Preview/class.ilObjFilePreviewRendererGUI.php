@@ -158,7 +158,7 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
         return $this->isAccessGranted();
     }
 
-    public function getTriggerComponents(bool $as_button = false): array
+    public function getTriggerComponents(bool $as_standard_button = false): array
     {
         if (!$this->isAccessGranted()) {
             throw new LogicException('User cannot see this resource');
@@ -172,9 +172,9 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
                                       $this->ctrl->getLinkTargetByClass(self::class, self::CMD_GET_ASYNC_MODAL)
                                   );
 
-        if (!$as_button) {
-            $trigger = $this->ui_factory->symbol()->glyph()->preview(
-                "#"
+        if (!$as_standard_button) {
+            $trigger = $this->ui_factory->button()->shy("", "")->withSymbol(
+                $this->ui_factory->symbol()->glyph()->preview()
             )->withOnClick($modal->getShowSignal());
         } else {
             $trigger = $this->ui_factory->button()->standard(

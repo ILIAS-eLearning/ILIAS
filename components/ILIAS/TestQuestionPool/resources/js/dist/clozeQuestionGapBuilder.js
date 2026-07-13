@@ -1015,6 +1015,7 @@ const ClozeQuestionGapBuilder = (function () {
   };
 
   pro.removeSelectOption = (e) => {
+    e.preventDefault();
     let getPosition; let pos; let
       value;
     const target = e.currentTarget.parentNode;
@@ -1046,8 +1047,9 @@ const ClozeQuestionGapBuilder = (function () {
   },
 
   pro.appendEventListenerToBeRefactored = () => {
-    $('.clone_fields_add .glyph').off('click');
-    $('.clone_fields_add .glyph').on('click', (e) => {
+    $('.clone_fields_add .btn').off('click');
+    $('.clone_fields_add .btn').on('click', (e) => {
+      e.preventDefault();
       let getPosition; let pos; let
         insert;
       const target = e.currentTarget.parentNode;
@@ -1075,8 +1077,9 @@ const ClozeQuestionGapBuilder = (function () {
       return false;
     });
 
-    $('.clone_fields_add_value .glyph').off('click');
-    $('.clone_fields_add_value .glyph').on('click', (e) => {
+    $('.clone_fields_add_value .btn').off('click');
+    $('.clone_fields_add_value .btn').on('click', (e) => {
+      e.preventDefault();
       let getPosition; let
         pos;
       const target = e.currentTarget.parentNode;
@@ -1094,8 +1097,9 @@ const ClozeQuestionGapBuilder = (function () {
       return false;
     });
 
-    $('.clone_fields_remove_value .glyph').off('click');
-    $('.clone_fields_remove_value .glyph').on('click', (e) => {
+    $('.clone_fields_remove_value .btn').off('click');
+    $('.clone_fields_remove_value .btn').on('click', (e) => {
+      e.preventDefault();
       const target = e.currentTarget.parentNode;
       const getPosition = $(target).parent().attr('name');
       const pos = getPosition.split('_');
@@ -1110,11 +1114,12 @@ const ClozeQuestionGapBuilder = (function () {
       return false;
     });
 
-    $('.clone_fields_remove .glyph').off('click', pro.removeSelectOption);
-    $('.clone_fields_remove .glyph').on('click', pro.removeSelectOption);
+    $('.clone_fields_remove .btn').off('click', pro.removeSelectOption);
+    $('.clone_fields_remove .btn').on('click', pro.removeSelectOption);
 
     $('.remove_gap_button').off('click');
     $('.remove_gap_button').on('click', (e) => {
+      e.preventDefault();
       const target = e.currentTarget;
       const position = $(target).attr('id').split('_');
       if (confirm($('#delete_gap_question').text())) {

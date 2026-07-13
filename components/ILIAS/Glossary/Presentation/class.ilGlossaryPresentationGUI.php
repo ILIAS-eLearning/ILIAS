@@ -524,9 +524,9 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
             $this->fill_on_load_code = true;
         }
         $tpl->setContent($def_tpl->get());
-        if ($this->offlineMode()) {
-            return $tpl->printToString();
-        } elseif ($a_get_html) {
+        //if ($this->offlineMode()) {
+        //    return $tpl->printToString();
+        if ($a_get_html) {
             return $def_tpl->get();
         }
         return "";

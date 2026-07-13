@@ -207,9 +207,9 @@ class RequestDataCollector implements RequestDataCollectorInterface
         return $query->retrieve(
             $key,
             $this->refinery->custom()->transformation(
-                static fn(array|string $value): array|string => $value === 'ALL_OBJECTS' || $value[0] === 'ALL_OBJECTS'
+                static fn($v): array|string => $v === 'ALL_OBJECTS' || $v[0] === 'ALL_OBJECTS'
                     ? 'ALL_OBJECTS'
-                    : array_map('intval', $value)
+                    : $v
             )
         );
     }

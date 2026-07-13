@@ -27,12 +27,12 @@ This Java server has been tested with Open JDK Java Runtime 17.
 To be able to index and search for non-ASCII characters your system should
 support UTF-8 encodings.
 
-PHP curl and xmlrpc are required for using the Java server features.
+PHP curl is required for using the Java server features.
 
 On Debian-based systems try:
 
 ````shell
-> apt-get install php-curl php-xmlrpc openjdk-17-jdk-headless
+> apt-get install php-curl openjdk-17-jdk-headless
 ````
 Dependencies and the build process is managed via maven
 ```shell
@@ -48,12 +48,12 @@ Dependencies and the build process is managed via maven
 > cd components/ILIAS/WebServices/RPC/lib
 > mvn clean install
 ```
-To build/compile the jar file for older LTS release than v17, start the maven build process with the following parameters:
+To build/compile the jar file for other LTS releases than v21, start the maven build process with the following parameters:
 ```shell
-# java 11
-> mvn clean install -Dmaven.compiler.release=11
+# java 17
+> mvn clean install -Dmaven.compiler.release=17
 # java 21
-> mvn clean install -Dmaven.compiler.source=21 -Dmaven.compiler.target=21
+> mvn clean install -Dmaven.compiler.source=25 -Dmaven.compiler.target=25
 ```
 
 The newly generated ilServer.jar has been created in the target-directory.
@@ -77,6 +77,9 @@ NumThreads = 2
 RamBufferSize = 256
 IndexMaxFileSizeMB = 500
 
+[FOP]
+FontDirectory = /var/www/files/fonts
+
 [Client1]
 ClientId = ACMECorp
 NicId = 0
@@ -92,6 +95,8 @@ IliasIniPath = /var/www/html/ilias/ilias.ini.php
 - NumThreads: The larger the number of NumThreads, the shorter the indexing time, at the expense of the overall CPU load.
 - RamBufferSize: The maximum amount of memory in MB before index data is written to the file system
 - IndexMaxFileSize: The maximum file size of ILIAS files that can be included in the index.
+
+- FontDirectory: An optional directory containing additional fonts besides "Helvetica (embedded)" and "unifont" for the FOP PDF renderer.
 
 - ClientId: ClientId of ILIAS installation
 - NicId: NicID of ILIAS installation

@@ -22,7 +22,6 @@ use ILIAS\Test\Logging\TestParticipantInteraction;
 use ILIAS\Test\Logging\TestParticipantInteractionTypes;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteraction;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
-
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 interface Question

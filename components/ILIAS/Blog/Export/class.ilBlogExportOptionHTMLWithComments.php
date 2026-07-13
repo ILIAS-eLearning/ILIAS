@@ -26,18 +26,23 @@ use ILIAS\Data\ObjectId;
 class ilBlogExportOptionHTMLWithComments extends ilBasicLegacyExportOption
 {
     protected ilLanguage $lng;
+    protected \ILIAS\Blog\Export\ExportManager $export_manager;
 
     public function init(
         Container $DIC
     ): void {
         $this->lng = $DIC->language();
+        $this->export_manager = $DIC->blog()
+                                    ->internal()
+                                    ->domain()
+                                    ->export();
         parent::init($DIC);
     }
 
     public function isObjectSupported(
         ObjectId $object_id
     ): bool {
-        return ilObjBlogAccess::isCommentsExportPossible($object_id->toInt());
+        return $this->export_manager->isCommentsExportPossible($object_id->toInt());
     }
 
     public function getExportType(): string

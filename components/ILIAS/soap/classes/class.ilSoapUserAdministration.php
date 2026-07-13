@@ -464,7 +464,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
                     $roles = $object->__getLocalRoles();
 
                     foreach ($roles as $role_id) {
-                        $data = array_merge($rbacreview->assignedUsers($role_id), $data);
+                        $user_ids = $rbacreview->assignedUsers($role_id);
+                        $role_users = ilObjUser::_getUsersForIds($user_ids, $active);
+                        $data = array_merge($data, $role_users);
                     }
 
                     break;
@@ -516,14 +518,20 @@ class ilSoapUserAdministration extends ilSoapAdministration
         $tree = $DIC->repositoryTree();
         $ilUser = $DIC->user();
         $access = $DIC->access();
+        $rbacsystem = $DIC->rbac()->system();
 
         $global_roles = $rbacreview->getGlobalRoles();
 
         if (in_array($role_id, $global_roles, true)) {
-            // global roles
-            if ($role_id === SYSTEM_ROLE_ID &&
-                !in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()), true)) {
+            $actor_has_system_role = in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()), true);
+
+            if ($role_id === SYSTEM_ROLE_ID && !$actor_has_system_role) {
                 return $this->raiseError("Role access not permitted. ($role_id)", "Server");
+            }
+
+            if (!$actor_has_system_role &&
+                !$rbacsystem->checkAccessOfUser($ilUser->getId(), 'edit_userassignment', ROLE_FOLDER_ID)) {
+                return $this->raiseError('Role access not permitted. ' . '(' . $role_id . ')', 'Server');
             }
         } else {
             // local roles
@@ -669,15 +677,15 @@ class ilSoapUserAdministration extends ilSoapAdministration
             return $this->raiseError('Check access failed.', 'Server');
         }
         if (!count($a_keyfields)) {
-            $this->raiseError('At least one keyfield is needed', 'Client');
+            return $this->raiseError('At least one keyfield is needed', 'Client');
         }
 
         if (!count($a_keyvalues)) {
-            $this->raiseError('At least one keyvalue is needed', 'Client');
+            return $this->raiseError('At least one keyvalue is needed', 'Client');
         }
 
-        if (strcasecmp($query_operator, "and") !== 0 || strcasecmp($query_operator, "or") !== 0) {
-            $this->raiseError('Query operator must be either \'and\' or \'or\'', 'Client');
+        if (strcasecmp($query_operator, "and") !== 0 && strcasecmp($query_operator, "or") !== 0) {
+            return $this->raiseError('Query operator must be either \'and\' or \'or\'', 'Client');
         }
 
         $query = $this->buildSearchQuery($a_keyfields, $query_operator, $a_keyvalues);
@@ -842,7 +850,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
         $data = $ilDB->fetchAssoc($res);
 
         if (!(int) $data['usr_id']) {
-            $this->raiseError('User does not exist', 'Client');
+            return $this->raiseError('User does not exist', 'Client');
         }
         return (int) $data['usr_id'];
     }

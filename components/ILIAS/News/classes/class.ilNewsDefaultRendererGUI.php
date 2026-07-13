@@ -26,7 +26,7 @@ class ilNewsDefaultRendererGUI implements ilNewsRendererGUI
     protected \ILIAS\DI\UIServices $ui;
     protected \ILIAS\Refinery\Factory $refinery;
     protected string $lng_key;
-    protected ilCtrl$ctrl;
+    protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilNewsItem $news_item;
     protected int $news_ref_id;

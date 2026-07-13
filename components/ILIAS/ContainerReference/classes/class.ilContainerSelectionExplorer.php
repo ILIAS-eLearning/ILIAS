@@ -75,7 +75,7 @@ class ilContainerSelectionExplorer extends ilExplorer
     {
         $ilAccess = $this->access;
 
-        return $ilAccess->checkAccess('visible', '', (int)$a_ref_id);
+        return $ilAccess->checkAccess('visible', '', (int) $a_ref_id);
     }
 
     public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option): void

@@ -26,7 +26,7 @@ jobs:
       fail-fast: false
     steps:
       - name: 'Checkout Code'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
           ref: trunk
@@ -34,23 +34,20 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.3
+          php-version: 8.4
           extensions: dom, curl, libxml, mbstring, zip, gd, json, readline, xsl, xml, mysql
           tools: composer:v2
           coverage: none
 
-      - uses: actions/setup-node@v6
-        with:
-          node-version: 24
-
-      - name: "Install npm version 11"
-        run: sudo npm install -g npm@11
-
-      - name: Install Node dependencies
-        run: npm clean-install --omit-dev --ignore-scripts
-
       - name: Install Composer dependencies
         run: composer install --no-interaction --no-progress --ignore-platform-reqs
+
+      - name: Cache PHPStan result cache
+        uses: actions/cache@v4
+        with:
+          path: tmp/phpstan
+          key: phpstan-legacy-ui-${{ github.run_id }}
+          restore-keys: phpstan-legacy-ui-
 
       - name: 'PHStan Custom Rules'
         run: scripts/PHPStan/run_legacy_ui_report.sh

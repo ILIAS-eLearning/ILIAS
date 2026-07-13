@@ -43,6 +43,8 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
      */
     protected array $item_modal = [];
 
+    protected readonly ilObjMediaObject $media_object;
+
     protected function __construct(
         protected readonly NewsItem $news_item,
         protected readonly ilLikeGUI $like_gui
@@ -63,6 +65,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
             ->internal()
             ->gui();
         $this->notes = $DIC->notes();
+        $this->media_object = new ilObjMediaObject($this->news_item->getMobId());
     }
 
     public static function getInstance(
@@ -136,7 +139,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 
         // media
         if ($this->news_item->getMobId() > 0 && ilObject::_exists($this->news_item->getMobId())) {
-            $media = $this->renderMedia($this->news_item);
+            $media = $this->renderMedia();
             $tpl->setCurrentBlock("player");
             $tpl->setVariable("PLAYER", $media);
             $tpl->parseCurrentBlock();
@@ -198,25 +201,25 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         return $tpl->get();
     }
 
-    protected function renderMedia(NewsItem $i): string
+    protected function renderMedia(): string
     {
-        $media_path = $this->getMediaPath($i);
+        $media_path = $this->getMediaPath();
         $mime = ilObjMediaObject::getMimeType($media_path);
 
         $ui_factory = $this->gui->ui()->factory();
         $ui_renderer = $this->gui->ui()->renderer();
 
         if (in_array($mime, ["image/jpeg", "image/svg+xml", "image/gif", "image/png"])) {
-            if (isset($this->item_image[$i->getId()]) && isset($this->item_modal[$i->getId()])) {
-                $image = $this->item_image[$i->getId()];
+            if (isset($this->item_image[$this->news_item->getId()]) && isset($this->item_modal[$this->news_item->getId()])) {
+                $image = $this->item_image[$this->news_item->getId()];
             } else {
-                $title = basename($media_path);
+                $title = $this->media_object->getTitle();
                 $image = $ui_factory->image()->responsive($media_path, $title);
                 $modal_page = $ui_factory->modal()->lightboxImagePage($image, $title);
                 $modal = $ui_factory->modal()->lightbox($modal_page);
                 $image = $image->withAction($modal->getShowSignal());
-                $this->item_image[$i->getId()] = $image;
-                $this->item_modal[$i->getId()] = $modal;
+                $this->item_image[$this->news_item->getId()] = $image;
+                $this->item_modal[$this->news_item->getId()] = $modal;
             }
             $html = $ui_renderer->render($image);
         } elseif (in_array($mime, ["video/mp4", "video/youtube", "video/vimeo"])) {
@@ -226,7 +229,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
             $audio = $ui_factory->player()->audio($media_path);
             $html = $ui_renderer->render($audio);
         } elseif (in_array($mime, ["application/pdf"])) {
-            $this->ctrl->setParameterByClass(ilNewsTimelineGUI::class, "news_id", $i->getId());
+            $this->ctrl->setParameterByClass(ilNewsTimelineGUI::class, "news_id", $this->news_item->getId());
             $link = $ui_factory->link()->standard(
                 basename($media_path),
                 $this->ctrl->getLinkTargetByClass(ilNewsTimelineGUI::class, "downloadMob")
@@ -239,29 +242,29 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         return $html;
     }
 
-    protected function renderMediaModal(NewsItem $i): string
+    protected function renderMediaModal(): string
     {
         $ui_factory = $this->gui->ui()->factory();
         $ui_renderer = $this->gui->ui()->renderer();
 
-        if (isset($this->item_image[$i->getId()]) && isset($this->item_modal[$i->getId()])) {
-            $modal = $this->item_modal[$i->getId()];
+        if (isset($this->item_image[$this->news_item->getId()]) && isset($this->item_modal[$this->news_item->getId()])) {
+            $modal = $this->item_modal[$this->news_item->getId()];
             return $ui_renderer->render($modal);
         }
 
-        $media_path = $this->getMediaPath($i);
+        $media_path = $this->getMediaPath();
         $mime = ilObjMediaObject::getMimeType($media_path);
 
         $modal_html = "";
 
         if (in_array($mime, ["image/jpeg", "image/svg+xml", "image/gif", "image/png"])) {
-            $title = basename($media_path);
+            $title = $this->media_object->getTitle();
             $image = $ui_factory->image()->responsive($media_path, $title);
             $modal_page = $ui_factory->modal()->lightboxImagePage($image, $title);
             $modal = $ui_factory->modal()->lightbox($modal_page);
             $image = $image->withAction($modal->getShowSignal());
-            $this->item_image[$i->getId()] = $image;
-            $this->item_modal[$i->getId()] = $modal;
+            $this->item_image[$this->news_item->getId()] = $image;
+            $this->item_modal[$this->news_item->getId()] = $modal;
             $modal_html = $ui_renderer->render($modal);
         }
         return $modal_html;
@@ -301,13 +304,8 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         return $html . $this->renderMediaModal($this->news_item);
     }
 
-    protected function getMediaPath(NewsItem $i): string
+    protected function getMediaPath(): string
     {
-        $media_path = "";
-        if ($i->getMobId() > 0) {
-            $mob = new ilObjMediaObject($i->getMobId());
-            $media_path = $mob->getStandardSrc();
-        }
-        return $media_path;
+        return $this->news_item->getMobId() > 0 ? $this->media_object->getStandardSrc() : "";
     }
 }

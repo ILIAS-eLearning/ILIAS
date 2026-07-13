@@ -1,26 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 15.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="30px" height="30px" viewBox="0 0 277.795 277.795" enable-background="new 0 0 277.795 277.795"
-	 xml:space="preserve">
-<radialGradient id="SVGID_1_" cx="0.6865" cy="1.4966" r="205.4639" gradientTransform="matrix(1 0 0 1 0 -3.051758e-04)" gradientUnits="userSpaceOnUse">
-	<stop  offset="0" style="stop-color:#466488"/>
-	<stop  offset="0.9904" style="stop-color:#003C65"/>
-</radialGradient>
-<polygon fill="url(#SVGID_1_)" points="0,0 277.796,0 277.796,277.795 0,277.795 0,0 "/>
-<g>
-	<polygon fill="#FFFFFF" points="38.764,234.134 51.467,234.134 51.467,176.364 38.764,176.364 38.764,234.134 	"/>
-	<polygon fill="#FFFFFF" points="62.63,234.134 103.49,234.134 103.49,223.453 75.333,223.453 75.333,176.364 62.63,176.364 
-		62.63,234.134 	"/>
-	<polygon fill="#FFFFFF" points="113.673,234.134 126.375,234.134 126.375,176.364 113.673,176.364 113.673,234.134 	"/>
-	<path fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" d="M133.438,234.134h12.865l4.532-12.865h21.601l4.371,12.865h13.187
-		l-21.602-57.77h-13.026L133.438,234.134L133.438,234.134z M161.675,190.604h0.162l7.281,21.198h-14.967L161.675,190.604
-		L161.675,190.604z"/>
-	<path fill="#FFFFFF" d="M196.162,214.958c-0.162,14.239,11.812,20.551,24.599,20.551c15.696,0,24.029-7.929,24.029-18.528
-		c0-13.107-12.945-15.776-17.151-16.829c-14.484-3.722-17.235-4.288-17.235-8.738c0-4.854,4.694-6.554,8.739-6.554
-		c6.066,0,11.002,1.78,11.408,8.738h12.298c0-13.351-11.085-18.608-23.141-18.608c-10.437,0-21.603,5.663-21.603,17.477
-		c0,10.842,8.658,14.158,17.234,16.424c8.496,2.266,17.151,3.317,17.151,9.547c0,5.907-6.796,7.201-11.247,7.201
-		c-6.796,0-12.783-2.994-12.783-10.68H196.162L196.162,214.958z"/>
-</g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 524.4 524.4">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        fill-rule: evenodd;
+      }
+
+      .cls-3 {
+        fill: url(#Unbenannter_Verlauf);
+      }
+    </style>
+    <radialGradient id="Unbenannter_Verlauf" data-name="Unbenannter Verlauf" cx="9.84" cy="521.14" fx="9.84" fy="521.14" r="363.98" gradientTransform="translate(-9.15 558.19) scale(1.07 -1.07)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4a668b"/>
+      <stop offset=".99" stop-color="#003c66"/>
+    </radialGradient>
+  </defs>
+  <polygon class="cls-3" points="0 0 524.4 0 524.4 524.4 0 524.4 0 0"/>
+  <g>
+    <polygon class="cls-1" points="105.7 310.5 124.3 310.5 124.3 225.9 105.7 225.9 105.7 310.5"/>
+    <polygon class="cls-1" points="140.7 310.5 200.5 310.5 200.5 294.9 159.3 294.9 159.3 225.9 140.7 225.9 140.7 310.5"/>
+    <polygon class="cls-1" points="215.4 310.5 234 310.5 234 225.9 215.4 225.9 215.4 310.5"/>
+    <path class="cls-2" d="M244.4,310.5h18.8l6.6-18.8h31.6l6.4,18.8h19.3l-31.6-84.6h-19.1l-32,84.6h0ZM285.7,246.8h.2l10.7,31h-21.9l11-31h0Z"/>
+    <path class="cls-1" d="M336.2,282.5c-.2,20.9,17.3,30.1,36,30.1,23,0,35.2-11.6,35.2-27.1,0-19.2-19-23.1-25.1-24.6-21.2-5.5-25.2-6.3-25.2-12.8,0-7.1,6.9-9.6,12.8-9.6,8.9,0,16.1,2.6,16.7,12.8h18c0-19.6-16.2-27.3-33.9-27.3-15.3,0-31.6,8.3-31.6,25.6,0,15.9,12.7,20.7,25.2,24.1,12.4,3.3,25.1,4.9,25.1,14,0,8.6-10,10.5-16.5,10.5-10,0-18.7-4.4-18.7-15.6h-18v-.1Z"/>
+    <path class="cls-2" d="M408.6,238.1c0,8.4,6.6,13.8,14.1,13.8s14.1-5.4,14.1-13.8-6.6-13.7-14.1-13.7c-7.5,0-14.1,5.3-14.1,13.7h0ZM412.3,238.1c0-6.2,4.6-10.8,10.3-10.8s10.3,4.5,10.3,10.8-4.7,10.8-10.3,10.8c-5.7,0-10.3-4.6-10.3-10.8h0ZM417.2,245.7h3v-6.6h1.9l3.7,6.6h3.2l-4.1-6.7c2.3-.2,4-1.3,4-4.1,0-3.3-2.2-4.5-6-4.5h-5.8v15.3h.1ZM420.3,232.7h2.6c1.4,0,3.2.3,3.2,1.9,0,1.9-1.3,2.1-3,2.1h-2.7v-4h-.1Z"/>
+  </g>
 </svg>

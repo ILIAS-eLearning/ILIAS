@@ -42,7 +42,7 @@ class PageContentTest extends TestCase
     public function testRender(): void
     {
         $template = $this->mock(ilGlobalTemplateInterface::class);
-        $template->expects(self::once())->method('setTitle')->with('foo');
+        $template->expects($this->once())->method('setTitle')->with('foo');
         $components = [$this->mock(Component::class), $this->mock(Component::class)];
         $renderer = $this->mockMethod(Renderer::class, 'render', [$components], 'rendered');
 

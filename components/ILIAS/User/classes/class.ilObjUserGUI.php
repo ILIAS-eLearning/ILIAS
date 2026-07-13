@@ -338,7 +338,12 @@ class ilObjUserGUI extends ilObjectGUI
         $profile_maybe_incomplete = $this->retrieveAllowIncompleteProfileFromPost();
         $this->initForm(!$profile_maybe_incomplete, null);
 
-        if (!$this->form_gui->checkInput()) {
+        if (!$this->form_gui->checkInput()
+            || !$this->user_settings->performAdditionalChecks(
+                $this->tpl,
+                $this->form_gui
+            )
+        ) {
             $this->form_gui->setValuesByPost();
             $this->renderForm();
             return;
@@ -430,7 +435,10 @@ class ilObjUserGUI extends ilObjectGUI
         $this->initForm(!$profile_maybe_incomplete, $this->object);
 
         if (!$this->form_gui->checkInput()
-            || !$this->isAccessRangeInputValid()) {
+            || !$this->user_settings->performAdditionalChecks(
+                $this->tpl,
+                $this->form_gui
+            ) || !$this->isAccessRangeInputValid()) {
             $this->form_gui->setValuesByPost();
             $this->tabs_gui->activateTab('properties');
             $this->renderForm();

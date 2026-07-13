@@ -21,6 +21,8 @@ declare(strict_types=1);
 namespace ILIAS;
 
 use ILIAS\Component\Component;
+use ILIAS\Component\Resource\OfComponent;
+use ILIAS\Component\Resource\PublicAsset;
 use ILIAS\Setup\Agent;
 use ILIAS\Refinery\Factory;
 
@@ -40,5 +42,8 @@ class File implements Component
             new \ilFileObjectAgent(
                 $pull[Factory::class]
             );
+
+        $contribute[PublicAsset::class] = fn(): PublicAsset =>
+            new OfComponent($this, "default_file_icons", "assets");
     }
 }

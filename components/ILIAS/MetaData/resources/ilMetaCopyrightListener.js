@@ -13,79 +13,66 @@
  * https://github.com/ILIAS-eLearning
  */
 
-/* eslint-env jquery */
 /* eslint-env browser */
 il.MetaDataCopyrightListener = {
 
-  modalSignalId: '',
-  modalWithOERWarningSignalID: '',
-  potentialOERValues: [],
-  radioGroupId: '',
   form: HTMLFormElement,
   formButton: HTMLButtonElement,
 
   confirmed: false,
 
-  initialValue: '',
+  init(message, messageWithOERWarning, potentialOERValues, radioGroupId) {
+    potentialOERValues = JSON.parse(potentialOERValues);
 
-  init(modalSignalId, modalWithOERWarningSignalID, potentialOERValues, radioGroupId) {
-    this.modalSignalId = modalSignalId;
-    this.modalWithOERWarningSignalID = modalWithOERWarningSignalID;
-    this.potentialOERValues = JSON.parse(potentialOERValues);
-    this.radioGroupId = radioGroupId;
+    this.form = document.querySelector(`#${radioGroupId}`).form;
+    this.formButton = this.form.querySelectorAll('button[type="submit"], button:not([type])')[0];
 
-    this.form = document.querySelector(`#${this.radioGroupId}`).form;
-    this.formButton = this.form.querySelectorAll('button[type="submit"], button:not([type])');
-    this.initialValue = this.form.querySelector(`#${this.radioGroupId} input[type=radio]:checked`).value;
+    const modal = document.querySelector('.c-modal--interruptive');
+    const modalMessage = modal.querySelector('.c-modal--interruptive__message');
+    const initialValue = this.form.querySelector(`#${radioGroupId} input[type=radio]:checked`).value;
 
-    $(this.form).on(
+    this.form.addEventListener(
       'submit',
       (event) => {
-        const currentRadioInput = document.querySelector(`#${this.radioGroupId} input[type=radio]:checked`);
+        const currentRadioInput = document.querySelector(`#${radioGroupId} input[type=radio]:checked`);
         const currentValue = currentRadioInput.value;
-        const harvestingBlockedCheckbox = currentRadioInput.closest('fieldset').querySelector('input[type=checkbox]');
 
-        let signal = this.modalSignalId;
-        if (
-          this.potentialOERValues.includes(currentValue)
-          && (harvestingBlockedCheckbox == null || !harvestingBlockedCheckbox.checked)
-        ) {
-          signal = this.modalWithOERWarningSignalID;
+        if (potentialOERValues.includes(currentValue)) {
+          modalMessage.innerHTML = messageWithOERWarning;
+        } else {
+          modalMessage.innerHTML = message;
         }
 
         if (
-          currentValue !== this.initialValue
+          currentValue !== initialValue
           && !this.confirmed
         ) {
           event.preventDefault();
-          this.triggerModal(signal, event);
+          this.triggerModal(modal);
         }
-      },
+      }
     );
   },
 
-  triggerModal(signal, event) {
-    const buttonName = this.formButton[0].textContent;
-    $('.modal-dialog').find('form').find('input').prop('value', buttonName);
-    $('.modal-dialog').find('form').on(
+  triggerModal(modal) {
+    const modalForm = modal.querySelector('form');
+    const modalFormSubmitButton = modalForm.querySelector('input[type=submit]');
+
+    modalFormSubmitButton.value = this.formButton.textContent;
+    modalForm.addEventListener(
       'submit',
-      () => {
-        $(this.form).off();
-        $(this.formButton).off();
+      (event) => {
+        // cancel buttons in modals also trigger submit event
+        if (event.submitter !== modalFormSubmitButton) {
+          return true;
+        }
+        event.preventDefault();
         this.confirmed = true;
-        $(this.formButton).click();
+        this.formButton.click();
         return false;
       },
     );
 
-    // Show modal
-    $(document).trigger(
-      signal,
-      {
-        id: signal,
-        event,
-        triggerer: this.radioGroupId, // previously this was the form id
-      },
-    );
+    modal.showModal();
   },
 };

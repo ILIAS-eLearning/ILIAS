@@ -70,22 +70,22 @@ class RatingInputTest extends ILIAS_UI_TestBase
                 <div class="il-input-rating__stars" role="radiogroup">
                     <div class="il-input-rating__options">
                         <input aria-describedby="id_1_desc" type="radio" id="id_1-5" name="name_0" value="5" class="il-input-rating-scaleoption" />
-                        <label class="glyphicon-star il-input-rating-star" for="id_1-5" aria-label="5stars"></label>
+                        <label class="glyphicon-star il-input-rating-star" for="id_1-5"><span class="sr-only">5stars</span></label>
 
                         <input aria-describedby="id_1_desc" type="radio" id="id_1-4" name="name_0" value="4" class="il-input-rating-scaleoption" />
-                        <label class="glyphicon-star il-input-rating-star" for="id_1-4" aria-label="4stars"></label>
+                        <label class="glyphicon-star il-input-rating-star" for="id_1-4"><span class="sr-only">4stars</span></label>
 
                         <input aria-describedby="id_1_desc" type="radio" id="id_1-3" name="name_0" value="3" class="il-input-rating-scaleoption" />
-                        <label class="glyphicon-star il-input-rating-star" for="id_1-3" aria-label="3stars"></label>
+                        <label class="glyphicon-star il-input-rating-star" for="id_1-3"><span class="sr-only">3stars</span></label>
 
                         <input aria-describedby="id_1_desc" type="radio" id="id_1-2" name="name_0" value="2" class="il-input-rating-scaleoption" />
-                        <label class="glyphicon-star il-input-rating-star" for="id_1-2" aria-label="2stars"></label>
+                        <label class="glyphicon-star il-input-rating-star" for="id_1-2"><span class="sr-only">2stars</span></label>
 
                         <input aria-describedby="id_1_desc" type="radio" id="id_1-1" name="name_0" value="1" class="il-input-rating-scaleoption" />
-                        <label class="glyphicon-star il-input-rating-star" for="id_1-1" aria-label="1stars"></label>
+                        <label class="glyphicon-star il-input-rating-star" for="id_1-1"><span class="sr-only">1stars</span></label>
                     </div>
                     <div class="il-input-rating__none">
-                        <label for="id_1-0" aria-label="reset_stars">reset_stars</label>
+                        <label for="id_1-0">reset_stars</label>
                         <input aria-describedby="id_1_desc" type="radio" id="id_1-0" name="name_0" value="0" checked="checked"/>
                     </div>
                 </div>
@@ -94,7 +94,7 @@ class RatingInputTest extends ILIAS_UI_TestBase
             'byline',
             null
         );
-        $this->assertEquals($expected, $this->render($rating));
+        $this->assertEquals($expected, $this->renderInsideContainer($rating));
     }
 
     public function testRatingRenderFull(): void
@@ -122,23 +122,23 @@ class RatingInputTest extends ILIAS_UI_TestBase
                             </div>
 
                             <input aria-describedby="id_1_desc" type="radio" id="id_1-5" name="name_0" value="5" class="il-input-rating-scaleoption" disabled="disabled"/>
-                            <label class="glyphicon-star il-input-rating-star" for="id_1-5" aria-label="5stars"></label>
+                            <label class="glyphicon-star il-input-rating-star" for="id_1-5"><span class="sr-only">5stars</span></label>
 
                             <input aria-describedby="id_1_desc" type="radio" id="id_1-4" name="name_0" value="4" class="il-input-rating-scaleoption" disabled="disabled" checked="checked"/>
-                            <label class="glyphicon-star il-input-rating-star" for="id_1-4" aria-label="4stars"></label>
+                            <label class="glyphicon-star il-input-rating-star" for="id_1-4"><span class="sr-only">4stars</span></label>
 
                             <input aria-describedby="id_1_desc" type="radio" id="id_1-3" name="name_0" value="3" class="il-input-rating-scaleoption" disabled="disabled"/>
-                            <label class="glyphicon-star il-input-rating-star" for="id_1-3" aria-label="3stars"></label>
+                            <label class="glyphicon-star il-input-rating-star" for="id_1-3"><span class="sr-only">3stars</span></label>
 
                             <input aria-describedby="id_1_desc" type="radio" id="id_1-2" name="name_0" value="2" class="il-input-rating-scaleoption" disabled="disabled"/>
-                            <label class="glyphicon-star il-input-rating-star" for="id_1-2" aria-label="2stars"></label>
+                            <label class="glyphicon-star il-input-rating-star" for="id_1-2"><span class="sr-only">2stars</span></label>
 
                             <input aria-describedby="id_1_desc" type="radio" id="id_1-1" name="name_0" value="1" class="il-input-rating-scaleoption" disabled="disabled"/>
-                            <label class="glyphicon-star il-input-rating-star" for="id_1-1" aria-label="1stars"></label>
+                            <label class="glyphicon-star il-input-rating-star" for="id_1-1"><span class="sr-only">1stars</span></label>
                         </div>
                     
                         <div class="il-input-rating__none">
-                            <label for="id_1-0" aria-label="reset_stars">reset_stars</label>
+                            <label for="id_1-0">reset_stars</label>
                             <input aria-describedby="id_1_desc" type="radio" id="id_1-0" name="name_0" value="0" />
                         </div>
                     
@@ -150,7 +150,7 @@ class RatingInputTest extends ILIAS_UI_TestBase
         </fieldset>'
         );
 
-        $this->assertEquals($expected, $this->render($rating));
+        $this->assertEquals($expected, $this->renderInsideContainer($rating));
     }
 
     public function testCommonRendering(): void

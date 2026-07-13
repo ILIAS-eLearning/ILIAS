@@ -222,7 +222,7 @@ class ilContainerReference extends ilObject
         $query = "INSERT INTO container_reference (obj_id, target_obj_id, title_type) " .
             "VALUES( " .
             $ilDB->quote($this->getId(), 'integer') . ", " .
-            $ilDB->quote($this->getTargetId(), 'integer') . ", " .
+            $ilDB->quote((int) $this->getTargetId(), 'integer') . ", " .
             $ilDB->quote($this->getTitleType(), 'integer') . ' ' .
             ")";
         $ilDB->manipulate($query);

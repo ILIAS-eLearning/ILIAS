@@ -860,11 +860,9 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
     public function getAnswersFrequency($relevantAnswers, $questionIndex): array
     {
-        $agg = $this->aggregateAnswers($relevantAnswers, $this->object->getAnswers());
-
         $answers = [];
 
-        foreach ($agg as $ans) {
+        foreach ($this->aggregateAnswers($relevantAnswers, $this->object->getAnswers()) as $ans) {
             $answers[] = [
                 'answer' => $ans['answertext'],
                 'frequency_true' => $ans['count_true'],

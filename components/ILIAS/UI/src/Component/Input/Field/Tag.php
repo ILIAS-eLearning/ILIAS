@@ -70,6 +70,11 @@ interface Tag extends FormInput
      */
     public function withAsyncAutocomplete(URLBuilder $autocomplete_endpoint, URLBuilderToken $term_token): self;
 
+    /**
+     * Disable stripping tags from user input.
+     */
+    public function withoutStripTags(): self;
+
     // Events
 
     public function withAdditionalOnTagAdded(Signal $signal): self;

@@ -76,6 +76,38 @@ class ZipTest extends TestCase
         $this->assertSame(2, $unzip_again->getAmountOfFiles());
     }
 
+    public function testZip2(): void
+    {
+        $zip_options = new ZipOptions();
+        $streams = [
+            Streams::ofResource(fopen($this->zips_dir . '1_folder_1_file_mac.zip', 'r')),
+        ];
+        $zip = new Zip($zip_options, ...$streams);
+        $zip_stream = $zip->get();
+        $this->assertGreaterThan(0, $zip_stream->getSize());
+
+        $unzip_again = new Unzip(new UnzipOptions(), $zip_stream);
+        $this->assertSame(1, $unzip_again->getAmountOfFiles());
+    }
+
+    public function testZip3(): void
+    {
+        $zip_options = new ZipOptions();
+        $streams = [
+            Streams::ofResource(fopen($this->zips_dir . '1_folder_1_file_mac.zip', 'r')),
+            Streams::ofResource(fopen($this->zips_dir . '1_folder_mac.zip', 'r')),
+            Streams::ofResource(fopen($this->zips_dir . '1_folder_win.zip', 'r')),
+            Streams::ofResource(fopen($this->zips_dir . '3_folders_mac.zip', 'r')),
+            Streams::ofResource(fopen($this->zips_dir . '3_folders_win.zip', 'r')),
+        ];
+        $zip = new Zip($zip_options, ...$streams);
+        $zip_stream = $zip->get();
+        $this->assertGreaterThan(0, $zip_stream->getSize());
+
+        $unzip_again = new Unzip(new UnzipOptions(), $zip_stream);
+        $this->assertSame(5, $unzip_again->getAmountOfFiles());
+    }
+
     public function testLegacyZip(): void
     {
         $legacy = new LegacyArchives();
@@ -89,7 +121,24 @@ class ZipTest extends TestCase
         $legacy->zip($this->zips_dir, $this->unzips_dir . self::ZIPPED_ZIP, false);
         $this->assertFileExists($this->unzips_dir . self::ZIPPED_ZIP);
 
-        $unzip_again = new Unzip(new UnzipOptions(), Streams::ofResource(fopen($this->unzips_dir . self::ZIPPED_ZIP, 'r')));
+        $unzip_again = new Unzip(
+            new UnzipOptions(),
+            Streams::ofResource(fopen($this->unzips_dir . self::ZIPPED_ZIP, 'r'))
+        );
+        $expected = [
+            0 => './',
+            1 => '3_folders_win.zip',
+            2 => '1_folder_mac.zip',
+            3 => '3_folders_mac.zip',
+            4 => '1_folder_win.zip',
+            5 => '1_folder_1_file_mac.zip'
+        ];
+        sort($expected);
+
+        $actual = iterator_to_array($unzip_again->getPaths());
+        sort($actual);
+
+        $this->assertSame($expected, $actual);
         $this->assertSame(5, $unzip_again->getAmountOfFiles());
 
         $depth = 0;
@@ -115,7 +164,10 @@ class ZipTest extends TestCase
         $legacy->zip($this->zips_dir, $this->unzips_dir . self::ZIPPED_ZIP, true);
         $this->assertFileExists($this->unzips_dir . self::ZIPPED_ZIP);
 
-        $unzip_again = new Unzip(new UnzipOptions(), Streams::ofResource(fopen($this->unzips_dir . self::ZIPPED_ZIP, 'r')));
+        $unzip_again = new Unzip(
+            new UnzipOptions(),
+            Streams::ofResource(fopen($this->unzips_dir . self::ZIPPED_ZIP, 'r'))
+        );
         $this->assertSame(5, $unzip_again->getAmountOfFiles());
 
         $depth = 0;
@@ -169,7 +221,6 @@ class ZipTest extends TestCase
         $this->assertSame([], iterator_to_array($unzip->getDirectories()));
         $this->assertSame([], iterator_to_array($unzip->getFiles()));
     }
-
 
     public function testLargeZIPs(): void
     {

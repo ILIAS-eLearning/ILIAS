@@ -34,7 +34,7 @@ class ilShibbolethSettings
     /**
      * @var string
      */
-    private const DEFAULT_LOGIN_BUTTON = "assets/images/auth/shib_login_button.svg";
+    private const DEFAULT_LOGIN_BUTTON = "./assets/images/auth/shib_login_button.svg";
     /**
      * @var string
      */

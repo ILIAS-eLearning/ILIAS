@@ -57,6 +57,8 @@ interface RepositoryInterface
 
     public function doesRecordExistForObjID(int $obj_id): bool;
 
+    public function doesUndeletedRecordExistForObjID(int $obj_id): bool;
+
     public function createRecord(int $obj_id, string $identifier, \DOMDocument $metadata): void;
 
     public function updateRecord(int $obj_id, bool $is_deleted, ?\DOMDocument $metadata): void;

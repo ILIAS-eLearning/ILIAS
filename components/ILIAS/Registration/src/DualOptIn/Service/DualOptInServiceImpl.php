@@ -115,7 +115,7 @@ final readonly class DualOptInServiceImpl implements DualOptInService
         return $pending_reg;
     }
 
-    public function deleteExpiredUserObjects(int $usr_id): void
+    public function deleteExpiredUserObjects(?int $usr_id_to_prioritize = null): int
     {
         $this->logger->debug(
             'Started deletion of inactive user objects with expired confirmation hash values (dual opt in) ...'
@@ -124,7 +124,7 @@ final readonly class DualOptInServiceImpl implements DualOptInService
         $lifetime = $this->settings->getRegistrationHashLifetime();
         if ($lifetime <= 0) {
             $this->logger->debug('Registration hash lifetime is <= 0, skipping deletion.');
-            return;
+            return 0;
         }
 
         $now = $this->clock_factory->utc()->now();
@@ -134,7 +134,7 @@ final readonly class DualOptInServiceImpl implements DualOptInService
         $expired_regs = array_filter(
             array_map(
                 static fn(PendingRegistration $reg): PendingRegistration => $reg->withEvaluatedState($now, $lifetime),
-                $this->pending_reg_repository->findExpired($cutoff->getTimestamp(), $usr_id)
+                $this->pending_reg_repository->findExpired($cutoff->getTimestamp(), $usr_id_to_prioritize)
             ),
             static fn(PendingRegistration $reg): bool => $reg->isExpired()
         );
@@ -178,6 +178,8 @@ final readonly class DualOptInServiceImpl implements DualOptInService
                 $num_deleted_users
             )
         );
+
+        return $num_deleted_users;
     }
 
     private function activateUser(\ilObjUser $user): void

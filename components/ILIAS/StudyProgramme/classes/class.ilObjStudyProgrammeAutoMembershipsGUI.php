@@ -690,7 +690,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $back_url = $this->ctrl->getLinkTarget($this, self::CMD_VIEW);
         $this->ctrl->setParameterByClass(PublicProfileGUI::class, 'back_url', urlencode($back_url));
         $this->ctrl->setParameterByClass(PublicProfileGUI::class, 'user_id', $usr_id);
-        $url = $this->ctrl->getLinkTargetByClass(PublicProfileGUI::class, 'view');
+        $url = $this->ctrl->getLinkTargetByClass([ilPublicProfileBaseClassGUI::class, PublicProfileGUI::class], 'view');
 
         $usr = ilObjectFactory::getInstanceByObjId($usr_id);
         if (!$usr->hasPublicProfile()) {

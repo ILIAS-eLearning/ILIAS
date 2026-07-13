@@ -71,9 +71,9 @@ class AdminConfirmedObjectiveTest extends TestCase
 
         $env
             ->method("getResource")
-            ->will($this->returnValueMap([
+            ->willReturnMap([
                 [Setup\Environment::RESOURCE_ADMIN_INTERACTION, $admin_interaction]
-            ]));
+            ]);
 
         $admin_interaction
             ->expects($this->once())
@@ -94,9 +94,9 @@ class AdminConfirmedObjectiveTest extends TestCase
 
         $env
             ->method("getResource")
-            ->will($this->returnValueMap([
+            ->willReturnMap([
                 [Setup\Environment::RESOURCE_ADMIN_INTERACTION, $admin_interaction]
-            ]));
+            ]);
 
         $admin_interaction
             ->expects($this->once())

@@ -52,13 +52,13 @@ class DocumentModalTest extends TestCase
         $signal = $this->mock(Signal::class);
         $modal_component = $this->mockTree(Lightbox::class, ['getShowSignal' => $signal]);
         $button_component = $this->mock(Shy::class);
-        $button_component->expects(self::once())->method('withOnClick')->with($signal)->willReturn($button_component);
+        $button_component->expects($this->once())->method('withOnClick')->with($signal)->willReturn($button_component);
 
         $text_page = $this->mock(LightboxTextPage::class);
 
         $modal = $this->mock(ModalFactory::class);
-        $modal->expects(self::once())->method('lightboxTextPage')->with('rendered', 'foo')->willReturn($text_page);
-        $modal->expects(self::once())->method('lightbox')->with([$text_page])->willReturn($modal_component);
+        $modal->expects($this->once())->method('lightboxTextPage')->with('rendered', 'foo')->willReturn($text_page);
+        $modal->expects($this->once())->method('lightbox')->with([$text_page])->willReturn($modal_component);
 
         $instance = new DocumentModal($this->mockTree(UIServices::class, [
             'renderer' => $this->mockMethod(Renderer::class, 'render', [$component], 'rendered'),

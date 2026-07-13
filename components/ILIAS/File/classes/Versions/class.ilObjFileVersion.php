@@ -41,7 +41,6 @@ class ilObjFileVersion extends ArrayObject
         $a = [];
         $r = new ReflectionClass($this);
         foreach ($r->getProperties() as $p) {
-            $p->setAccessible(true);
             $a[$p->getName()] = $p->getValue($this);
         }
         return $a;

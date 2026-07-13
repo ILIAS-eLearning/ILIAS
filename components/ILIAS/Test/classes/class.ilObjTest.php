@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\MediaObjects\MediaObjectRepository;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Services as ResourceStorage;
 use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Results\Data\Repository;
 use ILIAS\Test\TestDIC;
@@ -45,6 +48,7 @@ use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsRepository;
 use ILIAS\Test\Settings\ScoreReporting\ScoreReportingTypes;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettings;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionProperties;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Filesystem\Filesystem;
@@ -145,6 +149,8 @@ class ilObjTest extends ilObject
     protected Repository $test_result_repository;
 
     protected LOMetadata $lo_metadata;
+    protected MediaObjectRepository $media_object_repository;
+    protected ResourceStorage $irss;
 
     /**
      * Constructor
@@ -166,6 +172,8 @@ class ilObjTest extends ilObject
         $this->component_factory = $DIC['component.factory'];
         $this->filesystem_web = $DIC->filesystem()->web();
         $this->lo_metadata = $DIC->learningObjectMetadata();
+        $this->media_object_repository = $DIC->mediaObjects()->internal()->repo()->mediaObject();
+        $this->irss = $DIC->resourceStorage();
 
         $local_dic = $this->getLocalDIC();
         $this->participant_access_filter = $local_dic['participant.access_filter.factory'];
@@ -2688,6 +2696,27 @@ class ilObjTest extends ilObject
     }
 
     /**
+     * @deprecated This is only a stop-gap measure to make archive export work.
+     * Do not use anywhere else! - sk 2026-06-22
+     */
+    public function getQuestionIdsInTest(): array
+    {
+        if (!$this->isRandomTest()) {
+            return $this->questions;
+        }
+
+        $query = $this->db->query(
+            "SELECT qst_fi FROM tst_rnd_cpy WHERE tst_fi={$this->test_id}"
+        );
+
+        return array_map(
+            fn(\stdClass $v): int => $v->qst_fi,
+            $this->db->fetchAll($query, \ilDBConstants::FETCHMODE_OBJECT)
+        );
+    }
+
+
+    /**
     * Calculates the available questions for a test
     *
     * @access public
@@ -3726,19 +3755,27 @@ class ilObjTest extends ilObject
     {
         foreach ($this->mob_ids as $mob_id) {
             $expLog->write(date("[y-m-d H:i:s] ") . "Media Object " . $mob_id);
-            if (ilObjMediaObject::_exists((int) $mob_id)) {
-                $target_dir = $a_target_dir . DIRECTORY_SEPARATOR . 'objects'
-                    . DIRECTORY_SEPARATOR . 'il_' . IL_INST_ID . '_mob_' . $mob_id;
-                ilFileUtils::createDirectory($target_dir);
-                $media_obj = new ilObjMediaObject((int) $mob_id);
-                $media_obj->exportXML($a_xml_writer, (int) $a_inst);
-                foreach ($media_obj->getMediaItems() as $item) {
-                    $stream = $item->getLocationStream();
-                    file_put_contents($target_dir . DIRECTORY_SEPARATOR . $item->getLocation(), $stream);
-                    $stream->close();
-                }
-                unset($media_obj);
+            if (!ilObjMediaObject::_exists((int) $mob_id)) {
+                continue;
             }
+
+            $target_dir = $a_target_dir . DIRECTORY_SEPARATOR . 'objects'
+                . DIRECTORY_SEPARATOR . 'il_' . IL_INST_ID . '_mob_' . $mob_id;
+            ilFileUtils::createDirectory($target_dir);
+            $media_obj = new ilObjMediaObject((int) $mob_id);
+            $media_obj->exportXML($a_xml_writer, (int) $a_inst);
+            /** @var ilMediaItem $item */
+            foreach ($media_obj->getMediaItems() as $item) {
+                $rid = $this->media_object_repository->getById($item->getMobId())['rid'] ?? null;
+                if ($rid === null || $this->irss->manage()->find($rid) === null) {
+                    $expLog->write(date('[y-m-d H:i:s] ') . "The resource for Media Object {$item->getMobId()} does not exist (skipping)");
+                    continue;
+                }
+                $stream = $item->getLocationStream();
+                file_put_contents($target_dir . DIRECTORY_SEPARATOR . $item->getLocation(), $stream);
+                $stream->close();
+            }
+            unset($media_obj);
         }
     }
 
@@ -5638,23 +5675,6 @@ class ilObjTest extends ilObject
         }
 
         $this->db->insert('tst_manual_fb', $update_default);
-
-        if ($this->logger->isLoggingEnabled()) {
-            $this->logger->logScoringInteraction(
-                $this->logger->getInteractionFactory()->buildScoringInteraction(
-                    $this->getRefId(),
-                    $question_id,
-                    $this->user->getId(),
-                    self::_getUserIdFromActiveId($active_id),
-                    TestScoringInteractionTypes::QUESTION_GRADED,
-                    [
-                        AdditionalInformationGenerator::KEY_EVAL_FINALIZED => $this->logger
-                            ->getAdditionalInformationGenerator()->getTrueFalseTagForBool($finalized),
-                        AdditionalInformationGenerator::KEY_FEEDBACK => $feedback ? ilRTE::_replaceMediaObjectImageSrc($feedback, 0) : ''
-                    ]
-                )
-            );
-        }
     }
 
     /**

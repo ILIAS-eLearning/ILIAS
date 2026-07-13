@@ -446,13 +446,17 @@ class ilExerciseManagementGUI
                 }
             } elseif ($this->exercise->hasTutorFeedbackFile()) {
                 if (!$this->assignment->getAssignmentType()->usesTeams()) {
-                    // multi-feedback
-                    $ilToolbar->addButton(
-                        $this->lng->txt("exc_multi_feedback"),
-                        $this->ctrl->getLinkTarget($this, "showMultiFeedback")
-                    );
 
-                    $ilToolbar->addSeparator();
+                    $mem_data = $this->assignment->getMemberListData();
+                    if (count($mem_data) > 0) {
+                        // multi-feedback
+                        $ilToolbar->addButton(
+                            $this->lng->txt("exc_multi_feedback"),
+                            $this->ctrl->getLinkTarget($this, "showMultiFeedback")
+                        );
+
+                        $ilToolbar->addSeparator();
+                    }
                 }
             }
 
@@ -802,6 +806,8 @@ class ilExerciseManagementGUI
     public function getEvaluationModal(
         array $a_data
     ): RoundTrip {
+        $more_id = $a_data['uid'];
+        $this->tpl->addJavaScript("assets/js/exc-text-more.js");
         $modal_tpl = new ilTemplate("tpl.exc_report_evaluation_modal.html", true, true, "components/ILIAS/Exercise");
         $modal_tpl->setVariable("USER_NAME", $a_data['uname']);
 
@@ -809,19 +815,12 @@ class ilExerciseManagementGUI
         //TODO: CHECK ilias string utils. ilUtil shortenText with net blank.
         if ($this->exercise->hasTutorFeedbackText()) {
             $max_chars = 500;
-
-            $u_text = strip_tags($a_data["utext"]); //otherwise will get open P
-            $text = $u_text;
-            //show more
-            if (strlen($u_text) > $max_chars) {
-                $text = "<input type='checkbox' class='read-more-state' id='post-1' />";
-                $text .= "<div class='read-more-wrap'>";
-                $text .= mb_substr($u_text, 0, $max_chars);
-                $text .= "<span class='read-more-target'>";
-                $text .= mb_substr($u_text, $max_chars);
-                $text .= "</span></div>";
-                $text .= "<label for='post-1' class='read-more-trigger'></label>";
-            }
+            $more_button = $this->gui->ui()->factory()->button()->standard($this->lng->txt("exc_show_more"), "#");
+            $text = "<div data-exc-show-more='$more_id'><div>";
+            $text .= $a_data["utext"];
+            $text .= "</div><div>";
+            $text .= $this->gui->ui()->renderer()->render($more_button);
+            $text .= "</div></div>";
             $modal_tpl->setVariable("USER_TEXT", $text);
         }
 

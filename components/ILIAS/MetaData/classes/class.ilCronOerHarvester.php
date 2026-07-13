@@ -19,11 +19,12 @@
 declare(strict_types=1);
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
-use ILIAS\MetaData\OERHarvester\Initiator;
-use ILIAS\MetaData\OERHarvester\Settings\SettingsInterface;
-use ILIAS\MetaData\OERHarvester\Results\Wrapper as ResultWrapper;
+use ILIAS\MetaData\OERHarvester\Services\Services as PublishingServices;
+use ILIAS\MetaData\OERHarvester\CronJob\Results\Wrapper as ResultWrapper;
 use ILIAS\Cron\Job\JobResult;
 use ILIAS\Cron\CronJob;
+use ILIAS\MetaData\Services\InternalServices;
+use ILIAS\MetaData\Presentation\UtilitiesInterface as PresentationUtilities;
 
 /**
  * Cron job for definition for oer harvesting
@@ -31,34 +32,37 @@ use ILIAS\Cron\CronJob;
  */
 class ilCronOerHarvester extends CronJob
 {
-    protected const string CRON_JOB_IDENTIFIER = 'meta_oer_harvester';
+    public const string CRON_JOB_IDENTIFIER = 'meta_oer_harvester';
     protected const int DEFAULT_SCHEDULE_VALUE = 1;
 
     private ilLogger $logger;
-    private ilLanguage $lng;
-    private Initiator $initiator;
-    private SettingsInterface $settings;
+    private PresentationUtilities $presentation_utilities;
+    private PublishingServices $publishing_services;
 
     public function __construct()
     {
         global $DIC;
 
-        $this->logger = $DIC->logger()->meta();
-        $this->lng = $DIC->language();
-        $this->lng->loadLanguageModule('meta');
+        $internal_services = new InternalServices($DIC);
 
-        $this->initiator = new Initiator($DIC);
-        $this->settings = $this->initiator->settings();
+        $this->logger = $internal_services->dic()->logger()->meta();
+        $this->presentation_utilities = $internal_services->presentation()->utilities();
+        $this->publishing_services = $internal_services->OERHarvester();
+    }
+
+    public function usesLegacyForms(): bool
+    {
+        return false;
     }
 
     public function getTitle(): string
     {
-        return $this->lng->txt('meta_oer_harvester');
+        return $this->presentation_utilities->txt('meta_oer_harvester');
     }
 
     public function getDescription(): string
     {
-        return $this->lng->txt('meta_oer_harvester_desc');
+        return $this->presentation_utilities->txt('meta_oer_harvester_desc');
     }
 
     public function getId(): string
@@ -86,124 +90,11 @@ class ilCronOerHarvester extends CronJob
         return self::DEFAULT_SCHEDULE_VALUE;
     }
 
-    public function hasCustomSettings(): bool
-    {
-        return true;
-    }
-
-    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form): void
-    {
-        // target selection
-        $header = new ilFormSectionHeaderGUI();
-        $header->setTitle($this->lng->txt('meta_oer_categories'));
-        $a_form->addItem($header);
-
-        $target = new ilRepositorySelector2InputGUI(
-            $this->lng->txt('meta_oer_target'),
-            'target',
-            false,
-            $a_form
-        );
-
-        $explorer = $target->getExplorerGUI();
-        $explorer->setRootId(ROOT_FOLDER_ID);
-        $explorer->setTypeWhiteList(['cat']);
-
-        $target_ref_id = $this->settings->getContainerRefIDForHarvesting();
-        if ($target_ref_id) {
-            $explorer->setPathOpen($target_ref_id);
-            $target->setValue($target_ref_id);
-        }
-
-        $target->setRequired(true);
-        $a_form->addItem($target);
-
-        // source for exposing
-        $ex_target = new ilRepositorySelector2InputGUI(
-            $this->lng->txt('meta_oer_exposed_source'),
-            'exposed_source',
-            false,
-            $a_form
-        );
-
-        $ex_explorer = $ex_target->getExplorerGUI();
-        $ex_explorer->setRootId(ROOT_FOLDER_ID);
-        $ex_explorer->setTypeWhiteList(['cat']);
-
-        $ex_target_ref_id = $this->settings->getContainerRefIDForExposing();
-        if ($ex_target_ref_id) {
-            $ex_explorer->setPathOpen($ex_target_ref_id);
-            $ex_target->setValue($ex_target_ref_id);
-        }
-
-        $ex_target->setRequired(true);
-        $a_form->addItem($ex_target);
-
-        // copyright selection
-        $header = new ilFormSectionHeaderGUI();
-        $header->setTitle($this->lng->txt('meta_oer_harvested_licences'));
-        $a_form->addItem($header);
-
-        $checkbox_group = new ilCheckboxGroupInputGUI(
-            $this->lng->txt('meta_oer_copyright_selection'),
-            'copyright'
-        );
-        $checkbox_group->setValue($this->settings->getCopyrightEntryIDsSelectedForHarvesting());
-        $checkbox_group->setInfo(
-            $this->lng->txt('meta_oer_copyright_selection_info')
-        );
-
-        foreach ($this->initiator->copyrightRepository()->getAllEntries() as $copyright_entry) {
-            $copyright_checkox = new ilCheckboxOption(
-                $copyright_entry->title(),
-                (string) $copyright_entry->id(),
-                $copyright_entry->description()
-            );
-            $checkbox_group->addOption($copyright_checkox);
-        }
-        $a_form->addItem($checkbox_group);
-
-        // object type selection
-        $header = new ilFormSectionHeaderGUI();
-        $header->setTitle($this->lng->txt('meta_oer_harvested_types'));
-        $a_form->addItem($header);
-
-        $checkbox_group = new ilCheckboxGroupInputGUI(
-            $this->lng->txt('meta_oer_object_type_selection'),
-            'object_type'
-        );
-        $checkbox_group->setRequired(true);
-        $checkbox_group->setValue($this->settings->getObjectTypesSelectedForHarvesting());
-
-        foreach ($this->settings->getObjectTypesEligibleForHarvesting() as $type) {
-            $type_checkox = new ilCheckboxOption(
-                $this->lng->txt('objs_' . $type),
-                $type
-            );
-            $checkbox_group->addOption($type_checkox);
-        }
-        $a_form->addItem($checkbox_group);
-    }
-
-    public function saveCustomSettings(ilPropertyFormGUI $a_form): bool
-    {
-        $copyrights = [];
-        foreach ($a_form->getInput('copyright') as $id) {
-            $copyrights[] = (int) $id;
-        }
-
-        $this->settings->saveContainerRefIDForHarvesting((int) $a_form->getInput('target'));
-        $this->settings->saveContainerRefIDForExposing((int) $a_form->getInput('exposed_source'));
-        $this->settings->saveCopyrightEntryIDsSelectedForHarvesting(...$copyrights);
-        $this->settings->saveObjectTypesSelectedForHarvesting(...$a_form->getInput('object_type'));
-        return true;
-    }
-
     public function run(): JobResult
     {
         $this->logger->info('Started cron oer harvester.');
-        $harvester = $this->initiator->harvester();
-        $res = $harvester->run(new ResultWrapper(new JobResult()));
+        $automatic_publisher = $this->publishing_services->automaticPublisher();
+        $res = $automatic_publisher->run(new ResultWrapper(new JobResult()));
         $this->logger->info('cron oer harvester finished');
 
         return $res->get();
@@ -217,8 +108,8 @@ class ilCronOerHarvester extends CronJob
                 $a_fields['meta_oer_harvester'] =
                     (
                         $a_is_active ?
-                        $this->lng->txt('enabled') :
-                        $this->lng->txt('disabled')
+                        $this->presentation_utilities->txt('enabled') :
+                        $this->presentation_utilities->txt('disabled')
                     );
                 break;
         }

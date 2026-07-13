@@ -67,7 +67,7 @@ class ShowOnLoginPageTest extends TestCase
             ['HREF', $url]
         ];
         $template
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('setVariable')
             ->willReturnCallback(
                 function (string $k, string $v) use (&$expected) {
@@ -77,7 +77,7 @@ class ShowOnLoginPageTest extends TestCase
                 }
             );
 
-        $template->expects(self::once())->method('get')->willReturn('Rendered');
+        $template->expects($this->once())->method('get')->willReturn('Rendered');
 
         $instance = new ShowOnLoginPage($this->mockTree(Provide::class, [
             'document' => ['repository' => ['countAll' => 1]],

@@ -19,7 +19,7 @@
 *
 * @module			language file Polish
 * @modulegroup		language
-* @author			Dariusz Poczekalewicz <d.poczekalewicz@aon.edu.pl>
+* @author			Dariusz Poczekalewicz
 * @version			$Id$
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
@@ -643,7 +643,6 @@ assessment#:#errFormulaQuestion#:#Jedno pytanie formuły zawiera błędne dane
 assessment#:#errRecursionInResult#:#Formuła zawiera nie możliwą do rozwiązania rekursję.
 assessment#:#err_category_in_use#:#Nie można usunąć kategorii. Jedna lub kilka jednostek tej kategorii są już używane.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###29 07 2022 new variable
-assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###29 10 2025 new variable
 assessment#:#err_division#:#The value you chose would make it impossible to generate a valid value for the variable.###29 07 2022 new variable
 assessment#:#err_duplicate_results#:#Kilkakrotnie użyłeś jednej zmiennej wyniku. Poza tekstem zadania jest to niedozwolone!
 assessment#:#err_no_formula#:#Podaj formułę do obliczenia wyniku.
@@ -5973,7 +5972,6 @@ common#:#webdav_chosen_language_already_used#:#There already is another document
 common#:#webdav_doc_delete#:#Delete WebDav Mount Instructions###07 02 2020 new variable
 common#:#webdav_docs_mount_instructions#:#Mount Instructions Documents###07 02 2020 new variable
 common#:#webdav_duplicate_detected_title#:#Following objects could not be displayed, because an object with the same Title is already being shown:###07 02 2020 new variable
-common#:#webdav_enable_versioning#:#File Versioning###07 02 2020 new variable
 common#:#webdav_forbidden_chars_title#:#Following files cannot be displayed, because they contain one or more forbidden characters (\<>/:*?"|#):###07 02 2020 new variable
 common#:#webdav_form_document#:#Instructions Document###07 02 2020 new variable
 common#:#webdav_form_document_info#:#Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information###07 02 2020 new variable
@@ -5992,7 +5990,6 @@ common#:#webdav_sure_delete_documents_s#:#Are you sure you want to delete the Mo
 common#:#webdav_tbl_docs_head_title#:#Dokument title###07 02 2020 new variable
 common#:#webdav_tbl_docs_title#:#List of uploaded WebDAV Mount Instructions###07 02 2020 new variable
 common#:#webdav_upload_instructions#:#Upload Instructions###07 02 2020 new variable
-common#:#webdav_versioning_info#:#If enabled, already existing files will get a new version instead of beeing overwritten.###07 02 2020 new variable
 common#:#webfolder_dir_info#:#Znajdujesz się tutaj, ponieważ Twoja przeglądarka nie potrafi otwierać folderów sieciowych. Przeczytaj <a href=”%1$s”>Instrukcję o otwieraniu folderu sieciowego</a>.
 common#:#webfolder_index_of#:#Treść %1$s
 common#:#webfolder_instructions#:#Instrukcja dotycząca folderu sieciowego
@@ -11360,7 +11357,7 @@ lti#:#lti_con_prov_xapi_launch_secret_info#:#&nbsp;###07 02 2020 new variable
 lti#:#lti_con_prov_xapi_launch_url#:#URL of LRS Endpoint###07 02 2020 new variable
 lti#:#lti_con_prov_xapi_launch_url_info#:#Please add full URL with https://###07 02 2020 new variable
 lti#:#lti_con_redirection_uris#:#Redirection URI###26 08 2024 new variable
-lti#:#lti_con_tool_url#:#Login URL###26 08 2024 new variable
+lti#:#lti_con_tool_url#:#Launch URL###26 08 2024 new variable
 lti#:#lti_con_version#:#LTI Version###26 08 2024 new variable
 lti#:#lti_con_version_1.1#:#Version 1.1###26 08 2024 new variable
 lti#:#lti_con_version_1.3#:#Version 1.3###26 08 2024 new variable
@@ -16719,7 +16716,7 @@ survey#:#survey_360_sure_appraisee_close#:#Czy naprawdę chcesz zamknąć ankiet
 survey#:#survey_360_sure_appraisee_close_admin#:#Czy naprawdę chcesz zamknąć ankietę dla poniższych odbiorców feedbacku?
 survey#:#survey_360_sure_delete_appraises#:#Czy naprawdę chcesz usunąć poniższych odbiorców feedbacku?
 survey#:#survey_360_sure_delete_raters#:#0
-survey#:#survey_access_codes#:#Identyfikacja z kodami dostępu
+survey#:#survey_access_code#:#Identyfikacja z kodami dostępu
 survey#:#survey_access_codes_info#:#Użytkownicy otrzymują dostęp do ankiety po wpisaniu w zakładce 'Informacje' kodu dostępu. Te kody dostępu generowane są w zakładce 'Uczestnicy' w podzakładce o tej samej nazwie.
 survey#:#survey_activate_skill_service#:#Aktywuj serwis kompetencyjny
 survey#:#survey_activate_skill_service_info#:#Wyświetlona zostanie kolejna zakładka 'Kompetencje'. Tutaj w pierwszej kolejności o pytań przydzielane są kompetencje, a następnie ustalane są wartości progowe dla osiągnięcia poszczególnych poziomów kompetencji.

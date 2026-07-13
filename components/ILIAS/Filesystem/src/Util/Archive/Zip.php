@@ -32,23 +32,24 @@ class Zip
     use PathHelper;
 
     public const DOT_EMPTY = '.empty';
+    public const ITERATION_FACTOR = 0.9;
     private string $zip_output_file = '';
     protected \ZipArchive $zip;
     private int $iteration_limit;
     private int $store_counter = 1;
     private int $path_counter = 1;
 
+    private bool $zip_opened = false;
+
     /**
      * @var FileStream[]
      */
-    private array $streams;
+    private array $streams = [];
 
     public function __construct(
         protected ZipOptions $options,
-        ...$streams
+        FileStream ...$streams
     ) {
-        $this->streams = array_filter($streams, fn($stream): bool => $stream instanceof FileStream);
-
         if ($options->getZipOutputPath() !== null && $options->getZipOutputName() !== null) {
             $this->zip_output_file = $this->ensureDirectorySeperator(
                 $options->getZipOutputPath()
@@ -70,7 +71,24 @@ class Zip
         if (!file_exists($this->zip_output_file)) {
             touch($this->zip_output_file);
         }
-        if ($this->zip->open($this->zip_output_file, \ZipArchive::OVERWRITE) !== true) {
+
+        $this->maybeOpenZip(\ZipArchive::OVERWRITE);
+        foreach ($streams as $path_inside_zip => $stream) {
+            $path_inside_zip = is_int($path_inside_zip) ? basename((string) $stream->getMetadata('uri')) : $path_inside_zip;
+            $this->addStream($stream, basename($path_inside_zip));
+        }
+    }
+
+    private function maybeOpenZip(int $flags = 0): void
+    {
+        if (!$this->zip_opened) {
+            if ($flags === 0) {
+                $this->zip_opened = $this->zip->open($this->zip_output_file) === true;
+            } else {
+                $this->zip_opened = $this->zip->open($this->zip_output_file, $flags) === true;
+            }
+        }
+        if (!$this->zip_opened) {
             throw new \Exception("cannot open <$this->zip_output_file>\n");
         }
     }
@@ -99,7 +117,7 @@ class Zip
         foreach ($this->streams as $path_inside_zip => $stream) {
             $path = $stream->getMetadata('uri');
             if ($this->store_counter === 0) {
-                $this->zip->open($this->zip_output_file);
+                $this->maybeOpenZip();
             }
             if (is_int($path_inside_zip)) {
                 $path_inside_zip = basename((string) $path);
@@ -117,9 +135,10 @@ class Zip
 
             if (
                 $this->store_counter === $this->iteration_limit
-                || count(get_resources('stream')) > ($this->iteration_limit * 0.9)
+                || count(get_resources('stream')) > ($this->iteration_limit * self::ITERATION_FACTOR)
             ) {
                 $this->zip->close();
+                $this->zip_opened = false;
                 $this->store_counter = 0;
             } else {
                 $this->store_counter++;
@@ -129,9 +148,11 @@ class Zip
 
     public function get(): Stream
     {
+        $this->maybeOpenZip();
         $this->storeZIPtoFilesystem();
 
         $this->zip->close();
+        $this->zip_opened = false;
 
         return Streams::ofResource(fopen($this->zip_output_file, 'rb'));
     }
@@ -158,6 +179,8 @@ class Zip
     {
         $path_inside_zip ??= basename($path);
 
+        $this->maybeOpenZip();
+
         // create directory if it does not exist
         $this->zip->addEmptyDir(rtrim(dirname($path_inside_zip), '/') . '/');
 
@@ -170,7 +193,7 @@ class Zip
     public function addStream(FileStream $stream, string $path_inside_zip): void
     {
         // we remove the "empty zip file" now if possible
-        if (count($this->streams) === 1 && isset($this->streams[self::DOT_EMPTY])) {
+        if (isset($this->streams[self::DOT_EMPTY])) {
             unset($this->streams[self::DOT_EMPTY]);
         }
 
@@ -179,7 +202,7 @@ class Zip
 
         if (
             $this->path_counter === $this->iteration_limit
-            || count(get_resources('stream')) > ($this->iteration_limit * 0.9)
+            || count(get_resources('stream')) > ($this->iteration_limit * self::ITERATION_FACTOR)
         ) {
             $this->storeZIPtoFilesystem();
             $this->streams = [];
@@ -225,7 +248,7 @@ class Zip
             /** @var $file \SplFileInfo */
             if ($file->isDir()) {
                 // add directory to zip if it's empty
-                $sub_items = array_filter(scandir($pathname), static fn($d): bool => !str_contains((string) $d, '.DS_Store'));
+                $sub_items = array_filter(scandir($pathname), static fn($d): bool => !str_contains($d, '.DS_Store'));
                 if (count($sub_items) === 2) {
                     $this->zip->addEmptyDir($path_inside_zip);
                 }

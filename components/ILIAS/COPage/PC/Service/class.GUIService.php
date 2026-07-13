@@ -63,4 +63,48 @@ class GUIService
         );
     }
 
+    public function fileListTableBuilder(
+        \ilPCFileList $file_list,
+        object $parent_gui,
+        string $parent_cmd
+    ): FileList\FileListTableBuilder {
+        return new FileList\FileListTableBuilder(
+            $this->domain_service,
+            $this->gui_service,
+            $file_list,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
+    public function copySelfAssQuestionTableBuilder(
+        int $pool_ref_id,
+        int $pool_obj_id,
+        object $parent_gui,
+        string $parent_cmd
+    ): Question\CopySelfAssQuestionTableBuilder {
+        return new Question\CopySelfAssQuestionTableBuilder(
+            $this->domain_service,
+            $this->gui_service,
+            $pool_ref_id,
+            $pool_obj_id,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
+    public function gridCellTableBuilder(
+        \ilPCGrid $grid,
+        object $parent_gui,
+        string $parent_cmd
+    ): Grid\GridCellTableBuilder {
+        return new Grid\GridCellTableBuilder(
+            $this->domain_service,
+            $this->gui_service,
+            $grid,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
 }

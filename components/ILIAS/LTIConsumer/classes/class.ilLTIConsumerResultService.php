@@ -114,7 +114,7 @@ class ilLTIConsumerResultService
             $logger->info('LTI Consumer Result Service: request loaded');
             $this->operation = str_replace('Request', '', $request->getName());
 
-            $request = $body->replaceResultRequest;
+            $request = $body->{$this->operation . 'Request'};
             $token = ilCmiXapiAuthToken::getInstanceByToken((string) $request->resultRecord->sourcedGUID->sourcedId);
             $logger->info("LTI Consumer Result Service: operation loaded ($this->operation), user " . $token->getUsrId() . " and objId " . $token->getObjId());
 

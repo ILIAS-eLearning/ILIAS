@@ -24,7 +24,7 @@ use ILIAS\BookingManager\InternalDomainService;
 use ILIAS\BookingManager\InternalGUIService;
 use ILIAS\BookingManager\InternalDataService;
 use ilDidacticTemplateGUI;
-use ILIAS\BookingManager\Service\Form\FormAdapterGUI;
+use ILIAS\Repository\Form\FormAdapterGUI as RepositoryFormAdapterGUI;
 
 /**
  * @ilCtrl_Calls ILIAS\BookingManager\Settings\SettingsGUI: ilDidacticTemplateGUI
@@ -72,11 +72,11 @@ class SettingsGUI
         $mt->setContent($form->render());
     }
 
-    protected function getEditForm(): FormAdapterGUI
+    protected function getEditForm(): RepositoryFormAdapterGUI
     {
         $lng = $this->domain->lng();
         $settings = $this->domain->bookingSettings()->getByObjId($this->obj_id);
-        $form = (new FormAdapterGUI([self::class], 'save'))
+        $form = (new RepositoryFormAdapterGUI([self::class], 'save'))
             ->section("general", $lng->txt("book_edit"))
             ->addStdTitleAndDescription(
                 $this->obj_id,
@@ -88,18 +88,23 @@ class SettingsGUI
             $this->creation_mode
         );
 
+        // #14478
+        $mode_disabled = (bool) count(\ilBookingObject::getList($this->obj_id));
+
+        $schedule_type = $settings?->getScheduleType();
         $form = $form
             ->switch(
                 "stype",
                 $lng->txt("book_schedule_type"),
                 "",
-                (string) $settings->getScheduleType()
+                (string) $schedule_type
             );
         $form = $form
             ->group(
                 (string) \ilObjBookingPool::TYPE_FIX_SCHEDULE,
                 $lng->txt("book_schedule_type_fixed"),
-                $lng->txt("book_schedule_type_fixed_info")
+                $lng->txt("book_schedule_type_fixed_info"),
+                $mode_disabled && $schedule_type !== \ilObjBookingPool::TYPE_FIX_SCHEDULE
             )
             ->number(
                 "period",
@@ -123,7 +128,8 @@ class SettingsGUI
             ->group(
                 (string) \ilObjBookingPool::TYPE_NO_SCHEDULE,
                 $lng->txt("book_schedule_type_none_direct"),
-                $lng->txt("book_schedule_type_none_direct_info")
+                $lng->txt("book_schedule_type_none_direct_info"),
+                $mode_disabled && $schedule_type !== \ilObjBookingPool::TYPE_NO_SCHEDULE
             )
             ->number(
                 "limit",
@@ -133,7 +139,7 @@ class SettingsGUI
             );
 
         $pref_options_disabled = false;
-        if ($settings->getScheduleType() === \ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES) {
+        if ($schedule_type === \ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES) {
             $pref_manager = $this->domain->preferences(
                 new \ilObjBookingPool($this->ref_id)
             );
@@ -144,7 +150,8 @@ class SettingsGUI
             ->group(
                 (string) \ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES,
                 $lng->txt("book_schedule_type_none_preference"),
-                $lng->txt("book_schedule_type_none_preference_info")
+                $lng->txt("book_schedule_type_none_preference_info"),
+                $mode_disabled && $schedule_type !== \ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES
             );
         $form = $form
             ->number(
@@ -166,9 +173,6 @@ class SettingsGUI
                     ? new \ilDateTime($settings->getPrefDeadline(), IL_CAL_UNIX) : null
             );
 
-        // #14478
-        $mode_disabled = (count(\ilBookingObject::getList($this->obj_id)));
-
         if ($pref_options_disabled) {
             $form = $form->disabled();
         } else {
@@ -177,10 +181,6 @@ class SettingsGUI
             }
         }
         $form->end();
-
-        if ($mode_disabled) {
-            $form = $form->disabledGroup(true);
-        }
 
         $form = $form
             ->checkbox(

@@ -134,7 +134,7 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
     protected function copyFiles(string $tmpdir, ilCalendarRessourceStorageCopyDefinition $definition): void
     {
         foreach ($definition->getCopyDefinitions() as $copy_task) {
-            if(!is_null($copy_task[ilCalendarRessourceStorageCopyDefinition::COPY_RESSOURCE_ID])) {
+            if (!is_null($copy_task[ilCalendarRessourceStorageCopyDefinition::COPY_RESSOURCE_ID])) {
                 $this->copyWithRId($tmpdir, $copy_task);
             } else {
                 $this->copyWithAbsolutePath($tmpdir, $copy_task);
@@ -148,7 +148,7 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
         $rid = $copy_task[ilCalendarRessourceStorageCopyDefinition::COPY_RESSOURCE_ID];
         $resource_identification = $this->irss->manage()->find($rid);
 
-        if(is_null($resource_identification)) {
+        if (is_null($resource_identification)) {
             $this->logger->notice('Cannot ressource identification of rid: ' . $rid);
             return;
         }

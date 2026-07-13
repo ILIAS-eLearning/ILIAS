@@ -867,6 +867,7 @@ return [
     'wbmp' => MimeType::IMAGE__VND_WAP_WBMP,
     'web' => MimeType::APPLICATION__VND_XARA,
     'webm' => MimeType::VIDEO__WEBM,
+    'webp' => MimeType::IMAGE__WEBP,
     'wiz' => MimeType::APPLICATION__MSWORD,
     'wk1' => MimeType::APPLICATION__X_123,
     'wm' => MimeType::VIDEO__X_MS_WM,

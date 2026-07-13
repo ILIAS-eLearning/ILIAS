@@ -59,7 +59,6 @@ class ilMailAddressTypesTest extends ilMailBaseTestCase
         if ($type instanceof ilMailCachedAddressType) {
             $refl = new ReflectionObject($type);
             $inner = $refl->getProperty('inner');
-            $inner->setAccessible(true);
 
             return $inner->getValue($type);
         }

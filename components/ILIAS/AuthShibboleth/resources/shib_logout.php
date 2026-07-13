@@ -144,14 +144,15 @@ function LogoutNotification($SessionID): ?\SoapFault
 
     while ($session = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
         $session_data = unserializesession($session['data']);
-        if (is_array($session_data)
+        // Delete this session entry
+        if (
+            is_array($session_data)
             && array_key_exists('shibboleth_session_id', $session_data)
-            && $session_data['shibboleth_session_id'] == $SessionID
+            && $session_data['shibboleth_session_id'] === $SessionID
+            && !ilSession::_destroy($session['session_id']
+            )
         ) {
-            // Delete this session entry
-            if (ilSession::_destroy($session['session_id']) !== true) {
-                return new SoapFault('LogoutError', 'Could not delete session entry in database.');
-            }
+            return new SoapFault('LogoutError', 'Could not delete session entry in database.');
         }
     }
     // If no SoapFault is returned, all is fine

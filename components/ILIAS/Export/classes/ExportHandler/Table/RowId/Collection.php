@@ -44,7 +44,9 @@ class Collection implements ilExportHandlerTableRowIdCollectionInterface
 
     public function fileIdentifiers(): array
     {
-        return array_map(function (ilExportHandlerTableRowIdInterface $row_id) { return $row_id->getFileIdentifier(); }, $this->elements);
+        return array_map(function (ilExportHandlerTableRowIdInterface $row_id) {
+            return $row_id->getFileIdentifier();
+        }, $this->elements);
     }
 
     public function count(): int

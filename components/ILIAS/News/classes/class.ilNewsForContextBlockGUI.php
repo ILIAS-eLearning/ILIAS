@@ -18,6 +18,7 @@
 
 use ILIAS\News\Access\NewsAccess;
 use ILIAS\News\Data\NewsCollection;
+use ILIAS\News\Data\NewsContext;
 use ILIAS\News\Data\NewsCriteria;
 use ILIAS\News\Data\NewsItem;
 use ILIAS\News\InternalDomainService;
@@ -57,6 +58,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
     protected bool $prevent_initial_loading = false;
     protected NewsCollection $collection;
+    protected ilLogger $logger;
 
     public function __construct()
     {
@@ -64,9 +66,11 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
         parent::__construct();
 
+        $this->logger = $DIC->logger()->news();
         $this->help = $DIC["ilHelp"];
         $this->settings = $DIC->settings();
         $this->tabs = $DIC->tabs();
+        $this->logger = $DIC->logger()->news();
 
         $locator = $DIC->news()->internal();
         $this->std_request = $locator->gui()->standardRequest();
@@ -100,10 +104,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             return;
         }
 
-        $collection = $this->domain->collection()->getNewsForContainer(
-            $this->std_request->getRefId(),
-            $this->ctrl->getContextObjId(),
-            $this->ctrl->getContextObjType(),
+        $collection = $this->domain->collection()->getNewsForContext(
+            new NewsContext($this->std_request->getRefId(), $this->ctrl->getContextObjId(), $this->ctrl->getContextObjType()),
             new NewsCriteria(read_user_id: $this->user->getId()),
             $this->user->getId(),
             true
@@ -618,8 +620,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                     $tpl->setVariable("CONTEXT_LOCATOR", $cont_loc->getHTML());
                 }
 
-                $no_context_title = $grouping['no_context_title'] ?? false;
-                if ($no_context_title !== true) {
+                if (!($grouping['no_context_title'] ?? false)) {
                     if (!$context_opened) {
                         $tpl->setCurrentBlock("context");
                     }

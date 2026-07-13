@@ -153,7 +153,7 @@ class ilPCFileList extends ilPageContent
      */
     public function savePositions(array $a_pos): void
     {
-        asort($a_pos);
+        //asort($a_pos);
 
         // File Item
         $nodes = array();
@@ -165,7 +165,7 @@ class ilPCFileList extends ilPageContent
             }
         }
         $this->dom_util->deleteAllChildsByName($this->getChildNode(), ["FileItem"]);
-        foreach ($a_pos as $k => $v) {
+        foreach ($a_pos as $k) {
             if (is_object($nodes[$k])) {
                 $nodes[$k] = $this->getChildNode()->appendChild($nodes[$k]);
             }
@@ -203,6 +203,22 @@ class ilPCFileList extends ilPageContent
                     $a_class[$c->getAttribute("HierId") . ":" .
                     $c->getAttribute("PCID")]
                 );
+            }
+        }
+    }
+
+    public function saveStyleClass(string $id, string $class): void
+    {
+        // File Item
+        foreach ($this->getChildNode()->childNodes as $c) {
+            if ($c->nodeName == "FileItem") {
+                if ($c->getAttribute("HierId") . ":" .
+                    $c->getAttribute("PCID") === $id) {
+                    $c->setAttribute(
+                        "Class",
+                        $class
+                    );
+                }
             }
         }
     }

@@ -16,11 +16,8 @@
  *
  *********************************************************************/
 
-/**
- * News feed script.
- * @author Alexander Killing <killing@leifos.de>
- */
-require_once '../vendor/composer/vendor/autoload.php';
+require_once __DIR__ . '/../artifacts/bootstrap_default.php';
+entry_point('ILIAS Legacy Initialisation Adapter');
 
 ilContext::init(ilContext::CONTEXT_RSS);
 
@@ -49,5 +46,5 @@ if ($requested_user_id > 0) {
     $writer = new ilObjectFeedWriter($requested_ref_id, false, $requested_purpose);
     $writer->showFeed();
 } elseif ($requested_blog_id > 0) {
-    ilObjBlog::deliverRSS($requested_blog_id);
+    $DIC->blog()->internal()->gui()->rss()->deliver($requested_blog_id);
 }

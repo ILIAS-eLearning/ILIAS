@@ -130,7 +130,7 @@ class TextareaTest extends ILIAS_UI_TestBase
             'id_1',
             'id_2',
         );
-        $this->assertEquals($expected, $this->render($textarea));
+        $this->assertEquals($expected, $this->renderInsideContainer($textarea));
     }
 
     public function testCommonRendering(): void
@@ -163,7 +163,7 @@ class TextareaTest extends ILIAS_UI_TestBase
             'id_1',
             'id_2'
         );
-        $this->assertEquals($expected, $this->render($textarea));
+        $this->assertEquals($expected, $this->renderInsideContainer($textarea));
     }
 
     public function testRendererWithMaxLimit(): void
@@ -184,7 +184,7 @@ class TextareaTest extends ILIAS_UI_TestBase
             'id_1',
             'id_2'
         );
-        $this->assertEquals($expected, $this->render($textarea));
+        $this->assertEquals($expected, $this->renderInsideContainer($textarea));
     }
 
     public function testRendererWithMinAndMaxLimit(): void
@@ -205,7 +205,7 @@ class TextareaTest extends ILIAS_UI_TestBase
             <textarea id=\"$id\" class=\"c-field-textarea\" name=\"$name\" minlength=\"5\" maxlength=\"20\"></textarea>
             <div class=\"ui-input-textarea-remainder\" aria-live=\"polite\"> ui_chars_remaining <span data-action=\"remainder\">$max</span> </div>
         ");
-        $this->assertStringContainsString($expected, $this->render($textarea));
+        $this->assertStringContainsString($expected, $this->renderInsideContainer($textarea));
     }
 
     public function testRendererCounterWithValue(): void
@@ -223,7 +223,7 @@ class TextareaTest extends ILIAS_UI_TestBase
                 <textarea id=\"$id\" class=\"c-field-textarea\" name=\"$name\">$value</textarea>
             </div>
         ");
-        $this->assertStringContainsString($expected, $this->render($textarea));
+        $this->assertStringContainsString($expected, $this->renderInsideContainer($textarea));
     }
 
     public function testStripsTags(): void
@@ -288,6 +288,6 @@ class TextareaTest extends ILIAS_UI_TestBase
                 <div class=\"c-input__help-byline\">byline</div>
             </fieldset>
         ");
-        $this->assertEquals($expected, $this->render($textarea));
+        $this->assertEquals($expected, $this->renderInsideContainer($textarea));
     }
 }

@@ -736,7 +736,7 @@ class ilSessionStatisticsGUI
         // see ilSession::_writeData()
         $now = time();
         ilSession::_destroyExpiredSessions();
-        ilSessionStatistics::aggretateRaw($now);
+        ilSessionStatistics::aggregateRaw($now);
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('trac_sync_session_stats_success'), true);
         $this->ilCtrl->redirect($this);

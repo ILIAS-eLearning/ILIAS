@@ -67,7 +67,9 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $ilUtilHelper->method('deliverData')
+        $ilUtilHelper
+            ->expects($this->once())
+            ->method('deliverData')
             ->with(
                 'Something',
                 'some_file_name.pdf',
@@ -106,13 +108,15 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $ilUtilHelper->method('deliverData')
+        $ilUtilHelper
+            ->expects($this->once())
+            ->method('deliverData')
             ->with(
                 'Something',
                 'some_file_name.pdf',
                 'application/pdf'
             )
-        ->willThrowException(new ilRpcClientException(''));
+            ->willThrowException(new ilRpcClientException(''));
 
 
         $errorHandler = $this->getMockBuilder(ilErrorHandling::class)

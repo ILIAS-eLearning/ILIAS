@@ -156,9 +156,10 @@ class TableAdapterGUI
         string $title,
         array $class_path,
         string $cmd = "",
-        string $id_param = ""
+        string $id_param = "",
+        bool $async = false
     ): self {
-        $this->addAction(self::SINGLE, $action, $title);
+        $this->addAction(self::SINGLE, $action, $title, $async);
         $act = $this->actions[$this->last_action_key] ?? false;
         if ($act && $act["type"] === self::SINGLE) {
             $act["redirect_class_path"] = $class_path;
@@ -179,9 +180,10 @@ class TableAdapterGUI
 
     public function multiAction(
         string $action,
-        string $title
+        string $title,
+        bool $async = false
     ): self {
-        $this->addAction(self::MULTI, $action, $title);
+        $this->addAction(self::MULTI, $action, $title, $async);
         return $this;
     }
 
@@ -237,7 +239,7 @@ class TableAdapterGUI
         }
     }
 
-    protected function getItemIds(): array
+    public function getItemIds(): array
     {
         if ($this->numeric_ids) {
             $ids = $this->intArray($this->row_id_token->getName());

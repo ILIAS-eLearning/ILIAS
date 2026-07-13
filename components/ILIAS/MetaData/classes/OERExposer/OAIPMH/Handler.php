@@ -20,48 +20,53 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\OERExposer\OAIPMH;
 
+use Throwable;
+use ErrorException;
 use ILIAS\Data\URI;
+use ilLogger;
+use ILIAS\MetaData\Settings\SettingsInterface;
+use ILIAS\MetaData\OERExposer\OAIPMH\HTTP\WrapperInterface as HTTPWrapper;
+use ILIAS\MetaData\OERExposer\OAIPMH\Requests\ParserInterface as RequestParser;
+use ILIAS\MetaData\OERExposer\OAIPMH\Responses\RequestProcessorInterface as RequestProcessor;
 
-class Handler
+class Handler implements HandlerInterface
 {
-    protected InitiatorInterface $initiator;
-    protected \ilLogger $logger;
-
     protected readonly URI $base_url;
 
-    public function __construct()
-    {
-        global $DIC;
-
-        $this->logger = $DIC->logger()->meta();
-        $this->initiator = new Initiator($DIC);
+    public function __construct(
+        protected ilLogger $logger,
+        protected SettingsInterface $settings,
+        protected HTTPWrapper $http_wrapper,
+        protected RequestParser $request_parser,
+        protected RequestProcessor $request_processor
+    ) {
         $this->base_url = new URI(rtrim(ILIAS_HTTP_PATH, '/') . '/oai.php');
     }
 
     public function sendResponseToRequest(): void
     {
-        if (!$this->initiator->settings()->isOAIPMHActive()) {
-            $this->initiator->httpWrapper()->sendResponseAndClose(404);
+        if (!$this->settings->isOAIPMHActive()) {
+            $this->http_wrapper->sendResponseAndClose(404);
             return;
         }
 
         set_error_handler(static function (int $errno, string $errstr, string $errfile, int $errline): never {
-            throw new \ErrorException($errstr, 0, $errno, $errfile, $errline);
+            throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
         });
 
         try {
-            $response = $this->initiator->requestProcessor()->getResponseToRequest(
-                $this->initiator->requestParser()->parseFromHTTP($this->base_url)
+            $response = $this->request_processor->getResponseToRequest(
+                $this->request_parser->parseFromHTTP($this->base_url)
             );
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->logError($e->getMessage());
-            $this->initiator->httpWrapper()->sendResponseAndClose(500, $e->getMessage());
+            $this->http_wrapper->sendResponseAndClose(500, $e->getMessage());
             return;
         } finally {
             restore_error_handler();
         }
 
-        $this->initiator->httpWrapper()->sendResponseAndClose(200, '', $response);
+        $this->http_wrapper->sendResponseAndClose(200, '', $response);
     }
 
     protected function logError(string $message): void

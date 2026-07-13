@@ -120,7 +120,10 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     {
         $connector = new ilLTIDataConnector();
         $consumer = ilLTIPlatform::fromRecordId($a_sid, $connector);
-        return $consumer->getTitle();
+
+        $object_ref = $consumer->getRefId();
+        $object_title = ilObject2::_lookupTitle(ilObject2::_lookupObjectId($object_ref));
+        return $consumer->getTitle() . " / " . $object_title;
     }
 
     /**

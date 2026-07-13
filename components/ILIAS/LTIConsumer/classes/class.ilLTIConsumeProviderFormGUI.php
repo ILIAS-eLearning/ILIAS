@@ -942,7 +942,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $this->addItem($regUrlInp);
         $regParamsInp = new ilTextInputGUI($lng->txt('lti_con_prov_dyn_reg_params'), 'lti_dyn_reg_custom_params');
         $regParamsInp->setInfo($lng->txt('lti_con_prov_dyn_reg_params_info'));
-        $this->addCommandButton("addDynReg", $DIC->language()->txt('lti_dyn_reg_add_tool'));
+        $this->addCommandButton("addDynReg", $DIC->language()->txt('add'));
         $this->addItem($regParamsInp);
     }
 

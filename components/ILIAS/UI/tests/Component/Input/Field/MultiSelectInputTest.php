@@ -131,7 +131,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
             $byline,
             null
         );
-        $this->assertEquals($expected, $this->render($ms));
+        $this->assertEquals($expected, $this->renderInsideContainer($ms));
     }
 
     public function testRenderValue(): void
@@ -177,7 +177,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
             $byline,
             null
         );
-        $this->assertEquals($expected, $this->render($ms));
+        $this->assertEquals($expected, $this->renderInsideContainer($ms));
     }
 
     public function testRenderWithHasOptionFilter(): void

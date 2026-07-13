@@ -37,6 +37,7 @@ class ilAttendanceList
     protected ilObject $parent_obj;
     protected ?ilParticipants $participants;
     protected ?ilWaitingList $waiting_list;
+    protected ilTree $tree;
     /**
      * @var ?callable
      */
@@ -67,7 +68,7 @@ class ilAttendanceList
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->profile = $DIC['user']->getProfile();
-
+        $this->tree = $DIC->repositoryTree();
         $this->parent_gui = $a_parent_gui;
         $this->parent_obj = $a_parent_obj;
         $this->participants = $a_participants_object;
@@ -137,10 +138,14 @@ class ilAttendanceList
             );
         }
 
+        $parent_obj_type = $this->tree->checkForParentType($this->parent_obj->getRefId(), 'crs') ? 'crs' : '';
+        $parent_obj_type = $this->tree->checkForParentType($this->parent_obj->getRefId(), 'grp') ? 'grp' : $parent_obj_type;
+        $user_defined_fields = $parent_obj_type === ''
+            ? $this->profile->getAllUserDefinedFields()
+            : $this->profile->getVisibleUserDefinedFields(Context::buildFromObjectType($parent_obj_type));
+
         // add udf fields
-        foreach ($this->profile->getVisibleUserDefinedFields(
-            Context::buildFromObjectType($this->parent_obj->getType())
-        ) as $field) {
+        foreach ($user_defined_fields as $field) {
             $this->presets['udf_' . $field->getIdentifier()] = array(
                 $field->getLabel($this->lng),
                 false

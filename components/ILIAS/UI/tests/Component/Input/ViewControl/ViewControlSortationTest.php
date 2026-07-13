@@ -65,9 +65,7 @@ class ViewControlSortationTest extends ViewControlTestBase
         $input = $this->createMock(InputData::class);
         $input->expects($this->exactly(2))
             ->method("getOr")
-            ->will(
-                $this->onConsecutiveCalls($v[0], $v[1])
-            );
+            ->willReturnOnConsecutiveCalls($v[0], $v[1]);
 
         $vc = $this->buildVCFactory()->sortation($options)
             ->withNameFrom($this->getNamesource())
@@ -93,7 +91,7 @@ class ViewControlSortationTest extends ViewControlTestBase
 
         $expected = $this->brutallyTrimHTML('
 <div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element" id="id_3">
-    <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown" aria-label="label_sortation" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_ctrl"><span class="glyphicon-sort"></span></button>
+    <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown" aria-label="label_sortation" aria-expanded="false" aria-controls="id_3_ctrl"><span class="glyphicon-sort"></span></button>
     <ul id="id_3_ctrl" class="dropdown-menu">
         <li><button class="btn btn-link" id="id_1">A</button></li>
         <li><button class="btn btn-link" id="id_2">B</button></li>
@@ -128,7 +126,7 @@ class ViewControlSortationTest extends ViewControlTestBase
 
         $expected = $this->brutallyTrimHTML('
 <div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element" id="id_3">
-    <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown" aria-label="label_sortation" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_ctrl"><span class="glyphicon-sort"></span></button>
+    <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown" aria-label="label_sortation" aria-expanded="false" aria-controls="id_3_ctrl"><span class="glyphicon-sort"></span></button>
     <ul id="id_3_ctrl" class="dropdown-menu">
         <li><button class="btn btn-link" id="id_1">A</button></li>
         <li><button class="btn btn-link" id="id_2">B</button></li>

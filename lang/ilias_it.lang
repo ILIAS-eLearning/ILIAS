@@ -642,7 +642,6 @@ assessment#:#errFormulaQuestion#:#Una formula di domanda contiene informazioni e
 assessment#:#errRecursionInResult#:#La formula contiene una ricorsione infinita.
 assessment#:#err_category_in_use#:#Non è possibile eliminare alcuna categoria. Una o più unità di categoria sono ancora in uso.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###09 03 2022 new variable
-assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#This value has to be smaller than the maximum range.###09 03 2022 new variable
 assessment#:#err_duplicate_results#:#È stata utilizzata una variabile di risultato più di una volta. Questo non è consentito nel testo della domanda.
 assessment#:#err_no_formula#:#Devi digitare una formula
@@ -5974,7 +5973,6 @@ common#:#webdav_chosen_language_already_used#:#Esiste già un documento associat
 common#:#webdav_doc_delete#:#Elimina le istruzioni di montaggio di WebDav
 common#:#webdav_docs_mount_instructions#:#Documenti di istruzioni di montaggio
 common#:#webdav_duplicate_detected_title#:#I seguenti oggetti non possono essere mostrati, perchè esiste già un oggetto con lo stesso titolo:
-common#:#webdav_enable_versioning#:#Versioning del File
 common#:#webdav_forbidden_chars_title#:#I seguenti file non possono essere mostrati, perchè contengono uno o più caratteri non consentiti (\<>/:*?"|#):
 common#:#webdav_form_document#:#Istruzioni Documento
 common#:#webdav_form_document_info#:#Carica un file di testo o .html qui. Dopo il caricamento, il file verrà processato dopo l'upload.
@@ -5993,7 +5991,6 @@ common#:#webdav_sure_delete_documents_s#:#Siete sicuri di voler rimuovere le Ist
 common#:#webdav_tbl_docs_head_title#:#Titolo Docuemnto:
 common#:#webdav_tbl_docs_title#:#Lista di Istruzioni di Mount WebDAV caricati:
 common#:#webdav_upload_instructions#:#Istruzioni di Upload
-common#:#webdav_versioning_info#:#Se abilitata, i file esistenti riceveranno una nuova versione invece che essere sovrascritti.
 common#:#webfolder_dir_info#:#Sei qui perché il tuo browser non può aprire le cartelle web. Leggi le <a href="%1$s">istruzioni per aprire le cartelle web</a>.
 common#:#webfolder_index_of#:#Indice di %1$s
 common#:#webfolder_instructions#:#Istruzioni cartella web
@@ -11363,7 +11360,7 @@ lti#:#lti_con_prov_xapi_launch_secret_info#:#&nbsp;
 lti#:#lti_con_prov_xapi_launch_url#:#URL dell'Endpoint LRS
 lti#:#lti_con_prov_xapi_launch_url_info#:#Per favore inserisci l'URL completo con https://
 lti#:#lti_con_redirection_uris#:#Redirection URI###31 03 2023 new variable
-lti#:#lti_con_tool_url#:#Login URL###31 03 2023 new variable
+lti#:#lti_con_tool_url#:#Launch URL###31 03 2023 new variable
 lti#:#lti_con_version#:#LTI Version###31 03 2023 new variable
 lti#:#lti_con_version_1.1#:#Version 1.1###31 03 2023 new variable
 lti#:#lti_con_version_1.3#:#Version 1.3###31 03 2023 new variable
@@ -16726,7 +16723,7 @@ survey#:#survey_360_sure_appraisee_close#:#Sei sicuro di voler chiudere il sonda
 survey#:#survey_360_sure_appraisee_close_admin#:#Sei sicuro di voler chiudere il sondaggio per tutti i seguenti valutati?
 survey#:#survey_360_sure_delete_appraises#:#Sei sicuro di voler rimuovere i seguenti valutati?
 survey#:#survey_360_sure_delete_raters#:#Sei sicuro di voler rimuovere i seguenti valutati per %s?
-survey#:#survey_access_codes#:#Autenticazione tramite codici di accesso
+survey#:#survey_access_code#:#Autenticazione tramite codici di accesso
 survey#:#survey_access_codes_info#:#Gli utenti ottengono l'accesso al sondaggio inserendo un codice nella scheda "Informazioni". Questi codici di accesso sono generati in una sottoscheda "Codici di accesso" nella scheda "Partecipanti".
 survey#:#survey_activate_skill_service#:#Attivare il servizio di competenze
 survey#:#survey_activate_skill_service_info#:#Verrà visualizzata una nuova scheda "Competenze". In questa scheda le domande vengono assegnate alle competenze, quindi vengono attribuite le soglie per raggiungere un livello specifico di una competenza.

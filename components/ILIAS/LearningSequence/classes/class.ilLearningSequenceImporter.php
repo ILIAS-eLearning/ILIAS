@@ -121,7 +121,9 @@ class ilLearningSequenceImporter extends ilXmlImporter
                     $item_data["condition_value"]
                 );
                 $item = $item->withPostCondition($post_condition);
-                $item = $item->withOrderNumber((int) $item_data["position"]);
+                if (isset($item_data["position"])) {
+                    $item = $item->withOrderNumber((int) $item_data["position"]);
+                }
                 $updated[] = $item;
             }
         }

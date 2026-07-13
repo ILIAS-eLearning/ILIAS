@@ -125,10 +125,10 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 $tpl->setVariable("DISABLED_POINTS", " disabled=\"disabled\"");
             }
             $tpl->setVariable("ADD_BUTTON", $this->renderer->render(
-                $this->glyph_factory->add()->withAction('#')
+                $this->button_factory->shy('', '')->withSymbol($this->glyph_factory->add())
             ));
             $tpl->setVariable("REMOVE_BUTTON", $this->renderer->render(
-                $this->glyph_factory->remove()->withAction('#')
+                $this->button_factory->shy('', '')->withSymbol($this->glyph_factory->remove())
             ));
             $tpl->parseCurrentBlock();
             $i++;

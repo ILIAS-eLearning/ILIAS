@@ -351,7 +351,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->prepareOutput();
                 $this->tabs_gui->activateTab(self::UI_TAB_ID_MD);
 
-                $md_gui = new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
+                $md_gui = new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType(), $this->object->getRefId());
                 $md_gui->addObserver($this->object, 'MDUpdateListener', 'General');
                 $this->ctrl->forwardCommand($md_gui);
                 break;

@@ -676,7 +676,7 @@ class SeqTreeBuilder
         // Look for 'objectiveMeasureWeight'
         $tempVal = $iNode->getAttribute("objectiveMeasureWeight");
         if ($tempVal) {
-            $ioAct->setObjMeasureWeight((float)$tempVal);
+            $ioAct->setObjMeasureWeight((float) $tempVal);
         }
         // Look for 'rollupProgressCompletion'
         $tempVal = $iNode->getAttribute("rollupProgressCompletion");

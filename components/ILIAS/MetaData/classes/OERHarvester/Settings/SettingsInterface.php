@@ -25,31 +25,43 @@ interface SettingsInterface
     /**
      * @return string[]
      */
-    public function getObjectTypesEligibleForHarvesting(): array;
+    public function getObjectTypesEligibleForPublishing(): array;
 
     /**
      * @return string[]
      */
-    public function getObjectTypesSelectedForHarvesting(): array;
+    public function getObjectTypesSelectedForPublishing(): array;
 
-    public function isObjectTypeSelectedForHarvesting(string $type): bool;
+    public function isObjectTypeSelectedForPublishing(string $type): bool;
 
-    public function saveObjectTypesSelectedForHarvesting(string ...$types): void;
+    public function saveObjectTypesSelectedForPublishing(string ...$types): void;
 
     /**
      * @return int[]
      */
-    public function getCopyrightEntryIDsSelectedForHarvesting(): array;
+    public function getCopyrightEntryIDsSelectedForPublishing(): array;
 
-    public function isCopyrightEntryIDSelectedForHarvesting(int $id): bool;
+    public function isCopyrightEntryIDSelectedForPublishing(int $id): bool;
 
-    public function saveCopyrightEntryIDsSelectedForHarvesting(int ...$ids): void;
+    public function saveCopyrightEntryIDsSelectedForPublishing(int ...$ids): void;
 
-    public function getContainerRefIDForHarvesting(): int;
+    public function isEditorialStepEnabled(): bool;
 
-    public function saveContainerRefIDForHarvesting(int $ref_id): void;
+    public function saveEditorialStepEnabled(bool $enabled): void;
 
-    public function getContainerRefIDForExposing(): int;
+    public function getContainerRefIDForEditorialStep(): int;
 
-    public function saveContainerRefIDForExposing(int $ref_id): void;
+    public function saveContainerRefIDForEditorialStep(int $ref_id): void;
+
+    public function getContainerRefIDForPublishing(): int;
+
+    public function saveContainerRefIDForPublishing(int $ref_id): void;
+
+    public function isManualPublishingEnabled(): bool;
+
+    public function saveManualPublishingEnabled(bool $enabled): void;
+
+    public function isAutomaticPublishingEnabled(): bool;
+
+    public function saveAutomaticPublishingEnabled(bool $enabled): void;
 }

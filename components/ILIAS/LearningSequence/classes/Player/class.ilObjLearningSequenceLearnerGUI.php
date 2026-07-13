@@ -19,11 +19,13 @@
 declare(strict_types=1);
 
 use ILIAS\HTTP\Wrapper\RequestWrapper;
+use ILIAS\UI\Component\Modal\Interruptive;
 
 class ilObjLearningSequenceLearnerGUI
 {
     public const CMD_STANDARD = 'learnerView';
     public const CMD_EXTRO = 'learnerViewFinished';
+    public const CMD_UNSUBSCRIBE_CONFIRMATION = 'unsubscribeConfirmation';
     public const CMD_UNSUBSCRIBE = 'unsubscribe';
     public const CMD_VIEW = 'view';
     public const CMD_START = 'start';
@@ -63,6 +65,9 @@ class ilObjLearningSequenceLearnerGUI
                 $this->addMember($this->usr_id);
                 $this->ctrl->redirect($this, self::CMD_VIEW);
                 break;
+            case self::CMD_UNSUBSCRIBE_CONFIRMATION:
+                $this->unsubscribeConfirmationModal();
+                break;
             case self::CMD_UNSUBSCRIBE:
                 if ($this->launchlinks_builder->currentUserMayUnparticipate()) {
                     $this->roles->leave($this->usr_id);
@@ -81,17 +86,28 @@ class ilObjLearningSequenceLearnerGUI
         }
     }
 
+    protected function unsubscribeConfirmationModal(): Interruptive
+    {
+        return $this->ui_factory->modal()->interruptive(
+            $this->lng->txt('obj_lso'),
+            $this->lng->txt("unparticipate"),
+            $this->ctrl->getLinkTarget($this, self::CMD_UNSUBSCRIBE),
+        );
+    }
+
     protected function view(string $cmd): void
     {
         $content = $this->getWrappedHTML(
             $this->getMainContent($cmd)
         );
 
-        $this->tpl->setContent($content);
+        $modal = $this->unsubscribeConfirmationModal();
+
+        $this->tpl->setContent($content . $this->renderer->render($modal));
 
         $element = '<' . ilPCLauncher::PCELEMENT . '>';
         if (!str_contains($content, $element)) {
-            $this->initToolbar($cmd);
+            $this->initToolbar($cmd, $modal);
         }
 
         $element = '<' . ilPCCurriculum::PCELEMENT . '>';
@@ -111,7 +127,7 @@ class ilObjLearningSequenceLearnerGUI
         }
     }
 
-    protected function initToolbar(string $cmd)
+    protected function initToolbar(string $cmd, Interruptive $modal): void
     {
         foreach ($this->launchlinks_builder->getLinks() as $entry) {
             list($label, $link, $primary) = $entry;
@@ -121,6 +137,11 @@ class ilObjLearningSequenceLearnerGUI
             } else {
                 $btn = $this->ui_factory->button()->standard($label, $link);
             }
+
+            if ($label === $this->lng->txt("unparticipate")) {
+                $btn = $this->ui_factory->button()->standard($label, $link)->withOnClick($modal->getShowSignal());
+            }
+
             $this->toolbar->addComponent($btn);
         }
     }

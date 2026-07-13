@@ -205,6 +205,21 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $this->removeAllImageFiles($image_target_path);
         }
 
+        if (!file_exists($image_source_path) || !is_readable($image_source_path)) {
+            $this->log->root()->alert(
+                "Could not copy imagemap question files: Source path '{$image_source_path}' does not exist or is not readable.",
+                [
+                    'source_question_id' => $source_question_id,
+                    'source_parent_id' => $source_parent_id,
+                    'target_question_id' => $target_question_id,
+                    'target_parent_id' => $target_parent_id,
+                    'image_source_path' => $image_source_path,
+                    'image_target_path' => $image_target_path
+                ]
+            );
+            return;
+        }
+
         $src = opendir($image_source_path);
         while ($src_file = readdir($src)) {
             if ($src_file === '.' || $src_file === '..') {

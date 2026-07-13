@@ -21,16 +21,24 @@ var AnswerWizardInput = {
 
   initEvents(rootel) {
     const that = this;
-    $(rootel).find(`.${this.tag_button}_add .glyph`).click((e) => {
+    $(rootel).find(`.${this.tag_button}_add .btn`).off('click');
+    $(rootel).find(`.${this.tag_button}_add .btn`).click((e) => {
+      e.preventDefault();
       that.addRow(e);
     });
-    $(rootel).find(`.${this.tag_button}_remove .glyph`).click((e) => {
+    $(rootel).find(`.${this.tag_button}_remove .btn`).off('click');
+    $(rootel).find(`.${this.tag_button}_remove .btn`).click((e) => {
+      e.preventDefault();
       that.removeRow(e);
     });
-    $(rootel).find(`.${this.tag_button}_up .glyph`).click((e) => {
+    $(rootel).find(`.${this.tag_button}_up .btn`).off('click');
+    $(rootel).find(`.${this.tag_button}_up .btn`).click((e) => {
+      e.preventDefault();
       that.moveRowUp(e);
     });
-    $(rootel).find(`.${this.tag_button}_down .glyph`).click((e) => {
+    $(rootel).find(`.${this.tag_button}_down .btn`).off('click');
+    $(rootel).find(`.${this.tag_button}_down .btn`).click((e) => {
+      e.preventDefault();
       that.moveRowDown(e);
     });
   },

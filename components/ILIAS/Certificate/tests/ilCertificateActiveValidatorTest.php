@@ -26,7 +26,9 @@ class ilCertificateActiveValidatorTest extends \PHPUnit\Framework\TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $settings->method('get')
+        $settings
+            ->expects($this->once())
+            ->method('get')
             ->with('active')
             ->willReturn('1');
 
@@ -50,7 +52,9 @@ class ilCertificateActiveValidatorTest extends \PHPUnit\Framework\TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $settings->method('get')
+        $settings
+            ->expects($this->once())
+            ->method('get')
             ->with('active')
             ->willReturn('0');
 
@@ -76,7 +80,9 @@ class ilCertificateActiveValidatorTest extends \PHPUnit\Framework\TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $settings->method('get')
+        $settings
+            ->expects($this->once())
+            ->method('get')
             ->with('active')
             ->willReturn('1');
 

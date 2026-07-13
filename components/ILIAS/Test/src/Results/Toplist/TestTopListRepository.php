@@ -29,26 +29,31 @@ class TestTopListRepository
 
     public function getGeneralToplist(\ilObjTest $object, TopListOrder $order_by): \Generator
     {
+        $order_by_query = $order_by === TopListOrder::BY_TIME
+            ? 'tst_pass_result.workingtime ASC'
+            : 'percentage DESC';
+
         $this->db->setLimit($object->getHighscoreTopNum(), 0);
-        $result = $this->db->query(
-            '
-			SELECT tst_result_cache.*, round(points/maxpoints*100,2) as percentage, tst_pass_result.workingtime, usr_data.usr_id, usr_data.firstname, usr_data.lastname
-			FROM object_reference
-			INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
-			INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
-			INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
-			INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi AND tst_pass_result.pass = tst_result_cache.pass
-			INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
-			WHERE object_reference.ref_id = ' . $this->db->quote($object->getRefId(), 'integer') .
-            ($order_by === TopListOrder::BY_TIME
-                ? ' ORDER BY tst_pass_result.workingtime DESC, tstamp ASC'
-                : ' ORDER BY percentage DESC, tstamp ASC')
+        $result = $this->db->queryF(
+            "
+                SELECT tst_result_cache.*, round(points/maxpoints*100,2) as percentage, tst_pass_result.workingtime, usr_data.usr_id, usr_data.firstname, usr_data.lastname, tst_active.active_id
+                FROM object_reference
+                INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
+                INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
+                INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
+                INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi AND tst_pass_result.pass = tst_result_cache.pass
+                INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
+                WHERE object_reference.ref_id = %s
+                ORDER BY {$order_by_query}, tstamp ASC
+            ",
+            [\ilDBConstants::T_INTEGER],
+            [$object->getRefId()]
         );
 
         $i = 1;
         while ($row = $this->db->fetchAssoc($result)) {
             $row['rank'] = $i;
-            $i += 1;
+            $i++;
             yield $row;
         }
     }
@@ -107,7 +112,7 @@ class TestTopListRepository
 
         $result = $this->db->query("
             SELECT tst_result_cache.*, round(reached_points/max_points*100) as percentage ,
-                tst_pass_result.workingtime, usr_id, usr_data.firstname, usr_data.lastname
+                tst_pass_result.workingtime, usr_id, usr_data.firstname, usr_data.lastname, tst_active.active_id
             FROM object_reference
             INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
             INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
@@ -192,7 +197,7 @@ class TestTopListRepository
 
         $result = $this->db->query("
 			SELECT tst_result_cache.*, round(reached_points/max_points*100) as percentage,
-				tst_pass_result.workingtime, usr_id, usr_data.firstname, usr_data.lastname
+				tst_pass_result.workingtime, usr_id, usr_data.firstname, usr_data.lastname, tst_active.active_id
 			FROM object_reference
 			INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
 			INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi

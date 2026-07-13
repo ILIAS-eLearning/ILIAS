@@ -13,11 +13,21 @@
  * https://github.com/ILIAS-eLearning
  */
 
-/* eslint-env jquery */
 il.SearchMainMenu = {
-  acDatasource: 'ilias.php?baseClass=ilSearchControllerGUI&cmd=autoComplete',
+  /**
+   * @param {string} acDatasource
+   * @param {string} standardSearchAction
+   * @param {string} userSearchAction
+   */
+  init(
+    acDatasource,
+    standardSearchAction,
+    userSearchAction,
+  ) {
+    this.acDatasource = acDatasource;
+    this.standardSearchAction = standardSearchAction;
+    this.userSearchAction = userSearchAction;
 
-  init() {
     // we must bind the blur event before the autocomplete item is added
     this.suppressBlur();
     this.initAutocomplete(`${this.acDatasource}&search_type=4`);
@@ -31,12 +41,22 @@ il.SearchMainMenu = {
     );
   },
 
+  switchFormActionToUserSearch() {
+    const form = document.querySelector('#mm_search_form');
+    form.action = this.userSearchAction;
+  },
+
+  switchFormActionToStandardSearch() {
+    const form = document.querySelector('#mm_search_form');
+    form.action = this.standardSearchAction;
+  },
+
   /**
    * @param {string} dataSource
    */
   initAutocomplete(dataSource) {
     const autocomplete = document.querySelector('#main_menu_search');
-    const target = document.getElementById('mm_search_menu_ac');
+    const target = document.querySelector('#mm_search_menu_ac');
 
     il.LegacyForm.autocomplete.init(autocomplete, {
       delimiter: null,
@@ -50,21 +70,35 @@ il.SearchMainMenu = {
   },
 
   initChange() {
-    $("#ilMMSearchMenu input[type='radio']").change(() => {
-      /* disabled autocomplete */
-      const originalInput = document.querySelector('#main_menu_search');
-      const autocomplete = originalInput.cloneNode(true); // clone attributes, value, etc.
-      originalInput.replaceWith(autocomplete); // replace the original inpu
+    document.querySelectorAll("#ilMMSearchMenu input[type='radio']").forEach(this.initChangeForRadio, this);
+  },
 
-      /* disable autocomplete for search at current position */
-      const checkedInput = $('input[name=root_id]:checked', '#mm_search_form');
-      if (checkedInput[0].id === 'ilmmsc') {
-        return;
+  /**
+   * @param {Node} radio
+   */
+  initChangeForRadio(radio) {
+    radio.addEventListener(
+      'change',
+      () => {
+        /* disabled autocomplete */
+        const originalInput = document.querySelector('#main_menu_search');
+        const autocomplete = originalInput.cloneNode(true); // clone attributes, value, etc.
+        originalInput.replaceWith(autocomplete); // replace the original input
+
+        /* disable autocomplete for search at current position */
+        const checkedInput = document.querySelector('#mm_search_form').querySelector('input[name=root_id]:checked');
+        if (checkedInput.id !== 'ilmmsc') {
+          const typeVal = checkedInput.value;
+          this.initAutocomplete(`${this.acDatasource}&search_type=${typeVal}`);
+        }
+
+        /* change search link according to mode */
+        if (checkedInput.id === 'ilmmsu') {
+          this.switchFormActionToUserSearch();
+        } else {
+          this.switchFormActionToStandardSearch();
+        }
       }
-
-      const typeVal = checkedInput.val();
-
-      this.initAutocomplete(`${this.acDatasource}&search_type=${typeVal}`);
-    });
+    );
   },
 };

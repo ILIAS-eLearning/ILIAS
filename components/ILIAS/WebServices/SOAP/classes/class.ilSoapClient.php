@@ -29,6 +29,7 @@ class ilSoapClient
     public const DEFAULT_CONNECT_TIMEOUT = 10;
     public const DEFAULT_RESPONSE_TIMEOUT = 5;
 
+    public const MAX_DIRECTORY_SEARCH_DEPTH = 20;
     private ilLogger $log;
     private ilSetting $settings;
     private ?SoapClient $client = null;
@@ -98,12 +99,40 @@ class ilSoapClient
                 $uri = (new \ILIAS\Data\URI($internal_path));
                 parse_str($uri->getQuery() ?? '', $query);
                 $this->uri = (string) (isset($query['wsdl']) ?
-                                       $uri :
-                                       $uri->withQuery(http_build_query(array_merge($query, ['wsdl' => '']))));
+                    $uri :
+                    $uri->withQuery(http_build_query(array_merge($query, ['wsdl' => '']))));
             } elseif (trim($this->settings->get('soap_wsdl_path', '')) !== '') {
                 $this->uri = $this->settings->get('soap_wsdl_path', '');
             } else {
-                $this->uri = ilUtil::_getHttpPath() . '/public/soap/server.php?wsdl';
+                $request_path = ilUtil::_getHttpPath();
+                $depth = 0;
+                if (PHP_SAPI !== 'cli') {
+                    $script_path = dirname($_SERVER['SCRIPT_FILENAME']);
+                    while ($depth < self::MAX_DIRECTORY_SEARCH_DEPTH && !is_file($script_path . '/ilias.php')) {
+                        $parent = dirname($script_path);
+                        if ($parent === $script_path) {
+                            break;
+                        }
+                        $script_path = $parent;
+                        $depth++;
+                    }
+                }
+
+                if ($depth > 0 && is_file($script_path . '/ilias.php')) {
+                    $url_parts = parse_url($request_path);
+                    $path = $url_parts['path'] ?? '';
+                    $path_parts = explode('/', rtrim($path, '/'));
+                    $path_parts = array_slice($path_parts, 0, -$depth);
+                    $new_path = implode('/', $path_parts);
+
+                    $request_path = $url_parts['scheme'] . '://' . $url_parts['host'];
+                    if (isset($url_parts['port'])) {
+                        $request_path .= ':' . $url_parts['port'];
+                    }
+                    $request_path .= $new_path;
+                }
+
+                $this->uri = rtrim($request_path, '/') . '/soap/server.php?wsdl';
             }
         }
         try {

@@ -22,17 +22,17 @@ use ILIAS\DI\Container;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class ilSessionTest
- */
 class ilLDAPServerTest extends TestCase
 {
-    private Container $dic;
+    private ?Container $dic = null;
 
     protected function setUp(): void
     {
-        $this->dic = new Container();
-        $GLOBALS['DIC'] = $this->dic;
+        global $DIC;
+
+        $this->dic = is_object($DIC) ? clone $DIC : $DIC;
+
+        $DIC = new Container();
 
         $this->setGlobalVariable('lng', $this->getLanguageMock());
         $this->setGlobalVariable(
@@ -48,29 +48,44 @@ class ilLDAPServerTest extends TestCase
             'ilErr',
             $this->getMockBuilder(ilErrorHandling::class)->disableOriginalConstructor()->getMock()
         );
+
+        $logger = $this
+            ->getMockBuilder(ilLogger::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $logger_factory = $this->getMockBuilder(ilLoggerFactory::class)->disableOriginalConstructor()->getMock();
+        $logger_factory
+            ->expects($this->once())
+            ->method('getComponentLogger')
+            ->willReturn($logger);
+        $this->setGlobalVariable(
+            ilLoggerFactory::class,
+            $logger_factory
+        );
+
         parent::setUp();
     }
 
-    /**
-     * @param string $name
-     * @param mixed  $value
-     */
-    protected function setGlobalVariable(string $name, $value): void
+    protected function tearDown(): void
+    {
+        global $DIC;
+
+        $DIC = $this->dic;
+
+        parent::tearDown();
+    }
+
+    protected function setGlobalVariable(string $name, mixed $value): void
     {
         global $DIC;
 
         $GLOBALS[$name] = $value;
 
         unset($DIC[$name]);
-        $DIC[$name] = static function ($c) use ($name) {
-            return $GLOBALS[$name];
-        };
+        $DIC[$name] = static fn(Container $c) => $GLOBALS[$name];
     }
 
-    /**
-     * @return MockObject|ilLanguage
-     */
-    protected function getLanguageMock(): ilLanguage
+    protected function getLanguageMock(): MockObject&ilLanguage
     {
         $lng = $this
             ->getMockBuilder(ilLanguage::class)
@@ -85,22 +100,11 @@ class ilLDAPServerTest extends TestCase
     {
         global $DIC;
 
-        //setup some method calls
-        /** @var $setting MockObject */
-        $setting = $DIC['ilSetting'];
-        $setting->method("get")->willReturnCallback(
-            function ($arg) {
-                if ($arg === 'session_statistics') {
-                    return "0";
-                }
-
-                throw new \RuntimeException($arg);
-            }
-        );
-        /** @var $ilDB MockObject */
-        $data = null;
+        /** @var MockObject&ilDBInterface $ilDB */
         $ilDB = $DIC['ilDB'];
-        $ilDB->expects($this->never())->method("quote");
+        $ilDB
+            ->expects($this->never())
+            ->method('quote');
 
         $server = new ilLDAPServer();
         $this->assertFalse($server->isActive());
@@ -110,63 +114,59 @@ class ilLDAPServerTest extends TestCase
     {
         global $DIC;
 
-        //setup some method calls
-        /** @var $setting MockObject */
-        $setting = $DIC['ilSetting'];
-        $setting->method("get")->willReturnCallback(
-            function ($arg) {
-                if ($arg === 'session_statistics') {
-                    return "0";
-                }
-
-                throw new \RuntimeException($arg);
-            }
-        );
-
-        /** @var $ilDB MockObject */
+        /** @var MockObject&ilDBInterface $ilDB */
         $ilDB = $DIC['ilDB'];
-        $ilDB->expects($this->once())->method("quote")->with(1)->willReturn("1");
+        $ilDB->expects($this->once())->method('quote')->with(1)->willReturn('1');
 
         $res = $this->getMockBuilder(ilDBStatement::class)->disableAutoReturnValueGeneration()->getMock();
-        $ilDB->method("query")->with(
-            "SELECT * FROM ldap_server_settings WHERE server_id = 1"
-        )->
-        willReturn($res);
-        $res->expects($this->exactly(2))->method("fetchRow")->willReturnOnConsecutiveCalls((object) array(
-            'active' => "true",
-            'name' => "testserver",
-            'url' => "ldap://testurl:389",
-            'version' => "3",
-            'base_dn' => "true",
-            'referrals' => "false",
-            'tls' => "false",
-            'bind_type' => "1",
-            'bind_user' => "nobody",
-            'bind_pass' => "password",
-            'search_base' => "dc=de",
-            'user_scope' => "1",
-            'user_attribute' => "user",
-            'filter' => ".",
-            'group_dn' => "dc=group",
-            'group_scope' => "1",
-            'group_filter' => "",
-            'group_member' => "",
-            'group_attribute' => "",
-            'group_optional' => "false",
-            'group_user_filter' => ".*",
-            'group_memberisdn' => "true",
-            'group_name' => "",
-            'sync_on_login' => "true",
-            'sync_per_cron' => "false",
-            'role_sync_active' => "true",
-            'role_bind_dn' => "rolebind",
-            'role_bind_pass' => "rolebindpwd",
-            'migration' => "true",
-            'authentication' => "true",
-            'authentication_type' => "1",
-            'username_filter' => ".*",
-            'escape_dn' => "false"
-        ), null);
+        $ilDB
+            ->expects($this->once())
+            ->method('query')
+            ->with(
+                'SELECT * FROM ldap_server_settings WHERE server_id = 1'
+            )
+            ->willReturn($res);
+        $res
+            ->expects($this->exactly(2))
+            ->method('fetchRow')
+            ->willReturnOnConsecutiveCalls(
+                (object) [
+                    'active' => 'true',
+                    'name' => 'testserver',
+                    'url' => 'ldap://testurl:389',
+                    'version' => '3',
+                    'base_dn' => 'true',
+                    'referrals' => 'false',
+                    'tls' => 'false',
+                    'bind_type' => '1',
+                    'bind_user' => 'nobody',
+                    'bind_pass' => 'password',
+                    'search_base' => 'dc=de',
+                    'user_scope' => '1',
+                    'user_attribute' => 'user',
+                    'filter' => '.',
+                    'group_dn' => 'dc=group',
+                    'group_scope' => '1',
+                    'group_filter' => '',
+                    'group_member' => '',
+                    'group_attribute' => '',
+                    'group_optional' => 'false',
+                    'group_user_filter' => '.*',
+                    'group_memberisdn' => 'true',
+                    'group_name' => '',
+                    'sync_on_login' => 'true',
+                    'sync_per_cron' => 'false',
+                    'role_sync_active' => 'true',
+                    'role_bind_dn' => 'rolebind',
+                    'role_bind_pass' => 'rolebindpwd',
+                    'migration' => 'true',
+                    'authentication' => 'true',
+                    'authentication_type' => '1',
+                    'username_filter' => '.*',
+                    'escape_dn' => 'false'
+                ],
+                null
+            );
 
         $server = new ilLDAPServer(1);
         $this->assertTrue($server->isActive());

@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Editor\Full;
 
+use Generator;
 use ILIAS\UI\Component\Panel\Panel;
 use ILIAS\UI\Component\Button\Button;
 use ILIAS\UI\Component\Dropdown\Standard as StandardDropdown;
@@ -29,10 +30,8 @@ use ILIAS\MetaData\Elements\SetInterface;
 use ILIAS\MetaData\Paths\PathInterface;
 use ILIAS\MetaData\Paths\Navigator\NavigatorFactoryInterface;
 use ILIAS\MetaData\Elements\ElementInterface;
-use ILIAS\MetaData\Editor\Full\Services\Services as FullEditorServices;
-use ILIAS\MetaData\Editor\Full\Services\ManipulatorAdapter;
-use ILIAS\MetaData\Editor\Full\Services\Tables\Table;
-use ILIAS\MetaData\Editor\Full\Services\Actions\FlexibleModal;
+use ILIAS\MetaData\Editor\Full\Components\Tables\Table;
+use ILIAS\MetaData\Editor\Full\Components\Actions\FlexibleModal;
 use ILIAS\MetaData\Editor\Http\RequestForFormInterface;
 
 class FullEditor
@@ -42,45 +41,24 @@ class FullEditor
     public const string ROOT = 'root';
     public const string FORM = 'form';
 
-    protected EditorDictionaryInterface $editor_dictionary;
-    protected NavigatorFactoryInterface $navigator_factory;
-    protected FullEditorServices $services;
-    protected FormContent $form_content;
-    protected TableContent $table_content;
-    protected PanelContent $panel_content;
-    protected RootContent $root_content;
-
     public function __construct(
-        EditorDictionaryInterface $editor_dictionary,
-        NavigatorFactoryInterface $navigator_factory,
-        FullEditorServices $services,
-        FormContent $form_content,
-        TableContent $table_content,
-        PanelContent $panel_content,
-        RootContent $root_content
+        protected EditorDictionaryInterface $editor_dictionary,
+        protected NavigatorFactoryInterface $navigator_factory,
+        protected FormContent $form_content,
+        protected TableContent $table_content,
+        protected PanelContent $panel_content,
+        protected RootContent $root_content
     ) {
-        $this->editor_dictionary = $editor_dictionary;
-        $this->navigator_factory = $navigator_factory;
-        $this->services = $services;
-        $this->form_content = $form_content;
-        $this->table_content = $table_content;
-        $this->panel_content = $panel_content;
-        $this->root_content = $root_content;
-    }
-
-    public function manipulateMD(): ManipulatorAdapter
-    {
-        return $this->services->manipulatorAdapter();
     }
 
     /**
-     * @return Table[]|StandardForm[]|Panel[]|FlexibleModal[]|Button[]|StandardDropdown[]
+     * @return Generator<Table[]|StandardForm[]|Panel[]|FlexibleModal[]|Button[]|StandardDropdown[]>
      */
     public function getContent(
         SetInterface $set,
         PathInterface $base_path,
         ?RequestForFormInterface $request = null
-    ): \Generator {
+    ): Generator {
         $elements = $this->getElements($set, $base_path);
         switch ($this->decideContentType(...$elements)) {
             case self::FORM:

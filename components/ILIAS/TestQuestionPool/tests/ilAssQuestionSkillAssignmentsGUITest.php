@@ -55,7 +55,8 @@ class ilAssQuestionSkillAssignmentsGUITest extends assBaseTestCase
             $this->createMock(Refinery::class),
             $this->createMock(HTTP::class),
             $this->createMock(ilToolbarGUI::class),
-            $this->createMock(ilTabsGUI::class)
+            $this->createMock(ilTabsGUI::class),
+            $this->createMock(ilObjTest::class)
         );
     }
 

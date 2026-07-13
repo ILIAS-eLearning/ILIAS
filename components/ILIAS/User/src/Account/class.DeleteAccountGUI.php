@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Account;
 
+use ILIAS\User\Settings\PersonalSettingsGUI;
 use ILIAS\DI\LoggingServices;
 use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
@@ -46,8 +47,8 @@ class DeleteAccountGUI
     public function executeCommand(): void
     {
         $this->tpl->setTitle($this->lng->txt('user_delete_own_account'));
-        $cmd = $this->ctrl->getCmd('showGeneralSettings');
-        $this->$cmd() . 'Cmd';
+        $cmd = $this->ctrl->getCmd('deleteOwnAccountStep1');
+        $this->$cmd();
     }
 
     protected function deleteOwnAccountStep1(): void
@@ -66,10 +67,18 @@ class DeleteAccountGUI
         $modal = $this->ui_factory->modal()->interruptive(
             $this->lng->txt('user_delete_own_account'),
             $this->lng->txt('user_delete_own_account_logout_confirmation'),
-            $this->ctrl->getFormActionByClass(self::class, 'deleteOwnAccountLogout')
-        )->withActionButtonLabel($this->lng->txt('user_delete_own_account_logout_button'));
+            $this->ctrl->getFormActionByClass(
+                self::class,
+                'deleteOwnAccountLogout'
+            )
+        )->withActionButtonLabel(
+            $this->lng->txt('user_delete_own_account_logout_button')
+        );
 
-        $this->tpl->setOnScreenMessage('info', $this->lng->txt('user_delete_own_account_info'));
+        $this->tpl->setOnScreenMessage(
+            'info',
+            $this->lng->txt('user_delete_own_account_info')
+        );
         $this->toolbar->addComponent(
             $this->ui_factory->button()->standard(
                 $this->lng->txt('btn_next'),
@@ -86,8 +95,15 @@ class DeleteAccountGUI
     {
         $this->current_user->removeDeletionFlag();
 
-        $this->tpl->setOnScreenMessage('info', $this->lng->txt('user_delete_own_account_aborted'), true);
-        $this->ctrl->redirect($this, 'showGeneralSettings');
+        $this->tpl->setOnScreenMessage(
+            'info',
+            $this->lng->txt('user_delete_own_account_aborted'),
+            true
+        );
+        $this->ctrl->redirectByClass(
+            [\ilDashboardGUI::class, PersonalSettingsGUI::class],
+            'show'
+        );
     }
 
     protected function deleteOwnAccountLogout(): void
@@ -121,14 +137,20 @@ class DeleteAccountGUI
         $this->toolbar->addComponent(
             $this->ui_factory->button()->standard(
                 $this->lng->txt('confirm'),
-                $this->ctrl->getLinkTargetByClass(self::class, 'deleteOwnAccountStep3')
+                $this->ctrl->getLinkTargetByClass(
+                    self::class,
+                    'deleteOwnAccountStep3'
+                )
             )
         );
 
         $this->toolbar->addComponent(
             $this->ui_factory->button()->standard(
                 $this->lng->txt('cancel'),
-                $this->ctrl->getLinkTargetByClass(self::class, 'abortDeleteOwnAccount')
+                $this->ctrl->getLinkTargetByClass(
+                    self::class,
+                    'abortDeleteOwnAccount'
+                )
             )
         );
         $this->tpl->printToStdout();
@@ -148,7 +170,11 @@ class DeleteAccountGUI
 
         $ntf = new \ilSystemNotification();
         $ntf->setLangModules(['user']);
-        $ntf->addAdditionalInfo('profile', $this->current_user->getProfileAsString($this->lng), true);
+        $ntf->addAdditionalInfo(
+            'profile',
+            $this->current_user->getProfileAsString($this->lng),
+            true
+        );
 
         // mail message
         \ilDatePresentation::setUseRelativeDates(false);
@@ -157,11 +183,21 @@ class DeleteAccountGUI
                 $this->lng->txt('user_delete_own_account_email_body'),
                 $this->current_user->getLogin(),
                 ILIAS_HTTP_PATH,
-                \ilDatePresentation::formatDate(new \ilDateTime(time(), IL_CAL_UNIX))
+                \ilDatePresentation::formatDate(
+                    new \ilDateTime(
+                        time(),
+                        IL_CAL_UNIX
+                    )
+                )
             )
         );
 
-        $message = $ntf->composeAndGetMessage($this->current_user->getId(), null, 'read', true);
+        $message = $ntf->composeAndGetMessage(
+            $this->current_user->getId(),
+            null,
+            'read',
+            true
+        );
         $subject = $this->lng->txt('user_delete_own_account_email_subject');
 
         // send notification
@@ -184,7 +220,10 @@ class DeleteAccountGUI
             $mmail->Send();
         }
 
-        $this->log->root()->log('Account deleted: ' . $this->current_user->getLogin() . ' (' . $this->current_user->getId() . ')');
+        $this->log->root()->log(
+            'Account deleted: ' . $this->current_user->getLogin()
+                . ' (' . $this->current_user->getId() . ')'
+        );
 
         $this->current_user->delete();
 

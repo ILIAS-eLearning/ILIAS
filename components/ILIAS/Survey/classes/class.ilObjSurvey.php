@@ -3017,7 +3017,8 @@ class ilObjSurvey extends ilObject
         $custom_properties = array();
         $custom_properties["evaluation_access"] = $this->getEvaluationAccess();
         $custom_properties["status"] = !$this->getOfflineStatus();
-        $custom_properties["display_question_titles"] = $this->getShowQuestionTitles();
+        $custom_properties["display_question_titles"] = (int) $this->getShowQuestionTitles();
+        $custom_properties["calculate_sum_score"] = (int) $this->getCalculateSumScore();
 
         $custom_properties["own_results_view"] = (int) $this->hasViewOwnResults();
         $custom_properties["own_results_mail"] = (int) $this->hasMailOwnResults();
@@ -3031,7 +3032,6 @@ class ilObjSurvey extends ilObject
         $custom_properties["mode_360_results"] = $this->get360Results();
         $custom_properties["mode_skill_service"] = (int) $this->getSkillService();
         $custom_properties["mode_self_eval_results"] = $this->getSelfEvaluationResults();
-
 
         // :TODO: skills?
 

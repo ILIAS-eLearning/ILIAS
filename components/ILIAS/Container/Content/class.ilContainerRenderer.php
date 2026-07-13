@@ -1180,33 +1180,24 @@ class ilContainerRenderer
             $item_data["title"],
             $item_data["description"]
         );
-        $commands_html = $item_list_gui->getCommandsHTML();
 
         // determine behaviour
-        $item_group = new ilObjItemGroup($item_data["ref_id"]);
-        $beh = $item_group->getBehaviour();
-        $stored_val = $this->block_repo->getProperty(
-            "itgr_" . $item_data["ref_id"],
-            $this->user->getId(),
-            "opened"
-        );
-        if ($stored_val !== "" && $beh !== ilItemGroupBehaviour::ALWAYS_OPEN) {
-            $beh = ($stored_val === "1")
-                ? ilItemGroupBehaviour::EXPANDABLE_OPEN
-                : ilItemGroupBehaviour::EXPANDABLE_CLOSED;
-        }
+        $item_group = new ilObjItemGroup($item_data['ref_id']);
+        $opened = $this->block_repo->getProperty("itgr_{$item_data['ref_id']}", $this->user->getId(), 'opened');
 
-        $data = [
-            "behaviour" => $beh,
-            "store-url" => "./ilias.php?baseClass=ilcontainerblockpropertiesstoragegui&cmd=store" .
-                "&cont_block_id=itgr_" . $item_data['ref_id']
-        ];
-        if (ilObjItemGroup::lookupHideTitle($item_data["obj_id"]) &&
-            !$this->container_gui->isActiveAdministrationPanel()) {
-            $this->addCustomBlock($block_id, "", $commands_html, $data);
-        } else {
-            $this->addCustomBlock($block_id, $item_data["title"], $commands_html, $data);
-        }
+        $this->ctrl->setParameterByClass(ilContainerBlockPropertiesStorageGUI::class, 'cont_block_id', "itgr_{$item_data['ref_id']}");
+        $store_url = $this->ctrl->getLinkTargetByClass(ilContainerBlockPropertiesStorageGUI::class, 'store');
+        $this->ctrl->clearParameterByClass(ilContainerBlockPropertiesStorageGUI::class, 'cont_block_id');
+
+        $this->addCustomBlock(
+            $block_id,
+            $item_group->getShowTitle() || $this->container_gui->isActiveAdministrationPanel() ? $item_data['title'] : '',
+            $item_list_gui->getCommandsHTML(),
+            [
+                'behaviour' => $item_group->getBehaviour(in_array($opened, ['0', '1'], true) ? (bool) $opened : null),
+                'store-url' => "./{$store_url}"
+            ]
+        );
     }
 
     protected function getBlockPrefix($block_id): string

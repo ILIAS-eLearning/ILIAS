@@ -52,7 +52,7 @@ class ilLDAPAttributeToUser
         global $DIC;
 
         $this->logger = $DIC->logger()->auth();
-        $this->profile = $DIC['user']->profile();
+        $this->profile = $DIC['user']->getProfile();
 
         $this->server_settings = $a_server;
 

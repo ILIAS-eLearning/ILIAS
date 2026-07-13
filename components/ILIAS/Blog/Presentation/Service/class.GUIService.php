@@ -20,24 +20,43 @@ declare(strict_types=1);
 
 namespace ILIAS\Blog\Presentation;
 
+use ILIAS\Blog\InternalDataService;
 use ILIAS\Blog\InternalDomainService;
 use ILIAS\Blog\InternalGUIService;
+use ILIAS\Blog\Permission\PermissionManager;
 
 class GUIService
 {
-    protected InternalGUIService $gui;
-    protected InternalDomainService $domain;
-
     public function __construct(
-        InternalDomainService $domain,
-        InternalGUIService $gui
+        protected InternalDataService $data,
+        protected InternalDomainService $domain,
+        protected InternalGUIService $gui
     ) {
-        $this->domain = $domain;
-        $this->gui = $gui;
     }
 
     public function util(): Util
     {
         return new Util();
+    }
+
+    public function presentationGUI(
+        \ilObjBlogGUI $parent_gui,
+        PermissionManager $perm,
+        \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain,
+        string $current_month,
+        ?int $node_id = null,
+        int $id_type = \ilObjBlogGUI::REPOSITORY_NODE_ID
+    ): PresentationGUI {
+        return new PresentationGUI(
+            $this->data,
+            $this->domain,
+            $this->gui,
+            $parent_gui,
+            $perm,
+            $content_style_domain,
+            $current_month,
+            $node_id,
+            $id_type
+        );
     }
 }

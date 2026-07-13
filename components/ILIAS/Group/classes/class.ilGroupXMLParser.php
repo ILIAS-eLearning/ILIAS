@@ -517,6 +517,9 @@ class ilGroupXMLParser extends ilSaxParser implements ilSaxSubsetParser
          */
         $this->group_obj->readContainerSettings();
         $this->group_obj->update();
+        if ($ownerChanged) {
+            $this->group_obj->updateOwner();
+        }
 
         // ASSIGN ADMINS/MEMBERS
         $this->assignMembers();

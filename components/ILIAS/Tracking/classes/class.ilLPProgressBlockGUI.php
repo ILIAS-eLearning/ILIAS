@@ -43,6 +43,7 @@ class ilLPProgressBlockGUI extends ilBlockGUI
         $this->setBlockId('lpprogress_' . $this->ctrl->getContextObjId());
         $this->setTitle($this->lng->txt('trac_progress_block_title'));
         $this->setPresentation(self::PRES_SEC_LEG);
+        $this->setActions();
     }
 
     public function getBlockType(): string
@@ -80,5 +81,30 @@ class ilLPProgressBlockGUI extends ilBlockGUI
             $progress,
             $mode_and_status
         ]);
+    }
+
+    protected function setActions(): void
+    {
+        $read_only_allowed = true;
+        if ($this->supportsMembers($this->requested_ref_id)) {
+            $read_only_allowed = ilParticipants::_isParticipant($this->requested_ref_id, $this->user->getId());
+        }
+        if (!ilLearningProgressAccess::checkAccess($this->requested_ref_id, $read_only_allowed)) {
+            return;
+        }
+        $this->ctrl->setParameterByClass(ilLearningProgressGUI::class, 'ref_id', $this->requested_ref_id);
+        $link = $this->ctrl->getLinkTargetByClass(ilLearningProgressGUI::class);
+        $this->ctrl->clearParameterByClass(ilLearningProgressGUI::class, 'ref_id');
+        $this->addBlockCommand($link, $this->lng->txt('trac_progress_block_details'));
+    }
+
+    protected function supportsMembers(int $ref_id): bool
+    {
+        try {
+            ilParticipants::getInstance($ref_id);
+            return true;
+        } catch (Exception) {
+            return false;
+        }
     }
 }

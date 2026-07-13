@@ -62,6 +62,47 @@ class PostingManager
         return $this->repo->posting()->getAllByBlog($blog_id, $limit, $offset);
     }
 
+    /**
+     * @return int[] posting ids
+     */
+    public function getAllPostingIds(int $blog_id, int $limit = 1000, int $offset = 0): array
+    {
+        $pages = \ilPageObject::getAllPages("blp", $blog_id);
+        $ids = [];
+        foreach ($this->repo->posting()->getAllByBlog($blog_id, $limit, $offset) as $posting) {
+            $id = $posting->getId();
+            if (isset($pages[$id])) {
+                $ids[] = $id;
+            }
+        }
+
+        return $ids;
+    }
+
+    /**
+     * Return all postings of a blog as data objects (Posting[]),
+     * filtered to those that have an associated page.
+     *
+     * @return Posting[]
+     */
+    public function getAllPostings(int $a_blog_id, int $a_limit = 1000, int $a_offset = 0): array
+    {
+        $pages = \ilPageObject::getAllPages("blp", $a_blog_id);
+        $posts = [];
+        foreach ($this->repo->posting()->getAllByBlog(
+            $a_blog_id,
+            $a_limit,
+            $a_offset
+        ) as $posting) {
+            $id = $posting->getId();
+            if (isset($pages[$id])) {
+                $posts[] = $posting;
+            }
+        }
+
+        return $posts;
+    }
+
     public function exists(int $blog_id, int $posting_id): bool
     {
         return $this->repo->posting()->exists($blog_id, $posting_id);
@@ -74,6 +115,10 @@ class PostingManager
 
     public function deleteAllByBlog(int $blog_id): void
     {
+        $lom = $this->domain->lom();
+        foreach ($this->getAllPostingIds($blog_id) as $posting_id) {
+            $lom->deleteAll($blog_id, $posting_id, "blp");
+        }
         $this->repo->posting()->deleteAllBlogPostings($blog_id);
     }
 
@@ -85,5 +130,21 @@ class PostingManager
     public function searchBlogsByAuthor(int $user_id): array
     {
         return $this->repo->posting()->searchBlogsByAuthor($user_id);
+    }
+
+    public function getKeywords(int $blog_id, int $posting_id): array
+    {
+        $lom_services = $this->domain->lom();
+
+        $result = [];
+        $keywords = $lom_services->read($blog_id, $posting_id, "blp")
+                                 ->allData($lom_services->paths()->keywords());
+        foreach ($keywords as $keyword) {
+            if ($keyword->value() !== "") {
+                $result[] = $keyword->value();
+            }
+        }
+
+        return $result;
     }
 }

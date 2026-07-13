@@ -30,12 +30,11 @@ use ILIAS\Data\Description\ValueType;
 use ILIAS\Data\Description\DObject;
 use ILIAS\Data\Description\Field;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class DObjectTest extends TestCase
 {
-    /**
-     * @dataProvider simpleObjectsProvider
-     */
+    #[DataProvider('simpleObjectsProvider')]
     public function testSimpleObject(string $field, $object, $expected): void
     {
         $md = $this->createMock(\ILIAS\Data\Text\SimpleDocumentMarkdown::class);
@@ -103,9 +102,7 @@ class DObjectTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider fieldNamesProvider
-     */
+    #[DataProvider('fieldNamesProvider')]
     public function testAllowedFieldNames(string $name, bool $is_allowed): void
     {
         if (!$is_allowed) {
@@ -128,9 +125,7 @@ class DObjectTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider obviousNoMatchProvider
-     */
+    #[DataProvider('obviousNoMatchProvider')]
     public function testObviouslyNotMatching($data): void
     {
         $desc = new DObject(

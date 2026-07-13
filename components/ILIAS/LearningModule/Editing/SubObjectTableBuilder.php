@@ -75,6 +75,7 @@ class SubObjectTableBuilder extends CommonTableBuilder
     {
         $lng = $this->domain->lng();
         $f = $this->gui->ui()->factory();
+        $ctrl = $this->gui->ctrl();
         if ($data_row["type"] === "pg") {
             $img_sc = $data_row["scheduled"]
                 ? "_sc"
@@ -96,10 +97,28 @@ class SubObjectTableBuilder extends CommonTableBuilder
             $img = "standard/icon_st.svg";
             $alt = $lng->txt("st");
         }
+        $target = "#";
+        if ($data_row["type"] === "pg") {
+            $ctrl->setParameterByClass(\ilLMPageGUI::class, "obj_id", $data_row["id"]);
+            $target = $ctrl->getLinkTargetByClass([
+                \ilObjLearningModuleGUI::class,
+                \ilLMPageObjectGUI::class,
+                \ilLMPageGUI::class
+            ], "edit");
+        } elseif ($data_row["type"] === "st") {
+            $ctrl->setParameterByClass(\ilStructureObjectGUI::class, "obj_id", $data_row["id"]);
+            $target = $ctrl->getLinkTargetByClass([
+                \ilObjLearningModuleGUI::class,
+                \ilStructureObjectGUI::class,
+                EditSubObjectsGUI::class
+            ], "editPages");
+        }
+
+        $title = $f->link()->standard($data_row["title"], $target);
         return [
             "id" => $data_row["id"],
             "type" => $f->symbol()->icon()->custom(\ilUtil::getImagePath($img), $alt),
-            "title" => $data_row["title"],
+            "title" => $title,
             "trans_title" => $data_row["trans_title"],
         ];
     }
@@ -111,126 +130,94 @@ class SubObjectTableBuilder extends CommonTableBuilder
         $transl = $this->gui->editing()->request()->getTranslation();
         $table = $table
             ->iconColumn("type", $lng->txt("type"))
-            ->textColumn("title", $lng->txt("title"));
+            ->linkColumn("title", $lng->txt("title"));
         if (!in_array($transl, ["-", ""])) {
             $table = $table->textColumn("trans_title", $lng->txt("title") .
                 " (" . $lng->txt("meta_l_" . $transl) . ")");
         }
         if ($this->type === "st") {
-            $acts = [
-                [
-                    "editPages",
-                    $lng->txt("edit"),
-                    [\ilObjLearningModuleGUI::class, \ilStructureObjectGUI::class, EditSubObjectsGUI::class],
-                    "editPages",
-                    "obj_id"
-                ],
-                [
-                    "insertChapterAfter",
-                    $lng->txt("lm_insert_chapter_after"),
-                    [EditSubObjectsGUI::class],
-                    "insertChapterAfter",
-                    "target_id"
-                ],
-                [
-                    "insertChapterBefore",
-                    $lng->txt("lm_insert_chapter_before"),
-                    [EditSubObjectsGUI::class],
-                    "insertChapterBefore",
-                    "target_id"
-                ]
-            ];
+            $table = $table->singleRedirectAction(
+                "editPages",
+                $lng->txt("lm_list_pages"),
+                [\ilObjLearningModuleGUI::class, \ilStructureObjectGUI::class, EditSubObjectsGUI::class],
+                "editPages",
+                "obj_id"
+            );
+            $table = $table->singleAction(
+                "editTitle",
+                $lng->txt("cont_edit_title"),
+                true
+            );
+            $table = $table->singleAction(
+                "insertChapterAfter",
+                $lng->txt("lm_insert_chapter_after"),
+                true
+            );
+            $table = $table->singleAction(
+                "insertChapterBefore",
+                $lng->txt("lm_insert_chapter_before"),
+                true
+            );
             if ($user->clipboardHasObjectsOfType("st")) {
-                $acts[] = [
+                $table = $table->singleRedirectAction(
                     "insertChapterClipAfter",
                     $lng->txt("lm_insert_chapter_clip_after"),
                     [EditSubObjectsGUI::class],
                     "insertChapterClipAfter",
                     "target_id"
-                ];
-                $acts[] = [
+                );
+                $table = $table->singleRedirectAction(
                     "insertChapterClipBefore",
                     $lng->txt("lm_insert_chapter_clip_before"),
                     [EditSubObjectsGUI::class],
                     "insertChapterClipBefore",
                     "target_id"
-                ];
+                );
             }
         } else {
-            $acts = [
-                [
-                    "editPage",
-                    $lng->txt("edit"),
-                    [\ilObjLearningModuleGUI::class, \ilLMPageObjectGUI::class],
-                    "edit",
-                    "obj_id"
-                ],
-                [
-                    "insertPageAfter",
-                    $lng->txt("lm_insert_page_after"),
-                    [EditSubObjectsGUI::class],
-                    "insertPageAfter",
-                    "target_id"
-                ],
-                [
-                    "insertPageBefore",
-                    $lng->txt("lm_insert_page_before"),
-                    [EditSubObjectsGUI::class],
-                    "insertPageBefore",
-                    "target_id"
-                ]
-            ];
+            $table = $table->singleRedirectAction(
+                "editPage",
+                $lng->txt("lm_edit_content"),
+                [\ilObjLearningModuleGUI::class, \ilLMPageObjectGUI::class],
+                "edit",
+                "obj_id"
+            );
+            $table = $table->singleAction(
+                "editTitle",
+                $lng->txt("cont_edit_title"),
+                true
+            );
+            $table = $table->singleAction(
+                "insertPageAfter",
+                $lng->txt("lm_insert_page_after"),
+                true
+            );
+            $table = $table->singleAction(
+                "insertPageBefore",
+                $lng->txt("lm_insert_page_before"),
+                true
+            );
             if ($user->clipboardHasObjectsOfType("pg")) {
-                $acts[] = [
+                $table = $table->singleRedirectAction(
                     "insertPageClipAfter",
                     $lng->txt("lm_insert_page_clip_after"),
                     [EditSubObjectsGUI::class],
                     "insertPageClipAfter",
                     "target_id"
-                ];
-                $acts[] = [
+                );
+                $table = $table->singleRedirectAction(
                     "insertPageClipBefore",
                     $lng->txt("lm_insert_page_clip_before"),
                     [EditSubObjectsGUI::class],
                     "insertPageClipBefore",
                     "target_id"
-                ];
+                );
             }
-            if (count($this->page_layouts) > 0) {
-                $acts[] = [
-                    "insertLayoutAfter",
-                    $lng->txt("lm_insert_layout_after"),
-                    [EditSubObjectsGUI::class],
-                    "insertLayoutAfter",
-                    "target_id"
-                ];
-                $acts[] = [
-                    "insertLayoutBefore",
-                    $lng->txt("lm_insert_layout_before"),
-                    [EditSubObjectsGUI::class],
-                    "insertLayoutBefore",
-                    "target_id"
-                ];
-            }
-        }
-        foreach ($acts as $a) {
-            $table = $table->singleRedirectAction(
-                $a[0],
-                $a[1],
-                $a[2],
-                $a[3],
-                $a[4]
-            );
         }
         $table = $table
             ->standardAction(
                 "delete",
                 $lng->txt("delete")
-            )
-            ->singleAction(
-                "editTitle",
-                $lng->txt("cont_edit_title"),
-                true
             )
             ->standardAction(
                 "cutItems",

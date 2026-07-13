@@ -80,10 +80,52 @@ if ($isContentSelection) {
     $url = "../../../goto.php?target=lti_" . $ref_id . "&client_id=" . $client_id;
 }
 
-$DIC->http()->saveResponse(
-    $DIC->http()->response()
+function buildSameSiteNoneSessionCookieHeader(): ?string
+{
+    if (session_status() !== PHP_SESSION_ACTIVE || session_id() === '') {
+        return null;
+    }
+
+    $cookieParams = session_get_cookie_params();
+    $secure = (bool) ($cookieParams['secure'] ?? false);
+    if (!$secure) {
+        return null;
+    }
+
+    $cookieName = session_name();
+    $cookieValue = session_id();
+    $path = (string) ($cookieParams['path'] ?? '/');
+    $domain = (string) ($cookieParams['domain'] ?? '');
+    $httpOnly = (bool) ($cookieParams['httponly'] ?? true);
+
+    $parts = [
+        rawurlencode($cookieName) . '=' . rawurlencode($cookieValue),
+        'Path=' . $path,
+        'Secure',
+        'SameSite=None'
+    ];
+
+    if ($domain !== '') {
+        $parts[] = 'Domain=' . $domain;
+    }
+    if ($httpOnly) {
+        $parts[] = 'HttpOnly';
+    }
+
+    return implode('; ', $parts);
+}
+
+$response = $DIC->http()->response()
     ->withStatus(302)
-    ->withAddedHeader('Location', $url)
+    ->withAddedHeader('Location', $url);
+
+$sessionCookieHeader = buildSameSiteNoneSessionCookieHeader();
+if ($sessionCookieHeader !== null) {
+    $response = $response->withAddedHeader('Set-Cookie', $sessionCookieHeader);
+}
+
+$DIC->http()->saveResponse(
+    $response
 );
 try {
     $DIC->http()->sendResponse();

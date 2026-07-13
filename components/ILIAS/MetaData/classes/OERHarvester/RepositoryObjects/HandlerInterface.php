@@ -27,11 +27,15 @@ interface HandlerInterface
      */
     public function referenceObjectInTargetContainer(int $obj_id, int $container_ref_id): int;
 
-    public function getObjectReferenceIDInContainer(int $obj_id, int $container_ref_id): ?int;
+    public function isReferenceInContainer(int $ref_id, int $container_ref_id): bool;
 
     public function isObjectDeleted(int $obj_id): bool;
 
     public function deleteReference(int $ref_id): void;
 
-    public function getTypeOfReferencedObject(int $ref_id): string;
+    public function getTypeOfObject(int $obj_id): string;
+
+    public function doesReferenceExist(int $ref_id): bool;
+
+    public function isOnlyReference(int $ref_id): bool;
 }

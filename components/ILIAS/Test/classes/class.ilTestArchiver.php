@@ -617,7 +617,7 @@ class ilTestArchiver
 
         $template->setVariable('TEXT_HEADING', sprintf($this->lng->txt('tst_result_user_name'), $uname));
 
-        if ($participant_data['matriculation'] !== '') {
+        if (!$test_obj->getAnonymity() && $participant_data['matriculation'] !== '') {
             $template->setVariable('USER_DATA', "{$this->lng->txt('matriculation')}: {$participant_data['matriculation']}");
         }
 

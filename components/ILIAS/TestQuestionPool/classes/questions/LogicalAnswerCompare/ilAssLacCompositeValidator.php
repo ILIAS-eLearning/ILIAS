@@ -47,15 +47,16 @@ class ilAssLacCompositeValidator
         $this->randomGroup = $DIC->refinery()->random();
     }
 
+    /**
+     * @throws ilAssLacException
+     */
     public function validate(ilAssLacAbstractComposite $composite): void
     {
-        if (count($composite->nodes) > 0) {
+        if ($composite->nodes !== []) {
             $this->validate($composite->nodes[0]);
             $this->validate($composite->nodes[1]);
             $this->validateSubTree($composite);
         }
-
-        return;
     }
 
     private function validateSubTree(ilAssLacAbstractComposite $composite): void
@@ -67,7 +68,7 @@ class ilAssLacCompositeValidator
             $answer_expression = $composite->nodes[1];
             $question_index = $composite->nodes[0]->getQuestionIndex();
             $answer_index = null;
-            $question = $this->object_loader->getQuestion($question_index);
+            $question = $this->object_loader->getQuestion();
 
             $this->checkQuestionExists($question, $question_index);
             //$this->checkQuestionIsReachable($question, $question_index);

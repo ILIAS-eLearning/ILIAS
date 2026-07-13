@@ -46,7 +46,7 @@ class ILIASSettingStoreTest extends TestCase
     public function testUpdate(): void
     {
         $settings = $this->mock(ilSetting::class);
-        $settings->expects(self::once())->method('set')->with('foo', 'bar');
+        $settings->expects($this->once())->method('set')->with('foo', 'bar');
 
         $instance = new ILIASSettingStore($settings);
 

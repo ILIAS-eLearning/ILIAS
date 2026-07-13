@@ -78,7 +78,6 @@ class ilDclTable
     protected ILIAS\Refinery\Factory $refinery;
     protected ilObjUser $user;
     protected ilDBInterface $db;
-    protected ilLanguage $lng;
     protected bool $show_invalid = false;
 
     public function __construct(int $a_id = 0)
@@ -89,8 +88,6 @@ class ilDclTable
         $this->refinery = $DIC->refinery();
         $this->db = $DIC->database();
         $this->user = $DIC->user();
-        $this->lng = $DIC->language();
-        $this->lng->loadLanguageModule('dcl');
 
         if ($a_id != 0) {
             $this->id = $a_id;
@@ -169,7 +166,7 @@ class ilDclTable
                 $this->getId(),
                 "integer"
             ) . ","
-            . $this->db->quote($this->getObjId(), "integer") . "," . $this->db->quote($this->lng->txt('dcl_title_standard'), "text") . ","
+            . $this->db->quote($this->getObjId(), "integer") . "," . $this->db->quote($this->getTitle(), "text") . ","
             . $this->db->quote($this->getAddPerm() ? 1 : 0, "integer") . "," . $this->db->quote(
                 $this->getEditPerm() ? 1 : 0,
                 "integer"

@@ -643,7 +643,6 @@ assessment#:#errFormulaQuestion#:#Pitanje u obliku formule sadrži netočne info
 assessment#:#errRecursionInResult#:#Formula sadrži beskonačnu rekurziju.
 assessment#:#err_category_in_use#:#Najmanje jedna kategorija se ne može izbrisati. Jedna ili više jedinica ove kategorije se već koriste.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###29 07 2022 new variable
-assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###29 10 2025 new variable
 assessment#:#err_division#:#The value you chose would make it impossible to generate a valid value for the variable.###29 07 2022 new variable
 assessment#:#err_duplicate_results#:#Jednu ste varijablu rezultata koristili više puta. Ovo nije dopušteno u tekstu pitanja.
 assessment#:#err_no_formula#:#Morate unijeti formulu
@@ -5973,7 +5972,6 @@ common#:#webdav_chosen_language_already_used#:#There already is another document
 common#:#webdav_doc_delete#:#Delete WebDav Mount Instructions###04 06 2021 new variable
 common#:#webdav_docs_mount_instructions#:#Mount Instructions Documents###04 06 2021 new variable
 common#:#webdav_duplicate_detected_title#:#Following objects could not be displayed, because an object with the same Title is already being shown:###04 06 2021 new variable
-common#:#webdav_enable_versioning#:#File Versioning###04 06 2021 new variable
 common#:#webdav_forbidden_chars_title#:#Following files cannot be displayed, because they contain one or more forbidden characters (\<>/:*?"|#):###04 06 2021 new variable
 common#:#webdav_form_document#:#Instructions Document###04 06 2021 new variable
 common#:#webdav_form_document_info#:#Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information###04 06 2021 new variable
@@ -5992,7 +5990,6 @@ common#:#webdav_sure_delete_documents_s#:#Are you sure you want to delete the Mo
 common#:#webdav_tbl_docs_head_title#:#Dokument title###04 06 2021 new variable
 common#:#webdav_tbl_docs_title#:#List of uploaded WebDAV Mount Instructions###04 06 2021 new variable
 common#:#webdav_upload_instructions#:#Upload Instructions###04 06 2021 new variable
-common#:#webdav_versioning_info#:#If enabled, already existing files will get a new version instead of beeing overwritten.###04 06 2021 new variable
 common#:#webfolder_dir_info#:#Došli ste ovamo jer vaš preglednik ne može otvoriti web mape. Pročitajte <a href="%1$s">upute za otvaranje web mapa</a>.
 common#:#webfolder_index_of#:#Indeks %1$s
 common#:#webfolder_instructions#:#Upute za web mape
@@ -11360,7 +11357,7 @@ lti#:#lti_con_prov_xapi_launch_secret_info#:#&nbsp;###04 06 2021 new variable
 lti#:#lti_con_prov_xapi_launch_url#:#URL of LRS Endpoint###04 06 2021 new variable
 lti#:#lti_con_prov_xapi_launch_url_info#:#Please add full URL with https://###04 06 2021 new variable
 lti#:#lti_con_redirection_uris#:#Redirection URI###26 08 2024 new variable
-lti#:#lti_con_tool_url#:#Login URL###26 08 2024 new variable
+lti#:#lti_con_tool_url#:#Launch URL###26 08 2024 new variable
 lti#:#lti_con_version#:#LTI Version###26 08 2024 new variable
 lti#:#lti_con_version_1.1#:#Version 1.1###26 08 2024 new variable
 lti#:#lti_con_version_1.3#:#Version 1.3###26 08 2024 new variable
@@ -16719,7 +16716,7 @@ survey#:#survey_360_sure_appraisee_close#:#Jeste li sigurni da želite zatvoriti
 survey#:#survey_360_sure_appraisee_close_admin#:#Jeste li sigurni da želite zatvoriti ankete za sljedeće procijenjene osobe?
 survey#:#survey_360_sure_delete_appraises#:#Jeste li sigurni da želite ukloniti sljedeće procijenjene osobe?
 survey#:#survey_360_sure_delete_raters#:#Jeste li sigurni da želite ukloniti sljedeće ocjenjivače za %s?
-survey#:#survey_access_codes#:#Autentifikacija pristupnim kodovima
+survey#:#survey_access_code#:#Autentifikacija pristupnim kodovima
 survey#:#survey_access_codes_info#:#Korisnici pristup anketi dobivaju unosom koda na kartici ‘Informacije’. Ovi pristupni kodovi generiraju se na potkartici ‘Pristupni kodovi’ na kartici ‘Sudionici’.
 survey#:#survey_activate_skill_service#:#Aktiviraj servis za kompetencije
 survey#:#survey_activate_skill_service_info#:#Prikazat će se nova kartica ‘Kompetencije’. U ovoj su kartici pitanja dodijeljena kompetencijama, a zatim se određuju pragovi za postizanje određene razine kompetencije.

@@ -33,18 +33,34 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        if ($component instanceof Component\Listing\Entity\EntityListing) {
-            return $this->renderEntityListing($component, $default_renderer);
+        if ($component instanceof Standard) {
+            return $this->renderEntityListingStandard($component, $default_renderer);
+        }
+        if ($component instanceof Grid) {
+            return $this->renderEntityListingGrid($component, $default_renderer);
         }
         $this->cannotHandleComponent($component);
     }
 
-    protected function renderEntityListing(EntityListing $component, RendererInterface $default_renderer): string
+    protected function renderEntityListingStandard(EntityListing $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate('tpl.entitylisting.html', true, true);
 
         foreach ($component->getEntities(
             $this->getUIFactory()
+        ) as $entity) {
+            $tpl->setCurrentBlock('entry');
+            $tpl->setVariable('ENTITY', $default_renderer->render($entity));
+            $tpl->parseCurrentBlock();
+        }
+        return $tpl->get();
+    }
+    protected function renderEntityListingGrid(EntityListing $component, RendererInterface $default_renderer): string
+    {
+        $tpl = $this->getTemplate('tpl.entitylistinggrid.html', true, true);
+
+        foreach ($component->getEntities(
+            $this->getUIFactory(),
         ) as $entity) {
             $tpl->setCurrentBlock('entry');
             $tpl->setVariable('ENTITY', $default_renderer->render($entity));

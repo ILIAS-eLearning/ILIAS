@@ -180,7 +180,28 @@ class ilLTIAppEventListener implements \ilAppEventListener
 
         $this->logger->info('Sending score: ' . (string) $score);
 
-        $outcome = new Outcome((string) $score);
+        $pointsPossible = 1;
+
+        if ($a_status == ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM) {
+            $activityProgress = 'Initialized';
+            $gradingProgress = 'NotReady';
+        } elseif ($a_status == ilLPStatus::LP_STATUS_IN_PROGRESS_NUM) {
+            $activityProgress = 'InProgress';
+            $gradingProgress = 'Pending';
+        } elseif ($a_status == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+            $activityProgress = 'Completed';
+            $gradingProgress = 'FullyGraded';
+        } elseif ($a_status == ilLPStatus::LP_STATUS_FAILED_NUM) {
+            $activityProgress = 'Completed';
+            $gradingProgress = 'Failed';
+        } else {
+            $activityProgress = 'InProgress';
+            $gradingProgress = 'Pending';
+        }
+
+        $this->logger->info("Sending score: $score, Points possible: $pointsPossible, Activity progress: $activityProgress, Grading progress: $gradingProgress");
+
+        $outcome = new Outcome($score, $pointsPossible, $activityProgress, $gradingProgress);
 
         $status = $resource_link->doOutcomesService(
             ServiceAction::Write,

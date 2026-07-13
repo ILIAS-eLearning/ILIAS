@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Mail\TemplateEngine\MailTemplateContextAdapter;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
 use OrgUnit\PublicApi\OrgUnitUserService;
@@ -202,7 +203,7 @@ class ilMailTemplateContextTest extends ilMailBaseTestCase
         $env_helper->expects($this->atLeastOnce())->method('getClientId')->willReturn('###phpunit_client###');
         $env_helper->expects($this->atLeastOnce())->method('getHttpPath')->willReturn('###http_ilias###');
         $lng_helper->expects($this->atLeastOnce())->method('getLanguageByIsoCode')->willReturn($lng);
-        $lng_helper->expects($this->atLeastOnce())->method('getCurrentLanguage')->willReturn($lng);
+        $lng_helper->method('getCurrentLanguage')->willReturn($lng);
 
         $expected_ids_constraint = [];
         if ($ou_superiors !== []) {
@@ -231,31 +232,53 @@ class ilMailTemplateContextTest extends ilMailBaseTestCase
             $lng_helper
         );
 
-        $mustache = new Mustache_Engine();
-        $placeholder_resolver = new ilMailTemplatePlaceholderResolver($mustache);
+        $mail_salutation_expected = $user->getGender() === ''
+            ? 'mail_salutation_n'
+            : 'mail_salutation_' . $user->getGender();
+        $expected_values = [
+            'MAIL_SALUTATION' => $mail_salutation_expected,
+            'FIRST_NAME' => '###PHP###',
+            'LAST_NAME' => '###Unit###',
+            'LOGIN' => '###phpunit###',
+            'TITLE' => '###Dr. Ing###',
+            'FIRSTNAME_LASTNAME_SUPERIOR' => implode(', ', $first_and_last_names),
+            'ILIAS_URL' => '###http_ilias### ',
+            'INSTALLATION_NAME' => '###phpunit_client###',
+        ];
 
-        $message = implode('', [
-            '{{MAIL_SALUTATION}}',
-            '{{FIRST_NAME}}',
-            '{{LAST_NAME}}',
-            '{{LOGIN}}',
-            '{{TITLE}}',
-            '{{FIRSTNAME_LASTNAME_SUPERIOR}}',
-            '{{ILIAS_URL}}',
-            '{{INSTALLATION_NAME}}',
-        ]);
-        $replace_message = $placeholder_resolver->resolve($context, $message, $user);
+        $engine = new class ($this, $expected_values) implements \ILIAS\Mail\TemplateEngine\TemplateEngineInterface {
+            public function __construct(
+                private readonly \PHPUnit\Framework\TestCase $test_case,
+                /** @var array<string, string> */
+                private readonly array $expected_values
+            ) {
+            }
 
-        $this->assertStringContainsString('###Dr. Ing###', $replace_message);
-        $this->assertStringContainsString('###phpunit###', $replace_message);
-        $this->assertStringContainsString('###Unit###', $replace_message);
-        $this->assertStringContainsString('###PHP###', $replace_message);
-        $this->assertStringContainsString('###phpunit_client###', $replace_message);
-        $this->assertStringContainsString('###http_ilias###', $replace_message);
-        $this->assertStringContainsString('mail_salutation_' . $user->getGender(), $replace_message);
+            public function render(string $template, array|object $context): string
+            {
+                $this->test_case->assertInstanceOf(MailTemplateContextAdapter::class, $context);
+                if (!str_contains($template, '{{')) {
+                    return $template;
+                }
 
-        foreach ($first_and_last_names as $first_and_lastname) {
-            $this->assertStringContainsString($first_and_lastname, $replace_message);
-        }
+                foreach ($this->expected_values as $placeholder => $expected_value) {
+                    $this->test_case->assertSame(
+                        $expected_value,
+                        $context->{$placeholder},
+                        sprintf('Context value for placeholder "%s" does not match.', $placeholder)
+                    );
+                }
+
+                return '';
+            }
+        };
+
+        $placeholder_resolver = new ilMailTemplatePlaceholderResolver($engine);
+
+        $message = implode('', array_map(
+            static fn(string $key): string => '{{' . $key . '}}',
+            array_keys($expected_values)
+        ));
+        $placeholder_resolver->resolve($context, $message, $user);
     }
 }

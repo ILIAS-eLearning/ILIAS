@@ -25,6 +25,14 @@
 
   const BuddySystemButton = {
     config: {},
+    unlinkConfirmationModal: {
+      signals: {
+        close: '',
+      },
+    },
+    modal: null,
+    setupConfirmationModal: false,
+    modalId: null,
 
     setConfig(config) {
       this.config = config;
@@ -40,32 +48,102 @@
 
         const triggerButton = e.target.closest(triggerSelector);
         const container = triggerButton.closest(`.${this.config.bnt_class}`);
-        if (triggerButton.dataset.submitted === 'true') return Promise.resolve();
 
-        const values = new FormData();
-        values.append('usr_id', container.dataset.buddyId);
-        values.append('action', triggerButton.dataset.action);
-        values.append(`cmd[${BuddySystem.config.transition_state_cmd}]`, 1);
+        const widgetClickAction = () => {
+          if (triggerButton.dataset.submitted === 'true') return Promise.resolve();
 
-        return disableButtons(container)
-          .then(() => fetch(BuddySystem.config.http_post_url, {
-            method: 'POST',
-            headers: { Accept: 'application/json' },
-            body: values,
-          }))
-          .then((response) => {
-            if (!response.ok) throw new Error('Request failed');
-            return response.json();
-          })
-          .then((data) => processResponse(container, data))
-          .then(() => {
-            container.querySelector(toggleSelector)?.focus();
-          })
-          .catch((error) => {
-            console.error(error);
-            enableButtons(container);
-            container.querySelector(toggleSelector)?.focus();
-          });
+          const values = new FormData();
+          values.append('usr_id', container.dataset.buddyId);
+          values.append('action', triggerButton.dataset.action);
+          values.append(`cmd[${BuddySystem.config.transition_state_cmd}]`, 1);
+
+          return disableButtons(container)
+            .then(() => fetch(BuddySystem.config.http_post_url, {
+              method: 'POST',
+              headers: { Accept: 'application/json' },
+              body: values,
+            }))
+            .then((response) => {
+              if (!response.ok) throw new Error('Request failed');
+              return response.json();
+            })
+            .then((data) => processResponse(container, data))
+            .then(() => {
+              container.querySelector(toggleSelector)?.focus();
+            })
+            .catch((error) => {
+              console.error(error);
+              enableButtons(container);
+              container.querySelector(toggleSelector)?.focus();
+            });
+        };
+
+        if (triggerButton.dataset.action === 'unlink') {
+          return showUnlinkConfirmationModal().then(() => widgetClickAction());
+        }
+
+        return widgetClickAction();
+      };
+
+      const showUnlinkConfirmationModal = () => new Promise((resolve) => {
+        if (!this.setupConfirmationModal) {
+          fetch(BuddySystem.config.async_get_unlink_modal_confirmation_html)
+            .then((response) => {
+              if (!response.ok) throw new Error('Request failed');
+              return response.json();
+            })
+            .then((data) => {
+              const wrapper = document.createElement('div');
+              const modalFragment = document.createRange().createContextualFragment(data.html);
+
+              wrapper.appendChild(modalFragment);
+              document.body.append(wrapper);
+              this.modal = wrapper.querySelector('dialog');
+
+              this.unlinkConfirmationModal.signals.close = data.signals.close;
+              this.unlinkConfirmationModal.modalId = data.modalId;
+
+              this.modal.querySelector('input[type="submit"]').addEventListener(
+                'click',
+                (event) => onModalSubmitClicked(event, resolve),
+                { once: true },
+              );
+            }).then(() => {
+              this.setupConfirmationModal = true;
+
+              global.il.UI.modal.showModal(
+                this.modal,
+                {},
+                {
+                  id: this.unlinkConfirmationModal.modalId,
+                },
+                this.unlinkConfirmationModal.signals.close
+              );
+            });
+          return;
+        }
+
+        const submitButton = this.modal.querySelector('input[type="submit"]');
+        submitButton.addEventListener(
+          'click',
+          (event) => onModalSubmitClicked(event, resolve),
+          { once: true },
+        );
+
+        global.il.UI.modal.showModal(
+          this.modal,
+          {},
+          {
+            id: this.unlinkConfirmationModal.modalId,
+          },
+          this.unlinkConfirmationModal.signals.close
+        );
+      });
+
+      const onModalSubmitClicked = (event, resolve) => {
+        event.preventDefault();
+        this.modal.close();
+        resolve();
       };
 
       const disableButtons = (container) => new Promise((resolve) => {
@@ -298,7 +376,7 @@
 
     const shouldReloadAwarenessTool = (
       ['ilBuddySystemLinkedRelationState', 'ilBuddySystemRequestedRelationState'].includes(oldState)
-      && newState !== oldState
+        && newState !== oldState
     );
     if (shouldReloadAwarenessTool) {
       if (typeof global.il.Awareness !== 'undefined') {

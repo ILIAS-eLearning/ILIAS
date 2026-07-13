@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Profile\Profile;
+
 /**
  * Class ilLTIConsumerPlaceholderDescription
  *
@@ -37,7 +39,8 @@ class ilLTIConsumerPlaceholderDescription implements ilCertificatePlaceholderDes
     public function __construct(
         ?ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
         ?ilLanguage $language = null,
-        ?ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
+        ?ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null,
+        ?Profile $profile = null
     ) {
         global $DIC;
 
@@ -48,7 +51,7 @@ class ilLTIConsumerPlaceholderDescription implements ilCertificatePlaceholderDes
         $this->language = $language;
 
         if (null === $defaultPlaceholderDescriptionObject) {
-            $defaultPlaceholderDescriptionObject = new ilDefaultPlaceholderDescription($language, $userDefinedFieldPlaceHolderDescriptionObject);
+            $defaultPlaceholderDescriptionObject = new ilDefaultPlaceholderDescription($language, $profile ?? $DIC['user']->getProfile(), $userDefinedFieldPlaceHolderDescriptionObject);
         }
         $this->defaultPlaceHolderDescriptionObject = $defaultPlaceholderDescriptionObject;
 

@@ -293,6 +293,9 @@ interface Factory
      *      A Tag Input MUST NOT be used when a User has to choose from a finite list of options
      *      which can't be extended by users Input, a Multi Select MUST be used in this case
      *     5: The tags provided SHOULD NOT have long titles (50 characters).
+     *     6: >
+     *      If withoutStripTags is set, the consumer MUST make sure the value
+     *      is proberly sanitized before outputing it.
      *
      * ---
      * @param string      $label

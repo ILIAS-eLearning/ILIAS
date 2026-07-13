@@ -20,8 +20,9 @@ declare(strict_types=1);
 
 class ilDashboardContentBlockGUI extends ilBlockGUI
 {
-    public static string $block_type = 'dashcontent';
-    protected int $currentitemnumber;
+    public const BLOCK_TYPE = 'dashcontent';
+
+    protected int $current_item_number;
     protected string $content;
 
     public function __construct()
@@ -40,37 +41,37 @@ class ilDashboardContentBlockGUI extends ilBlockGUI
         $this->allow_moving = false;
     }
 
-    public function getBlockType(): string
+    final public function getBlockType(): string
     {
-        return self::$block_type;
+        return self::BLOCK_TYPE;
     }
 
-    public function setCurrentItemNumber(int $a_currentitemnumber): void
+    final public function setCurrentItemNumber(int $a_currentitemnumber): void
     {
-        $this->currentitemnumber = $a_currentitemnumber;
+        $this->current_item_number = $a_currentitemnumber;
     }
 
-    public function getCurrentItemNumber(): int
+    final public function getCurrentItemNumber(): int
     {
-        return $this->currentitemnumber;
+        return $this->current_item_number;
     }
 
-    protected function isRepositoryObject(): bool
+    final protected function isRepositoryObject(): bool
     {
         return false;
     }
 
-    public function getContent(): string
+    final public function getContent(): string
     {
         return $this->content;
     }
 
-    protected function getLegacyContent(): string
+    final protected function getLegacyContent(): string
     {
         return $this->content;
     }
 
-    public function setContent(string $a_content): void
+    final public function setContent(string $a_content): void
     {
         $this->content = $a_content;
     }

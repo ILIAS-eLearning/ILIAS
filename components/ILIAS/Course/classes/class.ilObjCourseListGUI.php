@@ -178,6 +178,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
         }
 
         if ($permission == 'crs_linked') {
+            $type = ilObject::_lookupType($ref_id, true);
             return
                 parent::checkCommandAccess('read', $cmd, $ref_id, $type, $obj_id) ||
                 parent::checkCommandAccess('join', $cmd, $ref_id, $type, $obj_id);

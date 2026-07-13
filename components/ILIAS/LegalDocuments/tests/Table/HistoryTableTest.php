@@ -56,7 +56,7 @@ class HistoryTableTest extends TestCase
     public function testColumns(): void
     {
         $ui = $this->mock(UI::class);
-        $ui->expects(self::exactly(6))->method('txt')->willReturnCallback(fn($key) => 'txt: ' . $key);
+        $ui->expects($this->exactly(6))->method('txt')->willReturnCallback(fn($key) => 'txt: ' . $key);
 
         $instance = new HistoryTable(
             $this->mock(HistoryRepository::class),
@@ -82,14 +82,14 @@ class HistoryTableTest extends TestCase
     {
         class_exists(ilDateTime::class, true); // Trigger autoload to ensure IL_CAL_UNIX is defined.
         $filter = $this->mock(TableFilter::class);
-        $filter->expects(self::exactly(2))->method('addFilterItem');
+        $filter->expects($this->exactly(2))->method('addFilterItem');
 
         $config = $this->mock(TableConfig::class);
-        $config->expects(self::once())->method('setTitle')->with('txt: acceptance_history');
-        $config->expects(self::once())->method('setDefaultOrderField')->with('created');
-        $config->expects(self::once())->method('setDefaultOrderDirection')->with('DESC');
-        $config->expects(self::once())->method('setSelectableColumns')->with('firstname', 'lastname', 'criteria');
-        $config->expects(self::once())->method('asFilter')->with('reset command')->willReturn($filter);
+        $config->expects($this->once())->method('setTitle')->with('txt: acceptance_history');
+        $config->expects($this->once())->method('setDefaultOrderField')->with('created');
+        $config->expects($this->once())->method('setDefaultOrderDirection')->with('DESC');
+        $config->expects($this->once())->method('setSelectableColumns')->with('firstname', 'lastname', 'criteria');
+        $config->expects($this->once())->method('asFilter')->with('reset command')->willReturn($filter);
 
         $ui = $this->mock(UI::class);
         $ui->method('txt')->willReturnCallback(fn($key) => 'txt: ' . $key);
@@ -111,8 +111,8 @@ class HistoryTableTest extends TestCase
     {
         $expected_filter = ['a' => 'b', 'start' => 'x', 'end' => 'y', 'c' => 'd'];
         $repository = $this->mock(HistoryRepository::class);
-        $repository->expects(self::once())->method('countAll')->with($expected_filter)->willReturn(2);
-        $repository->expects(self::once())->method('all')->with(
+        $repository->expects($this->once())->method('countAll')->with($expected_filter)->willReturn(2);
+        $repository->expects($this->once())->method('all')->with(
             $expected_filter,
             ['foo' => 'bar'],
             4,
@@ -129,7 +129,7 @@ class HistoryTableTest extends TestCase
             'getOffset' => 4,
             'getLimit' => 34,
         ]);
-        $selection->expects(self::once())->method('setMaxCount')->with(2);
+        $selection->expects($this->once())->method('setMaxCount')->with(2);
 
         $instance = new HistoryTable(
             $repository,

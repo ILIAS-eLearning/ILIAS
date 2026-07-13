@@ -146,7 +146,7 @@ class ilObjCmiXapi extends ilObject2
     protected bool $no_substatements = false;
 
     protected int $deleteData = 0;
-    
+
     protected bool $enrichData = false;
 
     protected ?ilCmiXapiUser $currentCmixUser = null;
@@ -1745,7 +1745,7 @@ class ilObjCmiXapi extends ilObject2
         $body = curl_exec($ch);
         $error = curl_error($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
+        $ch = null;
 
         if ($error) {
             $this->log()->error("cURL error: " . $error);

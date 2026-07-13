@@ -55,7 +55,6 @@ class ilRepositoryTreeTest extends TestCase
         $tree = new ilTree(1);
         $tree->initLangCode();
         $tree_reflection = new ReflectionProperty($tree, 'lang_code');
-        $tree_reflection->setAccessible(true);
         $this->assertEquals('en', $tree_reflection->getValue($tree));
 
         // user getCurrentLanguage() from session is empty
@@ -69,7 +68,6 @@ class ilRepositoryTreeTest extends TestCase
         $this->setGlobalVariable('ilUser', $user);
         $tree->initLangCode();
         $tree_reflection = new ReflectionProperty($tree, 'lang_code');
-        $tree_reflection->setAccessible(true);
         $this->assertEquals('en', $tree_reflection->getValue($tree));
     }
 

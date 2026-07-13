@@ -18,32 +18,58 @@
 
 declare(strict_types=1);
 
+use ILIAS\HTTP\StatusCode;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Init\ErrorHandling\Http\ErrorPageResponder;
+use ILIAS\Init\ErrorHandling\Http\PlainTextFallbackResponder;
+
 if (!file_exists('../ilias.ini.php')) {
     die('The ILIAS setup is not completed. Please run the setup routine.');
 }
 
 require_once '../vendor/composer/vendor/autoload.php';
-require_once __DIR__ . '/../artifacts/bootstrap_default.php';
-entry_point('ILIAS Legacy Initialisation Adapter');
 
-/** @var $DIC \ILIAS\DI\Container */
+/** @var \ILIAS\DI\Container $DIC */
 global $DIC;
 
 try {
+    require_once __DIR__ . '/../artifacts/bootstrap_default.php';
+    entry_point('ILIAS Legacy Initialisation Adapter');
+
     $DIC->ctrl()->callBaseClass();
 } catch (ilCtrlException $e) {
     if (defined('DEVMODE') && DEVMODE) {
         throw $e;
     }
 
-    if (!str_contains($e->getMessage(), 'not given a baseclass') &&
-        !str_contains($e->getMessage(), 'not a baseclass')) {
-        throw new RuntimeException(sprintf('ilCtrl could not dispatch request: %s', $e->getMessage()), 0, $e);
-    }
-
     $DIC->logger()->root()->error($e->getMessage());
     $DIC->logger()->root()->error($e->getTraceAsString());
-    $DIC->ctrl()->redirectToURL(ilUtil::_getHttpPath());
+
+    $DIC->language()->loadLanguageModule('error');
+    $df = new DataFactory();
+    $back_target = $df->link(
+        $DIC->language()->txt('error_back_to_repository'),
+        $df->uri(ILIAS_HTTP_PATH . '/ilias.php?baseClass=ilRepositoryGUI')
+    );
+
+    try {
+        new ErrorPageResponder(
+            $DIC->globalScreen(),
+            $DIC->language(),
+            $DIC->ui(),
+            $DIC->http()
+        )->respond(
+            $DIC->language()->txt('http_404_not_found'),
+            StatusCode::HTTP_NOT_FOUND,
+            $back_target
+        );
+    } catch (Throwable) {
+        new PlainTextFallbackResponder()->respond(
+            $e,
+            StatusCode::HTTP_NOT_FOUND,
+            $DIC->language()->txt('http_404_not_found')
+        );
+    }
 }
 
 $DIC['ilBench']->save();

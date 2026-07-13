@@ -55,7 +55,7 @@ class UserSettingsTest extends TestCase
         $marshal = $this->mockMethod(Marshal::class, 'boolean', [], $convert);
 
         $settings = $this->mock(SelectSetting::class);
-        $settings->expects(self::once())->method('typed')->willReturnCallback(function (string $key, callable $select) use ($marshal, $convert, $setting) {
+        $settings->expects($this->once())->method('typed')->willReturnCallback(function (string $key, callable $select) use ($marshal, $convert, $setting) {
             $this->assertSame('consent_withdrawal_requested', $key);
             $this->assertSame($convert, $select($marshal));
             return $setting;
@@ -80,7 +80,7 @@ class UserSettingsTest extends TestCase
             ['agree date', $return_date],
             [$date, 'another date']
         ];
-        $by_trying->expects(self::exactly(2))
+        $by_trying->expects($this->exactly(2))
             ->method('transform')
             ->willReturnCallback(
                 function ($in) use (&$consecutive) {
@@ -91,9 +91,9 @@ class UserSettingsTest extends TestCase
             );
 
         $user = $this->mock(ilObjUser::class);
-        $user->expects(self::once())->method('getAgreeDate')->willReturn('agree date');
-        $user->expects(self::once())->method('setAgreeDate')->with('another date');
-        $user->expects(self::once())->method('update');
+        $user->expects($this->once())->method('getAgreeDate')->willReturn('agree date');
+        $user->expects($this->once())->method('setAgreeDate')->with('another date');
+        $user->expects($this->once())->method('update');
 
         $refinery = $this->mockTree(Refinery::class, ['byTrying' => $by_trying]);
 

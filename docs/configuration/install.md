@@ -64,10 +64,10 @@ current configuration of the [ILIAS test server](https://test11.ilias.de), which
 | Package      | Version                                                | Reference System |
 |--------------|--------------------------------------------------------|------------------|
 | Distribution | current version of Debian GNU Linux, Ubuntu or RHEL    | Ubuntu 22.04 LTS |
-| Database     | MySQL >8.0.21 or MariaDB 10.5 - 10.11                  | MariaDB 10.6.18  |
-| PHP          | 8.3, 8.4                                               | 8.4              |
+| Database     | MySQL 8.4 - 9.7 or MariaDB 11.4 - 12.3                 | MariaDB 11.8     |
+| PHP          | 8.4, 8.5                                               | 8.5              |
 | Webserver    | nginx: 1.12.x – 1.18.x, Apache: ≥ 2.4.x                | Apache 2.4.52    |
-| JDK          | Open JDK Runtime 11, 17 or 21 LTS                      | OpenJDK 17       |
+| JDK          | Open JDK Runtime 17, 21 or 25 LTS                      | OpenJDK 21       |
 | Node.js      | 22 (LTS), 24 Recommended: 24                           | v24.10.0         |
 | Ghostscript  | 10.x                                                   | 9.55             |
 | Imagemagick  | 6.9.x                                                  | 6.9.11           |
@@ -94,7 +94,7 @@ PHP version later on.
 <a name="install-dependencies"></a>
 ## Install Dependencies
 
-`openjdk-17-jdk` and `maven` are optional and are used for the ILIAS RPC server for search indexing and certificate generation. 
+`openjdk-21-jdk` and `maven` are optional and are used for the ILIAS RPC server for search indexing and certificate generation. 
 `git` is required if the source code is obtained directly from GitHub.
 `nodejs` and `npm` are required as well if you get the source directly to download the javascript dependencies in the installation process.
 Alternatively, they can be obtained directly from the distribution package at [Nodesource](https://deb.nodesource.com/) to select appropriate nodejs versions according to the [Recommended Setup for Running ILIAS](#recommended-setup-for-running-ilias).
@@ -102,7 +102,7 @@ Alternatively, they can be obtained directly from the distribution package at [N
 
 ```shell
 apt update
-apt update zip unzip openjdk-17-jdk maven ffmpeg git ghostscript nodejs npm
+apt update zip unzip openjdk-21-jdk maven ffmpeg git ghostscript nodejs npm
 ```
 
 <a name="install-webserver"></a>
@@ -118,7 +118,6 @@ gd, dom, xsl, pdo, pdo_mysql, curl, json, simplexml, libxml, xml, zip, imagick, 
 
 **Optional PHP Extensions:**
 
-* `xmlrpc` for the ILIAS RPC server
 * `soap` for SOAP user administration 
 * `ldap` for LDAP user authentication
 
@@ -128,7 +127,7 @@ Alternatively, it can be obtained directly from [getcomposer.org](https://getcom
 Composer may be optional when using the prepacked ILIAS from [Download & Releases](https://docu.ilias.de/go/pg/197851_35), but it is necessary when using plugins to rebuild the PHP autoload classmap.
 
 ```shell
-apt install apache2 libapache2-mod-php php php-gd php-xsl php-imagick php-curl php-mysql php-xmlrpc php-soap php-ldap composer
+apt install apache2 libapache2-mod-php php php-gd php-xsl php-imagick php-curl php-mysql php-soap php-ldap composer
 ```
 
 Create a directory for the html sources (e.g. `/var/www/ilias`) which is referenced in the apache2 vhost and also a directory outside the web servers docroot (e.g. `/var/www/files`) for files stored by ILIAS. 
@@ -527,12 +526,13 @@ Then complete the update by [updating the database](#update-the-database).
 <a name="major-upgrade"></a>
 ## Major Upgrade
 
-To apply a major upgrade (e.g. v10.13 to v11.1) please check that your OS has the
-[proper dependency versions](#upgrading-dependencies) installed. If everything
-is fine, change your default skin to Delos and apply this change at least to
-your root user. Otherwise ILIAS might become unusable due to changes in the
-layout templates. Then execute the following commands in your ILIAS basepath
-(e.g. `/var/www/ilias`).
+To apply a major upgrade (e.g. v11.13 to v12.1) please check that your OS has the
+[proper dependency versions](#upgrading-dependencies) installed. Note that no major
+version can be omitted during the upgrade process. You can upgrade from 11 to 12, 
+but not directly from 10 to 12. If everything is fine, change your default skin to
+Delos and apply this change at least to your root user. Otherwise ILIAS might become
+unusable due to changes in the layout templates. Then execute the following commands
+in your ILIAS basepath (e.g. `/var/www/ilias`).
 
 ```shell
 sudo -uwww-data git fetch origin release_11:release_11
@@ -666,14 +666,15 @@ each ILIAS release.
 
 **PHP:**
 
-| ILIAS Version  | PHP Version                 |
-|----------------|-----------------------------|
-| 11.x           | 8.3.x, 8.4.x                |
-| 10.x           | 8.2.x, 8.3.x                |
-| 9.x            | 8.1.x, 8.2.x                |
-| 8.x            | 7.4.x, 8.0.x                |
-| 7.x            | 7.3.x, 7.4.x                |
-| 6.x            | 7.2.x, 7.3.x, 7.4.x         |
+| ILIAS Version | PHP Version         |
+|---------------|---------------------|
+| 12.x          | 8.4.x, 8.5.x        |
+| 11.x          | 8.3.x, 8.4.x        |
+| 10.x          | 8.2.x, 8.3.x        |
+| 9.x           | 8.1.x, 8.2.x        |
+| 8.x           | 7.4.x, 8.0.x        |
+| 7.x           | 7.3.x, 7.4.x        |
+| 6.x           | 7.2.x, 7.3.x, 7.4.x |
 
 **DBMS:**
 
@@ -681,6 +682,7 @@ We strongly recommend using MariaDB instead of MySQL due to performance, licensi
 
 | ILIAS Version | MySQL Version       | MariaDB Version        |
 |---------------|---------------------|------------------------|
+| 12.0 - 12.x   | 8.4.x               | 11.4, 11.8, 12.3       |
 | 11.0 - 11.x   | 8.0.x               | 10.4, 10.5, 10.6       |
 | 10.0 - 10.x   | 8.0.x               | 10.4, 10.5, 10.6       |
 | 9.0 - 9.x     | 8.0.x               | 10.3, 10.4, 10.5, 10.6 |

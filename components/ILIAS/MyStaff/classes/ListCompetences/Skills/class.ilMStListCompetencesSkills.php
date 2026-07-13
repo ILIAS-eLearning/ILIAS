@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -83,11 +84,17 @@ class ilMStListCompetencesSkills
         $numRows = $this->dic->database()->numRows($set);
 
         if ($options['sort']) {
-            $union_query .= " ORDER BY " . $options['sort']['field'] . " " . $options['sort']['direction'];
+            /*
+             * Sort field is validated in ilMStListCompetencesSkillsTableGUI::getSafeOrderField,
+             * the available columns depend on user administration settings.
+             */
+            $sort_field = (string) ($options['sort']['field'] ?? '');
+            $sort_direction = $this->getSafeSortDirection((string) ($options['sort']['direction'] ?? ''));
+            $union_query .= " ORDER BY " . $this->dic->database()->quoteIdentifier($sort_field) . " " . $sort_direction;
         }
 
         if (isset($options['limit']['start']) && isset($options['limit']['end'])) {
-            $union_query .= " LIMIT " . $options['limit']['start'] . "," . $options['limit']['end'];
+            $union_query .= " LIMIT " . (int) $options['limit']['start'] . "," . (int) $options['limit']['end'];
         }
 
         $set = $this->dic->database()->query($union_query);
@@ -114,11 +121,19 @@ class ilMStListCompetencesSkills
         $wheres = [];
 
         if (!empty($filters['skill'])) {
-            $wheres[] = "sktree.title LIKE '%" . $filters['skill'] . "%'";
+            $wheres[] = $this->dic->database()->like(
+                "sktree.title",
+                "text",
+                "%" . $filters['skill'] . "%"
+            );
         }
 
         if (!empty($filters['skill_level'])) {
-            $wheres[] = "lvl.title LIKE '%" . $filters['skill_level'] . "%'";
+            $wheres[] = $this->dic->database()->like(
+                "lvl.title",
+                "text",
+                "%" . $filters['skill_level'] . "%"
+            );
         }
 
         if (!empty($filters['user'])) {
@@ -150,5 +165,12 @@ class ilMStListCompetencesSkills
         }
 
         return empty($wheres) ? '' : ' AND ' . implode(' AND ', $wheres);
+    }
+
+    private function getSafeSortDirection(string $sort_direction): string
+    {
+        return strtolower($sort_direction) === 'asc'
+            ? 'asc'
+            : 'desc';
     }
 }

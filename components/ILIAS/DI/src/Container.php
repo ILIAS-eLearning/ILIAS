@@ -450,7 +450,7 @@ class Container extends \Pimple\Container
 
     public function mail(): \ILIAS\Mail\Service\MailService
     {
-        return new \ILIAS\Mail\Service\MailService($this);
+        return $this[\ILIAS\Mail\Service\MailService::class];
     }
 
     public function certificate(): \ILIAS\Certificate\Service\CertificateService

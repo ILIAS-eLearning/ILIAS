@@ -20,73 +20,45 @@ declare(strict_types=1);
 
 namespace ILIAS\Init;
 
+use Throwable;
+use ILIAS\HTTP\StatusCode;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Init\ErrorHandling\Http\ErrorPageResponder;
+use ILIAS\Init\ErrorHandling\Http\PlainTextFallbackResponder;
+
 try {
     require_once '../vendor/composer/vendor/autoload.php';
 
     require_once __DIR__ . '/../artifacts/bootstrap_default.php';
     entry_point('ILIAS Legacy Initialisation Adapter');
 
-    $DIC->globalScreen()->tool()->context()->claim()->external();
-
-    $lng->loadLanguageModule('error');
-    $txt = $lng->txt('error_back_to_repository');
-
-    $local_tpl = new \ilGlobalTemplate('tpl.error.html', true, true);
-    $local_tpl->setCurrentBlock('ErrorLink');
-    $local_tpl->setVariable('TXT_LINK', $txt);
-    $local_tpl->setVariable('LINK', \ilUtil::secureUrl(ILIAS_HTTP_PATH . '/ilias.php?baseClass=ilRepositoryGUI'));
-    $local_tpl->parseCurrentBlock();
+    /** @var \ILIAS\DI\Container $DIC */
+    global $DIC;
 
     \ilSession::clear('referer');
     \ilSession::clear('message');
 
-    $DIC->http()->saveResponse(
-        $DIC->http()
-            ->response()
-            ->withStatus(500)
-            ->withHeader(\ILIAS\HTTP\Response\ResponseHeader::CONTENT_TYPE, 'text/html')
+    $DIC->language()->loadLanguageModule('error');
+
+    $message = \ilSession::get('failure') ?? $DIC->language()->txt('http_500_internal_server_error');
+    \ilSession::clear('failure');
+
+    $df = new DataFactory();
+    $back_target = $df->link(
+        $DIC->language()->txt('error_back_to_repository'),
+        $df->uri(ILIAS_HTTP_PATH . '/ilias.php?baseClass=ilRepositoryGUI')
     );
 
-    $tpl->setContent($local_tpl->get());
-    $tpl->printToStdout();
-
-    $DIC->http()->close();
-} catch (\Throwable $e) {
-    if (\defined('DEVMODE') && DEVMODE) {
-        throw $e;
-    }
-
-    /*
-     * Since we are already in the `error.php` and an unexpected error occurred, we should not rely on the $DIC or any
-     * other components here and use "Vanilla PHP" instead to handle the error.
-     */
-    if (!headers_sent()) {
-        http_response_code(500);
-        header('Content-Type: text/plain; charset=UTF-8');
-    }
-
-    $incident_id = session_id() . '_' . (new \Random\Randomizer())->getInt(1, 9999);
-    $timestamp = (new \DateTimeImmutable())->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d\TH:i:s\Z');
-
-    echo "Internal Server Error\n";
-    echo "Incident: $incident_id\n";
-    echo "Timestamp: $timestamp\n";
-    if ($e instanceof \PDOException) {
-        echo "Message: A database error occurred. Please contact the system administrator with the incident id.\n";
-    } else {
-        echo "Message: {$e->getMessage()}\n";
-    }
-
-    error_log(\sprintf(
-        "[%s] INCIDENT %s — Uncaught %s: %s in %s:%d\nStack trace:\n%s\n",
-        $timestamp,
-        $incident_id,
-        \get_class($e),
-        $e->getMessage(),
-        $e->getFile(),
-        $e->getLine(),
-        $e->getTraceAsString()
-    ));
-
-    exit(1);
+    new ErrorPageResponder(
+        $DIC->globalScreen(),
+        $DIC->language(),
+        $DIC->ui(),
+        $DIC->http()
+    )->respond(
+        $message,
+        StatusCode::HTTP_INTERNAL_SERVER_ERROR,
+        $back_target
+    );
+} catch (Throwable $e) {
+    new PlainTextFallbackResponder()->respond($e);
 }

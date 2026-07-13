@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Test\Logging\TestLogger;
@@ -42,7 +43,6 @@ use ILIAS\Skill\Service\SkillService;
  *
  * @ilCtrl_Calls ilTestResultsGUI: ilMyTestResultsGUI
  * @ilCtrl_Calls ilTestResultsGUI: ilTestEvalObjectiveOrientedGUI
- * @ilCtrl_Calls ilTestResultsGUI: ilMyTestSolutionsGUI
  * @ilCtrl_Calls ilTestResultsGUI: ilTestToplistGUI
  * @ilCtrl_Calls ilTestResultsGUI: ilTestSkillEvaluationGUI
  */
@@ -61,6 +61,7 @@ class ilTestResultsGUI
         private readonly ilLanguage $lng,
         private readonly TestLogger $logger,
         private readonly ilComponentRepository $component_repository,
+        private readonly ilComponentFactory $component_factory,
         private TabsManager $test_tabs,
         private readonly ilToolbarGUI $toolbar,
         private readonly ilGlobalTemplateInterface $main_tpl,
@@ -73,7 +74,8 @@ class ilTestResultsGUI
         private readonly GlobalHttpState $http,
         private readonly DataFactory $data_factory,
         private readonly ilTestSession $test_session,
-        private readonly ilTestObjectiveOrientedContainer $objective_parent
+        private readonly ilTestObjectiveOrientedContainer $objective_parent,
+        private readonly ParticipantRepository $participant_repository
     ) {
     }
 
@@ -88,13 +90,16 @@ class ilTestResultsGUI
                     ilObjTestGUI::accessViolationRedirect();
                 }
 
-                $this->test_tabs->activateSubTab(TabsManager::SUBTAB_ID_MY_RESULTS);
+                $this->test_tabs->activateSubTab(
+                    $this->ctrl->getCmd() === 'outUserListOfAnswerPasses'
+                        ? TabsManager::SUBTAB_ID_MY_SOLUTIONS
+                        : TabsManager::SUBTAB_ID_MY_RESULTS
+                );
 
                 $gui = new ilMyTestResultsGUI(
                     $this->test_object,
                     $this->test_access,
                     $this->objective_parent,
-                    $this->user,
                     $this->lng,
                     $this->ctrl,
                     $this->main_tpl,
@@ -116,26 +121,6 @@ class ilTestResultsGUI
                 $this->ctrl->forwardCommand($gui);
                 break;
 
-            case 'ilmytestsolutionsgui':
-                if (!$this->test_tabs->needsYourSolutionsSubTab()) {
-                    ilObjTestGUI::accessViolationRedirect();
-                }
-
-                $this->test_tabs->activateSubTab(TabsManager::SUBTAB_ID_MY_SOLUTIONS);
-
-                $gui = new ilMyTestSolutionsGUI(
-                    $this->test_object,
-                    $this->test_access,
-                    $this->objective_parent,
-                    $this->lng,
-                    $this->ctrl,
-                    $this->main_tpl,
-                    $this->questionrepository,
-                    $this->testrequest
-                );
-                $this->ctrl->forwardCommand($gui);
-                break;
-
             case 'iltesttoplistgui':
                 if (!$this->test_tabs->needsHighSoreSubTab()) {
                     ilObjTestGUI::accessViolationRedirect();
@@ -153,7 +138,8 @@ class ilTestResultsGUI
                     $this->ui_factory,
                     $this->ui_renderer,
                     $this->data_factory,
-                    $this->http
+                    $this->http,
+                    $this->participant_repository
                 );
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -161,7 +147,13 @@ class ilTestResultsGUI
             case 'iltestskillevaluationgui':
                 $this->test_tabs->activateSubTab(TabsManager::SUBTAB_ID_SKILL_RESULTS);
 
-                $question_list = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $this->component_repository);
+                $question_list = new ilAssQuestionList(
+                    $this->db,
+                    $this->lng,
+                    $this->refinery,
+                    $this->component_repository,
+                    $this->component_factory
+                );
                 $question_list->setParentObjId($this->test_object->getId());
                 $question_list->setQuestionInstanceTypeFilter(null);
                 $question_list->load();

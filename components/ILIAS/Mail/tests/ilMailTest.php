@@ -26,6 +26,8 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Mail\Service\MailSignatureService;
 use PHPUnit\Framework\Attributes\DataProvider;
+use ILIAS\Mail\TemplateEngine\TemplateEngineFactoryInterface;
+use ILIAS\Mail\TemplateEngine\Mustache\MustacheTemplateEngineFactory;
 
 class ilMailTest extends ilMailBaseTestCase
 {
@@ -180,7 +182,7 @@ class ilMailTest extends ilMailBaseTestCase
                 };
             });
 
-        $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $db = $this->createMock(ilDBInterface::class);
         $next_id = 0;
         $db->method('nextId')->willReturnCallback(function () use (&$next_id): int {
             ++$next_id;
@@ -199,7 +201,7 @@ class ilMailTest extends ilMailBaseTestCase
         $mail_options = $this->getMockBuilder(ilMailOptions::class)->disableOriginalConstructor()->getMock();
         $mail_box = $this->getMockBuilder(ilMailbox::class)->disableOriginalConstructor()->getMock();
         $actor = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
-        $mustache_factory = $this->getMockBuilder(ilMustacheFactory::class)->getMock();
+        $template_engine_factory = $this->createMock(TemplateEngineFactoryInterface::class);
 
         $mail_service = new ilMail(
             $sender_usr_id,
@@ -212,13 +214,20 @@ class ilMailTest extends ilMailBaseTestCase
             $mail_file_data,
             $mail_options,
             $mail_box,
-            new ilMailMimeSenderFactory($settings, $mustache_factory),
+            new ilMailMimeSenderFactory($settings, $template_engine_factory),
             static fn(string $login): int => $all_users_login_to_id_map[$login] ?? 0,
             $this->createMock(AutoresponderService::class),
             0,
             4711,
             $actor,
-            new ilMailTemplatePlaceholderResolver(new Mustache_Engine())
+            new ilMailTemplatePlaceholderResolver(
+                new class () implements \ILIAS\Mail\TemplateEngine\TemplateEngineInterface {
+                    public function render(string $template, object|array $context): string
+                    {
+                        return 'phpunit';
+                    }
+                }
+            )
         );
 
         $old_transport = ilMimeMail::getDefaultTransport();
@@ -607,7 +616,11 @@ class ilMailTest extends ilMailBaseTestCase
     {
         $expected = 'Phasellus lacus';
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->getMock();
-        $settings->method('get')->with('mail_system_sys_from_name')->willReturn($expected);
+        $settings
+            ->expects($this->once())
+            ->method('get')
+            ->with('mail_system_sys_from_name')
+            ->willReturn($expected);
         $this->setGlobalVariable('ilSetting', $settings);
 
 
@@ -656,7 +669,7 @@ class ilMailTest extends ilMailBaseTestCase
 
     private function create(int $ref_id = 234, int $usr_id = 123): ilMail
     {
-        $refinery = $this->getMockBuilder(\ILIAS\Refinery\Factory::class)->disableOriginalConstructor()->getMock();
+        $refinery = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
         $this->setGlobalVariable('refinery', $refinery);
 
         $instance = new ilMail(
@@ -665,7 +678,7 @@ class ilMailTest extends ilMailBaseTestCase
             ($this->mock_parser_factory = $this->getMockBuilder(ilMailRfc822AddressParserFactory::class)->disableOriginalConstructor()->getMock()),
             $this->getMockBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->getMock(),
             ($this->mock_log = $this->getMockBuilder(ilLogger::class)->disableOriginalConstructor()->getMock()),
-            ($this->mock_database = $this->getMockBuilder(ilDBInterface::class)->disableOriginalConstructor()->getMock()),
+            ($this->mock_database = $this->createMock(ilDBInterface::class)),
             ($this->mock_language = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock()),
             $this->getMockBuilder(ilFileDataMail::class)->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder(ilMailOptions::class)->disableOriginalConstructor()->getMock(),
@@ -677,7 +690,6 @@ class ilMailTest extends ilMailBaseTestCase
             $ref_id,
             $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder(ilMailTemplatePlaceholderResolver::class)->disableOriginalConstructor()->getMock(),
-            null,
             null,
             $this->getMockBuilder(MailSignatureService::class)->disableOriginalConstructor()->getMock(),
         );

@@ -110,8 +110,8 @@ class ModifyFooterTest extends TestCase
     public function testWithdrawalButton(): void
     {
         $template = $this->mock(ilTemplate::class);
-        $template->expects(self::exactly(3))->method('setVariable');
-        $template->expects(self::once())->method('get');
+        $template->expects($this->exactly(3))->method('setVariable');
+        $template->expects($this->once())->method('get');
 
         $instance = new ModifyFooter(
             $this->mock(UI::class),

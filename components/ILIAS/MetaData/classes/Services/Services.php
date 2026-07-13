@@ -26,9 +26,7 @@ use ILIAS\MetaData\Services\DataHelper\DataHelper;
 use ILIAS\MetaData\Paths\PathInterface;
 use ILIAS\MetaData\Services\Paths\PathsInterface;
 use ILIAS\MetaData\Services\Reader\ReaderInterface;
-use ILIAS\MetaData\Services\Reader\Reader;
 use ILIAS\MetaData\Services\Paths\Paths;
-use ILIAS\MetaData\Services\Manipulator\Manipulator;
 use ILIAS\DI\Container as GlobalContainer;
 use ILIAS\MetaData\Services\Derivation\SourceSelectorInterface;
 use ILIAS\MetaData\Services\Derivation\SourceSelector;
@@ -40,9 +38,6 @@ use ILIAS\MetaData\Services\Manipulator\FactoryInterface as ManipulatorFactoryIn
 use ILIAS\MetaData\Services\Manipulator\Factory as ManipulatorFactory;
 use ILIAS\MetaData\Repository\RepositoryInterface;
 use ILIAS\MetaData\Services\Derivation\Creation\Creator;
-use ILIAS\MetaData\Elements\Scaffolds\ScaffoldFactory;
-use ILIAS\MetaData\Elements\Data\DataFactory;
-use ILIAS\MetaData\Elements\RessourceID\RessourceIDFactory;
 use ILIAS\MetaData\Services\CopyrightHelper\CopyrightHelperInterface;
 use ILIAS\MetaData\Services\CopyrightHelper\CopyrightHelper;
 

@@ -39,6 +39,8 @@ class DateTimeTransformation implements Transformation
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
+    private const string RFC7231 = 'D, d M Y H:i:s \G\M\T';
+
     /**
      * @inheritDoc
      */
@@ -53,7 +55,7 @@ class DateTimeTransformation implements Transformation
             DateTimeInterface::COOKIE,
             DateTimeInterface::ISO8601,
             DateTimeInterface::RFC822,
-            DateTimeInterface::RFC7231,
+            self::RFC7231, // DateTimeInterface::RFC7231 format (deprecated constant in PHP 8.5)
             DateTimeInterface::RFC3339_EXTENDED
         ];
 

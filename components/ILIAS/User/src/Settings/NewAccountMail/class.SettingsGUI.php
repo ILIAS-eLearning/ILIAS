@@ -29,6 +29,7 @@ use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Transformation;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\ResourceStorage\Services as ResourceStorage;
+use ILIAS\Mail\TemplateEngine\TemplateEngineFactoryInterface;
 
 /**
  * @ilCtrl_Calls ILIAS\User\Settings\NewAccountMail\SettingsGUI: ILIAS\User\Settings\NewAccountMail\UploadHandlerGUI
@@ -45,7 +46,7 @@ class SettingsGUI
         private readonly \ilCtrl $ctrl,
         private readonly \ilAccess $access,
         private readonly \ilGlobalTemplateInterface $tpl,
-        private readonly \ilMustacheFactory $mail_mustache_factory,
+        private readonly TemplateEngineFactoryInterface $mail_template_engine_factory,
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
         private readonly Refinery $refinery,
@@ -204,7 +205,7 @@ class SettingsGUI
         return $this->refinery->custom()->constraint(
             function ($v): bool {
                 try {
-                    $this->mail_mustache_factory->getBasicEngine()->render($v, []);
+                    $this->mail_template_engine_factory->getBasicEngine()->render($v, []);
                     return true;
                 } catch (\Exception) {
                     return false;

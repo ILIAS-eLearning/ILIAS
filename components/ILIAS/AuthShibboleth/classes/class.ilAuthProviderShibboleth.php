@@ -110,7 +110,7 @@ class ilAuthProviderShibboleth extends ilAuthProvider
             return false;
         }
 
-        ilSession::set('shibboleth_session_id', $_SERVER['Shib-Session-ID']);
+        ilSession::set('shibboleth_session_id', $_SERVER['Shib-Session-ID'] ?? '');
         return true;
     }
 }

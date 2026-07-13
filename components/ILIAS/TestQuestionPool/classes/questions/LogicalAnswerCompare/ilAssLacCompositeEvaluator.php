@@ -78,7 +78,7 @@ class ilAssLacCompositeEvaluator
         if ($composite->nodes[0] instanceof ilAssLacExpressionInterface &&
             $composite->nodes[1] instanceof ilAssLacExpressionInterface
         ) {
-            $question = $this->object_loader->getQuestion($composite->nodes[0]->getQuestionIndex());
+            $question = $this->object_loader->getQuestion();
             $rightNode = $composite->nodes[1];
 
             $index = $this->isInstanceOfAnswerIndexProvidingExpression($composite) ? $composite->nodes[0]->getAnswerIndex() : null;
@@ -181,8 +181,7 @@ class ilAssLacCompositeEvaluator
                     $question->getVariables(),
                     $question->getResults(),
                     $result["value"] ?? "",
-                    $key,
-                    $unit_repository->getUnits()
+                    $key
                 );
 
                 $percentage = 0;

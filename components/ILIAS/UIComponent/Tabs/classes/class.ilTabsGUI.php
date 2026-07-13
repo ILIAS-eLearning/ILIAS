@@ -437,9 +437,7 @@ class ilTabsGUI
                 }
 
                 if ($tabtype === "tabactive" || $tabtype === "subtabactive") {
-                    $tpl->setCurrentBlock("sel_text");
-                    $tpl->setVariable("TXT_SELECTED", $lng->txt("stat_selected"));
-                    $tpl->parseCurrentBlock();
+                    //remove TXT_SELECTED area block
 
                     if (!$this->getSetupMode()) {
                         if ($a_get_sub_tabs) {
@@ -461,16 +459,23 @@ class ilTabsGUI
                 // bs-patch: end
 
                 $tpl->setVariable($pre2 . "TAB_TYPE", $tabtype);
-                $hash = "";
+
                 if ($target["dir_text"]) {
                     $text = $target["text"];
                 } else {
                     $text = $lng->txt($target["text"]);
                 }
-                $link = $f->link()->standard($text, $target["link"]);
-                if ($target["frame"] != "") {
-                    $link->withOpenInNewViewport(true);
+
+                if ($tabtype === "active") {
+                    $text .= ' <span class="ilAccHidden">(' . $lng->txt("selected") . ')</span>';
                 }
+
+                $link = $f->link()->standard($text, $target["link"]);
+
+                if ($target["frame"] != "") {
+                    $link = $link->withOpenInNewViewport(true);
+                }
+
                 $ttext = $ilHelp->getTabTooltipText($target["id"]);
                 $link = $ilHelp->registerTabLink($target["id"], $link);
                 if ($ttext !== "") {

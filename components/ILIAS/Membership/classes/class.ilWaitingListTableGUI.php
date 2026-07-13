@@ -58,7 +58,6 @@ class ilWaitingListTableGUI extends ilTable2GUI
         $this->setId('crs_wait_' . $this->getRepositoryObject()->getId());
         parent::__construct($a_parent_obj, 'participants');
         $this->setFormName('waiting');
-        $this->setPrefix('waiting');
 
         $this->lng->loadLanguageModule('grp');
         $this->lng->loadLanguageModule('crs');
@@ -92,7 +91,6 @@ class ilWaitingListTableGUI extends ilTable2GUI
         $this->addMultiCommand('addToClipboard', $this->lng->txt('clipboard_add_btn'));
         // end-patch clipboard
 
-        $this->setPrefix('waiting');
         $this->setSelectAllCheckbox('waiting', true);
 
         $this->setRowTemplate("tpl.show_waiting_list_row.html", "components/ILIAS/Membership");

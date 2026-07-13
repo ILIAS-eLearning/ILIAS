@@ -46,7 +46,7 @@ class ProvideTest extends TestCase
     public function testWithdrawal(): void
     {
         $container = $this->mockTree(Container::class, ['ctrl' => $this->mock(ilCtrl::class)]);
-        $container->expects(self::once())->method('offsetGet')->with('ilAuthSession')->willReturn($this->mock(ilAuthSession::class));
+        $container->expects($this->once())->method('offsetGet')->with('ilAuthSession')->willReturn($this->mock(ilAuthSession::class));
 
         $instance = new Provide('foo', $this->mockMethod(Internal::class, 'get', ['withdraw'], 'foo'), $container);
 
@@ -93,7 +93,7 @@ class ProvideTest extends TestCase
             ['writable-document', 'foo']
         ];
         $internal
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('get')
             ->willReturnCallback(
                 function ($a, $b) use (&$consecutive, $document) {

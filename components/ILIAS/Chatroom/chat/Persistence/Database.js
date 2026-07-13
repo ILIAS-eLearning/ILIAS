@@ -124,7 +124,7 @@ var Database = function Database(config) {
 			};
 
 			sync.toPromise(fetchChatroomUsers)()
-				.then(sync.toPromise(createChatroomSession.bind(null, time)))
+				.then(sync.toPromise(createChatRoomSession.bind(null, time)))
 				.then(() => sync.toPromise(deleteChatroomUsers)());
 		}
 	};

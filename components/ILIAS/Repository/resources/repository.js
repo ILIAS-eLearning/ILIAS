@@ -58,7 +58,13 @@ il.repository.ui = (function (il, $) {
   const initModal = function (id) {
     const modal = document.getElementById(id);
     const buttons = modal.querySelectorAll('.modal-footer button');
-    if (buttons.length >= 2) {
+
+    // remove "save" button that has been added by the ks modal component
+    // since inputs have been added to the modal in getModalWithContent.
+    // this standard button is missing features like sending async requests
+    // and replacing the modal (which the adapter save button does)
+    const form = modal.querySelector('form');
+    if (form && buttons.length > 2) {
       const penultimate = buttons[buttons.length - 2];
       penultimate.remove();
     }

@@ -42,7 +42,6 @@ class ilMyTestResultsGUITest extends ilTestBaseTestCase
             $this->test,
             $this->access,
             $this->objective_parent,
-            $this->createMock(ilObjUser::class),
             $this->createMock(ilLanguage::class),
             $this->createMock(ilCtrlInterface::class),
             $this->createMock(ilGlobalTemplateInterface::class),

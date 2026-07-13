@@ -21,44 +21,110 @@ declare(strict_types=1);
 namespace ILIAS\Mail\Service;
 
 use ILIAS\DI\Container;
-use ILIAS\Mail\Autoresponder\AutoresponderServiceImpl;
-use ILIAS\Mail\Autoresponder\AutoresponderService;
 use ilMailTemplateService;
-use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Mail\Autoresponder\AutoresponderDatabaseRepository;
+use ilMailMimeSenderFactory;
 use ilMailTemplateRepository;
+use ilMailMimeTransportFactory;
 use ilMailTemplateServiceInterface;
+use ILIAS\Data\Factory as DataFactory;
+use ilMailTemplatePlaceholderResolver;
+use ILIAS\Mail\Autoresponder\AutoresponderService;
+use ILIAS\Mail\Autoresponder\AutoresponderServiceImpl;
+use ILIAS\Mail\Autoresponder\AutoresponderDatabaseRepository;
+use ILIAS\Mail\TemplateEngine\TemplateEngineFactoryInterface;
+use ILIAS\Mail\TemplateEngine\Mustache\MustacheTemplateEngineFactory;
 
 class MailService
 {
     public function __construct(protected Container $dic)
     {
-        if (!isset($this->dic[ilMailTemplateServiceInterface::class])) {
-            $this->dic[ilMailTemplateServiceInterface::class] = static function (Container $c): ilMailTemplateServiceInterface {
-                return new ilMailTemplateService(
-                    new ilMailTemplateRepository($c->database()),
-                    $c->mail()->mustacheFactory()
-                );
-            };
-        }
+    }
+
+    public static function init(Container $container): void
+    {
+        $container[self::class] = static function (Container $c): self {
+            return new self($c);
+        };
+
+        $container[ilMailTemplateServiceInterface::class] = static function (Container $c): ilMailTemplateServiceInterface {
+            return new ilMailTemplateService(
+                new ilMailTemplateRepository($c->database()),
+                $c->mail()->templateEngineFactory()
+            );
+        };
+
+        $container[TemplateEngineFactoryInterface::class] = static function (Container $c): TemplateEngineFactoryInterface {
+            return $c->mail()->templateEngineFactory();
+        };
+
+        $container[MimeMailService::class] = static function (Container $c): MimeMailService {
+            return new MimeMailService($c);
+        };
+
+        $container['mail.mime.transport.factory'] = static function (Container $c): ilMailMimeTransportFactory {
+            return new ilMailMimeTransportFactory($c->settings(), $c->event());
+        };
+
+        $container['mail.mime.sender.factory'] = static function (Container $c): ilMailMimeSenderFactory {
+            return new ilMailMimeSenderFactory(
+                $c->settings(),
+                $c->mail()->templateEngineFactory()
+            );
+        };
+
+        $container['mail.texttemplates.service'] = static function (Container $c): ilMailTemplateService {
+            return new ilMailTemplateService(
+                new ilMailTemplateRepository($c->database()),
+                $c->mail()->templateEngineFactory()
+            );
+        };
+
+        $container['mail.template.placeholder.resolver'] = static function (Container $c): ilMailTemplatePlaceholderResolver {
+            return new ilMailTemplatePlaceholderResolver(
+                $c->mail()->templateEngineFactory()->getBasicEngine()
+            );
+        };
+
+        $container[AutoresponderService::class] = static function (Container $c): AutoresponderService {
+            return new AutoresponderServiceImpl(
+                (int) $c->settings()->get(
+                    'mail_auto_responder_idle_time',
+                    (string) AutoresponderService::AUTO_RESPONDER_DEFAULT_IDLE_TIME
+                ),
+                false,
+                new AutoresponderDatabaseRepository($c->database()),
+                (new DataFactory())->clock()->utc()
+            );
+        };
+
+        $container[ilMailTemplatePlaceholderResolver::class] = static function (Container $c): ilMailTemplatePlaceholderResolver {
+            return new ilMailTemplatePlaceholderResolver(
+                $c->mail()->templateEngineFactory()->getBasicEngine()
+            );
+        };
+
+        $container['mail.template_engine.factory'] = static function (Container $c): MustacheTemplateEngineFactory {
+            return new MustacheTemplateEngineFactory();
+        };
+
+        $container['mail.signature.service'] = static function (Container $c): MailSignatureService {
+            return new MailSignatureService(
+                $c->mail()->templateEngineFactory(),
+                $c->clientIni(),
+                $c->language(),
+                $c->settings()
+            );
+        };
     }
 
     public function mime(): MimeMailService
     {
-        return new MimeMailService($this->dic);
+        return $this->dic[MimeMailService::class];
     }
 
     public function autoresponder(): AutoresponderService
     {
-        return new AutoresponderServiceImpl(
-            (int) $this->dic->settings()->get(
-                'mail_auto_responder_idle_time',
-                (string) AutoresponderService::AUTO_RESPONDER_DEFAULT_IDLE_TIME
-            ),
-            false,
-            new AutoresponderDatabaseRepository($this->dic->database()),
-            (new DataFactory())->clock()->utc()
-        );
+        return $this->dic[AutoresponderService::class];
     }
 
     public function textTemplates(): ilMailTemplateServiceInterface
@@ -66,30 +132,19 @@ class MailService
         return $this->dic[ilMailTemplateServiceInterface::class];
     }
 
-    public function placeholderResolver(): \ilMailTemplatePlaceholderResolver
+    public function placeholderResolver(): ilMailTemplatePlaceholderResolver
     {
-        return new \ilMailTemplatePlaceholderResolver(
-            $this->mustacheFactory()->getBasicEngine()
-        );
+        return $this->dic[ilMailTemplatePlaceholderResolver::class];
     }
 
-    public function placeholderToEmptyResolver(): \ilMailTemplatePlaceholderToEmptyResolver
-    {
-        return new \ilMailTemplatePlaceholderToEmptyResolver();
-    }
 
-    public function mustacheFactory(): \ilMustacheFactory
+    public function templateEngineFactory(): TemplateEngineFactoryInterface
     {
-        return new \ilMustacheFactory();
+        return $this->dic['mail.template_engine.factory'];
     }
 
     public function signature(): MailSignatureService
     {
-        return new MailSignatureService(
-            $this->mustacheFactory(),
-            $this->dic->clientIni(),
-            $this->dic->language(),
-            $this->dic->settings()
-        );
+        return $this->dic['mail.signature.service'];
     }
 }

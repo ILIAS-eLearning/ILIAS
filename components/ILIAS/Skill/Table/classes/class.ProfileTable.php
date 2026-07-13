@@ -111,8 +111,7 @@ class ProfileTable
         $table = $this->ui_fac->table()
                               ->data($data_retrieval, $this->lng->txt("skmg_skill_profiles"), $columns)
                               ->withId(
-                                  self::class . "_" .
-                                  $this->skill_tree_id
+                                  "pt_" . $this->skill_tree_id
                               )
                               ->withActions($actions)
                               ->withRequest($this->request);
@@ -123,7 +122,8 @@ class ProfileTable
     protected function getColumns(): array
     {
         $columns = [
-            "title" => $this->ui_fac->table()->column()->link($this->lng->txt("title")),
+            "title" => $this->ui_fac->table()->column()->link($this->lng->txt("title"))
+                ->withIsSortable(true),
             "context" => $this->ui_fac->table()->column()->text($this->lng->txt("context"))
                                       ->withIsSortable(false),
             "users" => $this->ui_fac->table()->column()->text($this->lng->txt("users"))
@@ -205,8 +205,17 @@ class ProfileTable
                 mixed $filter_data,
                 mixed $additional_parameters
             ): \Generator {
-                $records = $this->getRecords($range, $order);
-                foreach ($records as $idx => $record) {
+                [$column_name, $direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
+                $comparator = function (array $f1, array $f2) {
+                    return strcmp($f1['title']->getLabel(), $f2['title']->getLabel());
+                };
+                $rows = $this->getRecords($range, $order);
+                uasort($rows, $comparator);
+                if ($direction === "DESC") {
+                    $rows = array_reverse($rows, true);
+                }
+                $rows = array_slice($rows, $range->getStart(), $range->getLength(), true);
+                foreach ($rows as $idx => $record) {
                     $row_id = (string) $record["profile_id"];
 
                     yield $row_builder->buildDataRow($row_id, $record);

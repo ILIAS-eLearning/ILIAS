@@ -1030,30 +1030,33 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->test_result_repository->updateTestResultCache($this->test_session->getActiveId());
     }
 
-    protected function afterTestPassFinishedCmd()
+    protected function afterTestPassFinishedCmd(): void
     {
         // show final statement
-        if (!$this->testrequest->isset('skipfinalstatement')) {
-            if ($this->object->getMainSettings()->getFinishingSettings()->getConcludingRemarksEnabled()) {
-                $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_FINAL_STATMENT);
-            }
+        if (!$this->testrequest->isset('skipfinalstatement')
+            && $this->object->getMainSettings()->getFinishingSettings()->getConcludingRemarksEnabled()) {
+            $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_FINAL_STATMENT);
+        }
+
+        if ($this->object->canShowTestResults($this->test_session)) {
+            $this->redirectBackCmd();
         }
 
         // redirect after test
         $redirection_mode = $this->object->getMainSettings()->getFinishingSettings()->getRedirectionMode();
+        if ($redirection_mode === RedirectionModes::ALWAYS_TO_LOGOUT) {
+            $this->ctrl->redirectToURL(ilStartUpGUI::logoutUrl());
+        }
+
         $redirection_url = $this->object->getMainSettings()->getFinishingSettings()->getRedirectionUrl();
         if (empty($redirection_url)
-            || $this->object->canShowTestResults($this->test_session)
             || $redirection_mode === RedirectionModes::NONE
-            || $redirection_mode === RedirectionModes::IF_KIOSK_ACTIVATED && !$this->object->getKioskMode()) {
+            || $redirection_mode === RedirectionModes::IF_KIOSK_ACTIVATED
+                && !$this->object->getKioskMode()) {
             $this->redirectBackCmd();
         }
 
-        if ($redirection_mode === RedirectionModes::ALWAYS_TO_LOGOUT) {
-            $redirection_url = ilStartUpGUI::logoutUrl();
-        }
-
-        ilUtil::redirect($redirection_url);
+        $this->ctrl->redirectToURL($redirection_url);
     }
 
     public function buildFinishTestModal(): InterruptiveModal
@@ -1949,87 +1952,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->ctrl->saveParameter($this, "pass");
         $this->ctrl->saveParameter($this, "active_id");
         $this->tpl->setVariable("URL_BACK", $this->ctrl->getLinkTarget($this, "outUserResultsOverview"));
-        $this->tpl->parseCurrentBlock();
-    }
-
-    /**
-    * Creates an output of the list of answers for a test participant during the test
-    * (only the actual pass will be shown)
-    *
-    * @param integer $active_id Active id of the participant
-    * @param integer $pass Test pass of the participant
-    * @param boolean $testnavigation Deceides wheather to show a navigation for tests or not
-    * @access public
-    */
-    public function showListOfAnswers($active_id, $pass = null, $top_data = "", $bottom_data = "")
-    {
-        $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_finish_list_of_answers.html", "components/ILIAS/Test");
-
-        $result_array = $this->object->getTestResult(
-            $active_id,
-            $pass,
-            false,
-            !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()
-        );
-
-        $counter = 1;
-        // output of questions with solutions
-        foreach ($result_array as $question_data) {
-            $question = $question_data["qid"];
-            if (is_numeric($question)) {
-                $this->tpl->setCurrentBlock("printview_question");
-                $question_gui = $this->object->createQuestionGUI("", $question);
-                $template = new ilTemplate("tpl.il_as_qpl_question_printview.html", true, true, "components/ILIAS/TestQuestionPool");
-                $template->setVariable("COUNTER_QUESTION", $counter . ". ");
-                $template->setVariable("QUESTION_TITLE", $question_gui->getObject()->getTitleForHTMLOutput());
-
-                $show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? true : false;
-                $result_output = $question_gui->getSolutionOutput(
-                    $active_id,
-                    $pass,
-                    false,
-                    false,
-                    $show_question_only,
-                    $this->object->getShowSolutionFeedback()
-                );
-                $template->setVariable("SOLUTION_OUTPUT", $result_output);
-                $this->tpl->setVariable("QUESTION_OUTPUT", $template->get());
-                $this->tpl->parseCurrentBlock();
-                $counter++;
-            }
-        }
-
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css"), "print");
-        if ($this->object->getShowSolutionAnswersOnly()) {
-            $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css"), "print");
-        }
-        if (strlen($top_data)) {
-            $this->tpl->setCurrentBlock("top_data");
-            $this->tpl->setVariable("TOP_DATA", $top_data);
-            $this->tpl->parseCurrentBlock();
-        }
-
-        if (strlen($bottom_data)) {
-            $this->tpl->setCurrentBlock("bottom_data");
-            $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-            $this->tpl->setVariable("BOTTOM_DATA", $bottom_data);
-            $this->tpl->parseCurrentBlock();
-        }
-
-        $this->tpl->setCurrentBlock("adm_content");
-        $this->tpl->setVariable("TXT_ANSWER_SHEET", $this->lng->txt("tst_list_of_answers"));
-        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($this->test_session, $active_id, true);
-        $signature = $this->getResultsSignature();
-        $this->tpl->setVariable("USER_DETAILS", $user_data);
-        $this->tpl->setVariable("SIGNATURE", $signature);
-        $this->tpl->setVariable("TITLE", $this->object->getTitle());
-        $this->tpl->setVariable("TXT_TEST_PROLOG", $this->lng->txt("tst_your_answers"));
-        $invited_user = &$this->object->getInvitedUsers($this->user->getId());
-        $pagetitle = $this->object->getTitle() . ' - ' . $this->lng->txt('clientip') .
-            ': ' . $_SERVER['REMOTE_ADDR'] . ' - ' .
-            $this->lng->txt('matriculation') . ': ' .
-            $invited_user[$this->user->getId()]['matriculation'];
-        $this->tpl->setVariable('PAGETITLE', $pagetitle);
         $this->tpl->parseCurrentBlock();
     }
 

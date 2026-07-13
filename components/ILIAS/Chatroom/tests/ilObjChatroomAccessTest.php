@@ -55,6 +55,7 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTestBase
 
         $chatroomSettings = $this->createMock(ilDBStatement::class);
         $chatroomSettings
+            ->expects($this->exactly(2))
             ->method('fetchAssoc')
             ->willReturnOnConsecutiveCalls(
                 [
@@ -65,10 +66,12 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTestBase
             );
 
         $this->db
+            ->expects($this->atLeastOnce())
             ->method('fetchAssoc')
             ->willReturnCallback(static fn(ilDBStatement $statement) => $statement->fetchAssoc());
 
         $this->db
+            ->expects($this->once())
             ->method('query')
             ->with($this->stringContains("FROM settings WHERE module='chatroom'", false))
             ->willReturn($chatroomSettings);
@@ -77,15 +80,17 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTestBase
         $rbacsystem = $this->getMockBuilder(ilRbacSystem::class)->disableOriginalConstructor()->onlyMethods(
             ['checkAccess', 'checkAccessOfUser']
         )->getMock();
-        $rbacsystem->method('checkAccess')->with(
-            $this->logicalOr($this->equalTo('read'), $this->equalTo('visible')),
-            $this->equalTo('1')
-        )->willReturn(false);
-        $rbacsystem->method('checkAccessOfUser')->with(
-            $this->equalTo(6),
-            $this->logicalOr($this->equalTo('read'), $this->equalTo('visible')),
-            $this->equalTo('1')
-        )->willReturn(false);
+        $rbacsystem
+            ->expects($this->never())
+            ->method('checkAccess');
+        $rbacsystem
+            ->expects($this->atLeastOnce())
+            ->method('checkAccessOfUser')
+            ->with(
+                $this->equalTo(6),
+                $this->logicalOr($this->equalTo('read'), $this->equalTo('visible')),
+                $this->equalTo('1')
+            )->willReturn(false);
 
         $this->setGlobalVariable('rbacsystem', $rbacsystem);
 
@@ -109,6 +114,7 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTestBase
 
         $chatroomSettings = $this->createMock(ilDBStatement::class);
         $chatroomSettings
+            ->expects($this->exactly(2))
             ->method('fetchAssoc')
             ->willReturnOnConsecutiveCalls(
                 [
@@ -119,10 +125,12 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTestBase
             );
 
         $this->db
+            ->expects($this->atLeastOnce())
             ->method('fetchAssoc')
             ->willReturnCallback(static fn(ilDBStatement $statement) => $statement->fetchAssoc());
 
         $this->db
+            ->expects($this->once())
             ->method('query')
             ->with($this->stringContains("FROM settings WHERE module='chatroom'", false))
             ->willReturn($chatroomSettings);
@@ -131,15 +139,17 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTestBase
         $rbacsystem = $this->getMockBuilder(ilRbacSystem::class)->disableOriginalConstructor()->onlyMethods(
             ['checkAccess', 'checkAccessOfUser']
         )->getMock();
-        $rbacsystem->method('checkAccess')->with(
-            $this->logicalOr($this->equalTo('read'), $this->equalTo('visible'), $this->equalTo('write')),
-            $this->equalTo('5')
-        )->willReturn(true);
-        $rbacsystem->method('checkAccessOfUser')->with(
-            $this->equalTo(6),
-            $this->logicalOr($this->equalTo('read'), $this->equalTo('visible'), $this->equalTo('write')),
-            $this->equalTo('5')
-        )->willReturn(true);
+        $rbacsystem
+            ->expects($this->never())
+            ->method('checkAccess');
+        $rbacsystem
+            ->expects($this->atLeastOnce())
+            ->method('checkAccessOfUser')
+            ->with(
+                $this->equalTo(6),
+                $this->logicalOr($this->equalTo('read'), $this->equalTo('visible'), $this->equalTo('write')),
+                $this->equalTo('5')
+            )->willReturn(true);
 
         $this->setGlobalVariable('rbacsystem', $rbacsystem);
 
@@ -211,7 +221,6 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTestBase
 
         $settingsReflection = new ReflectionClass(ilSetting::class);
         $cache = $settingsReflection->getProperty('settings_cache');
-        $cache->setAccessible(true);
         $cache->setValue($settingsReflection, []);
 
         $this->access = new ilObjChatroomAccess();

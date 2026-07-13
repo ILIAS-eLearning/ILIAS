@@ -29,6 +29,12 @@ div.ilContainerListItemOuter {
 	}
 }
 
+.ilContainerItemsContainer {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
 div.tblfooter {
 	&.ilContainerListFooter {
 		font-size: $il-font-size-base;

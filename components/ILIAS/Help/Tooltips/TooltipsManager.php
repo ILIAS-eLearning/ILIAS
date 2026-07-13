@@ -49,10 +49,19 @@ class TooltipsManager
         return $this->gd_admin->areIdentifiersVisible();
     }
 
-    public function getTooltipPresentationText(
-        string $a_tt_id
-    ): string {
+    public function areTooltipsVisible(): bool
+    {
+        return $this->gd_admin->areIdentifiersVisible() ||
+            $this->isTooltipMainTextVisible();
+    }
 
+    public function areSubMenuTooltipsVisible(): bool
+    {
+        return $this->isTooltipMainTextVisible();
+    }
+
+    protected function isTooltipMainTextVisible(): bool
+    {
         $show_main_text = true;
         if ($this->user->getLanguage() !== "de") {
             $show_main_text = false;
@@ -65,6 +74,14 @@ class TooltipsManager
         if ($this->user->getPref("hide_help_tt")) {
             $show_main_text = false;
         }
+        return $show_main_text;
+    }
+
+    public function getTooltipPresentationText(
+        string $a_tt_id
+    ): string {
+
+        $show_main_text = $this->isTooltipMainTextVisible();
 
         if (!$show_main_text) {
             if ($this->isTooltipIdentifierVisible()) {
@@ -73,7 +90,6 @@ class TooltipsManager
                 return "";
             }
         }
-
         if ($this->domain->module()->isAuthoringMode()) {
             $module_ids = [0];
         } else {
@@ -104,7 +120,7 @@ class TooltipsManager
     public function getMainMenuTooltip(
         string $a_item_id
     ): string {
-        return $this->getTooltipPresentationText($a_item_id);
+        return $a_item_id;
     }
 
     public function getAllTooltips(

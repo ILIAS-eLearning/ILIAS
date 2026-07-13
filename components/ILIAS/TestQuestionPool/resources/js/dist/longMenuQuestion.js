@@ -225,8 +225,9 @@ var longMenuQuestion = (function () {
 
 	pro.selectChangeFunction = function (that)
 	{
-		var question_id = parseInt(that.attr('data-id'), 10);
-		pub.questionParts.list[question_id][2] = that.val();
+    var question_id = parseInt(that.attr('data-id'), 10);
+    pub.questionParts.list[question_id][2] = parseInt(that.val(), 10);
+    pro.syncWithHiddenTextField();
 	};
 
 	pro.answerOptionsClickFunction = function (that)
@@ -485,9 +486,9 @@ var longMenuQuestion = (function () {
 	};
 	pro.appendAbstractCloneButtonEvent = function(classElement, eventCallback)
 	{
-		var button 	= $(classElement + ' a');
+		var button 	= $(classElement).find('a, button');
 		button.off( 'click');
-		button.on( 'click', function() {
+		button.on( 'click', function(e) {
 			var gap_id = $(this).parent().parent().prev().attr('data-id');
 			let question_id = $('#' + pub.gap_modal_id + ' .modal-title').attr('data-id');
 			if (typeof eventCallback === 'function') {
@@ -534,7 +535,7 @@ var longMenuQuestion = (function () {
 	{
 		var button 	= $(classElement);
 		button.off( 'click');
-		button.on( 'click', function() {
+		button.on( 'click', function(e) {
 			if (typeof eventCallback === 'function') {
 				eventCallback();
 			}
@@ -601,7 +602,7 @@ var longMenuQuestion = (function () {
 
 	pro.sliceInNewQuestionPart = function (gap_id)
 	{
-		pub.questionParts.list.splice(gap_id, 0,  [[], '0', '1']);
+		pub.questionParts.list.splice(gap_id, 0,  [[], '0', 1]);
 		pub.answers.splice(gap_id,0,[]);
 		pro.redrawFormParts();
 		pro.syncWithHiddenTextField();
@@ -680,7 +681,7 @@ var longMenuQuestion = (function () {
 		{
 			pub.questionParts.list = [];
 		}
-		pub.questionParts.list[gap_id] = [[], '0', '1'];
+		pub.questionParts.list[gap_id] = [[], '0', 1];
 	};
 
 	//Public property

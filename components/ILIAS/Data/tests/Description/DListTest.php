@@ -28,6 +28,7 @@ use ILIAS\Data\Description\Description;
 use ILIAS\Data\Description\DValue;
 use ILIAS\Data\Description\DList;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class DListTest extends TestCase
 {
@@ -43,9 +44,7 @@ class DListTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider obviousNoMatchProvider
-     */
+    #[DataProvider('obviousNoMatchProvider')]
     public function testObviouslyNotMatching($data): void
     {
         $res = $this->l->getPrimitiveRepresentation($data);
@@ -113,7 +112,7 @@ class DListTest extends TestCase
 
         $this->v
             ->method("getPrimitiveRepresentation")
-            ->will($this->returnCallback(fn($v) => $v));
+            ->willReturnCallback(fn($v) => $v);
 
         $res = $this->l->getPrimitiveRepresentation($data);
 

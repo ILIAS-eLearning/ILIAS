@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Results\Data\Repository as TestResultRepository;
 use ILIAS\Test\Scoring\Manual\TestScoring;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
@@ -51,6 +52,7 @@ class ilTestCorrectionsGUI
         private readonly RequestDataCollector $testrequest,
         private readonly ilObjTest $test_obj,
         private readonly ilObjUser $scorer,
+        private readonly TestResultRepository $test_result_repository,
     ) {
         $question_id = $this->testrequest->getQuestionId();
         if ($question_id !== 0) {
@@ -102,7 +104,7 @@ class ilTestCorrectionsGUI
             $this->test_obj,
             $this->scorer,
             $this->database,
-            $this->language
+            $this->test_result_repository
         );
         $scoring->setQuestionId($question_gui->getObject()->getId());
 
@@ -123,7 +125,7 @@ class ilTestCorrectionsGUI
             $this->test_obj,
             $this->scorer,
             $this->database,
-            $this->language
+            $this->test_result_repository
         );
         $scoring->setQuestionId($this->question_gui->getObject()->getId());
 
@@ -168,7 +170,7 @@ class ilTestCorrectionsGUI
             $this->test_obj,
             $this->scorer,
             $this->database,
-            $this->language
+            $this->test_result_repository
         );
         $scoring->setPreserveManualScores(false);
         $scoring->setQuestionId($question_gui->getObject()->getId());
@@ -212,7 +214,7 @@ class ilTestCorrectionsGUI
         );
 
         $page_gui->setQuestionHTML([$question_gui->getObject()->getId() => $solution_html]);
-        $page_gui->setPresentationTitle($question_gui->getObject()->getTitleForHTMLOutput());
+        $page_gui->setPresentationTitle($question_gui->getObject()->getTitle());
 
         $tpl = new ilTemplate('tpl.tst_corrections_solution_presentation.html', true, true, 'components/ILIAS/Test');
         $tpl->setVariable('SOLUTION_PRESENTATION', $page_gui->preview());
@@ -297,7 +299,7 @@ class ilTestCorrectionsGUI
             $this->test_obj,
             $this->scorer,
             $this->database,
-            $this->language
+            $this->test_result_repository
         );
         $scoring->setPreserveManualScores(true);
         $scoring->setQuestionId($question_index);

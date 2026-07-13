@@ -451,7 +451,13 @@ class IRSSWrapper
         string $rid,
         string $entry
     ): bool {
+        if ($rid === "") {
+            return false;
+        }
         $zip_path = $this->stream($rid)?->getMetadata("uri");
+        if (is_null($zip_path)) {
+            return false;
+        }
         try {
             $stream = Streams::ofFileInsideZIP(
                 $zip_path,

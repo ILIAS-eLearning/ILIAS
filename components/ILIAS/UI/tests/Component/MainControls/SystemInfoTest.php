@@ -34,6 +34,8 @@ require_once(__DIR__ . "/../../Base.php");
  */
 class SystemInfoTest extends ILIAS_UI_TestBase
 {
+    use LanguageStubs;
+
     private SignalGenerator $sig_gen;
 
     public function setUp(): void
@@ -51,7 +53,7 @@ class SystemInfoTest extends ILIAS_UI_TestBase
 
         // Neutral
         $expected = <<<EOT
-<div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="" aria-live="polite" aria-labelledby="id_headline" aria-describedby="id_description">
+<div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="" role="status" aria-live="polite" aria-labelledby="id_headline" aria-describedby="id_description">
     <div class="il-system-info-content-wrapper">
         <div class="il-system-info-content">
             <div id="id_headline" class="il-system-info-headline">$headline</div>
@@ -60,7 +62,7 @@ class SystemInfoTest extends ILIAS_UI_TestBase
     </div>
     <div class="il-system-info-actions">
         <span class="il-system-info-more">
-            <a tabindex="0" class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
+            <button class="btn btn-link" aria-label="show_more" data-action=""><span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span></button>
         </span>
         <span class="il-system-info-close"></span>
     </div>
@@ -84,7 +86,7 @@ EOT;
 
         // Neutral
         $expected = <<<EOT
-<div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="" aria-live="polite" aria-labelledby="id_headline" aria-describedby="id_description">
+<div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="" role="status" aria-live="polite" aria-labelledby="id_headline" aria-describedby="id_description">
     <div class="il-system-info-content-wrapper">
         <div class="il-system-info-content">
             <div id="id_headline" class="il-system-info-headline">$headline</div>
@@ -93,7 +95,7 @@ EOT;
     </div>
     <div class="il-system-info-actions">
         <span class="il-system-info-more">
-            <a tabindex="0" class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
+            <button class="btn btn-link" aria-label="show_more" data-action=""><span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span></button>
         </span>
         <span class="il-system-info-close"></span>
     </div>
@@ -117,7 +119,7 @@ EOT;
 
         $actual = $r->render($system_info);
         $expected = <<<EOT
-<div id="id" class="container-fluid il-system-info il-system-info-important" data-close-uri="" aria-live="polite" aria-labelledby="id_headline" aria-describedby="id_description">
+<div id="id" class="container-fluid il-system-info il-system-info-important" data-close-uri="" role="status" aria-live="polite" aria-labelledby="id_headline" aria-describedby="id_description">
     <div class="il-system-info-content-wrapper">
         <div class="il-system-info-content">
             <div id="id_headline" class="il-system-info-headline">$headline</div>
@@ -126,7 +128,7 @@ EOT;
     </div>
     <div class="il-system-info-actions">
         <span class="il-system-info-more">
-            <a tabindex="0" class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
+            <button class="btn btn-link" aria-label="show_more" data-action=""><span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span></button>
         </span>
         <span class="il-system-info-close"></span>
     </div>
@@ -158,7 +160,7 @@ EOT;
     </div>
     <div class="il-system-info-actions">
         <span class="il-system-info-more">
-            <a tabindex="0" class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
+            <button class="btn btn-link" aria-label="show_more" data-action=""><span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span></button>
         </span>
         <span class="il-system-info-close"></span>
     </div>
@@ -184,7 +186,7 @@ EOT;
             ->withDismissAction($action);
 
         $expected = <<<EOT
-<div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="$uri_string" aria-live="polite" aria-labelledby="id_headline" aria-describedby="id_description">
+<div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="$uri_string" role="status" aria-live="polite" aria-labelledby="id_headline" aria-describedby="id_description">
     <div class="il-system-info-content-wrapper">
         <div class="il-system-info-content">
             <div id="id_headline" class="il-system-info-headline">$headline</div>
@@ -193,9 +195,9 @@ EOT;
     </div>
     <div class="il-system-info-actions">
         <span class="il-system-info-more">
-            <a tabindex="0" class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
+            <button class="btn btn-link" aria-label="show_more" data-action=""><span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span></button>
         </span>
-        <span class="il-system-info-close"><a tabindex="0" class="glyph" href="#" aria-label="close" id="id"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></span>
+        <span class="il-system-info-close"><button class="btn btn-link" aria-label="close" id="id"><span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span></button></span>
     </div>
 </div>
 EOT;
@@ -233,11 +235,12 @@ EOT;
 
     public function getUIFactory(): NoUIFactory
     {
-        $factory = new class () extends NoUIFactory {
+        $factory = new class ($this->createRelayArgumentLanguageStub()) extends NoUIFactory {
             public SignalGenerator $sig_gen;
 
-            public function __construct()
-            {
+            public function __construct(
+                protected \ILIAS\Language\Language $language,
+            ) {
                 $this->sig_gen = new SignalGenerator();
             }
 
@@ -245,7 +248,7 @@ EOT;
             {
                 return new Factory(
                     new \ILIAS\UI\Implementation\Component\Symbol\Icon\Factory(),
-                    new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory(),
+                    new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory($this->language),
                     new \ILIAS\UI\Implementation\Component\Symbol\Avatar\Factory()
                 );
             }
@@ -264,6 +267,35 @@ EOT;
         };
         $factory->sig_gen = $this->sig_gen;
 
-        return $factory;
+        $factory_with_button = new class ($factory) extends NoUIFactory {
+            private $inner;
+
+            public function __construct($inner)
+            {
+                $this->inner = $inner;
+            }
+
+            public function symbol(): ILIAS\UI\Implementation\Component\Symbol\Factory
+            {
+                return $this->inner->symbol();
+            }
+
+            public function mainControls(): \ILIAS\UI\Implementation\Component\MainControls\Factory
+            {
+                return $this->inner->mainControls();
+            }
+
+            public function button(): \ILIAS\UI\Implementation\Component\Button\Factory
+            {
+                return new \ILIAS\UI\Implementation\Component\Button\Factory();
+            }
+
+            public function link(): \ILIAS\UI\Implementation\Component\Link\Factory
+            {
+                return new \ILIAS\UI\Implementation\Component\Link\Factory();
+            }
+        };
+
+        return $factory_with_button;
     }
 }

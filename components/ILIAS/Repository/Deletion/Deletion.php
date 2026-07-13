@@ -118,23 +118,16 @@ class Deletion
                     "old_parent_ref_id" => $node["parent"]
                 ];
 
-                // this is due to bug #1860 (even if this will not completely fix it)
-                // and the fact, that media pool folders may find their way into
-                // the recovery folder (what results in broken pools, if the are deleted)
-                // Alex, 2006-07-21
-                if (!$direct_from_tree || $node_obj->getType() !== "fold") {
-                    try {
-                        $node_obj->delete();
-                    } catch (\Exception $e) {
-                        $this->event->failedRemoval(
-                            $node_obj->getId(),
-                            $node_obj->getRefId(),
-                            $node_obj->getType(),
-                            $node_obj->getTitle(),
-                            $e->getMessage()
-                        );
-                    }
-
+                try {
+                    $node_obj->delete();
+                } catch (\Exception $e) {
+                    $this->event->failedRemoval(
+                        $node_obj->getId(),
+                        $node_obj->getRefId(),
+                        $node_obj->getType(),
+                        $node_obj->getTitle(),
+                        $e->getMessage()
+                    );
                 }
             }
 

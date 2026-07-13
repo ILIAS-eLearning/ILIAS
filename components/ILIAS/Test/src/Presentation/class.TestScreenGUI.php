@@ -21,20 +21,19 @@ declare(strict_types=1);
 namespace ILIAS\Test\Presentation;
 
 use ILIAS\Test\Access\ParticipantAccess;
-use ILIAS\Test\Presentation\TabsManager;
+use ILIAS\Test\Logging\TestParticipantInteractionTypes;
 use ILIAS\Test\Settings\MainSettings\MainSettings;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Link;
-use ILIAS\Data\Result;
 use ILIAS\Data\Password;
+use ILIAS\Data\Result;
+use ILIAS\Test\Settings\MainSettings\SettingsMainGUI;
 use ILIAS\UI\Component\Launcher\Launcher;
-use ILIAS\UI\Component\Launcher\Factory as LauncherFactory;
 use ILIAS\UI\Component\MessageBox\MessageBox;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Test\Logging\TestParticipantInteractionTypes;
 use ILIAS\Style\Content\Service as ContentStyle;
 
 /**
@@ -116,11 +115,46 @@ class TestScreenGUI
         $elements = $this->handleRenderMessageBox($elements);
         $elements = $this->handleRenderIntroduction($elements);
 
+        if ($this->testCanBeStarted()) {
+            $this->tpl->setContent(
+                $this->ui_renderer->render(
+                    $this->handleRenderLauncher(
+                        $elements
+                    )
+                )
+            );
+            return;
+        }
+
         $this->tpl->setContent(
             $this->ui_renderer->render(
-                $this->testCanBeStarted() ? $this->handleRenderLauncher($elements) : $elements
+                $this->addOfflineMessageBoxIfNecessary(
+                    $elements
+                )
             )
         );
+    }
+
+    private function addOfflineMessageBoxIfNecessary(array $elements): array
+    {
+        if (!$this->object->getOfflineStatus()) {
+            return $elements;
+        }
+
+        $offline_message_box = $this->ui_factory->messageBox()->info($this->lng->txt('test_is_offline'));
+
+        if (!$this->access->checkAccess('write', '', $this->object->getRefId())) {
+            $elements[] = $offline_message_box;
+            return $elements;
+        }
+
+        $elements[] = $offline_message_box->withLinks([
+            $this->ui_factory->link()->standard(
+                $this->lng->txt('test_edit_settings'),
+                $this->ctrl->getLinkTargetByClass(SettingsMainGUI::class)
+            )
+        ]);
+        return $elements;
     }
 
     private function handleRenderMessageBox(array $elements): array
@@ -291,11 +325,10 @@ class TestScreenGUI
 
     private function getResumeLauncherLink(): Link
     {
-        $url = $this->ctrl->getLinkTarget(
-            (new \ilTestPlayerFactory($this->object))->getPlayerGUI(),
-            \ilTestPlayerCommands::RESUME_PLAYER
+        return $this->data_factory->link(
+            $this->lng->txt('tst_resume_test'),
+            $this->buildLauncherLinkUrl(\ilTestPlayerCommands::RESUME_PLAYER)
         );
-        return $this->data_factory->link($this->lng->txt('tst_resume_test'), $this->data_factory->uri(ILIAS_HTTP_PATH . '/' . $url));
     }
 
     private function buildModalLauncher(): Launcher
@@ -315,13 +348,18 @@ class TestScreenGUI
             && $request->getQueryParams()[$key] === 'exam_modal') {
             $launcher = $launcher->withRequest($request);
         }
+
         return $launcher;
     }
 
     private function getModalLauncherLink(): Link
     {
-        $uri = $this->data_factory->uri($this->http->request()->getUri()->__toString())->withParameter('launcher_id', 'exam_modal');
-        return $this->data_factory->link($this->lng->txt('tst_exam_start'), $uri);
+        return $this->data_factory->link(
+            $this->lng->txt('tst_exam_start'),
+            $this->data_factory->uri(
+                $this->http->request()->getUri()->__toString()
+            )->withParameter('launcher_id', 'exam_modal')
+        );
     }
 
     private function getModalLauncherInputs(): array
@@ -330,7 +368,13 @@ class TestScreenGUI
             $modal_inputs['exam_conditions'] = $this->ui_factory->input()->field()->checkbox(
                 $this->lng->txt('tst_exam_conditions'),
                 $this->lng->txt('tst_exam_conditions_label')
-            )->withRequired(true);
+            )->withRequired(true)
+            ->withAdditionalTransformation(
+                $this->refinery->custom()->constraint(
+                    static fn(bool $value): bool => $value,
+                    $this->lng->txt('tst_exam_conditions_not_checked_message'),
+                )
+            );
         }
 
         if ($this->main_settings->getAccessSettings()->getPasswordEnabled()) {
@@ -340,10 +384,9 @@ class TestScreenGUI
             )->withRevelation(true)
             ->withRequired(true)
             ->withAdditionalTransformation(
-                $this->refinery->custom()->transformation(
-                    static function (Password $value): string {
-                        return $value->toString();
-                    }
+                $this->refinery->custom()->constraint(
+                    fn(Password $value): bool => $value->toString() === $this->main_settings->getAccessSettings()->getPassword(),
+                    $this->lng->txt('tst_exam_password_invalid_message'),
                 )
             );
         }
@@ -352,6 +395,11 @@ class TestScreenGUI
             $access_code_input = $this->ui_factory->input()->field()->text(
                 $this->lng->txt('tst_exam_access_code'),
                 $this->lng->txt('tst_exam_access_code_label')
+            )->withAdditionalTransformation(
+                $this->refinery->custom()->constraint(
+                    fn(string $value): bool => $value === '' || $this->test_session->isAccessCodeUsed($value),
+                    $this->lng->txt('tst_exam_access_code_invalid_message'),
+                )
             );
 
             $access_code_from_session = $this->test_session->getAccessCodeFromSession();
@@ -362,11 +410,17 @@ class TestScreenGUI
             $modal_inputs['exam_access_code'] = $access_code_input;
         }
 
-        if ($this->main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed()
-            && $this->test_passes_selector->getLastFinishedPass() >= 0) {
+        if (
+            $this->test_passes_selector->getLastFinishedPass() >= 0
+            && $this->main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed()
+        ) {
             $modal_inputs['exam_use_previous_answers'] = $this->ui_factory->input()->field()->checkbox(
                 $this->lng->txt('tst_exam_use_previous_answers'),
                 $this->lng->txt('tst_exam_use_previous_answers_label')
+            )->withAdditionalTransformation(
+                $this->refinery->custom()->transformation(
+                    static fn(bool $value): string => $value ? '1' : '0'
+                )
             );
         }
 
@@ -391,104 +445,77 @@ class TestScreenGUI
 
     private function getStartLauncherLink(): Link
     {
-        $url = $this->ctrl->getLinkTarget(
-            (new \ilTestPlayerFactory($this->object))->getPlayerGUI(),
-            \ilTestPlayerCommands::INIT_TEST
+        return $this->data_factory->link(
+            $this->lng->txt('tst_exam_start'),
+            $this->buildLauncherLinkUrl(\ilTestPlayerCommands::INIT_TEST)
         );
-        return $this->data_factory->link($this->lng->txt('tst_exam_start'), $this->data_factory->uri(ILIAS_HTTP_PATH . '/' . $url));
+    }
+
+    private function buildLauncherLinkUrl(
+        string $cmd
+    ): \ILIAS\Data\URI {
+        return $this->data_factory->uri(
+            ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
+                [
+                    \ilRepositoryGUI::class,
+                    \ilObjTestGUI::class,
+                    $this->object->isFixedTest()
+                        ? \ilTestPlayerFixedQuestionSetGUI::class
+                        : \ilTestPlayerRandomQuestionSetGUI::class
+                ],
+                $cmd
+            )
+        );
     }
 
     private function evaluateLauncherModalForm(Result $result): void
     {
-        if ($result->isOK()) {
-            $conditions_met = true;
-            $message = '';
-            $access_settings_password = $this->main_settings->getAccessSettings()->getPassword();
-            $anonymous = $this->user->isAnonymous();
-            foreach ($result->value() as $key => $value) {
-
-                switch ($key) {
-                    case 'exam_conditions':
-                        $exam_conditions_value = (bool) $value;
-                        if (!$exam_conditions_value) {
-                            $conditions_met = false;
-                            $message .= $this->lng->txt('tst_exam_conditions_not_checked_message') . '<br>';
-                        }
-                        break;
-                    case 'exam_password':
-                        $password = $value;
-                        $exam_password_valid = ($password === $access_settings_password);
-                        if (!$exam_password_valid) {
-                            $conditions_met = false;
-                            $message .= $this->lng->txt('tst_exam_password_invalid_message') . '<br>';
-                            if ($this->object->getTestLogger()->isLoggingEnabled()
-                                && !$this->object->getAnonymity()) {
-                                $logger = $this->object->getTestLogger();
-                                $logger->logParticipantInteraction(
-                                    $logger->getInteractionFactory()->buildParticipantInteraction(
-                                        $this->ref_id,
-                                        null,
-                                        $this->user->getId(),
-                                        $_SERVER['REMOTE_ADDR'],
-                                        TestParticipantInteractionTypes::WRONG_TEST_PASSWORD_PROVIDED,
-                                        []
-                                    )
-                                );
-                            }
-                        }
-                        $this->password_checker->setUserEnteredPassword($password);
-                        break;
-                    case 'exam_access_code':
-                        if ($anonymous && !empty($value)) {
-                            $this->test_session->setAccessCodeToSession($value);
-                        } else {
-                            $this->test_session->unsetAccessCodeInSession();
-                        }
-                        break;
-                    case 'exam_use_previous_answers':
-                        $exam_use_previous_answers_value = (string) (int) $value;
-                        break;
-                }
-            }
-
-            if ($message !== '') {
-                $this->tpl->setOnScreenMessage(\ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $message, true);
-            }
-
-            if (empty($result->value())) {
-                $this->tpl->setOnScreenMessage(
-                    \ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
-                    $this->lng->txt('tst_exam_required_fields_not_filled_message'),
-                    true
-                );
-            } elseif ($conditions_met) {
-                if (
-                    !$anonymous &&
-                    $this->main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed()
-                ) {
-                    $this->user->setPref('tst_use_previous_answers', $exam_use_previous_answers_value ?? '0');
-                    $this->user->update();
-                }
-
-                if (isset($password) && $password === $access_settings_password) {
-                    \ilSession::set('tst_password_' . $this->object->getTestId(), $password);
-                } else {
-                    \ilSession::set('tst_password_' . $this->object->getTestId(), '');
-                    $this->test_session->setPasswordChecked(false);
-                }
-
-                $this->ctrl->redirectByClass(
-                    (new \ilTestPlayerFactory($this->object))->getPlayerGUI()::class,
-                    \ilTestPlayerCommands::INIT_TEST
-                );
-            }
-        } else {
-            $this->tpl->setOnScreenMessage(
-                \ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
-                $this->lng->txt('tst_exam_required_fields_not_filled_message'),
-                true
-            );
+        if ($result->isError()) {
+            return;
         }
+
+        $anonymous = $this->user->isAnonymous();
+        if (array_key_exists('exam_access_code', $result->value())) {
+            $value = $result->value()['exam_access_code'];
+            if ($anonymous && !empty($value)) {
+                $this->test_session->setAccessCodeToSession($value);
+            } else {
+                $this->test_session->unsetAccessCodeInSession();
+            }
+        }
+
+        if (
+            !$anonymous &&
+            $this->main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed()
+        ) {
+            $this->user->setPref(
+                'tst_use_previous_answers',
+                $result->value()['exam_use_previous_answers'] ?? '0'
+            );
+            $this->user->update();
+        }
+
+        if ($this->main_settings->getAccessSettings()->getPasswordEnabled()) {
+            $this->checkPassword($result);
+        }
+
+        $this->ctrl->redirectByClass(
+            (new \ilTestPlayerFactory($this->object))->getPlayerGUI()::class,
+            \ilTestPlayerCommands::INIT_TEST
+        );
+    }
+
+    private function checkPassword(
+        Result $result
+    ): void {
+        $password = $result->value()['exam_password']?->toString();
+        if ($password === $this->main_settings->getAccessSettings()->getPassword()) {
+            \ilSession::set('tst_password_' . $this->object->getTestId(), $password);
+            return;
+        }
+
+        \ilSession::set('tst_password_' . $this->object->getTestId(), '');
+        $this->test_session->setPasswordChecked(false);
     }
 
     private function testCanBeStarted(): bool
@@ -553,18 +580,22 @@ class TestScreenGUI
 
     private function getSkillLevelThresholdsMissingInfo(): MessageBox
     {
-        $message = $this->lng->txt('tst_skl_level_thresholds_missing');
-
-        $link_target = $this->buildLinkTarget(
-            \ilTestSkillLevelThresholdsGUI::CMD_SHOW_SKILL_THRESHOLDS
-        );
-
-        $link = $this->ui_factory->link()->standard(
-            $this->lng->txt('tst_skl_level_thresholds_link'),
-            $link_target
-        );
-
-        return $this->ui_factory->messageBox()->failure($message)->withLinks([$link]);
+        return $this->ui_factory->messageBox()->failure(
+            $this->lng->txt('tst_skl_level_thresholds_missing')
+        )->withLinks([
+            $this->ui_factory->link()->standard(
+                $this->lng->txt('tst_skl_level_thresholds_link'),
+                $this->ctrl->getLinkTargetByClass(
+                    [
+                        \ilRepositoryGUI::class,
+                        \ilObjTestGUI::class,
+                        \ilTestSkillAdministrationGUI::class,
+                        \ilTestSkillLevelThresholdsGUI::class
+                    ],
+                    \ilTestSkillLevelThresholdsGUI::CMD_SHOW_SKILL_THRESHOLDS
+                )
+            )
+        ]);
     }
 
     private function areSkillLevelThresholdsMissing(): bool
@@ -594,11 +625,5 @@ class TestScreenGUI
         }
 
         return false;
-    }
-
-    private function buildLinkTarget(?string $cmd = null): string
-    {
-        $target = array_merge(['ilRepositoryGUI', 'ilObjTestGUI'], ['ilTestSkillAdministrationGUI', 'ilTestSkillLevelThresholdsGUI']);
-        return $this->ctrl->getLinkTargetByClass($target, $cmd);
     }
 }

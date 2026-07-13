@@ -264,7 +264,11 @@ class ilPCTabs extends ilPageContent
 
     public function getJavascriptFiles(string $a_mode): array
     {
-        return ilAccordionGUI::getLocalJavascriptFiles();
+        $files = ilAccordionGUI::getLocalJavascriptFiles();
+        if ($a_mode !== "edit") {
+            $files[] = "./components/ILIAS/COPage/PC/Tabs/js/presentation.js";
+        }
+        return $files;
     }
 
     public function getCssFiles(string $a_mode): array
@@ -426,18 +430,4 @@ class ilPCTabs extends ilPageContent
         }
         return "";
     }
-
-    public function modifyPageContentPostXsl(
-        string $a_output,
-        string $a_mode,
-        bool $a_abstract_only = false
-    ): string {
-        $debug = "";
-        //$debug = ".";
-        if ($a_mode !== "edit") {
-            $a_output .= '<script type="module" src="' . $debug . './components/ILIAS/COPage/PC/Tabs/js/presentation.js"></script>';
-        }
-        return $a_output;
-    }
-
 }

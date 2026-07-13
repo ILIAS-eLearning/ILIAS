@@ -643,7 +643,6 @@ assessment#:#errFormulaQuestion#:#A Formula Question contains incorrect informat
 assessment#:#errRecursionInResult#:#The formula contains an infinite recursion.
 assessment#:#err_category_in_use#:#At least one category cannot be deleted. One or more units of the category are already in use.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.
-assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.
 assessment#:#err_division#:#The value you chose would make it impossible to generate a valid value for the variable.
 assessment#:#err_duplicate_results#:#You used a result variable more than once. This is not allowed in the question text.
 assessment#:#err_no_formula#:#You must enter a formula
@@ -1472,6 +1471,7 @@ assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tes
 assessment#:#tst_eval_total_passed_average_time#:#Average Time on Task of All Passed Tests
 assessment#:#tst_eval_total_persons#:#Total number of participants who started the test
 assessment#:#tst_exam_access_code#:#Access Code
+assessment#:#tst_exam_access_code_invalid_message#:#The code you provided is invalid.
 assessment#:#tst_exam_access_code_label#:#Enter access code to continue your already started test. Leave the field empty to start a new test run.
 assessment#:#tst_exam_conditions#:#Exam Conditions
 assessment#:#tst_exam_conditions_label#:#Check this box to confirm that you accept the conditions.
@@ -1697,7 +1697,8 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#The started pa
 assessment#:#tst_objective_progress_header#:#Learning Objective Progress
 assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress
 assessment#:#tst_old_style_rnd_quest_set_broken#:#This random test is in a irreparable state, because one or more connected question pools have been deleted. Therefor participants cannot take the test any longer.
-assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Question related to already passed learning objectives are optional.</b><br /><br />You want to navigate to a question, that relates to an already passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on these questions. Your answers from previous attempts were not adopted, since new random questions were selected for this attempt. With working on this questions you can also degrade your learning objective result.<br /><br />If you decide to not work on these questions, you can go back. In this case these questions won't be considered in the evaluation.
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back.
+assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Questions for already passed learning objectives are optional.</b><br /><br />The next questions are assigned to already passed learning objectives.<br /><br />If you continue, you can work through these questions. Your results in the related learning objectives may change.<br /><br />If you go back, the questions will not factor into the evaluation of this test.
 assessment#:#tst_out_of_time_message#:#The time available for taking this test has expired.
 assessment#:#tst_participant#:#Participant
 assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
@@ -2125,7 +2126,8 @@ auth#:#auth_saml_deleted_idp#:#The Identity Provider has been deleted.
 auth#:#auth_saml_enable#:#Enable SAML Support
 auth#:#auth_saml_err_sqlite_driver#:#The SAML authentication requires the SQLite driver for PHP. Please install the SQLite package and try again.
 auth#:#auth_saml_idp#:#IDP
-auth#:#auth_saml_idp_selection_table_desc#:#Bitte wählen Sie den Identity Provider mit dem Sie sich anmelden möchten.
+auth#:#auth_saml_idp_deactivated_auth_failed#:#Authentication failed, the identity provider is disabled.
+auth#:#auth_saml_idp_selection_table_desc#:#Please select the identity provider you want to log in with.
 auth#:#auth_saml_idp_selection_table_title#:#Identity Provider Selection
 auth#:#auth_saml_idp_settings#:#IDP Settings
 auth#:#auth_saml_idps#:#SAML IDP List
@@ -2538,11 +2540,13 @@ book#:#book_add_participant#:#Add Participant
 book#:#book_add_schedule#:#Add Schedule
 book#:#book_additional_info_file#:#Additional Description
 book#:#book_all#:#Show all
+book#:#book_all_day#:#All-Day
 book#:#book_all_pools_need_schedules#:#Settings not saved. All selected booking pools need to have at least one schedule.
 book#:#book_all_users#:#All Participants
 book#:#book_assign#:#Book
 book#:#book_assign_object#:#Book Items for Participant
-book#:#book_assign_participant#:#Book for Other Participant(s)
+book#:#book_assign_participant#:#Book for Other Participant
+book#:#book_assign_participants#:#Book for other Participant(s)
 book#:#book_back_to_list#:#Back to List
 book#:#book_bobj#:#Bookable Item
 book#:#book_book#:#Book
@@ -2564,9 +2568,13 @@ book#:#book_confirm_booking_schedule_number_of_objects#:#Booking Confirmation
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Please enter the number of items that you would like to book.
 book#:#book_confirm_cancel#:#Are you sure you want to cancel the following booking(s)?
 book#:#book_confirm_cancel_aggregation#:#Number of Cancellations
-book#:#book_confirm_delete#:#Are you sure you want to delete the following items?
+book#:#book_confirm_cancel_info#:#The selected bookings will be cancelled.
+book#:#book_confirm_delete#:#Are you sure you want to delete the following items including all related time slots? This will also delete all related Bookings.
+book#:#book_confirm_remove_participant#:#Are you sure you want to remove the following Participant(s)? This will delete all related Bookings.
 book#:#book_copy#:#Copy Booking Pool
 book#:#book_create_objects#:#Create Items
+book#:#book_date_from#:#From date
+book#:#book_date_to#:#To date
 book#:#book_deadline#:#Deadline
 book#:#book_deadline_hours#:#X hours before time slot begins
 book#:#book_deadline_info#:#Minimum time between booking and booked period
@@ -2574,11 +2582,18 @@ book#:#book_deadline_options#:#Bookings Can Be Made Until:
 book#:#book_deadline_slot_end#:#Time slot ends
 book#:#book_deadline_slot_start#:#Time slot begins
 book#:#book_deassign#:#Edit Bookings
+book#:#book_delete_object#:#Delete
+book#:#book_deleted_booking#:#Deleted Booking(s)
+book#:#book_deleted_object#:#Deleted Bookable Item
 book#:#book_download_info#:#Download Additional Description
 book#:#book_edit#:#Edit Booking Pool
 book#:#book_edit_object#:#Edit Bookable Item
 book#:#book_edit_schedule#:#Edit Schedule
+book#:#book_filter_end_date#:#End Date
+book#:#book_filter_objects#:#Bookable Items
 book#:#book_filter_past_reservations#:#Show Past Bookings
+book#:#book_filter_period#:#Period
+book#:#book_filter_start_date#:#Start Date
 book#:#book_fromto#:#Date Range
 book#:#book_hours#:#Hours before start of timeslot.
 book#:#book_is_used#:#In Use
@@ -2593,14 +2608,23 @@ book#:#book_messages#:#Messages
 book#:#book_messages_info#:#Allow users to add a message when booking an item.
 book#:#book_missing_availability#:#It was not possible to book all items on all dates.
 book#:#book_missing_items#:#$1 missing item(s).
+book#:#book_modal_booking_confirmation#:#Booking Confirmation
+book#:#book_modal_enter_quantity_intro#:#Please enter the number of items that you would like to book.
+book#:#book_modal_recurrence#:#Recurrence
+book#:#book_modal_recurrence_multiple#:#Book multiple dates
+book#:#book_modal_recurrence_single#:#Book only this date
+book#:#book_modal_skipped_unknown_item#:#Unknown or invalid selection (%s).
+book#:#book_modal_warning_skipped_selections#:#Some selected items or periods are not available for booking and are excluded from this confirmation.
 book#:#book_new#:#New Booking Pool
 book#:#book_no_bookings_for_you#:#No bookings have been made for you.
 book#:#book_no_objects#:#No Bookings
+book#:#book_no_objects_available#:#None of the selected items are currently available for booking.
 book#:#book_no_of_objects#:#No. of Units
 book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.
 book#:#book_no_preferences_for_you#:#No preferences have been recorded for you.
 book#:#book_no_recurrence#:#Book only this date
 book#:#book_not#:#Not
+book#:#book_not_cancelled#:#Not cancelled
 book#:#book_not_enough_preferences#:#You have not selected enough preferences. Your preferences have not been saved.
 book#:#book_notification#:#Send Booking Notifications
 book#:#book_notification_cron_not_active#:#Note: The necessary cron job, 'Send Reservation Notifications', is currently not active.
@@ -2612,13 +2636,18 @@ book#:#book_obj_select#:#Select
 book#:#book_object_added#:#Bookable item added.
 book#:#book_object_deleted#:#Bookable item deleted.
 book#:#book_object_selection#:#Item Selection
+book#:#book_object_title_or_description#:#Title/Description
 book#:#book_object_updated#:#Bookable item updated.
 book#:#book_objects_available#:#Items available %s
 book#:#book_open#:#Open Booking Pool
 book#:#book_overall_limit#:#Limit Total Number of Bookings per User
 book#:#book_overall_limit_warning#:#You have reached the maximum number of bookings allowed.
+book#:#book_overall_limit_would_be_exceeded#:#Invalid selection. The overall limit would be exceeded.
+book#:#book_participant#:#Participant
 book#:#book_participant_already_assigned#:#One or more participants have already been added.
 book#:#book_participant_assigned#:#Participant(s) added.
+book#:#book_participant_removed#:#The participants and all related bookings have been removed successfully.
+book#:#book_past_bookings#:#Past bookings
 book#:#book_period#:#Period
 book#:#book_pool_added#:#Booking pool successfully created.
 book#:#book_pool_selection#:#Booking Pool Selection
@@ -2634,6 +2663,7 @@ book#:#book_pref_overview#:#Overview
 book#:#book_preference_info#:#Please select %1 preference(s) by %2. After this deadline, bookings will be allocated automatically, taking into consideration the preferences of all users.
 book#:#book_preferences#:#Preferences
 book#:#book_preferences_saved#:#Your preferences have been saved.
+book#:#book_present_bookings#:#Present bookings
 book#:#book_public_log#:#Bookings Visible to All Participants
 book#:#book_public_log_info#:#Users with the ‘Read’ permission are able to see the bookings of the other participants in the ‘Bookings’ tab.
 book#:#book_recurrence#:#Recurrence
@@ -2644,14 +2674,16 @@ book#:#book_reminder_day#:#Send Reminder
 book#:#book_reminder_day_info#:#Send list of own bookings to users and full list of all upcoming bookings to admins. Please note: in order to receive reminders, users need to have activated notifications via the ‘Actions’ menu at the top right-hand corner of the booking pool.
 book#:#book_reminder_days#:#day(s) before time-slot of booking
 book#:#book_reminder_setting#:#Reminder
+book#:#book_remove_participants#:#Remove Participant(s)
 book#:#book_rerun_assignments#:#Run Allocation Process
 book#:#book_rerun_confirmation#:#Attention. The process of allocating bookings according to preferences has already taken place. You may restart the process if any errors have occurred, e.g. no bookings have been saved. To prevent multiple allocations, please delete all existing bookings before restarting the process.
 book#:#book_reservation_available#:#%s available
+book#:#book_reservation_cancelled#:#Reservation(s) cancelled.
 book#:#book_reservation_confirmed#:#Your booking has been confirmed.
 book#:#book_reservation_failed#:#It was not possible to confirm your booking.
 book#:#book_reservation_failed_overbooked#:#Your booking failed because the bookable item in question is no longer available.
-book#:#book_reservation_filter_period#:#Default Value for ‘Date Range’ Filter
-book#:#book_reservation_filter_period_info#:#The default value for the ‘Date Range’ filter in the ‘Bookings’ tab (in days from the current date).
+book#:#book_reservation_filter_period#:#Default Value for ’Period’ Filter
+book#:#book_reservation_filter_period_info#:#The default value for the ‘Period’ filter in the ‘Bookings’ and 'Bookable Items' tab (in days from the current date). With a value '0'  no filter is set.
 book#:#book_reservation_fix_info#:#Bookings can only be made for the time slots shown as available below.
 book#:#book_reservation_overview#:#Bookings Overview
 book#:#book_reservation_status_5#:#Cancelled
@@ -2659,6 +2691,7 @@ book#:#book_reservation_title#:#Booking Reservation for
 book#:#book_reservations_list#:#Bookings
 book#:#book_schedule#:#Schedule
 book#:#book_schedule_added#:#Booking schedule added.
+book#:#book_schedule_all_day#:#All-Day Schedule
 book#:#book_schedule_days#:#Time Slots
 book#:#book_schedule_days_info#:#Valid booking times for each day (HH:MM-HH:MM)
 book#:#book_schedule_deleted#:#Booking schedule deleted.
@@ -2679,23 +2712,35 @@ book#:#book_select_pool#:#Select Pool
 book#:#book_set_cancel#:#Cancel Booking
 book#:#book_set_delete#:#Delete Booking
 book#:#book_show_message#:#Show Message
+book#:#book_show_past_bookings#:#Show past bookings
+book#:#book_some_reservations_unavailable#:#Some of the selected items could not be booked because they are no longer available.
+book#:#book_table#:#Table
+book#:#book_table_col_availability#:#Availability
+book#:#book_table_col_datetime#:#Date/Time
 book#:#book_title_description_nr#:#Title; Description; Number of Units
 book#:#book_title_description_nr_info#:#Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item.
 book#:#book_too_many_preferences#:#You have selected too many preferences. Your preferences have not been saved.
 book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.
 book#:#book_type_warning#:#There are currently no bookable items available. Please create some bookable items to be able to use this booking pool.
+book#:#book_view#:#View
 book#:#book_week#:#Week
+book#:#book_week_no_objects_selected#:#Select at least one Bookable Item at the ‘Item Selection’ section on the right and click the ‘Refresh’ button.
 book#:#book_your_bookings#:#Your Bookings
 book#:#book_your_preferences#:#Your Preferences
 book#:#book_your_reservations#:#Your Bookings
 book#:#booking_multiple_succesfully#:#Bookings successfully carried out.
 book#:#booking_nr_of_items#:#Number of Items
+book#:#booking_process_error#:#There was an error while processing your booking(s). Please try again.
+book#:#bookings_log#:#Bookings
+book#:#delete_bookable_item#:#Delete Bookable Item
+book#:#no_valid_selection#:#No valid selection
 book#:#obj_book_duplicate#:#Copy Booking Pool
 book#:#participants#:#Participants
 book#:#reservation_deleted#:#Booking deleted.
+book#:#schedule_type#:#Schedule Type
 buddysystem#:#buddy_allow_to_contact_me#:#Allow Contact Requests
 buddysystem#:#buddy_allow_to_contact_me_default_info#:#Defines if users can send each other requests for getting into contact by default.
-buddysystem#:#buddy_allow_to_contact_me_info#:#Other users are able to send me request for getting into contact.
+buddysystem#:#buddy_allow_to_contact_me_info#:#Allow other users to send you contact requests.
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Confirm Request
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Cancel Request
 buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Unlink
@@ -2728,6 +2773,7 @@ buddysystem#:#buddy_bs_state_requested_p#:#Requested
 buddysystem#:#buddy_bs_state_unlinked#:#Unlinked
 buddysystem#:#buddy_bs_state_unlinked_a#:#Unlinked
 buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked
+buddysystem#:#buddy_confirm_unlink#:#Do you really want to disconnect from this contact?
 buddysystem#:#buddy_enable#:#Activate ‘Contacts’
 buddysystem#:#buddy_enable_info#:#If enabled, users are allowed to contact each other by initiating contact requests. Additionally, there is a personal user setting to allow or prevent being contacted.
 buddysystem#:#buddy_handle_contact_request#:#Contact Request
@@ -2884,6 +2930,7 @@ certificate#:#persistent_certificate_mode_instant#:#Instant
 certificate#:#persistent_certificate_mode_instant_info#:#This option is recommended for systems with low up to medium levels of user interaction. Systems that tend towards longer loading times during the creation of multiple user certificates should switch to the ‘Cron Job’ option.
 chatroom#:#allow_anonymous#:#Allow Anonymous Login
 chatroom#:#allow_custom_usernames#:#Allow Custom User Names
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.
 chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the ‘Permissions’ tab to allow anonymous user access to this repository item.
 chatroom#:#auto_scroll#:#Scroll to Bottom
 chatroom#:#autogen_usernames#:#Auto Generated User Names
@@ -2919,9 +2966,12 @@ chatroom#:#chat_https_dhparam_info#:#Please define an absolute server path to a 
 chatroom#:#chat_https_key_info#:#Please define an absolute server path to the private key file (e.g..: /etc/ssl/private/server.key).
 chatroom#:#chat_invitation#:#"[INVITER_NAME]" invites you into chat room "[ROOM_NAME]"
 chatroom#:#chat_invitation_long#:#[SALUTATION][BR][BR]You have been invited to a chat room:[BR]Chat Room Title: [ROOM_NAME][BR]Invited by: [INVITER_NAME][BR]URL: [LINK][BR][BR]To join the chat room, please follow the given URL.
+chatroom#:#chat_invitation_modal_headline#:#Invitation to Chat Room
+chatroom#:#chat_invitation_modal_section#:#Invite User
 chatroom#:#chat_invitation_nc_inv_x#:#You have %s chat invitations.
 chatroom#:#chat_invitation_nc_no_inv#:#You have no chat invitations.
 chatroom#:#chat_invitation_short#:#Please click the link to enter the chat room.
+chatroom#:#chat_invitation_username_input_label#:#Enter Username:
 chatroom#:#chat_invitations#:#Chat invitations
 chatroom#:#chat_invite#:#Invite
 chatroom#:#chat_join#:#Join
@@ -2979,6 +3029,7 @@ chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Room
 chatroom#:#chat_user_x_is_typing#:#User %s is typing ...
 chatroom#:#chat_users_are_typing#:#Multiple users are typing ...
 chatroom#:#chat_whisper#:#Whisper
+chatroom#:#chatroom_anonymous_default#:#Anonymous #
 chatroom#:#chatroom_auth#:#Authentication
 chatroom#:#chatroom_auth_btn_txt#:#Generate Keys
 chatroom#:#chatroom_auth_key#:#Authentication-Key
@@ -3705,7 +3756,7 @@ common#:#check_languages#:#Check All Languages
 common#:#check_link#:#Weblink check
 common#:#check_link_desc#:#If enabled all external links in ILIAS learning modules will be checked if they are active.
 common#:#check_user_accounts#:#Check user accounts
-common#:#check_user_accounts_desc#:#If enabled, all users whose account expires will be informed by e-mail two weeks before. Furthermore all users which have not confirmed their account after a registration with e-mail confirmation will be deleted.
+common#:#check_user_accounts_desc#:#If enabled, all users whose account expires will be informed by e-mail two weeks before.
 common#:#check_web_resources#:#Check Weblinks
 common#:#check_web_resources_desc#:#If enabled all Weblinks will be checked if they are active.
 common#:#checked#:#Checked
@@ -3899,7 +3950,7 @@ common#:#default_skin_style#:#Default Skin / Style
 common#:#default_style#:#Default Style
 common#:#defaults#:#Defaults
 common#:#delete#:#Delete
-common#:#delete_existing_file#:#Delete Existing File
+common#:#delete_existing_file#:#Delete existing file
 common#:#delete_inactivated_user_accounts#:#Delete inactivated user accounts
 common#:#delete_inactivated_user_accounts_desc#:#If enabled, user accounts will be deleted %s days after their inactivation.
 common#:#delete_inactivated_user_accounts_include_roles#:#Considered roles
@@ -4429,7 +4480,7 @@ common#:#italic_action#:#Insert Italic - Click to insert italic text.
 common#:#item#:#Item
 common#:#itgr_add#:#Add Item Group
 common#:#itgr_new#:#New Item Group
-common#:#java_server#:#Java-Server
+common#:#java_server#:#PDF Configuration
 common#:#java_server_host#:#Host
 common#:#java_server_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###Needs to be adapted to new content of German lang file.
 common#:#java_server_port#:#Port
@@ -4586,12 +4637,14 @@ common#:#mail_maxsize_attach#:#Max. attachment size
 common#:#mail_member#:#Mail to Member
 common#:#mail_members#:#Mail to Members
 common#:#mail_message_scheduled#:#Scheduled mail
-common#:#mail_message_scheduled_info#:#Mails remain in the outbox until the scheduled sending time.
+common#:#mail_message_scheduled_info#:#Scheduled mails remain in the outbox until the chosen sending time. When editing, they are temporarily moved to drafts so they are not sent while you are editing. After scheduling again, they reappear in the outbox.
 common#:#mail_not_sent#:#Mail not sent!
 common#:#mail_schedule_error_no_datetime#:#To schedule a mail, a delivery date and time must be specified.
 common#:#mail_schedule_error_past_datetime#:#You cannot schedule emails in the past.
 common#:#mail_schedule_scheduled_datetime#:#Scheduled Send Time
 common#:#mail_scheduled#:#Mail stored in outbox for later delivery.
+common#:#mail_scheduled_edit_compose_info#:#You are editing a scheduled mail. Sending is paused until you schedule the mail again.
+common#:#mail_scheduled_edit_moved_info#:#This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox.
 common#:#mail_search_no#:#No entries found.
 common#:#mail_select_one#:#You must select one mail
 common#:#mail_send_error#:#Error sending mail
@@ -5006,7 +5059,6 @@ common#:#obj_nots_desc#:#Notes settings
 common#:#obj_nwss#:#News and Web Feeds
 common#:#obj_nwss_desc#:#Settings for internal news and external web feeds.
 common#:#obj_objf#:#Object Definitions
-common#:#obj_objf_desc#:#Manage ILIAS object types and object permissions. (only for experts!)
 common#:#obj_orgu#:#Organisational Unit
 common#:#obj_orgu_description#:#Creating and editing organisational structure
 common#:#obj_page#:#Page
@@ -5084,13 +5136,12 @@ common#:#obj_scov#:#SCORM Certificate
 common#:#obj_seas#:#Search
 common#:#obj_seas_desc#:#Manage the search settings here.
 common#:#obj_serv#:#Server
-common#:#obj_serv_desc#:#Settings of the sever
+common#:#obj_serv_desc#:#Status of Server, Settings and PDF Configuration
 common#:#obj_sess#:#Session
 common#:#obj_sess_duplicate#:#Copy Session
 common#:#obj_skmg#:#Competence Management
 common#:#obj_skmg_desc#:#Manage competences and competence categories.
 common#:#obj_spl#:#Question Pool for Surveys
-common#:#obj_spl_select#:#-- Please select one question pool survey --
 common#:#obj_st#:#Chapter
 common#:#obj_stus#:#Shortlinks
 common#:#obj_stus_desc#:#Global Shortlinks Settings
@@ -5408,6 +5459,8 @@ common#:#refresh#:#Refresh
 common#:#refresh_languages#:#Refresh All Languages
 common#:#refuse#:#Refuse Request
 common#:#reg_account_confirmation_successful#:#Your user account has been activated.
+common#:#reg_delete_expired_pending_registrations#:#Delete Expired Pending Registrations
+common#:#reg_delete_expired_pending_registrations_desc#:#Deletes all ILIAS accounts that have not been confirmed after a registration with e-mail confirmation.
 common#:#reg_goto_parent_membership_info#:#Only members can access the target object.
 common#:#reg_mail_body_2_confirmation#:#This link is only valid for %s. After this period has passed, the link will expire and you will have to restart the registration process from the beginning.
 common#:#reg_mail_body_3_confirmation#:#If this e-mail means nothing to you, then it is possible that somebody else has entered your e-mail address either deliberately or accidentally, so please ignore this e-mail.
@@ -5435,6 +5488,7 @@ common#:#renderer_supported_file_types#:#Supported File Types
 common#:#renderer_supported_repo_types#:#Supported ILIAS Objects
 common#:#renderer_type_builtin#:#Built-in
 common#:#rep_main_page#:#Home
+common#:#rep_main_page_logo_alt#:#Logo ILIAS - to the start page
 common#:#repeat_scan#:#Repeating virus scan...
 common#:#repeat_scan_failed#:#Repeated scan failed.
 common#:#repeat_scan_succeded#:#Repeated scan succeeded.
@@ -5495,7 +5549,7 @@ common#:#row#:#Row
 common#:#rows#:#Rows
 common#:#rpc_pdf_font#:#Fonts
 common#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than ‘Helvetica’ and ‘unifont’ must be installed on the ILIAS server.
-common#:#rpc_pdf_generation#:#PDF-Generation
+common#:#rpc_pdf_generation#:#Fonts for PDF Generation
 common#:#sad#:#Sad
 common#:#sahs#:#Learning Module SCORM
 common#:#sahs_added#:#SCORM Learning Module added
@@ -5533,7 +5587,7 @@ common#:#scorm_login_as_learner_id_info#:#If enabled, the Username instead of th
 common#:#scorm_lp_auto_activate#:#Default setting for learning progress
 common#:#scorm_lp_auto_activate_info#:#If learning progress is activated in general, the settings for new SCORM learning modules are set to ‘Collection of SCORM Items’ and all SCOs are selected for learning progress determination. Adjustments are still possible for every SCORM learning module.
 common#:#scorm_new#:#Create SCORM Learning Module (Authoring Mode)
-common#:#scorm_without_session#:#SCORM 2004: enable storing data without session
+common#:#scorm_without_session#:#SCORM 2004: Data Storage Without Session
 common#:#scorm_without_session_info#:#This ensures the storage of SCORM 2004 learning data even if ILIAS session expired. For SCORM 1.2, storage without session is always enabled.
 common#:#search#:#Search
 common#:#search_active#:#Include active users
@@ -5645,13 +5699,14 @@ common#:#shib_update#:#Update this field on login
 common#:#shib_user_default_role#:#Default Role Assigned to Shibboleth Users
 common#:#shib_zipcode#:#Attribute for zipcode
 common#:#short_inst_name#:#Short Title
-common#:#short_inst_name_info#:#This title will appear in the browser header title bar. If no value is entered, ‘ILIAS’ is used.
+common#:#short_inst_name_info#:#This title will appear in the browser header title bar. If no value is entered, ‘ILIAS’ is used. If HTML frame is activated this signature is shown in the footer area of the HTML mail template.
 common#:#show#:#Show
 common#:#show_all_details#:#Show all details
 common#:#show_content#:#Show Content
 common#:#show_details#:#Show Details
 common#:#show_filter#:#Show Filter
 common#:#show_hidden_sections#:#Show More Information &raquo;
+common#:#show_less#:#Show less
 common#:#show_list#:#Show List
 common#:#show_members#:#Display Members
 common#:#show_more#:#Show More
@@ -5978,7 +6033,6 @@ common#:#webdav_chosen_language_already_used#:#There already is another document
 common#:#webdav_doc_delete#:#Delete WebDav Mount Instructions
 common#:#webdav_docs_mount_instructions#:#Mount Instructions Documents
 common#:#webdav_duplicate_detected_title#:#Following objects could not be displayed, because an object with the same Title is already being shown:
-common#:#webdav_enable_versioning#:#File Versioning
 common#:#webdav_forbidden_chars_title#:#Following files cannot be displayed, because they contain one or more forbidden characters (\<>/:*?"|#):
 common#:#webdav_form_document#:#Instructions Document
 common#:#webdav_form_document_info#:#Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information
@@ -5997,7 +6051,6 @@ common#:#webdav_sure_delete_documents_s#:#Are you sure you want to delete the Mo
 common#:#webdav_tbl_docs_head_title#:#Dokument title
 common#:#webdav_tbl_docs_title#:#List of uploaded WebDAV Mount Instructions
 common#:#webdav_upload_instructions#:#Upload Instructions
-common#:#webdav_versioning_info#:#If enabled, already existing files will get a new version instead of beeing overwritten.
 common#:#webfolder_dir_info#:#You got here, because your browser can't open web folders. Read the <a href="%1$s">instructions for opening web folders</a>.
 common#:#webfolder_index_of#:#Index of %1$s
 common#:#webfolder_instructions#:#Web folder instructions
@@ -7039,7 +7092,7 @@ content#:#cont_sc_stat_running#:#Running
 content#:#cont_sc_store_if_previous_score_was_lower#:#if achieved score in previous attempt was higher or equal
 content#:#cont_sc_title#:#title
 content#:#cont_sc_usession#:#Prevent from Logging-Out Automatically
-content#:#cont_sc_usession_info#:#Periodical requests will be sent to ILIAS to keep the session alive. Otherwise ILIAS will categorize working on the learning module as idleness, terminate the session and loose the tracking data.
+content#:#cont_sc_usession_info#:#While working on a learning module, logging out of ILIAS can be disruptive and lead to the loss of learning data. The SCORM RTE regularly sends requests to ILIAS to prevent automatic logouts. To prevent the loss of learning data for SCORM 2004, please also activate the "SCORM 2004: Data Storage Without Session" option. For SCORM 1.2, this option is permanently enabled. You can find this option in the system-wide administration of learning modules.
 content#:#cont_sc_version#:#Version of Learning Module
 content#:#cont_sc_version_info#:#The version number is provided automatically by the version management of the learning module.
 content#:#cont_scheduled_activation#:#Scheduled Activation
@@ -7355,6 +7408,7 @@ copa#:#copa_value_reading_time_f_p#:#%s Minutes
 copa#:#copa_value_reading_time_f_s#:#%s Minute
 copa#:#obj_copa_duplicate#:#Duplicate Content Page
 copg#:#copg_active_to_small#:#This date must be higher than the starting date.
+copg#:#copg_add_content#:#Add Content
 copg#:#copg_allow_html#:#Enable HTML/Javascript
 copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.
 copg#:#copg_an_error_occured#:#An error occured.
@@ -7366,6 +7420,7 @@ copg#:#copg_cron_keep_entries_info#:#This number is the minimum of entries that 
 copg#:#copg_days#:#Days
 copg#:#copg_details#:#Details
 copg#:#copg_edit_iframe_title#:#Text Editing of Page Editor
+copg#:#copg_edit_style_class#:#Edit Style Class
 copg#:#copg_entries#:#Entries
 copg#:#copg_error#:#Error
 copg#:#copg_error_occured_modal#:#An error occured while processing the page. Hit "Reload Page" to return to the previously saved state.
@@ -7388,9 +7443,11 @@ copg#:#copg_questions_not_supported_here#:#Questions are not supported in this c
 copg#:#copg_reload_page#:#Reload Page
 copg#:#copg_remove_formats#:#Remove Formatting
 copg#:#copg_sec_link_info#:#Select a target for linking the block. Attention: In this case, the content of the block must not contain any further links itself!
+copg#:#copg_select_two_versions#:#Select exactly two versions of the page to compare.
 copg#:#copg_snippet_cannot_be_edited#:#This is a predefined content snippet and cannot be edited here.
 copg#:#copg_templates#:#Templates
 copg#:#copg_unsupported_media_type#:#This media object has an unsupported media type.
+copg#:#copg_use_template#:#Use Template
 copg#:#copg_x_minutes#:#%s minute(s)
 cpad#:#cpad_reading_time_status#:#Reading Time
 cpad#:#cpad_reading_time_status_desc#:#If enabled, the estimated reading time for content page objects will be determined and displayed.
@@ -8087,6 +8144,8 @@ crs#:#tutorial_support_block_title#:#Contact Person
 crs#:#user_fields#:#User Fields
 crsv#:#crsv_create#:#Create Course Certificate
 crsv#:#crsv_create_info#:#Select a completed course to generate a certificate for it
+dash#:#add_to_favourites#:#Add to Favourites
+dash#:#added_to_favourites#:#The item has been added to your favourites.
 dash#:#dash_activation#:#activation
 dash#:#dash_added_to_favs#:#Recommendation has been added to personal favourites.
 dash#:#dash_avail_presentation#:#Available Presentations
@@ -8095,6 +8154,18 @@ dash#:#dash_click_here#:#Click here
 dash#:#dash_co_delete#:#Delete Dashboard style
 dash#:#dash_co_lang#:#Dashboard style by languages
 dash#:#dash_customization#:#Customize Dashboard Content
+dash#:#dash_dash_fav_remove#:#Remove
+dash#:#dash_dash_fav_remove_info#:#Are you sure you want to remove the following objects from your Favourites?
+dash#:#dash_dash_fav_remove_multiple#:#Remove Multiple Favorites
+dash#:#dash_dash_ls_remove#:#Unsubscribe
+dash#:#dash_dash_ls_remove_info#:#Are you sure you want to unsubscribe from the following learning sequences?
+dash#:#dash_dash_ls_remove_multiple#:#Unsubscribe Multiple Learning Sequences
+dash#:#dash_dash_mem_remove#:#Unsubscribe
+dash#:#dash_dash_mem_remove_info#:#Are you sure you want to unsubscribe from the following courses and groups?
+dash#:#dash_dash_mem_remove_multiple#:#Unsubscribe Multiple Courses and Groups
+dash#:#dash_dash_rc_remove#:#Remove
+dash#:#dash_dash_rc_remove_info#:#Are you sure you want to remove the following objects from your recommended content?
+dash#:#dash_dash_rc_remove_multiple#:#Remove Multiple Contents
 dash#:#dash_dashboard#:#Dashboard
 dash#:#dash_default_presentation#:#Default Presentation
 dash#:#dash_default_sortation#:#Default Sortation
@@ -8108,18 +8179,17 @@ dash#:#dash_enable_recommended_content#:#Recommended Content
 dash#:#dash_enable_study_programmes#:#Study Programmes
 dash#:#dash_enable_task#:#Tasks
 dash#:#dash_favourites#:#Favourites
-dash#:#dash_info_sure_remove_from_favs#:#Are you sure you want to remove the following objects from your Favourites?
 dash#:#dash_item_removed#:#Recommendation has been removed from the list.
 dash#:#dash_learning_sequences#:#My Learning Sequences
 dash#:#dash_list#:#List
 dash#:#dash_main_panel#:#Main Panel
-dash#:#dash_make_favourite#:#Add to Favourites
 dash#:#dash_manual_new_item_pos#:#Position of New Objects
 dash#:#dash_manual_new_item_pos_bot#:#Bottom
 dash#:#dash_manual_new_item_pos_top#:#Top
 dash#:#dash_manual_sorting_title#:#Manual Sorting of Favorites
 dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.
 dash#:#dash_memberships#:#My Courses and Groups
+dash#:#dash_no_items_to_manage#:#No items available for removal.
 dash#:#dash_page_edit_info#:#The content of this page is displayed to all users on their dashboard. The contents of the various blocks of the dashboard are presented below.
 dash#:#dash_presentation#:#Presentation
 dash#:#dash_recommended_content#:#Recommended Content
@@ -8140,6 +8210,8 @@ dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’
 dash#:#dash_view_favourites#:#Section ‘Favourites’
 dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.
 dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.
+dash#:#remove_from_favourites#:#Remove from Favourites
+dash#:#removed_from_favourites#:#The item has been removed from your favourites.
 dash#:#topitem_block#:#Block
 dateplaner#:#Fr_long#:#Friday
 dateplaner#:#Fr_short#:#Fr
@@ -8588,32 +8660,32 @@ dcl#:#dcl_add_new_table#:#Add New Table
 dcl#:#dcl_add_new_view#:#Add New View
 dcl#:#dcl_add_perm#:#Add Entries
 dcl#:#dcl_add_perm_desc#:#Users can add entries to this table. If the import of data into this table is allowed, then an Excel import function will also be available.
-dcl#:#dcl_all_entries#:#All entries
+dcl#:#dcl_all_entries#:#All Entries
 dcl#:#dcl_any#:#Any
 dcl#:#dcl_asc#:#Ascending ↑
 dcl#:#dcl_boolean#:#Checkbox
 dcl#:#dcl_boolean_desc#:#A checkbox that can be selected.
-dcl#:#dcl_cant_delete_last_table#:#You can't completely remove this table as it is the only table of this Data Collection. It's content and structure got removed instead.
-dcl#:#dcl_change_notification_dcl_delete_record#:#The following data record has been deleted
-dcl#:#dcl_change_notification_dcl_new_record#:#The following data record has been created
-dcl#:#dcl_change_notification_dcl_update_record#:#The following data record has been updated
+dcl#:#dcl_cant_delete_last_table#:#This table itself cannot be completely deleted, as it is the only table in this data collection. The table’s content and structure have, however, been successfully deleted.
+dcl#:#dcl_change_notification_dcl_delete_record#:#The following data entry has been deleted
+dcl#:#dcl_change_notification_dcl_new_record#:#The following data entry has been created
+dcl#:#dcl_change_notification_dcl_update_record#:#The following data entry has been updated
 dcl#:#dcl_change_notification_link#:#Link to the Data Collection
-dcl#:#dcl_change_notification_subject#:#Data Collection ‘%s’ has been changed
-dcl#:#dcl_changed_by#:#Changed by
-dcl#:#dcl_checked#:#Checked.
+dcl#:#dcl_change_notification_subject#:#The data collection "%s" has been modified
+dcl#:#dcl_changed_by#:#Last change by
+dcl#:#dcl_checked#:#Checked
 dcl#:#dcl_comments#:#Comments
-dcl#:#dcl_comments_desc#:#Displays the number of comments for a Entry.
-dcl#:#dcl_confirm_delete_field#:#Do you really want to delete this field?
-dcl#:#dcl_confirm_delete_fields#:#Do you really want to delete these fields?
-dcl#:#dcl_confirm_delete_record#:#Delete this Entry?
-dcl#:#dcl_confirm_delete_records#:#Please check your entry and confirm by clicking on ‘Save Entry’.
-dcl#:#dcl_confirm_delete_table#:#Do you really want to delete this table with it's content and structure?
-dcl#:#dcl_confirm_storing_records#:#Please validate and confirm your input.
-dcl#:#dcl_confirm_storing_records_no_permission#:#You have no permission to change the record afterwards.
+dcl#:#dcl_comments_desc#:#Displays the number of comments an entry has.
+dcl#:#dcl_confirm_delete_field#:#Are you sure you want to delete this field?
+dcl#:#dcl_confirm_delete_fields#:#Are you sure you want to delete these fields?
+dcl#:#dcl_confirm_delete_record#:#Are you sure you want to delete the following entry?
+dcl#:#dcl_confirm_delete_records#:#Are you sure you want to delete the following entries?
+dcl#:#dcl_confirm_delete_table#:#Are you sure you want to delete this table including its content and structure?
+dcl#:#dcl_confirm_storing_records#:#Please check your entry and confirm by clicking on ‘Save Entry’.
+dcl#:#dcl_confirm_storing_records_no_permission#:#Please note: you will not be able to edit your entry after saving, due to the current settings of this table.
 dcl#:#dcl_copy#:#Copy Data Collection
 dcl#:#dcl_copy_field#:#Copy
-dcl#:#dcl_copy_field_desc#:#Field to copy options stored in a different field of a table.
-dcl#:#dcl_copy_title#:#Copy of table and field
+dcl#:#dcl_copy_field_desc#:#A field in which a copy can be made of an entry or entries located in a different field. This other field can be located in a different table. Changes made to the original entry will not affect the copy.
+dcl#:#dcl_copy_title#:#Copy: Table and Field
 dcl#:#dcl_create_date#:#Creation Date
 dcl#:#dcl_create_entry_rules#:#Entry Creation
 dcl#:#dcl_create_field#:#Create Field
@@ -8630,70 +8702,72 @@ dcl#:#dcl_datetime_desc#:#Users can enter a date and time of their choice or sel
 dcl#:#dcl_datetime_selection#:#Datetime Selection
 dcl#:#dcl_datetime_selection_desc#:#Allow a date and time to be chosen from among a predefined selection of datetime options.
 dcl#:#dcl_default_sort_field#:#Default sort field
-dcl#:#dcl_default_sort_field_order#:#Default sort field order
+dcl#:#dcl_default_sort_field_order#:#Order
 dcl#:#dcl_default_sort_field_order_desc#:#Arrange the order of the entries in the table based on this field.
 dcl#:#dcl_delete_fields#:#Delete Fields
-dcl#:#dcl_delete_fields_no_selection#:#Please select at least one field to delete
+dcl#:#dcl_delete_fields_no_selection#:#Please select at least one field that you would like to delete.
 dcl#:#dcl_delete_perm#:#Delete Entries
 dcl#:#dcl_delete_records#:#Delete Entries
 dcl#:#dcl_deleted_entries#:#Deleted Entries
-dcl#:#dcl_deleted_records#:#Successfully deleted %s Entries
+dcl#:#dcl_deleted_records#:#%s entries deleted.
 dcl#:#dcl_deprecated_copy#:#(Deprecated)
 dcl#:#dcl_desc#:#Descending ↓
 dcl#:#dcl_description#:#Field Description
 dcl#:#dcl_detailed_view#:#Detailed View
 dcl#:#dcl_display_action_menu#:#Copy
 dcl#:#dcl_display_action_menu_desc#:#The object can be copied from the entry.
+dcl#:#dcl_display_record_alt#:#Display this entry
+dcl#:#dcl_duplicate_non_unique_entries_exist#:#Some of the existing values for this field are identical. Please make sure that all existing entries are unique in order to change this setting.
 dcl#:#dcl_edit#:#Settings for This Data Collection
 dcl#:#dcl_edit_entry_rules#:#Entry Editing
 dcl#:#dcl_edit_field#:#Edit Field
 dcl#:#dcl_edit_perm#:#Edit Entries
 dcl#:#dcl_edit_table#:#Settings of the Table ‘%s’
-dcl#:#dcl_edit_view#:#Edit Settings of View "%s"
-dcl#:#dcl_editable_in_table_gui#:#Please vote in the table view.
-dcl#:#dcl_err_formula_field_not_found#:#Field with title '%s' not found
-dcl#:#dcl_error_parsing_expression#:#Error parsing expression
+dcl#:#dcl_edit_view#:#Edit Settings of the View "%s"
+dcl#:#dcl_editable_in_table_gui#:#Entries are rated directly in the overall view of the table.
+dcl#:#dcl_err_formula_field_not_found#:#Field with title '%s' not found.
+dcl#:#dcl_error_parsing_expression#:#Error parsing expression.
 dcl#:#dcl_export_enabled#:#Export Table
 dcl#:#dcl_export_enabled_desc#:#The data in this table can be exported. Please note: Only fields that have the ‘Exportable’ checkbox activated in the ‘Fields’ tab of this table will be included in the export.
 dcl#:#dcl_field_datatype#:#Field Type
 dcl#:#dcl_field_description#:#Description
 dcl#:#dcl_field_description_desc#:#The description will be shown below the input field when making a new entry.
-dcl#:#dcl_field_title_change_warning#:#You changed the title of the field hence some placeholders in the view definition might be broken. Those have to be fixed manually should the occasion arise.
-dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.
+dcl#:#dcl_field_title_change_warning#:#You have changed the title of a field. This will also have automatically changed the corresponding placeholder in this table’s detailed view template. If this field is already included in the detailed view template, you will need to manually adjust its placeholder within the body of the template.
+dcl#:#dcl_field_title_unique#:#There is already a field with this title. Field titles must be unique.
 dcl#:#dcl_field_visible#:#Visible
 dcl#:#dcl_fieldtitle#:#Field Title
 dcl#:#dcl_file#:#File Upload
 dcl#:#dcl_file_desc#:#Allow the upload of a file which can then be downloaded directly from the data collection.
-dcl#:#dcl_file_format_description#:#The file needs to be an excel .XLSX file with the data you want to import on the first sheet. In the first row there have to be exactly the names of the fields (case sensitive) you want to import and in the following rows you can add the values. It is strongly recommended to simulate your import first. When importing reference or selection fields with multi selection, commas and/or semicolons can be used as delimiters.
-dcl#:#dcl_file_not_readable#:#The file could not be read. Please make sure to upload an XLSX file.
-dcl#:#dcl_filter#:#Available in filter
-dcl#:#dcl_filter_changeable#:#Filter changeable
+dcl#:#dcl_file_format_description#:#The file needs to be an excel .XLSX file with the data you want to import on the first sheet. The first row needs to contain the exact names of the fields (case sensitive) which you want to import, and the following rows, the values. It is strongly recommended that you simulate your import first. When importing reference or selection fields with multiple entries, commas and/or semicolons can be used as delimiters.
+dcl#:#dcl_file_not_readable#:#The file could not be read. Please make sure that the file you upload is an XLSX file.
+dcl#:#dcl_filter#:#Available in Filter
+dcl#:#dcl_filter_changeable#:#Filter Changeable
 dcl#:#dcl_formula#:#Formula
-dcl#:#dcl_formula_desc#:#You can aggregate several entries in a record with a formula.
-dcl#:#dcl_formula_detail_desc#:#Entries are generated automatically, you are not able to edit the entry.
+dcl#:#dcl_formula_desc#:#Similar to when using a spreadsheet, entries can be combined or calculated using a formula.
+dcl#:#dcl_formula_detail_desc#:#Entries in this field are generated automatically. You cannot enter or edit information in this field.
 dcl#:#dcl_height#:#Height in Pixels
 dcl#:#dcl_height_desc#:#The height of the file will be reduced to this value during upload.
 dcl#:#dcl_id#:#ID
-dcl#:#dcl_id_description#:#The internal ID.
+dcl#:#dcl_id_description#:#Entry’s internal ID.
 dcl#:#dcl_ilias_reference#:#Repository Object
 dcl#:#dcl_ilias_reference_desc#:#Allow users to select an ILIAS object from the repository.
 dcl#:#dcl_ilias_reference_link#:#Link to Selected Object
 dcl#:#dcl_import_enabled#:#Import Data Into Table
 dcl#:#dcl_import_enabled_desc#:#Data can be imported into the table via an Excel file.
-dcl#:#dcl_import_records .xls#:#Excel-Import
-dcl#:#dcl_import_terminated#:#The import terminated. Entries added
+dcl#:#dcl_import_records .xls#:#Excel Import
+dcl#:#dcl_import_terminated#:#Import completed. Entries added
 dcl#:#dcl_in_export#:#Exportable
-dcl#:#dcl_invalid_regex_config#:#The regular expression configured for this field is invalid. Check the settings to solve the problem.
-dcl#:#dcl_last_edit_by#:#Last edited by
+dcl#:#dcl_invalid_regex_config#:#The regular expression configured for this field is invalid. Check the settings of the field to solve the problem.
+dcl#:#dcl_last_edit_by#:#Last Edited By
 dcl#:#dcl_last_edited_by#:#Last edited by
-dcl#:#dcl_last_edited_by_description#:#The user that edited this entry last.
+dcl#:#dcl_last_edited_by_description#:#The last user to have edited the entry.
 dcl#:#dcl_last_update#:#Last Edited
-dcl#:#dcl_last_update_description#:#The date the entry was last edited.
+dcl#:#dcl_last_update_description#:#The date on which the entry was last edited.
 dcl#:#dcl_learning_progress#:#Learning Progress
 dcl#:#dcl_learning_progress_desc#:#Show each user their own learning progress for the selected object.
 dcl#:#dcl_legend_placeholders#:#Placeholders
 dcl#:#dcl_length#:#Max. Number of Characters
-dcl#:#dcl_length_info#:#Number of characters a user can enter. Above 200 the input will be displayed as multiline.
+dcl#:#dcl_length_info#:#Number of characters a user can enter. If this number is higher than 200, the input field will automatically be multiline.
 dcl#:#dcl_limit_end#:#End
 dcl#:#dcl_limit_start#:#Start
 dcl#:#dcl_limited#:#Limited Add / Edit / Delete Period
@@ -8703,22 +8777,22 @@ dcl#:#dcl_link_detail_page_desc#:#Additionally, a detailed view template must ha
 dcl#:#dcl_list_fields#:#Fields
 dcl#:#dcl_list_visibility_and_filter#:#Overview
 dcl#:#dcl_manage#:#Manage
-dcl#:#dcl_max_digits#:#Maximum Number of Digits
-dcl#:#dcl_max_import#:#The maximum amount of imported entries is reached.
+dcl#:#dcl_max_digits#:#Maximum number of digits
+dcl#:#dcl_max_import#:#The maximum permitted number of imported entries has been reached.
 dcl#:#dcl_max_text_length#:#Maximum Length: %s
 dcl#:#dcl_mob#:#Image, Audio, Video
 dcl#:#dcl_mob_desc#:#Allow users to upload a media file which will be displayed within the data collection. Allowed data types: %s
-dcl#:#dcl_msg_field_modified#:#Field updated
-dcl#:#dcl_msg_fields_deleted#:#Deleted fields
-dcl#:#dcl_msg_mc_to_sc_confirmation#:#Swichting from multiple selection to single selection might lead to a loss of data in existing entries. Are you sure to continue?
-dcl#:#dcl_msg_no_perm_edit#:#No permission given to edit this Entry
-dcl#:#dcl_msg_no_perm_view#:#No permission given to view this Entry
-dcl#:#dcl_msg_table_created#:#Table created
-dcl#:#dcl_msg_table_edited#:#Table Settings saved
-dcl#:#dcl_msg_tableview_created#:#Views created
-dcl#:#dcl_msg_tableview_deleted#:#View deleted
-dcl#:#dcl_msg_tableview_updated#:#View updated
-dcl#:#dcl_msg_tableviews_delete_all#:#Could not delete: At least one View must exist
+dcl#:#dcl_msg_field_modified#:#Field updated.
+dcl#:#dcl_msg_fields_deleted#:#Fields deleted.
+dcl#:#dcl_msg_mc_to_sc_confirmation#:#Switching from multiple selections to single selection might lead to a loss of data in existing entries. Are you sure you wish to continue?
+dcl#:#dcl_msg_no_perm_edit#:#You do not have the permission necessary to edit this entry.
+dcl#:#dcl_msg_no_perm_view#:#You do not have the permission necessary to view this entry.
+dcl#:#dcl_msg_table_created#:#Table created.
+dcl#:#dcl_msg_table_edited#:#Table settings saved.
+dcl#:#dcl_msg_tableview_created#:#View created.
+dcl#:#dcl_msg_tableview_deleted#:#View deleted.
+dcl#:#dcl_msg_tableview_updated#:#View updated.
+dcl#:#dcl_msg_tableviews_delete_all#:#Deletion not possible. There must be at least one view in existence.
 dcl#:#dcl_multiple_selection#:#Multiple Selection
 dcl#:#dcl_new#:#Create New Data Collection
 dcl#:#dcl_new_entries#:#New Entries
@@ -8726,54 +8800,54 @@ dcl#:#dcl_new_field#:#New Field
 dcl#:#dcl_new_table#:#New Table
 dcl#:#dcl_new_view#:#New View
 dcl#:#dcl_no_entries#:#Action not permitted
-dcl#:#dcl_no_entry#:#No entry
-dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.
+dcl#:#dcl_no_entry#:#No Entry
+dcl#:#dcl_no_export_async_config#:#No SOAP configuration for asyncronous exports available.
 dcl#:#dcl_no_export_data_available#:#No data or fields available for export.
 dcl#:#dcl_no_fields_yet#:#You cannot add any entries to this table as it does not yet have any fields. To create a field, click on a table in the ‘Tables’ tab and and then on the ‘Add New Field’ button.
 dcl#:#dcl_no_search_results_found_for#:#No modules have been found for
 dcl#:#dcl_no_such_reference#:#The following value is not available in the reference table:
-dcl#:#dcl_no_table_found#:#No visible table found!
-dcl#:#dcl_no_tableview_found#:#No visible tableview found!
-dcl#:#dcl_not_checked#:#Not checked.
-dcl#:#dcl_not_supported_in_import#:#This type of field is not supported in the import
-dcl#:#dcl_notification_activate#:#Activate Notification for Data Collection
-dcl#:#dcl_notification_activated#:#Notification Activated
-dcl#:#dcl_notification_deactivate#:#Deactivate Notification for Data Collection
-dcl#:#dcl_notification_deactivated#:#Notification Deactivated
+dcl#:#dcl_no_table_found#:#No table found.
+dcl#:#dcl_no_tableview_found#:#No table view found.
+dcl#:#dcl_not_checked#:#Not Checked
+dcl#:#dcl_not_supported_in_import#:#This type of field is not supported in the import.
+dcl#:#dcl_notification_activate#:#Activate Notifications
+dcl#:#dcl_notification_activated#:#Notifications activated
+dcl#:#dcl_notification_deactivate#:#Deactivate Notifications
+dcl#:#dcl_notification_deactivated#:#Notifications deactivated
 dcl#:#dcl_notification_info#:#Users can choose for themselves if they wish to activate notifications for their accounts.
 dcl#:#dcl_notification_settings#:#Notification Settings
 dcl#:#dcl_noturl_exception#:#Please enter a link (beginning with http:// or www.) or an e-mail address.
 dcl#:#dcl_number#:#Integer
 dcl#:#dcl_number_desc#:#Field for integer values (max. 9 digits). Decimals and fractions are not allowed.
 dcl#:#dcl_online_info#:#Publish the data collection and enable all users with the permissions ‘Read’ and ‘Add/Edit Entry’ to use it. If not set to ‘Online’, only users with the permission ‘Edit Settings’ can access this object.
-dcl#:#dcl_open_detail_view#:#Open detail view
-dcl#:#dcl_open_url#:#Open link
+dcl#:#dcl_open_detail_view#:#Open Detailed View
+dcl#:#dcl_open_url#:#Open Link
 dcl#:#dcl_order#:#Order
-dcl#:#dcl_origin_not_found#:#Origin field was not found!
+dcl#:#dcl_origin_not_found#:#Source field could not be found!
 dcl#:#dcl_own_entries#:#Only own entries
 dcl#:#dcl_owner#:#Owner
 dcl#:#dcl_owner_description#:#The owner of the entry.
 dcl#:#dcl_owner_name#:#Owner (Name)
-dcl#:#dcl_page_type_dclf#:#Details View
-dcl#:#dcl_placeholder_info#:#To use data from the data collection in this view, please use the corresponding placeholders. These are available in the page element 'Text' and 'Data Table'.
+dcl#:#dcl_page_type_dclf#:#Data Collection Detailed View
+dcl#:#dcl_placeholder_info#:#In order for the data from the fields of this table to be shown in this detailed view, please enter the corresponding placeholders for those fields. Those placeholders are listed in the tool bars of the page elements 'Text' and 'Data Table'.
 dcl#:#dcl_please_select#:#--- Please select ---
 dcl#:#dcl_prop_expression#:#Expression
 dcl#:#dcl_prop_expression_info#:#Valid operators: <b>%s</b><br>Supported functions: <b>%s</b><br>Use brackets <b>‘(’, ‘)’</b> to group calculations.<br>Concatenate strings and placeholders with &: <b>‘The result is ’ & [[Int 1]] * [[Int2]]</b><br>Using functions: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Allowed fields (click on a title to use as a placeholder within the expression):<br>%s<br><b>(Allowed fields are checkbox, number, text and date that don’t contain any formula-sensitive characters inside their titles)</b>
 dcl#:#dcl_rating#:#Rating
 dcl#:#dcl_rating_desc#:#Existing entries can be rated on a scale of one to five stars.
 dcl#:#dcl_record#:#Entry
-dcl#:#dcl_record_deleted#:#Entry deleted
-dcl#:#dcl_record_settings#:#Record Settings
+dcl#:#dcl_record_deleted#:#Entry deleted.
+dcl#:#dcl_record_settings#:#Entry Settings
 dcl#:#dcl_reference#:#Reference
-dcl#:#dcl_reference_desc#:#Field to reference options stored in a different field of a table.
+dcl#:#dcl_reference_desc#:#A field which will display selected entries made in another field. This other field can be located in a different table. Changes made to the original entry will affect the version displayed in this field.
 dcl#:#dcl_reference_link#:#Link Referenced Entry
-dcl#:#dcl_reference_link_info#:#Detailed View must be active in referenced table
+dcl#:#dcl_reference_link_info#:#Please note: You need to have set up and activated a ‘Detailed View’ template in the table in which the referenced entry is located.
 dcl#:#dcl_reference_title#:#Referenced Field
 dcl#:#dcl_reference_title_desc#:#The data entries of the selected field will be the selectable options in this field.
 dcl#:#dcl_regex#:#Restrict Text Input
 dcl#:#dcl_regex_info#:#Allow the input of a regular expression without delimiter. Certain entries will the be automatically rejected.
 dcl#:#dcl_row_not_found#:# - This field couldn't be found in the table.
-dcl#:#dcl_save_confirmation#:#Additional Confirmation of Entries
+dcl#:#dcl_save_confirmation#:#Require Additional Confirmation
 dcl#:#dcl_save_confirmation_desc#:#Users have to confirm new entries into the data collection.
 dcl#:#dcl_selection_options#:#Options
 dcl#:#dcl_selection_type#:#Format
@@ -8781,28 +8855,28 @@ dcl#:#dcl_selection_type_combobox#:#Single selection from drop-down menu
 dcl#:#dcl_selection_type_multi#:#Multiple selections from list
 dcl#:#dcl_selection_type_single#:#Single selection from list
 dcl#:#dcl_simulate_import#:#Simulate Import
-dcl#:#dcl_simulate_info#:#Simulating the import will not add any fields into the Data Collection but may give you feedback on problems with the import file, thus helping you to prevent corrupted entries.
-dcl#:#dcl_skipped_delete_records#:#%s Entries were not deleted due to permission settings
+dcl#:#dcl_simulate_info#:#Simulating the import will not make any entries into the data collection, but rather give you feedback regarding any problems with the import file, thus helping you to avoid corrupted entries.
+dcl#:#dcl_skipped_delete_records#:#%s Entries were not deleted due to permission settings.
 dcl#:#dcl_status#:#Your Status
 dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.
-dcl#:#dcl_std_filter#:#Default Filter
+dcl#:#dcl_std_filter#:#Filter Preset
 dcl#:#dcl_supported_filetypes#:#Permitted File Types
 dcl#:#dcl_supported_filetypes_desc#:#You can set which file types can be uploaded by entering a comma-separated list of permitted file extensions here, e.g. pdf, docx
 dcl#:#dcl_table#:#Table
 dcl#:#dcl_table_id#:#Table ID
-dcl#:#dcl_table_settings#:#Table Settings.
-dcl#:#dcl_table_settings_saved#:#Table Settings have been saved.
-dcl#:#dcl_table_title_not_matching#:#The titles of the excel sheet and the Data Collection table do not match. Rename the sheet for a successfull import.
-dcl#:#dcl_table_title_unique#:#There exists already a table with this title. Title must be unique.
+dcl#:#dcl_table_settings#:#Table Settings
+dcl#:#dcl_table_settings_saved#:#Table settings saved.
+dcl#:#dcl_table_title_not_matching#:#The titles of the excel sheet and the data collection table do not match. Please rename the excel sheet in order to guarantee a successful import.
+dcl#:#dcl_table_title_unique#:#This data collection already contains a table with this title. Each table needs to have a unique title.
 dcl#:#dcl_tables#:#Tables
 dcl#:#dcl_tableview#:#View
 dcl#:#dcl_tableview_add#:#Add New View
-dcl#:#dcl_tableview_confirm_delete#:#Do you really want to delete the following View?
-dcl#:#dcl_tableview_copy#:#View successfully copied
+dcl#:#dcl_tableview_confirm_delete#:#Are you sure you want to delete the following view?
+dcl#:#dcl_tableview_copy#:#View copied.
 dcl#:#dcl_tableview_default_value#:#Default Value
-dcl#:#dcl_tableview_default_value_fail#:#Some numeric default values couldn't be saved because they contained letters. Please try again.
+dcl#:#dcl_tableview_default_value_fail#:#Some numeric default values couldn't be saved because they contained non-numeric characters. Please try again.
 dcl#:#dcl_tableview_field_access#:#Field Access
-dcl#:#dcl_tableview_fieldsettings#:#Fieldspecific Settings
+dcl#:#dcl_tableview_fieldsettings#:#Field-Specific Settings
 dcl#:#dcl_tableview_fieldtitle#:#Field Title
 dcl#:#dcl_tableview_locked_visible#:#Locked & Visible
 dcl#:#dcl_tableview_not_visible#:#Not Visible
@@ -8810,18 +8884,18 @@ dcl#:#dcl_tableview_required#:#Required
 dcl#:#dcl_tableview_required_visible#:#Required & Visible
 dcl#:#dcl_tableview_visible#:#Visible
 dcl#:#dcl_tableviews#:#Views
-dcl#:#dcl_tableviews_of_X#:#Views of table %s
+dcl#:#dcl_tableviews_of_X#:#Views of Table %s
 dcl#:#dcl_text#:#Text Entry
 dcl#:#dcl_text_desc#:#A text field for text, links or e-mail addresses.
 dcl#:#dcl_text_email_detail_desc#:#Please enter a valid URL or E-Mail address.
 dcl#:#dcl_text_email_title#:#Title
-dcl#:#dcl_text_email_title_info#:#A Title for the above URL or E-Mail address (optional).
+dcl#:#dcl_text_email_title_info#:#A title for the above URL or E-Mail address (optional).
 dcl#:#dcl_text_selection#:#Text Selection
 dcl#:#dcl_text_selection_desc#:#Allow a text to be chosen from among a predefined selection of text options.
 dcl#:#dcl_title_standard#:#Standard
 dcl#:#dcl_unique#:#Unique
 dcl#:#dcl_unique_desc#:#Identical entries are not allowed in this field.
-dcl#:#dcl_unique_exception#:#The value you entered is already taken by another Entry.
+dcl#:#dcl_unique_exception#:#The value you entered has already been used. For this data field, you need to enter a unique value.
 dcl#:#dcl_unknown#:#Unkown
 dcl#:#dcl_unknown_exception#:#The value you entered is not valid.
 dcl#:#dcl_unknown_plugin#:#Unknown plugin type
@@ -8836,24 +8910,24 @@ dcl#:#dcl_visible#:#Visible for all users
 dcl#:#dcl_visible_desc#:#Users can access this table.
 dcl#:#dcl_width#:#Width in Pixels
 dcl#:#dcl_width_desc#:#The width of the file will be reduced to this value during upload.
-dcl#:#dcl_wrong_input_type#:#The value you entered does not match the specification (Wrong Type).
-dcl#:#dcl_wrong_length#:#The text you entered is to long.
-dcl#:#dcl_wrong_regex#:#The text you entered does not match the specification for this field (Regular Expression).
+dcl#:#dcl_wrong_input_type#:#The value you entered does not match the specifications of this field (Wrong Type).
+dcl#:#dcl_wrong_length#:#The text you entered is too long.
+dcl#:#dcl_wrong_regex#:#The text you entered does not fulfil the requirements of this field (Regular Expression).
 dcl#:#dcl_xls_async_export#:#as XLSX (asynchronous)
-dcl#:#disable_comments#:#Disable comments
-dcl#:#disable_visible#:#Disable visible
-dcl#:#duplicate_entries_exist#:#The existing records already contain duplicated entries.
-dcl#:#enable_comments#:#Enable comments
-dcl#:#enable_visible#:#Enable visible
+dcl#:#disable_comments#:#Disable Comments
+dcl#:#disable_visible#:#Disable Visible
+dcl#:#duplicate_entries_exist#:#Some of the existing values for this field are identical. Please make sure that all existing entries have unique values for this field in order to change this setting.
+dcl#:#enable_comments#:#Enable Comments
+dcl#:#enable_visible#:#Enable Visible
 dcl#:#entry_of#:#Entry %1$d of %2$d
 dcl#:#fieldtitle_allow_chars#:#Characters not permitted: %s
-dcl#:#fileupload_not_migrated#:#File has not yet been migrated and cannot be displayed. Please contact your system administrator.
-dcl#:#role_limitation#:#Role-based View Limitation
-dcl#:#roles#:#Roles with Access
-dcl#:#roles_desc#:#Define wich roles have access to the view.
-dcl#:#set_as_default#:#Set as default
+dcl#:#fileupload_not_migrated#:#File has not been migrated yet and cannot therefore be displayed. Please contact your technical support.
+dcl#:#role_limitation#:#Role-Based Access
+dcl#:#roles#:#Roles With Access
+dcl#:#roles_desc#:#Only the roles selected above will have access to this view.
+dcl#:#set_as_default#:#Set as Default
 dcl#:#table_not_found#:#Table not found!
-dcl#:#tableview_not_found#:#Tableview not found!
+dcl#:#tableview_not_found#:#Table view not found!
 didactic#:#activate_exclusive_template#:#Grey Out Default
 didactic#:#activate_exclusive_template_info#:#The standard template won't be available wherever this template is active.
 didactic#:#activate_local_didactic_template#:#Scope of Application
@@ -8894,6 +8968,7 @@ didactic#:#didactic_selected_tpl_option#:#Applied didactic template:
 didactic#:#didactic_template_applied#:#Applied didactic template.
 didactic#:#didactic_template_update_import#:#Update Didactic Template
 didactic#:#didactic_template_update_import_info#:#Properties will be changed according to this import. Objects which already applied this template will not be changed.
+didactic#:#didactic_translation_add_languages#:#Add Languages
 didactic#:#dtpl_obj_type_info#:#This didactic template can be applied on this object type.
 didactic#:#effective_form#:#Template Effective From
 didactic#:#grp_closed#:#Closed Group
@@ -9188,6 +9263,8 @@ ecs#:#ecs_wiki_export_enabled#:#Release this Wiki
 ecs#:#ecs_wiki_export_obj_settings#:#Wiki Release Settings
 error#:#error_back_to_repository#:#Back to Repository
 error#:#error_sry_error#:#Sorry, an error occurred.
+error#:#http_404_not_found#:#The requested page could not be found.
+error#:#http_500_internal_server_error#:#An internal server error occurred.
 etal#:#appointments#:#Appointments
 etal#:#cal_type_tals#:#Talks
 etal#:#change_date_of_series#:#Change date of talk series
@@ -9360,6 +9437,7 @@ exc#:#exc_late_submission_warning#:#Submissions after %s are marked as late.
 exc#:#exc_lead_request_idl#:#Request Deadline
 exc#:#exc_lead_wait_for_idl#:#Waiting For Individual Deadline
 exc#:#exc_limit_characters#:#Limit of characters
+exc#:#exc_link_to_assignment#:#Link to assignment
 exc#:#exc_list_submission#:#List All Submissions
 exc#:#exc_list_text_assignment#:#List All Submissions
 exc#:#exc_mail_context_grade_reminder_info#:#Reminder Tutors/Teachers to Grade an Assignment
@@ -9580,6 +9658,7 @@ exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mai
 exc#:#exc_settings_feedback_text#:#Text Input
 exc#:#exc_settings_feedback_text_info#:#Tutors type their evaluation in a text field. The participant receives a notification about it and the text is displayed at the assignment overview.
 exc#:#exc_show_instructions#:#Show Work Instructions
+exc#:#exc_show_more#:#Show More
 exc#:#exc_show_peer_review#:#Show Peer-Feedback
 exc#:#exc_show_submissions#:#Publish Submissions after Deadline
 exc#:#exc_show_submissions_info#:#For assignments with a fixed submission deadline, participants can view all submissions after the submission deadline.
@@ -9591,7 +9670,7 @@ exc#:#exc_submission_and_grades_notification_link#:#Link to "Submissions and Gra
 exc#:#exc_submission_downloads_notification_link#:#Download new submissions: %s
 exc#:#exc_submission_file#:#Submission File
 exc#:#exc_submission_no_new_files#:#No new submissions available.
-exc#:#exc_submission_notification#:#E-Mail Notification on Submissions
+exc#:#exc_submission_notification#:#E-Mail Notification
 exc#:#exc_submission_notification_body#:#A new submission for exercise "%s" has been uploaded.
 exc#:#exc_submission_notification_info#:#You will be notified when submissions are uploaded or individual deadlines are requested. This is a personal setting which does not affect other administrators of the exercise.
 exc#:#exc_submission_notification_link#:#Link to exercise: %s
@@ -9694,6 +9773,7 @@ exc#:#exc_type_upload#:#Upload
 exc#:#exc_type_upload_team#:#Team Upload
 exc#:#exc_value_can_not_set#:#This value can not be set.
 exc#:#exc_view_portfolio#:#View Portfolio
+exc#:#exc_view_wiki#:#View Wiki
 exc#:#exc_wait_for_files#:#Your download should start automatically. If the download doesn't start in 5 secs, please click here
 exc#:#exc_wiki_container#:#Wiki Container
 exc#:#exc_wiki_container_info#:#Location where wikis of participants will be created.
@@ -10435,6 +10515,7 @@ gsfo#:#entries_add#:#Add Entry
 gsfo#:#entries_edit#:#entries_edit
 gsfo#:#entries_parent#:#Select Group
 gsfo#:#entries_select_parent#:#Move Entry to Group
+gsfo#:#entries_target_group#:#Select target group
 gsfo#:#entry_action#:#Link
 gsfo#:#entry_action_info#:#Provide the full URL including the protocol (e.g. https://www.ilias.de)
 gsfo#:#entry_activation_toggled#:#Activation has been toggled
@@ -10443,6 +10524,7 @@ gsfo#:#entry_active_info#:#Activate this Entry
 gsfo#:#entry_add#:#Add Entry
 gsfo#:#entry_delete#:#Delete
 gsfo#:#entry_deleted#:#Deleted
+gsfo#:#entry_deleted_failed#:#Deletion not possible
 gsfo#:#entry_edit#:#Edit
 gsfo#:#entry_external#:#Open in new Tab
 gsfo#:#entry_move#:#Move
@@ -10465,6 +10547,7 @@ gsfo#:#group_toggle_activation#:#(De-)Activate
 gsfo#:#group_translate#:#Translate
 gsfo#:#info_not_deletable_core#:#Default Items cannot be deleted.
 gsfo#:#info_not_deletable_not_empty#:#Groups with Entries cannot be deleted.
+gsfo#:#item_moved#:#Entry moved
 gsfo#:#legal_information#:#Legal Information
 gsfo#:#order_saved#:#Order saved
 gsfo#:#permanent#:#permanent
@@ -10710,10 +10793,18 @@ irss#:#upload_modal_title#:#Add Files
 itgr#:#itgr_always_open#:#Always Open
 itgr#:#itgr_assign_materials#:#Assign Materials
 itgr#:#itgr_assigned_materials#:#Assigned Materials
-itgr#:#itgr_assignment#:#Assigned
+itgr#:#itgr_assignment#:#Assigned to this Item Group
+itgr#:#itgr_assignment_to_other_itgr#:#Already assigned to another Item Group
 itgr#:#itgr_behaviour#:#Block Behaviour
 itgr#:#itgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.
+itgr#:#itgr_display#:#Display
+itgr#:#itgr_display_with_title#:#With Title
+itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened
+itgr#:#itgr_display_without_title#:#Without Title
 itgr#:#itgr_edit#:#Edit Item Groups
 itgr#:#itgr_expandable_closed#:#Expandable (initially closed)
 itgr#:#itgr_expandable_open#:#Expandable (initially opened)
@@ -10723,8 +10814,6 @@ itgr#:#itgr_list_default#:#Default
 itgr#:#itgr_list_default_info#:#Inherits value from upper container.
 itgr#:#itgr_list_presentation#:#Item Presentation
 itgr#:#itgr_materials#:#Materials
-itgr#:#itgr_show_title#:#Show Title
-itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.
 itgr#:#itgr_tile#:#Tiles
 itgr#:#itgr_tile_size#:#Tile Size
 jscalendar#:#about_calendar#:#About the calendar
@@ -10887,7 +10976,10 @@ ldap#:#ldap_server_name#:#Name of LDAP Configuration
 ldap#:#ldap_server_name_info#:#Please choose a name for this LDAP server configuration.
 ldap#:#ldap_server_security_settings#:#Security Settings
 ldap#:#ldap_server_short#:#Server URL:
-ldap#:#ldap_server_url_info#:#A fully qualified URL for specifying the protocol, url and port to connect to. E.g "ldaps://ldap.ilias.de:636".
+ldap#:#ldap_server_url_info#:#Please enter a fully qualified URL for specifying the protocol, url and port to connect to, e.g "ldaps://ldap.ilias.de:636". Multiple URLs can be comma-separated for failover support. In case of connection failures, ILIAS will automatically rotate through the available servers. Note: During authentication, URL rotation is performed in-memory only (not persisted). In other contexts (e.g. during the asynchronous import of accounts via cron job), each failed connection will rotate the URL order and persist it to the database, helping future requests avoid recently-failed servers.
+ldap#:#ldap_server_url_invalid_parts#:#The following server URL(s) could not be parsed as valid URIs and may not work until corrected:
+ldap#:#ldap_server_url_invalid_uris#:#Every comma-separated entry must be a valid URI (e.g. ldap://host:389). Invalid:
+ldap#:#ldap_server_url_required#:#Server URL is required.
 ldap#:#ldap_server_version_info#:#LDAP version to use, usually 3.
 ldap#:#ldap_servers#:#LDAP Server
 ldap#:#ldap_settings#:#Server Settings
@@ -11002,6 +11094,7 @@ lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed
 lm#:#lm_copy#:#Copy Learning Module
 lm#:#lm_edit_chapters#:#Edit Chapters
+lm#:#lm_edit_content#:#Edit Content
 lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings
 lm#:#lm_est_reading_time#:#Estimated Reading Time
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.
@@ -11019,6 +11112,7 @@ lm#:#lm_insert_page_before#:#Insert page before
 lm#:#lm_insert_page_clip#:#Insert page from clipboard
 lm#:#lm_insert_page_clip_after#:#Insert page from clipboard after
 lm#:#lm_insert_page_clip_before#:#Insert page from clipboard before
+lm#:#lm_list_pages#:#Edit Pages
 lm#:#lm_page_added#:#Page has been added.
 lm#:#lm_page_type_lm#:#LM Page
 lm#:#lm_pages_added#:#Pages have been added.
@@ -11143,7 +11237,6 @@ lso#:#lso_print_list#:#Generate list
 lso#:#lso_read#:#User has read access to Learning Sequence
 lso#:#lso_search_users#:#Look Up Users
 lso#:#lso_settings_availability#:#Availability
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date
 lso#:#lso_settings_extro#:#Edit Exit Page
 lso#:#lso_settings_intro#:#Edit Intro Page
 lso#:#lso_settings_old_extro#:#View Old Exit Page
@@ -11348,7 +11441,7 @@ lti#:#lti_con_prov_xapi_launch_secret_info#:#&nbsp;
 lti#:#lti_con_prov_xapi_launch_url#:#URL of LRS Endpoint
 lti#:#lti_con_prov_xapi_launch_url_info#:#Please add full URL with https://
 lti#:#lti_con_redirection_uris#:#Redirection URI
-lti#:#lti_con_tool_url#:#Login URL
+lti#:#lti_con_tool_url#:#Launch URL
 lti#:#lti_con_version#:#LTI Version
 lti#:#lti_con_version_1.1#:#Version 1.1
 lti#:#lti_con_version_1.3#:#Version 1.3
@@ -11674,7 +11767,7 @@ mail#:#mail_select_grp#:#Please select at least one group.
 mail#:#mail_select_one_entry#:#You must select at least one entry.
 mail#:#mail_select_one_file#:#You must select at least one file.
 mail#:#mail_send_html#:#HTML Frame
-mail#:#mail_send_html_info#:#Embed the body of external e-mails in an HTML frame. The corresponding template can be customised by creating a copy of './Services/Mail/templates/default/tpl.html_mail_template.html' at './Customizing/global/skin/[SKIN]/[STYLE]/Services/Mail/tpl.html_mail_template.html'.
+mail#:#mail_send_html_info#:#When this option is enabled, the message body of external emails is embedded in an HTML frame. The logo, header title, and the colors of the header, background, and footer are taken from the default system style.
 mail#:#mail_sent_datetime#:#Date
 mail#:#mail_serial_letter_placeholders#:#Mail Merge Placeholders
 mail#:#mail_settings_external_frm_head#:#External E-Mails
@@ -11763,7 +11856,7 @@ mail#:#send_mail_to#:#Mail to
 mail#:#send_mail_tutors#:#All Tutors
 mail#:#serial_letter#:#Serial Letter
 mail#:#show_mail_settings#:#Show Mail Settings
-mail#:#show_mail_settings_info#:#Enable individual users to alter their mail settings, thereby overriding the global mail settings that would otherwise apply to them. ‘Mail Settings’ are accessible via their ‘Personal Settings’ or ‘Communication > Mail’. Note: In order for users to be allowed to change their individual mail settings and thereby override the global settings, this needs to be set in the 'Standard Fields' section of the global user account administration settings. If users do not have the permission to change these profile settings, the global default is applied even if users were able to and did change their personal mail settings in the past.
+mail#:#show_mail_settings_info#:#Enable individual users to alter their mail settings, thereby overriding the global mail settings that would otherwise apply to them. ‘Mail Settings’ are accessible via ‘Communication > Mail’. Note: In order for users to be allowed to change their individual mail settings and thereby override the global settings, this needs to be set in the 'Standard Fields' section of the global user account administration settings. If users do not have the permission to change these profile settings, the global default is applied even if users were able to and did change their personal mail settings in the past.
 mail#:#system_notification_installation_changed_by#:#Changed by
 mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#You have changed the attribute "%s" of the field "%s".<br>This leads to all accounts settings being reset to "receive on primary address" for external delivery,<br>not only for all new accounts but also dismissing the currently active settings made by users.
 maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Extending ILIAS > Maps" administration menu to enable address search.
@@ -12039,10 +12132,51 @@ meta#:#md_oai_contact_mail#:#Contact e-mail of this organisation
 meta#:#md_oai_identifier_prefix#:#OAI Prefix
 meta#:#md_oai_identifier_prefix_info#:#This prefix is used as a namespace in the identifiers of returned OER records.
 meta#:#md_oai_pmh_enabled#:#Allow Querying via OAI-PMH Interface
-meta#:#md_oai_pmh_enabled_info#:#If enabled, harvested OER can be queried by external interested parties, e.g. OER repositories.
+meta#:#md_oai_pmh_enabled_info#:#If enabled, published OER can be queried by external interested parties, e.g. OER repositories.
 meta#:#md_oai_repository_name#:#Installation Name
 meta#:#md_oai_repository_name_info#:#This is returned as the name of this ILIAS installation when queried.
 meta#:#md_obj_types#:#Assigned Objects
+meta#:#md_publishing#:#Publishing
+meta#:#md_publishing_action_accept#:#Accept for Publishing
+meta#:#md_publishing_action_block#:#Block From Publishing
+meta#:#md_publishing_action_publish#:#Publish
+meta#:#md_publishing_action_reject#:#Reject
+meta#:#md_publishing_action_submit#:#Submit for Publishing
+meta#:#md_publishing_action_unblock#:#Unblock
+meta#:#md_publishing_action_withdraw#:#Withdraw
+meta#:#md_publishing_center_title#:#OER Publishing
+meta#:#md_publishing_confirmation_accept#:#Accept for Publishing
+meta#:#md_publishing_confirmation_info_accept#:#Are you sure you want to publish this object?
+meta#:#md_publishing_confirmation_info_reject#:#Are you sure you want to reject this object for publishing?
+meta#:#md_publishing_confirmation_info_withdraw#:#Are you sure you want to withdraw this object from publishing?
+meta#:#md_publishing_confirmation_reject#:#Reject for Publishing
+meta#:#md_publishing_confirmation_withdraw#:#Withdraw From Publishing
+meta#:#md_publishing_control_center#:#OER Publishing
+meta#:#md_publishing_current_status#:#Publishing this object as OER: <strong>%s</strong>
+meta#:#md_publishing_info_blocked#:#This object is blocked from being automatically published.
+meta#:#md_publishing_info_published#:#This object has been published as an Open Educational Resource.
+meta#:#md_publishing_info_under_review#:#This object was submitted for publishing, and is currently being reviewed by the editorial team.
+meta#:#md_publishing_info_unpublished#:#This object can be published as an Open Educational Resource.
+meta#:#md_publishing_info_wrong_copyright#:#To publish this object as an Open Educational Resource, please close this dialog and select an eligible licence:%s
+meta#:#md_publishing_last_reference_info#:#Please note that this object will not be removed, because there are no other references to it in the repository.
+meta#:#md_publishing_status_blocked#:#Blocked
+meta#:#md_publishing_status_published#:#Published
+meta#:#md_publishing_status_under_review#:#Under Review
+meta#:#md_publishing_status_unpublished#:#Unpublished
+meta#:#md_publishing_success_accept#:#Object successfully published.
+meta#:#md_publishing_success_block#:#Object successfully blocked from publishing.
+meta#:#md_publishing_success_publish#:#Object successfully published.
+meta#:#md_publishing_success_reject#:#Object successfully rejected.
+meta#:#md_publishing_success_submit#:#Object successfully submitted for review.
+meta#:#md_publishing_success_unblock#:#Object successfully unblocked.
+meta#:#md_publishing_success_withdraw#:#Object successfully withdrawn.
+meta#:#md_publishing_workflow#:#Publishing Workflow
+meta#:#md_publishing_workflow_automatic#:#Automatic
+meta#:#md_publishing_workflow_automatic_info#:#Eligible objects are automatically published by the OER Harvester cron job.
+meta#:#md_publishing_workflow_manual#:#Manual
+meta#:#md_publishing_workflow_manual_info#:#Add an option to the LOM of objects to publish them with the click of a button.
+meta#:#md_publishing_workflow_mode#:#Enable Publishing
+meta#:#md_publishing_workflow_mode_info#:#When an object is published, it is added to a predefined category and an export file is generated for it. Additionally, a record is compiled that (if activated) can be read out via an OAI-PMH interface.
 meta#:#md_record_export_table#:#Export Files
 meta#:#md_record_list_table#:#Custom Metadata Sets
 meta#:#md_separated_by#:#Separated by %s
@@ -12633,18 +12767,17 @@ meta#:#meta_obj_type_active#:#Dataset offered
 meta#:#meta_obj_type_inactive#:#Data set not used
 meta#:#meta_obj_type_mandatory#:#Data set always offered
 meta#:#meta_obj_type_optional#:#Data set needs activation
-meta#:#meta_oer_blocked#:#Ignored by OER Harvester
-meta#:#meta_oer_blocked_info#:#Will not be listed automatically as Open Educational Ressource (OER)
-meta#:#meta_oer_categories#:#Categories for Objects Gathered
 meta#:#meta_oer_copyright_selection#:#Copyright Selection
-meta#:#meta_oer_copyright_selection_info#:#Only objects that have been published with one of the selected copyrights will be linked to the OER Category.
+meta#:#meta_oer_copyright_selection_info#:#Only objects with one of the selected copyrights will be published.
+meta#:#meta_oer_editorial_category#:#Editorial Category
+meta#:#meta_oer_editorial_step_info#:#Add a step in the publishing workflow where objects can be checked by an editorial team before being published. Objects are first submitted to the Editorial Category. Only after being accepted are they moved to the category for published OER content, and records for the OAI-PMH interface are compiled.
+meta#:#meta_oer_editorial_step_toggle#:#Enable Editorial Step
 meta#:#meta_oer_exposed_source#:#Category for Published OER Content
-meta#:#meta_oer_harvested_licences#:#Licences for Harvesting
-meta#:#meta_oer_harvested_types#:#Types of Objects to be Harvested
+meta#:#meta_oer_harvested_licences#:#Licences for Publishing
+meta#:#meta_oer_harvested_types#:#Types of Objects for Publishing
 meta#:#meta_oer_harvester#:#OER Harvester
-meta#:#meta_oer_harvester_desc#:#The OER Harvester collects all resources under selected CC licenses, adds them to a category defined in the cronjob settings, and if necessary generates export files for them. For harvested resource marked for publishing, records are compiled that can then (if enabled) be queried via an OAI-PMH interface. What object types are harvested can be configured. To get results from this cronjob it is necessary to activate and configure the copyright selection in the administration of 'Metadata'.
-meta#:#meta_oer_object_type_selection#:#Harvested Object Types
-meta#:#meta_oer_target#:#Category for Harvested OER Content
+meta#:#meta_oer_harvester_desc#:#The OER Harvester needs to be activated for publishing workflows to function properly, see the 'Publishing' configuration in the 'Metadata' administration.<br/>It updates the records of published objects in the OAI-PMH interface, and withdraws objects that are not eliglible for publishing anymore. If automatic publishing is enabled, the OER Harvester also automatically collect objects with eligible type and copyright, and publishes them (or submits them for review, if an editorial step is enabled).
+meta#:#meta_oer_object_type_selection#:#Eligible Object Types
 meta#:#meta_opera#:#Opera
 meta#:#meta_operating_system#:#Operating System
 meta#:#meta_or_composite#:#Or Composite
@@ -12657,6 +12790,12 @@ meta#:#meta_pointofcontact#:#Point(s) of Contact
 meta#:#meta_prerequisite#:#Prerequisite
 meta#:#meta_problem_statement#:#Problem Statement
 meta#:#meta_publisher#:#Publisher
+meta#:#meta_publishing_config_cp#:#Copyright Selection: <strong>%s</strong>
+meta#:#meta_publishing_config_cron_job_admin#:#Cron Job Administration
+meta#:#meta_publishing_config_disabled#:#Disabled
+meta#:#meta_publishing_config_enabled#:#Enabled
+meta#:#meta_publishing_config_harvester#:#OER Harvester: <strong>%s</strong>
+meta#:#meta_publishing_config_status#:#For publishing to function, copyright selection and the OER Harvester cron job have to be enabled.
 meta#:#meta_purpose#:#Purpose
 meta#:#meta_questionnaire#:#Questionnaire
 meta#:#meta_references#:#References
@@ -12685,7 +12824,6 @@ meta#:#meta_source#:#Source
 meta#:#meta_status#:#Status
 meta#:#meta_string#:#Text
 meta#:#meta_structure#:#Structure
-meta#:#meta_subjectmatterexpert#:#Subject matter expert(s)
 meta#:#meta_tab_advmd#:#Custom Metadata
 meta#:#meta_tab_advmd_def#:#Manage Custom Metadata Sets
 meta#:#meta_tab_lom#:#LOM
@@ -12728,9 +12866,8 @@ mmbr#:#info_refuse_sure#:#Are you sure you want to refuse the following user(s)?
 mmbr#:#mmbr_awrn_my_groups_courses#:#My Groups and Courses
 mmbr#:#mmbr_awrn_my_groups_courses_info#:#All members of groups or courses of the current user are listed.
 mmbr#:#mmbr_btn_mail_selected_users#:#Send Mail
-mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?
 mmbr#:#mmbr_memberships#:#Memberships
-mmbr#:#mmbr_selected_users#:#Selected Participants
+mmbr#:#mmbr_role_error#:#Members must have at least one role assigned.
 mmbr#:#mmbr_unsubscribed_from_objs#:#You have been unsubscribed from the selected objects.
 mme#:#add_languages#:#Add Language
 mme#:#additional_langs#:#Additional Languages
@@ -12977,31 +13114,31 @@ news#:#passwd_equals_ilpasswd#:#Please enter a password different from your ILIA
 news#:#priv_feed_disabled#:#Private Newsfeed disabled.
 news#:#priv_feed_settings#:#Private Newsfeed settings
 note#:#note_comment_notification_link#:#Link
-note#:#note_comment_notification_reason#:#You receive this message because your account is listed as a global recipient for all comments in the ILIAS administration.
+note#:#note_comment_notification_reason#:#You have received this mail because your account is listed as a global recipient for all comments made on this installation.
 note#:#note_comment_notification_salutation#:#Hello %s,
 note#:#note_comment_notification_subject#:#A comment has been added to "%s"
 note#:#note_comment_notification_subjectc#:#A comment has been changed in "%s"
-note#:#note_comment_notification_user_has_written#:#%s has written:
-note#:#note_comments_notification#:#General notification about all comments
-note#:#note_comments_notification_info#:#Comma separated list of accounts that are notified for each comment
+note#:#note_comment_notification_user_has_written#:#%s has commented:
+note#:#note_comments_notification#:#General Notification Mail for All Comments
+note#:#note_comments_notification_info#:#Comma-separated list of accounts that are to be notified each time a comment is made.
 note#:#note_enable_comments#:#Enable Comments
-note#:#note_enable_comments_del_tutor#:#Any Comment may be deleted by tutors
-note#:#note_enable_comments_del_tutor_info#:#User with "Edit Settings" permission for an object can delete any comment made in this object.
-note#:#note_enable_comments_del_user#:#Comments may be deleted by their authors
+note#:#note_enable_comments_del_tutor#:#All Comments in Object Deletable
+note#:#note_enable_comments_del_tutor_info#:#Users with the "Edit Settings" permission for an object can delete any comment or comments made in this object.
+note#:#note_enable_comments_del_user#:#Own Comments Deletable
 note#:#note_enable_comments_del_user_info#:#Comments can be deleted by the person who created them.
-note#:#note_enable_comments_export_info#:#This option enables comments export for content objects like portfolio, blog and wiki.
+note#:#note_enable_comments_export_info#:#Enable the export of comments from within objects such as portfolios, blogs and wikis.
 note#:#note_enable_notes#:#Enable Notes
 note#:#note_html_export_include_comments#:#Should comments be included in the export?
 notes#:#comments_feature_currently_not_activated_for_object#:#The public comments feature is currently not activated for this resource.
 notes#:#note_add_comment#:#Add Comment
 notes#:#note_add_message#:#Add Message
 notes#:#note_add_note#:#Add Note
-notes#:#note_content_removed#:#The content has been removed.
+notes#:#note_content_removed#:#This content has been removed.
 notes#:#note_text#:#Text
 notes#:#note_update_comment#:#Update Comment
 notes#:#note_update_message#:#Update Message
 notes#:#note_update_note#:#Update Note
-notes#:#note_without_object#:#Without reference
+notes#:#note_without_object#:#Without Reference
 notes#:#notes_activate_comments#:#Activate Public Comments
 notes#:#notes_add_comment#:#Add Comment
 notes#:#notes_add_edit_comment#:#Add/Edit Comment
@@ -13009,29 +13146,30 @@ notes#:#notes_add_edit_message#:#Add/Edit Message
 notes#:#notes_add_edit_note#:#Add/Edit Note
 notes#:#notes_all_comments#:#All Comments
 notes#:#notes_comment#:#Comment
-notes#:#notes_comment_deleted#:#The comment has been deleted.
+notes#:#notes_comment_deleted#:#Comment deleted.
 notes#:#notes_comments#:#Comments
-notes#:#notes_comments_deleted#:#The comments have been deleted.
+notes#:#notes_comments_deleted#:#Comments deleted.
 notes#:#notes_deactivate_comments#:#Deactivate Public Comments
-notes#:#notes_delete_comment#:#Do you really want to delete this comment?
-notes#:#notes_delete_message#:#Do you really want to delete this message?
-notes#:#notes_delete_note#:#Do you really want to delete this note?
+notes#:#notes_delete_comment#:#Are you sure you want to delete this comment?
+notes#:#notes_delete_message#:#Are you sure you want to delete this message?
+notes#:#notes_delete_note#:#Are you sure you want to delete this note?
 notes#:#notes_hide_comments#:#Hide Comments
 notes#:#notes_html_export#:#HTML Export
 notes#:#notes_latest_comment#:#Latest Comment
 notes#:#notes_latest_message#:#Latest Message
 notes#:#notes_message_author_counterpart#:#Respondent
 notes#:#notes_message_author_you#:#You
+notes#:#notes_message_deleted#:#Message deleted.
 notes#:#notes_messages#:#Messages
 notes#:#notes_my_comments#:#My Comments
-notes#:#notes_no_comments#:#No comment has been posted yet.
-notes#:#notes_no_comments_found#:#No comments found that match your seach criteria.
-notes#:#notes_no_messages#:#No messages have been attached yet.
-notes#:#notes_no_messages_found#:#No messages found that match your seach criteria.
-notes#:#notes_no_notes#:#No notes have been attached yet.
-notes#:#notes_no_notes_found#:#No notes found that match your seach criteria.
-notes#:#notes_note_deleted#:#The note has been deleted.
-notes#:#notes_notes_deleted#:#The notes have been deleted.
+notes#:#notes_no_comments#:#No comments have been posted yet.
+notes#:#notes_no_comments_found#:#No comments found that match your search criteria.
+notes#:#notes_no_messages#:#No messages have been left yet.
+notes#:#notes_no_messages_found#:#No messages found that match your search criteria.
+notes#:#notes_no_notes#:#You have not yet added any notes to this object.
+notes#:#notes_no_notes_found#:#No notes found that match your search criteria.
+notes#:#notes_note_deleted#:#Note deleted.
+notes#:#notes_notes_deleted#:#Notes deleted.
 notes#:#notes_origin#:#Origin
 notes#:#notes_public_comments#:#Public Comments
 notes#:#notes_show_comments#:#Show Comments
@@ -13203,10 +13341,8 @@ orgu#:#org_op_edit_employee_talk#:#Edit Talk appointments
 orgu#:#org_op_edit_individual_plan#:#Edit Individual Plan
 orgu#:#org_op_edit_submissions_grades#:#Edit submissions of other users
 orgu#:#org_op_manage_members#:#Manage Members
-orgu#:#org_op_manage_participants#:#Manage Participants
 orgu#:#org_op_read_employee_talk#:#Read access talk appointments
 orgu#:#org_op_read_learning_progress#:#View learning progress of other users
-orgu#:#org_op_score_participants#:#Score Participants
 orgu#:#org_op_view_certificates#:#View certificates of other users
 orgu#:#org_op_view_competences#:#View competences of other users
 orgu#:#org_op_view_individual_plan#:#View Individual Plan
@@ -13302,7 +13438,6 @@ pd#:#pd_ended#:#Ended
 pd#:#pd_export_profile#:#Export Personal Data
 pd#:#pd_import_personal_data#:#Import Personal Data
 pd#:#pd_my_memberships_sort_default#:#Default of Sort Option
-pd#:#pd_no_items_to_manage#:#No items available for removal.
 pd#:#pd_not_dated#:#Not Dated
 pd#:#pd_ongoing#:#Ongoing
 pd#:#pd_personal_items_default_view#:#Default View
@@ -13312,80 +13447,76 @@ pd#:#pd_presentation_mode_tile#:#Tile Presentation
 pd#:#pd_private_calendars#:#Private Calendars
 pd#:#pd_profile_data#:#Profile Data
 pd#:#pd_remove_multi_confirm#:#The objects were removed.
-pd#:#pd_remove_multiple#:#Remove Multiple Objects
-pd#:#pd_unsubscribe_memberships#:#Unsubscribe
-pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple
 pd#:#pd_upcoming#:#Upcoming
 pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either ‘Selected Items’ and/or ‘My Memberships’.
 pdesk#:#bookmark_moved_ok#:#Bookmark has been moved.
 pdesk#:#bookmark_select_target#:#Please select target.
 poll#:#poll_absolute#:#Current Votes
-poll#:#poll_activation_online_info#:#Activate this setting to make the poll accessible to users.
+poll#:#poll_activation_online_info#:#Make this poll accessible to users.
 poll#:#poll_add#:#Add Poll
-poll#:#poll_anonymous_warning#:#Individual votes are recorded, but your name will not be shown in the poll results.
+poll#:#poll_anonymous_warning#:#This is an anonymous poll. Individual votes are recorded, but your name will not be shown in the poll results.
 poll#:#poll_answer#:#Answer
 poll#:#poll_answer_selected_alt_text#:#Selected
 poll#:#poll_answers#:#Possible Answers
-poll#:#poll_barchart#:#Bar Chart
-poll#:#poll_block_message_already_voted#:#You already voted in this poll.
+poll#:#poll_barchart#:#Bar chart
+poll#:#poll_block_message_already_voted#:#You have already voted in this poll.
 poll#:#poll_block_message_no_answers#:#This poll is incomplete.
-poll#:#poll_block_results_available_on#:#The results will be available %s.
-poll#:#poll_cannot_set_online_no_answers#:#The status cannot be changed to &quot;online&quot; because this poll has no question!
+poll#:#poll_block_results_available_on#:#The results will be available: %s.
+poll#:#poll_cannot_set_online_no_answers#:#This poll cannot be set to &quot;Online&quot; because it doesn’t have a question!
 poll#:#poll_chart_votes#:#Votes
 poll#:#poll_comments#:#Comments
 poll#:#poll_copy#:#Copy Poll
-poll#:#poll_delete_votes#:#Delete Votes of All Users
-poll#:#poll_delete_votes_sure#:#Are you sure you want to delete the votes of all users who took part in this poll?
+poll#:#poll_delete_votes#:#Delete All Votes Cast
+poll#:#poll_delete_votes_sure#:#Are you sure you want to delete the votes of all users who have taken part in this poll?
 poll#:#poll_edit#:#Edit Poll
 poll#:#poll_edit_question#:#Edit Question
 poll#:#poll_image#:#Image
-poll#:#poll_import#:#Import Poll
-poll#:#poll_limit_not_below_answer_count#:#The answer limit must be below the number of possible answers.
-poll#:#poll_limit_number_of_answers#:#Limit Number of Answers per Participant
-poll#:#poll_max_number_of_answers#:#Max. Answers
+poll#:#poll_limit_not_below_answer_count#:#The maximum number of selectable answer options must be smaller than the total number of possible answers.
+poll#:#poll_limit_number_of_answers#:#Limit Number of Answers Selectable
+poll#:#poll_max_number_of_answers#:#Maximum Selectable per Participant
 poll#:#poll_max_number_of_answers_info#:#You may choose up to %s answers.
 poll#:#poll_mode#:#Mode
-poll#:#poll_mode_anonymous#:#Without Names / Anonymous
+poll#:#poll_mode_anonymous#:#Without names / anonymous
 poll#:#poll_mode_anonymous_info#:#The names of poll participants are not shown in the 'Results' tab. Please note: participant user IDs are, however, recorded in the database.
-poll#:#poll_mode_personal#:#With Names
-poll#:#poll_mode_personal_info#:#In the tab ‘Results’ the names of participants and their respective answers are listed. Users with access to this tab can inspect who has given which answer.
+poll#:#poll_mode_personal#:#With names
+poll#:#poll_mode_personal_info#:#The names of poll participants and their respective answers are listed in the ‘Results’ tab. Users with access to this tab can inspect who has given which answer.
 poll#:#poll_new#:#Add New Poll
-poll#:#poll_non_anonymous_warning#:#Your name and vote are visible for administrators in the results.
-poll#:#poll_notification_activated#:#Notification Activated
-poll#:#poll_notification_deactivated#:#Notification Deactivated
-poll#:#poll_notification_subscribe#:#Activate Notification
-poll#:#poll_notification_unsubscribe#:#Deactivate Notification
+poll#:#poll_non_anonymous_warning#:#Your name and how you have voted will be visible to anyone with administration permissions for this poll.
+poll#:#poll_notification_activated#:#Notifications activated.
+poll#:#poll_notification_deactivated#:#Notifications deactivated
+poll#:#poll_notification_subscribe#:#Activate Notifications
+poll#:#poll_notification_unsubscribe#:#Deactivate Notifications
 poll#:#poll_percentage#:#Current Percentage
-poll#:#poll_population#:#%s Participants
-poll#:#poll_population_singular#:#1 Participant
+poll#:#poll_population#:#%s votes cast
+poll#:#poll_population_singular#:#One vote cast
 poll#:#poll_question#:#Question
 poll#:#poll_result#:#Results
 poll#:#poll_result_answers#:#Votes
-poll#:#poll_result_sorting#:#Sorting
-poll#:#poll_result_sorting_answers#:#In the order of the answers
+poll#:#poll_result_sorting#:#Presentation Order
+poll#:#poll_result_sorting_answers#:#In the same order as the possible answers
 poll#:#poll_result_sorting_votes#:#By number of votes (descending)
 poll#:#poll_result_users#:#Participants
-poll#:#poll_show_results_as#:#Show Results as
+poll#:#poll_show_results_as#:#Results Format
 poll#:#poll_sortorder#:#Order
-poll#:#poll_stacked_chart#:#Stacked Chart
-poll#:#poll_view_results#:#Display Results
-poll#:#poll_view_results_after_period#:#After Voting Period
-poll#:#poll_view_results_after_period_impossible#:#The voting period is not limited.
-poll#:#poll_view_results_after_vote#:#After Vote
+poll#:#poll_stacked_chart#:#Stacked chart
+poll#:#poll_view_results#:#Show Results
+poll#:#poll_view_results_after_period#:#When voting period has ended
+poll#:#poll_view_results_after_period_impossible#:#In order for the results to be first shown when the voting period has ended, you need to establish a limited voting period by entering dates above.
+poll#:#poll_view_results_after_vote#:#After participant has voted
 poll#:#poll_view_results_always#:#Always
 poll#:#poll_view_results_never#:#Never
 poll#:#poll_vote#:#Vote
 poll#:#poll_vote_error_multi#:#Please select no more than %s answers.
-poll#:#poll_vote_error_multi_no_answer#:#Please select at least 1 answer.
-poll#:#poll_vote_error_single#:#Please select 1 answer.
-poll#:#poll_vote_notification_body#:#the following poll has received a vote.
+poll#:#poll_vote_error_multi_no_answer#:#Please select at least one of the answers.
+poll#:#poll_vote_error_single#:#Please select one of the answers.
+poll#:#poll_vote_notification_body#:#A vote has been cast in the following poll:
 poll#:#poll_vote_notification_link#:#Link to Poll
-poll#:#poll_vote_notification_reason#:#You are receiving this e-mail because you activated notifications for the poll mentioned above.
-poll#:#poll_vote_notification_subject#:#Poll "%s": new vote
-poll#:#poll_votes_no_edit#:#This poll already contains votes. You cannot edit the poll until you delete these votes.
+poll#:#poll_vote_notification_reason#:#You have received this e-mail because you activated notifications for the poll mentioned above.
+poll#:#poll_vote_notification_subject#:#Poll "%s" – new vote cast
+poll#:#poll_votes_no_edit#:#This poll has already received votes. You cannot edit the poll unless you delete these votes.
 poll#:#poll_voting_period_and_results#:#Voting Period and Results
 poll#:#poll_voting_period_ended_info#:#The voting period ended %s.
-poll#:#poll_voting_period_full_info#:#Voting period from %s to %s
+poll#:#poll_voting_period_full_info#:#Voting in this poll will be possible from %s until %s
 poll#:#poll_voting_period_info#:#The deadline for voting is %s.
 poll#:#poll_voting_period_limited#:#Limited Voting Period
 prg#:#access_ctr_by_orgu_position#:#Access control according to Organisational Unit Positions
@@ -14512,6 +14643,9 @@ rbac#:#positions_override_operations#:#Override global Settings
 rbac#:#precondition_not_obligatory_alt#:#Precondition is optional
 rbac#:#precondition_num_obligatory#:#Number of Required Materials
 rbac#:#precondition_num_optional_info#:#Please enter the minimum number of materials required to fulfill this precondition.
+rbac#:#precondition_number_of_required_materials_bigger_preconditions_number#:#The number of required materials must be less than the total number of preconditions.
+rbac#:#precondition_number_of_required_materials_lower_compulsory_items#:#The number of required materials must be greater than the number of compulsory preconditions.
+rbac#:#precondition_number_of_required_materials_lower_than_one#:#The number of required materials must be at least 1.
 rbac#:#precondition_obligatory#:#Compulsory
 rbac#:#precondition_obligatory_alt#:#Precondition must be fulfilled
 rbac#:#precondition_obligatory_info#:#Compulsory preconditions must be fulfilled, for having access.
@@ -15053,9 +15187,7 @@ rep#:#rep_add_new_def_grp_content#:#Content
 rep#:#rep_add_new_def_grp_feedback#:#Feedback and Evaluation
 rep#:#rep_add_new_def_grp_organisation#:#Organisation
 rep#:#rep_add_new_def_grp_templates#:#Templates
-rep#:#rep_add_to_favourites#:#Add to Favourites
 rep#:#rep_added_rec_content#:#Recommended content has been added.
-rep#:#rep_added_to_favourites#:#The item has been added to your favourites.
 rep#:#rep_allowed_types#:#Allowed Types
 rep#:#rep_breadcr_crs#:#Breadcrumb starts with course
 rep#:#rep_breadcr_crs_config#:#Configuration
@@ -15110,9 +15242,7 @@ rep#:#rep_object_references_cannot_be_read#:#No permissions for %s more referenc
 rep#:#rep_object_to_delete#:#To Delete
 rep#:#rep_rec_content_removed#:#Recommended content has been removed.
 rep#:#rep_recommended_content#:#Recommended Content
-rep#:#rep_remove_from_favourites#:#Remove from Favourites
 rep#:#rep_remove_rec_content#:#Are you sure you want to remove the following recommended content?
-rep#:#rep_removed_from_favourites#:#The item has been removed from your favourites.
 rep#:#rep_target_location#:#Target Location
 rep#:#rep_target_location_info#:#Bitte wählen Sie nun das Ziel aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen.
 rep#:#rep_time_based_availability#:#Limited Availability Period
@@ -15136,8 +15266,6 @@ rtst#:#rtst_call#:#Call ECS Test
 rwik#:#rwik_call#:#Call ECS Wiki
 sahs#:#cont_insert_after_chap#:#Insert items after chapter
 sahs#:#cont_insert_into_chap#:#Insert items inside chapter
-sahs#:#sahs_activate_expert_mode#:#Activate Sequencing Expert Mode
-sahs#:#sahs_activate_expert_mode_info#:#The sequencing expert mode allows you to directly edit the sequencing information of the package tree. If you are unsure what this means we recommend to use the default sequencing behaviour.
 sahs#:#sahs_add#:#Create SCORM Learning Module
 sahs#:#sahs_authoring_mode#:#Authoring Mode
 sahs#:#sahs_authoring_mode_info#:#The SCORM ZIP package must have been created with the ILIAS SCORM editor and it must have been exported as SCORM 1.2/2004 package.
@@ -15469,7 +15597,9 @@ search#:#lucene_or#:#OR
 search#:#lucene_port#:#Port
 search#:#lucene_prefix_wildcard#:#Prefix Wildcard Queries
 search#:#lucene_prefix_wildcard_info#:#Supports prefix wildcard queries: ‘*LIAS’ finds ‘ILIAS’
+search#:#lucene_settings_index_section#:#Index Backup
 search#:#lucene_settings_tab#:#Lucene
+search#:#lucene_settings_text_section#:#Presentation of Search Results
 search#:#lucene_settings_title#:#Lucene Settings
 search#:#lucene_size_frag_info#:#Please choose the maximum size of highlighted text fragments. To do this, enter the number of characters including spaces.
 search#:#lucene_size_fragments#:#Size of Text Fragments
@@ -15480,6 +15610,7 @@ search#:#search_any#:#-- Any --
 search#:#search_area#:#Search Area
 search#:#search_area_info#:#Please select an area where the search should start.
 search#:#search_auto_complete_length#:#Number of Auto-Complete List Entries
+search#:#search_auto_complete_length_info#:#Choose ‘0‘ to switch off the auto-complete list.
 search#:#search_cdate_filter#:#Filter by Creation Date
 search#:#search_cdate_filter_info#:#If enabled, the object search can be filtered by an optional creation date filter.
 search#:#search_content#:#Page Content
@@ -15497,6 +15628,7 @@ search#:#search_field#:#Search Input Field
 search#:#search_field_perform#:#Perform Search
 search#:#search_filter_by_type#:#Filter by Type
 search#:#search_filter_cd#:#Filter by Creation Date
+search#:#search_filter_settings_section#:#Filters for the Search Results
 search#:#search_for_crs_members#:#Search for Courses
 search#:#search_for_grp_members#:#Search for Groups
 search#:#search_for_orgu_members#:#Search for Organisational Units
@@ -16127,6 +16259,7 @@ style#:#sty_individual_styles#:#Individual Styles
 style#:#sty_keep_existing#:#Keep Existing
 style#:#sty_left#:#Left
 style#:#sty_left_right_padding#:#Cell Padding Left/Right
+style#:#sty_legacy_image_directory_found#:#Legacy image directory found. You may migrate the directory from ILIAS 9 by clicking "Migrate Images"
 style#:#sty_letter_spacing#:#Letter Spacing
 style#:#sty_lightness_border#:#Lightness Border
 style#:#sty_lightness_cell1_bg#:#Lightness Cell 1 Background
@@ -16147,6 +16280,7 @@ style#:#sty_margin_and_padding#:#Margin and Padding
 style#:#sty_media_char#:#Media
 style#:#sty_media_queries#:#Media Queries
 style#:#sty_media_query_info#:#A separate CSS block is added for each media query after the default (no special media query) block.
+style#:#sty_migrate_images#:#Migrate Images
 style#:#sty_min_height#:#Minimum Height
 style#:#sty_move_lm_styles#:#Change Style of Learning Modules
 style#:#sty_move_obj_styles#:#Change Style of Objects
@@ -16205,6 +16339,7 @@ style#:#sty_special#:#Special
 style#:#sty_style_chars#:#Style Classes
 style#:#sty_style_class#:#Style Classes
 style#:#sty_style_classes_copied#:#Style classes have been copied.
+style#:#sty_style_not_migrated#:#This content style has not been migrated to the ILIAS 10 data structure yet. Changes will not be applied.
 style#:#sty_substyle#:#Substyle
 style#:#sty_substyle_of#:#Sub Style of
 style#:#sty_substyles#:#Substyles
@@ -16459,7 +16594,6 @@ survey#:#default_codes_mail_subject#:#Your access code for %s
 survey#:#define_questionblock#:#Combine Into Question Block
 survey#:#delete_saved_message#:#Delete Text Template
 survey#:#display_all_available#:#Display All Available
-survey#:#dont_use_questionpool#:#Don't insert the questions in a question pool (only available in this survey)
 survey#:#duplicate#:#Duplicate
 survey#:#edit_heading#:#Edit Heading
 survey#:#end_date#:#End Date
@@ -16473,15 +16607,14 @@ survey#:#err_minvalueganswers#:#The minimum value must equal or be smaller than 
 survey#:#err_no_exact_answers#:#Please select exactly %s answer(s).
 survey#:#err_no_max_answers#:#Please select at most %s answers.
 survey#:#err_no_min_answers#:#Please select at least %s answer(s).
-survey#:#err_no_pool_name#:#Please enter the name of a survey question pool
 survey#:#error_retrieving_anonymous_survey#:#The system could not find your survey data for survey code &quot;%s&quot;. Please check the survey code you have entered!
 survey#:#error_save_code#:#Value not saved properly. <b>The e-mail address: '%s' is not valid</b>. First name: '%s', Last name: '%s'.<br>
 survey#:#evaluation#:#Statistics
 survey#:#evaluation_access#:#Access to Results
-survey#:#evaluation_access_all#:#All Registered Users
+survey#:#evaluation_access_all#:#All registered users
 survey#:#evaluation_access_info#:#You have access to the survey results.
-survey#:#evaluation_access_off#:#Participants Cannot Access Results
-survey#:#evaluation_access_participants#:#All Survey Participants
+survey#:#evaluation_access_off#:#Participants cannot access results
+survey#:#evaluation_access_participants#:#All survey participants
 survey#:#existing_constraints#:#Existing Routing Rules
 survey#:#exp_type_csv#:#Comma Separated Value (CSV)
 survey#:#exp_type_excel#:#Microsoft Excel
@@ -16515,7 +16648,7 @@ survey#:#insert_after#:#Insert After
 survey#:#insert_before#:#Insert Before
 survey#:#insert_missing_question#:#Please select at least one question that you would like to insert into the survey!
 survey#:#insert_missing_questionblock#:#Please select at least one question block that you would like to insert into the survey!
-survey#:#insert_saved_message#:#Insert Message Text
+survey#:#insert_saved_message#:#Insert Text Template
 survey#:#internal_link#:#Internal Link
 survey#:#introduction#:#Introductory Message
 survey#:#invited_users#:#Selected Users
@@ -16533,7 +16666,7 @@ survey#:#mailaddresses_info#:#Enter a comma-separated list of recipients (userna
 survey#:#mailnotification#:#Separate E-Mail for Each Finished Survey
 survey#:#mailparticipantdata#:#Information Text
 survey#:#mailparticipantdata_info#:#This information will be included in the notification mail and will come immediately before the results section.
-survey#:#mailparticipantdata_placeholder#:#These placeholders will be replaced by the actual user data if ‘Privacy’ is set to ‘With Names’ (see the ‘Results’ section below):
+survey#:#mailparticipantdata_placeholder#:#These placeholders will be replaced by the actual user data if ‘Privacy’ is set to ‘With names’ (see the ‘Results’ section below):
 survey#:#maintenance#:#Participants
 survey#:#matrix_appearance#:#Appearance
 survey#:#matrix_bipolar_adjectives#:#Bipolar Adjectives
@@ -16561,7 +16694,7 @@ survey#:#median#:#Median
 survey#:#median_between#:#between
 survey#:#menuback#:#Back
 survey#:#menubacktosurvey#:#Back to the Survey
-survey#:#message_content_info#:#Enter a message text for the notification mail containing the survey codes / reminder mail that will be sent to the participants. You may use the placeholders [code] the access code, [url] the URL of this survey, and the participant data included in your import fields: %s. The placeholders will be replaced with the relevant data in any mails sent.
+survey#:#message_content_info#:#Enter a ‘message content’ for the notification mail containing the survey codes or the reminder mail that will be sent to the participants. You may use the placeholders [code] the access code, [url] the URL of this survey, and the participant data included in your import fields: %s. The placeholders will be replaced with the relevant data in any mails sent.
 survey#:#metric_question_floating_point#:#The value you entered is a floating point number. Floating point numbers are not allowed for this question type.
 survey#:#metric_question_not_a_value#:#The value you entered is not a numeric value!
 survey#:#metric_question_out_of_bounds#:#Please enter a value that is between the minimum and maximum values.
@@ -16581,7 +16714,7 @@ survey#:#msg_message_inserted#:#Text template inserted.
 survey#:#msg_min_max_exact_answers#:#Please select exactly %s answer(s).
 survey#:#msg_min_max_nr_answers#:#Please select at least %s and at most %s answers.
 survey#:#msg_min_nr_answers#:#Please select at least %s answer(s).
-survey#:#msg_no_message_deleted#:#Please select the text you wish to delete from the ‘Available Message Texts’ drop-down menu.
+survey#:#msg_no_message_deleted#:#Please select the text template you wish to delete from the ‘Text Templates’ drop-down menu.
 survey#:#msg_no_message_inserted#:#Please select the text template you wish to use as your ‘Message Content’ from the ‘Text Templates’ drop-down menu.
 survey#:#new_survey_codes#:#New Survey Access Code(s)
 survey#:#no_question_selected_for_copy_to_pool#:#Please select at least one question which is not already part of a question pool.
@@ -16601,7 +16734,7 @@ survey#:#orientation#:#Orientation
 survey#:#other_answer#:#Other answer
 survey#:#other_answer_label#:#Label of other answer (optional)
 survey#:#outro#:#Concluding Remarks
-survey#:#please_enter_mail_url#:#Please include the url placeholder [url] in your message text.
+survey#:#please_enter_mail_url#:#Please include the url placeholder [url] in your message content.
 survey#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)?
 survey#:#qpl_define_questionblock_select_missing#:#Please select a least two questions in order to create a question block.
 survey#:#qpl_delete_select_none#:#You did not select a question for deletion. Please select at least one question that you would like to delete and try again.
@@ -16641,8 +16774,6 @@ survey#:#search_groups#:#Found Groups
 survey#:#search_term#:#Search Term
 survey#:#select_option#:#––– Please select an option –––
 survey#:#select_prior_question#:#Select a preceding question
-survey#:#select_questionpool#:#Please select a question pool to store the created question
-survey#:#select_questionpool_short#:#Question Pool Survey
 survey#:#select_relation#:#Select a relation
 survey#:#select_target_position_for_move_question#:#Please select where you would like to move your question to within the list. To do so, select the appropriate checkbox to the left of a question and either ‘Insert Before’ or ‘Insert After’.
 survey#:#select_value#:#Enter a value
@@ -16659,7 +16790,6 @@ survey#:#spl_move_insert_clipboard#:#The selected question(s) have been added to
 survey#:#spl_move_same_pool#:#You cannot move questions within the same question pool. To move your question(s), please navigate to a different question pool and click on ‘Paste’ there.
 survey#:#spl_move_select_none#:#Please select at least one question that you would like to move.
 survey#:#spl_online_property#:#Online
-survey#:#spl_online_property_description#:#If the question pool is not online, it cannot be used in surveys.
 survey#:#spl_paste_no_objects#:#There are no questions on the clipboard. Please copy or move a question onto the clipboard in order to be able to paste it here.
 survey#:#spl_paste_success#:#Question(s) successfully pasted into question pool.
 survey#:#spl_save_obligatory_state#:#Save ‘Compulsory’
@@ -16677,16 +16807,13 @@ survey#:#survey_360_appraisee_close_action_status#:#Survey closed on %s.
 survey#:#survey_360_appraisee_close_action_success#:#You have closed your 360° survey for your raters.
 survey#:#survey_360_appraisee_close_action_success_admin#:#Selected 360° survey(s) closed to raters.
 survey#:#survey_360_appraisee_close_table#:#Closed On
-survey#:#survey_360_appraisee_info#:#Appraisee Info
 survey#:#survey_360_appraisee_is_closed#:#This survey has been closed by the appraisee.
 survey#:#survey_360_appraisees#:#Appraisees
 survey#:#survey_360_edit_raters#:#Manage Raters
 survey#:#survey_360_mode#:#360° Feedback
 survey#:#survey_360_mode_info#:#Allows individuals to be peer-reviewed by multiple sources. Results are aggregated.
 survey#:#survey_360_no_appraisees#:#There are currently no appraisees for you to rate.
-survey#:#survey_360_no_closed_appraisees#:#No appraisee has closed his survey yet.
 survey#:#survey_360_rate_other_appraisee#:#Rate Appraisee
-survey#:#survey_360_rate_other_appraisees#:#Rate Appraisees
 survey#:#survey_360_rater_finished#:#Survey Finished
 survey#:#survey_360_rater_mail_sent#:#Mail Sent
 survey#:#survey_360_rater_message_content_anonymous#:#Message Content (Anonymous)
@@ -16696,14 +16823,13 @@ survey#:#survey_360_rater_message_content_registered_default#:#You can start the
 survey#:#survey_360_rater_subject_default#:#You have been invited as rater to a 360° survey.
 survey#:#survey_360_raters#:#Raters
 survey#:#survey_360_raters_finished#:#Raters Finished
-survey#:#survey_360_raters_status_info#:#Raters finished
 survey#:#survey_360_remove_appraisees#:#Remove Appraisee(s)
 survey#:#survey_360_results#:#Access to Results for Appraisees
-survey#:#survey_360_results_all#:#All Feedback
+survey#:#survey_360_results_all#:#All feedback
 survey#:#survey_360_results_all_info#:#All appraisees within this 360° Survey can view all feedback provided by all raters. This includes not only their own feedback, but also that given to other appraisees.
-survey#:#survey_360_results_none#:#No Access to Results
+survey#:#survey_360_results_none#:#No access to results
 survey#:#survey_360_results_none_info#:#Appraisees cannot access the feedback provided by raters.
-survey#:#survey_360_results_own#:#Access to Feedback From Own Raters
+survey#:#survey_360_results_own#:#Access to feedback from own raters
 survey#:#survey_360_results_own_info#:#Appraisees can only access the feedback provided to them by their own raters. They cannot access the feedback provided to other appraisees.
 survey#:#survey_360_select_appraisee#:#Select
 survey#:#survey_360_self_appraisee#:#Open Feedback
@@ -16716,8 +16842,8 @@ survey#:#survey_360_sure_appraisee_close#:#Are you sure you want to close the su
 survey#:#survey_360_sure_appraisee_close_admin#:#Are you sure you want to close the surveys for the following appraisees?
 survey#:#survey_360_sure_delete_appraises#:#Are you sure you want to remove the following appraisees?
 survey#:#survey_360_sure_delete_raters#:#Are you sure you want to remove the following raters for %s?
-survey#:#survey_access_codes#:#Authentication by Access Code
-survey#:#survey_access_codes_info#:#Users get access to the survey by entering a code in the survey’s ‘Info’ tab. These access codes can be generated in the ‘Access Codes’ sub tab of the ‘Participants’ tab.
+survey#:#survey_access_code#:#Authentication by Access Code
+survey#:#survey_access_codes_info#:#Users get access to the survey by entering a code after having clicked on ‘Start Survey’. These access codes can be generated in the ‘Access Codes’ sub tab of the ‘Participants’ tab.
 survey#:#survey_activate_skill_service#:#Activate Competence Service
 survey#:#survey_activate_skill_service_info#:#Display a new ‘Competences’ tab. In this tab questions are assigned to competences. Thresholds can then be established that are required to reach a specific level of a competence.
 survey#:#survey_add_new_question#:#Create Question
@@ -16737,7 +16863,7 @@ survey#:#survey_code_used#:#Code Status
 survey#:#survey_codes_lang#:#Preselected Survey Language
 survey#:#survey_codes_no_anonymization#:#You must create an anonymised survey with access codes in order to create new access codes!
 survey#:#survey_competences#:#Competences
-survey#:#survey_constraint_deleted#:#The routing rule has been deleted.
+survey#:#survey_constraint_deleted#:#Routing rule deleted.
 survey#:#survey_copy_questions_to_pool#:#Add to Question Pool
 survey#:#survey_copy_select_questionpool#:#Question pool to which the question(s) should be copied.
 survey#:#survey_copy_to_questionpool_success#:#Question(s) successfully copied to pool.
@@ -16748,17 +16874,14 @@ survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplet
 survey#:#survey_execution_exit#:#Back to Repository
 survey#:#survey_execution_exit_360#:#Back
 survey#:#survey_execution_sure_finish#:#Are you sure you want to finish the survey? You will not be able to edit your answers after doing so.
-survey#:#survey_existing_pool#:#Use existing question pool
 survey#:#survey_finish#:#Finish Survey
 survey#:#survey_finished#:#You have finished the survey. Thank you for your participation!
-survey#:#survey_has_datasets_warning#:#This survey already contains data sets. You cannot sync the survey questions until you remove these data sets via the survey’s ‘Participants’ tab. To do this you will need to remove any participants that have started the survey and by doing so, generated a data set.
+survey#:#survey_has_datasets_warning#:#This survey already contains data sets. You cannot sync the survey questions until you remove these data sets via the survey’s ‘Participants’ or ‘Appraises’ tab. To do this you will need to remove any participants that have started the survey and by doing so, generated a data set.
 survey#:#survey_has_datasets_warning_page_view#:#This survey already contains data sets. You cannot edit the survey questions until you remove these datasets. To do this you will need to remove any participants that have started the survey and by doing so, generated a data set.
 survey#:#survey_has_datasets_warning_page_view_link#:#Edit Participants
 survey#:#survey_introduction_info#:#This message is permanently displayed in the survey’s ‘Info’ tab.
 survey#:#survey_is_offline#:#You cannot start the survey as it is currently offline.
-survey#:#survey_new_pool#:#Create new question pool
 survey#:#survey_next#:#Next →
-survey#:#survey_no_pool#:#Do not use question pool
 survey#:#survey_not_available#:#n/a
 survey#:#survey_notification_finished_introduction#:#A participant has finished the following survey:
 survey#:#survey_notification_finished_reason#:#You have received this e-mail because you activated notifications for the survey mentioned above.
@@ -16770,22 +16893,16 @@ survey#:#survey_notification_target_group_parent_course_inactive#:#If this surve
 survey#:#survey_notification_tutor_body#:#The following survey has been finished by all participants
 survey#:#survey_notification_tutor_link#:#Link to Survey
 survey#:#survey_notification_tutor_recipients#:#Send Mail to (Username)
-survey#:#survey_notification_tutor_recipients_invalid#:#Please enter users with the ‘Edit Settings’ permission.
+survey#:#survey_notification_tutor_recipients_invalid#:#Please enter the username of a person with the ‘Edit Settings’ permission for this survey.
 survey#:#survey_notification_tutor_salutation#:#Hello %s,
 survey#:#survey_notification_tutor_setting#:#One E-Mail When All Participants Finish
 survey#:#survey_notification_tutor_subject#:#All participants have finished the survey "%s"
 survey#:#survey_order#:#Order
-survey#:#survey_pool_selection#:#Pool Selection
 survey#:#survey_previous#:#← Previous
 survey#:#survey_question_editor#:#List View
 survey#:#survey_question_obligatory#:#This question is compulsory. It must be answered!
 survey#:#survey_question_pool#:#Question Pool
 survey#:#survey_question_pool_title#:#Pool Title
-survey#:#survey_question_pool_usage#:#Use Question Pool
-survey#:#survey_question_pool_usage_active#:#Questions created in survey or re-used from pool
-survey#:#survey_question_pool_usage_active_info#:#Questions can be created directly in the survey or be added to the survey from a question pool.
-survey#:#survey_question_pool_usage_inactive#:#Create questions in survey only
-survey#:#survey_question_pool_usage_inactive_info#:#All questions have to be created directly in the survey. A re-use of existing questions from a pool is not possible.
 survey#:#survey_question_title#:#Question Title
 survey#:#survey_questions#:#Questions
 survey#:#survey_questions_to_clipboard_copy#:#Question(s) copied to the clipboard. Please select a target or empty the clipboard.
@@ -16803,11 +16920,11 @@ survey#:#survey_reminder_start#:#Start
 survey#:#survey_reminder_subject#:#Survey "%s" – Don’t forget to take part!
 survey#:#survey_remove_competence#:#Remove Competence
 survey#:#survey_results_anonymization#:#Privacy
-survey#:#survey_results_anonymized#:#Without Names / Anonymous Survey
-survey#:#survey_results_anonymized_info#:#Participants remain anonymous. Depending on global settings, the names of participants will either be replaced by the label ‘Anonymous’ or by individual codes. In the latter case users who have access to the ‘Results’ tab will not be able to attribute any answers to named participants, but only to codes, for example ‘iTXaF’.
+survey#:#survey_results_anonymized#:#Without names / anonymous survey
+survey#:#survey_results_anonymized_info#:#Participants remain anonymous. Depending on global settings, the names of participants will either be replaced by the label ‘Anonymous’ or by individual codes. In the latter case, users who have access to the ‘Results’ tab will not be able to attribute any answers to named participants, but only to codes, for example ‘iTXaF’.
 survey#:#survey_results_finished#:#Survey Finished
 survey#:#survey_results_not_started#:#Survey not started
-survey#:#survey_results_personalized#:#With Names
+survey#:#survey_results_personalized#:#With names
 survey#:#survey_results_personalized_info#:#The names of the participants and the answers they have given are listed in the ‘Results’ tab. Users who have full access to this tab will be able to see this data. If the number of participants is low, even users with limited access to the tab may be able to attribute answers to specific participants.
 survey#:#survey_results_started#:#Survey started
 survey#:#survey_show_blocktitle#:#Show Block Title
@@ -16839,7 +16956,7 @@ survey#:#svy_all_user_data_deleted#:#All user data of this survey has been delet
 survey#:#svy_analysis#:#Analysis
 survey#:#svy_anonymous_participants#:#List of Participants
 survey#:#svy_anonymous_participants_info#:#Add an option to the settings of surveys with anonymised participants that makes a list of participants available once the survey’s end date has been reached (as set in the ‘Administering the Survey: Access’ section of the survey’s ‘Settings’ tab).
-survey#:#svy_anonymous_participants_min#:#Minimum Number of Participants
+survey#:#svy_anonymous_participants_min#:#Minimum number of participants
 survey#:#svy_anonymous_participants_min_info#:#The list of participants will only be made available if (at the very least) the minimum number of participants has taken part in the survey.
 survey#:#svy_anonymous_participants_svy#:#List of Participants
 survey#:#svy_anonymous_participants_svy_info#:#Make a list of participants available via a new subtab (Participants > List of Participants) once the ‘Administering the Survey: Access’ End Date has been reached.
@@ -16850,7 +16967,7 @@ survey#:#svy_back#:#Back
 survey#:#svy_categories#:#Answers
 survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessible by survey participants you need to enter your survey access code to open the evaluation.
 survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed
-survey#:#svy_check_evaluation_wrong_key#:#You entered a wrong survey access code or you have not participated the survey. Your access to the survey evaluation is denied.
+survey#:#svy_check_evaluation_wrong_key#:#You have either entered an incorrect survey access code or did not take part in the survey. Unfortunately therefore, it is not possible for you to access the survey results.
 survey#:#svy_compress_view#:#Compressed View
 survey#:#svy_compress_view_info#:#Present all single choice questions that have the same answer scales in the manner of a matrix question.
 survey#:#svy_copy#:#Copy Survey
@@ -16879,7 +16996,7 @@ survey#:#svy_evaluation_access_all_info#:#All registered users who are able to a
 survey#:#svy_evaluation_access_off_info#:#Only users who have the ‘Survey Results’ permission have access to the results.
 survey#:#svy_evaluation_access_participants_info#:#All users who participate in the survey may choose to view the results upon completion.
 survey#:#svy_export_files#:#Export Files
-survey#:#svy_export_format#:#Export survey data as…
+survey#:#svy_export_format#:#Export Survey Results
 survey#:#svy_export_pdf#:#Export PDF
 survey#:#svy_ext_rater_firstname#:#First name of external rater
 survey#:#svy_ext_rater_lastname#:#Last name of external rater
@@ -16896,12 +17013,11 @@ survey#:#svy_mail_confirmation_subject#:#Survey "%s" - Your participation confir
 survey#:#svy_mail_context_rater_invitation_info#:#Invite raters to participate in a survey.
 survey#:#svy_mail_context_rater_invitation_survey_title#:#Survey Title
 survey#:#svy_mail_context_rater_invitation_title#:#Survey: Rater Invitation
-survey#:#svy_mail_context_reminder_info#:#Remind users to participate in survey
+survey#:#svy_mail_context_reminder_info#:#Remind users to participate in survey.
 survey#:#svy_mail_context_reminder_survey_title#:#Survey Title
 survey#:#svy_mail_context_reminder_title#:#Survey: Survey Reminder
-survey#:#svy_mail_own_results#:#Mail given answers
 survey#:#svy_mail_own_results_body#:#This is to confirm that you have participated in the following survey:
-survey#:#svy_mail_own_results_subject#:#Survey ‘%s’ - Your Participation Confirmation
+survey#:#svy_mail_own_results_subject#:#Survey ‘%s’ - Your Participation Confirmation and Answers
 survey#:#svy_mail_send_confirmation#:#Send Participation Confirmation
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#The column percentages need to add up to 100%.
 survey#:#svy_max_sum_score#:#Maximum Sum Score
@@ -16911,7 +17027,6 @@ survey#:#svy_notification_tutor_results#:#One E-Mail including Survey Results
 survey#:#svy_notification_tutor_results_alert#:#This requires an end date.
 survey#:#svy_notification_tutor_results_info#:#After reaching the end data a cron job will send an email with the detailed survey results attached to it.
 survey#:#svy_only_max_one_external_rater#:#Please select only one external rater.
-survey#:#svy_page_add_question#:#Add new %s
 survey#:#svy_page_error#:#An error occurred while answering a question. Please refer to the question for more information regarding the error.
 survey#:#svy_page_errors#:#Errors occurred with the answers to multiple survey questions. Please refer to the questions to get more information regarding the errors!
 survey#:#svy_participant#:#Participant
@@ -16931,12 +17046,10 @@ survey#:#svy_results_mail_confirm#:#Confirmation of Participation
 survey#:#svy_results_mail_confirm_info#:#Enable participants to request a mail confirming their participation in the survey upon completion.
 survey#:#svy_results_mail_own#:#Include Given Answers
 survey#:#svy_results_mail_own_info#:#The answers given by the participant will be included in their participation confirmation mail.
-survey#:#svy_results_view_own#:#Participants can View Own Answers
-survey#:#svy_results_view_own_info#:#After finishing the survey, participants can view a list of all answers they provided. They cannot change their answers
 survey#:#svy_save_and_continue#:#Save and Continue
 survey#:#svy_save_sync#:#Save and Sync Question Copies
 survey#:#svy_search_user#:#Look Up User
-survey#:#svy_search_user_info#:#Look up for specific users of this platform or for the members of specific groups, courses, roles or organisational units.
+survey#:#svy_search_user_info#:#Look up specific users of this platform or the members of specific groups, courses, roles or organisational units.
 survey#:#svy_search_users#:#Look Up Users
 survey#:#svy_select_rater#:#Select Rater
 survey#:#svy_selected_user_data_deleted#:#The survey data of the selected participants(s) has been successfully deleted.
@@ -16948,9 +17061,9 @@ survey#:#svy_self_ev_mode#:#Self-Evaluation Only
 survey#:#svy_settings_section_access#:#Administering the Survey: Access
 survey#:#svy_settings_section_before_start#:#Information Shown Before Start of Survey
 survey#:#svy_settings_section_finishing#:#Finishing the Survey
-survey#:#svy_settings_section_question_behaviour#:#Administering the Survey: Behaviour of Question
+survey#:#svy_settings_section_question_behaviour#:#Administering the Survey: Question Behaviour
 survey#:#svy_settings_section_reminders#:#Reminders
-survey#:#svy_show_questiontitles#:#Show Question Title
+survey#:#svy_show_questiontitles#:#Show Question Titles
 survey#:#svy_skl_comp_assignm_not_supported#:#Competence assignment is not supported for this question type.
 survey#:#svy_sum_score#:#Sum Score
 survey#:#svy_type_of_rater#:#Method
@@ -16960,7 +17073,7 @@ survey#:#text_maximum_chars_allowed#:#Please limit your answer to a maximum of %
 survey#:#text_question_not_filled_out#:#Please enter your answer into the field below.
 survey#:#unfold#:#Break up Question Block
 survey#:#upper_limit#:#Upper Limit
-survey#:#use_anonymous_id#:#Show Survey Code
+survey#:#use_anonymous_id#:#Show Survey Access Code
 survey#:#use_anonymous_id_desc#:#In anonymised surveys, use participants’ survey access codes as a proxy for their usernames. If left unchecked, ‘Anonymous’ will be shown in the place of usernames instead.
 survey#:#use_browser_print_function#:#Please use the print function of your web browser.
 survey#:#use_min_answers#:#Number of Answers Required
@@ -16984,13 +17097,13 @@ svy#:#svy_code#:#Access Code
 svy#:#svy_codes#:#Access Codes
 svy#:#svy_current_page#:#Current Page
 svy#:#svy_finish_survey#:#Take part in survey ‘%1’
-svy#:#svy_finished_x_appraisees#:#You have already completed the survey for %s appraisee(s).
+svy#:#svy_finished_x_appraisees#:#You have already left feedback for %s appraisee(s).
 svy#:#svy_information#:#Information
 svy#:#svy_invite_participants#:#Add to Tasks of Users
 svy#:#svy_link_to_svy#:#Link to Survey
 svy#:#svy_part_overview#:#Overview
 svy#:#svy_placeholders_label#:#Available Placeholders
-svy#:#svy_print_selection#:#Print View Selection
+svy#:#svy_print_selection#:#Select Content of Print View
 svy#:#svy_remove_all_participants#:#Delete All Participant Data
 svy#:#svy_remove_participants#:#Remove Participants
 svy#:#svy_selected_participants#:#Selected Participants
@@ -17118,6 +17231,12 @@ tax#:#tax_tax_settings#:#Taxonomy Settings
 tax#:#tax_taxonomy#:#Taxonomy
 tbl#:#tbl_export_csv#:#Export CSV
 tbl#:#tbl_export_excel#:#Export Excel
+tbl#:#tbl_selection#:#Selection
+tbl#:#tbl_template_create#:#Save Current View
+tbl#:#tbl_template_created#:#The current view has been saved.
+tbl#:#tbl_template_delete#:#Delete Saved View
+tbl#:#tbl_template_deleted#:#The saved view has been deleted.
+tbl#:#tbl_templates#:#View
 tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service
 tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.
 tos#:#tos_account_reg_not_possible#:#Self-registration is currently not possible because there is no Terms of Service agreement available. Please contact your <a href="%1$s">system administrator</a> for further information.
@@ -17225,7 +17344,7 @@ trac#:#trac_lp_determination_info_sco#:#Select the items that determine the over
 trac#:#trac_lp_determination_tutor#:#Display of objects in learning progress
 trac#:#trac_lp_learner_access#:#View Own Learning Progress
 trac#:#trac_lp_learner_access_info#:#If active, users can access their own learning progress status.
-trac#:#trac_lp_list_gui#:#Dashboard, Repository, Search
+trac#:#trac_lp_list_gui#:#Dashboard and Repository
 trac#:#trac_lp_list_gui_info#:#If activated, the learning progress status is included in objects lists.
 trac#:#trac_lp_settings_info_parent_container#:#Learning Progress of Parent Container Objects
 trac#:#trac_lp_settings_info_parent_legend#:#The learning progress status of this object is influenced by "%s".
@@ -17328,6 +17447,7 @@ trac#:#trac_paths#:#Paths
 trac#:#trac_percentage#:#Percentage
 trac#:#trac_periodic_system_load#:#Periodic
 trac#:#trac_progress#:#Personal Learning Progress
+trac#:#trac_progress_block_details#:#View Details
 trac#:#trac_progress_block_title#:#Your Learning Progress
 trac#:#trac_read_count#:#Access Number
 trac#:#trac_read_count_spent_seconds#:#Time Spent / Access
@@ -17894,7 +18014,7 @@ wiki#:#wiki_wiki_search#:#Wiki Search
 wiki#:#wiki_wpg#:#Wiki Page
 wopi#:#action_edit#:#Edit
 wopi#:#action_view#:#View
-wopi#:#activate_saving_interval#:#Activate Saving Interval
+wopi#:#activate_saving_interval#:#Automatic Publication
 wopi#:#activate_wopi#:#Activate WOPI
 wopi#:#close_wopi_editor#:#Close Editor
 wopi#:#close_wopi_editor_info#:#It can take up to several minutes for the external editor to transfer the changes to ILIAS. Visit this page again at a later time if the changes you have made are not yet visible.
@@ -17903,8 +18023,8 @@ wopi#:#msg_error_wopi_invalid_discorvery_url#:#The Discovery URL entered is inva
 wopi#:#msg_wopi_settings_modified#:#Settings saved.
 wopi#:#open_external_editor#:#Open in External Editor
 wopi#:#open_external_viewer#:#Show Content
-wopi#:#saving_interval#:#Interval
-wopi#:#saving_interval_byline#:#By default, ILIAS adds all changes made by an external editor to a draft version until this version is published manually. Activating the saving interval causes a new version to be published, if possible, after the specified number of seconds. Please note that a low value can lead to a large number of file versions, which in turn will take up a much larger amount of hard disk space.
+wopi#:#saving_interval#:#New version after … seconds
+wopi#:#saving_interval_byline#:#After the specified editing time, ILIAS automatically publishes a new version of the file when the external editor reports changes. By default, ILIAS adds all changes received from the editor as a draft only, until a new file version is manually published. Please note that using this option with a low value can lead to a large number of file versions, which takes up a lot of storage space.
 wopi#:#wopi_crawler_cronjob_description#:#Updates the information of the connected WOPI service.
 wopi#:#wopi_crawler_cronjob_no_apps#:#No WOPI apps were found in the discovery.
 wopi#:#wopi_crawler_cronjob_not_activated#:#WOPI is not activated.
@@ -17916,7 +18036,6 @@ wopi#:#wopi_url_byline#:#Complete URL of the WOPI Discovery, which must be acces
 wsp#:#element_already_shared#:#This object is already shared with this user.
 wsp#:#element_shared#:#Object shared.
 wsp#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.
-wsp#:#search_no_match#:#Your search did not match any results.
 wsp#:#share#:#Share
 wsp#:#share_content#:#Share Object
 wsp#:#share_with#:#Username
@@ -17938,6 +18057,7 @@ wsp#:#wsp_permission_registered_info#:#This object is shared with all registered
 wsp#:#wsp_permission_removed#:#Entry has been removed.
 wsp#:#wsp_permissions#:#Share
 wsp#:#wsp_personal_resources_description#:#Here you can manage your private files, blogs and artifacts.
+wsp#:#wsp_search_no_match#:#Your search did not match any results.
 wsp#:#wsp_send_mail#:#Send Mail
 wsp#:#wsp_set_permission_all#:#World Wide Web
 wsp#:#wsp_set_permission_all_password#:#World Wide Web with Password

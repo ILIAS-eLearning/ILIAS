@@ -95,7 +95,7 @@ class AdministrationTest extends TestCase
         $repository = $this->getMockBuilder(DocumentRepository::class)->getMock();
 
         $consecutive = $documents;
-        $repository->expects(self::exactly(count($documents)))->method('deleteDocument')->with(
+        $repository->expects($this->exactly(count($documents)))->method('deleteDocument')->with(
             $this->callback(function ($value) use (&$consecutive) {
                 $this->assertSame(array_shift($consecutive), $value);
                 return true;
@@ -153,8 +153,8 @@ class AdministrationTest extends TestCase
             'getQueryParams',
             [],
             $query_params,
-            self::exactly(1)
-        ), self::exactly(1));
+            $this->exactly(1)
+        ), $this->exactly(1));
         $http->method('wrapper')->willReturn($httpWrapper);
 
         $refinery = $this->mockMethod(Refinery::class, 'kindlyTo', [], $this->mockMethod(KindlyToGroup::class, 'int', [], $this->mockMethod(
@@ -180,8 +180,8 @@ class AdministrationTest extends TestCase
     private function doc(int $id, string $title): Document
     {
         $document = $this->getMockBuilder(Document::class)->disableOriginalConstructor()->getMock();
-        $document->expects(self::once())->method('id')->willReturn($id);
-        $document->expects(self::once())->method('content')->willReturn(
+        $document->expects($this->once())->method('id')->willReturn($id);
+        $document->expects($this->once())->method('content')->willReturn(
             $this->mockMethod(DocumentContent::class, 'title', [], $title)
         );
 

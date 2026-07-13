@@ -1,5 +1,9 @@
 # Roadmap
 
+### Rename OERHarvester subfolder
+
+`OERHarvester` should rather be called something like `OERPublishing`.
+
 ### Organize Constants
 
 Reused constants should be collected into bespoke classes as 
@@ -130,15 +134,10 @@ can be stored in LOM.
 This would need expansive changes to the database structure, and a new
 input element for multilangual text input.
 
-### Clean up Dependency Management
+### Clean up Administration
 
-Most of the dependency management happens in the `Services` folders,
-but in some places `Initiators` are used in tandem with the `Services`.
-Either `Initiators` should be used consistently for every entry point
-into `MetaData` (and `Services` reserved for things used across
-'sub-components'), or everthing should be done in `Services`.
-
-Further, `Settings` should also be refactored to use `Services` properly.
+`Settings` should be refactored: namespacing should be introduced,
+`Services` should be used properly, etc.
 
 ### Improve Unit Test Coverage
 
@@ -159,6 +158,7 @@ lazily instantiate an object
 and everything in `Vocabularies\Slots` except `ElementHelper`
 - `XML/Copyright`, `XML/Links`, `XML/Dictionary`, `XML/Writer/SimpleDC`,
 and `XML/Reader/Standard/Legacy`
-- `OERExposer/OAIPMH/HTTP`, `OERExposer/OAIPMH/Initiator`
+- `OERExposer/OAIPMH/HTTP`
 - `OERHarvester/RepositoryObjects`, `OERHarvester/Settings`,
-`OERHarvester/Results`, `OERHarvester/Initiator`
+`OERHarvester/CronJob/Results`, `OERHarvester/Export`,
+`OERHarvester/ControlCenter`

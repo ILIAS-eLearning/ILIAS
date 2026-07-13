@@ -5,7 +5,7 @@
 $nav-tabs-active-link-hover-bg: $il-text-color !default;
 $nav-tabs-active-link-hover-color: $il-text-color-invert !default;
 $nav-tabs-active-link-hover-border-color: $il-text-color !default;
-$nav-tabs-border: 2px solid $nav-tabs-active-link-hover-bg !default;
+$nav-tabs-border: 1px solid $il-main-border-color !default;
 /* Services/UIComponent/Tabs */
 
 #ilTab {
@@ -20,33 +20,35 @@ $nav-tabs-border: 2px solid $nav-tabs-active-link-hover-bg !default;
 		margin: 0 $il-padding-xs-horizontal 0 0;
 
 		// Actual tabs (as links)
-		> a {
+		> a,
+        > .c-tooltip__container > a {
 			margin: 0;
 			margin-right: 2px;
 			font-size: $il-font-size-base;
 			line-height: $il-line-height-base;
 			padding: $il-padding-large-vertical $il-padding-xlarge-horizontal $il-padding-base-vertical;
-			border: 0 none;
+			border-bottom: 2px solid;
+			border-color: transparent;
 			border-radius: $il-border-radius-base $il-border-radius-base 0 0;
 
-			&:hover {
-				border-color: $il-main-bg $il-main-bg $il-main-bg;
+			&:hover,
+			&:focus {
+				border-bottom-color: $nav-tabs-active-link-hover-bg;
 			}
 			@include focus.clear-focus-for-override($clearAfter: true);
 			@include focus.il-focus();
 		}
 
 		// Active state, and its :hover to override normal :hover
-		&.active>a {
-
+		&.active > a,
+        &.active > .c-tooltip__container > a {
 			&,
 			&:hover,
 			&:focus {
 				color: $nav-tabs-active-link-hover-color;
 				cursor: default;
 				background-color: $nav-tabs-active-link-hover-bg;
-				border: 0 none;
-				border-bottom-color: transparent;
+				border-bottom-color: $nav-tabs-active-link-hover-bg;
 			}
 		}
 	}
@@ -56,13 +58,17 @@ $nav-tabs-border: 2px solid $nav-tabs-active-link-hover-bg !default;
 	z-index: 3;
 }
 
+#ilTab > li > a:focus {
+	border-bottom: 2px solid $nav-tabs-active-link-hover-bg;
+}
 
 /* Sub Tabs */
 #ilSubTab {
 	padding: $il-padding-large-vertical 0;
 	margin: 0;
 
-	> li:first-child > a {
+	> li:first-child > a,
+    > li:first-child > .c-tooltip__container > a {
 		padding-left: $il-padding-large-horizontal;
 	}
 
@@ -70,7 +76,8 @@ $nav-tabs-border: 2px solid $nav-tabs-active-link-hover-bg !default;
 	> li {
 		float: left;
 
-		> a {
+		> a,
+        > .c-tooltip__container > a {
 			border-radius: 0;
 			padding: $il-padding-base-vertical $il-padding-base;
 			font-size: ($il-font-size-small);
@@ -82,7 +89,8 @@ $nav-tabs-border: 2px solid $nav-tabs-active-link-hover-bg !default;
 			@include focus.clear-focus-for-override($clearAfter: true);
 			@include focus.il-focus();
 		}
-		&.active > a {
+		&.active > a,
+        &.active > .c-tooltip__container > a {
 			&,
 			&:hover,
 			&:focus {

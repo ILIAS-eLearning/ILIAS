@@ -81,7 +81,7 @@ class LinkInputTest extends ILIAS_UI_TestBase
             $f1 . $f2,
             $byline
         );
-        $this->assertEquals($expected, $this->render($link));
+        $this->assertEquals($expected, $this->renderInsideContainer($link));
     }
 
     public function testCommonRendering(): void

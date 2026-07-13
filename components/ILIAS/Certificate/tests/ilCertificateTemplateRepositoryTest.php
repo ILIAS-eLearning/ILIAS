@@ -37,7 +37,9 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
         $database->method('nextId')
             ->willReturn(10);
 
-        $database->method('insert')
+        $database
+            ->expects($this->once())
+            ->method('insert')
             ->with(
                 'il_cert_template',
                 [
@@ -251,40 +253,30 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
     public function testDeleteTemplateFromDatabase(): void
     {
         $database = $this->createMock(ilDBInterface::class);
+        $logger = $this->createStub(ilLogger::class);
+        $object_data_cache = $this->createStub(ilObjectDataCache::class);
 
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $quote_consecutive = [
-            [10, 'integer'],
-            [200, 'integer']
-        ];
         $database->method('quote')->willReturnCallback(
-            function (int $v, string $type) use (&$quote_consecutive) {
-                list($expected, $type) = array_shift($quote_consecutive);
-                $this->assertEquals('integer', $type);
-                $this->assertEquals($expected, $v);
-                return (string) ($v);
-            }
+            static fn(int $value, string $type): string => (string) $value
         );
 
+        $captured_sql_string = null;
+        $database
+            ->expects($this->once())
+            ->method('manipulate')
+            ->willReturnCallback(static function (string $sql) use (&$captured_sql_string): int {
+                $captured_sql_string = $sql;
+                return 1;
+            });
 
-        $database->method('query')
-            ->with('
-DELETE FROM il_cert_template
-WHERE id = 10
-AND obj_id = 200');
-
-        $objectDataCache = $this->getMockBuilder(ilObjectDataCache::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $objectDataCache->method('lookUpType')->willReturn('crs');
-
-        $repository = new ilCertificateTemplateDatabaseRepository($database, $logger, $objectDataCache);
+        $repository = new ilCertificateTemplateDatabaseRepository($database, $logger, $object_data_cache);
 
         $repository->deleteTemplate(10, 200);
+
+        $this->assertSame(
+            'UPDATE il_cert_template SET deleted = 1, currently_active = 0 WHERE id = 10 AND obj_id = 200',
+            trim(preg_replace('/\s+/', ' ', $captured_sql_string))
+        );
     }
 
     public function testActivatePreviousCertificate(): void
@@ -301,7 +293,7 @@ AND obj_id = 200');
         ];
         $database->method('quote')->willReturnCallback(
             function (int $v, string $type) use (&$quote_consecutive) {
-                list($expected, $type) = array_shift($quote_consecutive);
+                [$expected, $type] = array_shift($quote_consecutive);
                 $this->assertEquals('integer', $type);
                 $this->assertEquals($expected, $v);
                 return (string) ($v);
@@ -436,7 +428,9 @@ AND obj_id = 200');
             ->disableOriginalConstructor()
             ->getMock();
 
-        $database->method('quote')
+        $database
+            ->expects($this->once())
+            ->method('quote')
             ->with(10, 'integer')
             ->willReturn('10');
 
@@ -465,7 +459,9 @@ AND obj_id = 200');
             ->disableOriginalConstructor()
             ->getMock();
 
-        $database->method('quote')
+        $database
+            ->expects($this->once())
+            ->method('quote')
             ->with(10, 'integer')
             ->willReturn(10);
 

@@ -99,7 +99,9 @@ class Handler implements ilExportHandlerTableDataRetrievalInterface
                 $rows[$row_id->getCompositId()] = $file_info;
             }
         }
-        $comparator = function (ilExportHandlerFileInfoInterface $f1, ilExportHandlerFileInfoInterface $f2) { return 0; };
+        $comparator = function (ilExportHandlerFileInfoInterface $f1, ilExportHandlerFileInfoInterface $f2) {
+            return 0;
+        };
         switch ($column_name) {
             case ilExportHandlerTableInterface::TABLE_COL_TYPE:
                 $comparator = function (ilExportHandlerFileInfoInterface $f1, ilExportHandlerFileInfoInterface $f2) {

@@ -55,6 +55,7 @@ class ilQuestionPoolSkillAdministrationGUITest extends assBaseTestCase
             $this->createMock(ilLanguage::class),
             $this->createMock(ilDBInterface::class),
             $this->createMock(ilComponentRepository::class),
+            $this->createMock(ilComponentFactory::class),
             $this->createMock(ilObjQuestionPool::class),
             $this->createMock(HTTP::class),
             $this->createMock(ilToolbarGUI::class),

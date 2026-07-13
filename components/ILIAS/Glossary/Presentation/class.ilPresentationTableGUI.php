@@ -287,7 +287,7 @@ class ilPresentationTableGUI
     {
         $vc_start = 0;
         $vc_length = 9999;
-        if (!$this->offline) {
+        if (!$offline) {
             $vc_start = $this->manager->getSessionViewControlStart();
             $vc_length = $this->manager->getSessionViewControlLength();
         }
@@ -297,7 +297,6 @@ class ilPresentationTableGUI
             $vc_start,
             $vc_length
         );
-
         $data = [];
         foreach ($terms_sliced as $term) {
             $data[] = [
@@ -416,8 +415,12 @@ class ilPresentationTableGUI
 
     public function renderPresentationTableForOffline(): string
     {
+        $this->initTerms([]);
         $pres_table = $this->initPresentationTable(true);
-        $this->tpl->setVariable("ADM_CONTENT", $this->ui_ren->render($pres_table));
-        return $this->tpl->printToString();
+
+        return $this->ui_ren->render($pres_table);
+
+        //$this->tpl->setVariable("ADM_CONTENT", $this->ui_ren->render($pres_table));
+        //return $this->tpl->printToString();
     }
 }

@@ -129,12 +129,11 @@ class ilDidacticTemplateSettingsTableDataRetrieval implements DataRetrieval
             foreach ($tpl->getAssignments() as $obj_type) {
                 $icon_label = $this->lng->txt('objs_' . $obj_type);
             }
-            if ($icon_path) {
-                $icon = $this->ui_factory->symbol()->icon()->custom(
-                    $icon_path,
-                    $icon_label
-                );
-            }
+
+            $icon = ($icon_path !== "") ? $this->ui_factory->symbol()->icon()->custom(
+                $icon_path,
+                $icon_label
+            ) : null;
 
             $icon_active = $this->ui_factory->symbol()->icon()->custom(
                 $tpl->isEnabled() ?

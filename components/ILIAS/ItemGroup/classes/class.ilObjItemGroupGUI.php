@@ -147,17 +147,46 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $pres->setTitle($this->lng->txt('obj_presentation'));
         $form->addItem($pres);
 
-        // show title
-        $cb = new ilCheckboxInputGUI($this->lng->txt("itgr_show_title"), "show_title");
-        $cb->setInfo($this->lng->txt("itgr_show_title_info"));
-        $form->addItem($cb);
+        // display
+        $display_radio_group = new ilRadioGroupInputGUI($this->lng->txt('itgr_display'), ilItemGroupAR::DISPLAY);
+        $display_radio_group->setRequired(true);
+        $form->addItem($display_radio_group);
 
-        // behaviour
-        $options = ilItemGroupBehaviour::getAll();
-        $si = new ilSelectInputGUI($this->lng->txt("itgr_behaviour"), "behaviour");
-        $si->setInfo($this->lng->txt("itgr_behaviour_info"));
-        $si->setOptions($options);
-        $cb->addSubItem($si);
+        $no_title_option = new ilRadioOption(
+            $this->lng->txt('itgr_display_without_title'),
+            ilItemGroupAR::DISPLAY_WITHOUT_TITLE
+        );
+        $display_radio_group->addOption($no_title_option);
+
+        $with_title_option = new ilRadioOption(
+            $this->lng->txt('itgr_display_with_title'),
+            ilItemGroupAR::DISPLAY_WITH_TITLE
+        );
+        $display_radio_group->addOption($with_title_option);
+
+        $with_title_and_toggleable_option = new ilRadioOption(
+            $this->lng->txt('itgr_display_with_title_and_toggleable'),
+            ilItemGroupAR::DISPLAY_WITH_TITLE_AND_TOGGLEABLE
+        );
+        $with_title_and_toggleable_option_radio_group = new ilRadioGroupInputGUI(
+            $this->lng->txt('itgr_display_with_title_and_toggleable'),
+            ilItemGroupAR::DISPLAY_WITH_TITLE_AND_TOGGLEABLE_INITIALLY
+        );
+        $with_title_and_toggleable_option_radio_group->setRequired(true);
+        $with_title_and_toggleable_option_radio_group->addOption(
+            new ilRadioOption(
+                $this->lng->txt('itgr_display_with_title_and_toggleable_initially_closed'),
+                ilItemGroupAR::DISPLAY_WITH_TITLE_AND_TOGGLEABLE_INITIALLY_CLOSED
+            )
+        );
+        $with_title_and_toggleable_option_radio_group->addOption(
+            new ilRadioOption(
+                $this->lng->txt('itgr_display_with_title_and_toggleable_initially_open'),
+                ilItemGroupAR::DISPLAY_WITH_TITLE_AND_TOGGLEABLE_INITIALLY_OPEN
+            )
+        );
+        $with_title_and_toggleable_option->addSubItem($with_title_and_toggleable_option_radio_group);
+        $display_radio_group->addOption($with_title_and_toggleable_option);
 
         // tile/list
         $lpres = new ilRadioGroupInputGUI($this->lng->txt('itgr_list_presentation'), "list_presentation");
@@ -401,21 +430,22 @@ class ilObjItemGroupGUI extends ilObject2GUI
      */
     protected function getEditFormCustomValues(array &$a_values): void
     {
-        $a_values["show_title"] = !$this->object->getHideTitle();
-        $a_values["behaviour"] = $this->object->getBehaviour();
-        $a_values["list_presentation"] = $this->object->getListPresentation();
-        $a_values["tile_size"] = $this->object->getTileSize();
+        /** @var ilObjItemGroup $object */
+        $object = $this->getObject();
+        $a_values[ilItemGroupAR::DISPLAY] = $object->getDisplay();
+        $a_values[ilItemGroupAR::DISPLAY_WITH_TITLE_AND_TOGGLEABLE_INITIALLY] = $object->getDisplayWithTitleAndToggleableInitially();
+        $a_values['list_presentation'] = $object->getListPresentation();
+        $a_values['tile_size'] = $object->getTileSize();
     }
 
     protected function updateCustom(ilPropertyFormGUI $form): void
     {
-        $this->object->setHideTitle(!$form->getInput("show_title"));
-        $behaviour = ($form->getInput("show_title"))
-            ? $form->getInput("behaviour")
-            : ilItemGroupBehaviour::ALWAYS_OPEN;
-        $this->object->setBehaviour($behaviour);
-        $this->object->setListPresentation($form->getInput("list_presentation"));
-        $this->object->setTileSize($form->getInput("tile_size"));
+        /** @var ilObjItemGroup $object */
+        $object = $this->getObject();
+        $object->setDisplay($form->getInput(ilItemGroupAR::DISPLAY));
+        $object->setDisplayWithTitleAndToggleableInitially($form->getInput(ilItemGroupAR::DISPLAY_WITH_TITLE_AND_TOGGLEABLE_INITIALLY));
+        $object->setListPresentation($form->getInput('list_presentation'));
+        $object->setTileSize($form->getInput('tile_size'));
     }
 
     protected function initCreateForm(string $new_type): \ILIAS\UI\Component\Input\Container\Form\Standard

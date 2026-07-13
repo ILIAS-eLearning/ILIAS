@@ -20,7 +20,7 @@
  * Progress bar GUI
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  *
- * @deprecated with ILIAS 11 (Exeptions are possible.)
+ * @deprecated with ILIAS 12
  */
 class ilProgressBar
 {

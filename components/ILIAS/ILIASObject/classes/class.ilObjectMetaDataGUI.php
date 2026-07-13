@@ -138,7 +138,7 @@ class ilObjectMetaDataGUI
         switch ($next_class) {
             case 'ilmdeditorgui':
                 $this->setSubTabs("lom");
-                $md_gui = new ilMDEditorGUI($this->obj_id, (int) $this->sub_id, $this->getLOMType());
+                $md_gui = new ilMDEditorGUI($this->obj_id, (int) $this->sub_id, $this->getLOMType(), $this->ref_id);
                 // custom observers?
                 if (is_array($this->md_observers)) {
                     foreach ($this->md_observers as $observer) {

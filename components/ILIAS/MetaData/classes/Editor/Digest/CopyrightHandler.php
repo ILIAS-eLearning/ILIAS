@@ -23,50 +23,27 @@ namespace ILIAS\MetaData\Editor\Digest;
 use ILIAS\MetaData\Copyright\RepositoryInterface as CopyrightRepository;
 use ILIAS\MetaData\Copyright\EntryInterface;
 use ILIAS\MetaData\Settings\SettingsInterface as Settings;
-use ILIAS\MetaData\OERHarvester\Settings\SettingsInterface as OERHarvesterSettings;
-use ILIAS\MetaData\OERHarvester\ResourceStatus\RepositoryInterface as HarvestStatusRepository;
 use ILIAS\MetaData\Copyright\Identifiers\HandlerInterface as CopyrightIDHandler;
+use ILIAS\MetaData\OERHarvester\Settings\SettingsInterface as OERHarvesterSettings;
 
 class CopyrightHandler
 {
-    protected CopyrightRepository $repository;
-    protected Settings $settings;
-    protected OERHarvesterSettings $harvester_settings;
-    protected HarvestStatusRepository $harvest_status_repo;
-    protected CopyrightIDHandler $copyright_id_handler;
-
     /**
      * @var EntryInterface[]
      */
     protected array $entries;
 
     public function __construct(
-        CopyrightRepository $repository,
-        Settings $settings,
-        OERHarvesterSettings $harvester_settings,
-        HarvestStatusRepository $harvest_status_repo,
-        CopyrightIDHandler $copyright_id_handler
+        protected CopyrightRepository $repository,
+        protected Settings $settings,
+        protected OERHarvesterSettings $harvester_settings,
+        protected CopyrightIDHandler $copyright_id_handler
     ) {
-        $this->repository = $repository;
-        $this->settings = $settings;
-        $this->harvester_settings = $harvester_settings;
-        $this->harvest_status_repo = $harvest_status_repo;
-        $this->copyright_id_handler = $copyright_id_handler;
     }
 
     public function isCPSelectionActive(): bool
     {
         return $this->settings->isCopyrightSelectionActive() && $this->hasCPEntries();
-    }
-
-    public function isObjectTypeHarvested(string $type): bool
-    {
-        return $this->harvester_settings->isObjectTypeSelectedForHarvesting($type);
-    }
-
-    public function isCopyrightTemplateActive(EntryInterface $entry): bool
-    {
-        return $this->harvester_settings->isCopyrightEntryIDSelectedForHarvesting($entry->id());
     }
 
     protected function hasCPEntries(): bool
@@ -101,15 +78,13 @@ class CopyrightHandler
         return $this->copyright_id_handler->buildIdentifierFromEntryID($entry_id);
     }
 
-    public function isOerHarvesterBlocked(int $obj_id): bool
+    public function isObjectTypePublished(string $type): bool
     {
-        return $this->harvest_status_repo->isHarvestingBlocked($obj_id);
+        return $this->harvester_settings->isObjectTypeSelectedForPublishing($type);
     }
 
-    public function setOerHarvesterBlocked(
-        int $obj_id,
-        bool $is_blocked
-    ): void {
-        $this->harvest_status_repo->setHarvestingBlocked($obj_id, $is_blocked);
+    public function isCopyrightEntryPublished(EntryInterface $entry): bool
+    {
+        return $this->harvester_settings->isCopyrightEntryIDSelectedForPublishing($entry->id());
     }
 }

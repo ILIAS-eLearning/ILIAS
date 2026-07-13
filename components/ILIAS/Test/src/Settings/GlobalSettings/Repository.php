@@ -29,7 +29,6 @@ class Repository
     private const SETTINGS_KEY_IMAGE_MAP_LINE_COLOR = 'imap_line_color';
     private const SETTINGS_KEY_UNIQUE_USER_IDENTIFIER = 'user_criteria';
     private const SETTINGS_KEY_SKILL_TRIGGERING_NUMBER_OF_ANSWERS = 'ass_skl_trig_num_answ_barrier';
-    private const SETTINGS_KEY_EXPORT_ESSAY_QUESTIONS_AS_HTML = 'export_essay_qst_with_html';
     private const SETTINGS_KEY_DISABLED_QUESTION_TYPES = 'disabled_question_types';
     private const SETTINGS_KEY_MANUAL_SCORING_ENABLED = 'manual_scoring';
     private const SETTINGS_KEY_ADJUSTING_QUESTIONS_WITH_RESULTS_ALLOWED = 'assessment_adjustments_enabled';
@@ -81,10 +80,6 @@ class Repository
             $global_settings = $global_settings->withSkillTriggeringNumberOfAnswers((int) $skill_triggering_number_of_answers);
         }
 
-        if (($export_essay_questions_as_html = $this->settings_test->get(self::SETTINGS_KEY_EXPORT_ESSAY_QUESTIONS_AS_HTML)) !== null) {
-            $global_settings = $global_settings->withExportEssayQuestionsAsHtml($export_essay_questions_as_html === '1');
-        }
-
         if (($disabled_question_types_legacy = $this->settings_test->get(self::SETTINGS_KEY_DISABLED_QUESTION_TYPES_LEGACY)) !== null) {
             $this->migrateLegacyQuestionTypes($disabled_question_types_legacy);
         }
@@ -118,7 +113,6 @@ class Repository
         $this->settings_test->set(self::SETTINGS_KEY_IMAGE_MAP_LINE_COLOR, $global_settings->getImageMapLineColor());
         $this->settings_test->set(self::SETTINGS_KEY_UNIQUE_USER_IDENTIFIER, $global_settings->getUserIdentifier()->value);
         $this->settings_test->set(self::SETTINGS_KEY_SKILL_TRIGGERING_NUMBER_OF_ANSWERS, (string) $global_settings->getSkillTriggeringNumberOfAnswers());
-        $this->settings_test->set(self::SETTINGS_KEY_EXPORT_ESSAY_QUESTIONS_AS_HTML, $global_settings->getExportEssayQuestionsAsHtml() ? '1' : '0');
         $this->settings_test->set(self::SETTINGS_KEY_DISABLED_QUESTION_TYPES, implode(',', $global_settings->getDisabledQuestionTypes()));
         $this->settings_test->set(self::SETTINGS_KEY_MANUAL_SCORING_ENABLED, $global_settings->isManualScoringEnabled() ? '1' : '0');
         $this->settings_test->set(self::SETTINGS_KEY_ADJUSTING_QUESTIONS_WITH_RESULTS_ALLOWED, $global_settings->isAdjustingQuestionsWithResultsAllowed() ? '1' : '0');

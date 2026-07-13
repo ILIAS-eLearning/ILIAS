@@ -2245,24 +2245,25 @@ class ilPageObjectGUI
 
         $this->tpl->addJavaScript("assets/js/page_history.js");
 
-        $table_gui = new ilPageHistoryTableGUI($this, "history");
-        $table_gui->setId("hist_table");
-        $entries = $this->getPageObject()->getHistoryEntries();
-        $entries[] = array('page_id' => $this->getPageObject()->getId(),
-            'parent_type' => $this->getPageObject()->getParentType(),
-            'hdate' => $this->getPageObject()->getLastChange(),
-            'parent_id' => $this->getPageObject()->getParentId(),
-            'nr' => 0,
-            'sortkey' => 999999,
-            'user' => $this->getPageObject()->last_change_user);
-        $table_gui->setData($entries);
-        return $table_gui->getHTML();
+        $table = $this->gui->historyTableBuilder(
+            $this,
+            "history",
+            $this->getPageObject()->getId(),
+            $this->getPageObject()->getParentType(),
+            $this->getPageObject()->getLanguage()
+        )->getTable();
+
+        if ($table->handleCommand()) {
+            return "";
+        }
+
+        return $table->render();
     }
 
     /**
      * Rollback confirmation
      */
-    public function rollbackConfirmation(): void
+    public function rollbackConfirmation(int $nr): void
     {
         if (!$this->getEnableEditing()) {
             return;
@@ -2271,13 +2272,13 @@ class ilPageObjectGUI
         $c_gui = new ilConfirmationGUI();
 
         // set confirm/cancel commands
-        $this->ctrl->setParameter($this, "rollback_nr", $this->requested_old_nr);
+        $this->ctrl->setParameter($this, "rollback_nr", $nr);
         $c_gui->setFormAction($this->ctrl->getFormAction($this, "rollback"));
         $c_gui->setHeaderText($this->lng->txt("cont_rollback_confirmation"));
         $c_gui->setCancel($this->lng->txt("cancel"), "history");
         $c_gui->setConfirm($this->lng->txt("confirm"), "rollback");
 
-        $hentry = $this->obj->getHistoryEntry($this->requested_old_nr);
+        $hentry = $this->obj->getHistoryEntry($nr);
 
         $c_gui->addItem(
             "id[]",
@@ -2385,18 +2386,36 @@ class ilPageObjectGUI
     /**
      * Compares two revisions of the page
      */
-    public function compareVersion(): string
+    public function compareVersion(array $ids): void
     {
+        $mt = $this->gui->ui()->mainTemplate();
         if (!$this->getEnableEditing()) {
-            return "";
+            return;
         }
-
+        //$ids = $this->request->getIntArray("id");
+        if (count($ids) !== 2) {
+            $mt->setOnScreenMessage('failure', $this->lng->txt("copg_select_two_versions"), true);
+            $this->ctrl->redirect($this, "history");
+        }
+        if ($ids[0] == 0) {
+            $left = $ids[1];
+            $right = $ids[0];
+        } elseif ($ids[1] == 0) {
+            $left = $ids[0];
+            $right = $ids[1];
+        } elseif ($ids[0] > $ids[1]) {
+            $left = $ids[1];
+            $right = $ids[0];
+        } else {
+            $left = $ids[0];
+            $right = $ids[1];
+        }
         $tpl = new ilTemplate("tpl.page_compare.html", true, true, "components/ILIAS/COPage");
         $this->setBackToHistoryTabs();
 
         $pg = $this->obj;
-        $l_page = ilPageObjectFactory::getInstance($pg->getParentType(), $pg->getId(), $this->request->getInt("left"), $pg->getLanguage());
-        $r_page = ilPageObjectFactory::getInstance($pg->getParentType(), $pg->getId(), $this->request->getInt("right"), $pg->getLanguage());
+        $l_page = ilPageObjectFactory::getInstance($pg->getParentType(), $pg->getId(), $left, $pg->getLanguage());
+        $r_page = ilPageObjectFactory::getInstance($pg->getParentType(), $pg->getId(), $right, $pg->getLanguage());
 
         $compare = $this->compare->compare(
             $this->getPageObject(),
@@ -2435,7 +2454,7 @@ class ilPageObjectGUI
         $tpl->setVariable("TXT_MODIFIED", $this->lng->txt("cont_pc_modified"));
         $tpl->setVariable("TXT_DELETED", $this->lng->txt("cont_pc_deleted"));
 
-        return $tpl->get();
+        $mt->setContent($tpl->get());
     }
 
     public function replaceDiffTags(string $a_html): string
@@ -2641,7 +2660,7 @@ class ilPageObjectGUI
     {
         ilPageQuestionProcessor::saveQuestionAnswer(
             $this->request->getString("type"),
-            $this->request->getString("id"),
+            $this->request->getInt("id"),
             $this->request->getString("answer")
         );
     }

@@ -137,6 +137,19 @@ class DatabaseRepository implements RepositoryInterface
         return false;
     }
 
+    public function doesUndeletedRecordExistForObjID(int $obj_id): bool
+    {
+        $res = $this->query(
+            'SELECT COUNT(*) AS num FROM il_meta_oer_exposed WHERE obj_id = ' . $this->quoteInteger($obj_id) .
+            ' AND NOT deleted = 1'
+        );
+
+        foreach ($res as $row) {
+            return $row['num'] > 0;
+        }
+        return false;
+    }
+
     public function createRecord(int $obj_id, string $identifier, \DOMDocument $metadata): void
     {
         $this->manipulate(

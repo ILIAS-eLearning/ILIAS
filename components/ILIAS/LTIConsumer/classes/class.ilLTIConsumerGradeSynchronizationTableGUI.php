@@ -66,7 +66,8 @@ class ilLTIConsumerGradeSynchronizationTableGUI implements DataRetrieval
         mixed $filter_data,
         mixed $additional_parameters
     ): Generator {
-        foreach ($this->records as $record) {
+        $records = $this->applyOrdering($this->records, $order, $range);
+        foreach ($records as $record) {
             $record['lti_timestamp'] = new DateTimeImmutable($record['lti_timestamp']);
             $record['score_given'] = $record['score_given'] . ' / ' . $record['score_maximum'];
             $record['activity_progress'] = $this->lng->txt('grade_activity_progress_' . strtolower($record['activity_progress']));
@@ -90,11 +91,44 @@ class ilLTIConsumerGradeSynchronizationTableGUI implements DataRetrieval
         $this->records = $records;
     }
 
+    protected function applyOrdering(array $records, Order $order, ?Range $range = null): array
+    {
+        [$order_field, $order_direction] = $order->join(
+            [],
+            fn($ret, $key, $value) => [$key, $value]
+        );
+
+        usort($records, static function (array $left, array $right) use ($order_field): int {
+            $left_val = $left[$order_field] ?? '';
+            $right_val = $right[$order_field] ?? '';
+
+            if ($left_val instanceof DateTimeImmutable) {
+                $left_val = $left_val->getTimestamp();
+            }
+            if ($right_val instanceof DateTimeImmutable) {
+                $right_val = $right_val->getTimestamp();
+            }
+
+            return $left_val <=> $right_val;
+        });
+
+        if ($order_direction === Order::DESC) {
+            $records = array_reverse($records);
+        }
+
+        if ($range !== null) {
+            $records = array_slice($records, $range->getStart(), $range->getLength());
+        }
+
+        return $records;
+    }
+
     public function getHTML(): string
     {
         $table = $this->ui_factory->table()
-            ->data("", $this->getColumns(), $this)
+            ->data($this, "", $this->getColumns())
             ->withOrder(new Order("lti_timestamp", Order::DESC))
+            ->withRange(new Range(0, 20))
             ->withRequest($this->request);
 
         return $this->ui_renderer->render($table);

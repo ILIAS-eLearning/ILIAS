@@ -643,7 +643,6 @@ assessment#:#errFormulaQuestion#:#A képlet-kérdés hibás információt tartal
 assessment#:#errRecursionInResult#:#A képlet végtelen rekurziót tartalmaz.
 assessment#:#err_category_in_use#:#Legalább egy kategória nem törölhető. A kategória egy vagy több mértékegysége még használatban van.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###29 07 2022 new variable
-assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###29 10 2025 new variable
 assessment#:#err_division#:#The value you chose would make it impossible to generate a valid value for the variable.###29 07 2022 new variable
 assessment#:#err_duplicate_results#:#Többször használtál egy végeredményt. Ez tesztkérdésben nem megengedett
 assessment#:#err_no_formula#:#Képletet írj
@@ -5973,7 +5972,6 @@ common#:#webdav_chosen_language_already_used#:#A kiválasztott nyelven már lét
 common#:#webdav_doc_delete#:#WebDav csatolási útmutató törlése
 common#:#webdav_docs_mount_instructions#:#A WebDAV csatolási útmutató dokumentumok
 common#:#webdav_duplicate_detected_title#:#Az következő objektumok nem jeleníthetőek meg, mert egy megjelenítettel azonos a címe:
-common#:#webdav_enable_versioning#:#Fájlverzió-támogatás
 common#:#webdav_forbidden_chars_title#:#A következő fájl nem jeleníthető meg, mert tiltott karaktereket tartalmaz (\<>/:*?"|#):
 common#:#webdav_form_document#:#Útmutató dokumentum
 common#:#webdav_form_document_info#:#Töltsön fel egy szöveges vagy HTML-fájlt. A feltöltés után a fájlt elemezzük és feldolgozzuk. További információkért
@@ -5992,7 +5990,6 @@ common#:#webdav_sure_delete_documents_s#:#Biztos, hogy törli a következő cím
 common#:#webdav_tbl_docs_head_title#:#Dokumentum címe
 common#:#webdav_tbl_docs_title#:#A feltöltött WebDAV csatolási útmutatók
 common#:#webdav_upload_instructions#:#Útmutató feltöltése
-common#:#webdav_versioning_info#:#Ha be van kapcsolva, a már létező fájlok a felülírás helyett új verziót kapnak.
 common#:#webfolder_dir_info#:#Böngészője nem tud webmappákat megnyitni. Olvassa el az <a href="%1$s">útmutatót a webmappák megnyitásához</a>.
 common#:#webfolder_index_of#:#%1$s indexe
 common#:#webfolder_instructions#:#Leírás webmappa használatához
@@ -11360,7 +11357,7 @@ lti#:#lti_con_prov_xapi_launch_secret_info#:#&nbsp;
 lti#:#lti_con_prov_xapi_launch_url#:#Az LRS-végpont URL-je
 lti#:#lti_con_prov_xapi_launch_url_info#:#Please add full URL with https://
 lti#:#lti_con_redirection_uris#:#Redirection URI###26 08 2024 new variable
-lti#:#lti_con_tool_url#:#Login URL###26 08 2024 new variable
+lti#:#lti_con_tool_url#:#Launch URL###26 08 2024 new variable
 lti#:#lti_con_version#:#LTI Version###26 08 2024 new variable
 lti#:#lti_con_version_1.1#:#Version 1.1###26 08 2024 new variable
 lti#:#lti_con_version_1.3#:#Version 1.3###26 08 2024 new variable
@@ -16720,7 +16717,7 @@ survey#:#survey_360_sure_appraisee_close#:#Biztos, hogy lezárja a kérdőívet 
 survey#:#survey_360_sure_appraisee_close_admin#:#Biztos, hogy lezárja a kérdőíveket az alábbi értékelendő személyek számára?
 survey#:#survey_360_sure_delete_appraises#:#Biztos, hogy eltávolítja az alábbi értékelendő személyeket?
 survey#:#survey_360_sure_delete_raters#:#Biztos, hogy eltávolítja %s értékelőit?
-survey#:#survey_access_codes#:#Hitelesítés kódokkal
+survey#:#survey_access_code#:#Hitelesítés kódokkal
 survey#:#survey_access_codes_info#:#A felhasználók az 'Információ' fülön megadható kóddal férhet hozzá a teszthez. Kódokat generálni a 'Válaszadók' fül alatti 'Hozzáférési kódok' alfül alatt lehet.
 survey#:#survey_activate_skill_service#:#Kompetenciaszolgáltatás bekapcsolása
 survey#:#survey_activate_skill_service_info#:#Egy új, 'Kompetencia' nevű fül jelenik meg. Itt kompetenciákat rendelhet a kérdésekhez, majd küszöbértéket kompetenciaszintekhez.

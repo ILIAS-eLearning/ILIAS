@@ -4,7 +4,7 @@
 missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
 or contribute a fix via [Pull Request](../../../../docs/development/contributing.md#pull-request-to-the-repositories).
 
-ILIAS 10 comes pre-installed with seven Creative Commons Licences as well
+ILIAS comes pre-installed with seven Creative Commons Licences as well
 as 'All rights reserved'. Copyright can be selected for objects that support
 LOM when 'Enable Copyright Selection' is checked in the 'Copyright'-tab
 of the Metadata Administration. The copyright of an object can be selected
@@ -83,7 +83,7 @@ preset copyright licences on the installation as follows:
    the imported object. Differences in scheme ('https://' vs.
    'http://') are disregarded.
 2. Else, if the copyright information matches exactly the full
-   name of one of the licences on the installatiom, that licence
+   name of one of the licences on the installation, that licence
    is selected for the imported object.
 3. Else, the copyright information is used as is as custom
    copyright.

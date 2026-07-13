@@ -199,6 +199,7 @@ class ilCronDeleteInactivatedUserAccounts extends CronJob
         );
         $sub_text->setSize(4);
         $sub_text->setMaxLength(4);
+        $sub_text->setMinValue(1);
         $sub_text->setRequired(true);
         $a_form->addItem($sub_text);
     }

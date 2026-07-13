@@ -1,9 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
-
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -19,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
@@ -152,7 +150,7 @@ class ilMembershipCronMinMembers extends CronJob
 
             $list[] = $title . "\n" . $url . "\n";
         }
-        $list = implode($ntf->getBlockBorder(), $list);
+        $list = implode($ntf->getBlockBorder() . "\n", $list);
 
         $ntf->addAdditionalInfo("mem_cron_min_members_intro", $list, true);
         $ntf->addAdditionalInfo("mem_cron_min_members_task", "");

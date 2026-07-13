@@ -195,7 +195,7 @@ class ilSession
             if ($r->getInt(0, 50) === 2) {
                 // get time _before_ destroying expired sessions
                 self::_destroyExpiredSessions();
-                ilSessionStatistics::aggretateRaw($now);
+                ilSessionStatistics::aggregateRaw($now);
             }
         }
 

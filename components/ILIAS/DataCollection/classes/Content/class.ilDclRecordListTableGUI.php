@@ -258,7 +258,12 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock('view');
             $this->tpl->setVariable(
                 "VIEW_DETAILS",
-                $this->ui->renderer()->render($this->ui->factory()->symbol()->glyph()->enlarge($a_set["_front"]))
+                $this->ui->renderer()->render(
+                    $this->ui->factory()->button()->shy(
+                        '',
+                        $a_set["_front"]
+                    )->withSymbol($this->ui->factory()->symbol()->glyph()->enlarge())
+                )
             );
             $this->tpl->parseCurrentBlock();
         }

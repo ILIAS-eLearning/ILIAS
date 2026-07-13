@@ -1109,7 +1109,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $tpl->setVariable(
                     'DOWNLOAD_IMG',
                     $this->uiRenderer->render(
-                        $this->uiFactory->symbol()->glyph()->attachment($this->lng->txt('forums_download_attachment'))
+                        $this->uiFactory->symbol()->glyph()->attachment()
                     )
                 );
                 if (count($filesOfDraft) > 1) {
@@ -1302,7 +1302,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $tpl->setVariable(
                 'DOWNLOAD_IMG',
                 $this->uiRenderer->render(
-                    $this->uiFactory->symbol()->glyph()->attachment($this->lng->txt('forums_download_attachment'))
+                    $this->uiFactory->symbol()->glyph()->attachment()
                 )
             );
             if (count($filesOfPost) > 1) {

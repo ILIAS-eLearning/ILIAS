@@ -33,13 +33,12 @@ function italic()
     $factory = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
-    $glyph = $factory->symbol()->glyph()->italic("#");
+    $glyph = $factory->symbol()->glyph()->italic();
 
     // showcase the various states of this Glyph
     $list = $factory->listing()->descriptive([
-        "Active" => $glyph,
-        "Inactive" => $glyph->withUnavailableAction(),
-        "Highlighted" => $glyph->withHighlight()
+        "Standard" => $glyph,
+        "Highlighted" => $glyph->withHighlight(),
     ]);
 
     return $renderer->render($list);

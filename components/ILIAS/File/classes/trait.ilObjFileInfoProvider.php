@@ -106,7 +106,9 @@ trait ilObjFileInfoProvider
             $create_date = ilDatePresentation::formatDate(
                 new ilDateTime(
                     $this->getFileObj()->getCreateDate(),
-                    IL_CAL_DATETIME)
+                    IL_CAL_DATETIME,
+                    'utc' // most likely the server timezone
+                )
             );
 
             $amount_of_downloads = $this->safeSprintf(
@@ -114,7 +116,6 @@ trait ilObjFileInfoProvider
                 $this->getFileObj()->getAmountOfDownloads(),
                 $create_date,
             );
-
         }
 
         return [

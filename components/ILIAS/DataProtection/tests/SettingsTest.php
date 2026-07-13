@@ -82,7 +82,7 @@ class SettingsTest extends TestCase
         $marshal = $this->mockMethod(Marshal::class, $type, [], $convert);
 
         $settings = $this->mock(SelectSetting::class);
-        $settings->expects(self::once())->method('typed')->willReturnCallback(function (string $k, callable $select) use ($marshal, $convert, $setting, $key) {
+        $settings->expects($this->once())->method('typed')->willReturnCallback(function (string $k, callable $select) use ($marshal, $convert, $setting, $key) {
             $this->assertSame($key, $k);
             $this->assertSame($convert, $select($marshal));
             return $setting;

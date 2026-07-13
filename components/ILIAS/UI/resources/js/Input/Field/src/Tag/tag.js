@@ -26,6 +26,69 @@ let abortController;
 let timeout;
 
 /**
+ * @param {Tagify} instance
+ * @returns {HTMLElement|null}
+ */
+function getEditableInput(instance) {
+  return instance.DOM.input
+    ?? instance.DOM.scope.querySelector('[contenteditable="true"]');
+}
+
+/**
+ * @param {HTMLLabelElement} label
+ * @param {HTMLInputElement} input
+ * @param {Document} doc
+ * @returns {string}
+ */
+function ensureLabelId(label, input, doc) {
+  if (label.id) {
+    return label.id;
+  }
+
+  const baseId = `${input.id}-label`;
+  let labelId = baseId;
+  let suffix = 1;
+  while (doc.getElementById(labelId) !== null) {
+    labelId = `${baseId}-${suffix}`;
+    suffix += 1;
+  }
+  label.id = labelId;
+
+  return labelId;
+}
+
+/**
+ * @param {Tagify} instance
+ * @param {HTMLInputElement} input
+ */
+function bindLabelFocus(instance, input) {
+  const formContext = input.closest('.c-input');
+  if (formContext === null) {
+    return;
+  }
+
+  const label = formContext.querySelector(`label[for="${input.id}"]`);
+  if (label === null) {
+    return;
+  }
+
+  const editableInput = getEditableInput(instance);
+  if (editableInput !== null) {
+    const labelId = ensureLabelId(label, input, editableInput.ownerDocument);
+    editableInput.setAttribute('aria-labelledby', labelId);
+  }
+
+  label.addEventListener('click', (event) => {
+    if (input.readOnly || input.disabled) {
+      return;
+    }
+
+    event.preventDefault();
+    getEditableInput(instance)?.focus();
+  });
+}
+
+/**
  * @param {string} inputId
  * @param {Object} config
  * @returns {Object}
@@ -155,6 +218,7 @@ export default function init(
     input,
     buildSettings(input.id, config),
   );
+  bindLabelFocus(instance, input);
   instance.addTags(value);
   if (autocompleteEndpoint !== undefined) {
     instance.on('input', (event) => {
