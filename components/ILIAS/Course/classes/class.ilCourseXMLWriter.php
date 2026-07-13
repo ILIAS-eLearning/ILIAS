@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=0);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=0);
  *
  *********************************************************************/
 
+
+declare(strict_types=0);
 /**
  * XML writer class
  * Class to simplify manual writing of xml documents.
@@ -332,6 +332,8 @@ class ilCourseXMLWriter extends ilXmlWriter
         if ($this->course_obj->getViewMode() == ilCourseConstants::IL_CRS_VIEW_TIMING) {
             $this->xmlElement('TimingMode', null, $this->course_obj->getTimingMode());
         }
+
+        $this->xmlElement('AboStatus', null, $this->course_obj->getAboStatus() ? 1 : 0);
 
         $this->xmlElement('TutorialSupportBlock', [
             'active' => $this->course_obj->getTutorialSupportBlockSettingValue()
