@@ -73,7 +73,6 @@ class ilMail
         private ?int $mail_obj_ref_id = null,
         private ?ilObjUser $actor = null,
         private ?ilMailTemplatePlaceholderResolver $placeholder_resolver = null,
-        private ?ilMailTemplatePlaceholderToEmptyResolver $placeholder_to_empty_resolver = null,
         ?Conductor $legal_documents = null,
         ?MailSignatureService $signature_service = null,
     ) {
@@ -102,7 +101,6 @@ class ilMail
         $this->table_mail_saved = 'mail_saved';
         $this->setSaveInSentbox(false);
         $this->placeholder_resolver = $placeholder_resolver ?? $DIC->mail()->placeholderResolver();
-        $this->placeholder_to_empty_resolver = $placeholder_to_empty_resolver ?? $DIC->mail()->placeholderToEmptyResolver();
         $this->legal_documents = $legal_documents ?? $DIC['legalDocuments'];
         $this->signature_service = $signature_service ?? $DIC->mail()->signature();
     }
@@ -563,7 +561,7 @@ class ilMail
 
     private function replacePlaceholders(
         string $message,
-        int $usrId = 0
+        ?int $usrId = null
     ): string {
         try {
             if ($this->context_id) {
@@ -572,7 +570,7 @@ class ilMail
                 $context = new ilMailTemplateGenericContext();
             }
 
-            $user = $usrId > 0 ? $this->getUserInstanceById($usrId) : null;
+            $user = ($usrId !== null && $usrId > 0) ? $this->getUserInstanceById($usrId) : null;
             $message = $this->placeholder_resolver->resolve(
                 $context,
                 $message,
@@ -591,10 +589,6 @@ class ilMail
         return $message;
     }
 
-    private function replacePlaceholdersEmpty(string $message): string
-    {
-        return $this->placeholder_to_empty_resolver->resolve($message);
-    }
 
     private function distributeMail(MailDeliveryData $mail_data): bool
     {
@@ -650,7 +644,7 @@ class ilMail
         $this->sendChanneledMails(
             $mail_data,
             $recipients,
-            $this->replacePlaceholdersEmpty($mail_data->getMessage()),
+            $this->replacePlaceholders($mail_data->getMessage()),
         );
     }
 
@@ -1125,7 +1119,7 @@ class ilMail
                 $externalMailRecipientsBcc,
                 $mail_data->getSubject(),
                 $mail_data->isUsePlaceholder() ?
-                            $this->replacePlaceholders($mail_data->getMessage(), 0) :
+                    $this->replacePlaceholders($mail_data->getMessage()) :
                     $mail_data->getMessage(),
                 $mail_data->getAttachments()
             );

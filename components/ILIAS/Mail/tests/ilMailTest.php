@@ -612,7 +612,6 @@ class ilMailTest extends ilMailBaseTestCase
             $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder(ilMailTemplatePlaceholderResolver::class)->disableOriginalConstructor()->getMock(),
             null,
-            null,
             $this->getMockBuilder(MailSignatureService::class)->disableOriginalConstructor()->getMock(),
         );
     }

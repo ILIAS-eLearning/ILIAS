@@ -73,10 +73,6 @@ class MailService
         );
     }
 
-    public function placeholderToEmptyResolver(): \ilMailTemplatePlaceholderToEmptyResolver
-    {
-        return new \ilMailTemplatePlaceholderToEmptyResolver();
-    }
 
     public function mustacheFactory(): \ilMustacheFactory
     {
