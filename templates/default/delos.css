@@ -716,165 +716,6 @@ table.mceToolbar tbody, table.mceToolbar tr, table.mceToolbar td {
 }
 
 /*
-	These classes are used to limit the number of rows when displaying larger chunks of text.
-	The mixin receives $height-in-rows as an integer. The classes il-multi-line-cap-2,3,5,10
-	can be used to limit the number of rows for text to 2,3,5 or 10 lines in any template,
-	e.g. the Standard Listing Panels limit the property values to 3 lines using il-multi-line-cap-3
-
-	Technical discussion can be found in https://mantis.ilias.de/view.php?id=21583
-	The background/gradient fallback can be removed as soon as all browsers support line-clamp.
- */
-.t-text-more-less__toggle:checked + .t-text-more-less__label .t-text-more-less__label__more {
-  display: none;
-}
-.t-text-more-less__toggle:not(:checked) + .t-text-more-less__label .t-text-more-less__label__less {
-  display: none;
-}
-.t-text-more-less__label {
-  color: #4c6586;
-  text-decoration: none;
-}
-.t-text-more-less__label:hover {
-  color: rgb(57.5428571429, 76.4714285714, 101.4571428571);
-  text-decoration: underline;
-}
-@media screen and (min-width: 769px) {
-  .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body {
-    position: relative;
-    max-height: 1.5em;
-    overflow: hidden;
-    line-height: 1.5;
-  }
-  .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body:after {
-    content: "";
-    text-align: right;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 30%;
-    height: 1.5em;
-    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgb(255, 255, 255) 80%);
-  }
-  .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body {
-    /* edge, chrome, safari go here... */
-  }
-  @supports (-webkit-line-clamp: 2) {
-    .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 1;
-      -webkit-box-orient: vertical;
-    }
-    .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body:after {
-      display: none;
-    }
-  }
-  .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body {
-    /* may come with next firefox 68, https://caniuse.com/#search=clamp */
-  }
-  @supports (-moz-line-clamp: 2) {
-    .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -moz-box;
-      -moz-line-clamp: 1;
-      -moz-box-orient: vertical;
-    }
-    .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body:after {
-      display: none;
-    }
-  }
-}
-@media screen and (max-width: 768px) {
-  .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body {
-    position: relative;
-    max-height: 3em;
-    overflow: hidden;
-    line-height: 1.5;
-  }
-  .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body:after {
-    content: "";
-    text-align: right;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 30%;
-    height: 1.5em;
-    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgb(255, 255, 255) 80%);
-  }
-  .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body {
-    /* edge, chrome, safari go here... */
-  }
-  @supports (-webkit-line-clamp: 2) {
-    .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-    }
-    .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body:after {
-      display: none;
-    }
-  }
-  .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body {
-    /* may come with next firefox 68, https://caniuse.com/#search=clamp */
-  }
-  @supports (-moz-line-clamp: 2) {
-    .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -moz-box;
-      -moz-line-clamp: 2;
-      -moz-box-orient: vertical;
-    }
-    .t-text-more-less:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body:after {
-      display: none;
-    }
-  }
-}
-
-input[type=checkbox].t-text-more-less__toggle {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  white-space: nowrap;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
-}
-input[type=checkbox].t-text-more-less__toggle:focus {
-  border: inherit;
-  box-shadow: inherit;
-  outline: none;
-  outline-offset: 0px;
-}
-input[type=checkbox].t-text-more-less__toggle:focus-visible {
-  border: inherit;
-  box-shadow: inherit;
-  outline: none;
-  outline-offset: 0px;
-}
-input[type=checkbox].t-text-more-less__toggle:focus ~ label, input[type=checkbox].t-text-more-less__toggle:focus-visible ~ label {
-  position: relative;
-  outline: 2px solid #FFFFFF;
-  outline-offset: 5px;
-}
-input[type=checkbox].t-text-more-less__toggle:focus ~ label::after, input[type=checkbox].t-text-more-less__toggle:focus-visible ~ label::after {
-  content: " ";
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  border: 2px solid #FFFFFF;
-  outline: 3px solid #0078D7;
-}
-
-/*
 * Normalize
 */
 /* print less */
@@ -2375,9 +2216,6 @@ img {
   }
 }
 
-a:has(img) {
-  display: inline-block;
-}
 a:has(img):focus {
   border: inherit;
   box-shadow: inherit;
@@ -5189,6 +5027,15 @@ hr.il-divider-with-label {
   }
 }
 
+/*
+	These classes are used to limit the number of rows when displaying larger chunks of text.
+	The mixin receives $height-in-rows as an integer. The classes il-multi-line-cap-2,3,5,10
+	can be used to limit the number of rows for text to 2,3,5 or 10 lines in any template,
+	e.g. the Standard Listing Panels limit the property values to 3 lines using il-multi-line-cap-3
+
+	Technical discussion can be found in https://mantis.ilias.de/view.php?id=21583
+	The background/gradient fallback can be removed as soon as all browsers support line-clamp.
+ */
 .c-listing-inline {
   padding: 0;
   margin: 0;

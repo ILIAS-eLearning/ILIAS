@@ -10,7 +10,6 @@ img {
 }
 
 a:has(img) {
-	display: inline-block;
 	@include focus.clear-focus-for-override();
 	@include focus.il-focus();
 }
