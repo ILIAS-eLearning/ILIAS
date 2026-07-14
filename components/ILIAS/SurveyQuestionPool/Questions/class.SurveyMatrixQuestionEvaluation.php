@@ -22,6 +22,23 @@
  */
 class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 {
+    protected function parseResults(
+        ilSurveyEvaluationResults $a_results,
+        array $a_answers,
+        SurveyCategories $a_categories = null
+    ): void {
+        parent::parseResults($a_results, $a_answers, $a_categories);
+
+        $total = $sum = 0;
+        foreach ($a_results->getAnswers() as $answer) {
+            $total++;
+            $sum += $answer->value;
+        }
+        if ($total > 0) {
+            $a_results->setMean($sum / $total);
+        }
+    }
+
     //
     // RESULTS
     //
