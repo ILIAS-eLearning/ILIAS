@@ -60,7 +60,7 @@ interface Factory
      *      Build a Prompt State to confirm an action on a set of entities.
      *   composition: >
      *      The UI framework composes a confirmation message box, an entity
-     *      listing and a form with hidden fields for the entity ids internally.
+     *      listing below it and a form with hidden fields for the entity ids internally.
      *      Consumers provide an EntityRetrieval and the ids to confirm.
      *   effect: >
      *      The Prompt shows the confirmation question, lists affected entities

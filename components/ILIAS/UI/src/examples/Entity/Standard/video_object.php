@@ -37,6 +37,7 @@ function video_object()
 
     // creating the entity object now so it can be filled in the logic section
     $entity = $f->entity()->standard(
+        'video-demo',
         $primary_id,
         $secondary_id
     );

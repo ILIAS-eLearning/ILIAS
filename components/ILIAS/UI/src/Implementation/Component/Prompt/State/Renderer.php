@@ -45,6 +45,7 @@ class Renderer extends AbstractComponentRenderer
     protected function renderConfirmation(Confirmation $component, RendererInterface $default_renderer): string
     {
         return $default_renderer->render($component->getMessageBox())
+            . $default_renderer->render($component->getEntityListing())
             . $default_renderer->render($component->getForm());
     }
 

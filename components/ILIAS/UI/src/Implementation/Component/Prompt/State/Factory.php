@@ -54,8 +54,7 @@ class Factory implements I\State\Factory
         $listing_retrieval = new SubsetEntityRetrieval($entity_retrieval, $entity_ids);
         $listing = $this->listing_entity_factory->standard($listing_retrieval);
 
-        $message_box = $this->messagebox_factory->confirmation($question)
-            ->withEntityListing($listing);
+        $message_box = $this->messagebox_factory->confirmation($question);
 
         $form = $this->input_factory->container()->form()->standard(
             (string) $post_url->withParameter($post_parameter, $entity_ids)->buildURI(),
@@ -64,6 +63,7 @@ class Factory implements I\State\Factory
 
         $content = new Confirmation(
             $message_box,
+            $listing,
             $form,
             $title,
         );

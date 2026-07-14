@@ -18,25 +18,43 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\Order;
+use ILIAS\Data\Range;
+use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\Entity;
 use ILIAS\UI\Implementation\Component as I;
-use ILIAS\UI\Component as C;
 use ILIAS\UI\Factory as UIFactory;
-use ILIAS\Data\Range;
 
 class GridEntityListingTest extends ILIAS_UI_TestBase
 {
-    public function getEntityMapping(): C\Listing\Entity\RecordToEntity
+    public function getEntityRetrieval(): C\Entity\EntityRetrieval
     {
-        return new class () implements C\Listing\Entity\RecordToEntity {
-            public function map(
+        return new class () implements C\Entity\EntityRetrieval {
+            public function getEntities(
                 UIFactory $ui_factory,
-                mixed $record
-            ): Entity\Entity {
-                return $ui_factory->entity()->standard('primary', 'secondary');
+                Range $range,
+                Order $order,
+                mixed $additional_viewcontrol_data,
+                mixed $filter_data,
+                mixed $additional_parameters,
+            ): Generator {
+                for ($i = 1; $i <= 3; $i++) {
+                    yield $ui_factory->entity()->standard($i, 'primary', 'secondary');
+                }
+            }
+
+            public function getEntitiesByIds(
+                UIFactory $ui_factory,
+                Order $order,
+                array $entity_ids,
+            ): Generator {
+                foreach ($entity_ids as $entity_id) {
+                    yield $ui_factory->entity()->standard($entity_id, 'primary', 'secondary');
+                }
             }
         };
     }
+
     public function getUIFactory(): NoUIFactory
     {
         return new class (
@@ -56,7 +74,7 @@ class GridEntityListingTest extends ILIAS_UI_TestBase
                     new I\Listing\Entity\Factory(),
                 );
             }
-            public function entity(): I\Entity\Factory
+            public function entity(): Entity\Factory
             {
                 return new Entity\Factory();
             }
@@ -66,30 +84,15 @@ class GridEntityListingTest extends ILIAS_UI_TestBase
     public function testGridEntityListingFactory(): void
     {
         $this->assertInstanceOf(
-            C\Listing\Entity\EntityListing::class,
-            $this->getUIFactory()->listing()->entity()->grid($this->getEntityMapping())
+            C\Listing\Entity\Entity::class,
+            $this->getUIFactory()->listing()->entity()->grid($this->getEntityRetrieval())
         );
     }
 
     public function testGridEntityListingRendering(): void
     {
-        $data = new class () implements C\Listing\Entity\DataRetrieval {
-            protected $data = [1,2,3];
-
-            public function getEntities(
-                C\Listing\Entity\Mapping $mapping,
-                ?Range $range,
-                ?array $additional_parameters
-            ): \Generator {
-                foreach ($this->data as $entry) {
-                    yield $mapping->map($entry);
-                }
-            }
-        };
-
         $listing = $this->getUIFactory()->listing()->entity()
-            ->grid($this->getEntityMapping())
-            ->withData($data);
+            ->grid($this->getEntityRetrieval());
 
         $render = $this->getDefaultRenderer()->render($listing);
         $expected = <<<HTML
@@ -150,23 +153,8 @@ class GridEntityListingTest extends ILIAS_UI_TestBase
 
     public function testGridEntityListingYieldingEntities(): void
     {
-        $data = new class () implements C\Listing\Entity\DataRetrieval {
-            protected $data = [1,2,3];
-
-            public function getEntities(
-                C\Listing\Entity\Mapping $mapping,
-                ?Range $range,
-                ?array $additional_parameters
-            ): \Generator {
-                foreach ($this->data as $entry) {
-                    yield $mapping->map($entry);
-                }
-            }
-        };
-
         $listing = $this->getUIFactory()->listing()->entity()
-            ->grid($this->getEntityMapping())
-            ->withData($data);
+            ->grid($this->getEntityRetrieval());
 
         $entities = iterator_to_array($listing->getEntities($this->getUIFactory()));
 
