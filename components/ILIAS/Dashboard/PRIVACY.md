@@ -93,7 +93,7 @@ permission on the Dashboard Settings administration object.
   presentation defaults.
 - **Persons with the "write" permission** on the Dashboard Settings administration object can
   modify Dashboard configuration, including enabling or disabling views (Favourites, Memberships,
-  Study Programmes, Learning Sequences), setting default sorting and presentation modes, and
+  Study Programmes, Learning Sequences), enabling and setting default sorting and presentation modes, and
   configuring side panel modules (Calendar, News, Mail, Tasks).
 
 ## Data being deleted
