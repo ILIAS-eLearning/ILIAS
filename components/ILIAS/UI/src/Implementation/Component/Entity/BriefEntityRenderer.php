@@ -24,7 +24,10 @@ use ILIAS\UI\Component;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 
-class MessageBoxRenderer extends AbstractComponentRenderer
+/**
+ * Renders compact entities with primary visual only (e.g. in confirmation prompts).
+ */
+class BriefEntityRenderer extends AbstractComponentRenderer
 {
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
@@ -34,10 +37,18 @@ class MessageBoxRenderer extends AbstractComponentRenderer
         $this->cannotHandleComponent($component);
     }
 
-    protected function renderEntity(Entity $component, RendererInterface $default_renderer): string
-    {
-        $tpl = $this->getTemplate('tpl.entity-abstract.html', true, true);
-        $tpl->setVariable('CONTENT', $component->getPrimaryIdentifier());
+    protected function renderEntity(
+        Component\Entity\Entity $component,
+        RendererInterface $default_renderer
+    ): string {
+        $tpl = $this->getTemplate('tpl.entity-brief.html', true, true);
+
+        $primary_identifier = $component->getPrimaryIdentifier();
+        $content = is_string($primary_identifier)
+            ? $primary_identifier
+            : $default_renderer->render($primary_identifier);
+
+        $tpl->setVariable('CONTENT', $content);
 
         return $tpl->get();
     }

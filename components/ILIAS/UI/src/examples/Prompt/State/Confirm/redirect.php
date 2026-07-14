@@ -82,7 +82,14 @@ function redirect(): string
     if ($http->request()->getMethod() === 'POST' && $query->has($process_token->getName())) {
         $process = $query->retrieve($process_token->getName(), $refinery->kindlyTo()->string());
         if ($process !== '') {
-            $target = $url_builder->withParameter($success_token, '1')->buildURI();
+            $parameter_prefix = implode(URLBuilder::SEPARATOR, $example_namespace) . URLBuilder::SEPARATOR;
+            $clean_uri = stripExampleParameters(
+                $data_factory->uri((string) $http->request()->getUri()),
+                $parameter_prefix
+            );
+            [$redirect_builder, $redirect_success_token] = (new URLBuilder($clean_uri))
+                ->acquireParameters($example_namespace, 'success');
+            $target = $redirect_builder->withParameter($redirect_success_token, '1')->buildURI();
             echo $renderer->renderAsync($factory->prompt()->state()->redirect($target));
             exit;
         }
@@ -95,18 +102,38 @@ function redirect(): string
     $prompt = $factory->prompt()->standard($open_uri);
     $trigger = $factory->button()->primary('Open confirm (redirect)', $prompt->getShowSignal($open_uri));
 
+    $has_success_feedback = $query->has($success_token->getName())
+        && $query->retrieve($success_token->getName(), $refinery->kindlyTo()->string()) !== '';
+
     $components = [$trigger, $prompt];
-    if ($query->has($success_token->getName())
-        && $query->retrieve($success_token->getName(), $refinery->kindlyTo()->string()) !== '') {
+    if ($has_success_feedback) {
         array_unshift(
             $components,
             $factory->messageBox()->success('Action confirmed. Entity ids were processed.')
         );
     }
 
-    if (!$query->has($endpoint_token->getName())) {
+    $is_async = !$has_success_feedback
+        && $query->has($endpoint_token->getName())
+        && $query->retrieve($endpoint_token->getName(), $refinery->kindlyTo()->string()) === 'true';
+
+    if (!$is_async) {
         return $renderer->render($components);
     }
 
     return '';
+}
+
+/**
+ * Remove all example-specific query parameters before building a redirect target.
+ */
+function stripExampleParameters(\ILIAS\Data\URI $uri, string $parameter_prefix): \ILIAS\Data\URI
+{
+    $parameters = array_filter(
+        $uri->getParameters(),
+        static fn(string $key): bool => !str_starts_with($key, $parameter_prefix),
+        ARRAY_FILTER_USE_KEY
+    );
+
+    return $uri->withParameters($parameters);
 }

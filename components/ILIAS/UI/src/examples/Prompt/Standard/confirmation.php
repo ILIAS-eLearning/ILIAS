@@ -146,6 +146,13 @@ function retrieveEntityIds(
 
 class ConfirmationEntityRetrieval implements EntityRetrieval
 {
+    protected array $data = [
+        ['jw', 'jimmywilson', 'jimmywilson@example.com', 'Jimmy Wilson', '2022-03-15 13:20:10', true],
+        ['eb', 'emilybrown', 'emilybrown@example.com', 'Emily Brown', '2022-03-16 10:45:32', false],
+        ['ms', 'michaelscott', 'michaelscott@example.com', 'Michael Scott', '2022-03-14 08:15:05', true],
+        ['kj', 'katiejones', 'katiejones@example.com', 'Katie Jones', '2022-03-17 15:30:50', true],
+    ];
+
     public function getEntities(
         \ILIAS\UI\Factory $ui_factory,
         Range $range,
@@ -154,8 +161,8 @@ class ConfirmationEntityRetrieval implements EntityRetrieval
         mixed $filter_data,
         mixed $additional_parameters,
     ): Generator {
-        foreach ([1, 2, 3] as $entity_id) {
-            yield $this->getPseudoEntity($ui_factory, $entity_id);
+        foreach ($this->data as $index => $record) {
+            yield $this->mapRecord($ui_factory, $index, $record);
         }
     }
 
@@ -165,12 +172,30 @@ class ConfirmationEntityRetrieval implements EntityRetrieval
         array $entity_ids,
     ): Generator {
         foreach ($entity_ids as $entity_id) {
-            yield $this->getPseudoEntity($ui_factory, (int) $entity_id);
+            if (!isset($this->data[$entity_id])) {
+                continue;
+            }
+            yield $this->mapRecord($ui_factory, $entity_id, $this->data[$entity_id]);
         }
     }
 
-    protected function getPseudoEntity(\ILIAS\UI\Factory $ui_factory, int $entity_id): Entity
+    protected function mapRecord(\ILIAS\UI\Factory $ui_factory, int|string $id, array $record): Entity
     {
-        return $ui_factory->entity()->standard($entity_id, "Entity $entity_id", '');
+        [$abbreviation, $login, $email, $name, $last_seen, $active] = $record;
+        $avatar = $ui_factory->symbol()->avatar()->letter($abbreviation);
+
+        return $ui_factory->entity()->standard($id, $name, $avatar)
+            ->withMainDetails(
+                $ui_factory->listing()->property()
+                    ->withProperty('login', $login)
+                    ->withProperty('mail', $email, false)
+            )
+            ->withDetails(
+                $ui_factory->listing()->property()
+                    ->withItems([
+                        ['last seen', $last_seen],
+                        ['active', $active ? 'yes' : 'no'],
+                    ])
+            );
     }
 }

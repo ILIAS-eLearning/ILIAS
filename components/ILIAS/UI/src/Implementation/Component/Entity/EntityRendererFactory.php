@@ -25,12 +25,17 @@ use ILIAS\UI\Implementation\Render;
 
 class EntityRendererFactory extends Render\DefaultRendererFactory
 {
+    private const PROMPT_STATE_CONTEXT = 'StateStatePrompt';
+
     public function getRendererInContext(
         Component\Component $component,
         array $contexts
     ): Render\AbstractComponentRenderer {
-        if (in_array('MessageBoxMessageBox', $contexts, true)) {
-            return new MessageBoxRenderer(
+        if ($component instanceof Entity
+            && in_array(self::PROMPT_STATE_CONTEXT, $contexts, true)
+            && $component->isCompactListItem()
+        ) {
+            return new BriefEntityRenderer(
                 $this->ui_factory,
                 $this->tpl_factory,
                 $this->lng,
