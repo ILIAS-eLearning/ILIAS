@@ -50,7 +50,6 @@ permission on the Dashboard Settings administration object.
       objects and checks access permissions through the Repository.
     - [Group](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/Group/PRIVACY.md) - memberships in groups are listed in the "My Memberships"
       view. Users can unsubscribe from groups via the Dashboard.
-      personal portfolio area.
     - Calendar - the Dashboard side panel can display a calendar block. Calendar has no
       PRIVACY.md yet.
     - User - the Dashboard accesses user preference data for sorting and presentation
