@@ -400,7 +400,7 @@ class AutomaticPublisherTest extends TestCase
 
     protected function getNullLogger(): \ilLogger
     {
-        return $this->createMock(\ilLogger::class);
+        return $this->createStub(\ilLogger::class);
     }
 
     protected function getCronResultWrapper(): WrapperInterface

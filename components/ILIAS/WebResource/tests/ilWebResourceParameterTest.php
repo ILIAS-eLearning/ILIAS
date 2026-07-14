@@ -29,10 +29,7 @@ class ilWebResourceParameterTest extends TestCase
 {
     protected function initDependencies(): void
     {
-        $user = $this->getMockBuilder(ilObjUser::class)
-                     ->disableOriginalConstructor()
-                     ->onlyMethods(['getLogin', 'getId', 'getMatriculation'])
-                     ->getMock();
+        $user = $this->createStub(ilObjUser::class);
         $user->method('getLogin')->willReturn('login');
         $user->method('getId')->willReturn(37);
         $user->method('getMatriculation')->willReturn('matriculation');
@@ -40,10 +37,7 @@ class ilWebResourceParameterTest extends TestCase
 
     public function testAppendToLink(): void
     {
-        $user = $this->getMockBuilder(ilObjUser::class)
-                     ->disableOriginalConstructor()
-                     ->onlyMethods(['getLogin', 'getId', 'getMatriculation'])
-                     ->getMock();
+        $user = $this->createStub(ilObjUser::class);
         $user->method('getLogin')->willReturn('login');
         $user->method('getId')->willReturn(37);
         $user->method('getMatriculation')->willReturn('matriculation');
@@ -108,9 +102,7 @@ class ilWebResourceParameterTest extends TestCase
 
     public function testAppendToLinkException(): void
     {
-        $user = $this->getMockBuilder(ilObjUser::class)
-                     ->disableOriginalConstructor()
-                     ->getMock();
+        $user = $this->createMock(ilObjUser::class);
         $user->expects($this->never())
              ->method($this->anything());
 
@@ -122,16 +114,11 @@ class ilWebResourceParameterTest extends TestCase
 
     public function testToXML(): void
     {
-        $user = $this->getMockBuilder(ilObjUser::class)
-                     ->disableOriginalConstructor()
-                     ->getMock();
+        $user = $this->createMock(ilObjUser::class);
         $user->expects($this->never())
              ->method($this->anything());
 
-        $writer = $this->getMockBuilder(ilXmlWriter::class)
-                       ->disableOriginalConstructor()
-                       ->onlyMethods(['xmlElement'])
-                       ->getMock();
+        $writer = $this->createMock(ilXmlWriter::class);
         /*
          * willReturnCallback is a workaround to replace withConsecutive.
          * The return value is irrelevant here, but if an unexpected parameter
@@ -192,9 +179,7 @@ class ilWebResourceParameterTest extends TestCase
 
     public function testGetInfo(): void
     {
-        $user = $this->getMockBuilder(ilObjUser::class)
-                     ->disableOriginalConstructor()
-                     ->getMock();
+        $user = $this->createMock(ilObjUser::class);
         $user->expects($this->never())
              ->method($this->anything());
 
@@ -229,9 +214,7 @@ class ilWebResourceParameterTest extends TestCase
 
     public function testGetInfoException(): void
     {
-        $user = $this->getMockBuilder(ilObjUser::class)
-                     ->disableOriginalConstructor()
-                     ->getMock();
+        $user = $this->createMock(ilObjUser::class);
         $user->expects($this->never())
              ->method($this->anything());
 

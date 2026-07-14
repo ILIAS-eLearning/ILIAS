@@ -38,7 +38,7 @@ class ilLPStatusIconsTest extends TestCase
 
     protected function getUIFactory(): UIFactory
     {
-        $custom_icon = $this->createMock(Custom::class);
+        $custom_icon = $this->createStub(Custom::class);
         $custom_icon->method('getIconPath')
                     ->willReturn($this->path);
         $custom_icon->method('getSize')
@@ -46,15 +46,15 @@ class ilLPStatusIconsTest extends TestCase
         $custom_icon->method('getLabel')
                     ->willReturn($this->alt);
 
-        $icon_factory = $this->createMock(IconFactory::class);
+        $icon_factory = $this->createStub(IconFactory::class);
         $icon_factory->method('custom')
                      ->willReturn($custom_icon);
 
-        $symbol_factory = $this->createMock(SymbolFactory::class);
+        $symbol_factory = $this->createStub(SymbolFactory::class);
         $symbol_factory->method('icon')
                        ->willReturn($icon_factory);
 
-        $factory = $this->createMock(UIFactory::class);
+        $factory = $this->createStub(UIFactory::class);
         $factory->method('symbol')
                 ->willReturn($symbol_factory);
 
@@ -63,7 +63,7 @@ class ilLPStatusIconsTest extends TestCase
 
     protected function getUIRenderer(): UIRenderer
     {
-        $renderer = $this->createMock(UIRenderer::class);
+        $renderer = $this->createStub(UIRenderer::class);
         $renderer->method('render')
                  ->willReturnCallback(function ($arg) {
                      return 'rendered: path(' . $arg->getIconPath() .
@@ -104,13 +104,9 @@ class ilLPStatusIconsTest extends TestCase
 
     public function testGetInstanceForInvalidVariant(): void
     {
-        $renderer = $this->getMockBuilder(UIRenderer::class)
-                         ->disableOriginalConstructor()
-                         ->getMock();
+        $renderer = $this->createStub(UIRenderer::class);
 
-        $factory = $this->getMockBuilder(UIFactory::class)
-                        ->disableOriginalConstructor()
-                        ->getMock();
+        $factory = $this->createStub(UIFactory::class);
 
         $this->expectException(ilLPException::class);
         ilLPStatusIcons::getInstance(793, $renderer, $factory);

@@ -35,21 +35,14 @@ class ilCoursePlaceholderDescriptionTest extends TestCase
 {
     public function testPlaceholderGetHtmlDescription(): void
     {
-        $languageMock = $this->getMockBuilder(ilLanguage::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['txt', 'loadLanguageModule'])
-            ->getMock();
+        $languageMock = $this->createStub(ilLanguage::class);
 
-        $templateMock = $this->getMockBuilder(ilTemplate::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $templateMock = $this->createStub(ilTemplate::class);
 
         $templateMock->method('get')
             ->willReturn('');
 
-        $userDefinePlaceholderMock = $this->getMockBuilder(ilUserDefinedFieldsPlaceholderDescription::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $userDefinePlaceholderMock = $this->createStub(ilUserDefinedFieldsPlaceholderDescription::class);
 
         $userDefinePlaceholderMock->method('createPlaceholderHtmlDescription')
             ->willReturn('');
@@ -57,9 +50,7 @@ class ilCoursePlaceholderDescriptionTest extends TestCase
         $userDefinePlaceholderMock->method('getPlaceholderDescriptions')
             ->willReturn([]);
 
-        $customUserPlaceholderObject = $this->getMockBuilder(ilObjectCustomUserFieldsPlaceholderDescription::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $customUserPlaceholderObject = $this->createStub(ilObjectCustomUserFieldsPlaceholderDescription::class);
 
         $customUserPlaceholderObject->method('getPlaceholderDescriptions')
             ->willReturn([
@@ -70,9 +61,7 @@ class ilCoursePlaceholderDescriptionTest extends TestCase
         $customUserPlaceholderObject->method('createPlaceholderHtmlDescription')
             ->willReturn('');
 
-        $profile = $this->getMockBuilder(Profile::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $profile = $this->createStub(Profile::class);
 
         $placeholderDescriptionObject = new CoursePlaceholderDescription(200, null, $languageMock, $userDefinePlaceholderMock, $customUserPlaceholderObject, $profile);
 
@@ -83,18 +72,13 @@ class ilCoursePlaceholderDescriptionTest extends TestCase
 
     public function testPlaceholderDescriptions(): void
     {
-        $languageMock = $this->getMockBuilder(ilLanguage::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['txt'])
-            ->getMock();
+        $languageMock = $this->createMock(ilLanguage::class);
 
         $languageMock->expects($this->exactly(3))
             ->method('txt')
             ->willReturn('Something translated');
 
-        $defaultPlaceholder = $this->getMockBuilder(ilDefaultPlaceholderDescription::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $defaultPlaceholder = $this->createStub(ilDefaultPlaceholderDescription::class);
 
         $defaultPlaceholder->method('getPlaceholderDescriptions')
             ->willReturn(
@@ -104,9 +88,7 @@ class ilCoursePlaceholderDescriptionTest extends TestCase
                 ]
             );
 
-        $customUserPlaceholderObject = $this->getMockBuilder(ilObjectCustomUserFieldsPlaceholderDescription::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $customUserPlaceholderObject = $this->createStub(ilObjectCustomUserFieldsPlaceholderDescription::class);
 
         $customUserPlaceholderObject->method('getPlaceholderDescriptions')
             ->willReturn(
@@ -116,9 +98,7 @@ class ilCoursePlaceholderDescriptionTest extends TestCase
                 ]
             );
 
-        $profile = $this->getMockBuilder(Profile::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $profile = $this->createStub(Profile::class);
 
         $placeholderDescriptionObject = new CoursePlaceholderDescription(200, $defaultPlaceholder, $languageMock, null, $customUserPlaceholderObject, $profile);
 

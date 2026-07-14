@@ -32,13 +32,13 @@ class HandlerTest extends TestCase
     public function testExportHandlerPublicAccessRepositoryKey(): void
     {
         $object_id = 2;
-        $object_id_mock = $this->createMock(ObjectId::class);
+        $object_id_mock = $this->createStub(ObjectId::class);
         $object_id_mock->method("toInt")->willReturn($object_id);
         $object_id_mock->method("toReferenceIds")->willThrowException(new Exception("unexpected access of reference ids"));
-        $object_id_invalid_mock = $this->createMock(ObjectId::class);
+        $object_id_invalid_mock = $this->createStub(ObjectId::class);
         $object_id_invalid_mock->method('toInt')->willReturn(ilExportHandlerPublicAccessRepositoryKeyInterface::EMPTY_OBJECT_ID);
         $object_id_invalid_mock->method("toReferenceIds")->willThrowException(new Exception("toReferenceIds should not be called"));
-        $df_factory_wrapper_mock = $this->createMock(ilExportHandlerDataFactoryWrapperInterface::class);
+        $df_factory_wrapper_mock = $this->createStub(ilExportHandlerDataFactoryWrapperInterface::class);
         $df_factory_wrapper_mock->method('objId')->willReturn($object_id_invalid_mock);
         try {
             $key = new ilExportHandlerPublicAccessRepositoryKey($df_factory_wrapper_mock);

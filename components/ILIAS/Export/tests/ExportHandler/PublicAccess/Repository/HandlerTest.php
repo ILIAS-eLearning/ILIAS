@@ -44,31 +44,31 @@ class HandlerTest extends TestCase
     {
         $this->repository_elements = [];
 
-        $object_id_mock_01 = $this->createMock(ObjectId::class);
+        $object_id_mock_01 = $this->createStub(ObjectId::class);
         $object_id_mock_01->method("toInt")->willReturn(1);
         $object_id_mock_01->method("toReferenceIds")->willThrowException(new UnexpectedValueException("unexpected method call"));
 
-        $object_id_mock_02 = $this->createMock(ObjectId::class);
+        $object_id_mock_02 = $this->createStub(ObjectId::class);
         $object_id_mock_02->method("toInt")->willReturn(2);
         $object_id_mock_02->method("toReferenceIds")->willThrowException(new UnexpectedValueException("unexpected method call"));
 
-        $object_id_mock_03 = $this->createMock(ObjectId::class);
+        $object_id_mock_03 = $this->createStub(ObjectId::class);
         $object_id_mock_03->method("toInt")->willReturn(3);
         $object_id_mock_03->method("toReferenceIds")->willThrowException(new UnexpectedValueException("unexpected method call"));
 
-        $key_mock_01 = $this->createMock(ilExportHandlerPublicAccessRepositoryKeyInterface::class);
+        $key_mock_01 = $this->createStub(ilExportHandlerPublicAccessRepositoryKeyInterface::class);
         $key_mock_01->method("getObjectId")->willReturn($object_id_mock_01);
         $key_mock_01->method("withObjectId")->willThrowException(new UnexpectedValueException("unexpected method call"));
         $key_mock_01->method("equals")->willThrowException(new UnexpectedValueException("unexpected method call"));
         $key_mock_01->method("isValid")->willThrowException(new UnexpectedValueException("unexpected method call"));
 
-        $key_mock_02 = $this->createMock(ilExportHandlerPublicAccessRepositoryKeyInterface::class);
+        $key_mock_02 = $this->createStub(ilExportHandlerPublicAccessRepositoryKeyInterface::class);
         $key_mock_02->method("getObjectId")->willReturn($object_id_mock_02);
         $key_mock_02->method("withObjectId")->willThrowException(new UnexpectedValueException("unexpected method call"));
         $key_mock_02->method("equals")->willThrowException(new UnexpectedValueException("unexpected method call"));
         $key_mock_02->method("isValid")->willThrowException(new UnexpectedValueException("unexpected method call"));
 
-        $key_mock_03 = $this->createMock(ilExportHandlerPublicAccessRepositoryKeyInterface::class);
+        $key_mock_03 = $this->createStub(ilExportHandlerPublicAccessRepositoryKeyInterface::class);
         $key_mock_03->method("getObjectId")->willReturn($object_id_mock_03);
         $key_mock_03->method("withObjectId")->willThrowException(new UnexpectedValueException("unexpected method call"));
         $key_mock_03->method("equals")->willThrowException(new UnexpectedValueException("unexpected method call"));
@@ -80,7 +80,7 @@ class HandlerTest extends TestCase
         $element_mock_01->method("withValues")->willThrowException(new UnexpectedValueException("unexpected method call"));
         $element_mock_01->method("withKey")->willThrowException(new UnexpectedValueException("unexpected method call"));
         $element_mock_01->method("isStorable")->willReturn(true);
-        $element_mock_01->method("equals")->with($element_mock_01)->willReturn(true);
+        $element_mock_01->expects($this->atLeastOnce())->method("equals")->with($element_mock_01)->willReturn(true);
 
         $element_mock_02 = $this->createMock(ilExportHandlerPublicAccessRepositoryElementInterface::class);
         $element_mock_02->method("getValues")->willThrowException(new UnexpectedValueException("unexpected method call"));
@@ -88,17 +88,9 @@ class HandlerTest extends TestCase
         $element_mock_02->method("withValues")->willThrowException(new UnexpectedValueException("unexpected method call"));
         $element_mock_02->method("withKey")->willThrowException(new UnexpectedValueException("unexpected method call"));
         $element_mock_02->method("isStorable")->willReturn(true);
-        $element_mock_02->method("equals")->with($element_mock_02)->willReturn(true);
+        $element_mock_02->expects($this->atLeastOnce())->method("equals")->with($element_mock_02)->willReturn(true);
 
-        $element_not_storable_mock = $this->createMock(ilExportHandlerPublicAccessRepositoryElementInterface::class);
-        $element_not_storable_mock->method("getValues")->willThrowException(new UnexpectedValueException("unexpected method call"));
-        $element_not_storable_mock->method("getKey")->willReturn($key_mock_03);
-        $element_not_storable_mock->method("withValues")->willThrowException(new UnexpectedValueException("unexpected method call"));
-        $element_not_storable_mock->method("withKey")->willThrowException(new UnexpectedValueException("unexpected method call"));
-        $element_not_storable_mock->method("isStorable")->willReturn(false);
-        $element_not_storable_mock->method("equals")->with($element_not_storable_mock)->willReturn(true);
-
-        $key_collection_01_mock = $this->createMock(ilExportHandlerPublicAccessRepositoryKeyCollectionInterface::class);
+        $key_collection_01_mock = $this->createStub(ilExportHandlerPublicAccessRepositoryKeyCollectionInterface::class);
         # next, rewind are void
         $key_collection_01_mock->method("key")->willReturn(0, 1);
         $key_collection_01_mock->method("valid")->willReturn(true, false);
@@ -106,7 +98,7 @@ class HandlerTest extends TestCase
         $key_collection_01_mock->method("current")->willReturn($key_mock_01);
         $key_collection_01_mock->method("withElement")->willThrowException(new UnexpectedValueException("unexpected method call"));
 
-        $key_collection_02_mock = $this->createMock(ilExportHandlerPublicAccessRepositoryKeyCollectionInterface::class);
+        $key_collection_02_mock = $this->createStub(ilExportHandlerPublicAccessRepositoryKeyCollectionInterface::class);
         # next, rewind are void
         $key_collection_02_mock->method("key")->willReturn(0, 1);
         $key_collection_02_mock->method("valid")->willReturn(true, false);
@@ -114,7 +106,7 @@ class HandlerTest extends TestCase
         $key_collection_02_mock->method("current")->willReturn($key_mock_02);
         $key_collection_02_mock->method("withElement")->willThrowException(new UnexpectedValueException("unexpected method call"));
 
-        $key_collection_03_mock = $this->createMock(ilExportHandlerPublicAccessRepositoryKeyCollectionInterface::class);
+        $key_collection_03_mock = $this->createStub(ilExportHandlerPublicAccessRepositoryKeyCollectionInterface::class);
         # next, rewind are void
         $key_collection_03_mock->method("key")->willReturn(0, 1);
         $key_collection_03_mock->method("valid")->willReturn(true, false);
@@ -122,7 +114,7 @@ class HandlerTest extends TestCase
         $key_collection_03_mock->method("current")->willReturn($key_mock_03);
         $key_collection_03_mock->method("withElement")->willThrowException(new UnexpectedValueException("unexpected method call"));
 
-        $key_collection_all_mock = $this->createMock(ilExportHandlerPublicAccessRepositoryKeyCollectionInterface::class);
+        $key_collection_all_mock = $this->createStub(ilExportHandlerPublicAccessRepositoryKeyCollectionInterface::class);
         # next, rewind are void
         $key_collection_all_mock->method("key")->willReturn(0, 1, 2);
         $key_collection_all_mock->method("valid")->willReturn(true, true, false);
@@ -130,7 +122,7 @@ class HandlerTest extends TestCase
         $key_collection_all_mock->method("current")->willReturn($key_mock_01, $key_mock_02);
         $key_collection_all_mock->method("withElement")->willThrowException(new UnexpectedValueException("unexpected method call"));
 
-        $key_collection_empty_mock = $this->createMock(ilExportHandlerPublicAccessRepositoryKeyCollectionInterface::class);
+        $key_collection_empty_mock = $this->createStub(ilExportHandlerPublicAccessRepositoryKeyCollectionInterface::class);
         # next, rewind are void
         $key_collection_empty_mock->method("key")->willReturn(0);
         $key_collection_empty_mock->method("valid")->willReturn(false);
@@ -142,11 +134,11 @@ class HandlerTest extends TestCase
             [$key_mock_03, $key_collection_03_mock],
         ]);
 
-        $key_factory_mock = $this->createMock(ilExportHandlerPublicAccessRepositoryKeyFactoryInterface::class);
+        $key_factory_mock = $this->createStub(ilExportHandlerPublicAccessRepositoryKeyFactoryInterface::class);
         $key_factory_mock->method("handler")->willThrowException(new UnexpectedValueException("unexpected method call"));
         $key_factory_mock->method("collection")->willReturn($key_collection_empty_mock);
 
-        $db_wrapper_mock = $this->createMock(ilExportHandlerPublicAccessRepositoryDBWrapperInterface::class);
+        $db_wrapper_mock = $this->createStub(ilExportHandlerPublicAccessRepositoryDBWrapperInterface::class);
         $db_wrapper_mock->method("storeElement")->willReturnCallback(function ($x) {
             $this->mockDBWrapperStore($x);
         });
@@ -219,13 +211,13 @@ class HandlerTest extends TestCase
     }
 
     protected function mockDBWrapperStore(
-        ilExportHandlerPublicAccessRepositoryElementInterface&MockObject $element_mock
+        ilExportHandlerPublicAccessRepositoryElementInterface $element_mock
     ): void {
         $this->repository_elements[] = $element_mock;
     }
 
     protected function mockDBWrapperRemoveByKeyCollection(
-        ilExportHandlerPublicAccessRepositoryKeyCollectionInterface&MockObject $key_collection_mock
+        ilExportHandlerPublicAccessRepositoryKeyCollectionInterface $key_collection_mock
     ): void {
         $ids = [];
         for ($i = 0; $i < count($key_collection_mock); $i++) {
@@ -241,8 +233,8 @@ class HandlerTest extends TestCase
     }
 
     protected function mockDBWrapperGetElementsByKeyCollection(
-        ilExportHandlerPublicAccessRepositoryKeyCollectionInterface&MockObject $key_collection_mock
-    ): ilExportHandlerPublicAccessRepositoryElementCollectionInterface&MockObject {
+        ilExportHandlerPublicAccessRepositoryKeyCollectionInterface $key_collection_mock
+    ): ilExportHandlerPublicAccessRepositoryElementCollectionInterface {
         $elements = [];
         for ($i = 0; $i < $key_collection_mock->count(); $i++) {
             $current = $key_collection_mock->current();
@@ -252,7 +244,7 @@ class HandlerTest extends TestCase
                 }
             }
         }
-        $element_collection_mock = $this->createMock(ilExportHandlerPublicAccessRepositoryElementCollectionInterface::class);
+        $element_collection_mock = $this->createStub(ilExportHandlerPublicAccessRepositoryElementCollectionInterface::class);
         $element_collection_mock->method("withElement")->willThrowException(new UnexpectedValueException("unexpected method call"));
         $element_collection_mock->method("key")->willThrowException(new UnexpectedValueException("unexpected method call"));
         $element_collection_mock->method("next")->willThrowException(new UnexpectedValueException("unexpected method call"));

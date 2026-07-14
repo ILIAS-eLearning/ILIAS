@@ -33,8 +33,8 @@ class ilAttributeTest extends TestCase
 
     public function testAttributeTest(): void
     {
-        $comp = $this->createMock(ilFilePathComparisonHandler::class);
-        $comp->expects($this->any())->method('toString')->willReturn('<3');
+        $comp = $this->createStub(ilFilePathComparisonHandler::class);
+        $comp->method('toString')->willReturn('<3');
 
         $node = new ilAttributeFilePathNode();
         $node2 = $node

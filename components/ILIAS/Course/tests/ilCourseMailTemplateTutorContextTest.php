@@ -32,8 +32,8 @@ class ilCourseMailTemplateTutorContextTest extends TestCase
         $this->dic_backup = is_object($DIC) ? clone $DIC : $DIC;
 
         $DIC = new Container();
-        $DIC['ilObjDataCache'] = $this->createMock(ilObjectDataCache::class);
-        $DIC['ilDB'] = $this->createMock(ilDBInterface::class);
+        $DIC['ilObjDataCache'] = $this->createStub(ilObjectDataCache::class);
+        $DIC['ilDB'] = $this->createStub(ilDBInterface::class);
     }
 
     protected function tearDown(): void

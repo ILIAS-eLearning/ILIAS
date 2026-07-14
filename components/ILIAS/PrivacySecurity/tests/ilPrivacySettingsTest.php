@@ -74,10 +74,10 @@ class ilPrivacySettingsTest extends TestCase
             define('SYSTEM_FOLDER_ID', 9);
         }
 
-        $this->setGlobalVariable('ilDB', $this->createMock(ilDBInterface::class));
-        $this->setGlobalVariable('ilSetting', $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->getMock());
-        $this->setGlobalVariable('ilUser', $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock());
-        $this->setGlobalVariable('ilAccess', $this->getMockBuilder(ilAccess::class)->disableOriginalConstructor()->getMock());
-        $this->setGlobalVariable('rbacsystem', $this->getMockBuilder(ilRbacSystem::class)->disableOriginalConstructor()->getMock());
+        $this->setGlobalVariable('ilDB', $this->createStub(ilDBInterface::class));
+        $this->setGlobalVariable('ilSetting', $this->createStub(ilSetting::class));
+        $this->setGlobalVariable('ilUser', $this->createStub(ilObjUser::class));
+        $this->setGlobalVariable('ilAccess', $this->createStub(ilAccess::class));
+        $this->setGlobalVariable('rbacsystem', $this->createStub(ilRbacSystem::class));
     }
 }

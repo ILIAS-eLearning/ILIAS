@@ -32,7 +32,7 @@ class WriterTest extends TestCase
 {
     protected function getURI(string $string): URI
     {
-        $url = $this->createMock(URI::class);
+        $url = $this->createStub(URI::class);
         $url->method('__toString')->willReturn($string);
         return $url;
     }

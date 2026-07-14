@@ -28,10 +28,7 @@ class ilWebResourceItemTest extends TestCase
 {
     public function testToXML(): void
     {
-        $writer = $this->getMockBuilder(ilXmlWriter::class)
-                       ->disableOriginalConstructor()
-                       ->onlyMethods(['xmlStartTag', 'xmlElement', 'xmlEndTag'])
-                       ->getMock();
+        $writer = $this->createMock(ilXmlWriter::class);
         $writer->expects($this->once())
                ->method('xmlStartTag')
                ->with('WebLink', [
@@ -58,17 +55,11 @@ class ilWebResourceItemTest extends TestCase
                ->method('xmlEndTag')
                ->with('WebLink');
 
-        $param1 = $this->getMockBuilder(ilWebLinkParameter::class)
-                       ->disableOriginalConstructor()
-                       ->onlyMethods(['toXML'])
-                       ->getMock();
+        $param1 = $this->createMock(ilWebLinkParameter::class);
         $param1->expects($this->once())
                ->method('toXML')
                ->with($writer);
-        $param2 = $this->getMockBuilder(ilWebLinkParameter::class)
-                       ->disableOriginalConstructor()
-                       ->onlyMethods(['toXML'])
-                       ->getMock();
+        $param2 = $this->createMock(ilWebLinkParameter::class);
         $param2->expects($this->once())
                ->method('toXML')
                ->with($writer);

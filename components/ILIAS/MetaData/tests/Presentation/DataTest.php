@@ -69,7 +69,7 @@ class DataTest extends TestCase
 
     protected function getData(): Data
     {
-        $format = $this->createMock(DateFormat::class);
+        $format = $this->createStub(DateFormat::class);
         $format->method('applyTo')->willReturnCallback(function (\DateTimeImmutable $arg) {
             return $arg->format('d:m:Y');
         });

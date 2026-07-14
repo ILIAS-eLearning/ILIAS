@@ -127,7 +127,7 @@ class DatabaseRepositoryTest extends TestCase
 
     protected function getMockURI(): URI|MockObject
     {
-        return $this->createMock(URI::class);
+        return $this->createStub(URI::class);
     }
 
     protected function getRepo(WrapperInterface $wrapper): DatabaseRepository

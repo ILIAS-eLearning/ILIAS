@@ -39,8 +39,8 @@ class DataSetImportParserTest extends TestCase
 
     public function testInstanceAndParseValidXML(): void
     {
-        $map_mock = $this->createMock(ilImportMapping::class);
-        $ds_mock = $this->createMock(ilDataSet::class);
+        $map_mock = $this->createStub(ilImportMapping::class);
+        $ds_mock = $this->createStub(ilDataSet::class);
         $parser = new ilDataSetImportParser(
             "ent",
             "1.0.0",

@@ -28,8 +28,8 @@ class ilIndexTest extends TestCase
 {
     public function testIndexNode(): void
     {
-        $comp = $this->createMock(ilFilePathComparisonHandler::class);
-        $comp->expects($this->any())->method('toString')->willReturn('<3');
+        $comp = $this->createStub(ilFilePathComparisonHandler::class);
+        $comp->method('toString')->willReturn('<3');
 
         $node = new ilIndexFilePathNode();
         $node2 = $node->withIndex(20);
