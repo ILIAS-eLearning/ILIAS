@@ -12,7 +12,7 @@ amount of personal data (favourites and view preferences). All other personal da
 Dashboard is managed by the respective integrated components.
 
 The Favourites feature can be globally enabled or disabled via the Repository settings
-(`rep_favourites`). When disabled, no favourites data is stored or presented. Similarly,
+(`rep_favourites`). When disabled, no favourites data presented. Similarly,
 the "My Memberships" view can be globally toggled (`mmbr_my_crs_grp`). The Achievements area
 (learning history, competences, learning progress, badges, certificates) is accessible from the
 Dashboard but each sub-feature has its own activation setting.
