@@ -7,23 +7,23 @@ or contribute a fix via [Pull Request](../../../docs/development/contributing.md
 ## Integrated Services
 
 - The Awareness component employs the following services, please consult the respective privacy.mds
-    - The **User** service provides account data, profile-publication information, profile pictures, user preferences and the current list of online users.
-    - The **User Action** service provides actions available for listed users. These actions may contain additional action-specific data depending on the enabled action providers.
+    - The **User** service provides account data, profile-publication information, profile pictures, account preferences and the current list of accounts online.
+    - The **User Action** service provides actions available for listed accounts. These actions may contain additional action-specific data depending on the enabled action providers.
     - [Contact](../Contact/PRIVACY.md) provides contact requests and approved contacts.
     - [Mail](../Mail/PRIVACY.md) provides mail/contact-related data used by contact-related user actions.
     - The **Course** service provides course contacts and current course members.
-    - [Group](../Group/PRIVACY.md) provides group membership contexts used to find users from shared memberships.
+    - [Group](../Group/PRIVACY.md) provides group membership contexts used to find accounts from shared memberships.
     - The **Membership** service provides user IDs from shared group/course memberships.
     - [AccessControl](../AccessControl/PRIVACY.md) provides RBAC and access checks for course and membership-based user lists.
     - The **System Support Contacts** service provides configured support contacts.
-    - The **Legal Documents** service removes users whose online status must be hidden according to legal-document settings.
+    - The **Legal Documents** service removes accounts whose online status must be hidden according to legal-document settings.
     - [Notifications](../Notifications/PRIVACY.md) provides the on-screen display integration, if on-screen display is enabled.
 
 ## General Information
 
-- The Awareness component provides the "Who is online?" / awareness overlay in the metabar. It shows other users that are relevant to the current user according to configured providers, e.g. contacts, support contacts, course contacts, current course members, users from shared memberships or, if enabled, all users.
-- The component is intended for communication and quick user interaction. It does not provide a free-text content model of its own, but it presents personal data from user accounts, online-status information and user-action providers.
-- Anonymous users and the current user are not listed in the awareness overlay.
+- The Awareness component provides the "Who is online?" / awareness overlay in the metabar. It presents other accounts that are relevant to the account currently logged-in according to configured providers, e.g. contacts, support contacts, course contacts, current course members, accounts from shared memberships or, if enabled, all accounts.
+- The component is intended for communication and quick interaction. It presents personal data as set by accounts in personal settings, online-status information and user-action providers listed above.
+- Anonymous accounts and the currently logged-in account are not listed in the awareness overlay.
 
 ## Configuration
 
