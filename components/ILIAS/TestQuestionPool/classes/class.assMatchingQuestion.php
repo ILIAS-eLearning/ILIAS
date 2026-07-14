@@ -699,7 +699,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 $found_values[$data['value2']] = [];
             }
 
-            $found_values[$data['value2']][] = $data['value1'];
+            $found_values[$data['value2']][] = (int) $data['value1'];
         }
 
         $points = $this->calculateReachedPointsForSolution($found_values);
@@ -712,13 +712,12 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      */
     public function getMaximumPoints(): float
     {
-        $points = 0;
-
-        foreach ($this->getMaximumScoringMatchingPairs() as $pair) {
-            $points += $pair->getPoints();
-        }
-
-        return $points;
+        return $this->sumMatchingQuestionPoints(
+            array_map(
+                static fn(assAnswerMatchingPair $pair): float => $pair->getPoints(),
+                $this->getMaximumScoringMatchingPairs()
+            )
+        );
     }
 
     public function getMaximumScoringMatchingPairs(): array
@@ -1193,24 +1192,48 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
     protected function calculateReachedPointsForSolution(?array $found_values): float
     {
-        $points = 0.0;
         if (!is_array($found_values)) {
-            return $points;
+            return 0.0;
         }
+
+        $points = [];
         foreach ($found_values as $definition => $terms) {
             if (!is_array($terms)) {
                 continue;
             }
+
             foreach ($terms as $term) {
-                foreach ($this->matchingpairs as $pair) {
-                    if ($pair->getDefinition()->getIdentifier() == $definition
-                        && $pair->getTerm()->getIdentifier() == $term) {
-                        $points += $pair->getPoints();
+                foreach ($this->matchingpairs as $matching_pair) {
+                    if (
+                        $matching_pair->getDefinition()->getIdentifier() !== $definition
+                        || $matching_pair->getTerm()->getIdentifier() !== $term
+                    ) {
+                        continue;
                     }
+
+                    $points[] = $matching_pair->getPoints();
                 }
             }
         }
-        return $points;
+
+        return $this->sumMatchingQuestionPoints($points);
+    }
+
+    /**
+     * @param float[] $points
+     */
+    private function sumMatchingQuestionPoints(array $points): float
+    {
+        if ($points === []) {
+            return 0.0;
+        }
+
+        $sum = '0';
+        foreach ($points as $point) {
+            $sum = ilMath::_add($sum, $point);
+        }
+
+        return (float) $sum;
     }
 
     public function getOperators(string $expression): array
