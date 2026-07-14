@@ -1,8 +1,14 @@
 # Awareness Privacy
 
-This documentation does not warrant completeness or correctness. Please report any
-missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
-or contribute a fix via [Pull Request](../../../docs/development/contributing.md#pull-request-to-the-repositories).
+> **Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information via [Pull Request](docs/development/contributing.md#pull-request-to-the-repositories).**
+
+
+## General Information
+
+- The Awareness component provides the "Who is online?" / awareness overlay in the metabar. It shows other users that are relevant to the current user according to configured providers, e.g. contacts, support contacts, course contacts, current course members, users from shared memberships or, if enabled, all users.
+- The component is intended for communication and quick user interaction. It does not provide a free-text content model of its own, but it presents personal data from user accounts, online-status information and user-action providers.
+- Anonymous users and the current user are not listed in the awareness overlay.
+
 
 ## Integrated Services
 
@@ -19,11 +25,6 @@ or contribute a fix via [Pull Request](../../../docs/development/contributing.md
     - The **Legal Documents** service removes users whose online status must be hidden according to legal-document settings.
     - [Notifications](../Notifications/PRIVACY.md) provides the on-screen display integration, if on-screen display is enabled.
 
-## General Information
-
-- The Awareness component provides the "Who is online?" / awareness overlay in the metabar. It shows other users that are relevant to the current user according to configured providers, e.g. contacts, support contacts, course contacts, current course members, users from shared memberships or, if enabled, all users.
-- The component is intended for communication and quick user interaction. It does not provide a free-text content model of its own, but it presents personal data from user accounts, online-status information and user-action providers.
-- Anonymous users and the current user are not listed in the awareness overlay.
 
 ## Configuration
 
