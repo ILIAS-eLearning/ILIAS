@@ -87,7 +87,7 @@ permission on the Dashboard Settings administration object.
   unsubscribe from courses and groups directly from the "My Memberships" view, provided they
   have the "leave" permission on the respective object.
 - **Persons with the "change_presentation" permission** on the Dashboard Settings administration
-  object can switch between list and tile presentation modes. Users without this permission see
+  object can switch between all enabled modes. Users without this permission see
   only the default presentation mode configured by a person with the "Edit Settings" permission.
 - **Persons with the "read" permission** on the Dashboard Settings administration object can
   view the Dashboard configuration, including which views are enabled and their sorting and
