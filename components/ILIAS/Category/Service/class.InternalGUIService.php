@@ -23,6 +23,7 @@ namespace ILIAS\Category;
 use ILIAS\DI;
 use ILIAS\Repository;
 use ILIAS\Catgory\AssignRoleTableBuilder;
+use ILIAS\Category\Permission\CategoryCmdPermission;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -67,6 +68,17 @@ class InternalGUIService
             $managing_user_id,
             $parent_gui,
             $parent_cmd
+        );
+    }
+
+    public function cmdPerm(): CategoryCmdPermission
+    {
+        return new CategoryCmdPermission(
+            $this->domain_service->lng(),
+            $this->domain_service->access(),
+            $this->ui()->mainTemplate(),
+            $this->ctrl(),
+            $this->standardRequest()
         );
     }
 }
