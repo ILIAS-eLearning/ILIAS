@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Mail\Attachments\MailAttachments;
+
 /**
  * Remote object app base class
  *
@@ -629,7 +631,7 @@ abstract class ilRemoteObjectBase extends ilObject2
             '',
             $lang->txt('ecs_new_econtent_subject'),
             $message,
-            array()
+            MailAttachments::empty()
         );
     }
 

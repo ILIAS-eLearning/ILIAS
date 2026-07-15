@@ -178,8 +178,10 @@ class ilAccountMail
                 }
             } else {
                 $attachment = $amail->getAttachment($this->irss);
-                if ($attachment !== null) {
-                    $mmail->Attach($attachment->getPath(), '', 'attachment', $attachment->getFilename());
+                if ($attachment !== null && is_file($attachment->getPath())) {
+                    $file_data_mail = new ilFileDataMail(ANONYMOUS_USER_ID);
+                    $rid = $file_data_mail->streamFromPath($attachment->getPath());
+                    $mmail->AttachResource($rid, $attachment->getFilename());
                 }
             }
 

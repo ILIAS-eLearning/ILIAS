@@ -62,7 +62,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
     public function __construct(
         array $row,
         private readonly int $notification_type,
-        ?ilForumNotificationCache $notificationCache = null
+        ?ilForumNotificationCache $notificationCache = null,
     ) {
         $this->closest_container = $row['closest_container'];
         $this->obj_id = (int) $row['obj_id'];
@@ -124,17 +124,11 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
             return;
         }
 
-        global $DIC;
-        $forum_collection = $DIC->resourceStorage()->collection()->get(
+        // The mail service copies the collection per recipient on send (copy-on-send),
+        // so referencing the post collection directly is sufficient here.
+        $this->mail_attachments = MailAttachments::fromIrss(
             new ResourceCollectionIdentification($rcid_string)
         );
-        $fileDataMail = new ilFileDataMail(ANONYMOUS_USER_ID);
-        $mail_rcid = $fileDataMail->createCollectionFromForeignResources(
-            iterator_to_array($forum_collection->getResourceIdentifications(), false)
-        );
-        if ($mail_rcid !== null) {
-            $this->mail_attachments = MailAttachments::fromIrss($mail_rcid);
-        }
     }
 
     public function addRecipient(int $user_id): void
