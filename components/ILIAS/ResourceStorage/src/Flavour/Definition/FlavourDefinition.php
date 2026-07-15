@@ -51,7 +51,7 @@ interface FlavourDefinition
      * such variants must be distinguishable. For example, a variant name may contain "{height}x{width}"
      * if these are configurable values.
      *
-     * The Variant-Name MUST be less than 768 characters long!
+     * The Variant-Name MUST be less than 638 characters long!
      */
     public function getVariantName(): ?string;
 
