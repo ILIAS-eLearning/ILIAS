@@ -22,6 +22,7 @@ namespace ILIAS\Blog\Permission;
 
 class PermissionManager
 {
+    protected \ilWorkspaceTree $ws_tree;
     protected int $owner;
     protected int $id_type;
     protected \ilWorkspaceAccessHandler|\ilAccessHandler $access;
@@ -40,6 +41,7 @@ class PermissionManager
         $this->id_type = $id_type;
         $this->user_id = $user_id;
         $this->owner = $owner;
+        $this->ws_tree = new \ilWorkspaceTree($this->owner);
     }
 
     public function canWrite(): bool
@@ -108,13 +110,41 @@ class PermissionManager
 
     public function canReadPosting(int $posting_id): bool
     {
-        return ($this->mayContribute() ||
-            \ilBlogPosting::_lookupActive($posting_id, "blp"));
+        return (
+            $this->postingIdMatches($posting_id) &&
+            $this->checkPermissionBool("read") &&
+            ($this->mayContribute() ||
+            \ilBlogPosting::_lookupActive($posting_id, "blp")));
+    }
+
+    public function canApprove(int $posting_id): bool
+    {
+        if (!$this->postingIdMatches($posting_id)) {
+            return false;
+        }
+        return ($this->checkPermissionBool("redact") ||
+            $this->checkPermissionBool("write")
+        );
     }
 
     public function isActive(int $posting_id): bool
     {
         return (\ilBlogPosting::_lookupActive($posting_id, "blp"));
+    }
+
+    protected function postingIdMatches(int $posting_id): bool
+    {
+        if ($this->id_type === \ilObject2GUI::WORKSPACE_NODE_ID) {
+            $obj_id = $this->ws_tree->lookupObjectId($this->node_id);
+        } else {
+            $obj_id = \ilObject::_lookupObjId($this->node_id);
+        }
+        return \ilBlogPosting::lookupBlogId($posting_id) === $obj_id;
+    }
+
+    public function getAccessHandler(): \ilAccessHandler|\ilWorkspaceAccessHandler
+    {
+        return $this->access;
     }
 
 }

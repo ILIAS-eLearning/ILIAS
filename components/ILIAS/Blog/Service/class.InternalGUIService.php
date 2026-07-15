@@ -24,6 +24,9 @@ use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICGUIServices;
 use ILIAS\PermanentLink\PermanentLinkManager;
 use ILIAS\Blog\ReadingTime\GUIService;
+use ILIAS\Blog\Permission\BlogCmdPermission;
+use ILIAS\Blog\Access\BlogAccess;
+use ILIAS\Blog\Permission\PermissionManager;
 
 class InternalGUIService
 {
@@ -112,4 +115,16 @@ class InternalGUIService
                 $this
             );
     }
+
+    public function cmdPerm(PermissionManager $blog_access): BlogCmdPermission
+    {
+        return new BlogCmdPermission(
+            $this->domain_service->lng(),
+            $blog_access,
+            $this->ui()->mainTemplate(),
+            $this->ctrl(),
+            $this->standardRequest()
+        );
+    }
+
 }
