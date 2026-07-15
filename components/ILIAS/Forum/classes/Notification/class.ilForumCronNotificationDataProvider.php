@@ -62,7 +62,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
     public function __construct(
         array $row,
         private readonly int $notification_type,
-        ?ilForumNotificationCache $notificationCache = null,
+        ?ilForumNotificationCache $notificationCache = null
     ) {
         $this->closest_container = $row['closest_container'];
         $this->obj_id = (int) $row['obj_id'];
@@ -124,8 +124,6 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
             return;
         }
 
-        // The mail service copies the collection per recipient on send (copy-on-send),
-        // so referencing the post collection directly is sufficient here.
         $this->mail_attachments = MailAttachments::fromIrss(
             new ResourceCollectionIdentification($rcid_string)
         );
