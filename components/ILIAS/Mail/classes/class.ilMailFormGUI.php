@@ -212,21 +212,6 @@ class ilMailFormGUI
         }
     }
 
-    /**
-     * @param list<string> $files
-     * @return list<string>
-     */
-    protected function decodeAttachmentFiles(array $files): array
-    {
-        $decoded_files = [];
-        foreach ($files as $value) {
-            if (is_file($this->mfile->getMailPath() . '/' . $this->user->getId() . '_' . urldecode($value))) {
-                $decoded_files[] = urldecode($value);
-            }
-        }
-
-        return $decoded_files;
-    }
 
     public function saveMessageToOutbox(array $form_values, Form $form): void
     {

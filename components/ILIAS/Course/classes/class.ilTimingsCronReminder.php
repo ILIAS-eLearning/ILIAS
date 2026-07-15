@@ -335,7 +335,7 @@ class ilTimingsCronReminder extends CronJob
                 '',
                 $this->user_lang->txt('timings_cron_reminder_started_subject'),
                 $mail_body,
-                [],
+                MailAttachments::empty(),
                 true
             );
             $this->log->debug('...mail send for user ' . $user_id . ' to mail ' . $login . ' has freshly started timings for ' . $mail_body);

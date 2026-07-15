@@ -18,10 +18,15 @@
 
 declare(strict_types=1);
 
+use ILIAS\ResourceStorage\Services as IRSS;
+
 class ilMailMimeTransportFactory
 {
-    public function __construct(protected ilSetting $settings, private readonly ilAppEventHandler $event_handler)
-    {
+    public function __construct(
+        protected ilSetting $settings,
+        private readonly ilAppEventHandler $event_handler,
+        private readonly IRSS $irss
+    ) {
     }
 
     public function getTransport(): ilMailMimeTransport
@@ -31,9 +36,9 @@ class ilMailMimeTransportFactory
         }
 
         if ($this->settings->get('mail_smtp_status', '0')) {
-            return new ilMailMimeTransportSmtp($this->settings, $this->event_handler);
+            return new ilMailMimeTransportSmtp($this->settings, $this->event_handler, $this->irss);
         }
 
-        return new ilMailMimeTransportSendmail($this->settings, $this->event_handler);
+        return new ilMailMimeTransportSendmail($this->settings, $this->event_handler, $this->irss);
     }
 }

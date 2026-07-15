@@ -159,7 +159,7 @@ $cc = 'john.doe';
 $bc = 'max.mustermann';
 $subject = 'Make ILIAS great again!';
 $message = "Lorem ipsum dolor sit amet,\nconsetetur sadipscing elitr,\nsed diam nonumy eirmod tempor.";
-$attachments = [];
+$attachments = MailAttachments::empty();
 
 $mail = new \ilMail($senderUserId);
 $mail->enqueue(
@@ -385,10 +385,10 @@ $mail->enqueue(
     $bc,
     $subject,
     $message,
-    [
+    MailAttachments::fromLegacyFilenames([
         $attachment_filename,
         'HelloWorld.jpg'
-    ]
+    ])
 );
 
 // or $attachment->unlinkFiles(['HelloWorld.jpg', $attachment_filename]);

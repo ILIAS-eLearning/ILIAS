@@ -31,7 +31,7 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval,
     private readonly \ILIAS\Data\Factory $data_factory;
 
     /**
-     * @param list<array{"filename": string, "filesize": int, "filecreatedate": int}> $records
+     * @param list<array{"rid": string, "filename": string, "filesize": int, "filecreatedate": int}> $records
      */
     public function __construct(
         private readonly \ilMailAttachmentGUI $parent_gui,
@@ -141,7 +141,7 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval,
     }
 
     /**
-     * @return list<array{"filename": string, "filesize": int, "filecreatedate": int}>
+     * @return list<array{"rid": string, "filename": string, "filesize": int, "filecreatedate": int}>
      */
     private function getRecords(\ILIAS\Data\Range $range, \ILIAS\Data\Order $order): array
     {
@@ -185,7 +185,7 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval,
             ];
 
             yield $row_builder
-                ->buildDataRow(urlencode($record['filename']), $record);
+                ->buildDataRow($item['rid'], $record);
         }
     }
 

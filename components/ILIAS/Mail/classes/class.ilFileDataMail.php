@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Mail\Attachments\MailAttachments;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\Filesystem\Stream\Streams;
@@ -30,6 +31,10 @@ use ILIAS\FileDelivery\Delivery as FileDelivery;
 
 class ilFileDataMail extends ilFileData
 {
+    private const string POOL_RCID_PREF_KEY = 'mail_attachment_pool_rcid';
+
+    public const string LEGACY_POOL_ITEM_PREFIX = 'legacy:';
+
     public string $mail_path;
     protected int $mail_max_upload_file_size;
     protected Filesystem $tmp_directory;
@@ -149,32 +154,6 @@ class ilFileDataMail extends ilFileData
         return '';
     }
 
-    public function getAttachmentPath(string $a_filename, int $a_mail_id): string
-    {
-        $path = $this->getMailPath() . '/' . $this->getAttachmentPathByMailId($a_mail_id) . '/' . $a_filename;
-
-        if (is_readable($path)) {
-            return $path;
-        }
-
-        return '';
-    }
-
-    /**
-     * @param list<string> $a_attachments
-     */
-    public function adoptAttachments(array $a_attachments, int $a_mail_id): string
-    {
-        foreach ($a_attachments as $file) {
-            $path = $this->getAttachmentPath($file, $a_mail_id);
-            if (!copy($path, $this->getMailPath() . '/' . $this->user_id . '_' . $file)) {
-                return 'ERROR: ' . $this->getMailPath() . '/' . $this->user_id . '_' . $file . ' cannot be created';
-            }
-        }
-
-        return '';
-    }
-
     public function checkReadWrite(): bool
     {
         if (is_writable($this->mail_path) && is_readable($this->mail_path)) {
@@ -225,93 +204,257 @@ class ilFileDataMail extends ilFileData
         return $files;
     }
 
-    public function storeAsAttachment(string $a_filename, string $a_content): string
-    {
-        if (strlen($a_content) >= $this->getUploadLimit()) {
-            throw new DomainException(
-                sprintf(
-                    'Mail upload limit reached for user with id %s',
-                    $this->user_id
-                )
-            );
-        }
 
-        $name = ilFileUtils::_sanitizeFilemame($a_filename);
-        $this->rotateFiles($this->getMailPath() . '/' . $this->user_id . '_' . $name);
-
-        $abs_path = $this->getMailPath() . '/' . $this->user_id . '_' . $name;
-
-        $fp = fopen($abs_path, 'wb+');
-        if (!is_resource($fp)) {
-            throw new RuntimeException(
-                sprintf(
-                    'Could not read file: %s',
-                    $abs_path
-                )
-            );
-        }
-
-        if (fwrite($fp, $a_content) === false) {
-            fclose($fp);
-            throw new RuntimeException(
-                sprintf(
-                    'Could not write file: %s',
-                    $abs_path
-                )
-            );
-        }
-
-        fclose($fp);
-
-        return $name;
-    }
-
+    /**
+     * @deprecated Legacy pool write; use uploadToPool() instead.
+     */
     public function storeUploadedFile(UploadResult $result): string
     {
-        $filename = ilFileUtils::_sanitizeFilemame(
-            $result->getName()
-        );
-
-        $this->rotateFiles($this->getMailPath() . '/' . $this->user_id . '_' . $filename);
-
-        ilFileUtils::moveUploadedFile(
-            $result->getPath(),
-            $filename,
-            $this->getMailPath() . '/' . $this->user_id . '_' . $filename
-        );
-
-        return $filename;
+        return $this->uploadToPool($result)->serialize();
     }
 
-    public function copyAttachmentFile(string $a_abs_path, string $a_new_name): bool
+    public function uploadToPool(UploadResult $result): ResourceIdentification
     {
-        @copy($a_abs_path, $this->getMailPath() . '/' . $this->user_id . '_' . $a_new_name);
+        $rid = $this->uploadToIrss($result);
+        $pool_rcid = $this->resolveUserPoolRcid();
+        $updated_rcid = $this->adoptPoolResourcesToCollection($pool_rcid, [$rid]);
 
-        return true;
-    }
-
-    private function rotateFiles(string $a_path): bool
-    {
-        if (is_file($a_path)) {
-            $this->rotateFiles($a_path . '.old');
-            return ilFileUtils::rename($a_path, $a_path . '.old');
+        if ($updated_rcid === null) {
+            throw new RuntimeException('Could not store mail attachment in pool.');
         }
 
-        return true;
+        if ($pool_rcid === null || $pool_rcid->serialize() !== $updated_rcid->serialize()) {
+            $this->persistUserPoolRcid($updated_rcid);
+        }
+
+        return $rid;
+    }
+
+    public function getUserPoolRcid(): ResourceCollectionIdentification
+    {
+        $pool_rcid = $this->resolveUserPoolRcid();
+        if ($pool_rcid === null) {
+            throw new RuntimeException('Mail attachment pool does not exist.');
+        }
+
+        return $pool_rcid;
+    }
+
+    private function resolveUserPoolRcid(): ?ResourceCollectionIdentification
+    {
+        $pref = ilObjUser::_lookupPref($this->user_id, self::POOL_RCID_PREF_KEY);
+        if (!is_string($pref) || $pref === '') {
+            return null;
+        }
+
+        $rcid = new ResourceCollectionIdentification($pref);
+        if (!$this->collectionIsKnown($rcid)) {
+            return null;
+        }
+
+        $this->repairCollectionHeaderIfNeeded($rcid);
+
+        return $rcid;
     }
 
     /**
-     * @param list<string> $a_filenames
+     * @return \Generator<int, ResourceIdentification>
      */
-    public function unlinkFiles(array $a_filenames): string
+    private function iteratePoolResourceIdentifications(ResourceCollectionIdentification $pool_rcid): \Generator
     {
-        foreach ($a_filenames as $file) {
-            if (!$this->unlinkFile($file)) {
-                return $file;
+        $this->repairCollectionHeaderIfNeeded($pool_rcid);
+
+        foreach ($this->getAssignedRidStrings($pool_rcid) as $rid_string) {
+            $resource_identification = $this->irss->manage()->find($rid_string);
+            if ($resource_identification !== null) {
+                yield $resource_identification;
+            }
+        }
+    }
+
+    /**
+     * @return list<array{rid: string, name: string, size: int, ctime: int, md5: string}>
+     */
+    public function getUserPoolFilesData(): array
+    {
+        $files = [];
+
+        $pool_rcid = $this->resolveUserPoolRcid();
+        if ($pool_rcid !== null) {
+            foreach ($this->iteratePoolResourceIdentifications($pool_rcid) as $resource_identification) {
+                $revision = $this->irss->manage()->getCurrentRevision($resource_identification);
+                $info = $revision->getInformation();
+                $files[] = [
+                    'rid' => $resource_identification->serialize(),
+                    'name' => $info->getTitle(),
+                    'size' => $info->getSize(),
+                    'ctime' => $info->getCreationDate()->getTimestamp(),
+                    'md5' => $revision->getTitle(),
+                ];
             }
         }
 
-        return '';
+        foreach ($this->getUnsentFiles() as $file) {
+            $files[] = [
+                'rid' => self::LEGACY_POOL_ITEM_PREFIX . $file['name'],
+                'name' => $file['name'],
+                'size' => (int) $file['size'],
+                'ctime' => (int) $file['ctime'],
+                'md5' => md5($file['name']),
+            ];
+        }
+
+        return $files;
+    }
+
+    public function isLegacyPoolItemIdentifier(string $identifier): bool
+    {
+        return str_starts_with($identifier, self::LEGACY_POOL_ITEM_PREFIX);
+    }
+
+    public function legacyPoolFilenameFromIdentifier(string $identifier): string
+    {
+        return substr($identifier, strlen(self::LEGACY_POOL_ITEM_PREFIX));
+    }
+
+    public function migrateLegacyPoolFilenameToResource(string $filename): ?ResourceIdentification
+    {
+        $path = $this->getAbsoluteAttachmentPoolPathByFilename($filename);
+        if (!is_file($path)) {
+            return null;
+        }
+
+        $rid = $this->streamFromPath($path, md5($filename));
+        $pool_rcid = $this->resolveUserPoolRcid();
+        $updated_rcid = $this->adoptPoolResourcesToCollection($pool_rcid, [$rid]);
+        if ($updated_rcid === null) {
+            return null;
+        }
+
+        if ($pool_rcid === null || $pool_rcid->serialize() !== $updated_rcid->serialize()) {
+            $this->persistUserPoolRcid($updated_rcid);
+        }
+
+        $this->unlinkFile($filename);
+
+        return $rid;
+    }
+
+    /**
+     * @param list<string> $identifiers
+     * @return list<ResourceIdentification>
+     */
+    public function resolvePoolIdentifiersToResources(array $identifiers): array
+    {
+        $resource_identifications = [];
+
+        foreach ($identifiers as $identifier) {
+            if ($this->isLegacyPoolItemIdentifier($identifier)) {
+                $resource_identification = $this->migrateLegacyPoolFilenameToResource(
+                    $this->legacyPoolFilenameFromIdentifier($identifier)
+                );
+            } else {
+                $resource_identification = $this->irss->manage()->find($identifier);
+            }
+
+            if ($resource_identification !== null) {
+                $resource_identifications[] = $resource_identification;
+            }
+        }
+
+        return $resource_identifications;
+    }
+
+    /**
+     * @param list<ResourceIdentification> $resource_identifications
+     */
+    public function adoptPoolResourcesToCollection(
+        ?ResourceCollectionIdentification $rcid,
+        array $resource_identifications
+    ): ?ResourceCollectionIdentification {
+        if ($resource_identifications === []) {
+            return null;
+        }
+
+        $collection = $this->loadPoolCollectionForMutation($rcid);
+        $added = false;
+
+        foreach ($resource_identifications as $resource_identification) {
+            $hash = $this->irss->manage()->getCurrentRevision($resource_identification)->getTitle();
+            if ($this->resourceIdByHashInCollection($collection, $hash) !== null) {
+                continue;
+            }
+
+            $collection->add($resource_identification);
+            $added = true;
+        }
+
+        if (!$added) {
+            return null;
+        }
+
+        $this->irss->collection()->store($collection);
+
+        return $collection->getIdentification();
+    }
+
+    public function removeFromPool(ResourceIdentification $rid): void
+    {
+        $pool_rcid = $this->resolveUserPoolRcid();
+        if ($pool_rcid === null) {
+            return;
+        }
+
+        $collection = $this->getCollection($pool_rcid);
+        if (!$collection->isIn($rid)) {
+            return;
+        }
+
+        $collection->remove($rid);
+        $this->irss->collection()->store($collection);
+
+        if (!$this->isResourceReferencedOutsideCollection($rid, $pool_rcid)) {
+            $this->irss->manage()->remove($rid, $this->stakeholder);
+        }
+    }
+
+    public function poolResourceHash(ResourceIdentification $rid): string
+    {
+        return $this->irss->manage()->getCurrentRevision($rid)->getTitle();
+    }
+
+
+    private function persistUserPoolRcid(ResourceCollectionIdentification $rcid): void
+    {
+        $this->db->replace(
+            'usr_pref',
+            [
+                'usr_id' => [ilDBConstants::T_INTEGER, $this->user_id],
+                'keyword' => [ilDBConstants::T_TEXT, self::POOL_RCID_PREF_KEY],
+            ],
+            [
+                'value' => [ilDBConstants::T_TEXT, $rcid->serialize()],
+            ]
+        );
+    }
+
+    private function isResourceReferencedOutsideCollection(
+        ResourceIdentification $rid,
+        ResourceCollectionIdentification $collection_identification
+    ): bool {
+        $res = $this->db->queryF(
+            'SELECT rcid FROM il_resource_rca WHERE rid = %s',
+            [ilDBConstants::T_TEXT],
+            [$rid->serialize()]
+        );
+
+        while ($row = $this->db->fetchObject($res)) {
+            if ($row->rcid !== $collection_identification->serialize()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function unlinkFile(string $a_filename): bool
@@ -330,49 +473,6 @@ class ilFileDataMail extends ilFileData
     public function getAbsoluteAttachmentPoolPathByFilename(string $filename): string
     {
         return $this->getAbsoluteAttachmentPoolPathPrefix() . $filename;
-    }
-
-    /**
-     * Saves all attachment files in a specific mail directory .../mail/<calculated_path>/mail_<mail_id>_<user_id>/...
-     * @param list<string> $a_attachments
-     */
-    public function saveFiles(int $a_mail_id, array $a_attachments): void
-    {
-        if (!is_numeric($a_mail_id) || $a_mail_id < 1) {
-            throw new InvalidArgumentException('The passed mail_id must be a valid integer!');
-        }
-
-        foreach ($a_attachments as $attachment) {
-            $this->saveFile($a_mail_id, $attachment);
-        }
-    }
-
-    public static function getStorage(int $a_mail_id, int $a_usr_id): ilFSStorageMail
-    {
-        static $fsstorage_cache = [];
-
-        $fsstorage_cache[$a_mail_id][$a_usr_id] = new ilFSStorageMail($a_mail_id, $a_usr_id);
-
-        return $fsstorage_cache[$a_mail_id][$a_usr_id];
-    }
-
-    /**
-     * Save attachment file in a specific mail directory .../mail/<calculated_path>/mail_<mail_id>_<user_id>/...
-     */
-    public function saveFile(int $a_mail_id, string $a_attachment): bool
-    {
-        $storage = self::getStorage($a_mail_id, $this->user_id);
-        $storage->create();
-        $storage_directory = $storage->getAbsolutePath();
-
-        if (!is_dir($storage_directory)) {
-            return false;
-        }
-
-        return copy(
-            $this->mail_path . '/' . $this->user_id . '_' . $a_attachment,
-            $storage_directory . '/' . $a_attachment
-        );
     }
 
     /**
@@ -399,18 +499,6 @@ class ilFileDataMail extends ilFileData
             'INSERT INTO mail_attachment (mail_id, path, rcid) VALUES (%s, %s, %s)',
             [ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
             [$mail_id, '', $rcid->serialize()]
-        );
-    }
-
-    public function assignAttachmentsToDirectory(int $a_mail_id, int $a_sent_mail_id): void
-    {
-        $storage = self::getStorage($a_sent_mail_id, $this->user_id);
-        $this->db->manipulateF(
-            '
-			INSERT INTO mail_attachment 
-			( mail_id, path) VALUES (%s, %s)',
-            ['integer', 'text'],
-            [$a_mail_id, $storage->getRelativePathExMailDirectory()]
         );
     }
 
@@ -538,6 +626,14 @@ class ilFileDataMail extends ilFileData
 
     public function onUserDelete(): void
     {
+        $pool_rcid = $this->resolveUserPoolRcid();
+        if ($pool_rcid !== null) {
+            try {
+                $this->removeCollection($pool_rcid);
+            } catch (Exception) {
+            }
+        }
+
         // Delete uploaded mail files which are not attached to any message
         try {
             $iter = new RegexIterator(
@@ -598,7 +694,7 @@ class ilFileDataMail extends ilFileData
         ';
         $rcid_res = $this->db->queryF(
             $rcid_query,
-            ['integer'],
+            [ilDBConstants::T_INTEGER],
             [$this->user_id]
         );
         while ($row = $this->db->fetchAssoc($rcid_res)) {
@@ -742,6 +838,21 @@ class ilFileDataMail extends ilFileData
         return $this->adoptPoolFilenamesToCollection(null, $filenames);
     }
 
+    public function migrateLegacyPoolAttachments(MailAttachments $attachments): ?MailAttachments
+    {
+        if (!$attachments->isLegacy()) {
+            return $attachments;
+        }
+
+        if (!$this->checkFilesExist($attachments->legacyFilenames())) {
+            return null;
+        }
+
+        $rcid = $this->createCollectionFromPoolFilenames($attachments->legacyFilenames());
+
+        return $rcid !== null ? MailAttachments::fromIrss($rcid) : null;
+    }
+
     /**
      * @param list<string> $filenames Pool filenames without user prefix
      */
@@ -784,11 +895,6 @@ class ilFileDataMail extends ilFileData
         $this->irss->collection()->store($collection);
 
         return $collection->getIdentification();
-    }
-
-    public function poolFilenameHash(string $pool_filename): string
-    {
-        return md5(basename($this->getAbsoluteAttachmentPoolPathByFilename($pool_filename)));
     }
 
     /**
@@ -837,6 +943,21 @@ class ilFileDataMail extends ilFileData
         ]);
     }
 
+    public function copyCollectionForDelivery(
+        ResourceCollectionIdentification $source
+    ): ?ResourceCollectionIdentification {
+        if (!$this->collectionIsKnown($source)) {
+            return null;
+        }
+
+        $resource_identifications = iterator_to_array(
+            $this->getCollection($source)->getResourceIdentifications(),
+            false
+        );
+
+        return $this->createCollectionFromForeignResources($resource_identifications);
+    }
+
     /**
      * @param list<ResourceIdentification> $resource_identifications
      */
@@ -870,8 +991,23 @@ class ilFileDataMail extends ilFileData
         }
 
         $this->repairCollectionHeaderIfNeeded($rcid);
+        $this->irss->preloadCollections([$rcid->serialize()]);
 
         return $this->irss->collection()->get($rcid, $this->user_id);
+    }
+
+    private function loadPoolCollectionForMutation(?ResourceCollectionIdentification $pool_rcid): ResourceCollection
+    {
+        if ($pool_rcid !== null && $this->collectionIsKnown($pool_rcid)) {
+            $this->repairCollectionHeaderIfNeeded($pool_rcid);
+            $this->irss->preloadCollections([$pool_rcid->serialize()]);
+
+            return $this->irss->collection()->get($pool_rcid, $this->user_id);
+        }
+
+        $collection_id = $this->irss->collection()->id(null, $this->user_id);
+
+        return $this->irss->collection()->get($collection_id, $this->user_id);
     }
 
     /**
