@@ -20,14 +20,17 @@ declare(strict_types=1);
 
 use PHPMailer\PHPMailer\PHPMailer;
 use ILIAS\Mail\Mime\MailMimeAttachment;
-use ILIAS\ResourceStorage\Services;
+use ILIAS\ResourceStorage\Services as IRSS;
 
 abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 {
     protected PHPMailer $mailer;
 
-    public function __construct(protected ilSetting $settings, private readonly ilAppEventHandler $event_handler)
-    {
+    public function __construct(
+        protected ilSetting $settings,
+        private readonly ilAppEventHandler $event_handler,
+        private readonly IRSS $irss
+    ) {
         $mail = new PHPMailer();
         $this->setMailer($mail);
     }
@@ -217,9 +220,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
             return false;
         }
 
-        /** @var Services $irss */
-        $irss = $GLOBALS['DIC']->resourceStorage();
-        $stream = $irss->consume()->stream($resource_identification)->getStream();
+        $stream = $this->irss->consume()->stream($resource_identification)->getStream();
 
         return $this->getMailer()->addStringAttachment(
             (string) $stream,

@@ -46,6 +46,9 @@ class ilMail
     private bool $append_installation_signature = false;
     private bool $append_user_signature = false;
 
+    private bool $share_attachments = false;
+    private ?MailAttachments $shared_delivery_attachments = null;
+
     private ?string $context_id = null;
     private array $context_parameters = [];
 
@@ -155,6 +158,35 @@ class ilMail
     public function getSaveInSentbox(): bool
     {
         return $this->save_in_sentbox;
+    }
+
+    public function setShareAttachments(bool $share_attachments): void
+    {
+        $this->share_attachments = $share_attachments;
+    }
+
+    private function getDeliveryAttachments(MailAttachments $source): MailAttachments
+    {
+        if ($source->isEmpty() || !$source->isIrss()) {
+            return $source;
+        }
+
+        if ($this->share_attachments) {
+            if ($this->shared_delivery_attachments === null) {
+                $copied_rcid = $this->mail_file_data->copyCollectionForDelivery($source->rcid());
+                $this->shared_delivery_attachments = $copied_rcid !== null
+                    ? MailAttachments::fromIrss($copied_rcid)
+                    : MailAttachments::empty();
+            }
+
+            return $this->shared_delivery_attachments;
+        }
+
+        $copied_rcid = $this->mail_file_data->copyCollectionForDelivery($source->rcid());
+
+        return $copied_rcid !== null
+            ? MailAttachments::fromIrss($copied_rcid)
+            : MailAttachments::empty();
     }
 
     private function readMailObjectReferenceId(): void
@@ -395,7 +427,22 @@ class ilMail
 
     public function fetchMailData(?array $row): ?array
     {
-        return (new MailRecordMapper())->normalizeRow($row);
+        $row = (new MailRecordMapper())->normalizeRow($row);
+        if ($row === null) {
+            return null;
+        }
+
+        if ($row['attachments'] instanceof MailAttachments && $row['attachments']->isLegacy()) {
+            $migrated = $this->mail_file_data->migrateLegacyPoolAttachments($row['attachments']);
+            if ($migrated !== null) {
+                $row['attachments'] = $migrated;
+                if (isset($row['mail_id'])) {
+                    $this->persistMailAttachmentsColumn((int) $row['mail_id'], $migrated);
+                }
+            }
+        }
+
+        return $row;
     }
 
     public function getNewDraftId(int $folder_id): int
@@ -747,10 +794,12 @@ class ilMail
             $mbox->setUsrId($recipient->getUserId());
             $recipient_inbox_id = $mbox->getInboxFolder();
 
+            $delivery_attachments = $this->getDeliveryAttachments($mail_data->getAttachments());
+
             $internal_mail_id = $this->sendInternalMail(
                 $recipient_inbox_id,
                 $this->user_id,
-                $mail_data->getAttachments(),
+                $delivery_attachments,
                 $mail_data->getTo(),
                 $mail_data->getCc(),
                 '',
@@ -768,14 +817,14 @@ class ilMail
 
             $this->assignMailAttachments(
                 $internal_mail_id,
-                $mail_data->getAttachments(),
+                $delivery_attachments,
                 $mail_data->getInternalMailId()
             );
         }
 
         $this->delegateExternalEmails(
             $mail_data->getSubject(),
-            $mail_data->getAttachments(),
+            $this->getDeliveryAttachments($mail_data->getAttachments()),
             $message,
             $usr_id_to_external_email_addresses_map
         );
@@ -993,15 +1042,18 @@ class ilMail
             ' | CC: ' . $a_rcp_cc .
             ' | BCC: ' . $a_rcp_bcc .
             ' | Subject: ' . $a_m_subject .
-            ' | Attachments: ' . print_r($a_attachment, true)
+            ' | Attachments: ' . (
+                $a_attachment->isIrss()
+                    ? $a_attachment->rcid()->serialize()
+                    : print_r($a_attachment->legacyFilenames(), true)
+            )
         );
 
-        if (
-            $a_attachment->isLegacy()
-            && !$this->mail_file_data->checkFilesExist($a_attachment->legacyFilenames())
-        ) {
-            return [new ilMailError('mail_attachment_file_not_exist', [implode(', ', $a_attachment->legacyFilenames())])];
+        $normalized = $this->normalizeLegacyAttachments($a_attachment);
+        if ($normalized['errors'] !== []) {
+            return $normalized['errors'];
         }
+        $a_attachment = $normalized['attachments'];
 
         $errors = $this->checkMail($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_m_subject);
         if ($errors !== []) {
@@ -1093,8 +1145,16 @@ class ilMail
     public function sendMail(
         MailDeliveryData $mail_data
     ): array {
+        $normalized = $this->normalizeLegacyAttachments($mail_data->getAttachments());
+        if ($normalized['errors'] !== []) {
+            return $normalized['errors'];
+        }
+        $mail_data = $mail_data->withAttachments($normalized['attachments']);
+        $this->shared_delivery_attachments = null;
+
+        $sentbox_attachments = $this->getDeliveryAttachments($mail_data->getAttachments());
         $internal_message_id = $this->saveInSentbox(
-            $mail_data->getAttachments(),
+            $sentbox_attachments,
             $mail_data->getTo(),
             $mail_data->getCc(),
             $mail_data->getBcc(),
@@ -1105,15 +1165,9 @@ class ilMail
 
         $this->assignMailAttachments(
             $internal_message_id,
-            $mail_data->getAttachments(),
+            $sentbox_attachments,
             $internal_message_id
         );
-        if ($mail_data->getAttachments()->isLegacy()) {
-            $this->mail_file_data->saveFiles(
-                $internal_message_id,
-                $mail_data->getAttachments()->legacyFilenames()
-            );
-        }
 
         $num_external_email_addresses = $this->getCountRecipients(
             $mail_data->getTo(),
@@ -1142,7 +1196,7 @@ class ilMail
                 $mail_data->isUsePlaceholder() ?
                     $this->replacePlaceholders($mail_data->getMessage()) :
                     $mail_data->getMessage(),
-                $mail_data->getAttachments()
+                $this->getDeliveryAttachments($mail_data->getAttachments())
             );
         } else {
             $this->logger->debug('No external email addresses given in recipient string');
@@ -1265,18 +1319,49 @@ class ilMail
                     $attachment['name']
                 );
             }
-        } elseif ($attachments->isLegacy()) {
-            foreach ($attachments->legacyFilenames() as $attachment) {
-                $mailer->Attach(
-                    $this->mail_file_data->getAbsoluteAttachmentPoolPathByFilename($attachment),
-                    '',
-                    'inline',
-                    $attachment
-                );
-            }
         }
 
         $mailer->Send();
+    }
+
+    /**
+     * @return array{attachments: MailAttachments, errors: list<ilMailError>}
+     */
+    private function normalizeLegacyAttachments(MailAttachments $attachments): array
+    {
+        if (!$attachments->isLegacy()) {
+            return ['attachments' => $attachments, 'errors' => []];
+        }
+
+        if (!$this->mail_file_data->checkFilesExist($attachments->legacyFilenames())) {
+            return [
+                'attachments' => $attachments,
+                'errors' => [new ilMailError('mail_error_reading_attachment')],
+            ];
+        }
+
+        $migrated = $this->mail_file_data->migrateLegacyPoolAttachments($attachments);
+        if ($migrated === null) {
+            return [
+                'attachments' => $attachments,
+                'errors' => [new ilMailError('mail_error_reading_attachment')],
+            ];
+        }
+
+        return ['attachments' => $migrated, 'errors' => []];
+    }
+
+    private function persistMailAttachmentsColumn(int $mail_id, MailAttachments $attachments): void
+    {
+        $this->db->update(
+            'mail',
+            [
+                'attachments' => [ilDBConstants::T_CLOB, $attachments->toDb()],
+            ],
+            [
+                'mail_id' => [ilDBConstants::T_INTEGER, $mail_id],
+            ]
+        );
     }
 
     private function assignMailAttachments(
@@ -1284,16 +1369,11 @@ class ilMail
         MailAttachments $attachments,
         int $sent_mail_id
     ): void {
-        if ($attachments->isEmpty()) {
+        if ($attachments->isEmpty() || !$attachments->isIrss()) {
             return;
         }
 
-        if ($attachments->isIrss()) {
-            $this->mail_file_data->assignAttachmentsToCollection($mail_id, $attachments->rcid());
-            return;
-        }
-
-        $this->mail_file_data->assignAttachmentsToDirectory($mail_id, $sent_mail_id);
+        $this->mail_file_data->assignAttachmentsToCollection($mail_id, $attachments->rcid());
     }
 
     public function saveAttachments(?MailAttachments $attachments): void

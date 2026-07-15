@@ -21,15 +21,18 @@ declare(strict_types=1);
 namespace ILIAS\Mail\Setup\Migration;
 
 use ilDBConstants;
+use ILIAS\Mail\Attachments\MailAttachments;
 use ILIAS\Setup\Migration;
 use ILIAS\Setup\Environment;
 use ilMailAttachmentStakeholder;
 use ilResourceStorageMigrationHelper;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 class MigrateMailAttachmentsToIRSS implements Migration
 {
     private const int PATHS_PER_STEP = 5;
+    private const int MAILS_PER_STEP = 5;
     private ?ilResourceStorageMigrationHelper $helper = null;
 
     public function getLabel(): string
@@ -56,6 +59,12 @@ class MigrateMailAttachmentsToIRSS implements Migration
     }
 
     public function step(Environment $environment): void
+    {
+        $this->migrateSentAttachmentDirectories();
+        $this->migrateSerializedMailAttachments();
+    }
+
+    private function migrateSentAttachmentDirectories(): void
     {
         $db = $this->helper->getDatabase();
         $res = $db->query(
@@ -96,15 +105,121 @@ class MigrateMailAttachmentsToIRSS implements Migration
         }
     }
 
+    private function migrateSerializedMailAttachments(): void
+    {
+        $db = $this->helper->getDatabase();
+        $res = $db->query(
+            'SELECT mail_id, user_id, attachments FROM mail
+             WHERE attachments LIKE ' . $db->quote('a:%', 'text') . '
+             LIMIT ' . self::MAILS_PER_STEP
+        );
+
+        $mail_path = rtrim($this->helper->getClientDataDir(), '/') . '/mail';
+
+        while ($row = $db->fetchObject($res)) {
+            $attachments = MailAttachments::fromDb((string) $row->attachments);
+            if ($attachments === null || !$attachments->isLegacy()) {
+                $this->clearMailAttachmentsColumn((int) $row->mail_id);
+
+                continue;
+            }
+
+            $rcid = $this->migratePoolFilenamesToCollection(
+                $attachments->legacyFilenames(),
+                (int) $row->user_id,
+                $mail_path
+            );
+
+            if ($rcid === null) {
+                $this->clearMailAttachmentsColumn((int) $row->mail_id);
+
+                continue;
+            }
+
+            $db->update(
+                'mail',
+                [
+                    'attachments' => [ilDBConstants::T_CLOB, $rcid->serialize()],
+                ],
+                [
+                    'mail_id' => [ilDBConstants::T_INTEGER, (int) $row->mail_id],
+                ]
+            );
+        }
+    }
+
+    /**
+     * @param list<string> $filenames
+     */
+    private function migratePoolFilenamesToCollection(
+        array $filenames,
+        int $user_id,
+        string $mail_path
+    ): ?ResourceCollectionIdentification {
+        $collection = $this->helper->getCollectionBuilder()->new($user_id);
+
+        foreach ($filenames as $filename) {
+            $absolute_path = $mail_path . '/' . $user_id . '_' . $filename;
+            if (!is_file($absolute_path)) {
+                continue;
+            }
+
+            $resource_id = $this->helper->movePathToStorage(
+                $absolute_path,
+                $user_id,
+                null,
+                static fn(): string => md5($filename)
+            );
+
+            if ($resource_id instanceof ResourceIdentification) {
+                $collection->add($resource_id);
+            }
+        }
+
+        if ($collection->count() === 0) {
+            return null;
+        }
+
+        if (!$this->helper->getCollectionBuilder()->store($collection)) {
+            return null;
+        }
+
+        return $collection->getIdentification();
+    }
+
+    private function clearMailAttachmentsColumn(int $mail_id): void
+    {
+        $this->helper->getDatabase()->update(
+            'mail',
+            [
+                'attachments' => [ilDBConstants::T_CLOB, ''],
+            ],
+            [
+                'mail_id' => [ilDBConstants::T_INTEGER, $mail_id],
+            ]
+        );
+    }
+
     public function getRemainingAmountOfSteps(): int
     {
-        return (int) $this->helper->getDatabase()->fetchObject(
-            $this->helper->getDatabase()->query(
+        $db = $this->helper->getDatabase();
+
+        $path_count = (int) $db->fetchObject(
+            $db->query(
                 'SELECT COUNT(DISTINCT path) cnt FROM mail_attachment
                  WHERE (rcid IS NULL OR rcid = "")
                  AND path IS NOT NULL AND path != ""'
             )
         )->cnt;
+
+        $mail_count = (int) $db->fetchObject(
+            $db->query(
+                'SELECT COUNT(mail_id) cnt FROM mail
+                 WHERE attachments LIKE ' . $db->quote('a:%', 'text')
+            )
+        )->cnt;
+
+        return $path_count + $mail_count;
     }
 
     private function resolveOwnerIdForPath(string $relative_path): int
