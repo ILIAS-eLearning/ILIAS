@@ -337,8 +337,6 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
             return;
         }
 
-        // The mail service copies the collection per recipient on send (copy-on-send),
-        // so referencing the post collection directly is sufficient here.
         $this->mail_attachments = MailAttachments::fromIrss(
             new ResourceCollectionIdentification($rcid_string)
         );
