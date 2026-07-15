@@ -24,7 +24,7 @@ use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Exercise\InternalService;
 use ILIAS\Exercise\Assignment\Mandatory\MandatoryAssignmentsManager;
 use ILIAS\Mail\Attachments\MailAttachments;
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 
 /**
  * Class ilObjExercise
@@ -456,18 +456,13 @@ class ilObjExercise extends ilObject
 
         // instruction files
         $if = $this->service->domain()->assignment()->instructionFiles($a_ass->getId());
-        $files = $if->getFiles();
         $attachments = MailAttachments::empty();
-        if (count($files) > 0) {
-            $mfile_obj = new ilFileDataMail($GLOBALS['DIC']['ilUser']->getId());
-            $source_ids = [];
-            foreach ($if->getFiles() as $file) {
-                $source_ids[] = new ResourceIdentification($file['rid']);
-            }
-            $rcid = $mfile_obj->createCollectionFromForeignResources($source_ids);
-            if ($rcid !== null) {
-                $attachments = MailAttachments::fromIrss($rcid);
-            }
+        if ($if->getFiles() !== []) {
+            // The mail service copies the collection per recipient on send (copy-on-send),
+            // so referencing the assignment collection directly is sufficient here.
+            $attachments = MailAttachments::fromIrss(
+                new ResourceCollectionIdentification($if->getCollectionIdString())
+            );
         }
 
         // recipients

@@ -450,8 +450,6 @@ class ilCalendarMailNotification extends ilMailNotification
                 $this->sendMail(array($user_id), true);
                 break;
         }
-
-        $this->deleteAttachments();
     }
 
     protected function addAttachment(): void
@@ -474,9 +472,5 @@ class ilCalendarMailNotification extends ilMailNotification
                 ? MailAttachments::fromIrss($rcid)
                 : MailAttachments::empty()
         );
-    }
-
-    protected function deleteAttachments(): void
-    {
     }
 }

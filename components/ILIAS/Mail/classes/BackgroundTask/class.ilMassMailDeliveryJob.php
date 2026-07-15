@@ -26,7 +26,6 @@ use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
-use ILIAS\Mail\Attachments\MailAttachments;
 
 class ilMassMailDeliveryJob extends AbstractJob
 {
@@ -49,6 +48,7 @@ class ilMassMailDeliveryJob extends AbstractJob
             $mail = new ilMail((int) $input[0]->getValue());
 
             $mail->setSaveInSentbox($value_object->shouldSaveInSentBox());
+            $mail->setShareAttachments(true);
             $context_id = $input[2]->getValue();
             $mail = $mail
                 ->withContextId((string) $context_id)

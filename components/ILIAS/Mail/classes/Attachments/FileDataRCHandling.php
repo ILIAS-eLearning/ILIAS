@@ -38,32 +38,7 @@ trait FileDataRCHandling
         return $this->fdm->getCollection($rcid);
     }
 
-    /**
-     * @param array<string, mixed> $mail_data
-     * @return list<string>
-     */
-    public function filesFromLegacyToIRSS(array $mail_data): array
-    {
-        $attachments = $mail_data['attachments'] ?? null;
-        if (!$attachments instanceof MailAttachments || !$attachments->isLegacy()) {
-            throw new InvalidArgumentException('Legacy mail attachments expected.');
-        }
 
-        $rcid = $this->fdm->createCollectionFromPoolFilenames($attachments->legacyFilenames());
-        if ($rcid === null) {
-            return [];
-        }
-
-        return $this->fdm->getRidsFromCollection($rcid);
-    }
-
-    /**
-     * @param list<string> $filenames
-     */
-    public function getIdforCollection(array $filenames): ?ResourceCollectionIdentification
-    {
-        return $this->fdm->createCollectionFromPoolFilenames($filenames);
-    }
 
     /**
      * @return list<string>
