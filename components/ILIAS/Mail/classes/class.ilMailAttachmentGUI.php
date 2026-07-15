@@ -394,7 +394,6 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
 
     protected function getRemoveResult(string $identifier): HandlerResult
     {
-        // Dropzone remove affects only the current form state; persisted pool files are deleted via the table.
         return new BasicHandlerResult(
             $this->getFileIdentifierParameterName(),
             HandlerResult::STATUS_OK,
