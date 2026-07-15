@@ -458,8 +458,6 @@ class ilObjExercise extends ilObject
         $if = $this->service->domain()->assignment()->instructionFiles($a_ass->getId());
         $attachments = MailAttachments::empty();
         if ($if->getFiles() !== []) {
-            // The mail service copies the collection per recipient on send (copy-on-send),
-            // so referencing the assignment collection directly is sufficient here.
             $attachments = MailAttachments::fromIrss(
                 new ResourceCollectionIdentification($if->getCollectionIdString())
             );
