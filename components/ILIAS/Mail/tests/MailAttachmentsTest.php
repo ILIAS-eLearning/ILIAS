@@ -51,9 +51,41 @@ class MailAttachmentsTest extends TestCase
         $this->assertSame('rcid-456', $parsed->rcid()->serialize());
     }
 
-    public function testIsEmpty(): void
+    public function testParseEmptyLegacyArray(): void
     {
-        $this->assertTrue(MailAttachments::empty()->isEmpty());
-        $this->assertFalse(MailAttachments::fromIrss(new ResourceCollectionIdentification('rcid-789'))->isEmpty());
+        $parsed = MailAttachments::fromDb(serialize([]));
+
+        $this->assertNotNull($parsed);
+        $this->assertTrue($parsed->isEmpty());
+        $this->assertFalse($parsed->isLegacy());
+    }
+
+    public function testParseEmptyStringReturnsNull(): void
+    {
+        $this->assertNull(MailAttachments::fromDb(''));
+        $this->assertNull(MailAttachments::fromDb(null));
+    }
+
+    public function testParseSerializedRcidWrapper(): void
+    {
+        $raw = serialize([MailAttachments::SERIALIZED_RCID_KEY => 'rcid-wrapper']);
+        $parsed = MailAttachments::fromDb($raw);
+
+        $this->assertNotNull($parsed);
+        $this->assertTrue($parsed->isIrss());
+        $this->assertSame('rcid-wrapper', $parsed->rcid()->serialize());
+    }
+
+    public function testLegacyFilenamesThrowForIrss(): void
+    {
+        $attachments = MailAttachments::fromIrss(new ResourceCollectionIdentification('rcid-123'));
+        $this->expectException(InvalidArgumentException::class);
+        $attachments->legacyFilenames();
+    }
+
+    public function testToDbLegacySerialization(): void
+    {
+        $attachments = MailAttachments::fromLegacyFilenames(['a.pdf', 'b.png']);
+        $this->assertSame(serialize(['a.pdf', 'b.png']), $attachments->toDb());
     }
 }
