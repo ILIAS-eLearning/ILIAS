@@ -18,28 +18,18 @@
 
 declare(strict_types=1);
 
-use ILIAS\Refinery\Factory;
+use PHPUnit\Framework\TestCase;
 use ILIAS\Mail\Attachments\MailAttachments;
-use ILIAS\Mail\Service\MailSignatureService;
 use PHPUnit\Framework\MockObject\MockObject;
-use ILIAS\Mail\Autoresponder\AutoresponderService;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 
-class ilMailCopyOnSendTest extends ilMailBaseTestCase
+class ilMailCopyOnSendTest extends TestCase
 {
     private MockObject&ilFileDataMail $mail_file_data;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $refinery = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
-        $this->setGlobalVariable('refinery', $refinery);
-    }
-
     public function testDeliveryAttachmentsReturnsLegacyUnchanged(): void
     {
-        $mail = $this->createMail();
+        $mail = $this->createMailInstance();
         $this->mail_file_data->expects($this->never())->method('copyCollectionForDelivery');
 
         $legacy = MailAttachments::fromLegacyFilenames(['file.pdf']);
@@ -50,7 +40,7 @@ class ilMailCopyOnSendTest extends ilMailBaseTestCase
 
     public function testDeliveryAttachmentsReturnsEmptyUnchanged(): void
     {
-        $mail = $this->createMail();
+        $mail = $this->createMailInstance();
         $this->mail_file_data->expects($this->never())->method('copyCollectionForDelivery');
 
         $empty = MailAttachments::empty();
@@ -61,7 +51,7 @@ class ilMailCopyOnSendTest extends ilMailBaseTestCase
 
     public function testDeliveryAttachmentsCopiesIrssCollectionPerCall(): void
     {
-        $mail = $this->createMail();
+        $mail = $this->createMailInstance();
         $source = new ResourceCollectionIdentification('source-rcid');
         $copy_a = new ResourceCollectionIdentification('copy-a');
         $copy_b = new ResourceCollectionIdentification('copy-b');
@@ -81,7 +71,7 @@ class ilMailCopyOnSendTest extends ilMailBaseTestCase
 
     public function testDeliveryAttachmentsReturnsEmptyWhenCopyFails(): void
     {
-        $mail = $this->createMail();
+        $mail = $this->createMailInstance();
         $source = new ResourceCollectionIdentification('source-rcid');
         $this->mail_file_data
             ->expects($this->once())
@@ -95,7 +85,7 @@ class ilMailCopyOnSendTest extends ilMailBaseTestCase
 
     public function testSharedDeliveryAttachmentsReuseSingleCopy(): void
     {
-        $mail = $this->createMail();
+        $mail = $this->createMailInstance();
         $source = new ResourceCollectionIdentification('source-rcid');
         $shared = new ResourceCollectionIdentification('shared-copy');
 
@@ -114,41 +104,23 @@ class ilMailCopyOnSendTest extends ilMailBaseTestCase
         $this->assertSame($first, $second);
     }
 
-    private function createMail(): ilMail
+    private function createMailInstance(): ilMail
     {
         $this->mail_file_data = $this->getMockBuilder(ilFileDataMail::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['copyCollectionForDelivery'])
             ->getMock();
 
-        return new ilMail(
-            6,
-            $this->createMock(ilMailAddressTypeFactory::class),
-            $this->createMock(ilMailRfc822AddressParserFactory::class),
-            $this->createMock(ilAppEventHandler::class),
-            $this->createMock(ilLogger::class),
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilLanguage::class),
-            $this->mail_file_data,
-            $this->createMock(ilMailOptions::class),
-            $this->createMock(ilMailbox::class),
-            $this->createMock(ilMailMimeSenderFactory::class),
-            static fn(string $login): int => 6,
-            $this->createMock(AutoresponderService::class),
-            0,
-            234,
-            $this->createMock(ilObjUser::class),
-            $this->createMock(ilMailTemplatePlaceholderResolver::class),
-            null,
-            null,
-            $this->createMock(MailSignatureService::class),
-        );
+        $mail = (new ReflectionClass(ilMail::class))->newInstanceWithoutConstructor();
+
+        $reflection = new ReflectionClass(ilMail::class);
+        $reflection->getProperty('mail_file_data')->setValue($mail, $this->mail_file_data);
+
+        return $mail;
     }
 
-    private function invokeDeliveryAttachments(MailAttachments $source, ?ilMail $mail = null): MailAttachments
+    private function invokeDeliveryAttachments(MailAttachments $source, ilMail $mail): MailAttachments
     {
-        $mail ??= $this->createMail();
-
         $reflection = new ReflectionClass($mail);
 
         return $reflection->getMethod('getDeliveryAttachments')->invoke($mail, $source);
