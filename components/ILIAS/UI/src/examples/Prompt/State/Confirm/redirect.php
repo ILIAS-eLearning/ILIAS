@@ -32,7 +32,8 @@ require_once __DIR__ . '/base.php';
  *
  * expected output: >
  *   A button opens a confirmation prompt. Confirming redirects the page and
- *   shows a success message below the trigger button.
+ *   shows a success message above the trigger button.
+ *   The prompt can also be closed.
  * ---
  */
 function redirect(): string
@@ -100,7 +101,7 @@ function redirect(): string
         ->buildURI();
 
     $prompt = $factory->prompt()->standard($open_uri);
-    $trigger = $factory->button()->primary('Open confirm (redirect)', $prompt->getShowSignal($open_uri));
+    $trigger = $factory->button()->primary('Open Confirmation (And Redirect)', $prompt->getShowSignal($open_uri));
 
     $has_success_feedback = $query->has($success_token->getName())
         && $query->retrieve($success_token->getName(), $refinery->kindlyTo()->string()) !== '';

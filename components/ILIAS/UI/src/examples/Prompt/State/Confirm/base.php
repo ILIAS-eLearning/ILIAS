@@ -98,7 +98,7 @@ function base(): string
         ->buildURI();
 
     $prompt = $factory->prompt()->standard($open_uri);
-    $trigger = $factory->button()->primary('Open confirm (show result)', $prompt->getShowSignal($open_uri));
+    $trigger = $factory->button()->primary('Open Confirmation (And Show Result)', $prompt->getShowSignal($open_uri));
 
     if (!$query->has($endpoint_token->getName())) {
         return $renderer->render([$trigger, $prompt]);

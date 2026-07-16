@@ -36,6 +36,7 @@ use ILIAS\UI\Component\Entity\EntityRetrieval;
  * expected output: >
  *   A button opens a prompt listing selected entities with a confirmation question.
  *   Submitting posts the entity ids; the result is shown in the prompt.
+ *   The prompt can be closed.
  * ---
  */
 function confirmation(): string

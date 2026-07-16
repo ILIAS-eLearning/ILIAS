@@ -30,8 +30,9 @@ require_once __DIR__ . '/base.php';
  *   After confirming, the consumer returns a close state and the prompt is dismissed.
  *
  * expected output: >
- *   A button opens a confirmation prompt. Confirming closes the prompt without
- *   showing further content inside it.
+ *   A button opens a confirmation prompt. Confirming closes the prompt.
+ *   No further information is displayed.
+ *   The prompt can also be closed.
  * ---
  */
 function close(): string
@@ -89,7 +90,7 @@ function close(): string
         ->buildURI();
 
     $prompt = $factory->prompt()->standard($open_uri);
-    $trigger = $factory->button()->primary('Open confirm (close prompt)', $prompt->getShowSignal($open_uri));
+    $trigger = $factory->button()->primary('Open Confirmation (And Close Prompt)', $prompt->getShowSignal($open_uri));
     $hint = $factory->messageBox()->info('After confirming, the prompt closes.');
 
     if (!$query->has($endpoint_token->getName())) {
