@@ -448,6 +448,7 @@ class ilObjMailGUI extends ilObjectGUI
         );
         $password->setRetype(false);
         $password->setSkipSyntaxCheck(true);
+        $password->setUseStripSlashes(false);
         $password->setDisabled(!$this->isEditingAllowed());
         $password->setDisableHtmlAutoComplete(true);
         $smtp->addSubItem($password);
