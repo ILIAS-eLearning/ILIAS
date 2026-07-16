@@ -48,11 +48,6 @@ class ilObjLearningSequenceAccess extends ilObjectAccess
                 'cmd' => ilObjLearningSequenceGUI::CMD_SETTINGS,
                 'permission' => 'write',
                 'lang_var' => 'settings'
-            ],
-            [
-                'cmd' => ilObjLearningSequenceGUI::CMD_UNPARTICIPATE,
-                'permission' => 'unparticipate',
-                'lang_var' => 'unparticipate'
             ]
         );
     }

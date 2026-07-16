@@ -659,9 +659,11 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
     public function unparticipate(): void
     {
-        if ($this->checkAccess('unparticipate')) {
+        if ($this->checkAccess('read')) {
             $usr_id = $this->user->getId();
-            $this->getObject()->getLSRoles()->leave($usr_id);
+            if ($this->getObject()->getLSRoles()->isMember($usr_id)) {
+                $this->getObject()->getLSRoles()->leave($usr_id);
+            }
         }
         $this->ctrl->redirectByClass('ilObjLearningSequenceLearnerGUI', self::CMD_LEARNER_VIEW);
     }
