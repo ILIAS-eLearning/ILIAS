@@ -598,7 +598,13 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             $this->ctrl->redirect($this, "edit");
         } else {
             $this->ctrl->setParameterByClass("ilobjbloggui", "blpg", "");
-            $this->ctrl->redirectByClass("ilobjbloggui", "");
+            $this->ctrl->redirectByClass(
+                [
+                    ilObjBlogGUI::class,
+                    \ILIAS\Blog\Editing\EditingGUI::class,
+                ],
+                ""
+            );
         }
     }
 
@@ -620,7 +626,13 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             $this->ctrl->redirect($this, "edit");
         } else {
             $this->ctrl->setParameterByClass("ilobjbloggui", "blpg", "");
-            $this->ctrl->redirectByClass("ilobjbloggui", "");
+            $this->ctrl->redirectByClass(
+                [
+                    ilObjBlogGUI::class,
+                    \ILIAS\Blog\Editing\EditingGUI::class,
+                ],
+                ""
+            );
         }
     }
 
@@ -868,6 +880,12 @@ class ilBlogPostingGUI extends ilPageObjectGUI
     public function finishEditing(): void
     {
         $this->ctrl->setParameterByClass("ilobjbloggui", "bmn", "");
-        $this->ctrl->redirectByClass("ilobjbloggui", "render");
+        $this->ctrl->redirectByClass(
+            [
+                ilObjBlogGUI::class,
+                \ILIAS\Blog\Editing\EditingGUI::class
+            ],
+            ""
+        );
     }
 }

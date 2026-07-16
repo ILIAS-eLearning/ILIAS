@@ -26,6 +26,8 @@ use ILIAS\PermanentLink\PermanentLinkManager;
 use ILIAS\Blog\ReadingTime\GUIService;
 use ILIAS\Blog\RSS\RSSGUI;
 use ILIAS\Blog\Posting\Service\GUIService as PostingGUIService;
+use ILIAS\Blog\Permission\BlogCmdPermission;
+use ILIAS\Blog\Permission\PermissionManager;
 
 class InternalGUIService
 {
@@ -142,6 +144,17 @@ class InternalGUIService
             $this->data_service,
             $this->domain_service,
             $this
+        );
+    }
+
+    public function cmdPerm(PermissionManager $blog_access): BlogCmdPermission
+    {
+        return new BlogCmdPermission(
+            $this->domain_service->lng(),
+            $blog_access,
+            $this->ui()->mainTemplate(),
+            $this->ctrl(),
+            $this->standardRequest()
         );
     }
 }

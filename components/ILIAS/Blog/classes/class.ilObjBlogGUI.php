@@ -48,6 +48,7 @@ use ILIAS\Blog\Editing\EditingGUI;
 class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 {
     protected PostingManager $posting_manager;
+    protected \ILIAS\Blog\Permission\BlogCmdPermission $cmd_perm;
     protected ?Settings $blog_settings = null;
     protected ProfileGUI $profile_gui;
     protected ProfileAdapter $profile;
@@ -182,6 +183,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         );
         $this->profile = $domain->profile();
         $this->profile_gui = $gui->profile();
+        $this->cmd_perm = $gui->cmdPerm($this->perm);
     }
 
     public function getType(): string
@@ -350,8 +352,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $this->triggerAssignmentTool();
         }
 
-        $cmd = $ilCtrl->getCmd();
-
         // add entry to navigation history
         if (($this->id_type === self::REPOSITORY_NODE_ID) && !$this->getCreationMode() &&
             $this->getAccessHandler()->checkAccess("read", "", $this->node_id)) {
@@ -377,35 +377,35 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $gui->enableCommentsSettings(false);
                 $this->prepareOutput();
-                $this->ctrl->forwardCommand($gui);
+                $this->cmd_perm->forwardPermitted($this, $gui);
                 break;
 
             case "ilpermissiongui":
                 $this->prepareOutput();
                 $ilTabs->activateTab("id_permissions");
                 $perm_gui = new ilPermissionGUI($this);
-                $this->ctrl->forwardCommand($perm_gui);
+                $this->cmd_perm->forwardPermitted($this, $perm_gui);
                 break;
 
             case "ilobjectcopygui":
                 $this->prepareOutput();
                 $cp = new ilObjectCopyGUI($this);
                 $cp->setType("blog");
-                $this->ctrl->forwardCommand($cp);
+                $this->cmd_perm->forwardPermitted($this, $cp);
                 break;
 
             case strtolower(\ilRepositorySearchGUI::class):
                 $this->checkPermission("write");
                 $this->prepareOutput();
                 $ilTabs->activateTab("contributors");
-                $this->ctrl->forwardCommand($this->gui->contributor()->contributorGUI($this->node_id, $this->object));
+                $this->cmd_perm->forwardPermitted($this, $this->gui->contributor()->contributorGUI($this->node_id, $this->object));
                 break;
 
             case 'ilexportgui':
                 $this->prepareOutput();
                 $this->tabs->activateTab("export");
                 $exp_gui = new ilExportGUI($this);
-                $this->ctrl->forwardCommand($exp_gui);
+                $this->cmd_perm->forwardPermitted($this, $exp_gui);
                 break;
 
             case "ilobjectcontentstylesettingsgui":
@@ -429,14 +429,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                             $this->object->getId()
                         );
                 }
-                $this->ctrl->forwardCommand($settings_gui);
+                $this->cmd_perm->forwardPermitted($this, $settings_gui);
                 break;
 
 
             case "ilblogexercisegui":
                 $this->ctrl->setReturn($this, "render");
                 $gui = $this->gui->exercise()->ilBlogExerciseGUI($this->node_id);
-                $this->ctrl->forwardCommand($gui);
+                $this->cmd_perm->forwardPermitted($this, $gui);
                 break;
 
             case 'ilobjnotificationsettingsgui':
@@ -444,7 +444,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $ilTabs->activateTab("settings");
                 $this->setSettingsSubTabs("notifications");
                 $gui = new ilObjNotificationSettingsGUI($this->object->getRefId());
-                $this->ctrl->forwardCommand($gui);
+                $this->cmd_perm->forwardPermitted($this, $gui);
                 break;
 
             case strtolower(ilObjectMetaDataGUI::class):
@@ -452,7 +452,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $this->prepareOutput();
                 $ilTabs->activateTab("meta_data");
                 $gui = new ilObjectMetaDataGUI($this->object, null, null, $this->call_by_reference);
-                $this->ctrl->forwardCommand($gui);
+                $this->cmd_perm->forwardPermitted($this, $gui);
                 break;
 
             case strtolower(SettingsGUI::class):
@@ -464,7 +464,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $this->obj_id,
                     $this->id_type === self::REPOSITORY_NODE_ID
                 );
-                $this->ctrl->forwardCommand($gui);
+                $this->cmd_perm->forwardPermitted($this, $gui);
                 break;
 
             case strtolower(\ILIAS\Blog\Editing\EditingGUI::class):
@@ -478,7 +478,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $this->content_style_domain,
                     $this
                 );
-                $this->ctrl->forwardCommand($gui);
+                $this->cmd_perm->forwardPermitted($this, $gui);
                 break;
 
             case strtolower(\ILIAS\Blog\Presentation\PresentationGUI::class):
@@ -492,7 +492,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $this->node_id,
                     $this->id_type,
                 );
-                $this->ctrl->forwardCommand($gui);
+                $this->cmd_perm->forwardPermitted($this, $gui);
                 break;
 
             case strtolower(ContributorGUI::class):
@@ -503,7 +503,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $this->node_id,
                     $this->object
                 );
-                $this->ctrl->forwardCommand($gui);
+                $this->cmd_perm->forwardPermitted($this, $gui);
                 break;
 
             case strtolower(\ILIAS\Blog\Settings\BlockSettingsGUI::class):
@@ -515,30 +515,23 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $this->obj_id,
                     $this->id_type === self::REPOSITORY_NODE_ID
                 );
-                $this->ctrl->forwardCommand($gui);
+                $this->cmd_perm->forwardPermitted($this, $gui);
+                break;
+
+            case "ilworkspaceaccessgui":
+                $this->checkPermission("write");
+                parent::executeCommand();
                 break;
 
             default:
-                if ($cmd === "preview") {
-                    $this->ctrl->setCmdClass(\ILIAS\Blog\Presentation\PresentationGUI::class);
-                    $this->executeCommand();
-                    return;
+                // desktop item handling, must be toggled before header action
+                $cmd = $ilCtrl->getCmd();
+                //$this->addHeaderActionForCommand($cmd);
+                $this->prepareOutput();
+                if ($this->cmd_perm->classImplementsMethodDirectly(get_class($this), $cmd)) {
+                    $cmd = $this->cmd_perm->getPermittedCommand();
                 }
-                if ($cmd === "" || $cmd === "render") {
-                    $this->ctrl->setCmdClass(\ILIAS\Blog\Editing\EditingGUI::class);
-                    $this->ctrl->setCmd("render");
-                    $this->executeCommand();
-                    return;
-                }
-
-                if ($cmd !== "gethtml") {
-                    // desktop item handling, must be toggled before header action
-                    if ($cmd === "addToDesk" || $cmd === "removeFromDesk") {
-                        $this->{$cmd . "Object"}();
-                    }
-                    $this->addHeaderAction();
-                }
-                parent::executeCommand();
+                $this->$cmd();
         }
     }
 
@@ -617,7 +610,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         // standard meta data
         $info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
 
-        $this->ctrl->forwardCommand($info);
+        $this->cmd_perm->forwardPermitted($this, $info);
     }
 
 
@@ -639,16 +632,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $this->keyword ?? "",
                 $this->month ?? ""
             );
-    }
-
-    /**
-     * Render fullscreen presentation
-     */
-    public function preview(): void
-    {
-        $this->ctrl->setCmdClass(\ILIAS\Blog\Presentation\PresentationGUI::class);
-        $this->ctrl->setCmd("preview");
-        $this->executeCommand();
     }
 
     /**
@@ -1063,7 +1046,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         }
 
-        $this->ctrl->redirect($this, "render");
+        $this->ctrl->redirectByClass(
+            [
+                ilObjBlogGUI::class,
+                EditingGUI::class,
+            ],
+            ""
+        );
     }
 
 

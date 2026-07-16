@@ -77,6 +77,7 @@ class InternalDomainService
         int $owner
     ): PermissionManager {
         return new PermissionManager(
+            $this,
             $access_handler,
             $node_id,
             $id_type,
