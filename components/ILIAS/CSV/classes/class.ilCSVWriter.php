@@ -34,6 +34,29 @@ class ilCSVWriter
         $this->delimiter = $a_del;
     }
 
+    public function setNewline(string $a_new): void
+    {
+        $this->new_line = $a_new;
+    }
+
+    public function withSeparator(string $a_sep): ilCSVWriter
+    {
+        $this->setSeparator($a_sep);
+        return $this;
+    }
+
+    public function withDelimiter(string $a_del): ilCSVWriter
+    {
+        $this->setDelimiter($a_del);
+        return $this;
+    }
+
+    public function withNewline(string $a_new): ilCSVWriter
+    {
+        $this->setNewline($a_new);
+        return $this;
+    }
+
     public function addRow(): void
     {
         $this->csv .= $this->new_line;
