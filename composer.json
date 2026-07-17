@@ -96,7 +96,7 @@
 			"./components/ILIAS/Migration",
 			"./*/*/lib",
 			"./public/Customizing/**/vendor",
-			"./components/ILIAS/Setup/sql",
+			"./components/ILIAS/Database/sql",
 			"./cli/setup.php",
 			"./components/ILIAS/Setup/client.master.ini.php",
 			"./components/ILIAS/Setup/ilias.master.ini.php"
