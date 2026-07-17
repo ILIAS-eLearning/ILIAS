@@ -2,7 +2,7 @@
 
 $finder = PhpCsFixer\Finder::create()
 	->exclude(array(
-		__DIR__ . '/../../components/ILIAS/setup_/sql',
+		__DIR__ . '/../../components/ILIAS/Setup/sql',
 		__DIR__ . '/example'
 	))
 	->in(array(

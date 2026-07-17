@@ -51,7 +51,7 @@ abstract class AbstractOfFinder
         '.*/components/ILIAS/Types/tests/',
         '.*/components/ILIAS/UI/tests/',
         '.*/components/ILIAS/VirusScanner/tests/',
-        '.*/components/ILIAS/setup_/',
+        '.*/components/ILIAS/Setup/classes/',
         // Classes using unknown
         '.*ilPDExternalFeedBlockGUI.*',
     ];
