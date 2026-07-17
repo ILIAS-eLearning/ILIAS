@@ -65,7 +65,7 @@ class ilIniFilesPopulatedObjective implements Setup\Objective
         $path = $this->getILIASIniPath();
         if (!file_exists($path)) {
             $ini = new ilIniFile($path);
-            $ini->GROUPS = parse_ini_file(__DIR__ . "/../ilias.master.ini.php", true);
+            $ini->GROUPS = parse_ini_file(dirname(__DIR__) . "/resources/ilias.master.ini.php", true);
             $ini->write();
             $environment = $environment
                 ->withResource(Setup\Environment::RESOURCE_ILIAS_INI, $ini);
@@ -74,7 +74,7 @@ class ilIniFilesPopulatedObjective implements Setup\Objective
         $path = $this->getClientIniPath($client_id);
         if (!file_exists($path)) {
             $client_ini = new ilIniFile($path);
-            $client_ini->GROUPS = parse_ini_file(__DIR__ . "/../client.master.ini.php", true);
+            $client_ini->GROUPS = parse_ini_file(dirname(__DIR__) . "/resources/client.master.ini.php", true);
             $client_ini->write();
             $environment = $environment
                 ->withResource(Setup\Environment::RESOURCE_CLIENT_INI, $client_ini);
