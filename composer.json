@@ -98,8 +98,8 @@
 			"./public/Customizing/**/vendor",
 			"./components/ILIAS/Setup/sql",
 			"./cli/setup.php",
-			"./components/ILIAS/Setup/client.master.ini.php",
-			"./components/ILIAS/Setup/ilias.master.ini.php"
+			"./components/ILIAS/Init/resources/client.master.ini.php",
+			"./components/ILIAS/Init/resources/ilias.master.ini.php"
 		]
 	},
 	"extra": {
