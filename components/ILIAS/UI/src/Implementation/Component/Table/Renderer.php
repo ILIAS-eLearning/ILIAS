@@ -139,13 +139,10 @@ class Renderer extends AbstractComponentRenderer
             ->withOnClick($sig_show);
         $collapser = $f->symbol()->glyph()->collapse("#")
             ->withOnClick($sig_hide);
-        $shy_expander = $f->button()->shy($this->txt("presentation_table_more"), "#")
-            ->withOnClick($sig_show);
 
         $tpl->setVariable("ID", $id);
         $tpl->setVariable("EXPANDER", $default_renderer->render($expander));
         $tpl->setVariable("COLLAPSER", $default_renderer->render($collapser));
-        $tpl->setVariable("SHY_EXPANDER", $default_renderer->render($shy_expander));
 
         if ($symbol = $component->getLeadingSymbol()) {
             $tpl->setVariable("SYMBOL", $default_renderer->render($symbol));
