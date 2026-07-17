@@ -116,12 +116,6 @@ class ilObjMapsGUI extends ilObjectGUI
 
             $form->addItem($tile);
             $form->addItem($geolocation);
-        } else {
-            // api key for google
-            $key = new ilTextInputGUI('Google API Key', 'api_key');
-            $key->setMaxLength(200);
-            $key->setValue(ilMapUtil::getApiKey());
-            $form->addItem($key);
         }
 
         // location property
