@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,8 +16,6 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
-
-declare(strict_types=0);
 
 /**
  * Course XML Parser
@@ -55,12 +54,6 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     protected ilCourseWaitingList $course_waiting_list;
     protected ?ilAdvancedMDValueParser $adv_md_handler = null;
     protected array $course_members_array = [];
-    protected array $xml_mentioned_member_ids = [];
-
-    public function getProcessedMemberIds(): array
-    {
-        return $this->xml_mentioned_member_ids;
-    }
 
     public function __construct(ilObjCourse $a_course_obj, string $a_xml_file = '')
     {
@@ -447,9 +440,6 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
      */
     private function handleMember(array $a_attribs, array $id_data): void
     {
-        if (!empty($id_data['usr_id'])) {
-            $this->xml_mentioned_member_ids[] = $id_data['usr_id'];
-        }
         if (!isset($a_attribs['action']) || $a_attribs['action'] == 'Attach') {
             // if action not set, or set and attach
             if (!array_key_exists($id_data['usr_id'], $this->course_members_array)) {
