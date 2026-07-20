@@ -10818,7 +10818,9 @@ irss#:#type#:#Dateityp
 irss#:#upload_field_title#:#Ausgewählte Dateien
 irss#:#upload_modal_title#:#Dateien hinzufügen
 itgr#:#itgr_always_open#:#Immer offen
+itgr#:#itgr_assign#:#Zuordnen
 itgr#:#itgr_assign_materials#:#Objekte auswählen
+itgr#:#itgr_assigned_first#:#Zugewiesene zuerst
 itgr#:#itgr_assigned_materials#:#Objekte im Objekteblock
 itgr#:#itgr_assignment#:#Eingebunden in diesem Objekteblock
 itgr#:#itgr_assignment_to_other_itgr#:#Bereits einem anderen Objekteblock zugeordnet
@@ -10845,6 +10847,8 @@ itgr#:#itgr_show_title#:#Titel anzeigen
 itgr#:#itgr_show_title_info#:#Der Titel des Objekteblocks wird angezeigt.
 itgr#:#itgr_tile#:#Kacheln
 itgr#:#itgr_tile_size#:#Kachelgröße
+itgr#:#itgr_unassign#:#Zuordnung aufheben
+itgr#:#itgr_unassigned_first#:#Nicht zugewiesene zuerst
 jscalendar#:#about_calendar#:#Über den Kalender
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector © dynarch.com 2002-2003 For latest version visit: http://dynarch.com/mishoo/calendar.epl Distributed under GNU LGPL. See http://gnu.org/licenses/lgpl.html for details.  Auswahl des Datums: - Verwenden Sie die Schaltflächen « und » , um das Jahr auszuwählen - Verwenden Sie die Schaltflächen < und > , um den Monat auszuwählen - Lassen Sie die Maustaste über jeder der oberen Schaltflächen gedrückt, um eine Schnellauswahl zu erhalten.
 jscalendar#:#about_time#:#Auswahl der Zeit: Auf die Zeitfelder klicken, um den Wert zu erhöhen oder Umschalten und Klicken, um den Wert zu verringern oder Klicken und Ziehen für eine Schnellauswahl.
