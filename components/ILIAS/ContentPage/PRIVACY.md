@@ -1,6 +1,6 @@
 # Content Page Privacy
 
-> **Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information via [Pull Request](docs/development/contributing.md#pull-request-to-the-repositories).**
+> **Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information via [Pull Request](../../../docs/development/contributing.md#pull-request-to-the-repositories).**
 
 
 ## General Information
@@ -24,21 +24,21 @@ property of the page content, not of individual users.
 
 - The Content Page component employs the following components, please consult the respective
   PRIVACY.md files:
-    - [COPage](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/COPage/PRIVACY.md) — provides the page editor and page rendering engine. The
+    - [COPage](../../ILIAS/COPage/PRIVACY.md) — provides the page editor and page rendering engine. The
       COPage component manages the page content, its edit history, and internal media objects.
-    - [MetaData](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/MetaData/PRIVACY.md) — stores metadata (e.g., author information) associated
+    - [MetaData](../../ILIAS/MetaData/PRIVACY.md) — stores metadata (e.g., author information) associated
       with the Content Page object.
-    - [AccessControl](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/AccessControl/PRIVACY.md) — manages permissions for reading, editing, and
+    - [AccessControl](../../ILIAS/AccessControl/PRIVACY.md) — manages permissions for reading, editing, and
       administering Content Page objects.
-    - [Export](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/Export/PRIVACY.md) — provides the XML export functionality for Content Page
+    - [Export](../../ILIAS/Export/PRIVACY.md) — provides the XML export functionality for Content Page
       objects, including page content, metadata, and styles.
-    - [InfoScreen](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/InfoScreen/PRIVACY.md) — renders the Info tab, which may display metadata
+    - [InfoScreen](../../ILIAS/InfoScreen/PRIVACY.md) — renders the Info tab, which may display metadata
       and allows private notes. The Info tab can be enabled or disabled per Content Page.
-    - [Notes](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/Notes/PRIVACY.md) — enables private notes for users on the Content Page Info
+    - [Notes](../../ILIAS/Notes/PRIVACY.md) — enables private notes for users on the Content Page Info
       screen.
-    - [KioskMode](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/KioskMode/PRIVACY.md) — provides an embedded presentation mode used when a
+    - [KioskMode](../../ILIAS/KioskMode/PRIVACY.md) — provides an embedded presentation mode used when a
       Content Page is viewed inside a course or learning sequence context.
-    - Style — manages content styles applied to the Content Page. No personal data is handled by
+    - [Style](../../ILIAS/Style/Content/PRIVACY.md) — manages content styles applied to the Content Page. No personal data is handled by
       the Style component in this context.
     - ILIASObject — the Object service stores the account which created the Content Page object
       and its timestamps.
@@ -46,7 +46,7 @@ property of the page content, not of individual users.
       deactivated, manual completion, and content visited. In manual mode, users can toggle their
       completion status. In content-visited mode, progress is recorded automatically when the page
       is viewed.
-    - [Container](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/Container/PRIVACY.md) — used to store per-object settings such as Info tab visibility via container
+    - [Container](../../ILIAS/Container/PRIVACY.md) — used to store per-object settings such as Info tab visibility via container
       settings.
 
 ## Data being stored
