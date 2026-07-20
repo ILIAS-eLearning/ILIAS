@@ -50,14 +50,16 @@ class ilAssQuestionTypeList implements Iterator
 
     public function load(): void
     {
-        $res = $this->db->query("SELECT * FROM qpl_qst_type");
+        $res = $this->db->query(
+            'SELECT question_type_id, type_tag AS question_type, plugin, plugin_name FROM qpl_qst_type'
+        );
 
         while ($row = $this->db->fetchAssoc($res)) {
             $row = ilAssQuestionType::completeMissingPluginName($row);
 
             $qstType = new ilAssQuestionType();
             $qstType->setId($row['question_type_id']);
-            $qstType->setTag($row['type_tag']);
+            $qstType->setTag($row['question_type']);
             $qstType->setPlugin($row['plugin']);
             $qstType->setPluginName($row['plugin_name']);
             $this->types[] = $qstType;
