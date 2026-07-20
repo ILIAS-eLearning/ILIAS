@@ -1488,7 +1488,7 @@ assessment#:#tst_exam_modal_message_conditions#:#Por favor, confirme las condici
 assessment#:#tst_exam_modal_message_conditions_and_password#:#Por favor, confirme las condiciones e introduzca la contraseña para iniciar la prueba.
 assessment#:#tst_exam_modal_message_password#:#Por favor, introduzca la contraseña para iniciar la prueba.
 assessment#:#tst_exam_not_assigned_participant_disclaimer#:#No puede iniciar esta prueba, ya que no está asignado como participante.
-assessment#:#tst_exam_password#:#Contraseña del examen
+assessment#:#tst_exam_password#:#Contraseña de la prueba
 assessment#:#tst_exam_password_invalid_message#:#¡La contraseña proporcionada no es válida!
 assessment#:#tst_exam_password_label#:#Contraseña
 assessment#:#tst_exam_required_fields_not_filled_message#:#¡Debe completar todos los campos obligatorios!
@@ -1513,7 +1513,13 @@ assessment#:#tst_final_information#:#Finalizar la prueba
 assessment#:#tst_finish_confirm_button#:#Sí, quiero finalizar la prueba
 assessment#:#tst_finish_confirm_cancel_button#:#No, volver a la pregunta anterior
 assessment#:#tst_finish_confirmation_question#:#Va a finalizar esta prueba. No podrá volver a acceder a este intento de prueba para cambiar sus respuestas. ¿Realmente desea finalizar la prueba?
-assessment#:#tst_finish_confirmation_question_no_attempts_left#:#Va a finalizar esta prueba y alcanzará el número máximo de intentos permitidos. No podrá volver a entrar en esta prueba para cambiar sus respuestas. ¿Realmente desea finalizar la prueba?
+assessment#:#tst_finish_confirmation_question_no_attempts_left#:#Va a finalizar esta prueba y alcanzará el número máximo de intentos permitidos. No podrá volver a acceder a esta prueba para cambiar sus respuestas. ¿Realmente desea finalizarla?
+assessment#:#tst_finish_notification#:#Notificación
+assessment#:#tst_finish_notification_advanced#:#Enviar resultado completo de la prueba
+assessment#:#tst_finish_notification_content_type#:#Contenido del correo electrónico
+assessment#:#tst_finish_notification_desc#:#Envía un correo electrónico al propietario de la prueba por cada usuario que haya completado la prueba.
+assessment#:#tst_finish_notification_no#:#Sin correo electrónico
+assessment#:#tst_finish_notification_simple#:#Enviar nombre de usuario y fecha de finalización
 assessment#:#tst_finished#:#Finalizado
 assessment#:#tst_form_dynamic_question_set_config#:#Continuar selección de preguntas
 assessment#:#tst_gap_analysis#:#Análisis de brechas
@@ -1598,9 +1604,9 @@ assessment#:#tst_introduction_text#:#Mensaje introductorio
 assessment#:#tst_invited_nobody#:#No se han añadido usuarios, grupos ni roles como participantes fijos del test
 assessment#:#tst_invited_selected_users#:#Los usuarios seleccionados se han añadido como participantes fijos del test
 assessment#:#tst_launcher_button_label_passes_limit_reached#:#Has alcanzado el límite de intentos posibles del test
-assessment#:#tst_launcher_status_message_conditions#:#Se te pedirá que aceptes las condiciones del examen cuando inicies el test.
-assessment#:#tst_launcher_status_message_conditions_and_password#:#Se te pedirá la contraseña y que aceptes las condiciones del examen cuando inicies el test.
-assessment#:#tst_launcher_status_message_password#:#Se te pedirá la contraseña cuando inicies el test.
+assessment#:#tst_launcher_status_message_conditions#:#Se le pedirá que acepte las condiciones del examen cuando inicie la prueba.
+assessment#:#tst_launcher_status_message_conditions_and_password#:#Se le pedirá la contraseña y que acepte las condiciones del examen cuando inicie la prueba.
+assessment#:#tst_launcher_status_message_password#:#Se le pedirá la contraseña cuando inicie la prueba.
 assessment#:#tst_level#:#Nivel de competencia
 assessment#:#tst_limit_nr_of_tries#:#Limitar el número de intentos del test
 assessment#:#tst_link_only_unassigned#:#Has seleccionado al menos una pregunta que ya está vinculada a un banco de preguntas. Solo se pueden añadir preguntas no asignadas a un banco de preguntas.
@@ -5855,15 +5861,15 @@ common#:#trash#:#Papelera
 common#:#tree#:#Árbol
 common#:#tree_frame#:#Marco del árbol
 common#:#treeview#:#Mostrar barra lateral
-common#:#tst#:#Test
-common#:#tst_add#:#Añadir test
+common#:#tst#:#Prueba
+common#:#tst_add#:#Añadir prueba
 common#:#tst_edit_questions#:#Editar preguntas
 common#:#tst_history_read#:#Ver historial
-common#:#tst_new#:#Nuevo test
-common#:#tst_results#:#Resultados del examen
+common#:#tst_new#:#Nueva prueba
+common#:#tst_results#:#Resultados de la prueba
 common#:#tst_run#:#Ejecución
-common#:#tst_user_not_invited#:#No está autorizado para realizar este examen.
-common#:#tst_warning_test_not_complete#:#¡El examen no está completo!
+common#:#tst_user_not_invited#:#No está autorizado para realizar esta prueba.
+common#:#tst_warning_test_not_complete#:#¡La prueba no está completa!
 common#:#tutors#:#Tutores
 common#:#txt_registered#:#Se ha registrado correctamente en ILIAS. Por favor, haga clic en el botón de abajo para iniciar sesión con su cuenta de usuario.
 common#:#txt_registered_passw_gen#:#Se ha registrado correctamente en ILIAS. En breve recibirá un correo electrónico con su contraseña generada.
@@ -15177,8 +15183,8 @@ rep#:#rep_export_limitation_limited#:#Limitar exportación
 rep#:#rep_export_limitation_unlimited#:#Exportación ilimitada
 rep#:#rep_failure_trashed_trash#:#Ha seleccionado objetos que no pueden restaurarse a su ubicación original porque sus objetos superiores fueron eliminados. Por favor, desmarque el objeto correspondiente en la tabla o seleccione Restaurar en una ubicación nueva en su lugar.
 rep#:#rep_fav_intro1#:#Aún no ha seleccionado ningún favorito. Para ello, debe seguir dos pasos:
-rep#:#rep_fav_intro2#:#Haga clic en '%s' y seleccione un objeto de aprendizaje de la oferta disponible, por ejemplo, un módulo de aprendizaje o un foro.
-rep#:#rep_fav_intro3#:#Cuando haya encontrado algo que le interese, puede añadirlo fácilmente a sus favoritos. Seleccione el elemento deseado en el menú <i>Acciones</i> y elija "<i>Añadir a favoritos</i>".
+rep#:#rep_fav_intro2#:#Haga clic en '%s' y seleccione un objeto de aprendizaje entre las opciones disponibles, por ejemplo, un módulo de aprendizaje o un foro.
+rep#:#rep_fav_intro3#:#Cuando encuentre algo que le interese, puede añadirlo fácilmente a sus favoritos. En el menú <i>Acciones</i> del elemento deseado, seleccione «<i>Añadir a favoritos</i>».
 rep#:#rep_favourites#:#Favoritos
 rep#:#rep_favourites_info#:#Los usuarios pueden marcar elementos individuales del repositorio como favoritos. Las listas de favoritos se pueden activar y configurar en los ajustes del tablero y del menú.
 rep#:#rep_input_not_empty#:#Este campo no puede estar vacío, por favor proporcione un valor.
