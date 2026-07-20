@@ -118,8 +118,21 @@ function buildSettings(inputId, config) {
         .replace(/>/g, '&gt;');
     },
     templates: {
+      input() {
+        const s = this.settings;
+        return `<span ${!s.readonly && s.userInput ? 'contenteditable' : ''}
+            tabIndex="0"
+            data-placeholder="${s.placeholder || '&#8203;'}"
+            aria-placeholder="${s.placeholder}"
+            class="${s.classNames.input}"
+            role="textbox"
+            autocapitalize="off"
+            autocorrect="off"
+            aria-autocomplete="both"
+            aria-multiline="${'mix' == s.mode}"></span>`;
+      },
       wrapper(input, _s) {
-        return `<div class="${_s.classNames.namespace} ${_s.mode ? `${_s.classNames[`${_s.mode}Mode`]}` : ''} ${input.className}"
+        return `<ui-tags-input class="${_s.classNames.namespace} ${_s.mode ? `${_s.classNames[`${_s.mode}Mode`]}` : ''} ${input.className}"
             ${_s.readonly ? 'readonly' : ''}
             ${_s.disabled ? 'disabled' : ''}
             ${_s.required ? 'required' : ''}
@@ -127,10 +140,10 @@ function buildSettings(inputId, config) {
             tabIndex="-1">
             ${this.settings.templates.input.call(this)}
           \u200B
-        </div>`;
+        </ui-tags-input>`;
       },
       tag(tagData) {
-        return `<div contenteditable='false'
+        return `<ui-tag-input contenteditable='false'
           spellcheck="false" class='tagify__tag'
           value="${tagData.value}"
           tabindex="0">
@@ -138,12 +151,12 @@ function buildSettings(inputId, config) {
           <div>
               <span class='tagify__tag-text'>${tagData.display}</span>
           </div>
-        </div>`;
+        </ui-tag-input>`;
       },
       dropdownItem(tagData) {
-        return `<div class='tagify__dropdown__item' tagifySuggestionIdx="${tagData.tagifySuggestionIdx}" value="${tagData.value}">
+        return `<ui-tag-dropdown-item class='tagify__dropdown__item' tagifySuggestionIdx="${tagData.tagifySuggestionIdx}" value="${tagData.value}">
           <span>${tagData.display}</span>
-          </div>`;
+          </ui-tag-dropdown-item>`;
       },
     },
   };
@@ -198,6 +211,20 @@ function retrieveAutocomplete(
   );
 }
 
+function registerTags(customElements, HTMLElement)
+{
+  if (customElements.get('ui-tags-input')) {
+    return;
+  }
+  class UITagsInput extends HTMLElement {}
+  class UITagInput extends HTMLElement {}
+  class UITagDropdown extends HTMLElement {}
+
+  customElements.define('ui-tags-input', UITagsInput);
+  customElements.define('ui-tag-input', UITagInput);
+  customElements.define('ui-tag-dropdown-item', UITagDropdown);
+}
+
 /**
  * @param {Tagify} Tagify
  * @param {HTMLElement} input
@@ -208,12 +235,15 @@ function retrieveAutocomplete(
  */
 export default function init(
   Tagify,
+  customElements,
+  HTMLElement,
   input,
   config,
   value,
   autocompleteEndpoint,
   autocompleteToken,
 ) {
+  registerTags(customElements, HTMLElement);
   const instance = new Tagify(
     input,
     buildSettings(input.id, config),
