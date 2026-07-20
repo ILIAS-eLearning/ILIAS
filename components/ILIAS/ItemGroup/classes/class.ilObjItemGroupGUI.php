@@ -16,8 +16,11 @@
  *
  *********************************************************************/
 
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\ItemGroup\Items\Table\ItemsTable;
 use ILIAS\ItemGroup\StandardGUIRequest;
 use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
+use ILIAS\UI\URLBuilder;
 
 /**
  * User Interface class for item groups
@@ -33,6 +36,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
     protected StandardGUIRequest $ig_request;
     protected ilTabsGUI $tabs;
     protected ilHelpGUI $help;
+    private readonly DataFactory $data_factory;
 
     public function __construct(
         int $a_id = 0,
@@ -53,6 +57,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $this->gui = $DIC->itemGroup()->internal()->gui();
         $this->ig_request = $this->gui
             ->standardRequest();
+        $this->data_factory = new DataFactory();
     }
 
     protected function afterConstructor(): void
@@ -276,8 +281,39 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $gui->render();
         $this->ctrl->clearParameterByClass($parent_gui_class, 'ref_id');
 
-        $tab = new ilItemGroupItemsTableGUI($this->gui, $this, "listMaterials");
-        $tpl->setContent($tab->getHTML());
+        $tpl->setContent(
+            $this->ui_renderer->render(
+                $this->configureItemsTable()->getComponents($this->getTableActionUrlBuilder())
+            )
+        );
+    }
+
+    public function executeTableAction(): void
+    {
+        $this->checkPermission('write');
+        $this->configureItemsTable()->execute($this->getTableActionUrlBuilder());
+    }
+
+    private function configureItemsTable(): ItemsTable
+    {
+        return new ItemsTable(
+            $this->ctrl,
+            $this->lng,
+            $this->tpl,
+            $this->ui_factory,
+            $this->ui_renderer,
+            $this->http,
+            $this->refinery,
+            $this->object->getRefId(),
+            $this->object->getId()
+        );
+    }
+
+    private function getTableActionUrlBuilder(): URLBuilder
+    {
+        return new URLBuilder($this->data_factory->uri(
+            ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget($this, 'executeTableAction')
+        ));
     }
 
     public function getCreatableObjectTypes(): array
@@ -291,21 +327,6 @@ class ilObjItemGroupGUI extends ilObject2GUI
             unset($types[$type_to_remove]);
         }
         return $types;
-    }
-
-    public function saveItemAssignment(): void
-    {
-        $this->checkPermission("write");
-
-        $item_group_items = new ilItemGroupItems($this->object->getRefId());
-        $assignable_ref_ids = array_column($item_group_items->getAssignableItems(), 'ref_id');
-        $items = array_intersect($this->ig_request->getItems(), $assignable_ref_ids);
-
-        $item_group_items->setItems($items);
-        $item_group_items->update();
-
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
-        $this->ctrl->redirect($this, 'listMaterials');
     }
 
     public function getTemplate(): void

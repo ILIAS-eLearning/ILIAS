@@ -10793,7 +10793,9 @@ irss#:#type#:#File Type
 irss#:#upload_field_title#:#Selected Files
 irss#:#upload_modal_title#:#Add Files
 itgr#:#itgr_always_open#:#Always Open
+itgr#:#itgr_assign#:#Assign
 itgr#:#itgr_assign_materials#:#Assign Materials
+itgr#:#itgr_assigned_first#:#Assigned First
 itgr#:#itgr_assigned_materials#:#Assigned Materials
 itgr#:#itgr_assignment#:#Assigned to this Item Group
 itgr#:#itgr_assignment_to_other_itgr#:#Already assigned to another Item Group
@@ -10818,6 +10820,8 @@ itgr#:#itgr_list_presentation#:#Item Presentation
 itgr#:#itgr_materials#:#Materials
 itgr#:#itgr_tile#:#Tiles
 itgr#:#itgr_tile_size#:#Tile Size
+itgr#:#itgr_unassign#:#Unassign
+itgr#:#itgr_unassigned_first#:#Unassigned First
 jscalendar#:#about_calendar#:#About the calendar
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector © dynarch.com 2002-2003 For latest version visit: http://dynarch.com/mishoo/calendar.epl Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.  Date selection: - Use the buttons « and » to select year - Use the buttons < and > to select month - Hold mouse button on any of the above buttons for faster selection.
 jscalendar#:#about_time#:#  Time selection: - Click on any of the time parts to increase it - or Shift-click to decrease it - or click and drag for faster selection.
