@@ -1,53 +1,107 @@
-# Web Feed Privacy
+# Feeds Privacy
 
-This documentation does not warrant completeness or correctness. Please report any
-missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
-or contribute a fix via [Pull Request](../../../docs/development/contributing.md#pull-request-to-the-repositories).
+> **Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information by submitting a [Pull Request](docs/development/contributing.md#pull-request-to-the-repositories) or, if you prefer, via the [ILIAS bug tracker](https://mantis.ilias.de). When using the bug tracker, please select the corresponding component in the **Category** field.**
 
-## Integrated Services
-
-The Web Feed component (Feeds) employs the following services, please consult the respective privacy documentation:
-
-- [News](../News/PRIVACY.md) provides the content (**news items**) for the feeds.
-- The **User** service handles authentication for private feeds (**feed password**, **login**) and provides user-specific feed identification (**feed hash**).
-- The **Object** service (ILIASObject) is used to retrieve object **titles** and **types**.
-- [AccessControl](../AccessControl/PRIVACY.md) is used to check the visibility of objects and content.
-- [Refinery](../Refinery/PRIVACY.md) is used for input transformation and validation of requested parameters.
-- The **Tree** service is used to generate the repository **path** for objects included in the feeds.
-- [Blog](../Blog/PRIVACY.md) provides blog-specific RSS feeds.
-- [MediaCast](../MediaCast/PRIVACY.md) is integrated for special handling of media cast objects and their **enclosures**.
 
 ## General Information
 
-The Web Feed component provides the infrastructure to generate and deliver RSS and Atom feeds in ILIAS. It allows users to subscribe to news items from objects or their personal news stream. Personal data primarily consists of user identifiers and news content associated with the user's activities or memberships.
+The Feeds component generates RSS/Atom feeds for ILIAS content. It does not store any personal
+data itself. Instead, it reads data from other components (primarily News and User) and presents
+it as XML feeds accessible via URL endpoints.
 
-## Configuration
+Note: This component is referred to as "Web Feed" in the ILIAS user interface, e.g. in the
+Administration settings screen "News and Web Feeds" (object type `nwss`), which configures the
+`enable_rss_for_internal` and `enable_private_feed` settings described below. The component itself
+is named `Feeds` in the codebase.
 
-- **Global News Settings**: Administrators can enable or disable RSS feeds globally.
-- **Object Settings**: Authors can enable or disable public feeds for specific objects.
-- **User Profile**: Users can manage their **feed password** in their personal profile (handled by the **User** service).
+There are two feed types:
+
+- **Public feeds** (`feed.php`): Provide news items for a specific user or repository object. Access
+  is controlled by a per-user **feed hash** (a 32-character token embedded in the feed URL). The
+  feed hash is stored and managed by the User component. Public feeds only include news items
+  marked with public visibility, unless a user ID is provided. This feature is only available when
+  the global setting "enable_rss_for_internal" is active. For object feeds, the per-object
+  "public_feed" block setting must also be enabled.
+- **Private feeds** (`privfeed.php`): Require HTTP Basic Authentication with the user's ILIAS login
+  and a dedicated **feed password** (stored as the `priv_feed_pass` user preference by the User
+  component). Private feeds include all news items the authenticated user has access to. This
+  feature is only available when the global setting "enable_private_feed" is active.
+
+The feed URLs contain the **user ID** as a query parameter, which means that a user's numeric ID
+is exposed in the URL string shared with or used by RSS reader applications.
+
+## Integrated Components
+
+- The Feeds component employs the following components, please consult the respective PRIVACY.md
+  files:
+    - [News](../News/PRIVACY.md) -- core data source. All feed content (news item titles,
+      descriptions, creation dates, and context information) is retrieved from the News component.
+      The News component determines which items are visible based on the feed type (public or
+      private) and the configured RSS period.
+    - [User](../User/PRIVACY.md) -- provides authentication data for feed access. The feed hash (`feed_hash` column in
+      `usr_data`) is used to validate public feed requests. The feed password (`priv_feed_pass`
+      user preference) is used for HTTP Basic Authentication on private feeds. User login names
+      are used for authentication verification.
+    - [Refinery](../Refinery/PRIVACY.md) -- `feed.php` validates and casts the incoming `user_id`,
+      `ref_id`, `purpose`, `blog_id`, and `hash` query parameters via `$DIC->refinery()->kindlyTo()`
+      before they are used to look up personal data. Note: `privfeed.php` reads the equivalent
+      parameters directly from `$_GET` without going through Refinery.
+    - [Tree](../Tree/PRIVACY.md) -- resolves the full repository path for a news item's reference ID
+      (`ilTree::getPathFull()`) to build the deep link included in each feed item.
+    - [Blog](../Blog/PRIVACY.md) -- the `feed.php` endpoint delegates Blog RSS delivery to the
+      Blog component via `ilObjBlog::deliverRSS()`.
+    - [MediaCast](../MediaCast/PRIVACY.md) -- for MediaCast objects, feed items may include
+      media enclosures (audio/video URLs, file sizes, MIME types). Online status and public file
+      settings of MediaCast objects are checked before inclusion.
+    - [MediaObjects](../MediaObjects/PRIVACY.md) -- media item paths and formats are resolved
+      for enclosure generation in MediaCast-related feed items.
+    - [Wiki](../Wiki/PRIVACY.md) -- wiki page titles are resolved to generate correct deep links
+      for wiki-related news items in the feed output.
+    - [Forum](../Forum/PRIVACY.md) -- forum thread IDs are resolved to generate correct deep
+      links for forum posting-related news items in the feed output.
 
 ## Data being stored
 
-The Web Feed component itself does not persist personal data in its own database tables. It retrieves and formats data stored by other services:
+The Feeds component does not store any personal data. It is a read-only presentation layer that
+generates RSS XML output on the fly from data managed by other components.
 
-- **user ID**: Used to identify the user for personal feeds.
-- **feed hash** / **feed password**: Used for authentication of private feeds (stored in the user preferences of the **User** service).
+All personal data involved in feed generation and authentication (feed hashes, feed passwords,
+user IDs, news items) is stored and managed by the User and News components.
 
 ## Data being presented
 
-The component presents data to any user or external application that has access to the feed URL (public feeds) or valid credentials (private feeds):
-
-- **Feed Content**: The component presents news **titles**, **descriptions**, **publication dates**, and **links** to the original content.
-- **Authentication**: **user IDs** and **feed hashes** are used in the URLs for personal/private feeds to authorize access. Private feeds also use HTTP Basic Authentication with the ILIAS **login** and **feed password**.
+- **Each user** can access their own public feed via a URL containing their **user ID** and
+  **feed hash**. This URL is displayed to the user in the News block on the personal desktop.
+  The feed contains news item titles, descriptions, creation dates, and links to the corresponding
+  ILIAS objects. Only news items with public visibility are included.
+- **Each user** who has configured a feed password can access their own private feed via HTTP
+  Basic Authentication. The private feed contains all news items the user has access to,
+  including items that are not publicly visible. The feed URL contains the user's **user ID**
+  and **feed hash**.
+- **Anyone** with access to a public object feed URL can view the feed for that object, provided
+  the object has the "public_feed" block setting enabled and "enable_rss_for_internal" is active
+  globally. Object feeds contain news titles, descriptions, creation dates, and links. For
+  MediaCast objects, media enclosures (URLs, file sizes, MIME types) may be included if public
+  files are enabled.
+- The Feeds component itself does not perform permission checks. Access control is delegated to:
+  the feed hash validation (User component), HTTP Basic Authentication (User component), the
+  news visibility logic (News component), and per-object feed settings (News block settings).
 
 ## Data being deleted
 
-As the Web Feed component does not store personal data itself, there is no specific data deletion logic. Data removal is handled by the respective source services:
+The Feeds component does not store any personal data and therefore has no deletion logic.
 
-- **User Deletion**: When a user is deleted, their **feed password** and news associations are removed by the **User** and **News** services.
-- **Object Deletion**: Deleting an object removes its news items and associated feed settings (handled by **Object** and **News** services).
+Deletion of feed-related personal data is handled by the components that store it:
+
+- **When a user account is deleted**: The feed hash (`feed_hash` in `usr_data`) and the feed
+  password preference (`priv_feed_pass`) are deleted by the User component. After deletion,
+  feed URLs previously generated for this user become invalid.
+- **When RSS settings are disabled**: Disabling the "enable_rss_for_internal" or
+  "enable_private_feed" settings prevents feed generation, but does not delete any stored data.
 
 ## Data being exported
 
-- **RSS/Atom Feeds**: The feeds themselves represent a data export of news items in standardized XML formats, allowing users to consume ILIAS content in external feed readers.
+The Feeds component does not provide any data export functionality. Its sole purpose is to
+present existing news data as RSS feeds. The RSS feed output itself could be considered a form
+of data presentation (not export in the ILIAS sense), and its content is determined entirely by
+the News component.
