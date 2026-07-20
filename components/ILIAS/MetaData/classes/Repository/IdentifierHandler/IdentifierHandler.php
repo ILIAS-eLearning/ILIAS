@@ -26,18 +26,35 @@ use ILIAS\MetaData\Manipulator\ManipulatorInterface;
 use ILIAS\MetaData\Paths\PathInterface;
 use ILIAS\MetaData\Paths\FactoryInterface as PathFactory;
 use ILIAS\MetaData\Paths\Filters\FilterType;
+use ILIAS\MetaData\Paths\Navigator\NavigatorFactoryInterface as NavigatorFactory;
 
+// TODO rename to something more appropriate
 class IdentifierHandler implements IdentifierHandlerInterface
 {
-    protected ManipulatorInterface $manipulator;
-    protected PathFactory $path_factory;
+    protected const PLACEHOLDER_TITLE = 'PLACEHOLDER';
 
     public function __construct(
-        ManipulatorInterface $manipulator,
-        PathFactory $path_factory
+        protected ManipulatorInterface $manipulator,
+        protected PathFactory $path_factory,
+        protected NavigatorFactory $navigator_factory
     ) {
         $this->manipulator = $manipulator;
         $this->path_factory = $path_factory;
+    }
+
+    public function preparePlaceholderTitleIfEmpty(
+        SetInterface $set
+    ): SetInterface {
+        $path_to_title = $this->getPathToTitle();
+        $navigator = $this->navigator_factory->navigator($path_to_title, $set->getRoot());
+        if ($navigator->lastElementAtFinalStep() !== null) {
+            return $set;
+        }
+        return $this->manipulator->prepareCreateOrUpdate(
+            $set,
+            $path_to_title,
+            self::PLACEHOLDER_TITLE
+        );
     }
 
     public function prepareUpdateOfIdentifier(
@@ -69,6 +86,16 @@ class IdentifierHandler implements IdentifierHandlerInterface
     protected function generateIdentifierCatalog(): string
     {
         return 'ILIAS';
+    }
+
+    protected function getPathToTitle(): PathInterface
+    {
+        return $this->path_factory
+            ->custom()
+            ->withNextStep('general')
+            ->withNextStep('title')
+            ->withNextStep('string')
+            ->get();
     }
 
     protected function getPathToFirstIdentifierEntry(): PathInterface
