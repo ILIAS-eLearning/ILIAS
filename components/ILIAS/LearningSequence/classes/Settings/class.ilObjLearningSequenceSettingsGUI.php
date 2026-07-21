@@ -19,6 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
+use ILIAS\ILIASObject\Properties\CoreProperties\TitleAndDescription;
+use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\AvailabilityPeriod\AvailabilityPeriod;
 
 class ilObjLearningSequenceSettingsGUI
 {
@@ -125,13 +127,13 @@ class ilObjLearningSequenceSettingsGUI
 
         $formElements['online'] = $if->field()->section(
             [
-                $props->getPropertyIsOnline()
+                'online' => $props->getPropertyIsOnline()
                     ->toForm(
                         $this->lng,
                         $if->field(),
                         $this->refinery
                     ),
-                $ref_props->getPropertyAvailabilityPeriod()
+                'availability_period' => $ref_props->getPropertyAvailabilityPeriod()
                     ->toForm(
                         $this->lng,
                         $if->field(),
@@ -240,25 +242,42 @@ class ilObjLearningSequenceSettingsGUI
 
         $lso = $this->obj;
         $obj_props = $lso->getObjectProperties();
+        $ref_props = $lso->getObjectReferenceProperties();
+
+        $title_and_description = $data['object'] ?? null;
+        if ($title_and_description instanceof TitleAndDescription) {
+            $obj_props->storePropertyTitleAndDescription($title_and_description);
+        }
 
         ilContainer::_writeContainerSetting(
             $lso->getId(),
             ilObjectServiceSettingsGUI::CUSTOM_METADATA,
-            $values['additional'][ilObjectServiceSettingsGUI::CUSTOM_METADATA] ? '1' : '0'
+            ($data['additional'][ilObjectServiceSettingsGUI::CUSTOM_METADATA] ?? false) ? '1' : '0'
         );
         ilContainer::_writeContainerSetting(
             $lso->getId(),
             ilObjectServiceSettingsGUI::TAXONOMIES,
-            $values['additional'][ilObjectServiceSettingsGUI::TAXONOMIES] ? '1' : '0'
+            ($data['additional'][ilObjectServiceSettingsGUI::TAXONOMIES] ?? false) ? '1' : '0'
         );
 
-        $status = ilObjLearningSequenceAccess::isOffline($lso->getRefId());
-        $lso->getObjectProperties()->storePropertyIsOnline(
-            new Online(! $status)
+        $obj_props->storePropertyIsOnline(
+            $data['online']['online'] ?? $obj_props->getPropertyIsOnline()->withOffline()
         );
+
+        $availability_period = $data['online']['availability_period'] ?? null;
+        if ($availability_period instanceof AvailabilityPeriod) {
+            $lso->storeAvailabilityPeriod(
+                $availability_period->withObjectReferenceId($lso->getRefId())
+            );
+        } elseif ($ref_props !== null) {
+            // keep current value (no-op), but ensure it stays bound to current ref id
+            $lso->storeAvailabilityPeriod(
+                $ref_props->getPropertyAvailabilityPeriod()->withObjectReferenceId($lso->getRefId())
+            );
+        }
 
         $settings = $lso->getLSSettings()
-            ->withMembersGallery($data['additional'][self::PROP_GALLERY]);
+            ->withMembersGallery($data['additional'][self::PROP_GALLERY] ?? false);
         $lso->updateSettings($settings);
 
         $obj_props->storePropertyTitleAndIconVisibility($data['common']['icon']);
