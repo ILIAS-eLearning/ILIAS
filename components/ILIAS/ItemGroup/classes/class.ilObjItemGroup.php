@@ -62,22 +62,24 @@ class ilObjItemGroup extends ilObject2
         $this->type = "itgr";
     }
 
-    public function setHideTitle(bool $a_val): void
+    public function getDisplay(): string
     {
-        $this->item_data_ar->setHideTitle($a_val);
+        return $this->item_data_ar->getDisplay();
     }
 
-    public function getHideTitle(): bool
+    public function setDisplay(string $a_val): void
     {
-        return $this->item_data_ar->getHideTitle();
+        $this->item_data_ar->setDisplay($a_val);
     }
 
-    /**
-     * Set behaviour (see ilItemGroupBehaviour)
-     */
-    public function setBehaviour(int $a_val): void
+    public function getDisplayWithTitleAndToggleableInitially(): string
     {
-        $this->item_data_ar->setBehaviour($a_val);
+        return $this->item_data_ar->getDisplayWithTitleAndToggleableInitially();
+    }
+
+    public function setDisplayWithTitleAndToggleableInitially(string $a_val): void
+    {
+        $this->item_data_ar->setDisplayWithTitleAndToggleableInitially($a_val);
     }
 
     public function getListPresentation(): string
@@ -100,14 +102,33 @@ class ilObjItemGroup extends ilObject2
         $this->item_data_ar->setTileSize($a_val);
     }
 
-    public function getBehaviour(): int
+    public function getBehaviour(?bool $stored_value = null): int
     {
-        return $this->item_data_ar->getBehaviour();
+        if ($this->getDisplay() !== ilItemGroupAR::DISPLAY_WITH_TITLE_AND_TOGGLEABLE) {
+            return ilItemGroupBehaviour::ALWAYS_OPEN;
+        }
+
+        if (is_bool($stored_value)) {
+            return $stored_value ? ilItemGroupBehaviour::EXPANDABLE_OPEN : ilItemGroupBehaviour::EXPANDABLE_CLOSED;
+        }
+
+        return $this->getDisplayWithTitleAndToggleableInitially() === ilItemGroupAR::DISPLAY_WITH_TITLE_AND_TOGGLEABLE_INITIALLY_OPEN
+            ? ilItemGroupBehaviour::EXPANDABLE_OPEN
+            : ilItemGroupBehaviour::EXPANDABLE_CLOSED;
     }
 
     protected function doRead(): void
     {
         $this->item_data_ar = new ilItemGroupAR($this->getId());
+    }
+
+    public function getShowTitle(): bool
+    {
+        return in_array(
+            $this->getDisplay(),
+            [ilItemGroupAR::DISPLAY_WITH_TITLE, ilItemGroupAR::DISPLAY_WITH_TITLE_AND_TOGGLEABLE],
+            true
+        );
     }
 
     protected function doCreate(bool $clone_mode = false): void
@@ -158,8 +179,8 @@ class ilObjItemGroup extends ilObject2
     protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null): void
     {
         assert($new_obj instanceof ilObjItemGroup);
-        $new_obj->setHideTitle($this->getHideTitle());
-        $new_obj->setBehaviour($this->getBehaviour());
+        $new_obj->setDisplay($this->getDisplay());
+        $new_obj->setDisplayWithTitleAndToggleableInitially($this->getDisplayWithTitleAndToggleableInitially());
         $new_obj->setListPresentation($this->getListPresentation());
         $new_obj->setTileSize($this->getTileSize());
 
@@ -212,29 +233,5 @@ class ilObjItemGroup extends ilObject2
             $new_page->update();
         }
         $ilLog->write(__METHOD__ . ': 5');
-    }
-
-    public static function lookupHideTitle(int $a_id): bool
-    {
-        return (bool) self::lookup($a_id, "hide_title");
-    }
-
-    public static function lookupBehaviour(int $a_id): int
-    {
-        return (int) self::lookup($a_id, "behaviour");
-    }
-
-    protected static function lookup(int $a_id, string $a_key): string
-    {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        $set = $ilDB->query(
-            "SELECT " . $a_key . " FROM itgr_data " .
-            " WHERE id = " . $ilDB->quote($a_id, "integer")
-        );
-        $rec = $ilDB->fetchAssoc($set);
-        return $rec[$a_key];
     }
 }

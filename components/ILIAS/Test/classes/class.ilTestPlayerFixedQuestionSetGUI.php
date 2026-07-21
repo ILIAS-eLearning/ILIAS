@@ -33,7 +33,13 @@ class ilTestPlayerFixedQuestionSetGUI extends ilTestPlayerAbstractGUI
 {
     protected function buildTestPassQuestionList(): ilAssQuestionList
     {
-        $question_list = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $this->component_repository);
+        $question_list = new ilAssQuestionList(
+            $this->db,
+            $this->lng,
+            $this->refinery,
+            $this->component_repository,
+            $this->components_factory
+        );
         $question_list->setParentObjId($this->object->getId());
         $question_list->setQuestionInstanceTypeFilter(null);
         return $question_list;

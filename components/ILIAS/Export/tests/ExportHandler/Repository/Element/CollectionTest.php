@@ -34,21 +34,21 @@ class CollectionTest extends TestCase
         $date_1 = new DateTimeImmutable('2020-01-01');
         $date_2 = new DateTimeImmutable('2020-01-02');
         $date_3 = new DateTimeImmutable('2020-01-03');
-        $values_mock_01 = $this->createMock(ilExportHandlerRepositoryValuesInterface::class);
+        $values_mock_01 = $this->createStub(ilExportHandlerRepositoryValuesInterface::class);
         $values_mock_01->method("getCreationDate")->willReturn($date_1);
-        $values_mock_02 = $this->createMock(ilExportHandlerRepositoryValuesInterface::class);
+        $values_mock_02 = $this->createStub(ilExportHandlerRepositoryValuesInterface::class);
         $values_mock_02->method("getCreationDate")->willReturn($date_2);
-        $values_mock_03 = $this->createMock(ilExportHandlerRepositoryValuesInterface::class);
+        $values_mock_03 = $this->createStub(ilExportHandlerRepositoryValuesInterface::class);
         $values_mock_03->method("getCreationDate")->willReturn($date_2);
-        $values_mock_04 = $this->createMock(ilExportHandlerRepositoryValuesInterface::class);
+        $values_mock_04 = $this->createStub(ilExportHandlerRepositoryValuesInterface::class);
         $values_mock_04->method("getCreationDate")->willReturn($date_3);
-        $element_mock_01 = $this->createMock(ilExportHandlerRepositoryElementInterface::class);
+        $element_mock_01 = $this->createStub(ilExportHandlerRepositoryElementInterface::class);
         $element_mock_01->method('getValues')->willReturn($values_mock_01);
-        $element_mock_02 = $this->createMock(ilExportHandlerRepositoryElementInterface::class);
+        $element_mock_02 = $this->createStub(ilExportHandlerRepositoryElementInterface::class);
         $element_mock_02->method('getValues')->willReturn($values_mock_02);
-        $element_mock_03 = $this->createMock(ilExportHandlerRepositoryElementInterface::class);
+        $element_mock_03 = $this->createStub(ilExportHandlerRepositoryElementInterface::class);
         $element_mock_03->method('getValues')->willReturn($values_mock_03);
-        $element_mock_04 = $this->createMock(ilExportHandlerRepositoryElementInterface::class);
+        $element_mock_04 = $this->createStub(ilExportHandlerRepositoryElementInterface::class);
         $element_mock_04->method('getValues')->willReturn($values_mock_04);
         $element_mock_01->method("equals")->willReturnMap([
             [$element_mock_01, true], [$element_mock_02, false],

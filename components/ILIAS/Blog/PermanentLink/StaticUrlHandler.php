@@ -29,6 +29,15 @@ use ILIAS\StaticURL\Context;
 
 class StaticURLHandler extends BaseHandler implements Handler
 {
+    protected \ILIAS\Blog\InternalService $blog_service;
+
+    public function __construct()
+    {
+        global $DIC;
+        $this->blog_service = $DIC->blog()->internal();
+        parent::__construct();
+    }
+
     public function getNamespace(): string
     {
         return 'blog';
@@ -36,12 +45,11 @@ class StaticURLHandler extends BaseHandler implements Handler
 
     public function handle(Request $request, Context $context, Factory $response_factory): Response
     {
-        global $DIC;
-
-        $ctrl = $DIC->ctrl();
-        $access = $DIC->access();
+        $blog_service = $this->blog_service;
+        $ctrl = $blog_service->gui()->ctrl();
+        $access = $blog_service->domain()->access();
         $uri = null;
-        $blog_domain = $DIC->blog()->internal()->domain();
+        $blog_domain = $blog_service->domain();
 
         $id = $request->getReferenceId()?->toInt() ?? 0;
         $additional_params = $request->getAdditionalParameters() ?? [];

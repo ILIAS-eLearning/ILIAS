@@ -35,10 +35,10 @@ class HandlerTest extends TestCase
         $reference_id = 1;
         $uri_mock = $this->createMock(Uri::class);
         $uri_mock->expects($this->once())->method("__toString")->willReturn($download_url);
-        $reference_id_mock = $this->createMock(ReferenceId::class);
+        $reference_id_mock = $this->createStub(ReferenceId::class);
         $reference_id_mock->method("toInt")->willReturn($reference_id);
         $reference_id_mock->method("toObjectId")->willThrowException(new Exception("unexpected conversion to object id"));
-        $static_url_wrapper_mock = $this->createMock(ilExportHandlerPublicAccessLinkStaticURLWrapperInterface::class);
+        $static_url_wrapper_mock = $this->createStub(ilExportHandlerPublicAccessLinkStaticURLWrapperInterface::class);
         $static_url_wrapper_mock->method("withStaticURL")->willThrowException(new Exception("unexpected overwrite of static URL service object"));
         $static_url_wrapper_mock->method("buildDownloadURI")->willReturn($uri_mock);
         try {

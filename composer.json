@@ -90,17 +90,16 @@
 			"./public/Customizing/global/plugins",
 			"./components",
 			"./vendor/ilias",
-			"./components/ILIAS/soap",
-			"./components/ILIAS/setup_/classes"
+			"./components/ILIAS/soap"
 		],
 		"exclude-from-classmap": [
 			"./components/ILIAS/Migration",
 			"./*/*/lib",
 			"./public/Customizing/**/vendor",
-			"./components/ILIAS/setup_/sql",
+			"./components/ILIAS/Database/sql",
 			"./cli/setup.php",
-			"./components/ILIAS/setup_/client.master.ini.php",
-			"./components/ILIAS/setup_/ilias.master.ini.php"
+			"./components/ILIAS/Init/resources/client.master.ini.php",
+			"./components/ILIAS/Init/resources/ilias.master.ini.php"
 		]
 	},
 	"extra": {

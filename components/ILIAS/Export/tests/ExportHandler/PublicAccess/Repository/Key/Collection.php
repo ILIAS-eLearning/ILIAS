@@ -30,24 +30,24 @@ class Collection extends TestCase
 {
     public function testExportHandlerPublicAccessRepositoryKeyCollection(): void
     {
-        $object_id_mock_01 = $this->createMock(ObjectId::class);
+        $object_id_mock_01 = $this->createStub(ObjectId::class);
         $object_id_mock_01->method("toInt")->willReturn(1);
         $object_id_mock_01->method("toReferenceIds")->willThrowException(new Exception("unexpected access of reference ids"));
-        $object_id_mock_02 = $this->createMock(ObjectId::class);
+        $object_id_mock_02 = $this->createStub(ObjectId::class);
         $object_id_mock_02->method("toInt")->willReturn(2);
         $object_id_mock_02->method("toReferenceIds")->willThrowException(new Exception("unexpected access of reference ids"));
-        $object_id_mock_03 = $this->createMock(ObjectId::class);
+        $object_id_mock_03 = $this->createStub(ObjectId::class);
         $object_id_mock_03->method("toInt")->willReturn(3);
         $object_id_mock_03->method("toReferenceIds")->willThrowException(new Exception("unexpected access of reference ids"));
-        $key_mock_01 = $this->createMock(ilExportHandlerPublicAccessRepositoryKeyInterface::class);
+        $key_mock_01 = $this->createStub(ilExportHandlerPublicAccessRepositoryKeyInterface::class);
         $key_mock_01->method("isValid")->willReturn(true);
         $key_mock_01->method("getObjectId")->willReturn($object_id_mock_01);
         $key_mock_01->method("withObjectId")->willThrowException(new Exception("unexpected overwrite of object id"));
-        $key_mock_02 = $this->createMock(ilExportHandlerPublicAccessRepositoryKeyInterface::class);
+        $key_mock_02 = $this->createStub(ilExportHandlerPublicAccessRepositoryKeyInterface::class);
         $key_mock_02->method("isValid")->willReturn(true);
         $key_mock_02->method("getObjectId")->willReturn($object_id_mock_02);
         $key_mock_02->method("withObjectId")->willThrowException(new Exception("unexpected overwrite of object id"));
-        $key_mock_03 = $this->createMock(ilExportHandlerPublicAccessRepositoryKeyInterface::class);
+        $key_mock_03 = $this->createStub(ilExportHandlerPublicAccessRepositoryKeyInterface::class);
         $key_mock_03->method("isValid")->willReturn(true);
         $key_mock_03->method("getObjectId")->willReturn($object_id_mock_03);
         $key_mock_03->method("withObjectId")->willThrowException(new Exception("unexpected overwrite of object id"));

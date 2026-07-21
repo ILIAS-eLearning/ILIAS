@@ -71,6 +71,6 @@ class ilTimingAcceptedTest extends TestCase
     {
         $this->dic = new Container();
         $GLOBALS['DIC'] = $this->dic;
-        $this->setGlobalVariable('ilDB', $this->createMock(ilDBInterface::class));
+        $this->setGlobalVariable('ilDB', $this->createStub(ilDBInterface::class));
     }
 }

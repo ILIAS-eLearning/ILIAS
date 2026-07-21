@@ -49,6 +49,7 @@ class ilQuestionPoolSkillAdministrationGUI
         private readonly ilLanguage $lng,
         private readonly ilDBInterface $db,
         private readonly ilComponentRepository $component_repository,
+        private readonly ilComponentFactory $component_factory,
         private readonly ilObjQuestionPool $pool_obj,
         private readonly HTTP $http,
         private readonly ilToolbarGUI $toolbar,
@@ -106,7 +107,13 @@ class ilQuestionPoolSkillAdministrationGUI
 
         switch (strtolower($next_class)) {
             case strtolower(ilAssQuestionSkillAssignmentsGUI::class):
-                $question_list = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $this->component_repository);
+                $question_list = new ilAssQuestionList(
+                    $this->db,
+                    $this->lng,
+                    $this->refinery,
+                    $this->component_repository,
+                    $this->component_factory
+                );
                 $question_list->setParentObjId($this->pool_obj->getId());
                 $question_list->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS);
                 $question_list->load();

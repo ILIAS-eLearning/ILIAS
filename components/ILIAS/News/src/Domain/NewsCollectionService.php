@@ -91,6 +91,16 @@ class NewsCollectionService
         return $this->applyFinalProcessing($this->getNewsForContexts([$context], $criteria, $user_id, $lazy), $criteria);
     }
 
+    /**
+     * @return list<array{0: NewsContext, 1: int}>
+     */
+    public function countNewsByContext(\ilObjUser $user_id, NewsCriteria $criteria): array
+    {
+        $contexts = $this->user_context_resolver->getAccessibleContexts($user_id, $criteria);
+        $contexts = $this->fetchContextData($contexts);
+        return $this->repository->countByContextsBatch($contexts);
+    }
+
     public function invalidateCache(int $user_id): void
     {
         $this->cache->invalidateNewsForUser($user_id);

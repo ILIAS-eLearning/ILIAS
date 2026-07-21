@@ -33,15 +33,15 @@ class HandlerTest extends TestCase
 
     public function testPath(): void
     {
-        $node1 = $this->createMock(ilSimpleFilePathNode::class);
-        $node1->expects($this->any())->method('toString')->willReturn('Node1');
-        $node1->expects($this->any())->method('requiresPathSeparator')->willReturn(true);
-        $node2 = $this->createMock(ilSimpleFilePathNode::class);
-        $node2->expects($this->any())->method('toString')->willReturn('Node2');
-        $node2->expects($this->any())->method('requiresPathSeparator')->willReturn(true);
-        $node3 = $this->createMock(ilSimpleFilePathNode::class);
-        $node3->expects($this->any())->method('toString')->willReturn('Node3');
-        $node3->expects($this->any())->method('requiresPathSeparator')->willReturn(true);
+        $node1 = $this->createStub(ilSimpleFilePathNode::class);
+        $node1->method('toString')->willReturn('Node1');
+        $node1->method('requiresPathSeparator')->willReturn(true);
+        $node2 = $this->createStub(ilSimpleFilePathNode::class);
+        $node2->method('toString')->willReturn('Node2');
+        $node2->method('requiresPathSeparator')->willReturn(true);
+        $node3 = $this->createStub(ilSimpleFilePathNode::class);
+        $node3->method('toString')->willReturn('Node3');
+        $node3->method('requiresPathSeparator')->willReturn(true);
         $nodes = [$node1, $node2, $node3];
 
         $path = new ilFilePathHandler();

@@ -28,7 +28,7 @@ class CopyrightDataTest extends TestCase
 {
     protected function getMockURI(): URI
     {
-        return $this->createMock(URI::class);
+        return $this->createStub(URI::class);
     }
 
     protected function getData(?URI $image_link, string $image_file): CopyrightData

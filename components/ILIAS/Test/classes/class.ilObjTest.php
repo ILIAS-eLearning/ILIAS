@@ -48,6 +48,7 @@ use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsRepository;
 use ILIAS\Test\Settings\ScoreReporting\ScoreReportingTypes;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettings;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionProperties;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Filesystem\Filesystem;
@@ -2693,6 +2694,27 @@ class ilObjTest extends ilObject
         }
         return false;
     }
+
+    /**
+     * @deprecated This is only a stop-gap measure to make archive export work.
+     * Do not use anywhere else! - sk 2026-06-22
+     */
+    public function getQuestionIdsInTest(): array
+    {
+        if (!$this->isRandomTest()) {
+            return $this->questions;
+        }
+
+        $query = $this->db->query(
+            "SELECT qst_fi FROM tst_rnd_cpy WHERE tst_fi={$this->test_id}"
+        );
+
+        return array_map(
+            fn(\stdClass $v): int => $v->qst_fi,
+            $this->db->fetchAll($query, \ilDBConstants::FETCHMODE_OBJECT)
+        );
+    }
+
 
     /**
     * Calculates the available questions for a test

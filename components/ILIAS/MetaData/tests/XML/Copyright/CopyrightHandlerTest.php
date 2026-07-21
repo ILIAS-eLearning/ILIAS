@@ -39,7 +39,7 @@ class CopyrightHandlerTest extends TestCase
 {
     protected function getURI(string $link): URI
     {
-        $url = $this->createMock(URI::class);
+        $url = $this->createStub(URI::class);
         $url->method('__toString')->willReturn($link);
         return $url;
     }

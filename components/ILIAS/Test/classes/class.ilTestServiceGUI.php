@@ -76,6 +76,7 @@ class ilTestServiceGUI
     protected readonly ilTabsGUI $tabs;
     protected readonly ilObjectDataCache $obj_cache;
     protected readonly ilComponentRepository $component_repository;
+    protected readonly ilComponentFactory $component_factory;
     protected readonly ilObjUser $user;
     protected readonly ArrayBasedRequestWrapper $post_wrapper;
     protected readonly ilNavigationHistory $navigation_history;
@@ -139,6 +140,7 @@ class ilTestServiceGUI
         $this->tree = $DIC['tree'];
         $this->db = $DIC['ilDB'];
         $this->component_repository = $DIC['component.repository'];
+        $this->component_factory = $DIC['component.factory'];
         $this->navigation_history = $DIC['ilNavigationHistory'];
         $this->tabs = $DIC['ilTabs'];
         $this->toolbar = $DIC['ilToolbar'];

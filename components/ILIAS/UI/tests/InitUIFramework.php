@@ -230,7 +230,9 @@ class InitUIFramework
             );
         };
         $c["ui.factory.symbol.glyph"] = function ($c) {
-            return new ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory();
+            return new ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory(
+                $c["lng"],
+            );
         };
         $c["ui.factory.symbol.icon"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Symbol\Icon\Factory();
@@ -378,6 +380,16 @@ class InitUIFramework
                             $c["ui.data_factory"],
                             $c["help.text_retriever"],
                             $c["ui.upload_limit_resolver"]
+                        ),
+                        new ILIAS\UI\Implementation\Component\Listing\ListingRendererFactory(
+                            $c["ui.factory"],
+                            $c["ui.template_factory"],
+                            $c["lng"],
+                            $c["ui.javascript_binding"],
+                            $c["ui.pathresolver"],
+                            $c["ui.data_factory"],
+                            $c["help.text_retriever"],
+                            $c["ui.upload_limit_resolver"],
                         ),
                     )
                 )

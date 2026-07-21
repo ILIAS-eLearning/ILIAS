@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\Stub;
 
 /**
  * Unit tests for ilWebLinkItemInternal
@@ -26,9 +27,9 @@ use PHPUnit\Framework\TestCase;
  */
 class ilWebResourceItemInternalTest extends TestCase
 {
-    protected function getItem(string $target, ilWebLinkParameter ...$parameters): ilWebLinkItemInternal
+    protected function getItem(string $target, ilWebLinkParameter ...$parameters): ilWebLinkItemInternal|Stub
     {
-        $item = $this->getMockBuilder(ilWebLinkItemInternal::class)
+        $item = $this->getStubBuilder(ilWebLinkItemInternal::class)
                      ->setConstructorArgs([
                          0,
                          1,
@@ -41,7 +42,7 @@ class ilWebResourceItemInternalTest extends TestCase
                          $parameters
                      ])
                      ->onlyMethods(['appendParameter', 'getStaticLink'])
-                     ->getMock();
+                     ->getStub();
         $item->method('appendParameter')->willReturnCallback(
             fn(string $link, string $key, string $value) => $link . '.' . $key . '.' . $value
         );
@@ -53,18 +54,12 @@ class ilWebResourceItemInternalTest extends TestCase
 
     public function testGetResolvedLink(): void
     {
-        $param1 = $this->getMockBuilder(ilWebLinkParameter::class)
-                       ->disableOriginalConstructor()
-                       ->onlyMethods(['appendToLink'])
-                       ->getMock();
+        $param1 = $this->createMock(ilWebLinkParameter::class);
         $param1->expects($this->once())
                ->method('appendToLink')
                ->with('tar:13')
                ->willReturn('tar:13?param1');
-        $param2 = $this->getMockBuilder(ilWebLinkParameter::class)
-                       ->disableOriginalConstructor()
-                       ->onlyMethods(['appendToLink'])
-                       ->getMock();
+        $param2 = $this->createMock(ilWebLinkParameter::class);
         $param2->expects($this->once())
                ->method('appendToLink')
                ->with('tar:13?param1')

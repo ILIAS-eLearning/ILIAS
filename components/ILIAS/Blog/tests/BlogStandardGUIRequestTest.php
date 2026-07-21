@@ -25,8 +25,6 @@ use PHPUnit\Framework\TestCase;
  */
 class BlogStandardGUIRequestTest extends TestCase
 {
-    //protected $backupGlobals = false;
-
     protected function tearDown(): void
     {
     }
@@ -45,7 +43,7 @@ class BlogStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testRefId()
+    public function testRefId(): void
     {
         $request = $this->getRequest(
             [
@@ -60,7 +58,7 @@ class BlogStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testBlogPage()
+    public function testBlogPage(): void
     {
         $request = $this->getRequest(
             [
@@ -75,7 +73,7 @@ class BlogStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testObjIds()
+    public function testObjIds(): void
     {
         $request = $this->getRequest(
             [
@@ -91,7 +89,7 @@ class BlogStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testIds()
+    public function testIds(): void
     {
         $request = $this->getRequest(
             [
@@ -107,7 +105,7 @@ class BlogStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testUserLogin()
+    public function testUserLogin(): void
     {
         $request = $this->getRequest(
             [
@@ -122,7 +120,7 @@ class BlogStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testKeyword()
+    public function testKeyword(): void
     {
         $request = $this->getRequest(
             [

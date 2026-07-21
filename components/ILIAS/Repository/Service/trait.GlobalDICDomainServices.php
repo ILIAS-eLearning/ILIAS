@@ -152,4 +152,9 @@ trait GlobalDICDomainServices
     {
         return $this->DIC->database();
     }
+
+    public function lom(): LOMServices
+    {
+        return $this->DIC->learningObjectMetadata();
+    }
 }

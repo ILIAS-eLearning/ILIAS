@@ -30,6 +30,7 @@ use ILIAS\Blog\Posting\PostingManager;
 use ILIAS\Notes;
 use ILIAS\Blog\News\NewsManager;
 use ILIAS\Blog\Notification\NotificationManager;
+use ILIAS\Blog\Export\ExportManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -50,6 +51,15 @@ class InternalDomainService
         $this->dic = $DIC;
     }
 
+    public function export(): ExportManager
+    {
+        return self::$instance["export"] ??= new ExportManager(
+            $this->data,
+            $this->repo,
+            $this
+        );
+    }
+
     public function exercise(int $a_node_id): BlogExercise
     {
         return new BlogExercise(
@@ -60,13 +70,14 @@ class InternalDomainService
     }
 
     public function perm(
-        $access_handler,
+        \ilWorkspaceAccessHandler|\ilAccessHandler $access_handler,
         ?int $node_id,
         int $id_type,
         int $user_id,
         int $owner
     ): PermissionManager {
         return new PermissionManager(
+            $this,
             $access_handler,
             $node_id,
             $id_type,
@@ -104,12 +115,26 @@ class InternalDomainService
         );
     }
 
+    public function postingList(
+        int $obj_id,
+        Settings\Settings $settings,
+        bool $include_inactive = true
+    ): Posting\PostingList {
+        return new Posting\PostingList(
+            $obj_id,
+            $this->posting(),
+            $settings,
+            $include_inactive
+        );
+    }
+
     public function news(): NewsManager
     {
         return self::$instance["news"] ??= new NewsManager(
             $this->data,
             $this->repo,
-            $this
+            $this,
+            $this->dic->blog()->internal()->gui()
         );
     }
 

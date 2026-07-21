@@ -165,22 +165,29 @@ class ilBookingObject
 
     protected function read(): void
     {
-        $ilDB = $this->db;
-
-        if ($this->id) {
-            $set = $ilDB->query('SELECT *' .
-                ' FROM booking_object' .
-                ' WHERE booking_object_id = ' . $ilDB->quote($this->id, 'integer'));
-            $row = $ilDB->fetchAssoc($set);
-            $this->setTitle((string) $row['title']);
-            $this->setDescription((string) $row['description']);
-            $this->setPoolId((int) $row['pool_id']);
-            $this->setScheduleId($row['schedule_id']);
-            $this->setNrOfItems((int) $row['nr_items']);
-            $this->setFile((string) $row['info_file']);
-            $this->setPostText((string) $row['post_text']);
-            $this->setPostFile((string) $row['post_file']);
+        if (!$this->id) {
+            return;
         }
+
+        $set = $this->db->queryF(
+            'SELECT * FROM booking_object WHERE booking_object_id = %s',
+            [ilDBConstants::T_INTEGER],
+            [$this->id]
+        );
+        $row = $this->db->fetchAssoc($set);
+
+        if ($row === null || $row === []) {
+            return;
+        }
+
+        $this->setTitle((string) $row['title']);
+        $this->setDescription((string) $row['description']);
+        $this->setPoolId((int) $row['pool_id']);
+        $this->setScheduleId($row['schedule_id']);
+        $this->setNrOfItems((int) $row['nr_items']);
+        $this->setFile((string) $row['info_file']);
+        $this->setPostText((string) $row['post_text']);
+        $this->setPostFile((string) $row['post_file']);
     }
 
     /**

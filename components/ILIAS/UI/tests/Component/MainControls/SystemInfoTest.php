@@ -34,6 +34,8 @@ require_once(__DIR__ . "/../../Base.php");
  */
 class SystemInfoTest extends ILIAS_UI_TestBase
 {
+    use LanguageStubs;
+
     private SignalGenerator $sig_gen;
 
     public function setUp(): void
@@ -233,11 +235,12 @@ EOT;
 
     public function getUIFactory(): NoUIFactory
     {
-        $factory = new class () extends NoUIFactory {
+        $factory = new class ($this->createRelayArgumentLanguageStub()) extends NoUIFactory {
             public SignalGenerator $sig_gen;
 
-            public function __construct()
-            {
+            public function __construct(
+                protected \ILIAS\Language\Language $language,
+            ) {
                 $this->sig_gen = new SignalGenerator();
             }
 
@@ -245,7 +248,7 @@ EOT;
             {
                 return new Factory(
                     new \ILIAS\UI\Implementation\Component\Symbol\Icon\Factory(),
-                    new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory(),
+                    new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory($this->language),
                     new \ILIAS\UI\Implementation\Component\Symbol\Avatar\Factory()
                 );
             }

@@ -46,6 +46,7 @@ class ilTestSkillAdministrationGUITest extends ilTestBaseTestCase
             $this->createMock(ILIAS\Test\Logging\TestLogger::class),
             $this->createMock(ilTree::class),
             $this->createMock(ilComponentRepository::class),
+            $this->createMock(ilComponentFactory::class),
             $this->getTestObjMock(),
             $this->createMock(GeneralQuestionPropertiesRepository::class),
             $this->createMock(RequestDataCollector::class),

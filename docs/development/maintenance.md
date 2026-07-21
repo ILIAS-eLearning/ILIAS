@@ -259,8 +259,8 @@ of ILIAS. The file contains the following fields:
 
 * **Bibliographic List Item**
     * Authority to Sign off on Conceptual Changes: [lschmidt-tf](https://docu.ilias.de/go/usr/120143)
-    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087), [maalers](https://docu.ilias.de/go/usr/119188)
-    * Authority to Curate Test Cases: [maalers](https://docu.ilias.de/go/usr/119188)
+    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087), [maalers](https://docu.ilias.de/go/usr/119188), [mhomann-tf](https://docu.ilias.de/go/usr/120211)
+    * Authority to Curate Test Cases: [maalers](https://docu.ilias.de/go/usr/119188), [mhomann-tf](https://docu.ilias.de/go/usr/120211)
     * Authority to (De-)Assign Authorities: [maalers](https://docu.ilias.de/go/usr/119188)
     * Assignee for Issues: [maalers](https://docu.ilias.de/go/usr/119188)
     * Assignee for Security Reports: [maalers](https://docu.ilias.de/go/usr/119188)
@@ -556,7 +556,7 @@ of ILIAS. The file contains the following fields:
 
 * **ECS Interface**
     * Authority to Sign off on Conceptual Changes: [bogen](https://docu.ilias.de/go/usr/13815), [mglaubitz](https://docu.ilias.de/go/usr/28309)
-    * Authority to Sign off on Code Changes: [sdyhr](https://docu.ilias.de/go/usr/102107)
+    * Authority to Sign off on Code Changes: [sdyhr](https://docu.ilias.de/go/usr/102107), [tjoussen](https://docu.ilias.de/go/usr/103745)
     * Authority to Curate Test Cases: [jheim](https://docu.ilias.de/go/usr/40167), [SIG CampusConnect und ECS(A)](https://docu.ilias.de/go/grp/7893)
     * Authority to (De-)Assign Authorities: [bogen](https://docu.ilias.de/go/usr/13815), [mglaubitz](https://docu.ilias.de/go/usr/28309)
     * Assignee for Issues: [sdyhr](https://docu.ilias.de/go/usr/102107)
@@ -1176,7 +1176,7 @@ of ILIAS. The file contains the following fields:
 
 * **Organisational Units**
     * Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/go/usr/21087), [lschmidt-tf](https://docu.ilias.de/go/usr/120143)
-    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087), [maalers](https://docu.ilias.de/go/usr/119188)
+    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087), [maalers](https://docu.ilias.de/go/usr/119188), [mhomann-tf](https://docu.ilias.de/go/usr/120211)
     * Authority to Curate Test Cases: [wischniak](https://docu.ilias.de/go/usr/21896)
     * Authority to (De-)Assign Authorities: [maalers](https://docu.ilias.de/go/usr/119188)
     * Assignee for Issues: [maalers](https://docu.ilias.de/go/usr/119188) 
@@ -1385,8 +1385,8 @@ of ILIAS. The file contains the following fields:
 
 * **Study Programme**
     * Authority to Sign off on Conceptual Changes: [lschmidt-tf](https://docu.ilias.de/go/usr/120143)
-    * Authority to Sign off on Code Changes: [maalers](https://docu.ilias.de/go/usr/119188)
-    * Authority to Curate Test Cases: [maalers](https://docu.ilias.de/go/usr/119188)
+    * Authority to Sign off on Code Changes: [maalers](https://docu.ilias.de/go/usr/119188), [mhomann-tf](https://docu.ilias.de/go/usr/120211)
+    * Authority to Curate Test Cases: [maalers](https://docu.ilias.de/go/usr/119188), [mhomann-tf](https://docu.ilias.de/go/usr/120211)
     * Authority to (De-)Assign Authorities: [maalers](https://docu.ilias.de/go/usr/119188)
     * Assignee for Issues: [maalers](https://docu.ilias.de/go/usr/119188)
     * Assignee for Security Reports: [maalers](https://docu.ilias.de/go/usr/119188)

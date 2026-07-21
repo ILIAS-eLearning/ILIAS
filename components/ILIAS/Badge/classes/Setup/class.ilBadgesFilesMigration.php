@@ -112,6 +112,13 @@ class ilBadgesFilesMigration implements Migration
                 . ' (table: ' . self::TABLE_NAME . ') because no image is set.',
                 true
             );
+            $this->helper->getDatabase()->update(
+                self::TABLE_NAME,
+                [
+                    'image_rid' => [ilDBConstants::T_TEXT, '-'],
+                ],
+                ['id' => [ilDBConstants::T_INTEGER, $id]]
+            );
         }
     }
 

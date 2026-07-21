@@ -28,9 +28,9 @@ class ilCollectionTest extends TestCase
 {
     public function testSetCollection(): void
     {
-        $set1 = $this->createMock(ilFileValidationSetHandler::class);
-        $set2 = $this->createMock(ilFileValidationSetHandler::class);
-        $set3 = $this->createMock(ilFileValidationSetHandler::class);
+        $set1 = $this->createStub(ilFileValidationSetHandler::class);
+        $set2 = $this->createStub(ilFileValidationSetHandler::class);
+        $set3 = $this->createStub(ilFileValidationSetHandler::class);
         $sets = [$set1, $set2, $set3];
 
         $collection = (new ilFileValidationSetCollection())

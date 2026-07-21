@@ -29,4 +29,8 @@ interface IdentifierHandlerInterface
         SetInterface $set,
         RessourceIDInterface $ressource_id
     ): SetInterface;
+
+    public function preparePlaceholderTitleIfEmpty(
+        SetInterface $set
+    ): SetInterface;
 }

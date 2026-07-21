@@ -74,7 +74,8 @@ class SelfAssQuestionRetrieval implements RetrievalInterface
                 $this->domain->database(),
                 $this->domain->lng(),
                 $this->domain->refinery(),
-                $this->domain->componentRepository()
+                $this->domain->componentRepository(),
+                $this->domain->componentFactory()
             );
             $questionList->setParentObjId($this->pool_obj_id);
             $questionList->load();

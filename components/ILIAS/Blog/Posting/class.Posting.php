@@ -31,7 +31,8 @@ class Posting
         protected ilDateTime $created,
         protected int $author,
         protected bool $approved,
-        protected ?ilDateTime $last_withdrawn
+        protected ?ilDateTime $last_withdrawn,
+        protected bool $active,
     ) {
     }
 
@@ -69,4 +70,10 @@ class Posting
     {
         return $this->last_withdrawn;
     }
+
+    public function isActive(): bool
+    {
+        return $this->active;
+    }
+
 }

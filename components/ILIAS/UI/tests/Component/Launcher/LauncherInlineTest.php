@@ -28,6 +28,8 @@ use ILIAS\Refinery\Factory as Refinery;
 
 class LauncherInlineTest extends ILIAS_UI_TestBase
 {
+    use LanguageStubs;
+
     protected ILIAS\Data\Factory $df;
     protected ILIAS\Language\Language $language;
 
@@ -65,9 +67,14 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
 
     public function getUIFactory(): NoUIFactory
     {
-        $factory = new class () extends NoUIFactory {
+        $factory = new class ($this->createRelayArgumentLanguageStub()) extends NoUIFactory {
             public I\SignalGenerator $sig_gen;
             public I\Input\Field\Factory $input_factory;
+
+            public function __construct(
+                protected \ILIAS\Language\Language $language,
+            ) {
+            }
 
             public function button(): I\Button\Factory
             {
@@ -77,7 +84,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
             {
                 return new I\Symbol\Factory(
                     new I\Symbol\Icon\Factory(),
-                    new I\Symbol\Glyph\Factory(),
+                    new I\Symbol\Glyph\Factory($this->language),
                     new I\Symbol\Avatar\Factory()
                 );
             }

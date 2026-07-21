@@ -42,16 +42,12 @@ class CopyrightTest extends TestCase
 {
     protected function getIcon(): Icon
     {
-        return $this->getMockBuilder(IIcon::class)
-                    ->disableOriginalConstructor()
-                    ->getMock();
+        return $this->createStub(IIcon::class);
     }
 
     protected function getLink(): Link
     {
-        return $this->getMockBuilder(ILink::class)
-                    ->disableOriginalConstructor()
-                    ->getMock();
+        return $this->createStub(ILink::class);
     }
 
     protected function getRenderer(

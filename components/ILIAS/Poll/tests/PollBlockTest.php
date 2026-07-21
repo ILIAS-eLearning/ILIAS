@@ -48,8 +48,8 @@ class PollBlockTest extends TestCase
         $dic = new ILIAS\DI\Container();
         $GLOBALS['DIC'] = $dic;
 
-        $db = $this->createMock(ilDBInterface::class);
-        $lng = $this->createMock(ilLanguage::class);
+        $db = $this->createStub(ilDBInterface::class);
+        $lng = $this->createStub(ilLanguage::class);
 
         $this->setGlobalVariable(
             "ilDB",

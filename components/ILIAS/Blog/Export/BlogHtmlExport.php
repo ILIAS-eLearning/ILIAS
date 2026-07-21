@@ -25,6 +25,9 @@ use ILIAS\components\Export\HTML\Util;
 
 class BlogHtmlExport
 {
+    protected ?\ILIAS\Blog\Settings\Settings $settings;
+    protected \ILIAS\Blog\InternalGUIService $gui;
+    protected \ILIAS\Blog\Posting\PostingManager $posting_manager;
     protected \ILIAS\components\Export\HTML\ExportCollector $collector;
     protected \ilObjBlog $blog;
     protected \ilObjBlogGUI $blog_gui;
@@ -46,6 +49,7 @@ class BlogHtmlExport
 
     public function __construct(
         \ilObjBlogGUI $blog_gui,
+        protected bool $is_repository,
         string $exp_dir,
         string $sub_dir,
         bool $set_export_key = true
@@ -55,11 +59,15 @@ class BlogHtmlExport
         $this->blog_gui = $blog_gui;
         /** @var \ilObjBlog $blog */
         $blog = $blog_gui->getObject();
+        $this->blog = $blog;
+
+        $blog_service = $DIC->blog()->internal();
+        $this->gui = $blog_service->gui();
+        $this->settings = $blog_service->domain()->blogSettings()->getByObjId($blog->getId());
+
         $this->collector = $DIC->export()->domain()->html()->collector($blog->getId());
         $this->collector->init();
 
-        $this->blog = $blog;
-        //$this->export_dir = $exp_dir;
         $this->sub_dir = $sub_dir;
         $this->target_dir = $exp_dir . "/" . $sub_dir;
 
@@ -80,11 +88,12 @@ class BlogHtmlExport
         }
 
         $cs = $DIC->contentStyle();
-        if ($this->blog_gui->getIdType() === \ilObject2GUI::REPOSITORY_NODE_ID) {
+        if ($this->is_repository) {
             $this->content_style_domain = $cs->domain()->styleForRefId($this->blog->getRefId());
         } else {
             $this->content_style_domain = $cs->domain()->styleForObjId($this->blog->getId());
         }
+        $this->posting_manager = $blog_service->domain()->posting();
     }
     protected function init(): void
     {
@@ -174,7 +183,17 @@ class BlogHtmlExport
         // lists
 
         // global nav
-        $nav = $this->blog_gui->renderNavigation("", "", $a_link_template);
+        $nav = $this->gui->navigation()->sideBar(
+            null,
+            $this->gui->navigation()->exportLink(
+                $a_link_template,
+                []
+            ),
+            $this->settings
+        )->render(
+            $this->blog_gui,
+            $this->items
+        );
 
         // month list
         $has_index = false;
@@ -191,7 +210,7 @@ class BlogHtmlExport
                 $tpl = $a_tpl_callback();
             }
 
-            $file = self::buildExportLink($a_link_template, "list", $month, $this->keywords);
+            $file = $this->buildExportLink($a_link_template, "list", $month, $this->keywords);
             $file = $this->writeExportFile($file, $tpl, $list, $nav);
 
             if (!$has_index) {
@@ -215,30 +234,31 @@ class BlogHtmlExport
                 $tpl = $a_tpl_callback();
             }
 
-            $file = self::buildExportLink($a_link_template, "keyword", $keyword, $this->keywords);
+            $file = $this->buildExportLink($a_link_template, "keyword", $keyword, $this->keywords);
             $file = $this->writeExportFile($file, $tpl, $list, $nav);
         }
 
 
         // single postings
 
-        $pages = \ilBlogPosting::getAllPostings($this->blog->getId(), 0);
+        $pages = $this->posting_manager->getAllPostings($this->blog->getId(), 0);
         foreach ($pages as $page) {
-            if (\ilBlogPosting::_exists("blp", $page["id"])) {
-                $blp_gui = new \ilBlogPostingGUI(0, null, $page["id"]);
+            $page_id = $page->getId();
+            if (\ilBlogPosting::_exists("blp", $page_id)) {
+                $blp_gui = new \ilBlogPostingGUI(0, null, $page_id);
                 $blp_gui->setOutputMode("offline");
                 $blp_gui->setFullscreenLink("fullscreen.html"); // #12930 - see page.xsl
                 $blp_gui->add_date = true;
                 $page_content = $blp_gui->showPage();
 
-                $back = self::buildExportLink(
+                $back = $this->buildExportLink(
                     $a_link_template,
                     "list",
-                    substr($page["created"]->get(IL_CAL_DATE), 0, 7),
+                    substr($page->getCreated()->get(IL_CAL_DATE), 0, 7),
                     $this->keywords
                 );
 
-                $file = self::buildExportLink($a_link_template, "posting", (string) $page["id"], $this->keywords);
+                $file = $this->buildExportLink($a_link_template, "posting", (string) $page_id, $this->keywords);
 
                 if (!$a_tpl_callback) {
                     $tpl = $this->getInitialisedTemplate();
@@ -251,17 +271,23 @@ class BlogHtmlExport
                     : "";
 
                 // posting nav
-                $nav = $this->blog_gui->renderNavigation(
-                    "",
-                    "",
-                    $a_link_template,
+                $nav = $this->gui->navigation()->sideBar(
+                    null,
+                    $this->gui->navigation()->exportLink(
+                        $a_link_template,
+                        []
+                    ),
+                    $this->settings
+                )->render(
+                    $this->blog_gui,
+                    $this->items,
                     false,
-                    $page["id"]
+                    $page_id
                 );
 
                 $this->writeExportFile($file, $tpl, $page_content, $nav, (bool) $back, $comments);
 
-                $this->co_page_html_export->collectPageElements("blp:pg", $page["id"]);
+                $this->co_page_html_export->collectPageElements("blp:pg", $page_id);
             }
         }
 
@@ -292,10 +318,10 @@ class BlogHtmlExport
 
     public function collectAllPagesPageElements(\ilCOPageHTMLExport $co_page_html_export): void
     {
-        $pages = \ilBlogPosting::getAllPostings($this->blog->getId(), 0);
-        foreach ($pages as $page) {
-            if (\ilBlogPosting::_exists("blp", $page["id"])) {
-                $co_page_html_export->collectPageElements("blp:pg", $page["id"]);
+        $page_ids = $this->posting_manager->getAllPostingIds($this->blog->getId(), 0);
+        foreach ($page_ids as $page_id) {
+            if (\ilBlogPosting::_exists("blp", $page_id)) {
+                $co_page_html_export->collectPageElements("blp:pg", $page_id);
             }
         }
     }
@@ -303,7 +329,7 @@ class BlogHtmlExport
     /**
      * Build static export link
      */
-    public static function buildExportLink(
+    public function buildExportLink(
         string $a_template,
         string $a_type,
         string $a_id,
@@ -336,8 +362,6 @@ class BlogHtmlExport
     protected function getInitialisedTemplate(
         string $a_back_url = ""
     ): \ilGlobalPageTemplate {
-        global $DIC;
-
         $this->export_util->resetGlobalScreen();
 
         $location_stylesheet = \ilUtil::getStyleSheetLocation();
@@ -347,13 +371,18 @@ class BlogHtmlExport
         );
         \ilPCQuestion::resetInitialState();
 
-        $tabs = $DIC->tabs();
+        $tabs = $this->tabs;
         $tabs->clearTargets();
         $tabs->clearSubTabs();
         if ($a_back_url) {
             $tabs->setBackTarget($this->lng->txt("back"), $a_back_url);
         }
-        $tpl = new \ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
+
+        $tpl = new \ilGlobalPageTemplate(
+            $this->global_screen,
+            $this->gui->ui(),
+            $this->gui->http()
+        );
 
         $this->co_page_html_export->getPreparedMainTemplate($tpl);
 

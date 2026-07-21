@@ -111,25 +111,6 @@ class ilObjBlogAccess extends ilObjectAccess
         return false;
     }
 
-    public static function isCommentsExportPossible(int $blog_id): bool
-    {
-        global $DIC;
-
-        $setting = $DIC->settings();
-        $notes = $DIC->notes();
-        $privacy = ilPrivacySettings::getInstance();
-        if ($setting->get("disable_comments")) {
-            return false;
-        }
-        if (!$privacy->enabledCommentsExport()) {
-            return false;
-        }
-        if (!$notes->domain()->commentsActive($blog_id)) {
-            return false;
-        }
-        return true;
-    }
-
     public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
         switch ($permission) {

@@ -26,33 +26,17 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilObjQuestionPoolTaxonomyEditingCommandForwarder
 {
-    protected Service $taxonomy;
-    protected ilObjQuestionPool $poolOBJ;
-    protected ilDBInterface $db;
-    protected Refinery $refinery;
-    protected ilComponentRepository $component_repository;
-    protected ilCtrlInterface $ctrl;
-    protected ilTabsGUI $tabs ;
-    protected ilLanguage $lng;
-
     public function __construct(
-        ilObjQuestionPool $poolOBJ,
-        ilDBInterface $db,
-        Refinery $refinery,
-        ilComponentRepository $component_repository,
-        ilCtrl $ctrl,
-        ilTabsGUI $tabs,
-        ilLanguage $lng,
-        Service $taxonomy
+        private readonly ilObjQuestionPool $poolOBJ,
+        private readonly ilDBInterface $db,
+        private readonly Refinery $refinery,
+        private readonly ilComponentRepository $component_repository,
+        private readonly ilComponentFactory $component_factory,
+        private readonly ilCtrl $ctrl,
+        private readonly ilTabsGUI $tabs,
+        private readonly ilLanguage $lng,
+        private readonly Service $taxonomy
     ) {
-        $this->poolOBJ = $poolOBJ;
-        $this->db = $db;
-        $this->refinery = $refinery;
-        $this->component_repository = $component_repository;
-        $this->ctrl = $ctrl;
-        $this->tabs = $tabs;
-        $this->lng = $lng;
-        $this->taxonomy = $taxonomy;
     }
 
     public function forward(): void
@@ -64,7 +48,8 @@ class ilObjQuestionPoolTaxonomyEditingCommandForwarder
             $this->db,
             $this->lng,
             $this->refinery,
-            $this->component_repository
+            $this->component_repository,
+            $this->component_factory
         );
 
         $questionList->setParentObjId($this->poolOBJ->getId());

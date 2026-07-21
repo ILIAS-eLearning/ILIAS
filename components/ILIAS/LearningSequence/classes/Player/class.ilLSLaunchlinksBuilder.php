@@ -25,9 +25,6 @@ declare(strict_types=1);
  */
 class ilLSLaunchlinksBuilder
 {
-    public const PERM_PARTICIPATE = 'participate';
-    public const PERM_UNPARTICIPATE = 'unparticipate';
-
     public const CMD_STANDARD = ilObjLearningSequenceLearnerGUI::CMD_STANDARD;
     public const CMD_EXTRO = ilObjLearningSequenceLearnerGUI::CMD_EXTRO;
     public const CMD_START = ilObjLearningSequenceLearnerGUI::CMD_START;
@@ -49,7 +46,7 @@ class ilLSLaunchlinksBuilder
 
     protected function mayJoin(): bool
     {
-        return $this->access->checkAccess(self::PERM_PARTICIPATE, '', $this->lso_ref_id);
+        return $this->access->checkAccess('read', '', $this->lso_ref_id);
     }
 
     public function currentUserMayUnparticipate(): bool
@@ -59,7 +56,7 @@ class ilLSLaunchlinksBuilder
 
     protected function mayUnparticipate(): bool
     {
-        return $this->access->checkAccess(self::PERM_UNPARTICIPATE, '', $this->lso_ref_id);
+        return $this->isMember() && $this->access->checkAccess('read', '', $this->lso_ref_id);
     }
 
     protected function isMember(): bool

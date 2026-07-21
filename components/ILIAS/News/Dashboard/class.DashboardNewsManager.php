@@ -74,35 +74,18 @@ class DashboardNewsManager
      */
     public function getPeriodOptions(): array
     {
-        $lng = $this->domain->lng();
-        $news_set = new \ilSetting("news");
-        $allow_shorter_periods = $news_set->get("allow_shorter_periods");
-        $allow_longer_periods = $news_set->get("allow_longer_periods");
-        $default_per = \ilNewsItem::_lookupDefaultPDPeriod();
-
         $options = [
-            "7" => $lng->txt("news_period_1_week"),
-            "30" => $lng->txt("news_period_1_month"),
-            "366" => $lng->txt("news_period_1_year")
+            7 => $this->domain->lng()->txt('news_period_1_week'),
+            30 => $this->domain->lng()->txt('news_period_1_month'),
+            366 => $this->domain->lng()->txt('news_period_1_year')
         ];
 
+        $dash_period = $this->getDashboardNewsPeriod();
+        if (!isset($options[$dash_period])) {
+            $options[$dash_period] = sprintf($this->domain->lng()->txt('news_period_x_days'), $dash_period);
+        }
+
         return $options;
-
-        /*
-        $unset = [];
-        foreach ($options as $k => $opt) {
-            if (!$allow_shorter_periods && ($k < $default_per)) {
-                $unset[$k] = $k;
-            }
-            if (!$allow_longer_periods && ($k > $default_per)) {
-                $unset[$k] = $k;
-            }
-        }
-        foreach ($unset as $k) {
-            unset($options[$k]);
-        }
-
-        return $options;*/
     }
 
     /**
@@ -110,11 +93,9 @@ class DashboardNewsManager
      */
     public function getContextOptions(): array
     {
-        $context_count = $this->repo->news()->countByContextsBatch(
-            $this->domain->resolver()->getAccessibleContexts(
-                $this->domain->user(),
-                new NewsCriteria(period: $this->getDashboardNewsPeriod(), only_public: false)
-            )
+        $context_count = $this->domain->collection()->countNewsByContext(
+            $this->domain->user(),
+            new NewsCriteria(period: $this->getDashboardNewsPeriod(), only_public: false)
         );
 
         $options = [];

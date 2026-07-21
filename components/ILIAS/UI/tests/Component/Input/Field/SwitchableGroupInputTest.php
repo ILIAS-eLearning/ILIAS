@@ -205,12 +205,6 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
         $this->assertNotSame($this->switchable_group, $new_group);
     }
 
-    public function testGroupOnlyDoesNotAcceptNonArrayValue(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->switchable_group->withValue(null);
-    }
-
     public function testGroupOnlyDoesNoAcceptArrayValuesWithWrongLength(): void
     {
         $this->expectException(InvalidArgumentException::class);

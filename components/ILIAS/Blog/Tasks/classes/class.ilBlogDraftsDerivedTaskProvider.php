@@ -24,6 +24,7 @@ declare(strict_types=1);
  */
 class ilBlogDraftsDerivedTaskProvider implements ilDerivedTaskProvider
 {
+    protected \ILIAS\Blog\InternalDomainService $domain;
     protected \ILIAS\Blog\InternalGUIService $gui;
     protected ilTaskService $taskService;
     protected \ilAccess $accessHandler;
@@ -36,7 +37,9 @@ class ilBlogDraftsDerivedTaskProvider implements ilDerivedTaskProvider
     ) {
         global $DIC;
 
-        $this->gui = $DIC->blog()->internal()->gui();
+        $service = $DIC->blog()->internal();
+        $this->gui = $service->gui();
+        $this->domain = $service->domain();
         $this->taskService = $taskService;
         $this->accessHandler = $accessHandler;
         $this->lng = $lng;
@@ -53,8 +56,7 @@ class ilBlogDraftsDerivedTaskProvider implements ilDerivedTaskProvider
     {
         $tasks = [];
 
-        global $DIC;
-        $mgr = $DIC->blog()->internal()->domain()->posting();
+        $mgr = $this->domain->posting();
         $blogs = $mgr->searchBlogsByAuthor($user_id);
         foreach ($blogs as $blog_id) {
             $posts = $mgr->getAllByBlog($blog_id);

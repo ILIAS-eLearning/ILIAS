@@ -43,8 +43,8 @@ class PermanentLinkManager
     public function __construct(
         protected StaticUrl $static_url,
         InternalGUIService $gui,
-        protected $ref_id = 0,
-        protected $wsp_id = 0
+        protected int $ref_id = 0,
+        protected int $wsp_id = 0
     ) {
         $this->gui = $gui;
         if ($ref_id === 0 && !$wsp_id) {

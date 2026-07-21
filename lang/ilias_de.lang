@@ -2539,11 +2539,13 @@ book#:#book_add_participant#:#Teilnehmer hinzufügen
 book#:#book_add_schedule#:#Zeitplan hinzufügen
 book#:#book_additional_info_file#:#Zusätzliche Beschreibung
 book#:#book_all#:#Alle anzeigen
+book#:#book_all_day#:#Ganztägig
 book#:#book_all_pools_need_schedules#:#Die Änderungen wurden nicht gespeichert. Alle ausgewählten Buchungspools benötigen mindestens einen Zeitplan.
 book#:#book_all_users#:#Alle Personen
 book#:#book_assign#:#Buchen
 book#:#book_assign_object#:#Für diese Person buchen
-book#:#book_assign_participant#:#Für andere Personen buchen
+book#:#book_assign_participant#:#Für andere Person buchen
+book#:#book_assign_participants#:#Für andere Person(en) buchen
 book#:#book_back_to_list#:#Zurück zur Liste
 book#:#book_bobj#:#Angebote
 book#:#book_book#:#Buchen
@@ -2565,9 +2567,13 @@ book#:#book_confirm_booking_schedule_number_of_objects#:#Buchungsbestätigung
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Bitte wählen Sie die Anzahl der zu buchenden Angebote.
 book#:#book_confirm_cancel#:#Sind Sie sicher, dass Sie die folgenden Buchungen stornieren möchten?
 book#:#book_confirm_cancel_aggregation#:#Anzahl Stornierungen
-book#:#book_confirm_delete#:#Sind Sie sicher, dass Sie die folgenden Angebote löschen wollen?
+book#:#book_confirm_cancel_info#:#Die ausgewählten Buchungen werden storniert.
+book#:#book_confirm_delete#:#Sind Sie sicher, dass Sie die folgenden Angebote löschen wollen inklusive aller zugehörigen Zeitfenster? Dabei werden auch alle zugehörigen Buchungen gelöscht.
+book#:#book_confirm_remove_participant#:#Sind Sie sicher, dass Sie die folgende(n) Teilnehmer entfernen wollen? Dabei werden alle zugehörigen Buchungen gelöscht.
 book#:#book_copy#:#Buchungspool kopieren
 book#:#book_create_objects#:#Angebote erstellen
+book#:#book_date_from#:#Von Datum
+book#:#book_date_to#:#Bis Datum
 book#:#book_deadline#:#Deadline
 book#:#book_deadline_hours#:#Bis n Stunden vor Beginn des Zeitfensters
 book#:#book_deadline_info#:#Minimale Zeit zwischen Buchung und Buchungszeitraum
@@ -2575,11 +2581,18 @@ book#:#book_deadline_options#:#Spätester Buchungszeitpunkt
 book#:#book_deadline_slot_end#:#Bis zum Ende des Zeitfensters
 book#:#book_deadline_slot_start#:#Bis zum Beginn des Zeitfensters
 book#:#book_deassign#:#Buchungen bearbeiten
+book#:#book_delete_object#:#Löschen
+book#:#book_deleted_booking#:#Gelöschte Buchung(en)
+book#:#book_deleted_object#:#Gelöschtes buchbares Objekt
 book#:#book_download_info#:#Zusätzliche Beschreibung herunterladen
 book#:#book_edit#:#Buchungspool bearbeiten
 book#:#book_edit_object#:#Angebot bearbeiten
 book#:#book_edit_schedule#:#Zeitplan bearbeiten
+book#:#book_filter_end_date#:#Enddatum
+book#:#book_filter_objects#:#Buchbare Objekte
 book#:#book_filter_past_reservations#:#Abgelaufene Buchungen anzeigen
+book#:#book_filter_period#:#Zeitraum
+book#:#book_filter_start_date#:#Startdatum
 book#:#book_fromto#:#Datumsbereich
 book#:#book_hours#:#Stunden vor Beginn des Zeitfensters
 book#:#book_is_used#:#In Benutzung
@@ -2594,14 +2607,23 @@ book#:#book_messages#:#Mitteilungen
 book#:#book_messages_info#:#Buchende können einer Buchung eine Mitteilung mitgeben.
 book#:#book_missing_availability#:#Es können leider nicht alle Termine gebucht werden.
 book#:#book_missing_items#:#Es fehlen $1.
+book#:#book_modal_booking_confirmation#:#Buchungsbestätigung
+book#:#book_modal_enter_quantity_intro#:#Bitte geben Sie die Anzahl der Buchungen ein.
+book#:#book_modal_recurrence#:#Wiederholung
+book#:#book_modal_recurrence_multiple#:#Mehrere Termine buchen
+book#:#book_modal_recurrence_single#:#Nur diesen Termin buchen
+book#:#book_modal_skipped_unknown_item#:#Unbekannte oder ungültige Auswahl (%s).
+book#:#book_modal_warning_skipped_selections#:#Einige ausgewählte Angebote oder Termine sind nicht buchbar und werden in dieser Buchungsbestätigung nicht berücksichtigt.
 book#:#book_new#:#Neuen Buchungspool anlegen
 book#:#book_no_bookings_for_you#:#Es wurden keine Buchungen für Sie durchgeführt.
 book#:#book_no_objects#:#Keine Buchungen
+book#:#book_no_objects_available#:#Keines der ausgewählten Angebote ist derzeit für eine Buchung verfügbar.
 book#:#book_no_of_objects#:#Anzahl Angebote
 book#:#book_no_pools_selected#:#Diesem Kurs ist kein Buchungspool zugewiesen. Buchungspools können über den Reiter „Ressourcen“ des Kurses zugewiesen werden.
 book#:#book_no_preferences_for_you#:#Sie haben keine Präferenzen abgespeichert.
 book#:#book_no_recurrence#:#Nur diesen Termin buchen
 book#:#book_not#:#Nicht
+book#:#book_not_cancelled#:#Nicht storniert
 book#:#book_not_enough_preferences#:#Sie haben nicht genügend Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
 book#:#book_notification#:#Benachrichtigungen über Reservierungen
 book#:#book_notification_cron_not_active#:#Achtung: Der notwendige Cron-Job "Benachrichtigungen über Reservierungen" ist zurzeit nicht aktiviert.
@@ -2613,18 +2635,24 @@ book#:#book_obj_select#:#Auswählen
 book#:#book_object_added#:#Ein Angebot wurde hinzugefügt.
 book#:#book_object_deleted#:#Das Angebot wurde gelöscht.
 book#:#book_object_selection#:#Angebotsauswahl
+book#:#book_object_title_or_description#:#Titel/Beschreibung
 book#:#book_object_updated#:#Das Angebot wurde geändert.
 book#:#book_objects_available#:#Verfügbare Angebote: %s
 book#:#book_open#:#Buchungspool öffnen
 book#:#book_overall_limit#:#Gesamtzahl der Buchungen pro Benutzer begrenzen
 book#:#book_overall_limit_warning#:#Sie haben die maximale Anzahl Buchungen erreicht.
+book#:#book_overall_limit_would_be_exceeded#:#Ungültige Auswahl. Die Gesamtzahl der Buchungen würde überschritten werden.
+book#:#book_participant#:#Teilnehmer
 book#:#book_participant_already_assigned#:#Mindestens eine Person war bereits zugewiesen.
 book#:#book_participant_assigned#:#Die Personen wurden hinzugefügt.
+book#:#book_participant_removed#:#Die Teilnehmer und alle zugehörigen Buchungen wurden erfolgreich entfernt.
+book#:#book_past_bookings#:#Vergangene Buchungen
 book#:#book_period#:#Dauer
 book#:#book_pool_added#:#Ein Buchungspool wurde angelegt.
 book#:#book_pool_selection#:#Auswahl Buchungspool
 book#:#book_post_booking_file#:#Datei
 book#:#book_post_booking_information#:#Informationen zur Buchung
+book#:#book_post_booking_information_for#:#Informationen zur Buchung von "%s"
 book#:#book_post_booking_text#:#Text
 book#:#book_post_booking_text_info#:#Die Platzhalter können genutzt werden, um Buchungsdetails zum Infotext hinzuzufügen.<br />Der Platzhalter [OBJECT] wird durch das jeweilige Angebot ersetzt.<br />Der Platzhalter [PERIOD] wird durch den gewählten Buchungszeitraum ersetzt.
 book#:#book_pref_book_cron#:#Buchung mit Präferenzen
@@ -2635,6 +2663,7 @@ book#:#book_pref_overview#:#Übersicht
 book#:#book_preference_info#:#Bitte wählen Sie %1 Präferenzen bis %2. Nach der Frist werden die Angebote automatisch zugeordnet. Die Präferenzen aller Beteiligten werden nach Möglichkeit berücksichtigt.
 book#:#book_preferences#:#Präferenzen
 book#:#book_preferences_saved#:#Die Präferenzen wurden gespeichert.
+book#:#book_present_bookings#:#Aktuelle und zukünftige Buchungen
 book#:#book_public_log#:#Benutzer sehen alle Buchungen
 book#:#book_public_log_info#:#Benutzer mit Leserecht können im Reiter „Buchungen“ auch Buchungen anderer Benutzer einsehen.
 book#:#book_recurrence#:#Wiederholung
@@ -2645,14 +2674,16 @@ book#:#book_reminder_day#:#Versenden
 book#:#book_reminder_day_info#:#Sendet eine Liste eigener anstehender Buchungen und zusätzlich eine Gesamtliste an Personen mit dem Recht „Einstellungen bearbeiten“. Bitte beachten Sie: Um Benachrichtigungen zu erhalten, müssen die Personen diese über das Menü „Aktionen“ oben rechts im Buchungspool „Benachrichtigungen“ aktiviert haben.
 book#:#book_reminder_days#:#Tage vor der Buchung
 book#:#book_reminder_setting#:#Per Mail an eigene Buchung erinnern
+book#:#book_remove_participants#:#Teilnehmer entfernen
 book#:#book_rerun_assignments#:#Zuweisungen erneut durchführen
 book#:#book_rerun_confirmation#:#Achtung. Die Zuweisung nach Präferenzen ist bereits erfolgt. In seltenen Fällen kann ein Abbruch des Prozesses zu keinen oder unvollständigen Buchungen führen und ein erneutes Starten des Prozesses notwendig machen. Bevor sie den automatischen Prozess erneut starten, müssen sie alle bestehenden Buchungen entfernen, um Mehrfachzuweisungen zu verhindern.
 book#:#book_reservation_available#:#%s verfügbar
+book#:#book_reservation_cancelled#:#Buchung(en) storniert.
 book#:#book_reservation_confirmed#:#Die Buchung wurde erfolgreich durchgeführt.
 book#:#book_reservation_failed#:#Die Buchung ist fehlgeschlagen.
 book#:#book_reservation_failed_overbooked#:#Die Buchung ist fehlgeschlagen, da das betreffende Angebot nicht mehr verfügbar ist.
-book#:#book_reservation_filter_period#:#Voreinstellung für den Filter „Datumsbereich“
-book#:#book_reservation_filter_period_info#:#Im Reiter „Buchungen“ wird der Filter „Datumsbereich“ auf diesen Wert ab dem aktuellen Datum voreingestellt.
+book#:#book_reservation_filter_period#:#Voreinstellung für den Filter Zeitraum
+book#:#book_reservation_filter_period_info#:#Im Reiter „Buchungen“ und "Angebote" wird der Filter „Zeitraum“ auf diesen Wert ab dem aktuellen Datum voreingestellt. Bei einem Wert von "0" wird kein Filter gesetzt.
 book#:#book_reservation_fix_info#:#Buchungen können nur für die Zeitfenster durchgeführt werden, die unten als verfügbar angegeben werden.
 book#:#book_reservation_overview#:#Buchungen aller Benutzer
 book#:#book_reservation_status_5#:#Storniert
@@ -2660,6 +2691,7 @@ book#:#book_reservation_title#:#Buchungsanfrage für
 book#:#book_reservations_list#:#Buchungen
 book#:#book_schedule#:#Zeitplan
 book#:#book_schedule_added#:#Ein Zeitplan wurde hinzugefügt.
+book#:#book_schedule_all_day#:#Ganztägiger Zeitplan
 book#:#book_schedule_days#:#Zeitfenster
 book#:#book_schedule_days_info#:#Gültige Zeiten für jeden Tag (HH:MM-HH:MM)
 book#:#book_schedule_deleted#:#Der Zeitplan wurde gelöscht.
@@ -2680,20 +2712,32 @@ book#:#book_select_pool#:#Pool auswählen
 book#:#book_set_cancel#:#Stornieren
 book#:#book_set_delete#:#Löschen
 book#:#book_show_message#:#Mitteilung anzeigen
+book#:#book_show_past_bookings#:#Abgelaufene Buchungen anzeigen
+book#:#book_some_reservations_unavailable#:#Einige der ausgewählten Angebote konnten nicht gebucht werden, da sie nicht mehr verfügbar sind.
+book#:#book_table#:#Tabelle
+book#:#book_table_col_availability#:#Verfügbarkeit
+book#:#book_table_col_datetime#:#Datum/Uhrzeit
 book#:#book_title_description_nr#:#Titel; Beschreibung; Anzahl
 book#:#book_title_description_nr_info#:#Geben Sie bitte Titel, Beschreibung und Anzahl getrennt durch ein Semikolon oder TAB ein. Nutzen Sie einen Zeile je Buchungsobjekt.
 book#:#book_too_many_preferences#:#Sie haben zu viele Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
 book#:#book_total_individual_bookings_limit#:#Begrenze die Gesamtanzahl an Buchungen, die von/für einzelne Teilnehmende durchgeführt werden können – über alle verfügbaren Objekte hinweg. Jedes buchbare Objekt kann dabei weiterhin nur einmal pro Teilnehmendem gebucht werden.
 book#:#book_type_warning#:#Es sind momentan keine Angebote vorhanden. Um den Pool nutzen zu können, müssen zuerst Angebote angelegt werden.
+book#:#book_view#:#Ansicht
 book#:#book_week#:#Wochenansicht
+book#:#book_week_no_objects_selected#:#Wählen Sie rechts unter ‘Angebotsauswahl‘ mindestens ein Angebot aus und klicken Sie auf den Button ‘Aktualisieren‘.
 book#:#book_your_bookings#:#Ihre Buchungen
 book#:#book_your_preferences#:#Ihre Präferenzen
 book#:#book_your_reservations#:#Ihre Buchungen
 book#:#booking_multiple_succesfully#:#Buchungen erfolgreich durchgeführt
 book#:#booking_nr_of_items#:#Anzahl
+book#:#booking_process_error#:#Bei der Verarbeitung Ihrer Buchung(en) ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.
+book#:#bookings_log#:#Buchungen
+book#:#delete_bookable_item#:#Löschen des Angebots
+book#:#no_valid_selection#:#Keine gültige Auswahl
 book#:#obj_book_duplicate#:#Buchungspool kopieren
 book#:#participants#:#Personen
 book#:#reservation_deleted#:#Buchung gelöscht
+book#:#schedule_type#:#Zeitplantyp
 buddysystem#:#buddy_allow_to_contact_me#:#Kontaktanfragen erlauben
 buddysystem#:#buddy_allow_to_contact_me_default_info#:#Bestimmt ob standardmässig Kontaktanfragen verschickt werden können.
 buddysystem#:#buddy_allow_to_contact_me_info#:#Wenn aktiviert, können andere Benutzer mir Kontaktanfragen senden.
@@ -4593,12 +4637,14 @@ common#:#mail_maxsize_attach#:#Maximale Größe des Mail-Anhangs
 common#:#mail_member#:#Mail an Mitglied
 common#:#mail_members#:#Mail an Mitglieder
 common#:#mail_message_scheduled#:#Mail planen
-common#:#mail_message_scheduled_info#:#Geplante Mails werden bis zum gewählten Zeitpunkt im Postausgang verbleiben.
+common#:#mail_message_scheduled_info#:#Geplante Mails bleiben bis zum gewählten Versandzeitpunkt im Postausgang. Beim Bearbeiten werden sie vorübergehend in Entwürfe verschoben, damit sie während der Bearbeitung nicht versendet werden. Nach dem erneuten Planen erscheinen sie wieder im Postausgang.
 common#:#mail_not_sent#:#Ihre Mail konnte nicht verschickt werden
 common#:#mail_schedule_error_no_datetime#:#Das Planen einer Mail erfordert ein Datum und eine Uhrzeit.
 common#:#mail_schedule_error_past_datetime#:#Mails können nicht in der Vergangenheit geplant werden.
 common#:#mail_schedule_scheduled_datetime#:#Geplanter Versandzeitpunkt
 common#:#mail_scheduled#:#Mail zur späteren Zustellung im Postausgang abgelegt.
+common#:#mail_scheduled_edit_compose_info#:#Sie bearbeiten eine geplante Mail. Der Versand ist pausiert, bis Sie die Mail erneut planen..
+common#:#mail_scheduled_edit_moved_info#:#Diese geplante Mail wurde vorübergehend in Entwürfe verschoben, damit sie während der Bearbeitung nicht versendet wird. Nach dem erneuten Planen erscheint sie wieder im Postausgang.
 common#:#mail_search_no#:#Es wurden keine passenden Ergebnisse gefunden
 common#:#mail_select_one#:#Sie müssen mindestens eine Mail auswählen
 common#:#mail_send_error#:#Fehler beim Verschicken der Mail
@@ -5660,6 +5706,7 @@ common#:#show_content#:#Inhalt anzeigen
 common#:#show_details#:#Details anzeigen
 common#:#show_filter#:#Filter anzeigen
 common#:#show_hidden_sections#:#Weitere Informationen anzeigen &raquo;
+common#:#show_less#:#Weniger zeigen
 common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
 common#:#show_more#:#Mehr zeigen
@@ -10495,6 +10542,7 @@ gsfo#:#entries_add#:#Eintrag hinzufügen
 gsfo#:#entries_edit#:#Einträge bearbeiten
 gsfo#:#entries_parent#:#Gruppe auswählen
 gsfo#:#entries_select_parent#:#Eintrag in Gruppe verschieben
+gsfo#:#entries_target_group#:#Ziel wählen
 gsfo#:#entry_action#:#Link
 gsfo#:#entry_action_info#:#Geben Sie die vollständige URL einschließlich des Protokolls an (z. B. https://www.ilias.de)
 gsfo#:#entry_activation_toggled#:#Aktivierung wurde umgeschaltet
@@ -10503,6 +10551,7 @@ gsfo#:#entry_active_info#:#Diesen Eintrag aktivieren
 gsfo#:#entry_add#:#Eintrag hinzufügen
 gsfo#:#entry_delete#:#Löschen
 gsfo#:#entry_deleted#:#Gelöscht
+gsfo#:#entry_deleted_failed#:#Löschen nicht möglich
 gsfo#:#entry_edit#:#Bearbeiten
 gsfo#:#entry_external#:#In neuem Tab öffnen
 gsfo#:#entry_move#:#Verschieben
@@ -10525,6 +10574,7 @@ gsfo#:#group_toggle_activation#:#(De-)Aktivieren
 gsfo#:#group_translate#:#Übersetzen
 gsfo#:#info_not_deletable_core#:#Standardelemente können nicht gelöscht werden.
 gsfo#:#info_not_deletable_not_empty#:#Gruppen mit Einträgen können nicht gelöscht werden.
+gsfo#:#item_moved#:#Eintrag verschoben
 gsfo#:#legal_information#:#Rechtliche Informationen
 gsfo#:#order_saved#:#Reihenfolge gespeichert
 gsfo#:#permanent#:#permanent
@@ -10775,6 +10825,13 @@ itgr#:#itgr_assignment_to_other_itgr#:#Bereits einem anderen Objekteblock zugeor
 itgr#:#itgr_behaviour#:#Verhalten
 itgr#:#itgr_behaviour_info#:#Das System merkt sich den Zustand (geöffnet/geschlossen) je Benutzer bis zur Abmeldung (Logout).
 itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks nicht mit ausgegeben.
+itgr#:#itgr_display#:#Anzeige
+itgr#:#itgr_display_with_title#:#Mit Titel
+itgr#:#itgr_display_with_title_and_toggleable#:#Mit Titel, Objekteblock ein- und ausklappbar
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Ausgangszustand
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#zunächst geschlossen
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#zunächst geöffnet
+itgr#:#itgr_display_without_title#:#Ohne Titel
 itgr#:#itgr_edit#:#Einstellungen des Objekteblocks
 itgr#:#itgr_expandable_closed#:#Ausklappbar (zunächst geschlossen)
 itgr#:#itgr_expandable_open#:#Ausklappbar (zunächst geöffnet)
@@ -15580,7 +15637,7 @@ search#:#lucene_tbl_create_ini#:#Konfigurationsdatei für Java-Server erstellen
 search#:#search_add_members_from_container_crs#:#Benutzer aus aktuellem Kurs hinzufügen
 search#:#search_add_members_from_container_grp#:#Benutzer aus aktueller Gruppe hinzufügen
 search#:#search_any#:#-- Beliebig --
-search#:#search_area#:#Suchbereich
+search#:#search_area_filter#:#Suchbereich
 search#:#search_area_info#:#Bitte wählen Sie einen Bereich aus, innerhalb dem die Suche starten soll.
 search#:#search_auto_complete_length#:#Anzahl der Einträge in Auto-Complete-Liste
 search#:#search_auto_complete_length_info#:#Wählen Sie „0“, um keine Auto-Complete-Liste anzubieten.
@@ -15625,6 +15682,7 @@ search#:#search_minimum_info#:#Die Suchbegriffe müssen mindestens %s Zeichen la
 search#:#search_minimum_three#:#Die Suchbegriffe müssen mindestens 3 Zeichen lang sein.
 search#:#search_newer_than#:#Objekte erstellt vor dem...
 search#:#search_no_connection_lucene#:#Es kann keine Verbindung zum Lucene-Server hergestellt werden.
+search#:#search_no_further_match#:#Ihre Suche ergab keine weiteren Treffer.
 search#:#search_no_match#:#Ihre Suche ergab keine Treffer.
 search#:#search_no_match_hint#:#Es wurden keine Treffer für Ihre Suchanfrage nach <b>%s</b> gefunden.<br />Vorschläge:<br /><br />• Vergewissern Sie sich, dass alle Wörter richtig geschrieben sind.<br />• Probieren Sie andere Suchbegriffe.<br />• Probieren Sie allgemeinere Suchbegriffe.<br />• Probieren Sie weniger Suchbegriffe.
 search#:#search_no_selection#:#Sie haben keine Auswahl getroffen.
@@ -15647,6 +15705,8 @@ search#:#search_sort_generic_desc#:#%s, abst.
 search#:#search_sort_relevance#:#Nach Relevanz
 search#:#search_sort_title_asc#:#Alphabetisch: A-Z
 search#:#search_sort_title_desc#:#Alphabetisch: Z-A
+search#:#search_tab_content#:#Inhalt
+search#:#search_tab_user#:#Personen
 search#:#search_term_combination#:#Kombination
 search#:#search_title_description#:#Titel / Beschreibung
 search#:#search_tst_svy#:#Tests/Umfragen

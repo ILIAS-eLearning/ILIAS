@@ -31,17 +31,17 @@ class HandlerTest extends TestCase
 {
     public function testExportHandlerPublicAccessRepositoryElement(): void
     {
-        $object_id_mock_01 = $this->createMock(ObjectId::class);
+        $object_id_mock_01 = $this->createStub(ObjectId::class);
         $object_id_mock_01->method("toInt")->willReturn(20);
         $object_id_mock_01->method("toReferenceIds")->willThrowException(new Exception("unexpected reference id access"));
-        $values_mock = $this->createMock(ilExportHandlerPublicAccessRepositoryValuesInteface::class);
+        $values_mock = $this->createStub(ilExportHandlerPublicAccessRepositoryValuesInteface::class);
         $values_mock->method("isValid")->willReturn(true);
         $values_mock->method("getIdentification")->willReturn("id");
         $values_mock->method("withIdentification")->willThrowException(new Exception("unexpected id overwrite"));
         $values_mock->method("getExportOptionId")->willReturn("exp_id");
         $values_mock->method("withExportOptionId")->willThrowException(new Exception("unexpected exp id overwrite"));
         $values_mock->method("getLastModified")->willThrowException(new Exception("unexpected last modified access"));
-        $values_not_storable_mock = $this->createMock(ilExportHandlerPublicAccessRepositoryValuesInteface::class);
+        $values_not_storable_mock = $this->createStub(ilExportHandlerPublicAccessRepositoryValuesInteface::class);
         $values_not_storable_mock->method("isValid")->willReturn(false);
         $values_not_storable_mock->method("getIdentification")->willThrowException(new Exception("unexpected id access"));
         $values_not_storable_mock->method("withIdentification")->willThrowException(new Exception("unexpected id overwrite"));
@@ -54,11 +54,11 @@ class HandlerTest extends TestCase
         $values_not_storable_mock->method("equals")->willReturnMap([
             [$values_mock, false], [$values_not_storable_mock, true]
         ]);
-        $key_mock = $this->createMock(ilExportHandlerPublicAccessRepositoryKeyInterface::class);
+        $key_mock = $this->createStub(ilExportHandlerPublicAccessRepositoryKeyInterface::class);
         $key_mock->method("isValid")->willReturn(true);
         $key_mock->method("getObjectId")->willReturn($object_id_mock_01);
         $key_mock->method("withObjectId")->willThrowException(new Exception("unexpected object id overwrite"));
-        $key_not_storable_mock = $this->createMock(ilExportHandlerPublicAccessRepositoryKeyInterface::class);
+        $key_not_storable_mock = $this->createStub(ilExportHandlerPublicAccessRepositoryKeyInterface::class);
         $key_not_storable_mock->method("isValid")->willReturn(false);
         $key_not_storable_mock->method("getObjectId")->willThrowException(new Exception("unexpected object id access"));
         $key_not_storable_mock->method("withObjectId")->willThrowException(new Exception("unexpected object id overwrite"));

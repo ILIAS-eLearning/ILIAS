@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\BookingManager\Access;
 
 use ILIAS\BookingManager\InternalDomainService;
+use ilObjBookingPool;
 
 class AccessManager
 {
@@ -184,4 +185,18 @@ class AccessManager
         }
     }
 
+    public function canRead(int $ref_id, int $current_user = 0): bool
+    {
+        return $this->access->checkAccessOfUser(
+            $this->getCurrentUserId($current_user),
+            "read",
+            "",
+            $ref_id
+        );
+    }
+
+    public function canReadPublicLog(int $ref_id, int $current_user = 0): bool
+    {
+        return $this->canRead($ref_id, $current_user) && (new ilObjBookingPool($ref_id, true))->hasPublicLog();
+    }
 }

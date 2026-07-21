@@ -30,9 +30,9 @@ class HandlerTest extends TestCase
 {
     public function testFileValidationSetHandler(): void
     {
-        $xsd_file = $this->createMock(ilXSDFileHandler::class);
-        $xml_file = $this->createMock(ilXMLFileHandler::class);
-        $file_path = $this->createMock(ilFilePathHandler::class);
+        $xsd_file = $this->createStub(ilXSDFileHandler::class);
+        $xml_file = $this->createStub(ilXMLFileHandler::class);
+        $file_path = $this->createStub(ilFilePathHandler::class);
 
         $set = (new ilFileValidationSetHandler())
             ->withFilePathHandler($file_path)

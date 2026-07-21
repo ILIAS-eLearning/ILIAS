@@ -71,6 +71,7 @@ interface StatusCode
     public const HTTP_UNSUPPORTED_MEDIA_TYPE = 415;
     public const HTTP_REQUESTED_RANGE_NOT_SATISFIABLE = 416;
     public const HTTP_EXPECTATION_FAILED = 417;
+    public const HTTP_UNPROCESSABLE_ENTITY = 422;
     public const HTTP_TOO_MANY_REQUESTS = 429;
     // [Server Error 5xx]
 

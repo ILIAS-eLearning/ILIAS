@@ -46,5 +46,5 @@ if ($requested_user_id > 0) {
     $writer = new ilObjectFeedWriter($requested_ref_id, false, $requested_purpose);
     $writer->showFeed();
 } elseif ($requested_blog_id > 0) {
-    ilObjBlog::deliverRSS($requested_blog_id);
+    $DIC->blog()->internal()->gui()->rss()->deliver($requested_blog_id);
 }

@@ -80,6 +80,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         private ilLanguage $lng,
         private Refinery $refinery,
         private ilComponentRepository $component_repository,
+        private ilComponentFactory $component_factory,
         private ?NotesService $notes_service = null
     ) {
     }
@@ -582,7 +583,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
             $row['description'] = $tags_trafo->transform($row['description'] ?? '');
             $row['author'] = $tags_trafo->transform($row['author']);
             $row['taxonomies'] = $this->loadTaxonomyAssignmentData($row['obj_fi'], $row['question_id']);
-            $row['question_type'] = $this->lng->txt($row['question_type']);
+            $row['question_type'] = $this->getQuestionTypeTranslation($row);
             $row['feedback'] = $row['feedback'] === 1;
             $row['comments'] = $this->getNumberOfCommentsForQuestion($row['question_id']);
 
@@ -702,6 +703,21 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
             ->getPluginSlotById('qst')
             ->getPluginByName($questionData['plugin_name'])
             ->isActive();
+    }
+
+    private function getQuestionTypeTranslation(array $question_data): string
+    {
+        if (!($question_data['plugin'] ?? false)) {
+            return $this->lng->txt($question_data['question_type']);
+        }
+
+        foreach ($this->component_factory->getActivePluginsInSlot('qst') as $plugin) {
+            if ($plugin->getQuestionType() === $question_data['question_type']) {
+                return $plugin->getQuestionTypeTranslation();
+            }
+        }
+
+        return $this->lng->txt($question_data['question_type']);
     }
 
     public function getDataArrayForQuestionId(int $questionId): array

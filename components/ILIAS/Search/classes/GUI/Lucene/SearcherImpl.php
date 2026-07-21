@@ -164,7 +164,10 @@ class SearcherImpl implements Searcher
         string $term,
         ViewControlInfos $view_control_infos
     ): void {
-        if ($filter->getResults() && $highlighter !== null) {
+        if (
+            ($filter->getResults() && $highlighter !== null) ||
+            $view_control_infos->currentPage() > 1
+        ) {
             $result_panel_and_modals = $this->presenter->getLuceneSearchResultAsPanel(
                 $filter,
                 $highlighter,

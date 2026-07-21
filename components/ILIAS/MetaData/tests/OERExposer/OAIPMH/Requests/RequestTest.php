@@ -29,7 +29,7 @@ class RequestTest extends TestCase
 {
     protected function getURI(): URI
     {
-        return $this->createMock(URI::class);
+        return $this->createStub(URI::class);
     }
 
     protected function getEmptyRequest(): Request

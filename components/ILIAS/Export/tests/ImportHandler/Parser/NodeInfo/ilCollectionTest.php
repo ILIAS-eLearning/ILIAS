@@ -28,9 +28,9 @@ class ilCollectionTest extends TestCase
 {
     public function testNodeInfoCollection(): void
     {
-        $node1 = $this->createMock(Handler::class);
-        $node2 = $this->createMock(Handler::class);
-        $node3 = $this->createMock(Handler::class);
+        $node1 = $this->createStub(Handler::class);
+        $node2 = $this->createStub(Handler::class);
+        $node3 = $this->createStub(Handler::class);
 
         $collection = new Collection();
         $collection = $collection->withElement($node1);

@@ -22,6 +22,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Refinery\Constraint;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\UI\Implementation\Component\Input\Input;
 use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\UI\Component\Input\InputData;
 use ILIAS\UI\Component\Input\Field as I;
@@ -49,17 +50,6 @@ class OptionalGroup extends Group implements I\OptionalGroup
         return null;
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function isClientSideValueOk($value): bool
-    {
-        if ($value === null) {
-            return true;
-        }
-        return parent::isClientSideValueOk($value);
-    }
-
     public function withRequired($is_required, ?Constraint $requirement_constraint = null): self
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
@@ -77,8 +67,7 @@ class OptionalGroup extends Group implements I\OptionalGroup
     public function withValue($value): self
     {
         if ($value === null) {
-            $clone = clone $this;
-            $clone->value = $value;
+            $clone = Input::withValue($value);
             $clone->null_value_was_explicitly_set = true;
             return $clone;
         }

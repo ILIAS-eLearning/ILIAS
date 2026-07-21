@@ -1,4 +1,4 @@
-# AdvancedMetaData
+# AdvancedMetaData Privacy
 Disclaimer: This documentation does not guarantee completeness or correctness. Please report any missing or incorrect information using the ILIAS issue tracker or contribute a fix via Pull Request (docs/development/contributing.md#pull-request-to-the-repositories).
 ## General Information
 Advanced Metadata is labeled Custom Metadata in the user interface. 

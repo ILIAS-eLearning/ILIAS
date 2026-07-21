@@ -85,6 +85,7 @@ class ilLMPageGUI extends ilPageObjectGUI
         $lng = $this->lng;
         $refinery = $this->refinery;
         $component_repository = $this->component_repository;
+        $component_factory = $this->component_factory;
 
         parent::processAnswer();
 
@@ -104,7 +105,7 @@ class ilLMPageGUI extends ilPageObjectGUI
 
             $as = ilPageQuestionProcessor::getAnswerStatus($id, $ilUser->getId());
             // get question information
-            $qlist = new ilAssQuestionList($ilDB, $lng, $refinery, $component_repository);
+            $qlist = new ilAssQuestionList($ilDB, $lng, $refinery, $component_repository, $component_factory);
             $qlist->setParentObjId(0);
             $qlist->setJoinObjectData(false);
             $qlist->addFieldFilter("question_id", array($id));

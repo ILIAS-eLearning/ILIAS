@@ -110,6 +110,11 @@ class ResultPresenterImpl implements ResultPresenter
 
         $items = $this->sortObjectItems($view_control_infos->sortation(), ...$items_with_sort_data);
 
+        if ($items->current() === null) {
+            // currently only relevant when the total hits are a multiple of max page size (47885)
+            $items = [$this->component_factory->getNoResultItem()];
+        }
+
         return [
             $this->component_factory->getPanel(
                 $view_control_infos,
@@ -154,14 +159,18 @@ class ResultPresenterImpl implements ResultPresenter
      */
     public function getLuceneSearchResultAsPanel(
         ilLuceneSearchResultFilter $result,
-        ilLuceneHighlighterResultParser $highlighter,
+        ?ilLuceneHighlighterResultParser $highlighter,
         ViewControlInfos $view_control_infos
     ): array {
         $items = [];
         $subitem_modals = [];
 
         $items_with_sort_data = [];
-        foreach ($result->getResults() as $ref_id => $obj_id) {
+        $results = $result->getResults();
+        if ($highlighter === null) {
+            $results = [];
+        }
+        foreach ($results as $ref_id => $obj_id) {
             $creation_date = $this->obj_properties->lookupCreationDate($obj_id);
             $type = $this->obj_properties->lookupType($obj_id);
             $title_no_highlights = $this->obj_properties->lookupTitle($obj_id);
@@ -204,6 +213,11 @@ class ResultPresenterImpl implements ResultPresenter
         }
 
         $items = $this->sortObjectItems($view_control_infos->sortation(), ...$items_with_sort_data);
+
+        if ($items->current() === null) {
+            // currently only relevant when the total hits are a multiple of max page size (47885)
+            $items = [$this->component_factory->getNoResultItem()];
+        }
 
         return [
             $this->component_factory->getPanel(

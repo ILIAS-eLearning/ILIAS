@@ -298,18 +298,15 @@ class ilCalendarRecurrenceCalculationTest extends TestCase
         $this->dic = new Container();
         $GLOBALS['DIC'] = $this->dic;
 
-        $this->setGlobalVariable('ilDB', $this->createMock(ilDBInterface::class));
-        $this->setGlobalVariable('lng', $this->createMock(ilLanguage::class));
-        $this->setGlobalVariable('ilErr', $this->createMock(ilErrorHandling::class));
+        $this->setGlobalVariable('ilDB', $this->createStub(ilDBInterface::class));
+        $this->setGlobalVariable('lng', $this->createStub(ilLanguage::class));
+        $this->setGlobalVariable('ilErr', $this->createStub(ilErrorHandling::class));
 
-        $logger = $this->getMockBuilder(ilLogger::class)
+        $logger = $this->getStubBuilder(ilLogger::class)
                        ->disableOriginalConstructor()
-                       ->getMock();
+                       ->getStub();
 
-        $logger_factory = $this->getMockBuilder(ilLoggerFactory::class)
-                               ->disableOriginalConstructor()
-                               ->onlyMethods(['getComponentLogger'])
-                               ->getMock();
+        $logger_factory = $this->createStub(ilLoggerFactory::class);
         $logger_factory->method('getComponentLogger')->willReturn($logger);
         $this->setGlobalVariable('ilLoggerFactory', $logger_factory);
     }

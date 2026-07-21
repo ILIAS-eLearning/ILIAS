@@ -28,7 +28,6 @@ use ilMailMimeTransportFactory;
 use ilMailTemplateServiceInterface;
 use ILIAS\Data\Factory as DataFactory;
 use ilMailTemplatePlaceholderResolver;
-use ilMailTemplatePlaceholderToEmptyResolver;
 use ILIAS\Mail\Autoresponder\AutoresponderService;
 use ILIAS\Mail\Autoresponder\AutoresponderServiceImpl;
 use ILIAS\Mail\Autoresponder\AutoresponderDatabaseRepository;
@@ -104,10 +103,6 @@ class MailService
             );
         };
 
-        $container[ilMailTemplatePlaceholderToEmptyResolver::class] = static function (Container $c): ilMailTemplatePlaceholderToEmptyResolver {
-            return new ilMailTemplatePlaceholderToEmptyResolver();
-        };
-
         $container['mail.template_engine.factory'] = static function (Container $c): MustacheTemplateEngineFactory {
             return new MustacheTemplateEngineFactory();
         };
@@ -142,10 +137,6 @@ class MailService
         return $this->dic[ilMailTemplatePlaceholderResolver::class];
     }
 
-    public function placeholderToEmptyResolver(): ilMailTemplatePlaceholderToEmptyResolver
-    {
-        return $this->dic[ilMailTemplatePlaceholderToEmptyResolver::class];
-    }
 
     public function templateEngineFactory(): TemplateEngineFactoryInterface
     {

@@ -28,6 +28,7 @@ use ILIAS\Blog\Posting\PostingManager;
  */
 class ilBlogPosting extends ilPageObject
 {
+    protected \ILIAS\Blog\Posting\Service\GUIService $posting_gui;
     protected string $title = "";
     protected ?ilDateTime $created = null;
     protected int $blog_node_id = 0;
@@ -37,12 +38,16 @@ class ilBlogPosting extends ilPageObject
     protected ?ilDateTime $withdrawn = null;
     protected InternalDataService $internal_data;
     protected PostingManager $posting_manager;
+    protected \ILIAS\Blog\InternalDomainService $blog_domain;
 
     public function afterConstructor(): void
     {
         global $DIC;
         $this->internal_data = $DIC->blog()->internal()->data();
         $this->posting_manager = $DIC->blog()->internal()->domain()->posting();
+        $this->blog_domain = $DIC->blog()->internal()->domain();
+        $this->posting_gui = $DIC->blog()->internal()->gui()->posting();
+
     }
 
     public function getParentType(): string
@@ -169,7 +174,7 @@ class ilBlogPosting extends ilPageObject
         $ret = parent::update($a_validate, $a_no_history);
 
         if ($a_notify && $this->getActive()) {
-            ilObjBlog::sendNotification(
+            $this->blog_domain->notification()->sendNotification(
                 $a_notify_action,
                 $this->blog_node_is_wsp,
                 $this->blog_node_id,
@@ -253,91 +258,6 @@ class ilBlogPosting extends ilPageObject
     }
 
     /**
-     * Delete all postings for blog
-     */
-    public static function deleteAllBlogPostings(
-        int $a_blog_id
-    ): void {
-        global $DIC;
-
-        $lom_services = $DIC->learningObjectMetadata();
-        $mgr = $DIC->blog()->internal()->domain()->posting();
-        foreach ($mgr->getAllByBlog($a_blog_id, 0) as $posting) {
-            $lom_services->deleteAll($a_blog_id, $posting->getId(), "blp");
-            $post = new ilBlogPosting($posting->getId());
-            $post->delete();
-        }
-    }
-
-    public static function lookupBlogId(
-        int $a_posting_id
-    ): ?int {
-        global $DIC;
-        return $DIC->blog()->internal()->domain()->posting()->lookupBlogId($a_posting_id);
-    }
-
-    /**
-     * Get all postings of blog
-     */
-    public static function getAllPostings(
-        int $a_blog_id,
-        int $a_limit = 1000,
-        int $a_offset = 0
-    ): array {
-        global $DIC;
-
-        $pages = parent::getAllPages("blp", $a_blog_id);
-        $posts = [];
-        foreach ($DIC->blog()->internal()->domain()->posting()->getAllByBlog(
-            $a_blog_id,
-            $a_limit,
-            $a_offset
-        ) as $posting) {
-            $id = $posting->getId();
-            if (isset($pages[$id])) {
-                $posts[$id] = $pages[$id];
-                $posts[$id]["title"] = $posting->getTitle();
-                $posts[$id]["created"] = $posting->getCreated();
-                $posts[$id]["author"] = $posting->getAuthor();
-                $posts[$id]["approved"] = $posting->isApproved();
-                $posts[$id]["last_withdrawn"] = $posting->getLastWithdrawn();
-
-                foreach (self::getPageContributors("blp", $id) as $editor) {
-                    if ($editor["user_id"] != $posting->getAuthor()) {
-                        $posts[$id]["editors"][] = $editor["user_id"];
-                    }
-                }
-            }
-        }
-
-        return $posts;
-    }
-
-    /**
-     * Checks whether a posting exists
-     */
-    public static function exists(
-        int $a_blog_id,
-        int $a_posting_id
-    ): bool {
-        global $DIC;
-        return $DIC->blog()->internal()->domain()->posting()->exists(
-            $a_blog_id,
-            $a_posting_id
-        );
-    }
-
-    /**
-     * Get newest posting for blog
-     */
-    public static function getLastPost(
-        int $a_blog_id
-    ): int {
-        global $DIC;
-        return $DIC->blog()->internal()->domain()->posting()->getLastPost($a_blog_id);
-    }
-
-    /**
      * Set blog node id (needed for notification)
      */
     public function setBlogNodeId(
@@ -350,7 +270,7 @@ class ilBlogPosting extends ilPageObject
 
     public function getNotificationAbstract(): string
     {
-        $snippet = ilBlogPostingGUI::getSnippet($this->getId(), true);
+        $snippet = $this->posting_gui->getSnippet($this->getId(), true);
 
         // making things more readable
         $snippet = str_replace(array('<br/>', '<br />', '</p>', '</div>'), "\n", $snippet);
@@ -366,25 +286,5 @@ class ilBlogPosting extends ilPageObject
                            ->prepareDelete($this->lom_services->paths()->keywords())
                            ->prepareCreateOrUpdate($this->lom_services->paths()->keywords(), ...$keywords)
                            ->execute();
-    }
-
-    public static function getKeywords(
-        int $a_obj_id,
-        int $a_posting_id
-    ): array {
-        global $DIC;
-
-        $lom_services = $DIC->learningObjectMetadata();
-
-        $result = [];
-        $keywords = $lom_services->read($a_obj_id, $a_posting_id, "blp")
-                                 ->allData($lom_services->paths()->keywords());
-        foreach ($keywords as $keyword) {
-            if ($keyword->value() !== "") {
-                $result[] = $keyword->value();
-            }
-        }
-
-        return $result;
     }
 }
