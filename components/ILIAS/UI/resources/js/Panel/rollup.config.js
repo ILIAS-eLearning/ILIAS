@@ -13,13 +13,23 @@
  * https://github.com/ILIAS-eLearning
  */
 
-import il from 'ilias';
-import $ from 'jquery';
-import document from 'document';
-import panel from './panel.main.js';
-import JQueryEventDispatcher from '../../Core/src/jqueryeventdispatcher.js';
+import copyright from '../../../../../../scripts/Copyright-Checker/copyright.js';
 
-const eventDispatcher = new JQueryEventDispatcher($);
-
-il.UI = il.UI || {};
-il.UI.panel = panel(document, eventDispatcher);
+export default {
+  input: './src/panel.js',
+  external: [
+    'document',
+    'ilias',
+    'jquery',
+  ],
+  output: {
+    file: './dist/panel.js',
+    format: 'iife',
+    banner: copyright,
+    globals: {
+      document: 'document',
+      ilias: 'il',
+      jquery: '$',
+    },
+  },
+};

@@ -13,51 +13,132 @@
  * https://github.com/ILIAS-eLearning
  */
 
-const panel = function () {
+/**
+ * @param {Document} document
+ * @param {JQueryEventDispatcher} eventDispatcher
+ * @returns {{ initExpandable: function(string, string, string, string, Object|false, Object|false): void }}
+ */
+const panel = function (document, eventDispatcher) {
+  /**
+   * @param {string} panelId
+   * @returns {HTMLElement|null}
+   */
+  const getPanel = function (panelId) {
+    return document.getElementById(panelId);
+  };
+
+  /**
+   * @param {string} action
+   * @returns {void}
+   */
   const performAsync = function (action) {
-    if (action !== null) {
-      fetch(action, {
-        method: 'GET',
-      });
-    }
+    fetch(action, {
+      method: 'GET',
+    });
   };
 
+  /**
+   * @param {HTMLButtonElement} button
+   * @param {{ signal_id: string, event: string, options: Object }} signal
+   * @returns {void}
+   */
   const performSignal = function (button, signal) {
-    if (signal !== null) {
-      // eslint-disable-next-line no-undef
-      $(button).trigger(signal.signal_id, {
-        id: signal.signal_id,
-        event: signal.event,
-        triggerer: button,
-        options: signal.options,
-      });
-    }
+    eventDispatcher.dispatch(button, signal.signal_id, {
+      id: signal.signal_id,
+      event: signal.event,
+      triggerer: button,
+      options: signal.options,
+    });
   };
 
-  const showAndHideElementsForCollapse = function (id, type) {
-    const p = document.getElementById(id);
-    p.querySelector('[data-collapse-glyph-visibility]').dataset.collapseGlyphVisibility = '0';
-    p.querySelector('[data-expand-glyph-visibility]').dataset.expandGlyphVisibility = '1';
-    p.querySelector('.panel-viewcontrols').dataset.vcExpanded = '0';
+  /**
+   * @param {HTMLElement} panelElement
+   * @param {string} type
+   * @returns {HTMLElement|null}
+   */
+  const getBodyElement = function (panelElement, type) {
     if (type === 'standard') {
-      p.querySelector('.panel-body').dataset.bodyExpanded = '0';
-    } else if (type === 'listing') {
-      p.querySelector('.panel-listing-body').dataset.bodyExpanded = '0';
+      return panelElement.querySelector('.panel-body');
+    }
+    if (type === 'listing') {
+      return panelElement.querySelector('.panel-listing-body');
+    }
+    return null;
+  };
+
+  /**
+   * @param {string} panelId
+   * @param {string} type
+   * @returns {void}
+   */
+  const showAndHideElementsForCollapse = function (panelId, type) {
+    const panelElement = getPanel(panelId);
+    if (!panelElement) {
+      return;
+    }
+
+    const collapseGlyph = panelElement.querySelector('[data-collapse-glyph-visibility]');
+    if (collapseGlyph) {
+      collapseGlyph.dataset.collapseGlyphVisibility = '0';
+    }
+
+    const expandGlyph = panelElement.querySelector('[data-expand-glyph-visibility]');
+    if (expandGlyph) {
+      expandGlyph.dataset.expandGlyphVisibility = '1';
+    }
+
+    const viewControls = panelElement.querySelector('.panel-viewcontrols');
+    if (viewControls) {
+      viewControls.dataset.vcExpanded = '0';
+    }
+
+    const body = getBodyElement(panelElement, type);
+    if (body) {
+      body.dataset.bodyExpanded = '0';
     }
   };
 
-  const showAndHideElementsForExpand = function (id, type) {
-    const p = document.getElementById(id);
-    p.querySelector('[data-expand-glyph-visibility]').dataset.expandGlyphVisibility = '0';
-    p.querySelector('[data-collapse-glyph-visibility]').dataset.collapseGlyphVisibility = '1';
-    p.querySelector('.panel-viewcontrols').dataset.vcExpanded = '1';
-    if (type === 'standard') {
-      p.querySelector('.panel-body').dataset.bodyExpanded = '1';
-    } else if (type === 'listing') {
-      p.querySelector('.panel-listing-body').dataset.bodyExpanded = '1';
+  /**
+   * @param {string} panelId
+   * @param {string} type
+   * @returns {void}
+   */
+  const showAndHideElementsForExpand = function (panelId, type) {
+    const panelElement = getPanel(panelId);
+    if (!panelElement) {
+      return;
+    }
+
+    const expandGlyph = panelElement.querySelector('[data-expand-glyph-visibility]');
+    if (expandGlyph) {
+      expandGlyph.dataset.expandGlyphVisibility = '0';
+    }
+
+    const collapseGlyph = panelElement.querySelector('[data-collapse-glyph-visibility]');
+    if (collapseGlyph) {
+      collapseGlyph.dataset.collapseGlyphVisibility = '1';
+    }
+
+    const viewControls = panelElement.querySelector('.panel-viewcontrols');
+    if (viewControls) {
+      viewControls.dataset.vcExpanded = '1';
+    }
+
+    const body = getBodyElement(panelElement, type);
+    if (body) {
+      body.dataset.bodyExpanded = '1';
     }
   };
 
+  /**
+   * @param {string} id
+   * @param {string} type
+   * @param {string} collapseUri
+   * @param {string} expandUri
+   * @param {Object|false} collapseSignal
+   * @param {Object|false} expandSignal
+   * @returns {void}
+   */
   const initExpandable = function (
     id,
     type,
@@ -66,10 +147,19 @@ const panel = function () {
     collapseSignal,
     expandSignal,
   ) {
-    const button = document.getElementById(id).querySelector('.panel-toggler').querySelector('button');
+    const panelElement = getPanel(id);
+    if (!panelElement) {
+      return;
+    }
+
+    const button = panelElement.querySelector('.panel-toggler')?.querySelector('button');
+    if (!button) {
+      return;
+    }
+
     button.addEventListener('click', () => {
       if (button.getAttribute('aria-expanded') === 'false') {
-        button.setAttribute('aria-expanded', true);
+        button.setAttribute('aria-expanded', 'true');
         showAndHideElementsForExpand(id, type);
         if (expandUri) {
           performAsync(expandUri);
@@ -77,7 +167,7 @@ const panel = function () {
           performSignal(button, expandSignal);
         }
       } else {
-        button.setAttribute('aria-expanded', false);
+        button.setAttribute('aria-expanded', 'false');
         showAndHideElementsForCollapse(id, type);
         if (collapseUri) {
           performAsync(collapseUri);
@@ -88,9 +178,6 @@ const panel = function () {
     });
   };
 
-  /**
-     * Public interface
-     */
   return {
     initExpandable,
   };
