@@ -176,11 +176,7 @@ class SurveyMetricQuestion extends SurveyQuestion
                 array($this->getId())
             );
 
-            if (preg_match("/[\D]/", $this->maximum) or (strcmp($this->maximum, "&infin;") == 0)) {
-                $max = -1;
-            } else {
-                $max = $this->getMaximum();
-            }
+            $max = $this->getMaximum();
             $next_id = $ilDB->nextId('svy_variable');
             $ilDB->manipulateF(
                 "INSERT INTO svy_variable (variable_id, category_fi, question_fi, value1, value2, sequence, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
