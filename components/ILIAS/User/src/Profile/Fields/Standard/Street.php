@@ -25,10 +25,18 @@ use ILIAS\User\Profile\Fields\NoOverrides;
 use ILIAS\User\Profile\Fields\FieldDefinition;
 use ILIAS\User\Profile\Fields\AvailableSections;
 use ILIAS\Language\Language;
+use ILIAS\Data\Privacy\Purpose\Purposes;
+use ILIAS\Data\Privacy\Source\Sources;
 
 class Street implements FieldDefinition
 {
     use NoOverrides;
+
+    public function __construct(
+        private readonly Purposes $purposes,
+        private readonly Sources $sources,
+    ) {
+    }
 
     public function getIdentifier(): string
     {
@@ -61,7 +69,8 @@ class Street implements FieldDefinition
             return $input;
         }
         $input->setValue(
-            $this->retrieveValueFromUser($user)
+            $user->getProfileData()->getPostalAddress()
+                ?->resolve($this->purposes->displayToUser('profile_form'))->street ?? ''
         );
         return $input;
     }
@@ -71,8 +80,15 @@ class Street implements FieldDefinition
         mixed $input,
         ?\ilPropertyFormGUI $form = null
     ): \ilObjUser {
-        $user->setStreet($input);
-        return $user;
+        $address = $user->getProfileData()->getPostalAddress()
+            ?->withStreet((string) $input, $this->sources->userInput('profile_form'));
+        if ($address === null) {
+            $user->setStreet($input);
+            return $user;
+        }
+        return $user->withProfileData(
+            $user->getProfileData()->withPostalAddress($address)
+        );
     }
 
     public function retrieveValueFromUser(\ilObjUser $user): string
