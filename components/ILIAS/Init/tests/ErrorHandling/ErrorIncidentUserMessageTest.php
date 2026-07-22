@@ -21,27 +21,25 @@ declare(strict_types=1);
 use ILIAS\Init\ErrorHandling\Incident\ErrorIncident;
 use ILIAS\Init\ErrorHandling\Incident\ErrorIncidentId;
 use ILIAS\Init\ErrorHandling\Notification\ErrorIncidentUserMessage;
+use ILIAS\Init\ErrorHandling\Notification\Settings;
 use PHPUnit\Framework\TestCase;
 
 class ErrorIncidentUserMessageTest extends TestCase
 {
-    public function testFormatsFallbackMessageWithoutLanguage(): void
+    public function testFormatsFallbackMessageWithoutLanguageWithMail(): void
     {
-        $settings = $this->createMock(ilLoggingErrorSettings::class);
-        $settings->method('mail')->willReturn('admin@example.org');
+        $settings = $this->createMock(Settings::class);
+        $settings->method('errorRecipient')->willReturn('admin@example.org');
 
-        $message_formatter = new ErrorIncidentUserMessage($settings);
-        $message = $message_formatter->format(new ErrorIncident(new ErrorIncidentId('abc_12')), null);
+        $message_formatter = new ErrorIncidentUserMessage();
+        $message = $message_formatter->format(new ErrorIncident(new ErrorIncidentId('abc_12')), null, $settings);
 
         self::assertStringContainsString('abc_12', $message);
         self::assertStringContainsString('admin@example.org', $message);
     }
 
-    public function testFormatsLocalizedMessageWithLanguage(): void
+    public function testFormatsLocalizedMessageWithLanguageWithoutMail(): void
     {
-        $settings = $this->createMock(ilLoggingErrorSettings::class);
-        $settings->method('mail')->willReturn('');
-
         $language = $this->createMock(ilLanguage::class);
         $language->expects($this->once())->method('loadLanguageModule')->with('logging');
         $language->method('txt')->willReturnCallback(
@@ -51,8 +49,8 @@ class ErrorIncidentUserMessageTest extends TestCase
             }
         );
 
-        $message_formatter = new ErrorIncidentUserMessage($settings);
-        $message = $message_formatter->format(new ErrorIncident(new ErrorIncidentId('abc_12')), $language);
+        $message_formatter = new ErrorIncidentUserMessage();
+        $message = $message_formatter->format(new ErrorIncident(new ErrorIncidentId('abc_12')), $language, null);
 
         self::assertSame('Logged error abc_12', $message);
     }

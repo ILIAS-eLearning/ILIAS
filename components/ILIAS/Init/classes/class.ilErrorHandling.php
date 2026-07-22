@@ -106,8 +106,8 @@ class ilErrorHandling implements ErrorHandling\Application\ContextErrorHandlerPr
             new ErrorHandlers\RecordErrorIncidentHandler(
                 new ErrorHandling\Application\ProductionOnlyErrorIncidentReporting(
                     new ErrorHandling\Application\ReportErrorIncident(
-                        new ErrorLogging\LoggingErrorLogDirectory(),
-                        new ErrorLogging\LoggingErrorFileStorageAdapter(),
+                        new ErrorLogging\LazySettings(),
+                        new ErrorLogging\FileWriter(new ErrorHandling\Logging\FileHandler(), new ErrorLogging\ContentProcessor()),
                         new ErrorHandling\Incident\SessionPrefixedErrorIncidentFactory(),
                         $this->error_incident_registry,
                         self::SENSTIVE_PARAMETER_NAMES
@@ -265,9 +265,8 @@ class ilErrorHandling implements ErrorHandling\Application\ContextErrorHandlerPr
             $incident = $this->error_incident_registry->current();
             if ($incident !== null) {
                 $language = $DIC->isDependencyAvailable('language') ? $DIC->language() : null;
-                $message = new ErrorHandling\Notification\ErrorIncidentUserMessage(
-                    ilLoggingErrorSettings::getInstance()
-                )->format($incident, $language);
+                $settings = $DIC->isDependencyAvailable('clientIni') ? new ErrorHandling\Notification\Settings($DIC->clientIni()) : null;
+                $message = new ErrorHandling\Notification\ErrorIncidentUserMessage()->format($incident, $language, $settings);
             }
 
             if ($DIC->isDependencyAvailable('ui') && isset($DIC['tpl']) && $DIC->isDependencyAvailable('ctrl')) {

@@ -18,14 +18,19 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Init\ErrorHandling\Infrastructure\Logging;
+namespace ILIAS\Init\ErrorHandling\Logging;
 
-use ILIAS\Init\ErrorHandling\Application\ErrorLogDirectory;
+use ilIniFile;
 
-final class LoggingErrorLogDirectory implements ErrorLogDirectory
+class Settings implements SettingsInterface
 {
-    public function path(): string
+    public function __construct(
+        private readonly ilIniFile $ilias_ini
+    ) {
+    }
+
+    public function directory(): string
     {
-        return \ilLoggingErrorSettings::getInstance()->folder();
+        return rtrim($this->ilias_ini->readVariable('log', 'error_path'), '/');
     }
 }

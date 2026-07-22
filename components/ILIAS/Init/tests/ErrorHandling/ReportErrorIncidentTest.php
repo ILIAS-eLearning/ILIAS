@@ -26,7 +26,9 @@ use ILIAS\Init\ErrorHandling\Incident\ErrorIncidentFactory;
 use ILIAS\Init\ErrorHandling\Incident\ErrorIncidentId;
 use ILIAS\Init\ErrorHandling\Incident\InMemoryErrorIncidentRegistry;
 use ILIAS\Init\ErrorHandling\Incident\SessionPrefixedErrorIncidentFactory;
-use ILIAS\Init\ErrorHandling\Infrastructure\Logging\LoggingErrorFileStorageAdapter;
+use ILIAS\Init\ErrorHandling\Infrastructure\Logging\FileWriter;
+use ILIAS\Init\ErrorHandling\Logging\FileHandler;
+use ILIAS\Init\ErrorHandling\Infrastructure\Logging\ContentProcessor;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamWrapper;
 use PHPUnit\Framework\TestCase;
@@ -91,7 +93,7 @@ class ReportErrorIncidentTest extends TestCase
                     return $this->path;
                 }
             },
-            new LoggingErrorFileStorageAdapter(),
+            new FileWriter(new FileHandler(), new ContentProcessor()),
             $incident_factory,
             $registry,
             ['password']

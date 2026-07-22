@@ -18,13 +18,15 @@
 
 declare(strict_types=1);
 
-use ILIAS\Init\ErrorHandling\Infrastructure\Logging\LoggingErrorFileStorageAdapter;
+use ILIAS\Init\ErrorHandling\Infrastructure\Logging\FileWriter;
+use ILIAS\Init\ErrorHandling\Logging\FileHandler;
+use ILIAS\Init\ErrorHandling\Infrastructure\Logging\ContentProcessor;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamWrapper;
 use PHPUnit\Framework\TestCase;
 use Whoops\Exception\Inspector;
 
-class LoggingErrorFileStorageAdapterTest extends TestCase
+class ErrorLoggingFileWriterTest extends TestCase
 {
     public function testWritesExceptionDetailsToVirtualLogFile(): void
     {
@@ -37,10 +39,10 @@ class LoggingErrorFileStorageAdapterTest extends TestCase
 
         $log_directory = vfsStream::url('root/errors');
         $log_file = vfsStream::url('root/errors/abcde_42.log');
-        $inspector = new Inspector(new RuntimeException('adapter test'));
+        $inspector = new Inspector(new RuntimeException('writer test'));
 
-        $adapter = new LoggingErrorFileStorageAdapter();
-        $adapter->write(
+        $writer = new FileWriter(new FileHandler(), new ContentProcessor());
+        $writer->write(
             $inspector,
             $log_directory,
             'abcde_42',
@@ -48,7 +50,7 @@ class LoggingErrorFileStorageAdapterTest extends TestCase
         );
 
         self::assertFileExists($log_file);
-        self::assertStringContainsString('adapter test', (string) file_get_contents($log_file));
+        self::assertStringContainsString('writer test', (string) file_get_contents($log_file));
     }
 
     private function skipIfVfsStreamNotAvailable(): void

@@ -27,20 +27,22 @@ use ILIAS\Init\ErrorHandling\Incident\ErrorIncident;
  */
 final class ErrorIncidentUserMessage
 {
-    public function __construct(
-        private readonly \ilLoggingErrorSettings $error_settings
-    ) {
-    }
-
-    public function format(ErrorIncident $incident, ?\ilLanguage $language = null): string
-    {
+    public function format(
+        ErrorIncident $incident,
+        ?\ilLanguage $language = null,
+        ?Settings $notification_settings = null
+    ): string {
         $identifier = $incident->identifier()->value();
+
+        $mail = '';
+        if ($notification_settings !== null) {
+            $mail = $notification_settings->errorRecipient();
+        }
 
         if ($language !== null) {
             $language->loadLanguageModule('logging');
             $message = \sprintf($language->txt('log_error_message'), $identifier);
 
-            $mail = $this->error_settings->mail();
             if ($mail !== '') {
                 $message .= ' ' . \sprintf(
                     $language->txt('log_error_message_send_mail'),
@@ -56,7 +58,6 @@ final class ErrorIncidentUserMessage
         $message = 'Sorry, an error occured. A logfile has been created which can be identified via the code "'
             . $identifier . '"';
 
-        $mail = $this->error_settings->mail();
         if ($mail !== '') {
             $message .= ' ' . 'Please send a mail to <a href="mailto:' . $mail
                 . '?subject=code: ' . $identifier . '">' . $mail . '</a>';

@@ -20,19 +20,31 @@ declare(strict_types=1);
 
 namespace ILIAS\Init\ErrorHandling\Infrastructure\Logging;
 
-use ILIAS\Init\ErrorHandling\Application\ErrorLogFileStorage;
 use Whoops\Exception\Inspector;
+use ILIAS\Init\ErrorHandling\Application\ErrorLogFileStorage;
+use ILIAS\Init\ErrorHandling\Logging\FileHandler;
 
-final class LoggingErrorFileStorageAdapter implements ErrorLogFileStorage
+class FileWriter implements ErrorLogFileStorage
 {
+    public function __construct(
+        private readonly FileHandler $file_handler,
+        private readonly ContentProcessor $content_processor
+    ) {
+    }
+
+    /**
+     * @param list<string> $sensitive_parameter_names
+     */
     public function write(
         Inspector $inspector,
         string $directory,
         string $file_name,
         array $sensitive_parameter_names
     ): void {
-        $writer = new \ilLoggingErrorFileStorage($inspector, $directory, $file_name);
-        $writer = $writer->withExclusionList($sensitive_parameter_names);
-        $writer->write();
+        $this->file_handler->createFile(
+            $directory,
+            $file_name,
+            $this->content_processor->collectAndFormatContent($inspector, $sensitive_parameter_names),
+        );
     }
 }
