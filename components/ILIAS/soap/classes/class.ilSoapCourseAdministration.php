@@ -371,8 +371,6 @@ class ilSoapCourseAdministration extends ilSoapAdministration
             return $this->raiseError('Check access failed. No permission to write course', 'Server');
         }
 
-        ilCourseParticipants::_deleteAllEntries($tmp_course->getId());
-
         ilCourseWaitingList::_deleteAll($tmp_course->getId());
 
 
