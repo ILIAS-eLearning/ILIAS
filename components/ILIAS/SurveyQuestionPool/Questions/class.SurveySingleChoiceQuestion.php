@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -223,27 +225,27 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
             $attrs = array(
                 "id" => $i
             );
-            if (strlen($this->categories->getCategory($i)->other ?? "")) {
+            if ($this->categories->getCategory($i)->other) {
                 $attrs['other'] = $this->categories->getCategory($i)->other;
             }
-            if (strlen($this->categories->getCategory($i)->neutral ?? "")) {
+            if ($this->categories->getCategory($i)->neutral) {
                 $attrs['neutral'] = $this->categories->getCategory($i)->neutral;
             }
             if (strlen($this->categories->getCategory($i)->label ?? "")) {
                 $attrs['label'] = $this->categories->getCategory($i)->label;
             }
-            if (strlen($this->categories->getCategory($i)->scale ?? "")) {
+            if ($this->categories->getCategory($i)->scale) {
                 $attrs['scale'] = $this->categories->getCategory($i)->scale;
             }
             $a_xml_writer->xmlStartTag("response_single", $attrs);
-            $this->addMaterialTag($a_xml_writer, $this->categories->getCategory($i)->title);
+            $this->addMaterialTag($a_xml_writer, (string) $this->categories->getCategory($i)->title);
             $a_xml_writer->xmlEndTag("response_single");
         }
 
         $a_xml_writer->xmlEndTag("responses");
 
         if (count($this->material)) {
-            if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $this->material["internal_link"] ?? "", $matches)) {
+            if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", (string) ($this->material["internal_link"] ?? ""), $matches)) {
                 $attrs = array(
                     "label" => $this->material["title"]
                 );
@@ -272,7 +274,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         foreach ($a_meta as $key => $value) {
             switch ($value["label"]) {
                 case "orientation":
-                    $this->setOrientation($value["entry"]);
+                    $this->setOrientation((int) $value["entry"]);
                     break;
             }
         }
@@ -286,7 +288,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         int $upper_limit
     ): void {
         for ($i = $lower_limit; $i <= $upper_limit; $i++) {
-            $this->categories->addCategory($i);
+            $this->categories->addCategory((string) $i);
         }
     }
 
@@ -303,20 +305,20 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
     public function getWorkingDataFromUserInput(
         array $post_data
     ): array {
-        $entered_value = $post_data[$this->getId() . "_value"] ?? "";
+        $entered_value = (string) ($post_data[$this->getId() . "_value"] ?? "");
         $data = array();
         if (strlen($entered_value ?? "")) {
             $data[] = array("value" => $entered_value,
-                            "textanswer" => $post_data[$this->getId() . '_' . $entered_value . '_other'] ?? ""
+                            "textanswer" => (string) ($post_data[$this->getId() . '_' . $entered_value . '_other'] ?? "")
             );
         }
         for ($i = 0; $i < $this->categories->getCategoryCount(); $i++) {
             $cat = $this->categories->getCategory($i);
             if ($cat->other) {
                 if ($i != $entered_value) {
-                    if (strlen($post_data[$this->getId() . "_" . $i . "_other"] ?? "")) {
+                    if (strlen((string) ($post_data[$this->getId() . "_" . $i . "_other"] ?? ""))) {
                         $data[] = array("value" => $i,
-                                        "textanswer" => $post_data[$this->getId() . '_' . $i . '_other'] ?? "",
+                                        "textanswer" => (string) ($post_data[$this->getId() . '_' . $i . '_other'] ?? ""),
                                         "uncheck" => true
                         );
                     }
@@ -334,7 +336,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         array $post_data,
         int $survey_id
     ): string {
-        $entered_value = $post_data[$this->getId() . "_value"] ?? "";
+        $entered_value = (string) ($post_data[$this->getId() . "_value"] ?? "");
 
         $this->log->debug("Entered value = " . $entered_value);
 
@@ -350,10 +352,10 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
             $cat = $this->categories->getCategory($i);
             if ($cat->other) {
                 if ($i == $entered_value) {
-                    if (array_key_exists($this->getId() . "_" . $entered_value . "_other", $post_data) && !strlen($post_data[$this->getId() . "_" . $entered_value . "_other"] ?? "")) {
+                    if (array_key_exists($this->getId() . "_" . $entered_value . "_other", $post_data) && !strlen((string) ($post_data[$this->getId() . "_" . $entered_value . "_other"] ?? ""))) {
                         return $this->lng->txt("question_mr_no_other_answer");
                     }
-                } elseif (strlen($post_data[$this->getId() . "_" . $i . "_other"] ?? "")) {
+                } elseif (strlen((string) ($post_data[$this->getId() . "_" . $i . "_other"] ?? ""))) {
                     return $this->lng->txt("question_sr_no_other_answer_checked");
                 }
             }
@@ -369,11 +371,11 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
     ): ?array {
         $ilDB = $this->db;
 
-        $entered_value = $post_data[$this->getId() . "_value"] ?? "";
+        $entered_value = (string) ($post_data[$this->getId() . "_value"] ?? "");
 
         if ($a_return) {
             return array(array("value" => $entered_value,
-                "textanswer" => $post_data[$this->getId() . "_" . $entered_value . "_other"] ?? ""));
+                "textanswer" => (string) ($post_data[$this->getId() . "_" . $entered_value . "_other"] ?? "")));
         }
         if (strlen($entered_value ?? "") == 0) {
             return null;
@@ -387,7 +389,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         $fields['active_fi'] = array("integer", $active_id);
         $fields['value'] = array("float", (strlen($entered_value ?? "")) ? $entered_value : null);
         $fields['textanswer'] = array("clob", isset($post_data[$this->getId() . "_" . $entered_value . "_other"]) ?
-            $this->stripSlashesAddSpaceFallback($post_data[$this->getId() . "_" . $entered_value . "_other"]) : null);
+            $this->stripSlashesAddSpaceFallback((string) $post_data[$this->getId() . "_" . $entered_value . "_other"]) : null);
         $fields['tstamp'] = array("integer", time());
 
         $affectedRows = $ilDB->insert("svy_answer", $fields);
@@ -406,11 +408,11 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
                 $categorytext .= $material["text"];
             }
             $this->categories->addCategory(
-                $categorytext,
-                strlen($data['other'] ?? "") ? $data['other'] : 0,
-                strlen($data['neutral'] ?? "") ? $data['neutral'] : 0,
-                strlen($data['label'] ?? "") ? $data['label'] : null,
-                strlen($data['scale'] ?? "") ? $data['scale'] : null
+                (string) $categorytext,
+                (int) ($data['other'] ?? 0),
+                (int) ($data['neutral'] ?? 0),
+                ($data['label'] ?? '') !== '' ? (string) $data['label'] : null,
+                ($data['scale'] ?? '') !== '' ? (int) $data['scale'] : null
             );
         }
     }
@@ -457,7 +459,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         $title = "";
         if ($category) {
             $scale = $category->scale;
-            $title = $category->title;
+            $title = (string) $category->title;
         }
 
         // #17895 - see getPreconditionOptions()

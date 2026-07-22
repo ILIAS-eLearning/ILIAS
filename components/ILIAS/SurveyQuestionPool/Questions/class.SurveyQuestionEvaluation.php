@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -91,7 +93,7 @@ abstract class SurveyQuestionEvaluation
             $key = (int) $row["active_fi"];
             $cnt_answer_records[$key] = ($cnt_answer_records[$key] ?? 0) + 1;
             if ($this->supportsSumScore()) {
-                $res[$key] = ($res[$key] ?? 0) + $row["value"] + 1;
+                $res[$key] = ($res[$key] ?? 0) + (float) $row["value"] + 1;
             } else {
                 $res[$key] = 0;
             }
@@ -149,7 +151,7 @@ abstract class SurveyQuestionEvaluation
                     }
                 }
                 $parsed = new ilSurveyEvaluationResultsAnswer(
-                    $active_id,
+                    (int) $active_id,
                     (float) $answer["value"],
                     (string) $answer["text"],
                     $answer["tstamp"] === null ? null : (int) $answer["tstamp"]
@@ -241,9 +243,9 @@ abstract class SurveyQuestionEvaluation
                             $tmp .= $item[0];
                         }
                         if ($item[1] && $item[0]) {
-                            $tmp .= ", \"" . nl2br($item[1]) . "\"";
+                            $tmp .= ", \"" . nl2br((string) $item[1]) . "\"";
                         } elseif ($item[1]) {
-                            $tmp .= "\"" . nl2br($item[1]) . "\"";
+                            $tmp .= "\"" . nl2br((string) $item[1]) . "\"";
                         }
                         $parsed_results[$row_idx . "-" . $item[2]] = $tmp;
                     }
@@ -258,9 +260,9 @@ abstract class SurveyQuestionEvaluation
                         $tmp = $item[0];
                     }
                     if ($item[1] && $item[0]) {
-                        $tmp .= ", \"" . nl2br($item[1]) . "\"";
+                        $tmp .= ", \"" . nl2br((string) $item[1]) . "\"";
                     } elseif ($item[1]) {
-                        $tmp = "\"" . nl2br($item[1]) . "\"";
+                        $tmp = "\"" . nl2br((string) $item[1]) . "\"";
                     }
                     $parsed_results[(int) $item[2]] = $tmp;
                 }
@@ -373,7 +375,7 @@ abstract class SurveyQuestionEvaluation
      */
     public function getChart($a_results): ?array
     {
-        $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, $a_results->getQuestion()->getId());
+        $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, (string) $a_results->getQuestion()->getId());
         $chart->setYAxisToInteger(true);
 
         $colors = $this->getChartColors();
@@ -397,9 +399,9 @@ abstract class SurveyQuestionEvaluation
                 $var->cat->title,
                 $colors[$idx]
             );
-            $data->setLabel($var->cat->title);
+            $data->setLabel((string) $var->cat->title);
 
-            $data->addPoint($idx, $var->abs);
+            $data->addPoint($idx, $var->abs === null ? null : (float) $var->abs);
         }
 
         $chart->setTicks($labels, false, true);
@@ -437,7 +439,7 @@ abstract class SurveyQuestionEvaluation
             " FROM svy_svy_qst" .
             " WHERE question_fi = " . $ilDB->quote($this->question->getId(), "integer"));
         $row = $ilDB->fetchAssoc($set);
-        return $row["survey_fi"];
+        return (int) $row["survey_fi"];
     }
 
 

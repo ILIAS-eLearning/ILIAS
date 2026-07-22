@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -180,7 +182,7 @@ class SurveyTextQuestion extends SurveyQuestion
         $a_xml_writer->xmlEndTag("responses");
 
         if (count($this->material)) {
-            if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $this->material["internal_link"], $matches)) {
+            if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", (string) $this->material["internal_link"], $matches)) {
                 $attrs = array(
                     "label" => $this->material["title"]
                 );
@@ -210,7 +212,7 @@ class SurveyTextQuestion extends SurveyQuestion
     public function getWorkingDataFromUserInput(
         array $post_data
     ): array {
-        $entered_value = $post_data[$this->getId() . "_text_question"] ?? "";
+        $entered_value = (string) ($post_data[$this->getId() . "_text_question"] ?? "");
         $data = array();
         if (strlen($entered_value ?? "")) {
             $data[] = array("textanswer" => $entered_value);
@@ -226,7 +228,7 @@ class SurveyTextQuestion extends SurveyQuestion
         array $post_data,
         int $survey_id
     ): string {
-        $entered_value = $post_data[$this->getId() . "_text_question"];
+        $entered_value = (string) ($post_data[$this->getId() . "_text_question"] ?? "");
 
         if ((!$this->getObligatory()) && (strlen($entered_value ?? "") == 0)) {
             return "";
@@ -238,7 +240,7 @@ class SurveyTextQuestion extends SurveyQuestion
 
         // see bug #22648
         if ($this->getMaxChars() > 0 && ilStr::strLen($entered_value) > $this->getMaxChars()) {
-            return str_replace("%s", ilStr::strLen($entered_value), $this->lng->txt("svy_answer_too_long"));
+            return str_replace("%s", (string) ilStr::strLen($entered_value), $this->lng->txt("svy_answer_too_long"));
         }
 
         return "";
@@ -251,7 +253,9 @@ class SurveyTextQuestion extends SurveyQuestion
     ): ?array {
         $ilDB = $this->db;
 
-        $entered_value = $this->stripSlashesAddSpaceFallback($post_data[$this->getId() . "_text_question"]);
+        $entered_value = $this->stripSlashesAddSpaceFallback(
+            (string) ($post_data[$this->getId() . "_text_question"] ?? "")
+        );
         $maxchars = $this->getMaxChars();
 
         if ($maxchars > 0) {
@@ -284,7 +288,7 @@ class SurveyTextQuestion extends SurveyQuestion
     {
         foreach ($a_data as $id => $data) {
             if ($data["maxlength"] > 0) {
-                $this->setMaxChars($data["maxlength"]);
+                $this->setMaxChars((int) $data["maxlength"]);
             }
         }
     }

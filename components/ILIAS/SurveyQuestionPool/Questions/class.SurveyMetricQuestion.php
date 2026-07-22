@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -255,7 +257,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 
         if (count($this->material) && preg_match(
             "/il_(\d*?)_(\w+)_(\d+)/",
-            $this->material["internal_link"],
+            (string) $this->material["internal_link"],
             $matches
         )) {
             $attrs = array(
@@ -297,7 +299,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 
     public function getWorkingDataFromUserInput(array $post_data): array
     {
-        $entered_value = $post_data[$this->getId() . "_metric_question"] ?? "";
+        $entered_value = (string) ($post_data[$this->getId() . "_metric_question"] ?? "");
         $data = array();
         if (strlen($entered_value ?? "")) {
             $data[] = array("value" => $entered_value);
@@ -312,7 +314,7 @@ class SurveyMetricQuestion extends SurveyQuestion
         array $post_data,
         int $survey_id
     ): string {
-        $entered_value = $post_data[$this->getId() . "_metric_question"];
+        $entered_value = (string) ($post_data[$this->getId() . "_metric_question"] ?? "");
         // replace german notation with international notation
         $entered_value = str_replace(",", ".", $entered_value);
 
@@ -328,13 +330,13 @@ class SurveyMetricQuestion extends SurveyQuestion
             return $this->lng->txt("metric_question_not_a_value");
         }
 
-        if (strlen($this->getMinimum() ?? "")) {
+        if (strlen((string) ($this->getMinimum() ?? ""))) {
             if ($entered_value < $this->getMinimum()) {
                 return $this->lng->txt("metric_question_out_of_bounds");
             }
         }
 
-        if (strlen($this->getMaximum() ?? "")) {
+        if (strlen((string) ($this->getMaximum() ?? ""))) {
             if (($this->getMaximum() == 1) && ($this->getMaximum() < $this->getMinimum())) {
                 // old &infty; values as maximum
             } elseif ($entered_value > $this->getMaximum()) {
@@ -359,7 +361,7 @@ class SurveyMetricQuestion extends SurveyQuestion
     ): ?array {
         $ilDB = $this->db;
 
-        $entered_value = $post_data[$this->getId() . "_metric_question"];
+        $entered_value = (string) ($post_data[$this->getId() . "_metric_question"] ?? "");
 
         // replace german notation with international notation
         $entered_value = str_replace(",", ".", $entered_value);
@@ -390,8 +392,14 @@ class SurveyMetricQuestion extends SurveyQuestion
     public function importResponses(array $a_data): void
     {
         foreach ($a_data as $id => $data) {
-            $this->setMinimum($data["min"]);
-            $this->setMaximum($data["max"]);
+            $minimum = $data["min"] ?? null;
+            $maximum = $data["max"] ?? null;
+            $this->setMinimum(
+                $minimum === null || $minimum === '' ? null : (float) str_replace(',', '.', (string) $minimum)
+            );
+            $this->setMaximum(
+                $maximum === null || $maximum === '' ? null : (float) str_replace(',', '.', (string) $maximum)
+            );
         }
     }
 

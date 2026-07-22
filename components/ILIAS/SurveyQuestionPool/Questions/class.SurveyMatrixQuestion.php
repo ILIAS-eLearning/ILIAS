@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -72,9 +74,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
         $this->rows = new SurveyCategories();
         $this->bipolar_adjective1 = "";
         $this->bipolar_adjective2 = "";
-        $this->rowSeparators = 0;
-        $this->columnSeparators = 0;
-        $this->neutralColumnSeparator = 1;
+        $this->rowSeparators = false;
+        $this->columnSeparators = false;
+        $this->neutralColumnSeparator = true;
     }
 
     public function getColumnCount(): int
@@ -143,7 +145,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
         string $a_other,
         int $a_position
     ): void {
-        $this->rows->addCategoryAtPosition($a_text, $a_position, $a_other);
+        $this->rows->addCategoryAtPosition($a_text, $a_position, (int) $a_other);
     }
 
     public function flushRows(): void
@@ -248,7 +250,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
             $this->setColumnSeparators((bool) $data["column_separators"]);
             $this->setColumnPlaceholders((bool) $data["column_placeholders"]);
             $this->setLegend((bool) $data["legend"]);
-            $this->setSingleLineRowCaption((string) $data["singleline_row_caption"]);
+            $this->setSingleLineRowCaption((bool) $data["singleline_row_caption"]);
             $this->setRepeatColumnHeader((bool) $data["repeat_column_header"]);
             $this->setBipolarAdjective(0, (string) $data["bipolar_adjective1"]);
             $this->setBipolarAdjective(1, (string) $data["bipolar_adjective2"]);
@@ -366,12 +368,12 @@ class SurveyMatrixQuestion extends SurveyQuestion
             array($columntext, $neutral, $ilUser->getId())
         );
         $insert = false;
-        $returnvalue = "";
+        $returnvalue = 0;
         $insert = true;
         if ($result->numRows()) {
             while ($row = $ilDB->fetchAssoc($result)) {
-                if (strcmp($row["title"] ?? '', $columntext) === 0) {
-                    $returnvalue = $row["category_id"];
+                if (strcmp((string) ($row["title"] ?? ''), $columntext) === 0) {
+                    $returnvalue = (int) $row["category_id"];
                     $insert = false;
                 }
             }
@@ -505,7 +507,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
                 $attrs['other'] = 1;
             }
             $a_xml_writer->xmlStartTag("matrixrow", $attrs);
-            $this->addMaterialTag($a_xml_writer, $this->getRow($i)->title);
+            $this->addMaterialTag($a_xml_writer, (string) $this->getRow($i)->title);
             $a_xml_writer->xmlEndTag("matrixrow");
         }
         $a_xml_writer->xmlEndTag("matrixrows");
@@ -538,7 +540,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
                     $a_xml_writer->xmlStartTag("response_multiple", $attrs);
                     break;
             }
-            $this->addMaterialTag($a_xml_writer, $this->getColumn($i)->title);
+            $this->addMaterialTag($a_xml_writer, (string) $this->getColumn($i)->title);
             switch ($this->getSubtype()) {
                 case 0:
                     $a_xml_writer->xmlEndTag("response_single");
@@ -553,7 +555,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
         $a_xml_writer->xmlEndTag("matrix");
 
         if (count($this->material)) {
-            if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $this->material["internal_link"], $matches)) {
+            if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", (string) $this->material["internal_link"], $matches)) {
                 $attrs = array(
                     "label" => $this->material["title"]
                 );
@@ -610,7 +612,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
         int $upper_limit
     ): void {
         for ($i = $lower_limit; $i <= $upper_limit; $i++) {
-            $this->columns->addCategory($i);
+            $this->columns->addCategory((string) $i);
         }
     }
 
@@ -632,23 +634,24 @@ class SurveyMatrixQuestion extends SurveyQuestion
     {
         $data = array();
         foreach ($post_data as $key => $value) {
+            $key = (string) $key;
             switch ($this->getSubtype()) {
                 case 1:
                 case 0:
                     if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches)) {
                         if (is_array($value)) {
                             foreach ($value as $val) {
-                                $data[] = array("value" => $val,
-                                                "rowvalue" => $matches[1],
-                                                "textanswer" => $post_data['matrix_other_' . $this->getId(
-                                                ) . '_' . $matches[1]] ?? ""
+                                $data[] = array("value" => (string) $val,
+                                                "rowvalue" => (int) $matches[1],
+                                                "textanswer" => (string) ($post_data['matrix_other_' . $this->getId(
+                                                ) . '_' . $matches[1]] ?? "")
                                 );
                             }
                         } else {
-                            $data[] = array("value" => $value,
-                                            "rowvalue" => $matches[1],
-                                            "textanswer" => $post_data['matrix_other_' . $this->getId(
-                                            ) . '_' . $matches[1]] ?? ""
+                            $data[] = array("value" => (string) $value,
+                                            "rowvalue" => (int) $matches[1],
+                                            "textanswer" => (string) ($post_data['matrix_other_' . $this->getId(
+                                            ) . '_' . $matches[1]] ?? "")
                             );
                         }
                     }
@@ -674,8 +677,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
             case 0:
                 $counter = 0;
                 foreach ($post_data as $key => $value) {
+                    $key = (string) $key;
                     if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches)) {
-                        if (array_key_exists('matrix_other_' . $this->getId() . "_" . $matches[1], $post_data) && strlen($post_data['matrix_other_' . $this->getId() . "_" . $matches[1]] ?? "") == 0) {
+                        if (array_key_exists('matrix_other_' . $this->getId() . "_" . $matches[1], $post_data) && strlen((string) ($post_data['matrix_other_' . $this->getId() . "_" . $matches[1]] ?? "")) === 0) {
                             return $this->lng->txt("question_mr_no_other_answer");
                         }
                         $counter++;
@@ -688,8 +692,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
             case 1:
                 $counter = 0;
                 foreach ($post_data as $key => $value) {
+                    $key = (string) $key;
                     if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches)) {
-                        if (array_key_exists('matrix_other_' . $this->getId() . "_" . $matches[1], $post_data) && strlen($post_data['matrix_other_' . $this->getId() . "_" . $matches[1]] ?? "") == 0) {
+                        if (array_key_exists('matrix_other_' . $this->getId() . "_" . $matches[1], $post_data) && strlen((string) ($post_data['matrix_other_' . $this->getId() . "_" . $matches[1]] ?? "")) === 0) {
                             return $this->lng->txt("question_mr_no_other_answer");
                         }
                         $counter++;
@@ -719,14 +724,16 @@ class SurveyMatrixQuestion extends SurveyQuestion
         switch ($this->getSubtype()) {
             case 0:
                 foreach ($post_data as $key => $value) {
+                    $key = (string) $key;
                     if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches)) {
-                        if (strlen($value ?? "")) {
+                        $value = (string) $value;
+                        if ($value !== '') {
                             $other_value = (array_key_exists('matrix_other_' . $this->getId() . '_' . $matches[1], $post_data))
-                                ? $this->stripSlashesAddSpaceFallback($post_data['matrix_other_' . $this->getId() . '_' . $matches[1]])
+                                ? $this->stripSlashesAddSpaceFallback((string) $post_data['matrix_other_' . $this->getId() . '_' . $matches[1]])
                                 : null;
                             $answer_data[] = array("value" => $value,
                                 "textanswer" => $other_value,
-                                "rowvalue" => $matches[1]);
+                                "rowvalue" => (int) $matches[1]);
                         }
                     }
                 }
@@ -734,14 +741,15 @@ class SurveyMatrixQuestion extends SurveyQuestion
 
             case 1:
                 foreach ($post_data as $key => $value) {
+                    $key = (string) $key;
                     if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches)) {
                         $other_value = (array_key_exists('matrix_other_' . $this->getId() . '_' . $matches[1], $post_data))
-                            ? $this->stripSlashesAddSpaceFallback($post_data['matrix_other_' . $this->getId() . '_' . $matches[1]])
+                            ? $this->stripSlashesAddSpaceFallback((string) $post_data['matrix_other_' . $this->getId() . '_' . $matches[1]])
                             : null;
-                        foreach ($value as $checked) {
-                            $answer_data[] = array("value" => $checked,
+                        foreach ((array) $value as $checked) {
+                            $answer_data[] = array("value" => (string) $checked,
                                 "textanswer" => $other_value,
-                                "rowvalue" => $matches[1]);
+                                "rowvalue" => (int) $matches[1]);
                         }
                     }
                 }
@@ -862,16 +870,16 @@ class SurveyMatrixQuestion extends SurveyQuestion
         foreach ($a_meta as $key => $value) {
             switch ($value["label"]) {
                 case "column_separators":
-                    $this->setColumnSeparators($value["entry"]);
+                    $this->setColumnSeparators((bool) $value["entry"]);
                     break;
                 case "row_separators":
-                    $this->setRowSeparators($value["entry"]);
+                    $this->setRowSeparators((bool) $value["entry"]);
                     break;
                 case "layout":
                     $this->setLayout($value["entry"]);
                     break;
                 case "neutral_column_separator":
-                    $this->setNeutralColumnSeparator($value["entry"]);
+                    $this->setNeutralColumnSeparator((bool) $value["entry"]);
                     break;
             }
         }
@@ -885,9 +893,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
         $i = 0;
         foreach ($a_data as $adjective) {
             if (is_numeric($adjective["label"])) {
-                $this->setBipolarAdjective($adjective["label"], $adjective["text"]);
+                $this->setBipolarAdjective((int) $adjective["label"], (string) $adjective["text"]);
             } else {
-                $this->setBipolarAdjective($i, $adjective["text"]);
+                $this->setBipolarAdjective($i, (string) $adjective["text"]);
             }
             $i++;
         }
@@ -900,7 +908,11 @@ class SurveyMatrixQuestion extends SurveyQuestion
         array $a_data
     ): void {
         foreach ($a_data as $row) {
-            $this->addRow($row['title'], $row['other'], $row['label']);
+            $this->addRow(
+                (string) $row['title'],
+                (string) ($row['other'] ?? ''),
+                (string) ($row['label'] ?? '')
+            );
         }
     }
 
@@ -914,7 +926,11 @@ class SurveyMatrixQuestion extends SurveyQuestion
             foreach ($data["material"] as $material) {
                 $column .= $material["text"];
             }
-            $this->columns->addCategory($column, 0, strcmp($data["label"], "neutral") == 0);
+            $this->columns->addCategory(
+                (string) $column,
+                0,
+                strcmp((string) ($data["label"] ?? ''), "neutral") === 0 ? 1 : 0
+            );
         }
     }
 
@@ -1125,7 +1141,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
         );
         $max_score = [];
         while ($rec = $db->fetchAssoc($set)) {
-            $max_score[$rec["question_id"]] = $rec["max_sum_score"];
+            $max_score[(int) $rec["question_id"]] = (int) $rec["max_sum_score"];
         }
 
         $set = $db->queryF(
@@ -1139,7 +1155,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
         );
         $cnt_rows = [];
         while ($rec = $db->fetchAssoc($set)) {
-            $cnt_rows[$rec["question_id"]] = $rec["cnt_rows"];
+            $cnt_rows[(int) $rec["question_id"]] = (int) $rec["cnt_rows"];
         }
 
         $sum_sum_score = 0;

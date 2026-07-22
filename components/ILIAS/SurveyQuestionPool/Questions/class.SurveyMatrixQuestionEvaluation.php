@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -153,7 +155,10 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
      */
     public function getChart($a_results): ?array
     {
-        $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, $a_results[0][1]->getQuestion()->getId());
+        $chart = ilChart::getInstanceByType(
+            ilChart::TYPE_GRID,
+            (string) $a_results[0][1]->getQuestion()->getId()
+        );
         $chart->setXAxisToInteger(true);
         $chart->setStacked(true);
 
@@ -188,7 +193,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
                 foreach ($vars as $idx => $var) {
                     if (!array_key_exists($idx, $data)) {
                         $data[$idx] = $chart->getDataInstance(ilChartGrid::DATA_BARS);
-                        $data[$idx]->setLabel($var->cat->title);
+                        $data[$idx]->setLabel((string) $var->cat->title);
                         $data[$idx]->setBarOptions(0.5, "center", true);
                         $data[$idx]->setFill(1);
 
