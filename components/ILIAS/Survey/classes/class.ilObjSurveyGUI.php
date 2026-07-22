@@ -308,7 +308,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
     protected function noPermission(): void
     {
-        throw new ilObjectException($this->lng->txt("permission_denied"));
+        $this->checkPermission("read");
     }
 
     protected function addToNavigationHistory(): void
