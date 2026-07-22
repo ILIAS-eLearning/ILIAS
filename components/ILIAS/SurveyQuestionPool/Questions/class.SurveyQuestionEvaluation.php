@@ -143,7 +143,7 @@ abstract class SurveyQuestionEvaluation
                 // map selection value to scale/category
                 if ($a_categories &&
                     $answer["value"] != "") {
-                    $scale = $a_categories->getCategoryForScale($answer["value"] + 1);
+                    $scale = $a_categories->getCategoryForScale((int) $answer["value"] + 1);
                     if ($scale instanceof ilSurveyCategory) {
                         $answer["value"] = $scale->scale;
                     }
@@ -152,7 +152,7 @@ abstract class SurveyQuestionEvaluation
                     $active_id,
                     (float) $answer["value"],
                     (string) $answer["text"],
-                    $answer["tstamp"]
+                    $answer["tstamp"] === null ? null : (int) $answer["tstamp"]
                 );
                 $a_results->addAnswer($parsed);
 
@@ -196,7 +196,9 @@ abstract class SurveyQuestionEvaluation
                 } else {
                     $median_value = $median[(($total + 1) / 2) - 1];
                 }
-                $a_results->setMedian($median_value);
+                $a_results->setMedian(
+                    is_array($median_value) ? $median_value : (string) $median_value
+                );
             }
         }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -24,17 +26,17 @@ class ilSurveyEvaluationResultsAnswer
     public int $active_id;
     public float $value;
     public string $text;
-    public int $tstamp;
+    public ?int $tstamp;
 
     public function __construct(
         int $a_active_id,
         float $a_value,
         string $a_text,
-        int $a_tstamp
+        ?int $a_tstamp
     ) {
         $this->active_id = $a_active_id;
         $this->value = $a_value;
         $this->text = trim($a_text);
-        $this->tstamp = trim((string) $a_tstamp);
+        $this->tstamp = $a_tstamp;
     }
 }

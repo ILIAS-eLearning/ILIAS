@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -189,7 +191,7 @@ class ilSurveyEvaluationResults
         $a_value
     ): string {
         if (!count($this->variables)) {
-            return $a_value;
+            return (string) $a_value;
         } else {
             foreach ($this->variables as $var) {
                 if ($var->cat->scale == $a_value) {
@@ -204,11 +206,11 @@ class ilSurveyEvaluationResults
         float $a_value
     ): string {
         if (!count($this->variables)) {
-            return $a_value;
+            return (string) $a_value;
         } else {
             foreach ($this->variables as $var) {
                 if ($var->cat->scale == $a_value) {
-                    return $var->cat->title;
+                    return (string) $var->cat->title;
                 }
             }
         }
