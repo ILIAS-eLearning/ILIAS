@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Listing\Workflow;
 
@@ -49,6 +49,11 @@ class Step implements C\Listing\Workflow\Step
      * @var	mixed
      */
     private $status;
+
+    /**
+     * @var ?string
+     */
+    private $aria_label;
 
     public function __construct(string $label, string $description = '', $action = null)
     {
@@ -117,7 +122,7 @@ class Step implements C\Listing\Workflow\Step
     /**
      * @inheritdoc
      */
-    public function withStatus($status): C\Listing\Workflow\Step
+    public function withStatus($status, ?string $aria_label = null): C\Listing\Workflow\Step
     {
         $valid = [
             static::NOT_STARTED,
@@ -129,6 +134,7 @@ class Step implements C\Listing\Workflow\Step
 
         $clone = clone $this;
         $clone->status = $status;
+        $clone->aria_label = $aria_label;
         return $clone;
     }
 
@@ -138,5 +144,13 @@ class Step implements C\Listing\Workflow\Step
     public function getAction()
     {
         return $this->action;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAriaLabel(): ?string
+    {
+        return $this->aria_label;
     }
 }

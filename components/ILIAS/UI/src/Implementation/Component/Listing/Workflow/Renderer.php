@@ -50,7 +50,14 @@ class Renderer extends AbstractComponentRenderer
             $action = $step->getAction();
             if (!is_null($action) && $step->getAvailability() === Component\Listing\Workflow\Step::AVAILABLE) {
                 $f = $this->getUIFactory();
-                $shy = $f->button()->shy($step->getLabel(), $action);
+                $label = $step->getLabel();
+                $shy = $f->button()->shy($label, $action);
+
+                $aria_label = $step->getAriaLabel();
+                if (!empty($aria_label)) {
+                    $shy = $shy->withAriaLabel($aria_label);
+                }
+
                 $tpl->setVariable("LABEL", $default_renderer->render($shy));
             } else {
                 $tpl->setVariable("LABEL", $step->getLabel());
