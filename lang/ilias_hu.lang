@@ -12917,8 +12917,6 @@ mst#:#mst_profile_fulfilled#:#Teljesített
 mst#:#mst_profile_not_fulfilled#:#Még nem teljesített
 mst#:#mst_select_course#:#Válasszon kurzust
 mst#:#mst_show_courses#:##Kurzustagságok
-news#:#lso_news_online_title#:#A tanulási sorban egy új online objektum!
-news#:#lso_news_online_txt#:#A tanulási sorban egy új objektumot tettek elérhetővé.
 news#:#new_test_online#:#A teszt online lett.
 news#:#news_1_file_created#:#Egy fájlt sikeresen létrehozott.
 news#:#news_1_file_updated#:#Egy fájlt sikeresen frissített.

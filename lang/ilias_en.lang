@@ -12920,8 +12920,6 @@ mst#:#mst_profile_fulfilled#:#Not met, yet
 mst#:#mst_profile_not_fulfilled#:#Fulfilled
 mst#:#mst_select_course#:#Select Course
 mst#:#mst_show_courses#:#Course Memberships
-news#:#lso_news_online_title#:#A new learning sequence object is online!
-news#:#lso_news_online_txt#:#A new object for your learning sequence was just published.
 news#:#new_test_online#:#The test was set online.
 news#:#news_1_file_created#:#One file has been added.
 news#:#news_1_file_updated#:#One file has been updated.
