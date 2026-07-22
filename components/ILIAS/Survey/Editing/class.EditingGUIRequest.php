@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -169,7 +171,7 @@ class EditingGUIRequest
 
     public function getQuestionIdsFromString(): array
     {
-        return explode(";", $this->str("question_ids"));
+        return array_map('intval', explode(";", $this->str("question_ids")));
     }
 
     public function getSelectedPool(): int
