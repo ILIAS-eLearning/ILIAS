@@ -165,12 +165,12 @@ class PresentationTest extends TableTestBase
 
             <div class="il-table-presentation-row-controls col-lg-auto col-sm-12">
                 <div class="il-table-presentation-row-controls-expander inline">
-                    <a tabindex="0" class="glyph" href="#" aria-label="expand_content" id="id_5">
+                    <a tabindex="0" class="glyph" href="#" aria-label="expand_content" id="id_5" aria-expanded="false">
                         <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                     </a>
                 </div>
                 <div class="il-table-presentation-row-controls-collapser">
-                    <a tabindex="0" class="glyph" href="#" aria-label="collapse_content" id="id_6">
+                    <a tabindex="0" class="glyph" href="#" aria-label="collapse_content" id="id_6" aria-expanded="true">
                         <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                     </a>
                 </div>
@@ -268,12 +268,12 @@ EXP;
 
             <div class="il-table-presentation-row-controls col-lg-auto col-sm-12">
                 <div class="il-table-presentation-row-controls-expander inline">
-                    <a tabindex="0" class="glyph" href="#" aria-label="expand_content" id="id_5">
+                    <a tabindex="0" class="glyph" href="#" aria-label="expand_content" id="id_5" aria-expanded="false">
                         <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                     </a>
                 </div>
                 <div class="il-table-presentation-row-controls-collapser">
-                    <a tabindex="0" class="glyph" href="#" aria-label="collapse_content" id="id_6">
+                    <a tabindex="0" class="glyph" href="#" aria-label="collapse_content" id="id_6" aria-expanded="true">
                         <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                     </a>
                 </div>
