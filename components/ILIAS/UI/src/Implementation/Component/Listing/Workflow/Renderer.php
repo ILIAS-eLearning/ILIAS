@@ -53,9 +53,11 @@ class Renderer extends AbstractComponentRenderer
                 $label = $step->getLabel();
                 $shy = $f->button()->shy($label, $action);
 
-                $aria_label = $step->getAriaLabel();
-                if (!empty($aria_label)) {
-                    $shy = $shy->withAriaLabel($aria_label);
+                $status_text = $step->getStatusText();
+                if ($status_text !== null) {
+                    $shy = $shy->withAriaLabel(
+                        sprintf($this->txt('ui_workflow_step_status'), $label, $status_text)
+                    );
                 }
 
                 $tpl->setVariable("LABEL", $default_renderer->render($shy));

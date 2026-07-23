@@ -17414,6 +17414,7 @@ ui#:#ui_select_dropdown_label#:#Please select###26 08 2024 new variable
 ui#:#ui_table_no_records#:#No records###26 08 2024 new variable
 ui#:#ui_table_order#:#Order###21 05 2025 new variable
 ui#:#ui_transcription#:#Transcript###29 07 2022 new variable
+ui#:#ui_workflow_step_status#:#%1$s, estado: %2$s
 ui#:#vc_sort#:#Sort by:###21 05 2025 new variable
 ui#:#warning_url_too_long_msg#:#The amount of selected rows will result in a very large URL; the Server will probably block this request.<br>Please select less rows or perform the action on all entries.###26 08 2025 new variable
 user#:#all_roles_has_starting_point#:#Todos los roles tienen puntos de inicio

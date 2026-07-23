@@ -17419,6 +17419,7 @@ ui#:#ui_select_dropdown_label#:#Bitte auswählen
 ui#:#ui_table_no_records#:#Keine Einträge
 ui#:#ui_table_order#:#Reihenfolge
 ui#:#ui_transcription#:#Abschrift
+ui#:#ui_workflow_step_status#:#%1$s, Status: %2$s
 ui#:#vc_sort#:#Sortiert nach:
 ui#:#warning_url_too_long_msg#:#Die Anzahl der ausgewählten Zeilen führt zu einer zu großen Datenmenge, die nicht übertragen werden kann. Wählen Sie weniger Zeilen aus oder führen Sie die Aktion für die gesamte Tabelle durch (Sammelaktionen).
 user#:#all_roles_has_starting_point#:#Alle Rollen mit definierter Startseite
