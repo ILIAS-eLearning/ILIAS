@@ -41,8 +41,7 @@ class MailFilterUI
         private readonly Factory $ui_factory,
         private readonly ilUIFilterService $filter_service,
         private readonly ilLanguage $lng,
-        private readonly DateTimeZone $user_time_zone,
-        private readonly bool $focus_first_filter_input_after_apply = false
+        private readonly DateTimeZone $user_time_zone
     ) {
         $inputs = [];
         if ($this->folder->hasIncomingMails()) {
@@ -82,24 +81,6 @@ class MailFilterUI
             false,
             false
         );
-
-        if ($this->focus_first_filter_input_after_apply) {
-            $this->filter = $this->filter->withAdditionalOnLoadCode(
-                static fn(string $id): string => <<<JS
-window.setTimeout(function() {
-    const filterSection = document.getElementById('section_inputs_{$id}');
-    if (!filterSection) {
-        return;
-    }
-
-    const firstFocusable = filterSection.querySelector('input:not([type="hidden"]):not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex]:not([tabindex="-1"])');
-    if (firstFocusable instanceof HTMLElement) {
-        firstFocusable.focus();
-    }
-}, 25);
-JS
-            );
-        }
     }
 
     /**

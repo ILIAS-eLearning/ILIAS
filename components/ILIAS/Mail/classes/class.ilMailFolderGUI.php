@@ -622,15 +622,7 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
             $this->ui_service->filter(),
             $this->lng,
             new DateTimeZone($this->user->getTimeZone()),
-            $this->shouldFocusFirstFilterInputAfterApply(),
         );
-    }
-
-    protected function shouldFocusFirstFilterInputAfterApply(): bool
-    {
-        $query_params = $this->http->request()->getQueryParams();
-
-        return ($query_params[ilUIFilterRequestAdapter::CMD_PARAMETER] ?? '') === ilUIFilterService::CMD_APPLY;
     }
 
     /**
