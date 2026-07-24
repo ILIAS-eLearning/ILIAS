@@ -14334,15 +14334,15 @@ rbac#:#feed_delete#:#Webfeed löschen
 rbac#:#feed_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#feed_read#:#Inhalt des Webfeeds lesen
 rbac#:#feed_write#:#Einstellungen des Webfeeds bearbeiten
-rbac#:#file_content#:#Inhalt anzeigen
 rbac#:#file_copy#:#Datei kopieren
 rbac#:#file_delete#:#Datei verschieben oder löschen
 rbac#:#file_edit_file#:#Bearbeitung in einem externen Editor erlauben, sofern vorhanden
 rbac#:#file_edit_learning_progress#:#Lernfortschrittseinstellungen können bearbeitet werden.
 rbac#:#file_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#file_file_view_content#:#Inhalt der Datei wird im Browser angezeigt (wenn WOPI aktiv ist).
+rbac#:#file_file_view_content_short#:#Inhalt anzeigen
 rbac#:#file_read#:#Datei herunterladen
 rbac#:#file_read_learning_progress#:#Lernfortschritt von anderen einsehen
-rbac#:#file_view_content#:#Inhalt der Datei wird im Browser angezeigt (wenn WOPI aktiv ist).
 rbac#:#file_visible#:#Datei ist sichtbar.
 rbac#:#file_write#:#Einstellungen der Datei bearbeiten und neue Version hochladen
 rbac#:#files_visible#:#Dateien sichtbar
