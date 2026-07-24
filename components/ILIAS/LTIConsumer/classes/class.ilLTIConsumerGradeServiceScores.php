@@ -159,10 +159,11 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
         $lp_status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
         $updateLpStatus = false;
 
-        if (in_array($score->activityProgress, ['Started', 'InProgress', 'Submitted'], true)) {
+        if (in_array($score->activityProgress, ['Started', 'InProgress'], true) ||
+            ($score->activityProgress === 'Submitted' && $score->gradingProgress !== 'FullyGraded')) {
             $lp_status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
             $updateLpStatus = true;
-        } elseif ($score->activityProgress === 'Completed') {
+        } elseif (in_array($score->activityProgress, ['Submitted', 'Completed'], true)) {
             if ($score->gradingProgress === 'FullyGraded' && $result !== null) {
                 if ($result >= $ltiObjRes->getMasteryScore()) {
                     $lp_status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
