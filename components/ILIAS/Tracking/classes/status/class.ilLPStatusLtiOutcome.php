@@ -87,7 +87,8 @@ class ilLPStatusLtiOutcome extends ilLPStatus
                 return self::LP_STATUS_FAILED_NUM;
             }
 
-            if (in_array($activityProgress, ['Started', 'InProgress', 'Submitted'], true) ||
+            if (in_array($activityProgress, ['Started', 'InProgress'], true) ||
+                ($activityProgress === 'Submitted' && $gradingProgress !== 'FullyGraded') ||
                 in_array($gradingProgress, ['Pending', 'PendingManual', 'NotReady'], true)) {
                 return self::LP_STATUS_IN_PROGRESS_NUM;
             }
