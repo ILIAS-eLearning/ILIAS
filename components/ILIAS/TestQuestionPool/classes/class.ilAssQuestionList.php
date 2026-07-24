@@ -545,7 +545,13 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $having !== '' ? "HAVING $having" : '';
     }
 
-    private function buildOrderQueryExpression(): string
+    /**
+     * @param bool $qualify In the two-phase ID query (phase A) qpl_questions.*
+     *                      is not selected, so ambiguous order columns like
+     *                      `title` (exists on qpl_questions and object_data)
+     *                      must be qualified to their table.
+     */
+    private function buildOrderQueryExpression(bool $qualify = false): string
     {
         $order = $this->order;
         if ($order === null) {
@@ -562,7 +568,37 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
             $order_direction = Order::ASC;
         }
 
-        return " ORDER BY `$order_field` $order_direction";
+        if ($qualify) {
+            $order_field = $this->qualifyOrderField($order_field);
+        }
+
+        // Backtick each segment separately so qualified names like
+        // qpl_questions.title become `qpl_questions`.`title` (a single
+        // pair of backticks around the dotted name would be parsed as one
+        // oddly-named column).
+        $order_field = implode('.', array_map(
+            static fn(string $seg): string => '`' . $seg . '`',
+            explode('.', $order_field)
+        ));
+
+        return " ORDER BY $order_field $order_direction";
+    }
+
+    /**
+     * Map an order field to its fully qualified column. Needed in phase A
+     * where qpl_questions.* is not selected and columns like `title` would
+     * be ambiguous between qpl_questions and object_data.
+     */
+    private function qualifyOrderField(string $field): string
+    {
+        return match ($field) {
+            'title', 'description', 'author', 'lifecycle', 'points',
+            'created', 'tstamp', 'complete', 'question_id', 'original_id' => "qpl_questions.$field",
+            'max_points' => 'qpl_questions.points',
+            'type_tag' => 'qpl_qst_type.type_tag',
+            'parent_title' => 'object_data.title',
+            default => $field,
+        };
     }
 
     private function buildLimitQueryExpression(): string
@@ -589,9 +625,180 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         ]));
     }
 
+    /**
+     * Two-phase query loading can be used when the result is paginated
+     * (range set) and neither a HAVING filter nor an ORDER BY on a computed
+     * column (feedback/hints/taxonomies) is active. In that case the
+     * expensive correlated EXISTS subqueries are evaluated only for the
+     * small paginated set of question ids instead of the full candidate
+     * set before LIMIT/OFFSET is applied.
+     */
+    private function canUseTwoPhaseQuery(): bool
+    {
+        if ($this->range === null) {
+            return false;
+        }
+        if ($this->getHavingFilterExpression() !== '') {
+            return false;
+        }
+        if ($this->isOrderByComputedField()) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * ORDER BY targets one of the computed columns (feedback/hints/taxonomies)
+     * that only exist in the single-phase query. Two-phase loading cannot
+     * sort by these and must fall back to the single-phase query.
+     */
+    private function isOrderByComputedField(): bool
+    {
+        if ($this->order === null) {
+            return false;
+        }
+        [$order_field] = $this->order->join(
+            '',
+            static fn(string $index, string $key, string $value): array => [$key, $value]
+        );
+        return in_array($order_field, ['feedback', 'hints', 'taxonomies'], true);
+    }
+
+    /**
+     * Phase A: determine the paginated, ordered set of question ids using
+     * only the required JOINs/filters — without the expensive correlated
+     * EXISTS subqueries for feedback/hints/taxonomies.
+     *
+     * GROUP BY question_id (instead of DISTINCT) is used so that ORDER BY
+     * may reference any column functionally dependent on question_id (e.g.
+     * qpl_questions.title) without having to add it to the SELECT list —
+     * MySQL rejects `SELECT DISTINCT question_id ... ORDER BY title`.
+     * GROUP BY also deduplicates rows that the tst_test_question /
+     * feedback / hints filter JOINs may produce.
+     */
+    private function buildPaginatedIdsQuery(): string
+    {
+        return implode(PHP_EOL, array_filter([
+            "SELECT qpl_questions.question_id FROM qpl_questions {$this->getTableJoinExpression()}",
+            "WHERE qpl_questions.tstamp > 0",
+            $this->getConditionalFilterExpression(),
+            "GROUP BY qpl_questions.question_id",
+            $this->buildOrderQueryExpression(true),
+            $this->buildLimitQueryExpression(),
+        ]));
+    }
+
+    /**
+     * Phase B: enrich the small paginated set of question ids with the full
+     * select fields including the computed feedback/hints/taxonomies flags.
+     * Filter JOINs (feedback/hints) are NOT applied here — they were already
+     * honoured in phase A.
+     */
+    private function buildEnrichmentQuery(array $question_ids): string
+    {
+        $in = $this->db->in('qpl_questions.question_id', $question_ids, false, ilDBConstants::T_INTEGER);
+        return implode(PHP_EOL, array_filter([
+            "{$this->getSelectFieldsExpression()} FROM qpl_questions {$this->getBaseTableJoinExpression()}",
+            "WHERE qpl_questions.tstamp > 0 AND $in",
+        ]));
+    }
+
+    /**
+     * Base table joins without the feedback/hints filter JOINs added by
+     * handleFeedbackJoin()/handleHintJoin(). Used in phase B where those
+     * filter JOINs are not needed (filtering happened in phase A).
+     */
+    private function getBaseTableJoinExpression(): string
+    {
+        $table_join = '
+			INNER JOIN	qpl_qst_type
+			ON			qpl_qst_type.question_type_id = qpl_questions.question_type_fi
+		';
+
+        if ($this->join_obj_data) {
+            $table_join .= '
+				INNER JOIN	object_data
+				ON			object_data.obj_id = qpl_questions.obj_fi
+			';
+        }
+
+        if (
+            $this->parentObjType === 'tst'
+            && $this->questionInstanceTypeFilter === self::QUESTION_INSTANCE_TYPE_ALL
+        ) {
+            $table_join .= 'INNER JOIN tst_test_question tstquest ON tstquest.question_fi = qpl_questions.question_id';
+        }
+
+        if ($this->answerStatusActiveId) {
+            $table_join .= "
+				LEFT JOIN	tst_test_result
+				ON			tst_test_result.question_fi = qpl_questions.question_id
+				AND			tst_test_result.active_fi = {$this->db->quote($this->answerStatusActiveId, ilDBConstants::T_INTEGER)}
+			";
+        }
+
+        return $table_join;
+    }
+
+    private function loadTwoPhase(): void
+    {
+        $tags_trafo = $this->refinery->encode()->htmlSpecialCharsAsEntities();
+
+        $ids_res = $this->db->query($this->buildPaginatedIdsQuery());
+        $ordered_ids = [];
+        while ($row = $this->db->fetchAssoc($ids_res)) {
+            $ordered_ids[] = (int) $row['question_id'];
+        }
+
+        if ($ordered_ids === []) {
+            return;
+        }
+
+        $rows_by_id = [];
+        $res = $this->db->query($this->buildEnrichmentQuery($ordered_ids));
+        while ($row = $this->db->fetchAssoc($res)) {
+            $rows_by_id[(int) $row['question_id']] = $row;
+        }
+
+        foreach ($ordered_ids as $question_id) {
+            if (!isset($rows_by_id[$question_id])) {
+                continue;
+            }
+            $row = $rows_by_id[$question_id];
+            $row = ilAssQuestionType::completeMissingPluginName($row);
+
+            if (!$this->isActiveQuestionType($row)) {
+                continue;
+            }
+
+            $row['title'] = $tags_trafo->transform($row['title'] ?? '&nbsp;');
+            $row['description'] = $tags_trafo->transform($row['description'] ?? '');
+            $row['author'] = $tags_trafo->transform($row['author']);
+            $row['taxonomies'] = $this->loadTaxonomyAssignmentData($row['obj_fi'], $row['question_id']);
+            $row['ttype'] = $this->lng->txt($row['type_tag']);
+            $row['feedback'] = $row['feedback'] === 1;
+            $row['hints'] = $row['hints'] === 1;
+            $row['comments'] = $this->getNumberOfCommentsForQuestion($row['question_id']);
+
+            if (
+                $this->filter_comments === self::QUESTION_COMMENTED_ONLY && $row['comments'] === 0
+                || $this->filter_comments === self::QUESTION_COMMENTED_EXCLUDED && $row['comments'] > 0
+            ) {
+                continue;
+            }
+
+            $this->questions[$row['question_id']] = $row;
+        }
+    }
+
     public function load(): void
     {
         $this->checkFilters();
+
+        if ($this->canUseTwoPhaseQuery()) {
+            $this->loadTwoPhase();
+            return;
+        }
 
         $tags_trafo = $this->refinery->encode()->htmlSpecialCharsAsEntities();
 
