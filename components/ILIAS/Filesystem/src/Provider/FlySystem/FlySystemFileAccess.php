@@ -26,6 +26,7 @@ use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Provider\FileAccess;
 use ILIAS\Filesystem\Visibility;
+use League\Flysystem\CorruptedPathDetected;
 use League\Flysystem\FileExistsException;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemInterface;
@@ -70,7 +71,14 @@ class FlySystemFileAccess implements FileAccess
 
     public function has(string $path): bool
     {
-        return $this->flysystem_operator->has($path);
+        try {
+            return $this->flysystem_operator->has($path);
+        } catch (CorruptedPathDetected) {
+            // Paths containing funky whitespace (e.g. a tab or a line break) are rejected
+            // by the path normalizer. Such a path can never be read, but it must not abort
+            // the caller either, since these paths do occur on disk.
+            return false;
+        }
     }
 
     public function getMimeType(string $path): string

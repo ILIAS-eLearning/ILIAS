@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Filesystem\Finder\Iterator;
 
 use ILIAS\Filesystem\DTO\Metadata;
+use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
 use ILIAS\Filesystem\Filesystem;
 
 /**
@@ -63,7 +64,17 @@ class RecursiveDirectoryIterator implements \RecursiveIterator
     public function rewind(): void
     {
         $this->files = [];
-        foreach ($this->filesystem->listContents($this->dir, false) as $metadata) {
+
+        try {
+            $contents = $this->filesystem->listContents($this->dir, false);
+        } catch (DirectoryNotFoundException) {
+            // A directory which cannot be listed, e.g. because its path is rejected by the
+            // path normalizer, is treated as empty. Otherwise a single unusable directory
+            // would abort the traversal of the whole tree.
+            return;
+        }
+
+        foreach ($contents as $metadata) {
             $this->files[$metadata->getPath()] = $metadata;
         }
     }

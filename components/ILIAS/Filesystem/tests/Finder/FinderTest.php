@@ -107,6 +107,61 @@ class FinderTest extends TestCase
         return $fileSystem;
     }
 
+    /**
+     * A directory whose path is rejected by the path normalizer cannot be listed,
+     * listContents() reports it as not found. See 0047398.
+     */
+    private function getNestedFileSystemStructureWithAnUnlistableDirectory(): Filesystem\Filesystem&\PHPUnit\Framework\MockObject\MockObject
+    {
+        $fileSystem = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
+
+        $rootMetadata = [
+            new Filesystem\DTO\Metadata('file_1.txt', MetadataType::FILE),
+            new Filesystem\DTO\Metadata('dir_1', MetadataType::DIRECTORY),
+        ];
+
+        $level1Metadata = [
+            new Filesystem\DTO\Metadata('dir_1/file_2.log', MetadataType::FILE),
+            new Filesystem\DTO\Metadata('dir_1/dir_1_1', MetadataType::DIRECTORY),
+            new Filesystem\DTO\Metadata('dir_1/dir_1_2', MetadataType::DIRECTORY),
+        ];
+
+        $level12Metadata = [
+            new Filesystem\DTO\Metadata('dir_1/dir_1_2/file_3.py', MetadataType::FILE),
+        ];
+
+        $fileSystem
+            ->expects($this->atLeast(1))
+            ->method('listContents')
+            ->willReturnCallback(function ($path) use (
+                $rootMetadata,
+                $level1Metadata,
+                $level12Metadata
+            ): array {
+                if ('/' === $path) {
+                    return $rootMetadata;
+                }
+                if ('dir_1' === $path) {
+                    return $level1Metadata;
+                }
+                if ('dir_1/dir_1_1' === $path) {
+                    throw new Filesystem\Exception\DirectoryNotFoundException(
+                        "Directory \"$path\" not found."
+                    );
+                }
+                if ('dir_1/dir_1_2' === $path) {
+                    return $level12Metadata;
+                }
+
+                return [];
+            });
+
+        return $fileSystem;
+    }
+
+    /**
+     * @throws ReflectionException
+     */
     public function testFinderWillFindNoFilesOrFoldersInAnEmptyDirectory(): void
     {
         $fileSystem = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
@@ -138,6 +193,23 @@ class FinderTest extends TestCase
         $this->assertCount(7, $finder->files());
     }
 
+    /**
+     * @throws ReflectionException
+     */
+    public function testFinderWillSkipDirectoriesWhichCannotBeListed(): void
+    {
+        $finder = (new Finder($this->getNestedFileSystemStructureWithAnUnlistableDirectory()))->in(['/']);
+
+        // the unlistable directory itself is still reported by its parent, only its
+        // content is missing, the traversal of the remaining tree continues
+        $this->assertCount(6, $finder);
+        $this->assertCount(3, $finder->directories());
+        $this->assertCount(3, $finder->files());
+    }
+
+    /**
+     * @throws ReflectionException
+     */
     public function testFinderWillFindFilesAndFoldersForACertainDirectoryDepth(): void
     {
         $finder = (new Finder($this->getNestedFileSystemStructure()))->in(['/']);
