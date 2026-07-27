@@ -51,9 +51,11 @@ use ILIAS\User\Profile\Data as ProfileData;
  * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjSurveyGUI
  * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjFileUploadHandlerGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjLearningSequenceEditIntroGUI, ilObjLearningSequenceEditExtroGUI
+ * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjectMetaDataGUI, ilTaxonomySettingsGUI, ilObjTaxonomyGUI
  */
-class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClassInterface
+class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClassInterface, \ILIAS\Taxonomy\Settings\ModifierGUIInterface
 {
+    protected \ILIAS\Taxonomy\Service $taxonomy;
     public const CMD_VIEW = "view";
     public const CMD_LEARNER_VIEW = "learnerView";
     public const CMD_CONTENT = "manageContent";
@@ -228,6 +230,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         $this->post_wrapper = $DIC->http()->wrapper()->post();
         $this->refinery = $DIC->refinery();
         $this->content_style = $DIC->contentStyle();
+        $this->taxonomy = $DIC->taxonomy();
 
         $this->help->setScreenIdComponent($this->type);
         $this->lng->loadLanguageModule($this->type);
@@ -292,6 +295,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                 }
 
                 $this->tabs->activateTab(self::TAB_SETTINGS);
+                $this->setEditTabs();
                 $this->ctrl->forwardCommand($this->getGUISettings());
                 break;
             case "ilobjlearningsequencecontentgui":
@@ -349,6 +353,23 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             case 'ilobjlearningsequencelppollinggui':
                 $gui = $this->object->getLocalDI()["gui.learner.lp"];
                 $this->ctrl->forwardCommand($gui);
+                break;
+            case "ilobjectmetadatagui":
+                $this->tabs->activateTab("meta_data");
+                $mdgui = new ilObjectMetaDataGUI($this->object);
+                $this->ctrl->forwardCommand($mdgui);
+                break;
+            case "iltaxonomysettingsgui":
+            case "ilobjtaxonomygui":
+                $this->tabs->activateTab(self::TAB_SETTINGS);
+                $this->setEditTabs("taxonomy");
+                $tax_gui = $this->taxonomy->gui()->getSettingsGUI(
+                    $this->object->getId(),
+                    $this->lng->txt("cntr_tax_settings_info"),
+                    true,
+                    $this
+                );
+                $this->ctrl->forwardCommand($tax_gui);
                 break;
             case "ilobjlearningsequenceeditintrogui":
                 $which_page = LSOPageType::INTRO;
@@ -519,7 +540,9 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
     protected function getGUIInfo(): ilInfoScreenGUI
     {
-        return new ilInfoScreenGUI($this);
+        $info = new ilInfoScreenGUI($this);
+        $info->addMetaDataSections($this->object->getId(), 0, 'lso');
+        return $info;
     }
 
     protected function getGUIPermissions(): ilPermissionGUI
@@ -668,6 +691,20 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         $this->ctrl->redirectByClass('ilObjLearningSequenceLearnerGUI', self::CMD_LEARNER_VIEW);
     }
 
+    protected function getSubServices(): array
+    {
+        $subs = [
+            ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+            ilObjectServiceSettingsGUI::TAXONOMIES,
+            ilObjectServiceSettingsGUI::CALENDAR_CONFIGURATION,
+            ilObjectServiceSettingsGUI::TAG_CLOUD,
+            ilObjectServiceSettingsGUI::BADGES,
+            ilObjectServiceSettingsGUI::SKILLS
+        ];
+
+        return $subs;
+    }
+
     /**
      * Initializes the header action for the object list GUI with optional subtype and sub-ID.
      * Disables multi-download functionality for the object list GUI if initialized.
@@ -685,6 +722,26 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         return $lg;
     }
 
+
+    protected function setEditTabs(string $active_tab = "settings_misc"): void
+    {
+        $this->tabs->addSubTab(
+            "settings_misc",
+            $this->lng->txt("general"),
+            $this->ctrl->getLinkTargetByClass("ilobjlearningsequencesettingsgui", "settings")
+        );
+
+        if (ilContainer::_lookupContainerSetting(
+            $this->object->getId(),
+            ilObjectServiceSettingsGUI::TAXONOMIES,
+            '0'
+        )) {
+            $this->taxonomy->gui()->addSettingsSubTab($this->object->getId());
+        }
+
+        $this->tabs->activateTab(self::TAB_SETTINGS);
+        $this->tabs->activateSubTab($active_tab);
+    }
 
     protected function getTabs(): void
     {
@@ -711,6 +768,17 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                 $this->lng->txt(self::TAB_SETTINGS),
                 $this->getLinkTarget(self::CMD_SETTINGS)
             );
+
+            // metadata
+            $mdgui = new ilObjectMetaDataGUI($this->object);
+            $mdtab = $mdgui->getTab();
+            if ($mdtab) {
+                $this->tabs->addTab(
+                    "meta_data",
+                    $this->lng->txt("meta_data"),
+                    $mdtab
+                );
+            }
         }
 
         if ($this->checkAccess("read")) {
@@ -791,6 +859,16 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             );
         }
         $this->tabs->activateSubTab($active);
+    }
+
+    public function getProperties(int $tax_id): array
+    {
+        return [];
+    }
+
+    public function getActions(int $tax_id): array
+    {
+        return [];
     }
 
     protected function checkAccess(string $which): bool

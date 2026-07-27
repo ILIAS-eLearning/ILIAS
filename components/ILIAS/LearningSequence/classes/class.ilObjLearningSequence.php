@@ -97,7 +97,8 @@ class ilObjLearningSequence extends ilContainer
         if (!$id) {
             return 0;
         }
-        $this->ref_props = $this->repo_ref_props->getFor(null);
+
+        $this->createMetaData();
         $this->raiseEvent(self::E_CREATE);
 
         return $this->getId();
@@ -108,6 +109,8 @@ class ilObjLearningSequence extends ilContainer
         if (!parent::update()) {
             return false;
         }
+
+        $this->updateMetaData();
         $this->raiseEvent(self::E_UPDATE);
 
         return true;
@@ -115,6 +118,8 @@ class ilObjLearningSequence extends ilContainer
 
     public function delete(): bool
     {
+        $this->deleteMetaData();
+
         if (!parent::delete()) {
             return false;
         }
@@ -122,6 +127,8 @@ class ilObjLearningSequence extends ilContainer
         ilLearningSequenceParticipants::_deleteAllEntries($this->getId());
         $this->getSettingsDB()->delete($this->getId());
         $this->getStateDB()->deleteFor($this->getRefId());
+
+        ilObjTaxonomy::deleteUsagesOfObject($this->getId());
 
         $this->raiseEvent(self::E_DELETE);
 
