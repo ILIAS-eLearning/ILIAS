@@ -171,6 +171,9 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
                     "UPDATE ldap_attribute_mapping SET keyword = 'udf_{$uuid}' WHERE keyword = 'udf_{$row->old_field_id}'"
                 );
                 $this->db->manipulate(
+                    "UPDATE auth_ext_attr_mapping SET attribute = 'udf_{$uuid}' WHERE attribute = 'udf_{$row->old_field_id}'"
+                );
+                $this->db->manipulate(
                     "UPDATE settings SET keyword = 'pmap_udf_{$uuid}' WHERE keyword = 'pmap_udf_{$row->old_field_id}'"
                 );
                 $this->db->manipulate(
