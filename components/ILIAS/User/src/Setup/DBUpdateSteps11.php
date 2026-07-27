@@ -155,6 +155,26 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
             $this->db->manipulate('ALTER TABLE udf_definition ADD COLUMN field_id VARCHAR(64) NOT NULL FIRST');
             $this->db->modifyTableColumn('udf_clob', 'field_id', ['type' => 'text', 'length' => 64]);
             $this->db->modifyTableColumn('udf_text', 'field_id', ['type' => 'text', 'length' => 64]);
+
+            if (!$this->db->tableExists('udf_field_id_map')) {
+                $this->db->createTable(
+                    'udf_field_id_map',
+                    [
+                        'old_field_id' => [
+                            'type' => \ilDBConstants::T_INTEGER,
+                            'length' => 8,
+                            'notnull' => true
+                        ],
+                        'field_id' => [
+                            'type' => \ilDBConstants::T_TEXT,
+                            'length' => 64,
+                            'notnull' => true
+                        ]
+                    ]
+                );
+                $this->db->addPrimaryKey('udf_field_id_map', ['old_field_id']);
+            }
+
             $fields_query = $this->db->query('SELECT old_field_id FROM udf_definition');
             while (($row = $this->db->fetchObject($fields_query))) {
                 $uuid = $this->uuid_factory->uuid4AsString();
@@ -181,6 +201,25 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
                 );
 
                 $this->migrateBadges("udf_{$row->old_field_id}", $uuid);
+
+                /*
+                 * Keep a temporary map from legacy integer field IDs to UUIDs
+                 * so plugins can migrate their own stored references. See
+                 * components/ILIAS/User/ROADMAP.md for planned removal.
+                 */
+                $this->db->insert(
+                    'udf_field_id_map',
+                    [
+                        'old_field_id' => [
+                            \ilDBConstants::T_INTEGER,
+                            (int) $row->old_field_id
+                        ],
+                        'field_id' => [
+                            \ilDBConstants::T_TEXT,
+                            $uuid
+                        ]
+                    ]
+                );
             }
             $this->db->dropTableColumn('udf_definition', 'old_field_id');
             $this->db->addPrimaryKey('udf_definition', ['field_id']);

@@ -4,7 +4,17 @@ refactoring.
 - There are currently no new features on the roadmap.
 
 ## Short Term
-- There are no short-term plans
+
+### Remove Temporary UDF Field ID Mapping Table
+
+With ILIAS 11, custom user field identifiers were migrated from integer IDs
+to UUIDs. The temporary table `udf_field_id_map` stores the mapping from
+legacy integer IDs to the new UUIDs so plugins can update their own stored
+references after the update.
+
+Once plugins have had sufficient time to migrate (target: ILIAS 12), this
+table MUST be dropped via a database update step and this roadmap entry
+can be removed.
 
 ## Mid Term
 - Refactor User Actions
