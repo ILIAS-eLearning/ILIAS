@@ -83,16 +83,24 @@ final class Streams
 
     public static function ofFileInsideZIP(string $path_to_zip, string $path_inside_zip): \ILIAS\Filesystem\Stream\ZIPStream
     {
-        // we try to open the zip file with the path inside the zip file, once with a leading slash and once without
-        try {
-            $resource = @fopen('zip://' . $path_to_zip . '#/' . $path_inside_zip, 'rb');
-        } catch (\Throwable) {
-            $resource = null;
-        }
-        try {
-            $resource = $resource ?: @fopen('zip://' . $path_to_zip . '#' . $path_inside_zip, 'rb');
-        } catch (\Throwable) {
-            $resource = null;
+        // Entries are stored relative since Mantis 45580 / 47237, therefore that variant
+        // is tried first. Containers written before still hold entries with a leading
+        // slash, they are covered by the second candidate. If a container holds both
+        // variants of a file, the relative one is the up to date one (Mantis 48047):
+        // the ZIP stream wrapper matches names literally, so the entry we do not ask for
+        // is never returned by accident.
+        $relative_path = ltrim($path_inside_zip, '/');
+        $resource = null;
+
+        foreach ([$relative_path, '/' . $relative_path] as $candidate) {
+            try {
+                $resource = @fopen('zip://' . $path_to_zip . '#' . $candidate, 'rb') ?: null;
+            } catch (\Throwable) {
+                $resource = null;
+            }
+            if ($resource !== null) {
+                break;
+            }
         }
 
         if (!is_resource($resource)) {

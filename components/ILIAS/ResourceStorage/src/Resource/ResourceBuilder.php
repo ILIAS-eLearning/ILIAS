@@ -635,10 +635,33 @@ class ResourceBuilder
         return $path_inside_container . '/' . $filename;
     }
 
+    /**
+     * Entries have been stored with a leading slash before Mantis 45580 / 47237,
+     * e.g. "/style.css" instead of "style.css". Both variants of an entry can exist
+     * side by side in containers of that age, so removing an entry has to cover both -
+     * otherwise the legacy entry stays in the container forever (Mantis 48047).
+     *
+     * @return string[] empty if the given path does not address an entry at all
+     */
+    private function pathVariantsInZIP(string $path): array
+    {
+        $path = ltrim($path, '/');
+        if ($path === '') {
+            return [];
+        }
+
+        return [$path, '/' . $path];
+    }
+
     public function removePathInsideContainer(
         StorableContainerResource $container,
         string $path_inside_container,
     ): bool {
+        $paths_to_remove = $this->pathVariantsInZIP($path_inside_container);
+        if ($paths_to_remove === []) {
+            return false;
+        }
+
         $revision = $container->getCurrentRevisionIncludingDraft();
         $stream = $this->extractStream($revision);
 
@@ -647,15 +670,21 @@ class ResourceBuilder
             $zip = new \ZipArchive();
             $zip->open($stream->getMetadata()['uri']);
 
-            $return = $zip->deleteName($path_inside_container);
+            $return = false;
+            foreach ($paths_to_remove as $path_to_remove) {
+                $return = $zip->deleteName($path_to_remove) || $return;
+            }
             // remove all files inside the directory
             for ($i = 0; $i < $zip->numFiles; $i++) {
                 $path = $zip->getNameIndex($i);
                 if ($path === false) {
                     continue;
                 }
-                if (strpos($path, $path_inside_container) === 0) {
-                    $zip->deleteIndex($i);
+                foreach ($paths_to_remove as $path_to_remove) {
+                    if (strpos($path, $path_to_remove) === 0) {
+                        $zip->deleteIndex($i);
+                        break;
+                    }
                 }
             }
 
@@ -688,7 +717,9 @@ class ResourceBuilder
 
             $parent_path_inside_container = $this->ensurePathInZIP($zip, $parent_path_inside_container, false);
 
-            $path_inside_zip = rtrim($parent_path_inside_container, '/') . '/' . $result->getName();
+            // an empty parent path must not result in an entry like "/file.txt",
+            // entries are stored relative since Mantis 45580 / 47237
+            $path_inside_zip = ltrim(rtrim($parent_path_inside_container, '/') . '/' . $result->getName(), '/');
 
             $return = $zip->addFile(
                 $result->getPath(),
