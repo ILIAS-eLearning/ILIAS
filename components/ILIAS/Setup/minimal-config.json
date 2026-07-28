@@ -9,13 +9,13 @@
 		"data_dir" : "/var/lib/ilias"
 	},
 	"http" : {
-		"path" : "http://demo1.cat06.de"
+		"path" : "http://www.example.com"
 	},
 	"systemfolder" : {
 		"contact" : {
-			"firstname" : "Richard",
-			"lastname" : "Klees",
-			"email" : "richard.klees@concepts-and-training.de"
+			"firstname" : "Lucy",
+			"lastname" : "Snowe",
+			"email" : "lucysnowe@ilias.de"
 		}
 	}
 }
