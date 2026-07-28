@@ -108,4 +108,28 @@ final class EnsurePathInZipTest extends TestCase
         }
         $this->assertContains('index.html', $names);
     }
+
+    /**
+     * Mantis 48047: containers written before the fix above still contain entries
+     * like "/style.css" next to the relative entry of the same file. Removing an
+     * entry has to cover both variants, otherwise the legacy one stays forever.
+     */
+    #[DataProvider('pathVariantProvider')]
+    public function testPathVariantsCoverLegacyEntries(string $input, array $expected): void
+    {
+        $method = new \ReflectionMethod(ResourceBuilder::class, 'pathVariantsInZIP');
+        $builder = (new \ReflectionClass(ResourceBuilder::class))->newInstanceWithoutConstructor();
+
+        $this->assertSame($expected, $method->invoke($builder, $input));
+    }
+
+    public static function pathVariantProvider(): \Iterator
+    {
+        yield 'root file' => ['style.css', ['style.css', '/style.css']];
+        yield 'root file, leading slash' => ['/style.css', ['style.css', '/style.css']];
+        yield 'nested file' => ['images/header.png', ['images/header.png', '/images/header.png']];
+        yield 'directory' => ['images/', ['images/', '/images/']];
+        yield 'empty path' => ['', []];
+        yield 'slash only' => ['/', []];
+    }
 }
