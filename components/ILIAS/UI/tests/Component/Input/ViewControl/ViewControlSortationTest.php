@@ -91,7 +91,7 @@ class ViewControlSortationTest extends ViewControlTestBase
 
         $expected = $this->brutallyTrimHTML('
 <div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element" id="id_3">
-    <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown" aria-label="label_sortation" aria-expanded="false" aria-controls="id_3_ctrl"><span class="glyphicon-sort"></span></button>
+    <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown" aria-label="label_sortation" aria-expanded="false" aria-controls="id_3_ctrl"><span class="label">vc_sort A </span><span class="glyphicon-sort"></span></button>
     <ul id="id_3_ctrl" class="dropdown-menu">
         <li class="selected"><button class="btn btn-link" id="id_1">A</button></li>
         <li><button class="btn btn-link" id="id_2">B</button></li>
@@ -99,6 +99,35 @@ class ViewControlSortationTest extends ViewControlTestBase
     <div class="il-viewcontrol-value" role="none">
         <input id="id_4" type="hidden" value="" />
         <input id="id_5" type="hidden" value="" />
+    </div>
+</div>
+');
+        $html = $this->brutallyTrimHTML($r->render($vc));
+        $this->assertEquals($expected, $html);
+    }
+
+    public function testViewControlSortationRenderingWithValueAndLabelPrefix(): void
+    {
+        $r = $this->getDefaultRenderer();
+        $options = [
+            'A' => new Order('opt', 'ASC'),
+            'B' => new Order('opt', 'DESC')
+        ];
+        $vc = $this->buildVCFactory()->sortation($options)
+            ->withValue(['opt', 'DESC'])
+            ->withLabelPrefix('Order by:')
+            ->withOnChange((new SignalGenerator())->create());
+
+        $expected = $this->brutallyTrimHTML('
+<div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element" id="id_3">
+    <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown" aria-label="label_sortation" aria-expanded="false" aria-controls="id_3_ctrl"><span class="label">Order by: B </span><span class="glyphicon-sort"></span></button>
+    <ul id="id_3_ctrl" class="dropdown-menu">
+        <li><button class="btn btn-link" id="id_1">A</button></li>
+        <li class="selected"><button class="btn btn-link" id="id_2">B</button></li>
+    </ul>
+    <div class="il-viewcontrol-value" role="none">
+        <input id="id_4" type="hidden" value="opt" />
+        <input id="id_5" type="hidden" value="DESC" />
     </div>
 </div>
 ');
@@ -126,7 +155,7 @@ class ViewControlSortationTest extends ViewControlTestBase
 
         $expected = $this->brutallyTrimHTML('
 <div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element" id="id_3">
-    <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown" aria-label="label_sortation" aria-expanded="false" aria-controls="id_3_ctrl"><span class="glyphicon-sort"></span></button>
+    <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown" aria-label="label_sortation" aria-expanded="false" aria-controls="id_3_ctrl"><span class="label">vc_sort A </span><span class="glyphicon-sort"></span></button>
     <ul id="id_3_ctrl" class="dropdown-menu">
         <li class="selected"><button class="btn btn-link" id="id_1">A</button></li>
         <li><button class="btn btn-link" id="id_2">B</button></li>

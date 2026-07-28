@@ -126,6 +126,8 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.viewcontrol_sortation.html", true, true);
         $ui_factory = $this->getUIFactory();
+        $label_prefix = $component->getLabelPrefix() ?? $this->txt('vc_sort');
+        $selected_label = $this->getSelectedSortationLabel($component);
 
         foreach ($component->getOptions() as $opt_label => $order) {
             $opt_value = $order->join(':', fn($ret, $key, $value) => [$key, $value]);
@@ -141,7 +143,7 @@ class Renderer extends AbstractComponentRenderer
                 $this->isDropdownOptionSelected(
                     $opt_value,
                     $component->getValue(),
-                    $opt_label === array_key_first($component->getOptions())
+                    $opt_label === $selected_label
                 )
             );
         }
@@ -165,6 +167,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('ID', $id);
         $tpl->setVariable("ID_MENU", $id . '_ctrl');
         $tpl->setVariable("ARIA_LABEL", $this->txt(self::DEFAULT_SORTATION_DROPDOWN_LABEL));
+        $tpl->setVariable("LABEL", $label_prefix . ' ' . $selected_label . ' ');
 
         $tpl->setVariable(
             "VALUES",
@@ -402,6 +405,26 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setCurrentBlock($block);
         }
         $tpl->parseCurrentBlock();
+    }
+
+    protected function getSelectedSortationLabel(Sortation $component): string
+    {
+        $options = $component->getOptions();
+        if ($options === []) {
+            return '';
+        }
+
+        $current_value = $component->getValue();
+        if (!$this->isUnsetViewControlValue($current_value)) {
+            foreach ($options as $opt_label => $order) {
+                $opt_value = $order->join(':', fn($ret, $key, $value) => [$key, $value]);
+                if ($opt_value === $current_value) {
+                    return (string) $opt_label;
+                }
+            }
+        }
+
+        return (string) array_key_first($options);
     }
 
     /**
