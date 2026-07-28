@@ -38,7 +38,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
     protected ilRbacReview $rbacReview;
     protected ilObjUser $user;
     protected Profile $profile;
-    protected \ILIAS\Refinery $refinery;
+    protected \ILIAS\Refinery\Factory $refinery;
     protected array $cached_user_names = [];
 
     public function __construct(

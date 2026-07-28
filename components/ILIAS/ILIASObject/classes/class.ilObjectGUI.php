@@ -1066,7 +1066,7 @@ class ilObjectGUI implements ImplementsCreationCallback
         $new_obj->setType($this->requested_new_type);
         $new_obj->processAutoRating();
         $new_obj->setTitle($data['title_and_description']->getTitle());
-        $new_obj->setDescription($data['title_and_description']->getDescription());
+        $new_obj->setDescription($data['title_and_description']->getLongDescription());
         $new_obj->create();
 
         $new_obj->getObjectProperties()->storePropertyTitleAndDescription(
