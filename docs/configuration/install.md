@@ -64,10 +64,10 @@ current configuration of the [ILIAS test server](https://test11.ilias.de), which
 | Package      | Version                                                | Reference System |
 |--------------|--------------------------------------------------------|------------------|
 | Distribution | current version of Debian GNU Linux, Ubuntu or RHEL    | Ubuntu 22.04 LTS |
-| Database     | MySQL >8.0.21 or MariaDB 10.5 - 11.8                   | MariaDB 10.6.18  |
-| PHP          | 8.3, 8.4                                               | 8.4              |
+| Database     | MySQL 8.4 - 9.7 or MariaDB 11.4 - 12.3                 | MariaDB 11.8     |
+| PHP          | 8.4, 8.5                                               | 8.5              |
 | Webserver    | nginx: 1.12.x – 1.18.x, Apache: ≥ 2.4.x                | Apache 2.4.52    |
-| JDK          | Open JDK Runtime 11, 17 or 21 LTS                      | OpenJDK 17       |
+| JDK          | Open JDK Runtime 17, 21 or 25 LTS                      | OpenJDK 21       |
 | Node.js      | 22 (LTS), 24 Recommended: 24                           | v24.10.0         |
 | Ghostscript  | 10.x                                                   | 9.55             |
 | Imagemagick  | 6.9.x                                                  | 6.9.11           |
@@ -94,7 +94,7 @@ PHP version later on.
 <a name="install-dependencies"></a>
 ## Install Dependencies
 
-`openjdk-17-jdk` and `maven` are optional and are used for the ILIAS RPC server for search indexing and certificate generation.
+`openjdk-21-jdk` and `maven` are optional and are used for the ILIAS RPC server for search indexing and certificate generation.
 `git` is required if the source code is obtained directly from GitHub.
 `nodejs` and `npm` are required as well if you get the source directly to download the javascript dependencies in the installation process.
 Alternatively, they can be obtained directly from the distribution package at [Nodesource](https://nodejs.org/en/download) to select appropriate nodejs versions according to the [Recommended Setup for Running ILIAS](#recommended-setup-for-running-ilias).
@@ -102,7 +102,7 @@ Alternatively, they can be obtained directly from the distribution package at [N
 
 ```shell
 apt update
-apt update zip unzip openjdk-17-jdk maven ffmpeg git ghostscript nodejs npm
+apt update zip unzip openjdk-21-jdk maven ffmpeg git ghostscript nodejs npm
 ```
 
 <a name="install-webserver"></a>
@@ -338,15 +338,15 @@ sudo -u www-data composer install --no-dev
 ## Install ILIAS
 
 After having all dependencies installed and configured you should be able to run
-the [ILIAS Setup on the command-line](../../components/ILIAS/setup_/README.md).
+the [ILIAS Setup on the command-line](../../components/ILIAS/Setup/README.md).
 
-To do so, create a configuration file for the setup by copying the [minimal-config.json](../../components/ILIAS/setup_/minimal-config.json)
+To do so, create a configuration file for the setup by copying the [minimal-config.json](../../components/ILIAS/Setup/minimal-config.json)
 to a location outside your docroot. Fill in the configuration fields that are already
-contained in the minimal config. Have a look at the [list of available config options](../../components/ILIAS/setup_/README.md#about-the-config-file)
+contained in the minimal config. Have a look at the [list of available config options](../../components/ILIAS/Setup/README.md#about-the-config-file)
 and add the fields that your environment and installation requires.
 
 ```shell
-cp /var/www/ilias/components/ILIAS/setup_/minimal-config.json /var/www/config/ilias.json
+cp /var/www/ilias/components/ILIAS/Setup/minimal-config.json /var/www/config/ilias.json
 ```
 
 A typical configuration might look like this afterwards:
@@ -400,7 +400,7 @@ sudo -u www-data php cli/setup.php install /var/www/config/ilias.json
 ```
 
 The installation will display what is currently happening and might prompt you with
-questions. You might want to have a look at the [documentation of the command line setup](../../components/ILIAS/setup_/README.md)
+questions. You might want to have a look at the [documentation of the command line setup](../../components/ILIAS/Setup/README.md)
 or at the help of the program itself `php cli/setup.php help`. It is the tool
 to manage and monitor your ILIAS installation.
 
@@ -527,10 +527,10 @@ Then complete the update by [updating the database](#update-the-database).
 Before running a major upgrade please make sure that you have run all migrations
 of your current ILIAS release as explained in the
 [Update the Database and run the migrations](#update-the-database) section.
-To apply a major upgrade (e.g. v10.13 to v11.1) please check that your OS has the
+To apply a major upgrade (e.g. v11.13 to v12.1) please check that your OS has the
 [proper dependency versions](#upgrading-dependencies) installed. Note that no major
-version can be omitted during the upgrade process. You can upgrade from 10 to 11,
-but not directly from 9 to 11. If everything is fine, change your default skin to
+version can be omitted during the upgrade process. You can upgrade from 11 to 12,
+but not directly from 10 to 12. If everything is fine, change your default skin to
 Delos and apply this change at least to your root user. Otherwise ILIAS might become
 unusable due to changes in the layout templates. Then execute the following commands
 in your ILIAS basepath (e.g. `/var/www/ilias`).
@@ -582,7 +582,7 @@ will need to update your style to match the new release.
 
 Database updates must be done for both minor and major updates, the schema and content
 of the database probably won't match the code otherwise. Database updates are performed
-via the [command line setup program](../../components/ILIAS/setup_/README.md). The required updates
+via the [command line setup program](../../components/ILIAS/Setup/README.md). The required updates
 are split into two groups. **Updates** are tasks that need to be run immediately to
 make your installation work properly. **Migrations** are tasks that potentially take
 some time, but which can also be executed while the installation is live.
@@ -603,7 +603,7 @@ installation. Run them by using the `--run` parameter and refering to
 the help of the command for more details: `php cli/setup.php migrate --help`.
 
 Both commands will display what is currently happening and might prompt you with
-questions. You might want to have a look into the [documentation of the command line setup](../../components/ILIAS/setup_/README.md)
+questions. You might want to have a look into the [documentation of the command line setup](../../components/ILIAS/Setup/README.md)
 or into the help of the program itself `php cli/setup.php help`. This is the tool
 for managing and monitoring your ILIAS installation.
 
@@ -664,14 +664,15 @@ each ILIAS release.
 
 **PHP:**
 
-| ILIAS Version  | PHP Version                 |
-|----------------|-----------------------------|
-| 11.x           | 8.3.x, 8.4.x                |
-| 10.x           | 8.2.x, 8.3.x                |
-| 9.x            | 8.1.x, 8.2.x                |
-| 8.x            | 7.4.x, 8.0.x                |
-| 7.x            | 7.3.x, 7.4.x                |
-| 6.x            | 7.2.x, 7.3.x, 7.4.x         |
+| ILIAS Version | PHP Version         |
+|---------------|---------------------|
+| 12.x          | 8.4.x, 8.5.x        |
+| 11.x          | 8.3.x, 8.4.x        |
+| 10.x          | 8.2.x, 8.3.x        |
+| 9.x           | 8.1.x, 8.2.x        |
+| 8.x           | 7.4.x, 8.0.x        |
+| 7.x           | 7.3.x, 7.4.x        |
+| 6.x           | 7.2.x, 7.3.x, 7.4.x |
 
 **DBMS:**
 
@@ -679,6 +680,7 @@ We strongly recommend using MariaDB instead of MySQL due to performance, licensi
 
 | ILIAS Version | MySQL Version       | MariaDB Version              |
 |---------------|---------------------|------------------------------|
+| 12.0 - 12.x   | 8.4.x               | 11.4, 11.8, 12.3             |
 | 11.0 - 11.x   | 8.0.x               | 10.4, 10.5, 10.6, 11.4, 11.8 |
 | 10.0 - 10.x   | 8.0.x               | 10.4, 10.5, 10.6             |
 | 9.0 - 9.x     | 8.0.x               | 10.3, 10.4, 10.5, 10.6       |
