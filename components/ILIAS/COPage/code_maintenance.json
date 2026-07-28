@@ -1,6 +1,7 @@
 {
-  "issues": {
-    "static-method-declarations": {
+  "issues": [
+    {
+      "title": "Static Method Declarations",
       "desc": "The component declares > 100 static methods that reduce dependency management capabilities and testability. The goal is to reduce this number significantly.",
       "min": "2000",
       "max": "10000",
@@ -12,16 +13,18 @@
         }
       ]
     },
-    "large-classes": {
+    {
+      "title": "Large Classes",
       "desc": "The component includes > 20 code classes with > 500 lines of code each. This usually violates single responsibility principles and makes the code harder to read and test. The goal is to reduce this number significantly.",
       "min": "2000",
       "max": "10000",
       "funding": [
         {
           "release": "12",
-          "amount": "3000"
+          "amount": "3000",
+          "summary": "The number of large classes been reduced to 15."
         }
       ]
     }
-  }
+  ]
 }
