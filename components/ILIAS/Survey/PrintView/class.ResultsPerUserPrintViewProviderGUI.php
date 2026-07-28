@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Survey\PrintView;
 
 use ILIAS\Export;
@@ -100,9 +102,9 @@ class ResultsPerUserPrintViewProviderGUI extends Export\AbstractPrintViewProvide
 
         foreach ($this->access_manager->canReadResultOfParticipants() as $participant) {
             $nl->addListNode(
-                $participant["active_id"],
-                $participant["fullname"],
-                0,
+                (string) $participant["active_id"],
+                (string) $participant["fullname"],
+                "0",
                 false,
                 false
             );
@@ -132,7 +134,8 @@ class ResultsPerUserPrintViewProviderGUI extends Export\AbstractPrintViewProvide
         $table_gui = new \ilSurveyResultsUserTableGUI(null, '');
         $filtered_data = [];
         foreach ($data as $active_id => $d) {
-            if ($selection === "all" || in_array($active_id, $active_ids)) {
+            $active_id = (int) $active_id;
+            if ($selection === "all" || in_array($active_id, $active_ids, true)) {
                 $filtered_data[$active_id] = $d;
             }
         }

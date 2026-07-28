@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class FormMailCodesGUI
  *
@@ -62,10 +64,10 @@ class FormMailCodesGUI extends ilPropertyFormGUI
         $this->addItem($this->subject);
 
         $this->sendtype = new ilRadioGroupInputGUI($this->lng->txt('recipients'), "m_notsent");
-        $this->sendtype->addOption(new ilCheckboxOption($this->lng->txt("send_to_all"), 0, ''));
-        $this->sendtype->addOption(new ilCheckboxOption($this->lng->txt("not_sent_only"), 1, ''));
-        $this->sendtype->addOption(new ilCheckboxOption($this->lng->txt("send_to_unanswered"), 3, ''));
-        $this->sendtype->addOption(new ilCheckboxOption($this->lng->txt("send_to_answered"), 2, ''));
+        $this->sendtype->addOption(new ilCheckboxOption($this->lng->txt("send_to_all"), "0", ''));
+        $this->sendtype->addOption(new ilCheckboxOption($this->lng->txt("not_sent_only"), "1", ''));
+        $this->sendtype->addOption(new ilCheckboxOption($this->lng->txt("send_to_unanswered"), "3", ''));
+        $this->sendtype->addOption(new ilCheckboxOption($this->lng->txt("send_to_answered"), "2", ''));
         $this->addItem($this->sendtype);
 
         $existingdata = $this->guiclass->getObject()->getExternalCodeRecipients();
@@ -74,6 +76,7 @@ class FormMailCodesGUI extends ilPropertyFormGUI
         if (count($existingdata)) {
             $first = array_shift($existingdata);
             foreach ($first as $key => $value) {
+                $key = (string) $key;
                 if (strcmp($key, 'code') !== 0 && strcmp($key, 'email') !== 0 && strcmp($key, 'sent') !== 0) {
                     $existingcolumns[] = '[' . $key . ']';
                 }
@@ -101,7 +104,7 @@ class FormMailCodesGUI extends ilPropertyFormGUI
         // save message
         $this->savemessage = new ilCheckboxInputGUI('', "savemessage");
         $this->savemessage->setOptionTitle($this->lng->txt("save_reuse_message"));
-        $this->savemessage->setValue(1);
+        $this->savemessage->setValue("1");
 
         $this->savemessagetitle = new ilTextInputGUI($this->lng->txt('save_reuse_title'), 'savemessagetitle');
         $this->savemessagetitle->setSize(60);

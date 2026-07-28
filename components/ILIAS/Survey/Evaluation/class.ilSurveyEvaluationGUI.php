@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Component\Input\Container\Form;
 use ILIAS\UI\Component\Modal;
 
@@ -262,7 +264,7 @@ class ilSurveyEvaluationGUI
             $this->evaluation_manager->setAnonEvaluationAccess($this->request->getRefId());
             $this->evaluation();
         } else {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("svy_check_evaluation_wrong_key", true));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("svy_check_evaluation_wrong_key", "1"));
             $this->cancelEvaluationAccess();
         }
     }
@@ -355,7 +357,7 @@ class ilSurveyEvaluationGUI
         $ov_row = 2;
         $question_index = 1;
         foreach ($this->object->getSurveyQuestions() as $qdata) {
-            $q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $finished_ids);
+            $q_eval = SurveyQuestion::_instanciateQuestionEvaluation((int) $qdata["question_id"], $finished_ids);
             $q_res = $q_eval->getResults();
             $ov_rows = $q_eval->exportResults($q_res, $do_title, $do_label);
 
@@ -862,7 +864,10 @@ class ilSurveyEvaluationGUI
 
             $panels = [];
             foreach ($this->object->getSurveyQuestions() as $qdata) {
-                $q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $finished_ids);
+                $q_eval = SurveyQuestion::_instanciateQuestionEvaluation(
+                    (int) $qdata["question_id"],
+                    $finished_ids
+                );
                 $q_res = $q_eval->getResults();
                 $results[] = $q_res;
 
@@ -879,7 +884,7 @@ class ilSurveyEvaluationGUI
                     // TABLE OF CONTENTS
                     if ($qdata["questionblock_id"] &&
                         $qdata["questionblock_id"] != $this->last_questionblock_id) {
-                        $qblock = ilObjSurvey::_getQuestionblock($qdata["questionblock_id"]);
+                        $qblock = ilObjSurvey::_getQuestionblock((int) $qdata["questionblock_id"]);
                         if ($qblock["show_blocktitle"]) {
                             $listing->node(
                                 $this->ui->factory()->legacy()->content($qdata["questionblock_title"]),
@@ -891,7 +896,7 @@ class ilSurveyEvaluationGUI
                                 "q" . $qdata["questionblock_id"]
                             );
                         }
-                        $this->last_questionblock_id = $qdata["questionblock_id"];
+                        $this->last_questionblock_id = (string) $qdata["questionblock_id"];
                     }
                     $anchor_id = "svyrdq" . $qdata["question_id"];
                     $listing->node(
@@ -977,15 +982,16 @@ class ilSurveyEvaluationGUI
             if (is_array($entry)) {
                 $entry = implode("/", $entry);
             }
+            $entry = (string) $entry;
             $surround = false;
             if ($quoteAll) {
                 $surround = true;
             }
-            if (strpos($entry ?? "", "\"") !== false) {
+            if (strpos($entry, "\"") !== false) {
                 $entry = str_replace("\"", "\"\"", (string) $entry);
                 $surround = true;
             }
-            if (strpos($entry ?? "", $separator) !== false) {
+            if (strpos($entry, $separator) !== false) {
                 $surround = true;
             }
             // replace all CR LF with LF (for Excel for Windows compatibility
@@ -1024,7 +1030,7 @@ class ilSurveyEvaluationGUI
         $questions = array();
 
         foreach ($this->object->getSurveyQuestions() as $qdata) {
-            $q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], null);
+            $q_eval = SurveyQuestion::_instanciateQuestionEvaluation((int) $qdata["question_id"], null);
             $q_res = $q_eval->getResults();
 
             $questions[$qdata["question_id"]] = array($q_eval, $q_res);
@@ -1083,7 +1089,7 @@ class ilSurveyEvaluationGUI
         $participants = $this->access_manager->canReadResultOfParticipants($finished_ids);
 
         foreach ($participants as $user) {
-            $user_id = $user["active_id"];
+            $user_id = (int) $user["active_id"];
 
             $row = array();
             $row[] = trim($user["lastname"] ?? "")
@@ -1235,7 +1241,7 @@ class ilSurveyEvaluationGUI
         $opts = $sskill->getAllAssignedSkillsAsOptions();
         $skills = array();
         foreach ($opts as $id => $o) {
-            $idarr = explode(":", $id);
+            $idarr = explode(":", (string) $id);
             $skills[$id] = array(
                 "id" => $id,
                 "title" => $o,
@@ -1400,7 +1406,10 @@ class ilSurveyEvaluationGUI
         }
 
         foreach ($this->object->getSurveyQuestions() as $qdata) {
-            $q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $a_finished_ids);
+            $q_eval = SurveyQuestion::_instanciateQuestionEvaluation(
+                (int) $qdata["question_id"],
+                $a_finished_ids
+            );
             foreach ($q_eval->getSumScores() as $finished_id => $sum_score) {
                 if ($sum_score === null) {
                     $sum_scores[$finished_id]["score"] = null;
