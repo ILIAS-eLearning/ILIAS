@@ -821,17 +821,16 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
                     return self::FB_TEXT_GAP_EMPTY_INDEX;
                 }
 
-                $items = $gap->getItems($this->randomGroup()->dontShuffle());
+                $index = $this->questionOBJ->getAnswerOptionIndexForTextGapAnswer(
+                    $gap->getItems(
+                        $this->randomGroup()->dontShuffle()
+                    ),
+                    $answerValue
+                );
 
-                foreach ($items as $answerIndex => $answer) {
-                    /* @var assAnswerCloze $answer */
-
-                    if ($answer->getAnswertext() == $answerValue) {
-                        return $answerIndex;
-                    }
-                }
-
-                return self::FB_TEXT_GAP_NOMATCH_INDEX;
+                return $index === null
+                    ? self::FB_TEXT_GAP_NOMATCH_INDEX
+                    : $index;
 
             case assClozeGap::TYPE_SELECT:
                 if ($answerValue !== '') {
