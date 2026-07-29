@@ -445,7 +445,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $conditions !== '' ? "AND $conditions" : '';
     }
 
-    private function getSelectFieldsExpression(): string
+    private function getSelectFieldsExpression(bool $with_computed = true): string
     {
         $select_fields = [
             'qpl_questions.*',
@@ -469,12 +469,26 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 			";
         }
 
-        $select_fields[] = $this->generateFeedbackSubquery();
-        $select_fields[] = $this->generateHintSubquery();
-        $select_fields[] = $this->generateTaxonomySubquery();
+        if ($with_computed) {
+            $select_fields[] = $this->generateFeedbackSubquery();
+            $select_fields[] = $this->generateHintSubquery();
+            $select_fields[] = $this->generateTaxonomySubquery();
+        }
 
         $select_fields = implode(', ', $select_fields);
-        return "SELECT DISTINCT $select_fields";
+        return "SELECT DISTINCT {$select_fields}";
+    }
+
+    private function getComputedFieldsExpression(): string
+    {
+        $fields = [
+            'qpl_questions.question_id',
+            $this->generateFeedbackSubquery(),
+            $this->generateHintSubquery(),
+            $this->generateTaxonomySubquery(),
+        ];
+        $fields = implode(', ', $fields);
+        return "SELECT DISTINCT {$fields}";
     }
 
     private function generateFeedbackSubquery(): string
@@ -514,9 +528,11 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return "CASE WHEN EXISTS ($tax_subquery) THEN TRUE ELSE FALSE END AS taxonomies";
     }
 
-    private function buildBasicQuery(): string
+    private function buildBasicQuery(bool $with_computed = true): string
     {
-        return "{$this->getSelectFieldsExpression()} FROM qpl_questions {$this->getTableJoinExpression()} WHERE qpl_questions.tstamp > 0";
+        $select = $this->getSelectFieldsExpression($with_computed);
+        $joins = $this->getTableJoinExpression();
+        return "{$select} FROM qpl_questions {$joins} WHERE qpl_questions.tstamp > 0";
     }
 
     private function getHavingFilterExpression(): string
@@ -545,13 +561,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $having !== '' ? "HAVING $having" : '';
     }
 
-    /**
-     * @param bool $qualify In the two-phase ID query (phase A) qpl_questions.*
-     *                      is not selected, so ambiguous order columns like
-     *                      `title` (exists on qpl_questions and object_data)
-     *                      must be qualified to their table.
-     */
-    private function buildOrderQueryExpression(bool $qualify = false): string
+    private function buildOrderQueryExpression(): string
     {
         $order = $this->order;
         if ($order === null) {
@@ -568,32 +578,27 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
             $order_direction = Order::ASC;
         }
 
-        if ($qualify) {
-            $order_field = $this->qualifyOrderField($order_field);
-        }
+        $order_field = $this->qualifyField($order_field);
+        $order_field = $this->backtickField($order_field);
 
-        // Backtick each segment separately so qualified names like
-        // qpl_questions.title become `qpl_questions`.`title` (a single
-        // pair of backticks around the dotted name would be parsed as one
-        // oddly-named column).
-        $order_field = implode('.', array_map(
-            static fn(string $seg): string => '`' . $seg . '`',
-            explode('.', $order_field)
-        ));
-
-        return " ORDER BY $order_field $order_direction";
+        return " ORDER BY {$order_field} {$order_direction}";
     }
 
-    /**
-     * Map an order field to its fully qualified column. Needed in phase A
-     * where qpl_questions.* is not selected and columns like `title` would
-     * be ambiguous between qpl_questions and object_data.
-     */
-    private function qualifyOrderField(string $field): string
+    private function backtickField(string $field): string
+    {
+        $segments = explode('.', $field);
+        $quoted = array_map(
+            static fn(string $segment): string => "`{$segment}`",
+            $segments
+        );
+        return implode('.', $quoted);
+    }
+
+    private function qualifyField(string $field): string
     {
         return match ($field) {
             'title', 'description', 'author', 'lifecycle', 'points',
-            'created', 'tstamp', 'complete', 'question_id', 'original_id' => "qpl_questions.$field",
+            'created', 'tstamp', 'complete', 'question_id', 'original_id' => "qpl_questions.{$field}",
             'max_points' => 'qpl_questions.points',
             'type_tag' => 'qpl_qst_type.type_tag',
             'parent_title' => 'object_data.title',
@@ -611,47 +616,25 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         $limit = max($range->getLength(), 0);
         $offset = max($range->getStart(), 0);
 
-        return " LIMIT $limit OFFSET $offset";
+        return " LIMIT {$limit} OFFSET {$offset}";
     }
 
     private function buildQuery(): string
     {
-        return implode(PHP_EOL, array_filter([
-            $this->buildBasicQuery(),
-            $this->getConditionalFilterExpression(),
-            $this->getHavingFilterExpression(),
-            $this->buildOrderQueryExpression(),
-            $this->buildLimitQueryExpression(),
-        ]));
+        $with_computed = $this->computedColumnsRequired();
+        return $this->buildBasicQuery($with_computed)
+            . $this->getConditionalFilterExpression()
+            . $this->getHavingFilterExpression()
+            . $this->buildOrderQueryExpression()
+            . $this->buildLimitQueryExpression();
     }
 
-    /**
-     * Two-phase query loading can be used when the result is paginated
-     * (range set) and neither a HAVING filter nor an ORDER BY on a computed
-     * column (feedback/hints/taxonomies) is active. In that case the
-     * expensive correlated EXISTS subqueries are evaluated only for the
-     * small paginated set of question ids instead of the full candidate
-     * set before LIMIT/OFFSET is applied.
-     */
-    private function canUseTwoPhaseQuery(): bool
+    private function computedColumnsRequired(): bool
     {
-        if ($this->range === null) {
-            return false;
-        }
-        if ($this->getHavingFilterExpression() !== '') {
-            return false;
-        }
-        if ($this->isOrderByComputedField()) {
-            return false;
-        }
-        return true;
+        return $this->getHavingFilterExpression() !== ''
+            || $this->isOrderByComputedField();
     }
 
-    /**
-     * ORDER BY targets one of the computed columns (feedback/hints/taxonomies)
-     * that only exist in the single-phase query. Two-phase loading cannot
-     * sort by these and must fall back to the single-phase query.
-     */
     private function isOrderByComputedField(): bool
     {
         if ($this->order === null) {
@@ -664,50 +647,14 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return in_array($order_field, ['feedback', 'hints', 'taxonomies'], true);
     }
 
-    /**
-     * Phase A: determine the paginated, ordered set of question ids using
-     * only the required JOINs/filters — without the expensive correlated
-     * EXISTS subqueries for feedback/hints/taxonomies.
-     *
-     * GROUP BY question_id (instead of DISTINCT) is used so that ORDER BY
-     * may reference any column functionally dependent on question_id (e.g.
-     * qpl_questions.title) without having to add it to the SELECT list —
-     * MySQL rejects `SELECT DISTINCT question_id ... ORDER BY title`.
-     * GROUP BY also deduplicates rows that the tst_test_question /
-     * feedback / hints filter JOINs may produce.
-     */
-    private function buildPaginatedIdsQuery(): string
-    {
-        return implode(PHP_EOL, array_filter([
-            "SELECT qpl_questions.question_id FROM qpl_questions {$this->getTableJoinExpression()}",
-            "WHERE qpl_questions.tstamp > 0",
-            $this->getConditionalFilterExpression(),
-            "GROUP BY qpl_questions.question_id",
-            $this->buildOrderQueryExpression(true),
-            $this->buildLimitQueryExpression(),
-        ]));
-    }
-
-    /**
-     * Phase B: enrich the small paginated set of question ids with the full
-     * select fields including the computed feedback/hints/taxonomies flags.
-     * Filter JOINs (feedback/hints) are NOT applied here — they were already
-     * honoured in phase A.
-     */
     private function buildEnrichmentQuery(array $question_ids): string
     {
         $in = $this->db->in('qpl_questions.question_id', $question_ids, false, ilDBConstants::T_INTEGER);
-        return implode(PHP_EOL, array_filter([
-            "{$this->getSelectFieldsExpression()} FROM qpl_questions {$this->getBaseTableJoinExpression()}",
-            "WHERE qpl_questions.tstamp > 0 AND $in",
-        ]));
+        $select_fields = $this->getComputedFieldsExpression();
+        $joins = $this->getBaseTableJoinExpression();
+        return "{$select_fields} FROM qpl_questions {$joins} WHERE qpl_questions.tstamp > 0 AND {$in}";
     }
 
-    /**
-     * Base table joins without the feedback/hints filter JOINs added by
-     * handleFeedbackJoin()/handleHintJoin(). Used in phase B where those
-     * filter JOINs are not needed (filtering happened in phase A).
-     */
     private function getBaseTableJoinExpression(): string
     {
         $table_join = '
@@ -730,80 +677,47 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         }
 
         if ($this->answerStatusActiveId) {
+            $quoted = $this->db->quote($this->answerStatusActiveId, ilDBConstants::T_INTEGER);
             $table_join .= "
 				LEFT JOIN	tst_test_result
 				ON			tst_test_result.question_fi = qpl_questions.question_id
-				AND			tst_test_result.active_fi = {$this->db->quote($this->answerStatusActiveId, ilDBConstants::T_INTEGER)}
+				AND			tst_test_result.active_fi = {$quoted}
 			";
         }
 
         return $table_join;
     }
 
-    private function loadTwoPhase(): void
-    {
-        $tags_trafo = $this->refinery->encode()->htmlSpecialCharsAsEntities();
-
-        $ids_res = $this->db->query($this->buildPaginatedIdsQuery());
-        $ordered_ids = [];
-        while ($row = $this->db->fetchAssoc($ids_res)) {
-            $ordered_ids[] = (int) $row['question_id'];
-        }
-
-        if ($ordered_ids === []) {
-            return;
-        }
-
-        $rows_by_id = [];
-        $res = $this->db->query($this->buildEnrichmentQuery($ordered_ids));
-        while ($row = $this->db->fetchAssoc($res)) {
-            $rows_by_id[(int) $row['question_id']] = $row;
-        }
-
-        foreach ($ordered_ids as $question_id) {
-            if (!isset($rows_by_id[$question_id])) {
-                continue;
-            }
-            $row = $rows_by_id[$question_id];
-            $row = ilAssQuestionType::completeMissingPluginName($row);
-
-            if (!$this->isActiveQuestionType($row)) {
-                continue;
-            }
-
-            $row['title'] = $tags_trafo->transform($row['title'] ?? '&nbsp;');
-            $row['description'] = $tags_trafo->transform($row['description'] ?? '');
-            $row['author'] = $tags_trafo->transform($row['author']);
-            $row['taxonomies'] = $this->loadTaxonomyAssignmentData($row['obj_fi'], $row['question_id']);
-            $row['ttype'] = $this->lng->txt($row['type_tag']);
-            $row['feedback'] = $row['feedback'] === 1;
-            $row['hints'] = $row['hints'] === 1;
-            $row['comments'] = $this->getNumberOfCommentsForQuestion($row['question_id']);
-
-            if (
-                $this->filter_comments === self::QUESTION_COMMENTED_ONLY && $row['comments'] === 0
-                || $this->filter_comments === self::QUESTION_COMMENTED_EXCLUDED && $row['comments'] > 0
-            ) {
-                continue;
-            }
-
-            $this->questions[$row['question_id']] = $row;
-        }
-    }
-
     public function load(): void
     {
         $this->checkFilters();
 
-        if ($this->canUseTwoPhaseQuery()) {
-            $this->loadTwoPhase();
-            return;
-        }
-
         $tags_trafo = $this->refinery->encode()->htmlSpecialCharsAsEntities();
+        $with_computed = $this->computedColumnsRequired();
 
         $res = $this->db->query($this->buildQuery());
+        $rows_by_id = [];
+        $ordered_ids = [];
         while ($row = $this->db->fetchAssoc($res)) {
+            $qid = (int) $row['question_id'];
+            $rows_by_id[$qid] = $row;
+            $ordered_ids[] = $qid;
+        }
+
+        if (!$with_computed && $ordered_ids !== []) {
+            $enrichment_res = $this->db->query($this->buildEnrichmentQuery($ordered_ids));
+            while ($enrichment_row = $this->db->fetchAssoc($enrichment_res)) {
+                $eid = (int) $enrichment_row['question_id'];
+                if (isset($rows_by_id[$eid])) {
+                    $rows_by_id[$eid]['feedback'] = $enrichment_row['feedback'];
+                    $rows_by_id[$eid]['hints'] = $enrichment_row['hints'];
+                    $rows_by_id[$eid]['taxonomies'] = $enrichment_row['taxonomies'];
+                }
+            }
+        }
+
+        foreach ($ordered_ids as $question_id) {
+            $row = $rows_by_id[$question_id];
             $row = ilAssQuestionType::completeMissingPluginName($row);
 
             if (!$this->isActiveQuestionType($row)) {
@@ -835,9 +749,13 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         $this->checkFilters();
 
         $count = 'COUNT(*)';
-        $query = "SELECT $count FROM qpl_questions {$this->getTableJoinExpression()} WHERE qpl_questions.tstamp > 0 {$this->getConditionalFilterExpression()}";
+        $joins = $this->getTableJoinExpression();
+        $filters = $this->getConditionalFilterExpression();
+        $query = "SELECT {$count} FROM qpl_questions {$joins} WHERE qpl_questions.tstamp > 0 {$filters}";
 
-        return (int) ($this->db->query($query)->fetch()[$count] ?? 0);
+        $result = $this->db->query($query);
+        $fetch = $this->db->fetchAssoc($result);
+        return (int) ($fetch[$count] ?? 0);
     }
 
     protected function getNumberOfCommentsForQuestion(int $question_id): int
