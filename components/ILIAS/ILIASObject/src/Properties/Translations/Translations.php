@@ -20,11 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\ILIASObject\Properties\Translations;
 
-use ILIAS\ILIASObject\Properties\Property;
-use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Container\Form\FormInput;
-use ILIAS\Refinery\Factory as Refinery;
-
 /**
  * Class handles translation mode for an object.
  *
