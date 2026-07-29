@@ -69,7 +69,7 @@ code please make sure:
 * that your code is understandable and is documented - this will help
   reviewers as well
 * that your commit follows the [ILIAS coding
-  guidelines](https://docu.ilias.de/goto_docu_pg_202_42.html) - this is a
+  guidelines](./README.md#coding) - this is a
   bare minimum when it comes to style that we require for new code
 * you don't introduce new code violations which could have been easily found by
   importing and running our
