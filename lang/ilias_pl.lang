@@ -2485,7 +2485,7 @@ book#:#book_assign#:#Assign
 book#:#book_assign_object#:#Assign Booking Object
 book#:#book_assign_participant#:#Assign to Participant
 book#:#book_back_to_list#:#Powrót do listy
-book#:#book_bobj#:#Obiekt podlegające rejestracji
+book#:#book_bobj#:#Obiekt rezerwacji### OVB translated
 book#:#book_book#:#Zarejestruj
 book#:#book_book_available#:#Book Available Dates###30 04 2024 new variable
 book#:#book_book_recurrence#:#Book multiple dates###30 04 2024 new variable
@@ -3832,7 +3832,7 @@ common#:#crs_status_blocked#:#[Dostęp odrzucony]
 common#:#crs_status_pending#:#[Oczekiwanie na rejestrację]
 common#:#crs_subscribers_assigned#:#Przydzieleni nowi użytkownicy.
 common#:#crs_title#:#Tytuł kursu
-common#:#crs_unsubscribe#:#Rezygnuję z subskrypcji kursu
+common#:#crs_unsubscribe#:#Odejmuj subskrypcję z kursu### OVB translated
 common#:#crs_wizard_page#:#Kopiuj kurs (etap 2/2)
 common#:#crsr#:#Odwołanie do kursu
 common#:#crsr_add#:#Add Course Link###31 03 2023 new variable
@@ -4597,12 +4597,12 @@ common#:#mcst_add#:#Dodaj MediaCast
 common#:#mcst_new#:#Nowy MediaCast
 common#:#mem_add_to_wl#:#Dodaj do listy oczekujących
 common#:#mem_alert_no_places#:#Brak wolnych miejsc.
-common#:#mem_cron_min_members#:#Kurs/grupa: kontrola minimalnej liczby uczestników
-common#:#mem_cron_min_members_info#:#Administratorzy zostaną powiadomieni, gdy minimalna liczba nie zostanie osiągnięta.
+common#:#mem_cron_min_members#:#Kurs/grupa: Minimalne sprawdzenie członków### OVB translated
+common#:#mem_cron_min_members_info#:#Administratorzy zostaną powiadomieni, jeśli minimalna liczba nie zostanie spełniona.### OVB translated
 common#:#mem_end#:#Rejestracja kończy się:
 common#:#mem_free_places#:#Wolne miejsca
 common#:#mem_max_users#:#Maksymalna liczba użytkowników:
-common#:#mem_min_users#:#Maksymalna liczba uczestników
+common#:#mem_min_users#:#Minimum użytkowników### OVB translated
 common#:#mem_participants#:#Uczestnicy
 common#:#mem_reg_expired#:#Okres rejestracji minął.
 common#:#mem_reg_not_started#:#Rejestracja się jeszcze nie rozpoczęła.
@@ -7479,10 +7479,10 @@ crs#:#crs_admission_link_failure_registration_period#:#Przystąpienie nie jest m
 crs#:#crs_admission_link_success_registration#:#Udało się przystąpić do kursu "%s".
 crs#:#crs_agree#:#Akceptacja
 crs#:#crs_agreement_header#:#Zgoda użytkownika
-crs#:#crs_agreement_required#:#Musisz zaakceptować warunki użytkowania (zgodę użytkownika), jeśli chcesz się zarejestrować do tego kursu.
+crs#:#crs_agreement_required#:#Potwierdź rezerwację wiązania.### OVB translated
 crs#:#crs_at_least_one_admin#:#Do tego kursu musi być przydzielony co najmniej jeden administrator.
 crs#:#crs_auto_notification#:#Zawiadomienie dla nowych członków
-crs#:#crs_auto_notification_info#:#Nowi członkowie uzyskają powiadomienie e-mailem o dodaniu do kursu.
+crs#:#crs_auto_notification_info#:#Wiadomości powitalne są automatycznie wysyłane do członków, którzy zostali dodani do kursu poprzez wtyczkę. Jeśli wtyczki CourseBooking i MailAdministration są zainstalowane i aktywne, zostanie wysłany Mail 16.### OVB translated
 crs#:#crs_awrn_current_course#:#Aktualny kurs
 crs#:#crs_awrn_current_course_info#:#W ramach kursu wszyscy użytkownicy zostaną ujęci w liście.
 crs#:#crs_awrn_support_contacts#:#Obsługa kursu
@@ -7496,9 +7496,9 @@ crs#:#crs_cancel_subscr_request#:#Cofnij wniosek o przyjęcie
 crs#:#crs_cancel_subscription#:#Wyrejestrowanie z kursu
 crs#:#crs_cancel_subscription_body#:#%s zrezygnował z subskrypcji kursu "%s".
 crs#:#crs_cancel_subscription_body2#:#Być może są inni użytkownicy oczekujący na członkostwo w kursie.\nPowinieneś sprawdzić listę oczekujących.\nAby sprawdzić użytkowników kursu, kliknij link:
-crs#:#crs_cancellation_end#:#Moment najpóźniejszego opuszczenia kursu
+crs#:#crs_cancellation_end#:#Limit anulowania### OVB translated
 crs#:#crs_cancellation_end_info#:#Członkowie mogą tylko do ustalonego dnia samodzielnie wypisać się z kursu.
-crs#:#crs_cancellation_end_rbac_info#:#Koniec anulowania został osiągnięty w dniu %s. Teraz nie można już opuścić kursu.
+crs#:#crs_cancellation_end_rbac_info#:#Termin anulowania został spełniony na %S, anulowanie nie jest już możliwe.### OVB translated
 crs#:#crs_cannot_find_role#:#Nie udało się znaleźć roli.
 crs#:#crs_cdf_edit_member#:#Edytuj dane użytkownika właściwe dla kursu
 crs#:#crs_cdf_tbl_last_edit#:#Ostatnia aktualizacja (dane właściwe dla danego kursu)
@@ -7513,7 +7513,7 @@ crs#:#crs_contact_responsibility#:#Odpowiedzialność
 crs#:#crs_content#:#Zawartość kursu
 crs#:#crs_copy#:#Kopiuj kurs
 crs#:#crs_course_group_notification_link#:#Link:
-crs#:#crs_course_period_not_valid#:#Okres jest nieważny.
+crs#:#crs_course_period_not_valid#:#Okres kursu jest nieprawidłowy.### OVB translated
 crs#:#crs_course_status_of_users#:#Kurs zaliczony
 crs#:#crs_create_date#:#Twórz termin
 crs#:#crs_custom_user_fields#:#Pola użytkownika właściwe dla kursu
@@ -7696,9 +7696,9 @@ crs#:#crs_mail_type#:#E-Mail do członków
 crs#:#crs_map_location#:#Miejsce mapy kursu
 crs#:#crs_map_settings#:#Ustawienia map
 crs#:#crs_materials#:#Materiały kursu
-crs#:#crs_max_and_min_members_invalid#:#Minimalna liczba musi być mniejsza niż maksymalna liczba.
-crs#:#crs_max_and_min_members_needed#:#Ustal minimalną bądź maksymalną liczbę lub oba te parametry równocześnie.
-crs#:#crs_max_members_needed#:#Dla tej listy oczekujących potrzebna jest maksymalna liczba członków.
+crs#:#crs_max_and_min_members_invalid#:#Minimalna liczba musi być mniejsza niż maksymalna liczba członków.### OVB translated
+crs#:#crs_max_and_min_members_needed#:#Ustaw minimalną lub maksymalną liczbę członków - lub obu.### OVB translated
+crs#:#crs_max_members_needed#:#Maksymalna liczba członków jest potrzebna dla funkcji listy oczekujących.### OVB translated
 crs#:#crs_max_members_reached#:#Została osiągnięta maksymalna liczba uczestników
 crs#:#crs_mem_contact#:#Wsparcie opiekunów
 crs#:#crs_mem_contacts#:#Wsparcie opiekunów
@@ -7807,7 +7807,7 @@ crs#:#crs_passed_status_system#:#System
 crs#:#crs_password_not_valid#:#Twoje hasło jest nieważne
 crs#:#crs_password_required#:#Ta procedura rejestracji wymaga hasła.
 crs#:#crs_pdf#:#PDF
-crs#:#crs_period#:#Okres wydarzenia
+crs#:#crs_period#:#Okres kursu### OVB translated
 crs#:#crs_period_end_mail_placeholder#:#Period End###07 02 2020 new variable
 crs#:#crs_period_info#:#Informacje dotyczące rozpoczęcia i zakończenia wydarzenia, które ma zostać realizowane razem z kursem.
 crs#:#crs_period_start_mail_placeholder#:#Period Start###07 02 2020 new variable
@@ -7885,9 +7885,9 @@ crs#:#crs_subscription_failed_limit#:#Przekroczono maksymalną liczbę uczestnik
 crs#:#crs_subscription_max_members#:#Maksymalna liczba uczestników
 crs#:#crs_subscription_max_members_short#:#Liczba członków
 crs#:#crs_subscription_max_members_short_info#:#Istnieje możliwość ustalenia minimalnej lub maksymalnej liczby członków. Istnieje możliwość utworzenia listy oczekujących.
-crs#:#crs_subscription_min_members#:#Minimalna liczba
+crs#:#crs_subscription_min_members#:#Minimalna liczba### OVB translated
 crs#:#crs_subscription_min_members_err#:#Minimalna liczba nie może być większa niż maksymalna liczba.
-crs#:#crs_subscription_min_members_info#:#Jeśli wymagana minimalna liczba członków nie zostanie osiągnięta, kurs nie może się odbyć. Jeśli minimalna liczba nie zostanie osiągnięta do końca okresu przystąpienia bądź najpóźniejszego momentu opuszczenia kursu, ILIAS wysyła wiadomość mailową do administratorów kursu, dla których w zakładce 'Informacje' aktywna jest opcja 'Powiadomień'.
+crs#:#crs_subscription_min_members_info#:#Zobacz „Limit anulowania” CRON.### OVB translated
 crs#:#crs_subscription_options_confirmation#:#Subskrypcja z potwierdzeniem
 crs#:#crs_subscription_options_direct#:#Prosta subskrypcja
 crs#:#crs_subscription_options_password#:#Subskrypcja z hasłem
@@ -7981,9 +7981,9 @@ crs#:#crs_visibility_until_info#:#Kurs wyświetla się członkom tylko przez okr
 crs#:#crs_visibility_unvisible#:#The course is not visible.###24 11 2022 new variable
 crs#:#crs_wait_info#:#Jeśli zostanie osiągnięta maksymalna liczba uczestników kursu, to nowe rejestracje zostaną umieszczone na liście oczekujących.
 crs#:#crs_waiting_list#:#Lista oczekujących
-crs#:#crs_waiting_list_autofill#:#Z automatycznym przesuwaniem w górę
-crs#:#crs_waiting_list_autofill_info#:#W przypadku anulowania rejestracji uczestnicy automatycznie przesuwają się na liście oczekujących do góry. Tej opcji nie należy łączyć z procedurą przystąpienia "Subskrypcja z potwierdzeniem", ponieważ w ten sposób potwierdzenie jest pomijane.
-crs#:#crs_waiting_list_no_autofill#:#Bez automatycznego przesuwania w górę
+crs#:#crs_waiting_list_autofill#:#Automatyczne wypełnienie### OVB translated
+crs#:#crs_waiting_list_autofill_info#:#Uczestnicy są automatycznie rekrutowani z listy oczekujących na anulowanie.### OVB translated
+crs#:#crs_waiting_list_no_autofill#:#Bez automatycznego wypełnienia### OVB translated
 crs#:#crs_warn_no_max_set_on_waiting_list#:#Maksymalna liczba użytkowników została osiągnięta. Możesz zapisać się na listę oczekujących dla tego kursu. Wówczas zostaniesz poinformowany o przyjęciu na kurs.
 crs#:#crs_warn_wl_set_on_waiting_list#:#Na liście oczekujących znajdują się już inni uczestnicy. Możesz zapisać się na listę oczekującą dla tego kursu. Zostaniesz powiadomiony mailowo, gdy Twój wniosek o przyjęcie zostanie przyjęty lub odrzucony.
 crs#:#crs_wiz_back#:#Powrót
@@ -10226,9 +10226,9 @@ grp#:#grp_at_least_one_admin#:#Do tej grupy musi być przydzielony co najmniej j
 grp#:#grp_auto_notification#:#Welcome-Mail For New Members###07 02 2020 new variable
 grp#:#grp_auto_notification_info#:#New members get a mail notification when added to the group.###07 02 2020 new variable
 grp#:#grp_cancel_subscr_request#:#Cofnij wniosek o przyjęcie
-grp#:#grp_cancellation_end#:#Moment najpóźniejszego opuszczenia grupy
+grp#:#grp_cancellation_end#:#Limit anulowania### OVB translated
 grp#:#grp_cancellation_end_info#:#Członkowie mogą tylko do ustalonego dnia samodzielnie wypisać się z grupy.
-grp#:#grp_cancellation_end_rbac_info#:#Koniec anulowania został osiągnięty w dniu %s. Teraz nie można już opuścić grupy.
+grp#:#grp_cancellation_end_rbac_info#:#Termin anulowania został spełniony na %S, anulowanie nie jest już możliwe.### OVB translated
 grp#:#grp_cdf_edit_member#:#Edytuj dane użytkownika właściwe dla grupy
 grp#:#grp_cdf_tbl_last_edit#:#Ostatnia aktualizacja (dane właściwe dla danej grupy)
 grp#:#grp_change_type#:#Zmień typ grupy
@@ -10375,11 +10375,11 @@ grp#:#grp_warn_grp_type_changed#:#Czy chcesz zmienić typ grupy? Ustawienia doty
 grp#:#grp_warn_no_max_set_on_waiting_list#:#Maksymalna liczba użytkowników została osiągnięta. Możesz zapisać się na listę oczekujących dla tej grupy. Wówczas zostaniesz poinformowany o przyjęciu do grupy.
 grp#:#grp_warn_wl_set_on_waiting_list#:#Na liście oczekujących znajdują się już użytkownicy. Możesz zapisać się jednak na listę oczekujących dla tej grupy. Wówczas zostaniesz poinformowany o przyjęciu do grupy.
 grp#:#grp_wrong_max_members#:#Dla tej listy oczekujących potrzebna jest maksymalna liczba członków.
-grp#:#grp_wrong_min_max_members#:#Ustal minimalną bądź maksymalną liczbę lub oba te parametry równocześnie.
+grp#:#grp_wrong_min_max_members#:#Sprawdź minimalną i maksymalną liczbę użytkowników.### OVB translated
 grp#:#grp_wrong_reg_time_limit#:#Proszę sprawdź wprowadzone dane dotyczące okresu rejestracji.
 grp#:#reg_grp_max_members#:#Ograniczona ilość członków
 grp#:#reg_grp_max_members_short#:#Liczba członków
-grp#:#reg_grp_min_members#:#Minimalna liczba
+grp#:#reg_grp_min_members#:#Minimalna liczba członków### OVB translated
 help#:#help_all#:#Wszyscy
 help#:#help_component#:#Element
 help#:#help_filter#:#Filtr
@@ -11789,7 +11789,7 @@ meta#:#md_adv_deleted_fields#:#Pola zostały usunięte.
 meta#:#md_adv_deleted_files#:#Usuń wyeksportowane pliki.
 meta#:#md_adv_deleted_records#:#Usunięto rekord danych
 meta#:#md_adv_desc_show#:#Pokaż opis
-meta#:#md_adv_edit_complex_option#:#Edit Option Properties###07 02 2020 new variable
+meta#:#md_adv_edit_complex_option#:#Edytuj właściwości opcji### OVB translated
 meta#:#md_adv_edit_field#:#Edytuj pole
 meta#:#md_adv_edit_record#:#Edytuj rekord danych
 meta#:#md_adv_field_fields#:#Pola
@@ -12495,7 +12495,7 @@ meta#:#meta_very_easy#:#Bardzo łatwy
 meta#:#meta_very_high#:#Bardzo wysoki
 meta#:#meta_very_low#:#Bardzo niski
 meta#:#meta_yes#:#Tak
-meta#:#udf_type_address#:#Address###07 02 2020 new variable
+meta#:#udf_type_address#:#Adres### OVB translated
 meta#:#udf_type_externallink#:#Link zewnętrzny
 meta#:#udf_type_float#:#Liczba zmiennoprzecinkowa
 meta#:#udf_type_integer#:#Liczba całkowita

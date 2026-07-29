@@ -1091,7 +1091,7 @@ assessment#:#question_type#:#Spørgsmåls type
 assessment#:#questionpool_not_entered#:#Indtast venligst et navn for spørgsmålsgruppe!
 assessment#:#questionpool_not_selected#:#Please select a question pool!###07 02 2020 new variable
 assessment#:#questions#:#Questions###30 04 2024 new variable
-assessment#:#questions_from#:#spørgsmål fra###
+assessment#:#questions_from#:#spørgsmål fra
 assessment#:#questions_per_page_view#:#Sidevisning
 assessment#:#random_accept_sample#:#Accepter prøve
 assessment#:#random_another_sample#:#Få en anden prøve
@@ -1166,7 +1166,7 @@ assessment#:#score_partsol_enabled_info#:#Usually the participant has to answer 
 assessment#:#scored_pass#:#Scoret forsøg
 assessment#:#scoring#:#Scoring###25 10 2006 new variable
 assessment#:#scoringadjust#:#Corrections###16 09 2013 new variable
-assessment#:#search_groups#:#Søg grupper###
+assessment#:#search_groups#:#Søg grupper
 assessment#:#search_results#:#Søreresultater
 assessment#:#search_roles#:#Søg roller
 assessment#:#search_term#:#Søge kriterier
@@ -2485,7 +2485,7 @@ book#:#book_assign#:#Assign###10 11 2018 new variable
 book#:#book_assign_object#:#Assign Booking Object###10 11 2018 new variable
 book#:#book_assign_participant#:#Assign to Participant###10 11 2018 new variable
 book#:#book_back_to_list#:#Tilbage til liste
-book#:#book_bobj#:#Booking Object###30 08 2015 new variable
+book#:#book_bobj#:#Bookingobjekt### OVB translated
 book#:#book_book#:#Book###16 07 2010 new variable
 book#:#book_book_available#:#Book Available Dates###30 04 2024 new variable
 book#:#book_book_recurrence#:#Book multiple dates###30 04 2024 new variable
@@ -3832,7 +3832,7 @@ common#:#crs_status_blocked#:#[Adgang Nægtet]
 common#:#crs_status_pending#:#[Venter på Registrering]
 common#:#crs_subscribers_assigned#:#Tilmeldte nye bruger(e)
 common#:#crs_title#:#Kursustitel
-common#:#crs_unsubscribe#:#Afmeld
+common#:#crs_unsubscribe#:#Afmelding fra kursus### OVB translated
 common#:#crs_wizard_page#:#Kopier kursus (skridt 2/2)
 common#:#crsr#:#Kursusreferencer
 common#:#crsr_add#:#Add Course Link###31 03 2023 new variable
@@ -4597,12 +4597,12 @@ common#:#mcst_add#:#Tilføj mediaCast
 common#:#mcst_new#:#Ny mediaCast
 common#:#mem_add_to_wl#:#Put på venteliste
 common#:#mem_alert_no_places#:#Der er ingen gratis pladser frie.
-common#:#mem_cron_min_members#:#Course/Group: Minimum Members Check###30 08 2015 new variable
-common#:#mem_cron_min_members_info#:#The administrators will be notified if the minimum number is not met.###30 08 2015 new variable
+common#:#mem_cron_min_members#:#Kursus/gruppe: Minimumsmedlemmer kontrollerer### OVB translated
+common#:#mem_cron_min_members_info#:#Administratorerne får besked, hvis det mindste antal ikke er opfyldt.### OVB translated
 common#:#mem_end#:#Indmeldelses slut:
 common#:#mem_free_places#:#Gratis pladser:
 common#:#mem_max_users#:#Maks brugere:
-common#:#mem_min_users#:#Minimum of Users###30 08 2015 new variable
+common#:#mem_min_users#:#Minimum af brugere### OVB translated
 common#:#mem_participants#:#Deltagere
 common#:#mem_reg_expired#:#Indmeldelsesperioden er udløbet.
 common#:#mem_reg_not_started#:#Indmeldelsesperioden er ikke begyndt
@@ -7479,10 +7479,10 @@ crs#:#crs_admission_link_failure_registration_period#:#Can't registrate: Course 
 crs#:#crs_admission_link_success_registration#:#Successfully registrated to course "%s".###27 01 2015 new variable
 crs#:#crs_agree#:#Acceptance###25 02 2007 new variable
 crs#:#crs_agreement_header#:#Brugeraftale
-crs#:#crs_agreement_required#:#You have to accept the user agreement, if you want to register to this course.###25 02 2007 new variable
+crs#:#crs_agreement_required#:#Bekræft venligst den bindende booking.### OVB translated
 crs#:#crs_at_least_one_admin#:#There has to be at least one course administrator.###25 10 2016 new variable
 crs#:#crs_auto_notification#:#Advisering af nye medlemmer
-crs#:#crs_auto_notification_info#:#Nye medlemmer får en mail-advisering når de tilføjes kurset.
+crs#:#crs_auto_notification_info#:#Velkomstmails sendes automatisk til de medlemmer, der tilføjes til kurset via et plugin. Hvis CourseBooking og MailAdministration plugins er installeret og aktive, vil Mail 16 blive sendt.### OVB translated
 crs#:#crs_awrn_current_course#:#Current Course###30 08 2015 new variable
 crs#:#crs_awrn_current_course_info#:#If the user navigates to a course in the repository, all members of the course are listed.###30 08 2015 new variable
 crs#:#crs_awrn_support_contacts#:#Tutorial Support###30 08 2015 new variable
@@ -7496,9 +7496,9 @@ crs#:#crs_cancel_subscr_request#:#Slet anmodning om deltagelse
 crs#:#crs_cancel_subscription#:#Afmelding fra %s
 crs#:#crs_cancel_subscription_body#:#En bruger har afmeldt sig kurset.###23 Dec 2005 content changed
 crs#:#crs_cancel_subscription_body2#:#Der er muligvis andre deltagere på ventelisten til kurset.\nDu bør kontrollere ventelisten nu.\nFor at se kursusdeltagerne kan du klikke her:
-crs#:#crs_cancellation_end#:#Cancellation Limit###30 08 2015 new variable
+crs#:#crs_cancellation_end#:#Annulleringsgrænse### OVB translated
 crs#:#crs_cancellation_end_info#:#From this date on particiants cannot unsubscribe anymore.###30 08 2015 new variable
-crs#:#crs_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.###30 08 2015 new variable
+crs#:#crs_cancellation_end_rbac_info#:#Annulleringsfristen blev opfyldt på %S, en aflysning er ikke længere mulig.### OVB translated
 crs#:#crs_cannot_find_role#:#Can't find this role.###25 10 2016 new variable
 crs#:#crs_cdf_edit_member#:#Edit Course Relevant User Data###26 09 2014 new variable
 crs#:#crs_cdf_tbl_last_edit#:#Last Update (Course-specific Data)###26 09 2014 new variable
@@ -7513,7 +7513,7 @@ crs#:#crs_contact_responsibility#:#Ansvarlig
 crs#:#crs_content#:#Kursus indhold
 crs#:#crs_copy#:#Kopier kursus
 crs#:#crs_course_group_notification_link#:#Link:###28 08 2012 new variable
-crs#:#crs_course_period_not_valid#:#The course period is not valid.###30 08 2015 new variable
+crs#:#crs_course_period_not_valid#:#Kursusperioden er ikke gyldig.### OVB translated
 crs#:#crs_course_status_of_users#:#Passed Status of Users###28 08 2012 new variable
 crs#:#crs_create_date#:#Opret dato
 crs#:#crs_custom_user_fields#:#Kursusrelevante brugerdata
@@ -7696,9 +7696,9 @@ crs#:#crs_mail_type#:#Mail to Members###16 09 2013 new variable
 crs#:#crs_map_location#:#Placering
 crs#:#crs_map_settings#:#Kortindstillinger
 crs#:#crs_materials#:#Kursusmaterialer
-crs#:#crs_max_and_min_members_invalid#:#The minimum number must be smaller than the maximum number of members.###30 08 2015 new variable
-crs#:#crs_max_and_min_members_needed#:#Set a minimum or maximum number of members - or both.###30 08 2015 new variable
-crs#:#crs_max_members_needed#:#A maximum number of members is needed for the waiting list feature.###30 08 2015 new variable
+crs#:#crs_max_and_min_members_invalid#:#Minimumsnummeret skal være mindre end det maksimale antal medlemmer.### OVB translated
+crs#:#crs_max_and_min_members_needed#:#Indstil et minimum eller et maksimum antal medlemmer - eller begge dele.### OVB translated
+crs#:#crs_max_members_needed#:#Et maksimalt antal medlemmer er nødvendigt til ventelisten.### OVB translated
 crs#:#crs_max_members_reached#:#Det maksimale antal deltagere er nået
 crs#:#crs_mem_contact#:#Support Contact###30 08 2015 new variable
 crs#:#crs_mem_contacts#:#Support Contacts###30 08 2015 new variable
@@ -7807,7 +7807,7 @@ crs#:#crs_passed_status_system#:#System###16 09 2013 new variable
 crs#:#crs_password_not_valid#:#Dit password er ugyldigt
 crs#:#crs_password_required#:#Tilmelding kræver et password.
 crs#:#crs_pdf#:#PDF
-crs#:#crs_period#:#Course Period###30 08 2015 new variable
+crs#:#crs_period#:#Kursusperiode### OVB translated
 crs#:#crs_period_end_mail_placeholder#:#Period End###07 02 2020 new variable
 crs#:#crs_period_info#:#Start to end date of the course###30 08 2015 new variable
 crs#:#crs_period_start_mail_placeholder#:#Period Start###07 02 2020 new variable
@@ -7885,9 +7885,9 @@ crs#:#crs_subscription_failed_limit#:#The maximum number of participants has bee
 crs#:#crs_subscription_max_members#:#Maksimalt antal deltagere
 crs#:#crs_subscription_max_members_short#:#Antal medlemmer
 crs#:#crs_subscription_max_members_short_info#:#The minimal respectively maximial number of members can be set. A waiting list can be set up.###23 12 2015 new variable
-crs#:#crs_subscription_min_members#:#Minimum Number###30 08 2015 new variable
+crs#:#crs_subscription_min_members#:#Minimumsnummer### OVB translated
 crs#:#crs_subscription_min_members_err#:#The minimum number is not allowed to be greater than the maximum number of participants.###10 11 2018 new variable
-crs#:#crs_subscription_min_members_info#:#See cron job "Cancellation Limit".###30 08 2015 new variable
+crs#:#crs_subscription_min_members_info#:#Se Cron Job "Annulleringsgrænse".### OVB translated
 crs#:#crs_subscription_options_confirmation#:#Tilmelding med godkendelse
 crs#:#crs_subscription_options_direct#:#Direkte tilmelding
 crs#:#crs_subscription_options_password#:#Tilmeldig med password
@@ -7981,9 +7981,9 @@ crs#:#crs_visibility_until_info#:#The course will be visible to it's members in 
 crs#:#crs_visibility_unvisible#:#The course is not visible.###24 11 2022 new variable
 crs#:#crs_wait_info#:#Hvis denne funktion er aktiveret og det maksimale antal brugere overskrides vil nye tilmeldinger blive placeret på venteliste.
 crs#:#crs_waiting_list#:#Venteliste
-crs#:#crs_waiting_list_autofill#:#With Auto-Fill###30 08 2015 new variable
-crs#:#crs_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations.###30 08 2015 new variable
-crs#:#crs_waiting_list_no_autofill#:#Without Auto-Fill###30 08 2015 new variable
+crs#:#crs_waiting_list_autofill#:#Auto-fyld### OVB translated
+crs#:#crs_waiting_list_autofill_info#:#Deltagerne rekrutteres automatisk fra ventelisten på aflysninger.### OVB translated
+crs#:#crs_waiting_list_no_autofill#:#Uden automatisk udfyldning### OVB translated
 crs#:#crs_warn_no_max_set_on_waiting_list#:#Det maksimale antal kursusdeltagere er overskredet. Du kan blive opskrevet på ventelisten. Du vil modtage en besked fra kursusadministratoren når dit ønske er blevet afvist eller godkendt.
 crs#:#crs_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.###26 06 2009 new variable
 crs#:#crs_wiz_back#:#Tilbage
@@ -10226,9 +10226,9 @@ grp#:#grp_at_least_one_admin#:#There has to be at least one group administrator.
 grp#:#grp_auto_notification#:#Welcome-Mail For New Members###07 02 2020 new variable
 grp#:#grp_auto_notification_info#:#New members get a mail notification when added to the group.###07 02 2020 new variable
 grp#:#grp_cancel_subscr_request#:#Slet anmodning om medlemsskab
-grp#:#grp_cancellation_end#:#Cancellation Limit###30 08 2015 new variable
+grp#:#grp_cancellation_end#:#Annulleringsgrænse### OVB translated
 grp#:#grp_cancellation_end_info#:#From this date on particiants cannot unsubscribe anymore.###30 08 2015 new variable
-grp#:#grp_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.###30 08 2015 new variable
+grp#:#grp_cancellation_end_rbac_info#:#Annulleringsfristen blev opfyldt på %S, en aflysning er ikke længere mulig.### OVB translated
 grp#:#grp_cdf_edit_member#:#Edit Group Relevant User Data###26 09 2014 new variable
 grp#:#grp_cdf_tbl_last_edit#:#Last Update (Group-specific Data)###26 09 2014 new variable
 grp#:#grp_change_type#:#Skift gruppetype
@@ -10375,11 +10375,11 @@ grp#:#grp_warn_grp_type_changed#:#Er du sikker på du vil ændre gruppetype? All
 grp#:#grp_warn_no_max_set_on_waiting_list#:#The maximum number of group members is exceeded. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.###26 06 2009 new variable
 grp#:#grp_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.###26 06 2009 new variable
 grp#:#grp_wrong_max_members#:#Please check the maximum number of users.###23 07 2008 new variable
-grp#:#grp_wrong_min_max_members#:#Please check the minimum and maximum number of users.###30 08 2015 new variable
+grp#:#grp_wrong_min_max_members#:#Kontroller det minimum og det maksimale antal brugere.### OVB translated
 grp#:#grp_wrong_reg_time_limit#:#Please check the registration start and end times.###12 08 2009 new variable
 grp#:#reg_grp_max_members#:#Maks antal brugere
 grp#:#reg_grp_max_members_short#:#Antal medlemmer
-grp#:#reg_grp_min_members#:#Minimum Number of Members###30 08 2015 new variable
+grp#:#reg_grp_min_members#:#Minimum antal medlemmer### OVB translated
 help#:#help_all#:#Alt
 help#:#help_component#:#Komplnent
 help#:#help_filter#:#Filter
@@ -11789,7 +11789,7 @@ meta#:#md_adv_deleted_fields#:#The fields have been deleted.###30 08 2015 new va
 meta#:#md_adv_deleted_files#:#Slettede eksportfiler
 meta#:#md_adv_deleted_records#:#Slettede datasæt
 meta#:#md_adv_desc_show#:#Vis beskrivelse
-meta#:#md_adv_edit_complex_option#:#Edit Option Properties###07 02 2020 new variable
+meta#:#md_adv_edit_complex_option#:#Rediger optionegenskaber### OVB translated
 meta#:#md_adv_edit_field#:#Ret felt
 meta#:#md_adv_edit_record#:#Rediger datasæt
 meta#:#md_adv_field_fields#:#Felter
@@ -12495,7 +12495,7 @@ meta#:#meta_very_easy#:#Meget let
 meta#:#meta_very_high#:#Meget høj
 meta#:#meta_very_low#:#Meget lav
 meta#:#meta_yes#:#Ja
-meta#:#udf_type_address#:#Address###07 02 2020 new variable
+meta#:#udf_type_address#:#Adresse### OVB translated
 meta#:#udf_type_externallink#:#External Link###31 08 2017 new variable
 meta#:#udf_type_float#:#Float###26 09 2014 new variable
 meta#:#udf_type_integer#:#Integer###26 09 2014 new variable
@@ -16249,7 +16249,7 @@ survey#:#import_error_closing_file#:#Fejl ved forsøg på at lukke importeret fi
 survey#:#import_error_opening_file#:#Fejl ved forsøg på at åbne importeret fil!
 survey#:#import_from_file#:#Importer fra fil
 survey#:#import_from_text#:#Importer fra tekst
-survey#:#import_no_file_selected#:#Ingen fil valgt!###
+survey#:#import_no_file_selected#:#Ingen fil valgt!
 survey#:#import_question#:#Importer spørgsmål
 survey#:#import_wrong_file_type#:#Forkert filtype
 survey#:#insert_after#:#Indsæt efter

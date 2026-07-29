@@ -29,63 +29,63 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-acc#:#acc_add_document_btn_label#:#Add Document###07 02 2020 new variable
-acc#:#acc_crit_type_usr_language#:#Profile Language###07 02 2020 new variable
-acc#:#acc_criterion_assignment_must_be_unique_insert#:#You cannot attach this criterion with this value. There is already an identical criterion attached.###07 02 2020 new variable
-acc#:#acc_criterion_assignment_must_be_unique_update#:#You cannot change the criterion as desired. There is already an identical criterion attached.###07 02 2020 new variable
-acc#:#acc_ctrl_cpt_txt#:#Accessibility Control Concept###07 02 2020 new variable
-acc#:#acc_deleted_documents_p#:#The documents have been deleted.###07 02 2020 new variable
-acc#:#acc_deleted_documents_s#:#The document has been deleted.###07 02 2020 new variable
-acc#:#acc_doc_crit_attached#:#The criterion has been attached.###07 02 2020 new variable
-acc#:#acc_doc_crit_changed#:#The criterion has been changed.###07 02 2020 new variable
-acc#:#acc_doc_crit_detached#:#The criterion has been detached.###07 02 2020 new variable
-acc#:#acc_doc_delete#:#Delete Document###07 02 2020 new variable
-acc#:#acc_doc_detach_crit_confirm_title#:#Detach Criterion###07 02 2020 new variable
-acc#:#acc_doc_sure_detach_crit#:#Are your sure you want to detach the criterion?###07 02 2020 new variable
-acc#:#acc_document#:#Document###07 02 2020 new variable
-acc#:#acc_form_attach_criterion_head#:#Attach Criterion###07 02 2020 new variable
-acc#:#acc_form_criterion#:#Criterion###07 02 2020 new variable
-acc#:#acc_form_document#:#Document###07 02 2020 new variable
-acc#:#acc_form_document_content_changed#:#The contents of the uploaded file was purified by ILIAS. Please check the result and upload a new file, if necessary.###07 02 2020 new variable
-acc#:#acc_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used.###07 02 2020 new variable
-acc#:#acc_form_document_new#:#Change Content###07 02 2020 new variable
-acc#:#acc_form_document_new_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used. The existing contents will be replaced.###07 02 2020 new variable
-acc#:#acc_form_document_title#:#Title###07 02 2020 new variable
-acc#:#acc_form_document_title_info#:#Please enter a title for the document.###07 02 2020 new variable
-acc#:#acc_form_edit_criterion_head#:#Edit Criterion Assignment###07 02 2020 new variable
-acc#:#acc_form_edit_doc_head#:#Edit Document###07 02 2020 new variable
-acc#:#acc_form_new_doc_head#:#Create Document###07 02 2020 new variable
+acc#:#acc_add_document_btn_label#:#Přidat dokument### OVB translated
+acc#:#acc_crit_type_usr_language#:#Jazyk profilu### OVB translated
+acc#:#acc_criterion_assignment_must_be_unique_insert#:#Toto kritérium nemůžete připojit s touto hodnotou. Již je připojeno stejné kritérium.### OVB translated
+acc#:#acc_criterion_assignment_must_be_unique_update#:#Kritérium nelze změnit podle potřeby. Již je připojeno stejné kritérium.### OVB translated
+acc#:#acc_ctrl_cpt_txt#:#Kontrola zpřístupnění### OVB translated
+acc#:#acc_deleted_documents_p#:#Dokumenty byly odstraněny.### OVB translated
+acc#:#acc_deleted_documents_s#:#Dokumenty byly odstraněny.### OVB translated
+acc#:#acc_doc_crit_attached#:#Kritérium bylo připojeno.### OVB translated
+acc#:#acc_doc_crit_changed#:#Kritérium bylo změněno.### OVB translated
+acc#:#acc_doc_crit_detached#:#Kritérium bylo odděleno.### OVB translated
+acc#:#acc_doc_delete#:#Odstranit dokument### OVB translated
+acc#:#acc_doc_detach_crit_confirm_title#:#Oddělit kritérium### OVB translated
+acc#:#acc_doc_sure_detach_crit#:#Jste si jisti, že chcete kritérium oddělit?### OVB translated
+acc#:#acc_document#:#Dokument### OVB translated
+acc#:#acc_form_attach_criterion_head#:#Připojit kritérium### OVB translated
+acc#:#acc_form_criterion#:#Kritérium### OVB translated
+acc#:#acc_form_document#:#Dokument### OVB translated
+acc#:#acc_form_document_content_changed#:#Obsah nahraného souboru byl vyčištěn pomocí systému ILIAS. Zkontrolujte prosím výsledek a v případě potřeby nahrajte nový soubor.### OVB translated
+acc#:#acc_form_document_info#:#Vyberte soubor z místního souborového systému. Můžete nahrát buď prostý textový soubor, nebo jednoduchý soubor HTML. Soubory HTML budou očištěny, bude použit pouze obsah elementu body.### OVB translated
+acc#:#acc_form_document_new#:#Změnit obsah### OVB translated
+acc#:#acc_form_document_new_info#:#Vyberte soubor z místního souborového systému. Můžete nahrát buď prostý textový soubor, nebo jednoduchý soubor HTML. Soubory HTML budou očištěny, bude použit pouze obsah elementu body. Stávající obsah bude nahrazen.### OVB translated
+acc#:#acc_form_document_title#:#Název### OVB translated
+acc#:#acc_form_document_title_info#:#Zde zadejte název dokumentu.### OVB translated
+acc#:#acc_form_edit_criterion_head#:#<br />Upravit kritérium šablony### OVB translated
+acc#:#acc_form_edit_doc_head#:#Editovat dokument### OVB translated
+acc#:#acc_form_new_doc_head#:#Vytvořit dokument### OVB translated
 acc#:#acc_forward_mail#:#Přeposlat poštu
 acc#:#acc_function#:#Funkce
 acc#:#acc_last_rep_visited#:#Úložiště/Naposledy navštíveno
-acc#:#acc_saved_sorting#:#The sorting has been saved.###07 02 2020 new variable
-acc#:#acc_sure_delete_documents_p#:#Are you sure you want to delete the selected documents?###07 02 2020 new variable
-acc#:#acc_sure_delete_documents_s#:#Are you sure you want to delete the document?###07 02 2020 new variable
-acc#:#acc_tbl_docs_action_add_criterion#:#Add Criterion###07 02 2020 new variable
-acc#:#acc_tbl_docs_cell_not_criterion#:#No criterion assigned###07 02 2020 new variable
-acc#:#acc_tbl_docs_head_created#:#Creation Date###07 02 2020 new variable
-acc#:#acc_tbl_docs_head_criteria#:#Criteria###07 02 2020 new variable
-acc#:#acc_tbl_docs_head_last_change#:#Last Change###07 02 2020 new variable
-acc#:#acc_tbl_docs_head_sorting#:#Sorting###07 02 2020 new variable
-acc#:#acc_tbl_docs_head_title#:#Title###07 02 2020 new variable
-acc#:#acc_tbl_docs_title#:#Documents###07 02 2020 new variable
+acc#:#acc_saved_sorting#:#Třídění bylo uloženo.### OVB translated
+acc#:#acc_sure_delete_documents_p#:#Opravdu chcete vybrané dokumenty odstranit?### OVB translated
+acc#:#acc_sure_delete_documents_s#:#Opravdu chcete vybraný dokument odstranit?### OVB translated
+acc#:#acc_tbl_docs_action_add_criterion#:#Přidat kritérium šablony### OVB translated
+acc#:#acc_tbl_docs_cell_not_criterion#:#Není přiřazeno žádné kritérium šablony### OVB translated
+acc#:#acc_tbl_docs_head_created#:#Datum vytvoření### OVB translated
+acc#:#acc_tbl_docs_head_criteria#:#Kritéria pro předkládání### OVB translated
+acc#:#acc_tbl_docs_head_last_change#:#Poslední změna### OVB translated
+acc#:#acc_tbl_docs_head_sorting#:#Třídění### OVB translated
+acc#:#acc_tbl_docs_head_title#:#Název### OVB translated
+acc#:#acc_tbl_docs_title#:#Dokumenty### OVB translated
 acc#:#acc_tree_off#:#Strom vypnutý
 acc#:#acc_tree_on#:#Strom zapnutý
-adm#:#adm_acc_ctrl_cpt_desc#:#If activated, the link for the Accessibility Control Concept shows up in the Footer.###30 04 2021 new variable
-adm#:#adm_acc_ctrl_cpt_enable#:#Enable Accessibility Control Concept###30 04 2021 new variable
-adm#:#adm_accessibility_contacts#:#Accessibility Point of Contact###07 02 2020 new variable
-adm#:#adm_accessibility_contacts_info#:#Contacts for reporting accessibility issues in the footer link. Comma separated list of account logins.###07 02 2020 new variable
+adm#:#adm_acc_ctrl_cpt_desc#:#Pokud je aktivován, zobrazí se v zápatí odkaz na koncept kontroly přístupnosti.### OVB translated
+adm#:#adm_acc_ctrl_cpt_enable#:#Povolení konceptu kontroly přístupnosti### OVB translated
+adm#:#adm_accessibility_contacts#:#Kontaktní místo pro přístupnost### OVB translated
+adm#:#adm_accessibility_contacts_info#:#Kontakty pro hlášení problémů s přístupností v odkazu v zápatí. Seznam přihlašovacích údajů k účtu oddělený čárkou.### OVB translated
 adm#:#adm_awrn_support_contacts_info#:#Jsou uvedeny všechny kontakty technické podpory. Uživatelé jsou definováni jako kontakty technické podpory v části „Obecná nastavení“ > „Kontaktní informace“.
 adm#:#adm_support_contacts#:#Technická podpora
 adm#:#adm_support_contacts_info#:#Kontakty podpory použité v odkazu zápatí a (pokud je aktivován) v nástroji „Kdo je online?“. Seznam přihlášení k účtu s oddělovači.
-administration#:#adm_achievements#:#Achievements###07 02 2020 new variable
+administration#:#adm_achievements#:#Úspěchy### OVB translated
 administration#:#adm_activate_db_benchmark#:#Aktivovat Benchmark
 administration#:#adm_activate_db_benchmark_desc#:#Benchmarking bude automaticky vypnut po prvním požadavku.
 administration#:#adm_adm_role_protect#:#Chránit role správce
 administration#:#adm_adm_role_protect_info#:#Je-li zapnuto, pak jen správce má povoleno zařadit/odebírat uživatele z/do role správce.
-administration#:#adm_auth_login#:#Authentication Login###30 04 2021 new variable
-administration#:#adm_auth_reg#:#Authentication Registration###30 04 2021 new variable
-administration#:#adm_communication#:#Communication###07 02 2020 new variable
+administration#:#adm_auth_login#:#Přihlášení k ověření### OVB translated
+administration#:#adm_auth_reg#:#Ověřování registrace### OVB translated
+administration#:#adm_communication#:#Sdělení### OVB translated
 administration#:#adm_db_bench_by_first_table#:#Agregováno první tabulkou v SQL
 administration#:#adm_db_bench_chronological#:#Chronologicky
 administration#:#adm_db_bench_slowest_first#:#Nejprve nejpomaleji
@@ -102,7 +102,7 @@ administration#:#adm_imprint#:#Impresum
 administration#:#adm_imprint_inactive#:#Impresum není aktivní a uživatelé nemají k němu přístup.
 administration#:#adm_item_cmd_asynch#:#Vložit seznam zdrojových akcí asynchronně
 administration#:#adm_item_cmd_asynch_info#:#Povely akcí, např. v úložišti, jsou ukládány asynchronně. To zvyšuje obecně výkon, ale poněkud zpomaluje stahování seznamů povelů akcí.
-administration#:#adm_layout_and_navigation#:#Layout and Navigation###07 02 2020 new variable
+administration#:#adm_layout_and_navigation#:#Rozložení a navigace### OVB translated
 administration#:#adm_legal_regulations#:#Legal Regulations###30 04 2024 new variable
 administration#:#adm_locale#:#Lokální
 administration#:#adm_locale_info#:#Lokální nastavení ovlivňuje např. třídění seznamů. Příklady jsou nl_NL nebo de_DE. Vícenásobné lokality mohou být odděleny čárkou. Bude použita první platná.
@@ -111,7 +111,7 @@ administration#:#adm_missing_entries#:#Chybějící vstupy
 administration#:#adm_missing_entry_add#:#Přidat nový vstup
 administration#:#adm_missing_entry_add_action#:#Přidat
 administration#:#adm_nr_statements#:#Počet příkazů
-administration#:#adm_personal_workspace#:#Personal Workspace###07 02 2020 new variable
+administration#:#adm_personal_workspace#:#Osobní plocha### OVB translated
 administration#:#adm_predefined_settings#:#Předdefinované nastavení
 administration#:#adm_pub_section_domain_filter#:#Filtr domén
 administration#:#adm_pub_section_domain_filter_info#:#Filtry domén udělují anonymní přístup. Zadejte jednu nebo více domén, které umožňují anonymní přístup.
@@ -125,8 +125,8 @@ administration#:#adm_rep_tree_limit_grp_crs_info#:#Toto závisí a automaticky a
 administration#:#adm_rep_tree_only_cntr#:#Jen kontejner
 administration#:#adm_rep_tree_only_cntr_info#:#Jsou vypsány jen kategorie, kurzy a skupiny.
 administration#:#adm_rep_tree_presentation#:#Prezentace stromu úložiště
-administration#:#adm_repository_and_objects#:#Repository and Objects###07 02 2020 new variable
-administration#:#adm_search_and_find#:#Search and Find###07 02 2020 new variable
+administration#:#adm_repository_and_objects#:#Úložiště a objekty### OVB translated
+administration#:#adm_search_and_find#:#Vyhledávání a hledání### OVB translated
 administration#:#adm_show_comments_tagging_in_lists#:#Ukaž počet poznámek, komentářů a tagů v seznamech objektu
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Zobrazte tagy místo čísla
 administration#:#adm_sql#:#SQL
@@ -264,7 +264,7 @@ administration#:#language_scope_unchanged_info#:#Exportovat všechny výchozí p
 administration#:#language_settings#:#Nastavení jazyka
 administration#:#language_statistics#:#Statistiky
 administration#:#language_translation_enabled#:#Překlad stránky zapnut
-administration#:#language_variables_saved#:#The changes to the language variables were saved successfully.###25 06 2021 new variable
+administration#:#language_variables_saved#:#Jakykové změny byly úspěšně uloženy### OVB translated
 administration#:#log_scan#:#Záznam výsledků skenování
 administration#:#log_scan_desc#:#Zapsat výsledky skenování do souboru 'scanlog.log' v adresáři dat klienta.
 administration#:#loginname_change_blocking_time#:#Čas blokování změny přihlašovacího jména
@@ -290,7 +290,7 @@ administration#:#obj_prfa_desc#:#Globální nastavení portfolia
 administration#:#obj_taxs#:#Taxonomie
 administration#:#obj_taxs_desc#:#Globální nastavení taxonomie
 administration#:#options#:#Volby
-administration#:#org_op_edit_user_accounts#:#Edit User Accounts###07 02 2020 new variable
+administration#:#org_op_edit_user_accounts#:#Úprava uživatelských účtů### OVB translated
 administration#:#output_options#:#Volby výstupu
 administration#:#path_to_mkisofs#:#Cesta k mkisofs
 administration#:#prg_export#:#Visible in Study Programmes###30 04 2024 new variable
@@ -436,7 +436,7 @@ assessment#:#add_gap#:#Přidat textovou mezeru
 assessment#:#add_imagemap#:#Importovat mapu obrázku
 assessment#:#add_poly#:#Přidat plochu polygonu
 assessment#:#add_rect#:#Přidat trojúhelníkovou plochu
-assessment#:#additional_rating_info#:#Povšimněte si, že zde uvedené hodnoty jsou vyjádřeny jako procenta a jejich součet musí být 100.
+assessment#:#additional_rating_info#:#Upozorňujeme, že zde uvedené hodnoty jsou v procentech a jejich součet musí být 100.### OVB translated
 assessment#:#advanced_rating#:#Rozšířené hodnocení
 assessment#:#advanced_rating_info#:#Rozšířené hodnocení je dostupné jen když jednotka je přiřazena k výsledku.
 assessment#:#all_available_question_pools#:#Všechny dostupné zásobníky otázek
@@ -446,12 +446,12 @@ assessment#:#allowedextensions#:#Povolené přípony souborů
 assessment#:#allowedextensions_info#:#Vložit seznam oddělený čárkami povolených přípon souborů (např. doc,xls,odt), pokud chcete omezit ukládání na danou sadu přípon.
 assessment#:#analyze_errortext#:#Analyzovat chyby textu
 assessment#:#answer#:#Odpověď
-assessment#:#answer_characters#:# znaků povoleno, počet vložených znaků:
+assessment#:#answer_characters#:#Znaků povoleno, počet vložených znaků:### OVB translated
 assessment#:#answer_image#:#Obrázek odpovědi
 assessment#:#answer_is_not_correct_but_positive#:#Obdržel/a jste body za Vaše řešení, avšak toto řešení není nejlepší
 assessment#:#answer_is_right#:#Vaše řešení je správné
 assessment#:#answer_is_wrong#:#Vaše řešení je chybné
-assessment#:#answer_of#:#Answer of###07 02 2020 new variable
+assessment#:#answer_of#:#Odpověď od### OVB translated
 assessment#:#answer_options#:#Možnosti odpovědi:
 assessment#:#answer_question#:#Odpovědět na otázku
 assessment#:#answer_text#:#Text odpovědi
@@ -548,7 +548,7 @@ assessment#:#autosave_failed#:#Automatické uložení selhalo!
 assessment#:#autosave_info#:#Je-li zaškrtnuto, odpovědi jsou v intervalech ukládány bez interakce uživatele k zabránění ztráty dat. (Aplikováno pouze na vybrané otázky.)
 assessment#:#autosave_ival#:#Interval
 assessment#:#autosave_success#:#Automatické uložení bylo úspěšné...
-assessment#:#autosavecontent#:#Autosave Content###30 04 2021 new variable
+assessment#:#autosavecontent#:#Automatické uložení obsahu### OVB translated
 assessment#:#average_reached_points#:#Průměrně dosažené body
 assessment#:#back_to_objective_container#:#Přejít na kurz
 assessment#:#backtocallingpage#:#Back to the question page###29 06 2022 new variable
@@ -680,8 +680,8 @@ assessment#:#essay_scoring_mode_without_keywords#:#Bez automatického vyhodnocov
 assessment#:#essay_scoring_mode_without_keywords_desc#:#Žádné body nejsou přiděleny jinak, než manuálním hodnocením lektora.
 assessment#:#eval_all_users#:#Hodnocení pro všechny uživatele
 assessment#:#eval_legend_link#:#Uveďte prosím do vysvětlivky význam symbolů hlavičky sloupců.
-assessment#:#evaluated_users#:#Evaluated Users###07 02 2020 new variable
-assessment#:#exam_id#:#Id zkoušky:
+assessment#:#evaluated_users#:#Hodnocení uživatelů### OVB translated
+assessment#:#exam_id#:#Číslo zkoušky v systému ILIAS:### OVB translated
 assessment#:#exam_id_label#:#Exam Id###30 04 2021 new variable
 assessment#:#examid_in_test_pass#:#Zobrazení ID průchodu testem
 assessment#:#examid_in_test_pass_desc#:#V testu se zobrazí ID průchodu testem. Pro každý průchod testem je vygenerováno nové ID.
@@ -728,9 +728,9 @@ assessment#:#filter_show_question_types#:#Zobrazit typy otázek
 assessment#:#filter_show_questionpools#:#Zobrazit zásobníky otázek
 assessment#:#final_statement#:#Závěrečné sdělení
 assessment#:#final_statement_show_desc#:#Je-li vybráno, pak závěrečné sdělení bude zobrazeno přímo po ukončení testu, ještě před prezentací výsledků tohoto testu.
-assessment#:#finalized_by#:#Completed by###07 02 2020 new variable
-assessment#:#finalized_evaluation#:#Scoring completed###07 02 2020 new variable
-assessment#:#finalized_on#:#Completed at###07 02 2020 new variable
+assessment#:#finalized_by#:#Dokončeno### OVB translated
+assessment#:#finalized_evaluation#:#Bodování dokončeno### OVB translated
+assessment#:#finalized_on#:#Dokončeno v### OVB translated
 assessment#:#finish_all_user_passes#:#Ukončit všechny průchody testem
 assessment#:#finish_pass_for_all_users#:#Opravdu chcete ukončit průchody testem pro všechny uživatele?
 assessment#:#finish_pass_for_all_users_in_processing_time#:#You cannot finish the passes of all users together, because for at least one user the processing time is not over yet.###09 03 2022 new variable
@@ -1055,19 +1055,19 @@ assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#Otázka byla vložena z j
 assessment#:#qpl_tab_competences#:#Způsobilosti
 assessment#:#qpl_taxonomy_tab_info_message#:#Taxonomies in question pools can be used to filter the questions. After activating the function in the "Settings" tab, they are displayed in the filter in the "Questions" tab.###30 07 2024 new variable
 assessment#:#qst_error_text_too_long#:#One or more text elements marked as erroneous are too long. The maximum size for a text element marked as erroneous is 150 characters:###21 06 2023 new variable
-assessment#:#qst_essay_allready_written_words#:#Already entered words:###07 02 2020 new variable
-assessment#:#qst_essay_chars_remaining#:#Remaining characters:###07 02 2020 new variable
-assessment#:#qst_essay_wordcounter_enabled#:#Count Words###07 02 2020 new variable
-assessment#:#qst_essay_wordcounter_enabled_info#:#The entered words are counted. The number of written words is shown to the participants below the text input field.###07 02 2020 new variable
-assessment#:#qst_essay_written_words#:#Number of entered words:###07 02 2020 new variable
-assessment#:#qst_lifecycle#:#Lifecycle###07 02 2020 new variable
-assessment#:#qst_lifecycle_draft#:#Draft###07 02 2020 new variable
-assessment#:#qst_lifecycle_filter_all#:#All Lifecycles###07 02 2020 new variable
-assessment#:#qst_lifecycle_final#:#Final###07 02 2020 new variable
-assessment#:#qst_lifecycle_outdated#:#Outdated###07 02 2020 new variable
-assessment#:#qst_lifecycle_rejected#:#Rejected###07 02 2020 new variable
-assessment#:#qst_lifecycle_review#:#To be Reviewed###07 02 2020 new variable
-assessment#:#qst_lifecycle_sharable#:#Sharable###07 02 2020 new variable
+assessment#:#qst_essay_allready_written_words#:#Již napsaná slova:### OVB translated
+assessment#:#qst_essay_chars_remaining#:#Zbývající znaky:### OVB translated
+assessment#:#qst_essay_wordcounter_enabled#:#Počítat slova### OVB translated
+assessment#:#qst_essay_wordcounter_enabled_info#:#Zadaná slova se počítají. Počet slov se účastníkům zobrazí pod polem pro zadávání textu.### OVB translated
+assessment#:#qst_essay_written_words#:#Počet zadaných slov:### OVB translated
+assessment#:#qst_lifecycle#:#Životní cyklus### OVB translated
+assessment#:#qst_lifecycle_draft#:#Návrh### OVB translated
+assessment#:#qst_lifecycle_filter_all#:#Všechny životní cykly### OVB translated
+assessment#:#qst_lifecycle_final#:#Závěrečná stránka### OVB translated
+assessment#:#qst_lifecycle_outdated#:#Neaktuální### OVB translated
+assessment#:#qst_lifecycle_rejected#:#Odmítnuto### OVB translated
+assessment#:#qst_lifecycle_review#:#Nutná revize### OVB translated
+assessment#:#qst_lifecycle_sharable#:#Rozdělitelné### OVB translated
 assessment#:#qst_nested_nested_answers_off#:#No indents, just order###29 07 2022 new variable
 assessment#:#qst_nested_nested_answers_on#:#Use indents in anwers###29 07 2022 new variable
 assessment#:#qst_nr_of_tries#:#Počet pokusů
@@ -1246,7 +1246,7 @@ assessment#:#text_wrong#:#Chybný text
 assessment#:#textsize#:#Šířka textu
 assessment#:#textsize_errortext_info#:#Vložte šířku chybného textu v procentech pokud chcete jinou šířku, než 100 procent.
 assessment#:#textsize_info#:#Vložte šířku uspořádání textu v procentech, pokud chcete jinou velikost, než 100 procent.
-assessment#:#thumb_size#:#Velikost miniatury
+assessment#:#thumb_size#:#Velikost náhledu### OVB translated
 assessment#:#thumb_size_info#:#Miniatura obrázku bude vytvořena s maximálními hodnotami dané výšky a šířky, poměr stran bude zachován.
 assessment#:#thumb_size_unit_pixel#:#Pixel
 assessment#:#time_format#:#HH MM SS
@@ -2029,7 +2029,7 @@ auth#:#auth_ldap_server_ds#:#LDAP-Server
 auth#:#auth_login_editor#:#Editor přihlašovací stránky
 auth#:#auth_oidc#:#OpenId Connect
 auth#:#auth_oidc_failed#:#Login via OpenID Connect failed###16 03 2023 new variable
-auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###30 04 2021 new variable
+auth#:#auth_oidc_login_element_info#:#### OVB translated
 auth#:#auth_oidc_mapping_table#:#Přiřazení uživatelských údajů ILIAS k atributům OpenId Connect
 auth#:#auth_oidc_profile#:#Přiřazení údajů o profilu
 auth#:#auth_oidc_role_info#:#OpenID Connect Attribute::Value (e.g: "roles::employee").###07 02 2020 new variable
@@ -2143,7 +2143,7 @@ awrn#:#awrn_online_only#:#Pouze online
 awrn#:#awrn_seconds#:#s
 awrn#:#awrn_use_osd#:#Vyskakovací okno Online uživatelé
 awrn#:#awrn_use_osd_info#:#Zobrazí se vyskakovací okno pro označení nových online uživatelů v seznamu „Kdo je online?“.
-awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###30 04 2021 new variable
+awrn#:#awrn_user_show#:#Zobrazit můj stav v části "Kdo je online?"### OVB translated
 awrn#:#user_awrn_default#:#Default###30 04 2021 new variable
 awrn#:#user_awrn_hide#:#Hide my status###30 04 2021 new variable
 awrn#:#user_awrn_show#:#Show my status###30 04 2021 new variable
@@ -2164,9 +2164,9 @@ badge#:#awarded_by#:#Awarded by###30 04 2024 new variable
 badge#:#badge_activity_badges#:#Odznaky aktivity
 badge#:#badge_add_template#:#Přidat šablonu
 badge#:#badge_add_to_backpack#:#Přidat do Backpacku
-badge#:#badge_add_to_backpack_multi#:#Snažím se přidat %s do Backpacku
+badge#:#badge_add_to_backpack_multi#:#Snažím se přidat % do Backpacku### OVB translated
 badge#:#badge_add_to_profile#:#Přidat do profilu
-badge#:#badge_assignment_deletion_confirmation#:#Opravdu chcete odebrat následující přiřazení odznaku pro „%s“?
+badge#:#badge_assignment_deletion_confirmation#:#Opravdu chcete odebrat následující přiřazení odznaku pro „%“?### OVB translated
 badge#:#badge_award_badge#:#Udělit odznak
 badge#:#badge_backpack_connect_failed#:#Program Mozilla Backpack nemohl být požadován pro %s.
 badge#:#badge_backpack_email#:#Účet Mozilla Backpack (e-mail)
@@ -2181,7 +2181,7 @@ badge#:#badge_create_image_processing_failed#:#The badge could not be created, a
 badge#:#badge_criteria#:#Kritéria
 badge#:#badge_crs_merit#:#Zásluha
 badge#:#badge_deletion_confirmation#:#Opravdu chcete odstranit následující odznaky a všechna jejich přiřazení?
-badge#:#badge_edit_with_published#:#%s uživatelů již přidalo tento odznak do svého Backpacku. Kvůli měnícímu se atributu odznaku dojde k nesrovnalostem. Lepší řešení může být vytvoření nového odznaku.
+badge#:#badge_edit_with_published#:#%  uživatelů již přidalo tento odznak do svého Backpacku. Kvůli měnícímu se atributu odznaku dojde k nesrovnalostem. Lepší řešení může být vytvoření nového odznaku.### OVB translated
 badge#:#badge_image_from_template#:#Použít šablonu
 badge#:#badge_image_from_upload#:#Nahrát obrázek
 badge#:#badge_image_template_form#:#Šablona obrázku
@@ -2485,7 +2485,7 @@ book#:#book_assign#:#Přiřadit
 book#:#book_assign_object#:#Přiřadit rezervační objekt
 book#:#book_assign_participant#:#Přiřadit účastníkovi
 book#:#book_back_to_list#:#Zpět na seznam
-book#:#book_bobj#:#Rezervační objekt
+book#:#book_bobj#:#Objekt rezervace### OVB translated
 book#:#book_book#:#Objednat
 book#:#book_book_available#:#Book Available Dates###30 04 2024 new variable
 book#:#book_book_recurrence#:#Book multiple dates###30 04 2024 new variable
@@ -2734,7 +2734,7 @@ certificate#:#certificate_error_upload_bgimage#:#Během ukládání obrázku poz
 certificate#:#certificate_export#:#Export certifikátu
 certificate#:#certificate_failed#:#selhalo
 certificate#:#certificate_file_basename#:#Certifikát
-certificate#:#certificate_learning_progress_must_be_active#:#Only objects with an active Learning Progress can be selected. The Learning Progress is deactivated on the following objects: %s###07 02 2020 new variable
+certificate#:#certificate_learning_progress_must_be_active#:#Nejsou k dispozici žádné kurzy schůzky Můžete vybrat pouze objekty s aktivním postupem učení. Postup učení je deaktivován u následujících objektů: %.### OVB translated
 certificate#:#certificate_letter#:#Letter (11 x 8,5 palců)
 certificate#:#certificate_letter_landscape#:#Letter horizontálně (8,5 x 11 palců)
 certificate#:#certificate_margin_body#:#Okraje hlavní části
@@ -2824,7 +2824,7 @@ certificate#:#cmix_cert_ph_object_title#:#Title of the xAPI/cmi5 Object###07 02 
 certificate#:#cmix_cert_ph_reached_score#:#Reached score as percentage###07 02 2020 new variable
 certificate#:#default_background_info#:#Tento obrázek pozadí bude zvolen jako výchozí pozadí pro všechny certifikáty. Potřebudete-li jiný obrázek pozadí v certifikátu, musíte jej uložit v editoru certifikátu.
 certificate#:#download_certificate#:#Stažení certifikátu
-certificate#:#learning_progress_deactivated#:#The Learning Progress for this object is deactivated. To edit the certificate template and achieve user certificates the learning progress for this object must be activated.###07 02 2020 new variable
+certificate#:#learning_progress_deactivated#:#Postup učení pro tento objekt je deaktivován. Chcete-li upravit šablonu certifikátu a dosáhnout uživatelských certifikátů, musí být postup učení pro tento objekt aktivován.### OVB translated
 certificate#:#lti_cert_ph_mastery_score#:#Mastery score as percentage###07 02 2020 new variable
 certificate#:#lti_cert_ph_object_description#:#Description###07 02 2020 new variable
 certificate#:#lti_cert_ph_object_title#:#Title of the LTI Consumer Object###07 02 2020 new variable
@@ -3102,12 +3102,12 @@ cmix#:#conf_availability_1#:#Existing ones allowed###07 02 2020 new variable
 cmix#:#conf_availability_1_info#:#This LRS type is not offered when creating new xAPI/cmi5 objects. Existing xAPI/cmi5 objects that use this type can continue to write or read data. Use this option to be able to delete data in the connected LRS at a later time.###30 04 2024 new variable
 cmix#:#conf_availability_2#:#New producible###07 02 2020 new variable
 cmix#:#conf_availability_2_info#:#This LRS type can be selected when creating xAPI/cmi5 objects.###30 04 2024 new variable
-cmix#:#conf_bypass_proxy#:#Detection of Learning Progress###07 02 2020 new variable
+cmix#:#conf_bypass_proxy#:#Zjišťování pokroku ve výuce### OVB translated
 cmix#:#conf_bypass_proxy_disabled#:#xAPI-Proxy to get immediately data###07 02 2020 new variable
 cmix#:#conf_bypass_proxy_enabled#:#CronJob to check Learning Record Store###07 02 2020 new variable
 cmix#:#conf_bypass_proxy_info#:#In most cases it is recommended to use the xAPI-Proxy. Use the CronJob in case of Limitations regarding Resource or Server.###07 02 2020 new variable
-cmix#:#conf_cronjob_neccessary#:#CronJob necessary for Learning Progress###07 02 2020 new variable
-cmix#:#conf_cronjob_neccessary_info#:#By activating this option, xAPI-Objects using this LRS-Type could not use the xAPI-Proxy to get immediately data for Detection of Learning Progress. Use only the CronJob in case of limitations regarding resources or server.###07 02 2020 new variable
+cmix#:#conf_cronjob_neccessary#:#CronJob nezbytný pro postup učení### OVB translated
+cmix#:#conf_cronjob_neccessary_info#:#Při aktivaci této možnosti by xAPI-objekty používající tento typ LRS nemohly používat xAPI-Proxy k okamžitému získání dat pro detekci postupu učení. CronJob používejte pouze v případě omezení týkajících se zdrojů nebo serveru.### OVB translated
 cmix#:#conf_delete_data#:#Delete Data in LRS###30 04 2024 new variable
 cmix#:#conf_delete_data_info#:#Deletion is currently only possible with the Learning Record Store (LRS) LearningLocker. Only use the options for deleting the user identification if the data has been pseudonymized in the LRS.###30 04 2024 new variable
 cmix#:#conf_delete_data_opt0#:#never###30 04 2024 new variable
@@ -3117,7 +3117,7 @@ cmix#:#conf_delete_data_opt12#:#additionally when users are removed from courses
 cmix#:#conf_delete_data_opt2#:#never - but additionally when users are removed from courses or groups, data will no longer be assignable for ILIAS by deleting the user identification###30 04 2024 new variable
 cmix#:#conf_description#:#Description###07 02 2020 new variable
 cmix#:#conf_external_lrs#:#External LRS###07 02 2020 new variable
-cmix#:#conf_keep_lp#:#Keep Learning Progress###07 02 2020 new variable
+cmix#:#conf_keep_lp#:#Udržovat pokrok ve vzdělávání### OVB translated
 cmix#:#conf_keep_lp_info#:#The ILIAS learning progress status completed would be freezed.###07 02 2020 new variable
 cmix#:#conf_launch_mode#:#Launch Mode###07 02 2020 new variable
 cmix#:#conf_launch_mode_browse#:#Browse###07 02 2020 new variable
@@ -3165,7 +3165,7 @@ cmix#:#conf_privacy_setting_default#:#Default Settings, changeable for Objects##
 cmix#:#conf_privacy_setting_force#:#Settings are not changeable for Objects###07 02 2020 new variable
 cmix#:#conf_privacy_setting_info#:#Configuration Options for Privacy Settings###07 02 2020 new variable
 cmix#:#conf_remarks#:#Internal comments###07 02 2020 new variable
-cmix#:#conf_title#:#Title###07 02 2020 new variable
+cmix#:#conf_title#:#Název### OVB translated
 cmix#:#conf_use_proxy#:#xAPI-Proxy###30 04 2024 new variable
 cmix#:#conf_use_proxy_info#:#The xAPI proxy provides real-time data to determine learning progress in ILIAS. The proxy reduces personal data in accordance with the selected data protection options. If the xAPI proxy is deactivated, the learning content writes the learning progress directly to the LRS. This data must then also be retrieved directly from the LRS. The cron job "xAPI/cmi5 get results" is required to determine the learning progress. The xAPI proxy is mandatory for cmi5 objects and is activated automatically.###30 04 2024 new variable
 cmix#:#conf_use_proxy_info_cmi5#:#The xAPI proxy provides real-time data to determine learning progress in ILIAS. The proxy reduces personal data in accordance with the selected data protection options. The xAPI proxy is mandatory for cmi5 objects.###30 04 2024 new variable
@@ -3202,7 +3202,7 @@ cmix#:#cron_xapi_del_desc#:#Data are deleted according to the settings of the xA
 cmix#:#cron_xapi_results_evaluation#:#Fetch xAPI/cmi5 Results###07 02 2020 new variable
 cmix#:#cron_xapi_results_evaluation_desc#:#Requests all xAPI results from learning record stores for objects not supporting the ILIAS xAPI proxy.###07 02 2020 new variable
 cmix#:#description_info#:#The description will be shown below the title.###07 02 2020 new variable
-cmix#:#download_certificate#:#Download Certificate###07 02 2020 new variable
+cmix#:#download_certificate#:#Stáhnout certifikát### OVB translated
 cmix#:#duration_info#:#The duration can be entered e.g. for answering a task. The duration is set to the default value 0 seconds (PT00.000S) by this option.###30 04 2021 new variable
 cmix#:#duration_label#:#Duration###30 04 2021 new variable
 cmix#:#edit_lrs_type_form#:#LRS-Type###07 02 2020 new variable
@@ -3264,7 +3264,7 @@ cmix#:#progressed_label#:#Statements with the verb 'progressed'###30 04 2021 new
 cmix#:#registration_saved_successfully#:#Registration saved successfully###07 02 2020 new variable
 cmix#:#satisfied_info#:#Indicates that the authority or activity provider determined the actor has fulfilled the criteria of the object or activity.###30 04 2021 new variable
 cmix#:#satisfied_label#:#Statements with the verb 'satisfied'###30 04 2021 new variable
-cmix#:#sect_learning_progress_options#:#Options for Learning Progress###07 02 2020 new variable
+cmix#:#sect_learning_progress_options#:#Možnosti pro pokrok ve vzdělávání### OVB translated
 cmix#:#show_debug#:#Display Learning Experiences###07 02 2020 new variable
 cmix#:#show_debug_info#:#The Learning Experiences of other users could be displayed if the right 'View learning experiences of other users' is set.###07 02 2020 new variable
 cmix#:#tab_export#:#Export###07 02 2020 new variable
@@ -3275,7 +3275,7 @@ cmix#:#tab_settings#:#Settings###07 02 2020 new variable
 cmix#:#tab_statements#:#Learning Experiences###07 02 2020 new variable
 cmix#:#tbl_action_raw_data#:#View Raw Data###07 02 2020 new variable
 cmix#:#tbl_lrs_type_availability#:#Availability###07 02 2020 new variable
-cmix#:#tbl_lrs_type_title#:#Title###07 02 2020 new variable
+cmix#:#tbl_lrs_type_title#:#Název### OVB translated
 cmix#:#tbl_lrs_type_usages#:#Usages Count###07 02 2020 new variable
 cmix#:#tbl_lrs_types_header#:#LRS-Types###07 02 2020 new variable
 cmix#:#tbl_statements_actor#:#User###07 02 2020 new variable
@@ -3367,7 +3367,7 @@ cmps#:#cmps_update#:#Akualizovat
 cmps#:#cmps_version#:#Verze
 cmps#:#database_is_uptodate#:#Tato databáze je aktuální.
 cmps#:#no_changes#:#Žádné změny
-cmxv#:#cmxv_create#:#Create Certificate for xAPI/cmi5 Object###07 02 2020 new variable
+cmxv#:#cmxv_create#:#Vytvořit certifikát pro objekt xAPI/cmi5### OVB translated
 cmxv#:#cmxv_create_info#:#Select a completed xAPI/cmi5 object to generate a certificate for it###07 02 2020 new variable
 cntr#:#cntr_add_new_item#:#Přidat novou položku
 cntr#:#cntr_adopt_content#:#Převzít obsah
@@ -3421,7 +3421,7 @@ common#:#access_unlimited#:#Neomezený
 common#:#access_until#:#Přístup (do)
 common#:#access_users#:#Zaznamenaný v uživatelích
 common#:#accesscount_registered_users#:#Číst podle počtu odlišných uživatelů ILIAS
-common#:#accessibility_control_concept#:#Accessibility Control Concept###07 02 2020 new variable
+common#:#accessibility_control_concept#:#Přístupnost informací### OVB translated
 common#:#account#:#My Account###07 02 2020 new variable
 common#:#account_expires_body#:#Váš účet je časově omezen, vyprší:
 common#:#account_expires_subject#:#[ILIAS] Váš účet vypršel
@@ -3780,7 +3780,7 @@ common#:#copy_selected_items#:#Kopírovat
 common#:#count#:#Spočítat
 common#:#counter_novelty#:#News###30 04 2024 new variable
 common#:#counter_status#:#Status###30 04 2024 new variable
-common#:#country#:#Stát
+common#:#country#:#přímý ředitel### OVB translated
 common#:#country_free_text#:#Stát (vstup volného textu)
 common#:#country_selection#:#Stát (výběr rozbalovacího menu)
 common#:#course#:#Kurz
@@ -3832,7 +3832,7 @@ common#:#crs_status_blocked#:#[Přístup zamítnut]
 common#:#crs_status_pending#:#[Čekání na registraci]
 common#:#crs_subscribers_assigned#:#Zařazení noví uživatelé
 common#:#crs_title#:#Název kurzu
-common#:#crs_unsubscribe#:#Odhlásit se
+common#:#crs_unsubscribe#:#Odhlásit se z kurzu### OVB translated
 common#:#crs_wizard_page#:#Kopírovat kurz (Krok 2/2)
 common#:#crsr#:#Odkazy kurzu
 common#:#crsr_add#:#Add Course Link###31 03 2023 new variable
@@ -3911,7 +3911,7 @@ common#:#disable_check#:#Zrušit kontrolu
 common#:#disable_ext_lang_maint#:#Vypnout rozšířenou údržbu
 common#:#disable_hide_user_toggle#:#Člen je oprávněn deaktivovat
 common#:#disabled#:#Vypnuto
-common#:#disclose#:#Disclose###30 04 2021 new variable
+common#:#disclose#:#Zveřejnit### OVB translated
 common#:#dislike#:#Dislike
 common#:#domain#:#Doména
 common#:#down#:#Dolů
@@ -4022,7 +4022,7 @@ common#:#error_empty_file_or_folder#:#Velikost souboru 0 bajtů anebo to je slo�
 common#:#error_extraction_failed#:#Extrakce archivu a jeho adresářů selhala. Pravděpodobně proto, neboť nemáte právo vytvářet složky nebo kategorie v tomto objektu.
 common#:#error_parser#:#Chyba startu parseru.
 common#:#error_upload_was_zero_bytes#:#Ukládání selhalo nebo je to složka, velikost souboru je 0 bajtů anebo byl zatím soubor přejmenován.
-common#:#etal_talks#:#Talks###31 03 2023 new variable
+common#:#etal_talks#:#Rozhovory### OVB translated
 common#:#event_ass_materials_prop#:#Materiály sezení
 common#:#event_assign_files#:#Přiřazení souboru
 common#:#exc#:#Cvičení
@@ -4074,7 +4074,7 @@ common#:#extracting#:#Extrahuji...
 common#:#eyeclosed#:#Eye Closed - Click to hide the input's contents###30 04 2021 new variable
 common#:#eyeopened#:#Eye Open - Click to reveal the input's contents###30 04 2021 new variable
 common#:#failure_message#:#Chybová zpráva
-common#:#fax#:#Fax
+common#:#fax#:#Úroveň hodnosti (dlouhá)### OVB translated
 common#:#feed#:#Webový zdroj zpráv
 common#:#feedback#:#Odezva
 common#:#field_name#:#Název pole
@@ -4293,7 +4293,7 @@ common#:#hist_webr_delete#:#Webový zdroj smazán. Název:: "%1"
 common#:#hist_webr_update#:#Webový zdroj aktualizován. Název:: "%1"
 common#:#history#:#Historie
 common#:#hits_per_page#:#Zásah/Stránka
-common#:#hobby#:#Zájmy/Koníčky
+common#:#hobby#:#C-Číslo### OVB translated
 common#:#home#:#Veřejná plocha
 common#:#host#:#Host
 common#:#hour#:#Hodin
@@ -4359,7 +4359,7 @@ common#:#import_users#:#Importovat uživatele
 common#:#import_warning_log#:#Importovat záznam varování
 common#:#important#:#Důležité
 common#:#imported#:#importováno
-common#:#imprint#:#Impresum
+common#:#imprint#:#Vydání### OVB translated
 common#:#in#:#v
 common#:#in_use#:#Uživatelský jazyk
 common#:#in_use_by#:#Používáno
@@ -4426,14 +4426,14 @@ common#:#join#:#Přihlásit
 common#:#join_session#:#Připojit
 common#:#kb#:#KByte
 common#:#keywords#:#Klíčová slova
-common#:#label_search_options#:#Search Area###30 04 2021 new variable
+common#:#label_search_options#:#Oblast vyhledávání### OVB translated
 common#:#lang_dateformat#:#d.m.Y
 common#:#lang_path#:#Cesta k jazykům
 common#:#lang_refresh_confirm#:#Skutečně chcete obnovit všechny jazyky?
 common#:#lang_refresh_confirm_info#:#Rozšířená údržba jazyku je v současné době aktivována. Aktualizace dat jazyků uloží všechny data jazyků z jazykových souborů do databáze ILIAS. Lokální změny (v databázi) mohou být přepsány, pokud nebyly dříve exportovány. To nemá vliv na žádný soubor "*.lang.local" v adresáři úprav.
 common#:#lang_refresh_confirm_selected#:#Skutečně chcete obnovit vybraný jazyk?
 common#:#lang_sep_decimal#:#,
-common#:#lang_sep_thousand#:# 
+common#:#lang_sep_thousand#:#
 common#:#lang_size_bytes#:#bajtů
 common#:#lang_size_gb#:#GB
 common#:#lang_size_kb#:#KB
@@ -4522,7 +4522,7 @@ common#:#local_role_assignment#:#Lokale Rollenzuweisung###30 04 2021 new variabl
 common#:#location#:#Poloha
 common#:#locator#:#Umístění:
 common#:#log_in#:#Přihlásit
-common#:#log_out#:#Logout###30 04 2021 new variable
+common#:#log_out#:#Odhlásit### OVB translated
 common#:#logic_or#:#nebo
 common#:#login#:#Přihlašovací jméno
 common#:#login_as#:#Přihlášen jako
@@ -4532,7 +4532,7 @@ common#:#login_information#:#Přihlašovací informace
 common#:#login_information_desc#:#Vložte prosím přihlašovací informace pro příslušný jazyk.
 common#:#login_information_settings_saved#:#Přihlašovací informace byly úspěšně uloženy
 common#:#login_invalid#:#Zvolené přihlašovaní jméno není platné! Povoleny jsou pouze následující znaky (nejméně 3 znaky): A-Z a-z 0-9 _.-+*@!$%~
-common#:#login_to_ilias#:#Přihlášení do systému ILIAS
+common#:#login_to_ilias#:#Přihlášení do systému Personal Development### OVB translated
 common#:#login_to_ilias_via_cas#:#Přihlášení do ILIAS přes ústřední autentizační službu (Central Authentication Service = CAS)
 common#:#login_to_ilias_via_login_form#:#Login to ILIAS###20 05 2025 new variable
 common#:#login_to_ilias_via_saml#:#Login to ILIAS via SAML Authentification
@@ -4548,7 +4548,7 @@ common#:#lso_add#:#Přidat sekvenci učení
 common#:#lso_admin_form_byline#:#General Settings for Learning Sequences###30 04 2021 new variable
 common#:#lso_admin_form_title#:#Settings###30 04 2021 new variable
 common#:#lso_admin_interval_byline#:#Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible! ###30 04 2021 new variable
-common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)###30 04 2021 new variable
+common#:#lso_admin_interval_label#:#Interval dotazování postupu učení (sekundy)### OVB translated
 common#:#lso_copy#:#Kopírovat sekvenci učení
 common#:#lso_copy_threads_info#:#Rozhodněte se, které prvky sekvence učení mají být kopírovány, spojeny nebo vynechány.
 common#:#lso_edit#:#Upravit sekvenci učení
@@ -4585,11 +4585,11 @@ common#:#mails#:#Pošta
 common#:#mails_at_the_ilias_installation#:#Obdržel(a) jste %1$s nových e-mailů v instalaci ILIAS %2$s
 common#:#mails_pl#:#Pošta
 common#:#main_menu#:#Hlavní menu
-common#:#mainbar_aria_label#:#Mainbar###30 04 2021 new variable
+common#:#mainbar_aria_label#:#Hlavní panel### OVB translated
 common#:#mainbar_more_label#:#More###30 04 2021 new variable
 common#:#manage_members#:#Správa členů
 common#:#marked_entries#:#Označené vstupy
-common#:#matriculation#:#Imatrikulační číslo
+common#:#matriculation#:#Mezinárodní C-Číslo### OVB translated
 common#:#max_previews_per_object#:#Počet obrázků náhledu na soubor
 common#:#max_previews_per_object_info#:#Definuje maximální počet náhledů obrázku které jsou vytvořené pro soubor.
 common#:#mcst#:#MediaCast
@@ -4597,12 +4597,12 @@ common#:#mcst_add#:#Přidat MediaCast
 common#:#mcst_new#:#Nový MediaCast
 common#:#mem_add_to_wl#:#Přidat do seznamu čekatelů
 common#:#mem_alert_no_places#:#Zde není žádné volné místo.
-common#:#mem_cron_min_members#:#Kurz/skupina: Kontrola minimálního počtu členů
-common#:#mem_cron_min_members_info#:#Správci budou informováni, pokud není splněn minimální počet.
+common#:#mem_cron_min_members#:#Kurz/skupina: Minimální kontrola členů### OVB translated
+common#:#mem_cron_min_members_info#:#Správci budou informováni, pokud minimální počet nebude splněn.### OVB translated
 common#:#mem_end#:#Konec registrace:
 common#:#mem_free_places#:#Volná místa:
 common#:#mem_max_users#:#Maximum uživatelů:
-common#:#mem_min_users#:#Minimum uživatelů
+common#:#mem_min_users#:#Minimum uživatelů### OVB translated
 common#:#mem_participants#:#Účastníci
 common#:#mem_reg_expired#:#Čas registrace uplynul.
 common#:#mem_reg_not_started#:#Registrace dosud nezačala
@@ -4638,35 +4638,35 @@ common#:#minutes#:#Minuty
 common#:#missing#:#Chybí
 common#:#missing_perm#:#Chybí oprávnění
 common#:#missing_precondition#:#Chybí předpoklady
-common#:#mm_achievements#:#Achievements###07 02 2020 new variable
-common#:#mm_administration#:#Administration###07 02 2020 new variable
-common#:#mm_badges#:#Badges###07 02 2020 new variable
-common#:#mm_calendar#:#Calendar###07 02 2020 new variable
-common#:#mm_certificates#:#Certificates###07 02 2020 new variable
-common#:#mm_comments#:#Comments###07 02 2020 new variable
-common#:#mm_communication#:#Communication###07 02 2020 new variable
-common#:#mm_contacts#:#Contacts###07 02 2020 new variable
-common#:#mm_dashboard#:#Dashboard###07 02 2020 new variable
-common#:#mm_enrolments#:#Enrolments###07 02 2020 new variable
-common#:#mm_favorites#:#Favourites###07 02 2020 new variable
-common#:#mm_learning_history#:#Learning History###07 02 2020 new variable
-common#:#mm_learning_progress#:#Learning Progress###07 02 2020 new variable
+common#:#mm_achievements#:#Úspěchy### OVB translated
+common#:#mm_administration#:#Administrace### OVB translated
+common#:#mm_badges#:#Odznaky### OVB translated
+common#:#mm_calendar#:#Kalendář### OVB translated
+common#:#mm_certificates#:#Certifikáty### OVB translated
+common#:#mm_comments#:#Komentáře### OVB translated
+common#:#mm_communication#:#Komunikace### OVB translated
+common#:#mm_contacts#:#Kontakty### OVB translated
+common#:#mm_dashboard#:#Nástěnka### OVB translated
+common#:#mm_enrolments#:#Zápisy### OVB translated
+common#:#mm_favorites#:#Oblíbené stránky### OVB translated
+common#:#mm_learning_history#:#Vzdělávací historie### OVB translated
+common#:#mm_learning_progress#:#Pokrok ve vzdělávání### OVB translated
 common#:#mm_mail#:#Mail###07 02 2020 new variable
-common#:#mm_news#:#News###07 02 2020 new variable
-common#:#mm_notes#:#Notes###07 02 2020 new variable
-common#:#mm_organisation#:#Organisation###07 02 2020 new variable
-common#:#mm_personal_and_shared_r#:#Personal and Shared Resources###07 02 2020 new variable
-common#:#mm_personal_workspace#:#Personal Workspace###07 02 2020 new variable
+common#:#mm_news#:#Novinky### OVB translated
+common#:#mm_notes#:#Poznámky### OVB translated
+common#:#mm_organisation#:#Organizace### OVB translated
+common#:#mm_personal_and_shared_r#:#Osobní a sdílené zdroje### OVB translated
+common#:#mm_personal_workspace#:#Osobní pracovní prostor### OVB translated
 common#:#mm_portfolio#:#Portfolio###07 02 2020 new variable
 common#:#mm_private_chats#:#Private Chats###31 03 2023 new variable
 common#:#mm_repo_tree_view#:#Tree View###07 02 2020 new variable
 common#:#mm_repo_tree_view_act#:#Activate Tree###07 02 2020 new variable
 common#:#mm_repo_tree_view_deact#:#Deactivate Tree###07 02 2020 new variable
-common#:#mm_repository#:#Repository###07 02 2020 new variable
-common#:#mm_skills#:#Competences###07 02 2020 new variable
-common#:#mm_staff_list#:#Staff List###07 02 2020 new variable
-common#:#mm_tags#:#Tags###07 02 2020 new variable
-common#:#mm_task_derived_tasks#:#Tasks###07 02 2020 new variable
+common#:#mm_repository#:#Úložiště### OVB translated
+common#:#mm_skills#:#Kompetence### OVB translated
+common#:#mm_staff_list#:#Spolupracovníci### OVB translated
+common#:#mm_tags#:#Štítky### OVB translated
+common#:#mm_task_derived_tasks#:#Úkoly k vyřízení### OVB translated
 common#:#mme_lost_item_reason#:#Položka již není k dispozici.
 common#:#mme_lost_item_title#:#Žádné přiřazení
 common#:#mob#:#Mediální objekt
@@ -4695,9 +4695,9 @@ common#:#month_09_short#:#IX.
 common#:#month_10_long#:#Říjen
 common#:#month_10_short#:#X.
 common#:#month_11_long#:#Listopad
-common#:#month_11_short#:#XI.
+common#:#month_11_short#:#11.### OVB translated
 common#:#month_12_long#:#Prosinec
-common#:#month_12_short#:#XII.
+common#:#month_12_short#:#12.### OVB translated
 common#:#monthly#:#měsíčně
 common#:#months#:#Měsíce
 common#:#mount_webfolder#:#Otevřít jako webovou složku
@@ -4878,17 +4878,17 @@ common#:#obj_catr#:#Odkazy kategorie
 common#:#obj_cert#:#Certifikáty
 common#:#obj_cert_desc#:#Nastavení certifikátů
 common#:#obj_chap#:#Kapitola
-common#:#obj_chta#:#Beseda
+common#:#obj_chta#:#Chat### OVB translated
 common#:#obj_chtr#:#Hovorna
 common#:#obj_chtr_duplicate#:#Copy Chat Room###09 03 2022 new variable
 common#:#obj_cld#:#Cloudový objekt
 common#:#obj_cmis#:#xAPI/cmi5###07 02 2020 new variable
-common#:#obj_cmis_desc#:#Learning Record Store Types Configuration###07 02 2020 new variable
+common#:#obj_cmis_desc#:#Typy úložiště záznamů pro učení konfigurace### OVB translated
 common#:#obj_cmix#:#xAPI/cmi5###07 02 2020 new variable
 common#:#obj_cmps#:#Moduly, služby a pluginy
 common#:#obj_cmps_desc#:#Obecná nastavení pro moduly, služby a pluginy.
-common#:#obj_coms#:#Comments###07 02 2020 new variable
-common#:#obj_coms_desc#:#Comments settings###07 02 2020 new variable
+common#:#obj_coms#:#Komentáře### OVB translated
+common#:#obj_coms_desc#:#Spravovat funkci komentáře### OVB translated
 common#:#obj_copa#:#Stránka obsahu
 common#:#obj_cpad#:#Content Pages###30 04 2021 new variable
 common#:#obj_cpad#_desc#:#Content Page Administration###30 04 2021 new variable
@@ -4904,11 +4904,11 @@ common#:#obj_dcl#:#Soubor dat
 common#:#obj_dcl_duplicate#:#Kopírovat soubor dat
 common#:#obj_dpro#:#Declaration of Data Protection###30 04 2024 new variable
 common#:#obj_dpro_desc#:#Declaration of Data Protection Settings###30 04 2024 new variable
-common#:#obj_dshs#:#Dashboard###07 02 2020 new variable
-common#:#obj_dshs_desc#:#Dashboard settings###07 02 2020 new variable
+common#:#obj_dshs#:#Nástěnka### OVB translated
+common#:#obj_dshs_desc#:#Nastavení nástěnky### OVB translated
 common#:#obj_ecss#:#ECS
 common#:#obj_ecss_desc#:#Obecné nastavení ECS
-common#:#obj_etal#:#Employee Talk###31 03 2023 new variable
+common#:#obj_etal#:#Rozhovory se spolupracovníky### OVB translated
 common#:#obj_exc#:#Cvičení
 common#:#obj_exc_duplicate#:#Kopírovat cvičení
 common#:#obj_excv#:#Certifikát cvičení
@@ -4944,8 +4944,8 @@ common#:#obj_iass_select#:#-- Vyberte jedno individuální hodnocení --
 common#:#obj_itgr#:#Položka skupiny
 common#:#obj_ldap_desc#:#Zde zkonfigurujte globální nastavení LDAP.
 common#:#obj_ldoc#:#Legal Documents###30 04 2024 new variable
-common#:#obj_lhts#:#Learning History###07 02 2020 new variable
-common#:#obj_lhts_desc#:#Learning history settings###07 02 2020 new variable
+common#:#obj_lhts#:#Historie učení### OVB translated
+common#:#obj_lhts_desc#:#Nastavení historie učení### OVB translated
 common#:#obj_lm#:#Výukový modul ILIAS
 common#:#obj_lm_duplicate#:#Kopírovat modul výuky
 common#:#obj_lng#:#Jazyk
@@ -4957,8 +4957,8 @@ common#:#obj_lrss#:#Zdroje výuky
 common#:#obj_lrss_desc#:#Konfigurovat všechny typy výukových modulů.
 common#:#obj_lso#:#Sekvence učení
 common#:#obj_lso_duplicate#:#Kopírovat sekvenci učení
-common#:#obj_lsos#:#Learning Sequences###30 04 2021 new variable
-common#:#obj_lsos_desc#:#General settings for Learning Sequences###30 04 2021 new variable
+common#:#obj_lsos#:#Vzdělávací sekvence### OVB translated
+common#:#obj_lsos_desc#:#Obecné nastavení vzdělávacích sekvencí### OVB translated
 common#:#obj_lti#:#LTI Consumer###07 02 2020 new variable
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Interoperabilita výukových nástrojů
@@ -4977,8 +4977,8 @@ common#:#obj_mobs_desc#:#Nastavení objektů médií a zásobníků médií.
 common#:#obj_not_found#:#Objekt nenalezen
 common#:#obj_nota#:#Notifications###31 03 2023 new variable
 common#:#obj_nota_desc#:#Notifications Administration###31 03 2023 new variable
-common#:#obj_nots#:#Notes###07 02 2020 new variable
-common#:#obj_nots_desc#:#Notes settings###07 02 2020 new variable
+common#:#obj_nots#:#Oznámení### OVB translated
+common#:#obj_nots_desc#:#Nastavení oznámení### OVB translated
 common#:#obj_nwss#:#Nastavení zpráv a webového zásobníku
 common#:#obj_nwss_desc#:#Nastavení pro interní nebo externí zprávy a webový zásobník.
 common#:#obj_objf#:#Definice objektů
@@ -5020,12 +5020,12 @@ common#:#obj_poll_duplicate#:#Kopírovat zásobník
 common#:#obj_prg#:#Studijní program
 common#:#obj_prg_duplicate#:#Kopírovat studijní program
 common#:#obj_prg_select#:#-- Vyberte jeden studijní program --
-common#:#obj_prgr#:#Link to Study Programme###07 02 2020 new variable
-common#:#obj_prgrs#:#Links to Study Programmes###07 02 2020 new variable
-common#:#obj_prgs#:#Study Programmes
+common#:#obj_prgr#:#Odkaz na studijní program### OVB translated
+common#:#obj_prgrs#:#Odkazy na studijní programy### OVB translated
+common#:#obj_prgs#:#Studijní program### OVB translated
 common#:#obj_prgs_desc#:#Správa studijního programu
-common#:#obj_prss#:#Personal Resources###07 02 2020 new variable
-common#:#obj_prss_desc#:#Personal resources settings###07 02 2020 new variable
+common#:#obj_prss#:#Osobní zdroje### OVB translated
+common#:#obj_prss_desc#:#Nastavení osobních zdrojů### OVB translated
 common#:#obj_prtf#:#Portfolio
 common#:#obj_prtt#:#Portfolio šablona
 common#:#obj_prtt_duplicate#:#Kopírovat šablonu Portfolio
@@ -5076,12 +5076,12 @@ common#:#obj_svyf#:#Anketa
 common#:#obj_svyf_desc#:#Nastavení platformy pro nástroje ankety
 common#:#obj_sysc#:#Kontrola systému
 common#:#obj_sysc_desc#:#Kontrola systému a nástroje opravu
-common#:#obj_tags#:#Značkování
-common#:#obj_tags_desc#:#Nastavení pro značkování.
-common#:#obj_tala#:#Talk Templates###31 03 2023 new variable
-common#:#obj_tala_desc#:#Talk Templates###31 03 2023 new variable
-common#:#obj_tals#:#Employee Talk Series###31 03 2023 new variable
-common#:#obj_talt#:#Talk Template###31 03 2023 new variable
+common#:#obj_tags#:#Označení### OVB translated
+common#:#obj_tags_desc#:#Nastavení pro označení.### OVB translated
+common#:#obj_tala#:#Předlohy rozhovoru### OVB translated
+common#:#obj_tala_desc#:#Předlohy rozhovoru### OVB translated
+common#:#obj_tals#:#Řada rozhovorů se spolupracovníky### OVB translated
+common#:#obj_talt#:#Předlohy rozhovoru### OVB translated
 common#:#obj_task#:#Task###07 02 2020 new variable
 common#:#obj_tax#:#Taxonomie
 common#:#obj_taxf#:#Taxonomie
@@ -5111,7 +5111,7 @@ common#:#obj_wbrs#:#Webový odkaz
 common#:#obj_wbrs_desc#:#Obecná nástavení pro Webové odkazy
 common#:#obj_webr#:#Webové odkazy
 common#:#obj_webr_duplicate#:#Kopírovat seznam webových odkazů
-common#:#obj_wfe#:#Workflow Engine
+common#:#obj_wfe#:#Pracovní postup### OVB translated
 common#:#obj_wfld#:#Složka
 common#:#obj_wiki#:#Wiki
 common#:#obj_wiki_duplicate#:#Kopírovat Wiki
@@ -5137,7 +5137,7 @@ common#:#objs_copa#:#Stránky obsahu
 common#:#objs_crs#:#Kurzy
 common#:#objs_crsr#:#Odkazy kurzu
 common#:#objs_dcl#:#Sbírky dat
-common#:#objs_etal#:#Employee Talks###31 03 2023 new variable
+common#:#objs_etal#:#Rozhovory se spolupracovníky### OVB translated
 common#:#objs_exc#:#Cvičení
 common#:#objs_file#:#Soubory
 common#:#objs_fold#:#Složky
@@ -5158,7 +5158,7 @@ common#:#objs_mep#:#Zásobníky multimédií
 common#:#objs_orgu#:#Organizační jednotka
 common#:#objs_poll#:#Zásobníky
 common#:#objs_prg#:#Study Programmes
-common#:#objs_prgr#:#Links to Study Programmes###30 04 2021 new variable
+common#:#objs_prgr#:#Odkazy na studijní programy### OVB translated
 common#:#objs_prtf#:#Portfolia
 common#:#objs_prtt#:#Portfolio šablony
 common#:#objs_qpl#:#Zásobníky otázek testů
@@ -5179,12 +5179,12 @@ common#:#objs_skee#:#Competence Trees###28 11 2023 new variable
 common#:#objs_spl#:#Zásobníky otázek (ankety)
 common#:#objs_st#:#Kapitoly
 common#:#objs_svy#:#Ankety
-common#:#objs_tala#:#Talk Templates###31 03 2023 new variable
-common#:#objs_talt#:#Talk Templates###31 03 2023 new variable
+common#:#objs_tala#:#Předlohy rozhovoru### OVB translated
+common#:#objs_talt#:#Předlohy rozhovoru### OVB translated
 common#:#objs_tst#:#Testy
 common#:#objs_webr#:#Webové zdroje
 common#:#objs_wiki#:#Objekty Wiki
-common#:#of#:# 
+common#:#of#:#
 common#:#offline#:#nepřipojeno
 common#:#offline_mode#:#Offline  Mód
 common#:#ok#:#OK
@@ -5276,9 +5276,9 @@ common#:#persons#:#Osoby
 common#:#pg_add#:#Přidat stránku
 common#:#pg_new#:#Nová stránka
 common#:#phone#:#Telefon
-common#:#phone_home#:#Telefon, domů
+common#:#phone_home#:#Přímý nadřízený (jméno)### OVB translated
 common#:#phone_mobile#:#Mobilní telefon
-common#:#phone_office#:#Telefon, kancelář
+common#:#phone_office#:#Úroveň hodnosti (krátká)### OVB translated
 common#:#phrase#:#Fráze
 common#:#please_choose#:#-- Vybrat --
 common#:#please_enter_target#:#Zadejte prosím cíl
@@ -5636,7 +5636,7 @@ common#:#show_filter#:#Zobrazit filtr
 common#:#show_hidden_sections#:#Show More Information &raquo;
 common#:#show_list#:#Zobrazit seznam
 common#:#show_members#:#Zobrazit členy
-common#:#show_more#:#Show More###30 04 2021 new variable
+common#:#show_more#:#Zobrazit více### OVB translated
 common#:#show_owner#:#Zobrazit vlastníka
 common#:#show_preview#:#Show Preview###30 04 2024 new variable
 common#:#show_users_online#:#Zobrazit uživatele online
@@ -5722,8 +5722,8 @@ common#:#tagging_my_tags#:#Mé značky
 common#:#tags#:#Tags###30 04 2021 new variable
 common#:#take_over_structure#:#Převzít strukturu
 common#:#take_over_structure_info#:#Je-li aktivováno, adresáře v zip souboru budou mapovány do kategorií, nebo jsou-li použity ve skupinách, či kurzech do složek.
-common#:#tals_etal#:#Talk###31 03 2023 new variable
-common#:#talt_etal#:#Talk###31 03 2023 new variable
+common#:#tals_etal#:#Rozhovor### OVB translated
+common#:#talt_etal#:#Rozhovor### OVB translated
 common#:#target#:#Cíl
 common#:#tax#:#Taxonomie
 common#:#tax_add#:#Přidat taxonomii
@@ -5965,7 +5965,7 @@ common#:#webdav_enable_versioning#:#File Versioning###07 02 2020 new variable
 common#:#webdav_forbidden_chars_title#:#Following files cannot be displayed, because they contain one or more forbidden characters (\<>/:*?"|#):###07 02 2020 new variable
 common#:#webdav_form_document#:#Instructions Document###07 02 2020 new variable
 common#:#webdav_form_document_info#:#Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information###07 02 2020 new variable
-common#:#webdav_form_document_title#:#Title###07 02 2020 new variable
+common#:#webdav_form_document_title#:#Název### OVB translated
 common#:#webdav_form_document_title_info#:#This title will be dislayed as the title of the modal when the Mount Instructions are opened###07 02 2020 new variable
 common#:#webdav_form_edit_doc_head#:#Edit Mount Instructions Document###07 02 2020 new variable
 common#:#webdav_form_new_doc_head#:#Create new Mount Instructions Document###07 02 2020 new variable
@@ -6091,7 +6091,7 @@ cont#:#cont_skill_really_remove_profile_from_list#:#Do you really want to remove
 cont#:#cont_skill_really_remove_profiles_from_list#:#Do you really want to remove these profiles from the list?###30 04 2021 new variable
 cont#:#cont_skill_records#:#Competence Records###30 04 2024 new variable
 cont#:#cont_skill_removal_not_possible#:#Removing of local competence profiles is not possible. Please select only global competence profiles.###30 04 2021 new variable
-cont#:#cont_std_filter_title_1#:#Title###07 02 2020 new variable
+cont#:#cont_std_filter_title_1#:#Název### OVB translated
 cont#:#cont_std_filter_title_2#:#Description###07 02 2020 new variable
 cont#:#cont_std_filter_title_3#:#Title/Description###07 02 2020 new variable
 cont#:#cont_std_filter_title_4#:#Keyword###07 02 2020 new variable
@@ -7479,10 +7479,10 @@ crs#:#crs_admission_link_failure_registration_period#:#Nelze zaregistrovat: Kurz
 crs#:#crs_admission_link_success_registration#:#Úspěšně zaregistrováni do kurzu „%s“.
 crs#:#crs_agree#:#Přijetí
 crs#:#crs_agreement_header#:#Uživatelské ujednání
-crs#:#crs_agreement_required#:#Musíte akceptovat uživatelské ujednání, pokud se chcete do toho kurzu zaregistrovat.
+crs#:#crs_agreement_required#:#Potvrďte rezervaci vazby.### OVB translated
 crs#:#crs_at_least_one_admin#:#Musí být alespoň jeden správce kurzu.
 crs#:#crs_auto_notification#:#Uvítací e-mail pro nové členy
-crs#:#crs_auto_notification_info#:#Noví členové obdrží upozornění e-mailem, když jsou přidáni do kurzu.
+crs#:#crs_auto_notification_info#:#Uvítací e-maily jsou automaticky zasílány těm členům, kteří jsou přidáni do kurzu prostřednictvím pluginu. Pokud jsou nainstalovány a aktivní pluginy CourseBooking a MailAdministration, bude odeslána pošta 16.### OVB translated
 crs#:#crs_awrn_current_course#:#Aktuální kurz
 crs#:#crs_awrn_current_course_info#:#Pokud uživatel přejde do kurzu v úložišti, jsou uvedeni všichni členové kurzu.
 crs#:#crs_awrn_support_contacts#:#Podpora výuky
@@ -7496,9 +7496,9 @@ crs#:#crs_cancel_subscr_request#:#Smazat požadavek členství
 crs#:#crs_cancel_subscription#:#Uživatel opustil kurz "%s"
 crs#:#crs_cancel_subscription_body#:#%s ukončil své členství v kurzu "%s".
 crs#:#crs_cancel_subscription_body2#:#Na seznamu čekatelů Vašeho kurzu mohou být další uživatelé.\nMěl(a) by jste nyní tento seznam čekatelů zkontrolovat.\nKe zobrazení členů Vašeho kurzu klepněte na:
-crs#:#crs_cancellation_end#:#Limit zrušení
+crs#:#crs_cancellation_end#:#Limit zrušení### OVB translated
 crs#:#crs_cancellation_end_info#:#Od tohoto data se již účastníci nemohou odhlásit.
-crs#:#crs_cancellation_end_rbac_info#:#Lhůta pro zrušení byla splněna v %s, zrušení již není možné.
+crs#:#crs_cancellation_end_rbac_info#:#Uzávěrka zrušení byla splněna na %S, zrušení již není možné.### OVB translated
 crs#:#crs_cannot_find_role#:#Nelze najít tuto roli.
 crs#:#crs_cdf_edit_member#:#Upravit uživatelská data relevantní pro kurz
 crs#:#crs_cdf_tbl_last_edit#:#Poslední aktualizace (data specifická pro kurz)
@@ -7513,7 +7513,7 @@ crs#:#crs_contact_responsibility#:#Zodpovědnost
 crs#:#crs_content#:#Obsah kurzu
 crs#:#crs_copy#:#Kopírovat kurz
 crs#:#crs_course_group_notification_link#:#Odkaz:
-crs#:#crs_course_period_not_valid#:#Doba kurzu není platná.
+crs#:#crs_course_period_not_valid#:#Období kurzu není platné.### OVB translated
 crs#:#crs_course_status_of_users#:#Status uživatelů prošlí
 crs#:#crs_create_date#:#Vytvořit datum
 crs#:#crs_custom_user_fields#:#Uživatelská data relevantní kurzu
@@ -7696,9 +7696,9 @@ crs#:#crs_mail_type#:#E-mail členům
 crs#:#crs_map_location#:#Umístění mapy kurzu
 crs#:#crs_map_settings#:#Nastavení mapy
 crs#:#crs_materials#:#Materiály
-crs#:#crs_max_and_min_members_invalid#:#Minimální počet musí být menší než maximální počet členů.
-crs#:#crs_max_and_min_members_needed#:#Nastavte minimální nebo maximální počet členů - nebo obojí.
-crs#:#crs_max_members_needed#:#Pro funkci pořadníku je zapotřebí maximální počet členů.
+crs#:#crs_max_and_min_members_invalid#:#Minimální počet musí být menší než maximální počet členů.### OVB translated
+crs#:#crs_max_and_min_members_needed#:#Nastavte minimální nebo maximální počet členů - nebo obojí.### OVB translated
+crs#:#crs_max_members_needed#:#Pro funkci čekací listiny je zapotřebí maximální počet členů.### OVB translated
 crs#:#crs_max_members_reached#:#Byl dosažen maximální počet příslušníků kurzu
 crs#:#crs_mem_contact#:#Kontakt podpory
 crs#:#crs_mem_contacts#:#Kontakty podpory
@@ -7807,7 +7807,7 @@ crs#:#crs_passed_status_system#:#Systém
 crs#:#crs_password_not_valid#:#Vaše heslo není platné
 crs#:#crs_password_required#:#Tato registrační procedura vyžaduje heslo.
 crs#:#crs_pdf#:#PDF
-crs#:#crs_period#:#Doba kurzu
+crs#:#crs_period#:#Období kurzu### OVB translated
 crs#:#crs_period_end_mail_placeholder#:#Period End###07 02 2020 new variable
 crs#:#crs_period_info#:#Datum zahájení a ukončení kurzu
 crs#:#crs_period_start_mail_placeholder#:#Period Start###07 02 2020 new variable
@@ -7885,9 +7885,9 @@ crs#:#crs_subscription_failed_limit#:#Byl překročen maximální počet účast
 crs#:#crs_subscription_max_members#:#Maximální počet členů
 crs#:#crs_subscription_max_members_short#:#Počet členů
 crs#:#crs_subscription_max_members_short_info#:#Lze nastavit minimální nebo maximální počet členů. Lze nastavit pořadník.
-crs#:#crs_subscription_min_members#:#Minimální počet
+crs#:#crs_subscription_min_members#:#Minimální počet### OVB translated
 crs#:#crs_subscription_min_members_err#:#Minimální počet nesmí být větší než maximální počet účastníků.
-crs#:#crs_subscription_min_members_info#:#Viz cronová úloha „Limit zrušení“.
+crs#:#crs_subscription_min_members_info#:#Viz Cron Job "Limit zrušení".### OVB translated
 crs#:#crs_subscription_options_confirmation#:#Požadavek členství
 crs#:#crs_subscription_options_direct#:#Přímá registrace
 crs#:#crs_subscription_options_password#:#Registrace s heslem kurzu
@@ -7957,8 +7957,8 @@ crs#:#crs_unsubscribe_member_explanation#:#Dostanete tuto zprávu, protože jste
 crs#:#crs_unsubscribe_sure#:#Chcete se odhlásit z tohoto kurzu?
 crs#:#crs_unsubscribed_from_crs#:#Byl(a) jste odhlášen(a) z tohoto kurzu.
 crs#:#crs_update_subscr_request#:#Aktualizovat požadavek členství
-crs#:#crs_user_agreement#:#Uvolněné typy dat
-crs#:#crs_user_agreement_info#:#Viditelné osobní data pro administrátory kurzů
+crs#:#crs_user_agreement#:#CONTROL_LABEL_NO_DISPLAY### OVB translated
+crs#:#crs_user_agreement_info#:#INFOSCREEN_SEC_NO_DISPLAY### OVB translated
 crs#:#crs_user_already_assigned#:#Vybraný uživatel je již do daného kurzu zařazen.
 crs#:#crs_users_added#:#Uživatel přidán do kurzu
 crs#:#crs_users_already_assigned#:#Tento uživatel je již do tohoto kurzu zařazen
@@ -7981,9 +7981,9 @@ crs#:#crs_visibility_until_info#:#Kurz bude pro členy viditelný v určitém č
 crs#:#crs_visibility_unvisible#:#The course is not visible.###24 11 2022 new variable
 crs#:#crs_wait_info#:#Pokud je zapnuto a maximální počet uživatelů je překročen, nové registrace budou umístěny na seznam čekatelů.
 crs#:#crs_waiting_list#:#Seznam čekatelů
-crs#:#crs_waiting_list_autofill#:#S funkcí Auto-Fill
-crs#:#crs_waiting_list_autofill_info#:#Účastníci jsou automaticky vybíráni z pořadníku při zrušení.
-crs#:#crs_waiting_list_no_autofill#:#Bez funkce Auto-Fill
+crs#:#crs_waiting_list_autofill#:#Automatické vyplnění### OVB translated
+crs#:#crs_waiting_list_autofill_info#:#Účastníci jsou přijímáni z čekací listiny automaticky na zrušení.### OVB translated
+crs#:#crs_waiting_list_no_autofill#:#Bez automatického vyplnění### OVB translated
 crs#:#crs_warn_no_max_set_on_waiting_list#:#Maximální pořet členů kurzu již byl dosažen. Můžete svůj požadavek připojit na seznam čekatelů. Od správce kurzu obdržíte zprávu, zda byla Vaše žádost přijata, nebo zamítnuta.
 crs#:#crs_warn_wl_set_on_waiting_list#:#Někteří uživatelé jsou zapsáni na seznam čekatelů. Svůj požadavek můžete přidat na seznam čekatelů. Od správce kurzu obdržíte zprávu, zda byl Váš požadavek přijat nebo zamítnut.
 crs#:#crs_wiz_back#:#Zpět
@@ -8087,7 +8087,7 @@ dash#:#dash_added_to_favs#:#Recommendation has been added to personal favourites
 dash#:#dash_avail_presentation#:#Available Presentations###07 02 2020 new variable
 dash#:#dash_avail_sortation#:#Available Sortations###07 02 2020 new variable
 dash#:#dash_click_here#:#Click here###07 02 2020 new variable
-dash#:#dash_dashboard#:#Dashboard###07 02 2020 new variable
+dash#:#dash_dashboard#:#Nástěnka### OVB translated
 dash#:#dash_default_presentation#:#Default Presentation###07 02 2020 new variable
 dash#:#dash_default_sortation#:#Default Sortation###07 02 2020 new variable
 dash#:#dash_enable_cal#:#Calendar###07 02 2020 new variable
@@ -9157,47 +9157,47 @@ ecs#:#ecs_wiki_export_enabled#:#Uvolněte tuto Wiki
 ecs#:#ecs_wiki_export_obj_settings#:#Nastavení uvolnění Wiki
 error#:#error_back_to_repository#:#Zpět na úložiště
 error#:#error_sry_error#:#Je nám líto, ale došlo k chybě.
-etal#:#appointments#:#Appointments###31 03 2023 new variable
-etal#:#cal_type_tals#:#Talks###31 03 2023 new variable
-etal#:#change_date_of_series#:#Change date of talk series###31 03 2023 new variable
-etal#:#change_date_of_talk#:#Change date of talk###31 03 2023 new variable
-etal#:#date_of_talk#:#Start Date###31 03 2023 new variable
-etal#:#etal_add#:#Add Talk###31 03 2023 new variable
-etal#:#etal_add_new_item#:#Add new Talk###31 03 2023 new variable
+etal#:#appointments#:#Porady### OVB translated
+etal#:#cal_type_tals#:#Rozhovory### OVB translated
+etal#:#change_date_of_series#:#Upravit řadu rozhovorů### OVB translated
+etal#:#change_date_of_talk#:#Upravit datum rozhovoru### OVB translated
+etal#:#date_of_talk#:#Datum začátku### OVB translated
+etal#:#etal_add#:#Přidat### OVB translated
+etal#:#etal_add_new_item#:#Přidat nový rozhovor### OVB translated
 etal#:#etal_create_invalid_template_ref#:#Invalid Talk Template ID###31 03 2023 new variable
-etal#:#etal_date_appointment_edit#:#Date of Talk###31 03 2023 new variable
-etal#:#etal_date_series_edit#:#Date of Talk Series###31 03 2023 new variable
+etal#:#etal_date_appointment_edit#:#Gesprächsdatum Rozhovor### OVB translated
+etal#:#etal_date_series_edit#:#Řada rozhovorů### OVB translated
 etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###30 04 2024 new variable
-etal#:#etal_edit#:#General###31 03 2023 new variable
+etal#:#etal_edit#:#Obecné### OVB translated
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.###31 03 2023 new variable
 etal#:#etal_location#:#Location###04 11 2025 new variable
-etal#:#etal_new#:#New Talk###31 03 2023 new variable
+etal#:#etal_new#:#Nový rozhovor### OVB translated
 etal#:#etal_open#:#Open Employee Talk###31 03 2023 new variable
 etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
-etal#:#etal_status_all#:#All###31 03 2023 new variable
-etal#:#etal_status_completed#:#Completed###31 03 2023 new variable
-etal#:#etal_status_pending#:#Pending###31 03 2023 new variable
-etal#:#etal_unknown_username#:#Unknown User###31 03 2023 new variable
+etal#:#etal_status_all#:#Všechny### OVB translated
+etal#:#etal_status_completed#:#Uzavřené### OVB translated
+etal#:#etal_status_pending#:#Zbývající### OVB translated
+etal#:#etal_unknown_username#:#Neznámý uživatel### OVB translated
 etal#:#lock_edititng_for_others#:#Lock editing for others###31 03 2023 new variable
 etal#:#meta_adv_records#:#Metadata###31 03 2023 new variable
-etal#:#mm_org_etal#:#Talks###31 03 2023 new variable
-etal#:#mm_talk_template#:#Talk Templates###31 03 2023 new variable
-etal#:#notification_talks_created#:#You have been invited to the following employee talks.###31 03 2023 new variable
-etal#:#notification_talks_date_list_header#:#Dates###31 03 2023 new variable
-etal#:#notification_talks_removed#:#The following appointments have been canceled.###31 03 2023 new variable
-etal#:#notification_talks_subject#:#Invitation: %s###31 03 2023 new variable
+etal#:#mm_org_etal#:#Rozhovor### OVB translated
+etal#:#mm_talk_template#:#Předlohy rozhovoru### OVB translated
+etal#:#notification_talks_created#:#Byli jste pozváni na pohovor.### OVB translated
+etal#:#notification_talks_date_list_header#:#Data### OVB translated
+etal#:#notification_talks_removed#:#Následující termíny byly zrušeny.### OVB translated
+etal#:#notification_talks_subject#:#Pozvánka na schůzku### OVB translated
 etal#:#notification_talks_subject_update#:#Update: %s###31 03 2023 new variable
-etal#:#notification_talks_updated#:#The following talk appointments have been changed.###31 03 2023 new variable
+etal#:#notification_talks_updated#:#Následující termíny pohovorů byly upraveny.### OVB translated
 etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:###28 11 2023 new variable
 etal#:#tala_no_content_without_admin_info#:#The Administrator role is required for access to Talk Templates.###08 07 2025 new variable
 etal#:#talk_serial#:#Talk Serial###31 03 2023 new variable
-etal#:#tals_add#:#Add Talks###31 03 2023 new variable
-etal#:#tals_new#:#New Talks###31 03 2023 new variable
-etal#:#talt_activation_online_info#:#Set the talk template online to make it visible and available for employees. If not, only administrators will have access to it.###31 03 2023 new variable
-etal#:#talt_add#:#Add Template###31 03 2023 new variable
-etal#:#talt_edit#:#General###31 03 2023 new variable
-etal#:#talt_etal#:#Employee Talk###31 03 2023 new variable
-etal#:#talt_new#:#New Talk Template###31 03 2023 new variable
+etal#:#tals_add#:#Přidat rozhovory### OVB translated
+etal#:#tals_new#:#Nová řada rozhovorů### OVB translated
+etal#:#talt_activation_online_info#:#Označte předlohu jako aktivní, aby byla k dispozici pro Vaše spolupracovníky.### OVB translated
+etal#:#talt_add#:#Vytvořit### OVB translated
+etal#:#talt_edit#:#Obecné### OVB translated
+etal#:#talt_etal#:#Rozhovor se spolupracovníky### OVB translated
+etal#:#talt_new#:#Nová předloha rozhovoru### OVB translated
 etal#:#will_update_series_info_lock#:#Lock the editing of all appointments in this series###31 03 2023 new variable
 etal#:#will_update_series_info_title#:#Changes to the title will be made to all appointments in this series.###31 03 2023 new variable
 exc#:#exc_add_assignment#:#Přidat úlohu
@@ -10226,9 +10226,9 @@ grp#:#grp_at_least_one_admin#:#Musí být alespoň jeden správce skupiny.
 grp#:#grp_auto_notification#:#Welcome-Mail For New Members###07 02 2020 new variable
 grp#:#grp_auto_notification_info#:#New members get a mail notification when added to the group.###07 02 2020 new variable
 grp#:#grp_cancel_subscr_request#:#Smazat požadavek členství
-grp#:#grp_cancellation_end#:#Limit zrušení
+grp#:#grp_cancellation_end#:#Limit zrušení### OVB translated
 grp#:#grp_cancellation_end_info#:#Od tohoto data se již účastníci nemohou odhlásit.
-grp#:#grp_cancellation_end_rbac_info#:#Lhůta pro zrušení byla splněna v %s, zrušení již není možné.
+grp#:#grp_cancellation_end_rbac_info#:#Uzávěrka zrušení byla splněna na %S, zrušení již není možné.### OVB translated
 grp#:#grp_cdf_edit_member#:#Upravit uživatelská data relevantní pro skupinu
 grp#:#grp_cdf_tbl_last_edit#:#Poslední aktualizace (data specifická pro skupinu)
 grp#:#grp_change_type#:#Změnit typ skupiny
@@ -10375,11 +10375,11 @@ grp#:#grp_warn_grp_type_changed#:#Skutečně chcete změnit typ skupiny? Všechn
 grp#:#grp_warn_no_max_set_on_waiting_list#:#Maximální počet členů skupiny byl již dosažen. Svůj požadavek o zařazení můžete přidat na seznam čekatelů. Později obdržíte zprávu od správce kurzu, zda Váš požadavek byl přijat nebo zamítnut.
 grp#:#grp_warn_wl_set_on_waiting_list#:#Na seznamu čekatelů jsou již zařazeni někteří uživatelé. Můžete přidat svůj požadavek o zařazení na seznam čekatelů. Později obdržíte zprávu od správce kurzu, zda Váš požadavek byl přijat nebo zamítnut.
 grp#:#grp_wrong_max_members#:#Zkontrolujte prosím maximální počet uživatelů.
-grp#:#grp_wrong_min_max_members#:#Zkontrolujte minimální a maximální počet uživatelů.
+grp#:#grp_wrong_min_max_members#:#Zkontrolujte prosím minimální a maximální počet uživatelů.### OVB translated
 grp#:#grp_wrong_reg_time_limit#:#Zkontrolujte prosím počátek a konec registrace.
 grp#:#reg_grp_max_members#:#Maximální počet uživatelů
 grp#:#reg_grp_max_members_short#:#Počet členů
-grp#:#reg_grp_min_members#:#Minimální počet členů
+grp#:#reg_grp_min_members#:#Minimální počet členů### OVB translated
 help#:#help_all#:#Vše
 help#:#help_component#:#Komponenta
 help#:#help_filter#:#Filtr
@@ -10591,18 +10591,18 @@ jscalendar#:#open_calendar#:#Klepněte k otevření kalendáře pro výběr data
 jscalendar#:#part_today#:#(dnes)
 jscalendar#:#prev_month#:#Předch. měsíc (držet pro menu)
 jscalendar#:#prev_year#:#Předch. rok (držet pro menu)
-jscalendar#:#s_01#:#I.
-jscalendar#:#s_02#:#II.
-jscalendar#:#s_03#:#III.
-jscalendar#:#s_04#:#IV.
-jscalendar#:#s_05#:#V.
-jscalendar#:#s_06#:#VI.
-jscalendar#:#s_07#:#VII.
-jscalendar#:#s_08#:#VIII.
-jscalendar#:#s_09#:#IX.
-jscalendar#:#s_10#:#X.
-jscalendar#:#s_11#:#XI.
-jscalendar#:#s_12#:#XII.
+jscalendar#:#s_01#:#1.### OVB translated
+jscalendar#:#s_02#:#2.### OVB translated
+jscalendar#:#s_03#:#3.### OVB translated
+jscalendar#:#s_04#:#4.### OVB translated
+jscalendar#:#s_05#:#5.### OVB translated
+jscalendar#:#s_06#:#6.### OVB translated
+jscalendar#:#s_07#:#7.### OVB translated
+jscalendar#:#s_08#:#8.### OVB translated
+jscalendar#:#s_09#:#9.### OVB translated
+jscalendar#:#s_10#:#10.### OVB translated
+jscalendar#:#s_11#:#11.### OVB translated
+jscalendar#:#s_12#:#12.### OVB translated
 jscalendar#:#s_fr#:#Pá
 jscalendar#:#s_mo#:#Po
 jscalendar#:#s_sa#:#So
@@ -11065,7 +11065,7 @@ lti#:#launch_method_new_win_info#:#The content is opened in a new window. When l
 lti#:#launch_method_own_win#:#Own Window###07 02 2020 new variable
 lti#:#launch_method_own_win_info#:#The content is opened in the same window and replaces the ILIAS Screen. When leaving the content the user returns to ILIAS.###07 02 2020 new variable
 lti#:#launched#:#Resource was already launched.###07 02 2020 new variable
-lti#:#learning_progress_options#:#Options for Learning Progress###07 02 2020 new variable
+lti#:#learning_progress_options#:#Možnosti pro pokrok ve vzdělávání### OVB translated
 lti#:#lm_only_one_download_per_type#:#Vezměte prosím na vědomí, že můžete zpřístupnit pouze jeden soubor na jeden typ (XML, HTML, SCORM).
 lti#:#lti13_hints#:#Hints###31 03 2023 new variable
 lti#:#lti_13_authentication_url#:#Authentication Request URL###31 03 2023 new variable
@@ -11134,7 +11134,7 @@ lti#:#lti_con_prov_key#:#Key###07 02 2020 new variable
 lti#:#lti_con_prov_keywords#:#Keywords###07 02 2020 new variable
 lti#:#lti_con_prov_keywords_info#:#The keywords must be separated by a Semicolon (;). The Keywords are automatically taken to the Metadata as Keywords.###07 02 2020 new variable
 lti#:#lti_con_prov_launch_options#:#Launch Options###07 02 2020 new variable
-lti#:#lti_con_prov_learning_progress_options#:#Options for Learning Progress###07 02 2020 new variable
+lti#:#lti_con_prov_learning_progress_options#:#Možnosti pro pokrok ve vzdělávání### OVB translated
 lti#:#lti_con_prov_mastery_score_default#:#Default Mastery Score###07 02 2020 new variable
 lti#:#lti_con_prov_mastery_score_default_info#:#The Learning Progress will be evaluated from the Provider Outcome Service and the mastery score threshold.###07 02 2020 new variable
 lti#:#lti_con_prov_privacy_setting_conf#:#Configuration Options###07 02 2020 new variable
@@ -11146,7 +11146,7 @@ lti#:#lti_con_prov_provider_key_global#:#Predefined Key and Secret###07 02 2020 
 lti#:#lti_con_prov_provider_key_global_info#:#If not set, users have to add key and secret to use the provider.###07 02 2020 new variable
 lti#:#lti_con_prov_remarks#:#Internal Remarks###07 02 2020 new variable
 lti#:#lti_con_prov_secret#:#Secret###07 02 2020 new variable
-lti#:#lti_con_prov_title#:#Title###07 02 2020 new variable
+lti#:#lti_con_prov_title#:#Název### OVB translated
 lti#:#lti_con_prov_url#:#URL of Provider###07 02 2020 new variable
 lti#:#lti_con_prov_use_provider_id#:#Use Provider ID###07 02 2020 new variable
 lti#:#lti_con_prov_use_provider_id_info#:#Usually the Ref-Id of the LTI Consumer is transferred to the Provider. Some Providers map this Ref-Id with the Resource of the Provider. To get always the same Resource for these Providers this Option should be activated.###07 02 2020 new variable
@@ -11239,7 +11239,7 @@ lti#:#provider_info#:#Used Provider###07 02 2020 new variable
 lti#:#settings_subtab#:#Settings###07 02 2020 new variable
 lti#:#show_statements#:#Display Learning Experiences###07 02 2020 new variable
 lti#:#show_statements_info#:#The Learning Experiences of other users could be displayed if the right 'View learning experiences of other users' is set.###07 02 2020 new variable
-lti#:#subtab_certificate#:#Certificate###07 02 2020 new variable
+lti#:#subtab_certificate#:#Certifikát### OVB translated
 lti#:#subtab_object_settings#:#Object Settings###07 02 2020 new variable
 lti#:#subtab_provider_settings#:#LTI Provider Settings###07 02 2020 new variable
 lti#:#tab_content#:#Content###07 02 2020 new variable
@@ -11789,7 +11789,7 @@ meta#:#md_adv_deleted_fields#:#Pole byla smazána.
 meta#:#md_adv_deleted_files#:#Smazané exportované soubory.
 meta#:#md_adv_deleted_records#:#Smazaný soubor dat
 meta#:#md_adv_desc_show#:#Zobrazit popis
-meta#:#md_adv_edit_complex_option#:#Edit Option Properties###07 02 2020 new variable
+meta#:#md_adv_edit_complex_option#:#Upravit vlastnosti možnosti### OVB translated
 meta#:#md_adv_edit_field#:#Upravit pole
 meta#:#md_adv_edit_record#:#Upravit datový soubor
 meta#:#md_adv_field_fields#:#Pole
@@ -12495,7 +12495,7 @@ meta#:#meta_very_easy#:#Velmi snadné
 meta#:#meta_very_high#:#Velmi vysoká
 meta#:#meta_very_low#:#Velmi nízká
 meta#:#meta_yes#:#Ano
-meta#:#udf_type_address#:#Address###07 02 2020 new variable
+meta#:#udf_type_address#:#Adresa### OVB translated
 meta#:#udf_type_externallink#:#Externí odkaz
 meta#:#udf_type_float#:#Float
 meta#:#udf_type_integer#:#Celé číslo
@@ -12631,8 +12631,8 @@ mob#:#mob_url_info1#:#External resource URL, allowed suffixes are:###31 03 2023 
 mob#:#mob_url_info_video#:#You may also refer to a Youtube or Vimeo URL.###31 03 2023 new variable
 mst#:#mst_cert_issued_on#:#Issued On###07 02 2020 new variable
 mst#:#mst_courses_of#:#Zápisy %s
-mst#:#mst_download_certificate#:#Download Certificate###07 02 2020 new variable
-mst#:#mst_list_certificates#:#Certificates###07 02 2020 new variable
+mst#:#mst_download_certificate#:#Stáhnout certifikát### OVB translated
+mst#:#mst_list_certificates#:#Certifikáty### OVB translated
 mst#:#mst_list_competences#:#Competences###07 02 2020 new variable
 mst#:#mst_list_courses#:#Zápisy
 mst#:#mst_list_users#:#Seznam zaměstnanců
@@ -12923,7 +12923,7 @@ orgu#:#import_terminated_with_warnings#:#Import byl ukončen s výstrahami.
 orgu#:#import_xml_file#:#Importovat data
 orgu#:#local_other_roles#:#Další role %s
 orgu#:#local_staff#:#Zaměstnanci %s
-orgu#:#mm_organisation#:#Organisation###31 03 2023 new variable
+orgu#:#mm_organisation#:#Organizace### OVB translated
 orgu#:#msg_assignment_to_employee_done#:#Přiřazení k pozici zaměstnance provedeno
 orgu#:#msg_confirm_d_ua#:#Chcete tyto osoby přidělit k pozici zaměstnance příslušných organizačních jednotek?
 orgu#:#msg_confirm_deletion#:#Opravdu chcete smazat následující pozici?
@@ -12948,7 +12948,7 @@ orgu#:#org_op_manage_participants#:#Správa účastníků
 orgu#:#org_op_read_employee_talk#:#Read access talk appointments###31 03 2023 new variable
 orgu#:#org_op_read_learning_progress#:#Zobrazit pokrok ostatních uživatelů
 orgu#:#org_op_score_participants#:#Hodnotit účastníky
-orgu#:#org_op_view_certificates#:#View certificates of other users###07 02 2020 new variable
+orgu#:#org_op_view_certificates#:#Zobrazit certifikáty ostatních uživatelů### OVB translated
 orgu#:#org_op_view_competences#:#View competences of other users###07 02 2020 new variable
 orgu#:#org_op_view_individual_plan#:#View Individual Plan###07 02 2020 new variable
 orgu#:#org_op_view_members#:#View Members###07 02 2020 new variable
@@ -13379,7 +13379,7 @@ prg#:#prg_still_valid#:#still valid###07 02 2020 new variable
 prg#:#prg_subtype_add#:#Přidat novou podtyp
 prg#:#prg_subtypes#:#Podtypy
 prg#:#prg_successfully_removed_certificate#:#Successfully removed certificate of selected Users###30 04 2024 new variable
-prg#:#prg_title#:#Title###07 02 2020 new variable
+prg#:#prg_title#:#Název### OVB translated
 prg#:#prg_type#:#Typ studijního programu
 prg#:#prg_type_add#:#Typ studijního programu
 prg#:#prg_type_assign_amd_sets#:#Přiřadit sady pokročilých metadat
@@ -13853,8 +13853,8 @@ rbac#:#change_existing_objects#:#Změnit existující objekty
 rbac#:#change_existing_objects_desc#:#Nastavení oprávnění této role bude aplikováno na VŠECHNY existující objekty. pokud chcete změnit oprávnění jen na specifikované typy objektů klepněte prosím na zaškrtávací pole k oprávnění příslušného typu objektu.
 rbac#:#change_existing_prefix#:#Změnit existující
 rbac#:#change_existing_prefix_single#:#Změnit
-rbac#:#change_existing_suffix#:# 
-rbac#:#change_existing_suffix_single#:# 
+rbac#:#change_existing_suffix#:#
+rbac#:#change_existing_suffix_single#:#
 rbac#:#change_presentation#:#Change Presentation###07 02 2020 new variable
 rbac#:#chtr_delete#:#Uživatel může přesouvat nebo mazat kurz
 rbac#:#chtr_edit_permission#:#Změna oprávnění
@@ -15250,7 +15250,7 @@ search#:#search_details_info#:#Podrobné hledání. Vyberte prosím jeden, nebo 
 search#:#search_direct#:#Přímé hledání
 search#:#search_err_user_not_exist#:#Uživatel s tímto přihlašovacím jménem neexistuje.
 search#:#search_fast_info#:#Hledání názvu, popisu a klíčových slov ve všech typech objektů
-search#:#search_field#:#Search Input Field###30 04 2021 new variable
+search#:#search_field#:#Vstupní pole pro vyhledávání### OVB translated
 search#:#search_field_perform#:#Perform Search###31 03 2023 new variable
 search#:#search_filter_by_type#:#Filtrovat podle typu
 search#:#search_filter_cd#:#Filtrovat podle data vytvoření
@@ -16095,7 +16095,7 @@ survey#:#anonymize_anonymous_introduction#:#Tato anketa anonymizuje všechna už
 survey#:#answer#:#Odpověď
 survey#:#apply#:#Použít
 survey#:#arithmetic_mean#:#Aritmetický průměr
-survey#:#back#:#<< Zpět
+survey#:#back#:#« Zpět### OVB translated
 survey#:#before#:#před
 survey#:#browse_for_questions#:#Přidat ze zásobníku
 survey#:#cancel_survey#:#Přerušit anketu
@@ -17701,12 +17701,12 @@ wsp#:#wsp_tab_ownership#:#Objekty z mého úložiště
 wsp#:#wsp_tab_personal#:#Mé zdroje
 wsp#:#wsp_tab_shared#:#Sdéleno s ostatními uživateli
 wsp#:#wsp_type_blog#:#Blog
-wsp#:#wsp_type_cmxv#:#Certificate: xAPI/cmi5###07 02 2020 new variable
-wsp#:#wsp_type_crsv#:#Certificate: Kurz
+wsp#:#wsp_type_cmxv#:#Certifikát: xAPI/cmi5### OVB translated
+wsp#:#wsp_type_crsv#:#Certifikát: Kurz### OVB translated
 wsp#:#wsp_type_excv#:#Verifikace: Cvičení
 wsp#:#wsp_type_file#:#Soubor
-wsp#:#wsp_type_ltiv#:#Certificate: LTI Consumer###07 02 2020 new variable
-wsp#:#wsp_type_scov#:#Certificate: SCORM
+wsp#:#wsp_type_ltiv#:#Certifikát: LTI Consumer### OVB translated
+wsp#:#wsp_type_scov#:#Certifikát: SCORM### OVB translated
 wsp#:#wsp_type_tstv#:#Verifikace: Test
 wsp#:#wsp_type_webr#:#Weblový odkaz
 wsp#:#wsp_type_wfld#:#Složka

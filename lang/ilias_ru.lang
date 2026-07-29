@@ -2485,7 +2485,7 @@ book#:#book_assign#:#Assign###10 11 2018 new variable
 book#:#book_assign_object#:#Assign Booking Object###10 11 2018 new variable
 book#:#book_assign_participant#:#Assign to Participant###10 11 2018 new variable
 book#:#book_back_to_list#:#Back to List
-book#:#book_bobj#:#Booking Object###30 08 2015 new variable
+book#:#book_bobj#:#Объект бронирования### OVB translated
 book#:#book_book#:#Book
 book#:#book_book_available#:#Book Available Dates###30 04 2024 new variable
 book#:#book_book_recurrence#:#Book multiple dates###30 04 2024 new variable
@@ -3832,7 +3832,7 @@ common#:#crs_status_blocked#:#[Доступ отказан]
 common#:#crs_status_pending#:#[Ожидание регистрации]
 common#:#crs_subscribers_assigned#:#Назначен(ы) новый(ые) пользователь(и)
 common#:#crs_title#:#Course Title
-common#:#crs_unsubscribe#:#Отписаться
+common#:#crs_unsubscribe#:#Окончание курса членства### OVB translated
 common#:#crs_wizard_page#:#Копировать курс (шаг 2/2)
 common#:#crsr#:#Course Reference
 common#:#crsr_add#:#Add Course Link###31 03 2023 new variable
@@ -4597,12 +4597,12 @@ common#:#mcst_add#:#Добавить трансляциию
 common#:#mcst_new#:#Новая трансляция
 common#:#mem_add_to_wl#:#Add to Waiting List
 common#:#mem_alert_no_places#:#There are no free places available.
-common#:#mem_cron_min_members#:#Course/Group: Minimum Members Check###30 08 2015 new variable
-common#:#mem_cron_min_members_info#:#The administrators will be notified if the minimum number is not met.###30 08 2015 new variable
+common#:#mem_cron_min_members#:#Курс/группа: проверка минимального количества участников### OVB translated
+common#:#mem_cron_min_members_info#:#Администраторы будут уведомлены, если минимальное количество не будет достигнуто.### OVB translated
 common#:#mem_end#:#Registration End:
 common#:#mem_free_places#:#Free Places:
 common#:#mem_max_users#:#Maximum of Users:
-common#:#mem_min_users#:#Minimum of Users###30 08 2015 new variable
+common#:#mem_min_users#:#Минимальное количество участников### OVB translated
 common#:#mem_participants#:#Участники
 common#:#mem_reg_expired#:#The registration time is expired.
 common#:#mem_reg_not_started#:#The registration has not started
@@ -7479,10 +7479,10 @@ crs#:#crs_admission_link_failure_registration_period#:#Can't registrate: Course 
 crs#:#crs_admission_link_success_registration#:#Successfully registrated to course "%s".###27 01 2015 new variable
 crs#:#crs_agree#:#Acceptance
 crs#:#crs_agreement_header#:#Пользовательское соглашение
-crs#:#crs_agreement_required#:#You have to accept the user agreement, if you want to register to this course.
+crs#:#crs_agreement_required#:#Пожалуйста, подтвердите обязательное бронирование.### OVB translated
 crs#:#crs_at_least_one_admin#:#There has to be at least one course administrator.###25 10 2016 new variable
 crs#:#crs_auto_notification#:#Уведомление новых подписчиков
-crs#:#crs_auto_notification_info#:#Новые участники получают почтовое уведомление когда их подписывают на курс.
+crs#:#crs_auto_notification_info#:#Приветственные письма автоматически отправляются тем участникам, которые добавлены в курс через плагин. Если плагины CourseBooking и MailAdministration установлены и активны, будет отправлено Mail 16.### OVB translated
 crs#:#crs_awrn_current_course#:#Current Course###30 08 2015 new variable
 crs#:#crs_awrn_current_course_info#:#If the user navigates to a course in the repository, all members of the course are listed.###30 08 2015 new variable
 crs#:#crs_awrn_support_contacts#:#Tutorial Support###30 08 2015 new variable
@@ -7496,9 +7496,9 @@ crs#:#crs_cancel_subscr_request#:#Delete Membership Request
 crs#:#crs_cancel_subscription#:#Отписаться от курса
 crs#:#crs_cancel_subscription_body#:#Пользователь отписался от курса.
 crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course.\nYou should check for the waiting list now.\nTo view the members of your course, click here:
-crs#:#crs_cancellation_end#:#Cancellation Limit###30 08 2015 new variable
+crs#:#crs_cancellation_end#:#Дата окончания отмены### OVB translated
 crs#:#crs_cancellation_end_info#:#From this date on particiants cannot unsubscribe anymore.###30 08 2015 new variable
-crs#:#crs_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.###30 08 2015 new variable
+crs#:#crs_cancellation_end_rbac_info#:#Конец отмены был достигнут на %s, вывод средств больше невозможен.### OVB translated
 crs#:#crs_cannot_find_role#:#Can't find this role.###25 10 2016 new variable
 crs#:#crs_cdf_edit_member#:#Edit Course Relevant User Data###26 09 2014 new variable
 crs#:#crs_cdf_tbl_last_edit#:#Last Update (Course-specific Data)###26 09 2014 new variable
@@ -7513,7 +7513,7 @@ crs#:#crs_contact_responsibility#:#Обязательство
 crs#:#crs_content#:#Содержание курса
 crs#:#crs_copy#:#Скопировать курс
 crs#:#crs_course_group_notification_link#:#Link:
-crs#:#crs_course_period_not_valid#:#The course period is not valid.###30 08 2015 new variable
+crs#:#crs_course_period_not_valid#:#Период обучения не действителен.### OVB translated
 crs#:#crs_course_status_of_users#:#Условие прохождения курса
 crs#:#crs_create_date#:#Создать дату
 crs#:#crs_custom_user_fields#:#Course Relevant User Data
@@ -7696,9 +7696,9 @@ crs#:#crs_mail_type#:#Mail to Members
 crs#:#crs_map_location#:#Course Map Location
 crs#:#crs_map_settings#:#Map Settings
 crs#:#crs_materials#:#Course Materials
-crs#:#crs_max_and_min_members_invalid#:#The minimum number must be smaller than the maximum number of members.###30 08 2015 new variable
-crs#:#crs_max_and_min_members_needed#:#Set a minimum or maximum number of members - or both.###30 08 2015 new variable
-crs#:#crs_max_members_needed#:#A maximum number of members is needed for the waiting list feature.###30 08 2015 new variable
+crs#:#crs_max_and_min_members_invalid#:#Минимальное число должно быть меньше максимального.### OVB translated
+crs#:#crs_max_and_min_members_needed#:#Установите минимальное или максимальное число - или оба.### OVB translated
+crs#:#crs_max_members_needed#:#Для листа ожидания требуется максимальное количество членов.### OVB translated
 crs#:#crs_max_members_reached#:#Было набрано максимальное количество подписчиков
 crs#:#crs_mem_contact#:#Support Contact###30 08 2015 new variable
 crs#:#crs_mem_contacts#:#Support Contacts###30 08 2015 new variable
@@ -7807,7 +7807,7 @@ crs#:#crs_passed_status_system#:#System
 crs#:#crs_password_not_valid#:#Пароль неправильный
 crs#:#crs_password_required#:#This registration procedure requires a password.
 crs#:#crs_pdf#:#PDF
-crs#:#crs_period#:#Course Period###30 08 2015 new variable
+crs#:#crs_period#:#Период обучения### OVB translated
 crs#:#crs_period_end_mail_placeholder#:#Period End###07 02 2020 new variable
 crs#:#crs_period_info#:#Start to end date of the course###30 08 2015 new variable
 crs#:#crs_period_start_mail_placeholder#:#Period Start###07 02 2020 new variable
@@ -7885,9 +7885,9 @@ crs#:#crs_subscription_failed_limit#:#The maximum number of participants has bee
 crs#:#crs_subscription_max_members#:#Максимальное количество пользователей
 crs#:#crs_subscription_max_members_short#:#Количество подписчиков
 crs#:#crs_subscription_max_members_short_info#:#The minimal respectively maximial number of members can be set. A waiting list can be set up.###23 12 2015 new variable
-crs#:#crs_subscription_min_members#:#Minimum Number###30 08 2015 new variable
+crs#:#crs_subscription_min_members#:#Минимальное количество### OVB translated
 crs#:#crs_subscription_min_members_err#:#The minimum number is not allowed to be greater than the maximum number of participants.###10 11 2018 new variable
-crs#:#crs_subscription_min_members_info#:#See cron job "Cancellation Limit".###30 08 2015 new variable
+crs#:#crs_subscription_min_members_info#:#См. задание Cron "Конец отмены"### OVB translated
 crs#:#crs_subscription_options_confirmation#:#Подписка с подтверждением
 crs#:#crs_subscription_options_direct#:#Прямая подписка
 crs#:#crs_subscription_options_password#:#Подписка с паролем
@@ -7981,9 +7981,9 @@ crs#:#crs_visibility_until_info#:#The course will be visible to it's members in 
 crs#:#crs_visibility_unvisible#:#The course is not visible.###24 11 2022 new variable
 crs#:#crs_wait_info#:#Если активна данная опция и достигнуто максимальное количество пользователей, то новые регистрации будут размещаться в списке ожидания.
 crs#:#crs_waiting_list#:#Список ожидания
-crs#:#crs_waiting_list_autofill#:#With Auto-Fill###30 08 2015 new variable
-crs#:#crs_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations.###30 08 2015 new variable
-crs#:#crs_waiting_list_no_autofill#:#Without Auto-Fill###30 08 2015 new variable
+crs#:#crs_waiting_list_autofill#:#Автоматическое перемещение вверх### OVB translated
+crs#:#crs_waiting_list_autofill_info#:#В случае отмены занятий участники автоматически поднимаются из списка ожидания.### OVB translated
+crs#:#crs_waiting_list_no_autofill#:#Без автоматического продвижения### OVB translated
 crs#:#crs_warn_no_max_set_on_waiting_list#:#The maximum number of course members is exceeded. You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.
 crs#:#crs_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.
 crs#:#crs_wiz_back#:#Back
@@ -10226,9 +10226,9 @@ grp#:#grp_at_least_one_admin#:#There has to be at least one group administrator.
 grp#:#grp_auto_notification#:#Welcome-Mail For New Members###07 02 2020 new variable
 grp#:#grp_auto_notification_info#:#New members get a mail notification when added to the group.###07 02 2020 new variable
 grp#:#grp_cancel_subscr_request#:#Delete Membership Request
-grp#:#grp_cancellation_end#:#Cancellation Limit###30 08 2015 new variable
+grp#:#grp_cancellation_end#:#Дата окончания отмены### OVB translated
 grp#:#grp_cancellation_end_info#:#From this date on particiants cannot unsubscribe anymore.###30 08 2015 new variable
-grp#:#grp_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.###30 08 2015 new variable
+grp#:#grp_cancellation_end_rbac_info#:#Дата окончания отмены была достигнута на %s, снятие больше невозможно.### OVB translated
 grp#:#grp_cdf_edit_member#:#Edit Group Relevant User Data###26 09 2014 new variable
 grp#:#grp_cdf_tbl_last_edit#:#Last Update (Group-specific Data)###26 09 2014 new variable
 grp#:#grp_change_type#:#Change Group Type
@@ -10375,11 +10375,11 @@ grp#:#grp_warn_grp_type_changed#:#Do you really want to change the group type? A
 grp#:#grp_warn_no_max_set_on_waiting_list#:#The maximum number of group members is exceeded. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.
 grp#:#grp_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.
 grp#:#grp_wrong_max_members#:#Please check the maximum number of users.
-grp#:#grp_wrong_min_max_members#:#Please check the minimum and maximum number of users.###30 08 2015 new variable
+grp#:#grp_wrong_min_max_members#:#Пожалуйста, проверьте свою заявку на участие в конкурсе на минимальное и максимальное количество участников.### OVB translated
 grp#:#grp_wrong_reg_time_limit#:#Please check the registration start and end times.
 grp#:#reg_grp_max_members#:#Maximum Of Users
 grp#:#reg_grp_max_members_short#:#Number of Members
-grp#:#reg_grp_min_members#:#Minimum Number of Members###30 08 2015 new variable
+grp#:#reg_grp_min_members#:#Минимальное количество### OVB translated
 help#:#help_all#:#All
 help#:#help_component#:#Component
 help#:#help_filter#:#Фильтр
@@ -11789,7 +11789,7 @@ meta#:#md_adv_deleted_fields#:#The fields have been deleted.###30 08 2015 new va
 meta#:#md_adv_deleted_files#:#Deleted export files.
 meta#:#md_adv_deleted_records#:#Deleted Dataset
 meta#:#md_adv_desc_show#:#Show Description
-meta#:#md_adv_edit_complex_option#:#Edit Option Properties###07 02 2020 new variable
+meta#:#md_adv_edit_complex_option#:#Редактирование свойств опции### OVB translated
 meta#:#md_adv_edit_field#:#Edit Field
 meta#:#md_adv_edit_record#:#Edit Dataset
 meta#:#md_adv_field_fields#:#Fields
@@ -12495,7 +12495,7 @@ meta#:#meta_very_easy#:#Очень легкая
 meta#:#meta_very_high#:#Очень высокая
 meta#:#meta_very_low#:#Очень низкая
 meta#:#meta_yes#:#Да
-meta#:#udf_type_address#:#Address###07 02 2020 new variable
+meta#:#udf_type_address#:#Адрес### OVB translated
 meta#:#udf_type_externallink#:#External Link###31 08 2017 new variable
 meta#:#udf_type_float#:#Float###26 09 2014 new variable
 meta#:#udf_type_integer#:#Integer###26 09 2014 new variable
