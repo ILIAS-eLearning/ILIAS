@@ -123,16 +123,25 @@ function base()
                 'Remove Student',
                 $url_builder->withParameter($action_parameter_token, "delete"),
                 $row_id_token
-            )
-            /**
-             * An async Action will trigger an AJAX-call to the action's target
-             * and display the results in a modal-layer over the Table.
-             * Parameters are passed to the call, but you will have to completely
-             * build the contents of the response. DO NOT render an entire page ;)
-             */
-            ->withAsync(),
+            ),
+        /**
+         * A prompt Action will open a Prompt and load its url, expecting a Prompt State in return.
+         */
+        'status' =>
+            $f->table()->action()->standard(
+                'Status',
+                $f->prompt()->standard(
+                    $url_builder->withParameter($action_parameter_token, "status")
+                ),
+                $row_id_token
+            ),
+        /**
+         * An async Action will trigger an AJAX-call to the action's target
+         * and display the results in a modal-layer over the Table.
+         * THIS IS DEPRECATED in 11. Please use Prompts instead.
+         */
         'info' =>
-            $f->table()->action()->standard( //in both
+            $f->table()->action()->standard(
                 'Info',
                 $url_builder->withParameter($action_parameter_token, "info"),
                 $row_id_token
@@ -242,10 +251,9 @@ function base()
         }
     };
 
-
     /**
      * setup the Table and hand over the request;
-     * with an ID for the table, parameters will be stored throughout url changes
+     * with an Id for the table, parameters will be stored throughout url changes
      */
     $table = $f->table()
             ->data($data_retrieval, 'a data table', $columns)
@@ -277,25 +285,19 @@ function base()
             'id' => print_r($ids, true),
         ]);
 
-        /** take care of the async-call; 'delete'-action asks for it. */
-        if ($action === 'delete') {
-            $items = [];
-            foreach ($ids as $id) {
-                $items[] = $f->modal()->interruptiveItem()->keyValue($id, $row_id_token->getName(), $id);
-            }
-            echo($r->renderAsync([
-                $f->modal()->interruptive(
-                    'Deletion',
-                    'You are about to delete items!',
-                    '#'
-                )->withAffectedItems($items)
-                ->withAdditionalOnLoadCode(static fn($id): string => "console.log('ASYNC JS');")
-            ]));
+        if ($action === 'status') {
+            $ids = array_map(fn($id) => $f->button()->shy($id, '#'), $ids);
+            $message = $f->messageBox()->info('some message box in a prompt-dialog')
+                ->withLinks($ids);
+
+            $response = $f->prompt()->state()->show($message);
+            echo($r->renderAsync($response));
             exit();
         }
+
         if ($action === 'info') {
             echo(
-                $r->render($f->messageBox()->info('an info message: <br><li>' . implode('<li>', $ids)))
+                $r->render($f->messageBox()->info('an (asynch) info message: <br><li>' . implode('<li>', $ids)))
                 . '<script data-replace-marker="script">console.log("ASYNC JS, too");</script>'
             );
             exit();

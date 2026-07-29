@@ -57,7 +57,7 @@ function form()
     $query_namespace = ['prompt', 'example2'];
     list($url_builder, $action_token) = $url_builder->acquireParameters($query_namespace, "action");
     $url_builder = $url_builder->withParameter($action_token, "form");
-    $prompt = $factory->prompt()->standard($url_builder->buildURI());
+    $prompt = $factory->prompt()->standard($url_builder);
 
     //fill the state according to (query-)parameters
     $query = $DIC->http()->wrapper()->query();

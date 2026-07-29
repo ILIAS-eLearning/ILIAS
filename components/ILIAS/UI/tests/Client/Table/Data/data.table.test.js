@@ -93,9 +93,10 @@ describe('Data Table', () => {
     const dt = f.get('tid');
     strict.equal(dt.registerAction instanceof Function, true);
     strict.equal(dt.selectAll instanceof Function, true);
-    strict.equal(dt.doSingleAction instanceof Function, true);
     strict.equal(dt.doMultiAction instanceof Function, true);
     strict.equal(dt.doActionForAll instanceof Function, true);
     strict.equal(dt.doAction instanceof Function, true);
+    strict.equal(dt.collectSelectedRowIds instanceof Function, true);
+    strict.equal(dt.selectAll instanceof Function, true);
   });
 });

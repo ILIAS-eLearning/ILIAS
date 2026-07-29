@@ -25,6 +25,7 @@ use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\Data;
 use ILIAS\UI\URLBuilder;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * wrapper around the renderer to expose protected functions
@@ -34,11 +35,6 @@ class DTRenderer extends I\Table\Renderer
     public function p_getMultiActionHandler(I\Signal $signal)
     {
         return $this->getMultiActionHandler($signal);
-    }
-
-    public function p_getActionRegistration(string $action_id, I\Table\Action\Action $action)
-    {
-        return $this->getActionRegistration($action_id, $action);
     }
 
     public function p_buildMultiActionsDropdown(
@@ -76,6 +72,13 @@ class DTRenderer extends I\Table\Renderer
  */
 class DataRendererTest extends TableRendererTestBase
 {
+    protected I\Prompt\Standard $mock_dialog;
+
+    public function setUp(): void
+    {
+        $this->mock_dialog = $this->createMock(I\Prompt\Standard::class);
+    }
+
     private function getRenderer()
     {
         return new DTRenderer(
@@ -88,6 +91,85 @@ class DataRendererTest extends TableRendererTestBase
             new \ILIAS\UI\Help\TextRetriever\Echoing(),
             $this->getUploadLimitResolver()
         );
+    }
+
+    protected function getActionFactory()
+    {
+        return new I\Table\Action\Factory();
+    }
+
+    protected function getColumnFactory()
+    {
+        return new I\Table\Column\Factory(
+            $this->getLanguage()
+        );
+    }
+
+    protected function getDummyRequest()
+    {
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request
+            ->method("getUri")
+            ->willReturn(new \GuzzleHttp\Psr7\Uri('http://localhost:80'));
+        $request
+            ->method("getQueryParams")
+            ->willReturn([]);
+        return $request;
+    }
+
+    public function getDataFactory(): Data\Factory
+    {
+        return new Data\Factory();
+    }
+
+    public function getUIFactory(): NoUIFactory
+    {
+        $prompt_factory = $this->createMock(I\Prompt\Factory::class);
+        $prompt_factory
+            ->method("standard")
+            ->willReturn(
+                $this->mock_dialog
+            );
+        $factory = new class (
+            $this->getTableFactory(),
+            $prompt_factory
+        ) extends NoUIFactory {
+            public function __construct(
+                protected I\Table\Factory $table_factory,
+                protected I\Prompt\Factory $prompt_factory
+            ) {
+            }
+            public function button(): I\Button\Factory
+            {
+                return new I\Button\Factory();
+            }
+            public function dropdown(): I\Dropdown\Factory
+            {
+                return new I\Dropdown\Factory();
+            }
+            public function symbol(): I\Symbol\Factory
+            {
+                return new I\Symbol\Factory(
+                    new I\Symbol\Icon\Factory(),
+                    new I\Symbol\Glyph\Factory(),
+                    new I\Symbol\Avatar\Factory()
+                );
+            }
+            public function table(): I\Table\Factory
+            {
+                return $this->table_factory;
+            }
+            public function divider(): I\Divider\Factory
+            {
+                return new I\Divider\Factory();
+            }
+            public function prompt(): I\Prompt\Factory
+            {
+                return $this->prompt_factory;
+            }
+
+        };
+        return $factory;
     }
 
     public function testDataTableGetMultiActionHandler()
@@ -103,25 +185,6 @@ class DataRendererTest extends TableRendererTestBase
             });"
         );
         $this->assertEquals($expected, $actual);
-    }
-
-    public function testDataTableGetActionRegistration()
-    {
-        $renderer = $this->getRenderer();
-        $f = $this->getActionFactory();
-        $url = $this->getDataFactory()->uri('http://wwww.ilias.de?ref_id=1');
-        $url_builder = new URLBuilder($url);
-        list($builder, $token) = $url_builder->acquireParameter(['namespace'], 'param');
-
-        $action = $f->standard('label', $builder, $token);
-        $closure = $renderer->p_getActionRegistration('action_id', $action);
-
-        $actual = $this->brutallyTrimHTML($closure('component_id'));
-        $url = $url->__toString();
-        $expected = $this->brutallyTrimHTML(
-            'il.UI.table.data.get(\'component_id\').registerAction(\'action_id\', false, new il.UI.core.URLBuilder(new URL("http://wwww.ilias.de?ref_id=1&namespace_param="), new Map([["namespace_param",new il.UI.core.URLBuilderToken(["namespace"], "param",'
-        );
-        $this->assertStringStartsWith($expected, $actual);
     }
 
     public function testDataTableMultiActionsDropdown()
@@ -153,7 +216,7 @@ class DataRendererTest extends TableRendererTestBase
         $url_builder = new URLBuilder($url);
         list($builder, $token) = $url_builder->acquireParameter(['namespace'], 'param');
         $actions = [
-            'a1' => $f->standard('label1', $builder, $token)->withAsync(),
+            'a1' => $f->standard('label1', $builder, $token),
             'a2' => $f->standard('label2', $builder, $token)
         ];
         $this->assertEquals(
@@ -385,7 +448,7 @@ EOT;
         $url_builder = new URLBuilder($url);
         list($builder, $token) = $url_builder->acquireParameter(['namespace'], 'param');
         $actions = [
-            'a1' => $f->standard('label1', $builder, $token)->withAsync(),
+            'a1' => $f->standard('label1', $builder, $token),
             'a2' => $f->standard('label2', $builder, $token)
         ];
 
@@ -495,7 +558,7 @@ EOT;
         $table = $this->getTableFactory()->data($data, '', $columns)
             ->withRequest($this->getDummyRequest());
 
-        $html = $this->getDefaultRenderer()->render($table);
+        $html = $this->getDefaultRenderer(null, [$this->mock_dialog])->render($table);
 
         $translation = $this->getLanguage()->txt('ui_table_no_records');
         $column_count = count($columns);
