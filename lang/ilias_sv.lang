@@ -11262,16 +11262,14 @@ lti#:#activity_id#:#Aktivitets-ID
 lti#:#activity_id_info#:#Detta aktivitets-ID används av LTI-leverantören eller verktyget för att identifiera uttalanden.
 lti#:#auth_lti#:#LTI Auth
 lti#:#conf_privacy_ident#:#Identifiering av användare
-lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###21 11 2023 new variable
-lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###21 11 2023 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###04 12 2025 new variable
 lti#:#conf_privacy_ident_il_uuid_ext_account#:#Externt användar-ID kombinerat med ett unikt ILIAS-plattforms-ID formaterat som en e-postadress.
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#Detta är identiskt med varje samtal, men kan göra det möjligt att dra direkta slutsatser om användaren.
 lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS-inloggning som e-postadress, kombinerat med ett unikt ILIAS-plattforms-ID om så krävs.
 lti#:#conf_privacy_ident_il_uuid_login_info#:#Sänder inloggningsnamnet. Detta är identiskt med varje anrop, men kan tillåta direkta slutsatser till ILIAS-användaren.
 lti#:#conf_privacy_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address###04 12 2025 new variable
 lti#:#conf_privacy_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.###04 12 2025 new variable
-lti#:#conf_privacy_ident_il_uuid_sha256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###04 12 2025 new variable
-lti#:#conf_privacy_ident_il_uuid_sha256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###04 12 2025 new variable
 lti#:#conf_privacy_ident_il_uuid_sha256url#:#Hash combined with the ILIAS Domain formatted as an E-Mail address.###04 12 2025 new variable
 lti#:#conf_privacy_ident_il_uuid_sha256url_info#:#This is identical to each call, with with a maximum of 80 characters significantly shorter than the variant with the ILIAS platform ID and allows only very limited conclusions about the ILIAS user.###04 12 2025 new variable
 lti#:#conf_privacy_ident_il_uuid_user_id#:#ID för ILIAS-kontot kombinerat med ett unikt ILIAS-plattforms-ID formaterat som en e-postadress.
@@ -11481,8 +11479,8 @@ lti#:#lti_edit_consumer#:#Edit LTI konsument
 lti#:#lti_exit#:#Avsluta LTI-session
 lti#:#lti_exited#:#LTI-sessionen avslutad
 lti#:#lti_exited_info#:#LTI-sessionen slutfördes framgångsrikt.
-lti#:#lti_form_provider_create#:#Skapa inställningar för en leverantör eller ett verktyg
 lti#:#lti_form_provider_content_selection#:#Innehållsval
+lti#:#lti_form_provider_create#:#Skapa inställningar för en leverantör eller ett verktyg
 lti#:#lti_form_provider_edit#:#Redigera inställningar för leverantören eller verktyget
 lti#:#lti_form_section_appearance#:#Alternativ för lanseringen
 lti#:#lti_global_settings_form#:#Globala inställningar

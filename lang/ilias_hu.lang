@@ -11262,16 +11262,14 @@ lti#:#activity_id#:#AktivításID
 lti#:#activity_id_info#:#Ezt az AktivításID-t használja az LTI Kiszolgáló, hogy azonosítsa a Statement-eket.
 lti#:#auth_lti#:#LTI-hitelesítés
 lti#:#conf_privacy_ident#:#Felhasználói azonosítás
-lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash és az egyedi ILIAS platform_id e-mail cím formátumban.
-lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#Ez azonosítja az összes hívást, de nem lehet belőle következtetni felhasználóra.
+lti#:#conf_privacy_ident_il_uuid_sha256#:#Hash és az egyedi ILIAS platform_id e-mail cím formátumban.
+lti#:#conf_privacy_ident_il_uuid_sha256_info#:#Ez azonosítja az összes hívást, de nem lehet belőle következtetni felhasználóra.
 lti#:#conf_privacy_ident_il_uuid_ext_account#:#A külső user_id és az egyedi ILIAS platform_id e-mail cím formátumban.
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#Ez azonosítja az összes hívást, de esetleg következtetni enged a felhasználóra.
 lti#:#conf_privacy_ident_il_uuid_login#:#Az ILIAS felhasználónév és az egyedi ILIAS platform_id e-mail cím formátumban.
 lti#:#conf_privacy_ident_il_uuid_login_info#:#A felhasználónevet küldjük. Ez azonosítja az összes hívást, de esetleg következtetni enged az ILIAS felhasználóra.
 lti#:#conf_privacy_ident_il_uuid_random#:#Véletlen id és az egyedi ILIAS platform_id e-mail cím formátumban.
 lti#:#conf_privacy_ident_il_uuid_random_info#:#Az összes ILIAS objektum és az összes ILIAS felhasználó számára egy véletlen azonosítót generálunk minden híváskor, így a felhasználóval kapcsolatos következtetések nagyon korlátozottak lesznek, mert gyakorlatilag lehetetlen objektumokra hivatkozó felhasználói profilokat létrehozni.
-lti#:#conf_privacy_ident_il_uuid_sha256#:#Hash és az egyedi ILIAS platform_id e-mail cím formátumban.
-lti#:#conf_privacy_ident_il_uuid_sha256_info#:#Ez azonosítja az összes hívást, de nem lehet belőle következtetni felhasználóra.
 lti#:#conf_privacy_ident_il_uuid_sha256url#:#Hash és az egyedi ILIAS domainnel e-mail cím formátumban.
 lti#:#conf_privacy_ident_il_uuid_sha256url_info#:#Ez azonosítja az összes hívást, legfeljebb 80 karakterrel lényegesen rövidebb, mint az ILIAS platformazonosítójú változat, és csak nagyon korlátozott következtetéseket tesz lehetővé a felhasználóról.
 lti#:#conf_privacy_ident_il_uuid_user_id#:#Az ILIAS user_id és az egyedi ILIAS platform_id e-mail cím formátumban.
@@ -11481,8 +11479,8 @@ lti#:#lti_edit_consumer#:#LTI-fogyasztó módosítása
 lti#:#lti_exit#:#LTI-munkamenet lezárása
 lti#:#lti_exited#:#LTI-munkamenet lezárva
 lti#:#lti_exited_info#:#LTI-munkamenet sikeresen lezárult
-lti#:#lti_form_provider_create#:#Kiszolgáló beállításainak létrehozása
 lti#:#lti_form_provider_content_selection#:#Tartalom kiválasztása
+lti#:#lti_form_provider_create#:#Kiszolgáló beállításainak létrehozása
 lti#:#lti_form_provider_edit#:#Kiszolgáló beállításainak módosítása
 lti#:#lti_form_section_appearance#:#Indítás beállításai
 lti#:#lti_global_settings_form#:#Globális beállítások
