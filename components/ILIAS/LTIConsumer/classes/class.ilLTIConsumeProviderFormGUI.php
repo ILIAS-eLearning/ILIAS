@@ -82,7 +82,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
                 ilLTIConsumeProviderSettingsGUI::class
             ];
 
-            $ctrl->setParameterByClass(ilLTIConsumerSettingsGUI::class, 'ref_id', ilObjLTIConsumer::getRefIdOfConsumerByDeploymentId((string)$this->getProvider()->getId()));
+            $ctrl->setParameterByClass(ilLTIConsumerSettingsGUI::class, 'ref_id', ilObjLTIConsumer::getRefIdOfConsumerByDeploymentId((string) $this->getProvider()->getId()));
         }
 
         $iframe_url = $ctrl->getLinkTargetByClass(
