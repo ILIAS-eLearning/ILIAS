@@ -889,12 +889,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     */
     public function getTextgapPoints($a_original, $a_entered, $max_points): float
     {
-        global $DIC;
-        $refinery = $DIC->refinery();
-        $result = 0;
-        $gaprating = $this->getTextgapRating();
-
-        switch ($gaprating) {
+        $result = 0.0;
+        switch ($this->textgap_rating) {
             case assClozeGap::TEXTGAP_RATING_CASEINSENSITIVE:
                 if (strcmp(ilStr::strToLower($a_original), ilStr::strToLower($a_entered)) == 0) {
                     $result = $max_points;
@@ -906,19 +902,19 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 }
                 break;
             case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN1:
-                $transformation = $refinery->string()->levenshtein()->standard($a_original, 1);
+                $transformation = $this->refinery->string()->levenshtein()->standard($a_original, 1);
                 break;
             case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN2:
-                $transformation = $refinery->string()->levenshtein()->standard($a_original, 2);
+                $transformation = $this->refinery->string()->levenshtein()->standard($a_original, 2);
                 break;
             case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN3:
-                $transformation = $refinery->string()->levenshtein()->standard($a_original, 3);
+                $transformation = $this->refinery->string()->levenshtein()->standard($a_original, 3);
                 break;
             case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN4:
-                $transformation = $refinery->string()->levenshtein()->standard($a_original, 4);
+                $transformation = $this->refinery->string()->levenshtein()->standard($a_original, 4);
                 break;
             case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN5:
-                $transformation = $refinery->string()->levenshtein()->standard($a_original, 5);
+                $transformation = $this->refinery->string()->levenshtein()->standard($a_original, 5);
                 break;
         }
 
