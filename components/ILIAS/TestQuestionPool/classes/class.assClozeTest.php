@@ -924,6 +924,50 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         return $result;
     }
 
+    /**
+     *
+     * @param array<int, assAnswerCloze> $answer_options
+     */
+    public function getAnswerOptionIndexForTextGapAnswer(
+        array $answer_options,
+        string $response
+    ): ?int {
+        $levenshtein_distance = match ($this->textgap_rating) {
+            assClozeGap::TEXTGAP_RATING_LEVENSHTEIN1 => 1,
+            assClozeGap::TEXTGAP_RATING_LEVENSHTEIN2 => 2,
+            assClozeGap::TEXTGAP_RATING_LEVENSHTEIN3 => 3,
+            assClozeGap::TEXTGAP_RATING_LEVENSHTEIN4 => 4,
+            assClozeGap::TEXTGAP_RATING_LEVENSHTEIN5 => 5,
+            default => null
+        };
+
+        if ($levenshtein_distance !== null) {
+            foreach ($answer_options as $answer_index => $answer_option) {
+                if ($this->refinery->string()->levenshtein()->standard(
+                    $answer_option->getAnswertext(),
+                    $levenshtein_distance
+                )->transform($response) >= 0) {
+                    return $answer_index;
+                }
+            }
+        } elseif ($this->textgap_rating === assClozeGap::TEXTGAP_RATING_CASEINSENSITIVE) {
+            $response_to_lower = strtolower($response);
+            foreach ($answer_options as $answer_index => $answer_option) {
+                if (strtolower($answer_option->getAnswertext()) === $response_to_lower) {
+                    return $answer_index;
+                }
+            }
+        } elseif ($this->textgap_rating === assClozeGap::TEXTGAP_RATING_CASESENSITIVE) {
+            foreach ($answer_options as $answer_index => $answer_option) {
+                if ($answer_option->getAnswertext() === $response) {
+                    return $answer_index;
+                }
+            }
+        }
+
+        return null;
+    }
+
 
     /**
     * Returns the points for a text gap and compares the given solution with
