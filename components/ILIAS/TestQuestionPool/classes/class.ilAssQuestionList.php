@@ -622,11 +622,13 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
     private function buildQuery(): string
     {
         $with_computed = $this->computedColumnsRequired();
-        return $this->buildBasicQuery($with_computed)
-            . $this->getConditionalFilterExpression()
-            . $this->getHavingFilterExpression()
-            . $this->buildOrderQueryExpression()
-            . $this->buildLimitQueryExpression();
+        return implode(PHP_EOL, array_filter([
+            $this->buildBasicQuery($with_computed),
+            $this->getConditionalFilterExpression(),
+            $this->getHavingFilterExpression(),
+            $this->buildOrderQueryExpression(),
+            $this->buildLimitQueryExpression(),
+        ]));
     }
 
     private function computedColumnsRequired(): bool
