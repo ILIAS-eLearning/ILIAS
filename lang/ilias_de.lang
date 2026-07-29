@@ -10301,6 +10301,7 @@ glo#:#glo_really_remove_from_collection#:#Sind Sie sich sicher, dass Sie das fol
 glo#:#glo_reference#:#Link
 glo#:#glo_reference_terms#:#Begriffe verlinken
 glo#:#glo_referenced_term#:#Verlinkte Begriffe
+glo#:#glo_remove_glossary#:##Sind Sie sich sicher, dass Sie das folgende Glossar aus der Liste der automatisch verlinkten Glossare entfernen wollen?
 glo#:#glo_removed_from_collection_info#:#Das Glossar wurde aus dem Sammelglossar entfernt.
 glo#:#glo_reset_all_boxes#:#Alle Fächer zurücksetzen
 glo#:#glo_save_and_continue#:#Speichern und weiter
