@@ -62,54 +62,68 @@ class ilAssQuestionListTwoPhaseTest extends assBaseTestCase
         return $method->invokeArgs($this->object, $args);
     }
 
-    public function testComputedColumnsRequiredReturnsFalseWithoutHavingOrComputedOrder(): void
+    public function testRequiredComputedFieldsReturnsEmptyWithoutFiltersOrComputedOrder(): void
     {
         $this->setPrivateProperty('order', new Order('title', Order::ASC));
-        $this->assertFalse($this->invokePrivate('computedColumnsRequired'));
+        $this->assertSame([], $this->invokePrivate('requiredComputedFields'));
     }
 
-    public function testComputedColumnsRequiredReturnsTrueForOrderByFeedback(): void
+    public function testRequiredComputedFieldsReturnsFeedbackForOrderByFeedback(): void
     {
         $this->setPrivateProperty('order', new Order('feedback', Order::ASC));
-        $this->assertTrue($this->invokePrivate('computedColumnsRequired'));
+        $result = $this->invokePrivate('requiredComputedFields');
+        $this->assertContains('feedback', $result);
+        $this->assertCount(1, $result);
     }
 
-    public function testComputedColumnsRequiredReturnsTrueForOrderByHints(): void
+    public function testRequiredComputedFieldsReturnsHintsForOrderByHints(): void
     {
         $this->setPrivateProperty('order', new Order('hints', Order::ASC));
-        $this->assertTrue($this->invokePrivate('computedColumnsRequired'));
+        $result = $this->invokePrivate('requiredComputedFields');
+        $this->assertContains('hints', $result);
+        $this->assertCount(1, $result);
     }
 
-    public function testComputedColumnsRequiredReturnsTrueForOrderByTaxonomies(): void
+    public function testRequiredComputedFieldsReturnsTaxonomiesForOrderByTaxonomies(): void
     {
         $this->setPrivateProperty('order', new Order('taxonomies', Order::ASC));
-        $this->assertTrue($this->invokePrivate('computedColumnsRequired'));
+        $result = $this->invokePrivate('requiredComputedFields');
+        $this->assertContains('taxonomies', $result);
+        $this->assertCount(1, $result);
     }
 
-    public function testComputedColumnsRequiredReturnsTrueWithFeedbackFalseFilter(): void
+    public function testRequiredComputedFieldsReturnsFeedbackForFeedbackFilter(): void
     {
         $this->setPrivateProperty('order', new Order('title', Order::ASC));
         $this->setPrivateProperty('fieldFilters', ['feedback' => 'false']);
-        $this->assertTrue($this->invokePrivate('computedColumnsRequired'));
+        $result = $this->invokePrivate('requiredComputedFields');
+        $this->assertContains('feedback', $result);
+        $this->assertCount(1, $result);
     }
 
-    public function testComputedColumnsRequiredReturnsTrueWithFeedbackTrueFilter(): void
+    public function testRequiredComputedFieldsReturnsHintsForHintsFilter(): void
     {
         $this->setPrivateProperty('order', new Order('title', Order::ASC));
-        $this->setPrivateProperty('fieldFilters', ['feedback' => 'true']);
-        $this->assertTrue($this->invokePrivate('computedColumnsRequired'));
+        $this->setPrivateProperty('fieldFilters', ['hints' => 'false']);
+        $result = $this->invokePrivate('requiredComputedFields');
+        $this->assertContains('hints', $result);
+        $this->assertCount(1, $result);
     }
 
-    public function testIsOrderByComputedFieldReturnsFalseWithoutOrder(): void
+    public function testRequiredComputedFieldsReturnsMultipleForFeedbackFilterAndHintsOrder(): void
+    {
+        $this->setPrivateProperty('order', new Order('hints', Order::ASC));
+        $this->setPrivateProperty('fieldFilters', ['feedback' => 'true']);
+        $result = $this->invokePrivate('requiredComputedFields');
+        $this->assertContains('feedback', $result);
+        $this->assertContains('hints', $result);
+        $this->assertCount(2, $result);
+    }
+
+    public function testRequiredComputedFieldsReturnsEmptyWithoutOrder(): void
     {
         $this->setPrivateProperty('order', null);
-        $this->assertFalse($this->invokePrivate('isOrderByComputedField'));
-    }
-
-    public function testIsOrderByComputedFieldReturnsFalseForRegularField(): void
-    {
-        $this->setPrivateProperty('order', new Order('title', Order::ASC));
-        $this->assertFalse($this->invokePrivate('isOrderByComputedField'));
+        $this->assertSame([], $this->invokePrivate('requiredComputedFields'));
     }
 
     public function testQualifyFieldMapsKnownFields(): void
@@ -132,14 +146,15 @@ class ilAssQuestionListTwoPhaseTest extends assBaseTestCase
         $this->assertSame('taxonomies', $this->invokePrivate('qualifyField', ['taxonomies']));
     }
 
-    public function testBacktickFieldWrapsSimpleField(): void
+    public function testQualifyAndBacktickFieldWrapsSimpleField(): void
     {
-        $this->assertSame('`title`', $this->invokePrivate('backtickField', ['title']));
+        $this->assertSame('`qpl_questions`.`title`', $this->invokePrivate('qualifyAndBacktickField', ['title']));
     }
 
-    public function testBacktickFieldWrapsEachSegmentOfQualifiedName(): void
+    public function testQualifyAndBacktickFieldWrapsAlreadyQualifiedField(): void
     {
-        $this->assertSame('`qpl_questions`.`title`', $this->invokePrivate('backtickField', ['qpl_questions.title']));
+        $result = $this->invokePrivate('qualifyAndBacktickField', ['type_tag']);
+        $this->assertSame('`qpl_qst_type`.`type_tag`', $result);
     }
 
     public function testBuildOrderQueryExpressionQualifiesAndBackticksField(): void
@@ -159,7 +174,7 @@ class ilAssQuestionListTwoPhaseTest extends assBaseTestCase
     public function testBuildBasicQueryWithoutComputedHasNoExistsSubqueries(): void
     {
         $this->setPrivateProperty('join_obj_data', true);
-        $sql = $this->invokePrivate('buildBasicQuery', [false]);
+        $sql = $this->invokePrivate('buildBasicQuery', [[]]);
         $this->assertStringContainsString('qpl_questions.*', $sql);
         $this->assertStringNotContainsString('EXISTS', $sql);
         $this->assertStringNotContainsString('qpl_fb_generic', $sql);
@@ -167,22 +182,32 @@ class ilAssQuestionListTwoPhaseTest extends assBaseTestCase
         $this->assertStringNotContainsString('tax_node_assignment', $sql);
     }
 
-    public function testBuildBasicQueryWithComputedContainsExistsSubqueries(): void
+    public function testBuildBasicQueryWithAllComputedContainsAllExistsSubqueries(): void
     {
         $this->setPrivateProperty('join_obj_data', true);
-        $sql = $this->invokePrivate('buildBasicQuery', [true]);
+        $sql = $this->invokePrivate('buildBasicQuery', [['feedback', 'hints', 'taxonomies']]);
         $this->assertStringContainsString('EXISTS', $sql);
         $this->assertStringContainsString('qpl_fb_generic', $sql);
         $this->assertStringContainsString('qpl_hints', $sql);
         $this->assertStringContainsString('tax_node_assignment', $sql);
     }
 
-    public function testBuildEnrichmentQueryContainsExistsSubqueriesAndInClause(): void
+    public function testBuildBasicQueryWithOnlyFeedbackContainsOnlyFeedbackSubquery(): void
     {
         $this->setPrivateProperty('join_obj_data', true);
-        $sql = $this->invokePrivate('buildEnrichmentQuery', [[10, 20, 30]]);
+        $sql = $this->invokePrivate('buildBasicQuery', [['feedback']]);
         $this->assertStringContainsString('EXISTS', $sql);
         $this->assertStringContainsString('qpl_fb_generic', $sql);
+        $this->assertStringNotContainsString('qpl_hints', $sql);
+        $this->assertStringNotContainsString('tax_node_assignment', $sql);
+    }
+
+    public function testBuildEnrichmentQueryContainsOnlyRequestedExistsSubqueries(): void
+    {
+        $this->setPrivateProperty('join_obj_data', true);
+        $sql = $this->invokePrivate('buildEnrichmentQuery', [[10, 20, 30], ['hints', 'taxonomies']]);
+        $this->assertStringContainsString('EXISTS', $sql);
+        $this->assertStringNotContainsString('qpl_fb_generic', $sql);
         $this->assertStringContainsString('qpl_hints', $sql);
         $this->assertStringContainsString('tax_node_assignment', $sql);
         $this->assertStringContainsString('qpl_questions.question_id IN (10,20,30)', $sql);
@@ -192,7 +217,7 @@ class ilAssQuestionListTwoPhaseTest extends assBaseTestCase
     public function testBuildEnrichmentQueryHandlesEmptyIdList(): void
     {
         $this->setPrivateProperty('join_obj_data', true);
-        $sql = $this->invokePrivate('buildEnrichmentQuery', [[]]);
+        $sql = $this->invokePrivate('buildEnrichmentQuery', [[], ['feedback']]);
         $this->assertStringContainsString('1=2', $sql);
     }
 
@@ -207,13 +232,16 @@ class ilAssQuestionListTwoPhaseTest extends assBaseTestCase
         $this->assertStringContainsString('LIMIT 800 OFFSET 0', $sql);
     }
 
-    public function testBuildQueryWithComputedIncludesExistsSubqueries(): void
+    public function testBuildQueryWithComputedOrderIncludesOnlyRelevantSubquery(): void
     {
         $this->setPrivateProperty('range', new Range(0, 800));
         $this->setPrivateProperty('order', new Order('feedback', Order::ASC));
         $this->setPrivateProperty('join_obj_data', true);
         $sql = $this->invokePrivate('buildQuery');
         $this->assertStringContainsString('EXISTS', $sql);
+        $this->assertStringContainsString('qpl_fb_generic', $sql);
+        $this->assertStringNotContainsString('qpl_hints', $sql);
+        $this->assertStringNotContainsString('tax_node_assignment', $sql);
         $this->assertStringContainsString('LIMIT 800 OFFSET 0', $sql);
     }
 }
