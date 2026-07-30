@@ -132,7 +132,12 @@ class TestScoring
         $reached_points_changed = false;
         foreach ($passdata->getAnsweredQuestions() as $question_data) {
             if ($this->getQuestionId() !== 0 || $this->getQuestionId() === $question_data['id']) {
-                $reached_points_changed = $reached_points_changed || $this->recalculateQuestionScore($user_id, $active_id, $pass, $question_data);
+                $reached_points_changed = $this->recalculateQuestionScore(
+                    $user_id,
+                    $active_id,
+                    $pass,
+                    $question_data
+                ) || $reached_points_changed;
             }
         }
         $this->updatePassResultsTable($active_id, $pass, $reached_points_changed);
