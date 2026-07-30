@@ -1401,7 +1401,7 @@ of ILIAS. The file contains the following fields:
     * Authority to Sign off on Code Changes: [abrahammordev](https://docu.ilias.de/go/usr/110909), [juanma1331](https://docu.ilias.de/go/usr/107249)
     * Authority to Curate Test Cases: [jcopado](https://docu.ilias.de/go/usr/30511)
     * Authority to (De-)Assign Authorities: [jcopado](https://docu.ilias.de/go/usr/30511)
-    * Assignee for Issues: [jcopado](https://docu.ilias.de/go/usr/30511)
+    * Assignee for Issues: [abrahammordev](https://docu.ilias.de/go/usr/110909)
     * Assignee for Security Reports: [jcopado](https://docu.ilias.de/go/usr/30511)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
