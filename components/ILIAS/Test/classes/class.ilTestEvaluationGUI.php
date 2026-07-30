@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Participants\Participant;
 use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Results\Presentation\TitlesBuilder as ResultsTitlesBuilder;
 use ILIAS\Test\Presentation\PrintLayoutProvider;
@@ -133,20 +134,19 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             true
         );
 
-        $selected_active_ids = explode(',', $this->testrequest->strVal('active_ids'));
+        $selected_participants = $this->retrieveSelectedParticipants();
         $results_panel = $this->ui_factory->panel()->report(
             $this->lng->txt('tst_results'),
             array_map(
-                function (string $v): SubPanel {
-                    $value = (int) $v;
-                    $attempt_id = ilObjTest::_getResultPass($value);
-                    $components = $this->buildAttemptComponents($value, $attempt_id, false, true);
+                function (int $v) use ($selected_participants): SubPanel {
+                    $attempt_id = ilObjTest::_getResultPass($v);
+                    $components = $this->buildAttemptComponents($v, $attempt_id, false, true);
                     return $this->ui_factory->panel()->sub(
-                        $this->buildResultsTitle($value, $attempt_id),
+                        $this->buildResultsTitle($selected_participants[$v], $attempt_id),
                         $components
                     );
                 },
-                $selected_active_ids
+                array_keys($selected_participants)
             )
         );
 
@@ -165,15 +165,16 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     {
         $this->setCss();
         $this->ctrl->saveParameterByClass(self::class, 'active_ids');
-        $selected_active_ids = explode(',', $this->testrequest->strVal('active_ids'));
+
+        $selected_participants = $this->retrieveSelectedParticipants();
 
         $this->addPrintResultsButtonToToolbar();
         $this->addToggleBestSolutionButtonToToolbar();
 
-        $current_active_id = (int) $selected_active_ids[0];
-        if (count($selected_active_ids) > 1
+        $current_active_id = array_key_first($selected_participants);
+        if (count($selected_participants) > 1
             && ($selected_active_id = $this->testrequest->getActiveId()) > 0
-            && array_search($selected_active_id, $selected_active_ids) !== false) {
+            && array_key_exists($selected_active_id, $selected_participants) !== false) {
             $current_active_id = $selected_active_id;
         }
 
@@ -184,7 +185,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
 
         $results_panel = $this->ui_factory->panel()->report(
-            $this->buildResultsTitle($current_active_id, $attempt_id),
+            $this->buildResultsTitle(
+                $selected_participants[$current_active_id],
+                $attempt_id
+            ),
             $this->buildAttemptComponents($current_active_id, $attempt_id, true, false)
         );
 
@@ -202,8 +206,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             ]);
         }
 
-        if (count($selected_active_ids) > 1) {
-            $this->addParticipantSelectorToToolbar($selected_active_ids, $current_active_id);
+        if (count($selected_participants) > 1) {
+            $this->addParticipantSelectorToToolbar($selected_participants, $current_active_id);
         }
 
         $this->tpl->setVariable(
@@ -325,7 +329,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 true
             ),
             $settings,
-            $this->buildResultsTitle($active_id, $pass),
+            $this->buildResultsTitle(
+                $this->participant_repository->getParticipantByActiveId(
+                    $this->object->getTestId(),
+                    $active_id
+                )->getDisplayName($this->lng),
+                $pass
+            ),
             false
         );
 
@@ -791,7 +801,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $this->http->close();
     }
 
-    protected function buildResultsTitle(int $active_id, int $pass): string
+    private function buildResultsTitle(string $participant_name, int $pass): string
     {
         if ($this->object->getAnonymity()) {
             return sprintf(
@@ -802,7 +812,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         return sprintf(
             $this->lng->txt('tst_result_user_name_pass'),
             $pass + 1,
-            $this->participant_repository->getParticipantByActiveId($this->object->getTestId(), $active_id)->getDisplayName($this->lng)
+            $participant_name
         );
     }
 
@@ -946,29 +956,30 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     }
 
     private function addParticipantSelectorToToolbar(
-        array $selected_active_ids,
+        array $selected_participants,
         int $current_active_id
     ): void {
         $this->toolbar->addSeparator();
         $this->toolbar->addComponent(
             $this->ui_factory->dropdown()
                 ->standard(
-                    $this->buildParticipantSelectorArray($selected_active_ids, $current_active_id)
+                    $this->buildParticipantSelectorArray($selected_participants, $current_active_id)
                 )->withLabel($this->lng->txt('tst_res_jump_to_participant_hint_opt'))
         );
     }
 
     private function buildParticipantSelectorArray(
-        array $selected_active_ids,
+        array $selected_participants,
         int $current_active_id
     ): array {
+        $selected_active_ids = array_keys($selected_participants);
         $this->ctrl->setParameterByClass(self::class, 'active_ids', implode(',', $selected_active_ids));
         unset($selected_active_ids[array_search($current_active_id, $selected_active_ids)]);
         $available_user_links = array_map(
-            function (int $v): StandardLink {
+            function (int $v) use ($selected_participants): StandardLink {
                 $this->ctrl->setParameterByClass(self::class, 'active_id', $v);
                 return $this->ui_factory->link()->standard(
-                    ilObjUser::_lookupFullname($this->object->_getUserIdFromActiveId($v)),
+                    $selected_participants[$v],
                     $this->ctrl->getLinkTargetByClass(self::class, 'showResults')
                 );
             },
@@ -1011,5 +1022,27 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             ),
             $this->lng->txt('select_attempt')
         )->withActive("{$this->lng->txt('tst_attempt')} {$selected_attempt}");
+    }
+
+    /**
+     * @return array<int, string> Array with the active_id as key and the
+     * display name as value
+     */
+    private function retrieveSelectedParticipants(): array
+    {
+        $int_trafo = $this->refinery->kindlyTo()->int();
+        $selected_participants = [];
+        foreach ($this->participant_repository->getParticipants(
+            $this->object->getTestId(),
+            [
+                'active_ids' => array_map(
+                    fn(string $v): int => $int_trafo->transform($v),
+                    explode(',', $this->testrequest->strVal('active_ids'))
+                )
+            ]
+        ) as $participant) {
+            $selected_participants[$participant->getActiveId()] = $participant->getDisplayName($this->lng);
+        }
+        return $selected_participants;
     }
 }
