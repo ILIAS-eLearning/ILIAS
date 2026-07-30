@@ -37,6 +37,7 @@ use ILIAS\Logging\Logger\LevelFetcher\LevelFetcherFactory;
 use ILIAS\Logging\Logger\LevelFetcher\LevelFetcherFactoryInterface;
 use ILIAS\Logging\Logger\DefaultConfigLoggerFactoryInterface;
 use ILIAS\Logging\Logger\DefaultConfigLoggerFactory;
+use ILIAS\Logging\ILIASLogLevel;
 
 class LegacyInitiator
 {
@@ -66,9 +67,41 @@ class LegacyInitiator
 
     public function basicConfig(): BasicConfigInterface
     {
-        return $this->basic_config ??= new BasicConfig(
-            new IniReader($this->dic->iliasIni())
-        );
+        if (isset($this->basic_config)) {
+            return $this->basic_config;
+        }
+        /**
+         * This exists purely to appease unit tests in other components,
+         * which somehow depend on the dependencies of ilLoggerFactory.
+         */
+        if ($this->dic->offsetExists('ilIliasIniFile')) {
+            $ini_reader = new IniReader($this->dic->iliasIni());
+        } else {
+            $ini_reader = new class () implements BasicConfigInterface {
+                public function isLoggingEnabled(): bool
+                {
+                    return (bool) ILIAS_LOG_ENABLED;
+                }
+
+                public function pathToLogFile(): string
+                {
+                    return rtrim(ILIAS_LOG_DIR, '/') . '/' .
+                        ltrim(ILIAS_LOG_FILE, '/');
+                }
+
+                public function pathToLogDirectory(): string
+                {
+                    return ILIAS_LOG_DIR;
+                }
+
+                public function defaultLevel(): ILIASLogLevel
+                {
+                    return ILIASLogLevel::INFO;
+                }
+            };
+        }
+
+        return $this->basic_config = new BasicConfig($ini_reader);
     }
 
     public function componentConfigRepository(): ComponentConfigRepoInterface
