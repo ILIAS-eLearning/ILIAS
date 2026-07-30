@@ -78,7 +78,7 @@ class LegacyInitiator
         );
     }
 
-    protected function componentConfig(): ComponentConfigInterface
+    public function componentConfig(): ComponentConfigInterface
     {
         return $this->component_config ??= new ComponentConfig(
             $this->componentConfigRepository(),
