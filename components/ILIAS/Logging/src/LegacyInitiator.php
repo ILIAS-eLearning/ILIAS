@@ -75,9 +75,9 @@ class LegacyInitiator
          * which somehow depend on the dependencies of ilLoggerFactory.
          */
         if ($this->dic->offsetExists('ilIliasIniFile')) {
-            $ini_reader = new IniReader($this->dic->iliasIni());
+            $basic_config = new BasicConfig(new IniReader($this->dic->iliasIni()));
         } else {
-            $ini_reader = new class () implements BasicConfigInterface {
+            $basic_config = new class () implements BasicConfigInterface {
                 public function isLoggingEnabled(): bool
                 {
                     return (bool) ILIAS_LOG_ENABLED;
@@ -101,7 +101,7 @@ class LegacyInitiator
             };
         }
 
-        return $this->basic_config = new BasicConfig($ini_reader);
+        return $this->basic_config = $basic_config;
     }
 
     public function componentConfigRepository(): ComponentConfigRepoInterface
