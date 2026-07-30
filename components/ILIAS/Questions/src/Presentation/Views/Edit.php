@@ -479,6 +479,8 @@ class Edit
     private function showTable(
         DefaultEnvironment $environment
     ): QuestionsTable {
+        $this->questions_repository->migrateQuestionPages();
+
         return new QuestionsTable(
             $this->ui_services,
             $this->answer_form_factory,
