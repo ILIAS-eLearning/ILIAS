@@ -449,7 +449,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         if (is_object($this->getPreviewSession())) {
             $template->setVariable(
                 "ESSAY",
-                ilLegacyFormElementsUtil::prepareFormOutput(
+                $this->prepareUserSolutionForAnswerFormOutput(
                     (string) $this->getPreviewSession()->getParticipantsSolution()
                 )
             );
@@ -481,14 +481,11 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         if ($active_id) {
             $solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
             foreach ($solutions as $solution_value) {
-                $user_solution = $solution_value["value1"];
+                $raw_user_solution = $solution_value["value1"];
             }
-
-            if ($this->tiny_mce_enabled) {
-                $user_solution = htmlentities($user_solution);
-            }
-
-            $user_solution = str_replace(['{', '}', '\\'], ['&#123;', '&#125;', '&#92;'], $user_solution);
+            $user_solution = $this->prepareUserSolutionForAnswerFormOutput(
+                $raw_user_solution
+            );
         }
 
         $template = new ilTemplate("tpl.il_as_qpl_text_question_output.html", true, true, "components/ILIAS/TestQuestionPool");
@@ -798,5 +795,15 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     {
         $this->writeQuestionSpecificPostData($form);
         $this->writeAnswerSpecificPostData($form);
+    }
+
+    private function prepareUserSolutionForAnswerFormOutput(
+        string $solution
+    ): string {
+        if ($this->tiny_mce_enabled) {
+            $solution = htmlentities($solution);
+        }
+
+        return str_replace(['{', '}', '\\'], ['&#123;', '&#125;', '&#92;'], $solution);
     }
 }
