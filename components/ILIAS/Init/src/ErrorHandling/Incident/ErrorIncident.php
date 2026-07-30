@@ -18,17 +18,21 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Init\ErrorHandling\Incident;
+
 /**
- * A Whoops error handler for testing.
- * This yields the same output as the plain text handler, but prints a nice message to the tester on top of
- * the page.
- * @author Richard Klees <richard.klees@concepts-and-training.de>
+ * A reported error incident. The identifier is shared between the dedicated log
+ * file name and the user-facing error message.
  */
-class ilTestingHandler extends ilPlainTextHandler
+final readonly class ErrorIncident
 {
-    public function generateResponse(): string
+    public function __construct(
+        private ErrorIncidentId $id
+    ) {
+    }
+
+    public function identifier(): ErrorIncidentId
     {
-        return "Dear Tester - it seems that something has gone wrong. Please include the following output as additional information in your bug report. Thank you.\n\n"
-            . $this->getPlainTextExceptionOutput();
+        return $this->id;
     }
 }

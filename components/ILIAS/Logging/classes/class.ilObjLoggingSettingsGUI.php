@@ -17,9 +17,14 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
 use ILIAS\DI\Container;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Services as Services;
+use ILIAS\Init\ErrorHandling\Logging\Settings as ErrorLogSettings;
+use ILIAS\Init\ErrorHandling\Logging\SettingsInterface as ErrorLogSettingsInterface;
+use ILIAS\Init\ErrorHandling\Notification\Settings as ErrorNotificationSettings;
+use ILIAS\Init\ErrorHandling\Notification\SettingsInterface as ErrorNotificationSettingsInterface;
 
 /**
 *
@@ -31,21 +36,17 @@ use ILIAS\HTTP\Services as Services;
 */
 class ilObjLoggingSettingsGUI extends ilObjectGUI
 {
-    protected const SECTION_SETTINGS = 'settings';
-    protected const SUB_SECTION_MAIN = 'log_general_settings';
-    protected const SUB_SECTION_COMPONENTS = 'log_components';
-    protected const SUB_SECTION_ERROR = 'log_error_settings';
+    protected const string SECTION_SETTINGS = 'settings';
+    protected const string SUB_SECTION_MAIN = 'log_general_settings';
+    protected const string SUB_SECTION_COMPONENTS = 'log_components';
+    protected const string SUB_SECTION_ERROR = 'log_error_settings';
 
     protected ilLoggingDBSettings $log_settings;
     protected ilLogger $log;
-    protected ilLoggingErrorSettings $error_settings;
+    protected ErrorLogSettingsInterface $error_log_settings;
+    protected ErrorNotificationSettingsInterface $error_notification_settings;
     protected Refinery $refinery;
 
-    /**
-     *
-     * @param mixed $a_data
-     * @param boolean $a_prepare_output
-     */
     public function __construct($a_data, int $a_id, bool $a_call_by_reference, bool $a_prepare_output = true)
     {
         global $DIC;
@@ -56,10 +57,12 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
         $this->lng = $DIC->language();
 
         $this->initSettings();
-        $this->initErrorSettings();
         $this->lng->loadLanguageModule('logging');
         $this->lng->loadLanguageModule('log');
         $this->log = ilLoggerFactory::getLogger('log');
+
+        $this->error_log_settings = new ErrorLogSettings($DIC->iliasIni());
+        $this->error_notification_settings = new ErrorNotificationSettings($DIC->clientIni());
 
         $this->refinery = $DIC->refinery();
     }
@@ -312,8 +315,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
         $this->checkPermission('write');
         $form = $this->initFormErrorSettings();
         if ($form->checkInput()) {
-            $this->getErrorSettings()->setMail($form->getInput('error_mail'));
-            $this->getErrorSettings()->update();
+            $this->error_notification_settings->saveErrorRecipient($form->getInput('error_mail'));
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('error_settings_saved'), true);
             $this->ctrl->redirect($this, 'errorSettings');
@@ -334,22 +336,12 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
         }
 
         $folder = new ilNonEditableValueGUI($this->lng->txt('log_error_folder'), 'error_folder');
-        $folder->setValue($this->getErrorSettings()->folder());
+        $folder->setValue($this->error_log_settings->directory());
         $form->addItem($folder);
 
         $mail = new ilTextInputGUI($this->lng->txt('log_error_mail'), 'error_mail');
-        $mail->setValue($this->getErrorSettings()->mail());
+        $mail->setValue($this->error_notification_settings->errorRecipient());
         $form->addItem($mail);
         return $form;
-    }
-
-    protected function initErrorSettings(): void
-    {
-        $this->error_settings = ilLoggingErrorSettings::getInstance();
-    }
-
-    protected function getErrorSettings(): ilLoggingErrorSettings
-    {
-        return $this->error_settings;
     }
 }

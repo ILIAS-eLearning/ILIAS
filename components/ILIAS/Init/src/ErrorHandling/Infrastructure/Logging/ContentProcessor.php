@@ -18,77 +18,31 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Init\ErrorHandling\Infrastructure\Logging;
+
 use Whoops\Exception\Formatter;
 use Whoops\Exception\Inspector;
 
-class ilLoggingErrorFileStorage
+class ContentProcessor
 {
-    protected const KEY_SPACE = 25;
-    protected const FILE_FORMAT = '.log';
-
-    protected Inspector $inspector;
-    protected string $file_path;
-    protected string $file_name;
-    /** @var list<string> */
-    private array $exclusion_list = [];
-
-    public function __construct(Inspector $inspector, string $file_path, string $file_name)
-    {
-        $this->inspector = $inspector;
-        $this->file_path = $file_path;
-        $this->file_name = $file_name;
-    }
+    private const int KEY_SPACE = 25;
 
     /**
-     * @param list<string> $exclusion_list
+     * @param list<string> $sensitive_fields
      */
-    public function withExclusionList(array $exclusion_list): self
-    {
-        $clone = clone $this;
-        $clone->exclusion_list = $exclusion_list;
-        return $clone;
+    public function collectAndFormatContent(
+        Inspector $inspector,
+        array $sensitive_fields
+    ): string {
+        return $this->formatExceptionContent($inspector)
+            . $this->formatTables($this->tablesFromSuperGlobals($sensitive_fields));
     }
 
-    private function stripNullBytes(string $ret): string
+    private function formatExceptionContent(Inspector $inspector): string
     {
-        return str_replace("\0", '', $ret);
-    }
+        $message = Formatter::formatExceptionPlain($inspector);
 
-    protected function createDir(): void
-    {
-        if (!is_dir($this->file_path)) {
-            ilFileUtils::makeDirParents($this->file_path);
-        }
-    }
-
-    protected function content(): string
-    {
-        return $this->pageHeader()
-            . $this->exceptionContent()
-            . $this->tablesContent();
-    }
-
-    public function write(): void
-    {
-        $this->createDir();
-
-        $file_name = $this->file_path . '/' . $this->file_name . self::FILE_FORMAT;
-        $stream = fopen($file_name, 'wb+');
-        fwrite($stream, $this->content());
-        fclose($stream);
-        chmod($file_name, 0755);
-    }
-
-    protected function pageHeader(): string
-    {
-        return '';
-    }
-
-    protected function exceptionContent(): string
-    {
-        $message = Formatter::formatExceptionPlain($this->inspector);
-
-        $exception = $this->inspector->getException();
+        $exception = $inspector->getException();
         $previous = $exception->getPrevious();
         while ($previous) {
             $message .= "\n\nCaused by\n" . sprintf(
@@ -104,10 +58,13 @@ class ilLoggingErrorFileStorage
         return $message;
     }
 
-    protected function tablesContent(): string
+    /**
+     * @param array<string, array<string, mixed>> $tables
+     */
+    private function formatTables(array $tables): string
     {
         $ret = '';
-        foreach ($this->tables() as $title => $content) {
+        foreach ($tables as $title => $content) {
             $ret .= "\n\n-- $title --\n\n";
             if (count($content) > 0) {
                 foreach ($content as $key => $value) {
@@ -135,33 +92,40 @@ class ilLoggingErrorFileStorage
         return $this->stripNullBytes($ret);
     }
 
-    protected function tables(): array
+    /**
+     * @param list<string> $sensitive_fields
+     * @return array<string, array<string, mixed>>
+     */
+    private function tablesFromSuperGlobals(array $sensitive_fields): array
     {
-        $post = $_POST;
-        $server = $_SERVER;
+        $post = (array) $_POST;
+        $server = (array) $_SERVER;
 
-        $post = $this->hideSensitiveData($post);
-        $server = $this->hideSensitiveData($server);
+        $post = $this->hideSensitiveData($post, $sensitive_fields);
+        $server = $this->hideSensitiveData($server, $sensitive_fields);
         $server = $this->shortenPHPSessionId($server);
 
         return [
-            'GET Data' => $_GET,
+            'GET Data' => (array) $_GET,
             'POST Data' => $post,
-            'Files' => $_FILES,
-            'Cookies' => $_COOKIE,
-            'Session' => $_SESSION ?? [],
+            'Files' => (array) $_FILES,
+            'Cookies' => (array) $_COOKIE,
+            'Session' => (array) ($_SESSION ?? []),
             'Server/Request Data' => $server,
-            'Environment Variables' => $_ENV
+            'Environment Variables' => (array) $_ENV
         ];
     }
 
     /**
      * @param array<string, mixed> $super_global
+     * @param list<string> $sensitive_fields
      * @return array<string, mixed>
      */
-    private function hideSensitiveData(array $super_global): array
-    {
-        foreach ($this->exclusion_list as $parameter) {
+    private function hideSensitiveData(
+        array $super_global,
+        array $sensitive_fields
+    ): array {
+        foreach ($sensitive_fields as $parameter) {
             if (isset($super_global[$parameter])) {
                 $super_global[$parameter] = 'REMOVED FOR SECURITY';
             }
@@ -174,6 +138,10 @@ class ilLoggingErrorFileStorage
         return $super_global;
     }
 
+    /**
+     * @param array<string, mixed> $server
+     * @return array<string, mixed>
+     */
     private function shortenPHPSessionId(array $server): array
     {
         if (!isset($server['HTTP_COOKIE'])) {
@@ -193,5 +161,10 @@ class ilLoggingErrorFileStorage
         $server['HTTP_COOKIE'] = implode(';', $cookie_content);
 
         return $server;
+    }
+
+    private function stripNullBytes(string $ret): string
+    {
+        return str_replace("\0", '', $ret);
     }
 }

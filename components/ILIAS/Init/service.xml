@@ -4,5 +4,8 @@
 	<baseclasses>
 		<baseclass name="ilStartUpGUI" dir="classes" />
 	</baseclasses>
+	<crons>
+		<cron id="log_error_file_cleanup" class="ILIAS\Init\ErrorHandling\Logging\CleanUp\CleanUpOldErrorLogsJob"/>
+	</crons>
         <logging />
 </service>
