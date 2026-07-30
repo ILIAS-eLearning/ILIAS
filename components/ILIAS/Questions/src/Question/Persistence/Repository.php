@@ -270,6 +270,35 @@ class Repository
         );
     }
 
+    public function migrateQuestionPages(): void
+    {
+        $questions_table_name = $this->core_table_names_builder
+            ->getTableNameFor(TableTypes::Questions);
+        $migration_table_name = $this->core_table_names_builder
+            ->getTableNameFor(TableTypes::MigrationsTable);
+
+        $query = $this->db->query(
+            "SELECT new_question_id, old_question_id, question_id" . PHP_EOL
+                . "FROM {$questions_table_name}" . PHP_EOL
+                . "INNER JOIN {$migration_table_name} ON id = new_question_id" . PHP_EOL
+                . 'LEFT OUTER JOIN qpl_questions ON old_question_id = question_id' . PHP_EOL
+                . "WHERE page_id = 0"
+        );
+        while (($row = $this->db->fetchObject($query)) !== null) {
+            $question = $this->getForQuestionId(
+                $this->uuid_factory->fromString($row->new_question_id)
+            );
+            if ($row->question_id === null) {
+                $this->delete([$question]);
+                continue;
+            }
+            $this->migrateQuestionPage(
+                $question,
+                $row->old_question_id
+            );
+        }
+    }
+
     public function getNextAvailableQuestionPageId(): int
     {
 
@@ -331,7 +360,7 @@ class Repository
             $this->refinery->identity()
         );
 
-        $question = $query->retrieveCurrentRecord(
+        return $query->retrieveCurrentRecord(
             $this->persistence_factory->table(
                 $this->core_table_names_builder,
                 TableTypes::Questions,
@@ -355,12 +384,6 @@ class Repository
                 )
             )
         );
-
-        if ($answer_forms === [] || $question->getPageId() !== 0) {
-            return $question;
-        }
-
-        return $this->migrateQuestionPage($question);
     }
 
     /**
@@ -589,20 +612,11 @@ class Repository
     }
 
     private function migrateQuestionPage(
-        Question $question
+        Question $question,
+        int $old_question_id
     ): Question {
-        $table_name = $this->core_table_names_builder
-            ->getTableNameFor(TableTypes::MigrationsTable);
-
-        $old_page_id = $this->db->fetchObject(
-            $this->db->query(
-                "SELECT old_question_id FROM {$table_name}" . PHP_EOL
-                . "WHERE new_question_id = {$this->db->quote($question->getId(), FieldDefinition::T_TEXT)}"
-            )
-        )->old_question_id;
-
         $new_page_id = $this->getNextAvailableQuestionPageId();
-        $old_qsts_page = new \ilAssQuestionPage($old_page_id);
+        $old_qsts_page = new \ilAssQuestionPage($old_question_id);
         $old_qsts_page->setQuestion($question);
         $old_qsts_page->copyToAnswerForm($new_page_id, $question);
 
