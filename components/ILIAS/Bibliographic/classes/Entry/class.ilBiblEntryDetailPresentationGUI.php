@@ -27,6 +27,7 @@ use ILIAS\UI\Component\Panel\Sub;
  */
 class ilBiblEntryDetailPresentationGUI
 {
+    private \ILIAS\Refinery\String\Group $string_transform;
     /**
      * ilBiblEntryPresentationGUI constructor.
      */
@@ -40,9 +41,11 @@ class ilBiblEntryDetailPresentationGUI
         protected ilTabsGUI $tabs,
         protected UIServices $ui
     ) {
+        global $DIC;
         $this->initHelp();
         $this->initTabs();
         $this->initPermanentLink();
+        $this->string_transform = $DIC->refinery()->string();
     }
 
 
@@ -113,7 +116,7 @@ class ilBiblEntryDetailPresentationGUI
         $data = [];
         foreach ($sorted as $attribute) {
             $translated = $this->facade->translationFactory()->translateAttribute($attribute);
-            $data[$translated] = $attribute->getValue();
+            $data[$translated] = $this->string_transform->makeClickable()->transform($attribute->getValue());
         }
 
         $content = $this->ui->factory()->listing()->characteristicValue()->text($data);
