@@ -129,7 +129,7 @@ class ilLTIConsumeProviderSettingsGUI
         $join = (str_contains($provider->getInitiateLogin(), '?')) ? '&' : '?';
         $url = $provider->getInitiateLogin() . $join . http_build_query($params);
         $urlSafe = htmlspecialchars($url, ENT_QUOTES);
-        echo <<<HTML
+        $html = <<<HTML
         <!doctype html>
         <html>
           <body onload="window.location.href='{$urlSafe}'">
@@ -140,7 +140,10 @@ class ilLTIConsumeProviderSettingsGUI
           </body>
         </html>
         HTML;
-        exit;
+        $response = $DIC->http()->response()->withBody(ILIAS\Filesystem\Stream\Streams::ofString($html));
+        $DIC->http()->saveResponse($response);
+        $DIC->http()->sendResponse();
+        $DIC->http()->close();
 
     }
 
