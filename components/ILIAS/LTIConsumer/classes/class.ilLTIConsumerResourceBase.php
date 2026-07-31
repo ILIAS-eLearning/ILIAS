@@ -208,7 +208,7 @@ abstract class ilLTIConsumerResourceBase
                 return true;
             }
 
-            if (strpos($filter, '@') === false && strpos($candidate, $filter . '@') === 0) {
+            if (strpos($filter, '@') === false && str_starts_with($candidate, $filter . '@')) {
                 return true;
             }
         }
