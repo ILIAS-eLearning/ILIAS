@@ -226,8 +226,8 @@ abstract class ilLTIConsumerResourceBase
             . ' WHERE obj_id = ' . $ilDB->quote($objId, 'integer')
             . ' AND usr_id = ' . $ilDB->quote($userId, 'integer');
         $res = $ilDB->query($query);
+        $user = new ilObjUser($userId);
         while ($row = $ilDB->fetchAssoc($res)) {
-            $user = new ilObjUser($userId);
             $idents[] = (string) $row['usr_ident'];
             $idents[] = ilCmiXapiUser::getIdentAsId((int) $row['privacy_ident'], $user);
         }
