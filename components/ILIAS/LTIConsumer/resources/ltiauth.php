@@ -99,7 +99,6 @@ if (empty($ltiMessageHint)) {
     );
     $DIC->http()->sendResponse();
     $DIC->http()->close();
-    exit;
 }
 
 ilSession::set('lti13_login_data', $data);
@@ -111,7 +110,6 @@ if ($isDlMode) {
         );
         $DIC->http()->sendResponse();
         $DIC->http()->close();
-        exit;
     }
 
     $DIC->ctrl()->setParameterByClass(ilObjLTIConsumerGUI::class, 'new_type', 'lti');
@@ -137,7 +135,6 @@ if ($isDlMode) {
         $DIC->http()->close();
     }
 
-    exit;
 }
 
 $parts = explode(":", $ltiMessageHint, 3);
@@ -156,7 +153,6 @@ if (count($parts) === 2) {
     );
     $DIC->http()->sendResponse();
     $DIC->http()->close();
-    exit;
 }
 
 if ($isContentSelection) {
