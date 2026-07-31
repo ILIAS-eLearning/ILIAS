@@ -67,6 +67,7 @@ abstract class assBaseTestCase extends TestCase
         $this->addGlobal_ilSetting();
         $this->addGlobal_uiFactory();
         $this->addGlobal_uiRenderer();
+        $this->addGlobal_logging();
 
         $this->defineGlobalConstants();
 

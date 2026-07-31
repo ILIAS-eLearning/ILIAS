@@ -55,7 +55,7 @@ class AccessControl implements Component\Component
         // Internal RBAC services (legacy concrete classes)
         $internal[\ilRbacReview::class] = static fn(): \ilRbacReview => new \ilRbacReview(
             $use[External::class],
-            $use[\ILIAS\Logging\Services::class],
+            $use[\ILIAS\Logging\Logger\LoggerFactoryInterface::class]->getLazy('ac'),
         );
 
         $internal[\ilRbacSystem::class] = static fn(): \ilRbacSystem => new \ilRbacSystem(
@@ -71,7 +71,7 @@ class AccessControl implements Component\Component
         $internal[\ilRbacAdmin::class] = static fn(): \ilRbacAdmin => new \ilRbacAdmin(
             $use[External::class],
             $internal[\ilRbacReview::class],
-            $use[\ILIAS\Logging\Services::class],
+            $use[\ILIAS\Logging\Logger\LoggerFactoryInterface::class]->getLazy('ac'),
         );
 
         // Public implementations (in case of RBAC for legacy reasons only)
@@ -87,7 +87,7 @@ class AccessControl implements Component\Component
             $internal[\ilRbacSystem::class],
             $internal[RepositoryTreeAccessProxy::class],
             $internal[ObjectDefinitionAccessProxy::class],
-            $use[\ILIAS\Logging\Services::class],
+            $use[\ILIAS\Logging\Logger\LoggerFactoryInterface::class]->getLazy('ac'),
         );
 
         // Setup agents and assets

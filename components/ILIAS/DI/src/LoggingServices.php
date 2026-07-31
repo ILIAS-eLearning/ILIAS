@@ -20,29 +20,37 @@ declare(strict_types=1);
 
 namespace ILIAS\DI;
 
-use ILIAS\Logging\Configuration\NullLoggingConfig;
-use ILIAS\Logging\NullLoggerFactory;
-use ILIAS\Logging\ServicesImpl;
-
 /**
- * @deprecated Depend on {@see \ILIAS\Logging\Services} (interface) instead.
- *
- * Kept as a thin subclass of {@see ServicesImpl} so existing type-hints like
- * `\ILIAS\DI\LoggingServices` keep resolving.
+ * @deprecated Please instead use {@see \ILIAS\Logging\Logger\LoggerFactoryInterface},
+ *  {@see \ILIAS\Logging\Logger\DefaultConfigLoggerFactoryInterface} and {@see \ILIAS\Logging\Config\ConfigInterface}.
+ *  Ideally in your Component.php. If that's not possible then via $DIC['logging.factory'],
+ *  $DIC['logging.defaultConfigFactory'], and $DIC['logging.config].
  */
-class LoggingServices extends ServicesImpl
+class LoggingServices
 {
-    protected ?Container $container = null;
+    protected Container $container;
 
     public function __construct(Container $container)
     {
         $this->container = $container;
-        if (isset($container['logging.services'])) {
-            $impl = $container['logging.services'];
-            parent::__construct($impl->getFactory(), $impl->getConfig());
-            return;
-        }
-        $config = new NullLoggingConfig();
-        parent::__construct(new NullLoggerFactory($config), $config);
+    }
+
+    /**
+     * Get interface to the global logger.
+     * @return \ilLogger
+     */
+    public function root()
+    {
+        return $this->container["ilLoggerFactory"]->getRootLogger();
+    }
+
+    /**
+     * Get a component logger.
+     * @return \ilLogger
+     */
+    public function __call(string $method_name, array $args)
+    {
+        assert(count($args) === 0);
+        return $this->container['ilLoggerFactory']->getComponentLogger($method_name);
     }
 }

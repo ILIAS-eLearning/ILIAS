@@ -44,12 +44,11 @@ class ilRBACTest extends TestCase
         $this->assertTrue($system instanceof ilRbacSystem);
 
         $db = $this->dic['ilDB'];
-        $logging = $this->createMock(\ILIAS\Logging\Services::class);
-        $logging->method('getLogger')->willReturn($this->createMock(ilLogger::class));
-        $review = new ilRbacReview($db, $logging);
+        $logger = $this->createStub(\ILIAS\Logging\Logger\LoggerInterface::class);
+        $review = new ilRbacReview($db, $logger);
         $this->assertTrue($review instanceof ilRbacReview);
 
-        $admin = new ilRbacAdmin($db, $review, $logging);
+        $admin = new ilRbacAdmin($db, $review, $logger);
         $this->assertTrue($admin instanceof ilRbacAdmin);
     }
 
