@@ -214,8 +214,8 @@ class ilLTIConsumerGradeServiceLineItem extends ilLTIConsumerResourceBase
             }
             $this->checkProviderMatchesToken($provider, $token);
             $object->setScoreMaximum(1);
-            if ($object->getTitle() === $provider->getTitle()) {
-                $object->setTitle($object->getTitle());
+            if ($object->getTitle() !== $provider->getTitle()) {
+                $object->setTitle($provider->getTitle());
             }
             $object->update();
         } else {
