@@ -206,9 +206,15 @@ class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
 
     protected function getFilters(): array
     {
+        global $DIC;
+
+        $query = $DIC->http()->wrapper()->query();
+        $string = $DIC->refinery()->kindlyTo()->string();
+        $limit = $query->has('limit') ? $query->retrieve('limit', $string) : '';
+
         return [
-            'userId' => isset($_GET['user_id']) ? (string) $_GET['user_id'] : '',
-            'limit' => isset($_GET['limit']) && is_numeric($_GET['limit']) ? max(0, (int) $_GET['limit']) : 0
+            'userId' => $query->has('user_id') ? $query->retrieve('user_id', $string) : '',
+            'limit' => is_numeric($limit) ? max(0, (int) $limit) : 0
         ];
     }
 

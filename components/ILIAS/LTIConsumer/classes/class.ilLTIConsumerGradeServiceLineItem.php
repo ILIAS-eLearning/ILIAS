@@ -304,18 +304,6 @@ class ilLTIConsumerGradeServiceLineItem extends ilLTIConsumerResourceBase
 
     public static function buildLineItemUrl(int $contextId, int $itemId): string
     {
-        return self::getServiceRootUrl() . "/ltiservices.php/gradeservice/{$contextId}/lineitems/{$itemId}/lineitem";
-    }
-
-    protected static function getServiceRootUrl(): string
-    {
-        global $DIC;
-
-        $protocol = $DIC['https']->isDetected() ? 'https://' : 'http://';
-        $host = $_SERVER['HTTP_HOST'];
-        $scriptDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? ''));
-        $scriptDir = $scriptDir === '/' ? '' : rtrim($scriptDir, '/');
-
-        return ilContext::modifyHttpPath($protocol . $host . $scriptDir);
+        return ilObjLTIConsumer::getIliasHttpPath() . "/ltiservices.php/gradeservice/{$contextId}/lineitems/{$itemId}/lineitem";
     }
 }
