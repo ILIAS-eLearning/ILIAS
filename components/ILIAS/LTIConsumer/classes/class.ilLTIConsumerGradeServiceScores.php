@@ -229,7 +229,7 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
             'score_maximum' => array('float', $scoreMaximum),
             'activity_progress' => array('text', $score->activityProgress),
             'grading_progress' => array('text', $score->gradingProgress),
-            'lti_timestamp' => array('timestamp',$ltiTimestamp->format("Y-m-d H:i:s")),
+            'lti_timestamp' => array('timestamp', $ltiTimestamp->format("Y-m-d H:i:s")),
             'stored' => array('timestamp', date("Y-m-d H:i:s"))
         ];
         $DIC->database()->insert('lti_consumer_grades', $gradeValues);
