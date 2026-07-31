@@ -78,7 +78,7 @@ class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
                     throw new Exception('LineItem not found', 404);
                 }
 
-                $lineItemQuery = 'SELECT score_maximum FROM lti_consumer_lineitems'
+                $lineItemQuery = 'SELECT id FROM lti_consumer_lineitems'
                     . ' WHERE id = ' . $ilDB->quote($storedId, 'integer')
                     . ' AND context_id = ' . $ilDB->quote($contextId, 'integer')
                     . ' AND client_id = ' . $ilDB->quote($clientId, 'text')
@@ -88,8 +88,6 @@ class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
                 if (!$lineItemRow) {
                     throw new Exception('LineItem not found', 404);
                 }
-                $scoreMaximum = (float) ($lineItemRow['score_maximum'] ?? 1);
-
                 $response->setContentType('application/vnd.ims.lis.v2.resultcontainer+json');
                 $response->setBody(json_encode([], JSON_UNESCAPED_SLASHES));
                 return;
