@@ -1532,17 +1532,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     }
 
     /**
-    * download file
-    */
-    public function downloadFileObject()
-    {
-        $file = explode("_", $this->testrequest->raw("file_id"));
-        $fileObj = new ilObjFile((int) $file[count($file) - 1], false);
-        $fileObj->sendFile();
-        exit;
-    }
-
-    /**
     * show fullscreen view
     */
     public function fullscreenObject()
@@ -2048,22 +2037,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->ctrl->redirectByClass(self::class, 'showTemplates');
     }
 
-    public function importTemplateObject(): void
-    {
-        $this->protectByWritePermission();
-
-        try {
-            $this->buildPersonalSettingsImportAction()
-                ->perform($this->request);
-
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('personal_settings_import_success'), true);
-        } catch (\InvalidArgumentException $e) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt($e->getMessage()), true);
-        }
-
-        $this->ctrl->redirectByClass(self::class, 'showTemplates');
-    }
-
     public function executeTemplatesActionObject(): void
     {
         $this->protectByWritePermission();
@@ -2263,16 +2236,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $info->addMetaDataSections($this->getTestObject()->getId(), 0, $this->getTestObject()->getType());
 
         $this->ctrl->forwardCommand($info);
-    }
-
-    protected function removeImportFailsObject()
-    {
-        $qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->getTestObject()->getId());
-        $qsaImportFails->deleteRegisteredImportFails();
-        $sltImportFails = new ilTestSkillLevelThresholdImportFails($this->getTestObject()->getId());
-        $sltImportFails->deleteRegisteredImportFails();
-
-        $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
     }
 
     public function addLocatorItems(): void
