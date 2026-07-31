@@ -14,5 +14,4 @@
 		<event type="raise" id="relationLinked" />
 		<event type="raise" id="relationUnlinked" />
 	</events>
-	<logging />
 </service>

@@ -12,5 +12,4 @@
 	<pluginslots>
 		<pluginslot id="crnhk" name="CronHook" />
 	</pluginslots>
-	<logging />
 </service>

@@ -15,5 +15,4 @@
 			<parent id="root">root</parent>
 		</object>
 	</objects>
-	<logging />
 </module>

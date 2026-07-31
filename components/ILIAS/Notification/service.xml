@@ -3,5 +3,4 @@
 	<events>
 		<event type="listen" id="Service/Object" />
 	</events>
-	<logging />
 </service>

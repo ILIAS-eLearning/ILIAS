@@ -17,5 +17,4 @@
 	<crons>
 		<cron id="src_lucene_indexer" class="ilLuceneIndexer" path="Services/Search/classes/Lucene/" />
 	</crons>
-	<logging />
 </service>
