@@ -426,7 +426,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
                 $DIC->http()->saveResponse($DIC->http()->response()->withStatus(400));
                 $DIC->http()->sendResponse();
                 $DIC->http()->close();
-                exit;
             }
             // ToDo: correct Link!! replace ILIAS_HTTP_PATH
             $data = ilObjLTIConsumer::buildContentSelectionParameters($provider, (int) $ref_id, ilObjLTIConsumer::getIliasHttpPath() . "/" . $DIC->ctrl()->getLinkTarget($this, 'contentSelectionResponse'), $loginData['nonce']);
