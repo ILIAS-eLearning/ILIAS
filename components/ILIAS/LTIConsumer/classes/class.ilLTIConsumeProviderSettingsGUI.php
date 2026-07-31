@@ -110,7 +110,7 @@ class ilLTIConsumeProviderSettingsGUI
         return $res;
     }
 
-    protected function startDeepLinkingCmd()
+    protected function startDeepLinkingCmd(): never
     {
         global $DIC;
         $provider = $this->object->getProvider();
