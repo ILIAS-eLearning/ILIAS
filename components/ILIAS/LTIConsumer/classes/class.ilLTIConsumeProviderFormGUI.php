@@ -60,7 +60,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
     /**
      * Build the "Deep linking" UI (button + modal with iframe).
      *
-     * @param string $target_gui_class GUI class that has startDeepLinkingCmd()
+     * @param array $target_gui_class GUI class path that has startDeepLinkingCmd()
      * @param string $cmd command name, default 'startDeepLinking'
      * @return string                  rendered HTML to embed in a form/custom input
      */
