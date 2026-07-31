@@ -205,11 +205,17 @@ class ilLTIConsumerGradeServiceLineItems extends ilLTIConsumerResourceBase
 
     protected function getFilters(): array
     {
+        global $DIC;
+
+        $query = $DIC->http()->wrapper()->query();
+        $string = $DIC->refinery()->kindlyTo()->string();
+        $limit = $query->has('limit') ? $query->retrieve('limit', $string) : '';
+
         return [
-            'tag' => isset($_GET['tag']) ? (string) $_GET['tag'] : '',
-            'resourceId' => isset($_GET['resource_id']) ? (string) $_GET['resource_id'] : '',
-            'resourceLinkId' => isset($_GET['resource_link_id']) ? (string) $_GET['resource_link_id'] : '',
-            'limit' => isset($_GET['limit']) && is_numeric($_GET['limit']) ? max(0, (int) $_GET['limit']) : 0
+            'tag' => $query->has('tag') ? $query->retrieve('tag', $string) : '',
+            'resourceId' => $query->has('resource_id') ? $query->retrieve('resource_id', $string) : '',
+            'resourceLinkId' => $query->has('resource_link_id') ? $query->retrieve('resource_link_id', $string) : '',
+            'limit' => is_numeric($limit) ? max(0, (int) $limit) : 0
         ];
     }
 
