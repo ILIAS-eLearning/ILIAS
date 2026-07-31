@@ -585,11 +585,13 @@ are printed bold**, all other fields might be omitted. A minimal example is
 	"logging" : {
 		"enable" : true,
 		"path_to_logfile" : "/var/log/ilias_test7.log",
+        "default_level" : "INFO"
 		"errorlog_dir" : "/var/log/ilias_errorlogs/"
 	},
     ```
   * *enable* (type: boolean) the logging, defaults to `false`
   * *path_to_logfile* (type: string) to be used for logging
+  * *default_level* (type: string) default log level, possible values: `DEBUG`, `INFO`, `NOTICE`, `WARNING`, `ERROR`, `CRITICAL`, `ALERT`, `EMERGENCY`
   * *errorlog_dir* (type: string) to put error logs in
 * *preview* (type: object) contains settings for ILIAS/Preview
     ```

@@ -368,6 +368,7 @@ A typical configuration might look like this afterwards:
         "logging" : {
                 "enable" : true,
                 "path_to_logfile" : "/var/www/logs/ilias.log",
+                "default_level" : "INFO",
                 "errorlog_dir" : "/var/www/logs/"
     	},
         "http" : {
