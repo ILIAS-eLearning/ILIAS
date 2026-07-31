@@ -819,7 +819,7 @@ of ILIAS. The file contains the following fields:
 
 * **KioskMode (aka General Kiosk Mode)**
     * Authority to Sign off on Conceptual Changes: [katrin.grosskopf](https://docu.ilias.de/go/usr/68340)
-    * Authority to Sign off on Code Changes: [keven.clausen](https://docu.ilias.de/go/usr/100316), [katrin.grosskopf](https://docu.ilias.de/go/usr/68340), [jeanine.auerbach](https://docu.ilias.de/go/usr/101332), [cknof](https://docu.ilias.de/go/usr/90890), [dkipp_kpg](https://docu.ilias.de/go/usr/120714)
+    * Authority to Sign off on Code Changes: [keven.clausen](https://docu.ilias.de/go/usr/100316), [katrin.grosskopf](https://docu.ilias.de/go/usr/68340), [jeanine.auerbach](https://docu.ilias.de/go/usr/101332), [cknof](https://docu.ilias.de/go/usr/90890), [dkippKPG](https://docu.ilias.de/go/usr/120714)
     * Authority to Curate Test Cases: [jeanine.auerbach](https://docu.ilias.de/go/usr/101332)
     * Authority to (De-)Assign Authorities: [katrin.grosskopf](https://docu.ilias.de/go/usr/68340)
     * Assignee for Issues: [katrin.grosskopf](https://docu.ilias.de/go/usr/68340)
@@ -832,7 +832,7 @@ of ILIAS. The file contains the following fields:
 
 * **Language**
     * Authority to Sign off on Conceptual Changes: [mkunkel](https://docu.ilias.de/go/usr/115)
-    * Authority to Sign off on Code Changes: [mkunkel](https://docu.ilias.de/go/usr/115), [katrin.grosskopf](https://docu.ilias.de/go/usr/68340), [ChrisPotter](https://docu.ilias.de/go/usr/90855), [keven.clausen](https://docu.ilias.de/go/usr/100316), [cknof](https://docu.ilias.de/go/usr/90890), [dkipp_kpg](https://docu.ilias.de/go/usr/120714)
+    * Authority to Sign off on Code Changes: [mkunkel](https://docu.ilias.de/go/usr/115), [katrin.grosskopf](https://docu.ilias.de/go/usr/68340), [ChrisPotter](https://docu.ilias.de/go/usr/90855), [keven.clausen](https://docu.ilias.de/go/usr/100316), [cknof](https://docu.ilias.de/go/usr/90890), [dkippKPG](https://docu.ilias.de/go/usr/120714)
     * Authority to Curate Test Cases: [ChrisPotter](https://docu.ilias.de/go/usr/90855)
     * Authority to (De-)Assign Authorities: [mkunkel](https://docu.ilias.de/go/usr/115)
     * Assignee for Issues: [mkunkel](https://docu.ilias.de/go/usr/115)
@@ -884,7 +884,7 @@ of ILIAS. The file contains the following fields:
 
 * **Learning Sequence**
     * Authority to Sign off on Conceptual Changes: [katrin.grosskopf](https://docu.ilias.de/go/usr/68340)
-    * Authority to Sign off on Code Changes: [keven.clausen](https://docu.ilias.de/go/usr/100316), [katrin.grosskopf](https://docu.ilias.de/go/usr/68340), [jeanine.auerbach](https://docu.ilias.de/go/usr/101332), [dkipp_kpg](https://docu.ilias.de/go/usr/120714)
+    * Authority to Sign off on Code Changes: [keven.clausen](https://docu.ilias.de/go/usr/100316), [katrin.grosskopf](https://docu.ilias.de/go/usr/68340), [jeanine.auerbach](https://docu.ilias.de/go/usr/101332), [dkippKPG](https://docu.ilias.de/go/usr/120714)
     * Authority to Curate Test Cases: [jeanine.auerbach](https://docu.ilias.de/go/usr/101332)
     * Authority to (De-)Assign Authorities: [katrin.grosskopf](https://docu.ilias.de/go/usr/68340)
     * Assignee for Issues: [katrin.grosskopf](https://docu.ilias.de/go/usr/68340)
@@ -1004,7 +1004,7 @@ of ILIAS. The file contains the following fields:
 
 * **Maps**
     * Authority to Sign off on Conceptual Changes: [jeanine.auerbach](https://docu.ilias.de/go/usr/101332)
-    * Authority to Sign off on Code Changes: [keven.clausen](https://docu.ilias.de/go/usr/100316), [katrin.grosskopf](https://docu.ilias.de/go/usr/68340), [jeanine.auerbach](https://docu.ilias.de/go/usr/101332), [dkipp_kpg](https://docu.ilias.de/go/usr/120714)
+    * Authority to Sign off on Code Changes: [keven.clausen](https://docu.ilias.de/go/usr/100316), [katrin.grosskopf](https://docu.ilias.de/go/usr/68340), [jeanine.auerbach](https://docu.ilias.de/go/usr/101332), [dkippKPG](https://docu.ilias.de/go/usr/120714)
     * Authority to Curate Test Cases: [jeanine.auerbach](https://docu.ilias.de/go/usr/101332)
     * Authority to (De-)Assign Authorities: [jeanine.auerbach](https://docu.ilias.de/go/usr/101332)
     * Assignee for Issues: [jeanine.auerbach](https://docu.ilias.de/go/usr/101332)
