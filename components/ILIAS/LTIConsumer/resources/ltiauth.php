@@ -104,7 +104,7 @@ if (empty($ltiMessageHint)) {
 ilSession::set('lti13_login_data', $data);
 
 if ($isDlMode) {
-    if ($deploymentId === null || $refId <= 0) {
+    if ($refId <= 0) {
         $DIC->http()->saveResponse(
             $DIC->http()->response()->withStatus(400)
         );
