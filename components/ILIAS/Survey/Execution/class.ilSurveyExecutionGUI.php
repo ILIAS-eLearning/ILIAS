@@ -149,7 +149,7 @@ class ilSurveyExecutionGUI
 
     protected function checkAuth(
         bool $a_may_start = false,
-        bool $a_ignore_status = false
+        bool $a_finished_run = false
     ): void {
         $rbacsystem = $this->rbacsystem;
         $ilUser = $this->user;
@@ -162,8 +162,12 @@ class ilSurveyExecutionGUI
         }
 
 
-        if (!$this->access_manager->canStartSurvey()) {
-            // only with read access it is possible to run the test
+        if ($a_finished_run &&
+            !$this->access_manager->canRead() &&
+            !$this->participant_manager->isExternalRater()) {
+            throw new ilSurveyException($this->lng->txt("cannot_read_survey"));
+        }
+        if (!$a_finished_run && !$this->access_manager->canStartSurvey()) {
             throw new ilSurveyException($this->lng->txt("cannot_read_survey"));
         }
 
@@ -211,7 +215,11 @@ class ilSurveyExecutionGUI
 
         //$_SESSION["appr_id"][$this->object->getId()] = $appr_id;
 
-        if (!$a_ignore_status) {
+        if ($a_finished_run) {
+            if (!$this->run_manager->hasFinished()) {
+                throw new ilSurveyException($this->lng->txt("cannot_read_survey"));
+            }
+        } else {
             // completed
             if ($this->run_manager->hasFinished()) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("already_completed_survey"), true);
