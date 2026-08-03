@@ -25,14 +25,18 @@ use ILIAS\Logging\ILIASLogLevel;
 
 class ILIASTraceProcessor
 {
+    protected const array SKIP_CLASS_NAMES_START_WITH = [
+        "Monolog",
+        \ILIAS\Logging\Logger\Logger::class,
+        \Psr\Log\AbstractLogger::class,
+        "ilLogger"
+    ];
+
     public function __construct(
         protected ILIASLogLevel $level
     ) {
     }
 
-    /**
-     * @todo fix shifting calls
-     */
     public function __invoke(LogRecord $record): LogRecord
     {
         if ($record['level'] < $this->level->value) {
@@ -41,20 +45,32 @@ class ILIASTraceProcessor
 
         $trace = debug_backtrace();
 
-        // shift current method
+        // shift current method and first internal monolog call
+        array_shift($trace);
         array_shift($trace);
 
-        // shift internal monolog calls
-        array_shift($trace);
-        array_shift($trace);
-        array_shift($trace);
-        array_shift($trace);
+        $previous_line = $trace[0]['line'] ?? '';
+        while (($class = $trace[0]['class'] ?? '') !== '') {
+            foreach (self::SKIP_CLASS_NAMES_START_WITH as $start) {
+                if (str_starts_with($class, $start)) {
+                    /*
+                     * To find the line where the logger is called, we need to stay one frame "behind",
+                     * otherwise we'll get the line where the function that calls the logger is
+                     * called from.
+                     */
+                    $previous_line = $trace[0]['line'] ?? '';
+                    array_shift($trace);
+                    continue 2;
+                }
+            }
+            break;
+        }
 
         if (is_array($trace) && count($trace)) {
             $trace_info =
                 ($trace[0]['class'] ?? '') . '::' .
                 ($trace[0]['function'] ?? '') . ':' .
-                ($trace[0]['line'] ?? '');
+                $previous_line;
             $record['extra'] = array_merge(
                 $record['extra'],
                 array('trace' => $trace_info)
