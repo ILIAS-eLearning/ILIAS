@@ -73,7 +73,7 @@ class ilLTIConsumerGradeService extends ilLTIConsumerServiceBase
             $this->resources[] = new ilLTIConsumerGradeServiceLineItem($this, $this->lineItemRepository);
             $this->resources[] = new ilLTIConsumerGradeServiceLineItems($this, $this->lineItemRepository);
             $this->resources[] = new ilLTIConsumerGradeServiceResults($this, $this->lineItemRepository);
-            $this->resources[] = new ilLTIConsumerGradeServiceScores($this);
+            $this->resources[] = new ilLTIConsumerGradeServiceScores($this, $this->lineItemRepository);
         }
         return $this->resources;
     }
