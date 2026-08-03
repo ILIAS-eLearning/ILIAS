@@ -742,6 +742,56 @@ class ResourceBuilder
         return true;
     }
 
+    /**
+     * Adds multiple files to a container at once: the ZIP is rewritten a single
+     * time, the flavours are cleared once and the revision is stored once.
+     * Adding the files one by one would rewrite the whole archive per file,
+     * since ZipArchive::close() never appends in place.
+     * @param array<string, string> $files path inside container => absolute local path
+     */
+    public function addFilesToContainer(
+        StorableContainerResource $container,
+        array $files,
+    ): bool {
+        if ($files === []) {
+            return true;
+        }
+
+        $revision = $container->getCurrentRevisionIncludingDraft();
+        $revision_stream = $this->extractStream($revision);
+        $uri = $revision_stream->getMetadata()['uri'];
+
+        try {
+            $zip = new \ZipArchive();
+            if ($zip->open($uri) !== true) {
+                return false;
+            }
+
+            $return = true;
+            foreach ($files as $path_inside_container => $local_path) {
+                $path_inside_container = $this->ensurePathInZIP($zip, (string) $path_inside_container, true);
+                if ($path_inside_container === '') {
+                    $return = false;
+                    continue;
+                }
+                // libzip reads the source file lazily on close(), therefore the
+                // contents are never held in memory (unlike addFromString).
+                $return = $zip->addFile($local_path, $path_inside_container) && $return;
+            }
+            $zip->close();
+
+            // cleanup revision and flavours
+            $this->storage_handler_factory->getHandlerForRevision($revision)->clearFlavours($revision);
+            $revision->getInformation()->setSize(filesize($uri));
+            $this->storeRevision($revision);
+
+            return $return;
+        } catch (\Throwable $exception) {
+            $this->storage_handler_factory->getHandlerForRevision($revision)->clearFlavours($revision);
+            return false;
+        }
+    }
+
     private function deleteRevision(StorableResource $resource, Revision $revision): void
     {
         try {

@@ -22,8 +22,8 @@ namespace ILIAS\components\ResourceStorage\Container\Wrapper;
 
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\FileDelivery\Delivery\Disposition;
-use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Filesystem\Stream\ZIPStream;
+use ILIAS\Filesystem\Util\Archive\Zip;
 
 /**
  * @author   Fabian Schmid <fabian@sr.solutions>
@@ -125,26 +125,80 @@ final class ContainerWrapper
         $tmp_file = tempnam($tmp_directory, 'ilias_zip_');
 
         /** @var ZIPStream $stream */
-        $return = file_put_contents($tmp_file, $stream->detach());
+        file_put_contents($tmp_file, $stream->detach());
 
-        $zip_reader = new ZipReader(
-            Streams::ofResource(fopen($tmp_file, 'rb'))
-        );
+        $tmp_extract_directory = $tmp_file . '_extracted';
 
-        foreach ($zip_reader->getStructure() as $append_path_inside_zip => $item) {
-            if ($item['is_dir']) {
-                continue;
+        try {
+            $zip = new \ZipArchive();
+            if ($zip->open($tmp_file, \ZipArchive::RDONLY) !== true) {
+                return false;
             }
-            [$stream, $info] = $zip_reader->getItem($append_path_inside_zip, $this->data);
-            $this->irss->manageContainer()->addStreamToContainer(
+
+            // collect the entries we accept, they are extracted in one single go
+            $entries = [];
+            for ($i = 0; $i < $zip->count(); $i++) {
+                $entry = $zip->getNameIndex($i, \ZipArchive::FL_UNCHANGED);
+                if ($entry === false
+                    || str_ends_with($entry, '/')
+                    || str_ends_with($entry, '\\')
+                    || in_array(basename($entry), $this->ignored, true)
+                    || basename($entry) === Zip::DOT_EMPTY
+                    || !$this->isSafePathInsideZip($entry)
+                ) {
+                    continue;
+                }
+                $entries[] = $entry;
+            }
+            if ($entries === []) {
+                $zip->close();
+                return false;
+            }
+            if (!is_dir($tmp_extract_directory)
+                && !mkdir($tmp_extract_directory, 0777, true)
+                && !is_dir($tmp_extract_directory)
+            ) {
+                $zip->close();
+                return false;
+            }
+            $zip->extractTo($tmp_extract_directory, $entries);
+            $zip->close();
+
+            $files = [];
+            foreach ($entries as $entry) {
+                $local_path = $tmp_extract_directory . DIRECTORY_SEPARATOR . $entry;
+                if (!is_file($local_path)) {
+                    continue;
+                }
+                $files[$this->current_level . '/' . ltrim($entry, './')] = $local_path;
+            }
+
+            // one single call, otherwise the container ZIP is rewritten per file
+            return $this->irss->manageContainer()->addFilesToContainer(
                 $this->rid,
-                $stream,
-                $this->current_level . '/' . ltrim($append_path_inside_zip, './')
+                $files
             );
+        } finally {
+            if (is_file($tmp_file)) {
+                unlink($tmp_file);
+            }
+            if (is_dir($tmp_extract_directory)) {
+                \ilFileUtils::delDir($tmp_extract_directory);
+            }
+        }
+    }
+
+    /**
+     * Rejects absolute paths and paths escaping the extraction directory (zip slip).
+     */
+    private function isSafePathInsideZip(string $path): bool
+    {
+        $path = str_replace('\\', '/', $path);
+        if (str_starts_with($path, '/') || preg_match('#^[a-zA-Z]:#', $path) === 1) {
+            return false;
         }
 
-        unlink($tmp_file);
-        return true;
+        return !in_array('..', explode('/', $path), true);
     }
 
     public function getEntries(): \Generator

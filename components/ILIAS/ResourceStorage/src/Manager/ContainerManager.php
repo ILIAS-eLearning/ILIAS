@@ -122,4 +122,31 @@ final class ContainerManager extends BaseManager
         );
     }
 
+    /**
+     * Adds multiple files at once, which rewrites the container ZIP only a
+     * single time. Prefer this over repeated addStreamToContainer calls.
+     * @param array<string, string> $files path inside container => absolute local path
+     */
+    public function addFilesToContainer(
+        ResourceIdentification $container,
+        array $files,
+    ): bool {
+        $normalized = [];
+        foreach ($files as $path_inside_container => $local_path) {
+            $path_inside_container = $this->normalizePath((string) $path_inside_container);
+            if (empty($path_inside_container)) {
+                continue;
+            }
+            $normalized[$path_inside_container] = $local_path;
+        }
+        if ($normalized === []) {
+            return false;
+        }
+
+        return $this->resource_builder->addFilesToContainer(
+            $this->getResource($container),
+            $normalized
+        );
+    }
+
 }
