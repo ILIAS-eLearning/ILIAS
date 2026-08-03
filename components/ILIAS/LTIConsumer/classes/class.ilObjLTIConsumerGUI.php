@@ -405,6 +405,14 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $redirectUrl = $DIC->ctrl()->getLinkTarget($this, 'contentSelectionRequest');
 
         if (!ilSession::has('lti13_login_data')) {
+            $state = bin2hex(random_bytes(32));
+            ilSession::set('lti13_deep_linking_state', [
+                'state' => $state,
+                'provider_id' => $provider->getId(),
+                'ref_id' => (int) $ref_id,
+                'flow' => 'content_selection',
+                'created_at' => time()
+            ]);
             $userIdLTI = ilObjLTIConsumer::getDeepLinkingUserIdentifier($provider, $DIC->user());
             //$emailPrimary = ilCmiXapiUser::getIdent($provider->getPrivacyIdent(), $DIC->user());
             $ltiMessageHint = (string) $ref_id . ":" . CLIENT_ID . ":" . base64_encode($redirectUrl);
@@ -416,6 +424,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $tplLogin->setVariable("LTI_MESSAGE_HINT", $ltiMessageHint);
             $tplLogin->setVariable("CLIENT_ID", $provider->getClientId());
             $tplLogin->setVariable("LTI_DEPLOYMENT_ID", (string) $provider->getId());
+            $tplLogin->setVariable("STATE", $state);
             echo $tplLogin->get();
             exit; //TODO: no exit
         } else {

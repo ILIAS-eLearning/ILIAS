@@ -82,26 +82,45 @@ if (
     $provider = ilLTIConsumeProvider::getInstance($provider_id);
 
     $hint = sanitizeJson($ltiMessageHint);
-    if (isset($hint['deployment_id'])) {
+    $expectedState = ilSession::get('lti13_deep_linking_state');
+    $allowedRedirectUris = array_map('trim', explode(',', $provider->getRedirectionUris()));
+    if (
+        is_array($hint) &&
+        isset($hint['deployment_id']) &&
+        is_array($expectedState) &&
+        ($expectedState['flow'] ?? '') === 'content_selection' &&
+        is_string($expectedState['state'] ?? null) &&
+        is_int($expectedState['created_at'] ?? null) &&
+        $expectedState['created_at'] >= time() - 300 &&
+        $expectedState['created_at'] <= time() &&
+        is_string($state) &&
+        hash_equals($expectedState['state'], $state) &&
+        ($expectedState['provider_id'] ?? 0) === $provider->getId() &&
+        (int) $hint['deployment_id'] === $provider->getId() &&
+        in_array($redirectUri, $allowedRedirectUris, true)
+    ) {
 
-        $isDlMode = true;
         $deploymentId = (int) $hint['deployment_id'];
         $childRefId = ilObjLTIConsumer::getRefIdOfConsumerByDeploymentId((string) $deploymentId);
-        $refId = $DIC->repositoryTree()->getParentId($childRefId);
+        if ($childRefId !== null) {
+            $refId = $DIC->repositoryTree()->getParentId($childRefId);
+        }
+        if ($refId > 0 && ($expectedState['ref_id'] ?? 0) === $refId) {
+            $isDlMode = true;
+            ilSession::clear('lti13_deep_linking_state');
+        }
     }
 
 }
 
 
-if (empty($ltiMessageHint)) {
+if (empty($ltiMessageHint) || (is_array($hint) && !$isDlMode)) {
     $DIC->http()->saveResponse(
         $DIC->http()->response()->withStatus(400)
     );
     $DIC->http()->sendResponse();
     $DIC->http()->close();
 }
-
-ilSession::set('lti13_login_data', $data);
 
 if ($isDlMode) {
     if ($refId <= 0) {
@@ -111,6 +130,8 @@ if ($isDlMode) {
         $DIC->http()->sendResponse();
         $DIC->http()->close();
     }
+
+    ilSession::set('lti13_login_data', $data);
 
     $DIC->ctrl()->setParameterByClass(ilObjLTIConsumerGUI::class, 'new_type', 'lti');
     $DIC->ctrl()->setParameterByClass(ilObjLTIConsumerGUI::class, 'provider_id', (string) $deploymentId);
@@ -135,6 +156,10 @@ if ($isDlMode) {
         $DIC->http()->close();
     }
 
+}
+
+if (!$isDlMode) {
+    ilSession::set('lti13_login_data', $data);
 }
 
 $parts = explode(":", $ltiMessageHint, 3);
