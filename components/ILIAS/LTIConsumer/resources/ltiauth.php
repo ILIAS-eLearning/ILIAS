@@ -181,7 +181,18 @@ if (count($parts) === 2) {
 }
 
 if ($isContentSelection) {
-    $url = "../../../" . base64_decode($redirect_uri);
+    $redirect_target = base64_decode($redirect_uri, true);
+    if ($redirect_target === false || $redirect_target === '' ||
+        str_starts_with($redirect_target, '/') || str_contains($redirect_target, '..') ||
+        parse_url($redirect_target, PHP_URL_SCHEME) !== null ||
+        parse_url($redirect_target, PHP_URL_HOST) !== null) {
+        $DIC->http()->saveResponse(
+            $DIC->http()->response()->withStatus(400)
+        );
+        $DIC->http()->sendResponse();
+        $DIC->http()->close();
+    }
+    $url = "../../../" . $redirect_target;
 } else {
     $url = "../../../goto.php?target=lti_" . $ref_id . "&client_id=" . $il_client_id;
 }
