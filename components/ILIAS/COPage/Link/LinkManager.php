@@ -248,7 +248,7 @@ class LinkManager
                         ($area["Type"] ?? "") == "StructureObject") {
                         $t = $area["Target"] ?? "";
                         $tid = \ilInternalLink::_extractObjIdOfTarget($t);
-                        if ($a_from_to[$tid] > 0) {
+                        if (($a_from_to[$tid] ?? 0) > 0) {
                             $correction_needed = true;
                         }
                     }
