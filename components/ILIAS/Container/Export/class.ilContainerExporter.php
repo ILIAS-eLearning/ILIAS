@@ -124,7 +124,7 @@ class ilContainerExporter extends ilXmlExporter
     {
         global $DIC;
 
-        $log = $DIC->logger()->root();
+        $log = $DIC->logger()->forComponent('exp');
         if ($a_entity === 'struct') {
             $log->debug(__METHOD__ . ': Received id = ' . $a_id);
             $ref_ids = ilObject::_getAllReferences((int) $a_id);

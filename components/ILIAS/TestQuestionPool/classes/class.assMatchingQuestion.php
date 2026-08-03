@@ -350,7 +350,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $filename = $term->getPicture();
             if (!file_exists($image_source_path . $filename)
                 || !copy($image_source_path . $filename, $image_target_path . $filename)) {
-                $this->log->root()->warning('matching question image could not be copied: '
+                $this->log->forComponent('qpl')->warning('matching question image could not be copied: '
                     . $image_source_path . $filename);
             }
             if (!file_exists($image_source_path . $this->getThumbPrefix() . $filename)
@@ -358,7 +358,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                     $image_source_path . $this->getThumbPrefix() . $filename,
                     $image_target_path . $this->getThumbPrefix() . $filename
                 )) {
-                $this->log->root()->warning('matching question image thumbnail could not be copied: '
+                $this->log->forComponent('qpl')->warning('matching question image thumbnail could not be copied: '
                     . $image_source_path . $this->getThumbPrefix() . $filename);
             }
         }
@@ -370,7 +370,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
             if (!file_exists($image_source_path . $filename)
                 || !copy($image_source_path . $filename, $image_target_path . $filename)) {
-                $this->log->root()->warning('matching question image could not be copied: '
+                $this->log->forComponent('qpl')->warning('matching question image could not be copied: '
                     . $image_source_path . $filename);
             }
 
@@ -379,7 +379,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                     $image_source_path . $this->getThumbPrefix() . $filename,
                     $image_target_path . $this->getThumbPrefix() . $filename
                 )) {
-                $this->log->root()->warning('matching question image thumbnail could not be copied: '
+                $this->log->forComponent('qpl')->warning('matching question image thumbnail could not be copied: '
                     . $image_source_path . $this->getThumbPrefix() . $filename);
             }
         }

@@ -46,7 +46,7 @@ class ilObjForum extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
 
         $this->rbac = $DIC->rbac();
-        $this->logger = $DIC->logger()->root();
+        $this->logger = $DIC->logger()->forComponent('frm');
 
         $this->settings = $DIC->settings();
         $this->Forum = new ilForum();

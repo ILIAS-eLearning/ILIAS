@@ -100,7 +100,7 @@ class ilLTIConsumerResultService
         try {
 
             global $DIC;
-            $logger = $DIC->logger()->root();
+            $logger = $DIC->logger()->forComponent('lti');
             $logger->info('LTI Consumer Result Service: Incoming request');
             // get the request as xml
             $xml = simplexml_load_file('php://input');
@@ -195,7 +195,7 @@ class ilLTIConsumerResultService
     protected function replaceResult(\SimpleXMLElement $request): void
     {
         global $DIC;
-        $logger = $DIC->logger()->root();
+        $logger = $DIC->logger()->forComponent('lti');
 
         $result = (string) $request->resultRecord->result->resultScore->textString;
         $logger->info('LTI Consumer Result Service: Replace result. Result: ' . $result);

@@ -5579,7 +5579,7 @@ class ilObjTest extends ilObject
             $row = $ilDB->fetchAssoc($result);
             $row['feedback'] = ilRTE::_replaceMediaObjectImageSrc($row['feedback'] ?? '', 1);
         } elseif ($ilDB->numRows($result) > 1) {
-            $DIC->logger()->root()->warning(
+            $DIC->logger()->forComponent('tst')->warning(
                 "WARNING: Multiple feedback entries on tst_manual_fb for " .
                 "active_fi = $active_id , question_fi = $question_id and pass = $pass"
             );

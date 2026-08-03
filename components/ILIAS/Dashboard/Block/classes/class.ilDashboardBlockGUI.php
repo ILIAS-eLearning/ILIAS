@@ -57,7 +57,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         global $DIC;
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-        $this->logging = $DIC->logger()->root();
+        $this->logging = $DIC->logger()->forComponent('dash');
         $this->settings = $DIC->settings();
         $this->object_cache = $DIC['ilObjDataCache'];
         $this->tree = $DIC->repositoryTree();

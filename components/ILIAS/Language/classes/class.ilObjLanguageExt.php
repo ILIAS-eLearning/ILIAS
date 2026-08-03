@@ -456,7 +456,7 @@ class ilObjLanguageExt extends ilObjLanguage
             ));
             $row = $ilDB->fetchAssoc($set);
             if (!$row) {
-                $DIC->logger()->root()->warning("Language module '{$module}' not found for language {$a_lang_key}.");
+                $DIC->logger()->forComponent('lang')->warning("Language module '{$module}' not found for language {$a_lang_key}.");
                 continue;
             }
 

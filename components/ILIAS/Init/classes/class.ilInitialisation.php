@@ -1075,7 +1075,7 @@ class ilInitialisation
      */
     protected static function initLog(): void
     {
-        $log = ilLoggerFactory::getRootLogger();
+        $log = ilLoggerFactory::getLogger('legacy_root');
 
         self::initGlobal("ilLog", $log);
         // deprecated

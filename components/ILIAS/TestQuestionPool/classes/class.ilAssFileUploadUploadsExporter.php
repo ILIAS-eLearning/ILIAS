@@ -261,7 +261,7 @@ class ilAssFileUploadUploadsExporter
         try {
             ilFileUtils::rename($this->tempZipFilePath, $this->finalZipFilePath);
         } catch (\ilFileUtilsException $e) {
-            \ilLoggerFactory::getRootLogger()->error($e->getMessage());
+            \ilLoggerFactory::getLogger('tst')->error($e->getMessage());
         }
     }
 

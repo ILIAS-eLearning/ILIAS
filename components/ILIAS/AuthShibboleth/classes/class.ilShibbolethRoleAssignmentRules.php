@@ -64,7 +64,7 @@ class ilShibbolethRoleAssignmentRules
         $db = $DIC->database();
         $rbac_admin = $DIC->rbac()->admin();
         $rbac_review = $DIC->rbac()->review();
-        $logger = $DIC->logger()->root();
+        $logger = $DIC->logger()->forComponent('shiba');
         $query = "SELECT rule_id,add_on_update,remove_on_update FROM shib_role_assignment " . "WHERE add_on_update = 1 OR remove_on_update = 1";
         $res = $db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -95,7 +95,7 @@ class ilShibbolethRoleAssignmentRules
         global $DIC;
         $db = $DIC->database();
         $rbac_admin = $DIC->rbac()->admin();
-        $logger = $DIC->logger()->root();
+        $logger = $DIC->logger()->forComponent('shiba');
         $query = "SELECT rule_id,add_on_update FROM shib_role_assignment WHERE add_on_update = 1";
         $num_matches = 0;
         $res = $db->query($query);

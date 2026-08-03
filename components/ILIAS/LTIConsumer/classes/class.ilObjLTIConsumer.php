@@ -1285,7 +1285,7 @@ class ilObjLTIConsumer extends ilObject2
     {
         global $DIC;
 
-        $logger = $DIC->logger()->root();
+        $logger = $DIC->logger()->forComponent('lti');
         $f = new \ILIAS\Data\Factory();
 
         if (!ilContext::usesHTTP() || !isset($_SERVER['HTTP_HOST'], $_SERVER['REQUEST_URI'])) {

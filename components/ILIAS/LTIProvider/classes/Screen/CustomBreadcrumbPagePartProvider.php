@@ -32,7 +32,7 @@ class CustomBreadcrumbPagePartProvider implements PagePartProvider
         global $DIC;
         $this->refinery = $DIC->refinery();
         $this->original = $original;
-        $this->logger = $DIC->logger()->root();
+        $this->logger = $DIC->logger()->forComponent('ltis');
     }
 
     public function getTitle(): string

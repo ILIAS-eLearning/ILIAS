@@ -59,7 +59,7 @@ class ilObjTestVerificationGUI extends ilObject2GUI
             $this->ctrl->getLinkTarget($this, "cancel")
         );
 
-        $table = new ilTestVerificationTableGUI($this, 'create', $this->db, $this->user, $this->logger->root());
+        $table = new ilTestVerificationTableGUI($this, 'create', $this->db, $this->user, $this->logger->forComponent('tst'));
         $this->tpl->setContent($table->getHTML());
     }
 
@@ -70,7 +70,7 @@ class ilObjTestVerificationGUI extends ilObject2GUI
             $certificateVerificationFileService = new ilCertificateVerificationFileService(
                 $this->lng,
                 $this->db,
-                $this->logger->root(),
+                $this->logger->forComponent('tst'),
                 new ilCertificateVerificationClassMap()
             );
 

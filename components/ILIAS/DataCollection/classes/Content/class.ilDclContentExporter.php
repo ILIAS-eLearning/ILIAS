@@ -172,15 +172,15 @@ class ilDclContentExporter
         $soap_client->setResponseTimeout(5);
         $soap_client->enableWSDL(true);
 
-        $DIC->logger()->root()->info('Trying to call Soap client...');
+        $DIC->logger()->forComponent('dcl')->info('Trying to call Soap client...');
 
         array_unshift($soap_params, $new_session_id . '::' . $client_id);
 
         if ($soap_client->init()) {
-            $DIC->logger()->root()->info('Calling soap ' . $method . ' method with params ' . print_r($soap_params, true));
+            $DIC->logger()->forComponent('dcl')->info('Calling soap ' . $method . ' method with params ' . print_r($soap_params, true));
             $res = $soap_client->call($method, $soap_params);
         } else {
-            $DIC->logger()->root()->warning('SOAP clone call failed. Calling clone method manually');
+            $DIC->logger()->forComponent('dcl')->warning('SOAP clone call failed. Calling clone method manually');
             if (method_exists('ilSoapFunctions', $method)) {
                 $res = ilSoapFunctions::$method(
                     $new_session_id . '::' . $client_id,

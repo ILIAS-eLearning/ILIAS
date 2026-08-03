@@ -692,7 +692,7 @@ class ilCmiXapiSettingsGUI
 
         $repository = new ilUserCertificateRepository();
 
-        $certLogger = $this->dic->logger()->root();//->cert();
+        $certLogger = $this->dic->logger()->forComponent('cmix');//->cert();
         $pdfGenerator = new ilPdfGenerator($repository);
 
         $pdfAction = new ilCertificatePdfAction(

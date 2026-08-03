@@ -55,7 +55,7 @@ class ilVirusScanner
         global $DIC;
         $error = $DIC['ilErr'];
         $lng = $DIC->language();
-        $log = $DIC->logger()->root();
+        $log = $DIC->logger()->forComponent('virusscanner');
 
         $this->error = $error;
         $this->lng = $lng;

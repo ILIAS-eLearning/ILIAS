@@ -65,7 +65,7 @@ class BaseDependencyMap extends EmptyDependencyMap
             case \ilLoggerFactory::class:
                 return $DIC["ilLoggerFactory"];
             case \ilLogger::class:
-                return $DIC->logger()->root();
+                return $DIC->logger()->forComponent('bgtk');
             case \ilToolbarGUI::class:
                 return $DIC->toolbar();
             case \ilTabsGUI::class:

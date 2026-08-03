@@ -219,7 +219,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         $this->ui_renderer = $DIC['ui.renderer'];
         $this->request = $DIC->http()->request();
 
-        $this->log = $DIC["ilLoggerFactory"]->getRootLogger();
+        $this->log = $DIC["ilLoggerFactory"]->getComponentLogger('lso');
         $this->app_event_handler = $DIC['ilAppEventHandler'];
         $this->navigation_history = $DIC['ilNavigationHistory'];
         $this->obj_definition = $DIC['objDefinition'];

@@ -57,7 +57,7 @@ class ilNotificationPushHandler extends ilNotificationHandler
     {
         global $DIC;
         $this->provider = $provider;
-        $this->logger = $DIC->logger()->root();
+        $this->logger = $DIC->logger()->forComponent('noti');
         $this->sub = $DIC->settings()->get('admin_email');
         $this->subscription_repo = new PushRepository($DIC->database(), $DIC->user());
         $settings = new ilSetting('notifications');

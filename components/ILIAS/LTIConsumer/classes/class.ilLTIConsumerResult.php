@@ -81,7 +81,7 @@ class ilLTIConsumerResult
     {
         global $DIC;
 
-        $logger = $DIC->logger()->root();
+        $logger = $DIC->logger()->forComponent('lti');
         $logger->info('getByKeys: ' . $a_obj_id . ' ' . $a_usr_id);
 
         $query = 'SELECT * FROM lti_consumer_results'
@@ -125,7 +125,7 @@ class ilLTIConsumerResult
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
-        $logger = $DIC->logger()->root();
+        $logger = $DIC->logger()->forComponent('lti');
 
         $logger->info('save: ' . $this->obj_id . ' ' . $this->usr_id);
 
@@ -136,7 +136,7 @@ class ilLTIConsumerResult
             $this->id = $DIC->database()->nextId('lti_consumer_results');
         }
 
-        $logger = $DIC->logger()->root();
+        $logger = $DIC->logger()->forComponent('lti');
 
         $logger->info('save 2: ' . $this->obj_id . ' ' . $this->usr_id);
 
