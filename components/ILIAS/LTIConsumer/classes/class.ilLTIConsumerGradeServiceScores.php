@@ -61,11 +61,8 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
             }
             $this->checkToolMatchesObject((int) $itemId, $token);
 
-            // Bug in Moodle as tool provider, should accept only "204 No Content" but schedules grade sync task will notices a failed status if not exactly 200
-            // see: http://www.imsglobal.org/spec/lti-ags/v2p0#score-service-scope-and-allowed-http-methods
-            //$response->setCode(204); // correct
-            $returnCode = $this->checkScore($response->getRequestData(), (int) $itemId);
-            $response->setCode($returnCode); // not really correct
+            $this->checkScore($response->getRequestData(), (int) $itemId);
+            $response->setCode(204);
         } catch (Exception $e) {
             $code = $e->getCode();
             $response->setCode($code >= 400 && $code < 600 ? $code : 500);
@@ -99,7 +96,7 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
         }
     }
 
-    protected function checkScore(string $requestData, int $objId): int
+    protected function checkScore(string $requestData, int $objId): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -234,9 +231,6 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
         ];
         $DIC->database()->insert('lti_consumer_grades', $gradeValues);
 
-
-
-        return 200;
     }
 
     protected static function isValidActivityProgress(string $activityProgress): bool
