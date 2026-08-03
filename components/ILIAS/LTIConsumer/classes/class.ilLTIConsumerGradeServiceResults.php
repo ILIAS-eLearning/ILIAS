@@ -61,9 +61,7 @@ class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
             $ilDB = $DIC->database();
             $scoreMaximum = 1.0;
             $filters = $this->getFilters();
-            $filterUserId = $filters['userId'] !== ''
-                ? $this->resolveUserIdFromLtiIdent($itemId, $filters['userId'])
-                : null;
+            $filterUserId = null;
 
             if (ilObject::_lookupType($itemId) === 'lti') {
                 $object = new ilObjLTIConsumer($itemId, false);
@@ -75,17 +73,37 @@ class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
                     throw ilLTIConsumerHttpException::forbidden('invalid clientId');
                 }
                 $scoreMaximum = $object->getScoreMaximum() > 0 ? $object->getScoreMaximum() : 1.0;
+                $filterUserId = $filters['userId'] !== ''
+                    ? $this->resolveUserIdFromLtiIdent($itemId, $filters['userId'])
+                    : null;
             } else {
                 $storedId = -$itemId;
                 if ($storedId <= 0) {
                     throw ilLTIConsumerHttpException::notFound('LineItem not found');
                 }
 
-                if ($this->lineItemRepository->get($storedId, $contextId, $clientId) === null) {
+                $stored_line_item = $this->lineItemRepository->get($storedId, $contextId, $clientId);
+                if ($stored_line_item === null) {
                     throw ilLTIConsumerHttpException::notFound('LineItem not found');
                 }
+
+                $lti_object = $this->getStoredLineItemLtiObject($contextId, $stored_line_item, $clientId);
+                $filterUserId = $filters['userId'] !== ''
+                    ? $this->resolveUserIdFromLtiIdent($lti_object->getId(), $filters['userId'])
+                    : null;
+                $results = $this->getStoredResults(
+                    $ilDB,
+                    $contextId,
+                    $itemId,
+                    $stored_line_item,
+                    $lti_object->getId(),
+                    $lti_object->getProvider()->getPrivacyIdent(),
+                    $filterUserId,
+                    $filters
+                );
                 $response->setContentType('application/vnd.ims.lis.v2.resultcontainer+json');
-                $response->setBody(json_encode([], JSON_UNESCAPED_SLASHES));
+                $this->addNextPageHeader($response, $contextId, $itemId, $filters, $results['has_next_page']);
+                $response->setBody(json_encode($results['items'], JSON_UNESCAPED_SLASHES));
                 return;
             }
 
@@ -185,11 +203,14 @@ class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
                 }
             }
 
+            $offset = ($filters['page'] - 1) * $filters['limit'];
+            $has_next_page = $filters['limit'] > 0 && count($resultsArr) > $offset + $filters['limit'];
             if ($filters['limit'] > 0) {
-                $resultsArr = array_slice($resultsArr, 0, $filters['limit']);
+                $resultsArr = array_slice($resultsArr, $offset, $filters['limit']);
             }
 
             $response->setContentType('application/vnd.ims.lis.v2.resultcontainer+json');
+            $this->addNextPageHeader($response, $contextId, $itemId, $filters, $has_next_page);
             $response->setBody(json_encode($resultsArr, JSON_UNESCAPED_SLASHES));
         } catch (ilLTIConsumerHttpException $e) {
             $response->setCode($e->getCode());
@@ -201,7 +222,7 @@ class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
     }
 
     /**
-     * @return array{userId: string, limit: int}
+     * @return array{userId: string, limit: int, page: int}
      */
     protected function getFilters(): array
     {
@@ -213,8 +234,124 @@ class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
 
         return [
             'userId' => $query->has('user_id') ? $query->retrieve('user_id', $string) : '',
-            'limit' => is_numeric($limit) ? max(0, (int) $limit) : 0
+            'limit' => is_numeric($limit) ? max(0, (int) $limit) : 0,
+            'page' => $query->has('page') && is_numeric($query->retrieve('page', $string))
+                ? max(1, (int) $query->retrieve('page', $string)) : 1
         ];
+    }
+
+    protected function getStoredLineItemLtiObject(
+        int $context_id,
+        ilLTIConsumerLineItem $line_item,
+        string $client_id
+    ): ilObjLTIConsumer {
+        $resource_link_ref_id = (int) $line_item->resourceLinkId;
+        if ($resource_link_ref_id <= 0) {
+            throw ilLTIConsumerHttpException::notFound('Resource link not found');
+        }
+
+        global $DIC;
+        $tree = $DIC->repositoryTree();
+        $node_data = $tree->getNodeData($resource_link_ref_id);
+        if (!$node_data || $node_data['type'] !== 'lti' ||
+            !in_array($context_id, $tree->getPathId($resource_link_ref_id), true)) {
+            throw ilLTIConsumerHttpException::notFound('Resource link not found');
+        }
+
+        $lti_object_id = ilObject::_lookupObjId($resource_link_ref_id);
+        if (!$lti_object_id) {
+            throw ilLTIConsumerHttpException::notFound('Resource link not found');
+        }
+
+        $lti_object = new ilObjLTIConsumer($lti_object_id, false);
+        $provider = $lti_object->getProvider();
+        if (!$provider || $provider->getClientId() !== $client_id) {
+            throw ilLTIConsumerHttpException::forbidden('invalid clientId');
+        }
+
+        return $lti_object;
+    }
+
+    /**
+     * @param array{userId: string, limit: int, page: int} $filters
+     * @return array{items: list<array<string, float|string>>, has_next_page: bool}
+     */
+    protected function getStoredResults(
+        ilDBInterface $db,
+        int $context_id,
+        int $item_id,
+        ilLTIConsumerLineItem $line_item,
+        int $lti_object_id,
+        int $privacy_ident,
+        ?int $filter_user_id,
+        array $filters
+    ): array {
+        $query = 'SELECT score_given, score_maximum, usr_id FROM lti_consumer_grades'
+            . ' WHERE obj_id = ' . $db->quote($item_id, 'integer')
+            . ' AND score_given IS NOT NULL'
+            . ' AND score_maximum IS NOT NULL'
+            . ' ORDER BY lti_timestamp DESC, stored DESC';
+        $result = $db->query($query);
+        $line_item_url = ilLTIConsumerGradeServiceLineItem::buildLineItemUrl($context_id, $item_id);
+        $results = [];
+        $seen_user_ids = [];
+        while ($row = $db->fetchAssoc($result)) {
+            $user_id = (int) $row['usr_id'];
+            if (isset($seen_user_ids[$user_id]) ||
+                ($filter_user_id !== null && $filter_user_id !== $user_id)) {
+                continue;
+            }
+
+            $seen_user_ids[$user_id] = true;
+            $ident_query = 'SELECT usr_ident FROM cmix_users'
+                . ' WHERE obj_id = ' . $db->quote($lti_object_id, 'integer')
+                . ' AND usr_id = ' . $db->quote($user_id, 'integer');
+            $ident_result = $db->query($ident_query);
+            $ident_row = $db->fetchAssoc($ident_result);
+            $user_ident = $ident_row['usr_ident'] ?? (string) $user_id;
+            if ($filter_user_id === null && $filters['userId'] !== '' &&
+                !$this->matchesLtiUserIdent($lti_object_id, $user_id, $user_ident, $filters['userId'])) {
+                continue;
+            }
+
+            $score_maximum = (float) $row['score_maximum'];
+            $lti_user_id = $this->getLtiUserId($privacy_ident, $user_id, $user_ident);
+            $results[] = [
+                'id' => $line_item_url . '/results?user_id=' . rawurlencode($lti_user_id),
+                'scoreOf' => $line_item_url,
+                'userId' => $lti_user_id,
+                'resultScore' => (float) $row['score_given'],
+                'resultMaximum' => $score_maximum > 0 ? $score_maximum : $line_item->scoreMaximum
+            ];
+        }
+
+        $offset = ($filters['page'] - 1) * $filters['limit'];
+        $has_next_page = $filters['limit'] > 0 && count($results) > $offset + $filters['limit'];
+        if ($filters['limit'] > 0) {
+            $results = array_slice($results, $offset, $filters['limit']);
+        }
+
+        return ['items' => $results, 'has_next_page' => $has_next_page];
+    }
+
+    /** @param array{userId: string, limit: int, page: int} $filters */
+    protected function addNextPageHeader(
+        ilLTIConsumerServiceResponse $response,
+        int $context_id,
+        int $item_id,
+        array $filters,
+        bool $has_next_page
+    ): void {
+        if (!$has_next_page) {
+            return;
+        }
+
+        $query = ['limit' => $filters['limit'], 'page' => $filters['page'] + 1];
+        if ($filters['userId'] !== '') {
+            $query['user_id'] = $filters['userId'];
+        }
+        $url = ilLTIConsumerGradeServiceLineItem::buildLineItemUrl($context_id, $item_id) . '/results';
+        $response->addAdditionalHeader('Link: <' . $url . '?' . http_build_query($query) . '>; rel="next"');
     }
 
     protected function getLtiUserId(int $privacyIdent, int $userId, string $userIdent): string

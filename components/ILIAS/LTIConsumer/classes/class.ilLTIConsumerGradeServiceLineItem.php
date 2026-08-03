@@ -139,6 +139,12 @@ class ilLTIConsumerGradeServiceLineItem extends ilLTIConsumerResourceBase
         if (!is_object($body) || json_last_error() !== JSON_ERROR_NONE) {
             throw ilLTIConsumerHttpException::badRequest('Invalid request body');
         }
+        if (property_exists($body, 'resourceLinkId')) {
+            $resource_link_id = is_scalar($body->resourceLinkId) ? (string) $body->resourceLinkId : '';
+            if (!$this->isClientResourceLink($contextId, $clientId, $resource_link_id)) {
+                throw ilLTIConsumerHttpException::notFound('Resource link not found');
+            }
+        }
 
         if ($isRealObject) {
             $object = new ilObjLTIConsumer($itemId, false);
@@ -200,17 +206,8 @@ class ilLTIConsumerGradeServiceLineItem extends ilLTIConsumerResourceBase
         $clientId = $token->getClientId();
 
         if ($isRealObject) {
-            $object = new ilObjLTIConsumer($itemId, false);
-            $provider = $object->getProvider();
-            if (!$provider || (!$provider->isGradeSynchronization() && !$provider->getHasOutcome())) {
-                throw ilLTIConsumerHttpException::forbidden('grade synchronization not enabled');
-            }
-            $this->checkProviderMatchesToken($provider, $token);
-            $object->setScoreMaximum(1);
-            if ($object->getTitle() !== $provider->getTitle()) {
-                $object->setTitle($provider->getTitle());
-            }
-            $object->update();
+            $response->setCode(405);
+            return;
         } else {
             $lineItem = $this->findStoredLineItem($itemId, $contextId, $clientId);
             if ($lineItem === null) {
@@ -237,6 +234,30 @@ class ilLTIConsumerGradeServiceLineItem extends ilLTIConsumerResourceBase
         if ($provider->getClientId() !== $token->getClientId()) {
             throw ilLTIConsumerHttpException::forbidden('invalid clientId');
         }
+    }
+
+    protected function isClientResourceLink(int $context_id, string $client_id, string $resource_link_id): bool
+    {
+        $resource_link_ref_id = (int) $resource_link_id;
+        if ($resource_link_ref_id <= 0) {
+            return false;
+        }
+
+        global $DIC;
+        $tree = $DIC->repositoryTree();
+        $node_data = $tree->getNodeData($resource_link_ref_id);
+        if (!$node_data || $node_data['type'] !== 'lti' ||
+            !in_array($context_id, $tree->getPathId($resource_link_ref_id), true)) {
+            return false;
+        }
+
+        $object_id = ilObject::_lookupObjId($resource_link_ref_id);
+        if (!$object_id) {
+            return false;
+        }
+
+        $provider = (new ilObjLTIConsumer($object_id, false))->getProvider();
+        return $provider !== null && $provider->getClientId() === $client_id;
     }
 
     /**
