@@ -958,7 +958,7 @@ s     */
                   "table", "table_cell"] as $type) {
             $dummy_pc->getCharacteristicsOfCurrentStyle([$type]);
             foreach ($dummy_pc->getCharacteristics() as $char => $txt) {
-                $xml .= "<LV name=\"char_" . $type . "_" . $char . "\" value=\"" . $txt . "\"/>";
+                $xml .= $this->getCharacteristicLangVarXML($type, $char, $txt);
             }
         }
         $type = "media_cont";
@@ -966,14 +966,14 @@ s     */
         $dummy_pc->setStyleId($style_id);
         $dummy_pc->getCharacteristicsOfCurrentStyle([$type]);
         foreach ($dummy_pc->getCharacteristics() as $char => $txt) {
-            $xml .= "<LV name=\"char_" . $type . "_" . $char . "\" value=\"" . $txt . "\"/>";
+            $xml .= $this->getCharacteristicLangVarXML($type, $char, $txt);
         }
         foreach (["text_block", "heading1", "heading2", "heading3"] as $type) {
             $dummy_pc = new ilPCParagraphGUI($this, null, "");
             $dummy_pc->setStyleId($style_id);
             $dummy_pc->getCharacteristicsOfCurrentStyle([$type]);
             foreach ($dummy_pc->getCharacteristics() as $char => $txt) {
-                $xml .= "<LV name=\"char_" . $type . "_" . $char . "\" value=\"" . $txt . "\"/>";
+                $xml .= $this->getCharacteristicLangVarXML($type, $char, $txt);
             }
         }
         foreach ($lang_vars as $lang_var) {
@@ -994,9 +994,18 @@ s     */
         );
     }
 
+    protected function getCharacteristicLangVarXML(string $type, string $char, string $txt): string
+    {
+        return $this->getLangVarXMLForValue(
+            "char_" . $type . "_" . $char,
+            $txt
+        );
+    }
+
     protected function getLangVarXMLForValue(string $var, string $val): string
     {
-        $val = str_replace('"', "&quot;", $val);
+        $var = htmlspecialchars($var, ENT_XML1 | ENT_QUOTES, 'UTF-8');
+        $val = htmlspecialchars($val, ENT_XML1 | ENT_QUOTES, 'UTF-8');
         return "<LV name=\"$var\" value=\"" . $val . "\"/>";
     }
 

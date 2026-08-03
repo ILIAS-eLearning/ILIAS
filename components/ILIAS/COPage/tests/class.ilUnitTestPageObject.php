@@ -43,4 +43,14 @@ class ilUnitTestPageObject extends ilPageObject
     {
         return true;
     }
+
+    public function getLangVarXMLForValueForTesting(string $var, string $val): string
+    {
+        return $this->getLangVarXMLForValue($var, $val);
+    }
+
+    public function getCharacteristicLangVarXMLForTesting(string $type, string $char, string $txt): string
+    {
+        return $this->getCharacteristicLangVarXML($type, $char, $txt);
+    }
 }
