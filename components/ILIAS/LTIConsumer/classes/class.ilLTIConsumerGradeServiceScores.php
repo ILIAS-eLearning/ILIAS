@@ -29,7 +29,10 @@ declare(strict_types=1);
 
 class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
 {
-    public function __construct(ilLTIConsumerServiceBase $service)
+    public function __construct(
+        ilLTIConsumerServiceBase $service,
+        private readonly ilLTIConsumerLineItemRepository $line_item_repository
+    )
     {
         parent::__construct($service);
         $this->id = 'Score.collection';
@@ -46,11 +49,11 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
     public function execute(ilLTIConsumerServiceResponse $response): void
     {
         $params = $this->parseTemplate();
-        $contextId = $params['context_id'];
-        $itemId = $params['item_id'];
+        $context_id = (int) ($params['context_id'] ?? 0);
+        $item_id = (int) ($params['item_id'] ?? 0);
 
-        ilObjLTIConsumer::getLogger()->info("contextId: " . $contextId);
-        ilObjLTIConsumer::getLogger()->info("objId: " . $itemId);
+        ilObjLTIConsumer::getLogger()->info("contextId: " . $context_id);
+        ilObjLTIConsumer::getLogger()->info("objId: " . $item_id);
         ilObjLTIConsumer::getLogger()->info("request data: " . $response->getRequestData());
 
         $scope = ilLTIConsumerGradeService::SCOPE_GRADESERVICE_SCORE;
@@ -59,9 +62,12 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
             if (is_null($token)) {
                 throw ilLTIConsumerHttpException::unauthorized();
             }
-            $this->checkToolMatchesObject((int) $itemId, $token);
-
-            $this->checkScore($response->getRequestData(), (int) $itemId);
+            if (ilObject::_lookupType($item_id) === 'lti') {
+                $this->checkToolMatchesObject($item_id, $token);
+                $this->checkScore($response->getRequestData(), $item_id);
+            } else {
+                $this->checkStoredLineItemScore($response->getRequestData(), $context_id, $item_id, $token);
+            }
             $response->setCode(204);
         } catch (ilLTIConsumerHttpException $e) {
             $response->setCode($e->getCode());
@@ -95,7 +101,40 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
         }
     }
 
-    protected function checkScore(string $requestData, int $objId): void
+    protected function checkStoredLineItemScore(
+        string $request_data,
+        int $context_id,
+        int $item_id,
+        ilLTIConsumerAccessToken $token
+    ): void {
+        $stored_line_item = $this->line_item_repository->get(-$item_id, $context_id, $token->getClientId());
+        if ($item_id >= 0 || $stored_line_item === null) {
+            throw ilLTIConsumerHttpException::notFound('LineItem not found');
+        }
+
+        $resource_link_ref_id = (int) $stored_line_item->resourceLinkId;
+        if ($resource_link_ref_id <= 0) {
+            throw ilLTIConsumerHttpException::notFound('Resource link not found');
+        }
+
+        global $DIC;
+        $tree = $DIC->repositoryTree();
+        $node_data = $tree->getNodeData($resource_link_ref_id);
+        if (!$node_data || $node_data['type'] !== 'lti' ||
+            !in_array($context_id, $tree->getPathId($resource_link_ref_id), true)) {
+            throw ilLTIConsumerHttpException::notFound('Resource link not found');
+        }
+
+        $lti_object_id = ilObject::_lookupObjId($resource_link_ref_id);
+        if (!$lti_object_id) {
+            throw ilLTIConsumerHttpException::notFound('Resource link not found');
+        }
+
+        $this->checkToolMatchesObject($lti_object_id, $token);
+        $this->checkScore($request_data, $lti_object_id, $item_id);
+    }
+
+    protected function checkScore(string $requestData, int $objId, ?int $grade_item_id = null): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -134,6 +173,24 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
             throw ilLTIConsumerHttpException::notFound('User not available');
         }
 
+        $lti_timestamp = DateTimeImmutable::createFromFormat(DateTimeInterface::RFC3339_EXTENDED, (string) $score->timestamp);
+        if (!$lti_timestamp) { //moodle 4
+            $lti_timestamp = DateTimeImmutable::createFromFormat(DateTimeInterface::ISO8601, (string) $score->timestamp);
+        }
+        if (!$lti_timestamp) { //for example nothing
+            $lti_timestamp = new DateTimeImmutable('now');
+        }
+
+        $grade_item_id_for_query = $grade_item_id ?? $objId;
+        $latest_grade_query = 'SELECT lti_timestamp FROM lti_consumer_grades'
+            . ' WHERE obj_id = ' . $DIC->database()->quote($grade_item_id_for_query, 'integer')
+            . ' AND usr_id = ' . $DIC->database()->quote($userId, 'integer')
+            . ' ORDER BY lti_timestamp DESC, stored DESC';
+        $latest_grade_result = $DIC->database()->query($latest_grade_query);
+        $latest_grade = $DIC->database()->fetchAssoc($latest_grade_result);
+        $is_current_score = $latest_grade === null ||
+            $lti_timestamp >= new DateTimeImmutable($latest_grade['lti_timestamp']);
+
         $scoreGiven = isset($score->scoreGiven) ? (float) $score->scoreGiven : null;
         $scoreMaximum = isset($score->scoreMaximum) ? (float) $score->scoreMaximum : null;
 
@@ -144,6 +201,19 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
         }
         if ($gradingProgress === ilLTIConsumerGradingProgress::FULLY_GRADED) {
             $result = $scoreProgress;
+        }
+
+        if ($grade_item_id !== null) {
+            $this->storeScore(
+                $grade_item_id,
+                $userId,
+                $scoreGiven,
+                $scoreMaximum,
+                $activityProgress,
+                $gradingProgress,
+                $lti_timestamp
+            );
+            return;
         }
 
         $ltiObjRes = new ilLTIConsumerResultService();
@@ -174,14 +244,15 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
             $updateLpStatus = true;
         }
 
-        $lp_percentage = $scoreProgress === null ? 0 : (int) round(100 * $scoreProgress);
+        $lp_percentage = $scoreProgress === null ? 0 : max(0, min(100, (int) round(100 * $scoreProgress)));
         $resultForLog = $result === null ? 'null' : (string) $result;
 
         ilObjLTIConsumer::getLogger()->info("lp_status: $lp_status, lp_percentage: $lp_percentage, result: $resultForLog, mastery_score: " . $ltiObjRes->getMasteryScore());
 
-        if ($result !== null) {
+        $should_update_result = $result !== null || $scoreGiven === null;
+        if ($is_current_score && $should_update_result) {
             $consRes = ilLTIConsumerResult::getByKeys($objId, $userId, false);
-            if (empty($consRes)) {
+            if (empty($consRes) && $result !== null) {
                 $DIC->database()->insert(
                     'lti_consumer_results',
                     array(
@@ -191,7 +262,7 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
                         'result' => array('float', $result)
                     )
                 );
-            } else {
+            } elseif (!empty($consRes)) {
                 $DIC->database()->replace(
                     'lti_consumer_results',
                     array(
@@ -206,30 +277,44 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
             }
         }
 
-        if ($updateLpStatus) {
+        if ($is_current_score && $updateLpStatus) {
             ilLPStatus::writeStatus($objId, $userId, $lp_status, $lp_percentage, true);
         }
 
-        $ltiTimestamp = DateTimeImmutable::createFromFormat(DateTimeInterface::RFC3339_EXTENDED, (string) $score->timestamp);
-        if (!$ltiTimestamp) { //moodle 4
-            $ltiTimestamp = DateTimeImmutable::createFromFormat(DateTimeInterface::ISO8601, (string) $score->timestamp);
-        }
-        if (!$ltiTimestamp) { //for example nothing
-            $ltiTimestamp = new DateTime('now');
-        }
-        $gradeValues = [
+        $this->storeScore(
+            $objId,
+            $userId,
+            $scoreGiven,
+            $scoreMaximum,
+            $activityProgress,
+            $gradingProgress,
+            $lti_timestamp
+        );
+    }
+
+    protected function storeScore(
+        int $item_id,
+        int $user_id,
+        ?float $score_given,
+        ?float $score_maximum,
+        ilLTIConsumerActivityProgress $activity_progress,
+        ilLTIConsumerGradingProgress $grading_progress,
+        DateTimeImmutable $lti_timestamp
+    ): void {
+        global $DIC;
+
+        $grade_values = [
             'id' => array('integer', $DIC->database()->nextId('lti_consumer_grades')),
-            'obj_id' => array('integer', $objId),
-            'usr_id' => array('integer', $userId),
-            'score_given' => array('float', $scoreGiven),
-            'score_maximum' => array('float', $scoreMaximum),
-            'activity_progress' => array('text', $activityProgress->value),
-            'grading_progress' => array('text', $gradingProgress->value),
-            'lti_timestamp' => array('timestamp', $ltiTimestamp->format("Y-m-d H:i:s")),
+            'obj_id' => array('integer', $item_id),
+            'usr_id' => array('integer', $user_id),
+            'score_given' => array('float', $score_given),
+            'score_maximum' => array('float', $score_maximum),
+            'activity_progress' => array('text', $activity_progress->value),
+            'grading_progress' => array('text', $grading_progress->value),
+            'lti_timestamp' => array('timestamp', $lti_timestamp->format('Y-m-d H:i:s')),
             'stored' => array('timestamp', date("Y-m-d H:i:s"))
         ];
-        $DIC->database()->insert('lti_consumer_grades', $gradeValues);
-
+        $DIC->database()->insert('lti_consumer_grades', $grade_values);
     }
 
     public static function validate_iso8601_date(string $date): bool
