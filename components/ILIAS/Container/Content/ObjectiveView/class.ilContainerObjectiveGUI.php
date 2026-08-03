@@ -474,77 +474,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
      */
     protected function addItemDetails(ilObjectListGUI $a_item_list_gui, array $a_item): void
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
-        $item_ref_id = $a_item["ref_id"];
-        if (is_array($this->objective_map)) {
-            $details = [];
-            if (isset($this->objective_map["material"][$item_ref_id])) {
-                // #12965
-                foreach ($this->objective_map["material"][$item_ref_id] as $objective_id) {
-                    $ilCtrl->setParameterByClass('ilcourseobjectivesgui', 'objective_id', $objective_id);
-                    $url = $ilCtrl->getLinkTargetByClass(['illoeditorgui', 'ilcourseobjectivesgui'], 'edit');
-                    $ilCtrl->setParameterByClass('ilcourseobjectivesgui', 'objective_id', '');
-
-                    $details[] = [
-                        'desc' => $lng->txt('crs_loc_tab_materials') . ': ',
-                        'target' => '_top',
-                        'link' => $url,
-                        'name' => $this->objective_map["names"][$objective_id]
-                    ];
-                }
-            }
-            if (($this->objective_map["test_i"] ?? 0) == $item_ref_id) {
-                $ilCtrl->setParameterByClass('illoeditorgui', 'tt', 1);
-                $details[] = [
-                    'desc' => '',
-                    'target' => '_top',
-                    'link' => $ilCtrl->getLinkTargetByClass('illoeditorgui', 'testOverview'),
-                    'name' => $lng->txt('crs_loc_tab_itest')
-                ];
-                $ilCtrl->setParameterByClass('illoeditorgui', 'tt', 0);
-            }
-            if (($this->objective_map["test_q"] ?? 0) == $item_ref_id) {
-                $ilCtrl->setParameterByClass('illoeditorgui', 'tt', 2);
-                $details[] = [
-                    'desc' => '',
-                    'target' => '_top',
-                    'link' => $ilCtrl->getLinkTargetByClass('illoeditorgui', 'testOverview'),
-                    'name' => $lng->txt('crs_loc_tab_qtest')
-                ];
-                $ilCtrl->setParameterByClass('illoeditorgui', 'tt', 0);
-            }
-
-            // #15367
-            if (is_array($this->objective_map["test_ass"][$item_ref_id] ?? false)) {
-                foreach ($this->objective_map["test_ass"][$item_ref_id] as $type => $items) {
-                    if ($type == ilLOSettings::TYPE_TEST_INITIAL) {
-                        $caption = $lng->txt('crs_loc_tab_itest');
-                        $ilCtrl->setParameterByClass('illoeditorgui', 'tt', 1);
-                    } else {
-                        $caption = $lng->txt('crs_loc_tab_qtest');
-                        $ilCtrl->setParameterByClass('illoeditorgui', 'tt', 2);
-                    }
-                    foreach ($items as $objtv_title) {
-                        $details[] = [
-                            'desc' => '',
-                            'target' => '_top',
-                            'link' => $ilCtrl->getLinkTargetByClass('illoeditorgui', 'testsOverview'),
-                            'name' => $caption . " (" . $this->lng->txt("crs_loc_learning_objective") . ": " . $objtv_title . ")"
-                        ];
-                    }
-                    $ilCtrl->setParameterByClass('illoeditorgui', 'tt', 0);
-                }
-            }
-
-            if (count($details)) {
-                $a_item_list_gui->enableItemDetailLinks(true);
-                $a_item_list_gui->setItemDetailLinks($details, $lng->txt('crs_loc_settings_tbl') . ': ');
-            } else {
-                $a_item_list_gui->enableItemDetailLinks(false);
-            }
-        }
 
         // order
         if ($this->getContainerGUI()->isActiveOrdering()) {
