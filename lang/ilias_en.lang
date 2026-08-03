@@ -2506,7 +2506,7 @@ blog#:#blog_no_keywords#:#No keywords have been entered yet.
 blog#:#blog_notification_activated#:#Notifications Activated
 blog#:#blog_notification_deactivated#:#Notifications Deactivated
 blog#:#blog_notification_toggle_off#:#Deactivate Notifications
-blog#:#blog_notification_toggle_on#:#Activate Notification
+blog#:#blog_notification_toggle_on#:#Activate Notifications
 blog#:#blog_number_users_notes_or_comments#:#Number of users who have attached notes or comments to this post
 blog#:#blog_posting#:#Blog Post
 blog#:#blog_posting_deleted#:#Post successfully deleted.
@@ -3647,7 +3647,7 @@ common#:#auth_soap_namespace#:#Namespace
 common#:#auth_soap_namespace_desc#:#As defined in WSDL. Must be specified, if .NET SOAP style is used.
 common#:#auth_soap_port_desc#:#E.g. 8080 if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php
 common#:#auth_soap_server_desc#:#E.g. auth.yourserver.com if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php
-common#:#auth_soap_settings_saved#:#SOAP authentication settings saved
+common#:#auth_soap_settings_saved#:#SOAP authentication settings saved.
 common#:#auth_soap_uri_desc#:#Local URI, e.g. dir/server.php if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php
 common#:#auth_soap_use_dotnet#:#Use .NET SOAP Style
 common#:#auth_soap_use_https#:#Use HTTPS
@@ -4232,8 +4232,8 @@ common#:#forums_anonymized#:#Forum anonymized
 common#:#forums_anonymous#:#anonym
 common#:#forums_articles#:#Posts
 common#:#forums_closed#:#closed
-common#:#forums_disable_forum_notification#:#Disable Notification for this Forum
-common#:#forums_enable_forum_notification#:#Enable Notification for this Forum
+common#:#forums_disable_forum_notification#:#Disable Notifications for This Forum
+common#:#forums_enable_forum_notification#:#Enable Notifications for This Forum
 common#:#forums_forum_notification_enabled#:#You will be notified about new posts in this forum.
 common#:#forums_last_post#:#Latest Post
 common#:#forums_last_posting_asc#:#Last Post Ascending
@@ -7904,7 +7904,7 @@ crs#:#crs_select_archive_language#:#Please select a language for the archive
 crs#:#crs_select_one_archive#:#Please select one archive
 crs#:#crs_select_starter#:#Select Start Object
 crs#:#crs_settings#:#Course Settings
-crs#:#crs_settings_saved#:#Settings saved
+crs#:#crs_settings_saved#:#Settings saved.
 crs#:#crs_shorten_breadcrumb#:#Breadcrumb
 crs#:#crs_show_all_obj#:#Expand All
 crs#:#crs_show_member_export#:#Participants List
@@ -8087,7 +8087,7 @@ crs#:#event_title#:#Title
 crs#:#event_tutor_data#:#Presentation by
 crs#:#event_unregister#:#Unregister
 crs#:#event_unregistered#:#You have been unregistered.
-crs#:#event_updated#:#Settings saved
+crs#:#event_updated#:#Settings saved.
 crs#:#event_user_selection#:#Selection of Users
 crs#:#event_user_selection_include_filter#:#Include "%1$s"
 crs#:#event_user_selection_include_requests#:#Include all users on list "Join Requests"
@@ -9864,7 +9864,7 @@ file#:#copyright_custom#:#Custom
 file#:#copyright_custom_info#:#Choose a custom copyright which will be applied to all unzipped files of this archive.
 file#:#copyright_inherited#:#Inherited
 file#:#copyright_inherited_info#:#Apply the copyright of the zip archive to its unzipped files. <br \>Copyright of zip archive: %s.
-file#:#could_not_create_file_objs#:#An error occurred while creating your file objects. Please contact the administrators of this platform.
+file#:#could_not_create_file_objs#:#An error occurred while creating your file objects. Please contact this installation's technical support.
 file#:#de_activate_icon#:#Activate / Deactivate
 file#:#download_ascii_filename#:#Allow Only ASCII Characters in Downloaded Filenames
 file#:#download_ascii_filename_info#:#Downloaded files should only have ASCII-characters in their filename. Deactivate to use all characters.
@@ -11139,7 +11139,7 @@ log#:#log_level_info#:#INFO
 log#:#log_level_notice#:#NOTICE
 log#:#log_level_off#:#Disabled
 log#:#log_level_warning#:#WARNING
-logging#:#error_settings_saved#:#Settings saved
+logging#:#error_settings_saved#:#Settings saved.
 logging#:#frm_clear_older_then#:#Deletes files older then
 logging#:#frm_clear_older_then_info#:#Please enter duration in days.
 logging#:#log_error_file_cleanup_info#:#Deletes old or orphand files of error log.
@@ -11969,10 +11969,8 @@ mem#:#mem_settings_tab_settings#:#General Settings
 mem#:#mmbr_gallery_user_actions#:#Member Gallery Actions
 membership#:#mem_error_preconditions#:#A registration is not possible, since minimum one setting prevents this.
 membership#:#mem_force_notification#:#Notification per Mail
-membership#:#mem_force_notification_mode_all#:#Notification activated for all members (changeable)
 membership#:#mem_force_notification_mode_all_sub_blocked#:#Members can deactivate notifications
 membership#:#mem_force_notification_mode_blocked#:#Members will be notified automatically
-membership#:#mem_force_notification_mode_custom#:#Custom
 membership#:#mem_force_notification_mode_self#:#Members have to manually activate notification
 mep#:#mep_all#:#All
 mep#:#mep_all_mobs#:#All Media Objects
@@ -17283,7 +17281,7 @@ trac#:#trac_assigned#:#Assigned
 trac#:#trac_average#:#Average
 trac#:#trac_begin_at#:#Start date
 trac#:#trac_closed_expire#:#Timeout
-trac#:#trac_closed_login#:#Anonymous To Login
+trac#:#trac_closed_login#:#Change of status - anonymous to logged-in
 trac#:#trac_closed_manual#:#Logout
 trac#:#trac_closed_misc#:#Misc.
 trac#:#trac_collection_assign#:#Select for Learning Progress Determination
@@ -17471,10 +17469,10 @@ trac#:#trac_session_statistics_mode_today#:#Today
 trac#:#trac_session_statistics_mode_week#:#Week
 trac#:#trac_session_statistics_mode_year#:#Year
 trac#:#trac_session_statistics_no_data#:#No data for this statistics could be found.
-trac#:#trac_sessions_closed#:#Leavings
-trac#:#trac_sessions_opened#:#Admissions
+trac#:#trac_sessions_closed#:#Exits
+trac#:#trac_sessions_opened#:#Entrances
 trac#:#trac_settings#:#Settings
-trac#:#trac_settings_saved#:#Settings saved
+trac#:#trac_settings_saved#:#Settings saved.
 trac#:#trac_short_system_load#:#Short term
 trac#:#trac_show_graph#:#Show Graph
 trac#:#trac_show_progress_block#:#Show Personal Progress Chart in ‘Content’-Tab
@@ -17497,7 +17495,7 @@ trac#:#trac_title#:#Title
 trac#:#trac_title_description#:#Title / Description
 trac#:#trac_total_online#:#Total Time Online
 trac#:#trac_trash#:#Moved to Trash
-trac#:#trac_update_edit_user#:#Settings saved
+trac#:#trac_update_edit_user#:#Settings saved.
 trac#:#trac_updated_status#:#Saved learning progress status.
 trac#:#trac_user_data#:#User Data
 trac#:#trac_valid_request#:#Max. Time Between Requests

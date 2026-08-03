@@ -9890,7 +9890,7 @@ file#:#copyright_custom#:#Benutzerdefiniert
 file#:#copyright_custom_info#:#Lizenz auswählen, welche auf alle entpackten Dateien dieses Archivs angewandt wird.
 file#:#copyright_inherited#:#Vererbt
 file#:#copyright_inherited_info#:#Lizenz des Zip-Archivs auf seine entpackten Dateien anwenden. <br \>Lizenz des Zip-Archivs: %s.
-file#:#could_not_create_file_objs#:#Beim Erstellen der Dateiobjekte ist ein Fehler aufgetreten, wenden Sie sich an die Administrierenden der Plattform.
+file#:#could_not_create_file_objs#:#Beim Erstellen der Dateiobjekte ist ein Fehler aufgetreten. Bitte wenden Sie sich an die technische Betreuung dieser Installation.
 file#:#de_activate_icon#:#(De-)Aktivieren
 file#:#download_ascii_filename#:#Nur ASCII-Zeichen im Download
 file#:#download_ascii_filename_info#:#Die Namen heruntergeladener Dateien enthalten nur ASCII-Zeichen und können so auf allen Systemen problemlos genutzt werden. Andere Zeichen werden durch Unterstriche ersetzt. Auf Installationen, die Dateinamen mit nicht-lateinischen Schriftzeichen nutzen, muss diese Option deaktiviert werden.
@@ -17334,7 +17334,7 @@ trac#:#trac_assigned#:#Ausgewählt
 trac#:#trac_average#:#Durchschnitt
 trac#:#trac_begin_at#:#Startdatum
 trac#:#trac_closed_expire#:#Timeout
-trac#:#trac_closed_login#:#Anonym zu Login
+trac#:#trac_closed_login#:#Statusänderung - Anonym zu angemeldet 
 trac#:#trac_closed_manual#:#Logout
 trac#:#trac_closed_misc#:#Sonstige
 trac#:#trac_collection_assign#:#Für Lernfortschritts-Bestimmung auswählen
