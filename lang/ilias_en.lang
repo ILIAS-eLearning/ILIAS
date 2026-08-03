@@ -17441,8 +17441,8 @@ trac#:#trac_session_statistics_mode_today#:#Today
 trac#:#trac_session_statistics_mode_week#:#Week
 trac#:#trac_session_statistics_mode_year#:#Year
 trac#:#trac_session_statistics_no_data#:#No data for this statistics could be found.
-trac#:#trac_sessions_closed#:#Leavings
-trac#:#trac_sessions_opened#:#Admissions
+trac#:#trac_sessions_closed#:#Exits
+trac#:#trac_sessions_opened#:#Entrances
 trac#:#trac_settings#:#Settings
 trac#:#trac_settings_saved#:#Settings saved.
 trac#:#trac_short_system_load#:#Short term
