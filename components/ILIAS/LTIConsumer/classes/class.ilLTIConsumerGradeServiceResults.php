@@ -29,7 +29,10 @@ declare(strict_types=1);
 
 class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
 {
-    public function __construct(ilLTIConsumerServiceBase $service)
+    public function __construct(
+        ilLTIConsumerServiceBase $service,
+        private readonly ilLTIConsumerLineItemRepository $lineItemRepository
+    )
     {
         parent::__construct($service);
         $this->id = 'Result.collection';
@@ -50,9 +53,9 @@ class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
                 ilLTIConsumerGradeService::SCOPE_GRADESERVICE_RESULT_READ
             ]);
             if (!$token) {
-                throw new Exception('invalid request', 401);
+                throw ilLTIConsumerHttpException::unauthorized();
             }
-            $clientId = $this->getClientIdFromToken($token);
+            $clientId = $token->getClientId();
 
             global $DIC;
             $ilDB = $DIC->database();
@@ -66,27 +69,20 @@ class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
                 $object = new ilObjLTIConsumer($itemId, false);
                 $provider = $object->getProvider();
                 if (!$provider || (!$provider->isGradeSynchronization() && !$provider->getHasOutcome())) {
-                    throw new Exception('grade synchronization not enabled', 403);
+                    throw ilLTIConsumerHttpException::forbidden('grade synchronization not enabled');
                 }
                 if ($provider->getClientId() !== $clientId) {
-                    throw new Exception('invalid clientId', 403);
+                    throw ilLTIConsumerHttpException::forbidden('invalid clientId');
                 }
                 $scoreMaximum = $object->getScoreMaximum() > 0 ? $object->getScoreMaximum() : 1.0;
             } else {
                 $storedId = -$itemId;
-                if ($storedId <= 0 || !$ilDB->tableExists('lti_consumer_lineitems')) {
-                    throw new Exception('LineItem not found', 404);
+                if ($storedId <= 0) {
+                    throw ilLTIConsumerHttpException::notFound('LineItem not found');
                 }
 
-                $lineItemQuery = 'SELECT id FROM lti_consumer_lineitems'
-                    . ' WHERE id = ' . $ilDB->quote($storedId, 'integer')
-                    . ' AND context_id = ' . $ilDB->quote($contextId, 'integer')
-                    . ' AND client_id = ' . $ilDB->quote($clientId, 'text')
-                    . ' AND enabled = ' . $ilDB->quote(1, 'integer');
-                $lineItemRes = $ilDB->query($lineItemQuery);
-                $lineItemRow = $ilDB->fetchAssoc($lineItemRes);
-                if (!$lineItemRow) {
-                    throw new Exception('LineItem not found', 404);
+                if ($this->lineItemRepository->get($storedId, $contextId, $clientId) === null) {
+                    throw ilLTIConsumerHttpException::notFound('LineItem not found');
                 }
                 $response->setContentType('application/vnd.ims.lis.v2.resultcontainer+json');
                 $response->setBody(json_encode([], JSON_UNESCAPED_SLASHES));
@@ -195,13 +191,18 @@ class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
 
             $response->setContentType('application/vnd.ims.lis.v2.resultcontainer+json');
             $response->setBody(json_encode($resultsArr, JSON_UNESCAPED_SLASHES));
-        } catch (Exception $e) {
-            $code = $e->getCode();
-            $response->setCode($code >= 400 && $code < 600 ? $code : 500);
+        } catch (ilLTIConsumerHttpException $e) {
+            $response->setCode($e->getCode());
+            $response->setReason($e->getMessage());
+        } catch (Throwable $e) {
+            $response->setCode(500);
             $response->setReason($e->getMessage());
         }
     }
 
+    /**
+     * @return array{userId: string, limit: int}
+     */
     protected function getFilters(): array
     {
         global $DIC;
@@ -214,15 +215,6 @@ class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
             'userId' => $query->has('user_id') ? $query->retrieve('user_id', $string) : '',
             'limit' => is_numeric($limit) ? max(0, (int) $limit) : 0
         ];
-    }
-
-    protected function getClientIdFromToken(object $token): string
-    {
-        $clientId = $token->sub ?? '';
-        if (!is_string($clientId) || $clientId === '') {
-            throw new Exception('invalid request', 401);
-        }
-        return $clientId;
     }
 
     protected function getLtiUserId(int $privacyIdent, int $userId, string $userIdent): string

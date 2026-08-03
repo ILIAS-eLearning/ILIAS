@@ -57,42 +57,41 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
         try {
             $token = $this->checkTool(array($scope));
             if (is_null($token)) {
-                throw new Exception('invalid request', 401);
+                throw ilLTIConsumerHttpException::unauthorized();
             }
             $this->checkToolMatchesObject((int) $itemId, $token);
 
             $this->checkScore($response->getRequestData(), (int) $itemId);
             $response->setCode(204);
-        } catch (Exception $e) {
-            $code = $e->getCode();
-            $response->setCode($code >= 400 && $code < 600 ? $code : 500);
+        } catch (ilLTIConsumerHttpException $e) {
+            $response->setCode($e->getCode());
+            $response->setReason($e->getMessage());
+        } catch (Throwable $e) {
+            $response->setCode(500);
             $response->setReason($e->getMessage());
         }
     }
 
-    protected function checkToolMatchesObject(int $objId, object $token): void
+    protected function checkToolMatchesObject(int $objId, ilLTIConsumerAccessToken $token): void
     {
-        $clientId = $token->sub ?? '';
-        if (!is_string($clientId) || $clientId === '') {
-            throw new Exception('invalid request', 401);
-        }
+        $clientId = $token->getClientId();
 
         if (ilObject::_lookupType($objId) !== 'lti') {
-            throw new Exception('Tool for Object not available', 404);
+            throw ilLTIConsumerHttpException::notFound('Tool for Object not available');
         }
 
         $ltiObject = new ilObjLTIConsumer($objId, false);
         $provider = $ltiObject->getProvider();
         if (!$provider instanceof ilLTIConsumeProvider) {
-            throw new Exception('Tool for Object not available', 404);
+            throw ilLTIConsumerHttpException::notFound('Tool for Object not available');
         }
 
         if ($provider->getClientId() !== $clientId) {
-            throw new Exception('invalid clientId', 403);
+            throw ilLTIConsumerHttpException::forbidden('invalid clientId');
         }
 
         if (!$provider->isGradeSynchronization() && !$provider->getHasOutcome()) {
-            throw new Exception('grade synchronization not enabled', 403);
+            throw ilLTIConsumerHttpException::forbidden('grade synchronization not enabled');
         }
     }
 
@@ -104,33 +103,35 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
 
         $logger->info('checkScore');
         $score = json_decode($requestData);
+        $activityProgress = is_object($score) && is_string($score->activityProgress ?? null)
+            ? ilLTIConsumerActivityProgress::tryFrom($score->activityProgress) : null;
+        $gradingProgress = is_object($score) && is_string($score->gradingProgress ?? null)
+            ? ilLTIConsumerGradingProgress::tryFrom($score->gradingProgress) : null;
         if (!is_object($score) || json_last_error() !== JSON_ERROR_NONE ||
             !isset($score->userId) ||
             !isset($score->gradingProgress) ||
             !isset($score->activityProgress) ||
             !isset($score->timestamp) ||
             !is_scalar($score->userId) ||
-            !is_string($score->gradingProgress) ||
-            !is_string($score->activityProgress) ||
             !is_scalar($score->timestamp) ||
-            !self::isValidActivityProgress($score->activityProgress) ||
-            !self::isValidGradingProgress($score->gradingProgress) ||
+            $activityProgress === null ||
+            $gradingProgress === null ||
             !self::validate_iso8601_date((string) $score->timestamp) ||
             (isset($score->scoreGiven) && !is_numeric($score->scoreGiven)) ||
             (isset($score->scoreGiven) && !isset($score->scoreMaximum)) ||
             (isset($score->scoreMaximum) && (!is_numeric($score->scoreMaximum) || (float) $score->scoreMaximum <= 0)) ||
             (isset($score->scoreGiven) && (float) $score->scoreGiven < 0) ||
-            ($score->gradingProgress === 'FullyGraded' && (!isset($score->scoreGiven) || !isset($score->scoreMaximum)))
+            ($gradingProgress === ilLTIConsumerGradingProgress::FULLY_GRADED && (!isset($score->scoreGiven) || !isset($score->scoreMaximum)))
         ) {
             ilObjLTIConsumer::getLogger()->info('Incorrect score received');
             ilObjLTIConsumer::getLogger()->dump($score);
-            throw new Exception('Incorrect score received', 400);
+            throw ilLTIConsumerHttpException::badRequest('Incorrect score received');
         }
 
         $userId = $this->resolveUserIdFromLtiIdent($objId, (string) $score->userId);
         if ($userId == null) {
             ilObjLTIConsumer::getLogger()->info('User not available');
-            throw new Exception('User not available', 404);
+            throw ilLTIConsumerHttpException::notFound('User not available');
         }
 
         $scoreGiven = isset($score->scoreGiven) ? (float) $score->scoreGiven : null;
@@ -141,7 +142,7 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
         if ($scoreGiven !== null && $scoreMaximum !== null) {
             $scoreProgress = $scoreGiven / $scoreMaximum;
         }
-        if ($score->gradingProgress === 'FullyGraded') {
+        if ($gradingProgress === ilLTIConsumerGradingProgress::FULLY_GRADED) {
             $result = $scoreProgress;
         }
 
@@ -150,25 +151,23 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
         $ltiObjRes->readProperties($objId);
         // check the object status
         if (!$ltiObjRes->isAvailable()) {
-            throw new Exception('Tool for Object not available', 404);
+            throw ilLTIConsumerHttpException::notFound('Tool for Object not available');
         }
 
         $lp_status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
         $updateLpStatus = false;
 
-        if (in_array($score->activityProgress, ['Started', 'InProgress'], true) ||
-            ($score->activityProgress === 'Submitted' && $score->gradingProgress !== 'FullyGraded')) {
+        if ($activityProgress->isInProgress() ||
+            ($activityProgress === ilLTIConsumerActivityProgress::SUBMITTED && $gradingProgress->isPending())) {
             $lp_status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
             $updateLpStatus = true;
-        } elseif (in_array($score->activityProgress, ['Submitted', 'Completed'], true)) {
-            if ($score->gradingProgress === 'FullyGraded' && $result !== null) {
+        } elseif ($activityProgress->isSubmittedOrCompleted()) {
+            if ($gradingProgress === ilLTIConsumerGradingProgress::FULLY_GRADED && $result !== null) {
                 if ($result >= $ltiObjRes->getMasteryScore()) {
                     $lp_status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
                 } else {
                     $lp_status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
                 }
-            } elseif ($score->gradingProgress === 'Failed') {
-                $lp_status = ilLPStatus::LP_STATUS_FAILED_NUM;
             } else {
                 $lp_status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
             }
@@ -224,35 +223,13 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
             'usr_id' => array('integer', $userId),
             'score_given' => array('float', $scoreGiven),
             'score_maximum' => array('float', $scoreMaximum),
-            'activity_progress' => array('text', $score->activityProgress),
-            'grading_progress' => array('text', $score->gradingProgress),
+            'activity_progress' => array('text', $activityProgress->value),
+            'grading_progress' => array('text', $gradingProgress->value),
             'lti_timestamp' => array('timestamp', $ltiTimestamp->format("Y-m-d H:i:s")),
             'stored' => array('timestamp', date("Y-m-d H:i:s"))
         ];
         $DIC->database()->insert('lti_consumer_grades', $gradeValues);
 
-    }
-
-    protected static function isValidActivityProgress(string $activityProgress): bool
-    {
-        return in_array($activityProgress, [
-            'Initialized',
-            'Started',
-            'InProgress',
-            'Submitted',
-            'Completed'
-        ], true);
-    }
-
-    protected static function isValidGradingProgress(string $gradingProgress): bool
-    {
-        return in_array($gradingProgress, [
-            'FullyGraded',
-            'Pending',
-            'PendingManual',
-            'Failed',
-            'NotReady'
-        ], true);
     }
 
     public static function validate_iso8601_date(string $date): bool
