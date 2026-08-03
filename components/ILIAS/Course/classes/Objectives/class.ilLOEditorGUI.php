@@ -52,6 +52,7 @@ class ilLOEditorGUI
     private ObjectFacade $content_style_domain;
     protected GlobalHttpState $http;
     protected Factory $refinery;
+    protected ilAccess $access;
 
     private int $test_type = self::TEST_TYPE_UNDEFINED;
 
@@ -75,12 +76,17 @@ class ilLOEditorGUI
         $this->logger = $DIC->logger()->crs();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->access = $DIC->access();
     }
 
     public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
+
+        if (!$this->access->checkAccess('write', '', $this->getParentObject()->getRefId())) {
+            throw new \ilPermissionException($this->lng->txt("permission_denied"));
+        }
 
         $this->setTabs();
         switch ($next_class) {
