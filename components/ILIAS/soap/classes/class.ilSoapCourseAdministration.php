@@ -122,7 +122,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
             return $this->raiseError('Node already deleted', 'Client');
         }
 
-        $log->write("SOAP ilObjectGUI::confirmedDeleteObject(), moved ref_id " . $course_id . " to trash");
+        $log->info("SOAP ilObjectGUI::confirmedDeleteObject(), moved ref_id " . $course_id . " to trash");
         return true;
     }
 

@@ -54,7 +54,7 @@ class ilVirusScannerSophos extends ilVirusScanner
         }
 
         // sophie has failed (probably the daemon doesn't run)
-        $this->log->write(
+        $this->log->info(
             'ERROR (Virus Scanner failed): '
             . $this->scanResult
             . '; COMMAMD=' . $cmd

@@ -35,7 +35,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
         $ilLog = $DIC['ilLog'];
         $message = "Standard fields cannot be read from DB";
         $this->main_tpl->setOnScreenMessage('failure', $message);
-        $ilLog->write("[ilDclStandardField] " . $message);
+        $ilLog->info("[ilDclStandardField] " . $message);
     }
 
     public function doCreate(): void
@@ -44,7 +44,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
         $ilLog = $DIC['ilLog'];
         $message = "Standard fields cannot be written to DB";
         $this->main_tpl->setOnScreenMessage('failure', $message);
-        $ilLog->write("[ilDclStandardField] " . $message);
+        $ilLog->info("[ilDclStandardField] " . $message);
     }
 
     public function doUpdate(): void

@@ -77,7 +77,7 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
     {
         $this->initMemberExportDirectory();
         if (!$this->writeToFile($a_data, $this->getMemberExportDirectory() . '/' . $a_rel_name)) {
-            $this->logger->write('Cannot write to file: ' . $this->getMemberExportDirectory() . '/' . $a_rel_name);
+            $this->logger->info('Cannot write to file: ' . $this->getMemberExportDirectory() . '/' . $a_rel_name);
             return false;
         }
 

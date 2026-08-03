@@ -172,7 +172,7 @@ class ilDclContentExporter
         $soap_client->setResponseTimeout(5);
         $soap_client->enableWSDL(true);
 
-        $DIC->logger()->root()->write(__METHOD__ . ': Trying to call Soap client...');
+        $DIC->logger()->root()->info('Trying to call Soap client...');
 
         array_unshift($soap_params, $new_session_id . '::' . $client_id);
 

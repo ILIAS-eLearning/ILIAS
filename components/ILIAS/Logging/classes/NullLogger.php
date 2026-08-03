@@ -85,14 +85,6 @@ class NullLogger extends ilLogger
         throw new Exception('Can not return monolog logger from a null logger.');
     }
 
-    public function write(string $message, $level = ilLogLevel::INFO, array $context = []): void
-    {
-    }
-
-    public function writeLanguageLog(string $topic, string $lang_key): void
-    {
-    }
-
     public function logStack(?int $level = null, string $message = '', array $context = []): void
     {
     }

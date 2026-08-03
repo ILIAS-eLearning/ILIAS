@@ -62,7 +62,7 @@ class ilSurveyExporter extends ilXmlExporter
             // here: svy_data/svy_301/export/1698817474__0__svy_301
             //       svy_301/export/1698817474__0__svy_301/Modules/Survey/set_1
             //       svy_data/svy_301/export/1698817474__0__svy_301.zip
-            $GLOBALS['ilLog']->write(__METHOD__ . ': Created zip file ' . $zip);
+            $GLOBALS['ilLog']->info('Created zip file ' . $zip);
             return "";
         } else {
             return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);

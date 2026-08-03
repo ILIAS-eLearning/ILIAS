@@ -60,7 +60,7 @@ class ilCategoryImporter extends ilXmlImporter
             $parser->startParsing();
             $a_mapping->addMapping('components/ILIAS/Category', 'cat', $a_id, (string) $this->category->getId());
         } catch (ilSaxParserException | Exception $e) {
-            $GLOBALS['ilLog']->write(__METHOD__ . ': Parsing failed with message, "' . $e->getMessage() . '".');
+            $GLOBALS['ilLog']->info('Parsing failed with message, "' . $e->getMessage() . '".');
         }
 
         foreach ($a_mapping->getMappingsOfEntity('components/ILIAS/Container', 'objs') as $old => $new) {

@@ -47,7 +47,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
         $ilLog = $DIC['ilLog'];
         $obj_id = ilObject::_lookupObjIdByImportId($import_id);
-        $ilLog->write("SOAP getObjIdByImportId(): import_id = " . $import_id . ' obj_id = ' . $obj_id);
+        $ilLog->info("SOAP getObjIdByImportId(): import_id = " . $import_id . ' obj_id = ' . $obj_id);
         return $obj_id ?: "0";
     }
 
@@ -883,7 +883,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             $subtree_nodes = $tree->getSubtree($node_data);
 
             foreach ($subtree_nodes as $node) {
-                $ilLog->write('Soap: removeFromSystemByImportId(). Deleting object with title id: ' . $node['title']);
+                $ilLog->info('Soap: removeFromSystemByImportId(). Deleting object with title id: ' . $node['title']);
                 $tmp_obj = ilObjectFactory::getInstanceByRefId($node['ref_id']);
                 if (!is_object($tmp_obj)) {
                     return $this->raiseError(
@@ -1371,17 +1371,17 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
                 switch ($ref_data['time_target']['timing_type']) {
                     case ilObjectXMLWriter::TIMING_DEACTIVATED:
-                        $ilLog->write(__METHOD__ . ilObjectActivation::TIMINGS_DEACTIVATED . ' ' . $ref_data['time_target']['timing_type']);
+                        $ilLog->info(ilObjectActivation::TIMINGS_DEACTIVATED . ' ' . $ref_data['time_target']['timing_type']);
                         $items->setTimingType(ilObjectActivation::TIMINGS_DEACTIVATED);
                         break;
 
                     case ilObjectXMLWriter::TIMING_TEMPORARILY_AVAILABLE:
-                        $ilLog->write(__METHOD__ . ilObjectActivation::TIMINGS_ACTIVATION . ' ' . $ref_data['time_target']['timing_type']);
+                        $ilLog->info(ilObjectActivation::TIMINGS_ACTIVATION . ' ' . $ref_data['time_target']['timing_type']);
                         $items->setTimingType(ilObjectActivation::TIMINGS_ACTIVATION);
                         break;
 
                     case ilObjectXMLWriter::TIMING_PRESETTING:
-                        $ilLog->write(__METHOD__ . ilObjectActivation::TIMINGS_PRESETTING . ' ' . $ref_data['time_target']['timing_type']);
+                        $ilLog->info(ilObjectActivation::TIMINGS_PRESETTING . ' ' . $ref_data['time_target']['timing_type']);
                         $items->setTimingType(ilObjectActivation::TIMINGS_PRESETTING);
                         break;
                 }
@@ -1429,17 +1429,17 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
                 switch ($ref_data['time_target']['timing_type']) {
                     case ilObjectXMLWriter::TIMING_DEACTIVATED:
-                        $ilLog->write(__METHOD__ . ilObjectActivation::TIMINGS_DEACTIVATED . ' ' . $ref_data['time_target']['timing_type']);
+                        $ilLog->info(ilObjectActivation::TIMINGS_DEACTIVATED . ' ' . $ref_data['time_target']['timing_type']);
                         $items->setTimingType(ilObjectActivation::TIMINGS_DEACTIVATED);
                         break;
 
                     case ilObjectXMLWriter::TIMING_TEMPORARILY_AVAILABLE:
-                        $ilLog->write(__METHOD__ . ilObjectActivation::TIMINGS_ACTIVATION . ' ' . $ref_data['time_target']['timing_type']);
+                        $ilLog->info(ilObjectActivation::TIMINGS_ACTIVATION . ' ' . $ref_data['time_target']['timing_type']);
                         $items->setTimingType(ilObjectActivation::TIMINGS_ACTIVATION);
                         break;
 
                     case ilObjectXMLWriter::TIMING_PRESETTING:
-                        $ilLog->write(__METHOD__ . ilObjectActivation::TIMINGS_PRESETTING . ' ' . $ref_data['time_target']['timing_type']);
+                        $ilLog->info(ilObjectActivation::TIMINGS_PRESETTING . ' ' . $ref_data['time_target']['timing_type']);
                         $items->setTimingType(ilObjectActivation::TIMINGS_PRESETTING);
                         break;
                 }

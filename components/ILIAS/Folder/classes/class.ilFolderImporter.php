@@ -48,7 +48,7 @@ class ilFolderImporter extends ilXmlImporter
             $parser->start();
             $a_mapping->addMapping('components/ILIAS/Folder', 'fold', $a_id, (string) $this->folder->getId());
         } catch (ilSaxParserException $e) {
-            $GLOBALS['ilLog']->write(__METHOD__ . ': Parsing failed with message, "' . $e->getMessage() . '".');
+            $GLOBALS['ilLog']->info(__METHOD__ . ': Parsing failed with message, "' . $e->getMessage() . '".');
         }
     }
 }

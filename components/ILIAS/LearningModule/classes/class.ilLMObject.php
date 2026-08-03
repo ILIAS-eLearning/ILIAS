@@ -620,7 +620,7 @@ class ilLMObject
         }
 
         if ($tree->isInTree($parent_id) && !$tree->isInTree($a_obj->getId())) {
-            $ilLog->write("LMObject::putInTree: insertNode, ID: " . $a_obj->getId() .
+            $ilLog->info("insertNode, ID: " . $a_obj->getId() .
                 "Parent ID: " . $parent_id . ", Target: " . $target);
 
             $tree->insertNode($a_obj->getId(), $parent_id, $target);
@@ -761,7 +761,7 @@ class ilLMObject
             $item = new ilLMPageObject($lm_obj, $a_item_id);
         }
 
-        $ilLog->write("Getting from clipboard type " . $item_type . ", " .
+        $ilLog->info("Getting from clipboard type " . $item_type . ", " .
             "Item ID: " . $a_item_id . ", of original LM: " . $item_lm_id);
 
         if ($item_lm_id != $a_target_lm->getId() && !$a_as_copy) {
@@ -795,7 +795,7 @@ class ilLMObject
             $target_item = $item;
         }
 
-        $ilLog->write("Putting into tree type " . $target_item->getType() .
+        $ilLog->info("Putting into tree type " . $target_item->getType() .
             "Item ID: " . $target_item->getId() . ", Parent: " . $a_parent_id . ", " .
             "Target: " . $a_target . ", Item LM:" . $target_item->getContentObject()->getId());
 

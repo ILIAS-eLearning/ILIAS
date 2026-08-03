@@ -822,7 +822,7 @@ class ilSurveyParticipantsGUI
             }
         } catch (Exception $e) {
             $ilLog = $this->log;
-            $ilLog->write('Error: ' . $e->getMessage());
+            $ilLog->info('Error: ' . $e->getMessage());
         }
         $this->tpl->setVariable("ADM_CONTENT", $form_gui->getHTML());
     }
@@ -845,7 +845,7 @@ class ilSurveyParticipantsGUI
             }
         } catch (Exception $e) {
             $ilLog = $this->log;
-            $ilLog->write('Error: ' . $e->getMessage());
+            $ilLog->info('Error: ' . $e->getMessage());
         }
         $this->tpl->setVariable("ADM_CONTENT", $form_gui->getHTML());
     }

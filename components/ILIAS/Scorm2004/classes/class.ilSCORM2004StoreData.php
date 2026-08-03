@@ -659,7 +659,7 @@ class ilSCORM2004StoreData
         $ilDB = $DIC->database();
         $ilLog = $DIC["ilLog"];
         $saved_global_status = $data->saved_global_status;
-        $ilLog->write("saved_global_status=" . $saved_global_status);
+        $ilLog->info("saved_global_status=" . $saved_global_status);
 
         //update percentage_completed, sco_total_time_sec,status in sahs_user
         $totalTime = (int) $data->totalTimeCentisec;

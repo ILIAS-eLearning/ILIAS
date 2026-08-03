@@ -38,7 +38,7 @@ class ilContainerReferenceAppEventListener implements ilAppEventListener
             case 'components/ILIAS/StudyProgramme':
                 switch ($a_event) {
                     case 'delete':
-                        $ilLog->write(__METHOD__ . ': Handling delete event.');
+                        $ilLog->info('Handling delete event.');
                         self::deleteReferences((int) $a_parameter['obj_id']);
                         break;
                 }
@@ -69,7 +69,7 @@ class ilContainerReferenceAppEventListener implements ilAppEventListener
                 case 'prgr':
                     $parent_id = $tree->getParentId($ref_id);
                     $instance->delete();
-                    $ilLog->write(__METHOD__ . ': Deleted reference object of type ' . $instance->getType() . ' with Id ' . $instance->getId());
+                    $ilLog->info('Deleted reference object of type ' . $instance->getType() . ' with Id ' . $instance->getId());
                     $ilAppEventHandler->raise(
                         'components/ILIAS/ContainerReference',
                         'deleteReference',
@@ -82,7 +82,7 @@ class ilContainerReferenceAppEventListener implements ilAppEventListener
                     break;
 
                 default:
-                    $ilLog->write(__METHOD__ . ': Unexpected object type ' . $instance->getType() . ' with Id ' . $instance->getId());
+                    $ilLog->info('Unexpected object type ' . $instance->getType() . ' with Id ' . $instance->getId());
                     break;
             }
         }

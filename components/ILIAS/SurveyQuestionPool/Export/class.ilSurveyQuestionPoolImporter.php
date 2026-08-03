@@ -39,7 +39,7 @@ class ilSurveyQuestionPoolImporter extends ilXmlImporter
         # Try legacy import
         $xml_file = $this->getXmlFileName();
         if (file_exists($xml_file)) {
-            $GLOBALS['ilLog']->write(__METHOD__ . ': Cannot find xml definition: ' . $xml_file);
+            $GLOBALS['ilLog']->info('Cannot find xml definition: ' . $xml_file);
             // import qti data
             $newObj->importObject($xml_file);
         }

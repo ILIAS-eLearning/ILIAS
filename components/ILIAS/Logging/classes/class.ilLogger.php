@@ -100,28 +100,6 @@ abstract class ilLogger
         return $this->logger;
     }
 
-    /**
-     * write log message
-     * @deprecated since version 5.1
-     * @see ilLogger->info(), ilLogger()->debug(), ...
-     */
-    public function write(string $message, $level = ilLogLevel::INFO, array $context = []): void
-    {
-        if (!in_array($level, ilLogLevel::getLevels())) {
-            $level = ilLogLevel::INFO;
-        }
-        $this->getLogger()->log((int) $level, $message, $context);
-    }
-
-    /**
-     * Write language log
-     * @deprecated since version 5.1
-     */
-    public function writeLanguageLog(string $topic, string $lang_key): void
-    {
-        $this->getLogger()->debug("Language (" . $lang_key . "): topic -" . $topic . "- not present");
-    }
-
     public function logStack(?int $level = null, string $message = '', array $context = []): void
     {
         if (is_null($level)) {

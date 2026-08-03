@@ -71,16 +71,16 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
             ilSession::clear('qpl_import_selected_questions');
         } else {
             // Shouldn't happen
-            $DIC['ilLog']->write(__METHOD__ . ': non container and no tax mapping, perhaps old qpl export');
+            $DIC['ilLog']->info('non container and no tax mapping, perhaps old qpl export');
             return;
         }
 
         if (!file_exists($xmlfile)) {
-            $DIC['ilLog']->write(__METHOD__ . ': Cannot find xml definition: ' . $xmlfile);
+            $DIC['ilLog']->info('Cannot find xml definition: ' . $xmlfile);
             return;
         }
         if (!file_exists($qtifile)) {
-            $DIC['ilLog']->write(__METHOD__ . ': Cannot find qti definition: ' . $qtifile);
+            $DIC['ilLog']->info('Cannot find qti definition: ' . $qtifile);
             return;
         }
 
@@ -102,7 +102,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
         // TODO: move all logic to ilObjQuestionPoolGUI::importVerifiedFile and call
         // this method from ilObjQuestionPoolGUI and ilTestImporter
 
-        $DIC['ilLog']->write(__METHOD__ . ': xml file: ' . $xmlfile . ', qti file:' . $qtifile);
+        $DIC['ilLog']->info('xml file: ' . $xmlfile . ', qti file:' . $qtifile);
 
         $qtiParser = new ilQTIParser(
             $importdir,

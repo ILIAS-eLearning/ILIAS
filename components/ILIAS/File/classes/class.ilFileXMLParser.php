@@ -205,7 +205,7 @@ class ilFileXMLParser extends ilSaxParser
     {
         $this->cdata = trim($this->cdata ?? '');
 
-        $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': ' . $this->cdata);
+        $GLOBALS['DIC']['ilLog']->info($this->cdata);
 
         switch ($a_name) {
             case 'File':

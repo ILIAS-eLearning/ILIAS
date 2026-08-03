@@ -769,7 +769,7 @@ EOT;
             foreach (ilObjMediaCast::$purposes as $purpose) {
                 if ($this->form_gui->getInput("delete_" . $purpose)) {
                     $mob->removeMediaItem($purpose);
-                    $ilLog->write("Mcst: deleting purpose $purpose");
+                    $ilLog->info("Mcst: deleting purpose $purpose");
                     continue;
                 }
                 $media_item = $mob->getMediaItem($purpose);
