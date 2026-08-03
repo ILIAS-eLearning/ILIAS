@@ -144,7 +144,8 @@ abstract class ilLTIConsumerResourceBase
     /**
      * Check to make sure the request is valid.
      */
-    public function checkTool(array $scopes = array()): ?object
+    /** @param list<string> $scopes */
+    public function checkTool(array $scopes = array()): ?ilLTIConsumerAccessToken
     {
         $token = $this->getService()->checkTool();
         $permittedScopes = $this->getService()->getPermittedScopes();
@@ -153,16 +154,7 @@ abstract class ilLTIConsumerResourceBase
             return null;
         }
 
-        $tokenScope = $token->{'imsglobal.org.security.scope'} ?? '';
-        if (is_string($tokenScope)) {
-            $tokenScopes = preg_split('/\s+/', trim($tokenScope)) ?: [];
-        } elseif (is_array($tokenScope)) {
-            $tokenScopes = $tokenScope;
-        } else {
-            $tokenScopes = [];
-        }
-
-        if (empty(array_intersect($tokenScopes, $scopes))) {
+        if (empty(array_intersect($token->getScopes(), $scopes))) {
             return null;
         }
 

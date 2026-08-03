@@ -29,7 +29,10 @@ declare(strict_types=1);
 
 class ilLTIConsumerGradeServiceLineItems extends ilLTIConsumerResourceBase
 {
-    public function __construct(ilLTIConsumerServiceBase $service)
+    public function __construct(
+        ilLTIConsumerServiceBase $service,
+        private readonly ilLTIConsumerLineItemRepository $lineItemRepository
+    )
     {
         parent::__construct($service);
         $this->id = 'LineItem.collection';
@@ -54,9 +57,11 @@ class ilLTIConsumerGradeServiceLineItems extends ilLTIConsumerResourceBase
             } else {
                 $response->setCode(405);
             }
-        } catch (Exception $e) {
-            $code = $e->getCode();
-            $response->setCode($code >= 400 && $code < 600 ? $code : 500);
+        } catch (ilLTIConsumerHttpException $e) {
+            $response->setCode($e->getCode());
+            $response->setReason($e->getMessage());
+        } catch (Throwable $e) {
+            $response->setCode(500);
             $response->setReason($e->getMessage());
         }
     }
@@ -68,15 +73,15 @@ class ilLTIConsumerGradeServiceLineItems extends ilLTIConsumerResourceBase
             ilLTIConsumerGradeService::SCOPE_GRADESERVICE_LINEITEM_READ
         ]);
         if (!$token) {
-            throw new Exception('invalid request', 401);
+            throw ilLTIConsumerHttpException::unauthorized();
         }
-        $clientId = $this->getClientIdFromToken($token);
+        $clientId = $token->getClientId();
 
         global $DIC;
         $tree = $DIC->repositoryTree();
         $nodeData = $tree->getNodeData($contextId);
         if (!$nodeData) {
-            throw new Exception('Context not found', 404);
+            throw ilLTIConsumerHttpException::notFound('Context not found');
         }
 
         $lineItems = [];
@@ -102,15 +107,14 @@ class ilLTIConsumerGradeServiceLineItems extends ilLTIConsumerResourceBase
             $lineItems[] = ilLTIConsumerGradeServiceLineItem::buildLineItemData($contextId, $objId, $object);
         }
 
-        $storedRows = $this->loadStoredLineItems($contextId, $clientId);
-        foreach ($storedRows as $row) {
+        foreach ($this->lineItemRepository->getForContextAndClient($contextId, $clientId) as $storedLineItem) {
             $lineItems[] = [
-                'id' => ilLTIConsumerGradeServiceLineItem::buildLineItemUrl($contextId, (int) $row['obj_id_or_pseudo']),
-                'label' => (string) ($row['label'] ?? ''),
-                'scoreMaximum' => (float) ($row['score_maximum'] ?? 1),
-                'resourceId' => (string) ($row['resource_id'] ?? ''),
-                'resourceLinkId' => (string) ($row['resource_link_id'] ?? ''),
-                'tag' => (string) ($row['tag'] ?? '')
+                'id' => ilLTIConsumerGradeServiceLineItem::buildLineItemUrl($contextId, -$storedLineItem->id),
+                'label' => $storedLineItem->label,
+                'scoreMaximum' => $storedLineItem->scoreMaximum,
+                'resourceId' => $storedLineItem->resourceId,
+                'resourceLinkId' => $storedLineItem->resourceLinkId,
+                'tag' => $storedLineItem->tag
             ];
         }
 
@@ -126,83 +130,52 @@ class ilLTIConsumerGradeServiceLineItems extends ilLTIConsumerResourceBase
             ilLTIConsumerGradeService::SCOPE_GRADESERVICE_LINEITEM
         ]);
         if (!$token) {
-            throw new Exception('invalid request', 401);
+            throw ilLTIConsumerHttpException::unauthorized();
         }
-        $clientId = $this->getClientIdFromToken($token);
+        $clientId = $token->getClientId();
 
         $body = json_decode($response->getRequestData());
         if (!is_object($body) || json_last_error() !== JSON_ERROR_NONE) {
-            throw new Exception('Invalid request body', 400);
+            throw ilLTIConsumerHttpException::badRequest('Invalid request body');
         }
 
-        global $DIC;
-        $ilDB = $DIC->database();
         if (!$this->contextContainsClientTool($contextId, $clientId)) {
-            throw new Exception('Context not available for client', 403);
+            throw ilLTIConsumerHttpException::forbidden('Context not available for client');
         }
 
-        $tableExists = $ilDB->tableExists('lti_consumer_lineitems');
-        if (!$tableExists) {
-            throw new Exception('Line items storage not available', 500);
-        }
-
-        $id = $ilDB->nextId('lti_consumer_lineitems');
-        $objIdOrPseudo = -$id;
-
-        $label = isset($body->label) ? (string) $body->label : 'Line Item ' . $id;
+        $label = isset($body->label) ? (string) $body->label : null;
         $scoreMax = isset($body->scoreMaximum) && is_numeric($body->scoreMaximum) && (float) $body->scoreMaximum > 0
             ? (float) $body->scoreMaximum : 1;
         $resourceId = isset($body->resourceId) ? (string) $body->resourceId : '';
         $resourceLinkId = isset($body->resourceLinkId) ? (string) $body->resourceLinkId : '';
         $tag = isset($body->tag) ? (string) $body->tag : '';
 
-        $ilDB->insert('lti_consumer_lineitems', [
-            'id' => ['integer', $id],
-            'context_id' => ['integer', $contextId],
-            'obj_id' => ['integer', null],
-            'client_id' => ['text', $clientId],
-            'label' => ['text', $label],
-            'score_maximum' => ['float', $scoreMax],
-            'resource_id' => ['text', $resourceId],
-            'resource_link_id' => ['text', $resourceLinkId],
-            'tag' => ['text', $tag],
-            'enabled' => ['integer', 1]
-        ]);
-
-        $lineItem = [
-            'id' => ilLTIConsumerGradeServiceLineItem::buildLineItemUrl($contextId, $objIdOrPseudo),
-            'label' => $label,
-            'scoreMaximum' => $scoreMax,
-            'resourceId' => $resourceId,
-            'resourceLinkId' => $resourceLinkId,
-            'tag' => $tag
+        $lineItem = $this->lineItemRepository->create(
+            $contextId,
+            $clientId,
+            $label,
+            $scoreMax,
+            $resourceId,
+            $resourceLinkId,
+            $tag
+        );
+        $lineItemData = [
+            'id' => ilLTIConsumerGradeServiceLineItem::buildLineItemUrl($contextId, -$lineItem->id),
+            'label' => $lineItem->label,
+            'scoreMaximum' => $lineItem->scoreMaximum,
+            'resourceId' => $lineItem->resourceId,
+            'resourceLinkId' => $lineItem->resourceLinkId,
+            'tag' => $lineItem->tag
         ];
 
         $response->setCode(201);
         $response->setContentType('application/vnd.ims.lis.v2.lineitem+json');
-        $response->setBody(json_encode($lineItem, JSON_UNESCAPED_SLASHES));
+        $response->setBody(json_encode($lineItemData, JSON_UNESCAPED_SLASHES));
     }
 
-    protected function loadStoredLineItems(int $contextId, string $clientId): array
-    {
-        global $DIC;
-        $ilDB = $DIC->database();
-        if (!$ilDB->tableExists('lti_consumer_lineitems')) {
-            return [];
-        }
-        $query = 'SELECT * FROM lti_consumer_lineitems'
-            . ' WHERE context_id = ' . $ilDB->quote($contextId, 'integer')
-            . ' AND client_id = ' . $ilDB->quote($clientId, 'text')
-            . ' AND enabled = ' . $ilDB->quote(1, 'integer');
-        $res = $ilDB->query($query);
-        $rows = [];
-        while ($row = $ilDB->fetchAssoc($res)) {
-            $row['obj_id_or_pseudo'] = -((int) $row['id']);
-            $rows[] = $row;
-        }
-        return $rows;
-    }
-
+    /**
+     * @return array{tag: string, resourceId: string, resourceLinkId: string, limit: int}
+     */
     protected function getFilters(): array
     {
         global $DIC;
@@ -270,12 +243,4 @@ class ilLTIConsumerGradeServiceLineItems extends ilLTIConsumerResourceBase
         return false;
     }
 
-    protected function getClientIdFromToken(object $token): string
-    {
-        $clientId = $token->sub ?? '';
-        if (!is_string($clientId) || $clientId === '') {
-            throw new Exception('invalid request', 401);
-        }
-        return $clientId;
-    }
 }

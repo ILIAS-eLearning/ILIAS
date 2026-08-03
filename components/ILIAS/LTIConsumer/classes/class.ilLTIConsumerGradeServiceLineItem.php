@@ -29,7 +29,10 @@ declare(strict_types=1);
 
 class ilLTIConsumerGradeServiceLineItem extends ilLTIConsumerResourceBase
 {
-    public function __construct(ilLTIConsumerServiceBase $service)
+    public function __construct(
+        ilLTIConsumerServiceBase $service,
+        private readonly ilLTIConsumerLineItemRepository $lineItemRepository
+    )
     {
         parent::__construct($service);
         $this->id = 'LineItem.item';
@@ -63,9 +66,11 @@ class ilLTIConsumerGradeServiceLineItem extends ilLTIConsumerResourceBase
             } else {
                 $response->setCode(405);
             }
-        } catch (Exception $e) {
-            $code = $e->getCode();
-            $response->setCode($code >= 400 && $code < 600 ? $code : 500);
+        } catch (ilLTIConsumerHttpException $e) {
+            $response->setCode($e->getCode());
+            $response->setReason($e->getMessage());
+        } catch (Throwable $e) {
+            $response->setCode(500);
             $response->setReason($e->getMessage());
         }
     }
@@ -77,13 +82,13 @@ class ilLTIConsumerGradeServiceLineItem extends ilLTIConsumerResourceBase
             ilLTIConsumerGradeService::SCOPE_GRADESERVICE_LINEITEM_READ
         ]);
         if (!$token) {
-            throw new Exception('invalid request', 401);
+            throw ilLTIConsumerHttpException::unauthorized();
         }
 
         $object = new ilObjLTIConsumer($itemId, false);
         $provider = $object->getProvider();
         if (!$provider || (!$provider->isGradeSynchronization() && !$provider->getHasOutcome())) {
-            throw new Exception('grade synchronization not enabled', 403);
+            throw ilLTIConsumerHttpException::forbidden('grade synchronization not enabled');
         }
         $this->checkProviderMatchesToken($provider, $token);
 
@@ -99,25 +104,25 @@ class ilLTIConsumerGradeServiceLineItem extends ilLTIConsumerResourceBase
             ilLTIConsumerGradeService::SCOPE_GRADESERVICE_LINEITEM_READ
         ]);
         if (!$token) {
-            throw new Exception('invalid request', 401);
+            throw ilLTIConsumerHttpException::unauthorized();
         }
 
-        $row = $this->findStoredLineItem($itemId, $contextId, $this->getClientIdFromToken($token));
-        if (!$row) {
-            throw new Exception('LineItem not found', 404);
+        $lineItem = $this->findStoredLineItem($itemId, $contextId, $token->getClientId());
+        if ($lineItem === null) {
+            throw ilLTIConsumerHttpException::notFound('LineItem not found');
         }
 
-        $lineItem = [
+        $lineItemData = [
             'id' => self::buildLineItemUrl($contextId, $itemId),
-            'label' => (string) ($row['label'] ?? ''),
-            'scoreMaximum' => (float) ($row['score_maximum'] ?? 1),
-            'resourceId' => (string) ($row['resource_id'] ?? ''),
-            'resourceLinkId' => (string) ($row['resource_link_id'] ?? ''),
-            'tag' => (string) ($row['tag'] ?? '')
+            'label' => $lineItem->label,
+            'scoreMaximum' => $lineItem->scoreMaximum,
+            'resourceId' => $lineItem->resourceId,
+            'resourceLinkId' => $lineItem->resourceLinkId,
+            'tag' => $lineItem->tag
         ];
 
         $response->setContentType('application/vnd.ims.lis.v2.lineitem+json');
-        $response->setBody(json_encode($lineItem, JSON_UNESCAPED_SLASHES));
+        $response->setBody(json_encode($lineItemData, JSON_UNESCAPED_SLASHES));
     }
 
     protected function handlePut(ilLTIConsumerServiceResponse $response, int $contextId, int $itemId, bool $isRealObject): void
@@ -126,20 +131,20 @@ class ilLTIConsumerGradeServiceLineItem extends ilLTIConsumerResourceBase
             ilLTIConsumerGradeService::SCOPE_GRADESERVICE_LINEITEM
         ]);
         if (!$token) {
-            throw new Exception('invalid request', 401);
+            throw ilLTIConsumerHttpException::unauthorized();
         }
-        $clientId = $this->getClientIdFromToken($token);
+        $clientId = $token->getClientId();
 
         $body = json_decode($response->getRequestData());
         if (!is_object($body) || json_last_error() !== JSON_ERROR_NONE) {
-            throw new Exception('Invalid request body', 400);
+            throw ilLTIConsumerHttpException::badRequest('Invalid request body');
         }
 
         if ($isRealObject) {
             $object = new ilObjLTIConsumer($itemId, false);
             $provider = $object->getProvider();
             if (!$provider || (!$provider->isGradeSynchronization() && !$provider->getHasOutcome())) {
-                throw new Exception('grade synchronization not enabled', 403);
+                throw ilLTIConsumerHttpException::forbidden('grade synchronization not enabled');
             }
             $this->checkProviderMatchesToken($provider, $token);
 
@@ -155,44 +160,32 @@ class ilLTIConsumerGradeServiceLineItem extends ilLTIConsumerResourceBase
             $response->setContentType('application/vnd.ims.lis.v2.lineitem+json');
             $response->setBody(json_encode($lineItem, JSON_UNESCAPED_SLASHES));
         } else {
-            $row = $this->findStoredLineItem($itemId, $contextId, $clientId);
-            if (!$row) {
-                throw new Exception('LineItem not found', 404);
+            $lineItem = $this->findStoredLineItem($itemId, $contextId, $clientId);
+            if ($lineItem === null) {
+                throw ilLTIConsumerHttpException::notFound('LineItem not found');
             }
 
-            global $DIC;
-            $ilDB = $DIC->database();
-            $storageId = (int) $row['id'];
-
             $label = isset($body->label) && is_string($body->label) && $body->label !== ''
-                ? (string) $body->label : $row['label'];
+                ? (string) $body->label : $lineItem->label;
             $scoreMax = isset($body->scoreMaximum) && is_numeric($body->scoreMaximum) && (float) $body->scoreMaximum > 0
-                ? (float) $body->scoreMaximum : (float) ($row['score_maximum'] ?? 1);
-            $resourceId = isset($body->resourceId) ? (string) $body->resourceId : (string) ($row['resource_id'] ?? '');
-            $resourceLinkId = isset($body->resourceLinkId) ? (string) $body->resourceLinkId : (string) ($row['resource_link_id'] ?? '');
-            $tag = isset($body->tag) ? (string) $body->tag : (string) ($row['tag'] ?? '');
+                ? (float) $body->scoreMaximum : $lineItem->scoreMaximum;
+            $resourceId = isset($body->resourceId) ? (string) $body->resourceId : $lineItem->resourceId;
+            $resourceLinkId = isset($body->resourceLinkId) ? (string) $body->resourceLinkId : $lineItem->resourceLinkId;
+            $tag = isset($body->tag) ? (string) $body->tag : $lineItem->tag;
+            $lineItem = $lineItem->withValues($label, $scoreMax, $resourceId, $resourceLinkId, $tag);
+            $this->lineItemRepository->update($lineItem);
 
-            $ilDB->update('lti_consumer_lineitems', [
-                'label' => ['text', $label],
-                'score_maximum' => ['float', $scoreMax],
-                'resource_id' => ['text', $resourceId],
-                'resource_link_id' => ['text', $resourceLinkId],
-                'tag' => ['text', $tag]
-            ], [
-                'id' => ['integer', $storageId]
-            ]);
-
-            $lineItem = [
+            $lineItemData = [
                 'id' => self::buildLineItemUrl($contextId, $itemId),
-                'label' => $label,
-                'scoreMaximum' => $scoreMax,
-                'resourceId' => $resourceId,
-                'resourceLinkId' => $resourceLinkId,
-                'tag' => $tag
+                'label' => $lineItem->label,
+                'scoreMaximum' => $lineItem->scoreMaximum,
+                'resourceId' => $lineItem->resourceId,
+                'resourceLinkId' => $lineItem->resourceLinkId,
+                'tag' => $lineItem->tag
             ];
 
             $response->setContentType('application/vnd.ims.lis.v2.lineitem+json');
-            $response->setBody(json_encode($lineItem, JSON_UNESCAPED_SLASHES));
+            $response->setBody(json_encode($lineItemData, JSON_UNESCAPED_SLASHES));
         }
     }
 
@@ -202,15 +195,15 @@ class ilLTIConsumerGradeServiceLineItem extends ilLTIConsumerResourceBase
             ilLTIConsumerGradeService::SCOPE_GRADESERVICE_LINEITEM
         ]);
         if (!$token) {
-            throw new Exception('invalid request', 401);
+            throw ilLTIConsumerHttpException::unauthorized();
         }
-        $clientId = $this->getClientIdFromToken($token);
+        $clientId = $token->getClientId();
 
         if ($isRealObject) {
             $object = new ilObjLTIConsumer($itemId, false);
             $provider = $object->getProvider();
             if (!$provider || (!$provider->isGradeSynchronization() && !$provider->getHasOutcome())) {
-                throw new Exception('grade synchronization not enabled', 403);
+                throw ilLTIConsumerHttpException::forbidden('grade synchronization not enabled');
             }
             $this->checkProviderMatchesToken($provider, $token);
             $object->setScoreMaximum(1);
@@ -219,61 +212,36 @@ class ilLTIConsumerGradeServiceLineItem extends ilLTIConsumerResourceBase
             }
             $object->update();
         } else {
-            $row = $this->findStoredLineItem($itemId, $contextId, $clientId);
-            if (!$row) {
-                throw new Exception('LineItem not found', 404);
+            $lineItem = $this->findStoredLineItem($itemId, $contextId, $clientId);
+            if ($lineItem === null) {
+                throw ilLTIConsumerHttpException::notFound('LineItem not found');
             }
-
-            global $DIC;
-            $ilDB = $DIC->database();
-            $ilDB->update('lti_consumer_lineitems', [
-                'enabled' => ['integer', 0]
-            ], [
-                'id' => ['integer', (int) $row['id']]
-            ]);
+            $this->lineItemRepository->disable($lineItem);
         }
 
         $response->setCode(200);
     }
 
-    protected function findStoredLineItem(int $itemId, int $contextId, string $clientId): ?array
+    protected function findStoredLineItem(int $itemId, int $contextId, string $clientId): ?ilLTIConsumerLineItem
     {
         $storedId = -$itemId;
         if ($storedId <= 0) {
             return null;
         }
 
-        global $DIC;
-        $ilDB = $DIC->database();
-        if (!$ilDB->tableExists('lti_consumer_lineitems')) {
-            return null;
-        }
-
-        $query = 'SELECT * FROM lti_consumer_lineitems'
-            . ' WHERE id = ' . $ilDB->quote($storedId, 'integer')
-            . ' AND context_id = ' . $ilDB->quote($contextId, 'integer')
-            . ' AND client_id = ' . $ilDB->quote($clientId, 'text')
-            . ' AND enabled = ' . $ilDB->quote(1, 'integer');
-        $res = $ilDB->query($query);
-        return $ilDB->fetchAssoc($res) ?: null;
+        return $this->lineItemRepository->get($storedId, $contextId, $clientId);
     }
 
-    protected function checkProviderMatchesToken(ilLTIConsumeProvider $provider, object $token): void
+    protected function checkProviderMatchesToken(ilLTIConsumeProvider $provider, ilLTIConsumerAccessToken $token): void
     {
-        if ($provider->getClientId() !== $this->getClientIdFromToken($token)) {
-            throw new Exception('invalid clientId', 403);
+        if ($provider->getClientId() !== $token->getClientId()) {
+            throw ilLTIConsumerHttpException::forbidden('invalid clientId');
         }
     }
 
-    protected function getClientIdFromToken(object $token): string
-    {
-        $clientId = $token->sub ?? '';
-        if (!is_string($clientId) || $clientId === '') {
-            throw new Exception('invalid request', 401);
-        }
-        return $clientId;
-    }
-
+    /**
+     * @return array{id: string, label: string, scoreMaximum: float, resourceId: string, resourceLinkId: string}
+     */
     public static function buildLineItemData(int $contextId, int $itemId, ilObjLTIConsumer $object): array
     {
         return [

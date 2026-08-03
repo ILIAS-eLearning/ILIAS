@@ -162,16 +162,12 @@ class ilLPStatusLtiOutcome extends ilLPStatus
 
         $latestGrade = $this->getLatestAgsGrade($a_obj_id, $a_usr_id);
         if ($latestGrade !== null) {
-            $activityProgress = (string) ($latestGrade['activity_progress'] ?? '');
-            $gradingProgress = (string) ($latestGrade['grading_progress'] ?? '');
+            $activityProgress = ilLTIConsumerActivityProgress::tryFrom((string) ($latestGrade['activity_progress'] ?? ''));
+            $gradingProgress = ilLTIConsumerGradingProgress::tryFrom((string) ($latestGrade['grading_progress'] ?? ''));
 
-            if ($gradingProgress === 'Failed') {
-                return self::LP_STATUS_FAILED_NUM;
-            }
-
-            if (in_array($activityProgress, ['Started', 'InProgress'], true) ||
-                ($activityProgress === 'Submitted' && $gradingProgress !== 'FullyGraded') ||
-                in_array($gradingProgress, ['Pending', 'PendingManual', 'NotReady'], true)) {
+            if (($activityProgress?->isInProgress() ?? false) ||
+                ($activityProgress === ilLTIConsumerActivityProgress::SUBMITTED && $gradingProgress?->isPending()) ||
+                ($gradingProgress?->isPending() ?? false)) {
                 return self::LP_STATUS_IN_PROGRESS_NUM;
             }
         }
