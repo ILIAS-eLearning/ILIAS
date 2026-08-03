@@ -62,7 +62,7 @@ class ilLTIConsumerGradeSynchronizationGUI
     {
         global $DIC;
 
-        $isMultiActorReport = $this->access->hasOutcomesAccess() || $this->access->hasWriteAccess();
+        $isMultiActorReport = $this->access->hasOutcomesAccess();
 
         $table = new ilLTIConsumerGradeSynchronizationTableGUI($isMultiActorReport);
 
