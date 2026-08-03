@@ -1089,19 +1089,11 @@ class ilObjLTIConsumer extends ilObject2
 
     public static function getDeepLinkingUserIdentifier(ilLTIConsumeProvider $provider, ilObjUser $user): string
     {
-        if (filter_var($user->getEmail(), FILTER_VALIDATE_EMAIL)) {
-            return $user->getEmail();
-        }
-
         return ilCmiXapiUser::getIdentAsId($provider->getPrivacyIdent(), $user);
     }
 
     public static function getDeepLinkingUserEmail(ilLTIConsumeProvider $provider, ilObjUser $user): string
     {
-        if (filter_var($user->getEmail(), FILTER_VALIDATE_EMAIL)) {
-            return $user->getEmail();
-        }
-
         return ilCmiXapiUser::getIdent($provider->getPrivacyIdent(), $user);
     }
 
