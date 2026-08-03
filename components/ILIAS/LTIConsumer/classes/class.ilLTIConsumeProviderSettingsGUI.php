@@ -122,7 +122,15 @@ class ilLTIConsumeProviderSettingsGUI
         $lti_message_hint = json_encode([
             'deployment_id' => $deployment_id,
         ]);
-        $state = bin2hex(random_bytes(16));
+        $state = bin2hex(random_bytes(32));
+        $consumerRefId = ilObjLTIConsumer::getRefIdOfConsumerByDeploymentId((string) $deployment_id);
+        ilSession::set('lti13_deep_linking_state', [
+            'state' => $state,
+            'provider_id' => $deployment_id,
+            'ref_id' => $consumerRefId === null ? 0 : $DIC->repositoryTree()->getParentId($consumerRefId),
+            'flow' => 'content_selection',
+            'created_at' => time()
+        ]);
 
 
         $params = [
