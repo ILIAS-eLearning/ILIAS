@@ -164,9 +164,7 @@ class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
 
             if (empty($resultsArr)) {
                 $gradeQuery = 'SELECT * FROM lti_consumer_grades'
-                    . ' WHERE obj_id = ' . $ilDB->quote($itemId, 'integer')
-                    . ' AND score_given IS NOT NULL'
-                    . ' AND score_maximum IS NOT NULL';
+                    . ' WHERE obj_id = ' . $ilDB->quote($itemId, 'integer');
                 if ($filterUserId !== null) {
                     $gradeQuery .= ' AND usr_id = ' . $ilDB->quote($filterUserId, 'integer');
                 }
@@ -179,6 +177,12 @@ class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
                         continue;
                     }
                     $seenUsers[$userId] = true;
+
+                    // the most recent submission for this user is a cleared score (§3.4.4):
+                    // it must not fall back to an older, non-null grade
+                    if ($gradeRow['score_given'] === null || $gradeRow['score_maximum'] === null) {
+                        continue;
+                    }
 
                     $identQuery = 'SELECT usr_ident FROM cmix_users'
                         . ' WHERE obj_id = ' . $ilDB->quote($itemId, 'integer')
@@ -288,8 +292,6 @@ class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
     ): array {
         $query = 'SELECT score_given, score_maximum, usr_id FROM lti_consumer_grades'
             . ' WHERE obj_id = ' . $db->quote($item_id, 'integer')
-            . ' AND score_given IS NOT NULL'
-            . ' AND score_maximum IS NOT NULL'
             . ' ORDER BY lti_timestamp DESC, stored DESC';
         $result = $db->query($query);
         $line_item_url = ilLTIConsumerGradeServiceLineItem::buildLineItemUrl($context_id, $item_id);
@@ -303,6 +305,13 @@ class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
             }
 
             $seen_user_ids[$user_id] = true;
+
+            // the most recent submission for this user is a cleared score (§3.4.4):
+            // it must not fall back to an older, non-null grade
+            if ($row['score_given'] === null || $row['score_maximum'] === null) {
+                continue;
+            }
+
             $ident_query = 'SELECT usr_ident FROM cmix_users'
                 . ' WHERE obj_id = ' . $db->quote($lti_object_id, 'integer')
                 . ' AND usr_id = ' . $db->quote($user_id, 'integer');
