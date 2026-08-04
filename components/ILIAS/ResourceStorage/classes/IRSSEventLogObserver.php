@@ -28,13 +28,8 @@ use ILIAS\Logging\Logger\LoggerInterface;
  */
 class IRSSEventLogObserver implements Observer
 {
-    public function __construct(private LoggerInterface $lazy_logger)
+    public function __construct(private readonly LoggerInterface $logger)
     {
-    }
-
-    private function logger(): LoggerInterface
-    {
-        return $this->lazy_logger;
     }
 
     public function getId(): string
@@ -51,10 +46,10 @@ class IRSSEventLogObserver implements Observer
     public function update(Event $event, ?Data $data): void
     {
         match ($event->value) {
-            Event::COLLECTION_RESOURCE_ADDED => $this->logger()->info($this->appendData("Collection resource added", $data)),
-            Event::FLAVOUR_BUILD_SUCCESS => $this->logger()->info($this->appendData("Flavour build success", $data)),
-            Event::FLAVOUR_BUILD_FAILED => $this->logger()->warning($this->appendData("Flavour build failed", $data)),
-            default => $this->logger()->debug($this->appendData($event->value, $data))
+            Event::COLLECTION_RESOURCE_ADDED => $this->logger->info($this->appendData("Collection resource added", $data)),
+            Event::FLAVOUR_BUILD_SUCCESS => $this->logger->info($this->appendData("Flavour build success", $data)),
+            Event::FLAVOUR_BUILD_FAILED => $this->logger->warning($this->appendData("Flavour build failed", $data)),
+            default => $this->logger->debug($this->appendData($event->value, $data))
         };
     }
 
