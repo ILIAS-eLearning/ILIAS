@@ -270,7 +270,7 @@ class ilLTIConsumerGradeServiceLineItems extends ilLTIConsumerResourceBase
             $query['resource_link_id'] = $filters['resourceLinkId'];
         }
 
-        $url = ilLTIConsumerGradeServiceLineItem::getServiceRootUrl() . "/ltiservices.php/gradeservice/{$context_id}/lineitems";
+        $url = ilLTIConsumerGradeServiceLineItem::buildLineItemsUrl($context_id);
         $response->addAdditionalHeader('Link: <' . $url . '?' . http_build_query($query) . '>; rel="next"');
     }
 

@@ -945,10 +945,10 @@ class ilObjLTIConsumer extends ilObject2
 
         if ($this->getProvider()->isGradeSynchronization() || $this->getProvider()->getHasOutcome()) {
             $gradeservice = new ilLTIConsumerGradeService();
-            $lineitemUrl = self::getIliasHttpPath()
-                . "/ltiservices.php/gradeservice/" . $contextId . "/lineitems/" . $this->id . "/lineitem";
-            $lineitemsUrl = self::getIliasHttpPath()
-                . "/ltiservices.php/gradeservice/" . $contextId . "/lineitems";
+            // the launch claim and the id the tool reads back from the service must be
+            // identical (AGS 2.0 §3.3.4.3), so both go through the same builder
+            $lineitemUrl = ilLTIConsumerGradeServiceLineItem::buildLineItemUrl((int) $contextId, (int) $this->id);
+            $lineitemsUrl = ilLTIConsumerGradeServiceLineItem::buildLineItemsUrl((int) $contextId);
 
             $launch_vars['custom_lineitem_url'] = $lineitemUrl;
 
