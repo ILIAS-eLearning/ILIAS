@@ -71,7 +71,10 @@ try {
         ilSession::set('lti_dynamic_registration_custom_params', $customParams);
     }
     ilSession::set('lti_dynamic_registration_client_id', $clientId);
-    header("Location: " . $url . "&openid_configuration=" . urlencode(ilObjLTIConsumer::getOpenidConfigUrl()) . "&registration_token=" . $regToken);
+    // a tool registration URL usually carries no query string of its own, so the
+    // parameters must start with "?" in that case or they end up in the path
+    $separator = str_contains($url, '?') ? '&' : '?';
+    header("Location: " . $url . $separator . "openid_configuration=" . urlencode(ilObjLTIConsumer::getOpenidConfigUrl()) . "&registration_token=" . $regToken);
 } catch (Exception $exception) {
     ilObjLTIConsumer::sendResponseError(500, "error in ltiregstart.php: " . $exception->getMessage());
 }
