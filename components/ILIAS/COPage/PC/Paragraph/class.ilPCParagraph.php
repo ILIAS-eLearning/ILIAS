@@ -1570,6 +1570,12 @@ class ilPCParagraph extends ilPageContent
      */
     public static function handleAjaxContentPost(string $text): string
     {
+        // #48126
+        $text = str_replace(
+            ["&lt;li/&gt;"],
+            ["&lt;li&gt; &lt;/li&gt;"],
+            $text
+        );
         $text = str_replace(
             array("&lt;ul&gt;", "&lt;/ul&gt;"),
             array("<SimpleBulletList>", "</SimpleBulletList>"),
