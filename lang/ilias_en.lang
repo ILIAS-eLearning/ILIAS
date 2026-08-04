@@ -5380,7 +5380,6 @@ common#:#preconditions_obligatory_hint#:#You have to fulfill all of the followin
 common#:#preconditions_optional_hint#:#You have to fulfill <b>%s</b> of the following preconditions
 common#:#predefined_template#:#Predefined role template
 common#:#preferences#:#Preferences
-common#:#presentation_table_more#:#Show More
 common#:#preview#:#Preview
 common#:#preview_create#:#Create Preview
 common#:#preview_delete#:#Delete Preview

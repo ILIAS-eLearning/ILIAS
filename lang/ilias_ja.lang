@@ -5379,7 +5379,6 @@ common#:#preconditions_obligatory_hint#:#次の前提条件を遂行してくだ
 common#:#preconditions_optional_hint#:#次の前提条件<b>%s</b>の中から遂行してください
 common#:#predefined_template#:#事前定義の役割テンプレート
 common#:#preferences#:#プレファレンス
-common#:#presentation_table_more#:#詳しく見る
 common#:#preview#:#プレビュー
 common#:#preview_create#:#プレビューを作成
 common#:#preview_delete#:#プレビューを削除

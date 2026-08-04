@@ -201,11 +201,10 @@ class PresentationTest extends TableTestBase
                                   </div>
                               </div>
                           </dl>
-                          <button class="btn btn-link" id="id_7">presentation_table_more</button>
                        </div>
                    </div>
                    <div class="il-table-presentation-actions col-lg-auto col-sm-12">
-                        <button class="btn btn-default" data-action="#" id="id_8">do</button><br />
+                        <button class="btn btn-default" data-action="#" id="id_7">do</button><br />
                    </div>
                    <div class="il-table-presentation-row-expanded col-lg-12 col-sm-12">
                         <div class="row">
@@ -294,7 +293,6 @@ EXP;
                         <h4 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal...');">some title</h4>
                         <div class="il-table-presentation-row-header-fields">
                             <dl></dl>
-                            <button class="btn btn-link" id="id_7">presentation_table_more</button>
                         </div>
                     </div>
                     <div class="il-table-presentation-actions col-lg-auto col-sm-12"></div>
