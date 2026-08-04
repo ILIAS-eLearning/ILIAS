@@ -293,25 +293,31 @@ class ilLTIConsumerGradeServiceLineItem extends ilLTIConsumerResourceBase
 
     public static function buildLineItemUrl(int $contextId, int $itemId): string
     {
-        return self::getServiceRootUrl() . "/ltiservices.php/gradeservice/{$contextId}/lineitems/{$itemId}/lineitem";
+        return self::buildLineItemsUrl($contextId) . "/{$itemId}/lineitem";
+    }
+
+    public static function buildLineItemsUrl(int $contextId): string
+    {
+        return self::getServiceRootUrl() . "/ltiservices.php/gradeservice/{$contextId}/lineitems";
     }
 
     /**
-     * ilObjLTIConsumer::getIliasHttpPath() derives its base path from the current
-     * request URI, which breaks here: ltiservices.php uses PATH_INFO routing, so
-     * REQUEST_URI already contains "/gradeservice/{context}/lineitems/...", and
-     * that gets duplicated into every line item URL built from within this script.
-     * SCRIPT_NAME is not affected by PATH_INFO, so it stays safe for this purpose.
+     * AGS 2.0 §3.2.3 asks for a stable line item URL and §3.3.4.3 requires the id a
+     * tool reads back to be identical to the lineitem claim it received at launch.
+     * Both are built from here, so the base must not depend on the current request:
+     * ilObjLTIConsumer::getIliasHttpPath() derives it from REQUEST_URI, which already
+     * contains "/gradeservice/{context}/lineitems/..." under the PATH_INFO routing of
+     * ltiservices.php, and HTTP_HOST does not survive a reverse proxy. The configured
+     * http_path is the same source ILIAS uses for its own absolute links.
      */
     public static function getServiceRootUrl(): string
     {
         global $DIC;
 
-        $protocol = $DIC['https']->isDetected() ? 'https://' : 'http://';
-        $host = $_SERVER['HTTP_HOST'];
-        $scriptDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? ''));
-        $scriptDir = $scriptDir === '/' ? '' : rtrim($scriptDir, '/');
+        $http_path = ilContext::modifyHttpPath(
+            $DIC['ilIliasIniFile']->readVariable('server', 'http_path')
+        );
 
-        return ilContext::modifyHttpPath($protocol . $host . $scriptDir);
+        return (new \ILIAS\Data\Factory())->uri(rtrim($http_path, '/'))->getBaseURI();
     }
 }
