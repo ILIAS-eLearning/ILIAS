@@ -15,11 +15,12 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-class HttpPathBuilderTest extends TestCase
+final class HttpPathBuilderTest extends TestCase
 {
     /**
      * @return Generator<string, array{
@@ -109,6 +110,71 @@ class HttpPathBuilderTest extends TestCase
         );
 
         $path_builder->build();
+    }
+
+    public function testContentDomainIsRejectedAsApplicationHostWhenIsolationActive(): void
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('reserved for asset delivery');
+
+        $path_builder = new \ILIAS\Init\Environment\HttpPathBuilder(
+            new \ILIAS\Data\Factory(),
+            // content host added to allowed_hosts so we reach the isolation check
+            $this->getSettingsMock('https://app.ilias.de/soap/server.php?wsdl=1', 'content.ilias.de'),
+            $this->getHttpsMock(),
+            $this->getIniMock('https://app.ilias.de'),
+            [
+                'HTTP_HOST' => 'content.ilias.de',
+                'REQUEST_URI' => '/login.php',
+            ],
+            \ILIAS\FileDelivery\Isolation\IsolationConfig::fromArray([
+                \ILIAS\FileDelivery\Isolation\IsolationConfig::KEY_ACTIVATED => true,
+                \ILIAS\FileDelivery\Isolation\IsolationConfig::KEY_CONTENT_DOMAIN => 'https://content.ilias.de',
+                \ILIAS\FileDelivery\Isolation\IsolationConfig::KEY_ILIAS_DOMAIN => 'https://app.ilias.de',
+            ])
+        );
+
+        $path_builder->build();
+    }
+
+    public function testApplicationHostStillAllowedWhenIsolationActive(): void
+    {
+        $path_builder = new \ILIAS\Init\Environment\HttpPathBuilder(
+            new \ILIAS\Data\Factory(),
+            $this->getSettingsMock('https://app.ilias.de/soap/server.php?wsdl=1', ''),
+            $this->getHttpsMock(),
+            $this->getIniMock('https://app.ilias.de'),
+            [
+                'HTTP_HOST' => 'app.ilias.de',
+                'REQUEST_URI' => '/login.php',
+            ],
+            \ILIAS\FileDelivery\Isolation\IsolationConfig::fromArray([
+                \ILIAS\FileDelivery\Isolation\IsolationConfig::KEY_ACTIVATED => true,
+                \ILIAS\FileDelivery\Isolation\IsolationConfig::KEY_CONTENT_DOMAIN => 'https://content.ilias.de',
+                \ILIAS\FileDelivery\Isolation\IsolationConfig::KEY_ILIAS_DOMAIN => 'https://app.ilias.de',
+            ])
+        );
+
+        $this->assertSame('app.ilias.de', $path_builder->build()->getHost());
+    }
+
+    public function testContentDomainNotRejectedWhenIsolationInactive(): void
+    {
+        // isolation disabled -> the content host is treated like any other host;
+        // since it is in allowed_hosts here, build() must succeed
+        $path_builder = new \ILIAS\Init\Environment\HttpPathBuilder(
+            new \ILIAS\Data\Factory(),
+            $this->getSettingsMock('https://app.ilias.de/soap/server.php?wsdl=1', 'content.ilias.de'),
+            $this->getHttpsMock(),
+            $this->getIniMock('https://app.ilias.de'),
+            [
+                'HTTP_HOST' => 'content.ilias.de',
+                'REQUEST_URI' => '/login.php',
+            ],
+            \ILIAS\FileDelivery\Isolation\IsolationConfig::disabled()
+        );
+
+        $this->assertSame('content.ilias.de', $path_builder->build()->getHost());
     }
 
     private function getSettingsMock(

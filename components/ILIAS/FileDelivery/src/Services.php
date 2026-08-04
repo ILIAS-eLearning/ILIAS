@@ -25,6 +25,7 @@ use ILIAS\FileDelivery\Token\DataSigner;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileDelivery\Delivery\Disposition;
 use ILIAS\FileDelivery\Delivery\LegacyDelivery;
+use ILIAS\FileDelivery\Isolation\IsolationConfig;
 use ILIAS\Data\URI;
 
 /**
@@ -40,7 +41,8 @@ class Services
         private StreamDelivery $delivery,
         private LegacyDelivery $legacy_delivery,
         private DataSigner $data_signer,
-        private \ILIAS\HTTP\Services $http
+        private \ILIAS\HTTP\Services $http,
+        private IsolationConfig $isolation = new IsolationConfig(false, null, null),
     ) {
     }
 
@@ -90,11 +92,22 @@ class Services
 
     protected function getBaseURI(): string
     {
-        return $this->base_uri ?? $this->base_uri = rtrim(
-            $this->http->request()->getUri()->getScheme()
-            . '://' . $this->http->request()->getUri()->getHost()
-            . ($this->http->request()->getUri()->getPort() ? ':' . $this->http->request()->getUri()->getPort() : '')
-            . dirname($this->http->request()->getUri()->getPath()),
+        if ($this->base_uri !== null) {
+            return $this->base_uri;
+        }
+
+        $request_uri = $this->http->request()->getUri();
+        $path = rtrim(dirname($request_uri->getPath()), "/");
+
+        if ($this->isolation->isActivated() && ($content_domain = $this->isolation->getContentDomain()) !== null) {
+            return $this->base_uri = rtrim($content_domain, "/") . $path;
+        }
+
+        return $this->base_uri = rtrim(
+            $request_uri->getScheme()
+            . '://' . $request_uri->getHost()
+            . ($request_uri->getPort() ? ':' . $request_uri->getPort() : '')
+            . $path,
             "/"
         );
     }
