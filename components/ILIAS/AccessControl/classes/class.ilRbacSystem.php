@@ -63,8 +63,7 @@ class ilRbacSystem
         private GlobalHttpState $http,
         private Factory $refinery,
         private ObjectDataAccessProxy $objectDataCache
-    )
-    {
+    ) {
     }
 
     public static function getInstance(): ilRbacSystem

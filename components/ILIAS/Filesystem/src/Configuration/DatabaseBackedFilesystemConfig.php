@@ -122,7 +122,8 @@ class DatabaseBackedFilesystemConfig implements FilesystemConfig
         return fn(string $suffix): string => trim(strtolower($suffix));
     }
 
-    private function read():void {
+    private function read(): void
+    {
         $this->readBlackList();
         $this->readWhiteList();
     }
