@@ -1,6 +1,7 @@
 # Authentication Privacy
 
-> **Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information via [Pull Request](docs/development/contributing.md#pull-request-to-the-repositories).**
+> **Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information by submitting a [Pull Request](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/contributing.md#pull-request-to-the-repositories) or, if you prefer, via the [ILIAS bug tracker](https://mantis.ilias.de). When using the bug tracker, please select the corresponding component in the **Category** field.**
+
 
 
 ## General Information
@@ -75,14 +76,7 @@ configurable maximum number of attempts.
   `usr_session_stats_raw` table stores the **session ID**, **user ID**, **session type**,
   **start time**, **end time**, and **end context** (reason for session closure) for each
   controlled session. This data is used to calculate aggregated session load statistics.
-- **Aggregated session statistics**: The `usr_session_stats` table stores aggregated,
-  anonymized statistics per 15-minute time slot: minimum, maximum, and average active session
-  counts, as well as counts of sessions opened and closed (by manual logout, expiration, or
-  other reasons). This data does not contain personal data.
-- **External authentication attribute mappings**: The `auth_ext_attr_mapping` table stores
-  mappings between external authentication source attributes and ILIAS user attributes. These
-  mappings are configuration data and do not contain personal data per se, but they define
-  which external user attributes are imported into ILIAS.
+
 
 ## Data being presented
 
@@ -127,8 +121,11 @@ configurable maximum number of attempts.
   for at most approximately 7 days after the session ended.
 - **Residual data**: The aggregated statistics in `usr_session_stats` are fully anonymized
   (they contain only counts, not user IDs) and are not deleted when individual users are
-  removed. The `auth_ext_attr_mapping` configuration data persists until the associated
-  authentication mode is reconfigured or removed.
+  removed. Session storage entries in `usr_sess_istorage` and raw session statistics are
+  only removed on logout or session expiry (via `ilSession::_destroy()`); account deletion
+  via `ilSession::_destroyByUserId()` does not clean these entries, so they may persist
+  as residual data after a user is removed. The `auth_ext_attr_mapping` configuration
+  data persists until the associated authentication mode is reconfigured or removed.
 
 ## Data being exported
 
