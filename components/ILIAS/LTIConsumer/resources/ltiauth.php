@@ -158,10 +158,6 @@ if ($isDlMode) {
 
 }
 
-if (!$isDlMode) {
-    ilSession::set('lti13_login_data', $data);
-}
-
 $parts = explode(":", $ltiMessageHint, 3);
 $isContentSelection = false;
 $ref_id = '';
@@ -196,6 +192,10 @@ if ($isContentSelection) {
 } else {
     $url = "../../../goto.php?target=lti_" . $ref_id . "&client_id=" . $il_client_id;
 }
+
+// only persist the login data once the request has fully passed validation,
+// so a rejected request never leaves unvalidated data behind in the session
+ilSession::set('lti13_login_data', $data);
 
 function buildSameSiteNoneSessionCookieHeader(): ?string
 {
