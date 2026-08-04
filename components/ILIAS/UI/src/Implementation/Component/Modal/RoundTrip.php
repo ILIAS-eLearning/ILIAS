@@ -216,13 +216,6 @@ class RoundTrip extends Modal implements M\RoundTrip
         return $this->form->getError();
     }
 
-    public function withAdditionalFormAction(string $action, string $label): static
-    {
-        $clone = clone $this;
-        $clone->form = $clone->form->withAdditionalFormAction($action, $label);
-        return $clone;
-    }
-
     /**
      * @inheritDoc
      */
