@@ -2206,6 +2206,7 @@ background_tasks#:#background_tasks#:#Background Tasks
 background_tasks#:#background_tasks_running#:#Background Tasks
 background_tasks#:#completed#:#Completed
 background_tasks#:#proceed_job#:#Proceed
+background_tasks#:#progress#:#Progress of task
 background_tasks#:#scheduled#:#Scheduled
 background_tasks#:#task_might_be_failed#:#This Task has not responded for a while, you can quit it if needed.
 background_tasks#:#ui_msg_files_violate_maxsize#:#The total download size violates the global limit. The download will be aborted.
