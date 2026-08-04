@@ -12539,6 +12539,34 @@ th.c-table-data__cell {
   }
 }
 
+th.c-table-data__cell.c-table-data__header__rowselection.state.all .c-table-data__selection_all {
+  display: block;
+}
+th.c-table-data__cell.c-table-data__header__rowselection.state.all .c-table-data__selection_none {
+  display: none;
+}
+th.c-table-data__cell.c-table-data__header__rowselection.state.all .c-table-data__selection_some {
+  display: none;
+}
+th.c-table-data__cell.c-table-data__header__rowselection.state.some .c-table-data__selection_all {
+  display: none;
+}
+th.c-table-data__cell.c-table-data__header__rowselection.state.some .c-table-data__selection_none {
+  display: none;
+}
+th.c-table-data__cell.c-table-data__header__rowselection.state.some .c-table-data__selection_some {
+  display: block;
+}
+th.c-table-data__cell.c-table-data__header__rowselection.state.none .c-table-data__selection_all {
+  display: none;
+}
+th.c-table-data__cell.c-table-data__header__rowselection.state.none .c-table-data__selection_none {
+  display: block;
+}
+th.c-table-data__cell.c-table-data__header__rowselection.state.none .c-table-data__selection_some {
+  display: none;
+}
+
 @media screen and (min-width: 993px) {
   .breadcrumbs + #mainspacekeeper th.c-table-data__cell {
     top: 32px;

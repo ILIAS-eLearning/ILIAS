@@ -350,14 +350,18 @@ class Renderer extends AbstractComponentRenderer
             $sig_all = clone $signal;
             $sig_all->addOption('select', true);
             $select_all = $f->button()->shy('', '')
-                  ->withSymbol($glyph_factory->add())
-                  ->withOnClick($sig_all);
+                ->withSymbol($glyph_factory->unselect())
+                ->withOnClick($sig_all);
+            $clear = $f->button()->shy('', '')
+                ->withSymbol($glyph_factory->clear())
+                ->withOnClick($sig_all);
             $signal->addOption('select', false);
             $select_none = $f->button()->shy('', '')
-                   ->withSymbol($glyph_factory->close())
-                   ->withOnClick($signal);
+                ->withSymbol($glyph_factory->select())
+                ->withOnClick($signal);
             $tpl->setVariable('SELECTION_CONTROL_SELECT', $default_renderer->render($select_all));
             $tpl->setVariable('SELECTION_CONTROL_DESELECT', $default_renderer->render($select_none));
+            $tpl->setVariable('SELECTION_CONTROL_CLEAR', $default_renderer->render($clear));
         }
 
         if ($component instanceof Component\Table\Ordering) {

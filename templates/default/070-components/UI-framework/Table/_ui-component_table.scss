@@ -195,6 +195,24 @@ th.c-table-data__cell {
     }
 }
 
+th.c-table-data__cell.c-table-data__header__rowselection{
+    &.state.all {
+        .c-table-data__selection_all { display: block; }
+        .c-table-data__selection_none { display: none; }
+        .c-table-data__selection_some { display : none; }
+    }
+    &.state.some {
+        .c-table-data__selection_all { display: none; }
+        .c-table-data__selection_none { display: none; }
+        .c-table-data__selection_some { display : block; }
+    }
+    &.state.none {
+        .c-table-data__selection_all { display: none; }
+        .c-table-data__selection_none { display: block; }
+        .c-table-data__selection_some { display : none; }
+    }
+}
+
 // stick under breadcrumbs when they are present
 
 .breadcrumbs + #mainspacekeeper th.c-table-data__cell {
