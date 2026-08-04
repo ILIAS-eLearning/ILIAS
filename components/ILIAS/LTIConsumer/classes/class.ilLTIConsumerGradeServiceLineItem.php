@@ -246,7 +246,7 @@ class ilLTIConsumerGradeServiceLineItem extends ilLTIConsumerResourceBase
         global $DIC;
         $tree = $DIC->repositoryTree();
         $node_data = $tree->getNodeData($resource_link_ref_id);
-        if (!$node_data || $node_data['type'] !== 'lti' ||
+        if (!isset($node_data['type']) || $node_data['type'] !== 'lti' ||
             !in_array($context_id, $tree->getPathId($resource_link_ref_id), true)) {
             return false;
         }
