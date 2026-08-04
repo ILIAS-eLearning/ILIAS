@@ -293,6 +293,25 @@ class ilLTIConsumerGradeServiceLineItem extends ilLTIConsumerResourceBase
 
     public static function buildLineItemUrl(int $contextId, int $itemId): string
     {
-        return ilObjLTIConsumer::getIliasHttpPath() . "/ltiservices.php/gradeservice/{$contextId}/lineitems/{$itemId}/lineitem";
+        return self::getServiceRootUrl() . "/ltiservices.php/gradeservice/{$contextId}/lineitems/{$itemId}/lineitem";
+    }
+
+    /**
+     * ilObjLTIConsumer::getIliasHttpPath() derives its base path from the current
+     * request URI, which breaks here: ltiservices.php uses PATH_INFO routing, so
+     * REQUEST_URI already contains "/gradeservice/{context}/lineitems/...", and
+     * that gets duplicated into every line item URL built from within this script.
+     * SCRIPT_NAME is not affected by PATH_INFO, so it stays safe for this purpose.
+     */
+    public static function getServiceRootUrl(): string
+    {
+        global $DIC;
+
+        $protocol = $DIC['https']->isDetected() ? 'https://' : 'http://';
+        $host = $_SERVER['HTTP_HOST'];
+        $scriptDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? ''));
+        $scriptDir = $scriptDir === '/' ? '' : rtrim($scriptDir, '/');
+
+        return ilContext::modifyHttpPath($protocol . $host . $scriptDir);
     }
 }
