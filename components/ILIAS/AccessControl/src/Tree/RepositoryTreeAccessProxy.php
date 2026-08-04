@@ -25,8 +25,7 @@ namespace ILIAS\AccessControl\Tree;
  */
 class RepositoryTreeAccessProxy
 {
-
-    private function tree():\ilTree
+    private function tree(): \ilTree
     {
         global $DIC;
         return $DIC->repositoryTree();
