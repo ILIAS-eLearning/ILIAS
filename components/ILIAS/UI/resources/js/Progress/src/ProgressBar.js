@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+import ProgressUpdateEvent from './ProgressUpdateEvent.js';
+
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
@@ -23,6 +25,9 @@ export default class ProgressBar {
   /** @var {HTMLDivElement} */
   #messageElement;
 
+  /** @var {Set<function(ProgressUpdateEvent)>} */
+  #updateListeners = new Set();
+
   /**
    * @param {HTMLProgressElement} progressElement
    * @param {HTMLDivElement} messageElement
@@ -30,6 +35,24 @@ export default class ProgressBar {
   constructor(progressElement, messageElement) {
     this.#progressElement = progressElement;
     this.#messageElement = messageElement;
+  }
+
+  /**
+   * @param {function(ProgressUpdateEvent)} listener
+   */
+  removeUpdateListener(listener) {
+    if (this.#updateListeners.has(listener)) {
+      this.#updateListeners.delete(listener);
+    }
+  }
+
+  /**
+   * @param {function(ProgressUpdateEvent)} listener
+   */
+  addUpdateListener(listener) {
+    if (!this.#updateListeners.has(listener)) {
+      this.#updateListeners.add(listener);
+    }
   }
 
   /**
@@ -42,7 +65,10 @@ export default class ProgressBar {
 
     if (message !== null) {
       this.#showMessage(message);
+    } else {
+      this.#hideMessage();
     }
+    this.#broadcastUpdate('indeterminate');
   }
 
   /**
@@ -61,7 +87,10 @@ export default class ProgressBar {
 
     if (message !== null) {
       this.#showMessage(message);
+    } else {
+      this.#hideMessage();
     }
+    this.#broadcastUpdate('determinate');
   }
 
   /**
@@ -71,6 +100,7 @@ export default class ProgressBar {
     if (this.#progressElement.value !== this.#progressElement.max) {
       this.#finish(message, 'success');
     }
+    this.#broadcastUpdate('success');
   }
 
   /**
@@ -80,6 +110,7 @@ export default class ProgressBar {
     if (this.#progressElement.value !== this.#progressElement.max) {
       this.#finish(message, 'failure');
     }
+    this.#broadcastUpdate('failure');
   }
 
   reset() {
@@ -117,6 +148,19 @@ export default class ProgressBar {
     this.#progressElement.classList.add(`c-progress-bar--${modifier}`);
 
     this.#showMessage(message);
+  }
+
+  /**
+   * @param {string} state
+   */
+  #broadcastUpdate(state) {
+    const event = new ProgressUpdateEvent(
+      state,
+      this.#progressElement.value,
+      this.#messageElement.textContent,
+    );
+
+    this.#updateListeners.forEach((listener) => listener(event));
   }
 
   /**

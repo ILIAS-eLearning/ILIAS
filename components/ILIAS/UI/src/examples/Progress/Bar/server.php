@@ -55,6 +55,9 @@ function server(): string
     $endpoint_url = $data_factory->uri($endpoint_url);
 
     $progress_bar = $factory->progress()->bar('waiting about 10 seconds', $endpoint_url);
+    $progress_bar = $progress_bar->withOnUpdate(static fn($id) => "
+        il.UI.Progress.Bar.
+    ");
 
     $trigger = $factory->button()->standard('start making progress', '#');
     $trigger = $trigger->withAdditionalOnLoadCode(
