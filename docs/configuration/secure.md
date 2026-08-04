@@ -23,6 +23,7 @@
     + [Deny Access to local Git-Directory](#deny-access-to-local-git-directory)
   * [Integrity check of ILIAS code in docroot](#integrity-check-of-ilias-code-in-docroot)
   * [Use WebAccessChecker](#use-webaccesschecker)
+  * [Serve user content from a separate domain (User Content Isolation)](#serve-user-content-from-a-separate-domain-user-content-isolation)
   * [Use secure passwords](#use-secure-passwords)
   * [Report security issues](#report-security-issues)
 
@@ -703,6 +704,14 @@ to
 ```
 %DOCROOT%/components/ILIAS/FileDelivery/classes/override.php
 ```
+
+## Serve user content from a separate domain (User Content Isolation)
+
+User-uploaded files (and derived files such as previews) can contain active markup (SVG, HTML, …). Serving them from the same origin as the application allows attacks such as stored XSS or canvas exfiltration against the logged-in session. ILIAS can therefore deliver all files stored in the Resource Storage Service from a dedicated, cookie-less **content domain**, while the application itself keeps running on the ILIAS domain.
+
+The content domain points at the *same* ILIAS installation — you only need an additional DNS record, a TLS certificate covering the extra host name and the host name added to your existing vhost. The isolation itself is enforced by ILIAS in PHP. The feature is configured through the Setup (`content_isolation` in `config.json`), it is deactivated by default.
+
+For the configuration, the guarantees ILIAS enforces and an example web server setup see the [FileDelivery documentation](../../components/ILIAS/FileDelivery/README.md#irss-user-content-isolation).
 
 ## Use secure passwords
 

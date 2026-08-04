@@ -441,20 +441,24 @@ trait ilTestBaseTestCaseTrait
         );
         $http_mock = $this->createMock(HTTPServices::class);
         $response_builder_mock = $this->createMock(\ILIAS\FileDelivery\Delivery\ResponseBuilder\ResponseBuilder::class);
+        $isolation = \ILIAS\FileDelivery\Isolation\IsolationConfig::disabled();
         return new \ILIAS\FileDelivery\Services(
             new ILIAS\FileDelivery\Delivery\StreamDelivery(
                 $data_signer,
                 $http_mock,
                 $response_builder_mock,
-                $response_builder_mock
+                $response_builder_mock,
+                $isolation
             ),
             new \ILIAS\FileDelivery\Delivery\LegacyDelivery(
                 $http_mock,
                 $response_builder_mock,
-                $response_builder_mock
+                $response_builder_mock,
+                $isolation
             ),
             $data_signer,
-            $http_mock
+            $http_mock,
+            $isolation
         );
     }
 

@@ -371,7 +371,8 @@ class ilInitialisation
                 $DIC->settings(),
                 $DIC['https'],
                 $DIC['ilIliasIniFile'],
-                $_SERVER
+                $_SERVER,
+                \ILIAS\FileDelivery\Isolation\IsolationConfig::fromArtefact()
             ))->build()->getBaseURI()
         );
     }

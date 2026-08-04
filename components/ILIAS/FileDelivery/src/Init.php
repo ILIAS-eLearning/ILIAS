@@ -30,6 +30,7 @@ use ILIAS\FileDelivery\Delivery\ResponseBuilder\XSendFileResponseBuilder;
 use ILIAS\FileDelivery\Delivery\ResponseBuilder\PHPResponseBuilder;
 use ILIAS\FileDelivery\Delivery\ResponseBuilder\ResponseBuilder;
 use ILIAS\FileDelivery\Setup\DeliveryMethodObjective;
+use ILIAS\FileDelivery\Isolation\IsolationConfig;
 use ILIAS\FileDelivery\Delivery\LegacyDelivery;
 use ILIAS\FileDelivery\Delivery\ResponseBuilder\XAccelResponseBuilder;
 
@@ -53,6 +54,10 @@ class Init
         };
 
         $c['file_delivery.fallback_response_builder'] = (static fn(): ResponseBuilder => new PHPResponseBuilder());
+
+        // Both the content domain and the ILIAS domain (derived from http_path)
+        // are baked into the artefact at setup time, so no ini read is needed.
+        $c['file_delivery.isolation'] = static fn(): IsolationConfig => IsolationConfig::fromArtefact();
 
         $c['file_delivery.data_signer'] = static function (): DataSigner {
             $keys = array_map(static fn(string $key): SecretKey => new SecretKey($key), (require KeyRotationObjective::PATH()) ?? []);
@@ -78,7 +83,8 @@ class Init
                 $c['file_delivery.data_signer'],
                 $c['http'],
                 $c['file_delivery.response_builder'],
-                $c['file_delivery.fallback_response_builder']
+                $c['file_delivery.fallback_response_builder'],
+                $c['file_delivery.isolation']
             );
         };
 
@@ -92,7 +98,8 @@ class Init
             return new LegacyDelivery(
                 $c['http'],
                 $c['file_delivery.response_builder'],
-                $c['file_delivery.fallback_response_builder']
+                $c['file_delivery.fallback_response_builder'],
+                $c['file_delivery.isolation']
             );
         };
 
@@ -100,7 +107,8 @@ class Init
             $c['file_delivery.delivery'],
             $c['file_delivery.legacy_delivery'],
             $c['file_delivery.data_signer'],
-            $c['http']
+            $c['http'],
+            $c['file_delivery.isolation']
         ));
     }
 }

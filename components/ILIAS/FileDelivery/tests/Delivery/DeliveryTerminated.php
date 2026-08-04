@@ -16,6 +16,17 @@
  *
  *********************************************************************/
 
-return  [
-  'delivery_method' => 'php',
-];
+declare(strict_types=1);
+
+namespace ILIAS\Tests\FileDelivery\Delivery;
+
+/**
+ * Marker thrown by the doubled \ILIAS\HTTP\Services::close() so that a
+ * delivery — which is declared `never` and would terminate the request —
+ * can be observed in a test instead of ending the process.
+ *
+ * @author Fabian Schmid <fabian@sr.solutions>
+ */
+final class DeliveryTerminated extends \RuntimeException
+{
+}
