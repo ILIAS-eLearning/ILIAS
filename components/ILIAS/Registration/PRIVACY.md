@@ -1,6 +1,6 @@
 # Registration Privacy
 
-> **Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information by submitting a [Pull Request](docs/development/contributing.md#pull-request-to-the-repositories) or, if you prefer, via the [ILIAS bug tracker](https://mantis.ilias.de). When using the bug tracker, please select the corresponding component in the **Category** field.**
+> **Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information by submitting a [Pull Request](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/contributing.md#pull-request-to-the-repositories) or, if you prefer, via the [ILIAS bug tracker](https://mantis.ilias.de). When using the bug tracker, please select the corresponding component in the **Category** field.**
 
 ## General Information
 
@@ -37,12 +37,6 @@ data beyond the user IDs of configured approval recipients.
 
 ## Data being stored
 
-- **Registration code**: When a person with the "Write" permission generates registration codes,
-  each **code string** is stored in the `reg_registration_codes` table together with a
-  **generation timestamp**, an assigned **global role ID**, optional **local role IDs**, an
-  **access limitation mode** and its parameters, and flags indicating whether the code is valid
-  for registration and/or account extension. These codes do not contain personal data themselves,
-  but they are linked to roles and access policies.
 - **Registration code usage timestamp**: When a user redeems a registration code during
   self-registration, the **timestamp** of usage is written to the `used` column of the
   `reg_registration_codes` table. The code itself does not record **which** user redeemed it.
@@ -55,12 +49,6 @@ data beyond the user IDs of configured approval recipients.
 - **Pending registration creation timestamp**: The **creation date** (as Unix timestamp) of
   the pending registration is stored in the `reg_dual_opt_in` table to determine whether the
   confirmation link has expired.
-- **Email-to-role assignments**: The `reg_er_assignments` table stores mappings between
-  **email domain patterns** and **role IDs** for automatic role assignment during registration.
-  These are administrative configuration data and do not contain personal user data.
-- **Role access limitations**: The `reg_access_limit` table stores **access limitation modes**
-  (absolute date, relative duration, or unlimited) per role. These are administrative
-  configuration data and do not contain personal user data.
 - **Approval recipient user IDs**: The **user IDs** of persons designated to receive
   notification emails when new users register are stored in the global ILIAS settings
   (key `approve_recipient`).
