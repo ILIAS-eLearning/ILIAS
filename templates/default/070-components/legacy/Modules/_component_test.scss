@@ -249,7 +249,7 @@ $cons-scoring-bottom-fade-height: $il-padding-xxxlarge-vertical * 2;
 // this is where the actual editing of the feedback takes place
 // suggestion for UI component: Guided Prompt or Guided Form, placing a form besides relevant content to be evaluated
 //
-.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] {
+dialog.il-prompt__dialog[open]:has(.c-consecutive-scoring__answer) {
   display: grid;
   grid-template-areas: "answer btn"
                         "answer feedback";
@@ -386,7 +386,7 @@ $cons-scoring-bottom-fade-height: $il-padding-xxxlarge-vertical * 2;
 
 // Change layout of Markdown Form Field in Single View and in Prompt Modal
 .c-sequence__segment:has(.c-layout-alignment--horizontal-evenly .c-consecutive-scoring__answer),
-.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__contents {
+dialog.il-prompt__dialog[open]:has(.c-consecutive-scoring__answer) .il-prompt__contents {
   form {
     .c-input[data-il-ui-component="markdown-field-input"] {
       display: block;

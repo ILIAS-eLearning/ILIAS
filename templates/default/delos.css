@@ -9681,36 +9681,36 @@ div.alert ul {
 }
 
 .c-modal,
-.il-prompt dialog {
+dialog.il-prompt__dialog {
   border: none;
   background: none;
   -webkit-box-shadow: 20px 10px 30px rgba(0, 0, 0, 0.15);
   box-shadow: 20px 10px 30px rgba(0, 0, 0, 0.15);
 }
 .c-modal.il-modal-lightbox-dark .modal-content,
-.il-prompt dialog.il-modal-lightbox-dark .modal-content {
+dialog.il-prompt__dialog.il-modal-lightbox-dark .modal-content {
   background-color: #2c2c2c;
   color: white;
 }
 .c-modal.il-modal-lightbox-dark .modal-content .modal-header,
-.il-prompt dialog.il-modal-lightbox-dark .modal-content .modal-header {
+dialog.il-prompt__dialog.il-modal-lightbox-dark .modal-content .modal-header {
   border-bottom-color: white;
 }
 .c-modal.il-modal-lightbox-dark .modal-content .modal-title,
-.il-prompt dialog.il-modal-lightbox-dark .modal-content .modal-title {
+dialog.il-prompt__dialog.il-modal-lightbox-dark .modal-content .modal-title {
   padding: 0px;
 }
 .c-modal.il-modal-lightbox-dark .modal-content .carousel-inner,
-.il-prompt dialog.il-modal-lightbox-dark .modal-content .carousel-inner {
+dialog.il-prompt__dialog.il-modal-lightbox-dark .modal-content .carousel-inner {
   padding: 0px;
 }
 .c-modal.il-modal-lightbox-dark .modal-content .carousel-control,
-.il-prompt dialog.il-modal-lightbox-dark .modal-content .carousel-control {
+dialog.il-prompt__dialog.il-modal-lightbox-dark .modal-content .carousel-control {
   color: white;
   width: 15%;
 }
 .c-modal.il-modal-lightbox-dark .close,
-.il-prompt dialog.il-modal-lightbox-dark .close {
+dialog.il-prompt__dialog.il-modal-lightbox-dark .close {
   color: white;
   background-color: #2c2c2c;
   opacity: 1;
@@ -9788,7 +9788,7 @@ div.alert ul {
   margin: 10px;
 }
 
-.modal-content, .il-prompt dialog {
+.modal-content, dialog.il-prompt__dialog {
   position: relative;
   background-color: #fff;
   background-clip: padding-box;
@@ -9798,7 +9798,7 @@ div.alert ul {
   outline: 0;
 }
 
-.il-prompt dialog hr {
+dialog.il-prompt__dialog hr {
   margin: 0;
 }
 
@@ -9908,7 +9908,7 @@ div.alert ul {
   }
 }
 @media screen and (max-width: 768px) {
-  .c-modal, .il-prompt {
+  .c-modal, dialog.il-prompt__dialog {
     margin: 0;
     padding: 0;
     max-width: 100vw;
@@ -9916,20 +9916,20 @@ div.alert ul {
   }
 }
 .c-modal .modal-dialog,
-.c-modal dialog, .il-prompt .modal-dialog,
-.il-prompt dialog {
+.c-modal dialog, dialog.il-prompt__dialog .modal-dialog,
+dialog.il-prompt__dialog dialog {
   width: 70vw;
   width: 70svw;
 }
 .c-modal .modal-dialog.modal-sm,
-.c-modal dialog.modal-sm, .il-prompt .modal-dialog.modal-sm,
-.il-prompt dialog.modal-sm {
+.c-modal dialog.modal-sm, dialog.il-prompt__dialog .modal-dialog.modal-sm,
+dialog.il-prompt__dialog dialog.modal-sm {
   width: 40vw;
   width: 40svw;
 }
 .c-modal .modal-dialog.modal-lg,
-.c-modal dialog.modal-lg, .il-prompt .modal-dialog.modal-lg,
-.il-prompt dialog.modal-lg {
+.c-modal dialog.modal-lg, dialog.il-prompt__dialog .modal-dialog.modal-lg,
+dialog.il-prompt__dialog dialog.modal-lg {
   width: 80vw;
   width: 80svw;
 }
@@ -9937,10 +9937,10 @@ div.alert ul {
   .c-modal .modal-dialog, .c-modal .modal-dialog.modal-sm, .c-modal .modal-dialog.modal-lg,
   .c-modal dialog,
   .c-modal dialog.modal-sm,
-  .c-modal dialog.modal-lg, .il-prompt .modal-dialog, .il-prompt .modal-dialog.modal-sm, .il-prompt .modal-dialog.modal-lg,
-  .il-prompt dialog,
-  .il-prompt dialog.modal-sm,
-  .il-prompt dialog.modal-lg {
+  .c-modal dialog.modal-lg, dialog.il-prompt__dialog .modal-dialog, dialog.il-prompt__dialog .modal-dialog.modal-sm, dialog.il-prompt__dialog .modal-dialog.modal-lg,
+  dialog.il-prompt__dialog dialog,
+  dialog.il-prompt__dialog dialog.modal-sm,
+  dialog.il-prompt__dialog dialog.modal-lg {
     width: 100vw;
     width: 100svw;
     max-height: 100vh;
@@ -17086,7 +17086,7 @@ div.ilc_Page.readonly textarea[disabled] {
     width: 100%;
   }
 }
-.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] {
+dialog.il-prompt__dialog[open]:has(.c-consecutive-scoring__answer) {
   display: grid;
   grid-template-areas: "answer btn" "answer feedback";
   grid-template-rows: max-content 1fr;
@@ -17095,39 +17095,39 @@ div.ilc_Page.readonly textarea[disabled] {
   width: 1200px;
 }
 @media screen and (max-width: 768px) {
-  .panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] {
+  dialog.il-prompt__dialog[open]:has(.c-consecutive-scoring__answer) {
     display: block;
   }
 }
-.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] hr {
+dialog.il-prompt__dialog[open]:has(.c-consecutive-scoring__answer) hr {
   display: none;
 }
-.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__header {
+dialog.il-prompt__dialog[open]:has(.c-consecutive-scoring__answer) .il-prompt__header {
   grid-area: answer;
   position: relative;
 }
-.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__header form {
+dialog.il-prompt__dialog[open]:has(.c-consecutive-scoring__answer) .il-prompt__header form {
   display: none;
 }
-.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__header .il-prompt__title {
+dialog.il-prompt__dialog[open]:has(.c-consecutive-scoring__answer) .il-prompt__header .il-prompt__title {
   display: flex;
   flex-direction: column;
 }
-.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__header .il-prompt__title,
-.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__header .c-consecutive-scoring_sanswer,
-.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__header .c-consecutive-scoring__answer__scroll-container {
+dialog.il-prompt__dialog[open]:has(.c-consecutive-scoring__answer) .il-prompt__header .il-prompt__title,
+dialog.il-prompt__dialog[open]:has(.c-consecutive-scoring__answer) .il-prompt__header .c-consecutive-scoring_sanswer,
+dialog.il-prompt__dialog[open]:has(.c-consecutive-scoring__answer) .il-prompt__header .c-consecutive-scoring__answer__scroll-container {
   height: 100%;
 }
-.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__header .c-consecutive-scoring__answer {
+dialog.il-prompt__dialog[open]:has(.c-consecutive-scoring__answer) .il-prompt__header .c-consecutive-scoring__answer {
   flex-direction: column-reverse;
   max-height: unset;
   min-height: 0;
 }
-.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__header .c-consecutive-scoring__answer__scroll-container {
+dialog.il-prompt__dialog[open]:has(.c-consecutive-scoring__answer) .il-prompt__header .c-consecutive-scoring__answer__scroll-container {
   min-height: 0;
   width: 100%;
 }
-.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__header .c-consecutive-scoring__answer__grade-card {
+dialog.il-prompt__dialog[open]:has(.c-consecutive-scoring__answer) .il-prompt__header .c-consecutive-scoring__answer__grade-card {
   padding: 0;
   margin: 0;
   margin-top: 15px;
@@ -17135,11 +17135,11 @@ div.ilc_Page.readonly textarea[disabled] {
   border: none;
   width: 100%;
 }
-.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__contents {
+dialog.il-prompt__dialog[open]:has(.c-consecutive-scoring__answer) .il-prompt__contents {
   grid-area: feedback;
   overflow: auto;
 }
-.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__buttons {
+dialog.il-prompt__dialog[open]:has(.c-consecutive-scoring__answer) .il-prompt__buttons {
   grid-area: btn;
   justify-self: end;
 }
@@ -17189,11 +17189,11 @@ div.ilc_Page.readonly textarea[disabled] {
 }
 
 .c-sequence__segment:has(.c-layout-alignment--horizontal-evenly .c-consecutive-scoring__answer) form .c-input[data-il-ui-component=markdown-field-input],
-.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__contents form .c-input[data-il-ui-component=markdown-field-input] {
+dialog.il-prompt__dialog[open]:has(.c-consecutive-scoring__answer) .il-prompt__contents form .c-input[data-il-ui-component=markdown-field-input] {
   display: block;
 }
 .c-sequence__segment:has(.c-layout-alignment--horizontal-evenly .c-consecutive-scoring__answer) form .c-input[data-il-ui-component=markdown-field-input] .c-field-markdown textarea,
-.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__contents form .c-input[data-il-ui-component=markdown-field-input] .c-field-markdown textarea {
+dialog.il-prompt__dialog[open]:has(.c-consecutive-scoring__answer) .il-prompt__contents form .c-input[data-il-ui-component=markdown-field-input] .c-field-markdown textarea {
   height: 50vh;
 }
 
@@ -23202,5 +23202,3 @@ div.Access {
 .light {
   color: rgb(111.25, 111.25, 111.25);
 }
-
-/*# sourceMappingURL=delos.css.map */
