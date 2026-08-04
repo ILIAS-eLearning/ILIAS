@@ -3,7 +3,7 @@
 This document describes how an ILIAS component can be migrated from the legacy initialisation to the new component
 bootstrap mechanism. Its purpose is to aid developers and 
 [authorities who sign off on code changes](../../../../docs/development/maintenance.md#authorities) who are tasked with
-the migration of their component to this new mechanism, or want to introduce new ones whilte the "component revision"
+the migration of their component to this new mechanism, or want to introduce new ones while the "component revision"
 big project is still ongoing.
 
 The described practises and required steps for a successful migration are put in two categories: one category is for
@@ -26,7 +26,7 @@ The current state of most ILIAS components – former modules and services – i
 injection container (known as `global $DIC`), which is used in any place at any time to service-locate something from
 somewhere. What we are trying to say here is that most of the components do not yet fully embrace dependency injection
 (DI) like its meant to be and therefore don't use it to its full potential. While the first part of the previous
-sentence may be achieved more easily, the latter is still not fulfilled by the shere implementation of injecting
+sentence may be achieved more easily, the latter is still not fulfilled by the sheer implementation of injecting
 something into something else. It needs to be refined in most cases; we must not simply inject entire subsystems of
 ILIAS if we are only going to use a few aspects of it. DI needs careful consideration and the migration towards the
 component bootstrap mechanism is the ideal time to reconsider how your objects and facilities are managed – internally
@@ -48,7 +48,7 @@ Having said that, in addition to the above ILIAS components its facilities are a
 a component as a whole:
 
 - The entire initialisation code is implemented inside the `ilInitialisation` class directly and is invoked at the right
-time given the right circumstances (context and availability of depednencies).
+time given the right circumstances (context and availability of dependencies).
 - The initialisation code is implemented in a dedicated class, which receives the current dependency injection container
 as an argument. The classes then initialise and expose stuff by defining it as an offset inside the container.
 
@@ -79,10 +79,10 @@ created immediately, but are wrapped inside an anonymous function / arrow functi
 the `ILIAS\DI\Container` instead. This way, if an actual instance of a service is requested by accessing the offset, it
 triggers sort of a chain reaction where the functions are invoked recursively because dependencies are also fetched from
 the same container. This pattern is still used inside the new bootstrap mechanism for the same reason, while determining
-the appropriate order of dependencies during biuld-time (amongst some other things).
+the appropriate order of dependencies during build-time (amongst some other things).
 
 At this point you should have a vague (or clear if we did a good job here) picture about what patterns have been used,
-which mostly avoid proper DI and expose more functionality than propably necessary during the initialisation of
+which mostly avoid proper DI and expose more functionality than probably necessary during the initialisation of
 components. You should also know where to find most of this code, so we have established your starting point.
 
 ### New component wiring and proper encapsulation
@@ -137,7 +137,7 @@ migrated. Scenarios:
   - a) the other component is unmigrated and needs a compatibility layer for the new system
   - b) the component being migrated was already touched during the migration of another and it contains a compatibility
   layer already. Now you can amend the usage inside the other component and drop the layer if it was the only usage.
-  - c) there are scalar dependencies, like an object-id (as `int`) passed to the consturctor. The new system does not
+  - c) there are scalar dependencies, like an object-id (as `int`) passed to the constructor. The new system does not
   support such trivial wiring, it needs to be remodeled and put behind an abstraction layer. This layer potentially
   needs implementation in another component than yours. The chapter on established patterns will tell you more about it.
 - Your component entry points: because there is a new way of doing things, you will need to migrate your endpoints as
@@ -202,21 +202,22 @@ respective kind of asset implementation for a more detailed location. If you nee
 
 ### Backwards compatibility
 
-At this point it might have ocurred to you, that we live in an entirely new and different world now, and asked
+At this point it might have occurred to you, that we live in an entirely new and different world now, and asked
 yourself how you make things available for the unmigrated part of the system. If that's not the case, don't worry, we
-will explain it to you anyways. This chapter covers howe we maintain backwards compatibility during the gradual
+will explain it to you anyways. This chapter covers how we maintain backwards compatibility during the gradual
 migration of ILIAS components during the progression of the "component revision" big project.
 
-As mentioned above, the bootstrap mechanism is something completely different that how we previously managed things. The
+As mentioned above, the bootstrap mechanism is something completely different than how we previously managed things. The
 bootstrap mechanism creates an artifact during build-time, which contains a compiled script where all dependencies are
-initialised in the appropriate order and fashion, while the types of depencendies and different integration strategies
+initialised in the appropriate order and fashion, while the types of dependencies and different integration strategies
 are respected. This means, after migrating a component and removing its initialisation from `ilInitialisation`, calling
 `ilInitialisation::initILIAS()` is no longer an option.
 
 Since we do not want to maintain a duplicate initialisation for the same component, only to provide it for migrated and
-unmigrated componants at the same time, we have introduced a legacy initialisation bridge. This is a structured way to
+unmigrated components at the same time, we have introduced a legacy initialisation bridge. This is a structured way to
 expose migrated components and its facilities inside the legacy environment. While this adds some overhead, it is the
-appropriate tool for the job and exposes the true ugliess of the service locator in the first place. Here's what you do:
+appropriate tool for the job and exposes the true ugliness of the service locator in the first place. Here's what you
+do:
 
 ```php
 // step 1: migrate your component and implement its initialisation:
@@ -250,11 +251,12 @@ class AllModernComponents implements EntryPoint
     }
 }
 
-// step 3: create the wiring between the lgacy initialisation and your component: 
-class Init extends Component
+// step 3: create the wiring between the legacy initialisation and your component: 
+class Init implements Component
 {
     public function init(
         // ...
+        array | \ArrayAccess &$use,
         array | \ArrayAccess &$contribute,
         // ...
     ) : void {
@@ -294,7 +296,7 @@ class SomeComponent implements Component
         // ...
     ) : void {
         // contribute your endpoint to the system:
-        $contribute[Component\Resource\PublicAsset::class] = statuc fn() =>
+        $contribute[Component\Resource\PublicAsset::class] = static fn() =>
             new Component\Resource\Endpoint($this, "endpoint.php");
     }
 }
@@ -324,17 +326,26 @@ and provides the way of entering one of the existing entry points of the system.
 
 ### Newly established patterns
 
-patterns:
+The following patterns have emerged during the first migrations. The ones that need more than a sentence are described
+in a dedicated sub-chapter below:
 
 - Backwards compatibility layer, explained by the previous chapter.
 - Proxy pattern for unmigrated components, compatibility layer between migrated/unmigrated.
-- Scalar dependencies put behind configuration interfaces, defined and used by requiring system, implemented by providing system.
+- Scalar dependencies put behind configuration interfaces, defined and used by the requiring system, implemented by the
+providing system.
 - Split read and write access to functionality on a programming level already (interfaces).
 
-not really patterns but still things you should do:
-- static fn vs fn, think about when to use which one, scope improves performance.
-- no anonymous classes, ever! introduce dedicated classes, even for the most trivial interface implementations. don't be lazy.
-- No constants! This is global state and we really don't want global state. The configuration interfaces should be used.
+The following are not patterns in the strict sense, but conventions you should follow nonetheless:
+
+- `static fn` vs `fn`: think about when to use which one, the smaller scope improves performance.
+- Avoid anonymous classes. Introduce dedicated classes, even for the most trivial interface implementations, and don't
+be lazy about it. There is currently one known exception where this is hard to avoid, see the caveat on the dependence
+on artifacts below.
+- Avoid constants. They are global state and we really don't want global state; use the configuration interfaces
+described below instead. Be aware that this is the target state and not something every migration can fully achieve
+today: a number of constants defined by `ilInitialisation` (`ILIAS_ABSOLUTE_PATH`, `ILIAS_DATA_DIR`, `CLIENT_ID`, …)
+are currently still the only way to obtain these values during early bootstrap, before the services that would replace
+them are wired. Do not introduce new ones, and replace the existing ones wherever the wiring already allows it.
 
 #### Proxy pattern for a compatibility layer
 
@@ -353,8 +364,8 @@ interface from this (if there isn't one we should use instead).
 want to extract an interface, ideally with the required functionality only, from this class and implement it inside the
 `src/` directory. The B class then implements this new interface, which allows us to create the proxy now. If there
 already is a usable interface we can use, this step can be skipped ofc.
-- The proxy is a bare-minimum implementation of this interaface, which delegates all method calls directly to the actual
-B class, which is retrieved by `global $DIC`. This will works because the proxy does not require a constructor, which
+- The proxy is a bare-minimum implementation of this interface, which delegates all method calls directly to the actual
+B class, which is retrieved by `global $DIC`. This works because the proxy does not require a constructor, which
 makes it compatible with the build and bootstrap process without `$DIC`, while it is still functional in the web context
 because its legacy implementation will be invoked at a later point which initialises the B class in this container.
 
@@ -426,7 +437,7 @@ arbitrary offsets which hold an anonymous function returning some hardcoded valu
 
 While the primary target of this abstraction may be for scalar data-types, it can also
 be applied to other scenarios, where a more complex object is passed along. When and when not to use this pattern may
-differ accross contexts, but as a rule of thumb this pattern should not be used for more complex things than data-
+differ across contexts, but as a rule of thumb this pattern should not be used for more complex things than data-
 transfer-objects (DTO). There could be exceptions to this where some sort of builder pattern is applied to create a
 service, but this should be very limited; we ought follow correctness on construction to the best of our ability.
 
@@ -541,12 +552,12 @@ the web context to some method of `$DIC`.**
 
 #### Restricted access on a programming level
 
-According to the interface segretacion principle, an object should only rely on methods it also really needs. In ILIAS
-most of the time an entire service is simply injected with all of its functionality for free. This is a bad habit and we
-as already explained inside the previous chapter that gives an overview of the current situation, we should be more
-catious when imlementing our DI. Doing proper DI can already limit the set of available methods and narrow the used
+According to the interface segregation principle, an object should only rely on methods it also really needs. In ILIAS
+most of the time an entire service is simply injected with all of its functionality for free. This is a bad habit; as
+already explained inside the chapter that gives an overview of the current situation, we should be more cautious when
+implementing our DI. Doing proper DI can already limit the set of available methods and narrow the used
 methods down to the actually used ones quite a bit. However, we noticed that many places could benefit from a
-segragation of their methods that mutate stuff and methods that only return some calculated result.
+segregation of their methods that mutate stuff and methods that only return some calculated result.
 
 Doing so will allow us to restrict access to functionality on a programming level already. Assume we have the following
 object without any abstraction:
@@ -567,10 +578,11 @@ class GodObjectThatDoesItAll
 }
 ```
 
-We could introduce separate interfaces for our getters and setters here, or in a more abstract sense for the ones
-mutating state and another for the ones changing it. The object could stay the same, we only need to extract interfaces
-of the corresponding methods. The migration to the new component bootstrap mechanism is a great time to think about this
-as well, especially if we need to introduce a new abstraction layer anyways, i.e. due to the need of a legacy-proxy.
+We could introduce separate interfaces for our getters and setters here, or in a more abstract sense one for the
+methods mutating state and another for the ones only reading it. The object could stay the same, we only need to
+extract interfaces of the corresponding methods. The migration to the new component bootstrap mechanism is a great time
+to think about this as well, especially if we need to introduce a new abstraction layer anyways, i.e. due to the need
+of a legacy-proxy.
 
 ```php
 interface WriteActions
@@ -613,9 +625,9 @@ things should be initialised. With the new bootstrap mechanism this is a tiny bi
 don't differentiate between these contexts anymore. Everything is determined during build-time and different artifacts
 are produced for different contexts instead. What the implications of this are is unknown at the moment. This is
 probably something we need to analyse and discuss when first components that heavily rely on this mechanic are migrated.
-- Dependance on artifacts: currently one needs to use `BuildArtifactObjective::PATH()` to get the path of an artifact
+- Dependence on artifacts: currently one needs to use `BuildArtifactObjective::PATH()` to get the path of an artifact
 for its inclusion. We currently lack a facility which properly manages this stuff and can provide artifact paths / data
-in a structured manner. This leads to potential anynomous classes or artifacts which cannot yet be properly injected. We
+in a structured manner. This leads to potential anonymous classes or artifacts which cannot yet be properly injected. We
 probably need to find a solution for this in early stages of this project too.
 - Purged `public` directory: the current machinery which manages what assets will ultimately end up in our isolated web
 root directory currently purges all files and moves contributed assets into the directory every time the application is
@@ -641,16 +653,19 @@ refactorings, all of which SHOULD be documented here to maintain an overview.
 
 ### The process as a whole
 
-describes how the migration (most likely) works in terms of processes, not actual implementation.
-- who aquires funding?
+> **TODO:** this chapter has not been written yet. It is meant to describe how a migration works in terms of process,
+> not in terms of actual implementation. We will provide a guide or a separate document about this in a later
+> iteration.
+
+The questions it needs to answer:
+
+- who acquires funding?
 - who is responsible for a concrete migration?
 - who is responsible for all migrations (as an overview)?
 - who is authoring the migration?
 - who is reviewing the result of a migration (QA)?
 - who needs to give approval and when?
 - how should the result be published?
-
-we will probably provide a guide or document about this in a separate iteration.
 
 ## Recommendations
 
@@ -678,8 +693,8 @@ appropriate container to achieve its desired goal.
 
 ## I don't understand this and/or need help
 
-If you feel like you don't fully understand any of the above aspects, or you do and have some constructive critisism
-about it, of you simply need some help because there is an edge case or something else we haven't thought about
+If you feel like you don't fully understand any of the above aspects, or you do and have some constructive criticism
+about it, or you simply need some help because there is an edge case or something else we haven't thought about
 happening inside your component – contact us.
 
 Who are we you ask? While the brains behind the conceptual work and the first iteration of the component revision was

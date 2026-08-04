@@ -1147,8 +1147,8 @@ class ilInitialisation
     }
 
     /**
-     * @deprecated since ILIAS 10; please use the {@see AllModernComponents} entry point instead.
-     *             check out {@see ../../Component/docs/component-bootstrap-migration.md} for a
+     * @deprecated since ILIAS 12; please use the {@see AllModernComponents} entry point instead.
+     *             See `components/ILIAS/Component/docs/component-bootstrap-migration.md` for a
      *             more detailed description.
      */
     public static function initILIAS(): void
