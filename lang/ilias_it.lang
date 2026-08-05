@@ -5272,6 +5272,7 @@ common#:#online_time#:#Tempo online (DD:HH:MM:SS)
 common#:#only_active#:#Solo attivo
 common#:#only_inactive#:#Solo inattivo
 common#:#open#:#Aperto
+common#:#open_link#:#Open link###05 08 2026 new variable
 common#:#operation#:#Operazione
 common#:#optimize#:#Ottimizza
 common#:#option#:#Opzioni

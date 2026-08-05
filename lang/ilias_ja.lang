@@ -5273,6 +5273,7 @@ common#:#online_time#:#オンライン時間(DD:HH:MM:SS)
 common#:#only_active#:#Only Active
 common#:#only_inactive#:#Only Inactive
 common#:#open#:#Open
+common#:#open_link#:#リンクを開く
 common#:#operation#:#操作
 common#:#optimize#:#最適化
 common#:#option#:#オプション

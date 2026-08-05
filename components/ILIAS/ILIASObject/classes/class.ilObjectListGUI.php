@@ -2632,7 +2632,7 @@ class ilObjectListGUI
                 $this->tpl->setVariable('EXP_HREF', $this->ctrl->getLinkTarget($this->container_obj, 'view', $this->getUniqueItemId(true)));
                 $this->ctrl->clearParameters($this->container_obj);
                 $this->tpl->setVariable('EXP_IMG', ilUtil::getImagePath('nav/tree_col.svg'));
-                $this->tpl->setVariable('EXP_ALT', $this->lng->txt('expand'));
+                $this->tpl->setVariable('EXP_ALT', $this->lng->txt($this->type === 'sess' ? 'open_link' : 'expand'));
             }
 
             $this->tpl->parseCurrentBlock();
