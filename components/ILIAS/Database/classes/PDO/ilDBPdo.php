@@ -102,7 +102,7 @@ class ilDBPdo implements Internal
     {
         return [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
+            PDO\Mysql::ATTR_USE_BUFFERED_QUERY => true,
             PDO::ATTR_TIMEOUT => 300 * 60,
         ];
     }
