@@ -873,13 +873,21 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     {
         $udfs = $this->profile->getAllUserDefinedFields();
         return array_reduce(
-            $this->profile->getDataForMultiple(array_keys($a_data)),
+            iterator_to_array(
+                $this->profile->getDataForMultiple(
+                    array_keys($a_data)
+                )
+            ),
             function (array $c, ProfileData $v) use ($a_data, $udfs): array {
                 $c[$v->getId()] = $a_data[$v->getId()];
                 foreach ($udfs as $field) {
                     $field_id = $field->getIdentifier();
-                    $c[$v->getId()]['udf_' . $field_id] = (string) $v->getAdditionalFieldByIdentifier($field_id);
+                    $c[$v->getId()]['udf_' . $field_id] = implode(
+                        ', ',
+                        $v->getAdditionalFieldByIdentifier($field_id) ?? []
+                    );
                 }
+                return $c;
             },
             []
         );
