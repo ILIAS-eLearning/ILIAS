@@ -24,6 +24,8 @@ use ILIAS\UI\Component\Component;
 
 /**
  * Trait for adding view controls to a component
+ *
+ * @deprecated moves to {@see \ILIAS\UI\Component\Input\Container\ViewControl}
  */
 interface HasViewControls extends Component
 {
