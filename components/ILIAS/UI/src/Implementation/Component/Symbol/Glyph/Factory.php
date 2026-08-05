@@ -328,4 +328,19 @@ class Factory implements G\Factory
     {
         return new Glyph(G\Glyph::UNCHECKED, $this->language->txt("unchecked"));
     }
+
+    public function select(): G\Glyph
+    {
+        return new Glyph(G\Glyph::SELECT, 'select');
+    }
+
+    public function unselect(): G\Glyph
+    {
+        return new Glyph(G\Glyph::UNSELECT, 'unselect');
+    }
+
+    public function clear(): G\Glyph
+    {
+        return new Glyph(G\Glyph::CLEAR, 'clear');
+    }
 }
