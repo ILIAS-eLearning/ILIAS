@@ -311,7 +311,9 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
             if (array_key_exists('access_time', $data)) {
                 $data['access'] = $data['access_time'];
             }
-            $data['progress'] = $this->lng->txt($data['progress']);
+            if (array_key_exists('progress', $data)) {
+                $data['progress'] = $this->lng->txt($data['progress']);
+            }
         }
 
         return $data;

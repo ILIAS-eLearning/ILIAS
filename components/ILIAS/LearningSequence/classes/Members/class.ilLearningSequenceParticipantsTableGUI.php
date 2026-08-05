@@ -367,7 +367,9 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         // Custom user data fields
         if ($udf_ids !== []) {
             $user_data = array_reduce(
-                $this->profile->getDataForMultiple($filtered_user_ids),
+                iterator_to_array(
+                    $this->profile->getDataForMultiple($filtered_user_ids)
+                ),
                 function (array $c, ProfileData $v) use ($udf_ids): array {
                     if (!$this->checkAcceptance($v->getId())) {
                         return $c;
