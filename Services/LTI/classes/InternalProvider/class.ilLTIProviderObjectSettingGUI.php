@@ -128,6 +128,11 @@ class ilLTIProviderObjectSettingGUI
      */
     public function executeCommand(): void
     {
+        if (!$this->hasSettingsAccess()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->redirectByClass(ilRepositoryGUI::class);
+        }
+
         $cmd = $this->ctrl->getCmd('settings');
         $next_class = $this->ctrl->getNextClass($this);
 
