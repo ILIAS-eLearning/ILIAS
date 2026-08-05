@@ -24,7 +24,7 @@ use ILIAS\UI\Component\ReplaceSignal;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
 
 /**
- * @package ILIAS\UI\Component\Modal
+ * @deprecated use {@see \ILIAS\UI\Component\Prompt\Prompt} instead
  */
 interface RoundTrip extends Modal, Standard
 {
