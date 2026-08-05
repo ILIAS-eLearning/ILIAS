@@ -7250,7 +7250,7 @@ code {
   .c-maincontrols__footer {
     font-size: 0.75rem;
   }
-  .c-maincontrols__footer-grid {
+  .c-maincontrols__footer-grid--sm {
     grid-template-columns: repeat(4, 1fr);
   }
 }
@@ -7258,7 +7258,7 @@ code {
   .c-maincontrols__footer {
     font-size: 0.875rem;
   }
-  .c-maincontrols__footer-grid {
+  .c-maincontrols__footer-grid--sm, .c-maincontrols__footer-grid--md {
     grid-template-columns: repeat(1, 1fr);
   }
   .c-maincontrols__footer ul li {
