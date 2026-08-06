@@ -66,8 +66,9 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl = $this->renderLabel($component, $tpl);
 
-        if ($component->getType() === Component\Symbol\Glyph\Glyph::EXPAND
-            || $component->getType() === Component\Symbol\Glyph\Glyph::COLLAPSE) {
+        if (!$this instanceof ButtonContextRenderer
+            && ($component->getType() === Component\Symbol\Glyph\Glyph::EXPAND
+                || $component->getType() === Component\Symbol\Glyph\Glyph::COLLAPSE)) {
             $tpl->setCurrentBlock("with_aria_expanded");
             $tpl->setVariable(
                 "ARIA_EXPANDED",
