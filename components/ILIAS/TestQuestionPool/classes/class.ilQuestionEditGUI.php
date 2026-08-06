@@ -158,7 +158,6 @@ class ilQuestionEditGUI
                     }
                 }
 
-                $this->tabs->activateTab('question');
                 if ($cmd !== 'save') {
                     return (string) $this->ctrl->forwardCommand($question_gui);
                 }
