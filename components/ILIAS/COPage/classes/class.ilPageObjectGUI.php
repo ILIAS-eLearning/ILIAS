@@ -917,7 +917,7 @@ class ilPageObjectGUI
                 break;
 
             case "ilquestioneditgui":
-                $this->setQEditTabs("question");
+                $this->setQEditTabs("edit_question");
                 $edit_gui = new ilQuestionEditGUI();
                 $edit_gui->setPageConfig($this->getPageConfig());
                 $edit_gui->setSelfAssessmentEditingMode(true);
@@ -995,7 +995,7 @@ class ilPageObjectGUI
 
         $this->ctrl->setParameterByClass("ilquestioneditgui", "q_id", $this->requested_q_id);
         $this->tabs_gui->addTab(
-            "question",
+            "edit_question",
             $this->lng->txt("question"),
             $this->ctrl->getLinkTargetByClass("ilquestioneditgui", "editQuestion")
         );

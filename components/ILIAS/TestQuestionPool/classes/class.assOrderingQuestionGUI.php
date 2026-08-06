@@ -344,7 +344,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $this->ctrl->getLinkTarget($this, self::CMD_EDIT_NESTING)
             );
         }
-        $tabs->setTabActive('edit_question');
+        $tabs->setTabActive(self::TAB_EDIT_QUESTION);
         $tabs->setSubTabActive($active);
     }
 
