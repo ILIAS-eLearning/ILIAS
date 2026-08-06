@@ -19,9 +19,9 @@
 declare(strict_types=1);
 
 use ILIAS\HTTP\StatusCode;
-use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Init\ErrorHandling\Http\ErrorPageResponder;
 use ILIAS\Init\ErrorHandling\Http\PlainTextFallbackResponder;
+use ILIAS\Init\ErrorHandling\Http\UnableToRenderErrorPageResponderException;
 
 if (!file_exists('../ilias.ini.php')) {
     die('The ILIAS setup is not completed. Please run the setup routine.');
@@ -38,39 +38,48 @@ try {
 
     $DIC->ctrl()->callBaseClass();
 } catch (ilCtrlException $e) {
+    global $DIC;
+
     if (defined('DEVMODE') && DEVMODE) {
         throw $e;
     }
 
-    $DIC->logger()->root()->error($e->getMessage());
-    $DIC->logger()->root()->error($e->getTraceAsString());
-
-    $DIC->language()->loadLanguageModule('error');
-    $df = new DataFactory();
-    $back_target = $df->link(
-        $DIC->language()->txt('error_back_to_repository'),
-        $df->uri(ILIAS_HTTP_PATH . '/ilias.php?baseClass=ilRepositoryGUI')
-    );
+    if ($DIC->offsetExists('ilLoggerFactory')) {
+        $DIC->logger()->root()->error($e->getMessage());
+        $DIC->logger()->root()->error($e->getTraceAsString());
+    }
 
     try {
-        new ErrorPageResponder(
-            $DIC->globalScreen(),
-            $DIC->language(),
-            $DIC->ui(),
-            $DIC->http()
-        )->respond(
-            $DIC->language()->txt('http_404_not_found'),
+        new ErrorPageResponder($DIC)->respond(
+            '',
             StatusCode::HTTP_NOT_FOUND,
-            $back_target
+            null,
+            null,
+            ErrorPageResponder::ROUTING_FAILURE_MESSAGE_LANG_KEY
         );
-    } catch (Throwable) {
+    } catch (UnableToRenderErrorPageResponderException) {
         new PlainTextFallbackResponder()->respond(
             $e,
             StatusCode::HTTP_NOT_FOUND,
-            $DIC->language()->txt('http_404_not_found')
+            ErrorPageResponder::translatedUserMessageOrNull(
+                $DIC,
+                ErrorPageResponder::ROUTING_FAILURE_MESSAGE_LANG_KEY
+            )
+        );
+    } catch (Throwable $t) {
+        new PlainTextFallbackResponder()->respond(
+            $t,
+            StatusCode::HTTP_NOT_FOUND,
+            ErrorPageResponder::translatedUserMessageOrNull(
+                $DIC,
+                ErrorPageResponder::ROUTING_FAILURE_MESSAGE_LANG_KEY
+            )
         );
     }
 }
+
+/** @var \ILIAS\DI\Container $DIC */
+global $DIC;
 
 $DIC['ilBench']->save();
 $DIC['http']?->close();

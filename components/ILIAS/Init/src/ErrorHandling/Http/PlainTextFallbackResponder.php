@@ -51,15 +51,16 @@ class PlainTextFallbackResponder
      * The status code defaults to 500 (Internal Server Error). The caller may pass
      * a different code when the failure context is known.
      *
-     * @param int $status_code HTTP status code (default: 500).
+     * @param int         $status_code    HTTP status code (default: 500).
+     * @param string|null $public_message If set, shown instead of the exception message (details stay in error_log).
      * @throws Throwable in DEVMODE
      */
     public function respond(
         Throwable $e,
         int $status_code = StatusCode::HTTP_INTERNAL_SERVER_ERROR,
-        ?string $status_message = null
+        ?string $public_message = null
     ): never {
-        if (\defined('DEVMODE') && DEVMODE) {
+        if (defined('DEVMODE') && DEVMODE) {
             throw $e;
         }
 
@@ -69,19 +70,20 @@ class PlainTextFallbackResponder
         }
 
         $session_prefix = session_id() !== '' ? session_id() : 'no-session';
-        $incident_id = $session_prefix . '_' . (new \Random\Randomizer())->getInt(1, 9999);
-        $timestamp = (new DateTimeImmutable())
+        $incident_id = $session_prefix . '_' . new \Random\Randomizer()->getInt(1, 9999);
+        $timestamp = new DateTimeImmutable()
             ->setTimezone(new DateTimeZone('UTC'))
             ->format('Y-m-d\TH:i:s\Z');
 
-        echo ($status_message ?? 'Internal Server Error') . "\n";
+        echo ($public_message ?? 'Internal Server Error') . "\n";
         echo "Incident: $incident_id\n";
         echo "Timestamp: $timestamp\n";
 
         if ($e instanceof PDOException) {
             echo "Message: A database error occurred. Please contact the system administrator with the incident id.\n";
         } else {
-            echo "Message: {$e->getMessage()}\n";
+            $display = $public_message ?? $e->getMessage();
+            echo "Message: {$display}\n";
         }
 
         error_log(

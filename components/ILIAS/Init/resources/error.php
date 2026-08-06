@@ -20,11 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Init;
 
+use ilSession;
 use Throwable;
 use ILIAS\HTTP\StatusCode;
-use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Init\ErrorHandling\Http\ErrorPageResponder;
 use ILIAS\Init\ErrorHandling\Http\PlainTextFallbackResponder;
+
+$message = null;
 
 try {
     require_once '../vendor/composer/vendor/autoload.php';
@@ -35,30 +37,22 @@ try {
     /** @var \ILIAS\DI\Container $DIC */
     global $DIC;
 
-    \ilSession::clear('referer');
-    \ilSession::clear('message');
+    ilSession::clear('referer');
+    ilSession::clear('message');
 
     $DIC->language()->loadLanguageModule('error');
 
-    $message = \ilSession::get('failure') ?? $DIC->language()->txt('http_500_internal_server_error');
+    $message = ilSession::get('failure') ?? $DIC->language()->txt('http_500_internal_server_error');
     \ilSession::clear('failure');
 
-    $df = new DataFactory();
-    $back_target = $df->link(
-        $DIC->language()->txt('error_back_to_repository'),
-        $df->uri(ILIAS_HTTP_PATH . '/ilias.php?baseClass=ilRepositoryGUI')
-    );
-
-    new ErrorPageResponder(
-        $DIC->globalScreen(),
-        $DIC->language(),
-        $DIC->ui(),
-        $DIC->http()
-    )->respond(
+    new ErrorPageResponder($DIC)->respond(
         $message,
-        StatusCode::HTTP_INTERNAL_SERVER_ERROR,
-        $back_target
+        StatusCode::HTTP_INTERNAL_SERVER_ERROR
     );
 } catch (Throwable $e) {
-    new PlainTextFallbackResponder()->respond($e);
+    new PlainTextFallbackResponder()->respond(
+        $e,
+        StatusCode::HTTP_INTERNAL_SERVER_ERROR,
+        $message
+    );
 }
