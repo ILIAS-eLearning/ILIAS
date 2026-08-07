@@ -9409,7 +9409,7 @@ exc#:#exc_fixed_date_individual_info#:#Es gibt keinen gemeinsamen Abgabetermin. 
 exc#:#exc_fixed_date_info#:#Alle Teilnehmenden erhalten zunächst das gleiche feste Abgabedatum.
 exc#:#exc_fullscreen#:#Vollbild
 exc#:#exc_future#:#Kommende
-exc#:#exc_given_feedback#:#Gegebene Feedbacks
+exc#:#exc_given_feedback#:#Gegebenes Feedback
 exc#:#exc_global_feedback_file#:#Musterlösung
 exc#:#exc_global_feedback_file_after_date#:#Nach festem Datum
 exc#:#exc_global_feedback_file_cron#:#Benachrichtigung bei Verfügbarkeit
@@ -9478,9 +9478,9 @@ exc#:#exc_msg_new_feedback_file_uploaded2#:#Eine neue Feedback-Datei wurde für 
 exc#:#exc_msg_new_feedback_text_uploaded#:#Es wurde ein neuer Kommentar zur Übung „%s“ hinzugefügt.
 exc#:#exc_msg_new_feedback_text_uploaded2#:#die folgende Einreichung von Ihnen wurde kommentiert.
 exc#:#exc_msg_new_message_from_pf_giver#:#Es wurde eine neue Mitteilung zur Übung „%s“ hinzugefügt.
-exc#:#exc_msg_new_message_from_pf_giver2#:#Ein Peer-Feedback-Geber hat eine neue Mitteilung für Sie eingestellt:
+exc#:#exc_msg_new_message_from_pf_giver2#:#Eine Person, die Ihnen Feedback gegeben hat, hat folgende Mitteilung an Sie:
 exc#:#exc_msg_new_message_from_pf_recipient#:#Es wurde eine neue Mitteilung zur Übung „%s“ hinzugefügt.
-exc#:#exc_msg_new_message_from_pf_recipient2#:#Ein Peer-Feedback-Nehmer hat eine neue Mitteilung für Sie eingestellt:
+exc#:#exc_msg_new_message_from_pf_recipient2#:#Eine Person, die von Ihnen Feedback erhalten hat, hat folgende Mitteilung an Sie:
 exc#:#exc_msg_participants_removed#:#Die Personen wurden aus der Übung entfernt.
 exc#:#exc_msg_public_submission#:#Alle Lösungsabgaben werden nach dem Abgabetermin veröffentlicht.
 exc#:#exc_msg_saved_grades#:#Die Änderungen wurden gespeichert.
@@ -9548,11 +9548,11 @@ exc#:#exc_peer_review_file#:#Datei-Upload
 exc#:#exc_peer_review_file_info#:#Ermöglicht Peers eine Datei je Review hochzuladen
 exc#:#exc_peer_review_give#:#Feedback geben
 exc#:#exc_peer_review_given#:#Gegebenes Feedback zeigen
-exc#:#exc_peer_review_giver#:#Feedback-Geber
-exc#:#exc_peer_review_invalid_giver_ids#:#Feedback-Geber, die an der Übung nicht teilnehmen oder nichts abgegeben haben
-exc#:#exc_peer_review_invalid_peer_ids#:#Feedback-Nehmer, die an der Übung nicht teilnehmen oder nichts abgegeben haben
+exc#:#exc_peer_review_giver#:#Feedback von
+exc#:#exc_peer_review_invalid_giver_ids#:#Personen, die Feedback geben sollten, aber nicht an der Übung teilgenommen oder kein Feedback abgegeben haben
+exc#:#exc_peer_review_invalid_peer_ids#:#Personen, denen ein Feedback gegeben werden sollte, die aber nicht an der Übung teilgenommen haben oder denen kein Feedback gegeben wurde
 exc#:#exc_peer_review_min_chars#:#Mindestanzahl Zeichen
-exc#:#exc_peer_review_min_chars_info#:#Die nötige Anzahl Zeichen für ein gültiges Feedback.
+exc#:#exc_peer_review_min_chars_info#:#Die nötige Anzahl Zeichen für ein gültiges Feedback
 exc#:#exc_peer_review_min_chars_tgl#:#Mindestlänge
 exc#:#exc_peer_review_min_number#:#Geforderte Anzahl von Feedbacks
 exc#:#exc_peer_review_min_number_info#:#Anzahl von Einreichungen, zu denen man Feedback geben muss. Sollte die Anzahl der geforderten Rückmeldungen die Anzahl der tatsächlichen Einreichungen übersteigen, wird die geforderte Anzahl automatisch auf die Anzahl der tatsächlichen Einreichungen reduziert.
@@ -9561,13 +9561,13 @@ exc#:#exc_peer_review_missing_info_deadline#:#Um das erhaltene Feedback zu sehen
 exc#:#exc_peer_review_missing_users#:#Benutzer mit einer Abgabe, die nicht Teil des Peer-Feedbacks sind
 exc#:#exc_peer_review_no_peers#:#Es konnten keine Peers gefunden werden.
 exc#:#exc_peer_review_no_peers_reviewed_yet#:#Es wurden bisher noch keine Bewertungen vorgenommen.
-exc#:#exc_peer_review_not_returned_users#:#Benutzer ohne Abgabe, die nicht Teil des Peer-Feedbacks sind
+exc#:#exc_peer_review_not_returned_users#:#Personen ohne Abgabe, die nicht Teil des Peer-Feedbacks sind
 exc#:#exc_peer_review_overview#:#Peer-Gruppen anzeigen
-exc#:#exc_peer_review_overview_invalid_users#:#Ungültige Benutzer
+exc#:#exc_peer_review_overview_invalid_users#:#Andere Personen
 exc#:#exc_peer_review_personal#:#Personalisiertes Peer-Feedback
 exc#:#exc_peer_review_personal_info#:#Peers werden mit vollem Namen gezeigt
 exc#:#exc_peer_review_rating#:#5-Sterne-Bewertung
-exc#:#exc_peer_review_recipient#:#Feedback-Nehmer
+exc#:#exc_peer_review_recipient#:#Feedback an
 exc#:#exc_peer_review_reset#:#Peer-Feedback löschen und zurücksetzen
 exc#:#exc_peer_review_reset_done#:#Sämtliche Peer-Feedback-Daten wurde für die Übungseinheit gelöscht.
 exc#:#exc_peer_review_reset_sure#:#Wollen Sie wirklich das komplette Peer-Feedback für die Übungseinheit „%s“ löschen?
@@ -9599,7 +9599,7 @@ exc#:#exc_random_assignment_info#:#Wenn Sie die Übung starten, wird Ihnen eine 
 exc#:#exc_random_selection#:#Zufällige Auswahl
 exc#:#exc_random_selection_info#:#Jeder Person wird eine zufällige Auswahl an verpflichtenden Übungseinheiten zugeordnet.
 exc#:#exc_random_selection_not_changeable_info#:#Diese Option kann nicht aktiviert werden.
-exc#:#exc_received_feedback#:#Erhaltene Feedbacks
+exc#:#exc_received_feedback#:#Erhaltenes Feedback
 exc#:#exc_rel_last_submission#:#Letztmöglicher Abgabetermin
 exc#:#exc_rel_last_submission_info#:#Wird dieses Datum gesetzt, so müssen alle Abgaben vor diesem Datum getätigt werden.
 exc#:#exc_rel_start_latest_lead_text#:#spätestens am %s
