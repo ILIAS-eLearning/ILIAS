@@ -15703,8 +15703,8 @@ sess#:#sess_msg_applicants_assigned#:#Person wurde für den Sitzungstermin angem
 sess#:#sess_msg_applicants_removed#:#Antrag abgelehnt und aus der Liste entfernt.
 sess#:#sess_new#:#Neue Sitzung anlegen
 sess#:#sess_new_registrations#:#Teilnahmeanträge
-sess#:#sess_notification_option#:#Option
-sess#:#sess_notification_option_inherit#:#Vom übergeordneten Objekt erben
+sess#:#sess_notification_option#:#Benachrichtigte Personen
+sess#:#sess_notification_option_inherit#:#Wie in Kurs oder Gruppe
 sess#:#sess_notification_option_inherit_info#:#Es werden die gleichen Personen benachrichtigt wie im übergeordneten Objekt.
 sess#:#sess_notification_option_manual#:#Manuell setzen
 sess#:#sess_notification_option_manual_info#:#Es muss manuell festgelegt werden, wer die Benachrichtigung empfangen soll.
