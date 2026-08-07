@@ -7723,7 +7723,7 @@ crs#:#crs_loc_settings_type_q_all_info#:#Mastery of all learning objectives is e
 crs#:#crs_loc_settings_type_q_selected#:#Separate Final Test for Each Objective
 crs#:#crs_loc_settings_type_q_selected_info#:#Participants are presented with a separate mastery test for each learning objective.
 crs#:#crs_loc_subtab_creation#:#Create
-crs#:#crs_loc_suggested#:#Please work through the following learning materials.
+crs#:#crs_loc_suggested#:#Please work through the listed materials and then take the final test to pass the learning objective.
 crs#:#crs_loc_tab_itest#:#Initial Test
 crs#:#crs_loc_tab_itests#:#Initial Tests
 crs#:#crs_loc_tab_materials#:#Material
@@ -10674,7 +10674,7 @@ iass#:#iass_file_dropzone#:#you can drop your files here
 iass#:#iass_file_required#:#Record file required
 iass#:#iass_file_required_info#:#A record file has to be uploaded to each participant record.
 iass#:#iass_file_visible_examinee#:#File visible for participant
-iass_file_visible_examinee_info#:#Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled.
+iass#:#iass_file_visible_examinee_info#:#Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled.
 iass#:#iass_filter_all#:#All
 iass#:#iass_filter_failed#:#Failed only
 iass#:#iass_filter_finalized#:#Completed only
