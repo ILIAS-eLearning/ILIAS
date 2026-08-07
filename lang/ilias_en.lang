@@ -3485,7 +3485,7 @@ cntr#:#cntr_switch_to_new_editor_message#:#This is the supported standard editor
 cntr#:#cntr_switched_editor#:#Switched to new content.
 cntr#:#cntr_tax_none_available#:#There are no taxonomies available.
 cntr#:#cntr_tax_settings_info#:#Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the "Metadata" tabs and the "Taxonomy Assignment" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's "Contents" tab to enable direct filtering of the assigned objects.
-cntr#:#cntr_taxonomy_definitions#:#Taxonomy Definition
+cntr#:#cntr_taxonomy_definitions#:#Taxonomies
 cntr#:#cntr_taxonomy_show_sideblock#:#Present in Side Panel
 cntr#:#cntr_taxonomy_sideblock_settings#:#Presentation Settings
 cntr#:#cntr_text_media_editor#:#Edit Page
@@ -5165,7 +5165,7 @@ common#:#obj_tala_desc#:#Talk Templates
 common#:#obj_tals#:#Employee Talk Series
 common#:#obj_talt#:#Talk Template
 common#:#obj_task#:#Task
-common#:#obj_tax#:#Taxonomy
+common#:#obj_tax#:#Taxonomies within this object
 common#:#obj_taxf#:#Taxonomies
 common#:#obj_tool_setting_calendar#:#Calendar Block
 common#:#obj_tool_setting_calendar_active#:#Calendar
@@ -17195,9 +17195,9 @@ tax#:#tax_order#:#Order
 tax#:#tax_order_nr#:#Order Nr
 tax#:#tax_please_select_target#:#Please select the target.
 tax#:#tax_target_within_nodes#:#The target must not be a sub-node of the selected items.
-tax#:#tax_tax_assignment#:#Taxonomy Assignment
+tax#:#tax_tax_assignment#:#Assignment to Taxonomies
 tax#:#tax_tax_deleted#:#The taxonomy has been deleted.
-tax#:#tax_tax_settings#:#Taxonomy Settings
+tax#:#tax_tax_settings#:#Display Taxonomies
 tax#:#tax_taxonomy#:#Taxonomy
 tbl#:#tbl_export_csv#:#Export CSV
 tbl#:#tbl_export_excel#:#Export Excel
