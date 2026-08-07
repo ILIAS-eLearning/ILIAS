@@ -690,7 +690,8 @@ We strongly recommend using MariaDB instead of MySQL due to performance, licensi
 ## Configure Cron Jobs
 
 This step configures the execution of the ILIAS Cron Jobs, which can be set to perform tasks, such as sending notifications.
-You can manage these jobs in the ILIAS Administration under "Administration > General Settings > Cron Jobs".
+You can manage these jobs in the ILIAS Administration under
+"Administration > System Settings and Maintenance > Cron Jobs".
 
 To test the execution of the Cron Jobs Executable `./cli/cron.php`, the following command can be used:
 
@@ -702,16 +703,16 @@ The `<user>` is a valid, arbitrary user account within the ILIAS installation.
 The `<client_id>` corresponds to the client ID of the ILIAS installation.
 
 To configure automated Cron Jobs in your system, you need to create a user in ILIAS, for example named `cron`.
-Then create a new file in the Linux Cron configuration for ILIAS at `/etc/cron.d/ilias`, 
-including a line to execute `./cli/cron.php` every 5 minutes. 
+Then create a new file in the Linux Cron configuration for ILIAS at `/etc/cron.d/ilias`,
+including a line to execute `./cli/cron.php` every 5 minutes.
 Other methods for executing Linux cron tasks, such as using the user crontab, can also be utilized.
 
 ```cron
 */5 * * * * www-data /usr/bin/php /var/www/ilias/cli/cron.php run-jobs cron myilias > /dev/null 2>&1
 ```
 
-You can verify the proper automatic execution in the ILIAS Administration section by checking the timestamp 
-displayed at `Last Start of the Cron Job` after some time.
+You can verify the proper automatic execution in the ILIAS Administration section by checking the timestamp
+displayed at `Last Automatic Execution of Cron Job Script` after some time.
 
 
 <a name="webdav-configuration"></a>
