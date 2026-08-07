@@ -1113,9 +1113,9 @@ assessment#:#qpl_questions_deleted#:#Fragen gelöscht
 assessment#:#qpl_reset_preview#:#Vorschau zurücksetzen
 assessment#:#qpl_save_skill_assigns_update#:#Kompetenzzuweisung speichern
 assessment#:#qpl_settings_availability#:#Verfügbarkeit
-assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Vorhandene Taxonomien können zum Filtern der Fragen genutzt werden.
-assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomie als Navigationsbaum
-assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Ist eine Taxonomie ausgewählt, wird diese nicht als Filter sondern als Navigationsbaum angezeigt.
+assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Taxonomien können als Filter im Reiter „Fragen“ verwendet werden.
+assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomie als Baumansicht
+assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Die ausgewählte Taxonomie wird im Reiter „Fragen“ in einer Baumansicht angezeigt. Sie erscheint nicht mehr im Filter.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Keine Taxonomie als Navigationsbaum verwenden
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Taxonomien
 assessment#:#qpl_settings_subtab_general#:#Allgemeine Einstellungen
@@ -17180,7 +17180,7 @@ tax#:#tax_add_taxonomy#:#Taxonomie hinzufügen
 tax#:#tax_added#:#Die Taxonomie wurde erstellt.
 tax#:#tax_admin_settings_repository#:#Magazin-Taxonomien
 tax#:#tax_alphabetical#:#Alphabetisch
-tax#:#tax_assigned_items#:#Zugewiesene Einträge
+tax#:#tax_assigned_items#:#Zugeordnete Fragen
 tax#:#tax_confirm_deletion#:#Wollen Sie wirklich die gesamte Taxonomie mit allen Beziehungen löschen?
 tax#:#tax_create_node#:#Knoten anlegen
 tax#:#tax_item_sorting#:#Sortierung der zugewiesenen Einträge unterstützen
