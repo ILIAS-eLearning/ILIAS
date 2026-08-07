@@ -11116,6 +11116,7 @@ lhist#:#lhist_selected#:#Selected
 lhist#:#lhist_show_more#:#Mehr anzeigen
 lhist#:#lhist_type_of_achievement#:#Typ des Lernerfolgs
 like#:#like#:#Like
+like#:#react#:#Reagieren
 like#:#reaction#:#Reaktion
 link#:#link_chapters#:#Kapitel
 link#:#link_link#:#Link
@@ -13166,7 +13167,7 @@ notes#:#note_update_note#:#Notiz bearbeiten
 notes#:#note_without_object#:#Ohne Objektbezug
 notes#:#notes_activate_comments#:#Öffentliches Kommentieren aktivieren
 notes#:#notes_add_comment#:#Kommentar hinzufügen
-notes#:#notes_add_edit_comment#:#Kommentar hinzufügen/editieren
+notes#:#notes_add_edit_comment#:#Kommentieren
 notes#:#notes_add_edit_message#:#Mitteilung hinzufügen/editieren
 notes#:#notes_add_edit_note#:#Notiz hinzufügen/editieren
 notes#:#notes_all_comments#:#Alle Kommentare
@@ -13187,7 +13188,6 @@ notes#:#notes_message_author_you#:#Sie
 notes#:#notes_message_deleted#:#Die Mitteilung wurde gelöscht.
 notes#:#notes_messages#:#Mitteilungen
 notes#:#notes_my_comments#:#Meine Kommentare
-notes#:#notes_no_comments#:#Bisher wurde noch kein Kommentar abgegeben.
 notes#:#notes_no_comments_found#:#Es wurden keine Kommentare gefunden, die den Suchkriterien entsprechen.
 notes#:#notes_no_messages#:#Bisher wurde noch keine Mitteilung hinzugefügt.
 notes#:#notes_no_messages_found#:#Es wurden keine Mitteilungen gefunden, die den Suchkriterien entsprechen.
