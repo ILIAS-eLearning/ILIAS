@@ -4392,7 +4392,7 @@ common#:#il_grp_admin#:#Gruppenadministration
 common#:#il_grp_member#:#Gruppenmitglied
 common#:#il_grp_status_closed#:#Geschlossene Gruppe
 common#:#il_grp_status_open#:#Offene Gruppe
-common#:#il_iass_member#:#Teilnehmer
+common#:#il_iass_member#:#Bewertete Person
 common#:#il_lso_admin#:#Lernsequenzadministration
 common#:#il_lso_member#:#Lernsequenzmitglied
 common#:#il_lti_instructor#:#LTI Instructor
@@ -9099,12 +9099,12 @@ ecs#:#ecs_cms_id#:#Root-ID im Campus-Management-System
 ecs#:#ecs_cms_tree_deleted#:#Die Zuweisungen zum Campus-Management-Baum wurden gelöscht
 ecs#:#ecs_cms_tree_synchronize#:#Synchronisieren
 ecs#:#ecs_cms_tree_synchronized#:#Der Baum wurde synchronisiert.
-ecs#:#ecs_communities#:#Teilnehmer
+ecs#:#ecs_communities#:#Partizipanten
 ecs#:#ecs_confirm_delete_tree#:#Wollen Sie wirklich alle Zuweisungen zu diesem CMS-Baum löschen?
 ecs#:#ecs_connection_settings#:#Verbindungsdaten
 ecs#:#ecs_consent_modal_btn_accept#:#Zustimmen und fortfahren
 ecs#:#ecs_consent_modal_title#:#Einwilligung zur Datenübertragung
-ecs#:#ecs_consent_reset_confirm_title#:#Benutzerzustimmung für diesen Teilnehmer zurücksetzen
+ecs#:#ecs_consent_reset_confirm_title#:#Benutzerzustimmung für diesen Partizipanten zurücksetzen
 ecs#:#ecs_cron_task_scheduler#:#ECS-Aufgaben ausführen
 ecs#:#ecs_cron_task_scheduler_info#:#Wenn aktiviert, werden ECS-Aufgaben regelmäßig ausgeführt. Dies ist nur möglich, wenn ein ECS-Server unter „Administration » ILIAS erweitern » ECS“ aktiviert ist.
 ecs#:#ecs_crs_alloc#:#Kurszuordnungen
@@ -9155,7 +9155,7 @@ ecs#:#ecs_field_cycle#:#Zyklus
 ecs#:#ecs_field_day#:#Tag
 ecs#:#ecs_field_end#:#Endtermin
 ecs#:#ecs_field_lecturer#:#Leitung
-ecs#:#ecs_field_part_id#:#Teilnehmer-ID
+ecs#:#ecs_field_part_id#:#Partizipanten-ID
 ecs#:#ecs_field_room#:#Raum
 ecs#:#ecs_field_semester_hours#:#Semesterwochenstunden
 ecs#:#ecs_field_start#:#Starttermin
@@ -9189,11 +9189,11 @@ ecs#:#ecs_import_id#:#Import-ID
 ecs#:#ecs_import_id_info#:#Bitte geben Sie die ID der Kategorie ein, in der neue ECS-Objekte angelegt werden sollen.
 ecs#:#ecs_import_types#:#Importierbare Objekttypen
 ecs#:#ecs_import_user_credentials_by_auth_mode#:#Konfiguration der Authentifikations-Methoden zur Übertragung via ECS
-ecs#:#ecs_import_user_credentials_by_auth_mode_info#:#Aktivieren Sie diese Option um es Account der Authentifizierungsmethode "Default" zu erlauben, über den ECS auf Ressourcen des Teilnehmers zugreifen zu können.
+ecs#:#ecs_import_user_credentials_by_auth_mode_info#:#ILIAS-Konten, die die Standard-Authentifizierungsmethode verwenden, können über den ECS auf Ressourcen des Partizipanten zugreifen.
 ecs#:#ecs_imported_content#:#Importierte Materialien
 ecs#:#ecs_imported_from#:#Importiert von
 ecs#:#ecs_institution#:#Institution
-ecs#:#ecs_invalid_import_type_cms#:#Sie können den Import-Typ "Campus-Management" nur für maximal einen Teilnehmer auswählen.
+ecs#:#ecs_invalid_import_type_cms#:#Sie können den Import-Typ „Campus-Management“ nur für maximal einen Partizipanten auswählen.
 ecs#:#ecs_key_password#:#Schlüsselpasswort
 ecs#:#ecs_lastname#:#Nachname
 ecs#:#ecs_lm_export#:#Lernmodulfreigaben
@@ -9208,7 +9208,7 @@ ecs#:#ecs_mapping_exp_tbl#:#Zuordnung der Erweiterten Metadaten zu ECS-Daten
 ecs#:#ecs_mapping_rcrs#:#Zuordnung für ECS-Kurse
 ecs#:#ecs_mapping_tbl#:#Zuordnung von ECS-Daten zu Erweiterten Metadaten
 ecs#:#ecs_mappings#:#Zuordnung von ECS-Daten
-ecs#:#ecs_member_auth_type#:#Authentifizierungsmodus der Teilnehmer
+ecs#:#ecs_member_auth_type#:#Authentifizierungsmodus der Partizipanten
 ecs#:#ecs_meta_data#:#Metadaten
 ecs#:#ecs_new_approval_subject#:#Ein neuer Kurs wurde freigegeben
 ecs#:#ecs_new_category_mapping#:#Neue Regel für die Zuordnung von importierten ECS-Kursen zu Kategorien
@@ -9230,8 +9230,8 @@ ecs#:#ecs_not_published#:#Es wurden keine Freigaben ausgewählt.
 ecs#:#ecs_notifications#:#Benachrichtigungen
 ecs#:#ecs_outgoing_user_credentials#:#Benutzerattribut
 ecs#:#ecs_outgoing_user_credentials_info#:#Bitte geben Sie an, welches Benutzerattribut zur Übertragung verwendet werden soll. Mögliche Werte [Login], [EXTERNAL_ACCOUNT]. Sie können das angegebene Attribut durch voranstellen oder anhängen von beliebigen Strings verändern. Bespiel: [LOGIN]@example.com
-ecs#:#ecs_part_settings#:#Einstellungen für Teilnehmer:
-ecs#:#ecs_participants#:#Teilnehmer
+ecs#:#ecs_part_settings#:#Einstellungen für Partizipanten:
+ecs#:#ecs_participants#:#Partizipanten
 ecs#:#ecs_participants_infos#:#Weitere Informationen
 ecs#:#ecs_polling#:#Frequenz der Abfragen
 ecs#:#ecs_polling_info#:#Bitte legen Sie eine Frequenz für Anfragen an den ECS-Server fest.
@@ -9244,7 +9244,7 @@ ecs#:#ecs_published_for#:#Freigegeben für:
 ecs#:#ecs_rcat_created_body_a#:#Eine neue ECS-Kategorie wurde angelegt:
 ecs#:#ecs_rcrs_created_body_a#:#Ein neuer ECS-Kurs wurde angelegt:
 ecs#:#ecs_read_remote_links#:#Kursinformationen aktualisieren
-ecs#:#ecs_refresh_participants#:#ECS-Teilnehmer aktualisieren
+ecs#:#ecs_refresh_participants#:#ECS-Partizipanten aktualisieren
 ecs#:#ecs_released#:#Freigegebene Kurse
 ecs#:#ecs_released_content#:#Freigegebener E-Content
 ecs#:#ecs_remote_imported#:#Die Informationen über Kursänderungen wurden neu eingelesen.
@@ -9282,7 +9282,7 @@ ecs#:#ecs_tst_export#:#Testfreigaben
 ecs#:#ecs_tst_export_disabled#:#Nicht freigeben
 ecs#:#ecs_tst_export_enabled#:#Freigeben
 ecs#:#ecs_tst_export_obj_settings#:#Einstellungen für Testfreigaben
-ecs#:#ecs_unique_id#:#Teilnehmer-ID
+ecs#:#ecs_unique_id#:#Partizipanten-ID
 ecs#:#ecs_user_rcp#:#Benachrichtigungen über ECS-Benutzer
 ecs#:#ecs_user_rcp_info#:#Geben Sie hier kommagetrennt einen oder mehrere Anmeldenamen ein, die über neue ECS-Konten per Mail benachrichtigt werden sollen.
 ecs#:#ecs_wiki_export#:#Wikifreigaben
@@ -10676,8 +10676,8 @@ iass#:#grading#:#Bewertung
 iass#:#grading_info#:#Bewertungsinformationen
 iass#:#grading_record#:#Bewertungszusammenfassung
 iass#:#iass_add#:#Individuelle Bewertung anlegen
-iass#:#iass_add_user_failure#:#Einer oder mehrere Benutzer konnten nicht hinzugefügt werden.
-iass#:#iass_add_user_success#:#Benutzer als Teilnehmer hinzugefügt.
+iass#:#iass_add_user_failure#:#Eine oder mehrere Personen konnten nicht hinzugefügt werden.
+iass#:#iass_add_user_success#:#Die Person wurde hinzugefügt.
 iass#:#iass_added#:#Individuelle Bewertung hinzugefügt
 iass#:#iass_amend_saved#:#Geänderte Prüfungsdaten wurden gespeichert.
 iass#:#iass_assessment_not_completed#:#Noch nicht abgeschlossen
@@ -10695,13 +10695,14 @@ iass#:#iass_edit#:#Einstellungen
 iass#:#iass_edit_info#:#Einstellungen Kontakt
 iass#:#iass_edit_record#:#Prüfungsdaten
 iass#:#iass_event_time#:#Zeitpunkt der Prüfung
-iass#:#iass_event_time_place_required#:#Pflichtangabe Zeitpunkt und Ort
+iass#:#iass_event_time_place_required#:#Pflichtangabe „Zeitpunkt“ und „Ort“
 iass#:#iass_event_time_place_required_info#:#Zeitpunkt und Ort der Prüfung müssen eingetragen werden.
-iass#:#iass_file#:#Datei
-iass#:#iass_file_dropzone#:#Ziehen Sie ihre Datei hierhin
+iass#:#iass_file#:#Prüfungsblatt
+iass#:#iass_file_dropzone#:#Ziehen Sie die Datei hierhin.
 iass#:#iass_file_required#:#Pflichtangabe Prüfungsblatt
 iass#:#iass_file_required_info#:#Ein Prüfungsblatt muss hochgeladen werden.
-iass#:#iass_file_visible_examinee#:#Datei für Teilnehmer sichtbar
+iass#:#iass_file_visible_examinee#:#Prüfungsblatt für bewertete Person sichtbar
+iass_file_visible_examinee_info#:#Nach abgeschlossener Bewertung kann das Prüfungsblatt von der bewerteten Person eingesehen werden. Dazu muss die Funktion „Ergebnis zugänglich machen“ aktiviert sein.
 iass#:#iass_filter_all#:#Alle
 iass#:#iass_filter_failed#:#Nur nicht bestandene
 iass#:#iass_filter_finalized#:#Nur bestandene
@@ -10709,28 +10710,28 @@ iass#:#iass_filter_not_finalized#:#Nur nicht abgeschlossene
 iass#:#iass_filter_not_started#:#Nur nicht bewertete
 iass#:#iass_finalize#:#Abschließen
 iass#:#iass_finalize_info#:#Die Individuelle Bewertung wird abgeschlossen.
-iass#:#iass_finalize_user_qst#:#Soll die Bewertung des Teilnehmers wirklich final abgeschlossen werden? Änderungen an der Bewertung sind hinterher nicht mehr möglich.
+iass#:#iass_finalize_user_qst#:#Soll diese Bewertung wirklich abgeschlossen werden?
 iass#:#iass_further_field_headline#:#Detaillierte Informationen
 iass#:#iass_graded_by#:#Bewertet von
 iass#:#iass_info_emails_expl#:#Sie können mehrere Adressen mit einem Komma getrennt angeben.
 iass#:#iass_internal_note#:#Interne Anmerkungen zur Prüfung
-iass#:#iass_internal_note_info#:#Dieser Text ist nur für Personen sichtbar, die Prüfungsdaten einsehen können. Teilnehmerinnen und Teilnehmer sehen die interne Anmerkung zur Prüfung nicht.
+iass#:#iass_internal_note_info#:#Dieser Text ist nur für Personen sichtbar, die Prüfungsdaten einsehen können. Bewertete Personen sehen die interne Anmerkung zur Prüfung nicht.
 iass#:#iass_location#:#Ort
 iass#:#iass_mails#:#E-Mail
 iass#:#iass_may_not_finalize#:#Prüfung kann noch nicht abschließend bewertet werden. Bitte geben Sie eine Bewertung ab.
 iass#:#iass_membership_finalized#:#Bewertung abgeschlossen.
-iass#:#iass_membership_saved#:#Bewertung wurde gespeichert aber noch nicht final abgeschlossen.
+iass#:#iass_membership_saved#:#Bewertung wurde gespeichert, aber noch nicht final abgeschlossen.
 iass#:#iass_mess_notification_completed#:#Sie haben die Prüfung „%s“ bestanden. Beachten Sie bitte auch die folgende Notiz zur Prüfung.
 iass#:#iass_mess_notification_failed#:#Sie haben die Prüfung „%s“ leider nicht bestanden. Beachten Sie bitte auch die folgende Notiz zur Prüfung.
-iass#:#iass_notify#:#Ergebnis dem Teilnehmer zugänglich machen
-iass#:#iass_notify_explanation#:#Der Teilnehmer wird nach Abschluss der Bewertung per E-Mail benachrichtigt und kann die Prüfungsnotiz auf dem Reiter „Info“ einsehen.
+iass#:#iass_notify#:#Ergebnis zugänglich machen
+iass#:#iass_notify_explanation#:#Die bewertete Person wird nach Abschluss der Bewertung per E-Mail benachrichtigt und kann die Prüfungsnotiz auf dem Reiter „Info“ und in der E-Mail einsehen.
 iass#:#iass_phone#:#Telefon
 iass#:#iass_place#:#Ort der Prüfung
 iass#:#iass_record#:#Prüfungsnotiz
-iass#:#iass_record_info#:#Die Prüfungsnotiz kann nach finaler Bewertung vom Teilnehmer eingesehen werden. Ist unten die Benachrichtigung aktiviert, erhält der Teilnehmer die Prüfungsnotiz auch per E-Mail.
+iass#:#iass_record_info#:#Nach abgeschlossener Bewertung kann die Prüfungsnotiz von der bewerteten Person eingesehen werden. Dazu muss die Funktion „Ergebnis zugänglich machen“ aktiviert sein.
 iass#:#iass_record_template#:#Vorlage Prüfungsnotiz
-iass#:#iass_record_template_explanation#:#Hier eingegebener Text dient als Vorlage für die Prüfungsnotiz und wird für jeden neuen Teilnehmer verwendet.
-iass#:#iass_remove_user_qst#:#Soll der Teilnehmer wirklich entfernt werden?
+iass#:#iass_record_template_explanation#:#Dieser Text dient als Vorlage für die Prüfungsnotiz und wird für jede neue Bewertung angezeigt.
+iass#:#iass_remove_user_qst#:#Soll die Person wirklich aus der Individuellen Bewertung ausgetragen werden?
 iass#:#iass_responsibility#:#Zuständigkeit
 iass#:#iass_save_amend#:#Geänderte Prüfungsdaten speichern
 iass#:#iass_settings_availability#:#Verfügbarkeit
@@ -10747,14 +10748,14 @@ iass#:#iass_status_pending#:#Noch nicht bewertet
 iass#:#iass_subj_notification_completed#:#%s: Individuelle Bewertung wurde erfolgreich abgeschlossen.
 iass#:#iass_subj_notification_failed#:#%s: Individuelle Bewertung wurde nicht erfolgreich abgeschlossen.
 iass#:#iass_upload_file#:#Prüfungsblatt
-iass#:#iass_user_removed#:#Benutzer wurde erfolgreich entfernt.
+iass#:#iass_user_removed#:#Person wurde erfolgreich ausgetragen.
 iass#:#iass_usr_amend#:#Prüfungsdaten nachträglich ändern
-iass#:#iass_usr_download_attachment#:#Datei herunterladen
+iass#:#iass_usr_download_attachment#:#Prüfungsblatt herunterladen
 iass#:#iass_usr_edit#:#Prüfungsdaten bearbeiten
-iass#:#iass_usr_remove#:#Entfernen
+iass#:#iass_usr_remove#:#Austragen
 iass#:#iass_usr_view#:#Prüfungsdaten
-iass#:#il_iass_members#:#Teilnehmer
-iass#:#lp_inactive#:#Beachten Sie: die Lernfortschrittsbestimmung für dieses Objekt ist deaktiviert. Daher können Teilnahmen nicht finalisiert werden.
+iass#:#il_iass_members#:#Bewertungen
+iass#:#lp_inactive#:#Beachten Sie: die Bestimmung des Lernfortschritts ist für dieses Objekt deaktiviert. Daher können Teilnahmen nicht finalisiert werden.
 iass#:#save_amend#:#Geänderte Prüfungsdaten speichern
 impr#:#impr_page_type_impr#:#Impressum
 init#:#init_error_authentication_fail#:#Authentifizierung fehlgeschlagen.
@@ -14486,7 +14487,7 @@ rbac#:#iass_amend_grading#:#Finalisierte Bewertung der Individuellen Bewertung �
 rbac#:#iass_copy#:#Individuelle Bewertung kopieren
 rbac#:#iass_delete#:#Individuelle Bewertung löschen
 rbac#:#iass_edit_learning_progress#:#Lernfortschritt in Individuellen Bewertung bearbeiten
-rbac#:#iass_edit_members#:#Teilnehmer einer Individuellen Bewertung bearbeiten
+rbac#:#iass_edit_members#:#Personen der Individuellen Bewertung hinzufügen und bewerten
 rbac#:#iass_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#iass_read#:#Lesezugriff auf Individuelle Bewertung
 rbac#:#iass_read_learning_progress#:#Lernfortschritt in Individuellen Bewertung einsehen
