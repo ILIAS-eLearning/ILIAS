@@ -4827,7 +4827,7 @@ common#:#msg_no_perm_paste#:#Du har inte tillräckligt tillstånd för att infog
 common#:#msg_no_perm_paste_object_in_folder#:#Du har inte tillräcklig behörighet för att infoga objektet %s i mappen %s.
 common#:#msg_no_perm_perm#:#Du har inte tillräcklig behörighet för att komma åt rättighetsinställningarna!
 common#:#msg_no_perm_read#:#Du har inte tillräcklig behörighet för att komma åt detta objekt.
-common#:#msg_no_perm_read_item#:#Du har inte behörighet att komma åt objektet '%s'.
+common#:#msg_no_perm_read_item#:#Du har inte behörighet att komma åt objektet.
 common#:#msg_no_perm_read_lm#:#Du har inte tillräcklig behörighet för att visa denna utbildningsmodul.
 common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#Du har inte skrivtillstånd!

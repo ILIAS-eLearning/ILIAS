@@ -4827,7 +4827,7 @@ common#:#msg_no_perm_paste#:#Nuk keni të drejta të vendosur objektet vijuese:
 common#:#msg_no_perm_paste_object_in_folder#:#You have no permission to paste the object %s in the folder %s.###24 02 2009 new variable
 common#:#msg_no_perm_perm#:#Nuk keni të drejta t'i editoni konfigurimet për të drejtat
 common#:#msg_no_perm_read#:#Nuk keni të drejta për qasje në këtë artikull.
-common#:#msg_no_perm_read_item#:#You have no permission to access item '%s'.###10 Jul 2006 new variable
+common#:#msg_no_perm_read_item#:#You have no permission to access this object.
 common#:#msg_no_perm_read_lm#:#Nuk keni të drejta të lexoni këtë modul mësimor.
 common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#Nuk keni të drejta për të shkruar
