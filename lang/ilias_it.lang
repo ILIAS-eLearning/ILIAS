@@ -4763,7 +4763,7 @@ common#:#msg_no_perm_paste#:#Non hai i diritti per incollare i seguenti oggetti:
 common#:#msg_no_perm_paste_object_in_folder#:#Non ha il permesso di incollare l’oggetto %s nella cartella %s.
 common#:#msg_no_perm_perm#:#Non hai i diritti per modificare le impostazioni dei permessi
 common#:#msg_no_perm_read#:#Non hai i diritti per accedere a questo oggetto.
-common#:#msg_no_perm_read_item#:#Non sei autorizzato ad accedere all'elemento '%s'.
+common#:#msg_no_perm_read_item#:#Non sei autorizzato ad accedere all'elemento.
 common#:#msg_no_perm_read_lm#:#Non hai i diritti per accedere a questo modulo.
 common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#Non hai i diritti di scrittura

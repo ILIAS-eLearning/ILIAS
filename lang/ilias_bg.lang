@@ -4763,7 +4763,7 @@ common#:#msg_no_perm_paste#:#Нямате разрешени права да з�
 common#:#msg_no_perm_paste_object_in_folder#:#You have no permission to paste the object %s in the folder %s.###24 02 2009 new variable
 common#:#msg_no_perm_perm#:#Нямате разрешени права да редактирате разрешителните настройки
 common#:#msg_no_perm_read#:#You have no permission to access this item.###06 09 2006 new variable
-common#:#msg_no_perm_read_item#:#You have no permission to access item '%s'.###25 02 2007 new variable
+common#:#msg_no_perm_read_item#:#You have no permission to access the object.
 common#:#msg_no_perm_read_lm#:#Нямате разрешени права да четете от този модул за обучение.
 common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###29 10 2025 new variable
 common#:#msg_no_perm_write#:#Нямате разрешени права да записвате

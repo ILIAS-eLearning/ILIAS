@@ -4763,7 +4763,7 @@ common#:#msg_no_perm_paste#:#انت لا تملك الصلاحية للصق ال
 common#:#msg_no_perm_paste_object_in_folder#:#%s في المجلد %s  انت لا تملك الصلاحية للصق العنصر
 common#:#msg_no_perm_perm#:#انت لا تملك الصلاحية لتعديل اعدادات الصلاحية
 common#:#msg_no_perm_read#:#انت لا تملك الصلاحية للوصول الى هذا العنصر
-common#:#msg_no_perm_read_item#:# '%s' انت لا تملك الصلاحية للوصول الى العنصر
+common#:#msg_no_perm_read_item#:#انت لا تملك الصلاحية للوصول الى العنصر
 common#:#msg_no_perm_read_lm#:#انت لا تملك الصلاحية لقراءة الوحدة التعليمية هذه
 common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###29 10 2025 new variable
 common#:#msg_no_perm_write#:#انت لا تملك الصلاحية للكتابة

@@ -4776,7 +4776,7 @@ common#:#msg_no_perm_paste#:#次のオブジェクトを貼り付けるアクセ
 common#:#msg_no_perm_paste_object_in_folder#:#フォルダ %sの中のオブジェクト%sを貼り付けるアクセス権限がありません。
 common#:#msg_no_perm_perm#:#アクセス権限設定の編集アクセス権限がありません
 common#:#msg_no_perm_read#:#このアイテムアクセスへのアクセス権限がありません。
-common#:#msg_no_perm_read_item#:#アイテム '%s'へのアクセス権限がありません。
+common#:#msg_no_perm_read_item#:#アイテム へのアクセス権限がありません。
 common#:#msg_no_perm_read_lm#:#このラーニングモジュールを読み込むアクセス権限がありません。
 common#:#msg_no_perm_view_roles_of_user#:#このユーザの役割割当を見る権限がありません。
 common#:#msg_no_perm_write#:#書込みアクセス権限がありません

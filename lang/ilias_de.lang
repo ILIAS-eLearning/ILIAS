@@ -4822,7 +4822,7 @@ common#:#msg_no_perm_paste#:#Ihnen fehlt die Berechtigung, um die folgenden Obje
 common#:#msg_no_perm_paste_object_in_folder#:#Ihnen fehlt die Berechtigung, um das Objekt %s in den Ordner %s einzufügen.
 common#:#msg_no_perm_perm#:#Ihnen fehlt die Berechtigung, um auf die Rechteeinstellungen zuzugreifen.
 common#:#msg_no_perm_read#:#Ihnen fehlt die Berechtigung, um auf dieses Objekt zuzugreifen.
-common#:#msg_no_perm_read_item#:#Sie haben keine Berechtigung, auf das Objekt „%s“ zuzugreifen.
+common#:#msg_no_perm_read_item#:#Sie haben keine Berechtigung, auf das Objekt zuzugreifen.
 common#:#msg_no_perm_read_lm#:#Ihnen fehlt die Berechtigung, um diese Lernmodul anzuzeigen.
 common#:#msg_no_perm_view_roles_of_user#:#Sie haben keine Berechtigung, auf die Rollenzuweisung des Kontos zuzugreifen
 common#:#msg_no_perm_write#:#Sie besitzen keine Rechte, um Einstellungen zu ändern!

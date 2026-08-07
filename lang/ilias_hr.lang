@@ -4763,7 +4763,7 @@ common#:#msg_no_perm_paste#:#Nemate dopuštenje za umetanje sljedećih objekata:
 common#:#msg_no_perm_paste_object_in_folder#:#Nemate dopuštenje za umetanje objekta %s u mapu %s.
 common#:#msg_no_perm_perm#:#Nemate dopuštenje za pristup postavkama prava
 common#:#msg_no_perm_read#:#Nemate dozvolu za pristup ovom objektu.
-common#:#msg_no_perm_read_item#:#Nemate dozvolu za pristup objektu '%s'.
+common#:#msg_no_perm_read_item#:#Nemate dozvolu za pristup objektu.
 common#:#msg_no_perm_read_lm#:#Nemate dopuštenje za čitanje ovog modula za učenje.
 common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###29 10 2025 new variable
 common#:#msg_no_perm_write#:#Nemate dopuštenje za pisanje
