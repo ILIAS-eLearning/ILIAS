@@ -1402,7 +1402,7 @@ class ilAdvancedMDSettingsGUI
             $translations->read();
             $translations->updateFromForm($field_definition->getFieldId(), $this->active_language, $form);
 
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('save_settings'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, "editFields");
         }
 
