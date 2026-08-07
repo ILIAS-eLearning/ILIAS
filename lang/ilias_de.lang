@@ -3480,7 +3480,7 @@ cntr#:#cntr_switch_to_new_editor_message#:#Dies ist der Standard-Seiteneditor. W
 cntr#:#cntr_switched_editor#:#Auf neue Darstellung umgestellt
 cntr#:#cntr_tax_none_available#:#Es gibt keine verfügbaren Taxonomien.
 cntr#:#cntr_tax_settings_info#:#Taxonomien in Kategorien klassifizieren und filtern die in der Kategorie enthaltenen Objekte. Nach dem Hinzufügen von Taxonomien können über die Reiter „Metadaten“ und die Unterreiter „Taxonomiezuordnung“ der jeweiligen Objekte Klassifizierungen vorgenommen werden. Taxonomien können zusätzlich im Seitenblock des Reiters „Inhalt“ der Kategorie angezeigt werden, um ein direktes Filtern der zugeordneten Objekte zu ermöglichen.
-cntr#:#cntr_taxonomy_definitions#:#Taxonomie-Definition
+cntr#:#cntr_taxonomy_definitions#:#Taxonomien
 cntr#:#cntr_taxonomy_show_sideblock#:#Taxonomie im Seitenblock darstellen
 cntr#:#cntr_taxonomy_sideblock_settings#:#Präsentationseinstellungen
 cntr#:#cntr_text_media_editor#:#Seite bearbeiten
@@ -5161,7 +5161,7 @@ common#:#obj_tala_desc#:#Gesprächsvorlagen
 common#:#obj_tals#:#Team Gesprächserie
 common#:#obj_talt#:#Gesprächsvorlage
 common#:#obj_task#:#To-Do
-common#:#obj_tax#:#Taxonomie
+common#:#obj_tax#:#Taxonomien innerhalb dieses Objekts
 common#:#obj_taxf#:#Taxonomienordner
 common#:#obj_tool_setting_calendar#:#Kalender-Block
 common#:#obj_tool_setting_calendar_active#:#Kalender
@@ -17276,9 +17276,9 @@ tax#:#tax_order#:#Reihenfolge
 tax#:#tax_order_nr#:#Ordnungsnummer
 tax#:#tax_please_select_target#:#Bitte wählen Sie ein Ziel aus!
 tax#:#tax_target_within_nodes#:#Das Ziel darf kein Unterknoten des ausgewählten Elements sein.
-tax#:#tax_tax_assignment#:#Taxonomiezuordnung
+tax#:#tax_tax_assignment#:#Zuordnung zu Taxonomien
 tax#:#tax_tax_deleted#:#Die Taxonomie wurde gelöscht.
-tax#:#tax_tax_settings#:#Taxonomieeinstellungen
+tax#:#tax_tax_settings#:#Taxonomien darstellen
 tax#:#tax_taxonomy#:#Taxonomie
 tbl#:#tbl_export_csv#:#.CSV-Export
 tbl#:#tbl_export_excel#:#Excel-Export
