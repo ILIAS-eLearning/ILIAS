@@ -10702,7 +10702,7 @@ iass#:#iass_file_dropzone#:#Ziehen Sie die Datei hierhin.
 iass#:#iass_file_required#:#Pflichtangabe Prüfungsblatt
 iass#:#iass_file_required_info#:#Ein Prüfungsblatt muss hochgeladen werden.
 iass#:#iass_file_visible_examinee#:#Prüfungsblatt für bewertete Person sichtbar
-iass_file_visible_examinee_info#:#Nach abgeschlossener Bewertung kann das Prüfungsblatt von der bewerteten Person eingesehen werden. Dazu muss die Funktion „Ergebnis zugänglich machen“ aktiviert sein.
+iass#:#iass_file_visible_examinee_info#:#Nach abgeschlossener Bewertung kann das Prüfungsblatt von der bewerteten Person eingesehen werden. Dazu muss die Funktion „Ergebnis zugänglich machen“ aktiviert sein.
 iass#:#iass_filter_all#:#Alle
 iass#:#iass_filter_failed#:#Nur nicht bestandene
 iass#:#iass_filter_finalized#:#Nur bestandene
