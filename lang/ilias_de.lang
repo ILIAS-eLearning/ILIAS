@@ -7669,20 +7669,20 @@ crs#:#crs_loc_passes_info#:#Maximalanzahl Testdurchläufe:
 crs#:#crs_loc_passes_left#:#Verbleibende Anzahl von Testdurchläufen
 crs#:#crs_loc_passes_reached#:#Keine weiteren Testdurchläufe möglich
 crs#:#crs_loc_perc#:#Benötigte Prozentzahl an Punkten
-crs#:#crs_loc_progress_do_qualifying#:#Bitte führen Sie den Abschlusstest durch, um das Lernziel abzuschließen.
-crs#:#crs_loc_progress_do_qualifying_again#:#Bitte bearbeiten Sie das Lernziel erneut.
+crs#:#crs_loc_progress_do_qualifying#:#Führen Sie den Abschlusstest durch, um das Erreichen des Lernziels zu überprüfen.
+crs#:#crs_loc_progress_do_qualifying_again#:#Bitte bearbeiten Sie die Materialien zum Lernziel erneut.
 crs#:#crs_loc_progress_no_result_do_initial#:#Bearbeiten Sie den Einstiegstest
-crs#:#crs_loc_progress_no_result_no_initial#:#Bearbeiten Sie die folgenden Materialien und danach den Abschlusstest.
+crs#:#crs_loc_progress_no_result_no_initial#:#Bearbeiten Sie die folgenden Materialien und absolvieren danach den Abschlusstest.
 crs#:#crs_loc_progress_objective_complete#:#Sie haben das Lernziel erreicht.
 crs#:#crs_loc_progress_result_itest#:#Ergebnis Einstiegstest
 crs#:#crs_loc_progress_result_qtest#:#Ergebnis
-crs#:#crs_loc_qst_resume_tst_itest#:#Einstiegstests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen Einstiegstest zu einem Lernziel gestartet. Entweder setzen Sie diesen alten Test fort oder Sie starten einen neuen Test.
-crs#:#crs_loc_qst_resume_tst_qtest#:#Qualifizierende Tests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen Qualifizierenden Test zu einem Lernziel gestartet. Entweder setzen Sie diesen alten Test fort oder Sie starten einen neuen Test.
+crs#:#crs_loc_qst_resume_tst_itest#:#Einstiegstests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen Einstiegstest zu einem Lernziel gestartet. Entweder setzen Sie diesen Test fort oder starten einen neuen Test.
+crs#:#crs_loc_qst_resume_tst_qtest#:#Qualifizierende Tests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen Qualifizierenden Test zu einem Lernziel gestartet. Entweder setzen Sie diesen Test fort oder starten einen neuen Test.
 crs#:#crs_loc_qtest_info#:#Abschlusstest
-crs#:#crs_loc_qtst_for_objective#:#Qualifizierender Test "%1$s"
+crs#:#crs_loc_qtst_for_objective#:#Qualifizierender Test „%1$s“
 crs#:#crs_loc_rand_assign_qpl#:#Zuordnung aus Fragenpool
 crs#:#crs_loc_rand_qpl#:#Verfügbare Fragenpools
-crs#:#crs_loc_settings_err_qstart#:#Die Option "Abschlusstest als Startobjekt" wurde deaktiviert, da sie nur für Kurse ohne Einstiegstest verwendet werden kann.
+crs#:#crs_loc_settings_err_qstart#:#Die Option „Abschlusstest als Startobjekt“ wurde deaktiviert, da sie nur für Kurse ohne Einstiegstest verwendet werden kann.
 crs#:#crs_loc_settings_it_start_object#:#Einstiegstest ist Startobjekt
 crs#:#crs_loc_settings_it_type#:#Einstiegstest
 crs#:#crs_loc_settings_itest_tbl#:#Einstellungen für Einstiegstest
@@ -7717,7 +7717,7 @@ crs#:#crs_loc_settings_type_q_all_info#:#Das Erreichen aller Lernziele wird in e
 crs#:#crs_loc_settings_type_q_selected#:#Abschlusstest pro Lernziel
 crs#:#crs_loc_settings_type_q_selected_info#:#Für jedes Lernziel ist ein separater Abschlusstest zu absolvieren, um das Erreichen des jeweiligen Lernziels zu bestätigen.
 crs#:#crs_loc_subtab_creation#:#Erstellen
-crs#:#crs_loc_suggested#:#Bearbeiten Sie bitte die aufgeführten Materialien, um das Lernziel zu erreichen.
+crs#:#crs_loc_suggested#:#Bearbeiten Sie die nachfolgend aufgeführten Materialien. Führen Sie am Ende den Abschlusstest durch, um das Erreichen des Lernziels zu überprüfen.
 crs#:#crs_loc_tab_itest#:#Einstiegstest
 crs#:#crs_loc_tab_itests#:#Einstiegstests
 crs#:#crs_loc_tab_materials#:#Materialien
