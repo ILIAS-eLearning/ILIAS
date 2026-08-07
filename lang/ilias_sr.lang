@@ -4824,7 +4824,7 @@ common#:#msg_no_perm_paste#:#Nemate dozvolu da zalepite sledece objekte
 common#:#msg_no_perm_paste_object_in_folder#:#You have no permission to paste the object %s in the folder %s.###24 02 2009 new variable
 common#:#msg_no_perm_perm#:#Nemate dozvolu da uredujete podešavanja za dozvolu
 common#:#msg_no_perm_read#:#Nemate dozvolu da pristupite ovoj poziciji.
-common#:#msg_no_perm_read_item#:#You have no permission to access item '%s'.###10 Jul 2006 new variable
+common#:#msg_no_perm_read_item#:#You have no permission to access this object.
 common#:#msg_no_perm_read_lm#:#Nemate dozvolu da citate ovaj metod ucenja.
 common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###29 10 2025 new variable
 common#:#msg_no_perm_write#:#Nemate dozvolu za beleženje

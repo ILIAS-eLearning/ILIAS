@@ -4825,7 +4825,7 @@ common#:#msg_no_perm_paste#:#Δεν έχετε άδεια να επικολλή�
 common#:#msg_no_perm_paste_object_in_folder#:#You have no permission to paste the object %s in the folder %s.###30 04 2009 new variable
 common#:#msg_no_perm_perm#:#Δεν έχετε άδεια να επεξεργαστείτε τις ρυθμίσεις άδειας
 common#:#msg_no_perm_read#:#Δεν έχετε άδεια πρόσβασης σε αυτό το αντικείμενο.
-common#:#msg_no_perm_read_item#:#Δεν έχετε δικαίωμα να προσπελάσετε το αντικείμενο '%s'.
+common#:#msg_no_perm_read_item#:#Δεν έχετε δικαίωμα να προσπελάσετε το αντικείμενο.
 common#:#msg_no_perm_read_lm#:#Δεν έχετε άδεια να διαβάσετε αυτή την εκπαιδευτική μονάδα.
 common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###29 10 2025 new variable
 common#:#msg_no_perm_write#:#Δεν έχετε άδεια για να γράψετε

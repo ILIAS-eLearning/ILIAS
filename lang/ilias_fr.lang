@@ -4809,7 +4809,7 @@ common#:#msg_no_perm_paste#:#Vous n'avez pas la permission de coller les objets 
 common#:#msg_no_perm_paste_object_in_folder#:#Vous n'avez pas le droit de coller l'objet %s dans le dossier %s.
 common#:#msg_no_perm_perm#:#Vous n'avez pas le droit de modifier les permissions
 common#:#msg_no_perm_read#:#Vous n'avez pas la permission d'accéder à cet objet.
-common#:#msg_no_perm_read_item#:#Vous n'avez pas la permission d'accéder à l'objet '%s'.
+common#:#msg_no_perm_read_item#:#Vous n'avez pas la permission d'accéder à l'objet.
 common#:#msg_no_perm_read_lm#:#Vous n'avez pas la permission de lire ce module.
 common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###29 10 2025 new variable
 common#:#msg_no_perm_write#:#Vous n'avez pas de permission en écrire

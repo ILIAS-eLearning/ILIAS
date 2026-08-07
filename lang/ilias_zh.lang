@@ -4823,7 +4823,7 @@ common#:#msg_no_perm_paste#:#您无权限粘贴下列对象
 common#:#msg_no_perm_paste_object_in_folder#:#您没有权限粘贴对象 %s 到文件夹 %s。
 common#:#msg_no_perm_perm#:#您无权限编辑权限设置
 common#:#msg_no_perm_read#:#您没有权限访问这个项目。
-common#:#msg_no_perm_read_item#:#您没有权限访问条目 '%s'。
+common#:#msg_no_perm_read_item#:#您没有权限访问条目。
 common#:#msg_no_perm_read_lm#:#您没有权限读取这个学习模块。
 common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###29 10 2025 new variable
 common#:#msg_no_perm_write#:#您无写权限

@@ -4824,7 +4824,7 @@ common#:#msg_no_perm_paste#:#Du har ikke rettigheder til at indsætte følgende 
 common#:#msg_no_perm_paste_object_in_folder#:#You have no permission to paste the object %s in the folder %s.###24 02 2009 new variable
 common#:#msg_no_perm_perm#:#Du har ikke rettigheder til at ændre rettighedsindstillinger
 common#:#msg_no_perm_read#:#Du har ikke rettigheder til adgang af objekterne
-common#:#msg_no_perm_read_item#:#You have no permission to access item '%s'.
+common#:#msg_no_perm_read_item#:#You have no permission to access the object.
 common#:#msg_no_perm_read_lm#:#du har ingen rettigheder læse dette læringsmodul.
 common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###29 10 2025 new variable
 common#:#msg_no_perm_write#:#Du har ikke skriverettigheder
