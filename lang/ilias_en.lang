@@ -10674,7 +10674,6 @@ iass#:#iass_file_dropzone#:#you can drop your files here
 iass#:#iass_file_required#:#Record file required
 iass#:#iass_file_required_info#:#A record file has to be uploaded to each participant record.
 iass#:#iass_file_visible_examinee#:#File visible for participant
-iass_file_visible_examinee_info#:#Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled.
 iass#:#iass_filter_all#:#All
 iass#:#iass_filter_failed#:#Failed only
 iass#:#iass_filter_finalized#:#Completed only
@@ -10729,6 +10728,7 @@ iass#:#iass_usr_view#:#Participant Record
 iass#:#il_iass_members#:#Participants
 iass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalised.
 iass#:#save_amend#:#Save Amended Record
+iass_file_visible_examinee_info#:#Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled.
 impr#:#impr_page_type_impr#:#Imprint
 init#:#init_error_authentication_fail#:#Authentication failed.
 init#:#init_error_maintenance#:#The server is not available due to maintenance. We apologise for any inconvenience.
