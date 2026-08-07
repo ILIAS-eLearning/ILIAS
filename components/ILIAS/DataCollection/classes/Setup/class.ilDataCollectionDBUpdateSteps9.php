@@ -313,41 +313,7 @@ class ilDataCollectionDBUpdateSteps9 implements ilDatabaseUpdateSteps
 
     public function step_18(): void
     {
-        $stmt = $this->db->queryF(
-            'SELECT * FROM page_object INNER JOIN il_dcl_tableview ON page_id = id WHERE rendered_content IS NOT NULL AND parent_type = %s',
-            [ilDBConstants::T_TEXT],
-            [ilDclDetailedViewDefinition::PARENT_TYPE]
-        );
-
-        while ($row = $this->db->fetchAssoc($stmt)) {
-            $tableview = new ilDclTableView((int) $row['page_id']);
-            $content = $row['content'];
-            $rendered_content = $row['rendered_content'];
-
-            foreach (['id', 'create_date', 'last_update', 'owner', 'last_edit_by'] as $field) {
-                $content = str_replace('[' . $field . ']', '[[' . $field . ']]', $content);
-                $content = str_replace('[[[' . $field . ']]]', '[[' . $field . ']]', $content);
-                $rendered_content = str_replace('[' . $field . ']', '[[' . $field . ']]', $rendered_content);
-                $rendered_content = str_replace('[[[' . $field . ']]]', '[[' . $field . ']]', $rendered_content);
-            }
-
-            $sub_stmt = $this->db->queryF(
-                'SELECT * FROM il_dcl_field WHERE table_id = %s',
-                [ilDBConstants::T_INTEGER],
-                [(int) $row['table_id']]
-            );
-            while ($field = $this->db->fetchAssoc($sub_stmt)) {
-                $old = ['[' . $field['title'] . ']','[dclrefln field="' . $field['title'] . '"][/dclrefln]' ];
-                $content = str_replace($old, '[[' . $field['id'] . ']]', $content);
-                $rendered_content = str_replace($old, '[[' . $field['id'] . ']]', $rendered_content);
-            }
-
-            $this->db->manipulateF(
-                'UPDATE page_object SET content = %s, rendered_content = %s WHERE page_id = %s',
-                [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER],
-                [$content, $rendered_content, (int) $row['page_id']]
-            );
-        }
+        //Moved to ILIAS 11
     }
 
     public function step_19(): void
