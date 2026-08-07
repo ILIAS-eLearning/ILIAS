@@ -7710,19 +7710,19 @@ crs#:#crs_loc_settings_tbl_its_q_all#:#Qualifizierender Einstiegstest über alle
 crs#:#crs_loc_settings_tbl_qt#:#Abschlusstests pro Lernziel
 crs#:#crs_loc_settings_tbl_qts_all#:#Abschlusstest über alle Lernziele
 crs#:#crs_loc_settings_type_it_none#:#Kein Einstiegstest
-crs#:#crs_loc_settings_type_it_none_info#:#Kein Einstiegstest
+crs#:#crs_loc_settings_type_it_none_info#:#Die am Kurs teilnehmenden Personen arbeiten sich selbstgesteuert durch das Kursangebot, um die Lernziele zu erreichen. Sie können den Abschlusstest ablegen, um festzustellen, ob sie die Lernziele bereits erreicht haben oder ob zusätzliches Lernen und Training erforderlich ist.
 crs#:#crs_loc_settings_type_it_placement_all#:#Diagnostischer Einstiegstest über alle Lernziele
-crs#:#crs_loc_settings_type_it_placement_all_info#:#Diagnostischer Einstiegstest über alle Lernziele
+crs#:#crs_loc_settings_type_it_placement_all_info#:#Es muss zunächst ein erster Test absolviert werden, der Fragen zu allen Lernzielen enthält. Auf der Grundlage der individuellen Ergebnisse wird  unterstützendes Lernmaterial empfohlen. Auch Lernziele, die in diesem Test bereits bestanden wurden, werden im Abschlusstest erneut überprüft.
 crs#:#crs_loc_settings_type_it_placement_sel#:#Diagnostischer Einstiegstest pro Lernziel
-crs#:#crs_loc_settings_type_it_placement_sel_info#:#Diagnostischer Einstiegstest pro Lernziel
+crs#:#crs_loc_settings_type_it_placement_sel_info#:#Für jedes Lernziel muss ein separater Einstiegstest absolviert werden. Dieser enthält nur Fragen zu dem jeweiligen Lernziel. Auf der Grundlage der individuellen Ergebnisse wird unterstützendes Lernmaterial empfohlen. Auch Lernziele, die in den Einstiegstests bestanden wurden, werden im Abschlusstest erneut überprüft.
 crs#:#crs_loc_settings_type_it_qualifying_all#:#Qualifizierender Einstiegstest über alle Lernziele
-crs#:#crs_loc_settings_type_it_qualifying_all_info#:#Qualifizierender Einstiegstest über alle Lernziele
+crs#:#crs_loc_settings_type_it_qualifying_all_info#:#Der Eingangstest bewertet, ob ein Lernziel bereits erreicht wird. Der Test enthält Fragen zu allen Lernzielen. Wurden Lernziele im Einstiegstest bereits erreicht, werden sie nicht mehr im Abschlusstest überprüft.
 crs#:#crs_loc_settings_type_it_qualifying_sel#:#Qualifizierender Einstiegstest pro Lernziel
-crs#:#crs_loc_settings_type_it_qualifying_sel_info#:#Qualifizierender Einstiegstest pro Lernziel
+crs#:#crs_loc_settings_type_it_qualifying_sel_info#:#Für jedes Lernziel bewertet ein separater Einstiegstest, ob ein Lernziel bereits erreicht wird. Die jeweiligen Tests enthalten nur Fragen zum jeweiligen Lernziel und prüfen, ob das jeweilige Lernziel bereits erreicht wird oder nicht. Wurde ein Lernziel im zugehörigen Einstiegstest bereits erreicht, wird es nicht mehr im Abschlusstest überprüft.
 crs#:#crs_loc_settings_type_q_all#:#Abschlusstest über alle Lernziele
-crs#:#crs_loc_settings_type_q_all_info#:#Abschlusstest über alle Lernziele
+crs#:#crs_loc_settings_type_q_all_info#:#Das Erreichen aller Lernziele wird in einem einzigen Abschlusstest überprüft.
 crs#:#crs_loc_settings_type_q_selected#:#Abschlusstest pro Lernziel
-crs#:#crs_loc_settings_type_q_selected_info#:#Abschlusstest pro Lernziel
+crs#:#crs_loc_settings_type_q_selected_info#:#Für jedes Lernziel ist ein separater Abschlusstest zu absolvieren, um das Erreichen des jeweiligen Lernziels zu bestätigen.
 crs#:#crs_loc_subtab_creation#:#Erstellen
 crs#:#crs_loc_suggested#:#Bearbeiten Sie bitte die aufgeführten Materialien, um das Lernziel zu erreichen.
 crs#:#crs_loc_tab_itest#:#Einstiegstest
