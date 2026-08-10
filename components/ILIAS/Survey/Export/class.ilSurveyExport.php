@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Export class for surveys
  * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
@@ -32,7 +34,7 @@ class ilSurveyExport
 
     public function __construct(
         ilObjSurvey $a_survey_obj,
-        $a_mode = "xml"
+        string $a_mode = "xml"
     ) {
         global $DIC;
 
@@ -125,7 +127,7 @@ class ilSurveyExport
         }
         // #14850
         foreach ($this->survey_obj->questions as $question_id) {
-            $mobs = ilObjMediaObject::_getMobsOfObject("spl:html", $question_id);
+            $mobs = ilObjMediaObject::_getMobsOfObject("spl:html", (int) $question_id);
             foreach ($mobs as $mob) {
                 $mob_obj = new ilObjMediaObject($mob);
                 $mob_obj->exportFiles($a_export_dir);

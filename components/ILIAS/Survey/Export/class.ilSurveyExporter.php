@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Survey\InternalDomainService;
 
 /**
@@ -44,7 +46,7 @@ class ilSurveyExporter extends ilXmlExporter
         string $a_id
     ): string {
         if ($a_entity === "svy") {
-            $svy = new ilObjSurvey($a_id, false);
+            $svy = new ilObjSurvey((int) $a_id, false);
             $svy->loadFromDb();
 
             $svy_exp = new ilSurveyExport($svy, 'xml');

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Survey Question Import Parser
  *
@@ -26,9 +28,9 @@ class SurveyImportParser extends ilSaxParser
     protected \ILIAS\SurveyQuestionPool\Export\ImportSessionRepository $session_repo;
     protected ?ilImportMapping $mapping = null;
     protected int $spl_id = 0;
-    protected int $showQuestiontext;
-    protected int $showBlocktitle;
-    protected int $compressView;
+    protected bool $showQuestiontext;
+    protected bool $showBlocktitle;
+    protected bool $compressView;
     public array $path = [];
     public int $depth = 0;
     public ?SurveyQuestion $activequestion;
@@ -115,9 +117,9 @@ class SurveyImportParser extends ilSaxParser
         $this->in_questionblock = false;
         $this->questionblocks = array();
         $this->questionblock = array();
-        $this->showQuestiontext = 1;
-        $this->showBlocktitle = 0;
-        $this->compressView = 0;
+        $this->showQuestiontext = true;
+        $this->showBlocktitle = false;
+        $this->compressView = false;
         $this->questionblocktitle = "";
         $this->mapping = $a_mapping;
         $this->session_repo = $DIC->surveyQuestionPool()->internal()
@@ -127,6 +129,11 @@ class SurveyImportParser extends ilSaxParser
     public function setSurveyObject(ilObjSurvey $a_svy): void
     {
         $this->survey = $a_svy;
+    }
+
+    private function parseBoolean(string $value): bool
+    {
+        return (bool) filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
 
     public function setHandlers($a_xml_parser): void
@@ -141,6 +148,7 @@ class SurveyImportParser extends ilSaxParser
      */
     public function parse($a_xml_parser, $a_fp = null): void
     {
+        $parseOk = false;
         switch ($this->getInputType()) {
             case 'file':
 
@@ -189,19 +197,19 @@ class SurveyImportParser extends ilSaxParser
                 $this->in_questionblock = true;
                 $this->questionblock = array();
                 $this->questionblocktitle = "";
-                $this->showQuestiontext = 1;
-                $this->showBlocktitle = 0;
-                $this->compressView = 0;
+                $this->showQuestiontext = true;
+                $this->showBlocktitle = false;
+                $this->compressView = false;
                 foreach ($a_attribs as $attrib => $value) {
                     switch ($attrib) {
                         case "showQuestiontext":
-                            $this->showQuestiontext = (int) $value;
+                            $this->showQuestiontext = $this->parseBoolean($value);
                             break;
                         case "showBlocktitle":
-                            $this->showBlocktitle = (int) $value;
+                            $this->showBlocktitle = $this->parseBoolean($value);
                             break;
                         case "compressView":
-                            $this->compressView = (int) $value;
+                            $this->compressView = $this->parseBoolean($value);
                             break;
                     }
                 }
@@ -212,7 +220,7 @@ class SurveyImportParser extends ilSaxParser
                         case "online":
                             if ($this->spl_id > 0) {
                                 $spl = new ilObjSurveyQuestionPool($this->spl_id, false);
-                                $spl->setOfflineStatus(!$value);
+                                $spl->setOfflineStatus(!$this->parseBoolean($value));
                                 $spl->saveToDb();
                             }
                             break;
@@ -241,7 +249,7 @@ class SurveyImportParser extends ilSaxParser
                 foreach ($a_attribs as $attrib => $value) {
                     switch ($attrib) {
                         case "enabled":
-                            $this->anonymisation = $value;
+                            $this->anonymisation = (int) $this->parseBoolean($value);
                             break;
                     }
                 }
@@ -260,10 +268,10 @@ class SurveyImportParser extends ilSaxParser
                     "sourceref" => $a_attribs["sourceref"],
                     "destref" => $a_attribs["destref"],
                     "relation" => $a_attribs["relation"],
-                    "value" => $a_attribs["value"],
+                    "value" => (float) str_replace(",", ".", $a_attribs["value"]),
 
                     // might be missing in old export files
-                    "conjunction" => (int) ($a_attribs["conjuction"] ?? 0)
+                    "conjunction" => (int) ($a_attribs["conjunction"] ?? $a_attribs["conjuction"] ?? 0)
                 );
                 break;
             case "question":
@@ -311,10 +319,10 @@ class SurveyImportParser extends ilSaxParser
                                 $this->activequestion->setTitle($value);
                                 break;
                             case "subtype":
-                                $this->activequestion->setSubtype($value);
+                                $this->activequestion->setSubtype((int) $value);
                                 break;
                             case "obligatory":
-                                $this->activequestion->setObligatory($value);
+                                $this->activequestion->setObligatory($this->parseBoolean($value));
                                 break;
                         }
                     }
@@ -409,12 +417,12 @@ class SurveyImportParser extends ilSaxParser
     public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
         $this->texts++;
-        $this->text_size += strlen($a_data ?? "");
+        $this->text_size += strlen($a_data);
         $this->characterbuffer .= $a_data;
         $a_data = $this->characterbuffer;
     }
 
-    protected function getCharacterBuffer($use_purifier = false): string
+    protected function getCharacterBuffer(bool $use_purifier = false): string
     {
         if ($use_purifier) {
             $purifier = new ilSvyStandardPurifier();
@@ -445,10 +453,10 @@ class SurveyImportParser extends ilSaxParser
                             }
                             $this->survey->createQuestionblock(
                                 $title,
-                                $this->showQuestiontext,
-                                $this->showBlocktitle,
+                                $data["show_question_text"],
+                                $data["show_block_title"],
                                 $qblock,
-                                $this->compressView
+                                $data["compress_view"]
                             );
                         }
                     }
@@ -458,6 +466,9 @@ class SurveyImportParser extends ilSaxParser
                         $relations = $this->survey->getAllRelations(true);
                         foreach ($this->constraints as $constraint) {
                             $constraint_id = $this->survey->addConstraint($this->questions[$constraint["destref"]], $relations[$constraint["relation"]]["id"], $constraint["value"], $constraint["conjunction"]);
+                            if ($constraint_id === null) {
+                                throw new ilImportException("Could not import survey constraint");
+                            }
                             $this->survey->addConstraintToQuestion($this->questions[$constraint["sourceref"]], $constraint_id);
                         }
                     }
@@ -512,7 +523,7 @@ class SurveyImportParser extends ilSaxParser
                 break;
             case "question":
                 if (is_object($this->activequestion)) {
-                    if (strlen($this->textblock ?? "")) {
+                    if (strlen($this->textblock)) {
                         $this->textblocks[$this->original_question_id] = $this->textblock;
                     }
                     $this->activequestion->saveToDb();
@@ -520,6 +531,9 @@ class SurveyImportParser extends ilSaxParser
                     if (is_object($this->survey) &&
                         $this->spl_id > 0) {
                         $question_id = $this->activequestion->duplicate(true, "", "", 0, $this->survey->getId());
+                        if ($question_id === null) {
+                            throw new ilImportException("Could not duplicate imported survey question");
+                        }
                     } else {
                         $question_id = $this->activequestion->getId();
                     }
@@ -528,7 +542,12 @@ class SurveyImportParser extends ilSaxParser
                     }
                     $this->questions[$this->original_question_id] = $question_id;
                     if ($this->mapping) {
-                        $this->mapping->addMapping("components/ILIAS/Survey", "svy_q", $this->original_question_id, $question_id);
+                        $this->mapping->addMapping(
+                            "components/ILIAS/Survey",
+                            "svy_q",
+                            $this->original_question_id,
+                            (string) $question_id
+                        );
                     }
                     $this->activequestion = null;
                 }
@@ -599,53 +618,52 @@ class SurveyImportParser extends ilSaxParser
                     foreach ($this->metadata as $key => $value) {
                         switch ($value["label"]) {
                             case "display_question_titles":
-                                if ($value["entry"] == 1) {
-                                    $this->survey->setShowQuestionTitles(true);
-                                } else {
-                                    $this->survey->setShowQuestionTitles(false);
-                                }
+                                $this->survey->setShowQuestionTitles($this->parseBoolean($value["entry"]));
                                 break;
                             case "status":
-                                $this->survey_status = (bool) $value["entry"];
+                                $this->survey_status = $this->parseBoolean($value["entry"]);
                                 break;
                             case "evaluation_access":
                                 $this->survey->setEvaluationAccess($value["entry"]);
                                 break;
                             case "calculate_sum_score":
-                                $this->survey->setCalculateSumScore((bool) $value["entry"]);
+                                $this->survey->setCalculateSumScore($this->parseBoolean($value["entry"]));
                                 break;
                             case "pool_usage":
-                                $this->survey->setPoolUsage($value["entry"]);
+                                $this->survey->setPoolUsage($this->parseBoolean($value["entry"]));
+                                break;
+                            case "own_results_view":
+                                $this->survey->setViewOwnResults($this->parseBoolean($value["entry"]));
                                 break;
                             case "own_results_mail":
-                                $this->survey->setMailOwnResults($value["entry"]);
+                                $this->survey->setMailOwnResults($this->parseBoolean($value["entry"]));
                                 break;
                             case "confirmation_mail":
-                                $this->survey->setMailConfirmation($value["entry"]);
+                                $this->survey->setMailConfirmation($this->parseBoolean($value["entry"]));
                                 break;
                             case "anon_user_list":
-                                $this->survey->setAnonymousUserList($value["entry"]);
+                                $this->survey->setAnonymousUserList($this->parseBoolean($value["entry"]));
                                 break;
                             case "mode":
-                                $this->survey->setMode($value["entry"]);
+                                $this->survey->setMode((int) $value["entry"]);
                                 break;
                             case "mode_360_self_eval":
-                                $this->survey->set360SelfEvaluation($value["entry"]);
+                                $this->survey->set360SelfEvaluation($this->parseBoolean($value["entry"]));
                                 break;
                             case "mode_360_self_rate":
-                                $this->survey->set360SelfRaters($value["entry"]);
+                                $this->survey->set360SelfRaters($this->parseBoolean($value["entry"]));
                                 break;
                             case "mode_360_self_appr":
-                                $this->survey->set360SelfAppraisee($value["entry"]);
+                                $this->survey->set360SelfAppraisee($this->parseBoolean($value["entry"]));
                                 break;
                             case "mode_360_results":
-                                $this->survey->set360Results($value["entry"]);
+                                $this->survey->set360Results((int) $value["entry"]);
                                 break;
                             case "mode_self_eval_results":
-                                $this->survey->setSelfEvaluationResults($value["entry"]);
+                                $this->survey->setSelfEvaluationResults((int) $value["entry"]);
                                 break;
                             case "mode_skill_service":
-                                $this->survey->setSkillService($value["entry"]);
+                                $this->survey->setSkillService($this->parseBoolean($value["entry"]));
                                 break;
                         }
                     }
@@ -701,7 +719,10 @@ class SurveyImportParser extends ilSaxParser
             case "questionblock":
                 $this->in_questionblock = false;
                 $this->questionblocks[] = array("title" => $this->questionblocktitle,
-                                                "questions" => $this->questionblock
+                                                "questions" => $this->questionblock,
+                                                "show_question_text" => $this->showQuestiontext,
+                                                "show_block_title" => $this->showBlocktitle,
+                                                "compress_view" => $this->compressView
                 );
                 break;
         }

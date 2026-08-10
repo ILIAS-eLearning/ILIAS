@@ -3016,7 +3016,7 @@ class ilObjSurvey extends ilObject
 
         $custom_properties = array();
         $custom_properties["evaluation_access"] = $this->getEvaluationAccess();
-        $custom_properties["status"] = !$this->getOfflineStatus();
+        $custom_properties["status"] = (int) !$this->getOfflineStatus();
         $custom_properties["display_question_titles"] = (int) $this->getShowQuestionTitles();
         $custom_properties["calculate_sum_score"] = (int) $this->getCalculateSumScore();
 

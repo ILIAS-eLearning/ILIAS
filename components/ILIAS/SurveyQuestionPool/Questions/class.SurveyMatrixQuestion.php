@@ -572,17 +572,17 @@ class SurveyMatrixQuestion extends SurveyQuestion
         $a_xml_writer->xmlStartTag("metadata");
         $a_xml_writer->xmlStartTag("metadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "column_separators");
-        $a_xml_writer->xmlElement("fieldentry", null, $this->getColumnSeparators());
+        $a_xml_writer->xmlElement("fieldentry", null, (int) $this->getColumnSeparators());
         $a_xml_writer->xmlEndTag("metadatafield");
 
         $a_xml_writer->xmlStartTag("metadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "row_separators");
-        $a_xml_writer->xmlElement("fieldentry", null, $this->getRowSeparators());
+        $a_xml_writer->xmlElement("fieldentry", null, (int) $this->getRowSeparators());
         $a_xml_writer->xmlEndTag("metadatafield");
 
         $a_xml_writer->xmlStartTag("metadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "neutral_column_separator");
-        $a_xml_writer->xmlElement("fieldentry", null, $this->getNeutralColumnSeparator());
+        $a_xml_writer->xmlElement("fieldentry", null, (int) $this->getNeutralColumnSeparator());
         $a_xml_writer->xmlEndTag("metadatafield");
 
         $a_xml_writer->xmlStartTag("metadatafield");
@@ -870,16 +870,16 @@ class SurveyMatrixQuestion extends SurveyQuestion
         foreach ($a_meta as $key => $value) {
             switch ($value["label"]) {
                 case "column_separators":
-                    $this->setColumnSeparators((bool) $value["entry"]);
+                    $this->setColumnSeparators((bool) filter_var($value["entry"], FILTER_VALIDATE_BOOLEAN));
                     break;
                 case "row_separators":
-                    $this->setRowSeparators((bool) $value["entry"]);
+                    $this->setRowSeparators((bool) filter_var($value["entry"], FILTER_VALIDATE_BOOLEAN));
                     break;
                 case "layout":
                     $this->setLayout($value["entry"]);
                     break;
                 case "neutral_column_separator":
-                    $this->setNeutralColumnSeparator((bool) $value["entry"]);
+                    $this->setNeutralColumnSeparator((bool) filter_var($value["entry"], FILTER_VALIDATE_BOOLEAN));
                     break;
             }
         }

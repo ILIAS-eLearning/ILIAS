@@ -261,7 +261,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
         $a_xml_writer->xmlEndTag("metadatafield");
         $a_xml_writer->xmlStartTag("metadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "use_min_answers");
-        $a_xml_writer->xmlElement("fieldentry", null, $this->use_min_answers);
+        $a_xml_writer->xmlElement("fieldentry", null, (int) $this->use_min_answers);
         $a_xml_writer->xmlEndTag("metadatafield");
         $a_xml_writer->xmlStartTag("metadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "nr_min_answers");
@@ -400,7 +400,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
                     $this->setOrientation((int) $value["entry"]);
                     break;
                 case "use_min_answers":
-                    $this->use_min_answers = (bool) $value["entry"];
+                    $this->use_min_answers = (bool) filter_var($value["entry"], FILTER_VALIDATE_BOOLEAN);
                     break;
                 case "nr_min_answers":
                     $this->nr_min_answers = (string) $value["entry"];
