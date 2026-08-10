@@ -4750,7 +4750,7 @@ common#:#msg_no_perm_paste#:#Aşağıdaki nesne (ler) yapıştırın izniniz yok
 common#:#msg_no_perm_paste_object_in_folder#:#Klasördeki% s nesnesini% s yapıştırmak için izniniz yoktur.
 common#:#msg_no_perm_perm#:#İzin ayarlarını düzenlemek için izniniz yoktur
 common#:#msg_no_perm_read#:#Bu öğeye erişmek için izniniz yoktur.
-common#:#msg_no_perm_read_item#:#Her öğe '% s' erişim izniniz yok.
+common#:#msg_no_perm_read_item#:#Her öğe erişim izniniz yok.
 common#:#msg_no_perm_read_lm#:#Bu öğrenme modülü okumak için izniniz yoktur.
 common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#Yazma yetkiniz yok

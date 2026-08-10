@@ -4748,7 +4748,7 @@ common#:#msg_no_perm_paste#:#Nimate ustreznih pravic za vstavljanje naslednjih o
 common#:#msg_no_perm_paste_object_in_folder#:#Nimate ustreznih pravic za vstavljanje objekta %s v mapo %s.
 common#:#msg_no_perm_perm#:#Nimate ustreznih pravic za dostop do nastavitev pravic!
 common#:#msg_no_perm_read#:#Nimate ustreznih pravic za dostop do tega objekta.
-common#:#msg_no_perm_read_item#:#Nimate pravic za dostop do objekta '%s'.
+common#:#msg_no_perm_read_item#:#Nimate pravic za dostop do objekta.
 common#:#msg_no_perm_read_lm#:#Nimate ustreznih pravic za prikaz tega učnega modula.
 common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#Nimate pravic za pisanje!
