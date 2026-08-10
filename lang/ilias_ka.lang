@@ -4750,7 +4750,7 @@ common#:#msg_no_perm_paste#:#თქვენ არ გაქვთ შემდ
 common#:#msg_no_perm_paste_object_in_folder#:#თქვენ არ გაქვთ ობიექტის %s ფოლდერში %s ჩასმის უფლება
 common#:#msg_no_perm_perm#:#თქვენ არ გაქვთ დაშვების პარამეტრების რედაქტირების უფლება
 common#:#msg_no_perm_read#:#თქვენ არ გაქვთ ამ ნივთზე უფლება
-common#:#msg_no_perm_read_item#:#თქვენ არ გაქვთ ნივთზე უფლება %s
+common#:#msg_no_perm_read_item#:#თქვენ არ გაქვთ ნივთზე უფლება
 common#:#msg_no_perm_read_lm#:#თქვენ არ გაქვთ ამ სასწავლო მოდულში კითხვის უფლება
 common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#თქვენ არ გაქვთ წერის უფლება

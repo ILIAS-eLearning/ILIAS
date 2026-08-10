@@ -4750,7 +4750,7 @@ common#:#msg_no_perm_paste#:#Nincs jogosultsága beilleszteni az alábbi objektu
 common#:#msg_no_perm_paste_object_in_folder#:#Nincs jogosultsága a(z) %s objektumot beilleszteni a(z) %s mappába.
 common#:#msg_no_perm_perm#:#Nincs jogosultsága szerkeszteni a jogosultság-beállításokat
 common#:#msg_no_perm_read#:#Nincs jogosultsága ezekhez az elemekhez.
-common#:#msg_no_perm_read_item#:#Nincs jogosultsága elérni: '%s'.
+common#:#msg_no_perm_read_item#:#Nincs jogosultsága elérni.
 common#:#msg_no_perm_read_lm#:#Nincs olvasási jogosultsága ehhez a tananyaghoz.
 common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#Nincs írási jogosultsága

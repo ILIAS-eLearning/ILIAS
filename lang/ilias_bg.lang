@@ -4750,7 +4750,7 @@ common#:#msg_no_perm_paste#:#Нямате разрешени права да з�
 common#:#msg_no_perm_paste_object_in_folder#:#Нямате разрешение да поставите обекта %s в папката %s.
 common#:#msg_no_perm_perm#:#Нямате разрешени права да редактирате разрешителните настройки
 common#:#msg_no_perm_read#:#Нямате разрешение за достъп до този елемент.
-common#:#msg_no_perm_read_item#:#Нямате разрешение за достъп до елемент '%s'.
+common#:#msg_no_perm_read_item#:#Нямате разрешение за достъп до елемент.
 common#:#msg_no_perm_read_lm#:#Нямате разрешени права да четете от този модул за обучение.
 common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#Нямате разрешени права да записвате
