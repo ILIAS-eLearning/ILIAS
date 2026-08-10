@@ -905,7 +905,7 @@ assessment#:#longmenu_answeroptions_differ#:#This question does not work correct
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
 assessment#:#mailnottype#:#Kullanıcı testi bitirip geçtiği vakit bilgilendirme mesajı gönder
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###26 08 2024 new variable
-assessment#:#mainbar_button_label_questionlist#:#Questionlist###26 08 2024 new variable
+assessment#:#mainbar_button_label_questionlist#:#Soru listesi
 assessment#:#maintenance#:#Bakım
 assessment#:#manscoring#:#Manuel Puanlama
 assessment#:#manscoring_done#:#Puanlanan Katılımcılar
@@ -1152,7 +1152,7 @@ assessment#:#question_type#:#Soru Türü
 assessment#:#questionlist_cannot_be_altered#:#The questionlist cannot be altered as the test already contains participant data sets.###20 01 2026 new variable
 assessment#:#questionpool_not_entered#:#Soru havuzu için bir ad girin!
 assessment#:#questionpool_not_selected#:#Please select a question pool!###07 02 2020 new variable
-assessment#:#questions#:#Questions###26 08 2024 new variable
+assessment#:#questions#:#Sorular
 assessment#:#questions_from#:#sorular
 assessment#:#questions_per_page_view#:#Sayfa Görünümü
 assessment#:#random_accept_sample#:#Örnek Kabul
@@ -1384,7 +1384,7 @@ assessment#:#tst_answered_questions_of_total#:#%s of %s###07 02 2020 new variabl
 assessment#:#tst_answered_questions_test#:#Bu testteki cevaplanan sorular
 assessment#:#tst_attached_xls_file#:#You find the test result for this participant in the attached Excel file.###27 01 2015 new variable
 assessment#:#tst_attempt#:#Attempt###30 08 2015 new variable
-assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.###26 08 2024 new variable
+assessment#:#tst_attempt_limit_message#:#Bu sınavı alabileceğiniz toplam sayı: <b>%s</b>.
 assessment#:#tst_attempt_started#:#Test Başladı
 assessment#:#tst_back_to_pass_details#:#Back to Pass Details###26 09 2014 new variable
 assessment#:#tst_back_to_question_list#:#Back to Question List###26 09 2014 new variable
@@ -1443,7 +1443,7 @@ assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this messag
 assessment#:#tst_dont_use_previous_answers#:#Sonraki testleriniz için önceki cevaplarınız varsayılan olarak kullanılmayacaktır.
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties###30 08 2015 new variable
 assessment#:#tst_edit_scoring#:#Puanlama Düzenle
-assessment#:#tst_enable_questionlist#:#Show 'List of Questions’###26 08 2024 new variable
+assessment#:#tst_enable_questionlist#:'Sorular Listesi'ni göster
 assessment#:#tst_enable_questionlist_description#:#Participants can switch on a list of the test questions on the left of the actual question.###26 08 2024 new variable
 assessment#:#tst_ending_time#:#Bitiş Zamanı
 assessment#:#tst_ending_time_before_starting_time#:#Please enter a date for the end of the test that is after the start date.###26 08 2024 new variable
@@ -1469,14 +1469,14 @@ assessment#:#tst_exam_conditions_not_checked_message#:#You need to accept the ex
 assessment#:#tst_exam_ending_time_message#:#The test cannot be started after %s.###26 08 2024 new variable
 assessment#:#tst_exam_modal_message_conditions#:#Please confirm the conditions to start the test.###26 08 2024 new variable
 assessment#:#tst_exam_modal_message_conditions_and_password#:#Please confirm the conditions and enter the password to start the test.###26 08 2024 new variable
-assessment#:#tst_exam_modal_message_password#:#Please enter the password to start the test.###26 08 2024 new variable
+assessment#:#tst_exam_modal_message_password#:#Lütfen testi başlatmak için şifreyi girin.
 assessment#:#tst_exam_not_assigned_participant_disclaimer#:#You cannot start this test, as you are not an assigned participant.###26 08 2024 new variable
-assessment#:#tst_exam_password#:#Test Password###26 08 2024 new variable
+assessment#:#tst_exam_password#:#Test şifresi
 assessment#:#tst_exam_password_invalid_message#:#The given password is not valid!###26 08 2024 new variable
-assessment#:#tst_exam_password_label#:#Password###26 08 2024 new variable
+assessment#:#tst_exam_password_label#:#Şifre
 assessment#:#tst_exam_required_fields_not_filled_message#:#You need to fill out all required fields!###26 08 2024 new variable
-assessment#:#tst_exam_start#:#Start Test###26 08 2024 new variable
-assessment#:#tst_exam_use_previous_answers#:#Previous Answers###26 08 2024 new variable
+assessment#:#tst_exam_start#:#Teste Başla
+assessment#:#tst_exam_use_previous_answers#:#Önceki cevapları kullanın
 assessment#:#tst_exam_use_previous_answers_label#:#If enabled answers from previous tests will be prefilled.###26 08 2024 new variable
 assessment#:#tst_extratime_added#:#The working time of the participant has been increased by %s minutes.###24 10 2013 new variable
 assessment#:#tst_extratime_info#:#If you want to add the working time multiple times for the same participant, please insert the total amount of time you want to add.###14 05 2014 new variable
@@ -1496,7 +1496,7 @@ assessment#:#tst_final_information#:#Finishing the Test: Information Before Subm
 assessment#:#tst_finish_confirm_button#:#Evet, testi bitirmek istiyorum
 assessment#:#tst_finish_confirm_cancel_button#:#Hayır, önceki soruya geri dön
 assessment#:#tst_finish_confirmation_question#:#Testi sonlandırmak üzeresiniz. Cevaplarınızı değiştirmek için bu teste tekrar giremeyeceksiniz. Gerçekten testi bitirmek istiyor musunuz?
-assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?###26 08 2024 new variable
+assessment#:#tst_finish_confirmation_question_no_attempts_left#:#Bu testi bitireceksiniz ve izin verilen maksimum test deneme sayısına ulaşacaksınız. Cevaplarınızı değiştirmek için bu teste tekrar giremeyeceksiniz. Gerçekten testi bitirmek istiyor musunuz?
 assessment#:#tst_finish_notification#:#Tamamlandığında E-Posta
 assessment#:#tst_finish_notification_advanced#:#Test sahibine test sonucunu gönder
 assessment#:#tst_finish_notification_content_type#:#Content of e-mail###27 01 2015 new variable
@@ -1594,7 +1594,7 @@ assessment#:#tst_invited_selected_users#:#Seçilen kullanıcıların sabit test 
 assessment#:#tst_launcher_button_label_passes_limit_reached#:#You have reached the limit of possible test passes###26 08 2024 new variable
 assessment#:#tst_launcher_status_message_conditions#:#You will be asked for your approval of the exam conditions when you start the test.###26 08 2024 new variable
 assessment#:#tst_launcher_status_message_conditions_and_password#:#You will be asked for the password and your approval of the exam conditions when you start the test.###26 08 2024 new variable
-assessment#:#tst_launcher_status_message_password#:#You will be asked for the password when you start the test.###26 08 2024 new variable
+assessment#:#tst_launcher_status_message_password#:#Testi başlattığınızda sizden şifre istenecektir.
 assessment#:#tst_level#:#Competence Level###26 09 2014 new variable
 assessment#:#tst_limit_nr_of_tries#:#Maximum Number of Test Passes###07 11 2014 new variable
 assessment#:#tst_link_only_unassigned#:#Zaten bir soru havuzu ile bağlantılı en az bir soru seçtiniz. Sadece atanmamış soru ettiği havuz için ilave edilebilir.
@@ -1692,7 +1692,7 @@ assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress###25 
 assessment#:#tst_old_style_rnd_quest_set_broken#:#This random test is in a irreparable state, because one or more connected question pools have been deleted. Therefor participants cannot take the test any longer.###30 08 2015 new variable
 assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back.###26 05 2026 new variable
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Question related to allready passed learning objectives are optional.</b><br /><br />You want to navigate to a question, that relates to an allready passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on these questions. Your answers from previous attempts were not adopted, since new random questions were selected for this attempt. With working on this questions you can also degrade your learning objective result.<br /><br />If you decide to not work on these questions, you can go back. In this case these questions won't be considered in the evaluation.###30 08 2015 new variable
-assessment#:#tst_out_of_time_message#:#You have reached the maximum allowed processing time of the test!###26 08 2024 new variable
+assessment#:#tst_out_of_time_message#:#Bu sınav için ayrılan süre doldu.
 assessment#:#tst_participant#:#Katılımcı
 assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s###26 09 2014 new variable
 assessment#:#tst_participant_status#:#Katılımcı Durumu
@@ -2006,7 +2006,7 @@ assessment#:#tst_text_count_system#:#Puanlama Sistemi
 assessment#:#tst_threshold#:#Thresholds###26 09 2014 new variable
 assessment#:#tst_time_already_spent#:#%s de test başladı. Maksimum işlem süresi %s.
 assessment#:#tst_time_already_spent_left#:#%s kaldı.
-assessment#:#tst_time_limit_message#:#You will have <b>%s minutes</b> to answer all questions.###26 08 2024 new variable
+assessment#:#tst_time_limit_message#:#Tüm soruları yanıtlamak için <b>%s dakikanız</b> olacak.
 assessment#:#tst_title_output#:#Soru Başlığı
 assessment#:#tst_title_output_full#:#Soru Başlığı ve Puanları Göster
 assessment#:#tst_title_output_hide_points#:#Sadece Soru Başlıklarını Göster
@@ -4724,7 +4724,7 @@ common#:#mm_communication#:#Communication###07 02 2020 new variable
 common#:#mm_contacts#:#Contacts###07 02 2020 new variable
 common#:#mm_dashboard#:#Dashboard###07 02 2020 new variable
 common#:#mm_enrolments#:#Enrolments###07 02 2020 new variable
-common#:#mm_favorites#:#Favourites###07 02 2020 new variable
+common#:#mm_favorites#:#Favoriler
 common#:#mm_learning_history#:#Learning History###07 02 2020 new variable
 common#:#mm_learning_progress#:#Learning Progress###07 02 2020 new variable
 common#:#mm_mail#:#Mail###07 02 2020 new variable
@@ -4735,10 +4735,10 @@ common#:#mm_personal_and_shared_r#:#Personal and Shared Resources###07 02 2020 n
 common#:#mm_personal_workspace#:#Personal Workspace###07 02 2020 new variable
 common#:#mm_portfolio#:#Portfolio###07 02 2020 new variable
 common#:#mm_private_chats#:#Private Chats###29 07 2022 new variable
-common#:#mm_repo_tree_view#:#Tree View###07 02 2020 new variable
-common#:#mm_repo_tree_view_act#:#Activate Tree###07 02 2020 new variable
-common#:#mm_repo_tree_view_deact#:#Deactivate Tree###07 02 2020 new variable
-common#:#mm_repository#:#Repository###07 02 2020 new variable
+common#:#mm_repo_tree_view#:#Ağaç görünümü
+common#:#mm_repo_tree_view_act#:#Aktywuj widok drzewa
+common#:#mm_repo_tree_view_deact#:#Deaktywuj widok drzewa
+common#:#mm_repository#:#Depo
 common#:#mm_skills#:#Competences###07 02 2020 new variable
 common#:#mm_staff_list#:#Staff List###07 02 2020 new variable
 common#:#mm_tags#:#Tags###07 02 2020 new variable
@@ -5115,8 +5115,8 @@ common#:#obj_rcat#:#ECS Kategori
 common#:#obj_rcrs#:#ECS Kursu
 common#:#obj_recf#:#Restored Nesneler
 common#:#obj_recf_desc#:#Sistem Kontrolü dan restore Nesneler içerir.
-common#:#obj_rep#:#Repository###07 02 2020 new variable
-common#:#obj_reps#:#Repository###24 10 2013 new variable
+common#:#obj_rep#:#Depo
+common#:#obj_reps#:#Depo
 common#:#obj_reps_desc#:#General settings for the Repository###24 10 2013 new variable
 common#:#obj_rfil#:#ECS Dosya
 common#:#obj_rglo#:#ECS Sözlüğü
@@ -7768,7 +7768,7 @@ crs#:#crs_members_map#:#Ders Üyeler Harita
 crs#:#crs_members_print_title#:#Ders üyeleri
 crs#:#crs_min_one_admin#:#Bunun ders atanmış en az bir yönetici olmalıdır.
 crs#:#crs_msg_no_self_registration_period_if_self_enrolment_disabled#:#The limited registration period can not be defined if the "No Self-enrolment" setting is active.###26 08 2024 new variable
-crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###26 08 2024 new variable
+crs#:#crs_my_courses_groups_enabled#:#Kurslarım ve Gruplarım 
 crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###26 08 2024 new variable
 crs#:#crs_new_status#:#Yeni durumu:
 crs#:#crs_new_subscription#:#Kullanıcı kursu "% s" için tescil
@@ -8164,21 +8164,21 @@ dash#:#dash_dashboard#:#Dashboard###07 02 2020 new variable
 dash#:#dash_default_presentation#:#Default Presentation###07 02 2020 new variable
 dash#:#dash_default_sortation#:#Default Sortation###07 02 2020 new variable
 dash#:#dash_enable_cal#:#Calendar###07 02 2020 new variable
-dash#:#dash_enable_favourites#:#Favourites###07 02 2020 new variable
+dash#:#dash_enable_favourites#:#Favoriler
 dash#:#dash_enable_learning_sequences#:#Learning Sequences###26 08 2024 new variable
 dash#:#dash_enable_mail#:#Mail###07 02 2020 new variable
-dash#:#dash_enable_memberships#:#My Courses and Groups###07 02 2020 new variable
+dash#:#dash_enable_memberships#:#Kurslarım ve Gruplarım
 dash#:#dash_enable_news#:#News###07 02 2020 new variable
 dash#:#dash_enable_recommended_content#:#Recommended Content###26 08 2024 new variable
 dash#:#dash_enable_study_programmes#:#Study Programmes###26 08 2024 new variable
 dash#:#dash_enable_task#:#Tasks###07 02 2020 new variable
-dash#:#dash_favourites#:#Favourites###07 02 2020 new variable
+dash#:#dash_favourites#:#Favoriler
 dash#:#dash_item_removed#:#Recommendation has been removed from the list.###07 02 2020 new variable
 dash#:#dash_learning_sequences#:#My Learning Sequences###26 08 2024 new variable
 dash#:#dash_list#:#List###07 02 2020 new variable
 dash#:#dash_main_panel#:#Main Panel###07 02 2020 new variable
 dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.###07 02 2020 new variable
-dash#:#dash_memberships#:#My Courses and Groups###07 02 2020 new variable
+dash#:#dash_memberships#:#Kurslarım ve Gruplarım
 dash#:#dash_no_items_to_manage#:#No items available for removal.###10 03 2026 new variable
 dash#:#dash_page_edit_info#:#The content of this page is displayed to all users on their dashboard. The contents of the various blocks of the dashboard are presented below.###28 10 2024 new variable
 dash#:#dash_presentation#:#Presentation###07 02 2020 new variable
@@ -15089,10 +15089,10 @@ rep#:#rep_export_limitation_info#:#Limits the number of objects for container ex
 rep#:#rep_export_limitation_limited#:#Limit Export###07 02 2020 new variable
 rep#:#rep_export_limitation_unlimited#:#Unlimited Export###26 08 2024 new variable
 rep#:#rep_failure_trashed_trash#:#You selected objects that cannot be restored to their original location, because their parent objects were deleted. Please uncheck the respective object in the table or select the Restore to New Location instead.###07 02 2020 new variable
-rep#:#rep_fav_intro1#:#Sie haben aktuell noch keine Favoriten ausgewählt. Um dies zu tun, müssen Sie zwei Schritte machen:###07 02 2020 new variable
-rep#:#rep_fav_intro2#:#Klicken Sie auf '%s' und wählen Sie aus dem verfügbaren Angebot ein Lernobjekt aus, z. B. ein Lernmodul oder ein Forum.###07 02 2020 new variable
-rep#:#rep_fav_intro3#:#Wenn Sie etwas gefunden haben, das Sie interessiert, können Sie es ganz einfach zu Ihren Favoriten hinzufügen. Wählen Sie beim gewünschten Objekt im <i>Aktionen</i>-Menü die Option "<i>Zu Favoriten hinzufügen</i>".###07 02 2020 new variable
-rep#:#rep_favourites#:#Favourites###29 07 2022 new variable
+rep#:#rep_fav_intro1#:#Henüz hiçbir favori seçmediniz. Bunu yapmak için iki adımı tamamlamanız gerekiyor:
+rep#:#rep_fav_intro2#:#'%s' üzerine tıklayın ve mevcut seçeneklerden bir öğrenme nesnesi seçin, örneğin bir öğrenme modülü veya bir forum.
+rep#:#rep_fav_intro3#:#İlginizi çeken bir şey bulursanız, onu kolayca favorilerinize ekleyebilirsiniz. İstediğiniz öğe için, İşlemler menüsünden "Favorilere Ekle" seçeneğini belirleyin.
+rep#:#rep_favourites#:#Favoriler
 rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.###29 07 2022 new variable
 rep#:#rep_input_not_empty#:#This field must not be empty, please provide a value.###21 05 2025 new variable
 rep#:#rep_intro#:#Repository hoş geldiniz!

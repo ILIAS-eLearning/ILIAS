@@ -890,7 +890,7 @@ assessment#:#longmenu_answeroptions_differ#:#This question does not work correct
 assessment#:#longmenu_text#:#Texte de menu long
 assessment#:#mailnottype#:#Envoyer notification lorsqu'un utilisateur achève un passage de test.
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.
-assessment#:#mainbar_button_label_questionlist#:#Questionlist###31 10 2023 new variable
+assessment#:#mainbar_button_label_questionlist#:#Liste de questions
 assessment#:#maintenance#:#Maintenance
 assessment#:#manscoring#:#Notation Manuelle
 assessment#:#manscoring_done#:#Participants notés
@@ -1137,7 +1137,7 @@ assessment#:#question_type#:#Type de Question
 assessment#:#questionlist_cannot_be_altered#:#The questionlist cannot be altered as the test already contains participant data sets.###20 01 2026 new variable
 assessment#:#questionpool_not_entered#:#Veuillez saisir un nom pour un groupe de questions.
 assessment#:#questionpool_not_selected#:#Please select a question pool!
-assessment#:#questions#:#Questions###31 10 2023 new variable
+assessment#:#questions#:#Questions
 assessment#:#questions_from#:#questions de
 assessment#:#questions_per_page_view#:#Vue par Page
 assessment#:#random_accept_sample#:#Accepter échantillon
@@ -1362,14 +1362,14 @@ assessment#:#tst_answer_fixation_on_instant_feedback_desc#:#After the feedback f
 assessment#:#tst_answer_fixation_on_instantfb_or_followupqst#:#Lock Answers with the Presentation of Feedback or Follow-Up Questions
 assessment#:#tst_answer_fixation_on_instantfb_or_followupqst_desc#:#Participant Answers for a question will be locked either with the presentation of the questions's feedback or when the follow-up question is shown.
 assessment#:#tst_answer_status_answered#:#Répondues
-assessment#:#tst_answer_status_editing#:# (editing ... )
+assessment#:#tst_answer_status_editing#:# (En cours...)
 assessment#:#tst_answer_status_not_answered#:#Pas répondues
 assessment#:#tst_answered_questions#:#Réponses
 assessment#:#tst_answered_questions_of_total#:#%s of %s
 assessment#:#tst_answered_questions_test#:#Questions avec réponse du test
 assessment#:#tst_attached_xls_file#:#Vous trouverez le résultat du test pour ce participant dans le fichier Excel ci-joint.
 assessment#:#tst_attempt#:#Tentative
-assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.###31 10 2023 new variable
+assessment#:#tst_attempt_limit_message#:#Nombre total de tentatives autorisées pour ce test : <b>%s</b>.
 assessment#:#tst_attempt_started#:#Commencé
 assessment#:#tst_back_to_pass_details#:#Retour aux détails d’essai
 assessment#:#tst_back_to_question_list#:#Retour à la liste de questions
@@ -1428,7 +1428,7 @@ assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this messag
 assessment#:#tst_dont_use_previous_answers#:#Vos réponses antérieures ne seront pas affichées par défaut lorsque vous repasserez le test
 assessment#:#tst_edit_competence_assign#:#Éditer les propriétés de la tâche
 assessment#:#tst_edit_scoring#:#Notation Manuelle
-assessment#:#tst_enable_questionlist#:#Show 'List of Questions’###31 10 2023 new variable
+assessment#:#tst_enable_questionlist#:#Afficher la Liste des questions
 assessment#:#tst_enable_questionlist_description#:#Participants can switch on a list of the test questions on the left of the actual question.###31 10 2023 new variable
 assessment#:#tst_ending_time#:#Heure de Fin
 assessment#:#tst_ending_time_before_starting_time#:#Please enter a date for the end of the test that is after the start date.
@@ -1456,11 +1456,11 @@ assessment#:#tst_exam_modal_message_conditions#:#Please confirm the conditions t
 assessment#:#tst_exam_modal_message_conditions_and_password#:#Please confirm the conditions and enter the password to start the test.###31 10 2023 new variable
 assessment#:#tst_exam_modal_message_password#:#Please enter the password to start the test.###31 10 2023 new variable
 assessment#:#tst_exam_not_assigned_participant_disclaimer#:#You cannot start this test, as you are not an assigned participant.###31 10 2023 new variable
-assessment#:#tst_exam_password#:#Test Password###31 10 2023 new variable
-assessment#:#tst_exam_password_invalid_message#:#The given password is not valid!###31 10 2023 new variable
+assessment#:#tst_exam_password#:#Mot de passe de test
+assessment#:#tst_exam_password_invalid_message#:#Le mot de passe que vous avez saisi n'est pas valide. Veuillez réessayer et, si nécessaire, contacter la personne responsable de ce test.
 assessment#:#tst_exam_password_label#:#Password###31 10 2023 new variable
 assessment#:#tst_exam_required_fields_not_filled_message#:#You need to fill out all required fields!###31 10 2023 new variable
-assessment#:#tst_exam_start#:#Start Test###31 10 2023 new variable
+assessment#:#tst_exam_start#:#Démarrer le test
 assessment#:#tst_exam_use_previous_answers#:#Previous Answers###31 10 2023 new variable
 assessment#:#tst_exam_use_previous_answers_label#:#If enabled answers from previous tests will be prefilled.###31 10 2023 new variable
 assessment#:#tst_extratime_added#:#Le temps passé par le participant a été augmenté de %s minutes.
@@ -1481,7 +1481,7 @@ assessment#:#tst_final_information#:#Informations avant la Fin du Test
 assessment#:#tst_finish_confirm_button#:#Oui, je souhaite terminer le test
 assessment#:#tst_finish_confirm_cancel_button#:#Non, revenir à la question précédente
 assessment#:#tst_finish_confirmation_question#:#Vous allez terminer ce test et atteindre le nombre maximum de tests autorisés validés. Vous ne pourrez plus refaire ce test une nouvelle fois pour modifier vos réponses. Voulez-vous vraiment terminer ce test ?
-assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?###31 10 2023 new variable
+assessment#:#tst_finish_confirmation_question_no_attempts_left#:#Vous allez terminer ce test et atteindre le nombre maximal de tentatives autorisées. Vous ne pourrez plus accéder à ce test pour modifier vos réponses. Voulez-vous vraiment terminer le test ?
 assessment#:#tst_finish_notification#:#Notification par Email en fin de test
 assessment#:#tst_finish_notification_advanced#:#Envoyer résultat complet du test au propriétaire du test
 assessment#:#tst_finish_notification_content_type#:#Content of e-mail###31 10 2023 new variable
@@ -1493,7 +1493,7 @@ assessment#:#tst_form_dynamic_question_set_config#:#Sélection des Questions
 assessment#:#tst_gap_analysis#:#Analyse d’écart
 assessment#:#tst_general_properties#:#Paramètres Généraux
 assessment#:#tst_header_participant#:#Résultat :
-assessment#:#tst_header_participant_no_answer#:#Question - not answered###26 08 2024 new variable
+assessment#:#tst_header_participant_no_answer#:#Question – sans réponse
 assessment#:#tst_header_solution#:#Solution correcte :
 assessment#:#tst_heading_scoring#:#Notation
 assessment#:#tst_hide_info_tab#:#Hide Info Tab###31 10 2023 new variable
@@ -1576,10 +1576,10 @@ assessment#:#tst_introduction_desc#:#Affiche un message d'introduction sur l'ong
 assessment#:#tst_introduction_text#:#Message d’introduction
 assessment#:#tst_invited_nobody#:#Aucun utilisateur, groupe ou rôle ajouté au test comme participant désigné
 assessment#:#tst_invited_selected_users#:#Les utilisateurs sélectionnés ont été ajoutés au test comme participants désignés
-assessment#:#tst_launcher_button_label_passes_limit_reached#:#You have reached the limit of possible test passes###31 10 2023 new variable
+assessment#:#tst_launcher_button_label_passes_limit_reached#:#Vous avez passé ce test le nombre maximal de fois autorisé.
 assessment#:#tst_launcher_status_message_conditions#:#You will be asked for your approval of the exam conditions when you start the test.###31 10 2023 new variable
 assessment#:#tst_launcher_status_message_conditions_and_password#:#You will be asked for the password and your approval of the exam conditions when you start the test.###31 10 2023 new variable
-assessment#:#tst_launcher_status_message_password#:#You will be asked for the password when you start the test.###31 10 2023 new variable
+assessment#:#tst_launcher_status_message_password#:#Le mot de passe vous sera demandé au début du test.
 assessment#:#tst_level#:#Niveau de compétence
 assessment#:#tst_limit_nr_of_tries#:#Nombre maximal d'Essais
 assessment#:#tst_link_only_unassigned#:#Vous avez sélectionné au moins une question qui est déjà liée à une Banque de Questions.<br />Seule les questions non assignées peuvent être ajoutées dans une Banque de Questions.
@@ -1677,7 +1677,7 @@ assessment#:#tst_objectives_progress_header#:#Progression d'Objectif d'Apprentis
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Ce test aléatoire se trouve dans un état irréparable car un ou plusieurs pools de questions connectés ont été supprimés. Par conséquent, les participants ne peuvent plus passer le test.
 assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back.###26 05 2026 new variable
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Question related to allready passed learning objectives are optional.</b><br /><br />You want to navigate to a question, that relates to an allready passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on these questions. Your answers from previous attempts were not adopted, since new random questions were selected for this attempt. With working on this questions you can also degrade your learning objective result.<br /><br />If you decide to not work on these questions, you can go back. In this case these questions won't be considered in the evaluation.
-assessment#:#tst_out_of_time_message#:#You have reached the maximum allowed processing time of the test!###31 10 2023 new variable
+assessment#:#tst_out_of_time_message#:#Le temps imparti pour passer ce test est écoulé.
 assessment#:#tst_participant#:#Participant
 assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
 assessment#:#tst_participant_status#:#Type de Participant
@@ -1974,7 +1974,7 @@ assessment#:#tst_tab_results_objective_oriented#:#Résultats par Objectifs d'app
 assessment#:#tst_tab_results_pass_oriented#:#Résultats par tentatives
 assessment#:#tst_tbl_col_answered_questions#:#Answered Questions
 assessment#:#tst_tbl_col_final_mark#:#Mark
-assessment#:#tst_tbl_col_finished_passes#:#Finished Passes
+assessment#:#tst_tbl_col_finished_passes#:#Tentatives achevées
 assessment#:#tst_tbl_col_finished_passes_num_of#:#%s of %s
 assessment#:#tst_tbl_col_last_scored_access#:#Last Scored Access
 assessment#:#tst_tbl_col_pass_finished#:#Pass Finished
@@ -1991,7 +1991,7 @@ assessment#:#tst_text_count_system#:#Système de Notation
 assessment#:#tst_threshold#:#Thresholds
 assessment#:#tst_time_already_spent#:#Temps déjà passé
 assessment#:#tst_time_already_spent_left#:#Il vous reste %s.
-assessment#:#tst_time_limit_message#:#You will have <b>%s minutes</b> to answer all questions.###31 10 2023 new variable
+assessment#:#tst_time_limit_message#:#Vous disposerez de <b>%s minutes</b> pour répondre à toutes les questions.
 assessment#:#tst_title_output#:#Présentation des Titres de Questions
 assessment#:#tst_title_output_full#:#Afficher le titre des questions et les points à obtenir
 assessment#:#tst_title_output_hide_points#:#Afficher seulement le titre des questions
@@ -4720,9 +4720,9 @@ common#:#mm_personal_and_shared_r#:#Ressources personnelles et partagées
 common#:#mm_personal_workspace#:#Espace personnel
 common#:#mm_portfolio#:#Portfolio
 common#:#mm_private_chats#:#Private Chats###31 10 2023 new variable
-common#:#mm_repo_tree_view#:#Tree View
-common#:#mm_repo_tree_view_act#:#Activate Tree
-common#:#mm_repo_tree_view_deact#:#Deactivate Tree
+common#:#mm_repo_tree_view#:#Vue arborescente
+common#:#mm_repo_tree_view_act#:#Activer la vue arborescente
+common#:#mm_repo_tree_view_deact#:#Désactiver la vue arborescente
 common#:#mm_repository#:#Catalogue
 common#:#mm_skills#:#Compétences
 common#:#mm_staff_list#:#Collaborateurs
@@ -5813,7 +5813,7 @@ common#:#toggle_off#:#OFF
 common#:#toggle_on#:#ON
 common#:#tomorrow#:#Demain
 common#:#toolbar_more_actions#:#More Actions###31 10 2023 new variable
-common#:#tools#:#Tools
+common#:#tools#:#Outils
 common#:#top_of_page#:#Haut de page
 common#:#tos_accept_usr_agreement#:#Accept Terms of Service?###31 10 2023 new variable
 common#:#tos_accept_usr_agreement_intro#:#There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.###31 10 2023 new variable
@@ -7753,7 +7753,7 @@ crs#:#crs_members_map#:#Carte des Membres du Cours
 crs#:#crs_members_print_title#:#Membres du cours
 crs#:#crs_min_one_admin#:#Il existe au moins un administrateur assigné à  ce cours.
 crs#:#crs_msg_no_self_registration_period_if_self_enrolment_disabled#:#The limited registration period can not be defined if the "No Self-enrolment" setting is active.###26 08 2024 new variable
-crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups
+crs#:#crs_my_courses_groups_enabled#:#Mes cours et groupes
 crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.
 crs#:#crs_new_status#:#Votre nouveau statut est :
 crs#:#crs_new_subscription#:#Nouvel abonnement au cours "%s"
@@ -8149,10 +8149,10 @@ dash#:#dash_dashboard#:#Tableau de bord
 dash#:#dash_default_presentation#:#Default Presentation
 dash#:#dash_default_sortation#:#Default Sortation
 dash#:#dash_enable_cal#:#Calendar
-dash#:#dash_enable_favourites#:#Favourites
+dash#:#dash_enable_favourites#:#Favoris
 dash#:#dash_enable_learning_sequences#:#Learning Sequences###31 10 2023 new variable
 dash#:#dash_enable_mail#:#Mail
-dash#:#dash_enable_memberships#:#My Courses and Groups
+dash#:#dash_enable_memberships#:#Mes cours et mes groupes
 dash#:#dash_enable_news#:#News
 dash#:#dash_enable_recommended_content#:#Recommended Content###31 10 2023 new variable
 dash#:#dash_enable_study_programmes#:#Study Programmes###31 10 2023 new variable
@@ -8177,8 +8177,8 @@ dash#:#dash_sort_by_type#:#Trier par type
 dash#:#dash_sortation#:#Sortation
 dash#:#dash_study_programmes#:#My Study Programmes###31 10 2023 new variable
 dash#:#dash_tile#:#Tile
-dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’
-dash#:#dash_view_favourites#:#Section ‘Favourites’
+dash#:#dash_view_courses_groups#:#Rubrique « Mes cours et mes groupes »
+dash#:#dash_view_favourites#:#Rubrique « Favoris »
 dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.
 dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.
 dash#:#remove_from_favourites#:#Remove from Favourites###21 04 2026 new variable
@@ -15077,7 +15077,7 @@ rep#:#rep_failure_trashed_trash#:#You selected objects that cannot be restored t
 rep#:#rep_fav_intro1#:#Vous n'avez pas encore sélectionné de favori. Pour le faire, suivez ces deux étapes :
 rep#:#rep_fav_intro2#:#Cliquez sur '%s' et repérez le sujet qui vous intéresse dans l'offre disponible, par exemple un module ou un forum.
 rep#:#rep_fav_intro3#:# 	<br />Cliquez sur le sujet souhaité, puis sur le menu <i>Actions</i>  et choisissez l'option "<i>Ajouter aux favoris</i>".
-rep#:#rep_favourites#:#Favourites
+rep#:#rep_favourites#:#Favoris
 rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.
 rep#:#rep_input_not_empty#:#This field must not be empty, please provide a value.###21 05 2025 new variable
 rep#:#rep_intro#:#Bienvenue dans le Catalogue ILIAS !

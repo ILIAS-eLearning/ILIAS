@@ -1383,7 +1383,7 @@ assessment#:#tst_answered_questions_of_total#:#%s di %s
 assessment#:#tst_answered_questions_test#:#Domande risposte in questo test
 assessment#:#tst_attached_xls_file#:#Puoi trovare il risultato del test per questo partecipante nel file Excel allegato.
 assessment#:#tst_attempt#:#Tentativo
-assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.###30 04 2024 new variable
+assessment#:#tst_attempt_limit_message#:#Numero totale di volte in cui puoi sostenere questo test: <b>%s</b>.###Tentative translation of new English entry. Please check.
 assessment#:#tst_attempt_started#:#Attempt Started###28 11 2025 new variable
 assessment#:#tst_back_to_pass_details#:#Torna ai dettagli del passaggio
 assessment#:#tst_back_to_question_list#:#Torna all’elenco domande
@@ -1475,7 +1475,7 @@ assessment#:#tst_exam_password_invalid_message#:#The given password is not valid
 assessment#:#tst_exam_password_label#:#Password###30 04 2024 new variable
 assessment#:#tst_exam_required_fields_not_filled_message#:#You need to fill out all required fields!###30 04 2024 new variable
 assessment#:#tst_exam_start#:#Start Test###30 04 2024 new variable
-assessment#:#tst_exam_use_previous_answers#:#Previous Answers###30 04 2024 new variable
+assessment#:#tst_exam_use_previous_answers#:#Usa le risposte precedenti###translation of new English entry #Use Previous Answers'
 assessment#:#tst_exam_use_previous_answers_label#:#If enabled answers from previous tests will be prefilled.###30 04 2024 new variable
 assessment#:#tst_extratime_added#:#L'orario di lavoro del partecipante è stato aumentato di %s minuti.
 assessment#:#tst_extratime_info#:#Se il tempo di elaborazione di un partecipante al test viene prolungato più volte, inserire qui il totale di tutte le sue estensioni di tempo.
