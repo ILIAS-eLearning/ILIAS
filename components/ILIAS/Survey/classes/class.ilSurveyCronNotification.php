@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
 use ILIAS\Cron\CronJob;
@@ -38,9 +40,7 @@ class ilSurveyCronNotification extends CronJob
         global $DIC;
 
         $this->lng = $DIC->language();
-        if (isset($DIC["tree"])) {
-            $this->tree = $DIC->repositoryTree();
-        }
+        $this->tree = $DIC->repositoryTree();
     }
 
     public function getId(): string
@@ -86,16 +86,15 @@ class ilSurveyCronNotification extends CronJob
 
     public function run(): JobResult
     {
-        global $tree;
-
         $log = ilLoggerFactory::getLogger("svy");
         $log->debug("start");
 
         $status = JobResult::STATUS_NO_ACTION;
         $message = array();
 
-        $root = $tree->getNodeData(ROOT_FOLDER_ID);
-        foreach ($tree->getSubTree($root, false, ["svy"]) as $svy_ref_id) {
+        $root = $this->tree->getNodeData(ROOT_FOLDER_ID);
+        foreach ($this->tree->getSubTree($root, false, ["svy"]) as $svy_ref_id) {
+            $svy_ref_id = (int) $svy_ref_id;
             $svy = new ilObjSurvey($svy_ref_id);
             $num = $svy->checkReminder();
             if (!is_null($num)) {
