@@ -198,7 +198,9 @@ class ilLPStatusLtiOutcome extends ilLPStatus
             is_numeric($latestGrade['score_given'] ?? null) &&
             is_numeric($latestGrade['score_maximum'] ?? null) &&
             (float) $latestGrade['score_maximum'] > 0) {
-            return (int) round(((float) $latestGrade['score_given'] / (float) $latestGrade['score_maximum']) * 100);
+            return max(0, min(100, (int) round(
+                ((float) $latestGrade['score_given'] / (float) $latestGrade['score_maximum']) * 100
+            )));
         }
 
         $ltiResult = $this->getLtiUserResult($a_obj_id, $a_usr_id);
