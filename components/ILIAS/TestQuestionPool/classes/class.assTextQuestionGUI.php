@@ -476,6 +476,8 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $user_solution = "";
         if ($active_id) {
             $solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
+
+            $raw_user_solution = '';
             foreach ($solutions as $solution_value) {
                 $raw_user_solution = $solution_value["value1"];
             }
