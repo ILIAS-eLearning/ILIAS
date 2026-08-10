@@ -11262,14 +11262,14 @@ lti#:#activity_id#:#アクティビティID
 lti#:#activity_id_info#:#このアクティビティIDはステートメント識別用にLTIプロバイダが使用します。
 lti#:#auth_lti#:#LTI Auth
 lti#:#conf_privacy_ident#:#ユーザID
-lti#:#conf_privacy_ident_il_uuid_sha256#:#ハッシュと、Eメールアドレスとして形式化されたユニークなILIASプラットフォームIDを組み合わせたもの
-lti#:#conf_privacy_ident_il_uuid_sha256_info#:#これはコール毎に同じですが、ILIASユーザに関してはダイレクトに終結は許可されません。
 lti#:#conf_privacy_ident_il_uuid_ext_account#:#Eメールアドレス用にユニークなILIASプラットフォームでフォーマットされて組み合された外部ユーザID
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#これはコール毎に同じですが、ユーザに関してはダイレクトに終結する事があります。
 lti#:#conf_privacy_ident_il_uuid_login#:#EメールアドレスでユニークなILIASプラットフォームでフォーマットされて組み合されたILIASログイン
 lti#:#conf_privacy_ident_il_uuid_login_info#:#ログイン名を送信。これはコール毎に同じですが、ILIASユーザに関してはダイレクトに終結することがあります。
 lti#:#conf_privacy_ident_il_uuid_random#:#EメールアドレスでユニークなILIASプラットフォームでフォーマットされて組み合されたランダムID
 lti#:#conf_privacy_ident_il_uuid_random_info#:#それぞれILIASオブジェクトとILIASユーザランダムIDは、コール毎に同一のままのランダムIDを生成します。オブジェクトを超えたユーザプロファイル生成がほぼ不可能でる事によりユーザに関する結論は、極めて限定的です。
+lti#:#conf_privacy_ident_il_uuid_sha256#:#ハッシュと、Eメールアドレスとして形式化されたユニークなILIASプラットフォームIDを組み合わせたもの
+lti#:#conf_privacy_ident_il_uuid_sha256_info#:#これはコール毎に同じですが、ILIASユーザに関してはダイレクトに終結は許可されません。
 lti#:#conf_privacy_ident_il_uuid_sha256url#:#EメールアドレスのILIASドメインでフォーマットされたハッシュ
 lti#:#conf_privacy_ident_il_uuid_sha256url_info#:#これはコール毎に同じILIASプラットホームIDで可変の最高80文字よりかなり短く、ILIASユーザーに関して非常に限定された結果のみを許容。
 lti#:#conf_privacy_ident_il_uuid_user_id#:#EメールアドレスでユニークなILIASプラットフォームでフォーマットされて組み合されたILIASユーザ

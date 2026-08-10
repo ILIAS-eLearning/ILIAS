@@ -11266,14 +11266,14 @@ lti#:#activity_id#:#ID de actividad
 lti#:#activity_id_info#:#Este ID de actividad es utilizado por el proveedor LTI para identificar declaraciones.
 lti#:#auth_lti#:#Autenticación LTI
 lti#:#conf_privacy_ident#:#Identificación de usuario
-lti#:#conf_privacy_ident_il_uuid_sha256#:#Hash combinado con un ID de plataforma ILIAS único con formato de dirección de correo electrónico
-lti#:#conf_privacy_ident_il_uuid_sha256_info#:#Esto es idéntico para cada llamada, pero no permite ninguna conclusión directa sobre el usuario de ILIAS.
 lti#:#conf_privacy_ident_il_uuid_ext_account#:#ID de usuario externo combinado con un ID de plataforma ILIAS único con formato de dirección de correo electrónico
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#Esto es idéntico para cada llamada, pero puede permitir una conclusión directa sobre el usuario.
 lti#:#conf_privacy_ident_il_uuid_login#:#Nombre de usuario de ILIAS combinado con un ID de plataforma ILIAS único con formato de dirección de correo electrónico
 lti#:#conf_privacy_ident_il_uuid_login_info#:#Envía el nombre de usuario. Esto es idéntico para cada llamada, pero puede permitir una conclusión directa sobre el usuario de ILIAS.
 lti#:#conf_privacy_ident_il_uuid_random#:#ID aleatorio combinado con un ID de plataforma ILIAS único con formato de dirección de correo electrónico
 lti#:#conf_privacy_ident_il_uuid_random_info#:#Para cada objeto ILIAS y usuario de ILIAS se genera un ID aleatorio que permanece idéntico para cada llamada. Las conclusiones sobre un usuario son muy limitadas porque es prácticamente imposible crear perfiles de usuario a través de los objetos.
+lti#:#conf_privacy_ident_il_uuid_sha256#:#Hash combinado con un ID de plataforma ILIAS único con formato de dirección de correo electrónico
+lti#:#conf_privacy_ident_il_uuid_sha256_info#:#Esto es idéntico para cada llamada, pero no permite ninguna conclusión directa sobre el usuario de ILIAS.
 lti#:#conf_privacy_ident_il_uuid_sha256url#:#Hash combinado con el dominio de ILIAS con formato de dirección de correo electrónico.
 lti#:#conf_privacy_ident_il_uuid_sha256url_info#:#Esto es idéntico para cada llamada, con un máximo de 80 caracteres, significativamente más corto que la variante con el ID de la plataforma ILIAS y permite solo conclusiones muy limitadas sobre el usuario de ILIAS.
 lti#:#conf_privacy_ident_il_uuid_user_id#:#ID de usuario de ILIAS combinado con un ID de plataforma ILIAS único con formato de dirección de correo electrónico
