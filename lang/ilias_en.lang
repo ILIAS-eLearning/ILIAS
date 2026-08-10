@@ -1938,7 +1938,7 @@ assessment#:#tst_tab_results_objective_oriented#:#Test Results by Learning Objec
 assessment#:#tst_tab_results_pass_oriented#:#Test Results by Attempts
 assessment#:#tst_tbl_col_answered_questions#:#Answered Questions
 assessment#:#tst_tbl_col_final_mark#:#Mark
-assessment#:#tst_tbl_col_finished_passes#:#Finished Passes
+assessment#:#tst_tbl_col_finished_passes#:#Finished Attempts
 assessment#:#tst_tbl_col_finished_passes_num_of#:#%s of %s
 assessment#:#tst_tbl_col_last_scored_access#:#Last Scored Access
 assessment#:#tst_tbl_col_pass_finished#:#Pass Finished
@@ -15205,11 +15205,11 @@ rep#:#rep_export_limitation_info#:#Limits the number of objects for container ex
 rep#:#rep_export_limitation_limited#:#Limit Export
 rep#:#rep_export_limitation_unlimited#:#Unlimited Export
 rep#:#rep_failure_trashed_trash#:#You selected objects that cannot be restored to their original location, because their parent objects were deleted. Please uncheck the respective object in the table or select the Restore to New Location instead.
-rep#:#rep_fav_intro1#:#You have not yet selected any favourites. To do this, you must take two steps:
-rep#:#rep_fav_intro2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.
-rep#:#rep_fav_intro3#:#When you have found something that interests you, you can easily add it to your favourites. Select the desired item in the <i>Actions</i> menu and choose "<i>Add to favourites</i>".
+rep#:#rep_fav_intro1#:#You have not yet selected any favourites. To do so, there are two steps you need to take:
+rep#:#rep_fav_intro2#:#Click on '%s' and select a learning object from those available, for example a learning module or a forum.
+rep#:#rep_fav_intro3#:#When you have found something that interests you, you can easily add it to your favourites. Select the desired item in the <i>Actions</i> menu and select "<i>Add to favourites</i>".
 rep#:#rep_favourites#:#Favourites
-rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.
+rep#:#rep_favourites_info#:#Users can mark individual repository items as favourites. A 'Favourites' list can be activated for the dashboard and the main menu. 
 rep#:#rep_input_not_empty#:#This field must not be empty, please provide a value.
 rep#:#rep_intro#:#Welcome to the Repository!
 rep#:#rep_intro1#:#In this area you can create learning and working resources for all users. All resources are organised in categories. Categories can reflect the structure of your organisation (e.g. departments), a hierarchy of disciplines, or classes of a school.
