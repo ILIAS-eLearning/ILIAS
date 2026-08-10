@@ -4828,6 +4828,7 @@ common#:#msg_no_perm_paste#:#You have no permission to paste the following objec
 common#:#msg_no_perm_paste_object_in_folder#:#You have no permission to paste the object %s in the folder %s.
 common#:#msg_no_perm_perm#:#You have no permission to change permission settings.
 common#:#msg_no_perm_read#:#You have no permission to access this item.
+common#:#msg_no_perm_read_item#:#You have no permission to access the object.
 common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.
 common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user
 common#:#msg_no_perm_write#:#You have no permission to edit settings.
@@ -6100,7 +6101,6 @@ common#:#zip#:#Zip Code / Post Code
 common#:#zip_structure_error#:#Archive contains same file names. Upload aborted.
 common#:#zip_test_failed#:#Zip-Test failed. Please contact you ILIAS administrator.
 common#:#zipcode#:#Zip Code / Post Code
-common#::#You have no permission to access this object.
 cond#:#cond_under_parent_control#:#Preconditions are under the control of the parent object.
 cont#:#cont_add_global_profile#:#Add Global Profile
 cont#:#cont_add_local_profile#:#Add Local Profile
