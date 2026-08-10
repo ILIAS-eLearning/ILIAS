@@ -32,8 +32,7 @@ class ilLTIConsumerGradeServiceResults extends ilLTIConsumerResourceBase
     public function __construct(
         ilLTIConsumerServiceBase $service,
         private readonly ilLTIConsumerLineItemRepository $lineItemRepository
-    )
-    {
+    ) {
         parent::__construct($service);
         $this->id = 'Result.collection';
         $this->template = '/{context_id}/lineitems/{item_id}/lineitem/results';
