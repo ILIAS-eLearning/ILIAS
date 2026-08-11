@@ -192,6 +192,8 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
 
     public function addJavaScript(string $a_js_file, bool $a_add_version_parameter = true, int $a_batch = 2): void
     {
+        $a_js_file = $this->toWebPath($a_js_file);
+
         // three batches currently
         if ($a_batch < 1 || $a_batch > 3) {
             $a_batch = 2;
@@ -317,12 +319,35 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
 
     public function addCss(string $a_css_file, string $media = "screen"): void
     {
+        $a_css_file = $this->toWebPath($a_css_file);
+
         if (!array_key_exists($a_css_file . $media, $this->css_files)) {
             $this->css_files[$a_css_file . $media] = [
                 "file" => $a_css_file,
                 "media" => $media,
             ];
         }
+    }
+
+    /**
+     * Resources are delivered relative to the web root, but components which know their own
+     * location - plugins in particular, see ilPlugin::getDirectory() - only have an absolute
+     * one at hand. Such a path would be written into the markup verbatim and could never be
+     * requested by a browser, so cut the web root off instead.
+     */
+    private function toWebPath(string $path): string
+    {
+        if (!defined('ILIAS_ABSOLUTE_PATH')) {
+            return $path;
+        }
+
+        $web_root = rtrim(ILIAS_ABSOLUTE_PATH, '/') . '/public/';
+
+        if (str_starts_with($path, $web_root)) {
+            return substr($path, strlen($web_root));
+        }
+
+        return $path;
     }
 
     public function addInlineCss(string $a_css, string $media = "screen"): void
