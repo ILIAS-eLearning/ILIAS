@@ -112,13 +112,39 @@ class ilPluginInfo
 
     public function getPath(): string
     {
-        return implode('/', [
-            ilComponentRepository::PLUGIN_BASE_PATH,
-            $this->getType(),
-            $this->getComponent()->getName(),
-            $this->getPluginSlot()->getName(),
-            $this->getName()
-        ]);
+        return $this->normalizePath(
+            implode('/', [
+                ilComponentRepository::PLUGIN_BASE_PATH,
+                $this->getType(),
+                $this->getComponent()->getName(),
+                $this->getPluginSlot()->getName(),
+                $this->getName()
+            ])
+        );
+    }
+
+    /**
+     * Resolves "." and ".." segments without touching the file system, so it also works
+     * for plugins which are not installed (yet).
+     *
+     * ilComponentRepository::PLUGIN_BASE_PATH is built from __DIR__ and therefore carries
+     * a "../../../.." which would otherwise end up in every path handed out to a plugin.
+     */
+    protected function normalizePath(string $path): string
+    {
+        $segments = [];
+        foreach (explode('/', $path) as $segment) {
+            if ($segment === '' || $segment === '.') {
+                continue;
+            }
+            if ($segment === '..' && $segments !== [] && end($segments) !== '..') {
+                array_pop($segments);
+                continue;
+            }
+            $segments[] = $segment;
+        }
+
+        return (str_starts_with($path, '/') ? '/' : '') . implode('/', $segments);
     }
 
     public function getClassName(): string
