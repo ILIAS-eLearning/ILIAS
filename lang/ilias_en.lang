@@ -14363,15 +14363,15 @@ rbac#:#feed_delete#:#User can move or delete web feed
 rbac#:#feed_edit_permission#:#User can change permission settings
 rbac#:#feed_read#:#User can read content of web feed
 rbac#:#feed_write#:#User can edit web feed settings
-rbac#:#file_content#:#Show Content
 rbac#:#file_copy#:#User can copy file
 rbac#:#file_delete#:#User can move or delete file
 rbac#:#file_edit_file#:#Allow to edit the file in an external editor, if available
 rbac#:#file_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#file_edit_permission#:#User can change permission settings
+rbac#:#file_file_view_content#:#File content presented in browser (if WOPI is active)
+rbac#:#file_file_view_content_short#:#Show Content
 rbac#:#file_read#:#User can download file
 rbac#:#file_read_learning_progress#:#User can view learning progress of other users
-rbac#:#file_view_content#:#File content presented in browser (if WOPI is active)
 rbac#:#file_visible#:#File is visible
 rbac#:#file_write#:#User can edit file settings and upload new version of file
 rbac#:#files_visible#:#Files Visible
