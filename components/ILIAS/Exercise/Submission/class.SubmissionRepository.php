@@ -464,12 +464,22 @@ class SubmissionRepository implements SubmissionRepositoryInterface
         $this->log->debug("6");
         $stream = $this->irss->stream($rid);
 
+        $unzip = $DIC->archives()->unzip($stream);
+
+        // an archive beyond the extraction limits yields no streams at all, so it has to be
+        // rejected explicitly instead of being stored as an empty submission
+        if (!$unzip->isWithinLimits()) {
+            throw new ilExcTooManyFilesSubmittedException(
+                "The submitted ZIP exceeds the configured extraction limits."
+            );
+        }
+
         if ($remaining_allowed !== -1 &&
-            $remaining_allowed < $DIC->archives()->unzip($stream)->getAmountOfFiles()) {
+            $remaining_allowed < $unzip->getAmountOfFiles()) {
             throw new ilExcTooManyFilesSubmittedException("Too many files submitted.");
         }
 
-        foreach ($DIC->archives()->unzip($stream)->getFileStreams() as $stream) {
+        foreach ($unzip->getFileStreams() as $stream) {
             $this->log->debug("7");
             $rid = $this->irss->importStream(
                 $stream,

@@ -286,7 +286,14 @@ class ilResourceCollectionGUI implements UploadHandler
         $unzip_options = $this->archive->unzipOptions()
                                        ->withDirectoryHandling(ZipDirectoryHandling::FLAT_STRUCTURE);
 
-        foreach ($this->archive->unzip($zip_stream, $unzip_options)->getFileStreams() as $stream) {
+        $unzip = $this->archive->unzip($zip_stream, $unzip_options);
+        if (!$unzip->isWithinLimits()) {
+            // the archive exceeds the configured extraction limits, see UnzipOptions
+            $this->main_tpl->setOnScreenMessage('failure', $this->language->txt('cannot_unzip_file'), true);
+            $this->ctrl->redirect($this, self::CMD_INDEX);
+        }
+
+        foreach ($unzip->getFileStreams() as $stream) {
             $rid = $this->irss->manage()->stream(
                 Streams::ofString($stream->getContents()),
                 $this->view_configuration->getStakeholder(),
