@@ -20,20 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Finder\Iterator;
 
-use ArrayIterator;
 use ILIAS\Filesystem\DTO\Metadata;
 use ILIAS\Filesystem\Filesystem;
-use InvalidArgumentException;
-use IteratorAggregate;
-use Traversable;
-use Closure;
 
 /**
- * Class SortableIterator
- * @package ILIAS\Filesystem\Finder\Iterator
- * @author  Michael Jansen <mjansen@databay.de>
+ * @implements \IteratorAggregate<non-empty-string, Metadata>
  */
-class SortableIterator implements IteratorAggregate
+class SortableIterator implements \IteratorAggregate
 {
     public const SORT_BY_NONE = 0;
     public const SORT_BY_NAME = 1;
@@ -41,19 +34,20 @@ class SortableIterator implements IteratorAggregate
     public const SORT_BY_NAME_NATURAL = 4;
     public const SORT_BY_TIME = 5;
 
-    /** @var callable|Closure|int */
+    /** @var callable(Metadata, Metadata): int|Closure(Metadata, Metadata): int|int */
     private $sort;
 
     /**
-     * Sortable constructor.
-     * @param int|callable|Closure $sort
-     * @param bool                 $reverseOrder
+     * @param \Traversable<non-empty-string, Metadata>                               $iterator
+     * @param int|callable(Metadata, Metadata): int|Closure(Metadata, Metadata): int $sort
+     * @param bool                                                                   $reverseOrder
+     * @throws \InvalidArgumentException
      */
     public function __construct(
-        private Filesystem $filesystem,
-        private Traversable $iterator,
+        private readonly Filesystem $filesystem,
+        private readonly \Traversable $iterator,
         $sort,
-        $reverseOrder = false
+        bool $reverseOrder = false
     ) {
         $order = $reverseOrder ? -1 : 1;
 
@@ -94,34 +88,43 @@ class SortableIterator implements IteratorAggregate
             };
         } elseif (self::SORT_BY_NONE === $sort) {
             $this->sort = $order;
-        } elseif (is_callable($sort)) {
+        } elseif (\is_callable($sort)) {
             $this->sort = $sort;
             if ($reverseOrder) {
-                $this->sort = static fn (Metadata $left, Metadata $right): int|float => -$sort($left, $right);
+                $this->sort = static fn(Metadata $left, Metadata $right): int|float => -$sort($left, $right);
             }
         } else {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 'The SortableIterator takes a PHP callable or a valid built-in sort algorithm as an argument.'
             );
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getIterator(): \Traversable
     {
         if (1 === $this->sort) {
-            return $this->iterator;
+            yield from $this->iterator;
+            return;
         }
 
-        $array = iterator_to_array($this->iterator, true);
+        $keys = [];
+        $values = [];
+        foreach ($this->iterator as $key => $value) {
+            $keys[] = $key;
+            $values[] = $value;
+        }
+
         if (-1 === $this->sort) {
-            $array = array_reverse($array);
-        } else {
-            uasort($array, $this->sort);
+            for ($i = \count($values) - 1; $i >= 0; --$i) {
+                yield $keys[$i] => $values[$i];
+            }
+            return;
         }
 
-        return new ArrayIterator($array);
+        uasort($values, $this->sort);
+
+        foreach ($values as $i => $v) {
+            yield $keys[$i] => $v;
+        }
     }
 }
