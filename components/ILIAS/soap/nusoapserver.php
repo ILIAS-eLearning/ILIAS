@@ -27,5 +27,10 @@ if (!defined('ILIAS_MODULE') || ILIAS_MODULE !== 'components/ILIAS/soap') {
     define('IL_SOAPMODE', IL_SOAPMODE_NUSOAP);
 }
 
-$server = new ilNusoapUserAdministrationAdapter(true);
+if (!isset($ilIliasIniFile)) {
+    $ilIliasIniFile = new ilIniFile(__DIR__ . "/../../../ilias.ini.php");
+    $ilIliasIniFile->read();
+}
+
+$server = new ilNusoapUserAdministrationAdapter(true, $ilIliasIniFile);
 $server->start();

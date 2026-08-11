@@ -43,7 +43,7 @@ class ilNusoapUserAdministrationAdapter
 {
     public soap_server $server;
 
-    public function __construct(bool $a_use_wsdl = true)
+    public function __construct(bool $a_use_wsdl = true, ?ilIniFile $ilias_ini_file = null)
     {
         define('SERVICE_NAME', 'ILIASSoapWebservice');
         define('SERVICE_NAMESPACE', 'urn:ilUserAdministration');
@@ -55,7 +55,7 @@ class ilNusoapUserAdministrationAdapter
 
         if ($a_use_wsdl) {
             global $DIC;
-            $this->enableWSDL($DIC->settings());
+            $this->enableWSDL($ilias_ini_file);
         }
 
         $this->registerMethods();
@@ -68,10 +68,10 @@ class ilNusoapUserAdministrationAdapter
         exit();
     }
 
-    private function enableWSDL(ilSetting $setting): void
+    private function enableWSDL(?ilIniFile $ilias_ini_file): void
     {
         $this->server->configureWSDL(SERVICE_NAME, SERVICE_NAMESPACE);
-        $internal_path = $setting->get('soap_internal_wsdl_path', '');
+        $internal_path = $ilias_ini_file?->readVariable('webservices', 'soap_internal_wsdl_path');
         if ($internal_path) {
             $this->server->addInternalPort(SERVICE_NAME, $internal_path);
         }

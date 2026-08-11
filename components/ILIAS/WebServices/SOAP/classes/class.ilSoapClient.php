@@ -33,6 +33,7 @@ class ilSoapClient
     public const MAX_DIRECTORY_SEARCH_DEPTH = 20;
     private ilLogger $log;
     private ilSetting $settings;
+    private ilIniFile $ilias_ini;
     private ?SoapClient $client = null;
     private string $uri;
     private bool $use_wsdl = true;
@@ -45,6 +46,7 @@ class ilSoapClient
         global $DIC;
 
         $this->settings = $DIC->settings();
+        $this->ilias_ini = $DIC->iliasIni();
         $this->log = $DIC->logger()->wsrv();
         $this->uri = $a_uri;
         $this->use_wsdl = true;
@@ -94,7 +96,7 @@ class ilSoapClient
 
     public function init(): bool
     {
-        $internal_path = $this->settings->get('soap_internal_wsdl_path');
+        $internal_path = $this->readIniValue('webservices', 'soap_internal_wsdl_path', '');
         if (trim($this->getServer()) === '') {
             if ($internal_path) {
                 $uri = (new \ILIAS\Data\URI($internal_path));
@@ -150,9 +152,21 @@ class ilSoapClient
                     'connection_timeout' => $this->getTimeout(),
                     'stream_context' => $this->uri === $internal_path ? stream_context_create([
                         'ssl' => [
-                            'verify_peer' => (bool) $this->settings->get('soap_internal_wsdl_verify_peer', '1'),
-                            'verify_peer_name' => (bool) $this->settings->get('soap_internal_wsdl_verify_peer_name', '1'),
-                            'allow_self_signed' => (bool) $this->settings->get('soap_internal_wsdl_allow_self_signed', ''),
+                            'verify_peer' => (bool) $this->readIniValue(
+                                'webservices',
+                                'soap_internal_wsdl_verify_peer',
+                                false
+                            ),
+                            'verify_peer_name' => (bool) $this->readIniValue(
+                                'webservices',
+                                'soap_internal_wsdl_verify_peer_name',
+                                false
+                            ),
+                            'allow_self_signed' => (bool) $this->readIniValue(
+                                'webservices',
+                                'soap_internal_wsdl_allow_self_signed',
+                                false
+                            ),
                         ]
                     ]) : null
                 )
@@ -219,5 +233,11 @@ class ilSoapClient
         }
 
         return false;
+    }
+
+    protected function readIniValue(string $group, string $var_name, string|bool|int $default_value): string|bool|int
+    {
+        $value = $this->ilias_ini->readVariable($group, $var_name);
+        return ($value === '') ? $default_value : $value;
     }
 }
