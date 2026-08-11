@@ -56,7 +56,9 @@ class RequestFactoryImpl implements RequestFactory
                 $server_request->getHeader($this->forwarded_header),
                 true
             )) {
-                return $server_request->withUri($server_request->getUri()->withScheme($this->forwarded_proto));
+                return $server_request->withUri(
+                    $server_request->getUri()->withScheme(self::DEFAULT_FORWARDED_PROTO)
+                );
             }
 
             // alternative if ini settings are used which look like X_FORWARDED_PROTO
@@ -68,7 +70,9 @@ class RequestFactoryImpl implements RequestFactory
                 if (!in_array($this->forwarded_proto, $server_request->getHeader($header_name), true)) {
                     continue;
                 }
-                return $server_request->withUri($server_request->getUri()->withScheme($this->forwarded_proto));
+                return $server_request->withUri(
+                    $server_request->getUri()->withScheme(self::DEFAULT_FORWARDED_PROTO)
+                );
             }
         }
 
