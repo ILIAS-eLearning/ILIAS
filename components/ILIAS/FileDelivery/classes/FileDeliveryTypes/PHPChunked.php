@@ -108,9 +108,10 @@ final class PHPChunked implements ilFileDeliveryType
          * (mediatype = mimetype)
          * as well as a boundry header to indicate the various chunks of data.
          */
-        $response = $this->httpService->response()->withHeader("Accept-Ranges", "0-$length");
+        $response = $this->httpService->response()->withHeader(ResponseHeader::ACCEPT_RANGES, 'bytes');
         $this->httpService->saveResponse($response);
         $server = $this->httpService->request()->getServerParams();
+        $is_partial = false;
         // header('Accept-Ranges: bytes');
         // multipart/byteranges
         // http://www.w3.org/Protocols/rfc2616/rfc2616-sec19.html#sec19.2
@@ -161,6 +162,7 @@ final class PHPChunked implements ilFileDeliveryType
             $end = $c_end;
             $length = $end - $start + 1; // Calculate new content length
             fseek($fp, (int) $start);
+            $is_partial = true;
 
             $response = $this->httpService->response()->withStatus(206);
 
@@ -168,7 +170,10 @@ final class PHPChunked implements ilFileDeliveryType
         } // fim do if
 
         // Notify the client the byte range we'll be outputting
-        $response = $this->httpService->response()->withHeader(ResponseHeader::CONTENT_RANGE, "bytes $start-$end/$size")->withHeader(ResponseHeader::CONTENT_LENGTH, $length);
+        $response = $this->httpService->response()->withHeader(ResponseHeader::CONTENT_LENGTH, (string) $length);
+        if ($is_partial) {
+            $response = $response->withHeader(ResponseHeader::CONTENT_RANGE, "bytes $start-$end/$size");
+        }
 
         $this->httpService->saveResponse($response);
 
