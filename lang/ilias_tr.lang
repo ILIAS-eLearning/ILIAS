@@ -1457,7 +1457,7 @@ assessment#:#tst_derive_new_pools#:#Derive New Question Pools###25 10 2016 new v
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.###10 11 2018 new variable
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties###30 08 2015 new variable
 assessment#:#tst_edit_scoring#:#Puanlama Düzenle
-assessment#:#tst_enable_questionlist#:'Sorular Listesi'ni göster
+assessment#:#tst_enable_questionlist#:#Show List of Questions###11 08 2026 new variable
 assessment#:#tst_enable_questionlist_description#:#Participants can switch on a list of the test questions on the left of the actual question.###26 08 2024 new variable
 assessment#:#tst_ending_time#:#Bitiş Zamanı
 assessment#:#tst_ending_time_before_starting_time#:#Please enter a date for the end of the test that is after the start date.###26 08 2024 new variable
@@ -2656,6 +2656,7 @@ book#:#book_pool_added#:#A rezervasyon havuzu eklenmiştir.
 book#:#book_pool_selection#:#Booking Pool Selection###07 02 2020 new variable
 book#:#book_post_booking_file#:#Dosya
 book#:#book_post_booking_information#:#Mesaj Rezervasyon Bilgileri
+book#:#book_post_booking_information_for#:#Booking Information for "%s"###11 08 2026 new variable
 book#:#book_post_booking_text#:#Yazı
 book#:#book_post_booking_text_info#:#Use [PERIOD] and [OBJECT] to add booking details to the text.###26 09 2014 new variable
 book#:#book_pref_book_cron#:#Booking with Preferences###07 02 2020 new variable
@@ -5384,6 +5385,7 @@ common#:#preconditions_optional_hint#:#<b>% s </ b>, aşağıdaki önkoşulları
 common#:#predefined_template#:#Öntanımlı rol şablonu
 common#:#preferences#:#Tercihler
 common#:#presentation_table_more#:#more###10 11 2018 new variable
+common#:#presenter#:#Presenter###11 08 2026 new variable
 common#:#preview#:#Preview###24 10 2013 new variable
 common#:#preview_create#:#Create Preview###24 10 2013 new variable
 common#:#preview_delete#:#Delete Preview###24 10 2013 new variable
@@ -10300,6 +10302,7 @@ glo#:#glo_really_remove_from_collection#:#Are you sure you want to remove the fo
 glo#:#glo_reference#:#Reference###25 10 2016 new variable
 glo#:#glo_reference_terms#:#Reference Terms###25 10 2016 new variable
 glo#:#glo_referenced_term#:#Referenced Term###25 10 2016 new variable
+glo#:#glo_remove_glossary#:##Are you sure you want to remove the following glossary from the list of auto-linked glossaries?###11 08 2026 new variable
 glo#:#glo_removed_from_collection_info#:#The glossary has been removed from the collection glossary.###26 08 2024 new variable
 glo#:#glo_reset_all_boxes#:#Reset All Boxes###26 08 2024 new variable
 glo#:#glo_save_and_continue#:#Save and Continue###29 10 2025 new variable
@@ -10670,6 +10673,7 @@ iass#:#iass_file_dropzone#:#you can drop your files here###29 07 2022 new variab
 iass#:#iass_file_required#:#Record file required###23 10 2017 new variable
 iass#:#iass_file_required_info#:#A record file has to be uploaded to each participant record.###23 10 2017 new variable
 iass#:#iass_file_visible_examinee#:#File visible for participant###31 08 2017 new variable
+iass#:#iass_file_visible_examinee_info#:#Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled.###11 08 2026 new variable
 iass#:#iass_filter_all#:#All###10 11 2018 new variable
 iass#:#iass_filter_failed#:#Failed only###10 11 2018 new variable
 iass#:#iass_filter_finalized#:#Completed only###10 11 2018 new variable
@@ -14330,15 +14334,15 @@ rbac#:#feed_delete#:#Kullanıcı web besleme taşıyabilir veya silebilirsiniz
 rbac#:#feed_edit_permission#:#Yetki Ayarlarını Değiştir
 rbac#:#feed_read#:#Kullanıcı web beslemesinin içeriğini okuyabilir
 rbac#:#feed_write#:#Kullanıcı web besleme ayarlarını düzenleyebilirsiniz
-rbac#:#file_content#:#Show Content###29 10 2025 new variable
 rbac#:#file_copy#:#Kullanıcı dosyayı kopyalayabilirsiniz
 rbac#:#file_delete#:#Kullanıcı dosya taşıyabilir veya silebilirsiniz
 rbac#:#file_edit_file#:#Allow to edit the file in an external editor, if available###26 08 2024 new variable
 rbac#:#file_edit_learning_progress#:#User can edit learning progress settings###31 08 2017 new variable
 rbac#:#file_edit_permission#:#Yetki Ayarlarını Değiştir
+rbac#:#file_file_view_content#:#File content presented in browser (if WOPI is active)###11 08 2026 new variable
+rbac#:#file_file_view_content_short#:#Show Content###11 08 2026 new variable
 rbac#:#file_read#:#Kullanıcı dosyayı indirebilirsiniz
 rbac#:#file_read_learning_progress#:#User can view learning progress of other users###10 11 2018 new variable
-rbac#:#file_view_content#:#File content presented in browser (if WOPI is active)###29 10 2025 new variable
 rbac#:#file_visible#:#Dosya görülebilir
 rbac#:#file_write#:#Kullanıcı dosya ayarlarını düzenleyin ve dosyanın yeni sürümünü yükleyebilirsiniz
 rbac#:#files_visible#:#Files Visible###24 10 2013 new variable
@@ -15569,7 +15573,7 @@ search#:#lucene_tbl_create_ini#:#Ini-Dosya Java Sunucusu Oluşturma
 search#:#search_add_members_from_container_crs#:#Add Users of Current Course###24 10 2013 new variable
 search#:#search_add_members_from_container_grp#:#Add Users of Current Group###24 10 2013 new variable
 search#:#search_any#:#- Herhangi -
-search#:#search_area#:#Alan
+search#:#search_area_filter#:#Scope###11 08 2026 new variable
 search#:#search_area_info#:#Aramayı başlatmak gereken bir alan seçiniz.
 search#:#search_auto_complete_length#:#Otomatik Tamamlama Listesi Eleman Sayısı
 search#:#search_auto_complete_length_info#:#Choose ‘0‘ to switch off the auto-complete list.###04 05 2026 new variable
@@ -15614,6 +15618,7 @@ search#:#search_minimum_info#:#Your search must be at least %s characters long##
 search#:#search_minimum_three#:#Arama En az üç karakter uzunluğunda olmalıdır
 search#:#search_newer_than#:#Objects newer than###30 08 2015 new variable
 search#:#search_no_connection_lucene#:#sunucusuna Lucene bağlanılamıyor.
+search#:#search_no_further_match#:#No further matches found.###11 08 2026 new variable
 search#:#search_no_match#:#Aramanız herhangi bir sonuçla eşleşmedi
 search#:#search_no_match_hint#:#Aramanız - <b>% s </ b> - hiçbir belgeyle eşleşmedi <br /> <br /> Öneriler:.. <br /> Tüm kelimelerin doğru yazıldığından emin olun <br /> Farklı anahtar kelimeler deneyin. <br /> Daha genel anahtar kelimeler deneyin. <br /> Daha az anahtar kelime deneyin.
 search#:#search_no_selection#:#Hiçbir seçim yapılmadı.
@@ -15636,6 +15641,8 @@ search#:#search_sort_generic_desc#:#%s, desc.###28 10 2024 new variable
 search#:#search_sort_relevance#:#By Relevance###28 10 2024 new variable
 search#:#search_sort_title_asc#:#Alphabetically: A-Z###28 10 2024 new variable
 search#:#search_sort_title_desc#:#Alphabetically: Z-A###28 10 2024 new variable
+search#:#search_tab_content#:#Content###11 08 2026 new variable
+search#:#search_tab_user#:#Users###11 08 2026 new variable
 search#:#search_term_combination#:#Kombinasyon
 search#:#search_title_description#:#Başlık / Açıklama
 search#:#search_tst_svy#:#Testleri / Anketler

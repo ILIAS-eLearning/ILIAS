@@ -2641,6 +2641,7 @@ book#:#book_pool_added#:#Un outil de réservation a été ajouté.
 book#:#book_pool_selection#:#Booking Pool Selection
 book#:#book_post_booking_file#:#Fichier
 book#:#book_post_booking_information#:#Saisir les Informations de Réservation
+book#:#book_post_booking_information_for#:#Booking Information for "%s"###11 08 2026 new variable
 book#:#book_post_booking_text#:#Texte
 book#:#book_post_booking_text_info#:#Use [PERIOD] and [OBJECT] to add booking details to the text.
 book#:#book_pref_book_cron#:#Booking with Preferences
@@ -5369,6 +5370,7 @@ common#:#preconditions_optional_hint#:#Vous devez remplir <b>%s</b> des précond
 common#:#predefined_template#:#Modèle de rôle prédéfini
 common#:#preferences#:#Préférences Utilisateur-défini
 common#:#presentation_table_more#:#more
+common#:#presenter#:#Presenter###11 08 2026 new variable
 common#:#preview#:#Aperçu
 common#:#preview_create#:#Créer Aperçu
 common#:#preview_delete#:#Supprimer Aperçu
@@ -10285,6 +10287,7 @@ glo#:#glo_really_remove_from_collection#:#Are you sure you want to remove the fo
 glo#:#glo_reference#:#Référence
 glo#:#glo_reference_terms#:#Termes de références
 glo#:#glo_referenced_term#:#Terme référencé
+glo#:#glo_remove_glossary#:##Are you sure you want to remove the following glossary from the list of auto-linked glossaries?###11 08 2026 new variable
 glo#:#glo_removed_from_collection_info#:#The glossary has been removed from the collection glossary.###31 10 2023 new variable
 glo#:#glo_reset_all_boxes#:#Reset All Boxes###31 10 2023 new variable
 glo#:#glo_save_and_continue#:#Save and Continue###29 10 2025 new variable
@@ -10655,6 +10658,7 @@ iass#:#iass_file_dropzone#:#you can drop your files here
 iass#:#iass_file_required#:#Fichier de dossier requis
 iass#:#iass_file_required_info#:#Un fichier de dossier doit être téléchargé pour chaque dossier de participant.
 iass#:#iass_file_visible_examinee#:#Fichier visible pour le participant
+iass#:#iass_file_visible_examinee_info#:#Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled.###11 08 2026 new variable
 iass#:#iass_filter_all#:#All
 iass#:#iass_filter_failed#:#Failed only
 iass#:#iass_filter_finalized#:#Completed only
@@ -14315,15 +14319,15 @@ rbac#:#feed_delete#:#L'utilisateur peut déplacer et supprimer l'objet
 rbac#:#feed_edit_permission#:#L'utilisateur peut modifier les permissions de l'objet
 rbac#:#feed_read#:#L'utilisateur peut lire le flux RSS
 rbac#:#feed_write#:#L'utilisateur peut modifier les paramètres de l'objet
-rbac#:#file_content#:#Show Content###29 10 2025 new variable
 rbac#:#file_copy#:#L'utilisateur peut copier l'objet
 rbac#:#file_delete#:#L'utilisateur peut déplacer et supprimer l'objet
 rbac#:#file_edit_file#:#Allow to edit the file in an external editor, if available###31 10 2023 new variable
 rbac#:#file_edit_learning_progress#:#L’utilisateur peut éditer les paramètres de progression
 rbac#:#file_edit_permission#:#L'utilisateur peut modifier les permissions de l'objet
+rbac#:#file_file_view_content#:#File content presented in browser (if WOPI is active)###11 08 2026 new variable
+rbac#:#file_file_view_content_short#:#Show Content###11 08 2026 new variable
 rbac#:#file_read#:#L'utilisateur peut télécharger un fichier
 rbac#:#file_read_learning_progress#:#L’utilisateur peut voir la progression d’apprentissage d’autres utilisateurs
-rbac#:#file_view_content#:#File content presented in browser (if WOPI is active)###29 10 2025 new variable
 rbac#:#file_visible#:#L'objet est visible
 rbac#:#file_write#:#L'utilisateur peut modifier les paramètres et déposer une nouvelle version du fichier
 rbac#:#files_visible#:#Fichiers Visibles
@@ -15554,7 +15558,7 @@ search#:#lucene_tbl_create_ini#:#Créer fichier ini de serveur java
 search#:#search_add_members_from_container_crs#:#Ajouter Utilisateurs du Cours Courant
 search#:#search_add_members_from_container_grp#:#Ajouter Utilisateurs du Groupe Courant
 search#:#search_any#:#-- Sans préférence --
-search#:#search_area#:#Domaine de recherche
+search#:#search_area_filter#:#Scope###11 08 2026 new variable
 search#:#search_area_info#:#Choisir un domaine où la recherche pourrait débuter.
 search#:#search_auto_complete_length#:#Nombre d'Entrées dans la Liste d'Auto-Complétion
 search#:#search_auto_complete_length_info#:#Choose ‘0‘ to switch off the auto-complete list.###04 05 2026 new variable
@@ -15599,6 +15603,7 @@ search#:#search_minimum_info#:#Votre recherche doit contenir au moins %s caract�
 search#:#search_minimum_three#:#Votre recherche doit comporter au moins trois caractères
 search#:#search_newer_than#:#Objets antérieurs à
 search#:#search_no_connection_lucene#:#Connexion impossible au serveur Lucene.
+search#:#search_no_further_match#:#No further matches found.###11 08 2026 new variable
 search#:#search_no_match#:#Aucun résultat à votre recherche
 search#:#search_no_match_hint#:#Votre recherche - <b>%s</b> - ne trouve pas de documents.<br /><br />Suggestions:<br /> Vérifiez que chaque mot soit orthographié correctement.<br />Essayez différents mots-clés.<br />Essayez des mots-clés plus généraux.<br />Essayez moins de mots-clés.
 search#:#search_no_selection#:#Vous n'avez fait aucune sélection.
@@ -15621,6 +15626,8 @@ search#:#search_sort_generic_desc#:#%s, desc.###28 10 2024 new variable
 search#:#search_sort_relevance#:#By Relevance###28 10 2024 new variable
 search#:#search_sort_title_asc#:#Alphabetically: A-Z###28 10 2024 new variable
 search#:#search_sort_title_desc#:#Alphabetically: Z-A###28 10 2024 new variable
+search#:#search_tab_content#:#Content###11 08 2026 new variable
+search#:#search_tab_user#:#Users###11 08 2026 new variable
 search#:#search_term_combination#:#Combinaison
 search#:#search_title_description#:#Titre / Description
 search#:#search_tst_svy#:#Tests/Enquêtes

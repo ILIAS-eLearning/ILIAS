@@ -2656,6 +2656,7 @@ book#:#book_pool_added#:#En bokningspool har skapats.
 book#:#book_pool_selection#:#Urval bokning pool
 book#:#book_post_booking_file#:#Fil
 book#:#book_post_booking_information#:#Information efter en bokning
+book#:#book_post_booking_information_for#:#Booking Information for "%s"###11 08 2026 new variable
 book#:#book_post_booking_text#:#Text
 book#:#book_post_booking_text_info#:#Platshållarna kan användas för att lägga till bokningsinformation i infotexten.<br />Platshållaren [OBJECT] ersätts med respektive bokningsobjekt.<br />Platshållaren [PERIOD] ersätts med den valda bokningsperioden.
 book#:#book_pref_book_cron#:#Boka med preferenser
@@ -5384,6 +5385,7 @@ common#:#preconditions_optional_hint#:#Var vänlig uppfyll minst <b>%s av</b> f�
 common#:#predefined_template#:#Fördefinierad rollmall
 common#:#preferences#:#Användardefinierade inställningar
 common#:#presentation_table_more#:#Visa mer
+common#:#presenter#:#Presenter###11 08 2026 new variable
 common#:#preview#:#Förhandsgranskning
 common#:#preview_create#:#Skapa förhandsvisning
 common#:#preview_delete#:#Ta bort förhandsgranskning
@@ -10300,6 +10302,7 @@ glo#:#glo_really_remove_from_collection#:#Are you sure you want to remove the fo
 glo#:#glo_reference#:#Länk
 glo#:#glo_reference_terms#:#Länkvillkor
 glo#:#glo_referenced_term#:#Länkade termer
+glo#:#glo_remove_glossary#:##Are you sure you want to remove the following glossary from the list of auto-linked glossaries?###11 08 2026 new variable
 glo#:#glo_removed_from_collection_info#:#The glossary has been removed from the collection glossary.###21 11 2023 new variable
 glo#:#glo_reset_all_boxes#:#Reset All Boxes###21 11 2023 new variable
 glo#:#glo_save_and_continue#:#Save and Continue###29 10 2025 new variable
@@ -10670,6 +10673,7 @@ iass#:#iass_file_dropzone#:#Dra din fil hit
 iass#:#iass_file_required#:#Obligatoriskt angivande av examinationsformulär
 iass#:#iass_file_required_info#:#Ett provformulär måste laddas upp.
 iass#:#iass_file_visible_examinee#:#Filen synlig för deltagarna
+iass#:#iass_file_visible_examinee_info#:#Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled.###11 08 2026 new variable
 iass#:#iass_filter_all#:#Alla
 iass#:#iass_filter_failed#:#Endast misslyckad
 iass#:#iass_filter_finalized#:#Endast godkänd
@@ -14330,15 +14334,15 @@ rbac#:#feed_delete#:#Radera Webfeed
 rbac#:#feed_edit_permission#:#Ändra inställningar för rättigheter
 rbac#:#feed_read#:#Läs innehållet i webbflödet
 rbac#:#feed_write#:#Redigera inställningar för webbflöde
-rbac#:#file_content#:#Show Content###29 10 2025 new variable
 rbac#:#file_copy#:#Kopiera fil
 rbac#:#file_delete#:#Flytta eller radera fil
 rbac#:#file_edit_file#:#Allow to edit the file in an external editor, if available###21 11 2023 new variable
 rbac#:#file_edit_learning_progress#:#Användaren kan redigera inställningar för inlärningsframsteg
 rbac#:#file_edit_permission#:#Ändra inställningar för rättigheter
+rbac#:#file_file_view_content#:#File content presented in browser (if WOPI is active)###11 08 2026 new variable
+rbac#:#file_file_view_content_short#:#Show Content###11 08 2026 new variable
 rbac#:#file_read#:#Ladda ner fil
 rbac#:#file_read_learning_progress#:#Användaren kan se andra användares inlärningsframsteg
-rbac#:#file_view_content#:#File content presented in browser (if WOPI is active)###29 10 2025 new variable
 rbac#:#file_visible#:#Filen är synlig
 rbac#:#file_write#:#Ändra inställningar för filen och ladda upp ny version
 rbac#:#files_visible#:#Filer synliga
@@ -15569,7 +15573,7 @@ search#:#lucene_tbl_create_ini#:#Skapa konfigurationsfil för Java-server
 search#:#search_add_members_from_container_crs#:#Lägg till användare från aktuell kurs
 search#:#search_add_members_from_container_grp#:#Lägg till användare från aktuell grupp
 search#:#search_any#:#-- Alla --
-search#:#search_area#:#Sökningsområde
+search#:#search_area_filter#:#Scope###11 08 2026 new variable
 search#:#search_area_info#:#Välj ett område inom vilket sökningen ska starta.
 search#:#search_auto_complete_length#:#Antal poster i listan för automatisk komplettering
 search#:#search_auto_complete_length_info#:#Choose ‘0‘ to switch off the auto-complete list.###04 05 2026 new variable
@@ -15614,6 +15618,7 @@ search#:#search_minimum_info#:#Sökorden måste vara minst %s tecken långa.
 search#:#search_minimum_three#:#Sökorden måste vara minst 3 tecken långa.
 search#:#search_newer_than#:#Objekt som skapats före...
 search#:#search_no_connection_lucene#:#Ingen anslutning kan upprättas till Lucene-servern.
+search#:#search_no_further_match#:#No further matches found.###11 08 2026 new variable
 search#:#search_no_match#:#Din sökning gav inga resultat.
 search#:#search_no_match_hint#:#Inga träffar hittades för din sökfråga för <b>%s</b>.<br />Förslag
 search#:#search_no_selection#:#Du har inte gjort något val.
@@ -15636,6 +15641,8 @@ search#:#search_sort_generic_desc#:#%s, desc.###28 10 2024 new variable
 search#:#search_sort_relevance#:#By Relevance###28 10 2024 new variable
 search#:#search_sort_title_asc#:#Alphabetically: A-Z###28 10 2024 new variable
 search#:#search_sort_title_desc#:#Alphabetically: Z-A###28 10 2024 new variable
+search#:#search_tab_content#:#Content###11 08 2026 new variable
+search#:#search_tab_user#:#Users###11 08 2026 new variable
 search#:#search_term_combination#:#Kombination
 search#:#search_title_description#:#Titel / Beskrivning
 search#:#search_tst_svy#:#Tester/undersökningar

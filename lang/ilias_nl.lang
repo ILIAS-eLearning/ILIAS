@@ -2656,6 +2656,7 @@ book#:#book_pool_added#:#Een boekingscategorie is toegevoegd
 book#:#book_pool_selection#:#Booking Pool Selection###07 02 2020 new variable
 book#:#book_post_booking_file#:#File
 book#:#book_post_booking_information#:#Boekingsinformatie verzenden
+book#:#book_post_booking_information_for#:#Booking Information for "%s"###11 08 2026 new variable
 book#:#book_post_booking_text#:#Tekst
 book#:#book_post_booking_text_info#:#Gebruik [PERIOD] en [OBJECT] boekingsdetails toe te voegen aan de tekst
 book#:#book_pref_book_cron#:#Booking with Preferences###07 02 2020 new variable
@@ -5384,6 +5385,7 @@ common#:#preconditions_optional_hint#:#Je moet nog voldoen aan  <b>%s</b> van de
 common#:#predefined_template#:#Vooraf ingestelde sjabloon rol
 common#:#preferences#:#Gebruiker's voorkeuren
 common#:#presentation_table_more#:#more###10 11 2018 new variable
+common#:#presenter#:#Presenter###11 08 2026 new variable
 common#:#preview#:#voorbeeldweergave
 common#:#preview_create#:#Aanmaken voorbeeldweergave
 common#:#preview_delete#:#Verwijderen voorbeeldweergave
@@ -10300,6 +10302,7 @@ glo#:#glo_really_remove_from_collection#:#Are you sure you want to remove the fo
 glo#:#glo_reference#:#Reference###25 10 2016 new variable
 glo#:#glo_reference_terms#:#Reference Terms###25 10 2016 new variable
 glo#:#glo_referenced_term#:#Referenced Term###25 10 2016 new variable
+glo#:#glo_remove_glossary#:##Are you sure you want to remove the following glossary from the list of auto-linked glossaries?###11 08 2026 new variable
 glo#:#glo_removed_from_collection_info#:#The glossary has been removed from the collection glossary.###26 08 2024 new variable
 glo#:#glo_reset_all_boxes#:#Reset All Boxes###26 08 2024 new variable
 glo#:#glo_save_and_continue#:#Save and Continue###29 10 2025 new variable
@@ -10670,6 +10673,7 @@ iass#:#iass_file_dropzone#:#you can drop your files here###29 07 2022 new variab
 iass#:#iass_file_required#:#Record file required###23 10 2017 new variable
 iass#:#iass_file_required_info#:#A record file has to be uploaded to each participant record.###23 10 2017 new variable
 iass#:#iass_file_visible_examinee#:#File visible for participant###31 08 2017 new variable
+iass#:#iass_file_visible_examinee_info#:#Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled.###11 08 2026 new variable
 iass#:#iass_filter_all#:#All###10 11 2018 new variable
 iass#:#iass_filter_failed#:#Failed only###10 11 2018 new variable
 iass#:#iass_filter_finalized#:#Completed only###10 11 2018 new variable
@@ -14330,15 +14334,15 @@ rbac#:#feed_delete#:#Verwijder web feed
 rbac#:#feed_edit_permission#:#Verander instellingen van de rechten
 rbac#:#feed_read#:#Leesrechten voor Web Feed
 rbac#:#feed_write#:#Wijzig Web Feed
-rbac#:#file_content#:#Show Content###29 10 2025 new variable
 rbac#:#file_copy#:#Kopieër Bestand
 rbac#:#file_delete#:#Verwijder bestand
 rbac#:#file_edit_file#:#Allow to edit the file in an external editor, if available###26 08 2024 new variable
 rbac#:#file_edit_learning_progress#:#User can edit learning progress settings###31 08 2017 new variable
 rbac#:#file_edit_permission#:#Wijzig instellingen van de rechten
+rbac#:#file_file_view_content#:#File content presented in browser (if WOPI is active)###11 08 2026 new variable
+rbac#:#file_file_view_content_short#:#Show Content###11 08 2026 new variable
 rbac#:#file_read#:#Download bestand
 rbac#:#file_read_learning_progress#:#User can view learning progress of other users###10 11 2018 new variable
-rbac#:#file_view_content#:#File content presented in browser (if WOPI is active)###29 10 2025 new variable
 rbac#:#file_visible#:#Bestand is zichtbaar
 rbac#:#file_write#:#Wijzig bestand
 rbac#:#files_visible#:#Bestanden zichtbaar
@@ -15569,7 +15573,7 @@ search#:#lucene_tbl_create_ini#:#Create Java-Server Ini-File
 search#:#search_add_members_from_container_crs#:#Toevoegen van gebruikers van huidige cursus
 search#:#search_add_members_from_container_grp#:#Toevoegen van gebruikers van huidige groep
 search#:#search_any#:#-- Alle --
-search#:#search_area#:#Zoekgebied
+search#:#search_area_filter#:#Scope###11 08 2026 new variable
 search#:#search_area_info#:#Gelieve een gebied te selecteren waar hij moet starten.
 search#:#search_auto_complete_length#:#Aantal automatisch afgeronde logs
 search#:#search_auto_complete_length_info#:#Choose ‘0‘ to switch off the auto-complete list.###04 05 2026 new variable
@@ -15614,6 +15618,7 @@ search#:#search_minimum_info#:#Your search must be at least %s characters long##
 search#:#search_minimum_three#:#De zoekopdracht moet minstens 3 tekens lang zijn
 search#:#search_newer_than#:#Objects newer than###30 08 2015 new variable
 search#:#search_no_connection_lucene#:#Kan geen verbinding maken met Lucene server.
+search#:#search_no_further_match#:#No further matches found.###11 08 2026 new variable
 search#:#search_no_match#:#De zoekopdracht leverde geen enkel resultaat op
 search#:#search_no_match_hint#:#Your search - <b>%s</b> - did not match any documents.<br /><br />Suggestions:<br />Make sure all words are spelled correctly.<br />Try different keywords.<br />Try more general keywords.<br />Try fewer keywords.
 search#:#search_no_selection#:#U heeft niets geselecteerd.
@@ -15636,6 +15641,8 @@ search#:#search_sort_generic_desc#:#%s, desc.###28 10 2024 new variable
 search#:#search_sort_relevance#:#By Relevance###28 10 2024 new variable
 search#:#search_sort_title_asc#:#Alphabetically: A-Z###28 10 2024 new variable
 search#:#search_sort_title_desc#:#Alphabetically: Z-A###28 10 2024 new variable
+search#:#search_tab_content#:#Content###11 08 2026 new variable
+search#:#search_tab_user#:#Users###11 08 2026 new variable
 search#:#search_term_combination#:#Combination
 search#:#search_title_description#:#Titel / Omschrijving
 search#:#search_tst_svy#:#Toetsen/Vragenlijsten

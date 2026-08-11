@@ -2656,6 +2656,7 @@ book#:#book_pool_added#:#Sikeresen létrehozott egy foglalásgyűjteményt.
 book#:#book_pool_selection#:#Foglalásgyűjtemény kiválasztása
 book#:#book_post_booking_file#:#Fájl
 book#:#book_post_booking_information#:#Információ a foglalásról
+book#:#book_post_booking_information_for#:#Booking Information for "%s"###11 08 2026 new variable
 book#:#book_post_booking_text#:#Szöveg
 book#:#book_post_booking_text_info#:#Használhatja a foglalások adatainak helyőrzőit. <br />[OBJECT] = a foglalási objektum.<br />[PERIOD] = a foglalás időterve.
 book#:#book_pref_book_cron#:#Foglalás előzetes választási lehetőségekkel
@@ -5384,6 +5385,7 @@ common#:#preconditions_optional_hint#:#Az alábbi előfeltételekből <b>%s</b> 
 common#:#predefined_template#:#Előre definiált szerepsablon
 common#:#preferences#:#Beállítások
 common#:#presentation_table_more#:#Több megjelenítése
+common#:#presenter#:#Presenter###11 08 2026 new variable
 common#:#preview#:#Előnézet
 common#:#preview_create#:#Előnézet létrehozása
 common#:#preview_delete#:#Előnézet törlése
@@ -10300,6 +10302,7 @@ glo#:#glo_really_remove_from_collection#:#Biztos, hogy eltávolítja a következ
 glo#:#glo_reference#:#Hivatkozás
 glo#:#glo_reference_terms#:#Kifejezéshivatkozások
 glo#:#glo_referenced_term#:#Hivatkozott fogalom
+glo#:#glo_remove_glossary#:##Are you sure you want to remove the following glossary from the list of auto-linked glossaries?###11 08 2026 new variable
 glo#:#glo_removed_from_collection_info#:#A fogalomtárat sikeresen eltávolította a gyűjtő fogalomtárból.
 glo#:#glo_reset_all_boxes#:#Az összes doboz alaphelyzetbe állítása.
 glo#:#glo_save_and_continue#:#Mentés és folytatás
@@ -10670,6 +10673,7 @@ iass#:#iass_file_dropzone#:#ide dobhat fájlokat
 iass#:#iass_file_required#:#Bejegyzésfájl kötelező
 iass#:#iass_file_required_info#:#Minden résztvevői bejegyzéshez fel kell tölteni egy bejegyzésfájlt.
 iass#:#iass_file_visible_examinee#:#A fájlt láthatja az értékelt
+iass#:#iass_file_visible_examinee_info#:#Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled.###11 08 2026 new variable
 iass#:#iass_filter_all#:#Összes
 iass#:#iass_filter_failed#:#Csak a nem teljesítettek
 iass#:#iass_filter_finalized#:#Csak a teljesítettek
@@ -14330,15 +14334,15 @@ rbac#:#feed_delete#:#A felhasználó áthelyezhet vagy törölhet webhírforrás
 rbac#:#feed_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 rbac#:#feed_read#:#A felhasználó olvashat webhírforrást
 rbac#:#feed_write#:#A felhasználó módosíthat webhírforrás-beállításokat
-rbac#:#file_content#:#Tartalom megjelentése
 rbac#:#file_copy#:#A felhasználó másolhat fájlt
 rbac#:#file_delete#:#A felhasználó áthelyezhet vagy törölhet fájlt
 rbac#:#file_edit_file#:#Fájl módosításának engedélyezése külső szerkesztővel (ha van)
 rbac#:#file_edit_learning_progress#:#A felhasználó módosíthatja a tanulási haladás beállításait
 rbac#:#file_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
+rbac#:#file_file_view_content#:#File content presented in browser (if WOPI is active)###11 08 2026 new variable
+rbac#:#file_file_view_content_short#:#Show Content###11 08 2026 new variable
 rbac#:#file_read#:#A felhasználó tölthet fel fájlt
 rbac#:#file_read_learning_progress#:#A felhasználó megnézheti mások tanulási haladását
-rbac#:#file_view_content#:#A fájl tartalma a böngészőben jelenik meg (ha a WOPI aktív)
 rbac#:#file_visible#:#A fájl látható.
 rbac#:#file_write#:#A felhasználó módosíthatja a fájlbeállításokat, és tölthet fel új fájlverziót
 rbac#:#files_visible#:#Fájlok láthatók
@@ -15569,7 +15573,7 @@ search#:#lucene_tbl_create_ini#:#Java-szerver ini-fájljának létrehozása
 search#:#search_add_members_from_container_crs#:#Felhasználók jelen kurzushoz rendelése
 search#:#search_add_members_from_container_grp#:#Felhasználók jelen csoporthoz rendelése
 search#:#search_any#:#-- Bármi --
-search#:#search_area#:#Keresési terület
+search#:#search_area_filter#:#Scope###11 08 2026 new variable
 search#:#search_area_info#:#Válassza ki azt a területet, ahol a keresés kezdődjön.
 search#:#search_auto_complete_length#:#Automatikus kiegészítéseket tartalmazó lista bejegyzéseinek száma
 search#:#search_auto_complete_length_info#:#Válassza a ‘0’ lehetőséget az automatikus kiegészítési lista kikapcsolásához.
@@ -15614,6 +15618,7 @@ search#:#search_minimum_info#:#Keresési feltétele legalább %s karakter hossz�
 search#:#search_minimum_three#:#A keresésnek legalább három karakter hosszúnak kell lennie.
 search#:#search_newer_than#:#Újabb, mint
 search#:#search_no_connection_lucene#:#Nem sikerült kapcsolódni a Lucene-szerverhez.
+search#:#search_no_further_match#:#No further matches found.###11 08 2026 new variable
 search#:#search_no_match#:#A keresése nem adott eredményt.
 search#:#search_no_match_hint#:#<b>%s</b> keresése egyetlen dokumentumra sem ad találatot.<br/><br/>Javasoljuk, hogy:<br/>• Ellenőrizze, hogy minden szót helyesen írt-e.<br/>• Próbálkozzon más kulcsszavakkal.<br/>• Próbálkozzon általánosabb kulcsszavakkal.<br/>• Próbálkozzon kevesebb kulcsszóval.
 search#:#search_no_selection#:#Nem választott.
@@ -15636,6 +15641,8 @@ search#:#search_sort_generic_desc#:#%s ↓
 search#:#search_sort_relevance#:#Relevanca szerint
 search#:#search_sort_title_asc#:#Betűrendben: A-Z
 search#:#search_sort_title_desc#:#Betűrendben: Z-A
+search#:#search_tab_content#:#Content###11 08 2026 new variable
+search#:#search_tab_user#:#Users###11 08 2026 new variable
 search#:#search_term_combination#:#Kombináció
 search#:#search_title_description#:#Cím / Leírás
 search#:#search_tst_svy#:#Tesztek/Kérdőívek

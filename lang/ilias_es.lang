@@ -1514,12 +1514,6 @@ assessment#:#tst_finish_confirm_button#:#Sí, quiero finalizar la prueba
 assessment#:#tst_finish_confirm_cancel_button#:#No, volver a la pregunta anterior
 assessment#:#tst_finish_confirmation_question#:#Va a finalizar esta prueba. No podrá volver a acceder a este intento de prueba para cambiar sus respuestas. ¿Realmente desea finalizar la prueba?
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#Va a finalizar esta prueba y alcanzará el número máximo de intentos permitidos. No podrá volver a acceder a esta prueba para cambiar sus respuestas. ¿Realmente desea finalizarla?
-assessment#:#tst_finish_notification#:#Notificación
-assessment#:#tst_finish_notification_advanced#:#Enviar resultado completo de la prueba
-assessment#:#tst_finish_notification_content_type#:#Contenido del correo electrónico
-assessment#:#tst_finish_notification_desc#:#Envía un correo electrónico al propietario de la prueba por cada usuario que haya completado la prueba.
-assessment#:#tst_finish_notification_no#:#Sin correo electrónico
-assessment#:#tst_finish_notification_simple#:#Enviar nombre de usuario y fecha de finalización
 assessment#:#tst_finished#:#Finalizado
 assessment#:#tst_form_dynamic_question_set_config#:#Continuar selección de preguntas
 assessment#:#tst_gap_analysis#:#Análisis de brechas
@@ -2666,6 +2660,7 @@ book#:#book_pool_added#:#Repositorio de reserva creado con éxito.
 book#:#book_pool_selection#:#Selección de repositorio de reserva
 book#:#book_post_booking_file#:#Archivo
 book#:#book_post_booking_information#:#Información de reserva
+book#:#book_post_booking_information_for#:#Booking Information for "%s"###11 08 2026 new variable
 book#:#book_post_booking_text#:#Texto
 book#:#book_post_booking_text_info#:#Use marcadores de posición para incluir información específica de la reserva. <br />[OBJECT] será sustituido por el Objeto Reservable correspondiente. <br />[PERIOD] será sustituido por el horario respectivo.
 book#:#book_pref_book_cron#:#Reserva con preferencias
@@ -5394,6 +5389,7 @@ common#:#preconditions_optional_hint#:#Debe cumplir <b>%s</b> de las siguientes 
 common#:#predefined_template#:#Plantilla de rol predefinida
 common#:#preferences#:#Preferencias
 common#:#presentation_table_more#:#Mostrar más
+common#:#presenter#:#Presenter###11 08 2026 new variable
 common#:#preview#:#Vista previa
 common#:#preview_create#:#Crear vista previa
 common#:#preview_delete#:#Eliminar vista previa
@@ -10310,6 +10306,7 @@ glo#:#glo_really_remove_from_collection#:#¿Está seguro de que desea eliminar e
 glo#:#glo_reference#:#Referencia
 glo#:#glo_reference_terms#:#Términos de referencia
 glo#:#glo_referenced_term#:#Término referenciado
+glo#:#glo_remove_glossary#:##Are you sure you want to remove the following glossary from the list of auto-linked glossaries?###11 08 2026 new variable
 glo#:#glo_removed_from_collection_info#:#El glosario ha sido eliminado de la colección de glosarios.
 glo#:#glo_reset_all_boxes#:#Reiniciar todas las cajas
 glo#:#glo_save_and_continue#:#Guardar y continuar
@@ -10680,6 +10677,7 @@ iass#:#iass_file_dropzone#:#puede soltar sus archivos aquí
 iass#:#iass_file_required#:#Archivo de registro obligatorio
 iass#:#iass_file_required_info#:#Se debe subir un archivo de registro en cada registro de participante.
 iass#:#iass_file_visible_examinee#:#Archivo visible para el participante
+iass#:#iass_file_visible_examinee_info#:#Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled.###11 08 2026 new variable
 iass#:#iass_filter_all#:#Todos
 iass#:#iass_filter_failed#:#Solo suspensos
 iass#:#iass_filter_finalized#:#Solo completados
@@ -14340,15 +14338,15 @@ rbac#:#feed_delete#:#El usuario puede mover o eliminar el canal web
 rbac#:#feed_edit_permission#:#El usuario puede cambiar los ajustes de permisos
 rbac#:#feed_read#:#El usuario puede leer el contenido del canal web
 rbac#:#feed_write#:#El usuario puede editar los ajustes del canal web
-rbac#:#file_content#:#Mostrar contenido
 rbac#:#file_copy#:#El usuario puede copiar el archivo
 rbac#:#file_delete#:#El usuario puede mover o eliminar el archivo
 rbac#:#file_edit_file#:#Permitir editar el archivo en un editor externo, si está disponible
 rbac#:#file_edit_learning_progress#:#El usuario puede editar los ajustes de progreso de aprendizaje
 rbac#:#file_edit_permission#:#El usuario puede cambiar los ajustes de permisos
+rbac#:#file_file_view_content#:#File content presented in browser (if WOPI is active)###11 08 2026 new variable
+rbac#:#file_file_view_content_short#:#Show Content###11 08 2026 new variable
 rbac#:#file_read#:#El usuario puede descargar el archivo
 rbac#:#file_read_learning_progress#:#El usuario puede ver el progreso de aprendizaje de otros usuarios
-rbac#:#file_view_content#:#Contenido del archivo presentado en el navegador (si WOPI está activo)
 rbac#:#file_visible#:#El archivo es visible
 rbac#:#file_write#:#El usuario puede editar los ajustes del archivo y subir una nueva versión del mismo
 rbac#:#files_visible#:#Archivos visibles
@@ -15579,7 +15577,7 @@ search#:#lucene_tbl_create_ini#:#Crear archivo Ini del servidor Java
 search#:#search_add_members_from_container_crs#:#Añadir usuarios del curso actual
 search#:#search_add_members_from_container_grp#:#Añadir usuarios del grupo actual
 search#:#search_any#:#-- Cualquiera --
-search#:#search_area#:#Área de Búsqueda
+search#:#search_area_filter#:#Scope###11 08 2026 new variable
 search#:#search_area_info#:#Seleccione un área donde debe comenzar la búsqueda.
 search#:#search_auto_complete_length#:#Número de entradas en la lista de autocompletado
 search#:#search_auto_complete_length_info#:#Choose ‘0‘ to switch off the auto-complete list.
@@ -15624,6 +15622,7 @@ search#:#search_minimum_info#:#Su búsqueda debe tener al menos %s caracteres
 search#:#search_minimum_three#:#Su búsqueda debe tener al menos tres caracteres.
 search#:#search_newer_than#:#Objetos más recientes que
 search#:#search_no_connection_lucene#:#No se puede conectar con el servidor Lucene.
+search#:#search_no_further_match#:#No further matches found.###11 08 2026 new variable
 search#:#search_no_match#:#Su búsqueda no produjo ningún resultado.
 search#:#search_no_match_hint#:#Su búsqueda de <b>%s</b> no coincide con ningún documento.<br /><br />Sugerencias:<br />• Asegúrese de que todas las palabras estén escritas correctamente.<br />• Pruebe con diferentes palabras clave.<br />• Pruebe con palabras clave más generales.<br />• Pruebe con menos palabras clave.
 search#:#search_no_selection#:#No ha realizado ninguna selección.
@@ -15646,6 +15645,8 @@ search#:#search_sort_generic_desc#:#%s, desc.
 search#:#search_sort_relevance#:#Por relevancia
 search#:#search_sort_title_asc#:#Alfabéticamente: A-Z
 search#:#search_sort_title_desc#:#Alfabéticamente: Z-A
+search#:#search_tab_content#:#Content###11 08 2026 new variable
+search#:#search_tab_user#:#Users###11 08 2026 new variable
 search#:#search_term_combination#:#Combinación
 search#:#search_title_description#:#Título / Descripción
 search#:#search_tst_svy#:#Tests/Encuestas
