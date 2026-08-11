@@ -4735,7 +4735,7 @@ common#:#mm_private_chats#:#プライベートチャット
 common#:#mm_repo_tree_view#:#ツリー表示
 common#:#mm_repo_tree_view_act#:#ツリー表示をアクティブ化
 common#:#mm_repo_tree_view_deact#:#ツリー表示を解除
-common#:#mm_repository#:#Repository
+common#:#mm_repository#:#リポジトリ
 common#:#mm_skills#:#能力
 common#:#mm_staff_list#:#スタッフリスト
 common#:#mm_tags#:#タグ
@@ -5115,7 +5115,7 @@ common#:#obj_rcat#:#ECSカテゴリ
 common#:#obj_rcrs#:#コースリンク
 common#:#obj_recf#:#リストアされたオブジェクト
 common#:#obj_recf_desc#:#リストアされたシステムチェックのオブジェクトが含まれます。
-common#:#obj_rep#:#Repository
+common#:#obj_rep#:#リポジトリ
 common#:#obj_reps#:#リポジトリ
 common#:#obj_reps_desc#:#リポジトリの全般設定
 common#:#obj_rfil#:#ECSファイル
