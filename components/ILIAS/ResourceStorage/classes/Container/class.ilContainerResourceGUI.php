@@ -356,12 +356,19 @@ final class ilContainerResourceGUI implements UploadHandler
             $this->abortWithPermissionDenied();
             return;
         }
-        $paths = $this->getPathsFromRequest()[0];
-        $this->view_request->getWrapper()->unzip(
-            $paths
+        $paths = $this->getPathsFromRequest();
+
+        // this action is triggered by a GET request, therefore postUpload()
+        // would always report a failure: it derives its message from the POST body
+        $success = $paths !== [] && $this->view_request->getWrapper()->unzip($paths[0]);
+
+        $this->main_tpl->setOnScreenMessage(
+            $success ? 'success' : 'failure',
+            $this->language->txt($success ? 'rids_appended' : 'rids_appended_failed'),
+            true
         );
 
-        $this->postUpload();
+        $this->ctrl->redirect($this, self::CMD_INDEX);
     }
 
     private function renderConfirmRemove(): void
