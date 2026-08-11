@@ -396,12 +396,18 @@ final class ilContainerResourceGUI implements UploadHandler
             $this->abortWithPermissionDenied();
             return;
         }
-        $paths = $this->getPathsFromRequest()[0];
-        $this->view_request->getWrapper()->unzip(
-            $paths
+        $paths = $this->getPathsFromRequest();
+
+        // the message has to reflect what unzip() actually did, a hardcoded one
+        // reports a success even when nothing was added to the container
+        $success = $paths !== [] && $this->view_request->getWrapper()->unzip($paths[0]);
+
+        $this->main_tpl->setOnScreenMessage(
+            $success ? 'success' : 'failure',
+            $this->language->txt($success ? 'rids_appended' : 'rids_appended_failed'),
+            true
         );
 
-        $this->main_tpl->setOnScreenMessage('success', $this->language->txt('rids_appended'), true);
         $this->ctrl->redirect($this, self::CMD_INDEX);
     }
 
