@@ -56,7 +56,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
     /**
      * execute command
      */
-    public function executeCommand(): void
+    protected function handleCommand(): void
     {
         $this->ctrl->setReturn($this, "show");
         $this->ctrl->setParameter($this, 'user_id', $this->getUserId());

@@ -29,7 +29,7 @@ use ILIAS\HTTP\Services as HttpServices;
  * @author  Stefan Meyer <meyer@leifos.com>
  * @package ilias-tracking
  */
-class ilLearningProgressBaseGUI
+abstract class ilLearningProgressBaseGUI
 {
     protected RefineryFactory $refinery;
     protected HttpServices $http;
@@ -46,6 +46,7 @@ class ilLearningProgressBaseGUI
     protected ilRbacSystem $rbacsystem;
     protected ilRbacReview $rbacreview;
     protected ilTree $tree;
+    protected ilErrorHandling $error;
 
     protected bool $anonymized;
     protected int $usr_id = 0;
@@ -92,6 +93,7 @@ class ilLearningProgressBaseGUI
         $this->rbacsystem = $DIC->rbac()->system();
         $this->rbacreview = $DIC->rbac()->review();
         $this->tree = $DIC->repositoryTree();
+        $this->error = $DIC['ilErr'];
 
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
@@ -109,6 +111,19 @@ class ilLearningProgressBaseGUI
         }
         $this->logger = $DIC->logger()->trac();
     }
+
+    final public function executeCommand(): void
+    {
+        $has_access = ilLearningProgressAccess::checkPermission('read_learning_progress', $this->getRefId());
+        if ($has_access) {
+            $this->handleCommand();
+        }
+        if (!$has_access) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->WARNING);
+        }
+    }
+
+    abstract protected function handleCommand();
 
     public function isAnonymized(): bool
     {
