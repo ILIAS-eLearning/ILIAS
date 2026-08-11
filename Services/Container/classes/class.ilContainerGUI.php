@@ -179,6 +179,14 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
     }
 
+    protected function checkTrashAccess()
+    {
+        if (!in_array('ilAdministrationGUI', $this->ctrl->getCurrentClassPath())) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_read'), true);
+            parent::_gotoRepositoryRoot();
+        }
+    }
+
     protected function getEditFormValues(): array
     {
         $values = parent::getEditFormValues();
@@ -2580,6 +2588,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     public function trashObject(): void
     {
+        $this->checkTrashAccess();
         $this->checkPermission("write");
         $tpl = $this->tpl;
 
@@ -2600,16 +2609,19 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function trashApplyFilterObject(): void
     {
+        $this->checkTrashAccess();
         $this->trashHandleFilter(true, false);
     }
 
     public function trashResetFilterObject(): void
     {
+        $this->checkTrashAccess();
         $this->trashHandleFilter(false, true);
     }
 
     protected function trashHandleFilter(bool $action_apply, bool $action_reset): void
     {
+        $this->checkTrashAccess();
         $trash_table = new ilTrashTableGUI($this, 'trash', $this->object->getRefId());
         $trash_table->init();
         $trash_table->resetOffset();
@@ -2632,6 +2644,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     protected function restoreToNewLocationObject(ilPropertyFormGUI $form = null): void
     {
+        $this->checkTrashAccess();
         $this->tabs_gui->activateTab('trash');
 
         $ru = new ilRepositoryTrashGUI($this);
@@ -2643,6 +2656,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     public function undeleteObject(): void
     {
+        $this->checkTrashAccess();
         $ru = new ilRepositoryTrashGUI($this);
         $ru->restoreObjects(
             $this->requested_ref_id,
@@ -2653,6 +2667,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function confirmRemoveFromSystemObject(): void
     {
+        $this->checkTrashAccess();
         $lng = $this->lng;
         $this->checkPermission("write");
         if (count($this->std_request->getTrashIds()) == 0) {
