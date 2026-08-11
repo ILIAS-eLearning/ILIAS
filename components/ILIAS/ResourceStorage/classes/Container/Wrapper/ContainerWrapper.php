@@ -138,10 +138,16 @@ final class ContainerWrapper
 
             // extract first: this keeps the memory footprint flat and allows the
             // container archive to be rewritten a single time below
-            $this->archives->unzip(
+            $extracted = $this->archives->unzip(
                 Streams::ofResource(fopen($tmp_file, 'rb')),
                 $this->archives->unzipOptions()->withZipOutputPath($tmp_extract_directory)
             )->extract();
+
+            // an archive beyond the configured extraction limits (see UnzipOptions) writes
+            // nothing, so it has to be rejected instead of adding an empty directory
+            if (!$extracted) {
+                return false;
+            }
 
             return $this->irss->manageContainer()->addDirectoryToContainer(
                 $this->rid,
