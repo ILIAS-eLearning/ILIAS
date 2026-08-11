@@ -78,8 +78,11 @@ class ilFileServicesPolicy extends WhiteAndBlacklistedFileNamePolicy
         $ascii_filename = preg_replace('/[\x7f-\xff]/', '_', $ascii_filename);
 
         // OS do not allow the following characters in filenames: \/:*?"<>|
+        // control characters are replaced as well: they are invisible in the title, but
+        // break paths and HTTP headers built from it, see
+        // https://mantis.ilias.de/view.php?id=30709
         $ascii_filename = preg_replace(
-            '/[:\x5c\/\*\?\"<>\|]/',
+            '/[\x00-\x1f:\x5c\/\*\?\"<>\|]/',
             '_',
             $ascii_filename
         );

@@ -206,4 +206,30 @@ class ilServicesFileServicesTest extends TestCase
         $this->assertEquals('oeoeoeoeoeoeoeoeoe.pdf', $policy->prepareFileNameForConsumer('ööööööööö.pdf'));
         $this->assertEquals('ueueueueueueueueue.pdf', $policy->prepareFileNameForConsumer('üüüüüüüüü.pdf'));
     }
+
+    /**
+     * Control characters must not survive, they are invisible in the title but break
+     * paths and HTTP headers built from it, see https://mantis.ilias.de/view.php?id=30709
+     */
+    public function testFileNamePolicyRemovesControlCharacters(): void
+    {
+        $settings = $this->createMock(ilFileServicesSettings::class);
+
+        $settings->expects($this->atLeastOnce())
+                 ->method('getBlackListedSuffixes')
+                 ->willReturn([]);
+
+        $settings->expects($this->atLeastOnce())
+                 ->method('getWhiteListedSuffixes')
+                 ->willReturn(['pdf']);
+
+        $policy = new ilFileServicesPolicy($settings);
+
+        $this->assertSame(
+            'KW 49 _ SW 5 - Halbschnitt __Vollschnitt',
+            $policy->ascii('KW 49 / SW 5 - Halbschnitt /' . chr(0x0b) . 'Vollschnitt')
+        );
+        $this->assertSame('2._Shipflow Einstieg', $policy->ascii("2.\tShipflow Einstieg"));
+        $this->assertSame('report__.pdf', $policy->ascii("report\r\n.pdf"));
+    }
 }

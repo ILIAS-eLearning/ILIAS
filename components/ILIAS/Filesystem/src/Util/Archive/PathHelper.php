@@ -79,7 +79,11 @@ trait PathHelper
             $path = $realpath;
         }
 
-        $normalized = preg_replace('#\p{C}+|^\./#u', '', $path);
+        // only NUL bytes are removed here: $path points to an existing location in the file
+        // system and control characters such as \x0b are valid parts of a directory name.
+        // Removing them would make the path point to nothing, see
+        // https://mantis.ilias.de/view.php?id=30709
+        $normalized = preg_replace('#\x00+|^\./#', '', $path);
         $normalized = preg_replace('#/\.(?=/)|^\./|\./$#', '', $normalized);
         $regex = '#\/*[^/\.]+/\.\.#Uu';
 
