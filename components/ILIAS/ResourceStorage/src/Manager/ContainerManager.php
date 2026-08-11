@@ -106,6 +106,23 @@ final class ContainerManager extends BaseManager
         );
     }
 
+    /**
+     * Adds all files of a local directory to the container in one go. Prefer this
+     * over repeated addStreamToContainer() calls: the container archive is
+     * rewritten once instead of once per file.
+     */
+    public function addDirectoryToContainer(
+        ResourceIdentification $container,
+        string $local_directory,
+        string $path_inside_container,
+    ): bool {
+        return $this->resource_builder->addDirectoryToContainer(
+            $this->getResource($container),
+            $local_directory,
+            $this->normalizePath($path_inside_container)
+        );
+    }
+
     public function addStreamToContainer(
         ResourceIdentification $container,
         FileStream $stream,

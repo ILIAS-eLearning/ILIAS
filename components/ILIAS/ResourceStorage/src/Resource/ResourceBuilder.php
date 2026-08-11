@@ -740,6 +740,86 @@ class ResourceBuilder
         return true;
     }
 
+    /**
+     * Adds a whole local directory to a container. The archive is opened, written
+     * and stored exactly once, regardless of how many files the directory holds.
+     * Adding the files one by one instead rewrites the complete archive per file,
+     * since ZipArchive::close() never appends in place.
+     */
+    public function addDirectoryToContainer(
+        StorableContainerResource $container,
+        string $local_directory,
+        string $path_inside_container,
+    ): bool {
+        if (!is_dir($local_directory)) {
+            return false;
+        }
+
+        $revision = $container->getCurrentRevisionIncludingDraft();
+        $uri = $this->extractStream($revision)->getMetadata()['uri'];
+
+        try {
+            $zip = new \ZipArchive();
+            if ($zip->open($uri) !== true) {
+                return false;
+            }
+
+            $added = $this->addDirectoryToZIP($zip, $local_directory, $path_inside_container);
+
+            // close() is where libzip actually writes the archive, a failure here
+            // means nothing was persisted at all
+            if (!$zip->close() || $added === 0) {
+                return false;
+            }
+
+            // cleanup revision and flavours
+            $this->storage_handler_factory->getHandlerForRevision($revision)->clearFlavours($revision);
+            $revision->getInformation()->setSize(filesize($uri));
+            $this->storeRevision($revision);
+
+            return true;
+        } catch (\Throwable) {
+            // the caller reports the failure to the user
+            return false;
+        }
+    }
+
+    /**
+     * Adds every file below $local_directory to an already opened archive,
+     * keeping the directory structure relative to $local_directory.
+     * @return int the number of files added
+     */
+    private function addDirectoryToZIP(
+        \ZipArchive $zip,
+        string $local_directory,
+        string $path_inside_container,
+    ): int {
+        $local_directory = rtrim($local_directory, DIRECTORY_SEPARATOR);
+        $added = 0;
+
+        $iterator = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($local_directory, \FilesystemIterator::SKIP_DOTS)
+        );
+        foreach ($iterator as $file) {
+            if (!$file->isFile()) {
+                continue;
+            }
+            $relative_path = str_replace(
+                DIRECTORY_SEPARATOR,
+                '/',
+                substr($file->getPathname(), strlen($local_directory) + 1)
+            );
+            // libzip reads the source file lazily on close(), therefore the
+            // contents are never held in memory (unlike addFromString)
+            $added += (int) $zip->addFile(
+                $file->getPathname(),
+                $this->ensurePathInZIP($zip, $path_inside_container . '/' . $relative_path, true)
+            );
+        }
+
+        return $added;
+    }
+
     public function addStreamToContainer(
         StorableContainerResource $container,
         FileStream $stream,
