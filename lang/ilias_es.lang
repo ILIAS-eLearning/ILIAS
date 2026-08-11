@@ -5384,6 +5384,7 @@ common#:#preconditions_optional_hint#:#Debe cumplir <b>%s</b> de las siguientes 
 common#:#predefined_template#:#Plantilla de rol predefinida
 common#:#preferences#:#Preferencias
 common#:#presentation_table_more#:#Mostrar más
+common#:#presenter#:#Presenter###11 08 2026 new variable
 common#:#preview#:#Vista previa
 common#:#preview_create#:#Crear vista previa
 common#:#preview_delete#:#Eliminar vista previa
@@ -10292,6 +10293,7 @@ glo#:#glo_really_remove_from_collection#:#¿Está seguro de que desea eliminar e
 glo#:#glo_reference#:#Referencia
 glo#:#glo_reference_terms#:#Términos de referencia
 glo#:#glo_referenced_term#:#Término referenciado
+glo#:#glo_remove_glossary#:##Are you sure you want to remove the following glossary from the list of auto-linked glossaries?###11 08 2026 new variable
 glo#:#glo_removed_from_collection_info#:#El glosario ha sido eliminado de la colección de glosarios.
 glo#:#glo_reset_all_boxes#:#Reiniciar todas las cajas
 glo#:#glo_save_and_continue#:#Guardar y continuar

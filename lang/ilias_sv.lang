@@ -5380,6 +5380,7 @@ common#:#preconditions_optional_hint#:#Var vänlig uppfyll minst <b>%s av</b> f�
 common#:#predefined_template#:#Fördefinierad rollmall
 common#:#preferences#:#Användardefinierade inställningar
 common#:#presentation_table_more#:#Visa mer
+common#:#presenter#:#Presenter###11 08 2026 new variable
 common#:#preview#:#Förhandsgranskning
 common#:#preview_create#:#Skapa förhandsvisning
 common#:#preview_delete#:#Ta bort förhandsgranskning
@@ -10288,6 +10289,7 @@ glo#:#glo_really_remove_from_collection#:#Are you sure you want to remove the fo
 glo#:#glo_reference#:#Länk
 glo#:#glo_reference_terms#:#Länkvillkor
 glo#:#glo_referenced_term#:#Länkade termer
+glo#:#glo_remove_glossary#:##Are you sure you want to remove the following glossary from the list of auto-linked glossaries?###11 08 2026 new variable
 glo#:#glo_removed_from_collection_info#:#The glossary has been removed from the collection glossary.###21 11 2023 new variable
 glo#:#glo_reset_all_boxes#:#Reset All Boxes###21 11 2023 new variable
 glo#:#glo_save_and_continue#:#Save and Continue###21 05 2025 new variable

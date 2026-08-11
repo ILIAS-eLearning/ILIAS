@@ -5380,6 +5380,7 @@ common#:#preconditions_optional_hint#:#Idioma do sistema
 common#:#predefined_template#:#Modelo de função predefinido
 common#:#preferences#:#Importar mail
 common#:#presentation_table_more#:#Os meus Tags
+common#:#presenter#:#Presenter###11 08 2026 new variable
 common#:#preview#:#Pré-visualização
 common#:#preview_create#:#Criar pré-visualização
 common#:#preview_delete#:#Apagar pré-visualização
@@ -10288,6 +10289,7 @@ glo#:#glo_really_remove_from_collection#:#Are you sure you want to remove the fo
 glo#:#glo_reference#:#Referência
 glo#:#glo_reference_terms#:#Termos de referência
 glo#:#glo_referenced_term#:#Termo referenciado
+glo#:#glo_remove_glossary#:##Are you sure you want to remove the following glossary from the list of auto-linked glossaries?###11 08 2026 new variable
 glo#:#glo_removed_from_collection_info#:#The glossary has been removed from the collection glossary.###26 08 2024 new variable
 glo#:#glo_reset_all_boxes#:#Reset All Boxes###26 08 2024 new variable
 glo#:#glo_save_and_continue#:#Save and Continue###21 05 2025 new variable

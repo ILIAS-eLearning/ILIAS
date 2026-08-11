@@ -5380,6 +5380,7 @@ common#:#preconditions_optional_hint#:#Izpolnite vsaj <b>%s</b> od naslednjih pr
 common#:#predefined_template#:#Vnaprej določena predloga vlog
 common#:#preferences#:#Uporabniške nastavitve
 common#:#presentation_table_more#:#Prikaži več
+common#:#presenter#:#Presenter###11 08 2026 new variable
 common#:#preview#:#Predogled
 common#:#preview_create#:#Ustvari predogled
 common#:#preview_delete#:#Izbriši predogled
@@ -10288,6 +10289,7 @@ glo#:#glo_really_remove_from_collection#:#Are you sure you want to remove the fo
 glo#:#glo_reference#:#Povezava
 glo#:#glo_reference_terms#:#Poveži pojme
 glo#:#glo_referenced_term#:#Povezani pojmi
+glo#:#glo_remove_glossary#:##Are you sure you want to remove the following glossary from the list of auto-linked glossaries?###11 08 2026 new variable
 glo#:#glo_removed_from_collection_info#:#The glossary has been removed from the collection glossary.###26 08 2024 new variable
 glo#:#glo_reset_all_boxes#:#Reset All Boxes###26 08 2024 new variable
 glo#:#glo_save_and_continue#:#Save and Continue###21 05 2025 new variable
