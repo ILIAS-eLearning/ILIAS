@@ -81,7 +81,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         return $default_id;
     }
 
-    public function executeCommand(): void
+    protected function handleCommand(): void
     {
         $this->ctrl->setReturn($this, "");
 

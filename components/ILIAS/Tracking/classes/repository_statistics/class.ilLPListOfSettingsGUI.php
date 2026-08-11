@@ -40,7 +40,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
     /**
      * execute command
      */
-    public function executeCommand(): void
+    protected function handleCommand(): void
     {
         switch ($this->ctrl->getNextClass()) {
             default:
