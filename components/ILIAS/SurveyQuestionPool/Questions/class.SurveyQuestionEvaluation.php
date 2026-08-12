@@ -85,7 +85,7 @@ abstract class SurveyQuestionEvaluation
             " WHERE svy_answer.question_fi = " . $ilDB->quote($this->question->getId(), "integer") .
             " AND svy_finished.survey_fi = " . $ilDB->quote($this->getSurveyId(), "integer");
         if (count($this->finished_ids) > 0) {
-            $sql .= " AND " . $ilDB->in("svy_finished.finished_id", $this->finished_ids, "", "integer");
+            $sql .= " AND " . $ilDB->in("svy_finished.finished_id", $this->finished_ids, false, "integer");
         }
         $set = $ilDB->query($sql);
         $cnt_answer_records = [];
@@ -470,7 +470,7 @@ abstract class SurveyQuestionEvaluation
             " WHERE svy_answer.question_fi = " . $ilDB->quote($this->question->getId(), "integer") .
             " AND svy_finished.survey_fi = " . $ilDB->quote($this->getSurveyId(), "integer");
         if (count($this->finished_ids) > 0) {
-            $sql .= " AND " . $ilDB->in("svy_finished.finished_id", $this->finished_ids, "", "integer");
+            $sql .= " AND " . $ilDB->in("svy_finished.finished_id", $this->finished_ids, false, "integer");
         }
         $set = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($set)) {
