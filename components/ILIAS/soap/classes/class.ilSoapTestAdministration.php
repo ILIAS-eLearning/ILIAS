@@ -685,14 +685,14 @@ class ilSoapTestAdministration extends ilSoapAdministration
             $titles = array_shift($data);
             foreach ($data as $row) {
                 $xmlRow = new ilXMLResultSetRow();
-                $xmlRow->setValue(0, $row["user_id"]);
-                $xmlRow->setValue(1, $row["login"]);
-                $xmlRow->setValue(2, $row["firstname"]);
-                $xmlRow->setValue(3, $row["lastname"]);
-                $xmlRow->setValue(4, $row["matriculation"]);
-                $xmlRow->setValue(5, $row["max_points"]);
-                $xmlRow->setValue(6, $row["reached_points"]);
-                $xmlRow->setValue(7, $row["passed"]);
+                $xmlRow->setValue(0, (string) $row["user_id"]);
+                $xmlRow->setValue(1, (string) $row["login"]);
+                $xmlRow->setValue(2, (string) $row["firstname"]);
+                $xmlRow->setValue(3, (string) $row["lastname"]);
+                $xmlRow->setValue(4, (string) $row["matriculation"]);
+                $xmlRow->setValue(5, (string) $row["max_points"]);
+                $xmlRow->setValue(6, (string) $row["reached_points"]);
+                $xmlRow->setValue(7, (string) $row["passed"]);
                 $xmlResultSet->addRow($xmlRow);
             }
         } else {
@@ -705,16 +705,16 @@ class ilSoapTestAdministration extends ilSoapAdministration
             $xmlResultSet->addColumn("passed");
             foreach ($data as $row) {
                 $xmlRow = new ilXMLResultSetRow();
-                $xmlRow->setValue(0, $row["user_id"]);
-                $xmlRow->setValue(1, $row["login"]);
-                $xmlRow->setValue(2, $row["firstname"]);
-                $xmlRow->setValue(3, $row["lastname"]);
-                $xmlRow->setValue(4, $row["matriculation"]);
-                $xmlRow->setValue(5, $row["question_id"]);
-                $xmlRow->setValue(6, $row["question_title"]);
-                $xmlRow->setValue(7, $row["max_points"]);
-                $xmlRow->setValue(8, $row["reached_points"]);
-                $xmlRow->setValue(9, $row["passed"]);
+                $xmlRow->setValue(0, (string) $row["user_id"]);
+                $xmlRow->setValue(1, (string) $row["login"]);
+                $xmlRow->setValue(2, (string) $row["firstname"]);
+                $xmlRow->setValue(3, (string) $row["lastname"]);
+                $xmlRow->setValue(4, (string) $row["matriculation"]);
+                $xmlRow->setValue(5, (string) $row["question_id"]);
+                $xmlRow->setValue(6, (string) $row["question_title"]);
+                $xmlRow->setValue(7, (string) $row["max_points"]);
+                $xmlRow->setValue(8, (string) $row["reached_points"]);
+                $xmlRow->setValue(9, (string) $row["passed"]);
                 $xmlResultSet->addRow($xmlRow);
             }
         }
