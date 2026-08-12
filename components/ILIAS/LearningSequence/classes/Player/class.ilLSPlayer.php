@@ -54,7 +54,9 @@ class ilLSPlayer
         protected ilKioskPageRenderer $page_renderer,
         protected Factory $ui_factory,
         protected ScreenContext $current_context,
-        protected Refinery\Factory $refinery
+        protected Refinery\Factory $refinery,
+        protected ilLanguage $lng,
+        protected ilCtrlInterface $ctrl
     ) {
     }
 
@@ -155,9 +157,6 @@ class ilLSPlayer
             $obj_type = ilObject::_lookupType($obj_id);
             ilRating::preloadListGUIData([$obj_id]);
             if ($obj_type !== '' && ilRating::hasRatingInListGUI($obj_id, $obj_type)) {
-                global $DIC;
-                $lng = $DIC->language();
-
                 $parent_ref_id = (int) $ls_ref_id;
                 $rating_container_id = 'lg_div_' . $next_item->getRefId() . '_pref_' . $parent_ref_id;
 
@@ -174,7 +173,7 @@ class ilLSPlayer
                     ilCommonActionDispatcherGUI::class,
                     ilRatingGUI::class
                 ]);
-                $rating_gui->setYourRatingText($lng->txt('rating_your_rating'));
+                $rating_gui->setYourRatingText($this->lng->txt('rating_your_rating'));
 
                 $rating_content = $rating_gui->getListGUIProperty(
                     $next_item->getRefId(),
@@ -195,8 +194,7 @@ class ilLSPlayer
                 $tpl->setVariable('RATING_CONTENT', $rating_content);
                 $obj_rating_html = $tpl->get();
 
-                $ilCtrl = $DIC->ctrl();
-                $redraw_url = $ilCtrl->getLinkTargetByClass(
+                $redraw_url = $this->ctrl->getLinkTargetByClass(
                     ilObjLearningSequenceLearnerGUI::class,
                     ilObjLearningSequenceLearnerGUI::CMD_REDRAW_LIST_ITEM,
                     '',
@@ -204,7 +202,7 @@ class ilLSPlayer
                     false
                 );
 
-                $rating_url = $ilCtrl->getLinkTargetByClass(
+                $rating_url = $this->ctrl->getLinkTargetByClass(
                     [
                         ilCommonActionDispatcherGUI::class,
                         ilRatingGUI::class
@@ -222,6 +220,7 @@ class ilLSPlayer
                     "}"
                 );
 
+                $this->page_renderer->addCss('assets/css/lso_kiosk_rating.css');
                 $this->page_renderer->addJs(
                     'assets/js/lso_kiosk_rating.js',
                     true

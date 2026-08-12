@@ -39,5 +39,8 @@ class LearningSequence implements Component\Component
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/lso_kiosk_rating.js");
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentCSS($this, "css/lso_kiosk_rating.css");
     }
 }

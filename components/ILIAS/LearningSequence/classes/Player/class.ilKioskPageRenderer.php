@@ -91,6 +91,11 @@ class ilKioskPageRenderer
         $this->layout_meta_content->addJs($path, $add_version_number, $batch);
     }
 
+    public function addCss(string $path): void
+    {
+        $this->layout_meta_content->addCss($path);
+    }
+
     public function render(
         LSControlBuilder $control_builder,
         string $obj_title,

@@ -20,35 +20,6 @@
 
   window.il.LSO = window.il.LSO || {};
 
-  const STYLE_ID = 'il-lso-kiosk-rating-popover-style';
-
-  function ensurePopoverNoWrapStyles() {
-    if (document.getElementById(STYLE_ID)) {
-      return;
-    }
-
-    const style = document.createElement('style');
-    style.id = STYLE_ID;
-    style.type = 'text/css';
-    style.appendChild(
-      document.createTextNode(
-        '.webui-popover .ilRatingOverlay ul.il-rating-stars{'
-          + 'display:inline-flex !important;'
-          + 'flex-wrap:nowrap !important;'
-          + 'white-space:nowrap !important;'
-          + 'padding:0 !important;'
-          + 'margin:0 !important;'
-          + 'list-style:none !important;'
-        + '}'
-          + '.webui-popover .ilRatingOverlay ul.il-rating-stars>li{flex:0 0 auto !important;}'
-          + '.webui-popover .ilRatingOverlay ul.il-rating-stars button.btn{padding:0 !important;}'
-          + '.webui-popover .ilRatingOverlay ul.il-rating-stars img{max-width:none !important;}',
-      ),
-    );
-    document.head.appendChild(style);
-  }
-  ensurePopoverNoWrapStyles();
-
   /**
    * Rating support for the LSO kiosk player.
    *
@@ -61,6 +32,23 @@
 
     function hasJQuery() {
       return typeof window.$ !== 'undefined';
+    }
+
+    /**
+     * Reads the rating value from the star button. The core renders the value
+     * into the link target, the list position is only used as a fallback.
+     *
+     * @param {object} $btn Star button of the rating overlay.
+     * @return {number} Rating value between 1 and 5.
+     */
+    function ratingOf($btn) {
+      const href = ($btn.attr('href') || '');
+      const match = href.match(/[?&]rating=(\d+)/);
+      if (match) {
+        return parseInt(match[1], 10);
+      }
+
+      return ($btn.closest('li').index() || 0) + 1;
     }
 
     function bindOverlayStars() {
@@ -87,7 +75,7 @@
           return;
         }
 
-        const rating = ($btn.closest('li').index() || 0) + 1;
+        const rating = ratingOf($btn);
 
         e.preventDefault();
         e.stopPropagation();
@@ -116,8 +104,6 @@
           e.stopPropagation();
 
           try {
-            ensurePopoverNoWrapStyles();
-
             try {
               const dt = $t.attr('data-target');
               $t.webuiPopover('destroy');
@@ -127,8 +113,8 @@
                 const selector = dt.startsWith('#') ? dt : `#${dt}`;
                 window.$(selector).remove();
               }
-            } catch (e2) {
-              // ignore
+            } catch (removalError) {
+              window.console.warn('LSO kiosk rating: could not reset popover.', removalError);
             }
 
             $t.webuiPopover({
@@ -144,13 +130,18 @@
               },
             });
             $t.webuiPopover('show');
-          } catch (ex) {
-            // ignore
+          } catch (popoverError) {
+            window.console.warn('LSO kiosk rating: could not open popover.', popoverError);
           }
         },
       );
     }
 
+    /**
+     * Works around a core issue: the rating request of il.Object is built with
+     * an unencoded ajax hash, so the kiosk player has to send the request on
+     * its own.
+     */
     function overrideSaveRatingFromListGUI() {
       if (!window.il || !window.il.Object || typeof window.il.Object.saveRatingFromListGUI !== 'function') {
         return;
@@ -195,16 +186,14 @@
       if (initialized) {
         return;
       }
-      initialized = true;
-
       if (!hasJQuery()) {
         return;
       }
       if (typeof window.$.fn.webuiPopover !== 'function') {
         return;
       }
+      initialized = true;
 
-      ensurePopoverNoWrapStyles();
       bindOverlayStars();
       bindTriggerPopover();
       overrideSaveRatingFromListGUI();
