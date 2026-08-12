@@ -33,14 +33,16 @@ class ilSurveyCronNotification extends CronJob
     protected const MAX_MESSAGE_LENGTH = 397;
 
     protected ilLanguage $lng;
-    protected ilTree $tree;
+    protected ?ilTree $tree = null;
 
     public function __construct()
     {
         global $DIC;
 
         $this->lng = $DIC->language();
-        $this->tree = $DIC->repositoryTree();
+        if (isset($DIC['tree'])) {
+            $this->tree = $DIC->repositoryTree();
+        }
     }
 
     public function getId(): string
@@ -86,14 +88,17 @@ class ilSurveyCronNotification extends CronJob
 
     public function run(): JobResult
     {
+        global $DIC;
+
         $log = ilLoggerFactory::getLogger("svy");
         $log->debug("start");
 
         $status = JobResult::STATUS_NO_ACTION;
         $message = array();
 
-        $root = $this->tree->getNodeData(ROOT_FOLDER_ID);
-        foreach ($this->tree->getSubTree($root, false, ["svy"]) as $svy_ref_id) {
+        $tree = $this->tree ?? $DIC->repositoryTree();
+        $root = $tree->getNodeData(ROOT_FOLDER_ID);
+        foreach ($tree->getSubTree($root, false, ["svy"]) as $svy_ref_id) {
             $svy_ref_id = (int) $svy_ref_id;
             $svy = new ilObjSurvey($svy_ref_id);
             $num = $svy->checkReminder();
