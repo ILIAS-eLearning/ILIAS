@@ -2513,7 +2513,7 @@ blog#:#blog_no_keywords#:#Aún no se han introducido palabras clave.
 blog#:#blog_notification_activated#:#Notificaciones activadas
 blog#:#blog_notification_deactivated#:#Notificaciones desactivadas
 blog#:#blog_notification_toggle_off#:#Desactivar notificaciones
-blog#:#blog_notification_toggle_on#:#Activar notificación
+blog#:#blog_notification_toggle_on#:#Activar notificaciones
 blog#:#blog_number_users_notes_or_comments#:#Número de usuarios que han adjuntado notas o comentarios a esta entrada
 blog#:#blog_posting#:#Entrada de blog
 blog#:#blog_posting_deleted#:#Entrada eliminada con éxito.
@@ -3654,7 +3654,7 @@ common#:#auth_soap_namespace#:#Espacio de nombres (Namespace)
 common#:#auth_soap_namespace_desc#:#Tal como se define en WSDL. Debe especificarse si se utiliza el estilo SOAP de .NET.
 common#:#auth_soap_port_desc#:#Ej. 8080 si el URI completo del servidor SOAP es http://auth.tuservidor.com:8080/dir/server.php
 common#:#auth_soap_server_desc#:#Ej. auth.tuservidor.com si el URI completo del servidor SOAP es http://auth.tuservidor.com:8080/dir/server.php
-common#:#auth_soap_settings_saved#:#Ajustes de autenticación SOAP guardados
+common#:#auth_soap_settings_saved#:#Ajustes de autenticación SOAP guardados.
 common#:#auth_soap_uri_desc#:#URI local, ej. dir/server.php si el URI completo del servidor SOAP es http://auth.tuservidor.com:8080/dir/server.php
 common#:#auth_soap_use_dotnet#:#Usar estilo SOAP de .NET
 common#:#auth_soap_use_https#:#Usar HTTPS
@@ -4239,8 +4239,8 @@ common#:#forums_anonymized#:#Foro anonimizado
 common#:#forums_anonymous#:#anónimo
 common#:#forums_articles#:#Mensajes
 common#:#forums_closed#:#cerrado
-common#:#forums_disable_forum_notification#:#Desactivar notificación para este foro
-common#:#forums_enable_forum_notification#:#Activar notificación para este foro
+common#:#forums_disable_forum_notification#:#Desactivar notificaciones para este foro
+common#:#forums_enable_forum_notification#:#Activar notificaciones para este foro
 common#:#forums_forum_notification_enabled#:#Se le notificará sobre nuevos mensajes en este foro.
 common#:#forums_last_post#:#Último mensaje
 common#:#forums_last_posting_asc#:#Último mensaje ascendente
@@ -7906,7 +7906,7 @@ crs#:#crs_select_archive_language#:#Por favor, seleccione un idioma para el arch
 crs#:#crs_select_one_archive#:#Por favor, seleccione un archivo
 crs#:#crs_select_starter#:#Seleccionar objeto de inicio
 crs#:#crs_settings#:#Configuración del curso
-crs#:#crs_settings_saved#:#Configuración guardada
+crs#:#crs_settings_saved#:#Configuración guardada.
 crs#:#crs_shorten_breadcrumb#:#Ruta de navegación
 crs#:#crs_show_all_obj#:#Expandir todo
 crs#:#crs_show_member_export#:#Lista de participantes
@@ -8089,7 +8089,7 @@ crs#:#event_title#:#Título
 crs#:#event_tutor_data#:#Presentación por
 crs#:#event_unregister#:#Darse de baja
 crs#:#event_unregistered#:#Se ha cancelado su inscripción.
-crs#:#event_updated#:#Configuración guardada
+crs#:#event_updated#:#Configuración guardada.
 crs#:#event_user_selection#:#Selección de usuarios
 crs#:#event_user_selection_include_filter#:#Incluir "%1$s"
 crs#:#event_user_selection_include_requests#:#Incluir a todos los usuarios de la lista "Solicitudes de participación"
@@ -9866,7 +9866,7 @@ file#:#copyright_custom#:#Personalizado
 file#:#copyright_custom_info#:#Elija un copyright personalizado que se aplicará a todos los archivos descomprimidos de este archivo.
 file#:#copyright_inherited#:#Heredado
 file#:#copyright_inherited_info#:#Aplicar el copyright del archivo zip a sus archivos descomprimidos. <br \>Copyright del archivo zip: %s.
-file#:#could_not_create_file_objs#:#Se produjo un error al crear sus objetos de archivo. Por favor, póngase en contacto con los administradores de esta plataforma.
+file#:#could_not_create_file_objs#:#Se produjo un error al crear sus objetos de archivo. Póngase en contacto con el servicio de asistencia técnica de esta instalación.
 file#:#de_activate_icon#:#Activar / Desactivar
 file#:#download_ascii_filename#:#Permitir solo caracteres ASCII en nombres de archivos descargados
 file#:#download_ascii_filename_info#:#Los archivos descargados solo deben tener caracteres ASCII en su nombre de archivo. Desactivar para utilizar todos los caracteres.
@@ -11143,7 +11143,7 @@ log#:#log_level_off#:#Desactivado
 log#:#log_level_warning#:#ADVERTENCIA
 log#:#log_log_level#:#Nivel de registro
 log#:#log_memory#:#Registrar uso de memoria
-logging#:#error_settings_saved#:#Ajustes guardados
+logging#:#error_settings_saved#:#Configuración guardada.
 logging#:#frm_clear_older_then#:#Eliminar archivos anteriores a
 logging#:#frm_clear_older_then_info#:#Por favor, introduzca la duración en días.
 logging#:#log_error_file_cleanup_info#:#Elimina archivos de registro de errores antiguos o huérfanos.
@@ -17258,7 +17258,7 @@ trac#:#trac_assigned#:#Asignado
 trac#:#trac_average#:#Promedio
 trac#:#trac_begin_at#:#Fecha de inicio
 trac#:#trac_closed_expire#:#Tiempo de espera agotado
-trac#:#trac_closed_login#:#De Anónimo a Inicio de sesión
+trac#:#trac_closed_login#:#Cambio de estado: de anónimo a usuario conectado
 trac#:#trac_closed_manual#:#Cierre de sesión
 trac#:#trac_closed_misc#:#Varios
 trac#:#trac_collection_assign#:#Seleccionar para determinar el progreso de aprendizaje
@@ -17447,9 +17447,9 @@ trac#:#trac_session_statistics_mode_week#:#Semana
 trac#:#trac_session_statistics_mode_year#:#Año
 trac#:#trac_session_statistics_no_data#:#No se han encontrado datos para esta estadística.
 trac#:#trac_sessions_closed#:#Salidas
-trac#:#trac_sessions_opened#:#Admisiones
+trac#:#trac_sessions_opened#:#Entradas
 trac#:#trac_settings#:#Configuración
-trac#:#trac_settings_saved#:#Configuración guardada
+trac#:#trac_settings_saved#:#Configuración guardada.
 trac#:#trac_short_system_load#:#Corto plazo
 trac#:#trac_show_graph#:#Mostrar gráfico
 trac#:#trac_show_progress_block#:#Show Personal Progress Chart in ‘Content’-Tab
@@ -17472,7 +17472,7 @@ trac#:#trac_title#:#Título
 trac#:#trac_title_description#:#Título / Descripción
 trac#:#trac_total_online#:#Tiempo total en línea
 trac#:#trac_trash#:#Movido a la papelera
-trac#:#trac_update_edit_user#:#Configuración guardada
+trac#:#trac_update_edit_user#:#Configuración guardada.
 trac#:#trac_updated_status#:#Estado de progreso de aprendizaje guardado.
 trac#:#trac_user_data#:#Datos de usuario
 trac#:#trac_valid_request#:#Tiempo máx. entre peticiones
