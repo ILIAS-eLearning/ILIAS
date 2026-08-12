@@ -903,7 +903,9 @@ assessment#:#logs_wrong_test_password_provided#:#Participant entered wrong test 
 assessment#:#longmenu#:#Longmenu###10 11 2018 new variable
 assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###26 08 2024 new variable
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
-assessment#:#mainbar_button_label_questionlist#:#Questionlist###26 08 2024 new variable
+assessment#:#mailnottype#:#Send notification even when a user finishes a test pass###20 08 2010 new variable
+assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###26 08 2024 new variable
+assessment#:#mainbar_button_label_questionlist#:#Spørgsmålsliste
 assessment#:#maintenance#:#Vedligeholdelse
 assessment#:#manscoring#:#Manuelle karakterer
 assessment#:#manscoring_done#:#Scored Participants###24 02 2009 new variable
@@ -1494,7 +1496,13 @@ assessment#:#tst_final_information#:#Finishing the Test: Information Before Subm
 assessment#:#tst_finish_confirm_button#:#Ja, jeg vil afslutte testen
 assessment#:#tst_finish_confirm_cancel_button#:#Nej, gå tilbage til sidste svar
 assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won't be able to enter this test again to change your answers. Do you really want to finish the test?###01 Mar 2006 new variable
-assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?###26 08 2024 new variable
+assessment#:#tst_finish_confirmation_question_no_attempts_left#:#Du er ved at afslutte denne test og nå det maksimale antal tilladte testforsøg. Du vil ikke kunne deltage i denne test igen for at ændre dine svar. Vil du virkelig afslutte testen?
+assessment#:#tst_finish_notification#:#Mail ved afslutning
+assessment#:#tst_finish_notification_advanced#:#Send komplet testresultat til testens ejer.
+assessment#:#tst_finish_notification_content_type#:#Content of e-mail###27 01 2015 new variable
+assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.###27 01 2015 new variable
+assessment#:#tst_finish_notification_no#:#No e-mail###06 02 2015 new variable
+assessment#:#tst_finish_notification_simple#:#Send navn og afslutningstidspunkt til testens ejer
 assessment#:#tst_finished#:#Afsluttet
 assessment#:#tst_form_dynamic_question_set_config#:#Continues Question Selection###16 09 2013 new variable
 assessment#:#tst_gap_analysis#:#Gap Analysis###26 09 2014 new variable
@@ -1502,7 +1510,8 @@ assessment#:#tst_general_properties#:#Generelle egenskaber
 assessment#:#tst_header_participant#:#Result:###16 09 2013 new variable
 assessment#:#tst_header_participant_no_answer#:#Spørgsmål - ikke besvaret
 assessment#:#tst_header_solution#:#Correct solution:###16 09 2013 new variable
-assessment#:#tst_hide_info_tab#:#Hide Info Tab###26 08 2024 new variable
+assessment#:#tst_heading_scoring#:#Resultat
+assessment#:#tst_hide_info_tab#:#Skjul fanen Info
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.###26 08 2024 new variable
@@ -8169,7 +8178,7 @@ dash#:#dash_learning_sequences#:#My Learning Sequences###26 08 2024 new variable
 dash#:#dash_list#:#List###07 02 2020 new variable
 dash#:#dash_main_panel#:#Main Panel###07 02 2020 new variable
 dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.###07 02 2020 new variable
-dash#:#dash_memberships#:#My Courses and Groups###07 02 2020 new variable
+dash#:#dash_memberships#:#Mine kurser og grupper
 dash#:#dash_no_items_to_manage#:#No items available for removal.###04 05 2026 new variable
 dash#:#dash_page_edit_info#:#The content of this page is displayed to all users on their dashboard. The contents of the various blocks of the dashboard are presented below.###28 10 2024 new variable
 dash#:#dash_presentation#:#Presentation###07 02 2020 new variable
@@ -15080,11 +15089,11 @@ rep#:#rep_export_limitation_info#:#Limits the number of objects for container ex
 rep#:#rep_export_limitation_limited#:#Limit Export###07 02 2020 new variable
 rep#:#rep_export_limitation_unlimited#:#Unlimited Export###26 08 2024 new variable
 rep#:#rep_failure_trashed_trash#:#You selected objects that cannot be restored to their original location, because their parent objects were deleted. Please uncheck the respective object in the table or select the Restore to New Location instead.###07 02 2020 new variable
-rep#:#rep_fav_intro1#:#Sie haben aktuell noch keine Favoriten ausgewählt. Um dies zu tun, müssen Sie zwei Schritte machen:###07 02 2020 new variable
-rep#:#rep_fav_intro2#:#Klicken Sie auf '%s' und wählen Sie aus dem verfügbaren Angebot ein Lernobjekt aus, z. B. ein Lernmodul oder ein Forum.###07 02 2020 new variable
-rep#:#rep_fav_intro3#:#Wenn Sie etwas gefunden haben, das Sie interessiert, können Sie es ganz einfach zu Ihren Favoriten hinzufügen. Wählen Sie beim gewünschten Objekt im <i>Aktionen</i>-Menü die Option "<i>Zu Favoriten hinzufügen</i>".###07 02 2020 new variable
-rep#:#rep_favourites#:#Favourites###29 07 2022 new variable
-rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.###29 07 2022 new variable
+rep#:#rep_fav_intro1#:#Du har endnu ikke valgt nogen favoritter. For at gøre dette skal du gennemføre to trin:
+rep#:#rep_fav_intro2#:#Klik på '%s' og vælg et læringsobjekt fra de tilgængelige muligheder, f.eks. et læringsmodul eller et forum.
+rep#:#rep_fav_intro3#:#Hvis du finder noget, der interesserer dig, kan du nemt tilføje det til dine favoritter. For det ønskede element skal du vælge "Føj til favoritter" i menuen Handlinger.
+rep#:#rep_favourites#:#Favoritter
+rep#:#rep_favourites_info#:#Brugere kan markere enkelte repository-elementer som favoritter. En "Favoritter"-liste kan aktiveres for dashboardet og hovedmenuen.
 rep#:#rep_input_not_empty#:#This field must not be empty, please provide a value.###29 10 2025 new variable
 rep#:#rep_intro#:#Velkommen til oversigten!
 rep#:#rep_intro1#:#I dette område kan du oprette læring og arbejdsresurser til alle brugere. Alle resurser er organiseret i kategorier. Kategorier kan afspejle strukturen af din organisation (f.eks. afdelinger), et hieraki af discipliner eller klasser i en skole.
