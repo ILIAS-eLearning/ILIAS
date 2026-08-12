@@ -1479,7 +1479,7 @@ assessment#:#tst_exam_password_invalid_message#:#¡La contraseña proporcionada 
 assessment#:#tst_exam_password_label#:#Contraseña
 assessment#:#tst_exam_required_fields_not_filled_message#:#¡Debe completar todos los campos obligatorios!
 assessment#:#tst_exam_start#:#Iniciar prueba
-assessment#:#tst_exam_use_previous_answers#:#Respuestas anteriores
+assessment#:#tst_exam_use_previous_answers#:#Usar respuestas anteriores
 assessment#:#tst_exam_use_previous_answers_label#:#Si está habilitado, las respuestas de pruebas anteriores se rellenarán automáticamente.
 assessment#:#tst_extratime_added#:#El tiempo de trabajo del participante se ha incrementado en %s minutos.
 assessment#:#tst_extratime_info#:#Si desea añadir tiempo de trabajo varias veces para el mismo participante, por favor ingrese la cantidad total de tiempo que desea añadir.

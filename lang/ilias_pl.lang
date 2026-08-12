@@ -905,7 +905,7 @@ assessment#:#longmenu_answeroptions_differ#:#This question does not work correct
 assessment#:#longmenu_text#:#Tekst ‘Long Menu’
 assessment#:#mailnottype#:#Transmisja odbywa się również po zakończeniu poszczególnych przebiegów testu.
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###26 08 2024 new variable
-assessment#:#mainbar_button_label_questionlist#:#Questionlist###26 08 2024 new variable
+assessment#:#mainbar_button_label_questionlist#:#Lista pytań
 assessment#:#maintenance#:#Konserwacja
 assessment#:#manscoring#:#Ręczna punktacja
 assessment#:#manscoring_done#:#Już ocenieni uczestnicy
@@ -1152,7 +1152,7 @@ assessment#:#question_type#:#Typ pytania
 assessment#:#questionlist_cannot_be_altered#:#The questionlist cannot be altered as the test already contains participant data sets.###20 01 2026 new variable
 assessment#:#questionpool_not_entered#:#Podaj nazwę puli pytań!
 assessment#:#questionpool_not_selected#:#Please select a question pool!###07 02 2020 new variable
-assessment#:#questions#:#Questions###26 08 2024 new variable
+assessment#:#questions#:#Pytania
 assessment#:#questions_from#:#pytania z
 assessment#:#questions_per_page_view#:#Podgląd strony
 assessment#:#random_accept_sample#:#Akceptuj próbkę
@@ -1384,7 +1384,7 @@ assessment#:#tst_answered_questions_of_total#:#%s of %s###07 02 2020 new variabl
 assessment#:#tst_answered_questions_test#:#Pytania, na które udzielono odpowiedzi w tym teście
 assessment#:#tst_attached_xls_file#:#Wyniki testu tego uczestnika znajdziesz w załączonym pliku Excel.
 assessment#:#tst_attempt#:#Próba
-assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.###26 08 2024 new variable
+assessment#:#tst_attempt_limit_message#:#Łączna liczba podejść do tego testu: <b>%s</b>.
 assessment#:#tst_attempt_started#:#Test rozpoczęty
 assessment#:#tst_back_to_pass_details#:#Powrót do widoku ogólnego przebiegu
 assessment#:#tst_back_to_question_list#:#Powrót do listy pytań
@@ -1443,7 +1443,7 @@ assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this messag
 assessment#:#tst_dont_use_previous_answers#:#Twoje poprzednie odpowiedzi nie będą użyte jako domyślne wartości w następnych wykonaniach testu
 assessment#:#tst_edit_competence_assign#:#Przetwarzaj właściwości przydziału
 assessment#:#tst_edit_scoring#:#Edytuj punktację
-assessment#:#tst_enable_questionlist#:#Show 'List of Questions’###26 08 2024 new variable
+assessment#:#tst_enable_questionlist#:#Pokaż „Listę pytań”
 assessment#:#tst_enable_questionlist_description#:#Participants can switch on a list of the test questions on the left of the actual question.###26 08 2024 new variable
 assessment#:#tst_ending_time#:#Czas ukończenia
 assessment#:#tst_ending_time_before_starting_time#:#Please enter a date for the end of the test that is after the start date.###26 08 2024 new variable
@@ -1469,14 +1469,14 @@ assessment#:#tst_exam_conditions_not_checked_message#:#You need to accept the ex
 assessment#:#tst_exam_ending_time_message#:#The test cannot be started after %s.###26 08 2024 new variable
 assessment#:#tst_exam_modal_message_conditions#:#Please confirm the conditions to start the test.###26 08 2024 new variable
 assessment#:#tst_exam_modal_message_conditions_and_password#:#Please confirm the conditions and enter the password to start the test.###26 08 2024 new variable
-assessment#:#tst_exam_modal_message_password#:#Please enter the password to start the test.###26 08 2024 new variable
+assessment#:#tst_exam_modal_message_password#:#Aby rozpocząć test, wprowadź hasło.
 assessment#:#tst_exam_not_assigned_participant_disclaimer#:#You cannot start this test, as you are not an assigned participant.###26 08 2024 new variable
-assessment#:#tst_exam_password#:#Test Password###26 08 2024 new variable
+assessment#:#tst_exam_password#:#Hasło testowe
 assessment#:#tst_exam_password_invalid_message#:#The given password is not valid!###26 08 2024 new variable
-assessment#:#tst_exam_password_label#:#Password###26 08 2024 new variable
+assessment#:#tst_exam_password_label#:#Hasło
 assessment#:#tst_exam_required_fields_not_filled_message#:#You need to fill out all required fields!###26 08 2024 new variable
-assessment#:#tst_exam_start#:#Start Test###26 08 2024 new variable
-assessment#:#tst_exam_use_previous_answers#:#Previous Answers###26 08 2024 new variable
+assessment#:#tst_exam_start#:#Rozpocznij test
+assessment#:#tst_exam_use_previous_answers#:#Użyj poprzednich odpowiedzi
 assessment#:#tst_exam_use_previous_answers_label#:#If enabled answers from previous tests will be prefilled.###26 08 2024 new variable
 assessment#:#tst_extratime_added#:#Czas, w którym uczestnik przetwarza zadanie, został przedłużony o %s minut.
 assessment#:#tst_extratime_info#:#Jeśli czas, w którym uczestnik przetwarza zadanie, zostanie kilka razy przedłużony, tutaj należy wpisać sumę wszystkich czasów.
@@ -1496,7 +1496,7 @@ assessment#:#tst_final_information#:#Zakończ test
 assessment#:#tst_finish_confirm_button#:#Tak, chcę skończyć test
 assessment#:#tst_finish_confirm_cancel_button#:#Nie, powrót do poprzedniej odpowiedzi
 assessment#:#tst_finish_confirmation_question#:#Kończysz test i wyczerpałeś wszystkie próby. Już nie będziesz mógł powtórzyć tego testu aby zmienić odpowiedzi. Na pewno chcesz skończyć test?
-assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?###26 08 2024 new variable
+assessment#:#tst_finish_confirmation_question_no_attempts_left#:#Zakończysz ten test i osiągniesz maksymalną liczbę dozwolonych prób. Nie będziesz mieć możliwości ponownego wejścia do testu, aby zmienić swoje odpowiedzi. Czy na pewno chcesz ukończyć test?
 assessment#:#tst_finish_notification#:#Mail po zakończeniu
 assessment#:#tst_finish_notification_advanced#:#Wyślij wynik testu do uczestnika testu
 assessment#:#tst_finish_notification_content_type#:#Treść wiadomości
@@ -1594,7 +1594,7 @@ assessment#:#tst_invited_selected_users#:#Wybrani użytkownicy zostali dodani ja
 assessment#:#tst_launcher_button_label_passes_limit_reached#:#You have reached the limit of possible test passes###26 08 2024 new variable
 assessment#:#tst_launcher_status_message_conditions#:#You will be asked for your approval of the exam conditions when you start the test.###26 08 2024 new variable
 assessment#:#tst_launcher_status_message_conditions_and_password#:#You will be asked for the password and your approval of the exam conditions when you start the test.###26 08 2024 new variable
-assessment#:#tst_launcher_status_message_password#:#You will be asked for the password when you start the test.###26 08 2024 new variable
+assessment#:#tst_launcher_status_message_password#:#Na początku testu zostaniesz poproszony o podanie hasła.
 assessment#:#tst_level#:#Poziom kompetencji
 assessment#:#tst_limit_nr_of_tries#:#Ogranicz liczbę przebiegów testu
 assessment#:#tst_link_only_unassigned#:#Wybrałeś co najmniej jedno pytanie, które zostało już przyporządkowane do puli pytań. Do puli pytań można dodać tylko te pytania, które jeszcze nie zostały przyporządkowane do żadnej puli. Wybierz jedną opcję.
@@ -1692,7 +1692,7 @@ assessment#:#tst_objectives_progress_header#:#Postęp w celach dydaktycznych
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Ten test jest w stanie nieodwracalnym, ponieważ usunięto przyporządkowaną pulę pytań. Dlatego uczestnicy nie mogą już przeprowadzić.
 assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back.###26 05 2026 new variable
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Pytania dotyczące z powodzeniem przetworzonych celów dydaktycznych są opcjonalne.</b><br /><br />Chcesz przejść do innego pytania, które należy do już zaliczonego celu dydaktycznego.<br />Masz następujący wybór:<br /><br />Jeśli będziesz kontynuował, możesz przetworzyć pytania dotyczące tych celów dydaktycznych. Ponieważ dla tej próby wybrano nowe pytania, nie pobrano Twoich odpowiedzi z wcześniejszych prób. W przypadku ponownego przetwarzania pytań Twoje wyniki związane z celami dydaktycznymi mogą ulec pogorszeniu.<br /><br />Jeśli nie chcesz ponownie przetworzyć pytań, możesz się cofnąć. W takiej sytuacji pytania te nie będą uwzględnione przy ocenie.
-assessment#:#tst_out_of_time_message#:#You have reached the maximum allowed processing time of the test!###26 08 2024 new variable
+assessment#:#tst_out_of_time_message#:#Przewidziany czas na wykonanie tego testu upłynął.
 assessment#:#tst_participant#:#Uczestnicy
 assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
 assessment#:#tst_participant_status#:#Status uczestnika
@@ -2006,7 +2006,7 @@ assessment#:#tst_text_count_system#:#System punktacji
 assessment#:#tst_threshold#:#Wartość progowa (w %)
 assessment#:#tst_time_already_spent#:#Rozpocząłeś test: %s. Czas spędzony na pracy: %s
 assessment#:#tst_time_already_spent_left#:#Do końca testu pozostało %s
-assessment#:#tst_time_limit_message#:#You will have <b>%s minutes</b> to answer all questions.###26 08 2024 new variable
+assessment#:#tst_time_limit_message#:#Będziesz mieć <b>%s minut</b> na udzielenie odpowiedzi na wszystkie pytania.
 assessment#:#tst_title_output#:#Pokaż tytuł testu
 assessment#:#tst_title_output_full#:#Pokaż tytuł testu i dostępne punkty
 assessment#:#tst_title_output_hide_points#:#Pokaż tylko tytuł testu
@@ -4724,7 +4724,7 @@ common#:#mm_communication#:#Communication###07 02 2020 new variable
 common#:#mm_contacts#:#Contacts###07 02 2020 new variable
 common#:#mm_dashboard#:#Dashboard###07 02 2020 new variable
 common#:#mm_enrolments#:#Enrolments###07 02 2020 new variable
-common#:#mm_favorites#:#Favourites###07 02 2020 new variable
+common#:#mm_favorites#:#Ulubione
 common#:#mm_learning_history#:#Learning History###07 02 2020 new variable
 common#:#mm_learning_progress#:#Learning Progress###07 02 2020 new variable
 common#:#mm_mail#:#Mail###07 02 2020 new variable
@@ -4735,10 +4735,10 @@ common#:#mm_personal_and_shared_r#:#Personal and Shared Resources###07 02 2020 n
 common#:#mm_personal_workspace#:#Personal Workspace###07 02 2020 new variable
 common#:#mm_portfolio#:#Portfolio###07 02 2020 new variable
 common#:#mm_private_chats#:#Private Chats###29 07 2022 new variable
-common#:#mm_repo_tree_view#:#Tree View###07 02 2020 new variable
-common#:#mm_repo_tree_view_act#:#Activate Tree###07 02 2020 new variable
-common#:#mm_repo_tree_view_deact#:#Deactivate Tree###07 02 2020 new variable
-common#:#mm_repository#:#Repository###07 02 2020 new variable
+common#:#mm_repo_tree_view#:#Widok drzewa
+common#:#mm_repo_tree_view_act#:#Aktywuj widok drzewa
+common#:#mm_repo_tree_view_deact#:#Deaktywuj widok drzewa
+common#:#mm_repository#:#Magazyn
 common#:#mm_skills#:#Competences###07 02 2020 new variable
 common#:#mm_staff_list#:#Staff List###07 02 2020 new variable
 common#:#mm_tags#:#Tags###07 02 2020 new variable
@@ -5115,7 +5115,7 @@ common#:#obj_rcat#:#Kategoria ECS
 common#:#obj_rcrs#:#Kurs ECS
 common#:#obj_recf#:#Odtworzone obiekty
 common#:#obj_recf_desc#:#Zawiera odtworzone obiekty powstałe przy sprawdzeniu systemu
-common#:#obj_rep#:#Repository###07 02 2020 new variable
+common#:#obj_rep#:#Dostępne zasoby
 common#:#obj_reps#:#Dostępne zasoby
 common#:#obj_reps_desc#:#Właściwości ogólne dla dostępnych zasobów
 common#:#obj_rfil#:#Plik ECS
@@ -8164,21 +8164,21 @@ dash#:#dash_dashboard#:#Dashboard###07 02 2020 new variable
 dash#:#dash_default_presentation#:#Default Presentation###07 02 2020 new variable
 dash#:#dash_default_sortation#:#Default Sortation###07 02 2020 new variable
 dash#:#dash_enable_cal#:#Calendar###07 02 2020 new variable
-dash#:#dash_enable_favourites#:#Favourites###07 02 2020 new variable
+dash#:#dash_enable_favourites#:#Ulubione
 dash#:#dash_enable_learning_sequences#:#Learning Sequences###26 08 2024 new variable
 dash#:#dash_enable_mail#:#Mail###07 02 2020 new variable
-dash#:#dash_enable_memberships#:#My Courses and Groups###07 02 2020 new variable
+dash#:#dash_enable_memberships#:#Moje kursy i grupy
 dash#:#dash_enable_news#:#News###07 02 2020 new variable
 dash#:#dash_enable_recommended_content#:#Recommended Content###26 08 2024 new variable
 dash#:#dash_enable_study_programmes#:#Study Programmes###26 08 2024 new variable
 dash#:#dash_enable_task#:#Tasks###07 02 2020 new variable
-dash#:#dash_favourites#:#Favourites###07 02 2020 new variable
+dash#:#dash_favourites#:#Ulubione
 dash#:#dash_item_removed#:#Recommendation has been removed from the list.###07 02 2020 new variable
 dash#:#dash_learning_sequences#:#My Learning Sequences###26 08 2024 new variable
 dash#:#dash_list#:#List###07 02 2020 new variable
 dash#:#dash_main_panel#:#Main Panel###07 02 2020 new variable
 dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.###07 02 2020 new variable
-dash#:#dash_memberships#:#My Courses and Groups###07 02 2020 new variable
+dash#:#dash_memberships#:#Moje kursy i grupy
 dash#:#dash_no_items_to_manage#:#No items available for removal.###10 03 2026 new variable
 dash#:#dash_page_edit_info#:#The content of this page is displayed to all users on their dashboard. The contents of the various blocks of the dashboard are presented below.###28 10 2024 new variable
 dash#:#dash_presentation#:#Presentation###07 02 2020 new variable
@@ -15089,10 +15089,10 @@ rep#:#rep_export_limitation_info#:#Limits the number of objects for container ex
 rep#:#rep_export_limitation_limited#:#Limit Export###07 02 2020 new variable
 rep#:#rep_export_limitation_unlimited#:#Unlimited Export###26 08 2024 new variable
 rep#:#rep_failure_trashed_trash#:#You selected objects that cannot be restored to their original location, because their parent objects were deleted. Please uncheck the respective object in the table or select the Restore to New Location instead.###07 02 2020 new variable
-rep#:#rep_fav_intro1#:#Sie haben aktuell noch keine Favoriten ausgewählt. Um dies zu tun, müssen Sie zwei Schritte machen:###07 02 2020 new variable
-rep#:#rep_fav_intro2#:#Klicken Sie auf '%s' und wählen Sie aus dem verfügbaren Angebot ein Lernobjekt aus, z. B. ein Lernmodul oder ein Forum.###07 02 2020 new variable
-rep#:#rep_fav_intro3#:#Wenn Sie etwas gefunden haben, das Sie interessiert, können Sie es ganz einfach zu Ihren Favoriten hinzufügen. Wählen Sie beim gewünschten Objekt im <i>Aktionen</i>-Menü die Option "<i>Zu Favoriten hinzufügen</i>".###07 02 2020 new variable
-rep#:#rep_favourites#:#Favourites###29 07 2022 new variable
+rep#:#rep_fav_intro1#:#Nie wybrałeś jeszcze żadnych ulubionych. Aby to zrobić, musisz wykonać dwa kroki:
+rep#:#rep_fav_intro2#:#Kliknij '%s' i wybierz obiekt edukacyjny z dostępnych opcji, np. moduł edukacyjny lub forum.
+rep#:#rep_fav_intro3#:#Jeśli znajdziesz coś, co Cię interesuje, możesz łatwo dodać to do ulubionych. Aby dodać interesujący Cię element, wybierz opcję „Dodaj do ulubionych” z menu „Akcje”.
+rep#:#rep_favourites#:#Ulubione
 rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.###29 07 2022 new variable
 rep#:#rep_input_not_empty#:#This field must not be empty, please provide a value.###21 05 2025 new variable
 rep#:#rep_intro#:#Witamy w dostępnych zasobach!

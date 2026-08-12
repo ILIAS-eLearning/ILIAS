@@ -458,7 +458,7 @@ assessment#:#answer_options#:#Answer Options: ###23 12 2015 new variable
 assessment#:#answer_question#:#Answer Question###30 08 2015 new variable
 assessment#:#answer_text#:#答案文本
 assessment#:#answer_types#:#答案类型
-assessment#:#answered#:#Answered###07 11 2014 new variable
+assessment#:#answered#:#已回答
 assessment#:#answers_multiline#:#多行答案
 assessment#:#answers_of#:#Answers of:###24 10 2013 new variable
 assessment#:#answers_select#:#Select###30 08 2015 new variable
@@ -904,7 +904,7 @@ assessment#:#longmenu_answeroptions_differ#:#This question does not work correct
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
 assessment#:#mailnottype#:#甚至当用户完成一个测试时也发送通知
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###26 08 2024 new variable
-assessment#:#mainbar_button_label_questionlist#:#Questionlist###26 08 2024 new variable
+assessment#:#mainbar_button_label_questionlist#:#问题清单
 assessment#:#maintenance#:#Maintenance维护
 assessment#:#manscoring#:#Manual Scoring手动评分
 assessment#:#manscoring_done#:#Scored Participants评分参加者
@@ -1151,7 +1151,7 @@ assessment#:#question_type#:#题目类型
 assessment#:#questionlist_cannot_be_altered#:#The questionlist cannot be altered as the test already contains participant data sets.###20 01 2026 new variable
 assessment#:#questionpool_not_entered#:#请为题目池输入一个名字！
 assessment#:#questionpool_not_selected#:#Please select a question pool!###07 02 2020 new variable
-assessment#:#questions#:#Questions###26 08 2024 new variable
+assessment#:#questions#:#题目。
 assessment#:#questions_from#:#题目表单
 assessment#:#questions_per_page_view#:#页面视图
 assessment#:#random_accept_sample#:#Accept sample
@@ -1375,15 +1375,15 @@ assessment#:#tst_answer_fixation_on_instant_feedback#:#Lock Answers with the Pre
 assessment#:#tst_answer_fixation_on_instant_feedback_desc#:#After the feedback for a question is shown participant answers are locked, participants cannot change these answers any longer.###10 11 2018 new variable
 assessment#:#tst_answer_fixation_on_instantfb_or_followupqst#:#Lock Answers with the Presentation of Feedback or Follow-Up Questions###10 11 2018 new variable
 assessment#:#tst_answer_fixation_on_instantfb_or_followupqst_desc#:#Participant Answers for a question will be locked either with the presentation of the questions's feedback or when the follow-up question is shown.###10 11 2018 new variable
-assessment#:#tst_answer_status_answered#:#Answered###fau: testNav
-assessment#:#tst_answer_status_editing#:# (editing ... )###fau: testNav
-assessment#:#tst_answer_status_not_answered#:#Not answered###fau: testNav
+assessment#:#tst_answer_status_answered#:#已回答###fau: testNav
+assessment#:#tst_answer_status_editing#:# (编辑...)###fau: testNav
+assessment#:#tst_answer_status_not_answered#:#未回答###fau: testNav
 assessment#:#tst_answered_questions#:#已经回答题目
 assessment#:#tst_answered_questions_of_total#:#%s of %s###07 02 2020 new variable
 assessment#:#tst_answered_questions_test#:#这个测试中已回答的题目
 assessment#:#tst_attached_xls_file#:#You find the test result for this participant in the attached Excel file.###27 01 2015 new variable
 assessment#:#tst_attempt#:#Attempt###30 08 2015 new variable
-assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.###26 08 2024 new variable
+assessment#:#tst_attempt_limit_message#:#您可以参加此测试的总次数：<b>%s</b>。
 assessment#:#tst_attempt_started#:#测试已经开始
 assessment#:#tst_back_to_pass_details#:#Back to Pass Details###26 09 2014 new variable
 assessment#:#tst_back_to_question_list#:#Back to Question List###26 09 2014 new variable
@@ -1442,7 +1442,7 @@ assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this messag
 assessment#:#tst_dont_use_previous_answers#:#您之前的答案将不会在未来的测试中作为默认值使用
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties###30 08 2015 new variable
 assessment#:#tst_edit_scoring#:#编辑评分
-assessment#:#tst_enable_questionlist#:#Show 'List of Questions’###26 08 2024 new variable
+assessment#:#tst_enable_questionlist#:#显示“问题列表”
 assessment#:#tst_enable_questionlist_description#:#Participants can switch on a list of the test questions on the left of the actual question.###26 08 2024 new variable
 assessment#:#tst_ending_time#:#结束时间
 assessment#:#tst_ending_time_before_starting_time#:#Please enter a date for the end of the test that is after the start date.###26 08 2024 new variable
@@ -1468,13 +1468,13 @@ assessment#:#tst_exam_conditions_not_checked_message#:#You need to accept the ex
 assessment#:#tst_exam_ending_time_message#:#The test cannot be started after %s.###26 08 2024 new variable
 assessment#:#tst_exam_modal_message_conditions#:#Please confirm the conditions to start the test.###26 08 2024 new variable
 assessment#:#tst_exam_modal_message_conditions_and_password#:#Please confirm the conditions and enter the password to start the test.###26 08 2024 new variable
-assessment#:#tst_exam_modal_message_password#:#Please enter the password to start the test.###26 08 2024 new variable
+assessment#:#tst_exam_modal_message_password#:#请输入密码开始测试。
 assessment#:#tst_exam_not_assigned_participant_disclaimer#:#You cannot start this test, as you are not an assigned participant.###26 08 2024 new variable
-assessment#:#tst_exam_password#:#Test Password###26 08 2024 new variable
+assessment#:#tst_exam_password#:#测试密码
 assessment#:#tst_exam_password_invalid_message#:#The given password is not valid!###26 08 2024 new variable
-assessment#:#tst_exam_password_label#:#Password###26 08 2024 new variable
+assessment#:#tst_exam_password_label#:#密码
 assessment#:#tst_exam_required_fields_not_filled_message#:#You need to fill out all required fields!###26 08 2024 new variable
-assessment#:#tst_exam_start#:#Start Test###26 08 2024 new variable
+assessment#:#tst_exam_start#:#开始测试
 assessment#:#tst_exam_use_previous_answers#:#Previous Answers###26 08 2024 new variable
 assessment#:#tst_exam_use_previous_answers_label#:#If enabled answers from previous tests will be prefilled.###26 08 2024 new variable
 assessment#:#tst_extratime_added#:#The working time of the participant has been increased by %s minutes.###24 10 2013 new variable
@@ -1495,7 +1495,7 @@ assessment#:#tst_final_information#:#Finishing the Test: Information Before Subm
 assessment#:#tst_finish_confirm_button#:#是的，我想完成这个测试
 assessment#:#tst_finish_confirm_cancel_button#:#不，返回之前的答案
 assessment#:#tst_finish_confirmation_question#:#您将要完成这次测试并且达到了测试所允许的最大次数。您将不能再次进入这次测试去修改您的答案。您真的想完成这次测试吗？
-assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?###26 08 2024 new variable
+assessment#:#tst_finish_confirmation_question_no_attempts_left#:#你即将完成本次测试，并达到允许的最大测试次数。你将无法再次进入测试来更改答案。你真的想完成测试吗？
 assessment#:#tst_finish_notification#:#邮报完成
 assessment#:#tst_finish_notification_advanced#:#发送完成的测试结果给测试者
 assessment#:#tst_finish_notification_content_type#:#Content of e-mail###27 01 2015 new variable
@@ -1507,7 +1507,7 @@ assessment#:#tst_form_dynamic_question_set_config#:#Continues Question Selection
 assessment#:#tst_gap_analysis#:#Gap Analysis###26 09 2014 new variable
 assessment#:#tst_general_properties#:#常规属性
 assessment#:#tst_header_participant#:#Result:###24 10 2013 new variable
-assessment#:#tst_header_participant_no_answer#:#Question - not answered###26 08 2024 new variable
+assessment#:#tst_header_participant_no_answer#:#问题 - 未回答
 assessment#:#tst_header_solution#:#Correct solution:###24 10 2013 new variable
 assessment#:#tst_heading_scoring#:#得分
 assessment#:#tst_hide_info_tab#:#Hide Info Tab###26 08 2024 new variable
@@ -1593,7 +1593,7 @@ assessment#:#tst_invited_selected_users#:#所选择的用户已经做为既定�
 assessment#:#tst_launcher_button_label_passes_limit_reached#:#You have reached the limit of possible test passes###26 08 2024 new variable
 assessment#:#tst_launcher_status_message_conditions#:#You will be asked for your approval of the exam conditions when you start the test.###26 08 2024 new variable
 assessment#:#tst_launcher_status_message_conditions_and_password#:#You will be asked for the password and your approval of the exam conditions when you start the test.###26 08 2024 new variable
-assessment#:#tst_launcher_status_message_password#:#You will be asked for the password when you start the test.###26 08 2024 new variable
+assessment#:#tst_launcher_status_message_password#:#开始测试时，系统会要求您输入密码。
 assessment#:#tst_level#:#Competence Level###26 09 2014 new variable
 assessment#:#tst_limit_nr_of_tries#:#Maximum Number of Test Passes###07 11 2014 new variable
 assessment#:#tst_link_only_unassigned#:#您至少选择了一个已链接到一个题目池的题目。仅未分配题目能添加到一个题目池中。
@@ -1691,7 +1691,7 @@ assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress###25 
 assessment#:#tst_old_style_rnd_quest_set_broken#:#This random test is in a irreparable state, because one or more connected question pools have been deleted. Therefor participants cannot take the test any longer.###30 08 2015 new variable
 assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back.###26 05 2026 new variable
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Question related to allready passed learning objectives are optional.</b><br /><br />You want to navigate to a question, that relates to an allready passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on these questions. Your answers from previous attempts were not adopted, since new random questions were selected for this attempt. With working on this questions you can also degrade your learning objective result.<br /><br />If you decide to not work on these questions, you can go back. In this case these questions won't be considered in the evaluation.###30 08 2015 new variable
-assessment#:#tst_out_of_time_message#:#You have reached the maximum allowed processing time of the test!###26 08 2024 new variable
+assessment#:#tst_out_of_time_message#:#进行此测试的时间已过。
 assessment#:#tst_participant#:#参与者
 assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s###26 09 2014 new variable
 assessment#:#tst_participant_status#:#参与者状态
@@ -2005,7 +2005,7 @@ assessment#:#tst_text_count_system#:#评分系统
 assessment#:#tst_threshold#:#Thresholds###26 09 2014 new variable
 assessment#:#tst_time_already_spent#:#花在工作上的时间
 assessment#:#tst_time_already_spent_left#:#您还剩余 %s 。
-assessment#:#tst_time_limit_message#:#You will have <b>%s minutes</b> to answer all questions.###26 08 2024 new variable
+assessment#:#tst_time_limit_message#:#您将有<b>%s分钟</b>分钟来回答所有问题。
 assessment#:#tst_title_output#:#测试标题输出
 assessment#:#tst_title_output_full#:#显示测试标题和有效分值
 assessment#:#tst_title_output_hide_points#:#仅显示测试标题
@@ -3467,7 +3467,7 @@ cmxv#:#cmxv_create_info#:#Select a completed xAPI/cmi5 object to generate a cert
 cntr#:#cntr_add_new_item#:#加入新条目
 cntr#:#cntr_adopt_content#:#适用的内容
 cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders or study programmes can only be copied as single objects. Please select one item only.
-cntr#:#cntr_copy_crs_grp#:#My Courses and Groups###30 08 2015 new variable
+cntr#:#cntr_copy_crs_grp#:#我的课程和小组
 cntr#:#cntr_copy_repo_tree#:#Repository Tree###30 08 2015 new variable
 cntr#:#cntr_hide_title_and_icon#:#隐藏标题和图标
 cntr#:#cntr_manage#:#管理
@@ -4723,7 +4723,7 @@ common#:#mm_communication#:#Communication###07 02 2020 new variable
 common#:#mm_contacts#:#Contacts###07 02 2020 new variable
 common#:#mm_dashboard#:#Dashboard###07 02 2020 new variable
 common#:#mm_enrolments#:#Enrolments###07 02 2020 new variable
-common#:#mm_favorites#:#Favourites###07 02 2020 new variable
+common#:#mm_favorites#:#收藏夹
 common#:#mm_learning_history#:#Learning History###07 02 2020 new variable
 common#:#mm_learning_progress#:#Learning Progress###07 02 2020 new variable
 common#:#mm_mail#:#Mail###07 02 2020 new variable
@@ -4734,10 +4734,10 @@ common#:#mm_personal_and_shared_r#:#Personal and Shared Resources###07 02 2020 n
 common#:#mm_personal_workspace#:#Personal Workspace###07 02 2020 new variable
 common#:#mm_portfolio#:#Portfolio###07 02 2020 new variable
 common#:#mm_private_chats#:#Private Chats###29 07 2022 new variable
-common#:#mm_repo_tree_view#:#Tree View###07 02 2020 new variable
-common#:#mm_repo_tree_view_act#:#Activate Tree###07 02 2020 new variable
-common#:#mm_repo_tree_view_deact#:#Deactivate Tree###07 02 2020 new variable
-common#:#mm_repository#:#Repository###07 02 2020 new variable
+common#:#mm_repo_tree_view#:#树形视图
+common#:#mm_repo_tree_view_act#:#激活树形视图
+common#:#mm_repo_tree_view_deact#:#停用树形视图
+common#:#mm_repository#:#存储库
 common#:#mm_skills#:#Competences###07 02 2020 new variable
 common#:#mm_staff_list#:#Staff List###07 02 2020 new variable
 common#:#mm_tags#:#Tags###07 02 2020 new variable
@@ -5114,8 +5114,8 @@ common#:#obj_rcat#:#ECS 类目
 common#:#obj_rcrs#:#课程链接
 common#:#obj_recf#:#恢复对象
 common#:#obj_recf_desc#:#包含来自系统检测的已恢复对象。
-common#:#obj_rep#:#Repository###07 02 2020 new variable
-common#:#obj_reps#:#Repository###24 10 2013 new variable
+common#:#obj_rep#:#存储库
+common#:#obj_reps#:#存储库
 common#:#obj_reps_desc#:#General settings for the Repository###24 10 2013 new variable
 common#:#obj_rfil#:#ECS 文件
 common#:#obj_rglo#:#ECS 词汇表
@@ -5827,7 +5827,7 @@ common#:#toggle_off#:#OFF### Don't translate this label to prevent rendering pro
 common#:#toggle_on#:#ON### Don't translate this label to prevent rendering problems of the related Toggle Button!
 common#:#tomorrow#:#明天
 common#:#toolbar_more_actions#:#More Actions###26 08 2024 new variable
-common#:#tools#:#Tools###29 07 2022 new variable
+common#:#tools#:#工具
 common#:#top_of_page#:#页面顶部
 common#:#tos_accept_usr_agreement#:#Accept Terms of Service?###26 08 2024 new variable
 common#:#tos_accept_usr_agreement_intro#:#There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.###26 08 2024 new variable
@@ -7767,7 +7767,7 @@ crs#:#crs_members_map#:#课程成员地图
 crs#:#crs_members_print_title#:#课程成员
 crs#:#crs_min_one_admin#:#必须至少有一个管理员分配给本课程
 crs#:#crs_msg_no_self_registration_period_if_self_enrolment_disabled#:#The limited registration period can not be defined if the "No Self-enrolment" setting is active.###26 08 2024 new variable
-crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###26 08 2024 new variable
+crs#:#crs_my_courses_groups_enabled#:#我的课程和小组
 crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###26 08 2024 new variable
 crs#:#crs_new_status#:#您的新状态
 crs#:#crs_new_subscription#:#新课程订阅
@@ -8163,21 +8163,21 @@ dash#:#dash_dashboard#:#Dashboard###07 02 2020 new variable
 dash#:#dash_default_presentation#:#Default Presentation###07 02 2020 new variable
 dash#:#dash_default_sortation#:#Default Sortation###07 02 2020 new variable
 dash#:#dash_enable_cal#:#Calendar###07 02 2020 new variable
-dash#:#dash_enable_favourites#:#Favourites###07 02 2020 new variable
+dash#:#dash_enable_favourites#:#收藏夹
 dash#:#dash_enable_learning_sequences#:#Learning Sequences###26 08 2024 new variable
 dash#:#dash_enable_mail#:#Mail###07 02 2020 new variable
-dash#:#dash_enable_memberships#:#My Courses and Groups###07 02 2020 new variable
+dash#:#dash_enable_memberships#:#我的课程和小组
 dash#:#dash_enable_news#:#News###07 02 2020 new variable
 dash#:#dash_enable_recommended_content#:#Recommended Content###26 08 2024 new variable
 dash#:#dash_enable_study_programmes#:#Study Programmes###26 08 2024 new variable
 dash#:#dash_enable_task#:#Tasks###07 02 2020 new variable
-dash#:#dash_favourites#:#Favourites###07 02 2020 new variable
+dash#:#dash_favourites#:#收藏夹
 dash#:#dash_item_removed#:#Recommendation has been removed from the list.###07 02 2020 new variable
 dash#:#dash_learning_sequences#:#My Learning Sequences###26 08 2024 new variable
 dash#:#dash_list#:#List###07 02 2020 new variable
 dash#:#dash_main_panel#:#Main Panel###07 02 2020 new variable
 dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.###07 02 2020 new variable
-dash#:#dash_memberships#:#My Courses and Groups###07 02 2020 new variable
+dash#:#dash_memberships#:#我的课程和小组
 dash#:#dash_no_items_to_manage#:#No items available for removal.###10 03 2026 new variable
 dash#:#dash_page_edit_info#:#The content of this page is displayed to all users on their dashboard. The contents of the various blocks of the dashboard are presented below.###28 10 2024 new variable
 dash#:#dash_presentation#:#Presentation###07 02 2020 new variable
@@ -15088,12 +15088,12 @@ rep#:#rep_export_limitation_info#:#Limits the number of objects for container ex
 rep#:#rep_export_limitation_limited#:#Limit Export###07 02 2020 new variable
 rep#:#rep_export_limitation_unlimited#:#Unlimited Export###26 08 2024 new variable
 rep#:#rep_failure_trashed_trash#:#You selected objects that cannot be restored to their original location, because their parent objects were deleted. Please uncheck the respective object in the table or select the Restore to New Location instead.###07 02 2020 new variable
-rep#:#rep_fav_intro1#:#Sie haben aktuell noch keine Favoriten ausgewählt. Um dies zu tun, müssen Sie zwei Schritte machen:###07 02 2020 new variable
-rep#:#rep_fav_intro2#:#Klicken Sie auf '%s' und wählen Sie aus dem verfügbaren Angebot ein Lernobjekt aus, z. B. ein Lernmodul oder ein Forum.###07 02 2020 new variable
-rep#:#rep_fav_intro3#:#Wenn Sie etwas gefunden haben, das Sie interessiert, können Sie es ganz einfach zu Ihren Favoriten hinzufügen. Wählen Sie beim gewünschten Objekt im <i>Aktionen</i>-Menü die Option "<i>Zu Favoriten hinzufügen</i>".###07 02 2020 new variable
+rep#:#rep_fav_intro1#:#您尚未选择任何收藏夹。要选择收藏夹，您需要完成以下两个步骤：
+rep#:#rep_fav_intro2#:#点击“%s”，然后从可用选项中选择一个学习对象，例如学习模块或论坛。
+rep#:#rep_fav_intro3#:#如果您发现感兴趣的内容，可以轻松将其添加到收藏夹。在“操作”菜单中选择“添加到收藏夹”即可找到所需项目。
 rep#:#rep_favourites#:#Favourites###29 07 2022 new variable
-rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.###29 07 2022 new variable
-rep#:#rep_input_not_empty#:#This field must not be empty, please provide a value.###21 05 2025 new variable
+rep#:#rep_favourites_info#:#用户可以将单个存储库项目标记为收藏。可以为仪表板和主菜单激活“收藏”列表。
+rep#:#rep_input_not_empty#:#This field must not be empty, please provide a value.###29 10 2025 new variable
 rep#:#rep_intro#:#欢迎来到知识库！
 rep#:#rep_intro1#:#在这个区域，您能为所有用户创建学习和工作资源。所有资源都组织在类目中。类目能反映您的组织结构(例如，部门)、一个学科的层次结构，或一个学校的类别。
 rep#:#rep_intro2#:#建立一个初始结构需要三个步骤：

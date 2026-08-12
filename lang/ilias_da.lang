@@ -459,7 +459,7 @@ assessment#:#answer_options#:#Answer Options: ###23 12 2015 new variable
 assessment#:#answer_question#:#Answer Question###30 08 2015 new variable
 assessment#:#answer_text#:#Besvar tekst
 assessment#:#answer_types#:#Svartype
-assessment#:#answered#:#Answered###07 11 2014 new variable
+assessment#:#answered#:#Besvaret
 assessment#:#answers_multiline#:#Flerlinjers svar
 assessment#:#answers_of#:#Answers of:###16 09 2013 new variable
 assessment#:#answers_select#:#Select###30 08 2015 new variable
@@ -627,7 +627,7 @@ assessment#:#detailed_evaluation_show#:#Vis detaljeret evaluering
 assessment#:#detailed_output_printview#:#Detailed output with question printviews
 assessment#:#detailed_output_solutions#:#Detailed output with question solutions
 assessment#:#direct_feedback#:#Godkend din løsning
-assessment#:#discard_answer#:#Discard Answer###30 08 2015 new variable
+assessment#:#discard_answer#:#Kassér svar
 assessment#:#discard_answer_confirmation#:#Your answer will be finally and completly discarded. The question keeps as unanswered until you submit another answer.<br /><br />Would you really like to discard your answer?###30 08 2015 new variable
 assessment#:#dont_use_questionpool#:#Don't insert the questions in a questionpool (only available in this test)###10 09 2010 new variable
 assessment#:#download_all_files#:#Download All Files###28 10 2024 new variable
@@ -905,7 +905,7 @@ assessment#:#longmenu_answeroptions_differ#:#This question does not work correct
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
 assessment#:#mailnottype#:#Send notification even when a user finishes a test pass###20 08 2010 new variable
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###26 08 2024 new variable
-assessment#:#mainbar_button_label_questionlist#:#Questionlist###26 08 2024 new variable
+assessment#:#mainbar_button_label_questionlist#:#Spørgsmålsliste
 assessment#:#maintenance#:#Vedligeholdelse
 assessment#:#manscoring#:#Manuelle karakterer
 assessment#:#manscoring_done#:#Scored Participants###24 02 2009 new variable
@@ -1146,13 +1146,13 @@ assessment#:#question_marking_description#:#Hvis valgt, every participant gets t
 assessment#:#question_not_answered#:#The question was not answered###25 02 2007 new variable
 assessment#:#question_saved_for_upload#:#Spørgsmålet blev gemt automatisk for at gemme harddisk plads til at gemme uploaded filer. Hvis du stopper dette nu skal du slette spørgsmålet i spørgsmålsgruppen hvis du ikke ønsker at beholde det!
 assessment#:#question_summary#:#Liste over spørgsmål
-assessment#:#question_summary_btn#:#Processing Status###30 08 2015 new variable
+assessment#:#question_summary_btn#:#Oversigt over testforsøg
 assessment#:#question_title#:#Titel
 assessment#:#question_type#:#Spørgsmåls type
 assessment#:#questionlist_cannot_be_altered#:#The questionlist cannot be altered as the test already contains participant data sets.###20 01 2026 new variable
 assessment#:#questionpool_not_entered#:#Indtast venligst et navn for spørgsmålsgruppe!
 assessment#:#questionpool_not_selected#:#Please select a question pool!###07 02 2020 new variable
-assessment#:#questions#:#Questions###26 08 2024 new variable
+assessment#:#questions#:#Spørgsmål
 assessment#:#questions_from#:#spørgsmål fra###
 assessment#:#questions_per_page_view#:#Sidevisning
 assessment#:#random_accept_sample#:#Accepter prøve
@@ -1174,7 +1174,7 @@ assessment#:#rating_value#:#Rate Value###16 09 2013 new variable
 assessment#:#rectangle#:#Rektangel
 assessment#:#rectangle_click_br_corner#:#Klik venligst på det nederste højre hjørne af det ønskede område.
 assessment#:#rectangle_click_tl_corner#:#Klik venligst på det øverste venstre hjørne af det ønskede område.
-assessment#:#redirectAfterSave#:#The maximum working time has been reached and your last question has been saved automatically. In a few seconds you will be redirected...###15 09 2008 new variable
+assessment#:#redirectAfterSave#:#Den maksimale arbejdstid er nået. Om få sekunder vil du blive omdirigeret...
 assessment#:#redirect_after_finishing_rule#:#Redirect###27 01 2015 new variable
 assessment#:#redirect_after_finishing_tst#:#Redirect after finishing the test###16 09 2013 new variable
 assessment#:#redirect_after_finishing_tst_desc#:#After completing the test, each participant is automatically redirected to a specific webpage of your choosing. This will only happen if participants do not have direct access to their test results. When entering the address of an external webpage, use the complete URL (including ‘https://’). When redirecting to an Object in ILIAS, use the permalink that can be found in the footer of the Object in question.###27 01 2015 new variable
@@ -1376,15 +1376,15 @@ assessment#:#tst_answer_fixation_on_instant_feedback#:#Lock Answers with the Pre
 assessment#:#tst_answer_fixation_on_instant_feedback_desc#:#After the feedback for a question is shown participant answers are locked, participants cannot change these answers any longer.###10 11 2018 new variable
 assessment#:#tst_answer_fixation_on_instantfb_or_followupqst#:#Lock Answers with the Presentation of Feedback or Follow-Up Questions###10 11 2018 new variable
 assessment#:#tst_answer_fixation_on_instantfb_or_followupqst_desc#:#Participant Answers for a question will be locked either with the presentation of the questions's feedback or when the follow-up question is shown.###10 11 2018 new variable
-assessment#:#tst_answer_status_answered#:#Answered###fau: testNav
-assessment#:#tst_answer_status_editing#:# (editing ... )###fau: testNav
-assessment#:#tst_answer_status_not_answered#:#Not answered###fau: testNav
+assessment#:#tst_answer_status_answered#:#Besvaret###fau: testNav
+assessment#:#tst_answer_status_editing#:# (i redigering...)###fau: testNav
+assessment#:#tst_answer_status_not_answered#:#Ikke besvaret###fau: testNav
 assessment#:#tst_answered_questions#:#Besvarede spørgsmål
 assessment#:#tst_answered_questions_of_total#:#%s of %s###07 02 2020 new variable
 assessment#:#tst_answered_questions_test#:#Spørgsmål besvaret i denne test
 assessment#:#tst_attached_xls_file#:#You find the test result for this participant in the attached Excel file.###27 01 2015 new variable
 assessment#:#tst_attempt#:#Attempt###30 08 2015 new variable
-assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.###26 08 2024 new variable
+assessment#:#tst_attempt_limit_message#:#Totalt antal gange, du må tage denne test: <b>%s</b>.
 assessment#:#tst_attempt_started#:#Test startet
 assessment#:#tst_back_to_pass_details#:#Back to Pass Details###26 09 2014 new variable
 assessment#:#tst_back_to_question_list#:#Back to Question List###26 09 2014 new variable
@@ -1443,7 +1443,7 @@ assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this messag
 assessment#:#tst_dont_use_previous_answers#:#Dine tidligere svar bruges som standardværdier i fremtidige besvarelser.
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties###30 08 2015 new variable
 assessment#:#tst_edit_scoring#:#Edit Scoring###28 08 2012 new variable
-assessment#:#tst_enable_questionlist#:#Show 'List of Questions’###26 08 2024 new variable
+assessment#:#tst_enable_questionlist#:#Vis 'Liste over spørgsmål'
 assessment#:#tst_enable_questionlist_description#:#Participants can switch on a list of the test questions on the left of the actual question.###26 08 2024 new variable
 assessment#:#tst_ending_time#:#Sluttidspunkt
 assessment#:#tst_ending_time_before_starting_time#:#Please enter a date for the end of the test that is after the start date.###26 08 2024 new variable
@@ -1469,14 +1469,14 @@ assessment#:#tst_exam_conditions_not_checked_message#:#You need to accept the ex
 assessment#:#tst_exam_ending_time_message#:#The test cannot be started after %s.###26 08 2024 new variable
 assessment#:#tst_exam_modal_message_conditions#:#Please confirm the conditions to start the test.###26 08 2024 new variable
 assessment#:#tst_exam_modal_message_conditions_and_password#:#Please confirm the conditions and enter the password to start the test.###26 08 2024 new variable
-assessment#:#tst_exam_modal_message_password#:#Please enter the password to start the test.###26 08 2024 new variable
+assessment#:#tst_exam_modal_message_password#:#Indtast venligst adgangskoden for at starte testen.
 assessment#:#tst_exam_not_assigned_participant_disclaimer#:#You cannot start this test, as you are not an assigned participant.###26 08 2024 new variable
-assessment#:#tst_exam_password#:#Test Password###26 08 2024 new variable
-assessment#:#tst_exam_password_invalid_message#:#The given password is not valid!###26 08 2024 new variable
-assessment#:#tst_exam_password_label#:#Password###26 08 2024 new variable
+assessment#:#tst_exam_password#:#Test adgangskode
+assessment#:#tst_exam_password_invalid_message#:#Den angivne adgangskode er ikke gyldig!
+assessment#:#tst_exam_password_label#:#Adgangskode
 assessment#:#tst_exam_required_fields_not_filled_message#:#You need to fill out all required fields!###26 08 2024 new variable
 assessment#:#tst_exam_start#:#Start Test###26 08 2024 new variable
-assessment#:#tst_exam_use_previous_answers#:#Previous Answers###26 08 2024 new variable
+assessment#:#tst_exam_use_previous_answers#:#Brug tidligere svar
 assessment#:#tst_exam_use_previous_answers_label#:#If enabled answers from previous tests will be prefilled.###26 08 2024 new variable
 assessment#:#tst_extratime_added#:#The working time of the participant has been increased by %s minutes.###16 09 2013 new variable
 assessment#:#tst_extratime_info#:#If you want to add the working time multiple times for the same participant, please insert the total amount of time you want to add.###14 05 2014 new variable
@@ -1496,7 +1496,7 @@ assessment#:#tst_final_information#:#Finishing the Test: Information Before Subm
 assessment#:#tst_finish_confirm_button#:#Ja, jeg vil afslutte testen
 assessment#:#tst_finish_confirm_cancel_button#:#Nej, gå tilbage til sidste svar
 assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won't be able to enter this test again to change your answers. Do you really want to finish the test?###01 Mar 2006 new variable
-assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?###26 08 2024 new variable
+assessment#:#tst_finish_confirmation_question_no_attempts_left#:#Du er ved at afslutte denne test og nå det maksimale antal tilladte testforsøg. Du vil ikke kunne deltage i denne test igen for at ændre dine svar. Vil du virkelig afslutte testen?
 assessment#:#tst_finish_notification#:#Mail ved afslutning
 assessment#:#tst_finish_notification_advanced#:#Send komplet testresultat til testens ejer.
 assessment#:#tst_finish_notification_content_type#:#Content of e-mail###27 01 2015 new variable
@@ -1508,10 +1508,10 @@ assessment#:#tst_form_dynamic_question_set_config#:#Continues Question Selection
 assessment#:#tst_gap_analysis#:#Gap Analysis###26 09 2014 new variable
 assessment#:#tst_general_properties#:#Generelle egenskaber
 assessment#:#tst_header_participant#:#Result:###16 09 2013 new variable
-assessment#:#tst_header_participant_no_answer#:#Question - not answered###26 08 2024 new variable
+assessment#:#tst_header_participant_no_answer#:#Spørgsmål - ikke besvaret
 assessment#:#tst_header_solution#:#Correct solution:###16 09 2013 new variable
 assessment#:#tst_heading_scoring#:#Resultat
-assessment#:#tst_hide_info_tab#:#Hide Info Tab###26 08 2024 new variable
+assessment#:#tst_hide_info_tab#:#Skjul fanen Info
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.###26 08 2024 new variable
@@ -1591,10 +1591,10 @@ assessment#:#tst_introduction_desc#:#Shows an introductory message on the tab 'I
 assessment#:#tst_introduction_text#:#Introductory Message###27 01 2015 new variable
 assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants###12 11 2006 new variable
 assessment#:#tst_invited_selected_users#:#The selected users have been added as fixed test participants###12 11 2006 new variable
-assessment#:#tst_launcher_button_label_passes_limit_reached#:#You have reached the limit of possible test passes###26 08 2024 new variable
+assessment#:#tst_launcher_button_label_passes_limit_reached#:#Du har nået grænsen for mulige testpasseringer
 assessment#:#tst_launcher_status_message_conditions#:#You will be asked for your approval of the exam conditions when you start the test.###26 08 2024 new variable
 assessment#:#tst_launcher_status_message_conditions_and_password#:#You will be asked for the password and your approval of the exam conditions when you start the test.###26 08 2024 new variable
-assessment#:#tst_launcher_status_message_password#:#You will be asked for the password when you start the test.###26 08 2024 new variable
+assessment#:#tst_launcher_status_message_password#:#Du vil blive bedt om adgangskoden, når du starter testen.
 assessment#:#tst_level#:#Competence Level###26 09 2014 new variable
 assessment#:#tst_limit_nr_of_tries#:#Maximum Number of Test Passes###07 11 2014 new variable
 assessment#:#tst_link_only_unassigned#:#You have selected at least one question that is already linked to a question pool. Only unassigned questions can be added to a question pool.###14 09 2011 new variable
@@ -1692,7 +1692,7 @@ assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress###25 
 assessment#:#tst_old_style_rnd_quest_set_broken#:#This random test is in a irreparable state, because one or more connected question pools have been deleted. Therefor participants cannot take the test any longer.###30 08 2015 new variable
 assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back.###26 05 2026 new variable
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Question related to allready passed learning objectives are optional.</b><br /><br />You want to navigate to a question, that relates to an allready passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on these questions. Your answers from previous attempts were not adopted, since new random questions were selected for this attempt. With working on this questions you can also degrade your learning objective result.<br /><br />If you decide to not work on these questions, you can go back. In this case these questions won't be considered in the evaluation.###30 08 2015 new variable
-assessment#:#tst_out_of_time_message#:#You have reached the maximum allowed processing time of the test!###26 08 2024 new variable
+assessment#:#tst_out_of_time_message#:#Tiden til at tage denne test er udløbet.
 assessment#:#tst_participant#:#Deltager
 assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s###26 09 2014 new variable
 assessment#:#tst_participant_status#:#Participant Status###28 08 2012 new variable
@@ -1722,7 +1722,7 @@ assessment#:#tst_pass_waiting_info#:#With this option additional passes can not 
 assessment#:#tst_pass_waiting_time#:#Waiting Time###25 10 2016 new variable
 assessment#:#tst_passed#:#Passed###07 02 2020 new variable
 assessment#:#tst_passes#:#Testforsøg
-assessment#:#tst_password#:#Test password
+assessment#:#tst_password#:#Test adgangskode
 assessment#:#tst_password_details#:#Hvis du indtaster et test password skal alle brugere der vil tilgå testen indtaste dette ved start af testen.
 assessment#:#tst_password_enter#:#Enter Password###27 01 2015 new variable
 assessment#:#tst_password_entered_wrong_password#:#You cannot start the test because you entered the wrong test password!
@@ -1885,7 +1885,7 @@ assessment#:#tst_results_overview#:#Overblik over testresultater
 assessment#:#tst_results_print_best_solution#:#Best Solution in Test Results###18 01 2012 new variable
 assessment#:#tst_results_print_best_solution_info#:#If activated and accessible by the participant, the best solution appears in the test result summary.###18 01 2012 new variable
 assessment#:#tst_resume_test#:#Genoptag testen
-assessment#:#tst_revert_changes#:#Undo Editing###fau: testNav
+assessment#:#tst_revert_changes#:#Fortryd redigering###fau: testNav
 assessment#:#tst_rnd_quest_cfg_tab_general#:#General Config###16 09 2013 new variable
 assessment#:#tst_rnd_quest_cfg_tab_pool#:#Source Question Pools###16 09 2013 new variable
 assessment#:#tst_rnd_quest_set_cfg_general_form#:#Random Question Selection Config###16 09 2013 new variable
@@ -2006,7 +2006,7 @@ assessment#:#tst_text_count_system#:#Scoringssystem
 assessment#:#tst_threshold#:#Thresholds###26 09 2014 new variable
 assessment#:#tst_time_already_spent#:#Tid allerede brugt på arbejde
 assessment#:#tst_time_already_spent_left#:#Du har %s tilbage.
-assessment#:#tst_time_limit_message#:#You will have <b>%s minutes</b> to answer all questions.###26 08 2024 new variable
+assessment#:#tst_time_limit_message#:#Du har <b>%s minutter</b> til at besvare alle spørgsmål.
 assessment#:#tst_title_output#:#Test Title Output###29 11 2006 new variable
 assessment#:#tst_title_output_full#:#Vis testens titel og mulige point
 assessment#:#tst_title_output_hide_points#:#Vis kun testens titel
@@ -3468,7 +3468,7 @@ cmxv#:#cmxv_create_info#:#Select a completed xAPI/cmi5 object to generate a cert
 cntr#:#cntr_add_new_item#:#Tilføj indhold
 cntr#:#cntr_adopt_content#:#Kopier indhold fra andet kursus
 cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders or study programmes can only be copied as single objects. Please select one item only.
-cntr#:#cntr_copy_crs_grp#:#My Courses and Groups###30 08 2015 new variable
+cntr#:#cntr_copy_crs_grp#:#Mine kurser og grupper
 cntr#:#cntr_copy_repo_tree#:#Repository Tree###30 08 2015 new variable
 cntr#:#cntr_hide_title_and_icon#:#Skjul titel og ikon
 cntr#:#cntr_manage#:#Ret
@@ -4724,7 +4724,7 @@ common#:#mm_communication#:#Communication###07 02 2020 new variable
 common#:#mm_contacts#:#Contacts###07 02 2020 new variable
 common#:#mm_dashboard#:#Dashboard###07 02 2020 new variable
 common#:#mm_enrolments#:#Enrolments###07 02 2020 new variable
-common#:#mm_favorites#:#Favourites###07 02 2020 new variable
+common#:#mm_favorites#:#Favoritter
 common#:#mm_learning_history#:#Learning History###07 02 2020 new variable
 common#:#mm_learning_progress#:#Learning Progress###07 02 2020 new variable
 common#:#mm_mail#:#Mail###07 02 2020 new variable
@@ -4735,10 +4735,10 @@ common#:#mm_personal_and_shared_r#:#Personal and Shared Resources###07 02 2020 n
 common#:#mm_personal_workspace#:#Personal Workspace###07 02 2020 new variable
 common#:#mm_portfolio#:#Portfolio###07 02 2020 new variable
 common#:#mm_private_chats#:#Private Chats###29 07 2022 new variable
-common#:#mm_repo_tree_view#:#Tree View###07 02 2020 new variable
-common#:#mm_repo_tree_view_act#:#Activate Tree###07 02 2020 new variable
-common#:#mm_repo_tree_view_deact#:#Deactivate Tree###07 02 2020 new variable
-common#:#mm_repository#:#Repository###07 02 2020 new variable
+common#:#mm_repo_tree_view#:#Trævisning
+common#:#mm_repo_tree_view_act#:#Aktiver trævisning 
+common#:#mm_repo_tree_view_deact#:#Deaktiver trævisning
+common#:#mm_repository#:#Arkiv
 common#:#mm_skills#:#Competences###07 02 2020 new variable
 common#:#mm_staff_list#:#Staff List###07 02 2020 new variable
 common#:#mm_tags#:#Tags###07 02 2020 new variable
@@ -5115,8 +5115,8 @@ common#:#obj_rcat#:#ECS Category ###28 08 2012 new variable
 common#:#obj_rcrs#:#Kursuslink
 common#:#obj_recf#:#Gendannede objekter
 common#:#obj_recf_desc#:#Indeholder gendannede objekter fra systemcheck.
-common#:#obj_rep#:#Repository###07 02 2020 new variable
-common#:#obj_reps#:#Repository###16 09 2013 new variable
+common#:#obj_rep#:#Arkiv
+common#:#obj_reps#:#Arkiv
 common#:#obj_reps_desc#:#General settings for the Repository###16 09 2013 new variable
 common#:#obj_rfil#:#ECS File###28 08 2012 new variable
 common#:#obj_rglo#:#ECS Glossary###28 08 2012 new variable
@@ -5301,12 +5301,12 @@ common#:#parameter#:#Parameter
 common#:#parse#:#Parse###21 Apr 2005 new variable
 common#:#participate#:#Subscribe###07 02 2020 new variable
 common#:#passed#:#Bestået
-common#:#passwd#:#Password
+common#:#passwd#:#Adgangskode
 common#:#passwd_generation#:#Password generering
 common#:#passwd_invalid#:#Det nye password er ugyldigt! Kun gyldige karakterer er gyldige (minimum 6 karaktere): A-Z a-z 0-9 _.-+*@!$%~
 common#:#passwd_not_match#:#Dine indtastninger for et nyt password matcher ikke. Venligst indtast påny.
 common#:#passwd_wrong#:#Det password du har indtastet er forkert!
-common#:#password#:#Password
+common#:#password#:#Adgangskode
 common#:#password_allow_chars#:#Tilladte karakterer: %s
 common#:#password_assistance_info#:#Hvis passwordhjælp er aktiveret vil et link med teksten <i>Glemt password</i> blive vist på loginbilledet til ILIAS. Brugere kan bruge dette link til at angive et nyt password til deres brugerkonto uden hjælp fra systemadministrator.
 common#:#password_change_on_first_login_demand#:#Du skal vælge et nyt password før du kan begynde at anvende ILIAS.
@@ -5850,7 +5850,7 @@ common#:#trash#:#Slettede ting/skrald
 common#:#tree#:#Træ
 common#:#tree_frame#:#Oversigstræ
 common#:#treeview#:#Træoversigt
-common#:#tst#:#Test
+common#:#tst#:#Prøve
 common#:#tst_add#:#Lav test
 common#:#tst_edit_questions#:#Ret spørgsmål
 common#:#tst_history_read#:#View History###26 08 2024 new variable
@@ -7768,7 +7768,7 @@ crs#:#crs_members_map#:#Kort over kursister
 crs#:#crs_members_print_title#:#Kursusdeltagere
 crs#:#crs_min_one_admin#:#There has to be at least one administrator assigned to this course.###12 08 2009 new variable
 crs#:#crs_msg_no_self_registration_period_if_self_enrolment_disabled#:#The limited registration period can not be defined if the "No Self-enrolment" setting is active.###26 08 2024 new variable
-crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###26 08 2024 new variable
+crs#:#crs_my_courses_groups_enabled#:#Mine kurser og grupper
 crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###26 08 2024 new variable
 crs#:#crs_new_status#:#Din nye status er:
 crs#:#crs_new_subscription#:#Ny tilmelding "%s"
@@ -8164,22 +8164,22 @@ dash#:#dash_dashboard#:#Dashboard###07 02 2020 new variable
 dash#:#dash_default_presentation#:#Default Presentation###07 02 2020 new variable
 dash#:#dash_default_sortation#:#Default Sortation###07 02 2020 new variable
 dash#:#dash_enable_cal#:#Calendar###07 02 2020 new variable
-dash#:#dash_enable_favourites#:#Favourites###07 02 2020 new variable
+dash#:#dash_enable_favourites#:#Favoritter
 dash#:#dash_enable_learning_sequences#:#Learning Sequences###26 08 2024 new variable
 dash#:#dash_enable_mail#:#Mail###07 02 2020 new variable
-dash#:#dash_enable_memberships#:#My Courses and Groups###07 02 2020 new variable
+dash#:#dash_enable_memberships#:#Mine kurser og grupper
 dash#:#dash_enable_news#:#News###07 02 2020 new variable
 dash#:#dash_enable_recommended_content#:#Recommended Content###26 08 2024 new variable
 dash#:#dash_enable_study_programmes#:#Study Programmes###26 08 2024 new variable
 dash#:#dash_enable_task#:#Tasks###07 02 2020 new variable
-dash#:#dash_favourites#:#Favourites###07 02 2020 new variable
+dash#:#dash_favourites#:#Favoritter
 dash#:#dash_item_removed#:#Recommendation has been removed from the list.###07 02 2020 new variable
 dash#:#dash_learning_sequences#:#My Learning Sequences###26 08 2024 new variable
 dash#:#dash_list#:#List###07 02 2020 new variable
 dash#:#dash_main_panel#:#Main Panel###07 02 2020 new variable
 dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.###07 02 2020 new variable
-dash#:#dash_memberships#:#My Courses and Groups###07 02 2020 new variable
-dash#:#dash_no_items_to_manage#:#No items available for removal.###10 03 2026 new variable
+dash#:#dash_memberships#:#Mine kurser og grupper
+dash#:#dash_no_items_to_manage#:#No items available for removal.###04 05 2026 new variable
 dash#:#dash_page_edit_info#:#The content of this page is displayed to all users on their dashboard. The contents of the various blocks of the dashboard are presented below.###28 10 2024 new variable
 dash#:#dash_presentation#:#Presentation###07 02 2020 new variable
 dash#:#dash_recommended_content#:#Recommended Content###26 08 2024 new variable
@@ -15089,12 +15089,12 @@ rep#:#rep_export_limitation_info#:#Limits the number of objects for container ex
 rep#:#rep_export_limitation_limited#:#Limit Export###07 02 2020 new variable
 rep#:#rep_export_limitation_unlimited#:#Unlimited Export###26 08 2024 new variable
 rep#:#rep_failure_trashed_trash#:#You selected objects that cannot be restored to their original location, because their parent objects were deleted. Please uncheck the respective object in the table or select the Restore to New Location instead.###07 02 2020 new variable
-rep#:#rep_fav_intro1#:#Sie haben aktuell noch keine Favoriten ausgewählt. Um dies zu tun, müssen Sie zwei Schritte machen:###07 02 2020 new variable
-rep#:#rep_fav_intro2#:#Klicken Sie auf '%s' und wählen Sie aus dem verfügbaren Angebot ein Lernobjekt aus, z. B. ein Lernmodul oder ein Forum.###07 02 2020 new variable
-rep#:#rep_fav_intro3#:#Wenn Sie etwas gefunden haben, das Sie interessiert, können Sie es ganz einfach zu Ihren Favoriten hinzufügen. Wählen Sie beim gewünschten Objekt im <i>Aktionen</i>-Menü die Option "<i>Zu Favoriten hinzufügen</i>".###07 02 2020 new variable
-rep#:#rep_favourites#:#Favourites###29 07 2022 new variable
-rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.###29 07 2022 new variable
-rep#:#rep_input_not_empty#:#This field must not be empty, please provide a value.###21 05 2025 new variable
+rep#:#rep_fav_intro1#:#Du har endnu ikke valgt nogen favoritter. For at gøre dette skal du gennemføre to trin:
+rep#:#rep_fav_intro2#:#Klik på '%s' og vælg et læringsobjekt fra de tilgængelige muligheder, f.eks. et læringsmodul eller et forum.
+rep#:#rep_fav_intro3#:#Hvis du finder noget, der interesserer dig, kan du nemt tilføje det til dine favoritter. For det ønskede element skal du vælge "Føj til favoritter" i menuen Handlinger.
+rep#:#rep_favourites#:#Favoritter
+rep#:#rep_favourites_info#:#Brugere kan markere enkelte repository-elementer som favoritter. En "Favoritter"-liste kan aktiveres for dashboardet og hovedmenuen.
+rep#:#rep_input_not_empty#:#This field must not be empty, please provide a value.###29 10 2025 new variable
 rep#:#rep_intro#:#Velkommen til oversigten!
 rep#:#rep_intro1#:#I dette område kan du oprette læring og arbejdsresurser til alle brugere. Alle resurser er organiseret i kategorier. Kategorier kan afspejle strukturen af din organisation (f.eks. afdelinger), et hieraki af discipliner eller klasser i en skole.
 rep#:#rep_intro2#:#Der er tre nødvendige skridt for at bygge en grundlæggende struktur:
