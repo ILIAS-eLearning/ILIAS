@@ -98,7 +98,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
         if ($this->access->checkAccess("read", '', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 static::SECTION_SETTINGS,
-                $this->ctrl->getLinkTargetByClass('ilobjloggingsettingsgui', "settings")
+                $this->ctrl->getLinkTargetByClass('ilobjloggingsettingsgui', "errorSettings")
             );
         }
         if ($this->access->checkAccess('edit_permission', '', $this->object->getRefId())) {
