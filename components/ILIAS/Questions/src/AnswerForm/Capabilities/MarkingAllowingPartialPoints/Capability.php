@@ -63,7 +63,11 @@ class Capability implements CapabilityInterface, AdditionalStepProvider, Marking
                 => $v->getAnswerFormProperties()
                     ->getDefinition()
                     ->getCapability(self::getIdentifier())
-                    ->getEditFormInputsBuilder($v)
+                    ->getEditFormInputsBuilder($v),
+            fn(Environment $v) => $v->getAnswerFormProperties()
+                    ->getDefinition()
+                    ->getCapability(self::getIdentifier())
+                    ->getCarryPropertiesFromCarryTransformation($v)
         );
     }
 
