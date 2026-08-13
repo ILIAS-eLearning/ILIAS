@@ -121,7 +121,8 @@ class Numeric extends Type
     #[\Override]
     public function getEditPointsInputs(
         UIFactory $ui_factory,
-        AnswerOptions $answer_options
+        AnswerOptions $answer_options,
+        bool $input_required
     ): array {
         $inputs = $answer_options->getEditPointsInputs(
             $ui_factory->input()->field(),
@@ -141,14 +142,15 @@ class Numeric extends Type
             }
         );
         return array_map(
-            fn(NumericInput $v): NumericInput => $v->withRequired(true),
+            fn(NumericInput $v): NumericInput => $v->withRequired($input_required),
             $inputs
         );
     }
 
     #[\Override]
-    public function getEditPointsSectionConstraint(): ?Constraint
-    {
+    public function getEditPointsSectionConstraint(
+        bool $input_required
+    ): ?Constraint {
         return null;
     }
 

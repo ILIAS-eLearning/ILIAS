@@ -304,14 +304,13 @@ class Gaps implements Clonable
         Environment $environment,
         Properties $properties,
     ): Section {
-
         return $environment->getUIFactory()->input()->field()->section(
             array_reduce(
                 $this->retrieveGapsForInputs(
                     $environment->isInCreationContext(),
                     $environment->getTableRowIds()
                 ),
-                function (array $c, Gap $v) use ($environment, $file_upload): array {
+                function (array $c, Gap $v) use ($file_upload, $environment): array {
                     $c[$v->getAnswerInputId()->toString()] = $v->getEditAnswerOptionsSection(
                         $file_upload,
                         $environment
@@ -347,10 +346,19 @@ class Gaps implements Clonable
                     $is_in_creation_context,
                     $selected_gaps
                 ),
-                function (array $c, Gap $v) use ($lng, $ui_factory): array {
+                function (
+                    array $c,
+                    Gap $v
+                ) use (
+                    $lng,
+                    $ui_factory,
+                    $properties
+                ): array {
                     $c[$v->getAnswerInputId()->toString()] = $v->getEditPointsSection(
                         $lng,
-                        $ui_factory
+                        $ui_factory,
+                        !$properties->getCombinations()->areCombinationsEnabled()
+                            || $this->getNumberOfGaps() < 2
                     );
                     return $c;
                 },

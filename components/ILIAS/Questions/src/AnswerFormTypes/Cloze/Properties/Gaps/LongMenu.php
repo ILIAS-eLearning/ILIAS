@@ -112,7 +112,7 @@ class LongMenu extends Type
         Gap $gap
     ): array {
         $ff = $environment->getUIFactory()->input()->field();
-        return [
+        $inputs = [
             'answer_options' => $ff->tag(
                 $environment->getLanguage()->txt('answer_options'),
                 []
@@ -128,12 +128,14 @@ class LongMenu extends Type
             'min_autocomplete' => $ff->numeric(
                 $environment->getLanguage()->txt('min_auto_complete')
             )->withRequired(true)
-            ->withValue($gap->getMinAutocomplete() ?? self::DEFAULT_MIN_AUTOCOMPLETE),
-            'options_awarding_points' => $ff->tag(
-                $environment->getLanguage()->txt('answer_options'),
+            ->withValue($gap->getMinAutocomplete() ?? self::DEFAULT_MIN_AUTOCOMPLETE)
+        ];
+
+        if ($environment->isMarkingRequired()) {
+            $inputs['options_awarding_points'] = $ff->tag(
+                $environment->getLanguage()->txt('answer_options_awarding_points'),
                 $gap->getAnswerOptions()->getTagsArrayFromAnswerOptions()
-            )
-            ->withRequired(true)
+            )->withRequired(true)
             ->withValue(
                 array_values(
                     array_map(
@@ -141,10 +143,13 @@ class LongMenu extends Type
                         $gap->getAnswerOptions()->getAnswerOptionsAwardingPoints()
                     )
                 )
-            )
-        ];
+            );
+        }
+
+        return $inputs;
     }
 
+    #[\Override]
     public function getEditAnswerOptionsSectionConstraint(): ?Constraint
     {
         return $this->refinery->custom()->constraint(
@@ -164,10 +169,11 @@ class LongMenu extends Type
             $this->lng->txt('error')
         );
     }
-
+    #[\Override]
     public function getEditPointsInputs(
         UIFactory $ui_factory,
-        AnswerOptions $answer_options
+        AnswerOptions $answer_options,
+        bool $input_required
     ): array {
         return $answer_options->getEditPointsInputs(
             $ui_factory->input()->field(),
@@ -177,8 +183,13 @@ class LongMenu extends Type
     }
 
     #[\Override]
-    public function getEditPointsSectionConstraint(): ?Constraint
-    {
+    public function getEditPointsSectionConstraint(
+        bool $input_required
+    ): ?Constraint {
+        if (!$input_required) {
+            return null;
+        }
+
         return $this->refinery->custom()->constraint(
             function (array $vs): bool {
                 foreach ($vs as $v) {
