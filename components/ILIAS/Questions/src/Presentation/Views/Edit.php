@@ -551,6 +551,10 @@ class Edit
             $action
         );
 
+        if ($from_capabilites instanceof Async) {
+            $from_capabilites->render($this->ui_renderer);
+        }
+
         if ($from_capabilites instanceof EditForm) {
             return $this->addSaveAndNewToAnswerFormCreateIfNeeded(
                 $environment,
@@ -571,6 +575,11 @@ class Edit
                 $environment->getAnswerFormId()
             )
         );
+
+        if ($from_edit_view instanceof Async) {
+            return $from_edit_view->render($this->ui_renderer);
+            ;
+        }
 
         if ($from_edit_view instanceof EditForm) {
             return $this->addSaveAndNewToAnswerFormCreateIfNeeded(
