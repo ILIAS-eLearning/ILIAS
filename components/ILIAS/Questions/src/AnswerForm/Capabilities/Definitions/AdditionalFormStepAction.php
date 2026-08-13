@@ -44,11 +44,18 @@ class AdditionalFormStepAction
      * the action is triggered. It will receive a
      * `ILIAS\Questions\Presentation\Definitions\Environment` as only parameter.
      * And MUST return a `ILIAS\Questions\Presentation\Layout\Tools\InputsBuilderSession`.
+     *
+     * @param \Closure $retrieve_properties_from_carry_transformation This Closure
+     * will be called when the action is triggered. It will receive a
+     * `ILIAS\Questions\Presentation\Definitions\Environment` as only parameter.
+     * And MUST return a `ILIAS\Refinery\Custom\Transformation` to build the
+     * properties from the carry string.
      */
     public function __construct(
         private readonly Capability $capability,
         private readonly string $lang_var,
-        private readonly \Closure $retrieve_inputs_builder
+        private readonly \Closure $retrieve_inputs_builder,
+        private readonly \Closure $retrieve_properties_from_carry_transformation
     ) {
     }
 
@@ -206,8 +213,12 @@ class AdditionalFormStepAction
         DefaultEnvironment $environment
     ): EditForm|Properties {
         $inputs_builder = $this->retrieve_inputs_builder->__invoke($environment);
+
+        $properties = $inputs_builder->retrieveCarry(
+            $this->retrieve_properties_from_carry_transformation->__invoke($environment)
+        );
         $form = $this->buildForm(
-            $environment,
+            $environment->withAnswerFormProperties($properties),
             $inputs_builder
         )->withRequest($environment->getHttpServices()->request());
 

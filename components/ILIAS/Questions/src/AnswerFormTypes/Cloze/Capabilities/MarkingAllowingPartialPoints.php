@@ -27,6 +27,7 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Factory as PropertiesFactor
 use ILIAS\Questions\AnswerFormTypes\Cloze\Response\Factory as ResponseFactory;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Tools\InputsBuilderSession;
+use ILIAS\Refinery\Custom\Transformation as CustomTransformation;
 use ILIAS\UI\Component\Input\Field\Section;
 
 class MarkingAllowingPartialPoints extends MarkingAllowingPartialPointsInterface
@@ -74,6 +75,19 @@ class MarkingAllowingPartialPoints extends MarkingAllowingPartialPointsInterface
                         );
                 }
             )
+        );
+    }
+
+    #[\Override]
+    public function getCarryPropertiesFromCarryTransformation(
+        Environment $environment
+    ): CustomTransformation {
+        return $environment->getRefinery()->custom()->transformation(
+            fn(?string $carry): Properties => $this->properties_factory
+                ->fromCarry(
+                    $environment->getAnswerFormProperties(),
+                    $carry
+                )
         );
     }
 }
