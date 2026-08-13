@@ -353,17 +353,21 @@ class Gap implements Clonable
 
     public function getEditPointsSection(
         Language $lng,
-        UIFactory $ui_factory
+        UIFactory $ui_factory,
+        bool $input_required
     ): Section {
         $section = $ui_factory->input()->field()->section(
             $this->type->getEditPointsInputs(
                 $ui_factory,
-                $this->getAnswerOptions()
+                $this->getAnswerOptions(),
+                $input_required
             ),
             "{$this->buildShortenedGapName()} ({$lng->txt("{$this->type->getIdentifier()}_gap")})"
         );
 
-        $edit_section_constraint = $this->type->getEditPointsSectionConstraint();
+        $edit_section_constraint = $this->type->getEditPointsSectionConstraint(
+            $input_required
+        );
         if ($edit_section_constraint !== null) {
             $section = $section->withAdditionalTransformation($edit_section_constraint);
         }

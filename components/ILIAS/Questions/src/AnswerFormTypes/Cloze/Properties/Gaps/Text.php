@@ -124,7 +124,8 @@ class Text extends Type
     #[\Override]
     public function getEditPointsInputs(
         UIFactory $ui_factory,
-        AnswerOptions $answer_options
+        AnswerOptions $answer_options,
+        bool $input_required
     ): array {
         return $answer_options->getEditPointsInputs(
             $ui_factory->input()->field(),
@@ -133,8 +134,13 @@ class Text extends Type
     }
 
     #[\Override]
-    public function getEditPointsSectionConstraint(): ?Constraint
-    {
+    public function getEditPointsSectionConstraint(
+        bool $input_required
+    ): ?Constraint {
+        if (!$input_required) {
+            return null;
+        }
+
         return $this->refinery->custom()->constraint(
             function (array $vs): bool {
                 foreach ($vs as $v) {
