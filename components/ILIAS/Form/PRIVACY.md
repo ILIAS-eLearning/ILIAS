@@ -31,7 +31,7 @@ There are two mechanisms within the Form component that temporarily handle user 
     - [AccessControl](../AccessControl/PRIVACY.md) — the location input element
       (`ilLocationInputGUI`) checks RBAC permissions to determine whether to display a geolocation
       configuration hint.
-    - [User](../User/PRIVACY.md) — the login input element (`ilUserLoginInputGUI`) queries the
+    - User — the login input element (`ilUserLoginInputGUI`) queries the
       User component to verify login name uniqueness. Several form elements reference the current
       user object for locale-dependent formatting.
     - [FileUpload](../FileUpload/PRIVACY.md) — the file input element (`ilFileInputGUI`) uses the
