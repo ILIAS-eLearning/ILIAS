@@ -498,8 +498,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $key = $provider->getPublicKey();
             $keys = new Firebase\JWT\Key($key, "RS256");
         } else {
-            $jwks = file_get_contents($provider->getPublicKeyset());
-            //ToDo: Errorhandling
+            $jwks = ilObjLTIConsumer::fetchPublicKeyset($provider->getPublicKeyset());
             $keyset = json_decode($jwks, true);
             $keys = Firebase\JWT\JWK::parseKeySet($keyset);
         }
