@@ -230,6 +230,10 @@ class Numeric extends Type
         Gap $gap,
         AnswerInputResponse $response
     ): bool {
+        if ($response->getResponse() === null) {
+            return false;
+        }
+
         /** @var ?AnswerOption $answer_option */
         $answer_options_awarding_points = $gap->getAnswerOptions()
             ->getAnswerOptionsAwardingPoints();
