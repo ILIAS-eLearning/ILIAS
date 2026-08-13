@@ -127,8 +127,9 @@ function validateServiceToken(string $token, ilLTIConsumeProvider $provider): vo
             if ($publicKeyset === '') {
                 invalidClient('missing public keyset');
             }
-            $jwks = @file_get_contents($publicKeyset);
-            if ($jwks === false) {
+            try {
+                $jwks = ilObjLTIConsumer::fetchPublicKeyset($publicKeyset);
+            } catch (ilLtiConsumerException $exception) {
                 invalidClient('cannot fetch public keyset');
             }
             $keyset = json_decode($jwks, true);
