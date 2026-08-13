@@ -150,7 +150,7 @@ class Edit
         $inputs_builder->persistCarry();
 
         return $this->buildGapTypesForm(
-            $environment,
+            $environment->withAnswerFormProperties($properties),
             $inputs_builder,
             $sub_action
         );
@@ -321,8 +321,12 @@ class Edit
             $environment->getAnswerFormProperties()
         );
 
+        $properties = $inputs_builder_for_options->retrieveCarry(
+            $this->buildRetrievePropertiesTransformation($environment)
+        );
+
         $form = $this->buildAnswerOptionsForm(
-            $environment,
+            $environment->withAnswerFormProperties($properties),
             $inputs_builder_for_options,
             $sub_action
         )->withRequest($environment->getHttpServices()->request());
