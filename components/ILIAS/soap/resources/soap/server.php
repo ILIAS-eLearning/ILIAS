@@ -23,16 +23,16 @@ const IL_SOAPMODE_INTERNAL = 1;
 const IL_SOAPMODE = IL_SOAPMODE_INTERNAL;
 const ILIAS_MODULE = 'components/ILIAS/soap';
 
-chdir('../..');
+chdir('..');
 
-require_once 'vendor/composer/vendor/autoload.php';
+require_once '../vendor/composer/vendor/autoload.php';
 
 // Initialize the error_reporting level, until it will be overwritte when ILIAS gets initialized
 error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
 
 ilContext::init(ilContext::CONTEXT_SOAP);
 
-$ilIliasIniFile = new ilIniFile('./ilias.ini.php');
+$ilIliasIniFile = new ilIniFile('../ilias.ini.php');
 $ilIliasIniFile->read();
 
 if ($ilIliasIniFile->readVariable('https', 'auto_https_detect_enabled')) {
@@ -47,7 +47,7 @@ if ($ilIliasIniFile->readVariable('https', 'auto_https_detect_enabled')) {
 
 if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') === 0) {
     // This is a SOAP request
-    require_once './components/ILIAS/soap/include/inc.soap_functions.php';
+    require_once '../components/ILIAS/soap/include/inc.soap_functions.php';
     $uri = ilSoapFunctions::buildHTTPPath(false) . '/server.php';
     if (isset($_GET['client_id'])) {
         $uri .= '?client_id=' . $_GET['client_id'];
@@ -62,5 +62,5 @@ if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') === 0) {
 } else {
     // This is a request to display the available SOAP methods or WSDL...
     ilInitialisation::initILIAS();
-    require './components/ILIAS/soap/nusoapserver.php';
+    require '../components/ILIAS/soap/nusoapserver.php';
 }
