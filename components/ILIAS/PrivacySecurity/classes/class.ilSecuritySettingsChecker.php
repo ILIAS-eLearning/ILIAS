@@ -124,23 +124,38 @@ class ilSecuritySettingsChecker
     }
 
     /**
-     * All valid chars for password
+     * All valid chars for password.
+     * This also doubles for special character detection
      *
-     * @param bool $a_as_regex
-     * @param bool $a_only_special_chars
+     * @param bool $a_as_regex Return either for regex testing (default) or GUI output of allowed characters
+     * @param bool $a_only_special_chars When set, only return special characters
      * @return string
      */
-    public static function getPasswordValidChars(bool $a_as_regex = true, bool $a_only_special_chars = false): ?string
+    public static function getPasswordValidChars(bool $a_as_regex = true, bool $a_only_special_chars = false): string
     {
+        // Define human-readable special character list for GUI and escape sequence for regex
+        // Could increase special sysmbol options with: '\p{P}\p{S}'
+        $specialChars = '_.+?#-*@!$%~/:;=^&{}[]()<>,|\'';
+        $specialCharsRegex = preg_quote($specialChars, '/');
+
+        // Return as regex
         if ($a_as_regex) {
+            // Special characters only
             if ($a_only_special_chars) {
-                return '/[_\.\+\?\#\-\*\@!\$\%\~\/\:\;]+/';
-            } else {
-                return '/^[A-Za-z0-9_\.\+\?\#\-\*\@!\$\%\~\/\:\;]+$/';
+                return '/[' . $specialCharsRegex . ']+/';
             }
-        } else {
-            return 'A-Z a-z 0-9 _.+?#-*@!$%~/:;';
+
+            // Add ASCII letters and numbers
+            // Could increase letter set with: '\p{L}\p{N}'
+            return '/^[A-Za-z0-9' . $specialCharsRegex . ']+$/';
         }
+
+        // Return in human-readable form
+        $spacedSpecialChars = implode(' ', mb_str_split($specialChars));
+        if ($a_only_special_chars) {
+            return $spacedSpecialChars;
+        }
+        return 'A-Z a-z 0-9 ' . $spacedSpecialChars;
     }
 
     /**
