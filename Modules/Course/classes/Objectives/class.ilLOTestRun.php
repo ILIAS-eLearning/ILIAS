@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Stores current objective, questions and max points
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -26,7 +29,7 @@ class ilLOTestRun
     protected int $user_id = 0;
     protected int $test_id = 0;
     protected int $objective_id = 0;
-    protected int $max_points = 0;
+    protected float $max_points = 0;
     protected array $questions = array();
 
     protected ilDBInterface $db;
@@ -142,12 +145,12 @@ class ilLOTestRun
         return $this->objective_id;
     }
 
-    public function getMaxPoints(): int
+    public function getMaxPoints(): float
     {
         return $this->max_points;
     }
 
-    public function setMaxPoints(int $a_points): void
+    public function setMaxPoints(float $a_points): void
     {
         $this->max_points = $a_points;
     }

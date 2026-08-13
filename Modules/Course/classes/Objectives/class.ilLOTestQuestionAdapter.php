@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +16,7 @@
  *
  *********************************************************************/
 
-declare(strict_types=0);
+declare(strict_types=1);
 
 /**
  * Test question filter
@@ -274,8 +275,7 @@ class ilLOTestQuestionAdapter
             $limit = ilLOUtils::lookupObjectiveRequiredPercentage(
                 $this->container_id,
                 $run->getObjectiveId(),
-                $session->getRefId(),
-                $run->getMaxPoints()
+                $session->getRefId()
             );
 
             $max_attempts = ilLOUtils::lookupMaxAttempts(

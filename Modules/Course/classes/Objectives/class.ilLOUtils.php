@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,8 @@ declare(strict_types=0);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Settings for LO courses
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -30,8 +31,8 @@ class ilLOUtils
         int $a_cont_oid,
         int $a_test_rid,
         int $a_objective_id,
-        int $max_points,
-        int $reached,
+        float $max_points,
+        float $reached,
         int $limit_perc
     ): bool {
         $settings = ilLOSettings::getInstanceByObjId($a_cont_oid);
@@ -46,8 +47,7 @@ class ilLOUtils
             $required_perc = self::lookupObjectiveRequiredPercentage(
                 $a_cont_oid,
                 $a_objective_id,
-                $a_test_rid,
-                $max_points
+                $a_test_rid
             );
 
             if ($max_points === 0) {
@@ -61,8 +61,7 @@ class ilLOUtils
     public static function lookupObjectiveRequiredPercentage(
         int $a_container_id,
         int $a_objective_id,
-        int $a_test_ref_id,
-        int $a_max_points
+        int $a_test_ref_id
     ): int {
         $settings = ilLOSettings::getInstanceByObjId($a_container_id);
         $assignments = ilLOTestAssignments::getInstance($a_container_id);

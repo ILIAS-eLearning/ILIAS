@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=0);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * LO courses user results
@@ -79,7 +80,7 @@ class ilLOUserResults
             'result_perc' => 0,
             'limit_perc' => 0,
             'tries' => 0,
-            'is_final' => 0,
+            'is_final' => false,
             'has_result' => false
         );
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -87,7 +88,7 @@ class ilLOUserResults
             $ur['result_perc'] = $row->result_perc;
             $ur['limit_perc'] = $row->limit_perc;
             $ur['tries'] = $row->tries;
-            $ur['is_final'] = $row->is_final;
+            $ur['is_final'] = (bool) $row->is_final;
             $ur['has_result'] = true;
         }
         return $ur;
@@ -196,7 +197,7 @@ class ilLOUserResults
         int $a_objective_id,
         int $a_type,
         int $a_status,
-        int $a_result_percentage,
+        float $a_result_percentage,
         int $a_limit_percentage,
         int $a_tries,
         bool $a_is_final

@@ -339,7 +339,7 @@ class ilCourseObjectiveQuestion
         return $self;
     }
 
-    public function getSelfAssessmentPoints(): int
+    public function getSelfAssessmentPoints(): float
     {
         $points = 0;
         foreach ($this->getSelfAssessmentQuestions() as $question) {
@@ -348,7 +348,7 @@ class ilCourseObjectiveQuestion
         return $points;
     }
 
-    public function getFinalTestPoints(): int
+    public function getFinalTestPoints(): float
     {
         $points = 0;
         foreach ($this->getFinalTestQuestions() as $question) {
