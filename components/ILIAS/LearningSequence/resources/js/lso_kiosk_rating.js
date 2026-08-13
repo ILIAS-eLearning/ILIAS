@@ -151,6 +151,10 @@
 
       window.il.Object.saveRatingFromListGUI = function (refId, hash, mark) {
         const urlRedraw = window.il.Object.url_redraw_li;
+        if (!urlRedraw && typeof original === 'function') {
+          original(refId, hash, mark);
+          return;
+        }
 
         window.$.ajax({
           url: `${window.il.Object.url_rating}&child_ref_id=${refId}&cadh=${encodeURIComponent(hash)}`,
@@ -165,18 +169,24 @@
               const id = window.$(this).attr('id');
               const parent = id.split('_').pop();
 
-              if (urlRedraw) {
-                window.$.ajax({
-                  url: `${urlRedraw}&child_ref_id=${refId}&parent_ref_id=${parent}`,
-                  type: 'GET',
-                  success(html) {
-                    window.$(`#${id}`).replaceWith(html);
-                  },
-                });
-              } else if (typeof original === 'function') {
-                original(refId, hash, mark);
-              }
+              window.$.ajax({
+                url: `${urlRedraw}&child_ref_id=${refId}&parent_ref_id=${parent}`,
+                type: 'GET',
+                success(html) {
+                  window.$(`#${id}`).replaceWith(html);
+                },
+                error(jqXHR, textStatus, errorThrown) {
+                  window.console.warn(
+                    'LSO kiosk rating: could not redraw rating list item.',
+                    errorThrown || textStatus,
+                    jqXHR,
+                  );
+                },
+              });
             });
+          },
+          error() {
+            original(refId, hash, mark);
           },
         });
       };
