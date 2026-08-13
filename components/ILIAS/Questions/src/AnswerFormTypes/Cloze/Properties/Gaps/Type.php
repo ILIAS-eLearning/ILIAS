@@ -70,10 +70,12 @@ abstract class Type
 
     abstract public function getEditPointsInputs(
         UIFactory $ui_factory,
-        AnswerOptions $answer_options
+        AnswerOptions $answer_options,
+        bool $input_required
     ): array;
 
     abstract public function getEditPointsSectionConstraint(
+        bool $input_required
     ): ?Constraint;
 
     abstract public function getBuildGapTransformation(
