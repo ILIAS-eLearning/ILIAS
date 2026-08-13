@@ -139,16 +139,12 @@ class RequiredCapabilities
         }
     }
 
-    public function edit(
+    public function create(
         \ilTabsGUI $tabs_gui,
         DefaultEnvironment $environment,
         AnswerFormEditView $edit_view,
         string $action_from_get
     ): Async|Viewable|AnswerFormProperties|null {
-        $environment->setEditAnswerFormTabs(
-            $this->required_actions_with_tab
-        );
-
         $tab_action = $this->required_actions_with_tab[$action_from_get] ?? null;
         if ($tab_action !== null) {
             $tab_action->activateTab($tabs_gui);
@@ -170,6 +166,24 @@ class RequiredCapabilities
         $environment->setEditAnswerFormBackTarget();
         return $step_action->do(
             $environment->withActionParameter($action_from_get)
+        );
+    }
+
+    public function edit(
+        \ilTabsGUI $tabs_gui,
+        DefaultEnvironment $environment,
+        AnswerFormEditView $edit_view,
+        string $action_from_get
+    ): Async|Viewable|AnswerFormProperties|null {
+        $environment->setEditAnswerFormTabs(
+            $this->required_actions_with_tab
+        );
+
+        return $this->create(
+            $tabs_gui,
+            $environment,
+            $edit_view,
+            $action_from_get
         );
     }
 

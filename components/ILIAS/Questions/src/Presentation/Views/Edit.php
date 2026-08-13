@@ -544,7 +544,7 @@ class Edit
     ): ?EditForm {
         $action = $environment->getAction();
 
-        $from_capabilites = $this->required_capabilities->edit(
+        $from_capabilites = $this->required_capabilities->create(
             $this->tabs_gui,
             $environment,
             $answer_form_edit_view,
@@ -578,7 +578,6 @@ class Edit
 
         if ($from_edit_view instanceof Async) {
             return $from_edit_view->render($this->ui_renderer);
-            ;
         }
 
         if ($from_edit_view instanceof EditForm) {
