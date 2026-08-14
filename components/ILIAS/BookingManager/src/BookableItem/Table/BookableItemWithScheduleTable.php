@@ -255,25 +255,33 @@ class BookableItemWithScheduleTable extends BookableItemTable
 
     private function hasReservation(int $object_id, int $slot_from, int $slot_to, ?int $user_id = null): bool
     {
-        return array_any(
-            $this->getReservationsForObject($object_id),
-            static fn(array $reservation): bool =>
+        foreach ($this->getReservationsForObject($object_id) as $reservation) {
+            if (
                 ($user_id === null || $reservation['user_id'] === $user_id)
                 && $reservation['date_from'] === $slot_from
                 && $reservation['date_to'] === $slot_to
-        );
+            ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function hasActiveReservation(int $object_id, int $slot_from, int $slot_to, ?int $user_id = null): bool
     {
-        return array_any(
-            $this->getReservationsForObject($object_id),
-            static fn(array $reservation): bool =>
+        foreach ($this->getReservationsForObject($object_id) as $reservation) {
+            if (
                 ($user_id === null || $reservation['user_id'] === $user_id)
                 && $reservation['date_from'] === $slot_from
                 && $reservation['date_to'] === $slot_to
                 && $reservation['status'] !== ilBookingReservation::STATUS_CANCELLED
-        );
+            ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function countReservations(int $object_id, int $slot_from, int $slot_to): int

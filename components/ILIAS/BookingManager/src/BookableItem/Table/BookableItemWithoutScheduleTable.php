@@ -127,9 +127,12 @@ class BookableItemWithoutScheduleTable extends BookableItemTable
 
     private function hasActiveReservations(int $object_id): bool
     {
-        return array_any(
-            $this->getReservationsForObject($object_id),
-            static fn(array $reservation): bool => $reservation['status'] !== ilBookingReservation::STATUS_CANCELLED
-        );
+        foreach ($this->getReservationsForObject($object_id) as $reservation) {
+            if ($reservation['status'] !== ilBookingReservation::STATUS_CANCELLED) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
