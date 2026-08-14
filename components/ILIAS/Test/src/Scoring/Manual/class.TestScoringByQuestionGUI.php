@@ -120,7 +120,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
             $this->action_parameter_token,
             $this->row_id_token,
             $this->ui_factory,
-            "scoring_by_qst_filter_id_{$question_id}"
+            $question_id
         );
 
         if ($this->testrequest->strVal($this->action_parameter_token->getName()) === ScoringByQuestionTable::ACTION_SCORING) {
@@ -255,9 +255,13 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
                 $this->lng->txt('tst_saved_manscoring_by_question_successfully'),
                 $question_gui->getObject()->getTitleForHTMLOutput(),
                 $attempt + 1
-            )
+            ),
+            true
         );
-        $this->showManScoringByQuestionParticipantsTable();
+        $this->ctrl->setParameterByClass(self::class, 'q_id', $question_id);
+        $this->ctrl->clearParameterByClass(self::class, 'active_id');
+        $this->ctrl->clearParameterByClass(self::class, 'pass_id');
+        $this->ctrl->redirectByClass(self::class, self::CMD_SHOW);
     }
 
     protected function getAnswerDetail(int $question_id, string $row_id): void
@@ -462,7 +466,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
         $this->ctrl->setParameterByClass(self::class, 'q_id', $question_id);
         $this->ctrl->setParameterByClass(self::class, 'active_id', $active_id);
         $this->ctrl->setParameterByClass(self::class, 'pass_id', $attempt);
-        $target = $this->ctrl->getFormAction($this, self::CMD_SAVE);
+        $target = $this->ctrl->getFormAction($this, self::CMD_SHOW);
         $this->ctrl->clearParameterByClass(self::class, 'q_id');
         $this->ctrl->clearParameterByClass(self::class, 'active_id');
         $this->ctrl->clearParameterByClass(self::class, 'pass_id');
