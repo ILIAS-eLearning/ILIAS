@@ -837,7 +837,7 @@ class ObjectiveRenderer
 
                     // force list mode to get rid of next step
                     #$initial_sub = self::buildObjectiveProgressBar(true, $a_objective_id, $a_lo_result["initial"], true, true, $a_tt_suffix);
-                    $compare_value = $a_lo_result['initial']['result_perc'];
+                    $compare_value = max($a_lo_result['initial']['result_perc'],1);
                 }
             } else {
                 $next_step = $lng->txt("crs_loc_progress_do_qualifying_again");
