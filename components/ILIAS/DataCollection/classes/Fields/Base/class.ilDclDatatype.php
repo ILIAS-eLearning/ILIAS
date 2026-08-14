@@ -42,15 +42,9 @@ class ilDclDatatype
     protected int $id = 0;
     protected string $title = "unknown";
     protected int $storageLocation = 0;
-    /**
-     * @var ilDclDatatype[]
-     */
+    /** @var ilDclDatatype[] */
     public static array $datatype_cache = [];
 
-    /**
-     * Constructor
-     * @access public
-     */
     public function __construct(int $a_id = 0)
     {
         if ($a_id != 0) {
@@ -74,29 +68,20 @@ class ilDclDatatype
         return $this->title;
     }
 
-    /**
-     * Set Storage Location
-     */
     public function setStorageLocation(int $a_id): void
     {
         $this->storageLocation = $a_id;
     }
 
-    /**
-     * Get Storage Location
-     */
     public function getStorageLocation(): int
     {
         return $this->storageLocation;
     }
 
-    /**
-     * Read Datatype
-     */
     public function doRead(): void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = "SELECT * FROM il_dcl_datatype WHERE id = " . $ilDB->quote(
             $this->getId(),
@@ -108,13 +93,10 @@ class ilDclDatatype
         $this->loadDatatype($rec);
     }
 
-    /**
-     * Get all possible Datatypes
-     */
     public static function getAllDatatype(bool $force = false): array
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         if (self::$datatype_cache == null) {
             self::$datatype_cache = [];

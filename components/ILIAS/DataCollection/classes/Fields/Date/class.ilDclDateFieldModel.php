@@ -22,14 +22,8 @@ class ilDclDateFieldModel extends ilDclBaseFieldModel
 {
     public const string FORMAT = 'Y-m-d';
 
-    /**
-     * @param string|int $filter_value
-     */
-    public function getRecordQueryFilterObject(
-        $filter_value = "",
-        ?ilDclBaseFieldModel $sort_field = null
-    ): ?ilDclRecordQueryObject {
-
+    public function getRecordQueryFilterObject(mixed $filter_value = "", ?ilDclBaseFieldModel $sort_field = null): ?ilDclRecordQueryObject
+    {
         $date_from = (isset($filter_value['from']) && is_object($filter_value['from'])) ? $filter_value['from'] : null;
         $date_to = (isset($filter_value['to']) && is_object($filter_value['to'])) ? $filter_value['to'] : null;
 

@@ -20,21 +20,17 @@ declare(strict_types=1);
 
 class ilDclFormulaFieldModel extends ilDclBaseFieldModel
 {
-    public const SUPPORTED_FIELDS = [
+    public const array SUPPORTED_FIELDS = [
         ilDclDatatype::INPUTFORMAT_NUMBER,
         ilDclDatatype::INPUTFORMAT_TEXT,
         ilDclDatatype::INPUTFORMAT_BOOLEAN,
         ilDclDatatype::INPUTFORMAT_DATE,
     ];
 
-    /**
-     * Returns a query-object for building the record-loader-sql-query
-     */
     public function getRecordQuerySortObject(
         string $direction = "asc",
         bool $sort_by_status = false
     ): ilDclFormulaRecordQueryObject {
-        // use custom record query object for adding custom sorting
         return new ilDclFormulaRecordQueryObject();
     }
 

@@ -21,14 +21,14 @@ declare(strict_types=1);
 class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
 {
     /**
-     * @param int|string|null $value
+     * @param DateTimeImmutable $value
      */
-    public function parseValue($value): string
+    public function parseValue(mixed $value): ?string
     {
-        return (string) $value;
+        return $value?->format('Y-m-d H:i:s');
     }
 
-    public function getValueFromExcel(ilExcel $excel, int $row, int $col): ?string
+    public function getValueFromExcel(ilExcel $excel, int $row, int $col): string
     {
         $value = parent::getValueFromExcel($excel, $row, $col);
 
@@ -39,21 +39,7 @@ class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
         }
     }
 
-    /**
-     * This value should be UTC but the current ilDateTimeInputGUI enforces the users timezone on an input.
-     * Therefore it is added before the value preservation to ensure to save the "raw" date.
-     */
-    public function setValueFromForm(ilPropertyFormGUI $form): void
-    {
-        parent::setValueFromForm($form);
-        $date = new ilDateTime(strtotime($this->getValue()), IL_CAL_UNIX);
-        $this->setValue($date->get(IL_CAL_FKT_DATE, ilDclDatetimeFieldModel::FORMAT, $this->user->getTimeZone()));
-    }
-
-    /**
-     * @param string $value
-     */
-    public function parseSortingValue($value, bool $link = true): ?int
+    public function parseSortingValue(mixed $value, bool $link = true): ?int
     {
         return strtotime($value);
     }
@@ -62,7 +48,6 @@ class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
     {
         return (string) strtotime($this->getValue() ?: '');
     }
-
 
     public function getPlainText(): string
     {

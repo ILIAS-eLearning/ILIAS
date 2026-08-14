@@ -20,13 +20,8 @@ declare(strict_types=1);
 
 class ilDclTextFieldModel extends ilDclBaseFieldModel
 {
-    /**
-     * @param string|int $filter_value
-     */
-    public function getRecordQueryFilterObject(
-        $filter_value = "",
-        ?ilDclBaseFieldModel $sort_field = null
-    ): ?ilDclRecordQueryObject {
+    public function getRecordQueryFilterObject(mixed $filter_value = "", ?ilDclBaseFieldModel $sort_field = null): ?ilDclRecordQueryObject
+    {
         $join_str
             = "INNER JOIN il_dcl_record_field AS filter_record_field_{$this->getId()} ON (filter_record_field_{$this->getId()}.record_id = record.id AND filter_record_field_{$this->getId()}.field_id = "
             . $this->db->quote($this->getId(), 'integer') . ") ";
@@ -39,23 +34,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-    /**
-     * @throws ilDclInputException
-     */
-    public function checkValidityFromForm(ilPropertyFormGUI &$form, ?int $record_id): void
-    {
-        if ($this->getProperty(ilDclBaseFieldModel::PROP_URL)) {
-            $value = [
-                'title' => $form->getInput("field_" . $this->getId() . "_title"),
-                'link' => $form->getInput("field_" . $this->getId()),
-            ];
-        } else {
-            $value = $form->getInput('field_' . $this->getId());
-        }
-        $this->checkValidity($value, $record_id);
-    }
-
-    public function checkValidity($value, ?int $record_id): bool
+    public function checkValidity(mixed $value, ?int $record_id): bool
     {
         $this->checkUnique($value, $record_id);
         if (isset($value['link'])) {
@@ -79,9 +58,6 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         return parent::checkFieldCreationInput($form) && $this->checkUniqueProp($form);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getValidFieldProperties(): array
     {
         return [

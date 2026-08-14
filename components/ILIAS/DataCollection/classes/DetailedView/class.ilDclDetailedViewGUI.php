@@ -204,7 +204,7 @@ class ilDclDetailedViewGUI
             $DIC->toolbar()->addSpacer('100%');
             $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, 'table_id', $this->table->getId());
             $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, 'tableview_id', $this->tableview_id);
-            $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, 'redirect', ilDclRecordEditGUI::REDIRECT_DETAIL);
+            $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, 'detail', 1);
             $this->ctrl->saveParameterByClass(ilDclRecordEditGUI::class, 'record_id');
             $DIC->toolbar()->addComponent($DIC->ui()->factory()->button()->standard(
                 $this->lng->txt('edit'),

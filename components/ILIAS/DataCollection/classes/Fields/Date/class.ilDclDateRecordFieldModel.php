@@ -20,7 +20,15 @@ declare(strict_types=1);
 
 class ilDclDateRecordFieldModel extends ilDclBaseRecordFieldModel
 {
-    public function getValueFromExcel(ilExcel $excel, int $row, int $col): ?string
+    /**
+     * @param DateTimeImmutable $value
+     */
+    public function parseValue(mixed $value): ?string
+    {
+        return $value?->format('Y-m-d H:i:s');
+    }
+
+    public function getValueFromExcel(ilExcel $excel, int $row, int $col): string
     {
         $value = parent::getValueFromExcel($excel, $row, $col);
 
@@ -31,10 +39,7 @@ class ilDclDateRecordFieldModel extends ilDclBaseRecordFieldModel
         }
     }
 
-    /**
-     * @param string $value
-     */
-    public function parseSortingValue($value, bool $link = true): ?int
+    public function parseSortingValue(mixed $value, bool $link = true): ?int
     {
         return strtotime($value);
     }

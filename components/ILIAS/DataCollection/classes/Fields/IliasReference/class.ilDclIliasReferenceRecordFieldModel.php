@@ -20,14 +20,11 @@ declare(strict_types=1);
 
 class ilDclIliasReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
 {
-    protected int $dcl_obj_id;
-
     public function __construct(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field)
     {
         parent::__construct($record, $field);
 
         $dclTable = ilDclCache::getTableCache($this->getField()->getTableId());
-        $this->dcl_obj_id = $dclTable->getCollectionObject()->getId();
     }
 
     public function getStatus(): ?stdClass

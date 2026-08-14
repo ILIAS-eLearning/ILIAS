@@ -16,9 +16,11 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
+
 class ilDclCopyFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-    private const VALID_TYPES = [
+    private const array VALID_TYPES = [
         ilDclDatatype::INPUTFORMAT_TEXT,
         ilDclDatatype::INPUTFORMAT_NUMBER,
         ilDclDatatype::INPUTFORMAT_BOOLEAN,
@@ -26,29 +28,11 @@ class ilDclCopyFieldRepresentation extends ilDclBaseFieldRepresentation
         ilDclDatatype::INPUTFORMAT_DATETIME,
     ];
 
-    /**
-     * @return ilSelectInputGUI|ilMultiSelectInputGUI
-     */
-    public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilFormPropertyGUI
+    public function getInputField(?string $value = null): FormInput
     {
-        if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
-            $input = new ilMultiSelectInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
-            $input->setWidth(100);
-            $input->setWidthUnit('%');
-        } else {
-            $input = new ilSelectInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
-        }
-
-        $this->setupInputField($input, $this->getField());
-
         $options = [];
-        if (!$this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
-            $options[''] = $this->lng->txt('dcl_please_select');
-        }
 
-        $value = null;
-        $copy_id = $this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE);
-        $copy_field = ilDclCache::getFieldCache($copy_id);
+        $copy_field = ilDclCache::getFieldCache($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
         if ($copy_field->getTableId() !== 0) {
             $copy_table = ilDclCache::getTableCache($copy_field->getTableId());
             foreach ($copy_table->getRecords() as $record) {
@@ -57,26 +41,28 @@ class ilDclCopyFieldRepresentation extends ilDclBaseFieldRepresentation
                     $options[$option] = $option;
                 }
             }
+        }
+
+        if ($value !== null && !array_key_exists($value, $options)) {
+            $options[$value] = $value . ' ' . $this->lng->txt('dcl_deprecated_copy');
+        }
+
+        if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
+            return $this->factory->input()->field()->multiSelect(
+                $this->getField()->getTitle(),
+                $options,
+                $this->field->getDescription()
+            );
         } else {
-            $input->setAlert($this->lng->txt('dcl_origin_not_found'));
+            return $this->factory->input()->field()->select(
+                $this->getField()->getTitle(),
+                $options,
+                $this->field->getDescription()
+            );
         }
-
-        if ($record_id !== null) {
-            $value = ilDclCache::getRecordCache($record_id)->getRecordFieldValue($this->getField()->getId());
-            if ($value !== '' && !array_key_exists($value, $options)) {
-                $options = [$value => $value . ' ' . $this->lng->txt('dcl_deprecated_copy')] + $options;
-            }
-        }
-
-        $input->setOptions($options);
-        if ($input instanceof ilMultiSelectInputGUI) {
-            $input->setHeight(32 * min(5, max(1, count($options))));
-        }
-
-        return $input;
     }
 
-    public function addFilterInputFieldToTable(ilTable2GUI $table)
+    public function addFilterInputFieldToTable(ilTable2GUI $table): mixed
     {
         $input = $table->addFilterItemByMetaType(
             "filter_" . $this->getField()->getId(),
@@ -89,18 +75,6 @@ class ilDclCopyFieldRepresentation extends ilDclBaseFieldRepresentation
         $this->setupFilterInputField($input);
 
         return $this->getFilterInputFieldValue($input);
-    }
-
-    public function passThroughFilter(ilDclBaseRecordModel $record, $filter): bool
-    {
-        $pass = parent::passThroughFilter($record, $filter);
-
-        $value = $record->getRecordFieldValue($this->getField()->getId());
-        if (!$filter || strpos(strtolower($value), strtolower($filter)) !== false) {
-            $pass = true;
-        }
-
-        return $pass;
     }
 
     protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ilRadioOption

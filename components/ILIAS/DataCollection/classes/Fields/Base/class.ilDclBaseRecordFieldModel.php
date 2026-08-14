@@ -25,8 +25,7 @@ class ilDclBaseRecordFieldModel
     protected ilDclBaseRecordModel $record;
     protected ?ilDclBaseRecordRepresentation $record_representation = null;
     protected ?ilDclBaseFieldRepresentation $field_representation = null;
-    /** @var int|float|array|null */
-    protected $value;
+    protected mixed $value = null;
     protected ilObjUser $user;
     protected ilCtrl $ctrl;
     protected ilDBInterface $db;
@@ -34,10 +33,6 @@ class ilDclBaseRecordFieldModel
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
 
-    /**
-     * @param ilDclBaseRecordModel $record
-     * @param ilDclBaseFieldModel  $field
-     */
     public function __construct(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field)
     {
         global $DIC;
@@ -58,9 +53,6 @@ class ilDclBaseRecordFieldModel
         $this->user = $user;
     }
 
-    /**
-     * Read object data from database
-     */
     protected function doRead(): void
     {
         if (!$this->getRecord()->getId()) {
@@ -79,9 +71,6 @@ class ilDclBaseRecordFieldModel
         $this->loadValue();
     }
 
-    /**
-     * Creates an Id and a database entry.
-     */
     public function doCreate(): void
     {
         $id = $this->db->nextId("il_dcl_record_field");
@@ -97,12 +86,8 @@ class ilDclBaseRecordFieldModel
         $this->id = $id;
     }
 
-    /**
-     * Update object in database
-     */
     public function doUpdate(): void
     {
-        //$this->loadValue(); //Removed Mantis #0011799
         $datatype = $this->getField()->getDatatype();
         $storage_location = ($this->getField()->getStorageLocationOverride() !== null) ? $this->getField()->getStorageLocationOverride() : $datatype->getStorageLocation();
 
@@ -143,9 +128,6 @@ class ilDclBaseRecordFieldModel
         }
     }
 
-    /**
-     * Delete record field in database
-     */
     public function delete(): void
     {
         $datatype = $this->getField()->getDatatype();
@@ -161,22 +143,14 @@ class ilDclBaseRecordFieldModel
         $this->db->manipulate($query2);
     }
 
-    /**
-     * @return string|array
-     */
-    public function getValue()
+    public function getValue(): mixed
     {
         $this->loadValue();
 
         return $this->value;
     }
 
-    /**
-     * Serialize data before storing to db
-     * @param mixed $value
-     * @return mixed
-     */
-    public function serializeData($value)
+    public function serializeData(mixed $value): mixed
     {
         if (is_array($value)) {
             $value = json_encode($value);
@@ -185,12 +159,7 @@ class ilDclBaseRecordFieldModel
         return $value;
     }
 
-    /**
-     * Deserialize data before applying to field
-     * @param mixed $value
-     * @return mixed
-     */
-    public function deserializeData($value)
+    public function deserializeData(mixed $value): mixed
     {
         $deserialize = json_decode((string) $value, true);
         if (is_array($deserialize)) {
@@ -200,17 +169,11 @@ class ilDclBaseRecordFieldModel
         return $value;
     }
 
-    /**
-     * Set value for record field
-     * @param mixed $value
-     * @param bool  $omit_parsing If true, does not parse the value and stores it in the given format
-     */
-    public function setValue($value, bool $omit_parsing = false): void
+    public function setValue(mixed $value, bool $omit_parsing = false): void
     {
         $this->loadValue();
         if (!$omit_parsing) {
             $tmp = $this->parseValue($value);
-            //if parse value fails keep the old value
             if ($tmp !== false) {
                 $this->value = $tmp;
             }
@@ -219,49 +182,27 @@ class ilDclBaseRecordFieldModel
         }
     }
 
-    public function setValueFromForm(ilPropertyFormGUI $form): void
-    {
-        $value = $form->getInput("field_" . $this->getField()->getId());
-
-        $this->setValue($value);
-    }
-
     public function getFormulaValue(): string
     {
         return (string) $this->getExportValue();
     }
 
-    /**
-     * Function to parse incoming data from form input value $value. returns the string/number/etc. to store in the database.
-     * @param mixed $value
-     * @return mixed
-     */
-    public function parseExportValue($value)
+    public function parseExportValue(mixed $value): mixed
     {
         return $value;
     }
 
-    /**
-     * @return string
-     */
-    public function getValueFromExcel(ilExcel $excel, int $row, int $col)
+    public function getValueFromExcel(ilExcel $excel, int $row, int $col): mixed
     {
         return (string) $excel->getCell($row, $col);
     }
 
-    /**
-     * Function to parse incoming data from form input value $value. returns the string/number/etc. to store in the database.
-     * @return int|string|null
-     */
-    public function parseValue($value)
+    public function parseValue($value): mixed
     {
         return $value;
     }
 
-    /**
-     * @return int|string
-     */
-    public function getExportValue()
+    public function getExportValue(): mixed
     {
         return $this->parseExportValue($this->getValue());
     }
@@ -272,27 +213,17 @@ class ilDclBaseRecordFieldModel
         $col++;
     }
 
-    /**
-     * @return int|string
-     */
-    public function getPlainText()
+    public function getPlainText(): mixed
     {
         return $this->getExportValue();
     }
 
-    /**
-     * @param bool $link
-     * @return int|string
-     */
-    public function getSortingValue(bool $link = true)
+    public function getSortingValue(bool $link = true): mixed
     {
         return $this->parseSortingValue($this->getValue(), $link);
     }
 
-    /**
-     * @param ilConfirmationGUI $confirmation
-     */
-    public function addHiddenItemsToConfirmation(ilConfirmationGUI $confirmation)
+    public function addHiddenItemsToConfirmation(ilConfirmationGUI $confirmation): void
     {
         if (!is_array($this->getValue())) {
             $confirmation->addHiddenItem('field_' . $this->field->getId(), htmlspecialchars((string) $this->getValue()));
@@ -303,19 +234,11 @@ class ilDclBaseRecordFieldModel
         }
     }
 
-    /**
-     * Returns sortable value for the specific field-types
-     * @param int|string $value
-     * @return int|string
-     */
-    public function parseSortingValue($value, bool $link = true)
+    public function parseSortingValue(mixed $value, bool $link = true): mixed
     {
         return $value;
     }
 
-    /**
-     * Load the value
-     */
     protected function loadValue(): void
     {
         if ($this->value === null) {
@@ -334,18 +257,12 @@ class ilDclBaseRecordFieldModel
         }
     }
 
-    /**
-     * @param ilDclBaseRecordFieldModel $old_record_field
-     */
     public function cloneStructure(ilDclBaseRecordFieldModel $old_record_field): void
     {
         $this->setValue($old_record_field->getValue(), true);
         $this->doUpdate();
     }
 
-    /**
-     *
-     */
     public function afterClone(): void
     {
     }

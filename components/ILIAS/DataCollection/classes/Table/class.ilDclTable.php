@@ -548,28 +548,6 @@ class ilDclTable
     }
 
     /**
-     * @param bool $creation_mode
-     * @return array
-     */
-    public function getEditableFields(bool $creation_mode): array
-    {
-        $fields = $this->getRecordFields();
-        $editableFields = [];
-
-        foreach ($fields as $field) {
-            $tableview_id = $this->http->wrapper()->post()->retrieve(
-                'tableview_id',
-                $this->refinery->kindlyTo()->int()
-            );
-            if (!$field->getViewSetting($tableview_id)->isLocked($creation_mode)) {
-                $editableFields[] = $field;
-            }
-        }
-
-        return $editableFields;
-    }
-
-    /**
      * Return all the fields that are marked as exportable
      * @return ilDclBaseFieldModel[]
      */

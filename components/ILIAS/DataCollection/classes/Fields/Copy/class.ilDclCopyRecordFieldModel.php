@@ -18,17 +18,16 @@
 
 class ilDclCopyRecordFieldModel extends ilDclBaseRecordFieldModel
 {
-    public function deserializeData($value)
+    public function deserializeData(mixed $value): string
     {
         return (string) $value;
     }
 
-    public function setValueFromForm(ilPropertyFormGUI $form): void
+    public function setValue($value, bool $omit_parsing = false): void
     {
-        $value = $form->getInput('field_' . $this->getField()->getId());
         if (is_array($value)) {
             $value = implode(' | ', $value);
         }
-        $this->setValue($value);
+        parent::setValue($value, $omit_parsing);
     }
 }

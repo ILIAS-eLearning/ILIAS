@@ -23,7 +23,6 @@ use ILIAS\StaticURL\Services;
 
 class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
 {
-    private ilObjectDefinition $obj_def;
     private Services $static_url;
 
     public function __construct(ilDclBaseRecordFieldModel $record_field)
@@ -31,7 +30,6 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
         parent::__construct($record_field);
         global $DIC;
 
-        $this->obj_def = $DIC['objDefinition'];
         $this->static_url = $DIC['static_url'];
     }
 
@@ -52,14 +50,14 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
         if (
             $this->getField()->getProperty(ilDclBaseFieldModel::PROP_DISPLAY_COPY_LINK_ACTION_MENU)
         ) {
-            if ($this->access->checkAccess('delete', '', $ref_id) && $this->obj_def->allowLink($object->getType())) {
+            if ($this->access->checkAccess('delete', '', $ref_id)) {
                 $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'item_ref_id', $ref_id);
                 $actions[] = $this->factory->link()->standard(
                     $this->lng->txt('link'),
                     $this->ctrl->getLinkTargetByClass([ilRepositoryGUI::class, ilObjRootFolderGUI::class], 'link')
                 );
             }
-            if ($this->access->checkAccess('copy', '', $ref_id) && $this->obj_def->allowCopy($object->getType())) {
+            if ($this->access->checkAccess('copy', '', $ref_id)) {
                 $this->ctrl->setParameterByClass(ilObjectCopyGUI::class, 'source_id', $ref_id);
                 $actions[] = $this->factory->link()->standard(
                     $this->lng->txt('copy'),

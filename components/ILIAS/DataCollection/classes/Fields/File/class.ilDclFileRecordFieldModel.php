@@ -19,21 +19,18 @@
 declare(strict_types=1);
 
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\FileUpload\FileUpload;
+use ILIAS\ResourceStorage\Services;
 
-/**
- * @noinspection AutoloadingIssuesInspection
- */
 class ilDclFileRecordFieldModel extends ilDclBaseRecordFieldModel
 {
-    use ilDclFileFieldHelper;
+    protected const string FILE_TMP_NAME = 'tmp_name';
+    protected const string FILE_NAME = "name";
+    protected const string FILE_TYPE = "type";
 
-    protected const FILE_TMP_NAME = 'tmp_name';
-    protected const FILE_NAME = "name";
-    protected const FILE_TYPE = "type";
-
-    protected \ILIAS\ResourceStorage\Services $irss;
+    protected Services $irss;
     protected ilDataCollectionStakeholder $stakeholder;
-    protected \ILIAS\FileUpload\FileUpload $upload;
+    protected FileUpload $upload;
 
     public function __construct(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field)
     {
@@ -42,62 +39,6 @@ class ilDclFileRecordFieldModel extends ilDclBaseRecordFieldModel
         $this->stakeholder = new ilDataCollectionStakeholder();
         $this->irss = $DIC->resourceStorage();
         $this->upload = $DIC->upload();
-    }
-
-    public function parseValue($value)
-    {
-        $has_record_id = $this->http->wrapper()->query()->has('record_id');
-        $is_confirmed = $this->http->wrapper()->post()->has('save_confirmed');
-        $has_save_confirmation = ($this->getRecord()->getTable()->getSaveConfirmation() && !$has_record_id);
-
-        if (($value[self::FILE_TMP_NAME] ?? '') !== '' && (!$has_save_confirmation || $is_confirmed)) {
-            return $this->handleFileUpload($value, $has_save_confirmation);
-        } else {
-            if (($value[self::FILE_TMP_NAME] ?? '') !== '') {
-                return $value;
-            } else {
-                return $this->getValue();
-            }
-        }
-    }
-
-    protected function handleFileUpload(array $value, bool $has_save_confirmation): mixed
-    {
-        if ($has_save_confirmation) {
-            $move_file = ilDclPropertyFormGUI::getTempFilename(
-                $this->http->wrapper()->post()->retrieve('ilfilehash', $this->refinery->kindlyTo()->string()),
-                'field_' . $this->getField()->getId(),
-                $value[self::FILE_NAME],
-                $value[self::FILE_TYPE]
-            );
-
-            $file_stream = ILIAS\Filesystem\Stream\Streams::ofResource(fopen($move_file, 'rb'));
-        } else {
-            $move_file = $value[self::FILE_TMP_NAME];
-
-            $file_stream = Streams::ofResource(fopen($move_file, 'rb'));
-        }
-
-        $file_title = $value[self::FILE_NAME] ?? basename($move_file);
-
-        $old = $this->getValue();
-        if (is_string($old) && ($rid = $this->irss->manage()->find($old)) !== null) {
-            $this->irss->manage()->replaceWithStream($rid, $file_stream, $this->stakeholder, $file_title);
-        } else {
-            $rid = $this->irss->manage()->stream($file_stream, $this->stakeholder, $file_title);
-        }
-
-        return $rid->serialize();
-    }
-
-    public function setValueFromForm(ilPropertyFormGUI $form): void
-    {
-        if ($this->value !== null && $form->getItemByPostVar("field_" . $this->getField()->getId())->getDeletionFlag()) {
-            $this->removeData();
-            $this->setValue(null, true);
-            $this->doUpdate();
-        }
-        parent::setValueFromForm($form);
     }
 
     public function delete(): void
@@ -115,24 +56,35 @@ class ilDclFileRecordFieldModel extends ilDclBaseRecordFieldModel
         }
     }
 
-    public function parseExportValue($value)
+    public function parseExportValue($value): mixed
     {
-        return $this->valueToFileTitle($value);
+        $rid = $this->irss->manage()->find($value);
+        if ($rid === null || null === $revision = $this->irss->manage()->getCurrentRevision($rid)) {
+            return $this->lng->txt('file_not_found');
+        }
+        return $revision->getTitle();
     }
 
-    public function parseSortingValue($value, bool $link = true)
+    public function parseSortingValue($value, bool $link = true): mixed
     {
-        return $this->valueToFileTitle($value);
+        $rid = $this->irss->manage()->find($value);
+        if ($rid === null || null === $revision = $this->irss->manage()->getCurrentRevision($rid)) {
+            return $this->lng->txt('file_not_found');
+        }
+        return $revision->getTitle();
     }
 
     public function afterClone(): void
     {
         if ($this->value !== null) {
             $value = null;
-            $current = $this->valueToCurrentRevision($this->value);
-            if ($current !== null) {
-                $new_rid = $this->irss->manage()->clone($current->getIdentification());
-                $value = $new_rid->serialize();
+            $rid = $this->irss->manage()->find($this->value);
+            if ($rid !== null) {
+                $current = $this->irss->manage()->getCurrentRevision($rid);
+                if ($current !== null) {
+                    $new_rid = $this->irss->manage()->clone($current->getIdentification());
+                    $value = $new_rid->serialize();
+                }
             }
             $this->setValue($value, true);
             $this->doUpdate();

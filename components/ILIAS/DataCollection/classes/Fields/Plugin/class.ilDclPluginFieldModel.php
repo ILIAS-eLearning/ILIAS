@@ -25,17 +25,11 @@ class ilDclPluginFieldModel extends ilDclBaseFieldModel
         return array_merge([ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME], $this->getCustomValidFieldProperties());
     }
 
-    /**
-     * Method for adding custom fields to plugins
-     */
     public function getCustomValidFieldProperties(): array
     {
         return [];
     }
 
-    /**
-     * @return bool
-     */
     public function allowFilterInListView(): bool
     {
         return false;

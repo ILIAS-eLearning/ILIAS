@@ -20,12 +20,8 @@ declare(strict_types=1);
 
 class ilDclBooleanFieldModel extends ilDclBaseFieldModel
 {
-    /**
-     * Returns a query-object for building the record-loader-sql-query
-     * @param string|int $filter_value
-     */
     public function getRecordQueryFilterObject(
-        $filter_value = "",
+        mixed $filter_value = "",
         ?ilDclBaseFieldModel $sort_field = null
     ): ?ilDclRecordQueryObject {
         $where_additions = "";
@@ -50,22 +46,5 @@ class ilDclBooleanFieldModel extends ilDclBaseFieldModel
         }
 
         return $sql_obj;
-    }
-
-
-    /**
-     * @throws ilDclInputException
-     */
-    public function checkValidityFromForm(ilPropertyFormGUI &$form, ?int $record_id): void
-    {
-        $value = $form->getInput('field_' . $this->getId());
-
-        //value from the form comes as string
-        if (!is_numeric($value) && $value != '') {
-            throw new ilDclInputException(ilDclInputException::TYPE_EXCEPTION);
-        }
-
-        //field is of type boolean (see ilDcldatatype::INPUTFORMAT_BOOLEAN)
-        parent::checkValidity((int) $value, $record_id);
     }
 }

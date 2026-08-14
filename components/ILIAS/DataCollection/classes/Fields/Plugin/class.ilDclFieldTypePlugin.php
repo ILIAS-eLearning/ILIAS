@@ -20,12 +20,11 @@ declare(strict_types=1);
 
 abstract class ilDclFieldTypePlugin extends ilPlugin
 {
-    public const ID_BUFFER = 1000;
-
-    public const DB_TYPES = ['text', 'text', 'integer', 'date'];
-    public const COMPONENT_NAME = "DataCollection";
-    public const SLOT_ID = "dclfth";
-    public const PLUGIN_SLOT_PREFIX = 'plugin_fth_';
+    public const int ID_BUFFER = 1000;
+    public const array DB_TYPES = ['text', 'text', 'integer', 'date'];
+    public const string COMPONENT_NAME = "DataCollection";
+    public const string SLOT_ID = "dclfth";
+    public const string PLUGIN_SLOT_PREFIX = 'plugin_fth_';
 
     public function install(): void
     {

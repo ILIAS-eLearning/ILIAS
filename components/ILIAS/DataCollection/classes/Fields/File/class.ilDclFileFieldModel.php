@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @noinspection AutoloadingIssuesInspection
- */
 class ilDclFileFieldModel extends ilDclBaseFieldModel
 {
     protected ilFileServicesSettings $file_settings;

@@ -24,7 +24,6 @@ class ilDclRatingFieldModel extends ilDclBaseFieldModel
         string $direction = "asc",
         bool $sort_by_status = false
     ): ilDclRecordQueryObject {
-        // FSX Bugfix 0015735: The average is multiplied with 10000 and added to the amount of votes
         $join_str = "LEFT JOIN (SELECT (ROUND(AVG(rating), 1) * 10000 + COUNT(rating)) as rating, obj_id FROM il_rating GROUP BY obj_id) AS average ON average.obj_id = record.id";
         $select_str = " average.rating AS field_{$this->getId()},";
 
@@ -37,17 +36,13 @@ class ilDclRatingFieldModel extends ilDclBaseFieldModel
     }
 
     public function getRecordQueryFilterObject(
-        $filter_value = "",
+        mixed $filter_value = "",
         ?ilDclBaseFieldModel $sort_field = null
     ): ?ilDclRecordQueryObject {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         if (!$sort_field instanceof $this) {
             $join_str = "LEFT JOIN (SELECT (ROUND(AVG(rating), 1) * 10000 + COUNT(rating)) as rating, obj_id FROM il_rating GROUP BY obj_id) AS average ON average.obj_id = record.id";
         }
-        // FSX Bugfix 0015735: The average is multiplied with 10000 and added to the amount of votes
-        $where_additions = " AND average.rating >= " . $ilDB->quote($filter_value * 10000, 'integer');
+        $where_additions = " AND average.rating >= " . $this->db->quote($filter_value * 10000, 'integer');
 
         $sql_obj = new ilDclRecordQueryObject();
         $sql_obj->setWhereStatement($where_additions);

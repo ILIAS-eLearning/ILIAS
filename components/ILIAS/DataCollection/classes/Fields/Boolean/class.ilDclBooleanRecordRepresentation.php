@@ -20,14 +20,9 @@ declare(strict_types=1);
 
 class ilDclBooleanRecordRepresentation extends ilDclBaseRecordRepresentation
 {
-    /**
-     * Outputs html of a certain field
-     */
     public function getHTML(bool $link = true, array $options = []): string
     {
-        $value = $this->getRecordField()->getValue();
-
-        if ($value) {
+        if ($this->getRecordField()->getValue()) {
             $icon = $this->factory->symbol()->icon()->custom(
                 ilUtil::getImagePath('standard/icon_checked.svg'),
                 $this->lng->txt("yes")

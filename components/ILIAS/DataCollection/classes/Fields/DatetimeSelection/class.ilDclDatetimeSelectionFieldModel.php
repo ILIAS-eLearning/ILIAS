@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 class ilDclDatetimeSelectionFieldModel extends ilDclSelectionFieldModel
 {
-    public const PROP_SELECTION_TYPE = 'datetime_selection_type';
-    public const PROP_SELECTION_OPTIONS = 'datetime_selection_options';
+    public const string PROP_SELECTION_TYPE = 'datetime_selection_type';
+    public const string PROP_SELECTION_OPTIONS = 'datetime_selection_options';
 
     public function sanitizeOptionValue(string $value): string
     {

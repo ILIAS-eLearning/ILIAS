@@ -27,7 +27,6 @@ class ilDclRecordListGUI
     public const MODE_MANAGE = "manage";
     public const CMD_LIST_RECORDS = 'listRecords';
     public const CMD_SHOW = 'show';
-    public const CMD_CONFIRM_DELETE_RECORDS = 'confirmDeleteRecords';
     public const CMD_CANCEL_DELETE = 'cancelDelete';
     public const CMD_DELETE_RECORDS = 'deleteRecords';
     public const CMD_SHOW_IMPORT_EXCEL = 'showImportExcel';
@@ -130,9 +129,6 @@ class ilDclRecordListGUI
             case self::CMD_LIST_RECORDS:
                 $this->setSubTabs($this->mode);
                 $this->listRecords();
-                break;
-            case self::CMD_CONFIRM_DELETE_RECORDS:
-                $this->confirmDeleteRecords();
                 break;
             case self::CMD_DELETE_RECORDS:
                 $this->deleteRecords();

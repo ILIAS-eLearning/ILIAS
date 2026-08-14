@@ -22,19 +22,6 @@ use PhpOffice\PhpSpreadsheet\Cell\DataType;
 
 class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
 {
-    public function setValueFromForm(ilPropertyFormGUI $form): void
-    {
-        if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
-            $value = [
-                "title" => $form->getInput("field_" . $this->getField()->getId() . '_title'),
-                "link" => $form->getInput("field_" . $this->getField()->getId()),
-            ];
-        } else {
-            $value = $form->getInput("field_" . $this->getField()->getId());
-        }
-        $this->setValue($value);
-    }
-
     public function fillExcelExport(ilExcel $worksheet, int &$row, int &$col): void
     {
         $value = $this->getExportValue();
@@ -87,14 +74,10 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
         return '';
     }
 
-    /**
-     * @return array|float|int|mixed|string|null
-     */
-    public function getExportValue()
+    public function getExportValue(): mixed
     {
         $value = $this->getValue();
 
-        // TODO: Handle line-breaks for excel
         if (is_array($value) && !$this->getField()->getProperty(ilDclBaseFieldModel::PROP_URL)) {
             return $value['link'];
         } else {
@@ -102,13 +85,7 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
         }
     }
 
-    /**
-     * @param ilExcel $excel
-     * @param int     $row
-     * @param int     $col
-     * @return array|int|string
-     */
-    public function getValueFromExcel(ilExcel $excel, int $row, int $col)
+    public function getValueFromExcel(ilExcel $excel, int $row, int $col): mixed
     {
         $value = parent::getValueFromExcel($excel, $row, $col);
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
@@ -125,11 +102,7 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
         return "";
     }
 
-    /**
-     * Returns sortable value for the specific field-types
-     * @param int|string $value
-     */
-    public function parseSortingValue($value, bool $link = true): string
+    public function parseSortingValue(mixed $value, bool $link = true): string
     {
         if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_URL)) {
             if (is_array($value)) {
@@ -142,7 +115,7 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
         }
     }
 
-    public function deserializeData($value)
+    public function deserializeData(mixed $value): mixed
     {
         $value = (string) $value;
         if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_URL)) {

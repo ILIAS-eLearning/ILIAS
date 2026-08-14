@@ -363,7 +363,7 @@ class ilDclTableView extends ActiveRecord
         }
         $this->createFieldSetting('comments');
 
-        if (ilDclDetailedViewDefinition::exists($orig->getId())) {
+        if (false && ilDclDetailedViewDefinition::exists($orig->getId())) {
             $orig_pageobject = new ilDclDetailedViewDefinition($orig->getId());
             $orig_pageobject->copy($this->getId());
         }

@@ -37,12 +37,4 @@ class ilDclRatingRecordRepresentation extends ilDclBaseRecordRepresentation
         }
         return $rgui->getHTML();
     }
-
-    /**
-     * @inheritDoc
-     */
-    public function fillFormInput(ilPropertyFormGUI $form): void
-    {
-        // explicitly do nothing. the value is handled via the model and gui of ilRating.
-    }
 }

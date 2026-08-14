@@ -18,15 +18,16 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
+
 class ilDclDatetimeFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-    public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilDateTimeInputGUI
+    public function getInputField(): FormInput
     {
-        $input = new ilDateTimeInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
-        $input->setShowTime(true);
-        $this->setupInputField($input, $this->getField());
-
-        return $input;
+        return $this->factory->input()->field()->dateTime(
+            $this->getField()->getTitle(),
+            $this->getField()->getDescription()
+        )->withUseTime(true);
     }
 
     public function addFilterInputFieldToTable(ilTable2GUI $table): ?array
@@ -42,18 +43,5 @@ class ilDclDatetimeFieldRepresentation extends ilDclBaseFieldRepresentation
         $this->setupFilterInputField($input);
 
         return $this->getFilterInputFieldValue($input);
-    }
-
-    /**
-     * @param array $filter
-     */
-    public function passThroughFilter(ilDclBaseRecordModel $record, $filter): bool
-    {
-        $value = $record->getRecordFieldValue($this->getField()->getId());
-        if ((!$filter['from'] || $value >= $filter['from']) && (!$filter['to'] || $value <= $filter['to'])) {
-            return true;
-        }
-
-        return false;
     }
 }

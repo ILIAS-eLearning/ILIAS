@@ -18,22 +18,19 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
+
 class ilDclBooleanFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-    public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilDclCheckboxInputGUI
+    public function getInputField(): FormInput
     {
-        $input = new ilDclCheckboxInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
-        $this->setupInputField($input, $this->getField());
-
-        return $input;
+        return $this->factory->input()->field()->checkbox(
+            $this->getField()->getTitle(),
+            $this->getField()->getDescription()
+        );
     }
 
-    /**
-     * @param ilTable2GUI $table
-     * @return array|string|null
-     * @throws Exception
-     */
-    public function addFilterInputFieldToTable(ilTable2GUI $table)
+    public function addFilterInputFieldToTable(ilTable2GUI $table): mixed
     {
         $input = $table->addFilterItemByMetaType(
             "filter_" . $this->getField()->getId(),
@@ -52,15 +49,5 @@ class ilDclBooleanFieldRepresentation extends ilDclBaseFieldRepresentation
         $this->setupFilterInputField($input);
 
         return $this->getFilterInputFieldValue($input);
-    }
-
-    public function passThroughFilter(ilDclBaseRecordModel $record, $filter): bool
-    {
-        $value = $record->getRecordFieldValue($this->getField()->getId());
-        if ((($filter == "checked" && $value == 1) || ($filter == "not_checked" && $value == 0)) || $filter == '' || !$filter) {
-            return true;
-        }
-
-        return false;
     }
 }
