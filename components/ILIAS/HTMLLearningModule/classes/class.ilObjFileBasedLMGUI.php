@@ -433,7 +433,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         } else {
             $this->object->setStartFile($start_file);
             $this->object->update();
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('cont_start_file_set'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('cont_start_file_set_to'), true);
         }
 
         $this->ctrl->redirectByClass(ilContainerResourceGUI::class);
