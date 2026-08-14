@@ -12988,8 +12988,6 @@ news#:#news_period_1_month#:#Προηγούμενο Μήνα
 news#:#news_period_1_week#:#Προηγούμενη Εβδομάδα
 news#:#news_period_1_year#:#Προηγούμενο Έτος
 news#:#news_period_x_days#:#Τελευταίες %s Ημέρες
-news#:#news_period_x_months#:#Τελευταίοι %s Μήνες
-news#:#news_period_x_weeks#:#Τελευταίες %s Εβδομάδες
 news#:#news_public_feed#:#Extra Feed URL
 news#:#news_public_feed_info#:#Εφόσον ειναι ενεργοποιημένο, ενας ξεχωριστός τροφοδότης RSS δίδεται για αυτή την εκπομπή μέσων.
 news#:#news_really_delete_news#:#Do you really want to delete this news item?###25 10 2016 new variable

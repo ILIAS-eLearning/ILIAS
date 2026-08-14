@@ -12991,8 +12991,6 @@ news#:#news_period_1_month#:#Último mes
 news#:#news_period_1_week#:#Última semana
 news#:#news_period_1_year#:#Último año
 news#:#news_period_x_days#:#Últimos %s días
-news#:#news_period_x_months#:#Últimos %s meses
-news#:#news_period_x_weeks#:#Últimas %s semanas
 news#:#news_public_feed#:#Canal RSS adicional
 news#:#news_public_feed_info#:#Si esta opción está activada, se proporcionará un botón de canal RSS independiente.
 news#:#news_really_delete_news#:#¿Realmente desea eliminar esta noticia?

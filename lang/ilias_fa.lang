@@ -12987,8 +12987,6 @@ news#:#news_period_1_month#:#ماه آخر
 news#:#news_period_1_week#:#Last Week
 news#:#news_period_1_year#:#Last Year
 news#:#news_period_x_days#:#Last %s Days
-news#:#news_period_x_months#:#Last %s Months
-news#:#news_period_x_weeks#:#Last %s Weeks
 news#:#news_public_feed#:#Extra RSS Feed
 news#:#news_public_feed_info#:#اگر این گزینه فعال شود، یک RSS فید جداگانه برای این پوشش رسانه ای فراهم می شود.
 news#:#news_really_delete_news#:#Do you really want to delete this news item?###25 10 2016 new variable

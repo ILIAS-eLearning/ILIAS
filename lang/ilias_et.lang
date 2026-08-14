@@ -12987,8 +12987,6 @@ news#:#news_period_1_month#:#Eelmine kuu
 news#:#news_period_1_week#:#Eelmine nädal
 news#:#news_period_1_year#:#Eelmine aasta
 news#:#news_period_x_days#:#Viimased %s päeva
-news#:#news_period_x_months#:#Viimased %s kuud
-news#:#news_period_x_weeks#:#Viimased %s nädalat
 news#:#news_public_feed#:#Extra RSS voog
 news#:#news_public_feed_info#:#Antud valiku võimaldamisel luuakse selle meedialevi jaoks eraldi RSS voog.
 news#:#news_really_delete_news#:#Do you really want to delete this news item?###25 10 2016 new variable

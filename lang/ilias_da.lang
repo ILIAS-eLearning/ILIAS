@@ -12987,8 +12987,6 @@ news#:#news_period_1_month#:#Sidste måned
 news#:#news_period_1_week#:#Sidste uge
 news#:#news_period_1_year#:#Sidste år
 news#:#news_period_x_days#:#Sidste %s dage
-news#:#news_period_x_months#:#Sidste %s måneder
-news#:#news_period_x_weeks#:#Sidste %s uger
 news#:#news_public_feed#:#Ekstra feed URL
 news#:#news_public_feed_info#:#Hvis denne mulighed er aktiveret leveres en separat feed url til objektet.
 news#:#news_really_delete_news#:#Do you really want to delete this news item?###25 10 2016 new variable
