@@ -1,8 +1,7 @@
 # UICore Privacy
 
-Disclaimer: This documentation does not guarantee completeness or correctness. Please report any missing or incorrect
-information using the ILIAS issue tracker or contribute a fix via Pull Request (
-docs/development/contributing.md#pull-request-to-the-repositories).
+> **Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information by submitting a [Pull Request](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/contributing.md#pull-request-to-the-repositories) or, if you prefer, via the [ILIAS bug tracker](https://mantis.ilias.de). When using the bug tracker, please select the corresponding component in the **Category** field.**
+
 
 ## General Information
 
@@ -31,7 +30,7 @@ The UICore component employs the following components, please consult the respec
 * Language: for translations
 * Notification: for rendering notifications
 * OnScreenChat: for JavaScript resources
-* PermanentLink: for generating the permanent-link URL
+* [PermanentLink](../PermanentLink/PRIVACY.md): for generating the permanent-link URL
 * [Refinery](../Refinery/PRIVACY.md): to fetch request information and 
   transform it
 * [Setup](../Setup/PRIVACY.md): to provide a build objective
