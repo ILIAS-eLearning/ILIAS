@@ -114,7 +114,7 @@ class QuestionsTable implements Viewable, DataRetrieval
         mixed $filter_data,
         mixed $additional_parameters
     ): ?int {
-        return $this->questions_repository->getQuestionsCount();
+        return $this->questions_repository->getQuestionsCount($filter_data);
     }
 
     private function buildTable(): array

@@ -105,16 +105,20 @@ class Repository
         }
     }
 
-    public function getQuestionsCount(): int
-    {
+    public function getQuestionsCount(
+        array $filter_data
+    ): int {
         $id_column = $this->question_table_definitions->getIdColumn(
             $this->core_table_names_builder,
             TableTypes::Questions
         );
+
+        $query = "SELECT count({$id_column->getColumnString()}) cnt FROM {$id_column->getTableName()}";
+
         return $this->db->fetchObject(
-            $this->db->query(
-                "SELECT count({$id_column->getColumnString()}) cnt FROM {$id_column->getTableName()}",
-            )
+            $filter_data === [] || $filter_data['title'] === null
+                ? $this->db->query($query)
+                : $this->buildCountStatementWithWhereClause($query, $filter_data)
         )->cnt;
     }
 
@@ -500,25 +504,14 @@ class Repository
         array $filter_data
     ): Query {
         foreach ($filter_data as $key => $value) {
-            if ($value === null || $value === '' || $value === []) {
-                continue;
-            }
+            [
+                'column' => $column,
+                'operator' => $operator,
+                'value' => $transformed_value
+            ] = $this->prepareFilterData($key, $value);
 
-            $column_definition = OverviewTableColumns::tryFrom($key);
-
-            $column = $column_definition?->getDatabaseColumn(
-                $this->persistence_factory,
-                $this->core_table_names_builder,
-                $this->answer_form_factory
-            );
             if ($column === null) {
                 continue;
-            }
-
-            $operator = Operator::Equal;
-            if (is_string($value)) {
-                $operator = Operator::Like;
-                $value = "%{$value}%";
             }
 
             $question_query = $question_query->withAdditionalWhere(
@@ -526,10 +519,7 @@ class Repository
                     $column,
                     $this->persistence_factory->value(
                         FieldDefinition::T_TEXT,
-                        $column_definition->transformFilterValue(
-                            $this->answer_form_factory,
-                            $value
-                        )
+                        $transformed_value
                     ),
                     $operator
                 )
@@ -537,6 +527,89 @@ class Repository
         }
 
         return $question_query;
+    }
+
+    private function buildCountStatementWithWhereClause(
+        string $query,
+        array $filter_data
+    ): \ilDBStatement {
+        $where_string = [];
+        $types = [];
+        $values = [];
+        foreach ($filter_data as $key => $value) {
+            [
+                'column' => $column,
+                'operator' => $operator,
+                'value' => $transformed_value
+            ] = $this->prepareFilterData($key, $value);
+
+            if ($column === null) {
+                continue;
+            }
+
+            $where = $this->persistence_factory->where(
+                $column,
+                $this->persistence_factory->value(
+                    FieldDefinition::T_TEXT,
+                    $transformed_value
+                ),
+                $operator
+            );
+            $right = $where->getRight();
+
+            $where_string[] = $where->toSql();
+            $types[] = $right->getType();
+            $values[] = is_array($right->getValue())
+                ? implode(', ', $right->getValue())
+                : $right->getValue();
+        }
+
+        return $this->db->queryF(
+            "{$query} WHERE " . implode(' AND ', $where_string),
+            $types,
+            $values
+        );
+    }
+
+    private function prepareFilterData(
+        string $key,
+        mixed $value
+    ): array {
+        $empty_set = [
+            'column' => null,
+            'operator' => null,
+            'value' => null
+        ];
+
+        if ($value === null || $value === '' || $value === []) {
+            return $empty_set;
+        }
+
+        $column_definition = OverviewTableColumns::tryFrom($key);
+
+        $column = $column_definition?->getDatabaseColumn(
+            $this->persistence_factory,
+            $this->core_table_names_builder,
+            $this->answer_form_factory
+        );
+        if ($column === null) {
+            return $empty_set;
+        }
+
+        $operator = Operator::Equal;
+        if (is_string($value)) {
+            $operator = Operator::Like;
+            $value = "%{$value}%";
+        }
+
+        return [
+            'column' => $column,
+            'operator' => $operator,
+            'value' => $column_definition->transformFilterValue(
+                $this->answer_form_factory,
+                $value
+            )
+        ];
     }
 
     private function buildManipulate(): Manipulate

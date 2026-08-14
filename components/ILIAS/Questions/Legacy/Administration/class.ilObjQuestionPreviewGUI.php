@@ -402,7 +402,7 @@ class ilObjQuestionPreviewGUI implements DataRetrieval
         mixed $filter_data,
         mixed $additional_parameters
     ): ?int {
-        return $this->repository->getQuestionsCount();
+        return $this->repository->getQuestionsCount($filter_data);
     }
 
     private function buildFilter(
