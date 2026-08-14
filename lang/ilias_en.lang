@@ -14190,6 +14190,7 @@ qsts#:#scoring_of_identical_responses#:#Scoring of Identical Responses
 qsts#:#select_answer_form_type#:#Select Type of Answer Form
 qsts#:#select_gap#:#Select Gap
 qsts#:#select_gaps_for_combination#:#Select Gap for Combination
+qsts#:#set_gap_types#:#Set Types for Gaps
 qsts#:#shuffle_answers#:#Shuffle Answers
 qsts#:#specific_feedback#:#Feedback Based On Answer Options
 qsts#:#step_size#:#Step Size

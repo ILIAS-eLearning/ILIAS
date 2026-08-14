@@ -14227,6 +14227,7 @@ qsts#:#scoring_of_identical_responses#:#Bewertung gleicher Antworten
 qsts#:#select_answer_form_type#:#Art des Antwortformulars auswählen
 qsts#:#select_gap#:#Auswahl-Lücke
 qsts#:#select_gaps_for_combination#:#Lücken zur Kombination auswählen
+qsts#:#set_gap_types#:#Typen für die Lücken auswählen
 qsts#:#shuffle_answers#:#Antworten mischen
 qsts#:#specific_feedback#:#Rückmeldung basierend auf der gewählten Antwortoption
 qsts#:#step_size#:#Präzision
@@ -17441,7 +17442,7 @@ trac#:#trac_assigned#:#Ausgewählt
 trac#:#trac_average#:#Durchschnitt
 trac#:#trac_begin_at#:#Startdatum
 trac#:#trac_closed_expire#:#Timeout
-trac#:#trac_closed_login#:#Statusänderung - Anonym zu angemeldet 
+trac#:#trac_closed_login#:#Statusänderung - Anonym zu angemeldet
 trac#:#trac_closed_manual#:#Logout
 trac#:#trac_closed_misc#:#Sonstige
 trac#:#trac_collection_assign#:#Für Lernfortschritts-Bestimmung auswählen
