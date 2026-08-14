@@ -13064,8 +13064,6 @@ news#:#news_period_1_month#:#Last Month
 news#:#news_period_1_week#:#Last Week
 news#:#news_period_1_year#:#Last Year
 news#:#news_period_x_days#:#Last %s Days
-news#:#news_period_x_months#:#Last %s Months
-news#:#news_period_x_weeks#:#Last %s Weeks
 news#:#news_public_feed#:#Extra RSS Feed
 news#:#news_public_feed_info#:#Make an RSS feed for this object’s news available. This can be accessed via the ▼ menu.
 news#:#news_really_delete_news#:#Are you sure you want to delete this news item?
