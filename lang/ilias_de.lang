@@ -14212,6 +14212,7 @@ qsts#:#scoring_of_identical_responses#:#Bewertung gleicher Antworten
 qsts#:#select_answer_form_type#:#Art des Antwortformulars auswählen
 qsts#:#select_gap#:#Auswahl-Lücke
 qsts#:#select_gaps_for_combination#:#Lücken zur Kombination auswählen
+qsts#:#set_gap_types#:#Typen für die Lücken auswählen
 qsts#:#shuffle_answers#:#Antworten mischen
 qsts#:#specific_feedback#:#Rückmeldung basierend auf der gewählten Antwortoption
 qsts#:#step_size#:#Präzision

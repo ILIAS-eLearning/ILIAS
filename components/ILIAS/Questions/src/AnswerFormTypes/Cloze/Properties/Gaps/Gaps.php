@@ -281,7 +281,7 @@ class Gaps implements Clonable
                 },
                 []
             ),
-            $lng->txt('select_gap_types')
+            $lng->txt('set_gap_types')
         )->withAdditionalTransformation(
             $this->refinery->custom()->transformation(
                 fn(array $vs): Properties => $properties->withGaps(
