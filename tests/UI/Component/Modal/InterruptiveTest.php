@@ -22,6 +22,8 @@ require_once(__DIR__ . '/ModalBase.php');
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation as I;
+use ILIAS\Data\FormMethod;
+use ILIAS\Data\URI;
 
 /**
  * Tests on implementation for the interruptive modal
@@ -173,6 +175,46 @@ EOT;
             $interruptive->getCancelButtonLabel()
         );
     }
+
+    public function getDataFactory(): ILIAS\Data\Factory
+    {
+        $df = $this->createMock(\ILIAS\Data\Factory::class);
+        $df->method('uri')
+            ->willReturnCallback(
+                static fn(string $uri_string) => new URI($uri_string)
+            );
+        return $df;
+    }
+
+    public function testInterruptiveFormMethod(): void
+    {
+        $this->assertEquals(
+            FormMethod::POST,
+            $this->getModalFactory()->interruptive('', '', '')->getFormMethod()
+        );
+
+        $this->assertEquals(
+            FormMethod::GET,
+            $this->getModalFactory()
+                ->interruptive('', '', 'http://ilias.de', FormMethod::GET)
+                ->getFormMethod()
+        );
+    }
+
+    public function testInterruptiveFormQueryParams(): void
+    {
+        $par = urlencode('i[]');
+        $url = sprintf('http://ilias.de?some=thing&%s=1&%s=2', $par, $par);
+        $modal = $this->getModalFactory()->interruptive('', '', $url, FormMethod::GET);
+        $renderer = $this->getDefaultRenderer();
+        $html = $this->brutallyTrimHTML($renderer->render($modal));
+        $this->assertStringNotContainsString('method="POST"', $html);
+        $this->assertStringContainsString('method="GET"', $html);
+        $this->assertStringContainsString('<input type="hidden" name="some" value="thing" />', $html);
+        $this->assertStringContainsString('<input type="hidden" name="i[]" value="1" />', $html);
+        $this->assertStringContainsString('<input type="hidden" name="i[]" value="2" />', $html);
+    }
+
 }
 
 class InterruptiveItemMock implements C\Modal\InterruptiveItem\InterruptiveItem
@@ -192,6 +234,11 @@ class InterruptiveItemMock implements C\Modal\InterruptiveItem\InterruptiveItem
     public function getCanonicalName(): string
     {
         return $this->canonical_name ?: 'InterruptiveItem';
+    }
+
+    public function getParameterName(): string
+    {
+        return 'interruptive_items';
     }
 }
 

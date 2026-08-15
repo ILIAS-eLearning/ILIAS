@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Modal\InterruptiveItem;
 
 use ILIAS\UI\Component\Modal\InterruptiveItem as ItemInterface;
@@ -29,16 +29,18 @@ class Factory implements ItemInterface\Factory
         string $id,
         string $title,
         Image $icon = null,
-        string $description = ''
+        string $description = '',
+        string $parameter_name = ItemInterface\InterruptiveItem::DEFAULT_PARAMETER_NAME
     ): ItemInterface\Standard {
-        return new Standard($id, $title, $icon, $description);
+        return new Standard($id, $parameter_name, $title, $icon, $description);
     }
 
     public function keyValue(
         string $id,
         string $key,
-        string $value
+        string $value,
+        string $parameter_name = ItemInterface\InterruptiveItem::DEFAULT_PARAMETER_NAME
     ): ItemInterface\KeyValue {
-        return new KeyValue($id, $key, $value);
+        return new KeyValue($id, $parameter_name, $key, $value);
     }
 }

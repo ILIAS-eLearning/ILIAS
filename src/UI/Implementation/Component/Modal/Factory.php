@@ -27,6 +27,7 @@ use ILIAS\UI\Component\Modal\InterruptiveItem\Factory as ItemFactory;
 use ILIAS\UI\Implementation\Component\Input\FormInputNameSource;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Card\Card;
+use ILIAS\Data\FormMethod;
 
 /**
  * Implementation of factory for modals
@@ -43,9 +44,19 @@ class Factory implements M\Factory
     /**
      * @inheritdoc
      */
-    public function interruptive(string $title, string $message, string $form_action): M\Interruptive
-    {
-        return new Interruptive($title, $message, $form_action, $this->signal_generator);
+    public function interruptive(
+        string $title,
+        string $message,
+        string $form_action,
+        FormMethod $form_method = FormMethod::POST,
+    ): M\Interruptive {
+        return new Interruptive(
+            $title,
+            $message,
+            $form_action,
+            $form_method,
+            $this->signal_generator
+        );
     }
 
     /**

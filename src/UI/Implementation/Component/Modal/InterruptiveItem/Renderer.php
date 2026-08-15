@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Modal\InterruptiveItem;
 
@@ -55,6 +55,7 @@ class Renderer extends AbstractComponentRenderer
             $default_renderer->render($component->getIcon()) : '';
         $tpl->setVariable('ITEM_ICON', $icon);
         $tpl->setVariable('ITEM_ID', $component->getId());
+        $tpl->setVariable('ITEM_PARAMETER', $component->getParameterName());
         $tpl->setVariable('ITEM_TITLE', $component->getTitle());
         if ($desc = $component->getDescription()) {
             $tpl->setVariable('ITEM_DESCRIPTION', $desc);
@@ -74,6 +75,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('ITEM_KEY', $component->getKey());
         $tpl->setVariable('ITEM_VALUE', $component->getValue());
         $tpl->setVariable('ITEM_ID', $component->getId());
+        $tpl->setVariable('ITEM_PARAMETER', $component->getParameterName());
         return $tpl->get();
     }
 

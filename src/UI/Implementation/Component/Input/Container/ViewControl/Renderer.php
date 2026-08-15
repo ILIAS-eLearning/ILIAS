@@ -28,9 +28,12 @@ use LogicException;
 use ILIAS\UI\Implementation\Component\Input\ViewControl\HasInputGroup;
 use ILIAS\UI\Implementation\Component\ViewControl\Pagination;
 use ILIAS\UI\Implementation\Component\Input\ViewControl\Sortation;
+use ILIAS\UI\Implementation\Render\HiddenFieldsInjector;
 
 class Renderer extends AbstractComponentRenderer
 {
+    use HiddenFieldsInjector;
+
     /**
      * @inheritdoc
      */
@@ -88,21 +91,7 @@ class Renderer extends AbstractComponentRenderer
         // The remaining parameters for the view controls need to be stuffed into
         // hidden fields, so the browser passes them as query parameters once the
         // form is submitted.
-        foreach ($query_params as $k => $v) {
-            if (is_array($v)) {
-                foreach (array_values($v) as $arrv) {
-                    $tpl->setCurrentBlock('param');
-                    $tpl->setVariable("PARAM_NAME", $k . '[]');
-                    $tpl->setVariable("VALUE", $arrv);
-                    $tpl->parseCurrentBlock();
-                }
-            } else {
-                $tpl->setCurrentBlock('param');
-                $tpl->setVariable("PARAM_NAME", $k);
-                $tpl->setVariable("VALUE", $v);
-                $tpl->parseCurrentBlock();
-            }
-        }
+        $tpl->setVariable('QUERYPARAMS', $this->getHiddenFieldsHTML($query_params));
 
         $inputs = array_map(
             fn($input) => $input->withOnChange($submission_signal),

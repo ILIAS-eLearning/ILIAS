@@ -8,6 +8,7 @@ use ILIAS\UI\Implementation\Component\Table as T;
 use ILIAS\UI\Component\Table as I;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
+use ILIAS\Data\FormMethod;
 use ILIAS\UI\URLBuilder;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -160,10 +161,10 @@ function base()
                     $this->ui_factory->symbol()->icon()->custom('templates/default/images/standard/icon_x.svg', '', 'small'),
                 ];
                 $icon = $icons[2];
-                if($record['achieve'] > 80) {
+                if ($record['achieve'] > 80) {
                     $icon = $icons[0];
                 }
-                if($record['achieve'] < 30) {
+                if ($record['achieve'] < 30) {
                     $icon = $icons[1];
                 }
                 $record['achieve'] = $icon;
@@ -255,18 +256,21 @@ function base()
         if ($action === 'delete') {
             $items = [];
             foreach ($ids as $id) {
-                $items[] = $f->modal()->interruptiveItem()->keyValue($id, $row_id_token->getName(), $id);
+                $items[] = $f->modal()->interruptiveItem()
+                    ->keyValue($id, $row_id_token->getName(), $id, $row_id_token->getName());
             }
             echo($r->renderAsync([
                 $f->modal()->interruptive(
                     'Deletion',
                     'You are about to delete items!',
-                    '#'
+                    $url_builder->withParameter($action_parameter_token, "delete_confirmed")->buildURI()->__toString(),
+                    FormMethod::GET
                 )->withAffectedItems($items)
                 ->withAdditionalOnLoadCode(static fn($id): string => "console.log('ASYNC JS');")
             ]));
             exit();
         }
+
         if ($action === 'info') {
             echo(
                 $r->render($f->messageBox()->info('an info message: <br><li>' . implode('<li>', $ids)))
