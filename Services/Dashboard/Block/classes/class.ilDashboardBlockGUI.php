@@ -430,11 +430,11 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
                 $icon = $this->ui->renderer()->render($this->ui->factory()->symbol()->icon()->custom(ilObject::_getIcon($item->getObjId()), ''));
                 if ($this instanceof ilMembershipBlockGUI) {
                     if ($this->rbacsystem->checkAccess('leave', $item->getRefId())) {
-                        if ($item->getType() === 'crs' || $item->getType() === 'grp') {
-                            $members_obj = ilParticipants::getInstance($item->getRefId());
-                            if (!$members_obj->checkLastAdmin([$this->user->getId()])) {
-                                continue;
-                            }
+                        if ($item->getType() === 'crs' && !ilObjCourse::mayLeave($item->getObjId(), $this->user->getId())) {
+                            continue;
+                        }
+                        if ($item->getType() === 'grp' && !ilObjGroup::mayLeave($item->getObjId(), $this->user->getId())) {
+                            continue;
                         }
                         $options[$item->getRefId()] = $icon . $item->getTitle();
                     }
