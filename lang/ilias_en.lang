@@ -11865,7 +11865,6 @@ maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple 
 maps#:#maps_enable_maps#:#Enable Maps
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
 maps#:#maps_geolocation_server#:#Server for Reverse Geolocation
-maps#:#maps_google_maps#:#Google Maps
 maps#:#maps_https_for_reverse_lookup#:#Https for Reverse Lookup
 maps#:#maps_latitude#:#Latitude
 maps#:#maps_longitude#:#Longitude
