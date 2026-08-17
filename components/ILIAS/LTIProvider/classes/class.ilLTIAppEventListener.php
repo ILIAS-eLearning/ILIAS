@@ -157,31 +157,18 @@ class ilLTIAppEventListener
     protected function tryOutcomeService(int $resource, string $ext_account, int $a_status, int $a_percentage): void
     {
         $resource_link = ResourceLink::fromRecordId($resource, $this->connector);
-        if (!$resource_link->hasOutcomesService()) {
+        if (!$resource_link->hasOutcomesService() && !$resource_link->hasScoreService()) {
             $this->logger->info('No outcome service available for resource id: ' . $resource);
             return;
         }
         $this->logger->info('Trying outcome service with status ' . $a_status . ' and percentage ' . $a_percentage);
         $user = UserResult::fromResourceLink($resource_link, $ext_account);
 
-        if (!$a_percentage && $a_status != ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM) {
-            $score = 0;
-        } else {
-            if ($a_status == ilLPStatus::LP_STATUS_COMPLETED_NUM || $a_status == ilLPStatus::LP_STATUS_FAILED_NUM) {
-                $score = $a_percentage / 100;
-            } elseif (
-                $a_status == ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM
-            ) {
-                $score = null;
-            } else {
-                $score = 0;
-            }
-        }
+        $score = $a_status == ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM ? null : $a_percentage / 100;
         $platform = $resource_link->getPlatform();
 
         $platform->accessTokenUrl = $platform->accessTokenUrl
-            ?: $platform->getSetting('custom_oauth2_access_token_url')
-                ?: \ilObjLTIConsumer::getAccessTokenUrl();
+            ?: $platform->getSetting('custom_oauth2_access_token_url');
 
         $priv = \ilObjLTIConsumer::getPrivateKey();
 
@@ -191,7 +178,6 @@ class ilLTIAppEventListener
         $tool->jku = \ilObjLTIConsumer::getPublicKeysetUrl();
         $tool->requiredScopes = [
             "https://purl.imsglobal.org/spec/lti-ags/scope/score",
-            "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly",
         ];
         $tool->signatureMethod = $platform->signatureMethod;
 

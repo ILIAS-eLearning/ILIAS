@@ -82,28 +82,83 @@ if (
     $provider = ilLTIConsumeProvider::getInstance($provider_id);
 
     $hint = sanitizeJson($ltiMessageHint);
-    if ($provider->getContentItemUrl() == $redirectUri && isset($hint['deployment_id'])) {
+    $expectedState = ilSession::get('lti13_deep_linking_state');
+    $allowedRedirectUris = array_map('trim', explode(',', $provider->getRedirectionUris()));
+    if (
+        is_array($hint) &&
+        isset($hint['deployment_id']) &&
+        is_array($expectedState) &&
+        ($expectedState['flow'] ?? '') === 'content_selection' &&
+        is_string($expectedState['state'] ?? null) &&
+        is_int($expectedState['created_at'] ?? null) &&
+        $expectedState['created_at'] >= time() - 300 &&
+        $expectedState['created_at'] <= time() &&
+        is_string($state) &&
+        hash_equals($expectedState['state'], $state) &&
+        ($expectedState['provider_id'] ?? 0) === $provider->getId() &&
+        (int) $hint['deployment_id'] === $provider->getId() &&
+        in_array($redirectUri, $allowedRedirectUris, true)
+    ) {
 
-        $isDlMode = true;
         $deploymentId = (int) $hint['deployment_id'];
-        $ownerId = ilObjectFactory::getInstanceByRefId(224)->getOwner();
         $childRefId = ilObjLTIConsumer::getRefIdOfConsumerByDeploymentId((string) $deploymentId);
-        $refId = $DIC->repositoryTree()->getParentId($childRefId);
+        if ($childRefId !== null) {
+            $refId = $DIC->repositoryTree()->getParentId($childRefId);
+        }
+        if ($refId > 0 && ($expectedState['ref_id'] ?? 0) === $refId) {
+            $isDlMode = true;
+            ilSession::clear('lti13_deep_linking_state');
+        }
     }
 
 }
 
 
-if (empty($ltiMessageHint)) {
+if (empty($ltiMessageHint) || (is_array($hint) && !$isDlMode)) {
     $DIC->http()->saveResponse(
         $DIC->http()->response()->withStatus(400)
     );
     $DIC->http()->sendResponse();
     $DIC->http()->close();
-    exit;
 }
 
-$parts = explode(":", $ltiMessageHint);
+if ($isDlMode) {
+    if ($refId <= 0) {
+        $DIC->http()->saveResponse(
+            $DIC->http()->response()->withStatus(400)
+        );
+        $DIC->http()->sendResponse();
+        $DIC->http()->close();
+    }
+
+    ilSession::set('lti13_login_data', $data);
+
+    $DIC->ctrl()->setParameterByClass(ilObjLTIConsumerGUI::class, 'new_type', 'lti');
+    $DIC->ctrl()->setParameterByClass(ilObjLTIConsumerGUI::class, 'provider_id', (string) $deploymentId);
+    $DIC->ctrl()->setParameterByClass(ilObjLTIConsumerGUI::class, 'ref_id', (string) $refId);
+    $url = $DIC->ctrl()->getLinkTargetByClass([ilRepositoryGUI::class, ilObjLTIConsumerGUI::class], 'contentSelectionRequest');
+
+    $response = $DIC->http()->response()
+        ->withStatus(302)
+        ->withAddedHeader('Location', $url);
+
+    $sessionCookieHeader = buildSameSiteNoneSessionCookieHeader();
+    if ($sessionCookieHeader !== null) {
+        $response = $response->withAddedHeader('Set-Cookie', $sessionCookieHeader);
+    }
+
+    $DIC->http()->saveResponse($response);
+
+    try {
+        $DIC->http()->sendResponse();
+        $DIC->http()->close();
+    } catch (\ILIAS\HTTP\Response\Sender\ResponseSendingException $e) {
+        $DIC->http()->close();
+    }
+
+}
+
+$parts = explode(":", $ltiMessageHint, 3);
 $isContentSelection = false;
 $ref_id = '';
 $il_client_id = '';
@@ -111,21 +166,36 @@ $redirect_uri = '';
 if (count($parts) === 2) {
     [$ref_id, $il_client_id] = $parts;
 } elseif (count($parts) === 3) {
-    [$first, $second, $third] = $parts;
-    $il_client_id = $third;
-    $ref_id = explode(",", $second)[0];
-} else {
     $isContentSelection = true;
     [$ref_id, $il_client_id, $redirect_uri] = $parts;
+} else {
+    $DIC->http()->saveResponse(
+        $DIC->http()->response()->withStatus(400)
+    );
+    $DIC->http()->sendResponse();
+    $DIC->http()->close();
 }
 
-ilSession::set('lti13_login_data', $data);
-
 if ($isContentSelection) {
-    $url = "../../../" . base64_decode($redirect_uri);
+    $redirect_target = base64_decode($redirect_uri, true);
+    if ($redirect_target === false || $redirect_target === '' ||
+        str_starts_with($redirect_target, '/') || str_contains($redirect_target, '..') ||
+        parse_url($redirect_target, PHP_URL_SCHEME) !== null ||
+        parse_url($redirect_target, PHP_URL_HOST) !== null) {
+        $DIC->http()->saveResponse(
+            $DIC->http()->response()->withStatus(400)
+        );
+        $DIC->http()->sendResponse();
+        $DIC->http()->close();
+    }
+    $url = "../../../" . $redirect_target;
 } else {
     $url = "../../../goto.php?target=lti_" . $ref_id . "&client_id=" . $il_client_id;
 }
+
+// only persist the login data once the request has fully passed validation,
+// so a rejected request never leaves unvalidated data behind in the session
+ilSession::set('lti13_login_data', $data);
 
 function buildSameSiteNoneSessionCookieHeader(): ?string
 {

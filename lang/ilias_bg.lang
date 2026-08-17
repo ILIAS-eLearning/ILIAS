@@ -11262,8 +11262,6 @@ lti#:#activity_id#:#Activity ID###07 02 2020 new variable
 lti#:#activity_id_info#:#This Activity ID is used by the LTI Provider to identify Statements.###07 02 2020 new variable
 lti#:#auth_lti#:#LTI Auth###31 08 2017 new variable
 lti#:#conf_privacy_ident#:#User identification###26 08 2024 new variable
-lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###26 08 2024 new variable
-lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###26 08 2024 new variable
 lti#:#conf_privacy_ident_il_uuid_ext_account#:#External User ID combined with a unique ILIAS platform id formatted as an E-Mail address###26 08 2024 new variable
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###26 08 2024 new variable
 lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail address###26 08 2024 new variable
@@ -11382,7 +11380,7 @@ lti#:#lti_at_least_one_prov_has_usages#:#At least one provider could not be dele
 lti#:#lti_auth_failed_invalid_key#:#Authentication failed, no valid consumer key given.###31 08 2017 new variable
 lti#:#lti_con_content_item#:#Support for Deep Linking###26 08 2024 new variable
 lti#:#lti_con_content_item_url#:#Content URL###26 08 2024 new variable
-lti#:#lti_con_grade_synchronization#:#Advanced Grading Services###04 12 2025 new variable
+lti#:#lti_con_grade_synchronization#:#Assignment and Grade Services###04 12 2025 new variable
 lti#:#lti_con_grade_synchronization_info#:#The LTI tool must offer 'Assignment and Grade Services'.###04 12 2025 new variable
 lti#:#lti_con_initiate_login_url#:#Initiate Login URL###26 08 2024 new variable
 lti#:#lti_con_key_type#:#Public Key Type###26 08 2024 new variable
@@ -11472,6 +11470,7 @@ lti#:#lti_create_lti_user_role#:#Create recommended global role for LTI users###
 lti#:#lti_cron_title#:#LTI Outcome Service###07 02 2020 new variable
 lti#:#lti_cron_title_desc#:#Synchronizes the learning progress of LTI users with the LTI consumer, if it supports the outcome service. This cron job is only required to transfer status updates after Learning progress settings updates.###07 02 2020 new variable
 lti#:#lti_custom_new#:#Create Own Provider Settings###07 02 2020 new variable
+lti#:#lti_deep_linking_not_available_for_admin_objects#:#Consumers created in Administration do not allow content selection
 lti#:#lti_delete_consume_provider#:#Delete Provider###07 02 2020 new variable
 lti#:#lti_delete_consume_providers#:#Delete Providers###07 02 2020 new variable
 lti#:#lti_delete_provider#:#Delete Provider###07 02 2020 new variable
@@ -11480,6 +11479,7 @@ lti#:#lti_edit_consumer#:#Edit LTI Consumer###31 08 2017 new variable
 lti#:#lti_exit#:#Close LTI Session###31 08 2017 new variable
 lti#:#lti_exited#:#LTI Session closed###31 08 2017 new variable
 lti#:#lti_exited_info#:#LTI Session successfully closed###31 08 2017 new variable
+lti#:#lti_form_provider_content_selection#:#Избор на съдържание
 lti#:#lti_form_provider_create#:#Create Provider Settings###07 02 2020 new variable
 lti#:#lti_form_provider_edit#:#Edit Provider Settings###07 02 2020 new variable
 lti#:#lti_form_section_appearance#:#Options for launch###07 02 2020 new variable
@@ -11531,6 +11531,7 @@ lti#:#subtab_certificate#:#Certificate###07 02 2020 new variable
 lti#:#subtab_object_settings#:#Object Settings###07 02 2020 new variable
 lti#:#subtab_provider_settings#:#LTI Provider Settings###07 02 2020 new variable
 lti#:#tab_content#:#Content###07 02 2020 new variable
+lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info###07 02 2020 new variable
 lti#:#tab_scoring#:#Ranking###07 02 2020 new variable
 lti#:#tab_settings#:#Settings###07 02 2020 new variable

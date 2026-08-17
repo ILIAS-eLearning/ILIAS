@@ -11262,8 +11262,6 @@ lti#:#activity_id#:#Activity-ID
 lti#:#activity_id_info#:#Diese Activity-ID wird vom LTI-Provider verwendet, um Statements zu identifizieren.
 lti#:#auth_lti#:#LTI Auth
 lti#:#conf_privacy_ident#:#Identifikation der Person
-lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#Die Identifikation ist identisch bei jedem Aufruf, aber lässt keine direkten Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
 lti#:#conf_privacy_ident_il_uuid_ext_account#:#Die externe Konten-ID wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert.
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#Die Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
 lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Anmeldename kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
@@ -11382,7 +11380,7 @@ lti#:#lti_at_least_one_prov_has_usages#:#Mindestens ein Provider konnte nicht ge
 lti#:#lti_auth_failed_invalid_key#:#Authentifizierung nicht möglich. Es wurde kein gültiger Consumer-Key übermittelt.
 lti#:#lti_con_content_item#:#Unterstützung für Deep Linking
 lti#:#lti_con_content_item_url#:#Inhalts-URL
-lti#:#lti_con_grade_synchronization#:#Erweiterte Benotungsdienste###04 12 2025 new variable
+lti#:#lti_con_grade_synchronization#:#Assignment and Grade Services###04 12 2025 new variable
 lti#:#lti_con_grade_synchronization_info#:#Das LTI-Tool muss 'Assignment and Grade Services' anbieten.###04 12 2025 new variable
 lti#:#lti_con_initiate_login_url#:#Initiate Login URL
 lti#:#lti_con_key_type#:#Typ des öffentlichen Schlüssels
@@ -11472,6 +11470,7 @@ lti#:#lti_create_lti_user_role#:#Empfohlene globale Rolle für LTI-User anlegen
 lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an die aufrufende Plattform. Dieser Cron-Job wird nur in den Fällen benötigt, wenn der Lernfortschritt aufgrund von Einstellungsänderungen neu berechnet werden muss.
 lti#:#lti_custom_new#:#Eigene Provider-Einstellungen anlegen
+lti#:#lti_deep_linking_not_available_for_admin_objects#:#In der Administration angelegte Konsumenten erlauben keine Inhaltsauswahl
 lti#:#lti_delete_consume_provider#:#Provider löschen
 lti#:#lti_delete_consume_providers#:#Provider löschen
 lti#:#lti_delete_provider#:#Provider löschen
@@ -11480,6 +11479,7 @@ lti#:#lti_edit_consumer#:#LTI-Konsument bearbeiten
 lti#:#lti_exit#:#LTI-Sitzung beenden
 lti#:#lti_exited#:#LTI-Sitzung beendet
 lti#:#lti_exited_info#:#Die LTI-Sitzung wurde erfolgreich beendet.
+lti#:#lti_form_provider_content_selection#:#Inhaltsauswahl
 lti#:#lti_form_provider_create#:#Provider-Einstellungen anlegen
 lti#:#lti_form_provider_edit#:#Provider-Einstellungen bearbeiten
 lti#:#lti_form_section_appearance#:#Optionen für den Start
@@ -11531,6 +11531,7 @@ lti#:#subtab_certificate#:#Zertifikat
 lti#:#subtab_object_settings#:#Objekteinstellungen
 lti#:#subtab_provider_settings#:#LTI-Provider-Einstellungen
 lti#:#tab_content#:#Inhalt
+lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#Platzierungen
 lti#:#tab_settings#:#Einstellungen

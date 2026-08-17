@@ -11262,8 +11262,6 @@ lti#:#activity_id#:#Aktivitets-ID
 lti#:#activity_id_info#:#Detta aktivitets-ID används av LTI-leverantören eller verktyget för att identifiera uttalanden.
 lti#:#auth_lti#:#LTI Auth
 lti#:#conf_privacy_ident#:#Identifiering av användare
-lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###21 11 2023 new variable
-lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###21 11 2023 new variable
 lti#:#conf_privacy_ident_il_uuid_ext_account#:#Externt användar-ID kombinerat med ett unikt ILIAS-plattforms-ID formaterat som en e-postadress.
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#Detta är identiskt med varje samtal, men kan göra det möjligt att dra direkta slutsatser om användaren.
 lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS-inloggning som e-postadress, kombinerat med ett unikt ILIAS-plattforms-ID om så krävs.
@@ -11382,7 +11380,7 @@ lti#:#lti_at_least_one_prov_has_usages#:#Minst en leverantör eller ett verktyg 
 lti#:#lti_auth_failed_invalid_key#:#Autentisering inte möjlig. Ingen giltig konsumentnyckel överfördes.
 lti#:#lti_con_content_item#:#Stöd för djuplänkning
 lti#:#lti_con_content_item_url#:#URL för innehåll
-lti#:#lti_con_grade_synchronization#:#Advanced Grading Services###04 12 2025 new variable
+lti#:#lti_con_grade_synchronization#:#Assignment and Grade Services###04 12 2025 new variable
 lti#:#lti_con_grade_synchronization_info#:#The LTI tool must offer 'Assignment and Grade Services'.###04 12 2025 new variable
 lti#:#lti_con_initiate_login_url#:#Initiera inloggnings-URL
 lti#:#lti_con_key_type#:#Typ av den offentliga nyckeln
@@ -11472,6 +11470,7 @@ lti#:#lti_create_lti_user_role#:#Skapa rekommenderad global roll för LTI-använ
 lti#:#lti_cron_title#:#LTI Utfallstjänst
 lti#:#lti_cron_title_desc#:#Överför LTI-användarnas inlärningsförlopp till den anropande plattformen. Detta cron-jobb behövs endast i de fall då inlärningsförloppet måste räknas om på grund av ändrade inställningar.
 lti#:#lti_custom_new#:#Skapa din egen leverantör eller verktygsinställningar
+lti#:#lti_deep_linking_not_available_for_admin_objects#:#Konsumenter som skapats i Administration tillåter inte val av innehåll
 lti#:#lti_delete_consume_provider#:#Ta bort leverantör eller verktyg
 lti#:#lti_delete_consume_providers#:#Ta bort leverantör eller verktyg
 lti#:#lti_delete_provider#:#Ta bort leverantör eller verktyg
@@ -11480,6 +11479,7 @@ lti#:#lti_edit_consumer#:#Edit LTI konsument
 lti#:#lti_exit#:#Avsluta LTI-session
 lti#:#lti_exited#:#LTI-sessionen avslutad
 lti#:#lti_exited_info#:#LTI-sessionen slutfördes framgångsrikt.
+lti#:#lti_form_provider_content_selection#:#Innehållsval
 lti#:#lti_form_provider_create#:#Skapa inställningar för en leverantör eller ett verktyg
 lti#:#lti_form_provider_edit#:#Redigera inställningar för leverantören eller verktyget
 lti#:#lti_form_section_appearance#:#Alternativ för lanseringen
@@ -11531,6 +11531,7 @@ lti#:#subtab_certificate#:#Certifikat
 lti#:#subtab_object_settings#:#Inställningar för objekt
 lti#:#subtab_provider_settings#:#Inställningar för leverantör eller verktyg
 lti#:#tab_content#:#Innehåll
+lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#Placeringar
 lti#:#tab_settings#:#Inställningar

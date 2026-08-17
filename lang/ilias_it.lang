@@ -11261,8 +11261,6 @@ lti#:#activity_id#:#ID attività
 lti#:#activity_id_info#:#Questo ID attività viene utilizzato dal provider LTI per identificare gli statements.
 lti#:#auth_lti#:#Auth LTI
 lti#:#conf_privacy_ident#:#User identification###28 11 2025 new variable
-lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###28 11 2025 new variable
-lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###28 11 2025 new variable
 lti#:#conf_privacy_ident_il_uuid_ext_account#:#External User ID combined with a unique ILIAS platform id formatted as an E-Mail address###28 11 2025 new variable
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###28 11 2025 new variable
 lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail address###28 11 2025 new variable
@@ -11381,8 +11379,8 @@ lti#:#lti_at_least_one_prov_has_usages#:#Almeno uno dei provider non può essere
 lti#:#lti_auth_failed_invalid_key#:#Autenticazione fallita, nessuna chiave del consumatore valida fornita.
 lti#:#lti_con_content_item#:#Support for Deep Linking###31 03 2023 new variable
 lti#:#lti_con_content_item_url#:#Content URL###31 03 2023 new variable
-lti#:#lti_con_grade_synchronization#:#Advanced Grading Services###04 12 2025 new variable
-lti#:#lti_con_grade_synchronization_info#:#The LTI tool must offer 'Assignment and Grade Services'.###04 12 2025 new variable
+lti#:#lti_con_grade_synchronization#:#Assignment and Grade Services###04 12 2025 new variable
+lti#:#lti_con_grade_synchronization_info#:#Lo strumento LTI deve offrire 'Assignment and Grade Services'.###04 12 2025 new variable
 lti#:#lti_con_initiate_login_url#:#Initiate Login URL###31 03 2023 new variable
 lti#:#lti_con_key_type#:#Public Key Type###31 03 2023 new variable
 lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)###31 03 2023 new variable
@@ -11471,6 +11469,7 @@ lti#:#lti_create_lti_user_role#:#Crea un ruolo globale raccomandato per gli uten
 lti#:#lti_cron_title#:#Servizio esiti LTI
 lti#:#lti_cron_title_desc#:#Sincronizza i progressi didattici degli utenti LTI con i consumatori LTI, se supporta il servizio degli esiti. Questo cron job è richiesto solo per trasferire aggiornamenti di stato dopo l'aggiornamento dei settaggi dei progressi didattici.
 lti#:#lti_custom_new#:#Impostazioni di creazione fornitore personale
+lti#:#lti_deep_linking_not_available_for_admin_objects#:#I consumer creati in Amministrazione non consentono la selezione del contenuto
 lti#:#lti_delete_consume_provider#:#Elimina fornitore
 lti#:#lti_delete_consume_providers#:#Elimina fornitori
 lti#:#lti_delete_provider#:#Elimina fornitore
@@ -11479,6 +11478,7 @@ lti#:#lti_edit_consumer#:#Modifica consumatore LTI
 lti#:#lti_exit#:#Chiudi sessione LTI
 lti#:#lti_exited#:#Sessione LTI chiusa
 lti#:#lti_exited_info#:#Sessione LTI chiusa con successo
+lti#:#lti_form_provider_content_selection#:#Selezione contenuto
 lti#:#lti_form_provider_create#:#Impostazioni di creazione fornitore
 lti#:#lti_form_provider_edit#:#Modifica impostazioni del fornitore
 lti#:#lti_form_section_appearance#:#Opzioni di avvio
@@ -11530,6 +11530,7 @@ lti#:#subtab_certificate#:#Certificato
 lti#:#subtab_object_settings#:#Impostazioni oggetto
 lti#:#subtab_provider_settings#:#Impostazioni fornitore LTI
 lti#:#tab_content#:#Contenuto
+lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#Classifica
 lti#:#tab_settings#:#Impostazioni

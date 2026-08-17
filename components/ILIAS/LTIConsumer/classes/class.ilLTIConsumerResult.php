@@ -175,11 +175,6 @@ class ilLTIConsumerResult
         return $this->result;
     }
 
-    public function isAttended(): bool
-    {
-        return $this->attended;
-    }
-
     public function setAttended(bool $attended): void
     {
         $this->attended = $attended;

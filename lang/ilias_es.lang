@@ -11266,8 +11266,6 @@ lti#:#activity_id#:#ID de actividad
 lti#:#activity_id_info#:#Este ID de actividad es utilizado por el proveedor LTI para identificar declaraciones.
 lti#:#auth_lti#:#Autenticación LTI
 lti#:#conf_privacy_ident#:#Identificación de usuario
-lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combinado con un ID de plataforma ILIAS único con formato de dirección de correo electrónico
-lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#Esto es idéntico para cada llamada, pero no permite ninguna conclusión directa sobre el usuario de ILIAS.
 lti#:#conf_privacy_ident_il_uuid_ext_account#:#ID de usuario externo combinado con un ID de plataforma ILIAS único con formato de dirección de correo electrónico
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#Esto es idéntico para cada llamada, pero puede permitir una conclusión directa sobre el usuario.
 lti#:#conf_privacy_ident_il_uuid_login#:#Nombre de usuario de ILIAS combinado con un ID de plataforma ILIAS único con formato de dirección de correo electrónico
@@ -11386,8 +11384,8 @@ lti#:#lti_at_least_one_prov_has_usages#:#Al menos un proveedor no pudo ser elimi
 lti#:#lti_auth_failed_invalid_key#:#Error de autenticación, no se proporcionó una clave de consumidor válida.
 lti#:#lti_con_content_item#:#Soporte para Deep Linking
 lti#:#lti_con_content_item_url#:#URL de Contenido
-lti#:#lti_con_grade_synchronization#:#Servicios Avanzados de Calificación
-lti#:#lti_con_grade_synchronization_info#:#La herramienta LTI debe ofrecer 'Servicios de Tareas y Calificaciones' (Assignment and Grade Services).
+lti#:#lti_con_grade_synchronization#:#Assignment and Grade Services
+lti#:#lti_con_grade_synchronization_info#:#La herramienta LTI debe ofrecer 'Assignment and Grade Services'.
 lti#:#lti_con_initiate_login_url#:#URL de Inicio de Sesión
 lti#:#lti_con_key_type#:#Tipo de Clave Pública
 lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)
@@ -11476,6 +11474,7 @@ lti#:#lti_create_lti_user_role#:#Crear el rol global recomendado para usuarios L
 lti#:#lti_cron_title#:#Servicio de Resultados LTI (Outcome Service)
 lti#:#lti_cron_title_desc#:#Sincroniza el progreso de aprendizaje de los usuarios de LTI con el consumidor de LTI, si este es compatible con el servicio de resultados. Esta tarea programada (cron job) sólo es necesaria para transferir actualizaciones de estado tras la actualización de la configuración del progreso de aprendizaje.
 lti#:#lti_custom_new#:#Crear ajustes de proveedor propios
+lti#:#lti_deep_linking_not_available_for_admin_objects#:#Los Consumidores creados desde Administración no permiten la selección de contenido
 lti#:#lti_delete_consume_provider#:#Eliminar Proveedor
 lti#:#lti_delete_consume_providers#:#Eliminar Proveedores
 lti#:#lti_delete_provider#:#Eliminar Proveedor
@@ -11484,6 +11483,7 @@ lti#:#lti_edit_consumer#:#Editar Consumidor LTI
 lti#:#lti_exit#:#Cerrar sesión LTI
 lti#:#lti_exited#:#Sesión LTI cerrada
 lti#:#lti_exited_info#:#Sesión LTI cerrada con éxito
+lti#:#lti_form_provider_content_selection#:#Selección de contenido
 lti#:#lti_form_provider_create#:#Crear configuración de proveedor
 lti#:#lti_form_provider_edit#:#Editar configuración de proveedor
 lti#:#lti_form_section_appearance#:#Opciones de lanzamiento
@@ -11535,6 +11535,7 @@ lti#:#subtab_certificate#:#Certificado
 lti#:#subtab_object_settings#:#Configuración del objeto
 lti#:#subtab_provider_settings#:#Configuración del proveedor LTI
 lti#:#tab_content#:#Contenido
+lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Información
 lti#:#tab_scoring#:#Ranking
 lti#:#tab_settings#:#Configuración

@@ -11262,8 +11262,6 @@ lti#:#activity_id#:#アクティビティID
 lti#:#activity_id_info#:#このアクティビティIDはステートメント識別用にLTIプロバイダが使用します。
 lti#:#auth_lti#:#LTI Auth
 lti#:#conf_privacy_ident#:#ユーザID
-lti#:#conf_privacy_ident_il_uuid_SHA256#:#ハッシュは、Eメールアドレス形式でフォーマットされたユニークなILIASプラットフォームIDと組み合わされます
-lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#これは各呼び出しと同一ですが、ILIASユーザーについての直接的な結論を許しません。
 lti#:#conf_privacy_ident_il_uuid_ext_account#:#Eメールアドレス用にユニークなILIASプラットフォームでフォーマットされて組み合された外部ユーザID
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#これはコール毎に同じですが、ユーザに関してはダイレクトに終結する事があります。
 lti#:#conf_privacy_ident_il_uuid_login#:#EメールアドレスでユニークなILIASプラットフォームでフォーマットされて組み合されたILIASログイン
@@ -11382,8 +11380,8 @@ lti#:#lti_at_least_one_prov_has_usages#:# 一つ以上にこのプロバイダ�
 lti#:#lti_auth_failed_invalid_key#:#有効なconsumer keyがないので認証を失敗しました。
 lti#:#lti_con_content_item#:#ディープリンクのサポート
 lti#:#lti_con_content_item_url#:#Content URL
-lti#:#lti_con_grade_synchronization#:#拡張評価サービス
-lti#:#lti_con_grade_synchronization_info#:#LTIツールは'割当と評価サービス'を提示する必要があります。
+lti#:#lti_con_grade_synchronization#:#Assignment and Grade Services
+lti#:#lti_con_grade_synchronization_info#:#LTIツールは'Assignment and Grade Services'を提供する必要があります。
 lti#:#lti_con_initiate_login_url#:#Login URLを起動
 lti#:#lti_con_key_type#:#Public Key Type
 lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)
@@ -11472,6 +11470,7 @@ lti#:#lti_create_lti_user_role#:#LTI ユーザ用の推奨グローバル役割�
 lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#結果サービスをサポートしてる場合、LTI consumerでLTIユーザの学習進捗を同期します。このcron jobは学習進捗設定更新の後でステータス更新を送信する事が必須となります。
 lti#:#lti_custom_new#:#自身のプロバイダー設定を作成
+lti#:#lti_deep_linking_not_available_for_admin_objects#:#管理画面で作成されたコンシューマーではコンテンツを選択できません
 lti#:#lti_delete_consume_provider#:#プロバイダーを削除
 lti#:#lti_delete_consume_providers#:#プロバイダーを削除
 lti#:#lti_delete_provider#:#プロバイダーを削除
@@ -11480,6 +11479,7 @@ lti#:#lti_edit_consumer#:#LTI Consumerを編集
 lti#:#lti_exit#:#LTI Sessionをクローズ
 lti#:#lti_exited#:#LTI セッションをクローズしました
 lti#:#lti_exited_info#:#LTIセッションは正しくクローズしました
+lti#:#lti_form_provider_content_selection#:#コンテンツ選択
 lti#:#lti_form_provider_create#:#プロバイダー設定を作成
 lti#:#lti_form_provider_edit#:#プロバイダー設定を編集
 lti#:#lti_form_section_appearance#:#起動のオプション
@@ -11531,6 +11531,7 @@ lti#:#subtab_certificate#:#履修状況
 lti#:#subtab_object_settings#:#オブジェクト設定
 lti#:#subtab_provider_settings#:#LTI Provider設定
 lti#:#tab_content#:#コンテンツ
+lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#ランキング
 lti#:#tab_settings#:#設定
