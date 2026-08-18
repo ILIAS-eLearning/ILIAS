@@ -39,16 +39,14 @@ Board is committed to make the experts opinions heard in the development of ILIA
 Recommendations by experts will have a strong impact on the decisions of the TB.** 
 
 ## Existing Expert Groups
-### UI/UX/A11y Expert Group
-The UI/UX/A11y Expert Group is concerned with the ILIAS User Interface as a whole. Its
-responsabilities are wide ranging, so it is not to be expected for all its members to be
-experts in all aspects it tackles. The UI/UX/A11y Expert Group can be reached through its own
-email address (ux@lists.ilias.de).
-* The task of the UX/UI/A11y experts is to promote uniform user guidance and simple usability across ILIAS, for sighted users as well as for user with special requirements for the user interface.
-* The UX/UI/A11y experts help to ask the right questions and find answers for all concepts, ideas, or problems regarding the user interface, the user experience or the accessibility of ILIAS. They take existing kitchen sink components and their rules into account and are willing to participate in the development or improvement of UI components for the UI framework. They coordinate their work with the coordinators of the UI framework.
-* The UI/UX/A11y experts participate in related SIGs, such as SIG Accessibility or SIG Client, and take part in the discussions there.
-* As a common and open space to discuss issues, the UI/UX/A11y experts run the UI/UX/A11y clinic.
-* The UI/UX/A11y Expert Group plays a central role in the [Accessibility Process](accessibility-process.md#participants).
+### Accessibility and Language Expert Group
+The Accessibility and Language Expert Group is concerned with the entire ILIAS user interface. Since its scope of responsibility is very broad, members of the group cannot be expected to be experts in all areas under discussion. The Expert Group can be contacted via its dedicated email address (ux@lists.ilias.de).
+
+* The task of the Accessibility and Language experts is to promote user interface in ILIAS that is accessible for users.
+* The group helps ensure that the right questions are asked and that appropriate answers are found for concepts, ideas, or issues related to the ILIAS user interface, user experience and accessibility. Its members take existing “Kitchen Sink” components and their guidelines into account and are prepared to contribute to the development and improvement of UI components for the UI framework. They coordinate their work with the UI Framework Coordinators
+* The experts actively participate in relevant SIGs (Special Interest Groups), such as the SIG Accessibility, and contribute to the discussions taking place there.
+* As a shared and open space for discussing relevant topics, the experts operate the “Accessibility and Language Clinic”.
+* The Accessibility and Language Expert Group plays a central role in the ILIAS  [Accessibility Process](accessibility-process.md#participants).
 
 ### Security Expert Group
 The Security Expert Group can be reached through its own email address (security@lists.ilias.de).
