@@ -18,17 +18,21 @@
 
 declare(strict_types=1);
 
+enum ilLTIConsumerActivityProgress: string
+{
+    case INITIALIZED = 'Initialized';
+    case STARTED = 'Started';
+    case IN_PROGRESS = 'InProgress';
+    case SUBMITTED = 'Submitted';
+    case COMPLETED = 'Completed';
 
-$_GET['cmd'] = 'post';
-$_POST['cmd'] = 'doLTIAuthentication';
+    public function isInProgress(): bool
+    {
+        return $this === self::STARTED || $this === self::IN_PROGRESS;
+    }
 
-require_once '../vendor/composer/vendor/autoload.php';
-require_once __DIR__ . '/../artifacts/bootstrap_default.php';
-entry_point('ILIAS Legacy Initialisation Adapter');
-
-ilContext::init(ilContext::CONTEXT_LTI_PROVIDER);
-
-global $DIC;
-
-$DIC->ctrl()->setTargetScript('ilias.php');
-$DIC->ctrl()->callBaseClass('ilStartUpGUI');
+    public function isSubmittedOrCompleted(): bool
+    {
+        return $this === self::SUBMITTED || $this === self::COMPLETED;
+    }
+}

@@ -22,11 +22,13 @@ declare(strict_types=1);
 use ILIAS\Filesystem\Exception\IOException;
 use Firebase\JWT\JWT;
 use Firebase\JWT\JWK;
+use Firebase\JWT\Key;
 
-require_once("../vendor/composer/vendor/autoload.php");
+require_once '../vendor/composer/vendor/autoload.php';
+require_once __DIR__ . '/../artifacts/bootstrap_default.php';
+entry_point('ILIAS Legacy Initialisation Adapter');
 
 ilContext::init(ilContext::CONTEXT_SCORM);
-ilInitialisation::initILIAS();
 
 global $DIC;
 
@@ -71,7 +73,7 @@ if ($claims == null) {
     invalidRequest("bad request: no claims");
 }
 
-$clientId = $claims['sub'];
+$clientId = $claims['sub'] ?? '';
 if (empty($clientId)) {
     invalidRequest("bad request: no claims");
 }
@@ -82,13 +84,17 @@ $provider = null;
 try {
     $providerId = ilLTIConsumeProvider::getProviderIdFromClientId($clientId);
 } catch (IOException $e) {
-    invalidRequest(var_export($e, true));
+    invalidClient(var_export($e, true));
+}
+
+if ($providerId <= 0) {
+    invalidClient("unknown client_id: " . $clientId);
 }
 
 try {
     $provider = new ilLTIConsumeProvider($providerId);
 } catch (IOException $e) {
-    serverError(var_export($e, true));
+    invalidClient(var_export($e, true));
 }
 
 validateServiceToken($clientAssertion, $provider);
@@ -110,16 +116,35 @@ function validateServiceToken(string $token, ilLTIConsumeProvider $provider): vo
     try {
         ilObjLTIConsumer::getLogger()->debug("validateServiceToken");
         // ToDo: caching
-        $jwks = file_get_contents($provider->getPublicKeyset());
-        $keyset = json_decode($jwks, true);
-        $keys = JWK::parseKeySet($keyset);
+        if ($provider->getKeyType() === 'RSA_KEY') {
+            $publicKey = trim($provider->getPublicKey());
+            if ($publicKey === '') {
+                invalidClient('missing public key');
+            }
+            $keys = new Key($publicKey, 'RS256');
+        } else {
+            $publicKeyset = trim($provider->getPublicKeyset());
+            if ($publicKeyset === '') {
+                invalidClient('missing public keyset');
+            }
+            try {
+                $jwks = ilObjLTIConsumer::fetchPublicKeyset($publicKeyset);
+            } catch (ilLtiConsumerException $exception) {
+                invalidClient('cannot fetch public keyset');
+            }
+            $keyset = json_decode($jwks, true);
+            if (!is_array($keyset)) {
+                invalidClient('invalid public keyset');
+            }
+            $keys = JWK::parseKeySet($keyset);
+        }
         $data = JWT::decode($token, $keys);
         //ilObjLTIConsumer::getLogger()->debug(var_export($data, TRUE));
         if ($provider->getClientId() != $data->iss || $provider->getClientId() != $data->sub) {
-            invalidRequest("invalid clientId");
+            invalidClient("invalid clientId");
         }
     } catch (Exception $e) {
-        serverError(var_export($e, true));
+        invalidClient(var_export($e, true));
     }
 }
 
@@ -154,6 +179,7 @@ function serverError(string $log = ""): void
         ilObjLTIConsumer::getLogger()->error($log);
     }
     ilObjLTIConsumer::sendResponseError(500, json_encode(array('error' => "ERROR_OPEN_SSL_CONF")));
+    exit;
 }
 
 function invalidRequest(string $log = ""): void
@@ -162,4 +188,14 @@ function invalidRequest(string $log = ""): void
         ilObjLTIConsumer::getLogger()->error($log);
     }
     ilObjLTIConsumer::sendResponseError(400, json_encode(array('error' => 'invalid_request')));
+    exit;
+}
+
+function invalidClient(string $log = ""): void
+{
+    if (!empty($log)) {
+        ilObjLTIConsumer::getLogger()->error($log);
+    }
+    ilObjLTIConsumer::sendResponseError(401, json_encode(array('error' => 'invalid_client')));
+    exit;
 }

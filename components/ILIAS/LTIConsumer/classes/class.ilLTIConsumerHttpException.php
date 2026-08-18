@@ -18,17 +18,25 @@
 
 declare(strict_types=1);
 
+final class ilLTIConsumerHttpException extends RuntimeException
+{
+    public static function badRequest(string $message): self
+    {
+        return new self($message, 400);
+    }
 
-$_GET['cmd'] = 'post';
-$_POST['cmd'] = 'doLTIAuthentication';
+    public static function unauthorized(string $message = 'invalid request'): self
+    {
+        return new self($message, 401);
+    }
 
-require_once '../vendor/composer/vendor/autoload.php';
-require_once __DIR__ . '/../artifacts/bootstrap_default.php';
-entry_point('ILIAS Legacy Initialisation Adapter');
+    public static function forbidden(string $message): self
+    {
+        return new self($message, 403);
+    }
 
-ilContext::init(ilContext::CONTEXT_LTI_PROVIDER);
-
-global $DIC;
-
-$DIC->ctrl()->setTargetScript('ilias.php');
-$DIC->ctrl()->callBaseClass('ilStartUpGUI');
+    public static function notFound(string $message): self
+    {
+        return new self($message, 404);
+    }
+}

@@ -11298,6 +11298,10 @@ lti#:#conf_privacy_ident_il_uuid_ext_account#:#Die externe Konten-ID wird kombin
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#Die Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
 lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Anmeldename kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
 lti#:#conf_privacy_ident_il_uuid_login_info#:#Sendet den Anmeldenamen. Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
+lti#:#conf_privacy_ident_il_uuid_random#:#Zufalls-ID@ILIAS-Plattform-ID.ilias###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_random_info#:#Pro ILIAS-Objekt und ILIAS-Konto wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Die E-Mail-Adresse setzt sich zusammen aus der Zufalls-ID und einer eigens###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256url#:#Hash@ILIAS-Domain###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256url_info#:#Die E-Mail-Adresse setzt sich zusammen aus einem Hash-Wert und einer ILIAS-Domain. Diese Option ist mit maximal 80 Zeichen deutlich kürzer als die mit ILIAS-Plattform-ID. Ohne Zugriff auf die ILIAS-Datenbank ermöglicht diese Option sind nur sehr eingeschränkte Rückschlüsse auf ein ILIAS-Konto.###04 12 2025 new variable
 lti#:#conf_privacy_ident_il_uuid_user_id#:#ID des ILIAS-Kontos kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 lti#:#conf_privacy_ident_il_uuid_user_id_info#:#Die interne numerische ID ist bei jedem Aufruf identisch und ermöglicht Rückschlüsse auf das ILIAS-Konto.
 lti#:#conf_privacy_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
@@ -11383,13 +11387,16 @@ lti#:#launched#:#Die Ressource wurde bereits gestartet.
 lti#:#learning_progress_options#:#Optionen für den Lernfortschritt
 lti#:#lm_only_one_download_per_type#:#Es kann nur eine Datei je Typ (XML, HTML, SCORM) zum Download bereitgestellt werden.
 lti#:#lti13_hints#:#Hinweise
+lti#:#lti_13_authentication_url#:#URL für die Authentifizierungsanfrage###04 12 2025 new variable
 lti#:#lti_13_client_id#:#Client-ID
 lti#:#lti_13_deployment_id#:#Deployment-ID
+lti#:#lti_13_keyset_url#:#URL für den öffentlichen Schlüsselsatz###04 12 2025 new variable
 lti#:#lti_13_platform_id#:#Plattform-ID
 lti#:#lti_13_step1#:#Schritt 1
 lti#:#lti_13_step1_info#:#Tragen Sie bei der initiierenden Plattform (Consumer) die folgende Adresse für Launch URL, Initiate Login URL, Redirection URI und Registration URL ein:
 lti#:#lti_13_step2#:#Schritt 2
 lti#:#lti_13_step2_info#:#Von der initiierenden Plattform (Consumer) erhalten Sie Angaben, die Sie in den folgenden Feldern eintragen müssen. Nach dem Speichern stehen die LTI 1.3-Funktionalitäten zur Verfügung.
+lti#:#lti_13_token_url#:#URL für den Zugriffstoken###04 12 2025 new variable
 lti#:#lti_action_accept_provider_as_global#:#Den Provider als globalen Provider für alle Benutzer übernehmen.
 lti#:#lti_action_accept_providers_as_global#:#Provider als globalen Provider übernehmen
 lti#:#lti_action_delete_providers#:#Provider löschen
@@ -11403,6 +11410,8 @@ lti#:#lti_at_least_one_prov_has_usages#:#Mindestens ein Provider konnte nicht ge
 lti#:#lti_auth_failed_invalid_key#:#Authentifizierung nicht möglich. Es wurde kein gültiger Consumer-Key übermittelt.
 lti#:#lti_con_content_item#:#Unterstützung für Deep Linking
 lti#:#lti_con_content_item_url#:#Inhalts-URL
+lti#:#lti_con_grade_synchronization#:#Assignment and Grade Services###04 12 2025 new variable
+lti#:#lti_con_grade_synchronization_info#:#Das LTI-Tool muss 'Assignment and Grade Services' anbieten.###04 12 2025 new variable
 lti#:#lti_con_initiate_login_url#:#Initiate Login URL
 lti#:#lti_con_key_type#:#Typ des öffentlichen Schlüssels
 lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)
@@ -11422,6 +11431,10 @@ lti#:#lti_con_prov_category_info#:#Kategorie, um Einträge zu filtern, wenn ein 
 lti#:#lti_con_prov_custom_params#:#Definition der Parameter für diesen spezifischen Provider
 lti#:#lti_con_prov_custom_params_info#:#Bitte geben Sie diese in der Form ein: param1=value1; param2=value2
 lti#:#lti_con_prov_description#:#Beschreibung
+lti#:#lti_con_prov_dyn_reg_params#:#Optionale Parameter###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_params_info#:#Hier können z.B. Verweise auf Zielobjekte im Tool angegeben werden.###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_url#:#Registrierungs-URL des Tools###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_url_info#:#Hinweis: Nicht jedes Tool unterstützt die dynamische Registrierung.###04 12 2025 new variable
 lti#:#lti_con_prov_external_provider#:#Externer Provider
 lti#:#lti_con_prov_external_provider_info#:#Bei der Zusammenarbeit mit einem externen Provider bzw. Tool wird ein Hinweis angezeigt. Die Rechte zum Löschen persönlicher Daten durch die ILIAS-Administration sind bei externen Providern in der Regel nicht gegeben.
 lti#:#lti_con_prov_group_options#:#Optionen zum Gruppieren und Filtern von Providern
@@ -11487,13 +11500,16 @@ lti#:#lti_create_lti_user_role#:#Empfohlene globale Rolle für LTI-User anlegen
 lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an die aufrufende Plattform. Dieser Cron-Job wird nur in den Fällen benötigt, wenn der Lernfortschritt aufgrund von Einstellungsänderungen neu berechnet werden muss.
 lti#:#lti_custom_new#:#Eigene Provider-Einstellungen anlegen
+lti#:#lti_deep_linking_not_available_for_admin_objects#:#In der Administration angelegte Konsumenten erlauben keine Inhaltsauswahl
 lti#:#lti_delete_consume_provider#:#Provider löschen
 lti#:#lti_delete_consume_providers#:#Provider löschen
 lti#:#lti_delete_provider#:#Provider löschen
+lti#:#lti_dynamic_registration#:#Eigene Tool-Einstellungen mit dynamischer Registrierung anlegen (LTI 1.3)###04 12 2025 new variable
 lti#:#lti_edit_consumer#:#LTI-Konsument bearbeiten
 lti#:#lti_exit#:#LTI-Sitzung beenden
 lti#:#lti_exited#:#LTI-Sitzung beendet
 lti#:#lti_exited_info#:#Die LTI-Sitzung wurde erfolgreich beendet.
+lti#:#lti_form_provider_content_selection#:#Inhaltsauswahl
 lti#:#lti_form_provider_create#:#Provider-Einstellungen anlegen
 lti#:#lti_form_provider_edit#:#Provider-Einstellungen bearbeiten
 lti#:#lti_form_section_appearance#:#Optionen für den Start
@@ -11545,6 +11561,7 @@ lti#:#subtab_certificate#:#Zertifikat
 lti#:#subtab_object_settings#:#Objekteinstellungen
 lti#:#subtab_provider_settings#:#LTI-Provider-Einstellungen
 lti#:#tab_content#:#Inhalt
+lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#Platzierungen
 lti#:#tab_settings#:#Einstellungen

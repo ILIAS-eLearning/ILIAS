@@ -144,13 +144,86 @@ abstract class ilLTIConsumerResourceBase
     /**
      * Check to make sure the request is valid.
      */
-    public function checkTool(array $scopes = array()): ?object
+    /** @param list<string> $scopes */
+    public function checkTool(array $scopes = array()): ?ilLTIConsumerAccessToken
     {
         $token = $this->getService()->checkTool();
         $permittedScopes = $this->getService()->getPermittedScopes();
-        if (empty($scopes) || empty(array_intersect($permittedScopes, $scopes))) {
-            $token = null;
+
+        if ($token === null || empty($scopes) || empty(array_intersect($permittedScopes, $scopes))) {
+            return null;
         }
+
+        if (empty(array_intersect($token->getScopes(), $scopes))) {
+            return null;
+        }
+
         return $token;
+    }
+
+    protected function resolveUserIdFromLtiIdent(int $objId, string $userIdent): ?int
+    {
+        global $DIC;
+        $ilDB = $DIC->database();
+
+        $query = 'SELECT usr_id FROM cmix_users'
+            . ' WHERE obj_id = ' . $ilDB->quote($objId, 'integer')
+            . ' AND usr_ident = ' . $ilDB->quote($userIdent, 'text');
+        $res = $ilDB->query($query);
+        $row = $ilDB->fetchAssoc($res);
+        if ($row) {
+            return (int) $row['usr_id'];
+        }
+
+        $userId = ilCmiXapiUser::getUsrIdForObjectAndUsrIdent($objId, $userIdent);
+        if ($userId !== null) {
+            return $userId;
+        }
+
+        $query = 'SELECT usr_id, privacy_ident FROM cmix_users'
+            . ' WHERE obj_id = ' . $ilDB->quote($objId, 'integer');
+        $res = $ilDB->query($query);
+        while ($row = $ilDB->fetchAssoc($res)) {
+            $user = new ilObjUser((int) $row['usr_id']);
+            if (ilCmiXapiUser::getIdentAsId((int) $row['privacy_ident'], $user) === $userIdent) {
+                return (int) $row['usr_id'];
+            }
+        }
+
+        return null;
+    }
+
+    protected function matchesLtiUserIdent(int $objId, int $userId, string $userIdent, string $filter): bool
+    {
+        foreach ($this->getLtiUserIdentCandidates($objId, $userId, $userIdent) as $candidate) {
+            if ($candidate === $filter) {
+                return true;
+            }
+
+            if (strpos($filter, '@') === false && str_starts_with($candidate, $filter . '@')) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    protected function getLtiUserIdentCandidates(int $objId, int $userId, string $userIdent): array
+    {
+        global $DIC;
+        $ilDB = $DIC->database();
+
+        $idents = [$userIdent, (string) $userId];
+        $query = 'SELECT usr_ident, privacy_ident FROM cmix_users'
+            . ' WHERE obj_id = ' . $ilDB->quote($objId, 'integer')
+            . ' AND usr_id = ' . $ilDB->quote($userId, 'integer');
+        $res = $ilDB->query($query);
+        $user = new ilObjUser($userId);
+        while ($row = $ilDB->fetchAssoc($res)) {
+            $idents[] = (string) $row['usr_ident'];
+            $idents[] = ilCmiXapiUser::getIdentAsId((int) $row['privacy_ident'], $user);
+        }
+
+        return array_values(array_unique(array_filter($idents, static fn($ident): bool => $ident !== '')));
     }
 }

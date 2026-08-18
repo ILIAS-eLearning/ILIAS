@@ -1249,7 +1249,7 @@ assessment#:#saved_adjustment#:#Változások mentése sikerült.
 assessment#:#score_anon#:#Pontozás névtelenül
 assessment#:#score_partsol_enabled#:#Részmegoldások pontozásának bekapcsolása
 assessment#:#score_partsol_enabled_info#:#A felhasználóknak általában az összes kérdést hibátlanul meg kell válaszolniuk a beállított pont eléréséhez. Evvel a lehetőséggel a beállított pont felét megszerezhetik legalább három hibátlan döntés esetén.
-assessment#:#scored_by#:#Pontozta: 
+assessment#:#scored_by#:#Pontozta:
 assessment#:#scored_pass#:#Sikeres kitöltés
 assessment#:#scoring#:#Pontozás és eredmények
 assessment#:#scoringadjust#:#Utólagos módosítás
@@ -11468,6 +11468,7 @@ lti#:#lti_create_lti_user_role#:#LTI-felhasználónak ajánlott globális szerep
 lti#:#lti_cron_title#:#LTI-kimeneti Szolgáltatás
 lti#:#lti_cron_title_desc#:#Az LTI-felhasználók tanulási haladási állapotát szinkronizálja egy LTI-eszközfogyasztóval, amennyiben az támogatja a kimeneti szolgáltatást. Erre az ütemezett feladatra csak a tanulási haladás beállításainak módosítása után van szükség.
 lti#:#lti_custom_new#:#Create Own Settings for Provider resp. Tool
+lti#:#lti_deep_linking_not_available_for_admin_objects#:#Az Adminisztrációban létrehozott fogyasztók nem teszik lehetővé a tartalom kiválasztását
 lti#:#lti_delete_consume_provider#:#Kiszolgáló törlése
 lti#:#lti_delete_consume_providers#:# Kiszolgálók törlése
 lti#:#lti_delete_provider#:#Kiszolgáló törlése
@@ -11476,6 +11477,7 @@ lti#:#lti_edit_consumer#:#LTI-fogyasztó módosítása
 lti#:#lti_exit#:#LTI-munkamenet lezárása
 lti#:#lti_exited#:#LTI-munkamenet lezárva
 lti#:#lti_exited_info#:#LTI-munkamenet sikeresen lezárult
+lti#:#lti_form_provider_content_selection#:#Tartalom kiválasztása
 lti#:#lti_form_provider_create#:#Kiszolgáló beállításainak létrehozása
 lti#:#lti_form_provider_edit#:#Kiszolgáló beállításainak módosítása
 lti#:#lti_form_section_appearance#:#Indítás beállításai
@@ -11527,6 +11529,7 @@ lti#:#subtab_certificate#:#Tanúsítványok
 lti#:#subtab_object_settings#:#Objektum beállításai
 lti#:#subtab_provider_settings#:#Kiszolgáló resp. Eszköz beállításai
 lti#:#tab_content#:#Tartalom
+lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#Helyezés
 lti#:#tab_settings#:#Beállítások

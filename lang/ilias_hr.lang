@@ -11189,6 +11189,10 @@ lti#:#conf_privacy_ident_il_uuid_ext_account#:#External User ID combined with a 
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###26 08 2024 new variable
 lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail address###26 08 2024 new variable
 lti#:#conf_privacy_ident_il_uuid_login_info#:#Sends the login name. This is identical to each call, but may allow a direct conclusion about the ILIAS user.###26 08 2024 new variable
+lti#:#conf_privacy_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256url#:#Hash combined with the ILIAS Domain formatted as an E-Mail address.###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256url_info#:#This is identical to each call, with with a maximum of 80 characters significantly shorter than the variant with the ILIAS platform ID and allows only very limited conclusions about the ILIAS user.###04 12 2025 new variable
 lti#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formatted as an E-Mail address###26 08 2024 new variable
 lti#:#conf_privacy_ident_il_uuid_user_id_info#:#Sends the internal numeric user id. This is identical to each call, but may allow conclusions about the ILIAS user.###26 08 2024 new variable
 lti#:#conf_privacy_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:###26 08 2024 new variable
@@ -11274,13 +11278,16 @@ lti#:#launched#:#Resource was already launched.###04 06 2021 new variable
 lti#:#learning_progress_options#:#Options for Learning Progress###04 06 2021 new variable
 lti#:#lm_only_one_download_per_type#:#Napominjemo da možete učiniti javno dostupnom samo jednu datoteku po tipu (XML, HTML, SCORM).
 lti#:#lti13_hints#:#If the tool was created without dynamic registration, the following data must be entered for the tool to run.###26 08 2024 new variable
+lti#:#lti_13_authentication_url#:#Authentication Request URL###04 12 2025 new variable
 lti#:#lti_13_client_id#:#Client-ID###26 08 2024 new variable
 lti#:#lti_13_deployment_id#:#Deployment-ID###26 08 2024 new variable
+lti#:#lti_13_keyset_url#:#Public Keyset URL###04 12 2025 new variable
 lti#:#lti_13_platform_id#:#Platform-ID###26 08 2024 new variable
 lti#:#lti_13_step1#:#Step 1###26 08 2024 new variable
 lti#:#lti_13_step1_info#:#For the initiating platform (consumer), enter the following address for Launch URL, Initiate Login URL, Redirection URI, and Registration URL:###26 08 2024 new variable
 lti#:#lti_13_step2#:#Step 2###26 08 2024 new variable
 lti#:#lti_13_step2_info#:#You will receive information from the initiating platform (Consumer), which you must enter in the following fields. After saving, the LTI 1.3 functionalities are available.###26 08 2024 new variable
+lti#:#lti_13_token_url#:#Access Token URL###04 12 2025 new variable
 lti#:#lti_action_accept_provider_as_global#:#Accept Provider as Global Provider for all Users###04 06 2021 new variable
 lti#:#lti_action_accept_providers_as_global#:#Accept Providers as Global###04 06 2021 new variable
 lti#:#lti_action_delete_providers#:#Delete Providers###04 06 2021 new variable
@@ -11294,6 +11301,8 @@ lti#:#lti_at_least_one_prov_has_usages#:#At least one provider could not be dele
 lti#:#lti_auth_failed_invalid_key#:#Autentifikacija nije uspjela, nije dan valjani potrošački ključ.
 lti#:#lti_con_content_item#:#Support for Deep Linking###26 08 2024 new variable
 lti#:#lti_con_content_item_url#:#Content URL###26 08 2024 new variable
+lti#:#lti_con_grade_synchronization#:#Assignment and Grade Services###04 12 2025 new variable
+lti#:#lti_con_grade_synchronization_info#:#The LTI tool must offer 'Assignment and Grade Services'.###04 12 2025 new variable
 lti#:#lti_con_initiate_login_url#:#Initiate Login URL###26 08 2024 new variable
 lti#:#lti_con_key_type#:#Public Key Type###26 08 2024 new variable
 lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)###26 08 2024 new variable
@@ -11313,6 +11322,10 @@ lti#:#lti_con_prov_category_info#:#Category to filter entries when LTI Consumer 
 lti#:#lti_con_prov_custom_params#:#Custom Parameters for this specific Provider###04 06 2021 new variable
 lti#:#lti_con_prov_custom_params_info#:#Please enter them in the form param1=value1; param2=value2###04 06 2021 new variable
 lti#:#lti_con_prov_description#:#Description###04 06 2021 new variable
+lti#:#lti_con_prov_dyn_reg_params#:#Optional Parameters###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_params_info#:#Here, for example, references to target objects in the tool can be specified.###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_url#:#Registration URL of the Tool###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_url_info#:#Note: Not every tool supports dynamic registration.###04 12 2025 new variable
 lti#:#lti_con_prov_external_provider#:#External Provider###04 06 2021 new variable
 lti#:#lti_con_prov_external_provider_info#:#A hint will be shown to users when dealing with an external Provider. An external Provider is characterized by insufficient influence on the Provider by the operator of the ILIAS-installation. This is the case when there are no rights to delete.###04 06 2021 new variable
 lti#:#lti_con_prov_group_options#:#Options to group and filter Providers###04 06 2021 new variable
@@ -11378,13 +11391,16 @@ lti#:#lti_create_lti_user_role#:#Create recommended global role for LTI users###
 lti#:#lti_cron_title#:#LTI izlazna usluga
 lti#:#lti_cron_title_desc#:#Sinkronizira napredak učenja LTI korisnika s LTI potrošačem, ako podržava izlaznu uslugu. Ovaj cron job potreban je samo za prijenos ažuriranja statusa nakon ažuriranja postavki napretka učenja.
 lti#:#lti_custom_new#:#Create Own Provider Settings###04 06 2021 new variable
+lti#:#lti_deep_linking_not_available_for_admin_objects#:#Potrošači stvoreni u Administraciji ne dopuštaju odabir sadržaja
 lti#:#lti_delete_consume_provider#:#Delete Provider###04 06 2021 new variable
 lti#:#lti_delete_consume_providers#:#Delete Providers###04 06 2021 new variable
 lti#:#lti_delete_provider#:#Delete Provider###04 06 2021 new variable
+lti#:#lti_dynamic_registration#:#Create Own Settings for Tool with Dynamic Registration (LTI 1.3)###04 12 2025
 lti#:#lti_edit_consumer#:#Uredi LTI potrošača
 lti#:#lti_exit#:#Zatvori LTI sesiju
 lti#:#lti_exited#:#LTI sesija zatvorena
 lti#:#lti_exited_info#:#LTI sesija je uspješno zatvorena
+lti#:#lti_form_provider_content_selection#:#Odabir sadržaja
 lti#:#lti_form_provider_create#:#Create Provider Settings###04 06 2021 new variable
 lti#:#lti_form_provider_edit#:#Edit Provider Settings###04 06 2021 new variable
 lti#:#lti_form_section_appearance#:#Options for launch###04 06 2021 new variable
@@ -11436,6 +11452,7 @@ lti#:#subtab_certificate#:#Certificate###04 06 2021 new variable
 lti#:#subtab_object_settings#:#Object Settings###04 06 2021 new variable
 lti#:#subtab_provider_settings#:#LTI Provider Settings###04 06 2021 new variable
 lti#:#tab_content#:#Content###04 06 2021 new variable
+lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info###04 06 2021 new variable
 lti#:#tab_scoring#:#Ranking###04 06 2021 new variable
 lti#:#tab_settings#:#Settings###04 06 2021 new variable
