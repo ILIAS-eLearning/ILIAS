@@ -311,9 +311,7 @@ class UnzipTest extends TestCase
         );
 
         // the options passed to Archives::unzip() must not be dropped while merging
-        $options = (new \ReflectionClass($unzip))->getProperty('options');
-        $options->setAccessible(true);
-        $options = $options->getValue($unzip);
+        $options = (new \ReflectionClass($unzip))->getProperty('options')->getValue($unzip);
 
         $this->assertSame(3, $options->getMaxAmountOfEntries());
         $this->assertSame(4, $options->getMaxUncompressedSize());
