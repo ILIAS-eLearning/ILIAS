@@ -335,7 +335,10 @@ class DatabaseDocumentRepository implements DocumentRepository, DocumentReposito
     private function deleteEntry(string $table, int $id, string $doc_field, bool $cleanup = false): void
     {
         $id = $this->database->quote($id, ilDBConstants::T_INTEGER);
-        $this->database->manipulate("DELETE FROM $table WHERE id = $id AND " . $this->exists($table . '.' . $doc_field));
+        $belongs_to_provider = $table === $this->documentTable()
+            ? 'provider = ' . $this->database->quote($this->id, ilDBConstants::T_TEXT)
+            : $this->exists($table . '.' . $doc_field);
+        $this->database->manipulate("DELETE FROM $table WHERE id = $id AND " . $belongs_to_provider);
         if ($cleanup) {
             $this->cleanupCriteria();
         }
