@@ -11248,6 +11248,10 @@ lti#:#conf_privacy_ident_il_uuid_ext_account#:#ID de usuario externo combinado c
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#Esto es idéntico para cada llamada, pero puede permitir una conclusión directa sobre el usuario.
 lti#:#conf_privacy_ident_il_uuid_login#:#Nombre de usuario de ILIAS combinado con un ID de plataforma ILIAS único con formato de dirección de correo electrónico
 lti#:#conf_privacy_ident_il_uuid_login_info#:#Envía el nombre de usuario. Esto es idéntico para cada llamada, pero puede permitir una conclusión directa sobre el usuario de ILIAS.
+lti#:#conf_privacy_ident_il_uuid_random#:#ID aleatorio combinado con un ID de plataforma ILIAS único con formato de dirección de correo electrónico
+lti#:#conf_privacy_ident_il_uuid_random_info#:#Para cada objeto ILIAS y usuario de ILIAS se genera un ID aleatorio que permanece idéntico para cada llamada. Las conclusiones sobre un usuario son muy limitadas porque es prácticamente imposible crear perfiles de usuario a través de los objetos.
+lti#:#conf_privacy_ident_il_uuid_sha256url#:#Hash combinado con el dominio de ILIAS con formato de dirección de correo electrónico.
+lti#:#conf_privacy_ident_il_uuid_sha256url_info#:#Esto es idéntico para cada llamada, con un máximo de 80 caracteres, significativamente más corto que la variante con el ID de la plataforma ILIAS y permite solo conclusiones muy limitadas sobre el usuario de ILIAS.
 lti#:#conf_privacy_ident_il_uuid_user_id#:#ID de usuario de ILIAS combinado con un ID de plataforma ILIAS único con formato de dirección de correo electrónico
 lti#:#conf_privacy_ident_il_uuid_user_id_info#:#Envía el ID de usuario numérico interno. Esto es idéntico para cada llamada, pero puede permitir conclusiones sobre el usuario de ILIAS.
 lti#:#conf_privacy_ident_info#:#El estándar es frecuentemente la dirección de correo electrónico. El ID único de la plataforma ILIAS es:
@@ -11333,13 +11337,16 @@ lti#:#launched#:#El recurso ya fue lanzado.
 lti#:#learning_progress_options#:#Opciones para el Progreso de Aprendizaje
 lti#:#lm_only_one_download_per_type#:#Solo se puede publicar un archivo por tipo (XML, HTML, SCORM).
 lti#:#lti13_hints#:#Si la herramienta se creó sin registro dinámico, se deben introducir los siguientes datos para que la herramienta funcione.
+lti#:#lti_13_authentication_url#:#URL de solicitud de autenticación
 lti#:#lti_13_client_id#:#ID de cliente (Client-ID)
 lti#:#lti_13_deployment_id#:#ID de despliegue (Deployment-ID)
+lti#:#lti_13_keyset_url#:#URL de conjunto de claves públicas
 lti#:#lti_13_platform_id#:#ID de plataforma (Platform-ID)
 lti#:#lti_13_step1#:#Paso 1
 lti#:#lti_13_step1_info#:#Para la plataforma iniciadora (consumidor), introduzca la siguiente dirección para la URL de lanzamiento, URL de inicio de sesión, URI de redirección y URL de registro:
 lti#:#lti_13_step2#:#Paso 2
 lti#:#lti_13_step2_info#:#Recibirá información de la plataforma iniciadora (Consumidor), que deberá introducir en los siguientes campos. Después de guardar, las funcionalidades de LTI 1.3 estarán disponibles.
+lti#:#lti_13_token_url#:#URL de token de acceso
 lti#:#lti_action_accept_provider_as_global#:#Aceptar proveedor como proveedor global para todos los usuarios
 lti#:#lti_action_accept_providers_as_global#:#Aceptar proveedores como globales
 lti#:#lti_action_delete_providers#:#Eliminar proveedores
@@ -11353,6 +11360,8 @@ lti#:#lti_at_least_one_prov_has_usages#:#Al menos un proveedor no pudo ser elimi
 lti#:#lti_auth_failed_invalid_key#:#Error de autenticación, no se proporcionó una clave de consumidor válida.
 lti#:#lti_con_content_item#:#Soporte para Deep Linking
 lti#:#lti_con_content_item_url#:#URL de Contenido
+lti#:#lti_con_grade_synchronization#:#Assignment and Grade Services
+lti#:#lti_con_grade_synchronization_info#:#La herramienta LTI debe ofrecer 'Assignment and Grade Services'.
 lti#:#lti_con_initiate_login_url#:#URL de Inicio de Sesión
 lti#:#lti_con_key_type#:#Tipo de Clave Pública
 lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)
@@ -11372,6 +11381,10 @@ lti#:#lti_con_prov_category_info#:#Categoría para filtrar entradas al crear el 
 lti#:#lti_con_prov_custom_params#:#Parámetros Personalizados para este Proveedor específico
 lti#:#lti_con_prov_custom_params_info#:#Por favor, introdúzcalos en el formato param1=valor1; param2=valor2
 lti#:#lti_con_prov_description#:#Descripción
+lti#:#lti_con_prov_dyn_reg_params#:#Parámetros Opcionales
+lti#:#lti_con_prov_dyn_reg_params_info#:#Aquí se pueden especificar, por ejemplo, referencias a objetos de destino en la herramienta.
+lti#:#lti_con_prov_dyn_reg_url#:#URL de Registro de la Herramienta
+lti#:#lti_con_prov_dyn_reg_url_info#:#Nota: No todas las herramientas admiten el registro dinámico.
 lti#:#lti_con_prov_external_provider#:#Proveedor externo
 lti#:#lti_con_prov_external_provider_info#:#Se mostrará un aviso a los usuarios cuando se trate de un proveedor externo. Un proveedor externo se caracteriza por la insuficiente influencia sobre el proveedor por parte del operador de la instalación de ILIAS. Este es el caso cuando no existen derechos de eliminación.
 lti#:#lti_con_prov_group_options#:#Opciones para agrupar y filtrar proveedores
@@ -11441,12 +11454,13 @@ lti#:#lti_deep_linking_not_available_for_admin_objects#:#Los Consumidores creado
 lti#:#lti_delete_consume_provider#:#Eliminar Proveedor
 lti#:#lti_delete_consume_providers#:#Eliminar Proveedores
 lti#:#lti_delete_provider#:#Eliminar Proveedor
+lti#:#lti_dynamic_registration#:#Crear ajustes propios para herramienta con registro dinámico (LTI 1.3)
 lti#:#lti_edit_consumer#:#Editar Consumidor LTI
 lti#:#lti_exit#:#Cerrar sesión LTI
 lti#:#lti_exited#:#Sesión LTI cerrada
 lti#:#lti_exited_info#:#Sesión LTI cerrada con éxito
-lti#:#lti_form_provider_create#:#Crear configuración de proveedor
 lti#:#lti_form_provider_content_selection#:#Selección de contenido
+lti#:#lti_form_provider_create#:#Crear configuración de proveedor
 lti#:#lti_form_provider_edit#:#Editar configuración de proveedor
 lti#:#lti_form_section_appearance#:#Opciones de lanzamiento
 lti#:#lti_global_settings_form#:#Ajustes globales
@@ -11497,6 +11511,7 @@ lti#:#subtab_certificate#:#Certificado
 lti#:#subtab_object_settings#:#Configuración del objeto
 lti#:#subtab_provider_settings#:#Configuración del proveedor LTI
 lti#:#tab_content#:#Contenido
+lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Información
 lti#:#tab_scoring#:#Ranking
 lti#:#tab_settings#:#Configuración

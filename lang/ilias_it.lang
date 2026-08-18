@@ -11192,6 +11192,10 @@ lti#:#conf_privacy_ident_il_uuid_ext_account#:#External User ID combined with a 
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###28 11 2025 new variable
 lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail address###28 11 2025 new variable
 lti#:#conf_privacy_ident_il_uuid_login_info#:#Sends the login name. This is identical to each call, but may allow a direct conclusion about the ILIAS user.###28 11 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256url#:#Hash combined with the ILIAS Domain formatted as an E-Mail address.###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256url_info#:#This is identical to each call, with with a maximum of 80 characters significantly shorter than the variant with the ILIAS platform ID and allows only very limited conclusions about the ILIAS user.###04 12 2025 new variable
 lti#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formatted as an E-Mail address###28 11 2025 new variable
 lti#:#conf_privacy_ident_il_uuid_user_id_info#:#Sends the internal numeric user id. This is identical to each call, but may allow conclusions about the ILIAS user.###28 11 2025 new variable
 lti#:#conf_privacy_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:###28 11 2025 new variable
@@ -11277,13 +11281,16 @@ lti#:#launched#:#La risorsa è stata già avviata.
 lti#:#learning_progress_options#:#Opzioni per i progressi didattici
 lti#:#lm_only_one_download_per_type#:#Si prega di notare che è possibile creare un solo file per tipo (XLM, HTML, SCORM) accessibile al pubblico.
 lti#:#lti13_hints#:#Hints###31 03 2023 new variable
+lti#:#lti_13_authentication_url#:#Authentication Request URL###04 12 2025 new variable
 lti#:#lti_13_client_id#:#Client-ID###31 03 2023 new variable
 lti#:#lti_13_deployment_id#:#Deployment-ID###31 03 2023 new variable
+lti#:#lti_13_keyset_url#:#Public Keyset URL###04 12 2025 new variable
 lti#:#lti_13_platform_id#:#Platform-ID###31 03 2023 new variable
 lti#:#lti_13_step1#:#Step 1###31 03 2023 new variable
 lti#:#lti_13_step1_info#:#For the initiating platform (consumer), enter the following address for Launch URL, Initiate Login URL, Redirection URI, and Registration URL:###31 03 2023 new variable
 lti#:#lti_13_step2#:#Step 2###31 03 2023 new variable
 lti#:#lti_13_step2_info#:#You will receive information from the initiating platform (Consumer), which you must enter in the following fields. After saving, the LTI 1.3 functionalities are available.###31 03 2023 new variable
+lti#:#lti_13_token_url#:#Access Token URL###04 12 2025 new variable
 lti#:#lti_action_accept_provider_as_global#:#Accetta fornitori come globali per tutti gli utenti
 lti#:#lti_action_accept_providers_as_global#:#Accetta fornitori come globali
 lti#:#lti_action_delete_providers#:#Cancella fornitore
@@ -11297,6 +11304,8 @@ lti#:#lti_at_least_one_prov_has_usages#:#Almeno uno dei provider non può essere
 lti#:#lti_auth_failed_invalid_key#:#Autenticazione fallita, nessuna chiave del consumatore valida fornita.
 lti#:#lti_con_content_item#:#Support for Deep Linking###31 03 2023 new variable
 lti#:#lti_con_content_item_url#:#Content URL###31 03 2023 new variable
+lti#:#lti_con_grade_synchronization#:#Assignment and Grade Services###04 12 2025 new variable
+lti#:#lti_con_grade_synchronization_info#:#Lo strumento LTI deve offrire 'Assignment and Grade Services'.###04 12 2025 new variable
 lti#:#lti_con_initiate_login_url#:#Initiate Login URL###31 03 2023 new variable
 lti#:#lti_con_key_type#:#Public Key Type###31 03 2023 new variable
 lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)###31 03 2023 new variable
@@ -11316,6 +11325,10 @@ lti#:#lti_con_prov_category_info#:#Categoria da cui filtrare quando l'oggetto vi
 lti#:#lti_con_prov_custom_params#:#Parametri personalizzati per questo fornitore
 lti#:#lti_con_prov_custom_params_info#:#Per favore inseriscili con il formato: param1=value1; param2=value2
 lti#:#lti_con_prov_description#:#Descrizione
+lti#:#lti_con_prov_dyn_reg_params#:#Optional Parameters###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_params_info#:#Here, for example, references to target objects in the tool can be specified.###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_url#:#Registration URL of the Tool###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_url_info#:#Note: Not every tool supports dynamic registration.###04 12 2025 new variable
 lti#:#lti_con_prov_external_provider#:#Fornitore esterno
 lti#:#lti_con_prov_external_provider_info#:#Un suggerimento che verrà mostrato a tutti gli utenti che stanno lavorando con un fornitore esterno. Un fornitore esterno è caratterizzato da una insufficiente gestione del fornitore da parte del gestore della piattaforma ILIAS.<br />Questo è il caso in cui non ci sono diritti da rimuovere.
 lti#:#lti_con_prov_group_options#:#Opzione per raggruppare e filtrare i fornitori
@@ -11385,12 +11398,13 @@ lti#:#lti_deep_linking_not_available_for_admin_objects#:#I consumer creati in Am
 lti#:#lti_delete_consume_provider#:#Elimina fornitore
 lti#:#lti_delete_consume_providers#:#Elimina fornitori
 lti#:#lti_delete_provider#:#Elimina fornitore
+lti#:#lti_dynamic_registration#:#Create Own Settings for Tool with Dynamic Registration (LTI 1.3)###04 12 2025
 lti#:#lti_edit_consumer#:#Modifica consumatore LTI
 lti#:#lti_exit#:#Chiudi sessione LTI
 lti#:#lti_exited#:#Sessione LTI chiusa
 lti#:#lti_exited_info#:#Sessione LTI chiusa con successo
-lti#:#lti_form_provider_create#:#Impostazioni di creazione fornitore
 lti#:#lti_form_provider_content_selection#:#Selezione contenuto
+lti#:#lti_form_provider_create#:#Impostazioni di creazione fornitore
 lti#:#lti_form_provider_edit#:#Modifica impostazioni del fornitore
 lti#:#lti_form_section_appearance#:#Opzioni di avvio
 lti#:#lti_global_settings_form#:#Impostazioni globali
@@ -11441,6 +11455,7 @@ lti#:#subtab_certificate#:#Certificato
 lti#:#subtab_object_settings#:#Impostazioni oggetto
 lti#:#subtab_provider_settings#:#Impostazioni fornitore LTI
 lti#:#tab_content#:#Contenuto
+lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#Classifica
 lti#:#tab_settings#:#Impostazioni

@@ -11218,6 +11218,10 @@ lti#:#conf_privacy_ident_il_uuid_ext_account#:#Eメールアドレス用にユ�
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#これはコール毎に同じですが、ユーザに関してはダイレクトに終結する事があります。
 lti#:#conf_privacy_ident_il_uuid_login#:#EメールアドレスでユニークなILIASプラットフォームでフォーマットされて組み合されたILIASログイン
 lti#:#conf_privacy_ident_il_uuid_login_info#:#ログイン名を送信。これはコール毎に同じですが、ILIASユーザに関してはダイレクトに終結することがあります。
+lti#:#conf_privacy_ident_il_uuid_random#:#EメールアドレスでユニークなILIASプラットフォームでフォーマットされて組み合されたランダムID
+lti#:#conf_privacy_ident_il_uuid_random_info#:#それぞれILIASオブジェクトとILIASユーザランダムIDは、コール毎に同一のままのランダムIDを生成します。オブジェクトを超えたユーザプロファイル生成がほぼ不可能でる事によりユーザに関する結論は、極めて限定的です。
+lti#:#conf_privacy_ident_il_uuid_sha256url#:#EメールアドレスのILIASドメインでフォーマットされたハッシュ
+lti#:#conf_privacy_ident_il_uuid_sha256url_info#:#これはコール毎に同じILIASプラットホームIDで可変の最高80文字よりかなり短く、ILIASユーザーに関して非常に限定された結果のみを許容。
 lti#:#conf_privacy_ident_il_uuid_user_id#:#EメールアドレスでユニークなILIASプラットフォームでフォーマットされて組み合されたILIASユーザ
 lti#:#conf_privacy_ident_il_uuid_user_id_info#:#内部数字ユーザIDを送信。これはコール毎に同じですが、ILIASユーザに関してはダイレクトに終結することがあります。
 lti#:#conf_privacy_ident_info#:#標準は通常emailアドレスです。ユニークなILIASプラットフォームIDは:
@@ -11303,13 +11307,16 @@ lti#:#launched#:#リソースは既に起動しています。
 lti#:#learning_progress_options#:#学習進捗オプション
 lti#:#lm_only_one_download_per_type#:#パブリックアクセス可能なタイプ(XML, HTML, SCORM)当たり1ファイルしか作成できない事に注意願います。
 lti#:#lti13_hints#:#ヒント
+lti#:#lti_13_authentication_url#:#認証要求URL
 lti#:#lti_13_client_id#:#Client-ID
 lti#:#lti_13_deployment_id#:#Deployment-ID
+lti#:#lti_13_keyset_url#:#Public Keyset URL
 lti#:#lti_13_platform_id#:#Platform-ID
 lti#:#lti_13_step1#:#Step 1
 lti#:#lti_13_step1_info#:#プラットフォーム(comsumer)起動には、次の開始URL、リダイレクトURI、登録URLを入力:
 lti#:#lti_13_step2#:#Step 2
 lti#:#lti_13_step2_info#:#次のフィールドへ入力する事により起動プラットフォーム(Concumer)から情報を受け取ります。保存するとLTI 1.3機能が利用可能になります。
+lti#:#lti_13_token_url#:#アクセストークンURL
 lti#:#lti_action_accept_provider_as_global#:#全ユーザ用のグローバルプロバイダーとしてプロバイダを承認
 lti#:#lti_action_accept_providers_as_global#:#グローバルとしてプロバイダーを承認
 lti#:#lti_action_delete_providers#:#プロバイダーを削除
@@ -11323,6 +11330,8 @@ lti#:#lti_at_least_one_prov_has_usages#:# 一つ以上にこのプロバイダ�
 lti#:#lti_auth_failed_invalid_key#:#有効なconsumer keyがないので認証を失敗しました。
 lti#:#lti_con_content_item#:#ディープリンクのサポート
 lti#:#lti_con_content_item_url#:#Content URL
+lti#:#lti_con_grade_synchronization#:#Assignment and Grade Services
+lti#:#lti_con_grade_synchronization_info#:#LTIツールは'Assignment and Grade Services'を提供する必要があります。
 lti#:#lti_con_initiate_login_url#:#Login URLを起動
 lti#:#lti_con_key_type#:#Public Key Type
 lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)
@@ -11342,6 +11351,10 @@ lti#:#lti_con_prov_category_info#:#LTI Consumerオブジェクトが作成され
 lti#:#lti_con_prov_custom_params#:#この特定のプロバイダー用のカスタムパラメータ
 lti#:#lti_con_prov_custom_params_info#:#フォームへ入力してください。 param1=value1; param2=value2
 lti#:#lti_con_prov_description#:#説明
+lti#:#lti_con_prov_dyn_reg_params#:#オプションのパラメーター
+lti#:#lti_con_prov_dyn_reg_params_info#:#例として、ツール内のターゲットオブジェクトにレファレンスはここで定義できます。
+lti#:#lti_con_prov_dyn_reg_url#:#ツールの登録URL
+lti#:#lti_con_prov_dyn_reg_url_info#:#注意: どのツールもダイナミック登録をサポートしているわけではありません。
 lti#:#lti_con_prov_external_provider#:#External Provider
 lti#:#lti_con_prov_external_provider_info#:#External Providerと通信中ユーザへヒントが表示されます。External ProviderはILIASシステムのオペレータによりプロバイダに対しては不十分な影響として特徴づけられます。これは削除する権利がない時の場合です。
 lti#:#lti_con_prov_group_options#:#グループオプションとプロバイダフィルター
@@ -11411,12 +11424,13 @@ lti#:#lti_deep_linking_not_available_for_admin_objects#:#管理画面で作成�
 lti#:#lti_delete_consume_provider#:#プロバイダーを削除
 lti#:#lti_delete_consume_providers#:#プロバイダーを削除
 lti#:#lti_delete_provider#:#プロバイダーを削除
+lti#:#lti_dynamic_registration#:#ダイナミック登録(LTI 1.3)ありのツール用の自身の設定を作成。
 lti#:#lti_edit_consumer#:#LTI Consumerを編集
 lti#:#lti_exit#:#LTI Sessionをクローズ
 lti#:#lti_exited#:#LTI セッションをクローズしました
 lti#:#lti_exited_info#:#LTIセッションは正しくクローズしました
-lti#:#lti_form_provider_create#:#プロバイダー設定を作成
 lti#:#lti_form_provider_content_selection#:#コンテンツ選択
+lti#:#lti_form_provider_create#:#プロバイダー設定を作成
 lti#:#lti_form_provider_edit#:#プロバイダー設定を編集
 lti#:#lti_form_section_appearance#:#起動のオプション
 lti#:#lti_global_settings_form#:#グローバル設定
@@ -11467,6 +11481,7 @@ lti#:#subtab_certificate#:#履修状況
 lti#:#subtab_object_settings#:#オブジェクト設定
 lti#:#subtab_provider_settings#:#LTI Provider設定
 lti#:#tab_content#:#コンテンツ
+lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#ランキング
 lti#:#tab_settings#:#設定
