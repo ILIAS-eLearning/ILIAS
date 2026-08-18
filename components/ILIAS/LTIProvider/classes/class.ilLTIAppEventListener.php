@@ -21,18 +21,19 @@ declare(strict_types=1);
 use ceLTIc\LTI\Enum\ServiceAction;
 use ceLTIc\LTI\Outcome;
 use ceLTIc\LTI\ResourceLink;
+use ceLTIc\LTI\Tool;
 use ceLTIc\LTI\UserResult;
 
 /**
  * Class ilLTIAppEventListener
  */
-class ilLTIAppEventListener implements \ilAppEventListener
+class ilLTIAppEventListener
 {
-    private static ?\ilLTIAppEventListener $instance = null;
+    private static ?ilLTIAppEventListener $instance = null;
 
-    private ?\ilLogger $logger = null;
+    private ?ilLogger $logger = null;
 
-    private ?\ilLTIDataConnector $connector = null;
+    private ?ilLTIDataConnector $connector = null;
 
 
     /**
@@ -41,14 +42,13 @@ class ilLTIAppEventListener implements \ilAppEventListener
     protected function __construct()
     {
         global $DIC;
-
-        $this->logger = ilLoggerFactory::getLogger('ltis');
+        $this->logger = $DIC->logger()->root();
         $this->connector = new ilLTIDataConnector();
     }
 
-    protected static function getInstance(): \ilLTIAppEventListener
+    protected static function getInstance(): ilLTIAppEventListener
     {
-        if (!self::$instance instanceof \ilLTIAppEventListener) {
+        if (!self::$instance instanceof ilLTIAppEventListener) {
             self::$instance = new self();
         }
         return self::$instance;
@@ -80,7 +80,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
             );
 
             $this->logger->debug('Resources for update:');
-            $this->logger->dump($resources, ilLogLevel::DEBUG);
+            $this->logger->debug("resources: " . json_encode($resources));
 
             foreach ($resources as $resource) {
                 $this->tryOutcomeService((int) $resource, $ext_account, $a_status, $a_percentage);
@@ -164,22 +164,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
         $this->logger->info('Trying outcome service with status ' . $a_status . ' and percentage ' . $a_percentage);
         $user = UserResult::fromResourceLink($resource_link, $ext_account);
 
-        if (!$a_percentage && $a_status != ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM) {
-            $score = 0;
-        } else {
-            if ($a_status == ilLPStatus::LP_STATUS_COMPLETED_NUM || $a_status == ilLPStatus::LP_STATUS_FAILED_NUM) {
-                $score = $a_percentage / 100;
-            } elseif (
-                $a_status == ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM
-            ) {
-                $score = null;
-            } else {
-                $score = 0;
-            }
-        }
-
-        $this->logger->info('Sending score: ' . (string) $score);
-
+        $score = $a_status == ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM ? null : $a_percentage / 100;
         $platform = $resource_link->getPlatform();
 
         $platform->accessTokenUrl = $platform->accessTokenUrl
@@ -232,13 +217,16 @@ class ilLTIAppEventListener implements \ilAppEventListener
 
 
     /**
-     * @inheritdoc
+     * Handle an event in a listener.
+     * @param	string $a_component component, e.g. "components/ILIAS/Forum" or "components/ILIAS/User"
+     * @param	string $a_event     event e.g. "createUser", "updateUser", "deleteUser", ...
+     * @param	array<string, mixed> $a_parameter parameter array (assoc), array("name" => ..., "phone_office" => ...)
      */
     public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
-        $logger = ilLoggerFactory::getLogger('ltis');
+        global $DIC;
+        $logger = $DIC->logger()->root();
         $logger->info('Handling event: ' . $a_event . ' from ' . $a_component);
-
         if ($a_component == 'components/ILIAS/Tracking') {
             if ($a_event == 'updateStatus') {
                 $listener = self::getInstance();
