@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 class ilDclSelectionOption extends ActiveRecord
 {
-    public const DB_TABLE_NAME = "il_dcl_sel_opts";
+    public const string DB_TABLE_NAME = "il_dcl_sel_opts";
 
     public static function returnDbTableName(): string
     {
@@ -150,11 +150,7 @@ class ilDclSelectionOption extends ActiveRecord
         return self::where(["field_id" => $field_id])->orderBy('sorting')->get();
     }
 
-    /**
-     * @param array|string|int $opt_ids
-     * @throws arException
-     */
-    public static function getValues(int $field_id, $opt_ids): array
+    public static function getValues(int $field_id, mixed $opt_ids): array
     {
         $operators = ['field_id' => '='];
         if (is_array($opt_ids)) {
@@ -176,9 +172,6 @@ class ilDclSelectionOption extends ActiveRecord
         return $return;
     }
 
-    /**
-     * @param ilDclSelectionOption $original_option
-     */
     public function cloneOption(ilDclSelectionOption $original_option): void
     {
         $this->setValue($original_option->getValue());

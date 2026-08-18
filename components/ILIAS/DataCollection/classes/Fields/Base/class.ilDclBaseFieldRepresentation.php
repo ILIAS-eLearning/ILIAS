@@ -18,17 +18,22 @@
 
 declare(strict_types=1);
 
+use ILIAS\HTTP\Services;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\UI\Factory;
+
 abstract class ilDclBaseFieldRepresentation
 {
     protected ilDclBaseFieldModel $field;
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
     protected ilObjUser $user;
-    protected ILIAS\HTTP\Services $http;
+    protected Services $http;
     protected ILIAS\Refinery\Factory $refinery;
 
     protected ilComponentRepository $component_repository;
     protected ilComponentFactory $component_factory;
+    protected Factory $factory;
 
     public function __construct(ilDclBaseFieldModel $field)
     {
@@ -40,48 +45,19 @@ abstract class ilDclBaseFieldRepresentation
         $this->http = $DIC->http();
         $this->user = $DIC->user();
         $this->refinery = $DIC->refinery();
+        $this->factory = $DIC->ui()->factory();
         $this->component_repository = $DIC["component.repository"];
         $this->component_factory = $DIC["component.factory"];
     }
 
-    /**
-     * Add filter input to TableGUI
-     * @param ilTable2GUI $table
-     * @return null
-     */
-    public function addFilterInputFieldToTable(ilTable2GUI $table)
+    public function addFilterInputFieldToTable(ilTable2GUI $table): mixed
     {
         return null;
     }
 
-    /**
-     * Set basic settings for filter-input-gui
-     */
     protected function setupFilterInputField(?ilTableFilterItem $input): void
     {
-        if ($input != null) {
-            $input->setTitle($this->getField()->getTitle());
-        }
-    }
-
-    /**
-     * Checks if a filter affects a record
-     * @param int|string|array $filter
-     */
-    public function passThroughFilter(ilDclBaseRecordModel $record, $filter): bool
-    {
-        $value = $record->getRecordFieldValue($this->getField()->getId());
-        $pass = true;
-
-        if (($this->getField()->getId() == "owner" || $this->getField()->getId() == "last_edit_by") && $filter) {
-            $pass = false;
-            $user = new ilObjUser($value);
-            if (strpos($user->getFullname(), $filter) !== false) {
-                $pass = true;
-            }
-        }
-
-        return $pass;
+        $input?->setTitle($this->getField()->getTitle());
     }
 
     public function parseSortingValue(string $value, bool $link = true): mixed
@@ -89,30 +65,10 @@ abstract class ilDclBaseFieldRepresentation
         return $value;
     }
 
-    /**
-     * Returns field-input
-     */
-    public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ?ilFormPropertyGUI
-    {
-        return null;
-    }
+    abstract public function getInputField(): ?FormInput;
 
-    /**
-     * Sets basic settings on field-input
-     * @param ilFormPropertyGUI $input
-     * @param ilDclBaseFieldModel $field
-     */
-    protected function setupInputField(ilFormPropertyGUI $input, ilDclBaseFieldModel $field): void
+    protected function getFilterInputFieldValue(ilTableFilterItem $input): mixed
     {
-        $input->setInfo($field->getDescription() . ($input->getInfo() ? '<br>' . $input->getInfo() : ''));
-    }
-
-    /**
-     * @return string|array|null
-     */
-    protected function getFilterInputFieldValue(
-        ilTableFilterItem $input
-    ) {
         $value = $input->getValue();
         if (is_array($value)) {
             if ($value['from'] || $value['to']) {
@@ -127,9 +83,6 @@ abstract class ilDclBaseFieldRepresentation
         return null;
     }
 
-    /**
-     * Adds the options for the field-types to the field-creation form
-     */
     public function addFieldCreationForm(
         ilSubEnabledFormPropertyGUI $form,
         ilObjDataCollection $dcl,
@@ -141,9 +94,6 @@ abstract class ilDclBaseFieldRepresentation
         }
     }
 
-    /**
-     * Build the creation-input-field
-     */
     protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ?ilRadioOption
     {
         $opt = null;
@@ -157,17 +107,11 @@ abstract class ilDclBaseFieldRepresentation
         return $opt;
     }
 
-    /**
-     * Return post-var for property-fields
-     */
     public function getPropertyInputFieldId(string $property): string
     {
         return "prop_" . $property;
     }
 
-    /**
-     * Return BaseFieldModel
-     */
     public function getField(): ilDclBaseFieldModel
     {
         return $this->field;

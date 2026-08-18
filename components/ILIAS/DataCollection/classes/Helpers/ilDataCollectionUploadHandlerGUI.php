@@ -18,6 +18,10 @@
 
 declare(strict_types=1);
 
-abstract class ilDclPluginFieldRepresentation extends ilDclBaseFieldRepresentation
+class ilDataCollectionUploadHandlerGUI extends ilCtrlAwareStorageUploadHandler
 {
+    public function __construct()
+    {
+        parent::__construct(new ilDataCollectionStakeholder());
+    }
 }

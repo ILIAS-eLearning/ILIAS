@@ -20,17 +20,10 @@ declare(strict_types=1);
 
 class ilDclNumberFieldModel extends ilDclBaseFieldModel
 {
-    /**
-     * Returns a query-object for building the record-loader-sql-query
-     * @param array|string $filter_value
-     */
     public function getRecordQueryFilterObject(
-        $filter_value = "",
+        mixed $filter_value = "",
         ?ilDclBaseFieldModel $sort_field = null
     ): ?ilDclRecordQueryObject {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         if (is_array($filter_value)) {
             $from = (isset($filter_value['from'])) ? (int) $filter_value['from'] : null;
             $to = (isset($filter_value['to'])) ? (int) $filter_value['to'] : null;
@@ -38,13 +31,13 @@ class ilDclNumberFieldModel extends ilDclBaseFieldModel
 
         $join_str
             = "INNER JOIN il_dcl_record_field AS filter_record_field_{$this->getId()} ON (filter_record_field_{$this->getId()}.record_id = record.id AND filter_record_field_{$this->getId()}.field_id = "
-            . $ilDB->quote($this->getId(), 'integer') . ") ";
+            . $this->db->quote($this->getId(), 'integer') . ") ";
         $join_str .= "INNER JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS filter_stloc_{$this->getId()} ON (filter_stloc_{$this->getId()}.record_field_id = filter_record_field_{$this->getId()}.id";
         if (isset($from)) {
-            $join_str .= " AND filter_stloc_{$this->getId()}.value >= " . $ilDB->quote($from, 'integer');
+            $join_str .= " AND filter_stloc_{$this->getId()}.value >= " . $this->db->quote($from, 'integer');
         }
         if (isset($to)) {
-            $join_str .= " AND filter_stloc_{$this->getId()}.value <= " . $ilDB->quote($to, 'integer');
+            $join_str .= " AND filter_stloc_{$this->getId()}.value <= " . $this->db->quote($to, 'integer');
         }
         $join_str .= ") ";
 
@@ -59,10 +52,7 @@ class ilDclNumberFieldModel extends ilDclBaseFieldModel
         return true;
     }
 
-    /**
-     * @param float|int $value
-     */
-    public function checkValidity($value, ?int $record_id): bool
+    public function checkValidity(mixed $value, ?int $record_id): bool
     {
         if (!is_numeric($value) && $value !== null) {
             throw new ilDclInputException(ilDclInputException::TYPE_EXCEPTION);

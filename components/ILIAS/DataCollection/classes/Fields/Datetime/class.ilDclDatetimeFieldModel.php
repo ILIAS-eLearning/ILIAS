@@ -22,18 +22,13 @@ class ilDclDatetimeFieldModel extends ilDclBaseFieldModel
 {
     public const string FORMAT = 'Y-m-d H:i';
 
-    /**
-     * @param string|int $filter_value
-     */
     public function getRecordQueryFilterObject(
-        $filter_value = "",
+        mixed $filter_value = "",
         ?ilDclBaseFieldModel $sort_field = null
     ): ?ilDclRecordQueryObject {
 
         global $DIC;
-        /**
-         * @var ilDateTime $date_from;
-         */
+        /** @var ilDateTime $date_from; */
         $date_from = (isset($filter_value['from']) && is_object($filter_value['from'])) ? $filter_value['from'] : null;
         $date_from = new ilDateTime($date_from->get(IL_CAL_DATETIME, '', $DIC->user()->getTimeZone()), IL_CAL_DATETIME);
         $date_to = (isset($filter_value['to']) && is_object($filter_value['to'])) ? $filter_value['to'] : null;

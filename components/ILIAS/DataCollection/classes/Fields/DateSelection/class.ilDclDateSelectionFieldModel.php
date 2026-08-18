@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 class ilDclDateSelectionFieldModel extends ilDclSelectionFieldModel
 {
-    public const PROP_SELECTION_TYPE = 'date_selection_type';
-    public const PROP_SELECTION_OPTIONS = 'date_selection_options';
+    public const string PROP_SELECTION_TYPE = 'date_selection_type';
+    public const string PROP_SELECTION_OPTIONS = 'date_selection_options';
 
     public function personalizeOptionValue(string $value, ilObjUser $user): string
     {

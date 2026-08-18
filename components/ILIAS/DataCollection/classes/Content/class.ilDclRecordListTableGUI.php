@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Modal\Modal;
+
 class ilDclRecordListTableGUI extends ilTable2GUI
 {
     public const EXPORT_EXCEL_ASYNC = 10;
@@ -37,6 +39,8 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     protected ilLanguage $lng;
     protected \ILIAS\DI\UIServices $ui;
     protected bool $page_active = false;
+    /** @var Modal[] */
+    protected array $table_modals = [];
 
     public function __construct(
         ilDclRecordListGUI $a_parent_obj,
@@ -168,7 +172,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI
                 $title = $field->getTitle();
                 $record_data[$title] = $record->getRecordFieldHTML($field->getId(), ['tableview_id' => $this->tableview->getId()]);
 
-                // Additional column filled in ::fillRow() method, showing the learning progress
                 if ($field->getProperty(ilDclBaseFieldModel::PROP_LEARNING_PROGRESS)) {
                     $record_data["_status_" . $title] = $this->getStatus($record, $field);
                 }
@@ -183,6 +186,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, "record_id", $record->getId());
             $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, "mode", $this->mode);
 
+            $content = [];
             $action_links = [];
 
             if ($this->page_active) {
@@ -201,10 +205,18 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             }
 
             if ($record->hasPermissionToDelete($this->parent_obj->getRefId())) {
-                $action_links[] = $this->ui->factory()->link()->standard(
+                $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, "record_id", $record->getId());
+                $modal = $this->ui->factory()->modal()->interruptive(
                     $this->lng->txt('delete'),
-                    $this->ctrl->getLinkTargetByClass(ilDclRecordEditGUI::class, 'confirmDelete')
+                    sprintf($this->lng->txt('dcl_confirm_delete_record'), $record->getId()),
+                    $this->ctrl->getLinkTargetByClass(ilDclRecordEditGUI::class, 'delete')
                 );
+                $this->ctrl->clearParameterByClass(ilDclRecordEditGUI::class, "record_id");
+                $action_links[] = $this->ui->factory()->button()->shy(
+                    $this->lng->txt('delete'),
+                    $modal->getShowSignal()
+                );
+                $this->table_modals[] = $modal;
             }
 
             if ($this->table->getPublicCommentsEnabled()) {
@@ -226,6 +238,11 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             $data[] = $record_data;
         }
         $this->setData($data);
+    }
+
+    public function getHTML(): string
+    {
+        return parent::getHTML() . $this->ui->renderer()->render($this->table_modals);
     }
 
     protected function fillRow(array $a_set): void
@@ -301,9 +318,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         return false;
     }
 
-    /**
-     * @description This adds the column for status.
-     */
     protected function getStatus(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field): string
     {
         $record_field = ilDclCache::getRecordFieldCache($record, $field);
@@ -348,10 +362,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * @param string $type
-     * @return string
-     */
     public function loadProperty(string $type): string
     {
         if ($this->getId() && $this->userId > 0) {
@@ -361,9 +371,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         return "";
     }
 
-    /**
-     * @description Get the ajax link for displaying the comments in the right panel (to be wrapped in an onclick attr)
-     */
     protected function getCommentJsLinkCode(int $recordId): string
     {
         $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(
@@ -378,9 +385,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         return ilNoteGUI::getListCommentsJSCall($ajax_hash, '');
     }
 
-    /**
-     * Exports the table
-     */
     public function exportData(
         int $format,
         bool $send = false

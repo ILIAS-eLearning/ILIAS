@@ -29,12 +29,4 @@ class ilDclDateRecordRepresentation extends ilDclBaseRecordRepresentation
 
         return date($this->user->getDateFormat()->toString(), strtotime($value));
     }
-
-    /**
-     * @param string $value
-     */
-    public function parseFormInput($value): ?string
-    {
-        return ($value === null) ? null : date(ilDclDateFieldModel::FORMAT, strtotime($value));
-    }
 }

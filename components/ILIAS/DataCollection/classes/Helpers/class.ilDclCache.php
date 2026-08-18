@@ -276,7 +276,7 @@ class ilDclCache
             return $fields_cache[$rec["id"]];
         }
         $field = ilDclFieldFactory::getFieldModelInstanceByClass(new ilDclBaseFieldModel($rec['id']));
-        $field->setId($rec["id"]);
+        $field->setId((string) $rec["id"]);
         $field->setTableId($rec["table_id"]);
         if (null !== $rec["title"]) {
             $field->setTitle($rec["title"]);

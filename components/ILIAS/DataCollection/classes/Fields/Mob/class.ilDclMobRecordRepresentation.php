@@ -24,19 +24,24 @@ class ilDclMobRecordRepresentation extends ilDclFileRecordRepresentation
 {
     public function getHTML(bool $link = true, array $options = []): string
     {
-        $value = $this->getRecordField()->getValue();
+        $value = $this->record_field->getValue();
 
-        if (is_null($value)) {
-            return "";
+        if ($value === null) {
+            return '';
         }
 
-        $mob = new ilObjMediaObject($value);
-        $item = $mob->getMediaItem('Standard');
-        $component = match (explode('/', (string) $item?->getFormat())[0] ?? '') {
-            'image' => $this->factory->image()->responsive($item->getLocationSrc(), $mob->getTitle()),
-            'video' => $this->factory->player()->video($item->getLocationSrc()),
-            'audio' => $this->factory->player()->audio($item->getLocationSrc()),
-            default => $this->factory->image()->responsive('', $mob->getTitle()),
+        $rid = $this->irss->manage()->find($value);
+        if ($rid === null || null === $revision = $this->irss->manage()->getCurrentRevision($rid)) {
+            return $this->lng->txt('file_not_found');
+        }
+
+        $src = $this->irss->consume()->src($rid)->getSrc();
+
+        $component = match (explode('/', $revision->getInformation()->getMimeType())[0] ?? '') {
+            'image' => $this->factory->image()->responsive($src, $revision->getTitle()),
+            'video' => $this->factory->player()->video($src),
+            'audio' => $this->factory->player()->audio($src),
+            default => $this->factory->link()->standard($revision->getTitle(), $src),
         };
 
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_MOB) && $link) {
@@ -59,18 +64,5 @@ class ilDclMobRecordRepresentation extends ilDclFileRecordRepresentation
         }
 
         return $this->renderer->render($component);
-    }
-
-    public function parseFormInput($value)
-    {
-        if (is_array($value)) {
-            return $value;
-        }
-
-        if ($value === null || !ilObject2::_exists((int) $value) || ilObject2::_lookupType((int) $value) != 'mob') {
-            return '';
-        }
-
-        return $value;
     }
 }

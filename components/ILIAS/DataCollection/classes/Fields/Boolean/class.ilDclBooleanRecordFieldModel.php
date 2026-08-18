@@ -20,11 +20,7 @@ declare(strict_types=1);
 
 class ilDclBooleanRecordFieldModel extends ilDclBaseRecordFieldModel
 {
-    /**
-     * Function to parse incoming data from form input value $value. returns the string/number/etc. to store in the database.
-     * @param int|string $value
-     */
-    public function parseExportValue($value): int
+    public function parseExportValue(mixed $value): int
     {
         return $value ? 1 : 0;
     }
@@ -32,5 +28,10 @@ class ilDclBooleanRecordFieldModel extends ilDclBaseRecordFieldModel
     public function getPlainText(): string
     {
         return $this->getValue() ? $this->lng->txt('yes') : $this->lng->txt('no');
+    }
+
+    public function getValue(): bool
+    {
+        return parent::getValue() === 1;
     }
 }

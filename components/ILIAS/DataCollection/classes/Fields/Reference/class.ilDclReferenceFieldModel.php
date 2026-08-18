@@ -20,17 +20,11 @@ declare(strict_types=1);
 
 class ilDclReferenceFieldModel extends ilDclBaseFieldModel
 {
-    public const PROP_REFERENCE = 'table_id';
-    public const PROP_N_REFERENCE = 'multiple_selection';
+    public const string PROP_REFERENCE = 'table_id';
+    public const string PROP_N_REFERENCE = 'multiple_selection';
 
-
-    public function getRecordQuerySortObject(
-        string $direction = "asc",
-        bool $sort_by_status = false
-    ): ?ilDclRecordQueryObject {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
+    public function getRecordQuerySortObject(string $direction = "asc", bool $sort_by_status = false): ?ilDclRecordQueryObject
+    {
         if (
             $this->hasProperty(self::PROP_N_REFERENCE) ||
             $this->getProperty(self::PROP_REFERENCE) === null ||
@@ -41,17 +35,16 @@ class ilDclReferenceFieldModel extends ilDclBaseFieldModel
 
         $ref_field = ilDclCache::getFieldCache((int) $this->getProperty(self::PROP_REFERENCE));
 
-        //ATM, some referenced fields can not be sorted (Ratings, Formulas and Plugins), PR would be nice if fixeable.
         if ($ref_field->getStorageLocation() == 0) {
             return null;
         }
 
         $select_str = "stloc_{$this->getId()}_joined.value AS field_{$this->getId()},";
         $join_str = "LEFT JOIN il_dcl_record_field AS record_field_{$this->getId()} ON (record_field_{$this->getId()}.record_id = record.id AND record_field_{$this->getId()}.field_id = "
-            . $ilDB->quote($this->getId(), 'integer') . ") ";
+            . $this->db->quote($this->getId(), 'integer') . ") ";
         $join_str .= "LEFT JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS stloc_{$this->getId()} ON (stloc_{$this->getId()}.record_field_id = record_field_{$this->getId()}.id) ";
         $join_str .= "LEFT JOIN il_dcl_record_field AS record_field_{$this->getId()}_joined ON (record_field_{$this->getId()}_joined.record_id = stloc_{$this->getId()}.value AND record_field_{$this->getId()}_joined.field_id = "
-            . $ilDB->quote($ref_field->getId(), 'integer') . ") ";
+            . $this->db->quote($ref_field->getId(), 'integer') . ") ";
         $join_str .= "LEFT JOIN il_dcl_stloc{$ref_field->getStorageLocation()}_value AS stloc_{$this->getId()}_joined ON (stloc_{$this->getId()}_joined.record_field_id = record_field_{$this->getId()}_joined.id) ";
 
         $sql_obj = new ilDclRecordQueryObject();
@@ -63,7 +56,7 @@ class ilDclReferenceFieldModel extends ilDclBaseFieldModel
     }
 
     public function getRecordQueryFilterObject(
-        $filter_value = "",
+        mixed $filter_value = "",
         ?ilDclBaseFieldModel $sort_field = null
     ): ?ilDclRecordQueryObject {
         $n_ref = $this->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE);
@@ -84,7 +77,8 @@ class ilDclReferenceFieldModel extends ilDclBaseFieldModel
         } else {
             if ($n_ref) {
                 $where_str
-                    .= " filter_stloc_{$this->getId()}.value LIKE " . $this->db->quote("%\"$filter_value\"%", 'text');
+                    .= " filter_stloc_{$this->getId()}.value LIKE "
+                    . $this->db->quote("%\"$filter_value\"%", 'text');
             } else {
                 $where_str
                     .= " filter_stloc_{$this->getId()}.value = "
@@ -101,24 +95,18 @@ class ilDclReferenceFieldModel extends ilDclBaseFieldModel
 
     public function getValidFieldProperties(): array
     {
-        return [ilDclBaseFieldModel::PROP_REFERENCE,
-                ilDclBaseFieldModel::PROP_REFERENCE_LINK,
-                ilDclBaseFieldModel::PROP_N_REFERENCE
+        return [
+            ilDclBaseFieldModel::PROP_REFERENCE,
+            ilDclBaseFieldModel::PROP_REFERENCE_LINK,
+            ilDclBaseFieldModel::PROP_N_REFERENCE
         ];
     }
 
     public function allowFilterInListView(): bool
     {
-        //A reference-field is not filterable if the referenced field is of datatype MOB or File
-        $ref_field = $this->getFieldRef();
+        $ref_field = ilDclCache::getFieldCache((int) $this->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
 
-        return !($ref_field->getDatatypeId() == ilDclDatatype::INPUTFORMAT_MOB
-            || $ref_field->getDatatypeId() == ilDclDatatype::INPUTFORMAT_FILEUPLOAD);
-    }
-
-    public function getFieldRef(): ilDclBaseFieldModel
-    {
-        return ilDclCache::getFieldCache((int) $this->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
+        return !($ref_field->getDatatypeId() == ilDclDatatype::INPUTFORMAT_MOB || $ref_field->getDatatypeId() == ilDclDatatype::INPUTFORMAT_FILEUPLOAD);
     }
 
     public function afterClone(array $records): void

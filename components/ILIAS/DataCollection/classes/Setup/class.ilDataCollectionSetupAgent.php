@@ -35,6 +35,7 @@ class ilDataCollectionSetupAgent implements Setup\Agent
             new ilDataCollectionObjective(new ilDataCollectionDBUpdateSteps9()),
             new ilDataCollectionObjective(new ilDataCollectionDBUpdateSteps10()),
             new ilDataCollectionObjective(new ilDataCollectionDBUpdateSteps11()),
+            new ilDataCollectionObjective(new ilDataCollectionDBUpdateSteps12()),
         );
     }
 
@@ -42,7 +43,8 @@ class ilDataCollectionSetupAgent implements Setup\Agent
     {
         return [
             new ilDataCollectionStorageMigration(),
-            new ilDataCollectionInitLOMMigration()
+            new ilDataCollectionInitLOMMigration(),
+            new ilDataCollectionMobStorageMigration()
         ];
     }
 

@@ -20,24 +20,20 @@ declare(strict_types=1);
 
 abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel
 {
-    /**
-     * @return array|string
-     */
-    public function getValue()
+    public function getValue(): mixed
     {
-        if ($this->getField()->isMulti() && !is_array($this->value)) {
-            return [$this->value];
-        }
-        if (!$this->getField()->isMulti() && is_array($this->value)) {
-            return array_shift($this->value);
+        if ($this->value !== null) {
+            if ($this->getField()->isMulti() && !is_array($this->value)) {
+                return [$this->value];
+            }
+            if (!$this->getField()->isMulti() && is_array($this->value)) {
+                return array_shift($this->value);
+            }
         }
 
         return $this->value;
     }
 
-    /**
-     * @param array|string|int $value
-     */
     public function parseExportValue($value): string
     {
         $values = ilDclSelectionOption::getValues((int) $this->getField()->getId(), $value);
@@ -45,7 +41,7 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel
         return implode("; ", $values);
     }
 
-    public function getValueFromExcel(ilExcel $excel, int $row, int $col)
+    public function getValueFromExcel(ilExcel $excel, int $row, int $col): mixed
     {
         $string = parent::getValueFromExcel($excel, $row, $col);
         $old = $string;
@@ -68,11 +64,6 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel
     }
 
     /**
-     * Copied from reference field and slightly adjusted.
-     * This method tries to get as many valid values out of a string separated by commata. This is problematic as a string value could contain commata itself.
-     * It is optimized to work with an exported list from this DataCollection. And works fine in most cases. Only areference list with the values "hello" and "hello, world"
-     * Will mess with it.
-     * @param $stringValues string
      * @return int[]
      */
     protected function getMultipleValuesFromString(string $stringValues): array

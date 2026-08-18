@@ -20,9 +20,6 @@ declare(strict_types=1);
 
 class ilDclIliasReferenceFieldModel extends ilDclBaseFieldModel
 {
-    /**
-     * Returns a query-object for building the record-loader-sql-query
-     */
     public function getRecordQuerySortObject(
         string $direction = "asc",
         bool $sort_by_status = false
@@ -36,7 +33,7 @@ class ilDclIliasReferenceFieldModel extends ilDclBaseFieldModel
 
         if ($sort_by_status) {
             global $DIC;
-            $ilUser = $DIC['ilUser'];
+            $ilUser = $DIC->user();
             $join_str .= "LEFT JOIN ut_lp_marks AS ut ON (ut.obj_id = sort_object_data_{$this->getId()}.obj_id AND ut.usr_id = "
                 . $this->db->quote($ilUser->getId(), 'integer') . ") ";
         }
@@ -51,23 +48,17 @@ class ilDclIliasReferenceFieldModel extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-    /**
-     * Returns a query-object for building the record-loader-sql-query
-     */
     public function getRecordQueryFilterObject(
-        $filter_value = "",
+        mixed $filter_value = "",
         ?ilDclBaseFieldModel $sort_field = null
     ): ?ilDclRecordQueryObject {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         $join_str
             = "INNER JOIN il_dcl_record_field AS filter_record_field_{$this->getId()} ON (filter_record_field_{$this->getId()}.record_id = record.id AND filter_record_field_{$this->getId()}.field_id = "
-            . $ilDB->quote($this->getId(), 'integer') . ") ";
+            . $this->db->quote($this->getId(), 'integer') . ") ";
         $join_str .= "INNER JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS filter_stloc_{$this->getId()} ON (filter_stloc_{$this->getId()}.record_field_id = filter_record_field_{$this->getId()}.id) ";
         $join_str .= "INNER JOIN object_reference AS filter_object_reference_{$this->getId()} ON (filter_object_reference_{$this->getId()}.ref_id = filter_stloc_{$this->getId()}.value ) ";
         $join_str .= "INNER JOIN object_data AS filter_object_data_{$this->getId()} ON (filter_object_data_{$this->getId()}.obj_id = filter_object_reference_{$this->getId()}.obj_id AND filter_object_data_{$this->getId()}.title LIKE "
-            . $ilDB->quote("%$filter_value%", 'text') . ") ";
+            . $this->db->quote("%$filter_value%", 'text') . ") ";
 
         $sql_obj = new ilDclRecordQueryObject();
         $sql_obj->setJoinStatement($join_str);

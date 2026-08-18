@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 class ilDclMobFieldRepresentation extends ilDclFileFieldRepresentation
 {
-    public function addFilterInputFieldToTable(ilTable2GUI $table)
+    public function addFilterInputFieldToTable(ilTable2GUI $table): mixed
     {
         $input = $table->addFilterItemByMetaType(
             "filter_" . $this->getField()->getId(),
@@ -33,19 +33,6 @@ class ilDclMobFieldRepresentation extends ilDclFileFieldRepresentation
         $this->setupFilterInputField($input);
 
         return $this->getFilterInputFieldValue($input);
-    }
-
-    public function passThroughFilter(ilDclBaseRecordModel $record, $filter): bool
-    {
-        $value = $record->getRecordFieldValue($this->getField()->getId());
-
-        $m_obj = new ilObjMediaObject($value);
-        $file_name = $m_obj->getTitle();
-        if (!$filter || strpos(strtolower($file_name), strtolower($filter)) !== false) {
-            return true;
-        }
-
-        return false;
     }
 
     protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ilRadioOption

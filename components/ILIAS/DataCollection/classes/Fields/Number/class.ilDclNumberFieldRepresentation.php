@@ -18,25 +18,19 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
+
 class ilDclNumberFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-    public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilNumberInputGUI
+    public function getInputField(): FormInput
     {
-        $input = new ilNumberInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
-        // 9 is the maximum number of digits for an integer
-        $input->setMaxLength(9);
-        $input->setInfo($this->lng->txt('dcl_max_digits') . ": 9");
-        $this->setupInputField($input, $this->getField());
-
-        return $input;
+        return $this->factory->input()->field()->numeric(
+            $this->getField()->getTitle(),
+            $this->getField()->getDescription()
+        );
     }
 
-    /**
-     * @param ilTable2GUI $table
-     * @return array|string|null
-     * @throws Exception
-     */
-    public function addFilterInputFieldToTable(ilTable2GUI $table)
+    public function addFilterInputFieldToTable(ilTable2GUI $table): mixed
     {
         $input = $table->addFilterItemByMetaType(
             "filter_" . $this->getField()->getId(),
@@ -49,23 +43,5 @@ class ilDclNumberFieldRepresentation extends ilDclBaseFieldRepresentation
         $this->setupFilterInputField($input);
 
         return $this->getFilterInputFieldValue($input);
-    }
-
-    /**
-     * @param array $filter
-     */
-    public function passThroughFilter(ilDclBaseRecordModel $record, $filter): bool
-    {
-        $value = $record->getRecordFieldValue($this->getField()->getId());
-        if ((!$filter['from'] || $value >= $filter['from']) && (!$filter['to'] || $value <= $filter['to'])) {
-            return true;
-        }
-
-        return false;
-    }
-
-    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ilRadioOption
-    {
-        return parent::buildFieldCreationInput($dcl, $mode);
     }
 }

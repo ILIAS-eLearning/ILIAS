@@ -18,17 +18,17 @@
 
 declare(strict_types=1);
 
+use ILIAS\HTTP\Services;
 use ILIAS\Notes\Service;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 
 class ilDclBaseRecordModel
 {
-    protected \ILIAS\UI\Factory $ui_factory;
-    protected \ILIAS\UI\Renderer $renderer;
+    protected Factory $ui_factory;
+    protected Renderer $renderer;
     protected Service $notes;
-
-    /**
-     * @var ilDclBaseRecordFieldModel[]
-     */
+    /** @var ilDclBaseRecordFieldModel[] */
     protected ?array $recordfields = null;
     protected int $id = 0;
     protected int $table_id;
@@ -38,7 +38,7 @@ class ilDclBaseRecordModel
     protected ilDateTime $last_update;
     protected ilDateTime $create_date;
     protected ?int $nr_of_comments = null;
-    protected ILIAS\HTTP\Services $http;
+    protected Services $http;
     protected ILIAS\Refinery\Factory $refinery;
     protected ilDBInterface $db;
     protected ilAppEventHandler $event;
@@ -98,7 +98,6 @@ class ilDclBaseRecordModel
             $recordfield->doUpdate();
         }
 
-        //TODO: add event raise
         if (!$omit_notification) {
             $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
             $objDataCollection = new ilObjDataCollection($ref_id);
@@ -108,7 +107,6 @@ class ilDclBaseRecordModel
 
     public function doRead(): void
     {
-        //build query
         $query = "Select * From il_dcl_record WHERE id = " . $this->db->quote($this->getId(), "integer") . " ORDER BY id";
 
         $set = $this->db->query($query);
@@ -135,9 +133,6 @@ class ilDclBaseRecordModel
         }
     }
 
-    /**
-     * @throws ilException
-     */
     public function doCreate(): void
     {
         if (!ilDclTable::_tableExists($this->getTableId())) {
@@ -243,12 +238,7 @@ class ilDclBaseRecordModel
         $this->last_edit_by = $last_edit_by;
     }
 
-    /**
-     * @param int|string $field_id
-     * @param int|string $value
-     * @return void
-     */
-    public function setRecordFieldValue($field_id, $value): void
+    public function setRecordFieldValue(mixed $field_id, mixed $value): void
     {
         $this->loadRecordFields();
         if (ilDclStandardField::_isStandardField($field_id)) {
@@ -259,25 +249,7 @@ class ilDclBaseRecordModel
         }
     }
 
-    /**
-     * Set a field value
-     * @param int|string $field_id
-     */
-    public function setRecordFieldValueFromForm(int $field_id, ilPropertyFormGUI $form): void
-    {
-        $this->loadRecordFields();
-        if (ilDclStandardField::_isStandardField($field_id)) {
-            $this->setStandardFieldFromForm($field_id, $form);
-        } else {
-            $this->loadTable();
-            $this->recordfields[$field_id]->setValueFromForm($form);
-        }
-    }
-
-    /**
-     * @return int|string
-     */
-    public function getRecordFieldValueFromExcel(ilExcel $excel, int $row, int $col, ilDclBaseFieldModel $field)
+    public function getRecordFieldValueFromExcel(ilExcel $excel, int $row, int $col, ilDclBaseFieldModel $field): mixed
     {
         $this->loadRecordFields();
 
@@ -296,21 +268,6 @@ class ilDclBaseRecordModel
         }
     }
 
-    public function getRecordFieldValues(): array
-    {
-        $this->loadRecordFields();
-        $return = [];
-        foreach ($this->recordfields as $id => $record_field) {
-            $return[$id] = $record_field->getValue();
-        }
-
-        return $return;
-    }
-
-    /**
-     * Get Field Value
-     * @return int|string|array|null
-     */
     public function getRecordFieldValue(?string $field_id): mixed
     {
         if ($field_id === null) {
@@ -323,10 +280,7 @@ class ilDclBaseRecordModel
         }
     }
 
-    /**
-     * @param int|string $field_id
-     */
-    public function fillRecordFieldExcelExport(ilExcel $worksheet, int &$row, int &$col, $field_id): void
+    public function fillRecordFieldExcelExport(ilExcel $worksheet, int &$row, int &$col, mixed $field_id): void
     {
         $this->loadRecordFields();
         if (ilDclStandardField::_isStandardField($field_id)) {
@@ -350,10 +304,7 @@ class ilDclBaseRecordModel
         }
     }
 
-    /**
-     * @param int|string $field_id
-     */
-    public function getRecordFieldFormulaValue($field_id): string
+    public function getRecordFieldFormulaValue(mixed $field_id): string
     {
         $this->loadRecordFields();
         if (ilDclStandardField::_isStandardField($field_id)) {
@@ -369,10 +320,7 @@ class ilDclBaseRecordModel
         return $value;
     }
 
-    /**
-     * @param int|string $field_id
-     */
-    public function getRecordFieldHTML($field_id, array $options = []): string
+    public function getRecordFieldHTML(mixed $field_id, array $options = []): string
     {
         $this->loadRecordFields();
         if (ilDclStandardField::_isStandardField($field_id)) {
@@ -388,10 +336,7 @@ class ilDclBaseRecordModel
         return $html;
     }
 
-    /**
-     * @param int|string $field_id
-     */
-    public function getRecordFieldSingleHTML($field_id, array $options = []): string
+    public function getRecordFieldSingleHTML(mixed $field_id, array $options = []): string
     {
         $this->loadRecordFields();
 
@@ -399,44 +344,13 @@ class ilDclBaseRecordModel
             $html = $this->getStandardFieldHTML($field_id);
         } else {
             $field = $this->recordfields[$field_id];
-            /**
-             * @var $field ilDclBaseRecordFieldModel
-             */
-
             $html = $field->getRecordRepresentation()->getSingleHTML($options);
         }
 
         return $html;
     }
 
-    /**
-     * @param int|string $field_id
-     */
-    public function fillRecordFieldFormInput($field_id, ilPropertyFormGUI $form): void
-    {
-        $this->loadRecordFields();
-        if (ilDclStandardField::_isStandardField($field_id)) {
-            $this->fillStandardFieldFormInput($field_id, $form);
-        } else {
-            $this->recordfields[$field_id]->getRecordRepresentation()->fillFormInput($form);
-        }
-    }
-
-    /**
-     * @param int|string $field_id
-     */
-    protected function setStandardFieldFromForm($field_id, ilPropertyFormGUI $form): void
-    {
-        if ($item = $form->getItemByPostVar("field_" . $field_id)) {
-            $this->setStandardField($field_id, $item->getValue());
-        }
-    }
-
-    /**
-     * @param int|string $field_id
-     * @param int|string $value
-     */
-    protected function setStandardField($field_id, $value)
+    public function setStandardField(mixed $field_id, mixed $value): void
     {
         if ($field_id == "last_edit_by") {
             $this->setLastEditBy($value);
@@ -445,20 +359,7 @@ class ilDclBaseRecordModel
         $this->{$field_id} = $value;
     }
 
-    /**
-     * @param int|string $field_id
-     */
-    protected function fillStandardFieldFormInput($field_id, ilPropertyFormGUI $form): void
-    {
-        if ($item = $form->getItemByPostVar('field_' . $field_id)) {
-            $item->setValue($this->getStandardField($field_id));
-        }
-    }
-
-    /**
-     * @param int|string $field_id
-     */
-    protected function getStandardField($field_id): string
+    protected function getStandardField(mixed $field_id): string
     {
         switch ($field_id) {
             case "last_edit_by":
@@ -470,10 +371,7 @@ class ilDclBaseRecordModel
         return $this->{$field_id};
     }
 
-    /**
-     * @param int|string $field_id
-     */
-    public function getStandardFieldFormulaValue($field_id): string
+    public function getStandardFieldFormulaValue(mixed $field_id): string
     {
         return $this->getStandardFieldHTML($field_id);
     }
@@ -519,15 +417,11 @@ class ilDclBaseRecordModel
         return "";
     }
 
-    /**
-     * @param string $field_id
-     * @return int|string
-     */
-    public function getStandardFieldPlainText(string $field_id)
+    public function getStandardFieldPlainText(mixed $field_id): string
     {
         switch ($field_id) {
             case 'comments':
-                return $this->getNrOfComments();
+                return (string) $this->getNrOfComments();
             default:
                 return strip_tags($this->getStandardFieldHTML($field_id));
         }
@@ -592,7 +486,6 @@ class ilDclBaseRecordModel
         }
     }
 
-    // TODO: Find better way to copy data (including all references)
     public function cloneStructure(int $original_id, array $new_fields): void
     {
         $original = ilDclCache::getRecordCache($original_id);
@@ -608,16 +501,7 @@ class ilDclBaseRecordModel
             $this->recordfields[] = $new_rec_field;
         }
 
-        // mandatory for all cloning functions
         ilDclCache::setCloneOf($original_id, $this->getId(), ilDclCache::TYPE_RECORD);
-    }
-
-    public function deleteFile(int $obj_id): void
-    {
-        if (ilObject2::_exists($obj_id, false)) {
-            $file = new ilObjFile($obj_id, false);
-            $file->delete();
-        }
     }
 
     public function hasPermissionToEdit(int $ref_id): bool
@@ -652,9 +536,6 @@ class ilDclBaseRecordModel
         return $this->table;
     }
 
-    /**
-     * Get nr of comments of this record
-     */
     public function getNrOfComments(): int
     {
         if ($this->nr_of_comments === null) {

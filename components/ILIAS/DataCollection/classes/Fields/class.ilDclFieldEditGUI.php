@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\HTTP\Services;
+use ILIAS\Refinery\Factory;
+
 class ilDclFieldEditGUI
 {
     protected int $obj_id;
@@ -30,18 +33,16 @@ class ilDclFieldEditGUI
     private ilGlobalTemplateInterface $main_tpl;
     private ilLanguage $lng;
     protected ilHelpGUI $help;
-    protected ILIAS\HTTP\Services $http;
-    protected ILIAS\Refinery\Factory $refinery;
+    protected Services $http;
+    protected Factory $refinery;
     protected int $field_id;
+    private ilCtrlInterface $ctrl;
 
-    /**
-     * Constructor
-     */
     public function __construct(ilDclTableListGUI $a_parent_obj)
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
-        $ilCtrl = $DIC['ilCtrl'];
+        $ilCtrl = $DIC->ctrl();
 
         $this->obj_id = $a_parent_obj->getObjId();
         $this->parent_obj = $a_parent_obj;
@@ -49,6 +50,7 @@ class ilDclFieldEditGUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
 
         $this->table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
 
@@ -89,16 +91,10 @@ class ilDclFieldEditGUI
         $this->table = ilDclCache::getTableCache($this->table_id);
     }
 
-    /**
-     * execute command
-     */
     public function executeCommand(): void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilCtrl->saveParameter($this, 'field_id');
-
-        $cmd = $ilCtrl->getCmd();
+        $this->ctrl->saveParameter($this, 'field_id');
+        $cmd = $this->ctrl->getCmd();
 
         if (!$this->checkAccess()) {
             $this->permissionDenied();
@@ -115,9 +111,6 @@ class ilDclFieldEditGUI
         }
     }
 
-    /**
-     * create field add form
-     */
     public function create(): void
     {
         $this->help->setSubScreenId('create');
@@ -126,9 +119,6 @@ class ilDclFieldEditGUI
         $this->main_tpl->setContent($this->form->getHTML());
     }
 
-    /**
-     * create field edit form
-     */
     public function edit(): void
     {
         $this->help->setSubScreenId('edit');
@@ -138,118 +128,79 @@ class ilDclFieldEditGUI
         $this->main_tpl->setContent($this->form->getHTML());
     }
 
-    /*
-     * permissionDenied
-     */
     public function permissionDenied(): void
     {
-        global $DIC;
-        $tpl = $DIC['tpl'];
-        $tpl->setContent("Permission denied");
+        $this->main_tpl->setContent("Permission denied");
     }
 
-    /**
-     * confirmDelete
-     */
     public function confirmDelete(): void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
-
         $conf = new ilConfirmationGUI();
-        $conf->setFormAction($ilCtrl->getFormAction($this));
-        $conf->setHeaderText($lng->txt('dcl_confirm_delete_field'));
+        $conf->setFormAction($this->ctrl->getFormAction($this));
+        $conf->setHeaderText($this->lng->txt('dcl_confirm_delete_field'));
 
         $conf->addItem('field_id', $this->field_obj->getId(), $this->field_obj->getTitle());
 
-        $conf->setConfirm($lng->txt('delete'), 'delete');
-        $conf->setCancel($lng->txt('cancel'), 'cancelDelete');
+        $conf->setConfirm($this->lng->txt('delete'), 'delete');
+        $conf->setCancel($this->lng->txt('cancel'), 'cancelDelete');
 
-        $tpl->setContent($conf->getHTML());
+        $this->main_tpl->setContent($conf->getHTML());
     }
 
-    /**
-     * cancelDelete
-     */
     public function cancelDelete(): void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $ilCtrl->redirectByClass("ildclfieldlistgui", "listFields");
+        $this->ctrl->redirectByClass("ildclfieldlistgui", "listFields");
     }
 
-    /*
-     * delete
-     */
     public function delete(): void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-
         $this->table->deleteField((int) $this->field_obj->getId());
-        $ilCtrl->redirectByClass("ildclfieldlistgui", "listFields");
+        $this->ctrl->redirectByClass("ildclfieldlistgui", "listFields");
     }
 
-    /*
-     * cancel
-     */
     public function cancel(): void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilCtrl->redirectByClass("ildclfieldlistgui", "listFields");
+        $this->ctrl->redirectByClass("ildclfieldlistgui", "listFields");
     }
 
-    /**
-     * initEditCustomForm
-     * @param string $a_mode values: create | edit
-     */
     public function initForm(string $a_mode = "create"): void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-
         $this->form = new ilPropertyFormGUI();
 
         if ($a_mode == "edit") {
-            $this->form->setTitle($lng->txt('dcl_edit_field'));
+            $this->form->setTitle($this->lng->txt('dcl_edit_field'));
             $hidden_prop = new ilHiddenInputGUI("field_id");
             $this->form->addItem($hidden_prop);
 
-            $this->form->setFormAction($ilCtrl->getFormAction($this));
+            $this->form->setFormAction($this->ctrl->getFormAction($this));
 
-            $this->form->addCommandButton('update', $lng->txt('dcl_update_field'));
+            $this->form->addCommandButton('update', $this->lng->txt('dcl_update_field'));
         } else {
-            $this->form->setTitle($lng->txt('dcl_new_field'));
+            $this->form->setTitle($this->lng->txt('dcl_new_field'));
             $hidden_prop = new ilHiddenInputGUI("table_id");
             $hidden_prop->setValue((string) $this->field_obj->getTableId());
             $this->form->addItem($hidden_prop);
 
-            $this->form->setFormAction($ilCtrl->getFormAction($this));
+            $this->form->setFormAction($this->ctrl->getFormAction($this));
 
-            $this->form->addCommandButton('save', $lng->txt('dcl_create_field'));
+            $this->form->addCommandButton('save', $this->lng->txt('dcl_create_field'));
         }
-        $this->form->addCommandButton('cancel', $lng->txt('cancel'));
+        $this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
 
-        $text_prop = new ilTextInputGUI($lng->txt("title"), "title");
+        $text_prop = new ilTextInputGUI($this->lng->txt("title"), "title");
         $text_prop->setRequired(true);
         $text_prop->setInfo(sprintf(
-            $lng->txt('fieldtitle_allow_chars'),
+            $this->lng->txt('fieldtitle_allow_chars'),
             ilDclBaseFieldModel::_getTitleInvalidChars(false)
         ));
         $text_prop->setValidationRegexp(ilDclBaseFieldModel::_getTitleInvalidChars());
         $this->form->addItem($text_prop);
 
-        // Description
-        $text_prop = new ilTextAreaInputGUI($lng->txt("dcl_field_description"), "description");
-        $text_prop->setInfo($lng->txt('dcl_field_description_desc'));
+        $text_prop = new ilTextAreaInputGUI($this->lng->txt("dcl_field_description"), "description");
+        $text_prop->setInfo($this->lng->txt('dcl_field_description_desc'));
         $this->form->addItem($text_prop);
 
-        $edit_datatype = new ilRadioGroupInputGUI($lng->txt('dcl_datatype'), 'datatype');
+        $edit_datatype = new ilRadioGroupInputGUI($this->lng->txt('dcl_datatype'), 'datatype');
 
         if ($a_mode === 'edit') {
             $field_representation = ilDclFieldFactory::getFieldRepresentationInstance($this->field_obj);
@@ -269,17 +220,8 @@ class ilDclFieldEditGUI
 
     }
 
-    /**
-     * save Field
-     * @param string $a_mode values: create | update
-     */
     public function save(string $a_mode = "create"): void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
-
         $this->initForm($a_mode == "update" ? "edit" : "create");
 
         if ($this->checkInput($a_mode)) {
@@ -287,14 +229,14 @@ class ilDclFieldEditGUI
             // check if confirmation is needed and if so, fetch and render confirmationGUI
             if (($a_mode == "update") && !($this->form->getInput('confirmed')) && $this->field_obj->isConfirmationRequired($this->form)) {
                 $ilConfirmationGUI = $this->field_obj->getConfirmationGUI($this->form);
-                $tpl->setContent($ilConfirmationGUI->getHTML());
+                $this->main_tpl->setContent($ilConfirmationGUI->getHTML());
 
                 return;
             }
 
             $title = $this->form->getInput("title");
             if ($a_mode != "create" && $title != $this->field_obj->getTitle()) {
-                $this->main_tpl->setOnScreenMessage('info', $lng->txt("dcl_field_title_change_warning"), true);
+                $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("dcl_field_title_change_warning"), true);
             }
 
             $this->field_obj->setTitle($title);
@@ -308,34 +250,26 @@ class ilDclFieldEditGUI
                 $this->field_obj->doCreate();
             }
 
-            // Get possible properties and save them
             $this->field_obj->storePropertiesFromForm($this->form);
 
-            $ilCtrl->setParameter($this, "field_id", $this->field_obj->getId());
+            $this->ctrl->setParameter($this, "field_id", $this->field_obj->getId());
 
             if ($a_mode == "update") {
-                $this->main_tpl->setOnScreenMessage('success', $lng->txt("dcl_msg_field_modified"), true);
+                $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("dcl_msg_field_modified"), true);
             } else {
                 $this->table->addField($this->field_obj);
                 $this->table->buildOrderFields();
-                $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_field_created"));
+                $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("msg_field_created"));
             }
-            $ilCtrl->redirectByClass(strtolower("ilDclFieldListGUI"), "listFields");
+            $this->ctrl->redirectByClass(strtolower("ilDclFieldListGUI"), "listFields");
         } else {
             $this->form->setValuesByPost();
-            $tpl->setContent($this->form->getHTML());
+            $this->main_tpl->setContent($this->form->getHTML());
         }
     }
 
-    /**
-     * Check input of form
-     * @param $a_mode 'create' | 'update'
-     * @return bool
-     */
     protected function checkInput(string $a_mode): bool
     {
-        global $DIC;
-        $lng = $DIC['lng'];
         $return = $this->form->checkInput();
 
         if (!$this->field_obj->checkFieldCreationInput($this->form)) {
@@ -347,22 +281,19 @@ class ilDclFieldEditGUI
             if ($title = $this->form->getInput('title')) {
                 if (ilDclTable::_hasFieldByTitle($title, $this->table_id)) {
                     $inputObj = $this->form->getItemByPostVar('title');
-                    $inputObj->setAlert($lng->txt("dcl_field_title_unique"));
+                    $inputObj->setAlert($this->lng->txt("dcl_field_title_unique"));
                     $return = false;
                 }
             }
         }
 
         if (!$return) {
-            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
         }
 
         return $return;
     }
 
-    /**
-     * @return bool
-     */
     protected function checkAccess(): bool
     {
         if ($field_id = $this->field_obj->getId()) {
@@ -379,9 +310,6 @@ class ilDclFieldEditGUI
         }
     }
 
-    /**
-     * @return ilObjDataCollection
-     */
     public function getDataCollectionObject(): ilObjDataCollection
     {
         return $this->parent_obj->getDataCollectionObject();

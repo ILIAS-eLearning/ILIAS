@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
 {
-    public const LINK_MAX_LENGTH = 40;
+    public const int LINK_MAX_LENGTH = 40;
 
     public function getHTML(bool $link = true, array $options = []): string
     {
@@ -97,21 +97,5 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
         $value = preg_replace('/^(.{' . ($half + 1) . '})(.{4,})(.{' . $half . '})$/', '\1...\3', $value);
 
         return $value;
-    }
-
-    public function fillFormInput(ilPropertyFormGUI $form): void
-    {
-        $input_field = $form->getItemByPostVar('field_' . $this->getField()->getId());
-        $raw_input = $this->getFormInput();
-
-        $value = is_array($raw_input) ? $raw_input['link'] : $raw_input;
-        $value = is_string($value) ? $value : "";
-        $field_values = [];
-        if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_URL)) {
-            $field_values["field_" . $this->getRecordField()->getField()->getId() . "_title"] = (isset($raw_input['title'])) ? $raw_input['title'] : '';
-        }
-
-        $field_values["field_" . $this->getRecordField()->getField()->getId()] = $value;
-        $input_field->setValueByArray($field_values);
     }
 }

@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
+
 class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
 {
     public function addFilterInputFieldToTable(ilTable2GUI $table): ?string
@@ -35,47 +37,26 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
         return $this->getFilterInputFieldValue($input);
     }
 
-    /**
-     * @param string $filter
-     */
-    public function passThroughFilter(ilDclBaseRecordModel $record, $filter): bool
-    {
-        $pass = parent::passThroughFilter($record, $filter);
-
-        $value = $record->getRecordFieldValue($this->getField()->getId());
-        if (!$filter || strpos(strtolower($value), strtolower($filter)) !== false) {
-            $pass = true;
-        }
-
-        return $pass;
-    }
-
-    public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilFormPropertyGUI
+    public function getInputField(): FormInput
     {
         $length = (int) $this->getField()->getProperty(ilDclBaseFieldModel::PROP_LENGTH);
-        if ($length > 200 && !$this->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
-            $input = new ilTextAreaInputGUI();
-            $input->setMaxNumOfChars($length);
-        } else {
-            $input = new ilDclTextInputGUI();
-            $input->setMaxLength($length);
-        }
-        $input->setTitle($this->getField()->getTitle());
-        $input->setPostVar('field_' . $this->getField()->getId());
-
+        $title = $this->getField()->getTitle();
+        $byline = $this->getField()->getDescription() . ' ' . sprintf($this->lng->txt('dcl_max_text_length'), $length);
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
-            $input->setInfo($this->lng->txt('dcl_text_email_detail_desc'));
-            $title_field = new ilDclTextInputGUI(
-                $this->lng->txt('dcl_text_email_title'),
-                'field_' . $this->getField()->getId() . '_title'
+            $input = $this->factory->input()->field()->section(
+                [
+                    'link' => $this->factory->input()->field()->text($title . $this->lng->txt('dcl_text_suffix_url'), ''),
+                    'title' => $this->factory->input()->field()->text($title . $this->lng->txt('dcl_text_suffix_title'), $byline)->withMaxLength($length)
+                ],
+                ''
             );
-            $title_field->setInfo($this->lng->txt('dcl_text_email_title_info'));
-            $input->addSubItem($title_field);
         } else {
-            $input->setInfo(sprintf($this->lng->txt("dcl_max_text_length"), $length));
+            if ($length > 200) {
+                $input = $this->factory->input()->field()->textarea($title, $byline)->withMaxLimit($length);
+            } else {
+                $input = $this->factory->input()->field()->text($title, $byline)->withMaxLength($length);
+            }
         }
-
-        $this->setupInputField($input, $this->getField());
 
         return $input;
     }

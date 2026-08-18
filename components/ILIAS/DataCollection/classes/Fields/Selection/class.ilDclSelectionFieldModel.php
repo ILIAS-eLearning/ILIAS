@@ -35,7 +35,6 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
         $filter_value = "",
         ?ilDclBaseFieldModel $sort_field = null
     ): ?ilDclRecordQueryObject {
-
         $join_str
             = " LEFT JOIN il_dcl_record_field AS filter_record_field_{$this->getId()} ON (filter_record_field_{$this->getId()}.record_id = record.id AND filter_record_field_{$this->getId()}.field_id = "
             . $this->db->quote($this->getId(), 'integer') . ") ";
@@ -74,10 +73,7 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
         return ($this->getProperty($this::PROP_SELECTION_TYPE) === $this::SELECTION_TYPE_MULTI);
     }
 
-    /**
-     * @param array $value
-     */
-    public function setProperty(string $key, $value): ?ilDclFieldProperty
+    public function setProperty(string $key, mixed $value): ?ilDclFieldProperty
     {
         if ($key === $this::PROP_SELECTION_OPTIONS) {
             ilDclSelectionOption::flushOptions((int) $this->getId());
@@ -101,9 +97,6 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
         return $value;
     }
 
-    /**
-     * @return ilDclSelectionOption[]|ilDclFieldProperty|null
-     */
     public function getProperty(string $key): mixed
     {
         if ($key == $this::PROP_SELECTION_OPTIONS) {

@@ -37,11 +37,14 @@ class ilDataCollectionObjective extends ilDatabaseUpdateStepsExecutedObjective
     public function achieve(Environment $environment): Environment
     {
         global $DIC;
+        $old_DIC = $DIC;
         $DIC = new Container();
         $DIC['lng'] = new ilSetupLanguage('en');
         $DIC['ilDB'] = $environment->getResource(Environment::RESOURCE_DATABASE);
         $DIC['component.factory'] = $environment->getResource(Environment::RESOURCE_COMPONENT_FACTORY);
         $DIC['component.repository'] = $environment->getResource(Environment::RESOURCE_COMPONENT_REPOSITORY);
-        return parent::achieve($environment);
+        $env = parent::achieve($environment);
+        $DIC = $old_DIC;
+        return $env;
     }
 }

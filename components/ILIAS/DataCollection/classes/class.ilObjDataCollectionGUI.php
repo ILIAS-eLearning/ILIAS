@@ -227,7 +227,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 } elseif (!isset($this->tableview_id)) {
                     $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('dcl_no_tableview_found'));
                 } else {
-                    $recordedit_gui = new ilDclRecordEditGUI($this, $this->table_id, $this->tableview_id);
+                    $recordedit_gui = new ilDclRecordEditGUI($this->getObject(), $this->table_id, $this->tableview_id);
                     $this->ctrl->forwardCommand($recordedit_gui);
                 }
                 break;
@@ -293,19 +293,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
             case strtolower(ilExportGUI::class):
                 $this->prepareOutput();
                 $this->handleExport();
-                break;
-            case strtolower(ilDclPropertyFormGUI::class):
-                if (!isset($this->table_id)) {
-                    $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('dcl_no_table_found'));
-                } elseif (!isset($this->tableview_id)) {
-                    $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('dcl_no_tableview_found'));
-                } else {
-                    $recordedit_gui = new ilDclRecordEditGUI($this, $this->table_id, $this->tableview_id);
-                    $recordedit_gui->getRecord();
-                    $recordedit_gui->initForm();
-                    $form = $recordedit_gui->getForm();
-                    $this->ctrl->forwardCommand($form);
-                }
                 break;
             case strtolower(ilObjectMetaDataGUI::class):
                 $this->checkPermission('write');

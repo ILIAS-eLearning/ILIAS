@@ -18,12 +18,69 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
+
 abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-    /**
-     * @var ilDclSelectionFieldModel
-     */
+    /** @var ilDclSelectionFieldModel */
     protected ilDclBaseFieldModel $field;
+
+    public function getInputField(): FormInput
+    {
+        $options = [];
+        foreach (ilDclSelectionOption::getAllForField((int) $this->getField()->getId()) as $opt) {
+            $options[$opt->getOptId()] = $this->getField()->personalizeOptionValue($opt->getValue(), $this->user);
+        }
+
+        switch ($this->getField()->getProperty($this->field::PROP_SELECTION_TYPE)) {
+            case ilDclSelectionFieldModel::SELECTION_TYPE_MULTI:
+                return $this->factory->input()->field()->multiSelect(
+                    $this->getField()->getTitle(),
+                    $options,
+                    $this->field->getDescription()
+                );
+            case ilDclSelectionFieldModel::SELECTION_TYPE_COMBOBOX:
+                return $this->factory->input()->field()->select(
+                    $this->getField()->getTitle(),
+                    $options,
+                    $this->field->getDescription()
+                );
+            case ilDclSelectionFieldModel::SELECTION_TYPE_SINGLE:
+            default:
+                $input = $this->factory->input()->field()->radio(
+                    $this->getField()->getTitle(),
+                    $this->getField()->getDescription()
+                );
+                foreach ($options as $key => $opt) {
+                    $input = $input->withOption((string) $key, $opt);
+                }
+                return $input;
+        }
+    }
+
+    public function addFilterInputFieldToTable(ilTable2GUI $table): mixed
+    {
+        $input = $table->addFilterItemByMetaType(
+            "filter_" . $this->getField()->getId(),
+            ilTable2GUI::FILTER_SELECT,
+            false,
+            $this->getField()->getId()
+        );
+
+        $options = ilDclSelectionOption::getAllForField((int) $this->getField()->getId());
+        $array = ['' => $this->lng->txt('dcl_all_entries')];
+        foreach ($options as $opt) {
+            $array[$opt->getOptId()] = $opt->getValue();
+        }
+
+        $array['none'] = $this->lng->txt('dcl_no_entry');
+
+        $input->setOptions($array);
+
+        $this->setupFilterInputField($input);
+
+        return $this->getFilterInputFieldValue($input);
+    }
 
     protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ilRadioOption
     {
@@ -60,70 +117,6 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
         return $opt;
     }
 
-    public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilFormPropertyGUI
-    {
-        $options = [];
-        foreach (ilDclSelectionOption::getAllForField((int) $this->getField()->getId()) as $opt) {
-            $options[$opt->getOptId()] = $this->getField()->personalizeOptionValue($opt->getValue(), $this->user);
-        }
-        switch ($this->getField()->getProperty($this->field::PROP_SELECTION_TYPE)) {
-            case ilDclSelectionFieldModel::SELECTION_TYPE_MULTI:
-                $input = new ilMultiSelectInputGUI(
-                    $this->getField()->getTitle(),
-                    'field_' . $this->getField()->getId()
-                );
-                $input->setWidth(100);
-                $input->setWidthUnit('%');
-                $input->setHeight(32 * min(5, max(1, count($options))));
-
-                $input->setOptions($options);
-                break;
-            case ilDclSelectionFieldModel::SELECTION_TYPE_COMBOBOX:
-                $input = new ilSelectInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
-                $input->setOptions(["" => $this->lng->txt('dcl_please_select')] + $options);
-                break;
-            case ilDclSelectionFieldModel::SELECTION_TYPE_SINGLE:
-            default:
-                $input = new ilRadioGroupInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
-                foreach ($options as $key => $opt) {
-                    $input->addOption(new ilRadioOption($opt, (string) $key));
-                }
-                $input->setValue((string) array_key_first($options));
-                break;
-        }
-        $this->setupInputField($input, $this->getField());
-
-        return $input;
-    }
-
-    public function addFilterInputFieldToTable(ilTable2GUI $table)
-    {
-        $input = $table->addFilterItemByMetaType(
-            "filter_" . $this->getField()->getId(),
-            ilTable2GUI::FILTER_SELECT,
-            false,
-            $this->getField()->getId()
-        );
-
-        $options = ilDclSelectionOption::getAllForField((int) $this->getField()->getId());
-        $array = ['' => $this->lng->txt('dcl_all_entries')];
-        foreach ($options as $opt) {
-            $array[$opt->getOptId()] = $opt->getValue();
-        }
-
-        $array['none'] = $this->lng->txt('dcl_no_entry');
-
-        $input->setOptions($array);
-
-        $this->setupFilterInputField($input);
-
-        return $this->getFilterInputFieldValue($input);
-    }
-
-    public function getField(): ilDclSelectionFieldModel
-    {
-        return $this->field;
-    }
 
     abstract protected function buildOptionsInput(): ilDclGenericMultiInputGUI;
 }

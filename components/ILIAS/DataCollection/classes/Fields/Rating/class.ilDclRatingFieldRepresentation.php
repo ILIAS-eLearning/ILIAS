@@ -20,20 +20,12 @@ declare(strict_types=1);
 
 class ilDclRatingFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-    public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilTextInputGUI
+    public function getInputField(): null
     {
-        $input = new ilTextInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
-        $input->setValue($this->lng->txt("dcl_editable_in_table_gui"));
-        $input->setDisabled(true);
-        $this->setupInputField($input, $this->getField());
-
-        return $input;
+        return null;
     }
 
-    /**
-     * @return string|array|null
-     */
-    public function addFilterInputFieldToTable(ilTable2GUI $table)
+    public function addFilterInputFieldToTable(ilTable2GUI $table): mixed
     {
         $input = $table->addFilterItemByMetaType(
             "filter_" . $this->getField()->getId(),
@@ -47,18 +39,5 @@ class ilDclRatingFieldRepresentation extends ilDclBaseFieldRepresentation
         $this->setupFilterInputField($input);
 
         return $this->getFilterInputFieldValue($input);
-    }
-
-    /**
-     * @param int $filter
-     */
-    public function passThroughFilter(ilDclBaseRecordModel $record, $filter): bool
-    {
-        $value = $record->getRecordFieldValue($this->getField()->getId());
-        if (!$filter || $filter <= $value['avg']) {
-            return true;
-        }
-
-        return false;
     }
 }

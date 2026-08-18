@@ -20,19 +20,6 @@ declare(strict_types=1);
 
 class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
 {
-    protected ?int $dcl_obj_id;
-
-    /**
-     * @param ilDclBaseRecordModel $record
-     * @param ilDclBaseFieldModel  $field
-     */
-    public function __construct(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field)
-    {
-        parent::__construct($record, $field);
-        $dclTable = ilDclCache::getTableCache($this->getField()->getTableId());
-        $this->dcl_obj_id = $dclTable->getObjId();
-    }
-
     public function getExportValue(): string
     {
         $value = $this->getValue();
@@ -63,7 +50,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         return "";
     }
 
-    public function getValueFromExcel(ilExcel $excel, int $row, int $col)
+    public function getValueFromExcel(ilExcel $excel, int $row, int $col): mixed
     {
         $value = parent::getValueFromExcel($excel, $row, $col);
         $old = $value;
@@ -86,9 +73,6 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
     }
 
     /**
-     * This method tries to get as many valid references out of a string separated by commata. This is problematic as a string value could contain commata itself.
-     * It is optimized to work with an exported list from this DataCollection. And works fine in most cases. Only areference list with the values "hello" and "hello, world"
-     * Will mess with it.
      * @return int[]
      */
     protected function getReferencesFromString(string $stringValues): array
@@ -98,8 +82,6 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         $slicedReferences = [];
         $resolved = 0;
         for ($i = 0; $i < count($slicedStrings); $i++) {
-            //try to find a reference since the last resolved value separated by a comma.
-            // $i = 1; $resolved = 0; $string = "hello, world, gaga" -> try to match "hello, world".
             $searchString = implode(array_slice($slicedStrings, $resolved, $i - $resolved + 1));
             if ($ref = $this->getReferenceFromValue($searchString)) {
                 $slicedReferences[] = $ref;
@@ -107,8 +89,6 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
                 continue;
             }
 
-            //try to find a reference with the current index.
-            // $i = 1; $resolved = 0; $string = "hello, world, gaga" -> try to match "world".
             $searchString = $slicedStrings[$i];
             if ($ref = $this->getReferenceFromValue($searchString)) {
                 $slicedReferences[] = $ref;
@@ -158,7 +138,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
                 $value = $temp_value;
             }
 
-            $this->setValue($value, true); // reference fields store the id of the reference's record as their value
+            $this->setValue($value, true);
             $this->doUpdate();
         }
     }

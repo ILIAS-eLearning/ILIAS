@@ -21,9 +21,16 @@ declare(strict_types=1);
 class ilDclCreateViewTableGUI extends ilTable2GUI
 {
     public const VALID_DEFAULT_VALUE_TYPES = [
-        ilDclDatatype::INPUTFORMAT_NUMBER,
         ilDclDatatype::INPUTFORMAT_TEXT,
+        ilDclDatatype::INPUTFORMAT_NUMBER,
         ilDclDatatype::INPUTFORMAT_BOOLEAN,
+        ilDclDatatype::INPUTFORMAT_DATE,
+        ilDclDatatype::INPUTFORMAT_DATETIME,
+        ilDclDatatype::INPUTFORMAT_TEXT_SELECTION,
+        ilDclDatatype::INPUTFORMAT_DATE_SELECTION,
+        ilDclDatatype::INPUTFORMAT_DATETIME_SELECTION,
+        ilDclDatatype::INPUTFORMAT_REFERENCE,
+        ilDclDatatype::INPUTFORMAT_COPY,
     ];
 
     public function __construct(ilDclCreateViewDefinitionGUI $a_parent_obj)
@@ -176,8 +183,7 @@ class ilDclCreateViewTableGUI extends ilTable2GUI
         $field = $a_set->getFieldObject();
         $match = ilDclTableViewBaseDefaultValue::findSingle($field->getDatatypeId(), $a_set->getId());
 
-        /** @var ilDclTextInputGUI $item */
-        $item = ilDclCache::getFieldRepresentation($field)->getInputField(new ilPropertyFormGUI());
+        $item = ilDclCache::getFieldRepresentation($field)->getInputField();
 
         if (!is_null($match)) {
             if ($item instanceof ilDclCheckboxInputGUI) {
@@ -198,21 +204,22 @@ class ilDclCreateViewTableGUI extends ilTable2GUI
             $this->tpl->setVariable('IS_VISIBLE', $a_set->isVisibleCreate() ? 'checked' : '');
             $this->tpl->setVariable('IS_NOT_VISIBLE', !$a_set->isVisibleCreate() ? 'checked' : '');
             if (!is_null($item) && in_array($field->getDatatypeId(), self::VALID_DEFAULT_VALUE_TYPES)) {
-                $name = "default_" . $a_set->getId() . "_" . $field->getDatatypeId();
-                $item->setPostVar($name);
-                if ($item instanceof ilTextAreaInputGUI) {
-                    $replacement_box = new ilTextInputGUI();
-                    $replacement_box->setPostVar($item->getPostVar());
-                    $replacement_box->setValue($item->getValue());
-                    $this->tpl->setVariable('INPUT', $replacement_box->render());
-                } else {
-                    $this->tpl->setVariable('INPUT', $item->render());
-                }
+                /*                $name = "default_" . $a_set->getId() . "_" . $field->getDatatypeId();
+                                $item->setPostVar($name);
+                                if ($item instanceof ilTextAreaInputGUI) {
+                                    $replacement_box = new ilTextInputGUI();
+                                    $replacement_box->setPostVar($item->getPostVar());
+                                    $replacement_box->setValue($item->getValue());
+                                    $this->tpl->setVariable('INPUT', $replacement_box->render());
+                                } else {
+                                    $this->tpl->setVariable('INPUT', $item->render());
+                                }
 
-                // Workaround as empty checkboxes do not get posted
-                if ($item instanceof ilDclCheckboxInputGUI) {
-                    $this->tpl->setVariable('EXTRA_INPUT', "<input type=\"hidden\" name=\"$name\" value=\"0\" />");
-                }
+                                // Workaround as empty checkboxes do not get posted
+                                if ($item instanceof ilDclCheckboxInputGUI) {
+                                    $this->tpl->setVariable('EXTRA_INPUT', "<input type=\"hidden\" name=\"$name\" value=\"0\" />");
+                                }*/
+                $this->tpl->setVariable('INPUT', 'TBD');
             }
         } else {
             $this->tpl->setVariable('HIDDEN', 'hidden');
