@@ -142,6 +142,10 @@ trait Group
             if (!array_key_exists($key, $value)) {
                 return false;
             }
+            /** this is currently entangled to {@see Input::withValue()} */
+            if (null === $value[$key]) {
+                continue;
+            }
             if (!$input->isClientSideValueOk($value[$key])) {
                 return false;
             }
