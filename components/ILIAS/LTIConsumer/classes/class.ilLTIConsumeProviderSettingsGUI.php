@@ -99,6 +99,16 @@ class ilLTIConsumeProviderSettingsGUI
         $this->showSettingsCmd($form);
     }
 
+    private function getClientIdFromProviderUrl(string $providerUrl): string
+    {
+        $res = "";
+        $first = explode(".", $providerUrl)[0];
+        $secondSplit = explode("//", $first);
+        if (count($secondSplit) > 1) {
+            $res = $secondSplit[1];
+        }
+        return $res;
+    }
 
     protected function startDeepLinkingCmd(): never
     {
@@ -185,7 +195,6 @@ class ilLTIConsumeProviderSettingsGUI
     protected function buildForm(ilLTIConsumeProvider $provider): ilLTIConsumeProviderFormGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
         $form = new ilLTIConsumeProviderFormGUI($provider);
         $form->initForm(
             $DIC->ctrl()->getFormAction($this),

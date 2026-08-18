@@ -65,6 +65,17 @@ class ilLTIConsumerContentGUI
         $this->{$command}();
     }
 
+    public function getJwtForContentSelection(string $redirectUri, string $clientId, int $deploymentId, string $nonce, ?array $additionalArguments = null): string
+    {
+        $jwt = "";
+        $this->initCmixUser();
+        $jwtArray = $this->getLaunchParametersLTI13($redirectUri, $clientId, $deploymentId, $nonce, $additionalArguments);
+        if (isset($jwtArray['id_token'])) {
+            $jwt = $jwtArray['id_token'];
+        }
+        return $jwt;
+    }
+
     /**
      * @throws ilCtrlException
      * @throws ilTemplateException
@@ -83,7 +94,6 @@ class ilLTIConsumerContentGUI
                 $this->dic->toolbar()->addText($this->getStartButtonTxt11());
             }
         } else {
-
             if ($this->object->isLaunchMethodEmbedded() && (ilSession::get('lti13_login_data') == null)) {
                 $tpl = new ilTemplate('tpl.lti_content.html', true, true, 'components/ILIAS/LTIConsumer');
                 $tpl->setVariable("EMBEDDED_IFRAME_SRC", $this->dic->ctrl()->getLinkTarget(
@@ -195,7 +205,11 @@ class ilLTIConsumerContentGUI
         $button = '<input class="btn btn-default ilPre" type="button" onClick="ltilaunch()" value = "' . $this->lng->txt("show_content") . '" />';
         $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $this->object->getProvider()->getProviderUrl() . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
         foreach ($launchParameters as $field => $value) {
-            $output .= sprintf('<input type="hidden" name="%s" value="%s" />', $field, $value) . "\n";
+            $output .= sprintf(
+                '<input type="hidden" name="%s" value="%s" />',
+                htmlspecialchars((string) $field, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'),
+                htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')
+            ) . "\n";
         }
         $output .= $button;
         $output .= '</form>';
@@ -260,7 +274,6 @@ class ilLTIConsumerContentGUI
             document.getElementById("lti_launch_form").style.display = "none";
             document.getElementById("lti_launched").style.display = "inline";
         }</script>';
-        //dump($output);exit();
         return($output);
     }
 
@@ -309,8 +322,8 @@ class ilLTIConsumerContentGUI
             $tpl = new ilTemplate('tpl.lti_embedded.html', true, true, 'components/ILIAS/LTIConsumer');
             foreach ($this->getLaunchParameters() as $field => $value) {
                 $tpl->setCurrentBlock('launch_parameter');
-                $tpl->setVariable('LAUNCH_PARAMETER', $field);
-                $tpl->setVariable('LAUNCH_PARAM_VALUE', $value);
+                $tpl->setVariable('LAUNCH_PARAMETER', htmlspecialchars((string) $field, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'));
+                $tpl->setVariable('LAUNCH_PARAM_VALUE', htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'));
                 $tpl->parseCurrentBlock();
             }
 
@@ -358,7 +371,7 @@ class ilLTIConsumerContentGUI
         );
     }
 
-    protected function getLaunchParametersLTI13(string $endpoint, string $clientId, int $deploymentId, string $nonce): ?array
+    protected function getLaunchParametersLTI13(string $endpoint, string $clientId, int $deploymentId, string $nonce, ?array $additionalArguments = null): ?array
     {
         $ilLTIConsumerLaunch = new ilLTIConsumerLaunch($this->object->getRefId());
         $launchContext = $ilLTIConsumerLaunch->getContext();
@@ -372,6 +385,11 @@ class ilLTIConsumerContentGUI
             $this->object->getRefId(),
             $this->object->getId()
         );
+        $returnUrl = !$this->object->isLaunchMethodOwnWin() ? '' : str_replace(
+            '&amp;',
+            '&',
+            ilObjLTIConsumer::getIliasHttpPath() . "/" . $this->dic->ctrl()->getLinkTarget($this, "", "", false)
+        );
 
         $cmixUser = $this->cmixUser;
         return $this->object->buildLaunchParametersLTI13(
@@ -383,7 +401,9 @@ class ilLTIConsumerContentGUI
             $nonce,
             $launchContextType,
             $launchContextId,
-            $launchContextTitle
+            $launchContextTitle,
+            $returnUrl,
+            $additionalArguments
         );
     }
 

@@ -18,7 +18,9 @@
 
 declare(strict_types=1);
 
-require_once("../vendor/composer/vendor/autoload.php");
+require_once '../vendor/composer/vendor/autoload.php';
+require_once __DIR__ . '/../artifacts/bootstrap_default.php';
+entry_point('ILIAS Legacy Initialisation Adapter');
 
 if (!isset($_GET['client_id']) || !strlen($_GET['client_id'])) {
     $log = ilLoggerFactory::getLogger('lti');
@@ -28,7 +30,6 @@ if (!isset($_GET['client_id']) || !strlen($_GET['client_id'])) {
 }
 
 \ilContext::init(\ilContext::CONTEXT_SCORM);
-\ilInitialisation::initILIAS();
 
 $dic = $GLOBALS['DIC'];
 $log = ilLoggerFactory::getLogger('lti');

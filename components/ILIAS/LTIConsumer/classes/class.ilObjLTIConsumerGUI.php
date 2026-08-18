@@ -726,9 +726,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         }
 
         /* @var \ILIAS\DI\Container $DIC */
-
         // TODO: general access checks (!)
-
         if (!ilLTIConsumerContentGUI::isEmbeddedLaunchRequest()) {
             $this->prepareOutput();
             //$this->addHeaderAction();
