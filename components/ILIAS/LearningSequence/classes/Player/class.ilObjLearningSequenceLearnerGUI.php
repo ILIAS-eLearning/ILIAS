@@ -25,7 +25,6 @@ use ILIAS\UI\Component\Modal\Interruptive;
 
 /**
  * @ilCtrl_Calls ilObjLearningSequenceLearnerGUI: ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilCommonActionDispatcherGUI: ilRatingGUI
  */
 class ilObjLearningSequenceLearnerGUI
 {
@@ -65,6 +64,21 @@ class ilObjLearningSequenceLearnerGUI
     public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
+        $next_class = $this->ctrl->getNextClass($this);
+        switch ($next_class) {
+            case strtolower(ilCommonActionDispatcherGUI::class):
+                $dispatcher = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+                if ($dispatcher instanceof ilCommonActionDispatcherGUI) {
+                    $this->ctrl->forwardCommand($dispatcher);
+                }
+                break;
+            default:
+                $this->executeCommandByCommand($cmd);
+        }
+    }
+
+    protected function executeCommandByCommand(string $cmd): void
+    {
         switch ($cmd) {
             case self::CMD_STANDARD:
             case self::CMD_EXTRO:
@@ -82,12 +96,6 @@ class ilObjLearningSequenceLearnerGUI
                     $this->roles->leave($this->usr_id);
                 }
                 $this->ctrl->redirect($this, self::CMD_STANDARD);
-                break;
-            case self::CMD_SAVE_RATING:
-                $dispatcher = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
-                if ($dispatcher instanceof ilCommonActionDispatcherGUI) {
-                    $dispatcher->executeCommand();
-                }
                 break;
             case self::CMD_REDRAW_LIST_ITEM:
                 $this->redrawListItem();
@@ -115,6 +123,17 @@ class ilObjLearningSequenceLearnerGUI
         $parent_ref_id = (int) $this->get->retrieve('parent_ref_id', $DIC->refinery()->kindlyTo()->int());
 
         if ($child_ref_id <= 0 || $parent_ref_id <= 0) {
+            $http->saveResponse(
+                $response
+                    ->withBody(Streams::ofString(''))
+                    ->withHeader(ResponseHeader::CONTENT_TYPE, 'text/html; charset=UTF-8')
+            );
+            $http->sendResponse();
+            $http->close();
+            return;
+        }
+
+        if (!$this->isRatingListItemInCurrentLearningSequence($child_ref_id, $parent_ref_id)) {
             $http->saveResponse(
                 $response
                     ->withBody(Streams::ofString(''))
@@ -168,7 +187,7 @@ class ilObjLearningSequenceLearnerGUI
             $obj_id
         );
 
-        $rating_gui = new ilRatingGUI();
+        $rating_gui = (new ilRatingGUI())->withAsyncRendering(true);
         $rating_gui->setObject($obj_id, $obj_type);
         $rating_gui->setCtrlPath([
             ilCommonActionDispatcherGUI::class,
@@ -179,7 +198,7 @@ class ilObjLearningSequenceLearnerGUI
         $container_id = 'lg_div_' . $child_ref_id . '_pref_' . $parent_ref_id;
         $rating_content = $rating_gui->getListGUIProperty(
             $child_ref_id,
-            true,
+            $this->access->checkAccess('read', '', $child_ref_id),
             $ajax_hash,
             $parent_ref_id
         );
@@ -204,6 +223,21 @@ class ilObjLearningSequenceLearnerGUI
         $http->sendResponse();
         $http->close();
         return;
+    }
+
+    protected function isRatingListItemInCurrentLearningSequence(int $child_ref_id, int $parent_ref_id): bool
+    {
+        if ($parent_ref_id !== $this->curriculum_builder->getLearningSequenceRefId()) {
+            return false;
+        }
+
+        foreach ($this->curriculum_builder->getLearnerItems() as $item) {
+            if ($item->getRefId() === $child_ref_id) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     protected function unsubscribeConfirmationModal(): Interruptive

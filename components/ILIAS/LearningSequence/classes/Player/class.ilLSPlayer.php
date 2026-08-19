@@ -175,9 +175,11 @@ class ilLSPlayer
                 ]);
                 $rating_gui->setYourRatingText($this->lng->txt('rating_your_rating'));
 
+                global $DIC;
+
                 $rating_content = $rating_gui->getListGUIProperty(
                     $next_item->getRefId(),
-                    true,
+                    $DIC->access()->checkAccess('read', '', $next_item->getRefId()),
                     $ajax_hash,
                     $parent_ref_id
                 );
@@ -218,16 +220,6 @@ class ilLSPlayer
                     " if (typeof window.il.Object.setRedrawListItemUrl === 'function') { window.il.Object.setRedrawListItemUrl(" . json_encode($redraw_url, JSON_THROW_ON_ERROR) . "); }" .
                     " if (typeof window.il.Object.setRatingUrl === 'function') { window.il.Object.setRatingUrl(" . json_encode($rating_url, JSON_THROW_ON_ERROR) . "); }" .
                     "}"
-                );
-
-                $this->page_renderer->addCss('assets/css/lso_kiosk_rating.css');
-                $this->page_renderer->addJs(
-                    'assets/js/lso_kiosk_rating.js',
-                    true
-                );
-                $this->page_renderer->addOnLoadCode(
-                    "if (window.il && window.il.LSO && window.il.LSO.KioskRating && " .
-                    "typeof window.il.LSO.KioskRating.init === 'function') { window.il.LSO.KioskRating.init(); }"
                 );
             }
         }

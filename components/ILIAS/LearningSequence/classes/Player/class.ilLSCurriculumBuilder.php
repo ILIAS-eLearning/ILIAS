@@ -85,6 +85,19 @@ class ilLSCurriculumBuilder
         return $workflow;
     }
 
+    public function getLearningSequenceRefId(): int
+    {
+        return $this->ls_items->getLearningSequenceRefId();
+    }
+
+    /**
+     * @return LSLearnerItem[]
+     */
+    public function getLearnerItems(): array
+    {
+        return $this->ls_items->getItems();
+    }
+
     /*
         Step
             const NOT_STARTED	= 1;

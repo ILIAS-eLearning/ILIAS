@@ -36,11 +36,5 @@ class LearningSequence implements Component\Component
             new \ilLearningSequenceSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
-
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "js/lso_kiosk_rating.js");
-
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentCSS($this, "css/lso_kiosk_rating.css");
     }
 }
