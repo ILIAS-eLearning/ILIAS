@@ -65,7 +65,7 @@ class ilTestExporter extends ilXmlExporter
         }
 
         // If the default export option was used, the state is not initialized yet.
-        if ($this->state_holder->exists() === false) {
+        if (!$this->state_holder->exists()) {
             $this->initExportState(
                 'components/ILIAS/Test',
                 $a_target_release,

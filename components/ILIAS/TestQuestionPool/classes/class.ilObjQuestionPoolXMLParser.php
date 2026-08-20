@@ -17,7 +17,7 @@
  *********************************************************************/
 
 /**
- * @deprecated This class is only used for legacy imports and will be removed with further ILIAS versions.
+ * @deprecated This class is used only for legacy imports and will be removed in a future ILIAS release
  */
 class ilObjQuestionPoolXMLParser extends ilSaxParser
 {

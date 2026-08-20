@@ -24,14 +24,14 @@ use assFormulaQuestionUnit;
 use assFormulaQuestionUnitCategory;
 use assQuestion;
 use Generator;
-use ilAssQuestionSkillAssignmentList;
 use ilAssClozeTestFeedback;
 use ilAssMultiOptionQuestionFeedback;
+use ilAssQuestionSkillAssignmentList;
 use ilAssSpecificFeedbackIdentifierList;
 use ilDBInterface;
 use ILIAS\Data\ObjectId;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 use ILIAS\TestQuestionPool\ExportImport\Envelopes\Feedback;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionProperties;
 use ilUnitConfigurationRepository;
 
@@ -95,12 +95,14 @@ trait CollectsQuestions
                 $data['categories'][] = $item;
             }
 
-            if ($item instanceof assFormulaQuestionUnit) {
-                if ($item->getBaseUnit() === 0 || $item->getBaseUnit() === $item->getId()) {
-                    $data['base_units'][] = $item;
-                } else {
-                    $data['units'][] = $item;
-                }
+            if (!$item instanceof assFormulaQuestionUnit) {
+                continue;
+            }
+
+            if ($item->getBaseUnit() === 0 || $item->getBaseUnit() === $item->getId()) {
+                $data['base_units'][] = $item;
+            } else {
+                $data['units'][] = $item;
             }
         }
 
@@ -116,14 +118,12 @@ trait CollectsQuestions
      */
     public function getFeedback(assQuestion $question): Feedback
     {
-        $feedback = new Feedback(
+        return new Feedback(
             new Id($question->getId(), 'question'),
             $question->feedbackOBJ->getGenericFeedbackExportPresentation($question->getId(), false),
             $question->feedbackOBJ->getGenericFeedbackExportPresentation($question->getId(), true),
             $this->loadSpecificFeedback($question),
         );
-
-        return $feedback;
     }
 
     private function loadSpecificFeedback(assQuestion $question): array
@@ -136,12 +136,13 @@ trait CollectsQuestions
             return [];
         }
 
+        $feedback = [];
+
         // Cloze question type specific feedback uses the identifier list to load the answer-specific feedback.
         if ($question->feedbackOBJ instanceof ilAssClozeTestFeedback) {
             $feedback_list = new ilAssSpecificFeedbackIdentifierList();
             $feedback_list->load($question->getId());
 
-            $feedback = [];
             foreach ($feedback_list as $identifier) {
                 $feedback[$identifier->getAnswerIndex()] = [
                     'answer_index' => $identifier->getAnswerIndex(),
@@ -153,6 +154,7 @@ trait CollectsQuestions
                     ),
                 ];
             }
+
             return $feedback;
         }
 

@@ -53,8 +53,7 @@ class ImportStageRunner
             return StageResult::complete($context);
         }
 
-        $stage = $this->stages[$index];
-        $result = $stage->process($context);
+        $result = $this->stages[$index]->process($context);
 
         switch ($result->type) {
             case StageResultType::ADVANCE:
@@ -104,21 +103,17 @@ class ImportStageRunner
             );
 
             if ($i < $active_index) {
-                $step = $step->withStatus(Step::SUCCESSFULLY)
-                             ->withAvailability(Step::NOT_ANYMORE);
+                $step = $step->withStatus(Step::SUCCESSFULLY)->withAvailability(Step::NOT_ANYMORE);
             } elseif ($i === $active_index) {
-                $step = $step->withStatus(Step::IN_PROGRESS)
-                             ->withAvailability(Step::AVAILABLE);
+                $step = $step->withStatus(Step::IN_PROGRESS)->withAvailability(Step::AVAILABLE);
             } else {
-                $step = $step->withStatus(Step::NOT_STARTED)
-                             ->withAvailability(Step::NOT_AVAILABLE);
+                $step = $step->withStatus(Step::NOT_STARTED)->withAvailability(Step::NOT_AVAILABLE);
             }
 
             $steps[] = $step;
         }
 
-        return $ui->listing()->workflow()->linear($title, $steps)
-                   ->withActive($active_index);
+        return $ui->listing()->workflow()->linear($title, $steps)->withActive($active_index);
     }
 
     /**

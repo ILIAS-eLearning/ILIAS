@@ -19,12 +19,10 @@
 declare(strict_types=1);
 
 use ILIAS\Test\Scoring\Manual\TestScoring;
-use ILIAS\Test\ExportImport\DBRepository;
 use ILIAS\Test\Results\Data\Repository as TestResultsRepository;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\ResourceStorage\Services as IRSS;
-use ILIAS\Filesystem\Filesystem;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -45,8 +43,6 @@ class ilTestExportGUI extends ilExportGUI
         private readonly UIRenderer $ui_renderer,
         private readonly IRSS $irss,
         private readonly ServerRequestInterface $request,
-        private readonly DBRepository $export_repository,
-        private readonly Filesystem $temp_file_system,
         private readonly ilTestParticipantAccessFilterFactory $participant_access_filter_factory,
         private readonly TestResultsRepository $test_results_repository,
         private readonly ilTestHTMLGenerator $html_generator

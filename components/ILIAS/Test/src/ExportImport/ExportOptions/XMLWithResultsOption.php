@@ -32,8 +32,8 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\StateHolder;
 
 class XMLWithResultsOption extends BasicLegacyExportOption
 {
-    private Language $lng;
-    private StateHolder $state_holder;
+    private readonly Language $lng;
+    private readonly StateHolder $state_holder;
 
     public function init(
         Container $DIC
@@ -64,7 +64,7 @@ class XMLWithResultsOption extends BasicLegacyExportOption
         $this->lng->loadLanguageModule('exp');
         $this->lng->loadLanguageModule('assessment');
 
-        return $this->lng->txt('exp_format_dropdown-xml') . ' (' . $this->lng->txt('ass_create_export_file_with_results') . ')';
+        return "{$this->lng->txt('exp_format_dropdown-xml')} ({$this->lng->txt('ass_create_export_file_with_results')})";
     }
 
     public function onExportOptionSelected(ConsumerContext $context): void
@@ -86,11 +86,7 @@ class XMLWithResultsOption extends BasicLegacyExportOption
         );
 
         // Delegate the export to the manager which will call ilTestExporter
-        $manager->createExport(
-            1,
-            $export_info,
-            ''
-        );
+        $manager->createExport(1, $export_info, '');
 
         $this->ctrl->redirectByClass(ilExportGUI::class, ilExportGUI::CMD_LIST_EXPORT_FILES);
     }

@@ -20,10 +20,10 @@ declare(strict_types=1);
 
 use ILIAS\Data\ReferenceId;
 use ILIAS\Test\ExportImport\Import\TestImporter;
+use ILIAS\Test\TestDIC;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Serializing\XMLMemoryDeserializer;
 use ILIAS\TestQuestionPool\ExportImport\Import\DetectLegacyImportStage;
-use ILIAS\Test\TestDIC;
 
 class ilTestImporter extends ilXmlImporter
 {
@@ -34,11 +34,12 @@ class ilTestImporter extends ilXmlImporter
     public function __construct()
     {
         parent::__construct();
-        $this->legacy_importer = new ilTestLegacyImporter();
 
         $local_dic = TestDIC::dic();
         $this->session = $local_dic['exportimport.session'];
         $this->importer = $local_dic['exportimport.importer'];
+
+        $this->legacy_importer = new ilTestLegacyImporter();
     }
 
     public function init(): void
@@ -96,18 +97,20 @@ class ilTestImporter extends ilXmlImporter
         $tst_mappings = $a_mapping->getMappingsOfEntity('components/ILIAS/Test', 'tst');
 
         foreach ($tst_mappings as $old => $new) {
-            if ($old !== 'new_id' && (int) $old > 0) {
-                $new_tax_ids = $a_mapping->getMapping(
-                    'components/ILIAS/Taxonomy',
-                    'tax_usage_of_obj',
-                    (string) $old
-                );
+            if ($old === 'new_id' || (int) $old <= 0) {
+                continue;
+            }
 
-                if ($new_tax_ids !== null) {
-                    $tax_ids = explode(':', $new_tax_ids);
-                    foreach ($tax_ids as $tid) {
-                        ilObjTaxonomy::saveUsage((int) $tid, (int) $new);
-                    }
+            $new_tax_ids = $a_mapping->getMapping(
+                'components/ILIAS/Taxonomy',
+                'tax_usage_of_obj',
+                (string) $old
+            );
+
+            if ($new_tax_ids !== null) {
+                $tax_ids = explode(':', $new_tax_ids);
+                foreach ($tax_ids as $tid) {
+                    ilObjTaxonomy::saveUsage((int) $tid, (int) $new);
                 }
             }
         }

@@ -367,12 +367,13 @@ class TestImporter
 
         foreach ($list as $normalized) {
             $question = $this->questions_importer->importQuestion($normalized, $tt, $mapping, $selected_questions);
-
-            if ($question && $normalized['sequence'] !== null) {
-                $sequence = $tt->int($normalized['sequence']);
-                $test_object->questions[$sequence] = $question->getId();
-                $this->log->debug("Stored question {$question->getId()} at sequence {$sequence} in test");
+            if (!$question instanceof \assQuestion || $normalized['sequence'] === null) {
+                continue;
             }
+
+            $sequence = $tt->int($normalized['sequence']);
+            $test_object->questions[$sequence] = $question->getId();
+            $this->log->debug("Stored question {$question->getId()} at sequence {$sequence} in test");
         }
 
         $test_object->saveQuestionsToDb();
@@ -405,7 +406,7 @@ class TestImporter
             $mapping->addMapping('components/ILIAS/Test', 'participant', (string) $old_active_id, (string) $new_active_id);
             $this->log->debug("Stored participant/test session mapping: {$old_active_id} -> {$new_active_id}");
 
-            // TestID, UserID and ActiveID will be replaced by the mapping pipe
+            // The mapping pipe replaces TestID, UserID and ActiveID
             $participant = $tt->denormalize($normalized, Participant::class);
 
             $this->database->insert(
@@ -433,16 +434,19 @@ class TestImporter
 
     private function importInvitedParticipant(array $normalized, Transformations $tt): void
     {
-        // TestID and UserID will be replaced by the mapping pipe
+        // The mapping pipe replaces TestID and UserID
         $participant = $tt->denormalize($normalized, Participant::class);
 
-        $this->database->insert('tst_invited_user', [
-            'test_fi' => [ilDBConstants::T_INTEGER, $participant->getTestId()],
-            'user_fi' => [ilDBConstants::T_INTEGER, $participant->getUserId()],
-            'ip_range_from' => [ilDBConstants::T_TEXT, $participant->getClientIpFrom()],
-            'ip_range_to' => [ilDBConstants::T_TEXT, $participant->getClientIpTo()],
-            'tstamp' => [ilDBConstants::T_INTEGER, $participant->getInvitationDate()],
-        ]);
+        $this->database->insert(
+            'tst_invited_user',
+            [
+                'test_fi' => [ilDBConstants::T_INTEGER, $participant->getTestId()],
+                'user_fi' => [ilDBConstants::T_INTEGER, $participant->getUserId()],
+                'ip_range_from' => [ilDBConstants::T_TEXT, $participant->getClientIpFrom()],
+                'ip_range_to' => [ilDBConstants::T_TEXT, $participant->getClientIpTo()],
+                'tstamp' => [ilDBConstants::T_INTEGER, $participant->getInvitationDate()],
+            ]
+        );
         $this->log->debug("Stored invited participant in database: {$participant->getUserId()} (User ID), {$participant->getTestId()} (Test ID)");
     }
 }
