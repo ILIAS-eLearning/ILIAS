@@ -684,7 +684,7 @@ class ilTree
         if ($a_reset_deletion_date) {
             ilObject::_resetDeletedDate($a_node_id);
         }
-        if (isset($this->eventHandler) && ($this->eventHandler instanceof ilAppEventHandler) && $this->__isMainTree()) {
+        if (isset($this->eventHandler) && ($this->eventHandler instanceof ilAppEventHandler)) {
             $this->eventHandler->raise(
                 'Services/Tree',
                 'insertNode',
@@ -1935,7 +1935,7 @@ class ilTree
      */
     public function __isMainTree(): bool
     {
-        return $this->table_tree === 'tree';
+        return $this->isRepositoryTree();
     }
 
     /**
@@ -2061,7 +2061,7 @@ class ilTree
     {
         $old_parent_id = $this->getParentId($a_source_id);
         $this->getTreeImplementation()->moveTree($a_source_id, $a_target_id, $a_location);
-        if (isset($GLOBALS['DIC']["ilAppEventHandler"]) && $this->__isMainTree()) {
+        if (isset($GLOBALS['DIC']["ilAppEventHandler"])) {
             $GLOBALS['DIC']['ilAppEventHandler']->raise(
                 "Services/Tree",
                 "moveTree",
