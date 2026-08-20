@@ -238,7 +238,9 @@ class ilLSLocalDI extends Container
                 $c["player.kioskrenderer"],
                 $dic["ui.factory"],
                 $lsdic["gs.current_context"],
-                $dic["refinery"]
+                $dic["refinery"],
+                $dic["lng"],
+                $dic["ilCtrl"]
             );
         };
 

@@ -32,6 +32,7 @@ class ilRatingGUI implements ilCtrlSecurityInterface
     protected string $export_subobj_title = "";
     protected array $ctrl_path = [];
     protected bool $enable_categories = false;
+    protected bool $async_rendering = false;
     protected string $your_rating_text = "";
     protected \ILIAS\DI\UIServices $ui;
 
@@ -156,6 +157,13 @@ class ilRatingGUI implements ilCtrlSecurityInterface
     public function enableCategories(bool $a_value): void
     {
         $this->enable_categories = $a_value;
+    }
+
+    public function withAsyncRendering(bool $a_value): self
+    {
+        $this->async_rendering = $a_value;
+
+        return $this;
     }
 
     public function setCtrlPath(array $a_value): void
@@ -632,7 +640,9 @@ class ilRatingGUI implements ilCtrlSecurityInterface
             );
             $elements = [$button];
         }
-        $html = $r->render($elements);
+        $html = $this->async_rendering
+            ? $r->renderAsync($elements)
+            : $r->render($elements);
         $html = str_replace("###button###", $rating_html, $html);
 
         return $html;
