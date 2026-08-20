@@ -42,8 +42,7 @@ trait XMLDeserializerTrait
                 continue;
             }
 
-            $group_data = $this->readGroup($reader);
-            $this->handler[$node_name]($group_data);
+            $this->handler[$node_name]($this->readGroup($reader));
         }
 
         $reader->close();
@@ -89,10 +88,7 @@ trait XMLDeserializerTrait
         $is_marked_empty_array = $this->isMarkedEmptyArray($reader);
 
         if ($reader->isEmptyElement) {
-            if ($is_marked_empty_array) {
-                return [];
-            }
-            return '';
+            return $is_marked_empty_array ? [] : '';
         }
 
         $element_depth = $reader->depth;

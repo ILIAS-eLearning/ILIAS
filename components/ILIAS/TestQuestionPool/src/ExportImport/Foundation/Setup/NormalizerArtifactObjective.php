@@ -27,6 +27,7 @@ use ILIAS\Setup\Artifact\BuildArtifactObjective;
 use ILIAS\Setup\ImplementationOfInterfaceFinder;
 use ILIAS\Setup\Artifact\ArrayArtifact;
 use ILIAS\Setup\Artifact;
+use Generator;
 use ReflectionClass;
 
 /**
@@ -44,7 +45,7 @@ class NormalizerArtifactObjective extends BuildArtifactObjective
      */
     public function getArtifactName(): string
     {
-        return "questions_normalizers";
+        return 'questions_normalizers';
     }
 
     /**
@@ -56,27 +57,34 @@ class NormalizerArtifactObjective extends BuildArtifactObjective
         $type_map = [];
 
         foreach ($finder->getMatchingClassNames(Normalizer::class) as $class_name) {
-            $ref = new ReflectionClass($class_name);
-
-            $attrs = $ref->getAttributes(Normalizes::class);
-            foreach ($attrs as $attr) {
-                $instance = $attr->newInstance();
-                foreach ($instance->types as $type) {
-                    $type_map[$type][self::DEFAULT_KEY] = $class_name;
-                }
-            }
-
-            $attrs = $ref->getAttributes(NormalizesLegacy::class);
-            foreach ($attrs as $attr) {
-                $instance = $attr->newInstance();
-                foreach ($instance->types as $type) {
-                    foreach ($instance->versions as $version) {
-                        $type_map[$type][$version] = $class_name;
-                    }
+            foreach ($this->getDeclarations(new ReflectionClass($class_name)) as [$types, $versions]) {
+                $entry = array_fill_keys($versions, $class_name);
+                foreach ($types as $type) {
+                    // union instead of array_merge: numeric version keys would be reindexed
+                    $type_map[$type] = $entry + ($type_map[$type] ?? []);
                 }
             }
         }
 
         return new ArrayArtifact($type_map);
+    }
+
+    /**
+     * Both attributes declare the same thing: every combination of type and version is served by the given
+     * class. Normalize is the special case where the only version is the default one.
+     *
+     * @param ReflectionClass<Normalizer> $ref
+     * @return Generator<array{list<class-string>, list<string>}>
+     */
+    private function getDeclarations(ReflectionClass $ref): Generator
+    {
+        if (($attribute = $ref->getAttributes(Normalizes::class)[0] ?? null) !== null) {
+            yield [$attribute->newInstance()->types, [self::DEFAULT_KEY]];
+        }
+
+        if (($attribute = $ref->getAttributes(NormalizesLegacy::class)[0] ?? null) !== null) {
+            $legacy = $attribute->newInstance();
+            yield [$legacy->types, $legacy->versions];
+        }
     }
 }

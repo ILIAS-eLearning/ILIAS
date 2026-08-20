@@ -20,19 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Import;
 
-use ilCtrl;
-use ilDBInterface;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\ReferenceId;
 use ILIAS\Data\UUID\Factory;
-use ILIAS\Language\Language;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Builder;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Deserializer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Pipes\IdMappingPipe;
-use ILIAS\TestQuestionPool\ExportImport\Import\QuestionSelectionStage;
-use ILIAS\TestQuestionPool\ExportImport\Import\UploadValidationStage;
 use ILIAS\TestQuestionPool\ExportImport\Pipes\CollectQuestionImages;
 use ilImportMapping;
 use ilObjQuestionPool;

@@ -94,10 +94,16 @@ class IlObjectNormalizer implements Normalizer
                 'long_description' => $property->getLongDescription(),
             ];
         }
+
         if ($property instanceof Online) {
             return $property->getIsOnline();
         }
-        if ($property instanceof TitleAndIconVisibility || $property instanceof HeaderActionVisibility || $property instanceof InfoTabVisibility) {
+
+        if (
+            $property instanceof TitleAndIconVisibility
+            || $property instanceof HeaderActionVisibility
+            || $property instanceof InfoTabVisibility
+        ) {
             return $property->getVisibility();
         }
 

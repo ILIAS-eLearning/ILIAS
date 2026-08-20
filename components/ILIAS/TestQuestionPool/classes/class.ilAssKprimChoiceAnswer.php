@@ -1,9 +1,9 @@
 <?php
 
+use ILIAS\Refinery\Transformation;
+use ILIAS\TestQuestionPool\ExportImport\Envelopes\QuestionImage;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
-use ILIAS\TestQuestionPool\ExportImport\Envelopes\QuestionImage;
-use ILIAS\Refinery\Transformation;
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -156,9 +156,9 @@ class ilAssKprimChoiceAnswer implements Normalizable
         return $tt->custom()->transformation(fn(array $context): array => [
             'position' => $this->position,
             'answertext' => $this->answertext,
-            'image' => $this->imageFile ? $tt->normalize(
-                new QuestionImage($this->imageFile, $context['question_id'] ?? null)
-            ) : null,
+            'image' => $this->imageFile
+                ? $tt->normalize(new QuestionImage($this->imageFile, $context['question_id'] ?? null))
+                : null,
             'correctness' => $this->correctness,
         ]);
     }

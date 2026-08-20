@@ -37,8 +37,9 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
     /**
      * Returns the final XML content for the question pool.
      *
-     * This method is called after `getXmlExportTailDependencies()`. At this point the export writer and export
-     * directory are available, so the preprocessed export can be written to disk and returned as xml.
+     * This method is called after `getXmlExportTailDependencies()`.
+     * At this point the export writer and export directory are available,
+     * so the preprocessed export can be written to disk and returned as xml.
      */
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
@@ -52,8 +53,9 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
     /**
      * Collects export tail dependencies for the question pool.
      *
-     * The export framework calls this method before `getXmlRepresentation()`. Therefore this method only prepares and
-     * processes the export in memory using the export state. The export state is created if it does not exist yet.
+     * The export framework calls this method before `getXmlRepresentation()`.
+     * Therefore this method only prepares and processes the export in memory using the export state.
+     * The export state is created if it does not exist yet.
      */
     public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
@@ -62,7 +64,7 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
         }
 
         // If the default export option was used, the state is not initialized yet.
-        if ($this->state_holder->exists() === false) {
+        if (!$this->state_holder->exists()) {
             $this->initExportState(
                 'components/ILIAS/TestQuestionPool',
                 $a_target_release,

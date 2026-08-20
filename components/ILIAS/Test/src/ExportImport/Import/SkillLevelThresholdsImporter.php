@@ -65,7 +65,7 @@ class SkillLevelThresholdsImporter
         $threshold_list = new ilTestSkillLevelThresholdList($this->db);
 
         foreach ($normalized_thresholds as $item) {
-            // TestID and Skill BaseID/TRefID will be replaced by the mapping pipe
+            // The mapping pipe replaces TestID and Skill BaseID/TRefID
             $threshold = $transformations->denormalize($item, ilTestSkillLevelThreshold::class);
 
             $local_level_id = $this->getLevelIdMapping($import_install_id, $threshold->getSkillLevelId());
@@ -89,7 +89,7 @@ class SkillLevelThresholdsImporter
         }
 
         $threshold_list->saveToDb();
-        $this->log->debug("Saved skill level thresholds");
+        $this->log->debug('Saved skill level thresholds');
 
         return $result;
     }

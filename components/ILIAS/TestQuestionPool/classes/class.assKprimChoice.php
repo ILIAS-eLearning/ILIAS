@@ -957,7 +957,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
             $clone->scorePartialSolutionEnabled = $tt->bool($normalized['score_partial_solution']);
             $clone->specific_feedback_setting = $tt->int($normalized['specific_feedback_setting']);
             $clone->answers = array_map(
-                fn(array $answer) => $tt->denormalize($answer, new ilAssKprimChoiceAnswer()),
+                static fn(array $answer): ilAssKprimChoiceAnswer => $tt->denormalize($answer, new ilAssKprimChoiceAnswer()),
                 $normalized['answers']
             );
 

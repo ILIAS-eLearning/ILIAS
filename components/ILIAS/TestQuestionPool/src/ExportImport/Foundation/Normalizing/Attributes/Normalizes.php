@@ -30,15 +30,13 @@ use Attribute;
 #[Attribute(Attribute::TARGET_CLASS)]
 final readonly class Normalizes
 {
+    /** @var list<class-string> */
+    public array $types;
+
     /**
      * @param class-string ...$types
      */
-    public function __construct(
-        string ...$types
-    ) {
+    public function __construct(string ...$types) {
         $this->types = $types;
     }
-
-    /** @var list<class-string> */
-    public array $types;
 }

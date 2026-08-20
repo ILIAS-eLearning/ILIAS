@@ -174,7 +174,7 @@ class ilAssQuestionLifecycle implements Normalizable
     public function fromNormalized(Transformations $tt): Transformation
     {
         return $tt->custom()->transformation(
-            fn(array $normalized) => self::getInstance($normalized['identifier'])
+            static fn(array $normalized): ilAssQuestionLifecycle => self::getInstance($normalized['identifier'])
         );
     }
 }

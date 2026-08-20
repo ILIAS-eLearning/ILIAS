@@ -72,7 +72,7 @@ class ilTestSequenceNormalizer implements Normalizer
     private function normalizeQuestions(array $questions): array
     {
         return array_map(
-            fn(int $question_id) => $this->tt->normalize(new Id($question_id, 'question')),
+            fn(int $question_id): mixed => $this->tt->normalize(new Id($question_id, 'question')),
             $questions
         );
     }
@@ -116,7 +116,7 @@ class ilTestSequenceNormalizer implements Normalizer
     private function denormalizeQuestions(array $normalized): array
     {
         return array_map(
-            fn(mixed $item) => $this->tt->denormalize($item, Id::class)->getId(),
+            fn(mixed $item): mixed => $this->tt->denormalize($item, Id::class)->getId(),
             $normalized
         );
     }

@@ -24,8 +24,8 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Envelope;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
 
 /**
- * Wrapper object for an image file within a question (e.g. an image map question). An image belongs either to the
- * question text, answer options or the suggested solution.
+ * Wrapper object for an image file within a question (e.g. an image map question).
+ * An image belongs either to the question text, answer options or the suggested solution.
  */
 class QuestionImage implements Envelope
 {
@@ -60,10 +60,9 @@ class QuestionImage implements Envelope
         return $this->id;
     }
 
-    public function setId(string $id): static
+    public function setId(string $id): void
     {
         $this->id = $id;
-        return $this;
     }
 
     /**

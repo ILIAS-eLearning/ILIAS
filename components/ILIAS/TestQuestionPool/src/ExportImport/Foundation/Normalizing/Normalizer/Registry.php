@@ -44,7 +44,7 @@ class Registry
     */
     public function registerNormalizer(string $type, callable $normalizer): void
     {
-        if (isset($this->type_map[$type])) {
+        if ($this->hasNormalizer($type)) {
             throw new NormalizingException("Type {$type} is already registered");
         }
         $this->type_map[$type] = $normalizer;

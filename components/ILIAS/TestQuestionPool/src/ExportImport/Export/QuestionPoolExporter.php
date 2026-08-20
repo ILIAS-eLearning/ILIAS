@@ -25,13 +25,13 @@ use ilDBInterface;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\ObjectId;
 use ILIAS\Data\UUID\Factory as UUIDFactory;
+use ILIAS\Taxonomy\DomainService as Taxonomy;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\ExportState;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\ExportStep;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Builder;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Exporter;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Serializer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
-use ILIAS\Taxonomy\DomainService as Taxonomy;
 use ILIAS\TestQuestionPool\ExportImport\Pipes\CollectQuestionImages;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
@@ -73,10 +73,7 @@ class QuestionPoolExporter implements Exporter
         );
         $state->setCollector($collector);
 
-        $question_image_pipe = new CollectQuestionImages(
-            new UUIDFactory(),
-            $pool_id
-        );
+        $question_image_pipe = new CollectQuestionImages(new UUIDFactory(), $pool_id);
 
         $transformations = $this->builder
             ->withAdditionalPipes([$question_image_pipe])
@@ -155,7 +152,7 @@ class QuestionPoolExporter implements Exporter
     {
         $target_ids = $state->target()->getObjectIds();
 
-        if (count($target_ids) === 0) {
+        if ($target_ids === []) {
             $state->logger()->warning('No target object IDs found for question pool export');
             return null;
         }
@@ -197,14 +194,13 @@ class QuestionPoolExporter implements Exporter
         foreach ($collector->getQuestionObjects() as $question) {
             $normalized = [
                 ... $transformations->normalize($question),
-                'feedback' => $transformations->normalize(
-                    $collector->getFeedback($question)
-                )
+                'feedback' => $transformations->normalize($collector->getFeedback($question))
             ];
 
             if ($question instanceof assFormulaQuestion) {
-                $data = $collector->getUnitsAndCategories($question->getId());
-                $normalized['formula_data'] = $transformations->normalize($data);
+                $normalized['formula_data'] = $transformations->normalize(
+                    $collector->getUnitsAndCategories($question->getId())
+                );
             }
 
             $serializer->append('question', $normalized);

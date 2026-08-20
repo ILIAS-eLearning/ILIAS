@@ -22,7 +22,6 @@ use ILIAS\ResourceStorage\Services as ResourceStorage;
 use ILIAS\Test\RequestDataCollector;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
 use ILIAS\TestQuestionPool\ExportImport\Import\DetectLegacyImportStage;
-use ILIAS\TestQuestionPool\ExportImport\Import\QuestionSelectionStage;
 use ILIAS\TestQuestionPool\ExportImport\Import\UploadValidationStage;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 use ILIAS\Test\TestDIC;
@@ -31,10 +30,11 @@ use ILIAS\Test\Logging\TestLogger;
 class ilTestLegacyImporter extends ilXmlImporter
 {
     use TestQuestionsImportTrait;
+
     /**
      * @var array
      */
-    public static $finallyProcessedTestsRegistry = [];
+    public static array $finally_processed_tests_registry = [];
 
     private readonly TestLogger $logger;
     private readonly ilDBInterface $db;
@@ -64,10 +64,12 @@ class ilTestLegacyImporter extends ilXmlImporter
         $new_obj = new ilObjTest(0, true);
         $new_obj->setTitle('dummy');
         $new_obj->setDescription('test import');
-        $new_obj->create(true);
+        $new_obj->create();
         $new_obj->createReference();
-        $new_obj->putInTree($this->request_data_collector->getRefId());
-        $new_obj->setPermissions($this->request_data_collector->getRefId());
+
+        $ref_id = $this->request_data_collector->getRefId();
+        $new_obj->putInTree($ref_id);
+        $new_obj->setPermissions($ref_id);
         $new_obj->saveToDb();
 
         $a_mapping->addMapping('components/ILIAS/Test', 'tst', 'new_id', (string) $new_obj->getId());
@@ -123,10 +125,10 @@ class ilTestLegacyImporter extends ilXmlImporter
         );
 
         $a_mapping->addMapping(
-            "components/ILIAS/MetaData",
-            "md",
-            $a_id . ":0:tst",
-            $new_obj->getId() . ":0:tst"
+            'components/ILIAS/MetaData',
+            'md',
+            "{$a_id}:0:tst",
+            "{$new_obj->getId()}:0:tst"
         );
 
         $context = $context->with('test_obj_id', $new_obj->getId())->with('test_ref_id', $new_obj->getRefId());
@@ -169,20 +171,21 @@ class ilTestLegacyImporter extends ilXmlImporter
         $maps = $a_mapping->getMappingsOfEntity("components/ILIAS/Test", "tst");
 
         foreach ($maps as $old => $new) {
-            if ($old == "new_id" || (int) $old <= 0) {
+            if ($old === 'new_id' || (int) $old <= 0) {
                 continue;
             }
 
-            if (isset(self::$finallyProcessedTestsRegistry[$new])) {
+            if (isset(self::$finally_processed_tests_registry[$new])) {
                 continue;
             }
 
+            /** @var ?ilObjTest $test_obj */
             $test_obj = ilObjectFactory::getInstanceByObjId((int) $new, false);
             if ($test_obj->isRandomTest()) {
                 $this->finalRandomTestTaxonomyProcessing($a_mapping, (string) $old, $new, $test_obj);
             }
 
-            self::$finallyProcessedTestsRegistry[$new] = true;
+            self::$finally_processed_tests_registry[$new] = true;
         }
     }
 
@@ -297,8 +300,8 @@ class ilTestLegacyImporter extends ilXmlImporter
         $importer->import();
 
         if ($importer->getFailedImportAssignmentList()->assignmentsExist()) {
-            $qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($test_obj->getId());
-            $qsaImportFails->registerFailedImports($importer->getFailedImportAssignmentList());
+            $qsa_import_fails = new ilAssQuestionSkillAssignmentImportFails($test_obj->getId());
+            $qsa_import_fails->registerFailedImports($importer->getFailedImportAssignmentList());
 
             $test_obj->getObjectProperties()->storePropertyIsOnline(
                 $test_obj->getObjectProperties()->getPropertyIsOnline()->withOffline()
@@ -327,8 +330,8 @@ class ilTestLegacyImporter extends ilXmlImporter
         $importer->import();
 
         if ($importer->getFailedThresholdImportSkillList()->skillsExist()) {
-            $sltImportFails = new ilTestSkillLevelThresholdImportFails($test_obj->getId());
-            $sltImportFails->registerFailedImports($importer->getFailedThresholdImportSkillList());
+            $slt_import_fails = new ilTestSkillLevelThresholdImportFails($test_obj->getId());
+            $slt_import_fails->registerFailedImports($importer->getFailedThresholdImportSkillList());
 
             $test_obj->setOfflineStatus(true);
         }

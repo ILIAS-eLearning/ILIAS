@@ -58,7 +58,7 @@ class DetectLegacyImportStage implements ImportStage
         $import_base_dir = $context->get(UploadValidationStage::IMPORT_BASE_DIR);
         $import_name = basename($import_base_dir);
 
-        $xml_file = $import_base_dir . DIRECTORY_SEPARATOR . $import_name . '.xml';
+        $xml_file = $import_base_dir . DIRECTORY_SEPARATOR . "{$import_name}.xml";
         $qti_file = $import_base_dir . DIRECTORY_SEPARATOR . str_replace(['_qpl_', '_tst_'], '_qti_', $import_name) . '.xml';
 
         if (!file_exists($qti_file) || !file_exists($xml_file)) {
@@ -68,8 +68,7 @@ class DetectLegacyImportStage implements ImportStage
 
         $this->log->info("Detected legacy import files for {$import_name}");
         return StageResult::advance(
-            $context->with(self::LEGACY_QTI_FILE, $qti_file)
-                ->with(self::LEGACY_XML_FILE, $xml_file)
+            $context->with(self::LEGACY_QTI_FILE, $qti_file)->with(self::LEGACY_XML_FILE, $xml_file)
         );
     }
 

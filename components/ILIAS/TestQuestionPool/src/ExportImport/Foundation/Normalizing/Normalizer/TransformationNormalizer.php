@@ -58,6 +58,6 @@ class TransformationNormalizer implements Normalizer
      */
     public function denormalize(array|float|bool|int|string|null $value, string $type): Transformation
     {
-        return $this->refinery->custom()->transformation(fn() => $value);
+        return $this->refinery->custom()->transformation(static fn() => $value);
     }
 }

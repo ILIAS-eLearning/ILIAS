@@ -18,35 +18,35 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Filesystem\Util\Archive\Archives;
+use ILIAS\FileUpload\MimeType;
+use ILIAS\GlobalScreen\Services as GlobalScreen;
 use ILIAS\Skill\Service\SkillUsageService;
-use ILIAS\TestQuestionPool\ExportImport\Import\CleanupStage;
-use ILIAS\TestQuestionPool\ExportImport\Import\DetectLegacyImportStage;
-use ILIAS\TestQuestionPool\QuestionPoolDIC;
-use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
-use ILIAS\TestQuestionPool\ExportImport\Import\UploadValidationStage;
-use ILIAS\TestQuestionPool\ExportImport\Import\QuestionSelectionStage;
-use ILIAS\TestQuestionPool\ExportImport\Import\PersistStage;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportStageRunner;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
+use ILIAS\Style\Content\Service as ContentStyle;
+use ILIAS\Taxonomy\Service;
+use ILIAS\Test\Settings\GlobalSettings\GlobalTestSettings;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportStageRunner;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\StageResult;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\StageResultType;
-use ILIAS\TestQuestionPool\RequestDataCollector;
-use ILIAS\TestQuestionPool\Questions\Presentation\QuestionTable;
+use ILIAS\TestQuestionPool\ExportImport\Import\CleanupStage;
+use ILIAS\TestQuestionPool\ExportImport\Import\DetectLegacyImportStage;
+use ILIAS\TestQuestionPool\ExportImport\Import\PersistStage;
+use ILIAS\TestQuestionPool\ExportImport\Import\QuestionSelectionStage;
+use ILIAS\TestQuestionPool\ExportImport\Import\UploadValidationStage;
+use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-use ILIAS\Test\Settings\GlobalSettings\GlobalTestSettings;
-use ILIAS\Taxonomy\Service;
+use ILIAS\TestQuestionPool\Questions\Presentation\QuestionTable;
+use ILIAS\TestQuestionPool\RequestDataCollector;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\UI\Component\Input\Field\Select;
 use ILIAS\UI\Component\Input\Input;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
-use ILIAS\Data\Factory as DataFactory;
-use ILIAS\GlobalScreen\Services as GlobalScreen;
-use ILIAS\Filesystem\Util\Archive\Archives;
-use ILIAS\FileUpload\MimeType;
-use ILIAS\UI\Component\Modal\RoundTrip as RoundTripModal;
-use ILIAS\Style\Content\Service as ContentStyle;
+use ILIAS\UICore\GlobalTemplate;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -1125,8 +1125,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         match ($result->type) {
             StageResultType::INTERACT => $this->renderImportStage($runner, $result),
             StageResultType::ADVANCE => $this->ctrl->redirectByClass(self::class, 'processImport'),
-            StageResultType::ERROR => $this->renderImportError($runner, $result),
-            StageResultType::COMPLETE => $this->renderImportSuccess($runner, $result),
+            StageResultType::ERROR => $this->renderImportError($result),
+            StageResultType::COMPLETE => $this->renderImportSuccess($result),
         };
     }
 
@@ -1171,17 +1171,25 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         );
     }
 
-    private function renderImportError(ImportStageRunner $runner, StageResult $result): void
+    private function renderImportError(StageResult $result): void
     {
-        $this->tpl->setOnScreenMessage('failure', $result->error_message, true);
+        $this->tpl->setOnScreenMessage(
+            GlobalTemplate::MESSAGE_TYPE_FAILURE,
+            $result->error_message,
+            true
+        );
     }
 
-    private function renderImportSuccess(ImportStageRunner $runner, StageResult $result): void
+    private function renderImportSuccess(StageResult $result): void
     {
         $pool_obj_id = $this->data_factory->objId($result->context->get('pool_obj_id'));
         $pool_ref_id = $pool_obj_id->toReferenceIds()[0]->toInt();
 
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_imported'), true);
+        $this->tpl->setOnScreenMessage(
+            GlobalTemplate::MESSAGE_TYPE_SUCCESS,
+            $this->lng->txt('object_imported'),
+            true
+        );
         $this->ctrl->setParameter($this, 'ref_id', $pool_ref_id);
         $this->ctrl->redirectByClass(self::class, self::DEFAULT_CMD);
     }

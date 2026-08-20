@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport;
 
-use ilLoggerFactory;
+use ILIAS\Logging\Logger\LegacyInitiator;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -32,8 +32,9 @@ class LoggingProvider
 
     public function getLogger(?string $component_id = null): LoggerInterface
     {
-        $component_id = $component_id ?? self::COMPONENT_ID;
-        return ilLoggerFactory::getLogger($component_id)->getLogger();
+        return LegacyInitiator::getInstance()
+            ->loggerFactory()
+            ->getLazy($component_id ?? self::COMPONENT_ID);
     }
 
     public function __invoke()

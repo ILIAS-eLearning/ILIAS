@@ -20,10 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Importing;
 
-use ilSession;
-
 /**
- * Persists the import stage index and context across HTTP requests using `ilSession`. Each instance is scoped by a
+ * Persists the import stage index and context across HTTP requests using `\ilSession`. Each instance is scoped by a
  * namespace string so that multiple concurrent import workflows do not interfere with each other.
  */
 class ImportSessionRepository
@@ -43,23 +41,19 @@ class ImportSessionRepository
 
     public function getCurrentStageIndex(): int
     {
-        if (ilSession::has($this->key_index)) {
-            return (int) ilSession::get($this->key_index);
-        }
-
-        return 0;
+        return \ilSession::has($this->key_index) ? (int) \ilSession::get($this->key_index) : 0;
     }
 
     public function setCurrentStageIndex(int $index): void
     {
-        ilSession::set($this->key_index, $index);
+        \ilSession::set($this->key_index, $index);
     }
 
     public function getContext(): ImportContext
     {
-        if (ilSession::has($this->key_context)) {
+        if (\ilSession::has($this->key_context)) {
             return unserialize(
-                ilSession::get($this->key_context),
+                \ilSession::get($this->key_context),
                 ['allowed_classes' => [ImportContext::class]]
             );
         }
@@ -69,16 +63,12 @@ class ImportSessionRepository
 
     public function setContext(ImportContext $context): void
     {
-        ilSession::set($this->key_context, serialize($context));
+        \ilSession::set($this->key_context, serialize($context));
     }
 
     public function clear(): void
     {
-        if (ilSession::has($this->key_index)) {
-            ilSession::clear($this->key_index);
-        }
-        if (ilSession::has($this->key_context)) {
-            ilSession::clear($this->key_context);
-        }
+        \ilSession::clear($this->key_index);
+        \ilSession::clear($this->key_context);
     }
 }

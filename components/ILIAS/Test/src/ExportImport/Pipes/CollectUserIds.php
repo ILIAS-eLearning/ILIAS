@@ -40,10 +40,12 @@ class CollectUserIds implements Pipe
      */
     public function handle(mixed $passable, \Closure $next): mixed
     {
-        if ($passable instanceof NormalizeCarry && $passable->value instanceof Id) {
-            if ($passable->value->getObject() === 'user') {
-                $this->ids[$passable->value->getId()] = true;
-            }
+        if (
+            $passable instanceof NormalizeCarry
+            && $passable->value instanceof Id
+            && $passable->value->getObject() === 'user'
+        ) {
+            $this->ids[$passable->value->getId()] = true;
         }
 
         return $next($passable);

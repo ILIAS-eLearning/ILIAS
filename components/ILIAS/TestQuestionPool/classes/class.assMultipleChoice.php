@@ -982,7 +982,7 @@ class assMultipleChoice extends assQuestion implements ilObjAnswerScoringAdjusta
             $clone->selection_limit = $tt->nullableInt($normalized['selection_limit']);
             $clone->is_singleline = $tt->bool($normalized['single_line']);
             $clone->answers = array_map(
-                fn(array $answer) => $tt->denormalize($answer, new ASS_AnswerMultipleResponseImage()),
+                static fn(array $answer): ASS_AnswerMultipleResponseImage => $tt->denormalize($answer, new ASS_AnswerMultipleResponseImage()),
                 $normalized['answers']
             );
 

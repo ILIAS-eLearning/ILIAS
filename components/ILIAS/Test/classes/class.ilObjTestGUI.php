@@ -18,14 +18,44 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\ExportImport\Import\PersistStage;
-use ILIAS\Test\Logging\AdditionalInformationGenerator;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Filesystem\Util\Archive\Archives;
+use ILIAS\GlobalScreen\Services as GlobalScreen;
+use ILIAS\ResourceStorage\Services as IRSS;
+use ILIAS\Skill\Service\SkillService;
 use ILIAS\Skill\Service\SkillUsageService;
+use ILIAS\Style\Content\Service as ContentStyle;
+use ILIAS\Taxonomy\DomainService as TaxonomyService;
+use ILIAS\Test\ExportImport\DBRepository as ExportRepository;
+use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
+use ILIAS\Test\ExportImport\Import\PersistStage;
+use ILIAS\Test\GUIFactory;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
+use ILIAS\Test\Logging\LogTable;
+use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
+use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
+use ILIAS\Test\Participants\ParticipantRepository;
+use ILIAS\Test\Presentation\TabsManager;
+use ILIAS\Test\Presentation\TestScreenGUI;
+use ILIAS\Test\Questions\Presentation\Printer as QuestionPrinter;
+use ILIAS\Test\Questions\Presentation\QuestionsTable;
+use ILIAS\Test\Questions\Presentation\QuestionsTableActions;
+use ILIAS\Test\Questions\Presentation\QuestionsTableQuery;
+use ILIAS\Test\Questions\Properties\Repository as TestQuestionsRepository;
+use ILIAS\Test\RequestDataCollector;
+use ILIAS\Test\ResponseHandler;
+use ILIAS\Test\Results\Data\Factory as ResultsDataFactory;
 use ILIAS\Test\Results\Data\Repository as TestResultRepository;
+use ILIAS\Test\Results\Presentation\Factory as ResultsPresentationFactory;
+use ILIAS\Test\Results\Toplist\TestTopListRepository;
+use ILIAS\Test\Scoring\Manual\ConsecutiveScoringGUI;
 use ILIAS\Test\Scoring\Marks\MarkSchemaFactory;
+use ILIAS\Test\Scoring\Marks\MarkSchemaGUI;
 use ILIAS\Test\Scoring\Marks\MarksRepository;
 use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
+use ILIAS\Test\Settings\MainSettings\SettingsMainGUI;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsRepository;
+use ILIAS\Test\Settings\ScoreReporting\SettingsScoringGUI;
 use ILIAS\Test\Settings\SettingsFactory;
 use ILIAS\Test\Settings\SettingsNotFoundException;
 use ILIAS\Test\Settings\Templates\PersonalSettingsCreateAction;
@@ -39,29 +69,7 @@ use ILIAS\Test\Settings\Templates\PersonalSettingsTableDeleteAction;
 use ILIAS\Test\Settings\Templates\PersonalSettingsTableExportAction;
 use ILIAS\Test\Settings\Templates\PersonalSettingsTableShowAction;
 use ILIAS\Test\TestDIC;
-use ILIAS\Test\RequestDataCollector;
-use ILIAS\Test\ResponseHandler;
 use ILIAS\Test\Utilities\TitleColumnsBuilder;
-use ILIAS\Test\Questions\Presentation\QuestionsTable;
-use ILIAS\Test\Questions\Presentation\QuestionsTableQuery;
-use ILIAS\Test\Questions\Presentation\QuestionsTableActions;
-use ILIAS\Test\Questions\Presentation\Printer as QuestionPrinter;
-use ILIAS\Test\Questions\Properties\Repository as TestQuestionsRepository;
-use ILIAS\Test\Participants\ParticipantRepository;
-use ILIAS\Test\Settings\MainSettings\SettingsMainGUI;
-use ILIAS\Test\Settings\ScoreReporting\SettingsScoringGUI;
-use ILIAS\Test\Scoring\Marks\MarkSchemaGUI;
-use ILIAS\Test\Scoring\Manual\ConsecutiveScoringGUI;
-use ILIAS\Test\Logging\LogTable;
-use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
-use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
-use ILIAS\Test\Presentation\TestScreenGUI;
-use ILIAS\Test\Presentation\TabsManager;
-use ILIAS\Test\Results\Data\Factory as ResultsDataFactory;
-use ILIAS\Test\Results\Presentation\Factory as ResultsPresentationFactory;
-use ILIAS\Test\Results\Toplist\TestTopListRepository;
-use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
-use ILIAS\Test\ExportImport\DBRepository as ExportRepository;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportStageRunner;
@@ -70,26 +78,18 @@ use ILIAS\TestQuestionPool\ExportImport\Import\CleanupStage;
 use ILIAS\TestQuestionPool\ExportImport\Import\DetectLegacyImportStage;
 use ILIAS\TestQuestionPool\ExportImport\Import\QuestionSelectionStage;
 use ILIAS\TestQuestionPool\ExportImport\Import\UploadValidationStage;
+use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\TestQuestionPool\RequestDataCollector as QPLRequestDataCollector;
-use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
-use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\Component\Input\Container\Form\Form;
+use ILIAS\UI\Component\Input\Field\Radio;
+use ILIAS\UI\Component\Input\Field\Select;
+use ILIAS\UI\Component\Input\Field\SwitchableGroup;
+use ILIAS\UI\Component\Input\Input;
 use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\URLBuilder;
-use ILIAS\UI\Component\Input\Container\Form\Form;
-use ILIAS\UI\Component\Input\Input;
-use ILIAS\UI\Component\Input\Field\Select;
-use ILIAS\UI\Component\Input\Field\Radio;
-use ILIAS\UI\Component\Input\Field\SwitchableGroup;
-use ILIAS\GlobalScreen\Services as GlobalScreen;
-use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\Filesystem\Util\Archive\Archives;
-use ILIAS\Skill\Service\SkillService;
-use ILIAS\ResourceStorage\Services as IRSS;
-use ILIAS\Taxonomy\DomainService as TaxonomyService;
-use ILIAS\Style\Content\Service as ContentStyle;
+use ILIAS\UICore\GlobalTemplate;
 use ILIAS\User\Profile\PublicProfileGUI;
-use ILIAS\Test\GUIFactory;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -377,8 +377,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->ui_renderer,
                     $this->irss,
                     $this->request,
-                    $this->export_repository,
-                    $this->temp_file_system,
                     $this->participant_access_filter_factory,
                     $this->test_pass_result_repository,
                     new ilTestHTMLGenerator()
@@ -1400,8 +1398,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             return;
         }
 
-        $runner = $this->buildImportStageRunner();
-        $result = $runner->run();
+        $result = $this->buildImportStageRunner()->run();
 
         switch ($result->type) {
             case StageResultType::INTERACT:
@@ -1415,7 +1412,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 break;
 
             case StageResultType::ERROR:
-                $this->tpl->setOnScreenMessage('failure', $result->error_message, true);
+                $this->tpl->setOnScreenMessage(
+                    GlobalTemplate::MESSAGE_TYPE_FAILURE,
+                    $result->error_message,
+                    true
+                );
                 break;
 
             case StageResultType::COMPLETE:
@@ -1444,21 +1445,23 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $question_skill_assignments_import_fails = new ilAssQuestionSkillAssignmentImportFails($new_obj->getId());
         if ($question_skill_assignments_import_fails->failedImportsRegistered()) {
             $this->tpl->setOnScreenMessage(
-                'info',
+                GlobalTemplate::MESSAGE_TYPE_INFO,
                 $question_skill_assignments_import_fails->getFailedImportsMessage($this->lng),
                 true
             );
         }
 
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_imported'), true);
+        $this->tpl->setOnScreenMessage(
+            GlobalTemplate::MESSAGE_TYPE_SUCCESS,
+            $this->lng->txt('object_imported'),
+            true
+        );
         $this->ctrl->setParameterByClass(ilObjTestGUI::class, 'ref_id', $new_obj->getRefId());
         $this->ctrl->redirectByClass(self::class, self::SHOW_QUESTIONS_CMD);
     }
 
     private function buildImportStageRunner(): ImportStageRunner
     {
-        $form_action = $this->ctrl->getFormActionByClass(self::class, 'processImport');
-
         return new ImportStageRunner(
             [
                 new UploadValidationStage(
@@ -1474,7 +1477,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->component_factory,
                     $this->ui_factory,
                     $this->request,
-                    $form_action,
+                    $this->ctrl->getFormActionByClass(self::class, 'processImport'),
                     $this->lng->txt('import_tst')
                 ),
                 new PersistStage(

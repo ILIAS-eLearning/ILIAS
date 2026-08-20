@@ -89,7 +89,7 @@ class UploadValidationStage implements ImportStage
         $manifest = new ilManifestParser($import_base_dir . DIRECTORY_SEPARATOR . 'manifest.xml');
         $export_file = array_find(
             $manifest->getExportFiles(),
-            fn($file): bool => $file['component'] === $this->component
+            fn(array $file): bool => $file['component'] === $this->component
         );
 
         if ($export_file === null) {
@@ -102,9 +102,10 @@ class UploadValidationStage implements ImportStage
         $this->log->info("Found valid export file from installation: {$manifest->getInstallId()}");
 
         return StageResult::advance(
-            $context->with(self::COMPONENT_IMPORT_FILE, $component_import_file)
-            ->with(self::IMPORT_BASE_DIR, $import_base_dir)
-            ->with(self::INSTALL_ID, $manifest->getInstallId())
+            $context
+                ->with(self::COMPONENT_IMPORT_FILE, $component_import_file)
+                ->with(self::IMPORT_BASE_DIR, $import_base_dir)
+                ->with(self::INSTALL_ID, $manifest->getInstallId())
         );
     }
 

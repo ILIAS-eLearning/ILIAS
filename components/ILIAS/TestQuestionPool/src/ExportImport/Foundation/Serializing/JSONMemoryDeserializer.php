@@ -59,7 +59,7 @@ class JSONMemoryDeserializer implements Deserializer
         foreach ($this->decoded as $key => $value) {
             if (is_array($value)) {
                 $head = $value[array_key_first($value)];
-                $value = (!array_is_list($head)) ? [$head] : $head;
+                $value = array_is_list($head) ? $head : [$head];
             }
 
             if (isset($this->handler[$key])) {

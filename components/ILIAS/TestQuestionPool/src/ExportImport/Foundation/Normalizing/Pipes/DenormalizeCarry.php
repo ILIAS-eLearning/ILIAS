@@ -42,6 +42,7 @@ class DenormalizeCarry
             $normalized_type = get_debug_type($this->normalized);
             throw new NormalizingException("Unsupported value, expected: {$expected_type}, got: {$normalized_type}");
         }
+
         return $this->result;
     }
 }

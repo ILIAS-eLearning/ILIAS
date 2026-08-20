@@ -29,7 +29,7 @@ use Throwable;
  * @template TPassable
  * @implements PipelineContract<TPassable>
  *
- * @phpstan-type PipeParam \Closure(TPassable, PipeParam)|Pipe: TPassable
+ * @phpstan-type PipeParam Closure(TPassable, PipeParam)|Pipe: TPassable
  */
 class Pipeline implements PipelineContract
 {
@@ -123,7 +123,7 @@ class Pipeline implements PipelineContract
      */
     public function thenReturn(): mixed
     {
-        return $this->then(fn($passable) => $passable);
+        return $this->then(fn(mixed $passable): mixed => $passable);
     }
 
     /**
@@ -146,13 +146,13 @@ class Pipeline implements PipelineContract
     /**
      * Get the final piece of the Closure onion.
      */
-    protected function prepareDestination(Closure $destination)
+    protected function prepareDestination(Closure $destination): Closure
     {
-        return function ($passable) use ($destination) {
+        return function (mixed $passable) use ($destination): mixed {
             try {
                 return $destination($passable);
             } catch (Throwable $e) {
-                return $this->handleException($passable, $e);
+                $this->handleException($passable, $e);
             }
         };
     }
@@ -160,13 +160,13 @@ class Pipeline implements PipelineContract
     /**
      * Get a Closure that represents a slice of the application onion.
      */
-    protected function carry()
+    protected function carry(): Closure
     {
-        return fn($stack, $pipe) => function ($passable) use ($stack, $pipe) {
+        return fn($stack, $pipe) => function ($passable) use ($stack, $pipe): mixed {
             try {
                 return $this->executePipe($pipe, $passable, $stack);
             } catch (Throwable $e) {
-                return $this->handleException($passable, $e);
+                $this->handleException($passable, $e);
             }
         };
     }
@@ -195,6 +195,8 @@ class Pipeline implements PipelineContract
      */
     protected function handleException(mixed $passable, Throwable $e): void
     {
+        // Maybe we want to handle specific exceptions differently in the future.
+        // For now, we'll just re-throw the exception.'
         throw $e;
     }
 }

@@ -480,7 +480,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition implements Normalizable
                 $normalized['taxonomy_filter'][] = [
                     'tax_id' => $tt->normalize(new Id($tax_id, 'tax')),
                     'node_ids' => array_map(
-                        fn($node_id) => $tt->normalize(new Id($node_id, 'tax_node')),
+                        static fn($node_id): mixed => $tt->normalize(new Id($node_id, 'tax_node')),
                         $node_ids
                     ),
                 ];
@@ -490,7 +490,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition implements Normalizable
                 $normalized['mapped_taxonomy_filter'][] = [
                     'tax_id' => $tt->normalize(new Id($tax_id, 'mapped_tax')),
                     'node_ids' => array_map(
-                        fn($node_id) => $tt->normalize(new Id($node_id, 'mapped_tax_node')),
+                        static fn($node_id): mixed => $tt->normalize(new Id($node_id, 'mapped_tax_node')),
                         $node_ids
                     ),
                 ];
@@ -521,7 +521,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition implements Normalizable
             foreach ($normalized['taxonomy_filter'] as $item) {
                 $tax_id = $tt->denormalize($item['tax_id'], Id::class)->getId();
                 $taxonomy_filter[$tax_id] = array_map(
-                    fn($node_id) => $tt->denormalize($node_id, Id::class)->getId(),
+                    static fn($node_id): mixed => $tt->denormalize($node_id, Id::class)->getId(),
                     $item['node_ids']
                 );
             }
@@ -531,7 +531,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition implements Normalizable
             foreach (($normalized['mapped_taxonomy_filter'] ?? []) as $item) {
                 $tax_id = $tt->denormalize($item['tax_id'], Id::class)->getId();
                 $mapped_taxonomy_filter[$tax_id] = array_map(
-                    fn($node_id) => $tt->denormalize($node_id, Id::class)->getId(),
+                    static fn($node_id): mixed => $tt->denormalize($node_id, Id::class)->getId(),
                     $item['node_ids']
                 );
             }
