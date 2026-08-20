@@ -43,7 +43,7 @@ class ilLSLearnerItemsQueries
         $this->usr_id = $usr_id;
     }
 
-    public function hasItems() : bool
+    public function hasItems(): bool
     {
         return count($this->getItems()) > 0;
     }
@@ -54,6 +54,11 @@ class ilLSLearnerItemsQueries
     public function getItems(): array
     {
         return $this->progress_db->getLearnerItems($this->usr_id, $this->ls_ref_id);
+    }
+
+    public function getLearningSequenceRefId(): int
+    {
+        return $this->ls_ref_id;
     }
 
     public function getCurrentItemRefId(): int
