@@ -92,19 +92,23 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
         $qpl_mappings = $a_mapping->getMappingsOfEntity('components/ILIAS/TestQuestionPool', 'qpl');
 
         foreach ($qpl_mappings as $old => $new) {
-            if ($old !== 'new_id' && (int) $old > 0) {
-                $new_tax_ids = $a_mapping->getMapping(
-                    'components/ILIAS/Taxonomy',
-                    'tax_usage_of_obj',
-                    (string) $old
-                );
+            if ($old === 'new_id' || (int) $old <= 0) {
+                continue;
+            }
 
-                if ($new_tax_ids !== null) {
-                    $tax_ids = explode(':', $new_tax_ids);
-                    foreach ($tax_ids as $tid) {
-                        ilObjTaxonomy::saveUsage((int) $tid, (int) $new);
-                    }
-                }
+            $new_tax_ids = $a_mapping->getMapping(
+                'components/ILIAS/Taxonomy',
+                'tax_usage_of_obj',
+                (string) $old
+            );
+
+            if ($new_tax_ids === null) {
+                continue;
+            }
+
+            $tax_ids = explode(':', $new_tax_ids);
+            foreach ($tax_ids as $tid) {
+                ilObjTaxonomy::saveUsage((int) $tid, (int) $new);
             }
         }
     }

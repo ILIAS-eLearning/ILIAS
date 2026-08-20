@@ -21,10 +21,10 @@ declare(strict_types=1);
 namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Normalizer;
 
 use ILIAS\DI\Container;
-use ILIAS\ResourceStorage\Resource\ResourceType;
-use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Resource\Repository\ResourceRepository;
+use ILIAS\ResourceStorage\Resource\ResourceType;
+use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Attributes\Normalizes;
@@ -119,10 +119,10 @@ class ResourceNormalizer implements Normalizer
             throw new NormalizingException('Invalid storable resource', $value);
         }
 
-        $id = new ResourceIdentification($value['id']);
-        $type = ResourceType::from($value['resource_type']);
-
-        return $this->resource_repository->blank($id, $type);
+        return $this->resource_repository->blank(
+            new ResourceIdentification($value['id']),
+            ResourceType::from($value['resource_type'])
+        );
     }
 
     /**
@@ -130,9 +130,7 @@ class ResourceNormalizer implements Normalizer
      */
     public static function isResourceIdentification(mixed $value): bool
     {
-        return is_array($value)
-            && isset($value[self::KEY_TYPE])
-            && $value[self::KEY_TYPE] === self::TYPE_RID;
+        return ($value[self::KEY_TYPE] ?? false) === self::TYPE_RID;
     }
 
     /**
@@ -140,8 +138,6 @@ class ResourceNormalizer implements Normalizer
      */
     public static function isStorableResource(mixed $value): bool
     {
-        return is_array($value)
-            && isset($value[self::KEY_TYPE])
-            && $value[self::KEY_TYPE] === self::TYPE_RESOURCE;
+        return ($value[self::KEY_TYPE] ?? false) === self::TYPE_RESOURCE;
     }
 }

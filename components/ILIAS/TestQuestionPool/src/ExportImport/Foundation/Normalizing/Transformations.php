@@ -47,7 +47,7 @@ class Transformations implements TransformationsContract
         }
 
         return $this->pipeline->send(new NormalizeCarry($this, $value, $context))
-            ->then(fn(NormalizeCarry $carry) => $carry->result());
+                ->then(static fn(NormalizeCarry $carry): mixed => $carry->result());
     }
 
     /**
@@ -60,7 +60,7 @@ class Transformations implements TransformationsContract
         }
 
         return $this->pipeline->send(new DenormalizeCarry($this, $normalized, $expected))
-            ->then(fn(DenormalizeCarry $carry) => $carry->result());
+                ->then(static fn(DenormalizeCarry $carry): mixed => $carry->result());
     }
 
     /*

@@ -86,9 +86,9 @@ class ASS_AnswerMultipleResponseImage extends ASS_AnswerMultipleResponse
     {
         return $tt->custom()->transformation(fn(array $context): array => [
             ...$tt->normalize(parent::toNormalized($tt)),
-            'image' => $this->image ? $tt->normalize(
-                new QuestionImage($this->image, $context['question_id'] ?? null)
-            ) : null,
+            'image' => $this->image
+                ? $tt->normalize(new QuestionImage($this->image, $context['question_id'] ?? null))
+                : null,
         ]);
     }
 

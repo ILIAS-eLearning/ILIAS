@@ -18,12 +18,12 @@
 
 declare(strict_types=1);
 
+use ILIAS\Refinery\Transformation;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
-use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
-use ILIAS\Test\Logging\AdditionalInformationGenerator;
-use ILIAS\Refinery\Transformation;
+use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 
 /**
  * Class for TextSubset questions
@@ -782,7 +782,10 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
             $clone->text_rating = $tt->string($normalized['text_rating']);
             $clone->correctanswers = $tt->int($normalized['correct_answers']);
             $clone->answers = array_map(
-                fn(array $answer) => $tt->denormalize($answer, new ASS_AnswerBinaryStateImage()),
+                static fn(array $answer): ASS_AnswerBinaryStateImage => $tt->denormalize(
+                    $answer,
+                    new ASS_AnswerBinaryStateImage()
+                ),
                 $normalized['answers']
             );
             return $clone;

@@ -55,20 +55,17 @@ class UserImportResolver
         );
         $query = $this->db->query("SELECT usr_id, {$criteria->value} AS identifier FROM usr_data WHERE {$in_clause}");
 
-        $db_mapping = [];
-        foreach ($this->db->fetchAll($query) as $row) {
-            $db_mapping[$row['identifier']] = $row['usr_id'];
-        }
+        $db_mapping = array_column($this->db->fetchAll($query), 'usr_id', 'identifier');
 
         $mapping = [];
         foreach ($users as $original_id => $identifier) {
-            if (isset($db_mapping[$identifier])) {
-                $this->log->debug("User identifier {$identifier} found, mapping user {$original_id} to {$db_mapping[$identifier]}");
-                $mapping[$original_id] = $db_mapping[$identifier];
-            } else {
+            if (!isset($db_mapping[$identifier])) {
                 $this->log->warning("User identifier {$identifier} not found for user {$original_id}, using anonymous user ID");
                 $mapping[$original_id] = ANONYMOUS_USER_ID;
             }
+
+            $this->log->debug("User identifier {$identifier} found, mapping user {$original_id} to {$db_mapping[$identifier]}");
+            $mapping[$original_id] = $db_mapping[$identifier];
         }
 
         return $mapping;

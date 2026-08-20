@@ -62,10 +62,7 @@ class ilTestQuestionPoolLegacyImporter extends ilXmlImporter
         $context = $context->with('pool_obj_id', $this->pool_obj->getId());
         $this->session->setContext($context);
 
-        $qpl_parser = new ilObjQuestionPoolXMLParser(
-            $this->pool_obj,
-            $xml_file
-        );
+        $qpl_parser = new ilObjQuestionPoolXMLParser($this->pool_obj, $xml_file);
         $qpl_parser->startParsing();
 
         // set another question pool name (if possible)
@@ -86,11 +83,7 @@ class ilTestQuestionPoolLegacyImporter extends ilXmlImporter
         );
         $qti_parser->startParsing();
 
-        $page_parser = new ilQuestionPageParser(
-            $this->pool_obj,
-            $xml_file,
-            $import_base_dir
-        );
+        $page_parser = new ilQuestionPageParser($this->pool_obj, $xml_file, $import_base_dir);
         $page_parser->setQuestionMapping($qti_parser->getImportMapping());
         $page_parser->startParsing();
 
@@ -136,14 +129,18 @@ class ilTestQuestionPoolLegacyImporter extends ilXmlImporter
     {
         $maps = $a_mapping->getMappingsOfEntity('components/ILIAS/TestQuestionPool', 'qpl');
         foreach ($maps as $old => $new) {
-            if ($old !== 'new_id' && (int) $old > 0) {
-                $new_tax_ids = $a_mapping->getMapping('components/ILIAS/Taxonomy', 'tax_usage_of_obj', (string) $old);
-                if ($new_tax_ids !== null) {
-                    $tax_ids = explode(':', $new_tax_ids);
-                    foreach ($tax_ids as $tid) {
-                        ilObjTaxonomy::saveUsage((int) $tid, (int) $new);
-                    }
-                }
+            if ($old === 'new_id' || (int) $old <= 0) {
+                continue;
+            }
+
+            $new_tax_ids = $a_mapping->getMapping('components/ILIAS/Taxonomy', 'tax_usage_of_obj', (string) $old);
+            if ($new_tax_ids === null) {
+                continue;
+            }
+
+            $tax_ids = explode(':', $new_tax_ids);
+            foreach ($tax_ids as $tid) {
+                ilObjTaxonomy::saveUsage((int) $tid, (int) $new);
             }
         }
     }
@@ -162,11 +159,15 @@ class ilTestQuestionPoolLegacyImporter extends ilXmlImporter
 
         $importer->import();
 
-        if ($importer->getFailedImportAssignmentList()->assignmentsExist()) {
-            $fails = new ilAssQuestionSkillAssignmentImportFails($targetParentObjId);
-            $fails->registerFailedImports($importer->getFailedImportAssignmentList());
-
-            $this->pool_obj->getObjectProperties()->storePropertyIsOnline($this->pool_obj->getObjectProperties()->getPropertyIsOnline()->withOffline());
+        if (!$importer->getFailedImportAssignmentList()->assignmentsExist()) {
+            return;
         }
+
+        $fails = new ilAssQuestionSkillAssignmentImportFails($targetParentObjId);
+        $fails->registerFailedImports($importer->getFailedImportAssignmentList());
+
+        $this->pool_obj->getObjectProperties()->storePropertyIsOnline(
+            $this->pool_obj->getObjectProperties()->getPropertyIsOnline()->withOffline()
+        );
     }
 }

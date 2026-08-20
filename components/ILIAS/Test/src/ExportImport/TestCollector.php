@@ -101,11 +101,7 @@ class TestCollector implements DataCollector
 
     public function getObject(): ilObjTest
     {
-        if ($this->test === null) {
-            $this->test = new ilObjTest($this->object_id->toInt(), false);
-        }
-
-        return $this->test;
+        return $this->test ??= new ilObjTest($this->object_id->toInt(), false);
     }
 
     public function getSettings(): array
@@ -129,9 +125,7 @@ class TestCollector implements DataCollector
 
         $mapping = [];
         if ($export_identifier === UserIdentifiers::USER_ID) {
-            foreach ($user_ids as $user_id) {
-                $mapping[$user_id] = $user_id;
-            }
+            $mapping = array_combine($user_ids, $user_ids);
         } else {
             $in_clause = $this->db->in('usr_id', $user_ids, false, ilDBConstants::T_INTEGER);
             $query = $this->db->query("SELECT usr_id, {$export_identifier->value} FROM usr_data WHERE {$in_clause}");
@@ -167,10 +161,7 @@ class TestCollector implements DataCollector
      */
     public function getTestQuestionProperties(): array
     {
-        if ($this->questions === null) {
-            $this->questions = $this->questions_repository->getQuestionPropertiesForTest($this->getObject());
-        }
-        return $this->questions;
+        return $this->questions ??= $this->questions_repository->getQuestionPropertiesForTest($this->getObject());
     }
 
     /**
@@ -268,14 +259,19 @@ class TestCollector implements DataCollector
      */
     public function getParticipantsIds(): array
     {
-        if ($this->participants === null) {
-            $this->participants = [];
-            foreach ($this->getParticipants() as $participant) {
-                if ($participant->getActiveId() !== null) {
-                    $this->participants[] = $participant->getActiveId();
-                }
-            }
+        if ($this->participants !== null) {
+            return $this->participants;
         }
+
+        $this->participants = [];
+        foreach ($this->getParticipants() as $participant) {
+            if ($participant->getActiveId() === null) {
+                continue;
+            }
+
+            $this->participants[] = $participant->getActiveId();
+        }
+
         return $this->participants;
     }
 
@@ -402,7 +398,8 @@ class TestCollector implements DataCollector
             $test_sequence->loadFromDb();
             $sequences[] = $test_sequence;
         }
-        return $sequences;
+
+        return $sequences ?? [];
     }
 
 
