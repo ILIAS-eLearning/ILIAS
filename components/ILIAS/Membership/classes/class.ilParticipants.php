@@ -817,6 +817,10 @@ abstract class ilParticipants
 
     public function add(int $a_usr_id, int $a_role): bool
     {
+        if ($a_usr_id === ANONYMOUS_USER_ID) {
+            return false;
+        }
+
         if ($this->isAssigned($a_usr_id)) {
             return false;
         }

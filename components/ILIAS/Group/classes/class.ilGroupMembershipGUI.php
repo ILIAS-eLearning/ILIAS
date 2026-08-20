@@ -72,6 +72,8 @@ class ilGroupMembershipGUI extends ilMembershipGUI
     public function assignMembers(array $user_ids, string $a_type): bool
     {
         $a_type = (int) $a_type;
+
+        $user_ids = array_diff($user_ids, [ANONYMOUS_USER_ID]);
         if (!count($user_ids)) {
             $this->lng->loadLanguageModule('search');
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('search_err_user_not_exist'), true);

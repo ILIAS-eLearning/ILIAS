@@ -159,6 +159,8 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         if (!$this->checkRbacOrPositionAccessBool('manage_members', 'manage_members')) {
             $this->error->raiseError($this->lng->txt("msg_no_perm_read"), $this->error->FATAL);
         }
+
+        $a_usr_ids = array_diff($a_usr_ids, [ANONYMOUS_USER_ID]);
         if ($a_usr_ids === []) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("crs_no_users_selected"), true);
             return false;
