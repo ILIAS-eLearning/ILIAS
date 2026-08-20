@@ -89,9 +89,9 @@ class assAnswerMatchingTerm implements Normalizable
     {
         return $tt->custom()->transformation(fn(array $context): array => [
             'text' => $this->text,
-            'picture' => $this->picture ? $tt->normalize(
-                new QuestionImage($this->picture, $context['question_id'] ?? null)
-            ) : null,
+            'picture' => $this->picture
+                ? $tt->normalize(new QuestionImage($this->picture, $context['question_id'] ?? null))
+                : null,
             'identifier' => $this->identifier,
         ]);
     }

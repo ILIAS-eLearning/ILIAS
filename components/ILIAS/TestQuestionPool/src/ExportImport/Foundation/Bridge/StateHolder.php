@@ -38,8 +38,7 @@ class StateHolder
         ExportConfig $config,
         string $option = ''
     ): ExportState {
-        $this->export_state = new ExportState($target, $config, $option);
-        return $this->export_state;
+        return $this->export_state ??= new ExportState($target, $config, $option);
     }
 
     public function exists(): bool

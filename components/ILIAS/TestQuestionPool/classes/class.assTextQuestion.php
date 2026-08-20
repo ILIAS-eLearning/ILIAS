@@ -18,12 +18,12 @@
 
 declare(strict_types=1);
 
+use ILIAS\Refinery\Transformation;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
-use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
-use ILIAS\Test\Logging\AdditionalInformationGenerator;
-use ILIAS\Refinery\Transformation;
+use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 
 /**
  * Class for text questions
@@ -888,9 +888,13 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             $clone->matchcondition = $tt->int($normalized['matchcondition']);
             $clone->keyword_relation = $tt->string($normalized['keyword_relation']);
             $clone->answers = array_map(
-                fn(array $answer) => $tt->denormalize($answer, new ASS_AnswerMultipleResponseImage()),
+                static fn(array $answer): ASS_AnswerMultipleResponseImage => $tt->denormalize(
+                    $answer,
+                    new ASS_AnswerMultipleResponseImage()
+                ),
                 $normalized['answers']
             );
+
             return $clone;
         });
     }

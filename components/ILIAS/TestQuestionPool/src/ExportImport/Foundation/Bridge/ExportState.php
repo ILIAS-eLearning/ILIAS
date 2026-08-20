@@ -36,7 +36,7 @@ use RuntimeException;
  */
 class ExportState
 {
-    private ExportStep $step;
+    private ExportStep $step = ExportStep::INIT;
     private ?Logger $logger = null;
     private ?ExportPath $path_info = null;
     private ?Transformations $transformations = null;
@@ -54,7 +54,6 @@ class ExportState
         private ExportConfig $config,
         private string $option = ''
     ) {
-        $this->step = ExportStep::INIT;
     }
 
     public function target(): ExportTarget

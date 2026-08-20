@@ -74,7 +74,7 @@ class TestResultsImporter
     public function importTestSequences(array $list, Transformations $tt): void
     {
         foreach ($list as $normalized) {
-            // ActiveID and QuestionIDs will be replaced by the mapping pipe
+            // The mapping pipe replaces ActiveID and QuestionIDs
             $sequence = $tt->denormalize($normalized, ilTestSequence::class);
             $sequence->saveToDb();
             $this->log->debug("Stored test sequence in database: {$sequence->getActiveId()} (Active ID), {$sequence->getPass()} (Pass)");
@@ -84,7 +84,7 @@ class TestResultsImporter
     public function importSolutions(array $list, Transformations $tt): void
     {
         foreach ($list as $normalized) {
-            // ActiveID and QuestionID will be replaced by the mapping pipe
+            // The mapping pipe replaces ActiveID and QuestionID
             $solution = $tt->denormalize($normalized, Solution::class);
 
             $next_id = $this->database->nextId('tst_solutions');
@@ -110,7 +110,7 @@ class TestResultsImporter
     public function importQuestionResults(array $list, Transformations $tt): void
     {
         foreach ($list as $normalized) {
-            // ActiveID and QuestionID will be replaced by the mapping pipe
+            // The mapping pipe replaces ActiveID and QuestionID
             $result = $tt->denormalize($normalized, QuestionResult::class);
 
             $next_id = $this->database->nextId('tst_test_result');
@@ -134,7 +134,7 @@ class TestResultsImporter
     public function importAttemptResults(array $list, Transformations $tt): void
     {
         foreach ($list as $normalized) {
-            // ActiveID will be replaced by the mapping pipe
+            // The mapping pipe replaces ActiveID
             $attempt = $tt->denormalize($normalized, AttemptResult::class);
 
             $this->database->insert(
@@ -163,7 +163,7 @@ class TestResultsImporter
             return;
         }
 
-        // ActiveID will be replaced by the mapping pipe
+        // The mapping pipe replaces ActiveID
         $result = $tt->denormalize($normalized, ParticipantResult::class);
 
         $this->database->insert(
@@ -186,7 +186,7 @@ class TestResultsImporter
     public function importWorkingTimes(array $list, Transformations $tt): void
     {
         foreach ($list as $normalized) {
-            // ActiveID will be replaced by the mapping pipe
+            // The mapping pipe replaces ActiveID
             $working_time = $tt->denormalize($normalized, WorkingTime::class);
 
             $next_id = $this->database->nextId('tst_times');
@@ -208,7 +208,7 @@ class TestResultsImporter
     public function importManualFeedback(array $list, Transformations $tt): void
     {
         foreach ($list as $normalized) {
-            // ActiveID, QuestionID and UserID will be replaced by the mapping pipe
+            // The mapping pipe replaces ActiveID, QuestionID and UserID
             $manual_feedback = $tt->denormalize($normalized, ManualFeedback::class);
 
             $next_id = $this->database->nextId('tst_manual_fb');
@@ -232,17 +232,17 @@ class TestResultsImporter
 
     public function importManualScoring(array $normalized, Transformations $tt): void
     {
-        // ActiveID will be replaced by the mapping pipe
+        // The mapping pipe replaces ActiveID, QuestionID and UserID
         $active_id = $tt->denormalize($normalized['active_id'], Id::class)->getId();
 
-        new TestManScoringDoneHelper()->setDone($active_id, $tt->bool($normalized['done']));
+        (new TestManScoringDoneHelper())->setDone($active_id, $tt->bool($normalized['done']));
         $this->log->debug("Stored manual scoring in database: {$active_id} (Active ID)");
     }
 
     public function importAdditionalWorkingTimes(array $list, Transformations $tt): void
     {
         foreach ($list as $normalized) {
-            // UserID and TestID will be replaced by the mapping pipe
+            // The mapping pipe replaces UserID and TestID
             $time = $tt->denormalize($normalized, AdditionalWorkingTime::class);
 
             $this->database->insert(
@@ -261,7 +261,7 @@ class TestResultsImporter
     public function importRandomTestQuestions(array $list, Transformations $tt): void
     {
         foreach ($list as $normalized) {
-            // ActiveID, QuestionID and SourcePoolDefinitionID will be replaced by the mapping pipe
+            // The mapping pipe replaces ActiveID, QuestionID and SourcePoolDefinitionID
             $question = $tt->denormalize($normalized, RandomTestQuestion::class);
 
             $next_id = $this->database->nextId('tst_test_rnd_qst');

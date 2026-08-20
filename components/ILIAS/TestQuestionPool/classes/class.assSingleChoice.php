@@ -972,7 +972,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             $clone->is_singleline = $tt->bool($normalized['is_singleline']);
             $clone->feedback_setting = $tt->int($normalized['feedback_setting']);
             $clone->answers = array_map(
-                fn(array $answer) => $tt->denormalize($answer, new ASS_AnswerBinaryStateImage()),
+                static fn(array $answer): ASS_AnswerBinaryStateImage => $tt->denormalize($answer, new ASS_AnswerBinaryStateImage()),
                 $normalized['answers']
             );
             return $clone;

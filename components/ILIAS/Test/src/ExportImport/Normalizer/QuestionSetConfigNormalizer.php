@@ -113,7 +113,6 @@ class QuestionSetConfigNormalizer implements Normalizer
     {
         $reflection = new ReflectionClass($config);
         $property = $reflection->getProperty('test_obj');
-        $property->setAccessible(true);
         $test_obj = $property->getValue($config);
 
         if (!$test_obj instanceof ilObjTest) {
@@ -153,11 +152,19 @@ class QuestionSetConfigNormalizer implements Normalizer
 
     private function denormalizeQuestionSetConfig(array $normalized, ilObjTest $test_obj): ilTestQuestionSetConfig
     {
-        $class = $normalized['type'] === ilObjTest::QUESTION_SET_TYPE_RANDOM
-            ? ilTestRandomQuestionSetConfig::class
-            : ilTestFixedQuestionSetConfig::class;
+        if($normalized['type'] === ilObjTest::QUESTION_SET_TYPE_FIXED) {
+            return new ilTestFixedQuestionSetConfig(
+                $this->dic->repositoryTree(),
+                $this->dic->database(),
+                $this->dic->language(),
+                $this->test_dic['logging.logger'],
+                $this->dic['component.repository'],
+                $test_obj,
+                $this->test_dic['question.general_properties.repository']
+            );
+        }
 
-        $config = new $class(
+        $config = new ilTestRandomQuestionSetConfig(
             $this->dic->repositoryTree(),
             $this->dic->database(),
             $this->dic->language(),
@@ -166,10 +173,6 @@ class QuestionSetConfigNormalizer implements Normalizer
             $test_obj,
             $this->test_dic['question.general_properties.repository']
         );
-
-        if ($config instanceof ilTestFixedQuestionSetConfig) {
-            return $config;
-        }
 
         $amount_mode = $this->tt->string($normalized['amount_mode']);
         if (!$config->isValidQuestionAmountConfigurationMode($amount_mode)) {
@@ -201,7 +204,7 @@ class QuestionSetConfigNormalizer implements Normalizer
             $pool_id = $this->tt->denormalize($staging_pool['pool_id'], Id::class)->getId();
 
             $staging_pools[$pool_id] = array_map(
-                fn($question) => $this->tt->denormalize($question, Id::class)->getId(),
+                fn($question): mixed => $this->tt->denormalize($question, Id::class)->getId(),
                 $staging_pool['questions']
             );
         }

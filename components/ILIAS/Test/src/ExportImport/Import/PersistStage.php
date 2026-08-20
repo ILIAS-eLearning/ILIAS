@@ -69,8 +69,7 @@ class PersistStage implements ImportStage
             }
         }
 
-        $importer = new ilImport($this->requested_ref_id);
-        $importer->importObject(
+        (new ilImport($this->requested_ref_id))->importObject(
             null,
             $context->get(UploadValidationStage::FILE_TO_IMPORT),
             basename($context->get(UploadValidationStage::FILE_TO_IMPORT)),
@@ -87,7 +86,7 @@ class PersistStage implements ImportStage
     {
         $component_import_dir = dirname($context->get(UploadValidationStage::COMPONENT_IMPORT_FILE));
         $mappings_file = "{$component_import_dir}/mappings.xml";
-        if (!file_exists($mappings_file) || !is_file($mappings_file)) {
+        if (!is_file($mappings_file)) {
             $this->log->error("Mappings file not found: {$mappings_file}");
             return StageResult::error($context, $this->lng->txt('obj_import_file_error'));
         }

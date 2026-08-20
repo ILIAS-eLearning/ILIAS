@@ -75,10 +75,7 @@ class QuestionPoolCollector implements DataCollector
      */
     public function getQuestionProperties(): array
     {
-        if ($this->questions === null) {
-            $this->questions = $this->question_repository->getForParentObjectId($this->pool_id->toInt());
-        }
-        return $this->questions;
+        return $this->questions ??= $this->question_repository->getForParentObjectId($this->pool_id->toInt());
     }
 
     private function database(): ilDBInterface

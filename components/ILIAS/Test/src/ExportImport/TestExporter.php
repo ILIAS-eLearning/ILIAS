@@ -116,7 +116,7 @@ class TestExporter implements Exporter
     {
         $target_ids = $state->target()->getObjectIds();
 
-        if (count($target_ids) === 0) {
+        if ($target_ids === []) {
             $state->logger()->warning('No target object IDs found for test export');
             return null;
         }
@@ -242,15 +242,16 @@ class TestExporter implements Exporter
         $resource_pipe = $state->transformations()->context(CollectResources::class);
 
         foreach ($question_image_pipe->getFiles() as $file) {
-            if (file_exists($file['from'])) {
-                $state->writer()->writeFileByFilePath(
-                    $file['from'],
-                    "{$export_dir}/" . $file['to']
-                );
-                $state->logger()->debug("Copied question image {$file['from']} to {$export_dir}/{$file['to']}");
-            } else {
+            if (!file_exists($file['from'])) {
                 $state->logger()->warning('Question image file not found: ' . $file['from']);
+                continue;
             }
+
+            $state->writer()->writeFileByFilePath(
+                $file['from'],
+                "{$export_dir}/" . $file['to']
+            );
+            $state->logger()->debug("Copied question image {$file['from']} to {$export_dir}/{$file['to']}");
         }
 
         foreach ($resource_pipe->getResources() as $id => $resource) {
