@@ -18,34 +18,34 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
+use ILIAS\DI\Container;
+use ILIAS\DI\LoggingServices;
+use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\Notes\InternalDataService as NotesInternalDataService;
+use ILIAS\Notes\Note;
+use ILIAS\Notes\NoteDBRepository as NotesRepo;
+use ILIAS\Notes\NotesManager;
+use ILIAS\Notes\Service as NotesService;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Refinery\Transformation;
+use ILIAS\Skill\Service\SkillUsageService;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
+use ILIAS\Test\Logging\TestParticipantInteraction;
+use ILIAS\Test\Logging\TestParticipantInteractionTypes;
+use ILIAS\Test\Logging\TestQuestionAdministrationInteraction;
+use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
 use ILIAS\Test\Results\Data\Repository as TestResultRepository;
 use ILIAS\Test\TestDIC;
-use ILIAS\TestQuestionPool\Questions\QuestionPartiallySaveable;
-use ILIAS\TestQuestionPool\Questions\Question;
-use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolution;
-use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\Questions\Files\QuestionFiles;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\TestQuestionPool\Questions\Question;
+use ILIAS\TestQuestionPool\Questions\QuestionPartiallySaveable;
+use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolution;
+use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
 use ILIAS\TestQuestionPool\RequestDataCollector;
-use ILIAS\Test\Logging\TestParticipantInteraction;
-use ILIAS\Test\Logging\TestQuestionAdministrationInteraction;
-use ILIAS\Test\Logging\TestParticipantInteractionTypes;
-use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
-use ILIAS\Test\Logging\AdditionalInformationGenerator;
-use ILIAS\Refinery\Transformation;
-use ILIAS\DI\Container;
-use ILIAS\Skill\Service\SkillUsageService;
-use ILIAS\Notes\Service as NotesService;
-use ILIAS\Notes\InternalDataService as NotesInternalDataService;
-use ILIAS\Notes\NoteDBRepository as NotesRepo;
-use ILIAS\Notes\NotesManager;
-use ILIAS\Notes\Note;
-use ILIAS\DI\LoggingServices;
-use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\HTTP\Services as HTTPServices;
 
 /**
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
@@ -3015,7 +3015,10 @@ abstract class assQuestion implements Question
             $clone->shuffle = $tt->bool($normalized['shuffle']);
 
             $clone->suggested_solutions = array_map(
-                fn(array $suggested_solution) => $tt->denormalize($suggested_solution, SuggestedSolution::class),
+                static fn(array $suggested_solution): SuggestedSolution => $tt->denormalize(
+                    $suggested_solution,
+                    SuggestedSolution::class
+                ),
                 $normalized['suggested_solutions']
             );
 

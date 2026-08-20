@@ -131,7 +131,7 @@ class QuestionsImporter
             $this->log->debug("Imported question image: {$source_path} -> {$image_path}");
 
             $thumbnail = $this->generateThumbnail($input_stream);
-            if (!$thumbnail) {
+            if (!$thumbnail instanceof FileStream) {
                 continue;
             }
 

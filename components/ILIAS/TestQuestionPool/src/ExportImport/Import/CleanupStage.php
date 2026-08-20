@@ -77,8 +77,7 @@ class CleanupStage implements ImportStage
 
     private function removeDirectory(string $path): void
     {
-        $files = array_diff(scandir($path), ['.', '..']);
-        foreach ($files as $file) {
+        foreach (array_diff(scandir($path), ['.', '..']) as $file) {
             if (is_dir("$path/$file")) {
                 $this->removeDirectory("$path/$file");
             } else {

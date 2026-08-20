@@ -65,13 +65,13 @@ class Id implements Envelope
                 'type' => get_class($this->id),
                 'object' => $this->object,
             ];
-        } else {
-            return [
-                'id' => (string) $this->id,
-                'type' => gettype($this->id),
-                'object' => $this->object,
-            ];
         }
+
+        return [
+            'id' => (string) $this->id,
+            'type' => gettype($this->id),
+            'object' => $this->object,
+        ];
     }
 
     /**
@@ -84,16 +84,17 @@ class Id implements Envelope
 
         if (class_exists($type)) {
             return new Id($tt->denormalize($raw_id, $type), $value['object']);
-        } else {
-            $id = match($type) {
-                'integer' => (int) $raw_id,
-                'string' => (string) $raw_id,
-                'float' => (float) $raw_id,
-                'bool' => (bool) $raw_id,
-                'null' => null,
-                default => throw new NormalizingException("Invalid type for id: {$type}")
-            };
-            return new Id($id, $value['object']);
         }
+
+        $id = match ($type) {
+            'integer' => (int) $raw_id,
+            'string' => (string) $raw_id,
+            'float' => (float) $raw_id,
+            'bool' => (bool) $raw_id,
+            'null' => null,
+            default => throw new NormalizingException("Invalid type for id: {$type}")
+        };
+
+        return new Id($id, $value['object']);
     }
 }

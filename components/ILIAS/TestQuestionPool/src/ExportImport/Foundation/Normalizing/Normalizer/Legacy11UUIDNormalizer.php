@@ -50,8 +50,6 @@ class Legacy11UUIDNormalizer extends UUIDNormalizer
      */
     public function denormalize(array|float|bool|int|string|null $value, string $type): Uuid
     {
-        $value = (string) $value;
-        $value = str_replace('_', '-', $value);
-        return parent::denormalize($value, $type);
+        return parent::denormalize(str_replace('_', '-', (string) $value), $type);
     }
 }

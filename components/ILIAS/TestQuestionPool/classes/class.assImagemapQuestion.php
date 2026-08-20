@@ -57,19 +57,19 @@ class assImagemapQuestion extends assQuestion implements ilObjAnswerScoringAdjus
         'POLY' => 'poly'];
 
     /** @var $answers array The possible answers of the imagemap question. */
-    public $answers;
+    public array $answers;
 
     /** @var $image_filename string The image file containing the name of image file. */
-    public $image_filename;
+    public string $image_filename;
 
     /** @var $imagemap_contents string The variable containing contents of an imagemap file. */
-    public $imagemap_contents;
+    public string $imagemap_contents;
 
     /** @var $coords array */
-    public $coords;
+    public array $coords;
 
     /** @var $is_multiple_choice bool Defines weather the Question is a Single or a Multiplechoice question. */
-    protected $is_multiple_choice = false;
+    protected bool $is_multiple_choice = false;
 
     /**
      * assImagemapQuestion constructor
@@ -943,7 +943,7 @@ class assImagemapQuestion extends assQuestion implements ilObjAnswerScoringAdjus
             $clone->image_filename = $tt->denormalize($normalized['image'], QuestionImage::class)->getFilename();
             $clone->is_multiple_choice = $tt->bool($normalized['multiple_choice']);
             $clone->answers = array_map(
-                fn(array $answer) => $tt->denormalize($answer, new ASS_AnswerImagemap()),
+                static fn(array $answer): ASS_AnswerImagemap => $tt->denormalize($answer, new ASS_AnswerImagemap()),
                 $normalized['answers']
             );
 

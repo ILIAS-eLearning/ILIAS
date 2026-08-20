@@ -22,7 +22,6 @@ use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
 use ILIAS\Refinery\Transformation;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
-use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 /**

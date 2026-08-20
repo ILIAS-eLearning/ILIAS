@@ -78,14 +78,14 @@ class CollectQuestionImages implements Pipe
             ? $this->question_files->buildImagePath($envelope->getQuestionId(), $pool_id)
             : $this->question_files->buildSolutionPath($envelope->getQuestionId(), $pool_id);
 
-        $source_path = $base_dir . $envelope->getFilename();
+        $source_path = "{$base_dir}{$envelope->getFilename()}";
 
         // Generate a unique ID for the image and set it on the envelope and the relative target path
         $id = $this->uuid_factory->uuid4();
         $envelope->setId($id->toString());
 
         $extension = pathinfo($envelope->getFilename(), PATHINFO_EXTENSION);
-        $target_path = $id->toString() . '.' . $extension;
+        $target_path = "{$id->toString()}.{$extension}";
 
         $this->files[] = ['from' => $source_path, 'to' => $target_path];
     }
@@ -97,8 +97,7 @@ class CollectQuestionImages implements Pipe
             throw new NormalizingException('Expected question image envelope, got ' . get_debug_type($envelope));
         }
 
-        $extension = pathinfo($envelope->getFilename(), PATHINFO_EXTENSION);
-        $path = $envelope->getId() . '.' . $extension;
+        $path = "{$envelope->getId()}." . pathinfo($envelope->getFilename(), PATHINFO_EXTENSION);
 
         $this->envelopes[$path] = $envelope;
     }

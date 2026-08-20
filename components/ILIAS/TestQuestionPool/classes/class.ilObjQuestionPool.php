@@ -33,7 +33,6 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 class ilObjQuestionPool extends ilObject
 {
     private ilComponentRepository $component_repository;
-    private ilBenchmark $benchmark;
 
     private bool $skill_service_enabled;
     private GeneralQuestionPropertiesRepository $questionrepository;
@@ -42,7 +41,6 @@ class ilObjQuestionPool extends ilObject
     {
         global $DIC;
         $this->component_repository = $DIC['component.repository'];
-        $this->benchmark = $DIC['ilBench'];
 
         $local_dic = QuestionPoolDIC::dic();
         $this->questionrepository = $local_dic['question.general_properties.repository'];

@@ -153,7 +153,7 @@ class Repository
     public function getTestAttemptResult(int $active_id, int $attempt): ?AttemptResult
     {
         $result = $this->db->queryF(
-            "SELECT * FROM tst_pass_result WHERE active_fi = %s AND pass = %s",
+            'SELECT * FROM tst_pass_result WHERE active_fi = %s AND pass = %s',
             [\ilDBConstants::T_INTEGER, \ilDBConstants::T_INTEGER],
             [$active_id, $attempt]
         );
@@ -163,7 +163,7 @@ class Repository
     public function getTestAttemptResults(int $active_id): array
     {
         $result = $this->db->queryF(
-            "SELECT * FROM tst_pass_result WHERE active_fi = %s",
+            'SELECT * FROM tst_pass_result WHERE active_fi = %s',
             [\ilDBConstants::T_INTEGER],
             [$active_id]
         );

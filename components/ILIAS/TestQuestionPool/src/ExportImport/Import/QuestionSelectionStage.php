@@ -98,7 +98,7 @@ class QuestionSelectionStage implements ImportStage
         }
 
         if (!$context->has(UploadValidationStage::COMPONENT_IMPORT_FILE)) {
-            $this->log->error("No component import file found in context");
+            $this->log->error('No component import file found in context');
             return StageResult::error($context, $this->lng->txt('qpl_import_file_not_found'));
         }
 
@@ -107,7 +107,7 @@ class QuestionSelectionStage implements ImportStage
             : $this->readQuestions($context);
 
         if ($options === []) {
-            $this->log->error("No questions found in import file");
+            $this->log->error('No questions found in import file');
             return StageResult::error($context, $this->lng->txt('qpl_import_no_items'));
         }
 
@@ -141,17 +141,20 @@ class QuestionSelectionStage implements ImportStage
             $context->get(UploadValidationStage::COMPONENT_IMPORT_FILE)
         );
 
-        $deserializer->addHandler('questions', function (array $questions) use (&$options): void {
-            foreach ($questions as $question) {
-                if (!isset($question['title']) || !isset($question['type'])) {
-                    continue;
-                }
+        $deserializer->addHandler(
+            'questions',
+            function (array $questions) use (&$options): void {
+                foreach ($questions as $question) {
+                    if (!isset($question['title']) || !isset($question['type'])) {
+                        continue;
+                    }
 
-                $raw_id = $question['id'];
-                $id = is_array($raw_id) ? (string) ($raw_id['id'] ?? '') : (string) $raw_id;
-                $options[$id] = "{$question['title']} ({$this->getLabelForQuestionType($question['type'])})";
+                    $raw_id = $question['id'];
+                    $id = is_array($raw_id) ? (string) ($raw_id['id'] ?? '') : (string) $raw_id;
+                    $options[$id] = "{$question['title']} ({$this->getLabelForQuestionType($question['type'])})";
+                }
             }
-        });
+        );
         $deserializer->process();
 
         $count = count($options);
@@ -191,12 +194,10 @@ class QuestionSelectionStage implements ImportStage
             $options
         )->withValue(array_keys($options));
 
-        $form = $this->ui_factory->input()->container()->form()->standard(
+        return $this->ui_factory->input()->container()->form()->standard(
             $this->form_action,
             ['selected_questions' => $input]
         )->withSubmitLabel($this->lng->txt('import'));
-
-        return $form;
     }
 
     private function getLabelForQuestionType(string $type): string
@@ -218,9 +219,9 @@ class QuestionSelectionStage implements ImportStage
 
     private function getLabelForPluginQuestionTypes(string $type): string
     {
-        foreach ($this->component_factory->getActivePluginsInSlot('qst') as $pl) {
-            if ($pl->getQuestionType() === $type) {
-                return $pl->getQuestionTypeTranslation();
+        foreach ($this->component_factory->getActivePluginsInSlot('qst') as $plugin) {
+            if ($plugin->getQuestionType() === $type) {
+                return $plugin->getQuestionTypeTranslation();
             }
         }
         return $type;

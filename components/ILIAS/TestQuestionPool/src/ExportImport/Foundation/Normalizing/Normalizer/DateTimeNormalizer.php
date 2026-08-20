@@ -49,7 +49,7 @@ class DateTimeNormalizer implements Normalizer
      */
     public function denormalize(array|float|bool|int|string|null $value, string $type): DateTime|DateTimeImmutable
     {
-        return match($type) {
+        return match ($type) {
             DateTimeImmutable::class => DateTimeImmutable::createFromFormat(DATE_ATOM, $value),
             DateTime::class => DateTime::createFromFormat(DATE_ATOM, $value),
             default => throw new NormalizingException("Invalid type for datetime: {$type}")

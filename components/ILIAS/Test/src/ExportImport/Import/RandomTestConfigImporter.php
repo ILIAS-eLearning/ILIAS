@@ -106,7 +106,7 @@ class RandomTestConfigImporter
 
         if ($old_pool_id !== $new_pool_id) {
             $ref_ids = $this->data_factory->objId($new_pool_id)->toReferenceIds();
-            if (count($ref_ids) > 0) {
+            if ($ref_ids !== []) {
                 $definition->setPoolRefId(current($ref_ids)->toInt());
                 $this->log->debug("Derived source pool definition from Object ID: {$old_pool_id} -> {$definition->getPoolRefId()}");
             }
@@ -155,8 +155,7 @@ class RandomTestConfigImporter
                     continue;
                 }
 
-                $new_filter = $this->remapTaxonomyFilter($mapping, $mapped_filter);
-                $definition->setMappedTaxonomyFilter($new_filter);
+                $definition->setMappedTaxonomyFilter($this->remapTaxonomyFilter($mapping, $mapped_filter));
                 $definition->saveToDb();
                 $this->log->debug("Remapped taxonomy filter for definition {$definition->getId()}");
             }

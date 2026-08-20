@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
 use ILIAS\Refinery\Transformation;
 use ILIAS\TestQuestionPool\ExportImport\Envelopes\QuestionImage;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
 
 /**
  * Class for answers with a binary state indicator
@@ -47,12 +47,18 @@ class ASS_AnswerBinaryStateImage extends ASS_AnswerBinaryState
      * @param string  $answertext A string defining the answer text
      * @param double  $points     The number of points given for the selected answer
      * @param integer $order      A nonnegative value representing a possible display or sort order
-     * @param bool    $state      A integer value indicating the state of the answer
-     * @param string  $a_image    The image filename
+     * @param bool    $state      A boolen value indicating the state of the answer
+     * @param ?string  $a_image    The image filename
      * @param integer $id         The database id of the answer
      */
-    public function __construct(string $answertext = "", float $points = 0.0, int $order = 0, bool $state = false, ?string $a_image = null, int $id = -1)
-    {
+    public function __construct(
+        string $answertext = '',
+        float $points = 0.0,
+        int $order = 0,
+        bool $state = false,
+        ?string $a_image = null,
+        int $id = -1
+    ) {
         parent::__construct($answertext, (float) $points, $order, $state, $id);
         $this->setImage($a_image);
     }
@@ -82,9 +88,9 @@ class ASS_AnswerBinaryStateImage extends ASS_AnswerBinaryState
     {
         return $tt->custom()->transformation(fn(array $context): array => [
             ...$tt->normalize(parent::toNormalized($tt)),
-            'image' => $this->image ? $tt->normalize(
-                new QuestionImage($this->image, $context['question_id'] ?? null)
-            ) : null,
+            'image' => $this->image ?
+                $tt->normalize(new QuestionImage($this->image, $context['question_id'] ?? null))
+                : null,
         ]);
     }
 

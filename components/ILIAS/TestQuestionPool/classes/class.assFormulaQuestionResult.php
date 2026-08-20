@@ -16,10 +16,10 @@
  *
  *********************************************************************/
 
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
 
 /**
  * Formula Question Result
@@ -874,7 +874,10 @@ class assFormulaQuestionResult implements Normalizable
     {
         return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
             $clone = clone $this;
-            $clone->available_units = array_map(fn(array $unit) => $tt->denormalize($unit, new assFormulaQuestionUnit()), $normalized['available_units']);
+            $clone->available_units = array_map(
+                static fn(array $unit): assFormulaQuestionUnit => $tt->denormalize($unit, new assFormulaQuestionUnit()),
+                $normalized['available_units']
+            );
             $clone->range_min = $tt->float($normalized['range_min']);
             $clone->range_max = $tt->float($normalized['range_max']);
             $clone->range_min_txt = $tt->string($normalized['range_min_txt']);

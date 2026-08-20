@@ -19,7 +19,6 @@
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
 use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\Random\Transformation\ShuffleTransformation;
 
 /**
  * Class for cloze question gaps

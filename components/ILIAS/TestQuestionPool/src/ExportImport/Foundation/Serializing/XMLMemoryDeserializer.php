@@ -58,7 +58,8 @@ class XMLMemoryDeserializer implements Deserializer
 
     private function prepareXmlInput(string $xml): string
     {
-        $xml = preg_replace('/^\s*<\?xml[^>]*\?>\s*/i', '', trim($xml)) ?? trim($xml);
+        $xml = trim($xml);
+        $xml = preg_replace('/^\s*<\?xml[^>]*\?>\s*/i', '', $xml) ?? $xml;
         return "<deserializer-root>{$xml}</deserializer-root>";
     }
 }

@@ -38,9 +38,7 @@ class XMLFileDeserializer implements Deserializer
     public function open(string $path): static
     {
         if (!is_file($path) || !is_readable($path)) {
-            throw new \InvalidArgumentException(
-                "The file '{$path}' does not exist or is not readable."
-            );
+            throw new \InvalidArgumentException("The file '{$path}' does not exist or is not readable.");
         }
 
         $clone = clone $this;
@@ -54,17 +52,13 @@ class XMLFileDeserializer implements Deserializer
     public function process(): void
     {
         if ($this->file_path === '') {
-            throw new \RuntimeException(
-                'No file has been opened. Call open() before process().'
-            );
+            throw new \RuntimeException('No file has been opened. Call open() before process().');
         }
 
         $reader = new \XMLReader();
 
         if (!$reader->open($this->file_path, null, LIBXML_NONET)) {
-            throw new \RuntimeException(
-                "Unable to open XML file '{$this->file_path}'."
-            );
+            throw new \RuntimeException("Unable to open XML file '{$this->file_path}'.");
         }
 
         $this->processReader($reader);

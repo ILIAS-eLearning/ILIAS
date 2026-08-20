@@ -38,9 +38,7 @@ class JSONMemorySerializer implements Serializer
     public function open(string $path): static
     {
         $clone = clone $this;
-        $clone->stack = [
-            ['name' => '', 'data' => []],
-        ];
+        $clone->stack = [['name' => '', 'data' => []]];
         return $clone;
     }
 
@@ -58,13 +56,14 @@ class JSONMemorySerializer implements Serializer
     public function endGroup(string $name): void
     {
         $frame = array_pop($this->stack);
-        if ($frame['name'] !== $name) {
-            throw new \LogicException(
-                "Group name mismatch: expected end of '{$frame['name']}', got '{$name}'"
-            );
+        if($frame === null) {
+            throw new \LogicException("Called endGroup() without matching startGroup()");
         }
-        $top = &$this->stack[array_key_last($this->stack)];
-        $top['data'][$name] = $frame['data'];
+
+        if ($frame['name'] !== $name) {
+            throw new \LogicException("Group name mismatch: expected end of '{$frame['name']}', got '{$name}'");
+        }
+        $this->stack[array_key_last($this->stack)]['data'][$name] = $frame['data'];
     }
 
     /**
@@ -83,16 +82,23 @@ class JSONMemorySerializer implements Serializer
     public function append(string $name, array $data): void
     {
         $top = &$this->stack[array_key_last($this->stack)];
-        if (array_key_exists($name, $top['data'])) {
-            $existing = $top['data'][$name];
-            if (is_array($existing) && array_is_list($existing)) {
-                $top['data'][$name][] = $data;
-            } else {
-                $top['data'][$name] = [$existing, $data];
-            }
-        } else {
+
+        // First entry for this name: store it directly.
+        if (!array_key_exists($name, $top['data'])) {
             $top['data'][$name] = $data;
+            return;
         }
+
+        $existing = $top['data'][$name];
+
+        // Multiple entries already exist: append to the list.
+        if (is_array($existing) && array_is_list($existing)) {
+            $top['data'][$name][] = $data;
+            return;
+        }
+
+        // Second entry: convert the existing single entry into a list.
+        $top['data'][$name] = [$existing, $data];
     }
 
     /**
@@ -105,9 +111,7 @@ class JSONMemorySerializer implements Serializer
         }
         $root = $this->stack[0]['data'];
         $json = json_encode($root, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-        $this->stack = [
-            ['name' => '', 'data' => []],
-        ];
+        $this->stack = [['name' => '', 'data' => []]];
         return $json;
     }
 }

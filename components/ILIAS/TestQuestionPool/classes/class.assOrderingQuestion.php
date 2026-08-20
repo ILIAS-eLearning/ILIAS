@@ -18,13 +18,13 @@
 
 declare(strict_types=1);
 
+use ILIAS\Refinery\Transformation;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
-use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
-use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\TestQuestionPool\Questions\Ordering\OrderingQuestionDatabaseRepository as OQRepository;
-use ILIAS\Test\Logging\AdditionalInformationGenerator;
-use ILIAS\Refinery\Transformation;
+use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
+use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 
 /**
  * Class for ordering questions
@@ -1377,7 +1377,10 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $tt->custom()->transformation(fn(): array => [
             ...$tt->normalize(parent::toNormalized($tt)),
             'ordering_type' => $this->ordering_type,
-            'ordering_elements' => $tt->normalize($this->getOrderingElementList()->getElements(), ['question_id' => $this->getId()]),
+            'ordering_elements' => $tt->normalize(
+                $this->getOrderingElementList()->getElements(),
+                ['question_id' => $this->getId()]
+            ),
         ]);
     }
 
@@ -1390,7 +1393,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $clone = parent::fromNormalized($tt)->transform($normalized);
             $clone->ordering_type = $tt->int($normalized['ordering_type']);
             $denormalized_elements = array_map(
-                fn(array $element) => $tt->denormalize($element, new ilAssOrderingElement()),
+                static fn(array $element): ilAssOrderingElement => $tt->denormalize($element, new ilAssOrderingElement()),
                 $normalized['ordering_elements']
             );
             $clone->element_list_for_deferred_saving = new ilAssOrderingElementList(null, $denormalized_elements);

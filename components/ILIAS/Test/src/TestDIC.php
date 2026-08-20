@@ -306,17 +306,20 @@ class TestDIC extends PimpleContainer
                 $DIC->fileConverters()->images(),
                 $DIC->filesystem()
             );
+
         $dic['exportimport.test_results_importer'] = static fn($c): TestResultsImporter =>
             new TestResultsImporter(
                 $DIC->database(),
                 $c['exportimport.logging']()
             );
+
         $dic['exportimport.random_test_config_importer'] = static fn($c): RandomTestConfigImporter =>
             new RandomTestConfigImporter(
                 $DIC->database(),
                 $c['exportimport.logging'](),
                 new DataFactory()
             );
+
         $dic['exportimport.importer'] = static fn($c): TestImporter =>
             new TestImporter(
                 $c['exportimport.builder'],

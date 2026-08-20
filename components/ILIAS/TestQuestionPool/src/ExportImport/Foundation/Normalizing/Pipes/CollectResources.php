@@ -45,9 +45,10 @@ class CollectResources implements Pipe
     private array $import_mapping = [];
 
     public function __construct(
-        private readonly IRSS $irss,
+        private readonly IRSS            $irss,
         private readonly LoggerInterface $log
-    ) {
+    )
+    {
     }
 
     /**
@@ -79,9 +80,7 @@ class CollectResources implements Pipe
         }
 
         if ($passable instanceof DenormalizeCarry && $passable->expected === ResourceIdentification::class) {
-            $passable->setResult(
-                $this->replaceRid($passable->result())
-            );
+            $passable->setResult($this->replaceRid($passable->result()));
         }
 
         return $next($passable);
@@ -89,20 +88,18 @@ class CollectResources implements Pipe
 
     private function handleNormalization(ResourceIdentification $rid): void
     {
-        $resource = $this->irss->manage()->getResource($rid);
-
-        $this->resources[$rid->serialize()] = $resource;
+        $this->resources[$rid->serialize()] = $this->irss->manage()->getResource($rid);
     }
 
     private function replaceRid(ResourceIdentification $rid): ResourceIdentification
     {
         $id = $rid->serialize();
-        if (isset($this->import_mapping[$id])) {
-            $this->log->debug("Replaced resource id {$id} with {$this->import_mapping[$id]->serialize()}");
-            return $this->import_mapping[$id];
-        } else {
+        if (!isset($this->import_mapping[$id])) {
             $this->log->warning("Unresolved resource id {$id}");
             return $rid;
         }
+
+        $this->log->debug("Replaced resource id {$id} with {$this->import_mapping[$id]->serialize()}");
+        return $this->import_mapping[$id];
     }
 }

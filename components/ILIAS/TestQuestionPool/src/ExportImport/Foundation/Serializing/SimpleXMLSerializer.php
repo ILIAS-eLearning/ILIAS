@@ -82,9 +82,7 @@ class SimpleXMLSerializer implements Serializer
     public function endGroup(string $name): void
     {
         if ($this->current_group !== $name) {
-            throw new \LogicException(
-                "Group name mismatch: expected end of '{$this->current_group}', got '{$name}'"
-            );
+            throw new \LogicException("Group name mismatch: expected end of '{$this->current_group}', got '{$name}'");
         }
 
         $this->current_group = '';
@@ -107,7 +105,7 @@ class SimpleXMLSerializer implements Serializer
     public function append(string $name, array $data): void
     {
         $this->writer->startElement($this->formatName($name));
-        if (count($data) === 0) {
+        if ($data === []) {
             $this->writer->writeAttribute('type', 'empty-array');
         }
 
@@ -157,7 +155,7 @@ class SimpleXMLSerializer implements Serializer
 
                 $this->writer->writeRaw($value);
             } else {
-                if (count($value) === 0) {
+                if ($value === []) {
                     $this->writer->writeAttribute('type', 'empty-array');
                 }
                 $this->appendRecursive($value);

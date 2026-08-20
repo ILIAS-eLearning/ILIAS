@@ -60,7 +60,7 @@ class SkillAssignmentsImporter
         $result = ['failed' => [], 'success' => []];
 
         foreach ($normalized_assignments as $item) {
-            // ParentObjID and QuestionID will be replaced by the mapping pipe
+            // The mapping pipe replaces ParentObjID and QuestionID
             $assignment = $transformations->denormalize($item, ilAssQuestionSkillAssignment::class);
 
             $skill_data = $this->getSkillIdMapping(

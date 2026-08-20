@@ -100,10 +100,7 @@ class Builder
     public function create(): TransformationsContract
     {
         $pipeline = new Pipeline();
-        $object = new Transformations(
-            $this->dic->refinery(),
-            $pipeline
-        );
+        $object = new Transformations($this->dic->refinery(), $pipeline);
 
         foreach ($this->prepend_pipes as $pipe) {
             $pipeline->pipe($pipe);
@@ -180,8 +177,10 @@ class Builder
 
         $best_concrete = null;
         foreach (array_keys($available_versions) as $version) {
-            if ($version === NormalizerArtifactObjective::DEFAULT_KEY
-                || $this->isWildcardVersion($version)) {
+            if (
+                $version === NormalizerArtifactObjective::DEFAULT_KEY
+                || $this->isWildcardVersion($version)
+            ) {
                 continue;
             }
 
@@ -190,8 +189,10 @@ class Builder
                 continue;
             }
 
-            if (version_compare($version, $requested_version, '<=')
-                && ($best_concrete === null || version_compare($version, $best_concrete, '>'))) {
+            if (
+                version_compare($version, $requested_version, '<=')
+                && ($best_concrete === null || version_compare($version, $best_concrete, '>'))
+            ) {
                 $best_concrete = $version;
             }
         }
@@ -272,7 +273,10 @@ class Builder
         if ($type instanceof ReflectionNamedType && !$type->isBuiltin()) {
             $type_name = $type->getName();
 
-            if ($type_name === TransformationsContract::class || in_array(TransformationsContract::class, class_implements($type_name))) {
+            if (
+                $type_name === TransformationsContract::class
+                || in_array(TransformationsContract::class, class_implements($type_name))
+            ) {
                 return $transformations;
             }
 
@@ -283,7 +287,6 @@ class Builder
             }
         }
 
-        $name = $parameter->getName();
-        throw new RuntimeException("Unable to resolve constructor parameter \${$name} for class {$class_name}.");
+        throw new RuntimeException("Unable to resolve constructor parameter \${$parameter->getName()} for class {$class_name}.");
     }
 }

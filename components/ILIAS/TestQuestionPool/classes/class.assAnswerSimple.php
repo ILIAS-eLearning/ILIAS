@@ -235,7 +235,7 @@ class ASS_AnswerSimple implements Normalizable
      */
     public function fromNormalized(Transformations $tt): Transformation
     {
-        return $tt->custom()->transformation(fn(array $normalized) => new static(
+        return $tt->custom()->transformation(fn(array $normalized): static => new static(
             $tt->string($normalized['answertext']),
             $tt->float($normalized['points']),
             $tt->int($normalized['order']),
