@@ -44,6 +44,11 @@ class ilIndividualAssessmentExporterTest extends TestCase
             "entity" => "common",
             "ids" => [12,13]
         ];
+        $expected[] = [
+            "component" => "components/ILIAS/Tracking",
+            "entity" => "lpsettings",
+            "ids" => [12,13]
+        ];
 
         $obj = new ilIndividualAssessmentExporter();
         $result = $obj->getXmlExportTailDependencies("iass", "", [12,13]);
