@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\KioskMode\View;
 
@@ -43,7 +43,7 @@ class ilLSLearnerItemsQueries
         $this->usr_id = $usr_id;
     }
 
-    public function hasItems() : bool
+    public function hasItems(): bool
     {
         return count($this->getItems()) > 0;
     }
@@ -54,6 +54,11 @@ class ilLSLearnerItemsQueries
     public function getItems(): array
     {
         return $this->progress_db->getLearnerItems($this->usr_id, $this->ls_ref_id);
+    }
+
+    public function getLearningSequenceRefId(): int
+    {
+        return $this->ls_ref_id;
     }
 
     public function getCurrentItemRefId(): int
