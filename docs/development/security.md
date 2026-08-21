@@ -112,7 +112,7 @@ to ENISA within one month after the severe incident notification.
 The following process MUST be followed to hand in a fix for a security issue. These 
 rules apply to code authorities as well as to all other developers and contributors.
 * Create one patch file per supported branch needing the fix. The patch file MUST
-be named "<ilias_version>_<title_of_fix>.patch" (e.g. ‘11_my-very-important-fix.patch’).
+be named "<ilias_version>_<title_of_fix>.patch" (e.g. "11_my-very-important-fix.patch").
 To create the patch use `git format-patch` with the option `--stdout` from the branch 
 in which you made the fixes
 (e.g. `git format-patch release_9 --stdout > 9_my-very-important-fix.patch`)
