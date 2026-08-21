@@ -119,7 +119,7 @@ in which you made the fixes
 to ensure that all commits are in a single patch file, if multiple commits are
 needed to fix the issue. To make the application of the patches as easy as possible,
 **fixes for security issues MUST not contain any unrelated changes**.
-* Upload the patch files to the corresponding issue in the project ‘ILIAS Security’
+* Upload the patch files to the corresponding issue in the project "ILIAS Security"
 on our issue tracker. If you would like to provide a patch for an issue, but do
 not have access to the issue on our tracker please send the patch files to
 the issue manager on a secure channel.
