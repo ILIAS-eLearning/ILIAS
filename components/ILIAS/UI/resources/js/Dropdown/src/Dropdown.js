@@ -58,7 +58,7 @@ export default class Dropdown {
    * @type {function(KeyboardEvent)}
    */
   #hideOnEscape = (/** @param {KeyboardEvent} event */ event) => {
-    if (event.key === 27) { // ESCAPE
+    if (event.key === 'Escape') {
       this.hide();
     }
   };

@@ -85,7 +85,7 @@ class FlavourTest extends AbstractTestBase
         $flavour_definition = $this->createMock(FlavourDefinition::class);
         $flavour_definition->expects($this->exactly(2))
             ->method('getVariantName')
-            ->willReturn(str_repeat('a', 768));
+            ->willReturn(str_repeat('a', 638));
 
         $flavour_builder->has(
             new ResourceIdentification('1'),

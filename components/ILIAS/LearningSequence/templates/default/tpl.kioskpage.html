@@ -2,12 +2,21 @@
 
 	<div class="ilLSOKioskModeObjectHeader">
 		<div class="media il_HeaderInner">
+			<div class="ilHeadAction hidden-print" id="il_head_action">
+				<span class="il_ItemProperty">{OBJECT_RATING}</span>
+				{VIEW_MODES}
+			</div>
 			<div id="headerimage" class="media-object">
 				{OBJECT_ICON}
 			</div>
-			<h1 class="il-page-content-header media-heading ilHeader">
-					{OBJECT_TITLE}
-			</h1>
+			<div class="media-body">
+				<h1 class="il-page-content-header media-heading ilHeader">
+						{OBJECT_TITLE}
+				</h1>
+				<!-- BEGIN obj_desc -->
+				<div class="ilHeaderDesc">{OBJECT_DESCRIPTION}</div>
+				<!-- END obj_desc -->
+			</div>
 		</div>
 	</div>
 
@@ -19,9 +28,6 @@
 					{PLAYER_NAVIGATION} | {OBJ_NAVIGATION}
 				</div>
 
-				<div class="ilLSOKioskModeViewModes">
-					{VIEW_MODES}
-				</div>
 			</div>
 
 		</div>
@@ -33,6 +39,10 @@
 
 	<div class="ilLSOKioskModeContent">
 		{CONTENT}
+	</div>
+	<div id="ilLastTab" class="ilNoDisplay">
+		<a class="dropdown-toggle" href="#"></a>
+		<ul class="dropdown-menu"></ul>
 	</div>
 
 </div> <!-- il_center_col -->

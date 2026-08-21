@@ -22,9 +22,12 @@ namespace ILIAS\components\Logging;
 
 use ilLogger;
 use ilLogLevel;
-use Monolog\Logger;
+use ILIAS\Logging\Logger\LoggerInterface;
 use Exception;
 
+/**
+ * @deprecated If a null version of the new logger would be handy, let the Logging authorities know.
+ */
 class NullLogger extends ilLogger
 {
     public function __construct()
@@ -77,7 +80,7 @@ class NullLogger extends ilLogger
     }
 
     /** @noinspection \PhpInconsistentReturnPointsInspection */
-    public function getLogger(): Logger
+    protected function getLogger(): LoggerInterface
     {
         throw new Exception('Can not return monolog logger from a null logger.');
     }

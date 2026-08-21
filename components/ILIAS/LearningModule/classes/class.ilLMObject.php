@@ -767,6 +767,11 @@ class ilLMObject
         if ($item_lm_id != $a_target_lm->getId() && !$a_as_copy) {
             // @todo: check whether st is NOT in tree
 
+            // update lm object
+            $item->setLMId($a_target_lm->getId());
+            $item->setContentObject($a_target_lm);
+            $item->update();
+
             // "move" metadata to new lm
             $lom_services->derive()
                          ->fromObject($item_lm_id, $item->getId(), $item->getType())

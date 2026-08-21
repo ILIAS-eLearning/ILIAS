@@ -130,6 +130,12 @@ class COPageTestBase extends TestCase
             $refinery_mock
         );
 
+        $ini_reader_mock = $this->createStub(ilIniFile::class);
+        $this->setGlobalVariable(
+            "ilIliasIniFile",
+            $ini_reader_mock
+        );
+
         $this->pc_cnt = 1;
     }
 

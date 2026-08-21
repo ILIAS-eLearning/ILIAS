@@ -108,6 +108,10 @@ class GlyphTest extends ILIAS_UI_TestBase
         G\Glyph::DRAG_HANDLE => "glyphicon glyphicon-dragHandle",
         G\Glyph::CHECKED => "glyphicon glyphicon-checked",
         G\Glyph::UNCHECKED => "glyphicon glyphicon-unchecked",
+        G\Glyph::PRESENTER => "glyphicon glyphicon-presenter",
+        G\Glyph::OWNER => "glyphicon glyphicon-owner",
+        G\Glyph::DATE => "glyphicon glyphicon-date",
+        G\Glyph::LOCATION => "glyphicon glyphicon-location",
     );
 
     public static array $aria_labels = array(
@@ -171,6 +175,10 @@ class GlyphTest extends ILIAS_UI_TestBase
         G\Glyph::DRAG_HANDLE => "drag_handle",
         G\Glyph::CHECKED => "checked",
         G\Glyph::UNCHECKED => "unchecked",
+        G\Glyph::PRESENTER => "presenter",
+        G\Glyph::OWNER => "owner",
+        G\Glyph::DATE => "date",
+        G\Glyph::LOCATION => "location",
     );
 
     #[\PHPUnit\Framework\Attributes\DataProvider('getGlyphTypeProvider')]

@@ -1109,11 +1109,11 @@ assessment#:#qpl_questions_deleted#:#Question(s) removed.
 assessment#:#qpl_reset_preview#:#Reset Preview
 assessment#:#qpl_save_skill_assigns_update#:#Save Competence Assignments
 assessment#:#qpl_settings_availability#:#Availability
-assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Existing taxonomies in this pool are offered for question filtering.
-assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomy Filter as Navigation Tree
-assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#When a taxonomy is selected, it well be presented as navigation tree instead of a table filter item.
+assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Taxonomies can be used as filters in the ‘Questions’ tab.
+assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomy as Tree View
+assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#The selected taxonomy is displayed in a tree view in the „Questions” tab. It will not appear in the filter anymore.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Use No Navigation Tree Filter
-assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Show Taxonomies
+assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Taxonomies
 assessment#:#qpl_settings_subtab_general#:#General Settings
 assessment#:#qpl_settings_subtab_taxonomies#:#Taxonomies
 assessment#:#qpl_skill_point_eval_by_quest_result#:#Evaluation of Competence Points by Question Result
@@ -1938,7 +1938,7 @@ assessment#:#tst_tab_results_objective_oriented#:#Test Results by Learning Objec
 assessment#:#tst_tab_results_pass_oriented#:#Test Results by Attempts
 assessment#:#tst_tbl_col_answered_questions#:#Answered Questions
 assessment#:#tst_tbl_col_final_mark#:#Mark
-assessment#:#tst_tbl_col_finished_passes#:#Finished Passes
+assessment#:#tst_tbl_col_finished_passes#:#Finished Attempts
 assessment#:#tst_tbl_col_finished_passes_num_of#:#%s of %s
 assessment#:#tst_tbl_col_last_scored_access#:#Last Scored Access
 assessment#:#tst_tbl_col_pass_finished#:#Pass Finished
@@ -2506,7 +2506,7 @@ blog#:#blog_no_keywords#:#No keywords have been entered yet.
 blog#:#blog_notification_activated#:#Notifications Activated
 blog#:#blog_notification_deactivated#:#Notifications Deactivated
 blog#:#blog_notification_toggle_off#:#Deactivate Notifications
-blog#:#blog_notification_toggle_on#:#Activate Notification
+blog#:#blog_notification_toggle_on#:#Activate Notifications
 blog#:#blog_number_users_notes_or_comments#:#Number of users who have attached notes or comments to this post
 blog#:#blog_posting#:#Blog Post
 blog#:#blog_posting_deleted#:#Post successfully deleted.
@@ -3481,7 +3481,7 @@ cntr#:#cntr_switch_to_new_editor_message#:#This is the supported standard editor
 cntr#:#cntr_switched_editor#:#Switched to new content.
 cntr#:#cntr_tax_none_available#:#There are no taxonomies available.
 cntr#:#cntr_tax_settings_info#:#Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the "Metadata" tabs and the "Taxonomy Assignment" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's "Contents" tab to enable direct filtering of the assigned objects.
-cntr#:#cntr_taxonomy_definitions#:#Taxonomy Definition
+cntr#:#cntr_taxonomy_definitions#:#Taxonomies
 cntr#:#cntr_taxonomy_show_sideblock#:#Present in Side Panel
 cntr#:#cntr_taxonomy_sideblock_settings#:#Presentation Settings
 cntr#:#cntr_text_media_editor#:#Edit Page
@@ -3647,7 +3647,7 @@ common#:#auth_soap_namespace#:#Namespace
 common#:#auth_soap_namespace_desc#:#As defined in WSDL. Must be specified, if .NET SOAP style is used.
 common#:#auth_soap_port_desc#:#E.g. 8080 if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php
 common#:#auth_soap_server_desc#:#E.g. auth.yourserver.com if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php
-common#:#auth_soap_settings_saved#:#SOAP authentication settings saved
+common#:#auth_soap_settings_saved#:#SOAP authentication settings saved.
 common#:#auth_soap_uri_desc#:#Local URI, e.g. dir/server.php if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php
 common#:#auth_soap_use_dotnet#:#Use .NET SOAP Style
 common#:#auth_soap_use_https#:#Use HTTPS
@@ -4232,8 +4232,8 @@ common#:#forums_anonymized#:#Forum anonymized
 common#:#forums_anonymous#:#anonym
 common#:#forums_articles#:#Posts
 common#:#forums_closed#:#closed
-common#:#forums_disable_forum_notification#:#Disable Notification for this Forum
-common#:#forums_enable_forum_notification#:#Enable Notification for this Forum
+common#:#forums_disable_forum_notification#:#Disable Notifications for This Forum
+common#:#forums_enable_forum_notification#:#Enable Notifications for This Forum
 common#:#forums_forum_notification_enabled#:#You will be notified about new posts in this forum.
 common#:#forums_last_post#:#Latest Post
 common#:#forums_last_posting_asc#:#Last Post Ascending
@@ -4823,7 +4823,7 @@ common#:#msg_no_perm_paste#:#You have no permission to paste the following objec
 common#:#msg_no_perm_paste_object_in_folder#:#You have no permission to paste the object %s in the folder %s.
 common#:#msg_no_perm_perm#:#You have no permission to change permission settings.
 common#:#msg_no_perm_read#:#You have no permission to access this item.
-common#:#msg_no_perm_read_item#:#You have no permission to access item '%s’.
+common#:#msg_no_perm_read_item#:#You have no permission to access the object.
 common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.
 common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user
 common#:#msg_no_perm_write#:#You have no permission to edit settings.
@@ -5162,7 +5162,7 @@ common#:#obj_tala_desc#:#Talk Templates
 common#:#obj_tals#:#Employee Talk Series
 common#:#obj_talt#:#Talk Template
 common#:#obj_task#:#Task
-common#:#obj_tax#:#Taxonomy
+common#:#obj_tax#:#Taxonomies within this object
 common#:#obj_taxf#:#Taxonomies
 common#:#obj_tool_setting_calendar#:#Calendar Block
 common#:#obj_tool_setting_calendar_active#:#Calendar
@@ -5383,6 +5383,7 @@ common#:#preconditions_optional_hint#:#You have to fulfill <b>%s</b> of the foll
 common#:#predefined_template#:#Predefined role template
 common#:#preferences#:#Preferences
 common#:#presentation_table_more#:#Show More
+common#:#presenter#:#Presenter
 common#:#preview#:#Preview
 common#:#preview_create#:#Create Preview
 common#:#preview_delete#:#Delete Preview
@@ -7724,7 +7725,7 @@ crs#:#crs_loc_settings_type_q_all_info#:#Mastery of all learning objectives is e
 crs#:#crs_loc_settings_type_q_selected#:#Separate Final Test for Each Objective
 crs#:#crs_loc_settings_type_q_selected_info#:#Participants are presented with a separate mastery test for each learning objective.
 crs#:#crs_loc_subtab_creation#:#Create
-crs#:#crs_loc_suggested#:#Please work through the following learning materials.
+crs#:#crs_loc_suggested#:#Please work through the listed materials and then take the final test to pass the learning objective.
 crs#:#crs_loc_tab_itest#:#Initial Test
 crs#:#crs_loc_tab_itests#:#Initial Tests
 crs#:#crs_loc_tab_materials#:#Material
@@ -7904,7 +7905,7 @@ crs#:#crs_select_archive_language#:#Please select a language for the archive
 crs#:#crs_select_one_archive#:#Please select one archive
 crs#:#crs_select_starter#:#Select Start Object
 crs#:#crs_settings#:#Course Settings
-crs#:#crs_settings_saved#:#Settings saved
+crs#:#crs_settings_saved#:#Settings saved.
 crs#:#crs_shorten_breadcrumb#:#Breadcrumb
 crs#:#crs_show_all_obj#:#Expand All
 crs#:#crs_show_member_export#:#Participants List
@@ -8087,7 +8088,7 @@ crs#:#event_title#:#Title
 crs#:#event_tutor_data#:#Presentation by
 crs#:#event_unregister#:#Unregister
 crs#:#event_unregistered#:#You have been unregistered.
-crs#:#event_updated#:#Settings saved
+crs#:#event_updated#:#Settings saved.
 crs#:#event_user_selection#:#Selection of Users
 crs#:#event_user_selection_include_filter#:#Include "%1$s"
 crs#:#event_user_selection_include_requests#:#Include all users on list "Join Requests"
@@ -9864,7 +9865,7 @@ file#:#copyright_custom#:#Custom
 file#:#copyright_custom_info#:#Choose a custom copyright which will be applied to all unzipped files of this archive.
 file#:#copyright_inherited#:#Inherited
 file#:#copyright_inherited_info#:#Apply the copyright of the zip archive to its unzipped files. <br \>Copyright of zip archive: %s.
-file#:#could_not_create_file_objs#:#An error occurred while creating your file objects. Please contact the administrators of this platform.
+file#:#could_not_create_file_objs#:#An error occurred while creating your file objects. Please contact this installation's technical support.
 file#:#de_activate_icon#:#Activate / Deactivate
 file#:#download_ascii_filename#:#Allow Only ASCII Characters in Downloaded Filenames
 file#:#download_ascii_filename_info#:#Downloaded files should only have ASCII-characters in their filename. Deactivate to use all characters.
@@ -10304,6 +10305,7 @@ glo#:#glo_really_remove_from_collection#:#Are you sure you want to remove the fo
 glo#:#glo_reference#:#Reference
 glo#:#glo_reference_terms#:#Reference Terms
 glo#:#glo_referenced_term#:#Referenced Term
+glo#:#glo_remove_glossary#:##Are you sure you want to remove the following glossary from the list of auto-linked glossaries?
 glo#:#glo_removed_from_collection_info#:#The glossary has been removed from the collection glossary.
 glo#:#glo_reset_all_boxes#:#Reset All Boxes
 glo#:#glo_save_and_continue#:#Save and Continue
@@ -10674,6 +10676,7 @@ iass#:#iass_file_dropzone#:#you can drop your files here
 iass#:#iass_file_required#:#Record file required
 iass#:#iass_file_required_info#:#A record file has to be uploaded to each participant record.
 iass#:#iass_file_visible_examinee#:#File visible for participant
+iass#:#iass_file_visible_examinee_info#:#Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled.
 iass#:#iass_filter_all#:#All
 iass#:#iass_filter_failed#:#Failed only
 iass#:#iass_filter_finalized#:#Completed only
@@ -10694,7 +10697,7 @@ iass#:#iass_membership_finalized#:#Record finalised
 iass#:#iass_membership_saved#:#Record saved, not yet finalised
 iass#:#iass_mess_notification_completed#:#You passed the assessment <i>%s</i>. Please check the following grading record for details:
 iass#:#iass_mess_notification_failed#:#You failed the assessment <i>%s</i>. Please check the following grading record for details:
-iass#:#iass_notify#:#Make Result available to Participant
+iass#:#iass_notify#:#Make Result Available to Participant
 iass#:#iass_notify_explanation#:#The participant will be notified via e-mail after finalisation and will get access to her or his record on the Info screen.
 iass#:#iass_phone#:#Phone
 iass#:#iass_place#:#Place of assessment
@@ -11123,29 +11126,22 @@ lng#:#lng_disable_language_detection#:#Disable Language Detection
 lng#:#lng_download_deprecated#:#Download Deprecated List
 lng#:#lng_enable_language_detection#:#Enable Language Detection
 lng#:#lng_switch_language_detection#:#Switch Language Detection
-log#:#log_browser#:#Browser Console Log
-log#:#log_browser_users#:#Usernames Using Console Log
-log#:#log_cache_#:#Caching
-log#:#log_cache_info#:#Only if a message reaches or surpasses the caching level, all messages which have at least the log level will be added to the log for the current request.
-log#:#log_cache_level#:#Caching-Level
 log#:#log_component_btn_reset#:#Reset Settings
 log#:#log_component_col_component#:#Component
 log#:#log_component_col_level#:#Log-Level
-log#:#log_component_root_desc#:#Leg-Level for message which are not assigned to any component.
+log#:#log_component_unknown#:#Unknown (%s)
 log#:#log_components#:#Components
-log#:#log_general_settings#:#Logging Settings
 log#:#log_level_alert#:#ALERT
 log#:#log_level_critical#:#CRITICAL
 log#:#log_level_debug#:#DEBUG
+log#:#log_level_default#:#Default (%s)
 log#:#log_level_emergency#:#EMERGENCY
 log#:#log_level_error#:#ERROR
 log#:#log_level_info#:#INFO
 log#:#log_level_notice#:#NOTICE
 log#:#log_level_off#:#Disabled
 log#:#log_level_warning#:#WARNING
-log#:#log_log_level#:#Log Level
-log#:#log_memory#:#Log Memory Usage
-logging#:#error_settings_saved#:#Settings saved
+logging#:#error_settings_saved#:#Settings saved.
 logging#:#frm_clear_older_then#:#Deletes files older then
 logging#:#frm_clear_older_then_info#:#Please enter duration in days.
 logging#:#log_error_file_cleanup_info#:#Deletes old or orphand files of error log.
@@ -11274,6 +11270,10 @@ lti#:#conf_privacy_ident_il_uuid_ext_account#:#External User ID combined with a 
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
 lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail address
 lti#:#conf_privacy_ident_il_uuid_login_info#:#Sends the login name. This is identical to each call, but may allow a direct conclusion about the ILIAS user.
+lti#:#conf_privacy_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256url#:#Hash combined with the ILIAS Domain formatted as an E-Mail address.###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256url_info#:#This is identical to each call, with with a maximum of 80 characters significantly shorter than the variant with the ILIAS platform ID and allows only very limited conclusions about the ILIAS user.###04 12 2025 new variable
 lti#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formatted as an E-Mail address
 lti#:#conf_privacy_ident_il_uuid_user_id_info#:#Sends the internal numeric user id. This is identical to each call, but may allow conclusions about the ILIAS user.
 lti#:#conf_privacy_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:
@@ -11359,13 +11359,16 @@ lti#:#launched#:#Resource was already launched.
 lti#:#learning_progress_options#:#Options for Learning Progress
 lti#:#lm_only_one_download_per_type#:#Only one file per type (XML, HTML, SCORM) can be released publicly.
 lti#:#lti13_hints#:#If the tool was created without dynamic registration, the following data must be entered for the tool to run.
+lti#:#lti_13_authentication_url#:#Authentication Request URL###04 12 2025 new variable
 lti#:#lti_13_client_id#:#Client-ID
 lti#:#lti_13_deployment_id#:#Deployment-ID
+lti#:#lti_13_keyset_url#:#Public Keyset URL###04 12 2025 new variable
 lti#:#lti_13_platform_id#:#Platform-ID
 lti#:#lti_13_step1#:#Step 1
 lti#:#lti_13_step1_info#:#For the initiating platform (consumer), enter the following address for Launch URL, Initiate Login URL, Redirection URI, and Registration URL:
 lti#:#lti_13_step2#:#Step 2
 lti#:#lti_13_step2_info#:#You will receive information from the initiating platform (Consumer), which you must enter in the following fields. After saving, the LTI 1.3 functionalities are available.
+lti#:#lti_13_token_url#:#Access Token URL###04 12 2025 new variable
 lti#:#lti_action_accept_provider_as_global#:#Accept Provider as Global Provider for all Users
 lti#:#lti_action_accept_providers_as_global#:#Accept Providers as Global
 lti#:#lti_action_delete_providers#:#Delete Providers
@@ -11379,6 +11382,8 @@ lti#:#lti_at_least_one_prov_has_usages#:#At least one provider could not be dele
 lti#:#lti_auth_failed_invalid_key#:#Authentication failed, no valid consumer key given.
 lti#:#lti_con_content_item#:#Support for Deep Linking
 lti#:#lti_con_content_item_url#:#Content URL
+lti#:#lti_con_grade_synchronization#:#Assignment and Grade Services###04 12 2025 new variable
+lti#:#lti_con_grade_synchronization_info#:#The LTI tool must offer 'Assignment and Grade Services'.###04 12 2025 new variable
 lti#:#lti_con_initiate_login_url#:#Initiate Login URL
 lti#:#lti_con_key_type#:#Public Key Type
 lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)
@@ -11398,6 +11403,10 @@ lti#:#lti_con_prov_category_info#:#Category to filter entries when LTI Consumer 
 lti#:#lti_con_prov_custom_params#:#Custom Parameters for this specific Provider
 lti#:#lti_con_prov_custom_params_info#:#Please enter them in the form param1=value1; param2=value2
 lti#:#lti_con_prov_description#:#Description
+lti#:#lti_con_prov_dyn_reg_params#:#Optional Parameters###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_params_info#:#Here, for example, references to target objects in the tool can be specified.###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_url#:#Registration URL of the Tool###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_url_info#:#Note: Not every tool supports dynamic registration.###04 12 2025 new variable
 lti#:#lti_con_prov_external_provider#:#External Provider
 lti#:#lti_con_prov_external_provider_info#:#A hint will be shown to users when dealing with an external Provider. An external Provider is characterized by insufficient influence on the Provider by the operator of the ILIAS-installation. This is the case when there are no rights to delete.
 lti#:#lti_con_prov_group_options#:#Options to group and filter Providers
@@ -11463,13 +11472,16 @@ lti#:#lti_create_lti_user_role#:#Create recommended global role for LTI users
 lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Synchronizes the learning progress of LTI users with the LTI consumer, if it supports the outcome service. This cron job is only required to transfer status updates after Learning progress settings updates.
 lti#:#lti_custom_new#:#Create Own Provider Settings
+lti#:#lti_deep_linking_not_available_for_admin_objects#:#Consumers created in Administration do not allow content selection
 lti#:#lti_delete_consume_provider#:#Delete Provider
 lti#:#lti_delete_consume_providers#:#Delete Providers
 lti#:#lti_delete_provider#:#Delete Provider
+lti#:#lti_dynamic_registration#:#Create Own Settings for Tool with Dynamic Registration (LTI 1.3)###04 12 2025
 lti#:#lti_edit_consumer#:#Edit LTI Consumer
 lti#:#lti_exit#:#Close LTI Session
 lti#:#lti_exited#:#LTI Session closed
 lti#:#lti_exited_info#:#LTI Session successfully closed
+lti#:#lti_form_provider_content_selection#:#Content Selection
 lti#:#lti_form_provider_create#:#Create Provider Settings
 lti#:#lti_form_provider_edit#:#Edit Provider Settings
 lti#:#lti_form_section_appearance#:#Options for launch
@@ -11521,6 +11533,7 @@ lti#:#subtab_certificate#:#Certificate
 lti#:#subtab_object_settings#:#Object Settings
 lti#:#subtab_provider_settings#:#LTI Provider Settings
 lti#:#tab_content#:#Content
+lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#Ranking
 lti#:#tab_settings#:#Settings
@@ -11975,10 +11988,8 @@ mem#:#mem_settings_tab_settings#:#General Settings
 mem#:#mmbr_gallery_user_actions#:#Member Gallery Actions
 membership#:#mem_error_preconditions#:#A registration is not possible, since minimum one setting prevents this.
 membership#:#mem_force_notification#:#Notification per Mail
-membership#:#mem_force_notification_mode_all#:#Notification activated for all members (changeable)
 membership#:#mem_force_notification_mode_all_sub_blocked#:#Members can deactivate notifications
 membership#:#mem_force_notification_mode_blocked#:#Members will be notified automatically
-membership#:#mem_force_notification_mode_custom#:#Custom
 membership#:#mem_force_notification_mode_self#:#Members have to manually activate notification
 mep#:#mep_all#:#All
 mep#:#mep_all_mobs#:#All Media Objects
@@ -14369,15 +14380,15 @@ rbac#:#feed_delete#:#User can move or delete web feed
 rbac#:#feed_edit_permission#:#User can change permission settings
 rbac#:#feed_read#:#User can read content of web feed
 rbac#:#feed_write#:#User can edit web feed settings
-rbac#:#file_content#:#Show Content
 rbac#:#file_copy#:#User can copy file
 rbac#:#file_delete#:#User can move or delete file
 rbac#:#file_edit_file#:#Allow to edit the file in an external editor, if available
 rbac#:#file_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#file_edit_permission#:#User can change permission settings
+rbac#:#file_file_view_content#:#File content presented in browser (if WOPI is active)
+rbac#:#file_file_view_content_short#:#Show Content
 rbac#:#file_read#:#User can download file
 rbac#:#file_read_learning_progress#:#User can view learning progress of other users
-rbac#:#file_view_content#:#File content presented in browser (if WOPI is active)
 rbac#:#file_visible#:#File is visible
 rbac#:#file_write#:#User can edit file settings and upload new version of file
 rbac#:#files_visible#:#Files Visible
@@ -15211,11 +15222,11 @@ rep#:#rep_export_limitation_info#:#Limits the number of objects for container ex
 rep#:#rep_export_limitation_limited#:#Limit Export
 rep#:#rep_export_limitation_unlimited#:#Unlimited Export
 rep#:#rep_failure_trashed_trash#:#You selected objects that cannot be restored to their original location, because their parent objects were deleted. Please uncheck the respective object in the table or select the Restore to New Location instead.
-rep#:#rep_fav_intro1#:#You have not yet selected any favourites. To do this, you must take two steps:
-rep#:#rep_fav_intro2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.
-rep#:#rep_fav_intro3#:#When you have found something that interests you, you can easily add it to your favourites. Select the desired item in the <i>Actions</i> menu and choose "<i>Add to favourites</i>".
+rep#:#rep_fav_intro1#:#You have not yet selected any favourites. To do so, there are two steps you need to take:
+rep#:#rep_fav_intro2#:#Click on '%s' and select a learning object from those available, for example a learning module or a forum.
+rep#:#rep_fav_intro3#:#When you have found something that interests you, you can easily add it to your favourites. Select the desired item in the <i>Actions</i> menu and select "<i>Add to favourites</i>".
 rep#:#rep_favourites#:#Favourites
-rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.
+rep#:#rep_favourites_info#:#Users can mark individual repository items as favourites. A 'Favourites' list can be activated for the dashboard and the main menu. 
 rep#:#rep_input_not_empty#:#This field must not be empty, please provide a value.
 rep#:#rep_intro#:#Welcome to the Repository!
 rep#:#rep_intro1#:#In this area you can create learning and working resources for all users. All resources are organised in categories. Categories can reflect the structure of your organisation (e.g. departments), a hierarchy of disciplines, or classes of a school.
@@ -17215,7 +17226,7 @@ tax#:#tax_add_taxonomy#:#Add Taxonomy
 tax#:#tax_added#:#Taxonomy has been created.
 tax#:#tax_admin_settings_repository#:#Repository Taxonomies
 tax#:#tax_alphabetical#:#Alphabetical
-tax#:#tax_assigned_items#:#Assigned Items
+tax#:#tax_assigned_items#:#Assigned Questions
 tax#:#tax_confirm_deletion#:#Do you really want to delete the whole taxonomy and all its relations?
 tax#:#tax_create_node#:#Create Node
 tax#:#tax_item_sorting#:#Support Sorting of Assigned Items
@@ -17229,9 +17240,9 @@ tax#:#tax_order#:#Order
 tax#:#tax_order_nr#:#Order Nr
 tax#:#tax_please_select_target#:#Please select the target.
 tax#:#tax_target_within_nodes#:#The target must not be a sub-node of the selected items.
-tax#:#tax_tax_assignment#:#Taxonomy Assignment
+tax#:#tax_tax_assignment#:#Assignment to Taxonomies
 tax#:#tax_tax_deleted#:#The taxonomy has been deleted.
-tax#:#tax_tax_settings#:#Taxonomy Settings
+tax#:#tax_tax_settings#:#Display Taxonomies
 tax#:#tax_taxonomy#:#Taxonomy
 tbl#:#tbl_export_csv#:#Export CSV
 tbl#:#tbl_export_excel#:#Export Excel
@@ -17289,7 +17300,7 @@ trac#:#trac_assigned#:#Assigned
 trac#:#trac_average#:#Average
 trac#:#trac_begin_at#:#Start date
 trac#:#trac_closed_expire#:#Timeout
-trac#:#trac_closed_login#:#Anonymous To Login
+trac#:#trac_closed_login#:#Change of status - anonymous to logged-in
 trac#:#trac_closed_manual#:#Logout
 trac#:#trac_closed_misc#:#Misc.
 trac#:#trac_collection_assign#:#Select for Learning Progress Determination
@@ -17477,10 +17488,10 @@ trac#:#trac_session_statistics_mode_today#:#Today
 trac#:#trac_session_statistics_mode_week#:#Week
 trac#:#trac_session_statistics_mode_year#:#Year
 trac#:#trac_session_statistics_no_data#:#No data for this statistics could be found.
-trac#:#trac_sessions_closed#:#Leavings
-trac#:#trac_sessions_opened#:#Admissions
+trac#:#trac_sessions_closed#:#Exits
+trac#:#trac_sessions_opened#:#Entrances
 trac#:#trac_settings#:#Settings
-trac#:#trac_settings_saved#:#Settings saved
+trac#:#trac_settings_saved#:#Settings saved.
 trac#:#trac_short_system_load#:#Short term
 trac#:#trac_show_graph#:#Show Graph
 trac#:#trac_show_progress_block#:#Show Personal Progress Chart in ‘Content’-Tab
@@ -17503,7 +17514,7 @@ trac#:#trac_title#:#Title
 trac#:#trac_title_description#:#Title / Description
 trac#:#trac_total_online#:#Total Time Online
 trac#:#trac_trash#:#Moved to Trash
-trac#:#trac_update_edit_user#:#Settings saved
+trac#:#trac_update_edit_user#:#Settings saved.
 trac#:#trac_updated_status#:#Saved learning progress status.
 trac#:#trac_user_data#:#User Data
 trac#:#trac_valid_request#:#Max. Time Between Requests

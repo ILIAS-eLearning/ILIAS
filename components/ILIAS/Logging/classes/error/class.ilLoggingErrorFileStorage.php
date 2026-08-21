@@ -140,9 +140,9 @@ class ilLoggingErrorFileStorage
         $post = $_POST;
         $server = $_SERVER;
 
-        $post = $this->hideSensitiveData($post);
-        $server = $this->hideSensitiveData($server);
-        $server = $this->shortenPHPSessionId($server);
+        $post = $this->hideSensitiveData((array) $post);
+        $server = $this->hideSensitiveData((array) $server);
+        $server = $this->shortenPHPSessionId((array) $server);
 
         return [
             'GET Data' => $_GET,

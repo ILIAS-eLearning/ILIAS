@@ -91,12 +91,55 @@ class ilLearningSequenceExporter extends ilXmlExporter
     {
         $res = [];
         if ($a_entity == "lso") {
+            // advanced metadata
+            $advmd_ids = [];
+            foreach ($a_ids as $id) {
+                $rec_ids = $this->getActiveAdvMDRecords((int) $id);
+                foreach ($rec_ids as $rec_id) {
+                    $advmd_ids[] = $id . ":" . $rec_id;
+                }
+            }
+            if ($advmd_ids !== []) {
+                $res[] = [
+                    "component" => "components/ILIAS/AdvancedMetaData",
+                    "entity" => "advmd",
+                    "ids" => $advmd_ids
+                ];
+            }
+
             // service settings
             $res[] = [
                 "component" => "components/ILIAS/ILIASObject",
                 "entity" => "common",
                 "ids" => $a_ids
             ];
+
+            // metadata
+            $md_ids = [];
+            foreach ($a_ids as $id) {
+                $md_ids[] = $id . ":0:lso";
+            }
+            $res[] = [
+                "component" => "components/ILIAS/MetaData",
+                "entity" => "md",
+                "ids" => $md_ids
+            ];
+
+            // taxonomies
+            $tax_ids = [];
+            foreach ($a_ids as $id) {
+                $t_ids = ilObjTaxonomy::getUsageOfObject((int) $id);
+                foreach ($t_ids as $t_id) {
+                    $tax_ids[$t_id] = $t_id;
+                }
+            }
+            if ($tax_ids !== []) {
+                $res[] = [
+                    "component" => "components/ILIAS/Taxonomy",
+                    "entity" => "tax",
+                    "ids" => $tax_ids
+                ];
+            }
         }
 
         // container pages
@@ -119,5 +162,29 @@ class ilLearningSequenceExporter extends ilXmlExporter
         }
 
         return $res;
+    }
+
+    protected function getActiveAdvMDRecords(int $a_id): array
+    {
+        $active = [];
+
+        foreach (ilAdvancedMDRecord::_getActivatedRecordsByObjectType('lso') as $record_obj) {
+            foreach ($record_obj->getAssignedObjectTypes() as $obj_info) {
+                if ($obj_info['obj_type'] === 'lso' && (int) $obj_info['optional'] === 0) {
+                    $active[] = $record_obj->getRecordId();
+                }
+
+                // local activation
+                if (
+                    $obj_info['obj_type'] === 'lso' &&
+                    (int) $obj_info['optional'] === 1 &&
+                    $a_id === $record_obj->getParentObject()
+                ) {
+                    $active[] = $record_obj->getRecordId();
+                }
+            }
+        }
+
+        return $active;
     }
 }

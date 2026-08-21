@@ -633,10 +633,33 @@ class ResourceBuilder
         return $path_inside_container . '/' . $filename;
     }
 
+    /**
+     * Entries have been stored with a leading slash before Mantis 45580 / 47237,
+     * e.g. "/style.css" instead of "style.css". Both variants of an entry can exist
+     * side by side in containers of that age, so removing an entry has to cover both -
+     * otherwise the legacy entry stays in the container forever (Mantis 48047).
+     *
+     * @return string[] empty if the given path does not address an entry at all
+     */
+    private function pathVariantsInZIP(string $path): array
+    {
+        $path = ltrim($path, '/');
+        if ($path === '') {
+            return [];
+        }
+
+        return [$path, '/' . $path];
+    }
+
     public function removePathInsideContainer(
         StorableContainerResource $container,
         string $path_inside_container,
     ): bool {
+        $paths_to_remove = $this->pathVariantsInZIP($path_inside_container);
+        if ($paths_to_remove === []) {
+            return false;
+        }
+
         $revision = $container->getCurrentRevisionIncludingDraft();
         $stream = $this->extractStream($revision);
 
@@ -645,15 +668,21 @@ class ResourceBuilder
             $zip = new \ZipArchive();
             $zip->open($stream->getMetadata()['uri']);
 
-            $return = $zip->deleteName($path_inside_container);
+            $return = false;
+            foreach ($paths_to_remove as $path_to_remove) {
+                $return = $zip->deleteName($path_to_remove) || $return;
+            }
             // remove all files inside the directory
             for ($i = 0; $i < $zip->numFiles; $i++) {
                 $path = $zip->getNameIndex($i);
                 if ($path === false) {
                     continue;
                 }
-                if (str_starts_with($path, $path_inside_container)) {
-                    $zip->deleteIndex($i);
+                foreach ($paths_to_remove as $path_to_remove) {
+                    if (str_starts_with($path, $path_to_remove)) {
+                        $zip->deleteIndex($i);
+                        break;
+                    }
                 }
             }
 
@@ -686,7 +715,9 @@ class ResourceBuilder
 
             $parent_path_inside_container = $this->ensurePathInZIP($zip, $parent_path_inside_container, false);
 
-            $path_inside_zip = rtrim($parent_path_inside_container, '/') . '/' . $result->getName();
+            // an empty parent path must not result in an entry like "/file.txt",
+            // entries are stored relative since Mantis 45580 / 47237
+            $path_inside_zip = ltrim(rtrim($parent_path_inside_container, '/') . '/' . $result->getName(), '/');
 
             $return = $zip->addFile(
                 $result->getPath(),
@@ -705,6 +736,86 @@ class ResourceBuilder
         }
 
         return true;
+    }
+
+    /**
+     * Adds a whole local directory to a container. The archive is opened, written
+     * and stored exactly once, regardless of how many files the directory holds.
+     * Adding the files one by one instead rewrites the complete archive per file,
+     * since ZipArchive::close() never appends in place.
+     */
+    public function addDirectoryToContainer(
+        StorableContainerResource $container,
+        string $local_directory,
+        string $path_inside_container,
+    ): bool {
+        if (!is_dir($local_directory)) {
+            return false;
+        }
+
+        $revision = $container->getCurrentRevisionIncludingDraft();
+        $uri = $this->extractStream($revision)->getMetadata()['uri'];
+
+        try {
+            $zip = new \ZipArchive();
+            if ($zip->open($uri) !== true) {
+                return false;
+            }
+
+            $added = $this->addDirectoryToZIP($zip, $local_directory, $path_inside_container);
+
+            // close() is where libzip actually writes the archive, a failure here
+            // means nothing was persisted at all
+            if (!$zip->close() || $added === 0) {
+                return false;
+            }
+
+            // cleanup revision and flavours
+            $this->storage_handler_factory->getHandlerForRevision($revision)->clearFlavours($revision);
+            $revision->getInformation()->setSize(filesize($uri));
+            $this->storeRevision($revision);
+
+            return true;
+        } catch (\Throwable) {
+            // the caller reports the failure to the user
+            return false;
+        }
+    }
+
+    /**
+     * Adds every file below $local_directory to an already opened archive,
+     * keeping the directory structure relative to $local_directory.
+     * @return int the number of files added
+     */
+    private function addDirectoryToZIP(
+        \ZipArchive $zip,
+        string $local_directory,
+        string $path_inside_container,
+    ): int {
+        $local_directory = rtrim($local_directory, DIRECTORY_SEPARATOR);
+        $added = 0;
+
+        $iterator = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($local_directory, \FilesystemIterator::SKIP_DOTS)
+        );
+        foreach ($iterator as $file) {
+            if (!$file->isFile()) {
+                continue;
+            }
+            $relative_path = str_replace(
+                DIRECTORY_SEPARATOR,
+                '/',
+                substr($file->getPathname(), strlen($local_directory) + 1)
+            );
+            // libzip reads the source file lazily on close(), therefore the
+            // contents are never held in memory (unlike addFromString)
+            $added += (int) $zip->addFile(
+                $file->getPathname(),
+                $this->ensurePathInZIP($zip, $path_inside_container . '/' . $relative_path, true)
+            );
+        }
+
+        return $added;
     }
 
     public function addStreamToContainer(

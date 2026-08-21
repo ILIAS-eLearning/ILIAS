@@ -11189,6 +11189,10 @@ lti#:#conf_privacy_ident_il_uuid_ext_account#:#Externt användar-ID kombinerat m
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#Detta är identiskt med varje samtal, men kan göra det möjligt att dra direkta slutsatser om användaren.
 lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS-inloggning som e-postadress, kombinerat med ett unikt ILIAS-plattforms-ID om så krävs.
 lti#:#conf_privacy_ident_il_uuid_login_info#:#Sänder inloggningsnamnet. Detta är identiskt med varje anrop, men kan tillåta direkta slutsatser till ILIAS-användaren.
+lti#:#conf_privacy_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256url#:#Hash combined with the ILIAS Domain formatted as an E-Mail address.###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256url_info#:#This is identical to each call, with with a maximum of 80 characters significantly shorter than the variant with the ILIAS platform ID and allows only very limited conclusions about the ILIAS user.###04 12 2025 new variable
 lti#:#conf_privacy_ident_il_uuid_user_id#:#ID för ILIAS-kontot kombinerat med ett unikt ILIAS-plattforms-ID formaterat som en e-postadress.
 lti#:#conf_privacy_ident_il_uuid_user_id_info#:#Sänder det interna numeriska användar-ID:t. Detta är identiskt för varje anrop, men gör det möjligt att dra slutsatser om ILIAS-användaren.
 lti#:#conf_privacy_ident_info#:#Standard är ofta e-postadressen. Det unika ILIAS-plattforms-ID:t är
@@ -11274,13 +11278,16 @@ lti#:#launched#:#Resursen har redan startats.
 lti#:#learning_progress_options#:#Alternativ för lärande framsteg
 lti#:#lm_only_one_download_per_type#:#Endast en fil per typ (XML, HTML, SCORM) kan göras tillgänglig för nedladdning.
 lti#:#lti13_hints#:#Om verktyget skapades utan dynamisk registrering måste följande data anges för att verktyget ska kunna köras.
+lti#:#lti_13_authentication_url#:#Authentication Request URL###04 12 2025 new variable
 lti#:#lti_13_client_id#:#Klient-ID
 lti#:#lti_13_deployment_id#:#ID för utplacering
+lti#:#lti_13_keyset_url#:#Public Keyset URL###04 12 2025 new variable
 lti#:#lti_13_platform_id#:#Platform ID
 lti#:#lti_13_step1#:#Steg 1
 lti#:#lti_13_step1_info#:#För den initierande plattformen (konsumenten), ange följande adress för Launch URL, Initiate Login URL, Redirection URI och Registration URL
 lti#:#lti_13_step2#:#Steg 2
 lti#:#lti_13_step2_info#:#Du kommer att få information från den initierande plattformen (konsumenten) som du måste ange i följande fält. Efter att ha sparat är LTI 1.3-funktionerna tillgängliga.
+lti#:#lti_13_token_url#:#Access Token URL###04 12 2025 new variable
 lti#:#lti_action_accept_provider_as_global#:#Tillämpa leverantören eller verktyget globalt för alla användare.
 lti#:#lti_action_accept_providers_as_global#:#Ta över leverantören eller verktyget som en global leverantör eller ett globalt verktyg.
 lti#:#lti_action_delete_providers#:#Ta bort leverantör eller verktyg
@@ -11294,6 +11301,8 @@ lti#:#lti_at_least_one_prov_has_usages#:#Minst en leverantör eller ett verktyg 
 lti#:#lti_auth_failed_invalid_key#:#Autentisering inte möjlig. Ingen giltig konsumentnyckel överfördes.
 lti#:#lti_con_content_item#:#Stöd för djuplänkning
 lti#:#lti_con_content_item_url#:#URL för innehåll
+lti#:#lti_con_grade_synchronization#:#Assignment and Grade Services###04 12 2025 new variable
+lti#:#lti_con_grade_synchronization_info#:#The LTI tool must offer 'Assignment and Grade Services'.###04 12 2025 new variable
 lti#:#lti_con_initiate_login_url#:#Initiera inloggnings-URL
 lti#:#lti_con_key_type#:#Typ av den offentliga nyckeln
 lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)
@@ -11313,6 +11322,10 @@ lti#:#lti_con_prov_category_info#:#Kategori för att filtrera poster när ett LT
 lti#:#lti_con_prov_custom_params#:#Användardefinierade parametrar för denna specifika leverantör
 lti#:#lti_con_prov_custom_params_info#:#Var god ange dem i formuläret
 lti#:#lti_con_prov_description#:#Beskrivning
+lti#:#lti_con_prov_dyn_reg_params#:#Optional Parameters###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_params_info#:#Here, for example, references to target objects in the tool can be specified.###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_url#:#Registration URL of the Tool###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_url_info#:#Note: Not every tool supports dynamic registration.###04 12 2025 new variable
 lti#:#lti_con_prov_external_provider#:#Extern leverantör eller externt verktyg
 lti#:#lti_con_prov_external_provider_info#:#När du arbetar med en extern leverantör eller ett externt verktyg visas en notering för användarna. Externa leverantörer eller verktyg kännetecknas av att ILIAS-installatörens inflytande på leverantören eller verktyget är otillräckligt. Detta är fallet o
 lti#:#lti_con_prov_group_options#:#Alternativ för gruppering och filtrering av leverantörer eller verktyg
@@ -11378,13 +11391,16 @@ lti#:#lti_create_lti_user_role#:#Skapa rekommenderad global roll för LTI-använ
 lti#:#lti_cron_title#:#LTI Utfallstjänst
 lti#:#lti_cron_title_desc#:#Överför LTI-användarnas inlärningsförlopp till den anropande plattformen. Detta cron-jobb behövs endast i de fall då inlärningsförloppet måste räknas om på grund av ändrade inställningar.
 lti#:#lti_custom_new#:#Skapa din egen leverantör eller verktygsinställningar
+lti#:#lti_deep_linking_not_available_for_admin_objects#:#Konsumenter som skapats i Administration tillåter inte val av innehåll
 lti#:#lti_delete_consume_provider#:#Ta bort leverantör eller verktyg
 lti#:#lti_delete_consume_providers#:#Ta bort leverantör eller verktyg
 lti#:#lti_delete_provider#:#Ta bort leverantör eller verktyg
+lti#:#lti_dynamic_registration#:#Create Own Settings for Tool with Dynamic Registration (LTI 1.3)###04 12 2025
 lti#:#lti_edit_consumer#:#Edit LTI konsument
 lti#:#lti_exit#:#Avsluta LTI-session
 lti#:#lti_exited#:#LTI-sessionen avslutad
 lti#:#lti_exited_info#:#LTI-sessionen slutfördes framgångsrikt.
+lti#:#lti_form_provider_content_selection#:#Innehållsval
 lti#:#lti_form_provider_create#:#Skapa inställningar för en leverantör eller ett verktyg
 lti#:#lti_form_provider_edit#:#Redigera inställningar för leverantören eller verktyget
 lti#:#lti_form_section_appearance#:#Alternativ för lanseringen
@@ -11436,6 +11452,7 @@ lti#:#subtab_certificate#:#Certifikat
 lti#:#subtab_object_settings#:#Inställningar för objekt
 lti#:#subtab_provider_settings#:#Inställningar för leverantör eller verktyg
 lti#:#tab_content#:#Innehåll
+lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#Placeringar
 lti#:#tab_settings#:#Inställningar

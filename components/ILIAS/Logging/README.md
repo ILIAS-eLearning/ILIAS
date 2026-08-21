@@ -1,60 +1,58 @@
-# Logging Service
+# Logging
 
-Starting with release 5.1 a new logging service based on [Monolog](https://github.com/Seldaek/monolog) is available.
+The Logging components providers loggers to other components in ILIAS. Those Loggers use [Monolog](https://github.com/Seldaek/monolog),
+and  are [PSR-3](https://www.php-fig.org/psr/psr-3/) compliant.
 
-The service provides support for different log levels per component.
+## Configuration
 
-## Activate Logging for Components
+The basic configuration of Logging is done in the `ilias.ini.php` (or alternatively using the Setup). All relevant fields
+are in the section `log`. `path` and `file` determine the location of the log directory and the name of the log file,
+and `default_level` defines the default log level.
 
-To use different log levels for your component, you have to enable "logging" in your module.xml or service.xml.
+Every component and plugin of an ILIAS installation also has its own log level, configurable in the Logging administration.
+If no log level is set explicitly for a component, the default log level is used.
 
-```php
-<?xml version = "1.0" encoding = "UTF-8"?>
-<module xmlns="http://www.w3.org" version="$Id$" id="grp">
-...
-<!-- add a line "logging" the component definition file -->
-	<logging />
-</service>
-```
-
-Call `composer du` to trigger the reading of the XML files.
-
-Different log levels for components can be defined in "ILIAS -> Administration -> Logging -> Components".
-If no component specific log level is given, the the global log level is used.
+Your `ilias.ini.php` may also contain an additional field `level` under `log`. That field doesn't do anything, and
+can be removed.
 
 ## Definition of Log Levels
 
-ILIAS (monolog) support the following log levels defines in [RFC 5424](https://datatracker.ietf.org/doc/html/rfc5424):
+ILIAS (via Monolog) supports the following log levels defined in [RFC 5424](https://datatracker.ietf.org/doc/html/rfc5424):
 
-- DEBUG: Detailed debug information
-- INFO: Interesting event. E.g user logs in
-- NOTICE: Normal but significant events
-- WARNING: Exceptional occurences that are no errors. E.g calls of deprecated methods
-- ERROR: Runtime errors that do not require immediate action
-- CRITICAL: Critical conditions - e.g. a module service is unasable due to missing librarys.
-- ALERT: Immediate action is required.  E.g. no database connection
+- DEBUG: Detailed debug information.
+- INFO: Interesting event, e.g. a user logs in.
+- NOTICE: Normal but significant events.
+- WARNING: Exceptional occurences that are no errors, e.g. calls of deprecated methods.
+- ERROR: Runtime errors that do not require immediate action.
+- CRITICAL: Critical conditions, e.g. a service is unusable due to missing libraries.
+- ALERT: Immediate action is required, e.g. no database connection.
 - EMERGENCY: The system is unusable.
 
 ## Using the Logging Service
 
-An instance of the logging service is available via `$DIC->logger()`. You should reveice the logger for your component by calling a method with your component id on this object.
+work in progress
+
+Loggers are available via their ID through the [`LoggerFactory`](src/Logger/LoggerFactoryInterface.php). To get the
+logger for your component or plugin, with its own log level, use its respective ID. The factory also gives out loggers
+for any other ID, the default log level is then used.
 
 ```php
-
-// Get component logger
-$grp_logger = $DIC->logger->grp();
- 
-// write a message with info log level
-$grp_logger->info('info message');
+$logger = $factory->getLazy('crs');
+$logger->info('Lorem ipsum');
 ```
 
-## Using Placeholders
+Logging also offers a [`DefaultConfigLoggerFactory`](src/Logger/DefaultConfigLoggerFactoryInterface.php), which does not
+depend on the Database component. You should only use it if you need to log anything before the database is initialized.
+As a tradeoff, its loggers will always use the default log level, no matter the ID.
 
-The ilLogger exposes the placeholder feature given by the monolog bundle, which implements a PSR-3 compliant logger interface.
+Note that both factories share the same cache, so it's not possible to get two different loggers with the same ID. If
+your component needs to use both a database-unaware logger and a logger with the correct log level, use a different ID
+for the former (e.g. `crs_default`).
 
-Placeholders should be used to allow escaping of user input just as `$database->quote(...)` is used to escape user input in SQL queries.
+### Using Placeholders
 
-### Example usage
+The Logger exposes the placeholder feature of Monolog. Placeholders should be used to allow escaping of user input just
+as `$database->quote(...)` is used to escape user input in SQL queries.
 
 ```php
 $logger->debug('Lorem ipsum {foo} dolor {bar}.', [

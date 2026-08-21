@@ -552,6 +552,7 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
                 )
             )
         )
+        ->withStepSize(0.0001)
         ->withAdditionalTransformation($this->refinery->kindlyTo()->float())
         ->withValue($score);
 

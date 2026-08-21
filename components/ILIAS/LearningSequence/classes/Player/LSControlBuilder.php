@@ -156,6 +156,9 @@ class LSControlBuilder implements ControlBuilder
             throw new \LogicException("Only one next-control per view...", 1);
         }
         $label = $this->lng->txt('lso_player_next');
+        if ($command === ilLSPlayer::LSO_CMD_FINISH) {
+            $label = $this->lng->txt('lso_player_finish');
+        }
         $cmd = $this->url_builder->getHref($command, $parameter);
         $btn = $this->ui_factory->button()->standard($label, $cmd);
         if ($command === '') {

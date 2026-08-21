@@ -20,10 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Setup\Activities;
 
-use ILIAS\Component\Dependencies\Name;
-use ILIAS\UI\Component\Input\Control\Form\FormInput;
 use ILIAS\Data\Result;
 use ILIAS\Data\Text;
+use ILIAS\Data\Description;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\UI\Component\Input\Factory as InputFactory;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 
 /**
  * This is a stub...
@@ -34,11 +36,11 @@ class GetStatus extends \ILIAS\Component\Activities\Query
     {
     }
 
-    public function getInputDescription(): \ILIAS\UI\Component\Input\Control\Form\FormInput
+    public function getInputDescription(FieldFactory $f): FormInput
     {
     }
 
-    public function getOutputDescription(\ILIAS\Data\Description\Factory $f): \ILIAS\Data\Description\Description
+    public function getOutputDescription(Description\Factory $f): Description\Description
     {
     }
 
@@ -50,7 +52,7 @@ class GetStatus extends \ILIAS\Component\Activities\Query
     {
     }
 
-    public function maybePerformAs(int $usr_id, array $raw_parameters): Result
+    public function maybePerformAs(InputFactory $input_factory, int $usr_id, array $raw_parameters): Result
     {
     }
 }

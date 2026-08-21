@@ -20,13 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\Component\Activities;
 
+use ILIAS\Data\Range;
+
 interface Repository
 {
     /**
      * Get all activities where the name matches the provided regexp.
      *
      * @param string $name_matcher as preg_match can understand
-     * @return Iterator<string, Activity> where keys are the name
+     * @return \Iterator<string, Activity> where keys are the name
      */
     public function getActivitiesByName(string $name_matcher, ?ActivityType $type = null, ?Range $range = null): \Iterator;
 }

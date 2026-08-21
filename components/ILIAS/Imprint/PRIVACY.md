@@ -1,6 +1,6 @@
 # Imprint Privacy
 
-> **Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information by submitting a [Pull Request](docs/development/contributing.md#pull-request-to-the-repositories) or, if you prefer, via the [ILIAS bug tracker](https://mantis.ilias.de). When using the bug tracker, please select the corresponding component in the **Category** field.**
+> **Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information by submitting a [Pull Request](../../../docs/development/contributing.md#pull-request-to-the-repositories) or, if you prefer, via the [ILIAS bug tracker](https://mantis.ilias.de). When using the bug tracker, please select the corresponding component in the **Category** field.**
 
 ## General Information
 
@@ -11,8 +11,8 @@ The imprint page uses the ILIAS page editor (COPage) for content management. The
 ## Integrated Components
 
 - The Imprint component employs the following components, please consult the respective PRIVACY.md files:
-    - [COPage](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/COPage/PRIVACY.md) -- the page editor manages all content storage, including page history, author tracking (creator user ID, last change user ID), and page versioning for the imprint page.
-    - [AccessControl](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/AccessControl/PRIVACY.md) -- manages permissions for editing the imprint page via the RBAC system (`ilPermissionGUI`).
+    - [COPage](../COPage/PRIVACY.md) -- the page editor manages all content storage, including page history, author tracking (creator user ID, last change user ID), and page versioning for the imprint page.
+    - [AccessControl](../AccessControl/PRIVACY.md) -- manages permissions for editing the imprint page via the RBAC system (`ilPermissionGUI`).
     - ILIASObject -- provides the base object framework (`ilObject2`, `ilObject2GUI`) for the legal notice administration object.
 
 ## Data being stored
@@ -23,7 +23,7 @@ The Imprint component does not store personal data in its own database tables. A
 - **User ID of the last editor**: stored as `last_change_user` each time the imprint page is saved.
 - **Page history entries**: each edit creates a history record including the **user ID** of the editor and a **timestamp**, stored in the `page_history` table.
 
-For details on how this data is handled, see the [COPage PRIVACY.md](../COPage/PRIVACY.md](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/COPage/PRIVACY.md).
+For details on how this data is handled, see the [COPage PRIVACY.md](../COPage/PRIVACY.md).
 
 ## Data being presented
 

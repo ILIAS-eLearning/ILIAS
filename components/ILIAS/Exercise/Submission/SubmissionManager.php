@@ -621,10 +621,24 @@ class SubmissionManager
                 \ilFileUtils::makeDirParents($dir);
                 $file = $dir . DIRECTORY_SEPARATOR . $targetfile;
                 if (!is_null($stream)) {
-                    file_put_contents(
-                        $file,
-                        $stream->getContents()
-                    );
+                    $source_stream = $stream->detach();
+                    if (!is_resource($source_stream)) {
+                        throw new \RuntimeException('Unable to read submission stream.');
+                    }
+
+                    $target_stream = fopen($file, 'wb');
+                    if ($target_stream === false) {
+                        throw new \RuntimeException("Unable to open file for writing: $file");
+                    }
+
+                    try {
+                        stream_copy_to_stream(
+                            $source_stream,
+                            $target_stream
+                        );
+                    } finally {
+                        fclose($target_stream);
+                    }
                 }
 
                 // unzip blog/portfolio

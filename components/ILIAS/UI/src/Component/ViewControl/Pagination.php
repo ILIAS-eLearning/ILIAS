@@ -28,6 +28,8 @@ use ILIAS\Data\Range;
 
 /**
  * This describes a Pagination Control
+ *
+ * @deprecated use {@see \ILIAS\UI\Component\Input\ViewControl\Pagination}
  */
 interface Pagination extends Component, JavaScriptBindable, Triggerer
 {

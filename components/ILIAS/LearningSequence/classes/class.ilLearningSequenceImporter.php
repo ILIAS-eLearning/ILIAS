@@ -59,6 +59,26 @@ class ilLearningSequenceImporter extends ilXmlImporter
             LSOPageType::EXTRO->value . ':' . $a_id,
             LSOPageType::EXTRO->value . ':' . (string) $this->obj->getId()
         );
+
+        $a_mapping->addMapping(
+            'components/ILIAS/MetaData',
+            'md',
+            $a_id . ':0:lso',
+            (string) $this->obj->getId() . ':0:lso'
+        );
+
+        $a_mapping->addMapping(
+            "components/ILIAS/Taxonomy",
+            "tax_item",
+            "lso:obj:" . $a_id,
+            (string) $this->obj->getId()
+        );
+        $a_mapping->addMapping(
+            "components/ILIAS/Taxonomy",
+            "tax_item_obj_id",
+            "lso:obj:" . $a_id,
+            (string) $this->obj->getId()
+        );
     }
 
     public function finalProcessing(ilImportMapping $a_mapping): void
@@ -76,6 +96,20 @@ class ilLearningSequenceImporter extends ilXmlImporter
             $new_pg_id = array_pop($parts);
             $new_obj_id = $this->obj->getId();
             ilPageObject::_writeParentId($pg_type, (int) $new_pg_id, (int) $new_obj_id);
+        }
+
+        // taxonomy usages
+        $maps = $a_mapping->getMappingsOfEntity("components/ILIAS/LearningSequence", "lso");
+        foreach ($maps as $old => $new) {
+            if ($old !== "new_id" && (int) $old > 0) {
+                $new_tax_ids = $a_mapping->getMapping("components/ILIAS/Taxonomy", "tax_usage_of_obj", (string) $old);
+                if ($new_tax_ids !== "") {
+                    $tax_ids = explode(":", (string) $new_tax_ids);
+                    foreach ($tax_ids as $tid) {
+                        ilObjTaxonomy::saveUsage((int) $tid, (int) $new);
+                    }
+                }
+            }
         }
     }
 

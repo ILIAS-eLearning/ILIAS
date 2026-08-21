@@ -25,6 +25,8 @@ use ILIAS\UI\Component\Button\Button;
 
 /**
  * This describes a Section Control
+ *
+ * @deprecated no alternative (yet).
  */
 interface Section extends Component
 {
