@@ -19,7 +19,7 @@ issues and incidents should be reported and how they are handled by the responsi
 team, the ILIAS Security Group.
 
 This document is not a guideline on how to set up and operate an ILIAS installation 
-securely. Such instructions can be found in the document /docs/configuration/secure.md
+securely. Such instructions can be found in [docs/configuration/secure.md](../configuration/secure.md).
 
 [//]: # (END about)
 
