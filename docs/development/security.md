@@ -66,9 +66,9 @@ to everyone (full disclosure about one week after the new release is published).
 You will receive an automatic e-mail as confirmation of this.
 3. In the next step, the ILIAS Security Group will assign an issue manager.
 4. The issue manager will look into the issue and try to reproduce the problem.
-5. In accordance with the CRA’s guidelines, the issue manager gives an early warning 
-about an actively exploited vulnerability and/or severe incident to ENISA’s single 
-reporting platform within 24 hours.
+5. In accordance with the CRA's guidelines, the issue manager gives an early warning 
+about an actively exploited vulnerability and/or severe incident to ENISA's single 
+reporting platform within 24 hours of becoming aware of it.
 6. In case of questions, the issue manager will contact you on behalf of the ILIAS 
 association by email. We are grateful for any further help/information you can 
 provide during the analysis and bugfixing process.
