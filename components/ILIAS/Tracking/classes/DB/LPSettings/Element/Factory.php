@@ -22,7 +22,6 @@ namespace ILIAS\Tracking\DB\LPSettings\Element;
 
 class Factory implements FactoryInterface
 {
-
     public function lpSettings(): LPSettingsInterface
     {
         return new LPSettings();

@@ -22,5 +22,4 @@ namespace ILIAS\Tracking\Export;
 
 class Exception extends \Exception
 {
-
 }

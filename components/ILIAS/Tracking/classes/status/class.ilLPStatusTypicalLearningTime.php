@@ -73,7 +73,7 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
         ?object $a_obj = null
     ): int {
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
-        if(
+        if (
             strcmp($this->ilObjDataCache->lookupType($a_obj_id), 'lm') === 0 &&
             ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)
         ) {

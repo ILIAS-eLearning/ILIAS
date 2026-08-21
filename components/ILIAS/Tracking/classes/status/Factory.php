@@ -36,7 +36,8 @@ class Factory implements FactoryInterface
         return new Collection($this, ...$elements);
     }
 
-    public function allLPStatusImplementations(): CollectionInterface {
+    public function allLPStatusImplementations(): CollectionInterface
+    {
         $class_names = (include BuildTrackingArtifactsObjective::PATH())['tracking_lp_status'];
         $elements = [];
         foreach ($class_names as $class_name) {

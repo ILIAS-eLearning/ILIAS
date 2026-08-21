@@ -75,8 +75,7 @@ class LPMarkCollection implements LPMarkCollectionInterface
 
     public function getSubCollectionOfElementsByCompletedStatus(
         bool $completed
-    ): LPMarkCollectionInterface
-    {
+    ): LPMarkCollectionInterface {
         $clone = clone $this;
         $clone->elements = array_filter($clone->elements, fn(LPMarkInterface $element) => $element->isCompleted() === $completed);
         return $clone;
@@ -98,7 +97,8 @@ class LPMarkCollection implements LPMarkCollectionInterface
         return $clone;
     }
 
-    public function getSubCollectionOfElementsWithDistinctUsers(): LPMarkCollectionInterface {
+    public function getSubCollectionOfElementsWithDistinctUsers(): LPMarkCollectionInterface
+    {
         $ids = [];
         $elements = [];
         foreach ($this->elements as $element) {

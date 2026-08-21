@@ -22,7 +22,6 @@ namespace ILIAS\Tracking\DB\LPMarks\Element;
 
 class Factory implements FactoryInterface
 {
-
     public function lpMark(): LPMarkInterface
     {
         return new LPMark();

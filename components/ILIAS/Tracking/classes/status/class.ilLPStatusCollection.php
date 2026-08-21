@@ -525,7 +525,7 @@ class ilLPStatusCollection extends ilLPStatus
     ): void {
         $this->progress_block_settings_repository->setShowBlockForObject(
             $new_object_id,
-            (bool) ((int)$additional_xml_root->attributes()->show_progress_block)
+            (bool) ((int) $additional_xml_root->attributes()->show_progress_block)
         );
     }
 

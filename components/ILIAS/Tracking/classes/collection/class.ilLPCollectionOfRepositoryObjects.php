@@ -20,7 +20,6 @@ declare(strict_types=0);
 
 use ILIAS\Tracking\DB\Factory as TrackingDBFactory;
 
-
 class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 {
     protected static array $possible_items = [];
@@ -316,9 +315,11 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         $this->activateEntries($a_item_ids);
         $grouping_ids = $this->getGroupingIds($a_item_ids);
         $collection = $this->tracking_db_factory->lpCollection()->repository()->readLPCollection($this->obj_id);
-        $all_item_ids = array_unique(array_merge(
-            $collection->getSubCollectionOfItemsByGroupingIds(...$grouping_ids)->getItemIds(),
-            $a_item_ids)
+        $all_item_ids = array_unique(
+            array_merge(
+                $collection->getSubCollectionOfItemsByGroupingIds(...$grouping_ids)->getItemIds(),
+                $a_item_ids
+            )
         );
         $this->releaseGrouping($a_item_ids);
         $adjusted_collection = $collection->getSubCollectionOfItemsByItemIds(...$all_item_ids)
@@ -426,7 +427,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
     {
         $items = $this->getItems();
         $collection = $this->tracking_db_factory->lpCollection()->repository()->readLPCollection($this->obj_id);
-        if(is_null($collection)) {
+        if (is_null($collection)) {
             return [];
         }
         $active_items = $collection->getSubCollectionOfActiveItems();

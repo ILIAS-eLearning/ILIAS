@@ -28,7 +28,6 @@ use ILIAS\Tracking\Status\FactoryInterface as LPStatusFactoryInterface;
 
 class Factory implements FactoryInterface
 {
-
     public function __construct(
         protected LPStatusFactoryInterface $lp_status_factory,
         protected LPSettingsElementFactoryInterface $lp_settings_element_factory,

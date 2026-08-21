@@ -295,7 +295,7 @@ class ilLPStatus implements LPStatusInterface
         // "in progress" status is time dependent here. On the other hand, if they registered
         // to the session, they already accessed the course and should have a "in progress"
         // anyway. But the status on the session itself may not be correct.
-        $valid_user_array =  is_array($a_users) && count($a_users) > 0;
+        $valid_user_array = is_array($a_users) && count($a_users) > 0;
         $db_repository = (new TrackingFactory())->db()->lpMarks()->repository();
         $collection = $db_repository->readAllEntriesOfObject(
             $a_obj_id,

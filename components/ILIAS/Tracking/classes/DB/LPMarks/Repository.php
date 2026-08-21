@@ -199,8 +199,10 @@ class Repository implements RepositoryInterface
         $this->db->manipulate($query);
     }
 
-    public function markAllRowsAsDirty(): void {
-        $query = "UPDATE ut_lp_marks SET status_dirty = " . $this->db->quote(1, ilDBConstants::T_INTEGER);;
+    public function markAllRowsAsDirty(): void
+    {
+        $query = "UPDATE ut_lp_marks SET status_dirty = " . $this->db->quote(1, ilDBConstants::T_INTEGER);
+        ;
         $this->db->manipulate($query);
     }
 

@@ -83,7 +83,8 @@ class LPCollection implements LPCollectionInterface
                 }
                 if ($elements_in_group > $element->getNumObligatory()) {
                     $new_elements[] = $element
-                        ->withNumObligatory(max(1, $element->getNumObligatory()));;
+                        ->withNumObligatory(max(1, $element->getNumObligatory()));
+                    ;
                     continue;
                 }
                 if ($elements_in_group <= $element->getNumObligatory()) {

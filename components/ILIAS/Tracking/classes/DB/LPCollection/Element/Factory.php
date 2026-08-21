@@ -28,7 +28,8 @@ class Factory implements FactoryInterface
         return new LPCollection($this, ...$elements);
     }
 
-    public function lpCollectionElement(): LPCollectionElementInterface {
+    public function lpCollectionElement(): LPCollectionElementInterface
+    {
         return new LPCollectionElement();
     }
 }

@@ -114,11 +114,11 @@ class Writer implements WriterInterface
         $nodes_to_add = [$lp_status->getCustomLPSettingsExportXML($object_id)];
         $ref_stack = [$status_root];
 
-        while(count($nodes_to_add) > 0) {
+        while (count($nodes_to_add) > 0) {
             $current_node_to_add = array_pop($nodes_to_add);
             $pointer_node = array_pop($ref_stack);
             $xml_child_node = $pointer_node->addChild(sprintf('%s', $current_node_to_add->getName()));
-            foreach($current_node_to_add->attributes() as $key => $value) {
+            foreach ($current_node_to_add->attributes() as $key => $value) {
                 $xml_child_node->addAttribute($key, (string) $value);
             }
             $child_count = count($current_node_to_add->children());

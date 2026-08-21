@@ -124,7 +124,7 @@ class ilLPXmlWriter extends ilXmlWriter
 
         $collection = $this->tracking_db_factory->lpMarks()->repository()->readAllEntriesWithStatusChangedAfter($this->getTimestamp());
 
-        foreach($collection as $lp_mark) {
+        foreach ($collection as $lp_mark) {
             $ref_ids = [];
             if ($this->getIncludeRefIds()) {
                 $ref_ids = ilObject::_getAllReferences($lp_mark->getObjectId());

@@ -157,7 +157,7 @@ class ilLPStatusPlugin extends ilLPStatus
     ): int {
         global $DIC;
         $lp_mark = (new TrackingDBFactory($DIC->database()))->lpMarks()->repository()->readEntryForUserOfObject($a_obj_id, $a_user_id);
-        return is_null($lp_mark) ? self::LP_STATUS_NOT_ATTEMPTED_NUM: $lp_mark->getStatus();
+        return is_null($lp_mark) ? self::LP_STATUS_NOT_ATTEMPTED_NUM : $lp_mark->getStatus();
     }
 
     protected static function getPercentageForUser(
@@ -166,7 +166,7 @@ class ilLPStatusPlugin extends ilLPStatus
     ): int {
         global $DIC;
         $lp_mark = (new TrackingDBFactory($DIC->database()))->lpMarks()->repository()->readEntryForUserOfObject($a_obj_id, $a_user_id);
-        return is_null($lp_mark) ? 0: $lp_mark->getPercentage();
+        return is_null($lp_mark) ? 0 : $lp_mark->getPercentage();
     }
 
     public function init(

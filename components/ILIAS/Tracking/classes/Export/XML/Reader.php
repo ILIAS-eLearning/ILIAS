@@ -63,12 +63,12 @@ class Reader implements ReaderInterface
         $xml_root = new SimpleXMLElement($xml);
         $xml_lp_collection = $xml_root->LPCollection;
         $elements = [];
-        foreach($xml_lp_collection->children() as $xml_lp_collection_element) {
+        foreach ($xml_lp_collection->children() as $xml_lp_collection_element) {
             $lp_collection_element = $this->lp_collection_element_factory->lpCollectionElement()
                 ->withNumObligatory((int) $xml_lp_collection_element->attributes()->num_obligatory)
                 ->withLPMode((int) $xml_lp_collection_element->attributes()->lp_mode)
                 ->withItemId((int) $xml_lp_collection_element->attributes()->item_id)
-                ->withIsActive((bool) ((int)$xml_lp_collection_element->attributes()->active))
+                ->withIsActive((bool) ((int) $xml_lp_collection_element->attributes()->active))
                 ->withGroupingId((int) $xml_lp_collection_element->attributes()->grouping_id);
             $elements[] = $lp_collection_element;
         }

@@ -36,8 +36,7 @@ class ilLPStatusCmiXapiPassedWithFailed extends ilLPStatusCmiXapiPassed
 
     public function init(
         Container $DIC
-    ): void
-    {
+    ): void {
         $this->lng = $DIC->language();
     }
 

@@ -41,7 +41,7 @@ class Repository implements RepositoryInterface
             . "WHERE obj_id = " . $this->db->quote($object_id, ilDBConstants::T_INTEGER);
         $res = $this->db->query($query);
         $elements = [];
-        while($row = $res->fetchAssoc()) {
+        while ($row = $res->fetchAssoc()) {
             $elements[] = $this->entryFromRowData($row);
         };
         return $this->element_factory->lpCollectionManual(...$elements);
@@ -93,7 +93,8 @@ class Repository implements RepositoryInterface
         int $object_id
     ): void {
         $query = "DELETE FROM ut_lp_coll_manual" .
-            " WHERE obj_id = " . $this->db->quote($object_id, ilDBConstants::T_INTEGER);;
+            " WHERE obj_id = " . $this->db->quote($object_id, ilDBConstants::T_INTEGER);
+        ;
         $this->db->manipulate($query);
     }
 
