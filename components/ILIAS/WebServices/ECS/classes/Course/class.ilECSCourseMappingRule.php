@@ -125,7 +125,7 @@ class ilECSCourseMappingRule
         $res = $ilDB->query($query);
         $rids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $rids = $row->rid;
+            $rids[] = (int) $row->rid;
         }
         return $rids;
     }
