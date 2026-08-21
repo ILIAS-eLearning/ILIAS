@@ -141,7 +141,7 @@ abstract class ilLPCollection
 
     public function isAssignedEntry(int $a_item_id): bool
     {
-        return in_array($a_item_id, $this->items);
+        return in_array($a_item_id, $this->items ?? []);
     }
 
     protected function addEntry(int $a_item_id): bool
