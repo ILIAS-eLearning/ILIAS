@@ -1,14 +1,14 @@
 # ILIAS Security Policy
 
 ## Table of Contents
-* [About this Document](#about)
+* [About this Document](#about-this-document)
 * [Responsibilities](#responsibilities)
-* [Reporting a Security Issue](#reporting)
-* [Addressing a Security Issue](#addressing)
-* [Process for Fixing Security Issues](#fixing)
+* [Reporting a Security Issue](#reporting-a-security-issue)
+* [Addressing a Security Issue](#addressing-a-security-issue)
+* [Process for Fixing Security Issues](#process-for-fixing-security-issues)
 * [Security Update Notifications](#security-update-notifications)
-* [Security Goals](#goals)
-* [Security Measures](#measures)
+* [Security Goals](#security-goals)
+* [Security Measures](#security-measures)
 * [Contributors](#contributors)
 
 ## About this Document
