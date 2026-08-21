@@ -60,7 +60,7 @@ contain a description of the issue with the scenario in which the problem is tri
 and a description of its implications. Please let us know if the vulnerability has 
 been actively exploited and/or a severe incident has happened. Please provide all 
 necessary steps to reproduce the issue. We kindly ask you to withhold full disclosure 
-of the issue until a fix is ready and the new release has been build and made available 
+of the issue until a fix is ready and the new release has been built and made available 
 to everyone (full disclosure about one week after the new release is published).
 2. Your e-mail creates a new ticket in our internal ticket system for security issues.
 You will receive an automatic e-mail as confirmation of this.
