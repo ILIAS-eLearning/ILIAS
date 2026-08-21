@@ -37,8 +37,8 @@ reports about incidents and security issues in ILIAS. E-mail contact is security
 The ILIAS Security Group is reporting vulnerabilities and incidents to the single reporting 
 platform of ENISA.
 
-The ILIAS Release Manager is responsible for packing and publishing security bugfix releases
-in accordance with the Security Group. Once a security release has been published, the
+The ILIAS Release Manager is responsible for packaging and publishing security bugfix releases
+in coordination with the Security Group. Once a security release has been published, the
 release manager sends a related notification to the admin mailing list.
 
 [//]: # (END responsibilities)
