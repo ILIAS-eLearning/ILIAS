@@ -38,6 +38,7 @@ class ShortlinkRequestBuilder implements RequestBuilder
             str_contains($requested_url, StandardURIBuilder::SHORT)
             || str_contains($requested_url, StandardURIBuilder::LONG)
             || str_contains($requested_url, rtrim(StandardURIBuilder::LONG, '/'))
+            || str_contains($requested_url, '.html')
         ) {
             return null;
         }
