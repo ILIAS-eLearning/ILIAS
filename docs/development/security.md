@@ -115,7 +115,7 @@ rules apply to code authorities as well as to all other developers and contribut
 be named "<ilias_version>_<title_of_fix>.patch" (e.g. "11_my-very-important-fix.patch").
 To create the patch use `git format-patch` with the option `--stdout` from the branch 
 in which you made the fixes
-(e.g. `git format-patch release_9 --stdout > 9_my-very-important-fix.patch`)
+(e.g. `git format-patch release_11 --stdout > 11_my-very-important-fix.patch`)
 to ensure that all commits are in a single patch file, if multiple commits are
 needed to fix the issue. To make the application of the patches as easy as possible,
 **fixes for security issues MUST not contain any unrelated changes**.
