@@ -23,7 +23,6 @@ namespace ILIAS\UI\Implementation\Component\ViewControl;
 use ILIAS\UI\Component\ViewControl as VC;
 use ILIAS\UI\Component\Button\Button;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
-use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Button\Month;
 use ILIAS\UI\Component\Dropdown\Standard as StandardDropdown;
 

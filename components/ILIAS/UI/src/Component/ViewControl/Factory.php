@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\ViewControl;
 
 use ILIAS\UI\Component\Button\Button;
-use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Button\Month;
 use ILIAS\UI\Component\Dropdown\Standard as StandardDropdown;
 

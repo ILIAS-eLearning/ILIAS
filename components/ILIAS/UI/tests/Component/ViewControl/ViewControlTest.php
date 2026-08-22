@@ -187,7 +187,6 @@ EOT;
     public function testViewControlSectionDropdownRender(): void
     {
         $f = $this->getViewControlFactory();
-        $r = $this->getDefaultRenderer();
 
         $back = new I\Component\Button\Standard("", "http://www.ilias.de");
         $next = new I\Component\Button\Standard("", "http://www.github.com");
@@ -195,9 +194,10 @@ EOT;
             new I\Component\Button\Shy("", "http://www.github.com"),
             new I\Component\Button\Shy("", "http://www.ilias.com"),
         ]);
-        $section = $this->getViewControlFactory()->section($back, $dropdown, $next);
+        $r = $this->getDefaultRenderer(null, [$dropdown]);
+        $section = $f->section($back, $dropdown, $next);
         $html = $this->normalizeHTML($r->render($section));
-        $this->assertTrue(str_contains($html, "dropdown-menu"));
+        $this->assertStringContainsString($dropdown->getCanonicalName(), $html);
     }
 
 }

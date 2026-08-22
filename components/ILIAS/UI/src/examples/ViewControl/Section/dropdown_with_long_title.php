@@ -22,6 +22,9 @@ namespace ILIAS\UI\examples\ViewControl\Section;
 
 /**
  * ---
+ * description: >
+ *   Example of a Section View Control using a Dropdown with a long label to demonstrate responsive behavior.
+ *
  * expected output: >
  *   ILIAS shows three controls next to each other: A "Back" glyph, a dropdown
  *   "Second section with a very long title to check the responsive behaviour" and a "Next" glyph.

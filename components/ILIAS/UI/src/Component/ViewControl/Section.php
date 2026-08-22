@@ -22,6 +22,8 @@ namespace ILIAS\UI\Component\ViewControl;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Button\Button;
+use ILIAS\UI\Component\Button\Month;
+use ILIAS\UI\Component\Dropdown\Standard as StandardDropdown;
 
 /**
  * This describes a Section Control
@@ -39,9 +41,7 @@ interface Section extends Component
     public function getNextActions(): Button;
 
     /**
-     * Returns the Default- or Month Button placed in the middle of the control
-     *
-     * @return Component the Default- or Month Button placed in the middle of the control
+     * Returns the Default-, Month Button or Dropdown placed in the middle of the control.
      */
-    public function getSelectorButton(): Component;
+    public function getSelectorButton(): Button|Month|StandardDropdown;
 }
