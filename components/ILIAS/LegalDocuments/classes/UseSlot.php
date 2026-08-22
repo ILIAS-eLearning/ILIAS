@@ -20,13 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments;
 
+use Closure;
 use ILIAS\LegalDocuments\ConsumerSlots\Agreement;
 use ILIAS\LegalDocuments\ConsumerSlots\CriterionToCondition;
 use ILIAS\LegalDocuments\ConsumerSlots\SelfRegistration;
 use ILIAS\LegalDocuments\ConsumerSlots\WithdrawProcess;
 use ILIAS\LegalDocuments\ConsumerSlots\PublicApi;
 use ILIAS\Refinery\Constraint;
-use ILIAS\UI\Component\MainControls\Footer;
 use ilObjUser;
 use ilNonEditableValueGUI;
 use ILIAS\UI\Component\Component;
@@ -40,7 +40,7 @@ interface UseSlot
     public function afterLogin(callable $after_login): self;
 
     /**
-     * @param callable(Footer): Footer $show
+     * @param callable(Closure): Closure $show
      */
     public function showInFooter(callable $show): self;
 

@@ -6,21 +6,23 @@ namespace ILIAS\UI\Examples\Entity\Standard;
 
 /**
  * ---
+ * description: >
+ *   Entities being used to show a made up event object.
  * expected output: >
  *   Entities arrange information about e.g. an object into semantic groups;
- *   this example focusses on the possible contents of those groups and shows
+ *   this example focuses on the possible contents of those groups and shows
  *   a possible representation of a made up event.
  *   From top to bottom, left to right:
+ *   - An icon indents the following.
  *   - There is a precondition; it links to ilias.de.
  *   - An action-dropdown is available with two entries linking to ilias/github.
- *   - An icon indents the following.
- *   - Prominently featured is the event's date proptery.
  *   - Only after that, the title of the event is displayed in bold.
+ *   - Prominently featured is the event's date property.
  *   - A progress meter ("in progress") is followed by detailed properties:
  *     - Room information
  *     - Description
  *     - in one line: Available seats and availability of the event
- *     - in the next line: duration and the information of available redording
+ *     - in the next line: duration and the information of available recording
  *   - The bottom "row" shows two tags on the left
  *   - and two glyphs on the right, the first one with status counter, the second one with
  *     both status- and novelty counter.
@@ -53,7 +55,7 @@ function base()
         $f->button()->shy("ILIAS", "https://www.ilias.de"),
         $f->button()->shy("GitHub", "https://www.github.com")
     ];
-    $entity = $entity->withActions(...$actions);
+    $entity = $entity->withManagingActions(...$actions);
 
     /*
     * Logic for Pulling Availabilty Properties to Blocking Conditions

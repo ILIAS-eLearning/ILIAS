@@ -27,7 +27,7 @@ use ILIAS\StaticURL\Response\Response;
 use ILIAS\StaticURL\Response\Factory;
 use ILIAS\StaticURL\Handler\BaseHandler;
 use ILIAS\StaticURL\Builder\StandardURIBuilder;
-use ILIAS\Data\URI;
+use ILIAS\StaticURL\StaticURLConfig;
 
 class StaticURLHandler extends BaseHandler implements Handler
 {
@@ -68,7 +68,7 @@ class StaticURLHandler extends BaseHandler implements Handler
         Request $request,
         Context $context
     ): string {
-        $target = (new StandardURIBuilder(ILIAS_HTTP_PATH, false))->buildTarget(
+        $target = (new StandardURIBuilder(new StaticURLConfig()))->buildTarget(
             $request->getNamespace(),
             $request->getReferenceId(),
             $request->getAdditionalParameters()

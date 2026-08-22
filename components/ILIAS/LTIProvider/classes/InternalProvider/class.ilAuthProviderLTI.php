@@ -82,14 +82,17 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     {
         global $ilDB;
 
-        // move to connector
+        // Users store the external LTI consumer id in usr_data.auth_mode (lti_<id>).
         $query = /** @lang text */
-            'SELECT consumer_pk from lti2_consumer where enabled = ' . $ilDB->quote(1, 'integer');
+            'SELECT DISTINCT ec.id FROM lti_ext_consumer ec ' .
+            'JOIN lti2_consumer c ON c.ext_consumer_id = ec.id ' .
+            'WHERE ec.active = ' . $ilDB->quote(1, 'integer') . ' ' .
+            'AND c.enabled = ' . $ilDB->quote(1, 'integer');
         $res = $ilDB->query($query);
 
         $sids = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $sids[] = $row->consumer_pk;
+            $sids[] = $row->id;
         }
         return $sids;
     }
@@ -101,14 +104,15 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     {
         global $ilDB;
 
-        // move to connector
+        // Users store the external LTI consumer id in usr_data.auth_mode (lti_<id>).
         $query = /** @lang text */
-            'SELECT distinct(consumer_pk) consumer_pk from lti2_consumer';
+            'SELECT DISTINCT ec.id FROM lti_ext_consumer ec ' .
+            'JOIN lti2_consumer c ON c.ext_consumer_id = ec.id';
         $res = $ilDB->query($query);
 
         $sids = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $sids[] = $row->consumer_pk;
+            $sids[] = $row->id;
         }
         return $sids;
     }
@@ -121,8 +125,9 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     public static function lookupConsumer(int $a_sid): string
     {
         $connector = new ilLTIDataConnector();
-        $consumer = ilLTIPlatform::fromRecordId($a_sid, $connector);
-        return $consumer->getTitle();
+        $consumer = ilLTIPlatform::fromExternalConsumerId($a_sid, $connector);
+
+        return $consumer->getTitle() . ' (ID ' . $a_sid . ')';
     }
 
     /**

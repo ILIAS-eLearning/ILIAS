@@ -595,18 +595,17 @@ class ilExSubmission
         $ass_id = $this->assignment->getId();
 
         foreach ($this->getUserIds() as $user_id) {
-            $ilDB->manipulateF(
-                "DELETE FROM exc_usr_tutor " .
-                "WHERE ass_id = %s AND usr_id = %s AND tutor_id = %s",
-                array("integer", "integer", "integer"),
-                array($ass_id, $user_id, $ilUser->getId())
-            );
-
-            $ilDB->manipulateF(
-                "INSERT INTO exc_usr_tutor (ass_id, obj_id, usr_id, tutor_id, download_time) VALUES " .
-                "(%s, %s, %s, %s, %s)",
-                array("integer", "integer", "integer", "integer", "timestamp"),
-                array($ass_id, $exc_id, $user_id, $ilUser->getId(), ilUtil::now())
+            $ilDB->replace(
+                "exc_usr_tutor",
+                [
+                    "ass_id" => ["integer", $ass_id],
+                    "usr_id" => ["integer", $user_id],
+                    "tutor_id" => ["integer", $ilUser->getId()],
+                ],
+                [
+                    "obj_id" => ["integer", $exc_id],
+                    "download_time" => ["timestamp", ilUtil::now()],
+                ]
             );
         }
     }
@@ -719,8 +718,8 @@ class ilExSubmission
         $next_id = $ilDB->nextId("exc_returned");
         $query = sprintf(
             "INSERT INTO exc_returned " .
-                         "(returned_id, obj_id, user_id, filetitle, ass_id, ts, atext, late, team_id) " .
-                         "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                         "(returned_id, obj_id, user_id, filetitle, ass_id, ts, atext, late, team_id, rid) " .
+                         "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
             $ilDB->quote($next_id, "integer"),
             $ilDB->quote($this->assignment->getExerciseId(), "integer"),
             $ilDB->quote($user_id, "integer"),
@@ -729,7 +728,8 @@ class ilExSubmission
             $ilDB->quote(ilUtil::now(), "timestamp"),
             $ilDB->quote($a_text, "text"),
             $ilDB->quote($this->isLate(), "integer"),
-            $ilDB->quote($team_id, "integer")
+            $ilDB->quote($team_id, "integer"),
+            $ilDB->quote('', "text")
         );
         $ilDB->manipulate($query);
 

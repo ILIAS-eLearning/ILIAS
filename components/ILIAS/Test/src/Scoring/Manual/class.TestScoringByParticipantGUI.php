@@ -282,18 +282,20 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
             );
 
             if ($this->logger->isLoggingEnabled()) {
-                $this->logger->getInteractionFactory()->buildScoringInteraction(
-                    $this->getObject()->getRefId(),
-                    $question_id,
-                    $this->user->getId(),
-                    \ilObjTestAccess::_getParticipantId($active_id),
-                    TestScoringInteractionTypes::QUESTION_GRADED,
-                    [
-                            AdditionalInformationGenerator::KEY_REACHED_POINTS => $reached_points,
-                            AdditionalInformationGenerator::KEY_FEEDBACK => $feedback_text,
-                            AdditionalInformationGenerator::KEY_EVAL_FINALIZED => $this->logger
-                                ->getAdditionalInformationGenerator()->getTrueFalseTagForBool(true)
-                        ]
+                $this->logger->logScoringInteraction(
+                    $this->logger->getInteractionFactory()->buildScoringInteraction(
+                        $this->getObject()->getRefId(),
+                        $question_id,
+                        $this->user->getId(),
+                        \ilObjTestAccess::_getParticipantId($active_id),
+                        TestScoringInteractionTypes::QUESTION_GRADED,
+                        [
+                                AdditionalInformationGenerator::KEY_REACHED_POINTS => $reached_points,
+                                AdditionalInformationGenerator::KEY_FEEDBACK => $feedback_text,
+                                AdditionalInformationGenerator::KEY_EVAL_FINALIZED => $this->logger
+                                    ->getAdditionalInformationGenerator()->getTrueFalseTagForBool(true)
+                            ]
+                    )
                 );
             }
 

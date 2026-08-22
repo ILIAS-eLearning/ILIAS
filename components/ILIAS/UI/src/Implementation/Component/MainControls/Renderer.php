@@ -24,6 +24,7 @@ use ILIAS\UI\Component;
 use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
+use ILIAS\UI\Component\MainControls\Slate\Legacy as LegacySlate;
 use ILIAS\UI\Component\MainControls\Slate\Slate;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\Button\Bulky as IBulky;
@@ -42,6 +43,9 @@ class Renderer extends AbstractComponentRenderer
     public const BLOCK_MAINBAR_ENTRIES = 'trigger_item';
     public const BLOCK_MAINBAR_TOOLS = 'tool_trigger_item';
     public const BLOCK_METABAR_ENTRIES = 'meta_element';
+
+    protected const FOOTER_SECTION_SIZE_MEDIUM = 'md';
+    protected const FOOTER_SECTION_SIZE_SMALL = 'sm';
 
     private array $trigger_signals = [];
 
@@ -166,7 +170,9 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
 
             if ($slate) {
-                $entry = $entry->withAriaRole(ISlate::MENU);
+                if (!$entry instanceof LegacySlate) {
+                    $entry = $entry->withAriaRole(ISlate::MENU);
+                }
 
                 $tpl->setCurrentBlock("slate_item");
                 $tpl->setVariable("SLATE", $default_renderer->render($entry));
@@ -391,6 +397,8 @@ class Renderer extends AbstractComponentRenderer
     {
         $trigger_signals = $this->trigger_signals;
 
+        $this->toJS('close');
+
         $inititally_active = $component->getActive();
 
         $component = $component->withOnLoadCode(
@@ -435,7 +443,12 @@ class Renderer extends AbstractComponentRenderer
             $template->setCurrentBlock('with_additional_item');
             $template->setVariable('ITEM_CONTENT', $this->permanentLink((string) $permanent_url, $default_renderer));
             $template->parseCurrentBlock();
-            $this->parseFooterSection($template, 'permanent-link', $this->txt('footer_permanent_link'));
+            $this->parseFooterSection(
+                $template,
+                'permanent-link',
+                $this->txt('footer_permanent_link'),
+                self::FOOTER_SECTION_SIZE_MEDIUM,
+            );
         }
 
         // maybe render section 2 (link groups):
@@ -452,6 +465,7 @@ class Renderer extends AbstractComponentRenderer
                 'link-groups',
                 $this->txt('footer_link_groups'),
                 $link_groups,
+                self::FOOTER_SECTION_SIZE_SMALL,
             );
         }
 
@@ -465,6 +479,7 @@ class Renderer extends AbstractComponentRenderer
                 'links',
                 $this->txt('footer_links'),
                 $links,
+                self::FOOTER_SECTION_SIZE_SMALL,
             );
         }
 
@@ -488,7 +503,8 @@ class Renderer extends AbstractComponentRenderer
                 $default_renderer,
                 'icons',
                 $this->txt('footer_icons'),
-                $icons
+                $icons,
+                self::FOOTER_SECTION_SIZE_SMALL,
             );
         }
 
@@ -502,6 +518,7 @@ class Renderer extends AbstractComponentRenderer
                 'texts',
                 $this->txt('footer_texts'),
                 $texts,
+                self::FOOTER_SECTION_SIZE_MEDIUM,
             );
         }
 
@@ -512,13 +529,15 @@ class Renderer extends AbstractComponentRenderer
 
     /**
      * @param array<array{0: string|Component\Component|Component\Component[], 1: string|null}> $section_items (use as [$content, $title] = <entry>)
+     * @param string $section_size (self::FOOTER_SECTION_SIZE_MEDIUM|self::FOOTER_SECTION_SIZE_SMALL)
      */
     protected function parseAdditionalFooterSectionItems(
         Template $template,
         RendererInterface $default_renderer,
         string $section_type,
         string $section_label,
-        array $section_items = [],
+        array $section_items,
+        string $section_size,
     ): void {
         foreach ($section_items as [$content, $title]) {
             $template->setCurrentBlock('with_additional_item');
@@ -534,18 +553,20 @@ class Renderer extends AbstractComponentRenderer
             $template->parseCurrentBlock();
         }
 
-        $this->parseFooterSection($template, $section_type, $section_label);
+        $this->parseFooterSection($template, $section_type, $section_label, $section_size);
     }
 
     /**
      * @param array<Component\Symbol\Icon\Icon|Component\Button\Shy> $section_icons
+     * @param string $section_size (self::FOOTER_SECTION_SIZE_MEDIUM|self::FOOTER_SECTION_SIZE_SMALL)
      */
     protected function parseAdditionalFooterSectionIcons(
         Template $template,
         RendererInterface $default_renderer,
         string $section_type,
         string $section_label,
-        array $section_icons = [],
+        array $section_icons,
+        string $section_size,
     ): void {
         foreach ($section_icons as $icon) {
             $template->setCurrentBlock('with_additional_icon');
@@ -553,17 +574,20 @@ class Renderer extends AbstractComponentRenderer
             $template->parseCurrentBlock();
         }
 
-        $this->parseFooterSection($template, $section_type, $section_label);
+        $this->parseFooterSection($template, $section_type, $section_label, $section_size);
     }
 
+    /** @param string $section_size (self::FOOTER_SECTION_SIZE_MEDIUM|self::FOOTER_SECTION_SIZE_SMALL) */
     protected function parseFooterSection(
         Template $template,
         string $section_type,
         string $section_label,
+        string $section_size,
     ): void {
         $template->setCurrentBlock('with_additional_section');
         $template->setVariable('SECTION_TYPE', $section_type);
         $template->setVariable('SECTION_LABEL', $section_label);
+        $template->setVariable('SECTION_SIZE', $section_size);
         $template->parseCurrentBlock();
     }
 

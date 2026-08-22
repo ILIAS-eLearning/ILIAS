@@ -30,10 +30,7 @@ use PHPUnit\Framework\TestCase;
  */
 class FinderTest extends TestCase
 {
-    /**
-     * @throws ReflectionException
-     */
-    private function getFlatFileSystemStructure(): \PHPUnit\Framework\MockObject\MockObject
+    private function getFlatFileSystemStructure(): Filesystem\Filesystem&\PHPUnit\Framework\MockObject\MockObject
     {
         $fileSystem = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
 
@@ -57,10 +54,7 @@ class FinderTest extends TestCase
         return $fileSystem;
     }
 
-    /**
-     * @throws ReflectionException
-     */
-    private function getNestedFileSystemStructure(): \PHPUnit\Framework\MockObject\MockObject
+    private function getNestedFileSystemStructure(): Filesystem\Filesystem&\PHPUnit\Framework\MockObject\MockObject
     {
         $fileSystem = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
 
@@ -114,6 +108,58 @@ class FinderTest extends TestCase
     }
 
     /**
+     * A directory whose path is rejected by the path normalizer cannot be listed,
+     * listContents() reports it as not found. See 0047398.
+     */
+    private function getNestedFileSystemStructureWithAnUnlistableDirectory(): Filesystem\Filesystem&\PHPUnit\Framework\MockObject\MockObject
+    {
+        $fileSystem = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
+
+        $rootMetadata = [
+            new Filesystem\DTO\Metadata('file_1.txt', MetadataType::FILE),
+            new Filesystem\DTO\Metadata('dir_1', MetadataType::DIRECTORY),
+        ];
+
+        $level1Metadata = [
+            new Filesystem\DTO\Metadata('dir_1/file_2.log', MetadataType::FILE),
+            new Filesystem\DTO\Metadata('dir_1/dir_1_1', MetadataType::DIRECTORY),
+            new Filesystem\DTO\Metadata('dir_1/dir_1_2', MetadataType::DIRECTORY),
+        ];
+
+        $level12Metadata = [
+            new Filesystem\DTO\Metadata('dir_1/dir_1_2/file_3.py', MetadataType::FILE),
+        ];
+
+        $fileSystem
+            ->expects($this->atLeast(1))
+            ->method('listContents')
+            ->willReturnCallback(function ($path) use (
+                $rootMetadata,
+                $level1Metadata,
+                $level12Metadata
+            ): array {
+                if ('/' === $path) {
+                    return $rootMetadata;
+                }
+                if ('dir_1' === $path) {
+                    return $level1Metadata;
+                }
+                if ('dir_1/dir_1_1' === $path) {
+                    throw new Filesystem\Exception\DirectoryNotFoundException(
+                        "Directory \"$path\" not found."
+                    );
+                }
+                if ('dir_1/dir_1_2' === $path) {
+                    return $level12Metadata;
+                }
+
+                return [];
+            });
+
+        return $fileSystem;
+    }
+
+    /**
      * @throws ReflectionException
      */
     public function testFinderWillFindNoFilesOrFoldersInAnEmptyDirectory(): void
@@ -129,9 +175,6 @@ class FinderTest extends TestCase
         $this->assertEmpty(iterator_count($finder));
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testFinderWillFindFilesAndFoldersInFlatStructure(): void
     {
         $finder = (new Finder($this->getFlatFileSystemStructure()))->in(['/']);
@@ -141,9 +184,6 @@ class FinderTest extends TestCase
         $this->assertCount(2, $finder->files());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testFinderWillFindFilesAndFoldersInNestedStructure(): void
     {
         $finder = (new Finder($this->getNestedFileSystemStructure()))->in(['/']);
@@ -151,6 +191,20 @@ class FinderTest extends TestCase
         $this->assertCount(11, $finder);
         $this->assertCount(4, $finder->directories());
         $this->assertCount(7, $finder->files());
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testFinderWillSkipDirectoriesWhichCannotBeListed(): void
+    {
+        $finder = (new Finder($this->getNestedFileSystemStructureWithAnUnlistableDirectory()))->in(['/']);
+
+        // the unlistable directory itself is still reported by its parent, only its
+        // content is missing, the traversal of the remaining tree continues
+        $this->assertCount(6, $finder);
+        $this->assertCount(3, $finder->directories());
+        $this->assertCount(3, $finder->files());
     }
 
     /**
@@ -191,9 +245,6 @@ class FinderTest extends TestCase
         $this->assertCount(3, $exactlyLevel2Finder->files());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testFinderWillNotSearchInExcludedFolders(): void
     {
         $finder = (new Finder($this->getNestedFileSystemStructure()))->in(['/']);
@@ -209,12 +260,9 @@ class FinderTest extends TestCase
         $this->assertCount(6, $finderWithMultipleExcludedDirs->files());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testFinderWillFilterFilesAndFoldersByCreationTimestamp(): Filesystem\Filesystem
     {
-        $now = new \DateTimeImmutable('2019-03-30 13:00:00');
+        $now = new DateTimeImmutable('2019-03-30 13:00:00');
 
         $fs = $this->getNestedFileSystemStructure();
         $fs->method('has')->willReturn(true);
@@ -222,7 +270,7 @@ class FinderTest extends TestCase
         $fs
             ->expects($this->atLeast(1))
             ->method('getTimestamp')
-            ->willReturnCallback(function ($path) use ($now): \DateTimeImmutable {
+            ->willReturnCallback(function ($path) use ($now): DateTimeImmutable {
                 return match ($path) {
                     'file_1.txt' => $now,
                     'file_2.mp3' => $now->modify('+1 hour'),
@@ -231,7 +279,7 @@ class FinderTest extends TestCase
                     'dir_1/dir_1_1/file_5.cpp' => $now->modify('+4 hour'),
                     'dir_1/dir_1_2/file_6.py' => $now->modify('+5 hour'),
                     'dir_1/dir_1_2/file_7.cpp' => $now->modify('+6 hour'),
-                    default => new \DateTimeImmutable('now'),
+                    default => new DateTimeImmutable('now'),
                 };
             });
 
@@ -250,9 +298,6 @@ class FinderTest extends TestCase
         return $fs;
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testFinderWillFilterFilesBySize(): void
     {
         $fs = $this->getNestedFileSystemStructure();
@@ -260,7 +305,7 @@ class FinderTest extends TestCase
 
         $fs->expects($this->atLeast(1))
             ->method('getSize')
-            ->willReturnCallback(function ($path): \ILIAS\Data\DataSize {
+            ->willReturnCallback(function ($path): DataSize {
                 return match ($path) {
                     'file_1.txt' => new DataSize(PHP_INT_MAX, DataSize::Byte),
                     'file_2.mp3' => new DataSize(1024, DataSize::Byte),
@@ -315,5 +360,48 @@ class FinderTest extends TestCase
         $all = array_values(iterator_to_array($customSortFinder->reverseSorting()->getIterator()));
         $last = $all[iterator_count($customSortFinder) - 1];
         $this->assertEquals('dir_1/dir_1_1/file_5.cpp', $last->getPath());
+    }
+
+    public function testFinderCanLimitTheResultSet(): void
+    {
+        $finder = (new Finder($this->getNestedFileSystemStructure()))->in(['/']);
+
+        $this->assertCount(5, $finder->limit(5));
+        $this->assertCount(0, $finder->limit(0));
+
+        $limited_sorted_files = array_values(iterator_to_array($finder->files()->sortByName()->limit(2)));
+        $this->assertCount(2, $limited_sorted_files);
+        $this->assertEquals('dir_1/dir_1_1/file_5.cpp', $limited_sorted_files[0]->getPath());
+        $this->assertEquals('dir_1/dir_1_2/file_6.py', $limited_sorted_files[1]->getPath());
+    }
+
+    public function testFinderLimitRejectsNegativeValues(): void
+    {
+        $fs = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
+        $finder = (new Finder($fs))->in(['/']);
+        $this->expectException(InvalidArgumentException::class);
+        $finder->limit(-1);
+    }
+
+    public function testFinderHasAnyDetectsMatchingAndMissingResults(): void
+    {
+        $empty_fs = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
+        $empty_fs->method('listContents')->willReturn([]);
+        $empty_finder = (new Finder($empty_fs))->in(['/']);
+        $this->assertFalse($empty_finder->hasAny());
+
+        $finder = (new Finder($this->getNestedFileSystemStructure()))->in(['/']);
+        $this->assertTrue($finder->hasAny());
+        $this->assertTrue($finder->files()->hasAny());
+        $this->assertFalse($finder->files()->depth('> 2')->hasAny());
+    }
+
+    public function testFinderHasAnySkipsExpensiveSortingForExistenceChecks(): void
+    {
+        $fs = $this->getFlatFileSystemStructure();
+        $fs->expects($this->never())->method('getTimestamp');
+
+        $finder = (new Finder($fs))->in(['/']);
+        $this->assertTrue($finder->files()->sortByTime()->hasAny());
     }
 }

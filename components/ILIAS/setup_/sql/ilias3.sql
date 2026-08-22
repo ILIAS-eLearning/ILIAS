@@ -1,9 +1,9 @@
 /*M!999999\- enable the sandbox mode */ 
--- MariaDB dump 10.19  Distrib 10.6.22-MariaDB, for debian-linux-gnu (x86_64)
+-- MariaDB dump 10.19  Distrib 10.6.23-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: ilias_release
 -- ------------------------------------------------------
--- Server version	10.6.22-MariaDB-0ubuntu0.22.04.1
+-- Server version	10.6.23-MariaDB-0ubuntu0.22.04.1
 
 --
 -- Table structure for table `acc_access_key`
@@ -2038,7 +2038,7 @@ CREATE TABLE `cmi_comment_seq` (
 CREATE TABLE `cmi_correct_response` (
   `cmi_correct_resp_id` int(11) NOT NULL DEFAULT 0,
   `cmi_interaction_id` int(11) DEFAULT NULL,
-  `pattern` varchar(255) DEFAULT NULL,
+  `pattern` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`cmi_correct_resp_id`),
   KEY `i1_idx` (`cmi_interaction_id`)
 ) ;
@@ -2114,7 +2114,7 @@ CREATE TABLE `cmi_interaction` (
   `cmi_interaction_id` int(11) NOT NULL DEFAULT 0,
   `cmi_node_id` int(11) DEFAULT NULL,
   `description` longtext DEFAULT NULL,
-  `id` varchar(255) DEFAULT NULL,
+  `id` varchar(4000) DEFAULT NULL,
   `latency` varchar(20) DEFAULT NULL,
   `result` varchar(4000) DEFAULT NULL,
   `c_timestamp` varchar(40) DEFAULT NULL,
@@ -2122,7 +2122,7 @@ CREATE TABLE `cmi_interaction` (
   `weighting` double DEFAULT NULL,
   `learner_response` longtext DEFAULT NULL,
   PRIMARY KEY (`cmi_interaction_id`),
-  KEY `i2_idx` (`id`),
+  KEY `i2_idx` (`id`(1024)),
   KEY `i3_idx` (`c_type`),
   KEY `i4_idx` (`cmi_node_id`)
 ) ;
@@ -7126,6 +7126,7 @@ INSERT INTO `il_db_steps` VALUES ('ilCourseDBUpdateSteps',1,'2025-07-18 06:53:07
 INSERT INTO `il_db_steps` VALUES ('ilCourseObjectiveDBUpdateSteps',1,'2023-12-12 16:39:39.691358','2023-12-12 16:39:39.698495');
 INSERT INTO `il_db_steps` VALUES ('ilCourseObjectiveDBUpdateSteps',2,'2023-12-12 16:39:39.699161','2023-12-12 16:39:39.705726');
 INSERT INTO `il_db_steps` VALUES ('ilCourseObjectiveDBUpdateSteps',3,'2025-07-18 06:53:07.412535','2025-07-18 06:53:07.415155');
+INSERT INTO `il_db_steps` VALUES ('ilCourseObjectiveDBUpdateSteps',4,'2026-05-26 15:12:54.610946','2026-05-26 15:12:54.614978');
 INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',1,'2023-12-12 16:39:41.316207','2023-12-12 16:39:41.325405');
 INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',2,'2023-12-12 16:39:41.326018','2023-12-12 16:39:41.340462');
 INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',3,'2023-12-12 16:39:41.341252','2023-12-12 16:39:41.349406');
@@ -7133,6 +7134,7 @@ INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',4,'2023-12-12 16:3
 INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',5,'2023-12-12 16:39:41.357629','2023-12-12 16:39:41.364305');
 INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',6,'2023-12-12 16:39:41.364838','2023-12-12 16:39:41.371618');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps10',1,'2025-08-26 15:16:08.639522','2025-08-26 15:16:08.640706');
+INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps10',2,'2026-07-07 14:25:30.783186','2026-07-07 14:25:30.783938');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps9',1,'2023-12-12 16:39:39.706792','2023-12-12 16:39:39.715602');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps9',2,'2023-12-12 16:39:39.716246','2023-12-12 16:39:39.739058');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps9',3,'2023-12-12 16:39:39.739786','2023-12-12 16:39:39.748476');
@@ -7282,6 +7284,7 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\GlobalScreen_\\UI\\Footer\\Setup\\DB10
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\GlobalScreen_\\UI\\Footer\\Setup\\DB100',3,'2025-07-18 06:53:06.890586','2025-07-18 06:53:06.894480');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\GlobalScreen_\\UI\\Footer\\Setup\\DB100',4,'2025-07-18 06:53:06.894725','2025-07-18 06:53:06.897315');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\GlobalScreen_\\UI\\Footer\\Setup\\DB100',5,'2025-07-18 06:53:06.897582','2025-07-18 06:53:06.898096');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Help\\Setup\\ilHelpDB10HotfixSteps',1,'2026-03-10 16:31:24.642927','2026-03-10 16:31:24.648560');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Help\\Setup\\ilHelpDBUpdateSteps',1,'2023-12-12 16:39:38.874568','2023-12-12 16:39:38.880049');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Help\\Setup\\ilHelpDBUpdateSteps',2,'2023-12-12 16:39:38.880668','2023-12-12 16:39:38.886115');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Help\\Setup\\ilHelpDBUpdateSteps',3,'2023-12-12 16:39:38.886720','2023-12-12 16:39:38.887276');
@@ -7289,6 +7292,7 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\Help\\Setup\\ilHelpDBUpdateSteps',4,'2
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Help\\Setup\\ilHelpDBUpdateSteps',5,'2025-12-16 16:31:28.054187','2025-12-16 16:31:28.058926');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\ItemGroup\\Setup\\ilItemGroupDBUpdateSteps',1,'2023-12-12 16:39:38.894598','2023-12-12 16:39:38.900233');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\ItemGroup\\Setup\\ilItemGroupDBUpdateSteps',2,'2023-12-12 16:39:38.900874','2023-12-12 16:39:38.906340');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\ItemGroup\\Setup\\ilItemGroupDBUpdateSteps',3,'2026-07-07 14:25:30.775126','2026-07-07 14:25:30.778780');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\LDAP\\Setup\\LDAPBindPasswordFieldMigration',1,'2025-07-18 06:53:07.061046','2025-07-18 06:53:07.065188');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\LearningModule\\Setup\\LearningModuleDBUpdateSteps',1,'2023-12-12 16:39:38.907450','2023-12-12 16:39:38.912966');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\LearningModule\\Setup\\LearningModuleDBUpdateSteps',2,'2023-12-12 16:39:38.913604','2023-12-12 16:39:38.919087');
@@ -7323,6 +7327,7 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\Poll\\Setup\\DBUpdateSteps10',1,'2025-
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Poll\\Setup\\DBUpdateSteps10',2,'2025-07-18 06:53:07.056777','2025-07-18 06:53:07.059056');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Portfolio\\Setup\\ilPortfolioDBUpdateSteps',1,'2023-12-12 16:39:39.093581','2023-12-12 16:39:39.105685');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Portfolio\\Setup\\ilPortfolioDBUpdateSteps',2,'2025-07-18 06:53:06.879129','2025-07-18 06:53:06.879418');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Portfolio\\Setup\\ilPortfolioDBUpdateSteps',3,'2026-03-10 16:31:24.651310','2026-03-10 16:31:24.651612');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Repository\\Setup\\RepositoryDBUpdateSteps',1,'2023-12-12 16:39:39.106736','2023-12-12 16:39:39.107544');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Repository\\Setup\\RepositoryDBUpdateSteps',2,'2025-07-18 06:53:07.317247','2025-07-18 06:53:07.318819');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',1,'2023-12-12 16:39:39.108632','2023-12-12 16:39:39.120662');
@@ -7346,6 +7351,7 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdate
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',19,'2024-01-31 14:38:25.398856','2024-01-31 14:38:25.399275');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',20,'2024-04-30 15:11:09.017679','2024-04-30 15:11:09.018014');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',21,'2025-07-18 06:53:06.838357','2025-07-18 06:53:06.840247');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',22,'2026-04-21 16:00:11.283501','2026-04-21 16:00:11.283884');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\SurveyQuestionPool\\Setup\\SurveyQuestionPoolDBUpdateSteps',1,'2025-07-18 06:53:07.066560','2025-07-18 06:53:07.068398');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test10DBUpdateSteps',1,'2025-07-18 06:53:07.209600','2025-07-18 06:53:07.213786');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test10DBUpdateSteps',2,'2025-07-18 06:53:07.214054','2025-07-18 06:53:07.214388');
@@ -7361,6 +7367,9 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test10DBUpdateSteps',11,'
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test10DBUpdateSteps',12,'2025-07-18 06:53:07.278684','2025-07-18 06:53:07.283826');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test10DBUpdateSteps',13,'2025-07-18 06:53:07.284103','2025-07-18 06:53:07.284491');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test10DBUpdateSteps',14,'2025-07-18 06:53:07.284730','2025-07-18 06:53:07.284965');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test10DBUpdateSteps',15,'2026-03-10 16:31:24.638838','2026-03-10 16:31:24.639090');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test10DBUpdateSteps',16,'2026-04-21 16:00:11.285002','2026-04-21 16:00:11.289718');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test10DBUpdateSteps',17,'2026-04-21 16:00:11.290009','2026-04-21 16:00:11.292831');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test9DBUpdateSteps',1,'2025-07-18 06:53:07.128907','2025-07-18 06:53:07.132259');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test9DBUpdateSteps',2,'2025-07-18 06:53:07.134005','2025-07-18 06:53:07.137416');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test9DBUpdateSteps',3,'2025-07-18 06:53:07.138807','2025-07-18 06:53:07.141647');
@@ -7533,6 +7542,9 @@ INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB90',3,'2023-12-12 16:39:40
 INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB90',4,'2023-12-12 16:39:40.027697','2023-12-12 16:39:40.032367');
 INSERT INTO `il_db_steps` VALUES ('ilScorm2004DatabaseUpdateSteps',1,'2025-11-04 16:18:51.922597','2025-11-04 16:18:51.925280');
 INSERT INTO `il_db_steps` VALUES ('ilScorm2004DatabaseUpdateSteps',2,'2025-11-04 16:18:51.925565','2025-11-04 16:18:51.931400');
+INSERT INTO `il_db_steps` VALUES ('ilScorm2004DatabaseUpdateSteps',3,'2026-03-10 16:31:24.633455','2026-03-10 16:31:24.637422');
+INSERT INTO `il_db_steps` VALUES ('ilScorm2004DatabaseUpdateSteps',4,'2026-07-07 14:25:30.765703','2026-07-07 14:25:30.767894');
+INSERT INTO `il_db_steps` VALUES ('ilScorm2004DatabaseUpdateSteps',5,'2026-07-07 14:25:30.768150','2026-07-07 14:25:30.770780');
 INSERT INTO `il_db_steps` VALUES ('ilScormAiccDatabaseUpdateSteps',1,'2024-01-31 14:38:25.408514','2024-01-31 14:38:25.417677');
 INSERT INTO `il_db_steps` VALUES ('ilSessionDBUpdateSteps9',1,'2023-12-12 16:39:40.848750','2023-12-12 16:39:40.854713');
 INSERT INTO `il_db_steps` VALUES ('ilSessionDBUpdateSteps9',2,'2023-12-12 16:39:40.855241','2023-12-12 16:39:40.869825');
@@ -11426,6 +11438,8 @@ CREATE TABLE `itgr_data` (
   `behaviour` tinyint(4) DEFAULT 0,
   `list_presentation` varchar(10) DEFAULT NULL,
   `tile_size` tinyint(4) NOT NULL DEFAULT 0,
+  `display` varchar(255) NOT NULL DEFAULT 'with_title',
+  `toggleable_initially` varchar(255) NOT NULL DEFAULT 'with_title_and_toggleable_initially_open',
   PRIMARY KEY (`id`)
 ) ;
 
@@ -12132,7 +12146,7 @@ CREATE TABLE `loc_tst_run` (
   `user_id` int(11) NOT NULL DEFAULT 0,
   `test_id` int(11) NOT NULL DEFAULT 0,
   `objective_id` int(11) NOT NULL DEFAULT 0,
-  `max_points` int(11) DEFAULT 0,
+  `max_points` double DEFAULT 0,
   `questions` varchar(1000) DEFAULT '0',
   PRIMARY KEY (`container_id`,`user_id`,`test_id`,`objective_id`)
 ) ;
@@ -13890,7 +13904,7 @@ INSERT INTO `object_data` VALUES (34,'typ','lm','Learning module Object',-1,'200
 INSERT INTO `object_data` VALUES (35,'typ','notf','Note Folder Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL,NULL);
 INSERT INTO `object_data` VALUES (36,'typ','note','Note Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL,NULL);
 INSERT INTO `object_data` VALUES (37,'typ','frm','Forum object',-1,'2002-07-15 15:54:22','2003-08-15 12:36:40','',NULL,NULL);
-INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2026-01-20 16:18:03','',NULL,NULL);
+INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2026-08-11 13:49:26','',NULL,NULL);
 INSERT INTO `object_data` VALUES (71,'lng','de','not_installed',6,'2003-08-15 10:25:19','2015-12-22 16:29:24','',NULL,NULL);
 INSERT INTO `object_data` VALUES (72,'lng','es','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL,NULL);
 INSERT INTO `object_data` VALUES (73,'lng','it','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL,NULL);
@@ -16390,7 +16404,6 @@ INSERT INTO `rbac_operations` VALUES (52,'moderate','Moderate objects','object',
 INSERT INTO `rbac_operations` VALUES (55,'edit_learning_progress','edit learning progress','object',3600);
 INSERT INTO `rbac_operations` VALUES (57,'export_member_data','Export member data','object',0);
 INSERT INTO `rbac_operations` VALUES (58,'copy','Copy Object','general',4000);
-INSERT INTO `rbac_operations` VALUES (59,'create_feed','create external feed','create',9999);
 INSERT INTO `rbac_operations` VALUES (60,'create_mcst','create media cast','create',9999);
 INSERT INTO `rbac_operations` VALUES (61,'create_rcrs','create remote course','create',9999);
 INSERT INTO `rbac_operations` VALUES (62,'add_thread','Add Threads','object',3100);
@@ -20302,7 +20315,8 @@ CREATE TABLE `sahs_user` (
   `percentage_completed` tinyint(4) DEFAULT NULL,
   `first_access` datetime DEFAULT NULL,
   `last_status_change` datetime DEFAULT NULL,
-  PRIMARY KEY (`obj_id`,`user_id`)
+  PRIMARY KEY (`obj_id`,`user_id`),
+  KEY `i1_idx` (`user_id`)
 ) ;
 
 --
@@ -20781,7 +20795,7 @@ INSERT INTO `settings` VALUES ('common','ilfrmnoti1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmreadidx1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmthri2','1');
 INSERT INTO `settings` VALUES ('common','ilGlobalTstPoolUsageSettingInitilisation','1');
-INSERT INTO `settings` VALUES ('common','ilias_version','10.5.0');
+INSERT INTO `settings` VALUES ('common','ilias_version','10.10.0');
 INSERT INTO `settings` VALUES ('common','ilinc_akclassvalues_required','1');
 INSERT INTO `settings` VALUES ('common','ilmpathix','1');
 INSERT INTO `settings` VALUES ('common','iloscmsgidx1','1');
@@ -23916,8 +23930,8 @@ CREATE TABLE `tst_rnd_quest_set_qpls` (
   `def_id` int(11) NOT NULL DEFAULT 0,
   `test_fi` int(11) NOT NULL DEFAULT 0,
   `pool_fi` int(11) NOT NULL DEFAULT 0,
-  `pool_title` varchar(255) DEFAULT NULL,
-  `pool_path` varchar(512) DEFAULT NULL,
+  `pool_title` varchar(255) NOT NULL DEFAULT '',
+  `pool_path` varchar(512) NOT NULL DEFAULT '',
   `pool_quest_count` int(11) DEFAULT NULL,
   `origin_tax_fi` int(11) DEFAULT NULL,
   `origin_node_fi` int(11) DEFAULT NULL,
@@ -25725,4 +25739,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2026-01-20 16:18:04
+-- Dump completed on 2026-08-11 13:49:27

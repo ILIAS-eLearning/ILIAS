@@ -288,7 +288,7 @@ class ilSurveyEvaluationGUI
     ): void {
         $finished_ids = null;
         if ($this->object->get360Mode()) {
-            $appr_id = $this->request->getAppraiseeId();
+            $appr_id = $this->getAppraiseeId();
             if (!$appr_id) {
                 $this->ctrl->redirect($this, $details ? "evaluationdetails" : "evaluation");
             }
@@ -1053,7 +1053,7 @@ class ilSurveyEvaluationGUI
 
         $finished_ids = null;
         if ($this->object->get360Mode()) {
-            $appr_id = $this->request->getAppraiseeId();
+            $appr_id = $this->getAppraiseeId();
             if (!$appr_id) {
                 $this->ctrl->redirect($this, "evaluationuser");
             }

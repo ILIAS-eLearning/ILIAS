@@ -612,7 +612,7 @@ class ilObjMediaObject extends ilObject
                         }
                     }
                     if ($this->getVideoPreviewPic(false)) {
-                        $xml .= "<PreviewPic File=\"" . $this->getVideoPreviewPic(false) .
+                        $xml .= "<PreviewPic File=\"" . $this->handleAmps($this->getVideoPreviewPic(false)) .
                             "\" />";
                     }
                     if ($item->getLocationType() == "LocalFile") {

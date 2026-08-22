@@ -27,4 +27,6 @@ interface Response
 
     public function targetCanBeReached(): bool;
 
+    public function shift(): int;
+
 }

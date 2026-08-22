@@ -65,6 +65,15 @@ class ilSoapFileAdministration extends ilSoapAdministration
 
         // create object, put it into the tree and use the parser to update the settings
 
+        // SECURITY (ILIAS10-025) - defence in depth: COPY/REST modes are internal
+        // import/zip mechanisms and must not be reachable via externally supplied XML.
+        if (preg_match('/\bmode="(?:COPY|REST)"/i', $file_xml)) {
+            return $this->raiseError(
+                'mode="COPY" and mode="REST" are not permitted in SOAP addFile.',
+                'Client'
+            );
+        }
+
         $file = new ilObjFile();
         try {
             $fileXMLParser = new ilFileXMLParser($file, $file_xml);

@@ -283,7 +283,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
                 $data["latency_seconds"] = round(ilObjSCORM2004LearningModule::_ISODurationToCentisec($data["latency"]) / 100);
             }
             $data["c_timestamp"] = "" . $data["c_timestamp"];
-	    $data["learner_response"] = str_replace('"', '', (string) ($data["learner_response"] ?? ''));
+            $data["learner_response"] = str_replace('"', '', (string) ($data["learner_response"] ?? ''));
             $returnData[] = $data;
         }
         //		var_dump($returnData);

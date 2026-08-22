@@ -31,7 +31,13 @@ class XAccelResponseBuilder implements ResponseBuilder
 {
     private const DATA = 'data';
     private const SECURED_DATA = 'secured-data';
+    private const SECURED_EXT_DATA = 'secured-ext-data';
     private const X_ACCEL_REDIRECT_HEADER = 'X-Accel-Redirect';
+
+    public function __construct(private string $external_data_dir)
+    {
+        $this->external_data_dir = rtrim($this->external_data_dir, '/') . '/';
+    }
 
     public function getName(): string
     {
@@ -49,6 +55,12 @@ class XAccelResponseBuilder implements ResponseBuilder
                 './' . self::DATA . '/',
                 '/' . self::SECURED_DATA
                 . '/',
+                $path_to_file
+            );
+        } elseif (str_starts_with((string) $path_to_file, $this->external_data_dir)) {
+            $path_to_file = str_replace(
+                $this->external_data_dir,
+                '/' . self::SECURED_EXT_DATA . '/',
                 $path_to_file
             );
         }

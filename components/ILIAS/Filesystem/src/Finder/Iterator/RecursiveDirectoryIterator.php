@@ -21,81 +21,70 @@ declare(strict_types=1);
 namespace ILIAS\Filesystem\Finder\Iterator;
 
 use ILIAS\Filesystem\DTO\Metadata;
+use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
 use ILIAS\Filesystem\Filesystem;
 
 /**
- * Class RecursiveDirectoryIterator
- * @package ILIAS\Filesystem\Finder\Iterator
- * @author  Michael Jansen <mjansen@databay.de>
+ * @implements \RecursiveIterator<Metadata>
  */
 class RecursiveDirectoryIterator implements \RecursiveIterator
 {
-    /** @var Metadata[] */
-    protected array $files = [];
+    /** @var array<non-empty-string, Metadata> */
+    private array $files = [];
 
-    /**
-     * RecursiveDirectoryIterator constructor.
-     */
-    public function __construct(private Filesystem $filesystem, protected string $dir)
-    {
+    public function __construct(
+        private readonly Filesystem $filesystem,
+        private readonly string $dir
+    ) {
     }
 
     /**
-     * @inheritdoc
+     * @return non-empty-string|null
      */
-    public function key(): int|string
+    public function key(): string|null
     {
         return key($this->files);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function next(): void
     {
         next($this->files);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function current(): bool|\ILIAS\Filesystem\DTO\Metadata
+    public function current(): Metadata|false
     {
         return current($this->files);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function valid(): bool
     {
         return current($this->files) instanceof Metadata;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rewind(): void
     {
-        $contents = $this->filesystem->listContents($this->dir, false);
-        $this->files = array_combine(
-            array_map(static fn (Metadata $metadata): string => $metadata->getPath(), $contents),
-            $contents
-        );
+        $this->files = [];
+
+        try {
+            $contents = $this->filesystem->listContents($this->dir, false);
+        } catch (DirectoryNotFoundException) {
+            // A directory which cannot be listed, e.g. because its path is rejected by the
+            // path normalizer, is treated as empty. Otherwise a single unusable directory
+            // would abort the traversal of the whole tree.
+            return;
+        }
+
+        foreach ($contents as $metadata) {
+            $this->files[$metadata->getPath()] = $metadata;
+        }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function hasChildren(): bool
     {
         return $this->current()->isDir();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getChildren(): \ILIAS\Filesystem\Finder\Iterator\RecursiveDirectoryIterator
+    public function getChildren(): self
     {
         return new self($this->filesystem, $this->current()->getPath());
     }

@@ -33,6 +33,8 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class MainBarTest extends ILIAS_UI_TestBase
 {
+    use LanguageStubs;
+
     protected I\Button\Factory $button_factory;
     protected I\Link\Factory $link_factory;
     protected I\Symbol\Icon\Factory $icon_factory;
@@ -51,7 +53,7 @@ class MainBarTest extends ILIAS_UI_TestBase
             $counter_factory,
             new I\Symbol\Factory(
                 new I\Symbol\Icon\Factory(),
-                new I\Symbol\Glyph\Factory(),
+                new I\Symbol\Glyph\Factory($this->createRelayArgumentLanguageStub()),
                 new I\Symbol\Avatar\Factory()
             )
         );
@@ -183,8 +185,13 @@ class MainBarTest extends ILIAS_UI_TestBase
 
     public function getUIFactory(): NoUIFactory
     {
-        $factory = new class () extends NoUIFactory {
+        $factory = new class ($this->createRelayArgumentLanguageStub()) extends NoUIFactory {
             public C\Button\Factory $button_factory;
+
+            public function __construct(
+                protected \ILIAS\Language\Language $language,
+            ) {
+            }
 
             public function button(): C\Button\Factory
             {
@@ -193,7 +200,7 @@ class MainBarTest extends ILIAS_UI_TestBase
             public function symbol(): C\Symbol\Factory
             {
                 $f_icon = new I\Symbol\Icon\Factory();
-                $f_glyph = new I\Symbol\Glyph\Factory();
+                $f_glyph = new I\Symbol\Glyph\Factory($this->language);
                 $f_avatar = new I\Symbol\Avatar\Factory();
 
                 return new I\Symbol\Factory($f_icon, $f_glyph, $f_avatar);
@@ -204,7 +211,7 @@ class MainBarTest extends ILIAS_UI_TestBase
                 $counter_factory = new I\Counter\Factory();
                 $symbol_factory = new I\Symbol\Factory(
                     new I\Symbol\Icon\Factory(),
-                    new I\Symbol\Glyph\Factory(),
+                    new I\Symbol\Glyph\Factory($this->language),
                     new I\Symbol\Avatar\Factory()
                 );
                 $slate_factory = new I\MainControls\Slate\Factory($sig_gen, $counter_factory, $symbol_factory);
@@ -326,7 +333,7 @@ class MainBarTest extends ILIAS_UI_TestBase
                 <div class="il-maincontrols-slate disengaged" id="id_10" data-depth-level="1" role="menu">
                   <div class="il-maincontrols-slate-content" data-replace-marker="content"></div>
                 </div>
-                <div class="il-maincontrols-slate disengaged" id="id_13" data-depth-level="1" role="menu">
+                <div class="il-maincontrols-slate disengaged" id="id_13" data-depth-level="1">
                   <div class="il-maincontrols-slate-content" data-replace-marker="content">Help</div>
                 </div>
                 <div class="il-mainbar-close-slates">

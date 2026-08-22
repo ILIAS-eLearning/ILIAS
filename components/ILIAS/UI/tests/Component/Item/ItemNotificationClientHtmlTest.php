@@ -28,6 +28,8 @@ use ILIAS\UI\Implementation\Component\MainControls\Slate\Notification;
  */
 class ItemNotificationClientHtmlTest extends ILIAS_UI_TestBase
 {
+    use LanguageStubs;
+
     /**
      * @var I\SignalGenerator
      */
@@ -42,8 +44,13 @@ class ItemNotificationClientHtmlTest extends ILIAS_UI_TestBase
 
     public function getUIFactory(): NoUIFactory
     {
-        $factory = new class () extends NoUIFactory {
+        $factory = new class ($this->createRelayArgumentLanguageStub()) extends NoUIFactory {
             public I\SignalGenerator $sig_gen;
+
+            public function __construct(
+                protected \ILIAS\Language\Language $language,
+            ) {
+            }
 
             public function counter(): C\Counter\Factory
             {
@@ -57,7 +64,7 @@ class ItemNotificationClientHtmlTest extends ILIAS_UI_TestBase
             {
                 return new I\Symbol\Factory(
                     new I\Symbol\Icon\Factory(),
-                    new I\Symbol\Glyph\Factory(),
+                    new I\Symbol\Glyph\Factory($this->language),
                     new I\Symbol\Avatar\Factory()
                 );
             }

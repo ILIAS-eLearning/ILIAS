@@ -178,6 +178,146 @@ class UnzipTest extends TestCase
         $this->assertTrue($this->recurseRmdir($temp_unzip_path));
     }
 
+    public function testExtractRejectsDecompressionBomb(): void
+    {
+        $bomb = sys_get_temp_dir() . '/' . uniqid('bomb', true) . '.zip';
+        $zip = new \ZipArchive();
+        $zip->open($bomb, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+        $zip->addFromString('bomb.txt', str_repeat("\0", 1024 * 1024)); // 1 MiB -> compresses to a few KB
+        $zip->close();
+
+        $out = $this->unzips_dir . uniqid('bomb', true);
+        $options = (new UnzipOptions())
+            ->withZipOutputPath($out)
+            ->withMaxCompressionRatio(10)
+            ->withRatioCheckMinUncompressedSize(1024);
+        $unzip = new Unzip($options, Streams::ofResource(fopen($bomb, 'rb')));
+
+        $this->assertFalse($unzip->extract());
+        $this->assertDirectoryDoesNotExist($out);
+
+        unlink($bomb);
+    }
+
+    public function testExtractRejectsTooManyEntries(): void
+    {
+        $archive = sys_get_temp_dir() . '/' . uniqid('many', true) . '.zip';
+        $zip = new \ZipArchive();
+        $zip->open($archive, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+        for ($i = 0; $i < 20; $i++) {
+            $zip->addFromString("f{$i}.txt", 'x');
+        }
+        $zip->close();
+
+        $out = $this->unzips_dir . uniqid('many', true);
+        $options = (new UnzipOptions())
+            ->withZipOutputPath($out)
+            ->withMaxAmountOfEntries(5);
+        $unzip = new Unzip($options, Streams::ofResource(fopen($archive, 'rb')));
+
+        $this->assertFalse($unzip->extract());
+        $this->assertDirectoryDoesNotExist($out);
+
+        unlink($archive);
+    }
+
+    public function testExtractAllowsLowRatioArchiveDespiteLimits(): void
+    {
+        $archive = sys_get_temp_dir() . '/' . uniqid('normal', true) . '.zip';
+        $zip = new \ZipArchive();
+        $zip->open($archive, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+        $zip->addFromString('a.bin', random_bytes(4096)); // incompressible -> ratio ~1
+        $zip->close();
+
+        $out = $this->unzips_dir . uniqid('normal', true);
+        $options = (new UnzipOptions())
+            ->withZipOutputPath($out)
+            ->withMaxCompressionRatio(10)
+            ->withRatioCheckMinUncompressedSize(1024);
+        $unzip = new Unzip($options, Streams::ofResource(fopen($archive, 'rb')));
+
+        $this->assertTrue($unzip->extract());
+        $this->assertFileExists($out . '/a.bin');
+
+        unlink($out . '/a.bin');
+        rmdir($out);
+        unlink($archive);
+    }
+
+    public function testStreamsAreEmptyForRejectedArchive(): void
+    {
+        $bomb = sys_get_temp_dir() . '/' . uniqid('bomb', true) . '.zip';
+        $zip = new \ZipArchive();
+        $zip->open($bomb, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+        $zip->addFromString('bomb.txt', str_repeat("\0", 1024 * 1024));
+        $zip->close();
+
+        $options = (new UnzipOptions())
+            ->withMaxCompressionRatio(10)
+            ->withRatioCheckMinUncompressedSize(1024);
+        $unzip = new Unzip($options, Streams::ofResource(fopen($bomb, 'rb')));
+
+        // the whole read API must stay empty, not only extract()
+        $this->assertFalse($unzip->isWithinLimits());
+        $this->assertSame([], iterator_to_array($unzip->getPaths()));
+        $this->assertSame([], iterator_to_array($unzip->getFiles()));
+        $this->assertSame([], iterator_to_array($unzip->getFileStreams()));
+        $this->assertSame([], iterator_to_array($unzip->getStreams()));
+        $this->assertSame(0, $unzip->getAmountOfFiles());
+
+        unlink($bomb);
+    }
+
+    public function testMaxUncompressedSizeIsLimitedByDefault(): void
+    {
+        $options = new UnzipOptions();
+        $this->assertSame(UnzipOptions::DEFAULT_MAX_UNCOMPRESSED_SIZE, $options->getMaxUncompressedSize());
+        $this->assertGreaterThan(UnzipOptions::UNLIMITED, $options->getMaxUncompressedSize());
+    }
+
+    public function testExtractRejectsArchiveExceedingMaxUncompressedSize(): void
+    {
+        $archive = sys_get_temp_dir() . '/' . uniqid('big', true) . '.zip';
+        $zip = new \ZipArchive();
+        $zip->open($archive, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+        $zip->addFromString('a.bin', random_bytes(4096)); // incompressible, so only the size limit can bite
+        $zip->close();
+
+        $out = $this->unzips_dir . uniqid('big', true);
+        $options = (new UnzipOptions())
+            ->withZipOutputPath($out)
+            ->withMaxUncompressedSize(1024);
+        $unzip = new Unzip($options, Streams::ofResource(fopen($archive, 'rb')));
+
+        $this->assertFalse($unzip->extract());
+        $this->assertDirectoryDoesNotExist($out);
+
+        unlink($archive);
+    }
+
+    public function testArchivesKeepsTheLimitsOfThePassedOptions(): void
+    {
+        $archives = new Archives();
+        $unzip = $archives->unzip(
+            Streams::ofResource(fopen($this->zips_dir . '1_folder_1_file_mac.zip', 'rb')),
+            $archives->unzipOptions()
+                ->withMaxAmountOfEntries(3)
+                ->withMaxUncompressedSize(4)
+                ->withMaxCompressionRatio(5)
+                ->withRatioCheckMinUncompressedSize(6)
+        );
+
+        // the options passed to Archives::unzip() must not be dropped while merging
+        $options = (new \ReflectionClass($unzip))->getProperty('options');
+        $options->setAccessible(true);
+        $options = $options->getValue($unzip);
+
+        $this->assertSame(3, $options->getMaxAmountOfEntries());
+        $this->assertSame(4, $options->getMaxUncompressedSize());
+        $this->assertSame(5, $options->getMaxCompressionRatio());
+        $this->assertSame(6, $options->getRatioCheckMinUncompressedSize());
+    }
+
     private function recurseRmdir(string $path_to_directory): bool
     {
         $files = array_diff(scandir($path_to_directory), ['.', '..']);

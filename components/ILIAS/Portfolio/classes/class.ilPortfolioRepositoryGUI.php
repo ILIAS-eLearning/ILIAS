@@ -330,7 +330,7 @@ class ilPortfolioRepositoryGUI
         $prt_id = $this->port_request->getPortfolioId();
         if (ilObjPortfolio::_lookupOwner($prt_id) === $this->user_id) {
             $portfolio = new ilObjPortfolio($prt_id, false);
-            $portfolio->setOnline(true);
+            $portfolio->setOfflineStatus(false);
             $portfolio->update();
             $this->tpl->setOnScreenMessage('success', $lng->txt("saved_successfully"), true);
             $ilCtrl->redirect($this, "show");
@@ -346,7 +346,7 @@ class ilPortfolioRepositoryGUI
         $prt_id = $this->port_request->getPortfolioId();
         if (ilObjPortfolio::_lookupOwner($prt_id) === $this->user_id) {
             $portfolio = new ilObjPortfolio($prt_id, false);
-            $portfolio->setOnline(false);
+            $portfolio->setOfflineStatus(true);
             $portfolio->update();
             $this->tpl->setOnScreenMessage('success', $lng->txt("saved_successfully"), true);
             $ilCtrl->redirect($this, "show");
@@ -368,9 +368,9 @@ class ilPortfolioRepositoryGUI
                 $portfolio->setTitle(ilUtil::stripSlashes($title));
 
                 if (in_array($id, $online)) {
-                    $portfolio->setOnline(true);
+                    $portfolio->setOfflineStatus(false);
                 } else {
-                    $portfolio->setOnline(false);
+                    $portfolio->setOfflineStatus(true);
                 }
 
                 $portfolio->update();

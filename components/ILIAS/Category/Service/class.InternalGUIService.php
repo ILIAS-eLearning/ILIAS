@@ -22,6 +22,7 @@ namespace ILIAS\Category;
 
 use ILIAS\DI;
 use ILIAS\Repository;
+use ILIAS\Category\Permission\CategoryCmdPermission;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -48,6 +49,17 @@ class InternalGUIService
         return new StandardGUIRequest(
             $this->http(),
             $this->domain_service->refinery()
+        );
+    }
+
+    public function cmdPerm(): CategoryCmdPermission
+    {
+        return new CategoryCmdPermission(
+            $this->domain_service->lng(),
+            $this->domain_service->access(),
+            $this->ui()->mainTemplate(),
+            $this->ctrl(),
+            $this->standardRequest()
         );
     }
 }

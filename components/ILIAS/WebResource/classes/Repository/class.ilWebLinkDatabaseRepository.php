@@ -144,7 +144,7 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
             self::LISTS_TABLE,
             [
                 'webr_id' => ['integer', $new_list->getWebrId()],
-                'title' => ['text', $new_list->getTitle()],
+                'title' => ['text', mb_substr($new_list->getTitle(), 0, 127)],
                 'description' => ['text', $new_list->getDescription() ?? ''],
                 'create_date' => ['integer', $new_list->getCreateDate()
                                                       ->getTimestamp()],
@@ -448,7 +448,7 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
         $this->db->update(
             self::LISTS_TABLE,
             [
-                'title' => ['text', $drafted_list->getTitle()],
+                'title' => ['text', mb_substr($drafted_list->getTitle(), 0, 127)],
                 'description' => ['text', $drafted_list->getDescription() ?? ''],
                 'last_update' => ['integer', $this->getCurrentTime()]
             ],

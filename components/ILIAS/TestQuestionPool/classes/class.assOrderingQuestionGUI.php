@@ -344,7 +344,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $this->ctrl->getLinkTarget($this, self::CMD_EDIT_NESTING)
             );
         }
-        $tabs->setTabActive('edit_question');
+        $tabs->setTabActive(self::TAB_EDIT_QUESTION);
         $tabs->setSubTabActive($active);
     }
 
@@ -668,37 +668,15 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     protected function getAnswerStatisticOrderingVariantHtml(ilAssOrderingElementList $list): string
     {
-        $html = '<ul>';
-
-        $lastIndent = 0;
-        $firstElem = true;
-
-        foreach ($list as $elem) {
-            if ($elem->getIndentation() > $lastIndent) {
-                $html .= '<ul><li>';
-            } elseif ($elem->getIndentation() < $lastIndent) {
-                $html .= '</li></ul><li>';
-            } elseif (!$firstElem) {
-                $html .= '</li><li>';
-            } else {
-                $html .= '<li>';
-            }
-
-            $html .= $this->getAnswerStatisticOrderingElementHtml($elem);
-
-            $firstElem = false;
-            $lastIndent = $elem->getIndentation();
-        }
-
-        $html .= '</li>';
-
-        for ($i = $lastIndent; $i > 0; $i--) {
-            $html .= '</ul></li>';
-        }
-
-        $html .= '</ul>';
-
-        return $html;
+        return $this->ui->renderer()->render(
+            $this->ui->factory()->listing()->unordered(
+                array_map(
+                    fn(ilAssOrderingElement $elem): string
+                        => $this->getAnswerStatisticOrderingElementHtml($elem) ?? '',
+                    $list->getElements()
+                )
+            )
+        );
     }
 
     public function getAnswersFrequency($relevantAnswers, $questionIndex): array
@@ -733,7 +711,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 );
 
                 $answers[$hash] = [
-                    'answer' => $variantHtml, 'frequency' => 0
+                    'answer' => $variantHtml,
+                    'frequency' => 0
                 ];
             }
 

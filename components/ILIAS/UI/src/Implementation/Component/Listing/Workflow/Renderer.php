@@ -69,6 +69,7 @@ class Renderer extends AbstractComponentRenderer
 
             if ($index === $component->getActive()) {
                 $tpl->touchBlock('active');
+                $tpl->touchBlock('active_aria');
                 $component = $component->withAdditionalOnLoadCode(
                     fn($id) => "
                         window.requestAnimationFrame(() => {

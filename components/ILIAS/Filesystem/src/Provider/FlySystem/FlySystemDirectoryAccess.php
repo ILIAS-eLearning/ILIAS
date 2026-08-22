@@ -25,6 +25,7 @@ use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Provider\DirectoryAccess;
 use ILIAS\Filesystem\Visibility;
+use League\Flysystem\CorruptedPathDetected;
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\UnableToRetrieveMetadata;
 use League\Flysystem\UnableToCreateDirectory;
@@ -48,7 +49,14 @@ class FlySystemDirectoryAccess implements DirectoryAccess
 
     public function hasDir(string $path): bool
     {
-        return $this->flysystem_operator->directoryExists($path);
+        try {
+            return $this->flysystem_operator->directoryExists($path);
+        } catch (CorruptedPathDetected) {
+            // Paths containing funky whitespace (e.g. a tab or a line break) are rejected
+            // by the path normalizer. Such a path can never be a usable directory, but it
+            // must not abort the caller either, since these paths do occur on disk.
+            return false;
+        }
     }
 
     /**

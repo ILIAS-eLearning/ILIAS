@@ -36,7 +36,9 @@ class ilContainerPageConfig extends ilPageConfig
         $this->setEnableInternalLinks(true);
         $this->setIntLinkHelpDefaultType("RepositoryItem");
         $this->setEnablePCType("FileList", false);
-        $this->setEnablePCType("Map", true);
+        if (ilMapUtil::isActivated()) {
+            $this->setEnablePCType("Map", true);
+        }
         $this->setEnablePCType("Resources", true);
         $this->setMultiLangSupport(true);
         $this->setSinglePageMode(true);

@@ -118,11 +118,17 @@ class ilMStListCourses
         $numRows = $this->dic->database()->numRows($result);
 
         if ($options['sort']) {
-            $union_query .= " ORDER BY " . $options['sort']['field'] . " " . $options['sort']['direction'];
+            /*
+             * Sort field is validated in ilMStListCoursesTableGUI::getSafeOrderField,
+             * the available columns depend on user administration settings.
+             */
+            $sort_field = (string) ($options['sort']['field'] ?? '');
+            $sort_direction = $this->getSafeSortDirection((string) ($options['sort']['direction'] ?? ''));
+            $union_query .= " ORDER BY " . $this->dic->database()->quoteIdentifier($sort_field) . " " . $sort_direction;
         }
 
         if (isset($options['limit']['start']) && isset($options['limit']['end'])) {
-            $union_query .= " LIMIT " . $options['limit']['start'] . "," . $options['limit']['end'];
+            $union_query .= " LIMIT " . (int) $options['limit']['start'] . "," . (int) $options['limit']['end'];
         }
         $result = $this->dic->database()->query($union_query);
         $crs_data = array();
@@ -226,5 +232,12 @@ class ilMStListCourses
         } else {
             return '';
         }
+    }
+
+    private function getSafeSortDirection(string $sort_direction): string
+    {
+        return strtolower($sort_direction) === 'asc'
+            ? 'asc'
+            : 'desc';
     }
 }

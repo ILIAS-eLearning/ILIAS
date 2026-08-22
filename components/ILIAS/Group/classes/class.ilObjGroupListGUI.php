@@ -167,6 +167,7 @@ class ilObjGroupListGUI extends ilObjectListGUI
         ?int $obj_id = null
     ): bool {
         if ($permission == 'grp_linked') {
+            $type = ilObject::_lookupType($ref_id, true);
             return
                 parent::checkCommandAccess('read', '', $ref_id, $type, $obj_id) ||
                 parent::checkCommandAccess('join', 'join', $ref_id, $type, $obj_id);

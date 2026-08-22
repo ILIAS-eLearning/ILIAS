@@ -79,14 +79,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             ilObjStyleSheet::getSyntaxStylePath()
         );
         $tpl->parseCurrentBlock();
-
-        $tpl->setCurrentBlock("ContentStyle");
-        $tpl->setVariable(
-            "LOCATION_CONTENT_STYLESHEET",
-            ilObjStyleSheet::getContentStylePath(0)
-        );
-        $tpl->parseCurrentBlock();
-
         $this->requested_ppage = $this->port_request->getPortfolioPageId();
     }
 
@@ -874,6 +866,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                 if (!$tree->isDeleted($ref_id)) {
                     $visible = false;
                     $active = ilObjCourseAccess::_isActivated($obj_id, $visible, false);
+                    if (ilObject::lookupOfflineStatus($obj_id)) {
+                        $visible = false;
+                    }
                     if ($active && $visible) {
                         $references[$ref_id] = array(
                             'ref_id' => $ref_id,

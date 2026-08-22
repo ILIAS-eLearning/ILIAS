@@ -75,7 +75,9 @@ class ilTaxonomyGSToolProvider extends AbstractDynamicToolProvider
         $gui = $this->dic->taxonomy()->internal()->gui();
         $params = $gui->http()->request()->getQueryParams();
         $current_tax_node = (int) ($params["tax_node"] ?? null);
-        $tax_exp->setPathOpen($current_tax_node);
+        if ($current_tax_node > 0) {
+            $tax_exp->setPathOpen($current_tax_node);
+        }
 
 
         return $tax_exp->getHTML();

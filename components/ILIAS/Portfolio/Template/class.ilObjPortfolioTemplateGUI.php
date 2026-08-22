@@ -311,6 +311,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         $this->ctrl->redirectByClass(SettingsGUI::class);
     }
 
+    /*
     protected function getEditFormCustomValues(array &$a_values): void
     {
         $a_values["online"] = $this->object->isOnline();
@@ -329,8 +330,9 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         );
 
         parent::getEditFormCustomValues($a_values);
-    }
+    }*/
 
+    /*
     protected function updateCustom(ilPropertyFormGUI $form): void
     {
         $obj_service = $this->object_service;
@@ -360,7 +362,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
             )
         );
     }
-
+    */
 
     //
     // PAGES

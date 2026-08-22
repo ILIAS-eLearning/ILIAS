@@ -81,6 +81,7 @@ class ilLDAPServer
     private ilDBInterface $db;
     private ilLanguage $lng;
     private ilErrorHandling $ilErr;
+    private ilLogger $logger;
 
     public function __construct(int $a_server_id = 0)
     {
@@ -88,6 +89,7 @@ class ilLDAPServer
 
         $this->db = $DIC->database();
         $this->lng = $DIC->language();
+        $this->logger = $DIC->logger()->auth();
         $this->ilErr = $DIC['ilErr'];
 
         $this->server_id = $a_server_id;
@@ -525,22 +527,49 @@ class ilLDAPServer
      * @access public
      *
      */
-    public function doConnectionCheck(): bool
+    public function doConnectionCheck(bool $prevent_persisted_rotation = false): bool
     {
-        foreach (array_merge(array(0 => $this->url), $this->fallback_urls) as $url) {
+        $connection_failures = [];
+        foreach (array_merge([0 => $this->url], $this->fallback_urls) as $url) {
             try {
-                ilLoggerFactory::getLogger('auth')->debug('Using url: ' . $url);
+                $this->logger->debug('Attempting LDAP connection to: {url}', ['url' => $url]);
+
                 // Need to do a full bind, since openldap return valid connection links for invalid hosts
                 $query = new ilLDAPQuery($this, $url);
                 $query->bind(ilLDAPQuery::LDAP_BIND_TEST);
                 $this->url = $url;
+
+                if ($connection_failures !== []) {
+                    $this->logger->info(
+                        'Successfully connected to LDAP server: {url} after {failures} failed attempts',
+                        [
+                            'url' => $url,
+                            'failures' => count($connection_failures)
+                        ]
+                    );
+                }
+
                 return true;
             } catch (ilLDAPQueryException $exc) {
-                $this->rotateFallbacks();
-                ilLoggerFactory::getLogger('auth')->error('Cannot connect to LDAP server: ' . $url . ' ' . $exc->getCode() . ' ' . $exc->getMessage());
+                $connection_failures[] = $url;
+
+                $this->logger->error('LDAP connection failed for server: {url} - {message}', [
+                    'url' => $url,
+                    'message' => $exc->getMessage(),
+                    'exception' => $exc
+                ]);
+
+                if (!$prevent_persisted_rotation) {
+                    $this->rotateFallbacks();
+                }
             }
         }
-        ilLoggerFactory::getLogger('auth')->warning('No valid LDAP server found');
+
+        $this->logger->warning('No valid LDAP server found. Tried {count} server(s)', [
+            'count' => count($connection_failures),
+            'urls' => implode(', ', $connection_failures)
+        ]);
+
         return false;
     }
 

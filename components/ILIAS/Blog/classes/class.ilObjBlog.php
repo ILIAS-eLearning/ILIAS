@@ -242,7 +242,7 @@ class ilObjBlog extends ilObject2
 
         $notified = $ntf->sendMailAndReturnRecipients(
             $users,
-            "_" . $a_posting_id,
+            (string) $a_posting_id,
             ($admin_only ? "write" : "read")
         );
 

@@ -36,6 +36,7 @@ use ILIAS\Category\StandardGUIRequest;
 class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Settings\ModifierGUIInterface
 {
     public const CONTAINER_SETTING_TAXBLOCK = "tax_sblock_";
+    protected \ILIAS\Category\Permission\CategoryCmdPermission $cmd_perm;
     protected \ILIAS\Taxonomy\Service $taxonomy;
 
     protected ilNavigationHistory $nav_history;
@@ -90,6 +91,7 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
             ->gui()
             ->standardRequest();
         $this->taxonomy = $DIC->taxonomy();
+        $this->cmd_perm = $DIC->category()->internal()->gui()->cmdPerm();
     }
 
     public function executeCommand(): void
@@ -107,7 +109,7 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
             case strtolower(ilRepositoryTrashGUI::class):
                 $ru = new ilRepositoryTrashGUI($this);
                 $this->ctrl->setReturn($this, 'trash');
-                $this->ctrl->forwardCommand($ru);
+                $this->cmd_perm->forwardPermitted($this, $ru);
                 break;
 
             case "ilobjusergui":
@@ -128,7 +130,7 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
                     );
                 }
                 $this->gui_obj->setCreationMode($this->creation_mode);
-                $this->ctrl->forwardCommand($this->gui_obj);
+                $this->cmd_perm->forwardPermitted($this, $this->gui_obj);
 
                 $ilTabs->clearTargets();
                 $ilTabs->setBackTarget($this->lng->txt('backto_lua'), $this->ctrl->getLinkTarget($this, 'listUsers'));
@@ -146,7 +148,7 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
                 );
                 $this->gui_obj->setUserOwnerId($this->cat_request->getRefId());
                 $this->gui_obj->setCreationMode($this->creation_mode);
-                $this->ctrl->forwardCommand($this->gui_obj);
+                $this->cmd_perm->forwardPermitted($this, $this->gui_obj);
 
                 $ilTabs->clearTargets();
                 $ilTabs->setBackTarget($this->lng->txt('backto_lua'), $this->ctrl->getLinkTarget($this, 'listUsers'));
@@ -170,10 +172,11 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
                 $this->prepareOutput();
                 $this->tabs_gui->setTabActive('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
-                $this->ctrl->forwardCommand($perm_gui);
+                $this->cmd_perm->forwardPermitted($this, $perm_gui);
                 break;
 
             case 'ilinfoscreengui':
+                $this->checkPermission("visible");
                 if ($this->info_screen_enabled) {
                     $this->prepareOutput();
                     $this->infoScreen();
@@ -195,11 +198,10 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
 
                 $cp = new ilObjectCopyGUI($this);
                 $cp->setType('cat');
-                $this->ctrl->forwardCommand($cp);
+                $this->cmd_perm->forwardPermitted($this, $cp);
                 break;
 
             case "ilobjectcontentstylesettingsgui":
-                $this->checkPermission("write");
                 $this->setTitleAndDescription();
                 $this->showContainerPageTabs();
                 $settings_gui = $this->content_style_gui
@@ -207,26 +209,26 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
                         null,
                         $this->object->getRefId()
                     );
-                $this->ctrl->forwardCommand($settings_gui);
+                $this->cmd_perm->forwardPermitted($this, $settings_gui);
                 break;
 
             case 'ilusertablegui':
                 $u_table = new ilUserTableGUI($this, "listUsers");
                 $u_table->initFilter();
                 $this->ctrl->setReturn($this, 'listUsers');
-                $this->ctrl->forwardCommand($u_table);
+                $this->cmd_perm->forwardPermitted($this, $u_table);
                 break;
 
             case "ilcommonactiondispatchergui":
                 $this->prepareOutput();
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
-                $this->ctrl->forwardCommand($gui);
+                $this->cmd_perm->forwardPermitted($this, $gui);
                 break;
 
             case 'ildidactictemplategui':
                 $this->ctrl->setReturn($this, 'edit');
                 $did = new ilDidacticTemplateGUI($this, $this->getDidacticTemplateIdFromQuery());
-                $this->ctrl->forwardCommand($did);
+                $this->cmd_perm->forwardPermitted($this, $did);
                 break;
 
             case 'ilexportgui':
@@ -234,20 +236,19 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
                 $this->tabs_gui->setTabActive('export');
                 $exp = new ilExportGUI($this);
                 $exp->addFormat('xml');
-                $this->ctrl->forwardCommand($exp);
+                $this->cmd_perm->forwardPermitted($this, $exp);
                 break;
 
             case 'ilobjecttranslationgui':
-                $this->checkPermissionBool("write");
                 $this->prepareOutput();
                 //$this->tabs_gui->setTabActive('export');
                 $this->setEditTabs("settings_trans");
                 $transgui = new ilObjectTranslationGUI($this);
-                $this->ctrl->forwardCommand($transgui);
+                $this->cmd_perm->forwardPermitted($this, $transgui);
                 break;
 
             case strtolower(ilTaxonomySettingsGUI::class):
-                $this->checkPermissionBool("write");
+                $this->checkPermission("write");
                 $this->prepareOutput();
                 $this->setEditTabs("taxonomy");
                 $tax_gui = $this->taxonomy->gui()->getSettingsGUI(
@@ -256,14 +257,13 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
                     true,
                     $this
                 );
-                $this->ctrl->forwardCommand($tax_gui);
+                $this->cmd_perm->forwardPermitted($this, $tax_gui);
                 break;
 
             case 'ilobjectmetadatagui':
-                $this->checkPermissionBool("write");
                 $this->prepareOutput();
                 $this->tabs_gui->activateTab('meta_data');
-                $this->ctrl->forwardCommand($this->getObjectMetadataGUI());
+                $this->cmd_perm->forwardPermitted($this, $this->getObjectMetadataGUI());
                 break;
 
             case "ilcontainernewssettingsgui":
@@ -273,15 +273,14 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
                 $this->tabs_gui->activateSubTab('obj_news_settings');
                 $news_set_gui = new ilContainerNewsSettingsGUI($this);
                 $news_set_gui->setHideByDate(true);
-                $this->ctrl->forwardCommand($news_set_gui);
+                $this->cmd_perm->forwardPermitted($this, $news_set_gui);
                 break;
 
             case 'ilcontainerfilteradmingui':
-                $this->checkPermissionBool("write");
                 $this->prepareOutput();
                 $this->setEditTabs($active_tab = "settings_filter");
                 $this->tabs_gui->activateTab('settings');
-                $this->ctrl->forwardCommand(new ilContainerFilterAdminGUI($this));
+                $this->cmd_perm->forwardPermitted($this, new ilContainerFilterAdminGUI($this));
                 break;
 
             default:
@@ -314,6 +313,15 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
                 }
                 $cmd .= "Object";
                 $this->tabs_gui->activateTab("view_content");	// see #19868
+
+                if ($this->cmd_perm->classImplementsMethodDirectly(get_class($this), $cmd)) {
+                    $cmd = $this->cmd_perm->getPermittedCommand();
+                    if ($cmd === "") {
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+                        self::_gotoRepositoryRoot();
+                    }
+                    $cmd .= "Object";
+                }
                 $this->$cmd();
 
                 break;
@@ -665,7 +673,7 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
 
         // forward the command
         if ($ilCtrl->getNextClass() === "ilinfoscreengui") {
-            $ilCtrl->forwardCommand($info);
+            $this->cmd_perm->forwardPermitted($this, $info);
         } else {
             return $ilCtrl->getHTML($info);
         }

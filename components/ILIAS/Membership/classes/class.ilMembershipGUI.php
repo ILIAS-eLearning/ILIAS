@@ -59,6 +59,7 @@ class ilMembershipGUI
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
         $this->lng->loadLanguageModule('trac');
+        $this->lng->loadLanguageModule('mmbr');
         $this->logger = $DIC->logger()->mmbr();
         $this->access = $DIC->access();
         $this->user = $DIC->user();
@@ -474,7 +475,7 @@ class ilMembershipGUI
 
         $real_participants = $this->getMembersObject()->getParticipants();
         $participants = array_intersect($post_participants, $real_participants);
-
+        $participants = $this->filterUserIdsByRbacOrPositionOfCurrentUser($participants);
         if (!count($participants)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
             $this->ctrl->redirect($this, 'participants');
@@ -572,8 +573,13 @@ class ilMembershipGUI
                 $post_roles[$usr_id][] = $adminRoleId;
             }
 
+            if (!isset($post_roles[$usr_id]) || empty($post_roles[$usr_id])) {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mmbr_role_error'), true);
+                $this->ctrl->redirect($this, 'participants');
+            }
+
             // Validate the role ids in the post data
-            foreach ((array) $post_roles[$usr_id] as $role_id) {
+            foreach ((array) ($post_roles[$usr_id] ?? []) as $role_id) {
                 if (!array_key_exists($role_id, $assignableLocalRoles)) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_perm'), true);
                     $this->ctrl->redirect($this, 'participants');
@@ -615,7 +621,7 @@ class ilMembershipGUI
         }
 
         foreach ($participants as $usr_id) {
-            $this->getMembersObject()->updateRoleAssignments($usr_id, (array) $post_roles[$usr_id]);
+            $this->getMembersObject()->updateRoleAssignments($usr_id, (array) ($post_roles[$usr_id] ?? []));
 
             // Disable notification for all of them
             $this->getMembersObject()->updateNotification($usr_id, false);
@@ -1183,7 +1189,6 @@ class ilMembershipGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("crs_no_subscribers_selected"), true);
             $this->ctrl->redirect($this, 'participants');
         }
-        $this->lng->loadLanguageModule('mmbr');
         $c_gui = new ilConfirmationGUI();
         // set confirm/cancel commands
         $c_gui->setFormAction($this->ctrl->getFormAction($this, "refuseSubscribers"));
@@ -1416,7 +1421,6 @@ class ilMembershipGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, 'participants');
         }
-        $this->lng->loadLanguageModule('mmbr');
         $c_gui = new ilConfirmationGUI();
 
         // set confirm/cancel commands

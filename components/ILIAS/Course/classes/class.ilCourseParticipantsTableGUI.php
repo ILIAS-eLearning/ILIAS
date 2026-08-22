@@ -24,6 +24,7 @@ declare(strict_types=0);
  */
 class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 {
+    protected \ILIAS\Refinery\Factory $refinery;
     protected bool $show_learning_progress = false;
     protected bool $show_timings = false;
     protected bool $show_lp_status_sync = false;
@@ -67,6 +68,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         $this->participants = ilParticipants::getInstanceByObjId($this->getRepositoryObject()->getId());
         $this->rbacReview = $DIC->rbac()->review();
         $this->user = $DIC->user();
+        $this->refinery = $DIC->refinery();
 
         $this->setId('crs_' . $this->getRepositoryObject()->getId());
         parent::__construct($a_parent_obj, 'participants');
@@ -108,7 +110,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         $this->addColumn($this->lng->txt('crs_blocked'), 'blocked');
         $this->addColumn($this->lng->txt('crs_notification_list_title'), 'notification');
 
-        $this->addColumn($this->lng->txt('actions'), 'optional', '', false, 'ilMembershipRowActionsHeader');
+        $this->addColumn($this->lng->txt('actions'), '', '', false, 'ilMembershipRowActionsHeader');
 
         $this->setRowTemplate("tpl.show_participants_row.html", "components/ILIAS/Course");
 
@@ -141,7 +143,12 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
     {
         $this->tpl->setVariable('VAL_ID', $a_set['usr_id']);
         $this->tpl->setVariable('VAL_NAME', $a_set['lastname'] . ', ' . $a_set['firstname']);
-        $this->tpl->setVariable('SELECT_PARTICIPANT', $this->lng->txt("select") . ' ' . $a_set['lastname'] . ', ' . $a_set['firstname']);
+        $this->tpl->setVariable(
+            'SELECT_PARTICIPANT',
+            $this->refinery->encode()->htmlAttributeValue()->transform(
+                "{$this->lng->txt('select')} {$a_set['lastname']}, {$a_set['firstname']}"
+            )
+        );
 
         if (
             !$this->access->checkAccessOfUser($a_set['usr_id'], 'read', '', $this->getRepositoryObject()->getRefId()) &&

@@ -590,6 +590,9 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $term_mappings = array();
         foreach (ilGlossaryTerm::getTermList([$this->getRefId()]) as $term) {
             $new_term_id = ilGlossaryTerm::_copyTerm($term["id"], $new_obj->getId());
+            if ($new_term_id === 0) {
+                continue;
+            }
             $term_mappings[$term["id"]] = $new_term_id;
 
             // copy tax node assignments

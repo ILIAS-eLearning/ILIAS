@@ -103,12 +103,19 @@ trait ilObjFileInfoProvider
         $amount_of_downloads = null;
 
         if ($this->getGeneralSettings()->isShowAmountOfDownloads()) {
+            $create_date = ilDatePresentation::formatDate(
+                new ilDateTime(
+                    $this->getFileObj()->getCreateDate(),
+                    IL_CAL_DATETIME,
+                    'utc' // most likely the server timezone
+                )
+            );
+
             $amount_of_downloads = $this->safeSprintf(
                 $this->getLanguage()->txt("amount_of_downloads_since"),
                 $this->getFileObj()->getAmountOfDownloads(),
-                $this->getFileObj()->getCreateDate(),
+                $create_date,
             );
-
         }
 
         return [

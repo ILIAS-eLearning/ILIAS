@@ -25,12 +25,12 @@ class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
 {
     public function initViewSettings(): void
     {
-        $this->viewSettings = new ilPDSelectedItemsBlockViewSettings(
+        $this->view_settings = new ilPDSelectedItemsBlockViewSettings(
             $this->user,
             ilPDSelectedItemsBlockConstants::VIEW_SELECTED_ITEMS
         );
 
-        $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
+        $this->ctrl->setParameter($this, 'view', $this->view_settings->getView());
     }
 
     public function emptyHandling(): string
@@ -82,9 +82,9 @@ class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
         $this->setData(['' => $data]);
     }
 
-    public function getBlockType(): string
+    final public function getBlockType(): string
     {
-        return 'pditems';
+        return 'dash_fav';
     }
 
     public function confirmedRemove(array $ids): void
@@ -100,10 +100,5 @@ class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
     public function removeMultipleEnabled(): bool
     {
         return true;
-    }
-
-    public function getRemoveMultipleActionText(): string
-    {
-        return $this->lng->txt('pd_remove_multiple');
     }
 }

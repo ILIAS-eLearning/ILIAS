@@ -84,6 +84,7 @@ class ilKioskPageRenderer
     public function render(
         LSControlBuilder $control_builder,
         string $obj_title,
+        string $obj_description,
         Component $icon,
         array $content
     ): string {
@@ -92,6 +93,14 @@ class ilKioskPageRenderer
             $this->ui_renderer->render($icon)
         );
         $this->tpl->setVariable("OBJECT_TITLE", $obj_title);
+        if (trim($obj_description) !== '') {
+            $this->tpl->setCurrentBlock('obj_desc');
+            $this->tpl->setVariable(
+                'OBJECT_DESCRIPTION',
+                nl2br($this->tpl->prepareForOutput($obj_description))
+            );
+            $this->tpl->parseCurrentBlock();
+        }
 
         $this->tpl->setVariable(
             "PLAYER_NAVIGATION",

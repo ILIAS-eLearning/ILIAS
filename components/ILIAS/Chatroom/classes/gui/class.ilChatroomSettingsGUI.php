@@ -42,19 +42,18 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
             true
         );
 
-        $result = (new \ILIAS\Data\Factory())->error($this->ilLng->txt('form_input_not_valid'));
+        $values = null;
         if ($this->http->request()->getMethod() === 'POST') {
             $settingsForm = $settingsForm->withRequest($this->http->request());
-            $result = $settingsForm->getInputGroup()->getContent();
+            $values = $settingsForm->getData();
+        } else {
+            $this->mainTpl->setOnScreenMessage('failure', $this->ilLng->txt('form_input_not_valid'));
         }
 
-        if (!$result->isOK()) {
-            $this->mainTpl->setOnScreenMessage('failure', $result->error());
+        if ($values === null) {
             $this->general($settingsForm);
             return;
         }
-
-        $values = $result->value();
 
         $this->gui->getObject()->getObjectProperties()->storePropertyTitleAndDescription(
             $values[ilChatroomFormFactory::PROP_TITLE_AND_DESC]
@@ -74,10 +73,10 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
         }
 
         foreach ($mutated_settings as $setting => &$value) {
-            if ($setting === ilChatroomFormFactory::PROP_ALLOW_CUSTOM_NAMES) {
-                $value = is_array($values[$setting] ?? null);
+            if ($setting === ilChatroomFormFactory::PROP_ALLOW_ANONYMOUS) {
+                $value = isset($values[$setting]);
             } elseif ($setting === ilChatroomFormFactory::PROP_AUTOGEN_USERNAMES) {
-                $value = $values[ilChatroomFormFactory::PROP_ALLOW_CUSTOM_NAMES][ilChatroomFormFactory::PROP_AUTOGEN_USERNAMES] ?? '';
+                $value = $values[ilChatroomFormFactory::PROP_ALLOW_ANONYMOUS][ilChatroomFormFactory::PROP_AUTOGEN_USERNAMES] ?? '';
             } elseif (array_key_exists($setting, $values)) {
                 $value = $values[$setting];
             }

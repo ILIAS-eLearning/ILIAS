@@ -654,7 +654,6 @@ class ilObjSession extends ilObject
         }
 
         $parts = ilSessionParticipants::_getInstanceByObjId($this->getId());
-        $current = $parts->getCountParticipants();
 
         $refs = ilObject::_getAllReferences($this->getId());
         $ref_id = current($refs);

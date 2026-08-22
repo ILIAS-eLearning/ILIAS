@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\AuthSOAP\ConnectionTester;
 use ILIAS\Style\Content\GUIService;
 use ILIAS\components\Authentication\Pages\AuthPageEditorContext;
 
@@ -488,8 +489,13 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             $test_form = $test_form->withRequest($this->request);
             $result = $test_form->getData();
             if (!is_null($result)) {
-                $panel_content[] = $this->ui->legacy(
-                    ilSOAPAuth::testConnection($result["ext_uid"], $result["soap_pw"], $result["new_user"])
+                $panel_content = array_merge(
+                    $panel_content,
+                    (new ConnectionTester($this->settings, $this->ui, $this->logger))->testConnection(
+                        $result['ext_uid'],
+                        $result['soap_pw'],
+                        $result['new_user']
+                    )
                 );
             }
         }

@@ -234,26 +234,11 @@
 <!-- output image map areas -->
 <xsl:template name="outputImageMapAreas">
 	<xsl:for-each select="../MapArea">
-
-		<!-- highlight mode -->
-		<xsl:variable name="hl_class">
-			<xsl:choose>
-				<xsl:when test="@HighlightClass = 'Dark'">"fillColor":"202020","strokeColor":"202020"</xsl:when>
-				<xsl:when test="@HighlightClass = 'Light'">"fillColor":"F0F0F0","strokeColor":"F0F0F0"</xsl:when>
-				<xsl:otherwise>"fillColor":"FF6633","strokeColor":"FF6633"</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:variable name="hl_mode">
-			<xsl:choose>
-				<xsl:when test="@HighlightMode = 'Hover'">,"fade":true</xsl:when>
-				<xsl:otherwise>,"alwaysOn":true,"fade":false</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-
 		<xsl:if test="@Shape != 'WholePicture' and $map_edit_mode = ''">
 			<area>
 				<xsl:if test="@HighlightMode != '' and $map_edit_mode = ''">
-					<xsl:attribute name="data-maphilight">{"neverOn":false, "fillOpacity":0, "strokeWidth":2,<xsl:value-of select = "$hl_class"/><xsl:value-of select = "$hl_mode"/>}</xsl:attribute>
+					<xsl:attribute name="data-hl-class"><xsl:value-of select = "@HighlightClass"/></xsl:attribute>
+					<xsl:attribute name="data-hl-mode"><xsl:value-of select = "@HighlightMode"/></xsl:attribute>
 				</xsl:if>
 				<xsl:attribute name="shape"><xsl:value-of select="@Shape"/></xsl:attribute>
 				<xsl:attribute name="coords"><xsl:value-of select="@Coords"/></xsl:attribute>
@@ -2558,6 +2543,27 @@
 				<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
 			</iframe>
 		</xsl:when>
+
+		<!-- svg -->
+		<xsl:when test="substring($type, 1, 9) = 'image/svg'">
+			<embed style="width:100%; display:block;">
+				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
+				<xsl:attribute name="type"><xsl:value-of select="$type"/></xsl:attribute>
+				<xsl:if test="$width != ''">
+					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+				</xsl:if>
+				<xsl:if test="$height != ''">
+					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				</xsl:if>
+				<xsl:call-template name="MOBParams">
+					<xsl:with-param name="curPurpose" select="$curPurpose" />
+					<xsl:with-param name="mode">attributes</xsl:with-param>
+					<xsl:with-param name="cmobid" select="$cmobid" />
+				</xsl:call-template>
+				<xsl:comment>Comment to have separate embed ending tag</xsl:comment>
+			</embed>
+		</xsl:when>
+
 		<!-- print placeholder !! All media types that can be printed should be listed above this one -->
 		<xsl:when test="$mode = 'print'">
 			<div class="ilCOPGMediaPrint">
@@ -2751,27 +2757,6 @@
 			</iframe>
 			</div>
 		</xsl:when>
-
-		<!-- svg -->
-		<xsl:when test="substring($type, 1, 9) = 'image/svg'">
-			<embed style="width:100%; display:block;">
-				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
-				<xsl:attribute name="type"><xsl:value-of select="$type"/></xsl:attribute>
-				<xsl:if test="$width != ''">
-					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-				</xsl:if>
-				<xsl:if test="$height != ''">
-					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
-				</xsl:if>
-				<xsl:call-template name="MOBParams">
-					<xsl:with-param name="curPurpose" select="$curPurpose" />
-					<xsl:with-param name="mode">attributes</xsl:with-param>
-					<xsl:with-param name="cmobid" select="$cmobid" />
-				</xsl:call-template>
-				<xsl:comment>Comment to have separate embed ending tag</xsl:comment>
-			</embed>
-		</xsl:when>
-
 
 		<xsl:when test = "$type=''">
 			{{{{{No Media Type}}}}}

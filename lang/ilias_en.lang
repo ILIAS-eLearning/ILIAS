@@ -653,7 +653,6 @@ assessment#:#errFormulaQuestion#:#A Formula Question contains incorrect informat
 assessment#:#errRecursionInResult#:#The formula contains an infinite recursion.
 assessment#:#err_category_in_use#:#At least one category cannot be deleted. One or more units of the category are already in use.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.
-assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.
 assessment#:#err_division#:#The value you chose would make it impossible to generate a valid value for the variable.
 assessment#:#err_duplicate_results#:#You used a result variable more than once. This is not allowed in the question text.
 assessment#:#err_no_formula#:#You must enter a formula
@@ -1462,6 +1461,7 @@ assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tes
 assessment#:#tst_eval_total_passed_average_time#:#Average Time on Task of All Passed Tests
 assessment#:#tst_eval_total_persons#:#Total number of participants who started the test
 assessment#:#tst_exam_access_code#:#Access Code
+assessment#:#tst_exam_access_code_invalid_message#:#The code you provided is invalid.
 assessment#:#tst_exam_access_code_label#:#Enter access code to continue your already started test. Leave the field empty to start a new test run.
 assessment#:#tst_exam_conditions#:#Exam Conditions
 assessment#:#tst_exam_conditions_label#:#Check to accept the conditions.
@@ -1690,7 +1690,8 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#The started pa
 assessment#:#tst_objective_progress_header#:#Learning Objective Progress
 assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress
 assessment#:#tst_old_style_rnd_quest_set_broken#:#This random test is in a irreparable state, because one or more connected question pools have been deleted. Therefor participants cannot take the test any longer.
-assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Question related to already passed learning objectives are optional.</b><br /><br />You want to navigate to a question, that relates to an already passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on these questions. Your answers from previous attempts were not adopted, since new random questions were selected for this attempt. With working on this questions you can also degrade your learning objective result.<br /><br />If you decide to not work on these questions, you can go back. In this case these questions won't be considered in the evaluation.
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back.
+assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Questions for already passed learning objectives are optional.</b><br /><br />The next questions are assigned to already passed learning objectives.<br /><br />If you continue, you can work through these questions. Your results in the related learning objectives may change.<br /><br />If you go back, the questions will not factor into the evaluation of this test.
 assessment#:#tst_out_of_time_message#:#You have reached the maximum allowed processing time of the test!
 assessment#:#tst_participant#:#Participant
 assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
@@ -1988,7 +1989,7 @@ assessment#:#tst_tab_results_objective_oriented#:#Test Results by Learning Objec
 assessment#:#tst_tab_results_pass_oriented#:#Test Results by Attempts
 assessment#:#tst_tbl_col_answered_questions#:#Answered Questions
 assessment#:#tst_tbl_col_final_mark#:#Mark
-assessment#:#tst_tbl_col_finished_passes#:#Finished Passes
+assessment#:#tst_tbl_col_finished_passes#:#Finished Attempts
 assessment#:#tst_tbl_col_finished_passes_num_of#:#%s of %s
 assessment#:#tst_tbl_col_last_scored_access#:#Last Scored Access
 assessment#:#tst_tbl_col_pass_finished#:#Pass Finished
@@ -2771,6 +2772,7 @@ buddysystem#:#buddy_bs_state_requested_p#:#Requested
 buddysystem#:#buddy_bs_state_unlinked#:#Unlinked
 buddysystem#:#buddy_bs_state_unlinked_a#:#Unlinked
 buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked
+buddysystem#:#buddy_confirm_unlink#:#Do you really want to disconnect from this contact?
 buddysystem#:#buddy_enable#:#Activate ‘Contacts’
 buddysystem#:#buddy_enable_info#:#If enabled, users are allowed to contact each other by initiating contact requests. Additionally, there is a personal user setting to allow or prevent being contacted.
 buddysystem#:#buddy_handle_contact_request#:#Contact Request
@@ -2927,6 +2929,7 @@ certificate#:#persistent_certificate_mode_instant#:#Instant
 certificate#:#persistent_certificate_mode_instant_info#:#This option is recommended for systems with low up to medium levels of user interaction. Systems that tend towards longer loading times during the creation of multiple user certificates should switch to the ‘Cron Job’ option.
 chatroom#:#allow_anonymous#:#Allow Anonymous Login
 chatroom#:#allow_custom_usernames#:#Allow Custom User Names
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.
 chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the ‘Permissions’ tab to allow anonymous user access to this repository item.
 chatroom#:#auto_scroll#:#Scroll to Bottom
 chatroom#:#autogen_usernames#:#Auto Generated User Names
@@ -2961,9 +2964,12 @@ chatroom#:#chat_https_dhparam_info#:#Please define an absolute server path to a 
 chatroom#:#chat_https_key_info#:#Please define an absolute server path to the private key file (e.g..: /etc/ssl/private/server.key).
 chatroom#:#chat_invitation#:#"[INVITER_NAME]" invites you into chat room "[ROOM_NAME]"
 chatroom#:#chat_invitation_long#:#[SALUTATION][BR][BR]You have been invited to a chat room:[BR]Chat Room Title: [ROOM_NAME][BR]Invited by: [INVITER_NAME][BR]URL: [LINK][BR][BR]To join the chat room, please follow the given URL.
+chatroom#:#chat_invitation_modal_headline#:#Invitation to Chat Room
+chatroom#:#chat_invitation_modal_section#:#Invite User
 chatroom#:#chat_invitation_nc_inv_x#:#You have %s chat invitations.
 chatroom#:#chat_invitation_nc_no_inv#:#You have no chat invitations.
 chatroom#:#chat_invitation_short#:#Please click the link to enter the chat room.
+chatroom#:#chat_invitation_username_input_label#:#Enter Username:
 chatroom#:#chat_invitations#:#Chat invitations
 chatroom#:#chat_invite#:#Invite
 chatroom#:#chat_join#:#Join
@@ -3020,6 +3026,7 @@ chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Room
 chatroom#:#chat_user_x_is_typing#:#User %s is typing ...
 chatroom#:#chat_users_are_typing#:#Multiple users are typing ...
 chatroom#:#chat_whisper#:#Whisper
+chatroom#:#chatroom_anonymous_default#:#Anonymous #
 chatroom#:#chatroom_auth#:#Authentication
 chatroom#:#chatroom_auth_btn_txt#:#Generate Keys
 chatroom#:#chatroom_auth_key#:#Authentication-Key
@@ -4655,7 +4662,7 @@ common#:#mails#:#Mails
 common#:#mails_at_the_ilias_installation#:#You received %1$s new mails at the ILIAS-Installation %2$s
 common#:#mails_pl#:#Mail(s)
 common#:#main_menu#:#Main Menu
-common#:#mainbar_aria_label#:#Mainbar
+common#:#mainbar_aria_label#:#Main navigation bar###01 02 2026 changed content
 common#:#mainbar_more_label#:#More
 common#:#manage_members#:#Manage Members
 common#:#marked_entries#:#Marked Entries
@@ -4821,7 +4828,7 @@ common#:#msg_no_perm_paste#:#You have no permission to paste the following objec
 common#:#msg_no_perm_paste_object_in_folder#:#You have no permission to paste the object %s in the folder %s.
 common#:#msg_no_perm_perm#:#You have no permission to change permission settings.
 common#:#msg_no_perm_read#:#You have no permission to access this item.
-common#:#msg_no_perm_read_item#:#You have no permission to access item '%s’.
+common#:#msg_no_perm_read_item#:#You have no permission to access the object.
 common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.
 common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user
 common#:#msg_no_perm_write#:#You have no permission to edit settings.
@@ -5374,6 +5381,7 @@ common#:#preconditions_optional_hint#:#You have to fulfill <b>%s</b> of the foll
 common#:#predefined_template#:#Predefined role template
 common#:#preferences#:#Preferences
 common#:#presentation_table_more#:#Show More
+common#:#presenter#:#Presenter
 common#:#preview#:#Preview
 common#:#preview_create#:#Create Preview
 common#:#preview_delete#:#Delete Preview
@@ -5478,6 +5486,7 @@ common#:#renderer_supported_file_types#:#Supported File Types
 common#:#renderer_supported_repo_types#:#Supported ILIAS Objects
 common#:#renderer_type_builtin#:#Built-in
 common#:#rep_main_page#:#Home
+common#:#rep_main_page_logo_alt#:#Logo ILIAS - to the start page
 common#:#repeat_scan#:#Repeating virus scan...
 common#:#repeat_scan_failed#:#Repeated scan failed.
 common#:#repeat_scan_succeded#:#Repeated scan succeeded.
@@ -5576,7 +5585,7 @@ common#:#scorm_login_as_learner_id_info#:#If enabled, the Username instead of th
 common#:#scorm_lp_auto_activate#:#Default setting for learning progress
 common#:#scorm_lp_auto_activate_info#:#If learning progress is activated in general, the settings for new SCORM learning modules are set to ‘Collection of SCORM Items’ and all SCOs are selected for learning progress determination. Adjustments are still possible for every SCORM learning module.
 common#:#scorm_new#:#Create SCORM Learning Module (Authoring Mode)
-common#:#scorm_without_session#:#SCORM 2004: enable storing data without session
+common#:#scorm_without_session#:#SCORM 2004: Data Storage Without Session
 common#:#scorm_without_session_info#:#This ensures the storage of SCORM 2004 learning data even if ILIAS session expired. For SCORM 1.2, storage without session is always enabled.
 common#:#search#:#Search
 common#:#search_active#:#Include active users
@@ -5695,6 +5704,7 @@ common#:#show_content#:#Show Content
 common#:#show_details#:#Show Details
 common#:#show_filter#:#Show Filter
 common#:#show_hidden_sections#:#Show More Information &raquo;
+common#:#show_less#:#Show less
 common#:#show_list#:#Show List
 common#:#show_members#:#Display Members
 common#:#show_more#:#Show More
@@ -5928,7 +5938,7 @@ common#:#user_image#:#User Image
 common#:#user_import_failed#:#User import failed.
 common#:#user_imported#:#User import complete.
 common#:#user_imported_with_warnings#:#User import complete with warnings.
-common#:#user_language#:#User Language
+common#:#user_language#:#User language
 common#:#user_never_logged_in#:#Delete user accounts without login
 common#:#user_never_logged_in_info#:#All user accounts without login at all be deleted.
 common#:#user_never_logged_in_info_threshold_err_num#:#Only positive non decimal numbers are accepted.
@@ -7081,7 +7091,7 @@ content#:#cont_sc_stat_running#:#Running
 content#:#cont_sc_store_if_previous_score_was_lower#:#if achieved score in previous attempt was higher or equal
 content#:#cont_sc_title#:#title
 content#:#cont_sc_usession#:#Prevent from Logging-Out Automatically
-content#:#cont_sc_usession_info#:#Periodical requests will be sent to ILIAS to keep the session alive. Otherwise ILIAS will categorize working on the learning module as idleness, terminate the session and loose the tracking data.
+content#:#cont_sc_usession_info#:#While working on a learning module, logging out of ILIAS can be disruptive and lead to the loss of learning data. The SCORM RTE regularly sends requests to ILIAS to prevent automatic logouts. To prevent the loss of learning data for SCORM 2004, please also activate the "SCORM 2004: Data Storage Without Session" option. For SCORM 1.2, this option is permanently enabled. You can find this option in the system-wide administration of learning modules.
 content#:#cont_sc_version#:#Version of Learning Module
 content#:#cont_sc_version_info#:#The version number is provided automatically by the version management of the learning module.
 content#:#cont_scheduled_activation#:#Scheduled Activation
@@ -7433,6 +7443,7 @@ copg#:#copg_remove_formats#:#Remove Formatting
 copg#:#copg_sec_link_info#:#Select a target for linking the block. Attention: In this case, the content of the block must not contain any further links itself!
 copg#:#copg_snippet_cannot_be_edited#:#This is a predefined content snippet and cannot be edited here.
 copg#:#copg_unsupported_media_type#:#This media object has an unsupported media type.
+copg#:#copg_use_template#:#Use Template
 copg#:#copg_x_minutes#:#%s minute(s)
 cpad#:#cpad_reading_time_status#:#Reading Time
 cpad#:#cpad_reading_time_status_desc#:#If enabled, the estimated reading time for content page objects will be determined and displayed.
@@ -7707,7 +7718,7 @@ crs#:#crs_loc_settings_type_q_all_info#:#Mastery of all learning objectives is e
 crs#:#crs_loc_settings_type_q_selected#:#Separate Final Test for Each Objective
 crs#:#crs_loc_settings_type_q_selected_info#:#Participants are presented with a separate mastery test for each learning objective.
 crs#:#crs_loc_subtab_creation#:#Create
-crs#:#crs_loc_suggested#:#Please work through the following learning materials.
+crs#:#crs_loc_suggested#:#Please work through the listed materials and then take the final test to pass the learning objective.
 crs#:#crs_loc_tab_itest#:#Initial Test
 crs#:#crs_loc_tab_itests#:#Initial Tests
 crs#:#crs_loc_tab_materials#:#Material
@@ -8128,6 +8139,8 @@ crs#:#tutorial_support_block_title#:#Contact Person
 crs#:#user_fields#:#User Fields
 crsv#:#crsv_create#:#Create Course Certificate
 crsv#:#crsv_create_info#:#Select a completed course to generate a certificate for it
+dash#:#add_to_favourites#:#Add to Favourites
+dash#:#added_to_favourites#:#The item has been added to your favourites.
 dash#:#dash_activation#:#activation
 dash#:#dash_added_to_favs#:#Recommendation has been added to personal favourites.
 dash#:#dash_avail_presentation#:#Available Presentations
@@ -8136,6 +8149,18 @@ dash#:#dash_click_here#:#Click here
 dash#:#dash_co_delete#:#Delete Dashboard style
 dash#:#dash_co_lang#:#Dashboard style by languages
 dash#:#dash_customization#:#Customize Dashboard Content
+dash#:#dash_dash_fav_remove#:#Remove
+dash#:#dash_dash_fav_remove_info#:#Are you sure you want to remove the following objects from your Favourites?
+dash#:#dash_dash_fav_remove_multiple#:#Remove Multiple Favorites
+dash#:#dash_dash_ls_remove#:#Unsubscribe
+dash#:#dash_dash_ls_remove_info#:#Are you sure you want to unsubscribe from the following learning sequences?
+dash#:#dash_dash_ls_remove_multiple#:#Unsubscribe Multiple Learning Sequences
+dash#:#dash_dash_mem_remove#:#Unsubscribe
+dash#:#dash_dash_mem_remove_info#:#Are you sure you want to unsubscribe from the following courses and groups?
+dash#:#dash_dash_mem_remove_multiple#:#Unsubscribe Multiple Courses and Groups
+dash#:#dash_dash_rc_remove#:#Remove
+dash#:#dash_dash_rc_remove_info#:#Are you sure you want to remove the following objects from your recommended content?
+dash#:#dash_dash_rc_remove_multiple#:#Remove Multiple Contents
 dash#:#dash_dashboard#:#Dashboard
 dash#:#dash_default_presentation#:#Default Presentation
 dash#:#dash_default_sortation#:#Default Sortation
@@ -8149,14 +8174,13 @@ dash#:#dash_enable_recommended_content#:#Recommended Content
 dash#:#dash_enable_study_programmes#:#Study Programmes
 dash#:#dash_enable_task#:#Tasks
 dash#:#dash_favourites#:#Favourites
-dash#:#dash_info_sure_remove_from_favs#:#Are you sure you want to remove the following objects from your Favourites?
 dash#:#dash_item_removed#:#Recommendation has been removed from the list.
 dash#:#dash_learning_sequences#:#My Learning Sequences
 dash#:#dash_list#:#List
 dash#:#dash_main_panel#:#Main Panel
-dash#:#dash_make_favourite#:#Add to Favourites
 dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.
 dash#:#dash_memberships#:#My Courses and Groups
+dash#:#dash_no_items_to_manage#:#No items available for removal.
 dash#:#dash_page_edit_info#:#The content of this page is displayed to all users on their dashboard. The contents of the various blocks of the dashboard are presented below.
 dash#:#dash_presentation#:#Presentation
 dash#:#dash_recommended_content#:#Recommended Content
@@ -8173,6 +8197,8 @@ dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’
 dash#:#dash_view_favourites#:#Section ‘Favourites’
 dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.
 dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.
+dash#:#remove_from_favourites#:#Remove from Favourites
+dash#:#removed_from_favourites#:#The item has been removed from your favourites.
 dash#:#topitem_block#:#Block
 dateplaner#:#Fr_long#:#Friday
 dateplaner#:#Fr_short#:#Fr
@@ -8659,7 +8685,7 @@ dcl#:#dcl_detailed_view#:#Detailed View
 dcl#:#dcl_display_action_menu#:#Copy
 dcl#:#dcl_display_action_menu_desc#:#The object can be copied from the entry.
 dcl#:#dcl_display_record_alt#:#Display this entry
-dcl#:#dcl_duplicate_non_unique_entries_exist#:#Some of the existing values for this field are identical. Please make sure that all existing entries are unique in order to change this setting. 
+dcl#:#dcl_duplicate_non_unique_entries_exist#:#Some of the existing values for this field are identical. Please make sure that all existing entries are unique in order to change this setting.
 dcl#:#dcl_edit#:#Settings for This Data Collection
 dcl#:#dcl_edit_entry_rules#:#Entry Editing
 dcl#:#dcl_edit_field#:#Edit Field
@@ -9224,6 +9250,8 @@ ecs#:#ecs_wiki_export_enabled#:#Release this Wiki
 ecs#:#ecs_wiki_export_obj_settings#:#Wiki Release Settings
 error#:#error_back_to_repository#:#Back to Repository
 error#:#error_sry_error#:#Sorry, an error occurred.
+error#:#http_404_not_found#:#The requested page could not be found.
+error#:#http_500_internal_server_error#:#An internal server error occurred.
 etal#:#appointments#:#Appointments
 etal#:#cal_type_tals#:#Talks
 etal#:#change_date_of_series#:#Change date of talk series
@@ -9732,6 +9760,7 @@ exc#:#exc_type_upload#:#Upload
 exc#:#exc_type_upload_team#:#Team Upload
 exc#:#exc_value_can_not_set#:#This value can not be set.
 exc#:#exc_view_portfolio#:#View Portfolio
+exc#:#exc_view_wiki#:#View Wiki
 exc#:#exc_wait_for_files#:#Your download should start automatically. If the download doesn't start in 5 secs, please click here
 exc#:#exc_wiki_container#:#Wiki Container
 exc#:#exc_wiki_container_info#:#Location where wikis of participants will be created.
@@ -10261,6 +10290,7 @@ glo#:#glo_really_remove_from_collection#:#Are you sure you want to remove the fo
 glo#:#glo_reference#:#Reference
 glo#:#glo_reference_terms#:#Reference Terms
 glo#:#glo_referenced_term#:#Referenced Term
+glo#:#glo_remove_glossary#:##Are you sure you want to remove the following glossary from the list of auto-linked glossaries?
 glo#:#glo_removed_from_collection_info#:#The glossary has been removed from the collection glossary.
 glo#:#glo_reset_all_boxes#:#Reset All Boxes
 glo#:#glo_save_and_continue#:#Save and Continue
@@ -10685,9 +10715,14 @@ itgr#:#itgr_always_open#:#Always Open
 itgr#:#itgr_assign_materials#:#Assign Materials
 itgr#:#itgr_assigned_materials#:#Assigned Materials
 itgr#:#itgr_assignment#:#Assigned
-itgr#:#itgr_behaviour#:#Block Behaviour
-itgr#:#itgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.
+itgr#:#itgr_display#:#Display
+itgr#:#itgr_display_with_title#:#With Title
+itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened
+itgr#:#itgr_display_without_title#:#Without Title
 itgr#:#itgr_edit#:#Edit Item Groups
 itgr#:#itgr_expandable_closed#:#Expandable (initially closed)
 itgr#:#itgr_expandable_open#:#Expandable (initially opened)
@@ -10697,8 +10732,6 @@ itgr#:#itgr_list_default#:#Default
 itgr#:#itgr_list_default_info#:#Inherits value from upper container.
 itgr#:#itgr_list_presentation#:#Item Presentation
 itgr#:#itgr_materials#:#Materials
-itgr#:#itgr_show_title#:#Show Title
-itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.
 itgr#:#itgr_tile#:#Tiles
 itgr#:#itgr_tile_size#:#Tile Size
 jscalendar#:#about_calendar#:#About the calendar
@@ -10860,7 +10893,7 @@ ldap#:#ldap_server_name#:#Name of LDAP Configuration
 ldap#:#ldap_server_name_info#:#Please choose a name for this LDAP server configuration.
 ldap#:#ldap_server_security_settings#:#Security Settings
 ldap#:#ldap_server_short#:#Server URL:
-ldap#:#ldap_server_url_info#:#A fully qualified URL for specifying the protocol, url and port to connect to. E.g "ldaps://ldap.ilias.de:636".
+ldap#:#ldap_server_url_info#:#Please enter a fully qualified URL for specifying the protocol, url and port to connect to, e.g "ldaps://ldap.ilias.de:636". Multiple URLs can be comma-separated for failover support. In case of connection failures, ILIAS will automatically rotate through the available servers. Note: During authentication, URL rotation is performed in-memory only (not persisted). In other contexts (e.g. during the asynchronous import of accounts via cron job), each failed connection will rotate the URL order and persist it to the database, helping future requests avoid recently-failed servers.
 ldap#:#ldap_server_version_info#:#LDAP version to use, usually 3.
 ldap#:#ldap_servers#:#LDAP Server
 ldap#:#ldap_settings#:#Server Settings
@@ -10975,6 +11008,7 @@ lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed
 lm#:#lm_copy#:#Copy Learning Module
 lm#:#lm_edit_chapters#:#Edit Chapters
+lm#:#lm_edit_content#:#Edit Content
 lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings
 lm#:#lm_est_reading_time#:#Estimated Reading Time
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.
@@ -10992,6 +11026,7 @@ lm#:#lm_insert_page_before#:#Insert page before
 lm#:#lm_insert_page_clip#:#Insert page from clipboard
 lm#:#lm_insert_page_clip_after#:#Insert page from clipboard after
 lm#:#lm_insert_page_clip_before#:#Insert page from clipboard before
+lm#:#lm_list_pages#:#Edit Pages
 lm#:#lm_page_added#:#Page has been added.
 lm#:#lm_page_type_lm#:#LM Page
 lm#:#lm_pages_added#:#Pages have been added.
@@ -11779,7 +11814,7 @@ mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 and MathJax 3 with cur
 mathjax#:#mathjax_polyfill_url_desc_line2#:#Please remove any reference to polyfill.io! See https://sansec.io/research/polyfill-supply-chain-attack
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script
 mathjax#:#mathjax_script_url_desc_line1#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. <br />For MathJax 2 e.g. %s
-mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. %s
+mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. %s<br />These scripts require the user’s browser to fetch MathJax from an external address (cdn.jsdelivr.net). If you host MathJax yourself, use a copy of the relevant script with the address modified.
 mathjax#:#mathjax_server_address#:#Server Address
 mathjax#:#mathjax_server_address_info#:#E.g. http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.
@@ -12743,8 +12778,8 @@ mmbr#:#info_refuse_sure#:#Are you sure you want to refuse the following user(s)?
 mmbr#:#mmbr_awrn_my_groups_courses#:#My Groups and Courses
 mmbr#:#mmbr_awrn_my_groups_courses_info#:#All members of groups or courses of the current user are listed.
 mmbr#:#mmbr_btn_mail_selected_users#:#Send Mail
-mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?
 mmbr#:#mmbr_memberships#:#Memberships
+mmbr#:#mmbr_role_error#:#Members must have at least one role assigned.
 mmbr#:#mmbr_selected_users#:#Selected Participants
 mmbr#:#mmbr_unsubscribed_from_objs#:#You have been unsubscribed from the selected objects.
 mme#:#add_languages#:#Add Language
@@ -13023,6 +13058,7 @@ notes#:#notes_latest_comment#:#Latest Comment
 notes#:#notes_latest_message#:#Latest Message
 notes#:#notes_message_author_counterpart#:#Respondent
 notes#:#notes_message_author_you#:#You
+notes#:#notes_message_deleted#:#Message deleted.
 notes#:#notes_messages#:#Messages
 notes#:#notes_my_comments#:#My Comments
 notes#:#notes_no_comments#:#No comment has been posted yet.
@@ -13279,7 +13315,6 @@ pd#:#pd_ended#:#Ended
 pd#:#pd_export_profile#:#Export Personal Data
 pd#:#pd_import_personal_data#:#Import Personal Data
 pd#:#pd_my_memberships_sort_default#:#Default of Sort Option
-pd#:#pd_no_items_to_manage#:#No items available for removal.
 pd#:#pd_not_dated#:#Not Dated
 pd#:#pd_ongoing#:#Ongoing
 pd#:#pd_personal_items_default_view#:#Default View
@@ -13289,9 +13324,6 @@ pd#:#pd_presentation_mode_tile#:#Tile Presentation
 pd#:#pd_private_calendars#:#Private Calendars
 pd#:#pd_profile_data#:#Profile Data
 pd#:#pd_remove_multi_confirm#:#The objects were removed.
-pd#:#pd_remove_multiple#:#Remove Multiple Objects
-pd#:#pd_unsubscribe_memberships#:#Unsubscribe
-pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple
 pd#:#pd_upcoming#:#Upcoming
 pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either ‘Selected Items’ and/or ‘My Memberships’.
 pdesk#:#bookmark_moved_ok#:#Bookmark has been moved.
@@ -14497,6 +14529,9 @@ rbac#:#positions_override_operations#:#Override global Settings
 rbac#:#precondition_not_obligatory_alt#:#Precondition is optional
 rbac#:#precondition_num_obligatory#:#Number of Required Materials
 rbac#:#precondition_num_optional_info#:#Please enter the minimum number of materials required to fulfill this precondition.
+rbac#:#precondition_number_of_required_materials_bigger_preconditions_number#:#The number of required materials must be less than the total number of preconditions.
+rbac#:#precondition_number_of_required_materials_lower_compulsory_items#:#The number of required materials must be greater than the number of compulsory preconditions.
+rbac#:#precondition_number_of_required_materials_lower_than_one#:#The number of required materials must be at least 1.
 rbac#:#precondition_obligatory#:#Compulsory
 rbac#:#precondition_obligatory_alt#:#Precondition must be fulfilled
 rbac#:#precondition_obligatory_info#:#Compulsory preconditions must be fulfilled, for having access.
@@ -15032,9 +15067,7 @@ rep#:#rep_add_new_def_grp_content#:#Content
 rep#:#rep_add_new_def_grp_feedback#:#Feedback and Evaluation
 rep#:#rep_add_new_def_grp_organisation#:#Organisation
 rep#:#rep_add_new_def_grp_templates#:#Templates
-rep#:#rep_add_to_favourites#:#Add to Favourites
 rep#:#rep_added_rec_content#:#Recommended content has been added.
-rep#:#rep_added_to_favourites#:#The item has been added to your favourites.
 rep#:#rep_allowed_types#:#Allowed Types
 rep#:#rep_breadcr_crs#:#Breadcrumb starts with course
 rep#:#rep_breadcr_crs_config#:#Configuration
@@ -15057,11 +15090,11 @@ rep#:#rep_export_limitation_info#:#Limits the number of objects for container ex
 rep#:#rep_export_limitation_limited#:#Limit Export
 rep#:#rep_export_limitation_unlimited#:#Unlimited Export
 rep#:#rep_failure_trashed_trash#:#You selected objects that cannot be restored to their original location, because their parent objects were deleted. Please uncheck the respective object in the table or select the Restore to New Location instead.
-rep#:#rep_fav_intro1#:#You have not yet selected any favourites. To do this, you must take two steps:
-rep#:#rep_fav_intro2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.
-rep#:#rep_fav_intro3#:#When you have found something that interests you, you can easily add it to your favourites. Select the desired item in the <i>Actions</i> menu and choose "<i>Add to favourites</i>".
+rep#:#rep_fav_intro1#:#You have not yet selected any favourites. To do so, there are two steps you need to take:
+rep#:#rep_fav_intro2#:#Click on '%s' and select a learning object from those available, for example a learning module or a forum.
+rep#:#rep_fav_intro3#:#When you have found something that interests you, you can easily add it to your favourites. Select the desired item in the <i>Actions</i> menu and select "<i>Add to favourites</i>".
 rep#:#rep_favourites#:#Favourites
-rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.
+rep#:#rep_favourites_info#:#Users can mark individual repository items as favourites. A 'Favourites' list can be activated for the dashboard and the main menu. 
 rep#:#rep_input_not_empty#:#This field must not be empty, please provide a value.
 rep#:#rep_intro#:#Welcome to the Repository!
 rep#:#rep_intro1#:#In this area you can create learning and working resources for all users. All resources are organised in categories. Categories can reflect the structure of your organisation (e.g. departments), a hierarchy of disciplines, or classes of a school.
@@ -15089,9 +15122,7 @@ rep#:#rep_object_references_cannot_be_read#:#No permissions for %s more referenc
 rep#:#rep_object_to_delete#:#To Delete
 rep#:#rep_rec_content_removed#:#Recommended content has been removed.
 rep#:#rep_recommended_content#:#Recommended Content
-rep#:#rep_remove_from_favourites#:#Remove from Favourites
 rep#:#rep_remove_rec_content#:#Are you sure you want to remove the following recommended content?
-rep#:#rep_removed_from_favourites#:#The item has been removed from your favourites.
 rep#:#rep_target_location#:#Target Location
 rep#:#rep_target_location_info#:#Bitte wählen Sie nun das Ziel aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen.
 rep#:#rep_time_based_availability#:#Limited Availability Period
@@ -16083,6 +16114,7 @@ style#:#sty_individual_styles#:#Individual Styles
 style#:#sty_keep_existing#:#Keep Existing
 style#:#sty_left#:#Left
 style#:#sty_left_right_padding#:#Cell Padding Left/Right
+style#:#sty_legacy_image_directory_found#:#Legacy image directory found. You may migrate the directory from ILIAS 9 by clicking "Migrate Images"
 style#:#sty_letter_spacing#:#Letter Spacing
 style#:#sty_lightness_border#:#Lightness Border
 style#:#sty_lightness_cell1_bg#:#Lightness Cell 1 Background
@@ -16103,6 +16135,7 @@ style#:#sty_margin_and_padding#:#Margin and Padding
 style#:#sty_media_char#:#Media
 style#:#sty_media_queries#:#Media Queries
 style#:#sty_media_query_info#:#A separate CSS block is added for each media query after the default (no special media query) block.
+style#:#sty_migrate_images#:#Migrate Images
 style#:#sty_min_height#:#Minimum Height
 style#:#sty_move_lm_styles#:#Change Style of Learning Modules
 style#:#sty_move_obj_styles#:#Change Style of Objects
@@ -16161,6 +16194,7 @@ style#:#sty_special#:#Special
 style#:#sty_style_chars#:#Style Classes
 style#:#sty_style_class#:#Style Classes
 style#:#sty_style_classes_copied#:#Style classes have been copied.
+style#:#sty_style_not_migrated#:#This content style has not been migrated to the ILIAS 10 data structure yet. Changes will not be applied.
 style#:#sty_substyle#:#Substyle
 style#:#sty_substyle_of#:#Sub Style of
 style#:#sty_substyles#:#Substyles
@@ -16672,7 +16706,7 @@ survey#:#survey_360_sure_appraisee_close#:#Are you sure you want to close the su
 survey#:#survey_360_sure_appraisee_close_admin#:#Are you sure you want to close the surveys for the following appraisees?
 survey#:#survey_360_sure_delete_appraises#:#Are you sure you want to remove the following appraisees?
 survey#:#survey_360_sure_delete_raters#:#Are you sure you want to remove the following raters for %s?
-survey#:#survey_access_codes#:#Authentication by Access Code
+survey#:#survey_access_code#:#Authentication by Access Code
 survey#:#survey_access_codes_info#:#Users get access to the survey by entering a code in the survey’s ‘Info’ tab. These access codes can be generated in the ‘Access Codes’ sub tab of the ‘Participants’ tab.
 survey#:#survey_activate_skill_service#:#Activate Competence Service
 survey#:#survey_activate_skill_service_info#:#Display a new ‘Competences’ tab. In this tab questions are assigned to competences. Thresholds can then be established that are required to reach a specific level of a competence.
@@ -16707,6 +16741,7 @@ survey#:#survey_execution_sure_finish#:#Are you sure you want to finish the surv
 survey#:#survey_existing_pool#:#Use existing question pool
 survey#:#survey_finish#:#Finish Survey
 survey#:#survey_finished#:#You have finished the survey. Thank you for your participation!
+survey#:#survey_from_x_points#:#From X Points
 survey#:#survey_has_datasets_warning#:#This survey already contains data sets. You cannot sync the survey questions until you remove these data sets via the survey’s ‘Participants’ tab. To do this you will need to remove any participants that have started the survey and by doing so, generated a data set.
 survey#:#survey_has_datasets_warning_page_view#:#This survey already contains data sets. You cannot edit the survey questions until you remove these datasets. To do this you will need to remove any participants that have started the survey and by doing so, generated a data set.
 survey#:#survey_has_datasets_warning_page_view_link#:#Edit Participants
@@ -16782,7 +16817,6 @@ survey#:#survey_sync_insufficient_permissions#:#Insufficient Permissions.
 survey#:#survey_sync_question_copies#:#Sync Question Copies
 survey#:#survey_sync_question_copies_info#:#Please select the instances of the question which should be replaced with the current pool version.
 survey#:#survey_sync_success#:#The selected questions have been updated.
-survey#:#survey_up_to_x_points#:#Up to x points
 survey#:#survey_use_start_button#:#To take part in the survey, you need to use the start button.
 survey#:#svy_activation_limited_visibility_info#:#Allow users to always see the title of the survey and its period of availability. The survey questions themselves will still only be accessible during the indicated period of availability.
 survey#:#svy_activation_online_info#:#Users can only participate in a survey if it is online.
@@ -17074,6 +17108,7 @@ tax#:#tax_tax_settings#:#Taxonomy Settings
 tax#:#tax_taxonomy#:#Taxonomy
 tbl#:#tbl_export_csv#:#Export CSV
 tbl#:#tbl_export_excel#:#Export Excel
+tbl#:#tbl_selection#:#Selection
 tbl#:#tbl_template_create#:#Save Current View
 tbl#:#tbl_template_created#:#The current view has been saved.
 tbl#:#tbl_template_delete#:#Delete Saved View
@@ -17839,7 +17874,6 @@ wopi#:#wopi_url_byline#:#Complete URL of the WOPI Discovery, which must be acces
 wsp#:#element_already_shared#:#This object is already shared with this user.
 wsp#:#element_shared#:#Object shared.
 wsp#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.
-wsp#:#search_no_match#:#Your search did not match any results.
 wsp#:#share#:#Share
 wsp#:#share_content#:#Share Object
 wsp#:#share_with#:#Username
@@ -17861,6 +17895,7 @@ wsp#:#wsp_permission_registered_info#:#This object is shared with all registered
 wsp#:#wsp_permission_removed#:#Entry has been removed.
 wsp#:#wsp_permissions#:#Share
 wsp#:#wsp_personal_resources_description#:#Here you can manage your private files, blogs and artifacts.
+wsp#:#wsp_search_no_match#:#Your search did not match any results.
 wsp#:#wsp_send_mail#:#Send Mail
 wsp#:#wsp_set_permission_all#:#World Wide Web
 wsp#:#wsp_set_permission_all_password#:#World Wide Web with Password

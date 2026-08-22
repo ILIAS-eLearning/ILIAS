@@ -254,9 +254,18 @@ class ilPluginInfoTest extends TestCase
     public function testGetPath(): void
     {
         $this->assertEquals(
-            ilComponentRepository::PLUGIN_BASE_PATH . "/Type1/Module1/Slot1/Plugin1",
+            dirname(__DIR__, 4) . "/public/Customizing/global/plugins/Type1/Module1/Slot1/Plugin1",
             $this->plugin->getPath()
         );
+    }
+
+    /**
+     * ilComponentRepository::PLUGIN_BASE_PATH is built from __DIR__, the "../../../.." it
+     * carries must not show up in the path handed out to a plugin. See 0046652.
+     */
+    public function testGetPathIsNormalized(): void
+    {
+        $this->assertStringNotContainsString('..', $this->plugin->getPath());
     }
 
     public function testGetClassName(): void

@@ -1835,6 +1835,19 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         if (isset($params['action']) && $params['action'] === 'logout') {
             $logout_url = $params['logout_url'] ?? '';
             $this->logger->info(sprintf('Requested SAML logout: %s', $logout_url));
+            $host = fn($url) => parse_url($url ?: '', PHP_URL_HOST);
+
+            // Invalid URL's will be catched by this too ($host($logout_url) is null but not in array).
+            if (!in_array($host($logout_url), array_filter([
+                'localhost',
+                $host($this->dic->iliasIni()->readVariable('server', 'http_path')),
+                $host($this->dic->settings()->get('soap_wsdl_path')),
+                $host((new ilSetting('auth'))->get('logout_behaviour_url')),
+                ...explode(',', $this->dic->settings()->get('allowed_hosts', '')),
+            ]), true)) {
+                throw new Exception('Redirect URL not allowed');
+            }
+
             $auth->logout($logout_url);
         }
 
@@ -2019,13 +2032,10 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     {
         global $DIC;
 
+
         $defaults = ['lang' => $DIC->user()->getCurrentLanguage()];
         $parameters = '&' . http_build_query(array_merge($defaults, $parameters));
 
-        $DIC->ctrl()->setTargetScript('logout.php');
-        $url = $DIC->ctrl()->getLinkTargetByClass([self::class], 'doLogout') . $parameters;
-        $DIC->ctrl()->setTargetScript('ilias.php');
-
-        return $url;
+        return $DIC->ctrl()->getLinkTargetByClass([self::class], 'doLogout') . $parameters;
     }
 }

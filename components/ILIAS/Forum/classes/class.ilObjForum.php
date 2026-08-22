@@ -369,14 +369,17 @@ class ilObjForum extends ilObject
         $target_ref_id = $new_obj->getRefId();
         $target_notifications = new ilForumNotification($target_ref_id);
 
-        if ($source_ref_id > 0 && $target_ref_id > 0 &&
-            $this->tree->getParentId($source_ref_id) === $this->tree->getParentId($target_ref_id)) {
-            if ($new_obj->isParentMembershipEnabledContainer()) {
+        if ($source_ref_id > 0 && $target_ref_id > 0 && $new_obj->isParentMembershipEnabledContainer()) {
+            if ($this->tree->getParentId($source_ref_id) === $this->tree->getParentId($target_ref_id)) {
                 $target_notifications->cloneFromSource($source_ref_id);
+            } else {
+                $object_properties = ilForumProperties::getInstance($new_obj->getId());
+                $target_notifications->applyTypeConfigurationFor(
+                    $new_obj->getAllForumParticipants(),
+                    $object_properties,
+                    null
+                );
             }
-        } else {
-            $object_properties = ilForumProperties::getInstance($this->getId());
-            $target_notifications->updateUserNotifications($new_obj->getAllForumParticipants(), $object_properties);
         }
 
         if (ilForumPage::_exists($this->getType(), $this->getId())) {

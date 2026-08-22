@@ -71,7 +71,7 @@ class EntriesTable implements OrderingBinding
             if ($entry->isCore()) {
                 $title = $this->collector->getSingleItemFromRaw(
                     $this->identification->fromSerializedIdentification($entry->getId()),
-                )->getTitle();
+                )?->getTitle() ?? 'Unknown';
             } else {
                 $title = $this->translations_repository->get($entry)->getDefault()?->getTranslation(
                 ) ?? $entry->getTitle();

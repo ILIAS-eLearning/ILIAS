@@ -19,7 +19,7 @@
 *
 * @module			language file Turkish
 * @modulegroup		language
-* @author			Dilek Kazmaz <kazmaz@qualitus.de>, Reyhan Çalışkan <reyhan@emarkt.com.tr>, Beyhan Çalışkan <byhkaan@gmail.com>
+* @author			Dilek Kazmaz, Reyhan Çalışkan, Beyhan Çalışkan <byhkaan@gmail.com>
 * @version			$Id: ilias_en.lang 25507 2010-09-01 10:14:10Z nkrzywon $
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
@@ -653,7 +653,6 @@ assessment#:#errFormulaQuestion#:#A Formula Question contains incorrect informat
 assessment#:#errRecursionInResult#:#The formula contains an infinite recursion.###24 10 2013 new variable
 assessment#:#err_category_in_use#:#At least one category cannot be deleted. One or more units of the category are already in use.###24 10 2013 new variable
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###29 07 2022 new variable
-assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#The value you chose would make it impossible to generate a valid value for the variable.###29 07 2022 new variable
 assessment#:#err_duplicate_results#:#You used a result variable more than once. This is not allowed in the question text.###24 10 2013 new variable
 assessment#:#err_no_formula#:#You must enter a formula###24 10 2013 new variable
@@ -906,7 +905,7 @@ assessment#:#longmenu_answeroptions_differ#:#This question does not work correct
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
 assessment#:#mailnottype#:#Kullanıcı testi bitirip geçtiği vakit bilgilendirme mesajı gönder
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###26 08 2024 new variable
-assessment#:#mainbar_button_label_questionlist#:#Questionlist###26 08 2024 new variable
+assessment#:#mainbar_button_label_questionlist#:#Soru listesi
 assessment#:#maintenance#:#Bakım
 assessment#:#manscoring#:#Manuel Puanlama
 assessment#:#manscoring_done#:#Puanlanan Katılımcılar
@@ -1153,7 +1152,7 @@ assessment#:#question_type#:#Soru Türü
 assessment#:#questionlist_cannot_be_altered#:#The questionlist cannot be altered as the test already contains participant data sets.###20 01 2026 new variable
 assessment#:#questionpool_not_entered#:#Soru havuzu için bir ad girin!
 assessment#:#questionpool_not_selected#:#Please select a question pool!###07 02 2020 new variable
-assessment#:#questions#:#Questions###26 08 2024 new variable
+assessment#:#questions#:#Sorular
 assessment#:#questions_from#:#sorular
 assessment#:#questions_per_page_view#:#Sayfa Görünümü
 assessment#:#random_accept_sample#:#Örnek Kabul
@@ -1385,7 +1384,7 @@ assessment#:#tst_answered_questions_of_total#:#%s of %s###07 02 2020 new variabl
 assessment#:#tst_answered_questions_test#:#Bu testteki cevaplanan sorular
 assessment#:#tst_attached_xls_file#:#You find the test result for this participant in the attached Excel file.###27 01 2015 new variable
 assessment#:#tst_attempt#:#Attempt###30 08 2015 new variable
-assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.###26 08 2024 new variable
+assessment#:#tst_attempt_limit_message#:#Bu sınavı alabileceğiniz toplam sayı: <b>%s</b>.
 assessment#:#tst_attempt_started#:#Test Başladı
 assessment#:#tst_back_to_pass_details#:#Back to Pass Details###26 09 2014 new variable
 assessment#:#tst_back_to_question_list#:#Back to Question List###26 09 2014 new variable
@@ -1444,7 +1443,7 @@ assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this messag
 assessment#:#tst_dont_use_previous_answers#:#Sonraki testleriniz için önceki cevaplarınız varsayılan olarak kullanılmayacaktır.
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties###30 08 2015 new variable
 assessment#:#tst_edit_scoring#:#Puanlama Düzenle
-assessment#:#tst_enable_questionlist#:#Show 'List of Questions’###26 08 2024 new variable
+assessment#:#tst_enable_questionlist#:'Sorular Listesi'ni göster
 assessment#:#tst_enable_questionlist_description#:#Participants can switch on a list of the test questions on the left of the actual question.###26 08 2024 new variable
 assessment#:#tst_ending_time#:#Bitiş Zamanı
 assessment#:#tst_ending_time_before_starting_time#:#Please enter a date for the end of the test that is after the start date.###26 08 2024 new variable
@@ -1462,6 +1461,7 @@ assessment#:#tst_eval_total_passed_average_points#:#Geçilen Testlerin Ortalama 
 assessment#:#tst_eval_total_passed_average_time#:#Tüm Geçen Testlerin Ortalama Süresi
 assessment#:#tst_eval_total_persons#:#Teste başlayan kişilerin toplam sayısı
 assessment#:#tst_exam_access_code#:#Access Code###26 08 2024 new variable
+assessment#:#tst_exam_access_code_invalid_message#:#The code you provided is invalid.###26 05 2026 new variable
 assessment#:#tst_exam_access_code_label#:#Enter access code to continue your already started test.###26 08 2024 new variable
 assessment#:#tst_exam_conditions#:#Exam Conditions###26 08 2024 new variable
 assessment#:#tst_exam_conditions_label#:#Check to accept the conditions.###26 08 2024 new variable
@@ -1469,14 +1469,14 @@ assessment#:#tst_exam_conditions_not_checked_message#:#You need to accept the ex
 assessment#:#tst_exam_ending_time_message#:#The test cannot be started after %s.###26 08 2024 new variable
 assessment#:#tst_exam_modal_message_conditions#:#Please confirm the conditions to start the test.###26 08 2024 new variable
 assessment#:#tst_exam_modal_message_conditions_and_password#:#Please confirm the conditions and enter the password to start the test.###26 08 2024 new variable
-assessment#:#tst_exam_modal_message_password#:#Please enter the password to start the test.###26 08 2024 new variable
+assessment#:#tst_exam_modal_message_password#:#Lütfen testi başlatmak için şifreyi girin.
 assessment#:#tst_exam_not_assigned_participant_disclaimer#:#You cannot start this test, as you are not an assigned participant.###26 08 2024 new variable
-assessment#:#tst_exam_password#:#Test Password###26 08 2024 new variable
+assessment#:#tst_exam_password#:#Test şifresi
 assessment#:#tst_exam_password_invalid_message#:#The given password is not valid!###26 08 2024 new variable
-assessment#:#tst_exam_password_label#:#Password###26 08 2024 new variable
+assessment#:#tst_exam_password_label#:#Şifre
 assessment#:#tst_exam_required_fields_not_filled_message#:#You need to fill out all required fields!###26 08 2024 new variable
-assessment#:#tst_exam_start#:#Start Test###26 08 2024 new variable
-assessment#:#tst_exam_use_previous_answers#:#Previous Answers###26 08 2024 new variable
+assessment#:#tst_exam_start#:#Teste Başla
+assessment#:#tst_exam_use_previous_answers#:#Önceki cevapları kullanın
 assessment#:#tst_exam_use_previous_answers_label#:#If enabled answers from previous tests will be prefilled.###26 08 2024 new variable
 assessment#:#tst_extratime_added#:#The working time of the participant has been increased by %s minutes.###24 10 2013 new variable
 assessment#:#tst_extratime_info#:#If you want to add the working time multiple times for the same participant, please insert the total amount of time you want to add.###14 05 2014 new variable
@@ -1496,7 +1496,7 @@ assessment#:#tst_final_information#:#Finishing the Test: Information Before Subm
 assessment#:#tst_finish_confirm_button#:#Evet, testi bitirmek istiyorum
 assessment#:#tst_finish_confirm_cancel_button#:#Hayır, önceki soruya geri dön
 assessment#:#tst_finish_confirmation_question#:#Testi sonlandırmak üzeresiniz. Cevaplarınızı değiştirmek için bu teste tekrar giremeyeceksiniz. Gerçekten testi bitirmek istiyor musunuz?
-assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?###26 08 2024 new variable
+assessment#:#tst_finish_confirmation_question_no_attempts_left#:#Bu testi bitireceksiniz ve izin verilen maksimum test deneme sayısına ulaşacaksınız. Cevaplarınızı değiştirmek için bu teste tekrar giremeyeceksiniz. Gerçekten testi bitirmek istiyor musunuz?
 assessment#:#tst_finish_notification#:#Tamamlandığında E-Posta
 assessment#:#tst_finish_notification_advanced#:#Test sahibine test sonucunu gönder
 assessment#:#tst_finish_notification_content_type#:#Content of e-mail###27 01 2015 new variable
@@ -1594,7 +1594,7 @@ assessment#:#tst_invited_selected_users#:#Seçilen kullanıcıların sabit test 
 assessment#:#tst_launcher_button_label_passes_limit_reached#:#You have reached the limit of possible test passes###26 08 2024 new variable
 assessment#:#tst_launcher_status_message_conditions#:#You will be asked for your approval of the exam conditions when you start the test.###26 08 2024 new variable
 assessment#:#tst_launcher_status_message_conditions_and_password#:#You will be asked for the password and your approval of the exam conditions when you start the test.###26 08 2024 new variable
-assessment#:#tst_launcher_status_message_password#:#You will be asked for the password when you start the test.###26 08 2024 new variable
+assessment#:#tst_launcher_status_message_password#:#Testi başlattığınızda sizden şifre istenecektir.
 assessment#:#tst_level#:#Competence Level###26 09 2014 new variable
 assessment#:#tst_limit_nr_of_tries#:#Maximum Number of Test Passes###07 11 2014 new variable
 assessment#:#tst_link_only_unassigned#:#Zaten bir soru havuzu ile bağlantılı en az bir soru seçtiniz. Sadece atanmamış soru ettiği havuz için ilave edilebilir.
@@ -1690,8 +1690,9 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#The started pa
 assessment#:#tst_objective_progress_header#:#Learning Objective Progress###25 10 2016 new variable
 assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress###25 10 2016 new variable
 assessment#:#tst_old_style_rnd_quest_set_broken#:#This random test is in a irreparable state, because one or more connected question pools have been deleted. Therefor participants cannot take the test any longer.###30 08 2015 new variable
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back.###26 05 2026 new variable
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Question related to allready passed learning objectives are optional.</b><br /><br />You want to navigate to a question, that relates to an allready passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on these questions. Your answers from previous attempts were not adopted, since new random questions were selected for this attempt. With working on this questions you can also degrade your learning objective result.<br /><br />If you decide to not work on these questions, you can go back. In this case these questions won't be considered in the evaluation.###30 08 2015 new variable
-assessment#:#tst_out_of_time_message#:#You have reached the maximum allowed processing time of the test!###26 08 2024 new variable
+assessment#:#tst_out_of_time_message#:#Bu sınav için ayrılan süre doldu.
 assessment#:#tst_participant#:#Katılımcı
 assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s###26 09 2014 new variable
 assessment#:#tst_participant_status#:#Katılımcı Durumu
@@ -2005,7 +2006,7 @@ assessment#:#tst_text_count_system#:#Puanlama Sistemi
 assessment#:#tst_threshold#:#Thresholds###26 09 2014 new variable
 assessment#:#tst_time_already_spent#:#%s de test başladı. Maksimum işlem süresi %s.
 assessment#:#tst_time_already_spent_left#:#%s kaldı.
-assessment#:#tst_time_limit_message#:#You will have <b>%s minutes</b> to answer all questions.###26 08 2024 new variable
+assessment#:#tst_time_limit_message#:#Tüm soruları yanıtlamak için <b>%s dakikanız</b> olacak.
 assessment#:#tst_title_output#:#Soru Başlığı
 assessment#:#tst_title_output_full#:#Soru Başlığı ve Puanları Göster
 assessment#:#tst_title_output_hide_points#:#Sadece Soru Başlıklarını Göster
@@ -2178,6 +2179,7 @@ auth#:#auth_saml_deleted_idp#:#The Identity Provider has been deleted.###31 08 2
 auth#:#auth_saml_enable#:#Enable SAML Support###31 08 2017 new variable
 auth#:#auth_saml_err_sqlite_driver#:#The SAML authentication requires the SQLite driver for PHP. Please install the SQLite package and try again.###29 07 2022 new variable
 auth#:#auth_saml_idp#:#IDP###31 08 2017 new variable
+auth#:#auth_saml_idp_deactivated_auth_failed#:#Authentication failed, the identity provider is disabled.###10 03 2026 new variable
 auth#:#auth_saml_idp_selection_table_desc#:#Bitte wählen Sie den Identity Provider mit dem Sie sich anmelden möchten.###31 08 2017 new variable
 auth#:#auth_saml_idp_selection_table_title#:#Identity Provider Selection###31 08 2017 new variable
 auth#:#auth_saml_idp_settings#:#IDP Settings###31 08 2017 new variable
@@ -2769,6 +2771,7 @@ buddysystem#:#buddy_bs_state_requested_p#:#Requested###30 08 2015 new variable
 buddysystem#:#buddy_bs_state_unlinked#:#Unlinked###29 07 2022 new variable
 buddysystem#:#buddy_bs_state_unlinked_a#:#Unlinked###30 08 2015 new variable
 buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked###29 07 2022 new variable
+buddysystem#:#buddy_confirm_unlink#:#Do you really want to disconnect from this contact?###10 03 2026 new variable
 buddysystem#:#buddy_enable#:#Activate ‘Contacts’###23 12 2015 new variable
 buddysystem#:#buddy_enable_info#:#If enabled, users are allowed to contact each other by initiating contact requests. Additionally, there is a personal user setting to allow or prevent being contacted.###23 12 2015 new variable
 buddysystem#:#buddy_handle_contact_request#:#Contact Request###25 10 2016 new variable
@@ -2925,6 +2928,7 @@ certificate#:#persistent_certificate_mode_instant#:#Instant###07 02 2020 new var
 certificate#:#persistent_certificate_mode_instant_info#:#This option is recommended for systems with low up to mediocre user interactions. Systems that tend to big loading times during creation for multiple user certificates should switch to the "Cron Job" option.###07 02 2020 new variable
 chatroom#:#allow_anonymous#:#Oturum aç Anonim izin ver
 chatroom#:#allow_custom_usernames#:#Özel adları İzin
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.###07 07 2026 new variable
 chatroom#:#anonymous_hint#:#Bu depo öğeyi anonim kullanıcı erişimi sağlamak için "İzinler" sekmesini doğru izinlerini ayarlamak için emin olun.
 chatroom#:#auto_scroll#:#Yukardan ilerleyin
 chatroom#:#autogen_usernames#:#Otomatik Oluşturulmuş adları
@@ -2959,9 +2963,12 @@ chatroom#:#chat_https_dhparam_info#:#Please define an absolute server path to a 
 chatroom#:#chat_https_key_info#:#Please define an absolute server path to the private key file (e.g..: /etc/ssl/private/server.key).###25 10 2016 new variable
 chatroom#:#chat_invitation#:#[INVITER_NAME] den kişiye davetiye Chatroom [ROOM_NAME]
 chatroom#:#chat_invitation_long#:#[SALUTATION] \ n \ nBu bir sohbet için davet edildiniz: \ nChatroom Başlığı: [ROOM_NAME] tarafından \ nInvited: [INVITER_NAME] \ nURL: [LINK] Eğer sohbet odası katılmak istiyorsanız \ n \ nBu takip edin verilen URL'ye .
+chatroom#:#chat_invitation_modal_headline#:#Invitation to Chat Room###26 05 2026 new variable
+chatroom#:#chat_invitation_modal_section#:#Invite User###26 05 2026 new variable
 chatroom#:#chat_invitation_nc_inv_x#:#You have %s chat invitations.###29 07 2022 new variable
 chatroom#:#chat_invitation_nc_no_inv#:#You have no chat invitations.###29 07 2022 new variable
 chatroom#:#chat_invitation_short#:#Chat'e girmek için başlık bağlantısına tıklayınız.
+chatroom#:#chat_invitation_username_input_label#:#Enter Username:###26 05 2026 new variable
 chatroom#:#chat_invitations#:#Chat invitations###29 07 2022 new variable
 chatroom#:#chat_invite#:#Davet
 chatroom#:#chat_join#:#Üyelik
@@ -3018,6 +3025,7 @@ chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Chatroom###25 
 chatroom#:#chat_user_x_is_typing#:#User %s is typing ...###29 07 2022 new variable
 chatroom#:#chat_users_are_typing#:#Multiple users are typing ...###29 07 2022 new variable
 chatroom#:#chat_whisper#:#Whisper
+chatroom#:#chatroom_anonymous_default#:#Anonymous ####07 07 2026 new variable
 chatroom#:#chatroom_auth#:#Authentication###25 10 2016 new variable
 chatroom#:#chatroom_auth_btn_txt#:#Generate Keys###25 10 2016 new variable
 chatroom#:#chatroom_auth_key#:#Authentication-Key###25 10 2016 new variable
@@ -4653,7 +4661,7 @@ common#:#mails#:#Postalar
 common#:#mails_at_the_ilias_installation#:#ILIAS yüklemesi %2$s tarafından %1$s yeni posta aldınız
 common#:#mails_pl#:#Posta
 common#:#main_menu#:#Ana Menü
-common#:#mainbar_aria_label#:#Mainbar###29 07 2022 new variable
+common#:#mainbar_aria_label#:#Main navigation bar###01 02 2026 changed content
 common#:#mainbar_more_label#:#More###29 07 2022 new variable
 common#:#manage_members#:#Manage Members###30 08 2015 new variable
 common#:#marked_entries#:#İşaretli Girdiler
@@ -4716,7 +4724,7 @@ common#:#mm_communication#:#Communication###07 02 2020 new variable
 common#:#mm_contacts#:#Contacts###07 02 2020 new variable
 common#:#mm_dashboard#:#Dashboard###07 02 2020 new variable
 common#:#mm_enrolments#:#Enrolments###07 02 2020 new variable
-common#:#mm_favorites#:#Favourites###07 02 2020 new variable
+common#:#mm_favorites#:#Favoriler
 common#:#mm_learning_history#:#Learning History###07 02 2020 new variable
 common#:#mm_learning_progress#:#Learning Progress###07 02 2020 new variable
 common#:#mm_mail#:#Mail###07 02 2020 new variable
@@ -4727,10 +4735,10 @@ common#:#mm_personal_and_shared_r#:#Personal and Shared Resources###07 02 2020 n
 common#:#mm_personal_workspace#:#Personal Workspace###07 02 2020 new variable
 common#:#mm_portfolio#:#Portfolio###07 02 2020 new variable
 common#:#mm_private_chats#:#Private Chats###29 07 2022 new variable
-common#:#mm_repo_tree_view#:#Tree View###07 02 2020 new variable
-common#:#mm_repo_tree_view_act#:#Activate Tree###07 02 2020 new variable
-common#:#mm_repo_tree_view_deact#:#Deactivate Tree###07 02 2020 new variable
-common#:#mm_repository#:#Repository###07 02 2020 new variable
+common#:#mm_repo_tree_view#:#Ağaç görünümü
+common#:#mm_repo_tree_view_act#:#Aktywuj widok drzewa
+common#:#mm_repo_tree_view_deact#:#Deaktywuj widok drzewa
+common#:#mm_repository#:#Depo
 common#:#mm_skills#:#Competences###07 02 2020 new variable
 common#:#mm_staff_list#:#Staff List###07 02 2020 new variable
 common#:#mm_tags#:#Tags###07 02 2020 new variable
@@ -4819,7 +4827,7 @@ common#:#msg_no_perm_paste#:#Aşağıdaki nesne (ler) yapıştırın izniniz yok
 common#:#msg_no_perm_paste_object_in_folder#:#Klasördeki% s nesnesini% s yapıştırmak için izniniz yoktur.
 common#:#msg_no_perm_perm#:#İzin ayarlarını düzenlemek için izniniz yoktur
 common#:#msg_no_perm_read#:#Bu öğeye erişmek için izniniz yoktur.
-common#:#msg_no_perm_read_item#:#Her öğe '% s' erişim izniniz yok.
+common#:#msg_no_perm_read_item#:#Her öğe erişim izniniz yok.
 common#:#msg_no_perm_read_lm#:#Bu öğrenme modülü okumak için izniniz yoktur.
 common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#Yazma yetkiniz yok
@@ -5107,8 +5115,8 @@ common#:#obj_rcat#:#ECS Kategori
 common#:#obj_rcrs#:#ECS Kursu
 common#:#obj_recf#:#Restored Nesneler
 common#:#obj_recf_desc#:#Sistem Kontrolü dan restore Nesneler içerir.
-common#:#obj_rep#:#Repository###07 02 2020 new variable
-common#:#obj_reps#:#Repository###24 10 2013 new variable
+common#:#obj_rep#:#Depo
+common#:#obj_reps#:#Depo
 common#:#obj_reps_desc#:#General settings for the Repository###24 10 2013 new variable
 common#:#obj_rfil#:#ECS Dosya
 common#:#obj_rglo#:#ECS Sözlüğü
@@ -5372,6 +5380,7 @@ common#:#preconditions_optional_hint#:#<b>% s </ b>, aşağıdaki önkoşulları
 common#:#predefined_template#:#Öntanımlı rol şablonu
 common#:#preferences#:#Tercihler
 common#:#presentation_table_more#:#more###10 11 2018 new variable
+common#:#presenter#:#Presenter###11 08 2026 new variable
 common#:#preview#:#Preview###24 10 2013 new variable
 common#:#preview_create#:#Create Preview###24 10 2013 new variable
 common#:#preview_delete#:#Delete Preview###24 10 2013 new variable
@@ -5476,6 +5485,7 @@ common#:#renderer_supported_file_types#:#Supported File Types###24 10 2013 new v
 common#:#renderer_supported_repo_types#:#Supported ILIAS Objects###24 10 2013 new variable
 common#:#renderer_type_builtin#:#Built-in###24 10 2013 new variable
 common#:#rep_main_page#:#Anasayfa
+common#:#rep_main_page_logo_alt#:#Logo ILIAS - to the start page###10 03 2026 new variable
 common#:#repeat_scan#:#Yinelenen virüs tarama ...
 common#:#repeat_scan_failed#:#Tekrar tarama başarısız oldu.
 common#:#repeat_scan_succeded#:#Tekrar tarama başarılı.
@@ -5693,6 +5703,7 @@ common#:#show_content#:#Show Content###29 07 2022 new variable
 common#:#show_details#:#Detayları göster
 common#:#show_filter#:#Filtre Göster
 common#:#show_hidden_sections#:#Show More Information &raquo;###26 09 2014 new variable
+common#:#show_less#:#Show less###07 07 2026 new variable
 common#:#show_list#:#Listeyi Göster
 common#:#show_members#:#Üyeleri Göster
 common#:#show_more#:#Show More###29 07 2022 new variable
@@ -7395,6 +7406,7 @@ copa#:#copa_value_reading_time_f_p#:#%s Minutes###29 07 2022 new variable
 copa#:#copa_value_reading_time_f_s#:#%s Minute###29 07 2022 new variable
 copa#:#obj_copa_duplicate#:#Duplicate Content Page###10 11 2018 new variable
 copg#:#copg_active_to_small#:#This date must be higher than the starting date.###26 08 2024 new variable
+copg#:#copg_add_content#:#Add Content###10 03 2026 new variable
 copg#:#copg_allow_html#:#Enable HTML/Javascript###29 07 2022 new variable
 copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.###29 07 2022 new variable
 copg#:#copg_an_error_occured#:#An error occured.###29 07 2022 new variable
@@ -7430,6 +7442,7 @@ copg#:#copg_remove_formats#:#Remove Formatting###26 08 2024 new variable
 copg#:#copg_sec_link_info#:#If you set a link on the whole section, please ensure that no other interactive elements are included within the section. Otherwise their behaviour may be erratically.###25 10 2016 new variable
 copg#:#copg_snippet_cannot_be_edited#:#This is a predefined content snippet and cannot be edited here.###25 10 2016 new variable
 copg#:#copg_unsupported_media_type#:#This media object has an unsupported media type.###26 08 2024 new variable
+copg#:#copg_use_template#:#Use Template###10 03 2026 new variable
 copg#:#copg_x_minutes#:#%s minute(s)###29 07 2022 new variable
 cpad#:#cpad_reading_time_status#:#Reading Time###29 07 2022 new variable
 cpad#:#cpad_reading_time_status_desc#:#If enabled, the estimated reading time for content page objects will be determined and displayed.###29 07 2022 new variable
@@ -7755,7 +7768,7 @@ crs#:#crs_members_map#:#Ders Üyeler Harita
 crs#:#crs_members_print_title#:#Ders üyeleri
 crs#:#crs_min_one_admin#:#Bunun ders atanmış en az bir yönetici olmalıdır.
 crs#:#crs_msg_no_self_registration_period_if_self_enrolment_disabled#:#The limited registration period can not be defined if the "No Self-enrolment" setting is active.###26 08 2024 new variable
-crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###26 08 2024 new variable
+crs#:#crs_my_courses_groups_enabled#:#Kurslarım ve Gruplarım 
 crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###26 08 2024 new variable
 crs#:#crs_new_status#:#Yeni durumu:
 crs#:#crs_new_subscription#:#Kullanıcı kursu "% s" için tescil
@@ -8125,6 +8138,8 @@ crs#:#tutorial_support_block_title#:#Contact Person###28 10 2024 new variable
 crs#:#user_fields#:#Kullanıcı Alanlar
 crsv#:#crsv_create#:#Create Course Certificate###30 12 2013 new variable
 crsv#:#crsv_create_info#:#Select a completed course to generate a certificate for it###30 12 2013 new variable
+dash#:#add_to_favourites#:#Add to Favourites###21 04 2026 new variable
+dash#:#added_to_favourites#:#The item has been added to your favourites.###21 04 2026 new variable
 dash#:#dash_activation#:#activation###07 02 2020 new variable
 dash#:#dash_added_to_favs#:#Recommendation has been added to personal favourites.###07 02 2020 new variable
 dash#:#dash_avail_presentation#:#Available Presentations###07 02 2020 new variable
@@ -8133,27 +8148,38 @@ dash#:#dash_click_here#:#Click here###07 02 2020 new variable
 dash#:#dash_co_delete#:#Delete Dashboard style###28 10 2024 new variable
 dash#:#dash_co_lang#:#Dashboard style by languages###28 10 2024 new variable
 dash#:#dash_customization#:#Customize Dashboard Content###28 10 2024 new variable
+dash#:#dash_dash_fav_remove#:#Remove###10 03 2026 new variable
+dash#:#dash_dash_fav_remove_info#:#Are you sure you want to remove the following objects from your Favourites?###10 03 2026 new variable
+dash#:#dash_dash_fav_remove_multiple#:#Remove Multiple Favorites###10 03 2026 new variable
+dash#:#dash_dash_ls_remove#:#Unsubscribe###10 03 2026 new variable
+dash#:#dash_dash_ls_remove_info#:#Are you sure you want to unsubscribe from the following learning sequences?###10 03 2026 new variable
+dash#:#dash_dash_ls_remove_multiple#:#Unsubscribe Multiple Learning Sequences###10 03 2026 new variable
+dash#:#dash_dash_mem_remove#:#Unsubscribe###10 03 2026 new variable
+dash#:#dash_dash_mem_remove_info#:#Are you sure you want to unsubscribe from the following courses and groups?###10 03 2026 new variable
+dash#:#dash_dash_mem_remove_multiple#:#Unsubscribe Multiple Courses and Groups###10 03 2026 new variable
+dash#:#dash_dash_rc_remove#:#Remove###10 03 2026 new variable
+dash#:#dash_dash_rc_remove_info#:#Are you sure you want to remove the following objects from your recommended content?###10 03 2026 new variable
+dash#:#dash_dash_rc_remove_multiple#:#Remove Multiple Contents###10 03 2026 new variable
 dash#:#dash_dashboard#:#Dashboard###07 02 2020 new variable
 dash#:#dash_default_presentation#:#Default Presentation###07 02 2020 new variable
 dash#:#dash_default_sortation#:#Default Sortation###07 02 2020 new variable
 dash#:#dash_enable_cal#:#Calendar###07 02 2020 new variable
-dash#:#dash_enable_favourites#:#Favourites###07 02 2020 new variable
+dash#:#dash_enable_favourites#:#Favoriler
 dash#:#dash_enable_learning_sequences#:#Learning Sequences###26 08 2024 new variable
 dash#:#dash_enable_mail#:#Mail###07 02 2020 new variable
-dash#:#dash_enable_memberships#:#My Courses and Groups###07 02 2020 new variable
+dash#:#dash_enable_memberships#:#Kurslarım ve Gruplarım
 dash#:#dash_enable_news#:#News###07 02 2020 new variable
 dash#:#dash_enable_recommended_content#:#Recommended Content###26 08 2024 new variable
 dash#:#dash_enable_study_programmes#:#Study Programmes###26 08 2024 new variable
 dash#:#dash_enable_task#:#Tasks###07 02 2020 new variable
-dash#:#dash_favourites#:#Favourites###07 02 2020 new variable
-dash#:#dash_info_sure_remove_from_favs#:#Are you sure you want to remove the following objects from your Favourites?###07 02 2020 new variable
+dash#:#dash_favourites#:#Favoriler
 dash#:#dash_item_removed#:#Recommendation has been removed from the list.###07 02 2020 new variable
 dash#:#dash_learning_sequences#:#My Learning Sequences###26 08 2024 new variable
 dash#:#dash_list#:#List###07 02 2020 new variable
 dash#:#dash_main_panel#:#Main Panel###07 02 2020 new variable
-dash#:#dash_make_favourite#:#Add to Favourites###07 02 2020 new variable
 dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.###07 02 2020 new variable
-dash#:#dash_memberships#:#My Courses and Groups###07 02 2020 new variable
+dash#:#dash_memberships#:#Kurslarım ve Gruplarım
+dash#:#dash_no_items_to_manage#:#No items available for removal.###10 03 2026 new variable
 dash#:#dash_page_edit_info#:#The content of this page is displayed to all users on their dashboard. The contents of the various blocks of the dashboard are presented below.###28 10 2024 new variable
 dash#:#dash_presentation#:#Presentation###07 02 2020 new variable
 dash#:#dash_recommended_content#:#Recommended Content###26 08 2024 new variable
@@ -8170,6 +8196,8 @@ dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’###07 02 20
 dash#:#dash_view_favourites#:#Section ‘Favourites’###07 02 2020 new variable
 dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.###26 08 2024 new variable
 dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.###26 08 2024 new variable
+dash#:#remove_from_favourites#:#Remove from Favourites###21 04 2026 new variable
+dash#:#removed_from_favourites#:#The item has been removed from your favourites.###21 04 2026 new variable
 dash#:#topitem_block#:#Block###26 08 2024 new variable
 dateplaner#:#Fr_long#:#Cuma
 dateplaner#:#Fr_short#:#Fr
@@ -9221,6 +9249,8 @@ ecs#:#ecs_wiki_export_enabled#:#bu Wiki bırakın
 ecs#:#ecs_wiki_export_obj_settings#:#Wiki Yayın Ayarları
 error#:#error_back_to_repository#:#Back to Repository###27 01 2015 new variable
 error#:#error_sry_error#:#Sorry, an error occured.###27 01 2015 new variable
+error#:#http_404_not_found#:#The requested page could not be found.###21 04 2026 new variable
+error#:#http_500_internal_server_error#:#An internal server error occurred.###21 04 2026 new variable
 etal#:#appointments#:#Appointments
 etal#:#cal_type_tals#:#Talks
 etal#:#change_date_of_series#:#Change date of talk series
@@ -9613,6 +9643,7 @@ exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mai
 exc#:#exc_settings_feedback_text#:#Textinput###25 10 2016 new variable
 exc#:#exc_settings_feedback_text_info#:#Tutors type their evaluation in a text field. The participant receives a notification about it and the text is displayed at the assignment overview.###31 08 2017 new variable
 exc#:#exc_show_instructions#:#Show Work Instructions###26 08 2024 new variable
+exc#:#exc_show_more#:#Show More###10 03 2026 new variable
 exc#:#exc_show_peer_review#:#Show Peer-Feedback###22 01 2014 new variable
 exc#:#exc_show_submissions#:#Saat sonra Gönderimler Yayınla
 exc#:#exc_show_submissions_info#:#tarihinden sonra bütün öğrenciler için tüm gönderimler yayınlayın.
@@ -9728,6 +9759,7 @@ exc#:#exc_type_upload#:#yükle
 exc#:#exc_type_upload_team#:#Takım yükle
 exc#:#exc_value_can_not_set#:#This value can not be set.###10 11 2018 new variable
 exc#:#exc_view_portfolio#:#View Portfolio###26 08 2024 new variable
+exc#:#exc_view_wiki#:#View Wiki###10 03 2026 new variable
 exc#:#exc_wait_for_files#:#Your download should start automatically. If the download doesn't start in 5 secs, please click here###31 08 2017 new variable
 exc#:#exc_wiki_container#:#Wiki Container###10 11 2018 new variable
 exc#:#exc_wiki_container_info#:#Location where wikis of participants will be created.###10 11 2018 new variable
@@ -10257,6 +10289,7 @@ glo#:#glo_really_remove_from_collection#:#Are you sure you want to remove the fo
 glo#:#glo_reference#:#Reference###25 10 2016 new variable
 glo#:#glo_reference_terms#:#Reference Terms###25 10 2016 new variable
 glo#:#glo_referenced_term#:#Referenced Term###25 10 2016 new variable
+glo#:#glo_remove_glossary#:##Are you sure you want to remove the following glossary from the list of auto-linked glossaries?###11 08 2026 new variable
 glo#:#glo_removed_from_collection_info#:#The glossary has been removed from the collection glossary.###26 08 2024 new variable
 glo#:#glo_reset_all_boxes#:#Reset All Boxes###26 08 2024 new variable
 glo#:#glo_save_and_continue#:#Save and Continue###21 05 2025 new variable
@@ -10681,9 +10714,14 @@ itgr#:#itgr_always_open#:#Always Open###31 08 2017 new variable
 itgr#:#itgr_assign_materials#:#Assign Materials###29 07 2022 new variable
 itgr#:#itgr_assigned_materials#:#Atanan Malzemeleri
 itgr#:#itgr_assignment#:#Atama
-itgr#:#itgr_behaviour#:#Block Behaviour###31 08 2017 new variable
-itgr#:#itgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.###31 08 2017 new variable
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###25 10 2016 new variable
+itgr#:#itgr_display#:#Display###07 07 2026 new variable
+itgr#:#itgr_display_with_title#:#With Title###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened###07 07 2026 new variable
+itgr#:#itgr_display_without_title#:#Without Title###07 07 2026 new variable
 itgr#:#itgr_edit#:#Öğe Düzenleme Grupları
 itgr#:#itgr_expandable_closed#:#Expandable (initially closed)###31 08 2017 new variable
 itgr#:#itgr_expandable_open#:#Expandable (initially opened)###31 08 2017 new variable
@@ -10693,8 +10731,6 @@ itgr#:#itgr_list_default#:#Default###29 07 2022 new variable
 itgr#:#itgr_list_default_info#:#Inherits value from upper container.###29 07 2022 new variable
 itgr#:#itgr_list_presentation#:#Item Presentation###29 07 2022 new variable
 itgr#:#itgr_materials#:#Malzemeler
-itgr#:#itgr_show_title#:#Show Title###31 08 2017 new variable
-itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.###31 08 2017 new variable
 itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
 itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
 jscalendar#:#about_calendar#:#Takvim hakkında
@@ -10971,6 +11007,7 @@ lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###29 07 2022 new varia
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###29 07 2022 new variable
 lm#:#lm_copy#:#Copy Learning Module###27 01 2015 new variable
 lm#:#lm_edit_chapters#:#Edit Chapters###26 08 2024 new variable
+lm#:#lm_edit_content#:#Edit Content###10 03 2026 new variable
 lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###26 08 2024 new variable
 lm#:#lm_est_reading_time#:#Estimated Reading Time###29 07 2022 new variable
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.###29 07 2022 new variable
@@ -10988,6 +11025,7 @@ lm#:#lm_insert_page_before#:#Insert page before###28 10 2024 new variable
 lm#:#lm_insert_page_clip#:#Insert page from clipboard###28 10 2024 new variable
 lm#:#lm_insert_page_clip_after#:#Insert page from clipboard after###28 10 2024 new variable
 lm#:#lm_insert_page_clip_before#:#Insert page from clipboard before###28 10 2024 new variable
+lm#:#lm_list_pages#:#Edit Pages###10 03 2026 new variable
 lm#:#lm_page_added#:#Page has been added.###26 08 2024 new variable
 lm#:#lm_page_type_lm#:#LM Page###29 07 2022 new variable
 lm#:#lm_pages_added#:#Pages have been added.###26 08 2024 new variable
@@ -11775,7 +11813,7 @@ mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 and MathJax 3 with cur
 mathjax#:#mathjax_polyfill_url_desc_line2#:#Please remove any reference to polyfill.io! See https://sansec.io/research/polyfill-supply-chain-attack
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script###31 03 2023 new variable
 mathjax#:#mathjax_script_url_desc_line1#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. <br />For MathJax 2 e.g. %s
-mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. %s
+mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. %s<br />These scripts require the user’s browser to fetch MathJax from an external address (cdn.jsdelivr.net). If you host MathJax yourself, use a copy of the relevant script with the address modified.
 mathjax#:#mathjax_server_address#:#Server Address###25 10 2016 new variable
 mathjax#:#mathjax_server_address_info#:#E.g. http://localhost:8003###25 10 2016 new variable
 mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.###25 10 2016 new variable
@@ -12739,8 +12777,8 @@ mmbr#:#info_refuse_sure#:#Are you sure you want to refuse the following user(s)?
 mmbr#:#mmbr_awrn_my_groups_courses#:#My Groups and Courses###30 08 2015 new variable
 mmbr#:#mmbr_awrn_my_groups_courses_info#:#All members of groups or courses of the current user are listed.###30 08 2015 new variable
 mmbr#:#mmbr_btn_mail_selected_users#:#Send Mail###26 09 2014 new variable
-mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?###07 02 2020 new variable
 mmbr#:#mmbr_memberships#:#Memberships###29 07 2022 new variable
+mmbr#:#mmbr_role_error#:#Members must have at least one role assigned.###10 03 2026 new variable
 mmbr#:#mmbr_selected_users#:#Selected Participants###26 09 2014 new variable
 mmbr#:#mmbr_unsubscribed_from_objs#:#You have been unsubscribed from the selected objects.###07 02 2020 new variable
 mme#:#add_languages#:#Add Language###10 11 2018 new variable
@@ -13019,6 +13057,7 @@ notes#:#notes_latest_comment#:#Latest Comment###10 11 2018 new variable
 notes#:#notes_latest_message#:#Latest Message###26 08 2024 new variable
 notes#:#notes_message_author_counterpart#:#Respondent###26 08 2024 new variable
 notes#:#notes_message_author_you#:#You###26 08 2024 new variable
+notes#:#notes_message_deleted#:#Message deleted.###21 04 2026 new variable
 notes#:#notes_messages#:#Messages###26 08 2024 new variable
 notes#:#notes_my_comments#:#Yorumlarım
 notes#:#notes_no_comments#:#No comment has been posted yet.###30 12 2013 new variable
@@ -13275,7 +13314,6 @@ pd#:#pd_ended#:#Ended###31 08 2017 new variable
 pd#:#pd_export_profile#:#Kişisel Bilgileri Dışa Aktar
 pd#:#pd_import_personal_data#:#Kişisel Bilgileri İçe Aktar
 pd#:#pd_my_memberships_sort_default#:#Default of Sort Option###31 08 2017 new variable
-pd#:#pd_no_items_to_manage#:#No items available for removal.###26 08 2024 new variable
 pd#:#pd_not_dated#:#Not Dated###26 08 2024 new variable
 pd#:#pd_ongoing#:#Ongoing###31 08 2017 new variable
 pd#:#pd_personal_items_default_view#:#Varsayılan Görünüm
@@ -13285,9 +13323,6 @@ pd#:#pd_presentation_mode_tile#:#Tile Presentation###07 02 2020 new variable
 pd#:#pd_private_calendars#:#Özel Takvimler
 pd#:#pd_profile_data#:#Profili Veri
 pd#:#pd_remove_multi_confirm#:#The objects were removed.###11 03 2014 new variable
-pd#:#pd_remove_multiple#:#Remove Multiple Objects###24 10 2013 new variable
-pd#:#pd_unsubscribe_memberships#:#Unsubscribe###24 10 2013 new variable
-pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple###24 10 2013 new variable
 pd#:#pd_upcoming#:#Upcoming###31 08 2017 new variable
 pd#:#pd_view_select_at_least_one#:#En az bir görünümü seçmek zorunda, ya 'Seçili Öğeler' ve / veya 'Üyelikler'.
 pdesk#:#bookmark_moved_ok#:#Yer imi taşındı.
@@ -14493,6 +14528,9 @@ rbac#:#positions_override_operations#:#Override global Settings###22 11 2017 new
 rbac#:#precondition_not_obligatory_alt#:#Önkoşul opsiyonel
 rbac#:#precondition_num_obligatory#:#Gerekli Materyal Sayısı
 rbac#:#precondition_num_optional_info#:#Bu önkoşulun yerine getirilmesi için gerekli olan minimum materyal sayısını giriniz.
+rbac#:#precondition_number_of_required_materials_bigger_preconditions_number#:#The number of required materials must be less than the total number of preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_compulsory_items#:#The number of required materials must be greater than the number of compulsory preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_than_one#:#The number of required materials must be at least 1.###26 05 2026 new variable
 rbac#:#precondition_obligatory#:#Zorunlu
 rbac#:#precondition_obligatory_alt#:#Önkoşul yerine getirilmelidir
 rbac#:#precondition_obligatory_info#:#Zorunlu önkoşullarını erişimi olması için, yerine getirilmelidir.
@@ -15028,9 +15066,7 @@ rep#:#rep_add_new_def_grp_content#:#Content###06 11 2013 new variable
 rep#:#rep_add_new_def_grp_feedback#:#Feedback and Evaluation###06 11 2013 new variable
 rep#:#rep_add_new_def_grp_organisation#:#Organisation###06 11 2013 new variable
 rep#:#rep_add_new_def_grp_templates#:#Templates###30 12 2013 new variable
-rep#:#rep_add_to_favourites#:#Add to Favourites###07 02 2020 new variable
 rep#:#rep_added_rec_content#:#Recommended content has been added.###07 02 2020 new variable
-rep#:#rep_added_to_favourites#:#The item has been added to your favourites.###07 02 2020 new variable
 rep#:#rep_allowed_types#:#Allowed Types###26 08 2024 new variable
 rep#:#rep_breadcr_crs#:#Breadcrumb starts with course###10 11 2018 new variable
 rep#:#rep_breadcr_crs_config#:#Configuration###26 08 2024 new variable
@@ -15053,10 +15089,10 @@ rep#:#rep_export_limitation_info#:#Limits the number of objects for container ex
 rep#:#rep_export_limitation_limited#:#Limit Export###07 02 2020 new variable
 rep#:#rep_export_limitation_unlimited#:#Unlimited Export###26 08 2024 new variable
 rep#:#rep_failure_trashed_trash#:#You selected objects that cannot be restored to their original location, because their parent objects were deleted. Please uncheck the respective object in the table or select the Restore to New Location instead.###07 02 2020 new variable
-rep#:#rep_fav_intro1#:#Sie haben aktuell noch keine Favoriten ausgewählt. Um dies zu tun, müssen Sie zwei Schritte machen:###07 02 2020 new variable
-rep#:#rep_fav_intro2#:#Klicken Sie auf '%s' und wählen Sie aus dem verfügbaren Angebot ein Lernobjekt aus, z. B. ein Lernmodul oder ein Forum.###07 02 2020 new variable
-rep#:#rep_fav_intro3#:#Wenn Sie etwas gefunden haben, das Sie interessiert, können Sie es ganz einfach zu Ihren Favoriten hinzufügen. Wählen Sie beim gewünschten Objekt im <i>Aktionen</i>-Menü die Option "<i>Zu Favoriten hinzufügen</i>".###07 02 2020 new variable
-rep#:#rep_favourites#:#Favourites###29 07 2022 new variable
+rep#:#rep_fav_intro1#:#Henüz hiçbir favori seçmediniz. Bunu yapmak için iki adımı tamamlamanız gerekiyor:
+rep#:#rep_fav_intro2#:#'%s' üzerine tıklayın ve mevcut seçeneklerden bir öğrenme nesnesi seçin, örneğin bir öğrenme modülü veya bir forum.
+rep#:#rep_fav_intro3#:#İlginizi çeken bir şey bulursanız, onu kolayca favorilerinize ekleyebilirsiniz. İstediğiniz öğe için, İşlemler menüsünden "Favorilere Ekle" seçeneğini belirleyin.
+rep#:#rep_favourites#:#Favoriler
 rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.###29 07 2022 new variable
 rep#:#rep_input_not_empty#:#This field must not be empty, please provide a value.###21 05 2025 new variable
 rep#:#rep_intro#:#Repository hoş geldiniz!
@@ -15085,9 +15121,7 @@ rep#:#rep_object_references_cannot_be_read#:#% S daha fazla referans için Resim
 rep#:#rep_object_to_delete#:#Sil
 rep#:#rep_rec_content_removed#:#Recommended content has been removed.###07 02 2020 new variable
 rep#:#rep_recommended_content#:#Recommended Content###07 02 2020 new variable
-rep#:#rep_remove_from_favourites#:#Remove from Favourites###07 02 2020 new variable
 rep#:#rep_remove_rec_content#:#Are you sure you want to remove the following recommended content?###07 02 2020 new variable
-rep#:#rep_removed_from_favourites#:#The item has been removed from your favourites.###07 02 2020 new variable
 rep#:#rep_target_location#:#Target Location###07 02 2020 new variable
 rep#:#rep_target_location_info#:#Bitte wählen Sie nun das Ziel aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen.###07 02 2020 new variable
 rep#:#rep_time_based_availability#:#Geçici Olarak Erişim
@@ -16079,6 +16113,7 @@ style#:#sty_individual_styles#:#Bireysel Stilleri
 style#:#sty_keep_existing#:#Mevcut tutun
 style#:#sty_left#:#Sol
 style#:#sty_left_right_padding#:#Hücre Dolgusu Sağ / Sol
+style#:#sty_legacy_image_directory_found#:#Legacy image directory found. You may migrate the directory from ILIAS 9 by clicking "Migrate Images"###21 04 2026 new variable
 style#:#sty_letter_spacing#:#Letter Spacing
 style#:#sty_lightness_border#:#Hafiflik Sınır
 style#:#sty_lightness_cell1_bg#:#Hafiflik Hücre 1 Arkaplan
@@ -16099,6 +16134,7 @@ style#:#sty_margin_and_padding#:#Marjı ve Dolgu
 style#:#sty_media_char#:#Medya
 style#:#sty_media_queries#:#Media Queries###26 09 2014 new variable
 style#:#sty_media_query_info#:#A separete CSS block is added for each media query after the default (no special media query) block.###26 09 2014 new variable
+style#:#sty_migrate_images#:#Migrate Images###21 04 2026 new variable
 style#:#sty_min_height#:#Minimum Yükseklik
 style#:#sty_move_lm_styles#:#Öğrenme Modülleri Stilini Değiştir
 style#:#sty_move_obj_styles#:#Change Style of Objects###23 09 2025 new variable
@@ -16157,6 +16193,7 @@ style#:#sty_special#:#11580
 style#:#sty_style_chars#:#Stil Sınıflar
 style#:#sty_style_class#:#Stil Sınıflar
 style#:#sty_style_classes_copied#:#Stil sınıflar kopyalandı.
+style#:#sty_style_not_migrated#:#This content style has not been migrated to the ILIAS 10 data structure yet. Changes will not be applied.###21 04 2026 new variable
 style#:#sty_substyle#:#Substyle
 style#:#sty_substyle_of#:#Sub Style of###25 10 2016 new variable
 style#:#sty_substyles#:#substyles
@@ -16668,7 +16705,7 @@ survey#:#survey_360_sure_appraisee_close#:#Are you sure you want to close the su
 survey#:#survey_360_sure_appraisee_close_admin#:#Are you sure you want to close the surveys for the following appraisees?###24 10 2013 new variable
 survey#:#survey_360_sure_delete_appraises#:#Are you sure you want to remove the following appraisees?###24 10 2013 new variable
 survey#:#survey_360_sure_delete_raters#:#Are you sure you want to remove the following raters for %s?###24 10 2013 new variable
-survey#:#survey_access_codes#:#Authentication by Access Codes###27 01 2015 new variable
+survey#:#survey_access_code#:#Authentication by Access Codes###27 01 2015 new variable
 survey#:#survey_access_codes_info#:#Users get access to the survey by entering a code on the 'Info'-tab. These access codes are generated in a sub-tab 'Access Codes' in the tab 'Participants'.###27 01 2015 new variable
 survey#:#survey_activate_skill_service#:#Activate Competence Service###24 10 2013 new variable
 survey#:#survey_activate_skill_service_info#:#todo12###07 11 2014 new variable
@@ -16703,6 +16740,7 @@ survey#:#survey_execution_sure_finish#:#Are you sure you want to finish the surv
 survey#:#survey_existing_pool#:#kullanımlar mevcut soru havuzu
 survey#:#survey_finish#:#Bitiş Anketi
 survey#:#survey_finished#:#Sen anketi bitirdim. Katılımınız için teşekkür ederiz!
+survey#:#survey_from_x_points#:#X puandan itibaren
 survey#:#survey_has_datasets_warning#:#Anket zaten veri setleri içerir. Eğer katılımcılar bölümünde bu veri setleri kaldırmak kadar anket sorularını düzenleyemezsiniz.
 survey#:#survey_has_datasets_warning_page_view#:#Anket zaten veri setleri içerir. Bu veri setleri kaldırmak kadar anket sorularını düzenleyemezsiniz.
 survey#:#survey_has_datasets_warning_page_view_link#:#Katılımcıları Düzenle
@@ -16778,7 +16816,6 @@ survey#:#survey_sync_insufficient_permissions#:#Yetersiz İzinler
 survey#:#survey_sync_question_copies#:#Sync Soru Kopyalar
 survey#:#survey_sync_question_copies_info#:#seçilmiş sorular akım havuz versiyon ile değiştirilir.
 survey#:#survey_sync_success#:#Seçilen sorular güncellendi.
-survey#:#survey_up_to_x_points#:#Up to x points###24 10 2013 new variable
 survey#:#survey_use_start_button#:#Sen başlat düğmesini kullanarak anket girmeniz gerekir!
 survey#:#svy_activation_limited_visibility_info#:#Seçilirse , anket bile verilen uygunluk dışında görülebilir.
 survey#:#svy_activation_online_info#:#kullanıcılara anket erişilebilir yapmak için bu ayarı etkinleştirin.
@@ -17070,6 +17107,7 @@ tax#:#tax_tax_settings#:#Taxonomy Settings###31 08 2017 new variable
 tax#:#tax_taxonomy#:#Taksonomi
 tbl#:#tbl_export_csv#:#.xsv Dışa Aktar
 tbl#:#tbl_export_excel#:#. xls Dışa Aktar
+tbl#:#tbl_selection#:#Selection###21 04 2026 new variable
 tbl#:#tbl_template_create#:#Geçerli Görünümü kaydet
 tbl#:#tbl_template_created#:#Geçerli görünüm kaydedildi.
 tbl#:#tbl_template_delete#:#Sil Görünüm Kaydedildi
@@ -17835,7 +17873,6 @@ wopi#:#wopi_url_byline#:#Complete URL of the WOPI-Discovery, this must be access
 wsp#:#element_already_shared#:#This object is already shared with this user.###07 02 2017 new variable
 wsp#:#element_shared#:#Object shared.###07 02 2017 new variable
 wsp#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.###10 11 2018 new variable
-wsp#:#search_no_match#:#Your search did not match any results.###07 02 2017 new variable
 wsp#:#share#:#Share###07 02 2017 new variable
 wsp#:#share_content#:#Share Object###07 02 2017 new variable
 wsp#:#share_with#:#Username###07 02 2017 new variable
@@ -17857,6 +17894,7 @@ wsp#:#wsp_permission_registered_info#:#Bu nesne tüm kayıtlı kullanıcılar il
 wsp#:#wsp_permission_removed#:#öğe kaldırılmıştır.
 wsp#:#wsp_permissions#:#Share
 wsp#:#wsp_personal_resources_description#:#Here you can manage your private files, blogs and artifacts.###07 02 2020 new variable
+wsp#:#wsp_search_no_match#:#Your search did not match any results.###10 03 2026 new variable
 wsp#:#wsp_send_mail#:#Send Mail###26 08 2024 new variable
 wsp#:#wsp_set_permission_all#:#Yayınla
 wsp#:#wsp_set_permission_all_password#:#(Şifre gerekiyor) Yayınlama

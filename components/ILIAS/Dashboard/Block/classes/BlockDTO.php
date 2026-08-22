@@ -26,125 +26,107 @@ class BlockDTO
 {
     public function __construct(
         private string $type,
-        private int $ref_id,
-        private int $obj_id,
+        private readonly int $ref_id,
+        private readonly int $obj_id,
         private string $title,
         private string $description,
-        private ?ilDateTime $startDate = null,
-        private ?ilDateTime $endDate = null,
+        private ?ilDateTime $start_date = null,
+        private ?ilDateTime $end_date = null,
         private array $additional_data = []
     ) {
-        $this->type = $type;
-        $this->ref_id = $ref_id;
-        $this->obj_id = $obj_id;
-        $this->title = $title;
-        $this->description = $description;
-        $this->startDate = $startDate;
-        $this->endDate = $endDate;
-        $this->additional_data = $additional_data;
     }
 
-    public function getType(): string
+    final public function getType(): string
     {
         return $this->type;
     }
 
-    public function setType(string $type): void
+    final public function setType(string $type): void
     {
         $this->type = $type;
     }
 
-    public function getRefId(): int
+    final public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    public function setRefId(int $ref_id): void
-    {
-        $this->ref_id = $ref_id;
-    }
-
-    public function getObjId(): int
+    final public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function setObjId(int $obj_id): void
-    {
-        $this->obj_id = $obj_id;
-    }
-
-    public function getTitle(): string
+    final public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setTitle(string $title): void
+    final public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-    public function getDescription(): string
+    final public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function setDescription(string $description): void
+    final public function setDescription(string $description): void
     {
         $this->description = $description;
     }
 
-    public function getStartDate(): ?ilDateTime
+    final public function getStartDate(): ?ilDateTime
     {
-        return $this->startDate;
+        return $this->start_date;
     }
 
-    public function setStartDate(?ilDateTime $startDate): void
+    final public function setStartDate(?ilDateTime $start_date): void
     {
-        $this->startDate = $startDate;
+        $this->start_date = $start_date;
     }
 
-    public function getEndDate(): ?ilDateTime
+    final public function getEndDate(): ?ilDateTime
     {
-        return $this->endDate;
+        return $this->end_date;
     }
 
-    public function setEndDate(?ilDateTime $endDate): void
+    final public function setEndDate(?ilDateTime $end_date): void
     {
-        $this->endDate = $endDate;
+        $this->end_date = $end_date;
     }
 
-    public function hasNotStarted(): bool
+    final public function hasNotStarted(): bool
     {
-        return $this->startDate && $this->startDate->get(IL_CAL_UNIX) > time();
+        return $this->start_date && $this->start_date->get(IL_CAL_UNIX) > time();
     }
 
-    public function hasEnded(): bool
+    final public function hasEnded(): bool
     {
-        return $this->endDate && $this->endDate->get(IL_CAL_UNIX) < time();
+        return $this->end_date && $this->end_date->get(IL_CAL_UNIX) < time();
     }
 
-    public function isRunning(): bool
+    final public function isRunning(): bool
     {
         return !$this->hasNotStarted() && !$this->hasEnded();
     }
 
-    public function isDated(): bool
+    final public function isDated(): bool
     {
-        return $this->startDate || $this->endDate;
+        return $this->start_date || $this->end_date;
     }
 
-    public function getAdditionalData(): array
+    final public function getAdditionalData(): array
     {
         return $this->additional_data;
     }
 
-    public function setAdditionalData(array $additional_data): void
+    final public function setAdditionalData(array $additional_data): void
     {
         $this->additional_data = $additional_data;
     }
 
-    public function toArray(): array
+    final public function toArray(): array
     {
         return [
             'type' => $this->type,
@@ -152,8 +134,8 @@ class BlockDTO
             'obj_id' => $this->obj_id,
             'title' => $this->title,
             'description' => $this->description,
-            'start_date' => $this->startDate?->get(IL_CAL_DATETIME),
-            'end_date' => $this->endDate?->get(IL_CAL_DATETIME),
+            'start_date' => $this->start_date?->get(IL_CAL_DATETIME),
+            'end_date' => $this->end_date?->get(IL_CAL_DATETIME),
             'additional_data' => $this->additional_data
         ];
     }

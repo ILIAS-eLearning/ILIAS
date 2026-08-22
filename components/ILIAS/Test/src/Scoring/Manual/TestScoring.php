@@ -46,6 +46,7 @@ class TestScoring
 {
     private bool $preserve_manual_scores = false;
     private int $question_id = 0;
+    private \ilTestEvaluationFactory $evaluation_factory;
 
     /**
      * @var array<int, \assQuestionGUI> $question_cache
@@ -58,6 +59,7 @@ class TestScoring
         private \ilDBInterface $db,
         private \ilLanguage $lng
     ) {
+        $this->evaluation_factory = new \ilTestEvaluationFactory($this->db, $this->test);
     }
 
     public function setPreserveManualScores(bool $preserve_manual_scores): void
@@ -82,16 +84,12 @@ class TestScoring
 
     public function recalculateSolutions(): array
     {
-        $factory = new \ilTestEvaluationFactory($this->db, $this->test);
-        $participants = $factory->getCorrectionsEvaluationData()->getParticipants();
+        $participants = $this->evaluation_factory->getCorrectionsEvaluationData()->getParticipants();
 
         foreach ($participants as $active_id => $userdata) {
-            if (is_object($userdata) && is_array($userdata->getPasses())) {
+            if ($userdata instanceof \ilTestEvaluationUserData) {
                 $this->recalculatePasses($userdata, $active_id);
-                \ilLPStatusWrapper::_updateStatus(
-                    $this->test->getId(),
-                    $userdata->getUserID()
-                );
+                \ilLPStatusWrapper::_updateStatus($this->test->getId(), $userdata->getUserID());
             }
         }
 
@@ -117,9 +115,8 @@ class TestScoring
 
     private function recalculatePasses(\ilTestEvaluationUserData $userdata, int $active_id): void
     {
-        $passes = $userdata->getPasses();
-        foreach ($passes as $pass => $passdata) {
-            if (is_object($passdata)) {
+        foreach ($userdata->getPasses() as $pass => $passdata) {
+            if ($passdata instanceof \ilTestEvaluationPassData) {
                 $this->recalculatePass($passdata, $userdata->getUserID(), $active_id, $pass);
             }
         }
@@ -132,11 +129,15 @@ class TestScoring
         int $active_id,
         int $pass
     ): void {
-        $questions = $passdata->getAnsweredQuestions();
         $reached_points_changed = false;
-        foreach ($questions as $question_data) {
-            if (!$this->getQuestionId() || $this->getQuestionId() === $question_data['id']) {
-                $reached_points_changed = $reached_points_changed || $this->recalculateQuestionScore($user_id, $active_id, $pass, $question_data);
+        foreach ($passdata->getAnsweredQuestions() as $question_data) {
+            if ($this->getQuestionId() !== 0 || $this->getQuestionId() === $question_data['id']) {
+                $reached_points_changed = $this->recalculateQuestionScore(
+                    $user_id,
+                    $active_id,
+                    $pass,
+                    $question_data
+                ) || $reached_points_changed;
             }
         }
         $this->updatePassResultsTable($active_id, $pass, $reached_points_changed);
@@ -148,14 +149,13 @@ class TestScoring
         int $pass,
         array $questiondata
     ): bool {
-        if ($this->preserve_manual_scores === true && $questiondata['manual'] === 1) {
+        if ($this->preserve_manual_scores && $questiondata['manual'] === 1) {
             return false;
         }
 
         $q_id = $questiondata['id'];
-        if (!isset($this->question_cache[$q_id])) {
-            $this->question_cache[$q_id] = $this->test->createQuestionGUI('', $q_id)->getObject();
-        }
+        $this->question_cache[$q_id] ??= $this->test->createQuestionGUI('', $q_id)->getObject();
+        /** @var \assQuestion $question */
         $question = $this->question_cache[$q_id];
 
         $old_points = $question->getReachedPoints($active_id, $pass);
@@ -243,7 +243,7 @@ class TestScoring
                 [\ilDBConstants::T_INTEGER, \ilDBConstants::T_INTEGER],
                 [$active_id, $pass]
             );
-            $values['points'] = [\ilDBConstants::T_FLOAT, $result->fetchAssoc()['reachedpoints'] ?? 0.0];
+            $values['points'] = [\ilDBConstants::T_FLOAT, max($result->fetchAssoc()['reachedpoints'] ?? 0.0, 0.0)];
         }
 
         $this->db->update(
@@ -259,9 +259,9 @@ class TestScoring
     public function calculateBestSolutionForTest(): string
     {
         $solution = '';
-        foreach ($this->test->getAllQuestions() as $question) {
+        foreach ($this->test->getQuestionIdsInTest() as $question_id) {
             /** @var AssQuestionGUI $question_gui */
-            $question_gui = $this->test->createQuestionGUI("", $question['question_id']);
+            $question_gui = $this->test->createQuestionGUI("", $question_id);
             $solution .= '<h1>' . $question_gui->getObject()->getTitleForHTMLOutput() . '</h1>';
             $solution .= $question_gui->getSolutionOutput(0, null, true, true, false, false, true, false);
         }

@@ -23,14 +23,12 @@ namespace ILIAS\Object\Properties\CoreProperties\TileImage;
 use ILIAS\UI\Component\Input\Field\File;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\FileUpload\MimeType;
 
 /**
  * @author Stephan Kergomard
  */
 class ilObjectPropertyTileImage implements \ilObjectProperty
 {
-    public const SUPPORTED_MIME_TYPES = [MimeType::IMAGE__PNG, MimeType::IMAGE__JPEG];
     private const SUPPORTED_FILE_EXTENSIONS = ['png', 'jpg', 'jpeg'];
 
     protected const INPUT_LABEL = 'obj_tile_image';
@@ -90,7 +88,7 @@ class ilObjectPropertyTileImage implements \ilObjectProperty
 
         $tile_image = $field_factory
             ->file(new \ilObjectTileImageUploadHandlerGUI($this->tile_image), $language->txt(self::INPUT_LABEL), $language->txt(self::INPUT_BYLINE))
-            ->withAcceptedMimeTypes(self::SUPPORTED_MIME_TYPES)
+            ->withAcceptedMimeTypes(ilObjectTileImage::SUPPORTED_MIME_TYPES)
             ->withAdditionalTransformation($trafo);
 
         if ($this->tile_image->getRid() === null

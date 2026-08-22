@@ -42,9 +42,6 @@ class Init implements Component\Component
             new Component\Resource\Endpoint($this, "login.php");
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\Endpoint($this, "logout.php");
-
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\Endpoint($this, "index.php");
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>

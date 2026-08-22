@@ -34,5 +34,15 @@ interface URIBuilder
         array $additional_parameters = []
     ): URI;
 
+    /**
+     * @deprecated This only replaces the code from ilLink, use @build() instead.
+     */
+    public function buildLegacy(
+        ?int $a_ref_id,
+        string $a_type = '',
+        array $a_params = [],
+        string $append = ""
+    ): string;
+
     public function getBaseURI(): URI;
 }

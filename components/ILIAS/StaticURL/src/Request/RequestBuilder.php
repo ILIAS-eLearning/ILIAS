@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\StaticURL\Request;
 
+use ILIAS\HTTP\Services;
 use ILIAS\Refinery\Factory;
 
 /**
@@ -27,5 +28,5 @@ use ILIAS\Refinery\Factory;
  */
 interface RequestBuilder
 {
-    public function buildRequest(\ILIAS\HTTP\Services $http, Factory $refinery, array $handlers): ?Request;
+    public function buildRequest(Services $http, Factory $refinery, array $handlers): ?Request;
 }

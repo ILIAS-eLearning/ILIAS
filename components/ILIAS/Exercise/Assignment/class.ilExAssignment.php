@@ -764,7 +764,8 @@ class ilExAssignment
             "max_char_limit" => array("integer", $this->getMaxCharLimit()),
             "relative_deadline" => array("integer", $this->getRelativeDeadline()),
             "rel_deadline_last_subm" => array("integer", $this->getRelDeadlineLastSubmission()),
-            "deadline_mode" => array("integer", $this->getDeadlineMode())
+            "deadline_mode" => array("integer", $this->getDeadlineMode()),
+            "solution_rid" => array("text", ''),
             ));
         $this->setId($next_id);
         $exc = new ilObjExercise($this->getExerciseId(), false);

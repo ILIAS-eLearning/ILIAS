@@ -45,6 +45,13 @@ ul.ilStartupSectionRegistrationLinks {
 	}
 }
 
+ul.ilStartupSectionLoginLinks {
+	list-style: none;
+	li {
+		display: inline-block;
+	}
+}
+
 div.ilStartupSection form.form-horizontal {
 	border: $il-panel-border;
 	border-radius: $il-panel-border-radius;

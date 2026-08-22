@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\KioskMode\ControlBuilder;
 use ILIAS\KioskMode\LocatorBuilder;
@@ -156,6 +156,9 @@ class LSControlBuilder implements ControlBuilder
             throw new \LogicException("Only one next-control per view...", 1);
         }
         $label = $this->lng->txt('lso_player_next');
+        if ($command === ilLSPlayer::LSO_CMD_FINISH) {
+            $label = $this->lng->txt('lso_player_finish');
+        }
         $cmd = $this->url_builder->getHref($command, $parameter);
         $btn = $this->ui_factory->button()->standard($label, $cmd);
         if ($command === '') {

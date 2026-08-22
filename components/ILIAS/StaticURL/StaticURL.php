@@ -20,7 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
-class StaticURL implements Component\Component
+use ILIAS\Component\Component;
+use ILIAS\Setup\Agent;
+use ILIAS\StaticURL\SetupAgent;
+use ILIAS\Refinery\Factory;
+use ILIAS\Component\Resource\PublicAsset;
+use ILIAS\Component\Resource\Endpoint;
+
+class StaticURL implements Component
 {
     public function init(
         array | \ArrayAccess &$define,
@@ -32,12 +39,12 @@ class StaticURL implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
-            new \ILIAS\StaticURL\SetupAgent(
-                $pull[\ILIAS\Refinery\Factory::class]
+        $contribute[Agent::class] = static fn(): SetupAgent =>
+            new SetupAgent(
+                $pull[Factory::class]
             );
 
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\Endpoint($this, "goto.php");
+        $contribute[PublicAsset::class] = fn(): Endpoint =>
+            new Endpoint($this, "goto.php");
     }
 }

@@ -21,6 +21,7 @@ namespace ILIAS\StaticURL;
 use ILIAS\HTTP\Services;
 use ILIAS\DI\Container;
 use ILIAS\Refinery\Factory;
+use ILIAS\StaticURL\Builder\URIBuilder;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -76,6 +77,33 @@ final class Context
         return $this->container->repositoryTree()->isInTree($ref_id);
     }
 
+    public function findFirstAccessibleParentRefId(int $ref_id, string $permission = 'read'): ?int
+    {
+        $tree = $this->container->repositoryTree();
+        if ($ref_id <= 0 || !$tree->isInTree($ref_id)) {
+            return null;
+        }
+
+        $root_id = $tree->getRootId();
+        $current = $ref_id;
+        $visited = [];
+        while (($parent = (int) $tree->getParentId($current)) > 0) {
+            if (isset($visited[$parent])) {
+                return null;
+            }
+            $visited[$parent] = true;
+            if ($this->checkPermission($permission, $parent)) {
+                return $parent;
+            }
+            if ($parent === $root_id) {
+                return null;
+            }
+            $current = $parent;
+        }
+
+        return null;
+    }
+
     public function getUserId(): int
     {
         return $this->container->user()->getId();
@@ -89,5 +117,10 @@ final class Context
     public function isPublicSectionActive(): bool
     {
         return (bool) ($this->container->settings()->get('pub_section') ?? false);
+    }
+
+    public function builder(): URIBuilder
+    {
+        return $this->container['static_url']->builder();
     }
 }

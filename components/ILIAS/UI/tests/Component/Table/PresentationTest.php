@@ -30,6 +30,8 @@ use ILIAS\UI\Implementation\Component\Table\PresentationRow;
  */
 class PresentationTest extends TableTestBase
 {
+    use LanguageStubs;
+
     private function getFactory(): I\Component\Table\Factory
     {
         return new I\Component\Table\Factory(
@@ -98,8 +100,13 @@ class PresentationTest extends TableTestBase
 
     public function getUIFactory(): NoUIFactory
     {
-        $factory = new class () extends NoUIFactory {
+        $factory = new class ($this->createRelayArgumentLanguageStub()) extends NoUIFactory {
             public I\Component\SignalGenerator $sig_gen;
+
+            public function __construct(
+                protected \ILIAS\Language\Language $language,
+            ) {
+            }
 
             public function button(): C\Button\Factory
             {
@@ -111,7 +118,7 @@ class PresentationTest extends TableTestBase
             {
                 return new I\Component\Symbol\Factory(
                     new I\Component\Symbol\Icon\Factory(),
-                    new I\Component\Symbol\Glyph\Factory(),
+                    new I\Component\Symbol\Glyph\Factory($this->language),
                     new I\Component\Symbol\Avatar\Factory()
                 );
             }
@@ -182,16 +189,18 @@ class PresentationTest extends TableTestBase
                        <h4 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal...');">some title<br /><small>some type</small>
                        </h4>
                        <div class="il-table-presentation-row-header-fields">
-                          <div class="l-bar__space-keeper">
-                              <div class="l-bar__group">
-                                  <div class="il-table-presentation-row-header-fields-value l-bar__element">important-1</div>
+                          <dl>
+                              <div class="l-bar__space-keeper">
+                                  <div class="l-bar__group">
+                                      <dd class="il-table-presentation-row-header-fields-value l-bar__element">important-1</dd>
+                                  </div>
                               </div>
-                          </div>
-                          <div class="l-bar__space-keeper">
-                              <div class="l-bar__group">
-                                  <div class="il-table-presentation-row-header-fields-value l-bar__element">important-2</div>
+                              <div class="l-bar__space-keeper">
+                                  <div class="l-bar__group">
+                                      <dd class="il-table-presentation-row-header-fields-value l-bar__element">important-2</dd>
+                                  </div>
                               </div>
-                          </div>
+                          </dl>
                           <button class="btn btn-link" id="id_7">presentation_table_more</button>
                        </div>
                    </div>
@@ -283,7 +292,8 @@ EXP;
                 <div class="row">
                     <div class="il-table-presentation-row-header col-lg col-sm-12">
                         <h4 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal...');">some title</h4>
-                        <div class="il-table-presentation-row-header-fields">                  
+                        <div class="il-table-presentation-row-header-fields">
+                            <dl></dl>
                             <button class="btn btn-link" id="id_7">presentation_table_more</button>
                         </div>
                     </div>

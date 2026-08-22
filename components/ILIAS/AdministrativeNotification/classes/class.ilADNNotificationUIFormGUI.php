@@ -383,7 +383,7 @@ class ilADNNotificationUIFormGUI
     {
         $opt = [];
         foreach ($this->rbac_review->getRolesByFilter($filter) as $role) {
-            $opt[(int) $role['obj_id']] = $role['title'] . ' (' . $role['obj_id'] . ')';
+            $opt[(int) $role['obj_id']] = (string) $role['title'];
         }
 
         return $opt;

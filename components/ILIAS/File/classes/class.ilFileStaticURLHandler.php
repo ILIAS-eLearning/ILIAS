@@ -78,12 +78,20 @@ class ilFileStaticURLHandler extends BaseHandler implements Handler
 
         $capabilities = $this->capabilities->get($capability_context);
 
+        // special case for cloned objects
+        $forced = null;
+        $referrer = $context->http()->request()->getServerParams()['HTTP_REFERER'] ?? '';
+        if (str_contains(strtolower($referrer), strtolower(ilObjectCopyGUI::class))) {
+            $forced = $capabilities->get(Capabilities::INFO_PAGE);
+        }
+
+        // Determine Capability to redirect
         $capability = match ($additional_params) {
             self::DOWNLOAD => $capabilities->get(Capabilities::DOWNLOAD),
             self::VERSIONS => $capabilities->get(Capabilities::MANAGE_VERSIONS),
             self::EDIT => $capabilities->get(Capabilities::EDIT_EXTERNAL),
             self::VIEW => $capabilities->get(Capabilities::VIEW_EXTERNAL),
-            default => $capabilities->get(Capabilities::INFO_PAGE),
+            default => $forced ?? $capabilities->getBest(),
         };
 
         if (!$capability->isUnlocked() || $capability->getUri() === null) {

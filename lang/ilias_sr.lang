@@ -19,7 +19,7 @@
 *
 * @module		language file Serbian
 * @modulegroup	language
-* @author 		Branislav Perovic <Branislav.Perovic@osce.org>
+* @author 		Branislav Perovic
 * @version	    $Id$
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
@@ -653,7 +653,6 @@ assessment#:#errFormulaQuestion#:#A Formula Question contains incorrect informat
 assessment#:#errRecursionInResult#:#The formula contains an infinite recursion.###24 10 2013 new variable
 assessment#:#err_category_in_use#:#At least one category cannot be deleted. One or more units of the category are already in use.###24 10 2013 new variable
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###29 07 2022 new variable
-assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#The value you chose would make it impossible to generate a valid value for the variable.###29 07 2022 new variable
 assessment#:#err_duplicate_results#:#You used a result variable more than once. This is not allowed in the question text.###24 10 2013 new variable
 assessment#:#err_no_formula#:#You must enter a formula###24 10 2013 new variable
@@ -1462,6 +1461,7 @@ assessment#:#tst_eval_total_passed_average_points#:#Prosecan broj poena u testov
 assessment#:#tst_eval_total_passed_average_time#:#Average processing time of all passed tests###10 Jul 2006 new variable
 assessment#:#tst_eval_total_persons#:#Ukupan broj osoba koji su ušli u test###10 Jul 2006 content changed
 assessment#:#tst_exam_access_code#:#Access Code###26 08 2024 new variable
+assessment#:#tst_exam_access_code_invalid_message#:#The code you provided is invalid.###26 05 2026 new variable
 assessment#:#tst_exam_access_code_label#:#Enter access code to continue your already started test.###26 08 2024 new variable
 assessment#:#tst_exam_conditions#:#Exam Conditions###26 08 2024 new variable
 assessment#:#tst_exam_conditions_label#:#Check to accept the conditions.###26 08 2024 new variable
@@ -1690,6 +1690,7 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#The started pa
 assessment#:#tst_objective_progress_header#:#Learning Objective Progress###25 10 2016 new variable
 assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress###25 10 2016 new variable
 assessment#:#tst_old_style_rnd_quest_set_broken#:#This random test is in a irreparable state, because one or more connected question pools have been deleted. Therefor participants cannot take the test any longer.###30 08 2015 new variable
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back.###26 05 2026 new variable
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Question related to allready passed learning objectives are optional.</b><br /><br />You want to navigate to a question, that relates to an allready passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on these questions. Your answers from previous attempts were not adopted, since new random questions were selected for this attempt. With working on this questions you can also degrade your learning objective result.<br /><br />If you decide to not work on these questions, you can go back. In this case these questions won't be considered in the evaluation.###30 08 2015 new variable
 assessment#:#tst_out_of_time_message#:#You have reached the maximum allowed processing time of the test!###26 08 2024 new variable
 assessment#:#tst_participant#:#Participant###28 08 2012 new variable
@@ -2178,6 +2179,7 @@ auth#:#auth_saml_deleted_idp#:#The Identity Provider has been deleted.###31 08 2
 auth#:#auth_saml_enable#:#Enable SAML Support###31 08 2017 new variable
 auth#:#auth_saml_err_sqlite_driver#:#The SAML authentication requires the SQLite driver for PHP. Please install the SQLite package and try again.###29 07 2022 new variable
 auth#:#auth_saml_idp#:#IDP###31 08 2017 new variable
+auth#:#auth_saml_idp_deactivated_auth_failed#:#Authentication failed, the identity provider is disabled.###10 03 2026 new variable
 auth#:#auth_saml_idp_selection_table_desc#:#Bitte wählen Sie den Identity Provider mit dem Sie sich anmelden möchten.###31 08 2017 new variable
 auth#:#auth_saml_idp_selection_table_title#:#Identity Provider Selection###31 08 2017 new variable
 auth#:#auth_saml_idp_settings#:#IDP Settings###31 08 2017 new variable
@@ -2769,6 +2771,7 @@ buddysystem#:#buddy_bs_state_requested_p#:#Requested###30 08 2015 new variable
 buddysystem#:#buddy_bs_state_unlinked#:#Unlinked###29 07 2022 new variable
 buddysystem#:#buddy_bs_state_unlinked_a#:#Unlinked###30 08 2015 new variable
 buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked###29 07 2022 new variable
+buddysystem#:#buddy_confirm_unlink#:#Do you really want to disconnect from this contact?###10 03 2026 new variable
 buddysystem#:#buddy_enable#:#Activate ‘Contacts’###23 12 2015 new variable
 buddysystem#:#buddy_enable_info#:#If enabled, users are allowed to contact each other by initiating contact requests. Additionally, there is a personal user setting to allow or prevent being contacted.###23 12 2015 new variable
 buddysystem#:#buddy_handle_contact_request#:#Contact Request###25 10 2016 new variable
@@ -2925,6 +2928,7 @@ certificate#:#persistent_certificate_mode_instant#:#Instant###07 02 2020 new var
 certificate#:#persistent_certificate_mode_instant_info#:#This option is recommended for systems with low up to mediocre user interactions. Systems that tend to big loading times during creation for multiple user certificates should switch to the "Cron Job" option.###07 02 2020 new variable
 chatroom#:#allow_anonymous#:#Allow anonymous login###06 08 2011 new variable
 chatroom#:#allow_custom_usernames#:#Allow custom usernames###06 08 2011 new variable
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.###07 07 2026 new variable
 chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the "Permissions" tab to allow anonymous user access to this repository item.###01 10 2011 new variable
 chatroom#:#auto_scroll#:#Scroll to bottom###06 08 2011 new variable
 chatroom#:#autogen_usernames#:#Auto generated usernames###06 08 2011 new variable
@@ -2959,9 +2963,12 @@ chatroom#:#chat_https_dhparam_info#:#Please define an absolute server path to a 
 chatroom#:#chat_https_key_info#:#Please define an absolute server path to the private key file (e.g..: /etc/ssl/private/server.key).###25 10 2016 new variable
 chatroom#:#chat_invitation#:#Invitation from ##inviter_name## to chatroom ##room_name#####06 08 2011 new variable
 chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.\n\nClick on this link ##link## to directly join this chatroom.###06 08 2011 new variable
+chatroom#:#chat_invitation_modal_headline#:#Invitation to Chat Room###26 05 2026 new variable
+chatroom#:#chat_invitation_modal_section#:#Invite User###26 05 2026 new variable
 chatroom#:#chat_invitation_nc_inv_x#:#You have %s chat invitations.###29 07 2022 new variable
 chatroom#:#chat_invitation_nc_no_inv#:#You have no chat invitations.###29 07 2022 new variable
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chatroom.###06 08 2011 new variable
+chatroom#:#chat_invitation_username_input_label#:#Enter Username:###26 05 2026 new variable
 chatroom#:#chat_invitations#:#Chat invitations###29 07 2022 new variable
 chatroom#:#chat_invite#:#Invite###06 08 2011 new variable
 chatroom#:#chat_join#:#Join###06 08 2011 new variable
@@ -3018,6 +3025,7 @@ chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Chatroom###25 
 chatroom#:#chat_user_x_is_typing#:#User %s is typing ...###29 07 2022 new variable
 chatroom#:#chat_users_are_typing#:#Multiple users are typing ...###29 07 2022 new variable
 chatroom#:#chat_whisper#:#Whisper###06 08 2011 new variable
+chatroom#:#chatroom_anonymous_default#:#Anonymous ####07 07 2026 new variable
 chatroom#:#chatroom_auth#:#Authentication###25 10 2016 new variable
 chatroom#:#chatroom_auth_btn_txt#:#Generate Keys###25 10 2016 new variable
 chatroom#:#chatroom_auth_key#:#Authentication-Key###25 10 2016 new variable
@@ -4653,7 +4661,7 @@ common#:#mails#:#Pošta
 common#:#mails_at_the_ilias_installation#:#You received %1$s new mails at the ILIAS-Installation %2$s###10 09 2010 new variable
 common#:#mails_pl#:#Mail(s)###25 02 2007 new variable
 common#:#main_menu#:#Main Menu###30 04 2009 new variable
-common#:#mainbar_aria_label#:#Mainbar###29 07 2022 new variable
+common#:#mainbar_aria_label#:#Main navigation bar###01 02 2026 changed content
 common#:#mainbar_more_label#:#More###29 07 2022 new variable
 common#:#manage_members#:#Manage Members###30 08 2015 new variable
 common#:#marked_entries#:#Marked Entries###25 02 2007 new variable
@@ -4819,7 +4827,7 @@ common#:#msg_no_perm_paste#:#Nemate dozvolu da zalepite sledece objekte
 common#:#msg_no_perm_paste_object_in_folder#:#You have no permission to paste the object %s in the folder %s.###24 02 2009 new variable
 common#:#msg_no_perm_perm#:#Nemate dozvolu da uredujete podešavanja za dozvolu
 common#:#msg_no_perm_read#:#Nemate dozvolu da pristupite ovoj poziciji.
-common#:#msg_no_perm_read_item#:#You have no permission to access item '%s'.###10 Jul 2006 new variable
+common#:#msg_no_perm_read_item#:#You have no permission to access this object.
 common#:#msg_no_perm_read_lm#:#Nemate dozvolu da citate ovaj metod ucenja.
 common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#Nemate dozvolu za beleženje
@@ -5372,6 +5380,7 @@ common#:#preconditions_optional_hint#:#Please edit one of the following precondi
 common#:#predefined_template#:#Predefined role template###14 Jul 2005 new variable
 common#:#preferences#:#User-defined Preferences###26 06 2009 new variable
 common#:#presentation_table_more#:#more###10 11 2018 new variable
+common#:#presenter#:#Presenter###11 08 2026 new variable
 common#:#preview#:#Preview###24 10 2013 new variable
 common#:#preview_create#:#Create Preview###24 10 2013 new variable
 common#:#preview_delete#:#Delete Preview###24 10 2013 new variable
@@ -5476,6 +5485,7 @@ common#:#renderer_supported_file_types#:#Supported File Types###24 10 2013 new v
 common#:#renderer_supported_repo_types#:#Supported ILIAS Objects###24 10 2013 new variable
 common#:#renderer_type_builtin#:#Built-in###24 10 2013 new variable
 common#:#rep_main_page#:#Main Page###01 04 2011 new variable
+common#:#rep_main_page_logo_alt#:#Logo ILIAS - to the start page###10 03 2026 new variable
 common#:#repeat_scan#:#Ponavljanje osmatranja virusa
 common#:#repeat_scan_failed#:#Ponovljeno osmatranje nije izvršeno.
 common#:#repeat_scan_succeded#:#Ponovljeno osmatranje je uspelo.
@@ -5693,6 +5703,7 @@ common#:#show_content#:#Show Content###29 07 2022 new variable
 common#:#show_details#:#prikaži detalje###14 Jul 2005 content changed
 common#:#show_filter#:#Show Filter###07 09 2009 new variable
 common#:#show_hidden_sections#:#Show More Information &raquo;###26 09 2014 new variable
+common#:#show_less#:#Show less###07 07 2026 new variable
 common#:#show_list#:#Prikaži Listu
 common#:#show_members#:#Prikaži Clanove
 common#:#show_more#:#Show More###29 07 2022 new variable
@@ -7395,6 +7406,7 @@ copa#:#copa_value_reading_time_f_p#:#%s Minutes###29 07 2022 new variable
 copa#:#copa_value_reading_time_f_s#:#%s Minute###29 07 2022 new variable
 copa#:#obj_copa_duplicate#:#Duplicate Content Page###10 11 2018 new variable
 copg#:#copg_active_to_small#:#This date must be higher than the starting date.###26 08 2024 new variable
+copg#:#copg_add_content#:#Add Content###10 03 2026 new variable
 copg#:#copg_allow_html#:#Enable HTML/Javascript###29 07 2022 new variable
 copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.###29 07 2022 new variable
 copg#:#copg_an_error_occured#:#An error occured.###29 07 2022 new variable
@@ -7430,6 +7442,7 @@ copg#:#copg_remove_formats#:#Remove Formatting###26 08 2024 new variable
 copg#:#copg_sec_link_info#:#If you set a link on the whole section, please ensure that no other interactive elements are included within the section. Otherwise their behaviour may be erratically.###25 10 2016 new variable
 copg#:#copg_snippet_cannot_be_edited#:#This is a predefined content snippet and cannot be edited here.###25 10 2016 new variable
 copg#:#copg_unsupported_media_type#:#This media object has an unsupported media type.###26 08 2024 new variable
+copg#:#copg_use_template#:#Use Template###10 03 2026 new variable
 copg#:#copg_x_minutes#:#%s minute(s)###29 07 2022 new variable
 cpad#:#cpad_reading_time_status#:#Reading Time###29 07 2022 new variable
 cpad#:#cpad_reading_time_status_desc#:#If enabled, the estimated reading time for content page objects will be determined and displayed.###29 07 2022 new variable
@@ -8125,6 +8138,8 @@ crs#:#tutorial_support_block_title#:#Contact Person###28 10 2024 new variable
 crs#:#user_fields#:#User Fields###25 02 2007 new variable
 crsv#:#crsv_create#:#Create Course Certificate###30 12 2013 new variable
 crsv#:#crsv_create_info#:#Select a completed course to generate a certificate for it###30 12 2013 new variable
+dash#:#add_to_favourites#:#Add to Favourites###21 04 2026 new variable
+dash#:#added_to_favourites#:#The item has been added to your favourites.###21 04 2026 new variable
 dash#:#dash_activation#:#activation###07 02 2020 new variable
 dash#:#dash_added_to_favs#:#Recommendation has been added to personal favourites.###07 02 2020 new variable
 dash#:#dash_avail_presentation#:#Available Presentations###07 02 2020 new variable
@@ -8133,6 +8148,18 @@ dash#:#dash_click_here#:#Click here###07 02 2020 new variable
 dash#:#dash_co_delete#:#Delete Dashboard style###28 10 2024 new variable
 dash#:#dash_co_lang#:#Dashboard style by languages###28 10 2024 new variable
 dash#:#dash_customization#:#Customize Dashboard Content###28 10 2024 new variable
+dash#:#dash_dash_fav_remove#:#Remove###10 03 2026 new variable
+dash#:#dash_dash_fav_remove_info#:#Are you sure you want to remove the following objects from your Favourites?###10 03 2026 new variable
+dash#:#dash_dash_fav_remove_multiple#:#Remove Multiple Favorites###10 03 2026 new variable
+dash#:#dash_dash_ls_remove#:#Unsubscribe###10 03 2026 new variable
+dash#:#dash_dash_ls_remove_info#:#Are you sure you want to unsubscribe from the following learning sequences?###10 03 2026 new variable
+dash#:#dash_dash_ls_remove_multiple#:#Unsubscribe Multiple Learning Sequences###10 03 2026 new variable
+dash#:#dash_dash_mem_remove#:#Unsubscribe###10 03 2026 new variable
+dash#:#dash_dash_mem_remove_info#:#Are you sure you want to unsubscribe from the following courses and groups?###10 03 2026 new variable
+dash#:#dash_dash_mem_remove_multiple#:#Unsubscribe Multiple Courses and Groups###10 03 2026 new variable
+dash#:#dash_dash_rc_remove#:#Remove###10 03 2026 new variable
+dash#:#dash_dash_rc_remove_info#:#Are you sure you want to remove the following objects from your recommended content?###10 03 2026 new variable
+dash#:#dash_dash_rc_remove_multiple#:#Remove Multiple Contents###10 03 2026 new variable
 dash#:#dash_dashboard#:#Dashboard###07 02 2020 new variable
 dash#:#dash_default_presentation#:#Default Presentation###07 02 2020 new variable
 dash#:#dash_default_sortation#:#Default Sortation###07 02 2020 new variable
@@ -8146,14 +8173,13 @@ dash#:#dash_enable_recommended_content#:#Recommended Content###26 08 2024 new va
 dash#:#dash_enable_study_programmes#:#Study Programmes###26 08 2024 new variable
 dash#:#dash_enable_task#:#Tasks###07 02 2020 new variable
 dash#:#dash_favourites#:#Favourites###07 02 2020 new variable
-dash#:#dash_info_sure_remove_from_favs#:#Are you sure you want to remove the following objects from your Favourites?###07 02 2020 new variable
 dash#:#dash_item_removed#:#Recommendation has been removed from the list.###07 02 2020 new variable
 dash#:#dash_learning_sequences#:#My Learning Sequences###26 08 2024 new variable
 dash#:#dash_list#:#List###07 02 2020 new variable
 dash#:#dash_main_panel#:#Main Panel###07 02 2020 new variable
-dash#:#dash_make_favourite#:#Add to Favourites###07 02 2020 new variable
 dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.###07 02 2020 new variable
 dash#:#dash_memberships#:#My Courses and Groups###07 02 2020 new variable
+dash#:#dash_no_items_to_manage#:#No items available for removal.###10 03 2026 new variable
 dash#:#dash_page_edit_info#:#The content of this page is displayed to all users on their dashboard. The contents of the various blocks of the dashboard are presented below.###28 10 2024 new variable
 dash#:#dash_presentation#:#Presentation###07 02 2020 new variable
 dash#:#dash_recommended_content#:#Recommended Content###26 08 2024 new variable
@@ -8170,6 +8196,8 @@ dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’###07 02 20
 dash#:#dash_view_favourites#:#Section ‘Favourites’###07 02 2020 new variable
 dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.###26 08 2024 new variable
 dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.###26 08 2024 new variable
+dash#:#remove_from_favourites#:#Remove from Favourites###21 04 2026 new variable
+dash#:#removed_from_favourites#:#The item has been removed from your favourites.###21 04 2026 new variable
 dash#:#topitem_block#:#Block###26 08 2024 new variable
 dateplaner#:#Fr_long#:#Petak
 dateplaner#:#Fr_short#:#Pet
@@ -9221,6 +9249,8 @@ ecs#:#ecs_wiki_export_enabled#:#Release this Wiki###28 08 2012 new variable
 ecs#:#ecs_wiki_export_obj_settings#:#Wiki Release Settings###28 08 2012 new variable
 error#:#error_back_to_repository#:#Back to Repository###27 01 2015 new variable
 error#:#error_sry_error#:#Sorry, an error occured.###27 01 2015 new variable
+error#:#http_404_not_found#:#The requested page could not be found.###21 04 2026 new variable
+error#:#http_500_internal_server_error#:#An internal server error occurred.###21 04 2026 new variable
 etal#:#appointments#:#Appointments
 etal#:#cal_type_tals#:#Talks
 etal#:#change_date_of_series#:#Change date of talk series
@@ -9613,6 +9643,7 @@ exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mai
 exc#:#exc_settings_feedback_text#:#Textinput###25 10 2016 new variable
 exc#:#exc_settings_feedback_text_info#:#Tutors type their evaluation in a text field. The participant receives a notification about it and the text is displayed at the assignment overview.###31 08 2017 new variable
 exc#:#exc_show_instructions#:#Show Work Instructions###26 08 2024 new variable
+exc#:#exc_show_more#:#Show More###10 03 2026 new variable
 exc#:#exc_show_peer_review#:#Show Peer-Feedback###22 01 2014 new variable
 exc#:#exc_show_submissions#:#Publish Submissions after Deadline###26 03 2010 new variable
 exc#:#exc_show_submissions_info#:#Publish all submissions to all learners after the deadline.###26 03 2010 new variable
@@ -9728,6 +9759,7 @@ exc#:#exc_type_upload#:#Upload###12 06 2011 new variable
 exc#:#exc_type_upload_team#:#Team Upload###28 08 2012 new variable
 exc#:#exc_value_can_not_set#:#This value can not be set.###10 11 2018 new variable
 exc#:#exc_view_portfolio#:#View Portfolio###26 08 2024 new variable
+exc#:#exc_view_wiki#:#View Wiki###10 03 2026 new variable
 exc#:#exc_wait_for_files#:#Your download should start automatically. If the download doesn't start in 5 secs, please click here###31 08 2017 new variable
 exc#:#exc_wiki_container#:#Wiki Container###10 11 2018 new variable
 exc#:#exc_wiki_container_info#:#Location where wikis of participants will be created.###10 11 2018 new variable
@@ -10257,6 +10289,7 @@ glo#:#glo_really_remove_from_collection#:#Are you sure you want to remove the fo
 glo#:#glo_reference#:#Reference###25 10 2016 new variable
 glo#:#glo_reference_terms#:#Reference Terms###25 10 2016 new variable
 glo#:#glo_referenced_term#:#Referenced Term###25 10 2016 new variable
+glo#:#glo_remove_glossary#:##Are you sure you want to remove the following glossary from the list of auto-linked glossaries?###11 08 2026 new variable
 glo#:#glo_removed_from_collection_info#:#The glossary has been removed from the collection glossary.###26 08 2024 new variable
 glo#:#glo_reset_all_boxes#:#Reset All Boxes###26 08 2024 new variable
 glo#:#glo_save_and_continue#:#Save and Continue###21 05 2025 new variable
@@ -10681,9 +10714,14 @@ itgr#:#itgr_always_open#:#Always Open###31 08 2017 new variable
 itgr#:#itgr_assign_materials#:#Assign Materials###29 07 2022 new variable
 itgr#:#itgr_assigned_materials#:#Assigned Materials###28 08 2012 new variable
 itgr#:#itgr_assignment#:#Assignment###28 08 2012 new variable
-itgr#:#itgr_behaviour#:#Block Behaviour###31 08 2017 new variable
-itgr#:#itgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.###31 08 2017 new variable
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###25 10 2016 new variable
+itgr#:#itgr_display#:#Display###07 07 2026 new variable
+itgr#:#itgr_display_with_title#:#With Title###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed###07 07 2026 new variable
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened###07 07 2026 new variable
+itgr#:#itgr_display_without_title#:#Without Title###07 07 2026 new variable
 itgr#:#itgr_edit#:#Edit Item Groups###28 08 2012 new variable
 itgr#:#itgr_expandable_closed#:#Expandable (initially closed)###31 08 2017 new variable
 itgr#:#itgr_expandable_open#:#Expandable (initially opened)###31 08 2017 new variable
@@ -10693,8 +10731,6 @@ itgr#:#itgr_list_default#:#Default###29 07 2022 new variable
 itgr#:#itgr_list_default_info#:#Inherits value from upper container.###29 07 2022 new variable
 itgr#:#itgr_list_presentation#:#Item Presentation###29 07 2022 new variable
 itgr#:#itgr_materials#:#Materials###28 08 2012 new variable
-itgr#:#itgr_show_title#:#Show Title###31 08 2017 new variable
-itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.###31 08 2017 new variable
 itgr#:#itgr_tile#:#Tiles###29 07 2022 new variable
 itgr#:#itgr_tile_size#:#Tile Size###29 07 2022 new variable
 jscalendar#:#about_calendar#:#O Kalendaru
@@ -10971,6 +11007,7 @@ lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###29 07 2022 new varia
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###29 07 2022 new variable
 lm#:#lm_copy#:#Copy Learning Module###27 01 2015 new variable
 lm#:#lm_edit_chapters#:#Edit Chapters###26 08 2024 new variable
+lm#:#lm_edit_content#:#Edit Content###10 03 2026 new variable
 lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###26 08 2024 new variable
 lm#:#lm_est_reading_time#:#Estimated Reading Time###29 07 2022 new variable
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.###29 07 2022 new variable
@@ -10988,6 +11025,7 @@ lm#:#lm_insert_page_before#:#Insert page before###28 10 2024 new variable
 lm#:#lm_insert_page_clip#:#Insert page from clipboard###28 10 2024 new variable
 lm#:#lm_insert_page_clip_after#:#Insert page from clipboard after###28 10 2024 new variable
 lm#:#lm_insert_page_clip_before#:#Insert page from clipboard before###28 10 2024 new variable
+lm#:#lm_list_pages#:#Edit Pages###10 03 2026 new variable
 lm#:#lm_page_added#:#Page has been added.###26 08 2024 new variable
 lm#:#lm_page_type_lm#:#LM Page###29 07 2022 new variable
 lm#:#lm_pages_added#:#Pages have been added.###26 08 2024 new variable
@@ -11775,7 +11813,7 @@ mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 and MathJax 3 with cur
 mathjax#:#mathjax_polyfill_url_desc_line2#:#Please remove any reference to polyfill.io! See https://sansec.io/research/polyfill-supply-chain-attack
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script###31 03 2023 new variable
 mathjax#:#mathjax_script_url_desc_line1#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. <br />For MathJax 2 e.g. %s
-mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. %s
+mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. %s<br />These scripts require the user’s browser to fetch MathJax from an external address (cdn.jsdelivr.net). If you host MathJax yourself, use a copy of the relevant script with the address modified.
 mathjax#:#mathjax_server_address#:#Server Address###25 10 2016 new variable
 mathjax#:#mathjax_server_address_info#:#E.g. http://localhost:8003###25 10 2016 new variable
 mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.###25 10 2016 new variable
@@ -12739,8 +12777,8 @@ mmbr#:#info_refuse_sure#:#Are you sure you want to refuse the following user(s)?
 mmbr#:#mmbr_awrn_my_groups_courses#:#My Groups and Courses###30 08 2015 new variable
 mmbr#:#mmbr_awrn_my_groups_courses_info#:#All members of groups or courses of the current user are listed.###30 08 2015 new variable
 mmbr#:#mmbr_btn_mail_selected_users#:#Send Mail###26 09 2014 new variable
-mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?###07 02 2020 new variable
 mmbr#:#mmbr_memberships#:#Memberships###29 07 2022 new variable
+mmbr#:#mmbr_role_error#:#Members must have at least one role assigned.###10 03 2026 new variable
 mmbr#:#mmbr_selected_users#:#Selected Participants###26 09 2014 new variable
 mmbr#:#mmbr_unsubscribed_from_objs#:#You have been unsubscribed from the selected objects.###07 02 2020 new variable
 mme#:#add_languages#:#Add Language###10 11 2018 new variable
@@ -13019,6 +13057,7 @@ notes#:#notes_latest_comment#:#Latest Comment###10 11 2018 new variable
 notes#:#notes_latest_message#:#Latest Message###26 08 2024 new variable
 notes#:#notes_message_author_counterpart#:#Respondent###26 08 2024 new variable
 notes#:#notes_message_author_you#:#You###26 08 2024 new variable
+notes#:#notes_message_deleted#:#Message deleted.###21 04 2026 new variable
 notes#:#notes_messages#:#Messages###26 08 2024 new variable
 notes#:#notes_my_comments#:#My Comments###02 06 2008 new variable
 notes#:#notes_no_comments#:#No comment has been posted yet.###30 12 2013 new variable
@@ -13275,7 +13314,6 @@ pd#:#pd_ended#:#Ended###31 08 2017 new variable
 pd#:#pd_export_profile#:#Export Personal Data###28 08 2012 new variable
 pd#:#pd_import_personal_data#:#Import Personal Data###28 08 2012 new variable
 pd#:#pd_my_memberships_sort_default#:#Default of Sort Option###31 08 2017 new variable
-pd#:#pd_no_items_to_manage#:#No items available for removal.###26 08 2024 new variable
 pd#:#pd_not_dated#:#Not Dated###26 08 2024 new variable
 pd#:#pd_ongoing#:#Ongoing###31 08 2017 new variable
 pd#:#pd_personal_items_default_view#:#Default View###15 09 2008 new variable
@@ -13285,9 +13323,6 @@ pd#:#pd_presentation_mode_tile#:#Tile Presentation###07 02 2020 new variable
 pd#:#pd_private_calendars#:#Private Calendars###28 08 2012 new variable
 pd#:#pd_profile_data#:#Profile Data###28 08 2012 new variable
 pd#:#pd_remove_multi_confirm#:#The objects were removed.###11 03 2014 new variable
-pd#:#pd_remove_multiple#:#Remove Multiple Objects###24 10 2013 new variable
-pd#:#pd_unsubscribe_memberships#:#Unsubscribe###24 10 2013 new variable
-pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple###24 10 2013 new variable
 pd#:#pd_upcoming#:#Upcoming###31 08 2017 new variable
 pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either 'Selected Items' and/or 'My Memberships'.###15 09 2008 new variable
 pdesk#:#bookmark_moved_ok#:#Bookmark has been moved.###28 08 2012 new variable
@@ -14493,6 +14528,9 @@ rbac#:#positions_override_operations#:#Override global Settings###22 11 2017 new
 rbac#:#precondition_not_obligatory_alt#:#Precondition is optional###22 03 2011 new variable
 rbac#:#precondition_num_obligatory#:#Number of Required Materials###12 06 2011 new variable
 rbac#:#precondition_num_optional_info#:#Please enter the minimum number of materials which is required for fullfilling this precondition.###12 06 2011 new variable
+rbac#:#precondition_number_of_required_materials_bigger_preconditions_number#:#The number of required materials must be less than the total number of preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_compulsory_items#:#The number of required materials must be greater than the number of compulsory preconditions.###26 05 2026 new variable
+rbac#:#precondition_number_of_required_materials_lower_than_one#:#The number of required materials must be at least 1.###26 05 2026 new variable
 rbac#:#precondition_obligatory#:#Obligatory###22 03 2011 new variable
 rbac#:#precondition_obligatory_alt#:#Precondition must be fulfilled###22 03 2011 new variable
 rbac#:#precondition_obligatory_info#:#Obligatory preconditions must be fulfilled, for having access.###22 03 2011 new variable
@@ -15028,9 +15066,7 @@ rep#:#rep_add_new_def_grp_content#:#Content###06 11 2013 new variable
 rep#:#rep_add_new_def_grp_feedback#:#Feedback and Evaluation###06 11 2013 new variable
 rep#:#rep_add_new_def_grp_organisation#:#Organisation###06 11 2013 new variable
 rep#:#rep_add_new_def_grp_templates#:#Templates###30 12 2013 new variable
-rep#:#rep_add_to_favourites#:#Add to Favourites###07 02 2020 new variable
 rep#:#rep_added_rec_content#:#Recommended content has been added.###07 02 2020 new variable
-rep#:#rep_added_to_favourites#:#The item has been added to your favourites.###07 02 2020 new variable
 rep#:#rep_allowed_types#:#Allowed Types###26 08 2024 new variable
 rep#:#rep_breadcr_crs#:#Breadcrumb starts with course###10 11 2018 new variable
 rep#:#rep_breadcr_crs_config#:#Configuration###26 08 2024 new variable
@@ -15085,9 +15121,7 @@ rep#:#rep_object_references_cannot_be_read#:#No permissions for %s more referenc
 rep#:#rep_object_to_delete#:#To Delete###16 07 2010 new variable
 rep#:#rep_rec_content_removed#:#Recommended content has been removed.###07 02 2020 new variable
 rep#:#rep_recommended_content#:#Recommended Content###07 02 2020 new variable
-rep#:#rep_remove_from_favourites#:#Remove from Favourites###07 02 2020 new variable
 rep#:#rep_remove_rec_content#:#Are you sure you want to remove the following recommended content?###07 02 2020 new variable
-rep#:#rep_removed_from_favourites#:#The item has been removed from your favourites.###07 02 2020 new variable
 rep#:#rep_target_location#:#Target Location###07 02 2020 new variable
 rep#:#rep_target_location_info#:#Bitte wählen Sie nun das Ziel aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen.###07 02 2020 new variable
 rep#:#rep_time_based_availability#:#Temporarily Available###28 08 2012 new variable
@@ -16079,6 +16113,7 @@ style#:#sty_individual_styles#:#Individual Styles###10 Jul 2006 new variable
 style#:#sty_keep_existing#:#Keep Existing###16 07 2010 new variable
 style#:#sty_left#:#Left###10 Jul 2006 new variable
 style#:#sty_left_right_padding#:#Cell Padding Left/Right###15 05 2009 new variable
+style#:#sty_legacy_image_directory_found#:#Legacy image directory found. You may migrate the directory from ILIAS 9 by clicking "Migrate Images"###21 04 2026 new variable
 style#:#sty_letter_spacing#:#Letter Spacing###10 Jul 2006 new variable
 style#:#sty_lightness_border#:#Lightness Border###15 05 2009 new variable
 style#:#sty_lightness_cell1_bg#:#Lightness Cell 1 Background###15 05 2009 new variable
@@ -16099,6 +16134,7 @@ style#:#sty_margin_and_padding#:#Margin and Padding###10 Jul 2006 new variable
 style#:#sty_media_char#:#Media###24 02 2009 new variable
 style#:#sty_media_queries#:#Media Queries###26 09 2014 new variable
 style#:#sty_media_query_info#:#A separete CSS block is added for each media query after the default (no special media query) block.###26 09 2014 new variable
+style#:#sty_migrate_images#:#Migrate Images###21 04 2026 new variable
 style#:#sty_min_height#:#Minimum Height###24 02 2009 new variable
 style#:#sty_move_lm_styles#:#Change Style of Learning Modules###10 Jul 2006 new variable
 style#:#sty_move_obj_styles#:#Change Style of Objects###23 09 2025 new variable
@@ -16157,6 +16193,7 @@ style#:#sty_special#:#Special###10 Jul 2006 new variable
 style#:#sty_style_chars#:#Style Classes###24 02 2009 new variable
 style#:#sty_style_class#:#Style Classes###15 05 2009 new variable
 style#:#sty_style_classes_copied#:#Style classes have been copied.###16 07 2010 new variable
+style#:#sty_style_not_migrated#:#This content style has not been migrated to the ILIAS 10 data structure yet. Changes will not be applied.###21 04 2026 new variable
 style#:#sty_substyle#:#Substyle###28 08 2012 new variable
 style#:#sty_substyle_of#:#Sub Style of###25 10 2016 new variable
 style#:#sty_substyles#:#Substyles###28 08 2012 new variable
@@ -16668,7 +16705,7 @@ survey#:#survey_360_sure_appraisee_close#:#Are you sure you want to close the su
 survey#:#survey_360_sure_appraisee_close_admin#:#Are you sure you want to close the surveys for the following appraisees?###24 10 2013 new variable
 survey#:#survey_360_sure_delete_appraises#:#Are you sure you want to remove the following appraisees?###24 10 2013 new variable
 survey#:#survey_360_sure_delete_raters#:#Are you sure you want to remove the following raters for %s?###24 10 2013 new variable
-survey#:#survey_access_codes#:#Authentication by Access Codes###27 01 2015 new variable
+survey#:#survey_access_code#:#Authentication by Access Codes###27 01 2015 new variable
 survey#:#survey_access_codes_info#:#Users get access to the survey by entering a code on the 'Info'-tab. These access codes are generated in a sub-tab 'Access Codes' in the tab 'Participants'.###27 01 2015 new variable
 survey#:#survey_activate_skill_service#:#Activate Competence Service###24 10 2013 new variable
 survey#:#survey_activate_skill_service_info#:#todo12###07 11 2014 new variable
@@ -16703,6 +16740,7 @@ survey#:#survey_execution_sure_finish#:#Are you sure you want to finish the surv
 survey#:#survey_existing_pool#:#Use existing question pool###12 06 2011 new variable
 survey#:#survey_finish#:#završi anketu###25 Jul 2006 content changed
 survey#:#survey_finished#:#Završili ste anketu. Hvala vam na ucešcu!###05 Feb 2006 content changed
+survey#:#survey_from_x_points#:#Od X poena
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.###10 Jul 2006 new variable
 survey#:#survey_has_datasets_warning_page_view#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets.###12 06 2011 new variable
 survey#:#survey_has_datasets_warning_page_view_link#:#Edit Participants###12 06 2011 new variable
@@ -16778,7 +16816,6 @@ survey#:#survey_sync_insufficient_permissions#:#Insufficient Permissions###12 06
 survey#:#survey_sync_question_copies#:#Sync Question Copies###12 06 2011 new variable
 survey#:#survey_sync_question_copies_info#:#The selected questions will be replaced with the current pool version.###12 06 2011 new variable
 survey#:#survey_sync_success#:#The selected questions were updated.###12 06 2011 new variable
-survey#:#survey_up_to_x_points#:#Up to x points###24 10 2013 new variable
 survey#:#survey_use_start_button#:#You must enter the survey using the start button!###15 11 2006 new variable
 survey#:#svy_activation_limited_visibility_info#:#If chosen, the survey is visible even outside of the given availability.###04 09 2012 new variable
 survey#:#svy_activation_online_info#:#Activate this setting to make the survey accessible to users.###04 09 2012 new variable
@@ -17070,6 +17107,7 @@ tax#:#tax_tax_settings#:#Taxonomy Settings###31 08 2017 new variable
 tax#:#tax_taxonomy#:#Taxonomy###28 08 2012 new variable
 tbl#:#tbl_export_csv#:#Export .csv###16 07 2010 new variable
 tbl#:#tbl_export_excel#:#Export .xls###16 07 2010 new variable
+tbl#:#tbl_selection#:#Selection###21 04 2026 new variable
 tbl#:#tbl_template_create#:#Save Current View###16 07 2010 new variable
 tbl#:#tbl_template_created#:#The current view has been saved.###16 07 2010 new variable
 tbl#:#tbl_template_delete#:#Delete Saved View###16 07 2010 new variable
@@ -17835,7 +17873,6 @@ wopi#:#wopi_url_byline#:#Complete URL of the WOPI-Discovery, this must be access
 wsp#:#element_already_shared#:#This object is already shared with this user.###07 02 2017 new variable
 wsp#:#element_shared#:#Object shared.###07 02 2017 new variable
 wsp#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.###10 11 2018 new variable
-wsp#:#search_no_match#:#Your search did not match any results.###07 02 2017 new variable
 wsp#:#share#:#Share###07 02 2017 new variable
 wsp#:#share_content#:#Share Object###07 02 2017 new variable
 wsp#:#share_with#:#Username###07 02 2017 new variable
@@ -17857,6 +17894,7 @@ wsp#:#wsp_permission_registered_info#:#This object is shared with all registered
 wsp#:#wsp_permission_removed#:#The item has been removed.###12 06 2011 new variable
 wsp#:#wsp_permissions#:#Share###12 06 2011 new variable
 wsp#:#wsp_personal_resources_description#:#Here you can manage your private files, blogs and artifacts.###07 02 2020 new variable
+wsp#:#wsp_search_no_match#:#Your search did not match any results.###10 03 2026 new variable
 wsp#:#wsp_send_mail#:#Send Mail###26 08 2024 new variable
 wsp#:#wsp_set_permission_all#:#Publish ###12 06 2011 new variable
 wsp#:#wsp_set_permission_all_password#:#Publish (Password required)###12 06 2011 new variable
@@ -17897,4 +17935,3 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM###30 12 2013 new variable
 wsp#:#wsp_type_tstv#:#Verification: Test###12 06 2011 new variable
 wsp#:#wsp_type_webr#:#Weblink###18 07 2011 new variable
 wsp#:#wsp_type_wfld#:#Folder###22 03 2011 new variable
-﻿/**

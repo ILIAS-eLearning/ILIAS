@@ -31,7 +31,6 @@ use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ContentModification;
 use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\GlobalScreen\ScreenContext\AdditionalData\Collection;
-
 use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Builder\StandardPageBuilder;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\PageBuilderModification;
@@ -96,7 +95,7 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
         }
         return $this->globalScreen()->layout()->factory()->metabar()
             ->withModification(
-                fn (?MetaBar $metabar): ?Metabar => $metabar !== null ? $metabar->withClearedEntries() : null
+                fn(?MetaBar $metabar): ?Metabar => $metabar !== null ? $metabar->withClearedEntries() : null
             )
             ->withHighPriority();
     }
@@ -109,7 +108,7 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
 
         return $this->globalScreen()->layout()->factory()->breadcrumbs()
             ->withModification(
-                fn (?Breadcrumbs $current): ?Breadcrumbs => null
+                fn(?Breadcrumbs $current): ?Breadcrumbs => null
             )
             ->withHighPriority();
     }
@@ -140,7 +139,9 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
         }
 
         $exit = $this->data_collection->get(\ilLSPlayer::GS_DATA_LS_METABARCONTROLS)['exit'];
-        $label = $this->dic['lng']->txt('lso_player_viewmodelabel');
+
+        $label = $this->data_collection->get(\ilLSPlayer::GS_DATA_LS_TITLE)
+            ?? $this->dic['lng']->txt('lso_player_viewmodelabel');
 
         $lnk = new URI($exit->getAction());
 

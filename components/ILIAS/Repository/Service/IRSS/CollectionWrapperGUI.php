@@ -23,6 +23,7 @@ namespace ILIAS\Repository\IRSS;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\components\ResourceStorage\Collections\View\Configuration;
 use ILIAS\components\ResourceStorage\Collections\View\Mode;
+use ILIAS\components\ResourceStorage\Collections\View\OnDuplicate;
 
 class CollectionWrapperGUI
 {
@@ -38,7 +39,8 @@ class CollectionWrapperGUI
         ResourceStakeholder $stakeholder,
         string $rcid,
         string $caption,
-        bool $write = false
+        bool $write = false,
+        OnDuplicate $on_duplicate = OnDuplicate::REPLACE
     ): \ilResourceCollectionGUI {
         if ($rcid === "") {
             throw new \LogicException("No resource collection ID given.");
@@ -52,7 +54,8 @@ class CollectionWrapperGUI
                 Mode::DATA_TABLE,
                 100,
                 $write,
-                $write
+                $write,
+                $on_duplicate
             )
         );
     }

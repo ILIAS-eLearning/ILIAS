@@ -187,6 +187,7 @@ class ilCourseContentGUI
             }
 
             // add to desktop link
+            $this->lng->loadLanguageModule('dash');
             if ($this->course_obj->getAboStatus()) {
                 if (!$this->fav_manager->ifIsFavourite($this->user->getId(), $ref_id)) {
                     if ($this->access->checkAccess('read', '', $ref_id)) {
@@ -199,7 +200,7 @@ class ilCourseContentGUI
                             "LINK_HREF",
                             $this->ctrl->getLinkTarget($this->container_gui, 'addToDesk')
                         );
-                        $this->tpl->setVariable("LINK_NAME", $this->lng->txt("rep_add_to_favourites"));
+                        $this->tpl->setVariable("LINK_NAME", $this->lng->txt("add_to_favourites"));
                         $this->tpl->parseCurrentBlock();
                     }
                 } else {
@@ -212,7 +213,7 @@ class ilCourseContentGUI
                         "LINK_HREF",
                         $this->ctrl->getLinkTarget($this->container_gui, 'removeFromDesk')
                     );
-                    $this->tpl->setVariable("LINK_NAME", $this->lng->txt("rep_remove_from_favourites"));
+                    $this->tpl->setVariable("LINK_NAME", $this->lng->txt("remove_from_favourites"));
                     $this->tpl->parseCurrentBlock();
                 }
             }

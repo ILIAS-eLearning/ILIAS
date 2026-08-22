@@ -225,4 +225,16 @@ trait BaseGUIRequest
         }
         return null;
     }
+
+    public function has(string $key): bool
+    {
+        $w = $this->http->wrapper();
+        if ($w->post()->has($key)) {
+            return true;
+        }
+        if ($w->query()->has($key)) {
+            return true;
+        }
+        return false;
+    }
 }

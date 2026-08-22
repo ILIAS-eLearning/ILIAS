@@ -184,7 +184,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
         $source = explode(":", $source);
         $target = explode(":", $target);
 
-        $updated = $page->moveContentAfter($source[0], $target[0], $source[1], $target[1]);
+        $updated = $page->moveContentAfter($source[0], $target[0], $source[1] ?? '', $target[1] ?? '');
 
         return $this->sendPage($updated);
     }

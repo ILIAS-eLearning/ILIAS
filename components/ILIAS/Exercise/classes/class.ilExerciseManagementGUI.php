@@ -446,13 +446,17 @@ class ilExerciseManagementGUI
                 }
             } elseif ($this->exercise->hasTutorFeedbackFile()) {
                 if (!$this->assignment->getAssignmentType()->usesTeams()) {
-                    // multi-feedback
-                    $ilToolbar->addButton(
-                        $this->lng->txt("exc_multi_feedback"),
-                        $this->ctrl->getLinkTarget($this, "showMultiFeedback")
-                    );
 
-                    $ilToolbar->addSeparator();
+                    $mem_data = $this->assignment->getMemberListData();
+                    if (count($mem_data) > 0) {
+                        // multi-feedback
+                        $ilToolbar->addButton(
+                            $this->lng->txt("exc_multi_feedback"),
+                            $this->ctrl->getLinkTarget($this, "showMultiFeedback")
+                        );
+
+                        $ilToolbar->addSeparator();
+                    }
                 }
             }
 

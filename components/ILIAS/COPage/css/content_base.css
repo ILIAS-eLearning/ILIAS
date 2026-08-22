@@ -18,6 +18,11 @@
 	width: auto;
 }
 
+/* #47866 */
+.ilTinyMenuSection > div.dropdown:nth-child(4) > ul.dropdown-menu {
+	right: auto;
+}
+
 /* see #41844 and #46127 */
 #copg-editor-slate-content p, #iltinymenu .il-copg-button-group p {
 	background-color: transparent;

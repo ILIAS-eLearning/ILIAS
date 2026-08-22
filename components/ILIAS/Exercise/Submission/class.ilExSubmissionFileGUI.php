@@ -270,10 +270,10 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
                 "deliver",
                 $this->lng->txt("files"),
                 $this->handleUploadResult(...),
-                "mep_id",
+                "filename",
                 "",
                 $max_file
-            );
+            )->required(true);
         return $form_adapter;
     }
 
@@ -282,30 +282,40 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         \ILIAS\FileUpload\DTO\UploadResult $result
     ): \ILIAS\FileUpload\Handler\BasicHandlerResult {
         $title = $result->getName();
-
-        //$this->submission->addFileUpload($result);
-        $subm = $this->domain->submission($this->assignment->getId());
-        $subm->addUpload(
-            $this->user->getid(),
-            $result,
-            $title
-        );
-
+        if ($result->isOK()) {
+            $subm = $this->domain->submission($this->assignment->getId());
+            $subm->addUpload(
+                $this->user->getId(),
+                $result,
+                $title
+            );
+            return new \ILIAS\FileUpload\Handler\BasicHandlerResult(
+                'filename',
+                \ILIAS\FileUpload\Handler\HandlerResult::STATUS_OK,
+                $title,
+                ''
+            );
+        }
         return new \ILIAS\FileUpload\Handler\BasicHandlerResult(
             '',
-            \ILIAS\FileUpload\Handler\HandlerResult::STATUS_OK,
-            $title,
-            ''
+            \ILIAS\FileUpload\Handler\HandlerResult::STATUS_FAILED,
+            '',
+            $result->getStatus()->getMessage()
         );
     }
 
     public function addUploadObject(): void
     {
         $ilCtrl = $this->ctrl;
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("file_added"), true);
-        $this->handleNewUpload();
-
-        $ilCtrl->redirect($this, "submissionScreen");
+        $mt = $this->gui->ui()->mainTemplate();
+        $form = $this->getUploadForm();
+        if ($form->isValid()) {
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("file_added"), true);
+            $this->handleNewUpload();
+            $ilCtrl->redirect($this, "submissionScreen");
+        } else {
+            $mt->setContent($form->render());
+        }
     }
 
 

@@ -21,12 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\Filesystem\Finder\Iterator;
 
 use ILIAS\Filesystem\DTO\Metadata;
-use Iterator as PhpIterator;
 
 /**
- * Class FileTypeFilterIterator
- * @package ILIAS\Filesystem\Finder\Iterator
- * @author  Michael Jansen <mjansen@databay.de>
+ * @extends \FilterIterator<non-empty-string, Metadata>
  */
 class FileTypeFilterIterator extends \FilterIterator
 {
@@ -35,30 +32,30 @@ class FileTypeFilterIterator extends \FilterIterator
     public const ONLY_DIRECTORIES = 2;
 
     /**
-     * @param PhpIterator $iterator The Iterator to filter
-     * @param int         $mode     The mode (self::ALL or self::ONLY_FILES or self::ONLY_DIRECTORIES)
+     * @param \Iterator<non-empty-string, Metadata> $iterator The Iterator to filter
+     * @param int                                   $mode     The mode (self::ALL or self::ONLY_FILES or self::ONLY_DIRECTORIES)
      */
-    public function __construct(PhpIterator $iterator, private int $mode)
+    public function __construct(\Iterator $iterator, private int $mode)
     {
         parent::__construct($iterator);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function accept(): bool
     {
         /** @var Metadata $metadata */
         $metadata = $this->current();
-        if (self::ONLY_DIRECTORIES === (self::ONLY_DIRECTORIES&$this->mode) && $metadata->isFile()) {
+        if (self::ONLY_DIRECTORIES === (self::ONLY_DIRECTORIES & $this->mode) && $metadata->isFile()) {
             return false;
         }
-        if (self::ONLY_FILES !== (self::ONLY_FILES&$this->mode)) {
+
+        if (self::ONLY_FILES !== (self::ONLY_FILES & $this->mode)) {
             return true;
         }
+
         if (!$metadata->isDir()) {
             return true;
         }
+
         return false;
     }
 }

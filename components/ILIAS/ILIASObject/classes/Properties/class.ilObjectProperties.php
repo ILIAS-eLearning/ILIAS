@@ -38,7 +38,7 @@ class ilObjectProperties
         $this->core_properties_repository->store($this->core_properties);
         $this->updateMetadataForTitleAndDescription(
             $this->core_properties->getPropertyTitleAndDescription()->getTitle(),
-            $this->core_properties->getPropertyTitleAndDescription()->getDescription()
+            $this->core_properties->getPropertyTitleAndDescription()->getLongDescription()
         );
     }
 

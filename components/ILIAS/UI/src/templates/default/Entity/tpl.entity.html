@@ -1,46 +1,76 @@
-<div class="c-entity __container">
-    <!-- BEGIN blocking_conditions -->
-    <div class="c-entity __blocking-conditions">{BLOCKING_CONDITIONS}</div>
-    <!-- END blocking_conditions -->
+<section aria-labelledby="{PRIMARY_IDENTIFIER_ID}" class="c-entity__container">
+    <!-- BEGIN featured_header -->
+    <div class="c-entity__featured-headerbar l-bar__container">
+        <div class="l-bar__space-keeper l-bar__space-keeper--space-between">
+            <div class="l-bar__group">
+                <div class="l-bar__element">
+                    <!-- BEGIN blocking_conditions -->
+                    <div class="c-entity__blocking-conditions l-bar__element">{BLOCKING_CONDITIONS}</div>
+                    <!-- END blocking_conditions -->
+                    <!-- BEGIN primary_id -->
+                    <div id="{PRIMARY_IDENTIFIER_ID}" class="c-entity__primary-identifier">{PRIMARY_IDENTIFIER}</div>
+                    <!-- END primary_id -->
+                </div>
+            </div>
+            <div class="c-entity__actions-container l-bar__group">
+                <!-- BEGIN actions_manage -->
+                <div class="c-entity__actions-manage l-bar__element">{MANAGING_ACTIONS}</div>
+                <!-- END actions_manage -->
+            </div>
+        </div>
+    </div>
+    <!-- END featured_header -->
 
-    <!-- BEGIN actions -->
-    <div class="c-entity __actions">{ACTIONS}</div>
-    <!-- END actions -->
+    <!-- BEGIN auto-placed-rows -->
 
     <!-- BEGIN secondary_id -->
-    <div class="c-entity __secondary-identifier<!-- BEGIN secondid_string --> --string<!-- END secondid_string --><!-- BEGIN secondid_shy --> --shy<!-- END secondid_shy --><!-- BEGIN secondid_link --> --shylink<!-- END secondid_link --><!-- BEGIN secondid_symbol --> --symbol<!-- END secondid_symbol --><!-- BEGIN secondid_image --> --image<!-- END secondid_image -->
+    <div class="c-entity__secondary-identifier<!-- BEGIN secondid_string --> --string<!-- END secondid_string --><!-- BEGIN secondid_shy --> --shy<!-- END secondid_shy --><!-- BEGIN secondid_link --> --shylink<!-- END secondid_link --><!-- BEGIN secondid_symbol --> --symbol<!-- END secondid_symbol --><!-- BEGIN secondid_image --> --image<!-- END secondid_image -->
     ">{SECONDARY_IDENTIFIER}</div>
     <!-- END secondary_id -->
 
-    <!-- BEGIN primary_id -->
-    <div class="c-entity __primary-identifier">{PRIMARY_IDENTIFIER}</div>
-    <!-- END primary_id -->
 
     <!-- BEGIN featured -->
-    <div class="c-entity __featured">{FEATURES}</div>
+    <div class="c-entity__featured l-bar__element">{FEATURES}</div>
     <!-- END featured -->
 
     <!-- BEGIN personal_status -->
-    <div class="c-entity __personal-status">{PERSONAL_STATUS}</div>
+    <div class="c-entity__personal-status">{PERSONAL_STATUS}</div>
     <!-- END personal_status -->
 
+    <!-- BEGIN workflow_actions -->
+    <div class="c-entity__workflow-actions">{WORKFLOW_ACTIONS}</div>
+    <!-- END workflow_actions -->
+
     <!-- BEGIN main_details -->
-    <div class="c-entity __main-details">{MAIN_DETAILS}</div>
+    <div class="c-entity__main-details">{MAIN_DETAILS}</div>
     <!-- END main_details -->
 
     <!-- BEGIN availability -->
-    <div class="c-entity __availability">{AVAILABILITY}</div>
+    <div class="c-entity__availability">{AVAILABILITY}</div>
     <!-- END availability -->
 
     <!-- BEGIN details -->
-    <div class="c-entity __details">{DETAILS}</div>
+    <div class="c-entity__details">{DETAILS}</div>
     <!-- END details -->
 
-    <!-- BEGIN reactions -->
-    <div class="c-entity __reactions">{REACTIONS}</div>
-    <!-- END reactions -->
+    <!-- END auto-placed-rows -->
 
-    <!-- BEGIN prio_reactions -->
-    <div class="c-entity __featured-reactions">{PRIO_REACTIONS}</div>
-    <!-- END prio_reactions -->
-</div>
+    <!-- BEGIN reaction_bar -->
+    <div class="c-entity__reactionbar l-bar__container">
+        <div class="l-bar__space-keeper l-bar__space-keeper--space-between">
+            <div class="l-bar__group">
+                <div class="l-bar__element">
+                    <!-- BEGIN reactions -->
+                    <div class="c-entity__reactions">{REACTIONS}</div>
+                    <!-- END reactions -->
+                </div>
+            </div>
+            <div class="l-bar__group">
+                <!-- BEGIN prio_reactions -->
+                <div class="c-entity__featured-reactions">{PRIO_REACTIONS}</div>
+                <!-- END prio_reactions -->
+            </div>
+        </div>
+    </div>
+    <!-- END reaction_bar -->
+</section>

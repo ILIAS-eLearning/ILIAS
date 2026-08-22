@@ -1,1207 +1,1217 @@
 {
   "selection": [
     {
-      "order": 212,
+      "order": 15,
       "ligatures": "",
       "prevSize": 32,
       "name": "user-female"
     },
     {
-      "order": 213,
+      "order": 16,
       "ligatures": "",
       "prevSize": 32,
       "name": "people"
     },
     {
-      "order": 214,
+      "order": 17,
       "ligatures": "",
       "prevSize": 32,
       "name": "user-follow"
     },
     {
-      "order": 215,
+      "order": 18,
       "ligatures": "",
       "prevSize": 32,
       "name": "user-following"
     },
     {
-      "order": 216,
+      "order": 19,
       "ligatures": "",
       "prevSize": 32,
       "name": "user-unfollow"
     },
     {
-      "order": 217,
+      "order": 20,
       "ligatures": "",
       "prevSize": 32,
       "name": "user"
     },
     {
-      "order": 218,
+      "order": 21,
       "ligatures": "",
       "prevSize": 32,
       "name": "trophy"
     },
     {
-      "order": 219,
+      "order": 22,
       "ligatures": "",
       "prevSize": 32,
       "name": "speedometer"
     },
     {
-      "order": 220,
+      "order": 23,
       "ligatures": "",
       "prevSize": 32,
       "name": "social-youtube"
     },
     {
-      "order": 221,
+      "order": 24,
       "ligatures": "",
       "prevSize": 32,
       "name": "social-twitter"
     },
     {
-      "order": 222,
+      "order": 25,
       "ligatures": "",
       "prevSize": 32,
       "name": "social-tumblr"
     },
     {
-      "order": 223,
+      "order": 26,
       "ligatures": "",
       "prevSize": 32,
       "name": "social-facebook"
     },
     {
-      "order": 224,
+      "order": 27,
       "ligatures": "",
       "prevSize": 32,
       "name": "social-dropbox"
     },
     {
-      "order": 225,
+      "order": 28,
       "ligatures": "",
       "prevSize": 32,
       "name": "social-dribbble"
     },
     {
-      "order": 226,
+      "order": 29,
       "ligatures": "",
       "prevSize": 32,
       "name": "shield"
     },
     {
-      "order": 227,
+      "order": 30,
       "ligatures": "",
       "prevSize": 32,
       "name": "screen-tablet"
     },
     {
-      "order": 228,
+      "order": 31,
       "ligatures": "",
       "prevSize": 32,
       "name": "screen-smartphone"
     },
     {
-      "order": 229,
+      "order": 32,
       "ligatures": "",
       "prevSize": 32,
       "name": "screen-desktop"
     },
     {
-      "order": 230,
+      "order": 33,
       "ligatures": "",
       "prevSize": 32,
       "name": "plane"
     },
     {
-      "order": 231,
+      "order": 34,
       "ligatures": "",
       "prevSize": 32,
       "name": "notebook"
     },
     {
-      "order": 232,
+      "order": 35,
       "ligatures": "",
       "prevSize": 32,
       "name": "mustache"
     },
     {
-      "order": 233,
+      "order": 36,
       "ligatures": "",
       "prevSize": 32,
       "name": "mouse"
     },
     {
-      "order": 234,
+      "order": 37,
       "ligatures": "",
       "prevSize": 32,
       "name": "magnet"
     },
     {
-      "order": 235,
+      "order": 38,
       "ligatures": "",
       "prevSize": 32,
       "name": "magic-wand"
     },
     {
-      "order": 236,
+      "order": 39,
       "ligatures": "",
       "prevSize": 32,
       "name": "hourglass"
     },
     {
-      "order": 237,
+      "order": 40,
       "ligatures": "",
       "prevSize": 32,
       "name": "graduation"
     },
     {
-      "order": 238,
+      "order": 41,
       "ligatures": "",
       "prevSize": 32,
       "name": "ghost"
     },
     {
-      "order": 239,
+      "order": 42,
       "ligatures": "",
       "prevSize": 32,
       "name": "game-controller"
     },
     {
-      "order": 240,
+      "order": 43,
       "ligatures": "",
       "prevSize": 32,
       "name": "fire"
     },
     {
-      "order": 241,
+      "order": 44,
       "ligatures": "",
       "prevSize": 32,
       "name": "eyeglass"
     },
     {
-      "order": 242,
+      "order": 45,
       "ligatures": "",
       "prevSize": 32,
       "name": "envelope-open"
     },
     {
-      "order": 243,
+      "order": 46,
       "ligatures": "",
       "prevSize": 32,
       "name": "envolope-letter"
     },
     {
-      "order": 244,
+      "order": 47,
       "ligatures": "",
       "prevSize": 32,
       "name": "energy"
     },
     {
-      "order": 245,
+      "order": 48,
       "ligatures": "",
       "prevSize": 32,
       "name": "emotsmile"
     },
     {
-      "order": 246,
+      "order": 49,
       "ligatures": "",
       "prevSize": 32,
       "name": "disc"
     },
     {
-      "order": 247,
+      "order": 50,
       "ligatures": "",
       "prevSize": 32,
       "name": "cursor-move"
     },
     {
-      "order": 248,
+      "order": 51,
       "ligatures": "",
       "prevSize": 32,
       "name": "crop"
     },
     {
-      "order": 249,
+      "order": 52,
       "ligatures": "",
       "prevSize": 32,
       "name": "credit-card"
     },
     {
-      "order": 250,
+      "order": 53,
       "ligatures": "",
       "prevSize": 32,
       "name": "chemistry"
     },
     {
-      "order": 251,
+      "order": 54,
       "ligatures": "",
       "prevSize": 32,
       "name": "bell"
     },
     {
-      "order": 252,
+      "order": 55,
       "ligatures": "",
       "prevSize": 32,
       "name": "badge"
     },
     {
-      "order": 253,
+      "order": 56,
       "ligatures": "",
       "prevSize": 32,
       "name": "anchor"
     },
     {
-      "order": 254,
+      "order": 57,
       "ligatures": "",
       "prevSize": 32,
       "name": "wallet"
     },
     {
-      "order": 255,
+      "order": 58,
       "ligatures": "",
       "prevSize": 32,
       "name": "vector"
     },
     {
-      "order": 256,
+      "order": 59,
       "ligatures": "",
       "prevSize": 32,
       "name": "speech"
     },
     {
-      "order": 257,
+      "order": 60,
       "ligatures": "",
       "prevSize": 32,
       "name": "puzzle"
     },
     {
-      "order": 258,
+      "order": 61,
       "ligatures": "",
       "prevSize": 32,
       "name": "printer"
     },
     {
-      "order": 259,
+      "order": 62,
       "ligatures": "",
       "prevSize": 32,
       "name": "present"
     },
     {
-      "order": 260,
+      "order": 63,
       "ligatures": "",
       "prevSize": 32,
       "name": "playlist"
     },
     {
-      "order": 261,
+      "order": 64,
       "ligatures": "",
       "prevSize": 32,
       "name": "pin"
     },
     {
-      "order": 262,
+      "order": 65,
       "ligatures": "",
       "prevSize": 32,
       "name": "picture"
     },
     {
-      "order": 263,
+      "order": 66,
       "ligatures": "",
       "prevSize": 32,
       "name": "map"
     },
     {
-      "order": 264,
+      "order": 67,
       "ligatures": "",
       "prevSize": 32,
       "name": "layers"
     },
     {
-      "order": 265,
+      "order": 68,
       "ligatures": "",
       "prevSize": 32,
       "name": "handbag"
     },
     {
-      "order": 266,
+      "order": 69,
       "ligatures": "",
       "prevSize": 32,
       "name": "globe-alt"
     },
     {
-      "order": 267,
+      "order": 70,
       "ligatures": "",
       "prevSize": 32,
       "name": "globe"
     },
     {
-      "order": 268,
+      "order": 71,
       "ligatures": "",
       "prevSize": 32,
       "name": "frame"
     },
     {
-      "order": 269,
+      "order": 72,
       "ligatures": "",
       "prevSize": 32,
       "name": "folder-alt"
     },
     {
-      "order": 270,
+      "order": 73,
       "ligatures": "",
       "prevSize": 32,
       "name": "film"
     },
     {
-      "order": 271,
+      "order": 74,
       "ligatures": "",
       "prevSize": 32,
       "name": "feed"
     },
     {
-      "order": 272,
+      "order": 75,
       "ligatures": "",
       "prevSize": 32,
       "name": "earphones-alt"
     },
     {
-      "order": 273,
+      "order": 76,
       "ligatures": "",
       "prevSize": 32,
       "name": "earphones"
     },
     {
-      "order": 274,
+      "order": 77,
       "ligatures": "",
       "prevSize": 32,
       "name": "drop"
     },
     {
-      "order": 275,
+      "order": 78,
       "ligatures": "",
       "prevSize": 32,
       "name": "drawar"
     },
     {
-      "order": 276,
+      "order": 79,
       "ligatures": "",
       "prevSize": 32,
       "name": "docs"
     },
     {
-      "order": 277,
+      "order": 80,
       "ligatures": "",
       "prevSize": 32,
       "name": "directions"
     },
     {
-      "order": 278,
+      "order": 81,
       "ligatures": "",
       "prevSize": 32,
       "name": "direction"
     },
     {
-      "order": 279,
+      "order": 82,
       "ligatures": "",
       "prevSize": 32,
       "name": "diamond"
     },
     {
-      "order": 280,
+      "order": 83,
       "ligatures": "",
       "prevSize": 32,
       "name": "cup"
     },
     {
-      "order": 281,
+      "order": 84,
       "ligatures": "",
       "prevSize": 32,
       "name": "compass"
     },
     {
-      "order": 282,
+      "order": 85,
       "ligatures": "",
       "prevSize": 32,
       "name": "call-out"
     },
     {
-      "order": 283,
+      "order": 86,
       "ligatures": "",
       "prevSize": 32,
       "name": "call-in"
     },
     {
-      "order": 284,
+      "order": 87,
       "ligatures": "",
       "prevSize": 32,
       "name": "call-end"
     },
     {
-      "order": 285,
+      "order": 88,
       "ligatures": "",
       "prevSize": 32,
       "name": "calculator"
     },
     {
-      "order": 286,
+      "order": 89,
       "ligatures": "",
       "prevSize": 32,
       "name": "bubbles"
     },
     {
-      "order": 287,
+      "order": 90,
       "ligatures": "",
       "prevSize": 32,
       "name": "briefcase"
     },
     {
-      "order": 288,
+      "order": 91,
       "ligatures": "",
       "prevSize": 32,
       "name": "book-open"
     },
     {
-      "order": 289,
+      "order": 92,
       "ligatures": "",
       "prevSize": 32,
       "name": "basket-loaded"
     },
     {
-      "order": 290,
+      "order": 93,
       "ligatures": "",
       "prevSize": 32,
       "name": "basket"
     },
     {
-      "order": 291,
+      "order": 94,
       "ligatures": "",
       "prevSize": 32,
       "name": "bag"
     },
     {
-      "order": 292,
+      "order": 95,
       "ligatures": "",
       "prevSize": 32,
       "name": "action-undo"
     },
     {
-      "order": 293,
+      "order": 96,
       "ligatures": "",
       "prevSize": 32,
       "name": "action-redo"
     },
     {
-      "order": 294,
+      "order": 97,
       "ligatures": "",
       "prevSize": 32,
       "name": "wrench"
     },
     {
-      "order": 295,
+      "order": 98,
       "ligatures": "",
       "prevSize": 32,
       "name": "umbrella"
     },
     {
-      "order": 296,
+      "order": 99,
       "ligatures": "",
       "prevSize": 32,
       "name": "trash"
     },
     {
-      "order": 297,
+      "order": 100,
       "ligatures": "",
       "prevSize": 32,
       "name": "tag"
     },
     {
-      "order": 298,
+      "order": 101,
       "ligatures": "",
       "prevSize": 32,
       "name": "support"
     },
     {
-      "order": 299,
+      "order": 102,
       "ligatures": "",
       "prevSize": 32,
       "name": "size-fullscreen"
     },
     {
-      "order": 300,
+      "order": 103,
       "ligatures": "",
       "prevSize": 32,
       "name": "size-actual"
     },
     {
-      "order": 301,
+      "order": 104,
       "ligatures": "",
       "prevSize": 32,
       "name": "shuffle"
     },
     {
-      "order": 302,
+      "order": 105,
       "ligatures": "",
       "prevSize": 32,
       "name": "share-alt"
     },
     {
-      "order": 303,
+      "order": 106,
       "ligatures": "",
       "prevSize": 32,
       "name": "share"
     },
     {
-      "order": 304,
+      "order": 107,
       "ligatures": "",
       "prevSize": 32,
       "name": "launch"
     },
     {
-      "order": 305,
+      "order": 108,
       "ligatures": "",
       "prevSize": 32,
       "name": "question"
     },
     {
-      "order": 306,
+      "order": 109,
       "ligatures": "",
       "prevSize": 32,
       "name": "pie-chart"
     },
     {
-      "order": 307,
+      "order": 110,
       "ligatures": "",
       "prevSize": 32,
       "name": "pencil"
     },
     {
-      "order": 308,
+      "order": 111,
       "ligatures": "",
       "prevSize": 32,
       "name": "note"
     },
     {
-      "order": 309,
+      "order": 112,
       "ligatures": "",
       "prevSize": 32,
       "name": "music-tone-alt"
     },
     {
-      "order": 310,
+      "order": 113,
       "ligatures": "",
       "prevSize": 32,
       "name": "music-tone"
     },
     {
-      "order": 311,
+      "order": 114,
       "ligatures": "",
       "prevSize": 32,
       "name": "microphone"
     },
     {
-      "order": 312,
+      "order": 115,
       "ligatures": "",
       "prevSize": 32,
       "name": "loop"
     },
     {
-      "order": 313,
+      "order": 116,
       "ligatures": "",
       "prevSize": 32,
       "name": "logout"
     },
     {
-      "order": 314,
+      "order": 117,
       "ligatures": "",
       "prevSize": 32,
       "name": "login"
     },
     {
-      "order": 315,
+      "order": 118,
       "ligatures": "",
       "prevSize": 32,
       "name": "list"
     },
     {
-      "order": 316,
+      "order": 119,
       "ligatures": "",
       "prevSize": 32,
       "name": "like"
     },
     {
-      "order": 317,
+      "order": 120,
       "ligatures": "",
       "prevSize": 32,
       "name": "home"
     },
     {
-      "order": 318,
+      "order": 121,
       "ligatures": "",
       "prevSize": 32,
       "name": "grid"
     },
     {
-      "order": 319,
+      "order": 122,
       "ligatures": "",
       "prevSize": 32,
       "name": "graph"
     },
     {
-      "order": 320,
+      "order": 123,
       "ligatures": "",
       "prevSize": 32,
       "name": "equalizer"
     },
     {
-      "order": 321,
+      "order": 124,
       "ligatures": "",
       "prevSize": 32,
       "name": "dislike"
     },
     {
-      "order": 322,
+      "order": 125,
       "ligatures": "",
       "prevSize": 32,
       "name": "cursor"
     },
     {
-      "order": 323,
+      "order": 126,
       "ligatures": "",
       "prevSize": 32,
       "name": "control-start"
     },
     {
-      "order": 324,
+      "order": 127,
       "ligatures": "",
       "prevSize": 32,
       "name": "control-rewind"
     },
     {
-      "order": 325,
+      "order": 128,
       "ligatures": "",
       "prevSize": 32,
       "name": "control-play"
     },
     {
-      "order": 326,
+      "order": 129,
       "ligatures": "",
       "prevSize": 32,
       "name": "control-pause"
     },
     {
-      "order": 327,
+      "order": 130,
       "ligatures": "",
       "prevSize": 32,
       "name": "control-forward"
     },
     {
-      "order": 328,
+      "order": 131,
       "ligatures": "",
       "prevSize": 32,
       "name": "control-end"
     },
     {
-      "order": 329,
+      "order": 132,
       "ligatures": "",
       "prevSize": 32,
       "name": "calender"
     },
     {
-      "order": 330,
+      "order": 133,
       "ligatures": "",
       "prevSize": 32,
       "name": "bulb"
     },
     {
-      "order": 331,
+      "order": 134,
       "ligatures": "",
       "prevSize": 32,
       "name": "chart"
     },
     {
-      "order": 332,
+      "order": 135,
       "ligatures": "",
       "prevSize": 32,
       "name": "arrow-up-circle"
     },
     {
-      "order": 333,
+      "order": 136,
       "ligatures": "",
       "prevSize": 32,
       "name": "arrow-right-circle"
     },
     {
-      "order": 334,
+      "order": 137,
       "ligatures": "",
       "prevSize": 32,
       "name": "arrow-left-circle"
     },
     {
-      "order": 335,
+      "order": 138,
       "ligatures": "",
       "prevSize": 32,
       "name": "arrow-down-circle"
     },
     {
-      "order": 336,
+      "order": 139,
       "ligatures": "",
       "prevSize": 32,
       "name": "ban"
     },
     {
-      "order": 337,
+      "order": 140,
       "ligatures": "",
       "prevSize": 32,
       "name": "bubble"
     },
     {
-      "order": 338,
+      "order": 141,
       "ligatures": "",
       "prevSize": 32,
       "name": "camrecorder"
     },
     {
-      "order": 339,
+      "order": 142,
       "ligatures": "",
       "prevSize": 32,
       "name": "camera"
     },
     {
-      "order": 340,
+      "order": 143,
       "ligatures": "",
       "prevSize": 32,
       "name": "check"
     },
     {
-      "order": 341,
+      "order": 144,
       "ligatures": "",
       "prevSize": 32,
       "name": "clock"
     },
     {
-      "order": 342,
+      "order": 145,
       "ligatures": "",
       "prevSize": 32,
       "name": "close"
     },
     {
-      "order": 343,
+      "order": 146,
       "ligatures": "",
       "prevSize": 32,
       "name": "cloud-download"
     },
     {
-      "order": 344,
+      "order": 147,
       "ligatures": "",
       "prevSize": 32,
       "name": "cloud-upload"
     },
     {
-      "order": 345,
+      "order": 148,
       "ligatures": "",
       "prevSize": 32,
       "name": "doc"
     },
     {
-      "order": 346,
+      "order": 149,
       "ligatures": "",
       "prevSize": 32,
       "name": "envolope"
     },
     {
-      "order": 347,
+      "order": 150,
       "ligatures": "",
       "prevSize": 32,
       "name": "eye"
     },
     {
-      "order": 348,
+      "order": 151,
       "ligatures": "",
       "prevSize": 32,
       "name": "flag"
     },
     {
-      "order": 349,
+      "order": 152,
       "ligatures": "",
       "prevSize": 32,
       "name": "folder"
     },
     {
-      "order": 350,
+      "order": 153,
       "ligatures": "",
       "prevSize": 32,
       "name": "heart"
     },
     {
-      "order": 351,
+      "order": 154,
       "ligatures": "",
       "prevSize": 32,
       "name": "info"
     },
     {
-      "order": 352,
+      "order": 155,
       "ligatures": "",
       "prevSize": 32,
       "name": "key"
     },
     {
-      "order": 353,
+      "order": 156,
       "ligatures": "",
       "prevSize": 32,
       "name": "link"
     },
     {
-      "order": 354,
+      "order": 157,
       "ligatures": "",
       "prevSize": 32,
       "name": "lock"
     },
     {
-      "order": 355,
+      "order": 158,
       "ligatures": "",
       "prevSize": 32,
       "name": "lock-open"
     },
     {
-      "order": 356,
+      "order": 159,
       "ligatures": "",
       "prevSize": 32,
       "name": "magnifier"
     },
     {
-      "order": 357,
+      "order": 160,
       "ligatures": "",
       "prevSize": 32,
       "name": "magnifier-add"
     },
     {
-      "order": 358,
+      "order": 161,
       "ligatures": "",
       "prevSize": 32,
       "name": "magnifier-remove"
     },
     {
-      "order": 359,
+      "order": 162,
       "ligatures": "",
       "prevSize": 32,
       "name": "paper-clip"
     },
     {
-      "order": 360,
+      "order": 163,
       "ligatures": "",
       "prevSize": 32,
       "name": "paper-plane"
     },
     {
-      "order": 361,
+      "order": 164,
       "ligatures": "",
       "prevSize": 32,
       "name": "plus"
     },
     {
-      "order": 362,
+      "order": 165,
       "ligatures": "",
       "prevSize": 32,
       "name": "location-pin"
     },
     {
-      "order": 363,
+      "order": 166,
       "ligatures": "",
       "prevSize": 32,
       "name": "power"
     },
     {
-      "order": 364,
+      "order": 167,
       "ligatures": "",
       "prevSize": 32,
       "name": "refresh"
     },
     {
-      "order": 365,
+      "order": 168,
       "ligatures": "",
       "prevSize": 32,
       "name": "reload"
     },
     {
-      "order": 366,
+      "order": 169,
       "ligatures": "",
       "prevSize": 32,
       "name": "settings"
     },
     {
-      "order": 367,
+      "order": 170,
       "ligatures": "",
       "prevSize": 32,
       "name": "star"
     },
     {
-      "order": 368,
+      "order": 171,
       "ligatures": "",
       "prevSize": 32,
       "name": "symble-female"
     },
     {
-      "order": 369,
+      "order": 172,
       "ligatures": "",
       "prevSize": 32,
       "name": "symbol-male"
     },
     {
-      "order": 370,
+      "order": 173,
       "ligatures": "",
       "prevSize": 32,
       "name": "target"
     },
     {
-      "order": 371,
+      "order": 174,
       "ligatures": "",
       "prevSize": 32,
       "name": "volume-1"
     },
     {
-      "order": 372,
+      "order": 175,
       "ligatures": "",
       "prevSize": 32,
       "name": "volume-2"
     },
     {
-      "order": 373,
+      "order": 176,
       "ligatures": "",
       "prevSize": 32,
       "name": "volume-off"
     },
     {
-      "order": 374,
+      "order": 177,
       "ligatures": "",
       "prevSize": 32,
       "name": "phone"
     },
     {
-      "order": 375,
+      "order": 178,
       "ligatures": "",
       "prevSize": 32,
       "name": "menu"
     },
     {
-      "order": 376,
+      "order": 179,
       "ligatures": "",
       "prevSize": 32,
       "name": "options-vertical"
     },
     {
-      "order": 377,
+      "order": 180,
       "ligatures": "",
       "prevSize": 32,
       "name": "options"
     },
     {
-      "order": 378,
+      "order": 181,
       "ligatures": "",
       "prevSize": 32,
       "name": "arrow-down"
     },
     {
-      "order": 379,
+      "order": 182,
       "ligatures": "",
       "prevSize": 32,
       "name": "arrow-left"
     },
     {
-      "order": 380,
+      "order": 183,
       "ligatures": "",
       "prevSize": 32,
       "name": "arrow-right"
     },
     {
-      "order": 381,
+      "order": 184,
       "ligatures": "",
       "prevSize": 32,
       "name": "arrow-up"
     },
     {
-      "order": 382,
+      "order": 185,
       "ligatures": "",
       "prevSize": 32,
       "name": "paypal"
     },
     {
-      "order": 383,
+      "order": 186,
       "ligatures": "",
       "prevSize": 32,
       "name": "social-instagram"
     },
     {
-      "order": 384,
+      "order": 187,
       "ligatures": "",
       "prevSize": 32,
       "name": "social-linkedin"
     },
     {
-      "order": 385,
+      "order": 188,
       "ligatures": "",
       "prevSize": 32,
       "name": "social-pintarest"
     },
     {
-      "order": 386,
+      "order": 189,
       "ligatures": "",
       "prevSize": 32,
       "name": "social-github"
     },
     {
-      "order": 387,
+      "order": 190,
       "ligatures": "",
       "prevSize": 32,
       "name": "social-google"
     },
     {
-      "order": 388,
+      "order": 191,
       "ligatures": "",
       "prevSize": 32,
       "name": "social-reddit"
     },
     {
-      "order": 389,
+      "order": 192,
       "ligatures": "",
       "prevSize": 32,
       "name": "social-skype"
     },
     {
-      "order": 390,
+      "order": 193,
       "ligatures": "",
       "prevSize": 32,
       "name": "social-behance"
     },
     {
-      "order": 391,
+      "order": 194,
       "ligatures": "",
       "prevSize": 32,
       "name": "social-foursqare"
     },
     {
-      "order": 392,
+      "order": 195,
       "ligatures": "",
       "prevSize": 32,
       "name": "social-soundcloud"
     },
     {
-      "order": 393,
+      "order": 196,
       "ligatures": "",
       "prevSize": 32,
       "name": "social-spotify"
     },
     {
-      "order": 394,
+      "order": 197,
       "ligatures": "",
       "prevSize": 32,
       "name": "social-stumbleupon"
     },
     {
-      "order": 395,
+      "order": 198,
       "ligatures": "",
       "prevSize": 32,
       "name": "minus"
     },
     {
-      "order": 396,
+      "order": 199,
       "ligatures": "",
       "prevSize": 32,
       "name": "organization"
     },
     {
-      "order": 397,
+      "order": 200,
       "ligatures": "",
       "prevSize": 32,
       "name": "exclamation"
     },
     {
-      "order": 398,
+      "order": 201,
       "ligatures": "",
       "prevSize": 32,
       "name": "lang"
     },
     {
-      "order": 399,
+      "order": 202,
       "ligatures": "",
       "prevSize": 32,
       "name": "event"
     },
     {
-      "order": 400,
+      "order": 203,
       "ligatures": "",
       "prevSize": 32,
       "name": "social-steam"
     },
     {
-      "order": 401,
+      "order": 204,
       "name": "bulletlist",
       "prevSize": 32
     },
     {
-      "order": 402,
+      "order": 205,
       "prevSize": 32,
       "name": "numberedlist"
     },
     {
-      "order": 403,
+      "order": 206,
       "name": "listindent",
       "prevSize": 32
     },
     {
-      "order": 404,
+      "order": 207,
       "name": "listoutdent",
       "prevSize": 32
     },
     {
-      "order": 405,
+      "order": 208,
       "name": "filter",
       "prevSize": 32
     },
     {
-      "order": 413,
+      "order": 209,
       "name": "columnselection",
       "prevSize": 32
     },
     {
-      "order": 406,
+      "order": 210,
       "name": "enlarge",
       "prevSize": 32
     },
     {
-      "order": 407,
+      "order": 211,
       "name": "preview",
       "prevSize": 32
     },
     {
-      "order": 408,
+      "order": 212,
       "name": "ListView",
       "prevSize": 32
     },
     {
-      "order": 409,
+      "order": 213,
       "name": "TileView",
       "prevSize": 32
     },
     {
-      "order": 410,
+      "order": 214,
       "name": "reset",
       "prevSize": 32
     },
     {
-      "order": 411,
+      "order": 215,
       "name": "sort",
       "prevSize": 32
     },
     {
-      "order": 412,
+      "order": 216,
       "name": "apply",
       "prevSize": 32
     },
     {
-      "order": 211,
+      "order": 217,
       "name": "drag-drop-handle",
+      "prevSize": 32
+    },
+    {
+      "order": 218,
+      "name": "presenter",
+      "prevSize": 32
+    },
+    {
+      "order": 219,
+      "name": "owner",
       "prevSize": 32
     }
   ],
@@ -1211,7 +1221,7 @@
       "width": 32,
       "height": 32
     },
-    "iconsHash": 796613830
+    "iconsHash": 38058607
   },
   "height": 1024,
   "prevSize": 32,
@@ -2394,7 +2404,12 @@
     },
     {
       "paths": [
-        "M960 95.888l-256.224 0.001v-63.776c0-17.68-14.32-32-32-32s-32 14.32-32 32v63.76h-256v-63.76c0-17.68-14.32-32-32-32s-32 14.32-32 32v63.76h-255.776c-35.344 0-64 28.656-64 64v800c0 35.344 28.656 64 64 64h896c35.344 0 64-28.656 64-64v-800c0-35.328-28.656-63.984-64-63.984zM960 959.873l-896-0.001v-800h255.776v32.24c0 17.68 14.32 32 32 32s32-14.32 32-32v-32.224h256v32.24c0 17.68 14.32 32 32 32s32-14.32 32-32v-32.24h256.224v799.984zM736 511.888h64c17.664 0 32-14.336 32-32v-64c0-17.664-14.336-32-32-32h-64c-17.664 0-32 14.336-32 32v64c0 17.664 14.336 32 32 32zM736 767.872h64c17.664 0 32-14.32 32-32v-64c0-17.664-14.336-32-32-32h-64c-17.664 0-32 14.336-32 32v64c0 17.696 14.336 32 32 32zM544 639.872h-64c-17.664 0-32 14.336-32 32v64c0 17.68 14.336 32 32 32h64c17.664 0 32-14.32 32-32v-64c0-17.648-14.336-32-32-32zM544 383.888h-64c-17.664 0-32 14.336-32 32v64c0 17.664 14.336 32 32 32h64c17.664 0 32-14.336 32-32v-64c0-17.68-14.336-32-32-32zM288 383.888h-64c-17.664 0-32 14.336-32 32v64c0 17.664 14.336 32 32 32h64c17.664 0 32-14.336 32-32v-64c0-17.68-14.336-32-32-32zM288 639.872h-64c-17.664 0-32 14.336-32 32v64c0 17.68 14.336 32 32 32h64c17.664 0 32-14.32 32-32v-64c0-17.648-14.336-32-32-32z"
+        "M155.187-2.125c-0.037 0-0.081 0-0.125 0-17.629 0-31.929 14.256-32 31.868v101.132h-43c-43.804 0-80.062 36.009-80.062 79.812v163.25c0 0.037 0 0.081 0 0.125s0 0.088 0 0.132v-0.007 568.562c0 43.804 36.259 80.062 80.062 80.062h863.875c43.804 0 80.062-36.259 80.062-80.062v-568.562c0-0.037 0-0.081 0-0.125s0-0.088 0-0.132v0.007-163.25c0-43.804-36.259-79.812-80.062-79.812h-42.5v-99c-0.071-17.597-14.335-31.84-31.934-31.875h-0.003c-0.037 0-0.081 0-0.125 0-17.629 0-31.929 14.256-32 31.868v99.007h-650.312v-101.125c-0.071-17.576-14.299-31.804-31.868-31.875h-0.007zM80.062 194.875h863.875c9.216 0 16.062 6.597 16.062 15.812v131.375h-896v-131.375c0-9.216 6.847-15.812 16.062-15.812zM64 406.062h896v536.687c0 9.216-6.847 16.063-16.062 16.063h-863.875c-9.216 0-16.062-6.847-16.062-16.063v-536.687zM277.812 449.312c-17.646 0.035-31.938 14.349-31.938 32 0 0.044 0 0.088 0 0.132v-0.007 75.312h-86.187c-0.037 0-0.081 0-0.125 0-17.651 0-31.964 14.291-32 31.934v0.003c0 0.037 0 0.081 0 0.125 0 17.673 14.327 32 32 32 0.044 0 0.088 0 0.132 0h86.18v126.375h-86.187c-0.037 0-0.081 0-0.125 0-17.629 0-31.929 14.256-32 31.869v0.007c0 0.037 0 0.081 0 0.125 0 17.673 14.327 32 32 32 0.044 0 0.088 0 0.132 0h86.18v71.125c0.071 17.597 14.335 31.84 31.934 31.875h0.003c0.037 0 0.081 0 0.125 0 17.629 0 31.929-14.256 32-31.868v-71.132h167.687v71.125c0.071 17.619 14.371 31.875 32 31.875 0.044 0 0.088 0 0.132 0h-0.007c17.576-0.071 31.804-14.299 31.875-31.868v-71.132h172.5v71.125c0.071 17.619 14.371 31.875 32 31.875 0.044 0 0.088 0 0.132 0h-0.007c17.576-0.071 31.804-14.299 31.875-31.868v-71.132h86.187c0.037 0 0.081 0 0.125 0 17.673 0 32-14.327 32-32 0-0.044 0-0.088 0-0.132v0.007c-0.071-17.619-14.371-31.875-32-31.875-0.044 0-0.088 0-0.132 0h-86.18v-126.375h86.187c0.037 0 0.081 0 0.125 0 17.673 0 32-14.327 32-32 0-0.044 0-0.088 0-0.132v0.007c-0.035-17.646-14.349-31.938-32-31.938-0.044 0-0.088 0-0.132 0h-86.18v-75.312c0-0.037 0-0.081 0-0.125 0-17.629-14.256-31.929-31.868-32h-0.007c-0.037 0-0.081 0-0.125 0-17.673 0-32 14.327-32 32 0 0.044 0 0.088 0 0.132v-0.007 75.312h-172.5v-75.312c0-0.037 0-0.081 0-0.125 0-17.629-14.256-31.929-31.868-32h-0.007c-0.037 0-0.081 0-0.125 0-17.673 0-32 14.327-32 32 0 0.044 0 0.088 0 0.132v-0.007 75.312h-167.687v-75.312c0-0.037 0-0.081 0-0.125 0-17.673-14.327-32-32-32-0.044 0-0.088 0-0.132 0h0.007zM309.937 620.812h167.687v126.375h-167.687v-126.375zM541.625 620.812h172.5v126.375h-172.5v-126.375z"
+      ],
+      "attrs": [
+        {
+          "opacity": 0.96
+        }
       ],
       "tags": [
         "calender"
@@ -3094,7 +3109,12 @@
     },
     {
       "paths": [
-        "M676 862c-16 0-28-13-28-29v-142c0-16 12-28 28-28h142c16 0 29 12 29 28v142c0 16-13 29-29 29h-142zM818 691h-142v142h142v-142zM960 96c35 0 64 29 64 64v800c0 35-29 64-64 64h-896c-35 0-64-29-64-64v-800c0-35 29-64 64-64h256v-64c0-18 14-32 32-32s32 14 32 32v64h256v-64c0-18 14-32 32-32s32 14 32 32v64h256zM64 960h896v-800h-256v32c0 18-14 32-32 32s-32-14-32-32v-32h-256v32c0 18-14 32-32 32s-32-14-32-32v-32h-256v800z"
+        "M155.187-2.125c-0.037 0-0.081 0-0.125 0-17.629 0-31.929 14.256-32 31.868v101.132h-43c-43.804 0-80.062 36.009-80.062 79.812v163.25c0 0.037 0 0.081 0 0.125s0 0.088 0 0.132v-0.007 568.562c0 43.804 36.259 80.062 80.062 80.062h863.875c43.804 0 80.062-36.259 80.062-80.062v-568.562c0-0.037 0-0.081 0-0.125s0-0.088 0-0.132v0.007-163.25c0-43.804-36.259-79.812-80.062-79.812h-42.5v-99c-0.071-17.597-14.335-31.84-31.934-31.875h-0.003c-0.037 0-0.081 0-0.125 0-17.629 0-31.929 14.256-32 31.868v99.007h-650.312v-101.125c-0.071-17.576-14.299-31.804-31.868-31.875h-0.007zM80.062 194.875h863.875c9.216 0 16.062 6.597 16.062 15.812v131.375h-896v-131.375c0-9.216 6.847-15.812 16.062-15.812zM64 406.062h896v536.687c0 9.216-6.847 16.063-16.062 16.063h-863.875c-9.216 0-16.062-6.847-16.062-16.063v-536.687zM221.812 465.812c-0.036 0-0.079 0-0.122 0-17.63 0-31.93 14.255-32.003 31.868v150.007c0 0.036 0 0.079 0 0.122 0 17.675 14.328 32.003 32.003 32.003 0.043 0 0.086 0 0.129 0h152.618c17.62-0.073 31.875-14.373 31.875-32.003 0-0.043 0-0.086 0-0.129v0.007-150c-0.073-17.575-14.3-31.802-31.868-31.875h-152.632z"
+      ],
+      "attrs": [
+        {
+          "opacity": 0.96
+        }
       ],
       "tags": [
         "event"
@@ -3283,11 +3303,31 @@
         "M822.581 513.242c0 68.612-55.621 124.233-124.233 124.233h-0c-68.612 0-124.233-55.621-124.233-124.233l0 0c-0-68.612 55.621-124.233 124.233-124.233h0c68.612 0 124.233 55.621 124.233 124.233h-0z",
         "M825.066 885.94c0 68.612-55.621 124.233-124.233 124.233h-0c-68.612 0-124.233-55.621-124.233-124.233h0c-0-68.612 55.621-124.233 124.233-124.233h0c68.612 0 124.233 55.621 124.233 124.233l-0-0z"
       ],
-      "grid": 0,
       "tags": [
         "dndhandle"
       ],
-      "defaultCode": 59661
+      "defaultCode": 59661,
+      "grid": 0
+    },
+    {
+      "paths": [
+        "M857.875 142.438c-0.283-0.008-0.615-0.013-0.949-0.013-7.96 0-15.316 2.584-21.277 6.958l0.1-0.070-120.25 87.375c-9.059 6.619-14.877 17.205-14.877 29.151 0 7.954 2.58 15.305 6.948 21.263l-0.071-0.101c6.617 9.083 17.217 14.918 29.18 14.918 7.941 0 15.281-2.571 21.234-6.926l-0.101 0.071 120.25-87.438c9.059-6.619 14.877-17.205 14.877-29.151 0-7.954-2.579-15.305-6.948-21.263l0.070 0.101c-6.431-8.809-16.607-14.553-28.138-14.874l-0.050-0.001zM392.375 153.313c-79.224 2.093-140.484 39.963-176.25 92.562s-48.406 117.918-43 180c7.736 88.837 62.195 139.371 112.25 170.375-2.691 4.45-3.526 11.816-8.313 15.062-9.427 6.394-25.096 11.224-42 15.875-34.358 9.453-96.801 9.707-146 59.063-30.025 30.12-63.894 71.968-82.187 178.812-0.327 1.824-0.515 3.923-0.515 6.065 0 17.768 12.872 32.529 29.8 35.466l0.215 0.031c1.82 0.326 3.916 0.513 6.055 0.513 17.789 0 32.565-12.904 35.477-29.862l0.030-0.214c16.71-97.596 33.48-111.326 62.125-140.062 26.661-26.746 65.533-27.005 114.125-40.375 16.23-4.466 40.175-10.058 63.313-25.75s43.636-44.74 47.437-82.187c0.12-1.103 0.188-2.381 0.188-3.676 0-14.419-8.476-26.858-20.718-32.606l-0.22-0.093c-39.498-17.944-92.741-58.069-99.25-132.813-4.156-47.729 6.455-97.457 30.75-133.187s59.939-59.388 118.562-60.938c54.465-1.439 92.722 18.13 120 50.313s42.445 78.504 41.313 129.188c-1.92 85.908-10.438 123.165-87.125 182.375-8.602 6.646-14.088 16.964-14.088 28.564 0 13.087 6.983 24.543 17.426 30.846l0.162 0.090c69.821 41.712 136.525 49.51 175.063 69.687 3.14 1.644 15.231 19.645 24.312 51.75s16.787 73.375 31 112.437c5.172 13.948 18.364 23.709 33.835 23.709 4.457 0 8.724-0.81 12.663-2.29l-0.248 0.082c13.916-5.188 23.648-18.364 23.648-33.813 0-4.395-0.787-8.605-2.229-12.499l0.081 0.249c-11.314-31.095-19.105-70.75-29.5-107.5s-21.603-75.64-60.25-95.875c-43.872-22.971-88.278-34.628-131.813-52.187 51.923-57.491 77.445-118.787 79.125-193.937 1.476-66.048-18.12-129.725-58.562-177.437s-102.63-77.769-176.688-75.812zM985.25 337.813c-0.128-0.002-0.279-0.003-0.431-0.003-1.5 0-2.979 0.092-4.431 0.27l0.174-0.017-205.5 24.312c-17.938 2.228-31.683 17.378-31.683 35.738 0 1.48 0.089 2.939 0.263 4.372l-0.017-0.173c2.142 18.024 17.334 31.868 35.76 31.868 1.472 0 2.923-0.088 4.349-0.26l-0.172 0.017 205.5-24.312c17.938-2.228 31.683-17.378 31.683-35.738 0-1.48-0.089-2.939-0.263-4.372l0.017 0.173c-2.116-17.855-17.037-31.608-35.223-31.875l-0.027-0zM745.188 484.375c-11.585 0.271-21.784 5.973-28.18 14.651l-0.070 0.099c-4.337 5.874-6.942 13.259-6.942 21.251 0 11.892 5.766 22.437 14.656 28.992l0.099 0.070 120 87.875c5.874 4.337 13.259 6.942 21.251 6.942 11.892 0 22.437-5.766 28.992-14.656l0.070-0.099c4.337-5.874 6.942-13.259 6.942-21.251 0-11.892-5.766-22.437-14.656-28.992l-0.099-0.070-120-87.875c-5.876-4.34-13.262-6.947-21.257-6.947-0.283 0-0.566 0.003-0.847 0.010l0.042-0.001z"
+      ],
+      "tags": [
+        "glyph_presenter"
+      ],
+      "defaultCode": 59662,
+      "grid": 0
+    },
+    {
+      "paths": [
+        "M342.947 0.080c-70.426 1.861-124.831 35.679-156.625 82.437s-43.056 104.75-38.25 159.937c6.871 78.902 55.223 123.798 99.688 151.375-2.39 3.943-3.065 10.619-7.312 13.5-8.38 5.684-22.098 10.053-37.125 14.187-30.542 8.403-86.203 8.563-129.938 52.438-26.69 26.775-56.676 63.959-72.937 158.938-0.284 1.602-0.447 3.446-0.447 5.328 0 15.778 11.418 28.888 26.442 31.519l0.192 0.028c1.599 0.283 3.439 0.445 5.318 0.445 15.799 0 28.924-11.45 31.53-26.504l0.027-0.191c14.854-86.757 29.786-98.892 55.25-124.438 23.7-23.776 58.18-24.052 101.375-35.938 14.428-3.97 35.62-8.925 56.187-22.875s38.933-39.711 42.313-73c0.109-0.993 0.172-2.144 0.172-3.309 0-12.816-7.533-23.872-18.413-28.983l-0.196-0.083c-35.112-15.952-82.589-51.682-88.375-118.125-3.695-42.428 5.84-86.55 27.437-118.312s53.199-52.998 105.313-54.375c48.416-1.279 82.564 16.267 106.812 44.875s37.82 69.758 36.813 114.812c-1.707 76.368-9.267 109.428-77.438 162.063-7.684 5.906-12.587 15.101-12.587 25.441 0 15.224 10.63 27.965 24.873 31.206l0.215 0.041c57.197 12.836 85.062 22.871 109.625 30.938 26.548 8.718 40.89 18.79 47.688 28.375 5.872 8.197 15.366 13.475 26.093 13.475 6.949 0 13.381-2.215 18.628-5.978l-0.096 0.066c8.214-5.87 13.505-15.374 13.505-26.114 0-6.967-2.227-13.415-6.007-18.669l0.065 0.095c-18.294-25.796-46.629-40.959-80.062-51.938-13.531-4.443-44.018-12.38-67.563-19.125 43.312-50.023 65.671-103.384 67.125-168.437 1.312-58.713-16.299-115.149-52.25-157.562s-91.229-69.302-157.062-67.562zM428.197 584.517c-87.963 0-159.438 72.802-159.438 161.312s71.475 161.312 159.438 161.312c77.127 0 141.602-55.978 156.313-129.437h240.812v57.875c-0 0.037-0 0.081-0 0.125 0 17.629 14.256 31.929 31.868 32l0.007 0c0.037 0 0.081 0 0.125 0 17.673 0 32-14.327 32-32 0-0.044-0-0.088-0-0.132l0 0.007v-57.875h70.625v105.125c0.071 17.576 14.299 31.804 31.868 31.875l0.007 0c0.037 0 0.081 0 0.125 0 17.629 0 31.929-14.256 32-31.868l0-0.007v-137c0-0.037 0-0.081 0-0.125 0-17.673-14.327-32-32-32-0.044 0-0.088 0-0.132 0l0.007-0h-407.375c-14.802-73.343-79.206-129.187-156.25-129.187zM428.197 648.267c52.787 0 95.587 43.026 95.688 97.375-0 0.028-0 0.061-0 0.094s0 0.066 0 0.099l-0-0.005c0 54.44-42.838 97.312-95.688 97.312s-95.437-42.872-95.437-97.312c0-54.44 42.588-97.562 95.437-97.562z"
+      ],
+      "tags": [
+        "glyph_owner"
+      ],
+      "defaultCode": 59663,
+      "grid": 0
     }
   ],
   "colorThemes": [],
@@ -3300,9 +3340,7 @@
     "fontPref": {
       "prefix": "icon-",
       "metadata": {
-        "fontFamily": "icomoon",
-        "majorVersion": 1,
-        "minorVersion": 0
+        "fontFamily": "icomoon"
       },
       "metrics": {
         "emSize": 1024,
@@ -3317,13 +3355,11 @@
       "useClassSelector": true,
       "color": 0,
       "bgColor": 16777215,
-      "classSelector": ".icon",
-      "name": "icomoon"
+      "classSelector": ".icon"
     },
     "historySize": 50,
     "showCodes": true,
-    "gridSize": 16,
-    "showLiga": false
+    "gridSize": 16
   },
   "IcoMoonType": "icon-set"
 }

@@ -95,6 +95,10 @@ final class Archives
 
         return $this->unzip_options
             ->withOverwrite($unzip_options->isOverwrite())
-            ->withDirectoryHandling($unzip_options->getDirectoryHandling());
+            ->withDirectoryHandling($unzip_options->getDirectoryHandling())
+            ->withMaxAmountOfEntries($unzip_options->getMaxAmountOfEntries())
+            ->withMaxUncompressedSize($unzip_options->getMaxUncompressedSize())
+            ->withMaxCompressionRatio($unzip_options->getMaxCompressionRatio())
+            ->withRatioCheckMinUncompressedSize($unzip_options->getRatioCheckMinUncompressedSize());
     }
 }

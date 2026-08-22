@@ -499,6 +499,8 @@ class ilObjCourseGUI extends ilContainerGUI
 
     public function confirmDeleteInfoFilesObject(): void
     {
+        $this->checkPermission('write');
+
         $file_ids = [];
         if ($this->http->wrapper()->post()->has('file_id')) {
             $file_ids = $this->http->wrapper()->post()->retrieve(
@@ -536,6 +538,8 @@ class ilObjCourseGUI extends ilContainerGUI
 
     public function deleteInfoFilesObject(): void
     {
+        $this->checkPermission('write');
+
         $file_ids = [];
         if ($this->http->wrapper()->post()->has('file_id')) {
             $file_ids = $this->http->wrapper()->post()->retrieve(
@@ -709,6 +713,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
     public function updateObject(): void
     {
+        $this->checkPermission('write');
         $obj_service = $this->getObjectService();
         $setting = $this->settings;
 
@@ -979,6 +984,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
     protected function setLPSyncObject(): void
     {
+        $this->checkPermission('write');
         $this->object->setStatusDetermination(ilObjCourse::STATUS_DETERMINATION_LP);
         $this->object->update();
         $this->object->syncMembersStatusWithLP();
@@ -988,6 +994,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
     public function editObject(ilPropertyFormGUI $form = null): void
     {
+        $this->checkPermission('write');
         $this->setSubTabs('properties');
         $this->tabs_gui->setSubTabActive('general');
 
@@ -2277,6 +2284,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 break;
 
             case "ilcertificategui":
+                $this->checkPermission('write');
                 $this->tabs_gui->activateTab("settings");
                 $this->setSubTabs("properties");
                 $this->tabs_gui->activateSubTab('certificate');
@@ -2555,16 +2563,9 @@ class ilObjCourseGUI extends ilContainerGUI
 
         if (substr($a_add, 0, 5) == 'rcode') {
             if ($ilUser->getId() == ANONYMOUS_USER_ID) {
-                $target = '';
-                if ($http->wrapper()->query()->has('target')) {
-                    $target = $http->wrapper()->query()->retrieve(
-                        'target',
-                        $refinery->kindlyTo()->string()
-                    );
-                }
                 // Redirect to login for anonymous
                 ilUtil::redirect(
-                    "login.php?target=" . $target . "&cmd=force_login&lang=" .
+                    "login.php?target=crs_" . $a_target . "_" . $a_add . "&cmd=force_login&lang=" .
                     $ilUser->getCurrentLanguage()
                 );
             }
@@ -2606,12 +2607,13 @@ class ilObjCourseGUI extends ilContainerGUI
 
     public function editMapSettingsObject(): void
     {
+        $this->checkPermission('write');
+
         $this->setSubTabs("properties");
         $this->tabs_gui->activateTab('settings');
         $this->tabs_gui->activateSubTab('crs_map_settings');
 
-        if (!ilMapUtil::isActivated() ||
-            !$this->access->checkAccess("write", "", $this->object->getRefId())) {
+        if (!ilMapUtil::isActivated()) {
             return;
         }
 
@@ -2661,6 +2663,8 @@ class ilObjCourseGUI extends ilContainerGUI
      */
     public function saveMapSettingsObject(): void
     {
+        $this->checkPermission('write');
+
         $location = [];
         if ($this->http->wrapper()->post()->has('location')) {
             $custom_transformer = $this->refinery->custom()->transformation(
@@ -2785,6 +2789,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
     public function askResetObject(): void
     {
+        $this->checkPermission('write');
         //$this->tpl->setOnScreenMessage('question', $this->lng->txt('crs_objectives_reset_sure'));
         $confirm = new ilConfirmationGUI();
         $confirm->setHeaderText($this->lng->txt('crs_objectives_reset_sure'));
@@ -2796,6 +2801,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
     public function resetObject(): void
     {
+        $this->checkPermission('write');
         $usr_results = new ilLOUserResults($this->object->getId(), $GLOBALS['DIC']['ilUser']->getId());
         $usr_results->delete();
         ilLOTestRun::deleteRuns(

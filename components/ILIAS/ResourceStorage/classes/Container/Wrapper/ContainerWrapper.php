@@ -24,6 +24,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\FileDelivery\Delivery\Disposition;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Filesystem\Stream\ZIPStream;
+use ILIAS\Filesystem\Util\Archive\Archives;
 
 /**
  * @author   Fabian Schmid <fabian@sr.solutions>
@@ -40,6 +41,7 @@ final class ContainerWrapper
     private bool $use_flavour = true;
     private ZipReader $reader;
     private \ILIAS\FileDelivery\Services $file_delivery;
+    private Archives $archives;
 
     public function __construct(
         private ResourceIdentification $rid,
@@ -49,6 +51,7 @@ final class ContainerWrapper
         // dependencies
         $this->irss = $DIC->resourceStorage();
         $this->file_delivery = $DIC->fileDelivery();
+        $this->archives = $DIC->archives();
         $this->reader = new ZipReader(
             $this->irss->consume()->stream($rid)->getStream()
         );
@@ -123,28 +126,38 @@ final class ContainerWrapper
         // save stream to temporary file
         $tmp_directory = defined('CLIENT_DATA_DIR') ? \CLIENT_DATA_DIR . '/temp' : sys_get_temp_dir();
         $tmp_file = tempnam($tmp_directory, 'ilias_zip_');
+        $tmp_extract_directory = $tmp_file . '_extracted';
 
-        /** @var ZIPStream $stream */
-        $return = file_put_contents($tmp_file, $stream->detach());
+        try {
+            /** @var ZIPStream $stream */
+            file_put_contents($tmp_file, $stream->detach());
 
-        $zip_reader = new ZipReader(
-            Streams::ofResource(fopen($tmp_file, 'rb'))
-        );
+            // extract first: this keeps the memory footprint flat and allows the
+            // container archive to be rewritten a single time below
+            $extracted = $this->archives->unzip(
+                Streams::ofResource(fopen($tmp_file, 'rb')),
+                $this->archives->unzipOptions()->withZipOutputPath($tmp_extract_directory)
+            )->extract();
 
-        foreach ($zip_reader->getStructure() as $append_path_inside_zip => $item) {
-            if ($item['is_dir']) {
-                continue;
+            // an archive beyond the configured extraction limits (see UnzipOptions) writes
+            // nothing, so it has to be rejected instead of adding an empty directory
+            if (!$extracted) {
+                return false;
             }
-            [$stream, $info] = $zip_reader->getItem($append_path_inside_zip, $this->data);
-            $this->irss->manageContainer()->addStreamToContainer(
-                $this->rid,
-                $stream,
-                $this->current_level . '/' . ltrim($append_path_inside_zip, './')
-            );
-        }
 
-        unlink($tmp_file);
-        return true;
+            return $this->irss->manageContainer()->addDirectoryToContainer(
+                $this->rid,
+                $tmp_extract_directory,
+                $this->current_level
+            );
+        } finally {
+            if (is_file($tmp_file)) {
+                unlink($tmp_file);
+            }
+            if (is_dir($tmp_extract_directory)) {
+                \ilFileUtils::delDir($tmp_extract_directory);
+            }
+        }
     }
 
     public function getEntries(): \Generator

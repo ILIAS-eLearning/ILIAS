@@ -106,7 +106,7 @@ class StartUpSequenceDispatcher
         } elseif ($this->dic->ctrl()->isAsynch()) {
             $this->dic->logger()->init()->debug('Async request. No interception.');
             return false;
-        } elseif (in_array(basename($_SERVER['PHP_SELF']), array('logout.php'))) {
+        } elseif ($this->dic->ctrl()->getCmd() === 'doLogout') {
             $this->dic->logger()->init()->debug('Logout request. No interception.');
             return false;
         } elseif (!$this->dic->user()->getId() || $this->dic->user()->isAnonymous()) {

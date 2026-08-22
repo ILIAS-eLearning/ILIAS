@@ -668,7 +668,7 @@ class PageContentManager
         string $a_tpcid = ""
     ): void {
         // nothing to do...
-        if ($a_source === $a_target) {
+        if ($a_source === $a_target || $a_spcid === $a_tpcid) {
             return;
         }
 

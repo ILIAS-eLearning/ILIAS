@@ -917,7 +917,7 @@ class ilPageObjectGUI
                 break;
 
             case "ilquestioneditgui":
-                $this->setQEditTabs("question");
+                $this->setQEditTabs("edit_question");
                 $edit_gui = new ilQuestionEditGUI();
                 $edit_gui->setPageConfig($this->getPageConfig());
                 $edit_gui->setSelfAssessmentEditingMode(true);
@@ -995,7 +995,7 @@ class ilPageObjectGUI
 
         $this->ctrl->setParameterByClass("ilquestioneditgui", "q_id", $this->requested_q_id);
         $this->tabs_gui->addTab(
-            "question",
+            "edit_question",
             $this->lng->txt("question"),
             $this->ctrl->getLinkTargetByClass("ilquestioneditgui", "editQuestion")
         );
@@ -2075,7 +2075,8 @@ class ilPageObjectGUI
     public function setDefaultLinkXml(): void
     {
         $this->page_linker->setProfileBackUrl($this->getProfileBackUrl());
-        $this->page_linker->setOffline($this->getOutputMode() == self::OFFLINE);
+        // prevent to run into ctrl issues in copy background process
+        $this->page_linker->setOffline($this->getOutputMode() == self::OFFLINE || !ilContext::supportsRedirects());
         $this->setLinkXml($this->page_linker->getLinkXML($this->getPageObject()->getInternalLinks()));
     }
 
@@ -2092,7 +2093,8 @@ class ilPageObjectGUI
             return $this->profile_back_url;
         }
         if ($this->getOutputMode() === self::OFFLINE ||
-            $this->getOutputMode() === self::PRINTING) {
+            $this->getOutputMode() === self::PRINTING ||
+            !ilContext::supportsRedirects()) {
             return "";
         }
         return $this->ctrl->getLinkTargetByClass(strtolower(get_class($this)), "preview");
@@ -2999,7 +3001,7 @@ class ilPageObjectGUI
     {
         ilPageQuestionProcessor::saveQuestionAnswer(
             $this->request->getString("type"),
-            $this->request->getString("id"),
+            $this->request->getInt("id"),
             $this->request->getString("answer")
         );
     }

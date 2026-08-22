@@ -127,19 +127,19 @@ class BlogHtmlExport
             $this->content_style_domain->getEffectiveStyleId(),
             "blog"
         );
-/*
-        \ilObjUser::copyProfilePicturesToDirectory($this->blog->getOwner(), $this->target_dir);
-*/
+        /*
+                \ilObjUser::copyProfilePicturesToDirectory($this->blog->getOwner(), $this->target_dir);
+        */
         // export pages
         if ($this->print_version) {
             $this->exportHTMLPagesPrint();
         } else {
             $this->exportHTMLPages();
         }
-/*
-        // export comments user images
-        $this->exportUserImages();
-*/
+        /*
+                // export comments user images
+                $this->exportUserImages();
+        */
         $this->export_util->exportResourceFiles();
         $this->co_page_html_export->exportPageElements();
     }
@@ -338,7 +338,7 @@ class BlogHtmlExport
     ): \ilGlobalPageTemplate {
         global $DIC;
 
-        $this->global_screen->layout()->meta()->reset();
+        $this->export_util->resetGlobalScreen();
 
         $location_stylesheet = \ilUtil::getStyleSheetLocation();
         $this->global_screen->layout()->meta()->addCss($location_stylesheet);
@@ -405,12 +405,12 @@ class BlogHtmlExport
         return $file;
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $this->collector->delete();
     }
 
-    public function getFilePath() : string
+    public function getFilePath(): string
     {
         return $this->collector->getFilePath();
     }

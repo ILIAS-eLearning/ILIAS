@@ -113,7 +113,7 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderBasics(Bar\Bar $component, Template $tpl): void
     {
-        $tpl->setVariable("TITLE", $component->getTitle());
+        $tpl->setVariable("TITLE", $this->convertSpecialCharacters($component->getTitle()));
         $height = "";
         if ($component instanceof Bar\Horizontal) {
             $height = $this->determineHeightForHorizontal($component);
@@ -136,7 +136,7 @@ class Renderer extends AbstractComponentRenderer
             $height = $max_height;
         }
 
-        return $height . "px";
+        return (string) (int) $height;
     }
 
     protected function determineHeightForVertical(Bar\Bar $component): string
@@ -149,7 +149,7 @@ class Renderer extends AbstractComponentRenderer
             $height = $max_height;
         }
 
-        return $height . "px";
+        return (string) (int) $height;
     }
 
     protected function getAccessibilityList(
@@ -166,10 +166,11 @@ class Renderer extends AbstractComponentRenderer
 
         foreach ($points_per_dimension as $dimension_name => $item_points) {
             $entries = [];
-            foreach ($item_points as $messeaurement_item_label => $point) {
-                if (isset($tooltips_per_dimension[$dimension_name][$messeaurement_item_label])) {
+            foreach ($item_points as $measurement_item_label => $point) {
+                // use numeric value as default
+                if (isset($tooltips_per_dimension[$dimension_name][$measurement_item_label])) {
                     // use custom tooltips if defined
-                    $entries[] = $messeaurement_item_label . ": " . $tooltips_per_dimension[$dimension_name][$messeaurement_item_label];
+                    $entry = $measurement_item_label . ": " . $tooltips_per_dimension[$dimension_name][$measurement_item_label];
                 } elseif (is_array($point)) {
                     // handle range values
                     $range = "";
@@ -177,19 +178,20 @@ class Renderer extends AbstractComponentRenderer
                         $range .= $p . " - ";
                     }
                     $range = rtrim($range, " -");
-                    $entries[] = $messeaurement_item_label . ": " . $range;
+                    $entry = $measurement_item_label . ": " . $range;
                 } elseif (is_null($point)) {
                     // handle null values
-                    $entries[] = $messeaurement_item_label . ": -";
+                    $entry = $measurement_item_label . ": -";
                 } elseif (!empty($value_labels) && is_int($point) && !empty($value_labels[$point - $lowest])) {
                     // use custom value labels if defined
-                    $entries[] = $messeaurement_item_label . ": " . $value_labels[$point - $lowest];
+                    $entry = $measurement_item_label . ": " . $value_labels[$point - $lowest];
                 } else {
                     // use numeric value for all other cases
-                    $entries[] = $messeaurement_item_label . ": " . $point;
+                    $entry = $measurement_item_label . ": " . $point;
                 }
+                $entries[] = $this->convertSpecialCharacters($entry);
             }
-            $list_items[$dimension_name] = $ui_fac->listing()->unordered($entries);
+            $list_items[$this->convertSpecialCharacters($dimension_name)] = $ui_fac->listing()->unordered($entries);
         }
 
         $list = $ui_fac->listing()->descriptive($list_items);

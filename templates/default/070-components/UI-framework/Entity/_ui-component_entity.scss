@@ -1,94 +1,125 @@
 @use "sass:math";
 @use "../../../010-settings/" as s;
 @use "../../../050-layout/basics/" as l;
+@use "../../../050-layout/layout_breakpoints" as l-brk;
+
+$entity-padding-vertical: l.$il-padding-xlarge-vertical;
+$entity-spacer-padding-vertical: l.$il-padding-xlarge-vertical * 2;
+$entity-padding-horizontal: l.$il-padding-xlarge-horizontal; // counterstyling in use for padding-less images on mobile
+$img-large-max-width: 360px;
+$max-rows: 9;
+
+@mixin entity-limited-space-design() {
+    &__container {
+        display: flex;
+        flex-direction: column;
+        > * {
+            order: 2;
+        }
+    }
+    &__secondary-identifier {
+        order: 1;
+        &.--image {
+            img {
+                // break out of padding to reach from edge to edge
+                width: calc(100% + $entity-padding-horizontal * 2);
+                max-width: unset;
+                margin-left: -($entity-padding-horizontal);
+                margin-top: -($entity-padding-vertical);
+            }
+        }
+    }
+    &__reactionbar {
+        flex-grow: 1;
+    }
+}
 
 .c-entity {
-    &.__container {
+
+    &__container {
         display: grid;
-        grid-template-areas:
-            "f-blocking f-blocking f-blocking f-blocking actions"
-            "second-id f-prop f-prop f-prop actions"
-            "second-id prim-id prim-id prim-id actions"
-            "second-id status status status status"
-            "second-id f-details f-details f-details f-details"
-            "second-id availab availab availab availab"
-            "second-id details details details details"
-            "second-id reaction reaction f-reaction f-reaction";
-        grid-template-columns: min-content auto auto min-content min-content;
+        grid-template-columns: max-content auto;
+        grid-template-rows: repeat($max-rows, minmax(min-content, auto));
         border: s.$il-main-border;
         background-color: s.$il-main-bg;
-        padding: math.div(l.$il-margin-xlarge-vertical, 2) math.div(l.$il-margin-xlarge-horizontal, 2);
-        > *:not(:empty) {
-            padding: math.div(l.$il-margin-xlarge-vertical, 2) math.div(l.$il-margin-xlarge-horizontal, 2);
+        padding: math.div($entity-padding-vertical, 2) math.div($entity-padding-horizontal, 2);
+        > * {
+            // half paddings edge to edge equal a full padding
+            padding: math.div($entity-padding-vertical, 2) math.div($entity-padding-horizontal, 2);
+        }
+        @include l-brk.on-screen-size(small) {
+            display: block;
         }
     }
 
-    &.__blocking-conditions {
-        grid-area: f-blocking;
-        font-size: s.$il-font-size-xlarge;
-    }
-
-    &.__actions {
-        display: flex;
-        justify-content: end;
-        grid-area: actions;
-        .dropdown {
-            height: max-content;
+    &__featured-headerbar {
+        column-span: 2;
+        > .l-bar__space-keeper {
+            flex-wrap: nowrap;
+            .l-bar__group,
+            .l-bar__element {
+                align-self: flex-start;
+            }
         }
     }
 
-    &.__secondary-identifier {
+    &__secondary-identifier {
+        grid-column: 1;
+        grid-row: 1 / #{$max-rows + 1}; // number high enough so all others can fit on the right
         &.--string,
         &.--shy,
         &.--shylink {
             width: 10rem;
         }
         &.--symbol {
-            min-width: 3rem;
+            img { width: auto; }
         }
         &.--image {
-            width: 15rem;
+            img { max-width: $img-large-max-width; };
         }
-        grid-area: second-id;
     }
 
-    &.__primary-identifier {
-        grid-area: prim-id;
+    &__primary-identifier {
         font-weight: s.$il-font-weight-bold;
         font-size: s.$il-font-size-xxlarge;
     }
 
-    &.__featured {
-        grid-area: f-prop;
-        font-size: s.$il-font-size-xlarge;
+    &__featured {
+        font-size: s.$il-font-size-large;
     }
 
-    &.__personal-status {
-        grid-area: status;
+    &__workflow-actions {
+        padding-top: $entity-spacer-padding-vertical;
     }
 
-    &.__main-details {
-        grid-area: f-details;
+    &__blocking-conditions {
+        padding-bottom: $entity-spacer-padding-vertical;
+        font-size: s.$il-font-size-large;
+    }
+    &__main-details {
+        padding-top: $entity-spacer-padding-vertical;
+    }
+    &__details {
+        font-size: s.$il-font-size-small;
     }
 
-    &.__availability {
-        grid-area: availab;
+    &__reactions {
+        padding-top: $entity-spacer-padding-vertical;
     }
 
-    &.__details {
-        grid-area: details;
+    &__reactionbar {
+        align-self: stretch;
+        align-content: flex-end;
+        grid-column: 2;
+        grid-row: $max-rows; // always in last row
     }
 
-    &.__reactions {
-        // display: flex;
-        // flex-direction: row;
-        grid-area: reaction;
-    }
-
-    &.__featured-reactions {
-        display: flex;
-        justify-content: end;
-        grid-area: f-reaction;
+    &__featured-reactions {
+        padding-top: $entity-spacer-padding-vertical;
+        text-align: end;
         min-width: max-content;
+    }
+    @include l-brk.on-screen-size(small) {
+        @include entity-limited-space-design();
     }
 }

@@ -30,6 +30,8 @@ use ILIAS\UI\Implementation\Render\JavaScriptBinding;
  */
 class ItemNotificationTest extends ILIAS_UI_TestBase
 {
+    use LanguageStubs;
+
     protected I\Component\SignalGenerator $sig_gen;
 
     public function setUp(): void
@@ -44,8 +46,13 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 
     public function getUIFactory(): NoUIFactory
     {
-        $factory = new class () extends NoUIFactory {
+        $factory = new class ($this->createRelayArgumentLanguageStub()) extends NoUIFactory {
             public I\Component\SignalGenerator $sig_gen;
+
+            public function __construct(
+                protected \ILIAS\Language\Language $language,
+            ) {
+            }
 
             public function item(): C\Item\Factory
             {
@@ -66,7 +73,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
             {
                 return new I\Component\Symbol\Factory(
                     new I\Component\Symbol\Icon\Factory(),
-                    new I\Component\Symbol\Glyph\Factory(),
+                    new I\Component\Symbol\Glyph\Factory($this->language),
                     new I\Component\Symbol\Avatar\Factory()
                 );
             }

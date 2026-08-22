@@ -102,15 +102,22 @@ class Harvester
 
     protected function findHarvestableObjectIDs(): array
     {
+        $eligible_types = $this->settings->getObjectTypesSelectedForHarvesting();
+        $eligible_copyright_entries = $this->settings->getCopyrightEntryIDsSelectedForHarvesting();
+
+        if ($eligible_types === [] || $eligible_copyright_entries === []) {
+            return [];
+        }
+
         $searcher = $this->copyright_search_factory->get()
                                                    ->withRestrictionToRepositoryObjects(true);
-        foreach ($this->settings->getObjectTypesSelectedForHarvesting() as $type) {
+        foreach ($eligible_types as $type) {
             $searcher = $searcher->withAdditionalTypeFilter($type);
         }
         $search_results = [];
         foreach ($searcher->search(
             $this->lom_repository,
-            ...$this->settings->getCopyrightEntryIDsSelectedForHarvesting()
+            ...$eligible_copyright_entries
         ) as $ressource_id) {
             $search_results[] = $ressource_id->objID();
         }

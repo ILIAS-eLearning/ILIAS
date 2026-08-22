@@ -109,7 +109,7 @@ class CSSBuilder
 
                 foreach ($tag as $par) {
                     $cur_par = $par["parameter"];
-                    $cur_val = $par["value"];
+                    $cur_val = (string) $par["value"];
 
                     // replace named colors
                     if (is_int(strpos($cur_par, "color")) && substr(trim($cur_val), 0, 1) == "!") {

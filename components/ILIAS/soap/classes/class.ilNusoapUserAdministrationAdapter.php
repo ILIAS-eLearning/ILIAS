@@ -425,8 +425,10 @@ class ilNusoapUserAdministrationAdapter
             SERVICE_NAMESPACE . '#getTreeChilds',
             SERVICE_STYLE,
             SERVICE_USE,
-            'ILIAS getTreeChilds(): Get all child objects of a given object.' .
-            'Choose array of types to filter the output. Choose empty type array to receive all object types'
+            'ILIAS getTreeChilds(): Get all child objects of a given object. ' .
+            'Choose array of types to filter the output. Choose empty type array to receive all object types. ' .
+            'Results are filtered based on the read permissions of the given user_id. In case of an invalid user id, an empty result is returned without error. ' .
+            'Retrieve your user id first via the getUserIdBySid method and then pass it along with the parameter.'
         );
 
         $this->server->register(
@@ -441,7 +443,7 @@ class ilNusoapUserAdministrationAdapter
             SERVICE_NAMESPACE . '#getXMLTree',
             SERVICE_STYLE,
             SERVICE_USE,
-            'ILIAS getXMLTree(): Returns a xml stream with the subtree objects.'
+            'ILIAS getXMLTree(): Returns a XML stream with the subtree objects. The "types" parameter is optional and acts as an exclusion filter (listed types are excluded), unlike getTreeChilds() where types are included.'
         );
 
         $this->server->register(

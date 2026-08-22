@@ -136,7 +136,7 @@ class ilTestResultsImportParser extends ilSaxParser
                         $this->db->insert('tst_active', [
                             'active_id' => [ilDBConstants::T_INTEGER, $next_id],
                             'user_fi' => [ilDBConstants::T_INTEGER, $usr_id],
-                            'anonymous_id' => [ilDBConstants::T_TEXT, $a_attribs['anonymous_id'] ?: null],
+                            'anonymous_id' => [ilDBConstants::T_TEXT, $a_attribs['anonymous_id'] ?? null],
                             'test_fi' => [ilDBConstants::T_INTEGER, $this->test_obj->getTestId()],
                             'lastindex' => [ilDBConstants::T_INTEGER, $a_attribs['lastindex']],
                             'tries' => [ilDBConstants::T_INTEGER, $a_attribs['tries']],

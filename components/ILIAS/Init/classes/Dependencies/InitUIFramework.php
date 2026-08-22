@@ -206,7 +206,9 @@ class InitUIFramework
             );
         };
         $c["ui.factory.symbol.glyph"] = function ($c) {
-            return new ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory();
+            return new ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory(
+                $c["lng"],
+            );
         };
         $c["ui.factory.symbol.icon"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Symbol\Icon\Factory();
