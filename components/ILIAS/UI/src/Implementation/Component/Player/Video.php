@@ -34,13 +34,14 @@ class Video extends Player implements C\Player\Video
     private string $src = "";
     private string $poster = "";
     private array $subtitle_files = [];
-    private array $subtitle_labels = [];
 
     public function withAdditionalSubtitleFile(string $lang_key, string $subtitle_file, string $label): C\Player\Video
     {
         $clone = clone $this;
-        $clone->subtitle_files[$lang_key] = $subtitle_file;
-        $clone->subtitle_labels[$lang_key] = $label;
+        $clone->subtitle_files[$lang_key] = [
+            "file" => $subtitle_file,
+            "label" => $label,
+        ];
         return $clone;
     }
 
@@ -49,10 +50,6 @@ class Video extends Player implements C\Player\Video
         return $this->subtitle_files;
     }
 
-    public function getSubtitleLabels(): array
-    {
-        return $this->subtitle_labels;
-    }
 
     public function withPoster(string $poster): C\Player\Video
     {

@@ -37,15 +37,9 @@ interface Video extends Player
 
     /**
      * Get subtitle files
-     * @return array<string,string>
+     * @return array<string,array{file:string,label:string}>
      */
     public function getSubtitleFiles(): array;
-
-    /**
-     * Get subtitle labels
-     * @return array<string,string>
-     */
-    public function getSubtitleLabels(): array;
 
     /**
      * Set initially shown poster image
