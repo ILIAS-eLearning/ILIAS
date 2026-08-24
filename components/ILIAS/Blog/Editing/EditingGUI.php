@@ -35,6 +35,7 @@ use ILIAS\Blog\Navigation\Link\EditingLinkBuilder;
  */
 class EditingGUI
 {
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     protected int $author;
     protected string $keyword;
     protected string $month;
@@ -50,7 +51,7 @@ class EditingGUI
         protected int $id_type,
         protected PermissionManager $perm,
         protected ?string $current_month,
-        protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain,
+        protected \ILIAS\Style\Content\Service $content_style,
         protected ilObjBlogGUI $parent_gui
     ) {
         $this->blog_request = $gui->standardRequest();
@@ -59,6 +60,11 @@ class EditingGUI
         $this->month = $this->blog_request->getMonth();
         $this->keyword = $this->blog_request->getKeyword();
         $this->author = $this->blog_request->getAuthor();
+        if ($this->id_type !== \ilObjBlogGUI::REPOSITORY_NODE_ID) {
+            $this->content_style_domain = $content_style->domain()->styleForObjId($this->blog->getId());
+        } else {
+            $this->content_style_domain = $content_style->domain()->styleForRefId($this->blog->getRefId());
+        }
     }
 
     public function executeCommand(): void
@@ -109,7 +115,7 @@ class EditingGUI
             $style_sheet_id
         );
 
-        $this->parent_gui->setContentStyleSheet();
+        $this->setContentStyleSheet();
 
         $ilCtrl->setParameterByClass(ilBlogPostingGUI::class, "blpg", $req->getBlogPage());
         $this->gui->tabs()->addNonTabbedLink(
@@ -287,7 +293,7 @@ class EditingGUI
             );
         }
 
-        $this->parent_gui->setContentStyleSheet();
+        $this->setContentStyleSheet();
 
         $tpl->setContent($ilToolbar->getHTML() . $list);
         $tpl->setRightContent($nav);
@@ -387,5 +393,15 @@ class EditingGUI
             $ctrl->redirect($this, "render");
         }
     }
+
+    public function setContentStyleSheet(): void
+    {
+        $this->content_style->gui()->addCss(
+            $this->gui->ui()->mainTemplate(),
+            $this->blog->getRefId(),
+            $this->blog->getId()
+        );
+    }
+
 
 }

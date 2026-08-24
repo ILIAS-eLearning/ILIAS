@@ -47,6 +47,7 @@ use ILIAS\Blog\Editing\EditingGUI;
  */
 class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 {
+    protected \ILIAS\Style\Content\Service $cs;
     protected PostingManager $posting_manager;
     protected \ILIAS\Blog\Permission\BlogCmdPermission $cmd_perm;
     protected ?Settings $blog_settings = null;
@@ -89,7 +90,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     ) {
         global $DIC;
         // other services
-        $cs = $DIC->contentStyle();
+        $this->cs = $DIC->contentStyle();
         $this->tool_context = $DIC->globalScreen()->tool()->context();
         $this->notes = $DIC->notes();
 
@@ -140,12 +141,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
         $blog_id = 0;
         if ($this->object) {
-            $this->content_style_gui = $cs->gui();
+            $this->content_style_gui = $this->cs->gui();
             if (is_object($this->object)) {
                 if ($this->id_type !== self::REPOSITORY_NODE_ID) {
-                    $this->content_style_domain = $cs->domain()->styleForObjId($this->object->getId());
+                    $this->content_style_domain = $this->cs->domain()->styleForObjId($this->object->getId());
                 } else {
-                    $this->content_style_domain = $cs->domain()->styleForRefId($this->object->getRefId());
+                    $this->content_style_domain = $this->cs->domain()->styleForRefId($this->object->getRefId());
                 }
                 $this->blog_settings =
                     $domain->blogSettings()->getByObjId($this->object->getId());
@@ -464,7 +465,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $this->id_type,
                     $this->perm,
                     $this->month,
-                    $this->content_style_domain,
+                    $this->cs,
                     $this
                 );
                 $this->cmd_perm->forwardPermitted($this, $gui);
@@ -682,32 +683,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "preview"), "", $this->node_id);
         }
     }
-
-    ////
-    //// Style related functions
-    ////
-
-    public function setContentStyleSheet(
-        ?ilGlobalTemplateInterface $a_tpl = null
-    ): void {
-        $tpl = $this->tpl;
-
-        if ($a_tpl) {
-            $ctpl = $a_tpl;
-        } else {
-            $ctpl = $tpl;
-        }
-
-        $this->content_style_gui->addCss(
-            $ctpl,
-            $this->object->getRefId(),
-            $this->object->getId()
-        );
-    }
-
-    ////
-    //// Print
-    ////
 
 
     protected function forwardExport(): void

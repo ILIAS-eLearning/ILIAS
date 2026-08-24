@@ -40,7 +40,7 @@ class GUIService
         int $id_type,
         PermissionManager $perm,
         ?string $month,
-        \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain,
+        \ILIAS\Style\Content\Service $cs,
         \ilObjBlogGUI $parent_gui
     ): EditingGUI {
         return new EditingGUI(
@@ -51,7 +51,7 @@ class GUIService
             $id_type,
             $perm,
             $month,
-            $content_style_domain,
+            $cs,
             $parent_gui
         );
     }
