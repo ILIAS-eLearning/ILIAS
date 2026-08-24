@@ -180,6 +180,13 @@ class BlogCmdPermission extends CmdPermission
                 return $this->perm_manager->canApprove($this->request->getApId());
             }
 
+            if ($to_class === EditingGUI::class && in_array($this->ctrl->getCmd(), [
+                "printViewSelection",
+                "printPostings"
+            ])) {
+                return $this->access->checkAccess("read", "", $node_id);
+            }
+
             // read posting permission
             if ($to_class === \ilBlogPostingGUI::class) {
                 return $this->perm_manager->canReadPosting($posting_id);

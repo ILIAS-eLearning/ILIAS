@@ -22,6 +22,7 @@ namespace ILIAS\Blog;
 
 use ILIAS\COPage;
 use ILIAS\Export;
+use ILIAS\Blog\Editing\EditingGUI;
 use ilPropertyFormGUI;
 
 class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
@@ -136,7 +137,7 @@ class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         $form->setTitle($lng->txt("cont_print_selection"));
         $form->setFormAction(
             $ilCtrl->getFormActionByClass(
-                "ilObjBlogGUI",
+                EditingGUI::class,
                 "printPostings"
             )
         );

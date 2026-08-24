@@ -243,7 +243,7 @@ class EditingGUI
             );
             $modal_elements = $print_view->getModalElements(
                 $ilCtrl->getLinkTarget(
-                    $this->parent_gui,
+                    $this,
                     "printViewSelection"
                 )
             );
@@ -291,6 +291,26 @@ class EditingGUI
 
         $tpl->setContent($ilToolbar->getHTML() . $list);
         $tpl->setRightContent($nav);
+    }
+
+    public function printViewSelection(): void
+    {
+        $print_view = $this->gui->presentation()->getPrintView(
+            $this->node_id,
+            $this->id_type === \ilObjBlogGUI::REPOSITORY_NODE_ID,
+            $this->blog_request->getObjIds()
+        );
+        $print_view->sendForm();
+    }
+
+    public function printPostings(): void
+    {
+        $print_view = $this->gui->presentation()->getPrintView(
+            $this->node_id,
+            $this->id_type === \ilObjBlogGUI::REPOSITORY_NODE_ID,
+            $this->blog_request->getObjIds()
+        );
+        $print_view->sendPrintView();
     }
 
     public function approve(): void

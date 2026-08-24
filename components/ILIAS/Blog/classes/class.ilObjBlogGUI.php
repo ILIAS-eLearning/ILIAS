@@ -709,49 +709,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     //// Print
     ////
 
-    public function getPrintView(): \ILIAS\Export\PrintProcessGUI
-    {
-        $style_sheet_id = $this->content_style_domain->getEffectiveStyleId();
-
-        /** @var ilObjBlog $blog */
-        $blog = $this->object;
-        $provider = new \ILIAS\Blog\BlogPrintViewProviderGUI(
-            $this->lng,
-            $this->ctrl,
-            $blog->getId(),
-            $this->node_id,
-            $this->access_handler,
-            $style_sheet_id,
-            $this->blog_request->getObjIds()
-        );
-
-        return new \ILIAS\Export\PrintProcessGUI(
-            $provider,
-            $this->http,
-            $this->ui,
-            $this->lng
-        );
-    }
-
-    public function printViewSelection(): void
-    {
-        $print_view = $this->gui->presentation()->getPrintView(
-            $this->node_id,
-            $this->id_type === \ilObjBlogGUI::REPOSITORY_NODE_ID,
-            $this->blog_request->getObjIds()
-        );
-        $print_view->sendForm();
-    }
-
-    public function printPostings(): void
-    {
-        $print_view = $this->gui->presentation()->getPrintView(
-            $this->node_id,
-            $this->id_type === \ilObjBlogGUI::REPOSITORY_NODE_ID,
-            $this->blog_request->getObjIds()
-        );
-        $print_view->sendPrintView();
-    }
 
     protected function forwardExport(): void
     {
