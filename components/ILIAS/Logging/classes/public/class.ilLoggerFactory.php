@@ -62,15 +62,6 @@ class ilLoggerFactory
         return $factory->getComponentLogger($a_component_id);
     }
 
-    /**
-     * The unique root logger has a fixed error level
-     */
-    public static function getRootLogger(): ilLogger
-    {
-        $factory = self::getInstance();
-        return $factory->getComponentLogger('root');
-    }
-
 
     /**
      * Init user specific log options

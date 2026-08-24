@@ -4,5 +4,4 @@
 	<baseclasses>
 		<baseclass name="ilStartUpGUI" dir="classes" />
 	</baseclasses>
-        <logging />
 </service>

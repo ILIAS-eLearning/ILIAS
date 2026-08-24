@@ -50,7 +50,7 @@ class ilLearningSequenceParticipants extends ilParticipants
     {
         global $DIC;
 
-        $logger = $DIC["ilLoggerFactory"]->getRootLogger();
+        $logger = $DIC["ilLoggerFactory"]->getComponentLogger('lso');
         $app_event_handler = $DIC['ilAppEventHandler'];
         $settings = $DIC["ilSetting"];
 

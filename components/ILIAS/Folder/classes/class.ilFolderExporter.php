@@ -49,7 +49,7 @@ class ilFolderExporter extends ilXmlExporter
             $writer->write();
             return $writer->xmlDumpMem(false);
         } catch (UnexpectedValueException $e) {
-            $GLOBALS['ilLog']->write("Caught error: " . $e->getMessage());
+            $GLOBALS['ilLog']->info("Caught error: " . $e->getMessage());
             return '';
         }
     }

@@ -46,7 +46,7 @@ class ilObjForum extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
 
         $this->rbac = $DIC->rbac();
-        $this->logger = $DIC->logger()->root();
+        $this->logger = $DIC->logger()->forComponent('frm');
 
         $this->settings = $DIC->settings();
         $this->Forum = new ilForum();
@@ -473,7 +473,7 @@ class ilObjForum extends ilObject
             0 === $this->getRefId() ||
             0 === $new_obj->getRefId()
         ) {
-            $this->logger->write(__METHOD__ . ' : Error cloning auto generated role: il_frm_moderator');
+            $this->logger->info('Error cloning auto generated role: il_frm_moderator');
         }
 
         $this->rbac->admin()->copyRolePermissions(
@@ -484,7 +484,7 @@ class ilObjForum extends ilObject
             true
         );
 
-        $this->logger->write(__METHOD__ . ' : Finished copying of role il_frm_moderator.');
+        $this->logger->info('Finished copying of role il_frm_moderator.');
 
         $moderators = new ilForumModerators($this->getRefId());
         $src_moderator_usr_ids = $moderators->getCurrentModerators();

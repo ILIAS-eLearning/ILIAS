@@ -61,7 +61,7 @@ class ilObjLearningSequence extends ilContainer
         $this->ctrl = $DIC['ilCtrl'];
         $this->user = $DIC['ilUser'];
         $this->tree = $DIC['tree'];
-        $this->log = $DIC["ilLoggerFactory"]->getRootLogger();
+        $this->log = $DIC["ilLoggerFactory"]->getComponentLogger('lso');
         $this->app_event_handler = $DIC['ilAppEventHandler'];
         $this->il_news = $DIC->news();
         $this->il_condition_handler = new ilConditionHandler();
@@ -215,21 +215,21 @@ class ilObjLearningSequence extends ilContainer
         $new_admin = $new_obj->getDefaultAdminRole();
 
         if (!$admin || !$new_admin || !$this->getRefId() || !$new_obj->getRefId()) {
-            $this->log->write(__METHOD__ . ' : Error cloning auto generated role: il_lso_admin');
+            $this->log->info('Error cloning auto generated role: il_lso_admin');
         }
 
         $this->rbac_admin->copyRolePermissions($admin, $this->getRefId(), $new_obj->getRefId(), $new_admin, true);
-        $this->log->write(__METHOD__ . ' : Finished copying of role lso_admin.');
+        $this->log->info('Finished copying of role lso_admin.');
 
         $member = $this->getDefaultMemberRole();
         $new_member = $new_obj->getDefaultMemberRole();
 
         if (!$member || !$new_member) {
-            $this->log->write(__METHOD__ . ' : Error cloning auto generated role: il_lso_member');
+            $this->log->info('Error cloning auto generated role: il_lso_member');
         }
 
         $this->rbac_admin->copyRolePermissions($member, $this->getRefId(), $new_obj->getRefId(), $new_member, true);
-        $this->log->write(__METHOD__ . ' : Finished copying of role lso_member.');
+        $this->log->info('Finished copying of role lso_member.');
 
         return true;
     }

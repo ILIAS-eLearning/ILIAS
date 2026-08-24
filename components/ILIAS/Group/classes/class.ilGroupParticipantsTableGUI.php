@@ -352,8 +352,6 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 
         // Custom user data fields
         if ($udf_ids) {
-            global $DIC;
-            $DIC->logger()->root()->dump($filtered_user_ids);
             $a_user_data = array_reduce(
                 iterator_to_array($this->profile->getDataForMultiple($filtered_user_ids)),
                 function (array $c, ProfileData $v) use ($udf_ids): array {

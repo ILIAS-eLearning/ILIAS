@@ -170,13 +170,13 @@ class ilErrorHandling implements ErrorHandling\Application\ContextErrorHandlerPr
             $m = 'Fatal Error: Called raise error two times.<br>' .
                 'First error: ' . $session_failure . '<br>' .
                 'Last Error:' . $message;
-            $log->write($m);
+            $log->info($m);
             ilSession::clear('failure');
             die($m);
         }
 
         if ($log instanceof ilLogger) {
-            $log->write($message);
+            $log->info($message);
         }
         if ($code === $this->FATAL) {
             throw new RuntimeException(stripslashes($message));
@@ -298,7 +298,7 @@ class ilErrorHandling implements ErrorHandling\Application\ContextErrorHandlerPr
                 // fallthrough
             default:
                 if ((!defined('ERROR_HANDLER') || ERROR_HANDLER !== 'PRETTY_PAGE') && $ilLog) {
-                    $ilLog->write(
+                    $ilLog->info(
                         "Unknown or undefined error handler '" . ERROR_HANDLER . "'. " .
                         'Falling back to PrettyPageHandler.'
                     );
@@ -407,7 +407,7 @@ class ilErrorHandling implements ErrorHandling\Application\ContextErrorHandlerPr
                 if ($level >= E_USER_NOTICE) {
                     if ($ilLog) {
                         $severity = Whoops\Util\Misc::translateErrorCode($level);
-                        $ilLog->write("\n\n" . $severity . ' - ' . $message . "\n" . $file . ' - line ' . $line . "\n");
+                        $ilLog->info("\n\n" . $severity . ' - ' . $message . "\n" . $file . ' - line ' . $line . "\n");
                     }
 
                     return true;
@@ -417,7 +417,7 @@ class ilErrorHandling implements ErrorHandling\Application\ContextErrorHandlerPr
             if ($level === E_USER_DEPRECATED) {
                 if ($ilLog) {
                     $severity = Whoops\Util\Misc::translateErrorCode($level);
-                    $ilLog->write("\n\n" . $severity . ' - ' . $message . "\n" . $file . ' - line ' . $line . "\n");
+                    $ilLog->info("\n\n" . $severity . ' - ' . $message . "\n" . $file . ' - line ' . $line . "\n");
                 }
 
                 return true;

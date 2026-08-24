@@ -31,7 +31,7 @@ class ilLearningSequenceImporter extends ilXmlImporter
         global $DIC;
         $this->user = $DIC["ilUser"];
         $this->rbac_admin = $DIC["rbacadmin"];
-        $this->log = $DIC["ilLoggerFactory"]->getRootLogger();
+        $this->log = $DIC["ilLoggerFactory"]->getComponentLogger('lso');
     }
 
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void

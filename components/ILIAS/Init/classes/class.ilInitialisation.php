@@ -1075,7 +1075,7 @@ class ilInitialisation
      */
     protected static function initLog(): void
     {
-        $log = ilLoggerFactory::getRootLogger();
+        $log = ilLoggerFactory::getLogger('legacy_root');
 
         self::initGlobal("ilLog", $log);
         // deprecated
@@ -1112,7 +1112,7 @@ class ilInitialisation
     protected static function abortAndDie(string $a_message): void
     {
         if (isset($GLOBALS['ilLog'])) {
-            $GLOBALS['ilLog']->write("Fatal Error: ilInitialisation - " . $a_message);
+            $GLOBALS['ilLog']->info("Fatal Error: ilInitialisation - " . $a_message);
             $GLOBALS['ilLog']->logStack();
         }
         die($a_message);

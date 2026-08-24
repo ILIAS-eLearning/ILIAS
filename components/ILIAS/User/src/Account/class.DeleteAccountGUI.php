@@ -220,7 +220,7 @@ class DeleteAccountGUI
             $mmail->Send();
         }
 
-        $this->log->root()->log(
+        $this->log->forComponent('usr')->log(
             'Account deleted: ' . $this->current_user->getLogin()
                 . ' (' . $this->current_user->getId() . ')'
         );

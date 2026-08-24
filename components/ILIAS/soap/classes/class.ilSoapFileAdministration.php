@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -76,7 +77,7 @@ class ilSoapFileAdministration extends ilSoapAdministration
 
                 $ilLog = $DIC['ilLog'];
 
-                $ilLog->write(__METHOD__ . ': File type: ' . $file->getFileType());
+                $ilLog->info('File type: ' . $file->getFileType());
 
                 $file->create();
                 $file->createReference();

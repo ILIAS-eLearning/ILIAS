@@ -42,7 +42,7 @@ class Config implements ConfigInterface
                 "Expected a path to the logfile, if logging is enabled."
             );
         }
-        $level = $level === null ? null : ILIASLogLevel::tryFromString($level);
+        $level = $level === null ? null : ILIASLogLevel::tryFromString(strtoupper($level));
         if ($enabled && !$level) {
             throw new InvalidArgumentException(
                 "Expected a valid default log level, if logging is enabled."

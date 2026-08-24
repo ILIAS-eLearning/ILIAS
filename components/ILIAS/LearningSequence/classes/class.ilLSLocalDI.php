@@ -247,7 +247,7 @@ class ilLSLocalDI extends Container
         $this["participants"] = function ($c) use ($dic): ilLearningSequenceParticipants {
             return new ilLearningSequenceParticipants(
                 $c["obj.obj_id"],
-                $dic["ilLoggerFactory"]->getRootLogger(),
+                $dic["ilLoggerFactory"]->getComponentLogger('lso'),
                 $dic["ilAppEventHandler"],
                 $dic["ilSetting"]
             );

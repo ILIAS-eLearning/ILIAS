@@ -1383,7 +1383,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
 
         // log pasteObject call
-        $ilLog->write(__METHOD__ . ", cmd: " . $command);
+        $ilLog->info("cmd: " . $command);
 
         ////////////////////////////////////////////////////////
         // everything ok: now paste the objects to new location
@@ -1514,7 +1514,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                     // END PATCH ChangeEvent: Record link event.
                 }
 
-                $ilLog->write(__METHOD__ . ', link finished');
+                $ilLog->info('link finished');
             }
 
             $links = [];
@@ -1718,7 +1718,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
 
         // log pasteObject call
-        $ilLog->write("ilObjectGUI::pasteObject(), cmd: " . $this->clipboard->getCmd());
+        $ilLog->info("cmd: " . $this->clipboard->getCmd());
 
         ////////////////////////////////////////////////////////
         // everything ok: now paste the objects to new location
@@ -1743,7 +1743,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             }
             $ilCtrl->redirectByClass("ilobjectcopygui", "saveTarget");
 
-            $ilLog->write("ilObjectGUI::pasteObject(), copy finished");
+            $ilLog->info("copy finished");
         }
         // END WebDAV: Support a Copy command in the repository
 
@@ -1809,7 +1809,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 // END PATCH ChangeEvent: Record link event.
             }
 
-            $ilLog->write("ilObjectGUI::pasteObject(), link finished");
+            $ilLog->info("link finished");
         } // END LINK
 
 
@@ -1844,8 +1844,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         // function should not be called if clipboard is empty
         if (!$this->clipboard->hasEntries()) {
-            $message = sprintf('%s::clipboardObject(): Illegal access. Clipboard variable is empty!', get_class($this));
-            $ilLog->write($message, $ilLog->FATAL);
+            $ilLog->fatal('Illegal access. Clipboard variable is empty!');
             $ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->WARNING);
         }
 

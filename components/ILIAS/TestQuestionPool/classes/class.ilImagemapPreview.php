@@ -236,7 +236,7 @@ class ilImagemapPreview
         }
         exec($cmd, $arr);
 
-        $DIC->logger()->root()->debug("ilUtil::execQuoted: " . $cmd . ".");
+        $DIC->logger()->forComponent('qpl')->debug("ilUtil::execQuoted: " . $cmd . ".");
 
         return $arr;
     }

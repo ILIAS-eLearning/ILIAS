@@ -142,7 +142,7 @@ class ilUserCronCheckAccounts extends CronJob
             $this->db->query($query);
 
             // Send log message
-            $this->log->write('Cron: (checkUserAccounts()) sent message to ' . $login . '.');
+            $this->log->info('Cron: (checkUserAccounts()) sent message to ' . $login . '.');
 
             $this->counter++;
         }

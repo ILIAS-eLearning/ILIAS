@@ -856,7 +856,7 @@ abstract class assQuestion implements Question
         try {
             $this->deletePageOfQuestion($question_id);
         } catch (Exception $e) {
-            $this->log->root()->error("EXCEPTION: Could not delete page of question $question_id: $e");
+            $this->log->forComponent('qpl')->error("EXCEPTION: Could not delete page of question $question_id: $e");
             return;
         }
 
@@ -875,7 +875,7 @@ abstract class assQuestion implements Question
             $this->feedbackOBJ->deleteGenericFeedbacks($question_id, $this->isAdditionalContentEditingModePageObject());
             $this->feedbackOBJ->deleteSpecificAnswerFeedbacks($question_id, $this->isAdditionalContentEditingModePageObject());
         } catch (Exception $e) {
-            $this->log->root()->error("EXCEPTION: Could not delete additional table data of question {$question_id}: {$e}");
+            $this->log->forComponent('qpl')->error("EXCEPTION: Could not delete additional table data of question {$question_id}: {$e}");
         }
 
         try {
@@ -886,13 +886,13 @@ abstract class assQuestion implements Question
                 [$question_id]
             );
         } catch (Exception $e) {
-            $this->log->root()->error("EXCEPTION: Could not delete delete question {$question_id} from a test: {$e}");
+            $this->log->forComponent('qpl')->error("EXCEPTION: Could not delete delete question {$question_id} from a test: {$e}");
         }
 
         try {
             $this->getSuggestedSolutionsRepo()->deleteForQuestion($question_id);
         } catch (Exception $e) {
-            $this->log->root()->error("EXCEPTION: Could not delete suggested solutions of question {$question_id}: {$e}");
+            $this->log->forComponent('qpl')->error("EXCEPTION: Could not delete suggested solutions of question {$question_id}: {$e}");
         }
 
         $directory = CLIENT_WEB_DIR . "/assessment/" . $obj_id . "/$question_id";
@@ -901,7 +901,7 @@ abstract class assQuestion implements Question
                 ilFileUtils::delDir($directory);
             }
         } catch (Exception $e) {
-            $this->log->root()->error("EXCEPTION: Could not delete question file directory {$directory} of question {$question_id}: {$e}");
+            $this->log->forComponent('qpl')->error("EXCEPTION: Could not delete question file directory {$directory} of question {$question_id}: {$e}");
         }
 
         try {
@@ -918,7 +918,7 @@ abstract class assQuestion implements Question
                 }
             }
         } catch (Exception $e) {
-            $this->log->root()->error("EXCEPTION: Error deleting the media objects of question {$question_id}: {$e}");
+            $this->log->forComponent('qpl')->error("EXCEPTION: Error deleting the media objects of question {$question_id}: {$e}");
         }
         $assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
         $assignmentList->setParentObjId($obj_id);
@@ -944,7 +944,7 @@ abstract class assQuestion implements Question
         try {
             ilObjQuestionPool::_updateQuestionCount($this->getObjId());
         } catch (Exception $e) {
-            $this->log->root()->error(
+            $this->log->forComponent('qpl')->error(
                 "EXCEPTION: Error updating the question pool question count of"
                 . " question pool {$this->getObjId()} when deleting question {$question_id}: {$e}"
             );
@@ -1560,8 +1560,8 @@ abstract class assQuestion implements Question
             }
             if (!is_file($filepath_original . $solution->getFilename())
                 || !copy($filepath_original . $solution->getFilename(), $filepath . $solution->getFilename())) {
-                $this->log->root()->error('File for suggested solutions could not be duplicated:');
-                $this->log->root()->error("Question-Id: {$this->id}; Question-Title: {$this->title}; File: {$filepath_original}{$solution->getFilename()}");
+                $this->log->forComponent('qpl')->error('File for suggested solutions could not be duplicated:');
+                $this->log->forComponent('qpl')->error("Question-Id: {$this->id}; Question-Title: {$this->title}; File: {$filepath_original}{$solution->getFilename()}");
             }
         }
     }
@@ -1585,8 +1585,8 @@ abstract class assQuestion implements Question
 
             if (!is_file($filepath_original . $solution->getFilename())
                 || copy($filepath_target . $solution->getFilename(), $filepath_target . $solution->getFilename())) {
-                $this->log->root()->error('File for suggested solutions could not be cloned:');
-                $this->log->root()->error("Question-Id: {$this->id}; Question-Title: {$this->title}; File: {$filepath_original}{$solution->getFilename()}");
+                $this->log->forComponent('qpl')->error('File for suggested solutions could not be cloned:');
+                $this->log->forComponent('qpl')->error("Question-Id: {$this->id}; Question-Title: {$this->title}; File: {$filepath_original}{$solution->getFilename()}");
             }
         }
     }

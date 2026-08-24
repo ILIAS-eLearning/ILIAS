@@ -12,5 +12,4 @@
 	<crons>
 		<cron id="meta_oer_harvester" class="ilCronOerHarvester" />
 	</crons>
-	<logging/>
 </service>

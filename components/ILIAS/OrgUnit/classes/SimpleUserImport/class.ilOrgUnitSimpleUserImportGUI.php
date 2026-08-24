@@ -104,7 +104,7 @@ class ilOrgUnitSimpleUserImportGUI
             try {
                 $importer->simpleUserImport($file['tmp_name']);
             } catch (Exception $e) {
-                $this->ilLog->write($e->getMessage() . ' - ' . $e->getTraceAsString());
+                $this->ilLog->info($e->getMessage() . ' - ' . $e->getTraceAsString());
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_failed'), true);
                 $this->ctrl->redirect($this, 'render');
             }

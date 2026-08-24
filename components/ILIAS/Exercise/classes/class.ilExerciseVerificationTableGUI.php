@@ -37,7 +37,7 @@ class ilExerciseVerificationTableGUI extends ilTable2GUI
 
         $this->user = $DIC->user();
         $database = $DIC->database();
-        $logger = $DIC->logger()->root();
+        $logger = $DIC->logger()->forComponent('exc');
         $ilCtrl = $DIC->ctrl();
 
         if (null === $userCertificateRepository) {

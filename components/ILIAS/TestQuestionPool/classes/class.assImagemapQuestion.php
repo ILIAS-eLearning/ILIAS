@@ -206,7 +206,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         }
 
         if (!file_exists($image_source_path) || !is_readable($image_source_path)) {
-            $this->log->root()->alert(
+            $this->log->forComponent('qpl')->alert(
                 "Could not copy imagemap question files: Source path '{$image_source_path}' does not exist or is not readable.",
                 [
                     'source_question_id' => $source_question_id,
@@ -319,7 +319,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 $this->tpl->setOnScreenMessage('failure', 'The image could not be uploaded!');
                 return;
             }
-            $this->log->write('gespeichert: ' . $imagepath . $image_filename);
+            $this->log->info('gespeichert: ' . $imagepath . $image_filename);
         }
     }
 

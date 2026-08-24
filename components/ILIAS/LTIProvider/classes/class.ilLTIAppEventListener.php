@@ -133,7 +133,7 @@ class ilLTIAppEventListener
     protected function definePercentageByObjectId(int|null $status, string $obj_id, int|null $percentage): int
     {
         global $DIC;
-        $logger = $DIC->logger()->root();
+        $logger = $DIC->logger()->forComponent('ltis');
         $logger->debug('definePercentageByObjectId');
         $indentifier = ilObjectFactory::getInstanceByRefId((int) $obj_id)->getType();
         $logger->info('Object type: ' . $indentifier . " for object id: " . $obj_id);

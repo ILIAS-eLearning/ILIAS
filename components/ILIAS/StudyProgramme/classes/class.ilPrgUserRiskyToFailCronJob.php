@@ -129,6 +129,6 @@ class ilPrgUserRiskyToFailCronJob extends CronJob
 
     protected function log(string $msg): void
     {
-        $this->log->write($msg);
+        $this->log->info($msg);
     }
 }

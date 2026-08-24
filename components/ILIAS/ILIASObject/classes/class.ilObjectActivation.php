@@ -421,17 +421,17 @@ class ilObjectActivation
 
         $ilLog = $DIC["ilLog"];
 
-        $ilLog->write(__METHOD__ . ': Begin course items...' . $ref_id);
+        $ilLog->info('Begin course items...' . $ref_id);
 
         $items = self::getItems($ref_id, false);
         if (!$items) {
-            $ilLog->write(__METHOD__ . ': No course items found.');
+            $ilLog->info('No course items found.');
             return;
         }
 
         // new course item object
         if (!is_object(ilObjectFactory::getInstanceByRefId($target_id, false))) {
-            $ilLog->write(__METHOD__ . ': Cannot create target object.');
+            $ilLog->info('Cannot create target object.');
             return;
         }
 
@@ -440,11 +440,11 @@ class ilObjectActivation
 
         foreach ($items as $item) {
             if (!isset($mappings[$item['parent_id']]) or !$mappings[$item['parent_id']]) {
-                $ilLog->write(__METHOD__ . ': No mapping for parent nr. ' . $item['parent_id']);
+                $ilLog->info('No mapping for parent nr. ' . $item['parent_id']);
                 continue;
             }
             if (!isset($mappings[$item['obj_id']]) or !$mappings[$item['obj_id']]) {
-                $ilLog->write(__METHOD__ . ': No mapping for item nr. ' . $item['obj_id']);
+                $ilLog->info('No mapping for item nr. ' . $item['obj_id']);
                 continue;
             }
             $new_item_id = $mappings[$item['obj_id']];

@@ -77,7 +77,7 @@ class ilCategoryExporter extends ilXmlExporter
         $category = ilObjectFactory::getInstanceByRefId($cat_ref_id, false);
 
         if (!$category instanceof ilObjCategory) {
-            $GLOBALS['ilLog']->write(__METHOD__ . $a_id . ' is not instance of type category!');
+            $GLOBALS['ilLog']->info($a_id . ' is not instance of type category!');
             return '';
         }
 

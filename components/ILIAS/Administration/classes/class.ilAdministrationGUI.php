@@ -87,7 +87,7 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
         global $DIC;
 
         $this->help = $DIC["ilHelp"];
-        $this->logger = $DIC->logger()->root();
+        $this->logger = $DIC->logger()->forComponent('adms');
         $this->lng = $DIC->language();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->tree = $DIC->repositoryTree();

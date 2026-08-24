@@ -61,7 +61,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 
         $this->httpState = $DIC->http();
         $this->upload = $DIC->upload();
-        $this->logger = $DIC->logger()->root();
+        $this->logger = $DIC->logger()->forComponent('cert');
         $this->type = 'cert';
         $this->lng->loadLanguageModule('certificate');
         $this->lng->loadLanguageModule('cert');

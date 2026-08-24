@@ -488,7 +488,7 @@ class ilDBGenerator
     public function buildInsertStatement(string $a_table, string $a_basedir): bool
     {
         global $DIC;
-        $ilLogger = $DIC->logger()->root();
+        $ilLogger = $DIC->logger()->forComponent('db');
 
         $ilLogger->log('Starting export of:' . $a_table);
 
@@ -581,7 +581,7 @@ class ilDBGenerator
     protected function shortenText(string $table, string $field, string $a_value, int $a_size): string
     {
         global $DIC;
-        $ilLogger = $DIC->logger()->root();
+        $ilLogger = $DIC->logger()->forComponent('db');
 
         if ($this->getTargetEncoding() === 'UTF-8') {
             return $a_value;

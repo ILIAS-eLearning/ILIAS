@@ -171,7 +171,7 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter
                 global $DIC;
                 $ilLog = $DIC['ilLog'];
                 $this->addWarning("not_movable", $ou_id ? $ou_id : $external_id, "update");
-                $ilLog->write($e->getMessage() . "\\n" . $e->getTraceAsString());
+                $ilLog->info($e->getMessage() . "\\n" . $e->getTraceAsString());
                 error_log($e->getMessage() . "\\n" . $e->getTraceAsString());
             }
         }

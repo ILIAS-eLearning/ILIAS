@@ -97,10 +97,10 @@ class ilSurveyImporter extends ilXmlImporter
             [$xml_file] = $this->parseXmlFileNames();
 
             if (!file_exists($xml_file)) {
-                $GLOBALS['ilLog']->write(__METHOD__ . ': Cannot find xml definition: ' . $xml_file);
+                $GLOBALS['ilLog']->info('Cannot find xml definition: ' . $xml_file);
                 return;
             }
-            $GLOBALS['ilLog']->write("getQuestionPoolID = " . $this->getImport()->getConfig("components/ILIAS/Survey")->getQuestionPoolID());
+            $GLOBALS['ilLog']->info("getQuestionPoolID = " . $this->getImport()->getConfig("components/ILIAS/Survey")->getQuestionPoolID());
 
             $import = new SurveyImportParser(
                 $this->getImport()->getConfig("components/ILIAS/Survey")->getQuestionPoolID(),
@@ -136,7 +136,7 @@ class ilSurveyImporter extends ilXmlImporter
      */
     protected function parseXmlFileNames(): array
     {
-        $GLOBALS['ilLog']->write(__METHOD__ . ': ' . $this->getImportDirectory());
+        $GLOBALS['ilLog']->info($this->getImportDirectory());
 
         $basename = basename($this->getImportDirectory());
         $xml = $this->getImportDirectory() . '/' . $basename . '.xml';

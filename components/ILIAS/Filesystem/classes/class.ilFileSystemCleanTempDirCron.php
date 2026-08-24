@@ -52,7 +52,7 @@ class ilFileSystemCleanTempDirCron extends CronJob
             $this->filesystem = $DIC->filesystem()->temp();
         }
         if ($DIC->offsetExists('ilLoggerFactory')) {
-            $this->logger = $DIC->logger()->root();
+            $this->logger = $DIC->logger()->forComponent('filesys');
         }
     }
 

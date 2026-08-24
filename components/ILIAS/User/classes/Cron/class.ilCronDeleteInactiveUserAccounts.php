@@ -236,7 +236,7 @@ class ilCronDeleteInactiveUserAccounts extends CronJob
         }
 
         $this->cron_delete_reminder_mail->removeEntriesFromTableIfLastLoginIsNewer();
-        $this->log->write(
+        $this->log->info(
             'CRON - ilCronDeleteInactiveUserAccounts::run(), deleted '
             . "=> {$counters[self::ACTION_USER_DELETED]} User(s), sent reminder "
             . "mail to {$counters[self::ACTION_USER_REMINDER_MAIL_SENT]} User(s)"

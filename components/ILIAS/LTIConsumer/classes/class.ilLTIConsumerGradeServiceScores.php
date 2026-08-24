@@ -137,7 +137,7 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
-        $logger = $DIC->logger()->root();
+        $logger = $DIC->logger()->forComponent('lti');
 
         $logger->info('checkScore');
         $score = json_decode($requestData);
