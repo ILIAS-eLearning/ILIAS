@@ -21,7 +21,6 @@ declare(strict_types=1);
 use ILIAS\GlobalScreen\ScreenContext\ContextServices;
 use ILIAS\Blog\StandardGUIRequest;
 use ILIAS\Blog\Settings\SettingsGUI;
-use ILIAS\Blog\Export\BlogHtmlExport;
 use ILIAS\Blog\Permission\PermissionManager;
 use ILIAS\Blog\InternalDomainService;
 use ILIAS\Blog\InternalGUIService;
@@ -48,7 +47,6 @@ use ILIAS\Blog\Editing\EditingGUI;
  */
 class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 {
-    protected \ILIAS\Blog\Export\ExportManager $export_manager;
     protected PostingManager $posting_manager;
     protected \ILIAS\Blog\Permission\BlogCmdPermission $cmd_perm;
     protected ?Settings $blog_settings = null;
@@ -185,7 +183,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $this->profile = $domain->profile();
         $this->profile_gui = $gui->profile();
         $this->cmd_perm = $gui->cmdPerm($this->perm);
-        $this->export_manager = $domain->export()->manager();
     }
 
     public function getType(): string
@@ -604,24 +601,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $this->cmd_perm->forwardPermitted($this, $info);
     }
 
-    /**
-     * Build and deliver export file
-     */
-    public function export(
-        bool $a_with_comments = false
-    ): void {
-        $export = $this->export_manager->buildHtml(
-            $this->node_id,
-            $this->object->getOwner(),
-            $this->blog_request->getFormat(),
-            $this->id_type === self::REPOSITORY_NODE_ID,
-            $a_with_comments
-        );
-        ilFileDelivery::deliverFileLegacy($export->getFilePath(), $this->object->getTitle() . ".zip", '', false, false, false);
-        $export->delete();
-    }
-
-
     // --- helper functions
 
     /**
@@ -763,14 +742,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $this->object->getRefId(),
             $this->object->getId()
         );
-    }
-
-    /**
-     * Handle export choice
-     */
-    protected function exportWithComments(): void
-    {
-        $this->export(true);
     }
 
     ////

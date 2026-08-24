@@ -54,12 +54,40 @@ class ExportGUI
         switch ($next_class) {
             default:
                 if (in_array($cmd, [
+                    "export",
+                    "exportWithComments",
                     "createExportFile",
                     "createExportFileWithComments"
                 ])) {
                     $this->$cmd();
                 }
         }
+    }
+
+    protected function export(
+        bool $with_comments = false
+    ): void {
+        $export = $this->exp_manager->buildHtml(
+            $this->node_id,
+            $this->owner_id,
+            $this->gui->standardRequest()->getFormat(),
+            $this->is_repository,
+            $with_comments
+        );
+        \ilFileDelivery::deliverFileLegacy(
+            $export->getFilePath(),
+            \ilObject::_lookupTitle($this->blog_id) . ".zip",
+            '',
+            false,
+            false,
+            false
+        );
+        $export->delete();
+    }
+
+    protected function exportWithComments(): void
+    {
+        $this->export(true);
     }
 
     protected function createExportFile(): void

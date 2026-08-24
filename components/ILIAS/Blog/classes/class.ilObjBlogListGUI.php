@@ -129,7 +129,6 @@ class ilObjBlogListGUI extends ilObjectListGUI
 
     public function getModalTemplate(): array
     {
-        $ctrl = $this->ctrl;
         $ui = $this->ui;
 
         $comment_export_helper = new \ILIAS\Notes\Export\ExportHelperGUI();
@@ -137,8 +136,8 @@ class ilObjBlogListGUI extends ilObjectListGUI
         $modal = $comment_export_helper->getCommentIncludeModalDialog(
             'HTML Export',
             $this->lng->txt("note_html_export_include_comments"),
-            $ctrl->getLinkTargetByClass([ilRepositoryGUI::class, ilObjBlogGUI::class], "export"),
-            $ctrl->getLinkTargetByClass([ilRepositoryGUI::class, ilObjBlogGUI::class], "exportWithComments")
+            $this->getCommandLink("export"),
+            $this->getCommandLink("exportWithComments")
         );
 
         $modalt["show"] = $modal->getShowSignal()->getId();
@@ -156,6 +155,13 @@ class ilObjBlogListGUI extends ilObjectListGUI
             $id_par = "wsp_id";
         }
         switch ($cmd) {
+            case "export":
+            case "exportWithComments":
+                $this->ctrl->setParameterByClass(ilObjBlogGUI::class, $id_par, $this->ref_id);
+                return $this->ctrl->getLinkTargetByClass(
+                    [ilObjBlogGUI::class, \ILIAS\Blog\Export\ExportGUI::class],
+                    $cmd
+                );
             case "render":
                 $this->ctrl->setParameterByClass(ilObjBlogGUI::class, $id_par, $this->ref_id);
                 return $this->ctrl->getLinkTargetByClass(
