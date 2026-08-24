@@ -24,10 +24,6 @@ use ILIAS\Blog\Settings\SettingsGUI;
 use ILIAS\Blog\Permission\PermissionManager;
 use ILIAS\Blog\InternalDomainService;
 use ILIAS\Blog\InternalGUIService;
-use ILIAS\Repository\Profile\ProfileAdapter;
-use ILIAS\Repository\Profile\ProfileGUI;
-use ILIAS\Blog\Settings\Settings;
-use ILIAS\Blog\ReadingTime\ReadingTimeManager;
 use ILIAS\Blog\Posting\PostingManager;
 use ILIAS\Blog\Contributor\ContributorGUI;
 use ILIAS\Blog\Editing\EditingGUI;
@@ -50,36 +46,19 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     protected \ILIAS\Style\Content\Service $cs;
     protected PostingManager $posting_manager;
     protected \ILIAS\Blog\Permission\BlogCmdPermission $cmd_perm;
-    protected ?Settings $blog_settings = null;
-    protected ProfileGUI $profile_gui;
-    protected ProfileAdapter $profile;
     protected PermissionManager $perm;
     protected InternalDomainService $domain;
     protected InternalGUIService $gui;
-    protected string $rendered_content = "";
-    protected \ILIAS\Notes\Service $notes;
-    protected \ILIAS\Blog\ReadingTime\BlogSettingsGUI $reading_time_gui;
-    protected ReadingTimeManager $reading_time_manager;
 
     protected StandardGUIRequest $blog_request;
     protected ilHelpGUI $help;
     protected ilTabsGUI $tabs;
     protected ilNavigationHistory $nav_history;
-    protected ilRbacAdmin $rbacadmin;
 
     protected string $month = "";
-    protected array $items = [];
-    protected string $keyword = "";
     protected ?int $author = null;
-    protected bool $month_default = false;
     protected int $blpg = 0;
-    protected int $old_nr = 0;
-    protected int $ppage = 0;
-    protected int $user_page = 0;
-    protected int $ntf = 0;
-    protected string $new_type = "";
     protected ContextServices $tool_context;
-    protected \ILIAS\DI\UIServices $ui;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
 
@@ -92,7 +71,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         // other services
         $this->cs = $DIC->contentStyle();
         $this->tool_context = $DIC->globalScreen()->tool()->context();
-        $this->notes = $DIC->notes();
 
         // internal service
         $service = $DIC->blog()->internal();
@@ -103,17 +81,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $this->settings = $domain->settings();
         $this->user = $domain->user();
         $this->tree = $domain->repositoryTree();
-        $this->rbac_review = $domain->rbac()->review();
-        $this->rbacadmin = $domain->rbac()->admin();
         $this->lng = $domain->lng();
         $this->posting_manager = $domain->posting();
 
-        $gui = $service->gui();
-        $this->gui = $gui;
         $this->help = $gui->help();
         $this->tabs = $gui->tabs();
         $this->toolbar = $gui->toolbar();
-        $this->ui = $gui->ui();
         $this->locator = $gui->locator();
 
         $this->nav_history = $DIC["ilNavigationHistory"];
@@ -123,12 +96,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
         $req = $this->blog_request;
         $this->blpg = $req->getBlogPage();
-        $this->old_nr = $req->getOldNr();
-        $this->ppage = $req->getPPage();
-        $this->user_page = $req->getUserPage();
-        $this->new_type = $req->getNewType();
         $this->month = $req->getMonth();
-        $this->keyword = $req->getKeyword();
         $this->author = $req->getAuthor();
 
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
@@ -139,7 +107,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             throw new ilException("Posting ID does not match blog.");
         }
 
-        $blog_id = 0;
         if ($this->object) {
             $this->content_style_gui = $this->cs->gui();
             if (is_object($this->object)) {
@@ -148,30 +115,23 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 } else {
                     $this->content_style_domain = $this->cs->domain()->styleForRefId($this->object->getRefId());
                 }
-                $this->blog_settings =
-                    $domain->blogSettings()->getByObjId($this->object->getId());
             }
 
             // gather postings by month
-            $this->items = $this->buildPostingList($this->object->getId());
-            if ($this->items) {
+            $items = $this->buildPostingList($this->object->getId());
+            if ($items) {
                 // current month (if none given or empty)
-                if (!$this->month || !isset($this->items[$this->month]) || $this->items[$this->month] === []) {
-                    $m = array_keys($this->items);
+                if (!$this->month || !isset($items[$this->month]) || $items[$this->month] === []) {
+                    $m = array_keys($items);
                     $this->month = array_shift($m);
-                    $this->month_default = true;
                 }
             }
 
             $this->ctrl->setParameter($this, "bmn", $this->month);
-            $blog_id = $this->object->getId();
         }
 
         $this->lng->loadLanguageModule("blog");
 
-        $this->reading_time_gui = $gui->readingTime()->settingsGUI($blog_id);
-        $this->reading_time_manager = $domain->readingTime();
-        $this->notes = $DIC->notes();
         $owner = $this->object?->getOwner() ?? 0;
         $this->perm = $domain->perm(
             $this->node_id,
@@ -179,8 +139,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $this->user->getId(),
             $owner
         );
-        $this->profile = $domain->profile();
-        $this->profile_gui = $gui->profile();
         $this->cmd_perm = $gui->cmdPerm($this->perm);
     }
 
