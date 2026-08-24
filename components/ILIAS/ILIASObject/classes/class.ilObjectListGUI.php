@@ -380,6 +380,11 @@ class ilObjectListGUI
     {
         return $this->is_expanded;
     }
+
+    protected function getExpandAltTextKey(): string
+    {
+        return 'expand';
+    }
     /**
      * @param string	$field_index e.g. '[crs][34]'
      * @param string	$position_value	e.g. '2.0'
@@ -2632,7 +2637,7 @@ class ilObjectListGUI
                 $this->tpl->setVariable('EXP_HREF', $this->ctrl->getLinkTarget($this->container_obj, 'view', $this->getUniqueItemId(true)));
                 $this->ctrl->clearParameters($this->container_obj);
                 $this->tpl->setVariable('EXP_IMG', ilUtil::getImagePath('nav/tree_col.svg'));
-                $this->tpl->setVariable('EXP_ALT', $this->lng->txt($this->type === 'sess' ? 'open_link' : 'expand'));
+                $this->tpl->setVariable('EXP_ALT', $this->lng->txt($this->getExpandAltTextKey()));
             }
 
             $this->tpl->parseCurrentBlock();
