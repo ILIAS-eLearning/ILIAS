@@ -76,7 +76,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     protected int $ppage = 0;
     protected int $user_page = 0;
     protected int $ntf = 0;
-    protected int $apid = 0;
     protected string $new_type = "";
     protected ContextServices $tool_context;
     protected \ILIAS\DI\UIServices $ui;
@@ -127,7 +126,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $this->ppage = $req->getPPage();
         $this->user_page = $req->getUserPage();
         $this->new_type = $req->getNewType();
-        $this->apid = $req->getApId();
         $this->month = $req->getMonth();
         $this->keyword = $req->getKeyword();
         $this->author = $req->getAuthor();
@@ -684,43 +682,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "preview"), "", $this->node_id);
         }
     }
-
-    public function approve(): void
-    {
-        if ($this->perm->canManage() && $this->apid > 0) {
-            $post = new ilBlogPosting($this->apid);
-            $post->setApproved(true);
-            $post->setBlogNodeId($this->node_id, ($this->id_type == self::WORKSPACE_NODE_ID));
-            $post->update(true, false, true, "new"); // #13434
-
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
-        }
-
-        $this->ctrl->redirectByClass(
-            [
-                ilObjBlogGUI::class,
-                EditingGUI::class,
-            ],
-            ""
-        );
-    }
-
-
-    public function deactivateAdmin(): void
-    {
-        if ($this->checkPermissionBool("write") && $this->apid > 0) {
-            // ilBlogPostingGUI::deactivatePage()
-            $post = new ilBlogPosting($this->apid);
-            $post->setApproved(false);
-            $post->setActive(false);
-            $post->update(true, false, false);
-
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
-        }
-
-        $this->ctrl->redirect($this, "render");
-    }
-
 
     ////
     //// Style related functions

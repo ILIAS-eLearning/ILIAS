@@ -56,10 +56,16 @@ class PostingListGUI
     ) {
         global $DIC;
         $this->notes = $DIC->notes();
-        $this->approve_cmd_path = [\ilObjBlogGUI::class];
+        $this->approve_cmd_path = [
+            \ilObjBlogGUI::class,
+            \ILIAS\Blog\Editing\EditingGUI::class
+        ];
         $this->approve_cmd_class = end($this->approve_cmd_path);
-        $this->admin_cmd_path = [\ilObjBlogGUI::class];
-        $this->admin_cmd_class = end($this->approve_cmd_path);
+        $this->admin_cmd_path = [
+            \ilObjBlogGUI::class,
+            \ILIAS\Blog\Editing\EditingGUI::class
+        ];
+        $this->admin_cmd_class = end($this->admin_cmd_path);
 
 
         $this->posting_manager = $domain->posting();

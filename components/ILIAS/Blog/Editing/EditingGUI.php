@@ -293,6 +293,51 @@ class EditingGUI
         $tpl->setRightContent($nav);
     }
 
+    public function approve(): void
+    {
+        $apid = $this->blog_request->getApId();
+        if ($this->perm->canManage() && $apid > 0) {
+            $post = new \ilBlogPosting($apid);
+            $post->setApproved(true);
+            $post->setBlogNodeId($this->node_id, $this->id_type === ilObjBlogGUI::WORKSPACE_NODE_ID);
+            $post->update(true, false, true, "new"); // #13434
+
+            $this->gui->ui()->mainTemplate()->setOnScreenMessage(
+                'success',
+                $this->domain->lng()->txt("settings_saved"),
+                true
+            );
+        }
+
+        $this->gui->ctrl()->redirectByClass(
+            [
+                ilObjBlogGUI::class,
+                self::class,
+            ],
+            ""
+        );
+    }
+
+    public function deactivateAdmin(): void
+    {
+        $apid = $this->blog_request->getApId();
+        if ($this->parent_gui->checkPermissionBool("write") && $apid > 0) {
+            // ilBlogPostingGUI::deactivatePage()
+            $post = new \ilBlogPosting($apid);
+            $post->setApproved(false);
+            $post->setActive(false);
+            $post->update(true, false, false);
+
+            $this->gui->ui()->mainTemplate()->setOnScreenMessage(
+                'success',
+                $this->domain->lng()->txt("settings_saved"),
+                true
+            );
+        }
+
+        $this->gui->ctrl()->redirect($this, "render");
+    }
+
     /**
      * Create new posting
      */

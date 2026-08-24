@@ -28,6 +28,7 @@ use ilRepositorySearchGUI;
 use ilObjNotificationSettingsGUI;
 use ILIAS\Blog\Settings\SettingsGUI;
 use ILIAS\Blog\Contributor\ContributorGUI;
+use ILIAS\Blog\Editing\EditingGUI;
 
 class BlogCmdPermission extends CmdPermission
 {
@@ -129,7 +130,7 @@ class BlogCmdPermission extends CmdPermission
 
     public function getRequestEntity(): ?CmdEntity
     {
-        if ($this->isClass(\ilObjBlogGUI::class)) {
+        if ($this->isClass(\ilObjBlogGUI::class) || $this->isClass(EditingGUI::class)) {
 
             if (in_array($this->ctrl->getCmd(), ["approve", "deactivateAdmin"])) {
                 $posting_id = $this->request->getApId();
@@ -170,6 +171,13 @@ class BlogCmdPermission extends CmdPermission
             // edit permission
             if ($to_class === \ilPermissionGUI::class) {
                 return $this->access->checkAccess("edit_permission", "", $node_id);
+            }
+
+            if ($to_class === EditingGUI::class && in_array($this->ctrl->getCmd(), [
+                "approve",
+                "deactivateAdmin"
+            ])) {
+                return $this->perm_manager->canApprove($this->request->getApId());
             }
 
             // read posting permission
