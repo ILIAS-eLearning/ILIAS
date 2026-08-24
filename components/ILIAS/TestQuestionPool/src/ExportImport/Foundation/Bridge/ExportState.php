@@ -25,16 +25,13 @@ use ILIAS\Export\ExportHandler\I\Consumer\ExportWriter\HandlerInterface as Expor
 use ILIAS\Export\ExportHandler\I\Info\Export\Path\HandlerInterface as ExportPath;
 use ILIAS\Export\ExportHandler\I\Target\HandlerInterface as ExportTarget;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\DataCollector;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ExportDependencies;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Serializer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
 use Psr\Log\LoggerInterface as Logger;
 use RuntimeException;
 
-/**
- * The ExportState is a data transfer object that contains the state of the export process. It is used to pass the
- * context between the core exporter component, the xml exporter and the exporter class steps.
- */
-class ExportState
+class ExportState implements ExportDependencies
 {
     private ExportStep $step = ExportStep::INIT;
     private ?Logger $logger = null;

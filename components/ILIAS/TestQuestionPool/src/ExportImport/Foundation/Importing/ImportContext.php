@@ -26,7 +26,7 @@ namespace ILIAS\TestQuestionPool\ExportImport\Foundation\Importing;
  */
 class ImportContext
 {
-    /** @param array<string, mixed> $data */
+    /** @param array<string, scalar|array<scalar>> $data */
     public function __construct(
         private array $data = [],
     ) {
