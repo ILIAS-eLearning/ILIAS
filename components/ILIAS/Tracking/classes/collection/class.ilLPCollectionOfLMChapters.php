@@ -18,11 +18,6 @@
 
 declare(strict_types=0);
 
-/**
- * LP collection of learning module chapters
- * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ServicesTracking
- */
 class ilLPCollectionOfLMChapters extends ilLPCollection
 {
     protected static array $possible_items = array();

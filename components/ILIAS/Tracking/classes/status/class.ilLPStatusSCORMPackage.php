@@ -16,10 +16,16 @@
  *
  *********************************************************************/
 
-declare(strict_types=0);
+declare(strict_types=1);
+
+use ILIAS\DI\Container;
 
 class ilLPStatusSCORMPackage extends ilLPStatus
 {
+    protected const string LNG_TEXT = 'trac_mode_scorm_package';
+    protected const string LNG_TEXT_INFO = 'trac_mode_scorm_package_info';
+    protected ilLanguage $lng;
+
     public static function _getInProgress(int $a_obj_id): array
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
@@ -45,32 +51,17 @@ class ilLPStatusSCORMPackage extends ilLPStatus
     {
         $status_info['subtype'] = "scorm2004";
         $info = ilSCORM2004Tracking::_getProgressInfo($a_obj_id);
-
         $status_info['completed'] = $info['completed'];
         $status_info['failed'] = $info['failed'];
         $status_info['in_progress'] = $info['in_progress'];
-
         return $status_info;
     }
 
-    /**
-     * Determine status
-     * @param int        object id
-     * @param int        user id
-     * @param object        object (optional depends on object type)
-     * @return    int        status
-     */
     public function determineStatus(
         int $a_obj_id,
         int $a_usr_id,
         ?object $a_obj = null
     ): int {
-        global $DIC;
-
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
-
         $scorm_status = ilSCORM2004Tracking::_getProgressInfoOfUser(
             $a_obj_id,
             $a_usr_id
@@ -87,31 +78,26 @@ class ilLPStatusSCORMPackage extends ilLPStatus
                 $status = self::LP_STATUS_FAILED_NUM;
                 break;
         }
-
         return $status;
     }
 
     public function refreshStatus(int $a_obj_id, ?array $a_users = null): void
     {
         parent::refreshStatus($a_obj_id, $a_users);
-
         $in_progress = ilLPStatusWrapper::_getInProgress($a_obj_id);
         $completed = ilLPStatusWrapper::_getCompleted($a_obj_id);
         $failed = ilLPStatusWrapper::_getFailed($a_obj_id);
         $all_active_users = array_unique(
             array_merge($in_progress, $completed, $failed)
         );
-
         // get all tracked users regardless of SCOs
         $all_tracked_users = ilSCORM2004Tracking::_getTrackedUsers($a_obj_id);
-
         $not_attempted_users = array_diff(
             $all_tracked_users,
             $all_active_users
         );
         unset($all_tracked_users);
         unset($all_active_users);
-
         // reset all users which have no data for the current SCOs
         if ($not_attempted_users) {
             foreach ($not_attempted_users as $usr_id) {
@@ -132,5 +118,26 @@ class ilLPStatusSCORMPackage extends ilLPStatus
         ?object $a_obj = null
     ): int {
         return 0;//todo!
+    }
+
+    public function init(
+        Container $DIC
+    ): void {
+        $this->lng = $DIC->language();
+    }
+
+    public function getLPStatusId(): string
+    {
+        return (string) ilLPObjSettings::LP_MODE_SCORM_PACKAGE;
+    }
+
+    public function getLabel(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT);
+    }
+
+    public function getInfo(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT_INFO);
     }
 }

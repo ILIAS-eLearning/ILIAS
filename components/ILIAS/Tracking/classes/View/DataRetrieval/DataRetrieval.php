@@ -21,13 +21,9 @@ declare(strict_types=0);
 namespace ILIAS\Tracking\View\DataRetrieval;
 
 use ilDateTime;
-use ilDBConstants;
 use ilDBInterface;
-use ILIAS\Tracking\View\DataRetrieval\DataRetrievalInterface;
-use ILIAS\Tracking\View\DataRetrieval\Info\ViewInterface;
-use ILIAS\Tracking\View\DataRetrieval\FilterInterface;
 use ILIAS\Tracking\View\DataRetrieval\Info\FactoryInterface as InfoFactoryInterface;
-use ilLPMarks;
+use ILIAS\Tracking\View\DataRetrieval\Info\ViewInterface;
 use ilLPObjSettings;
 use ilObject;
 use ilObjectLP;

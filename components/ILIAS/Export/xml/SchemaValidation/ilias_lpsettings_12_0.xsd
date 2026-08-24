@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        elementFormDefault="qualified">
+    <xs:element name="Tracking">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="LPCollection" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="LPStatusCollection" minOccurs="1" maxOccurs="1"/>
+            </xs:sequence>
+            <xs:attribute name="object_id" type="xs:integer"/>
+            <xs:attribute name="object_type" type="xs:string"/>
+            <xs:attribute name="u_mode" type="xs:integer"/>
+            <xs:attribute name="visits" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="LPCollection">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="LPCollectionElement" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="LPCollectionElement">
+        <xs:complexType>
+            <xs:attribute name="item_id" type="xs:integer"/>
+            <xs:attribute name="grouping_id" type="xs:integer"/>
+            <xs:attribute name="num_obligatory" type="xs:integer"/>
+            <xs:attribute name="active" type="xs:integer"/>
+            <xs:attribute name="lp_mode" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="LPStatusCollection">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="LPStatus" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="LPStatus">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:any processContents="skip" minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute name="lp_status_id" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

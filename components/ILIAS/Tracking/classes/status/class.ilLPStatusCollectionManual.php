@@ -16,19 +16,22 @@
  *
  *********************************************************************/
 
-declare(strict_types=0);
-/**
- * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @package ilias-tracking
- */
+declare(strict_types=1);
+
+use ILIAS\DI\Container;
+use ILIAS\Tracking\DB\Factory as TrackingDBFactory;
+
 class ilLPStatusCollectionManual extends ilLPStatus
 {
+    protected const string LNG_TEXT = 'trac_mode_collection_manual';
+    protected const string LNG_TEXT_INFO = 'trac_mode_collection_manual_info';
+    protected ilLanguage $lng;
+
     public static function _getInProgress(int $a_obj_id): array
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
-
         // find any completed item
-        $users = array();
+        $users = [];
         if (isset($status_info['completed'])) {
             foreach ($status_info['completed'] as $in_progress) {
                 $users = array_merge($users, $in_progress);
@@ -42,9 +45,8 @@ class ilLPStatusCollectionManual extends ilLPStatus
     public static function _getCompleted(int $a_obj_id): array
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
-
         $counter = 0;
-        $users = array();
+        $users = [];
         foreach ($status_info['items'] as $item_id) {
             $tmp_users = $status_info['completed'][$item_id];
 
@@ -59,18 +61,15 @@ class ilLPStatusCollectionManual extends ilLPStatus
 
     public static function _getStatusInfo(int $a_obj_id): array
     {
-        $status_info = array();
-
+        $status_info = [];
         $olp = ilObjectLP::getInstance($a_obj_id);
         $collection = $olp->getCollectionInstance();
         if ($collection) {
             // @todo check if obj_id can be removed
             $status_info["items"] = $collection->getItems($a_obj_id);
-
             foreach ($status_info["items"] as $item_id) {
-                $status_info["completed"][$item_id] = array();
+                $status_info["completed"][$item_id] = [];
             }
-
             $ref_ids = ilObject::_getAllReferences($a_obj_id);
             $ref_id = end($ref_ids);
             $possible_items = $collection->getPossibleItems($ref_id);
@@ -78,10 +77,8 @@ class ilLPStatusCollectionManual extends ilLPStatus
                 array_keys($possible_items),
                 $status_info["items"]
             );
-
             // fix order (adapt from possible items)
             $status_info["items"] = $chapter_ids;
-
             if ($chapter_ids) {
                 $status = self::_getObjectStatus($a_obj_id);
 
@@ -107,7 +104,6 @@ class ilLPStatusCollectionManual extends ilLPStatus
         ?object $a_obj = null
     ): int {
         $info = self::_getStatusInfo($a_obj_id);
-
         if (isset($info["completed"])) {
             $completed = true;
             $in_progress = false;
@@ -136,25 +132,13 @@ class ilLPStatusCollectionManual extends ilLPStatus
         $a_user_id = null
     ): array {
         global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $res = array();
-
-        $sql = "SELECT subitem_id, completed, usr_id, last_change" .
-            " FROM ut_lp_coll_manual" .
-            " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer");
-        if ($a_user_id) {
-            $sql .= " AND usr_id = " . $ilDB->quote($a_user_id, "integer");
-        }
-        $set = $ilDB->query($sql);
-        while ($row = $ilDB->fetchAssoc($set)) {
+        $res = [];
+        $collection = (new TrackingDBFactory($DIC->database()))->lpCollectionManual()->repository()->readEntriesOfObject($a_obj_id);
+        foreach ($collection as $entry) {
             if (!$a_user_id) {
-                $res[(int) $row["subitem_id"]][(int) $row["usr_id"]] = (int) $row["completed"];
+                $res[$entry->getSubitemId()][$entry->getUserId()] = (int) $entry->isCompleted();
             } else {
-                $res[(int) $row["subitem_id"]] = array((int) $row["completed"],
-                                                       $row["last_change"]
-                );
+                $res[$entry->getSubitemId()] = [(int) $entry->isCompleted(), $entry->getLastChanged()];
             }
         }
         return $res;
@@ -166,69 +150,60 @@ class ilLPStatusCollectionManual extends ilLPStatus
         ?array $a_completed = null
     ): void {
         global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $now = time();
-
-        if (!$a_completed) {
-            $a_completed = array();
-        }
-
+        $a_completed = is_null($a_completed) ? [] : $a_completed;
         $olp = ilObjectLP::getInstance($a_obj_id);
         $collection = $olp->getCollectionInstance();
+        $db_factory = (new TrackingDBFactory($DIC->database()))->lpCollectionManual();
         if ($collection) {
             $existing = self::_getObjectStatus($a_obj_id, $a_user_id);
-
             foreach ($collection->getItems() as $item_id) {
-                if (isset($existing[$item_id])) {
-                    // value changed
-                    if ((!$existing[$item_id][0] && in_array(
-                        $item_id,
-                        $a_completed
-                    )) ||
-                        ($existing[$item_id][0] && !in_array(
-                            $item_id,
-                            $a_completed
-                        ))) {
-                        $ilDB->manipulate(
-                            "UPDATE ut_lp_coll_manual SET " .
-                            " completed = " . $ilDB->quote(
-                                in_array($item_id, $a_completed),
-                                "integer"
-                            ) .
-                            " , last_change = " . $ilDB->quote(
-                                $now,
-                                "integer"
-                            ) .
-                            " WHERE obj_id = " . $ilDB->quote(
-                                $a_obj_id,
-                                "integer"
-                            ) .
-                            " AND usr_id = " . $ilDB->quote(
-                                $a_user_id,
-                                "integer"
-                            ) .
-                            " AND subitem_id = " . $ilDB->quote(
-                                $item_id,
-                                "integer"
-                            )
-                        );
-                    }
-                } elseif (in_array($item_id, $a_completed)) {
-                    $ilDB->manipulate(
-                        "INSERT INTO ut_lp_coll_manual" .
-                        "(obj_id,usr_id,subitem_id,completed,last_change)" .
-                        " VALUES (" . $ilDB->quote($a_obj_id, "integer") .
-                        " , " . $ilDB->quote($a_user_id, "integer") .
-                        " , " . $ilDB->quote($item_id, "integer") .
-                        " , " . $ilDB->quote(1, "integer") .
-                        " , " . $ilDB->quote($now, "integer") . ")"
-                    );
+                // value changed
+                $completed = in_array($item_id, $a_completed);
+                if (
+                    isset($existing[$item_id]) &&
+                    (!$existing[$item_id][0] && $completed) ||
+                    ($existing[$item_id][0] && !$completed)
+                ) {
+                    $entry = $db_factory->repository()->readEntryForUserOfSubitemOfObject(
+                        $a_obj_id,
+                        $a_user_id,
+                        $item_id
+                    )
+                        ->withCompletedStatus($completed)
+                        ->withLastChanged(time());
+                    $db_factory->repository()->write($entry);
+                } elseif ($completed) {
+                    $entry = $db_factory->element()->lpCollectionManualEntry()
+                        ->withObjectId($a_obj_id)
+                        ->withUserId($a_user_id)
+                        ->withSubitemId($item_id)
+                        ->withCompletedStatus($completed)
+                        ->withLastChanged(time());
+                    $db_factory->repository()->write($entry);
                 }
             }
         }
-
         ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id);
+    }
+
+    public function init(
+        Container $DIC
+    ): void {
+        $this->lng = $DIC->language();
+    }
+
+    public function getLPStatusId(): string
+    {
+        return (string) ilLPObjSettings::LP_MODE_MANUAL;
+    }
+
+    public function getLabel(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT);
+    }
+
+    public function getInfo(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT_INFO);
     }
 }

@@ -20,8 +20,6 @@ declare(strict_types=0);
 
 namespace ILIAS\Tracking\View\DataRetrieval\Info;
 
-use ILIAS\Tracking\View\DataRetrieval\Info\CombinedInterface;
-
 class Combined implements CombinedInterface
 {
     public function __construct(

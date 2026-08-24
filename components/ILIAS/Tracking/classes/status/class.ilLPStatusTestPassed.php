@@ -16,18 +16,19 @@
  *
  *********************************************************************/
 
-declare(strict_types=0);
+declare(strict_types=1);
 
+use ILIAS\DI\Container;
 use ILIAS\Test\Results\Data\Repository;
 use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\TestDIC;
 
-/**
- * @author  Stefan Meyer <meyer@leifos.com>
- * @package ilias-tracking
- */
 class ilLPStatusTestPassed extends ilLPStatus
 {
+    protected const string LNG_TEXT = 'trac_mode_test_passed';
+    protected const string LNG_TEXT_INFO = 'trac_mode_test_passed_info';
+    protected ilLanguage $lng;
+
     public static function _getInProgress(int $a_obj_id): array
     {
         $userIds = self::getUserIdsByResultArrayStatus(
@@ -58,15 +59,12 @@ class ilLPStatusTestPassed extends ilLPStatus
         $resultArrayStatus
     ) {
         $status_info = ilLPStatusWrapper::_getStatusInfo($objId);
-
-        $user_ids = array();
-
+        $user_ids = [];
         foreach ($status_info['results'] as $user_data) {
             if (isset($user_data[$resultArrayStatus]) && $user_data[$resultArrayStatus]) {
                 $user_ids[] = (int) $user_data['user_id'];
             }
         }
-
         return $user_ids;
     }
 
@@ -103,10 +101,8 @@ class ilLPStatusTestPassed extends ilLPStatus
     ): int {
         /** @var Repository $test_result_repository */
         $test_result_repository = TestDIC::dic()['results.data.repository'];
-
         $old_status = ilLPStatus::_lookupStatus($a_obj_id, $a_usr_id, false);
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
-
         $res = $this->db->query(
             "
 			SELECT tst_active.active_id, tst_active.tries, count(tst_sequence.active_fi) " . $this->db->quoteIdentifier(
@@ -129,7 +125,6 @@ class ilLPStatusTestPassed extends ilLPStatus
 			GROUP BY tst_active.active_id, tst_active.tries, is_last_pass
 		"
         );
-
         if (
             ($rec = $this->db->fetchAssoc($res))
             && $rec['sequences'] > 0
@@ -154,13 +149,13 @@ class ilLPStatusTestPassed extends ilLPStatus
                 }
             }
         }
-
-        if ($old_status !== null
-            && $old_status !== self::LP_STATUS_NOT_ATTEMPTED_NUM
-            && $status === self::LP_STATUS_IN_PROGRESS_NUM) {
+        if (
+            $old_status !== null &&
+            $old_status !== self::LP_STATUS_NOT_ATTEMPTED_NUM &&
+            $status === self::LP_STATUS_IN_PROGRESS_NUM
+        ) {
             return $old_status;
         }
-
         return $status;
     }
 
@@ -169,22 +164,18 @@ class ilLPStatusTestPassed extends ilLPStatus
         bool $passed
     ): int {
         $status = self::LP_STATUS_IN_PROGRESS_NUM;
-
         if ($is_finished) {
             $status = $this->determineLpStatus($passed);
         }
-
         return $status;
     }
 
     protected function determineLpStatus(bool $passed): int
     {
         $status = self::LP_STATUS_FAILED_NUM;
-
         if ($passed) {
             $status = self::LP_STATUS_COMPLETED_NUM;
         }
-
         return $status;
     }
 
@@ -207,17 +198,36 @@ class ilLPStatusTestPassed extends ilLPStatus
             )
         );
         $per = 0;
-        if ($rec = $this->db->fetchAssoc($set)) {
-            if ($rec["max_points"] > 0) {
-                $per = (int) min(
-                    100,
-                    100 / $rec["max_points"] * $rec["reached_points"]
-                );
-            } else {
-                // According to mantis #12305
-                $per = 0;
-            }
+        if (
+            ($rec = $this->db->fetchAssoc($set)) &&
+            $rec["max_points"] > 0
+        ) {
+            $per = (int) min(
+                100,
+                100 / $rec["max_points"] * $rec["reached_points"]
+            );
         }
-        return (int) $per;
+        return $per;
+    }
+
+    public function init(
+        Container $DIC
+    ): void {
+        $this->lng = $DIC->language();
+    }
+
+    public function getLPStatusId(): string
+    {
+        return (string) ilLPObjSettings::LP_MODE_TEST_PASSED;
+    }
+
+    public function getLabel(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT);
+    }
+
+    public function getInfo(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT_INFO);
     }
 }

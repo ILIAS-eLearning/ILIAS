@@ -18,9 +18,9 @@
 
 declare(strict_types=0);
 
-use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\Tracking\View\Factory as ViewFactory;
 use ILIAS\Tracking\View\ProgressBlock\Settings\RepositoryInterface as ProgressBlockSettings;
+use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 
 /**
  * Class ilLPListOfSettingsGUI

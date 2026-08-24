@@ -28,12 +28,12 @@ declare(strict_types=0);
  */
 class ilLPStatusWrapper
 {
-    private static array $status_cache = array();
-    private static array $info_cache = array();
-    private static array $failed_cache = array();
-    private static array $completed_cache = array();
-    private static array $in_progress_cache = array();
-    private static array $not_attempted_cache = array();
+    private static array $status_cache = [];
+    private static array $info_cache = [];
+    private static array $failed_cache = [];
+    private static array $completed_cache = [];
+    private static array $in_progress_cache = [];
+    private static array $not_attempted_cache = [];
 
     /**
      * Static function to read the number of user who have the status 'not_attempted'
@@ -76,12 +76,8 @@ class ilLPStatusWrapper
         if (isset(self::$in_progress_cache[$a_obj_id])) {
             return self::$in_progress_cache[$a_obj_id];
         }
-
-        global $DIC;
-
         $class = ilLPStatusFactory::_getClassById($a_obj_id);
         self::$in_progress_cache[$a_obj_id] = $class::_getInProgress($a_obj_id);
-
         return self::$in_progress_cache[$a_obj_id];
     }
 
@@ -103,7 +99,6 @@ class ilLPStatusWrapper
         }
         $class = ilLPStatusFactory::_getClassById($a_obj_id);
         self::$completed_cache[$a_obj_id] = $class::_getCompleted($a_obj_id);
-
         return self::$completed_cache[$a_obj_id];
     }
 
@@ -123,11 +118,8 @@ class ilLPStatusWrapper
         if (isset(self::$failed_cache[$a_obj_id])) {
             return self::$failed_cache[$a_obj_id];
         }
-
         $class = ilLPStatusFactory::_getClassById($a_obj_id);
-
         self::$failed_cache[$a_obj_id] = $class::_getFailed($a_obj_id);
-
         return self::$failed_cache[$a_obj_id];
     }
 
@@ -159,7 +151,7 @@ class ilLPStatusWrapper
      */
     public static function _getTypicalLearningTime(string $type, int $a_obj_id): int
     {
-        static $cache = array();
+        static $cache = [];
 
         if (isset($cache[$a_obj_id])) {
             return $cache[$a_obj_id];
@@ -192,7 +184,7 @@ class ilLPStatusWrapper
         int $a_obj_id,
         string $a_type
     ): array {
-        static $cache = array();
+        static $cache = [];
 
         if (isset($cache[$a_obj_id . '_' . $a_type])) {
             return $cache[$a_obj_id . '_' . $a_type];
@@ -217,7 +209,7 @@ class ilLPStatusWrapper
         int $a_obj_id,
         string $a_type
     ): array {
-        static $cache = array();
+        static $cache = [];
 
         if (isset($cache[$a_obj_id . '_' . $a_type])) {
             return $cache[$a_obj_id . '_' . $a_type];
@@ -242,7 +234,7 @@ class ilLPStatusWrapper
         int $a_obj_id,
         string $a_type
     ): array {
-        static $cache = array();
+        static $cache = [];
 
         if (isset($cache[$a_obj_id . '_' . $a_type])) {
             return $cache[$a_obj_id . '_' . $a_type];
@@ -265,7 +257,7 @@ class ilLPStatusWrapper
         int $a_obj_id,
         string $a_type
     ): array {
-        static $cache = array();
+        static $cache = [];
 
         if (isset($cache[$a_obj_id . '_' . $a_type])) {
             return $cache[$a_obj_id . '_' . $a_type];
@@ -281,7 +273,7 @@ class ilLPStatusWrapper
         int $a_obj_id,
         string $a_type
     ): array {
-        static $cache = array();
+        static $cache = [];
 
         if (isset($cache[$a_obj_id . '_' . $a_type])) {
             return $cache[$a_obj_id . '_' . $a_type];

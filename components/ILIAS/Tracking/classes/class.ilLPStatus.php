@@ -16,7 +16,10 @@
  *
  *********************************************************************/
 
-declare(strict_types=0);
+declare(strict_types=1);
+
+use ILIAS\Tracking\Factory as TrackingFactory;
+use ILIAS\Tracking\Status\LPStatusInterface;
 
 /**
  * Abstract class ilLPStatus for all learning progress modes
@@ -25,108 +28,110 @@ declare(strict_types=0);
  * @version $Id$
  * @ingroup ServicesTracking
  */
-class ilLPStatus
+class ilLPStatus implements LPStatusInterface
 {
-    protected int $obj_id;
+    public const string LP_STATUS_NOT_ATTEMPTED = 'trac_no_attempted';
+    public const string LP_STATUS_IN_PROGRESS = 'trac_in_progress';
+    public const string LP_STATUS_COMPLETED = 'trac_completed';
+    public const string LP_STATUS_FAILED = 'trac_failed';
+    public const int LP_STATUS_NOT_ATTEMPTED_NUM = 0;
+    public const int LP_STATUS_IN_PROGRESS_NUM = 1;
+    public const int LP_STATUS_COMPLETED_NUM = 2;
+    public const int LP_STATUS_FAILED_NUM = 3;
+    public const string LP_STATUS_REGISTERED = 'trac_registered';
+    public const string LP_STATUS_NOT_REGISTERED = 'trac_not_registered';
+    public const string LP_ut_lp_markSTATUS_PARTICIPATED = 'trac_participated';
+    public const string LP_STATUS_NOT_PARTICIPATED = 'trac_not_participated';
 
+    public static array $list_gui_cache;
+
+    protected int $obj_id;
     protected ilDBInterface $db;
     protected ilObjectDataCache $ilObjDataCache;
-
-    public static $list_gui_cache;
-
-    public const LP_STATUS_NOT_ATTEMPTED = 'trac_no_attempted';
-    public const LP_STATUS_IN_PROGRESS = 'trac_in_progress';
-    public const LP_STATUS_COMPLETED = 'trac_completed';
-    public const LP_STATUS_FAILED = 'trac_failed';
-
-    public const LP_STATUS_NOT_ATTEMPTED_NUM = 0;
-    public const LP_STATUS_IN_PROGRESS_NUM = 1;
-    public const LP_STATUS_COMPLETED_NUM = 2;
-    public const LP_STATUS_FAILED_NUM = 3;
-
-    public const LP_STATUS_REGISTERED = 'trac_registered';
-    public const LP_STATUS_NOT_REGISTERED = 'trac_not_registered';
-    public const LP_STATUS_PARTICIPATED = 'trac_participated';
-    public const LP_STATUS_NOT_PARTICIPATED = 'trac_not_participated';
 
     public function __construct(int $a_obj_id)
     {
         global $DIC;
-
         $this->obj_id = $a_obj_id;
         $this->db = $DIC->database();
         $this->ilObjDataCache = $DIC['ilObjDataCache'];
     }
 
-    public static function _getCountNotAttempted(int $a_obj_id): int
-    {
+    public static function _getCountNotAttempted(
+        int $a_obj_id
+    ): int {
         return 0;
     }
 
     /**
-     * @param int $a_obj_id
      * @return int[]
      */
-    public static function _getNotAttempted(int $a_obj_id): array
-    {
-        return array();
+    public static function _getNotAttempted(
+        int $a_obj_id
+    ): array {
+        return [];
     }
 
-    public static function _getCountInProgress(int $a_obj_id): int
-    {
+    public static function _getCountInProgress(
+        int $a_obj_id
+    ): int {
         return 0;
     }
 
-    public static function _getInProgress(int $a_obj_id): array
-    {
-        return array();
+    public static function _getInProgress(
+        int $a_obj_id
+    ): array {
+        return [];
     }
 
-    public static function _getCountCompleted(int $a_obj_id): int
-    {
+    public static function _getCountCompleted(
+        int $a_obj_id
+    ): int {
         return 0;
     }
 
     /**
-     * @param int $a_obj_id
      * @return int[]
      */
-    public static function _getCompleted(int $a_obj_id): array
-    {
-        return array();
+    public static function _getCompleted(
+        int $a_obj_id
+    ): array {
+        return [];
     }
 
     /**
-     * @param int $a_obj_id
      * @return int[]
      */
-    public static function _getFailed(int $a_obj_id): array
-    {
-        return array();
+    public static function _getFailed(
+        int $a_obj_id
+    ): array {
+        return [];
     }
 
-    public static function _getCountFailed(int $a_obj_id): int
-    {
+    public static function _getCountFailed(
+        int $a_obj_id
+    ): int {
         return 0;
     }
 
-    public static function _getStatusInfo(int $a_obj_id): array
-    {
-        return array();
+    public static function _getStatusInfo(
+        int $a_obj_id
+    ): array {
+        return [];
     }
 
-    public static function _getTypicalLearningTime(string $type, int $obj_id, int $sub_id = 0): int
-    {
+    public static function _getTypicalLearningTime(
+        string $type,
+        int $obj_id,
+        int $sub_id = 0
+    ): int {
         global $DIC;
-
         $lom_services = $DIC->learningObjectMetadata();
         $paths = $lom_services->paths();
         $data_helper = $lom_services->dataHelper();
-
         $value = $lom_services->read($obj_id, $sub_id, $type, $paths->firstTypicalLearningTime())
                               ->firstData($paths->firstTypicalLearningTime())
                               ->value();
-
         return $data_helper->durationToSeconds($value);
     }
 
@@ -235,7 +240,6 @@ class ilLPStatus
                 (is_object($a_obj) ? get_class($a_obj) : 'null')
             )
         );
-
         $status = $this->determineStatus($a_obj_id, $a_usr_id, $a_obj);
         $percentage = $this->determinePercentage($a_obj_id, $a_usr_id, $a_obj);
         $old_status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
@@ -247,7 +251,6 @@ class ilLPStatus
             false,
             $old_status
         );
-
         // ak: I don't think that this is a good way to fix 15529, we should not
         // raise the event, if the status does not change imo.
         // for now the changes in the next line just prevent the event being raised twice
@@ -288,41 +291,25 @@ class ilLPStatus
         int $a_obj_id,
         ?array $a_users = null
     ): void {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         //@todo: there maybe the need to add extra handling for sessions here, since the
         // "in progress" status is time dependent here. On the other hand, if they registered
         // to the session, they already accessed the course and should have a "in progress"
         // anyway. But the status on the session itself may not be correct.
-
-        $sql = "SELECT usr_id FROM ut_lp_marks WHERE " .
-            " obj_id = " . $ilDB->quote($a_obj_id, "integer") . " AND " .
-            " status_dirty = " . $ilDB->quote(1, "integer");
-        if (is_array($a_users) && count($a_users) > 0) {
-            $sql .= " AND " . $ilDB->in("usr_id", $a_users, false, "integer");
+        $valid_user_array = is_array($a_users) && count($a_users) > 0;
+        $db_repository = (new TrackingFactory())->db()->lpMarks()->repository();
+        $collection = $db_repository->readAllEntriesOfObject(
+            $a_obj_id,
+        )->getSubCollectionOfElementsByStatusDirty(1);
+        if ($valid_user_array) {
+            $collection = $collection->getSubCollectionOfElementsByUserIds(...$a_users);
         }
-        $set = $ilDB->query($sql);
-        $dirty = false;
-        if ($rec = $ilDB->fetchAssoc($set)) {
-            $dirty = true;
-        }
-
+        $dirty = count($collection) > 0;
         // check if any records are missing
         $missing = false;
-        if (!$dirty && is_array($a_users) && count($a_users) > 0) {
-            $set = $ilDB->query(
-                "SELECT count(usr_id) cnt FROM ut_lp_marks WHERE " .
-                " obj_id = " . $ilDB->quote($a_obj_id, "integer") . " AND " .
-                $ilDB->in("usr_id", $a_users, false, "integer")
-            );
-            $r = $ilDB->fetchAssoc($set);
-            if ($r["cnt"] < count($a_users)) {
-                $missing = true;
-            }
+        if (!$dirty && $valid_user_array) {
+            $collection = $db_repository->readAllEntriesOfObject($a_obj_id)->getSubCollectionOfElementsByUserIds(...$a_users);
+            $missing = count($collection) < count($a_users);
         }
-
         // refresh status, if records are dirty or missing
         if ($dirty || $missing) {
             $trac_obj = ilLPStatusFactory::_getInstance($a_obj_id);
@@ -442,81 +429,51 @@ class ilLPStatus
         ?int &$a_old_status = self::LP_STATUS_NOT_ATTEMPTED_NUM
     ): bool {
         global $DIC;
-
         $ilDB = $DIC->database();
         $log = $DIC->logger()->trac();
-
         $log->debug(
             'Write status for:  ' . "obj_id: " . $a_obj_id . ", user id: " . $a_user_id . ", status: " . $a_status . ", percentage: " . $a_percentage . ", force: " . $a_force_per
         );
         $update_dependencies = false;
-
-        $a_old_status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
-
-        // get status in DB
-        $set = $ilDB->query(
-            "SELECT usr_id,status,status_dirty FROM ut_lp_marks WHERE " .
-            " obj_id = " . $ilDB->quote($a_obj_id, "integer") . " AND " .
-            " usr_id = " . $ilDB->quote($a_user_id, "integer")
-        );
-        $rec = $ilDB->fetchAssoc($set);
-
-        // update
-        if ($rec) {
-            $a_old_status = $rec["status"];
-
-            // status has changed: update
-            if ($rec["status"] != $a_status) {
-                $ret = $ilDB->manipulate(
-                    "UPDATE ut_lp_marks SET " .
-                    " status = " . $ilDB->quote($a_status, "integer") . "," .
-                    " status_changed = " . $ilDB->now() . "," .
-                    " status_dirty = " . $ilDB->quote(0, "integer") .
-                    " WHERE usr_id = " . $ilDB->quote($a_user_id, "integer") .
-                    " AND obj_id = " . $ilDB->quote($a_obj_id, "integer")
-                );
-                if ($ret != 0) {
-                    $update_dependencies = true;
-                }
-            } // status has not changed: reset dirty flag
-            elseif ($rec["status_dirty"]) {
-                $ilDB->manipulate(
-                    "UPDATE ut_lp_marks SET " .
-                    " status_dirty = " . $ilDB->quote(0, "integer") .
-                    " WHERE usr_id = " . $ilDB->quote($a_user_id, "integer") .
-                    " AND obj_id = " . $ilDB->quote($a_obj_id, "integer")
-                );
-            }
-        } // insert
-        else {
-            // #13783
-            $ilDB->replace(
-                "ut_lp_marks",
-                array(
-                    "obj_id" => array("integer", $a_obj_id),
-                    "usr_id" => array("integer", $a_user_id)
-                ),
-                array(
-                    "status" => array("integer", $a_status),
-                    "status_changed" => array("timestamp", date("Y-m-d H:i:s")),
-                    // was $ilDB->now()
-                    "status_dirty" => array("integer", 0)
-                )
-            );
-
-            $update_dependencies = true;
+        $db_repository = (new TrackingFactory())->db()->lpMarks()->repository();
+        $db_element_factory = (new TrackingFactory())->db()->lpMarks()->element();
+        $lp_mark_old = $db_repository->readEntryForUserOfObject($a_obj_id, $a_user_id);
+        $lp_mark_new = $db_element_factory->lpMark()
+            ->withStatus($a_status)
+            ->withUserId($a_user_id)
+            ->withObjectId($a_obj_id)
+            ->withStatusDirty(0);
+        $a_old_status = is_null($lp_mark_old) ? self::LP_STATUS_NOT_ATTEMPTED_NUM : $lp_mark_old->getStatus();
+        if (
+            is_null($lp_mark_old) ||
+            $lp_mark_old->getStatus() != $a_status
+        ) {
+            $lp_mark_new = $lp_mark_new
+                ->withStatusChanged(date("Y-m-d H:i:s"));
         }
-
-        // update percentage
-        if ($a_percentage || $a_force_per) {
+        if (
+            !is_null($lp_mark_old) &&
+            $lp_mark_old->getStatus() === $a_status
+        ) {
+            $lp_mark_new = $lp_mark_new
+                ->withStatusChanged($lp_mark_old->getStatusChanged());
+        }
+        if (
+            $a_percentage ||
+            $a_force_per
+        ) {
             $a_percentage = max(0, $a_percentage);
             $a_percentage = min(100, $a_percentage);
-            $ret = $ilDB->manipulate(
-                "UPDATE ut_lp_marks SET " .
-                " percentage = " . $ilDB->quote($a_percentage, "integer") .
-                " WHERE usr_id = " . $ilDB->quote($a_user_id, "integer") .
-                " AND obj_id = " . $ilDB->quote($a_obj_id, "integer")
-            );
+            $lp_mark_new = $lp_mark_new
+                ->withPercentage($a_percentage);
+        }
+        // update dependencies if new entry or the status has changed and rows are affected
+        $affected_rows_count = $db_repository->write($lp_mark_new);
+        if (
+            is_null($lp_mark_old) ||
+            ($affected_rows_count > 0 && $lp_mark_old->getStatus() != $a_status)
+        ) {
+            $update_dependencies = true;
         }
 
         $log->debug(
@@ -542,7 +499,7 @@ class ilLPStatus
             while ($rec = $ilDB->fetchAssoc($set)) {
                 if (in_array(
                     ilObject::_lookupType($rec["obj_id"]),
-                    array("crs", "grp", "fold")
+                    ["crs", "grp", "fold"]
                 )) {
                     $log->debug(
                         'Calling update status for collection obj_id: ' . $rec['obj_id']
@@ -605,29 +562,8 @@ class ilLPStatus
         int $a_obj_id,
         int $a_user_id
     ): void {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        // #11513
-
-        $needs_update = false;
-
-        $set = $ilDB->query(
-            "SELECT usr_id, status FROM ut_lp_marks WHERE " .
-            " obj_id = " . $ilDB->quote($a_obj_id, "integer") . " AND " .
-            " usr_id = " . $ilDB->quote($a_user_id, "integer")
-        );
-        if ($rec = $ilDB->fetchAssoc($set)) {
-            // current status is not attempted, so we need to update
-            if ($rec["status"] == self::LP_STATUS_NOT_ATTEMPTED_NUM) {
-                $needs_update = true;
-            }
-        } else {
-            // no ut_lp_marks yet, we should update
-            $needs_update = true;
-        }
-
+        $lp_mark = (new TrackingFactory())->db()->lpMarks()->repository()->readEntryForUserOfObject($a_obj_id, $a_user_id);
+        $needs_update = is_null($lp_mark) || $lp_mark->getStatus() === self::LP_STATUS_NOT_ATTEMPTED_NUM;
         if ($needs_update) {
             ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id);
         }
@@ -638,14 +574,7 @@ class ilLPStatus
      */
     public static function setAllDirty(): void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $ilDB->manipulate(
-            "UPDATE ut_lp_marks SET " .
-            " status_dirty = " . $ilDB->quote(1, "integer")
-        );
+        (new TrackingFactory())->db()->lpMarks()->repository()->markAllRowsAsDirty();
     }
 
     /**
@@ -653,15 +582,10 @@ class ilLPStatus
      */
     public static function setDirty(int $a_obj_id): void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $ilDB->manipulate(
-            "UPDATE ut_lp_marks SET " .
-            " status_dirty = " . $ilDB->quote(1, "integer") .
-            " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer")
-        );
+        $db_repository = (new TrackingFactory())->db()->lpMarks()->repository();
+        $collection = $db_repository->readAllEntriesOfObject($a_obj_id);
+        $collection = $collection->withChangedStatusDirtyOfAllElements(1);
+        $db_repository->writeCollection($collection);
     }
 
     /**
@@ -672,28 +596,22 @@ class ilLPStatus
         int $a_user_id,
         bool $a_create = true
     ): ?int {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $set = $ilDB->query(
-            "SELECT status FROM ut_lp_marks WHERE " .
-            " status_dirty = " . $ilDB->quote(0, "integer") .
-            " AND usr_id = " . $ilDB->quote($a_user_id, "integer") .
-            " AND obj_id = " . $ilDB->quote($a_obj_id, "integer")
-        );
-        if ($rec = $ilDB->fetchAssoc($set)) {
-            return (int) $rec["status"];
-        } elseif ($a_create) {
+        $db_repository = (new TrackingFactory())->db()->lpMarks()->repository();
+        $lp_mark = $db_repository->readEntryForUserOfObject($a_obj_id, $a_user_id);
+        if (
+            !is_null($lp_mark) &&
+            $lp_mark->getStatusDirty() === 0
+        ) {
+            return $lp_mark->getStatus();
+        }
+        if ($a_create) {
             ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id);
-            $set = $ilDB->query(
-                "SELECT status FROM ut_lp_marks WHERE " .
-                " status_dirty = " . $ilDB->quote(0, "integer") .
-                " AND usr_id = " . $ilDB->quote($a_user_id, "integer") .
-                " AND obj_id = " . $ilDB->quote($a_obj_id, "integer")
-            );
-            if ($rec = $ilDB->fetchAssoc($set)) {
-                return (int) $rec["status"];
+            $lp_mark = $db_repository->readEntryForUserOfObject($a_obj_id, $a_user_id);
+            if (
+                !is_null($lp_mark) &&
+                $lp_mark->getStatusDirty() === 0
+            ) {
+                return $lp_mark->getStatus();
             }
         }
         return null;
@@ -706,18 +624,10 @@ class ilLPStatus
         int $a_obj_id,
         int $a_user_id
     ): ?int {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $set = $ilDB->query(
-            "SELECT percentage FROM ut_lp_marks WHERE " .
-            " status_dirty = " . $ilDB->quote(0, "integer") .
-            " AND usr_id = " . $ilDB->quote($a_user_id, "integer") .
-            " AND obj_id = " . $ilDB->quote($a_obj_id, "integer")
-        );
-        if ($rec = $ilDB->fetchAssoc($set)) {
-            return $rec["percentage"];
+        $db_repository = (new TrackingFactory())->db()->lpMarks()->repository();
+        $lp_mark = $db_repository->readEntryForUserOfObject($a_obj_id, $a_user_id);
+        if (!is_null($lp_mark) && $lp_mark->getStatusDirty() === 0) {
+            return $lp_mark->getPercentage();
         }
         return null;
     }
@@ -742,29 +652,15 @@ class ilLPStatus
         int $a_obj_id,
         int $a_user_id
     ): ?string {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $set = $ilDB->query(
-            "SELECT status_changed FROM ut_lp_marks WHERE " .
-            " status_dirty = " . $ilDB->quote(0, "integer") .
-            " AND usr_id = " . $ilDB->quote($a_user_id, "integer") .
-            " AND obj_id = " . $ilDB->quote($a_obj_id, "integer")
-        );
-        if ($rec = $ilDB->fetchAssoc($set)) {
-            return (string) $rec["status_changed"];
-        } else {
-            ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id);
-            $set = $ilDB->query(
-                "SELECT status_changed FROM ut_lp_marks WHERE " .
-                " status_dirty = " . $ilDB->quote(0, "integer") .
-                " AND usr_id = " . $ilDB->quote($a_user_id, "integer") .
-                " AND obj_id = " . $ilDB->quote($a_obj_id, "integer")
-            );
-            if ($rec = $ilDB->fetchAssoc($set)) {
-                return (string) $rec["status_changed"];
-            }
+        $db_repository = (new TrackingFactory())->db()->lpMarks()->repository();
+        $lp_mark = $db_repository->readEntryForUserOfObject($a_obj_id, $a_user_id);
+        if (!is_null($lp_mark) && $lp_mark->getStatusDirty() === 0) {
+            return $lp_mark->getStatusChanged();
+        }
+        ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id);
+        $lp_mark = $db_repository->readEntryForUserOfObject($a_obj_id, $a_user_id);
+        if (!is_null($lp_mark) && $lp_mark->getStatusDirty() === 0) {
+            return $lp_mark->getStatusChanged();
         }
         return null;
     }
@@ -777,36 +673,23 @@ class ilLPStatus
         int $a_status,
         ?array $a_user_ids = null
     ): array {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $sql = "SELECT usr_id, status, status_dirty FROM ut_lp_marks" .
-            " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .
-            " AND status = " . $ilDB->quote($a_status, "integer");
-        if ($a_user_ids) {
-            $sql .= " AND " . $ilDB->in("usr_id", $a_user_ids, "", "integer");
+        $db_repository = (new TrackingFactory())->db()->lpMarks()->repository();
+        $collection = $db_repository->readAllEntriesWithStatusOfObject($a_obj_id, $a_status);
+        if (!is_null($a_user_ids) && count($a_user_ids) > 0) {
+            $collection = $collection->getSubCollectionOfElementsByUserIds(...$a_user_ids);
         }
-
-        $set = $ilDB->query($sql);
-        $res = array();
-        while ($rec = $ilDB->fetchAssoc($set)) {
+        foreach ($collection as $lp_mark) {
             // @fixme this was broken due to wrong $res['status_dirty'] access
             // check how to update status without recursion
             // check consequences of the old implementation
-            if ($rec["status_dirty"]) {
+            if ($lp_mark->getStatusDirty()) {
                 // update status and check again
-                if (self::_lookupStatus(
-                    $a_obj_id,
-                    $rec["usr_id"]
-                ) != $a_status) {
+                if (self::_lookupStatus($a_obj_id, $lp_mark->getUserId()) != $a_status) {
                     // update status: see comment
                 }
             }
-            $res[] = (int) $rec["usr_id"];
         }
-
-        return $res;
+        return $collection->asUserIdArray();
     }
 
     /**
@@ -859,8 +742,7 @@ class ilLPStatus
         array $a_obj_ids,
         int $a_parent_ref_id
     ): array {
-        $lp_invalid = array();
-
+        $lp_invalid = [];
         $memberships = ilObjectLP::getLPMemberships(
             $a_user_id,
             $a_obj_ids,
@@ -875,18 +757,16 @@ class ilLPStatus
         return array_diff($a_obj_ids, $lp_invalid);
     }
 
-    /**
+    /**implements
      * Process lp modes for given objects
      */
     protected static function checkLPModesForObjects(
         array $a_obj_ids,
         array &$a_coll_obj_ids
     ): array {
-        $valid = array();
-
+        $valid = [];
         // all lp modes with collections (gathered separately)
         $coll_modes = ilLPCollection::getCollectionModes();
-
         // check if objects have LP activated at all (DB entries)
         $existing = ilLPObjSettings::_lookupDBModeForObjects($a_obj_ids);
         foreach ($existing as $obj_id => $obj_mode) {
@@ -928,26 +808,18 @@ class ilLPStatus
         int $a_user_id,
         array $a_obj_ids
     ): array {
-        global $DIC;
+        $collection = (new TrackingFactory())->db()->lpMarks()->repository()->readEntriesForUserOfObjects(
+            $a_user_id,
+            ...$a_obj_ids
+        );
 
-        $ilDB = $DIC['ilDB'];
-
-        $res = array();
-
-        // get user lp data
-        $sql = "SELECT status, status_dirty, obj_id FROM ut_lp_marks" .
-            " WHERE " . $ilDB->in("obj_id", $a_obj_ids, "", "integer") .
-            " AND usr_id = " . $ilDB->quote($a_user_id, "integer");
-        $set = $ilDB->query($sql);
-        while ($row = $ilDB->fetchAssoc($set)) {
-            if (!$row["status_dirty"]) {
-                $res[$row["obj_id"]] = $row["status"];
-            } else {
-                $res[$row["obj_id"]] = self::_lookupStatus(
-                    $row["obj_id"],
-                    $a_user_id
-                );
+        $res = [];
+        foreach ($collection as $lp_mark) {
+            if (!$lp_mark->getStatusDirty()) {
+                $res[$lp_mark->getObjectId()] = $lp_mark->getStatus();
+                continue;
             }
+            $res[$lp_mark->getObjectId()] = self::_lookupStatus($lp_mark->getObjectId(), $lp_mark->getUserId());
         }
 
         // process missing user entries (same as dirty entries, see above)
@@ -959,14 +831,12 @@ class ilLPStatus
                 }
             }
         }
-
         return $res;
     }
 
     public static function preloadListGUIData(array $a_obj_ids): void
     {
         global $DIC;
-
         $requested_ref_id = 0;
         if ($DIC->http()->wrapper()->query()->has('ref_id')) {
             $requested_ref_id = $DIC->http()->wrapper()->query()->retrieve(
@@ -974,35 +844,27 @@ class ilLPStatus
                 $DIC->refinery()->kindlyTo()->int()
             );
         }
-
         $ilUser = $DIC['ilUser'];
         $lng = $DIC['lng'];
-
         $user_id = $ilUser->getId();
-        $res = array();
+        $res = [];
         if ($ilUser->getId() != ANONYMOUS_USER_ID &&
             ilObjUserTracking::_enabledLearningProgress() &&
             ilObjUserTracking::_hasLearningProgressLearner() && // #12042
             ilObjUserTracking::_hasLearningProgressListGUI()) {
             // -- validate
-
             // :TODO: we need the parent ref id, but this is awful
             // this step removes all "not attempted" from the list, which we usually do not want
-            //$a_obj_ids = self::validateLPForObjects($user_id, $a_obj_ids, $requested_ref_id);
-
+            // $a_obj_ids = self::validateLPForObjects($user_id, $a_obj_ids, $requested_ref_id);
             // we are not handling the collections differently yet
-            $coll_obj_ids = array();
+            $coll_obj_ids = [];
             $a_obj_ids = self::checkLPModesForObjects(
                 $a_obj_ids,
                 $coll_obj_ids
             );
-
             // -- gather
-
             $res = self::getLPStatusForObjects($user_id, $a_obj_ids);
-
             // -- render
-
             // value to icon
             $lng->loadLanguageModule("trac");
             $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
@@ -1013,33 +875,63 @@ class ilLPStatus
                 ];
             }
         }
-
         self::$list_gui_cache = $res;
     }
 
-    /**
-     * @return string|array
-     */
     public static function getListGUIStatus(
         int $a_obj_id,
         bool $a_image_only = true
-    ) {
+    ): string|array {
         if ($a_image_only) {
             $image = '';
             if (isset(self::$list_gui_cache[$a_obj_id]["image"])) {
                 $image = self::$list_gui_cache[$a_obj_id]["image"];
             }
-
             return $image;
         }
         return self::$list_gui_cache[$a_obj_id] ?? "";
     }
 
-    public static function hasListGUIStatus(int $a_obj_id): bool
-    {
+    public static function hasListGUIStatus(
+        int $a_obj_id
+    ): bool {
         if (isset(self::$list_gui_cache[$a_obj_id])) {
             return true;
         }
         return false;
+    }
+
+    public function init(\ILIAS\DI\Container $DIC): void
+    {
+        // TODO: Implement init() method.
+    }
+
+    public function getCustomLPSettingsExportXML(
+        int $object_id
+    ): SimpleXMLElement {
+        return new SimpleXMLElement('<EmptyLPStatus></EmptyLPStatus>');
+    }
+
+    public function importCustomLPSettingsExportXML(
+        int $new_object_id,
+        ilImportMapping $a_mapping,
+        SimpleXMLElement $additional_xml_root
+    ): void {
+        # Default implementation does nothing
+    }
+
+    public function getLPStatusId(): string
+    {
+        return (string) ilLPObjSettings::LP_MODE_UNDEFINED;
+    }
+
+    public function getLabel(): string
+    {
+        return '';
+    }
+
+    public function getInfo(): string
+    {
+        return '';
     }
 }

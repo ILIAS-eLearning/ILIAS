@@ -20,10 +20,8 @@ declare(strict_types=0);
 
 namespace ILIAS\Tracking\View\Renderer;
 
-use ILIAS\Tracking\View\Renderer\FactoryInterface as RendererFactoryInterface;
-use ILIAS\Tracking\View\Renderer\RendererInterface;
-use ILIAS\Tracking\View\Renderer\Renderer;
 use ILIAS\DI\UIServices;
+use ILIAS\Tracking\View\Renderer\FactoryInterface as RendererFactoryInterface;
 
 class Factory implements RendererFactoryInterface
 {

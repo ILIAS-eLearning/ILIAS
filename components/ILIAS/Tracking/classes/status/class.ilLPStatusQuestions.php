@@ -16,33 +16,29 @@
  *
  *********************************************************************/
 
-declare(strict_types=0);
-/**
- * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id: class.ilLPStatusCollectionManual.php 40252 2013-03-01 12:21:49Z jluetzen $
- * @package ilias-tracking
- */
+declare(strict_types=1);
+
+use ILIAS\DI\Container;
+
 class ilLPStatusQuestions extends ilLPStatus
 {
+    protected const string LNG_TEXT = 'trac_mode_questions';
+    protected const string LNG_TEXT_INFO = 'trac_mode_questions_info';
+    protected ilLanguage $lng;
+
     public static function _getInProgress(int $a_obj_id): array
     {
-        $users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
-
         // Exclude all users with status completed.
-        $users = array_diff(
-            $users,
+        return array_diff(
+            ilChangeEvent::lookupUsersInProgress($a_obj_id),
             ilLPStatusWrapper::_getCompleted($a_obj_id)
         );
-
-        return $users;
     }
 
     public static function _getCompleted(int $a_obj_id): array
     {
-        $usr_ids = array();
-
+        $usr_ids = [];
         $users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
-
         foreach ($users as $user_id) {
             // :TODO: this ought to be optimized
             $tracker = ilLMTracker::getInstanceByObjId($a_obj_id, $user_id);
@@ -50,7 +46,6 @@ class ilLPStatusQuestions extends ilLPStatus
                 $usr_ids[] = $user_id;
             }
         }
-
         return $usr_ids;
     }
 
@@ -60,16 +55,34 @@ class ilLPStatusQuestions extends ilLPStatus
         ?object $a_obj = null
     ): int {
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
-
         if (ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)) {
             $status = self::LP_STATUS_IN_PROGRESS_NUM;
-
             $tracker = ilLMTracker::getInstanceByObjId($a_obj_id, $a_usr_id);
             if ($tracker->getAllQuestionsCorrect()) {
                 $status = self::LP_STATUS_COMPLETED_NUM;
             }
         }
-
         return $status;
+    }
+
+    public function init(
+        Container $DIC
+    ): void {
+        $this->lng = $DIC->language();
+    }
+
+    public function getLPStatusId(): string
+    {
+        return (string) ilLPObjSettings::LP_MODE_QUESTIONS;
+    }
+
+    public function getLabel(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT);
+    }
+
+    public function getInfo(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT_INFO);
     }
 }
