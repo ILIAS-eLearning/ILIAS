@@ -21,10 +21,10 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Prompt\State;
 
 use ILIAS\UI\Component\Button\Button;
-use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\UI\Component\Listing\Entity\Entity as EntityListing;
 use ILIAS\UI\Component\MessageBox\MessageBox;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\UI\Implementation\Component\Prompt\IsPromptContentInternal;
 
 class Confirmation implements IsPromptContentInternal
@@ -34,7 +34,7 @@ class Confirmation implements IsPromptContentInternal
     public function __construct(
         private readonly MessageBox $message_box,
         private readonly EntityListing $entity_listing,
-        private readonly Form $form,
+        private readonly StandardForm $form,
         private readonly string $title,
     ) {
     }
@@ -49,7 +49,7 @@ class Confirmation implements IsPromptContentInternal
         return $this->entity_listing;
     }
 
-    public function getForm(): Form
+    public function getForm(): StandardForm
     {
         return $this->form;
     }

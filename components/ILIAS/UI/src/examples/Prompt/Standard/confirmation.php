@@ -31,11 +31,12 @@ use ILIAS\UI\Component\Entity\EntityRetrieval;
  * ---
  * description: >
  *   A confirmation prompt for deleting or changing multiple entities.
- *   The UI framework composes message box, entity listing and hidden form fields.
+ *   The UI framework composes message box, entity listing and a Standard Form
+ *   with Kitchen Sink Hidden Inputs.
  *
  * expected output: >
  *   A button opens a prompt listing selected entities with a confirmation question.
- *   Submitting posts the entity ids; the result is shown in the prompt.
+ *   Submitting posts the entity ids via the Standard Form (POST body); the result is shown in the prompt.
  *   The prompt can be closed.
  * ---
  */
@@ -87,7 +88,13 @@ function confirmation(): string
     if ($http->request()->getMethod() === 'POST' && $query->has($process_token->getName())) {
         $process = $query->retrieve($process_token->getName(), $refinery->kindlyTo()->string());
         if ($process !== '') {
-            $entity_ids = retrieveEntityIds($query, $entities_token->getName(), $refinery) ?? [];
+            $entity_ids = retrievePostedEntityIds(
+                $factory,
+                $http->request(),
+                $entities_token->getName(),
+                $demo_entity_ids,
+                $refinery,
+            );
             $message = $factory->messageBox()->success(
                 'Submitted entity ids: ' . implode(', ', array_map('strval', $entity_ids))
             );
@@ -116,15 +123,15 @@ function confirmation(): string
  * @return array<int>|null
  */
 function retrieveEntityIds(
-    \ILIAS\HTTP\Wrapper\RequestWrapper $query,
+    \ILIAS\HTTP\Wrapper\RequestWrapper $wrapper,
     string $parameter_name,
     \ILIAS\Refinery\Factory $refinery,
 ): ?array {
-    if (!$query->has($parameter_name)) {
+    if (!$wrapper->has($parameter_name)) {
         return null;
     }
 
-    $raw = $query->retrieve(
+    $raw = $wrapper->retrieve(
         $parameter_name,
         $refinery->custom()->transformation(static fn(mixed $value): mixed => $value)
     );
@@ -140,6 +147,46 @@ function retrieveEntityIds(
 
     if ($raw === []) {
         return null;
+    }
+
+    return $refinery->kindlyTo()->listOf($refinery->kindlyTo()->int())->transform($raw);
+}
+
+/**
+ * Rebuild the same Standard Form shape as confirm() (group of Hidden Inputs),
+ * then read posted ids via withRequest/getData.
+ *
+ * @param array<int|string> $ids_for_form_shape
+ * @return list<int>
+ */
+function retrievePostedEntityIds(
+    \ILIAS\UI\Factory $ui_factory,
+    \Psr\Http\Message\ServerRequestInterface $request,
+    string $token_name,
+    array $ids_for_form_shape,
+    \ILIAS\Refinery\Factory $refinery,
+): array {
+    $hiddens = [];
+    foreach (array_values($ids_for_form_shape) as $index => $_) {
+        $hiddens[(string) $index] = $ui_factory->input()->field()->hidden();
+    }
+
+    $form = $ui_factory->input()->container()->form()->standard('#', [
+        $token_name => $ui_factory->input()->field()->group($hiddens),
+    ])->withRequest($request);
+
+    $raw = $form->getData()[$token_name] ?? null;
+    if (!is_array($raw)) {
+        return [];
+    }
+
+    $raw = array_values(array_filter(
+        $raw,
+        static fn(mixed $value): bool => $value !== '' && $value !== null
+    ));
+
+    if ($raw === []) {
+        return [];
     }
 
     return $refinery->kindlyTo()->listOf($refinery->kindlyTo()->int())->transform($raw);

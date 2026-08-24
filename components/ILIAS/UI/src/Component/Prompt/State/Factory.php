@@ -60,11 +60,17 @@ interface Factory
      *      Build a Prompt State to confirm an action on a set of entities.
      *   composition: >
      *      The UI framework composes a confirmation message box, an entity
-     *      listing below it and a form with hidden fields for the entity ids internally.
+     *      listing below it and a Standard Form with Kitchen Sink Hidden Inputs
+     *      (one per entity id, grouped under the URLBuilderToken name).
+     *      IDs are never attached to the form action URL.
+     *      The Prompt renders the form without its own submit buttons and places
+     *      Confirm/Cancel in the Prompt footer via the form submit signal.
      *      Consumers provide an EntityRetrieval and the ids to confirm.
      *   effect: >
      *      The Prompt shows the confirmation question, lists affected entities
-     *      and posts the entity ids to the given URL when confirmed.
+     *      and posts the entity ids in the request body when confirmed.
+     *      Consumers retrieve them from the Standard Form via withRequest/getData,
+     *      keyed by the URLBuilderToken name.
      *
      * context:
      *   - The Prompt State is used for Prompts.

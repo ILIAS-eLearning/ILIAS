@@ -56,9 +56,18 @@ class Factory implements I\State\Factory
 
         $message_box = $this->messagebox_factory->confirmation($question);
 
+        $hidden_inputs = [];
+        foreach (array_values($entity_ids) as $index => $entity_id) {
+            $hidden_inputs[(string) $index] = $this->input_factory->field()
+                ->hidden()
+                ->withValue((string) $entity_id);
+        }
+
         $form = $this->input_factory->container()->form()->standard(
-            (string) $post_url->withParameter($post_parameter, $entity_ids)->buildURI(),
-            []
+            (string) $post_url->deleteParameter($post_parameter)->buildURI(),
+            [
+                $post_parameter->getName() => $this->input_factory->field()->group($hidden_inputs),
+            ]
         );
 
         $content = new Confirmation(
