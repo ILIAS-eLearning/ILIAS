@@ -73,7 +73,6 @@ class SideBarGUI
      * Build navigation blocks
      */
     public function render(
-        \ilObjBlogGUI $gui_obj,
         array $items,
         bool $show_inactive = false,
         int $blpg = 0
@@ -98,7 +97,10 @@ class SideBarGUI
         if (count($items)) {
             $blocks[$order["navigation"] ?? 0] = array(
                 $lng->txt("blog_navigation"),
-                $this->gui->navigation()->monthBlock($this->link_builder)->render(
+                $this->gui->navigation()->monthBlock(
+                    $this->link_builder,
+                    $this->id_type === \ilObjBlogGUI::REPOSITORY_NODE_ID
+                )->render(
                     $items,
                     $show_inactive,
                     $blpg
@@ -111,7 +113,10 @@ class SideBarGUI
             $may_edit_keywords = ($blpg > 0 &&
                 $this->mayEditPosting($blpg));
 
-            $keywords = $this->gui->navigation()->keywordBlock($this->link_builder)->render(
+            $keywords = $this->gui->navigation()->keywordBlock(
+                $this->link_builder,
+                $this->id_type === \ilObjBlogGUI::REPOSITORY_NODE_ID
+            )->render(
                 $show_inactive,
                 $blpg
             );

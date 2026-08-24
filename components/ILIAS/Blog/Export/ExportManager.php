@@ -50,4 +50,71 @@ class ExportManager
         }
         return true;
     }
+
+    /**
+     * Build export
+     */
+    public function buildHtml(
+        int $node_id,
+        int $owner_id,
+        string $format,
+        bool $is_repository,
+        bool $a_include_comments = false,
+        bool $print_version = false
+    ): BlogHtmlExport {
+        $format = explode("_", $format);
+        if (($format[1] ?? "") === "comments" || $a_include_comments) {
+            $a_include_comments = true;
+        }
+
+        if ($is_repository) {
+            $blog_id = \ilObject::_lookupObjId($node_id);
+        } else {
+            $blog_id = $this->domain->getObjectIdForWspId($node_id);
+        }
+
+        $subdir = "blog_" . $blog_id;
+        if ($print_version) {
+            $subdir .= "print";
+        }
+
+        $blog_export = new BlogHtmlExport(
+            $node_id,
+            $owner_id,
+            $is_repository,
+            "",
+            $subdir
+        );
+        $blog_export->setPrintVersion($print_version);
+        $blog_export->includeComments($a_include_comments);
+        $blog_export->exportHTML();
+        return $blog_export;
+    }
+
+    public function buildExportLink(
+        string $a_template,
+        string $a_type,
+        string $a_id,
+        array $keywords
+    ): string {
+        switch ($a_type) {
+            case "list":
+                $a_type = "m";
+                break;
+
+            case "keyword":
+                $map = array_flip(array_keys($keywords));
+                $a_id = (string) ($map[$a_id] ?? "");
+                $a_type = "k";
+                break;
+
+            default:
+                $a_type = "p";
+                break;
+        }
+
+        return str_replace(array("{TYPE}", "{ID}"), array($a_type, $a_id), $a_template);
+    }
+
+
 }

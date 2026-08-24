@@ -25,12 +25,18 @@ use ILIAS\components\Export\HTML\Util;
 
 class BlogHtmlExport
 {
+    protected \ILIAS\Blog\Posting\PostingList $posting_list;
+    protected \ILIAS\Blog\Permission\PermissionManager $perm;
+    /**
+     * @var int|mixed
+     */
+    protected mixed $id_type;
+    protected int $blog_id;
+    protected ExportManager $exp_manager;
     protected ?\ILIAS\Blog\Settings\Settings $settings;
     protected \ILIAS\Blog\InternalGUIService $gui;
     protected \ILIAS\Blog\Posting\PostingManager $posting_manager;
     protected \ILIAS\components\Export\HTML\ExportCollector $collector;
-    protected \ilObjBlog $blog;
-    protected \ilObjBlogGUI $blog_gui;
     protected string $export_dir;
     protected string $sub_dir;
     protected string $target_dir;
@@ -40,7 +46,6 @@ class BlogHtmlExport
     protected \ilLanguage $lng;
     protected \ilTabsGUI $tabs;
     protected array $items;
-    protected static array $keyword_export_map;
     protected array $keywords;
     protected bool $include_comments = false;
     protected bool $print_version = false;
@@ -48,7 +53,8 @@ class BlogHtmlExport
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
 
     public function __construct(
-        \ilObjBlogGUI $blog_gui,
+        protected int $node_id,
+        protected int $owner_id,
         protected bool $is_repository,
         string $exp_dir,
         string $sub_dir,
@@ -56,16 +62,31 @@ class BlogHtmlExport
     ) {
         global $DIC;
 
-        $this->blog_gui = $blog_gui;
-        /** @var \ilObjBlog $blog */
-        $blog = $blog_gui->getObject();
-        $this->blog = $blog;
-
         $blog_service = $DIC->blog()->internal();
-        $this->gui = $blog_service->gui();
-        $this->settings = $blog_service->domain()->blogSettings()->getByObjId($blog->getId());
+        $domain = $blog_service->domain();
 
-        $this->collector = $DIC->export()->domain()->html()->collector($blog->getId());
+        if ($is_repository) {
+            $this->blog_id = \ilObject::_lookupObjId($this->node_id);
+        } else {
+            $this->blog_id = $domain->getObjectIdForWspId($this->node_id);
+        }
+
+        $this->id_type = ($this->is_repository)
+            ? \ilObjBlogGUI::REPOSITORY_NODE_ID
+            : \ilObjBlogGUI::WORKSPACE_NODE_ID;
+
+        $this->perm = $domain->perm(
+            $this->node_id,
+            $this->id_type,
+            $domain->user()->getId(),
+            $this->owner_id
+        );
+
+        $this->gui = $blog_service->gui();
+        $keyword_manager = $blog_service->domain()->keywords();
+        $this->settings = $blog_service->domain()->blogSettings()->getByObjId($this->blog_id);
+
+        $this->collector = $DIC->export()->domain()->html()->collector($this->blog_id);
         $this->collector->init();
 
         $this->sub_dir = $sub_dir;
@@ -77,8 +98,9 @@ class BlogHtmlExport
         $this->tabs = $DIC->tabs();
         $this->lng = $DIC->language();
 
-        $this->items = $this->blog_gui->getItems();
-        $this->keywords = $this->blog_gui->getKeywords(false);
+        $this->posting_list = $blog_service->domain()->postingList($this->blog_id);
+        $this->items = $this->posting_list->getPostingsGroupedByMonth();
+        $this->keywords = $keyword_manager->getKeywords($this->blog_id, false);
         if ($set_export_key && !self::$export_key_set) {
             self::$export_key_set = true;
             $this->global_screen->tool()->context()->current()->addAdditionalData(
@@ -89,11 +111,12 @@ class BlogHtmlExport
 
         $cs = $DIC->contentStyle();
         if ($this->is_repository) {
-            $this->content_style_domain = $cs->domain()->styleForRefId($this->blog->getRefId());
+            $this->content_style_domain = $cs->domain()->styleForRefId($this->node_id);
         } else {
-            $this->content_style_domain = $cs->domain()->styleForObjId($this->blog->getId());
+            $this->content_style_domain = $cs->domain()->styleForObjId($this->blog_id);
         }
         $this->posting_manager = $blog_service->domain()->posting();
+        $this->exp_manager = $blog_service->domain()->export()->manager();
     }
     protected function init(): void
     {
@@ -136,9 +159,6 @@ class BlogHtmlExport
             $this->content_style_domain->getEffectiveStyleId(),
             "blog"
         );
-        /*
-                \ilObjUser::copyProfilePicturesToDirectory($this->blog->getOwner(), $this->target_dir);
-        */
         // export pages
         if ($this->print_version) {
             $this->exportHTMLPagesPrint();
@@ -157,9 +177,33 @@ class BlogHtmlExport
     {
         if ($this->include_comments) {
             $user_export = new \ILIAS\Notes\Export\UserImageExporter();
-            $user_export->exportUserImagesForRepObjId($this->target_dir, $this->blog->getId());
+            $user_export->exportUserImagesForRepObjId($this->target_dir, $this->blog_id);
         }
     }
+
+    public function renderList(
+        array $items,
+        string $month = "",
+        string $a_cmd = "preview",
+        string $a_link_template = "",
+        bool $a_show_inactive = false,
+        string $a_export_directory = ""
+    ): string {
+        return $this->gui->posting()->postingList(
+            $this->blog_id,
+            $this->perm,
+            $month,
+            $this->node_id,
+            $this->id_type,
+        )->render(
+            $items,
+            $a_cmd,
+            $a_link_template,
+            $a_show_inactive,
+            $a_export_directory
+        );
+    }
+
 
     /**
      * Export all pages (note: this one is called from the portfolio html export!)
@@ -191,14 +235,13 @@ class BlogHtmlExport
             ),
             $this->settings
         )->render(
-            $this->blog_gui,
             $this->items
         );
 
         // month list
         $has_index = false;
         foreach (array_keys($this->items) as $month) {
-            $list = $this->blog_gui->renderList($this->items[$month], "render", $a_link_template, false, $this->target_dir);
+            $list = $this->renderList($this->items[$month], $month, "render", $a_link_template, false, $this->target_dir);
 
             if (!$list) {
                 continue;
@@ -210,7 +253,7 @@ class BlogHtmlExport
                 $tpl = $a_tpl_callback();
             }
 
-            $file = $this->buildExportLink($a_link_template, "list", $month, $this->keywords);
+            $file = $this->exp_manager->buildExportLink($a_link_template, "list", $month, $this->keywords);
             $file = $this->writeExportFile($file, $tpl, $list, $nav);
 
             if (!$has_index) {
@@ -220,9 +263,9 @@ class BlogHtmlExport
         }
 
         // keywords
-        foreach (array_keys($this->blog_gui->getKeywords(false)) as $keyword) {
-            $list_items = $this->blog_gui->filterItemsByKeyword($this->items, $keyword);
-            $list = $this->blog_gui->renderList($list_items, "render", $a_link_template, false, $this->target_dir);
+        foreach (array_keys($this->keywords) as $keyword) {
+            $list_items = $this->posting_list->getByKeyword($keyword);
+            $list = $this->renderList($list_items, "", "render", $a_link_template, false, $this->target_dir);
 
             if (!$list) {
                 continue;
@@ -234,14 +277,14 @@ class BlogHtmlExport
                 $tpl = $a_tpl_callback();
             }
 
-            $file = $this->buildExportLink($a_link_template, "keyword", $keyword, $this->keywords);
+            $file = $this->exp_manager->buildExportLink($a_link_template, "keyword", $keyword, $this->keywords);
             $file = $this->writeExportFile($file, $tpl, $list, $nav);
         }
 
 
         // single postings
 
-        $pages = $this->posting_manager->getAllPostings($this->blog->getId(), 0);
+        $pages = $this->posting_manager->getAllPostings($this->blog_id, 0);
         foreach ($pages as $page) {
             $page_id = $page->getId();
             if (\ilBlogPosting::_exists("blp", $page_id)) {
@@ -251,14 +294,14 @@ class BlogHtmlExport
                 $blp_gui->add_date = true;
                 $page_content = $blp_gui->showPage();
 
-                $back = $this->buildExportLink(
+                $back = $this->exp_manager->buildExportLink(
                     $a_link_template,
                     "list",
                     substr($page->getCreated()->get(IL_CAL_DATE), 0, 7),
                     $this->keywords
                 );
 
-                $file = $this->buildExportLink($a_link_template, "posting", (string) $page_id, $this->keywords);
+                $file = $this->exp_manager->buildExportLink($a_link_template, "posting", (string) $page_id, $this->keywords);
 
                 if (!$a_tpl_callback) {
                     $tpl = $this->getInitialisedTemplate();
@@ -279,7 +322,6 @@ class BlogHtmlExport
                     ),
                     $this->settings
                 )->render(
-                    $this->blog_gui,
                     $this->items,
                     false,
                     $page_id
@@ -309,7 +351,10 @@ class BlogHtmlExport
         $this->collectAllPagesPageElements($this->co_page_html_export);
 
         // render print view
-        $print_view = $this->blog_gui->getPrintView();
+        $print_view = $this->gui->presentation()->getPrintView(
+            $this->node_id,
+            $this->id_type === \ilObjBlogGUI::REPOSITORY_NODE_ID
+        );
         $print_view->setOffline(true);
         $html = $print_view->renderPrintView();
         $this->collector->addString($html, "index.html");
@@ -318,7 +363,7 @@ class BlogHtmlExport
 
     public function collectAllPagesPageElements(\ilCOPageHTMLExport $co_page_html_export): void
     {
-        $page_ids = $this->posting_manager->getAllPostingIds($this->blog->getId(), 0);
+        $page_ids = $this->posting_manager->getAllPostingIds($this->blog_id, 0);
         foreach ($page_ids as $page_id) {
             if (\ilBlogPosting::_exists("blp", $page_id)) {
                 $co_page_html_export->collectPageElements("blp:pg", $page_id);
@@ -341,10 +386,8 @@ class BlogHtmlExport
                 break;
 
             case "keyword":
-                if (!isset(self::$keyword_export_map)) {
-                    self::$keyword_export_map = array_flip(array_keys($keywords));
-                }
-                $a_id = (string) (self::$keyword_export_map[$a_id] ?? "");
+                $map = array_flip(array_keys($keywords));
+                $a_id = (string) ($map[$a_id] ?? "");
                 $a_type = "k";
                 break;
 
@@ -386,7 +429,14 @@ class BlogHtmlExport
 
         $this->co_page_html_export->getPreparedMainTemplate($tpl);
 
-        $this->blog_gui->renderFullscreenHeader($tpl, $this->blog->getOwner(), true);
+        $this->gui->presentation()->presentationGUI(
+            $this->perm,
+            $this->content_style_domain,
+            "",
+            $this->owner_id,
+            $this->node_id,
+            $this->id_type
+        )->renderFullscreenHeader($tpl, $this->owner_id, true);
 
         return $tpl;
     }

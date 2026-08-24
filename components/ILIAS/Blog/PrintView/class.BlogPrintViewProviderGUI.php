@@ -38,7 +38,7 @@ class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
     public function __construct(
         \ilLanguage $lng,
         \ilCtrl $ctrl,
-        \ilObjBlog $blog,
+        protected int $blog_id,
         int $node_id,
         object $access_handler,
         int $style_id,
@@ -47,7 +47,6 @@ class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         global $DIC;
         $this->lng = $lng;
         $this->ctrl = $ctrl;
-        $this->blog = $blog;
         $this->node_id = $node_id;
         $this->access_handler = $access_handler;
         $this->style_sheet_id = $style_id;
@@ -77,7 +76,7 @@ class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
 
         $selected_pages = (count($this->selected_pages) > 0)
             ? $this->selected_pages
-            : $this->posting_manager->getAllPostingIds($this->blog->getId());
+            : $this->posting_manager->getAllPostingIds($this->blog_id);
 
         foreach ($selected_pages as $p_id) {
             $page_gui = new \ilBlogPostingGUI(
@@ -100,7 +99,7 @@ class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        $postings = $this->posting_manager->getAllPostings($this->blog->getId());
+        $postings = $this->posting_manager->getAllPostings($this->blog_id);
         $lng->loadLanguageModule("content");
         $lng->loadLanguageModule("blog");
         $form = new \ilPropertyFormGUI();

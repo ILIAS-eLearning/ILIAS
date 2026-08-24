@@ -31,7 +31,12 @@ use ILIAS\Blog\Permission\PermissionManager;
 
 class PostingListGUI
 {
-    private ?\ilObjBlog $blog;
+    protected string $approve_cmd_class;
+    protected array $approve_cmd_path;
+    protected string $admin_cmd_class;
+    protected array $admin_cmd_path;
+    protected \ILIAS\Blog\Keywords\KeywordManager $keyword_manager;
+    protected \ILIAS\Blog\Export\ExportManager $exp_manager;
     protected int $author;
     protected string $keyword;
     protected \ILIAS\Blog\Settings\Settings $blog_settings;
@@ -43,7 +48,7 @@ class PostingListGUI
         protected InternalDataService $data,
         protected InternalDomainService $domain,
         protected InternalGUIService $gui,
-        protected ilObjBlogGUI $parent_gui,
+        protected int $blog_id,
         protected PermissionManager $perm,
         protected ?string $current_month = null,
         protected ?int $node_id = null,
@@ -51,15 +56,21 @@ class PostingListGUI
     ) {
         global $DIC;
         $this->notes = $DIC->notes();
+        $this->approve_cmd_path = [\ilObjBlogGUI::class];
+        $this->approve_cmd_class = end($this->approve_cmd_path);
+        $this->admin_cmd_path = [\ilObjBlogGUI::class];
+        $this->admin_cmd_class = end($this->approve_cmd_path);
+
+
         $this->posting_manager = $domain->posting();
         $this->reading_time_manager = $domain->readingTime();
         $this->blog_settings =
-            $domain->blogSettings()->getByObjId($parent_gui->getObject()->getId());
+            $domain->blogSettings()->getByObjId($this->blog_id);
         $req = $gui->standardRequest();
-        $this->blog = $parent_gui->getObject();
         $this->keyword = $req->getKeyword();
         $this->author = $req->getAuthor();
-
+        $this->exp_manager = $domain->export()->manager();
+        $this->keyword_manager = $domain->keywords();
     }
 
     public function render(
@@ -123,7 +134,12 @@ class PostingListGUI
                 $ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $item_id);
                 $preview = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", $a_cmd);
             } else {
-                $preview = $this->parent_gui->buildExportLink($a_link_template, "posting", (string) $item_id);
+                $preview = $this->exp_manager->buildExportLink(
+                    $a_link_template,
+                    "posting",
+                    (string) $item_id,
+                    $this->keyword_manager->getKeywords($this->blog_id, false)
+                );
             }
             $more_link = $preview;
 
@@ -134,12 +150,12 @@ class PostingListGUI
 
                 if ($is_active && $this->blog_settings->getApproval() && !$approved) {
                     if ($is_admin) {
-                        $ilCtrl->setParameter($this->parent_gui, "apid", $item_id);
+                        $ilCtrl->setParameterByClass($this->approve_cmd_class, "apid", $item_id);
                         $actions[] = $ui_factory->link()->standard(
                             $lng->txt("blog_approve"),
-                            $ilCtrl->getLinkTarget($this->parent_gui, "approve")
+                            $ilCtrl->getLinkTargetByClass($this->approve_cmd_path, "approve")
                         );
-                        $ilCtrl->setParameter($this->parent_gui, "apid", "");
+                        $ilCtrl->setParameterByClass($this->approve_cmd_class, "apid", "");
                     }
 
                     $wtpl->setVariable("APPROVAL", $lng->txt("blog_needs_approval"));
@@ -189,12 +205,12 @@ class PostingListGUI
                 } elseif ($is_admin) {
                     // #10513
                     if ($is_active) {
-                        $ilCtrl->setParameter($this->parent_gui, "apid", $item_id);
+                        $ilCtrl->setParameterByClass($this->admin_cmd_class, "apid", $item_id);
                         $actions[] = $ui_factory->link()->standard(
                             $lng->txt("blog_toggle_draft_admin"),
-                            $ilCtrl->getLinkTarget($this->parent_gui, "deactivateAdmin")
+                            $ilCtrl->getLinkTargetByClass($this->admin_cmd_path, "deactivateAdmin")
                         );
-                        $ilCtrl->setParameter($this->parent_gui, "apid", "");
+                        $ilCtrl->setParameterByClass($this->admin_cmd_class, "apid", "");
                     }
 
                     $actions[] = $ui_factory->link()->standard(
@@ -211,12 +227,13 @@ class PostingListGUI
             }
 
             // comments
-            if ($this->blog->getNotesStatus() && !$a_link_template) {
+            $notes_status = $this->notes->domain()->commentsActive($this->blog_id);
+            if ($notes_status && !$a_link_template) {
                 // count (public) notes
                 $notes_context = $this->notes
                     ->data()
                     ->context(
-                        $this->blog->getId(),
+                        $this->blog_id,
                         (int) $item_id,
                         "blp"
                     );
@@ -274,7 +291,7 @@ class PostingListGUI
 
             // reading time
             $reading_time = $this->reading_time_manager->getReadingTime(
-                $this->blog->getId(),
+                $this->blog_id,
                 $item_id
             );
             if (!is_null($reading_time)) {
@@ -316,7 +333,7 @@ class PostingListGUI
             $wtpl->setVariable("URL_TITLE", $preview);
             $wtpl->setVariable("TITLE", $item->getTitle());
 
-            $kw = $this->posting_manager->getKeywords($this->blog->getId(), $item_id);
+            $kw = $this->posting_manager->getKeywords($this->blog_id, $item_id);
             natcasesort($kw);
             $keywords = (count($kw) > 0)
                 ? "<br>" . $lng->txt("keywords") . ": " . implode(", ", $kw)

@@ -28,6 +28,7 @@ use ILIAS\Blog\RSS\RSSGUI;
 use ILIAS\Blog\Posting\Service\GUIService as PostingGUIService;
 use ILIAS\Blog\Permission\BlogCmdPermission;
 use ILIAS\Blog\Permission\PermissionManager;
+use ILIAS\Blog\Export\GUIService as ExportGUIService;
 
 class InternalGUIService
 {
@@ -157,4 +158,14 @@ class InternalGUIService
             $this->standardRequest()
         );
     }
+
+    public function export(): ExportGUIService
+    {
+        return self::$instance["export"] ??= new ExportGUIService(
+            $this->data_service,
+            $this->domain_service,
+            $this
+        );
+    }
+
 }

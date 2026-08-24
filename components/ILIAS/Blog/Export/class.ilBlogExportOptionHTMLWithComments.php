@@ -35,7 +35,8 @@ class ilBlogExportOptionHTMLWithComments extends ilBasicLegacyExportOption
         $this->export_manager = $DIC->blog()
                                     ->internal()
                                     ->domain()
-                                    ->export();
+                                    ->export()
+                                    ->manager();
         parent::init($DIC);
     }
 
@@ -69,6 +70,12 @@ class ilBlogExportOptionHTMLWithComments extends ilBasicLegacyExportOption
     public function onExportOptionSelected(
         ilExportHandlerConsumerContextInterface $context
     ): void {
-        $this->ctrl->redirectByClass(ilObjBlogGUI::class, "createExportFileWithComments");
+        $this->ctrl->redirectByClass(
+            [
+                ilObjBlogGUI::class,
+                \ILIAS\Blog\Export\ExportGUI::class,
+            ],
+            "createExportFileWithComments"
+        );
     }
 }

@@ -187,6 +187,7 @@ class BlogCmdPermission extends CmdPermission
                 SettingsGUI::class,
                 \ILIAS\Blog\Settings\BlockSettingsGUI::class,
                 \ILIAS\Blog\Editing\EditingGUI::class,
+                \ILIAS\Blog\Export\ExportGUI::class,
                 ContributorGUI::class,
             ])) {
                 return $this->access->checkAccess("write", "", $node_id);

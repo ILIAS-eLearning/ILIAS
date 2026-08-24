@@ -53,12 +53,14 @@ class GUIService
     }
 
     public function monthBlock(
-        LinkBuilder $link_builder
+        LinkBuilder $link_builder,
+        bool $is_repository
     ): MonthBlockGUI {
         return new MonthBlockGUI(
             $this->domain,
             $this->gui,
-            $link_builder
+            $link_builder,
+            $is_repository
         );
     }
 
@@ -73,12 +75,14 @@ class GUIService
     }
 
     public function keywordBlock(
-        LinkBuilder $link_builder
+        LinkBuilder $link_builder,
+        bool $is_repository
     ): KeywordBlockGUI {
         return new KeywordBlockGUI(
             $this->domain,
             $this->gui,
-            $link_builder
+            $link_builder,
+            $is_repository
         );
     }
 

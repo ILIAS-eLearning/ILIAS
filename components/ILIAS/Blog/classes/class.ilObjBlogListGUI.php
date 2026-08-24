@@ -82,6 +82,7 @@ class ilObjBlogListGUI extends ilObjectListGUI
         $tpl = $this->ui->mainTemplate();
         $export_possible = $blog_service->domain()
                                ->export()
+                               ->manager()
                                ->isCommentsExportPossible($this->obj_id);
         if ($cmd === "export"
             && $export_possible
@@ -149,16 +150,21 @@ class ilObjBlogListGUI extends ilObjectListGUI
 
     public function getCommandLink(string $cmd): string
     {
+        if ($this->context == self::CONTEXT_REPOSITORY || $this->context == self::CONTEXT_SEARCH) {
+            $id_par = "ref_id";
+        } else {
+            $id_par = "wsp_id";
+        }
         switch ($cmd) {
             case "render":
-                $this->ctrl->setParameterByClass(ilObjBlogGUI::class, "ref_id", $this->ref_id);
+                $this->ctrl->setParameterByClass(ilObjBlogGUI::class, $id_par, $this->ref_id);
                 return $this->ctrl->getLinkTargetByClass(
                     [ilObjBlogGUI::class, \ILIAS\Blog\Editing\EditingGUI::class],
                     ""
                 );
                 break;
             case "preview":
-                $this->ctrl->setParameterByClass(ilObjBlogGUI::class, "ref_id", $this->ref_id);
+                $this->ctrl->setParameterByClass(ilObjBlogGUI::class, $id_par, $this->ref_id);
                 return $this->ctrl->getLinkTargetByClass(
                     [ilObjBlogGUI::class, \ILIAS\Blog\Presentation\PresentationGUI::class],
                     ""

@@ -54,6 +54,11 @@ class PermissionManager
         return $this->access->checkAccess('write', '', $this->node_id);
     }
 
+    public function canRead(): bool
+    {
+        return $this->access->checkAccess('read', '', $this->node_id);
+    }
+
     public function mayContribute(): bool
     {
         if ($this->id_type === \ilObject2GUI::WORKSPACE_NODE_ID) {

@@ -35,6 +35,8 @@ use ILIAS\Blog\Navigation\Link\EditingLinkBuilder;
  */
 class EditingGUI
 {
+    protected int $author;
+    protected string $keyword;
     protected string $month;
     protected ?\ILIAS\Blog\Settings\Settings $blog_settings;
     protected ?\ilObjBlog $blog;
@@ -55,6 +57,8 @@ class EditingGUI
         $this->blog = $parent_gui->getObject();
         $this->blog_settings = $this->domain->blogSettings()->getByObjId($this->blog->getId());
         $this->month = $this->blog_request->getMonth();
+        $this->keyword = $this->blog_request->getKeyword();
+        $this->author = $this->blog_request->getAuthor();
     }
 
     public function executeCommand(): void
@@ -213,7 +217,7 @@ class EditingGUI
 
 
             // #18763
-            $items = $this->parent_gui->getItems();
+            $items = $this->domain->postingList($this->blog->getId())->getPostingsGroupedByMonth();
             $keys = array_keys($items);
             $first = array_shift($keys);
             if ($first != $this->month) {
@@ -232,7 +236,11 @@ class EditingGUI
             }
 
             // print/pdf
-            $print_view = $this->parent_gui->getPrintView();
+            $print_view = $this->gui->presentation()->getPrintView(
+                $this->node_id,
+                $this->id_type === \ilObjBlogGUI::REPOSITORY_NODE_ID,
+                $this->blog_request->getObjIds()
+            );
             $modal_elements = $print_view->getModalElements(
                 $ilCtrl->getLinkTarget(
                     $this->parent_gui,
@@ -244,14 +252,19 @@ class EditingGUI
             $ilToolbar->addComponent($modal_elements->modal);
         }
 
-        $is_owner = $this->perm->mayContribute();
+        $include_inactive = $this->perm->mayContribute();
+        $list_items = $this->domain->postingList($this->blog->getId(), $include_inactive)
+                            ->getPostingsForView(
+                                $this->author ?? 0,
+                                $this->keyword ?? "",
+                                $this->current_month ?? ""
+                            );
 
-        $list_items = $this->parent_gui->getListItems($is_owner);
 
         $list = $nav = "";
         if ($list_items) {
             $list = $this->gui->posting()->postingList(
-                $this->parent_gui,
+                $this->blog->getId(),
                 $this->perm,
                 $this->current_month,
                 $this->node_id,
@@ -260,7 +273,7 @@ class EditingGUI
                 $list_items,
                 "preview",
                 "",
-                $is_owner
+                $include_inactive
             );
             $nav = $this->gui->navigation()->sideBar(
                 $this->perm,
@@ -269,9 +282,8 @@ class EditingGUI
                 $this->node_id,
                 $this->id_type
             )->render(
-                $this->parent_gui,
-                $this->parent_gui->getItems(),
-                $is_owner
+                $this->domain->postingList($this->blog->getId())->getPostingsGroupedByMonth(),
+                $include_inactive
             );
         }
 

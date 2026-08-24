@@ -40,7 +40,6 @@ class AuthorBlockGUI
         $obj_id = \ilObject::_lookupObjId($this->gui->standardRequest()->getRefId());
         $posting_list = $this->domain->postingList(
             $obj_id,
-            $this->domain->blogSettings()->getByObjId($obj_id),
             $show_inactive
         );
         $authors = $posting_list->getAuthors();
