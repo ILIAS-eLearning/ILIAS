@@ -35,9 +35,9 @@ use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Questions\Properties\Repository as QuestionsRepository;
 use ILIAS\Test\Results\Data\Repository as ResultsRepository;
-use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\ExportState;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\ExportStep;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Builder;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\ExportDependencies;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Exporter;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Serializer;
 use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
@@ -69,7 +69,7 @@ class TestExporter implements Exporter
     /**
      * @inheritDoc
      */
-    public function prepare(ExportState $state): void
+    public function prepare(ExportDependencies $state): void
     {
         $state->logger()->info('Preparing test export (1/3)...');
         $state->assertStep(ExportStep::INIT);
@@ -112,7 +112,7 @@ class TestExporter implements Exporter
         $state->logger()->info('...Finished preparing test export (1/3)');
     }
 
-    private function extractObjectId(ExportState $state): ?ObjectId
+    private function extractObjectId(ExportDependencies $state): ?ObjectId
     {
         $target_ids = $state->target()->getObjectIds();
 
@@ -133,7 +133,7 @@ class TestExporter implements Exporter
     /**
      * @inheritDoc
      */
-    public function process(ExportState $state): void
+    public function process(ExportDependencies $state): void
     {
         $state->logger()->info('Processing test export (2/3)...');
         $state->assertStep(ExportStep::PREPARE);
@@ -208,7 +208,7 @@ class TestExporter implements Exporter
         $state->logger()->info('...Finished processing test export (2/3)');
     }
 
-    private function processResults(ExportState $state): void
+    private function processResults(ExportDependencies $state): void
     {
         $state->serializer()->group(
             'participants',
@@ -231,7 +231,7 @@ class TestExporter implements Exporter
     /**
      * @inheritDoc
      */
-    public function write(ExportState $state): void
+    public function write(ExportDependencies $state): void
     {
         $state->logger()->info('Writing test export (3/3)...');
         $state->assertStep(ExportStep::PROCESS);
@@ -280,7 +280,7 @@ class TestExporter implements Exporter
         TestCollector $collector,
         Transformations $transformations,
         Serializer $serializer,
-        ExportState $state
+        ExportDependencies $state
     ): void {
         $serializer->append('object', $transformations->normalize($collector->getObject()));
 
@@ -298,7 +298,7 @@ class TestExporter implements Exporter
         TestCollector $collector,
         Transformations $transformations,
         Serializer $serializer,
-        ExportState $state
+        ExportDependencies $state
     ): void {
         $test = $collector->getObject();
         $main_settings = $test->getMainSettings();
@@ -319,7 +319,7 @@ class TestExporter implements Exporter
         TestCollector $collector,
         Transformations $transformations,
         Serializer $serializer,
-        ExportState $state
+        ExportDependencies $state
     ): void {
         $question_properties = $collector->getTestQuestionProperties();
 
@@ -418,7 +418,7 @@ class TestExporter implements Exporter
     private function writeMappings(
         TestCollector $collector,
         Transformations $transformations,
-        ExportState $state
+        ExportDependencies $state
     ): void {
         $serializer = new SimpleXMLSerializer()->open('memory');
         $serializer->createDocument('Test Export Mappings');

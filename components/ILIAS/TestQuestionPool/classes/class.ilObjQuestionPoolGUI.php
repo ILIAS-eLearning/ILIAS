@@ -1120,7 +1120,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         }
 
         $runner = $this->buildImportStageRunner();
-        $result = $runner->run($this->request);
+        $result = $runner->run();
 
         match ($result->type) {
             StageResultType::INTERACT => $this->renderImportStage($runner, $result),
