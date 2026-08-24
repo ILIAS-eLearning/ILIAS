@@ -542,20 +542,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         }
     }
 
-
-    protected function createExportFile(): void
-    {
-        $this->export_manager->buildHtml(
-            $this->node_id,
-            $this->object->getOwner(),
-            $this->blog_request->getFormat(),
-            $this->id_type === self::REPOSITORY_NODE_ID
-        );
-        $this->prepareOutput();
-        $this->tabs->activateTab("export");
-        $this->ctrl->redirectByClass(ilExportGUI::class, ilExportGUI::CMD_LIST_EXPORT_FILES);
-    }
-
     protected function triggerAssignmentTool(): void
     {
         $be = $this->domain->exercise($this->node_id);

@@ -53,10 +53,31 @@ class ExportGUI
 
         switch ($next_class) {
             default:
-                if (in_array($cmd, ["createExportFileWithComments"])) {
+                if (in_array($cmd, [
+                    "createExportFile",
+                    "createExportFileWithComments"
+                ])) {
                     $this->$cmd();
                 }
         }
+    }
+
+    protected function createExportFile(): void
+    {
+        $this->exp_manager->buildHtml(
+            $this->node_id,
+            $this->owner_id,
+            $this->gui->standardRequest()->getFormat(),
+            $this->is_repository
+        );
+        $this->gui->tabs()->activateTab("export");
+        $this->gui->ctrl()->redirectByClass(
+            [
+                \ilObjBlogGUI::class,
+                \ilExportGUI::class
+            ],
+            \ilExportGUI::CMD_LIST_EXPORT_FILES
+        );
     }
 
     protected function createExportFileWithComments(): void
