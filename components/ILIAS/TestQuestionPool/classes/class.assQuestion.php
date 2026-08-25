@@ -261,6 +261,9 @@ abstract class assQuestion implements Question
         return $this->processLocker;
     }
 
+    /**
+     * @deprecated 12: Use ILIAS\TestQuestionPool\ExportImport\Import\QuestionsImporter instead
+     */
     final public function fromXML(
         string $importdirectory,
         int $user_id,
@@ -287,10 +290,8 @@ abstract class assQuestion implements Question
     }
 
     /**
-    * Returns a QTI xml representation of the question
-    *
-    * @return string The QTI xml representation of the question
-    */
+     * @deprecated 12: use question normalizing and serialization instead
+     */
     final public function toXML(
         bool $a_include_header = true,
         bool $a_include_binary = true,

@@ -30,6 +30,8 @@ use ILIAS\TestQuestionPool\QuestionPoolDIC;
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @ingroup components\ILIASTestQuestionPool
+ *
+ * @deprecated Use normalized question import instead
 */
 class assQuestionImport
 {

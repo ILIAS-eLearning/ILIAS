@@ -24,6 +24,8 @@
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @ingroup components\ILIASTestQuestionPool
+ *
+ * @deprecated Use normalized question export instead
 */
 class assMultipleChoiceExport extends assQuestionExport
 {

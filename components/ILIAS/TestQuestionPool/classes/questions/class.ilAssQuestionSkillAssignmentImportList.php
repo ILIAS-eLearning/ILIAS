@@ -19,11 +19,7 @@
 declare(strict_types=1);
 
 /**
- * @author        Björn Heyser <bheyser@databay.de>
- * @version        $Id$
- *
- * @package components\ILIAS/TestQuestionPool
- * @implements Iterator<ilAssQuestionSkillAssignmentImport>
+ * @deprecated 12: Use ILIAS\TestQuestionPool\ExportImport\Import\SkillAssignmentsImporter instead
  */
 class ilAssQuestionSkillAssignmentImportList implements Iterator
 {
