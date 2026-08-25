@@ -51,7 +51,10 @@ abstract class BaseHTTPResponseBasedConsumer extends BaseConsumer implements Del
     public function run(): void
     {
         $revision = $this->getRevision();
-        $filename_with_extension = $this->file_name ?? $revision->getInformation()->getTitle();
+        // trimmed before the extension is read: a trailing space would make pathinfo
+        // report "pdf " and the file would be delivered as an unknown type,
+        // see https://mantis.ilias.de/view.php?id=47801
+        $filename_with_extension = trim($this->file_name ?? $revision->getInformation()->getTitle());
         $extension = pathinfo($filename_with_extension, PATHINFO_EXTENSION);
         $file_name_for_consumer = $this->file_name_policy->prepareFileNameForConsumer($filename_with_extension);
 
