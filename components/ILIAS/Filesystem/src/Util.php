@@ -44,6 +44,11 @@ class Util
         $filename = preg_replace(self::SOFT_HYPHEN, ' ', $filename);
         $filename = preg_replace(self::ZERO_JOINER, '', $filename);
 
+        // leading and trailing whitespace makes a file unusable on some systems, e.g.
+        // Windows cannot determine the type of "document.pdf " anymore,
+        // see https://mantis.ilias.de/view.php?id=47801
+        $filename = trim($filename);
+
         // UTF normalization form C
         $form_c = (new UTFNormal())->formC();
         $filename = $form_c->transform($filename);

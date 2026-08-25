@@ -24,7 +24,7 @@ use ILIAS\Filesystem\Util;
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class FilenameSanitizing extends TestCase
+class FilenameSanitizingTest extends TestCase
 {
     public static function provideFilenames(): array
     {
@@ -37,6 +37,11 @@ class FilenameSanitizing extends TestCase
             ["Invisible\u{2062}Times", 'InvisibleTimes'],
             ["Invisible\u{2063}Comma", 'InvisibleComma'],
             ["Funky\u{200B}Whitespace", 'FunkyWhitespace'],
+            // https://mantis.ilias.de/view.php?id=47801
+            ['document.pdf   ', 'document.pdf'],
+            ['   document.pdf', 'document.pdf'],
+            ['Beipackzettel_10   ', 'Beipackzettel_10'],
+            ['keeps inner spaces.pdf', 'keeps inner spaces.pdf'],
         ];
     }
 
