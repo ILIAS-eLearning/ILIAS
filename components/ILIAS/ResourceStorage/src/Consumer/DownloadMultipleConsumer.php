@@ -80,11 +80,15 @@ class DownloadMultipleConsumer implements DeliveryConsumer
             . $this->zip_file_name
             . '"'
         );
-        $fopen = fopen($temp, 'rb');
-        $response = $response->withBody(Streams::ofResource($fopen));
+        // the response sender detaches the body and closes the resource itself, a
+        // second fclose() on it throws a TypeError, see
+        // https://mantis.ilias.de/view.php?id=47342. Stream::close() only closes the
+        // resource if it is still attached, e.g. if the body was not sent.
+        $stream = Streams::ofResource(fopen($temp, 'rb'));
+        $response = $response->withBody($stream);
         $DIC->http()->saveResponse($response);
         $DIC->http()->sendResponse();
-        fclose($fopen);
+        $stream->close();
         unlink($temp);
         $DIC->http()->close();
     }
