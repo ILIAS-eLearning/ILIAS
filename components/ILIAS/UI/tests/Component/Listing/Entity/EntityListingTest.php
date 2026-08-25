@@ -76,7 +76,7 @@ class EntityListingTest extends ILIAS_UI_TestBase
     public function testEntityListingFactory(): void
     {
         $this->assertInstanceOf(
-            I\Listing\Entity\Entity::class,
+            I\Listing\Entity\EntityListing::class,
             $this->getUIFactory()->listing()->entity()->standard($this->getEntityRetrieval())
         );
     }

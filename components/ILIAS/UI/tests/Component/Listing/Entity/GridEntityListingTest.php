@@ -84,7 +84,7 @@ class GridEntityListingTest extends ILIAS_UI_TestBase
     public function testGridEntityListingFactory(): void
     {
         $this->assertInstanceOf(
-            C\Listing\Entity\Entity::class,
+            C\Listing\Entity\EntityListing::class,
             $this->getUIFactory()->listing()->entity()->grid($this->getEntityRetrieval())
         );
     }

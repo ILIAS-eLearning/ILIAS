@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Prompt\State;
 
 use ILIAS\UI\Component\Component;
+use Psr\Http\Message\ServerRequestInterface;
 
 interface State extends Component
 {
@@ -28,4 +29,11 @@ interface State extends Component
      * Get a Prompts State like this, but provide it with an explicit title.
      */
     public function withTitle(string $title): self;
+
+    /**
+     * Entity ids posted by a confirmation form. Only available on confirm states.
+     *
+     * @return array<string>
+     */
+    public function getConfirmedData(ServerRequestInterface $request): array;
 }

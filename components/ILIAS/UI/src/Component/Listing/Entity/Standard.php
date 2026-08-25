@@ -23,6 +23,6 @@ namespace ILIAS\UI\Component\Listing\Entity;
 /**
  * This is what a Standard EntityListings looks like
  */
-interface Standard extends Entity
+interface Standard extends EntityListing
 {
 }

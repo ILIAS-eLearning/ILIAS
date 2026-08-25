@@ -28,6 +28,7 @@ use ILIAS\UI\Component\Entity\EntityRetrieval;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use ILIAS\UI\Component\MessageBox\Factory as MessageBoxFactory;
 use ILIAS\UI\Component\Listing\Entity\Factory as ListingEntityFactory;
+use ILIAS\UI\Implementation\Component\Input\Container\Form\Standard as StandardForm;
 
 class Factory implements I\State\Factory
 {
@@ -55,19 +56,10 @@ class Factory implements I\State\Factory
         $listing = $this->listing_entity_factory->standard($listing_retrieval);
 
         $message_box = $this->messagebox_factory->confirmation($question);
-
-        $hidden_inputs = [];
-        foreach (array_values($entity_ids) as $index => $entity_id) {
-            $hidden_inputs[(string) $index] = $this->input_factory->field()
-                ->hidden()
-                ->withValue((string) $entity_id);
-        }
-
-        $form = $this->input_factory->container()->form()->standard(
+        $form = $this->entityIdsForm(
             (string) $post_url->deleteParameter($post_parameter)->buildURI(),
-            [
-                $post_parameter->getName() => $this->input_factory->field()->group($hidden_inputs),
-            ]
+            $post_parameter,
+            $entity_ids,
         );
 
         $content = new Confirmation(
@@ -75,6 +67,7 @@ class Factory implements I\State\Factory
             $listing,
             $form,
             $title,
+            $post_parameter->getName(),
         );
 
         return (new State($content))->withTitle($title);
@@ -90,5 +83,30 @@ class Factory implements I\State\Factory
     {
         return (new State(null))
             ->withRedirect($redirect);
+    }
+
+    /**
+     * @param array<int|string> $entity_ids
+     */
+    private function entityIdsForm(
+        string $post_url,
+        URLBuilderToken $post_parameter,
+        array $entity_ids,
+    ): StandardForm {
+        $hidden_inputs = [];
+        foreach (array_values($entity_ids) as $index => $entity_id) {
+            $hidden_inputs[(string) $index] = $this->input_factory->field()
+                ->hidden()
+                ->withValue((string) $entity_id);
+        }
+
+        return $this->input_factory->container()->form()->standard(
+            $post_url,
+            [
+                $post_parameter->getName() => $this->input_factory->field()
+                    ->group($hidden_inputs)
+                    ->withDedicatedName($post_parameter->getName()),
+            ]
+        );
     }
 }

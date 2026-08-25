@@ -26,7 +26,7 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
 
-abstract class EntityListing implements I\Entity
+abstract class EntityListing implements I\EntityListing
 {
     use ComponentHelper;
 

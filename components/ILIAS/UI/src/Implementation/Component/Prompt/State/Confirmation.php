@@ -21,11 +21,12 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Prompt\State;
 
 use ILIAS\UI\Component\Button\Button;
-use ILIAS\UI\Component\Listing\Entity\Entity as EntityListing;
+use ILIAS\UI\Component\Listing\Entity\EntityListing;
 use ILIAS\UI\Component\MessageBox\MessageBox;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\UI\Implementation\Component\Prompt\IsPromptContentInternal;
+use Psr\Http\Message\ServerRequestInterface;
 
 class Confirmation implements IsPromptContentInternal
 {
@@ -36,6 +37,7 @@ class Confirmation implements IsPromptContentInternal
         private readonly EntityListing $entity_listing,
         private readonly StandardForm $form,
         private readonly string $title,
+        private readonly string $post_parameter_name,
     ) {
     }
 
@@ -52,6 +54,28 @@ class Confirmation implements IsPromptContentInternal
     public function getForm(): StandardForm
     {
         return $this->form;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getPostedData(ServerRequestInterface $request): array
+    {
+        $data = $this->form->withRequest($request)->getData();
+        $raw = is_array($data) ? ($data[$this->post_parameter_name] ?? null) : null;
+        if (!is_array($raw)) {
+            return [];
+        }
+
+        $ids = [];
+        foreach ($raw as $value) {
+            if ($value === null || $value === '') {
+                continue;
+            }
+            $ids[] = (string) $value;
+        }
+
+        return $ids;
     }
 
     public function getPromptTitle(): string

@@ -69,8 +69,7 @@ interface Factory
      *   effect: >
      *      The Prompt shows the confirmation question, lists affected entities
      *      and posts the entity ids in the request body when confirmed.
-     *      Consumers retrieve them from the Standard Form via withRequest/getData,
-     *      keyed by the URLBuilderToken name.
+     *      Consumers retrieve them via getConfirmedData() on this state.
      *
      * context:
      *   - The Prompt State is used for Prompts.

@@ -23,8 +23,8 @@ namespace ILIAS\UI\Component\Listing\Entity;
 use ILIAS\UI\Component\Component;
 
 /**
- * This is what an EntityListings looks like
+ * This is what an Entity Listing looks like.
  */
-interface Entity extends Component
+interface EntityListing extends Component
 {
 }

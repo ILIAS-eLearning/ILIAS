@@ -83,13 +83,15 @@ function base(): string
     if ($http->request()->getMethod() === 'POST' && $query->has($process_token->getName())) {
         $process = $query->retrieve($process_token->getName(), $refinery->kindlyTo()->string());
         if ($process !== '') {
-            $entity_ids = retrievePostedEntityIds(
-                $factory,
-                $http->request(),
-                $entities_token->getName(),
+            $state = $factory->prompt()->state()->confirm(
+                new ConfirmStateEntityRetrieval(),
+                $url_builder->withParameter($process_token, '1'),
+                $entities_token,
                 $demo_entity_ids,
-                $refinery,
+                'Are you sure you want to perform this action?',
+                'Performing some action',
             );
+            $entity_ids = $state->getConfirmedData($http->request());
             $message = $factory->messageBox()->success(
                 'Submitted entity ids: ' . implode(', ', array_map('strval', $entity_ids))
             );
@@ -142,46 +144,6 @@ function retrieveEntityIds(
 
     if ($raw === []) {
         return null;
-    }
-
-    return $refinery->kindlyTo()->listOf($refinery->kindlyTo()->int())->transform($raw);
-}
-
-/**
- * Rebuild the same Standard Form shape as confirm() (group of Hidden Inputs),
- * then read posted ids via withRequest/getData.
- *
- * @param array<int|string> $ids_for_form_shape
- * @return list<int>
- */
-function retrievePostedEntityIds(
-    \ILIAS\UI\Factory $ui_factory,
-    \Psr\Http\Message\ServerRequestInterface $request,
-    string $token_name,
-    array $ids_for_form_shape,
-    \ILIAS\Refinery\Factory $refinery,
-): array {
-    $hiddens = [];
-    foreach (array_values($ids_for_form_shape) as $index => $_) {
-        $hiddens[(string) $index] = $ui_factory->input()->field()->hidden();
-    }
-
-    $form = $ui_factory->input()->container()->form()->standard('#', [
-        $token_name => $ui_factory->input()->field()->group($hiddens),
-    ])->withRequest($request);
-
-    $raw = $form->getData()[$token_name] ?? null;
-    if (!is_array($raw)) {
-        return [];
-    }
-
-    $raw = array_values(array_filter(
-        $raw,
-        static fn(mixed $value): bool => $value !== '' && $value !== null
-    ));
-
-    if ($raw === []) {
-        return [];
     }
 
     return $refinery->kindlyTo()->listOf($refinery->kindlyTo()->int())->transform($raw);
