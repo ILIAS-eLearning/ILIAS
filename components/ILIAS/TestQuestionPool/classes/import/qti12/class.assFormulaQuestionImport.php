@@ -24,6 +24,8 @@
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id: class.assFormulaQuestionImport.php 1185 2010-02-02 08:36:26Z hschottm $
 * @ingroup components\ILIASTestQuestionPool
+ *
+ * @deprecated Use normalized question import instead
 */
 class assFormulaQuestionImport extends assQuestionImport
 {
