@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+use ILIAS\News\NewsPeriodInfo;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Factory as UIFactory;
+
 /**
  *  News settings for containers
  *
@@ -31,6 +35,10 @@ class ilContainerNewsSettingsGUI
     protected ilTree $tree;
     protected ilObjectGUI $parent_gui;
     protected ilObject $object;
+    protected ilSetting $news_settings;
+    protected NewsPeriodInfo $period_info;
+    protected UIRenderer $ui_renderer;
+    protected UIFactory $ui_factory;
     protected bool $has_timeline = false;
     protected bool $has_cron_notifications = false;
     protected bool $has_hide_by_date = false;
@@ -50,6 +58,10 @@ class ilContainerNewsSettingsGUI
         $this->tree = $DIC->repositoryTree();
         $this->parent_gui = $a_parent_gui;
         $this->object = $this->parent_gui->getObject();
+        $this->news_settings = new ilSetting('news');
+        $this->period_info = new NewsPeriodInfo($this->lng, $this->news_settings);
+        $this->ui_renderer = $DIC->ui()->renderer();
+        $this->ui_factory = $DIC->ui()->factory();
 
         $this->initDefaultOptions();
     }
@@ -170,6 +182,13 @@ class ilContainerNewsSettingsGUI
         // Hide news: none, per date, or by period (courses, groups and categories)
         if ($this->has_hide_by_date) {
             $radio = new ilRadioGroupInputGUI($this->lng->txt("news_hide_news_mode"), "hide_news_mode");
+            $radio->setInfo(
+                $this->ui_renderer->render(
+                    $this->ui_factory->messageBox()->info(
+                        $this->period_info->getPeriodInfo()
+                    )
+                )
+            );
             $radio->setValue($hide_news_mode);
 
             $opt_global = new ilRadioOption($this->lng->txt("news_hide_news_global"), "global");

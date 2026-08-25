@@ -280,31 +280,6 @@ class NewsCollectionService
     }
 
     /**
-     * Filter collection by container (crs/grp) hide_news_mode settings: exclude items
-     * whose context has a start date and the item's creation date is before it.
-     */
-    private function filterByContainerDateSettings(NewsCollection $collection, bool $dashboard = false): NewsCollection
-    {
-        if ($collection instanceof \ILIAS\News\Data\LazyNewsCollection) {
-            $collection->load();
-        }
-
-        $exclude_ids = [];
-        foreach ($collection->getNewsItems() as $item) {
-            if (!$item instanceof NewsItem) {
-                continue;
-            }
-
-            $start_date = $this->getContainerStartDateForContext($item->getContextObjId(), $item->getContextObjType(), $dashboard);
-            if ($start_date instanceof \DateTimeImmutable && $item->getCreationDate() < $start_date) {
-                $exclude_ids[] = $item->getId();
-            }
-        }
-
-        return $collection->exclude($exclude_ids);
-    }
-
-    /**
      * Apply the last steps of the news collection processing pipeline: Exclude, Limit
      */
     private function applyFinalProcessing(NewsCollection $collection, NewsCriteria $criteria): NewsCollection
