@@ -18,32 +18,23 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Blog\Editing;
+namespace ILIAS\Blog\Posting;
 
-use ILIAS\Blog\BlogGUIContext;
-use ILIAS\Blog\InternalDataService;
-use ILIAS\Blog\InternalDomainService;
-use ILIAS\Blog\InternalGUIService;
-
-class GUIService
+class PostingViewState
 {
     public function __construct(
-        protected InternalDataService $data,
-        protected InternalDomainService $domain,
-        protected InternalGUIService $gui
+        protected string $month,
+        protected ?int $author
     ) {
     }
 
-    public function editingGUI(
-        BlogGUIContext $context,
-        \ILIAS\Style\Content\Service $cs
-    ): EditingGUI {
-        return new EditingGUI(
-            $this->data,
-            $this->domain,
-            $this->gui,
-            $context,
-            $cs
-        );
+    public function getMonth(): string
+    {
+        return $this->month;
+    }
+
+    public function getAuthor(): ?int
+    {
+        return $this->author;
     }
 }

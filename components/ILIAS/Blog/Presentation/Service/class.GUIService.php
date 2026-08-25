@@ -20,10 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\Blog\Presentation;
 
+use ILIAS\Blog\BlogGUIContext;
 use ILIAS\Blog\InternalDataService;
 use ILIAS\Blog\InternalDomainService;
 use ILIAS\Blog\InternalGUIService;
-use ILIAS\Blog\Permission\PermissionManager;
 use ilObject;
 
 class GUIService
@@ -41,24 +41,16 @@ class GUIService
     }
 
     public function presentationGUI(
-        PermissionManager $perm,
+        BlogGUIContext $context,
         \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain,
-        string $current_month,
-        int $owner_id,
-        int $node_id,
-        int $id_type = \ilObjBlogGUI::REPOSITORY_NODE_ID,
         ?\Closure $add_header_callback = null
     ): PresentationGUI {
         return new PresentationGUI(
             $this->data,
             $this->domain,
             $this->gui,
-            $perm,
+            $context,
             $content_style_domain,
-            $current_month,
-            $node_id,
-            $id_type,
-            $owner_id,
             $add_header_callback
         );
     }

@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Blog\Navigation;
 
+use ILIAS\Blog\BlogGUIContext;
 use ILIAS\Blog\InternalDomainService;
 use ILIAS\Blog\InternalGUIService;
 use ILIAS\Blog\Permission\PermissionManager;
@@ -113,6 +114,15 @@ class GUIService
             $this->gui,
             $blog,
             $perm
+        );
+    }
+
+    public function navigationGUI(BlogGUIContext $context): NavigationGUI
+    {
+        return new NavigationGUI(
+            $this->domain,
+            $this->gui,
+            $context
         );
     }
 

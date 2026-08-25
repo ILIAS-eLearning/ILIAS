@@ -23,11 +23,11 @@ namespace ILIAS\Blog\Editing;
 use ILIAS\Blog\InternalDataService;
 use ILIAS\Blog\InternalDomainService;
 use ILIAS\Blog\InternalGUIService;
+use ILIAS\Blog\BlogGUIContext;
 use ilObjBlogGUI;
 use ilBlogPostingGUI;
 use ilToolbarGUI;
 use ilTextInputGUI;
-use ILIAS\Blog\Permission\PermissionManager;
 use ILIAS\Blog\Navigation\Link\EditingLinkBuilder;
 
 /**
@@ -36,34 +36,20 @@ use ILIAS\Blog\Navigation\Link\EditingLinkBuilder;
 class EditingGUI
 {
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
-    protected int $author;
-    protected string $keyword;
-    protected string $month;
     protected ?\ILIAS\Blog\Settings\Settings $blog_settings;
-    protected ?\ilObjBlog $blog;
-    protected \ILIAS\Blog\StandardGUIRequest $blog_request;
 
     public function __construct(
         protected InternalDataService $data,
         protected InternalDomainService $domain,
         protected InternalGUIService $gui,
-        protected int $node_id,
-        protected int $id_type,
-        protected PermissionManager $perm,
-        protected ?string $current_month,
-        protected \ILIAS\Style\Content\Service $content_style,
-        protected ilObjBlogGUI $parent_gui
+        protected BlogGUIContext $context,
+        protected \ILIAS\Style\Content\Service $content_style
     ) {
-        $this->blog_request = $gui->standardRequest();
-        $this->blog = $parent_gui->getObject();
-        $this->blog_settings = $this->domain->blogSettings()->getByObjId($this->blog->getId());
-        $this->month = $this->blog_request->getMonth();
-        $this->keyword = $this->blog_request->getKeyword();
-        $this->author = $this->blog_request->getAuthor();
-        if ($this->id_type !== \ilObjBlogGUI::REPOSITORY_NODE_ID) {
-            $this->content_style_domain = $content_style->domain()->styleForObjId($this->blog->getId());
+        $this->blog_settings = $this->domain->blogSettings()->getByObjId($context->getBlog()->getId());
+        if (!$context->isRepositoryNode()) {
+            $this->content_style_domain = $content_style->domain()->styleForObjId($context->getBlog()->getId());
         } else {
-            $this->content_style_domain = $content_style->domain()->styleForRefId($this->blog->getRefId());
+            $this->content_style_domain = $content_style->domain()->styleForRefId($context->getBlog()->getRefId());
         }
     }
 
@@ -93,12 +79,12 @@ class EditingGUI
         $ilCtrl = $this->gui->ctrl();
         $tpl = $this->gui->ui()->mainTemplate();
         $lng = $this->domain->lng();
-        $req = $this->gui->standardRequest();
+        $req = $this->context->getRequest();
 
         $ilCtrl->saveParameter($this, "user_page");
         $tpl->loadStandardTemplate();
 
-        if (!$this->perm->mayContribute()) {
+        if (!$this->context->getPermission()->mayContribute()) {
             $tpl->setOnScreenMessage('info', $lng->txt("no_permission"));
             return;
         }
@@ -106,12 +92,12 @@ class EditingGUI
         $style_sheet_id = $this->content_style_domain->getEffectiveStyleId();
 
         $bpost_gui = new ilBlogPostingGUI(
-            $this->node_id,
-            $this->perm->getAccessHandler(),
+            $this->context->getNodeId(),
+            $this->context->getPermission()->getAccessHandler(),
             $req->getBlogPage(),
             $req->getOldNr(),
-            $this->blog->getNotesStatus(),
-            $this->perm->mayEditPosting($req->getBlogPage()),
+            $this->context->getBlog()->getNotesStatus(),
+            $this->context->getPermission()->mayEditPosting($req->getBlogPage()),
             $style_sheet_id
         );
 
@@ -128,14 +114,14 @@ class EditingGUI
         $ret = $ilCtrl->forwardCommand($bpost_gui);
 
         if ($ret != "") {
-            $is_owner = $this->perm->mayContribute();
+            $is_owner = $this->context->getPermission()->mayContribute();
             $is_active = $bpost_gui->getBlogPosting()->getActive();
 
             // do not show inactive postings
             $cmd = $ilCtrl->getCmd();
             if (($cmd === "previewFullscreen")
                 && !$is_owner && !$is_active) {
-                $ilCtrl->redirect($this->parent_gui, "preview");
+                $ilCtrl->redirectByClass(ilObjBlogGUI::class, "preview");
             }
 
             // infos about draft status / snippet
@@ -148,7 +134,7 @@ class EditingGUI
                 $info[] = $lng->txt("blog_new_posting_info");
                 $public_action = true;
             }
-            if ($this->blog->getNotesStatus() &&
+            if ($this->context->getBlog()->getNotesStatus() &&
                 $this->blog_settings->getApproval() &&
                 !$bpost_gui->getBlogPosting()->isApproved()) {
                 // #9737
@@ -164,20 +150,6 @@ class EditingGUI
 
             // revert to edit cmd to avoid confusion
             $tpl->setContent($ret);
-            /*
-            if ($cmd !== "edit") {
-                $nav = $this->gui->navigation()->sideBar(
-                    $this->perm,
-                    $this->getLinkBuilder()
-                )->render(
-                    $this->parent_gui,
-                    $this->parent_gui->getItems(),
-                    $is_owner
-                );
-                $tpl->setRightContent($nav);
-            } else {
-                $this->gui->tabs()->setBackTarget("", "");
-            }*/
         }
 
         if (!$this->gui->tabs()->back_target) {
@@ -197,7 +169,7 @@ class EditingGUI
         $lng = $this->domain->lng();
         $ilToolbar = new ilToolbarGUI();
 
-        if (!$this->parent_gui->checkPermissionBool("read")) {
+        if (!$this->context->getPermission()->canRead()) {
             $tpl->setOnScreenMessage('info', $lng->txt("no_permission"));
             return;
         }
@@ -205,7 +177,7 @@ class EditingGUI
         $ilTabs->activateTab("content");
 
         // toolbar
-        if ($this->perm->mayContribute()) {
+        if ($this->context->getPermission()->mayContribute()) {
             $ilToolbar->setFormAction($ilCtrl->getFormActionByClass(self::class, "createPosting"));
 
             $title = new ilTextInputGUI($lng->txt("title"), "title");
@@ -223,15 +195,15 @@ class EditingGUI
 
 
             // #18763
-            $items = $this->domain->postingList($this->blog->getId())->getPostingsGroupedByMonth();
+            $items = $this->domain->postingList($this->context->getBlog()->getId())->getPostingsGroupedByMonth();
             $keys = array_keys($items);
             $first = array_shift($keys);
-            if ($first != $this->month) {
+            if ($first != $this->context->getRequest()->getMonth()) {
                 $ilToolbar->addSeparator();
 
-                $ilCtrl->setParameter($this->parent_gui, "bmn", $first);
-                $url = $ilCtrl->getLinkTarget($this->parent_gui, "");
-                $ilCtrl->setParameter($this->parent_gui, "bmn", $this->month);
+                $ilCtrl->setParameterByClass(ilObjBlogGUI::class, "bmn", $first);
+                $url = $ilCtrl->getLinkTargetByClass(ilObjBlogGUI::class, "");
+                $ilCtrl->setParameterByClass(ilObjBlogGUI::class, "bmn", $this->context->getRequest()->getMonth());
 
                 $ilToolbar->addComponent(
                     $this->gui->ui()->factory()->button()->standard(
@@ -243,9 +215,9 @@ class EditingGUI
 
             // print/pdf
             $print_view = $this->gui->presentation()->getPrintView(
-                $this->node_id,
-                $this->id_type === \ilObjBlogGUI::REPOSITORY_NODE_ID,
-                $this->blog_request->getObjIds()
+                $this->context->getNodeId(),
+                $this->context->isRepositoryNode(),
+                $this->context->getRequest()->getObjIds()
             );
             $modal_elements = $print_view->getModalElements(
                 $ilCtrl->getLinkTarget(
@@ -258,23 +230,23 @@ class EditingGUI
             $ilToolbar->addComponent($modal_elements->modal);
         }
 
-        $include_inactive = $this->perm->mayContribute();
-        $list_items = $this->domain->postingList($this->blog->getId(), $include_inactive)
+        $include_inactive = $this->context->getPermission()->mayContribute();
+        $list_items = $this->domain->postingList($this->context->getBlog()->getId(), $include_inactive)
                             ->getPostingsForView(
-                                $this->author ?? 0,
-                                $this->keyword ?? "",
-                                $this->current_month ?? ""
+                                $this->context->getAuthor() ?? 0,
+                                $this->context->getRequest()->getKeyword(),
+                                $this->context->getMonth()
                             );
 
 
         $list = $nav = "";
         if ($list_items) {
             $list = $this->gui->posting()->postingList(
-                $this->blog->getId(),
-                $this->perm,
-                $this->current_month,
-                $this->node_id,
-                $this->id_type
+                $this->context->getBlog()->getId(),
+                $this->context->getPermission(),
+                $this->context->getMonth(),
+                $this->context->getNodeId(),
+                $this->context->getIdType()
             )->render(
                 $list_items,
                 "preview",
@@ -282,13 +254,13 @@ class EditingGUI
                 $include_inactive
             );
             $nav = $this->gui->navigation()->sideBar(
-                $this->perm,
+                $this->context->getPermission(),
                 $this->getLinkBuilder(),
                 $this->blog_settings,
-                $this->node_id,
-                $this->id_type
+                $this->context->getNodeId(),
+                $this->context->getIdType()
             )->render(
-                $this->domain->postingList($this->blog->getId())->getPostingsGroupedByMonth(),
+                $this->domain->postingList($this->context->getBlog()->getId())->getPostingsGroupedByMonth(),
                 $include_inactive
             );
         }
@@ -302,9 +274,9 @@ class EditingGUI
     public function printViewSelection(): void
     {
         $print_view = $this->gui->presentation()->getPrintView(
-            $this->node_id,
-            $this->id_type === \ilObjBlogGUI::REPOSITORY_NODE_ID,
-            $this->blog_request->getObjIds()
+            $this->context->getNodeId(),
+            $this->context->isRepositoryNode(),
+            $this->context->getRequest()->getObjIds()
         );
         $print_view->sendForm();
     }
@@ -312,20 +284,20 @@ class EditingGUI
     public function printPostings(): void
     {
         $print_view = $this->gui->presentation()->getPrintView(
-            $this->node_id,
-            $this->id_type === \ilObjBlogGUI::REPOSITORY_NODE_ID,
-            $this->blog_request->getObjIds()
+            $this->context->getNodeId(),
+            $this->context->isRepositoryNode(),
+            $this->context->getRequest()->getObjIds()
         );
         $print_view->sendPrintView();
     }
 
     public function approve(): void
     {
-        $apid = $this->blog_request->getApId();
-        if ($this->perm->canManage() && $apid > 0) {
+        $apid = $this->context->getRequest()->getApId();
+        if ($this->context->getPermission()->canManage() && $apid > 0) {
             $post = new \ilBlogPosting($apid);
             $post->setApproved(true);
-            $post->setBlogNodeId($this->node_id, $this->id_type === ilObjBlogGUI::WORKSPACE_NODE_ID);
+            $post->setBlogNodeId($this->context->getNodeId(), !$this->context->isRepositoryNode());
             $post->update(true, false, true, "new"); // #13434
 
             $this->gui->ui()->mainTemplate()->setOnScreenMessage(
@@ -346,8 +318,8 @@ class EditingGUI
 
     public function deactivateAdmin(): void
     {
-        $apid = $this->blog_request->getApId();
-        if ($this->parent_gui->checkPermissionBool("write") && $apid > 0) {
+        $apid = $this->context->getRequest()->getApId();
+        if ($this->context->getPermission()->canWrite() && $apid > 0) {
             // ilBlogPostingGUI::deactivatePage()
             $post = new \ilBlogPosting($apid);
             $post->setApproved(false);
@@ -373,12 +345,12 @@ class EditingGUI
         $user = $this->domain->user();
         $mt = $this->gui->ui()->mainTemplate();
         $lng = $this->domain->lng();
-        $title = $this->blog_request->getTitle();
+        $title = $this->context->getRequest()->getTitle();
         if ($title) {
             // create new posting
             $posting = new \ilBlogPosting();
             $posting->setTitle($title);
-            $posting->setBlogId($this->blog->getId());
+            $posting->setBlogId($this->context->getBlog()->getId());
             $posting->setActive(false);
             $posting->setAuthor($user->getId());
             $posting->create(false);
@@ -398,8 +370,8 @@ class EditingGUI
     {
         $this->content_style->gui()->addCss(
             $this->gui->ui()->mainTemplate(),
-            $this->blog->getRefId(),
-            $this->blog->getId()
+            $this->context->getBlog()->getRefId(),
+            $this->context->getBlog()->getId()
         );
     }
 

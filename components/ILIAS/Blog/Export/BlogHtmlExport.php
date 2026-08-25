@@ -429,13 +429,18 @@ class BlogHtmlExport
 
         $this->co_page_html_export->getPreparedMainTemplate($tpl);
 
-        $this->gui->presentation()->presentationGUI(
-            $this->perm,
-            $this->content_style_domain,
-            "",
-            $this->owner_id,
+        $context = $this->gui->blogContext(
             $this->node_id,
-            $this->id_type
+            $this->id_type,
+            $this->blog_id,
+            "",
+            null,
+            $this->perm
+        );
+
+        $this->gui->presentation()->presentationGUI(
+            $context,
+            $this->content_style_domain,
         )->renderFullscreenHeader($tpl, $this->owner_id, true);
 
         return $tpl;

@@ -19,12 +19,11 @@
 declare(strict_types=1);
 
 use ILIAS\GlobalScreen\ScreenContext\ContextServices;
-use ILIAS\Blog\StandardGUIRequest;
+use ILIAS\Blog\BlogGUIContext;
 use ILIAS\Blog\Settings\SettingsGUI;
 use ILIAS\Blog\Permission\PermissionManager;
 use ILIAS\Blog\InternalDomainService;
 use ILIAS\Blog\InternalGUIService;
-use ILIAS\Blog\Posting\PostingManager;
 use ILIAS\Blog\Contributor\ContributorGUI;
 use ILIAS\Blog\Editing\EditingGUI;
 
@@ -44,20 +43,15 @@ use ILIAS\Blog\Editing\EditingGUI;
 class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 {
     protected \ILIAS\Style\Content\Service $cs;
-    protected PostingManager $posting_manager;
     protected \ILIAS\Blog\Permission\BlogCmdPermission $cmd_perm;
     protected PermissionManager $perm;
     protected InternalDomainService $domain;
     protected InternalGUIService $gui;
 
-    protected StandardGUIRequest $blog_request;
-    protected ilHelpGUI $help;
     protected ilTabsGUI $tabs;
     protected ilNavigationHistory $nav_history;
+    protected BlogGUIContext $blog_context;
 
-    protected string $month = "";
-    protected ?int $author = null;
-    protected int $blpg = 0;
     protected ContextServices $tool_context;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
@@ -82,9 +76,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $this->user = $domain->user();
         $this->tree = $domain->repositoryTree();
         $this->lng = $domain->lng();
-        $this->posting_manager = $domain->posting();
 
-        $this->help = $gui->help();
         $this->tabs = $gui->tabs();
         $this->toolbar = $gui->toolbar();
         $this->locator = $gui->locator();
@@ -92,18 +84,15 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $this->nav_history = $DIC["ilNavigationHistory"];
         $this->ctrl = $gui->ctrl();
 
-        $this->blog_request = $gui->standardRequest();
-
-        $req = $this->blog_request;
-        $this->blpg = $req->getBlogPage();
-        $this->month = $req->getMonth();
-        $this->author = $req->getAuthor();
+        $blog_request = $gui->standardRequest();
+        $month = $blog_request->getMonth();
+        $author = $blog_request->getAuthor();
 
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
-        $blog_page = $this->blog_request->getBlogPage();
+        $blog_page = $blog_request->getBlogPage();
         if ($blog_page > 0 &&
-            $this->posting_manager->lookupBlogId($blog_page) !== $this->object->getId()) {
+            $domain->posting()->lookupBlogId($blog_page) !== $this->object->getId()) {
             throw new ilException("Posting ID does not match blog.");
         }
 
@@ -117,17 +106,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 }
             }
 
-            // gather postings by month
-            $items = $this->buildPostingList($this->object->getId());
-            if ($items) {
-                // current month (if none given or empty)
-                if (!$this->month || !isset($items[$this->month]) || $items[$this->month] === []) {
-                    $m = array_keys($items);
-                    $this->month = array_shift($m);
-                }
-            }
+            $view_state = $domain->postingList($this->object->getId())
+                ->prepareViewState($month, $author);
+            $month = $view_state->getMonth();
+            $author = $view_state->getAuthor();
 
-            $this->ctrl->setParameter($this, "bmn", $this->month);
+            $this->ctrl->setParameter($this, "bmn", $month);
         }
 
         $this->lng->loadLanguageModule("blog");
@@ -140,6 +124,15 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $owner
         );
         $this->cmd_perm = $gui->cmdPerm($this->perm);
+        $this->blog_context = $gui->blogContext(
+            $this->node_id,
+            $this->id_type,
+            $this->object?->getId(),
+            $month,
+            $author,
+            $this->perm,
+            $this->call_by_reference
+        );
     }
 
     public function getType(): string
@@ -155,51 +148,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $ilCtrl->redirect($this, "edit");
     }
 
-    protected function setSettingsSubTabs(string $a_active): void
-    {
-        $tree = $this->tree;
-        $access = $this->access;
-
-        // general properties
-        $this->tabs_gui->addSubTab(
-            "properties",
-            $this->lng->txt("general"),
-            $this->ctrl->getLinkTarget($this, 'edit')
-        );
-
-        $this->tabs_gui->addSubTab(
-            "side_blocks",
-            $this->lng->txt("blog_side_blocks"),
-            $this->ctrl->getLinkTargetByClass(
-                [\ILIAS\Blog\Settings\BlockSettingsGUI::class],
-                ""
-            )
-        );
-
-        $this->tabs_gui->addSubTab(
-            "style",
-            $this->lng->txt("obj_sty"),
-            $this->ctrl->getLinkTargetByClass("ilobjectcontentstylesettingsgui", "")
-        );
-
-        // notification settings for blogs in courses and groups
-        if ($this->id_type === self::REPOSITORY_NODE_ID) {
-            $grp_ref_id = $tree->checkForParentType($this->object->getRefId(), 'grp');
-            $crs_ref_id = $tree->checkForParentType($this->object->getRefId(), 'crs');
-
-            if ($grp_ref_id > 0 || $crs_ref_id > 0) {
-                if ($access->checkAccess('write', '', $this->ref_id)) {
-                    $this->tabs_gui->addSubTab(
-                        'notifications',
-                        $this->lng->txt("notifications"),
-                        $this->ctrl->getLinkTargetByClass("ilobjnotificationsettingsgui", '')
-                    );
-                }
-            }
-        }
-
-        $this->tabs_gui->activateSubTab($a_active);
-    }
 
     public function edit(): void
     {
@@ -208,83 +156,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
     protected function setTabs(): void
     {
-        $lng = $this->lng;
-        $ilHelp = $this->help;
-
-        if ($this->id_type === self::WORKSPACE_NODE_ID) {
-            $this->ctrl->setParameter($this, "wsp_id", $this->node_id);
-        }
-
-        $ilHelp->setScreenIdComponent("blog");
-
-        if ($this->perm->mayContribute()) {
-            $this->ctrl->setParameterByClass(self::class, "bmn", null);
-            $this->tabs_gui->addTab(
-                "content",
-                $lng->txt("content"),
-                $this->ctrl->getLinkTargetByClass(
-                    EditingGUI::class,
-                    ""
-                )
-            );
-        }
-        if ($this->checkPermissionBool("read")) {
-            $this->tabs_gui->addTab(
-                "id_info",
-                $lng->txt("info_short"),
-                $this->ctrl->getLinkTargetByClass(array("ilobjbloggui", "ilinfoscreengui"), "showSummary")
-            );
-        }
-
-        if ($this->checkPermissionBool("write")) {
-            $this->tabs_gui->addTab(
-                "settings",
-                $lng->txt("settings"),
-                $this->ctrl->getLinkTargetByClass(
-                    [SettingsGUI::class],
-                    ""
-                )
-            );
-
-            if ($this->id_type === self::REPOSITORY_NODE_ID) {
-                $this->tabs_gui->addTab(
-                    "contributors",
-                    $lng->txt("blog_contributors"),
-                    $this->ctrl->getLinkTargetByClass(ContributorGUI::class, "contributors")
-                );
-            }
-
-            if ($this->id_type === self::REPOSITORY_NODE_ID) {
-                $mdgui = new ilObjectMetaDataGUI($this->object, null, null, $this->call_by_reference);
-                $mdtab = $mdgui->getTab();
-                if ($mdtab) {
-                    $this->tabs_gui->addTab(
-                        "meta_data",
-                        $this->lng->txt("meta_data"),
-                        $mdtab
-                    );
-                }
-                $this->tabs_gui->addTab(
-                    "export",
-                    $lng->txt("export"),
-                    $this->ctrl->getLinkTargetByClass("ilexportgui", "")
-                );
-            }
-        }
-
-        if ($this->perm->mayContribute()) {
-            $this->tabs_gui->addNonTabbedLink(
-                "preview",
-                $lng->txt("blog_preview"),
-                $this->ctrl->getLinkTargetByClass(
-                    [
-                        self::class,
-                        \ILIAS\Blog\Presentation\PresentationGUI::class
-                    ],
-                    "preview"
-                )
-            );
-        }
+        $this->gui->navigation()->navigationGUI($this->blog_context)->setTabs();
         parent::setTabs();
     }
 
@@ -361,7 +233,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $this->prepareOutput();
                 $this->addHeaderAction();
                 $ilTabs->activateTab("settings");
-                $this->setSettingsSubTabs("style");
+                $this->gui->navigation()->navigationGUI($this->blog_context)
+                    ->setSettingsSubTabs("style");
 
 
                 if ($this->id_type === self::REPOSITORY_NODE_ID) {
@@ -390,7 +263,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             case 'ilobjnotificationsettingsgui':
                 $this->prepareOutput();
                 $ilTabs->activateTab("settings");
-                $this->setSettingsSubTabs("notifications");
+                $this->gui->navigation()->navigationGUI($this->blog_context)
+                    ->setSettingsSubTabs("notifications");
                 $gui = new ilObjNotificationSettingsGUI($this->object->getRefId());
                 $this->cmd_perm->forwardPermitted($this, $gui);
                 break;
@@ -407,7 +281,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $this->checkPermission("write");
                 $this->prepareOutput();
                 $ilTabs->activateTab("settings");
-                $this->setSettingsSubTabs("properties");
+                $this->gui->navigation()->navigationGUI($this->blog_context)
+                    ->setSettingsSubTabs("properties");
                 $gui = $this->gui->settings()->settingsGUI(
                     $this->obj_id,
                     $this->id_type === self::REPOSITORY_NODE_ID
@@ -419,12 +294,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $this->prepareOutput();
                 $this->addHeaderAction();
                 $gui = $this->gui->editing()->editingGUI(
-                    $this->node_id,
-                    $this->id_type,
-                    $this->perm,
-                    $this->month,
-                    $this->cs,
-                    $this
+                    $this->blog_context,
+                    $this->cs
                 );
                 $this->cmd_perm->forwardPermitted($this, $gui);
                 break;
@@ -433,12 +304,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $this->prepareOutput();
                 $this->initHeaderAction(null, null, true);
                 $gui = $this->gui->presentation()->presentationGUI(
-                    $this->perm,
+                    $this->blog_context,
                     $this->content_style_domain,
-                    $this->month,
-                    $this->object->getOwner(),
-                    $this->node_id,
-                    $this->id_type,
                     function () {
                         $this->addPresentationHeaderAction();
                     }
@@ -461,7 +328,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $this->checkPermission("write");
                 $this->prepareOutput();
                 $ilTabs->activateTab("settings");
-                $this->setSettingsSubTabs("side_blocks");
+                $this->gui->navigation()->navigationGUI($this->blog_context)
+                    ->setSettingsSubTabs("side_blocks");
                 $gui = $this->gui->settings()->blockSettingsGUI(
                     $this->obj_id,
                     $this->id_type === self::REPOSITORY_NODE_ID
@@ -560,21 +428,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
     // --- helper functions
 
-    /**
-     * Gather all blog postings
-     */
-    protected function buildPostingList(
-        int $a_obj_id
-    ): array {
-        $posting_list = $this->domain->postingList($a_obj_id);
-
-        if ($this->author && !$posting_list->hasAuthorPostings($this->author)) {
-            $this->author = null;
-        }
-
-        return $posting_list->getPostingsGroupedByMonth();
-    }
-
     public function addPresentationHeaderAction(): void
     {
         $this->insertHeaderAction($this->initHeaderAction(null, null, true));
@@ -589,24 +442,17 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             return null;
         }
         $sub_type = $sub_id = null;
-        if ($this->blpg > 0) {
+        if ($this->blog_context->getRequest()->getBlogPage() > 0) {
             $sub_type = "blp";
-            $sub_id = $this->blpg;
+            $sub_id = $this->blog_context->getRequest()->getBlogPage();
         }
 
         $lg = parent::initHeaderAction($sub_type, $sub_id);
         if (!$lg) {
             return null;
         }
-        $lg->enableComments(false);
-        $lg->enableNotes(false);
-        if (!$presenation) {
-            return $lg;
-        }
-        return $this->gui->navigation()->presentationHeader(
-            $this->object,
-            $this->perm,
-        )->get($lg, $this->blpg);
+        return $this->gui->navigation()->navigationGUI($this->blog_context)
+            ->prepareHeaderAction($lg, $presenation);
     }
 
     /**
@@ -635,11 +481,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
     protected function addLocatorItems(): void
     {
-        $ilLocator = $this->locator;
-
-        if (is_object($this->object)) {
-            $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "preview"), "", $this->node_id);
-        }
+        $this->gui->navigation()->navigationGUI($this->blog_context)
+            ->addLocatorItems();
     }
 
 

@@ -29,6 +29,7 @@ use ILIAS\Blog\Posting\Service\GUIService as PostingGUIService;
 use ILIAS\Blog\Permission\BlogCmdPermission;
 use ILIAS\Blog\Permission\PermissionManager;
 use ILIAS\Blog\Export\GUIService as ExportGUIService;
+use ilObjBlog;
 
 class InternalGUIService
 {
@@ -76,6 +77,27 @@ class InternalGUIService
         return new StandardGUIRequest(
             $this->http(),
             $this->domain_service->refinery()
+        );
+    }
+
+    public function blogContext(
+        int $node_id,
+        int $id_type,
+        ?int $blog_id,
+        string $month,
+        ?int $author,
+        PermissionManager $permission,
+        bool $call_by_reference = false
+    ): BlogGUIContext {
+        return new BlogGUIContext(
+            $node_id,
+            $id_type,
+            $blog_id === null ? null : new ilObjBlog($blog_id, false),
+            $month,
+            $author,
+            $permission,
+            $this->standardRequest(),
+            $call_by_reference
         );
     }
 
