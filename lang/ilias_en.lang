@@ -1370,10 +1370,10 @@ assessment#:#tst_activate_skill_service_desc#:#Allow questions to be assigned to
 assessment#:#tst_activation_limited_visibility_info#:#Before and after the period during which the test is available,  the test's title will be displayed, but participants won’t be able to take the test. Access, including to tests already in progress, will be prevented once the period of availability has ended.
 assessment#:#tst_activation_online_info#:#Participants can take the test if it is ‘Online’.
 assessment#:#tst_add_quest_cont_edit_mode#:#Editor
-assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Use plain text for questions and answers and ILIAS page editor for feedback
-assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#No formatting of text in question and answers. No use of LaTex either. But feedback can be reused when question is embedded in ILIAS learning module.
-assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Use Rich-Text-Editor (TinyMCE) for editing questions and answers and feedbacks
-assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of questions, answers and feedbacks. But feedback cannot be reused when question is embedded in ILIAS learning module.
+assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Use plain text when creating questions and answer options
+assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#When creating or editing questions and answer options, the text cannot be formatted. Feedback however, can be formatted using the ILIAS page editor and also reused if the question is embedded in an ILIAS learning module.
+assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Use Rich-Text-Editor (TinyMCE) for editing questions and answers options and feedbacks
+assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#When creating or editing questions, answer options, and feedback, the text can be formatted. However, feedback will not be carried across if the question is embedded in an ILIAS learning module.
 assessment#:#tst_add_quest_cont_edit_mode_plain#:#Use plain text
 assessment#:#tst_add_quest_cont_edit_mode_plain_info#:#No formatting of text in question, answers and feedback.
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.
