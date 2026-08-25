@@ -21,6 +21,8 @@
  * @version		$Id$
  *
  * @package components\ILIAS/Test
+ *
+ * @deprecated Use normalized question export instead
  */
 class assKprimChoiceExport extends assQuestionExport
 {

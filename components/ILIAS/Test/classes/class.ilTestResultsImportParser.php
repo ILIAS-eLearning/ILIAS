@@ -22,6 +22,9 @@ use ILIAS\Filesystem\Stream\Stream;
 use ILIAS\ResourceStorage\Services as ResourceStorage;
 use ILIAS\Test\Logging\TestLogger;
 
+/**
+ * @deprecated 12: Use ILIAS\Test\ExportImport\TestImporter instead
+ */
 class ilTestResultsImportParser extends ilSaxParser
 {
     private $table;

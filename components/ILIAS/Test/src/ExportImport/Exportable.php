@@ -35,6 +35,8 @@ namespace ILIAS\Test\ExportImport;
  * The methods should operate solely on the object's internal state and the provided
  * data array, without relying on external services, database connections, or any other context.
  * ---
+ *
+ * @deprecated 12: Use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable instead
  */
 interface Exportable
 {

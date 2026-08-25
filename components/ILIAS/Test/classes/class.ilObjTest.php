@@ -2768,8 +2768,7 @@ class ilObjTest extends ilObject
     }
 
     /**
-     * Receives parameters from a QTI parser and creates a valid ILIAS test object
-     * @param ilQTIAssessment $assessment
+     * @deprecated 12: Use ILIAS\Test\ExportImport\TestImporter instead
      */
     public function fromXML(ilQTIAssessment $assessment, array $mappings): void
     {
