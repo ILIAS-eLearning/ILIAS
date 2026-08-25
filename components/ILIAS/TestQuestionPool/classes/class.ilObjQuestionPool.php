@@ -361,6 +361,8 @@ class ilObjQuestionPool extends ilObject
      * @param array $questions An array containing the question ids of the questions
      * @return string The QTI xml representation of the questions
      * @access public
+     *
+     * @deprecated 12: Use ILIAS\Test\ExportImport\TestExporter instead
      */
     public function questionsToXML($questions): string
     {

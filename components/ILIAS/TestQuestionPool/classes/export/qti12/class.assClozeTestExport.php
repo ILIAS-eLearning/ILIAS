@@ -27,6 +27,8 @@ use ILIAS\Refinery\Random\Group as RandomGroup;
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @ingroup components\ILIASTestQuestionPool
+ *
+ * @deprecated Use normalized question export instead
 */
 class assClozeTestExport extends assQuestionExport
 {

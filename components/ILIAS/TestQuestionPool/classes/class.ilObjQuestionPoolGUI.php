@@ -858,6 +858,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->ctrl->redirect($this, self::DEFAULT_CMD);
     }
 
+    /**
+     * @deprecated 12: Use ILIAS\Test\ExportImport\TestExporter instead
+     */
     public function exportQuestions(array $ids): void
     {
         if ($ids !== []) {
@@ -1083,6 +1086,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_move_insert_clipboard'), true);
     }
 
+    /**
+     * @deprecated 12: excel export is not longer supported
+     */
     public function createExportExcel(): void
     {
         $rbacsystem = $this->rbac_system;

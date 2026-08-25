@@ -23,6 +23,9 @@ namespace ILIAS\TestQuestionPool\Import;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 
+/**
+ * @deprecated 12: Use ILIAS\Test\ExportImport\TestImporter instead
+ */
 trait TestQuestionsImportTrait
 {
     private string $import_temp_directory = CLIENT_DATA_DIR . DIRECTORY_SEPARATOR . 'temp';
