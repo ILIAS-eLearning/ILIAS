@@ -49,7 +49,7 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
     public const string F_MODIFICATION_DATE = 'create_date';
     public const string FIELD_TITLE = 'title';
     public const string HOME = 'HOME';
-    private \ILIAS\Data\Factory $data_factory;
+    private \ilObjUser $user;
     private \ILIAS\ResourceStorage\Services $irss;
     private Renderer $ui_renderer;
     private \ilCtrlInterface $ctrl;
@@ -69,7 +69,7 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
         private UploadBuilder $upload_builder
     ) {
         global $DIC;
-        $this->data_factory = new \ILIAS\Data\Factory();
+        $this->user = $DIC->user();
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->ctrl = $DIC->ctrl();
         $this->actions = $this->action_builder->getActionProvider()->getSingleActions(
@@ -180,7 +180,9 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
 
         $columns[self::F_MODIFICATION_DATE] = $this->ui_factory->table()->column()->date(
             $this->language->txt(self::F_MODIFICATION_DATE),
-            $this->data_factory->dateFormat()->germanLong()
+            // the weekday of germanLong() is rendered by PHP and therefore always
+            // english, see https://mantis.ilias.de/view.php?id=45152
+            $this->user->getDateFormat()
         )->withIsSortable(true);
 
         $columns[self::F_TYPE] = $this->ui_factory->table()->column()->text(
