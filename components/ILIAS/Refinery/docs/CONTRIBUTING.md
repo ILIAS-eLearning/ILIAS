@@ -17,7 +17,7 @@ about the function of this role.
 ## Reporting Bugs
 
 Bugs must be reported via https://mantis.ilias.de in the `Refinery`
-category. One of the [coordinators](/src/Refinery/maintenance.json)
+category. One of the [coordinators](../../../../docs/development/maintenance.md)
 must be assigned.
 
 Bug fixes and improvements can be provided via a Pull Request.
@@ -28,7 +28,7 @@ as a [breaking change](#breaking-changes).
 ## Features
 
 Features and Breaking Changes must be discussed with the
-[coordinators](/src/Refinery/maintenance.json)
+[coordinators](../../../../docs/development/maintenance.md)
 of this component.
 
 Features that also changes the behaviour of existing implementations
@@ -44,7 +44,7 @@ announced one month in advance on the [Jour Fixe](https://docu.ilias.de/goto_doc
 * Update the README.md with details of changes to the interface, classes or
   general behaviour.
 * Contact one of the coordinators in the Pull Request.
-  The list of coordinators can be found [here](/src/Refinery/maintenance.json)
+  The list of coordinators can be found [here](../../../../docs/development/maintenance.md)
 * Every Pull Request with actual code changes has to add or adapt unit tests.
 * The title of the Pull Request should be prefixed with `Refinery:`.
 * The Pull Request must pass the CI integration.
