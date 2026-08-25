@@ -475,6 +475,7 @@ class ilObjUser extends ilObject
         if (!isset($this->user_settings['style'])
             || $this->user_settings['style'] === ''
             || !ilStyleDefinition::styleExists($this->user_settings['style'])
+            || !isset($this->user_settings['skin'])
             || !ilStyleDefinition::skinExists($this->user_settings['skin'])
                 && ilStyleDefinition::styleExistsForSkinId($this->user_settings['skin'], $this->user_settings['style'])) {
             $this->user_settings['skin'] = $this->ilias->ini->readVariable('layout', 'skin');
