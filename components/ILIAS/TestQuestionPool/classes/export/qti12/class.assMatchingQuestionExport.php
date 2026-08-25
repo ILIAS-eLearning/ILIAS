@@ -26,6 +26,8 @@ declare(strict_types=1);
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @ingroup components\ILIASTestQuestionPool
+ *
+ * @deprecated Use normalized question export instead
 */
 class assMatchingQuestionExport extends assQuestionExport
 {

@@ -21,10 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\ExportImport;
 
 /**
- * @author        Björn Heyser <bheyser@databay.de>
- * @version        $Id$
- *
- * @package components\ILIAS/Test
+ * @deprecated 12: Use ILIAS\Test\ExportImport\TestExporter instead
  */
 class ExportRandomQuestionSet extends Export
 {
