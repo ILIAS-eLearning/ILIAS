@@ -80,7 +80,8 @@ class Agent extends Setup\Agent\NullAgent
     {
         return [
             new \ilBookingManagerObjectInfoMigration(),
-            new \ilBookingManagerBookingInfoMigration()
+            new \ilBookingManagerBookingInfoMigration(),
+            new \ilBookingManagerOfflineMigration(),
         ];
     }
 
