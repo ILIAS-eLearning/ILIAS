@@ -13,7 +13,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
-import Prompt from './prompt.class';
+import Prompt from './prompt.class.js';
 
 export default class PromptFactory {
   /**
@@ -40,10 +40,14 @@ export default class PromptFactory {
    */
   init(id) {
     if (this.#instances[id] !== undefined) {
-      throw new Error(`Prompt with id '${id}' has already been initialized.`);
+      return;
     }
 
-    this.#instances[id] = new Prompt(this.#DOMParser, id);
+    try {
+      this.#instances[id] = new Prompt(this.#DOMParser, id);
+    } catch (error) {
+      // Prompt element may not exist yet during async content replacement.
+    }
   }
 
   /**
