@@ -18,25 +18,25 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/../../../../../../../vendor/composer/vendor/autoload.php';
-require_once __DIR__ . '/../../../Base.php';
-require_once __DIR__ . '/../../Input/Field/CommonFieldRendering.php';
+require_once __DIR__ . '/../../../../../../vendor/composer/vendor/autoload.php';
+require_once __DIR__ . '/../../Base.php';
+require_once __DIR__ . '/../Input/Field/CommonFieldRendering.php';
 
 use ILIAS\Data\URI;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component as I;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\Implementation\Component\Prompt;
 use ILIAS\UI\Implementation\Component\Signal;
 use ILIAS\UI\Implementation\Component\MessageBox;
-use ILIAS\UI\Implementation\Component\Prompt\State as PromptState;
 use ILIAS\UI\Implementation\Component\Listing\Entity as ListingEntity;
 
-class ConfirmStateTest extends ILIAS_UI_TestBase
+class ConfirmationTest extends ILIAS_UI_TestBase
 {
     use CommonFieldRendering;
 
-    public function testConfirmPutsEntityIdsIntoHiddenFormInputs(): void
+    public function testConfirmationPutsEntityIdsIntoHiddenFormInputs(): void
     {
         $captured_url = null;
         $captured_inputs = null;
@@ -59,16 +59,12 @@ class ConfirmStateTest extends ILIAS_UI_TestBase
         $input_factory->method('container')->willReturn($container_factory);
         $input_factory->method('field')->willReturn($this->getFieldFactory());
 
-        $factory = new PromptState\Factory(
-            new ListingEntity\Factory(),
-            new MessageBox\Factory(),
-            $input_factory
-        );
+        $factory = $this->getPromptFactory($input_factory);
 
         $url_builder = new URLBuilder(new URI('https://example.com/go'));
         [$url_builder, $token] = $url_builder->acquireParameters(['test'], 'entities');
 
-        $state = $factory->confirm(
+        $confirmation = $factory->confirmation(
             $this->getEntityRetrieval(),
             $url_builder,
             $token,
@@ -77,6 +73,7 @@ class ConfirmStateTest extends ILIAS_UI_TestBase
             'title',
         );
 
+        $this->assertInstanceOf(C\Prompt\Confirmation::class, $confirmation);
         $this->assertIsString($captured_url);
         $this->assertStringNotContainsString('11', $captured_url);
         $this->assertStringNotContainsString('22', $captured_url);
@@ -88,19 +85,18 @@ class ConfirmStateTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(C\Input\Field\Group::class, $group);
         $this->assertSame(['11', '22'], array_values($group->getValue()));
 
-        $content = $state->getContent();
-        $this->assertInstanceOf(PromptState\Confirmation::class, $content);
-        $this->assertSame($form, $content->getForm());
+        $this->assertInstanceOf(Prompt\Confirmation::class, $confirmation);
+        $this->assertSame($form, $confirmation->getForm());
     }
 
-    public function testGetConfirmedDataReadsEntityIdsFromRequest(): void
+    public function testGetDataReadsEntityIdsFromRequest(): void
     {
-        $factory = $this->getStateFactoryWithRealForms();
+        $factory = $this->getPromptFactoryWithRealForms();
 
         $url_builder = new URLBuilder(new URI('https://example.com/go'));
         [$url_builder, $token] = $url_builder->acquireParameters(['test'], 'entities');
 
-        $state = $factory->confirm(
+        $confirmation = $factory->confirmation(
             $this->getEntityRetrieval(),
             $url_builder,
             $token,
@@ -109,10 +105,9 @@ class ConfirmStateTest extends ILIAS_UI_TestBase
             'title',
         );
 
-        $content = $state->getContent();
-        $this->assertInstanceOf(PromptState\Confirmation::class, $content);
+        $this->assertInstanceOf(Prompt\Confirmation::class, $confirmation);
 
-        $group = $content->getForm()->getInputs()[$token->getName()];
+        $group = $confirmation->getForm()->getInputs()[$token->getName()];
         $this->assertInstanceOf(C\Input\Field\Group::class, $group);
 
         $body = [];
@@ -123,18 +118,18 @@ class ConfirmStateTest extends ILIAS_UI_TestBase
         $request = $this->createMock(ServerRequestInterface::class);
         $request->method('getParsedBody')->willReturn($body);
 
-        $this->assertInstanceOf(PromptState\State::class, $state);
-        $this->assertSame(['11', '22'], $state->getConfirmedData($request));
+        $this->assertSame(['11', '22'], $confirmation->withRequest($request)->getData());
+        $this->assertSame([], $confirmation->getData());
     }
 
-    public function testGetConfirmedDataReturnsEmptyArrayWhenRequestHasNoIds(): void
+    public function testGetDataReturnsEmptyArrayWhenRequestHasNoIds(): void
     {
-        $factory = $this->getStateFactoryWithRealForms();
+        $factory = $this->getPromptFactoryWithRealForms();
 
         $url_builder = new URLBuilder(new URI('https://example.com/go'));
         [$url_builder, $token] = $url_builder->acquireParameters(['test'], 'entities');
 
-        $state = $factory->confirm(
+        $confirmation = $factory->confirmation(
             $this->getEntityRetrieval(),
             $url_builder,
             $token,
@@ -146,10 +141,21 @@ class ConfirmStateTest extends ILIAS_UI_TestBase
         $request = $this->createMock(ServerRequestInterface::class);
         $request->method('getParsedBody')->willReturn([]);
 
-        $this->assertSame([], $state->getConfirmedData($request));
+        $this->assertSame([], $confirmation->withRequest($request)->getData());
     }
 
-    private function getStateFactoryWithRealForms(): PromptState\Factory
+    private function getPromptFactory(C\Input\Factory $input_factory): Prompt\Factory
+    {
+        return new Prompt\Factory(
+            new I\SignalGenerator(),
+            new Prompt\State\Factory(),
+            new ListingEntity\Factory(),
+            new MessageBox\Factory(),
+            $input_factory
+        );
+    }
+
+    private function getPromptFactoryWithRealForms(): Prompt\Factory
     {
         $field_factory = $this->getFieldFactory();
         $form_factory = new I\Input\Container\Form\Factory($field_factory, new I\SignalGenerator());
@@ -160,11 +166,7 @@ class ConfirmStateTest extends ILIAS_UI_TestBase
         $input_factory->method('field')->willReturn($field_factory);
         $input_factory->method('container')->willReturn($container_factory);
 
-        return new PromptState\Factory(
-            new ListingEntity\Factory(),
-            new MessageBox\Factory(),
-            $input_factory
-        );
+        return $this->getPromptFactory($input_factory);
     }
 
     private function getFormMock(string $post_url): I\Input\Container\Form\Standard

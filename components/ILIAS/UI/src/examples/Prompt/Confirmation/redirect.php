@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\examples\Prompt\State\Confirm;
+namespace ILIAS\UI\examples\Prompt\Confirmation;
 
 use ILIAS\UI\URLBuilder;
 
@@ -50,7 +50,7 @@ function redirect(): string
     $here_uri = $data_factory->uri((string) $http->request()->getUri());
     $url_builder = new URLBuilder($here_uri);
 
-    $example_namespace = ['prompt', 'state', 'confirm', 'redirect'];
+    $example_namespace = ['prompt', 'confirmation', 'redirect'];
     $demo_entity_ids = [1, 2, 3];
 
     [$url_builder, $endpoint_token] = $url_builder->acquireParameters($example_namespace, 'endpoint');
@@ -66,8 +66,8 @@ function redirect(): string
         $entity_ids = retrieveEntityIds($query, $confirm_token->getName(), $refinery);
         if ($entity_ids !== null) {
             $post_url = $async_url_builder->withParameter($process_token, '1');
-            $state = $factory->prompt()->state()->confirm(
-                new ConfirmStateEntityRetrieval(),
+            $confirmation = $factory->prompt()->confirmation(
+                new ConfirmationExampleEntityRetrieval(),
                 $post_url,
                 $entities_token,
                 $entity_ids,
@@ -75,7 +75,7 @@ function redirect(): string
                 'Performing some action',
             );
 
-            echo $renderer->renderAsync($state);
+            echo $renderer->renderAsync($factory->prompt()->state()->show($confirmation));
             exit;
         }
     }
@@ -103,8 +103,8 @@ function redirect(): string
     $prompt = $factory->prompt()->standard($open_uri);
     $trigger = $factory->button()->primary('Open Confirmation (And Redirect)', $prompt->getShowSignal($open_uri));
 
-    $has_success_feedback = $query->has($success_token->getName())
-        && $query->retrieve($success_token->getName(), $refinery->kindlyTo()->string()) !== '';
+    $has_success_feedback = $query->has($success_token->getName()) &&
+        $query->retrieve($success_token->getName(), $refinery->kindlyTo()->string()) !== '';
 
     $components = [$trigger, $prompt];
     if ($has_success_feedback) {
@@ -114,9 +114,9 @@ function redirect(): string
         );
     }
 
-    $is_async = !$has_success_feedback
-        && $query->has($endpoint_token->getName())
-        && $query->retrieve($endpoint_token->getName(), $refinery->kindlyTo()->string()) === 'true';
+    $is_async = !$has_success_feedback &&
+        $query->has($endpoint_token->getName()) &&
+        $query->retrieve($endpoint_token->getName(), $refinery->kindlyTo()->string()) === 'true';
 
     if (!$is_async) {
         return $renderer->render($components);

@@ -31,8 +31,8 @@ use ILIAS\UI\Component\Entity\EntityRetrieval;
  * ---
  * description: >
  *   A confirmation prompt for deleting or changing multiple entities.
- *   The UI framework composes message box, entity listing and a Standard Form
- *   with Kitchen Sink Hidden Inputs.
+ *   prompt()->confirmation() composes message box, entity listing and a Standard
+ *   Form with Kitchen Sink Hidden Inputs; it is shown via state()->show().
  *
  * expected output: >
  *   A button opens a prompt listing selected entities with a confirmation question.
@@ -70,7 +70,7 @@ function confirmation(): string
         $entity_ids = retrieveEntityIds($query, $confirm_token->getName(), $refinery);
         if ($entity_ids !== null) {
             $post_url = $url_builder->withParameter($process_token, '1');
-            $state = $factory->prompt()->state()->confirm(
+            $confirmation = $factory->prompt()->confirmation(
                 new ConfirmationEntityRetrieval(),
                 $post_url,
                 $entities_token,
@@ -79,7 +79,7 @@ function confirmation(): string
                 'Performing some action',
             );
 
-            echo $renderer->renderAsync($state);
+            echo $renderer->renderAsync($factory->prompt()->state()->show($confirmation));
             exit;
         }
     }
@@ -88,7 +88,7 @@ function confirmation(): string
     if ($http->request()->getMethod() === 'POST' && $query->has($process_token->getName())) {
         $process = $query->retrieve($process_token->getName(), $refinery->kindlyTo()->string());
         if ($process !== '') {
-            $state = $factory->prompt()->state()->confirm(
+            $confirmation = $factory->prompt()->confirmation(
                 new ConfirmationEntityRetrieval(),
                 $url_builder->withParameter($process_token, '1'),
                 $entities_token,
@@ -96,7 +96,7 @@ function confirmation(): string
                 'Are you sure you want to perform this action?',
                 'Performing some action',
             );
-            $entity_ids = $state->getConfirmedData($http->request());
+            $entity_ids = $confirmation->withRequest($http->request())->getData();
             $message = $factory->messageBox()->success(
                 'Submitted entity ids: ' . implode(', ', array_map('strval', $entity_ids))
             );

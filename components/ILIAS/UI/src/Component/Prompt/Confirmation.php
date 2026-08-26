@@ -18,27 +18,21 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Implementation\Component\Prompt\State;
+namespace ILIAS\UI\Component\Prompt;
 
-use ILIAS\Data\URI;
-use ILIAS\UI\Component\Prompt as I;
+use Psr\Http\Message\ServerRequestInterface;
 
-class Factory implements I\State\Factory
+/**
+ * Confirmation content for a Prompt: question, affected entities, posted ids.
+ */
+interface Confirmation extends IsPromptContent
 {
-    public function show(I\IsPromptContent $content): State
-    {
-        return new State($content);
-    }
+    public function withRequest(ServerRequestInterface $request): self;
 
-    public function close(): State
-    {
-        return (new State(null))
-            ->withCloseModal(true);
-    }
-
-    public function redirect(URI $redirect): State
-    {
-        return (new State(null))
-            ->withRedirect($redirect);
-    }
+    /**
+     * Entity ids from the confirmation form after withRequest().
+     *
+     * @return list<string>
+     */
+    public function getData(): array;
 }

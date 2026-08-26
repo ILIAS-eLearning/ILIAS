@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Implementation\Component\Prompt\State;
+namespace ILIAS\UI\Implementation\Component\Prompt;
 
 use Generator;
 use ILIAS\Data\Order;

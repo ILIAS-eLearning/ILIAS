@@ -20,9 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Prompt\State;
 
-use ILIAS\UI\URLBuilderToken;
-use ILIAS\UI\URLBuilder;
-use ILIAS\UI\Component;
 use ILIAS\Data\URI;
 
 interface Factory
@@ -51,43 +48,6 @@ interface Factory
      */
     public function show(
         \ILIAS\UI\Component\Prompt\IsPromptContent $content
-    ): State;
-
-    /**
-     * ---
-     * description:
-     *   purpose: >
-     *      Build a Prompt State to confirm an action on a set of entities.
-     *   composition: >
-     *      The UI framework composes a confirmation message box, an entity
-     *      listing below it and a Standard Form with Kitchen Sink Hidden Inputs
-     *      (one per entity id, grouped under the URLBuilderToken name).
-     *      IDs are never attached to the form action URL.
-     *      The Prompt renders the form without its own submit buttons and places
-     *      Confirm/Cancel in the Prompt footer via the form submit signal.
-     *      Consumers provide an EntityRetrieval and the ids to confirm.
-     *   effect: >
-     *      The Prompt shows the confirmation question, lists affected entities
-     *      and posts the entity ids in the request body when confirmed.
-     *      Consumers retrieve them via getConfirmedData() on this state.
-     *
-     * context:
-     *   - The Prompt State is used for Prompts.
-     *
-     * ---
-     * @param Component\Entity\EntityRetrieval $entity_retrieval
-     * @param URLBuilder                       $post_url
-     * @param URLBuilderToken                  $post_parameter
-     * @param array<string|int>                $entity_ids
-     * @return \ILIAS\UI\Component\Prompt\State\State
-     */
-    public function confirm(
-        Component\Entity\EntityRetrieval $entity_retrieval,
-        URLBuilder $post_url,
-        URLBuilderToken $post_parameter,
-        array $entity_ids,
-        string $question,
-        string $title,
     ): State;
 
     /**

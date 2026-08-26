@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\examples\Prompt\State\Confirm;
+namespace ILIAS\UI\examples\Prompt\Confirmation;
 
 use ILIAS\UI\URLBuilder;
 
@@ -49,7 +49,7 @@ function close(): string
     $here_uri = $data_factory->uri((string) $http->request()->getUri());
     $url_builder = new URLBuilder($here_uri);
 
-    $example_namespace = ['prompt', 'state', 'confirm', 'close'];
+    $example_namespace = ['prompt', 'confirmation', 'close'];
     $demo_entity_ids = [1, 2, 3];
 
     [$url_builder, $endpoint_token] = $url_builder->acquireParameters($example_namespace, 'endpoint');
@@ -63,8 +63,8 @@ function close(): string
         $entity_ids = retrieveEntityIds($query, $confirm_token->getName(), $refinery);
         if ($entity_ids !== null) {
             $post_url = $url_builder->withParameter($process_token, '1');
-            $state = $factory->prompt()->state()->confirm(
-                new ConfirmStateEntityRetrieval(),
+            $confirmation = $factory->prompt()->confirmation(
+                new ConfirmationExampleEntityRetrieval(),
                 $post_url,
                 $entities_token,
                 $entity_ids,
@@ -72,7 +72,7 @@ function close(): string
                 'Performing some action',
             );
 
-            echo $renderer->renderAsync($state);
+            echo $renderer->renderAsync($factory->prompt()->state()->show($confirmation));
             exit;
         }
     }

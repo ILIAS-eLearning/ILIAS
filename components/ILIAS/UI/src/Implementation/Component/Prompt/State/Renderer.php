@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Prompt\State;
 
+use ILIAS\UI\Implementation\Component\Prompt\Confirmation;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
@@ -35,18 +36,7 @@ class Renderer extends AbstractComponentRenderer
             return $this->renderState($component, $default_renderer);
         }
 
-        if ($component instanceof Confirmation) {
-            return $this->renderConfirmation($component, $default_renderer);
-        }
-
         $this->cannotHandleComponent($component);
-    }
-
-    protected function renderConfirmation(Confirmation $component, RendererInterface $default_renderer): string
-    {
-        return $default_renderer->render($component->getMessageBox())
-            . $default_renderer->render($component->getEntityListing())
-            . $default_renderer->render($component->getForm());
     }
 
     protected function renderState(State $component, RendererInterface $default_renderer): string
@@ -67,7 +57,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         if ($content_component instanceof Confirmation) {
-            $tpl->setVariable('CONTENT', $this->renderConfirmation($content_component, $default_renderer));
+            $tpl->setVariable('CONTENT', $default_renderer->render($content_component));
             $buttons = $this->getConfirmationButtons($content_component);
         } else {
             $tpl->setVariable('CONTENT', $default_renderer->render($content_component));

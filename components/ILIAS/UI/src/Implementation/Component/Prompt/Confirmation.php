@@ -18,24 +18,24 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Implementation\Component\Prompt\State;
+namespace ILIAS\UI\Implementation\Component\Prompt;
 
 use ILIAS\UI\Component\Button\Button;
-use ILIAS\UI\Component\Listing\Entity\EntityListing;
-use ILIAS\UI\Component\MessageBox\MessageBox;
-use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\UI\Implementation\Component\Input\Container\Form\Standard as StandardForm;
-use ILIAS\UI\Implementation\Component\Prompt\IsPromptContentInternal;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\Component\MessageBox\MessageBox;
+use ILIAS\UI\Component\Listing\Entity\EntityListing;
+use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Component\Prompt\Confirmation as IConfirmation;
+use ILIAS\UI\Implementation\Component\Input\Container\Form\Standard as StandardForm;
 
-class Confirmation implements IsPromptContentInternal
+class Confirmation implements IConfirmation, IsPromptContentInternal
 {
     use ComponentHelper;
 
     public function __construct(
         private readonly MessageBox $message_box,
         private readonly EntityListing $entity_listing,
-        private readonly StandardForm $form,
+        private StandardForm $form,
         private readonly string $title,
         private readonly string $post_parameter_name,
     ) {
@@ -56,12 +56,20 @@ class Confirmation implements IsPromptContentInternal
         return $this->form;
     }
 
-    /**
-     * @return array<string>
-     */
-    public function getPostedData(ServerRequestInterface $request): array
+    public function withRequest(ServerRequestInterface $request): self
     {
-        $data = $this->form->withRequest($request)->getData();
+        $clone = clone $this;
+        $clone->form = $this->form->withRequest($request);
+
+        return $clone;
+    }
+
+    /**
+     * @return list<string>
+     */
+    public function getData(): array
+    {
+        $data = $this->form->getData();
         $raw = is_array($data) ? ($data[$this->post_parameter_name] ?? null) : null;
         if (!is_array($raw)) {
             return [];

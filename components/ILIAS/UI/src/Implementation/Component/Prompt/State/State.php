@@ -25,7 +25,6 @@ use ILIAS\UI\Component\Button;
 use ILIAS\UI\Component\Prompt as I;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\Data\URI;
-use Psr\Http\Message\ServerRequestInterface;
 
 /**
  *
@@ -57,19 +56,6 @@ class State implements I\State\State
         $clone = clone $this;
         $clone->title = $title;
         return $clone;
-    }
-
-    /**
-     * @return array<string>
-     */
-    public function getConfirmedData(ServerRequestInterface $request): array
-    {
-        $content = $this->content;
-        if (!$content instanceof Confirmation) {
-            throw new \LogicException('Confirmed data is only available on confirm states.');
-        }
-
-        return $content->getPostedData($request);
     }
 
     public function withContent(I\IsPromptContent $content): self

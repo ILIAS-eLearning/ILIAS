@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\examples\Prompt\State\Confirm;
+namespace ILIAS\UI\examples\Prompt\Confirmation;
 
 use Generator;
 use ILIAS\Data\Order;
@@ -52,7 +52,7 @@ function base(): string
     $here_uri = $data_factory->uri((string) $http->request()->getUri());
     $url_builder = new URLBuilder($here_uri);
 
-    $example_namespace = ['prompt', 'state', 'confirm'];
+    $example_namespace = ['prompt', 'confirmation'];
     $demo_entity_ids = [1, 2, 3];
 
     [$url_builder, $endpoint_token] = $url_builder->acquireParameters($example_namespace, 'endpoint');
@@ -66,8 +66,8 @@ function base(): string
         $entity_ids = retrieveEntityIds($query, $confirm_token->getName(), $refinery);
         if ($entity_ids !== null) {
             $post_url = $url_builder->withParameter($process_token, '1');
-            $state = $factory->prompt()->state()->confirm(
-                new ConfirmStateEntityRetrieval(),
+            $confirmation = $factory->prompt()->confirmation(
+                new ConfirmationExampleEntityRetrieval(),
                 $post_url,
                 $entities_token,
                 $entity_ids,
@@ -75,7 +75,7 @@ function base(): string
                 'Performing some action',
             );
 
-            echo $renderer->renderAsync($state);
+            echo $renderer->renderAsync($factory->prompt()->state()->show($confirmation));
             exit;
         }
     }
@@ -83,15 +83,15 @@ function base(): string
     if ($http->request()->getMethod() === 'POST' && $query->has($process_token->getName())) {
         $process = $query->retrieve($process_token->getName(), $refinery->kindlyTo()->string());
         if ($process !== '') {
-            $state = $factory->prompt()->state()->confirm(
-                new ConfirmStateEntityRetrieval(),
+            $confirmation = $factory->prompt()->confirmation(
+                new ConfirmationExampleEntityRetrieval(),
                 $url_builder->withParameter($process_token, '1'),
                 $entities_token,
                 $demo_entity_ids,
                 'Are you sure you want to perform this action?',
                 'Performing some action',
             );
-            $entity_ids = $state->getConfirmedData($http->request());
+            $entity_ids = $confirmation->withRequest($http->request())->getData();
             $message = $factory->messageBox()->success(
                 'Submitted entity ids: ' . implode(', ', array_map('strval', $entity_ids))
             );
@@ -149,7 +149,7 @@ function retrieveEntityIds(
     return $refinery->kindlyTo()->listOf($refinery->kindlyTo()->int())->transform($raw);
 }
 
-class ConfirmStateEntityRetrieval implements EntityRetrieval
+class ConfirmationExampleEntityRetrieval implements EntityRetrieval
 {
     public function getEntities(
         \ILIAS\UI\Factory $ui_factory,
