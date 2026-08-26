@@ -22,7 +22,7 @@ described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
 To give more control of if and when cron-jobs are executed to administrators a 2nd implementation of cron-jobs
 has been added to ILIAS 4.4+. All existing cron-jobs have been migrated and thus moved to their respective modules
-and services. The top-level directory "cron/" will probably be kept because of cron.php but should otherwise be empty
+and services. The top-level directory "cli/" will probably be kept because of cron.php but should otherwise be empty
 at some point.
 
 ### Providing a Cron-Job
@@ -176,7 +176,7 @@ So as mentioned above the cron-tab can safely be set to every few minutes.
 In order to execute the cron job manager, the following command MUST be used:
 
 ```shell
-/usr/bin/php [PATH_TO_ILIAS]/cron/cron.php run-jobs <user> <client_id> run-jobs
+/usr/bin/php [PATH_TO_ILIAS]/cli/cron.php run-jobs <user> <client_id> run-jobs
 ```
 
 The `<user>` MUST be a valid (but arbitrary) user account of the ILIAS installation.
