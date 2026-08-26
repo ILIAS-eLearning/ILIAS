@@ -1582,9 +1582,9 @@ assessment#:#tst_instant_feedback_solution#:#Best Possible Answer
 assessment#:#tst_instant_feedback_solution_desc#:#Participants will be shown the best possible answer to the question. Please select below how the feedback should be triggered.
 assessment#:#tst_instant_feedback_trigger#:#Feedback Trigger
 assessment#:#tst_instant_feedback_trigger_forced#:#Answering a question
-assessment#:#tst_instant_feedback_trigger_forced_desc#:#Feedback is available, but is only displayed when a participant triggers it manually.
-assessment#:#tst_instant_feedback_trigger_manual#:#Participants can Trigger the Feedback Manually
-assessment#:#tst_instant_feedback_trigger_manual_desc#:#The feedback is availble but will only be shown when a participant triggers the presentation manually.
+assessment#:#tst_instant_feedback_trigger_forced_desc#:#Feedback is shown automatically when a question is answered.
+assessment#:#tst_instant_feedback_trigger_manual#:#Manual trigger
+assessment#:#tst_instant_feedback_trigger_manual_desc#:#Feedback is available, but is only displayed when a participant triggers it manually.
 assessment#:#tst_introduction#:#Introductory Message
 assessment#:#tst_introduction_desc#:#Display an introductory message in the ‘Test’ tab. This message can be edited in the 'Edit Introduction' sub tab of these settings and is already accessible to users before starting the test.
 assessment#:#tst_introduction_text#:#Introductory Message
