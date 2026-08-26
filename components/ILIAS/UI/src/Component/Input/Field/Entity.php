@@ -18,21 +18,15 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Prompt;
+namespace ILIAS\UI\Component\Input\Field;
 
-use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\Component\Entity\EntityRetrieval;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 
 /**
- * Confirmation content for a Prompt: question, affected entities, posted ids.
+ * Carries entity identifiers through a form roundtrip and visualises them.
  */
-interface Confirmation extends IsPromptContent
+interface Entity extends FormInput
 {
-    public function withRequest(ServerRequestInterface $request): self;
-
-    /**
-     * Entity ids from the confirmation form after withRequest().
-     *
-     * @return list<string>
-     */
-    public function getData(): array;
+    public function getEntityRetrieval(): EntityRetrieval;
 }

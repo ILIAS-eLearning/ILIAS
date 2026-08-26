@@ -37,10 +37,6 @@ class Renderer extends AbstractComponentRenderer
             return $this->renderPrompt($component, $default_renderer);
         }
 
-        if ($component instanceof Confirmation) {
-            return $this->renderConfirmation($component, $default_renderer);
-        }
-
         $this->cannotHandleComponent($component);
     }
 
@@ -72,13 +68,6 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('CLOSE_LABEL', $this->txt('close'));
 
         return $tpl->get();
-    }
-
-    protected function renderConfirmation(Confirmation $component, RendererInterface $default_renderer): string
-    {
-        return $default_renderer->render($component->getMessageBox())
-            . $default_renderer->render($component->getEntityListing())
-            . $default_renderer->render($component->getForm());
     }
 
 }

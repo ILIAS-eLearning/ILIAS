@@ -24,6 +24,7 @@ use Generator;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
 use ILIAS\UI\URLBuilder;
+use InvalidArgumentException;
 use ILIAS\UI\Component\Entity\Entity;
 use ILIAS\UI\Component\Entity\EntityRetrieval;
 
@@ -31,11 +32,15 @@ use ILIAS\UI\Component\Entity\EntityRetrieval;
  * ---
  * description: >
  *   A confirmation prompt for deleting or changing multiple entities.
- *   prompt()->confirmation() composes message box, entity listing and a Standard
- *   Form with Kitchen Sink Hidden Inputs; it is shown via state()->show().
+ *   Consumers compose a Standard Form with field()->entity() (ids via withValue)
+ *   and show it as the primary Prompt State content.
+ *   A confirmation Message Box next to that Form depends on Tim Schmitz'
+ *   follow-up to GitHub #11105 ("Secondary Prompt Content":
+ *   show($primary, ...$secondary)). Until that lands, this example uses
+ *   show($form) only; adding the Message Box is then a one-argument change.
  *
  * expected output: >
- *   A button opens a prompt listing selected entities with a confirmation question.
+ *   A button opens a prompt listing selected entities.
  *   Submitting posts the entity ids via the Standard Form (POST body); the result is shown in the prompt.
  *   The prompt can be closed.
  * ---
@@ -63,23 +68,26 @@ function confirmation(): string
 
     [$url_builder, $confirm_token] = $url_builder->acquireParameters($example_namespace, 'confirm');
     [$url_builder, $process_token] = $url_builder->acquireParameters($example_namespace, 'process');
-    [$url_builder, $entities_token] = $url_builder->acquireParameters($example_namespace, 'entities');
 
     // async GET: load confirmation prompt state
     if ($query->has($confirm_token->getName())) {
         $entity_ids = retrieveEntityIds($query, $confirm_token->getName(), $refinery);
         if ($entity_ids !== null) {
             $post_url = $url_builder->withParameter($process_token, '1');
-            $confirmation = $factory->prompt()->confirmation(
-                new ConfirmationEntityRetrieval(),
-                $post_url,
-                $entities_token,
-                $entity_ids,
-                'Are you sure you want to perform this action?',
-                'Performing some action',
-            );
+            $form = $factory->input()->container()->form()->standard(
+                (string) $post_url->buildURI(),
+                [
+                    $factory->input()->field()->entity(new ConfirmationEntityRetrieval())
+                        ->withValue($entity_ids),
+                ]
+            )->withSubmitLabel('Confirm');
 
-            echo $renderer->renderAsync($factory->prompt()->state()->show($confirmation));
+            // Ready for secondary Prompt content (#11105 follow-up):
+            // $message = $factory->messageBox()->confirmation('Really perform this action?');
+            // $state = $factory->prompt()->state()->show($form, $message)->withTitle(...);
+            $state = $factory->prompt()->state()->show($form)->withTitle('Performing some action');
+
+            echo $renderer->renderAsync($state);
             exit;
         }
     }
@@ -88,15 +96,15 @@ function confirmation(): string
     if ($http->request()->getMethod() === 'POST' && $query->has($process_token->getName())) {
         $process = $query->retrieve($process_token->getName(), $refinery->kindlyTo()->string());
         if ($process !== '') {
-            $confirmation = $factory->prompt()->confirmation(
-                new ConfirmationEntityRetrieval(),
-                $url_builder->withParameter($process_token, '1'),
-                $entities_token,
-                $demo_entity_ids,
-                'Are you sure you want to perform this action?',
-                'Performing some action',
+            $form = $factory->input()->container()->form()->standard(
+                (string) $url_builder->withParameter($process_token, '1')->buildURI(),
+                [
+                    $factory->input()->field()->entity(new ConfirmationEntityRetrieval())
+                        ->withValue($demo_entity_ids),
+                ]
             );
-            $entity_ids = $confirmation->withRequest($http->request())->getData();
+            $data = $form->withRequest($http->request())->getData();
+            $entity_ids = array_values((array) (is_array($data) ? array_values($data)[0] ?? [] : []));
             $message = $factory->messageBox()->success(
                 'Submitted entity ids: ' . implode(', ', array_map('strval', $entity_ids))
             );
@@ -181,9 +189,10 @@ class ConfirmationEntityRetrieval implements EntityRetrieval
         Order $order,
         array $entity_ids,
     ): Generator {
+        // Must yield one entity per id in the same order (Entity Input renderer lockstep).
         foreach ($entity_ids as $entity_id) {
             if (!isset($this->data[$entity_id])) {
-                continue;
+                throw new InvalidArgumentException('Unknown entity id: ' . $entity_id);
             }
             yield $this->mapRecord($ui_factory, $entity_id, $this->data[$entity_id]);
         }

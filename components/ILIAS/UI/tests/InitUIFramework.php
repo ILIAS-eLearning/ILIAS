@@ -446,10 +446,7 @@ class InitUIFramework
         $c["ui.factory.prompt"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Prompt\Factory(
                 $c["ui.signal_generator"],
-                $c["ui.factory.prompt.state"],
-                $c["ui.factory.listing"]->entity(),
-                $c["ui.factory.messagebox"],
-                $c["ui.factory.input"],
+                $c["ui.factory.prompt.state"]
             );
         };
 

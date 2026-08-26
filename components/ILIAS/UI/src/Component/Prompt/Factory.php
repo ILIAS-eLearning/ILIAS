@@ -21,9 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Prompt;
 
 use ILIAS\Data\URI;
-use ILIAS\UI\Component\Entity\EntityRetrieval;
-use ILIAS\UI\URLBuilder;
-use ILIAS\UI\URLBuilderToken;
 
 interface Factory
 {
@@ -54,55 +51,6 @@ interface Factory
      * @return \ILIAS\UI\Component\Prompt\Prompt
      */
     public function standard(URI $async_url): Prompt;
-
-    /**
-     * ---
-     * description:
-     *   purpose: >
-     *      Confirmation content asks the user to confirm an action on a set of
-     *      entities without leaving the current context. It is shown inside a
-     *      Prompt via a show-state.
-     *   composition: >
-     *      A confirmation message box, an entity listing below it and a Standard
-     *      Form with Kitchen Sink Hidden Inputs (one per entity id, grouped under
-     *      the URLBuilderToken name). IDs are never attached to the form action URL.
-     *      The Prompt renders the form without its own submit buttons and places
-     *      Confirm/Cancel in the Prompt footer via the form submit signal.
-     *   effect: >
-     *      The Prompt shows the confirmation question, lists affected entities
-     *      and posts the entity ids in the request body when confirmed.
-     *      Consumers retrieve them via withRequest() and getData() on this content.
-     *   rivals:
-     *      Form in Prompt: A Form collects user input. Confirmation only transports already selected entity ids and does not ask for further fields.
-     *      Interruptive Modal: A synchronous modal for a single interruptive action, not an async Prompt roundtrip with an entity listing.
-     *      Message Box: A confirmation Message Box states the question only; it does not list entities or post their ids.
-     *
-     * context:
-     *   - Shown in a Prompt via state()->show().
-     *
-     * rules:
-     *   usage:
-     *     1: >
-     *        Confirmation MUST be returned to the Prompt as content of a show-state.
-     *     2: >
-     *        After POST, consumers MUST call withRequest() and getData() on the
-     *        Confirmation, then answer with show, close or redirect.
-     *     3: >
-     *        Entity ids MUST be posted in the request body, never attached to the
-     *        form action URL.
-     *
-     * ---
-     * @param array<string|int> $entity_ids
-     * @return \ILIAS\UI\Component\Prompt\Confirmation
-     */
-    public function confirmation(
-        EntityRetrieval $entity_retrieval,
-        URLBuilder $post_url,
-        URLBuilderToken $post_parameter,
-        array $entity_ids,
-        string $question,
-        string $title,
-    ): Confirmation;
 
     /**
      * ---

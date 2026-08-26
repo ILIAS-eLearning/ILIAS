@@ -472,9 +472,6 @@ class UI implements Component\Component
             new UI\Implementation\Component\Prompt\Factory(
                 $internal[UI\Implementation\Component\SignalGeneratorInterface::class],
                 $internal[UI\Implementation\Component\Prompt\State\Factory::class],
-                $internal[UI\Implementation\Component\Listing\Entity\Factory::class],
-                $internal[UI\Implementation\Component\MessageBox\Factory::class],
-                $internal[UI\Implementation\Component\Input\Factory::class],
             );
 
         $internal[UI\Implementation\Component\Navigation\Factory::class] = static fn() =>

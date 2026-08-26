@@ -22,22 +22,22 @@ namespace ILIAS\UI\Implementation\Component\Entity;
 
 use ILIAS\UI\Component;
 use ILIAS\UI\Renderer as RendererInterface;
-use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 
 /**
- * Renders compact entities with primary visual only (e.g. in confirmation prompts).
+ * Compact entity rendering inside an Entity Input (form context).
  */
-class BriefEntityRenderer extends AbstractComponentRenderer
+class EntityFieldContextRenderer extends Renderer
 {
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        if ($component instanceof Component\Entity\Entity) {
-            return $this->renderEntity($component, $default_renderer);
+        if ($component instanceof Entity && $this->isCompactListItem($component)) {
+            return $this->renderCompactEntity($component, $default_renderer);
         }
-        $this->cannotHandleComponent($component);
+
+        return parent::render($component, $default_renderer);
     }
 
-    protected function renderEntity(
+    protected function renderCompactEntity(
         Component\Entity\Entity $component,
         RendererInterface $default_renderer
     ): string {
@@ -51,5 +51,20 @@ class BriefEntityRenderer extends AbstractComponentRenderer
         $tpl->setVariable('CONTENT', $content);
 
         return $tpl->get();
+    }
+
+    protected function isCompactListItem(Entity $component): bool
+    {
+        return $component->getBlockingAvailabilityConditions() === [] &&
+            $component->getFeaturedProperties() === [] &&
+            $component->getMainDetails() === [] &&
+            $component->getDetails() === [] &&
+            $component->getAvailability() === [] &&
+            $component->getPersonalStatus() === [] &&
+            $component->getPrioritizedReactions() === [] &&
+            $component->getReactions() === [] &&
+            $component->getManagingActions() === [] &&
+            $component->getWorkflow() === null &&
+            $component->getSecondaryIdentifier() === '';
     }
 }

@@ -297,23 +297,4 @@ abstract class Entity implements I\Entity
     {
         return $this->workflow;
     }
-
-    /**
-     * Entities without additional sections and without secondary visual
-     * can be rendered in a compact form (e.g. inside confirmation prompts).
-     */
-    public function isCompactListItem(): bool
-    {
-        return $this->blocking_conditions === []
-            && $this->featured_props === []
-            && $this->main_details === []
-            && $this->details === []
-            && $this->availability === []
-            && $this->personal_status === []
-            && $this->prio_reactions === []
-            && $this->reactions === []
-            && $this->managing_actions === []
-            && $this->workflow === null
-            && $this->secondary_identifier === '';
-    }
 }

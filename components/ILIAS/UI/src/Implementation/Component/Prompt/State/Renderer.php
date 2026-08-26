@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Prompt\State;
 
-use ILIAS\UI\Implementation\Component\Prompt\Confirmation;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
@@ -56,37 +55,18 @@ class Renderer extends AbstractComponentRenderer
             return $tpl->get();
         }
 
-        if ($content_component instanceof Confirmation) {
-            $tpl->setVariable('CONTENT', $default_renderer->render($content_component));
-            $buttons = $this->getConfirmationButtons($content_component);
-        } else {
-            $tpl->setVariable('CONTENT', $default_renderer->render($content_component));
-            $buttons = $component->getButtons();
+        $tpl->setVariable('CONTENT', $default_renderer->render($content_component));
+        $buttons = $component->getButtons();
 
-            if ($content_component instanceof \ILIAS\UI\Component\Input\Container\Form\Form) {
-                $buttons[] = $this->getFormSubmitButton($content_component);
-            }
-
-            $buttons[] = $this->getPromptCloseButton();
+        if ($content_component instanceof \ILIAS\UI\Component\Input\Container\Form\Form) {
+            $buttons[] = $this->getFormSubmitButton($content_component);
         }
+
+        $buttons[] = $this->getPromptCloseButton();
 
         $tpl->setVariable('TITLE', $component->getTitle());
         $tpl->setVariable('BUTTONS', $default_renderer->render($buttons));
         return $tpl->get();
-    }
-
-    /**
-     * @return \ILIAS\UI\Component\Button\Button[]
-     */
-    protected function getConfirmationButtons(Confirmation $confirmation): array
-    {
-        return [
-            $this->getUIFactory()->button()->primary(
-                'Confirm',
-                $confirmation->getForm()->getSubmitSignal()
-            ),
-            $this->getPromptCloseButton($this->txt('cancel')),
-        ];
     }
 
     protected function getFormSubmitButton(
