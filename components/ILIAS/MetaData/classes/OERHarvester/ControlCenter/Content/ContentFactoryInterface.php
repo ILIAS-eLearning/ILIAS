@@ -20,26 +20,27 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\OERHarvester\ControlCenter\Content;
 
-use ILIAS\UI\Component\Modal\RoundTrip as RoundTripModal;
 use ILIAS\MetaData\OERHarvester\ControlCenter\State\StateInfoInterface;
 use ILIAS\MetaData\OERHarvester\ControlCenter\State\Action;
+use ILIAS\UI\Component\Prompt\State\State as PromptState;
+use ILIAS\UI\Implementation\Component\Chart\ScaleBar;
 
 interface ContentFactoryInterface
 {
-    public function getInfoContent(
+    public function getInfoShowState(
         int $ref_id,
         int $obj_id,
         string $type,
         StateInfoInterface $state_info
-    ): RoundTripModal;
+    ): PromptState;
 
-    public function getConfirmationContent(
+    public function getConfirmationShowState(
         int $ref_id,
         int $obj_id,
         string $type,
         Action $action,
         bool $is_last_reference
-    ): RoundTripModal;
+    ): PromptState;
 
     public function getSuccessMessage(Action $action): string;
 }
