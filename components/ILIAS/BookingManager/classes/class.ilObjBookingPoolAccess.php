@@ -98,16 +98,9 @@ class ilObjBookingPoolAccess extends ilObjectAccess
      */
     public static function _lookupOnlineStatus(array $a_ids): array
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        $q = "SELECT booking_pool_id, pool_offline FROM booking_settings WHERE " .
-            $ilDB->in("booking_pool_id", $a_ids, false, "integer");
-        $lm_set = $ilDB->query($q);
         $status = [];
-        while ($r = $ilDB->fetchAssoc($lm_set)) {
-            $status[$r["booking_pool_id"]] = !$r["pool_offline"];
+        foreach ($a_ids as $id) {
+            $status[$id] = !self::_isOffline((int) $id);
         }
         return $status;
     }
