@@ -45,7 +45,7 @@ class Custom implements FieldDefinition
 
     public function isUnspecific(): bool
     {
-        return $this->type === null;
+        return $this->getType() === null;
     }
 
     public function getIdentifier(): string
@@ -65,9 +65,14 @@ class Custom implements FieldDefinition
         return $clone;
     }
 
+    public function getType(): ?Type
+    {
+        return $this->type;
+    }
+
     public function getTypeLabel(Language $lng): string
     {
-        return $this->type?->getLabel($lng) ?? '';
+        return $this->getType()?->getLabel($lng) ?? '';
     }
 
     public function withType(Type $type): self
@@ -94,7 +99,7 @@ class Custom implements FieldDefinition
         FieldFactory $ff,
         Refinery $refinery
     ): ?FormInput {
-        return $this->type?->getAdditionalEditFormInputs(
+        return $this->getType()?->getAdditionalEditFormInputs(
             $lng,
             $ff,
             $refinery,
@@ -118,7 +123,7 @@ class Custom implements FieldDefinition
             ],
             'field_type' => [
                 \ilDBConstants::T_TEXT,
-                $this->type::class
+                $this->getType()::class
             ],
             'field_values' => [
                 \ilDBConstants::T_TEXT,
@@ -139,7 +144,7 @@ class Custom implements FieldDefinition
         $value = $user === null
             ? []
             : $user->getProfileData()->getAdditionalFieldByIdentifier($this->getIdentifier()) ?? [];
-        return $this->type->getLegacyInput(
+        return $this->getType()->getLegacyInput(
             $lng,
             $context,
             $value,
@@ -156,7 +161,7 @@ class Custom implements FieldDefinition
         return $user->withProfileData(
             $user->getProfileData()->withAdditionalFieldByIdentifier(
                 $this->getIdentifier(),
-                $this->type->prepareUserInputForStorage($input, $this->additional_edit_form_data)
+                $this->getType()->prepareUserInputForStorage($input, $this->additional_edit_form_data)
             )
         );
     }
