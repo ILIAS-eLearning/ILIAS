@@ -1,3 +1,19 @@
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ******************************************************************** */
+
 il = il || {};
 il.Container = il.Container || {};
 (function($, il) {
@@ -33,11 +49,24 @@ il.Container = il.Container || {};
 		container_header_col.addClass(class_collapsed);
 		container_header_col.parent().children(".ilContainerItemsContainer").addClass("ilNoDisplay").hide();
 
+		container_header_exp.attr({
+			tabindex: "0",
+			"aria-expanded": "true"
+		});
+		container_header_col.attr({
+			tabindex: "0",
+			"aria-expanded": "false"
+		});
+
 		function saveAction(url, act) {
 			if (url) {
 				//il.Util.sendAjaxGetRequestToUrl(url + "&act="+ act, {}, {}, null);
 				il.repository.core.fetchUrl(url + "&act="+ act);
 			}
+		}
+
+		function updateAriaExpanded(header, expanded) {
+			header.attr("aria-expanded", expanded ? "true" : "false");
 		}
 
 		// init event
@@ -53,10 +82,6 @@ il.Container = il.Container || {};
 				return;
 			}
 
-			//console.log(item_container);
-			//console.log($(this).parent().children(".ilContainerItemsContainer"));
-			//$(this).parent().children(".ilContainerItemsContainer").addClass("ilNoDisplay");
-
 			if (item_container.hasClass("ilNoDisplay")) {
 				item_container.removeClass("ilNoDisplay");
 				item_container.css(bs_css_correction_on);
@@ -64,6 +89,7 @@ il.Container = il.Container || {};
 					item_container.css(bs_css_correction_off);
 					t.addClass(class_expanded);
 					t.removeClass(class_collapsed);
+					updateAriaExpanded(t, true);
 					saveAction(t.parent().attr("data-store-url"), "expand");
 				});
 			} else {
@@ -73,9 +99,19 @@ il.Container = il.Container || {};
 					item_container.css(bs_css_correction_off);
 					t.addClass(class_collapsed);
 					t.removeClass(class_expanded);
+					updateAriaExpanded(t, false);
 					saveAction(t.parent().attr("data-store-url"), "collapse");
 				});
 			}
+		});
+
+		container_header.on("keydown", function (e) {
+			if (e.target !== this || (e.which !== 13 && e.which !== 32)) {
+				return;
+			}
+
+			e.preventDefault();
+			$(this).trigger("click");
 		});
 
 		container_header.find("a").click(function(e) {
