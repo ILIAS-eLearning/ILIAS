@@ -52,9 +52,12 @@ class ilExerciseSubmissionMigration implements Migration
     {
         $db = $this->helper->getDatabase();
         $r = $db->query(
-            "SELECT er.returned_id, er.obj_id, er.ass_id, od.owner, er.user_id, er.team_id FROM exc_returned er JOIN object_data od ON er.obj_id = od.obj_id WHERE er.rid IS NULL LIMIT 1;"
+            "SELECT er.returned_id, er.obj_id, er.ass_id, od.owner, er.user_id, er.team_id, er.filename FROM exc_returned er JOIN object_data od ON er.obj_id = od.obj_id WHERE er.rid IS NULL LIMIT 1;"
         );
         $d = $this->helper->getDatabase()->fetchObject($r);
+        if (!is_object($d)) {
+            return;
+        }
         $exec_id = (int) $d->obj_id;
         $assignment_id = (int) $d->ass_id;
         $returned_id = (int) $d->returned_id;
@@ -63,22 +66,31 @@ class ilExerciseSubmissionMigration implements Migration
             ? (int) $d->team_id
             : (int) $d->user_id;
         $base_path = $this->buildAbsolutPath($exec_id, $assignment_id, $user_id);
-        $pattern = '/[^\.].*/m';
         $rid = "";
-        if (is_dir($base_path)) {
-            $rid = $this->helper->moveFirstFileOfPatternToStorage(
-                $base_path,
-                $pattern,
-                $resource_owner_id
-            );
+        $file_name = basename((string) $d->filename);
+        $path = $base_path . '/' . $file_name;
+        if ($file_name !== '' && is_file($path)) {
+            $rid = $this->helper->movePathToStorage($path, $resource_owner_id);
+            // HSLU: an empty rid means "migrated, this submission has no file" and is
+            // never revisited, because only rid IS NULL rows are picked up. Writing it
+            // for a file we merely failed to move (exhausted file descriptors, denied
+            // permission) drops the submission silently and for good. Fail loudly
+            // instead and leave rid = NULL for the next run.
+            if ($rid === null) {
+                throw new RuntimeException(
+                    "Could not move '$path' for exc_returned.returned_id $returned_id"
+                    . ' - refusing to mark the submission as migrated.'
+                );
+            }
         }
+
+
         $this->helper->getDatabase()->update(
             'exc_returned',
             [
                 'rid' => ['text', (string) $rid]
             ],
             [
-                'ass_id' => ['integer', $assignment_id],
                 'returned_id' => ['integer', $returned_id]
             ]
         );
