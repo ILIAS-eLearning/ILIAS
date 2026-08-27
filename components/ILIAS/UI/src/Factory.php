@@ -333,14 +333,15 @@ interface Factory
      *           DOM elements of type "button" MUST be used to properly identify an
      *           element as a Dropdown.
      *      2: >
-     *           Dropdown items MUST be implemented as "ul" list with a set of "li" elements and
-     *           nested Shy Button elements for the actions.
+     *           Dropdown items MUST be implemented as "ul" list with a set of "li" elements.
+     *           Items MAY be Shy Buttons for actions or Link\Standard for navigation destinations.
      *      3: >
-     *           Triggers of Dropdowns MUST indicate their effect by the aria-haspopup attribute
-     *           set to true.
+     *           Triggers of Dropdowns MUST indicate the current state by aria-expanded and
+     *           aria-controls. Triggers MUST NOT use aria-haspopup unless the popup is a full
+     *           WAI-ARIA menu with matching keyboard behaviour.
      *      4: >
      *           Triggers of Dropdowns MUST indicate the current state of the Dropdown by the
-     *           aria-expanded label.
+     *           aria-expanded attribute.
      *      5: >
      *           Dropdowns MUST be accessible by keyboard by focusing the trigger element and
      *           clicking the return key.

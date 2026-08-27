@@ -41,8 +41,8 @@ function with_all_view_controls(): string
     $url = $DIC->http()->request()->getRequestTarget();
 
     $actions = $f->dropdown()->standard([
-        $f->button()->shy("ILIAS", "https://www.ilias.de"),
-        $f->button()->shy("GitHub", "https://www.github.com")
+        $f->link()->standard("ILIAS", "https://www.ilias.de")->withOpenInNewViewport(true),
+        $f->link()->standard("GitHub", "https://www.github.com")->withOpenInNewViewport(true)
     ]);
     $current_sortation = 'abc';
     if ($request_wrapper->has('sort')) {

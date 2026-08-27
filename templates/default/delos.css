@@ -5224,6 +5224,9 @@ hr.il-divider-with-label {
 .il-item h4.il-item-title {
   margin: 0;
 }
+.il-item h6.il-item-title {
+  margin: 0;
+}
 .il-item .il-item-actions {
   float: right;
 }
@@ -5248,6 +5251,8 @@ hr.il-divider-with-label {
   font-size: 0.75rem;
   color: rgb(111.25, 111.25, 111.25);
   overflow: hidden;
+  display: inline;
+  margin: 0;
 }
 .il-item .il-item-property-name:not(:empty):after {
   content: ": ";
@@ -5255,6 +5260,11 @@ hr.il-divider-with-label {
 .il-item .il-item-property-value {
   font-size: 0.75rem;
   overflow: hidden;
+  display: inline;
+  margin: 0;
+}
+.il-item .il-item-properties dt, .il-item .il-item-properties dd {
+  margin: 0;
 }
 .il-item .il-chart-progressmeter-box {
   max-width: 80px;
@@ -5285,6 +5295,14 @@ hr.il-divider-with-label {
   background-color: #f9f9f9;
 }
 .il-item-group > h3 {
+  float: left;
+  color: #161616;
+  font-size: 1rem;
+  font-weight: 400;
+  padding: 9px 15px;
+  margin: 0;
+}
+.il-item-group > h5 {
   float: left;
   color: #161616;
   font-size: 1rem;
@@ -10224,6 +10242,14 @@ div.alert ul {
 .panel .panel-heading.ilHeader h2, .panel .panel-heading.ilHeader h2.ilHeader,
 .panel .panel-heading.ilBlockHeader h2,
 .panel .panel-heading.ilBlockHeader h2.ilHeader {
+  margin: 0;
+  color: #161616;
+  font-size: 1.115rem;
+  line-height: 1.33;
+  font-weight: 600;
+}
+.panel .panel-heading.ilHeader h4,
+.panel .panel-heading.ilBlockHeader h4 {
   margin: 0;
   color: #161616;
   font-size: 1.115rem;

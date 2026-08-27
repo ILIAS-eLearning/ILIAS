@@ -2,12 +2,12 @@
 <div class="panel-heading ilHeader">
 	<!-- BEGIN title -->
 	<div class="panel-title">
-		<h2>{TITLE}</h2>
+		<h{HEADING_LEVEL}>{TITLE}</h{HEADING_LEVEL}>
 	</div>
 	<!-- END title -->
 	<!-- BEGIN toggler -->
 	<div class="panel-toggler">
-		<h2>
+		<h{HEADING_LEVEL}>
 			<button aria-expanded="{ARIA_EXPANDED}" aria-controls="body_{PANEL_ID}" id="header_{PANEL_ID}">
 				<span>
 					<span data-collapse-glyph-visibility="{COLLAPSE_GLYPH_VISIBLE}">{COLLAPSE_GLYPH}</span>
@@ -15,7 +15,7 @@
 					{TITLE_TOGGLER}
                 </span>
 			</button>
-		</h2>
+		</h{HEADING_LEVEL}>
 	</div>
 	<!-- END toggler -->
 	<!-- BEGIN vc_container -->

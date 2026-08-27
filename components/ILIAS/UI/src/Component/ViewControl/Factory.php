@@ -150,6 +150,7 @@ interface Factory
      *        MUST be kept anyway.
      *   accessibility:
      *      1: Pagination MUST be operable via keyboard only.
+     *      2: The current page button MUST bear aria-current="page".
      *
      * ---
      * @return \ILIAS\UI\Component\ViewControl\Pagination

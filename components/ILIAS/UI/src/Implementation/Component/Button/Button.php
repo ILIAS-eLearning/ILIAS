@@ -43,6 +43,7 @@ abstract class Button implements C\Button\Button
     protected ?string $action;
     protected bool $active = true;
     protected string $aria_label = '';
+    protected ?string $aria_current = null;
     protected bool $aria_checked = false;
 
 
@@ -177,5 +178,23 @@ abstract class Button implements C\Button\Button
     public function getAriaLabel(): string
     {
         return $this->aria_label;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withAriaCurrent(string $aria_current): C\Button\Button
+    {
+        $clone = clone $this;
+        $clone->aria_current = $aria_current;
+        return $clone;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAriaCurrent(): ?string
+    {
+        return $this->aria_current;
     }
 }

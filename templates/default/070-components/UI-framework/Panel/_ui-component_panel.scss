@@ -44,6 +44,14 @@
 			font-weight: $il-font-weight-bold;
 		}
 
+		h4 {
+			margin: 0;
+			color: ls.$il-panel-heading-color;
+			font-size: $il-font-size-xlarge;
+			line-height: $il-line-height-large;
+			font-weight: $il-font-weight-bold;
+		}
+
 		h4, h4.ilBlockHeader {
 			margin: 0;
 			color: ls.$il-panel-heading-color;

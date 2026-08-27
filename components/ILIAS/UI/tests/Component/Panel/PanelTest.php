@@ -241,7 +241,7 @@ class PanelTest extends ILIAS_UI_TestBase
     <div class="panel-heading ilHeader">
         <div class="panel-title"><h2>Title</h2></div>
         <div class="panel-controls">
-            <div class="dropdown" id="id_4"><button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_4_menu"><span class="caret"></span></button>
+            <div class="dropdown" id="id_4"><button class="btn btn-default dropdown-toggle" type="button" aria-label="Actions for Title" aria-expanded="false" aria-controls="id_4_menu"><span class="caret"></span></button>
                 <ul id="id_4_menu" class="dropdown-menu">
                     <li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_2">ILIAS</button></li>
                     <li><button class="btn btn-link" data-action="https://www.github.com" id="id_3">GitHub</button></li>
@@ -276,7 +276,7 @@ EOT;
     <div class="panel-heading ilBlockHeader">
         <h3>Title</h3>
         <div class="panel-controls">
-            <div class="dropdown" id="id_3"><button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
+            <div class="dropdown" id="id_3"><button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
                 <ul id="id_3_menu" class="dropdown-menu">
                     <li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
                     <li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></li>
@@ -363,7 +363,7 @@ EOT;
     <div class="panel-heading ilHeader">
         <div class="panel-title"><h2>Title</h2></div>
         <div class="panel-controls">
-            <div class="dropdown" id="id_3"><button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
+            <div class="dropdown" id="id_3"><button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
                 <ul id="id_3_menu" class="dropdown-menu">
                     <li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
                     <li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></li>
@@ -535,7 +535,7 @@ EOT;
                     <span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
                 </button>
                 <button class="btn btn-link" data-action="http://ilias.de?page=0" id="id_2">1</button>
-                <button class="btn btn-link engaged" aria-pressed="true" data-action="http://ilias.de?page=1" id="id_3">2</button>
+                <button class="btn btn-link engaged" aria-current="page" data-action="http://ilias.de?page=1" id="id_3">2</button>
                 <button class="btn btn-link" data-action="http://ilias.de?page=2" id="id_4">3</button>
                 <button class="btn btn-link" data-action="http://ilias.de?page=3" id="id_5">4</button>
                 <button class="btn btn-link" data-action="http://ilias.de?page=4" id="id_6">5</button>
@@ -648,12 +648,12 @@ EOT;
                 <button aria-expanded="true" aria-controls="body_id_1" id="header_id_1">
 				    <span>
                         <span data-collapse-glyph-visibility="1">
-                            <span class="glyph" aria-label="collapse_content" role="img">
+                            <span class="glyph" aria-hidden="true">
                                 <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                             </span>
                         </span>
                         <span data-expand-glyph-visibility="0">
-                            <span class="glyph" aria-label="expand_content" role="img">
+                            <span class="glyph" aria-hidden="true">
                                 <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                             </span>
                         </span>Title
@@ -690,12 +690,12 @@ EOT;
                 <button aria-expanded="false" aria-controls="body_id_1" id="header_id_1">
 				    <span>
                         <span data-collapse-glyph-visibility="0">
-                            <span class="glyph" aria-label="collapse_content" role="img">
+                            <span class="glyph" aria-hidden="true">
                                 <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                             </span>
                         </span>
                         <span data-expand-glyph-visibility="1">
-                            <span class="glyph" aria-label="expand_content" role="img">
+                            <span class="glyph" aria-hidden="true">
                                 <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                             </span>
                         </span>Title

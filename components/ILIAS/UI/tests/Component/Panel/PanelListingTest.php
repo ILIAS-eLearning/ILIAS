@@ -101,8 +101,8 @@ class PanelListingTest extends ILIAS_UI_TestBase
         $f = $this->getFactory();
 
         $actions = new I\Component\Dropdown\Standard(array(
-            new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
-            new I\Component\Button\Shy("GitHub", "https://www.github.com")
+            (new I\Component\Link\Standard("ILIAS", "https://www.ilias.de"))->withOpenInNewViewport(true),
+            (new I\Component\Link\Standard("GitHub", "https://www.github.com"))->withOpenInNewViewport(true)
         ));
 
         $groups = array();
@@ -135,32 +135,32 @@ class PanelListingTest extends ILIAS_UI_TestBase
         $expected = <<<EOT
 <div id="id_1" class="panel panel-flex il-panel-listing-std-container clearfix">
 <div class="panel-heading ilHeader">
-<div class="panel-title"><h2>title</h2></div><div class="panel-controls"></div></div>
+<div class="panel-title"><h4>title</h4></div><div class="panel-controls"></div></div>
 <div class="panel-listing-body">
 <div class="il-item-group">
-<h3>Subtitle 1</h3>
+<h5>Subtitle 1</h5>
 <div class="il-item-group-items">
     <ul>
           <li class="il-std-item-container">
             <div class="il-item il-std-item ">
-              <h4 class="il-item-title">title1</h4>
+              <h6 class="il-item-title">title1</h6>
             </div>
           </li>
           <li class="il-std-item-container">
             <div class="il-item il-std-item ">
-              <h4 class="il-item-title">title2</h4>
+              <h6 class="il-item-title">title2</h6>
             </div>
           </li>
   </ul>
 </div>
 </div>
 <div class="il-item-group">
-<h3>Subtitle 2</h3>
+<h5>Subtitle 2</h5>
 <div class="il-item-group-items">
   <ul>
         <li class="il-std-item-container">
             <div class="il-item il-std-item ">
-              <h4 class="il-item-title">title3</h4>
+              <h6 class="il-item-title">title3</h6>
             </div>
         </li>
   </ul>
@@ -183,8 +183,8 @@ EOT;
         $groups = array();
 
         $actions = new I\Component\Dropdown\Standard(array(
-            new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
-            new I\Component\Button\Shy("GitHub", "https://www.github.com")
+            (new I\Component\Link\Standard("ILIAS", "https://www.ilias.de"))->withOpenInNewViewport(true),
+            (new I\Component\Link\Standard("GitHub", "https://www.github.com"))->withOpenInNewViewport(true)
         ));
 
         $c = $f->standard("title", $groups)
@@ -195,10 +195,10 @@ EOT;
         $expected = <<<EOT
 <div id="id_1" class="panel panel-flex il-panel-listing-std-container clearfix">
 <div class="panel-heading ilHeader">
-<div class="panel-title"><h2>title</h2></div><div class="panel-controls"><div class="dropdown" id="id_4"><button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_4_menu"> <span class="caret"></span></button>
-<ul id="id_4_menu" class="dropdown-menu">
-	<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_2">ILIAS</button></li>
-	<li><button class="btn btn-link" data-action="https://www.github.com" id="id_3">GitHub</button></li>
+<div class="panel-title"><h4>title</h4></div><div class="panel-controls"><div class="dropdown" id="id_2"><button class="btn btn-default dropdown-toggle" type="button" aria-label="Actions for title" aria-expanded="false" aria-controls="id_2_menu"> <span class="caret"></span></button>
+<ul id="id_2_menu" class="dropdown-menu">
+	<li><a href="https://www.ilias.de" target="_blank" rel="noopener">ILIAS</a></li>
+	<li><a href="https://www.github.com" target="_blank" rel="noopener">GitHub</a></li>
 </ul>
 </div>
 </div>
@@ -227,22 +227,22 @@ EOT;
 <div id="id_1" class="panel panel-flex panel-expandable il-panel-listing-std-container clearfix">
     <div class="panel-heading ilHeader">
         <div class="panel-toggler">
-            <h2>
+            <h4>
                 <button aria-expanded="true" aria-controls="body_id_1" id="header_id_1">
 				    <span>
                         <span data-collapse-glyph-visibility="1">
-                            <span class="glyph" aria-label="collapse_content" role="img">
+                            <span class="glyph" aria-hidden="true">
                                 <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                             </span>
                         </span>
                         <span data-expand-glyph-visibility="0">
-                            <span class="glyph" aria-label="expand_content" role="img">
+                            <span class="glyph" aria-hidden="true">
                                 <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                             </span>
                         </span>title
                     </span>
 			    </button>
-            </h2>
+            </h4>
         </div>
         <div class="panel-controls"></div>
     </div>
@@ -270,22 +270,22 @@ EOT;
 <div id="id_1" class="panel panel-flex panel-expandable il-panel-listing-std-container clearfix">
     <div class="panel-heading ilHeader">
         <div class="panel-toggler">
-            <h2>
+            <h4>
                 <button aria-expanded="false" aria-controls="body_id_1" id="header_id_1">
 				    <span>
                         <span data-collapse-glyph-visibility="0">
-                            <span class="glyph" aria-label="collapse_content" role="img">
+                            <span class="glyph" aria-hidden="true">
                                 <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                             </span>
                         </span>
                         <span data-expand-glyph-visibility="1">
-                            <span class="glyph" aria-label="expand_content" role="img">
+                            <span class="glyph" aria-hidden="true">
                                 <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                             </span>
                         </span>title
                     </span>
 			    </button>
-            </h2>
+            </h4>
         </div>
         <div class="panel-controls"></div>
     </div>

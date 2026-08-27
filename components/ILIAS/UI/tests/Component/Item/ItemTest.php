@@ -86,8 +86,8 @@ class ItemTest extends ILIAS_UI_TestBase
         $f = $this->getFactory();
 
         $actions = new I\Component\Dropdown\Standard(array(
-            new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
-            new I\Component\Button\Shy("GitHub", "https://www.github.com")
+            (new I\Component\Link\Standard("ILIAS", "https://www.ilias.de"))->withOpenInNewViewport(true),
+            (new I\Component\Link\Standard("GitHub", "https://www.github.com"))->withOpenInNewViewport(true)
         ));
         $c = $f->standard("title")->withActions($actions);
 
@@ -204,8 +204,8 @@ class ItemTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
 
         $actions = new I\Component\Dropdown\Standard(array(
-            new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
-            new I\Component\Button\Shy("GitHub", "https://www.github.com")
+            (new I\Component\Link\Standard("ILIAS", "https://www.ilias.de"))->withOpenInNewViewport(true),
+            (new I\Component\Link\Standard("GitHub", "https://www.github.com"))->withOpenInNewViewport(true)
         ));
         $c = $f->standard("Item Title")
             ->withActions($actions)
@@ -220,32 +220,34 @@ class ItemTest extends ILIAS_UI_TestBase
         $expected = <<<EOT
         <div class="il-item il-std-item ">
             <h4 class="il-item-title">Item Title</h4>
-			<div class="il-item-actions l-bar__space-keeper"><div class="l-bar__element"><div class="dropdown" id="id_3"><button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
-                <ul id="id_3_menu" class="dropdown-menu">
-	                <li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1"  >ILIAS</button>
+			<div class="il-item-actions l-bar__space-keeper"><div class="l-bar__element"><div class="dropdown" id="id_1"><button class="btn btn-default dropdown-toggle" type="button" aria-label="Actions for Item Title" aria-expanded="false" aria-controls="id_1_menu"><span class="caret"></span></button>
+                <ul id="id_1_menu" class="dropdown-menu">
+	                <li><a href="https://www.ilias.de" target="_blank" rel="noopener">ILIAS</a>
                     </li>
-                        <li><button class="btn btn-link" data-action="https://www.github.com" id="id_2"  >GitHub</button>
+                        <li><a href="https://www.github.com" target="_blank" rel="noopener">GitHub</a>
                     </li>
                 </ul>
             </div></div></div>
 			<div class="il-item-description">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</div>
 			<hr class="il-item-divider" />
+			<dl class="il-item-properties">
 			<div class="row">
                 <div class="col-md-6 il-multi-line-cap-3">
-					<span class="il-item-property-name">Origin</span><span class="il-item-property-value">Course Title 1</span>
+					<dt class="il-item-property-name">Origin</dt><dd class="il-item-property-value">Course Title 1</dd>
 				</div>
 				<div class="col-md-6 il-multi-line-cap-3">
-					<span class="il-item-property-name">Last Update</span><span class="il-item-property-value">24.11.2011</span>
+					<dt class="il-item-property-name">Last Update</dt><dd class="il-item-property-value">24.11.2011</dd>
 				</div>
 			</div>
 			<div class="row">
                 <div class="col-md-6 il-multi-line-cap-3">
-					<span class="il-item-property-name">Location</span><span class="il-item-property-value">Room 123, Main Street 44, 3012 Bern</span>
+					<dt class="il-item-property-name">Location</dt><dd class="il-item-property-value">Room 123, Main Street 44, 3012 Bern</dd>
 				</div>
 				<div class="col-md-6 il-multi-line-cap-3">
-					<span class="il-item-property-name"></span><span class="il-item-property-value"></span>
+					<dt class="il-item-property-name"></dt><dd class="il-item-property-value"></dd>
 				</div>
 			</div>
+			</dl>
         </div>
 EOT;
 
@@ -582,32 +584,34 @@ EOT;
         <button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button>
     </h4>
     <hr class="il-item-divider" />
+    <dl class="il-item-properties">
     <div class="row">
         <div class="col-md-6 il-multi-line-cap-3">
-            <span class="il-item-property-name">Property Text</span>
-            <span class="il-item-property-value">Text</span>
+            <dt class="il-item-property-name">Property Text</dt>
+            <dd class="il-item-property-value">Text</dd>
         </div>
         <div class="col-md-6 il-multi-line-cap-3">
-            <span class="il-item-property-name">Property HTML</span>
-            <span class="il-item-property-value">
+            <dt class="il-item-property-name">Property HTML</dt>
+            <dd class="il-item-property-value">
                 <a>Link</a>
-            </span>
+            </dd>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6 il-multi-line-cap-3">
-            <span class="il-item-property-name">Property Shy</span>
-            <span class="il-item-property-value">
+            <dt class="il-item-property-name">Property Shy</dt>
+            <dd class="il-item-property-value">
                 <button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button>
-            </span>
+            </dd>
         </div>
         <div class="col-md-6 il-multi-line-cap-3">
-            <span class="il-item-property-name">Property Icon</span>
-            <span class="il-item-property-value">
+            <dt class="il-item-property-name">Property Icon</dt>
+            <dd class="il-item-property-value">
                 <img class="icon name small" src="./assets/images/standard/icon_default.svg" alt="aria_label"/>
-            </span>
+            </dd>
         </div>
     </div>
+    </dl>
 </div>
 EOT);
 

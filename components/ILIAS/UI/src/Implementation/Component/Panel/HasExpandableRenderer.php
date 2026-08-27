@@ -25,10 +25,13 @@ use ILIAS\UI\Factory;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Implementation\Render\Template as Template;
+use ILIAS\UI\Implementation\Component\Dropdown\ContextualizesDropdownActions;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 
 trait HasExpandableRenderer
 {
+    use ContextualizesDropdownActions;
+
     protected function declareExpandable(
         C\Panel\IsExpandable $component,
         string $component_id,
@@ -49,9 +52,11 @@ trait HasExpandableRenderer
         C\Panel\IsExpandable $component,
         string $component_id,
         RendererInterface $default_renderer,
-        Factory $factory
+        Factory $factory,
+        int $heading_level = 2
     ): Template {
         $tpl = $this->getTemplate("tpl.heading_expanding.html", true, true);
+        $tpl->setVariable("HEADING_LEVEL", (string) $heading_level);
         $f = $factory;
         $title = $component->getTitle();
         $actions = $component->getActions();
@@ -74,15 +79,16 @@ trait HasExpandableRenderer
             }
 
             if ($actions) {
+                $actions = $this->contextualizeDropdownActions($actions, $title);
                 $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
             }
 
             if ($component->isExpandable()) {
                 $tpl->setCurrentBlock("toggler");
                 $tpl->setVariable("TITLE_TOGGLER", $title);
-                $glyph_collapse = $f->symbol()->glyph()->collapse();
+                $glyph_collapse = $f->symbol()->glyph()->collapse()->withLabel('');
                 $tpl->setVariable("COLLAPSE_GLYPH", $default_renderer->render($glyph_collapse));
-                $glyph_expand = $f->symbol()->glyph()->expand();
+                $glyph_expand = $f->symbol()->glyph()->expand()->withLabel('');
                 $tpl->setVariable("EXPAND_GLYPH", $default_renderer->render($glyph_expand));
 
                 if ($component->isExpanded()) {

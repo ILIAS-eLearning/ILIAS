@@ -25,6 +25,7 @@ use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Panel\Listing\Standard as ListingStandard;
 use ILIAS\UI\Component\Item\Group;
+use ILIAS\UI\Component\Item\Standard as ItemStandard;
 use ILIAS\UI\Implementation\Component\Panel\HasExpandableRenderer;
 
 class Renderer extends AbstractComponentRenderer
@@ -59,7 +60,8 @@ class Renderer extends AbstractComponentRenderer
                 $component,
                 $id,
                 $default_renderer,
-                $this->getUIFactory()
+                $this->getUIFactory(),
+                4
             )->get()
         );
 
@@ -71,6 +73,13 @@ class Renderer extends AbstractComponentRenderer
             if (!$group instanceof Group) {
                 continue;
             }
+
+            $group = $group->withHeadingLevel(5);
+            $items = [];
+            foreach ($group->getItems() as $item) {
+                $items[] = $item instanceof ItemStandard ? $item->withHeadingLevel(6) : $item;
+            }
+            $group = $group->withItems($items);
 
             $tpl->setCurrentBlock('group');
             $tpl->setVariable('ITEM_GROUP', $default_renderer->render($group));
