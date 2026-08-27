@@ -98,7 +98,7 @@ class ZipAdapter
         }
 
         foreach (explode('/', rtrim($normalized_path, '/')) as $segment) {
-            if ($segment === '' || $segment === '.' || $segment === '..') {
+            if ($segment === '' || $segment === '..') {
                 throw new ilException('Zip contains an unsafe path.');
             }
         }
