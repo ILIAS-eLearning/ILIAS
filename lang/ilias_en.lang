@@ -1382,7 +1382,7 @@ assessment#:#tst_answer_status_not_answered#:#Not answered###fau: testNav
 assessment#:#tst_answered_questions#:#Nr. of Answered Questions
 assessment#:#tst_answered_questions_of_total#:#%s of %s
 assessment#:#tst_answered_questions_test#:#Questions answered in this test
-assessment#:#tst_attached_xls_file#:#You can find the test results for this participant in the attached Excel file.
+assessment#:#tst_attached_xls_file#:#You can find the test results in the attached Excel file.
 assessment#:#tst_attempt#:#Attempt
 assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.
 assessment#:#tst_attempt_started#:#Attempt Started
@@ -1498,7 +1498,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous ques
 assessment#:#tst_finish_confirmation_question#:#You are going to finish this test. You won’t be able to enter this test attempt again to change your answers. Do you really want to finish this test?
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?
 assessment#:#tst_finish_notification#:#Notification
-assessment#:#tst_finish_notification_advanced#:#Send complete test result
+assessment#:#tst_finish_notification_advanced#:#Send complete test result as excel file
 assessment#:#tst_finish_notification_content_type#:#Content of e-mail
 assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.
 assessment#:#tst_finish_notification_no#:#No e-mail

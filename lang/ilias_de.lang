@@ -1382,7 +1382,7 @@ assessment#:#tst_answer_status_not_answered#:#Nicht beantwortet
 assessment#:#tst_answered_questions#:#Beantwortete Fragen
 assessment#:#tst_answered_questions_of_total#:#%s von %s
 assessment#:#tst_answered_questions_test#:#In diesem Test beantwortete Fragen
-assessment#:#tst_attached_xls_file#:#Sie finden die Testergebnisse für diesen Teilnehmer in der angehängten Excel-Datei.
+assessment#:#tst_attached_xls_file#:#Sie finden die Testergebnisse in der angehängten Excel-Datei.
 assessment#:#tst_attempt#:#Versuch
 assessment#:#tst_attempt_limit_message#:#Ihr Limit für Testversuche beträgt <b>%s</b>.
 assessment#:#tst_attempt_started#:#Versuch gestartet
@@ -1498,7 +1498,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Nein, ich will zur letzten Antwo
 assessment#:#tst_finish_confirmation_question#:#Sie sind dabei, diesen Test zu beenden. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#Sie sind dabei, diesen Test zu beenden und die maximale Anzahl erlaubter Testdurchläufe zu erreichen. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?
 assessment#:#tst_finish_notification#:#Benachrichtigung
-assessment#:#tst_finish_notification_advanced#:#Komplettes Testergebnis pro Benutzer
+assessment#:#tst_finish_notification_advanced#:#Komplettes Testergebnis als Excel-Datei
 assessment#:#tst_finish_notification_content_type#:#Inhalt der Benachrichtigung
 assessment#:#tst_finish_notification_desc#:#Für jede Person, die einen Test beendet, wird eine Mail an die Person die für den Test verantwortlich ist, versendet. Diese Person wird in dem Unterreiter „Im Besitz von“ des Reiters „Rechte“ aufgeführt.
 assessment#:#tst_finish_notification_no#:#Keine Benachrichtigung
