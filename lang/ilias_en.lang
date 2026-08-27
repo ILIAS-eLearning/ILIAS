@@ -1372,7 +1372,7 @@ assessment#:#tst_activation_online_info#:#Participants can take the test if it i
 assessment#:#tst_add_quest_cont_edit_mode#:#Editor
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Use plain text when creating questions and answer options
 assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#When creating or editing questions and answer options, the text cannot be formatted. Feedback however, can be formatted using the ILIAS page editor and also reused if the question is embedded in an ILIAS learning module.
-assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Use Rich-Text-Editor (TinyMCE) for editing questions and answers options and feedbacks
+assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Use Rich-Text-Editor (TinyMCE) for editing questions and answers options and feedback
 assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#When creating or editing questions, answer options, and feedback, the text can be formatted. However, feedback will not be carried across if the question is embedded in an ILIAS learning module.
 assessment#:#tst_add_quest_cont_edit_mode_plain#:#Use plain text
 assessment#:#tst_add_quest_cont_edit_mode_plain_info#:#No formatting of text in question, answers and feedback.
