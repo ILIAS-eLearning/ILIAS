@@ -90,8 +90,6 @@ class ilExerciseManagementGUI
     protected array $requested_status;                     // key might be ass_ids or user_ids!
     protected array $requested_tutor_notices;                     // key might be ass_ids or user_ids!
     protected array $requested_group_members;                     // "grpt"
-    /** @var array<int, list<string>> */
-    protected array $requested_files;                     // "file"
     protected string $requested_filter_status;
     protected string $requested_filter_feedback;
     protected GUIRequest $request;
@@ -149,7 +147,6 @@ class ilExerciseManagementGUI
         $this->requested_status = $request->getStatus();
         $this->requested_tutor_notices = $request->getTutorNotices();
         $this->requested_group_members = $request->getGroupMembers();
-        $this->requested_files = $request->getFiles();
         $this->requested_filter_status = $request->getFilterStatus();
         $this->requested_filter_feedback = $request->getFilterFeedback();
 
@@ -1810,8 +1807,32 @@ class ilExerciseManagementGUI
 
         $this->addSubTabs("assignment");
 
-        $tab = new ilFeedbackConfirmationTable2GUI($this, "showMultiFeedbackConfirmationTable", $this->assignment);
-        $tpl->setContent($tab->getHTML());
+        $table = $this->gui->multiFeedbackConfirmationTableBuilder(
+            $this->assignment,
+            $this,
+            "showMultiFeedbackConfirmationTable"
+        )->getTable();
+
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $this->gui->button(
+            $this->lng->txt("exc_save_all"),
+            $this->ctrl->getLinkTarget($this, "saveAllMultiFeedback")
+        )->toToolbar();
+
+        $tpl->setContent($table->render());
+    }
+
+    /**
+     * Save all multi feedback files
+     */
+    public function saveAllMultiFeedbackObject(): void
+    {
+        $ids = $this->domain->multiFeedbackConfirmationRetrieval($this->assignment)
+            ->getAllFileIds();
+        $this->saveMultiFeedback($ids);
     }
 
     /**
@@ -1825,14 +1846,16 @@ class ilExerciseManagementGUI
     /**
      * Save multi feedback
      */
-    public function saveMultiFeedbackObject(): void
+    public function saveMultiFeedback(array $ids): void
     {
+        $files = $this->domain->multiFeedbackConfirmationRetrieval($this->assignment)
+            ->getSelectedFiles($ids);
         $feedback_zip = $this->domain->assignment()->tutorFeedbackZip();
         $feedback_zip->saveMultiFeedbackFiles(
             $this->exercise,
             $this->assignment->getId(),
             $this->user->getId(),
-            $this->requested_files
+            $files
         );
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);

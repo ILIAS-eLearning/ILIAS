@@ -197,6 +197,20 @@ class InternalGUIService
         );
     }
 
+    public function multiFeedbackConfirmationTableBuilder(
+        \ilExAssignment $assignment,
+        object $parent_gui,
+        string $parent_cmd
+    ): \ILIAS\Exercise\TutorFeedbackFile\MultiFeedbackConfirmationTableBuilder {
+        return new \ILIAS\Exercise\TutorFeedbackFile\MultiFeedbackConfirmationTableBuilder(
+            $this->domain_service,
+            $this,
+            $assignment,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
     public function getTeamSubmissionGUI(
         \ilObjExercise $exc,
         \ilExSubmission $submission

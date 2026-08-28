@@ -30,6 +30,7 @@ use ILIAS\Exercise\Submission\SubmissionManager;
 use ILIAS\Exercise\Submission\PublicSubmissionsRetrieval;
 use ILIAS\Exercise\Submission\TextSubmissionsRetrieval;
 use ILIAS\Exercise\PeerReview\PeerReviewOverviewRetrieval;
+use ILIAS\Exercise\TutorFeedbackFile\MultiFeedbackConfirmationRetrieval;
 use ILIAS\Exercise\PeerReview\DomainService;
 use ILIAS\Exercise\Settings\SettingsManager;
 use ILIAS\Exercise\User\UserEvent;
@@ -99,6 +100,12 @@ class InternalDomainService
         \ilExAssignment $assignment
     ): PeerReviewOverviewRetrieval {
         return new PeerReviewOverviewRetrieval($this, $assignment);
+    }
+
+    public function multiFeedbackConfirmationRetrieval(
+        \ilExAssignment $assignment
+    ): MultiFeedbackConfirmationRetrieval {
+        return new MultiFeedbackConfirmationRetrieval($this, $assignment);
     }
 
     public function peerReview(): DomainService
