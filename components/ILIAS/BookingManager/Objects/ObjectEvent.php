@@ -22,20 +22,25 @@ namespace ILIAS\BookingManager\Objects;
 
 use ilBookingObject;
 use ilObjBookingPool;
-use ilObjectTypeMismatchException;
+use ilObject;
 
 class ObjectEvent
 {
     public function handleDeletion(array $booking_pool_ref_ids): void
     {
         foreach (array_unique($booking_pool_ref_ids) as $booking_pool_ref_id) {
-            try {
-                $pool_id = (new ilObjBookingPool($booking_pool_ref_id, true))->getId();
-            } catch (ilObjectTypeMismatchException) {
+            if (!is_numeric($booking_pool_ref_id)) {
+                continue;
+            }
+            $booking_pool_ref_id = (int) $booking_pool_ref_id;
+
+            if (!ilObject::_exists($booking_pool_ref_id, true, 'book')) {
                 continue;
             }
 
-            foreach (ilBookingObject::getList($pool_id) as $booking_object) {
+            $booking_pool = new ilObjBookingPool($booking_pool_ref_id, true);
+
+            foreach (ilBookingObject::getList($booking_pool->getId()) as $booking_object) {
                 $booking_object_id = $booking_object['booking_object_id'] ?? null;
                 if ($booking_object_id === null) {
                     continue;
