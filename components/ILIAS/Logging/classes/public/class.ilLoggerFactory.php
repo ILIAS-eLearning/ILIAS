@@ -188,7 +188,13 @@ class ilLoggerFactory
                 break;
         }
 
-        if (!$this->isLoggingEnabled()) {
+        if ($a_component_id == self::ROOT_LOGGER) {
+            $component_level = $this->getSettings()->getLevelByComponent(self::COMPONENT_ROOT);
+        } else {
+            $component_level = $this->getSettings()->getLevelByComponent($a_component_id);
+        }
+
+        if (!$this->isLoggingEnabled() || $component_level === ilLogLevel::OFF) {
             $null_handler = new NullHandler();
             $logger->pushHandler($null_handler);
 
@@ -199,15 +205,9 @@ class ilLoggerFactory
         // standard stream handler
         $stream_handler = new StreamHandler(
             $this->getSettings()->getLogDir() . '/' . $this->getSettings()->getLogFile(),
-            Logger::DEBUG, // default minimum level, will be overwritten by component log level
+            $component_level,
             true
         );
-
-        if ($a_component_id == self::ROOT_LOGGER) {
-            $stream_handler->setLevel($this->getSettings()->getLevelByComponent(self::COMPONENT_ROOT));
-        } else {
-            $stream_handler->setLevel($this->getSettings()->getLevelByComponent($a_component_id));
-        }
 
         // format lines
         $line_formatter = new ilLineFormatter(static::DEFAULT_FORMAT, 'Y-m-d H:i:s.u', true, true);
