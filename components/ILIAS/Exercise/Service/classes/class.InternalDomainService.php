@@ -27,6 +27,7 @@ use ILIAS\Exercise\Notification\NotificationManager;
 use ILIAS\Exercise\Team\TeamManager;
 use ILIAS\Exercise\IndividualDeadline\IndividualDeadlineManager;
 use ILIAS\Exercise\Submission\SubmissionManager;
+use ILIAS\Exercise\Submission\PublicSubmissionsRetrieval;
 use ILIAS\Exercise\PeerReview\DomainService;
 use ILIAS\Exercise\Settings\SettingsManager;
 use ILIAS\Exercise\User\UserEvent;
@@ -78,6 +79,11 @@ class InternalDomainService
             new \ilExcSubmissionStakeholder(),
             $ass_id
         );
+    }
+
+    public function publicSubmissionsRetrieval(\ilExAssignment $assignment): PublicSubmissionsRetrieval
+    {
+        return new PublicSubmissionsRetrieval($this, $assignment);
     }
 
     public function peerReview(): DomainService

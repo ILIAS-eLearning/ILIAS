@@ -155,6 +155,20 @@ class InternalGUIService
         );
     }
 
+    public function publicSubmissionsTableBuilder(
+        \ilExAssignment $assignment,
+        object $parent_gui,
+        string $parent_cmd
+    ): \ILIAS\Exercise\Submission\PublicSubmissionsTableBuilder {
+        return new \ILIAS\Exercise\Submission\PublicSubmissionsTableBuilder(
+            $this->domain_service,
+            $this,
+            $assignment,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
     public function getTeamSubmissionGUI(
         \ilObjExercise $exc,
         \ilExSubmission $submission
