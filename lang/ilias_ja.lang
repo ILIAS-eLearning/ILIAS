@@ -2020,7 +2020,7 @@ assessment#:#use_previous_solution_advice#:#表示されている回答は前回
 assessment#:#user_has_finished_a_test#:#受験者はテストを終了しました。
 assessment#:#user_ip_outside_range#:#このIPからテストへのアクセスを許可されていません。
 assessment#:#user_not_invited#:#あなたはこのテストの受験対象者ではありません。
-assessment#:#usr_manscoring_complete#:#採点済'としてマーク
+assessment#:#usr_manscoring_complete#:#記録済'としてマーク
 assessment#:#value_between_x_and_y#:#値は %s と %s の間になります
 assessment#:#values#:#値
 assessment#:#variable#:#変数
