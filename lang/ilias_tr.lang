@@ -1443,7 +1443,7 @@ assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this messag
 assessment#:#tst_dont_use_previous_answers#:#Sonraki testleriniz için önceki cevaplarınız varsayılan olarak kullanılmayacaktır.
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties###30 08 2015 new variable
 assessment#:#tst_edit_scoring#:#Puanlama Düzenle
-assessment#:#tst_enable_questionlist#:'Sorular Listesi'ni göster
+assessment#:#tst_enable_questionlist#:#'Sorular Listesi'ni göster
 assessment#:#tst_enable_questionlist_description#:#Participants can switch on a list of the test questions on the left of the actual question.###26 08 2024 new variable
 assessment#:#tst_ending_time#:#Bitiş Zamanı
 assessment#:#tst_ending_time_before_starting_time#:#Please enter a date for the end of the test that is after the start date.###26 08 2024 new variable
