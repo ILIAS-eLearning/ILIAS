@@ -28,6 +28,7 @@ use ILIAS\Exercise\Team\TeamManager;
 use ILIAS\Exercise\IndividualDeadline\IndividualDeadlineManager;
 use ILIAS\Exercise\Submission\SubmissionManager;
 use ILIAS\Exercise\Submission\PublicSubmissionsRetrieval;
+use ILIAS\Exercise\Submission\TextSubmissionsRetrieval;
 use ILIAS\Exercise\PeerReview\DomainService;
 use ILIAS\Exercise\Settings\SettingsManager;
 use ILIAS\Exercise\User\UserEvent;
@@ -84,6 +85,13 @@ class InternalDomainService
     public function publicSubmissionsRetrieval(\ilExAssignment $assignment): PublicSubmissionsRetrieval
     {
         return new PublicSubmissionsRetrieval($this, $assignment);
+    }
+
+    public function textSubmissionsRetrieval(
+        \ilExAssignment $assignment,
+        bool $show_peer_review
+    ): TextSubmissionsRetrieval {
+        return new TextSubmissionsRetrieval($this, $assignment, $show_peer_review);
     }
 
     public function peerReview(): DomainService
