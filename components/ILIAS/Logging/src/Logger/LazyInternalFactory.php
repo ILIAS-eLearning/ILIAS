@@ -65,9 +65,13 @@ class LazyInternalFactory implements LazyInternalFactoryInterface
         if (!$this->basic_config->isLoggingEnabled()) {
             return $this->monolog_factory->nullLogger($component_id);
         }
+        $level = $level_fetcher->fetchLevel();
+        if ($level === ILIASLogLevel::OFF) { // OFF is not a standard log level, so Monolog rejects it
+            return $this->monolog_factory->nullLogger($component_id);
+        }
         return $this->monolog_factory->logger(
             $component_id,
-            $level_fetcher->fetchLevel(),
+            $level,
             $this->basic_config->pathToLogFile()
         );
     }

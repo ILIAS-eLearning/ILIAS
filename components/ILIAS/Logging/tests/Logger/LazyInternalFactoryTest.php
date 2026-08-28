@@ -153,4 +153,34 @@ class LazyInternalFactoryTest extends TestCase
         // actually initialize the logger
         $logger->info('test');
     }
+
+    public function testGetLazyGhostWhenLogLevelIsOff(): void
+    {
+        $expected_name = 'name';
+
+        $basic_config = $this->createStub(BasicConfigInterface::class);
+        $monolog_factory = $this->createMock(MonologFactoryInterface::class);
+        $level_fetcher = $this->createMock(LevelFetcherInterface::class);
+
+        $basic_config
+            ->method('isLoggingEnabled')
+            ->willReturn(true);
+        $monolog_factory
+            ->expects($this->atLeastOnce())
+            ->method('nullLogger')
+            ->with($expected_name)
+            ->willReturn($this->createStub(MonologLogger::class));
+        $monolog_factory
+            ->expects($this->never())
+            ->method('logger');
+        $level_fetcher
+            ->expects($this->atLeastOnce())
+            ->method('fetchLevel')
+            ->willReturn(ILIASLogLevel::OFF);
+
+        $lazy_factory = new LazyInternalFactory($monolog_factory, $basic_config);
+        $logger = $lazy_factory->getLazyGhost($expected_name, $level_fetcher);
+        // actually initialize the logger
+        $logger->info('test');
+    }
 }
