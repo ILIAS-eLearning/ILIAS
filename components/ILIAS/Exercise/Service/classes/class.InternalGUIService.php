@@ -183,6 +183,20 @@ class InternalGUIService
         );
     }
 
+    public function peerReviewOverviewTableBuilder(
+        \ilExAssignment $assignment,
+        object $parent_gui,
+        string $parent_cmd
+    ): \ILIAS\Exercise\PeerReview\PeerReviewOverviewTableBuilder {
+        return new \ILIAS\Exercise\PeerReview\PeerReviewOverviewTableBuilder(
+            $this->domain_service,
+            $this,
+            $assignment,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
     public function getTeamSubmissionGUI(
         \ilObjExercise $exc,
         \ilExSubmission $submission
