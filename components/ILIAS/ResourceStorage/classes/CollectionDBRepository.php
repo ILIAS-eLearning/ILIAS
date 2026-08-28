@@ -58,12 +58,11 @@ class CollectionDBRepository implements CollectionRepository
         ?int $owner_id = null,
         ?string $title = null
     ): ResourceCollection {
-        $collection = new ResourceCollection(
-            $identification,
-            $owner_id ?? ResourceCollection::NO_SPECIFIC_OWNER,
-            $title ?? ''
-        );
+        $collection = $this->buildCollection($identification, $owner_id, $title);
 
+        // A blank collection has no assignments in the database yet, so the cache can be
+        // marked as loaded and empty. This must not happen for collections read from the
+        // database, see existing().
         $rcid = $identification->serialize();
         if (!isset($this->resource_ids_cache[$rcid])) {
             $this->resource_ids_cache[$rcid] = [];
@@ -80,7 +79,19 @@ class CollectionDBRepository implements CollectionRepository
         $owner_id = (int) ($d->owner_id ?? ResourceCollection::NO_SPECIFIC_OWNER);
         $title = (string) ($d->title ?? '');
 
-        return $this->blank($identification, $owner_id, $title);
+        return $this->buildCollection($identification, $owner_id, $title);
+    }
+
+    private function buildCollection(
+        ResourceCollectionIdentification $identification,
+        ?int $owner_id = null,
+        ?string $title = null
+    ): ResourceCollection {
+        return new ResourceCollection(
+            $identification,
+            $owner_id ?? ResourceCollection::NO_SPECIFIC_OWNER,
+            $title ?? ''
+        );
     }
 
     public function has(ResourceCollectionIdentification $identification): bool
