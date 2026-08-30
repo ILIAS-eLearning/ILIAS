@@ -431,9 +431,12 @@ class Renderer extends AbstractComponentRenderer
         foreach ($rows as $row) {
             $row_contents = $default_renderer->render($row);
             $alternate = ($alternate === 'odd') ? 'even' : 'odd';
+            $highlighted = $row->isHighlighted() ? 'highlighted' : '';
+
             $tpl->setCurrentBlock('row');
             $tpl->setVariable('ALTERNATION', $alternate);
             $tpl->setVariable('CELLS', $row_contents);
+            $tpl->setVariable('HIGHLIGHTED', $highlighted);
             $tpl->parseCurrentBlock();
         }
     }

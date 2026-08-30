@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Table;
 
-use  ILIAS\UI\Component\Table\Column\Column;
-use  ILIAS\UI\Component\Table\Action\Action;
-use  ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Table\Column\Column;
+use ILIAS\UI\Component\Table\Action\Action;
+use ILIAS\UI\Component\Component;
 
 interface DataRow extends Component
 {
@@ -32,6 +32,11 @@ interface DataRow extends Component
      * Refer to an Action by its id and disable it for this row/record only.
      */
     public function withDisabledAction(string $action_id, bool $disable = true): static;
+
+    /**
+     * Emphasize a row (visually) by marking it as 'highlighted'.
+     */
+    public function withHighlighted(bool $highlighted, bool $force = false): static;
 
     /**
      * @return array<string, Column>
