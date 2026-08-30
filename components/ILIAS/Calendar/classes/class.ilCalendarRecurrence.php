@@ -106,8 +106,13 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
             if ($entry->isFullday()) {
                 $ical .= (';UNTIL=' . $this->getFrequenceUntilDate()->get(IL_CAL_FKT_DATE, 'Ymd'));
             } else {
-                $his = $entry->getStart()->get(IL_CAL_FKT_DATE, 'His');
-                $ical .= (';UNTIL=' . $this->getFrequenceUntilDate()->get(IL_CAL_FKT_DATE, 'Ymd') . 'T' . $his);
+                $user = new ilObjUser($a_user_id);
+                $tz = $user->getTimeZone();
+                $local_time = $entry->getStart()->get(IL_CAL_FKT_DATE, 'H:i:s', $tz);
+                $until_date = $this->getFrequenceUntilDate()->get(IL_CAL_FKT_DATE, 'Y-m-d');
+                $until_dt = new ilDateTime($until_date . ' ' . $local_time, IL_CAL_DATETIME, $tz);
+                $ical .= ';UNTIL=' . $until_dt->get(IL_CAL_FKT_DATE, 'Ymd', ilTimeZone::UTC) .
+                         'T' . $until_dt->get(IL_CAL_FKT_DATE, 'His', ilTimeZone::UTC) . 'Z';
             }
         }
         if ($this->getBYMONTH()) {
