@@ -1816,28 +1816,12 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         }
     }
 
-    public static function mayLeave(int $a_course_id, int $a_user_id = 0, &$a_date = null): bool
+    public static function mayLeave(int $a_course_id, int $a_user_id = 0, ?ilDate &$a_date = null): bool
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-        $ilDB = $DIC['ilDB'];
-
-        if (!$a_user_id) {
-            $a_user_id = $ilUser->getId();
-        }
-
-        $set = $ilDB->query("SELECT leave_end" .
-            " FROM crs_settings" .
-            " WHERE obj_id = " . $ilDB->quote($a_course_id, "integer"));
-        $row = $ilDB->fetchAssoc($set);
-        if ($row && $row["leave_end"]) {
-            // timestamp to date
-            $limit = date("Ymd", $row["leave_end"]);
-            if ($limit < date("Ymd")) {
-                $a_date = new ilDate(date("Y-m-d", $row["leave_end"]), IL_CAL_DATE);
-                return false;
-            }
+        $crs = ilObjectFactory::getInstanceByObjId($a_course_id);
+        $a_date = $crs->getCancellationEnd();
+        if ($crs->getMembersObject()->isLastAdmin($a_user_id) || $a_date < new ilDate(time(), IL_CAL_UNIX)) {
+            return false;
         }
         return true;
     }
