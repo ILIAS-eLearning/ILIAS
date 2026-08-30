@@ -48,4 +48,10 @@ class ToolFactory
     {
         return new TreeTool($identification);
     }
+
+    public function drilldownTool(IdentificationInterface $identification): DrilldownTool
+    {
+        return new DrilldownTool($identification);
+    }
+
 }
