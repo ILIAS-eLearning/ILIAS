@@ -119,7 +119,7 @@ public class DirectoryDataSource extends FileDataSource {
 						public boolean accept(File path) {
 							
 							if(path.isDirectory()) {
-								return !path.getName().equals(".svn");
+								return !path.getName().equals(".git");
 							}
 							else
 							{
