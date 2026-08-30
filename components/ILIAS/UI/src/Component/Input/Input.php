@@ -69,6 +69,17 @@ interface Input extends Component
     public function withAdditionalTransformation(Transformation $trafo);
 
     /**
+     * Retrieves the dedicated name for this input component.
+     * This name, if set via {@see Input::withDedicatedName(string $dedicated_name)},
+     * is used in the NAME attribute of the rendered input (instead of the auto-generated 'input_x').
+     * If no dedicated name was set, it returns null.
+     * The dedicated name can be useful for customizing how inputs are submitted or referenced programmatically.
+     *
+     * @return string|null The optional dedicated name assigned to this input, or null if none is set.
+     */
+    public function getDedicatedName(): ?string;
+
+    /**
      * Sets an optional dedicated name for this input which is used in the NAME
      * attribute of the rendered input (instead of the auto-generated 'input_x').
      * If the same dedicated name is used more than once, a counter will be

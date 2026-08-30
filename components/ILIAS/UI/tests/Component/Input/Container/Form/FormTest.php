@@ -437,6 +437,7 @@ class FormTest extends ILIAS_UI_TestBase
             ->getMockBuilder(Input\Field\FormInputInternal::class)
             ->onlyMethods([
                 "getName",
+                "getDedicatedName",
                 "withDedicatedName",
                 "withNameFrom",
                 "withInput",
