@@ -354,7 +354,7 @@ class ilPCPlugged extends ilPageContent
 
         foreach ($this->component_factory->getActivePluginsInSlot("pgcp") as $plugin) {
             $plugin->setPageObj($this->getPage());
-            $pl_dir = $plugin->getDirectory();
+            $pl_dir = $plugin->getRelativeDirectory();
 
             $pl_js_files = $plugin->getJavascriptFiles($a_mode);
             foreach ($pl_js_files as $pl_js_file) {
@@ -376,7 +376,7 @@ class ilPCPlugged extends ilPageContent
 
         foreach ($this->component_factory->getActivePluginsInSlot("pgcp") as $plugin) {
             $plugin->setPageObj($this->getPage());
-            $pl_dir = $plugin->getDirectory();
+            $pl_dir = $plugin->getRelativeDirectory();
 
             $pl_css_files = $plugin->getCssFiles($a_mode);
             foreach ($pl_css_files as $pl_css_file) {

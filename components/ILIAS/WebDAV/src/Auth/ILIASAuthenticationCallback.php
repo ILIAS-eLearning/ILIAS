@@ -69,7 +69,13 @@ class ILIASAuthenticationCallback
 
     protected function isUserAgentSessionAware(string $user_agent): bool
     {
-        return array_any($this->session_aware_webdav_clients, fn($webdav_client_name): string|false => stristr($user_agent, (string) $webdav_client_name));
+        foreach ($this->session_aware_webdav_clients as $webdav_client_name) {
+            if (stristr($user_agent, (string) $webdav_client_name) !== false) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     protected function getUserAgent(): string

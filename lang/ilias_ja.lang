@@ -2020,7 +2020,7 @@ assessment#:#use_previous_solution_advice#:#表示されている回答は前回
 assessment#:#user_has_finished_a_test#:#受験者はテストを終了しました。
 assessment#:#user_ip_outside_range#:#このIPからテストへのアクセスを許可されていません。
 assessment#:#user_not_invited#:#あなたはこのテストの受験対象者ではありません。
-assessment#:#usr_manscoring_complete#:#採点済'としてマーク
+assessment#:#usr_manscoring_complete#:#記録済'としてマーク
 assessment#:#value_between_x_and_y#:#値は %s と %s の間になります
 assessment#:#values#:#値
 assessment#:#variable#:#変数
@@ -2656,6 +2656,7 @@ book#:#book_pool_added#:#予約集が追加されました。
 book#:#book_pool_selection#:#要約集の選択
 book#:#book_post_booking_file#:#ファイル
 book#:#book_post_booking_information#:#投稿予約情報
+book#:#book_post_booking_information_for#:#Booking Information for "%s"###11 08 2026 new variable
 book#:#book_post_booking_text#:#テキスト
 book#:#book_post_booking_text_info#:#テキストへ予約詳細を追加するには[PERIOD]と[OBJECT]を使用。
 book#:#book_pref_book_cron#:#Preferencesで予約
@@ -4735,7 +4736,7 @@ common#:#mm_private_chats#:#プライベートチャット
 common#:#mm_repo_tree_view#:#ツリー表示
 common#:#mm_repo_tree_view_act#:#ツリー表示をアクティブ化
 common#:#mm_repo_tree_view_deact#:#ツリー表示を解除
-common#:#mm_repository#:#Repository
+common#:#mm_repository#:#リポジトリ
 common#:#mm_skills#:#能力
 common#:#mm_staff_list#:#スタッフリスト
 common#:#mm_tags#:#タグ
@@ -4824,7 +4825,7 @@ common#:#msg_no_perm_paste#:#次のオブジェクトを貼り付けるアクセ
 common#:#msg_no_perm_paste_object_in_folder#:#フォルダ %sの中のオブジェクト%sを貼り付けるアクセス権限がありません。
 common#:#msg_no_perm_perm#:#アクセス権限設定の編集アクセス権限がありません
 common#:#msg_no_perm_read#:#このアイテムアクセスへのアクセス権限がありません。
-common#:#msg_no_perm_read_item#:#アイテム '%s'へのアクセス権限がありません。
+common#:#msg_no_perm_read_item#:#アイテム へのアクセス権限がありません。
 common#:#msg_no_perm_read_lm#:#このラーニングモジュールを読み込むアクセス権限がありません。
 common#:#msg_no_perm_view_roles_of_user#:#このユーザの役割割当を見る権限がありません。
 common#:#msg_no_perm_write#:#書込みアクセス権限がありません
@@ -5115,7 +5116,7 @@ common#:#obj_rcat#:#ECSカテゴリ
 common#:#obj_rcrs#:#コースリンク
 common#:#obj_recf#:#リストアされたオブジェクト
 common#:#obj_recf_desc#:#リストアされたシステムチェックのオブジェクトが含まれます。
-common#:#obj_rep#:#Repository
+common#:#obj_rep#:#リポジトリ
 common#:#obj_reps#:#リポジトリ
 common#:#obj_reps_desc#:#リポジトリの全般設定
 common#:#obj_rfil#:#ECSファイル
@@ -5384,6 +5385,7 @@ common#:#preconditions_optional_hint#:#次の前提条件<b>%s</b>の中から�
 common#:#predefined_template#:#事前定義の役割テンプレート
 common#:#preferences#:#プレファレンス
 common#:#presentation_table_more#:#詳しく見る
+common#:#presenter#:#Presenter###11 08 2026 new variable
 common#:#preview#:#プレビュー
 common#:#preview_create#:#プレビューを作成
 common#:#preview_delete#:#プレビューを削除
@@ -10300,6 +10302,7 @@ glo#:#glo_really_remove_from_collection#:#収集中の用語集か次の用語�
 glo#:#glo_reference#:#参照
 glo#:#glo_reference_terms#:#参照用語
 glo#:#glo_referenced_term#:#参照の用語
+glo#:#glo_remove_glossary#:##Are you sure you want to remove the following glossary from the list of auto-linked glossaries?###11 08 2026 new variable
 glo#:#glo_removed_from_collection_info#:#収集の用語集から用語が削除されました。
 glo#:#glo_reset_all_boxes#:#全ボックスをリセット
 glo#:#glo_save_and_continue#:#保存して続ける
@@ -10670,6 +10673,7 @@ iass#:#iass_file_dropzone#:#ファイルをここへドロップできます
 iass#:#iass_file_required#:#記録ファイルが必須
 iass#:#iass_file_required_info#:#記録ファイルは各参加者の記録へアップロードされる必要があります。
 iass#:#iass_file_visible_examinee#:#参加者へファイルを表示
+iass#:#iass_file_visible_examinee_info#:#Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled.###11 08 2026 new variable
 iass#:#iass_filter_all#:#All
 iass#:#iass_filter_failed#:#失敗のみ
 iass#:#iass_filter_finalized#:#完了のみ
@@ -11258,8 +11262,6 @@ lti#:#activity_id#:#アクティビティID
 lti#:#activity_id_info#:#このアクティビティIDはステートメント識別用にLTIプロバイダが使用します。
 lti#:#auth_lti#:#LTI Auth
 lti#:#conf_privacy_ident#:#ユーザID
-lti#:#conf_privacy_ident_il_uuid_SHA256#:#ハッシュは、Eメールアドレス形式でフォーマットされたユニークなILIASプラットフォームIDと組み合わされます
-lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#これは各呼び出しと同一ですが、ILIASユーザーについての直接的な結論を許しません。
 lti#:#conf_privacy_ident_il_uuid_ext_account#:#Eメールアドレス用にユニークなILIASプラットフォームでフォーマットされて組み合された外部ユーザID
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#これはコール毎に同じですが、ユーザに関してはダイレクトに終結する事があります。
 lti#:#conf_privacy_ident_il_uuid_login#:#EメールアドレスでユニークなILIASプラットフォームでフォーマットされて組み合されたILIASログイン
@@ -11378,8 +11380,8 @@ lti#:#lti_at_least_one_prov_has_usages#:# 一つ以上にこのプロバイダ�
 lti#:#lti_auth_failed_invalid_key#:#有効なconsumer keyがないので認証を失敗しました。
 lti#:#lti_con_content_item#:#ディープリンクのサポート
 lti#:#lti_con_content_item_url#:#Content URL
-lti#:#lti_con_grade_synchronization#:#拡張評価サービス
-lti#:#lti_con_grade_synchronization_info#:#LTIツールは'割当と評価サービス'を提示する必要があります。
+lti#:#lti_con_grade_synchronization#:#Assignment and Grade Services
+lti#:#lti_con_grade_synchronization_info#:#LTIツールは'Assignment and Grade Services'を提供する必要があります。
 lti#:#lti_con_initiate_login_url#:#Login URLを起動
 lti#:#lti_con_key_type#:#Public Key Type
 lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)
@@ -11468,6 +11470,7 @@ lti#:#lti_create_lti_user_role#:#LTI ユーザ用の推奨グローバル役割�
 lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#結果サービスをサポートしてる場合、LTI consumerでLTIユーザの学習進捗を同期します。このcron jobは学習進捗設定更新の後でステータス更新を送信する事が必須となります。
 lti#:#lti_custom_new#:#自身のプロバイダー設定を作成
+lti#:#lti_deep_linking_not_available_for_admin_objects#:#管理画面で作成されたコンシューマーではコンテンツを選択できません
 lti#:#lti_delete_consume_provider#:#プロバイダーを削除
 lti#:#lti_delete_consume_providers#:#プロバイダーを削除
 lti#:#lti_delete_provider#:#プロバイダーを削除
@@ -11476,6 +11479,7 @@ lti#:#lti_edit_consumer#:#LTI Consumerを編集
 lti#:#lti_exit#:#LTI Sessionをクローズ
 lti#:#lti_exited#:#LTI セッションをクローズしました
 lti#:#lti_exited_info#:#LTIセッションは正しくクローズしました
+lti#:#lti_form_provider_content_selection#:#コンテンツ選択
 lti#:#lti_form_provider_create#:#プロバイダー設定を作成
 lti#:#lti_form_provider_edit#:#プロバイダー設定を編集
 lti#:#lti_form_section_appearance#:#起動のオプション
@@ -11527,6 +11531,7 @@ lti#:#subtab_certificate#:#履修状況
 lti#:#subtab_object_settings#:#オブジェクト設定
 lti#:#subtab_provider_settings#:#LTI Provider設定
 lti#:#tab_content#:#コンテンツ
+lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#ランキング
 lti#:#tab_settings#:#設定
@@ -14330,15 +14335,15 @@ rbac#:#feed_delete#:#ユーザはWebフィードを移動または削除でき�
 rbac#:#feed_edit_permission#:#ユーザはアクセス権設定を変更できます
 rbac#:#feed_read#:#ユーザはWebフィードのコンテンツを読込む事ができます
 rbac#:#feed_write#:#ユーザはWebフィード設定を編集できます
-rbac#:#file_content#:#コンテンツを表示
 rbac#:#file_copy#:#ユーザはファイルをコピーできます
 rbac#:#file_delete#:#ユーザはファイルを移動または削除できます
 rbac#:#file_edit_file#:#可能なら外部エディタ内のファイル編集を許可
 rbac#:#file_edit_learning_progress#:#ユーザは学習進捗設定を編集できます。
 rbac#:#file_edit_permission#:#ユーザはアクセス権設定を変更できます
+rbac#:#file_file_view_content#:#File content presented in browser (if WOPI is active)###11 08 2026 new variable
+rbac#:#file_file_view_content_short#:#Show Content###11 08 2026 new variable
 rbac#:#file_read#:#ユーザはファイルをダウンロードできます
 rbac#:#file_read_learning_progress#:#ユーザは他のユーザの学習進捗を表示できます。
-rbac#:#file_view_content#:#ブラウザで表示されたファイルの内容（WOPIが有効な場合）
 rbac#:#file_visible#:#ファイルを表示
 rbac#:#file_write#:#ユーザはファイル設定の編集と新しいバージョンのファイルをアップロードできます
 rbac#:#files_visible#:#ファイル表示
@@ -15569,7 +15574,7 @@ search#:#lucene_tbl_create_ini#:#JavaサーバーIni-ファイルを作成
 search#:#search_add_members_from_container_crs#:#現在のコースのユーザを追加
 search#:#search_add_members_from_container_grp#:#現在のグループのユーザを追加
 search#:#search_any#:#-- 選択 --
-search#:#search_area#:#検索範囲
+search#:#search_area_filter#:#Scope###11 08 2026 new variable
 search#:#search_area_info#:#検索を開始する範囲を選択してください。
 search#:#search_auto_complete_length#:#自動完了リストのエントリー数
 search#:#search_auto_complete_length_info#:#自動補完リストをオフにするには「0」を選択してください。
@@ -15614,6 +15619,7 @@ search#:#search_minimum_info#:#検索は%s文字以上である必要があり�
 search#:#search_minimum_three#:#検索は最低3文字長以上にしなければなりません
 search#:#search_newer_than#:#よりも新しいオブジェクト
 search#:#search_no_connection_lucene#:#Lucene(ルシーン）サーバーへ接続できません。
+search#:#search_no_further_match#:#No further matches found.###11 08 2026 new variable
 search#:#search_no_match#:#検索結果が一致しませんでした
 search#:#search_no_match_hint#:#検索 - <b>%s</b> - 一致するドキュメントがありません。<br /><br />提案<br />・スペル間違いがないか確認<br />・別のキーワードで検索<br />・より一般的なキーワードで検索<br />・さらに絞り込んだキーワードで検索
 search#:#search_no_selection#:#何も選択されませんでした。
@@ -15636,6 +15642,8 @@ search#:#search_sort_generic_desc#:#%s, desc.
 search#:#search_sort_relevance#:#関連順
 search#:#search_sort_title_asc#:#アルファベット順：A-Z
 search#:#search_sort_title_desc#:#アルファベット順：Z-A
+search#:#search_tab_content#:#Content###11 08 2026 new variable
+search#:#search_tab_user#:#Users###11 08 2026 new variable
 search#:#search_term_combination#:#混在
 search#:#search_title_description#:#タイトル / 説明
 search#:#search_tst_svy#:#テスト/サーベイ

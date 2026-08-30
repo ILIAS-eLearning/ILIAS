@@ -129,7 +129,8 @@ class ilLTIConsumerContentGUI
             return null;
         } else {
             $this->initCmixUser();
-            $params = $this->getLaunchParametersLTI13($loginData['redirect_uri'], $this->object->getProvider()->getClientId(), $this->object->getProvider()->getId(), $loginData['nonce']);
+            $targetLinkUri = $loginData['target_link_uri'] ?? $this->getTargetLinkUri();
+            $params = $this->getLaunchParametersLTI13($targetLinkUri, $this->object->getProvider()->getClientId(), $this->object->getProvider()->getId(), $loginData['nonce']);
             if (isset($loginData['state'])) {
                 $params['state'] = $loginData['state'];
             }
@@ -252,16 +253,17 @@ class ilLTIConsumerContentGUI
         $target = $this->object->getLaunchMethod() == "newWin" ? "_blank" : "_self";
         $button = '<input class="btn btn-default ilPre" type="button" onClick="ltilaunch()" value = "' . $this->lng->txt("show_content") . '" />';
         $ltiMessageHint = (string) $this->object->getRefId() . ":" . CLIENT_ID;
+        $html = $this->dic->refinery()->encode()->htmlSpecialCharsAsEntities();
         ilSession::set('lti_message_hint', $ltiMessageHint);
-        $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $this->object->getProvider()->getInitiateLogin() . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
+        $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $html->transform($this->object->getProvider()->getInitiateLogin()) . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
 
-        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'iss', ilObjLTIConsumer::getIliasHttpPath()) . "\n";
-        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'target_link_uri', $this->object->getProvider()->getProviderUrl()) . "\n";
-        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'login_hint', $user_ident) . "\n";
+        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'iss', $html->transform(ilObjLTIConsumer::getIliasHttpPath())) . "\n";
+        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'target_link_uri', $html->transform($this->getTargetLinkUri())) . "\n";
+        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'login_hint', $html->transform($user_ident)) . "\n";
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'lti_message_hint', $ltiMessageHint) . "\n";
-        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'client_id', $this->object->getProvider()->getClientId()) . "\n";
+        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'client_id', $html->transform($this->object->getProvider()->getClientId())) . "\n";
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'lti_deployment_id', $this->object->getProvider()->getId()) . "\n";
-        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'launch_presentation_return_url', $returnUrl) . "\n";
+        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'launch_presentation_return_url', $html->transform($returnUrl)) . "\n";
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'lis_result_sourcedid', $token) . "\n";
         $output .= $button;
         $output .= '</form>';
@@ -289,13 +291,14 @@ class ilLTIConsumerContentGUI
         $target = "_self";
         $output = '';
         $ltiMessageHint = (string) $this->object->getRefId() . ":" . CLIENT_ID;
+        $html = $this->dic->refinery()->encode()->htmlSpecialCharsAsEntities();
         ilSession::set('lti_message_hint', $ltiMessageHint);
-        $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $this->object->getProvider()->getInitiateLogin() . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
-        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'iss', ilObjLTIConsumer::getIliasHttpPath()) . "\n";
-        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'target_link_uri', $this->object->getProvider()->getProviderUrl()) . "\n";
-        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'login_hint', $user_ident) . "\n";
+        $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $html->transform($this->object->getProvider()->getInitiateLogin()) . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
+        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'iss', $html->transform(ilObjLTIConsumer::getIliasHttpPath())) . "\n";
+        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'target_link_uri', $html->transform($this->getTargetLinkUri())) . "\n";
+        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'login_hint', $html->transform($user_ident)) . "\n";
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'lti_message_hint', $ltiMessageHint) . "\n";
-        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'client_id', $this->object->getProvider()->getClientId()) . "\n";
+        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'client_id', $html->transform($this->object->getProvider()->getClientId())) . "\n";
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'lti_deployment_id', $this->object->getProvider()->getId()) . "\n";
         $output .= '</form>';
 
@@ -402,6 +405,18 @@ class ilLTIConsumerContentGUI
             $returnUrl,
             $additionalArguments
         );
+    }
+
+    private function getTargetLinkUri(): string
+    {
+        foreach (explode(';', $this->object->getCustomParams()) as $param) {
+            $parts = explode('=', $param, 2);
+            if (count($parts) === 2 && trim($parts[0]) === 'target_link_uri') {
+                return trim($parts[1]);
+            }
+        }
+
+        return $this->object->getProvider()->getProviderUrl();
     }
 
     public static function isEmbeddedLaunchRequest(): bool

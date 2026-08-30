@@ -67,7 +67,7 @@ class ilLTIConsumerGradeSynchronizationGUI
         $table = new ilLTIConsumerGradeSynchronizationTableGUI($isMultiActorReport);
 
         $cUser = null;
-        if (!$this->access->hasOutcomesAccess()) {
+        if (!$isMultiActorReport) {
             $cUser = $DIC->user()->getId();
         }
 

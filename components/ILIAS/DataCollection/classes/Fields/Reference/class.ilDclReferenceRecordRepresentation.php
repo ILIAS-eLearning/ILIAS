@@ -75,6 +75,7 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
                 "renderRecord"
             )
         );
+        $this->ctrl->clearParametersByClass(ilDclDetailedViewGUI::class);
 
         return $this->renderer->render($html);
     }

@@ -143,7 +143,8 @@ class ilTreeTrashQueries
 
         $order = ' ';
         if ($order_field) {
-            $order = 'ORDER BY ' . $order_field . ' ' . $order_direction;
+            $valid_direction = strtolower($order_direction) === 'desc' ? 'DESC' : 'ASC';
+            $order = 'ORDER BY ' . $this->db->quoteIdentifier($order_field) . ' ' . $valid_direction;
         }
 
         $query = $select . $from . $this->appendTrashNodeForContainerQueryFilter($filter) . $order;

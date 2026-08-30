@@ -2656,6 +2656,7 @@ book#:#book_pool_added#:#A booking pool has been added.###16 07 2010 new variabl
 book#:#book_pool_selection#:#Booking Pool Selection###07 02 2020 new variable
 book#:#book_post_booking_file#:#File###02 09 2012 new variable
 book#:#book_post_booking_information#:#Post Booking Information###02 09 2012 new variable
+book#:#book_post_booking_information_for#:#Booking Information for "%s"###11 08 2026 new variable
 book#:#book_post_booking_text#:#Text###02 09 2012 new variable
 book#:#book_post_booking_text_info#:#Use [PERIOD] and [OBJECT] to add booking details to the text.###26 09 2014 new variable
 book#:#book_pref_book_cron#:#Booking with Preferences###07 02 2020 new variable
@@ -4824,7 +4825,7 @@ common#:#msg_no_perm_paste#:#Nuk keni të drejta të vendosur objektet vijuese:
 common#:#msg_no_perm_paste_object_in_folder#:#You have no permission to paste the object %s in the folder %s.###24 02 2009 new variable
 common#:#msg_no_perm_perm#:#Nuk keni të drejta t'i editoni konfigurimet për të drejtat
 common#:#msg_no_perm_read#:#Nuk keni të drejta për qasje në këtë artikull.
-common#:#msg_no_perm_read_item#:#You have no permission to access item '%s'.###10 Jul 2006 new variable
+common#:#msg_no_perm_read_item#:#You have no permission to access this object.
 common#:#msg_no_perm_read_lm#:#Nuk keni të drejta të lexoni këtë modul mësimor.
 common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###29 10 2025 new variable
 common#:#msg_no_perm_write#:#Nuk keni të drejta për të shkruar
@@ -5384,6 +5385,7 @@ common#:#preconditions_optional_hint#:#Please edit one of the following precondi
 common#:#predefined_template#:#Predefined role template###14 Jul 2005 new variable
 common#:#preferences#:#User-defined Preferences###26 06 2009 new variable
 common#:#presentation_table_more#:#more###10 11 2018 new variable
+common#:#presenter#:#Presenter###11 08 2026 new variable
 common#:#preview#:#Preview###24 10 2013 new variable
 common#:#preview_create#:#Create Preview###24 10 2013 new variable
 common#:#preview_delete#:#Delete Preview###24 10 2013 new variable
@@ -10300,6 +10302,7 @@ glo#:#glo_really_remove_from_collection#:#Are you sure you want to remove the fo
 glo#:#glo_reference#:#Reference###25 10 2016 new variable
 glo#:#glo_reference_terms#:#Reference Terms###25 10 2016 new variable
 glo#:#glo_referenced_term#:#Referenced Term###25 10 2016 new variable
+glo#:#glo_remove_glossary#:##Are you sure you want to remove the following glossary from the list of auto-linked glossaries?###11 08 2026 new variable
 glo#:#glo_removed_from_collection_info#:#The glossary has been removed from the collection glossary.###26 08 2024 new variable
 glo#:#glo_reset_all_boxes#:#Reset All Boxes###26 08 2024 new variable
 glo#:#glo_save_and_continue#:#Save and Continue###29 10 2025 new variable
@@ -10670,6 +10673,7 @@ iass#:#iass_file_dropzone#:#you can drop your files here###29 07 2022 new variab
 iass#:#iass_file_required#:#Record file required###23 10 2017 new variable
 iass#:#iass_file_required_info#:#A record file has to be uploaded to each participant record.###23 10 2017 new variable
 iass#:#iass_file_visible_examinee#:#File visible for participant###31 08 2017 new variable
+iass#:#iass_file_visible_examinee_info#:#Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled.###11 08 2026 new variable
 iass#:#iass_filter_all#:#All###10 11 2018 new variable
 iass#:#iass_filter_failed#:#Failed only###10 11 2018 new variable
 iass#:#iass_filter_finalized#:#Completed only###10 11 2018 new variable
@@ -11258,8 +11262,6 @@ lti#:#activity_id#:#Activity ID###07 02 2020 new variable
 lti#:#activity_id_info#:#This Activity ID is used by the LTI Provider to identify Statements.###07 02 2020 new variable
 lti#:#auth_lti#:#LTI Auth###31 08 2017 new variable
 lti#:#conf_privacy_ident#:#User identification###26 08 2024 new variable
-lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###26 08 2024 new variable
-lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###26 08 2024 new variable
 lti#:#conf_privacy_ident_il_uuid_ext_account#:#External User ID combined with a unique ILIAS platform id formatted as an E-Mail address###26 08 2024 new variable
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###26 08 2024 new variable
 lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail address###26 08 2024 new variable
@@ -11378,7 +11380,7 @@ lti#:#lti_at_least_one_prov_has_usages#:#At least one provider could not be dele
 lti#:#lti_auth_failed_invalid_key#:#Authentication failed, no valid consumer key given.###31 08 2017 new variable
 lti#:#lti_con_content_item#:#Support for Deep Linking###26 08 2024 new variable
 lti#:#lti_con_content_item_url#:#Content URL###26 08 2024 new variable
-lti#:#lti_con_grade_synchronization#:#Advanced Grading Services###04 12 2025 new variable
+lti#:#lti_con_grade_synchronization#:#Assignment and Grade Services###04 12 2025 new variable
 lti#:#lti_con_grade_synchronization_info#:#The LTI tool must offer 'Assignment and Grade Services'.###04 12 2025 new variable
 lti#:#lti_con_initiate_login_url#:#Initiate Login URL###26 08 2024 new variable
 lti#:#lti_con_key_type#:#Public Key Type###26 08 2024 new variable
@@ -11468,6 +11470,7 @@ lti#:#lti_create_lti_user_role#:#Create recommended global role for LTI users###
 lti#:#lti_cron_title#:#LTI Outcome Service###07 02 2020 new variable
 lti#:#lti_cron_title_desc#:#Synchronizes the learning progress of LTI users with the LTI consumer, if it supports the outcome service. This cron job is only required to transfer status updates after Learning progress settings updates.###07 02 2020 new variable
 lti#:#lti_custom_new#:#Create Own Provider Settings###07 02 2020 new variable
+lti#:#lti_deep_linking_not_available_for_admin_objects#:#Consumers created in Administration do not allow content selection
 lti#:#lti_delete_consume_provider#:#Delete Provider###07 02 2020 new variable
 lti#:#lti_delete_consume_providers#:#Delete Providers###07 02 2020 new variable
 lti#:#lti_delete_provider#:#Delete Provider###07 02 2020 new variable
@@ -11476,6 +11479,7 @@ lti#:#lti_edit_consumer#:#Edit LTI Consumer###31 08 2017 new variable
 lti#:#lti_exit#:#Close LTI Session###31 08 2017 new variable
 lti#:#lti_exited#:#LTI Session closed###31 08 2017 new variable
 lti#:#lti_exited_info#:#LTI Session successfully closed###31 08 2017 new variable
+lti#:#lti_form_provider_content_selection#:#Përzgjedhja e përmbajtjes
 lti#:#lti_form_provider_create#:#Create Provider Settings###07 02 2020 new variable
 lti#:#lti_form_provider_edit#:#Edit Provider Settings###07 02 2020 new variable
 lti#:#lti_form_section_appearance#:#Options for launch###07 02 2020 new variable
@@ -11527,6 +11531,7 @@ lti#:#subtab_certificate#:#Certificate###07 02 2020 new variable
 lti#:#subtab_object_settings#:#Object Settings###07 02 2020 new variable
 lti#:#subtab_provider_settings#:#LTI Provider Settings###07 02 2020 new variable
 lti#:#tab_content#:#Content###07 02 2020 new variable
+lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info###07 02 2020 new variable
 lti#:#tab_scoring#:#Ranking###07 02 2020 new variable
 lti#:#tab_settings#:#Settings###07 02 2020 new variable
@@ -14330,15 +14335,15 @@ rbac#:#feed_delete#:#Delete Web Feed###29 05 2007 new variable
 rbac#:#feed_edit_permission#:#Change permission settings###02 04 2007 new variable
 rbac#:#feed_read#:#Read access to Web Feed###02 04 2007 new variable
 rbac#:#feed_write#:#Edit Web Feed###02 04 2007 new variable
-rbac#:#file_content#:#Show Content###29 10 2025 new variable
 rbac#:#file_copy#:#Copy File###02 04 2007 new variable
 rbac#:#file_delete#:#Fshij Skedar
 rbac#:#file_edit_file#:#Allow to edit the file in an external editor, if available###26 08 2024 new variable
 rbac#:#file_edit_learning_progress#:#User can edit learning progress settings###31 08 2017 new variable
 rbac#:#file_edit_permission#:#Ndërro konfigurimet e të Drejtave
+rbac#:#file_file_view_content#:#File content presented in browser (if WOPI is active)###11 08 2026 new variable
+rbac#:#file_file_view_content_short#:#Show Content###11 08 2026 new variable
 rbac#:#file_read#:#Shkarko Skedar
 rbac#:#file_read_learning_progress#:#User can view learning progress of other users###10 11 2018 new variable
-rbac#:#file_view_content#:#File content presented in browser (if WOPI is active)###29 10 2025 new variable
 rbac#:#file_visible#:#Skedari është i dukshme
 rbac#:#file_write#:#Edito Skedarin
 rbac#:#files_visible#:#Files Visible###24 10 2013 new variable
@@ -15569,7 +15574,7 @@ search#:#lucene_tbl_create_ini#:#Create Java-Server Ini-File###07 09 2009 new va
 search#:#search_add_members_from_container_crs#:#Add Users of Current Course###24 10 2013 new variable
 search#:#search_add_members_from_container_grp#:#Add Users of Current Group###24 10 2013 new variable
 search#:#search_any#:#-- Any --###20 Jun 2005 new variable
-search#:#search_area#:#Search area###20 Jun 2005 new variable
+search#:#search_area_filter#:#Scope###11 08 2026 new variable
 search#:#search_area_info#:#Please select an area where the search should start.###20 Jun 2005 new variable
 search#:#search_auto_complete_length#:#Number of Auto Complete List Entries###24 07 2009 new variable
 search#:#search_auto_complete_length_info#:#Choose ‘0‘ to switch off the auto-complete list.###04 05 2026 new variable
@@ -15614,6 +15619,7 @@ search#:#search_minimum_info#:#Your search must be at least %s characters long##
 search#:#search_minimum_three#:#Duhet të shënoni së paku tre karaktere
 search#:#search_newer_than#:#Objects newer than###30 08 2015 new variable
 search#:#search_no_connection_lucene#:#Cannot connect to Lucene server.###20 Jul 2005 new variable
+search#:#search_no_further_match#:#No further matches found.###11 08 2026 new variable
 search#:#search_no_match#:#Kërkimi juaj nuk ka sjellë ndonjë rezultat
 search#:#search_no_match_hint#:#Your search - <b>%s</b> - did not match any documents.<br /><br />Suggestions:<br />Make sure all words are spelled correctly.<br />Try different keywords.<br />Try more general keywords.<br />Try fewer keywords.###15 05 2009 new variable
 search#:#search_no_selection#:#Nuk keni bërë ndonjë zgjedhje.
@@ -15636,6 +15642,8 @@ search#:#search_sort_generic_desc#:#%s, desc.###28 10 2024 new variable
 search#:#search_sort_relevance#:#By Relevance###28 10 2024 new variable
 search#:#search_sort_title_asc#:#Alphabetically: A-Z###28 10 2024 new variable
 search#:#search_sort_title_desc#:#Alphabetically: Z-A###28 10 2024 new variable
+search#:#search_tab_content#:#Content###11 08 2026 new variable
+search#:#search_tab_user#:#Users###11 08 2026 new variable
 search#:#search_term_combination#:#Combination###30 04 2009 new variable
 search#:#search_title_description#:#Title / Description###15 05 2009 new variable
 search#:#search_tst_svy#:#Tests/Surveys###20 Jun 2005 new variable
@@ -18060,4 +18068,3 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM###30 12 2013 new variable
 wsp#:#wsp_type_tstv#:#Verification: Test###12 06 2011 new variable
 wsp#:#wsp_type_webr#:#Weblink###18 07 2011 new variable
 wsp#:#wsp_type_wfld#:#Folder###22 03 2011 new variable
-﻿/**

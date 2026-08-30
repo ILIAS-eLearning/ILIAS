@@ -41,6 +41,7 @@ class ilLSPlayer
 
     public const GS_DATA_LS_KIOSK_MODE = 'ls_kiosk_mode';
     public const GS_DATA_LS_CONTENT = 'ls_content';
+    public const GS_DATA_LS_TITLE = 'ls_title';
     public const GS_DATA_LS_MAINBARCONTROLS = 'ls_mainbar_controls';
     public const GS_DATA_LS_METABARCONTROLS = 'ls_metabar_controls';
 
@@ -115,6 +116,8 @@ class ilLSPlayer
 
         //content
         $obj_title = $next_item->getTitle();
+        $obj_description = $next_item->getDescription();
+        $ls_title = ilObject::_lookupTitle(ilObject::_lookupObjId($this->ls_items->getLearningSequenceRefId()));
         $icon = $this->ui_factory->symbol()->icon()->standard(
             $next_item->getType(),
             $next_item->getType(),
@@ -144,6 +147,7 @@ class ilLSPlayer
         $rendered_body = $this->page_renderer->render(
             $control_builder,
             $obj_title,
+            $obj_description,
             $icon,
             $content
         );
@@ -154,7 +158,7 @@ class ilLSPlayer
 
         $curriculum_slate = $this->page_renderer->buildCurriculumSlate(
             $this->curriculum_builder
-                ->getLearnerCurriculum(true)
+                ->getLearnerCurriculum(true, $ls_title)
                 ->withActive($item_position)
         );
         $mainbar_controls = [
@@ -169,6 +173,7 @@ class ilLSPlayer
 
         $cc = $this->current_context;
         $cc->addAdditionalData(self::GS_DATA_LS_KIOSK_MODE, true);
+        $cc->addAdditionalData(self::GS_DATA_LS_TITLE, $ls_title);
         $cc->addAdditionalData(self::GS_DATA_LS_METABARCONTROLS, $metabar_controls);
         $cc->addAdditionalData(self::GS_DATA_LS_MAINBARCONTROLS, $mainbar_controls);
         $cc->addAdditionalData(self::GS_DATA_LS_CONTENT, $rendered_body);
@@ -299,7 +304,10 @@ class ilLSPlayer
         if (!$control_builder->getNextControl()) {
             $direction_next = 1;
             $cmd = '';
-            if (!$is_last) {
+            if ($is_last) {
+                $cmd = self::LSO_CMD_FINISH;
+                $direction_next = null;
+            } else {
                 $available = $this->getNextItem($items, $item, $direction_next)
                     ->getAvailability() === Step::AVAILABLE;
 

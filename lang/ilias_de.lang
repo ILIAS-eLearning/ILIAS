@@ -1113,9 +1113,9 @@ assessment#:#qpl_questions_deleted#:#Fragen gelöscht
 assessment#:#qpl_reset_preview#:#Vorschau zurücksetzen
 assessment#:#qpl_save_skill_assigns_update#:#Kompetenzzuweisung speichern
 assessment#:#qpl_settings_availability#:#Verfügbarkeit
-assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Vorhandene Taxonomien können zum Filtern der Fragen genutzt werden.
-assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomie als Navigationsbaum
-assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Ist eine Taxonomie ausgewählt, wird diese nicht als Filter sondern als Navigationsbaum angezeigt.
+assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Taxonomien können als Filter im Reiter „Fragen“ verwendet werden.
+assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomie als Baumansicht
+assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Die ausgewählte Taxonomie wird im Reiter „Fragen“ in einer Baumansicht angezeigt. Sie erscheint nicht mehr im Filter.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Keine Taxonomie als Navigationsbaum verwenden
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Taxonomien
 assessment#:#qpl_settings_subtab_general#:#Allgemeine Einstellungen
@@ -1370,10 +1370,10 @@ assessment#:#tst_activate_skill_service_desc#:#Erlaubt die Zuordnung von Fragen 
 assessment#:#tst_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Testtitel angezeigt. Der Test kann aber nicht gestartet werden. Der weitere Zugriff, auch auf bereits laufende Tests, wird zum Ende des Zeitraums unterbunden.
 assessment#:#tst_activation_online_info#:#Nur wenn der Test online geschaltet ist, können Benutzer am Test teilnehmen.
 assessment#:#tst_add_quest_cont_edit_mode#:#Editor
-assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Unformatierter Text für Fragen und Antworten und ILIAS-Seiteneditor für Rückmeldungen
-assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#Bietet keine Formatierung von Text in Fragen und Antworten, erlaubt aber Gestaltung der Rückmeldungen mit ILIAS-Seiteneditor und Wiederverwendung bei Fragen in ILIAS-Lernmodulen.
-assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Rich-Text-Editor (TinyMCE) für das Editieren der Fragen, Antworten und Rückmeldungen
-assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Erlaubt formatierten Text für Fragen, Antworten und Rückmeldungen. Rückmeldungen werden aber beim Einbinden von Fragen in ILIAS-Lernmodule nicht übernommen.
+assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Unformatierter Text für Fragen und Antwortoptionen
+assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#Beim Erstellen oder Bearbeiten von Fragen und Antwortmöglichkeiten kann der Text nicht formatiert werden. Rückmeldungen können jedoch mit dem ILIAS-Seiteneditor formatiert und auch wiederverwendet werden, wenn die Frage in ein ILIAS-Lernmodul eingebettet ist.
+assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Rich-Text-Editor (TinyMCE) für das Editieren der Fragen, Antwortoptionen und Rückmeldungen
+assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Beim Erstellen oder Bearbeiten von Fragen, Antwortoptionen und Rückmeldungen kann der Text formatiert werden. Rückmeldungen werden jedoch nicht übernommen, wenn die Frage in ein ILIAS-Lernmodul eingebettet wird.
 assessment#:#tst_add_quest_cont_edit_mode_plain#:#Unformatierter Text
 assessment#:#tst_add_quest_cont_edit_mode_plain_info#:#Bietet keine Formatierung von Text in Fragen, Antworten und Rückmeldungen.
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#Sie haben den Test bestanden. Der Test kann nicht noch einmal gestartet werden.
@@ -3484,7 +3484,7 @@ cntr#:#cntr_switch_to_new_editor_message#:#Dies ist der Standard-Seiteneditor. W
 cntr#:#cntr_switched_editor#:#Auf neue Darstellung umgestellt
 cntr#:#cntr_tax_none_available#:#Es gibt keine verfügbaren Taxonomien.
 cntr#:#cntr_tax_settings_info#:#Taxonomien in Kategorien klassifizieren und filtern die in der Kategorie enthaltenen Objekte. Nach dem Hinzufügen von Taxonomien können über die Reiter „Metadaten“ und die Unterreiter „Taxonomiezuordnung“ der jeweiligen Objekte Klassifizierungen vorgenommen werden. Taxonomien können zusätzlich im Seitenblock des Reiters „Inhalt“ der Kategorie angezeigt werden, um ein direktes Filtern der zugeordneten Objekte zu ermöglichen.
-cntr#:#cntr_taxonomy_definitions#:#Taxonomie-Definition
+cntr#:#cntr_taxonomy_definitions#:#Taxonomien
 cntr#:#cntr_taxonomy_show_sideblock#:#Taxonomie im Seitenblock darstellen
 cntr#:#cntr_taxonomy_sideblock_settings#:#Präsentationseinstellungen
 cntr#:#cntr_text_media_editor#:#Seite bearbeiten
@@ -4396,7 +4396,7 @@ common#:#il_grp_admin#:#Gruppenadministration
 common#:#il_grp_member#:#Gruppenmitglied
 common#:#il_grp_status_closed#:#Geschlossene Gruppe
 common#:#il_grp_status_open#:#Offene Gruppe
-common#:#il_iass_member#:#Teilnehmer
+common#:#il_iass_member#:#Bewertete Person
 common#:#il_lso_admin#:#Lernsequenzadministration
 common#:#il_lso_member#:#Lernsequenzmitglied
 common#:#il_lti_instructor#:#LTI Instructor
@@ -4825,7 +4825,7 @@ common#:#msg_no_perm_paste#:#Ihnen fehlt die Berechtigung, um die folgenden Obje
 common#:#msg_no_perm_paste_object_in_folder#:#Ihnen fehlt die Berechtigung, um das Objekt %s in den Ordner %s einzufügen.
 common#:#msg_no_perm_perm#:#Ihnen fehlt die Berechtigung, um auf die Rechteeinstellungen zuzugreifen.
 common#:#msg_no_perm_read#:#Ihnen fehlt die Berechtigung, um auf dieses Objekt zuzugreifen.
-common#:#msg_no_perm_read_item#:#Sie haben keine Berechtigung, auf das Objekt „%s“ zuzugreifen.
+common#:#msg_no_perm_read_item#:#Sie haben keine Berechtigung, auf das Objekt zuzugreifen.
 common#:#msg_no_perm_read_lm#:#Ihnen fehlt die Berechtigung, um diese Lernmodul anzuzeigen.
 common#:#msg_no_perm_view_roles_of_user#:#Sie haben keine Berechtigung, auf die Rollenzuweisung des Kontos zuzugreifen
 common#:#msg_no_perm_write#:#Sie besitzen keine Rechte, um Einstellungen zu ändern!
@@ -5164,7 +5164,7 @@ common#:#obj_tala_desc#:#Gesprächsvorlagen
 common#:#obj_tals#:#Team Gesprächserie
 common#:#obj_talt#:#Gesprächsvorlage
 common#:#obj_task#:#To-Do
-common#:#obj_tax#:#Taxonomie
+common#:#obj_tax#:#Taxonomien innerhalb dieses Objekts
 common#:#obj_taxf#:#Taxonomienordner
 common#:#obj_tool_setting_calendar#:#Kalender-Block
 common#:#obj_tool_setting_calendar_active#:#Kalender
@@ -7674,20 +7674,20 @@ crs#:#crs_loc_passes_info#:#Maximalanzahl Testdurchläufe:
 crs#:#crs_loc_passes_left#:#Verbleibende Anzahl von Testdurchläufen
 crs#:#crs_loc_passes_reached#:#Keine weiteren Testdurchläufe möglich
 crs#:#crs_loc_perc#:#Benötigte Prozentzahl an Punkten
-crs#:#crs_loc_progress_do_qualifying#:#Bitte führen Sie den Abschlusstest durch, um das Lernziel abzuschließen.
-crs#:#crs_loc_progress_do_qualifying_again#:#Bitte bearbeiten Sie das Lernziel erneut.
+crs#:#crs_loc_progress_do_qualifying#:#Führen Sie den Abschlusstest durch, um das Erreichen des Lernziels zu überprüfen.
+crs#:#crs_loc_progress_do_qualifying_again#:#Bitte bearbeiten Sie die Materialien zum Lernziel erneut.
 crs#:#crs_loc_progress_no_result_do_initial#:#Bearbeiten Sie den Einstiegstest
-crs#:#crs_loc_progress_no_result_no_initial#:#Bearbeiten Sie die folgenden Materialien und danach den Abschlusstest.
+crs#:#crs_loc_progress_no_result_no_initial#:#Bearbeiten Sie die folgenden Materialien und absolvieren danach den Abschlusstest.
 crs#:#crs_loc_progress_objective_complete#:#Sie haben das Lernziel erreicht.
 crs#:#crs_loc_progress_result_itest#:#Ergebnis Einstiegstest
 crs#:#crs_loc_progress_result_qtest#:#Ergebnis
-crs#:#crs_loc_qst_resume_tst_itest#:#Einstiegstests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen Einstiegstest zu einem Lernziel gestartet. Entweder setzen Sie diesen alten Test fort oder Sie starten einen neuen Test.
-crs#:#crs_loc_qst_resume_tst_qtest#:#Qualifizierende Tests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen Qualifizierenden Test zu einem Lernziel gestartet. Entweder setzen Sie diesen alten Test fort oder Sie starten einen neuen Test.
+crs#:#crs_loc_qst_resume_tst_itest#:#Einstiegstests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen Einstiegstest zu einem Lernziel gestartet. Entweder setzen Sie diesen Test fort oder starten einen neuen Test.
+crs#:#crs_loc_qst_resume_tst_qtest#:#Qualifizierende Tests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen Qualifizierenden Test zu einem Lernziel gestartet. Entweder setzen Sie diesen Test fort oder starten einen neuen Test.
 crs#:#crs_loc_qtest_info#:#Abschlusstest
-crs#:#crs_loc_qtst_for_objective#:#Qualifizierender Test "%1$s"
+crs#:#crs_loc_qtst_for_objective#:#Qualifizierender Test „%1$s“
 crs#:#crs_loc_rand_assign_qpl#:#Zuordnung aus Fragenpool
 crs#:#crs_loc_rand_qpl#:#Verfügbare Fragenpools
-crs#:#crs_loc_settings_err_qstart#:#Die Option "Abschlusstest als Startobjekt" wurde deaktiviert, da sie nur für Kurse ohne Einstiegstest verwendet werden kann.
+crs#:#crs_loc_settings_err_qstart#:#Die Option „Abschlusstest als Startobjekt“ wurde deaktiviert, da sie nur für Kurse ohne Einstiegstest verwendet werden kann.
 crs#:#crs_loc_settings_it_start_object#:#Einstiegstest ist Startobjekt
 crs#:#crs_loc_settings_it_type#:#Einstiegstest
 crs#:#crs_loc_settings_itest_tbl#:#Einstellungen für Einstiegstest
@@ -7708,21 +7708,21 @@ crs#:#crs_loc_settings_tbl_its_q_all#:#Qualifizierender Einstiegstest über alle
 crs#:#crs_loc_settings_tbl_qt#:#Abschlusstests pro Lernziel
 crs#:#crs_loc_settings_tbl_qts_all#:#Abschlusstest über alle Lernziele
 crs#:#crs_loc_settings_type_it_none#:#Kein Einstiegstest
-crs#:#crs_loc_settings_type_it_none_info#:#Kein Einstiegstest
+crs#:#crs_loc_settings_type_it_none_info#:#Die am Kurs teilnehmenden Personen arbeiten sich selbstgesteuert durch das Kursangebot, um die Lernziele zu erreichen. Sie können den Abschlusstest ablegen, um festzustellen, ob sie die Lernziele bereits erreicht haben oder ob zusätzliches Lernen und Training erforderlich ist.
 crs#:#crs_loc_settings_type_it_placement_all#:#Diagnostischer Einstiegstest über alle Lernziele
-crs#:#crs_loc_settings_type_it_placement_all_info#:#Diagnostischer Einstiegstest über alle Lernziele
+crs#:#crs_loc_settings_type_it_placement_all_info#:#Es muss zunächst ein erster Test absolviert werden, der Fragen zu allen Lernzielen enthält. Auf der Grundlage der individuellen Ergebnisse wird  unterstützendes Lernmaterial empfohlen. Auch Lernziele, die in diesem Test bereits bestanden wurden, werden im Abschlusstest erneut überprüft.
 crs#:#crs_loc_settings_type_it_placement_sel#:#Diagnostischer Einstiegstest pro Lernziel
-crs#:#crs_loc_settings_type_it_placement_sel_info#:#Diagnostischer Einstiegstest pro Lernziel
+crs#:#crs_loc_settings_type_it_placement_sel_info#:#Für jedes Lernziel muss ein separater Einstiegstest absolviert werden. Dieser enthält nur Fragen zu dem jeweiligen Lernziel. Auf der Grundlage der individuellen Ergebnisse wird unterstützendes Lernmaterial empfohlen. Auch Lernziele, die in den Einstiegstests bestanden wurden, werden im Abschlusstest erneut überprüft.
 crs#:#crs_loc_settings_type_it_qualifying_all#:#Qualifizierender Einstiegstest über alle Lernziele
-crs#:#crs_loc_settings_type_it_qualifying_all_info#:#Qualifizierender Einstiegstest über alle Lernziele
+crs#:#crs_loc_settings_type_it_qualifying_all_info#:#Der Eingangstest bewertet, ob ein Lernziel bereits erreicht wird. Der Test enthält Fragen zu allen Lernzielen. Wurden Lernziele im Einstiegstest bereits erreicht, werden sie nicht mehr im Abschlusstest überprüft.
 crs#:#crs_loc_settings_type_it_qualifying_sel#:#Qualifizierender Einstiegstest pro Lernziel
-crs#:#crs_loc_settings_type_it_qualifying_sel_info#:#Qualifizierender Einstiegstest pro Lernziel
+crs#:#crs_loc_settings_type_it_qualifying_sel_info#:#Für jedes Lernziel bewertet ein separater Einstiegstest, ob ein Lernziel bereits erreicht wird. Die jeweiligen Tests enthalten nur Fragen zum jeweiligen Lernziel und prüfen, ob das jeweilige Lernziel bereits erreicht wird oder nicht. Wurde ein Lernziel im zugehörigen Einstiegstest bereits erreicht, wird es nicht mehr im Abschlusstest überprüft.
 crs#:#crs_loc_settings_type_q_all#:#Abschlusstest über alle Lernziele
-crs#:#crs_loc_settings_type_q_all_info#:#Abschlusstest über alle Lernziele
+crs#:#crs_loc_settings_type_q_all_info#:#Das Erreichen aller Lernziele wird in einem einzigen Abschlusstest überprüft.
 crs#:#crs_loc_settings_type_q_selected#:#Abschlusstest pro Lernziel
-crs#:#crs_loc_settings_type_q_selected_info#:#Abschlusstest pro Lernziel
+crs#:#crs_loc_settings_type_q_selected_info#:#Für jedes Lernziel ist ein separater Abschlusstest zu absolvieren, um das Erreichen des jeweiligen Lernziels zu bestätigen.
 crs#:#crs_loc_subtab_creation#:#Erstellen
-crs#:#crs_loc_suggested#:#Bearbeiten Sie bitte die aufgeführten Materialien, um das Lernziel zu erreichen.
+crs#:#crs_loc_suggested#:#Bearbeiten Sie die nachfolgend aufgeführten Materialien. Führen Sie am Ende den Abschlusstest durch, um das Erreichen des Lernziels zu überprüfen.
 crs#:#crs_loc_tab_itest#:#Einstiegstest
 crs#:#crs_loc_tab_itests#:#Einstiegstests
 crs#:#crs_loc_tab_materials#:#Materialien
@@ -9070,12 +9070,12 @@ ecs#:#ecs_cms_id#:#Root-ID im Campus-Management-System
 ecs#:#ecs_cms_tree_deleted#:#Die Zuweisungen zum Campus-Management-Baum wurden gelöscht
 ecs#:#ecs_cms_tree_synchronize#:#Synchronisieren
 ecs#:#ecs_cms_tree_synchronized#:#Der Baum wurde synchronisiert.
-ecs#:#ecs_communities#:#Teilnehmer
+ecs#:#ecs_communities#:#Partizipanten
 ecs#:#ecs_confirm_delete_tree#:#Wollen Sie wirklich alle Zuweisungen zu diesem CMS-Baum löschen?
 ecs#:#ecs_connection_settings#:#Verbindungsdaten
 ecs#:#ecs_consent_modal_btn_accept#:#Zustimmen und fortfahren
 ecs#:#ecs_consent_modal_title#:#Einwilligung zur Datenübertragung
-ecs#:#ecs_consent_reset_confirm_title#:#Benutzerzustimmung für diesen Teilnehmer zurücksetzen
+ecs#:#ecs_consent_reset_confirm_title#:#Benutzerzustimmung für diesen Partizipanten zurücksetzen
 ecs#:#ecs_cron_task_scheduler#:#ECS-Aufgaben ausführen
 ecs#:#ecs_cron_task_scheduler_info#:#Wenn aktiviert, werden ECS-Aufgaben regelmäßig ausgeführt. Dies ist nur möglich, wenn ein ECS-Server unter „Administration » ILIAS erweitern » ECS“ aktiviert ist.
 ecs#:#ecs_crs_alloc#:#Kurszuordnungen
@@ -9126,7 +9126,7 @@ ecs#:#ecs_field_cycle#:#Zyklus
 ecs#:#ecs_field_day#:#Tag
 ecs#:#ecs_field_end#:#Endtermin
 ecs#:#ecs_field_lecturer#:#Leitung
-ecs#:#ecs_field_part_id#:#Teilnehmer-ID
+ecs#:#ecs_field_part_id#:#Partizipanten-ID
 ecs#:#ecs_field_room#:#Raum
 ecs#:#ecs_field_semester_hours#:#Semesterwochenstunden
 ecs#:#ecs_field_start#:#Starttermin
@@ -9160,11 +9160,11 @@ ecs#:#ecs_import_id#:#Import-ID
 ecs#:#ecs_import_id_info#:#Bitte geben Sie die ID der Kategorie ein, in der neue ECS-Objekte angelegt werden sollen.
 ecs#:#ecs_import_types#:#Importierbare Objekttypen
 ecs#:#ecs_import_user_credentials_by_auth_mode#:#Konfiguration der Authentifikations-Methoden zur Übertragung via ECS
-ecs#:#ecs_import_user_credentials_by_auth_mode_info#:#Aktivieren Sie diese Option um es Account der Authentifizierungsmethode "Default" zu erlauben, über den ECS auf Ressourcen des Teilnehmers zugreifen zu können.
+ecs#:#ecs_import_user_credentials_by_auth_mode_info#:#ILIAS-Konten, die die Standard-Authentifizierungsmethode verwenden, können über den ECS auf Ressourcen des Partizipanten zugreifen.
 ecs#:#ecs_imported_content#:#Importierte Materialien
 ecs#:#ecs_imported_from#:#Importiert von
 ecs#:#ecs_institution#:#Institution
-ecs#:#ecs_invalid_import_type_cms#:#Sie können den Import-Typ "Campus-Management" nur für maximal einen Teilnehmer auswählen.
+ecs#:#ecs_invalid_import_type_cms#:#Sie können den Import-Typ „Campus-Management“ nur für maximal einen Partizipanten auswählen.
 ecs#:#ecs_key_password#:#Schlüsselpasswort
 ecs#:#ecs_lastname#:#Nachname
 ecs#:#ecs_lm_export#:#Lernmodulfreigaben
@@ -9179,7 +9179,7 @@ ecs#:#ecs_mapping_exp_tbl#:#Zuordnung der Erweiterten Metadaten zu ECS-Daten
 ecs#:#ecs_mapping_rcrs#:#Zuordnung für ECS-Kurse
 ecs#:#ecs_mapping_tbl#:#Zuordnung von ECS-Daten zu Erweiterten Metadaten
 ecs#:#ecs_mappings#:#Zuordnung von ECS-Daten
-ecs#:#ecs_member_auth_type#:#Authentifizierungsmodus der Teilnehmer
+ecs#:#ecs_member_auth_type#:#Authentifizierungsmodus der Partizipanten
 ecs#:#ecs_meta_data#:#Metadaten
 ecs#:#ecs_new_approval_subject#:#Ein neuer Kurs wurde freigegeben
 ecs#:#ecs_new_category_mapping#:#Neue Regel für die Zuordnung von importierten ECS-Kursen zu Kategorien
@@ -9201,8 +9201,8 @@ ecs#:#ecs_not_published#:#Es wurden keine Freigaben ausgewählt.
 ecs#:#ecs_notifications#:#Benachrichtigungen
 ecs#:#ecs_outgoing_user_credentials#:#Benutzerattribut
 ecs#:#ecs_outgoing_user_credentials_info#:#Bitte geben Sie an, welches Benutzerattribut zur Übertragung verwendet werden soll. Mögliche Werte [Login], [EXTERNAL_ACCOUNT]. Sie können das angegebene Attribut durch voranstellen oder anhängen von beliebigen Strings verändern. Bespiel: [LOGIN]@example.com
-ecs#:#ecs_part_settings#:#Einstellungen für Teilnehmer:
-ecs#:#ecs_participants#:#Teilnehmer
+ecs#:#ecs_part_settings#:#Einstellungen für Partizipanten:
+ecs#:#ecs_participants#:#Partizipanten
 ecs#:#ecs_participants_infos#:#Weitere Informationen
 ecs#:#ecs_polling#:#Frequenz der Abfragen
 ecs#:#ecs_polling_info#:#Bitte legen Sie eine Frequenz für Anfragen an den ECS-Server fest.
@@ -9215,7 +9215,7 @@ ecs#:#ecs_published_for#:#Freigegeben für:
 ecs#:#ecs_rcat_created_body_a#:#Eine neue ECS-Kategorie wurde angelegt:
 ecs#:#ecs_rcrs_created_body_a#:#Ein neuer ECS-Kurs wurde angelegt:
 ecs#:#ecs_read_remote_links#:#Kursinformationen aktualisieren
-ecs#:#ecs_refresh_participants#:#ECS-Teilnehmer aktualisieren
+ecs#:#ecs_refresh_participants#:#ECS-Partizipanten aktualisieren
 ecs#:#ecs_released#:#Freigegebene Kurse
 ecs#:#ecs_released_content#:#Freigegebener E-Content
 ecs#:#ecs_remote_imported#:#Die Informationen über Kursänderungen wurden neu eingelesen.
@@ -9253,7 +9253,7 @@ ecs#:#ecs_tst_export#:#Testfreigaben
 ecs#:#ecs_tst_export_disabled#:#Nicht freigeben
 ecs#:#ecs_tst_export_enabled#:#Freigeben
 ecs#:#ecs_tst_export_obj_settings#:#Einstellungen für Testfreigaben
-ecs#:#ecs_unique_id#:#Teilnehmer-ID
+ecs#:#ecs_unique_id#:#Partizipanten-ID
 ecs#:#ecs_user_rcp#:#Benachrichtigungen über ECS-Benutzer
 ecs#:#ecs_user_rcp_info#:#Geben Sie hier kommagetrennt einen oder mehrere Anmeldenamen ein, die über neue ECS-Konten per Mail benachrichtigt werden sollen.
 ecs#:#ecs_wiki_export#:#Wikifreigaben
@@ -9409,7 +9409,7 @@ exc#:#exc_fixed_date_individual_info#:#Es gibt keinen gemeinsamen Abgabetermin. 
 exc#:#exc_fixed_date_info#:#Alle Teilnehmenden erhalten zunächst das gleiche feste Abgabedatum.
 exc#:#exc_fullscreen#:#Vollbild
 exc#:#exc_future#:#Kommende
-exc#:#exc_given_feedback#:#Gegebene Feedbacks
+exc#:#exc_given_feedback#:#Gegebenes Feedback
 exc#:#exc_global_feedback_file#:#Musterlösung
 exc#:#exc_global_feedback_file_after_date#:#Nach festem Datum
 exc#:#exc_global_feedback_file_cron#:#Benachrichtigung bei Verfügbarkeit
@@ -9478,9 +9478,9 @@ exc#:#exc_msg_new_feedback_file_uploaded2#:#Eine neue Feedback-Datei wurde für 
 exc#:#exc_msg_new_feedback_text_uploaded#:#Es wurde ein neuer Kommentar zur Übung „%s“ hinzugefügt.
 exc#:#exc_msg_new_feedback_text_uploaded2#:#die folgende Einreichung von Ihnen wurde kommentiert.
 exc#:#exc_msg_new_message_from_pf_giver#:#Es wurde eine neue Mitteilung zur Übung „%s“ hinzugefügt.
-exc#:#exc_msg_new_message_from_pf_giver2#:#Ein Peer-Feedback-Geber hat eine neue Mitteilung für Sie eingestellt:
+exc#:#exc_msg_new_message_from_pf_giver2#:#Eine Person, die Ihnen Feedback gegeben hat, hat folgende Mitteilung an Sie:
 exc#:#exc_msg_new_message_from_pf_recipient#:#Es wurde eine neue Mitteilung zur Übung „%s“ hinzugefügt.
-exc#:#exc_msg_new_message_from_pf_recipient2#:#Ein Peer-Feedback-Nehmer hat eine neue Mitteilung für Sie eingestellt:
+exc#:#exc_msg_new_message_from_pf_recipient2#:#Eine Person, die von Ihnen Feedback erhalten hat, hat folgende Mitteilung an Sie:
 exc#:#exc_msg_participants_removed#:#Die Personen wurden aus der Übung entfernt.
 exc#:#exc_msg_public_submission#:#Alle Lösungsabgaben werden nach dem Abgabetermin veröffentlicht.
 exc#:#exc_msg_saved_grades#:#Die Änderungen wurden gespeichert.
@@ -9548,11 +9548,11 @@ exc#:#exc_peer_review_file#:#Datei-Upload
 exc#:#exc_peer_review_file_info#:#Ermöglicht Peers eine Datei je Review hochzuladen
 exc#:#exc_peer_review_give#:#Feedback geben
 exc#:#exc_peer_review_given#:#Gegebenes Feedback zeigen
-exc#:#exc_peer_review_giver#:#Feedback-Geber
-exc#:#exc_peer_review_invalid_giver_ids#:#Feedback-Geber, die an der Übung nicht teilnehmen oder nichts abgegeben haben
-exc#:#exc_peer_review_invalid_peer_ids#:#Feedback-Nehmer, die an der Übung nicht teilnehmen oder nichts abgegeben haben
+exc#:#exc_peer_review_giver#:#Feedback von
+exc#:#exc_peer_review_invalid_giver_ids#:#Personen, die Feedback geben sollten, aber nicht an der Übung teilgenommen oder kein Feedback abgegeben haben
+exc#:#exc_peer_review_invalid_peer_ids#:#Personen, denen ein Feedback gegeben werden sollte, die aber nicht an der Übung teilgenommen haben oder denen kein Feedback gegeben wurde
 exc#:#exc_peer_review_min_chars#:#Mindestanzahl Zeichen
-exc#:#exc_peer_review_min_chars_info#:#Die nötige Anzahl Zeichen für ein gültiges Feedback.
+exc#:#exc_peer_review_min_chars_info#:#Die nötige Anzahl Zeichen für ein gültiges Feedback
 exc#:#exc_peer_review_min_chars_tgl#:#Mindestlänge
 exc#:#exc_peer_review_min_number#:#Geforderte Anzahl von Feedbacks
 exc#:#exc_peer_review_min_number_info#:#Anzahl von Einreichungen, zu denen man Feedback geben muss. Sollte die Anzahl der geforderten Rückmeldungen die Anzahl der tatsächlichen Einreichungen übersteigen, wird die geforderte Anzahl automatisch auf die Anzahl der tatsächlichen Einreichungen reduziert.
@@ -9561,13 +9561,13 @@ exc#:#exc_peer_review_missing_info_deadline#:#Um das erhaltene Feedback zu sehen
 exc#:#exc_peer_review_missing_users#:#Benutzer mit einer Abgabe, die nicht Teil des Peer-Feedbacks sind
 exc#:#exc_peer_review_no_peers#:#Es konnten keine Peers gefunden werden.
 exc#:#exc_peer_review_no_peers_reviewed_yet#:#Es wurden bisher noch keine Bewertungen vorgenommen.
-exc#:#exc_peer_review_not_returned_users#:#Benutzer ohne Abgabe, die nicht Teil des Peer-Feedbacks sind
+exc#:#exc_peer_review_not_returned_users#:#Personen ohne Abgabe, die nicht Teil des Peer-Feedbacks sind
 exc#:#exc_peer_review_overview#:#Peer-Gruppen anzeigen
-exc#:#exc_peer_review_overview_invalid_users#:#Ungültige Benutzer
+exc#:#exc_peer_review_overview_invalid_users#:#Andere Personen
 exc#:#exc_peer_review_personal#:#Personalisiertes Peer-Feedback
 exc#:#exc_peer_review_personal_info#:#Peers werden mit vollem Namen gezeigt
 exc#:#exc_peer_review_rating#:#5-Sterne-Bewertung
-exc#:#exc_peer_review_recipient#:#Feedback-Nehmer
+exc#:#exc_peer_review_recipient#:#Feedback an
 exc#:#exc_peer_review_reset#:#Peer-Feedback löschen und zurücksetzen
 exc#:#exc_peer_review_reset_done#:#Sämtliche Peer-Feedback-Daten wurde für die Übungseinheit gelöscht.
 exc#:#exc_peer_review_reset_sure#:#Wollen Sie wirklich das komplette Peer-Feedback für die Übungseinheit „%s“ löschen?
@@ -9599,7 +9599,7 @@ exc#:#exc_random_assignment_info#:#Wenn Sie die Übung starten, wird Ihnen eine 
 exc#:#exc_random_selection#:#Zufällige Auswahl
 exc#:#exc_random_selection_info#:#Jeder Person wird eine zufällige Auswahl an verpflichtenden Übungseinheiten zugeordnet.
 exc#:#exc_random_selection_not_changeable_info#:#Diese Option kann nicht aktiviert werden.
-exc#:#exc_received_feedback#:#Erhaltene Feedbacks
+exc#:#exc_received_feedback#:#Erhaltenes Feedback
 exc#:#exc_rel_last_submission#:#Letztmöglicher Abgabetermin
 exc#:#exc_rel_last_submission_info#:#Wird dieses Datum gesetzt, so müssen alle Abgaben vor diesem Datum getätigt werden.
 exc#:#exc_rel_start_latest_lead_text#:#spätestens am %s
@@ -10647,8 +10647,8 @@ iass#:#grading#:#Bewertung
 iass#:#grading_info#:#Bewertungsinformationen
 iass#:#grading_record#:#Bewertungszusammenfassung
 iass#:#iass_add#:#Individuelle Bewertung anlegen
-iass#:#iass_add_user_failure#:#Einer oder mehrere Benutzer konnten nicht hinzugefügt werden.
-iass#:#iass_add_user_success#:#Benutzer als Teilnehmer hinzugefügt.
+iass#:#iass_add_user_failure#:#Eine oder mehrere Personen konnten nicht hinzugefügt werden.
+iass#:#iass_add_user_success#:#Die Person wurde hinzugefügt.
 iass#:#iass_added#:#Individuelle Bewertung hinzugefügt
 iass#:#iass_amend_saved#:#Geänderte Prüfungsdaten wurden gespeichert.
 iass#:#iass_assessment_not_completed#:#Noch nicht abgeschlossen
@@ -10666,13 +10666,14 @@ iass#:#iass_edit#:#Einstellungen
 iass#:#iass_edit_info#:#Einstellungen Kontakt
 iass#:#iass_edit_record#:#Prüfungsdaten
 iass#:#iass_event_time#:#Zeitpunkt der Prüfung
-iass#:#iass_event_time_place_required#:#Pflichtangabe Zeitpunkt und Ort
+iass#:#iass_event_time_place_required#:#Pflichtangabe „Zeitpunkt“ und „Ort“
 iass#:#iass_event_time_place_required_info#:#Zeitpunkt und Ort der Prüfung müssen eingetragen werden.
-iass#:#iass_file#:#Datei
-iass#:#iass_file_dropzone#:#Ziehen Sie ihre Datei hierhin
+iass#:#iass_file#:#Prüfungsblatt
+iass#:#iass_file_dropzone#:#Ziehen Sie die Datei hierhin.
 iass#:#iass_file_required#:#Pflichtangabe Prüfungsblatt
 iass#:#iass_file_required_info#:#Ein Prüfungsblatt muss hochgeladen werden.
-iass#:#iass_file_visible_examinee#:#Datei für Teilnehmer sichtbar
+iass#:#iass_file_visible_examinee#:#Prüfungsblatt für bewertete Person sichtbar
+iass#:#iass_file_visible_examinee_info#:#Nach abgeschlossener Bewertung kann das Prüfungsblatt von der bewerteten Person eingesehen werden. Dazu muss die Funktion „Ergebnis zugänglich machen“ aktiviert sein.
 iass#:#iass_filter_all#:#Alle
 iass#:#iass_filter_failed#:#Nur nicht bestandene
 iass#:#iass_filter_finalized#:#Nur bestandene
@@ -10680,28 +10681,28 @@ iass#:#iass_filter_not_finalized#:#Nur nicht abgeschlossene
 iass#:#iass_filter_not_started#:#Nur nicht bewertete
 iass#:#iass_finalize#:#Abschließen
 iass#:#iass_finalize_info#:#Die Individuelle Bewertung wird abgeschlossen.
-iass#:#iass_finalize_user_qst#:#Soll die Bewertung des Teilnehmers wirklich final abgeschlossen werden? Änderungen an der Bewertung sind hinterher nicht mehr möglich.
+iass#:#iass_finalize_user_qst#:#Soll diese Bewertung wirklich abgeschlossen werden?
 iass#:#iass_further_field_headline#:#Detaillierte Informationen
 iass#:#iass_graded_by#:#Bewertet von
 iass#:#iass_info_emails_expl#:#Sie können mehrere Adressen mit einem Komma getrennt angeben.
 iass#:#iass_internal_note#:#Interne Anmerkungen zur Prüfung
-iass#:#iass_internal_note_info#:#Dieser Text ist nur für Personen sichtbar, die Prüfungsdaten einsehen können. Teilnehmerinnen und Teilnehmer sehen die interne Anmerkung zur Prüfung nicht.
+iass#:#iass_internal_note_info#:#Dieser Text ist nur für Personen sichtbar, die Prüfungsdaten einsehen können. Bewertete Personen sehen die interne Anmerkung zur Prüfung nicht.
 iass#:#iass_location#:#Ort
 iass#:#iass_mails#:#E-Mail
 iass#:#iass_may_not_finalize#:#Prüfung kann noch nicht abschließend bewertet werden. Bitte geben Sie eine Bewertung ab.
 iass#:#iass_membership_finalized#:#Bewertung abgeschlossen.
-iass#:#iass_membership_saved#:#Bewertung wurde gespeichert aber noch nicht final abgeschlossen.
+iass#:#iass_membership_saved#:#Bewertung wurde gespeichert, aber noch nicht final abgeschlossen.
 iass#:#iass_mess_notification_completed#:#Sie haben die Prüfung „%s“ bestanden. Beachten Sie bitte auch die folgende Notiz zur Prüfung.
 iass#:#iass_mess_notification_failed#:#Sie haben die Prüfung „%s“ leider nicht bestanden. Beachten Sie bitte auch die folgende Notiz zur Prüfung.
-iass#:#iass_notify#:#Ergebnis dem Teilnehmer zugänglich machen
-iass#:#iass_notify_explanation#:#Der Teilnehmer wird nach Abschluss der Bewertung per E-Mail benachrichtigt und kann die Prüfungsnotiz auf dem Reiter „Info“ einsehen.
+iass#:#iass_notify#:#Ergebnis zugänglich machen
+iass#:#iass_notify_explanation#:#Die bewertete Person wird nach Abschluss der Bewertung per E-Mail benachrichtigt und kann die Prüfungsnotiz auf dem Reiter „Info“ und in der E-Mail einsehen.
 iass#:#iass_phone#:#Telefon
 iass#:#iass_place#:#Ort der Prüfung
 iass#:#iass_record#:#Prüfungsnotiz
-iass#:#iass_record_info#:#Die Prüfungsnotiz kann nach finaler Bewertung vom Teilnehmer eingesehen werden. Ist unten die Benachrichtigung aktiviert, erhält der Teilnehmer die Prüfungsnotiz auch per E-Mail.
+iass#:#iass_record_info#:#Nach abgeschlossener Bewertung kann die Prüfungsnotiz von der bewerteten Person eingesehen werden. Dazu muss die Funktion „Ergebnis zugänglich machen“ aktiviert sein.
 iass#:#iass_record_template#:#Vorlage Prüfungsnotiz
-iass#:#iass_record_template_explanation#:#Hier eingegebener Text dient als Vorlage für die Prüfungsnotiz und wird für jeden neuen Teilnehmer verwendet.
-iass#:#iass_remove_user_qst#:#Soll der Teilnehmer wirklich entfernt werden?
+iass#:#iass_record_template_explanation#:#Dieser Text dient als Vorlage für die Prüfungsnotiz und wird für jede neue Bewertung angezeigt.
+iass#:#iass_remove_user_qst#:#Soll die Person wirklich aus der Individuellen Bewertung ausgetragen werden?
 iass#:#iass_responsibility#:#Zuständigkeit
 iass#:#iass_save_amend#:#Geänderte Prüfungsdaten speichern
 iass#:#iass_settings_availability#:#Verfügbarkeit
@@ -10718,14 +10719,14 @@ iass#:#iass_status_pending#:#Noch nicht bewertet
 iass#:#iass_subj_notification_completed#:#%s: Individuelle Bewertung wurde erfolgreich abgeschlossen.
 iass#:#iass_subj_notification_failed#:#%s: Individuelle Bewertung wurde nicht erfolgreich abgeschlossen.
 iass#:#iass_upload_file#:#Prüfungsblatt
-iass#:#iass_user_removed#:#Benutzer wurde erfolgreich entfernt.
+iass#:#iass_user_removed#:#Person wurde erfolgreich ausgetragen.
 iass#:#iass_usr_amend#:#Prüfungsdaten nachträglich ändern
-iass#:#iass_usr_download_attachment#:#Datei herunterladen
+iass#:#iass_usr_download_attachment#:#Prüfungsblatt herunterladen
 iass#:#iass_usr_edit#:#Prüfungsdaten bearbeiten
-iass#:#iass_usr_remove#:#Entfernen
+iass#:#iass_usr_remove#:#Austragen
 iass#:#iass_usr_view#:#Prüfungsdaten
-iass#:#il_iass_members#:#Teilnehmer
-iass#:#lp_inactive#:#Beachten Sie: die Lernfortschrittsbestimmung für dieses Objekt ist deaktiviert. Daher können Teilnahmen nicht finalisiert werden.
+iass#:#il_iass_members#:#Bewertungen
+iass#:#lp_inactive#:#Beachten Sie: die Bestimmung des Lernfortschritts ist für dieses Objekt deaktiviert. Daher können Teilnahmen nicht finalisiert werden.
 iass#:#save_amend#:#Geänderte Prüfungsdaten speichern
 impr#:#impr_page_type_impr#:#Impressum
 init#:#init_error_authentication_fail#:#Authentifizierung fehlgeschlagen.
@@ -11261,8 +11262,6 @@ lti#:#activity_id#:#Activity-ID
 lti#:#activity_id_info#:#Diese Activity-ID wird vom LTI-Provider verwendet, um Statements zu identifizieren.
 lti#:#auth_lti#:#LTI Auth
 lti#:#conf_privacy_ident#:#Identifikation der Person
-lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#Die Identifikation ist identisch bei jedem Aufruf, aber lässt keine direkten Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
 lti#:#conf_privacy_ident_il_uuid_ext_account#:#Die externe Konten-ID wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert.
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#Die Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
 lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Anmeldename kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
@@ -11381,7 +11380,7 @@ lti#:#lti_at_least_one_prov_has_usages#:#Mindestens ein Provider konnte nicht ge
 lti#:#lti_auth_failed_invalid_key#:#Authentifizierung nicht möglich. Es wurde kein gültiger Consumer-Key übermittelt.
 lti#:#lti_con_content_item#:#Unterstützung für Deep Linking
 lti#:#lti_con_content_item_url#:#Inhalts-URL
-lti#:#lti_con_grade_synchronization#:#Erweiterte Benotungsdienste###04 12 2025 new variable
+lti#:#lti_con_grade_synchronization#:#Assignment and Grade Services###04 12 2025 new variable
 lti#:#lti_con_grade_synchronization_info#:#Das LTI-Tool muss 'Assignment and Grade Services' anbieten.###04 12 2025 new variable
 lti#:#lti_con_initiate_login_url#:#Initiate Login URL
 lti#:#lti_con_key_type#:#Typ des öffentlichen Schlüssels
@@ -11471,6 +11470,7 @@ lti#:#lti_create_lti_user_role#:#Empfohlene globale Rolle für LTI-User anlegen
 lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an die aufrufende Plattform. Dieser Cron-Job wird nur in den Fällen benötigt, wenn der Lernfortschritt aufgrund von Einstellungsänderungen neu berechnet werden muss.
 lti#:#lti_custom_new#:#Eigene Provider-Einstellungen anlegen
+lti#:#lti_deep_linking_not_available_for_admin_objects#:#In der Administration angelegte Konsumenten erlauben keine Inhaltsauswahl
 lti#:#lti_delete_consume_provider#:#Provider löschen
 lti#:#lti_delete_consume_providers#:#Provider löschen
 lti#:#lti_delete_provider#:#Provider löschen
@@ -11479,6 +11479,7 @@ lti#:#lti_edit_consumer#:#LTI-Konsument bearbeiten
 lti#:#lti_exit#:#LTI-Sitzung beenden
 lti#:#lti_exited#:#LTI-Sitzung beendet
 lti#:#lti_exited_info#:#Die LTI-Sitzung wurde erfolgreich beendet.
+lti#:#lti_form_provider_content_selection#:#Inhaltsauswahl
 lti#:#lti_form_provider_create#:#Provider-Einstellungen anlegen
 lti#:#lti_form_provider_edit#:#Provider-Einstellungen bearbeiten
 lti#:#lti_form_section_appearance#:#Optionen für den Start
@@ -11530,6 +11531,7 @@ lti#:#subtab_certificate#:#Zertifikat
 lti#:#subtab_object_settings#:#Objekteinstellungen
 lti#:#subtab_provider_settings#:#LTI-Provider-Einstellungen
 lti#:#tab_content#:#Inhalt
+lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#Platzierungen
 lti#:#tab_settings#:#Einstellungen
@@ -14333,15 +14335,15 @@ rbac#:#feed_delete#:#Webfeed löschen
 rbac#:#feed_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#feed_read#:#Inhalt des Webfeeds lesen
 rbac#:#feed_write#:#Einstellungen des Webfeeds bearbeiten
-rbac#:#file_content#:#Inhalt anzeigen
 rbac#:#file_copy#:#Datei kopieren
 rbac#:#file_delete#:#Datei verschieben oder löschen
 rbac#:#file_edit_file#:#Bearbeitung in einem externen Editor erlauben, sofern vorhanden
 rbac#:#file_edit_learning_progress#:#Lernfortschrittseinstellungen können bearbeitet werden.
 rbac#:#file_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#file_file_view_content#:#Inhalt der Datei wird im Browser angezeigt (wenn WOPI aktiv ist).
+rbac#:#file_file_view_content_short#:#Inhalt anzeigen
 rbac#:#file_read#:#Datei herunterladen
 rbac#:#file_read_learning_progress#:#Lernfortschritt von anderen einsehen
-rbac#:#file_view_content#:#Inhalt der Datei wird im Browser angezeigt (wenn WOPI aktiv ist).
 rbac#:#file_visible#:#Datei ist sichtbar.
 rbac#:#file_write#:#Einstellungen der Datei bearbeiten und neue Version hochladen
 rbac#:#files_visible#:#Dateien sichtbar
@@ -14426,7 +14428,7 @@ rbac#:#iass_amend_grading#:#Finalisierte Bewertung der Individuellen Bewertung �
 rbac#:#iass_copy#:#Individuelle Bewertung kopieren
 rbac#:#iass_delete#:#Individuelle Bewertung löschen
 rbac#:#iass_edit_learning_progress#:#Lernfortschritt in Individuellen Bewertung bearbeiten
-rbac#:#iass_edit_members#:#Teilnehmer einer Individuellen Bewertung bearbeiten
+rbac#:#iass_edit_members#:#Personen der Individuellen Bewertung hinzufügen und bewerten
 rbac#:#iass_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#iass_read#:#Lesezugriff auf Individuelle Bewertung
 rbac#:#iass_read_learning_progress#:#Lernfortschritt in Individuellen Bewertung einsehen
@@ -15702,8 +15704,8 @@ sess#:#sess_msg_applicants_assigned#:#Person wurde für den Sitzungstermin angem
 sess#:#sess_msg_applicants_removed#:#Antrag abgelehnt und aus der Liste entfernt.
 sess#:#sess_new#:#Neue Sitzung anlegen
 sess#:#sess_new_registrations#:#Teilnahmeanträge
-sess#:#sess_notification_option#:#Option
-sess#:#sess_notification_option_inherit#:#Vom übergeordneten Objekt erben
+sess#:#sess_notification_option#:#Benachrichtigte Personen
+sess#:#sess_notification_option_inherit#:#Wie in Kurs oder Gruppe
 sess#:#sess_notification_option_inherit_info#:#Es werden die gleichen Personen benachrichtigt wie im übergeordneten Objekt.
 sess#:#sess_notification_option_manual#:#Manuell setzen
 sess#:#sess_notification_option_manual_info#:#Es muss manuell festgelegt werden, wer die Benachrichtigung empfangen soll.
@@ -17179,7 +17181,7 @@ tax#:#tax_add_taxonomy#:#Taxonomie hinzufügen
 tax#:#tax_added#:#Die Taxonomie wurde erstellt.
 tax#:#tax_admin_settings_repository#:#Magazin-Taxonomien
 tax#:#tax_alphabetical#:#Alphabetisch
-tax#:#tax_assigned_items#:#Zugewiesene Einträge
+tax#:#tax_assigned_items#:#Zugeordnete Fragen
 tax#:#tax_confirm_deletion#:#Wollen Sie wirklich die gesamte Taxonomie mit allen Beziehungen löschen?
 tax#:#tax_create_node#:#Knoten anlegen
 tax#:#tax_item_sorting#:#Sortierung der zugewiesenen Einträge unterstützen
@@ -17193,9 +17195,9 @@ tax#:#tax_order#:#Reihenfolge
 tax#:#tax_order_nr#:#Ordnungsnummer
 tax#:#tax_please_select_target#:#Bitte wählen Sie ein Ziel aus!
 tax#:#tax_target_within_nodes#:#Das Ziel darf kein Unterknoten des ausgewählten Elements sein.
-tax#:#tax_tax_assignment#:#Taxonomiezuordnung
+tax#:#tax_tax_assignment#:#Zuordnung zu Taxonomien
 tax#:#tax_tax_deleted#:#Die Taxonomie wurde gelöscht.
-tax#:#tax_tax_settings#:#Taxonomieeinstellungen
+tax#:#tax_tax_settings#:#Taxonomien darstellen
 tax#:#tax_taxonomy#:#Taxonomie
 tbl#:#tbl_export_csv#:#.CSV-Export
 tbl#:#tbl_export_excel#:#Excel-Export

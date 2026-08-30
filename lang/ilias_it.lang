@@ -1405,7 +1405,7 @@ assessment#:#tst_answered_questions_of_total#:#%s di %s
 assessment#:#tst_answered_questions_test#:#Domande risposte in questo test
 assessment#:#tst_attached_xls_file#:#Puoi trovare il risultato del test per questo partecipante nel file Excel allegato.
 assessment#:#tst_attempt#:#Tentativo
-assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.###30 04 2024 new variable
+assessment#:#tst_attempt_limit_message#:#Numero totale di volte in cui puoi sostenere questo test: <b>%s</b>.###Tentative translation of new English entry. Please check.
 assessment#:#tst_attempt_started#:#Attempt Started###28 11 2025 new variable
 assessment#:#tst_back_to_pass_details#:#Torna ai dettagli del passaggio
 assessment#:#tst_back_to_question_list#:#Torna all’elenco domande
@@ -1489,7 +1489,7 @@ assessment#:#tst_exam_password_invalid_message#:#The given password is not valid
 assessment#:#tst_exam_password_label#:#Password###30 04 2024 new variable
 assessment#:#tst_exam_required_fields_not_filled_message#:#You need to fill out all required fields!###30 04 2024 new variable
 assessment#:#tst_exam_start#:#Start Test###30 04 2024 new variable
-assessment#:#tst_exam_use_previous_answers#:#Previous Answers###30 04 2024 new variable
+assessment#:#tst_exam_use_previous_answers#:#Usa le risposte precedenti###translation of new English entry #Use Previous Answers'
 assessment#:#tst_exam_use_previous_answers_label#:#If enabled answers from previous tests will be prefilled.###30 04 2024 new variable
 assessment#:#tst_extratime_added#:#L'orario di lavoro del partecipante è stato aumentato di %s minuti.
 assessment#:#tst_extratime_info#:#Se il tempo di elaborazione di un partecipante al test viene prolungato più volte, inserire qui il totale di tutte le sue estensioni di tempo.
@@ -2655,6 +2655,7 @@ book#:#book_pool_added#:#È stato aggiunto un gruppo di prenotazione.
 book#:#book_pool_selection#:#Scelta del pool di prenotazione
 book#:#book_post_booking_file#:#File
 book#:#book_post_booking_information#:#Informazioni messaggio di prenotazione
+book#:#book_post_booking_information_for#:#Booking Information for "%s"###11 08 2026 new variable
 book#:#book_post_booking_text#:#Testo
 book#:#book_post_booking_text_info#:#Utilizzare [PERIODO] e [OGGETTO] per aggiungere i dettagli della prenotazione al testo.
 book#:#book_pref_book_cron#:#Prenotazione con preferenze
@@ -4823,7 +4824,7 @@ common#:#msg_no_perm_paste#:#Non hai i diritti per incollare i seguenti oggetti:
 common#:#msg_no_perm_paste_object_in_folder#:#Non ha il permesso di incollare l’oggetto %s nella cartella %s.
 common#:#msg_no_perm_perm#:#Non hai i diritti per modificare le impostazioni dei permessi
 common#:#msg_no_perm_read#:#Non hai i diritti per accedere a questo oggetto.
-common#:#msg_no_perm_read_item#:#Non sei autorizzato ad accedere all'elemento '%s'.
+common#:#msg_no_perm_read_item#:#Non sei autorizzato ad accedere all'elemento.
 common#:#msg_no_perm_read_lm#:#Non hai i diritti per accedere a questo modulo.
 common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#Non hai i diritti di scrittura
@@ -5383,6 +5384,7 @@ common#:#preconditions_optional_hint#:#Modifica una delle seguenti condizioni pr
 common#:#predefined_template#:#Template di ruolo predefiniti
 common#:#preferences#:#Preferenze definite dall'utente
 common#:#presentation_table_more#:#Di Più
+common#:#presenter#:#Presenter###11 08 2026 new variable
 common#:#preview#:#Anteprima
 common#:#preview_create#:#Crea anteprima
 common#:#preview_delete#:#Elimina anteprima
@@ -10299,6 +10301,7 @@ glo#:#glo_really_remove_from_collection#:#Are you sure you want to remove the fo
 glo#:#glo_reference#:#Riferimento
 glo#:#glo_reference_terms#:#Termini di riferimento
 glo#:#glo_referenced_term#:#Termine riferito
+glo#:#glo_remove_glossary#:##Are you sure you want to remove the following glossary from the list of auto-linked glossaries?###11 08 2026 new variable
 glo#:#glo_removed_from_collection_info#:#The glossary has been removed from the collection glossary.###30 04 2024 new variable
 glo#:#glo_reset_all_boxes#:#Reset All Boxes###30 04 2024 new variable
 glo#:#glo_save_and_continue#:#Save and Continue###28 11 2025 new variable
@@ -10669,6 +10672,7 @@ iass#:#iass_file_dropzone#:#Puoi trascinare i tuoi file qui
 iass#:#iass_file_required#:#File di registrazione richiesto
 iass#:#iass_file_required_info#:#Un file di registrazione deve essere caricato per ogni registrazione del partecipante.
 iass#:#iass_file_visible_examinee#:#File visibile al partecipante
+iass#:#iass_file_visible_examinee_info#:#Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled.###11 08 2026 new variable
 iass#:#iass_filter_all#:#Tutti
 iass#:#iass_filter_failed#:#Solo i falliti
 iass#:#iass_filter_finalized#:#Solo i completati
@@ -11257,8 +11261,6 @@ lti#:#activity_id#:#ID attività
 lti#:#activity_id_info#:#Questo ID attività viene utilizzato dal provider LTI per identificare gli statements.
 lti#:#auth_lti#:#Auth LTI
 lti#:#conf_privacy_ident#:#User identification###28 11 2025 new variable
-lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###28 11 2025 new variable
-lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###28 11 2025 new variable
 lti#:#conf_privacy_ident_il_uuid_ext_account#:#External User ID combined with a unique ILIAS platform id formatted as an E-Mail address###28 11 2025 new variable
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###28 11 2025 new variable
 lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail address###28 11 2025 new variable
@@ -11377,8 +11379,8 @@ lti#:#lti_at_least_one_prov_has_usages#:#Almeno uno dei provider non può essere
 lti#:#lti_auth_failed_invalid_key#:#Autenticazione fallita, nessuna chiave del consumatore valida fornita.
 lti#:#lti_con_content_item#:#Support for Deep Linking###31 03 2023 new variable
 lti#:#lti_con_content_item_url#:#Content URL###31 03 2023 new variable
-lti#:#lti_con_grade_synchronization#:#Advanced Grading Services###04 12 2025 new variable
-lti#:#lti_con_grade_synchronization_info#:#The LTI tool must offer 'Assignment and Grade Services'.###04 12 2025 new variable
+lti#:#lti_con_grade_synchronization#:#Assignment and Grade Services###04 12 2025 new variable
+lti#:#lti_con_grade_synchronization_info#:#Lo strumento LTI deve offrire 'Assignment and Grade Services'.###04 12 2025 new variable
 lti#:#lti_con_initiate_login_url#:#Initiate Login URL###31 03 2023 new variable
 lti#:#lti_con_key_type#:#Public Key Type###31 03 2023 new variable
 lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)###31 03 2023 new variable
@@ -11467,6 +11469,7 @@ lti#:#lti_create_lti_user_role#:#Crea un ruolo globale raccomandato per gli uten
 lti#:#lti_cron_title#:#Servizio esiti LTI
 lti#:#lti_cron_title_desc#:#Sincronizza i progressi didattici degli utenti LTI con i consumatori LTI, se supporta il servizio degli esiti. Questo cron job è richiesto solo per trasferire aggiornamenti di stato dopo l'aggiornamento dei settaggi dei progressi didattici.
 lti#:#lti_custom_new#:#Impostazioni di creazione fornitore personale
+lti#:#lti_deep_linking_not_available_for_admin_objects#:#I consumer creati in Amministrazione non consentono la selezione del contenuto
 lti#:#lti_delete_consume_provider#:#Elimina fornitore
 lti#:#lti_delete_consume_providers#:#Elimina fornitori
 lti#:#lti_delete_provider#:#Elimina fornitore
@@ -11475,6 +11478,7 @@ lti#:#lti_edit_consumer#:#Modifica consumatore LTI
 lti#:#lti_exit#:#Chiudi sessione LTI
 lti#:#lti_exited#:#Sessione LTI chiusa
 lti#:#lti_exited_info#:#Sessione LTI chiusa con successo
+lti#:#lti_form_provider_content_selection#:#Selezione contenuto
 lti#:#lti_form_provider_create#:#Impostazioni di creazione fornitore
 lti#:#lti_form_provider_edit#:#Modifica impostazioni del fornitore
 lti#:#lti_form_section_appearance#:#Opzioni di avvio
@@ -11526,6 +11530,7 @@ lti#:#subtab_certificate#:#Certificato
 lti#:#subtab_object_settings#:#Impostazioni oggetto
 lti#:#subtab_provider_settings#:#Impostazioni fornitore LTI
 lti#:#tab_content#:#Contenuto
+lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#Classifica
 lti#:#tab_settings#:#Impostazioni
@@ -14329,15 +14334,15 @@ rbac#:#feed_delete#:#Cancella Web Feed
 rbac#:#feed_edit_permission#:#Modifica impostazioni dei permessi
 rbac#:#feed_read#:#Leggi l'accesso al Web Feed
 rbac#:#feed_write#:#Modifica Web Feed
-rbac#:#file_content#:#Show Content###28 11 2025 new variable
 rbac#:#file_copy#:#Copia File
 rbac#:#file_delete#:#Cancellare un file
 rbac#:#file_edit_file#:#Allow to edit the file in an external editor, if available###30 04 2024 new variable
 rbac#:#file_edit_learning_progress#:#L’utente può modificare le impostazioni di progresso
 rbac#:#file_edit_permission#:#Modificare le impostazioni dei permessi
+rbac#:#file_file_view_content#:#File content presented in browser (if WOPI is active)###11 08 2026 new variable
+rbac#:#file_file_view_content_short#:#Show Content###11 08 2026 new variable
 rbac#:#file_read#:#Scaricare un file
 rbac#:#file_read_learning_progress#:#L’utente può visualizzare il progresso di apprendimento degli altri utenti
-rbac#:#file_view_content#:#File content presented in browser (if WOPI is active)###28 11 2025 new variable
 rbac#:#file_visible#:#Vedere un file
 rbac#:#file_write#:#Creare un file
 rbac#:#files_visible#:#File visibili
@@ -15568,7 +15573,7 @@ search#:#lucene_tbl_create_ini#:#Crea il file INI del server Java
 search#:#search_add_members_from_container_crs#:#Aggiungi utenti del corso attuale
 search#:#search_add_members_from_container_grp#:#Aggiungi utenti del gruppo attuale
 search#:#search_any#:#--- Almeno uno ---
-search#:#search_area#:#Area di ricerca
+search#:#search_area_filter#:#Scope###11 08 2026 new variable
 search#:#search_area_info#:#Scegli l'area dalla quale far partire la ricerca.
 search#:#search_auto_complete_length#:#Numero di di elementi di lista Auto Complete
 search#:#search_auto_complete_length_info#:#Choose ‘0‘ to switch off the auto-complete list.###04 05 2026 new variable
@@ -15613,6 +15618,7 @@ search#:#search_minimum_info#:#La tua ricerca deve essere di almeno %s caratteri
 search#:#search_minimum_three#:#Devi inserire almeno tre caratteri
 search#:#search_newer_than#:#Oggetti più recenti di
 search#:#search_no_connection_lucene#:#Non é possibile connettersi al server Lucene.
+search#:#search_no_further_match#:#No further matches found.###11 08 2026 new variable
 search#:#search_no_match#:#La ricerca non ha prodotto risultati
 search#:#search_no_match_hint#:#La tua ricerca - <b>%s</b> - non ha prodotto risultati.<br /><br />Suggerimento:<br />Controlla l'ortografia.<br />Prova con termini differenti.<br />Prova con termini più generali.<br />Prova con meno termini.
 search#:#search_no_selection#:#Nessuma selezione
@@ -15635,6 +15641,8 @@ search#:#search_sort_generic_desc#:#%s, desc.###28 11 2025 new variable
 search#:#search_sort_relevance#:#By Relevance###28 11 2025 new variable
 search#:#search_sort_title_asc#:#Alphabetically: A-Z###28 11 2025 new variable
 search#:#search_sort_title_desc#:#Alphabetically: Z-A###28 11 2025 new variable
+search#:#search_tab_content#:#Content###11 08 2026 new variable
+search#:#search_tab_user#:#Users###11 08 2026 new variable
 search#:#search_term_combination#:#Combinazione termini di ricerca
 search#:#search_title_description#:#Titolo / Descrizione
 search#:#search_tst_svy#:#Test/Sondaggi

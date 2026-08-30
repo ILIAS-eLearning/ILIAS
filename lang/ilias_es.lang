@@ -1493,7 +1493,7 @@ assessment#:#tst_exam_password_invalid_message#:#¡La contraseña proporcionada 
 assessment#:#tst_exam_password_label#:#Contraseña
 assessment#:#tst_exam_required_fields_not_filled_message#:#¡Debe completar todos los campos obligatorios!
 assessment#:#tst_exam_start#:#Iniciar prueba
-assessment#:#tst_exam_use_previous_answers#:#Respuestas anteriores
+assessment#:#tst_exam_use_previous_answers#:#Usar respuestas anteriores
 assessment#:#tst_exam_use_previous_answers_label#:#Si está habilitado, las respuestas de pruebas anteriores se rellenarán automáticamente.
 assessment#:#tst_extratime_added#:#El tiempo de trabajo del participante se ha incrementado en %s minutos.
 assessment#:#tst_extratime_info#:#Si desea añadir tiempo de trabajo varias veces para el mismo participante, por favor ingrese la cantidad total de tiempo que desea añadir.
@@ -1514,12 +1514,6 @@ assessment#:#tst_finish_confirm_button#:#Sí, quiero finalizar la prueba
 assessment#:#tst_finish_confirm_cancel_button#:#No, volver a la pregunta anterior
 assessment#:#tst_finish_confirmation_question#:#Va a finalizar esta prueba. No podrá volver a acceder a este intento de prueba para cambiar sus respuestas. ¿Realmente desea finalizar la prueba?
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#Va a finalizar esta prueba y alcanzará el número máximo de intentos permitidos. No podrá volver a acceder a esta prueba para cambiar sus respuestas. ¿Realmente desea finalizarla?
-assessment#:#tst_finish_notification#:#Notificación
-assessment#:#tst_finish_notification_advanced#:#Enviar resultado completo de la prueba
-assessment#:#tst_finish_notification_content_type#:#Contenido del correo electrónico
-assessment#:#tst_finish_notification_desc#:#Envía un correo electrónico al propietario de la prueba por cada usuario que haya completado la prueba.
-assessment#:#tst_finish_notification_no#:#Sin correo electrónico
-assessment#:#tst_finish_notification_simple#:#Enviar nombre de usuario y fecha de finalización
 assessment#:#tst_finished#:#Finalizado
 assessment#:#tst_form_dynamic_question_set_config#:#Continuar selección de preguntas
 assessment#:#tst_gap_analysis#:#Análisis de brechas
@@ -2519,7 +2513,7 @@ blog#:#blog_no_keywords#:#Aún no se han introducido palabras clave.
 blog#:#blog_notification_activated#:#Notificaciones activadas
 blog#:#blog_notification_deactivated#:#Notificaciones desactivadas
 blog#:#blog_notification_toggle_off#:#Desactivar notificaciones
-blog#:#blog_notification_toggle_on#:#Activar notificación
+blog#:#blog_notification_toggle_on#:#Activar notificaciones
 blog#:#blog_number_users_notes_or_comments#:#Número de usuarios que han adjuntado notas o comentarios a esta entrada
 blog#:#blog_posting#:#Entrada de blog
 blog#:#blog_posting_deleted#:#Entrada eliminada con éxito.
@@ -2666,6 +2660,7 @@ book#:#book_pool_added#:#Repositorio de reserva creado con éxito.
 book#:#book_pool_selection#:#Selección de repositorio de reserva
 book#:#book_post_booking_file#:#Archivo
 book#:#book_post_booking_information#:#Información de reserva
+book#:#book_post_booking_information_for#:#Booking Information for "%s"###11 08 2026 new variable
 book#:#book_post_booking_text#:#Texto
 book#:#book_post_booking_text_info#:#Use marcadores de posición para incluir información específica de la reserva. <br />[OBJECT] será sustituido por el Objeto Reservable correspondiente. <br />[PERIOD] será sustituido por el horario respectivo.
 book#:#book_pref_book_cron#:#Reserva con preferencias
@@ -3659,7 +3654,7 @@ common#:#auth_soap_namespace#:#Espacio de nombres (Namespace)
 common#:#auth_soap_namespace_desc#:#Tal como se define en WSDL. Debe especificarse si se utiliza el estilo SOAP de .NET.
 common#:#auth_soap_port_desc#:#Ej. 8080 si el URI completo del servidor SOAP es http://auth.tuservidor.com:8080/dir/server.php
 common#:#auth_soap_server_desc#:#Ej. auth.tuservidor.com si el URI completo del servidor SOAP es http://auth.tuservidor.com:8080/dir/server.php
-common#:#auth_soap_settings_saved#:#Ajustes de autenticación SOAP guardados
+common#:#auth_soap_settings_saved#:#Ajustes de autenticación SOAP guardados.
 common#:#auth_soap_uri_desc#:#URI local, ej. dir/server.php si el URI completo del servidor SOAP es http://auth.tuservidor.com:8080/dir/server.php
 common#:#auth_soap_use_dotnet#:#Usar estilo SOAP de .NET
 common#:#auth_soap_use_https#:#Usar HTTPS
@@ -4244,8 +4239,8 @@ common#:#forums_anonymized#:#Foro anonimizado
 common#:#forums_anonymous#:#anónimo
 common#:#forums_articles#:#Mensajes
 common#:#forums_closed#:#cerrado
-common#:#forums_disable_forum_notification#:#Desactivar notificación para este foro
-common#:#forums_enable_forum_notification#:#Activar notificación para este foro
+common#:#forums_disable_forum_notification#:#Desactivar notificaciones para este foro
+common#:#forums_enable_forum_notification#:#Activar notificaciones para este foro
 common#:#forums_forum_notification_enabled#:#Se le notificará sobre nuevos mensajes en este foro.
 common#:#forums_last_post#:#Último mensaje
 common#:#forums_last_posting_asc#:#Último mensaje ascendente
@@ -4834,7 +4829,7 @@ common#:#msg_no_perm_paste#:#No tiene permiso para pegar los siguientes objeto(s
 common#:#msg_no_perm_paste_object_in_folder#:#No tiene permiso para pegar el objeto %s en la carpeta %s.
 common#:#msg_no_perm_perm#:#No tiene permiso para cambiar los ajustes de permisos.
 common#:#msg_no_perm_read#:#No tiene permiso para acceder a este elemento.
-common#:#msg_no_perm_read_item#:#No tiene permiso para acceder al elemento '%s'.
+common#:#msg_no_perm_read_item#:#No tiene permiso para acceder al elemento.
 common#:#msg_no_perm_read_lm#:#No tiene permiso para leer este módulo de aprendizaje.
 common#:#msg_no_perm_view_roles_of_user#:#No tiene permiso para ver la asignación de roles de este usuario
 common#:#msg_no_perm_write#:#No tiene permiso para editar los ajustes.
@@ -5394,6 +5389,7 @@ common#:#preconditions_optional_hint#:#Debe cumplir <b>%s</b> de las siguientes 
 common#:#predefined_template#:#Plantilla de rol predefinida
 common#:#preferences#:#Preferencias
 common#:#presentation_table_more#:#Mostrar más
+common#:#presenter#:#Presenter###11 08 2026 new variable
 common#:#preview#:#Vista previa
 common#:#preview_create#:#Crear vista previa
 common#:#preview_delete#:#Eliminar vista previa
@@ -7910,7 +7906,7 @@ crs#:#crs_select_archive_language#:#Por favor, seleccione un idioma para el arch
 crs#:#crs_select_one_archive#:#Por favor, seleccione un archivo
 crs#:#crs_select_starter#:#Seleccionar objeto de inicio
 crs#:#crs_settings#:#Configuración del curso
-crs#:#crs_settings_saved#:#Configuración guardada
+crs#:#crs_settings_saved#:#Configuración guardada.
 crs#:#crs_shorten_breadcrumb#:#Ruta de navegación
 crs#:#crs_show_all_obj#:#Expandir todo
 crs#:#crs_show_member_export#:#Lista de participantes
@@ -8093,7 +8089,7 @@ crs#:#event_title#:#Título
 crs#:#event_tutor_data#:#Presentación por
 crs#:#event_unregister#:#Darse de baja
 crs#:#event_unregistered#:#Se ha cancelado su inscripción.
-crs#:#event_updated#:#Configuración guardada
+crs#:#event_updated#:#Configuración guardada.
 crs#:#event_user_selection#:#Selección de usuarios
 crs#:#event_user_selection_include_filter#:#Incluir "%1$s"
 crs#:#event_user_selection_include_requests#:#Incluir a todos los usuarios de la lista "Solicitudes de participación"
@@ -9870,7 +9866,7 @@ file#:#copyright_custom#:#Personalizado
 file#:#copyright_custom_info#:#Elija un copyright personalizado que se aplicará a todos los archivos descomprimidos de este archivo.
 file#:#copyright_inherited#:#Heredado
 file#:#copyright_inherited_info#:#Aplicar el copyright del archivo zip a sus archivos descomprimidos. <br \>Copyright del archivo zip: %s.
-file#:#could_not_create_file_objs#:#Se produjo un error al crear sus objetos de archivo. Por favor, póngase en contacto con los administradores de esta plataforma.
+file#:#could_not_create_file_objs#:#Se produjo un error al crear sus objetos de archivo. Póngase en contacto con el servicio de asistencia técnica de esta instalación.
 file#:#de_activate_icon#:#Activar / Desactivar
 file#:#download_ascii_filename#:#Permitir solo caracteres ASCII en nombres de archivos descargados
 file#:#download_ascii_filename_info#:#Los archivos descargados solo deben tener caracteres ASCII en su nombre de archivo. Desactivar para utilizar todos los caracteres.
@@ -10310,6 +10306,7 @@ glo#:#glo_really_remove_from_collection#:#¿Está seguro de que desea eliminar e
 glo#:#glo_reference#:#Referencia
 glo#:#glo_reference_terms#:#Términos de referencia
 glo#:#glo_referenced_term#:#Término referenciado
+glo#:#glo_remove_glossary#:##Are you sure you want to remove the following glossary from the list of auto-linked glossaries?###11 08 2026 new variable
 glo#:#glo_removed_from_collection_info#:#El glosario ha sido eliminado de la colección de glosarios.
 glo#:#glo_reset_all_boxes#:#Reiniciar todas las cajas
 glo#:#glo_save_and_continue#:#Guardar y continuar
@@ -10680,6 +10677,7 @@ iass#:#iass_file_dropzone#:#puede soltar sus archivos aquí
 iass#:#iass_file_required#:#Archivo de registro obligatorio
 iass#:#iass_file_required_info#:#Se debe subir un archivo de registro en cada registro de participante.
 iass#:#iass_file_visible_examinee#:#Archivo visible para el participante
+iass#:#iass_file_visible_examinee_info#:#Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled.###11 08 2026 new variable
 iass#:#iass_filter_all#:#Todos
 iass#:#iass_filter_failed#:#Solo suspensos
 iass#:#iass_filter_finalized#:#Solo completados
@@ -11145,7 +11143,7 @@ log#:#log_level_off#:#Desactivado
 log#:#log_level_warning#:#ADVERTENCIA
 log#:#log_log_level#:#Nivel de registro
 log#:#log_memory#:#Registrar uso de memoria
-logging#:#error_settings_saved#:#Ajustes guardados
+logging#:#error_settings_saved#:#Configuración guardada.
 logging#:#frm_clear_older_then#:#Eliminar archivos anteriores a
 logging#:#frm_clear_older_then_info#:#Por favor, introduzca la duración en días.
 logging#:#log_error_file_cleanup_info#:#Elimina archivos de registro de errores antiguos o huérfanos.
@@ -11268,8 +11266,6 @@ lti#:#activity_id#:#ID de actividad
 lti#:#activity_id_info#:#Este ID de actividad es utilizado por el proveedor LTI para identificar declaraciones.
 lti#:#auth_lti#:#Autenticación LTI
 lti#:#conf_privacy_ident#:#Identificación de usuario
-lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combinado con un ID de plataforma ILIAS único con formato de dirección de correo electrónico
-lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#Esto es idéntico para cada llamada, pero no permite ninguna conclusión directa sobre el usuario de ILIAS.
 lti#:#conf_privacy_ident_il_uuid_ext_account#:#ID de usuario externo combinado con un ID de plataforma ILIAS único con formato de dirección de correo electrónico
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#Esto es idéntico para cada llamada, pero puede permitir una conclusión directa sobre el usuario.
 lti#:#conf_privacy_ident_il_uuid_login#:#Nombre de usuario de ILIAS combinado con un ID de plataforma ILIAS único con formato de dirección de correo electrónico
@@ -11388,8 +11384,8 @@ lti#:#lti_at_least_one_prov_has_usages#:#Al menos un proveedor no pudo ser elimi
 lti#:#lti_auth_failed_invalid_key#:#Error de autenticación, no se proporcionó una clave de consumidor válida.
 lti#:#lti_con_content_item#:#Soporte para Deep Linking
 lti#:#lti_con_content_item_url#:#URL de Contenido
-lti#:#lti_con_grade_synchronization#:#Servicios Avanzados de Calificación
-lti#:#lti_con_grade_synchronization_info#:#La herramienta LTI debe ofrecer 'Servicios de Tareas y Calificaciones' (Assignment and Grade Services).
+lti#:#lti_con_grade_synchronization#:#Assignment and Grade Services
+lti#:#lti_con_grade_synchronization_info#:#La herramienta LTI debe ofrecer 'Assignment and Grade Services'.
 lti#:#lti_con_initiate_login_url#:#URL de Inicio de Sesión
 lti#:#lti_con_key_type#:#Tipo de Clave Pública
 lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)
@@ -11478,6 +11474,7 @@ lti#:#lti_create_lti_user_role#:#Crear el rol global recomendado para usuarios L
 lti#:#lti_cron_title#:#Servicio de Resultados LTI (Outcome Service)
 lti#:#lti_cron_title_desc#:#Sincroniza el progreso de aprendizaje de los usuarios de LTI con el consumidor de LTI, si este es compatible con el servicio de resultados. Esta tarea programada (cron job) sólo es necesaria para transferir actualizaciones de estado tras la actualización de la configuración del progreso de aprendizaje.
 lti#:#lti_custom_new#:#Crear ajustes de proveedor propios
+lti#:#lti_deep_linking_not_available_for_admin_objects#:#Los Consumidores creados desde Administración no permiten la selección de contenido
 lti#:#lti_delete_consume_provider#:#Eliminar Proveedor
 lti#:#lti_delete_consume_providers#:#Eliminar Proveedores
 lti#:#lti_delete_provider#:#Eliminar Proveedor
@@ -11486,6 +11483,7 @@ lti#:#lti_edit_consumer#:#Editar Consumidor LTI
 lti#:#lti_exit#:#Cerrar sesión LTI
 lti#:#lti_exited#:#Sesión LTI cerrada
 lti#:#lti_exited_info#:#Sesión LTI cerrada con éxito
+lti#:#lti_form_provider_content_selection#:#Selección de contenido
 lti#:#lti_form_provider_create#:#Crear configuración de proveedor
 lti#:#lti_form_provider_edit#:#Editar configuración de proveedor
 lti#:#lti_form_section_appearance#:#Opciones de lanzamiento
@@ -11537,6 +11535,7 @@ lti#:#subtab_certificate#:#Certificado
 lti#:#subtab_object_settings#:#Configuración del objeto
 lti#:#subtab_provider_settings#:#Configuración del proveedor LTI
 lti#:#tab_content#:#Contenido
+lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Información
 lti#:#tab_scoring#:#Ranking
 lti#:#tab_settings#:#Configuración
@@ -14340,15 +14339,15 @@ rbac#:#feed_delete#:#El usuario puede mover o eliminar el canal web
 rbac#:#feed_edit_permission#:#El usuario puede cambiar los ajustes de permisos
 rbac#:#feed_read#:#El usuario puede leer el contenido del canal web
 rbac#:#feed_write#:#El usuario puede editar los ajustes del canal web
-rbac#:#file_content#:#Mostrar contenido
 rbac#:#file_copy#:#El usuario puede copiar el archivo
 rbac#:#file_delete#:#El usuario puede mover o eliminar el archivo
 rbac#:#file_edit_file#:#Permitir editar el archivo en un editor externo, si está disponible
 rbac#:#file_edit_learning_progress#:#El usuario puede editar los ajustes de progreso de aprendizaje
 rbac#:#file_edit_permission#:#El usuario puede cambiar los ajustes de permisos
+rbac#:#file_file_view_content#:#File content presented in browser (if WOPI is active)###11 08 2026 new variable
+rbac#:#file_file_view_content_short#:#Show Content###11 08 2026 new variable
 rbac#:#file_read#:#El usuario puede descargar el archivo
 rbac#:#file_read_learning_progress#:#El usuario puede ver el progreso de aprendizaje de otros usuarios
-rbac#:#file_view_content#:#Contenido del archivo presentado en el navegador (si WOPI está activo)
 rbac#:#file_visible#:#El archivo es visible
 rbac#:#file_write#:#El usuario puede editar los ajustes del archivo y subir una nueva versión del mismo
 rbac#:#files_visible#:#Archivos visibles
@@ -15579,7 +15578,7 @@ search#:#lucene_tbl_create_ini#:#Crear archivo Ini del servidor Java
 search#:#search_add_members_from_container_crs#:#Añadir usuarios del curso actual
 search#:#search_add_members_from_container_grp#:#Añadir usuarios del grupo actual
 search#:#search_any#:#-- Cualquiera --
-search#:#search_area#:#Área de Búsqueda
+search#:#search_area_filter#:#Scope###11 08 2026 new variable
 search#:#search_area_info#:#Seleccione un área donde debe comenzar la búsqueda.
 search#:#search_auto_complete_length#:#Número de entradas en la lista de autocompletado
 search#:#search_auto_complete_length_info#:#Choose ‘0‘ to switch off the auto-complete list.
@@ -15624,6 +15623,7 @@ search#:#search_minimum_info#:#Su búsqueda debe tener al menos %s caracteres
 search#:#search_minimum_three#:#Su búsqueda debe tener al menos tres caracteres.
 search#:#search_newer_than#:#Objetos más recientes que
 search#:#search_no_connection_lucene#:#No se puede conectar con el servidor Lucene.
+search#:#search_no_further_match#:#No further matches found.###11 08 2026 new variable
 search#:#search_no_match#:#Su búsqueda no produjo ningún resultado.
 search#:#search_no_match_hint#:#Su búsqueda de <b>%s</b> no coincide con ningún documento.<br /><br />Sugerencias:<br />• Asegúrese de que todas las palabras estén escritas correctamente.<br />• Pruebe con diferentes palabras clave.<br />• Pruebe con palabras clave más generales.<br />• Pruebe con menos palabras clave.
 search#:#search_no_selection#:#No ha realizado ninguna selección.
@@ -15646,6 +15646,8 @@ search#:#search_sort_generic_desc#:#%s, desc.
 search#:#search_sort_relevance#:#Por relevancia
 search#:#search_sort_title_asc#:#Alfabéticamente: A-Z
 search#:#search_sort_title_desc#:#Alfabéticamente: Z-A
+search#:#search_tab_content#:#Content###11 08 2026 new variable
+search#:#search_tab_user#:#Users###11 08 2026 new variable
 search#:#search_term_combination#:#Combinación
 search#:#search_title_description#:#Título / Descripción
 search#:#search_tst_svy#:#Tests/Encuestas
@@ -17257,7 +17259,7 @@ trac#:#trac_assigned#:#Asignado
 trac#:#trac_average#:#Promedio
 trac#:#trac_begin_at#:#Fecha de inicio
 trac#:#trac_closed_expire#:#Tiempo de espera agotado
-trac#:#trac_closed_login#:#De Anónimo a Inicio de sesión
+trac#:#trac_closed_login#:#Cambio de estado: de anónimo a usuario conectado
 trac#:#trac_closed_manual#:#Cierre de sesión
 trac#:#trac_closed_misc#:#Varios
 trac#:#trac_collection_assign#:#Seleccionar para determinar el progreso de aprendizaje
@@ -17446,9 +17448,9 @@ trac#:#trac_session_statistics_mode_week#:#Semana
 trac#:#trac_session_statistics_mode_year#:#Año
 trac#:#trac_session_statistics_no_data#:#No se han encontrado datos para esta estadística.
 trac#:#trac_sessions_closed#:#Salidas
-trac#:#trac_sessions_opened#:#Admisiones
+trac#:#trac_sessions_opened#:#Entradas
 trac#:#trac_settings#:#Configuración
-trac#:#trac_settings_saved#:#Configuración guardada
+trac#:#trac_settings_saved#:#Configuración guardada.
 trac#:#trac_short_system_load#:#Corto plazo
 trac#:#trac_show_graph#:#Mostrar gráfico
 trac#:#trac_show_progress_block#:#Show Personal Progress Chart in ‘Content’-Tab
@@ -17471,7 +17473,7 @@ trac#:#trac_title#:#Título
 trac#:#trac_title_description#:#Título / Descripción
 trac#:#trac_total_online#:#Tiempo total en línea
 trac#:#trac_trash#:#Movido a la papelera
-trac#:#trac_update_edit_user#:#Configuración guardada
+trac#:#trac_update_edit_user#:#Configuración guardada.
 trac#:#trac_updated_status#:#Estado de progreso de aprendizaje guardado.
 trac#:#trac_user_data#:#Datos de usuario
 trac#:#trac_valid_request#:#Tiempo máx. entre peticiones

@@ -45,6 +45,8 @@ class LegacyZipTest extends TestCase
 
     private string $zip_output_path = '';
 
+    private string $directory_with_control_characters = '';
+
     protected function setUp(): void
     {
         if (file_exists($this->unzips_dir . self::ZIPPED_ZIP)) {
@@ -74,6 +76,9 @@ class LegacyZipTest extends TestCase
         }
         if (!empty($this->zip_output_path) && file_exists($this->zip_output_path)) {
             unlink($this->zip_output_path);
+        }
+        if ($this->directory_with_control_characters !== '' && file_exists($this->directory_with_control_characters)) {
+            $this->recurseRmdir($this->directory_with_control_characters);
         }
     }
 
@@ -112,6 +117,41 @@ class LegacyZipTest extends TestCase
 
         // remove extracted dir
         $this->recurseRmdir($extracting_dir);
+    }
+
+    /**
+     * A directory name may legitimately contain control characters, e.g. when it has
+     * been derived from an exercise assignment title, see
+     * https://mantis.ilias.de/view.php?id=30709
+     */
+    public function testZipDirectoryContainingControlCharacters(): void
+    {
+        $legacy = new LegacyArchives();
+
+        $this->directory_with_control_characters = $directory_to_zip = __DIR__ . '/dir_zip/KW 49 _ SW 5 - Halbschnitt _'
+            . chr(0x0b) . 'Vollschnitt';
+        mkdir($directory_to_zip . '/Abgaben', 0777, true);
+        file_put_contents($directory_to_zip . '/Abgaben/submission.txt', 'submission');
+
+        $this->zip_output_path = $zip_output_path = $this->zips_dir . self::ZIPPED_ZIP;
+
+        $this->assertTrue($legacy->zip($directory_to_zip, $zip_output_path, true));
+        $this->assertFileExists($zip_output_path);
+
+        // the control character is stripped from the names inside the ZIP on purpose,
+        // see \ILIAS\Filesystem\Util::sanitizeFileName(), so only the tail is compared here
+        $archive = new \ZipArchive();
+        $archive->open($zip_output_path);
+        $entries = [];
+        for ($i = 0; $i < $archive->numFiles; $i++) {
+            $entries[] = $archive->getNameIndex($i);
+        }
+        $archive->close();
+
+        $this->assertNotEmpty(
+            array_filter($entries, static fn(string $entry): bool => str_ends_with($entry, 'Abgaben/submission.txt')),
+            'submission file is missing in the ZIP, found: ' . implode(', ', $entries)
+        );
     }
 
     private function pathToArray(string $path): array

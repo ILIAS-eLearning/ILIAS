@@ -37,6 +37,7 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumerScoringGUI
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumerContentGUI
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumerGradeSynchronizationGUI
+ * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumeProviderSettingsGUI
  */
 class ilObjLTIConsumerGUI extends ilObject2GUI
 {
@@ -171,7 +172,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         /* @var \ILIAS\DI\Container $DIC */
         $provider = new ilLTIConsumeProvider();
         $form = new ilLTIConsumeProviderFormGUI($provider);
-        $form->initDynRegForm($this->ctrl->getFormAction($this, "cancelDynReg"));
+        $form->initDynRegForm($this->ctrl->getFormAction($this, "addDynReg"));
         $form->setTitle($DIC->language()->txt($a_new_type . '_dynamic_registration'));
         return $form;
     }
@@ -379,9 +380,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     public function contentSelection(string $providerId, string $newType, string $refId, ilLTIConsumeProvider $provider): void
     {
         global $DIC;
-        if (!ilLTIConsumerAccess::hasCustomProviderCreationAccess()) {
-            throw new ilLtiConsumerException('permission denied!');
-        }
+        $this->checkContentSelectionAccess($refId);
         $DIC->ctrl()->setParameter($this, "new_type", $newType);
         $DIC->ctrl()->setParameter($this, "provider_id", $providerId);
         $DIC->ctrl()->setParameter($this, "ref_id", $refId);
@@ -394,39 +393,53 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     public function contentSelectionRequest(): void
     {
         global $DIC;
-        if (!ilLTIConsumerAccess::hasCustomProviderCreationAccess()) {
-            throw new ilLtiConsumerException('permission denied!');
-        }
         $new_type = $this->getRequestValue("new_type");
         $DIC->ctrl()->setParameter($this, "new_type", $new_type);
         $provider_id = $this->getRequestValue("provider_id");
         $DIC->ctrl()->setParameter($this, "provider_id", $provider_id);
         $ref_id = $this->getRequestValue("ref_id");
         $DIC->ctrl()->setParameter($this, "ref_id", $ref_id);
+        $this->checkContentSelectionAccess($ref_id);
         $DIC->language()->loadLanguageModule($new_type);
         $provider = new ilLTIConsumeProvider((int) $provider_id);
         $redirectUrl = $DIC->ctrl()->getLinkTarget($this, 'contentSelectionRequest');
 
         if (!ilSession::has('lti13_login_data')) {
-            $userIdLTI = ilCmiXapiUser::getIdentAsId($provider->getPrivacyIdent(), $DIC->user());
+            $state = bin2hex(random_bytes(32));
+            ilSession::set('lti13_deep_linking_state', [
+                'state' => $state,
+                'provider_id' => $provider->getId(),
+                'ref_id' => (int) $ref_id,
+                'flow' => 'content_selection',
+                'created_at' => time()
+            ]);
+            $userIdLTI = ilObjLTIConsumer::getDeepLinkingUserIdentifier($provider, $DIC->user());
             //$emailPrimary = ilCmiXapiUser::getIdent($provider->getPrivacyIdent(), $DIC->user());
             $ltiMessageHint = (string) $ref_id . ":" . CLIENT_ID . ":" . base64_encode($redirectUrl);
             $tplLogin = new ilTemplate("tpl.lti_initial_login.html", true, true, "components/ILIAS/LTIConsumer");
             $tplLogin->setVariable("LTI_INITIAL_LOGIN_ACTION", $provider->getInitiateLogin());
             $tplLogin->setVariable("ISS", ilObjLTIConsumer::getIliasHttpPath());
-            $tplLogin->setVariable("TARGET_LINK_URL", $provider->getProviderUrl());
+            $tplLogin->setVariable("TARGET_LINK_URL", $provider->getContentItemUrl());
             $tplLogin->setVariable("LOGIN_HINT", $userIdLTI);
             $tplLogin->setVariable("LTI_MESSAGE_HINT", $ltiMessageHint);
             $tplLogin->setVariable("CLIENT_ID", $provider->getClientId());
             $tplLogin->setVariable("LTI_DEPLOYMENT_ID", (string) $provider->getId());
+            $tplLogin->setVariable("STATE", $state);
             echo $tplLogin->get();
             exit; //TODO: no exit
         } else {
             $loginData = ilSession::get('lti13_login_data');
+            $redirectUri = $loginData['redirect_uri'] ?? '';
+            $allowedRedirectUris = array_map('trim', explode(',', $provider->getRedirectionUris()));
+            if (!in_array($redirectUri, $allowedRedirectUris, true)) {
+                $DIC->http()->saveResponse($DIC->http()->response()->withStatus(400));
+                $DIC->http()->sendResponse();
+                $DIC->http()->close();
+            }
             // ToDo: correct Link!! replace ILIAS_HTTP_PATH
             $data = ilObjLTIConsumer::buildContentSelectionParameters($provider, (int) $ref_id, ilObjLTIConsumer::getIliasHttpPath() . "/" . $DIC->ctrl()->getLinkTarget($this, 'contentSelectionResponse'), $loginData['nonce']);
             $tplContentSelection = new ilTemplate("tpl.lti_jwt_autosubmit.html", true, true, "components/ILIAS/LTIConsumer");
-            $tplContentSelection->setVariable("LTI_JWT_FORM_ACTION", $provider->getContentItemUrl());
+            $tplContentSelection->setVariable("LTI_JWT_FORM_ACTION", $redirectUri);
             $tplContentSelection->setVariable("LTI_JWT_ID_TOKEN", $data['id_token']);
             $tplContentSelection->setVariable("LTI_JWT_STATE", $loginData['state']);
             ilSession::clear('lti13_login_data');
@@ -438,15 +451,13 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     public function contentSelectionResponse(): void
     {
         global $DIC;
-        if (!ilLTIConsumerAccess::hasCustomProviderCreationAccess()) {
-            throw new ilLtiConsumerException('permission denied!');
-        }
         $new_type = $this->getRequestValue("new_type");
         $DIC->ctrl()->setParameter($this, "new_type", $new_type);
         $provider_id = $this->getRequestValue("provider_id");
         $DIC->ctrl()->setParameter($this, "provider_id", $provider_id);
         $ref_id = $this->getRequestValue("ref_id");
         $DIC->ctrl()->setParameter($this, "ref_id", $ref_id);
+        $this->checkContentSelectionAccess($ref_id);
         $DIC->language()->loadLanguageModule($new_type);
         $token = '';
         if ($DIC->http()->wrapper()->post()->has('JWT')) {
@@ -468,12 +479,17 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     public function cancelContentSelection(): void
     {
         global $DIC;
-        if (!ilLTIConsumerAccess::hasCustomProviderCreationAccess()) {
-            throw new ilLtiConsumerException('permission denied!');
-        }
+        $this->checkContentSelectionAccess($this->getRequestValue("ref_id"));
         $new_type = $this->getRequestValue("new_type");
         $DIC->ctrl()->setParameterByClass(ilRepositoryGUI::class, 'new_type', $new_type);
         $DIC->ctrl()->redirectByClass(ilRepositoryGUI::class, 'create');
+    }
+
+    protected function checkContentSelectionAccess(?string $refId): void
+    {
+        if ($refId === null || !$this->checkPermissionBool('create', '', 'lti', (int) $refId)) {
+            throw new ilLtiConsumerException('permission denied!');
+        }
     }
 
     public function saveContentSelection(ilLTIConsumeProvider $provider, string $token): void
@@ -482,8 +498,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $key = $provider->getPublicKey();
             $keys = new Firebase\JWT\Key($key, "RS256");
         } else {
-            $jwks = file_get_contents($provider->getPublicKeyset());
-            //ToDo: Errorhandling
+            $jwks = ilObjLTIConsumer::fetchPublicKeyset($provider->getPublicKeyset());
             $keyset = json_decode($jwks, true);
             $keys = Firebase\JWT\JWK::parseKeySet($keyset);
         }
@@ -507,8 +522,13 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $newObj->setProvider($provider);
             // custom params
             $customParams = [];
-            foreach ($item->{'custom'} as $key => $value) {
-                $customParams[] = $key . "=" . $value;
+            if (isset($item->url)) {
+                $customParams[] = 'target_link_uri=' . (string) $item->url;
+            }
+            if (isset($item->custom) && is_object($item->custom)) {
+                foreach ($item->custom as $key => $value) {
+                    $customParams[] = $key . "=" . $value;
+                }
             }
             if (count($customParams) > 0) {
                 $newObj->setCustomParams(implode(";", $customParams));
@@ -697,11 +717,19 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     public function executeCommand(): void
     {
         global $DIC;
+
+        if ($DIC->ctrl()->getCmd() === 'startDeepLinking' && $this->object instanceof ilObjLTIAdministration) {
+            $DIC->ui()->mainTemplate()->setContent(
+                $this->ui_renderer->render($this->ui_factory->messageBox()->info($DIC->language()->txt('lti_deep_linking_not_available_for_admin_objects')))
+            );
+            return;
+        }
+
         /* @var \ILIAS\DI\Container $DIC */
         // TODO: general access checks (!)
         if (!ilLTIConsumerContentGUI::isEmbeddedLaunchRequest()) {
             $this->prepareOutput();
-            $this->addHeaderAction();
+            //$this->addHeaderAction();
         }
 
         if (!$this->creation_mode) {
@@ -724,6 +752,11 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $obj = $this->object;
 
         switch ($DIC->ctrl()->getNextClass()) {
+            case strtolower(ilLTIConsumeProviderSettingsGUI::class):
+                $gui = new ilLTIConsumeProviderSettingsGUI($obj, $this->ltiAccess);
+                $this->ctrl->forwardCommand($gui);
+                break;
+
             case strtolower(ilObjectCopyGUI::class):
 
                 $gui = new ilObjectCopyGUI($this);
@@ -826,6 +859,10 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
                         $DIC->ctrl()->redirectToURL($this->ctrl->getLinkTargetByClass(ilInfoScreenGUI::class));
                     }
                     $command = $DIC->ctrl()->getCmd(self::DEFAULT_CMD);
+                    if (!$this->object instanceof ilObjLTIConsumer && $command === self::DEFAULT_CMD) {
+                        $DIC->ctrl()->setParameterByClass(ilRepositoryGUI::class, 'new_type', $this->getType());
+                        $DIC->ctrl()->redirectByClass(ilRepositoryGUI::class, 'create');
+                    }
                     $this->{$command}();
                 }
         }
@@ -1028,7 +1065,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $this->object->getId(),
             $DIC->user()->getId()
         );
-
+        // dump("ilObjLTIConsumerGUI", $this->object, $this->object->getId(), $DIC->user()->getId());exit();
         ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
     }
 

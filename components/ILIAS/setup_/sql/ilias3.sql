@@ -7173,6 +7173,7 @@ INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps11',1,'2026-05-0
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps11',2,'2026-05-04 14:42:11.823073','2026-05-04 14:42:11.825106');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps11',3,'2026-05-04 14:42:11.825394','2026-05-04 14:42:11.825941');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps11',4,'2026-05-04 14:42:11.826227','2026-05-04 14:42:11.830097');
+INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps11',5,'2026-08-11 14:08:06.491381','2026-08-11 14:08:06.493520');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps9',1,'2023-12-12 16:39:39.706792','2023-12-12 16:39:39.715602');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps9',2,'2023-12-12 16:39:39.716246','2023-12-12 16:39:39.739058');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps9',3,'2023-12-12 16:39:39.739786','2023-12-12 16:39:39.748476');
@@ -7326,6 +7327,7 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\Export\\HTML\\Setup\\DBHTMLExportUpdat
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Export\\Setup\\DBUpdateSteps10',1,'2025-07-18 06:53:06.819007','2025-07-18 06:53:06.823388');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Export\\Setup\\DBUpdateSteps10',2,'2025-07-18 06:53:06.823700','2025-07-18 06:53:06.827577');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Export\\Setup\\DBUpdateSteps10',3,'2025-07-18 06:53:06.827816','2025-07-18 06:53:06.830359');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\File\\Setup\\Database\\V11\\FileObjectRBACDatabaseSteps',1,'2026-08-11 14:08:06.500427','2026-08-11 14:08:06.500771');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\GlobalScreen_\\UI\\Footer\\Setup\\DB100',1,'2025-07-18 06:53:06.887638','2025-07-18 06:53:06.888332');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\GlobalScreen_\\UI\\Footer\\Setup\\DB100',2,'2025-07-18 06:53:06.888657','2025-07-18 06:53:06.890333');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\GlobalScreen_\\UI\\Footer\\Setup\\DB100',3,'2025-07-18 06:53:06.890586','2025-07-18 06:53:06.894480');
@@ -14058,7 +14060,7 @@ INSERT INTO `object_data` VALUES (34,'typ','lm','Learning module Object',-1,'200
 INSERT INTO `object_data` VALUES (35,'typ','notf','Note Folder Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL,NULL);
 INSERT INTO `object_data` VALUES (36,'typ','note','Note Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL,NULL);
 INSERT INTO `object_data` VALUES (37,'typ','frm','Forum object',-1,'2002-07-15 15:54:22','2003-08-15 12:36:40','',NULL,NULL);
-INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2026-07-07 14:57:24','',NULL,NULL);
+INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2026-08-11 14:08:06','',NULL,NULL);
 INSERT INTO `object_data` VALUES (71,'lng','de','not_installed',6,'2003-08-15 10:25:19','2015-12-22 16:29:24','',NULL,NULL);
 INSERT INTO `object_data` VALUES (72,'lng','es','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL,NULL);
 INSERT INTO `object_data` VALUES (73,'lng','it','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL,NULL);
@@ -20879,7 +20881,7 @@ INSERT INTO `settings` VALUES ('common','ilfrmnoti1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmreadidx1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmthri2','1');
 INSERT INTO `settings` VALUES ('common','ilGlobalTstPoolUsageSettingInitilisation','1');
-INSERT INTO `settings` VALUES ('common','ilias_version','11.2.0');
+INSERT INTO `settings` VALUES ('common','ilias_version','11.3.0');
 INSERT INTO `settings` VALUES ('common','ilinc_akclassvalues_required','1');
 INSERT INTO `settings` VALUES ('common','ilmpathix','1');
 INSERT INTO `settings` VALUES ('common','iloscmsgidx1','1');
@@ -25896,5 +25898,5 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2026-07-07 14:57:26
+-- Dump completed on 2026-08-11 14:08:07
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

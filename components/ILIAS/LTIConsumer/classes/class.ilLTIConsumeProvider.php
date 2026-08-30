@@ -176,7 +176,46 @@ class ilLTIConsumeProvider
 
     private function preventClientIdInUrl(string $url): string
     {
-        return preg_replace('/(\?|&)?client_id=[^&]*/', '', $url);
+        if (str_contains($url, ',')) {
+            return implode(',', array_map([$this, 'preventClientIdInUrl'], explode(',', $url)));
+        }
+
+        $parts = parse_url($url);
+        if ($parts === false || !isset($parts['query'])) {
+            return $url;
+        }
+
+        parse_str($parts['query'], $query);
+        unset($query['client_id']);
+
+        $result = '';
+        if (isset($parts['scheme'])) {
+            $result .= $parts['scheme'] . '://';
+        }
+        if (isset($parts['user'])) {
+            $result .= $parts['user'];
+            if (isset($parts['pass'])) {
+                $result .= ':' . $parts['pass'];
+            }
+            $result .= '@';
+        }
+        if (isset($parts['host'])) {
+            $result .= $parts['host'];
+        }
+        if (isset($parts['port'])) {
+            $result .= ':' . $parts['port'];
+        }
+        $result .= $parts['path'] ?? '';
+
+        $queryString = http_build_query($query, '', '&', PHP_QUERY_RFC3986);
+        if ($queryString !== '') {
+            $result .= '?' . $queryString;
+        }
+        if (isset($parts['fragment'])) {
+            $result .= '#' . $parts['fragment'];
+        }
+
+        return $result;
     }
 
     /**
