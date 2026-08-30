@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Player;
 
 use ILIAS\UI\Component\JavaScriptBindable;
@@ -33,11 +33,11 @@ interface Video extends Player
      * @param string $lang_key two letter lang key, e.g. "de", "en"
      * @param string $subtitle_file relative web root path of a vtt file
      */
-    public function withAdditionalSubtitleFile(string $lang_key, string $subtitle_file): \ILIAS\UI\Component\Player\Video;
+    public function withAdditionalSubtitleFile(string $lang_key, string $subtitle_file, string $label): \ILIAS\UI\Component\Player\Video;
 
     /**
      * Get subtitle files
-     * @return array<string,string>
+     * @return array<string,array{file:string,label:string}>
      */
     public function getSubtitleFiles(): array;
 

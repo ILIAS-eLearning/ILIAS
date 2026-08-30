@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Player;
 
@@ -35,10 +35,13 @@ class Video extends Player implements C\Player\Video
     private string $poster = "";
     private array $subtitle_files = [];
 
-    public function withAdditionalSubtitleFile(string $lang_key, string $subtitle_file): C\Player\Video
+    public function withAdditionalSubtitleFile(string $lang_key, string $subtitle_file, string $label): C\Player\Video
     {
         $clone = clone $this;
-        $clone->subtitle_files[$lang_key] = $subtitle_file;
+        $clone->subtitle_files[$lang_key] = [
+            "file" => $subtitle_file,
+            "label" => $label,
+        ];
         return $clone;
     }
 
@@ -46,6 +49,7 @@ class Video extends Player implements C\Player\Video
     {
         return $this->subtitle_files;
     }
+
 
     public function withPoster(string $poster): C\Player\Video
     {
