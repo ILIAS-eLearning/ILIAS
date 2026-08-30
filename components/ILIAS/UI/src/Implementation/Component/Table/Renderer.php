@@ -30,6 +30,8 @@ use ILIAS\Data\URI;
 use ILIAS\UI\Implementation\Component\Table\Action\Action;
 use ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
+use ILIAS\UI\Component\Table\DataRetrievalWithHeaderSummary;
+use ILIAS\Data\Text\WordOnlyMarkdown;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -51,6 +53,9 @@ class Renderer extends AbstractComponentRenderer
             && !$component instanceof Component\Table\OrderingRow
         ) {
             return $this->renderDataRow($component, $default_renderer);
+        }
+        if ($component instanceof Component\Table\SummaryRow) {
+            return $this->renderSummaryRow($component, $default_renderer);
         }
         if ($component instanceof Component\Table\Ordering) {
             return $this->renderOrderingTable($component, $default_renderer);
@@ -208,7 +213,8 @@ class Renderer extends AbstractComponentRenderer
             $component->getAdditionalParameters()
         );
 
-        $rows = $component->getDataRetrieval()->getRows(
+        $data_retrieval = $component->getDataRetrieval();
+        $rows = $data_retrieval->getRows(
             $component->getRowBuilder(),
             array_keys($component->getVisibleColumns()),
             $component->getRange(),
@@ -271,7 +277,16 @@ class Renderer extends AbstractComponentRenderer
             }
         }
 
-        $this->renderTableHeader($default_renderer, $component, $tpl, $sortation_signal, $compensate_col_index);
+        $header_summary = [];
+        if ($data_retrieval instanceof DataRetrievalWithHeaderSummary) {
+            $header_summary = $data_retrieval->getHeaderSummary(
+                $this->getDataFactory(),
+                array_keys($component->getVisibleColumns()),
+                $component->getFilter(),
+                $component->getAdditionalParameters()
+            );
+        }
+        $this->renderTableHeader($default_renderer, $component, $tpl, $sortation_signal, $compensate_col_index, $header_summary);
         return $tpl->get();
     }
 
@@ -281,6 +296,7 @@ class Renderer extends AbstractComponentRenderer
         Template $tpl,
         ?Component\Signal $sortation_signal,
         int $compensate_col_index,
+        array $header_summary
     ): void {
         $order = $component->getOrder();
         $glyph_factory = $this->getUIFactory()->symbol()->glyph();
@@ -329,6 +345,15 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('COL_TITLE', $col_title);
             $tpl->setVariable('COL_TYPE', strtolower($col->getType()));
             $tpl->parseCurrentBlock();
+
+            if ($header_summary !== []) {
+                $tpl->setCurrentBlock('header_summary_cell');
+                $tpl->setVariable(
+                    'SUMMARY_CELL_CONTENT',
+                    array_key_exists($col_id, $header_summary) ? $header_summary[$col_id]->toHTML() : ''
+                );
+                $tpl->parseCurrentBlock();
+            }
         }
     }
 
@@ -338,9 +363,14 @@ class Renderer extends AbstractComponentRenderer
         Template $tpl,
         int $compensate_col_count,
     ): void {
+        $has_summary = $component instanceof Data
+            && $component->getDataRetrieval() instanceof DataRetrievalWithHeaderSummary;
         if ($component->hasSingleActions()) {
             $tpl->setVariable('COL_INDEX_ACTION', (string) $component->getColumnCount() + $compensate_col_count);
             $tpl->setVariable('COL_TITLE_ACTION', $this->txt('actions'));
+            if ($has_summary) {
+                $tpl->touchBlock('header_summary_singleact');
+            }
         }
 
         if ($component->hasMultiActions()) {
@@ -358,6 +388,9 @@ class Renderer extends AbstractComponentRenderer
                    ->withOnClick($signal);
             $tpl->setVariable('SELECTION_CONTROL_SELECT', $default_renderer->render($select_all));
             $tpl->setVariable('SELECTION_CONTROL_DESELECT', $default_renderer->render($select_none));
+            if ($has_summary) {
+                $tpl->touchBlock('header_summary_multiact');
+            }
         }
 
         if ($component instanceof Component\Table\Ordering) {
@@ -559,16 +592,29 @@ class Renderer extends AbstractComponentRenderer
     {
         $cell_tpl = $this->getTemplate("tpl.datacell.html", true, true);
         $this->fillCells($component, $cell_tpl, $default_renderer);
-
-
+        $this->fillActions($component, $cell_tpl, $default_renderer);
         return $cell_tpl->get();
     }
+
+    public function renderSummaryRow(Component\Table\SummaryRow $component, RendererInterface $default_renderer): string
+    {
+        $cell_tpl = $this->getTemplate("tpl.summarycell.html", true, true);
+        $this->fillCells($component, $cell_tpl, $default_renderer);
+        if ($component->tableHasMultiActions()) {
+            $cell_tpl->touchBlock('rowselection_cell');
+        }
+        if ($component->tableHasSingleActions()) {
+            $cell_tpl->touchBlock('rowaction_cell');
+        }
+        return $cell_tpl->get();
+    }
+
 
     public function renderOrderingRow(Component\Table\OrderingRow $component, RendererInterface $default_renderer): string
     {
         $cell_tpl = $this->getTemplate("tpl.orderingcell.html", true, true);
         $this->fillCells($component, $cell_tpl, $default_renderer);
-
+        $this->fillActions($component, $cell_tpl, $default_renderer);
 
         if ($component->isOrderingDisabled()) {
             return $cell_tpl->get();
@@ -592,12 +638,15 @@ class Renderer extends AbstractComponentRenderer
             ->withValue($component->getPosition() * 10);
         $cell_tpl->setVariable('ORDER_INPUT', $default_renderer->render($input));
 
+        $drag_handle = $this->getUIFactory()->symbol()->glyph()->dragHandle();
+        $drag_handle = $default_renderer->render($drag_handle);
+        $cell_tpl->setVariable('DRAG_HANDLE', $drag_handle);
         return $cell_tpl->get();
     }
 
 
     protected function fillCells(
-        Component\Table\DataRow $row,
+        Component\Table\DataRow|Component\Table\SummaryRow $row,
         Template $cell_tpl,
         RendererInterface $default_renderer
     ) {
@@ -612,11 +661,20 @@ class Renderer extends AbstractComponentRenderer
             if ($cell_content instanceof Component\Component) {
                 $cell_content = $default_renderer->render($cell_content);
             }
+            if ($cell_content instanceof WordOnlyMarkdown) {
+                $cell_content = $cell_content->toHTML();
+            }
             $cell_tpl->setVariable('CELL_CONTENT', $cell_content);
             $cell_tpl->setVariable('CELL_COL_TITLE', $row->getColumns()[$col_id]->getTitle());
             $cell_tpl->parseCurrentBlock();
         }
+    }
 
+    protected function fillActions(
+        Component\Table\DataRow|Component\Table\SummaryRow $row,
+        Template $cell_tpl,
+        RendererInterface $default_renderer
+    ) {
         if ($row->tableHasMultiActions()) {
             $cell_tpl->setVariable('ROW_ID', $row->getId());
         }
@@ -626,14 +684,6 @@ class Renderer extends AbstractComponentRenderer
                 $row->getActions()
             );
             $cell_tpl->setVariable('ACTION_CONTENT', $default_renderer->render($row_actions_dropdown));
-        }
-
-        if ($row instanceof Component\Table\OrderingRow) {
-            if (!$row->isOrderingDisabled()) {
-                $drag_handle = $this->getUIFactory()->symbol()->glyph()->dragHandle();
-                $drag_handle = $default_renderer->render($drag_handle);
-                $cell_tpl->setVariable('DRAG_HANDLE', $drag_handle);
-            }
         }
     }
 

@@ -23,13 +23,19 @@ namespace ILIAS\UI\Implementation\Component\Table;
 use ILIAS\UI\Component\Table as T;
 use ILIAS\UI\Component\Table\Column\Column;
 use ILIAS\UI\Component\Table\Action\Action;
+use ILIAS\Data\Factory as DataFactory;
 
 class DataRowBuilder extends RowBuilder implements T\DataRowBuilder
 {
+    public function __construct(
+        protected DataFactory $data_factory
+    ) {
+    }
+
     /**
      * @param array<string, mixed> $record
      */
-    public function buildDataRow(string $id, array $record): T\DataRow
+    public function buildDataRow(string $id, array $record): DataRow
     {
         return new DataRow(
             $this->row_actions !== [],
@@ -37,6 +43,17 @@ class DataRowBuilder extends RowBuilder implements T\DataRowBuilder
             $this->columns,
             $this->row_actions,
             $id,
+            $record
+        );
+    }
+
+    public function buildSummaryRow(array $record): SummaryRow
+    {
+        return new SummaryRow(
+            $this->row_actions !== [],
+            $this->table_has_multiactions,
+            $this->columns,
+            $this->data_factory,
             $record
         );
     }

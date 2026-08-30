@@ -229,9 +229,11 @@ function base()
             ];
             if ($order) {
                 list($order_field, $order_direction) = $order->join([], fn($ret, $key, $value) => [$key, $value]);
-                usort($records, fn($a, $b) => $a[$order_field] <=> $b[$order_field]);
-                if ($order_direction === 'DESC') {
-                    $records = array_reverse($records);
+                if (array_key_exists($order_field, current($records))) {
+                    usort($records, fn($a, $b) => $a[$order_field] <=> $b[$order_field]);
+                    if ($order_direction === 'DESC') {
+                        $records = array_reverse($records);
+                    }
                 }
             }
             if ($range) {

@@ -20,15 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Table;
 
-interface DataRowBuilder
+use ILIAS\UI\Component\Component;
+use ILIAS\Data\Text\WordOnlyMarkdown;
+
+interface SummaryRow extends Component
 {
     /**
-     * @param array<string, mixed> $record
+     * @return array<string, Table\Column\Column>
      */
-    public function buildDataRow(string $id, array $record): DataRow;
+    public function getColumns(): array;
 
-    /**
-     * @param array<string, mixed> $record
-     */
-    public function buildSummaryRow(array $record): SummaryRow;
+    public function getCellContent(string $col_id): ?WordOnlyMarkdown;
 }
