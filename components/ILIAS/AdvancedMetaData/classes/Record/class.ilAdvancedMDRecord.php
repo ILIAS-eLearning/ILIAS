@@ -1,8 +1,22 @@
 <?php
 
-declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
 /**
  * @defgroup ServicesAdvancedMetaData Services/AdvancedMetaData
@@ -34,6 +48,7 @@ class ilAdvancedMDRecord
     protected array $scopes = [];
 
     protected ilDBInterface $db;
+    protected ilAppEventHandler $il_app_event_handler;
 
     /**
      * Singleton constructor
@@ -52,6 +67,8 @@ class ilAdvancedMDRecord
         if ($this->getRecordId()) {
             $this->read();
         }
+
+        $this->il_app_event_handler = $DIC->event();
     }
 
     public static function _getInstanceByRecordId(int $a_record_id): ilAdvancedMDRecord
@@ -416,8 +433,22 @@ class ilAdvancedMDRecord
 
     public function delete(): void
     {
-        ilAdvancedMDRecord::_delete($this->getRecordId());
-        ilAdvancedMDRecordScope::deleteByRecordId($this->getRecordId());
+        $record_id = $this->getRecordId();
+        $record_types = [];
+        foreach ($this->getAssignedObjectTypes() as $obj_type) {
+            $record_types[] = $obj_type['obj_type'];
+
+        }
+        $this->il_app_event_handler->raise(
+            'components/ILIAS/AdvancedMetaData',
+            'recordDeleted',
+            [
+                'record_id' => $record_id,
+                'record_types' => $record_types
+            ]
+        );
+        ilAdvancedMDRecord::_delete($record_id);
+        ilAdvancedMDRecordScope::deleteByRecordId($record_id);
     }
 
     public function enabledScope(): bool

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\ResourceStorage\Services as IRSS;
 
 /**
@@ -787,5 +789,13 @@ class ilOrgUnitType
             return '';
         }
         return $this->irss->consume()->src($rid)->getSrc();
+    }
+
+    public static function deleteOrgUnitTypeAssignmentByRecId(int $rec_id): void
+    {
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
+        $sql = 'DELETE FROM orgu_types_adv_md_rec WHERE rec_id = ' . $ilDB->quote($rec_id, 'integer');
+        $res = $ilDB->manipulate($sql);
     }
 }

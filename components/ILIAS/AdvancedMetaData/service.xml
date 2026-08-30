@@ -9,4 +9,7 @@
 		<pluginslot id="amdc" name="AdvancedMDClaiming" />
 	</pluginslots>
 	<logging/>
+    <events>
+        <event type="raise" id="recordDeleted" />
+    </events>
 </service>

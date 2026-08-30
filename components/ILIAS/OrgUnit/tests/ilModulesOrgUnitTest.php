@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
@@ -84,8 +84,8 @@ class ilModulesOrgUnitTest extends TestCase
         $rec = new stdClass();
         $rec->icon = '';
         $rec->owner = 13;
-        $rec->last_update = 0;
-        $rec->create_date = 0;
+        $rec->last_update = "0";
+        $rec->create_date = "0";
         $rec->default_lang = 'en';
 
         $this->db_mock->method('numRows')->willReturn(1);
