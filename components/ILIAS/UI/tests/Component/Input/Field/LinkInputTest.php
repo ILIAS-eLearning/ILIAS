@@ -110,6 +110,10 @@ class LinkInputTest extends ILIAS_UI_TestBase
                 {
                     return "dedicated_name";
                 }
+                public function withReset(): static
+                {
+                    return $this;
+                }
             });
         $input = $input->withInput(new class () implements InputData {
             public function getOr($_, $default): string

@@ -80,6 +80,10 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
                 {
                     return "name";
                 }
+                public function withReset(): static
+                {
+                    return $this;
+                }
             });
         $ms = $ms->withInput(new class () implements InputData {
             /**
