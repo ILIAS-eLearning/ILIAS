@@ -43,9 +43,15 @@ interface FileUpload
     public function getMaxFiles(): int;
 
     /**
+     * If $visible_extensions is null the file extensions shown to the user will be derived from $mime_types.
+     * If $visible_extensions is not null it will be shown to the user.
+     * The $visible_extensions do not change which files can be selected, they are only a visible indicator.
+     * $visible_extensions must be of the form: ['txt', 'html'].
+     *
      * @param string[] $mime_types
+     * @param null|string[] $visible_extensions
      */
-    public function withAcceptedMimeTypes(array $mime_types): FileUpload;
+    public function withAcceptedMimeTypes(array $mime_types, ?array $visible_extensions = null): FileUpload;
 
     /**
      * @return string[]
