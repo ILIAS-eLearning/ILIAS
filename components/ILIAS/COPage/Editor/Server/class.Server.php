@@ -73,6 +73,10 @@ class Server
                 $response = $action_handler->handle($query);
             } else {
                 //sleep(5);
+                // Argument #2 ($body) must be of type array, null given
+                 if (!is_array($body)) {
+                $body = array();
+                }
                 $action_handler = $this->getActionHandlerForCommand($query, $body);
                 $response = $action_handler->handle($query, $body);
             }
@@ -115,8 +119,10 @@ class Server
         array $body
     ): CommandActionHandler {
         $handler = null;
-
-        switch ($body["component"]) {
+        //Undefined array key "component
+        //switch ($body["component"]) {
+        $component = isset($body['component']) ? $body['component'] : null;
+         switch ($component) {
             case "Paragraph":
                 $handler = new ParagraphCommandActionHandler($this->page_gui);
                 break;
@@ -157,7 +163,8 @@ class Server
         }
 
         if ($handler === null) {
-            throw new Exception("Unknown component " . ((string) $body["component"]));
+    // throw new Exception("Unknown component " . ((string) $body["component"]));
+         throw new Exception("Unknown component " . ((string) $component))   
         }
         return $handler;
     }
