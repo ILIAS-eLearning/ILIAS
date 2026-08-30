@@ -186,8 +186,8 @@ class Renderer extends AbstractComponentRenderer
                     $value = htmlentities($value);
                 }
                 $tpl->setCurrentBlock("property_row");
-                $tpl->setVariable("PROP_NAME_A", $name);
-                $tpl->setVariable("PROP_VAL_A", $value);
+                $tpl->setVariable("PROP_NAME", $name);
+                $tpl->setVariable("PROP_VAL", $value);
                 $tpl->parseCurrentBlock();
             }
             $tpl->setCurrentBlock("properties");
@@ -336,19 +336,15 @@ class Renderer extends AbstractComponentRenderer
                     //should introduce here htmlentities
                     $value = $value;
                 }
-                $cnt++;
-                if ($cnt % 2 == 1) {
+                $tpl->setCurrentBlock("property_cell");
+                $tpl->setVariable("PROP_NAME", $name);
+                $tpl->setVariable("PROP_VAL", $value);
+                $tpl->parseCurrentBlock();
+                if ($cnt % 2 === 1 || array_key_last($props) === $name) {
                     $tpl->setCurrentBlock("property_row");
-                    $tpl->setVariable("PROP_NAME_A", $name);
-                    $tpl->setVariable("PROP_VAL_A", $value);
-                } else {
-                    $tpl->setVariable("PROP_NAME_B", $name);
-                    $tpl->setVariable("PROP_VAL_B", $value);
                     $tpl->parseCurrentBlock();
                 }
-            }
-            if ($cnt % 2 == 1) {
-                $tpl->parseCurrentBlock();
+                $cnt++;
             }
             $tpl->setCurrentBlock("properties");
             $tpl->parseCurrentBlock();
