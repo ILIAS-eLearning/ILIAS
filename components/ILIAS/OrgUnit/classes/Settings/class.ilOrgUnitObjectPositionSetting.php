@@ -17,93 +17,113 @@
  ********************************************************************
  */
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
 /**
- * Stores object activation status of orgunit position settings.
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * Object-specific activation settings for orgunit position.
  */
 class ilOrgUnitObjectPositionSetting
 {
     protected ilDBInterface $db;
-    private int $obj_id;
+    private static array $instances = [];
     private ?bool $active = null;
+    private ?ilOrgUnitObjectTypePositionSetting $settings_cache = null;
 
-    public function __construct(int $a_obj_id)
-    {
+    public function __construct(
+        private int $obj_id
+    ) {
         $this->db = $GLOBALS['DIC']->database();
-        $this->obj_id = $a_obj_id;
         $this->readSettings();
     }
 
-    /**
-     * Lookup activation status
-     */
-    public function lookupActive(int $a_obj_id): bool
+    public static function getFor(int $obj_id): self
     {
-        $db = $GLOBALS['DIC']->database();
-
-        $query = 'select *  from orgu_obj_pos_settings ' . 'where obj_id = '
-            . $db->quote($a_obj_id, 'integer');
-        $res = $this->db->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return (bool) $row->active;
+        if (! array_key_exists($obj_id, self::$instances)) {
+            self::$instances[$obj_id] = new self($obj_id);
         }
+        return self::$instances[$obj_id];
     }
 
-    /**
-     * Check if position access is active. This returns true or false if it is object specific or null if the object has no setting.
-     */
-    public function isActive(): ?bool
+    public function isActive(): bool
     {
+        if (! $this->isActiveForOwnType()) {
+            return false;
+        }
+
+        if (! $this->isChangeable()) { //implicit: && isActiveForOwnType == true
+            return true;
+        }
+
+        if ($this->active === null) { //implicit: isActiveForOwnType && isChangeable
+            return (bool) $this->getGlobalSettingsForThisObjectType()->getActivationDefault();
+        }
+
         return $this->active;
     }
 
     /**
-     * Set active for object
+     * convenience wrapper for specific objects to check on global settings
      */
-    public function setActive(bool $a_status): void
+    public function isActiveForOwnType(): bool
     {
-        $this->active = $a_status;
+        return $this->getGlobalSettingsForThisObjectType()?->isActive() ?? false;
+    }
+
+    /**
+     * convenience wrapper for specific objects to check on global settings
+     */
+    public function isChangeable(): bool
+    {
+        return $this->getGlobalSettingsForThisObjectType()?->isChangeableForObject() ?? false;
+    }
+
+    public function setActive(bool $status): void
+    {
+        $this->active = $status;
     }
 
     public function update(): void
     {
-        $this->db->replace('orgu_obj_pos_settings', [
-            'obj_id' => ['integer', $this->obj_id],
-        ], [
-            'active' => ['integer', (int) $this->isActive()],
-        ]);
+        if ($this->isActiveForOwnType() && $this->isChangeable() && $this->active !== null) {
+            $this->db->replace('orgu_obj_pos_settings', [
+                'obj_id' => ['integer', $this->obj_id],
+            ], [
+                'active' => ['integer', (int) $this->isActive()],
+            ]);
+        }
     }
 
     public function delete(): void
     {
-        $query = 'DELETE from orgu_obj_pos_settings ' . 'WHERE obj_id = '
+        $query = 'DELETE FROM orgu_obj_pos_settings WHERE obj_id = '
             . $this->db->quote($this->obj_id, 'integer');
         $this->db->manipulate($query);
     }
 
-    /**
-     * @return bool Returns true if the object has a specific setting false if there is no object specific setting, take the global setting in this
-     * case.
-     */
-    public function hasObjectSpecificActivation(): bool
-    {
-        return $this->active !== null;
-    }
-
     private function readSettings(): void
     {
-        if (!$this->obj_id) {
-            return;
-        }
-        $query = 'select * from orgu_obj_pos_settings ' . 'where obj_id = '
+        $query = 'SELECT active FROM orgu_obj_pos_settings WHERE obj_id = '
             . $this->db->quote($this->obj_id, 'integer');
-        $res = $this->db->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->active = (bool) $row->active;
-        }
 
-        return;
+        $result = $this->db->query($query);
+        if ($this->db->numRows($result) > 0) {
+            $this->active = (bool) $this->db->fetchAssoc($result)['active'];
+        }
     }
+
+    private function getGlobalSettingsForThisObjectType(): ?ilOrgUnitObjectTypePositionSetting
+    {
+        if ($this->settings_cache === null) {
+            $global_settings = ilOrgUnitGlobalSettings::getInstance();
+            $type = \ilObject::_lookupType($this->obj_id);
+            if (array_key_exists($type, $global_settings->getPositionSettings())) {
+                $this->settings_cache = $global_settings->getObjectPositionSettingsByType($type);
+            } else {
+                $this->settings_cache = null;
+            }
+        }
+        return $this->settings_cache;
+    }
+
+
 }

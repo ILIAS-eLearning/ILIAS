@@ -995,7 +995,7 @@ class ilPermissionGUI
             $perm
         );
 
-        if (ilOrgUnitGlobalSettings::getInstance()->isPositionAccessActiveForObject($this->gui_obj->getObject()->getId())) {
+        if (ilOrgUnitObjectPositionSetting::getFor($this->gui_obj->getObject()->getId())->isActive()) {
             $this->tabs->addSubTabTarget(
                 self::TAB_POSITION_PERMISSION_SETTINGS,
                 $this->ctrl->getLinkTarget($this, ilPermissionGUI::CMD_PERM_POSITIONS),
