@@ -275,11 +275,13 @@ class ilECSEventQueueReader
     {
         try {
             $connector = new ilECSConnector($this->getServer());
-            while (true) {
+            $read_more_events = true;
+            while ($read_more_events) {
                 $res = $connector->readEventFifo(false);
 
                 if (!count($res->getResult())) {
-                    return;
+                    $read_more_events = false;
+                    continue;
                 }
 
                 foreach ($res->getResult() as $result) {
@@ -298,6 +300,7 @@ class ilECSEventQueueReader
         } catch (ilECSConnectorException $e) {
             $this->logger->error(__METHOD__ . ': Cannot read event fifo. Aborting');
         }
+        $this->read();
     }
 
     /**
