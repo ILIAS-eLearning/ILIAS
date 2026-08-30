@@ -1,47 +1,56 @@
-# Workspace Root Folder Privacy
+# WorkspaceRootFolder Privacy
 
-This documentation does not warrant completeness or correctness. Please report any
-missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
-or contribute a fix via [Pull Request](../../../docs/development/contributing.md#pull-request-to-the-repositories).
-
-## Integrated Services
-
-The Workspace Root Folder component employs the following services, please consult the respective privacy documentation:
-
-- The **Object** service stores the account which created the object as its owner and creation and update timestamps for the object.
-- [AccessControl](../AccessControl/PRIVACY.md)
-- [PersonalWorkspace](../PersonalWorkspace/PRIVACY.md)
-- [Refinery](../Refinery/PRIVACY.md)
-- [Learning Object Metadata](../MetaData/Privacy.md)
-- The **Tree** service (via **PersonalWorkspace**) stores the structural position within the user's workspace in the `tree_workspace` table.
+> **Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information by submitting a [Pull Request](docs/development/contributing.md#pull-request-to-the-repositories) or, if you prefer, via the [ILIAS bug tracker](https://mantis.ilias.de). When using the bug tracker, please select the corresponding component in the **Category** field.**
 
 ## General Information
 
-The Workspace Root Folder is the entry point for a user's personal workspace in ILIAS. It serves as the top-level container for all personal and shared resources (files, blogs, links, and folders). Initially, these resources are private and can only be accessed by the user. Personal data includes ownership information, structural tree position, and user-specific interface settings.
+The WorkspaceRootFolder component represents the root node of a user's personal workspace tree.
+It serves as the top-level container for the "Personal and Shared Resources" area. The component
+itself is a thin specialization of the WorkspaceFolder component: it inherits nearly all
+functionality (content rendering, sharing, clipboard operations, deletion of child objects) from
+`ilObjWorkspaceFolderGUI` and `ilObjWorkspaceFolder`. The root folder cannot be deleted, copied,
+cut, or linked by any user.
 
-## Configuration
+The component manages object translations for the root folder (title, description, language code)
+via the shared `object_translation` table, but these are system-level object metadata and do not
+contain personal data.
 
-- **Sortation**: Users can configure the sortation of items within the workspace root folder. This setting is stored per user and folder.
+## Integrated Components
+
+- The WorkspaceRootFolder component employs the following components, please consult the respective
+  PRIVACY.md files:
+    - [PersonalWorkspace](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/PersonalWorkspace/PRIVACY.md) — provides the GUI request handling
+      and workspace session management used by the root folder's list GUI.
+    - [WorkspaceFolder](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/WorkspaceFolder/PRIVACY.md) — the parent component from which WorkspaceRootFolder inherits all workspace
+      content rendering, sharing, clipboard, and deletion functionality.
+    - [Repository](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/Repository/PRIVACY.md) — the `ilObjectOwnershipManagementGUI` (from the
+      Repository component) is forwarded to from the root folder GUI and allows users to manage
+      objects they own.
+    - [AccessControl](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/AccessControl/PRIVACY.md) — permission checking is inherited from the
+      parent class chain (`ilObject2GUI`, `ilObjectAccess`).
+    - [Refinery](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/Refinery/PRIVACY.md) — `$DIC->refinery()` validates and casts request
+      parameters in `ilObjWorkspaceRootFolderListGUI`.
 
 ## Data being stored
 
-The following personal or potentially personal data is persisted by the Workspace Root Folder component:
-
-- **user ID**: Stored in `wfld_user_setting` to persist user-specific sortation settings (handled by the **WorkspaceFolder** logic).
-- **user ID**: Stored in `tree_workspace` and `object_reference_ws` to represent the "ownership" and structural position of the resources (handled by the **PersonalWorkspace** service).
-- **owner**: The user ID of the account that created the personal workspace (handled by the **Object** service).
-- **timestamps**: Creation and update timestamps for the root folder (handled by the **Object** service).
+This component does not store personal data. The `object_translation` table entries managed by
+`ilObjWorkspaceRootFolder` contain only the object ID, title, description, and language code of
+the root folder object itself. No user IDs, timestamps, or other personal data are written by this
+component.
 
 ## Data being presented
 
-- **Personal Resources**: The root folder presents all top-level resources owned by the user.
-- **Shared Resources**: The component organizes access to resources shared by other users.
+This component does not present personal data on its own. All presentation of workspace content,
+shared resources, and user information is handled by the parent WorkspaceFolder component and the
+PersonalWorkspace service.
 
 ## Data being deleted
 
-- **User Deletion**: When a user account is deleted, their personal workspace (including the root folder and all its contents) is removed. This includes all entries in `wfld_user_setting`, `tree_workspace`, `object_reference_ws`, and `object_translation` associated with that user's tree.
-- **Resource Deletion**: Deleting items within the workspace removes their respective entries in the tree and reference tables.
+The workspace root folder cannot be deleted. Deletion is explicitly disabled in the list GUI
+(`delete_enabled = false`). Deletion of child objects within the workspace is handled by the parent
+WorkspaceFolder component. When a user account is deleted, the workspace tree and its contents are
+removed through the PersonalWorkspace service, not through this component.
 
 ## Data being exported
 
-- **Multi-download**: Users can download the contents of the workspace root folder as a ZIP archive. The archive contains the files themselves, which may contain personal data depending on the file content.
+This component does not provide any export functionality.
