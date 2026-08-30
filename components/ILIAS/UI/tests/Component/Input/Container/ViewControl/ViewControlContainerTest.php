@@ -96,7 +96,7 @@ class ViewControlContainerTest extends ILIAS_UI_TestBase
         $this->assertSameSize($controls, $vc->getInputs());
 
         $named = array_map(
-            fn($input) => $input->withNameFrom($name_source, 'view_control'),
+            fn($input) => $input->withNameFrom($name_source, 'vc'),
             $vc->getInputs()
         );
 
@@ -110,9 +110,9 @@ class ViewControlContainerTest extends ILIAS_UI_TestBase
             ->expects($this->once())
             ->method("getQueryParams")
             ->willReturn([
-                'view_control/input_0' => ['a1', 'a3'],
-                'view_control/input_1/input_2' => 'a2',
-                'view_control/input_1/input_3' => 'DESC'
+                'vc/sel' => ['a1', 'a3'],
+                'vc/sort/asp' => 'a2',
+                'vc/sort/dir' => 'DESC'
             ]);
 
         $c_factory = $this->buildVCFactory();
@@ -190,11 +190,12 @@ class ViewControlContainerTest extends ILIAS_UI_TestBase
 
         $this->assertEquals(
             [
-                'view_control/input_0' => ['a1', 'a3'],
-                'view_control/input_1/input_2' => 'a2',
-                'view_control/input_1/input_3' => 'DESC'
+                'vc/sel' => ['a1', 'a3'],
+                'vc/sort/asp' => 'a2',
+                'vc/sort/dir' => 'DESC'
             ],
             $data
         );
     }
+
 }

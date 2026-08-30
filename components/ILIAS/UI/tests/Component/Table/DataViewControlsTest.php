@@ -230,11 +230,11 @@ class DataViewControlsTest extends TableTestBase
             ->withId($table_id)
             ->withRequest(
                 $this->getRequestMock([
-                    'vctesting_data_table/input_7/input_8' => 0,
-                    'vctesting_data_table/input_7/input_9' => 10,
-                    'vctesting_data_table/input_10/input_11' => 'f2',
-                    'vctesting_data_table/input_10/input_12' => 'DESC',
-                    'vctesting_data_table/input_13' => ['f2']
+                    'vctesting_data_table/pag_0/offset_1' => 0,
+                    'vctesting_data_table/pag_0/limit_2' => 10,
+                    'vctesting_data_table/sort_3/asp_4' => 'f2',
+                    'vctesting_data_table/sort_3/dir_5' => 'DESC',
+                    'vctesting_data_table/sel_6' => ['f2']
                 ])
             );
         list($table, $view_controls) = $table->applyViewControls([], []);
@@ -281,11 +281,10 @@ class DataViewControlsTest extends TableTestBase
             ->withId('testing_data_table_id')
             ->withRequest(
                 $this->getRequestMock([
-                    'vctesting_data_table_id/additional_12' => 'mode2'
+                    'vctesting_data_table_id/additional_6' => 'mode2'
                 ])
             );
         list($table, $view_controls) = $table->applyViewControls([], []);
-
         $this->assertEquals(
             [
                 C\Table\Data::VIEWCONTROL_KEY_PAGINATION,
