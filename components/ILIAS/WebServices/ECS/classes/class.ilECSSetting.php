@@ -233,9 +233,10 @@ class ilECSSetting
                 break;
         }
 
-        if (strpos($this->getServer(), '/') !== false) {
+	$ecs_server = preg_replace('#^https?://#', '', $this->getServer());
+        if (strpos($ecs_server, '/') !== false) {
             $counter = 0;
-            foreach ((array) explode('/', $this->getServer()) as $key => $part) {
+            foreach ((array) explode('/', $esc_server) as $key => $part) {
                 $uri .= $part;
                 if (!$counter) {
                     $uri .= ':' . $this->getPort();
@@ -245,7 +246,7 @@ class ilECSSetting
             }
             $uri = substr($uri, 0, -1);
         } else {
-            $uri .= $this->getServer();
+            $uri .= $ecs_server;
             $uri .= (':' . $this->getPort());
         }
 
