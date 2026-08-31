@@ -42,15 +42,14 @@ jobs:
       - name: Cache PHPStan result cache
         uses: actions/cache@v4
         with:
-          path: tmp/phpstan-code-rules
+          path: scripts/PHPStan/.cache/code-rules
           key: phpstan-code-rules-${{ github.run_id }}
           restore-keys: phpstan-code-rules-
 
       - name: ILIAS Code Rules
-        # Non-blocking for now: the gate reports violations (annotations + report) but
-        # does not fail the job while the existing findings are being fixed / exempted.
-        # Remove continue-on-error to make it a hard gate once the count reaches zero.
-        continue-on-error: true
+        # Hard gate: the branch that introduced these rules also brought the count to
+        # zero, so any new violation has to be fixed or exempted in the pull request
+        # that adds it.
         run: scripts/PHPStan/run_code_rules.sh
         env:
           GHRUN: "yes"
