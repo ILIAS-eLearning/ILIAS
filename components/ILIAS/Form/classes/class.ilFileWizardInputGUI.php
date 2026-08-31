@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Filesystem\Util;
+use ILIAS\Scripts\PHPStan\Attributes\AllowSuperglobalWrite;
 
 /**
  * This class represents a file wizard property in a property form.
@@ -79,6 +80,7 @@ class ilFileWizardInputGUI extends ilFileInputGUI
         return $this->allowMove;
     }
 
+    #[AllowSuperglobalWrite('sanitises the uploaded file names in place, because the inherited getInput() hands $_FILES[postVar] on to every caller.', 12)]
     public function checkInput(): bool
     {
         $lng = $this->lng;
