@@ -808,7 +808,7 @@ assessment#:#lacex_assClozeTest_NumericResultExpression_d#:#The second answer op
 assessment#:#lacex_assClozeTest_NumericResultExpression_e#:#R[2] = #5#
 assessment#:#lacex_assClozeTest_StringResultExpression_1_d#:#The first answer option is a text gap and was answered with "Monday"
 assessment#:#lacex_assClozeTest_StringResultExpression_1_e#:#R[1] = ~Monday~
-assessment#:#lacex_assClozeTest_StringResultExpression_2_d#:#The fourth answer option is a select gap and the option labeled as "Green" was selected
+assessment#:#lacex_assClozeTest_StringResultExpression_2_d#:#The fourth answer option is a select gap and the option labelled as "Green" was selected
 assessment#:#lacex_assClozeTest_StringResultExpression_2_e#:#R[4] = ~Green~
 assessment#:#lacex_assErrorText_ExclusiveResultExpression_d#:#Exactly the answer options 1, 3 and 4 were chosen while answering the question
 assessment#:#lacex_assErrorText_ExclusiveResultExpression_e#:#R = *1,3,4*
