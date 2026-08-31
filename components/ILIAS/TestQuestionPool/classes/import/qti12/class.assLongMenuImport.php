@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+/**
+ * @deprecated Use normalized question import instead
+ */
 class assLongMenuImport extends assQuestionImport
 {
     public $object;

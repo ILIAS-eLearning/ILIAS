@@ -1066,6 +1066,8 @@ assessment#:#qpl_imagemap_preview_missing#:#ILIAS konnte keine Vorschaudatei mit
 assessment#:#qpl_import_create_new_qpl#:#In einen neuen Fragenpool importieren
 assessment#:#qpl_import_no_items#:#Fehler: die Importdatei enthält keine Fragen!
 assessment#:#qpl_import_non_ilias_files#:#Fehler: Die Importdatei enthält QTI-Dateien, die nicht von einem ILIAS-System erstellt wurden. Bitte kontaktieren Sie das ILIAS-Team, um einen Importfilter für Ihr QTI-Dateiformat zu bekommen.
+assessment#:#qpl_import_step_persist#:#Fragenpool importieren
+assessment#:#qpl_import_step_select#:#Fragen auswählen
 assessment#:#qpl_import_verify_found_questions#:#ILIAS hat die folgenden Fragen in der Importdatei gefunden. Bitte wählen Sie die Fragen aus, die Sie importieren wollen.
 assessment#:#qpl_lac_desc_brackets#:#Klammerung
 assessment#:#qpl_lac_desc_compare_answer_exist#:#Vergleiche ob für eine Frage/Lücke einer Frage keine Antwort gegeben wurde

@@ -18,12 +18,17 @@
 
 declare(strict_types=1);
 
+use ILIAS\Refinery\Transformation;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
+
 /**
  * Formula Question Unit
  * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @ingroup components\ILIASTestQuestionPool
  */
-class assFormulaQuestionUnit
+class assFormulaQuestionUnit implements Normalizable
 {
     private int $id = 0;
     private string $unit = '';
@@ -158,5 +163,40 @@ class assFormulaQuestionUnit
     private function sanitizeString(string $string): string
     {
         return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(fn(): array => [
+            'id' => $tt->normalize(new Id($this->id, 'unit')),
+            'unit' => $this->unit,
+            'factor' => $this->factor,
+            'category_id' => $tt->normalize(new Id($this->category, 'unit_category')),
+            'sequence' => $this->sequence,
+            'baseunit' => $tt->normalize(new Id($this->baseunit, 'unit')),
+            'baseunit_title' => $this->baseunit_title,
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fromNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
+            $clone = clone $this;
+            $clone->id = $tt->denormalize($normalized['id'], Id::class)->getId();
+            $clone->unit = $tt->string($normalized['unit']);
+            $clone->factor = $tt->float($normalized['factor']);
+            $clone->category = $tt->denormalize($normalized['category_id'], Id::class)->getId();
+            $clone->sequence = $tt->int($normalized['sequence']);
+            $clone->baseunit = $tt->denormalize($normalized['baseunit'], Id::class)->getId();
+            $clone->baseunit_title = $tt->string($normalized['baseunit_title']);
+
+            return $clone;
+        });
     }
 }

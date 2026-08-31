@@ -1,5 +1,10 @@
 <?php
 
+use ILIAS\Refinery\Transformation;
+use ILIAS\TestQuestionPool\ExportImport\Envelopes\QuestionImage;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -22,7 +27,7 @@
  *
  * @package components\ILIAS/Test
  */
-class ilAssKprimChoiceAnswer
+class ilAssKprimChoiceAnswer implements Normalizable
 {
     private $position;
 
@@ -144,5 +149,29 @@ class ilAssKprimChoiceAnswer
     public function getThumbWebPath(): string
     {
         return $this->getImageWebDir() . $this->getThumbPrefix() . $this->getImageFile();
+    }
+
+    public function toNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(fn(array $context): array => [
+            'position' => $this->position,
+            'answertext' => $this->answertext,
+            'image' => $this->imageFile
+                ? $tt->normalize(new QuestionImage($this->imageFile, $context['question_id'] ?? null))
+                : null,
+            'correctness' => $this->correctness,
+        ]);
+    }
+
+    public function fromNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
+            $clone = clone $this;
+            $clone->position = $tt->int($normalized['position']);
+            $clone->answertext = $tt->nullableString($normalized['answertext']);
+            $clone->imageFile = $tt->denormalize($normalized['image'], QuestionImage::class)?->getFilename();
+            $clone->correctness = $tt->int($normalized['correctness']);
+            return $clone;
+        });
     }
 }

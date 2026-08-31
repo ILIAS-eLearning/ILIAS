@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\Refinery\Transformation;
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\TestQuestionPool\Questions\QuestionPartiallySaveable;
@@ -35,7 +38,7 @@ use ILIAS\Refinery\Random\Group as RandomGroup;
  *
  * @ingroup 	ModulesTestQuestionPool
  */
-class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionPartiallySaveable, QuestionLMExportable, QuestionAutosaveable
+class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionPartiallySaveable, QuestionLMExportable, QuestionAutosaveable, Normalizable
 {
     /**
     * The gaps of the cloze question
@@ -1766,5 +1769,47 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 . implode(',', $correct_answers);
         }
         return $answers;
+    }
+
+    /**
+    * @inheritDoc
+    */
+    public function toNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(fn(): array => [
+            ...$tt->normalize(parent::toNormalized($tt)),
+            'feedback_mode' => $this->feedbackMode,
+            'cloze_text' => $this->cloze_text,
+            'textgap_rating' => $this->textgap_rating,
+            'identical_scoring' => $this->identical_scoring,
+            'fixed_text_length' => $this->fixed_text_length,
+            'gaps' => $tt->normalize($this->gaps),
+            'gap_combinations' => $this->gap_combinations,
+            'gap_combinations_exist' => $this->gap_combinations_exist,
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fromNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
+            $clone = parent::fromNormalized($tt)->transform($normalized);
+            $clone->feedbackMode = $tt->string($normalized['feedback_mode']);
+            $clone->cloze_text = $tt->string($normalized['cloze_text']);
+            $clone->textgap_rating = $tt->string($normalized['textgap_rating']);
+            $clone->identical_scoring = $tt->bool($normalized['identical_scoring']);
+            $clone->fixed_text_length = $tt->nullableInt($normalized['fixed_text_length']);
+            $clone->gap_combinations_exist = $tt->bool($normalized['gap_combinations_exist']);
+            $clone->gap_combinations = $normalized['gap_combinations'];
+
+            foreach ($normalized['gaps'] as $gap) {
+                $type = $tt->int($gap['type']);
+                $clone->gaps[] = $tt->denormalize($gap, new assClozeGap($type));
+            }
+
+            return $clone;
+        });
     }
 }

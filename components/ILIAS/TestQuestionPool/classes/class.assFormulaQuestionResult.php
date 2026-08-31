@@ -17,6 +17,9 @@
  *********************************************************************/
 
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Refinery\Transformation;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
 
 /**
  * Formula Question Result
@@ -24,7 +27,7 @@ use ILIAS\Refinery\Factory as Refinery;
  * @version       $Id: class.assFormulaQuestionResult.php 944 2009-11-09 16:11:30Z hschottm $
  * @ingroup components\ILIASTestQuestionPool
  * */
-class assFormulaQuestionResult
+class assFormulaQuestionResult implements Normalizable
 {
     public const RESULT_NO_SELECTION = 0;
     public const RESULT_DEC = 1;
@@ -837,5 +840,61 @@ class assFormulaQuestionResult
         }
 
         return $this->available_units;
+    }
+
+    /**
+    * @inheritDoc
+    */
+    public function toNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(fn(): array => [
+            'available_units' => $tt->normalize($this->available_units),
+            'range_min' => $this->range_min,
+            'range_max' => $this->range_max,
+            'range_min_txt' => $this->range_min_txt,
+            'range_max_txt' => $this->range_max_txt,
+            'result' => $this->result,
+            'tolerance' => $this->tolerance,
+            'unit' => $tt->normalize($this->unit),
+            'formula' => $this->formula,
+            'points' => $this->points,
+            'precision' => $this->precision,
+            'rating_simple' => $this->rating_simple,
+            'rating_sign' => $this->rating_sign,
+            'rating_value' => $this->rating_value,
+            'rating_unit' => $this->rating_unit,
+            'result_type' => $this->result_type,
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fromNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
+            $clone = clone $this;
+            $clone->available_units = array_map(
+                static fn(array $unit): assFormulaQuestionUnit => $tt->denormalize($unit, new assFormulaQuestionUnit()),
+                $normalized['available_units']
+            );
+            $clone->range_min = $tt->float($normalized['range_min']);
+            $clone->range_max = $tt->float($normalized['range_max']);
+            $clone->range_min_txt = $tt->string($normalized['range_min_txt']);
+            $clone->range_max_txt = $tt->string($normalized['range_max_txt']);
+            $clone->result = $tt->string($normalized['result']);
+            $clone->tolerance = $tt->float($normalized['tolerance']);
+            $clone->unit = $tt->denormalize($normalized['unit'], new assFormulaQuestionUnit());
+            $clone->formula = $tt->string($normalized['formula']);
+            $clone->points = $tt->float($normalized['points']);
+            $clone->precision = $tt->int($normalized['precision']);
+            $clone->rating_simple = $tt->bool($normalized['rating_simple']);
+            $clone->rating_sign = $tt->float($normalized['rating_sign']);
+            $clone->rating_value = $tt->float($normalized['rating_value']);
+            $clone->rating_unit = $tt->float($normalized['rating_unit']);
+            $clone->result_type = $tt->int($normalized['result_type']);
+
+            return $clone;
+        });
     }
 }

@@ -18,13 +18,44 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\Logging\AdditionalInformationGenerator;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Filesystem\Util\Archive\Archives;
+use ILIAS\GlobalScreen\Services as GlobalScreen;
+use ILIAS\ResourceStorage\Services as IRSS;
+use ILIAS\Skill\Service\SkillService;
 use ILIAS\Skill\Service\SkillUsageService;
+use ILIAS\Style\Content\Service as ContentStyle;
+use ILIAS\Taxonomy\DomainService as TaxonomyService;
+use ILIAS\Test\ExportImport\DBRepository as ExportRepository;
+use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
+use ILIAS\Test\ExportImport\Import\PersistStage;
+use ILIAS\Test\GUIFactory;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
+use ILIAS\Test\Logging\LogTable;
+use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
+use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
+use ILIAS\Test\Participants\ParticipantRepository;
+use ILIAS\Test\Presentation\TabsManager;
+use ILIAS\Test\Presentation\TestScreenGUI;
+use ILIAS\Test\Questions\Presentation\Printer as QuestionPrinter;
+use ILIAS\Test\Questions\Presentation\QuestionsTable;
+use ILIAS\Test\Questions\Presentation\QuestionsTableActions;
+use ILIAS\Test\Questions\Presentation\QuestionsTableQuery;
+use ILIAS\Test\Questions\Properties\Repository as TestQuestionsRepository;
+use ILIAS\Test\RequestDataCollector;
+use ILIAS\Test\ResponseHandler;
+use ILIAS\Test\Results\Data\Factory as ResultsDataFactory;
 use ILIAS\Test\Results\Data\Repository as TestResultRepository;
+use ILIAS\Test\Results\Presentation\Factory as ResultsPresentationFactory;
+use ILIAS\Test\Results\Toplist\TestTopListRepository;
+use ILIAS\Test\Scoring\Manual\ConsecutiveScoringGUI;
 use ILIAS\Test\Scoring\Marks\MarkSchemaFactory;
+use ILIAS\Test\Scoring\Marks\MarkSchemaGUI;
 use ILIAS\Test\Scoring\Marks\MarksRepository;
 use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
+use ILIAS\Test\Settings\MainSettings\SettingsMainGUI;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsRepository;
+use ILIAS\Test\Settings\ScoreReporting\SettingsScoringGUI;
 use ILIAS\Test\Settings\SettingsFactory;
 use ILIAS\Test\Settings\SettingsNotFoundException;
 use ILIAS\Test\Settings\Templates\PersonalSettingsCreateAction;
@@ -38,49 +69,28 @@ use ILIAS\Test\Settings\Templates\PersonalSettingsTableDeleteAction;
 use ILIAS\Test\Settings\Templates\PersonalSettingsTableExportAction;
 use ILIAS\Test\Settings\Templates\PersonalSettingsTableShowAction;
 use ILIAS\Test\TestDIC;
-use ILIAS\Test\RequestDataCollector;
-use ILIAS\Test\ResponseHandler;
 use ILIAS\Test\Utilities\TitleColumnsBuilder;
-use ILIAS\Test\Questions\Presentation\QuestionsTable;
-use ILIAS\Test\Questions\Presentation\QuestionsTableQuery;
-use ILIAS\Test\Questions\Presentation\QuestionsTableActions;
-use ILIAS\Test\Questions\Presentation\Printer as QuestionPrinter;
-use ILIAS\Test\Questions\Properties\Repository as TestQuestionsRepository;
-use ILIAS\Test\Participants\ParticipantRepository;
-use ILIAS\Test\Settings\MainSettings\SettingsMainGUI;
-use ILIAS\Test\Settings\ScoreReporting\SettingsScoringGUI;
-use ILIAS\Test\Scoring\Marks\MarkSchemaGUI;
-use ILIAS\Test\Scoring\Manual\ConsecutiveScoringGUI;
-use ILIAS\Test\Logging\LogTable;
-use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
-use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
-use ILIAS\Test\Presentation\TestScreenGUI;
-use ILIAS\Test\Presentation\TabsManager;
-use ILIAS\Test\Results\Data\Factory as ResultsDataFactory;
-use ILIAS\Test\Results\Presentation\Factory as ResultsPresentationFactory;
-use ILIAS\Test\Results\Toplist\TestTopListRepository;
-use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
-use ILIAS\Test\ExportImport\DBRepository as ExportRepository;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportContext;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportStageRunner;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\StageResultType;
+use ILIAS\TestQuestionPool\ExportImport\Import\CleanupStage;
+use ILIAS\TestQuestionPool\ExportImport\Import\DetectLegacyImportStage;
+use ILIAS\TestQuestionPool\ExportImport\Import\QuestionSelectionStage;
+use ILIAS\TestQuestionPool\ExportImport\Import\UploadValidationStage;
+use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\TestQuestionPool\RequestDataCollector as QPLRequestDataCollector;
-use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
-use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\Component\Input\Container\Form\Form;
+use ILIAS\UI\Component\Input\Field\Radio;
+use ILIAS\UI\Component\Input\Field\Select;
+use ILIAS\UI\Component\Input\Field\SwitchableGroup;
+use ILIAS\UI\Component\Input\Input;
 use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\URLBuilder;
-use ILIAS\UI\Component\Input\Container\Form\Form;
-use ILIAS\UI\Component\Input\Input;
-use ILIAS\UI\Component\Input\Field\Select;
-use ILIAS\UI\Component\Input\Field\Radio;
-use ILIAS\UI\Component\Input\Field\SwitchableGroup;
-use ILIAS\GlobalScreen\Services as GlobalScreen;
-use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\Filesystem\Util\Archive\Archives;
-use ILIAS\Skill\Service\SkillService;
-use ILIAS\ResourceStorage\Services as IRSS;
-use ILIAS\Taxonomy\DomainService as TaxonomyService;
-use ILIAS\Style\Content\Service as ContentStyle;
+use ILIAS\UICore\GlobalTemplate;
 use ILIAS\User\Profile\PublicProfileGUI;
-use ILIAS\Test\GUIFactory;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class ilObjTestGUI
@@ -180,6 +190,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected TaxonomyService $taxonomy;
     protected GUIFactory $gui_factory;
     protected SkillUsageService $skill_usage_service;
+    protected ImportSessionRepository $import_session_repository;
+    protected LoggerInterface $import_logger;
 
     protected bool $create_question_mode;
 
@@ -234,6 +246,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->mark_schema_factory = $local_dic['marks.factory'];
         $this->additional_information_generator = $local_dic['logging.information_generator'];
         $this->personal_settings_exporter = $local_dic['settings.personal_templates.exporter'];
+        $this->import_session_repository = $local_dic['exportimport.session'];
+        $this->import_logger = $local_dic['exportimport.logging']();
 
         $ref_id = 0;
         if ($this->testrequest->hasRefId() && is_numeric($this->testrequest->getRefId())) {
@@ -363,8 +377,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->ui_renderer,
                     $this->irss,
                     $this->request,
-                    $this->export_repository,
-                    $this->temp_file_system,
                     $this->participant_access_filter_factory,
                     $this->test_pass_result_repository,
                     new ilTestHTMLGenerator()
@@ -1366,80 +1378,120 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
     }
 
+
     protected function importFile(string $file_to_import, string $path_to_uploaded_file_in_temp_dir): void
     {
-        list($subdir, $importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromImportFile($file_to_import);
+        $this->import_session_repository->clear();
 
-        $options = (new ILIAS\Filesystem\Util\Archive\UnzipOptions())
-            ->withZipOutputPath($this->getImportTempDirectory());
+        $context = new ImportContext([UploadValidationStage::FILE_TO_IMPORT => $file_to_import]);
+        $this->import_session_repository->setContext($context);
+        $this->import_session_repository->setCurrentStageIndex(0);
 
-        $unzip = $this->archives->unzip(Streams::ofResource(fopen($file_to_import, 'r')), $options);
-        $unzip->extract();
-
-        if (!is_file($qtifile)) {
-            ilFileUtils::delDir($importdir);
-            $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_import_non_ilias_zip'), true);
-        }
-        $qtiParser = new ilQTIParser($importdir, $qtifile, ilQTIParser::IL_MO_VERIFY_QTI, 0, [], [], true);
-        try {
-            $qtiParser->startParsing();
-        } catch (ilSaxParserException) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'), true);
-            $this->ctrl->redirect($this, 'create');
-        }
-        $founditems = $qtiParser->getFoundItems();
-
-        $complete = 0;
-        $incomplete = 0;
-        foreach ($founditems as $item) {
-            if ($item["type"] !== '') {
-                $complete++;
-            } else {
-                $incomplete++;
-            }
-        }
-
-        if (count($founditems) && $complete == 0) {
-            ilFileUtils::delDir($importdir);
-            $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_import_non_ilias_files'));
-            return;
-        }
-
-        ilSession::set('path_to_import_file', $file_to_import);
-        ilSession::set('path_to_uploaded_file_in_temp_dir', $path_to_uploaded_file_in_temp_dir);
-
-        if ($qtiParser->getQuestionSetType() !== ilObjTest::QUESTION_SET_TYPE_FIXED
-            || file_exists($this->buildResultsFilePath($importdir, $subdir))
-            || $founditems === []) {
-            $this->importVerifiedFileObject(true);
-            return;
-        }
-
-        $form = $this->buildImportQuestionsSelectionForm(
-            'importVerifiedFile',
-            $importdir,
-            $qtifile,
-            $file_to_import,
-            $path_to_uploaded_file_in_temp_dir
-        );
-
-        if ($form === null) {
-            return;
-        }
-
-        $panel = $this->ui_factory->panel()->standard(
-            $this->lng->txt('import_tst'),
-            [
-                $this->ui_factory->legacy()->content($this->lng->txt('qpl_import_verify_found_questions')),
-                $form
-            ]
-        );
-        $this->tpl->setContent($this->ui_renderer->render($panel));
-        $this->tpl->printToStdout();
-        exit;
+        $this->ctrl->redirectByClass(self::class, 'processImport');
     }
+
+    public function processImportObject(): void
+    {
+        $permission = $this->creation_mode ? 'create' : 'read';
+        if (!$this->checkPermissionBool($permission, '', $this->object->getType())) {
+            $this->redirectAfterMissingWrite();
+            return;
+        }
+
+        $result = $this->buildImportStageRunner()->run();
+
+        switch ($result->type) {
+            case StageResultType::INTERACT:
+                $this->tpl->setContent(
+                    $this->ui_renderer->render($result->components)
+                );
+                break;
+
+            case StageResultType::ADVANCE:
+                $this->ctrl->redirectByClass(self::class, 'processImport');
+                break;
+
+            case StageResultType::ERROR:
+                $this->tpl->setOnScreenMessage(
+                    GlobalTemplate::MESSAGE_TYPE_FAILURE,
+                    $result->error_message,
+                    true
+                );
+                break;
+
+            case StageResultType::COMPLETE:
+                $this->afterImportCompleted($result->context);
+                break;
+        }
+    }
+
+    private function afterImportCompleted(ImportContext $context): void
+    {
+        $new_obj = new ilObjTest(0, false);
+        $new_obj->setId($context->get('test_obj_id'));
+        $new_obj->setRefId($context->get('test_ref_id'));
+
+        if ($new_obj->getTestLogger()->isLoggingEnabled()) {
+            $new_obj->getTestLogger()->logTestAdministrationInteraction(
+                $new_obj->getTestLogger()->getInteractionFactory()->buildTestAdministrationInteraction(
+                    $new_obj->getRefId(),
+                    $this->user->getId(),
+                    TestAdministrationInteractionTypes::NEW_TEST_CREATED,
+                    []
+                )
+            );
+        }
+
+        $question_skill_assignments_import_fails = new ilAssQuestionSkillAssignmentImportFails($new_obj->getId());
+        if ($question_skill_assignments_import_fails->failedImportsRegistered()) {
+            $this->tpl->setOnScreenMessage(
+                GlobalTemplate::MESSAGE_TYPE_INFO,
+                $question_skill_assignments_import_fails->getFailedImportsMessage($this->lng),
+                true
+            );
+        }
+
+        $this->tpl->setOnScreenMessage(
+            GlobalTemplate::MESSAGE_TYPE_SUCCESS,
+            $this->lng->txt('object_imported'),
+            true
+        );
+        $this->ctrl->setParameterByClass(ilObjTestGUI::class, 'ref_id', $new_obj->getRefId());
+        $this->ctrl->redirectByClass(self::class, self::SHOW_QUESTIONS_CMD);
+    }
+
+    private function buildImportStageRunner(): ImportStageRunner
+    {
+        return new ImportStageRunner(
+            [
+                new UploadValidationStage(
+                    $this->archives,
+                    $this->lng,
+                    $this->import_logger,
+                    'components/ILIAS/Test'
+                ),
+                new DetectLegacyImportStage($this->import_logger),
+                new QuestionSelectionStage(
+                    $this->lng,
+                    $this->import_logger,
+                    $this->component_factory,
+                    $this->ui_factory,
+                    $this->request,
+                    $this->ctrl->getFormActionByClass(self::class, 'processImport'),
+                    $this->lng->txt('import_tst')
+                ),
+                new PersistStage(
+                    $this->lng,
+                    $this->import_logger,
+                    $this->requested_ref_id,
+                    $this->import_session_repository
+                ),
+            ],
+            $this->import_session_repository,
+            new CleanupStage($this->import_logger)
+        );
+    }
+
 
     /**
     * save object
@@ -1480,108 +1532,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     public function getTestObject(): ?ilObjTest
     {
         return $this->object;
-    }
-
-    /**
-    * imports question(s) into the questionpool (after verification)
-    */
-    public function importVerifiedFileObject(
-        bool $skip_retrieve_selected_questions = false
-    ): void {
-        if (!$this->checkPermissionBool('create', '', 'tst')) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
-            $this->ctrl->returnToParent($this);
-        }
-        $file_to_import = ilSession::get('path_to_import_file');
-        $path_to_uploaded_file_in_temp_dir = ilSession::get('path_to_uploaded_file_in_temp_dir');
-        list($subdir, $importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromImportFile($file_to_import);
-
-        $new_obj = new ilObjTest(0, true);
-        $new_obj->setTitle('dummy');
-        $new_obj->setDescription('test import');
-        $new_obj->create(true);
-        $new_obj->createReference();
-        $new_obj->putInTree($this->testrequest->getRefId());
-        $new_obj->setPermissions($this->testrequest->getRefId());
-        $new_obj->saveToDb();
-
-        $selected_questions = [];
-        if (!$skip_retrieve_selected_questions) {
-            $selected_questions = $this->retrieveSelectedQuestionsFromImportQuestionsSelectionForm(
-                'importVerifiedFile',
-                $importdir,
-                $qtifile,
-                $this->request
-            );
-        }
-
-        ilSession::set('tst_import_selected_questions', $selected_questions);
-
-        $imp = new ilImport($this->testrequest->getRefId());
-        $map = $imp->getMapping();
-        $map->addMapping('components/ILIAS/Test', 'tst', 'new_id', (string) $new_obj->getId());
-
-        /**
-         * 2025-03-22, sk: This is now only needed for legacy exports as
-         * now also exports with results do contain a manifest.xml.
-         */
-        if (is_file($importdir . DIRECTORY_SEPARATOR . '/manifest.xml')) {
-            $imp->importObject($new_obj, $file_to_import, basename($file_to_import), 'tst', 'components/ILIAS/Test', true);
-        } else {
-            $test_importer = new ilTestImporter();
-            $test_importer->setImport($imp);
-            $test_importer->setInstallId(IL_INST_ID);
-            $test_importer->setImportDirectory($importdir . '/' . $subdir);
-            $test_importer->init();
-
-            $test_importer->importXmlRepresentation(
-                '',
-                '',
-                '',
-                $map,
-            );
-        }
-
-        if ($new_obj->getTestLogger()->isLoggingEnabled()) {
-            $new_obj->getTestLogger()->logTestAdministrationInteraction(
-                $new_obj->getTestLogger()->getInteractionFactory()->buildTestAdministrationInteraction(
-                    $new_obj->getRefId(),
-                    $this->user->getId(),
-                    TestAdministrationInteractionTypes::NEW_TEST_CREATED,
-                    []
-                )
-            );
-        }
-
-        ilFileUtils::delDir($importdir);
-        $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
-        ilSession::clear('path_to_import_file');
-        ilSession::clear('path_to_uploaded_file_in_temp_dir');
-
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_imported"), true);
-
-        $question_skill_assignments_import_fails = new ilAssQuestionSkillAssignmentImportFails($new_obj->getId());
-        if ($question_skill_assignments_import_fails->failedImportsRegistered()) {
-            $this->tpl->setOnScreenMessage(
-                'info',
-                $question_skill_assignments_import_fails->getFailedImportsMessage($this->lng),
-                true
-            );
-        }
-
-        $this->ctrl->setParameterByClass(ilObjTestGUI::class, 'ref_id', $new_obj->getRefId());
-        $this->ctrl->redirectByClass(ilObjTestGUI::class);
-    }
-
-    /**
-    * download file
-    */
-    public function downloadFileObject()
-    {
-        $file = explode("_", $this->testrequest->raw("file_id"));
-        $fileObj = new ilObjFile((int) $file[count($file) - 1], false);
-        $fileObj->sendFile();
-        exit;
     }
 
     /**
@@ -2090,22 +2040,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->ctrl->redirectByClass(self::class, 'showTemplates');
     }
 
-    public function importTemplateObject(): void
-    {
-        $this->protectByWritePermission();
-
-        try {
-            $this->buildPersonalSettingsImportAction()
-                ->perform($this->request);
-
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('personal_settings_import_success'), true);
-        } catch (\InvalidArgumentException $e) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt($e->getMessage()), true);
-        }
-
-        $this->ctrl->redirectByClass(self::class, 'showTemplates');
-    }
-
     public function executeTemplatesActionObject(): void
     {
         $this->protectByWritePermission();
@@ -2307,16 +2241,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->ctrl->forwardCommand($info);
     }
 
-    protected function removeImportFailsObject()
-    {
-        $qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->getTestObject()->getId());
-        $qsaImportFails->deleteRegisteredImportFails();
-        $sltImportFails = new ilTestSkillLevelThresholdImportFails($this->getTestObject()->getId());
-        $sltImportFails->deleteRegisteredImportFails();
-
-        $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
-    }
-
     public function addLocatorItems(): void
     {
         switch ($this->ctrl->getCmd()) {
@@ -2366,6 +2290,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 );
                 break;
             case "importFile":
+            case "processImport":
             case "cloneAll":
             case "importVerifiedFile":
             case "cancelImport":

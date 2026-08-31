@@ -18,10 +18,13 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\TestQuestionPool\ManipulateImagesInChoiceQuestionsTrait;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
+use ILIAS\Refinery\Transformation;
 
 /**
  * Class for single choice questions
@@ -36,7 +39,7 @@ use ILIAS\Test\Logging\AdditionalInformationGenerator;
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssSpecificFeedbackOptionLabelProvider, QuestionLMExportable, QuestionAutosaveable
+class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssSpecificFeedbackOptionLabelProvider, QuestionLMExportable, QuestionAutosaveable, Normalizable
 {
     use ManipulateImagesInChoiceQuestionsTrait;
 
@@ -943,5 +946,36 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             },
             []
         );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(function (array $normalized) use ($tt): array {
+            $normalized = $tt->normalize(parent::toNormalized($tt));
+            $normalized['is_singleline'] = $this->is_singleline;
+            $normalized['feedback_setting'] = $this->feedback_setting;
+            $normalized['answers'] = $tt->normalize($this->answers, ['question_id' => $this->getId()]);
+            return $normalized;
+        });
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fromNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
+            $clone = parent::fromNormalized($tt)->transform($normalized);
+            $clone->is_singleline = $tt->bool($normalized['is_singleline']);
+            $clone->feedback_setting = $tt->int($normalized['feedback_setting']);
+            $clone->answers = array_map(
+                static fn(array $answer): ASS_AnswerBinaryStateImage => $tt->denormalize($answer, new ASS_AnswerBinaryStateImage()),
+                $normalized['answers']
+            );
+            return $clone;
+        });
     }
 }

@@ -26,6 +26,8 @@ use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionFile;
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @ingroup components\ILIASTestQuestionPool
+ *
+ * @deprecated Use normalized question export instead
 */
 class assQuestionExport
 {

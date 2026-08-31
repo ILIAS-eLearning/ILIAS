@@ -18,10 +18,13 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
-use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
-use ILIAS\TestQuestionPool\Questions\Ordering\OrderingQuestionDatabaseRepository as OQRepository;
+use ILIAS\Refinery\Transformation;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\Questions\Ordering\OrderingQuestionDatabaseRepository as OQRepository;
+use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
+use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 
 /**
  * Class for ordering questions
@@ -37,7 +40,7 @@ use ILIAS\Test\Logging\AdditionalInformationGenerator;
  *
  * @ingroup components\ILIASTestQuestionPool
  */
-class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionLMExportable, QuestionAutosaveable
+class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionLMExportable, QuestionAutosaveable, Normalizable
 {
     public const ORDERING_ELEMENT_FORM_FIELD_POSTVAR = 'order_elems';
 
@@ -1364,5 +1367,38 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             },
             $elements
         );
+    }
+
+    /**
+    * @inheritDoc
+    */
+    public function toNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(fn(): array => [
+            ...$tt->normalize(parent::toNormalized($tt)),
+            'ordering_type' => $this->ordering_type,
+            'ordering_elements' => $tt->normalize(
+                $this->getOrderingElementList()->getElements(),
+                ['question_id' => $this->getId()]
+            ),
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fromNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
+            $clone = parent::fromNormalized($tt)->transform($normalized);
+            $clone->ordering_type = $tt->int($normalized['ordering_type']);
+            $denormalized_elements = array_map(
+                static fn(array $element): ilAssOrderingElement => $tt->denormalize($element, new ilAssOrderingElement()),
+                $normalized['ordering_elements']
+            );
+            $clone->element_list_for_deferred_saving = new ilAssOrderingElementList(null, $denormalized_elements);
+
+            return $clone;
+        });
     }
 }

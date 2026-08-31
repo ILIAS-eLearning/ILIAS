@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\Refinery\Transformation;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
@@ -35,7 +38,7 @@ use ILIAS\FileUpload\Exception\IllegalStateException;
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjFileHandlingQuestionType
+class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjFileHandlingQuestionType, Normalizable
 {
     public const REUSE_FILES_TBL_POSTVAR = 'reusefiles';
     public const DELETE_FILES_TBL_POSTVAR = 'deletefiles';
@@ -949,5 +952,33 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     public function getCorrectSolutionForTextOutput(int $active_id, int $pass): string
     {
         return '';
+    }
+
+    /**
+    * @inheritDoc
+    */
+    public function toNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(fn(): array => [
+            ...$tt->normalize(parent::toNormalized($tt)),
+            'maxsize' => $this->maxsize,
+            'allowedextensions' => $this->allowedextensions,
+            'completion_by_submission' => $this->completion_by_submission,
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fromNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
+            $clone = parent::fromNormalized($tt)->transform($normalized);
+            $clone->maxsize = $tt->nullableInt($normalized['maxsize']);
+            $clone->allowedextensions = $tt->string($normalized['allowedextensions']);
+            $clone->completion_by_submission = $tt->bool($normalized['completion_by_submission']);
+
+            return $clone;
+        });
     }
 }

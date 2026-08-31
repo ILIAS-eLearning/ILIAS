@@ -18,13 +18,18 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\Refinery\Transformation;
+use ILIAS\TestQuestionPool\ExportImport\Envelopes\QuestionImage;
+
 /**
 * Class for matching question terms
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @ingroup components\ILIASTestQuestionPool
 */
-class assAnswerMatchingTerm
+class assAnswerMatchingTerm implements Normalizable
 {
     protected string $text;
     protected string $picture;
@@ -75,5 +80,31 @@ class assAnswerMatchingTerm
         $clone = clone $this;
         $clone->identifier = $identifier;
         return $clone;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(fn(array $context): array => [
+            'text' => $this->text,
+            'picture' => $this->picture
+                ? $tt->normalize(new QuestionImage($this->picture, $context['question_id'] ?? null))
+                : null,
+            'identifier' => $this->identifier,
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fromNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
+            return $this->withText($tt->string($normalized['text']))
+                ->withPicture($tt->denormalize($normalized['picture'], QuestionImage::class)?->getFilename() ?? '')
+                ->withIdentifier($tt->int($normalized['identifier']));
+        });
     }
 }

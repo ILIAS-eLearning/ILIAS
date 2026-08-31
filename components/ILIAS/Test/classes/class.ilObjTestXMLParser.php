@@ -23,10 +23,7 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestLogger;
 
 /**
- * @author        Björn Heyser <bheyser@databay.de>
- * @version        $Id$
- *
- * @package components\ILIAS/Test
+ * @deprecated 12: Use ILIAS\Test\ExportImport\TestImporter instead
  */
 class ilObjTestXMLParser extends ilSaxParser
 {

@@ -16,12 +16,16 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\Refinery\Transformation;
+
 /**
  * Class ilAssQuestionLifecycle
  * @author      Björn Heyser <info@bjoernheyser.de>
  * @package components\ILIAS/TestQuestionPool
  */
-class ilAssQuestionLifecycle
+class ilAssQuestionLifecycle implements Normalizable
 {
     public const DRAFT = 'draft';
     public const REVIEW = 'review';
@@ -152,5 +156,25 @@ class ilAssQuestionLifecycle
         $lifecycle->setIdentifier(self::DRAFT);
 
         return $lifecycle;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(fn(): array => [
+            'identifier' => $this->getIdentifier(),
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fromNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(
+            static fn(array $normalized): ilAssQuestionLifecycle => self::getInstance($normalized['identifier'])
+        );
     }
 }

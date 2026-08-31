@@ -21,6 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\Test;
 
 use ILIAS\LegalDocuments\ConsumerToolbox\Setting;
+use ILIAS\Test\ExportImport\Import\RandomTestConfigImporter;
+use ILIAS\Test\ExportImport\Import\TestResultsImporter;
+use ILIAS\Test\ExportImport\TestExporter;
 use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Results\Data\Repository as TestResultRepository;
 use ILIAS\Test\Scoring\Marks\MarkSchemaFactory;
@@ -50,10 +53,19 @@ use ILIAS\Test\Questions\Properties\DatabaseRepository as TestQuestionsDatabaseR
 use ILIAS\Test\Results\Data\Factory as ResultsDataFactory;
 use ILIAS\Test\Results\Presentation\Factory as ResultsPresentationFactory;
 use ILIAS\Test\Results\Toplist\TestTopListRepository;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Bridge\StateHolder;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Builder;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Importing\ImportSessionRepository;
+use ILIAS\TestQuestionPool\ExportImport\Import\QuestionsImporter;
+use ILIAS\TestQuestionPool\ExportImport\Import\SkillAssignmentsImporter;
+use ILIAS\Test\ExportImport\Import\TestImporter;
+use ILIAS\Test\ExportImport\Import\SkillLevelThresholdsImporter;
+use ILIAS\TestQuestionPool\ExportImport\LoggingProvider;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\TestQuestionPool\RequestDataCollector as QPLRequestDataCollector;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\DI\Container as ILIASContainer;
+use ilLoggerFactory;
 use Pimple\Container as PimpleContainer;
 
 class TestDIC extends PimpleContainer
@@ -231,6 +243,96 @@ class TestDIC extends PimpleContainer
         $dic['exportimport.repository'] = static fn($c): ExportImportRepository =>
             new ExportImportRepository(
                 $DIC['ilDB']
+            );
+
+        $dic['exportimport.logging'] = static fn($c): LoggingProvider =>
+            new LoggingProvider();
+
+        $dic['exportimport.state_holder'] = static fn($c): StateHolder =>
+            new StateHolder();
+
+        $dic['exportimport.session'] = static fn($c): ImportSessionRepository =>
+            new ImportSessionRepository('tst');
+
+        $dic['exportimport.builder'] = static fn($c): Builder =>
+            new Builder(
+                $DIC,
+                $c
+            );
+
+        $dic['exportimport.exporter'] = static fn($c): TestExporter =>
+            new TestExporter(
+                $c['exportimport.builder'],
+                new DataFactory(),
+                $DIC->database(),
+                $DIC->repositoryTree(),
+                $DIC->language(),
+                $c['logging.logger'],
+                $DIC['component.repository'],
+                $DIC->resourceStorage(),
+                $c['participant.repository'],
+                $c['results.data.repository'],
+                $c['questions.properties.repository'],
+                $c['question.general_properties.repository'],
+                $DIC->taxonomy()->domain()
+            );
+
+        $dic['exportimport.skill_assignments_importer'] = static fn($c): SkillAssignmentsImporter =>
+            new SkillAssignmentsImporter(
+                $c['exportimport.logging'](),
+                $DIC->skills()->internal()->repo()->getTreeRepo(),
+                $DIC->skills()->usage(),
+                'components/ILIAS/Test',
+                (int) $DIC->settings()->get('inst_id', '0')
+            );
+
+        $dic['exportimport.skill_level_thresholds_importer'] = static fn($c): SkillLevelThresholdsImporter =>
+            new SkillLevelThresholdsImporter(
+                $c['exportimport.logging'](),
+                $DIC->database(),
+                $DIC->skills()->internal()->repo()->getTreeRepo(),
+                'components/ILIAS/Test',
+                (int) $DIC->settings()->get('inst_id', '0')
+            );
+
+        $dic['exportimport.questions_importer'] = static fn($c): QuestionsImporter =>
+            new QuestionsImporter(
+                'components/ILIAS/Test',
+                'tst',
+                $DIC->ctrl(),
+                $DIC->database(),
+                $DIC->language(),
+                $c['exportimport.logging'](),
+                $DIC->fileConverters()->images(),
+                $DIC->filesystem()
+            );
+
+        $dic['exportimport.test_results_importer'] = static fn($c): TestResultsImporter =>
+            new TestResultsImporter(
+                $DIC->database(),
+                $c['exportimport.logging']()
+            );
+
+        $dic['exportimport.random_test_config_importer'] = static fn($c): RandomTestConfigImporter =>
+            new RandomTestConfigImporter(
+                $DIC->database(),
+                $c['exportimport.logging'](),
+                new DataFactory()
+            );
+
+        $dic['exportimport.importer'] = static fn($c): TestImporter =>
+            new TestImporter(
+                $c['exportimport.builder'],
+                $DIC->database(),
+                $c['exportimport.logging'](),
+                $DIC->resourceStorage(),
+                new DataFactory(),
+                $c['exportimport.questions_importer'],
+                $c['exportimport.random_test_config_importer'],
+                $c['exportimport.test_results_importer'],
+                $c['exportimport.skill_assignments_importer'],
+                $c['exportimport.skill_level_thresholds_importer'],
+                $c['marks.repository']
             );
 
         $dic['questions.properties.repository'] = static fn($c): TestQuestionsRepository =>

@@ -16,6 +16,11 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Normalizing\Envelopes\Id;
+use ILIAS\Refinery\Transformation;
+
 /**
  * Class for simple answers
  *
@@ -26,7 +31,7 @@
  *
  * @ingroup components\ILIASTestQuestionPool
  */
-class ASS_AnswerSimple
+class ASS_AnswerSimple implements Normalizable
 {
     protected string $answertext;
 
@@ -210,5 +215,31 @@ class ASS_AnswerSimple
         } else {
             $this->points = 0.0;
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(fn(): array => [
+            'id' => $tt->normalize(new Id($this->id, 'answer')),
+            'answertext' => $this->answertext,
+            'points' => $this->points,
+            'order' => $this->order,
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fromNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(fn(array $normalized): static => new static(
+            $tt->string($normalized['answertext']),
+            $tt->float($normalized['points']),
+            $tt->int($normalized['order']),
+            $tt->denormalize($normalized['id'], Id::class)->getId()
+        ));
     }
 }

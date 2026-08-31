@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+/**
+ * @deprecated Use normalized question export instead
+ */
 class assLongMenuExportQti21 extends assQuestionExport
 {
     /**

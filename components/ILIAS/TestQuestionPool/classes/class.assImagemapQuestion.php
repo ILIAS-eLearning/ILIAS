@@ -18,10 +18,14 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
+use ILIAS\TestQuestionPool\ExportImport\Envelopes\QuestionImage;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\RequestDataCollector;
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
+use ILIAS\Refinery\Transformation;
 
 /**
  * Class for image map questions
@@ -36,7 +40,7 @@ use ILIAS\Test\Logging\AdditionalInformationGenerator;
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionLMExportable
+class assImagemapQuestion extends assQuestion implements ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionLMExportable, Normalizable
 {
     private RequestDataCollector $request; // Hate it.
 
@@ -53,19 +57,19 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         'POLY' => 'poly'];
 
     /** @var $answers array The possible answers of the imagemap question. */
-    public $answers;
+    public array $answers;
 
     /** @var $image_filename string The image file containing the name of image file. */
-    public $image_filename;
+    public string $image_filename;
 
     /** @var $imagemap_contents string The variable containing contents of an imagemap file. */
-    public $imagemap_contents;
+    public string $imagemap_contents;
 
     /** @var $coords array */
-    public $coords;
+    public array $coords;
 
     /** @var $is_multiple_choice bool Defines weather the Question is a Single or a Multiplechoice question. */
-    protected $is_multiple_choice = false;
+    protected bool $is_multiple_choice = false;
 
     /**
      * assImagemapQuestion constructor
@@ -914,5 +918,36 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 . "{$this->lng->txt('unchecked')}: {$v->getPointsUnchecked()})",
             $this->getAnswers()
         );
+    }
+
+    /**
+    * @inheritDoc
+    */
+    public function toNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(fn(): array => [
+            ...$tt->normalize(parent::toNormalized($tt)),
+            'image' => $tt->normalize(new QuestionImage($this->image_filename, $this->getId())),
+            'multiple_choice' => $this->is_multiple_choice,
+            'answers' => $tt->normalize($this->answers),
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fromNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
+            $clone = parent::fromNormalized($tt)->transform($normalized);
+            $clone->image_filename = $tt->denormalize($normalized['image'], QuestionImage::class)->getFilename();
+            $clone->is_multiple_choice = $tt->bool($normalized['multiple_choice']);
+            $clone->answers = array_map(
+                static fn(array $answer): ASS_AnswerImagemap => $tt->denormalize($answer, new ASS_AnswerImagemap()),
+                $normalized['answers']
+            );
+
+            return $clone;
+        });
     }
 }

@@ -17,14 +17,16 @@
  *********************************************************************/
 
 /**
-* Export class for questionpools
-*
-* @author Helmut Schottmüller <helmut.schottmueller@mac.com>
-*
-* @version $Id$
-*
-* @ingroup components\ILIASTestQuestionPool
-*/
+ * Export class for questionpools
+ *
+ * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
+ *
+ * @version $Id$
+ *
+ * @ingroup components\ILIASTestQuestionPool
+ *
+ * @deprecated 12: Use ILIAS\TestQuestionPool\ExportImport\QuestionpoolExporter instead
+ */
 class ilQuestionpoolExport
 {
     public ilErrorHandling $err;			// error object
@@ -41,9 +43,9 @@ class ilQuestionpoolExport
     private ilXmlWriter $xml;
 
     /**
-    * Constructor
-    * @access	public
-    */
+     * Constructor
+     * @access	public
+     */
     public function __construct(
         protected ilObjQuestionPool $qpl_obj,
         protected string $mode = "xml",
@@ -97,8 +99,8 @@ class ilQuestionpoolExport
 
 
     /**
-    *   build export file (complete zip file)
-    */
+     *   build export file (complete zip file)
+     */
     public function buildExportFile(): string
     {
         switch ($this->mode) {
@@ -111,8 +113,8 @@ class ilQuestionpoolExport
     }
 
     /**
-    * build xml export file
-    */
+     * build xml export file
+     */
     public function buildExportFileXML(): string
     {
         global $DIC;

@@ -16,8 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Normalizable;
+use ILIAS\TestQuestionPool\ExportImport\Foundation\Contracts\Transformations;
 use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\Random\Transformation\ShuffleTransformation;
 
 /**
  * Class for cloze question gaps
@@ -31,7 +32,7 @@ use ILIAS\Refinery\Random\Transformation\ShuffleTransformation;
  *
  * @ingroup components\ILIASTestQuestionPool
 */
-class assClozeGap
+class assClozeGap implements Normalizable
 {
     public const TYPE_TEXT = 0;
     public const TYPE_SELECT = 1;
@@ -453,5 +454,36 @@ class assClozeGap
         }
 
         return false;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(fn(): array => [
+            'type' => $this->type,
+            'shuffle' => $this->shuffle,
+            'gap_size' => $this->gap_size,
+            'items' => $tt->normalize($this->items),
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fromNormalized(Transformations $tt): Transformation
+    {
+        return $tt->custom()->transformation(function (array $normalized) use ($tt): self {
+            $clone = new self($normalized['type']);
+            $clone->setShuffle($normalized['shuffle']);
+            $clone->setGapSize($normalized['gap_size']);
+            $clone->items = array_map(
+                fn(array $item) => $tt->denormalize($item, new assAnswerCloze()),
+                $normalized['items']
+            );
+
+            return $clone;
+        });
     }
 }
