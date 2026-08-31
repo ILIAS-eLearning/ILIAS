@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\Scripts\PHPStan\Attributes\AllowSuperglobalWrite;
 
 /**
  * @classDescription Handles requests from external calendar applications
@@ -49,6 +50,7 @@ class ilCalendarRemoteAccessHandler
     /**
      * Fetch client id, the chosen calendar...
      */
+    #[AllowSuperglobalWrite('resolves the client id for the remote calendar entry point before ilInitialisation runs, so no HTTP service exists yet.', 12)]
     public function parseRequest(): void
     {
         // before initialization: $_GET and $_COOKIE is required is unavoidable
