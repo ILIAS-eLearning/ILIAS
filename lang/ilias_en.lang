@@ -566,7 +566,7 @@ assessment#:#change_adm_categories_not_allowed#:#You do not have any permissions
 assessment#:#checkbox_checked#:#Checked
 assessment#:#checkbox_unchecked#:#Unchecked
 assessment#:#circle#:#Circle
-assessment#:#circle_click_center#:#Please click on center of the desired area.
+assessment#:#circle_click_center#:#Please click on centre of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
 assessment#:#client_ip_range#:#Client IP Range
 assessment#:#clientip#:#Client IP
@@ -806,9 +806,9 @@ assessment#:#lacex_assClozeTest_NumberOfResultExpression_d#:#The fourth answer o
 assessment#:#lacex_assClozeTest_NumberOfResultExpression_e#:#R[4] = +2+
 assessment#:#lacex_assClozeTest_NumericResultExpression_d#:#The second answer option is a numeric gap and was answered with the numeric value 5
 assessment#:#lacex_assClozeTest_NumericResultExpression_e#:#R[2] = #5#
-assessment#:#lacex_assClozeTest_StringResultExpression_1_d#:#The first answer option is a text gap and was answered with „Monday“
+assessment#:#lacex_assClozeTest_StringResultExpression_1_d#:#The first answer option is a text gap and was answered with "Monday"
 assessment#:#lacex_assClozeTest_StringResultExpression_1_e#:#R[1] = ~Monday~
-assessment#:#lacex_assClozeTest_StringResultExpression_2_d#:#The fourth answer option is a select gap and the option labeled as „Green“ was selected
+assessment#:#lacex_assClozeTest_StringResultExpression_2_d#:#The fourth answer option is a select gap and the option labeled as "Green" was selected
 assessment#:#lacex_assClozeTest_StringResultExpression_2_e#:#R[4] = ~Green~
 assessment#:#lacex_assErrorText_ExclusiveResultExpression_d#:#Exactly the answer options 1, 3 and 4 were chosen while answering the question
 assessment#:#lacex_assErrorText_ExclusiveResultExpression_e#:#R = *1,3,4*
@@ -890,7 +890,7 @@ assessment#:#logs_test_run_finished#:#Test Run Finished
 assessment#:#logs_test_run_of_participant_closed#:#Run of Participant Closed
 assessment#:#logs_test_run_started#:#Test Run Started
 assessment#:#logs_wrong_test_password_provided#:#Participant entered wrong test password.
-assessment#:#longmenu#:#Longmenu
+assessment#:#longmenu#:#Long Menu
 assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.
 assessment#:#longmenu_text#:#Long Menu Text
 assessment#:#mainbar_button_label_questionlist#:#Question List
@@ -1103,8 +1103,8 @@ assessment#:#qpl_qst_inp_matching_mode_all_on_all#:#One or More Terms match One 
 assessment#:#qpl_qst_inp_matching_mode_one_on_one#:#One Term Matches One Definition (1:1)
 assessment#:#qpl_qst_skl_assign_properties_modified#:#The assignment's properties has been modified.
 assessment#:#qpl_qst_skl_assign_synced_to_orig#:#The competence assignments has been synchronised to the questions original.
-assessment#:#qpl_qst_skl_assigns_updated#:#The competence assignments has been updated.
-assessment#:#qpl_qst_skl_selection_for_question_header#:#Compence Assignments for Question: %s
+assessment#:#qpl_qst_skl_assigns_updated#:#Competence assignments updated.
+assessment#:#qpl_qst_skl_selection_for_question_header#:#Competence Assignments for Question: %s
 assessment#:#qpl_qst_skl_usg_numq_col#:#Number of Questions in Pool adressing this competence
 assessment#:#qpl_qst_skl_usg_skill_col#:#Competence
 assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Total Sum of Competence-Points per Competence
@@ -1149,7 +1149,7 @@ assessment#:#qst_lifecycle_rejected#:#Rejected
 assessment#:#qst_lifecycle_review#:#To be Reviewed
 assessment#:#qst_lifecycle_sharable#:#Shareable
 assessment#:#qst_nested_nested_answers_off#:#No indents, just order
-assessment#:#qst_nested_nested_answers_on#:#Use indents in anwers
+assessment#:#qst_nested_nested_answers_on#:#Use indents in answers
 assessment#:#qst_nr_of_tries#:#Number of Tries
 assessment#:#qst_preview_reset_msg#:#The preview has been reset.
 assessment#:#qst_use_nested_answers#:#Nested answers
@@ -2020,7 +2020,7 @@ assessment#:#use_previous_solution_advice#:#The solution shown is your solution 
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.
 assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.
 assessment#:#user_not_invited#:#You are not supposed to take this test.
-assessment#:#usr_manscoring_complete#:#Marke as 'scored'
+assessment#:#usr_manscoring_complete#:#Marked as 'scored'
 assessment#:#value_between_x_and_y#:#The value should be between %s and %s
 assessment#:#values#:#Values
 assessment#:#variable#:#Variable
