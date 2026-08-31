@@ -30,6 +30,12 @@ use Attribute;
  * reflection by the rules ({@see RuleViolationAllowance}). Use it only for genuinely
  * unavoidable cases and always give a reason.
  *
+ * An allowance is granted for one ILIAS major version and expires with the next one:
+ * `$ilias_version` names the major it was granted for, and the code position starts
+ * being reported again as soon as the analysis runs against a later major. Keeping an
+ * allowance means renewing it deliberately, so nothing is exempted forever by
+ * accident.
+ *
  * The rules are identified by their PHPStan error identifier (the value shown as
  * `🪪 <identifier>` in the analysis output, e.g. `ilias.superglobalWrite`). Pass one
  * or more; an allowance with no identifiers exempts nothing.
@@ -46,7 +52,7 @@ use Attribute;
  *
  * Example:
  * ```php
- * #[AllowRuleViolation('sanitizes $_GET before the HTTP service exists', 'ilias.superglobalWrite')]
+ * #[AllowRuleViolation('sanitizes $_GET before the HTTP service exists', 12, 'ilias.superglobalWrite')]
  * public static function recursivelyRemoveUnsafeCharacters(): void { ... }
  * ```
  */
@@ -56,8 +62,11 @@ readonly class AllowRuleViolation
     /** @var list<string> */
     public array $rules;
 
-    public function __construct(public string $reason, string ...$rules)
-    {
+    public function __construct(
+        public string $reason,
+        public int $ilias_version,
+        string ...$rules
+    ) {
         $this->rules = array_values($rules);
     }
 }

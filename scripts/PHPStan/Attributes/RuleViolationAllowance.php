@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Scripts\PHPStan\Attributes;
 
+use ILIAS\Scripts\PHPStan\IliasVersion;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\Php\PhpFunctionReflection;
 
@@ -30,6 +31,10 @@ use PHPStan\Reflection\Php\PhpFunctionReflection;
  *
  * Rules call {@see self::isAllowedIn()} with their own error identifier before
  * emitting an error.
+ *
+ * An allowance only counts for the ILIAS major it was granted for. Once the analysis
+ * runs against a later major, the attribute is ignored and the position is reported
+ * again, so every exemption has to be renewed deliberately.
  */
 final class RuleViolationAllowance
 {
@@ -43,6 +48,10 @@ final class RuleViolationAllowance
                     \ReflectionAttribute::IS_INSTANCEOF
                 ) as $attribute) {
                     $allowance = $attribute->newInstance();
+                    if ($allowance->ilias_version < IliasVersion::major()) {
+                        // granted for an earlier release; it has expired.
+                        continue;
+                    }
                     if (in_array($rule_identifier, $allowance->rules, true)) {
                         return true;
                     }

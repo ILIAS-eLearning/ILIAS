@@ -28,15 +28,18 @@ use ILIAS\Scripts\PHPStan\Rules\SuperGlobals\AbstractSuperglobalWriteRule;
  * "No Superglobal Write" rule identifier, so only a reason has to be given:
  *
  * ```php
- * #[AllowSuperglobalWrite('sanitizes $_GET before the HTTP service exists')]
+ * #[AllowSuperglobalWrite('sanitizes $_GET before the HTTP service exists', 12)]
  * public static function recursivelyRemoveUnsafeCharacters(): void { ... }
  * ```
+ *
+ * The second argument is the ILIAS major the allowance is granted for; it expires
+ * with the next one. See {@see AllowRuleViolation}.
  */
 #[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD | Attribute::TARGET_FUNCTION)]
 final readonly class AllowSuperglobalWrite extends AllowRuleViolation
 {
-    public function __construct(string $reason)
+    public function __construct(string $reason, int $ilias_version)
     {
-        parent::__construct($reason, AbstractSuperglobalWriteRule::IDENTIFIER);
+        parent::__construct($reason, $ilias_version, AbstractSuperglobalWriteRule::IDENTIFIER);
     }
 }

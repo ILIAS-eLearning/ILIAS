@@ -53,7 +53,7 @@ if (!isset($GLOBALS['ilGlobalStartTime']) || !$GLOBALS['ilGlobalStartTime']) {
  * @version $Id$
  * @ingroup ServicesInit
  */
-#[AllowSuperglobalWrite('Remove unsafe Characters, several other legacy mechanisms...')]
+#[AllowSuperglobalWrite('Remove unsafe Characters, several other legacy mechanisms...', 12)]
 class ilInitialisation
 {
     /**
