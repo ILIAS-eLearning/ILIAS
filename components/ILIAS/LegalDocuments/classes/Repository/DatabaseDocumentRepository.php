@@ -75,12 +75,21 @@ class DatabaseDocumentRepository implements DocumentRepository, DocumentReposito
 
     public function deleteDocument(Document $document): void
     {
-        $this->deleteEntry($this->documentTable(), $document->id(), 'id', true);
+        $table = $this->documentTable();
+        $this->database->manipulateF(
+            "DELETE FROM $table WHERE id = %s AND provider = %s",
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT],
+            [$document->id(), $this->id]
+        );
+        $this->cleanupCriteria();
+
     }
 
     public function deleteCriterion(int $criterion_id): void
     {
-        $this->deleteEntry($this->criterionTable(), $criterion_id, 'doc_id');
+        $table = $this->criterionTable();
+        $id = $this->database->quote($criterion_id, ilDBConstants::T_INTEGER);
+        $this->database->manipulate("DELETE FROM $table WHERE id = $id AND " . $this->exists($table . '.doc_id'));
     }
 
     public function updateDocumentTitle(DocumentId $document_id, string $title): void
@@ -330,15 +339,6 @@ class DatabaseDocumentRepository implements DocumentRepository, DocumentReposito
         $this->database->update($table, $this->deriveFieldTypes($fields_and_values), $this->deriveFieldTypes([
             'id' => $id,
         ]));
-    }
-
-    private function deleteEntry(string $table, int $id, string $doc_field, bool $cleanup = false): void
-    {
-        $id = $this->database->quote($id, ilDBConstants::T_INTEGER);
-        $this->database->manipulate("DELETE FROM $table WHERE id = $id AND " . $this->exists($table . '.' . $doc_field));
-        if ($cleanup) {
-            $this->cleanupCriteria();
-        }
     }
 
     private function cleanupCriteria(): void
