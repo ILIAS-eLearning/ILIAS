@@ -117,6 +117,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 break;
 
             case "ilfilesystemgui":
+                if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+                    $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
+                }
                 $fs_gui = new ilFileSystemGUI($this->object->getDataDirectory());
                 $fs_gui->setUseUploadDirectory(true);
                 $fs_gui->setTableId("sahsfs" . $this->object->getId());
@@ -124,6 +127,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 break;
 
             case "ilcertificategui":
+                if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+                    $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
+                }
                 $this->setSettingsSubTabs();
                 $ilTabs->setSubTabActive('certificate');
 
