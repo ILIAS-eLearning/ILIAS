@@ -17400,6 +17400,7 @@ ui#:#label_fieldselection_refresh#:#Apply###31 10 2023 new variable
 ui#:#label_pagination_limit#:#Pagination Number of Rows###31 10 2023 new variable
 ui#:#label_pagination_offset#:#Pagination Offset###31 10 2023 new variable
 ui#:#label_sortation#:#Sortation###31 10 2023 new variable
+ui#:#metabar_slate_label#:#Menu###07 11 2025 new variable
 ui#:#order_option_alphabetical_ascending#:#A to Z###26 08 2024 new variable
 ui#:#order_option_alphabetical_descending#:#Z to A###26 08 2024 new variable
 ui#:#order_option_chronological_ascending#:#Earliest first###26 08 2024 new variable

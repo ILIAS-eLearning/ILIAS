@@ -17415,6 +17415,7 @@ ui#:#label_fieldselection_refresh#:#Anwenden
 ui#:#label_pagination_limit#:#Pagination - Anzahl der Zeilen
 ui#:#label_pagination_offset#:#Pagination - Start
 ui#:#label_sortation#:#Sortierung
+ui#:#metabar_slate_label#:#Menü
 ui#:#order_option_alphabetical_ascending#:#A bis Z
 ui#:#order_option_alphabetical_descending#:#Z bis A
 ui#:#order_option_chronological_ascending#:#Älteste zuerst
