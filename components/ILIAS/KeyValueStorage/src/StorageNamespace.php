@@ -21,31 +21,32 @@ declare(strict_types=1);
 namespace ILIAS\KeyValueStorage;
 
 /**
- * Logical namespace isolating keys of one consumer from others within the same backend.
+ * Isolates the keys of one consumer from every other consumer of a storage.
+ *
+ * Use one namespace per feature area, e.g. "my_component.view_state".
  */
 final readonly class StorageNamespace implements \Stringable
 {
-    /**
-     * Maximum length for structured namespace identifiers.
-     */
     public const int MAX_LENGTH = 128;
+
+    private const string PATTERN = '/^[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)*$/';
 
     public function __construct(private string $value)
     {
         if ($value === '') {
-            throw new \InvalidArgumentException('Storage namespace must not be empty.');
+            throw new \InvalidArgumentException('A storage namespace must not be empty.');
         }
 
         if (\strlen($value) > self::MAX_LENGTH) {
             throw new \InvalidArgumentException(
-                'Storage namespace must not exceed ' . self::MAX_LENGTH . ' characters, got '
-                . \strlen($value) . '.'
+                'A storage namespace must not be longer than ' . self::MAX_LENGTH
+                . ' characters, got ' . \strlen($value) . '.'
             );
         }
 
-        if (!\preg_match('/^[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)*$/', $value)) {
+        if (\preg_match(self::PATTERN, $value) !== 1) {
             throw new \InvalidArgumentException(
-                'Storage namespace must be a dot-separated lowercase identifier, got "' . $value . '".'
+                'A storage namespace must be a dot-separated lowercase identifier, got "' . $value . '".'
             );
         }
     }

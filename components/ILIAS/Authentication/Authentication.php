@@ -35,23 +35,18 @@ class Authentication implements Component\Component
         $define[] = Authentication\Domain\AuthenticatedUser::class;
 
         $implement[Authentication\Domain\AuthenticatedUser::class] = static fn() =>
-        new Authentication\Infrastructure\SessionAuthenticatedUser(
-            new \ReflectionClass(\ilAuthSession::class)->newLazyProxy(
-                static fn(): \ilAuthSession => $GLOBALS['DIC']['ilAuthSession']
-            )
-        );
-
-        $implement[KeyValueStorage\SessionStoragePort::class] = static fn() =>
-            new Authentication\KeyValueStorage\SessionStoragePort();
-
-        $contribute[KeyValueStorage\StorageProvider::class] = static fn() =>
-            $pull[KeyValueStorage\StorageProviderFactory::class]->session(
-                $use[KeyValueStorage\SessionStoragePort::class]
+            new Authentication\Infrastructure\SessionAuthenticatedUser(
+                new \ReflectionClass(\ilAuthSession::class)->newLazyProxy(
+                    static fn(): \ilAuthSession => $GLOBALS['DIC']['ilAuthSession']
+                )
             );
+
+        $implement[KeyValueStorage\SessionRepository::class] = static fn() =>
+            new Authentication\KeyValueStorage\SessionRepository();
 
         $implement[UI\Storage::class] = static fn() =>
             new Authentication\KeyValueStorage\UiStorageAdapter(
-                $use[KeyValueStorage\Factory::class]->session()->storage(
+                $use[KeyValueStorage\Services::class]->session(
                     new KeyValueStorage\StorageNamespace('ui.storage')
                 )
             );

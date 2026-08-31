@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Authentication\KeyValueStorage;
 
-use ILIAS\KeyValueStorage\Storage;
+use ILIAS\KeyValueStorage\Store;
 use ILIAS\UI\Storage as UiStorage;
 
 /**
@@ -28,7 +28,7 @@ use ILIAS\UI\Storage as UiStorage;
  */
 final readonly class UiStorageAdapter implements UiStorage
 {
-    public function __construct(private Storage $storage)
+    public function __construct(private Store $storage)
     {
     }
 
