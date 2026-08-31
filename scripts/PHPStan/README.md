@@ -118,6 +118,19 @@ current major is read from `ilias_version.php` (see
 Renewing an exemption is a one-character edit (`12` → `13`), but it is an edit
 somebody has to make and a reviewer gets to see.
 
+### Listing the exemptions
+
+```bash
+scripts/PHPStan/list_exemptions.sh                       # everything, with reasons
+scripts/PHPStan/list_exemptions.sh components/ILIAS/Form # one component
+scripts/PHPStan/list_exemptions.sh --version=13          # what expires in ILIAS 13
+```
+
+Prints every exemption with its rule, the version it was granted for, the
+declaration it sits on and the reason, grouped by component. It exits non-zero when
+an exemption has expired or carries no version at all, so it can be used as a check
+of its own after a version bump.
+
 There is no baseline file: the gate must stay green through in-code exemptions, not
 by grandfathering. (If a mass migration ever needs one, `--generate-baseline` can
 create it and add its `includes:` entry back to `code_rules.neon`.)
