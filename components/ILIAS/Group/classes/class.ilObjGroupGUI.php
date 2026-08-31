@@ -543,6 +543,8 @@ class ilObjGroupGUI extends ilContainerGUI
 
     public function updateGroupTypeObject(): void
     {
+        $this->checkPermission("write");
+
         ilDidacticTemplateUtils::switchTemplate(
             $this->object->getRefId(),
             (int) $_REQUEST['grp_type']
@@ -813,6 +815,13 @@ class ilObjGroupGUI extends ilContainerGUI
      */
     public function saveMapSettingsObject(): void
     {
+        if (
+            !ilMapUtil::isActivated() ||
+            !$this->access->checkAccess("write", "", $this->object->getRefId())
+        ) {
+            return;
+        }
+
         $location = [];
         if ($this->http->wrapper()->post()->has('location')) {
             $custom_transformer = $this->refinery->custom()->transformation(
