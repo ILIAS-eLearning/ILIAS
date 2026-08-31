@@ -21,6 +21,9 @@ declare(strict_types=1);
 namespace ILIAS;
 
 use ILIAS\Component\Component;
+use ILIAS\Database\Connection;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Setup\Agent;
 
 class KeyValueStorage implements Component
 {
@@ -32,24 +35,28 @@ class KeyValueStorage implements Component
         array | \ArrayAccess &$seek,
         array | \ArrayAccess &$provide,
         array | \ArrayAccess &$pull,
-        array | \ArrayAccess &$internal
+        array | \ArrayAccess &$internal,
     ): void {
-        $define[] = KeyValueStorage\Factory::class;
-        $define[] = KeyValueStorage\SessionStoragePort::class;
-        $define[] = KeyValueStorage\PersistentStoragePort::class;
+        $define[] = KeyValueStorage\Services::class;
 
-        $implement[KeyValueStorage\Factory::class] = static fn() =>
-            new KeyValueStorage\Implementation\Factory(
-                $seek[KeyValueStorage\StorageProvider::class]
+        // the session belongs to Authentication, so the session scope is the
+        // only one this component cannot store by itself.
+        $define[] = KeyValueStorage\SessionRepository::class;
+
+        $implement[KeyValueStorage\Services::class] = static fn() =>
+            new KeyValueStorage\Internal\StorageServices(
+                $use[KeyValueStorage\SessionRepository::class],
+                $internal[KeyValueStorage\Internal\DatabaseRepository::class]
             );
 
-        $provide[KeyValueStorage\StorageProviderFactory::class] = static fn() =>
-            new KeyValueStorage\Implementation\StorageProviderFactory(
-                new KeyValueStorage\Implementation\NamespacedStorageFactory(
-                    new KeyValueStorage\KeyValidator(),
-                    new KeyValueStorage\ValueCodec()
-                ),
-                new KeyValueStorage\Implementation\RequestScopeCache()
+        $contribute[Agent::class] = static fn(): Agent =>
+            new KeyValueStorage\Setup\Agent(
+                $pull[Refinery::class]
+            );
+
+        $internal[KeyValueStorage\Internal\DatabaseRepository::class] = static fn() =>
+            new KeyValueStorage\Internal\DatabaseRepository(
+                $pull[Connection::class]
             );
     }
 }

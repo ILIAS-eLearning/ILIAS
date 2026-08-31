@@ -36,20 +36,8 @@ class Database implements Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $implement[KeyValueStorage\PersistentStoragePort::class] = static fn() =>
-            new Database\KeyValueStorage\DatabaseStoragePort(
-                new Database\KeyValueStorage\DicDatabaseConnection()
-            );
-
-        $contribute[KeyValueStorage\StorageProvider::class] = static fn() =>
-            $pull[KeyValueStorage\StorageProviderFactory::class]->persistent(
-                $use[KeyValueStorage\PersistentStoragePort::class]
-            );
-
-        $contribute[Agent::class] = static fn() =>
-            new Database\KeyValueStorage\Setup\Agent(
-                $pull[Factory::class]
-            );
+        $provide[Database\Connection::class] = static fn(): Database\Connection =>
+            new Database\LazyConnection();
 
         $contribute[Agent::class] = static fn(): \ilDatabaseSetupAgent =>
             new \ilDatabaseSetupAgent(

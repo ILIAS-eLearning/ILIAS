@@ -20,97 +20,84 @@ declare(strict_types=1);
 
 namespace ILIAS\Tests\Authentication\KeyValueStorage;
 
+use ILIAS\Authentication\KeyValueStorage\SessionRepository;
 use ILIAS\Authentication\KeyValueStorage\UiStorageAdapter;
-use ILIAS\KeyValueStorage\Storage;
+use ILIAS\KeyValueStorage\Internal\KeyRules;
+use ILIAS\KeyValueStorage\Internal\NamespacedStore;
+use ILIAS\KeyValueStorage\Internal\Values;
+use ILIAS\KeyValueStorage\StorageNamespace;
+use ILIAS\UI\Implementation\Component\Navigation\Sequence\Sequence;
+use ILIAS\UI\Implementation\Component\Table\Data;
+use ILIAS\UI\Implementation\Component\Table\Ordering;
+use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
+#[BackupGlobals(true)]
 class UiStorageAdapterTest extends TestCase
 {
-    private RecordingStorage $storage;
     private UiStorageAdapter $adapter;
 
     protected function setUp(): void
     {
-        $this->storage = new RecordingStorage();
-        $this->adapter = new UiStorageAdapter($this->storage);
+        $_SESSION = [];
+        $this->adapter = new UiStorageAdapter(new NamespacedStore(
+            new StorageNamespace('ui.storage'),
+            new SessionRepository(),
+            new KeyRules(),
+            new Values()
+        ));
     }
 
-    public function testOffsetExistsDelegatesToHas(): void
+    public function testAViewStateSurvivesAWriteAndReadCycle(): void
     {
-        $this->storage->has_result = true;
+        $this->assertFalse($this->adapter->offsetExists('view_state'));
 
-        self::assertTrue($this->adapter->offsetExists('view_state'));
-        self::assertSame('view_state', $this->storage->has_key);
+        $this->adapter->offsetSet('view_state', ['sort' => 'title', 'page' => 2]);
+
+        $this->assertTrue($this->adapter->offsetExists('view_state'));
+        $this->assertSame(['sort' => 'title', 'page' => 2], $this->adapter->offsetGet('view_state'));
     }
 
-    public function testOffsetGetReturnsStoredValue(): void
-    {
-        $this->storage->get_result = ['sort' => 'title'];
-
-        self::assertSame(['sort' => 'title'], $this->adapter->offsetGet('view_state'));
-        self::assertSame('view_state', $this->storage->get_key);
-    }
-
-    public function testOffsetSetWritesKeyAndValue(): void
+    public function testUnsetRemovesTheEntry(): void
     {
         $this->adapter->offsetSet('view_state', ['page' => 2]);
 
-        self::assertSame('view_state', $this->storage->set_key);
-        self::assertSame(['page' => 2], $this->storage->set_value);
-    }
-
-    public function testOffsetUnsetDeletesKey(): void
-    {
         $this->adapter->offsetUnset('view_state');
 
-        self::assertSame('view_state', $this->storage->deleted_key);
+        $this->assertFalse($this->adapter->offsetExists('view_state'));
+        $this->assertNull($this->adapter->offsetGet('view_state'));
     }
 
-    public function testOffsetExistsRejectsNonStringOffset(): void
+    /**
+     * The UI builds its storage ids from class names, so the storage has to
+     * accept backslashes.
+     */
+    #[DataProvider('storageIdsUsedByTheUi')]
+    public function testTheStorageIdsOfTheUiAreAccepted(string $storage_id): void
+    {
+        $this->adapter->offsetSet($storage_id, ['sort' => 'title']);
+
+        $this->assertSame(['sort' => 'title'], $this->adapter->offsetGet($storage_id));
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function storageIdsUsedByTheUi(): array
+    {
+        return [
+            'data table' => [Data::STORAGE_ID_PREFIX . 'my_table'],
+            'ordering table' => [Ordering::STORAGE_ID_PREFIX . 'my_table'],
+            'sequence' => [Sequence::STORAGE_ID_PREFIX . 'my_sequence'],
+        ];
+    }
+
+    public function testANonStringOffsetIsRejected(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Offset needs to be of type string.');
 
         $this->adapter->offsetExists(42);
-    }
-}
-
-final class RecordingStorage implements Storage
-{
-    public bool $has_result = false;
-    public mixed $get_result = null;
-    public ?string $has_key = null;
-    public ?string $get_key = null;
-    public ?string $set_key = null;
-    public mixed $set_value = null;
-    public ?string $deleted_key = null;
-
-    public function has(string $key): bool
-    {
-        $this->has_key = $key;
-
-        return $this->has_result;
-    }
-
-    public function get(string $key, mixed $default = null): mixed
-    {
-        $this->get_key = $key;
-
-        return $this->get_result;
-    }
-
-    public function set(string $key, mixed $value): void
-    {
-        $this->set_key = $key;
-        $this->set_value = $value;
-    }
-
-    public function delete(string $key): void
-    {
-        $this->deleted_key = $key;
-    }
-
-    public function clear(): void
-    {
     }
 }

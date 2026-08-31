@@ -408,6 +408,19 @@ class ilSession
         }
     }
 
+    /**
+     * The names of all variables currently held in the session.
+     *
+     * @return list<string>
+     */
+    public static function keys(): array
+    {
+        return array_values(array_filter(
+            array_keys($_SESSION ?? []),
+            static fn($key): bool => is_string($key)
+        ));
+    }
+
     public static function dumpToString(): string
     {
         return print_r($_SESSION, true);
