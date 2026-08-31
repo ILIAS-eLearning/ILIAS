@@ -25,8 +25,7 @@ use ILIAS\Container\InternalDataService;
 use ILIAS\Container\InternalDomainService;
 use ILIAS\Container\Sorting\Settings\Manager as SettingsManager;
 use ILIAS\Container\Sorting\Positions\Manager as PositionsManager;
-use ILIAS\Container\Sorting\Export\XMLWriter;
-use ILIAS\Container\Sorting\Export\XMLParser;
+use ILIAS\Container\Sorting\Export\DataSet;
 
 class DomainService
 {
@@ -57,17 +56,9 @@ class DomainService
         );
     }
 
-    public function XMLWriter(): XMLWriter
+    public function dataSet(): DataSet
     {
-        return $this->instance['xml_writer'] ??= new XMLWriter(
-            $this->settings(),
-            $this->positions()
-        );
-    }
-
-    public function XMLParser(): XMLParser
-    {
-        return $this->instance['xml_parser'] ??= new XMLParser(
+        return $this->instance['xml_writer'] ??= new DataSet(
             $this->settings(),
             $this->positions()
         );

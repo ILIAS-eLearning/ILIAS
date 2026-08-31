@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-use ILIAS\Container\Sorting\Service\DomainService as SortingDomainService;
-
 /**
  * XML parser for container structure
  *
@@ -28,7 +26,6 @@ class ilContainerXmlParser
     protected ilSetting $settings;
     protected ilObjectDefinition $obj_definition;
     protected ilLogger $cont_log;
-    protected SortingDomainService $sorting_domain;
     private int $source = 0;
     private ?ilImportMapping $mapping = null;
     private string $xml = '';
@@ -46,7 +43,6 @@ class ilContainerXmlParser
         $this->mapping = $mapping;
         $this->xml = $xml;
         $this->cont_log = ilLoggerFactory::getLogger('cont');
-        $this->sorting_domain = $DIC->container()->internal()->domain()->sorting();
     }
 
     public function getMapping(): ?ilImportMapping
@@ -124,11 +120,6 @@ class ilContainerXmlParser
             if ($item['StartPage'] == "1") {
                 $this->mapping->addMapping('components/ILIAS/COPage', 'pg', 'cstr:' . $obj_id, 'cstr:' . $new_obj_id);
             }
-        }
-
-        // sorting
-        foreach ($item->Sort as $sort) {
-            $this->sorting_domain->XMLParser()->parseSorting($new_obj_id, $sort, $this->mapping);
         }
     }
 

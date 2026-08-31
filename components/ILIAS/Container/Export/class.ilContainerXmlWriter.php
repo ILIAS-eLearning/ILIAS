@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-use ILIAS\Container\Sorting\Service\DomainService as SortingDomainService;
-
 /**
  * XML writer for container structure
  *
@@ -29,7 +27,6 @@ class ilContainerXmlWriter extends ilXmlWriter
     protected ?ilExportOptions $exp_options = null;
     private int $source = 0;
     protected ilObjectDefinition $objDefinition;
-    protected SortingDomainService $sorting_domain;
 
     public function __construct(int $a_ref_id)
     {
@@ -40,7 +37,6 @@ class ilContainerXmlWriter extends ilXmlWriter
         $this->source = $a_ref_id;
         $this->exp_options = ilExportOptions::getInstance();
         $this->objDefinition = $DIC['objDefinition'];
-        $this->sorting_domain = $DIC->container()->internal()->domain()->sorting();
     }
 
     /**
@@ -88,7 +84,6 @@ class ilContainerXmlWriter extends ilXmlWriter
             $attrs
         );
         $this->writeCourseItemInformation($a_ref_id);
-        $this->sorting_domain->XMLWriter()->writeSorting($obj_id, $this);
 
         foreach ($tree->getChilds($a_ref_id) as $node) {
             $this->writeSubitems($node['child']);
