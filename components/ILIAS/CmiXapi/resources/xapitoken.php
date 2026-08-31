@@ -49,8 +49,10 @@ try {
         ilCmiXapiAuthToken::OPENSSL_IV
     ), true);
 
+    // @phpstan-ignore ilias.superglobalWrite.v12 (restores session and client id from the signed token before ilInitialisation runs, so no HTTP service exists yet)
     $_COOKIE[session_name()] = $param[session_name()];
 
+    // @phpstan-ignore ilias.superglobalWrite.v12 (restores session and client id from the signed token before ilInitialisation runs, so no HTTP service exists yet)
     $_COOKIE['ilClientId'] = $param['ilClientId'];
     $objId = $param['obj_id'];
     $refId = $param['ref_id'];
