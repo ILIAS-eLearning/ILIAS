@@ -58,6 +58,10 @@ class ilItemGroupDisplayMigration implements Migration
 
     public function step(Environment $environment): void
     {
+        if (!$this->columnsExist()) {
+            return;
+        }
+
         $result = $this->db->queryF(
             'SELECT id, hide_title, behaviour FROM itgr_data WHERE hide_title <> %s AND behaviour <> %s LIMIT 1',
             [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
@@ -87,6 +91,10 @@ class ilItemGroupDisplayMigration implements Migration
 
     public function getRemainingAmountOfSteps(): int
     {
+        if (!$this->columnsExist()) {
+            return 0;
+        }
+
         $result = $this->db->queryF(
             'SELECT COUNT(id) AS cnt FROM itgr_data WHERE hide_title <> %s AND behaviour <> %s',
             [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
@@ -119,5 +127,12 @@ class ilItemGroupDisplayMigration implements Migration
                 ilItemGroupAR::DISPLAY_WITH_TITLE_AND_TOGGLEABLE_INITIALLY_OPEN,
             ]
         };
+    }
+
+    private function columnsExist(): bool
+    {
+        return
+            $this->db->tableColumnExists('itgr_data', 'hide_title')
+            && $this->db->tableColumnExists('itgr_data', 'behaviour');
     }
 }
