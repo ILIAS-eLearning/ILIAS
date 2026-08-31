@@ -38,10 +38,10 @@ class WrapperTest extends FileTestBase
         $expected_html = $this->brutallyTrimHTML(
             '
 <div id="id_4" class="ui-dropzone ui-dropzone-wrapper">
-    <dialog class="c-modal il-modal-roundtrip" tabindex="-1" id="id_1">
+    <dialog class="c-modal il-modal-roundtrip" tabindex="-1" id="id_1" aria-modal="true" aria-labelledby="id_1_title">
         <div class="modal-dialog" role="document" data-replace-marker="component">
             <div class="modal-content">
-                <div class="modal-header"><form><button formmethod="dialog" class="close" aria-label="close"><span aria-hidden="true">&times;</span></button></form><h1 class="modal-title">' . $expected_title . ' </h1></div>
+                <div class="modal-header"><form><button formmethod="dialog" class="close" aria-label="close"><span aria-hidden="true">&times;</span></button></form><h1 id="id_1_title" class="modal-title">' . $expected_title . ' </h1></div>
                 <div class="modal-body">
                     <form id="id_2" class="c-form c-form--horizontal" enctype="multipart/form-data" action="' . $expected_url . '" method="post">File Field Input</form>
                 </div>
