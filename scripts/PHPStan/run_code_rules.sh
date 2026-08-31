@@ -17,8 +17,21 @@
 export PHPSTAN_TABLE_ERROR_FORMATTER_FORCE_SHOW_ALL_ERRORS=1
 
 CONFIG=scripts/PHPStan/code_rules.neon
+TMP_DIR=tmp/phpstan-code-rules
 MEMORY_LIMIT=4G
 ERROR_FORMAT="${ERROR_FORMAT:-table}"
+
+# Rule-violation allowances are granted per ILIAS major version, and the reported
+# error identifiers carry that major. The result cache is keyed by file contents
+# only, so a version bump would otherwise serve stale findings from the previous
+# release. Drop the cache whenever the major changes.
+ILIAS_MAJOR="$(sed -n 's/.*ILIAS_VERSION_NUMERIC[^0-9]*\([0-9]\{1,\}\).*/\1/p' ilias_version.php | head -1)"
+STAMP="${TMP_DIR}/.ilias-major"
+if [ ! -f "${STAMP}" ] || [ "$(cat "${STAMP}")" != "${ILIAS_MAJOR}" ]; then
+    rm -rf "${TMP_DIR}"
+    mkdir -p "${TMP_DIR}"
+    printf '%s' "${ILIAS_MAJOR}" > "${STAMP}"
+fi
 
 # Target directory: explicit script parameter, or all ILIAS components at once.
 if [ -d "$1" ]; then

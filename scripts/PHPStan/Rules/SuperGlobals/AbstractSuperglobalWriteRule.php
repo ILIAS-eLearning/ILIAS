@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Scripts\PHPStan\Rules\SuperGlobals;
 
 use ILIAS\Scripts\PHPStan\Attributes\RuleViolationAllowance;
+use ILIAS\Scripts\PHPStan\IliasVersion;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ArrayDimFetch;
@@ -46,6 +47,13 @@ use PHPStan\Rules\RuleErrorBuilder;
  * {@see \ILIAS\Scripts\PHPStan\Attributes\AllowRuleViolation} attribute (or its
  * convenience subclass {@see \ILIAS\Scripts\PHPStan\Attributes\AllowSuperglobalWrite}).
  *
+ * Exemptions are granted for one ILIAS major version. The attribute names the major it
+ * was granted for, and the reported error identifier carries the major the analysis
+ * runs against ({@see self::identifier()}), so an inline
+ * `// @phpstan-ignore ilias.superglobalWrite.v12 (reason)` stops matching in ILIAS 13
+ * and PHPStan reports both the violation and the stale ignore. Renewing an exemption
+ * is therefore always a deliberate edit.
+ *
  * Known, deliberately uncovered write vectors (documented gaps, out of scope):
  * extract(), variable-variables ($$name), by-reference function parameters and
  * list()/array-destructuring targets.
@@ -64,6 +72,17 @@ abstract class AbstractSuperglobalWriteRule implements Rule
     protected function getForbiddenSuperglobals(): array
     {
         return ['_GET', '_POST', '_REQUEST', '_COOKIE', '_FILES'];
+    }
+
+    /**
+     * The reported identifier, carrying the ILIAS major the analysis runs against.
+     *
+     * Inline ignores name this identifier and therefore expire with the release they
+     * were written for, exactly like the attribute-based allowances.
+     */
+    final public static function identifier(): string
+    {
+        return self::IDENTIFIER . '.v' . IliasVersion::major();
     }
 
     final public function processNode(Node $node, Scope $scope): array
@@ -87,7 +106,7 @@ abstract class AbstractSuperglobalWriteRule implements Rule
                 "Writing to the superglobal \$$superglobal is forbidden. "
                 . 'The request is immutable; use the HTTP service / request wrapper instead.'
             )
-                ->identifier(self::IDENTIFIER)
+                ->identifier(self::identifier())
                 ->metadata([
                     'rule' => self::LABEL,
                     'version' => 12,

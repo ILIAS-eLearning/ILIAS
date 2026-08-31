@@ -18,6 +18,7 @@ Rules/
   SuperGlobals/   ILIAS\Scripts\PHPStan\Rules\SuperGlobals   — no-superglobal-write rule
   LegacyUI/       ILIAS\Scripts\PHPStan\Rules\LegacyUI       — legacy UI component rules
 Attributes/       ILIAS\Scripts\PHPStan\Attributes           — the AllowRuleViolation exemption attribute + checker
+IliasVersion.php  ILIAS\Scripts\PHPStan\IliasVersion         — the ILIAS major the exemptions are checked against
 ```
 
 Add a new topic as a new subdirectory/namespace under `Rules/`.
@@ -77,30 +78,45 @@ appends to the GitHub step summary.
 ### Exempting a violation
 
 There is no blanket baseline. Genuinely unavoidable violations are exempted
-explicitly and locally, so every exception is visible and carries a reason:
+explicitly and locally, so every exception is visible and carries a reason.
+
+**Every exemption is granted for one ILIAS major version and expires with the next
+one.** An exemption written for ILIAS 12 stops being honoured as soon as the analysis
+runs against ILIAS 13, and the position is reported again. Keeping it means renewing
+it deliberately, which is the point: nothing gets exempted forever by accident. The
+current major is read from `ilias_version.php` (see
+`ILIAS\Scripts\PHPStan\IliasVersion`).
 
 - **On a class, method or function** — annotate it with the
-  `ILIAS\Scripts\PHPStan\Attributes\AllowRuleViolation` attribute, passing a reason
-  and one or more rule identifiers:
+  `ILIAS\Scripts\PHPStan\Attributes\AllowRuleViolation` attribute, passing a reason,
+  the ILIAS major it is granted for, and one or more rule identifiers:
 
   ```php
   use ILIAS\Scripts\PHPStan\Attributes\AllowRuleViolation;
 
-  #[AllowRuleViolation('populates $_GET before the HTTP service exists', 'ilias.superglobalWrite')]
+  #[AllowRuleViolation('populates $_GET before the HTTP service exists', 12, 'ilias.superglobalWrite')]
   public static function sanitizeRequest(): void { /* … */ }
   ```
 
   Some rule sets additionally ship a convenience subclass of `AllowRuleViolation`
-  that already carries the identifier, so only the reason is needed. The checker
-  matches those via `ReflectionAttribute::IS_INSTANCEOF`.
+  that already carries the identifier, so only the reason and the version are needed.
+  The checker matches those via `ReflectionAttribute::IS_INSTANCEOF`.
 
 - **On a single free-standing statement** (e.g. in a resource script without an
   enclosing function, where an attribute cannot be placed) — use an inline comment
-  with the identifier and a reason:
+  with the identifier and a reason. The identifier carries the major, because that is
+  what makes the ignore expire:
 
   ```php
-  $_COOKIE['ilClientId'] = $client_id; // @phpstan-ignore ilias.superglobalWrite (bootstrap before request wrapper)
+  // @phpstan-ignore ilias.superglobalWrite.v12 (bootstrap before request wrapper)
+  $_COOKIE['ilClientId'] = $client_id;
   ```
+
+  Under ILIAS 13 the rule reports `ilias.superglobalWrite.v13`, so the ignore above no
+  longer matches and PHPStan reports both the violation and the stale ignore.
+
+Renewing an exemption is a one-character edit (`12` → `13`), but it is an edit
+somebody has to make and a reviewer gets to see.
 
 There is no baseline file: the gate must stay green through in-code exemptions, not
 by grandfathering. (If a mass migration ever needs one, `--generate-baseline` can

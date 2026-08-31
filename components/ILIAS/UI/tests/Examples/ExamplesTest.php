@@ -48,7 +48,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
     protected Container $dic;
     protected Crawler\ExamplesYamlParser $example_parser;
 
-    #[AllowSuperglobalWrite('Bypass Undefined index: ilfilehash for the moment. This is for examples only.')]
+    #[AllowSuperglobalWrite('Bypass Undefined index: ilfilehash for the moment. This is for examples only.', 12)]
     public function setUp(): void
     {
         //This avoids various index not set warnings, which are only relevant in test context.
