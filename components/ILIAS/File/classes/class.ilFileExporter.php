@@ -88,11 +88,15 @@ class ilFileExporter extends ilXmlExporter
     protected function prepareExportDirectories(
         ilFileXMLWriter $writer
     ): void {
-        $path = str_replace('\\', '/', $this->exp->getExportDirInContainer());
+        $path = str_replace('\\', '/', $this->exp->getPathToComponentExpDirInContainer());
         $segments = explode('/', $path);
         array_shift($segments);
-        $target_dir_relative = implode('/', $segments) . '/expDir_1';
-        $target_dir_absolute = rtrim($this->getAbsoluteExportDirectory(), '/') . '/' . $target_dir_relative;
+        $target_dir_relative = implode('/', $segments);
+        if ($this->exp->isContainerExport()) {
+            $target_dir_absolute = rtrim($this->getAbsoluteExportDirectory(), '/') . '/' . $this->exp->getPathToComponentExpDirInContainerWithLeadingSetNumber();
+        } else {
+            $target_dir_absolute = rtrim($this->getAbsoluteExportDirectory(), '/') . '/' . $target_dir_relative;
+        }
         ilFileUtils::makeDirParents($target_dir_absolute);
         $writer->setFileTargetDirectories(
             $target_dir_relative,
