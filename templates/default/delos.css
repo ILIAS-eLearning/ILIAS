@@ -8373,6 +8373,10 @@ button .minimize, button .close {
   line-height: 1.428571429;
 }
 
+ui-tag-dropdown-item {
+  display: block;
+}
+
 .c-field-password__revelation-glyph {
   float: right;
   margin-top: -26px;
