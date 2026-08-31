@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\HTTP;
 use ILIAS\Refinery;
+use ILIAS\Scripts\PHPStan\Attributes\AllowSuperglobalWrite;
 
 /**
  * This class represents a property form user interface
@@ -1012,6 +1013,7 @@ class ilPropertyFormGUI extends ilFormGUI
         return "";
     }
 
+    #[AllowSuperglobalWrite('re-injects files uploaded in an earlier step of the same form, because the file inputs read them from $_FILES.', 12)]
     protected function rebuildUploadedFiles(): void
     {
         $file_hash = (string) $this->getFileHash();

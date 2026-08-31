@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\FileUpload\Exception\IllegalStateException;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
+use ILIAS\Scripts\PHPStan\Attributes\AllowSuperglobalWrite;
 
 /**
  * This class represents a file property in a property form.
@@ -161,6 +162,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
         return $this->allow_deletion;
     }
 
+    #[AllowSuperglobalWrite('sanitises the uploaded file name in place, because getInput() hands $_FILES[postVar] on to every caller.', 12)]
     public function checkInput(): bool
     {
         if (!$this->upload_service->hasBeenProcessed()) {
