@@ -32,17 +32,12 @@ class Authentication implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $implement[KeyValueStorage\SessionStoragePort::class] = static fn() =>
-            new Authentication\KeyValueStorage\SessionStoragePort();
-
-        $contribute[KeyValueStorage\StorageProvider::class] = static fn() =>
-            $pull[KeyValueStorage\StorageProviderFactory::class]->session(
-                $use[KeyValueStorage\SessionStoragePort::class]
-            );
+        $implement[KeyValueStorage\SessionRepository::class] = static fn() =>
+            new Authentication\KeyValueStorage\SessionRepository();
 
         $implement[UI\Storage::class] = static fn() =>
             new Authentication\KeyValueStorage\UiStorageAdapter(
-                $use[KeyValueStorage\Factory::class]->session()->storage(
+                $use[KeyValueStorage\Services::class]->session(
                     new KeyValueStorage\StorageNamespace('ui.storage')
                 )
             );

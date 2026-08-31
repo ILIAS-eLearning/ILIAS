@@ -390,100 +390,34 @@ $q = "SELECT * FROM " . $DIC->database()->quoteIdentifier('select');
 
 ```
 
-## KeyValueStorage Contribution
+## Getting the connection in a bootstrapped component
 
-Database contributes the **persistent** backend for
-[`ILIAS\KeyValueStorage`](../KeyValueStorage/README.md):
+A component that is wired through the component bootstrap must not resolve the
+database while it is being built: at that point there is no client and no
+connection yet. Database therefore provides an accessor that is asked for the
+connection when it is actually needed:
 
-| Role | Class |
-|---|---|
-| `PersistentStoragePort` | `Database\KeyValueStorage\DatabaseStoragePort` |
-| `StorageProvider` | via `StorageProviderFactory::persistent()` |
-| Setup / Schema | `Database\KeyValueStorage\Setup\DBUpdateSteps` (`il_kv_storage` table) |
+```php
+// MyComponent.php
+$internal[MyComponent\MyRepository::class] = static fn() =>
+    new MyComponent\MyRepository($pull[\ILIAS\Database\Connection::class]);
+```
 
-The port stores **opaque encoded strings** only — JSON encoding and key validation
-are handled by KeyValueStorage (`NamespacedStorage`). Database owns the table schema
-and setup steps. See [Design Decisions](#design-decisions) for schema and connection
-choices.
+```php
+final readonly class MyRepository
+{
+    public function __construct(private Connection $connection)
+    {
+    }
 
-## Design Decisions
+    public function read(): void
+    {
+        $db = $this->connection->get();
+        // ...
+    }
+}
+```
 
-Significant architecture decisions for this component are recorded as lightweight
-[Architecture Decision Records](https://github.com/joelparkerhenderson/architecture-decision-record)
-(Michael Nygard's *Context / Decision / Consequences* format). Records are
-append-only: supersede rather than rewrite.
-
-### ADR 0001 — Composite-Key Table for Persistent KeyValueStorage
-
-**Status:** Accepted.
-
-**Context.** KeyValueStorage needs a durable backend whose contents survive session
-boundaries until changed or cleared. Consumers isolate data by `StorageNamespace`;
-within a namespace they address individual keys. The port MUST support
-`clearNamespace()` without scanning unrelated namespaces. Column lengths MUST stay
-within utf8mb4 InnoDB primary-key limits on supported MySQL and MariaDB versions.
-
-**Decision.** Use one greenfield table `il_kv_storage` with a composite primary key
-on `(namespace, keyword)`:
-
-| Column | Type | Length | Role |
-|---|---|---|---|
-| `namespace` | `text` | 128 | Consumer isolation |
-| `keyword` | `text` | 255 | Entry key within namespace |
-| `value` | `clob` | — | Opaque encoded payload |
-
-Column names follow ILIAS conventions (`il_` table prefix) and avoid SQL reserved
-words. The combined
-key length (128 + 255 = 383 characters, 1532 bytes under utf8mb4) fits the 3072-byte
-InnoDB index limit on MySQL 5.7+/8.x and MariaDB 10.3+.
-
-The lengths chosen here mirror the KeyValueStorage validation limits
-(`StorageNamespace::MAX_LENGTH` and `KeyValidator::MAX_LENGTH`) at the time the table
-was introduced. The migration step (`DBUpdateSteps`) intentionally **does not import
-those constants**: a database update step describes a fixed historical change and must
-remain stable even if the validation limits are tightened or relaxed later. The
-constants are referenced here, in the design record, rather than in the migration code.
-Keeping the two in sync for *new* steps is a deliberate, reviewable act.
-
-`write()` uses `replace` (upsert). `clearNamespace()` deletes by `namespace` only.
-`has()` uses `SELECT EXISTS(...)` rather than reading the `value` column.
-
-**Consequences.**
-
-- **+** Namespace clearing is a single indexed `DELETE` — no full-table scan.
-- **+** Per-entry reads and writes target one row; safe under concurrent requests.
-- **+** The migration is self-contained; changing a KeyValueStorage constant cannot
-  retroactively alter an already-shipped schema step.
-- **−** Schema length and validation limits are kept in sync by convention, not by a
-  shared symbol; a new migration step is required to widen a column.
-- **−** No subject column — per-user persistent data MUST encode the user (or other
-  subject) in namespace or keyword; see KeyValueStorage README.
-- **−** `value` is a CLOB; very large payloads are possible but not the intended use.
-
-**Revisit when** a dedicated subject column or secondary indexes (e.g. by subject for
-bulk deletion) become a cross-cutting requirement.
-
-### ADR 0002 — Lazy Database Connection in DatabaseStoragePort
-
-**Status:** Accepted.
-
-**Context.** `DatabaseStoragePort` is registered during component wiring and MAY be
-instantiated during build phases (`composer du`) where the global `$DIC` and
-`$DIC->database()` are not yet available. Resolving the connection in `__construct`
-would fail or couple the port to bootstrap order.
-
-**Decision.** Inject a `DatabaseConnection` abstraction (`DicDatabaseConnection`
-resolves `$DIC->database()` on demand). Each port method calls
-`$this->database_connection->get()` when it first needs the database — not in the
-constructor.
-
-**Consequences.**
-
-- **+** The port can be constructed during autoload/build without a live database.
-- **+** Keeps `$DIC` access in one small adapter; the port itself stays testable with
-  a stub connection.
-- **−** Every port operation resolves the connection reference (cheap once `$DIC` is
-  up; connection pooling is handled by ILIAS).
-
-**Revisit when** the component wiring mechanism guarantees a database connection at
-construction time for all registered services.
+`ILIAS\Database\LazyConnection` resolves it from the legacy container on first
+use. This is a stopgap: it goes away once Database offers `ilDBInterface`
+through the bootstrap itself.

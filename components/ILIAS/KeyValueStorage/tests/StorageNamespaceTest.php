@@ -21,74 +21,59 @@ declare(strict_types=1);
 namespace ILIAS\Tests\KeyValueStorage;
 
 use ILIAS\KeyValueStorage\StorageNamespace;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class StorageNamespaceTest extends TestCase
 {
-    public function testAcceptsValidNamespace(): void
+    #[DataProvider('validNamespaces')]
+    public function testValidNamespacesAreAccepted(string $value): void
     {
-        $namespace = new StorageNamespace('ui.table.sort');
+        $namespace = new StorageNamespace($value);
 
-        self::assertSame('ui.table.sort', $namespace->value());
-        self::assertSame('ui.table.sort', (string) $namespace);
+        $this->assertSame($value, $namespace->value());
+        $this->assertSame($value, (string) $namespace);
     }
 
-    public function testAcceptsSingleSegmentNamespace(): void
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function validNamespaces(): array
     {
-        $namespace = new StorageNamespace('ui');
-
-        self::assertSame('ui', $namespace->value());
+        return [
+            'single segment' => ['ui'],
+            'two segments' => ['ui.storage'],
+            'many segments' => ['my_component.view_state.table'],
+            'digits after letter' => ['h5p.content2'],
+            'underscores' => ['my_component.view_state'],
+            'maximum length' => [str_repeat('a', StorageNamespace::MAX_LENGTH)],
+        ];
     }
 
-    public function testRejectsEmptyNamespace(): void
+    #[DataProvider('invalidNamespaces')]
+    public function testInvalidNamespacesAreRejected(string $value): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Storage namespace must not be empty.');
 
-        new StorageNamespace('');
+        new StorageNamespace($value);
     }
 
-    public function testRejectsUppercaseNamespace(): void
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function invalidNamespaces(): array
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Storage namespace must be a dot-separated lowercase identifier');
-
-        new StorageNamespace('UI.Table');
-    }
-
-    public function testRejectsLeadingDigit(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Storage namespace must be a dot-separated lowercase identifier');
-
-        new StorageNamespace('1invalid');
-    }
-
-    public function testRejectsHyphenatedNamespace(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Storage namespace must be a dot-separated lowercase identifier');
-
-        new StorageNamespace('ui-table');
-    }
-
-    public function testAcceptsNamespaceAtMaxLength(): void
-    {
-        $namespace_value = 'a' . \str_repeat('b', StorageNamespace::MAX_LENGTH - 1);
-
-        $namespace = new StorageNamespace($namespace_value);
-
-        self::assertSame(StorageNamespace::MAX_LENGTH, \strlen($namespace->value()));
-    }
-
-    public function testRejectsNamespaceExceedingMaxLength(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            'Storage namespace must not exceed ' . StorageNamespace::MAX_LENGTH . ' characters, got '
-            . (StorageNamespace::MAX_LENGTH + 1) . '.'
-        );
-
-        new StorageNamespace('a' . \str_repeat('b', StorageNamespace::MAX_LENGTH));
+        return [
+            'empty' => [''],
+            'uppercase' => ['Ui.Storage'],
+            'leading digit' => ['1ui'],
+            'hyphen' => ['ui-storage'],
+            'leading dot' => ['.ui'],
+            'trailing dot' => ['ui.'],
+            'empty segment' => ['ui..storage'],
+            'colon' => ['ui:storage'],
+            'backslash' => ['ILIAS\\UI'],
+            'too long' => [str_repeat('a', StorageNamespace::MAX_LENGTH + 1)],
+        ];
     }
 }
