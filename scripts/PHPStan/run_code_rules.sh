@@ -17,7 +17,7 @@
 export PHPSTAN_TABLE_ERROR_FORMATTER_FORCE_SHOW_ALL_ERRORS=1
 
 CONFIG=scripts/PHPStan/code_rules.neon
-TMP_DIR=tmp/phpstan-code-rules
+TMP_DIR=scripts/PHPStan/.cache/code-rules
 MEMORY_LIMIT=4G
 ERROR_FORMAT="${ERROR_FORMAT:-table}"
 

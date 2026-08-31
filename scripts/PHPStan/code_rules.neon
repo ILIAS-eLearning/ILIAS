@@ -6,7 +6,7 @@ services:
     errorFormatter.stepSummary:
         class: ILIAS\Scripts\PHPStan\ErrorFormatter\StepSummaryFormatter
 parameters:
-    tmpDir: %currentWorkingDirectory%/tmp/phpstan-code-rules
+    tmpDir: %currentWorkingDirectory%/scripts/PHPStan/.cache/code-rules
     parallel:
         maximumNumberOfProcesses: 10
     customRulesetUsed: true
