@@ -36,15 +36,6 @@ class LoggingServices
     }
 
     /**
-     * Get interface to the global logger.
-     * @return \ilLogger
-     */
-    public function root()
-    {
-        return $this->container["ilLoggerFactory"]->getRootLogger();
-    }
-
-    /**
      * Get a component logger.
      * @return \ilLogger
      */
@@ -57,15 +48,5 @@ class LoggingServices
     public function forComponent(string $component_id): \ilLogger
     {
         return $this->container["ilLoggerFactory"]->getComponentLogger($component_id);
-    }
-
-    /**
-     * Get a component logger.
-     * @return \ilLogger
-     */
-    public function __call(string $method_name, array $args)
-    {
-        assert(count($args) === 0);
-        return $this->container['ilLoggerFactory']->getComponentLogger($method_name);
     }
 }
