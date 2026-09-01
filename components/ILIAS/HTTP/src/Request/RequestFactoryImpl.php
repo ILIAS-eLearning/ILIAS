@@ -69,12 +69,12 @@ class RequestFactoryImpl implements RequestFactory
             }
 
             // alternative if ini settings are used which look like X_FORWARDED_PROTO
-            $header_names = array_keys($server_request->getHeaders());
-            foreach ($header_names as $header_name) {
-                if (str_replace("-", "_", strtoupper((string) $header_name)) !== $header_name) {
+            $request_header_names = array_keys($server_request->getHeaders());
+            foreach ($request_header_names as $request_header_name) {
+                if (str_replace("-", "_", strtoupper((string) $request_header_name)) !== $header_name) {
                     continue;
                 }
-                if (!in_array($header_value, $server_request->getHeader($header_name), true)) {
+                if (!in_array($header_value, $server_request->getHeader($request_header_name), true)) {
                     continue;
                 }
                 return $server_request->withUri(
