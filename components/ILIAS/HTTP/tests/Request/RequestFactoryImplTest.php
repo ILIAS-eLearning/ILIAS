@@ -46,16 +46,44 @@ final class RequestFactoryImplTest extends TestCase
         parent::tearDown();
     }
 
+    private function factoryFor(?string $header_name, ?string $header_value): RequestFactoryImpl
+    {
+        return new RequestFactoryImpl(
+            new class ($header_name, $header_value) implements HeaderSettings {
+                public function __construct(
+                    private readonly ?string $header_name,
+                    private readonly ?string $header_value
+                ) {
+                }
+
+                public function isHTTPSDetectionEnabled(): bool
+                {
+                    return $this->header_name !== null && $this->header_value !== null;
+                }
+
+                public function getHTTPDetectionHeaderName(): ?string
+                {
+                    return $this->header_name;
+                }
+
+                public function getHTTPDetectionHeaderValue(): ?string
+                {
+                    return $this->header_value;
+                }
+            }
+        );
+    }
+
     public function testSchemeStaysUntouchedWithoutConfiguration(): void
     {
-        $this->assertSame('http', (new RequestFactoryImpl())->create()->getUri()->getScheme());
+        $this->assertSame('http', $this->factoryFor(null, null)->create()->getUri()->getScheme());
     }
 
     public function testSchemeStaysUntouchedIfHeaderDoesNotMatch(): void
     {
         $_SERVER['HTTP_X_FORWARDED_PROTO'] = 'http';
 
-        $factory = new RequestFactoryImpl('X-Forwarded-Proto', 'https');
+        $factory = $this->factoryFor('X-Forwarded-Proto', 'https');
 
         $this->assertSame('http', $factory->create()->getUri()->getScheme());
     }
@@ -64,7 +92,7 @@ final class RequestFactoryImplTest extends TestCase
     {
         $_SERVER['HTTP_X_FORWARDED_PROTO'] = 'https';
 
-        $factory = new RequestFactoryImpl('X-Forwarded-Proto', 'https');
+        $factory = $this->factoryFor('X-Forwarded-Proto', 'https');
 
         $this->assertSame('https', $factory->create()->getUri()->getScheme());
     }
@@ -77,7 +105,7 @@ final class RequestFactoryImplTest extends TestCase
     {
         $_SERVER['HTTP_FRONT_END_HTTPS'] = 'on';
 
-        $factory = new RequestFactoryImpl('FRONT-END-HTTPS', 'on');
+        $factory = $this->factoryFor('FRONT-END-HTTPS', 'on');
 
         $this->assertSame('https', $factory->create()->getUri()->getScheme());
     }
@@ -86,7 +114,7 @@ final class RequestFactoryImplTest extends TestCase
     {
         $_SERVER['HTTP_FRONT_END_HTTPS'] = 'on';
 
-        $factory = new RequestFactoryImpl('FRONT_END_HTTPS', 'on');
+        $factory = $this->factoryFor('FRONT_END_HTTPS', 'on');
 
         $this->assertSame('https', $factory->create()->getUri()->getScheme());
     }
