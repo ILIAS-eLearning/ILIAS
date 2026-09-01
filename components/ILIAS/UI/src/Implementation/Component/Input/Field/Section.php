@@ -66,7 +66,7 @@ class Section extends Group implements C\Input\Field\Section
     private function updateChildrenNestingLevels(): void
     {
         foreach ($this->getInputs() as $input) {
-            if ($input instanceof Section) {
+            if ($input instanceof Group) {
                 $nesting_level = $this->getNestingLevel() + 1;
                 $input->setNestingLevel($nesting_level);
             }
