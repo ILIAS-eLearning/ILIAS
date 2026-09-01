@@ -10,9 +10,11 @@ structure. So these updates should be light and run quickly. Migrations are
 concerned with potentially heavy tasks on the database, that might be performed
 in the background while the system already is productive again.
 
-Both variants are triggered by the [setup](src/Setup/README.md), so make sure
+Both variants are triggered by the [Setup](../../components/ILIAS/Setup/README.md), so make sure
 you have a basic understanding of how the setup works before looking into updating
-the database.
+the database. Please also make sure you understand the [lifecycle of database update
+steps](../../components/ILIAS/Setup/docs/database-update-steps-lifecycle.md), and how
+they are managed accross multiple major releases.
 
 Previous versions of ILIAS supported the so called `db-update-files`. These files
 will keep on working for some time technically, but are deprecated as decided by
@@ -23,112 +25,158 @@ readme of ILIAS/Database](components/ILIAS/Database/README.md).
 
 ## Schema Updates
 
-To create a schema update, you first need an integration with the setup. Create
-a class that implements `ILIAS\Setup\Agent`, you MUST put it in the subfolder
-`classes/Setup` in your component. If you only want to introduce some update steps
-you could just extend from the `NullAgent`.
+Make sure to understand, that this mechanism really is about schema updates.
+Do not perform other kinds of updates (e.g. the migrations, creating files, ...)
+with this. There is a more general mechanism (the [`Objectives`](../../components/ILIAS/Setup/README.md#on-objective))
+to do this.
+
+To introduce new database update steps your component **MUST** implement the `\ilDatabaseUpdateSteps` interface, which
+**SHOULD** be namespaced as described by the previous chapter. The interface description explains how methods **MUST**
+look like, so the Setup can find and execute them properly. Only use the provided `\ilDBInterface` in the methods. Do
+not use other things from the environment or the globals, they might not be there if you need them.
 
 ```php
-use ILIAS\Setup;
+namespace ILIAS\ComponentX\Setup\Database\V10;
 
-class MySetupAgent extends Setup\Agent\NullAgent
-{
-}
-```
-
-Your actual updates of the database go into another file, which implements the
-`ilDatabaseUpdateSteps` interface. The name SHOULD always start with `il$COMPONENT`
-and end with `Steps`. You will want to put something descriptive in between, e.g.
-`ilMyComponentSettingsTableSteps`. The file SHOULD always be put into the same folder
-as the agent. You MAY put your steps in a `Steps` folder in the `Setup`-folder, if
-you need further order in your folder. In the class, you need to implement one
-`prepare` method that will be called before the steps actually get executed. The
-setup will pass an `ilDBInterface`-instance to be used by the steps and it is recommended
-to store the `ilDBInterface` into a property as shown below.
-
-```php
-class ilMyDBUpdateSteps implements ilDatabaseUpdateSteps
+/** @since ILIAS 10 */
+class DatabaseUpdateStepsOfX implements \ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
-    public function prepare(\ilDBInterface $db)
+    public function prepare(ilDBInterface $db) : void
     {
-        $this->db = $db;
+        $this->db = $db;    
+    }
+
+    public function step_1(): void
+    {
+        $this->db->createTable('x', [...]);
+    }
+    
+    public function step_2(): void
+    {
+        // ...
     }
 }
 ```
 
-This new class then needs to be wired into the Agent:
+**WARNING: It is important that the FQDN of an implementation MUST NOT change.** Otherwise update steps are considered
+new and are potentially executed more than once. We also recommend to use 
+[version namespaces](../../components/ILIAS/Setup/docs/database-update-steps-lifecycle.md#33-recommended-namespace-pattern)
+This also means that legacy naming conventions which are still prevalent to this day, **MUST NOT** be addressed or
+migrated in any way. They can be decalt with once they have reached the end of their lifespan and can be safely removed.
+
+If your database update steps are introduced to two or more supported versions, we still recommend to provide a
+dedicated class for each major version, to guarantee other developers do not accidentally introduce divergent update
+steps (i.e. `step_<x>()` methods).
+
+To contribute your update steps to the system, your component needs to implement an `ILIAS\Setup\Agent` which returns an
+instance of the `\ilDatabaseUpdateStepsExecutedObjective` objective that receives an instance of your
+`\ilDatabaseUpdateSteps` implementation in `ILIAS\Setup\Agent::getInstallObjective()` or `::getUpdateObjective()`,
+depending on your goal. Read the respective method descriptions for detailed instructions.
 
 ```php
-use ILIAS\Setup;
+namespace ILIAS\ComponentX\Setup;
 
-class MySetupAgent extends Setup\Agent\NullAgent
+class AgentOfX extends \ILIAS\Setup\Agent\NullAgent
 {
-    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    // ...
+
+    public function getUpdateObjective(?\ILIAS\Setup\Config $config = null): \ILIAS\Setup\Objective
     {
-        return new ilDatabaseUpdateStepsExecutedObjective(new ilMyDBUpdateSteps());
+        return new \ilDatabaseUpdateStepsExecutedObjective(
+            new \ILIAS\ComponentX\Setup\Database\V10\ilDatabaseUpdateStepsOfX(),
+        );
     }
 }
-``` 
+```
+
+Use an `ILIAS\Setup\ObjectiveCollection` here if you have more than one `\ilDatabaseUpdateSteps` implementation (see 
+[Grouping Database Update Steps](#grouping-database-update-steps)). Use an 
+`ILIAS\Setup\Objective\ObjectiveWithPreconditions` to control the order of your `\ilDatabaseUpdateSteps`:
+
+```php
+namespace ILIAS\ComponentX\Setup;
+
+class AgentOfX extends \ILIAS\Setup\Agent\NullAgent
+{
+    // ...
+
+    public function getUpdateObjective(?\ILIAS\Setup\Config $config = null): \ILIAS\Setup\Objective
+    {
+        return new \ILIAS\Setup\Objective\ObjectiveWithPreconditions(
+            // last:
+            new \ilDatabaseUpdateStepsExecutedObjective(
+                new \ILIAS\ComponentX\Setup\Database\V10\AlterTableXAddColumnY()
+            ),
+            // first:
+            new \ilDatabaseUpdateStepsExecutedObjective(
+                new \ILIAS\ComponentX\Setup\Database\V10\CreateTableX()
+            ),
+            // second, third, ...
+        );
+    }
+}
+```
 
 To ensure that the setup/status command will output the current database step status
-of your component add the method `getStatusObjective` to your Agent. 
+of your component add the method `getStatusObjective()` to your Agent as well: 
 
 ```php
-use ILIAS\Setup;
+namespace ILIAS\ComponentX\Setup;
 
-class MySetupAgent extends Setup\Agent\NullAgent
+class AgentOfX extends \ILIAS\Setup\Agent\NullAgent
 {
-    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    // ...
+
+    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
-        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new MyDBUpdateSteps());
-    }
-}
-``` 
-
-In the MyDBUpdateSteps you can add your consecutive steps by adding methods according
-to this schema:
-
-```php
-class ilMyDBUpdateSteps implements ilDatabaseUpdateSteps
-{
-    protected \ilDBInterface $db;
-
-    public function prepare(\ilDBInterface $db)
-    {
-        $this->db = $db;
-    }
-
-    public function step_1()
-    {
-        //... your code using $this->db
-    }
-
-    public function step_2()
-    {
-        //... your code using $this->db
+        return new \ilDatabaseUpdateStepsMetricsCollectedObjective(
+            $storage,
+            new \ILIAS\ComponentX\Setup\Database\V10\ilDatabaseUpdateStepsOfX(),
+        );
     }
 }
 ```
 
-The setup mechanism will call your step-methods in ascending order.
-It will keep track about which method was already called and takes care
-that the methods are only called once.
+## Grouping Database Update Steps
 
-A few words of warning:
+Besides using version namespaces, we also recommend to group database update steps strategically, rather than
+consolidating them all in one single `\ilDatabaseUpdateSteps` implementation. This allows you to:
 
-* Make sure to understand, that this mechanism really is about schema updates.
-Do not perform other kinds of updates (e.g. the migrations, creating files, ...)
-with this. There is a more general mechanism (the [`Objectives`](src/Setup/README.md#on-objective))
-to do this.
-* Only use the provided `\ilDBInterface` in the methods. Do not use other things from
-the environment or the globals, they might not be there if you need them.
-* It will be easier if one of your database update steps takes care of one table
-or a set of closely related tables. You can have multiple classes with database update
-steps by using multiple `ilDatabaseUpdateStepsExecutedObjective`s bundled via an
-`ObjectiveCollection`.
+- remove your database update steps **at the end of their lifespan**, and
+- ensure your objective(s) can be executed in a timely manner.
 
+By strategically we mean that update steps **COULD** be grouped by the kind of operation, the table or -column they
+affect, or a feature or bugfix they implement. There is no best strategy and this is primarily shaped by preference, but
+its something to keep in mind. Smaller and more dedicated classes help others understand the goal of your database
+updates and can even expresses what should happen to the database programatically:
+
+```php
+namespace ILIAS\ComponentX\Setup;
+
+class AgentOfX implements \ILIAS\Setup\Agent
+{
+    // ...
+
+    public function getUpdateObjective(?ILIAS\Setup\Config $config = null): \ILIAS\Setup\Objective
+    {
+        return new \ILIAS\Setup\ObjectiveCollection(
+            "Database update steps of Component X for ILIAS 10",
+            true,
+            new \ilDatabaseUpdateStepsExecutedObjective(new \ILIAS\ComponentX\Setup\Database\V10\CreateFooTable()),
+            new \ilDatabaseUpdateStepsExecutedObjective(new \ILIAS\ComponentX\Setup\Database\V10\UpdateFooBarDefaultValue()),
+            new \ilDatabaseUpdateStepsExecutedObjective(new \ILIAS\ComponentX\Setup\Database\V10\AlterFooBazMaxLength()),
+            new \ilDatabaseUpdateStepsExecutedObjective(new \ILIAS\ComponentX\Setup\Database\V10\DeleteUnusedFooEntries()),
+        );
+    }
+}
+```
+
+The example above demonstrates how speaking and grouped database update steps can already convey much of the information
+on a programming level – without having a look at its concrete steps. The objective communicates very clearly that
+throughout the major version 10 a new `foo` table will be added, whose `foo.bar` default value and `foo.baz` column type
+is updated, and some unused entries are cleaned up.
 
 ## Migrations
 
