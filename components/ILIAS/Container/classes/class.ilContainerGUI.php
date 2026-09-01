@@ -2292,8 +2292,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $sort_inherit = new ilRadioOption();
             $sort_inherit->setTitle(
                 $this->lng->txt('sort_inherit_prefix') .
-                ' (' . ilContainerSortingSettings::sortModeToString(
-                    ilContainerSortingSettings::lookupSortModeFromParentContainer(
+                ' (' . $this->buildLabelForSortMode(
+                    ilContainerSortingSettings::lookupEffectiveSortMode(
                         $this->object->getId()
                     )
                 ) . ') '
@@ -2304,7 +2304,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
         if (in_array(ilContainer::SORT_TITLE, $a_sorting_settings)) {
             $sort_title = new ilRadioOption(
-                $this->lng->txt('sorting_title_header'),
+                $this->buildLabelForSortMode(ilContainer::SORT_TITLE),
                 (string) ilContainer::SORT_TITLE
             );
             $sort_title->setInfo($this->lng->txt('sorting_info_title'));
@@ -2314,7 +2314,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
         if (in_array(ilContainer::SORT_CREATION, $a_sorting_settings)) {
             $sort_activation = new ilRadioOption(
-                $this->lng->txt('sorting_creation_header'),
+                $this->buildLabelForSortMode(ilContainer::SORT_CREATION),
                 (string) ilContainer::SORT_CREATION
             );
             $sort_activation->setInfo($this->lng->txt('sorting_creation_info'));
@@ -2322,14 +2322,17 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $sort->addOption($sort_activation);
         }
         if (in_array(ilContainer::SORT_ACTIVATION, $a_sorting_settings)) {
-            $sort_activation = new ilRadioOption($this->lng->txt('crs_sort_activation'), (string) ilContainer::SORT_ACTIVATION);
+            $sort_activation = new ilRadioOption(
+                $this->buildLabelForSortMode(ilContainer::SORT_ACTIVATION),
+                (string) ilContainer::SORT_ACTIVATION
+            );
             $sort_activation->setInfo($this->lng->txt('crs_sort_timing_info'));
             $this->initSortingDirectionForm($settings, $sort_activation, 'activation');
             $sort->addOption($sort_activation);
         }
         if (in_array(ilContainer::SORT_MANUAL, $a_sorting_settings)) {
             $sort_manual = new ilRadioOption(
-                $this->lng->txt('sorting_manual_header'),
+                $this->buildLabelForSortMode(ilContainer::SORT_MANUAL),
                 (string) ilContainer::SORT_MANUAL
             );
             $sort_manual->setInfo($this->lng->txt('sorting_info_manual'));
@@ -2346,6 +2349,17 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $form->addItem($sort);
 
         return $form;
+    }
+
+    protected function buildLabelForSortMode(int $sort_mode): string
+    {
+        return match ($sort_mode) {
+            ilContainer::SORT_ACTIVATION => $this->lng->txt('crs_sort_activation'),
+            ilContainer::SORT_MANUAL => $this->lng->txt('sorting_manual_header'),
+            ilContainer::SORT_TITLE => $this->lng->txt('sorting_title_header'),
+            ilContainer::SORT_CREATION => $this->lng->txt('sorting_creation_header'),
+            default => '',
+        };
     }
 
     /**

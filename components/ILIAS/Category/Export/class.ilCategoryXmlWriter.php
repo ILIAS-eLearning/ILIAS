@@ -65,7 +65,6 @@ class ilCategoryXmlWriter extends ilXmlWriter
             }
             $this->buildCategory();
             $this->buildTranslations();
-            ilContainerSortingSettings::_exportContainerSortingSettings($this, $this->getCategory()->getId());
             ilContainer::_exportContainerSettings($this, $this->category->getId());
             $this->buildFooter();
         }

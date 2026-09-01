@@ -20,30 +20,17 @@ declare(strict_types=1);
 
 namespace ILIAS\Container;
 
-use ILIAS\DI;
+use ILIAS\Container\Sorting\Service\DomainService as SortingDomainService;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
-class Service
+class DomainService
 {
-    protected DI\Container $DIC;
-
-    public function __construct(DI\Container $DIC)
-    {
-        $this->DIC = $DIC;
+    public function __construct(
+        protected InternalService $internal
+    ) {
     }
 
-    public function domain(): DomainService
+    public function sorting(): SortingDomainService
     {
-        return new DomainService($this->internal());
-    }
-
-    /**
-     * Internal service, do not use in other components
-     */
-    public function internal(): InternalService
-    {
-        return new InternalService($this->DIC);
+        return $this->internal->domain()->sorting();
     }
 }

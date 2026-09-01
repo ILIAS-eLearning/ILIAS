@@ -7915,9 +7915,7 @@ crs#:#crs_show_members#:#Show Members
 crs#:#crs_show_members_info#:#Allow course members to see a list of all course participants via the ‘Members’ tab.
 crs#:#crs_size#:#File size
 crs#:#crs_sort_activation#:#Sort by Activation
-crs#:#crs_sort_manual#:#Sort Manually
 crs#:#crs_sort_timing_info#:#Sort course items be their activation time or timings settings.
-crs#:#crs_sort_title#:#Titles in Alphabetical Order
 crs#:#crs_start#:#Start
 crs#:#crs_start_objects#:#Start Objects
 crs#:#crs_starter_delete_sure#:#Are you sure you want to delete the following start objects?
