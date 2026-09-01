@@ -32,7 +32,15 @@ class ActionDBRepository implements ActionRepository
      */
     private const TABLE_NAME = 'wopi_action';
     private array $edit_actions = [ActionTarget::EDIT, ActionTarget::EMBED_EDIT];
-    private array $view_actions = [ActionTarget::VIEW, ActionTarget::EMBED_VIEW];
+
+    /**
+     * The order is the preference order of getViewActionForSuffix(). The embedded viewer
+     * comes first on purpose: the content tab of a file object is a viewer and offers no
+     * way into edit mode, so the full viewer of the WOPI client - which advertises editing
+     * and then has to explain why it is not available - is the wrong experience here.
+     * Falls back to the regular view action where the discovery offers no embedded one.
+     */
+    private array $view_actions = [ActionTarget::EMBED_VIEW, ActionTarget::VIEW];
 
     public function __construct(
         private \ilDBInterface $db

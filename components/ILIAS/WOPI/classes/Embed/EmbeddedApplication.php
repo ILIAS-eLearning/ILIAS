@@ -49,25 +49,38 @@ class EmbeddedApplication
     ];
     private URI $ilias_base_url;
 
+    /**
+     * $user_can_write is the permission of the user on the file, $editable is the mode of
+     * this session. They are not the same thing: someone who may edit the file can still
+     * open it in a viewer, and the WOPI client needs to be told both - otherwise it
+     * explains a read-only session with rights the user actually has. Pass null to derive
+     * it from the launched action. See https://mantis.ilias.de/view.php?id=48246
+     */
     public function __construct(
         protected ResourceIdentification $identification,
         protected ?Action $action,
         protected ResourceStakeholder $stakeholder,
         protected URI $back_target,
         protected bool $inline = false,
-        ?string $ui_language = null
+        ?string $ui_language = null,
+        ?bool $user_can_write = null
     ) {
         global $DIC;
         /** @var DataSigner $data_signer */
         $data_signer = $DIC['file_delivery.data_signer'];
         $this->ilias_base_url = new URI(ILIAS_HTTP_PATH);
-        $editable = $this->action?->getName() === ActionTarget::EDIT->value;
+        $editable = in_array(
+            $this->action?->getName(),
+            [ActionTarget::EDIT->value, ActionTarget::EMBED_EDIT->value],
+            true
+        );
 
         $payload = [
             'resource_id' => $this->identification->serialize(),
             'user_id' => $DIC->user()->getId(),
             'stakeholder' => $this->stakeholder::class,
-            'editable' => $editable
+            'editable' => $editable,
+            'user_can_write' => $user_can_write ?? $editable
         ];
 
         $ui_language ??= 'en_US';
