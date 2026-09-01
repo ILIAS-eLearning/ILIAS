@@ -41,6 +41,7 @@ use ILIAS\FileDelivery\Delivery\StreamDelivery;
 use ILIAS\FileDelivery\Delivery\LegacyDelivery;
 use ILIAS\FileDelivery\FileDeliveryServices;
 use ILIAS\FileDelivery\Token\DataSigning;
+use ILIAS\FileDelivery\Isolation\IsolationConfig;
 
 class FileDelivery implements Component
 {
@@ -68,11 +69,17 @@ class FileDelivery implements Component
             $settings = (@include DeliveryMethodObjective::PATH()) ?? [];
 
             return match ($settings[DeliveryMethodObjective::SETTINGS] ?? null) {
-                DeliveryMethodObjective::XACCEL => new XAccelResponseBuilder(),
+                DeliveryMethodObjective::XACCEL => new XAccelResponseBuilder(
+                    $settings[DeliveryMethodObjective::SETTINGS_EXTERNAL_DATA_DIR]
+                ),
                 DeliveryMethodObjective::XSENDFILE => new XSendFileResponseBuilder(),
                 default => new PHPResponseBuilder(),
             };
         };
+
+        // Both the content domain and the ILIAS domain (derived from http_path)
+        // are baked into the artefact at setup time, so no ini read is needed.
+        $internal[IsolationConfig::class] = static fn(): IsolationConfig => IsolationConfig::fromArtefact();
 
         $internal[PHPResponseBuilder::class] = (static fn() => new PHPResponseBuilder());
 
@@ -100,6 +107,7 @@ class FileDelivery implements Component
             $use[GlobalHttpState::class],
             $internal[ResponseBuilder::class],
             $internal[PHPResponseBuilder::class],
+            $internal[IsolationConfig::class],
         ));
 
         $internal[LegacyDelivery::class] = (static fn() => new LegacyDelivery(
@@ -113,6 +121,7 @@ class FileDelivery implements Component
             $internal[LegacyDelivery::class],
             $use[DataSigning::class],
             $use[GlobalHttpState::class],
+            $internal[IsolationConfig::class],
         ));
 
         $implement[FileDeliveryServices::class] = static fn() => $internal[FileDeliveryServices::class];
