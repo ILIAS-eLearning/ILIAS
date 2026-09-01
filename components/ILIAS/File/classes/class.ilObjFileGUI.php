@@ -328,7 +328,10 @@ class ilObjFileGUI extends ilObject2GUI
                     $this->stakeholder,
                     new URI($goto_link),
                     $capability->getCapability() === Capabilities::VIEW_EXTERNAL,
-                    $this->lng->getLangKey()
+                    $this->lng->getLangKey(),
+                    // the permission of the user, not the mode of this session: the
+                    // content tab is a viewer even for someone who may edit the file
+                    $this->capabilities->get(Capabilities::EDIT_EXTERNAL)->isUnlocked()
                 );
 
                 $this->ctrl->forwardCommand(
