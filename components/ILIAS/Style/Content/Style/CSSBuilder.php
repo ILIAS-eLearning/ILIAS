@@ -72,6 +72,10 @@ class CSSBuilder
                     $css .= ",span.ilc_text_inline_" . $tag[0]["class"] . "\n";
                 }
                 if ($tag[0]["type"] == "text_block") {
+                    // a paragraph containing a list is rendered as div, not p (page.xsl:929-942),
+                    // so the p selector above would not match it. ilc_Paragraph limits this alias
+                    // to the page editor's paragraph container (page.xsl:990).
+                    $css .= ",div.ilc_Paragraph.ilc_text_block_" . $tag[0]["class"] . "\n";
                     $css .= ",html.il-no-tiny-bg body#tinymce.ilc_text_block_" . $tag[0]["class"] . "\n";
                 }
                 if ($tag[0]["class"] == "VAccordCntr" &&
