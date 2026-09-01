@@ -183,16 +183,6 @@ class ilObjLearningSequenceSettingsGUI
                 ])
             );
 
-        $section_additional = $if->field()->section(
-            [
-                self::PROP_GALLERY => $gallery,
-                ilObjectServiceSettingsGUI::CUSTOM_METADATA => $custom_md,
-                ilObjectServiceSettingsGUI::TAXONOMIES => $taxonomies
-            ],
-            $txt('obj_features')
-        );
-        $formElements['additional'] = $section_additional;
-
         // Common properties
         $title_icon = $props->getPropertyTitleAndIconVisibility()->toForm(
             $this->lng,
@@ -224,6 +214,16 @@ class ilObjLearningSequenceSettingsGUI
             $txt('cont_presentation')
         );
         $formElements['common'] = $section_common;
+
+        $section_additional = $if->field()->section(
+            [
+                self::PROP_GALLERY => $gallery,
+                ilObjectServiceSettingsGUI::CUSTOM_METADATA => $custom_md,
+                ilObjectServiceSettingsGUI::TAXONOMIES => $taxonomies
+            ],
+            $txt('obj_features')
+        );
+        $formElements['additional'] = $section_additional;
 
         return $formElements;
     }
