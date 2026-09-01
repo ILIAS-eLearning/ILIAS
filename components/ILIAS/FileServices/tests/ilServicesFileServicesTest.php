@@ -213,15 +213,11 @@ final class ilServicesFileServicesTest extends TestCase
      */
     public function testFileNamePolicyRemovesControlCharacters(): void
     {
-        $settings = $this->createMock(ilFileServicesSettings::class);
-
-        $settings->expects($this->atLeastOnce())
-                 ->method('getBlackListedSuffixes')
-                 ->willReturn([]);
-
-        $settings->expects($this->atLeastOnce())
-                 ->method('getWhiteListedSuffixes')
-                 ->willReturn(['pdf']);
+        // the suffix lists are loaded lazily and ascii() does not need them, so this
+        // is a stub rather than a mock with expectations.
+        $settings = $this->createStub(ilFileServicesSettings::class);
+        $settings->method('getBlackListedSuffixes')->willReturn([]);
+        $settings->method('getWhiteListedSuffixes')->willReturn(['pdf']);
 
         $policy = new ilFileServicesPolicy($settings);
 
