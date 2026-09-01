@@ -169,20 +169,6 @@ class ilObjLearningSequenceSettingsGUI
                     $this->refinery->always(false)
                 ])
             );
-        //Taxonomies
-        $taxonomies = $if->field()->checkbox($this->lng->txt('obj_tool_setting_taxonomies'))
-            ->withValue((bool) ilContainer::_lookupContainerSetting(
-                $lso->getId(),
-                ilObjectServiceSettingsGUI::TAXONOMIES,
-                '0'
-            ))
-            ->withAdditionalTransformation(
-                $this->refinery->byTrying([
-                    $this->refinery->kindlyTo()->bool(),
-                    $this->refinery->always(false)
-                ])
-            );
-
         // Common properties
         $title_icon = $props->getPropertyTitleAndIconVisibility()->toForm(
             $this->lng,
@@ -218,8 +204,7 @@ class ilObjLearningSequenceSettingsGUI
         $section_additional = $if->field()->section(
             [
                 self::PROP_GALLERY => $gallery,
-                ilObjectServiceSettingsGUI::CUSTOM_METADATA => $custom_md,
-                ilObjectServiceSettingsGUI::TAXONOMIES => $taxonomies
+                ilObjectServiceSettingsGUI::CUSTOM_METADATA => $custom_md
             ],
             $txt('obj_features')
         );
@@ -253,11 +238,6 @@ class ilObjLearningSequenceSettingsGUI
             $lso->getId(),
             ilObjectServiceSettingsGUI::CUSTOM_METADATA,
             ($data['additional'][ilObjectServiceSettingsGUI::CUSTOM_METADATA] ?? false) ? '1' : '0'
-        );
-        ilContainer::_writeContainerSetting(
-            $lso->getId(),
-            ilObjectServiceSettingsGUI::TAXONOMIES,
-            ($data['additional'][ilObjectServiceSettingsGUI::TAXONOMIES] ?? false) ? '1' : '0'
         );
 
         $obj_props->storePropertyIsOnline(

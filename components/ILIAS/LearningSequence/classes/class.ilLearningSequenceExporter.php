@@ -124,22 +124,6 @@ class ilLearningSequenceExporter extends ilXmlExporter
                 "entity" => "md",
                 "ids" => $md_ids
             ];
-
-            // taxonomies
-            $tax_ids = [];
-            foreach ($a_ids as $id) {
-                $t_ids = ilObjTaxonomy::getUsageOfObject((int) $id);
-                foreach ($t_ids as $t_id) {
-                    $tax_ids[$t_id] = $t_id;
-                }
-            }
-            if ($tax_ids !== []) {
-                $res[] = [
-                    "component" => "components/ILIAS/Taxonomy",
-                    "entity" => "tax",
-                    "ids" => $tax_ids
-                ];
-            }
         }
 
         // container pages
