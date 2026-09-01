@@ -542,7 +542,23 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     {
         $info = new ilInfoScreenGUI($this);
         $info->addMetaDataSections($this->object->getId(), 0, 'lso');
+        $this->addAdvancedMetaDataToInfo($info);
+
         return $info;
+    }
+
+    protected function addAdvancedMetaDataToInfo(ilInfoScreenGUI $info): void
+    {
+        $record_gui = new ilAdvancedMDRecordGUI(
+            ilAdvancedMDRecordGUI::MODE_INFO,
+            'lso',
+            $this->object->getId(),
+            '',
+            0,
+            $this->call_by_reference
+        );
+        $record_gui->setInfoObject($info);
+        $record_gui->parse();
     }
 
     protected function getGUIPermissions(): ilPermissionGUI
