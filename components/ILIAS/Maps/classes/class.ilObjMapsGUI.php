@@ -88,7 +88,8 @@ class ilObjMapsGUI extends ilObjectGUI
         $std_latitude = (float) ilMapUtil::getStdLatitude();
         $std_longitude = (float) ilMapUtil::getStdLongitude();
         $std_zoom = ilMapUtil::getStdZoom();
-        $type = ilMapUtil::getType();
+        $available_types = ilMapUtil::getAvailableMapTypes();
+        $type = self::normalizeMapType(ilMapUtil::getType(), $available_types);
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         $form->setTitle($lng->txt('maps_settings'));
@@ -101,7 +102,7 @@ class ilObjMapsGUI extends ilObjectGUI
 
         // Select type
         $types = new ilSelectInputGUI($lng->txt('maps_map_type'), 'type');
-        $types->setOptions(ilMapUtil::getAvailableMapTypes());
+        $types->setOptions($available_types);
         $types->setValue($type);
         $form->addItem($types);
 
@@ -116,12 +117,6 @@ class ilObjMapsGUI extends ilObjectGUI
 
             $form->addItem($tile);
             $form->addItem($geolocation);
-        } else {
-            // api key for google
-            $key = new ilTextInputGUI('Google API Key', 'api_key');
-            $key->setMaxLength(200);
-            $key->setValue(ilMapUtil::getApiKey());
-            $form->addItem($key);
         }
 
         // location property
@@ -147,22 +142,34 @@ class ilObjMapsGUI extends ilObjectGUI
     {
         $form = $this->buildForm();
         if ($form->checkInput()) {
-            if ($form->getInput('type') === 'openlayers' && 'openlayers' === ilMapUtil::getType()) {
+            $type = self::normalizeMapType($form->getInput('type'), ilMapUtil::getAvailableMapTypes());
+
+            if ($type === 'openlayers') {
                 ilMapUtil::setStdTileServers($form->getInput('tile'));
                 ilMapUtil::setStdGeolocationServer(
                     $form->getInput('geolocation')
                 );
-            } else {
-                ilMapUtil::setApiKey($form->getInput('api_key'));
             }
 
             ilMapUtil::setActivated($form->getInput('enable') === '1');
-            ilMapUtil::setType($form->getInput('type'));
+            ilMapUtil::setType($type);
             $location = $form->getInput('std_location');
             ilMapUtil::setStdLatitude((string) $location['latitude']);
             ilMapUtil::setStdLongitude((string) $location['longitude']);
             ilMapUtil::setStdZoom((string) $location['zoom']);
         }
         $this->ctrl->redirect($this, 'view');
+    }
+
+    /**
+     * @param array<string, string> $available_types
+     */
+    private static function normalizeMapType(?string $type, array $available_types): string
+    {
+        if ($type !== null && isset($available_types[$type])) {
+            return $type;
+        }
+
+        return array_key_first($available_types) ?? 'openlayers';
     }
 }

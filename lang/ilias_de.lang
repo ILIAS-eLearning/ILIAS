@@ -11907,7 +11907,6 @@ maps#:#maps_custom_tile_server_info#:#URL des Servers für die Bereitstellung de
 maps#:#maps_enable_maps#:#Karten aktivieren
 maps#:#maps_enable_maps_info#:#Karten können systemweit in Profilen, Kursen und Gruppen angezeigt werden.
 maps#:#maps_geolocation_server#:#Server für Reverse Geolocation
-maps#:#maps_google_maps#:#Google Maps
 maps#:#maps_https_for_reverse_lookup#:#Https für Reverse Lookup
 maps#:#maps_latitude#:#Breitengrad
 maps#:#maps_longitude#:#Längengrad
