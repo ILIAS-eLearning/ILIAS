@@ -188,7 +188,7 @@ class ilObjSCORMInitData
             . '"b_debug":' . $b_debug . ','
             . '"a_itemParameter":' . json_encode($a_man) . ','
             . '"status":' . json_encode(self::getStatus($slm_obj->getId(), $ilUser->getID(), $slm_obj->getAuto_last_visited())) . ','
-            . '"dataDirectory":"' . self::encodeURIComponent($slm_obj->getDataDirectory("output") . '/') . '",'
+            . '"dataDirectory":"' . self::encodeURIComponent($slm_obj->getContainerBaseUri() ?? ($slm_obj->getDataDirectory("output") . '/')) . '",'
             . '"img":{'
                 . '"asset":"' . self::encodeURIComponent(ilUtil::getImagePath('scorm/asset.svg')) . '",'
                 . '"browsed":"' . self::encodeURIComponent(ilUtil::getImagePath('scorm/browsed.svg')) . '",'

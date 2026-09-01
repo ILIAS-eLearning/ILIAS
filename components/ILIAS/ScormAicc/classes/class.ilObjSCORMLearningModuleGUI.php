@@ -24,7 +24,7 @@ declare(strict_types=1);
 * @author Alex Killing <alex.killing@gmx.de>, Hendrik Holtmann <holtmann@mac.com>
 * $Id$
 *
-* @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilLearningProgressGUI
+* @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilLearningProgressGUI, ilContainerResourceGUI
 * @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilInfoScreenGUI
 * @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilCertificateGUI
 * @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilSCORMTrackingItemsPerScoFilterGUI, ilSCORMTrackingItemsPerUserFilterGUI, ilSCORMTrackingItemsTableGUI
@@ -375,6 +375,17 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $this->setSettingsSubTabs();
         $ilTabs->setSubTabActive('cont_sc_new_version');
 
+        // a new module version replaces the content of the IRSS container, so
+        // the module must have been migrated to the Resource Storage first
+        if (!$this->object->hasContainerResource()) {
+            $this->tpl->setContent(
+                $DIC->ui()->renderer()->render([
+                    $DIC->ui()->factory()->messageBox()->info($this->lng->txt('infobox_files_not_migrated'))
+                ])
+            );
+            return;
+        }
+
         $obj_id = ilObject::_lookupObjectId($this->refId);
         $type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
         $this->form = new ilPropertyFormGUI();
@@ -467,6 +478,13 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $rbacsystem = $DIC->access();
         $ilErr = $DIC["ilErr"];
 
+        // a new module version replaces the IRSS container content, only
+        // possible once the module has been migrated to the Resource Storage
+        if (!$this->object->hasContainerResource()) {
+            $this->newModuleVersion();
+            return;
+        }
+
         $unzip = PATH_TO_UNZIP;
         $tocheck = "imsmanifest.xml";
 
@@ -518,8 +536,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         //remove temp file
         unlink($tmp_file);
 
-        //get old manifest file
-        $old_manifest = file_get_contents($this->object->getDataDirectory() . "/" . $tocheck);
+        //get old manifest file from the container resource
+        $old_manifest = (string) $this->object->getManifestFromContainer($tocheck);
 
         //reload fixed version of file
         $check = '/xmlns="http:\/\/www.imsglobal.org\/xsd\/imscp_v1p1"/';
@@ -533,28 +551,15 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             //get exisiting module version
             $module_version = $this->object->getModuleVersion() + 1;
 
-            if ($_FILES["scormfile"]["name"]) {
-                //build targetdir in lm_data
-                $file_path = $this->object->getDataDirectory() . "/" . $_FILES["scormfile"]["name"] . "." . $module_version;
-                $file_path = str_replace(".zip." . $module_version, "." . $module_version . ".zip", $file_path);
-                //move to data directory and add subfix for versioning
-                ilFileUtils::moveUploadedFile(
-                    $_FILES["scormfile"]["tmp_name"],
-                    $_FILES["scormfile"]["name"],
-                    $file_path
-                );
-            } else {
-                //build targetdir in lm_data
-                $uploadedFile = $DIC->http()->wrapper()->post()->retrieve('uploaded_file', $DIC->refinery()->kindlyTo()->string());
-                $file_path = $this->object->getDataDirectory() . "/" . $uploadedFile . "." . $module_version;
-                $file_path = str_replace(".zip." . $module_version, "." . $module_version . ".zip", $file_path);
-                // move the already copied file to the lm_data directory
-                ilFileUtils::rename($source, $file_path);
-            }
+            // store the uploaded package as a new revision of the container
+            $revision_title = ($_FILES["scormfile"]["name"] ?? '') !== ''
+                ? (string) $_FILES["scormfile"]["name"]
+                : basename($source);
+            $this->object->replaceContainerFromZipPath($source, $revision_title);
 
-            //unzip and replace old extracted files
-            $DIC->legacyArchives()->unzip($file_path, null, true);
-            ilFileUtils::renameExecutables($this->object->getDataDirectory()); //(security)
+            if (isset($source_is_copy)) {
+                @unlink($source);
+            }
 
             //increase module version
             $this->object->setModuleVersion($module_version);

@@ -27,7 +27,7 @@ use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
 * $Id$
 *
 * @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilInfoScreenGUI, ilLearningProgressGUI
-* @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilCommonActionDispatcherGUI, ilExportGUI, ilObjectCopyGUI
+* @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilCommonActionDispatcherGUI, ilExportGUI, ilObjectCopyGUI, ilContainerResourceGUI
 *
 * @ingroup components\ILIASScormAicc
 */
@@ -48,6 +48,24 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         $lng->loadLanguageModule("content");
         $this->type = "sahs";
         parent::__construct($data, $id, $call_by_reference, false);
+    }
+
+    /**
+     * List files tab: forward to the read-only container view once migrated,
+     * otherwise show an info box. On-disk file editing is no longer offered.
+     */
+    public function listFiles(): void
+    {
+        global $DIC;
+        if ($this->object->hasContainerResource()) {
+            $this->ctrl->redirectByClass(ilContainerResourceGUI::class);
+            return;
+        }
+        $this->tabs_gui->setTabActive('cont_list_files');
+        $message_box = $DIC->ui()->factory()->messageBox()->info(
+            $this->lng->txt('infobox_files_not_migrated')
+        );
+        $this->tpl->setContent($DIC->ui()->renderer()->render([$message_box]));
     }
 
     /**
@@ -117,10 +135,27 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 break;
 
             case "ilfilesystemgui":
-                $fs_gui = new ilFileSystemGUI($this->object->getDataDirectory());
-                $fs_gui->setUseUploadDirectory(true);
-                $fs_gui->setTableId("sahsfs" . $this->object->getId());
-                $this->ctrl->forwardCommand($fs_gui);
+                // legacy on-disk file editing is no longer offered; content is
+                // managed through the Resource Storage container once migrated
+                $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
+                break;
+
+            case strtolower(ilContainerResourceGUI::class):
+                if (!$this->object->hasContainerResource()) {
+                    $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
+                }
+                $ilTabs->setTabActive('cont_list_files');
+                $view_config = new \ILIAS\components\ResourceStorage\Container\View\Configuration(
+                    $this->object->getResource(),
+                    new ilSAHSStakeholder(),
+                    $this->lng->txt('cont_list_files'),
+                    \ILIAS\components\ResourceStorage\Container\View\Mode::DATA_TABLE,
+                    250,
+                    false, // read-only: no upload
+                    false  // read-only: no administrate
+                );
+                $container_gui = new ilContainerResourceGUI($view_config);
+                $this->ctrl->forwardCommand($container_gui);
                 break;
 
             case "ilcertificategui":
@@ -439,6 +474,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             ilObject::_writeTitle($newObj->getId(), $title);
         }
 
+        // move the freshly uploaded package into a Resource Storage container
+        $newObj->moveDataDirectoryToContainer();
+
         //auto set learning progress settings
         $newObj->setLearningProgressSettingsAtUpload();
 
@@ -616,17 +654,15 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 break;
         }
 
-        // file system gui tabs
-        // properties
+        // list files tab — routes to the container view (migrated) or an
+        // info box (not yet migrated); legacy on-disk editing is gone
         if ($rbacsystem->checkAccess("write", "", $this->object->getRefId())) {
-            $ilCtrl->setParameterByClass("ilfilesystemgui", "resetoffset", 1);
             $this->tabs_gui->addTarget(
                 "cont_list_files",
-                $this->ctrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"),
+                $this->ctrl->getLinkTarget($this, "listFiles"),
                 "",
-                "ilfilesystemgui"
+                ""
             );
-            $ilCtrl->setParameterByClass("ilfilesystemgui", "resetoffset", "");
         }
         // info screen
         $force_active = ($this->ctrl->getNextClass() === "ilinfoscreengui")
