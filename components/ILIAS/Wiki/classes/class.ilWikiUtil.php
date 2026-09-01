@@ -45,6 +45,8 @@ const IL_WIKI_MODE_EXT_COLLECT = "ext_collect";
  */
 class ilWikiUtil
 {
+    private const string MAIL_BLOCK_BORDER = "\n---\n";
+
     /**
      * This one is based on Mediawiki Parser->replaceInternalLinks
      * since we display images in another way, only text links are processed
@@ -587,9 +589,9 @@ class ilWikiUtil
 
                         if ($snippet) {
                             $message .= "\n" . $ulng->txt('content') . "\n" .
-                                "----------------------------------------\n" .
+                                self::MAIL_BLOCK_BORDER . "\n" .
                                 $snippet . "\n" .
-                                "----------------------------------------\n";
+                                self::MAIL_BLOCK_BORDER . "\n";
                         }
 
                         // include comment/note text
@@ -607,9 +609,9 @@ class ilWikiUtil
 
                         if ($snippet) {
                             $message .= $ulng->txt('content') . "\n" .
-                                "----------------------------------------\n" .
+                                self::MAIL_BLOCK_BORDER . "\n" .
                                 $snippet . "\n" .
-                                "----------------------------------------\n\n";
+                                self::MAIL_BLOCK_BORDER . "\n\n";
                         }
 
                         $message .= $ulng->txt('wiki_change_notification_link') . ": " . $link;
