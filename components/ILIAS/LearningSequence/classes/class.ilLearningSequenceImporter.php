@@ -97,20 +97,6 @@ class ilLearningSequenceImporter extends ilXmlImporter
             $new_obj_id = $this->obj->getId();
             ilPageObject::_writeParentId($pg_type, (int) $new_pg_id, (int) $new_obj_id);
         }
-
-        // taxonomy usages
-        $maps = $a_mapping->getMappingsOfEntity("components/ILIAS/LearningSequence", "lso");
-        foreach ($maps as $old => $new) {
-            if ($old !== "new_id" && (int) $old > 0) {
-                $new_tax_ids = $a_mapping->getMapping("components/ILIAS/Taxonomy", "tax_usage_of_obj", (string) $old);
-                if ($new_tax_ids !== "") {
-                    $tax_ids = explode(":", (string) $new_tax_ids);
-                    foreach ($tax_ids as $tid) {
-                        ilObjTaxonomy::saveUsage((int) $tid, (int) $new);
-                    }
-                }
-            }
-        }
     }
 
     public function afterContainerImportProcessing(ilImportMapping $mapping): void
