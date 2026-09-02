@@ -1,3 +1,5 @@
+<?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,7 +15,14 @@
  * https://github.com/ILIAS-eLearning
  */
 
-import il from 'il';
-import * as permalink from './footer/permalink';
+namespace ILIAS\UI\Component\Transfer;
 
-il.Footer = { permalink };
+use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\Component;
+
+/**
+ * Identifier for all Transfer components.
+ */
+interface Transfer extends Component, JavaScriptBindable
+{
+}

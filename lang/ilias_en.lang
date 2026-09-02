@@ -3846,7 +3846,6 @@ common#:#copy_all#:#Copy all
 common#:#copy_n_of_suffix#:#(%1$s)
 common#:#copy_of#:#Copy of
 common#:#copy_of_suffix#:#- Copy
-common#:#copy_perma_link#:#Copy Link to Clipboard
 common#:#copy_selected_items#:#Copy
 common#:#count#:#Count
 common#:#counter_novelty#:#News
@@ -5339,7 +5338,6 @@ common#:#pd_items_news#:#Include News of Personal Items
 common#:#pdf_export#:#PDF Export
 common#:#perm_settings#:#Permissions
 common#:#perma_link#:#Permanent Link
-common#:#perma_link_copied#:#Link to this page has been copied to the clipboard.
 common#:#permission#:#Permission
 common#:#permission_denied#:#Permission Denied
 common#:#permission_settings#:#Object Permission Settings
@@ -17537,6 +17535,10 @@ ui#:#2stars#:#two of five stars
 ui#:#3stars#:#three of five stars
 ui#:#4stars#:#four of five stars
 ui#:#5stars#:#five of five stars
+ui#:#copy#:#Copy
+ui#:#copy_to_clipboard#:#Copy
+ui#:#copy_to_clipboard_failure#:#Error
+ui#:#copy_to_clipboard_success#:#Copied
 ui#:#datatable_close_warning#:#OK
 ui#:#datatable_multiaction_label#:#Bulk Actions
 ui#:#datatable_multiactionmodal_actionlabel#:#Action for All Entries
@@ -17564,6 +17566,9 @@ ui#:#label_modeviewcontrol#:#view mode
 ui#:#label_pagination_limit#:#Pagination Number of Rows
 ui#:#label_pagination_offset#:#Pagination Offset
 ui#:#label_sortation#:#Sortation
+ui#:#open_web_share_api#:#Share
+ui#:#open_web_share_api_failure#:#Error
+ui#:#open_web_share_api_success#:#Shared
 ui#:#order_option_alphabetical_ascending#:#A to Z
 ui#:#order_option_alphabetical_descending#:#Z to A
 ui#:#order_option_chronological_ascending#:#Earliest First
@@ -17578,6 +17583,9 @@ ui#:#presentation_table_expand#:#Expand All
 ui#:#rating_average#:#Others rated %s of 5
 ui#:#reset_stars#:#neutral
 ui#:#select_node#:#Add node %s to selection
+ui#:#share#:#Share
+ui#:#show_qr_code#:#Show QR-code
+ui#:#show_qr_code#:#Show QR-code
 ui#:#table_posinput_col_title#:#Position
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
@@ -17612,6 +17620,7 @@ ui#:#ui_table_no_records#:#No records
 ui#:#ui_table_order#:#Order
 ui#:#ui_transcription#:#Transcript
 ui#:#unselect_node#:#Remove node %s from selection
+ui#:#use_qr_code#:#Click or scan the QR-code
 ui#:#vc_sort#:#Sort by:
 ui#:#warning_url_too_long_msg#:#The amount of selected rows will result in a very large URL; the Server will probably block this request.<br>Please select less rows or perform the action on all entries.
 user#:#account_not_flagged_for_deletion#:#The account is not flagged for deletion.

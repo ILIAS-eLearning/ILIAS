@@ -38,7 +38,8 @@ class FieldRendererFactory extends Render\DefaultRendererFactory
                 $this->image_path_resolver,
                 $this->data_factory,
                 $this->help_text_retriever,
-                $this->upload_limit_resolver
+                $this->upload_limit_resolver,
+                $this->refinery,
             );
         }
         if (in_array('StandardFilterContainerInput', $contexts)) {
@@ -50,7 +51,8 @@ class FieldRendererFactory extends Render\DefaultRendererFactory
                 $this->image_path_resolver,
                 $this->data_factory,
                 $this->help_text_retriever,
-                $this->upload_limit_resolver
+                $this->upload_limit_resolver,
+                $this->refinery,
             );
         }
         return new Renderer(
@@ -61,7 +63,8 @@ class FieldRendererFactory extends Render\DefaultRendererFactory
             $this->image_path_resolver,
             $this->data_factory,
             $this->help_text_retriever,
-            $this->upload_limit_resolver
+            $this->upload_limit_resolver,
+            $this->refinery,
         );
     }
 }
