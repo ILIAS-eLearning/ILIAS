@@ -47,7 +47,7 @@ class SplEditingGUIRequestTest extends TestCase
     {
         $request = $this->getRequest(
             [
-                "ref_id" => 102
+                "ref_id" => "102"
             ],
             []
         );
@@ -62,7 +62,7 @@ class SplEditingGUIRequestTest extends TestCase
     {
         $request = $this->getRequest(
             [
-                "q_id" => 33
+                "q_id" => "33"
             ],
             []
         );

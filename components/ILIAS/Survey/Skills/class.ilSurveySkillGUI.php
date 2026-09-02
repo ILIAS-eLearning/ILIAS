@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Survey skill service GUI class
  * @author Alexander Killing <killing@leifos.de>

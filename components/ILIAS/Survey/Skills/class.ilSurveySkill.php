@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Skill/Competence handling in surveys
  * @author Alexander Killing <killing@leifos.de>
@@ -57,7 +59,7 @@ class ilSurveySkill
         );
 
         while ($rec = $ilDB->fetchAssoc($set)) {
-            if (SurveyQuestion::_questionExists($rec["q_id"])) {
+            if (SurveyQuestion::_questionExists((int) $rec["q_id"])) {
                 $this->q_skill[(int) $rec["q_id"]] = array(
                     "q_id" => (int) $rec["q_id"],
                     "base_skill_id" => (int) $rec["base_skill_id"],
@@ -142,8 +144,8 @@ class ilSurveySkill
         $skills = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
             $skills[] = array(
-                "skill_id" => $rec["base_skill_id"],
-                "tref_id" => $rec["tref_id"]
+                "skill_id" => (int) $rec["base_skill_id"],
+                "tref_id" => (int) $rec["tref_id"]
             );
         }
 
@@ -189,16 +191,20 @@ class ilSurveySkill
     ): void {
         $used_skills = array();
         foreach ($a_skills as $skill) {
-            if ($this->isSkillAssignedToQuestion($skill["skill_id"], $skill["tref_id"])) {
-                $used_skills[] = $skill["skill_id"] . ":" . $skill["tref_id"];
+            $skill_id = (int) $skill["skill_id"];
+            $tref_id = (int) $skill["tref_id"];
+            if ($this->isSkillAssignedToQuestion($skill_id, $tref_id)) {
+                $used_skills[] = $skill_id . ":" . $tref_id;
             }
         }
         reset($a_skills);
 
         // now remove all usages that have been confirmed
         foreach ($a_skills as $skill) {
-            if (!in_array($skill["skill_id"] . ":" . $skill["tref_id"], $used_skills, true)) {
-                $this->skill_usage_service->removeUsage($this->survey->getId(), $skill["skill_id"], $skill["tref_id"]);
+            $skill_id = (int) $skill["skill_id"];
+            $tref_id = (int) $skill["tref_id"];
+            if (!in_array($skill_id . ":" . $tref_id, $used_skills, true)) {
+                $this->skill_usage_service->removeUsage($this->survey->getId(), $skill_id, $tref_id);
             }
         }
     }
@@ -353,11 +359,11 @@ class ilSurveySkill
             $max_scale = 0;
             for ($i = 0; $i < $cats->getCategoryCount(); $i++) {
                 $c = $cats->getCategory($i);
-                $n = $c->neutral;
-                $s = $c->scale;
-                if (!$c->neutral) {
-                    if ($c->scale > $max_scale) {
-                        $max_scale = $c->scale;
+                $n = (bool) $c->neutral;
+                $s = (int) $c->scale;
+                if (!$n) {
+                    if ($s > $max_scale) {
+                        $max_scale = $s;
                     }
                 }
             }
@@ -386,7 +392,7 @@ class ilSurveySkill
                     true,
                     false,
                     "",
-                    $nl["next_level_perc"]
+                    (float) $nl["next_level_perc"]
                 );
 
                 if (($nl["tref_id"] ?? 0) > 0) {
@@ -421,8 +427,8 @@ class ilSurveySkill
                     true,
                     false,
                     "",
-                    $nl["next_level_perc"],
-                    (int) $rater_id
+                    (float) $nl["next_level_perc"],
+                    $rater_id
                 );
 
                 if (($nl["tref_id"] ?? 0) > 0) {
@@ -451,9 +457,9 @@ class ilSurveySkill
                         (int) $nl["tref_id"],
                         ilBasicSkill::ACHIEVED,
                         true,
-                        1,
+                        true,
                         "",
-                        $nl["next_level_perc"]
+                        (float) $nl["next_level_perc"]
                     );
 
                     if (($nl["tref_id"] ?? 0) > 0) {

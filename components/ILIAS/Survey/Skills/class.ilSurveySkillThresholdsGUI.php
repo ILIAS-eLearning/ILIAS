@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Survey skill thresholds GUI class
  * @author Alexander Killing <killing@leifos.de>
@@ -121,7 +123,7 @@ class ilSurveySkillThresholdsGUI
                     (int) $t
                 );
             }
-            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), 1);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
 
         $ilCtrl->redirect($this, "listSkillThresholds");

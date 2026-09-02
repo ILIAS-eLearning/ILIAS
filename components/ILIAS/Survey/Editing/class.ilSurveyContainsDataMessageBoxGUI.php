@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Message box for survey, when data is alrady available.
  * Should be moved to some survey ui subservice in the future.

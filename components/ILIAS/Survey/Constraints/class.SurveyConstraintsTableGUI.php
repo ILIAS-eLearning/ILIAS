@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * TableGUI class for survey constraints
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -48,10 +50,10 @@ class SurveyConstraintsTableGUI extends ilTable2GUI
         $this->setDescription($lng->txt("constraints_introduction"));
 
         if (!$this->read_only) {
-            $this->addColumn("", "", 1);
+            $this->addColumn("", "", "1");
         }
 
-        $this->addColumn("", "", 1);
+        $this->addColumn("", "", "1");
         $this->addColumn($lng->txt("constraints_list_of_entities"), "");
         $this->addColumn($lng->txt("existing_constraints"), "");
 
@@ -101,7 +103,7 @@ class SurveyConstraintsTableGUI extends ilTable2GUI
                 if ($counter === 1) {
                     $content = $lng->txt("constraints_first_question_description");
                 } else {
-                    $constraints = $a_survey->getConstraints($data["question_id"]);
+                    $constraints = $a_survey->getConstraints((int) $data["question_id"]);
                     if (count($constraints)) {
                         $parsed = array();
 

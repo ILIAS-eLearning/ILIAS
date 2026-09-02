@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Survey\Editing;
 
 use ILIAS\Repository\BaseGUIRequest;
@@ -169,7 +171,7 @@ class EditingGUIRequest
 
     public function getQuestionIdsFromString(): array
     {
-        return explode(";", $this->str("question_ids"));
+        return array_map('intval', explode(";", $this->str("question_ids")));
     }
 
     public function getSelectedPool(): int

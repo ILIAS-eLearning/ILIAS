@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Skill\Service\SkillTreeService;
 
 /**
@@ -72,13 +74,15 @@ class ilSurveySkillTableGUI extends ilTable2GUI
         $data = array();
         foreach ($opts as $k => $o) {
             $v = explode(":", $k);
+            $base_skill_id = (int) $v[0];
+            $tref_id = (int) $v[1];
 
-            $question_ids = $sskill->getQuestionsForSkill($v[0], $v[1]);
-            $scale_sum = $sskill->determineMaxScale($v[0], $v[1]);
+            $question_ids = $sskill->getQuestionsForSkill($base_skill_id, $tref_id);
+            $scale_sum = $sskill->determineMaxScale($base_skill_id, $tref_id);
 
-            $data[] = array("title" => ilBasicSkill::_lookupTitle($v[0], $v[1]),
-                "base_skill" => $v[0],
-                "tref_id" => $v[1],
+            $data[] = array("title" => ilBasicSkill::_lookupTitle($base_skill_id, $tref_id),
+                "base_skill" => $base_skill_id,
+                "tref_id" => $tref_id,
                 "nr_of_q" => count($question_ids),
                 "scale_sum" => $scale_sum
                 );
@@ -91,19 +95,21 @@ class ilSurveySkillTableGUI extends ilTable2GUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
+        $base_skill_id = (int) $a_set["base_skill"];
+        $tref_id = (int) $a_set["tref_id"];
 
-        $ilCtrl->setParameter($this->parent_obj, "sk_id", $a_set["base_skill"]);
-        $ilCtrl->setParameter($this->parent_obj, "tref_id", $a_set["tref_id"]);
+        $ilCtrl->setParameter($this->parent_obj, "sk_id", $base_skill_id);
+        $ilCtrl->setParameter($this->parent_obj, "tref_id", $tref_id);
 
         $this->tpl->setVariable(
             "COMPETENCE",
-            ilBasicSkill::_lookupTitle($a_set["base_skill"], $a_set["tref_id"])
+            ilBasicSkill::_lookupTitle($base_skill_id, $tref_id)
         );
-        $path = $this->skill_tree->getSkillTreePath($a_set["base_skill"], $a_set["tref_id"]);
+        $path = $this->skill_tree->getSkillTreePath($base_skill_id, $tref_id);
         $path_nodes = array();
         foreach ($path as $p) {
-            if ($p["child"] > 1 && $p["skill_id"] != $a_set["base_skill"]) {
-                $path_nodes[] = ilBasicSkill::_lookupTitle($p["skill_id"], $p["tref_id"]);
+            if ($p["child"] > 1 && (int) $p["skill_id"] !== $base_skill_id) {
+                $path_nodes[] = ilBasicSkill::_lookupTitle((int) $p["skill_id"], (int) $p["tref_id"]);
             }
         }
         $this->tpl->setVariable("PATH", implode(" > ", $path_nodes));
@@ -115,13 +121,13 @@ class ilSurveySkillTableGUI extends ilTable2GUI
         $this->tpl->setVariable("CMD", $ilCtrl->getLinkTarget($this->parent_obj, "listSkillThresholds"));
         $this->tpl->setVariable("ACTION", $lng->txt("edit"));
 
-        $bs = new ilBasicSkill($a_set["base_skill"]);
+        $bs = new ilBasicSkill($base_skill_id);
         $ld = $bs->getLevelData();
         foreach ($ld as $l) {
             $this->tpl->setCurrentBlock("points");
             $this->tpl->setVariable("LEV", $l["title"]);
 
-            $tr = $this->thresholds[$l["id"]][$a_set["tref_id"]] ?? 0;
+            $tr = $this->thresholds[(int) $l["id"]][$tref_id] ?? 0;
             if ((int) $tr !== 0) {
                 $this->tpl->setVariable("THRESHOLD", (int) $tr);
             } else {
