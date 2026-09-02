@@ -116,9 +116,9 @@ class Repository
         $query = "SELECT count({$id_column->getColumnString()}) cnt FROM {$id_column->getTableName()}";
 
         return $this->db->fetchObject(
-            $filter_data === [] || $filter_data['title'] === null
+            $filter_data === [] || array_filter($filter_data) === []
                 ? $this->db->query($query)
-                : $this->buildCountStatementWithWhereClause($query, $filter_data)
+                : $this->buildCountStatementWithWhereClause($id_column, $query, $filter_data)
         )->cnt;
     }
 
@@ -530,6 +530,7 @@ class Repository
     }
 
     private function buildCountStatementWithWhereClause(
+        Column $id_column,
         string $query,
         array $filter_data
     ): \ilDBStatement {
@@ -538,17 +539,18 @@ class Repository
         $values = [];
         foreach ($filter_data as $key => $value) {
             [
-                'column' => $column,
+                'column' => $filter_column,
                 'operator' => $operator,
                 'value' => $transformed_value
             ] = $this->prepareFilterData($key, $value);
 
-            if ($column === null) {
+            /** @var \ILIAS\Questions\Persistence\Column $filter_column */
+            if ($filter_column === null) {
                 continue;
             }
 
             $where = $this->persistence_factory->where(
-                $column,
+                $filter_column,
                 $this->persistence_factory->value(
                     FieldDefinition::T_TEXT,
                     $transformed_value
@@ -564,8 +566,16 @@ class Repository
                 : $right->getValue();
         }
 
+        $join = $this->persistence_factory->join(
+            $id_column,
+            $this->answer_form_generic_table_definitions->getForeignKeyColumn(
+                $this->core_table_names_builder,
+                AnswerFormGenericTableTypes::AnswerForms
+            )
+        );
+
         return $this->db->queryF(
-            "{$query} WHERE " . implode(' AND ', $where_string),
+            "{$query} {$join->toSql()} WHERE " . implode(' AND ', $where_string),
             $types,
             $values
         );
@@ -589,8 +599,7 @@ class Repository
 
         $column = $column_definition?->getDatabaseColumn(
             $this->persistence_factory,
-            $this->core_table_names_builder,
-            $this->answer_form_factory
+            $this->core_table_names_builder
         );
         if ($column === null) {
             return $empty_set;
