@@ -1,21 +1,24 @@
-# Group
-Disclaimer: This documentation does not guarantee completeness or correctness. Please report any missing or incorrect information using the ILIAS issue tracker or contribute a fix via Pull Request (docs/development/contributing.md#pull-request-to-the-repositories).
-## General Information
+# Group Privacy
+
+> **Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information by submitting a [Pull Request](docs/development/contributing.md#pull-request-to-the-repositories) or, if you prefer, via the [ILIAS bug tracker](https://mantis.ilias.de). When using the bug tracker, please select the corresponding component in the **Category** field.**
+
+## General information
 Groups allow working together in a protected space in learning groups or teams. A group can contain almost any content. People can often create their own learning content, upload files, or share them. This created content is not part of this privacy.md. 
 The group component itself is rather small. It integrates a huge amount of other services, which store and present personal data. 
-## Integrated Services
+
+## Integrated components
 The Group employs the following services, please consult the respective PRIVACY.md files:
-- Info Screen
-- Membership service
-- Learning Progress
-- Metadata
-- Export
-- AccessControl
-- Object
-- Didactic templates
-- Container Service
-- UserService
-- Mail
+- [InfoScreen](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/InfoScreen/PRIVACY.md)
+- Membership 
+- Tracking
+- [Metadata](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/MetaData/PRIVACY.md)
+- [Export](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/Export/PRIVACY.md)
+- [AccessControl](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/AccessControl/PRIVACY.md)
+- ILIASObject
+- [DidacticTemplate](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/DidacticTemplate/PRIVACY.md)
+- [Container](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/Container/PRIVACY.md)
+- User
+- [Mail](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/Mail/PRIVACY.md)
 
 Additional Features: Calendar, News, Advanced Metadata (Custom Metadata), Tags, Rating, Badges, Organisational Units, Competences, Maps, LTI, Multilingualism 
 
