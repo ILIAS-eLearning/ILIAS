@@ -1,5 +1,6 @@
 @use "../../../010-settings/" as *;
 @use "../../../050-layout/basics" as *;
+@use "../../../050-layout/layout_breakpoints" as *;
 @use "../../../070-components/UI-framework/Button/ui-component_button" as *;
 @use "../../../050-layout/layout_container-query" as container-query;
 
@@ -41,6 +42,7 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 .il-viewcontrol-sortation,
 .il-viewcontrol-section,
 .il-viewcontrol-section .btn-group,
+.il-viewcontrol-section .dropdown,
 .il-viewcontrol-pagination__sectioncontrol,
 .il-viewcontrol-pagination__num-of-items,
 .il-viewcontrol-pagination,
@@ -62,6 +64,23 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 		cursor: default;
 		pointer-events: none;
 		background-color: $il-btn-ctrl-bg;
+	}
+}
+
+.il-viewcontrol-section .dropdown > .btn-default {
+	border: 1px solid $il-btn-ctrl-engaged-border;
+	background-color: $il-main-bg;
+	display: inline-block;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	min-width: 100px;
+	max-width: 400px;
+	@media screen and (max-width: $screen-md-max) {
+		max-width: 50vw;
+	}
+	@media screen and (max-width: $screen-sm-max) {
+		max-width: 50vw;
 	}
 }
 
