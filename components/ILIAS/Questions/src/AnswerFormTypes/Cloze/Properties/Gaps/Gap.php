@@ -398,10 +398,10 @@ class Gap implements Clonable
         DataRowBuilder $row_builder,
         Language $lng
     ): DataRow {
-        $total_points = 0;
+        $max_points = 0;
         $answer_options_list = '';
         foreach ($this->answer_options->getAnswerOptionsAwardingPoints() as $option) {
-            $total_points += $option->getAvailablePoints();
+            $max_points = max($max_points, $option->getAvailablePoints());
 
             $gap_text = $option->getTextValue();
             if ($gap_text === '') {
@@ -417,7 +417,7 @@ class Gap implements Clonable
                 'gap' => $this->buildShortenedGapName(),
                 'type' => $lng->txt("{$this->type->getIdentifier()}_gap"),
                 'answers_options_awarding_points' => $answer_options_list,
-                'available_points' => $total_points
+                'available_points' => $max_points
             ]
         );
     }
