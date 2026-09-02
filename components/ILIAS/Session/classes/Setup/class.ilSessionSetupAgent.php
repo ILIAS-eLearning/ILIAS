@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\Setup\Config;
+use ILIAS\Session\Setup\UpdateStepsV12;
 
 /**
  * @author  Tim Schmitz <schmitz@leifos.de>
@@ -28,7 +29,12 @@ class ilSessionSetupAgent extends Setup\Agent\NullAgent
 {
     public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
-        return new ilDatabaseUpdateStepsExecutedObjective(new ilSessionDBUpdateSteps9());
+        return new Setup\ObjectiveCollection(
+            'Update Session component',
+            false,
+            new ilDatabaseUpdateStepsExecutedObjective(new ilSessionDBUpdateSteps9()),
+            new ilDatabaseUpdateStepsExecutedObjective(new UpdateStepsV12())
+        );
     }
 
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
