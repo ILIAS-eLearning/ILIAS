@@ -135,7 +135,9 @@ class ilSecuritySettingsChecker
     {
         // Define human-readable special character list for GUI and escape sequence for regex
         // Could increase special sysmbol options with: '\p{P}\p{S}'
-        $specialChars = '_.+?#-*@!$%~/:;=^&{}[]()<>,|\'';
+        // Remember to keep this in line with ILIAS\Refinery\Password\HasSpecialChars::ALLOWED_CHARS
+        $specialChars = '-_~+*?!%#§&$@/,.:;=^(){}[]<>|\'';
+
         $specialCharsRegex = preg_quote($specialChars, '/');
 
         // Return as regex
