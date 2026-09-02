@@ -403,11 +403,19 @@ class ilLPObjSettings
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        $query = "DELETE FROM ut_lp_settings WHERE obj_id = " . $ilDB->quote(
-            $a_obj_id,
-            'integer'
-        );
-        $res = $ilDB->manipulate($query);
+        $obj_id = $ilDB->quote($a_obj_id, 'integer');
+        $queries = array();
+
+        $queries[] = "DELETE FROM ut_lp_settings WHERE obj_id = " . $obj_id;
+        $queries[] = "DELETE FROM ut_lp_collections WHERE obj_id = " . $obj_id;
+        $queries[] = "DELETE FROM ut_lp_marks WHERE obj_id = " . $obj_id;
+        $queries[] = "DELETE FROM ut_lp_coll_manual WHERE obj_id = " . $obj_id;
+        $queries[] = "DELETE FROM ut_lp_user_status WHERE obj_id = " . $obj_id;
+
+        foreach ($queries as $query) {
+            $ilDB->manipulate($query);
+        }
+
         return true;
     }
 
@@ -499,16 +507,6 @@ class ilLPObjSettings
 
     public static function _deleteByObjId(int $a_obj_id): void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        // we are only removing settings for now
-        // invalid ut_lp_collections-entries are filtered
-        // ut_lp_marks is deemed private user data
-
-        $ilDB->manipulate(
-            "DELETE FROM ut_lp_settings" .
-            " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer")
-        );
+        self::_delete($a_obj_id);
     }
 }
