@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * Class ilObjSCORMLearningModule
@@ -904,7 +904,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
                         'scorm_tracking',
                         array(
                             'rvalue' => array('clob', $data['Value']),
-                            'c_timestamp' => array('timestamp', $c_timestamp)
+                            'c_timestamp' => array('timestamp', $c_timestamp->format('Y-m-d H:i:s'))
                         ),
                         array(
                             'user_id' => array('integer', $user_id),
