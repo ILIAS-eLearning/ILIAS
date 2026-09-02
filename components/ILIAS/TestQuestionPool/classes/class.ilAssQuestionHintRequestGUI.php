@@ -81,7 +81,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
             ->exists(ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE)) {
             $this->global_screen->tool()->context()->current()->getAdditionalData()->replace(
                 ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE,
-                $this->parent_gui->getObject()->getTitleForHTMLOutput() . ' - ' . $this->lng->txt('show_requested_question_hints')
+                $this->question_obj->getTitleForHTMLOutput() . ' - ' . $this->lng->txt('show_requested_question_hints')
             );
         }
 
@@ -115,7 +115,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
             ->exists(ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE)) {
             $this->global_screen->tool()->context()->current()->getAdditionalData()->replace(
                 ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE,
-                $this->parent_gui->getObject()->getTitleForHTMLOutput() . ' - ' . sprintf(
+                $this->question_obj->getTitleForHTMLOutput() . ' - ' . sprintf(
                     $this->lng->txt('tst_question_hints_form_header_edit'),
                     $question_hint->getIndex(),
                     $this->request_data_collector->int('sequence') ?? 0
