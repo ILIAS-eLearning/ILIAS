@@ -5273,6 +5273,7 @@ common#:#online_time#:#Ukupno vrijeme na mreži (online) (DD: SS: MM: SS)
 common#:#only_active#:#Samo aktivni
 common#:#only_inactive#:#Samo neaktivni
 common#:#open#:#Otvori
+common#:#open_link#:#Open link###05 08 2026 new variable
 common#:#operation#:#Operacija
 common#:#optimize#:#Optimiziraj
 common#:#option#:#Opcija

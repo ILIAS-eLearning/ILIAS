@@ -5273,6 +5273,7 @@ common#:#online_time#:#Gesamtzeit Online (DD:HH:MM:SS)
 common#:#only_active#:#Nur aktive
 common#:#only_inactive#:#Nur inaktive
 common#:#open#:#Öffnen
+common#:#open_link#:#Link öffnen
 common#:#operation#:#Operation
 common#:#optimize#:#Optimieren
 common#:#option#:#Option

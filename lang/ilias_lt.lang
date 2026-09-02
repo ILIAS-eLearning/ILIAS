@@ -5273,6 +5273,7 @@ common#:#online_time#:#Laikas online (DD:HH:MM:SS)
 common#:#only_active#:#Only Active###07 02 2020 new variable
 common#:#only_inactive#:#Only Inactive###07 02 2020 new variable
 common#:#open#:#Open###10 11 2018 new variable
+common#:#open_link#:#Open link###05 08 2026 new variable
 common#:#operation#:#Operacija
 common#:#optimize#:#Optimizuoti
 common#:#option#:#Option###26 03 2010 new variable
