@@ -33,35 +33,6 @@ class RBACServices
     }
 
     /**
-     * Lazy variant that resolves each member from the given container only on
-     * first access. Used as a fallback when no bootstrapped RBACServices is
-     * registered (e.g. unit tests that only mock individual rbac keys).
-     */
-    public static function lazyFromContainer(Container $container): self
-    {
-        return new class ($container) extends RBACServices {
-            public function __construct(private readonly Container $container)
-            {
-            }
-
-            public function system(): \ilRbacSystem
-            {
-                return $this->container['rbacsystem'];
-            }
-
-            public function admin(): \ilRbacAdmin
-            {
-                return $this->container['rbacadmin'];
-            }
-
-            public function review(): \ilRbacReview
-            {
-                return $this->container['rbacreview'];
-            }
-        };
-    }
-
-    /**
      * Get the interface to the RBAC system.
      */
     public function system(): \ilRbacSystem
