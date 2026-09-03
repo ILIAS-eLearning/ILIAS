@@ -18,8 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\Environment\Configuration\Instance\DefaultClientIdProvider;
-use ILIAS\Environment\Configuration\Instance\IliasIni;
+use ILIAS\Environment\Configuration\Installation\DefaultClientIdProvider;
+use ILIAS\Environment\Configuration\Installation\IliasIni;
 use ILIAS\HTTP\GlobalHttpState;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;

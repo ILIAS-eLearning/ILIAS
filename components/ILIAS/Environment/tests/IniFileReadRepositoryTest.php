@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Environment\Configuration\Instance\IniFileReadRepository;
+use ILIAS\Environment\Configuration\Ini\IniFileReadRepository;
 use PHPUnit\Framework\TestCase;
 
 final class IniFileReadRepositoryTest extends TestCase

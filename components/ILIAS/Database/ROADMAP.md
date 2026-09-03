@@ -14,7 +14,7 @@ itself is still built outside the component, by `ilInitialisation::initDatabase(
 
 The goal is that the component builds and hands out the connection itself:
 
-- `Database.php` takes `ILIAS\Environment\Configuration\Instance\ClientIni` and derives both the driver
+- `Database.php` takes `ILIAS\Environment\Configuration\Installation\ClientIni` and derives both the driver
   details (`InnoDBDetails` / `GaleraDetails`) and the credentials from it, instead of `IL_DB_TYPE` and
   `ilDBPdo::initFromIniFile()` reading `$DIC['ilClientIniFile']`. That interface already exposes
   `getDatabaseType()`, `-Host()`, `-User()`, `-Password()` and `-Name()`; only a getter for `db.port` is

@@ -39,7 +39,7 @@ class Logging implements Component\Component
         $internal[Logging\Config\Basic\ConfigInterface::class] = static fn() =>
             new Logging\Config\Basic\Config(
                 new Logging\Config\Basic\IniReader(
-                    $use[Environment\Configuration\Instance\IliasIni::class]
+                    $use[Environment\Configuration\Installation\IliasIni::class]
                 )
             );
         $internal[Logging\Config\ByComponent\ConfigInterface::class] = static fn() =>
