@@ -306,24 +306,34 @@ final class ilContainerResourceGUI implements UploadHandler
         }
         $container = $this->view_configuration->getContainer();
 
-        foreach ($this->upload->getResults() as $result) {
+        // a single request can carry more than one file, therefore every result
+        // has to be taken into account: reporting the outcome of the last one
+        // would hide files rejected by a pre-processor from the user.
+        $results = $this->upload->getResults();
+        $stored_all = $results !== [];
+        $message = '';
+
+        foreach ($results as $result) {
             if (!$result->isOK()) {
+                $stored_all = false;
+                $message = $result->getStatus()->getMessage();
                 continue;
             }
             // store to zip
-            $return = $this->irss->manageContainer()->addUploadToContainer(
+            if (!$this->irss->manageContainer()->addUploadToContainer(
                 $container->getIdentification(),
                 $result,
                 $this->view_request->getPath()
-            );
+            )) {
+                $stored_all = false;
+            }
         }
 
-        // OK
         $upload_result = new BasicHandlerResult(
             self::P_PATH,
-            $return ? BasicHandlerResult::STATUS_OK : BasicHandlerResult::STATUS_FAILED,
+            $stored_all ? BasicHandlerResult::STATUS_OK : BasicHandlerResult::STATUS_FAILED,
             '-',
-            'undefined error'
+            $message !== '' ? $message : $this->language->txt('rids_appended_failed')
         );
         $response = $this->http->response()->withBody(Streams::ofString(json_encode($upload_result)));
         $this->http->saveResponse($response);
