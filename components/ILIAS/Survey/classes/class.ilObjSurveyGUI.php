@@ -783,15 +783,25 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $ctrl->redirectByClass("ilObjSurveyGUI", "run");
         }
 
-        // read permission, evaluation access and finished run -> evaluation
+        // read permission and evaluation access -> evaluation
         if ($ilAccess->checkAccess("visible", "", $ref_id) ||
             $ilAccess->checkAccess("read", "", $ref_id)) {
             if ($ilAccess->checkAccess("read", "", $ref_id)) {
                 $domain_service = $DIC->survey()->internal()->domain();
                 $am = $domain_service->access($ref_id, $DIC->user()->getId());
                 $survey = new ilObjSurvey($ref_id);
-                $run_manager = $domain_service->execution()->run($survey, $DIC->user()->getId());
-                if ($am->canAccessEvaluation()) {
+                $appraisee_id = $request->getAppraiseeId();
+                $run_manager = $domain_service->execution()->run(
+                    $survey,
+                    $DIC->user()->getId(),
+                    $appraisee_id
+                );
+                if ($domain_service->modeFeatureConfig($survey->getMode())->usesAppraisees()) {
+                    $has_finished_run = $appraisee_id > 0 && $run_manager->hasFinished();
+                } else {
+                    $has_finished_run = $run_manager->hasFinished();
+                }
+                if ($am->canAccessEvaluation() && $has_finished_run) {
                     $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $ref_id);
                     $ctrl->redirectByClass(["ilObjSurveyGUI", "ilSurveyEvaluationGUI"], "openEvaluation");
                 }
