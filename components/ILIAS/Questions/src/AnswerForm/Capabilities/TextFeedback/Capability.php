@@ -78,7 +78,7 @@ class Capability implements CapabilityInterface, AdditionalTabProvider, Feedback
     public function getFeedback(
         Properties $answer_form_properties
     ): ?Feedback {
-        return $this->retrieveMigratedFeedback(
+        return $this->repository->getFor(
             $answer_form_properties->getAnswerFormId(),
             $answer_form_properties
                 ->getTypeGenericProperties()
@@ -90,9 +90,9 @@ class Capability implements CapabilityInterface, AdditionalTabProvider, Feedback
     }
 
     #[\Override]
-    public function runPageMigration(): void
+    public function runPageMigrations(): void
     {
-        $this->repository->migratePageFeedback();
+        $this->repository->migrateFeedbackPages();
     }
 
     #[\Override]
@@ -169,7 +169,7 @@ class Capability implements CapabilityInterface, AdditionalTabProvider, Feedback
         return new Overview(
             $environment,
             $this->text_factory,
-            $this->retrieveMigratedFeedback(
+            $this->repository->getFor(
                 $environment->getAnswerFormId(),
                 $environment
                     ->getAnswerFormProperties()
@@ -209,25 +209,5 @@ class Capability implements CapabilityInterface, AdditionalTabProvider, Feedback
         return $environment->redirectTo(
             $environment->withDefaultSubAction()->getUrlBuilder()
         );
-    }
-
-    private function retrieveMigratedFeedback(
-        Uuid $answer_form_id,
-        TextFeedback $feedback
-    ): TextFeedback {
-        $feedback_with_data = $this->repository->getFor(
-            $answer_form_id,
-            $feedback
-        );
-
-        if ($feedback_with_data->requiresPageMigration()) {
-            $feedback_with_data = $feedback_with_data->withMigratedPageFeedbacks();
-            $this->repository->store(
-                $answer_form_id,
-                $feedback_with_data
-            );
-        }
-
-        return $feedback_with_data;
     }
 }

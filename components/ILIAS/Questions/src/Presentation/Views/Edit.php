@@ -479,7 +479,7 @@ class Edit
     private function showTable(
         DefaultEnvironment $environment
     ): QuestionsTable {
-        $this->questions_repository->migrateQuestionPages();
+        $this->questions_repository->migrateQuestionPages($environment);
 
         return new QuestionsTable(
             $this->ui_services,

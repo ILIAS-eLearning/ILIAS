@@ -197,6 +197,8 @@ class Overview implements Viewable
         $if = $this->environment->getUIFactory()->input();
         $lng = $this->environment->getLanguage();
 
+        $html_purifier = new HtmlPurifier();
+
         return [
             'generic_feedback' => $if->field()->section(
                 [
@@ -205,7 +207,7 @@ class Overview implements Viewable
                         Types::BestResponse->getTranslatedOptionName($lng)
                     )->withValue(
                         $this->set_legacy_texts_as_values
-                            ? $this->environment->getRefinery()->string()->stripTags()->transform(
+                            ? $html_purifier->prepareAndPurify(
                                 $this->feedback->getFeedbackBestResponseLegacy()
                             ) : $this->feedback->getFeedbackBestResponse()
                                 ?->getRawRepresentation() ?? ''
@@ -215,7 +217,7 @@ class Overview implements Viewable
                         Types::OtherResponse->getTranslatedOptionName($lng)
                     )->withValue(
                         $this->set_legacy_texts_as_values
-                            ? $this->environment->getRefinery()->string()->stripTags()->transform(
+                            ? $html_purifier->prepareAndPurify(
                                 $this->feedback->getFeedbackOtherResponseLegacy()
                             ) : $this->feedback->getFeedbackOtherResponse()
                                 ?->getRawRepresentation() ?? ''
