@@ -26,7 +26,6 @@ use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Finder\Finder;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\Filesystem\Visibility;
-use ILIAS\Filesystem\FileSystems\FilesystemWeb;
 
 /**
  * The filesystem ready only decorator provides read only access and will throw
@@ -35,7 +34,7 @@ use ILIAS\Filesystem\FileSystems\FilesystemWeb;
  * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
  * @author                 Fabian Schmid <fabian@sr.solutions>
  */
-final class ReadOnlyDecorator implements Filesystem, FilesystemWeb
+final class ReadOnlyDecorator implements Filesystem
 {
     /**
      * ReadOnlyDecorator constructor.
