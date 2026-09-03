@@ -28,8 +28,8 @@ use ILIAS\Database\PDO\External;
 use ILIAS\Filesystem\FileSystems\FilesystemStorage;
 use ILIAS\Filesystem\Configuration\FilesystemConfig;
 use ILIAS\FileDelivery\FileDeliveryServices;
-use ILIAS\Environment\Configuration\Instance\IliasIni;
-use ILIAS\Environment\Configuration\Instance\ClientIdProvider;
+use ILIAS\Environment\Configuration\Installation\IliasIni;
+use ILIAS\Environment\Configuration\Installation\ClientIdProvider;
 use ILIAS\ResourceStorage\IRSSServices;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\ResourceStorage\Repositories;
@@ -58,7 +58,7 @@ use ILIAS\FileUpload\Location;
 use ILIAS\ResourceStorage\Events\Observer;
 use ILIAS\ResourceStorage\IRSSEventLogObserver;
 use ILIAS\ResourceStorage\Events\ObserverCollection;
-use ILIAS\Environment\Configuration\Instance\Directories;
+use ILIAS\Environment\Configuration\Installation\Directories;
 
 class ResourceStorage implements Component
 {

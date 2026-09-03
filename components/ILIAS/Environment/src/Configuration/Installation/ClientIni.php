@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Environment\Configuration\Instance;
+namespace ILIAS\Environment\Configuration\Installation;
 
 /**
  * Typed read access to client.ini.php.
@@ -28,7 +28,7 @@ namespace ILIAS\Environment\Configuration\Instance;
  * @author     Fabian Schmid <fabian@sr.solutions>
  *
  * @deprecated Try to avoid consuming this directly. Use or introduce more specific Interfaces, e.g.
- * \ILIAS\Environment\Configuration\Instance\Directories and move to other components.
+ * \ILIAS\Environment\Configuration\Installation\Directories and move to other components.
  * * This will help to reactor configuration in the future.
  */
 interface ClientIni

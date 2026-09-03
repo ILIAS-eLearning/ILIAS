@@ -18,7 +18,7 @@
 
 namespace ILIAS\HTTP\Request;
 
-use ILIAS\Environment\Configuration\Instance\IliasIni;
+use ILIAS\Environment\Configuration\Installation\IliasIni;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>

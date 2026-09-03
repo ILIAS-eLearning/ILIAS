@@ -18,7 +18,9 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Environment\Configuration\Instance;
+namespace ILIAS\Environment\Configuration\Installation;
+
+use ILIAS\Environment\Configuration\Ini\IniFileReadRepository;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>

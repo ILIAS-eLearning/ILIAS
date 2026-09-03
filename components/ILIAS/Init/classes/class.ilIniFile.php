@@ -18,19 +18,19 @@
 
 declare(strict_types=1);
 
-use ILIAS\Environment\Configuration\Instance\ConfigurationReadRepository;
-use ILIAS\Environment\Configuration\Instance\ConfigurationWriteRepository;
-use ILIAS\Environment\Configuration\Instance\IniFileWriteRepository;
+use ILIAS\Environment\Configuration\Ini\ConfigurationReadRepository;
+use ILIAS\Environment\Configuration\Ini\ConfigurationWriteRepository;
+use ILIAS\Environment\Configuration\Ini\IniFileWriteRepository;
 
 /**
  * INI file parser — compatibility wrapper.
  *
  * All file I/O is now delegated to
- * {@see \ILIAS\Environment\Configuration\Instance\IniFileWriteRepository}.
- * Use the typed interfaces {@see \ILIAS\Environment\Configuration\Instance\IliasIni}
- * and {@see \ILIAS\Environment\Configuration\Instance\ClientIni} for new code.
+ * {@see \ILIAS\Environment\Configuration\Ini\IniFileWriteRepository}.
+ * Use the typed interfaces {@see \ILIAS\Environment\Configuration\Installation\IliasIni}
+ * and {@see \ILIAS\Environment\Configuration\Installation\ClientIni} for new code.
  *
- * @deprecated Use ILIAS\Environment\Configuration\Instance\IliasIni or ClientIni instead.
+ * @deprecated Use ILIAS\Environment\Configuration\Installation\IliasIni or ClientIni instead.
  */
 class ilIniFile
 {
