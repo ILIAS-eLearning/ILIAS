@@ -7417,6 +7417,7 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdate
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',20,'2024-04-30 15:11:09.017679','2024-04-30 15:11:09.018014');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',21,'2025-07-18 06:53:06.838357','2025-07-18 06:53:06.840247');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',22,'2026-04-21 16:00:11.283501','2026-04-21 16:00:11.283884');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',23,'2026-09-03 12:52:05.983748','2026-09-03 12:52:05.984209');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\SurveyQuestionPool\\Setup\\SurveyQuestionPoolDBUpdateSteps',1,'2025-07-18 06:53:07.066560','2025-07-18 06:53:07.068398');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\ilTestNoHintsDBUpdateSteps',1,'2026-05-04 14:42:11.838918','2026-05-04 14:42:11.843622');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\ilTestNoHintsDBUpdateSteps',2,'2026-05-04 14:42:11.843899','2026-05-04 14:42:11.847493');
@@ -7533,6 +7534,10 @@ INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',13,'2023-12
 INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',14,'2023-12-12 16:39:40.342328','2023-12-12 16:39:40.347680');
 INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',15,'2023-12-12 16:39:40.348311','2023-12-12 16:39:40.368952');
 INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',16,'2026-01-20 16:18:03.707361','2026-01-20 16:18:03.709985');
+INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',17,'2026-09-03 12:52:05.957804','2026-09-03 12:52:05.965477');
+INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',18,'2026-09-03 12:52:05.965865','2026-09-03 12:52:05.973687');
+INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',19,'2026-09-03 12:52:05.974161','2026-09-03 12:52:05.975339');
+INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',20,'2026-09-03 12:52:05.975696','2026-09-03 12:52:05.976681');
 INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',1,'2023-12-12 16:39:40.370010','2023-12-12 16:39:40.376439');
 INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',2,'2023-12-12 16:39:40.377073','2023-12-12 16:39:40.383219');
 INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',3,'2023-12-12 16:39:40.383847','2023-12-12 16:39:40.392769');
@@ -12763,6 +12768,43 @@ CREATE TABLE `lti_consumer_grades_seq` (
 
 
 --
+-- Table structure for table `lti_consumer_lineitems`
+--
+
+CREATE TABLE `lti_consumer_lineitems` (
+  `id` int(11) NOT NULL,
+  `context_id` int(11) NOT NULL,
+  `obj_id` int(11) DEFAULT NULL,
+  `client_id` varchar(255) DEFAULT NULL,
+  `label` varchar(255) DEFAULT NULL,
+  `score_maximum` double DEFAULT 1,
+  `resource_id` varchar(255) DEFAULT NULL,
+  `resource_link_id` varchar(255) DEFAULT NULL,
+  `tag` varchar(255) DEFAULT NULL,
+  `enabled` tinyint(4) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`)
+) ;
+
+--
+-- Dumping data for table `lti_consumer_lineitems`
+--
+
+
+--
+-- Table structure for table `lti_consumer_lineitems_seq`
+--
+
+CREATE TABLE `lti_consumer_lineitems_seq` (
+  `sequence` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`sequence`)
+) ;
+
+--
+-- Dumping data for table `lti_consumer_lineitems_seq`
+--
+
+
+--
 -- Table structure for table `lti_consumer_results`
 --
 
@@ -12819,6 +12861,7 @@ CREATE TABLE `lti_consumer_settings` (
   `launch_key` varchar(255) DEFAULT NULL,
   `launch_secret` varchar(255) DEFAULT NULL,
   `custom_params` varchar(255) NOT NULL DEFAULT '',
+  `score_maximum` double DEFAULT 1,
   PRIMARY KEY (`obj_id`)
 ) ;
 
@@ -14060,7 +14103,7 @@ INSERT INTO `object_data` VALUES (34,'typ','lm','Learning module Object',-1,'200
 INSERT INTO `object_data` VALUES (35,'typ','notf','Note Folder Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL,NULL);
 INSERT INTO `object_data` VALUES (36,'typ','note','Note Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL,NULL);
 INSERT INTO `object_data` VALUES (37,'typ','frm','Forum object',-1,'2002-07-15 15:54:22','2003-08-15 12:36:40','',NULL,NULL);
-INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2026-08-11 14:08:06','',NULL,NULL);
+INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2026-09-03 12:52:05','',NULL,NULL);
 INSERT INTO `object_data` VALUES (71,'lng','de','not_installed',6,'2003-08-15 10:25:19','2015-12-22 16:29:24','',NULL,NULL);
 INSERT INTO `object_data` VALUES (72,'lng','es','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL,NULL);
 INSERT INTO `object_data` VALUES (73,'lng','it','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL,NULL);
@@ -20881,7 +20924,7 @@ INSERT INTO `settings` VALUES ('common','ilfrmnoti1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmreadidx1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmthri2','1');
 INSERT INTO `settings` VALUES ('common','ilGlobalTstPoolUsageSettingInitilisation','1');
-INSERT INTO `settings` VALUES ('common','ilias_version','11.3.0');
+INSERT INTO `settings` VALUES ('common','ilias_version','11.4.0');
 INSERT INTO `settings` VALUES ('common','ilinc_akclassvalues_required','1');
 INSERT INTO `settings` VALUES ('common','ilmpathix','1');
 INSERT INTO `settings` VALUES ('common','iloscmsgidx1','1');
@@ -25898,5 +25941,5 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2026-08-11 14:08:07
+-- Dump completed on 2026-09-03 12:52:06
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
