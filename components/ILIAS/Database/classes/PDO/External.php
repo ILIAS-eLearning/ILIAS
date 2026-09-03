@@ -23,6 +23,20 @@ namespace ILIAS\Database\PDO;
 use ilDBInterface;
 use ilDBPdoInterface;
 
+/**
+ * The part of the database contract other components consume.
+ *
+ * Counterpart to {@see Internal}, which additionally exposes what the PDO
+ * manager and reverse classes need from the connection they work on. The two
+ * names describe the scope a contract is meant for, not where the database
+ * lives.
+ *
+ * Both the name and the place in the PDO namespace are provisional: this
+ * interface still inherits the complete legacy surface of ilDBInterface and
+ * ilDBPdoInterface, of which consuming components use a small fraction. It can
+ * only be named and located for what it does once that surface is narrowed,
+ * see ROADMAP.md, "Narrow the contract other components consume".
+ */
 interface External extends ilDBInterface, ilDBPdoInterface
 {
 }

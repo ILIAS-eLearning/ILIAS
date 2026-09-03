@@ -22,6 +22,11 @@ namespace ILIAS\Database\PDO;
 
 use ILIAS\Database\FieldDefinition;
 
+/**
+ * The database contract used inside this component: everything other
+ * components get through {@see External}, plus what ilDBPdoManager and
+ * ilDBPdoReverse need from the connection they work on.
+ */
 interface Internal extends External
 {
     public function getFieldDefinition(): ?FieldDefinition;
