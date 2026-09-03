@@ -22,9 +22,7 @@ use ILIAS\ResourceStorage\Consumer\SrcBuilder;
 use ILIAS\ResourceStorage\Flavour\Flavour;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\FileDelivery\Delivery\Disposition;
-use ILIAS\FileDelivery\Services;
-use ILIAS\ResourceStorage\Repositories;
-use ILIAS\ResourceStorage\Manager\Manager;
+use ILIAS\FileDelivery\FileDeliveryServices;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -34,7 +32,7 @@ class ilSecureTokenSrcBuilder implements SrcBuilder
     private InlineSrcBuilder $inline;
 
     public function __construct(
-        private Services $file_delivery
+        private FileDeliveryServices $file_delivery
     ) {
         $this->inline = new InlineSrcBuilder($file_delivery);
     }

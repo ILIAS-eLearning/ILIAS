@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\MediaObjects\SubTitles\SubtitlesGUIRequest;
+use ILIAS\Filesystem\Configuration\FilesystemConfig;
 use ILIAS\MediaObjects\Metadata\MetadataManager;
 use ILIAS\components\ResourceStorage\Container\View\Configuration;
 use ILIAS\components\ResourceStorage\Container\View\Mode;
@@ -31,7 +32,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 {
     protected \ILIAS\MediaObjects\MediaObjectManager $media_manager;
     protected \ILIAS\MediaObjects\Video\GUIService $video_gui;
-    protected ilFileServicesSettings $file_service_settings;
+    protected FilesystemConfig $file_service_settings;
     protected SubtitlesGUIRequest $sub_title_request;
     protected ilPropertyFormGUI $form_gui;
     protected int $height_preset = 0;

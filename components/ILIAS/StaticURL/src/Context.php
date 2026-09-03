@@ -18,76 +18,99 @@
 
 namespace ILIAS\StaticURL;
 
-use ILIAS\HTTP\Services;
-use ILIAS\DI\Container;
+use ILIAS\AccessControl\PublicInterface\Access;
+use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 use ILIAS\StaticURL\Builder\URIBuilder;
+use ILIAS\StaticURL\Legacy\CtrlProxy;
+use ILIAS\StaticURL\Legacy\LanguageProxy;
+use ILIAS\StaticURL\Legacy\MainTemplateProxy;
+use ILIAS\StaticURL\Legacy\RepositoryTreeProxy;
+use ILIAS\StaticURL\Legacy\SettingsProxy;
+use ILIAS\StaticURL\Legacy\UserProxy;
 
 /**
+ * What a {@see \ILIAS\StaticURL\Handler\Handler} may reach out to while it
+ * resolves a static URL.
+ *
+ * Services that are wired through the component bootstrap are injected as
+ * themselves. Everything else still lives in the legacy container and is named
+ * by a dedicated proxy, so this class states its dependencies instead of
+ * holding a container that can produce anything.
+ *
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-final class Context
+class Context
 {
-    public function __construct(private Container $container)
-    {
+    public function __construct(
+        private readonly GlobalHttpState $http,
+        private readonly Factory $refinery,
+        private readonly Access $access,
+        private readonly URIBuilder $builder,
+        private readonly UserProxy $user,
+        private readonly RepositoryTreeProxy $tree,
+        private readonly LanguageProxy $language,
+        private readonly MainTemplateProxy $main_template,
+        private readonly CtrlProxy $ctrl,
+        private readonly SettingsProxy $settings,
+    ) {
     }
 
     public function getUserLanguage(): string
     {
-        return $this->container->user()->getCurrentLanguage();
+        return $this->user->getCurrentLanguage();
     }
 
     public function refinery(): Factory
     {
-        return $this->container->refinery();
+        return $this->refinery;
     }
 
     public function lng(): \ilLanguage
     {
-        return $this->container->language();
+        return $this->language->get();
     }
 
     public function mainTemplate(): \ilGlobalTemplateInterface
     {
-        return $this->container->ui()->mainTemplate();
+        return $this->main_template->get();
     }
 
-    public function http(): Services
+    public function http(): GlobalHttpState
     {
-        return $this->container->http();
+        return $this->http;
     }
 
     public function ctrl(): \ilCtrlInterface
     {
-        return $this->container->ctrl();
+        return $this->ctrl->get();
     }
 
     public function checkPermission(string $permission, int $ref_id): bool
     {
-        return $this->container->access()->checkAccess($permission, '', $ref_id);
+        return $this->access->checkAccess($permission, '', $ref_id);
     }
 
     public function getParentRefId(int $ref_id): ?int
     {
-        return $this->container->repositoryTree()->getParentId($ref_id);
+        return $this->tree->getParentId($ref_id);
     }
 
     public function exists(int $ref_id): bool
     {
-        return $this->container->repositoryTree()->isInTree($ref_id);
+        return $this->tree->isInTree($ref_id);
     }
 
     public function findFirstAccessibleParentRefId(int $ref_id, string $permission = 'read'): ?int
     {
-        $tree = $this->container->repositoryTree();
-        if ($ref_id <= 0 || !$tree->isInTree($ref_id)) {
+        if ($ref_id <= 0 || !$this->tree->isInTree($ref_id)) {
             return null;
         }
 
-        $root_id = $tree->getRootId();
+        $root_id = $this->tree->getRootId();
         $current = $ref_id;
         $visited = [];
-        while (($parent = (int) $tree->getParentId($current)) > 0) {
+        while (($parent = (int) $this->tree->getParentId($current)) > 0) {
             if (isset($visited[$parent])) {
                 return null;
             }
@@ -106,21 +129,21 @@ final class Context
 
     public function getUserId(): int
     {
-        return $this->container->user()->getId();
+        return $this->user->getId();
     }
 
     public function isUserLoggedIn(): bool
     {
-        return !$this->container->user()->isAnonymous() && $this->container->user()->getId() !== 0;
+        return !$this->user->isAnonymous() && $this->user->getId() !== 0;
     }
 
     public function isPublicSectionActive(): bool
     {
-        return (bool) ($this->container->settings()->get('pub_section') ?? false);
+        return (bool) $this->settings->get('pub_section');
     }
 
     public function builder(): URIBuilder
     {
-        return $this->container['static_url']->builder();
+        return $this->builder;
     }
 }

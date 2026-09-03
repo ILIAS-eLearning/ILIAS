@@ -37,6 +37,7 @@ use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 use ILIAS\File\Capabilities\Capabilities;
 use ILIAS\File\Versions\Table\Table as VersionsTable;
 use ILIAS\File\Capabilities\CapabilityCollection;
+use ILIAS\Filesystem\Configuration\FilesystemConfig;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -85,7 +86,7 @@ class ilFileVersionsGUI
     private ilTabsGUI $tabs;
     protected ilCtrl $ctrl;
     private ilGlobalTemplateInterface $tpl;
-    private ilFileServicesSettings $file_service_settings;
+    private FilesystemConfig $file_service_settings;
     private ilObjFileComponentBuilder $file_component_builder;
     protected ?int $version_id = null;
     protected ilTree $tree;

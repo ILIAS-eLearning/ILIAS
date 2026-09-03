@@ -18,13 +18,15 @@
 
 declare(strict_types=1);
 
+use ILIAS\Logging\Config\ConfigInterface as LoggingConfig;
+
 readonly class ilSessionReminderGUI
 {
     public function __construct(
         private ilSessionReminder $session_reminder,
         private ilGlobalTemplateInterface $page,
         private ilLanguage $lng,
-        private ilLoggerFactory $logger_factory
+        private LoggingConfig $logging_config
     ) {
     }
 
@@ -46,7 +48,7 @@ readonly class ilSessionReminderGUI
                 $this->session_reminder->getUser()->getCreateDate()
             ])
         );
-        $log_level = $this->logger_factory->getSettings()->getLevelByComponent('auth');
+        $log_level = $this->logging_config->byComponent()->level('auth')->value;
 
         $javascript = <<<JS
             il.SessionReminder.init({

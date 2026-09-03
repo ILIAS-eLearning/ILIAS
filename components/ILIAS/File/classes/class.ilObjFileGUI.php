@@ -39,6 +39,7 @@ use ILIAS\File\Capabilities\CapabilityBuilder;
 use ILIAS\File\Capabilities\CapabilityCollection;
 use ILIAS\File\Capabilities\Context;
 use ILIAS\ILIASObject\Properties\CoreProperties\TitleAndDescription;
+use ILIAS\Filesystem\Configuration\FilesystemConfig;
 
 /**
  * GUI class for file objects.
@@ -86,7 +87,7 @@ class ilObjFileGUI extends ilObject2GUI
     protected ilObjectService $obj_service;
     protected \ILIAS\Refinery\Factory $refinery;
     protected General $general_settings;
-    protected ilFileServicesSettings $file_service_settings;
+    protected FilesystemConfig $file_service_settings;
     protected IconDatabaseRepository $icon_repo;
     protected \ILIAS\UI\Component\Input\Factory $inputs;
     protected Renderer $renderer;
@@ -110,7 +111,7 @@ class ilObjFileGUI extends ilObject2GUI
         $this->storage = $DIC->resourceStorage();
         $this->upload_handler = new ilObjFileUploadHandlerGUI();
         $this->stakeholder = new ilObjFileStakeholder();
-        $this->general_settings = new General();
+        $this->general_settings = new General($DIC->database());
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
         $this->obj_service = $DIC->object();
         $this->lng->loadLanguageModule(ilObjFile::OBJECT_TYPE);

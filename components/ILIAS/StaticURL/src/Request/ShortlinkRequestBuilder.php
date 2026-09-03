@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\StaticURL\Request;
 
-use ILIAS\HTTP\Services;
+use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 use ILIAS\StaticURL\Shortlinks\Handler;
 use ILIAS\StaticURL\Builder\StandardURIBuilder;
@@ -31,7 +31,7 @@ use ILIAS\StaticURL\Handler\LegacyGotoHandler;
  */
 class ShortlinkRequestBuilder implements RequestBuilder
 {
-    public function buildRequest(Services $http, Factory $refinery, array $handlers): ?Request
+    public function buildRequest(GlobalHttpState $http, Factory $refinery, array $handlers): ?Request
     {
         // Legacy permanent links always carry a "target" query parameter: either because
         // they were requested as goto.php?target=... directly, or because the rewrite rules

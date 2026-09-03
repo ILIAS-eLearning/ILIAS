@@ -26,27 +26,32 @@ use ILIAS\FileServices\FileServicesLegacyInitialisationAdapter;
 use ILIAS\UI\Component\Input\Field\GlobalUploadLimit;
 use ILIAS\Setup\Agent;
 use ILIAS\Refinery\Factory;
+use ILIAS\FileUpload\Processor\PreProcessor;
+use ILIAS\FileServices\Upload\FileServicesPreProcessor;
+use ILIAS\Filesystem\Configuration\FilesystemConfig;
 
 class FileServices implements Component
 {
     public function init(
-        array | \ArrayAccess &$define,
-        array | \ArrayAccess &$implement,
-        array | \ArrayAccess &$use,
-        array | \ArrayAccess &$contribute,
-        array | \ArrayAccess &$seek,
-        array | \ArrayAccess &$provide,
-        array | \ArrayAccess &$pull,
-        array | \ArrayAccess &$internal,
+        array|\ArrayAccess &$define,
+        array|\ArrayAccess &$implement,
+        array|\ArrayAccess &$use,
+        array|\ArrayAccess &$contribute,
+        array|\ArrayAccess &$seek,
+        array|\ArrayAccess &$provide,
+        array|\ArrayAccess &$pull,
+        array|\ArrayAccess &$internal,
     ): void {
-        $implement[PhpUploadLimit::class] = static fn(): FileServicesLegacyInitialisationAdapter =>
-            new FileServicesLegacyInitialisationAdapter();
-        $implement[GlobalUploadLimit::class] = static fn(): FileServicesLegacyInitialisationAdapter =>
-            new FileServicesLegacyInitialisationAdapter();
+        $implement[PhpUploadLimit::class] = static fn() => new FileServicesLegacyInitialisationAdapter(
+        );
+        $implement[GlobalUploadLimit::class] = static fn(
+        ) => new FileServicesLegacyInitialisationAdapter();
 
-        $contribute[Agent::class] = static fn(): \ilFileServicesSetupAgent =>
-            new \ilFileServicesSetupAgent(
-                $pull[Factory::class]
-            );
+        $contribute[Agent::class] = static fn() => new \ilFileServicesSetupAgent(
+            $pull[Factory::class]
+        );
+
+        $contribute[PreProcessor::class] = static fn() =>
+            new FileServicesPreProcessor($use[FilesystemConfig::class]);
     }
 }
