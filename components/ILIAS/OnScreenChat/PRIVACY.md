@@ -32,7 +32,9 @@ No administrative view of other users' conversation content was found in this co
 
 ## Data being deleted
 
-No deletion logic was found within the OnScreenChat component's PHP code. The component does not implement a user account deletion hook for removing data from `osc_messages`, `osc_conversation`, or `osc_activity` when a user account is deleted. Administrators should be aware that message content and participant references linked to deleted user accounts may persist in these tables. The user preference `chat_osc_accept_msg` stored in `usr_pref` is subject to whatever deletion behavior the [User](../User/PRIVACY.md) component implements for user preferences on account deletion.
+No account-specific cleanup is implemented in the OnScreenChat component. Therefore, message content and participant references associated with deleted user accounts may initially remain in the `osc_messages`, `osc_conversation`, and `osc_activity` tables.
+
+Old messages and conversations are cleaned up by the chat server according to its configured retention settings; see [Delete old messages](../Chatroom/README.md#delete-old-messages). The preference `chat_osc_accept_msg` stored in `usr_pref` is subject to the deletion behaviour implemented by the [User](../User/PRIVACY.md) component for user preferences.
 
 ## Data being exported
 
