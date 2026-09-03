@@ -93,4 +93,65 @@ class UploadPolicyResolverTest extends TestCase
 
         $this->assertEquals(10, $resolver->getUserUploadSizeLimitInBytes() / 1000 / 1000);
     }
+
+    public function testPolicyWithStartAndEndDate(): void
+    {
+        $rbac_mock = $this->createMock(\ilRbacReview::class);
+        $user_mock = $this->createMock(\ilObjUser::class);
+
+        $running_policy = $this->buildPolicy(
+            'Running',
+            1000,
+            new \DateTimeImmutable('yesterday midnight'),
+            new \DateTimeImmutable('tomorrow midnight')
+        );
+
+        $resolver = new \UploadPolicyResolver($rbac_mock, $user_mock, [$running_policy]);
+
+        $this->assertEquals(1000, $resolver->getUserUploadSizeLimitInBytes() / 1000 / 1000);
+
+        $future_policy = $this->buildPolicy(
+            'Not started yet',
+            1000,
+            new \DateTimeImmutable('tomorrow midnight'),
+            new \DateTimeImmutable('tomorrow midnight +7 days')
+        );
+
+        $resolver = new \UploadPolicyResolver($rbac_mock, $user_mock, [$future_policy]);
+
+        $this->assertNull($resolver->getUserUploadSizeLimitInBytes());
+
+        $expired_policy = $this->buildPolicy(
+            'Expired',
+            1000,
+            new \DateTimeImmutable('yesterday midnight -7 days'),
+            new \DateTimeImmutable('yesterday midnight')
+        );
+
+        $resolver = new \UploadPolicyResolver($rbac_mock, $user_mock, [$expired_policy]);
+
+        $this->assertNull($resolver->getUserUploadSizeLimitInBytes());
+    }
+
+    private function buildPolicy(
+        string $title,
+        int $limit_in_mb,
+        ?\DateTimeImmutable $valid_from,
+        ?\DateTimeImmutable $valid_until
+    ): \UploadPolicy {
+        return new \UploadPolicy(
+            1,
+            $title,
+            $limit_in_mb,
+            [],
+            \UploadPolicy::AUDIENCE_TYPE_ALL_USERS,
+            \UploadPolicy::SCOPE_DEFINITION_GLOBAL,
+            true,
+            $valid_from,
+            $valid_until,
+            6,
+            new \DateTimeImmutable(),
+            new \DateTimeImmutable()
+        );
+    }
 }
