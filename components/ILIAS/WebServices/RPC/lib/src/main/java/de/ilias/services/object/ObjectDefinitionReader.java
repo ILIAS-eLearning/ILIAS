@@ -37,17 +37,18 @@ public class ObjectDefinitionReader {
 
 	private static final Logger logger = LogManager.getLogger(ObjectDefinitionReader.class);
 	private static final HashMap<File, ObjectDefinitionReader> instances = new HashMap<File, ObjectDefinitionReader>();
-	
+
 	public static final String objectPropertyName = "LuceneObjectDefinition.xml";
-	public static final String pluginPath = "Customizing/global/plugins";
+	public static final String pluginPath8 = "Customizing/global/plugins";
+	public static final String pluginPath = "public/Customizing/global/plugins";
 	public static final String componentPath = "components";
 
 	private final Vector<File> objectPropertyFiles = new Vector<File>();
-	
+
 
 	File absolutePath;
 	ClientSettings clientSettings;
-	
+
 	private ObjectDefinitionReader(ClientSettings settings) throws ConfigurationException {
 		this.clientSettings = settings;
 		this.absolutePath = settings.getAbsolutePath();
@@ -77,11 +78,11 @@ public class ObjectDefinitionReader {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws ConfigurationException
 	 */
 	private void read() throws ConfigurationException  {
-		
+
 		logger.debug("Start reading search index definitions...");
 		if(!absolutePath.isDirectory()) {
 			throw new ConfigurationException("Absolute path required. Path: " + absolutePath.getAbsolutePath());
@@ -110,20 +111,25 @@ public class ObjectDefinitionReader {
 		traverse(services);
 
 		// Traverse through Plugins
-		File plugin = new File(absolutePath.getAbsoluteFile() + System.getProperty("file.separator") + ObjectDefinitionReader.pluginPath);
+		File plugin = new File(absolutePath.getAbsoluteFile() + System.getProperty("file.separator") + ObjectDefinitionReader.pluginPath8);
 		logger.debug("Start path is : " + plugin.getAbsoluteFile());
 		traverse(plugin);
 	}
 
 	private void traverseByVersion10() {
-		// Traverse through Plugins
-		File plugin = new File(absolutePath.getAbsoluteFile() + System.getProperty("file.separator") + ObjectDefinitionReader.componentPath);
-		logger.debug("Start path is : " + plugin.getAbsoluteFile());
-		traverse(plugin);
+		// Traverse through Components
+		File component = new File(absolutePath.getAbsoluteFile() + System.getProperty("file.separator") + ObjectDefinitionReader.componentPath);
+		logger.debug("Start path is : " + component.getAbsoluteFile());
+		traverse(component);
+
+        // Traverse through Plugins
+        File plugin = new File(absolutePath.getAbsoluteFile() + System.getProperty("file.separator") + ObjectDefinitionReader.pluginPath);
+        logger.debug("Start path is : " + plugin.getAbsoluteFile());
+        traverse(plugin);
 	}
-	
+
 	private void traverse(File dir) {
-		
+
 		if(dir == null) {
 			return;
 		}
@@ -133,7 +139,7 @@ public class ObjectDefinitionReader {
 				new FileFilter()
 				{
 					public boolean accept(File path) {
-						
+
 						if(path.isDirectory()) {
                             //logger.debug("Found new directory: " + path.getAbsolutePath());
                             return !path.getName().equals(".svn");
