@@ -38,6 +38,20 @@ class XapiProxyRequest
     private string $cmdPart2plus = "";
     private bool $checkGetStatements = true;
 
+    /**
+     * The xAPI document resources are mutable, so the specification guards them with optimistic
+     * concurrency (xAPI 1.0.3, "Concurrency"): a content player announces the document revision
+     * it expects, and an LRS must reject a PUT on an already existing document that carries
+     * neither of these headers with 409 Conflict.
+     * @var list<string>
+     */
+    private const CONDITIONAL_REQUEST_HEADERS = ['If-Match', 'If-None-Match'];
+
+    /**
+     * @var list<string>
+     */
+    private const DOCUMENT_RESOURCES = ['activities/state', 'activities/profile', 'agents/profile'];
+
     public function __construct(XapiProxy $xapiproxy)
     {
         $this->dic = $GLOBALS['DIC'];
@@ -279,6 +293,25 @@ class XapiProxyRequest
                 $this->xapiproxy->log()->error($this->msg($e->getMessage()));
             }
 
+            $responses['default'] = $this->repeatDocumentWriteWithPrecondition(
+                $httpclient,
+                $request,
+                $responses['default'],
+                $uriDefault,
+                $authDefault,
+                $body,
+                $req_opts
+            );
+            $responses['fallback'] = $this->repeatDocumentWriteWithPrecondition(
+                $httpclient,
+                $request,
+                $responses['fallback'],
+                $uriFallback,
+                $authFallback,
+                $body,
+                $req_opts
+            );
+
             $defaultOk = $this->xapiProxyResponse->checkResponse($responses['default'], $endpointDefault);
             $fallbackOk = $this->xapiProxyResponse->checkResponse($responses['fallback'], $endpointFallback);
 
@@ -318,6 +351,16 @@ class XapiProxyRequest
             } catch (\Exception $e) {
                 $this->xapiproxy->log()->error($this->msg($e->getMessage()));
             }
+            $responses['default'] = $this->repeatDocumentWriteWithPrecondition(
+                $httpclient,
+                $request,
+                $responses['default'],
+                $uriDefault,
+                $authDefault,
+                $body,
+                $req_opts
+            );
+
             if ($this->xapiProxyResponse->checkResponse($responses['default'], $endpointDefault)) {
                 try {
                     $this->xapiProxyResponse->handleResponse(
@@ -372,10 +415,98 @@ class XapiProxyRequest
             $headers['Connection'] = $request->getHeader('Connection');
         }
 
+        foreach (self::CONDITIONAL_REQUEST_HEADERS as $conditionalHeader) {
+            if ($request->hasHeader($conditionalHeader)) {
+                $headers[$conditionalHeader] = $request->getHeader($conditionalHeader);
+            }
+        }
+
         //$this->xapiproxy->log()->debug($this->msg($body));
 
         $req = new Request(strtoupper($request->getMethod()), $uri, $headers, $body);
 
         return $req;
+    }
+
+    /**
+     * TinCanJS, which is bundled with common content players, only sends If-Match on a state
+     * write when the caller supplied the SHA1 of the document it read before, and no precondition
+     * at all otherwise. A specification compliant LRS answers such a write with 409 Conflict. In
+     * that case the current ETag is looked up and the write is repeated once with an If-Match
+     * built from it. An LRS that does not demand a precondition never answers 409 and therefore
+     * never causes the additional roundtrip.
+     * @param array{state: string, value?: \GuzzleHttp\Psr7\Response, reason?: mixed} $response
+     * @param array<string, mixed> $req_opts
+     * @return array{state: string, value?: \GuzzleHttp\Psr7\Response, reason?: mixed}
+     */
+    private function repeatDocumentWriteWithPrecondition(
+        Client $httpclient,
+        \Psr\Http\Message\RequestInterface $request,
+        array $response,
+        Uri $uri,
+        string $auth,
+        string $body,
+        array $req_opts
+    ): array {
+        if ($response['state'] !== 'fulfilled' || $response['value']->getStatusCode() !== 409) {
+            return $response;
+        }
+        if (!$this->requiresSynthesizedPrecondition($request)) {
+            return $response;
+        }
+        $etag = $this->fetchDocumentEtag($httpclient, $request, $uri, $auth, $req_opts);
+        if ($etag === '') {
+            return $response;
+        }
+
+        $this->xapiproxy->log()->debug($this->msg('lrs requires a precondition for ' . $uri . ', repeating request with If-Match: ' . $etag));
+
+        try {
+            /** @var \GuzzleHttp\Psr7\Response $repeated */
+            $repeated = $httpclient->send(
+                $this->createProxyRequest($request, $uri, $auth, $body)->withHeader('If-Match', $etag),
+                $req_opts
+            );
+        } catch (\Exception $e) {
+            $this->xapiproxy->log()->error($this->msg($e->getMessage()));
+            return $response;
+        }
+
+        return ['state' => 'fulfilled', 'value' => $repeated];
+    }
+
+    private function requiresSynthesizedPrecondition(\Psr\Http\Message\RequestInterface $request): bool
+    {
+        return strtoupper($request->getMethod()) === 'PUT'
+            && in_array($this->xapiproxy->cmdParts()[3] ?? '', self::DOCUMENT_RESOURCES, true)
+            && !$request->hasHeader('If-Match')
+            && !$request->hasHeader('If-None-Match');
+    }
+
+    /**
+     * Returns the current ETag of an xAPI document, or an empty string if it does not exist.
+     * Some LRS send an ETag along with the 404 of a missing document, so only a 200 is trusted.
+     * @param array<string, mixed> $req_opts
+     */
+    private function fetchDocumentEtag(
+        Client $httpclient,
+        \Psr\Http\Message\RequestInterface $request,
+        Uri $uri,
+        string $auth,
+        array $req_opts
+    ): string {
+        $headers = ['Authorization' => $auth];
+        if ($request->hasHeader('X-Experience-API-Version')) {
+            $headers['X-Experience-API-Version'] = $request->getHeader('X-Experience-API-Version');
+        }
+
+        try {
+            $probe = $httpclient->send(new Request('GET', $uri, $headers), $req_opts);
+        } catch (\Exception $e) {
+            $this->xapiproxy->log()->error($this->msg($e->getMessage()));
+            return '';
+        }
+
+        return $probe->getStatusCode() === 200 ? $probe->getHeaderLine('ETag') : '';
     }
 }
