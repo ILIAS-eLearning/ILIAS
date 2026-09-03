@@ -34,11 +34,21 @@ use ReflectionUnionType;
  */
 abstract class AbstractLightMockBuilder implements MockBuilder
 {
-    /** @var array<class-string, array<string, mixed>> */
+    /**
+     * Generated classes are declared in the global process scope, hence the
+     * bookkeeping about them has to be process-wide as well: declaring the
+     * same class twice is a fatal error, no matter which builder instance
+     * triggers it.
+     *
+     * @var array<class-string, array<string, mixed>>
+     */
     private static array $return_type_map = [];
 
-    /** @var array<string, true> */
+    /** @var array<class-string, true> */
     private static array $generated = [];
+
+    /** @var array<class-string, self> */
+    private static array $builders = [];
 
     private function createLazyShell(string $type): object
     {
@@ -66,6 +76,10 @@ abstract class AbstractLightMockBuilder implements MockBuilder
             throw new LogicException("Final classes cannot be mocked without extensions/code rewriting: {$type}");
         }
 
+        if ($ref->isAbstract()) {
+            throw new LogicException("Abstract classes cannot be instantiated as a lazy shell: {$type}");
+        }
+
         return $ref->newLazyGhost(
             static function (object $object): void {
                 // Intentionally left blank.
@@ -83,7 +97,7 @@ abstract class AbstractLightMockBuilder implements MockBuilder
 
         try {
             return $this->createLazyShell($fqdn);
-        } catch (\Throwable) {
+        } catch (LogicException | \ReflectionException) {
             return $this->createNormal($fqdn);
         }
     }
@@ -96,6 +110,7 @@ abstract class AbstractLightMockBuilder implements MockBuilder
         if (!isset(self::$generated[$generated_fqcn])) {
             $this->generate($type, $generated_class);
             self::$generated[$generated_fqcn] = true;
+            self::$builders[$generated_fqcn] = $this;
         }
 
         return new $generated_fqcn();
@@ -138,7 +153,7 @@ abstract class AbstractLightMockBuilder implements MockBuilder
 
             $header = "class {$generated_class} implements \\" . ltrim($type, '\\');
         } else {
-            // leeren Konstruktor nur dann hinzufügen, wenn der Eltern-Konstruktor nicht final ist
+            // only add an empty constructor if the parent constructor is not final
             $constructor = $ref->getConstructor();
             if ($constructor === null || !$constructor->isFinal()) {
                 $method_code[] = "public function __construct(...\$__args) {}";
@@ -203,7 +218,7 @@ PHP;
         if ($method->isStatic()) {
             return false;
         }
-        // nur Methoden, die in der Zielklasse / ihren Eltern sichtbar überschrieben werden können
+        // only methods that can visibly be overridden in the target class or its parents
         if ($method->isPublic()) {
             return true;
         }
@@ -219,22 +234,20 @@ PHP;
     private function buildMethod(ReflectionMethod $method, array &$return_map): string
     {
         $visibility = $method->isPublic() ? 'public' : 'protected';
-        $static = $method->isStatic() ? ' static' : '';
         $name = $method->getName();
         $params = $this->buildParameterList($method);
         $return_type = $this->renderType($method->getReturnType());
 
         $return_map[$name] = $this->normalizeType($method->getReturnType());
 
-        $body = $this->buildMethodBody($name, $method->getReturnType(), $method->isStatic());
+        $body = $this->buildMethodBody($name, $method->getReturnType());
         $attribute = $this->buildMethodAttributes($method);
 
         return trim(
             $attribute .
             sprintf(
-                '%s%s function %s(%s)%s %s',
+                '%s function %s(%s)%s %s',
                 $visibility,
-                $static,
                 $name,
                 $params,
                 $return_type !== '' ? ': ' . $return_type : '',
@@ -273,40 +286,20 @@ PHP;
                 return true;
             }
         } catch (\ReflectionException) {
-            // Kein Prototype verfügbar.
+            // No prototype available.
         }
 
         return false;
     }
 
-    private function buildMethodBody(
-        string $method_name,
-        ?ReflectionType $return_type,
-        bool $is_static = false
-    ): string {
+    private function buildMethodBody(string $method_name, ?ReflectionType $return_type): string
+    {
         $normalized = $this->normalizeType($return_type);
 
         if ($normalized['kind'] === 'never') {
             return <<<PHP
 {
     throw new \\LogicException('Mocked never-returning method called: {$method_name}');
-}
-PHP;
-        }
-
-        if ($is_static) {
-            if ($normalized['kind'] === 'void') {
-                return <<<PHP
-{
-    (new \\ILIAS\\Component\\Dependencies\\EvalLightMockBuilder())->defaultValueForStatic(__CLASS__, '{$method_name}');
-    return;
-}
-PHP;
-            }
-
-            return <<<PHP
-{
-    return (new \\ILIAS\\Component\\Dependencies\\EvalLightMockBuilder())->defaultValueForStatic(__CLASS__, '{$method_name}');
 }
 PHP;
         }
@@ -457,19 +450,28 @@ PHP;
         throw new LogicException('Unsupported reflection type: ' . $type::class);
     }
 
-    public function defaultValueFor(object $object, string $method): mixed
+    /**
+     * Entry point for the generated mocks themselves, see {@see MockObjectBehavior}.
+     * The builder that generated the class resolves the default, so that nested
+     * mocks are built the same way the outer one was.
+     */
+    public static function defaultValueFor(object $object, string $method): mixed
     {
         $class = $object::class;
-        $meta = self::$return_type_map[$class][$method] ?? ['kind' => 'none'];
+        $meta = self::$return_type_map[$class][$method] ?? null;
 
-        return $this->defaultByMeta($object, $meta);
-    }
+        if ($meta === null) {
+            // not a generated mock, or a method this builder never saw
+            return null;
+        }
 
-    public function defaultValueForStatic(string $class, string $method): mixed
-    {
-        $meta = self::$return_type_map[$class][$method] ?? ['kind' => 'none'];
+        $builder = self::$builders[$class] ?? null;
 
-        return $this->defaultByStaticMeta($meta);
+        if ($builder === null) {
+            throw new LogicException("No mock builder registered for generated class {$class}");
+        }
+
+        return $builder->defaultByMeta($object, $meta);
     }
 
     /**
@@ -535,70 +537,6 @@ PHP;
             'self', 'static' => $object,
             'parent' => $this->createNormal((string) get_parent_class($object)),
             default => $this->createNormal($name),
-        };
-    }
-
-    /**
-     * @param array<string, mixed> $meta
-     */
-    private function defaultByStaticMeta(array $meta): mixed
-    {
-        $kind = $meta['kind'] ?? 'none';
-
-        if ($kind === 'none') {
-            return null;
-        }
-
-        if ($kind === 'void') {
-            return null;
-        }
-
-        if ($kind === 'never') {
-            throw new LogicException('Cannot produce a default value for return type never');
-        }
-
-        if ($kind === 'intersection') {
-            throw new LogicException('Intersection return types need explicit stubbing');
-        }
-
-        if ($kind === 'union') {
-            foreach ($meta['types'] as $sub_type) {
-                if (($sub_type['kind'] ?? null) === 'named' && ($sub_type['name'] ?? null) === 'null') {
-                    return null;
-                }
-            }
-
-            foreach ($meta['types'] as $sub_type) {
-                if (($sub_type['kind'] ?? null) === 'named' && ($sub_type['name'] ?? null) !== 'null') {
-                    return $this->defaultByStaticMeta($sub_type);
-                }
-            }
-
-            return null;
-        }
-
-        $name = $meta['name'] ?? null;
-        $nullable = (bool) ($meta['nullable'] ?? false);
-
-        if ($nullable) {
-            return null;
-        }
-
-        return match ($name) {
-            'null' => null,
-            'mixed' => null,
-            'bool', 'false' => false,
-            'true' => true,
-            'int' => 0,
-            'float' => 0.0,
-            'string' => '',
-            'array' => [],
-            'iterable' => [],
-            'callable' => static fn(): null => null,
-            'object' => new \stdClass(),
-            default => class_exists((string) $name) || interface_exists((string) $name)
-                ? $this->createNormal((string) $name)
-                : null,
         };
     }
 

@@ -23,7 +23,11 @@ namespace ILIAS\Component\Dependencies\Mocks;
 
 use PHPUnit\Framework\TestCase;
 
-class PHPUnitMockBuilder implements MockBuilder
+/**
+ * @internal This class can only be used in Bootstrap and requires PHPUnit,
+ *           which is a dev-dependency. Use {@see EvalLightMockBuilder} in production.
+ */
+final class PHPUnitMockBuilder implements MockBuilder
 {
     public function create(string $fqdn): object
     {
@@ -38,9 +42,6 @@ class PHPUnitMockBuilder implements MockBuilder
         return $mock_builder
             ->disableOriginalConstructor()
             ->disableOriginalClone()
-            ->disableArgumentCloning()
-            ->disallowMockingUnknownTypes()
             ->getMock();
     }
-
 }

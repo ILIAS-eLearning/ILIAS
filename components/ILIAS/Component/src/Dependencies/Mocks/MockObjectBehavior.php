@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-/** @noinspection ALL */
 declare(strict_types=1);
 
 namespace ILIAS\Component\Dependencies\Mocks;
@@ -41,6 +40,9 @@ trait MockObjectBehavior
         return $this;
     }
 
+    /**
+     * @param list<mixed> $args
+     */
     protected function __mockInvoke(string $method, array $args): mixed
     {
         if (isset($this->__mock_configured_callbacks[$method])) {
@@ -51,8 +53,6 @@ trait MockObjectBehavior
             return $this->__mock_configured_returns[$method];
         }
 
-        return $this instanceof EvalLightMockBuilder
-            ? $this->defaultValueFor($this, $method) :
-            (new EvalLightMockBuilder())->defaultValueFor($this, $method);
+        return AbstractLightMockBuilder::defaultValueFor($this, $method);
     }
 }

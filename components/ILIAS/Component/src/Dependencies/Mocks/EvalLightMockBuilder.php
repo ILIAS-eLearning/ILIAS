@@ -23,7 +23,7 @@ namespace ILIAS\Component\Dependencies\Mocks;
 /**
  * @internal This class can only be used in Bootstrap
  */
-final class EvalLightMockBuilder extends AbstractLightMockBuilder implements MockBuilder
+final class EvalLightMockBuilder extends AbstractLightMockBuilder
 {
     protected function loadGeneratedCode(string $code, string $generated_class): void
     {

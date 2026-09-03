@@ -22,8 +22,10 @@ namespace ILIAS\Component\Tests\Dependencies;
 
 use PHPUnit\Framework\TestCase;
 use LogicException;
+use ILIAS\Component\Dependencies\Mocks\AbstractLightMockBuilder;
 use ILIAS\Component\Dependencies\Mocks\EvalLightMockBuilder;
 use ILIAS\Component\Dependencies\Mocks\MockBuilder;
+use ILIAS\Component\Dependencies\Mocks\PHPUnitMockBuilder;
 
 // ---------------------------------------------------------------------------
 // Test fixtures – prefixed "Lmb" to avoid collisions with other test files
@@ -252,17 +254,21 @@ final class LightMockBuilderTest extends TestCase
         $this->assertNotInstanceOf($first::class, $second);
     }
 
-    // --- defaultValueFor / defaultValueForStatic boundary behaviour ---
+    // --- PHPUnitMockBuilder: keeps the alternative implementation compiling ---
+
+    public function testPHPUnitMockBuilderCreatesInterfaceMock(): void
+    {
+        $mock = (new PHPUnitMockBuilder())->create(LmbReturnTypesInterface::class);
+
+        $this->assertInstanceOf(LmbReturnTypesInterface::class, $mock);
+        $this->assertSame(0, $mock->returnsInt());
+    }
+
+    // --- defaultValueFor boundary behaviour ---
 
     public function testDefaultValueForUnknownMethodReturnsNull(): void
     {
-        $result = $this->builder->defaultValueFor(new \stdClass(), 'nonExistentMethod');
-        $this->assertNull($result);
-    }
-
-    public function testDefaultValueForStaticUnknownMethodReturnsNull(): void
-    {
-        $result = $this->builder->defaultValueForStatic(\stdClass::class, 'nonExistentMethod');
+        $result = AbstractLightMockBuilder::defaultValueFor(new \stdClass(), 'nonExistentMethod');
         $this->assertNull($result);
     }
 
@@ -271,7 +277,7 @@ final class LightMockBuilderTest extends TestCase
         $mock = $this->builder->create(LmbReturnTypesInterface::class);
         $this->assertSame(
             $mock->returnsInt(),
-            $this->builder->defaultValueFor($mock, 'returnsInt')
+            AbstractLightMockBuilder::defaultValueFor($mock, 'returnsInt')
         );
     }
 }
