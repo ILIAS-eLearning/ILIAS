@@ -74,7 +74,7 @@ final class DelegatingFilesystemFactory implements FilesystemFactory
         return new FilesystemWhitelistDecorator($this->implementation->getLocal($config), $this->sanitizer);
     }
 
-    public function buildFor(string $fqdn_interface, bool $read_only = false): Filesystem|FilesystemWeb
+    public function buildFor(string $fqdn_interface, bool $read_only = false): Filesystem
     {
         $config = match ($fqdn_interface) {
             FilesystemWeb::class => new LocalConfig($this->directory_path_config->getWebDirectoryPath()),
