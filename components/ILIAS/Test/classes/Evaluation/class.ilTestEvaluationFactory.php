@@ -134,7 +134,7 @@ class ilTestEvaluationFactory
         $current_attempt = null;
 
         foreach ($eval_data_rows as $row) {
-            if($row['pass'] === null) {
+            if ($row['pass'] === null) {
                 continue;
             }
 
