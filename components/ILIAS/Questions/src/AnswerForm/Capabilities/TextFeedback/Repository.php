@@ -266,13 +266,24 @@ class Repository
         );
 
         while (($row = $this->db->fetchObject($statement)) !== null) {
+            $new_feedback_text = $this->migrateFeedback(
+                '\ilAssSpecFeedbackPageGUI',
+                $row->feedback_legacy
+            );
+
+            if ($new_feedback_text === '') {
+                $this->db->manipulateF(
+                    "DELETE FROM {$table} WHERE id  = %s",
+                    [\ilDBConstants::T_TEXT],
+                    [$row->id]
+                );
+                continue;
+            }
+
             $this->db->execute(
                 $prepared,
                 [
-                    $this->migrateFeedback(
-                        '\ilAssSpecFeedbackPageGUI',
-                        $row->feedback_legacy
-                    ),
+                    $new_feedback_text,
                     $row->id
                 ]
             );

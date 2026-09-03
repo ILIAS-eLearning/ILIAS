@@ -57,7 +57,7 @@ class Overview implements Viewable
 
         $content = [];
 
-        if ($this->feedback->hasLegacyTexts()
+        if ($this->feedback->displaysLegacyTexts()
             && !$this->set_legacy_texts_as_values) {
             $content[] = $ui_factory->messageBox()->info(
                 $lng->txt('insert_legacy_texts_info')
