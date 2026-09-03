@@ -2678,14 +2678,14 @@ class ilObjectListGUI
                 $this->tpl->setVariable('EXP_HREF', $this->ctrl->getLinkTarget($this->container_obj, 'view', $this->getUniqueItemId(true)));
                 $this->ctrl->clearParameters($this->container_obj);
                 $this->tpl->setVariable('EXP_IMG', ilUtil::getImagePath('nav/tree_exp.svg'));
-                $this->tpl->setVariable('EXP_ALT', $this->lng->txt('collapse'));
+                $this->tpl->setVariable('EXP_ALT', $this->lng->txt('collapse_reload'));
             } else {
                 $this->ctrl->setParameter($this->container_obj, 'expand', $this->obj_id);
                 // 'view' added, see #19922
                 $this->tpl->setVariable('EXP_HREF', $this->ctrl->getLinkTarget($this->container_obj, 'view', $this->getUniqueItemId(true)));
                 $this->ctrl->clearParameters($this->container_obj);
                 $this->tpl->setVariable('EXP_IMG', ilUtil::getImagePath('nav/tree_col.svg'));
-                $this->tpl->setVariable('EXP_ALT', $this->lng->txt('expand'));
+                $this->tpl->setVariable('EXP_ALT', $this->lng->txt('expand_reload'));
             }
 
             $this->tpl->parseCurrentBlock();
