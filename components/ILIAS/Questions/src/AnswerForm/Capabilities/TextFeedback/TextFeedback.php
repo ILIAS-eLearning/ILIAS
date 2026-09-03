@@ -358,48 +358,6 @@ abstract class TextFeedback implements TypeSpecification, Feedback
         ];
     }
 
-    public function requiresPageMigration(): bool
-    {
-        if (preg_match('/####\d+####/', $this->feedback_best_response_legacy) === 1
-            || preg_match('/####\d+####/', $this->feedback_other_response_legacy) === 1) {
-            return true;
-        }
-
-        foreach ($this->specific_feedbacks as $feedback) {
-            if ($feedback->requiresPageMigration()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public function withMigratedPageFeedbacks(): self
-    {
-        $clone = clone $this;
-        $feedback_best = trim($clone->feedback_best_response_legacy, '#');
-        if (is_numeric($feedback_best)) {
-            $clone->feedback_best_response_legacy = $this->migrateGenericFeedbackPage(
-                (int) $feedback_best
-            );
-        }
-
-        $feedback_other = trim($clone->feedback_other_response_legacy, '#');
-        if (is_numeric($feedback_other)) {
-            $clone->feedback_other_response_legacy = $this->migrateGenericFeedbackPage(
-                (int) $feedback_other
-            );
-        }
-
-        $clone->specific_feedbacks = array_map(
-            fn(SpecificTextFeedback $v): SpecificTextFeedback
-                => $v->withMigratedPageFeedbacks(),
-            $clone->specific_feedbacks
-        );
-
-        return $clone;
-    }
-
     public function toStorage(
         PersistenceFactory $persistence_factory,
         TableDefinitions $feedback_table_definitions,
@@ -565,19 +523,5 @@ abstract class TextFeedback implements TypeSpecification, Feedback
                 ? $lng->txt('other_response_given')
                 : $rendered_markdown
         );
-    }
-
-    private function migrateGenericFeedbackPage(
-        int $page_id
-    ): string {
-        $feedback_page = (new \ilAssGenFeedbackPageGUI(
-            $page_id
-        ))->presentation();
-
-        if (strip_tags($feedback_page) === '') {
-            return '';
-        }
-
-        return $feedback_page;
     }
 }

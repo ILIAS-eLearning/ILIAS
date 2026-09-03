@@ -324,6 +324,14 @@ class DefaultEnvironment implements Environment
         );
     }
 
+    public function runPageMigrations(): void
+    {
+        foreach ($this->required_capabilities
+            ->getRequiredPageMigrationProviders() as $provider) {
+            $provider->runPageMigrations();
+        }
+    }
+
     public function withIsInCreationContext(
         bool $is_in_creation_context
     ): self {
