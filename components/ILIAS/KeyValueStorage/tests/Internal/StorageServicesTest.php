@@ -22,7 +22,6 @@ namespace ILIAS\Tests\KeyValueStorage\Internal;
 
 use ILIAS\KeyValueStorage\Internal\StorageServices;
 use ILIAS\KeyValueStorage\SessionRepository;
-use ILIAS\KeyValueStorage\StorageNamespace;
 use ILIAS\Tests\KeyValueStorage\InMemoryRepository;
 use PHPUnit\Framework\TestCase;
 
@@ -44,10 +43,8 @@ class StorageServicesTest extends TestCase
 
     public function testTheScopesUseSeparateRepositories(): void
     {
-        $namespace = new StorageNamespace('ui.storage');
-
-        $this->services->session($namespace)->set('a', 1);
-        $this->services->persistent($namespace)->set('b', 2);
+        $this->services->session(['ui', 'storage'])->set('a', 1);
+        $this->services->persistent(['ui', 'storage'])->set('b', 2);
 
         $this->assertSame(['a' => '1'], $this->session->entries['ui.storage']);
         $this->assertSame(['b' => '2'], $this->persistent->entries['ui.storage']);
@@ -56,33 +53,32 @@ class StorageServicesTest extends TestCase
     public function testTheSameScopeAndNamespaceYieldTheSameStore(): void
     {
         $this->assertSame(
-            $this->services->session(new StorageNamespace('ui.storage')),
-            $this->services->session(new StorageNamespace('ui.storage'))
+            $this->services->session(['ui', 'storage']),
+            $this->services->session(['ui', 'storage'])
         );
     }
 
     public function testDifferentScopesYieldDifferentStoresForTheSameNamespace(): void
     {
         $this->assertNotSame(
-            $this->services->session(new StorageNamespace('ui.storage')),
-            $this->services->persistent(new StorageNamespace('ui.storage'))
+            $this->services->session(['ui', 'storage']),
+            $this->services->persistent(['ui', 'storage'])
         );
     }
 
     public function testDifferentNamespacesYieldDifferentStores(): void
     {
         $this->assertNotSame(
-            $this->services->session(new StorageNamespace('ui.storage')),
-            $this->services->session(new StorageNamespace('ui.table'))
+            $this->services->session(['ui', 'storage']),
+            $this->services->session(['ui', 'table'])
         );
     }
 
     public function testTheSharedStoreKeepsWhatWasWrittenThroughIt(): void
     {
-        $namespace = new StorageNamespace('ui.storage');
-        $this->services->session($namespace)->set('sort', 'title');
+        $this->services->session(['ui', 'storage'])->set('sort', 'title');
 
-        $this->assertSame('title', $this->services->session($namespace)->get('sort'));
+        $this->assertSame('title', $this->services->session(['ui', 'storage'])->get('sort'));
         $this->assertSame(0, $this->session->reads);
     }
 }

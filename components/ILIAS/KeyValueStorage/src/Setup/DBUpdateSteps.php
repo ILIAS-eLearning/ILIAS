@@ -25,7 +25,7 @@ namespace ILIAS\KeyValueStorage\Setup;
  *
  * The column lengths are literals on purpose. A step describes one historical
  * change and must keep describing it, even when the validation limits of the
- * component move. Today they match StorageNamespace::MAX_LENGTH (128) and
+ * component move. Today they match Internal\StorageNamespace::MAX_LENGTH (128) and
  * KeyRules::MAX_LENGTH (255); 128 + 255 characters stay well below the 3072
  * byte limit InnoDB puts on a utf8mb4 primary key.
  */

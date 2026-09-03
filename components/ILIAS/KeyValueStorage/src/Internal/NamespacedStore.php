@@ -22,7 +22,6 @@ namespace ILIAS\KeyValueStorage\Internal;
 
 use ILIAS\KeyValueStorage\Repository;
 use ILIAS\KeyValueStorage\Store;
-use ILIAS\KeyValueStorage\StorageNamespace;
 
 /**
  * A store bound to one namespace of one repository.
@@ -66,14 +65,7 @@ final class NamespacedStore implements Store
     {
         $this->key_rules->check($key);
 
-        if (!isset($this->seen[$key])) {
-            $stored = $this->repository->read($this->namespace, $key);
-            $this->seen[$key] = $stored === null
-                ? [false, null]
-                : [true, $this->values->decode($stored)];
-        }
-
-        [$is_present, $value] = $this->seen[$key];
+        [$is_present, $value] = $this->readDecoded($key);
 
         return $is_present ? $value : $default;
     }
@@ -102,5 +94,20 @@ final class NamespacedStore implements Store
     {
         $this->repository->removeAll($this->namespace);
         $this->seen = [];
+    }
+
+    /**
+     * @return array{bool, mixed}
+     */
+    private function readDecoded(string $key): array
+    {
+        if (!isset($this->seen[$key])) {
+            $stored = $this->repository->read($this->namespace, $key);
+            $this->seen[$key] = $stored === null
+                ? [false, null]
+                : [true, $this->values->decode($stored)];
+        }
+
+        return $this->seen[$key];
     }
 }

@@ -22,7 +22,7 @@ namespace ILIAS\Tests\KeyValueStorage\Internal;
 
 use ILIAS\Database\Connection;
 use ILIAS\KeyValueStorage\Internal\DatabaseRepository;
-use ILIAS\KeyValueStorage\StorageNamespace;
+use ILIAS\KeyValueStorage\Internal\StorageNamespace;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -42,7 +42,7 @@ class DatabaseRepositoryTest extends TestCase
         $connection->method('get')->willReturn($this->db);
 
         $this->repository = new DatabaseRepository($connection);
-        $this->namespace = new StorageNamespace('my_component.view_state');
+        $this->namespace = new StorageNamespace(['my_component', 'view_state']);
     }
 
     public function testTheConnectionIsNotTouchedWhileTheRepositoryIsBuilt(): void

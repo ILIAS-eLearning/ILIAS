@@ -92,7 +92,7 @@ class DBUpdateStepsTest extends TestCase
         $this->steps->step_1();
 
         $this->assertSame(
-            \ILIAS\KeyValueStorage\StorageNamespace::MAX_LENGTH,
+            \ILIAS\KeyValueStorage\Internal\StorageNamespace::MAX_LENGTH,
             $columns['namespace']['length']
         );
         $this->assertSame(

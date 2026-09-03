@@ -9,15 +9,15 @@ feature.
 
 ## Storing and reading state
 
-Consumers use `ILIAS\KeyValueStorage\Services` and pick a scope:
+Consumers use `ILIAS\KeyValueStorage\Services` and pick a scope. The namespace is
+a list of segments, the delimiter is an internal detail:
 
 ```php
 use ILIAS\KeyValueStorage\Services;
-use ILIAS\KeyValueStorage\StorageNamespace;
 
 /** @var Services $storage */ // $use[ILIAS\KeyValueStorage\Services::class]
 
-$store = $storage->session(new StorageNamespace('my_component.view_state'));
+$store = $storage->session(['my_component', 'view_state']);
 
 $store->set('sort_column', 'title');
 $store->set('filters', ['status' => 'open', 'limit' => 10]);
@@ -39,13 +39,15 @@ installation. Per-user state is not supported yet, see
 
 ### Namespaces
 
-One namespace per feature area, dot-separated lowercase, starting with a letter,
-at most `StorageNamespace::MAX_LENGTH` (128) characters:
+One namespace per feature area, passed as segments. Segments are joined with `.`
+internally. A segment must not be empty and must not contain `.`, `:` or control
+characters (those break composition). The joined value is at most
+`Internal\StorageNamespace::MAX_LENGTH` (128) characters:
 
-```
-my_component.view_state
-ui.storage
-export.job
+```php
+['my_component', 'view_state']
+['ui', 'storage']
+['export', 'job']
 ```
 
 ### Keys
@@ -63,7 +65,7 @@ state under ids like
 
 `null`, scalars, arrays of those, and objects implementing `JsonSerializable`.
 
-Values are stored as JSON. `serialize()`/`unserialize()` are never used, so
+Values are stored as JSON. `serialize()` / `unserialize()` are never used, so
 reading a value can never instantiate an object. An object handed to `set()`
 therefore reads back as the array `json_encode()` made of it - within the same
 request as well as in the next one.
@@ -101,11 +103,11 @@ validating keys and encoding values happens above it.
 ```php
 interface Repository
 {
-    public function has(StorageNamespace $namespace, string $key): bool;
-    public function read(StorageNamespace $namespace, string $key): ?string;
-    public function write(StorageNamespace $namespace, string $key, string $value): void;
-    public function remove(StorageNamespace $namespace, string $key): void;
-    public function removeAll(StorageNamespace $namespace): void;
+    public function has(Internal\StorageNamespace $namespace, string $key): bool;
+    public function read(Internal\StorageNamespace $namespace, string $key): ?string;
+    public function write(Internal\StorageNamespace $namespace, string $key, string $value): void;
+    public function remove(Internal\StorageNamespace $namespace, string $key): void;
+    public function removeAll(Internal\StorageNamespace $namespace): void;
 }
 ```
 
@@ -152,7 +154,6 @@ components/ILIAS/KeyValueStorage/
 ├── src/
 │   ├── Services.php               consumer entry point
 │   ├── Store.php                  one namespace
-│   ├── StorageNamespace.php
 │   ├── Repository.php             backend contract
 │   ├── SessionRepository.php      implemented by Authentication
 │   ├── Exception/
@@ -160,6 +161,7 @@ components/ILIAS/KeyValueStorage/
 │   ├── Internal/
 │   │   ├── StorageServices.php
 │   │   ├── NamespacedStore.php
+│   │   ├── StorageNamespace.php
 │   │   ├── DatabaseRepository.php
 │   │   ├── KeyRules.php
 │   │   └── Values.php
@@ -198,7 +200,7 @@ The way forward is a scope of its own, with the subject as a parameter rather
 than as part of the key:
 
 ```php
-$storage->forUser($user_id, new StorageNamespace('my_component.view_state'));
+$storage->forUser($user_id, ['my_component', 'view_state']);
 ```
 
 backed by a table with `usr_id` in its primary key, contributed by `User`, which
