@@ -262,6 +262,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         );
 
         $tpl->setPermanentLink("lso", $this->ref_id);
+        $this->guardForwardAccess($next_class);
 
         switch ($next_class) {
             case "ilcommonactiondispatchergui":
@@ -277,31 +278,10 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                 $this->ctrl->forwardCommand($this->getGUIPermissions());
                 break;
             case "ilobjlearningsequencesettingsgui":
-
-                if (!$this->checkAccess("write", '', $this->ref_id)) {
-                    $this->tpl->setOnScreenMessage('failure', sprintf(
-                        $this->lng->txt('msg_no_perm_read_item'),
-                        $this->object->getTitle()
-                    ), true);
-
-                    $this->ctrl->redirect($this, 'view');
-                }
-
                 $this->tabs->activateTab(self::TAB_SETTINGS);
                 $this->ctrl->forwardCommand($this->getGUISettings());
                 break;
             case "ilobjlearningsequencecontentgui":
-
-                if (!$this->checkAccess("read", '', $this->ref_id)) {
-                    $this->tpl->setOnScreenMessage('failure', sprintf(
-                        $this->lng->txt('msg_no_perm_read_item'),
-                        $this->object->getTitle()
-                    ), true);
-
-                    $this->ctrl->redirect($this, 'view');
-                }
-
-
                 $this->tabs->activateTab(self::TAB_CONTENT_MAIN);
                 $this->addSubTabsForContent(self::TAB_MANAGE);
                 $this->ctrl->forwardCommand($this->getGUIManageContent());
@@ -772,6 +752,44 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     protected function checkAccess(string $which): bool
     {
         return $this->access->checkAccess($which, "", $this->ref_id);
+    }
+
+    protected function guardForwardAccess(string|false $next_class): void
+    {
+        if ($next_class === false) {
+            return;
+        }
+
+        switch ($next_class) {
+            case 'ilpermissiongui':
+                $this->assertAccessOrRedirect('edit_permission');
+                break;
+
+            case 'ilobjlearningsequencesettingsgui':
+            case 'ilobjlearningsequencecontentgui':
+            case 'ilexportgui':
+            case 'ilobjectmetadatagui':
+            case 'iltaxonomysettingsgui':
+            case 'ilobjtaxonomygui':
+            case 'ilobjlearningsequenceeditintrogui':
+            case 'ilobjlearningsequenceeditextrogui':
+                $this->assertAccessOrRedirect('write');
+                break;
+        }
+    }
+
+    protected function assertAccessOrRedirect(string $permission): void
+    {
+        if ($this->checkAccess($permission)) {
+            return;
+        }
+
+        $message = $permission === 'edit_permission'
+            ? $this->lng->txt('no_permission')
+            : $this->lng->txt('msg_no_perm_write');
+
+        $this->tpl->setOnScreenMessage('failure', $message, true);
+        $this->ctrl->redirect($this, self::CMD_VIEW);
     }
 
     protected function checkLPAccess(): bool
