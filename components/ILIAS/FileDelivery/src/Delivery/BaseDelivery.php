@@ -94,7 +94,7 @@ abstract class BaseDelivery
         $r = $r->withHeader(ResponseHeader::CONTENT_TYPE, $mime_type);
         $r = $r->withHeader(
             ResponseHeader::CONTENT_DISPOSITION,
-            $disposition->value . '; filename="' . $file_name . '"'
+            (new ContentDispositionHeader())->build($disposition->value, $file_name)
         );
         if (!$this->caching_headers) {
             return $r

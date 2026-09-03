@@ -224,9 +224,9 @@ final class Delivery
             $this->setDeliveryType(DeliveryMethod::XSENDFILE);
         }
 
-//        if (function_exists('apache_get_version') && strpos(apache_get_version(), '2.4.') !== false) {
-//            $this->setDeliveryType(DeliveryMethod::XSENDFILE);
-//        }
+        //        if (function_exists('apache_get_version') && strpos(apache_get_version(), '2.4.') !== false) {
+        //            $this->setDeliveryType(DeliveryMethod::XSENDFILE);
+        //        }
 
         if (is_file('./components/ILIAS/FileDelivery/classes/override.php')) {
             $override_delivery_type = false;
@@ -545,10 +545,10 @@ final class Delivery
         $response = $this->http->response();
         $response = $response->withHeader(
             ResponseHeader::CONTENT_DISPOSITION,
-            $this->getDisposition()
-                                               . '; filename="'
-                                               . $this->getDownloadFileName()
-                                               . '"'
+            (new \ILIAS\FileDelivery\Delivery\ContentDispositionHeader())->build(
+                $this->getDisposition(),
+                $this->getDownloadFileName()
+            )
         );
         $response = $response->withHeader('Content-Description', $this->getDownloadFileName());
         $this->http->saveResponse($response);
