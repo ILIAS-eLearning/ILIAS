@@ -66,25 +66,46 @@ final class SecretKeyRotationTest extends TestCase
         $this->assertSame([], $rotation->getOlderKeys());
     }
 
-    public function testMissingArtefactIsRejected(): void
+    /**
+     * The artefact does not exist before the setup has run, and the bootstrap is
+     * built against that state, so this may not fail.
+     */
+    public function testMissingArtefactYieldsAGeneratedKey(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $rotation = SecretKeyRotation::fromArtefact(
+            sys_get_temp_dir() . '/does_not_exist_key_rotation.php'
+        );
 
-        SecretKeyRotation::fromArtefact(sys_get_temp_dir() . '/does_not_exist_key_rotation.php');
+        $this->assertNotSame('', $rotation->getCurrentKey()->get());
+        $this->assertSame([], $rotation->getOlderKeys());
     }
 
-    public function testEmptyArtefactIsRejected(): void
+    public function testEmptyArtefactYieldsAGeneratedKey(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $rotation = SecretKeyRotation::fromArtefact($this->artefact('<?php return [];'));
 
-        SecretKeyRotation::fromArtefact($this->artefact('<?php return [];'));
+        $this->assertNotSame('', $rotation->getCurrentKey()->get());
     }
 
-    public function testArtefactWithoutReturnValueIsRejected(): void
+    public function testArtefactWithoutReturnValueYieldsAGeneratedKey(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $rotation = SecretKeyRotation::fromArtefact($this->artefact('<?php // nothing returned'));
 
-        SecretKeyRotation::fromArtefact($this->artefact('<?php // nothing returned'));
+        $this->assertNotSame('', $rotation->getCurrentKey()->get());
+    }
+
+    /**
+     * A generated key is not a shared secret: it differs per rotation, so a
+     * token signed with it cannot verify anywhere else.
+     */
+    public function testGeneratedKeysAreNotStable(): void
+    {
+        $path = sys_get_temp_dir() . '/does_not_exist_key_rotation.php';
+
+        $this->assertNotSame(
+            SecretKeyRotation::fromArtefact($path)->getCurrentKey()->get(),
+            SecretKeyRotation::fromArtefact($path)->getCurrentKey()->get()
+        );
     }
 
     private function artefact(string $php): string

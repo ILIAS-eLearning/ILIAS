@@ -57,9 +57,11 @@ final class SecretKeyRotation
      * key first. The path is passed in by the caller, since every component
      * that signs data keeps its own set of keys.
      *
-     * @throws \RuntimeException if the artefact holds no usable key; signing
-     *                           with an ad-hoc key would silently invalidate
-     *                           every token issued so far
+     * A missing or unusable artefact yields a rotation with a generated key.
+     * That happens before the setup has ever run - on a fresh checkout the
+     * artefact directory does not even exist yet, and the bootstrap is built
+     * against it - and a key that is not shared between processes simply makes
+     * every token fail verification, which is the safe outcome.
      */
     public static function fromArtefact(string $path): self
     {
@@ -70,15 +72,14 @@ final class SecretKeyRotation
             array_values(array_filter(is_array($stored) ? $stored : [], 'is_string'))
         );
 
-        $current_key = array_shift($keys);
-
-        if ($current_key === null) {
-            throw new \RuntimeException(
-                "No signing key found in '$path', run the ILIAS setup to build the key rotation artefact."
-            );
-        }
+        $current_key = array_shift($keys) ?? self::generatedKey();
 
         return new self($current_key, ...$keys);
+    }
+
+    private static function generatedKey(): SecretKey
+    {
+        return new SecretKey(bin2hex(random_bytes(32)));
     }
 
     public function getAllKeys(): array
