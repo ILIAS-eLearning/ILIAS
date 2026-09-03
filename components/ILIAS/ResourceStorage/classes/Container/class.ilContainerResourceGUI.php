@@ -23,7 +23,10 @@ use ILIAS\FileUpload\FileUpload;
 use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\components\ResourceStorage\Container\View\ActionBuilder\ActionProvider;
 use ILIAS\UI\Component\Modal\InterruptiveItem\Standard;
+use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Handler\BasicHandlerResult;
+use ILIAS\Filesystem\Filesystem;
+use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\FileUpload\Handler\FileInfoResult;
@@ -99,6 +102,12 @@ final class ilContainerResourceGUI implements UploadHandler
      */
     public const ADD_DIRECTORY = 'addDirectory';
 
+    /**
+     * Chunks of an unfinished upload are buffered below this directory in the
+     * temp filesystem, one sub-directory per upload.
+     */
+    private const CHUNK_DIRECTORY = 'container_chunked_uploads';
+
     private ilCtrlInterface $ctrl;
     private ilGlobalTemplateInterface $main_tpl;
     private Request $view_request;
@@ -116,6 +125,16 @@ final class ilContainerResourceGUI implements UploadHandler
     private PreviewDefinition $preview_definition;
     private ActionProvider $action_provider;
     private StandardActionProvider $standard_action_provider;
+    private Filesystem $temp_filesystem;
+    private ilLogger $logger;
+    private int $user_id;
+
+    private bool $is_chunked = false;
+    private string $uuid = '';
+    private int $chunk_index = 0;
+    private int $amount_of_chunks = 0;
+    private int $chunk_byte_offset = 0;
+    private int $chunk_total_size = 0;
 
     final public function __construct(
         private Configuration $view_configuration
@@ -131,6 +150,9 @@ final class ilContainerResourceGUI implements UploadHandler
         $this->language->loadLanguageModule('irss');
         $this->irss = $DIC->resourceStorage();
         $this->upload = $DIC->upload();
+        $this->temp_filesystem = $DIC->filesystem()->temp();
+        $this->logger = ilLoggerFactory::getLogger('irss');
+        $this->user_id = $DIC->user()->getId();
 
         $this->view_request = new Request(
             $DIC->ctrl(),
@@ -300,45 +322,15 @@ final class ilContainerResourceGUI implements UploadHandler
             $this->abortWithPermissionDenied();
             return;
         }
+        $this->readChunkInformation();
         $this->upload->process();
         if (!$this->upload->hasUploads()) {
             return;
         }
-        $container = $this->view_configuration->getContainer();
 
-        // a single request can carry more than one file, therefore every result
-        // has to be taken into account: reporting the outcome of the last one
-        // would hide files rejected by a pre-processor from the user.
-        $results = $this->upload->getResults();
-        $stored_all = $results !== [];
-        $message = '';
-
-        foreach ($results as $result) {
-            if (!$result->isOK()) {
-                $stored_all = false;
-                $message = $result->getStatus()->getMessage();
-                continue;
-            }
-            // store to zip
-            if (!$this->irss->manageContainer()->addUploadToContainer(
-                $container->getIdentification(),
-                $result,
-                $this->view_request->getPath()
-            )) {
-                $stored_all = false;
-            }
-        }
-
-        $upload_result = new BasicHandlerResult(
-            self::P_PATH,
-            $stored_all ? BasicHandlerResult::STATUS_OK : BasicHandlerResult::STATUS_FAILED,
-            '-',
-            $message !== '' ? $message : $this->language->txt('rids_appended_failed')
+        $this->sendHandlerResult(
+            $this->is_chunked ? $this->storeChunk() : $this->storeUploads()
         );
-        $response = $this->http->response()->withBody(Streams::ofString(json_encode($upload_result)));
-        $this->http->saveResponse($response);
-        $this->http->sendResponse();
-        $this->http->close();
     }
 
     private function postUpload(): void
@@ -474,6 +466,264 @@ final class ilContainerResourceGUI implements UploadHandler
     }
 
 
+    // UPLOAD HELPERS
+
+    /**
+     * Adds every file of the request to the container. A request can carry more
+     * than one file, therefore every result has to be taken into account:
+     * reporting the outcome of the last one would hide files rejected by a
+     * pre-processor from the user.
+     */
+    private function storeUploads(): BasicHandlerResult
+    {
+        $container = $this->view_configuration->getContainer();
+        $results = $this->upload->getResults();
+        $stored_all = $results !== [];
+        $message = '';
+
+        foreach ($results as $result) {
+            if (!$result->isOK()) {
+                $stored_all = false;
+                $message = $result->getStatus()->getMessage();
+                continue;
+            }
+            // store to zip
+            if (!$this->irss->manageContainer()->addUploadToContainer(
+                $container->getIdentification(),
+                $result,
+                $this->view_request->getPath()
+            )) {
+                $stored_all = false;
+            }
+        }
+
+        return $stored_all ? $this->ok() : $this->failed($message);
+    }
+
+    /**
+     * Chunks arrive one request at a time and cannot be added to the container
+     * on their own: they all carry the same file name and each one would replace
+     * the entry written by the chunk before it. They are therefore appended to a
+     * single file in the temp filesystem, and only once the last chunk has
+     * arrived that file is added to the container.
+     */
+    private function storeChunk(): BasicHandlerResult
+    {
+        $results = $this->upload->getResults();
+        $result = end($results);
+        if (!$result instanceof UploadResult) {
+            return $this->chunkFailed('the request carried no upload result');
+        }
+        if (!$result->isOK()) {
+            $this->logChunkFailure('rejected while processing: ' . $result->getStatus()->getMessage());
+            return $this->discardChunks($this->failed($result->getStatus()->getMessage()));
+        }
+
+        // A fixed name keeps the uploaded file name out of the path the chunks are
+        // written to. It has to end in the clean suffix: the temp filesystem is
+        // wrapped in a FilesystemWhitelistDecorator, which rewrites the suffix of
+        // anything written to it but leaves the path of a read untouched - a
+        // buffer under any other suffix could be written but never read back.
+        $part_file = $this->getChunkDirectory() . '/upload.' . FilenameSanitizer::CLEAN_FILE_SUFFIX;
+
+        try {
+            if (!$this->temp_filesystem->has($part_file)) {
+                $this->temp_filesystem->write($part_file, '');
+            }
+            $part_path = $this->getLocalPath($part_file);
+
+            // the dropzone sends the chunks of a file strictly in order, an
+            // offset that does not match what has been written so far means the
+            // assembled file would be garbage
+            clearstatcache(true, $part_path);
+            $buffered = filesize($part_path);
+            if ($buffered !== $this->chunk_byte_offset) {
+                return $this->chunkFailed(
+                    "chunk starts at byte $this->chunk_byte_offset but $buffered bytes are buffered"
+                );
+            }
+
+            $this->appendToFile($result->getPath(), $part_path);
+
+            if (($this->chunk_index + 1) < $this->amount_of_chunks) {
+                return new BasicHandlerResult(
+                    self::P_PATH,
+                    BasicHandlerResult::STATUS_PARTIAL,
+                    '-',
+                    'chunk upload OK'
+                );
+            }
+
+            clearstatcache(true, $part_path);
+            $assembled_size = filesize($part_path);
+            if ($assembled_size !== $this->chunk_total_size) {
+                return $this->chunkFailed(
+                    "assembled $assembled_size bytes, the upload announced $this->chunk_total_size"
+                );
+            }
+
+            // The container derives the name of the entry from the name of the
+            // file, so the assembled file has to carry the uploaded name and be
+            // alone in its directory. Moving it is done on the local path: going
+            // through the temp filesystem would hand the name to the whitelist
+            // decorator, which would rewrite the suffix the user uploaded.
+            $assembly_directory = dirname($part_path) . '/file';
+            $assembled_path = $assembly_directory . '/' . basename($result->getName());
+
+            if (!is_dir($assembly_directory) && !mkdir($assembly_directory, 0700, true) && !is_dir($assembly_directory)) {
+                return $this->chunkFailed("could not create the directory '$assembly_directory'");
+            }
+            if (!rename($part_path, $assembled_path)) {
+                return $this->chunkFailed("could not move the assembled file to '$assembled_path'");
+            }
+
+            // adding the directory hands the assembled file to ZipArchive::addFile(),
+            // which reads it lazily - unlike addStreamToContainer(), which would
+            // pull the whole file into memory
+            $added = $this->irss->manageContainer()->addDirectoryToContainer(
+                $this->view_configuration->getContainer()->getIdentification(),
+                $assembly_directory,
+                $this->view_request->getPath()
+            );
+
+            if (!$added) {
+                return $this->chunkFailed('the container refused the assembled file');
+            }
+
+            return $this->discardChunks($this->ok());
+        } catch (\Throwable $exception) {
+            return $this->chunkFailed($exception::class . ': ' . $exception->getMessage());
+        }
+    }
+
+    /**
+     * Every way a chunked upload can fail ends up here. Without it the user is
+     * left with nothing but a generic message and no trace of what went wrong.
+     */
+    private function chunkFailed(string $reason): BasicHandlerResult
+    {
+        $this->logChunkFailure($reason);
+
+        return $this->discardChunks($this->failed(''));
+    }
+
+    private function logChunkFailure(string $reason): void
+    {
+        $this->logger->warning(sprintf(
+            'chunked upload %s of user %d failed on chunk %d of %d: %s',
+            $this->uuid,
+            $this->user_id,
+            $this->chunk_index + 1,
+            $this->amount_of_chunks,
+            $reason
+        ));
+    }
+
+    /**
+     * Chunks are kept apart per user: the uuid identifying an upload is chosen by
+     * the client and must not allow one user to write into the upload of another.
+     */
+    private function getChunkDirectory(): string
+    {
+        return self::CHUNK_DIRECTORY . '/' . $this->user_id . '/' . $this->uuid;
+    }
+
+    /**
+     * The dropzone announces a chunked upload with these fields in the body of
+     * every single chunk request.
+     */
+    private function readChunkInformation(): void
+    {
+        $body = $this->http->request()->getParsedBody();
+
+        $uuid = (string) ($body['dzuuid'] ?? '');
+        $amount_of_chunks = (int) ($body['dztotalchunkcount'] ?? 0);
+
+        // the uuid is used as a directory name, therefore nothing but the format
+        // the dropzone generates is accepted
+        if ($amount_of_chunks < 1 || preg_match('/^[0-9a-f-]{36}$/i', $uuid) !== 1) {
+            return;
+        }
+
+        $this->is_chunked = true;
+        $this->uuid = $uuid;
+        $this->amount_of_chunks = $amount_of_chunks;
+        $this->chunk_index = (int) ($body['dzchunkindex'] ?? 0);
+        $this->chunk_byte_offset = (int) ($body['dzchunkbyteoffset'] ?? 0);
+        $this->chunk_total_size = (int) ($body['dztotalfilesize'] ?? 0);
+    }
+
+    private function getLocalPath(string $path_in_temp_filesystem): string
+    {
+        $stream = $this->temp_filesystem->readStream($path_in_temp_filesystem);
+        $uri = $stream->getMetadata()['uri'];
+        $stream->close();
+
+        return (string) $uri;
+    }
+
+    private function appendToFile(string $source_path, string $target_path): void
+    {
+        $source = fopen($source_path, 'rb');
+        $target = fopen($target_path, 'ab');
+
+        try {
+            if ($source === false || $target === false) {
+                throw new \RuntimeException("Could not append '$source_path' to '$target_path'.");
+            }
+            stream_copy_to_stream($source, $target);
+        } finally {
+            if ($source !== false) {
+                fclose($source);
+            }
+            if ($target !== false) {
+                fclose($target);
+            }
+        }
+    }
+
+    /**
+     * Removes everything buffered for the current upload, whether it completed
+     * or failed. Chunks of an upload the user abandoned are never reported here
+     * and stay behind until the temp directory is cleaned up.
+     */
+    private function discardChunks(BasicHandlerResult $result): BasicHandlerResult
+    {
+        try {
+            if ($this->temp_filesystem->hasDir($this->getChunkDirectory())) {
+                $this->temp_filesystem->deleteDir($this->getChunkDirectory());
+            }
+        } catch (\Throwable) {
+            // a leftover directory must not turn a successful upload into a failure
+        }
+
+        return $result;
+    }
+
+    private function ok(): BasicHandlerResult
+    {
+        return new BasicHandlerResult(self::P_PATH, BasicHandlerResult::STATUS_OK, '-', 'file upload OK');
+    }
+
+    private function failed(string $message): BasicHandlerResult
+    {
+        return new BasicHandlerResult(
+            self::P_PATH,
+            BasicHandlerResult::STATUS_FAILED,
+            '-',
+            $message !== '' ? $message : $this->language->txt('rids_appended_failed')
+        );
+    }
+
+    private function sendHandlerResult(BasicHandlerResult $result): never
+    {
+        $response = $this->http->response()->withBody(Streams::ofString(json_encode($result)));
+        $this->http->saveResponse($response);
+        $this->http->sendResponse();
+        $this->http->close();
+    }
+
+
     // UPLOAD HANDLER
     public function getFileIdentifierParameterName(): string
     {
@@ -507,6 +757,6 @@ final class ilContainerResourceGUI implements UploadHandler
 
     public function supportsChunkedUploads(): bool
     {
-        return false;
+        return true;
     }
 }
