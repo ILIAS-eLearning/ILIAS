@@ -42,7 +42,9 @@ final class ilPHPOutputDelivery
      */
     public function start(string $download_file_name, string $mime_type = MimeType::APPLICATION__OCTET_STREAM): void
     {
-        $settings = new General();
+        global $DIC;
+
+        $settings = new General($DIC->database());
         $this->ilFileDelivery = new Delivery(ilFileDelivery::DIRECT_PHP_OUTPUT, self::http());
         $this->ilFileDelivery->setMimeType($mime_type);
         $this->ilFileDelivery->setDownloadFileName($download_file_name);

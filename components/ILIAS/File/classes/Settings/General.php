@@ -42,27 +42,30 @@ class General
         'png',
     ];
 
-    private array $setting = [];
+    /**
+     * @var array<string, ?string>|null null until the settings have been read
+     */
+    private ?array $setting = null;
 
-    public function __construct(private \ilDBInterface $db)
+    public function __construct(private readonly \ilDBInterface $db)
     {
-        $this->read();
     }
 
+    /**
+     * Reads this module's settings, replacing whatever was read before.
+     */
     public function read(): void
     {
-        try {
-            $res = $this->db->queryF(
-                "SELECT * FROM settings WHERE module = %s",
-                ['text'],
-                [self::MODULE_NAME]
-            );
+        $this->setting = [];
 
-            while ($row = $this->db->fetchAssoc($res)) {
-                $this->setting[$row["keyword"]] = $row["value"];
-            }
-        } catch (\Throwable) {
+        $res = $this->db->queryF(
+            "SELECT keyword, value FROM settings WHERE module = %s",
+            ['text'],
+            [self::MODULE_NAME]
+        );
 
+        while ($row = $this->db->fetchAssoc($res)) {
+            $this->setting[$row["keyword"]] = $row["value"];
         }
     }
 
@@ -70,7 +73,31 @@ class General
         string $keyword,
         ?string $default_value = null
     ): ?string {
+        if ($this->setting === null) {
+            $this->read();
+        }
+
         return $this->setting[$keyword] ?? $default_value;
+    }
+
+    public function set(string $keyword, string $value): void
+    {
+        if ($this->setting === null) {
+            $this->read();
+        }
+
+        $this->db->replace(
+            'settings',
+            [
+                'module' => ['text', self::MODULE_NAME],
+                'keyword' => ['text', $keyword],
+            ],
+            [
+                'value' => ['text', $value],
+            ]
+        );
+
+        $this->setting[$keyword] = $value;
     }
 
 
