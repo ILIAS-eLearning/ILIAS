@@ -40,6 +40,8 @@ class ParticipantTable implements DataRetrieval
 {
     private const ID = 'pt';
     private ?iterable $records = null;
+    /** @var array<string, int> */
+    private array $participant_counts = [];
 
     public function __construct(
         private readonly UIFactory $ui_factory,
@@ -81,7 +83,17 @@ class ParticipantTable implements DataRetrieval
 
     public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
     {
-        return $this->repository->countParticipants($this->test_object->getTestId(), $filter_data);
+        return $this->countParticipants($filter_data);
+    }
+
+    /**
+     * The renderer asks for the total row count anyway; memoize the result so
+     * that also showing the number in the table title costs no second query.
+     */
+    private function countParticipants(?array $filter_data): int
+    {
+        return $this->participant_counts[serialize($filter_data ?? [])] ??= $this->repository
+            ->countParticipants($this->test_object->getTestId(), $filter_data);
     }
 
     public function getRows(
@@ -327,7 +339,8 @@ class ParticipantTable implements DataRetrieval
         return $this->ui_factory
             ->table()
             ->data(
-                $this->lng->txt('list_of_participants'),
+                $this->lng->txt('list_of_participants') . ' (' . $this->lng->txt('total') . ': '
+                    . $this->countParticipants($filter ?? []) . ')',
                 $this->getColumns(),
                 $this
             )
