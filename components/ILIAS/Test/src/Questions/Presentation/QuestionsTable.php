@@ -100,7 +100,12 @@ class QuestionsTable implements OrderingBinding
                 $f->symbol()->icon()->custom('assets/images/standard/icon_alert.svg', '', 'small')
             ),
             'type_tag' => $f->table()->column()->text($this->lng->txt('tst_question_type')),
-            'points' => $f->table()->column()->text($this->lng->txt('points')),
+            'points' => $f->table()->column()->text(
+                $this->test_obj->isFixedTest()
+                    ? $this->lng->txt('points') . ' (' . $this->lng->txt('total') . ': '
+                        . $this->test_obj->getFixedQuestionSetTotalPoints() . ')'
+                    : $this->lng->txt('points')
+            ),
             'author' => $f->table()->column()->text($this->lng->txt('author'))
                 ->withIsOptional(true, false),
             'lifecycle' => $f->table()->column()->text($this->lng->txt('qst_lifecycle'))
