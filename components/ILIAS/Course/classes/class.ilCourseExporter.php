@@ -178,12 +178,19 @@ class ilCourseExporter extends ilXmlExporter
     public function getValidSchemaVersions(string $a_entity): array
     {
         return [
+            "12.0" => [
+                "namespace" => 'http://www.ilias.de/Modules/Course/crs/12',
+                "xsd_file" => 'ilias_crs_12_0.xsd',
+                "uses_dataset" => false,
+                "min" => "12.0",
+                "max" => ""
+            ],
             "11.0" => [
                 "namespace" => 'http://www.ilias.de/Modules/Course/crs/11',
                 "xsd_file" => 'ilias_crs_11_0.xsd',
                 "uses_dataset" => false,
                 "min" => "11.0",
-                "max" => ""
+                "max" => "11.999"
             ],
             "10.0" => [
                 "namespace" => 'http://www.ilias.de/Modules/Course/crs/10',

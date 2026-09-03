@@ -386,7 +386,8 @@ class ilUserXMLWriter extends ilXmlWriter
         array $row
     ): void {
         foreach ($this->user_profile->getVisibleFields(Context::Export) as $field) {
-            if (!$field->isCustom()) {
+            if (!$field->isCustom()
+                || !array_key_exists($field->getIdentifier(), $row)) {
                 continue;
             }
             $this->xmlElement(

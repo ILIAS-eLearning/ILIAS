@@ -141,7 +141,7 @@ class ConductorTest extends TestCase
     public function testAgree(string $gui, string $key): void
     {
         $main_template = $this->mock(ilGlobalTemplateInterface::class);
-        $main_template->expects(self::once())->method('setContent')->with('rendered');
+        $main_template->expects($this->once())->method('setContent')->with('rendered');
         $this->agreement('agree', $gui, $key, $main_template);
     }
 
@@ -155,7 +155,7 @@ class ConductorTest extends TestCase
     {
         $this->expectExceptionMessage('Not available.');
         $routing = $this->mock(Routing::class);
-        $routing->expects(self::once())->method('redirectToOriginalTarget');
+        $routing->expects($this->once())->method('redirectToOriginalTarget');
         $constraint = $this->mock(Constraint::class);
         $container = $this->mockTree(Container::class, [
             'refinery' => ['to' => ['string' => $constraint]],
@@ -172,7 +172,7 @@ class ConductorTest extends TestCase
     public function testWithdraw(): void
     {
         $main_template = $this->mock(ilGlobalTemplateInterface::class);
-        $main_template->expects(self::once())->method('setContent')->with('rendered');
+        $main_template->expects($this->once())->method('setContent')->with('rendered');
         $this->agreement('withdraw', 'foo', 'withdraw', $main_template);
     }
 
@@ -320,7 +320,7 @@ class ConductorTest extends TestCase
         $constraint = $this->mock(Constraint::class);
 
         $ctrl = $this->mock(ilCtrl::class);
-        $ctrl->expects(self::once())->method('setParameterByClass')->with($gui, 'id', 'foo');
+        $ctrl->expects($this->once())->method('setParameterByClass')->with($gui, 'id', 'foo');
 
         $container = $this->mockTree(Container::class, [
             'refinery' => ['to' => ['string' => $constraint]],

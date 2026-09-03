@@ -28,6 +28,7 @@ use ILIAS\Export\ExportHandler\Factory as ilExportHandler;
  */
 class ilPageLayoutAdministrationGUI
 {
+    protected \ILIAS\COPage\Layout\GUIService $gui;
     protected AdministrationGUIRequest $admin_request;
     protected ?int $pg_id = null;
     protected ilContentStyleSettings $settings;
@@ -53,6 +54,7 @@ class ilPageLayoutAdministrationGUI
         $this->tpl = $DIC["tpl"];
         $this->tabs = $DIC->tabs();
         $this->lng->loadLanguageModule("style");
+        $this->gui = $DIC->copage()->internal()->gui()->layout();
 
         $this->settings = new ilContentStyleSettings();
         $this->admin_request = $DIC
@@ -130,6 +132,14 @@ class ilPageLayoutAdministrationGUI
         return true;
     }
 
+    protected function getTable(): \ILIAS\Repository\Table\TableAdapterGUI
+    {
+        return $this->gui->pageLayoutTableBuilder(
+            $this,
+            "listLayouts"
+        )->getTable();
+    }
+
     public function listLayouts(): void
     {
         // show toolbar, if write permission is given
@@ -144,17 +154,18 @@ class ilPageLayoutAdministrationGUI
             );
         }
 
-        $oa_tpl = new ilTemplate("tpl.stys_pglayout.html", true, true, "components/ILIAS/COPage/Layout");
+        $table = $this->getTable();
+        if ($table->handleCommand()) {
+            return;
+        }
 
-        $pglayout_table = new ilPageLayoutTableGUI($this, "listLayouts");
-        $oa_tpl->setVariable("PGLAYOUT_TABLE", $pglayout_table->getHTML());
-        $this->tpl->setContent($oa_tpl->get());
+        $this->tpl->setContent($table->render());
     }
 
     public function activate(
+        array $ids,
         bool $a_activate = true
     ): void {
-        $ids = $this->admin_request->getLayoutIds();
         if (count($ids) == 0) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_checkbox"), true);
         } else {
@@ -167,41 +178,36 @@ class ilPageLayoutAdministrationGUI
         $this->ctrl->redirect($this, "listLayouts");
     }
 
-    public function deactivate(): void
+    public function deactivate(array $ids): void
     {
-        $this->activate(false);
+        $this->activate($ids, false);
     }
 
     /**
      * display deletion confirmation screen
      */
-    public function deletePgl(): void
+    public function deletePgl(array $ids): void
     {
-        $ids = $this->admin_request->getLayoutIds();
         if (count($ids) == 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "listLayouts");
         }
 
-        unset($this->data);
+        $table = $this->getTable();
 
-        // display confirmation message
-        $cgui = new ilConfirmationGUI();
-        $cgui->setFormAction($this->ctrl->getFormAction($this));
-        $cgui->setHeaderText($this->lng->txt("info_delete_sure"));
-        $cgui->setCancel($this->lng->txt("cancel"), "cancelDeletePg");
-        $cgui->setConfirm($this->lng->txt("confirm"), "confirmedDeletePg");
-
+        $items = [];
         foreach ($ids as $id) {
             $pg_obj = new ilPageLayout($id);
             $pg_obj->readObject();
-
-            $caption = $pg_obj->getTitle();
-
-            $cgui->addItem("pglayout[]", $id, $caption);
+            $items[$id] = $pg_obj->getTitle();
         }
 
-        $this->tpl->setContent($cgui->getHTML());
+        $table->renderDeletionConfirmation(
+            $this->lng->txt("info_delete_sure"),
+            $this->lng->txt("info_delete_sure"),
+            "confirmedDeletePg",
+            $items
+        );
     }
 
     /**
@@ -218,7 +224,7 @@ class ilPageLayoutAdministrationGUI
      */
     public function confirmedDeletePg(): void
     {
-        $ids = $this->admin_request->getLayoutIds();
+        $ids = $this->getTable()->getItemIds();
         foreach ($ids as $id) {
             $pg_obj = new ilPageLayout($id);
             $pg_obj->delete();
@@ -342,11 +348,11 @@ class ilPageLayoutAdministrationGUI
         $this->listLayouts();
     }
 
-    public function editPg(): void
+    public function editPg(int $id): void
     {
         $this->checkPermission("sty_write_page_layout");
 
-        $this->ctrl->saveParameterByClass(ilPageLayoutGUI::class, "obj_id");
+        $this->ctrl->setParameterByClass(ilPageLayoutGUI::class, "obj_id", $id);
         $this->ctrl->redirectByClass(ilPageLayoutGUI::class, "edit");
         $this->executeCommand();
     }
@@ -355,7 +361,7 @@ class ilPageLayoutAdministrationGUI
     /**
      * Export page layout template object
      */
-    public function exportLayout(): void
+    public function exportLayout(int $id): void
     {
         $exp = new ilExport();
 
@@ -364,7 +370,7 @@ class ilPageLayoutAdministrationGUI
         $exp->setExportConfigs($this->export_handler->consumer()->exportConfig()->allExportConfigs());
         $succ = $exp->exportEntity(
             "pgtp",
-            $this->admin_request->getObjId(),
+            $id,
             "4.2.0",
             "components/ILIAS/COPage",
             "Title",

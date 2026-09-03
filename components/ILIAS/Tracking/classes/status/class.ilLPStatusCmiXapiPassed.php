@@ -16,27 +16,47 @@
  *
  *********************************************************************/
 
-declare(strict_types=0);
+declare(strict_types=1);
 
-/**
- * Class ilLPStatusCmiXapiPassed
- * @author      Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
- * @author      Björn Heyser <info@bjoernheyser.de>
- * @author      Stefan Schneider <info@eqsoft.de>
- */
+use ILIAS\DI\Container;
+
 class ilLPStatusCmiXapiPassed extends ilLPStatusCmiXapiAbstract
 {
+    protected const string LNG_TEXT = 'trac_mode_cmix_passed';
+    protected const string LNG_TEXT_INFO = 'trac_mode_cmix_passed_info';
+    protected ilLanguage $lng;
+
     protected function resultSatisfyCompleted(ilCmiXapiResult $result): bool
     {
         if ($result->getStatus() === 'passed') {
             return true;
         }
-
         return false;
     }
 
     protected function resultSatisfyFailed(ilCmiXapiResult $result): bool
     {
         return false;
+    }
+
+    public function init(
+        Container $DIC
+    ): void {
+        $this->lng = $DIC->language();
+    }
+
+    public function getLPStatusId(): string
+    {
+        return (string) ilLPObjSettings::LP_MODE_CMIX_PASSED;
+    }
+
+    public function getLabel(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT);
+    }
+
+    public function getInfo(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT_INFO);
     }
 }

@@ -46,7 +46,7 @@ class ilObjForum extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
 
         $this->rbac = $DIC->rbac();
-        $this->logger = $DIC->logger()->root();
+        $this->logger = $DIC->logger()->forComponent('frm');
 
         $this->settings = $DIC->settings();
         $this->Forum = new ilForum();
@@ -369,14 +369,17 @@ class ilObjForum extends ilObject
         $target_ref_id = $new_obj->getRefId();
         $target_notifications = new ilForumNotification($target_ref_id);
 
-        if ($source_ref_id > 0 && $target_ref_id > 0 &&
-            $this->tree->getParentId($source_ref_id) === $this->tree->getParentId($target_ref_id)) {
-            if ($new_obj->isParentMembershipEnabledContainer()) {
+        if ($source_ref_id > 0 && $target_ref_id > 0 && $new_obj->isParentMembershipEnabledContainer()) {
+            if ($this->tree->getParentId($source_ref_id) === $this->tree->getParentId($target_ref_id)) {
                 $target_notifications->cloneFromSource($source_ref_id);
+            } else {
+                $object_properties = ilForumProperties::getInstance($new_obj->getId());
+                $target_notifications->applyTypeConfigurationFor(
+                    $new_obj->getAllForumParticipants(),
+                    $object_properties,
+                    null
+                );
             }
-        } else {
-            $object_properties = ilForumProperties::getInstance($this->getId());
-            $target_notifications->updateUserNotifications($new_obj->getAllForumParticipants(), $object_properties);
         }
 
         if (ilForumPage::_exists($this->getType(), $this->getId())) {
@@ -470,7 +473,7 @@ class ilObjForum extends ilObject
             0 === $this->getRefId() ||
             0 === $new_obj->getRefId()
         ) {
-            $this->logger->write(__METHOD__ . ' : Error cloning auto generated role: il_frm_moderator');
+            $this->logger->info('Error cloning auto generated role: il_frm_moderator');
         }
 
         $this->rbac->admin()->copyRolePermissions(
@@ -481,7 +484,7 @@ class ilObjForum extends ilObject
             true
         );
 
-        $this->logger->write(__METHOD__ . ' : Finished copying of role il_frm_moderator.');
+        $this->logger->info('Finished copying of role il_frm_moderator.');
 
         $moderators = new ilForumModerators($this->getRefId());
         $src_moderator_usr_ids = $moderators->getCurrentModerators();

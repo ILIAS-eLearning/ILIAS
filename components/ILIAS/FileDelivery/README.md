@@ -233,3 +233,115 @@ http://trunk.ilias.localhost/src/FileDelivery/deliver.php/LY3NasMwEITy[...]RFiKc
 
 > Important: Do not combine the Singed Delivery with other mechanisms such 
 > as the [WebAcceessChecker](../WebAccessChecker/README.md) 
+
+# IRSS User Content Isolation
+
+User-uploaded content (and derived files such as previews) can contain active
+markup (SVG, HTML, …). Serving it from the same origin as the application allows
+attacks such as stored XSS, content sniffing or canvas exfiltration against the
+logged-in session. *User Content Isolation* serves all IRSS assets from a
+dedicated, cookie-less **content domain** while the application keeps running on
+the ILIAS domain (OWASP: *"use an isolated server with a different domain to
+serve uploaded files"*).
+
+This is **proxy mode**: the content domain is an additional vhost pointing at the
+*same* ILIAS installation. Signed token delivery (`deliver.php`) is unchanged;
+only the host that the embed URLs point to differs.
+
+## What ILIAS enforces when the feature is active
+
+* `Services::getBaseURI()` generates all IRSS embed URLs against the content
+  domain instead of the request host — consumers need no changes.
+* `deliver.php` (`StreamDelivery::deliverFromToken()`) serves assets **only** when
+  reached via the content host; a request on the ILIAS host returns `404`.
+* `LegacyDelivery` refuses to serve on the content host (`404`) — the content
+  domain is reserved for signed token delivery.
+* `HttpPathBuilder` rejects any attempt to load the regular ILIAS application via
+  the content domain.
+* Delivery responses are hardened with `X-Content-Type-Options: nosniff`,
+  `Cross-Origin-Resource-Policy: cross-origin`, `Referrer-Policy: no-referrer`
+  and a CORS `Access-Control-Allow-Origin` restricted to the ILIAS domain (with
+  `Vary: Origin`). No credentials are allowed, so session cookies are never used
+  for asset requests.
+
+## Configuration (Setup only — no GUI)
+
+Per JourFixe decision the feature is configured exclusively through the Setup so
+that installations can be made secure-by-default via CLI. The settings are
+written to a static PHP artefact (`public/data/isolation.php`) and read at
+runtime without any DB access.
+
+Add the following block to your setup `config.json`. The top-level key is
+`content_isolation`:
+
+```json
+{
+    "content_isolation": {
+        "activated": true,
+        "content_domain": "content.example.org"
+    }
+}
+```
+
+* `content_domain` is the dedicated origin user content is served from. Either a
+  bare host (`content.example.org`, normalised to `https://`) or a full `http(s)`
+  origin (`scheme://host[:port]`, no userinfo/path/query) is accepted. It is
+  **required** and must differ from the ILIAS origin when `activated` is `true`,
+  otherwise the Setup aborts with a clear error.
+* The **ILIAS domain** (used as the CORS `Access-Control-Allow-Origin` for asset
+  requests) is **not** configured here. It is derived from the installed
+  `http.path` at setup time and baked into the artefact, so it never has to be
+  repeated in this block and the runtime never reads `ilias.ini.php` to obtain it.
+  Reconfiguring `http.path` and re-running the Setup updates it automatically.
+* `activated: false` (the default) keeps the previous behaviour: assets are
+  served from the ILIAS domain via the regular signed delivery.
+
+Run `setup install`/`setup update` to write the artefact. Because the ILIAS domain
+is taken from `http.path`, run the FileDelivery setup *after* `http.path` is
+configured (the Setup enforces this ordering via objective preconditions).
+
+> **`http.allowed_hosts` is not involved.** The content domain does **not** need to
+> be added to `http.allowed_hosts`. Asset delivery runs through `deliver.php`, which
+> boots via the FileDelivery component entry point and never reaches the
+> `allowed_hosts` check in `HttpPathBuilder`. Keeping the content host out of
+> `allowed_hosts` is in fact intended: the regular application must not be reachable
+> under the content domain.
+
+## Operational requirements
+
+* **DNS/TLS/vhost**: the content domain needs its own DNS record and TLS
+  certificate and must be served by a vhost pointing at the *same* ILIAS
+  installation. Use a domain clearly different from the ILIAS domain
+  (e.g. `iliascontent.de` vs `ilias.de`).
+* **Session cookie must stay host-only**: ILIAS sets the session cookie without a
+  `Domain` attribute (`IL_COOKIE_DOMAIN = ''`), so it is never sent to the
+  content host. Do **not** configure a shared parent cookie domain — that would
+  leak the session to the content domain and defeat the isolation.
+* **Extra headers**: ILIAS already emits the headers needed for image/asset
+  embedding. For cross-origin embedding of `.css`/`.js`/`.html` you may still
+  need to set the corresponding headers on your web server / the content vhost.
+
+## Example web server setup (one possible approach)
+
+The content domain is not a second installation: it points at the **same**
+document root and the same PHP as the ILIAS domain, and the isolation is enforced
+in PHP by host name. So in the simplest case you just let your existing ILIAS
+vhost answer both host names — no second vhost, no extra rules. Point the content
+domain at the same server via DNS and use a certificate covering both names.
+
+Apache — add one line to the existing vhost:
+
+```apache
+ServerName   ilias.example.org
+ServerAlias  content.example.org
+```
+
+nginx — add the host to the existing `server_name`:
+
+```nginx
+server_name ilias.example.org content.example.org;
+```
+
+Everything else stays as it is. Depending on your setup (reverse proxy,
+container, where TLS is terminated) the details will differ — the only
+requirement is that the content domain reaches the same ILIAS installation.

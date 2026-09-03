@@ -1,4 +1,33 @@
-.c-listing-entity {
+@use "../../../050-layout/basics" as l;
+@use "../../../050-layout/layout_grid-auto-columns" as l-auto-grid;
+@use "../../../030-tools/tool_multi-line-cap" as t-linecap;
+
+// so we can force entity small space design on large screens
+@use "../../../070-components/UI-framework/Entity/ui-component_entity" as entity;
+
+$listing-column-min-width: 650px;
+$grid-column-min-width: 400px;
+
+.c-listing-entity,
+.c-listing-entity-grid {
     list-style: none;
     padding-left: 0;
 }
+
+.c-listing-entity {
+    @include l-auto-grid.make-grid-with-auto-columns($listing-column-min-width);
+}
+
+.c-listing-entity-grid {
+    @include l-auto-grid.make-grid-with-auto-columns($grid-column-min-width);
+    .c-entity {
+        @include entity.entity-limited-space-design();
+        &__container {
+            height: 100%;
+            .c-listing-property__propertyvalue:has(.t-text-more-less__toggle:not(:checked)) .t-text-more-less__text-body {
+                height: 2lh;
+            }
+        }
+    }
+}
+

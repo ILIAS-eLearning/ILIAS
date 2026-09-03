@@ -37,16 +37,17 @@ class ilObjQuestionPoolTaxonomyEditingCommandForwarderTest extends assBaseTestCa
     {
         parent::setUp();
 
-        $poolOBJ = $this->createMock(ilObjQuestionPool::class);
-        $db = $this->createMock(ilDBInterface::class);
-        $refinery = $this->createMock(ILIAS\Refinery\Factory::class);
-        $component_repository = $this->createMock(ilComponentRepository::class);
-        $ctrl = $this->createMock(ilCtrl::class);
-        $tabs = $this->createMock(ilTabsGUI::class);
-        $lng = $this->createMock(ilLanguage::class);
-        $taxonomy = $this->createMock(Service::class);
-
-        $this->object = new ilObjQuestionPoolTaxonomyEditingCommandForwarder($poolOBJ, $db, $refinery, $component_repository, $ctrl, $tabs, $lng, $taxonomy);
+        $this->object = new ilObjQuestionPoolTaxonomyEditingCommandForwarder(
+            $this->createMock(ilObjQuestionPool::class),
+            $this->createMock(ilDBInterface::class),
+            $this->createMock(ILIAS\Refinery\Factory::class),
+            $this->createMock(ilComponentRepository::class),
+            $this->createMock(ilComponentFactory::class),
+            $this->createMock(ilCtrl::class),
+            $this->createMock(ilTabsGUI::class),
+            $this->createMock(ilLanguage::class),
+            $this->createMock(Service::class)
+        );
     }
 
     public function testConstruct(): void

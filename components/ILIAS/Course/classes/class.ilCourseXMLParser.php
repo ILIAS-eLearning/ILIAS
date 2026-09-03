@@ -101,7 +101,7 @@ class ilCourseXMLParser extends ilSaxParser implements ilSaxSubsetParser
         switch ($a_name) {
             case 'Course':
                 if (strlen($a_attribs['importId'] ?? '')) {
-                    $this->log->write("CourseXMLParser: importId = " . $a_attribs['importId']);
+                    $this->log->info("importId = " . $a_attribs['importId']);
                     $this->course_obj->setImportId($a_attribs['importId']);
                     ilObject::_writeImportId($this->course_obj->getId(), $a_attribs['importId']);
                 }
@@ -482,7 +482,7 @@ class ilCourseXMLParser extends ilSaxParser implements ilSaxSubsetParser
         switch ($a_name) {
             case 'Course':
 
-                $this->log->write('CourseXMLParser: import_id = ' . $this->course_obj->getImportId());
+                $this->log->info('import_id = ' . $this->course_obj->getImportId());
 
                 $this->course_obj->readContainerSettings();
                 // see #26169
@@ -633,6 +633,10 @@ class ilCourseXMLParser extends ilSaxParser implements ilSaxSubsetParser
 
             case 'TimingMode':
                 $this->course_obj->setTimingMode((int) $this->cdata);
+                break;
+
+            case 'AboStatus':
+                $this->course_obj->setAboStatus((int) $this->cdata);
                 break;
 
             case 'StatusDetermination':

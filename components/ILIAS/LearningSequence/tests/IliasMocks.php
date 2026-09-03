@@ -36,7 +36,7 @@ trait IliasMocks
     {
         $ui_reflection = new ReflectionClass(UIFactory::class);
         $methods = array_map(
-            fn ($m) => $m->getName(),
+            fn($m) => $m->getName(),
             $ui_reflection->getMethods()
         );
 
@@ -50,17 +50,17 @@ trait IliasMocks
         $ui_factory->method('viewControl')
             ->willReturn(new CImpl\ViewControl\Factory($signal_generator));
         $ui_factory->method('breadcrumbs')
-            ->will(
-                $this->returnCallback(function ($crumbs) {
-                    return new CImpl\Breadcrumbs\Breadcrumbs($crumbs);
-                })
-            );
+            ->willReturnCallback(function ($crumbs) {
+                return new CImpl\Breadcrumbs\Breadcrumbs($crumbs);
+            });
         $ui_factory->method('link')
             ->willReturn(new CImpl\Link\Factory());
+        $language_mock = $this->createMock(\ILIAS\Language\Language::class);
+        $language_mock->method('txt')->willReturnArgument(0);
         $ui_factory->method('symbol')
             ->willReturn(new CImpl\Symbol\Factory(
                 new CImpl\Symbol\Icon\Factory(),
-                new CImpl\Symbol\Glyph\Factory(),
+                new CImpl\Symbol\Glyph\Factory($language_mock),
                 new CImpl\Symbol\Avatar\Factory()
             ));
 

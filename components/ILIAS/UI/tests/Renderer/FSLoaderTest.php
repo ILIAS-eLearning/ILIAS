@@ -41,6 +41,7 @@ class FSLoaderTest extends TestCase
     protected RendererFactory & MockObject $message_box_renderer_factory;
     protected RendererFactory & MockObject $form_renderer_factory;
     protected RendererFactory & MockObject $menu_renderer_factory;
+    protected RendererFactory & MockObject $list_renderer_factory;
 
     protected FSLoader $fs_loader;
 
@@ -52,6 +53,7 @@ class FSLoaderTest extends TestCase
         $this->message_box_renderer_factory = $this->createMock(RendererFactory::class);
         $this->form_renderer_factory = $this->createMock(RendererFactory::class);
         $this->menu_renderer_factory = $this->createMock(RendererFactory::class);
+        $this->list_renderer_factory = $this->createMock(RendererFactory::class);
 
         $this->fs_loader = new FSLoader(
             $this->default_renderer_factory,
@@ -60,6 +62,7 @@ class FSLoaderTest extends TestCase
             $this->message_box_renderer_factory,
             $this->form_renderer_factory,
             $this->menu_renderer_factory,
+            $this->list_renderer_factory,
         );
 
         parent::setUp();

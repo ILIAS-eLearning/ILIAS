@@ -17,11 +17,13 @@
   * [Suppress server signature and PHP version information](#suppress-server-signature-and-php-version-information)
   * [deny access or restrict to several files or locations](#deny-access-or-restrict-to-several-files-or-locations)
     + [ILIAS setup](#ilias-setup)
+    + [Restrict access to the SOAP interface](#restrict-access-to-the-soap-interface)
     + [Prevent blacklisted files of beeing served by the webserver](#prevent-blacklisted-files-of-beeing-served-by-the-webserver)
     + [Prevent execution of PHP-Code in data-directory](#prevent-execution-of-php-code-in-data-directory)
     + [Deny Access to local Git-Directory](#deny-access-to-local-git-directory)
   * [Integrity check of ILIAS code in docroot](#integrity-check-of-ilias-code-in-docroot)
   * [Use WebAccessChecker](#use-webaccesschecker)
+  * [Serve user content from a separate domain (User Content Isolation)](#serve-user-content-from-a-separate-domain-user-content-isolation)
   * [Use secure passwords](#use-secure-passwords)
   * [Report security issues](#report-security-issues)
 
@@ -46,6 +48,7 @@ For a better identification, they will describe here:
 | %EXTERNALDATA% | ILIAS data directory outside of the web document root |
 | %LOGDIR% | path to the directory containing log files |
 | %CLIENTID% | the client name of the ILIAS installation  |
+| %UPSTREAM% | name or address of the ILIAS backend/upstream |
 
 ## Firewall
 
@@ -547,6 +550,45 @@ Nginx:
 
 Please add the whitelisted ip address (%IPADDRESS%) to grant access to ILIAS setup here.
 
+### Restrict access to the SOAP interface
+
+ILIAS provides a SOAP web service interface (`/soap/server.php`) which exposes a number of web service functions. To reduce the attack surface, you SHOULD restrict access to this endpoint on the web server level so that only trusted hosts can reach it. If you don't make use of the SOAP interface at all, you MAY additionally disable the SOAP user administration via the ILIAS configuration file and by running the ILIAS update command afterwards. Note that this ILIAS setting does NOT block the `server.php` endpoint itself; a web server restriction is required for that.
+
+ILIAS uses SOAP internally for some asynchronous operations, most notably the cloning/copying of object trees (`ilClone` via `ilSoapUtils::callNextNode`). These calls are issued against the server's own configured (public) URL and, depending on name resolution on the host, originate either from the loopback address (`127.0.0.1`) or from the server's own IP address. You MUST whitelist this internal source address as well, otherwise these background operations will silently fail while the web interface keeps working.
+
+Apache2:
+
+```
+    <Location /soap/>
+        Require all denied
+        Require ip %IPADDRESS%
+    </Location>
+```
+
+Nginx:
+
+```
+    location /soap/ {
+        allow %IPADDRESS%;
+        deny all;
+    }
+```
+
+Please add all whitelisted ip addresses (%IPADDRESS%) here, including the internal loopback/server address as well as any external consumers (e.g. campus/identity management provisioning, cron-triggered SOAP jobs).
+
+**note:**
+With Nginx, place the `allow`/`deny` directives in the same proxied `location` block as the `proxy_pass` directive. With Apache2, the `<Location>` block above also applies to reverse-proxied requests (`ProxyPass`), as access control is evaluated before the request is handed to the proxy handler — no separate configuration is required.
+
+Nginx:
+
+```
+    location /soap/ {
+        allow %IPADDRESS%;
+        deny all;
+        proxy_pass http://%UPSTREAM%;
+    }
+```
+
 ### Prevent blacklisted files of beeing served by the webserver
 
 If somebody tries to upload a file with a filetype blacklisted by the upload settings, the upload will take place, but the file will be renamed to `filename.sec`. The webserver should not serve this file anymore to it's visitors as the file may consists of malicious software.
@@ -662,6 +704,14 @@ to
 ```
 %DOCROOT%/components/ILIAS/FileDelivery/classes/override.php
 ```
+
+## Serve user content from a separate domain (User Content Isolation)
+
+User-uploaded files (and derived files such as previews) can contain active markup (SVG, HTML, …). Serving them from the same origin as the application allows attacks such as stored XSS or canvas exfiltration against the logged-in session. ILIAS can therefore deliver all files stored in the Resource Storage Service from a dedicated, cookie-less **content domain**, while the application itself keeps running on the ILIAS domain.
+
+The content domain points at the *same* ILIAS installation — you only need an additional DNS record, a TLS certificate covering the extra host name and the host name added to your existing vhost. The isolation itself is enforced by ILIAS in PHP. The feature is configured through the Setup (`content_isolation` in `config.json`), it is deactivated by default.
+
+For the configuration, the guarantees ILIAS enforces and an example web server setup see the [FileDelivery documentation](../../components/ILIAS/FileDelivery/README.md#irss-user-content-isolation).
 
 ## Use secure passwords
 

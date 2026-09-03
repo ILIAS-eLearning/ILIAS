@@ -45,8 +45,10 @@ class ilLSCurriculumBuilder
         $this->url_builder = $url_builder;
     }
 
-    public function getLearnerCurriculum(bool $with_action = false): ILIAS\UI\Component\Listing\Workflow\Linear
-    {
+    public function getLearnerCurriculum(
+        bool $with_action = false,
+        ?string $title = null
+    ): ILIAS\UI\Component\Listing\Workflow\Linear {
         $steps = [];
         $items = $this->ls_items->getItems();
         foreach ($items as $item) {
@@ -69,7 +71,7 @@ class ilLSCurriculumBuilder
         }
 
         $workflow = $this->ui_factory->listing()->workflow()->linear(
-            $this->lng->txt('curriculum'),
+            $title ?? $this->lng->txt('curriculum'),
             $steps
         );
 
@@ -81,6 +83,19 @@ class ilLSCurriculumBuilder
         }
 
         return $workflow;
+    }
+
+    public function getLearningSequenceRefId(): int
+    {
+        return $this->ls_items->getLearningSequenceRefId();
+    }
+
+    /**
+     * @return LSLearnerItem[]
+     */
+    public function getLearnerItems(): array
+    {
+        return $this->ls_items->getItems();
     }
 
     /*

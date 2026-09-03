@@ -309,7 +309,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $page_gui->setTemplateTargetVar('ADM_CONTENT');
                 $page_gui->setOutputMode('edit');
                 $page_gui->setHeader($question->getTitleForHTMLOutput());
-                $page_gui->setPresentationTitle($question->getTitleForHTMLOutput());
+                $page_gui->setPresentationTitle($question->getTitle());
                 $ret = $this->ctrl->forwardCommand($page_gui);
                 if ($ret != '') {
                     $this->tpl->setContent($ret);
@@ -429,6 +429,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     $this->db,
                     $this->refinery,
                     $this->component_repository,
+                    $this->component_factory,
                     $this->ctrl,
                     $this->tabs_gui,
                     $this->lng,
@@ -456,6 +457,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                         $this->lng,
                         $this->db,
                         $this->component_repository,
+                        $this->component_factory,
                         $obj,
                         $this->http,
                         $this->toolbar,
@@ -1800,6 +1802,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $this->db,
             $this->lng,
             $this->component_repository,
+            $this->component_factory,
             $this->rbac_system,
             $this->user,
             $this->taxonomy->domain(),

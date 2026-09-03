@@ -66,7 +66,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         }
 
         if (!$failure && trim($username) !== '') {
-            if (!$room->isSubscribed($chat_user->getUserId())) {
+            if (!$room->isSubscribed($chat_user->getUserId()) || !ilSession::get('chat')) {
                 $chat_user->setUsername($chat_user->buildUniqueUsername($username));
                 $chat_user->setProfilePictureVisible(!$custom_username);
             }
@@ -221,8 +221,8 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $auto_scroll = $register('auto-scroll-toggle', $toggle($txt('auto_scroll'), true));
         $messages = $register('system-messages-toggle', $toggle($txt('chat_show_auto_messages'), $show_auto_messages));
 
-        $invite = $bind('invite-modal', $this->uiFactory->modal()->roundtrip($txt('chat_invite'), $this->legacy($txt('invite_to_private_room')), [
-            $this->uiFactory->input()->field()->text($txt('chat_invite')),
+        $invite = $bind('invite-modal', $this->uiFactory->modal()->roundtrip($txt('chat_invitation_modal_headline'), $this->legacy($txt('chat_invitation_modal_section')), [
+            $this->uiFactory->input()->field()->text($txt('chat_invitation_username_input_label')),
         ])->withSubmitLabel($txt('chat_invite')));
 
         $buttons = [];
@@ -354,14 +354,14 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $chat_user = new ilChatroomUser($this->ilUser, $room);
 
         if ($room->getSetting('allow_custom_usernames')) {
-            if ($room->isSubscribed($chat_user->getUserId())) {
+            if ($room->isSubscribed($chat_user->getUserId()) && ilSession::get('chat')) {
                 $chat_user->setUsername($chat_user->getUsername());
                 $this->showRoom($room, $chat_user);
             } else {
                 $this->showNameSelection($chat_user);
             }
         } else {
-            $chat_user->setUsername($this->ilUser->getPublicName());
+            $chat_user->setUsername($this->ilUser->isAnonymous() ? $chat_user->buildAnonymousName() : $this->ilUser->getPublicName());
             $chat_user->setProfilePictureVisible(true);
             $this->showRoom($room, $chat_user);
         }

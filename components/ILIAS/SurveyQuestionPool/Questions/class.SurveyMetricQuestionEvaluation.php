@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -39,7 +41,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
         foreach ($a_answers as $answers) {
             foreach ($answers as $answer) {
                 $total++;
-                $sum += $answer["value"];
+                $sum += (float) $answer["value"];
             }
         }
         if ($total > 0) {
@@ -123,7 +125,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
     {
         $lng = $this->lng;
 
-        $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, $a_results->getQuestion()->getId());
+        $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, (string) $a_results->getQuestion()->getId());
         $chart->setYAxisToInteger(true);
 
         $colors = $this->getChartColors();
@@ -135,7 +137,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
         $data = $chart->getDataInstance(ilChartGrid::DATA_BARS);
         $data->setLabel($lng->txt("category_nr_selected"));
         $data->setBarOptions(0.5, "center");
-        $data->setFill(1);
+        $data->setFill(1.0);
 
         $total = count($a_results->getAnswers());
         if ($total > 0) {
@@ -146,7 +148,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
 
             $labels = array();
             foreach ($cumulated as $value => $count) {
-                $data->addPoint($value, $count);
+                $data->addPoint((float) $value, (float) $count);
                 $labels[$value] = $value;
             }
             $chart->addData($data);

@@ -92,7 +92,7 @@ class ilFolderXmlParser extends ilContainerBaseXmlParser
      */
     public function handlerEndTag($a_xml_parser, string $a_name): void
     {
-        $GLOBALS['ilLog']->write(__METHOD__ . ': Called ' . $a_name);
+        $GLOBALS['ilLog']->info(__METHOD__ . ': Called ' . $a_name);
 
         switch ($a_name) {
             case 'Folder':

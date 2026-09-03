@@ -37,14 +37,14 @@ class ilPageQuestionProcessor
         $ilUser = $DIC->user();
         $ilLog = $DIC["ilLog"];
         $ilDB = $DIC->database();
-        $ilLog->write($a_type);
-        $ilLog->write($a_id);
-        $ilLog->write($a_answer);
+        $ilLog->info($a_type);
+        $ilLog->info($a_id);
+        $ilLog->info($a_answer);
         $answer = json_decode($a_answer, false, 512, JSON_THROW_ON_ERROR);
         $passed = $answer->passed;
         $choice = $answer->choice ?? [];
         $points = self::calculatePoints($a_type, $a_id, $choice);
-        $ilLog->write("Points: " . $points);
+        $ilLog->info("Points: " . $points);
 
         $set = $ilDB->query(
             "SELECT * FROM page_qst_answer WHERE " .
@@ -287,9 +287,7 @@ class ilPageQuestionProcessor
 
         $ilDB = $DIC->database();
 
-        $a_q_id = is_array($a_q_id) ? $a_q_id : [(int) $a_q_id];
-
-        $qst = $ilDB->in("qst_id", $a_q_id, false, "integer");
+        $qst = $ilDB->in("qst_id", is_array($a_q_id) ? $a_q_id : [(int) $a_q_id], false, "integer");
 
         $and = ($a_user_id > 0)
             ? " AND user_id = " . $ilDB->quote($a_user_id, "integer")

@@ -244,7 +244,7 @@ class ilObject
                 $obj["type"]
             );
 
-            $this->log->write($message);
+            $this->log->info($message);
             throw new ilObjectTypeMismatchException($message);
         }
 
@@ -277,28 +277,35 @@ class ilObject
             }
         }
 
+        $this->object_properties = null;
+
         // multilingual support system objects (sys) & categories (db)
         $translation_type = $this->obj_definition->getTranslationType($this->type);
 
-        if ($translation_type == "sys") {
-            $this->title = $this->lng->txt("obj_" . $this->type);
-            $this->setDescription($this->lng->txt("obj_" . $this->type . "_desc"));
-        } elseif ($translation_type == "db") {
-            $sql =
-                "SELECT title, description" . PHP_EOL
-                . "FROM object_translation" . PHP_EOL
-                . "WHERE obj_id = " . $this->db->quote($this->id, 'integer') . PHP_EOL
-                . "AND lang_code = " . $this->db->quote($ilUser->getCurrentLanguage(), 'text') . PHP_EOL
-            ;
-            $r = $this->db->query($sql);
-            $row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-            if ($row) {
-                $this->title = (string) $row->title;
-                $this->setDescription((string) $row->description);
-            }
+        if ($translation_type === 'sys') {
+            $this->title = $this->lng->txt("obj_{$this->type}");
+            $this->setDescription($this->lng->txt("obj_{$this->type}_desc"));
+            return;
         }
 
-        $this->object_properties = null;
+        if ($translation_type !== 'db') {
+            return;
+        }
+
+        $translation = $this->translations_repository->getFor($this->id);
+
+        $language = $translation->getLaguageForCode(
+            $ilUser->getCurrentLanguage()
+        ) ?? $translation->getLaguageForCode(
+            $translation->getDefaultLanguage()
+        );
+
+        if ($language === null) {
+            return;
+        }
+
+        $this->title = $language->getTitle();
+        $this->setDescription($language->getDescription());
     }
 
     public function getId(): int
@@ -551,7 +558,7 @@ class ilObject
             $this->error->raiseError($message, $this->error->WARNING);
         }
 
-        $this->log->write("ilObject::create(), start");
+        $this->log->info("start");
 
         // determine owner
         $owner = 0;
@@ -613,9 +620,9 @@ class ilObject
         $this->setOwner($owner);
 
         // write log entry
-        $this->log->write(
+        $this->log->info(
             sprintf(
-                "ilObject::create(), finished, obj_id: %s, type: %s, title: %s",
+                "finished, obj_id: %s, type: %s, title: %s",
                 $this->getId(),
                 $this->getType(),
                 $this->getTitle()
@@ -1182,7 +1189,7 @@ class ilObject
         $this->handleAutoRating();
 
         $log_entry = sprintf(
-            "ilObject::putInTree(), parent_ref: %s, ref_id: %s, obj_id: %s, type: %s, title: %s",
+            "parent_ref: %s, ref_id: %s, obj_id: %s, type: %s, title: %s",
             $parent_ref_id,
             $this->getRefId(),
             $this->getId(),
@@ -1190,7 +1197,7 @@ class ilObject
             $this->getTitle()
         );
 
-        $this->log->write($log_entry);
+        $this->log->info($log_entry);
 
         $this->app_event_handler->raise(
             'components/ILIAS/ILIASObject',
@@ -1300,13 +1307,13 @@ class ilObject
             $type = ilObject::_lookupType($this->getId());
             if ($this->type != $type) {
                 $log_entry = sprintf(
-                    "ilObject::delete(): Type mismatch. Object with obj_id: %s was instantiated by type '%s'. DB type is: %s",
+                    "Type mismatch. Object with obj_id: %s was instantiated by type '%s'. DB type is: %s",
                     $this->id,
                     $this->type,
                     $type
                 );
 
-                $this->log->write($log_entry);
+                $this->log->info($log_entry);
                 $this->error->raiseError(
                     sprintf("ilObject::delete(): Type mismatch. (%s/%s)", $this->type, $this->id),
                     $this->error->WARNING
@@ -1329,9 +1336,9 @@ class ilObject
             ;
             $this->db->manipulate($sql);
 
-            $this->log->write(
+            $this->log->info(
                 sprintf(
-                    "ilObject::delete(), deleted object, obj_id: %s, type: %s, title: %s",
+                    "deleted object, obj_id: %s, type: %s, title: %s",
                     $this->getId(),
                     $this->getType(),
                     $this->getTitle()
@@ -1362,9 +1369,9 @@ class ilObject
 
             $remove = true;
         } else {
-            $this->log->write(
+            $this->log->info(
                 sprintf(
-                    "ilObject::delete(), object not deleted, number of references: %s, obj_id: %s, type: %s, title: %s",
+                    "object not deleted, number of references: %s, obj_id: %s, type: %s, title: %s",
                     $this->countReferences(),
                     $this->getId(),
                     $this->getType(),
@@ -1385,9 +1392,9 @@ class ilObject
             ;
             $this->db->manipulate($sql);
 
-            $this->log->write(
+            $this->log->info(
                 sprintf(
-                    "ilObject::delete(), reference deleted, ref_id: %s, obj_id: %s, type: %s, title: %s",
+                    "reference deleted, ref_id: %s, obj_id: %s, type: %s, title: %s",
                     $this->getRefId(),
                     $this->getId(),
                     $this->getType(),

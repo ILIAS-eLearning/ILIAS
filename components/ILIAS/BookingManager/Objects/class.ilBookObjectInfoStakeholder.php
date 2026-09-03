@@ -34,6 +34,11 @@ class ilBookObjectInfoStakeholder extends AbstractResourceStakeholder
         return $this->default_owner;
     }
 
+    public function getConsumerNameForPresentation(): string
+    {
+        return parent::getConsumerNameForPresentation() . '/ObjectInfo';
+    }
+
     public function canBeAccessedByCurrentUser(ResourceIdentification $identification): bool
     {
         global $DIC;

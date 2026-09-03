@@ -23,22 +23,30 @@
 package de.ilias.services.transformation;
 
 
+import de.ilias.services.settings.ConfigurationException;
+import de.ilias.services.settings.ServerSettings;
 import org.apache.fop.apps.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.xml.sax.SAXException;
 
 import javax.xml.transform.*;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URLConnection;
 import java.net.URISyntaxException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Objects;
 
-public class FO2PDF {
+public class FO2PDF
+{
 
     private static FO2PDF instance = null;
 
@@ -50,20 +58,22 @@ public class FO2PDF {
     /**
      * Singleton constructor
      */
-    public FO2PDF() {
+    public FO2PDF() throws TransformationException
+    {
         try {
-            fopFactory = FopFactory.newInstance(getClass().getResource("/de/ilias/config/fopConfig.xml").toURI());
-        } catch (URISyntaxException | NullPointerException ex) {
-            logger.error("Cannot load fop configuration:" + ex);
+            FOConfigBuilder configBuilder = new FOConfigBuilder(ServerSettings.getInstance());
+            fopFactory = configBuilder.buildFopFactory();
+        } catch (IOException | ConfigurationException e) {
+            logger.error("FOP configuration error", e);
+            throw new TransformationException(e);
         }
-
     }
 
     /**
      * Get FO2PDF instance
      */
-    public static FO2PDF getInstance() {
-
+    public static FO2PDF getInstance() throws TransformationException
+    {
         if (instance == null) {
             return instance = new FO2PDF();
         }
@@ -73,21 +83,45 @@ public class FO2PDF {
     /**
      * clear fop uri cache
      */
-    public void clearCache() {
-
+    public void clearCache()
+    {
         fopFactory.getImageManager().getCache().clearCache();
     }
 
     public void transform()
-            throws TransformationException {
+            throws TransformationException
+    {
 
         try {
 
             logger.info("Starting fop transformation...");
 
             FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
-//            foUserAgent.setTargetResolution(300);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+            foUserAgent.getEventBroadcaster().addEventListener(event -> {
+                try {
+                    logger.warn(
+                        "FOP EVENT: group={}, id={}",
+                        event.getEventGroupID(),
+                        event.getEventID()
+                    );
+
+                    event.getParams().forEach((k, v) -> {
+                        logger.warn("  {} = {}", k, v);
+                        if (Objects.equals(k, "uri") && v instanceof String) {
+                            String uriString = (String) v;
+                            try {
+                                logUriFopDiagnostics(new URI(uriString));
+                            } catch (URISyntaxException | IOException e) {
+                                logger.error("Error while probing URI", e);
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    logger.error("Error while logging FOP event", e);
+                }
+            });
 
             Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, out);
 
@@ -128,7 +162,8 @@ public class FO2PDF {
     /**
      * @return Returns the foString.
      */
-    public String getFoString() {
+    public String getFoString()
+    {
         return foString;
     }
 
@@ -136,20 +171,72 @@ public class FO2PDF {
     /**
      * @param foString The foString to set.
      */
-    public void setFoString(String foString) {
+    public void setFoString(String foString)
+    {
         this.foString = foString;
     }
 
-    public byte[] getPdf() {
+    public byte[] getPdf()
+    {
         return this.pdfByteArray;
     }
 
-    public void setPdf(byte[] ba) {
+    public void setPdf(byte[] ba)
+    {
         this.pdfByteArray = ba;
     }
 
+    private void logUriFopDiagnostics(URI uri) throws IOException {
+        logger.warn("Trying to load URI which could not be processed by FOP: {}", uri);
+        URLConnection connection = uri.toURL().openConnection();
 
-    private InputStream getFoInputStream() {
+        if (!(connection instanceof HttpURLConnection)) {
+            logger.warn("URI does not point to an HTTP resource: {}", uri);
+            return;
+        }
+        HttpURLConnection httpURLConnection = (HttpURLConnection) connection;
+        httpURLConnection.setInstanceFollowRedirects(false);
+        httpURLConnection.setConnectTimeout(15000);
+        httpURLConnection.setReadTimeout(15000);
+        try {
+            int code = httpURLConnection.getResponseCode();
+            logger.warn("HTTP status: {}", code);
+
+            httpURLConnection.getHeaderFields().forEach((key, values) -> {
+                logger.warn("Header: {} = {}", key, values);
+            });
+
+            InputStream stream;
+            if (code >= 200 && code < 300) {
+                stream = httpURLConnection.getInputStream();
+            } else {
+                stream = httpURLConnection.getErrorStream();
+                if (stream == null) {
+                    logger.warn("HTTP error {} with no body", code);
+                    return;
+                }
+            }
+
+            try (stream) {
+                ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+                byte[] data = new byte[4096];
+                int n;
+                while ((n = stream.read(data)) != -1) {
+                    buffer.write(data, 0, n);
+                }
+                String bodyPreview = buffer.toString(StandardCharsets.UTF_8);
+                logger.warn(
+                    "Response body (first 1000 chars):\n{}",
+                    bodyPreview.substring(0, Math.min(1000, bodyPreview.length()))
+                );
+            }
+        } finally {
+            httpURLConnection.disconnect();
+        }
+    }
+
+    private InputStream getFoInputStream()
+    {
         return new ByteArrayInputStream(getFoString().getBytes(StandardCharsets.UTF_8));
     }
 }

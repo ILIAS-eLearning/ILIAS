@@ -29,6 +29,7 @@ declare(strict_types=1);
 
 class ilLTIConsumerGradeService extends ilLTIConsumerServiceBase
 {
+    private ilLTIConsumerLineItemRepository $lineItemRepository;
     /** Read-only access to Gradebook services */
     public const GRADESERVICE_READ = 1;
 
@@ -54,6 +55,8 @@ class ilLTIConsumerGradeService extends ilLTIConsumerServiceBase
     public function __construct()
     {
         parent::__construct();
+        global $DIC;
+        $this->lineItemRepository = new ilLTIConsumerLineItemRepository($DIC->database());
         $this->id = 'gradebookservice';
         $this->name = 'ilLTIConsumerGradeService';
     }
@@ -67,10 +70,10 @@ class ilLTIConsumerGradeService extends ilLTIConsumerServiceBase
         // Lineitems should be after lineitem.
         if (empty($this->resources)) {
             $this->resources = array();
-            $this->resources[] = new ilLTIConsumerGradeServiceLineItem($this);
-            $this->resources[] = new ilLTIConsumerGradeServiceLineItems($this);
-            $this->resources[] = new ilLTIConsumerGradeServiceResults($this);
-            $this->resources[] = new ilLTIConsumerGradeServiceScores($this);
+            $this->resources[] = new ilLTIConsumerGradeServiceLineItem($this, $this->lineItemRepository);
+            $this->resources[] = new ilLTIConsumerGradeServiceLineItems($this, $this->lineItemRepository);
+            $this->resources[] = new ilLTIConsumerGradeServiceResults($this, $this->lineItemRepository);
+            $this->resources[] = new ilLTIConsumerGradeServiceScores($this, $this->lineItemRepository);
         }
         return $this->resources;
     }
@@ -81,12 +84,12 @@ class ilLTIConsumerGradeService extends ilLTIConsumerServiceBase
      */
     public function getPermittedScopes(): array
     {
-        $scopes = array();
-        $scopes[] = self::SCOPE_GRADESERVICE_LINEITEM;
-        $scopes[] = self::SCOPE_GRADESERVICE_LINEITEM_READ;
-        $scopes[] = self::SCOPE_GRADESERVICE_RESULT_READ;
-        $scopes[] = self::SCOPE_GRADESERVICE_SCORE;
-        return $scopes;
+        return [
+            self::SCOPE_GRADESERVICE_LINEITEM,
+            self::SCOPE_GRADESERVICE_LINEITEM_READ,
+            self::SCOPE_GRADESERVICE_RESULT_READ,
+            self::SCOPE_GRADESERVICE_SCORE
+        ];
     }
 
     /**

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Survey evaluation answers
  * @author	Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -134,9 +136,9 @@ class ilSurveyEvaluationResults
     }
 
     /**
-     * @return array|string
+     * @return array|string|null
      */
-    public function getMedian(): string|array
+    public function getMedian(): string|array|null
     {
         return $this->median;
     }
@@ -189,7 +191,7 @@ class ilSurveyEvaluationResults
         $a_value
     ): string {
         if (!count($this->variables)) {
-            return $a_value;
+            return (string) $a_value;
         } else {
             foreach ($this->variables as $var) {
                 if ($var->cat->scale == $a_value) {
@@ -204,11 +206,11 @@ class ilSurveyEvaluationResults
         float $a_value
     ): string {
         if (!count($this->variables)) {
-            return $a_value;
+            return (string) $a_value;
         } else {
             foreach ($this->variables as $var) {
                 if ($var->cat->scale == $a_value) {
-                    return $var->cat->title;
+                    return (string) $var->cat->title;
                 }
             }
         }

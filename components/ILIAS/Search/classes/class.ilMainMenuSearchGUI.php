@@ -108,9 +108,9 @@ class ilMainMenuSearchGUI
         }
         $this->tpl->setVariable(
             'FORMACTION',
-            $this->buildSearchLink('remoteSearch', false)
+            $this->buildSearchLink('remoteSearch')
         );
-        $this->tpl->setVariable('BTN_SEARCH', $this->lng->txt('search'));
+        $this->tpl->setVariable('BTN_SEARCH', $this->lng->txt('btn_search'));
         $this->tpl->setVariable('SEARCH_INPUT_LABEL', $this->lng->txt('search_field'));
 
         $this->tpl->setVariable('IMG_MM_SEARCH', ilUtil::img(
@@ -125,7 +125,6 @@ class ilMainMenuSearchGUI
             );
             $this->tpl->setVariable('TXT_SEARCH_LINK', $this->lng->txt("last_search_result"));
         }
-        $this->tpl->setVariable('TXT_SEARCH', $this->lng->txt("search"));
 
         return $this->tpl->get();
     }

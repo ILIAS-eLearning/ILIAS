@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.ilias.ilserver</groupId>
     <artifactId>ilServer</artifactId>
-    <version>12.0.2</version>
+    <version>12.0.3</version>
    <build>
         <finalName>ilServer</finalName>
         <plugins>
@@ -246,6 +246,6 @@
     <properties>
         <showDeprecation>true</showDeprecation>
         <encoding>UTF-8</encoding>
-        <maven.compiler.release>17</maven.compiler.release>
+        <maven.compiler.release>21</maven.compiler.release>
     </properties>
 </project>

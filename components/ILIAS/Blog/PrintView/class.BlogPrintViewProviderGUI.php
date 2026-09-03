@@ -22,13 +22,12 @@ namespace ILIAS\Blog;
 
 use ILIAS\COPage;
 use ILIAS\Export;
+use ILIAS\Blog\Editing\EditingGUI;
 use ilPropertyFormGUI;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
 class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
 {
+    protected Posting\PostingManager $posting_manager;
     protected \ilLanguage $lng;
     protected ?array $selected_pages = null;
     protected \ilObjBlog $blog;
@@ -40,20 +39,21 @@ class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
     public function __construct(
         \ilLanguage $lng,
         \ilCtrl $ctrl,
-        \ilObjBlog $blog,
+        protected int $blog_id,
         int $node_id,
         object $access_handler,
         int $style_id,
         ?array $selected_pages = null
     ) {
+        global $DIC;
         $this->lng = $lng;
         $this->ctrl = $ctrl;
-        $this->blog = $blog;
         $this->node_id = $node_id;
         $this->access_handler = $access_handler;
         $this->style_sheet_id = $style_id;
 
         $this->selected_pages = $selected_pages;
+        $this->posting_manager = $DIC->blog()->internal()->domain()->posting();
     }
 
     public function getTemplateInjectors(): array
@@ -77,9 +77,7 @@ class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
 
         $selected_pages = (count($this->selected_pages) > 0)
             ? $this->selected_pages
-            : array_map(static function ($i) {
-                return $i["id"];
-            }, \ilBlogPosting::getAllPostings($this->blog->getId()));
+            : $this->posting_manager->getAllPostingIds($this->blog_id);
 
         foreach ($selected_pages as $p_id) {
             $page_gui = new \ilBlogPostingGUI(
@@ -102,7 +100,7 @@ class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        $postings = \ilBlogPosting::getAllPostings($this->blog->getId());
+        $postings = $this->posting_manager->getAllPostings($this->blog_id);
         $lng->loadLanguageModule("content");
         $lng->loadLanguageModule("blog");
         $form = new \ilPropertyFormGUI();
@@ -122,8 +120,8 @@ class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
 
         foreach ($postings as $p) {
             $nl->addListNode(
-                (string) $p["id"],
-                $p["title"],
+                (string) $p->getId(),
+                $p->getTitle(),
                 "0",
                 false,
                 false,
@@ -139,7 +137,7 @@ class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         $form->setTitle($lng->txt("cont_print_selection"));
         $form->setFormAction(
             $ilCtrl->getFormActionByClass(
-                "ilObjBlogGUI",
+                EditingGUI::class,
                 "printPostings"
             )
         );

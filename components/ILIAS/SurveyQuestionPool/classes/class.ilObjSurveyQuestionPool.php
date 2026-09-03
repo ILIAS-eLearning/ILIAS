@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -107,7 +109,7 @@ class ilObjSurveyQuestionPool extends ilObject
         int $question_id = -1
     ): SurveyQuestionGUI {
         if ((!$question_type) and ($question_id > 0)) {
-            $question_type = $this->getQuestiontype($question_id);
+            $question_type = (string) $this->getQuestiontype($question_id);
         }
 
         $question_type_gui = $question_type . "GUI";
@@ -198,7 +200,7 @@ class ilObjSurveyQuestionPool extends ilObject
         );
         $found_questions = array();
         while ($row = $ilDB->fetchAssoc($result)) {
-            $this->removeQuestion($row["question_id"]);
+            $this->removeQuestion((int) $row["question_id"]);
         }
 
         // delete export files
@@ -238,7 +240,7 @@ class ilObjSurveyQuestionPool extends ilObject
         );
         if ($result->numRows() === 1) {
             $data = $ilDB->fetchAssoc($result);
-            return $data["type_tag"];
+            return (string) $data["type_tag"];
         } else {
             return null;
         }
@@ -299,6 +301,13 @@ class ilObjSurveyQuestionPool extends ilObject
             if ($row["plugin"]) {
                 continue;
             } else {
+                $row["question_id"] = (int) $row["question_id"];
+                $row["questiontype_fi"] = (int) $row["questiontype_fi"];
+                $row["obj_fi"] = (int) $row["obj_fi"];
+                $row["owner_fi"] = (int) $row["owner_fi"];
+                $row["original_id"] = $row["original_id"] === null ? null : (int) $row["original_id"];
+                $row["tstamp"] = (int) $row["tstamp"];
+                $row["type_tag"] = (string) $row["type_tag"];
                 $result_array[] = $row;
             }
         }
@@ -371,6 +380,13 @@ class ilObjSurveyQuestionPool extends ilObject
                 if ($row["plugin"]) {
                     continue;
                 } else {
+                    $row["question_id"] = (int) $row["question_id"];
+                    $row["questiontype_fi"] = (int) $row["questiontype_fi"];
+                    $row["obj_fi"] = (int) $row["obj_fi"];
+                    $row["owner_fi"] = (int) $row["owner_fi"];
+                    $row["original_id"] = $row["original_id"] === null ? null : (int) $row["original_id"];
+                    $row["tstamp"] = (int) $row["tstamp"];
+                    $row["type_tag"] = (string) $row["type_tag"];
                     $rows[] = $row;
                 }
             }
@@ -514,7 +530,8 @@ class ilObjSurveyQuestionPool extends ilObject
 
         $questionxml = "";
         foreach ($questions as $key => $value) {
-            $questiontype = $this->getQuestiontype($value);
+            $value = (int) $value;
+            $questiontype = (string) $this->getQuestiontype($value);
             SurveyQuestion::_includeClass($questiontype);
             $question = new $questiontype();
             $question->loadFromDb($value);
@@ -545,7 +562,8 @@ class ilObjSurveyQuestionPool extends ilObject
         $xml = $a_xml_writer->xmlDumpMem(false);
         $questionxml = "";
         foreach ($questions as $key => $value) {
-            $questiontype = $this->getQuestiontype($value);
+            $value = (int) $value;
+            $questiontype = (string) $this->getQuestiontype($value);
             SurveyQuestion::_includeClass($questiontype);
             $question = new $questiontype();
             $question->loadFromDb($value);
@@ -566,7 +584,7 @@ class ilObjSurveyQuestionPool extends ilObject
         );
         if ($result->numRows()) {
             while ($row = $ilDB->fetchAssoc($result)) {
-                $questions[] = $row["question_id"];
+                $questions[] = (int) $row["question_id"];
             }
         }
         return $questions;
@@ -592,9 +610,10 @@ class ilObjSurveyQuestionPool extends ilObject
                 $source = dirname($source) . "/" . $subdir . "/" . $subdir . ".xml";
             }
 
-            $fh = fopen($source, 'rb') or die("");
-            $xml = fread($fh, filesize($source));
-            fclose($fh) or die("");
+            $xml = file_get_contents($source);
+            if ($xml === false) {
+                throw new ilInvalidSurveyImportFileException("Could not read survey import file.");
+            }
             if ($isZip) {
                 $subdir = basename($source, ".zip");
                 if (is_dir(dirname($source) . "/" . $subdir)) {
@@ -630,7 +649,7 @@ class ilObjSurveyQuestionPool extends ilObject
         $refs = ilObject::_getAllReferences($object_id);
         $result = false;
         foreach ($refs as $ref) {
-            if ($rbacsystem->checkAccess("write", $ref) && (ilObject::_hasUntrashedReference($object_id))) {
+            if ($rbacsystem->checkAccess("write", (int) $ref) && (ilObject::_hasUntrashedReference($object_id))) {
                 $result = true;
             }
         }
@@ -652,8 +671,11 @@ class ilObjSurveyQuestionPool extends ilObject
         $types = array();
         $query_result = $ilDB->query("SELECT * FROM svy_qtype ORDER BY type_tag");
         while ($row = $ilDB->fetchAssoc($query_result)) {
+            $row["questiontype_id"] = (int) $row["questiontype_id"];
+            $row["type_tag"] = (string) $row["type_tag"];
+            $row["plugin"] = (int) $row["plugin"];
             //array_push($questiontypes, $row["type_tag"]);
-            if ((int) $row["plugin"] === 0) {
+            if ($row["plugin"] === 0) {
                 $types[$lng->txt($row["type_tag"])] = $row;
             }
         }
@@ -701,7 +723,7 @@ class ilObjSurveyQuestionPool extends ilObject
     {
         $classes = array_map(
             static function (array $c): string {
-                return $c["type_tag"];
+                return (string) $c["type_tag"];
             },
             self::_getQuestiontypes()
         );
@@ -725,7 +747,8 @@ class ilObjSurveyQuestionPool extends ilObject
         $types = array();
         while ($row = $ilDB->fetchAssoc($result)) {
             if ((int) $row["plugin"] === 0) {
-                $types[$row['type_tag']] = $lng->txt($row["type_tag"]);
+                $type_tag = (string) $row['type_tag'];
+                $types[$type_tag] = $lng->txt($type_tag);
             }
         }
         ksort($types);
@@ -755,9 +778,10 @@ class ilObjSurveyQuestionPool extends ilObject
         $allqpls = array();
         $result = $ilDB->query("SELECT sq.obj_fi, od.offline as offline FROM svy_qpl sq JOIN object_data od ON (sq.obj_fi = od.obj_id) WHERE sq.obj_fi > 0 AND sq.tstamp > 0 AND NOT(od.offline = 1)");
         while ($row = $ilDB->fetchAssoc($result)) {
-            $allqpls[$row['obj_fi']] = !($row['offline']);
+            $allqpls[(int) $row['obj_fi']] = !((int) $row['offline']);
         }
         foreach ($qpls as $ref_id) {
+            $ref_id = (int) $ref_id;
             $obj_id = ilObject::_lookupObjectId($ref_id);
             if ($could_be_offline || ($allqpls[$obj_id] ?? 0) == 1) {
                 if ($use_object_id) {
@@ -787,11 +811,12 @@ class ilObjSurveyQuestionPool extends ilObject
             "ORDER BY svy_question.title");
         if ($query_result->numRows() > 0) {
             while ($data = $ilDB->fetchAssoc($query_result)) {
-                if (in_array($data["question_id"], $question_ids)) {
-                    $found[] = array('id' => $data["question_id"],
-                                     'title' => $data["title"],
-                                     'description' => $data["description"],
-                                     'type_tag' => $data["type_tag"]
+                $question_id = (int) $data["question_id"];
+                if (in_array($question_id, $question_ids, true)) {
+                    $found[] = array('id' => $question_id,
+                                     'title' => (string) $data["title"],
+                                     'description' => (string) $data["description"],
+                                     'type_tag' => (string) $data["type_tag"]
                     );
                 }
             }
@@ -813,7 +838,7 @@ class ilObjSurveyQuestionPool extends ilObject
             array($ilUser->getId(), 0)
         );
         while ($data = $ilDB->fetchAssoc($result)) {
-            $this->removeQuestion($data["question_id"]);
+            $this->removeQuestion((int) $data["question_id"]);
         }
     }
 
@@ -846,31 +871,35 @@ class ilObjSurveyQuestionPool extends ilObject
         $qentries = $this->edit_manager->getQuestionsFromClipboard();
         if (count($qentries) > 0) {
             foreach ($qentries as $question_object) {
-                if (strcmp($question_object["action"], "move") === 0) {
+                if (!is_array($question_object)) {
+                    continue;
+                }
+                $question_id = (int) ($question_object["question_id"] ?? 0);
+                if (strcmp((string) ($question_object["action"] ?? ""), "move") === 0) {
                     $result = $ilDB->queryF(
                         "SELECT obj_fi FROM svy_question WHERE question_id = %s",
                         array('integer'),
-                        array($question_object["question_id"])
+                        array($question_id)
                     );
                     if ($result->numRows() === 1) {
                         $row = $ilDB->fetchAssoc($result);
-                        $source_questionpool = $row["obj_fi"];
+                        $source_questionpool = (int) $row["obj_fi"];
                         if ($this->getId() != $source_questionpool) {
                             // change the questionpool id in the qpl_questions table
                             $affectedRows = $ilDB->manipulateF(
                                 "UPDATE svy_question SET obj_fi = %s WHERE question_id = %s",
                                 array('integer','integer'),
-                                array($this->getId(), $question_object["question_id"])
+                                array($this->getId(), $question_id)
                             );
 
                             // move question data to the new target directory
-                            $source_path = CLIENT_WEB_DIR . "/survey/" . $source_questionpool . "/" . $question_object["question_id"] . "/";
+                            $source_path = CLIENT_WEB_DIR . "/survey/" . $source_questionpool . "/" . $question_id . "/";
                             if (is_dir($source_path)) {
                                 $target_path = CLIENT_WEB_DIR . "/survey/" . $this->getId() . "/";
                                 if (!is_dir($target_path)) {
                                     ilFileUtils::makeDirParents($target_path);
                                 }
-                                ilFileUtils::rename($source_path, $target_path . $question_object["question_id"]);
+                                ilFileUtils::rename($source_path, $target_path . $question_id);
                             }
                         } else {
                             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("spl_move_same_pool"), true);
@@ -878,7 +907,7 @@ class ilObjSurveyQuestionPool extends ilObject
                         }
                     }
                 } else {
-                    $this->copyQuestion($question_object["question_id"], $this->getId());
+                    $this->copyQuestion($question_id, $this->getId());
                 }
             }
         }

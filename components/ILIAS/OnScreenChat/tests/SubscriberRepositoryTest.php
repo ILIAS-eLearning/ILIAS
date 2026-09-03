@@ -37,8 +37,8 @@ class SubscriberRepositoryTest extends ilOnScreenChatBaseTestCase
                     $this->assertStringContainsString(array_shift($consecutive), $value);
                     return true;
                 }),
-                $this->isType('array'),
-                $this->isType('array')
+                $this->isArray(),
+                $this->isArray()
             )
             ->willReturn($resultMock);
 

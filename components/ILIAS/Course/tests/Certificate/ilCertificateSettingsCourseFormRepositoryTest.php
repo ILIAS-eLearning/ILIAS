@@ -42,67 +42,41 @@ class ilCertificateSettingsCourseFormRepositoryTest extends TestCase
 {
     public function testSaveSettings(): void
     {
-        $object = $this->getMockBuilder(ilObjCourse::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $object = $this->createMock(ilObjCourse::class);
 
         $object
             ->expects($this->atLeastOnce())
             ->method('getId')
             ->willReturn(100);
 
-        $language = $this->getMockBuilder(ilLanguage::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $language = $this->createStub(ilLanguage::class);
 
-        $controller = $this->getMockBuilder(ilCtrlInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $controller = $this->createStub(ilCtrlInterface::class);
 
-        $access = $this->getMockBuilder(ilAccess::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $access = $this->createStub(ilAccess::class);
 
-        $toolbar = $this->getMockBuilder(ilToolbarGUI::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $toolbar = $this->createStub(ilToolbarGUI::class);
 
-        $placeholderDescriptionObject = $this->getMockBuilder(ilCertificatePlaceholderDescription::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $placeholderDescriptionObject = $this->createStub(ilCertificatePlaceholderDescription::class);
 
-        $settingsFormFactory = $this->getMockBuilder(ilCertificateSettingsFormRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $settingsFormFactory = $this->createStub(ilCertificateSettingsFormRepository::class);
 
-        $trackingHelper = $this->getMockBuilder(ilCertificateObjUserTrackingHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $trackingHelper = $this->createStub(ilCertificateObjUserTrackingHelper::class);
 
-        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $objectHelper = $this->createStub(ilCertificateObjectHelper::class);
 
-        $lpHelper = $this->getMockBuilder(ilCertificateObjectLPHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $lpHelper = $this->createStub(ilCertificateObjectLPHelper::class);
 
-        $lpMock = $this->getMockBuilder(ilObjectLP::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $lpMock = $this->createStub(ilObjectLP::class);
 
         $lpMock->method('getCurrentMode')
             ->willReturn(100);
 
         $lpHelper->method('getInstance')->willReturn($lpMock);
 
-        $tree = $this->getMockBuilder(ilTree::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $tree = $this->createStub(ilTree::class);
 
-        $setting = $this->getMockBuilder(ilSetting::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $setting = $this->createMock(ilSetting::class);
 
         $setting
             ->expects($this->atLeastOnce())
@@ -130,38 +104,24 @@ class ilCertificateSettingsCourseFormRepositoryTest extends TestCase
 
     public function testFetchFormFieldData(): void
     {
-        $object = $this->getMockBuilder(ilObjCourse::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $object = $this->createMock(ilObjCourse::class);
 
         $object
             ->expects($this->atLeastOnce())
             ->method('getId')
             ->willReturn(100);
 
-        $language = $this->getMockBuilder(ilLanguage::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $language = $this->createStub(ilLanguage::class);
 
-        $controller = $this->getMockBuilder(ilCtrlInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $controller = $this->createStub(ilCtrlInterface::class);
 
-        $access = $this->getMockBuilder(ilAccess::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $access = $this->createStub(ilAccess::class);
 
-        $toolbar = $this->getMockBuilder(ilToolbarGUI::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $toolbar = $this->createStub(ilToolbarGUI::class);
 
-        $placeholderDescriptionObject = $this->getMockBuilder(ilCertificatePlaceholderDescription::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $placeholderDescriptionObject = $this->createStub(ilCertificatePlaceholderDescription::class);
 
-        $settingsFormFactory = $this->getMockBuilder(ilCertificateSettingsFormRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $settingsFormFactory = $this->createMock(ilCertificateSettingsFormRepository::class);
 
         $settingsFormFactory
             ->expects($this->atLeastOnce())
@@ -173,25 +133,15 @@ class ilCertificateSettingsCourseFormRepositoryTest extends TestCase
                 ]
             );
 
-        $trackingHelper = $this->getMockBuilder(ilCertificateObjUserTrackingHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $trackingHelper = $this->createStub(ilCertificateObjUserTrackingHelper::class);
 
-        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $objectHelper = $this->createStub(ilCertificateObjectHelper::class);
 
-        $lpHelper = $this->getMockBuilder(ilCertificateObjectLPHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $lpHelper = $this->createStub(ilCertificateObjectLPHelper::class);
 
-        $tree = $this->getMockBuilder(ilTree::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $tree = $this->createStub(ilTree::class);
 
-        $setting = $this->getMockBuilder(ilSetting::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $setting = $this->createMock(ilSetting::class);
 
         $setting
             ->expects($this->atLeastOnce())

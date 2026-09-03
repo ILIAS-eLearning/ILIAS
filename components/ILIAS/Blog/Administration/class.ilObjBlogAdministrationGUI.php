@@ -28,7 +28,7 @@ declare(strict_types=1);
 class ilObjBlogAdministrationGUI extends ilObjectGUI
 {
     public function __construct(
-        $a_data,
+        mixed $a_data,
         int $a_id,
         bool $a_call_by_reference = true,
         bool $a_prepare_output = true

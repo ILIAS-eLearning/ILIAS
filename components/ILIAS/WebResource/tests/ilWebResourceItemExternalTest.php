@@ -28,29 +28,21 @@ class ilWebResourceItemExternalTest extends TestCase
 {
     public function testGetResolvedLink(): void
     {
-        $param1 = $this->getMockBuilder(ilWebLinkParameter::class)
-                       ->disableOriginalConstructor()
-                       ->onlyMethods(['appendToLink', 'getValue'])
-                       ->getMock();
+        $param1 = $this->createMock(ilWebLinkParameter::class);
         $param1->expects($this->once())
                ->method('appendToLink')
                ->with('target')
                ->willReturn('target?param1');
-        $param1->expects($this->any())
-            ->method('getValue')
+        $param1->method('getValue')
             ->willReturn(1);
 
 
-        $param2 = $this->getMockBuilder(ilWebLinkParameter::class)
-                       ->disableOriginalConstructor()
-                       ->onlyMethods(['appendToLink', 'getValue'])
-                       ->getMock();
+        $param2 = $this->createMock(ilWebLinkParameter::class);
         $param2->expects($this->once())
                ->method('appendToLink')
                ->with('target?param1')
                ->willReturn('target?param1&param2');
-        $param2->expects($this->any())
-               ->method('getValue')
+        $param2->method('getValue')
                ->willReturn(1);
 
         $item = new ilWebLinkItemExternal(
@@ -72,6 +64,46 @@ class ilWebResourceItemExternalTest extends TestCase
         $this->assertSame(
             'target',
             $item->getResolvedLink(false)
+        );
+    }
+
+    public function testGetTargetTrailingSpace(): void
+    {
+        $item = new ilWebLinkItemExternal(
+            0,
+            1,
+            'title',
+            null,
+            'target ',
+            true,
+            new DateTimeImmutable(),
+            new DateTimeImmutable(),
+            []
+        );
+
+        $this->assertSame(
+            'target',
+            $item->getTarget()
+        );
+    }
+
+    public function testGetResolvedLinkTrailingSpace(): void
+    {
+        $item = new ilWebLinkItemExternal(
+            0,
+            1,
+            'title',
+            null,
+            'target ',
+            true,
+            new DateTimeImmutable(),
+            new DateTimeImmutable(),
+            []
+        );
+
+        $this->assertSame(
+            'target',
+            $item->getResolvedLink()
         );
     }
 }

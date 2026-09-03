@@ -145,8 +145,8 @@ class ilSCORMPresentationGUI
             $this->ctrl->setParameter($this, "autolaunch", $items[0] ?? "");
         }
         $api_link = $this->ctrl->getLinkTarget($this, "apiInitData");
-	$this->tpl->setVariable("TITLE", $this->slm->getTitle());
-	$this->tpl->setVariable("ICON", ilUtil::getImagePath("favicon.ico", ""));
+        $this->tpl->setVariable("TITLE", $this->slm->getTitle());
+        $this->tpl->setVariable("ICON", ilUtil::getImagePath("favicon.ico", ""));
         $this->tpl->setVariable("API_LINK", $api_link);
         $this->tpl->printToStdout("DEFAULT", false, true);
 
@@ -508,7 +508,7 @@ class ilSCORMPresentationGUI
         $certValidator = new ilCertificateDownloadValidator();
         $allowed = $certValidator->isCertificateDownloadable($ilUser->getId(), $obj_id);
         if ($allowed) {
-            $certificateLogger = $DIC->logger()->root();
+            $certificateLogger = $DIC->logger()->forComponent('sahs');
 
             $ilUserCertificateRepository = new ilUserCertificateRepository();
             $pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository);

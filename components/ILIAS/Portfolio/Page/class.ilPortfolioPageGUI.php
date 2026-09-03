@@ -736,8 +736,21 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 
                     foreach ($course["objectives"] as $objtv) {
                         if ($do_links) {
-                            $params = array("oobj" => $objtv["id"]);
-                            $url = ilLink::_getLink($course["ref_id"], "crs", $params);
+                            if ($this->getOutputMode() === "offline") {
+                                $params = array("oobj" => $objtv["id"]);
+                                $url = ilLink::_getLink($course["ref_id"], "crs", $params);
+                            } else {
+                                $this->ctrl->setParameterByClass(ilObjCourseGUI::class, "ref_id", $course["ref_id"]);
+                                $this->ctrl->setParameterByClass(ilObjCourseGUI::class, "oobj", $objtv["id"]);
+                                $url = $this->ctrl->getLinkTargetByClass(
+                                    [
+                                        ilRepositoryGUI::class,
+                                        ilObjCourseGUI::class
+                                    ]
+                                );
+                                $this->ctrl->setParameterByClass(ilObjCourseGUI::class, "ref_id", null);
+                                $this->ctrl->setParameterByClass(ilObjCourseGUI::class, "oobj", null);
+                            }
 
                             // #15510
                             $url .= "#objtv_acc_" . $objtv["id"];
@@ -868,6 +881,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                 if (!$tree->isDeleted($ref_id)) {
                     $visible = false;
                     $active = ilObjCourseAccess::_isActivated($obj_id, $visible, false);
+                    if (ilObject::lookupOfflineStatus($obj_id)) {
+                        $visible = false;
+                    }
                     if ($active && $visible) {
                         $references[$ref_id] = array(
                             'ref_id' => $ref_id,

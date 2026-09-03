@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use ILIAS\DI\Container;
 
 /**
@@ -44,9 +45,7 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
         $this->dic = is_object($DIC) ? clone $DIC : $DIC;
         $GLOBALS['DIC'] = new Container();
 
-        $user = $this->getMockBuilder(ilObjUser::class)
-                     ->disableOriginalConstructor()
-                     ->getMock();
+        $user = $this->createMock(ilObjUser::class);
         $user->expects($this->never())
              ->method($this->anything());
 
@@ -55,10 +54,10 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
     }
 
     /**
-     * @param ilDBInterface&MockObject          $mock_db
+     * @param ilDBInterface&Stub         $mock_db
      * @param int                               $webr_id
      * @param int                               $current_time
-     * @param DateTimeImmutable&MockObject[]    $datetimes
+     * @param DateTimeImmutable[]    $datetimes
      * @return void
      */
     protected function setGlobalDBAndRepo(
@@ -93,7 +92,7 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
                             ->willReturnOnConsecutiveCalls(...$datetimes);
     }
 
-    protected function setGlobal(string $name, MockObject $obj): void
+    protected function setGlobal(string $name, MockObject|Stub $obj): void
     {
         global $DIC;
 
@@ -112,14 +111,11 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
     }
 
     /**
-     * @return DateTimeImmutable&MockObject
+     * @return DateTimeImmutable
      */
-    protected function getNewDateTimeMock(int $timestamp): MockObject
+    protected function getNewDateTimeMock(int $timestamp): Stub
     {
-        $datetime = $this->getMockBuilder(DateTimeImmutable::class)
-                         ->disableOriginalConstructor()
-                         ->onlyMethods(['getTimestamp'])
-                         ->getMock();
+        $datetime = $this->createStub(DateTimeImmutable::class);
         $datetime->method('getTimestamp')
                  ->willReturn($timestamp);
 
@@ -134,9 +130,7 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
     #[\PHPUnit\Framework\Attributes\RunInSeparateProcess]
     public function testCreateExternalItem(): void
     {
-        $mock_db = $this->getMockBuilder(ilDBInterface::class)
-                        ->disableOriginalConstructor()
-                        ->getMock();
+        $mock_db = $this->createMock(ilDBInterface::class);
 
         $mock_db->expects($this->exactly(3))
                 ->method('nextId')
@@ -260,9 +254,7 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
     #[\PHPUnit\Framework\Attributes\RunInSeparateProcess]
     public function testCreateInternalItemWithBrokenParameter(): void
     {
-        $mock_db = $this->getMockBuilder(ilDBInterface::class)
-                        ->disableOriginalConstructor()
-                        ->getMock();
+        $mock_db = $this->createMock(ilDBInterface::class);
         $mock_db->expects($this->exactly(3))
                 ->method('nextId')
                 ->willReturn(7, 71, 72);
@@ -364,9 +356,7 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
     #[\PHPUnit\Framework\Attributes\RunInSeparateProcess]
     public function testCreateItemBrokenInternalLinkException(): void
     {
-        $mock_db = $this->getMockBuilder(ilDBInterface::class)
-                        ->disableOriginalConstructor()
-                        ->getMock();
+        $mock_db = $this->createMock(ilDBInterface::class);
 
         $mock_db->expects($this->once())
                 ->method('nextId')
@@ -414,11 +404,10 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
 
     #[\PHPUnit\Framework\Attributes\PreserveGlobalState(false)]
     #[\PHPUnit\Framework\Attributes\RunInSeparateProcess]
+    #[\PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations]
     public function testCreateList(): void
     {
-        $mock_db = $this->getMockBuilder(ilDBInterface::class)
-                        ->disableOriginalConstructor()
-                        ->getMock();
+        $mock_db = $this->createMock(ilDBInterface::class);
 
         $mock_db->expects($this->never())
                 ->method('nextId');
@@ -465,11 +454,10 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
 
     #[\PHPUnit\Framework\Attributes\PreserveGlobalState(false)]
     #[\PHPUnit\Framework\Attributes\RunInSeparateProcess]
+    #[\PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations]
     public function testCreateAllItemsInDraftContainer(): void
     {
-        $mock_db = $this->getMockBuilder(ilDBInterface::class)
-                        ->disableOriginalConstructor()
-                        ->getMock();
+        $mock_db = $this->createStub(ilDBInterface::class);
 
         $datetime1 = $this->getNewDateTimeMock(12345678);
         $datetime2 = $this->getNewDateTimeMock(12345678);

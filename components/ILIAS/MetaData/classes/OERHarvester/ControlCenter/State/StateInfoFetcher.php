@@ -54,18 +54,20 @@ class StateInfoFetcher implements StateInfoFetcherInterface
     ): StateInfoInterface {
         $is_publishing_relevant = $this->isPublishingRelevantForObject($ref_id, $type, $obj_id);
         if (!$is_publishing_relevant) {
-            return new StateInfo(false, Status::UNPUBLISHED, [], [], [], []);
+            return new StateInfo(false, Status::UNPUBLISHED, [], [], [], [], false);
         }
         $current_status = $this->getStatusForObject($obj_id);
         $relevant_actions = $this->getRelevantActions($current_status, $ref_id);
         $eligible_copyright_entry_ids = $this->getEligibleCopyrightEntryIDs();
+        $is_copyright_eligible = $this->isCopyrightEligibleForPublishing($obj_id, $type, $eligible_copyright_entry_ids);
         return new StateInfo(
             true,
             $current_status,
             $this->getAllPossibleStatuses(),
             $relevant_actions,
-            $this->getUnavailableActions($ref_id, $type, $obj_id, $relevant_actions, $eligible_copyright_entry_ids),
-            $eligible_copyright_entry_ids
+            $this->getUnavailableActions($ref_id, $type, $obj_id, $relevant_actions, $is_copyright_eligible),
+            $eligible_copyright_entry_ids,
+            $is_copyright_eligible
         );
     }
 
@@ -179,7 +181,7 @@ class StateInfoFetcher implements StateInfoFetcherInterface
         string $type,
         int $obj_id,
         array $relevant_actions,
-        array $eligible_copyright_entry_ids
+        bool $is_copyright_eligible
     ): array {
         $unavailable_actions = [];
         foreach ($relevant_actions as $action) {
@@ -188,11 +190,11 @@ class StateInfoFetcher implements StateInfoFetcherInterface
                 Action::UNBLOCK => $this->state_changer->checkPermissionsForUnblock($ref_id, $type, $obj_id),
                 Action::PUBLISH =>
                     $this->state_changer->checkPermissionsForPublish($ref_id, $type, $obj_id) &&
-                    $this->isCopyrightEligibleForPublishing($obj_id, $type, $eligible_copyright_entry_ids),
+                    $is_copyright_eligible,
                 Action::WITHDRAW => $this->state_changer->checkPermissionsForWithdraw($ref_id, $type, $obj_id),
                 Action::SUBMIT =>
                     $this->state_changer->checkPermissionsForSubmit($ref_id, $type, $obj_id) &&
-                    $this->isCopyrightEligibleForPublishing($obj_id, $type, $eligible_copyright_entry_ids),
+                    $is_copyright_eligible,
                 Action::ACCEPT => $this->state_changer->checkPermissionsForAccept($ref_id, $type, $obj_id),
                 Action::REJECT => $this->state_changer->checkPermissionsForReject($ref_id, $type, $obj_id),
             };
@@ -215,7 +217,7 @@ class StateInfoFetcher implements StateInfoFetcherInterface
             ->withNextStep('string')
             ->get();
         $set = $this->repository->getMD($obj_id, $obj_id, $type);
-        $copyright_string  = $this->navigator_factory->navigator($copyright_path, $set->getRoot())
+        $copyright_string = $this->navigator_factory->navigator($copyright_path, $set->getRoot())
                                                      ->lastElementAtFinalStep()
                                                      ?->getData()
                                                      ?->value() ?? '';

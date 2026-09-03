@@ -51,4 +51,12 @@ class InternalRepoService
             $base_ref_id
         );
     }
+
+    public function sorting(): Sorting\Service\RepoService
+    {
+        return new Sorting\Service\RepoService(
+            $this->data,
+            $this->db
+        );
+    }
 }

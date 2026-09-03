@@ -33,6 +33,7 @@ use ILIAS\Language\Language;
 class DurationInputTest extends ILIAS_UI_TestBase
 {
     use CommonFieldRendering;
+    use LanguageStubs;
 
     protected DefNamesource $name_source;
     protected Data\Factory $data_factory;
@@ -50,7 +51,7 @@ class DurationInputTest extends ILIAS_UI_TestBase
     {
         $this->lng = $this->createMock(Language::class);
         $this->lng->method("txt")
-            ->will($this->returnArgument(0));
+            ->willReturnCallback(fn($x) => $x);
 
         return $this->lng;
     }
@@ -74,12 +75,17 @@ class DurationInputTest extends ILIAS_UI_TestBase
 
     public function getUIFactory(): NoUIFactory
     {
-        return new class () extends NoUIFactory {
+        return new class ($this->createRelayArgumentLanguageStub()) extends NoUIFactory {
+            public function __construct(
+                protected ILIAS\Language\Language $language,
+            ) {
+            }
+
             public function symbol(): I\Symbol\Factory
             {
                 return new S\Factory(
                     new S\Icon\Factory(),
-                    new S\Glyph\Factory(),
+                    new S\Glyph\Factory($this->language),
                     new S\Avatar\Factory()
                 );
             }

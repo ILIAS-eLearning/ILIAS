@@ -80,10 +80,10 @@ $il-slate-bulky-link-padding: $il-slate-bulky-padding-vertical $il-padding-base-
 		.bulky-label {
 			@include t-line-cap.il-multi-line-cap-mixin(2);
 			word-break: break-word;
-			-ms-hyphens: auto;
-			-moz-hyphens: auto;
-			-webkit-hyphens: auto;
-			hyphens: auto;
+			-ms-hyphens: manual;
+			-moz-hyphens: manual;
+			-webkit-hyphens: manual;
+			hyphens: manual;
 		}
 	}
 }

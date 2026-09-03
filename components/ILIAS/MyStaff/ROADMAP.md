@@ -68,3 +68,25 @@ The Staff Service would be left in charge of the "Staff List" view and the confi
 ### Unit Tests
 
 Unit tests should be introduced for the Staff Service. This requires a general refactoring of the classes to have a good starting point.
+
+### Deconstruct large JOINs
+
+Alternative One
+
+(1) getPositionsGivingAuthority() (filters all position without authorities) (tables: il_orgu_positions, il_orgu_authority)
+(2) getPositionsPerOrgUnitUnderHierarchicalAuthorityOfUser($user_id) array of [org_unit_id,position_under_authorit_id]
+    - assumption: a single user does not have many positions under authority 
+(3) NOT USED YET getOrgUnitsWithAuthorityByUserId($user_id) (uses position ids from (1)) (tables: il_orgu_ua)
+    - returns org units where a user gains authority
+    - assumption: a single user does not have many positions with authority
+    - it is possible to iterate these orgu_ids in PHP without performance issues
+(4) getUsersOfUserForOrgUnitwithHierarchicalAuthority($user, $org_unit_id) (tables: tree)
+    - iterate over org units from (2), solve hierarchical main issue (without "node-authority-only")
+    - (c) use position_under_hierarchical_authority_ids from (2)
+    - assumption $org_unit_ids are "ref ids"
+    - (a) nested set: parent (lft/rgt) -> child lft>parent.lft and right<parent.right
+    - (b) mat path: tree_path LIKE CONCAT(%.orgu_id.%)
+    - SELECT user_ids FROM il_orgu_ua WHERE orgu_id in (a)(b) AND position_id in (c)
+    - (4) could return a SUBSELECT if iteration is replaced in (a) and (b) string being used by other queries WHERE user_id in (SUBSELECT)
+
+(1)+(2)+(4) solve hierarchical main issue (without "node-authority-only")

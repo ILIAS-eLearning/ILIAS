@@ -174,7 +174,11 @@ class ilBookingGatewayGUI
             case "ilbookingreservationsgui":
                 $this->showPoolSelector("ilbookingreservationsgui");
                 $this->setSubTabs("reservations");
-                $res_gui = new ilBookingReservationsGUI($this->pool, $this->help, $this->obj_id);
+                $res_gui = new ilBookingReservationsGUI(
+                    $this->pool,
+                    $this->help,
+                    ilObject::_lookupType($this->obj_id) !== 'crs' ? $this->obj_id : null
+                );
                 $this->ctrl->forwardCommand($res_gui);
                 break;
 

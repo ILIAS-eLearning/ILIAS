@@ -306,6 +306,7 @@ class ilObjectGUI implements ImplementsCreationCallback
 
     public function prepareOutput(bool $show_sub_objects = true): bool
     {
+
         $this->tpl->loadStandardTemplate();
         $base_class = $this->request_wrapper->retrieve("baseClass", $this->refinery->kindlyTo()->string());
         if (strtolower($base_class) == "iladministrationgui") {
@@ -1065,7 +1066,7 @@ class ilObjectGUI implements ImplementsCreationCallback
         $new_obj->setType($this->requested_new_type);
         $new_obj->processAutoRating();
         $new_obj->setTitle($data['title_and_description']->getTitle());
-        $new_obj->setDescription($data['title_and_description']->getDescription());
+        $new_obj->setDescription($data['title_and_description']->getLongDescription());
         $new_obj->create();
 
         $new_obj->getObjectProperties()->storePropertyTitleAndDescription(
@@ -1435,7 +1436,7 @@ class ilObjectGUI implements ImplementsCreationCallback
             $this->tmp_import_dir = $imp->getTemporaryImportDir();
             $this->tpl->setOnScreenMessage(
                 'failure',
-                $this->lng->txt('obj_import_file_error') . ' <br />' . $e->getMessage()
+                $this->lng->txt('obj_import_file_error')
             );
             $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
             return;
@@ -2053,17 +2054,17 @@ class ilObjectGUI implements ImplementsCreationCallback
             $this->user->getId(),
             $this->request_wrapper->retrieve("item_ref_id", $this->refinery->kindlyTo()->int())
         );
-        $this->lng->loadLanguageModule("rep");
-        $this->tpl->setOnScreenMessage("success", $this->lng->txt("rep_added_to_favourites"), true);
+        $this->lng->loadLanguageModule("dash");
+        $this->tpl->setOnScreenMessage("success", $this->lng->txt("added_to_favourites"), true);
         $this->ctrl->redirectToURL(ilLink::_getLink($this->requested_ref_id));
     }
 
     public function removeFromDeskObject(): void
     {
-        $this->lng->loadLanguageModule("rep");
         $item_ref_id = $this->request_wrapper->retrieve("item_ref_id", $this->refinery->kindlyTo()->int());
         $this->favourites->remove($this->user->getId(), $item_ref_id);
-        $this->tpl->setOnScreenMessage("success", $this->lng->txt("rep_removed_from_favourites"), true);
+        $this->lng->loadLanguageModule("dash");
+        $this->tpl->setOnScreenMessage("success", $this->lng->txt("removed_from_favourites"), true);
         $this->ctrl->redirectToURL(ilLink::_getLink($this->requested_ref_id));
     }
 

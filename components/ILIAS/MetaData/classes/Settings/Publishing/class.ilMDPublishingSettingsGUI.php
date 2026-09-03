@@ -355,8 +355,8 @@ class ilMDPublishingSettingsGUI
         $text = $this->lng->txt('meta_publishing_config_status') . '<br/>' .
             sprintf(
                 $this->lng->txt('meta_publishing_config_cp'),
-            $this->MDSettings()->isCopyrightSelectionActive() ? $enabled : $disabled
-            )  . '<br/>' .
+                $this->MDSettings()->isCopyrightSelectionActive() ? $enabled : $disabled
+            ) . '<br/>' .
             sprintf(
                 $this->lng->txt('meta_publishing_config_harvester'),
                 $this->isOERHarvesterActive() ? $enabled : $disabled

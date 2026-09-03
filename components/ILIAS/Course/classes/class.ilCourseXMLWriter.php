@@ -86,7 +86,6 @@ class ilCourseXMLWriter extends ilXmlWriter
         } elseif ($this->getMode() == self::MODE_EXPORT) {
             $this->__buildCourseStart();
             $this->__buildSetting();
-            ilContainerSortingSettings::_exportContainerSortingSettings($this, $this->course_obj->getId());
             ilContainer::_exportContainerSettings($this, $this->course_obj->getId());
             $this->__buildFooter();
         }
@@ -333,6 +332,8 @@ class ilCourseXMLWriter extends ilXmlWriter
         if ($this->course_obj->getViewMode() == ilCourseConstants::IL_CRS_VIEW_TIMING) {
             $this->xmlElement('TimingMode', null, $this->course_obj->getTimingMode());
         }
+
+        $this->xmlElement('AboStatus', null, $this->course_obj->getAboStatus() ? 1 : 0);
 
         $this->xmlElement('TutorialSupportBlock', [
             'active' => $this->course_obj->getTutorialSupportBlockSettingValue()

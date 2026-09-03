@@ -37,7 +37,6 @@
 		<pagecontent pc_type="map" name="Map" directory="PC/Map" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="280"/>
 		<pageobject parent_type="stys" class_name="ilPageLayoutPage" directory="Layout/classes"/>
 	</copage>
-	<logging />
 	<crons>
 		<cron id="copg_history_cleanup" class="ilCleanCOPageHistoryCronjob" path="Services/COPage/Cron" />
 	</crons>

@@ -179,7 +179,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
                 // Disable registration
                 $this->enableRegistration(false);
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mem_alert_no_places'));
-            #$alert = $this->lng->txt('mem_alert_no_places');
+                #$alert = $this->lng->txt('mem_alert_no_places');
             } elseif (
                 $this->container->enabledWaitingList() && $this->container->isSubscriptionMembershipLimited() && $waiting_list->isOnList($this->user->getId())
             ) {
@@ -188,7 +188,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
             } elseif (
                 !$free && $this->container->enabledWaitingList() && $this->container->isSubscriptionMembershipLimited()) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_warn_no_max_set_on_waiting_list'));
-            #$alert = $this->lng->txt('crs_warn_no_max_set_on_waiting_list');
+                #$alert = $this->lng->txt('crs_warn_no_max_set_on_waiting_list');
             } elseif (
                 $free && $this->container->enabledWaitingList() && $this->container->isSubscriptionMembershipLimited() && $this->getWaitingList()->getCountUsers()) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_warn_wl_set_on_waiting_list'));

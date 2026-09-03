@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\Repository\Table\TableAdapterGUI;
+use ILIAS\Repository\Form\FormAdapterGUI;
+
 /**
  * Class ilPCListGUI
  *
@@ -24,6 +27,7 @@
  */
 class ilPCFileListGUI extends ilPageContentGUI
 {
+    protected \ILIAS\COPage\InternalDomainService $domain;
     protected string $requested_file_ref_id;
     protected ilObjUser $user;
     protected ilTabsGUI $tabs;
@@ -47,6 +51,7 @@ class ilPCFileListGUI extends ilPageContentGUI
         $this->lng = $DIC->language();
         $this->toolbar = $DIC->toolbar();
         $this->settings = $DIC->settings();
+        $this->domain = $DIC->copage()->internal()->domain();
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
         $this->setCharacteristics(array("FileListItem" => $this->lng->txt("cont_FileListItem")));
         $this->requested_file_ref_id = $this->request->getString("file_ref_id");
@@ -433,8 +438,18 @@ class ilPCFileListGUI extends ilPageContentGUI
 
         /** @var ilPCFileList $fl */
         $fl = $this->content_obj;
-        $table_gui = new ilPCFileListTableGUI($this, "editFiles", $fl);
-        $tpl->setContent($table_gui->getHTML());
+        $table = $this->getFileListTable();
+        if ($table->handleCommand()) {
+            return;
+        }
+        $tpl->setContent($table->render());
+    }
+
+    protected function getFileListTable(): TableAdapterGUI
+    {
+        /** @var ilPCFileList $fl */
+        $fl = $this->content_obj;
+        return $this->gui->pc()->fileListTableBuilder($fl, $this, "editFiles")->getTable();
     }
 
     /**
@@ -529,14 +544,38 @@ class ilPCFileListGUI extends ilPageContentGUI
      */
     public function deleteFileItem(): void
     {
-        $ilCtrl = $this->ctrl;
-
-        $fid = $this->request->getIntArray("fid");
-        if (count($fid) > 0) {
-            $this->content_obj->deleteFileItems(array_keys($fid));
+        $table = $this->getFileListTable();
+        $ids = $table->getItemIds();
+        if (count($ids) > 0) {
+            $this->content_obj->deleteFileItems($ids);
         }
         $this->updated = $this->pg_obj->update();
-        $ilCtrl->redirect($this, "editFiles");
+        $this->ctrl->redirect($this, "editFiles");
+    }
+
+    public function confirmDeletionFileItem(): void
+    {
+        $table = $this->getFileListTable();
+        $ids = $table->getItemIds();
+
+        if (count($ids) === 0) {
+            $this->ctrl->redirect($this, "editFiles");
+        }
+
+        $retrieval = $this->domain->pc()->fileListRetrieval($this->content_obj);
+        $data = $retrieval->getData([]);
+        foreach ($data as $row) {
+            if (in_array($row["id"], $ids)) {
+                $items[$row["id"]] = $row["file_name"];
+            }
+        }
+
+        $table->renderDeletionConfirmation(
+            $this->lng->txt("delete"),
+            $this->lng->txt("cont_delete_file_item_confirm"),
+            "deleteFileItem",
+            $items
+        );
     }
 
     /**
@@ -545,13 +584,58 @@ class ilPCFileListGUI extends ilPageContentGUI
     public function savePositions(): void
     {
         $ilCtrl = $this->ctrl;
-
-        $pos = $this->request->getIntArray("position");
-        if (count($pos) > 0) {
+        $table = $this->getFileListTable();
+        $pos = $table->getData();
+        if (is_array($pos) && count($pos) > 0) {
             $this->content_obj->savePositions($pos);
         }
         $this->updated = $this->pg_obj->update();
         $ilCtrl->redirect($this, "editFiles");
+    }
+
+    public function editStyleClass(string $id)
+    {
+        $form = $this->getEditStyleForm($id);
+        $lng = $this->lng;
+        $this->gui->modal($lng->txt("copg_edit_style_class"))
+            ->form($form)
+            ->send();
+    }
+
+    protected function getEditStyleForm(string $id): FormAdapterGUI
+    {
+        $lng = $this->lng;
+        $lng->loadLanguageModule("style");
+        $lng->loadLanguageModule("copg");
+
+        $this->ctrl->setParameterByClass(self::class, "file_item_id", $id);
+        $retrieval = $this->domain->pc()->fileListRetrieval($this->content_obj);
+        $options = $this->getCharacteristics();
+        $data = $retrieval->getData([]);
+        $value = null;
+        foreach ($data as $row) {
+            if ($row["id"] == $id && isset($options[$row["class"]])) {
+                $value = $row["class"];
+            }
+        }
+        return $this->gui->form([self::class], "saveStyleClass")
+            ->select("class", $lng->txt("sty_class"), $options, "", $value)
+            ->required();
+    }
+
+    protected function saveStyleClass(): void
+    {
+        $file_item_id = $this->request->getString("file_item_id");
+        $form = $this->getEditStyleForm($file_item_id);
+        if ($form->isValid()) {
+            $class = $form->getData("class");
+            $this->content_obj->saveStyleClass(
+                $file_item_id,
+                $class
+            );
+            $this->updated = $this->pg_obj->update();
+            $this->ctrl->redirect($this, "editFiles");
+        }
     }
 
     /**

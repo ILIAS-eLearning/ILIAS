@@ -37,31 +37,31 @@ class HandlerTest extends TestCase
     public function testExportHandlerRepositoryElement(): void
     {
         $resouce_id_serialized = "keykeykey";
-        $object_id_mock = $this->createMock(ObjectId::class);
-        $key_mock = $this->createMock(ilExportHandlerRepositoryKeyInterface::class);
+        $object_id_mock = $this->createStub(ObjectId::class);
+        $key_mock = $this->createStub(ilExportHandlerRepositoryKeyInterface::class);
         $key_mock->method("isCompleteKey")->willReturn(true);
         $key_mock->method("isObjectIdKey")->willReturn(false);
         $key_mock->method("isResourceIdKey")->willReturn(false);
         $key_mock->method("getResourceIdSerialized")->willReturn($resouce_id_serialized);
         $key_mock->method("getObjectId")->willReturn($object_id_mock);
-        $date_time_mock = $this->createMock(DateTimeImmutable::class);
-        $value_mock = $this->createMock(ilExportHandlerRepositoryValuesInterface::class);
+        $date_time_mock = $this->createStub(DateTimeImmutable::class);
+        $value_mock = $this->createStub(ilExportHandlerRepositoryValuesInterface::class);
         $value_mock->method("isValid")->willReturn(true);
         $value_mock->method("getOwnerId")->willReturn(1);
         $value_mock->method("getCreationDate")->willReturn($date_time_mock);
         $irss_wrapper_mock = $this->createMock(ilExportHandlerRepositoryElementIRSSWrapperInterface::class);
-        $irss_wrapper_mock->method("withResourceIdSerialized")->with($resouce_id_serialized)->willReturn($irss_wrapper_mock);
-        $irss_wrapper_factory_mock = $this->createMock(ilExportHandlerRepositoryElementIRSSWrapperFactoryInterface::class);
+        $irss_wrapper_mock->expects($this->atLeastOnce())->method("withResourceIdSerialized")->with($resouce_id_serialized)->willReturn($irss_wrapper_mock);
+        $irss_wrapper_factory_mock = $this->createStub(ilExportHandlerRepositoryElementIRSSWrapperFactoryInterface::class);
         $irss_wrapper_factory_mock->method("handler")->willReturn($irss_wrapper_mock);
         $irss_info_wrapper_mock = $this->createMock(ilExportHandlerRepositoryElementIRSSInfoWrapperInterface::class);
-        $irss_info_wrapper_mock->method("withResourceIdSerialized")->with($resouce_id_serialized)->willReturn($irss_info_wrapper_mock);
-        $irss_info_wrapper_factory_mock = $this->createMock(ilExportHandlerRepositoryElementIRSSInfoWrapperFactoryInterface::class);
+        $irss_info_wrapper_mock->expects($this->atLeastOnce())->method("withResourceIdSerialized")->with($resouce_id_serialized)->willReturn($irss_info_wrapper_mock);
+        $irss_info_wrapper_factory_mock = $this->createStub(ilExportHandlerRepositoryElementIRSSInfoWrapperFactoryInterface::class);
         $irss_info_wrapper_factory_mock->method("handler")->willReturn($irss_info_wrapper_mock);
         try {
-            $element = (new ilExportHandlerRepositoryElement(
+            $element = new ilExportHandlerRepositoryElement(
                 $irss_wrapper_factory_mock,
                 $irss_info_wrapper_factory_mock
-            ))
+            )
                 ->withKey($key_mock)
                 ->withValues($value_mock);
             $element_not_storable_0 = new ilExportHandlerRepositoryElement(

@@ -49,7 +49,7 @@ class UserPreferenceStoreTest extends TestCase
     public function testUpdate(): void
     {
         $user = $this->mock(ilObjUser::class);
-        $user->expects(self::once())->method('writePref')->with('foo', 'bar');
+        $user->expects($this->once())->method('writePref')->with('foo', 'bar');
 
         (new UserPreferenceStore($user))->update('foo', 'bar');
     }

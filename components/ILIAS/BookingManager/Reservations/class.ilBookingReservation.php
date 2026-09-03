@@ -22,8 +22,8 @@
  */
 class ilBookingReservation
 {
-    public const STATUS_IN_USE = 2;
-    public const STATUS_CANCELLED = 5;
+    public const int STATUS_IN_USE = 2;
+    public const int STATUS_CANCELLED = 5;
 
     protected ilDBInterface $db;
     protected int $id = 0;
@@ -257,51 +257,61 @@ class ilBookingReservation
 
         $repo = $DIC->bookingManager()->internal()->repo()->reservation();
 
-        $blocked = $counter = array();
+        $blocked = $counter = [];
         foreach ($repo->getNumberOfReservations($a_ids, $a_from, $a_to) as $row) {
             if ($row['cnt'] >= $nr_map[$row['object_id']]) {
                 $blocked[] = $row['object_id'];
-            } elseif ($a_return_counter) {
-                $counter[$row['object_id']] = $nr_map[$row['object_id']] - (int) $row['cnt'];
+                continue;
             }
+
+            if (!$a_return_counter) {
+                continue;
+            }
+
+            $counter[$row['object_id']] = $nr_map[$row['object_id']] - (int) $row['cnt'];
         }
 
         // #17868 - validate against schedule availability
         foreach ($a_ids as $obj_id) {
             $bobj = new ilBookingObject($obj_id);
-            if ($bobj->getScheduleId()) {
-                $schedule = new ilBookingSchedule($bobj->getScheduleId());
-
-                $av_from = ($schedule->getAvailabilityFrom() && !$schedule->getAvailabilityFrom()->isNull())
-                    ? $schedule->getAvailabilityFrom()->get(IL_CAL_UNIX)
-                    : null;
-                $av_to = ($schedule->getAvailabilityTo() && !$schedule->getAvailabilityTo()->isNull())
-                    ? $schedule->getAvailabilityTo()->get(IL_CAL_UNIX)
-                    : null;
-
-                if (($av_from && $a_from < $av_from) ||
-                    ($av_to && $a_to > $av_to)) {
-                    $blocked[] = $obj_id;
-                    unset($counter[$obj_id]);
-                }
+            if (!$bobj->getScheduleId()) {
+                continue;
             }
+
+            $schedule = new ilBookingSchedule($bobj->getScheduleId());
+
+            $av_from = ($schedule->getAvailabilityFrom() && !$schedule->getAvailabilityFrom()->isNull())
+                ? $schedule->getAvailabilityFrom()->get(IL_CAL_UNIX)
+                : PHP_INT_MIN;
+            $av_to = ($schedule->getAvailabilityTo() && !$schedule->getAvailabilityTo()->isNull())
+                ? $schedule->getAvailabilityTo()->get(IL_CAL_UNIX)
+                : PHP_INT_MAX;
+
+            if ($a_from >= $av_from && $a_to <= $av_to) {
+                continue;
+            }
+
+            $blocked[] = $obj_id;
+            unset($counter[$obj_id]);
         }
 
         $available = array_diff($a_ids, $blocked);
-        if (count($available)) {
+        if ($available !== []) {
             if ($a_return_counter) {
                 foreach ($a_ids as $id) {
-                    if (!isset($counter[$id])) {
-                        $counter[$id] = $nr_map[$id];
+                    if (isset($counter[$id])) {
+                        break;
                     }
+
+                    $counter[$id] = $nr_map[$id];
                 }
+
                 return $counter;
             }
-            if ($a_return_single) {
-                return array_shift($available);
-            }
-            return $available;
+
+            return $a_return_single ? array_shift($available) : $available;
         }
+
         return [];
     }
 
@@ -540,6 +550,9 @@ class ilBookingReservation
         }
         if (isset($filter['to'])) {
             $where[] = 'date_to <= ' . $ilDB->quote($filter['to'], 'integer');
+        }
+        if (isset($filter['user_id'])) {
+            $where[] = 'user_id = ' . $ilDB->quote($filter['user_id'], 'integer');
         }
         if (count($where)) {
             $sql .= ' WHERE ' . implode(' AND ', $where);

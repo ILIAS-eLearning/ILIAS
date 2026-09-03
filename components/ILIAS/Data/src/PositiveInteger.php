@@ -21,6 +21,7 @@ declare(strict_types=1);
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
+
 namespace ILIAS\Data;
 
 use ILIAS\Refinery\ConstraintViolationException;

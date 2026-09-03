@@ -30,19 +30,19 @@ class CollectionTest extends TestCase
 {
     public function testExportHandlerRepositoryKeyCollection(): void
     {
-        $object_id_mock_01 = $this->createMock(ObjectId::class);
+        $object_id_mock_01 = $this->createStub(ObjectId::class);
         $object_id_mock_01->method('toInt')->willReturn(1);
-        $object_id_mock_02 = $this->createMock(ObjectId::class);
+        $object_id_mock_02 = $this->createStub(ObjectId::class);
         $object_id_mock_02->method('toInt')->willReturn(2);
-        $object_id_mock_03 = $this->createMock(ObjectId::class);
+        $object_id_mock_03 = $this->createStub(ObjectId::class);
         $object_id_mock_03->method('toInt')->willReturn(3);
-        $element_1_mock = $this->createMock(ilExportHandlerRepositoryKeyInterface::class);
+        $element_1_mock = $this->createStub(ilExportHandlerRepositoryKeyInterface::class);
         $element_1_mock->method('getResourceIdSerialized')->willReturn('r1');
         $element_1_mock->method('getObjectId')->willReturn($object_id_mock_01);
-        $element_2_mock = $this->createMock(ilExportHandlerRepositoryKeyInterface::class);
+        $element_2_mock = $this->createStub(ilExportHandlerRepositoryKeyInterface::class);
         $element_2_mock->method('getResourceIdSerialized')->willReturn('r2');
         $element_2_mock->method('getObjectId')->willReturn($object_id_mock_02);
-        $element_3_mock = $this->createMock(ilExportHandlerRepositoryKeyInterface::class);
+        $element_3_mock = $this->createStub(ilExportHandlerRepositoryKeyInterface::class);
         $element_3_mock->method('getResourceIdSerialized')->willReturn('r3');
         $element_3_mock->method('getObjectId')->willReturn($object_id_mock_03);
         $empty_collection = new ilExportHandlerRepositoryKeyCollection();

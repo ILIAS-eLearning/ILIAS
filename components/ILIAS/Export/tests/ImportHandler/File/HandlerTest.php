@@ -35,15 +35,15 @@ class HandlerTest extends TestCase
             . 'B' . DIRECTORY_SEPARATOR
             . 'C';
         $file_path = $file_dir . DIRECTORY_SEPARATOR . $file_name;
-        $namespaces = $this->createMock(ilFileNamespaceCollection::class);
+        $namespaces = $this->createStub(ilFileNamespaceCollection::class);
 
-        $namespace = $this->createMock(ilFileNamespaceFactory::class);
-        $namespace->expects($this->any())->method('collection')->willReturn($namespaces);
+        $namespace = $this->createStub(ilFileNamespaceFactory::class);
+        $namespace->method('collection')->willReturn($namespaces);
 
-        $file_info = $this->createMock(SplFileInfo::class);
-        $file_info->expects($this->any())->method('getFilename')->willReturn($file_name);
-        $file_info->expects($this->any())->method('getRealPath')->willReturn(false);
-        $file_info->expects($this->any())->method('getPath')->willReturn($file_dir);
+        $file_info = $this->createStub(SplFileInfo::class);
+        $file_info->method('getFilename')->willReturn($file_name);
+        $file_info->method('getRealPath')->willReturn(false);
+        $file_info->method('getPath')->willReturn($file_dir);
 
         $file_handler = new ilFileHandler($namespace);
         $file_handler = $file_handler->withFileInfo($file_info);

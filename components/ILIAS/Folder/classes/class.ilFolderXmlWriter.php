@@ -49,7 +49,6 @@ class ilFolderXmlWriter extends ilXmlWriter
         $this->xmlStartTag('Folder', ['Id' => $this->folder->getId()]);
         $this->xmlElement('Title', [], $this->folder->getTitle());
         $this->xmlElement('Description', [], $this->folder->getDescription());
-        ilContainerSortingSettings::_exportContainerSortingSettings($this, $this->obj_id);
         $this->xmlEndTag('Folder');
     }
 

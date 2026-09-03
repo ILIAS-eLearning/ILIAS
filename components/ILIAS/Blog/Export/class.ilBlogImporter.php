@@ -25,19 +25,23 @@ declare(strict_types=1);
  */
 class ilBlogImporter extends ilXmlImporter
 {
+    protected \ILIAS\Blog\InternalService $blog_service;
     protected ilBlogDataSet $ds;
     protected \ILIAS\Style\Content\DomainService $content_style_domain;
 
-    public function init(): void
+    public function __construct()
     {
         global $DIC;
-
-        $this->ds = new ilBlogDataSet();
-        $this->ds->setDSPrefix("ds");
         $this->content_style_domain = $DIC
             ->contentStyle()
             ->domain();
+        $this->blog_service = $DIC->blog()->internal();
+    }
 
+    public function init(): void
+    {
+        $this->ds = new ilBlogDataSet();
+        $this->ds->setDSPrefix("ds");
         $cop_config = $this->getImport()->getConfig("components/ILIAS/COPage");
         $cop_config->setUpdateIfExists(true);
     }
@@ -64,7 +68,7 @@ class ilBlogImporter extends ilXmlImporter
         $blp_map = $a_mapping->getMappingsOfEntity("components/ILIAS/COPage", "pg");
         foreach ($blp_map as $blp_id) {
             $blp_id = (int) substr($blp_id, 4);
-            $blog_id = ilBlogPosting::lookupBlogId($blp_id);
+            $blog_id = $this->blog_service->domain()->posting()->lookupBlogId($blp_id);
             ilBlogPosting::_writeParentId("blp", $blp_id, (int) $blog_id);
         }
 
@@ -74,7 +78,7 @@ class ilBlogImporter extends ilXmlImporter
                 foreach (ilBlogDataSet::$style_map[$old_sty_id] as $blog_id) {
                     $this->content_style_domain
                         ->styleForObjId($blog_id)
-                        ->updateStyleId($new_sty_id);
+                        ->updateStyleId((int) $new_sty_id);
                 }
             }
         }

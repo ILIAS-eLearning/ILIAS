@@ -20,7 +20,6 @@ declare(strict_types=0);
 
 namespace ILIAS\Tracking\View\DataRetrieval\Info\Iterator;
 
-use ILIAS\Tracking\View\DataRetrieval\Info\Iterator\ObjectDataInterface;
 use ILIAS\Tracking\View\DataRetrieval\Info\ObjectDataInterface as ObjectDataInfoInterface;
 
 class ObjectData implements ObjectDataInterface

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author Helmut Schottmüller <ilias@aurealis.de>
  */
@@ -188,7 +190,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
         $this->tpl->setVariable("QUESTION_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["title"]));
 
         $this->tpl->setVariable("TXT_PREVIEW", $this->lng->txt("preview"));
-        $guiclass = strtolower($a_set['type_tag']) . "gui";
+        $guiclass = strtolower((string) $a_set['type_tag']) . "gui";
         $this->ctrl->setParameterByClass($guiclass, "q_id", $a_set["question_id"]);
         $this->tpl->setVariable("LINK_PREVIEW", "ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&amp;ref_id=" . $a_set["ref_id"] . "&amp;cmd=preview&amp;preview=" . $a_set["question_id"]);
 

@@ -75,11 +75,6 @@ class Location implements FieldDefinition
         return false;
     }
 
-    public function exportForcedTo(): ?bool
-    {
-        return false;
-    }
-
     public function availableInCertificatesForcedTo(): ?bool
     {
         return false;

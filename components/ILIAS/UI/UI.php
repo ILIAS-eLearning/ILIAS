@@ -171,6 +171,13 @@ class UI implements Component\Component
             $internal[UI\Implementation\Component\Input\UploadLimitResolver::class];
         $provide[UI\Implementation\Component\Navigation\Factory::class] = static fn() =>
             $internal[UI\Implementation\Component\Navigation\Factory::class];
+        $provide[UI\Implementation\Render\JavaScriptBinding::class] = static fn() =>
+            $internal[UI\Implementation\Render\JavaScriptBinding::class];
+        $provide[UI\Implementation\Component\SignalGeneratorInterface::class] = static fn() =>
+            $internal[UI\Implementation\Component\SignalGeneratorInterface::class];
+        $provide[UI\Implementation\Render\TemplateFactory::class] = static fn() =>
+            $internal[UI\Implementation\Render\TemplateFactory::class];
+
 
         // =================================================================================
 
@@ -437,7 +444,7 @@ class UI implements Component\Component
         $internal[UI\Implementation\Component\Symbol\Icon\Factory::class] = static fn() =>
             new UI\Implementation\Component\Symbol\Icon\Factory();
         $internal[UI\Implementation\Component\Symbol\Glyph\Factory::class] = static fn() =>
-            new UI\Implementation\Component\Symbol\Glyph\Factory();
+            new UI\Implementation\Component\Symbol\Glyph\Factory($use[Language\Language::class]);
         $internal[UI\Implementation\Component\Symbol\Avatar\Factory::class] = static fn() =>
             new UI\Implementation\Component\Symbol\Avatar\Factory();
 
@@ -544,6 +551,16 @@ class UI implements Component\Component
                             $use[UI\HelpTextRetriever::class],
                             $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
                         ),
+                        new UI\Implementation\Component\Listing\ListingRendererFactory(
+                            $use[UI\Implementation\FactoryInternal::class],
+                            $internal[UI\Implementation\Render\TemplateFactory::class],
+                            $use[Language\Language::class],
+                            $internal[UI\Implementation\Render\JavaScriptBinding::class],
+                            $use[UI\Implementation\Render\ImagePathResolver::class],
+                            $pull[Data\Factory::class],
+                            $use[UI\HelpTextRetriever::class],
+                            $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
+                        ),
                     )
                 )
             );
@@ -570,7 +587,7 @@ class UI implements Component\Component
             new Component\Resource\ComponentJS($this, "js/Dropdown/dist/dropdown.js");
 
         $contribute[Component\Resource\PublicAsset::class] = static fn() =>
-            new Component\Resource\NodeModule("dropzone/dist/min/dropzone.min.js");
+            new Component\Resource\NodeModule("dropzone/dist/dropzone-min.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/Dropzone/File/dropzone.js");
 
@@ -586,6 +603,8 @@ class UI implements Component\Component
             new Component\Resource\ComponentJS($this, "js/Input/Field/input.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/Item/dist/notification.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "js/Listing/dist/listing.min.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/MainControls/dist/mainbar.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>

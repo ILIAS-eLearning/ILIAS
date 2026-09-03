@@ -131,7 +131,7 @@ class ilSystemStyleOverviewGUI
     protected function view(): void
     {
         $table = new ilSystemStylesTableGUI($this, 'edit');
-        $this->tpl->setContent($table->getHTML().$table->getModalsHtml());
+        $this->tpl->setContent($table->getHTML() . $table->getModalsHtml());
     }
 
     public function getAssignmentCreationModal(string $style_name = ""): ?\ILIAS\UI\Component\Modal\RoundTrip
@@ -152,10 +152,10 @@ class ilSystemStyleOverviewGUI
             return null;
         }
 
-        $txt = $this->lng->txt('sty_move_user_styles').' '.$this->lng->txt('sty_to');
+        $txt = $this->lng->txt('sty_move_user_styles') . ' ' . $this->lng->txt('sty_to');
 
         $byline = $this->lng->txt('sty_move_user_styles') . ' ' .
-            $this->lng->txt('sty_from')  . ' ' . $style_name;
+            $this->lng->txt('sty_from') . ' ' . $style_name;
 
         $select = $this->ui_factory->input()->field()
                                             ->select($txt, $options, $byline)
@@ -180,7 +180,7 @@ class ilSystemStyleOverviewGUI
     {
         $table = new ilSystemStylesTableGUI($this, 'edit');
         $table->addActions($this->isManagementEnabled());
-        $this->tpl->setContent($table->getHTML().$table->getModalsHtml());
+        $this->tpl->setContent($table->getHTML() . $table->getModalsHtml());
     }
 
     public function saveStyleSettings(): void

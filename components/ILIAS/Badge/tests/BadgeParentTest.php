@@ -64,23 +64,23 @@ class BadgeParentTest extends TestCase
 
         $language->method('txt')->willReturnCallback(static fn(string $name): string => $name . ' translated');
 
-        $listing->expects(self::once())->method('descriptive')->with([
+        $listing->expects($this->once())->method('descriptive')->with([
             'object translated' => $legacy,
         ])->willReturn($descriptive);
 
-        $link->method('standard')->with('Lorem', 'Some URL.')->willReturn($standard_link);
+        $link->expects($this->once())->method('standard')->with('Lorem', 'Some URL.')->willReturn($standard_link);
 
         $factory->method('listing')->willReturn($listing);
         $factory->method('link')->willReturn($link);
-        $legacy_factory->expects(self::once())->method('content')->with($rendered)->willReturn($legacy);
-        $factory->expects(self::once())->method('legacy')->willReturn($legacy_factory);
+        $legacy_factory->expects($this->once())->method('content')->with($rendered)->willReturn($legacy);
+        $factory->expects($this->once())->method('legacy')->willReturn($legacy_factory);
 
-        $renderer->expects(self::once())->method('render')->willReturn($rendered);
+        $renderer->expects($this->once())->method('render')->willReturn($rendered);
 
         $ui->method('factory')->willReturn($factory);
         $ui->method('renderer')->willReturn($renderer);
 
-        $access->expects(self::once())->method('checkAccess')->with('read', '', 89)->willReturn(true);
+        $access->expects($this->once())->method('checkAccess')->with('read', '', 89)->willReturn(true);
 
         $container->method('ui')->willReturn($ui);
         $container->method('language')->willReturn($language);
@@ -123,13 +123,12 @@ class BadgeParentTest extends TestCase
         $legacy = $this->getMockBuilder(Legacy\Content::class)->disableOriginalConstructor()->getMock();
         $legacy_factory = $this->getMockBuilder(Legacy\Factory::class)->disableOriginalConstructor()->getMock();
         $listing = $this->getMockBuilder(Listing::class)->disableOriginalConstructor()->getMock();
-        $parent_link = $this->getMockBuilder(Content::class)->disableOriginalConstructor()->getMock();
         $renderer = $this->getMockBuilder(Renderer::class)->disableOriginalConstructor()->getMock();
         $ui = $this->getMockBuilder(UIServices::class)->disableOriginalConstructor()->getMock();
 
         $language->method('txt')->willReturnCallback(static fn(string $name): string => $name . ' translated');
 
-        $listing->expects(self::once())->method('descriptive')->with([
+        $listing->expects($this->once())->method('descriptive')->with([
             'object translated' => $legacy,
         ])->willReturn($descriptive);
 
@@ -137,12 +136,12 @@ class BadgeParentTest extends TestCase
         $legacy_factory->method('content')->willReturn($legacy);
         $factory->method('legacy')->willReturn($legacy_factory);
 
-        $renderer->expects(self::once())->method('render')->willReturn($rendered);
+        $renderer->expects($this->once())->method('render')->willReturn($rendered);
 
         $ui->method('factory')->willReturn($factory);
         $ui->method('renderer')->willReturn($renderer);
 
-        $access->expects(self::once())->method('checkAccess')->with('read', '', 89)->willReturn(false);
+        $access->expects($this->once())->method('checkAccess')->with('read', '', 89)->willReturn(false);
 
         $container->method('ui')->willReturn($ui);
         $container->method('language')->willReturn($language);

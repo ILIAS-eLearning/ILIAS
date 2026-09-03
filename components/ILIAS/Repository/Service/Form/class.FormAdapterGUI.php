@@ -179,7 +179,9 @@ class FormAdapterGUI
         int $max_length = 0
     ): self {
         $this->values[$key] = $value;
-        $field = $this->ui->factory()->input()->field()->text($title, $description);
+        $field = $this->ui->factory()->input()->field()->text($title, $description)
+            ->withoutStripTags()
+            ->withAdditionalTransformation(new TagsSpaceTransformation());
         if ($max_length > 0) {
             $field = $field->withMaxLength($max_length);
         }
@@ -194,12 +196,16 @@ class FormAdapterGUI
         string $key,
         string $title,
         string $description = "",
-        ?bool $value = null
+        ?bool $value = null,
+        ?bool $disabled = null
     ): self {
         $this->values[$key] = $value;
         $field = $this->ui->factory()->input()->field()->checkbox($title, $description);
         if (!is_null($value)) {
             $field = $field->withValue($value);
+        }
+        if (!is_null($disabled)) {
+            $field = $field->withDisabled($disabled);
         }
         $this->addField($key, $field);
         return $this;
@@ -249,7 +255,9 @@ class FormAdapterGUI
         ?string $value = null
     ): self {
         $this->values[$key] = $value;
-        $field = $this->ui->factory()->input()->field()->textarea($title, $description);
+        $field = $this->ui->factory()->input()->field()->textarea($title, $description)
+            ->withoutStripTags()
+            ->withAdditionalTransformation(new TagsSpaceTransformation());
         if (!is_null($value)) {
             $field = $field->withValue($value);
         }

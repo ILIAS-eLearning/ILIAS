@@ -61,7 +61,7 @@ class UserTest extends TestCase
         $this->ensureDefined('ANONYMOUS_USER_ID', 13);
 
         $user = $this->mock(ilObjUser::class);
-        $user->expects(self::exactly(5))->method('getId')->willReturnOnConsecutiveCalls(0, ANONYMOUS_USER_ID, 9, 1, 68);
+        $user->expects($this->exactly(5))->method('getId')->willReturnOnConsecutiveCalls(0, ANONYMOUS_USER_ID, 9, 1, 68);
 
         $instance = new User(
             $user,
@@ -84,7 +84,7 @@ class UserTest extends TestCase
         $this->ensureDefined('SYSTEM_USER_ID', 9);
 
         $user = $this->mock(ilObjUser::class);
-        $user->expects(self::exactly(5))->method('getId')->willReturnOnConsecutiveCalls(0, ANONYMOUS_USER_ID, SYSTEM_USER_ID, 1, 68);
+        $user->expects($this->exactly(5))->method('getId')->willReturnOnConsecutiveCalls(0, ANONYMOUS_USER_ID, SYSTEM_USER_ID, 1, 68);
 
         $instance = new User(
             $user,
@@ -104,10 +104,10 @@ class UserTest extends TestCase
     public function testNeverAgreed(): void
     {
         $setting = $this->mock(Setting::class);
-        $setting->expects(self::exactly(2))->method('value')->willReturnOnConsecutiveCalls(null, new DateTimeImmutable());
+        $setting->expects($this->exactly(2))->method('value')->willReturnOnConsecutiveCalls(null, new DateTimeImmutable());
 
         $user_settings = $this->mock(UserSettings::class);
-        $user_settings->expects(self::exactly(2))->method('agreeDate')->willReturn($setting);
+        $user_settings->expects($this->exactly(2))->method('agreeDate')->willReturn($setting);
 
         $instance = new User(
             $this->mock(ilObjUser::class),
@@ -302,10 +302,10 @@ class UserTest extends TestCase
         $date = new DateTimeImmutable();
 
         $history = $this->mock(ProvideHistory::class);
-        $history->expects(self::once())->method('acceptDocument')->with($user, $document);
+        $history->expects($this->once())->method('acceptDocument')->with($user, $document);
 
         $setting = $this->mock(Setting::class);
-        $setting->expects(self::once())->method('update')->with($date);
+        $setting->expects($this->once())->method('update')->with($date);
 
         $instance = new User(
             $user,
@@ -386,7 +386,7 @@ class UserTest extends TestCase
         $user = $this->mock(ilObjUser::class);
         $history = $this->mock(ProvideHistory::class);
         $doc = $this->mock(Document::class);
-        $history->expects(self::once())->method('acceptDocument')->with($user, $doc);
+        $history->expects($this->once())->method('acceptDocument')->with($user, $doc);
 
         $instance = new User(
             $user,

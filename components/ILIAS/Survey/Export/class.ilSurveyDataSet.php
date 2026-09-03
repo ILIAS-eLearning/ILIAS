@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Survey Data set class
  *
@@ -64,7 +66,7 @@ class ilSurveyDataSet extends ilDataSet
                             "BaseSkillId" => "integer",
                             "TrefId" => "integer",
                             "LevelId" => "integer",
-                            "Treshold" => "integer"
+                            "Threshold" => "integer"
                     );
             }
         }
@@ -129,19 +131,41 @@ class ilSurveyDataSet extends ilDataSet
         $a_rec = $this->stripTags($a_rec);
         switch ($a_entity) {
             case "svy_quest_skill":
-                $skill_data = ilBasicSkill::getCommonSkillIdForImportId($this->getCurrentInstallationId(), $a_rec["BaseSkillId"], $a_rec["TrefId"]);
-                $q_id = $a_mapping->getMapping("components/ILIAS/Survey", "svy_q", $a_rec["QId"]);
+                $skill_data = ilBasicSkill::getCommonSkillIdForImportId(
+                    (int) $this->getCurrentInstallationId(),
+                    (int) $a_rec["BaseSkillId"],
+                    (int) $a_rec["TrefId"]
+                );
+                $q_id = (int) $a_mapping->getMapping(
+                    "components/ILIAS/Survey",
+                    "svy_q",
+                    (string) $a_rec["QId"]
+                );
                 if ($q_id > 0 && count($skill_data) > 0) {
                     $skill_survey = new ilSurveySkill($this->getImport()->getSurvey());
-                    $skill_survey->addQuestionSkillAssignment($q_id, $skill_data[0]["skill_id"], $skill_data[0]["tref_id"]);
+                    $skill_survey->addQuestionSkillAssignment(
+                        $q_id,
+                        (int) $skill_data[0]["skill_id"],
+                        (int) $skill_data[0]["tref_id"]
+                    );
                 }
                 break;
 
             case "svy_skill_threshold":
-                $l = ilBasicSkill::getLevelIdForImportIdMatchSkill($this->getCurrentInstallationId(), $a_rec["LevelId"], $a_rec["BaseSkillId"], $a_rec["TrefId"]);
+                $l = ilBasicSkill::getLevelIdForImportIdMatchSkill(
+                    (int) $this->getCurrentInstallationId(),
+                    (int) $a_rec["LevelId"],
+                    (int) $a_rec["BaseSkillId"],
+                    (int) $a_rec["TrefId"]
+                );
                 if (count($l) > 0) {
                     $skill_thres = new ilSurveySkillThresholds($this->getImport()->getSurvey());
-                    $skill_thres->writeThreshold($l[0]["skill_id"], $l[0]["tref_id"], $l[0]["level_id"], $a_rec["Threshold"]);
+                    $skill_thres->writeThreshold(
+                        (int) $l[0]["skill_id"],
+                        (int) $l[0]["tref_id"],
+                        (int) $l[0]["level_id"],
+                        (int) ($a_rec["Threshold"] ?? $a_rec["Treshold"])
+                    );
                 }
                 break;
         }

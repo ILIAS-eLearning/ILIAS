@@ -194,7 +194,7 @@ class ilItemGroupItems
     ): void {
         $ilLog = $this->log;
 
-        $ilLog->write(__METHOD__ . ': Begin cloning item group materials ... -' . $a_source_id . '-');
+        $ilLog->info('Begin cloning item group materials ... -' . $a_source_id . '-');
 
         $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $cwo->getMappings();
@@ -204,15 +204,15 @@ class ilItemGroupItems
         $source_ig = new ilItemGroupItems($a_source_id);
         foreach ($source_ig->getItems() as $item_ref_id) {
             if (isset($mappings[$item_ref_id]) and $mappings[$item_ref_id]) {
-                $ilLog->write(__METHOD__ . ': Clone item group item nr. ' . $item_ref_id);
+                $ilLog->info('Clone item group item nr. ' . $item_ref_id);
                 $new_items[] = $mappings[$item_ref_id];
             } else {
-                $ilLog->write(__METHOD__ . ': No mapping found for item group item nr. ' . $item_ref_id);
+                $ilLog->info('No mapping found for item group item nr. ' . $item_ref_id);
             }
         }
         $this->setItems($new_items);
         $this->update();
-        $ilLog->write(__METHOD__ . ': Finished cloning item group items ...');
+        $ilLog->info('Finished cloning item group items ...');
     }
 
     public static function _getItemsOfContainer(int $a_ref_id): array
@@ -237,5 +237,28 @@ class ilItemGroupItems
             $items[] = $row->item_ref_id;
         }
         return $items;
+    }
+
+    public static function getItemGroupsAssociatedWithItem(int $ref_id, int $filter_item_group_id = 0): array
+    {
+        global $DIC;
+        $database = $DIC->database();
+
+        $item_groups = [];
+        $statement = $database->queryF(
+            'SELECT ref_id, title FROM item_group_item '
+            . 'LEFT JOIN object_data ON item_group_item.item_group_id = object_data.obj_id '
+            . 'LEFT JOIN object_reference ON object_data.obj_id = object_reference.obj_id '
+            . 'WHERE item_ref_id = %s '
+            . 'AND item_group_id != %s '
+            . 'AND object_data.type = \'itgr\'',
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
+            [$ref_id, $filter_item_group_id]
+        );
+        while ($row = $database->fetchAssoc($statement)) {
+            $item_groups[$row['ref_id']] = $row['title'];
+        }
+
+        return $item_groups;
     }
 }

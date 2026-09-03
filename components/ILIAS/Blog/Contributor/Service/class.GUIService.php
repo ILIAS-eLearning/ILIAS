@@ -57,4 +57,15 @@ class GUIService
             $parent_cmd
         );
     }
+
+    public function contributorGUI(int $node_id, \ilObjBlog $blog): ContributorGUI
+    {
+        return new ContributorGUI(
+            $this->data_service,
+            $this->domain_service,
+            $this->gui,
+            $node_id,
+            $blog
+        );
+    }
 }

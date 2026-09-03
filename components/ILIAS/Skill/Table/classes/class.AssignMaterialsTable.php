@@ -100,7 +100,7 @@ class AssignMaterialsTable
                                     ->withIsSortable(false),
             "description" => $this->ui_fac->table()->column()->text($this->lng->txt("description"))
                                           ->withIsSortable(false),
-            "resources" => $this->ui_fac->table()->column()->linkListing($this->lng->txt("skmg_materials"))
+            "resources" => $this->ui_fac->table()->column()->listing($this->lng->txt("skmg_materials"))
                                         ->withIsSortable(false)
         ];
 

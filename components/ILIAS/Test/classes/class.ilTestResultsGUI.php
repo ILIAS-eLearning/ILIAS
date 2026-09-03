@@ -61,6 +61,7 @@ class ilTestResultsGUI
         private readonly ilLanguage $lng,
         private readonly TestLogger $logger,
         private readonly ilComponentRepository $component_repository,
+        private readonly ilComponentFactory $component_factory,
         private TabsManager $test_tabs,
         private readonly ilToolbarGUI $toolbar,
         private readonly ilGlobalTemplateInterface $main_tpl,
@@ -146,7 +147,13 @@ class ilTestResultsGUI
             case 'iltestskillevaluationgui':
                 $this->test_tabs->activateSubTab(TabsManager::SUBTAB_ID_SKILL_RESULTS);
 
-                $question_list = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $this->component_repository);
+                $question_list = new ilAssQuestionList(
+                    $this->db,
+                    $this->lng,
+                    $this->refinery,
+                    $this->component_repository,
+                    $this->component_factory
+                );
                 $question_list->setParentObjId($this->test_object->getId());
                 $question_list->setQuestionInstanceTypeFilter(null);
                 $question_list->load();

@@ -1,4 +1,4 @@
-#@ ILIAS Security Group
+# ILIAS Security Policy
 
 ## Table of Contents
 * [Reporting Security Issues](#reporting-security-issues)

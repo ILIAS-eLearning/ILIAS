@@ -39,7 +39,7 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
 
         $this->dic = $DIC;
         $database = $DIC->database();
-        $logger = $DIC->logger()->root();
+        $logger = $DIC->logger()->forComponent('crs');
 
         if (null === $userCertificateRepository) {
             $userCertificateRepository = new ilUserCertificateRepository($database, $logger);

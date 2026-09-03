@@ -827,12 +827,12 @@ class ilSoapFunctions
         return $swa->updateWebLink($sid, $ref_id, $xml);
     }
 
-    public static function deleteExpiredDualOptInUserObjects(string $sid, int $usr_id): bool
+    public static function deleteExpiredDualOptInUserObjects(string $sid, int $usr_id_to_prioritize): bool
     {
         $sou = new ilSoapUtils();
         $sou->disableSOAPCheck();
         $sou->ignoreUserAbort();
-        return $sou->deleteExpiredDualOptInUserObjects($sid, $usr_id);
+        return $sou->deleteExpiredDualOptInUserObjects($sid, $usr_id_to_prioritize);
     }
 
     /**

@@ -115,9 +115,10 @@ abstract class ilLTIConsumerServiceBase
     /**
      * Check that the request has been properly signed and is permitted.
      */
-    public function checkTool(): ?object
+    public function checkTool(): ?ilLTIConsumerAccessToken
     {
-        return ilObjLTIConsumer::verifyToken();
+        $token = ilObjLTIConsumer::verifyToken();
+        return $token === null ? null : ilLTIConsumerAccessToken::fromVerifiedToken($token);
     }
 
     /**

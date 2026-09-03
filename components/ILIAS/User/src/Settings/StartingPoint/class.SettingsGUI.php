@@ -44,12 +44,13 @@ class SettingsGUI
     private Renderer $ui_renderer;
     private UserGUIRequest $user_request;
     private Repository $starting_point_repository;
+    private \ilErrorHandling $error;
 
     private int $parent_ref_id;
 
     public function __construct(int $a_parent_ref_id)
     {
-        /** @var ILIAS\DI\Container $DIC */
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->log = \ilLoggerFactory::getLogger("user");
@@ -62,6 +63,7 @@ class SettingsGUI
         $this->tree = $DIC['tree'];
         $this->user = $DIC['ilUser'];
         $this->db = $DIC['ilDB'];
+        $this->error = $DIC['ilErr'];
         $this->rbac_review = $DIC['rbacreview'];
         $this->rbac_system = $DIC['rbacsystem'];
         $this->ui_factory = $DIC['ui.factory'];

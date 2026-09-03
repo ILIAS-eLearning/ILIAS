@@ -132,7 +132,10 @@ class TranslationsTable implements DataRetrieval
         mixed $filter_data,
         mixed $additional_parameters
     ): \Generator {
-        foreach ($this->translations->getLanguages() as $langauge) {
+        foreach ($this->orderLanguages(
+            $this->translations->getLanguages(),
+            $order
+        ) as $langauge) {
             yield $langauge->toRow($row_builder, $this->lng);
         }
     }
@@ -150,10 +153,10 @@ class TranslationsTable implements DataRetrieval
     {
         $cf = $this->ui_factory->table()->column();
         $columns = [
-            'language' => $cf->text($this->lng->txt('language')),
+            Language::KEY_LANGUAGE => $cf->text($this->lng->txt('language')),
         ];
         if ($this->translations->getContentTranslationActivated()) {
-            $columns['base'] = $cf->boolean(
+            $columns[Language::KEY_BASE] = $cf->boolean(
                 $this->lng->txt('obj_base_lang'),
                 $this->ui_factory->symbol()->icon()->custom('assets/images/standard/icon_checked.svg', '', 'small'),
                 $this->ui_factory->symbol()->icon()->custom('assets/images/standard/icon_unchecked.svg', '', 'small')
@@ -161,13 +164,13 @@ class TranslationsTable implements DataRetrieval
         }
 
         return $columns + [
-            'default' => $cf->boolean(
+            Language::KEY_DEFAULT => $cf->boolean(
                 $this->lng->txt('default'),
                 $this->ui_factory->symbol()->icon()->custom('assets/images/standard/icon_checked.svg', '', 'small'),
                 $this->ui_factory->symbol()->icon()->custom('assets/images/standard/icon_unchecked.svg', '', 'small')
             ),
-            'title' => $cf->text($this->lng->txt('title')),
-            'description' => $cf->text($this->lng->txt('description')),
+            Language::KEY_TITLE => $cf->text($this->lng->txt('title')),
+            Language::KEY_DESCRIPTION => $cf->text($this->lng->txt('description')),
         ];
 
     }
@@ -250,6 +253,9 @@ class TranslationsTable implements DataRetrieval
         $this->object_properties->storePropertyTranslations(
             $this->translations
         );
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
+        $this->ctrl->redirectByClass($this->ctrl->getCurrentClassPath());
     }
 
     private function deleteTranslations(): void
@@ -375,5 +381,27 @@ class TranslationsTable implements DataRetrieval
         );
         $this->http->sendResponse();
         $this->http->close();
+    }
+
+    private function orderLanguages(
+        array $languages,
+        Order $order
+    ): array {
+        return $order->join(
+            $languages,
+            function (array $langs, string $field, string $direction): array {
+                usort(
+                    $langs,
+                    fn(Language $a, Language $b) => $a->getDisplayValueForKey($this->lng, $field)
+                        <=> $b->getDisplayValueForKey($this->lng, $field)
+                );
+
+                if ($direction === 'DESC') {
+                    return array_reverse($langs);
+                }
+
+                return $langs;
+            }
+        );
     }
 }

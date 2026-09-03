@@ -53,11 +53,7 @@ class Checkbox extends FormInput implements C\Input\Field\Checkbox, C\Changeable
      */
     protected function isClientSideValueOk($value): bool
     {
-        if ($value == "checked" || $value === "" || is_bool($value)) {
-            return true;
-        } else {
-            return false;
-        }
+        return $value === "checked" || $value === "" || is_bool($value);
     }
 
 
@@ -66,15 +62,7 @@ class Checkbox extends FormInput implements C\Input\Field\Checkbox, C\Changeable
      */
     public function withValue($value): self
     {
-        $value = $value ?? false;
-
-        if (!is_bool($value)) {
-            throw new InvalidArgumentException(
-                "Unknown value type for checkbox: " . gettype($value)
-            );
-        }
-
-        return parent::withValue($value);
+        return parent::withValue($value ?? false);
     }
 
 

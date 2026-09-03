@@ -27,31 +27,11 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $templateRepositoryMock
+            ->expects($this->once())
             ->method('deleteTemplate')
             ->with(100, 2000);
 
-        $templateRepositoryMock->method('activatePreviousCertificate')
-            ->with(2000)
-            ->willReturn(new ilCertificateTemplate(
-                2000,
-                'crs',
-                'something',
-                md5('something'),
-                '[]',
-                1,
-                'v5.4.0',
-                1_234_567_890,
-                true,
-                '-',
-                '-'
-            ));
-
-        $templateRepositoryMock->expects($this->once())->method("deleteTemplate");
-        $templateRepositoryMock->expects($this->once())->method("save");
-
-        $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $templateRepositoryMock->expects($this->once())->method('save');
 
         $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->getMock();

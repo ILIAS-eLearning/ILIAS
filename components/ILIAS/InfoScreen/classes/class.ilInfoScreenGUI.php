@@ -579,27 +579,6 @@ class ilInfoScreenGUI
                 }
             }
         }
-
-        // WebDAV: Display locking information
-        if (ilDAVActivationChecker::_isActive()) {
-            if ($ilUser->getId() != ANONYMOUS_USER_ID) {
-                $webdav_dic = new ilWebDAVDIC();
-                $webdav_dic->initWithoutDIC();
-                $webdav_lock_backend = $webdav_dic->locksbackend();
-                // Show lock info
-                if ($ilUser->getId() != ANONYMOUS_USER_ID) {
-                    if ($lock = $webdav_lock_backend->getLocksOnObjectId($this->gui_object->getObject()->getId())) {
-                        /** @var ilWebDAVLockObject $lock */
-                        $lock_user = new ilObjUser($lock->getIliasOwner());
-                        $this->addProperty(
-                            $this->lng->txt("in_use_by"),
-                            $lock_user->getPublicName(),
-                            "./ilias.php?user=" . $lock_user->getId() . '&cmd=showUserProfile&cmdClass=ildashboardgui&cmdNode=1&baseClass=ilDashboardGUI'
-                        );
-                    }
-                }
-            }
-        }
     }
     // END ChangeEvent: Display standard object info
 

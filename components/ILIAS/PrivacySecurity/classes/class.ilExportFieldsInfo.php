@@ -139,7 +139,9 @@ class ilExportFieldsInfo
             $fields['consultation_hour']['default'] = 0;
         }
 
-        $udf = $profile->getVisibleUserDefinedFields(Context::buildFromObjectType($this->getType()));
+        $context = Context::buildFromObjectType($this->getType());
+        $udf = $context === null ?
+            [] : $profile->getVisibleUserDefinedFields($context);
         if ($udf !== []) {
             foreach ($udf as $field_id => $field) {
                 $fields['udf_' . $field_id]['txt'] = $field->getLabel($this->lng);

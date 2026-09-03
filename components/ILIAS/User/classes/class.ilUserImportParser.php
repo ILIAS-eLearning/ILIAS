@@ -1485,7 +1485,12 @@ class ilUserImportParser extends ilSaxParser
                 break;
 
             case 'UserDefinedField':
-                $field_id = $this->fetchFieldIdFromImportId($this->tmp_udf_id);
+                $field_id = null;
+                if ($this->user_profile->getFieldByIdentifier(
+                    $this->tmp_udf_id
+                ) !== null) {
+                    $field_id = $this->tmp_udf_id;
+                }
 
                 if ($field_id === null) {
                     $field_id = $this->fetchFieldIdFromName($this->tmp_udf_name);
@@ -1501,6 +1506,10 @@ class ilUserImportParser extends ilSaxParser
                 ) ?? $this->cdata;
                 if ($data === '') {
                     break;
+                }
+
+                if (!is_array($data)) {
+                    $data = [$data];
                 }
 
                 $this->udf_data[$field_id] = $data;
@@ -2167,8 +2176,9 @@ class ilUserImportParser extends ilSaxParser
         }
     }
 
-    private function addUDFDataToUser(\ilObjUser $user): \ilObjUser
-    {
+    private function addUDFDataToUser(
+        \ilObjUser $user
+    ): \ilObjUser {
         return $user->withProfileData(
             array_reduce(
                 array_keys($this->udf_data),
@@ -2177,7 +2187,7 @@ class ilUserImportParser extends ilSaxParser
                         $v,
                         $this->udf_data[$v]
                     ),
-                $this->user_obj->getProfileData()
+                $user->getProfileData()
             )
         );
     }
@@ -2194,22 +2204,6 @@ class ilUserImportParser extends ilSaxParser
             $mailOptions->setIncomingType(array_key_exists('mail_incoming_type', $this->prefs) ? (int) $this->prefs['mail_incoming_type'] : $mailOptions->getIncomingType());
             $mailOptions->updateOptions();
         }
-    }
-
-    private function fetchFieldIdFromImportId(string $import_id): ?string
-    {
-        if ($import_id === '') {
-            return null;
-        }
-
-        $parts = explode('_', $import_id);
-        if (($parts[0] ?? '') !== 'il'
-            || ($parts[1] ?? '') !== 'udf'
-            || ($parts[2] ?? '') === ''
-            || $this->user_profile->getFieldByIdentifier($parts[2]) === null) {
-            return null;
-        }
-        return $parts[2];
     }
 
     private function fetchFieldIdFromName(string $name): ?string

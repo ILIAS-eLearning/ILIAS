@@ -157,12 +157,12 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
                 case 'consultation_hour':
                     $this->tpl->setCurrentBlock('custom_fields');
                     $dts = array();
-                    foreach ((array) $a_set['consultation_hours'] as $ch) {
+                    foreach ((array) ($a_set['consultation_hours'] ?? []) as $ch) {
                         $tmp = ilDatePresentation::formatPeriod(
                             new ilDateTime($ch['dt'], IL_CAL_UNIX),
                             new ilDateTime($ch['dtend'], IL_CAL_UNIX)
                         );
-                        if ($ch['explanation']) {
+                        if (isset($ch['explanation'])) {
                             $tmp .= ' ' . $ch['explanation'];
                         }
                         $dts[] = $tmp;
@@ -352,8 +352,6 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 
         // Custom user data fields
         if ($udf_ids) {
-            global $DIC;
-            $DIC->logger()->root()->dump($filtered_user_ids);
             $a_user_data = array_reduce(
                 iterator_to_array($this->profile->getDataForMultiple($filtered_user_ids)),
                 function (array $c, ProfileData $v) use ($udf_ids): array {

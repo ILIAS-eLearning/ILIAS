@@ -25,14 +25,25 @@ use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Setup\Metrics\Storage;
 use ILIAS\Setup;
 use ILIAS\Setup\Objective;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Setup\Config;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class Agent implements Setup\Agent
+class Agent implements Setup\NamedAgent
 {
+    public function __construct(
+        private readonly Refinery $refinery,
+    ) {
+    }
+
+    public function getAgentName(): string
+    {
+        return 'content_isolation';
+    }
+
     public function getBuildObjective(): Objective
     {
         return new NullObjective();
@@ -45,12 +56,23 @@ class Agent implements Setup\Agent
 
     public function hasConfig(): bool
     {
-        return false;
+        return true;
     }
 
     public function getArrayToConfigTransformation(): Transformation
     {
-        throw new LogicException("No Config");
+        return $this->refinery->custom()->transformation(
+            static function (?array $data): FileDeliverySetupConfig {
+                $data ??= [];
+
+                return new FileDeliverySetupConfig(
+                    (bool) ($data['activated'] ?? false),
+                    isset($data['content_domain']) && $data['content_domain'] !== ''
+                        ? (string) $data['content_domain']
+                        : null,
+                );
+            }
+        );
     }
 
     public function getInstallObjective(?Config $config = null): Objective
@@ -60,7 +82,8 @@ class Agent implements Setup\Agent
             true,
             new KeyRotationObjective(),
             new DeliveryMethodObjective(),
-            new BaseDirObjective()
+            new BaseDirObjective(),
+            $this->buildIsolationObjective($config),
         );
     }
 
@@ -71,7 +94,8 @@ class Agent implements Setup\Agent
             true,
             new KeyRotationObjective(),
             new DeliveryMethodObjective(),
-            new BaseDirObjective()
+            new BaseDirObjective(),
+            $this->buildIsolationObjective($config),
         );
     }
 
@@ -83,5 +107,17 @@ class Agent implements Setup\Agent
     public function getMigrations(): array
     {
         return [];
+    }
+
+    private function buildIsolationObjective(?Config $config): Objective
+    {
+        if (!$config instanceof FileDeliverySetupConfig) {
+            return new IsolationObjective();
+        }
+
+        return new IsolationObjective(
+            $config->isIsolationActivated(),
+            $config->getIsolationContentDomain(),
+        );
     }
 }

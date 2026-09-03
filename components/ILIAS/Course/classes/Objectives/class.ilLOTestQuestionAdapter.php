@@ -355,7 +355,7 @@ class ilLOTestQuestionAdapter
     {
         foreach ($this->run as $run) {
             if ($run->questionExists($qst->getId())) {
-                $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': reached points are ' . $qst->getReachedPoints(
+                $GLOBALS['DIC']['ilLog']->info('reached points are ' . $qst->getReachedPoints(
                     $session->getActiveId(),
                     $session->getPass()
                 ));
@@ -460,7 +460,7 @@ class ilLOTestQuestionAdapter
                 $tst_run->addQuestion($qst_id);
                 $points += ilCourseObjectiveQuestion::_lookupMaximumPointsOfQuestion($qst_id);
             }
-            $tst_run->setMaxPoints((int) $points);
+            $tst_run->setMaxPoints((float) $points);
         }
     }
 
@@ -477,7 +477,7 @@ class ilLOTestQuestionAdapter
                 $tst_run->addQuestion($id);
                 $points += ilCourseObjectiveQuestion::_lookupMaximumPointsOfQuestion($id);
             }
-            $tst_run->setMaxPoints((int) $points);
+            $tst_run->setMaxPoints((float) $points);
         }
     }
 
@@ -505,7 +505,7 @@ class ilLOTestQuestionAdapter
                     $points += ilCourseObjectiveQuestion::_lookupMaximumPointsOfQuestion($qst);
                 }
             }
-            $tst_run->setMaxPoints((int) $points);
+            $tst_run->setMaxPoints((float) $points);
         }
     }
 

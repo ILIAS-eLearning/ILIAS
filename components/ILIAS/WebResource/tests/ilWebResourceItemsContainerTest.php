@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 
 /**
  * Unit tests for ilWebLinkItemsContainer
@@ -28,23 +28,20 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ilWebResourceItemsContainerTest extends TestCase
 {
     /**
-     * @return ilWebLinkItem&MockObject
+     * @return ilWebLinkItem&Stub
      */
     protected function createItemMock(
         bool $internal,
         string $title,
         int $link_id
-    ): MockObject {
+    ): Stub {
         if ($internal) {
             $class = ilWebLinkItemInternal::class;
         } else {
             $class = ilWebLinkItemExternal::class;
         }
 
-        $item = $this->getMockBuilder($class)
-                     ->disableOriginalConstructor()
-                     ->onlyMethods(['getTitle','getLinkId'])
-                     ->getMock();
+        $item = $this->createStub($class);
 
         $item->method('getTitle')->willReturn($title);
         $item->method('getLinkId')->willReturn($link_id);

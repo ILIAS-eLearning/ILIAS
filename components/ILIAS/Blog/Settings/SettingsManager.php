@@ -49,7 +49,7 @@ class SettingsManager
         return $this->repo->settings()->getByObjId($id);
     }
 
-    public function clone($from_id, $to_id): void
+    public function clone(int $from_id, int $to_id): void
     {
         $settings = $this->repo->settings()->getByObjId($from_id);
         $settings = $settings->withId($to_id);

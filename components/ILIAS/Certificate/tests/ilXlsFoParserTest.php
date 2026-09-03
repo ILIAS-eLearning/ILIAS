@@ -133,20 +133,22 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
         $xlstProcess = $this->getMockBuilder(ilCertificateXlstProcess::class)
                             ->getMock();
 
-        $xlstProcess->method('process')
-                    ->with(
-                        [
-                            '/_xml' => '<html><body><xml> Some Context </xml></body></html>',
-                            '/_xsl' => '<xml>Some XLS Content</xml>'
-                        ],
-                        [
-                            'pageheight' => '297mm',
-                            'pagewidth' => '210mm',
-                            'backgroundimage' => '[BACKGROUND_IMAGE]',
-                            'marginbody' => '1cm 2cm 3cm 4cm'
-                        ]
-                    )
-                    ->willReturn('Something Processed');
+        $xlstProcess
+            ->expects($this->once())
+            ->method('process')
+            ->with(
+                [
+                    '/_xml' => '<html><body><xml> Some Context </xml></body></html>',
+                    '/_xsl' => '<xml>Some XLS Content</xml>'
+                ],
+                [
+                    'pageheight' => '297mm',
+                    'pagewidth' => '210mm',
+                    'backgroundimage' => '[BACKGROUND_IMAGE]',
+                    'marginbody' => '1cm 2cm 3cm 4cm'
+                ]
+            )
+            ->willReturn('Something Processed');
 
         $language = $this->getMockBuilder(ilLanguage::class)
                          ->disableOriginalConstructor()
@@ -300,20 +302,22 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
         $xlstProcess = $this->getMockBuilder(ilCertificateXlstProcess::class)
                             ->getMock();
 
-        $xlstProcess->method('process')
-                    ->with(
-                        [
+        $xlstProcess
+            ->expects($this->once())
+            ->method('process')
+            ->with(
+                [
                             '/_xml' => '<html><body><xml> Some Context </xml></body></html>',
                             '/_xsl' => '<xml>Some XLS Content</xml>'
                         ],
-                        [
+                [
                             'pageheight' => '297mm',
                             'pagewidth' => '210mm',
                             'backgroundimage' => '[BACKGROUND_IMAGE]',
                             'marginbody' => '1cm 2cm 3cm 4cm'
                         ]
-                    )
-                    ->willReturn('Something Processed');
+            )
+            ->willReturn('Something Processed');
 
         $language = $this->getMockBuilder(ilLanguage::class)
                          ->disableOriginalConstructor()
@@ -395,20 +399,22 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
         $xlstProcess = $this->getMockBuilder(ilCertificateXlstProcess::class)
                             ->getMock();
 
-        $xlstProcess->method('process')
-                    ->with(
-                        [
+        $xlstProcess
+            ->expects($this->once())
+            ->method('process')
+            ->with(
+                [
                             '/_xml' => '<html><body><xml> Some Context </xml></body></html>',
                             '/_xsl' => '<xml>Some XLS Content</xml>'
                         ],
-                        [
+                [
                             'pageheight' => '29.7mm',
                             'pagewidth' => '21.0mm',
                             'backgroundimage' => '[BACKGROUND_IMAGE]',
                             'marginbody' => '1cm 2cm 3cm 4cm'
                         ]
-                    )
-                    ->willReturn('Something Processed');
+            )
+            ->willReturn('Something Processed');
 
         $language = $this->getMockBuilder(ilLanguage::class)
                          ->disableOriginalConstructor()

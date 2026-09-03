@@ -376,15 +376,23 @@ class ilTemplate extends HTML_Template_ITX
         }
 
         $style = $this->getCurrentStyle();
-        $base_path .= 'public/Customizing/skin/' . $skin . '/' . $style;
+        $base_path = $ilias_root . 'public/Customizing/skin/' . $skin;
 
         if ($a_in_module === 'components/ILIAS/UI/src') {
             $a_in_module = 'UI';
         }
 
-        $from_skin = $base_path . '/' . $a_in_module . '/' . $a_tplname;
+        $from_style = $base_path . '/' . $style . '/' . $a_in_module . '/' . $a_tplname;
+        if ($this->fileexistsinskin($from_style)) {
+            return $from_style;
+        }
 
-        return $this->fileExistsInSkin($from_skin) ? $from_skin : $default;
+        $from_skin = $base_path . '/' . $a_in_module . '/' . $a_tplname;
+        if ($this->fileexistsinskin($from_skin)) {
+            return $from_skin;
+        }
+
+        return $default;
     }
 
     /**

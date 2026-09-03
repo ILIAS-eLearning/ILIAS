@@ -28,6 +28,7 @@ use ILIAS\ResourceStorage\DummyIDGenerator;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Events\DataContainer;
 use ILIAS\ResourceStorage\Events\CollectionData;
+use ILIAS\ResourceStorage\Collection\ResourceCollection;
 
 /**
  * Class CollectionTest
@@ -97,4 +98,87 @@ class CollectionRepositoryTest extends TestCase
         }
     }
 
+    /**
+     * A collection read from the database must not have its resource id cache marked as
+     * loaded and empty. Otherwise getResourceIdStrings() short circuits and the collection
+     * appears empty although it has assignments.
+     *
+     * @see https://mantis.ilias.de/view.php?id=48254
+     */
+    public function testExistingLoadsResourceIds(): void
+    {
+        $rcid = $this->rcid_generator->getUniqueResourceCollectionIdentification();
+
+        $this->expectCollectionRow();
+        $this->expectAssignmentQueryReturning(['rid_one', 'rid_two']);
+
+        $this->repo->existing($rcid);
+
+        $this->assertSame(
+            ['rid_one', 'rid_two'],
+            iterator_to_array($this->repo->getResourceIdStrings($rcid))
+        );
+    }
+
+    /**
+     * A blank collection has no assignments in the database yet, so no query is needed.
+     */
+    public function testBlankDoesNotQueryForResourceIds(): void
+    {
+        $rcid = $this->rcid_generator->getUniqueResourceCollectionIdentification();
+
+        $this->db_mock->expects($this->never())->method('query');
+
+        $this->repo->blank($rcid);
+
+        $this->assertSame([], iterator_to_array($this->repo->getResourceIdStrings($rcid)));
+    }
+
+    /**
+     * Reading a preloaded collection must not throw the preloaded ids away, otherwise the
+     * collection preloader degenerates into one query per collection again.
+     */
+    public function testExistingKeepsPreloadedResourceIds(): void
+    {
+        $rcid = $this->rcid_generator->getUniqueResourceCollectionIdentification();
+
+        $this->expectAssignmentQueryReturning(['rid_one']);
+        $this->expectCollectionRow();
+
+        $this->repo->preload([self::TEST_RCID]);
+        $this->repo->existing($rcid);
+
+        $this->assertSame(['rid_one'], iterator_to_array($this->repo->getResourceIdStrings($rcid)));
+    }
+
+    private function expectCollectionRow(): void
+    {
+        $this->db_mock->method('queryF')->willReturn($this->createStub(\ilDBStatement::class));
+        $this->db_mock->method('fetchObject')->willReturn(
+            (object) ['owner_id' => ResourceCollection::NO_SPECIFIC_OWNER, 'title' => 'a title']
+        );
+    }
+
+    /**
+     * @param string[] $rids
+     */
+    private function expectAssignmentQueryReturning(array $rids): void
+    {
+        $this->db_mock->method('in')->willReturn('rcid IN("' . self::TEST_RCID . '")');
+
+        // The assignments must be read exactly once, no matter how often the collection is
+        // touched afterwards.
+        $this->db_mock->expects($this->once())
+                      ->method('query')
+                      ->willReturn($this->createStub(\ilDBStatement::class));
+
+        $rows = array_map(static fn(string $rid): array => ['rcid' => self::TEST_RCID, 'rid' => $rid], $rids);
+        $rows[] = null;
+
+        $this->db_mock->method('fetchAssoc')->willReturnCallback(
+            static function () use (&$rows): ?array {
+                return array_shift($rows);
+            }
+        );
+    }
 }

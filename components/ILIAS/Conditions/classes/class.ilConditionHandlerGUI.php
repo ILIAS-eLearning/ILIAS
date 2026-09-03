@@ -893,9 +893,10 @@ class ilConditionHandlerGUI
             $this->getTargetId(),
             $this->getTargetType()
         );
+        $is_subset_mode = count($optional_conditions) > 0;
 
         $old_status = $this->ui_factory->input()->field()->hidden()->withValue(
-            (string) (count($optional_conditions) ? self::LIST_MODE_SUBSET : self::LIST_MODE_ALL)
+            (string) ($is_subset_mode ? self::LIST_MODE_SUBSET : self::LIST_MODE_ALL)
         );
 
         $hidden = $this->ui_factory->input()->field()->checkbox(
@@ -911,30 +912,50 @@ class ilConditionHandlerGUI
         $list_mode_items[self::LIST_MODE_ALL] = $condition_mode_all;
 
         $subset_limit = [];
-        if (count($all_conditions) > 1) {
+        $compulsory_count = 0;
+        foreach ($all_conditions as $condition) {
+            if ($condition['obligatory']) {
+                $compulsory_count++;
+            }
+        }
+
+        $all_conditions_number = count($all_conditions);
+        if ($all_conditions_number > 1) {
 
             $num_required = ilConditionHandler::lookupObligatoryConditionsOfTarget(
                 $this->getTargetRefId(),
                 $this->getTargetId()
             );
-            $subset_limit['num_compulsory'] =
-                $this->ui_factory->input()
-                                 ->field()
-                                 ->numeric(
-                                     $this->lng->txt('precondition_num_obligatory'),
-                                     $this->lng->txt('precondition_num_optional_info')
-                                 )
-                                 ->withValue($num_required > 0 ? $num_required : null)
-                                 ->withAdditionalTransformation(
-                                     $this->refinery->logical()->parallel(
-                                         [
-                                             $this->refinery->int()->isGreaterThan(0),
-                                             $this->refinery->int()->isLessThan(count($all_conditions))
-                                         ]
-                                     )
-                                 );
-        }
-        if (count($all_conditions) > 1) {
+            $subset_limit['num_compulsory'] = $this->ui_factory->input()->field()
+                ->numeric(
+                    $this->lng->txt('precondition_num_obligatory'),
+                    $this->lng->txt('precondition_num_optional_info')
+                )
+                ->withValue($num_required > 0 ? $num_required : null)
+                ->withAdditionalTransformation(
+                    $this->refinery->custom()->constraint(
+                        fn($val) => $val >= 1,
+                        $this->lng->txt('precondition_number_of_required_materials_lower_than_one')
+                    )
+                )
+                // check if the number of required materials is bigger than compulsory conditions in subset mode
+                ->withAdditionalTransformation(
+                    $this->refinery->custom()->constraint(
+                        function ($val) use ($is_subset_mode, $compulsory_count) {
+                            if ($is_subset_mode) {
+                                return $val >= $compulsory_count + 1;
+                            }
+                            return true;
+                        },
+                        $this->lng->txt('precondition_number_of_required_materials_lower_compulsory_items')
+                    )
+                )
+                ->withAdditionalTransformation(
+                    $this->refinery->custom()->constraint(
+                        fn($val) => $val <= $all_conditions_number - 1,
+                        $this->lng->txt('precondition_number_of_required_materials_bigger_preconditions_number')
+                    )
+                );
             $condition_mode_subset = $this->ui_factory->input()->field()->group(
                 $subset_limit,
                 $this->lng->txt('rbac_precondition_mode_subset'),
@@ -1315,7 +1336,22 @@ class ilConditionHandlerGUI
             $condition->setTriggerType($trigger->getType());
         }
         $condition->setOperator($data['condition_configuration']['operator'][0]);
-        $condition->setObligatory((bool) ($data['condition_configuration']['obligatory'] ?? true));
+
+        $optional_conditions = ilConditionHandler::getPersistedOptionalConditionsOfTarget(
+            $this->getTargetRefId(),
+            $this->getTargetId(),
+            $this->getTargetType()
+        );
+
+        $is_all_mode = (count($optional_conditions) === 0);
+
+        // set condition as obligatory or not based on mode
+        if ($is_all_mode) {
+            $condition->setObligatory(true);
+        } else {
+            $condition->setObligatory(false);
+        }
+
         $condition->setHiddenStatus(ilConditionHandler::lookupPersistedHiddenStatusByTarget($this->getTargetRefId()));
         $condition->setValue($this->extractValueOptionsFromInput($data));
         $condition->enableAutomaticValidation($this->getAutomaticValidation());

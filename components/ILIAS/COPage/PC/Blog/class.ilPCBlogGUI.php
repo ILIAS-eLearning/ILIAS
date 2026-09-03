@@ -250,17 +250,18 @@ class ilPCBlogGUI extends ilPageContentGUI
         }
 
         $options = array();
-        $postings = ilBlogPosting::getAllPostings($a_blog_id);
+        $postings = $this->posting_manger->getAllPostings($a_blog_id);
         if ($postings) {
             foreach ($postings as $post) {
+                /** @var \ILIAS\Blog\Posting\Posting $post */
                 // could be posting from someone else
-                if ($post["author"] == $ilUser->getId()) {
-                    $date = new ilDateTime($post["date"], IL_CAL_DATETIME);
-                    $title = $post["title"] . " - " .
+                if ($post->getAuthor() == $ilUser->getId()) {
+                    $date = $post->getCreated();
+                    $title = $post->getTitle() . " - " .
                         ilDatePresentation::formatDate($date);
 
                     $cbox = new ilCheckboxInputGUI($title, "posting");
-                    $cbox->setValue($post["id"]);
+                    $cbox->setValue((string) $post->getId());
 
                     $options[] = $cbox;
                 }

@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
+use ILIAS\ILIASObject\Properties\Translations\Translations as Translations;
+use ILIAS\Container\Sorting\Export\DataSet as SortingDataSet;
+
 /**
  * container xml importer
  *
@@ -27,12 +31,21 @@ class ilContainerImporter extends ilXmlImporter
     protected ilLogger $cont_log;
     protected \ILIAS\Skill\Service\SkillProfileService $skill_profile_service;
 
+    # Patch Start: Fix multilingualism replaces course title
+    protected string $import_id;
+    protected TranslationsRepository $translations_repository;
+    # Patch End: Fix multilingualism replaces course title
+    protected SortingDataSet $sorting_data_set;
+
     public function init(): void
     {
         global $DIC;
 
+        $this->translations_repository = new TranslationsRepository($DIC->database());
         $this->cont_log = ilLoggerFactory::getLogger('cont');
         $this->skill_profile_service = $DIC->skills()->profile();
+        $this->sorting_data_set = $DIC->container()->internal()->domain()->sorting()->dataSet();
+        $this->sorting_data_set->setDSPrefix("ds");
     }
 
     /**
@@ -42,12 +55,27 @@ class ilContainerImporter extends ilXmlImporter
      */
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
-        $this->structure_xml = $a_xml;
-        $this->cont_log->debug('Import xml: ' . $a_xml);
-        $this->cont_log->debug('Using id: ' . $a_id);
+        if ($a_entity === 'struct') {
+            $this->structure_xml = $a_xml;
+            $this->cont_log->debug('Import xml: ' . $a_xml);
+            $this->cont_log->debug('Using id: ' . $a_id);
 
-        $parser = new ilContainerXmlParser($a_mapping, trim($a_xml));
-        $parser->parse($a_id);
+            $parser = new ilContainerXmlParser($a_mapping, trim($a_xml));
+            $parser->parse($a_id);
+
+            # Patch Start: Fix multilingualism replaces course title
+            $this->import_id = $a_id;
+            # Patch End: Fix multilingualism replaces course title
+        } elseif ($a_entity === 'sorting_settings' || $a_entity === 'sorting') {
+            $this->sorting_data_set->setImportDirectory($this->getImportDirectory());
+            $parser = new ilDataSetImportParser(
+                $a_entity,
+                $this->getSchemaVersion(),
+                $a_xml,
+                $this->sorting_data_set,
+                $a_mapping
+            );
+        }
     }
 
     /**
@@ -55,6 +83,9 @@ class ilContainerImporter extends ilXmlImporter
      */
     public function finalProcessing(ilImportMapping $a_mapping): void
     {
+        if (!isset($this->structure_xml)) {
+            return;
+        }
         $this->handleOfflineStatus($this->structure_xml, $a_mapping);
         // pages
         $page_map = $a_mapping->getMappingsOfEntity('components/ILIAS/COPage', 'pg');
@@ -96,6 +127,19 @@ class ilContainerImporter extends ilXmlImporter
                 ilParticipants::getDefaultMemberRole((int) $new_crs_ref_id)
             );
         }
+
+        # Patch Start: Fix multilingualism replaces course title
+        $obj_id = (int) $a_mapping->getMapping('components/ILIAS/ILIASObject', 'obj', $this->import_id);
+        $translations = $this->translations_repository->getFor($obj_id);
+        $translations_new = new Translations($translations->getObjId(), [], $translations->getDefaultLanguage(), $translations->getBaseLanguage());
+        $languages = $translations->getLanguages();
+        foreach ($languages as $language) {
+            $translations_new = $language->getTitle() === 'NO TITLE'
+                ? $translations_new
+                : $translations_new->withLanguage($language);
+        }
+        $this->translations_repository->store($translations_new);
+        # Patch End: Fix multilingualism replaces course title
     }
 
     protected function handleOfflineStatus(string $xml, ilImportMapping $mapping): void

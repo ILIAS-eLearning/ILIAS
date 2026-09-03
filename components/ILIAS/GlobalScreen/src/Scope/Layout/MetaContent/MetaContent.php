@@ -31,6 +31,7 @@ use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\Js;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\JsCollection;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\OnLoadCode;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\OnLoadCodeCollection;
+use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\VersionParameterFilter;
 use ILIAS\UI\Component\Layout\Page\Standard;
 use ILIAS\Data\Meta\Html\OpenGraph;
 use ILIAS\Data\Meta\Html;
@@ -53,15 +54,33 @@ class MetaContent
     private array $meta_data = [];
     private string $base_url = "";
     private string $text_direction;
+    /**
+     * @var VersionParameterFilter[]
+     */
+    private array $version_parameter_filters = [];
 
+    /**
+     * @param VersionParameterFilter[] $version_parameter_filters
+     */
     public function __construct(
         protected string $resource_version,
         protected bool $append_resource_version = true,
         protected bool $strip_queries = false,
         protected bool $allow_external = true,
         protected bool $allow_non_existing = false,
+        array $version_parameter_filters = [],
     ) {
+        foreach ($version_parameter_filters as $filter) {
+            $this->version_parameter_filters[] = $filter;
+        }
         $this->reset();
+    }
+
+    public function addVersionParameterFilter(VersionParameterFilter $filter): void
+    {
+        $this->version_parameter_filters[] = $filter;
+        $this->css->addVersionParameterFilter($filter);
+        $this->js->addVersionParameterFilter($filter);
     }
 
     public function reset(): void
@@ -71,14 +90,16 @@ class MetaContent
             $this->append_resource_version,
             $this->strip_queries,
             $this->allow_external,
-            $this->allow_non_existing
+            $this->allow_non_existing,
+            $this->version_parameter_filters
         );
         $this->js = new JsCollection(
             $this->resource_version,
             $this->append_resource_version,
             $this->strip_queries,
             $this->allow_external,
-            $this->allow_non_existing
+            $this->allow_non_existing,
+            $this->version_parameter_filters
         );
         $this->on_load_code = new OnLoadCodeCollection(
             $this->resource_version,
@@ -100,12 +121,35 @@ class MetaContent
 
     public function addCss(string $path, string $media = self::MEDIA_SCREEN): void
     {
-        $this->css->addItem(new Css($path, $this->resource_version, $media));
+        $this->css->addItem(new Css($this->toWebPath($path), $this->resource_version, $media));
     }
 
     public function addJs(string $path, bool $add_version_number = false, int $batch = 2): void
     {
-        $this->js->addItem(new Js($path, $this->resource_version, $add_version_number, $batch));
+        $this->js->addItem(
+            new Js($this->toWebPath($path), $this->resource_version, $add_version_number, $batch)
+        );
+    }
+
+    /**
+     * Resources are delivered relative to the web root, but components which know their own
+     * location - plugins in particular, see ilPlugin::getDirectory() - only have an absolute
+     * one at hand. Such a path would be written into the markup verbatim and could never be
+     * requested by a browser, so cut the web root off instead.
+     */
+    private function toWebPath(string $path): string
+    {
+        if (!defined('ILIAS_ABSOLUTE_PATH')) {
+            return $path;
+        }
+
+        $web_root = rtrim(ILIAS_ABSOLUTE_PATH, '/') . '/public/';
+
+        if (str_starts_with($path, $web_root)) {
+            return substr($path, strlen($web_root));
+        }
+
+        return $path;
     }
 
     public function addInlineCss(string $content, string $media = self::MEDIA_SCREEN): void

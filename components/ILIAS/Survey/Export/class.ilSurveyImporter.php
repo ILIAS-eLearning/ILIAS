@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Importer class for files
  * @author Stefan Meyer <meyer@leifos.com>
@@ -90,6 +92,9 @@ class ilSurveyImporter extends ilXmlImporter
                 $newObj->setTitle("dummy");
                 $newObj->create(true);
             }
+            if (!$newObj instanceof ilObjSurvey) {
+                throw new ilObjectNotFoundException("Could not create or load survey " . $a_id);
+            }
             $a_mapping->addMapping('components/ILIAS/Survey', 'svy', $a_id, (string) $newObj->getId());
             $this->setSurvey($newObj);
 
@@ -97,13 +102,13 @@ class ilSurveyImporter extends ilXmlImporter
             [$xml_file] = $this->parseXmlFileNames();
 
             if (!file_exists($xml_file)) {
-                $GLOBALS['ilLog']->write(__METHOD__ . ': Cannot find xml definition: ' . $xml_file);
+                $GLOBALS['ilLog']->info('Cannot find xml definition: ' . $xml_file);
                 return;
             }
-            $GLOBALS['ilLog']->write("getQuestionPoolID = " . $this->getImport()->getConfig("components/ILIAS/Survey")->getQuestionPoolID());
+            $GLOBALS['ilLog']->info("getQuestionPoolID = " . $this->getImport()->getConfig("components/ILIAS/Survey")->getQuestionPoolID());
 
             $import = new SurveyImportParser(
-                $this->getImport()->getConfig("components/ILIAS/Survey")->getQuestionPoolID(),
+                $config->getQuestionPoolID(),
                 $xml_file,
                 true,
                 $a_mapping
@@ -112,7 +117,7 @@ class ilSurveyImporter extends ilXmlImporter
             $import->setSurveyObject($newObj);
             $import->startParsing();
 
-            $a_mapping->addMapping("components/ILIAS/Survey", "svy", (int) $a_id, $newObj->getId());
+            $a_mapping->addMapping("components/ILIAS/Survey", "svy", $a_id, (string) $newObj->getId());
             $a_mapping->addMapping(
                 "components/ILIAS/MetaData",
                 "md",
@@ -133,10 +138,11 @@ class ilSurveyImporter extends ilXmlImporter
 
     /**
      * Create qti and xml file name
+     * @return array{string}
      */
     protected function parseXmlFileNames(): array
     {
-        $GLOBALS['ilLog']->write(__METHOD__ . ': ' . $this->getImportDirectory());
+        $GLOBALS['ilLog']->info($this->getImportDirectory());
 
         $basename = basename($this->getImportDirectory());
         $xml = $this->getImportDirectory() . '/' . $basename . '.xml';

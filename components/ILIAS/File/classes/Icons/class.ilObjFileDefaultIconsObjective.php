@@ -32,7 +32,7 @@ class ilObjFileDefaultIconsObjective implements Objective
     /**
      * @var string
      */
-    private const PATH_DEFAULT_ICON_DIR = __DIR__ . "/../../../../../public/assets/images/default_file_icons/";
+    private const PATH_DEFAULT_ICON_DIR = __DIR__ . "/../../../../../public/assets/default_file_icons/";
 
     public function __construct(
         private bool $reset_default = false,

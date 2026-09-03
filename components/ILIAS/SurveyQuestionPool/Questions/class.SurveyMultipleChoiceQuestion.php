@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -71,7 +73,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
         );
         if ($result->numRows() === 1) {
             $data = $ilDB->fetchAssoc($result);
-            $this->setId($data["question_id"]);
+            $this->setId((int) $data["question_id"]);
             $this->setTitle((string) $data["title"]);
             $this->label = (string) $data['label'];
             $this->setDescription((string) $data["description"]);
@@ -95,7 +97,13 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
             );
             if ($result->numRows() > 0) {
                 while ($data = $ilDB->fetchAssoc($result)) {
-                    $this->categories->addCategory($data["title"], $data["other"], $data["neutral"], null, ($data['scale']) ?: ($data['sequence'] + 1));
+                    $this->categories->addCategory(
+                        (string) $data["title"],
+                        (int) $data["other"],
+                        (int) $data["neutral"],
+                        null,
+                        (int) (($data['scale']) ?: ($data['sequence'] + 1))
+                    );
                 }
             }
         }
@@ -212,27 +220,27 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
             $attrs = array(
                 "id" => $i
             );
-            if (strlen($this->categories->getCategory($i)->other ?? "")) {
+            if ($this->categories->getCategory($i)->other) {
                 $attrs['other'] = $this->categories->getCategory($i)->other;
             }
-            if (strlen($this->categories->getCategory($i)->neutral ?? "")) {
+            if ($this->categories->getCategory($i)->neutral) {
                 $attrs['neutral'] = $this->categories->getCategory($i)->neutral;
             }
             if (strlen($this->categories->getCategory($i)->label ?? "")) {
                 $attrs['label'] = $this->categories->getCategory($i)->label;
             }
-            if (strlen($this->categories->getCategory($i)->scale ?? "")) {
+            if ($this->categories->getCategory($i)->scale) {
                 $attrs['scale'] = $this->categories->getCategory($i)->scale;
             }
             $a_xml_writer->xmlStartTag("response_multiple", $attrs);
-            $this->addMaterialTag($a_xml_writer, $this->categories->getCategory($i)->title);
+            $this->addMaterialTag($a_xml_writer, (string) $this->categories->getCategory($i)->title);
             $a_xml_writer->xmlEndTag("response_multiple");
         }
 
         $a_xml_writer->xmlEndTag("responses");
 
         if (count($this->material)) {
-            if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $this->material["internal_link"], $matches)) {
+            if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", (string) $this->material["internal_link"], $matches)) {
                 $attrs = array(
                     "label" => $this->material["title"]
                 );
@@ -253,7 +261,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
         $a_xml_writer->xmlEndTag("metadatafield");
         $a_xml_writer->xmlStartTag("metadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "use_min_answers");
-        $a_xml_writer->xmlElement("fieldentry", null, $this->use_min_answers);
+        $a_xml_writer->xmlElement("fieldentry", null, (int) $this->use_min_answers);
         $a_xml_writer->xmlEndTag("metadatafield");
         $a_xml_writer->xmlStartTag("metadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "nr_min_answers");
@@ -280,23 +288,23 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 
     public function getWorkingDataFromUserInput(array $post_data): array
     {
-        $entered_value = $post_data[$this->getId() . "_value"] ?? "";
+        $entered_value = $post_data[$this->getId() . "_value"] ?? [];
+        $entered_value = is_array($entered_value) ? $entered_value : [];
         $data = array();
-        if (is_array($entered_value)) {
-            foreach ($entered_value as $idx => $value) {
-                $data[] = array("value" => $value,
-                                "textanswer" => $post_data[$this->getId() . '_' . $value . '_other'] ?? ""
-                );
-            }
+        foreach ($entered_value as $value) {
+            $value = (string) $value;
+            $data[] = array("value" => $value,
+                            "textanswer" => (string) ($post_data[$this->getId() . '_' . $value . '_other'] ?? "")
+            );
         }
         for ($i = 0; $i < $this->categories->getCategoryCount(); $i++) {
             $cat = $this->categories->getCategory($i);
             if ($cat->other) {
                 // #18212
-                if (!is_array($entered_value) || !in_array($i, $entered_value)) {
-                    if (strlen($post_data[$this->getId() . "_" . $i . "_other"] ?? "")) {
+                if (!in_array((string) $i, array_map('strval', $entered_value), true)) {
+                    if (strlen((string) ($post_data[$this->getId() . "_" . $i . "_other"] ?? ""))) {
                         $data[] = array("value" => $i,
-                                        "textanswer" => $post_data[$this->getId() . '_' . $i . '_other'] ?? "",
+                                        "textanswer" => (string) ($post_data[$this->getId() . '_' . $i . '_other'] ?? ""),
                                         "uncheck" => true
                         );
                     }
@@ -334,10 +342,10 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
             $cat = $this->categories->getCategory($i);
             if ($cat->other) {
                 if (in_array($i, $entered_value)) {
-                    if (array_key_exists($this->getId() . "_" . $i . "_other", $post_data) && !strlen($post_data[$this->getId() . "_" . $i . "_other"] ?? "")) {
+                    if (array_key_exists($this->getId() . "_" . $i . "_other", $post_data) && !strlen((string) ($post_data[$this->getId() . "_" . $i . "_other"] ?? ""))) {
                         return $this->lng->txt("question_mr_no_other_answer");
                     }
-                } elseif (strlen($post_data[$this->getId() . "_" . $i . "_other"] ?? "")) {
+                } elseif (strlen((string) ($post_data[$this->getId() . "_" . $i . "_other"] ?? ""))) {
                     return $this->lng->txt("question_mr_no_other_answer_checked");
                 }
             }
@@ -355,26 +363,26 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
         if ($a_return) {
             $return_data = array();
         }
-        if (is_array($post_data[$this->getId() . "_value"] ?? null)) {
-            foreach ($post_data[$this->getId() . "_value"] as $entered_value) {
-                if (strlen($entered_value ?? "") > 0) {
-                    if (!$a_return) {
-                        $next_id = $ilDB->nextId('svy_answer');
+        $entered_values = $post_data[$this->getId() . "_value"] ?? [];
+        foreach (is_array($entered_values) ? $entered_values : [] as $entered_value) {
+            $entered_value = (string) $entered_value;
+            if ($entered_value !== '') {
+                if (!$a_return) {
+                    $next_id = $ilDB->nextId('svy_answer');
 
-                        #20216
-                        $fields = array();
-                        $fields['answer_id'] = array("integer", $next_id);
-                        $fields['question_fi'] = array("integer", $this->getId());
-                        $fields['active_fi'] = array("integer", $active_id);
-                        $fields['value'] = array("float", (strlen($entered_value ?? "")) ? $entered_value : null);
-                        $fields['textanswer'] = array("clob", isset($post_data[$this->getId() . "_" . $entered_value . "_other"]) ? $this->stripSlashesAddSpaceFallback($post_data[$this->getId() . "_" . $entered_value . "_other"]) : null);
-                        $fields['tstamp'] = array("integer", time());
+                    #20216
+                    $fields = array();
+                    $fields['answer_id'] = array("integer", $next_id);
+                    $fields['question_fi'] = array("integer", $this->getId());
+                    $fields['active_fi'] = array("integer", $active_id);
+                    $fields['value'] = array("float", $entered_value);
+                    $fields['textanswer'] = array("clob", isset($post_data[$this->getId() . "_" . $entered_value . "_other"]) ? $this->stripSlashesAddSpaceFallback((string) $post_data[$this->getId() . "_" . $entered_value . "_other"]) : null);
+                    $fields['tstamp'] = array("integer", time());
 
-                        $affectedRows = $ilDB->insert("svy_answer", $fields);
-                    } else {
-                        $return_data[] = array("value" => $entered_value,
-                                "textanswer" => $post_data[$this->getId() . "_" . $entered_value . "_other"] ?? "");
-                    }
+                    $affectedRows = $ilDB->insert("svy_answer", $fields);
+                } else {
+                    $return_data[] = array("value" => $entered_value,
+                            "textanswer" => (string) ($post_data[$this->getId() . "_" . $entered_value . "_other"] ?? ""));
                 }
             }
         }
@@ -389,16 +397,16 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
         foreach ($a_meta as $key => $value) {
             switch ($value["label"]) {
                 case "orientation":
-                    $this->setOrientation($value["entry"]);
+                    $this->setOrientation((int) $value["entry"]);
                     break;
                 case "use_min_answers":
-                    $this->use_min_answers = $value["entry"];
+                    $this->use_min_answers = (bool) filter_var($value["entry"], FILTER_VALIDATE_BOOLEAN);
                     break;
                 case "nr_min_answers":
-                    $this->nr_min_answers = $value["entry"];
+                    $this->nr_min_answers = (string) $value["entry"];
                     break;
                 case "nr_max_answers":
-                    $this->nr_max_answers = $value["entry"];
+                    $this->nr_max_answers = (string) $value["entry"];
                     break;
             }
         }
@@ -412,11 +420,11 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
                 $categorytext .= $material["text"];
             }
             $this->categories->addCategory(
-                $categorytext,
-                strlen($data['other'] ?? "") ? $data['other'] : 0,
-                strlen($data['neutral'] ?? "") ? $data['neutral'] : 0,
-                strlen($data['label'] ?? "") ? $data['label'] : null,
-                strlen($data['scale'] ?? "") ? $data['scale'] : null
+                (string) $categorytext,
+                (int) ($data['other'] ?? 0),
+                (int) ($data['neutral'] ?? 0),
+                ($data['label'] ?? '') !== '' ? (string) $data['label'] : null,
+                ($data['scale'] ?? '') !== '' ? (int) $data['scale'] : null
             );
         }
     }
@@ -459,10 +467,17 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
         // #18136
         $category = $this->categories->getCategoryForScale((int) $value + 1);
 
+        $scale = "";
+        $title = "";
+        if ($category) {
+            $scale = $category->scale;
+            $title = $category->title;
+        }
+
         // #17895 - see getPreconditionOptions()
-        return $category->scale .
+        return $scale .
             " - " .
-            ((strlen($category->title ?? "")) ? $category->title : $this->lng->txt('other_answer'));
+            ((strlen($title)) ? $title : $this->lng->txt('other_answer'));
     }
 
     public function getCategories(): SurveyCategories

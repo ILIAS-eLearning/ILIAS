@@ -2,9 +2,17 @@
     <!-- BEGIN property -->
     <div class="l-bar__group c-listing-property__property">
         <!-- BEGIN label -->
-        <span class="l-bar__element c-listing-property__propertylabel">{LABEL}</span>
+        <div class="l-bar__element c-listing-property__propertylabel<!-- BEGIN has_symbol --> c-listing-property__propertylabel--symbol<!-- END has_symbol -->">{LABEL}</div>
         <!-- END label -->
-        <span class="l-bar__element c-listing-property__propertyvalue">{VALUE}</span>
+        <!-- BEGIN long_value -->
+        <div aria-hidden="true" class="l-bar__element c-listing-property__propertyvalue t-text-more-less">
+            <span class="t-text-more-less__text-body">{LONG_VALUE}</span><input class="t-text-more-less__toggle" type="checkbox" id="{ID_SHOW_MORE_TOGGLE}"> <label class="t-text-more-less__label" for="{ID_SHOW_MORE_TOGGLE}"><span class="t-text-more-less__label__more">{MORE}</span><span class="t-text-more-less__label__less">{LESS}</span></label>
+        </div>
+        <div class="l-bar__element sr-only">{LONG_VALUE}</div>
+        <!-- END long_value -->
+        <!-- BEGIN short_value -->
+        <div class="l-bar__element c-listing-property__propertyvalue">{SHORT_VALUE}</div>
+        <!-- END short_value -->
     </div>
     <!-- END property -->
 </div>

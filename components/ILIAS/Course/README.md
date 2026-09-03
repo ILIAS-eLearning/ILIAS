@@ -30,10 +30,7 @@ conditions:
 
 - This notification has not already been sent for this object.
 - The start of the suggested timeframe is in the past at the time the
-  cron job is executed, and the end is in the future. Note that the time
-  of day is also taken into account here, not only the date. Start and
-  end of the suggested timeframe are always understood as being at
-  00:00 UTC.
+  cron job is executed, and the end is in the future, see [below](#date-handling) for details.
 - Learning progress of the object is not deactivated, and the user 
   does not have the status 'Completed'.
 
@@ -43,8 +40,14 @@ conditions:
 
 - This notification has not already been sent for this object.
 - The end of the suggested timeframe is in the past at the time the
-  cron job is executed. Note that the time of day is also taken into
-  account here, not only the date. The end of the suggested timeframe
-  is always understood as being at 00:00 UTC.
+  cron job is executed, see [below](#date-handling) for details.
 - Learning progress of the object is not deactivated, and the user
   does not have the status 'Completed'.
+
+#### Date Handling
+
+When comparing dates, the time of day is also taken into account,
+not only the date. For absolute dates, start and end of the suggested
+timeframe are always understood as being at 00:00 UTC. For relative
+dates on the other hand, start and end are based on the time the user
+joined the course.

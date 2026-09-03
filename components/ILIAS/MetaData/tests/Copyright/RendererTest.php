@@ -124,31 +124,22 @@ class RendererTest extends TestCase
 
     protected function getMockIcon(): MockObject|Icon
     {
-        return $this->getMockBuilder(IIcon::class)
-                    ->disableOriginalConstructor()
-                    ->getMock();
+        return $this->createStub(IIcon::class);
     }
 
     protected function getMockLink(): MockObject|Link
     {
-        return $this->getMockBuilder(ILink::class)
-                    ->disableOriginalConstructor()
-                    ->onlyMethods(['withAdditionalRelationshipToReferencedResource'])
-                    ->getMock();
+        return $this->createStub(ILink::class);
     }
 
     protected function getMockLegacy(): MockObject|Content
     {
-        return $this->getMockBuilder(ILegacy::class)
-                    ->disableOriginalConstructor()
-                    ->getMock();
+        return $this->createStub(ILegacy::class);
     }
 
     protected function getMockURI(string $link): URI
     {
-        $uri = $this->getMockBuilder(URI::class)
-                    ->disableOriginalConstructor()
-                    ->getMock();
+        $uri = $this->createStub(URI::class);
         $uri->method('__toString')->willReturn($link);
         return $uri;
     }

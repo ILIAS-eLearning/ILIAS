@@ -81,17 +81,45 @@ class ilKioskPageRenderer
         );
     }
 
+    public function addOnLoadCode(string $code, int $batch = 2): void
+    {
+        $this->layout_meta_content->addOnloadCode($code, $batch);
+    }
+
+    public function addJs(string $path, bool $add_version_number = false, int $batch = 2): void
+    {
+        $this->layout_meta_content->addJs($path, $add_version_number, $batch);
+    }
+
+    public function addCss(string $path): void
+    {
+        $this->layout_meta_content->addCss($path);
+    }
+
     public function render(
         LSControlBuilder $control_builder,
         string $obj_title,
+        string $obj_description,
         Component $icon,
-        array $content
+        array $content,
+        string $obj_rating_html = ''
     ): string {
         $this->tpl->setVariable(
             "OBJECT_ICON",
             $this->ui_renderer->render($icon)
         );
         $this->tpl->setVariable("OBJECT_TITLE", $obj_title);
+
+        $obj_description = trim($obj_description);
+        if ($obj_description !== '') {
+            $this->tpl->setCurrentBlock('obj_desc');
+            $this->tpl->setVariable(
+                'OBJECT_DESCRIPTION',
+                nl2br(ilLegacyFormElementsUtil::prepareFormOutput($obj_description, true))
+            );
+            $this->tpl->parseCurrentBlock();
+        }
+        $this->tpl->setVariable('OBJECT_RATING', $obj_rating_html);
 
         $this->tpl->setVariable(
             "PLAYER_NAVIGATION",

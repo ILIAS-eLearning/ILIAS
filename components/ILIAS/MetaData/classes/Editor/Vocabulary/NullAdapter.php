@@ -86,6 +86,7 @@ class NullAdapter implements AdapterInterface
 
     public function sourceMapForSlot(SlotIdentifier $slot): \Closure
     {
-        return function () {};
+        return function () {
+        };
     }
 }

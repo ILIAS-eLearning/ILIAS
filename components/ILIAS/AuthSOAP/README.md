@@ -31,7 +31,9 @@ goto.php?clientid=abc&target=crs_123&soap_pw=kjWjb34&ext_uid=500
 SOAP call to the external server:
 
 There is an example implementation of a SOAP server (=external master system)
-in classes/class.ilSoapDummyAuthServer.php). The main soap call is:
+in src/SoapDummyAuthServer.php (`ILIAS\AuthSOAP`). Public test endpoints are provided
+as `auth/soap/example/dummy_server.php` and `auth/soap/example/dummy_client.php`. The main
+soap call is:
 
 isValidSession:
 in:

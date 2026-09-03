@@ -30,31 +30,31 @@ class ilCollectionTest extends TestCase
 {
     public function testNodeInfoAttributeCollection(): void
     {
-        $logger = $this->createMock(ilLogger::class);
-        $node_info = $this->createMock(ilXMLFileNodeInfoDOMNodeHandler::class);
-        $node_info->expects($this->any())->method('getValueOfAttribute')->willReturnMap([
+        $logger = $this->createStub(ilLogger::class);
+        $node_info = $this->createStub(ilXMLFileNodeInfoDOMNodeHandler::class);
+        $node_info->method('getValueOfAttribute')->willReturnMap([
             ['key1', 'val1'],
             ['key2', 'val2'],
             ['key3', 'val3'],
         ]);
-        $node_info->expects($this->any())->method('hasAttribute')->willReturnMap([
+        $node_info->method('hasAttribute')->willReturnMap([
             ['key1', true],
             ['key2', true],
             ['key3', true],
             ['key4', false]
         ]);
-        $pair1 = $this->createMock(ilXMLFileNodeInfoAttributePair::class);
-        $pair1->expects($this->any())->method('getKey')->willReturn('key1');
-        $pair1->expects($this->any())->method('getValue')->willReturn('val1');
-        $pair2 = $this->createMock(ilXMLFileNodeInfoAttributePair::class);
-        $pair2->expects($this->any())->method('getKey')->willReturn('key2');
-        $pair2->expects($this->any())->method('getValue')->willReturn('val2');
-        $pair3 = $this->createMock(ilXMLFileNodeInfoAttributePair::class);
-        $pair3->expects($this->any())->method('getKey')->willReturn('key3');
-        $pair3->expects($this->any())->method('getValue')->willReturn('val3');
-        $pair4 = $this->createMock(ilXMLFileNodeInfoAttributePair::class);
-        $pair4->expects($this->any())->method('getKey')->willReturn('key4');
-        $pair4->expects($this->any())->method('getValue')->willReturn('val4');
+        $pair1 = $this->createStub(ilXMLFileNodeInfoAttributePair::class);
+        $pair1->method('getKey')->willReturn('key1');
+        $pair1->method('getValue')->willReturn('val1');
+        $pair2 = $this->createStub(ilXMLFileNodeInfoAttributePair::class);
+        $pair2->method('getKey')->willReturn('key2');
+        $pair2->method('getValue')->willReturn('val2');
+        $pair3 = $this->createStub(ilXMLFileNodeInfoAttributePair::class);
+        $pair3->method('getKey')->willReturn('key3');
+        $pair3->method('getValue')->willReturn('val3');
+        $pair4 = $this->createStub(ilXMLFileNodeInfoAttributePair::class);
+        $pair4->method('getKey')->willReturn('key4');
+        $pair4->method('getValue')->willReturn('val4');
 
         $collection = (new ilXMLFileNodeInfoAttributeCollection($logger))
             ->withElement($pair1)

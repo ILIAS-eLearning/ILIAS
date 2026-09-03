@@ -562,7 +562,7 @@ assessment#:#change_adm_categories_not_allowed#:#You do not have any permissions
 assessment#:#checkbox_checked#:#Checked
 assessment#:#checkbox_unchecked#:#Unchecked
 assessment#:#circle#:#Circle
-assessment#:#circle_click_center#:#Please click on center of the desired area.
+assessment#:#circle_click_center#:#Please click on the centre of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
 assessment#:#client_ip_range#:#Client IP Range
 assessment#:#clientip#:#Client IP
@@ -802,9 +802,9 @@ assessment#:#lacex_assClozeTest_NumberOfResultExpression_d#:#The fourth answer o
 assessment#:#lacex_assClozeTest_NumberOfResultExpression_e#:#R[4] = +2+
 assessment#:#lacex_assClozeTest_NumericResultExpression_d#:#The second answer option is a numeric gap and was answered with the numeric value 5
 assessment#:#lacex_assClozeTest_NumericResultExpression_e#:#R[2] = #5#
-assessment#:#lacex_assClozeTest_StringResultExpression_1_d#:#The first answer option is a text gap and was answered with „Monday“
+assessment#:#lacex_assClozeTest_StringResultExpression_1_d#:#The first answer option is a text gap and was answered with "Monday"
 assessment#:#lacex_assClozeTest_StringResultExpression_1_e#:#R[1] = ~Monday~
-assessment#:#lacex_assClozeTest_StringResultExpression_2_d#:#The fourth answer option is a select gap and the option labeled as „Green“ was selected
+assessment#:#lacex_assClozeTest_StringResultExpression_2_d#:#The fourth answer option is a select gap and the option labelled as "Green" was selected
 assessment#:#lacex_assClozeTest_StringResultExpression_2_e#:#R[4] = ~Green~
 assessment#:#lacex_assErrorText_ExclusiveResultExpression_d#:#Exactly the answer options 1, 3 and 4 were chosen while answering the question
 assessment#:#lacex_assErrorText_ExclusiveResultExpression_e#:#R = *1,3,4*
@@ -886,7 +886,7 @@ assessment#:#logs_test_run_finished#:#Test Run Finished
 assessment#:#logs_test_run_of_participant_closed#:#Run of Participant Closed
 assessment#:#logs_test_run_started#:#Test Run Started
 assessment#:#logs_wrong_test_password_provided#:#Participant entered wrong test password.
-assessment#:#longmenu#:#Longmenu
+assessment#:#longmenu#:#Long Menu
 assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.
 assessment#:#longmenu_text#:#Long Menu Text
 assessment#:#mainbar_button_label_questionlist#:#Question List
@@ -1099,8 +1099,8 @@ assessment#:#qpl_qst_inp_matching_mode_all_on_all#:#One or More Terms match One 
 assessment#:#qpl_qst_inp_matching_mode_one_on_one#:#One Term Matches One Definition (1:1)
 assessment#:#qpl_qst_skl_assign_properties_modified#:#The assignment's properties has been modified.
 assessment#:#qpl_qst_skl_assign_synced_to_orig#:#The competence assignments has been synchronised to the questions original.
-assessment#:#qpl_qst_skl_assigns_updated#:#The competence assignments has been updated.
-assessment#:#qpl_qst_skl_selection_for_question_header#:#Compence Assignments for Question: %s
+assessment#:#qpl_qst_skl_assigns_updated#:#Competence assignments updated.
+assessment#:#qpl_qst_skl_selection_for_question_header#:#Competence Assignments for Question: %s
 assessment#:#qpl_qst_skl_usg_numq_col#:#Number of Questions in Pool adressing this competence
 assessment#:#qpl_qst_skl_usg_skill_col#:#Competence
 assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Total Sum of Competence-Points per Competence
@@ -1109,11 +1109,11 @@ assessment#:#qpl_questions_deleted#:#Question(s) removed.
 assessment#:#qpl_reset_preview#:#Reset Preview
 assessment#:#qpl_save_skill_assigns_update#:#Save Competence Assignments
 assessment#:#qpl_settings_availability#:#Availability
-assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Existing taxonomies in this pool are offered for question filtering.
-assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomy Filter as Navigation Tree
-assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#When a taxonomy is selected, it well be presented as navigation tree instead of a table filter item.
+assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Taxonomies can be used as filters in the ‘Questions’ tab.
+assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomy as Tree View
+assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#The selected taxonomy is displayed in a tree view in the „Questions” tab. It will not appear in the filter anymore.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Use No Navigation Tree Filter
-assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Show Taxonomies
+assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Taxonomies
 assessment#:#qpl_settings_subtab_general#:#General Settings
 assessment#:#qpl_settings_subtab_taxonomies#:#Taxonomies
 assessment#:#qpl_skill_point_eval_by_quest_result#:#Evaluation of Competence Points by Question Result
@@ -1145,7 +1145,7 @@ assessment#:#qst_lifecycle_rejected#:#Rejected
 assessment#:#qst_lifecycle_review#:#To be Reviewed
 assessment#:#qst_lifecycle_sharable#:#Shareable
 assessment#:#qst_nested_nested_answers_off#:#No indents, just order
-assessment#:#qst_nested_nested_answers_on#:#Use indents in anwers
+assessment#:#qst_nested_nested_answers_on#:#Use indents in answers
 assessment#:#qst_nr_of_tries#:#Number of Tries
 assessment#:#qst_preview_reset_msg#:#The preview has been reset.
 assessment#:#qst_use_nested_answers#:#Nested answers
@@ -1165,7 +1165,7 @@ assessment#:#question_summary#:#Test Attempt Overview
 assessment#:#question_summary_btn#:#Test Attempt Overview
 assessment#:#question_title#:#Question Title
 assessment#:#question_type#:#Question Type
-assessment#:#questionlist_cannot_be_altered#:#The questionlist cannot be altered as the test already contains participant data sets.
+assessment#:#questionlist_cannot_be_altered#:#The question list cannot be altered as the test already contains participant data sets.
 assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!
 assessment#:#questionpool_not_selected#:#Please select a question pool!
 assessment#:#questions#:#Questions
@@ -1276,8 +1276,8 @@ assessment#:#show_best_solution#:#Show best solution
 assessment#:#show_detailed_results#:#Show User’s Detailed Results (Marked Pass)
 assessment#:#show_examview_html#:#On screen
 assessment#:#show_hide_best_solution#:#Show or hide best solution
-assessment#:#show_old_concluding_remarks#:#Show old conlcuding remarks
-assessment#:#show_old_introduction#:#Show old introduction
+assessment#:#show_old_concluding_remarks#:#Show Old Concluding Remarks
+assessment#:#show_old_introduction#:#Show Old Introduction
 assessment#:#show_pass_overview#:#Show Marked Pass Overview
 assessment#:#show_results#:#Show Results
 assessment#:#show_user_answers#:#Show User’s Marked Answers
@@ -1366,10 +1366,10 @@ assessment#:#tst_activate_skill_service_desc#:#Allow questions to be assigned to
 assessment#:#tst_activation_limited_visibility_info#:#Before and after the period during which the test is available,  the test's title will be displayed, but participants won’t be able to take the test. Access, including to tests already in progress, will be prevented once the period of availability has ended.
 assessment#:#tst_activation_online_info#:#Participants can take the test if it is ‘Online’.
 assessment#:#tst_add_quest_cont_edit_mode#:#Editor
-assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Use plain text for questions and answers and ILIAS page editor for feedback
-assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#No formatting of text in question and answers. No use of LaTex either. But feedback can be reused when question is embedded in ILIAS learning module.
-assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Use Rich-Text-Editor (TinyMCE) for editing questions and answers and feedbacks
-assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of questions, answers and feedbacks. But feedback cannot be reused when question is embedded in ILIAS learning module.
+assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Use plain text when creating questions and answer options
+assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#When creating or editing questions and answer options, the text cannot be formatted. Feedback however, can be formatted using the ILIAS page editor and also reused if the question is embedded in an ILIAS learning module.
+assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Use Rich-Text-Editor (TinyMCE) for editing questions, answers options and feedback
+assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#When creating or editing questions, answer options, and feedback, the text can be formatted. However, feedback will not be carried across if the question is embedded in an ILIAS learning module.
 assessment#:#tst_add_quest_cont_edit_mode_plain#:#Use plain text
 assessment#:#tst_add_quest_cont_edit_mode_plain_info#:#No formatting of text in question, answers and feedback.
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.
@@ -1471,6 +1471,7 @@ assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tes
 assessment#:#tst_eval_total_passed_average_time#:#Average Time on Task of All Passed Tests
 assessment#:#tst_eval_total_persons#:#Total number of participants who started the test
 assessment#:#tst_exam_access_code#:#Access Code
+assessment#:#tst_exam_access_code_invalid_message#:#The code you provided is invalid.
 assessment#:#tst_exam_access_code_label#:#Enter access code to continue your already started test. Leave the field empty to start a new test run.
 assessment#:#tst_exam_conditions#:#Exam Conditions
 assessment#:#tst_exam_conditions_label#:#Check this box to confirm that you accept the conditions.
@@ -1581,9 +1582,9 @@ assessment#:#tst_instant_feedback_solution#:#Best Possible Answer
 assessment#:#tst_instant_feedback_solution_desc#:#Participants will be shown the best possible answer to the question. Please select below how the feedback should be triggered.
 assessment#:#tst_instant_feedback_trigger#:#Feedback Trigger
 assessment#:#tst_instant_feedback_trigger_forced#:#Answering a question
-assessment#:#tst_instant_feedback_trigger_forced_desc#:#Feedback is available, but is only displayed when a participant triggers it manually.
-assessment#:#tst_instant_feedback_trigger_manual#:#Participants can Trigger the Feedback Manually
-assessment#:#tst_instant_feedback_trigger_manual_desc#:#The feedback is availble but will only be shown when a participant triggers the presentation manually.
+assessment#:#tst_instant_feedback_trigger_forced_desc#:#Feedback is shown automatically when a question is answered.
+assessment#:#tst_instant_feedback_trigger_manual#:#Manual trigger
+assessment#:#tst_instant_feedback_trigger_manual_desc#:#Feedback is available, but is only displayed when a participant triggers it manually.
 assessment#:#tst_introduction#:#Introductory Message
 assessment#:#tst_introduction_desc#:#Display an introductory message in the ‘Test’ tab. This message can be edited in the 'Edit Introduction' sub tab of these settings and is already accessible to users before starting the test.
 assessment#:#tst_introduction_text#:#Introductory Message
@@ -1696,7 +1697,8 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#The started pa
 assessment#:#tst_objective_progress_header#:#Learning Objective Progress
 assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress
 assessment#:#tst_old_style_rnd_quest_set_broken#:#This random test is in a irreparable state, because one or more connected question pools have been deleted. Therefor participants cannot take the test any longer.
-assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Question related to already passed learning objectives are optional.</b><br /><br />You want to navigate to a question, that relates to an already passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on these questions. Your answers from previous attempts were not adopted, since new random questions were selected for this attempt. With working on this questions you can also degrade your learning objective result.<br /><br />If you decide to not work on these questions, you can go back. In this case these questions won't be considered in the evaluation.
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back.
+assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Questions for already passed learning objectives are optional.</b><br /><br />The next questions are assigned to already passed learning objectives.<br /><br />If you continue, you can work through these questions. Your results in the related learning objectives may change.<br /><br />If you go back, the questions will not factor into the evaluation of this test.
 assessment#:#tst_out_of_time_message#:#The time available for taking this test has expired.
 assessment#:#tst_participant#:#Participant
 assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
@@ -1936,7 +1938,7 @@ assessment#:#tst_tab_results_objective_oriented#:#Test Results by Learning Objec
 assessment#:#tst_tab_results_pass_oriented#:#Test Results by Attempts
 assessment#:#tst_tbl_col_answered_questions#:#Answered Questions
 assessment#:#tst_tbl_col_final_mark#:#Mark
-assessment#:#tst_tbl_col_finished_passes#:#Finished Passes
+assessment#:#tst_tbl_col_finished_passes#:#Finished Attempts
 assessment#:#tst_tbl_col_finished_passes_num_of#:#%s of %s
 assessment#:#tst_tbl_col_last_scored_access#:#Last Scored Access
 assessment#:#tst_tbl_col_pass_finished#:#Pass Finished
@@ -2014,7 +2016,7 @@ assessment#:#use_previous_solution_advice#:#The solution shown is your solution 
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.
 assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.
 assessment#:#user_not_invited#:#You are not supposed to take this test.
-assessment#:#usr_manscoring_complete#:#Marke as 'scored'
+assessment#:#usr_manscoring_complete#:#Marked as 'scored'
 assessment#:#value_between_x_and_y#:#The value should be between %s and %s
 assessment#:#values#:#Values
 assessment#:#variable#:#Variable
@@ -2504,7 +2506,7 @@ blog#:#blog_no_keywords#:#No keywords have been entered yet.
 blog#:#blog_notification_activated#:#Notifications Activated
 blog#:#blog_notification_deactivated#:#Notifications Deactivated
 blog#:#blog_notification_toggle_off#:#Deactivate Notifications
-blog#:#blog_notification_toggle_on#:#Activate Notification
+blog#:#blog_notification_toggle_on#:#Activate Notifications
 blog#:#blog_number_users_notes_or_comments#:#Number of users who have attached notes or comments to this post
 blog#:#blog_posting#:#Blog Post
 blog#:#blog_posting_deleted#:#Post successfully deleted.
@@ -2538,11 +2540,13 @@ book#:#book_add_participant#:#Add Participant
 book#:#book_add_schedule#:#Add Schedule
 book#:#book_additional_info_file#:#Additional Description
 book#:#book_all#:#Show all
+book#:#book_all_day#:#All-Day
 book#:#book_all_pools_need_schedules#:#Settings not saved. All selected booking pools need to have at least one schedule.
 book#:#book_all_users#:#All Participants
 book#:#book_assign#:#Book
 book#:#book_assign_object#:#Book Items for Participant
-book#:#book_assign_participant#:#Book for Other Participant(s)
+book#:#book_assign_participant#:#Book for Other Participant
+book#:#book_assign_participants#:#Book for other Participant(s)
 book#:#book_back_to_list#:#Back to List
 book#:#book_bobj#:#Bookable Item
 book#:#book_book#:#Book
@@ -2564,9 +2568,13 @@ book#:#book_confirm_booking_schedule_number_of_objects#:#Booking Confirmation
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Please enter the number of items that you would like to book.
 book#:#book_confirm_cancel#:#Are you sure you want to cancel the following booking(s)?
 book#:#book_confirm_cancel_aggregation#:#Number of Cancellations
-book#:#book_confirm_delete#:#Are you sure you want to delete the following items?
+book#:#book_confirm_cancel_info#:#The selected bookings will be cancelled.
+book#:#book_confirm_delete#:#Are you sure you want to delete the following items including all related time slots? This will also delete all related Bookings.
+book#:#book_confirm_remove_participant#:#Are you sure you want to remove the following Participant(s)? This will delete all related Bookings.
 book#:#book_copy#:#Copy Booking Pool
 book#:#book_create_objects#:#Create Items
+book#:#book_date_from#:#From date
+book#:#book_date_to#:#To date
 book#:#book_deadline#:#Deadline
 book#:#book_deadline_hours#:#X hours before time slot begins
 book#:#book_deadline_info#:#Minimum time between booking and booked period
@@ -2574,11 +2582,18 @@ book#:#book_deadline_options#:#Bookings Can Be Made Until:
 book#:#book_deadline_slot_end#:#Time slot ends
 book#:#book_deadline_slot_start#:#Time slot begins
 book#:#book_deassign#:#Edit Bookings
+book#:#book_delete_object#:#Delete
+book#:#book_deleted_booking#:#Deleted Booking(s)
+book#:#book_deleted_object#:#Deleted Bookable Item
 book#:#book_download_info#:#Download Additional Description
 book#:#book_edit#:#Edit Booking Pool
 book#:#book_edit_object#:#Edit Bookable Item
 book#:#book_edit_schedule#:#Edit Schedule
+book#:#book_filter_end_date#:#End Date
+book#:#book_filter_objects#:#Bookable Items
 book#:#book_filter_past_reservations#:#Show Past Bookings
+book#:#book_filter_period#:#Period
+book#:#book_filter_start_date#:#Start Date
 book#:#book_fromto#:#Date Range
 book#:#book_hours#:#Hours before start of timeslot.
 book#:#book_is_used#:#In Use
@@ -2593,14 +2608,23 @@ book#:#book_messages#:#Messages
 book#:#book_messages_info#:#Allow users to add a message when booking an item.
 book#:#book_missing_availability#:#It was not possible to book all items on all dates.
 book#:#book_missing_items#:#$1 missing item(s).
+book#:#book_modal_booking_confirmation#:#Booking Confirmation
+book#:#book_modal_enter_quantity_intro#:#Please enter the number of items that you would like to book.
+book#:#book_modal_recurrence#:#Recurrence
+book#:#book_modal_recurrence_multiple#:#Book multiple dates
+book#:#book_modal_recurrence_single#:#Book only this date
+book#:#book_modal_skipped_unknown_item#:#Unknown or invalid selection (%s).
+book#:#book_modal_warning_skipped_selections#:#Some selected items or periods are not available for booking and are excluded from this confirmation.
 book#:#book_new#:#New Booking Pool
 book#:#book_no_bookings_for_you#:#No bookings have been made for you.
 book#:#book_no_objects#:#No Bookings
+book#:#book_no_objects_available#:#None of the selected items are currently available for booking.
 book#:#book_no_of_objects#:#No. of Units
 book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.
 book#:#book_no_preferences_for_you#:#No preferences have been recorded for you.
 book#:#book_no_recurrence#:#Book only this date
 book#:#book_not#:#Not
+book#:#book_not_cancelled#:#Not cancelled
 book#:#book_not_enough_preferences#:#You have not selected enough preferences. Your preferences have not been saved.
 book#:#book_notification#:#Send Booking Notifications
 book#:#book_notification_cron_not_active#:#Note: The necessary cron job, 'Send Reservation Notifications', is currently not active.
@@ -2612,18 +2636,24 @@ book#:#book_obj_select#:#Select
 book#:#book_object_added#:#Bookable item added.
 book#:#book_object_deleted#:#Bookable item deleted.
 book#:#book_object_selection#:#Item Selection
+book#:#book_object_title_or_description#:#Title/Description
 book#:#book_object_updated#:#Bookable item updated.
 book#:#book_objects_available#:#Items available %s
 book#:#book_open#:#Open Booking Pool
 book#:#book_overall_limit#:#Limit Total Number of Bookings per User
 book#:#book_overall_limit_warning#:#You have reached the maximum number of bookings allowed.
+book#:#book_overall_limit_would_be_exceeded#:#Invalid selection. The overall limit would be exceeded.
+book#:#book_participant#:#Participant
 book#:#book_participant_already_assigned#:#One or more participants have already been added.
 book#:#book_participant_assigned#:#Participant(s) added.
+book#:#book_participant_removed#:#The participants and all related bookings have been removed successfully.
+book#:#book_past_bookings#:#Past bookings
 book#:#book_period#:#Period
 book#:#book_pool_added#:#Booking pool successfully created.
 book#:#book_pool_selection#:#Booking Pool Selection
 book#:#book_post_booking_file#:#File
 book#:#book_post_booking_information#:#Booking Information
+book#:#book_post_booking_information_for#:#Booking Information for "%s"
 book#:#book_post_booking_text#:#Text
 book#:#book_post_booking_text_info#:#Use placeholders to include booking-specific information. <br />[OBJECT] will be replaced by the respective Bookable Item. <br />[PERIOD] will be replaced by the respective schedule.
 book#:#book_pref_book_cron#:#Booking with Preferences
@@ -2634,6 +2664,7 @@ book#:#book_pref_overview#:#Overview
 book#:#book_preference_info#:#Please select %1 preference(s) by %2. After this deadline, bookings will be allocated automatically, taking into consideration the preferences of all users.
 book#:#book_preferences#:#Preferences
 book#:#book_preferences_saved#:#Your preferences have been saved.
+book#:#book_present_bookings#:#Present bookings
 book#:#book_public_log#:#Bookings Visible to All Participants
 book#:#book_public_log_info#:#Users with the ‘Read’ permission are able to see the bookings of the other participants in the ‘Bookings’ tab.
 book#:#book_recurrence#:#Recurrence
@@ -2644,14 +2675,16 @@ book#:#book_reminder_day#:#Send Reminder
 book#:#book_reminder_day_info#:#Send list of own bookings to users and full list of all upcoming bookings to admins. Please note: in order to receive reminders, users need to have activated notifications via the ‘Actions’ menu at the top right-hand corner of the booking pool.
 book#:#book_reminder_days#:#day(s) before time-slot of booking
 book#:#book_reminder_setting#:#Reminder
+book#:#book_remove_participants#:#Remove Participant(s)
 book#:#book_rerun_assignments#:#Run Allocation Process
 book#:#book_rerun_confirmation#:#Attention. The process of allocating bookings according to preferences has already taken place. You may restart the process if any errors have occurred, e.g. no bookings have been saved. To prevent multiple allocations, please delete all existing bookings before restarting the process.
 book#:#book_reservation_available#:#%s available
+book#:#book_reservation_cancelled#:#Reservation(s) cancelled.
 book#:#book_reservation_confirmed#:#Your booking has been confirmed.
 book#:#book_reservation_failed#:#It was not possible to confirm your booking.
 book#:#book_reservation_failed_overbooked#:#Your booking failed because the bookable item in question is no longer available.
-book#:#book_reservation_filter_period#:#Default Value for ‘Date Range’ Filter
-book#:#book_reservation_filter_period_info#:#The default value for the ‘Date Range’ filter in the ‘Bookings’ tab (in days from the current date).
+book#:#book_reservation_filter_period#:#Default Value for ’Period’ Filter
+book#:#book_reservation_filter_period_info#:#The default value for the ‘Period’ filter in the ‘Bookings’ and 'Bookable Items' tab (in days from the current date). With a value '0'  no filter is set.
 book#:#book_reservation_fix_info#:#Bookings can only be made for the time slots shown as available below.
 book#:#book_reservation_overview#:#Bookings Overview
 book#:#book_reservation_status_5#:#Cancelled
@@ -2659,6 +2692,7 @@ book#:#book_reservation_title#:#Booking Reservation for
 book#:#book_reservations_list#:#Bookings
 book#:#book_schedule#:#Schedule
 book#:#book_schedule_added#:#Booking schedule added.
+book#:#book_schedule_all_day#:#All-Day Schedule
 book#:#book_schedule_days#:#Time Slots
 book#:#book_schedule_days_info#:#Valid booking times for each day (HH:MM-HH:MM)
 book#:#book_schedule_deleted#:#Booking schedule deleted.
@@ -2679,23 +2713,35 @@ book#:#book_select_pool#:#Select Pool
 book#:#book_set_cancel#:#Cancel Booking
 book#:#book_set_delete#:#Delete Booking
 book#:#book_show_message#:#Show Message
+book#:#book_show_past_bookings#:#Show past bookings
+book#:#book_some_reservations_unavailable#:#Some of the selected items could not be booked because they are no longer available.
+book#:#book_table#:#Table
+book#:#book_table_col_availability#:#Availability
+book#:#book_table_col_datetime#:#Date/Time
 book#:#book_title_description_nr#:#Title; Description; Number of Units
 book#:#book_title_description_nr_info#:#Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item.
 book#:#book_too_many_preferences#:#You have selected too many preferences. Your preferences have not been saved.
 book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.
 book#:#book_type_warning#:#There are currently no bookable items available. Please create some bookable items to be able to use this booking pool.
+book#:#book_view#:#View
 book#:#book_week#:#Week
+book#:#book_week_no_objects_selected#:#Select at least one Bookable Item at the ‘Item Selection’ section on the right and click the ‘Refresh’ button.
 book#:#book_your_bookings#:#Your Bookings
 book#:#book_your_preferences#:#Your Preferences
 book#:#book_your_reservations#:#Your Bookings
 book#:#booking_multiple_succesfully#:#Bookings successfully carried out.
 book#:#booking_nr_of_items#:#Number of Items
+book#:#booking_process_error#:#There was an error while processing your booking(s). Please try again.
+book#:#bookings_log#:#Bookings
+book#:#delete_bookable_item#:#Delete Bookable Item
+book#:#no_valid_selection#:#No valid selection
 book#:#obj_book_duplicate#:#Copy Booking Pool
 book#:#participants#:#Participants
 book#:#reservation_deleted#:#Booking deleted.
+book#:#schedule_type#:#Schedule Type
 buddysystem#:#buddy_allow_to_contact_me#:#Allow Contact Requests
 buddysystem#:#buddy_allow_to_contact_me_default_info#:#Defines if users can send each other requests for getting into contact by default.
-buddysystem#:#buddy_allow_to_contact_me_info#:#Other users are able to send me request for getting into contact.
+buddysystem#:#buddy_allow_to_contact_me_info#:#Allow other users to send you contact requests.
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Confirm Request
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Cancel Request
 buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Unlink
@@ -2885,6 +2931,7 @@ certificate#:#persistent_certificate_mode_instant#:#Instant
 certificate#:#persistent_certificate_mode_instant_info#:#This option is recommended for systems with low up to medium levels of user interaction. Systems that tend towards longer loading times during the creation of multiple user certificates should switch to the ‘Cron Job’ option.
 chatroom#:#allow_anonymous#:#Allow Anonymous Login
 chatroom#:#allow_custom_usernames#:#Allow Custom User Names
+chatroom#:#allow_custom_usernames_info#:#Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room.
 chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the ‘Permissions’ tab to allow anonymous user access to this repository item.
 chatroom#:#auto_scroll#:#Scroll to Bottom
 chatroom#:#autogen_usernames#:#Auto Generated User Names
@@ -2920,9 +2967,12 @@ chatroom#:#chat_https_dhparam_info#:#Please define an absolute server path to a 
 chatroom#:#chat_https_key_info#:#Please define an absolute server path to the private key file (e.g..: /etc/ssl/private/server.key).
 chatroom#:#chat_invitation#:#"[INVITER_NAME]" invites you into chat room "[ROOM_NAME]"
 chatroom#:#chat_invitation_long#:#[SALUTATION][BR][BR]You have been invited to a chat room:[BR]Chat Room Title: [ROOM_NAME][BR]Invited by: [INVITER_NAME][BR]URL: [LINK][BR][BR]To join the chat room, please follow the given URL.
+chatroom#:#chat_invitation_modal_headline#:#Invitation to Chat Room
+chatroom#:#chat_invitation_modal_section#:#Invite User
 chatroom#:#chat_invitation_nc_inv_x#:#You have %s chat invitations.
 chatroom#:#chat_invitation_nc_no_inv#:#You have no chat invitations.
 chatroom#:#chat_invitation_short#:#Please click the link to enter the chat room.
+chatroom#:#chat_invitation_username_input_label#:#Enter Username:
 chatroom#:#chat_invitations#:#Chat invitations
 chatroom#:#chat_invite#:#Invite
 chatroom#:#chat_join#:#Join
@@ -2980,6 +3030,7 @@ chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Room
 chatroom#:#chat_user_x_is_typing#:#User %s is typing ...
 chatroom#:#chat_users_are_typing#:#Multiple users are typing ...
 chatroom#:#chat_whisper#:#Whisper
+chatroom#:#chatroom_anonymous_default#:#Anonymous #
 chatroom#:#chatroom_auth#:#Authentication
 chatroom#:#chatroom_auth_btn_txt#:#Generate Keys
 chatroom#:#chatroom_auth_key#:#Authentication-Key
@@ -3430,7 +3481,7 @@ cntr#:#cntr_switch_to_new_editor_message#:#This is the supported standard editor
 cntr#:#cntr_switched_editor#:#Switched to new content.
 cntr#:#cntr_tax_none_available#:#There are no taxonomies available.
 cntr#:#cntr_tax_settings_info#:#Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the "Metadata" tabs and the "Taxonomy Assignment" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's "Contents" tab to enable direct filtering of the assigned objects.
-cntr#:#cntr_taxonomy_definitions#:#Taxonomy Definition
+cntr#:#cntr_taxonomy_definitions#:#Taxonomies
 cntr#:#cntr_taxonomy_show_sideblock#:#Present in Side Panel
 cntr#:#cntr_taxonomy_sideblock_settings#:#Presentation Settings
 cntr#:#cntr_text_media_editor#:#Edit Page
@@ -3596,7 +3647,7 @@ common#:#auth_soap_namespace#:#Namespace
 common#:#auth_soap_namespace_desc#:#As defined in WSDL. Must be specified, if .NET SOAP style is used.
 common#:#auth_soap_port_desc#:#E.g. 8080 if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php
 common#:#auth_soap_server_desc#:#E.g. auth.yourserver.com if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php
-common#:#auth_soap_settings_saved#:#SOAP authentication settings saved
+common#:#auth_soap_settings_saved#:#SOAP authentication settings saved.
 common#:#auth_soap_uri_desc#:#Local URI, e.g. dir/server.php if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php
 common#:#auth_soap_use_dotnet#:#Use .NET SOAP Style
 common#:#auth_soap_use_https#:#Use HTTPS
@@ -3706,7 +3757,7 @@ common#:#check_languages#:#Check All Languages
 common#:#check_link#:#Weblink check
 common#:#check_link_desc#:#If enabled all external links in ILIAS learning modules will be checked if they are active.
 common#:#check_user_accounts#:#Check user accounts
-common#:#check_user_accounts_desc#:#If enabled, all users whose account expires will be informed by e-mail two weeks before. Furthermore all users which have not confirmed their account after a registration with e-mail confirmation will be deleted.
+common#:#check_user_accounts_desc#:#If enabled, all users whose account expires will be informed by e-mail two weeks before.
 common#:#check_web_resources#:#Check Weblinks
 common#:#check_web_resources_desc#:#If enabled all Weblinks will be checked if they are active.
 common#:#checked#:#Checked
@@ -3900,7 +3951,7 @@ common#:#default_skin_style#:#Default Skin / Style
 common#:#default_style#:#Default Style
 common#:#defaults#:#Defaults
 common#:#delete#:#Delete
-common#:#delete_existing_file#:#Delete Existing File
+common#:#delete_existing_file#:#Delete existing file
 common#:#delete_inactivated_user_accounts#:#Delete inactivated user accounts
 common#:#delete_inactivated_user_accounts_desc#:#If enabled, user accounts will be deleted %s days after their inactivation.
 common#:#delete_inactivated_user_accounts_include_roles#:#Considered roles
@@ -4181,8 +4232,8 @@ common#:#forums_anonymized#:#Forum anonymized
 common#:#forums_anonymous#:#anonym
 common#:#forums_articles#:#Posts
 common#:#forums_closed#:#closed
-common#:#forums_disable_forum_notification#:#Disable Notification for this Forum
-common#:#forums_enable_forum_notification#:#Enable Notification for this Forum
+common#:#forums_disable_forum_notification#:#Disable Notifications for This Forum
+common#:#forums_enable_forum_notification#:#Enable Notifications for This Forum
 common#:#forums_forum_notification_enabled#:#You will be notified about new posts in this forum.
 common#:#forums_last_post#:#Latest Post
 common#:#forums_last_posting_asc#:#Last Post Ascending
@@ -4430,7 +4481,7 @@ common#:#italic_action#:#Insert Italic - Click to insert italic text.
 common#:#item#:#Item
 common#:#itgr_add#:#Add Item Group
 common#:#itgr_new#:#New Item Group
-common#:#java_server#:#Java-Server
+common#:#java_server#:#PDF Configuration
 common#:#java_server_host#:#Host
 common#:#java_server_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###Needs to be adapted to new content of German lang file.
 common#:#java_server_port#:#Port
@@ -4587,12 +4638,14 @@ common#:#mail_maxsize_attach#:#Max. attachment size
 common#:#mail_member#:#Mail to Member
 common#:#mail_members#:#Mail to Members
 common#:#mail_message_scheduled#:#Scheduled mail
-common#:#mail_message_scheduled_info#:#Mails remain in the outbox until the scheduled sending time.
+common#:#mail_message_scheduled_info#:#Scheduled mails remain in the outbox until the chosen sending time. When editing, they are temporarily moved to drafts so they are not sent while you are editing. After scheduling again, they reappear in the outbox.
 common#:#mail_not_sent#:#Mail not sent!
 common#:#mail_schedule_error_no_datetime#:#To schedule a mail, a delivery date and time must be specified.
 common#:#mail_schedule_error_past_datetime#:#You cannot schedule emails in the past.
 common#:#mail_schedule_scheduled_datetime#:#Scheduled Send Time
 common#:#mail_scheduled#:#Mail stored in outbox for later delivery.
+common#:#mail_scheduled_edit_compose_info#:#You are editing a scheduled mail. Sending is paused until you schedule the mail again.
+common#:#mail_scheduled_edit_moved_info#:#This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox.
 common#:#mail_search_no#:#No entries found.
 common#:#mail_select_one#:#You must select one mail
 common#:#mail_send_error#:#Error sending mail
@@ -4770,7 +4823,7 @@ common#:#msg_no_perm_paste#:#You have no permission to paste the following objec
 common#:#msg_no_perm_paste_object_in_folder#:#You have no permission to paste the object %s in the folder %s.
 common#:#msg_no_perm_perm#:#You have no permission to change permission settings.
 common#:#msg_no_perm_read#:#You have no permission to access this item.
-common#:#msg_no_perm_read_item#:#You have no permission to access item '%s’.
+common#:#msg_no_perm_read_item#:#You have no permission to access the object.
 common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.
 common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user
 common#:#msg_no_perm_write#:#You have no permission to edit settings.
@@ -5084,7 +5137,7 @@ common#:#obj_scov#:#SCORM Certificate
 common#:#obj_seas#:#Search
 common#:#obj_seas_desc#:#Manage the search settings here.
 common#:#obj_serv#:#Server
-common#:#obj_serv_desc#:#Settings of the sever
+common#:#obj_serv_desc#:#Status of Server, Settings and PDF Configuration
 common#:#obj_sess#:#Session
 common#:#obj_sess_duplicate#:#Copy Session
 common#:#obj_skmg#:#Competence Management
@@ -5109,7 +5162,7 @@ common#:#obj_tala_desc#:#Talk Templates
 common#:#obj_tals#:#Employee Talk Series
 common#:#obj_talt#:#Talk Template
 common#:#obj_task#:#Task
-common#:#obj_tax#:#Taxonomy
+common#:#obj_tax#:#Taxonomies within this object
 common#:#obj_taxf#:#Taxonomies
 common#:#obj_tool_setting_calendar#:#Calendar Block
 common#:#obj_tool_setting_calendar_active#:#Calendar
@@ -5330,6 +5383,7 @@ common#:#preconditions_optional_hint#:#You have to fulfill <b>%s</b> of the foll
 common#:#predefined_template#:#Predefined role template
 common#:#preferences#:#Preferences
 common#:#presentation_table_more#:#Show More
+common#:#presenter#:#Presenter
 common#:#preview#:#Preview
 common#:#preview_create#:#Create Preview
 common#:#preview_delete#:#Delete Preview
@@ -5407,6 +5461,8 @@ common#:#refresh#:#Refresh
 common#:#refresh_languages#:#Refresh All Languages
 common#:#refuse#:#Refuse Request
 common#:#reg_account_confirmation_successful#:#Your user account has been activated.
+common#:#reg_delete_expired_pending_registrations#:#Delete Expired Pending Registrations
+common#:#reg_delete_expired_pending_registrations_desc#:#Deletes all ILIAS accounts that have not been confirmed after a registration with e-mail confirmation.
 common#:#reg_goto_parent_membership_info#:#Only members can access the target object.
 common#:#reg_mail_body_2_confirmation#:#This link is only valid for %s. After this period has passed, the link will expire and you will have to restart the registration process from the beginning.
 common#:#reg_mail_body_3_confirmation#:#If this e-mail means nothing to you, then it is possible that somebody else has entered your e-mail address either deliberately or accidentally, so please ignore this e-mail.
@@ -5495,7 +5551,7 @@ common#:#row#:#Row
 common#:#rows#:#Rows
 common#:#rpc_pdf_font#:#Fonts
 common#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than ‘Helvetica’ and ‘unifont’ must be installed on the ILIAS server.
-common#:#rpc_pdf_generation#:#PDF-Generation
+common#:#rpc_pdf_generation#:#Fonts for PDF Generation
 common#:#sad#:#Sad
 common#:#sahs#:#Learning Module SCORM
 common#:#sahs_added#:#SCORM Learning Module added
@@ -5533,7 +5589,7 @@ common#:#scorm_login_as_learner_id_info#:#If enabled, the Username instead of th
 common#:#scorm_lp_auto_activate#:#Default setting for learning progress
 common#:#scorm_lp_auto_activate_info#:#If learning progress is activated in general, the settings for new SCORM learning modules are set to ‘Collection of SCORM Items’ and all SCOs are selected for learning progress determination. Adjustments are still possible for every SCORM learning module.
 common#:#scorm_new#:#Create SCORM Learning Module (Authoring Mode)
-common#:#scorm_without_session#:#SCORM 2004: enable storing data without session
+common#:#scorm_without_session#:#SCORM 2004: Data Storage Without Session
 common#:#scorm_without_session_info#:#This ensures the storage of SCORM 2004 learning data even if ILIAS session expired. For SCORM 1.2, storage without session is always enabled.
 common#:#search#:#Search
 common#:#search_active#:#Include active users
@@ -5652,6 +5708,7 @@ common#:#show_content#:#Show Content
 common#:#show_details#:#Show Details
 common#:#show_filter#:#Show Filter
 common#:#show_hidden_sections#:#Show More Information &raquo;
+common#:#show_less#:#Show less
 common#:#show_list#:#Show List
 common#:#show_members#:#Display Members
 common#:#show_more#:#Show More
@@ -5978,7 +6035,6 @@ common#:#webdav_chosen_language_already_used#:#There already is another document
 common#:#webdav_doc_delete#:#Delete WebDav Mount Instructions
 common#:#webdav_docs_mount_instructions#:#Mount Instructions Documents
 common#:#webdav_duplicate_detected_title#:#Following objects could not be displayed, because an object with the same Title is already being shown:
-common#:#webdav_enable_versioning#:#File Versioning
 common#:#webdav_forbidden_chars_title#:#Following files cannot be displayed, because they contain one or more forbidden characters (\<>/:*?"|#):
 common#:#webdav_form_document#:#Instructions Document
 common#:#webdav_form_document_info#:#Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information
@@ -5997,7 +6053,6 @@ common#:#webdav_sure_delete_documents_s#:#Are you sure you want to delete the Mo
 common#:#webdav_tbl_docs_head_title#:#Dokument title
 common#:#webdav_tbl_docs_title#:#List of uploaded WebDAV Mount Instructions
 common#:#webdav_upload_instructions#:#Upload Instructions
-common#:#webdav_versioning_info#:#If enabled, already existing files will get a new version instead of beeing overwritten.
 common#:#webfolder_dir_info#:#You got here, because your browser can't open web folders. Read the <a href="%1$s">instructions for opening web folders</a>.
 common#:#webfolder_index_of#:#Index of %1$s
 common#:#webfolder_instructions#:#Web folder instructions
@@ -7039,7 +7094,7 @@ content#:#cont_sc_stat_running#:#Running
 content#:#cont_sc_store_if_previous_score_was_lower#:#if achieved score in previous attempt was higher or equal
 content#:#cont_sc_title#:#title
 content#:#cont_sc_usession#:#Prevent from Logging-Out Automatically
-content#:#cont_sc_usession_info#:#Periodical requests will be sent to ILIAS to keep the session alive. Otherwise ILIAS will categorize working on the learning module as idleness, terminate the session and loose the tracking data.
+content#:#cont_sc_usession_info#:#While working on a learning module, logging out of ILIAS can be disruptive and lead to the loss of learning data. The SCORM RTE regularly sends requests to ILIAS to prevent automatic logouts. To prevent the loss of learning data for SCORM 2004, please also activate the "SCORM 2004: Data Storage Without Session" option. For SCORM 1.2, this option is permanently enabled. You can find this option in the system-wide administration of learning modules.
 content#:#cont_sc_version#:#Version of Learning Module
 content#:#cont_sc_version_info#:#The version number is provided automatically by the version management of the learning module.
 content#:#cont_scheduled_activation#:#Scheduled Activation
@@ -7367,6 +7422,7 @@ copg#:#copg_cron_keep_entries_info#:#This number is the minimum of entries that 
 copg#:#copg_days#:#Days
 copg#:#copg_details#:#Details
 copg#:#copg_edit_iframe_title#:#Text Editing of Page Editor
+copg#:#copg_edit_style_class#:#Edit Style Class
 copg#:#copg_entries#:#Entries
 copg#:#copg_error#:#Error
 copg#:#copg_error_occured_modal#:#An error occured while processing the page. Hit "Reload Page" to return to the previously saved state.
@@ -7389,6 +7445,7 @@ copg#:#copg_questions_not_supported_here#:#Questions are not supported in this c
 copg#:#copg_reload_page#:#Reload Page
 copg#:#copg_remove_formats#:#Remove Formatting
 copg#:#copg_sec_link_info#:#Select a target for linking the block. Attention: In this case, the content of the block must not contain any further links itself!
+copg#:#copg_select_two_versions#:#Select exactly two versions of the page to compare.
 copg#:#copg_snippet_cannot_be_edited#:#This is a predefined content snippet and cannot be edited here.
 copg#:#copg_templates#:#Templates
 copg#:#copg_unsupported_media_type#:#This media object has an unsupported media type.
@@ -7668,7 +7725,7 @@ crs#:#crs_loc_settings_type_q_all_info#:#Mastery of all learning objectives is e
 crs#:#crs_loc_settings_type_q_selected#:#Separate Final Test for Each Objective
 crs#:#crs_loc_settings_type_q_selected_info#:#Participants are presented with a separate mastery test for each learning objective.
 crs#:#crs_loc_subtab_creation#:#Create
-crs#:#crs_loc_suggested#:#Please work through the following learning materials.
+crs#:#crs_loc_suggested#:#Please work through the listed materials and then take the final test to pass the learning objective.
 crs#:#crs_loc_tab_itest#:#Initial Test
 crs#:#crs_loc_tab_itests#:#Initial Tests
 crs#:#crs_loc_tab_materials#:#Material
@@ -7848,7 +7905,7 @@ crs#:#crs_select_archive_language#:#Please select a language for the archive
 crs#:#crs_select_one_archive#:#Please select one archive
 crs#:#crs_select_starter#:#Select Start Object
 crs#:#crs_settings#:#Course Settings
-crs#:#crs_settings_saved#:#Settings saved
+crs#:#crs_settings_saved#:#Settings saved.
 crs#:#crs_shorten_breadcrumb#:#Breadcrumb
 crs#:#crs_show_all_obj#:#Expand All
 crs#:#crs_show_member_export#:#Participants List
@@ -7858,9 +7915,7 @@ crs#:#crs_show_members#:#Show Members
 crs#:#crs_show_members_info#:#Allow course members to see a list of all course participants via the ‘Members’ tab.
 crs#:#crs_size#:#File size
 crs#:#crs_sort_activation#:#Sort by Activation
-crs#:#crs_sort_manual#:#Sort Manually
 crs#:#crs_sort_timing_info#:#Sort course items be their activation time or timings settings.
-crs#:#crs_sort_title#:#Titles in Alphabetical Order
 crs#:#crs_start#:#Start
 crs#:#crs_start_objects#:#Start Objects
 crs#:#crs_starter_delete_sure#:#Are you sure you want to delete the following start objects?
@@ -8031,7 +8086,7 @@ crs#:#event_title#:#Title
 crs#:#event_tutor_data#:#Presentation by
 crs#:#event_unregister#:#Unregister
 crs#:#event_unregistered#:#You have been unregistered.
-crs#:#event_updated#:#Settings saved
+crs#:#event_updated#:#Settings saved.
 crs#:#event_user_selection#:#Selection of Users
 crs#:#event_user_selection_include_filter#:#Include "%1$s"
 crs#:#event_user_selection_include_requests#:#Include all users on list "Join Requests"
@@ -8089,6 +8144,8 @@ crs#:#tutorial_support_block_title#:#Contact Person
 crs#:#user_fields#:#User Fields
 crsv#:#crsv_create#:#Create Course Certificate
 crsv#:#crsv_create_info#:#Select a completed course to generate a certificate for it
+dash#:#add_to_favourites#:#Add to Favourites
+dash#:#added_to_favourites#:#The item has been added to your favourites.
 dash#:#dash_activation#:#activation
 dash#:#dash_added_to_favs#:#Recommendation has been added to personal favourites.
 dash#:#dash_avail_presentation#:#Available Presentations
@@ -8126,7 +8183,6 @@ dash#:#dash_item_removed#:#Recommendation has been removed from the list.
 dash#:#dash_learning_sequences#:#My Learning Sequences
 dash#:#dash_list#:#List
 dash#:#dash_main_panel#:#Main Panel
-dash#:#dash_make_favourite#:#Add to Favourites
 dash#:#dash_manual_new_item_pos#:#Position of New Objects
 dash#:#dash_manual_new_item_pos_bot#:#Bottom
 dash#:#dash_manual_new_item_pos_top#:#Top
@@ -8154,6 +8210,8 @@ dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’
 dash#:#dash_view_favourites#:#Section ‘Favourites’
 dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.
 dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.
+dash#:#remove_from_favourites#:#Remove from Favourites
+dash#:#removed_from_favourites#:#The item has been removed from your favourites.
 dash#:#topitem_block#:#Block
 dateplaner#:#Fr_long#:#Friday
 dateplaner#:#Fr_short#:#Fr
@@ -8685,7 +8743,7 @@ dcl#:#dcl_file_not_readable#:#The file could not be read. Please make sure that 
 dcl#:#dcl_filter#:#Available in Filter
 dcl#:#dcl_filter_changeable#:#Filter Changeable
 dcl#:#dcl_formula#:#Formula
-dcl#:#dcl_formula_desc#:#Similar to when using a spreadsheet, entries can be combined or calculated using a formula. 
+dcl#:#dcl_formula_desc#:#Similar to when using a spreadsheet, entries can be combined or calculated using a formula.
 dcl#:#dcl_formula_detail_desc#:#Entries in this field are generated automatically. You cannot enter or edit information in this field.
 dcl#:#dcl_height#:#Height in Pixels
 dcl#:#dcl_height_desc#:#The height of the file will be reduced to this value during upload.
@@ -8734,7 +8792,7 @@ dcl#:#dcl_msg_table_edited#:#Table settings saved.
 dcl#:#dcl_msg_tableview_created#:#View created.
 dcl#:#dcl_msg_tableview_deleted#:#View deleted.
 dcl#:#dcl_msg_tableview_updated#:#View updated.
-dcl#:#dcl_msg_tableviews_delete_all#:#Deletion not possible. There must be at least one view in existence. 
+dcl#:#dcl_msg_tableviews_delete_all#:#Deletion not possible. There must be at least one view in existence.
 dcl#:#dcl_multiple_selection#:#Multiple Selection
 dcl#:#dcl_new#:#Create New Data Collection
 dcl#:#dcl_new_entries#:#New Entries
@@ -8771,7 +8829,7 @@ dcl#:#dcl_owner#:#Owner
 dcl#:#dcl_owner_description#:#The owner of the entry.
 dcl#:#dcl_owner_name#:#Owner (Name)
 dcl#:#dcl_page_type_dclf#:#Data Collection Detailed View
-dcl#:#dcl_placeholder_info#:#In order for the data from the fields of this table to be shown in this detailed view, please enter the corresponding placeholders for those fields. Those placeholders are listed in the tool bars of the page elements 'Text' and 'Data Table'. 
+dcl#:#dcl_placeholder_info#:#In order for the data from the fields of this table to be shown in this detailed view, please enter the corresponding placeholders for those fields. Those placeholders are listed in the tool bars of the page elements 'Text' and 'Data Table'.
 dcl#:#dcl_please_select#:#--- Please select ---
 dcl#:#dcl_prop_expression#:#Expression
 dcl#:#dcl_prop_expression_info#:#Valid operators: <b>%s</b><br>Supported functions: <b>%s</b><br>Use brackets <b>‘(’, ‘)’</b> to group calculations.<br>Concatenate strings and placeholders with &: <b>‘The result is ’ & [[Int 1]] * [[Int2]]</b><br>Using functions: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Allowed fields (click on a title to use as a placeholder within the expression):<br>%s<br><b>(Allowed fields are checkbox, number, text and date that don’t contain any formula-sensitive characters inside their titles)</b>
@@ -8781,7 +8839,7 @@ dcl#:#dcl_record#:#Entry
 dcl#:#dcl_record_deleted#:#Entry deleted.
 dcl#:#dcl_record_settings#:#Entry Settings
 dcl#:#dcl_reference#:#Reference
-dcl#:#dcl_reference_desc#:#A field which will display selected entries made in another field. This other field can be located in a different table. Changes made to the original entry will affect the version displayed in this field. 
+dcl#:#dcl_reference_desc#:#A field which will display selected entries made in another field. This other field can be located in a different table. Changes made to the original entry will affect the version displayed in this field.
 dcl#:#dcl_reference_link#:#Link Referenced Entry
 dcl#:#dcl_reference_link_info#:#Please note: You need to have set up and activated a ‘Detailed View’ template in the table in which the referenced entry is located.
 dcl#:#dcl_reference_title#:#Referenced Field
@@ -8858,7 +8916,7 @@ dcl#:#dcl_wrong_regex#:#The text you entered does not fulfil the requirements of
 dcl#:#dcl_xls_async_export#:#as XLSX (asynchronous)
 dcl#:#disable_comments#:#Disable Comments
 dcl#:#disable_visible#:#Disable Visible
-dcl#:#duplicate_entries_exist#:#Some of the existing values for this field are identical. Please make sure that all existing entries have unique values for this field in order to change this setting. 
+dcl#:#duplicate_entries_exist#:#Some of the existing values for this field are identical. Please make sure that all existing entries have unique values for this field in order to change this setting.
 dcl#:#enable_comments#:#Enable Comments
 dcl#:#enable_visible#:#Enable Visible
 dcl#:#entry_of#:#Entry %1$d of %2$d
@@ -9612,7 +9670,7 @@ exc#:#exc_submission_and_grades_notification_link#:#Link to "Submissions and Gra
 exc#:#exc_submission_downloads_notification_link#:#Download new submissions: %s
 exc#:#exc_submission_file#:#Submission File
 exc#:#exc_submission_no_new_files#:#No new submissions available.
-exc#:#exc_submission_notification#:#E-Mail Notification on Submissions
+exc#:#exc_submission_notification#:#E-Mail Notification
 exc#:#exc_submission_notification_body#:#A new submission for exercise "%s" has been uploaded.
 exc#:#exc_submission_notification_info#:#You will be notified when submissions are uploaded or individual deadlines are requested. This is a personal setting which does not affect other administrators of the exercise.
 exc#:#exc_submission_notification_link#:#Link to exercise: %s
@@ -9805,7 +9863,7 @@ file#:#copyright_custom#:#Custom
 file#:#copyright_custom_info#:#Choose a custom copyright which will be applied to all unzipped files of this archive.
 file#:#copyright_inherited#:#Inherited
 file#:#copyright_inherited_info#:#Apply the copyright of the zip archive to its unzipped files. <br \>Copyright of zip archive: %s.
-file#:#could_not_create_file_objs#:#An error occurred while creating your file objects. Please contact the administrators of this platform.
+file#:#could_not_create_file_objs#:#An error occurred while creating your file objects. Please contact this installation's technical support.
 file#:#de_activate_icon#:#Activate / Deactivate
 file#:#download_ascii_filename#:#Allow Only ASCII Characters in Downloaded Filenames
 file#:#download_ascii_filename_info#:#Downloaded files should only have ASCII-characters in their filename. Deactivate to use all characters.
@@ -10245,6 +10303,7 @@ glo#:#glo_really_remove_from_collection#:#Are you sure you want to remove the fo
 glo#:#glo_reference#:#Reference
 glo#:#glo_reference_terms#:#Reference Terms
 glo#:#glo_referenced_term#:#Referenced Term
+glo#:#glo_remove_glossary#:##Are you sure you want to remove the following glossary from the list of auto-linked glossaries?
 glo#:#glo_removed_from_collection_info#:#The glossary has been removed from the collection glossary.
 glo#:#glo_reset_all_boxes#:#Reset All Boxes
 glo#:#glo_save_and_continue#:#Save and Continue
@@ -10457,6 +10516,7 @@ gsfo#:#entries_add#:#Add Entry
 gsfo#:#entries_edit#:#entries_edit
 gsfo#:#entries_parent#:#Select Group
 gsfo#:#entries_select_parent#:#Move Entry to Group
+gsfo#:#entries_target_group#:#Select target group
 gsfo#:#entry_action#:#Link
 gsfo#:#entry_action_info#:#Provide the full URL including the protocol (e.g. https://www.ilias.de)
 gsfo#:#entry_activation_toggled#:#Activation has been toggled
@@ -10465,6 +10525,7 @@ gsfo#:#entry_active_info#:#Activate this Entry
 gsfo#:#entry_add#:#Add Entry
 gsfo#:#entry_delete#:#Delete
 gsfo#:#entry_deleted#:#Deleted
+gsfo#:#entry_deleted_failed#:#Deletion not possible
 gsfo#:#entry_edit#:#Edit
 gsfo#:#entry_external#:#Open in new Tab
 gsfo#:#entry_move#:#Move
@@ -10487,6 +10548,7 @@ gsfo#:#group_toggle_activation#:#(De-)Activate
 gsfo#:#group_translate#:#Translate
 gsfo#:#info_not_deletable_core#:#Default Items cannot be deleted.
 gsfo#:#info_not_deletable_not_empty#:#Groups with Entries cannot be deleted.
+gsfo#:#item_moved#:#Entry moved
 gsfo#:#legal_information#:#Legal Information
 gsfo#:#order_saved#:#Order saved
 gsfo#:#permanent#:#permanent
@@ -10612,6 +10674,7 @@ iass#:#iass_file_dropzone#:#you can drop your files here
 iass#:#iass_file_required#:#Record file required
 iass#:#iass_file_required_info#:#A record file has to be uploaded to each participant record.
 iass#:#iass_file_visible_examinee#:#File visible for participant
+iass#:#iass_file_visible_examinee_info#:#Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled.
 iass#:#iass_filter_all#:#All
 iass#:#iass_filter_failed#:#Failed only
 iass#:#iass_filter_finalized#:#Completed only
@@ -10632,7 +10695,7 @@ iass#:#iass_membership_finalized#:#Record finalised
 iass#:#iass_membership_saved#:#Record saved, not yet finalised
 iass#:#iass_mess_notification_completed#:#You passed the assessment <i>%s</i>. Please check the following grading record for details:
 iass#:#iass_mess_notification_failed#:#You failed the assessment <i>%s</i>. Please check the following grading record for details:
-iass#:#iass_notify#:#Make Result available to Participant
+iass#:#iass_notify#:#Make Result Available to Participant
 iass#:#iass_notify_explanation#:#The participant will be notified via e-mail after finalisation and will get access to her or his record on the Info screen.
 iass#:#iass_phone#:#Phone
 iass#:#iass_place#:#Place of assessment
@@ -10732,10 +10795,18 @@ irss#:#upload_modal_title#:#Add Files
 itgr#:#itgr_always_open#:#Always Open
 itgr#:#itgr_assign_materials#:#Assign Materials
 itgr#:#itgr_assigned_materials#:#Assigned Materials
-itgr#:#itgr_assignment#:#Assigned
+itgr#:#itgr_assignment#:#Assigned to this Item Group
+itgr#:#itgr_assignment_to_other_itgr#:#Already assigned to another Item Group
 itgr#:#itgr_behaviour#:#Block Behaviour
 itgr#:#itgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.
+itgr#:#itgr_display#:#Display
+itgr#:#itgr_display_with_title#:#With Title
+itgr#:#itgr_display_with_title_and_toggleable#:#With Title, Item Group collapsible
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Initial state
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#initially closed
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#initially opened
+itgr#:#itgr_display_without_title#:#Without Title
 itgr#:#itgr_edit#:#Edit Item Groups
 itgr#:#itgr_expandable_closed#:#Expandable (initially closed)
 itgr#:#itgr_expandable_open#:#Expandable (initially opened)
@@ -10745,8 +10816,6 @@ itgr#:#itgr_list_default#:#Default
 itgr#:#itgr_list_default_info#:#Inherits value from upper container.
 itgr#:#itgr_list_presentation#:#Item Presentation
 itgr#:#itgr_materials#:#Materials
-itgr#:#itgr_show_title#:#Show Title
-itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.
 itgr#:#itgr_tile#:#Tiles
 itgr#:#itgr_tile_size#:#Tile Size
 jscalendar#:#about_calendar#:#About the calendar
@@ -11055,29 +11124,22 @@ lng#:#lng_disable_language_detection#:#Disable Language Detection
 lng#:#lng_download_deprecated#:#Download Deprecated List
 lng#:#lng_enable_language_detection#:#Enable Language Detection
 lng#:#lng_switch_language_detection#:#Switch Language Detection
-log#:#log_browser#:#Browser Console Log
-log#:#log_browser_users#:#Usernames Using Console Log
-log#:#log_cache_#:#Caching
-log#:#log_cache_info#:#Only if a message reaches or surpasses the caching level, all messages which have at least the log level will be added to the log for the current request.
-log#:#log_cache_level#:#Caching-Level
 log#:#log_component_btn_reset#:#Reset Settings
 log#:#log_component_col_component#:#Component
 log#:#log_component_col_level#:#Log-Level
-log#:#log_component_root_desc#:#Leg-Level for message which are not assigned to any component.
+log#:#log_component_unknown#:#Unknown (%s)
 log#:#log_components#:#Components
-log#:#log_general_settings#:#Logging Settings
 log#:#log_level_alert#:#ALERT
 log#:#log_level_critical#:#CRITICAL
 log#:#log_level_debug#:#DEBUG
+log#:#log_level_default#:#Default (%s)
 log#:#log_level_emergency#:#EMERGENCY
 log#:#log_level_error#:#ERROR
 log#:#log_level_info#:#INFO
 log#:#log_level_notice#:#NOTICE
 log#:#log_level_off#:#Disabled
 log#:#log_level_warning#:#WARNING
-log#:#log_log_level#:#Log Level
-log#:#log_memory#:#Log Memory Usage
-logging#:#error_settings_saved#:#Settings saved
+logging#:#error_settings_saved#:#Settings saved.
 logging#:#frm_clear_older_then#:#Deletes files older then
 logging#:#frm_clear_older_then_info#:#Please enter duration in days.
 logging#:#log_error_file_cleanup_info#:#Deletes old or orphand files of error log.
@@ -11170,7 +11232,6 @@ lso#:#lso_print_list#:#Generate list
 lso#:#lso_read#:#User has read access to Learning Sequence
 lso#:#lso_search_users#:#Look Up Users
 lso#:#lso_settings_availability#:#Availability
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date
 lso#:#lso_settings_extro#:#Edit Exit Page
 lso#:#lso_settings_intro#:#Edit Intro Page
 lso#:#lso_settings_old_extro#:#View Old Exit Page
@@ -11207,6 +11268,10 @@ lti#:#conf_privacy_ident_il_uuid_ext_account#:#External User ID combined with a 
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
 lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail address
 lti#:#conf_privacy_ident_il_uuid_login_info#:#Sends the login name. This is identical to each call, but may allow a direct conclusion about the ILIAS user.
+lti#:#conf_privacy_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256url#:#Hash combined with the ILIAS Domain formatted as an E-Mail address.###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256url_info#:#This is identical to each call, with with a maximum of 80 characters significantly shorter than the variant with the ILIAS platform ID and allows only very limited conclusions about the ILIAS user.###04 12 2025 new variable
 lti#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formatted as an E-Mail address
 lti#:#conf_privacy_ident_il_uuid_user_id_info#:#Sends the internal numeric user id. This is identical to each call, but may allow conclusions about the ILIAS user.
 lti#:#conf_privacy_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:
@@ -11292,13 +11357,16 @@ lti#:#launched#:#Resource was already launched.
 lti#:#learning_progress_options#:#Options for Learning Progress
 lti#:#lm_only_one_download_per_type#:#Only one file per type (XML, HTML, SCORM) can be released publicly.
 lti#:#lti13_hints#:#If the tool was created without dynamic registration, the following data must be entered for the tool to run.
+lti#:#lti_13_authentication_url#:#Authentication Request URL###04 12 2025 new variable
 lti#:#lti_13_client_id#:#Client-ID
 lti#:#lti_13_deployment_id#:#Deployment-ID
+lti#:#lti_13_keyset_url#:#Public Keyset URL###04 12 2025 new variable
 lti#:#lti_13_platform_id#:#Platform-ID
 lti#:#lti_13_step1#:#Step 1
 lti#:#lti_13_step1_info#:#For the initiating platform (consumer), enter the following address for Launch URL, Initiate Login URL, Redirection URI, and Registration URL:
 lti#:#lti_13_step2#:#Step 2
 lti#:#lti_13_step2_info#:#You will receive information from the initiating platform (Consumer), which you must enter in the following fields. After saving, the LTI 1.3 functionalities are available.
+lti#:#lti_13_token_url#:#Access Token URL###04 12 2025 new variable
 lti#:#lti_action_accept_provider_as_global#:#Accept Provider as Global Provider for all Users
 lti#:#lti_action_accept_providers_as_global#:#Accept Providers as Global
 lti#:#lti_action_delete_providers#:#Delete Providers
@@ -11312,6 +11380,8 @@ lti#:#lti_at_least_one_prov_has_usages#:#At least one provider could not be dele
 lti#:#lti_auth_failed_invalid_key#:#Authentication failed, no valid consumer key given.
 lti#:#lti_con_content_item#:#Support for Deep Linking
 lti#:#lti_con_content_item_url#:#Content URL
+lti#:#lti_con_grade_synchronization#:#Assignment and Grade Services###04 12 2025 new variable
+lti#:#lti_con_grade_synchronization_info#:#The LTI tool must offer 'Assignment and Grade Services'.###04 12 2025 new variable
 lti#:#lti_con_initiate_login_url#:#Initiate Login URL
 lti#:#lti_con_key_type#:#Public Key Type
 lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)
@@ -11331,6 +11401,10 @@ lti#:#lti_con_prov_category_info#:#Category to filter entries when LTI Consumer 
 lti#:#lti_con_prov_custom_params#:#Custom Parameters for this specific Provider
 lti#:#lti_con_prov_custom_params_info#:#Please enter them in the form param1=value1; param2=value2
 lti#:#lti_con_prov_description#:#Description
+lti#:#lti_con_prov_dyn_reg_params#:#Optional Parameters###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_params_info#:#Here, for example, references to target objects in the tool can be specified.###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_url#:#Registration URL of the Tool###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_url_info#:#Note: Not every tool supports dynamic registration.###04 12 2025 new variable
 lti#:#lti_con_prov_external_provider#:#External Provider
 lti#:#lti_con_prov_external_provider_info#:#A hint will be shown to users when dealing with an external Provider. An external Provider is characterized by insufficient influence on the Provider by the operator of the ILIAS-installation. This is the case when there are no rights to delete.
 lti#:#lti_con_prov_group_options#:#Options to group and filter Providers
@@ -11375,7 +11449,7 @@ lti#:#lti_con_prov_xapi_launch_secret_info#:#&nbsp;
 lti#:#lti_con_prov_xapi_launch_url#:#URL of LRS Endpoint
 lti#:#lti_con_prov_xapi_launch_url_info#:#Please add full URL with https://
 lti#:#lti_con_redirection_uris#:#Redirection URI
-lti#:#lti_con_tool_url#:#Login URL
+lti#:#lti_con_tool_url#:#Launch URL
 lti#:#lti_con_version#:#LTI Version
 lti#:#lti_con_version_1.1#:#Version 1.1
 lti#:#lti_con_version_1.3#:#Version 1.3
@@ -11396,13 +11470,16 @@ lti#:#lti_create_lti_user_role#:#Create recommended global role for LTI users
 lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Synchronizes the learning progress of LTI users with the LTI consumer, if it supports the outcome service. This cron job is only required to transfer status updates after Learning progress settings updates.
 lti#:#lti_custom_new#:#Create Own Provider Settings
+lti#:#lti_deep_linking_not_available_for_admin_objects#:#Consumers created in Administration do not allow content selection
 lti#:#lti_delete_consume_provider#:#Delete Provider
 lti#:#lti_delete_consume_providers#:#Delete Providers
 lti#:#lti_delete_provider#:#Delete Provider
+lti#:#lti_dynamic_registration#:#Create Own Settings for Tool with Dynamic Registration (LTI 1.3)###04 12 2025
 lti#:#lti_edit_consumer#:#Edit LTI Consumer
 lti#:#lti_exit#:#Close LTI Session
 lti#:#lti_exited#:#LTI Session closed
 lti#:#lti_exited_info#:#LTI Session successfully closed
+lti#:#lti_form_provider_content_selection#:#Content Selection
 lti#:#lti_form_provider_create#:#Create Provider Settings
 lti#:#lti_form_provider_edit#:#Edit Provider Settings
 lti#:#lti_form_section_appearance#:#Options for launch
@@ -11454,6 +11531,7 @@ lti#:#subtab_certificate#:#Certificate
 lti#:#subtab_object_settings#:#Object Settings
 lti#:#subtab_provider_settings#:#LTI Provider Settings
 lti#:#tab_content#:#Content
+lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#Ranking
 lti#:#tab_settings#:#Settings
@@ -11908,10 +11986,8 @@ mem#:#mem_settings_tab_settings#:#General Settings
 mem#:#mmbr_gallery_user_actions#:#Member Gallery Actions
 membership#:#mem_error_preconditions#:#A registration is not possible, since minimum one setting prevents this.
 membership#:#mem_force_notification#:#Notification per Mail
-membership#:#mem_force_notification_mode_all#:#Notification activated for all members (changeable)
 membership#:#mem_force_notification_mode_all_sub_blocked#:#Members can deactivate notifications
 membership#:#mem_force_notification_mode_blocked#:#Members will be notified automatically
-membership#:#mem_force_notification_mode_custom#:#Custom
 membership#:#mem_force_notification_mode_self#:#Members have to manually activate notification
 mep#:#mep_all#:#All
 mep#:#mep_all_mobs#:#All Media Objects
@@ -13048,31 +13124,31 @@ news#:#passwd_equals_ilpasswd#:#Please enter a password different from your ILIA
 news#:#priv_feed_disabled#:#Private Newsfeed disabled.
 news#:#priv_feed_settings#:#Private Newsfeed settings
 note#:#note_comment_notification_link#:#Link
-note#:#note_comment_notification_reason#:#You receive this message because your account is listed as a global recipient for all comments in the ILIAS administration.
+note#:#note_comment_notification_reason#:#You have received this mail because your account is listed as a global recipient for all comments made on this installation.
 note#:#note_comment_notification_salutation#:#Hello %s,
 note#:#note_comment_notification_subject#:#A comment has been added to "%s"
 note#:#note_comment_notification_subjectc#:#A comment has been changed in "%s"
-note#:#note_comment_notification_user_has_written#:#%s has written:
-note#:#note_comments_notification#:#General notification about all comments
-note#:#note_comments_notification_info#:#Comma separated list of accounts that are notified for each comment
+note#:#note_comment_notification_user_has_written#:#%s has commented:
+note#:#note_comments_notification#:#General Notification Mail for All Comments
+note#:#note_comments_notification_info#:#Comma-separated list of accounts that are to be notified each time a comment is made.
 note#:#note_enable_comments#:#Enable Comments
-note#:#note_enable_comments_del_tutor#:#Any Comment may be deleted by tutors
-note#:#note_enable_comments_del_tutor_info#:#User with "Edit Settings" permission for an object can delete any comment made in this object.
-note#:#note_enable_comments_del_user#:#Comments may be deleted by their authors
+note#:#note_enable_comments_del_tutor#:#All Comments in Object Deletable
+note#:#note_enable_comments_del_tutor_info#:#Users with the "Edit Settings" permission for an object can delete any comment or comments made in this object.
+note#:#note_enable_comments_del_user#:#Own Comments Deletable
 note#:#note_enable_comments_del_user_info#:#Comments can be deleted by the person who created them.
-note#:#note_enable_comments_export_info#:#This option enables comments export for content objects like portfolio, blog and wiki.
+note#:#note_enable_comments_export_info#:#Enable the export of comments from within objects such as portfolios, blogs and wikis.
 note#:#note_enable_notes#:#Enable Notes
 note#:#note_html_export_include_comments#:#Should comments be included in the export?
 notes#:#comments_feature_currently_not_activated_for_object#:#The public comments feature is currently not activated for this resource.
 notes#:#note_add_comment#:#Add Comment
 notes#:#note_add_message#:#Add Message
 notes#:#note_add_note#:#Add Note
-notes#:#note_content_removed#:#The content has been removed.
+notes#:#note_content_removed#:#This content has been removed.
 notes#:#note_text#:#Text
 notes#:#note_update_comment#:#Update Comment
 notes#:#note_update_message#:#Update Message
 notes#:#note_update_note#:#Update Note
-notes#:#note_without_object#:#Without reference
+notes#:#note_without_object#:#Without Reference
 notes#:#notes_activate_comments#:#Activate Public Comments
 notes#:#notes_add_comment#:#Add Comment
 notes#:#notes_add_edit_comment#:#Add/Edit Comment
@@ -13080,13 +13156,13 @@ notes#:#notes_add_edit_message#:#Add/Edit Message
 notes#:#notes_add_edit_note#:#Add/Edit Note
 notes#:#notes_all_comments#:#All Comments
 notes#:#notes_comment#:#Comment
-notes#:#notes_comment_deleted#:#The comment has been deleted.
+notes#:#notes_comment_deleted#:#Comment deleted.
 notes#:#notes_comments#:#Comments
-notes#:#notes_comments_deleted#:#The comments have been deleted.
+notes#:#notes_comments_deleted#:#Comments deleted.
 notes#:#notes_deactivate_comments#:#Deactivate Public Comments
-notes#:#notes_delete_comment#:#Do you really want to delete this comment?
-notes#:#notes_delete_message#:#Do you really want to delete this message?
-notes#:#notes_delete_note#:#Do you really want to delete this note?
+notes#:#notes_delete_comment#:#Are you sure you want to delete this comment?
+notes#:#notes_delete_message#:#Are you sure you want to delete this message?
+notes#:#notes_delete_note#:#Are you sure you want to delete this note?
 notes#:#notes_hide_comments#:#Hide Comments
 notes#:#notes_html_export#:#HTML Export
 notes#:#notes_latest_comment#:#Latest Comment
@@ -13096,14 +13172,14 @@ notes#:#notes_message_author_you#:#You
 notes#:#notes_message_deleted#:#Message deleted.
 notes#:#notes_messages#:#Messages
 notes#:#notes_my_comments#:#My Comments
-notes#:#notes_no_comments#:#No comment has been posted yet.
-notes#:#notes_no_comments_found#:#No comments found that match your seach criteria.
-notes#:#notes_no_messages#:#No messages have been attached yet.
-notes#:#notes_no_messages_found#:#No messages found that match your seach criteria.
-notes#:#notes_no_notes#:#No notes have been attached yet.
-notes#:#notes_no_notes_found#:#No notes found that match your seach criteria.
-notes#:#notes_note_deleted#:#The note has been deleted.
-notes#:#notes_notes_deleted#:#The notes have been deleted.
+notes#:#notes_no_comments#:#No comments have been posted yet.
+notes#:#notes_no_comments_found#:#No comments found that match your search criteria.
+notes#:#notes_no_messages#:#No messages have been left yet.
+notes#:#notes_no_messages_found#:#No messages found that match your search criteria.
+notes#:#notes_no_notes#:#You have not yet added any notes to this object.
+notes#:#notes_no_notes_found#:#No notes found that match your search criteria.
+notes#:#notes_note_deleted#:#Note deleted.
+notes#:#notes_notes_deleted#:#Notes deleted.
 notes#:#notes_origin#:#Origin
 notes#:#notes_public_comments#:#Public Comments
 notes#:#notes_show_comments#:#Show Comments
@@ -13386,72 +13462,71 @@ pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either 
 pdesk#:#bookmark_moved_ok#:#Bookmark has been moved.
 pdesk#:#bookmark_select_target#:#Please select target.
 poll#:#poll_absolute#:#Current Votes
-poll#:#poll_activation_online_info#:#Activate this setting to make the poll accessible to users.
+poll#:#poll_activation_online_info#:#Make this poll accessible to users.
 poll#:#poll_add#:#Add Poll
-poll#:#poll_anonymous_warning#:#Individual votes are recorded, but your name will not be shown in the poll results.
+poll#:#poll_anonymous_warning#:#This is an anonymous poll. Individual votes are recorded, but your name will not be shown in the poll results.
 poll#:#poll_answer#:#Answer
 poll#:#poll_answer_selected_alt_text#:#Selected
 poll#:#poll_answers#:#Possible Answers
-poll#:#poll_barchart#:#Bar Chart
-poll#:#poll_block_message_already_voted#:#You already voted in this poll.
+poll#:#poll_barchart#:#Bar chart
+poll#:#poll_block_message_already_voted#:#You have already voted in this poll.
 poll#:#poll_block_message_no_answers#:#This poll is incomplete.
-poll#:#poll_block_results_available_on#:#The results will be available %s.
-poll#:#poll_cannot_set_online_no_answers#:#The status cannot be changed to &quot;online&quot; because this poll has no question!
+poll#:#poll_block_results_available_on#:#The results will be available: %s.
+poll#:#poll_cannot_set_online_no_answers#:#This poll cannot be set to &quot;Online&quot; because it doesn’t have a question!
 poll#:#poll_chart_votes#:#Votes
 poll#:#poll_comments#:#Comments
 poll#:#poll_copy#:#Copy Poll
-poll#:#poll_delete_votes#:#Delete Votes of All Users
-poll#:#poll_delete_votes_sure#:#Are you sure you want to delete the votes of all users who took part in this poll?
+poll#:#poll_delete_votes#:#Delete All Votes Cast
+poll#:#poll_delete_votes_sure#:#Are you sure you want to delete the votes of all users who have taken part in this poll?
 poll#:#poll_edit#:#Edit Poll
 poll#:#poll_edit_question#:#Edit Question
 poll#:#poll_image#:#Image
-poll#:#poll_import#:#Import Poll
-poll#:#poll_limit_not_below_answer_count#:#The answer limit must be below the number of possible answers.
-poll#:#poll_limit_number_of_answers#:#Limit Number of Answers per Participant
-poll#:#poll_max_number_of_answers#:#Max. Answers
+poll#:#poll_limit_not_below_answer_count#:#The maximum number of selectable answer options must be smaller than the total number of possible answers.
+poll#:#poll_limit_number_of_answers#:#Limit Number of Answers Selectable
+poll#:#poll_max_number_of_answers#:#Maximum Selectable per Participant
 poll#:#poll_max_number_of_answers_info#:#You may choose up to %s answers.
 poll#:#poll_mode#:#Mode
-poll#:#poll_mode_anonymous#:#Without Names / Anonymous
+poll#:#poll_mode_anonymous#:#Without names / anonymous
 poll#:#poll_mode_anonymous_info#:#The names of poll participants are not shown in the 'Results' tab. Please note: participant user IDs are, however, recorded in the database.
-poll#:#poll_mode_personal#:#With Names
-poll#:#poll_mode_personal_info#:#In the tab ‘Results’ the names of participants and their respective answers are listed. Users with access to this tab can inspect who has given which answer.
+poll#:#poll_mode_personal#:#With names
+poll#:#poll_mode_personal_info#:#The names of poll participants and their respective answers are listed in the ‘Results’ tab. Users with access to this tab can inspect who has given which answer.
 poll#:#poll_new#:#Add New Poll
-poll#:#poll_non_anonymous_warning#:#Your name and vote are visible for administrators in the results.
-poll#:#poll_notification_activated#:#Notification Activated
-poll#:#poll_notification_deactivated#:#Notification Deactivated
-poll#:#poll_notification_subscribe#:#Activate Notification
-poll#:#poll_notification_unsubscribe#:#Deactivate Notification
+poll#:#poll_non_anonymous_warning#:#Your name and how you have voted will be visible to anyone with administration permissions for this poll.
+poll#:#poll_notification_activated#:#Notifications activated.
+poll#:#poll_notification_deactivated#:#Notifications deactivated
+poll#:#poll_notification_subscribe#:#Activate Notifications
+poll#:#poll_notification_unsubscribe#:#Deactivate Notifications
 poll#:#poll_percentage#:#Current Percentage
-poll#:#poll_population#:#%s Participants
-poll#:#poll_population_singular#:#1 Participant
+poll#:#poll_population#:#%s votes cast
+poll#:#poll_population_singular#:#One vote cast
 poll#:#poll_question#:#Question
 poll#:#poll_result#:#Results
 poll#:#poll_result_answers#:#Votes
-poll#:#poll_result_sorting#:#Sorting
-poll#:#poll_result_sorting_answers#:#In the order of the answers
+poll#:#poll_result_sorting#:#Presentation Order
+poll#:#poll_result_sorting_answers#:#In the same order as the possible answers
 poll#:#poll_result_sorting_votes#:#By number of votes (descending)
 poll#:#poll_result_users#:#Participants
-poll#:#poll_show_results_as#:#Show Results as
+poll#:#poll_show_results_as#:#Results Format
 poll#:#poll_sortorder#:#Order
-poll#:#poll_stacked_chart#:#Stacked Chart
-poll#:#poll_view_results#:#Display Results
-poll#:#poll_view_results_after_period#:#After Voting Period
-poll#:#poll_view_results_after_period_impossible#:#The voting period is not limited.
-poll#:#poll_view_results_after_vote#:#After Vote
+poll#:#poll_stacked_chart#:#Stacked chart
+poll#:#poll_view_results#:#Show Results
+poll#:#poll_view_results_after_period#:#When voting period has ended
+poll#:#poll_view_results_after_period_impossible#:#In order for the results to be first shown when the voting period has ended, you need to establish a limited voting period by entering dates above.
+poll#:#poll_view_results_after_vote#:#After participant has voted
 poll#:#poll_view_results_always#:#Always
 poll#:#poll_view_results_never#:#Never
 poll#:#poll_vote#:#Vote
 poll#:#poll_vote_error_multi#:#Please select no more than %s answers.
-poll#:#poll_vote_error_multi_no_answer#:#Please select at least 1 answer.
-poll#:#poll_vote_error_single#:#Please select 1 answer.
-poll#:#poll_vote_notification_body#:#the following poll has received a vote.
+poll#:#poll_vote_error_multi_no_answer#:#Please select at least one of the answers.
+poll#:#poll_vote_error_single#:#Please select one of the answers.
+poll#:#poll_vote_notification_body#:#A vote has been cast in the following poll:
 poll#:#poll_vote_notification_link#:#Link to Poll
-poll#:#poll_vote_notification_reason#:#You are receiving this e-mail because you activated notifications for the poll mentioned above.
-poll#:#poll_vote_notification_subject#:#Poll "%s": new vote
-poll#:#poll_votes_no_edit#:#This poll already contains votes. You cannot edit the poll until you delete these votes.
+poll#:#poll_vote_notification_reason#:#You have received this e-mail because you activated notifications for the poll mentioned above.
+poll#:#poll_vote_notification_subject#:#Poll "%s" – new vote cast
+poll#:#poll_votes_no_edit#:#This poll has already received votes. You cannot edit the poll unless you delete these votes.
 poll#:#poll_voting_period_and_results#:#Voting Period and Results
 poll#:#poll_voting_period_ended_info#:#The voting period ended %s.
-poll#:#poll_voting_period_full_info#:#Voting period from %s to %s
+poll#:#poll_voting_period_full_info#:#Voting in this poll will be possible from %s until %s
 poll#:#poll_voting_period_info#:#The deadline for voting is %s.
 poll#:#poll_voting_period_limited#:#Limited Voting Period
 prg#:#access_ctr_by_orgu_position#:#Access control according to Organisational Unit Positions
@@ -14303,15 +14378,15 @@ rbac#:#feed_delete#:#User can move or delete web feed
 rbac#:#feed_edit_permission#:#User can change permission settings
 rbac#:#feed_read#:#User can read content of web feed
 rbac#:#feed_write#:#User can edit web feed settings
-rbac#:#file_content#:#Show Content
 rbac#:#file_copy#:#User can copy file
 rbac#:#file_delete#:#User can move or delete file
 rbac#:#file_edit_file#:#Allow to edit the file in an external editor, if available
 rbac#:#file_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#file_edit_permission#:#User can change permission settings
+rbac#:#file_file_view_content#:#File content presented in browser (if WOPI is active)
+rbac#:#file_file_view_content_short#:#Show Content
 rbac#:#file_read#:#User can download file
 rbac#:#file_read_learning_progress#:#User can view learning progress of other users
-rbac#:#file_view_content#:#File content presented in browser (if WOPI is active)
 rbac#:#file_visible#:#File is visible
 rbac#:#file_write#:#User can edit file settings and upload new version of file
 rbac#:#files_visible#:#Files Visible
@@ -14578,6 +14653,9 @@ rbac#:#positions_override_operations#:#Override global Settings
 rbac#:#precondition_not_obligatory_alt#:#Precondition is optional
 rbac#:#precondition_num_obligatory#:#Number of Required Materials
 rbac#:#precondition_num_optional_info#:#Please enter the minimum number of materials required to fulfill this precondition.
+rbac#:#precondition_number_of_required_materials_bigger_preconditions_number#:#The number of required materials must be less than the total number of preconditions.
+rbac#:#precondition_number_of_required_materials_lower_compulsory_items#:#The number of required materials must be greater than the number of compulsory preconditions.
+rbac#:#precondition_number_of_required_materials_lower_than_one#:#The number of required materials must be at least 1.
 rbac#:#precondition_obligatory#:#Compulsory
 rbac#:#precondition_obligatory_alt#:#Precondition must be fulfilled
 rbac#:#precondition_obligatory_info#:#Compulsory preconditions must be fulfilled, for having access.
@@ -15119,9 +15197,7 @@ rep#:#rep_add_new_def_grp_content#:#Content
 rep#:#rep_add_new_def_grp_feedback#:#Feedback and Evaluation
 rep#:#rep_add_new_def_grp_organisation#:#Organisation
 rep#:#rep_add_new_def_grp_templates#:#Templates
-rep#:#rep_add_to_favourites#:#Add to Favourites
 rep#:#rep_added_rec_content#:#Recommended content has been added.
-rep#:#rep_added_to_favourites#:#The item has been added to your favourites.
 rep#:#rep_allowed_types#:#Allowed Types
 rep#:#rep_breadcr_crs#:#Breadcrumb starts with course
 rep#:#rep_breadcr_crs_config#:#Configuration
@@ -15144,11 +15220,11 @@ rep#:#rep_export_limitation_info#:#Limits the number of objects for container ex
 rep#:#rep_export_limitation_limited#:#Limit Export
 rep#:#rep_export_limitation_unlimited#:#Unlimited Export
 rep#:#rep_failure_trashed_trash#:#You selected objects that cannot be restored to their original location, because their parent objects were deleted. Please uncheck the respective object in the table or select the Restore to New Location instead.
-rep#:#rep_fav_intro1#:#You have not yet selected any favourites. To do this, you must take two steps:
-rep#:#rep_fav_intro2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.
-rep#:#rep_fav_intro3#:#When you have found something that interests you, you can easily add it to your favourites. Select the desired item in the <i>Actions</i> menu and choose "<i>Add to favourites</i>".
+rep#:#rep_fav_intro1#:#You have not yet selected any favourites. To do so, there are two steps you need to take:
+rep#:#rep_fav_intro2#:#Click on '%s' and select a learning object from those available, for example a learning module or a forum.
+rep#:#rep_fav_intro3#:#When you have found something that interests you, you can easily add it to your favourites. Select the desired item in the <i>Actions</i> menu and select "<i>Add to favourites</i>".
 rep#:#rep_favourites#:#Favourites
-rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.
+rep#:#rep_favourites_info#:#Users can mark individual repository items as favourites. A 'Favourites' list can be activated for the dashboard and the main menu. 
 rep#:#rep_input_not_empty#:#This field must not be empty, please provide a value.
 rep#:#rep_intro#:#Welcome to the Repository!
 rep#:#rep_intro1#:#In this area you can create learning and working resources for all users. All resources are organised in categories. Categories can reflect the structure of your organisation (e.g. departments), a hierarchy of disciplines, or classes of a school.
@@ -15176,9 +15252,7 @@ rep#:#rep_object_references_cannot_be_read#:#No permissions for %s more referenc
 rep#:#rep_object_to_delete#:#To Delete
 rep#:#rep_rec_content_removed#:#Recommended content has been removed.
 rep#:#rep_recommended_content#:#Recommended Content
-rep#:#rep_remove_from_favourites#:#Remove from Favourites
 rep#:#rep_remove_rec_content#:#Are you sure you want to remove the following recommended content?
-rep#:#rep_removed_from_favourites#:#The item has been removed from your favourites.
 rep#:#rep_target_location#:#Target Location
 rep#:#rep_target_location_info#:#Bitte wählen Sie nun das Ziel aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen.
 rep#:#rep_time_based_availability#:#Limited Availability Period
@@ -15543,7 +15617,7 @@ search#:#lucene_tbl_create_ini#:#Create Java-Server Ini-File
 search#:#search_add_members_from_container_crs#:#Add Users From Current Course
 search#:#search_add_members_from_container_grp#:#Add Users From Current Group
 search#:#search_any#:#-- Any --
-search#:#search_area#:#Search Area
+search#:#search_area_filter#:#Scope
 search#:#search_area_info#:#Please select an area where the search should start.
 search#:#search_auto_complete_length#:#Number of Auto-Complete List Entries
 search#:#search_auto_complete_length_info#:#Choose ‘0‘ to switch off the auto-complete list.
@@ -15588,6 +15662,7 @@ search#:#search_minimum_info#:#Your search must be at least %s characters long
 search#:#search_minimum_three#:#Your search must be at least three characters long.
 search#:#search_newer_than#:#Objects newer than
 search#:#search_no_connection_lucene#:#Cannot connect to Lucene server.
+search#:#search_no_further_match#:#No further matches found.
 search#:#search_no_match#:#Your search did not match any results.
 search#:#search_no_match_hint#:#Your search for <b>%s</b> did not match any documents.<br /><br />Suggestions:<br />• Make sure all words are spelled correctly.<br />• Try different keywords.<br />• Try more general keywords.<br />• Try fewer keywords.
 search#:#search_no_selection#:#You made no selection.
@@ -15610,6 +15685,8 @@ search#:#search_sort_generic_desc#:#%s, desc.
 search#:#search_sort_relevance#:#By Relevance
 search#:#search_sort_title_asc#:#Alphabetically: A-Z
 search#:#search_sort_title_desc#:#Alphabetically: Z-A
+search#:#search_tab_content#:#Content
+search#:#search_tab_user#:#Users
 search#:#search_term_combination#:#Combination
 search#:#search_title_description#:#Title / Description
 search#:#search_tst_svy#:#Tests/Surveys
@@ -17147,7 +17224,7 @@ tax#:#tax_add_taxonomy#:#Add Taxonomy
 tax#:#tax_added#:#Taxonomy has been created.
 tax#:#tax_admin_settings_repository#:#Repository Taxonomies
 tax#:#tax_alphabetical#:#Alphabetical
-tax#:#tax_assigned_items#:#Assigned Items
+tax#:#tax_assigned_items#:#Assigned Questions
 tax#:#tax_confirm_deletion#:#Do you really want to delete the whole taxonomy and all its relations?
 tax#:#tax_create_node#:#Create Node
 tax#:#tax_item_sorting#:#Support Sorting of Assigned Items
@@ -17161,9 +17238,9 @@ tax#:#tax_order#:#Order
 tax#:#tax_order_nr#:#Order Nr
 tax#:#tax_please_select_target#:#Please select the target.
 tax#:#tax_target_within_nodes#:#The target must not be a sub-node of the selected items.
-tax#:#tax_tax_assignment#:#Taxonomy Assignment
+tax#:#tax_tax_assignment#:#Assignment to Taxonomies
 tax#:#tax_tax_deleted#:#The taxonomy has been deleted.
-tax#:#tax_tax_settings#:#Taxonomy Settings
+tax#:#tax_tax_settings#:#Display Taxonomies
 tax#:#tax_taxonomy#:#Taxonomy
 tbl#:#tbl_export_csv#:#Export CSV
 tbl#:#tbl_export_excel#:#Export Excel
@@ -17221,7 +17298,7 @@ trac#:#trac_assigned#:#Assigned
 trac#:#trac_average#:#Average
 trac#:#trac_begin_at#:#Start date
 trac#:#trac_closed_expire#:#Timeout
-trac#:#trac_closed_login#:#Anonymous To Login
+trac#:#trac_closed_login#:#Change of status - anonymous to logged-in
 trac#:#trac_closed_manual#:#Logout
 trac#:#trac_closed_misc#:#Misc.
 trac#:#trac_collection_assign#:#Select for Learning Progress Determination
@@ -17280,7 +17357,7 @@ trac#:#trac_lp_determination_info_sco#:#Select the items that determine the over
 trac#:#trac_lp_determination_tutor#:#Display of objects in learning progress
 trac#:#trac_lp_learner_access#:#View Own Learning Progress
 trac#:#trac_lp_learner_access_info#:#If active, users can access their own learning progress status.
-trac#:#trac_lp_list_gui#:#Dashboard, Repository, Search
+trac#:#trac_lp_list_gui#:#Dashboard and Repository
 trac#:#trac_lp_list_gui_info#:#If activated, the learning progress status is included in objects lists.
 trac#:#trac_lp_settings_info_parent_container#:#Learning Progress of Parent Container Objects
 trac#:#trac_lp_settings_info_parent_legend#:#The learning progress status of this object is influenced by "%s".
@@ -17409,10 +17486,10 @@ trac#:#trac_session_statistics_mode_today#:#Today
 trac#:#trac_session_statistics_mode_week#:#Week
 trac#:#trac_session_statistics_mode_year#:#Year
 trac#:#trac_session_statistics_no_data#:#No data for this statistics could be found.
-trac#:#trac_sessions_closed#:#Leavings
-trac#:#trac_sessions_opened#:#Admissions
+trac#:#trac_sessions_closed#:#Exits
+trac#:#trac_sessions_opened#:#Entrances
 trac#:#trac_settings#:#Settings
-trac#:#trac_settings_saved#:#Settings saved
+trac#:#trac_settings_saved#:#Settings saved.
 trac#:#trac_short_system_load#:#Short term
 trac#:#trac_show_graph#:#Show Graph
 trac#:#trac_show_progress_block#:#Show Personal Progress Chart in ‘Content’-Tab
@@ -17435,7 +17512,7 @@ trac#:#trac_title#:#Title
 trac#:#trac_title_description#:#Title / Description
 trac#:#trac_total_online#:#Total Time Online
 trac#:#trac_trash#:#Moved to Trash
-trac#:#trac_update_edit_user#:#Settings saved
+trac#:#trac_update_edit_user#:#Settings saved.
 trac#:#trac_updated_status#:#Saved learning progress status.
 trac#:#trac_user_data#:#User Data
 trac#:#trac_valid_request#:#Max. Time Between Requests
@@ -17950,7 +18027,7 @@ wiki#:#wiki_wiki_search#:#Wiki Search
 wiki#:#wiki_wpg#:#Wiki Page
 wopi#:#action_edit#:#Edit
 wopi#:#action_view#:#View
-wopi#:#activate_saving_interval#:#Activate Saving Interval
+wopi#:#activate_saving_interval#:#Automatic Publication
 wopi#:#activate_wopi#:#Activate WOPI
 wopi#:#close_wopi_editor#:#Close Editor
 wopi#:#close_wopi_editor_info#:#It can take up to several minutes for the external editor to transfer the changes to ILIAS. Visit this page again at a later time if the changes you have made are not yet visible.
@@ -17959,8 +18036,8 @@ wopi#:#msg_error_wopi_invalid_discorvery_url#:#The Discovery URL entered is inva
 wopi#:#msg_wopi_settings_modified#:#Settings saved.
 wopi#:#open_external_editor#:#Open in External Editor
 wopi#:#open_external_viewer#:#Show Content
-wopi#:#saving_interval#:#Interval
-wopi#:#saving_interval_byline#:#By default, ILIAS adds all changes made by an external editor to a draft version until this version is published manually. Activating the saving interval causes a new version to be published, if possible, after the specified number of seconds. Please note that a low value can lead to a large number of file versions, which in turn will take up a much larger amount of hard disk space.
+wopi#:#saving_interval#:#New version after … seconds
+wopi#:#saving_interval_byline#:#After the specified editing time, ILIAS automatically publishes a new version of the file when the external editor reports changes. By default, ILIAS adds all changes received from the editor as a draft only, until a new file version is manually published. Please note that using this option with a low value can lead to a large number of file versions, which takes up a lot of storage space.
 wopi#:#wopi_crawler_cronjob_description#:#Updates the information of the connected WOPI service.
 wopi#:#wopi_crawler_cronjob_no_apps#:#No WOPI apps were found in the discovery.
 wopi#:#wopi_crawler_cronjob_not_activated#:#WOPI is not activated.

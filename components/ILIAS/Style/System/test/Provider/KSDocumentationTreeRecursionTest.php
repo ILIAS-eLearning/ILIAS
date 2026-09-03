@@ -22,7 +22,6 @@ require_once('vendor/composer/vendor/autoload.php');
 include_once('./components/ILIAS/UI/tests/UITestHelper.php');
 
 use PHPUnit\Framework\TestCase;
-
 use ILIAS\UI\Implementation\Crawler\Entry\ComponentEntry as Entry;
 use ILIAS\UI\Implementation\Crawler\Entry\ComponentEntries as Entries;
 use ILIAS\Data\URI;

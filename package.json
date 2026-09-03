@@ -1,6 +1,6 @@
 {
   "name": "ilias",
-  "version": "11.0.0",
+  "version": "12.0.0",
   "description": "ILIAS open source e-Learning",
   "type": "module",
   "directories": {
@@ -11,26 +11,26 @@
     "npm": "^10.9.3 || ^11.3"
   },
   "dependencies": {
-    "@yaireo/tagify": "^4.32.1",
-    "chart.js": "^4.4.7",
-    "dropzone": "^5.9.3",
+    "@yaireo/tagify": "^4.35.6",
+    "chart.js": "^4.5.1",
+    "dropzone": "^6.0.0-beta.2",
     "jquery": "^3.7.1",
     "jstree": "^3.3.17",
     "linkify-element": "^4.3.2",
     "linkifyjs": "^4.3.2",
     "mathjax": "^3.2.2",
-    "tinymce": "^7.5.1",
+    "tinymce": "^8.3.1",
     "webui-popover": "^1.2.18"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^16.0.1",
-    "@rollup/plugin-terser": "^0.4.4",
-    "eslint": "^8.57.1",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-terser": "^1.0.0",
+    "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.31.0",
-    "jsdom": "^26.1.0",
-    "rollup": "^4.28.1",
-    "sass": "^1.86.3"
+    "eslint-plugin-import": "^2.32.0",
+    "jsdom": "^27.2.0",
+    "rollup": "^4.53.3",
+    "sass": "^1.94.2"
   },
   "scripts": {
     "test": "node --test \"./components/ILIAS/**/tests/**/*.js\""
@@ -50,107 +50,128 @@
     "@yaireo/tagify": {
       "introduction-date": null,
       "approved-by": "Jour Fixe",
-      "developer": "nhaagen",
+      "developer": "thibsy",
       "purpose": "Provides functionality for the Tag Input Field of the UI framework",
-      "last-update-for-ilias": "11.0"
+      "last-update-for-ilias": "12.0"
     },
     "chart.js": {
       "introduction-date": null,
       "approved-by": "Jour Fixe",
-      "developer": "tfamula",
-      "purpose": "UI Bar Charts",
-      "last-update-for-ilias": "11.0"
+      "developer": "alex40724",
+      "purpose": "Used in the Chart UI component to display charts",
+      "last-update-for-ilias": "12.0"
     },
     "dropzone": {
       "introduction-date": null,
       "approved-by": "Jour Fixe",
       "developer": "thibsy",
       "purpose": "Handle file uploads on client-side (UI file input)",
-      "last-update-for-ilias": "11.0"
+      "last-update-for-ilias": "12.0"
+    },
+    "jquery": {
+      "introduction-date": null,
+      "approved-by": "Jour Fixe",
+      "developer": "mjansen",
+      "purpose": "We still use jQuery for many JS-related actions in ILIAS, unfortunately.",
+      "last-update-for-ilias": "12.0"
+    },
+    "jstree": {
+      "introduction-date": null,
+      "approved-by": "Jour Fixe",
+      "developer": "alex40724",
+      "purpose": "Used in ilExplorerBaseGUI to display object trees asynchronously",
+      "last-update-for-ilias": "12.0"
     },
     "linkify-element": {
       "introduction-date": "20-02-2025",
       "approved-by": "Jour Fixe",
-      "developer": "lscharmer",
+      "developer": "mjansen",
       "purpose": "components/ILIAS/Link: Autolinking of external links",
-      "last-update-for-ilias": "11.0"
+      "last-update-for-ilias": "12.0"
     },
     "linkifyjs": {
       "introduction-date": null,
       "approved-by": "Jour Fixe",
-      "developer": "lscharmer",
+      "developer": "mjansen",
       "purpose": "components/ILIAS/Link: Autolinking of external links",
-      "last-update-for-ilias": "11.0"
+      "last-update-for-ilias": "12.0"
     },
     "mathjax": {
       "introduction-date": null,
       "approved-by": "Jour Fix",
       "developer": "fneumann",
       "purpose": "Mathematical formular formatting",
-      "last-update-for-ilias": "11.0"
+      "last-update-for-ilias": "12.0"
     },
     "tinymce": {
       "introduction-date": null,
       "approved-by": "Jour Fix",
       "developer": "alex40724",
       "purpose": "WYSIWYG text editing",
-      "last-update-for-ilias": "11.0"
+      "last-update-for-ilias": "12.0"
+    },
+    "webui-popover": {
+      "introduction-date": null,
+      "approved-by": "Jour Fixe",
+      "developer": "mjansen",
+      "purpose": "Create popovers",
+      "last-update-for-ilias": "12.0"
+    },
+    "@rollup/plugin-node-resolve": {
+      "introduction-date": null,
+      "approved-by": "Jour Fix",
+      "developer": "thibsy",
+      "purpose": "Rollup plugin to locate other plugins",
+      "last-update-for-ilias": "12.0"
     },
     "@rollup/plugin-terser": {
       "introduction-date": null,
       "approved-by": "Jour Fix",
       "developer": "thibsy",
       "purpose": "JS Module Bundler plugin for minification",
-      "last-update-for-ilias": "11.0"
+      "last-update-for-ilias": "12.0"
     },
     "eslint": {
       "introduction-date": null,
       "approved-by": "Jour Fix",
       "developer": "thibsy",
       "purpose": "Used to enforce JS code-styles",
-      "last-update-for-ilias": "11.0"
+      "last-update-for-ilias": "12.0"
     },
     "eslint-config-airbnb-base": {
       "introduction-date": null,
       "approved-by": "Jour Fix",
       "developer": "thibsy",
       "purpose": "Specific Code style for eslint",
-      "last-update-for-ilias": "11.0"
+      "last-update-for-ilias": "12.0"
     },
     "eslint-plugin-import": {
       "introduction-date": null,
       "approved-by": "Jour Fix",
       "developer": "thibsy",
       "purpose": "Validate ES6 import/export statements",
-      "last-update-for-ilias": "11.0"
+      "last-update-for-ilias": "12.0"
+    },
+    "jsdom": {
+      "introduction-date": null,
+      "approved-by": "Jour Fix",
+      "developer": "thibsy",
+      "purpose": "Used to emulate Browser DOM for unit tests",
+      "last-update-for-ilias": "12.0"
     },
     "rollup": {
       "introduction-date": null,
       "approved-by": "Jour Fix",
       "developer": "thibsy",
       "purpose": "JS Module Bundler",
-      "last-update-for-ilias": "11.0"
-    },
-    "jquery": {
-      "introduction-date": null,
-      "approved-by": "Jour Fixe",
-      "developer": null,
-      "purpose": "We still use jQuery for many JS-related actions in ILIAS, unfortunately.",
-      "last-update-for-ilias": "10.0"
-    },
-    "jstree": {
-      "introduction-date": null,
-      "approved-by": "Jour Fix",
-      "developer": "alex40724",
-      "purpose": "Legacy explorer tree representation",
-      "last-update-for-ilias": "11.0"
+      "last-update-for-ilias": "12.0"
     },
     "sass": {
       "introduction-date": null,
       "approved-by": "Jour Fix",
       "developer": "thibsy",
       "purpose": "CSS Preprocessor",
-      "last-update-for-ilias": "11.0"
+      "last-update-for-ilias": "12.0"
     }
   }
 }

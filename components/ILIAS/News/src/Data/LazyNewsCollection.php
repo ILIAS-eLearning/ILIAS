@@ -248,4 +248,9 @@ class LazyNewsCollection extends NewsCollection
     {
         return parent::limit($limit)->withFetchCallback($this->fetch_callback);
     }
+
+    public function orderByDate(): static
+    {
+        return parent::orderByDate()->withFetchCallback($this->fetch_callback);
+    }
 }

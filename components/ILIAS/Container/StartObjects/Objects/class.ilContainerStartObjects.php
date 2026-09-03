@@ -239,7 +239,7 @@ class ilContainerStartObjects
         $ilObjDataCache = $this->obj_data_cache;
         $ilLog = $this->log;
 
-        $ilLog->write(__METHOD__ . ': Begin course start objects...');
+        $ilLog->info('Begin course start objects...');
 
         $new_obj_id = $ilObjDataCache->lookupObjId($a_target_id);
         $start = new self($a_target_id, $new_obj_id);
@@ -249,13 +249,13 @@ class ilContainerStartObjects
         foreach ($this->getStartObjects() as $data) {
             $item_ref_id = $data['item_ref_id'];
             if (isset($mappings[$item_ref_id]) && $mappings[$item_ref_id]) {
-                $ilLog->write(__METHOD__ . ': Clone start object nr. ' . $item_ref_id);
+                $ilLog->info('Clone start object nr. ' . $item_ref_id);
                 $start->add($mappings[$item_ref_id]);
             } else {
-                $ilLog->write(__METHOD__ . ': No mapping found for start object nr. ' . $item_ref_id);
+                $ilLog->info('No mapping found for start object nr. ' . $item_ref_id);
             }
         }
-        $ilLog->write(__METHOD__ . ': ... end course start objects');
+        $ilLog->info('... end course start objects');
     }
 
     public static function isStartObject(

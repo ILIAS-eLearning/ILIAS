@@ -18,8 +18,14 @@
 
 declare(strict_types=1);
 
+use ILIAS\DI\Container;
+
 class ilLPStatusStudyProgramme extends ilLPStatus
 {
+    protected const string LNG_TEXT = 'trac_mode_study_programme';
+    protected const string LNG_TEXT_INFO = '';
+    protected ilLanguage $lng;
+
     protected static function getAssignments(int $obj_id, ?int $usr_id = null): array
     {
         $dic = ilStudyProgrammeDIC::dic();
@@ -41,7 +47,7 @@ class ilLPStatusStudyProgramme extends ilLPStatus
      */
     protected static function getStatusForAssignments(array $assignments, int $prg_obj_id): int
     {
-        if($assignments === []) {
+        if ($assignments === []) {
             return ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
         }
         $now = new DateTimeImmutable();
@@ -84,7 +90,6 @@ class ilLPStatusStudyProgramme extends ilLPStatus
             ilLPStatus::LP_STATUS_COMPLETED_NUM => [],
             ilLPStatus::LP_STATUS_FAILED_NUM => []
         ];
-
         $user_centric = [];
         foreach ($assignments as $ass) {
             $usr_id = $ass->getUserId();
@@ -97,7 +102,6 @@ class ilLPStatusStudyProgramme extends ilLPStatus
             $status = self::getStatusForAssignments($assignments, $prg_obj_id);
             $matrix[$status][] = $usr_id;
         }
-
         return $matrix;
     }
 
@@ -133,9 +137,30 @@ class ilLPStatusStudyProgramme extends ilLPStatus
         return $matrix[ilLPStatus::LP_STATUS_FAILED_NUM];
     }
 
-    public function determineStatus($a_obj_id, $a_user_id, $a_obj = null): int
+    public function determineStatus($a_obj_id, $a_usr_id, $a_obj = null): int
     {
-        $assignments = self::getAssignments((int) $a_obj_id, (int) $a_user_id);
+        $assignments = self::getAssignments((int) $a_obj_id, (int) $a_usr_id);
         return self::getStatusForAssignments($assignments, (int) $a_obj_id);
+    }
+
+    public function init(
+        Container $DIC
+    ): void {
+        $this->lng = $DIC->language();
+    }
+
+    public function getLPStatusId(): string
+    {
+        return (string) ilLPObjSettings::LP_MODE_STUDY_PROGRAMME;
+    }
+
+    public function getLabel(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT);
+    }
+
+    public function getInfo(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT_INFO);
     }
 }

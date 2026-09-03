@@ -44,7 +44,7 @@ use ILIAS\ResourceStorage\Events\FlavourData;
  */
 class FlavourBuilder
 {
-    public const VARIANT_NAME_MAX_LENGTH = 768;
+    public const VARIANT_NAME_MAX_LENGTH = 638;
     private array $current_revision_cache = [];
     private array $resources_cache = [];
 
@@ -251,7 +251,7 @@ class FlavourBuilder
         try {
             $stream = $this->resource_builder->extractStream($revision);
             $stream->rewind();
-        } catch (\Throwable) {
+        } catch (\Throwable $t) {
             // error while reading file stream, cannot process
             $this->events->notify(Event::FLAVOUR_BUILD_FAILED, new FlavourData($rid, $definition, $flavour, $t));
             return $flavour;

@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\BookingManager;
 
+use ILIAS\BookingManager\Objects\ObjectEvent;
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\BookingManager\BookingProcess\BookingProcessManager;
@@ -126,6 +127,11 @@ class InternalDomainService
     public function userEvent(): UserEvent
     {
         return self::$instances["user_event"] ??= new UserEvent($this);
+    }
+
+    public function objectEvent(): ObjectEvent
+    {
+        return new ObjectEvent();
     }
 
     public function bookingSettings(): SettingsManager

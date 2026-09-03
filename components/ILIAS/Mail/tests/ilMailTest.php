@@ -616,7 +616,11 @@ class ilMailTest extends ilMailBaseTestCase
     {
         $expected = 'Phasellus lacus';
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->getMock();
-        $settings->method('get')->with('mail_system_sys_from_name')->willReturn($expected);
+        $settings
+            ->expects($this->once())
+            ->method('get')
+            ->with('mail_system_sys_from_name')
+            ->willReturn($expected);
         $this->setGlobalVariable('ilSetting', $settings);
 
 
@@ -686,7 +690,6 @@ class ilMailTest extends ilMailBaseTestCase
             $ref_id,
             $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder(ilMailTemplatePlaceholderResolver::class)->disableOriginalConstructor()->getMock(),
-            null,
             null,
             $this->getMockBuilder(MailSignatureService::class)->disableOriginalConstructor()->getMock(),
         );

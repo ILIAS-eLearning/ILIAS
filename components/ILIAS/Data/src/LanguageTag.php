@@ -48,7 +48,7 @@ abstract class LanguageTag
     public static function fromString(string $string): static
     {
         $brick = new Brick();
-        return $brick->apply(self::definition($brick), $string)->except(static fn (): Result => (
+        return $brick->apply(self::definition($brick), $string)->except(static fn(): Result => (
             new Error('Given string is no valid language tag.')
         ))->value();
     }
@@ -104,7 +104,7 @@ abstract class LanguageTag
             $brick->repeat(1, null, $brick->sequence(['-', $brick->repeat(1, 8, $alphanum)]))
         ]);
 
-        $new = static fn (string $class) => new Custom(static fn (string $arg) => new $class($arg));
+        $new = static fn(string $class) => new Custom(static fn(string $arg) => new $class($arg));
 
         $privateuse = $brick->transformation($new(PrivateUse::class), $privateuse);
 
@@ -146,7 +146,7 @@ abstract class LanguageTag
         ]);
 
         $langtag = $brick->transformation(
-            new Custom(static fn (array $from): Standard => new Standard(
+            new Custom(static fn(array $from): Standard => new Standard(
                 $from['language']['lang'],
                 $from['language']['extlang'] ?? null,
                 $from['script'] ?? null,

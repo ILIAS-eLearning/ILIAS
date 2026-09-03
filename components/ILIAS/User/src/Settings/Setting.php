@@ -116,6 +116,9 @@ class Setting implements Property
         return $input;
     }
 
+    /**
+     * @return array<string, Input>
+     */
     public function getForm(
         Language $lng,
         FieldFactory $ff,
@@ -166,7 +169,7 @@ class Setting implements Property
         ?\ilPropertyFormGUI $form = null
     ): \ilObjUser {
         if (!$context->isSettingAvailable($this)) {
-            throw \Exception('It is not possible to Change this from here!');
+            throw new \DomainException('It is not possible to Change this from here!');
         }
         return $this->definition->persistUserInput($user, $input, $form);
     }

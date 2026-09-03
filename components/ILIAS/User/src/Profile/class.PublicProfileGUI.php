@@ -371,8 +371,7 @@ class PublicProfileGUI
                 'getStreet' => 'street',
                 'getZipcode' => 'zipcode',
                 'getCity' => 'city',
-                'getCountry' => 'country',
-                'getSelectedCountry' => 'sel_country'
+                'getCountry' => 'country'
             ];
             foreach ($val_arr as $key => $value) {
                 // if value 'y' show information

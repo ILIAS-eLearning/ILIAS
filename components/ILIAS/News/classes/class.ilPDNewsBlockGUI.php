@@ -64,18 +64,10 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
     {
         global $DIC;
 
-        $cmd = $DIC->ctrl()->getCmd();
-
-        switch ($cmd) {
-            case "showNews":
-            case "showFeedUrl":
-            case "editSettings":
-            case "changeFeedSettings":
-                return IL_SCREEN_CENTER;
-
-            default:
-                return IL_SCREEN_SIDE;
-        }
+        return match($DIC->ctrl()->getCmd()) {
+            'showNews', 'showFeedUrl', 'editSettings', 'saveSettings', 'changeFeedSettings' => IL_SCREEN_CENTER,
+            default => IL_SCREEN_SIDE
+        };
     }
 
     public function executeCommand()

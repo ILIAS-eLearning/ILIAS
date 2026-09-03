@@ -29,7 +29,7 @@ class CollectionTest extends TestCase
 {
     protected function setUp(): void
     {
-        $namespace_1 = $this->createMock(ilFileNamespaceHandler::class);
+        $namespace_1 = $this->createStub(ilFileNamespaceHandler::class);
     }
 
     /**
@@ -55,24 +55,24 @@ class CollectionTest extends TestCase
 
     public function testCollection(): void
     {
-        $namespace_1 = $this->createMock(ilFileNamespaceHandler::class);
-        $namespace_1->expects($this->any())->method('getNamespace')->willReturn('namespace_1');
-        $namespace_1->expects($this->any())->method('getPrefix')->willReturn('prefix_1');
+        $namespace_1 = $this->createStub(ilFileNamespaceHandler::class);
+        $namespace_1->method('getNamespace')->willReturn('namespace_1');
+        $namespace_1->method('getPrefix')->willReturn('prefix_1');
 
-        $namespace_2 = $this->createMock(ilFileNamespaceHandler::class);
-        $namespace_2->expects($this->any())->method('getNamespace')->willReturn('namespace_2');
-        $namespace_2->expects($this->any())->method('getPrefix')->willReturn('prefix_2');
+        $namespace_2 = $this->createStub(ilFileNamespaceHandler::class);
+        $namespace_2->method('getNamespace')->willReturn('namespace_2');
+        $namespace_2->method('getPrefix')->willReturn('prefix_2');
 
-        $namespace_3 = $this->createMock(ilFileNamespaceHandler::class);
-        $namespace_3->expects($this->any())->method('getNamespace')->willReturn('namespace_3');
-        $namespace_3->expects($this->any())->method('getPrefix')->willReturn('prefix_3');
+        $namespace_3 = $this->createStub(ilFileNamespaceHandler::class);
+        $namespace_3->method('getNamespace')->willReturn('namespace_3');
+        $namespace_3->method('getPrefix')->willReturn('prefix_3');
 
-        $collection_one_element = (new ilFileNamespaceCollection())
+        $collection_one_element = new ilFileNamespaceCollection()
             ->withElement($namespace_1);
-        $collection_two_elements = (new ilFileNamespaceCollection())
+        $collection_two_elements = new ilFileNamespaceCollection()
             ->withElement($namespace_1)
             ->withElement($namespace_2);
-        $collection_three_elements = (new ilFileNamespaceCollection())
+        $collection_three_elements = new ilFileNamespaceCollection()
             ->withElement($namespace_1)
             ->withElement($namespace_2)
             ->withElement($namespace_3);

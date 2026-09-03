@@ -62,6 +62,12 @@ class ilBlogExportOptionHTML extends \ILIAS\Export\HTML\ExportOptionBase
     public function onExportOptionSelected(
         ilExportHandlerConsumerContextInterface $context
     ): void {
-        $this->ctrl->redirectByClass(ilObjBlogGUI::class, "createExportFile");
+        $this->ctrl->redirectByClass(
+            [
+                ilObjBlogGUI::class,
+                \ILIAS\Blog\Export\ExportGUI::class
+            ],
+            "createExportFile"
+        );
     }
 }

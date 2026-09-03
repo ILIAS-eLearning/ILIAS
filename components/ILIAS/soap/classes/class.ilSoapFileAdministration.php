@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -58,6 +59,15 @@ class ilSoapFileAdministration extends ilSoapAdministration
 
         // create object, put it into the tree and use the parser to update the settings
 
+        // SECURITY (ILIAS10-025) - defence in depth: COPY/REST modes are internal
+        // import/zip mechanisms and must not be reachable via externally supplied XML.
+        if (preg_match('/\bmode="(?:COPY|REST)"/i', $file_xml)) {
+            return $this->raiseError(
+                'mode="COPY" and mode="REST" are not permitted in SOAP addFile.',
+                'Client'
+            );
+        }
+
         $file = new ilObjFile();
         try {
             $fileXMLParser = new ilFileXMLParser($file, $file_xml);
@@ -67,7 +77,7 @@ class ilSoapFileAdministration extends ilSoapAdministration
 
                 $ilLog = $DIC['ilLog'];
 
-                $ilLog->write(__METHOD__ . ': File type: ' . $file->getFileType());
+                $ilLog->info('File type: ' . $file->getFileType());
 
                 $file->create();
                 $file->createReference();

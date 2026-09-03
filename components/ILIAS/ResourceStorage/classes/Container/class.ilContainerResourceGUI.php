@@ -31,6 +31,7 @@ use ILIAS\components\ResourceStorage\Container\View\Configuration;
 use ILIAS\components\ResourceStorage\Container\View\Request;
 use ILIAS\components\ResourceStorage\Container\View\ViewFactory;
 use ILIAS\components\ResourceStorage\Container\DataProvider\TableDataProvider;
+use ILIAS\components\ResourceStorage\ChunkedUploadBuffer;
 use ILIAS\components\ResourceStorage\URLSerializer;
 use ILIAS\components\ResourceStorage\Container\View\ActionBuilder;
 use ILIAS\components\ResourceStorage\Container\View\ViewControlBuilder;
@@ -45,6 +46,7 @@ use ILIAS\components\ResourceStorage\Container\View\CombinedActionProvider;
 final class ilContainerResourceGUI implements UploadHandler
 {
     use URLSerializer;
+    use ChunkedUploadBuffer;
 
     /**
      * @var string
@@ -131,6 +133,7 @@ final class ilContainerResourceGUI implements UploadHandler
         $this->language->loadLanguageModule('irss');
         $this->irss = $DIC->resourceStorage();
         $this->upload = $DIC->upload();
+        $this->initChunkedUploadBuffer();
 
         $this->view_request = new Request(
             $DIC->ctrl(),
@@ -300,35 +303,15 @@ final class ilContainerResourceGUI implements UploadHandler
             $this->abortWithPermissionDenied();
             return;
         }
+        $this->readChunkInformation();
         $this->upload->process();
         if (!$this->upload->hasUploads()) {
             return;
         }
-        $container = $this->view_configuration->getContainer();
 
-        foreach ($this->upload->getResults() as $result) {
-            if (!$result->isOK()) {
-                continue;
-            }
-            // store to zip
-            $return = $this->irss->manageContainer()->addUploadToContainer(
-                $container->getIdentification(),
-                $result,
-                $this->view_request->getPath()
-            );
-        }
-
-        // OK
-        $upload_result = new BasicHandlerResult(
-            self::P_PATH,
-            $return ? BasicHandlerResult::STATUS_OK : BasicHandlerResult::STATUS_FAILED,
-            '-',
-            'undefined error'
+        $this->sendHandlerResult(
+            $this->isChunkedUpload() ? $this->storeChunk() : $this->storeUploads()
         );
-        $response = $this->http->response()->withBody(Streams::ofString(json_encode($upload_result)));
-        $this->http->saveResponse($response);
-        $this->http->sendResponse();
-        $this->http->close();
     }
 
     private function postUpload(): void
@@ -396,12 +379,18 @@ final class ilContainerResourceGUI implements UploadHandler
             $this->abortWithPermissionDenied();
             return;
         }
-        $paths = $this->getPathsFromRequest()[0];
-        $this->view_request->getWrapper()->unzip(
-            $paths
+        $paths = $this->getPathsFromRequest();
+
+        // the message has to reflect what unzip() actually did, a hardcoded one
+        // reports a success even when nothing was added to the container
+        $success = $paths !== [] && $this->view_request->getWrapper()->unzip($paths[0]);
+
+        $this->main_tpl->setOnScreenMessage(
+            $success ? 'success' : 'failure',
+            $this->language->txt($success ? 'rids_appended' : 'rids_appended_failed'),
+            true
         );
 
-        $this->main_tpl->setOnScreenMessage('success', $this->language->txt('rids_appended'), true);
         $this->ctrl->redirect($this, self::CMD_INDEX);
     }
 
@@ -458,6 +447,77 @@ final class ilContainerResourceGUI implements UploadHandler
     }
 
 
+    // UPLOAD HELPERS
+
+    /**
+     * Adds every file of the request to the container. A request can carry more
+     * than one file, therefore every result has to be taken into account:
+     * reporting the outcome of the last one would hide files rejected by a
+     * pre-processor from the user.
+     */
+    private function storeUploads(): BasicHandlerResult
+    {
+        $container = $this->view_configuration->getContainer();
+        $results = $this->upload->getResults();
+        $stored_all = $results !== [];
+        $message = '';
+
+        foreach ($results as $result) {
+            if (!$result->isOK()) {
+                $stored_all = false;
+                $message = $result->getStatus()->getMessage();
+                continue;
+            }
+            // store to zip
+            if (!$this->irss->manageContainer()->addUploadToContainer(
+                $container->getIdentification(),
+                $result,
+                $this->view_request->getPath()
+            )) {
+                $stored_all = false;
+            }
+        }
+
+        return $stored_all ? $this->ok() : $this->failedResult($message);
+    }
+
+    /**
+     * The container derives the name of an entry from the name of the file, so
+     * the reassembled file is handed over as the only file of its directory.
+     * Adding that directory reaches ZipArchive::addFile(), which reads the file
+     * lazily - unlike addStreamToContainer(), which would pull the whole file
+     * into memory.
+     */
+    private function storeChunk(): BasicHandlerResult
+    {
+        return $this->assembleChunk(
+            $this->upload->getResults(),
+            function (string $assembled_path): ?string {
+                $added = $this->irss->manageContainer()->addDirectoryToContainer(
+                    $this->view_configuration->getContainer()->getIdentification(),
+                    dirname($assembled_path),
+                    $this->view_request->getPath()
+                );
+
+                return $added ? '-' : null;
+            }
+        );
+    }
+
+    private function ok(): BasicHandlerResult
+    {
+        return new BasicHandlerResult(self::P_PATH, BasicHandlerResult::STATUS_OK, '-', 'file upload OK');
+    }
+
+    private function sendHandlerResult(BasicHandlerResult $result): never
+    {
+        $response = $this->http->response()->withBody(Streams::ofString(json_encode($result)));
+        $this->http->saveResponse($response);
+        $this->http->sendResponse();
+        $this->http->close();
+    }
+
+
     // UPLOAD HANDLER
     public function getFileIdentifierParameterName(): string
     {
@@ -491,6 +551,6 @@ final class ilContainerResourceGUI implements UploadHandler
 
     public function supportsChunkedUploads(): bool
     {
-        return false;
+        return true;
     }
 }

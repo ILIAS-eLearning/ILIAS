@@ -55,7 +55,7 @@ class ilSearchFilterGUI
             }
             $scope_options[(string) $item["ref_id"]] = strip_tags($item["title"]);
         }
-        $inputs["search_scope"] = $field_factory->select($txt("scope"), $scope_options)
+        $inputs["search_scope"] = $field_factory->select($txt("search_area_filter"), $scope_options)
                                                 ->withRequired(true)
                                                 ->withValue(ROOT_FOLDER_ID);
         $inputs_activated[] = true;

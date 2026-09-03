@@ -46,6 +46,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
         protected \ilDBInterface $db,
         protected \ilLanguage $lng,
         protected \ilComponentRepository $component_repository,
+        protected \ilComponentFactory $component_factory,
         protected \ilRbacSystem $rbac,
         protected \ilObjUser $current_user,
         protected TaxonomyService $taxonomy,
@@ -54,7 +55,14 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
         protected int $request_ref_id
     ) {
         $lng->loadLanguageModule('qpl');
-        parent::__construct($db, $lng, $refinery, $component_repository, $notes_service);
+        parent::__construct(
+            $db,
+            $lng,
+            $refinery,
+            $component_repository,
+            $component_factory,
+            $notes_service
+        );
         $this->setAvailableTaxonomyIds($taxonomy->getUsageOfObject($parent_obj_id));
     }
 

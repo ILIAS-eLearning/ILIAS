@@ -50,7 +50,7 @@ class Factory implements ImportHandlerFactoryInterface
     public function __construct()
     {
         global $DIC;
-        $this->logger = $DIC->logger()->root();
+        $this->logger = $DIC->logger()->forComponent('exp');
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule("exp");
         $this->import_status_factory = new ImportStatusFactory();

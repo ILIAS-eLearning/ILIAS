@@ -20,8 +20,6 @@ declare(strict_types=0);
 
 namespace ILIAS\Tracking\View\PropertyList;
 
-use ILIAS\Tracking\View\PropertyList\PropertyListInterface;
-
 interface BuilderInterface
 {
     public function withProperty(string $key, string $value): self;

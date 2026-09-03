@@ -1109,9 +1109,9 @@ assessment#:#qpl_questions_deleted#:#Fragen gelöscht
 assessment#:#qpl_reset_preview#:#Vorschau zurücksetzen
 assessment#:#qpl_save_skill_assigns_update#:#Kompetenzzuweisung speichern
 assessment#:#qpl_settings_availability#:#Verfügbarkeit
-assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Vorhandene Taxonomien können zum Filtern der Fragen genutzt werden.
-assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomie als Navigationsbaum
-assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Ist eine Taxonomie ausgewählt, wird diese nicht als Filter sondern als Navigationsbaum angezeigt.
+assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Taxonomien können als Filter im Reiter „Fragen“ verwendet werden.
+assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomie als Baumansicht
+assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Die ausgewählte Taxonomie wird im Reiter „Fragen“ in einer Baumansicht angezeigt. Sie erscheint nicht mehr im Filter.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Keine Taxonomie als Navigationsbaum verwenden
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Taxonomien
 assessment#:#qpl_settings_subtab_general#:#Allgemeine Einstellungen
@@ -1366,10 +1366,10 @@ assessment#:#tst_activate_skill_service_desc#:#Erlaubt die Zuordnung von Fragen 
 assessment#:#tst_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Testtitel angezeigt. Der Test kann aber nicht gestartet werden. Der weitere Zugriff, auch auf bereits laufende Tests, wird zum Ende des Zeitraums unterbunden.
 assessment#:#tst_activation_online_info#:#Nur wenn der Test online geschaltet ist, können Benutzer am Test teilnehmen.
 assessment#:#tst_add_quest_cont_edit_mode#:#Editor
-assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Unformatierter Text für Fragen und Antworten und ILIAS-Seiteneditor für Rückmeldungen
-assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#Bietet keine Formatierung von Text in Fragen und Antworten, erlaubt aber Gestaltung der Rückmeldungen mit ILIAS-Seiteneditor und Wiederverwendung bei Fragen in ILIAS-Lernmodulen.
-assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Rich-Text-Editor (TinyMCE) für das Editieren der Fragen, Antworten und Rückmeldungen
-assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Erlaubt formatierten Text für Fragen, Antworten und Rückmeldungen. Rückmeldungen werden aber beim Einbinden von Fragen in ILIAS-Lernmodule nicht übernommen.
+assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Unformatierter Text für Fragen und Antwortoptionen
+assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#Beim Erstellen oder Bearbeiten von Fragen und Antwortmöglichkeiten kann der Text nicht formatiert werden. Rückmeldungen können jedoch mit dem ILIAS-Seiteneditor formatiert und auch wiederverwendet werden, wenn die Frage in ein ILIAS-Lernmodul eingebettet ist.
+assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Rich-Text-Editor (TinyMCE) für das Editieren der Fragen, Antwortoptionen und Rückmeldungen
+assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Beim Erstellen oder Bearbeiten von Fragen, Antwortoptionen und Rückmeldungen kann der Text formatiert werden. Rückmeldungen werden jedoch nicht übernommen, wenn die Frage in ein ILIAS-Lernmodul eingebettet wird.
 assessment#:#tst_add_quest_cont_edit_mode_plain#:#Unformatierter Text
 assessment#:#tst_add_quest_cont_edit_mode_plain_info#:#Bietet keine Formatierung von Text in Fragen, Antworten und Rückmeldungen.
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#Sie haben den Test bestanden. Der Test kann nicht noch einmal gestartet werden.
@@ -1471,6 +1471,7 @@ assessment#:#tst_eval_total_passed_average_points#:#Durchschnittliche Punktezahl
 assessment#:#tst_eval_total_passed_average_time#:#Mittlere Bearbeitungsdauer aller bestandenen Tests
 assessment#:#tst_eval_total_persons#:#Gesamtzahl der Personen, die den Test gestartet haben
 assessment#:#tst_exam_access_code#:#Zugangscode
+assessment#:#tst_exam_access_code_invalid_message#:#Der Zugangscode ist ungültig.
 assessment#:#tst_exam_access_code_label#:#Geben Sie den Zugangscode ein, um Ihren bereits begonnenen Test fortzusetzen. Lassen Sie das Feld leer, um einen neuen Testdurchlauf zu starten.
 assessment#:#tst_exam_conditions#:#Prüfungsbedingungen
 assessment#:#tst_exam_conditions_label#:#Ankreuzen, um die Bedingungen zu akzeptieren.
@@ -1696,7 +1697,8 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#Der gestartete
 assessment#:#tst_objective_progress_header#:#Fortschritt im Lernziel
 assessment#:#tst_objectives_progress_header#:#Fortschritte in den Lernzielen
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Dieser Random Test befindet sich in einem irreparablen Zustand, da angeschlossene Fragepools gelöscht wurden. Aus diesem Grund können Teilnehmer diesen Test nicht länger absolvieren.
-assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Fragen zu bereits erfolgreich bearbeiteten Lernzielen sind optional.</b><br /><br />Sie wollen nun zu einer Frage wechseln, welche zu einem bereits bestandenen Lernziel gehört.<br />Sie können wählen:<br /><br />Wenn Sie fortfahren, können Sie die Fragen zu diesen Lernzielen bearbeiten. Da für diesen Versuch aber neue Fragen ausgewählt wurden, wurden Ihre Antworten aus vorherigen Versuchen nicht übernommen. Sie können sich bei erneuter Bearbeitung der Fragen Ihr Lernzielergebnis auch verschlechtern.<br /><br />Wenn Sie die Fragen nicht erneut bearbeiten möchten können Sie zurück gehen. Die Fragen werden dann in der Auswertung nicht berücksichtigt.
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Fragen zu bereits bestandenen Lernzielen sind schon bearbeitet.</b><br /><br />Die nächsten Fragen gehören zu bereits bestandenen Lernzielen. Die Fragen werden in der Auswertung berücksichtigt, Ihre Antworten aus früheren Versuchen werden übernommen.<br /><br />Wenn Sie fortfahren, können Sie Ihre Antworten einsehen und überarbeiten. Wenn Sie Ihre früheren Antworten verändern, können sich Ihre Lernzielergebnisse verbessern oder verschlechtern.<br /><br />Wenn Sie Ihre Antworten nicht einsehen möchten, können Sie zurück gehen.
+assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Fragen zu bereits bestandenen Lernzielen sind optional.</b><br /><br />Die nächsten Fragen gehören zu bereits bestandenen Lernzielen.<br /><br />Wenn Sie fortfahren, können Sie die Fragen zu diesen Lernzielen bearbeiten. Dabei können sich Ihre Lernzielergebnisse verbessern oder verschlechtern.<br /><br />Wenn Sie die Fragen nicht bearbeiten möchten, können Sie zurück gehen. Die Fragen werden dann in der Auswertung nicht berücksichtigt.
 assessment#:#tst_out_of_time_message#:#Sie haben die maximal erlaubte Bearbeitungszeit des Tests erreicht!
 assessment#:#tst_participant#:#Teilnehmer
 assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
@@ -2500,10 +2502,10 @@ blog#:#blog_news_posting_authors#:#Mitwirkende: %s
 blog#:#blog_news_posting_published#:#Ein neuer Blogbeitrag wurde veröffentlicht von %s.
 blog#:#blog_news_posting_updated#:#Ein Blogbeitrag wurde aktualisiert von %s.
 blog#:#blog_no_keywords#:#Es sind bisher keine Schlagwörter vergeben worden.
-blog#:#blog_notification_activated#:#Änderungs-Benachrichtigung aktiviert
-blog#:#blog_notification_deactivated#:#Änderungs-Benachrichtigung deaktiviert
-blog#:#blog_notification_toggle_off#:#Änderungs-Benachrichtigung deaktivieren
-blog#:#blog_notification_toggle_on#:#Änderungs-Benachrichtigung aktivieren
+blog#:#blog_notification_activated#:#Sie haben die Benachrichtigung aktiviert.
+blog#:#blog_notification_deactivated#:#Sie haben die Benachrichtigung deaktiviert.
+blog#:#blog_notification_toggle_off#:#Benachrichtigung deaktivieren
+blog#:#blog_notification_toggle_on#:#Benachrichtigung aktivieren
 blog#:#blog_number_users_notes_or_comments#:#Anzahl der Benutzer, die zu diesem Beitrag Notizen oder Kommentare verfasst haben.
 blog#:#blog_posting#:#Beitrag
 blog#:#blog_posting_deleted#:#Der Beitrag wurde gelöscht.
@@ -2537,11 +2539,13 @@ book#:#book_add_participant#:#Teilnehmer hinzufügen
 book#:#book_add_schedule#:#Zeitplan hinzufügen
 book#:#book_additional_info_file#:#Zusätzliche Beschreibung
 book#:#book_all#:#Alle anzeigen
+book#:#book_all_day#:#Ganztägig
 book#:#book_all_pools_need_schedules#:#Die Änderungen wurden nicht gespeichert. Alle ausgewählten Buchungspools benötigen mindestens einen Zeitplan.
 book#:#book_all_users#:#Alle Personen
 book#:#book_assign#:#Buchen
 book#:#book_assign_object#:#Für diese Person buchen
-book#:#book_assign_participant#:#Für andere Personen buchen
+book#:#book_assign_participant#:#Für andere Person buchen
+book#:#book_assign_participants#:#Für andere Person(en) buchen
 book#:#book_back_to_list#:#Zurück zur Liste
 book#:#book_bobj#:#Angebote
 book#:#book_book#:#Buchen
@@ -2563,9 +2567,13 @@ book#:#book_confirm_booking_schedule_number_of_objects#:#Buchungsbestätigung
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Bitte wählen Sie die Anzahl der zu buchenden Angebote.
 book#:#book_confirm_cancel#:#Sind Sie sicher, dass Sie die folgenden Buchungen stornieren möchten?
 book#:#book_confirm_cancel_aggregation#:#Anzahl Stornierungen
-book#:#book_confirm_delete#:#Sind Sie sicher, dass Sie die folgenden Angebote löschen wollen?
+book#:#book_confirm_cancel_info#:#Die ausgewählten Buchungen werden storniert.
+book#:#book_confirm_delete#:#Sind Sie sicher, dass Sie die folgenden Angebote löschen wollen inklusive aller zugehörigen Zeitfenster? Dabei werden auch alle zugehörigen Buchungen gelöscht.
+book#:#book_confirm_remove_participant#:#Sind Sie sicher, dass Sie die folgende(n) Teilnehmer entfernen wollen? Dabei werden alle zugehörigen Buchungen gelöscht.
 book#:#book_copy#:#Buchungspool kopieren
 book#:#book_create_objects#:#Angebote erstellen
+book#:#book_date_from#:#Von Datum
+book#:#book_date_to#:#Bis Datum
 book#:#book_deadline#:#Deadline
 book#:#book_deadline_hours#:#Bis n Stunden vor Beginn des Zeitfensters
 book#:#book_deadline_info#:#Minimale Zeit zwischen Buchung und Buchungszeitraum
@@ -2573,11 +2581,18 @@ book#:#book_deadline_options#:#Spätester Buchungszeitpunkt
 book#:#book_deadline_slot_end#:#Bis zum Ende des Zeitfensters
 book#:#book_deadline_slot_start#:#Bis zum Beginn des Zeitfensters
 book#:#book_deassign#:#Buchungen bearbeiten
+book#:#book_delete_object#:#Löschen
+book#:#book_deleted_booking#:#Gelöschte Buchung(en)
+book#:#book_deleted_object#:#Gelöschtes buchbares Objekt
 book#:#book_download_info#:#Zusätzliche Beschreibung herunterladen
 book#:#book_edit#:#Buchungspool bearbeiten
 book#:#book_edit_object#:#Angebot bearbeiten
 book#:#book_edit_schedule#:#Zeitplan bearbeiten
+book#:#book_filter_end_date#:#Enddatum
+book#:#book_filter_objects#:#Buchbare Objekte
 book#:#book_filter_past_reservations#:#Abgelaufene Buchungen anzeigen
+book#:#book_filter_period#:#Zeitraum
+book#:#book_filter_start_date#:#Startdatum
 book#:#book_fromto#:#Datumsbereich
 book#:#book_hours#:#Stunden vor Beginn des Zeitfensters
 book#:#book_is_used#:#In Benutzung
@@ -2592,14 +2607,23 @@ book#:#book_messages#:#Mitteilungen
 book#:#book_messages_info#:#Buchende können einer Buchung eine Mitteilung mitgeben.
 book#:#book_missing_availability#:#Es können leider nicht alle Termine gebucht werden.
 book#:#book_missing_items#:#Es fehlen $1.
+book#:#book_modal_booking_confirmation#:#Buchungsbestätigung
+book#:#book_modal_enter_quantity_intro#:#Bitte geben Sie die Anzahl der Buchungen ein.
+book#:#book_modal_recurrence#:#Wiederholung
+book#:#book_modal_recurrence_multiple#:#Mehrere Termine buchen
+book#:#book_modal_recurrence_single#:#Nur diesen Termin buchen
+book#:#book_modal_skipped_unknown_item#:#Unbekannte oder ungültige Auswahl (%s).
+book#:#book_modal_warning_skipped_selections#:#Einige ausgewählte Angebote oder Termine sind nicht buchbar und werden in dieser Buchungsbestätigung nicht berücksichtigt.
 book#:#book_new#:#Neuen Buchungspool anlegen
 book#:#book_no_bookings_for_you#:#Es wurden keine Buchungen für Sie durchgeführt.
 book#:#book_no_objects#:#Keine Buchungen
+book#:#book_no_objects_available#:#Keines der ausgewählten Angebote ist derzeit für eine Buchung verfügbar.
 book#:#book_no_of_objects#:#Anzahl Angebote
 book#:#book_no_pools_selected#:#Diesem Kurs ist kein Buchungspool zugewiesen. Buchungspools können über den Reiter „Ressourcen“ des Kurses zugewiesen werden.
 book#:#book_no_preferences_for_you#:#Sie haben keine Präferenzen abgespeichert.
 book#:#book_no_recurrence#:#Nur diesen Termin buchen
 book#:#book_not#:#Nicht
+book#:#book_not_cancelled#:#Nicht storniert
 book#:#book_not_enough_preferences#:#Sie haben nicht genügend Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
 book#:#book_notification#:#Benachrichtigungen über Reservierungen
 book#:#book_notification_cron_not_active#:#Achtung: Der notwendige Cron-Job "Benachrichtigungen über Reservierungen" ist zurzeit nicht aktiviert.
@@ -2611,18 +2635,24 @@ book#:#book_obj_select#:#Auswählen
 book#:#book_object_added#:#Ein Angebot wurde hinzugefügt.
 book#:#book_object_deleted#:#Das Angebot wurde gelöscht.
 book#:#book_object_selection#:#Angebotsauswahl
+book#:#book_object_title_or_description#:#Titel/Beschreibung
 book#:#book_object_updated#:#Das Angebot wurde geändert.
 book#:#book_objects_available#:#Verfügbare Angebote: %s
 book#:#book_open#:#Buchungspool öffnen
 book#:#book_overall_limit#:#Gesamtzahl der Buchungen pro Benutzer begrenzen
 book#:#book_overall_limit_warning#:#Sie haben die maximale Anzahl Buchungen erreicht.
+book#:#book_overall_limit_would_be_exceeded#:#Ungültige Auswahl. Die Gesamtzahl der Buchungen würde überschritten werden.
+book#:#book_participant#:#Teilnehmer
 book#:#book_participant_already_assigned#:#Mindestens eine Person war bereits zugewiesen.
 book#:#book_participant_assigned#:#Die Personen wurden hinzugefügt.
+book#:#book_participant_removed#:#Die Teilnehmer und alle zugehörigen Buchungen wurden erfolgreich entfernt.
+book#:#book_past_bookings#:#Vergangene Buchungen
 book#:#book_period#:#Dauer
 book#:#book_pool_added#:#Ein Buchungspool wurde angelegt.
 book#:#book_pool_selection#:#Auswahl Buchungspool
 book#:#book_post_booking_file#:#Datei
 book#:#book_post_booking_information#:#Informationen zur Buchung
+book#:#book_post_booking_information_for#:#Informationen zur Buchung von "%s"
 book#:#book_post_booking_text#:#Text
 book#:#book_post_booking_text_info#:#Die Platzhalter können genutzt werden, um Buchungsdetails zum Infotext hinzuzufügen.<br />Der Platzhalter [OBJECT] wird durch das jeweilige Angebot ersetzt.<br />Der Platzhalter [PERIOD] wird durch den gewählten Buchungszeitraum ersetzt.
 book#:#book_pref_book_cron#:#Buchung mit Präferenzen
@@ -2633,6 +2663,7 @@ book#:#book_pref_overview#:#Übersicht
 book#:#book_preference_info#:#Bitte wählen Sie %1 Präferenzen bis %2. Nach der Frist werden die Angebote automatisch zugeordnet. Die Präferenzen aller Beteiligten werden nach Möglichkeit berücksichtigt.
 book#:#book_preferences#:#Präferenzen
 book#:#book_preferences_saved#:#Die Präferenzen wurden gespeichert.
+book#:#book_present_bookings#:#Aktuelle und zukünftige Buchungen
 book#:#book_public_log#:#Benutzer sehen alle Buchungen
 book#:#book_public_log_info#:#Benutzer mit Leserecht können im Reiter „Buchungen“ auch Buchungen anderer Benutzer einsehen.
 book#:#book_recurrence#:#Wiederholung
@@ -2643,14 +2674,16 @@ book#:#book_reminder_day#:#Versenden
 book#:#book_reminder_day_info#:#Sendet eine Liste eigener anstehender Buchungen und zusätzlich eine Gesamtliste an Personen mit dem Recht „Einstellungen bearbeiten“. Bitte beachten Sie: Um Benachrichtigungen zu erhalten, müssen die Personen diese über das Menü „Aktionen“ oben rechts im Buchungspool „Benachrichtigungen“ aktiviert haben.
 book#:#book_reminder_days#:#Tage vor der Buchung
 book#:#book_reminder_setting#:#Per Mail an eigene Buchung erinnern
+book#:#book_remove_participants#:#Teilnehmer entfernen
 book#:#book_rerun_assignments#:#Zuweisungen erneut durchführen
 book#:#book_rerun_confirmation#:#Achtung. Die Zuweisung nach Präferenzen ist bereits erfolgt. In seltenen Fällen kann ein Abbruch des Prozesses zu keinen oder unvollständigen Buchungen führen und ein erneutes Starten des Prozesses notwendig machen. Bevor sie den automatischen Prozess erneut starten, müssen sie alle bestehenden Buchungen entfernen, um Mehrfachzuweisungen zu verhindern.
 book#:#book_reservation_available#:#%s verfügbar
+book#:#book_reservation_cancelled#:#Buchung(en) storniert.
 book#:#book_reservation_confirmed#:#Die Buchung wurde erfolgreich durchgeführt.
 book#:#book_reservation_failed#:#Die Buchung ist fehlgeschlagen.
 book#:#book_reservation_failed_overbooked#:#Die Buchung ist fehlgeschlagen, da das betreffende Angebot nicht mehr verfügbar ist.
-book#:#book_reservation_filter_period#:#Voreinstellung für den Filter „Datumsbereich“
-book#:#book_reservation_filter_period_info#:#Im Reiter „Buchungen“ wird der Filter „Datumsbereich“ auf diesen Wert ab dem aktuellen Datum voreingestellt.
+book#:#book_reservation_filter_period#:#Voreinstellung für den Filter Zeitraum
+book#:#book_reservation_filter_period_info#:#Im Reiter „Buchungen“ und "Angebote" wird der Filter „Zeitraum“ auf diesen Wert ab dem aktuellen Datum voreingestellt. Bei einem Wert von "0" wird kein Filter gesetzt.
 book#:#book_reservation_fix_info#:#Buchungen können nur für die Zeitfenster durchgeführt werden, die unten als verfügbar angegeben werden.
 book#:#book_reservation_overview#:#Buchungen aller Benutzer
 book#:#book_reservation_status_5#:#Storniert
@@ -2658,6 +2691,7 @@ book#:#book_reservation_title#:#Buchungsanfrage für
 book#:#book_reservations_list#:#Buchungen
 book#:#book_schedule#:#Zeitplan
 book#:#book_schedule_added#:#Ein Zeitplan wurde hinzugefügt.
+book#:#book_schedule_all_day#:#Ganztägiger Zeitplan
 book#:#book_schedule_days#:#Zeitfenster
 book#:#book_schedule_days_info#:#Gültige Zeiten für jeden Tag (HH:MM-HH:MM)
 book#:#book_schedule_deleted#:#Der Zeitplan wurde gelöscht.
@@ -2678,20 +2712,32 @@ book#:#book_select_pool#:#Pool auswählen
 book#:#book_set_cancel#:#Stornieren
 book#:#book_set_delete#:#Löschen
 book#:#book_show_message#:#Mitteilung anzeigen
+book#:#book_show_past_bookings#:#Abgelaufene Buchungen anzeigen
+book#:#book_some_reservations_unavailable#:#Einige der ausgewählten Angebote konnten nicht gebucht werden, da sie nicht mehr verfügbar sind.
+book#:#book_table#:#Tabelle
+book#:#book_table_col_availability#:#Verfügbarkeit
+book#:#book_table_col_datetime#:#Datum/Uhrzeit
 book#:#book_title_description_nr#:#Titel; Beschreibung; Anzahl
 book#:#book_title_description_nr_info#:#Geben Sie bitte Titel, Beschreibung und Anzahl getrennt durch ein Semikolon oder TAB ein. Nutzen Sie einen Zeile je Buchungsobjekt.
 book#:#book_too_many_preferences#:#Sie haben zu viele Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
 book#:#book_total_individual_bookings_limit#:#Begrenze die Gesamtanzahl an Buchungen, die von/für einzelne Teilnehmende durchgeführt werden können – über alle verfügbaren Objekte hinweg. Jedes buchbare Objekt kann dabei weiterhin nur einmal pro Teilnehmendem gebucht werden.
 book#:#book_type_warning#:#Es sind momentan keine Angebote vorhanden. Um den Pool nutzen zu können, müssen zuerst Angebote angelegt werden.
+book#:#book_view#:#Ansicht
 book#:#book_week#:#Wochenansicht
+book#:#book_week_no_objects_selected#:#Wählen Sie rechts unter ‘Angebotsauswahl‘ mindestens ein Angebot aus und klicken Sie auf den Button ‘Aktualisieren‘.
 book#:#book_your_bookings#:#Ihre Buchungen
 book#:#book_your_preferences#:#Ihre Präferenzen
 book#:#book_your_reservations#:#Ihre Buchungen
 book#:#booking_multiple_succesfully#:#Buchungen erfolgreich durchgeführt
 book#:#booking_nr_of_items#:#Anzahl
+book#:#booking_process_error#:#Bei der Verarbeitung Ihrer Buchung(en) ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.
+book#:#bookings_log#:#Buchungen
+book#:#delete_bookable_item#:#Löschen des Angebots
+book#:#no_valid_selection#:#Keine gültige Auswahl
 book#:#obj_book_duplicate#:#Buchungspool kopieren
 book#:#participants#:#Personen
 book#:#reservation_deleted#:#Buchung gelöscht
+book#:#schedule_type#:#Zeitplantyp
 buddysystem#:#buddy_allow_to_contact_me#:#Kontaktanfragen erlauben
 buddysystem#:#buddy_allow_to_contact_me_default_info#:#Bestimmt ob standardmässig Kontaktanfragen verschickt werden können.
 buddysystem#:#buddy_allow_to_contact_me_info#:#Wenn aktiviert, können andere Benutzer mir Kontaktanfragen senden.
@@ -2884,6 +2930,7 @@ certificate#:#persistent_certificate_mode_instant#:#Direkt
 certificate#:#persistent_certificate_mode_instant_info#:#Diese Option wird für Systeme mit geringer bis zu mittelgroßer Benutzerinteraktion empfohlen. Für Systeme, die zu hoher Last während der Zertifikatserstellung neigen, wird die Option "Cron-Job" empfohlen.
 chatroom#:#allow_anonymous#:#Anonyme Anmeldung erlauben
 chatroom#:#allow_custom_usernames#:#Frei wählbare Chat-Namen
+chatroom#:#allow_custom_usernames_info#:#Erlaube Benutzern einen eigenen Namen innerhalb des Chatraums zu wählen. Falls diese Option nicht selektiert ist, wird der Benutzernamen des Users verwendet.
 chatroom#:#anonymous_hint#:#Bitte beachten Sie, dass für den Zugriff von anonymen Benutzer die entsprechenden Berechtigungen im "Berechtigungen"-Reiter gesetzt sein müssen.
 chatroom#:#auto_scroll#:#Automatisch an das Ende scrollen
 chatroom#:#autogen_usernames#:#Chat-Namen für anonyme Teilnahme
@@ -2912,21 +2959,24 @@ chatroom#:#chat_deletion_ival_max_val#:#Der maximale Wert für die gewählte Ein
 chatroom#:#chat_deletion_section_head#:#Löschen alter Nachrichten
 chatroom#:#chat_enable_history#:#Verlauf
 chatroom#:#chat_enable_history_info#:#Alle können im Reiter „Verlauf“ Chat-Beiträge aus der Vergangenheit lesen und exportieren.
-chatroom#:#chat_error_log_info#:#Bitte geben Sier hier den absoluten Serverpfad zu jener Datei an (bspw. /var/www/ilias/data/chat_errors.log), in die der Chat-Server Fehler protokolliert. Wird kein Pfad eingetragen, wird die eine Protokolldatei im selben Verzeichnis erstellt, in dem der Chat-Server liegt.
+chatroom#:#chat_error_log_info#:#Bitte geben Sie hier den absoluten Serverpfad zu jener Datei an (bspw. /var/www/ilias/data/chat_errors.log), in die der Chat-Server Fehler protokolliert. Wird kein Pfad eingetragen, wird die eine Protokolldatei im selben Verzeichnis erstellt, in dem der Chat-Server liegt.
 chatroom#:#chat_functions#:#Chat Funktionen
 chatroom#:#chat_https_cert_info#:#Bitte geben Sie den absoluten Serverpfad zum SSL-Zertifikat an (bspw.: /etc/ssl/certs/server.pem).
 chatroom#:#chat_https_dhparam_info#:#Bitte geben Sie hier den absoluten Serverpfad zu einer Datei an (bspw.: /etc/ssl/private/dhparam.pem), um Diffie-Hellman-Parameter auszuhandeln (z.B. generiert via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
 chatroom#:#chat_https_key_info#:#Bitte geben Sie den absoluten Serverpfad zum privaten Schlüssel an (bspw.: /etc/ssl/private/server.key).
 chatroom#:#chat_invitation#:#"[INVITER_NAME]" lädt ein in Chatraum "[ROOM_NAME]"
 chatroom#:#chat_invitation_long#:#[SALUTATION][BR][BR]Sie wurden in einen Chatraum eingeladen:[BR]Titel des Chatraums: [ROOM_NAME][BR]Eingeladen von: [INVITER_NAME][BR]URL: [LINK][BR][BR]Zum Betreten des Chatraums folgen Sie bitte der angegebenen URL.
+chatroom#:#chat_invitation_modal_headline#:#Chatraum Einladung
+chatroom#:#chat_invitation_modal_section#:#Benutzer einladen
 chatroom#:#chat_invitation_nc_inv_x#:#Sie haben %s Chateinladungen.
 chatroom#:#chat_invitation_nc_no_inv#:#Sie haben keine Chateinaldungen.
 chatroom#:#chat_invitation_short#:#Klicken Sie auf den Link, um den Chatraum zu betreten.
+chatroom#:#chat_invitation_username_input_label#:#Benutzer eingeben:
 chatroom#:#chat_invitations#:#Chateinladungen
 chatroom#:#chat_invite#:#Einladen
 chatroom#:#chat_join#:#Betreten
 chatroom#:#chat_kick#:#Rauswerfen
-chatroom#:#chat_log_info#:#Bitte geben Sier hier den absoluten Serverpfad zu jener Datei an (bspw. /var/www/ilias/data/chat.log), in die der Chat-Server allgemeine Ereignisse protokolliert. Wird kein Pfad eingetragen, wird die eine Protokolldatei im selben Verzeichnis erstellt, in dem der Chat-Server liegt.
+chatroom#:#chat_log_info#:#Bitte geben Sie hier den absoluten Serverpfad zu jener Datei an (bspw. /var/www/ilias/data/chat.log), in die der Chat-Server allgemeine Ereignisse protokolliert. Wird kein Pfad eingetragen, wird die eine Protokolldatei im selben Verzeichnis erstellt, in dem der Chat-Server liegt.
 chatroom#:#chat_log_level#:#Log-Level
 chatroom#:#chat_mainroom#:#Hauptraum
 chatroom#:#chat_message#:#Nachricht
@@ -2979,6 +3029,7 @@ chatroom#:#chat_user_action_invite_public_room#:#In öffentlichen Chatraum einla
 chatroom#:#chat_user_x_is_typing#:#Benutzer %s tippt gerade ...
 chatroom#:#chat_users_are_typing#:#Mehrere Benutzer tippen gerade ...
 chatroom#:#chat_whisper#:#Flüstern
+chatroom#:#chatroom_anonymous_default#:#Anonym #
 chatroom#:#chatroom_auth#:#Authentifikation
 chatroom#:#chatroom_auth_btn_txt#:#Schlüssel generieren
 chatroom#:#chatroom_auth_key#:#Authentifikation-Schlüssel
@@ -3429,7 +3480,7 @@ cntr#:#cntr_switch_to_new_editor_message#:#Dies ist der Standard-Seiteneditor. W
 cntr#:#cntr_switched_editor#:#Auf neue Darstellung umgestellt
 cntr#:#cntr_tax_none_available#:#Es gibt keine verfügbaren Taxonomien.
 cntr#:#cntr_tax_settings_info#:#Taxonomien in Kategorien klassifizieren und filtern die in der Kategorie enthaltenen Objekte. Nach dem Hinzufügen von Taxonomien können über die Reiter „Metadaten“ und die Unterreiter „Taxonomiezuordnung“ der jeweiligen Objekte Klassifizierungen vorgenommen werden. Taxonomien können zusätzlich im Seitenblock des Reiters „Inhalt“ der Kategorie angezeigt werden, um ein direktes Filtern der zugeordneten Objekte zu ermöglichen.
-cntr#:#cntr_taxonomy_definitions#:#Taxonomie-Definition
+cntr#:#cntr_taxonomy_definitions#:#Taxonomien
 cntr#:#cntr_taxonomy_show_sideblock#:#Taxonomie im Seitenblock darstellen
 cntr#:#cntr_taxonomy_sideblock_settings#:#Präsentationseinstellungen
 cntr#:#cntr_text_media_editor#:#Seite bearbeiten
@@ -3705,7 +3756,7 @@ common#:#check_languages#:#Alle Sprachen überprüfen
 common#:#check_link#:#Externe Links überprüfen
 common#:#check_link_desc#:#Wenn eingeschaltet, werden alle ILIAS-Lernmodule auf ungültige externe Links überprüft.
 common#:#check_user_accounts#:#ILIAS-Konten überprüfen
-common#:#check_user_accounts_desc#:#Personen, deren ILIAS-Konten zeitlich begrenzt sind, werden zwei Wochen vor Fristende per E-Mail informiert, dass ihr Konto abläuft. Außerdem löscht der Cron-Job alle ILIAS-Konten, bei denen der E-Mail-Bestätigungslink nicht fristgerecht angeklickt wurde.
+common#:#check_user_accounts_desc#:#Personen, deren ILIAS-Konten zeitlich begrenzt sind, werden zwei Wochen vor Fristende per E-Mail informiert, dass ihr Konto abläuft.
 common#:#check_web_resources#:#Weblinks überprüfen
 common#:#check_web_resources_desc#:#Wenn eingeschaltet, werden alle Weblinks auf ungültige externe Links überprüft und gegebenenfalls deaktiviert.
 common#:#checked#:#Ausgewählt
@@ -3810,7 +3861,7 @@ common#:#create_export_file#:#Exportdatei erstellen
 common#:#create_stylesheet#:#Style erstellen
 common#:#created#:#Erstellt am
 common#:#cron_forum_notification#:#Foren-Benachrichtigungen via Cron-Job versenden
-common#:#cron_forum_notification_crob_desc#:#Wenn aktiviert, sendet ILIAS täglich Benachrichtigungen an die Benutzer, die bei ausgewählten Foren oder Foren-Themen über neue und geänderte Beiträge benachrichtigt werden wollen. Bitte beachten Sie: Wenn Sie diese Form der Foren-Benachrichtigungen aktivieren, werden keine direkten Benachrichtungen mehr verschickt (Administration / Foren / Foren-Benachrichtigungen versenden).
+common#:#cron_forum_notification_crob_desc#:#Wenn aktiviert, sendet ILIAS täglich Benachrichtigungen an die Benutzer, die bei ausgewählten Foren oder Foren-Themen über neue und geänderte Beiträge benachrichtigt werden wollen. Bitte beachten Sie: Wenn Sie diese Form der Foren-Benachrichtigungen aktivieren, werden keine direkten Benachrichtigungen mehr verschickt (Administration / Foren / Foren-Benachrichtigungen versenden).
 common#:#cron_forum_notification_disabled#:#Kann nicht deaktiviert werden, wenn der Cron-Job aktiv ist.
 common#:#cron_jobs#:#Cron-Jobs
 common#:#cron_lucene_index#:#Lucene-Suchindex aktualisieren
@@ -4341,7 +4392,7 @@ common#:#il_grp_admin#:#Gruppenadministration
 common#:#il_grp_member#:#Gruppenmitglied
 common#:#il_grp_status_closed#:#Geschlossene Gruppe
 common#:#il_grp_status_open#:#Offene Gruppe
-common#:#il_iass_member#:#Teilnehmer
+common#:#il_iass_member#:#Bewertete Person
 common#:#il_lso_admin#:#Lernsequenzadministration
 common#:#il_lso_member#:#Lernsequenzmitglied
 common#:#il_lti_instructor#:#LTI Instructor
@@ -4429,7 +4480,7 @@ common#:#italic_action#:#Kursiv einfügen - Klicken Sie um kursiven Text einzuf�
 common#:#item#:#Begriff
 common#:#itgr_add#:#Objekteblock anlegen
 common#:#itgr_new#:#Neuen Objekteblock anlegen
-common#:#java_server#:#Java-Server
+common#:#java_server#:#PDF-Konfiguration
 common#:#java_server_host#:#Host
 common#:#java_server_info#:#Es wird ein Suchindex der ILIAS-Datenbank samt enthaltener Dateien und Objekte erstellt. Um die Lucene-Suche verwenden zu können, muss der JAVA-basierte ilServer installiert und konfiguriert sein: siehe Reiter „Lucene“.
 common#:#java_server_port#:#Port
@@ -4586,12 +4637,14 @@ common#:#mail_maxsize_attach#:#Maximale Größe des Mail-Anhangs
 common#:#mail_member#:#Mail an Mitglied
 common#:#mail_members#:#Mail an Mitglieder
 common#:#mail_message_scheduled#:#Mail planen
-common#:#mail_message_scheduled_info#:#Geplante Mails werden bis zum gewählten Zeitpunkt im Postausgang verbleiben.
+common#:#mail_message_scheduled_info#:#Geplante Mails bleiben bis zum gewählten Versandzeitpunkt im Postausgang. Beim Bearbeiten werden sie vorübergehend in Entwürfe verschoben, damit sie während der Bearbeitung nicht versendet werden. Nach dem erneuten Planen erscheinen sie wieder im Postausgang.
 common#:#mail_not_sent#:#Ihre Mail konnte nicht verschickt werden
 common#:#mail_schedule_error_no_datetime#:#Das Planen einer Mail erfordert ein Datum und eine Uhrzeit.
 common#:#mail_schedule_error_past_datetime#:#Mails können nicht in der Vergangenheit geplant werden.
 common#:#mail_schedule_scheduled_datetime#:#Geplanter Versandzeitpunkt
 common#:#mail_scheduled#:#Mail zur späteren Zustellung im Postausgang abgelegt.
+common#:#mail_scheduled_edit_compose_info#:#Sie bearbeiten eine geplante Mail. Der Versand ist pausiert, bis Sie die Mail erneut planen..
+common#:#mail_scheduled_edit_moved_info#:#Diese geplante Mail wurde vorübergehend in Entwürfe verschoben, damit sie während der Bearbeitung nicht versendet wird. Nach dem erneuten Planen erscheint sie wieder im Postausgang.
 common#:#mail_search_no#:#Es wurden keine passenden Ergebnisse gefunden
 common#:#mail_select_one#:#Sie müssen mindestens eine Mail auswählen
 common#:#mail_send_error#:#Fehler beim Verschicken der Mail
@@ -4769,7 +4822,7 @@ common#:#msg_no_perm_paste#:#Ihnen fehlt die Berechtigung, um die folgenden Obje
 common#:#msg_no_perm_paste_object_in_folder#:#Ihnen fehlt die Berechtigung, um das Objekt %s in den Ordner %s einzufügen.
 common#:#msg_no_perm_perm#:#Ihnen fehlt die Berechtigung, um auf die Rechteeinstellungen zuzugreifen.
 common#:#msg_no_perm_read#:#Ihnen fehlt die Berechtigung, um auf dieses Objekt zuzugreifen.
-common#:#msg_no_perm_read_item#:#Sie haben keine Berechtigung, auf das Objekt „%s“ zuzugreifen.
+common#:#msg_no_perm_read_item#:#Sie haben keine Berechtigung, auf das Objekt zuzugreifen.
 common#:#msg_no_perm_read_lm#:#Ihnen fehlt die Berechtigung, um diese Lernmodul anzuzeigen.
 common#:#msg_no_perm_view_roles_of_user#:#Sie haben keine Berechtigung, auf die Rollenzuweisung des Kontos zuzugreifen
 common#:#msg_no_perm_write#:#Sie besitzen keine Rechte, um Einstellungen zu ändern!
@@ -5082,7 +5135,7 @@ common#:#obj_scov#:#SCORM-Zertifikat
 common#:#obj_seas#:#Suche
 common#:#obj_seas_desc#:#Einstellungen zur systemweiten Suche, Personensuche und Volltextsuche (Lucene)
 common#:#obj_serv#:#Server
-common#:#obj_serv_desc#:#Einstellungen des Severs
+common#:#obj_serv_desc#:#Serverstatus, Einstellungen und PDF-Konfiguration
 common#:#obj_sess#:#Sitzung
 common#:#obj_sess_duplicate#:#Sitzung kopieren
 common#:#obj_skmg#:#Kompetenzmanagement
@@ -5108,7 +5161,7 @@ common#:#obj_tala_desc#:#Gesprächsvorlagen
 common#:#obj_tals#:#Team Gesprächserie
 common#:#obj_talt#:#Gesprächsvorlage
 common#:#obj_task#:#To-Do
-common#:#obj_tax#:#Taxonomie
+common#:#obj_tax#:#Taxonomien innerhalb dieses Objekts
 common#:#obj_taxf#:#Taxonomienordner
 common#:#obj_tool_setting_calendar#:#Kalender-Block
 common#:#obj_tool_setting_calendar_active#:#Kalender
@@ -5329,6 +5382,7 @@ common#:#preconditions_optional_hint#:#Bitte erfüllen Sie mindestens <b>%s</b> 
 common#:#predefined_template#:#Vordefinierte Rollenvorlage
 common#:#preferences#:#Benutzerdefinierte Einstellungen
 common#:#presentation_table_more#:#Mehr anzeigen
+common#:#presenter#:#Präsentiert von
 common#:#preview#:#Vorschau
 common#:#preview_create#:#Vorschau erstellen
 common#:#preview_delete#:#Vorschau löschen
@@ -5406,6 +5460,8 @@ common#:#refresh#:#Aktualisieren
 common#:#refresh_languages#:#Alle Sprachen aktualisieren
 common#:#refuse#:#Antrag ablehnen
 common#:#reg_account_confirmation_successful#:#Das ILIAS-Konto wurde bestätigt und aktiviert.
+common#:#reg_delete_expired_pending_registrations#:#Abgelaufene Registrierungen löschen
+common#:#reg_delete_expired_pending_registrations_desc#:#Löscht alle ILIAS-Konten, bei denen der E-Mail-Bestätigungslink nicht fristgerecht angeklickt wurde.
 common#:#reg_goto_parent_membership_info#:#Nur Mitglieder können auf das Zielobjekt zugreifen.
 common#:#reg_mail_body_2_confirmation#:#Der Link wird nur für %s gültig sein, danach müssen Sie sich erneut registrieren.
 common#:#reg_mail_body_3_confirmation#:#Falls Sie diese E-Mail unerwartet erhalten haben, ist es möglich, dass eine andere Person Ihre E-Mail-Adresse versehentlich oder vorsätzlich angegeben hat. In diesem Fall ignorieren Sie diese Mail bitte.
@@ -5493,8 +5549,8 @@ common#:#rolt_new#:#Neue Rollenvorlage
 common#:#row#:#Zeile
 common#:#rows#:#Zeilen
 common#:#rpc_pdf_font#:#Schriftarten
-common#:#rpc_pdf_font_info#:#Zusätzliche Schriftarten zur Erzeugung von PDF-Dateien. Alle zusätzlich angegebenen Schriftarten müssen serverseitig installiert sein oder dem Java-Server beim Starten bekannt gemacht werden.
-common#:#rpc_pdf_generation#:#PDF-Erstellung
+common#:#rpc_pdf_font_info#:#Geben Sie hier zusätzliche Schriftarten zur Erzeugung von PDF-Dateien an. Alle eingetragenen Schriftarten müssen auf dem Java-Server installiert sein oder dem Java-Server beim Starten bekannt gemacht werden.
+common#:#rpc_pdf_generation#:#Schriften für PDF-Erstellung
 common#:#sad#:#Sad
 common#:#sahs#:#Lernmodul SCORM
 common#:#sahs_added#:#SCORM-Lernmodul angelegt
@@ -5532,7 +5588,7 @@ common#:#scorm_login_as_learner_id_info#:#An Stelle der ILIAS-Benutzer-ID wird d
 common#:#scorm_lp_auto_activate#:#Standardeinstellungen für den Lernfortschritt
 common#:#scorm_lp_auto_activate_info#:#Wenn der Lernfortschritt im Allgemeinen aktiviert ist, wird bei neuen SCORM-Lernmodulen der Gesamtstatus des Lernfortschritts bestimmt durch ausgewählte SCORM-Materialien (SCOs) und alle SCOs werden für die Lernfortschritts-Bestimmung ausgewählt. Anpassungen sind weiterhin bei jedem SCORM-Lernmodul möglich.
 common#:#scorm_new#:#Neues SCORM-Lernmodul anlegen
-common#:#scorm_without_session#:#SCORM 2004-Speicherung ohne Session aktivieren
+common#:#scorm_without_session#:#SCORM 2004: Speicherung ohne Session
 common#:#scorm_without_session_info#:#Dies sichert die Speicherung von SCORM 2004-Lernstandsdaten auch bei abgelaufener ILIAS-Session. Bei SCORM 1.2 ist die Speicherung ohne Session immer aktiviert.
 common#:#search#:#Suche
 common#:#search_active#:#Aktive Benutzer
@@ -5651,6 +5707,7 @@ common#:#show_content#:#Inhalt anzeigen
 common#:#show_details#:#Details anzeigen
 common#:#show_filter#:#Filter anzeigen
 common#:#show_hidden_sections#:#Weitere Informationen anzeigen &raquo;
+common#:#show_less#:#Weniger zeigen
 common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
 common#:#show_more#:#Mehr zeigen
@@ -5977,7 +6034,6 @@ common#:#webdav_chosen_language_already_used#:#Für die ausgewählte Sprache gib
 common#:#webdav_doc_delete#:#WebDAV-Anleitung löschen
 common#:#webdav_docs_mount_instructions#:#Datei mit WevDAV-Anleitung
 common#:#webdav_duplicate_detected_title#:#Folgende Objekte konnten nicht angezeigt werden, da bereits ein Objekt mit dem selben Titel angezeigt wird:
-common#:#webdav_enable_versioning#:#Datei-Versionierung
 common#:#webdav_forbidden_chars_title#:#Folgende Objekte konnten nicht angezeigt werden, da sie verbotene Zeichen enthalten (\<>/:*?"|#):
 common#:#webdav_form_document#:#WebDAV-Anleitung
 common#:#webdav_form_document_info#:#Ein txt- oder html-Dokument mit einer Anleitung zum Anbinden von WebDAV an die Systeme Ihrer Wahl hochladen
@@ -5996,7 +6052,6 @@ common#:#webdav_sure_delete_documents_s#:#Soll die WebDAV-Anleitung mit folgende
 common#:#webdav_tbl_docs_head_title#:#Titel
 common#:#webdav_tbl_docs_title#:#Liste hochgeladener WebDAV-Anleitungen
 common#:#webdav_upload_instructions#:#WebDAV-Anleitung hochladen
-common#:#webdav_versioning_info#:#Wenn diese Einstellung aktiviert ist, wird für bereits existierende Dateien eine neue Version angelegt. Ansonsten werden diese überschrieben.
 common#:#webfolder_dir_info#:#Sie sind hierher gelangt, weil Ihr Browser keine Webordner öffnen kann. Lesen Sie die <a href="%1$s">Anleitung zum Öffnen dieses Webordners</a>.
 common#:#webfolder_index_of#:#Inhalt von %1$s
 common#:#webfolder_instructions#:#Anleitung für Webordner
@@ -6796,14 +6851,14 @@ content#:#cont_nomenu#:#Oberes Navigationsmenü ausblenden
 content#:#cont_nomenu_info#:#Falls das SCORM-Lernmodul eigene Möglichkeiten zum Beenden und Navigieren mitbringt, kann das von der SCORM-Spezifikation vorgesehene obere Navigationsmenü ausgeblendet werden.
 content#:#cont_none#:#Keine
 content#:#cont_not_saved_edit_lock_expired#:#Entschuldigung, Ihre Änderungen konnten nicht gespeichert werden. Die Seite wurde zwischenzeitlich von einem anderen Benutzer zur Bearbeitung gesperrt. Sie können diesen Dialog schließen und dann den Inhalt in Ihre Zwischenablage kopieren.
-content#:#cont_notification_activate_lm#:#Benachrichtigungen für Lernmodul aktivieren
-content#:#cont_notification_activate_page#:#Benachrichtigungen für Seite aktivieren
-content#:#cont_notification_activated#:#Benachrichtigung aktiviert (Gesamtes Lernmodul)
+content#:#cont_notification_activate_lm#:#Benachrichtigung für das Lernmodul aktivieren
+content#:#cont_notification_activate_page#:#Benachrichtigung für diese Seite aktivieren
+content#:#cont_notification_activated#:#Sie haben die Benachrichtigung für das gesamte Lernmodul aktiviert.
 content#:#cont_notification_comment_lm#:#die folgende Seite wurde kommentiert
 content#:#cont_notification_comment_subject_lm#:#Es wurde ein Kommentar zur Seite %s: %s" hinzugefügt
-content#:#cont_notification_deactivate_lm#:#Benachrichtigungen für Lernmodul deaktivieren
-content#:#cont_notification_deactivate_page#:#Benachrichtigungen für Seite deaktivieren
-content#:#cont_notification_deactivated#:#Benachrichtigungen wurden deaktiviert.
+content#:#cont_notification_deactivate_lm#:#Benachrichtigung für das Lernmodul deaktivieren
+content#:#cont_notification_deactivate_page#:#Benachrichtigung für diese Seite deaktivieren
+content#:#cont_notification_deactivated#:#Sie haben die Benachrichtigung deaktiviert.
 content#:#cont_notification_update_lm#:#das folgende Lernmodul wurde geändert
 content#:#cont_notify_on_blocked_users#:#Benachrichtigung über gesperrte Benutzer
 content#:#cont_notify_on_blocked_users_info#:#Sie werden benachrichtigt, sobald Benutzer gesperrt werden, weil Sie die maximale Anzahl an Antwortversuchen überschritten haben.
@@ -7038,7 +7093,7 @@ content#:#cont_sc_stat_running#:#Aktiv
 content#:#cont_sc_store_if_previous_score_was_lower#:#wenn der zuvor erzielte Punktestand höher oder gleich war
 content#:#cont_sc_title#:#Titel
 content#:#cont_sc_usession#:#Automatische Abmeldung aus ILIAS verhindern
-content#:#cont_sc_usession_info#:#Um das automatische Ausloggen und den Verlust von Bearbeitungsdaten zu verhindern, sendet das Lernmodul regelmäßig Anfragen an ILIAS. Die Bearbeitung des SCORM-Lernmoduls würde ansonsten nicht als Aktivität gewertet und die ILIAS-Sitzung beendet werden.
+content#:#cont_sc_usession_info#:#Während das Lernmodul bearbeitet wird, kann eine Abmeldung aus ILIAS als störend empfunden werden und zum Verlust von Bearbeitungsdaten führen. Die SCORM RTE sendet regelmäßig Anfragen an ILIAS, um das automatische Abmelden zu verhindern. Um den Verlust von Bearbeitungsdaten für SCORM 2004 zu verhindern, aktivieren Sie ebenfalls die Option „SCORM 2004: Speicherung ohne Session“. Für SCORM 1.2 ist diese Option dauerhaft aktiviert. Sie finden die Option in der systemweiten Administration von Lernmodulen.
 content#:#cont_sc_version#:#Version des Lernmoduls
 content#:#cont_sc_version_info#:#Die laufende Nummer wird automatisch aus dem Versionsmanagement des Lernmoduls gelesen.
 content#:#cont_scheduled_activation#:#Zeitliche Aktivierung
@@ -7366,6 +7421,7 @@ copg#:#copg_cron_keep_entries_info#:#Diese Anzahl an Einträgen wird im Verlauf 
 copg#:#copg_days#:#Tage
 copg#:#copg_details#:#Details
 copg#:#copg_edit_iframe_title#:#Text bearbeiten im Seiteneditor
+copg#:#copg_edit_style_class#:#Style-Klasse bearbeiten
 copg#:#copg_entries#:#Einträge
 copg#:#copg_error#:#Problem
 copg#:#copg_error_occured_modal#:#Es ist leider ein Fehler aufgetreten. Bitte drücken Sie "Seite neu laden" um zum zuletzt gespeicherten Inhalt zu gelangen.
@@ -7388,6 +7444,7 @@ copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen
 copg#:#copg_reload_page#:#Seite neu laden
 copg#:#copg_remove_formats#:#Zeichenformate entfernen
 copg#:#copg_sec_link_info#:#Wählen Sie ein Ziel für die Verlinkung des Blocks. Achtung: In diesem Fall darf der Inhalt des Blocks dann selbst keine weiteren Links enthalten!
+copg#:#copg_select_two_versions#:#Bitte wählen Sie genau zwei Versionen zum Vergleich aus.
 copg#:#copg_snippet_cannot_be_edited#:#Dies ist ein vordefinierter Inhaltsbaustein, der an dieser Stelle nicht editiert werden kann.
 copg#:#copg_templates#:#Vorlagen
 copg#:#copg_unsupported_media_type#:#Dieses Medienobjekt hat einen nicht unterstützen Medientyp.
@@ -7619,20 +7676,20 @@ crs#:#crs_loc_passes_info#:#Maximalanzahl Testdurchläufe:
 crs#:#crs_loc_passes_left#:#Verbleibende Anzahl von Testdurchläufen
 crs#:#crs_loc_passes_reached#:#Keine weiteren Testdurchläufe möglich
 crs#:#crs_loc_perc#:#Benötigte Prozentzahl an Punkten
-crs#:#crs_loc_progress_do_qualifying#:#Bitte führen Sie den Abschlusstest durch, um das Lernziel abzuschließen.
-crs#:#crs_loc_progress_do_qualifying_again#:#Bitte bearbeiten Sie das Lernziel erneut.
+crs#:#crs_loc_progress_do_qualifying#:#Führen Sie den Abschlusstest durch, um das Erreichen des Lernziels zu überprüfen.
+crs#:#crs_loc_progress_do_qualifying_again#:#Bitte bearbeiten Sie die Materialien zum Lernziel erneut.
 crs#:#crs_loc_progress_no_result_do_initial#:#Bearbeiten Sie den Einstiegstest
-crs#:#crs_loc_progress_no_result_no_initial#:#Bearbeiten Sie die folgenden Materialien und danach den Abschlusstest.
+crs#:#crs_loc_progress_no_result_no_initial#:#Bearbeiten Sie die folgenden Materialien und absolvieren danach den Abschlusstest.
 crs#:#crs_loc_progress_objective_complete#:#Sie haben das Lernziel erreicht.
 crs#:#crs_loc_progress_result_itest#:#Ergebnis Einstiegstest
 crs#:#crs_loc_progress_result_qtest#:#Ergebnis
-crs#:#crs_loc_qst_resume_tst_itest#:#Einstiegstests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen Einstiegstest zu einem Lernziel gestartet. Entweder setzen Sie diesen alten Test fort oder Sie starten einen neuen Test.
-crs#:#crs_loc_qst_resume_tst_qtest#:#Qualifizierende Tests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen Qualifizierenden Test zu einem Lernziel gestartet. Entweder setzen Sie diesen alten Test fort oder Sie starten einen neuen Test.
+crs#:#crs_loc_qst_resume_tst_itest#:#Einstiegstests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen Einstiegstest zu einem Lernziel gestartet. Entweder setzen Sie diesen Test fort oder starten einen neuen Test.
+crs#:#crs_loc_qst_resume_tst_qtest#:#Qualifizierende Tests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen Qualifizierenden Test zu einem Lernziel gestartet. Entweder setzen Sie diesen Test fort oder starten einen neuen Test.
 crs#:#crs_loc_qtest_info#:#Abschlusstest
-crs#:#crs_loc_qtst_for_objective#:#Qualifizierender Test "%1$s"
+crs#:#crs_loc_qtst_for_objective#:#Qualifizierender Test „%1$s“
 crs#:#crs_loc_rand_assign_qpl#:#Zuordnung aus Fragenpool
 crs#:#crs_loc_rand_qpl#:#Verfügbare Fragenpools
-crs#:#crs_loc_settings_err_qstart#:#Die Option "Abschlusstest als Startobjekt" wurde deaktiviert, da sie nur für Kurse ohne Einstiegstest verwendet werden kann.
+crs#:#crs_loc_settings_err_qstart#:#Die Option „Abschlusstest als Startobjekt“ wurde deaktiviert, da sie nur für Kurse ohne Einstiegstest verwendet werden kann.
 crs#:#crs_loc_settings_it_start_object#:#Einstiegstest ist Startobjekt
 crs#:#crs_loc_settings_it_type#:#Einstiegstest
 crs#:#crs_loc_settings_itest_tbl#:#Einstellungen für Einstiegstest
@@ -7653,21 +7710,21 @@ crs#:#crs_loc_settings_tbl_its_q_all#:#Qualifizierender Einstiegstest über alle
 crs#:#crs_loc_settings_tbl_qt#:#Abschlusstests pro Lernziel
 crs#:#crs_loc_settings_tbl_qts_all#:#Abschlusstest über alle Lernziele
 crs#:#crs_loc_settings_type_it_none#:#Kein Einstiegstest
-crs#:#crs_loc_settings_type_it_none_info#:#Kein Einstiegstest
+crs#:#crs_loc_settings_type_it_none_info#:#Die am Kurs teilnehmenden Personen arbeiten sich selbstgesteuert durch das Kursangebot, um die Lernziele zu erreichen. Sie können den Abschlusstest ablegen, um festzustellen, ob sie die Lernziele bereits erreicht haben oder ob zusätzliches Lernen und Training erforderlich ist.
 crs#:#crs_loc_settings_type_it_placement_all#:#Diagnostischer Einstiegstest über alle Lernziele
-crs#:#crs_loc_settings_type_it_placement_all_info#:#Diagnostischer Einstiegstest über alle Lernziele
+crs#:#crs_loc_settings_type_it_placement_all_info#:#Es muss zunächst ein erster Test absolviert werden, der Fragen zu allen Lernzielen enthält. Auf der Grundlage der individuellen Ergebnisse wird  unterstützendes Lernmaterial empfohlen. Auch Lernziele, die in diesem Test bereits bestanden wurden, werden im Abschlusstest erneut überprüft.
 crs#:#crs_loc_settings_type_it_placement_sel#:#Diagnostischer Einstiegstest pro Lernziel
-crs#:#crs_loc_settings_type_it_placement_sel_info#:#Diagnostischer Einstiegstest pro Lernziel
+crs#:#crs_loc_settings_type_it_placement_sel_info#:#Für jedes Lernziel muss ein separater Einstiegstest absolviert werden. Dieser enthält nur Fragen zu dem jeweiligen Lernziel. Auf der Grundlage der individuellen Ergebnisse wird unterstützendes Lernmaterial empfohlen. Auch Lernziele, die in den Einstiegstests bestanden wurden, werden im Abschlusstest erneut überprüft.
 crs#:#crs_loc_settings_type_it_qualifying_all#:#Qualifizierender Einstiegstest über alle Lernziele
-crs#:#crs_loc_settings_type_it_qualifying_all_info#:#Qualifizierender Einstiegstest über alle Lernziele
+crs#:#crs_loc_settings_type_it_qualifying_all_info#:#Der Eingangstest bewertet, ob ein Lernziel bereits erreicht wird. Der Test enthält Fragen zu allen Lernzielen. Wurden Lernziele im Einstiegstest bereits erreicht, werden sie nicht mehr im Abschlusstest überprüft.
 crs#:#crs_loc_settings_type_it_qualifying_sel#:#Qualifizierender Einstiegstest pro Lernziel
-crs#:#crs_loc_settings_type_it_qualifying_sel_info#:#Qualifizierender Einstiegstest pro Lernziel
+crs#:#crs_loc_settings_type_it_qualifying_sel_info#:#Für jedes Lernziel bewertet ein separater Einstiegstest, ob ein Lernziel bereits erreicht wird. Die jeweiligen Tests enthalten nur Fragen zum jeweiligen Lernziel und prüfen, ob das jeweilige Lernziel bereits erreicht wird oder nicht. Wurde ein Lernziel im zugehörigen Einstiegstest bereits erreicht, wird es nicht mehr im Abschlusstest überprüft.
 crs#:#crs_loc_settings_type_q_all#:#Abschlusstest über alle Lernziele
-crs#:#crs_loc_settings_type_q_all_info#:#Abschlusstest über alle Lernziele
+crs#:#crs_loc_settings_type_q_all_info#:#Das Erreichen aller Lernziele wird in einem einzigen Abschlusstest überprüft.
 crs#:#crs_loc_settings_type_q_selected#:#Abschlusstest pro Lernziel
-crs#:#crs_loc_settings_type_q_selected_info#:#Abschlusstest pro Lernziel
+crs#:#crs_loc_settings_type_q_selected_info#:#Für jedes Lernziel ist ein separater Abschlusstest zu absolvieren, um das Erreichen des jeweiligen Lernziels zu bestätigen.
 crs#:#crs_loc_subtab_creation#:#Erstellen
-crs#:#crs_loc_suggested#:#Bearbeiten Sie bitte die aufgeführten Materialien, um das Lernziel zu erreichen.
+crs#:#crs_loc_suggested#:#Bearbeiten Sie die nachfolgend aufgeführten Materialien. Führen Sie am Ende den Abschlusstest durch, um das Erreichen des Lernziels zu überprüfen.
 crs#:#crs_loc_tab_itest#:#Einstiegstest
 crs#:#crs_loc_tab_itests#:#Einstiegstests
 crs#:#crs_loc_tab_materials#:#Materialien
@@ -7738,8 +7795,8 @@ crs#:#crs_no_users_added#:#Es wurden keine Benutzer hinzugefügt
 crs#:#crs_no_users_selected#:#Sie haben keinen Benutzer ausgewählt
 crs#:#crs_not_available#:#-Nicht angegeben-
 crs#:#crs_notification#:#Benachrichtigungen
-crs#:#crs_notification_activated#:#Benachrichtigung aktiviert
-crs#:#crs_notification_deactivated#:#Benachrichtigung deaktiviert
+crs#:#crs_notification_activated#:#Sie haben die Benachrichtigung aktiviert.
+crs#:#crs_notification_deactivated#:#Sie haben die Benachrichtigung deaktiviert.
 crs#:#crs_notification_explanation_admin#:#Sie erhalten diese Mail, da für Sie als Kursbetreuung die Benachrichtigungen aktiviert sind.
 crs#:#crs_notification_list_title#:#Benachrichtigung
 crs#:#crs_notification_salutation#:#Hallo,
@@ -7857,9 +7914,7 @@ crs#:#crs_show_members#:#Galerie
 crs#:#crs_show_members_info#:#Alle Mitglieder können in diesem Reiter die Galerie einsehen.
 crs#:#crs_size#:#Dateigröße
 crs#:#crs_sort_activation#:#Nach Zeitvorgaben
-crs#:#crs_sort_manual#:#Manuelle Sortierung
 crs#:#crs_sort_timing_info#:#Die enthaltenen Objekte werden automatisch nach dem empfohlenen Bearbeitungszeitraum und ihrer Verfügbarkeit sortiert.
-crs#:#crs_sort_title#:#Alphabetisch nach Titel
 crs#:#crs_start#:#Start
 crs#:#crs_start_objects#:#Startobjekte
 crs#:#crs_starter_delete_sure#:#Wollen Sie wirklich, dass die folgenden Objekte nicht mehr Startobjekte sind?
@@ -8088,6 +8143,8 @@ crs#:#tutorial_support_block_title#:#Kontaktperson
 crs#:#user_fields#:#Angaben des Persönlichen Profils
 crsv#:#crsv_create#:#Kurszertifikat erstellen
 crsv#:#crsv_create_info#:#Wählen Sie einen Kurs, für den Sie ein Zertifikat benötigen
+dash#:#add_to_favourites#:#Zu Favoriten hinzufügen
+dash#:#added_to_favourites#:#Das Objekt wurde den Favoriten hinzugefügt.
 dash#:#dash_activation#:#Aktivierung
 dash#:#dash_added_to_favs#:#Der Eintrag wurde zu den persönlichen Favoriten hinzugefügt.
 dash#:#dash_avail_presentation#:#Verfügbare Präsentationen
@@ -8125,7 +8182,6 @@ dash#:#dash_item_removed#:#Der Eintrag wurde aus der Liste entfernt.
 dash#:#dash_learning_sequences#:#Meine Lernsequenzen
 dash#:#dash_list#:#Liste
 dash#:#dash_main_panel#:#Hauptbereich
-dash#:#dash_make_favourite#:#Zu Favoriten hinzufügen
 dash#:#dash_manual_new_item_pos#:#Position von neuen Objekten
 dash#:#dash_manual_new_item_pos_bot#:#Unten
 dash#:#dash_manual_new_item_pos_top#:#Oben
@@ -8153,6 +8209,8 @@ dash#:#dash_view_courses_groups#:#Block ‘Meine Kurse und Gruppen’
 dash#:#dash_view_favourites#:#Block ‘Favoriten’
 dash#:#favourites_disabled_info#:#Das Setzen von Favoriten ist deaktiviert. Sie können dieses in den Magazin-Einstellungen ändern.
 dash#:#memberships_disabled_info#:#Das Setzen von Mitgliedschaften ist deaktiviert. Sie können dieses in den Kurs-Einstellungen ändern.
+dash#:#remove_from_favourites#:#Von Favoriten entfernen
+dash#:#removed_from_favourites#:#Das Objekt wurde aus den Favoriten entfernt.
 dash#:#topitem_block#:#Block
 dateplaner#:#Fr_long#:#Freitag
 dateplaner#:#Fr_short#:#Fr
@@ -8264,7 +8322,7 @@ dateplaner#:#cal_ch_cancel_booking_info#:#Bei der Absage von Terminbuchungen wer
 dateplaner#:#cal_ch_cancel_booking_sure#:#Sind Sie sicher, dass die ausgewählten Terminbuchungen abgesagt werden sollen?
 dateplaner#:#cal_ch_canceled_bookings#:#Die ausgewählten Buchungen wurden abgesagt.
 dateplaner#:#cal_ch_ch#:#Sprechstundentermine
-dateplaner#:#cal_ch_cron_reminder#:#Sprechstunden-Benachrichtigungen versenden
+dateplaner#:#cal_ch_cron_reminder#:#Benachrichtigungen über Sprechstunden versenden
 dateplaner#:#cal_ch_cron_reminder_days#:#Anzahl Tage
 dateplaner#:#cal_ch_cron_reminder_info#:#Wenn aktiviert, erhalten Benutzer, die einen Sprechstundentermin gebucht haben, eine Erinnerungsmail über bevorstehende Termine. Bitte legen Sie fest, wieviele Tage im voraus die Erinnerungen verschickt werden sollen.
 dateplaner#:#cal_ch_current_booking_comment#:#Kommentar
@@ -9039,12 +9097,12 @@ ecs#:#ecs_cms_id#:#Root-ID im Campus-Management-System
 ecs#:#ecs_cms_tree_deleted#:#Die Zuweisungen zum Campus-Management-Baum wurden gelöscht
 ecs#:#ecs_cms_tree_synchronize#:#Synchronisieren
 ecs#:#ecs_cms_tree_synchronized#:#Der Baum wurde synchronisiert.
-ecs#:#ecs_communities#:#Teilnehmer
+ecs#:#ecs_communities#:#Partizipanten
 ecs#:#ecs_confirm_delete_tree#:#Wollen Sie wirklich alle Zuweisungen zu diesem CMS-Baum löschen?
 ecs#:#ecs_connection_settings#:#Verbindungsdaten
 ecs#:#ecs_consent_modal_btn_accept#:#Zustimmen und fortfahren
 ecs#:#ecs_consent_modal_title#:#Einwilligung zur Datenübertragung
-ecs#:#ecs_consent_reset_confirm_title#:#Benutzerzustimmung für diesen Teilnehmer zurücksetzen
+ecs#:#ecs_consent_reset_confirm_title#:#Benutzerzustimmung für diesen Partizipanten zurücksetzen
 ecs#:#ecs_cron_task_scheduler#:#ECS-Aufgaben ausführen
 ecs#:#ecs_cron_task_scheduler_info#:#Wenn aktiviert, werden ECS-Aufgaben regelmäßig ausgeführt. Dies ist nur möglich, wenn ein ECS-Server unter „Administration » ILIAS erweitern » ECS“ aktiviert ist.
 ecs#:#ecs_crs_alloc#:#Kurszuordnungen
@@ -9095,7 +9153,7 @@ ecs#:#ecs_field_cycle#:#Zyklus
 ecs#:#ecs_field_day#:#Tag
 ecs#:#ecs_field_end#:#Endtermin
 ecs#:#ecs_field_lecturer#:#Leitung
-ecs#:#ecs_field_part_id#:#Teilnehmer-ID
+ecs#:#ecs_field_part_id#:#Partizipanten-ID
 ecs#:#ecs_field_room#:#Raum
 ecs#:#ecs_field_semester_hours#:#Semesterwochenstunden
 ecs#:#ecs_field_start#:#Starttermin
@@ -9129,11 +9187,11 @@ ecs#:#ecs_import_id#:#Import-ID
 ecs#:#ecs_import_id_info#:#Bitte geben Sie die ID der Kategorie ein, in der neue ECS-Objekte angelegt werden sollen.
 ecs#:#ecs_import_types#:#Importierbare Objekttypen
 ecs#:#ecs_import_user_credentials_by_auth_mode#:#Konfiguration der Authentifikations-Methoden zur Übertragung via ECS
-ecs#:#ecs_import_user_credentials_by_auth_mode_info#:#Aktivieren Sie diese Option um es Account der Authentifizierungsmethode "Default" zu erlauben, über den ECS auf Ressourcen des Teilnehmers zugreifen zu können.
+ecs#:#ecs_import_user_credentials_by_auth_mode_info#:#ILIAS-Konten, die die Standard-Authentifizierungsmethode verwenden, können über den ECS auf Ressourcen des Partizipanten zugreifen.
 ecs#:#ecs_imported_content#:#Importierte Materialien
 ecs#:#ecs_imported_from#:#Importiert von
 ecs#:#ecs_institution#:#Institution
-ecs#:#ecs_invalid_import_type_cms#:#Sie können den Import-Typ "Campus-Management" nur für maximal einen Teilnehmer auswählen.
+ecs#:#ecs_invalid_import_type_cms#:#Sie können den Import-Typ „Campus-Management“ nur für maximal einen Partizipanten auswählen.
 ecs#:#ecs_key_password#:#Schlüsselpasswort
 ecs#:#ecs_lastname#:#Nachname
 ecs#:#ecs_lm_export#:#Lernmodulfreigaben
@@ -9148,7 +9206,7 @@ ecs#:#ecs_mapping_exp_tbl#:#Zuordnung der Erweiterten Metadaten zu ECS-Daten
 ecs#:#ecs_mapping_rcrs#:#Zuordnung für ECS-Kurse
 ecs#:#ecs_mapping_tbl#:#Zuordnung von ECS-Daten zu Erweiterten Metadaten
 ecs#:#ecs_mappings#:#Zuordnung von ECS-Daten
-ecs#:#ecs_member_auth_type#:#Authentifizierungsmodus der Teilnehmer
+ecs#:#ecs_member_auth_type#:#Authentifizierungsmodus der Partizipanten
 ecs#:#ecs_meta_data#:#Metadaten
 ecs#:#ecs_new_approval_subject#:#Ein neuer Kurs wurde freigegeben
 ecs#:#ecs_new_category_mapping#:#Neue Regel für die Zuordnung von importierten ECS-Kursen zu Kategorien
@@ -9170,8 +9228,8 @@ ecs#:#ecs_not_published#:#Es wurden keine Freigaben ausgewählt.
 ecs#:#ecs_notifications#:#Benachrichtigungen
 ecs#:#ecs_outgoing_user_credentials#:#Benutzerattribut
 ecs#:#ecs_outgoing_user_credentials_info#:#Bitte geben Sie an, welches Benutzerattribut zur Übertragung verwendet werden soll. Mögliche Werte [Login], [EXTERNAL_ACCOUNT]. Sie können das angegebene Attribut durch voranstellen oder anhängen von beliebigen Strings verändern. Bespiel: [LOGIN]@example.com
-ecs#:#ecs_part_settings#:#Einstellungen für Teilnehmer:
-ecs#:#ecs_participants#:#Teilnehmer
+ecs#:#ecs_part_settings#:#Einstellungen für Partizipanten:
+ecs#:#ecs_participants#:#Partizipanten
 ecs#:#ecs_participants_infos#:#Weitere Informationen
 ecs#:#ecs_polling#:#Frequenz der Abfragen
 ecs#:#ecs_polling_info#:#Bitte legen Sie eine Frequenz für Anfragen an den ECS-Server fest.
@@ -9184,7 +9242,7 @@ ecs#:#ecs_published_for#:#Freigegeben für:
 ecs#:#ecs_rcat_created_body_a#:#Eine neue ECS-Kategorie wurde angelegt:
 ecs#:#ecs_rcrs_created_body_a#:#Ein neuer ECS-Kurs wurde angelegt:
 ecs#:#ecs_read_remote_links#:#Kursinformationen aktualisieren
-ecs#:#ecs_refresh_participants#:#ECS-Teilnehmer aktualisieren
+ecs#:#ecs_refresh_participants#:#ECS-Partizipanten aktualisieren
 ecs#:#ecs_released#:#Freigegebene Kurse
 ecs#:#ecs_released_content#:#Freigegebener E-Content
 ecs#:#ecs_remote_imported#:#Die Informationen über Kursänderungen wurden neu eingelesen.
@@ -9222,7 +9280,7 @@ ecs#:#ecs_tst_export#:#Testfreigaben
 ecs#:#ecs_tst_export_disabled#:#Nicht freigeben
 ecs#:#ecs_tst_export_enabled#:#Freigeben
 ecs#:#ecs_tst_export_obj_settings#:#Einstellungen für Testfreigaben
-ecs#:#ecs_unique_id#:#Teilnehmer-ID
+ecs#:#ecs_unique_id#:#Partizipanten-ID
 ecs#:#ecs_user_rcp#:#Benachrichtigungen über ECS-Benutzer
 ecs#:#ecs_user_rcp_info#:#Geben Sie hier kommagetrennt einen oder mehrere Anmeldenamen ein, die über neue ECS-Konten per Mail benachrichtigt werden sollen.
 ecs#:#ecs_wiki_export#:#Wikifreigaben
@@ -9378,7 +9436,7 @@ exc#:#exc_fixed_date_individual_info#:#Es gibt keinen gemeinsamen Abgabetermin. 
 exc#:#exc_fixed_date_info#:#Alle Teilnehmenden erhalten zunächst das gleiche feste Abgabedatum.
 exc#:#exc_fullscreen#:#Vollbild
 exc#:#exc_future#:#Kommende
-exc#:#exc_given_feedback#:#Gegebene Feedbacks
+exc#:#exc_given_feedback#:#Gegebenes Feedback
 exc#:#exc_global_feedback_file#:#Musterlösung
 exc#:#exc_global_feedback_file_after_date#:#Nach festem Datum
 exc#:#exc_global_feedback_file_cron#:#Benachrichtigung bei Verfügbarkeit
@@ -9447,9 +9505,9 @@ exc#:#exc_msg_new_feedback_file_uploaded2#:#Eine neue Feedback-Datei wurde für 
 exc#:#exc_msg_new_feedback_text_uploaded#:#Es wurde ein neuer Kommentar zur Übung „%s“ hinzugefügt.
 exc#:#exc_msg_new_feedback_text_uploaded2#:#die folgende Einreichung von Ihnen wurde kommentiert.
 exc#:#exc_msg_new_message_from_pf_giver#:#Es wurde eine neue Mitteilung zur Übung „%s“ hinzugefügt.
-exc#:#exc_msg_new_message_from_pf_giver2#:#Ein Peer-Feedback-Geber hat eine neue Mitteilung für Sie eingestellt:
+exc#:#exc_msg_new_message_from_pf_giver2#:#Eine Person, die Ihnen Feedback gegeben hat, hat folgende Mitteilung an Sie:
 exc#:#exc_msg_new_message_from_pf_recipient#:#Es wurde eine neue Mitteilung zur Übung „%s“ hinzugefügt.
-exc#:#exc_msg_new_message_from_pf_recipient2#:#Ein Peer-Feedback-Nehmer hat eine neue Mitteilung für Sie eingestellt:
+exc#:#exc_msg_new_message_from_pf_recipient2#:#Eine Person, die von Ihnen Feedback erhalten hat, hat folgende Mitteilung an Sie:
 exc#:#exc_msg_participants_removed#:#Die Personen wurden aus der Übung entfernt.
 exc#:#exc_msg_public_submission#:#Alle Lösungsabgaben werden nach dem Abgabetermin veröffentlicht.
 exc#:#exc_msg_saved_grades#:#Die Änderungen wurden gespeichert.
@@ -9517,11 +9575,11 @@ exc#:#exc_peer_review_file#:#Datei-Upload
 exc#:#exc_peer_review_file_info#:#Ermöglicht Peers eine Datei je Review hochzuladen
 exc#:#exc_peer_review_give#:#Feedback geben
 exc#:#exc_peer_review_given#:#Gegebenes Feedback zeigen
-exc#:#exc_peer_review_giver#:#Feedback-Geber
-exc#:#exc_peer_review_invalid_giver_ids#:#Feedback-Geber, die an der Übung nicht teilnehmen oder nichts abgegeben haben
-exc#:#exc_peer_review_invalid_peer_ids#:#Feedback-Nehmer, die an der Übung nicht teilnehmen oder nichts abgegeben haben
+exc#:#exc_peer_review_giver#:#Feedback von
+exc#:#exc_peer_review_invalid_giver_ids#:#Personen, die Feedback geben sollten, aber nicht an der Übung teilgenommen oder kein Feedback abgegeben haben
+exc#:#exc_peer_review_invalid_peer_ids#:#Personen, denen ein Feedback gegeben werden sollte, die aber nicht an der Übung teilgenommen haben oder denen kein Feedback gegeben wurde
 exc#:#exc_peer_review_min_chars#:#Mindestanzahl Zeichen
-exc#:#exc_peer_review_min_chars_info#:#Die nötige Anzahl Zeichen für ein gültiges Feedback.
+exc#:#exc_peer_review_min_chars_info#:#Die nötige Anzahl Zeichen für ein gültiges Feedback
 exc#:#exc_peer_review_min_chars_tgl#:#Mindestlänge
 exc#:#exc_peer_review_min_number#:#Geforderte Anzahl von Feedbacks
 exc#:#exc_peer_review_min_number_info#:#Anzahl von Einreichungen, zu denen man Feedback geben muss. Sollte die Anzahl der geforderten Rückmeldungen die Anzahl der tatsächlichen Einreichungen übersteigen, wird die geforderte Anzahl automatisch auf die Anzahl der tatsächlichen Einreichungen reduziert.
@@ -9530,13 +9588,13 @@ exc#:#exc_peer_review_missing_info_deadline#:#Um das erhaltene Feedback zu sehen
 exc#:#exc_peer_review_missing_users#:#Benutzer mit einer Abgabe, die nicht Teil des Peer-Feedbacks sind
 exc#:#exc_peer_review_no_peers#:#Es konnten keine Peers gefunden werden.
 exc#:#exc_peer_review_no_peers_reviewed_yet#:#Es wurden bisher noch keine Bewertungen vorgenommen.
-exc#:#exc_peer_review_not_returned_users#:#Benutzer ohne Abgabe, die nicht Teil des Peer-Feedbacks sind
+exc#:#exc_peer_review_not_returned_users#:#Personen ohne Abgabe, die nicht Teil des Peer-Feedbacks sind
 exc#:#exc_peer_review_overview#:#Peer-Gruppen anzeigen
-exc#:#exc_peer_review_overview_invalid_users#:#Ungültige Benutzer
+exc#:#exc_peer_review_overview_invalid_users#:#Andere Personen
 exc#:#exc_peer_review_personal#:#Personalisiertes Peer-Feedback
 exc#:#exc_peer_review_personal_info#:#Peers werden mit vollem Namen gezeigt
 exc#:#exc_peer_review_rating#:#5-Sterne-Bewertung
-exc#:#exc_peer_review_recipient#:#Feedback-Nehmer
+exc#:#exc_peer_review_recipient#:#Feedback an
 exc#:#exc_peer_review_reset#:#Peer-Feedback löschen und zurücksetzen
 exc#:#exc_peer_review_reset_done#:#Sämtliche Peer-Feedback-Daten wurde für die Übungseinheit gelöscht.
 exc#:#exc_peer_review_reset_sure#:#Wollen Sie wirklich das komplette Peer-Feedback für die Übungseinheit „%s“ löschen?
@@ -9568,7 +9626,7 @@ exc#:#exc_random_assignment_info#:#Wenn Sie die Übung starten, wird Ihnen eine 
 exc#:#exc_random_selection#:#Zufällige Auswahl
 exc#:#exc_random_selection_info#:#Jeder Person wird eine zufällige Auswahl an verpflichtenden Übungseinheiten zugeordnet.
 exc#:#exc_random_selection_not_changeable_info#:#Diese Option kann nicht aktiviert werden.
-exc#:#exc_received_feedback#:#Erhaltene Feedbacks
+exc#:#exc_received_feedback#:#Erhaltenes Feedback
 exc#:#exc_rel_last_submission#:#Letztmöglicher Abgabetermin
 exc#:#exc_rel_last_submission_info#:#Wird dieses Datum gesetzt, so müssen alle Abgaben vor diesem Datum getätigt werden.
 exc#:#exc_rel_start_latest_lead_text#:#spätestens am %s
@@ -9638,9 +9696,9 @@ exc#:#exc_submission_and_grades_notification_link#:#Link zur Übung (Abgaben und
 exc#:#exc_submission_downloads_notification_link#:#Neue Abgaben herunterladen: %s
 exc#:#exc_submission_file#:#Dateiabgabe
 exc#:#exc_submission_no_new_files#:#Keine neuen Abgaben vorhanden.
-exc#:#exc_submission_notification#:#Benachrichtigung bei Abgabe
+exc#:#exc_submission_notification#:#Mail-Benachrichtigungen
 exc#:#exc_submission_notification_body#:#Eine neue Abgabe für die Übung „%s“ liegt vor.
-exc#:#exc_submission_notification_info#:#Sobald neue Lösungen abgegeben wurden, erhalten Sie eine Mail. Dies ist eine persönliche Einstellung, die nur für Sie gilt. Andere Personen, die Abgaben bewerten, erhalten nur dann eine Mail, wenn auch sie diese Checkbox aktivieren.
+exc#:#exc_submission_notification_info#:#Sie werden per Mail benachrichtigt, wenn neue Lösungen abgegeben werden oder Teilnehmende einen individuellen Abgabetermin beantragen. Dies ist eine persönliche Einstellung, die nur für Sie gilt. Andere Personen, die Abgaben bewerten, erhalten nur dann eine Mail, wenn auch sie diese Checkbox aktivieren.
 exc#:#exc_submission_notification_link#:#Link zur Übung: %s
 exc#:#exc_submission_notification_subject#:#Eine neue Abgabe für die Übung „%s“ liegt vor
 exc#:#exc_submission_open_notification_link#:#Abgabe öffnen: %s
@@ -9831,7 +9889,7 @@ file#:#copyright_custom#:#Benutzerdefiniert
 file#:#copyright_custom_info#:#Lizenz auswählen, welche auf alle entpackten Dateien dieses Archivs angewandt wird.
 file#:#copyright_inherited#:#Vererbt
 file#:#copyright_inherited_info#:#Lizenz des Zip-Archivs auf seine entpackten Dateien anwenden. <br \>Lizenz des Zip-Archivs: %s.
-file#:#could_not_create_file_objs#:#Beim Erstellen der Dateiobjekte ist ein Fehler aufgetreten, wenden Sie sich an die Administrierenden der Plattform.
+file#:#could_not_create_file_objs#:#Beim Erstellen der Dateiobjekte ist ein Fehler aufgetreten. Bitte wenden Sie sich an die technische Betreuung dieser Installation.
 file#:#de_activate_icon#:#(De-)Aktivieren
 file#:#download_ascii_filename#:#Nur ASCII-Zeichen im Download
 file#:#download_ascii_filename_info#:#Die Namen heruntergeladener Dateien enthalten nur ASCII-Zeichen und können so auf allen Systemen problemlos genutzt werden. Andere Zeichen werden durch Unterstriche ersetzt. Auf Installationen, die Dateinamen mit nicht-lateinischen Schriftzeichen nutzen, muss diese Option deaktiviert werden.
@@ -10271,6 +10329,7 @@ glo#:#glo_really_remove_from_collection#:#Sind Sie sich sicher, dass Sie das fol
 glo#:#glo_reference#:#Link
 glo#:#glo_reference_terms#:#Begriffe verlinken
 glo#:#glo_referenced_term#:#Verlinkte Begriffe
+glo#:#glo_remove_glossary#:##Sind Sie sich sicher, dass Sie das folgende Glossar aus der Liste der automatisch verlinkten Glossare entfernen wollen?
 glo#:#glo_removed_from_collection_info#:#Das Glossar wurde aus dem Sammelglossar entfernt.
 glo#:#glo_reset_all_boxes#:#Alle Fächer zurücksetzen
 glo#:#glo_save_and_continue#:#Speichern und weiter
@@ -10483,6 +10542,7 @@ gsfo#:#entries_add#:#Eintrag hinzufügen
 gsfo#:#entries_edit#:#Einträge bearbeiten
 gsfo#:#entries_parent#:#Gruppe auswählen
 gsfo#:#entries_select_parent#:#Eintrag in Gruppe verschieben
+gsfo#:#entries_target_group#:#Ziel wählen
 gsfo#:#entry_action#:#Link
 gsfo#:#entry_action_info#:#Geben Sie die vollständige URL einschließlich des Protokolls an (z. B. https://www.ilias.de)
 gsfo#:#entry_activation_toggled#:#Aktivierung wurde umgeschaltet
@@ -10491,6 +10551,7 @@ gsfo#:#entry_active_info#:#Diesen Eintrag aktivieren
 gsfo#:#entry_add#:#Eintrag hinzufügen
 gsfo#:#entry_delete#:#Löschen
 gsfo#:#entry_deleted#:#Gelöscht
+gsfo#:#entry_deleted_failed#:#Löschen nicht möglich
 gsfo#:#entry_edit#:#Bearbeiten
 gsfo#:#entry_external#:#In neuem Tab öffnen
 gsfo#:#entry_move#:#Verschieben
@@ -10513,6 +10574,7 @@ gsfo#:#group_toggle_activation#:#(De-)Aktivieren
 gsfo#:#group_translate#:#Übersetzen
 gsfo#:#info_not_deletable_core#:#Standardelemente können nicht gelöscht werden.
 gsfo#:#info_not_deletable_not_empty#:#Gruppen mit Einträgen können nicht gelöscht werden.
+gsfo#:#item_moved#:#Eintrag verschoben
 gsfo#:#legal_information#:#Rechtliche Informationen
 gsfo#:#order_saved#:#Reihenfolge gespeichert
 gsfo#:#permanent#:#permanent
@@ -10612,8 +10674,8 @@ iass#:#grading#:#Bewertung
 iass#:#grading_info#:#Bewertungsinformationen
 iass#:#grading_record#:#Bewertungszusammenfassung
 iass#:#iass_add#:#Individuelle Bewertung anlegen
-iass#:#iass_add_user_failure#:#Einer oder mehrere Benutzer konnten nicht hinzugefügt werden.
-iass#:#iass_add_user_success#:#Benutzer als Teilnehmer hinzugefügt.
+iass#:#iass_add_user_failure#:#Eine oder mehrere Personen konnten nicht hinzugefügt werden.
+iass#:#iass_add_user_success#:#Die Person wurde hinzugefügt.
 iass#:#iass_added#:#Individuelle Bewertung hinzugefügt
 iass#:#iass_amend_saved#:#Geänderte Prüfungsdaten wurden gespeichert.
 iass#:#iass_assessment_not_completed#:#Noch nicht abgeschlossen
@@ -10631,13 +10693,14 @@ iass#:#iass_edit#:#Einstellungen
 iass#:#iass_edit_info#:#Einstellungen Kontakt
 iass#:#iass_edit_record#:#Prüfungsdaten
 iass#:#iass_event_time#:#Zeitpunkt der Prüfung
-iass#:#iass_event_time_place_required#:#Pflichtangabe Zeitpunkt und Ort
+iass#:#iass_event_time_place_required#:#Pflichtangabe „Zeitpunkt“ und „Ort“
 iass#:#iass_event_time_place_required_info#:#Zeitpunkt und Ort der Prüfung müssen eingetragen werden.
-iass#:#iass_file#:#Datei
-iass#:#iass_file_dropzone#:#Ziehen Sie ihre Datei hierhin
+iass#:#iass_file#:#Prüfungsblatt
+iass#:#iass_file_dropzone#:#Ziehen Sie die Datei hierhin.
 iass#:#iass_file_required#:#Pflichtangabe Prüfungsblatt
 iass#:#iass_file_required_info#:#Ein Prüfungsblatt muss hochgeladen werden.
-iass#:#iass_file_visible_examinee#:#Datei für Teilnehmer sichtbar
+iass#:#iass_file_visible_examinee#:#Prüfungsblatt für bewertete Person sichtbar
+iass#:#iass_file_visible_examinee_info#:#Nach abgeschlossener Bewertung kann das Prüfungsblatt von der bewerteten Person eingesehen werden. Dazu muss die Funktion „Ergebnis zugänglich machen“ aktiviert sein.
 iass#:#iass_filter_all#:#Alle
 iass#:#iass_filter_failed#:#Nur nicht bestandene
 iass#:#iass_filter_finalized#:#Nur bestandene
@@ -10645,28 +10708,28 @@ iass#:#iass_filter_not_finalized#:#Nur nicht abgeschlossene
 iass#:#iass_filter_not_started#:#Nur nicht bewertete
 iass#:#iass_finalize#:#Abschließen
 iass#:#iass_finalize_info#:#Die Individuelle Bewertung wird abgeschlossen.
-iass#:#iass_finalize_user_qst#:#Soll die Bewertung des Teilnehmers wirklich final abgeschlossen werden? Änderungen an der Bewertung sind hinterher nicht mehr möglich.
+iass#:#iass_finalize_user_qst#:#Soll diese Bewertung wirklich abgeschlossen werden?
 iass#:#iass_further_field_headline#:#Detaillierte Informationen
 iass#:#iass_graded_by#:#Bewertet von
 iass#:#iass_info_emails_expl#:#Sie können mehrere Adressen mit einem Komma getrennt angeben.
 iass#:#iass_internal_note#:#Interne Anmerkungen zur Prüfung
-iass#:#iass_internal_note_info#:#Dieser Text ist nur für Personen sichtbar, die Prüfungsdaten einsehen können. Teilnehmerinnen und Teilnehmer sehen die interne Anmerkung zur Prüfung nicht.
+iass#:#iass_internal_note_info#:#Dieser Text ist nur für Personen sichtbar, die Prüfungsdaten einsehen können. Bewertete Personen sehen die interne Anmerkung zur Prüfung nicht.
 iass#:#iass_location#:#Ort
 iass#:#iass_mails#:#E-Mail
 iass#:#iass_may_not_finalize#:#Prüfung kann noch nicht abschließend bewertet werden. Bitte geben Sie eine Bewertung ab.
 iass#:#iass_membership_finalized#:#Bewertung abgeschlossen.
-iass#:#iass_membership_saved#:#Bewertung wurde gespeichert aber noch nicht final abgeschlossen.
+iass#:#iass_membership_saved#:#Bewertung wurde gespeichert, aber noch nicht final abgeschlossen.
 iass#:#iass_mess_notification_completed#:#Sie haben die Prüfung „%s“ bestanden. Beachten Sie bitte auch die folgende Notiz zur Prüfung.
 iass#:#iass_mess_notification_failed#:#Sie haben die Prüfung „%s“ leider nicht bestanden. Beachten Sie bitte auch die folgende Notiz zur Prüfung.
-iass#:#iass_notify#:#Ergebnis dem Teilnehmer zugänglich machen
-iass#:#iass_notify_explanation#:#Der Teilnehmer wird nach Abschluss der Bewertung per E-Mail benachrichtigt und kann die Prüfungsnotiz auf dem Reiter „Info“ einsehen.
+iass#:#iass_notify#:#Ergebnis zugänglich machen
+iass#:#iass_notify_explanation#:#Die bewertete Person wird nach Abschluss der Bewertung per E-Mail benachrichtigt und kann die Prüfungsnotiz auf dem Reiter „Info“ und in der E-Mail einsehen.
 iass#:#iass_phone#:#Telefon
 iass#:#iass_place#:#Ort der Prüfung
 iass#:#iass_record#:#Prüfungsnotiz
-iass#:#iass_record_info#:#Die Prüfungsnotiz kann nach finaler Bewertung vom Teilnehmer eingesehen werden. Ist unten die Benachrichtigung aktiviert, erhält der Teilnehmer die Prüfungsnotiz auch per E-Mail.
+iass#:#iass_record_info#:#Nach abgeschlossener Bewertung kann die Prüfungsnotiz von der bewerteten Person eingesehen werden. Dazu muss die Funktion „Ergebnis zugänglich machen“ aktiviert sein.
 iass#:#iass_record_template#:#Vorlage Prüfungsnotiz
-iass#:#iass_record_template_explanation#:#Hier eingegebener Text dient als Vorlage für die Prüfungsnotiz und wird für jeden neuen Teilnehmer verwendet.
-iass#:#iass_remove_user_qst#:#Soll der Teilnehmer wirklich entfernt werden?
+iass#:#iass_record_template_explanation#:#Dieser Text dient als Vorlage für die Prüfungsnotiz und wird für jede neue Bewertung angezeigt.
+iass#:#iass_remove_user_qst#:#Soll die Person wirklich aus der Individuellen Bewertung ausgetragen werden?
 iass#:#iass_responsibility#:#Zuständigkeit
 iass#:#iass_save_amend#:#Geänderte Prüfungsdaten speichern
 iass#:#iass_settings_availability#:#Verfügbarkeit
@@ -10683,14 +10746,14 @@ iass#:#iass_status_pending#:#Noch nicht bewertet
 iass#:#iass_subj_notification_completed#:#%s: Individuelle Bewertung wurde erfolgreich abgeschlossen.
 iass#:#iass_subj_notification_failed#:#%s: Individuelle Bewertung wurde nicht erfolgreich abgeschlossen.
 iass#:#iass_upload_file#:#Prüfungsblatt
-iass#:#iass_user_removed#:#Benutzer wurde erfolgreich entfernt.
+iass#:#iass_user_removed#:#Person wurde erfolgreich ausgetragen.
 iass#:#iass_usr_amend#:#Prüfungsdaten nachträglich ändern
-iass#:#iass_usr_download_attachment#:#Datei herunterladen
+iass#:#iass_usr_download_attachment#:#Prüfungsblatt herunterladen
 iass#:#iass_usr_edit#:#Prüfungsdaten bearbeiten
-iass#:#iass_usr_remove#:#Entfernen
+iass#:#iass_usr_remove#:#Austragen
 iass#:#iass_usr_view#:#Prüfungsdaten
-iass#:#il_iass_members#:#Teilnehmer
-iass#:#lp_inactive#:#Beachten Sie: die Lernfortschrittsbestimmung für dieses Objekt ist deaktiviert. Daher können Teilnahmen nicht finalisiert werden.
+iass#:#il_iass_members#:#Bewertungen
+iass#:#lp_inactive#:#Beachten Sie: die Bestimmung des Lernfortschritts ist für dieses Objekt deaktiviert. Daher können Teilnahmen nicht finalisiert werden.
 iass#:#save_amend#:#Geänderte Prüfungsdaten speichern
 impr#:#impr_page_type_impr#:#Impressum
 init#:#init_error_authentication_fail#:#Authentifizierung fehlgeschlagen.
@@ -10758,10 +10821,18 @@ irss#:#upload_modal_title#:#Dateien hinzufügen
 itgr#:#itgr_always_open#:#Immer offen
 itgr#:#itgr_assign_materials#:#Objekte auswählen
 itgr#:#itgr_assigned_materials#:#Objekte im Objekteblock
-itgr#:#itgr_assignment#:#Eingebunden
+itgr#:#itgr_assignment#:#Eingebunden in diesem Objekteblock
+itgr#:#itgr_assignment_to_other_itgr#:#Bereits einem anderen Objekteblock zugeordnet
 itgr#:#itgr_behaviour#:#Verhalten
 itgr#:#itgr_behaviour_info#:#Das System merkt sich den Zustand (geöffnet/geschlossen) je Benutzer bis zur Abmeldung (Logout).
 itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks nicht mit ausgegeben.
+itgr#:#itgr_display#:#Anzeige
+itgr#:#itgr_display_with_title#:#Mit Titel
+itgr#:#itgr_display_with_title_and_toggleable#:#Mit Titel, Objekteblock ein- und ausklappbar
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Ausgangszustand
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#zunächst geschlossen
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#zunächst geöffnet
+itgr#:#itgr_display_without_title#:#Ohne Titel
 itgr#:#itgr_edit#:#Einstellungen des Objekteblocks
 itgr#:#itgr_expandable_closed#:#Ausklappbar (zunächst geschlossen)
 itgr#:#itgr_expandable_open#:#Ausklappbar (zunächst geöffnet)
@@ -11081,28 +11152,21 @@ lng#:#lng_disable_language_detection#:#Automatische Spracherkennung deaktivieren
 lng#:#lng_download_deprecated#:#Veraltete Einträge herunterladen
 lng#:#lng_enable_language_detection#:#Automatische Spracherkennung aktivieren
 lng#:#lng_switch_language_detection#:#Automatische Spracherkennung umschalten
-log#:#log_browser#:#Browser Konsolen-Log
-log#:#log_browser_users#:#Aktivierte Benutzer für Browser-Log
-log#:#log_cache_#:#Caching
-log#:#log_cache_info#:#Erst wenn eine Nachricht den eingestellten Caching-Level erreicht oder überschreitet, werden innerhalb des aktuellen Server-Requests alle Nachrichten protokolliert, deren Level mindestens dem Log-Level entspricht.
-log#:#log_cache_level#:#Caching-Level
 log#:#log_component_btn_reset#:#Einstellungen zurücksetzen
 log#:#log_component_col_component#:#Komponente
 log#:#log_component_col_level#:#Log-Level
-log#:#log_component_root_desc#:#Log-Level für Nachrichten, die keiner Komponente zugeordnet sind.
+log#:#log_component_unknown#:#Unbekannt (%s)
 log#:#log_components#:#Komponenten
-log#:#log_general_settings#:#Einstellungen zur Protokollierung
 log#:#log_level_alert#:#ALERT
 log#:#log_level_critical#:#CRITICAL
 log#:#log_level_debug#:#DEBUG
+log#:#log_level_default#:#Standard (%s)
 log#:#log_level_emergency#:#EMERGENCY
 log#:#log_level_error#:#ERROR
 log#:#log_level_info#:#INFO
 log#:#log_level_notice#:#NOTICE
 log#:#log_level_off#:#Deaktiviert
 log#:#log_level_warning#:#WARNING
-log#:#log_log_level#:#Log-Level
-log#:#log_memory#:#Logge Speicherbedarf
 logging#:#error_settings_saved#:#Einstellungen gespeichert
 logging#:#frm_clear_older_then#:#Dateien löschen die älter sind als
 logging#:#frm_clear_older_then_info#:#Bitte geben Sie den Zeitraum in Tagen ein.
@@ -11196,7 +11260,6 @@ lso#:#lso_print_list#:#Liste erstellen
 lso#:#lso_read#:#Lesezugriff auf Learning Sequence
 lso#:#lso_search_users#:#Benutzer suchen
 lso#:#lso_settings_availability#:#Verfügbarkeit
-lso#:#lso_settings_availability_error#:#Das Enddatum darf nicht vor dem Startdatum liegen
 lso#:#lso_settings_extro#:#Abschlussseite bearbeiten
 lso#:#lso_settings_intro#:#Einleitungsseite bearbeiten
 lso#:#lso_settings_old_extro#:#Alte Abschlussseite ansehen
@@ -11221,7 +11284,7 @@ lso#:#table_online#:#Online
 lso#:#table_position#:#Position
 lso#:#table_sequence_content#:#Inhaltsverwaltung
 lso#:#table_title#:#Titel
-lso#:#unparticipate#:#Lernsequenz verlassen
+lso#:#unparticipate#:#Mitgliedschaft in der Lernsequenz beenden
 lti#:#act_lti_for_obj_type#:#LTI für diese Objekttypen aktivieren
 lti#:#activity_id#:#Activity-ID
 lti#:#activity_id_info#:#Diese Activity-ID wird vom LTI-Provider verwendet, um Statements zu identifizieren.
@@ -11233,6 +11296,10 @@ lti#:#conf_privacy_ident_il_uuid_ext_account#:#Die externe Konten-ID wird kombin
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#Die Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
 lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Anmeldename kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
 lti#:#conf_privacy_ident_il_uuid_login_info#:#Sendet den Anmeldenamen. Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
+lti#:#conf_privacy_ident_il_uuid_random#:#Zufalls-ID@ILIAS-Plattform-ID.ilias###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_random_info#:#Pro ILIAS-Objekt und ILIAS-Konto wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Die E-Mail-Adresse setzt sich zusammen aus der Zufalls-ID und einer eigens###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256url#:#Hash@ILIAS-Domain###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256url_info#:#Die E-Mail-Adresse setzt sich zusammen aus einem Hash-Wert und einer ILIAS-Domain. Diese Option ist mit maximal 80 Zeichen deutlich kürzer als die mit ILIAS-Plattform-ID. Ohne Zugriff auf die ILIAS-Datenbank ermöglicht diese Option sind nur sehr eingeschränkte Rückschlüsse auf ein ILIAS-Konto.###04 12 2025 new variable
 lti#:#conf_privacy_ident_il_uuid_user_id#:#ID des ILIAS-Kontos kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 lti#:#conf_privacy_ident_il_uuid_user_id_info#:#Die interne numerische ID ist bei jedem Aufruf identisch und ermöglicht Rückschlüsse auf das ILIAS-Konto.
 lti#:#conf_privacy_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
@@ -11318,13 +11385,16 @@ lti#:#launched#:#Die Ressource wurde bereits gestartet.
 lti#:#learning_progress_options#:#Optionen für den Lernfortschritt
 lti#:#lm_only_one_download_per_type#:#Es kann nur eine Datei je Typ (XML, HTML, SCORM) zum Download bereitgestellt werden.
 lti#:#lti13_hints#:#Hinweise
+lti#:#lti_13_authentication_url#:#URL für die Authentifizierungsanfrage###04 12 2025 new variable
 lti#:#lti_13_client_id#:#Client-ID
 lti#:#lti_13_deployment_id#:#Deployment-ID
+lti#:#lti_13_keyset_url#:#URL für den öffentlichen Schlüsselsatz###04 12 2025 new variable
 lti#:#lti_13_platform_id#:#Plattform-ID
 lti#:#lti_13_step1#:#Schritt 1
 lti#:#lti_13_step1_info#:#Tragen Sie bei der initiierenden Plattform (Consumer) die folgende Adresse für Launch URL, Initiate Login URL, Redirection URI und Registration URL ein:
 lti#:#lti_13_step2#:#Schritt 2
 lti#:#lti_13_step2_info#:#Von der initiierenden Plattform (Consumer) erhalten Sie Angaben, die Sie in den folgenden Feldern eintragen müssen. Nach dem Speichern stehen die LTI 1.3-Funktionalitäten zur Verfügung.
+lti#:#lti_13_token_url#:#URL für den Zugriffstoken###04 12 2025 new variable
 lti#:#lti_action_accept_provider_as_global#:#Den Provider als globalen Provider für alle Benutzer übernehmen.
 lti#:#lti_action_accept_providers_as_global#:#Provider als globalen Provider übernehmen
 lti#:#lti_action_delete_providers#:#Provider löschen
@@ -11338,6 +11408,8 @@ lti#:#lti_at_least_one_prov_has_usages#:#Mindestens ein Provider konnte nicht ge
 lti#:#lti_auth_failed_invalid_key#:#Authentifizierung nicht möglich. Es wurde kein gültiger Consumer-Key übermittelt.
 lti#:#lti_con_content_item#:#Unterstützung für Deep Linking
 lti#:#lti_con_content_item_url#:#Inhalts-URL
+lti#:#lti_con_grade_synchronization#:#Assignment and Grade Services###04 12 2025 new variable
+lti#:#lti_con_grade_synchronization_info#:#Das LTI-Tool muss 'Assignment and Grade Services' anbieten.###04 12 2025 new variable
 lti#:#lti_con_initiate_login_url#:#Initiate Login URL
 lti#:#lti_con_key_type#:#Typ des öffentlichen Schlüssels
 lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)
@@ -11357,6 +11429,10 @@ lti#:#lti_con_prov_category_info#:#Kategorie, um Einträge zu filtern, wenn ein 
 lti#:#lti_con_prov_custom_params#:#Definition der Parameter für diesen spezifischen Provider
 lti#:#lti_con_prov_custom_params_info#:#Bitte geben Sie diese in der Form ein: param1=value1; param2=value2
 lti#:#lti_con_prov_description#:#Beschreibung
+lti#:#lti_con_prov_dyn_reg_params#:#Optionale Parameter###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_params_info#:#Hier können z.B. Verweise auf Zielobjekte im Tool angegeben werden.###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_url#:#Registrierungs-URL des Tools###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_url_info#:#Hinweis: Nicht jedes Tool unterstützt die dynamische Registrierung.###04 12 2025 new variable
 lti#:#lti_con_prov_external_provider#:#Externer Provider
 lti#:#lti_con_prov_external_provider_info#:#Bei der Zusammenarbeit mit einem externen Provider bzw. Tool wird ein Hinweis angezeigt. Die Rechte zum Löschen persönlicher Daten durch die ILIAS-Administration sind bei externen Providern in der Regel nicht gegeben.
 lti#:#lti_con_prov_group_options#:#Optionen zum Gruppieren und Filtern von Providern
@@ -11401,7 +11477,7 @@ lti#:#lti_con_prov_xapi_launch_secret_info#:#&nbsp;
 lti#:#lti_con_prov_xapi_launch_url#:#URL des LRS-Endpoints
 lti#:#lti_con_prov_xapi_launch_url_info#:#Bitte fügen Sie die vollständige URL mit https:// hinzu.
 lti#:#lti_con_redirection_uris#:#Redirection URI
-lti#:#lti_con_tool_url#:#Login URL
+lti#:#lti_con_tool_url#:#Launch URL
 lti#:#lti_con_version#:#LTI Version
 lti#:#lti_con_version_1.1#:#Version 1.1
 lti#:#lti_con_version_1.3#:#Version 1.3
@@ -11422,13 +11498,16 @@ lti#:#lti_create_lti_user_role#:#Empfohlene globale Rolle für LTI-User anlegen
 lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an die aufrufende Plattform. Dieser Cron-Job wird nur in den Fällen benötigt, wenn der Lernfortschritt aufgrund von Einstellungsänderungen neu berechnet werden muss.
 lti#:#lti_custom_new#:#Eigene Provider-Einstellungen anlegen
+lti#:#lti_deep_linking_not_available_for_admin_objects#:#In der Administration angelegte Konsumenten erlauben keine Inhaltsauswahl
 lti#:#lti_delete_consume_provider#:#Provider löschen
 lti#:#lti_delete_consume_providers#:#Provider löschen
 lti#:#lti_delete_provider#:#Provider löschen
+lti#:#lti_dynamic_registration#:#Eigene Tool-Einstellungen mit dynamischer Registrierung anlegen (LTI 1.3)###04 12 2025 new variable
 lti#:#lti_edit_consumer#:#LTI-Konsument bearbeiten
 lti#:#lti_exit#:#LTI-Sitzung beenden
 lti#:#lti_exited#:#LTI-Sitzung beendet
 lti#:#lti_exited_info#:#Die LTI-Sitzung wurde erfolgreich beendet.
+lti#:#lti_form_provider_content_selection#:#Inhaltsauswahl
 lti#:#lti_form_provider_create#:#Provider-Einstellungen anlegen
 lti#:#lti_form_provider_edit#:#Provider-Einstellungen bearbeiten
 lti#:#lti_form_section_appearance#:#Optionen für den Start
@@ -11480,6 +11559,7 @@ lti#:#subtab_certificate#:#Zertifikat
 lti#:#subtab_object_settings#:#Objekteinstellungen
 lti#:#subtab_provider_settings#:#LTI-Provider-Einstellungen
 lti#:#tab_content#:#Inhalt
+lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#Platzierungen
 lti#:#tab_settings#:#Einstellungen
@@ -11649,7 +11729,7 @@ mail#:#mail_mailing_lists#:#Verteilerlisten
 mail#:#mail_mailing_lists_all_contact_entries_assigned#:#Sie haben bereits all Ihre Kontakte diesem Verteiler zugeordnet.
 mail#:#mail_mailing_lists_no_contact_entries#:#Sie haben keine Einträge in den Kontakten die Sie zur Verteilerliste hinzufügen können.
 mail#:#mail_main_folder#:#Hauptordner
-mail#:#mail_manage_attachments#:#Anhänge Verwalten
+mail#:#mail_manage_attachments#:#Anhänge verwalten
 mail#:#mail_manage_attachments_back_to_compose#:#Zurück zum Erstellen
 mail#:#mail_manage_attachments_drop_files_msg#:#Datei zum Hinzufügen hier ablegen
 mail#:#mail_mark_read#:#Als gelesen markieren
@@ -13138,8 +13218,8 @@ notes#:#notes_sort_desc#:#Absteigend sortieren
 notes#:#notes_text#:#Text
 noti#:#noti_activate_notification#:#Benachrichtigung aktivieren
 noti#:#noti_deactivate_notification#:#Benachrichtigung deaktivieren
-noti#:#noti_notification_activated#:#Benachrichtigungen sind aktiviert
-noti#:#noti_notification_deactivated#:#Benachrichtigungen sind deaktiviert
+noti#:#noti_notification_activated#:#Sie haben Benachrichtigungen aktiviert.
+noti#:#noti_notification_deactivated#:#Sie haben Benachrichtigungen deaktiviert.
 notifications#:#push_notification#:#Push-Benachrichtigungen
 notifications_adm#:#available_providers#:#Verfügbare Provider
 notifications_adm#:#client_settings#:#Browsereinstellungen
@@ -13202,7 +13282,7 @@ obj#:#obj_deactivate_multilang#:#Mehrsprachigkeit deaktivieren
 obj#:#obj_deactivate_multilang_conf#:#Wollen Sie die Unterstützung für mehrsprachige Inhalte wirklich deaktivieren? Nur die Inhalte der Standardsprache werden verfügbar bleiben.
 obj#:#obj_fallback_lang#:#Standardsprache
 obj#:#obj_features#:#Zusätzliche Funktionen
-obj#:#obj_import_file_error#:#Die Datei konnte nicht importiert werden. Bitte stellen Sie sicher, dass es sich um eine ILIAS-Exportdatei (XML-Export) des gleichen Objekttyps handelt und der Dateiname unverändert ist. Fehlermeldung:
+obj#:#obj_import_file_error#:#Die Datei konnte nicht importiert werden. Bitte stellen Sie sicher, dass es sich um eine ILIAS-Exportdatei (XML-Export) des gleichen Objekttyps handelt und der Dateiname unverändert ist.
 obj#:#obj_insert_into_clipboard#:#In Zwischenablage übernehmen
 obj#:#obj_inserted_clipboard#:#Die Objekte wurden in die Zwischenablage übernommen.
 obj#:#obj_master_lang#:#Basissprache
@@ -13245,8 +13325,8 @@ obj#:#obj_tool_setting_taxonomies_info#:#Taxonomien erlauben das Filtern von Obj
 obj#:#obj_tool_setting_use_news#:#Neuigkeiten
 obj#:#obj_tool_setting_use_news_info#:#Nutzung des Blocks „Neuigkeiten“ oder der Timeline für Neuigkeiten. Benutzer können Benachrichtigungen für Neuigkeiten aktivieren, sobald der Block oder die Timeline aktiv sind.
 obj#:#obj_tool_setting_use_news_open_settings#:#Einstellungen für Block und Timeline öffnen
-obj#:#obj_user_decides_notification#:#Mitglieder müssen Benachrichtigungen selbst aktivieren
-obj#:#obj_user_not_disable_not#:#Mitglieder können die Benachrichtigung nicht deaktiveren
+obj#:#obj_user_decides_notification#:#Mitglieder müssen Benachrichtigungen selbst aktivieren.
+obj#:#obj_user_not_disable_not#:#Mitglieder können die Benachrichtigung nicht deaktiveren.
 obj#:#online_input_byline#:#Objekt ist veröffentlicht und kann von allen Personen mit dem Recht „Lesezugriff“ genutzt werden. Die Verfügbarkeit kann aber noch durch Vorbedingungen oder zeitliche Zugriffsbeschränkungen eingeschränkt sein. Diese Einstellungen wirkt sich auf alle Referenzen des Objektes aus.
 obj#:#select_import_type_info#:#Der Typ des zu importierenden Objekts konnte nicht automatisch ermittelt werden. Vermutlich wurde die Datei umbenannt. Bitte wählen Sie den Objekt-Typen aus, den Sie importieren möchten.
 obj#:#select_object_type#:#Objekttyp wählen
@@ -13412,9 +13492,9 @@ pd#:#pd_view_select_at_least_one#:#Bitte wählen Sie mindestens eine Sicht, entw
 pdesk#:#bookmark_moved_ok#:#Bookmark wurde verschoben.
 pdesk#:#bookmark_select_target#:#Bitte wählen Sie das Ziel.
 poll#:#poll_absolute#:#Aktuelle Stimmen
-poll#:#poll_activation_online_info#:#Wählen Sie diese Einstellung, um die Abstimmung für Benutzer verfügbar zumachen.
+poll#:#poll_activation_online_info#:#Diese Abstimmung verfügbar machen.
 poll#:#poll_add#:#Abstimmung anlegen
-poll#:#poll_anonymous_warning#:#Ihre Stimme wurde einzeln erfasst, aber Ihr Name wird in den Abstimmungsergebnissen nicht angezeigt.
+poll#:#poll_anonymous_warning#:#Dies ist eine anonyme Abstimmung. Ihre Stimme wird gespeichert, Ihr Name aber nicht in den Abstimmungsergebnissen angezeigt.
 poll#:#poll_answer#:#Antwort
 poll#:#poll_answer_selected_alt_text#:#Ausgewählt
 poll#:#poll_answers#:#Mögliche Antworten
@@ -13428,25 +13508,25 @@ poll#:#poll_comments#:#Kommentare
 poll#:#poll_copy#:#Abstimmung kopieren
 poll#:#poll_delete_votes#:#Alle Stimmabgaben löschen
 poll#:#poll_delete_votes_sure#:#Sind Sie sicher, dass Sie alle Stimmabgaben löschen möchten?
-poll#:#poll_edit#:#Abstimmung editieren
+poll#:#poll_edit#:#Abstimmung bearbeiten
 poll#:#poll_edit_question#:#Frage bearbeiten
 poll#:#poll_image#:#Bild
 poll#:#poll_import#:#Abstimmung importieren
-poll#:#poll_limit_not_below_answer_count#:#Die begrenzte Anzahl muss kleiner sein als die Anzahl der möglichen Antworten.
-poll#:#poll_limit_number_of_answers#:#Anzahl Antworten begrenzen
+poll#:#poll_limit_not_below_answer_count#:#Die maximale Anzahl der auswählbaren Antworten muss geringer sein als die Gesamtzahl der möglichen Antworten.
+poll#:#poll_limit_number_of_answers#:#Anzahl der auswählbaren Antworten begrenzen
 poll#:#poll_max_number_of_answers#:#Maximale Anzahl pro Person
 poll#:#poll_max_number_of_answers_info#:#Sie dürfen bis zu %s Antworten auswählen.
 poll#:#poll_mode#:#Modus
 poll#:#poll_mode_anonymous#:#Ohne Namen / Anonym
 poll#:#poll_mode_anonymous_info#:#Im Reiter „Abstimmungsergebnisse“ werden keine Namen aufgeführt. Systeminterne IDs der teilnehmenden Personen werden in der Datenbank gespeichert.
 poll#:#poll_mode_personal#:#Mit Namen
-poll#:#poll_mode_personal_info#:#Im Reiter „Abstimmungsergebnisse“ werden die Namen der teilnehmenden Personen mit ihren Antworten aufgeführt.
+poll#:#poll_mode_personal_info#:#Im Reiter „Abstimmungsergebnisse“ werden die Namen der teilnehmenden Personen mit ihren Antworten aufgeführt. Personen, die Zugriff auf diesen Reiter haben, können sehen, wer welche Antwort gegeben hat.
 poll#:#poll_new#:#Neue Abstimmung anlegen
 poll#:#poll_non_anonymous_warning#:#Ihr Name und Votum sind für die Administration in den Ergebnissen sichtbar.
-poll#:#poll_notification_activated#:#Änderungs-Benachrichtigung aktiviert
-poll#:#poll_notification_deactivated#:#Änderungs-Benachrichtigung deaktiviert
-poll#:#poll_notification_subscribe#:#Benachrichtigung aktivieren
-poll#:#poll_notification_unsubscribe#:#Benachrichtigung deaktivieren
+poll#:#poll_notification_activated#:#Benachrichtigungen aktiviert.
+poll#:#poll_notification_deactivated#:#Benachrichtigungen deaktiviert.
+poll#:#poll_notification_subscribe#:#Benachrichtigungen aktivieren
+poll#:#poll_notification_unsubscribe#:#Benachrichtigungen deaktivieren
 poll#:#poll_percentage#:#Aktueller Anteil
 poll#:#poll_population#:#%s Stimmabgaben
 poll#:#poll_population_singular#:#Eine Stimmabgabe
@@ -13462,7 +13542,7 @@ poll#:#poll_sortorder#:#Sortierung
 poll#:#poll_stacked_chart#:#Stapeldiagramm
 poll#:#poll_view_results#:#Ergebnisse anzeigen
 poll#:#poll_view_results_after_period#:#Nach Stimmperiode
-poll#:#poll_view_results_after_period_impossible#:#Die Stimmperiode ist nicht zeitlich begrenzt.
+poll#:#poll_view_results_after_period_impossible#:#Damit die Abstimmungsergebnisse erst nach Ende der Stimmperiode gezeigt werden können, müssen Sie oben eine zeitlich begrenzte Stimmperiode einrichten.
 poll#:#poll_view_results_after_vote#:#Nach Stimmabgabe
 poll#:#poll_view_results_always#:#Immer
 poll#:#poll_view_results_never#:#Niemals
@@ -13473,12 +13553,12 @@ poll#:#poll_vote_error_single#:#Wählen Sie eine Antwort aus.
 poll#:#poll_vote_notification_body#:#die folgende Abstimmung hat eine Stimme erhalten
 poll#:#poll_vote_notification_link#:#Link zur Abstimmung
 poll#:#poll_vote_notification_reason#:#Sie erhalten diese Nachricht, da Sie die Benachrichtigungsfunktion für die oben genannte Abstimmung aktiviert haben.
-poll#:#poll_vote_notification_subject#:#Abstimmung „%s“: neue Stimme
+poll#:#poll_vote_notification_subject#:#Abstimmung „%s“ – neue Stimmabgabe
 poll#:#poll_votes_no_edit#:#Diese Abstimmung beinhaltet bereits Stimmen. Sie kann nicht bearbeitet werden so lange Sie die Stimmen nicht löschen.
 poll#:#poll_voting_period_and_results#:#Stimmperiode und Ergebnisse
 poll#:#poll_voting_period_ended_info#:#Das Ende der Abstimmung war %s.
-poll#:#poll_voting_period_full_info#:#Abstimmung von %s bis %s
-poll#:#poll_voting_period_info#:#Das Ende der Abstimmung ist %s.
+poll#:#poll_voting_period_full_info#:#Die Abstimmung in dieser Umfrage ist vom %s bis zum %s möglich
+poll#:#poll_voting_period_info#:#Die Frist für die Abstimmung endet am %s.
 poll#:#poll_voting_period_limited#:#Zeitlich begrenzte Stimmperiode
 prg#:#access_ctr_by_orgu_position#:#Berechtigungen anhand Positionen in Organisationseinheiten
 prg#:#active_only#:#nur aktive
@@ -14329,15 +14409,15 @@ rbac#:#feed_delete#:#Webfeed löschen
 rbac#:#feed_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#feed_read#:#Inhalt des Webfeeds lesen
 rbac#:#feed_write#:#Einstellungen des Webfeeds bearbeiten
-rbac#:#file_content#:#Inhalt anzeigen
 rbac#:#file_copy#:#Datei kopieren
 rbac#:#file_delete#:#Datei verschieben oder löschen
 rbac#:#file_edit_file#:#Bearbeitung in einem externen Editor erlauben, sofern vorhanden
 rbac#:#file_edit_learning_progress#:#Lernfortschrittseinstellungen können bearbeitet werden.
 rbac#:#file_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#file_file_view_content#:#Inhalt der Datei wird im Browser angezeigt (wenn WOPI aktiv ist).
+rbac#:#file_file_view_content_short#:#Inhalt anzeigen
 rbac#:#file_read#:#Datei herunterladen
 rbac#:#file_read_learning_progress#:#Lernfortschritt von anderen einsehen
-rbac#:#file_view_content#:#Inhalt der Datei wird im Browser angezeigt (wenn WOPI aktiv ist).
 rbac#:#file_visible#:#Datei ist sichtbar.
 rbac#:#file_write#:#Einstellungen der Datei bearbeiten und neue Version hochladen
 rbac#:#files_visible#:#Dateien sichtbar
@@ -14422,7 +14502,7 @@ rbac#:#iass_amend_grading#:#Finalisierte Bewertung der Individuellen Bewertung �
 rbac#:#iass_copy#:#Individuelle Bewertung kopieren
 rbac#:#iass_delete#:#Individuelle Bewertung löschen
 rbac#:#iass_edit_learning_progress#:#Lernfortschritt in Individuellen Bewertung bearbeiten
-rbac#:#iass_edit_members#:#Teilnehmer einer Individuellen Bewertung bearbeiten
+rbac#:#iass_edit_members#:#Personen der Individuellen Bewertung hinzufügen und bewerten
 rbac#:#iass_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#iass_read#:#Lesezugriff auf Individuelle Bewertung
 rbac#:#iass_read_learning_progress#:#Lernfortschritt in Individuellen Bewertung einsehen
@@ -14604,6 +14684,9 @@ rbac#:#positions_override_operations#:#Globale Einstellungen überschreiben
 rbac#:#precondition_not_obligatory_alt#:#Die Vorbedingung ist optional
 rbac#:#precondition_num_obligatory#:#Geforderte Anzahl Materialien
 rbac#:#precondition_num_optional_info#:#Anzahl von Materialien, die bis zum festgelegten Status / Ergebnis zu bearbeiten sind
+rbac#:#precondition_number_of_required_materials_bigger_preconditions_number#:#Die Anzahl der geforderten Materialien muss kleiner sein als die Anzahl der Vorbedingungen.
+rbac#:#precondition_number_of_required_materials_lower_compulsory_items#:#Die Anzahl der geforderten Materialien muss größer sein als die Anzahl der verpflichtenden Vorbedingungen.
+rbac#:#precondition_number_of_required_materials_lower_than_one#:#Die Anzahl der geforderten Materialien muss mindestens 1 sein.
 rbac#:#precondition_obligatory#:#Verpflichtend
 rbac#:#precondition_obligatory_alt#:#Die Vorbedingung muss erfüllt werden
 rbac#:#precondition_obligatory_info#:#Verpflichtende Vorbedingungen müssen erfüllt werden, um Zugriff zu erhalten.
@@ -15145,9 +15228,7 @@ rep#:#rep_add_new_def_grp_content#:#Inhalt
 rep#:#rep_add_new_def_grp_feedback#:#Feedback und Evaluation
 rep#:#rep_add_new_def_grp_organisation#:#Organisation
 rep#:#rep_add_new_def_grp_templates#:#Vorlagen
-rep#:#rep_add_to_favourites#:#Zu Favoriten hinzufügen
 rep#:#rep_added_rec_content#:#Empfohlener Inhalt wurde hinzugefügt.
-rep#:#rep_added_to_favourites#:#Das Objekt wurde den Favoriten hinzugefügt.
 rep#:#rep_allowed_types#:#Allowed Types
 rep#:#rep_breadcr_crs#:#Brotkrumennavigation beginnt mit Kurs
 rep#:#rep_breadcr_crs_config#:#Konfiguration
@@ -15202,9 +15283,7 @@ rep#:#rep_object_references_cannot_be_read#:#Keine Rechte an %s weiteren Referen
 rep#:#rep_object_to_delete#:#Zu löschen
 rep#:#rep_rec_content_removed#:#Empfohlener Inhalt wurde entfernt.
 rep#:#rep_recommended_content#:#Empfohlene Inhalte
-rep#:#rep_remove_from_favourites#:#Von Favoriten entfernen
 rep#:#rep_remove_rec_content#:#Sollen die folgenden Empfehlungen wirklich entfernt werden? Die entsprechenden Inhalte bleiben weiterhin erhalten.
-rep#:#rep_removed_from_favourites#:#Das Objekt wurde aus den Favoriten entfernt.
 rep#:#rep_target_location#:#Zielort
 rep#:#rep_target_location_info#:#Bitte wählen sie den Zielort aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen.
 rep#:#rep_time_based_availability#:#Zeitlich begrenzte Verfügbarkeit
@@ -15565,11 +15644,11 @@ search#:#lucene_settings_text_section#:#Präsentation der Suchergebnisse
 search#:#lucene_settings_title#:#Volltextsuche mit Lucene
 search#:#lucene_size_frag_info#:#Maximale Anzahl der Zeichen je Textabschnitt, der zur Hervorhebung des Suchbegriffs ausgegeben wird
 search#:#lucene_size_fragments#:#Länge der Textabschnitte
-search#:#lucene_tbl_create_ini#:#Java-Server Konfigurationsdatei erstellen
+search#:#lucene_tbl_create_ini#:#Konfigurationsdatei für Java-Server erstellen
 search#:#search_add_members_from_container_crs#:#Benutzer aus aktuellem Kurs hinzufügen
 search#:#search_add_members_from_container_grp#:#Benutzer aus aktueller Gruppe hinzufügen
 search#:#search_any#:#-- Beliebig --
-search#:#search_area#:#Suchbereich
+search#:#search_area_filter#:#Suchbereich
 search#:#search_area_info#:#Bitte wählen Sie einen Bereich aus, innerhalb dem die Suche starten soll.
 search#:#search_auto_complete_length#:#Anzahl der Einträge in Auto-Complete-Liste
 search#:#search_auto_complete_length_info#:#Wählen Sie „0“, um keine Auto-Complete-Liste anzubieten.
@@ -15614,6 +15693,7 @@ search#:#search_minimum_info#:#Die Suchbegriffe müssen mindestens %s Zeichen la
 search#:#search_minimum_three#:#Die Suchbegriffe müssen mindestens 3 Zeichen lang sein.
 search#:#search_newer_than#:#Objekte erstellt vor dem...
 search#:#search_no_connection_lucene#:#Es kann keine Verbindung zum Lucene-Server hergestellt werden.
+search#:#search_no_further_match#:#Ihre Suche ergab keine weiteren Treffer.
 search#:#search_no_match#:#Ihre Suche ergab keine Treffer.
 search#:#search_no_match_hint#:#Es wurden keine Treffer für Ihre Suchanfrage nach <b>%s</b> gefunden.<br />Vorschläge:<br /><br />• Vergewissern Sie sich, dass alle Wörter richtig geschrieben sind.<br />• Probieren Sie andere Suchbegriffe.<br />• Probieren Sie allgemeinere Suchbegriffe.<br />• Probieren Sie weniger Suchbegriffe.
 search#:#search_no_selection#:#Sie haben keine Auswahl getroffen.
@@ -15636,6 +15716,8 @@ search#:#search_sort_generic_desc#:#%s, abst.
 search#:#search_sort_relevance#:#Nach Relevanz
 search#:#search_sort_title_asc#:#Alphabetisch: A-Z
 search#:#search_sort_title_desc#:#Alphabetisch: Z-A
+search#:#search_tab_content#:#Inhalt
+search#:#search_tab_user#:#Personen
 search#:#search_term_combination#:#Kombination
 search#:#search_title_description#:#Titel / Beschreibung
 search#:#search_tst_svy#:#Tests/Umfragen
@@ -15696,8 +15778,8 @@ sess#:#sess_msg_applicants_assigned#:#Person wurde für den Sitzungstermin angem
 sess#:#sess_msg_applicants_removed#:#Antrag abgelehnt und aus der Liste entfernt.
 sess#:#sess_new#:#Neue Sitzung anlegen
 sess#:#sess_new_registrations#:#Teilnahmeanträge
-sess#:#sess_notification_option#:#Option
-sess#:#sess_notification_option_inherit#:#Vom übergeordneten Objekt erben
+sess#:#sess_notification_option#:#Benachrichtigte Personen
+sess#:#sess_notification_option_inherit#:#Wie in Kurs oder Gruppe
 sess#:#sess_notification_option_inherit_info#:#Es werden die gleichen Personen benachrichtigt wie im übergeordneten Objekt.
 sess#:#sess_notification_option_manual#:#Manuell setzen
 sess#:#sess_notification_option_manual_info#:#Es muss manuell festgelegt werden, wer die Benachrichtigung empfangen soll.
@@ -16500,7 +16582,7 @@ survey#:#concatenation#:#Verkettung
 survey#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Datensätze und Ergebnisse der Umfrage löschen wollen? Dies wirkt sich sowohl auf die gegebenen Antworten als auch auf die Teilnahmeliste selbst aus.
 survey#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie die Datensätze und Antworten der ausgewählten Personen löschen wollen? Somit werden auch <b>alle</b> zugehörigen Daten gelöscht.
 survey#:#confirm_remove_heading#:#Sind Sie sicher, dass Sie die Überschrift entfernen wollen?
-survey#:#confirm_sync_questions#:#Die geänderte Frage ist eine Kopie, welche für die Verwendung der aktuellen Umfrage erstellt wurde. Möchten Sie die Änderung ebenfalls auf die Ursprungsfrage anwenden? 
+survey#:#confirm_sync_questions#:#Die geänderte Frage ist eine Kopie, welche für die Verwendung der aktuellen Umfrage erstellt wurde. Möchten Sie die Änderung ebenfalls auf die Ursprungsfrage anwenden?
 survey#:#conjunction_and#:#wenn jede Bedingung erfüllt wird
 survey#:#conjunction_and_title#:#Jede der folgenden Bedingungen erfüllen
 survey#:#conjunction_or#:#wenn eine Bedingung erfüllt wird
@@ -16509,7 +16591,7 @@ survey#:#constraint_add#:#Verzweigungsregel hinzufügen
 survey#:#constraint_fulfilled#:#Seite anzeigen
 survey#:#constraints#:#Verzweigungsregel
 survey#:#constraints_first_question_description#:#Der erste Eintrag kann keine Verzweigungsregel haben, da es keine vorherigen Einträge gibt.
-survey#:#constraints_introduction#:#Verzweigungsregeln können für einzelne Fragen als auch für einen Fragenblock hinzugefügt werden. In Abhängigkeit der gegebenen Antwort, werden teilnehmenden Personen bestimmte Fragen angezeigt, sodass irrelevante Fragen übersprungen werden können. Für die erste Frage als auch für einen Fragenblock kann keine Verzweigungsregel festgelegt werden. 
+survey#:#constraints_introduction#:#Verzweigungsregeln können für einzelne Fragen als auch für einen Fragenblock hinzugefügt werden. In Abhängigkeit der gegebenen Antwort, werden teilnehmenden Personen bestimmte Fragen angezeigt, sodass irrelevante Fragen übersprungen werden können. Für die erste Frage als auch für einen Fragenblock kann keine Verzweigungsregel festgelegt werden.
 survey#:#constraints_list_of_entities#:#Fragen
 survey#:#constraints_no_nonessay_available#:#Es gibt keine vorangegangenen Fragen, die zur Erstellung von Verzweigungsregeln verwendet werden können. Folgende Fragetypen werden unterstützt: Metrische Frage, Single Choice Frage und Multiple Choice Frage.
 survey#:#constraints_no_questions_or_questionblocks_selected#:#Bitte wählen Sie mindestens eine Frage oder einen Fragenblock aus!
@@ -16554,7 +16636,7 @@ survey#:#dc_yes#:#ja
 survey#:#default_codes_mail_message#:#Ihr Zugangscode für die Umfrage lautet [code]. Sie können die Umfrage jederzeit unter der folgenden URL [url] erreichen.
 survey#:#default_codes_mail_subject#:#Ihr Zugangscode für die Umfrage %s
 survey#:#define_questionblock#:#Fragenblock anlegen
-survey#:#delete_saved_message#:#Textvorlage löschen 
+survey#:#delete_saved_message#:#Textvorlage löschen
 survey#:#display_all_available#:#Alle verfügbaren anzeigen
 survey#:#dont_use_questionpool#:#Fragen nicht in einen Fragenpool einfügen und nur für diese Umfrage verfügbar machen
 survey#:#duplicate#:#Kopieren
@@ -16622,7 +16704,7 @@ survey#:#language_changed#:#Sprache geändert
 survey#:#layout#:#Layout
 survey#:#lower_limit#:#Untergrenze
 survey#:#mail_import_example2#:#heinrichfaust@pudelskern.de, Heinrich; Faust
-survey#:#mail_import_example3#:#emiliagalotti@dramaitalien.de, Emilia; Galotti 
+survey#:#mail_import_example3#:#emiliagalotti@dramaitalien.de, Emilia; Galotti
 survey#:#mail_sent_short#:#Versendet
 survey#:#mail_survey_codes#:#Zugangsschlüssel und Nachrichten versenden
 survey#:#mailaddresses#:#Senden an
@@ -16642,7 +16724,7 @@ survey#:#matrix_columns#:#Matrixspalten
 survey#:#matrix_left_pole#:#Linker Pol
 survey#:#matrix_neutral_answer#:#Text für eine neutrale Spalte ("Nicht definiert", "Ich weiß nicht", "Keine Angabe" etc.)
 survey#:#matrix_neutral_column_separator#:#Neutraler Spaltentrenner
-survey#:#matrix_neutral_column_separator_description#:#Eine breite Linie (Trenner) zwischen der neutralen Spalte und den restlichen Spalten hinzufügen. 
+survey#:#matrix_neutral_column_separator_description#:#Eine breite Linie (Trenner) zwischen der neutralen Spalte und den restlichen Spalten hinzufügen.
 survey#:#matrix_question_checkbox_not_checked#:#Bitte wählen Sie mindestens ein Kontrollkästchen in jeder Zeile aus.
 survey#:#matrix_question_radio_button_not_checked#:#Bitte wählen Sie in jeder Zeile eine Antwortoption aus.
 survey#:#matrix_right_pole#:#Rechter Pol
@@ -16721,7 +16803,7 @@ survey#:#questions#:#Fragen
 survey#:#questions_inserted#:#Frage(n) hinzugefügt.
 survey#:#questions_removed#:#Fragen und/oder Fragenblock entfernt!
 survey#:#questiontype#:#Fragetyp
-survey#:#ratio_absolute#:#Verhältnis (absolut) 
+survey#:#ratio_absolute#:#Verhältnis (absolut)
 survey#:#ratio_non_absolute#:#Verhältnis (nicht absolut)
 survey#:#recipients#:#Senden an
 survey#:#remove_question#:#Entfernen
@@ -16746,7 +16828,7 @@ survey#:#select_value#:#Wert festlegen
 survey#:#selection#:#Auswahl
 survey#:#send_to_all#:#Alle E-Mail-Adressen, die mit einem Zugangscode verknüpft sind.
 survey#:#send_to_answered#:#Alle Personen, welche die Umfrage bereits beendet haben
-survey#:#send_to_unanswered#:#Alle E-Mail-Adressen, die mit einem Zugangscode verknüpft sind und deren zugehörige teilnehmende Personen die Umfrage noch nicht abgeschlossen haben. 
+survey#:#send_to_unanswered#:#Alle E-Mail-Adressen, die mit einem Zugangscode verknüpft sind und deren zugehörige teilnehmende Personen die Umfrage noch nicht abgeschlossen haben.
 survey#:#show_questiontext#:#Fragentexte anzeigen
 survey#:#show_questiontext_description#:#Zeigen Sie den Fragetext jeder Frage im Fragenblock an. Wenn dieses Kontrollkästchen nicht aktiviert ist, werden die Fragentexte ausgeblendet und nur die Antwortoptionen angezeigt. Dies kann nützlich sein, wenn Sie Fragen mit identischen Fragentexten innerhalb eines Fragenblocks haben.
 survey#:#skipped#:#Übersprungen
@@ -16780,7 +16862,7 @@ survey#:#survey_360_appraisees#:#Feedback-Nehmer
 survey#:#survey_360_edit_raters#:#Feedback-Geber verwalten
 survey#:#survey_360_mode#:#360°-Feedback
 survey#:#survey_360_mode_info#:#Ermöglicht es Einzelpersonen, von mehreren Personen bewertet zu werden. Die Ergebnisse werden zusammengefasst.
-survey#:#survey_360_no_appraisees#:#Zur Zeit benötigen keine Feedback-Nehmer Ihre Bewertung 
+survey#:#survey_360_no_appraisees#:#Zur Zeit benötigen keine Feedback-Nehmer Ihre Bewertung
 survey#:#survey_360_no_closed_appraisees#:#Es sind noch keine Umfragen geschlossen worden.
 survey#:#survey_360_rate_other_appraisee#:#Feedback geben
 survey#:#survey_360_rate_other_appraisees#:#Feedback geben
@@ -16901,7 +16983,7 @@ survey#:#survey_reminder_subject#:#Umfrage „%s“ – Teilnahmeerinnerung
 survey#:#survey_remove_competence#:#Kompetenz entfernen
 survey#:#survey_results_anonymization#:#Datenschutz
 survey#:#survey_results_anonymized#:#Ohne Namen / Anonyme Umfrage
-survey#:#survey_results_anonymized_info#:#Die Befragten bleiben anonym. Je nach globalen Einstellungen werden Namen entweder durch die Bezeichnung „Anonym“ oder durch individuelle Codes ersetzt. Bei der Verwendung werden in dem Reiter „Ergebnisse“ keine persönlichen Daten angegeben, sodass dort eine Zuordnung der Antworten zu Personen nicht möglich ist. 
+survey#:#survey_results_anonymized_info#:#Die Befragten bleiben anonym. Je nach globalen Einstellungen werden Namen entweder durch die Bezeichnung „Anonym“ oder durch individuelle Codes ersetzt. Bei der Verwendung werden in dem Reiter „Ergebnisse“ keine persönlichen Daten angegeben, sodass dort eine Zuordnung der Antworten zu Personen nicht möglich ist.
 survey#:#survey_results_finished#:#Umfrage beendet
 survey#:#survey_results_not_started#:#Umfrage nicht begonnen
 survey#:#survey_results_personalized#:#Mit Namen
@@ -16974,7 +17056,7 @@ survey#:#svy_eval_view_tables#:#Tabelle
 survey#:#svy_eval_view_tables_charts#:#Tabelle und Diagramm
 survey#:#svy_evaluation_access_all_info#:#Alle registrierten Personen, die Zugriff auf die Umfrage haben, können die Ergebnisse einsehen.
 survey#:#svy_evaluation_access_off_info#:#Nur Personen mit dem Recht „Einstellungen bearbeiten“ haben Zugriff auf die Ergebnisse der Umfrage.
-survey#:#svy_evaluation_access_participants_info#:#Alle Personen, welche die Umfrage abgeschlossen haben, können anschließend die Ergebnisse einsehen. 
+survey#:#svy_evaluation_access_participants_info#:#Alle Personen, welche die Umfrage abgeschlossen haben, können anschließend die Ergebnisse einsehen.
 survey#:#svy_export_files#:#Exportierte Dateien
 survey#:#svy_export_format#:#Ergebnisse der Umfrage exportieren
 survey#:#svy_export_pdf#:#PDF exportieren
@@ -16998,11 +17080,11 @@ survey#:#svy_mail_context_reminder_survey_title#:#Umfragetitel
 survey#:#svy_mail_context_reminder_title#:#Umfrage: Teilnahme-Erinnerung
 survey#:#svy_mail_own_results#:#Eigene Antworten per E-Mail versenden
 survey#:#svy_mail_own_results_body#:#Sie haben an folgender Umfrage teilgenommen:
-survey#:#svy_mail_own_results_subject#:#Umfrage „%s“ - Ihre Teilnahmebestätigung mit Antworten 
+survey#:#svy_mail_own_results_subject#:#Umfrage „%s“ - Ihre Teilnahmebestätigung mit Antworten
 survey#:#svy_mail_send_confirmation#:#Teilnahmebestätigung anfordern
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#Die Prozentzahl der Spaltenaufteilung muss zusammen 100% ergeben.
 survey#:#svy_max_sum_score#:#Maximale Gesamtpunktzahl
-survey#:#svy_neutral_answer#:#Text für eine neutrale Antwort („Nicht definiert", „Ich weiß nicht", „Keine Angabe" etc.) 
+survey#:#svy_neutral_answer#:#Text für eine neutrale Antwort („Nicht definiert", „Ich weiß nicht", „Keine Angabe" etc.)
 survey#:#svy_no_appraisees_found#:#Es besteht weiterhin die Möglichkeit für ausgewählte Personen Feedback abzugeben. Sobald die Umfrage geschlossen wird, können die Kompetenzen angezeigt werden.
 survey#:#svy_notification_tutor_results#:#Eine E-Mail mit den Umfrageergebnissen
 survey#:#svy_notification_tutor_results_alert#:#Diese Funktion erfordert ein Enddatum.
@@ -17072,7 +17154,7 @@ survey#:#vertical#:#Vertikal
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#workingtime#:#Bearbeitungsdauer
 svy#:#survey_360_appraisees_remind_info#:#Wenn die Selbsteinschätzung aktiviert wurde, werden alle Feedback-Nehmer, welche die Umfrage noch nicht abgeschlossen haben, benachrichtigt.
-svy#:#survey_360_raters_remind_info#:#Feedback-Geber, welche die Umfrage noch nicht abgeschlossen haben, erhalten eine Benachrichtigung. 
+svy#:#survey_360_raters_remind_info#:#Feedback-Geber, welche die Umfrage noch nicht abgeschlossen haben, erhalten eine Benachrichtigung.
 svy#:#svy_0_open_appraisees#:#Sie können die Umfrage für keinen Feedback-Nehmer mehr durchführen.
 svy#:#svy_all_pages#:#Alle Seiten
 svy#:#svy_all_participants#:#Alle Befragte
@@ -17081,13 +17163,13 @@ svy#:#svy_code#:#Zugangscode
 svy#:#svy_codes#:#Zugangscodes
 svy#:#svy_current_page#:#Aktuelle Seite
 svy#:#svy_finish_survey#:#An Umfrage "%1" teilnehmen
-svy#:#svy_finished_x_appraisees#:#Sie haben Bewertungen bereits für %s Feedback-Nehmer abgegeben. 
+svy#:#svy_finished_x_appraisees#:#Sie haben Bewertungen bereits für %s Feedback-Nehmer abgegeben.
 svy#:#svy_information#:#Information
 svy#:#svy_invite_participants#:#Personen hinzufügen
 svy#:#svy_link_to_svy#:#Link zur Umfrage
 svy#:#svy_part_overview#:#Übersicht
 svy#:#svy_placeholders_label#:#Verfügbare Platzhalter
-svy#:#svy_print_selection#:#Inhalt der Druckansicht auswählen 
+svy#:#svy_print_selection#:#Inhalt der Druckansicht auswählen
 svy#:#svy_remove_all_participants#:#Alle Datensätze löschen
 svy#:#svy_remove_participants#:#Daten entfernen
 svy#:#svy_selected_participants#:#Ausgewählte Befragte
@@ -17195,7 +17277,7 @@ tax#:#tax_add_taxonomy#:#Taxonomie hinzufügen
 tax#:#tax_added#:#Die Taxonomie wurde erstellt.
 tax#:#tax_admin_settings_repository#:#Magazin-Taxonomien
 tax#:#tax_alphabetical#:#Alphabetisch
-tax#:#tax_assigned_items#:#Zugewiesene Einträge
+tax#:#tax_assigned_items#:#Zugeordnete Fragen
 tax#:#tax_confirm_deletion#:#Wollen Sie wirklich die gesamte Taxonomie mit allen Beziehungen löschen?
 tax#:#tax_create_node#:#Knoten anlegen
 tax#:#tax_item_sorting#:#Sortierung der zugewiesenen Einträge unterstützen
@@ -17209,9 +17291,9 @@ tax#:#tax_order#:#Reihenfolge
 tax#:#tax_order_nr#:#Ordnungsnummer
 tax#:#tax_please_select_target#:#Bitte wählen Sie ein Ziel aus!
 tax#:#tax_target_within_nodes#:#Das Ziel darf kein Unterknoten des ausgewählten Elements sein.
-tax#:#tax_tax_assignment#:#Taxonomiezuordnung
+tax#:#tax_tax_assignment#:#Zuordnung zu Taxonomien
 tax#:#tax_tax_deleted#:#Die Taxonomie wurde gelöscht.
-tax#:#tax_tax_settings#:#Taxonomieeinstellungen
+tax#:#tax_tax_settings#:#Taxonomien darstellen
 tax#:#tax_taxonomy#:#Taxonomie
 tbl#:#tbl_export_csv#:#.CSV-Export
 tbl#:#tbl_export_excel#:#Excel-Export
@@ -17269,7 +17351,7 @@ trac#:#trac_assigned#:#Ausgewählt
 trac#:#trac_average#:#Durchschnitt
 trac#:#trac_begin_at#:#Startdatum
 trac#:#trac_closed_expire#:#Timeout
-trac#:#trac_closed_login#:#Anonym zu Login
+trac#:#trac_closed_login#:#Statusänderung - Anonym zu angemeldet 
 trac#:#trac_closed_manual#:#Logout
 trac#:#trac_closed_misc#:#Sonstige
 trac#:#trac_collection_assign#:#Für Lernfortschritts-Bestimmung auswählen
@@ -17328,7 +17410,7 @@ trac#:#trac_lp_determination_info_sco#:#Auswahl der SCOx, anhand derer der Gesam
 trac#:#trac_lp_determination_tutor#:#Auswahl von Objekten, die den Lernfortschritt bestimmen
 trac#:#trac_lp_learner_access#:#Eigenen Lernfortschritt einsehen
 trac#:#trac_lp_learner_access_info#:#Wenn aktiviert, können Benutzer ihren eigenen Lernfortschritt einsehen.
-trac#:#trac_lp_list_gui#:#Dashboard, Magazin, Suche
+trac#:#trac_lp_list_gui#:#Dashboard und Magazin
 trac#:#trac_lp_list_gui_info#:#Wenn aktiviert, wird der Lernfortschrittsstatus in Objekt-Listen angezeigt.
 trac#:#trac_lp_settings_info_parent_container#:#Lernfortschritt übergeordneter Objekte
 trac#:#trac_lp_settings_info_parent_legend#:#Der Lernfortschrittsstatus des Objekts wird durch „%s“ beeinflusst.
@@ -17998,7 +18080,7 @@ wiki#:#wiki_wiki_search#:#Suche im Wiki
 wiki#:#wiki_wpg#:#Wiki-Seite
 wopi#:#action_edit#:#Editieren
 wopi#:#action_view#:#Anzeigen
-wopi#:#activate_saving_interval#:#Speicherintervall aktivieren
+wopi#:#activate_saving_interval#:#Automatische Veröffentlichung
 wopi#:#activate_wopi#:#WOPI aktivieren
 wopi#:#close_wopi_editor#:#Editor schliessen
 wopi#:#close_wopi_editor_info#:#Es kann bis zu mehreren Minuten dauern, bis der externe Editor die Änderungen an ILIAS übertragen hat. Besuchen Sie diese Seite zu einem späteren Zeitpunkt wieder, wenn die gemachten Änderungen noch nicht ersichtlich sind.
@@ -18007,8 +18089,8 @@ wopi#:#msg_error_wopi_invalid_discorvery_url#:#Die eingegebene Discovery-URL ist
 wopi#:#msg_wopi_settings_modified#:#Einstellungen gespeichert
 wopi#:#open_external_editor#:#In externem Editor öffnen
 wopi#:#open_external_viewer#:#Inhalt anzeigen
-wopi#:#saving_interval#:#Speicherintervall
-wopi#:#saving_interval_byline#:#Standardmässig fügt ILIAS alle durch einen Externen Editor erhaltenen Änderungen in einer Entwurfs-Version hinzu, bis diese Version manuell veröffentlicht wird. Durch das Aktivieren des Speicherintervalls wird nach Möglichkeit nach der festgelegten Sekundenanzahl eine neue Verison veröffentlicht. Bitte beachten Sie, dass eine tiefer Wert zu sehr vielen Dateiversionen führen kann und damit ein Vielfaches des Festplattenspeichers beansprucht.
+wopi#:#saving_interval#:#Neue Version nach … Sekunden
+wopi#:#saving_interval_byline#:#Nach der festgelegten Bearbeitungszeit wird von ILIAS automatisch eine neue Version der Datei veröffentlicht, wenn der externe Editor Änderungen meldet. Standardmässig fügt ILIAS alle durch den Editor erhaltenen Änderungen lediglich als Entwurf hinzu, bis eine neue Dateiversion manuell veröffentlicht wird. Bitte beachten Sie, dass bei Verwendung dieser Option mit einem niedrigen Wert mitunter sehr viele Dateiversionen erstellt werden. Dadurch wird viel Speicherplatz belegt.
 wopi#:#wopi_crawler_cronjob_description#:#Aktualisiert die Informationen des angebundenen WOPI-Dienstes.
 wopi#:#wopi_crawler_cronjob_no_apps#:#Es wurden keine WOPI-Apps in der Discovery gefunden.
 wopi#:#wopi_crawler_cronjob_not_activated#:#WOPI ist nicht aktiviert.

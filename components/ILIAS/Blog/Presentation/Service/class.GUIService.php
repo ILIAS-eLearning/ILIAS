@@ -20,24 +20,77 @@ declare(strict_types=1);
 
 namespace ILIAS\Blog\Presentation;
 
+use ILIAS\Blog\BlogGUIContext;
+use ILIAS\Blog\InternalDataService;
 use ILIAS\Blog\InternalDomainService;
 use ILIAS\Blog\InternalGUIService;
+use ilObject;
 
 class GUIService
 {
-    protected InternalGUIService $gui;
-    protected InternalDomainService $domain;
-
     public function __construct(
-        InternalDomainService $domain,
-        InternalGUIService $gui
+        protected InternalDataService $data,
+        protected InternalDomainService $domain,
+        protected InternalGUIService $gui
     ) {
-        $this->domain = $domain;
-        $this->gui = $gui;
     }
 
     public function util(): Util
     {
         return new Util();
     }
+
+    public function presentationGUI(
+        BlogGUIContext $context,
+        \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain,
+        ?\Closure $add_header_callback = null
+    ): PresentationGUI {
+        return new PresentationGUI(
+            $this->data,
+            $this->domain,
+            $this->gui,
+            $context,
+            $content_style_domain,
+            $add_header_callback
+        );
+    }
+
+    public function getPrintView(
+        int $node_id,
+        bool $is_repository_node,
+        ?array $selected_pages = null
+    ): \ILIAS\Export\PrintProcessGUI {
+        global $DIC;
+
+        $id_type = $is_repository_node
+            ? \ilObjBlogGUI::REPOSITORY_NODE_ID
+            : \ilObjBlogGUI::WORKSPACE_NODE_ID;
+        $cs = $DIC->contentStyle();
+        if ($is_repository_node) {
+            $obj_id = \ilObject::_lookupObjectId($node_id);
+            $content_style = $cs->domain()->styleForRefId($node_id);
+        } else {
+            $obj_id = $this->domain->getObjectIdForWspId($node_id);
+            $content_style = $cs->domain()->styleForObjId($obj_id);
+        }
+        $style_sheet_id = $content_style->getEffectiveStyleId();
+
+        $provider = new \ILIAS\Blog\BlogPrintViewProviderGUI(
+            $this->domain->lng(),
+            $this->gui->ctrl(),
+            $obj_id,
+            $node_id,
+            $this->domain->getBlogAccessHandler($id_type),
+            $style_sheet_id,
+            $selected_pages
+        );
+
+        return new \ILIAS\Export\PrintProcessGUI(
+            $provider,
+            $this->gui->http(),
+            $this->gui->ui(),
+            $this->domain->lng()
+        );
+    }
+
 }

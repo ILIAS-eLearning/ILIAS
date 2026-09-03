@@ -237,10 +237,10 @@ class ilSearchGUI
 
         $this->tpl->setVariable("FORM_ACTION", $this->actions->search());
         $this->tpl->setVariable("TERM", ilLegacyFormElementsUtil::prepareFormOutput($term));
-        $this->tpl->setVariable("SEARCH_LABEL", $this->lng->txt("search"));
+        $this->tpl->setVariable("SEARCH_LABEL", $this->lng->txt("search_field"));
         $btn = ilSubmitButton::getInstance();
         $btn->setCommand("performSearch");
-        $btn->setCaption("search");
+        $btn->setCaption("btn_search");
         $this->tpl->setVariable("SUBMIT_BTN", $btn->render());
     }
 
@@ -261,12 +261,12 @@ class ilSearchGUI
         // tabs
         $this->tabs->addTab(
             'search',
-            $this->lng->txt('search'),
+            $this->lng->txt('search_tab_content'),
             (string) $this->actions->showSavedResults()
         );
         if ($this->settings->enabledLucene() && $this->settings->isLuceneUserSearchEnabled()) {
             $this->tabs->addTarget(
-                'search_user',
+                'search_tab_user',
                 $this->ctrl->getLinkTargetByClass(ilLuceneUserSearchGUI::class)
             );
         }

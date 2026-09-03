@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Import configuration for learning modules
  * @author Jesús López <lopez@leifos.com>

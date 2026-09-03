@@ -64,6 +64,12 @@ final class LegacyDelivery extends BaseDelivery
         ?string $mime_type = null,
         ?bool $delete_file = false
     ): never {
+        // The content domain is reserved for signed token delivery via deliver.php.
+        // Legacy delivery must never serve files on the content host.
+        if ($this->isRequestOnContentHost()) {
+            $this->notFound($this->http->response());
+        }
+
         $r = $this->setGeneralHeaders(
             $this->http->response(),
             $path_to_file,

@@ -23,43 +23,32 @@ function build() {
     rm -rf ${BUILD_BASE_FOLDER}
   fi
 
-  mkdir -p ${BUILD_BASE_FOLDER}
+  mkdir -p ${BUILD_BASE_FOLDER}/delos
+  cp -r ./templates/default/* ${BUILD_BASE_FOLDER}/delos
 
-  mkdir ${BUILD_BASE_FOLDER}/UI
-  mkdir ${BUILD_BASE_FOLDER}/Services
-  mkdir ${BUILD_BASE_FOLDER}/Modules
+  mkdir -p ${BUILD_BASE_FOLDER}/fonts
+  cp -r ./components/ILIAS/UI/resources/fonts/* ${BUILD_BASE_FOLDER}/fonts
 
-  cp -r ./templates/default/* ${BUILD_BASE_FOLDER}
-  cp -r ./src/UI/templates/default/* ${BUILD_BASE_FOLDER}/UI
+  mkdir -p ${BUILD_BASE_FOLDER}/images
+  cp -r ./components/ILIAS/UI/resources/images/* ${BUILD_BASE_FOLDER}/images
 
-
-  declare -a SERVICES
-
-  SERVICES=($(find **/*/templates/default -type d | grep ^Services))
-
-  for SERVICE in "${SERVICES[@]}"
+  declare -a DEFAULT_TEMPLATE_FOLDERS
+  DEFAULT_TEMPLATE_FOLDERS=($(find ./components -type d -ipath '*templates/default*' | grep -v ^'./public/'))
+  for DEFAULT_TEMPLATE_FOLDER in "${DEFAULT_TEMPLATE_FOLDERS[@]}"
   do
-    NAME=$(echo ${SERVICE} | cut -d'/' -f2- | rev | cut -d'/' -f3- | rev)
-    if [[ "${NAME}" == *\/* ]]
-    then
-     continue
-    fi
-    mkdir -p ${BUILD_BASE_FOLDER}/Services/${NAME}
-    cp -r ${SERVICE}/* ${BUILD_BASE_FOLDER}/Services/${NAME}
+    NAME=$(echo "${DEFAULT_TEMPLATE_FOLDER}" | sed -e 's|/templates/default||')
+    mkdir -p "${BUILD_BASE_FOLDER}"/"${NAME}"
+    cp -r "${DEFAULT_TEMPLATE_FOLDER}"/*.html "${BUILD_BASE_FOLDER}"/"${NAME}" &> /dev/null
   done
 
-  declare -a MODULES
+  if [[ -d "./components/ILIAS/Mail/templates/default/img" && -d "${BUILD_BASE_FOLDER}/components/ILIAS/Mail" ]]; then
+      cp -r "./components/ILIAS/Mail/templates/default/img" "${BUILD_BASE_FOLDER}/components/ILIAS/Mail" &> /dev/null
+  fi
 
-  MODULES=($(find **/*/templates/default -type d | grep ^Modules))
+  mv ${BUILD_BASE_FOLDER}/delos/template.xml ${BUILD_BASE_FOLDER}/template.xml
 
-  for MODULE in "${MODULES[@]}"
-  do
-    NAME=$(echo ${MODULE} | cut -d'/' -f2- | rev | cut -d'/' -f3- | rev)
-    if [[ "${NAME}" == *\/* ]]
-    then
-     continue
-    fi
-    mkdir -p ${BUILD_BASE_FOLDER}/Modules/${NAME}
-    cp -r ${MODULE}/* ${BUILD_BASE_FOLDER}/Modules/${NAME}
-  done
+  sed -i 's/Delos/SkinRepoDelos/' ${BUILD_BASE_FOLDER}/template.xml
+
+  cp -r ./templates/Readme.md ${BUILD_BASE_FOLDER}/Readme.md
+  cp -r ./templates/Guidelines_SCSS-Coding.md ${BUILD_BASE_FOLDER}/Guidelines_SCSS-Coding.md
 }

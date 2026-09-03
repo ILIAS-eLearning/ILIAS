@@ -444,7 +444,7 @@ class ilLOEditorStatus
 
     protected function lookupQuestionsAssigned(int $a_test_ref_id): bool
     {
-        if (ilLOUtils::lookupRandomTest(ilObject::_lookupObjId($a_test_ref_id))) {
+        if ($a_test_ref_id > 0 && ilLOUtils::lookupRandomTest(ilObject::_lookupObjId($a_test_ref_id))) {
             foreach ($this->getObjectives() as $objective_id) {
                 $seq = ilLORandomTestQuestionPools::lookupSequences(
                     $this->parent_obj->getId(),

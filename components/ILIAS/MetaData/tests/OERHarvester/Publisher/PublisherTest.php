@@ -255,7 +255,7 @@ class PublisherTest extends TestCase
 
     protected function getNullAccess(): \ilAccess
     {
-        return $this->createMock(\ilAccess::class);
+        return $this->createStub(\ilAccess::class);
     }
 
     public function testBlock(): void

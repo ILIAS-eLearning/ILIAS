@@ -43,7 +43,7 @@ interface ResultPresenter
      */
     public function getLuceneSearchResultAsPanel(
         ilLuceneSearchResultFilter $result,
-        ilLuceneHighlighterResultParser $highlighter,
+        ?ilLuceneHighlighterResultParser $highlighter,
         ViewControlInfos $view_control_infos
     ): array;
 

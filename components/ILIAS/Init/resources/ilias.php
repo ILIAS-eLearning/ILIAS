@@ -42,8 +42,8 @@ try {
         throw $e;
     }
 
-    $DIC->logger()->root()->error($e->getMessage());
-    $DIC->logger()->root()->error($e->getTraceAsString());
+    $DIC->logger()->forComponent('init')->error($e->getMessage());
+    $DIC->logger()->forComponent('init')->error($e->getTraceAsString());
 
     $DIC->language()->loadLanguageModule('error');
     $df = new DataFactory();

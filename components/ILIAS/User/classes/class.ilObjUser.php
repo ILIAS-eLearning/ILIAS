@@ -475,6 +475,7 @@ class ilObjUser extends ilObject
         if (!isset($this->user_settings['style'])
             || $this->user_settings['style'] === ''
             || !ilStyleDefinition::styleExists($this->user_settings['style'])
+            || !isset($this->user_settings['skin'])
             || !ilStyleDefinition::skinExists($this->user_settings['skin'])
                 && ilStyleDefinition::styleExistsForSkinId($this->user_settings['skin'], $this->user_settings['style'])) {
             $this->user_settings['skin'] = $this->ilias->ini->readVariable('layout', 'skin');
@@ -1060,7 +1061,6 @@ class ilObjUser extends ilObject
             $this->active = 1;
             $this->setApproveDate(date('Y-m-d H:i:s'));
             $this->setInactivationDate(null);
-            $this->setOwner($owner);
             return;
         }
 
@@ -1868,16 +1868,15 @@ class ilObjUser extends ilObject
 
     public function uploadPersonalPicture(
         string $tmp_file
-    ): bool {
+    ): void {
         $stakeholder = new ilUserProfilePictureStakeholder();
         $stakeholder->setOwner($this->getId());
         $stream = Streams::ofResource(fopen($tmp_file, 'rb'));
 
-        if ($this->getAvatarRid() !== null && $this->getAvatarRid() !== ilObjUser::NO_AVATAR_RID) {
-            $rid = $this->irss->manage()->find($this->getAvatarRid());
+        if ($this->getAvatarRid() !== null) {
             // append profile picture
             $this->irss->manage()->replaceWithStream(
-                $rid,
+                $this->getAvatarRid(),
                 $stream,
                 $stakeholder
             );
@@ -1891,7 +1890,6 @@ class ilObjUser extends ilObject
 
         $this->setAvatarRid($rid);
         $this->update();
-        return true;
     }
 
     private function buildTextFromArray(array $a_attr): string
@@ -2682,31 +2680,32 @@ class ilObjUser extends ilObject
     }
 
     public static function _toggleActiveStatusOfUsers(
-        array $a_usr_ids,
+        array $usr_ids,
         bool $a_status
     ): void {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $db = $DIC['ilDB'];
 
         if ($a_status) {
-            $q = 'UPDATE usr_data SET active = 1, inactivation_date = NULL WHERE ' .
-                $ilDB->in('usr_id', $a_usr_ids, false, 'integer');
-            $ilDB->manipulate($q);
-        } else {
-            $usrId_IN_usrIds = $ilDB->in('usr_id', $a_usr_ids, false, 'integer');
-
-            $q = 'UPDATE usr_data SET active = 0 WHERE $usrId_IN_usrIds';
-            $ilDB->manipulate($q);
-
-            $queryString = '
-				UPDATE usr_data
-				SET inactivation_date = %s
-				WHERE inactivation_date IS NULL
-				AND $usrId_IN_usrIds
-			';
-            $ilDB->manipulateF($queryString, ['timestamp'], [ilUtil::now()]);
+            $db->manipulate(
+                'UPDATE usr_data SET active = 1, inactivation_date = NULL' . PHP_EOL
+                . "WHERE {$db->in('usr_id', $usr_ids, false, 'integer')}"
+            );
+            return;
         }
+
+        $in_part = $db->in('usr_id', $usr_ids, false, 'integer');
+        $db->manipulate(
+            "UPDATE usr_data SET active = 0 WHERE {$in_part}"
+        );
+        $db->manipulateF(
+            'UPDATE usr_data SET inactivation_date = %s' . PHP_EOL
+            . "WHERE inactivation_date IS NULL AND {$in_part}",
+            ['timestamp'],
+            [(new \DateTimeImmutable('@' . time(), new DateTimeZone('UTC')))
+                ->format(self::DATABASE_DATE_FORMAT)]
+        );
     }
 
     public static function _lookupAuthMode(int $a_usr_id): string
@@ -3125,7 +3124,7 @@ class ilObjUser extends ilObject
                 [$a_user_id]
             );
             if ($rec = $ilDB->fetchAssoc($set)) {
-                if (strlen($rec['feed_hash']) == 32) {
+                if (strlen($rec['feed_hash'] ?? '') == 32) {
                     return $rec['feed_hash'];
                 } elseif ($a_create) {
                     $hash = md5(random_int(1, 9999999) + str_replace(' ', '', microtime()));

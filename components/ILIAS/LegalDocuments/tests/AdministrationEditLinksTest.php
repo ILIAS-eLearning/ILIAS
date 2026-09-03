@@ -50,7 +50,7 @@ class AdministrationEditLinksTest extends TestCase
 
         $args = array_slice($args, 0, $argc);
 
-        $admin->expects(self::once())->method($target)->with($gui, ...[...$args, $method])->willReturn('my-link');
+        $admin->expects($this->once())->method($target)->with($gui, ...[...$args, $method])->willReturn('my-link');
 
         $instance = new AdministrationEditLinks($gui, $admin);
         $this->assertSame('my-link', $instance->$method(...$args));

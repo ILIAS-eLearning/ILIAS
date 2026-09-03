@@ -77,7 +77,9 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
 
             case strtolower(ilGuidedTourAdminGUI::class):
                 $this->tabs_gui->setTabActive('guided_tour');
-                $gui = $this->gui->guidedTour()->adminGUI();
+                $gui = $this->gui->guidedTour()->adminGUI(
+                    $this->checkPermissionBool("write")
+                );
                 $this->ctrl->forwardCommand($gui);
                 break;
 

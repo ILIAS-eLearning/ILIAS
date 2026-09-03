@@ -44,9 +44,7 @@ class ilSystemCheckTaskTest extends TestCase
 
     public function testLastUpdate(): void
     {
-        $this->getMockBuilder(ilDateTime::class)
-             ->disableOriginalConstructor()
-             ->getMock();
+        $this->createStub(ilDateTime::class);
 
         $task = new ilSCTask();
         $last_update = $task->getLastUpdate();
@@ -70,16 +68,11 @@ class ilSystemCheckTaskTest extends TestCase
         $GLOBALS['DIC'] = $this->dic;
         $this->setGlobalVariable(
             'ilDB',
-            $this->createMock(ilDBInterface::class)
+            $this->createStub(ilDBInterface::class)
         );
-        $logger = $this->getMockBuilder(ilLogger::class)
-                       ->disableOriginalConstructor()
-                       ->getMock();
+        $logger = $this->createStub(ilLogger::class);
 
-        $logger_factory = $this->getMockBuilder(ilLoggerFactory::class)
-                               ->disableOriginalConstructor()
-                               ->onlyMethods(['getComponentLogger'])
-                               ->getMock();
+        $logger_factory = $this->createStub(ilLoggerFactory::class);
         $logger_factory->method('getComponentLogger')->willReturn($logger);
         $this->setGlobalVariable('ilLoggerFactory', $logger_factory);
     }

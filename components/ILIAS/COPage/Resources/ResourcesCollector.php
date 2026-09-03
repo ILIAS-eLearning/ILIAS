@@ -64,7 +64,8 @@ class ResourcesCollector
         // basic files must be copied of offline version as well
         // (for all other modes they are included automatically)
         if ($this->output_mode == \ilPageObjectGUI::OFFLINE) {
-            $this->js_files[] = \iljQueryUtil::getLocaljQueryPath();
+            // this currently gives a jquery.min.js, but jquery.js is assets
+            // $this->js_files[] = \iljQueryUtil::getLocaljQueryPath();
             $this->js_files[] = 'assets/js/Basic.js';
             $this->js_files[] = 'assets/js/mathjax_config.js';
             $this->js_files[] = 'node_modules/mathjax/es5/tex-chtml-full.js';

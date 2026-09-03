@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -39,10 +41,16 @@ class ilObjSurveyQuestionPoolAccess extends ilObjectAccess
 
         $ilAccess = $DIC->access();
 
-        $t_arr = explode("_", $target);
+        $t_arr = explode("_", $target, 3);
+        if ($t_arr[0] !== "spl" ||
+            !isset($t_arr[1]) ||
+            !ctype_digit($t_arr[1]) ||
+            ($ref_id = (int) $t_arr[1]) <= 0) {
+            return false;
+        }
 
-        if ($ilAccess->checkAccess("visible", "", $t_arr[1]) ||
-            $ilAccess->checkAccess("read", "", $t_arr[1])) {
+        if ($ilAccess->checkAccess("visible", "", $ref_id) ||
+            $ilAccess->checkAccess("read", "", $ref_id)) {
             return true;
         }
         return false;
@@ -52,6 +60,7 @@ class ilObjSurveyQuestionPoolAccess extends ilObjectAccess
     {
         global $DIC;
         $ilAccess = $DIC->access();
+        $user_id ??= $DIC->user()->getId();
 
         if (in_array($permission, ["read", "visible"]) && self::_isOffline(ilObject::_lookupObjId($ref_id))) {
             if (!$ilAccess->checkAccessOfUser($user_id, "write", "", $ref_id)) {

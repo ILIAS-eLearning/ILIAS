@@ -190,7 +190,7 @@ class ilLocalUserGUI
         $this->checkPermission("cat_administrate_users");
         foreach ($_POST['user_ids'] as $user_id) {
             if (!in_array($user_id, ilLocalUser::_getAllUserIds($this->getRefId()))) {
-                $this->logger->write(__FILE__ . ":" . __LINE__ . " User with id $user_id could not be found.");
+                $this->logger->info("User with id $user_id could not be found.");
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('user_not_found_to_delete'));
             }
             if (!$tmp_obj = ilObjectFactory::getInstanceByObjId((int) $user_id, false)) {

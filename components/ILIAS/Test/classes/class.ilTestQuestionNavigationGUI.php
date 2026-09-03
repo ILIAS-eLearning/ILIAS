@@ -49,7 +49,6 @@ class ilTestQuestionNavigationGUI
     private bool $question_marked = false;
     private bool $anything_rendered = false;
     private ?Signal $show_discard_modal_signal = null;
-    private bool $feedback_button_enabled = false;
 
     public function __construct(
         protected ilLanguage $lng,
@@ -123,16 +122,6 @@ class ilTestQuestionNavigationGUI
         return $this->show_discard_modal_signal ?? new SignalImplementation('');
     }
 
-    public function setFeedbackButtonEnabled(bool $feedback_button_enabled): void
-    {
-        $this->feedback_button_enabled = $feedback_button_enabled;
-    }
-
-    public function isFeedbackButtonEnabled(): bool
-    {
-        return $this->feedback_button_enabled;
-    }
-
     public function getActionsHTML(): string
     {
         $tpl = $this->getTemplate('actions');
@@ -200,7 +189,7 @@ class ilTestQuestionNavigationGUI
             );
         }
 
-        if ($this->isFeedbackButtonEnabled()) {
+        if ($this->instant_feedback_command !== '') {
             $this->renderInstantFeedbackButton(
                 $tpl,
                 $this->instant_feedback_command,

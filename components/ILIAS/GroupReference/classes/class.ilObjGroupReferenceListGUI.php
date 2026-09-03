@@ -46,18 +46,6 @@ class ilObjGroupReferenceListGUI extends ilObjGroupListGUI
         return 'grpr';
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getTypeIcon(): string
-    {
-        $reference_obj_id = ilObject::_lookupObjId($this->getCommandId());
-        return ilObject::_getIcon(
-            $reference_obj_id,
-            'small'
-        );
-    }
-
 
     /**
      * get command id

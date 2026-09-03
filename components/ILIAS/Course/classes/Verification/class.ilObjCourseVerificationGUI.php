@@ -69,7 +69,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
             $certificateVerificationFileService = new ilCertificateVerificationFileService(
                 $this->dic->language(),
                 $this->dic->database(),
-                $this->dic->logger()->root(),
+                $this->dic->logger()->forComponent('crs'),
                 new ilCertificateVerificationClassMap()
             );
 

@@ -87,12 +87,22 @@ class TileImageUploadHandlerGUI extends AbstractCtrlAwareUploadHandler implement
      */
     protected function getUploadResult(): HandlerResult
     {
+        if ($this->has_access === false) {
+            return $this->getAccessFailureResult(
+                $this->getFileIdentifierParameterName(),
+                '',
+                $this->language
+            );
+        }
+
         $this->upload->process();
 
         $result_array = $this->upload->getResults();
         $result = end($result_array);
 
-        if (!($result instanceof UploadResult) || !$result->isOK()) {
+        if (!($result instanceof UploadResult)
+            || !in_array($result->getMimeType(), TileImage::SUPPORTED_MIME_TYPES)
+            || !$result->isOK()) {
             return new BasicHandlerResult(
                 $this->getFileIdentifierParameterName(),
                 HandlerResult::STATUS_FAILED,

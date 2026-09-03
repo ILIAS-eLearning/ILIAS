@@ -114,4 +114,31 @@ EOT;
             strlen($id)
         );
     }
+
+    public function testGetLangVarXMLForValueEscapesXMLSpecialCharacters(): void
+    {
+        $page = new ilUnitTestPageObject(0);
+
+        $this->assertSame(
+            '<LV name="some&amp;" value="one &amp; two &apos; three &quot; four &lt; five &gt;"/>',
+            $page->getLangVarXMLForValueForTesting(
+                'some&',
+                'one & two \' three " four < five >'
+            )
+        );
+    }
+
+    public function testGetCharacteristicLangVarXMLForValueEscapesXMLSpecialCharacters(): void
+    {
+        $page = new ilUnitTestPageObject(0);
+
+        $this->assertSame(
+            '<LV name="char_text_block_My&amp;Class" value="one &amp; two &apos; three &quot; four &lt; five &gt;"/>',
+            $page->getCharacteristicLangVarXMLForTesting(
+                'text_block',
+                'My&Class',
+                'one & two \' three " four < five >'
+            )
+        );
+    }
 }

@@ -52,8 +52,8 @@ class ilWaitingListTest extends TestCase
         $this->dic = new Container();
         $GLOBALS['DIC'] = $this->dic;
 
-        $this->setGlobalVariable('ilDB', $this->createMock(ilDBInterface::class));
-        $this->setGlobalVariable('ilAppEventHandler', $this->createMock(ilAppEventHandler::class));
+        $this->setGlobalVariable('ilDB', $this->createStub(ilDBInterface::class));
+        $this->setGlobalVariable('ilAppEventHandler', $this->createStub(ilAppEventHandler::class));
     }
 
     protected function setGlobalVariable(string $name, $value): void

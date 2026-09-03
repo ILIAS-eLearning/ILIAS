@@ -19,7 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
-use ILIAS\ILIASObject\Properties\CoreProperties\Online;
+use ILIAS\ILIASObject\Properties\CoreProperties\TitleAndDescription;
+use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\AvailabilityPeriod\AvailabilityPeriod;
 
 class ilObjLearningSequenceSettingsGUI
 {
@@ -42,7 +43,9 @@ class ilObjLearningSequenceSettingsGUI
         protected ILIAS\Refinery\Factory $refinery,
         protected ILIAS\UI\Factory $ui_factory,
         protected ILIAS\UI\Renderer $renderer,
-        protected Psr\Http\Message\ServerRequestInterface $request
+        protected Psr\Http\Message\ServerRequestInterface $request,
+        protected \ilObjUser $user,
+        protected \ILIAS\Data\Factory $data_factory
     ) {
         $this->lng->loadLanguageModule('content');
         $this->lng->loadLanguageModule('obj');
@@ -98,59 +101,51 @@ class ilObjLearningSequenceSettingsGUI
     protected function buildFormElements(
         ilObjLearningSequence $lso,
         ILIAS\UI\Component\Input\Factory $if
-    ) {
+    ): array {
         $txt = fn($id) => $this->lng->txt($id);
+        $shift_trafo = $this->refinery->custom()->transformation(
+            static fn(array $v) => current($v)
+        );
+        $date_format = $this->data_factory->dateFormat()->withTime24(
+            $this->user->getDateFormat()
+        );
+        $props = $lso->getObjectProperties();
+        $ref_props = $lso->getObjectReferenceProperties();
         $settings = $lso->getLSSettings();
-        $activation = $lso->getLSActivation();
-        $formElements = [];
 
-        // Title & Description
-        $title = $if->field()->text($txt("title"))
-            ->withRequired(true)
-            ->withValue($lso->getTitle());
-        $description = $if->field()->text($txt("description"))
-            ->withValue($lso->getLongDescription());
-        $section_object = $if->field()->section(
+        $formElements = [];
+        $formElements['object'] = $if->field()->section(
             [
-                self::PROP_TITLE => $title,
-                self::PROP_DESC => $description
+                $props->getPropertyTitleAndDescription()->toForm(
+                    $this->lng,
+                    $if->field(),
+                    $this->refinery
+                )
             ],
             $txt('lso_edit')
-        );
-        $formElements['object'] = $section_object;
+        )->withAdditionalTransformation($shift_trafo);
 
-        // Online status
-        $online = $if->field()->checkbox(
-            $txt('online'),
-            $txt('lso_activation_online_info')
-        )->withValue($activation->getIsOnline());
-        $online_start = $if->field()->dateTime($txt('from'))
-            ->withUseTime(true)
-            ->withValue(($activation->getActivationStart()) ? $activation->getActivationStart()->format('Y-m-d H:i') : '');
-        $online_end = $if->field()->dateTime($txt('to'))
-            ->withUseTime(true)
-            ->withValue(($activation->getActivationEnd()) ? $activation->getActivationEnd()->format('Y-m-d H:i') : '');
-        $section_online = $if->field()->section(
+        $formElements['online'] = $if->field()->section(
             [
-                self::PROP_ONLINE => $online,
-                self::PROP_AVAIL_FROM => $online_start,
-                self::PROP_AVAIL_TO => $online_end
+                'online' => $props->getPropertyIsOnline()
+                    ->toForm(
+                        $this->lng,
+                        $if->field(),
+                        $this->refinery
+                    ),
+                'availability_period' => $ref_props->getPropertyAvailabilityPeriod()
+                    ->toForm(
+                        $this->lng,
+                        $if->field(),
+                        $this->refinery,
+                        [
+                            'user_time_zone' => $this->user->getTimeZone(),
+                            'user_date_format' => $date_format
+                        ]
+                    )
             ],
             $txt('lso_settings_availability')
-        )->withAdditionalTransformation(
-            $this->refinery->custom()->constraint(
-                function ($values) {
-                    $start = $values[self::PROP_AVAIL_FROM] ?? '';
-                    $end = $values[self::PROP_AVAIL_TO] ?? '';
-                    if (($start !== '' && $end !== '') && ($end < $start)) {
-                        return false;
-                    }
-                    return true;
-                },
-                $txt('lso_settings_availability_error')
-            )
         );
-        $formElements['online'] = $section_online;
 
         // Member gallery
         $gallery = $if->field()->checkbox($txt("members_gallery"), $txt('lso_show_members_info'))
@@ -161,31 +156,36 @@ class ilObjLearningSequenceSettingsGUI
                     $this->refinery->always(false)
                 ])
             );
-        $section_additional = $if->field()->section(
-            [
-                self::PROP_GALLERY => $gallery
-            ],
-            $txt('obj_features')
-        );
-        $formElements['additional'] = $section_additional;
-
+        // Metadata
+        $custom_md = $if->field()->checkbox($this->lng->txt('obj_tool_setting_custom_metadata'))
+            ->withValue((bool) ilContainer::_lookupContainerSetting(
+                $lso->getId(),
+                ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+                '0'
+            ))
+            ->withAdditionalTransformation(
+                $this->refinery->byTrying([
+                    $this->refinery->kindlyTo()->bool(),
+                    $this->refinery->always(false)
+                ])
+            );
         // Common properties
-        $title_icon = $lso->getObjectProperties()->getPropertyTitleAndIconVisibility()->toForm(
+        $title_icon = $props->getPropertyTitleAndIconVisibility()->toForm(
             $this->lng,
             $if->field(),
             $this->refinery
         );
-        $header_actions = $lso->getObjectProperties()->getPropertyHeaderActionVisibility()->toForm(
+        $header_actions = $props->getPropertyHeaderActionVisibility()->toForm(
             $this->lng,
             $if->field(),
             $this->refinery
         );
-        $custom_icon = $lso->getObjectProperties()->getPropertyIcon()->toForm(
+        $custom_icon = $props->getPropertyIcon()->toForm(
             $this->lng,
             $if->field(),
             $this->refinery
         );
-        $image = $lso->getObjectProperties()->getPropertyTileImage()->toForm(
+        $image = $props->getPropertyTileImage()->toForm(
             $this->lng,
             $if->field(),
             $this->refinery
@@ -201,6 +201,15 @@ class ilObjLearningSequenceSettingsGUI
         );
         $formElements['common'] = $section_common;
 
+        $section_additional = $if->field()->section(
+            [
+                self::PROP_GALLERY => $gallery,
+                ilObjectServiceSettingsGUI::CUSTOM_METADATA => $custom_md
+            ],
+            $txt('obj_features')
+        );
+        $formElements['additional'] = $section_additional;
+
         return $formElements;
     }
 
@@ -210,58 +219,58 @@ class ilObjLearningSequenceSettingsGUI
             ->buildForm($this->obj, $this->ctrl->getFormAction($this, self::CMD_SAVE))
             ->withRequest($this->request);
 
-        $result = $form->getInputGroup()->getContent();
-
-        if ($result->isOK()) {
-            $values = $result->value();
-            $lso = $this->obj;
-
-            $lso->setTitle($values['object'][self::PROP_TITLE]);
-            $lso->setDescription($values['object'][self::PROP_DESC]);
-
-            $settings = $lso->getLSSettings()
-                ->withMembersGallery($values['additional'][self::PROP_GALLERY]);
-            $lso->updateSettings($settings);
-
-            $activation = $lso->getLSActivation()
-                ->withIsOnline($values['online'][self::PROP_ONLINE])
-                ->withActivationStart(null)
-                ->withActivationEnd(null);
-            if ($values['online'][self::PROP_AVAIL_FROM] !== null) {
-                $activation = $activation
-                    ->withActivationStart(
-                        DateTime::createFromImmutable($values['online'][self::PROP_AVAIL_FROM])
-                    );
-            }
-            if ($values['online'][self::PROP_AVAIL_TO] !== null) {
-                $activation = $activation
-                    ->withActivationEnd(
-                        DateTime::createFromImmutable($values['online'][self::PROP_AVAIL_TO])
-                    );
-            }
-            $lso->updateActivation($activation);
-
-            $status = ilObjLearningSequenceAccess::isOffline($lso->getRefId());
-            $lso->getObjectProperties()->storePropertyIsOnline(
-                new Online(! $status)
-            );
-
-            $lso->getObjectProperties()->storePropertyTitleAndIconVisibility($values['common']['icon']);
-            $lso->getObjectProperties()->storePropertyHeaderActionVisibility($values['common']['header_actions']);
-            if (array_key_exists('custom_icon', $values['common'])) {
-                $lso->getObjectProperties()->storePropertyIcon($values['common']['custom_icon']);
-            }
-
-            $lso->getObjectProperties()->storePropertyTileImage($values['common']['image']);
-
-            $lso->update();
-
-            $this->tpl->setOnScreenMessage("success", $this->lng->txt("msg_obj_modified"), true);
-            $this->ctrl->redirect($this);
-            return null;
-        } else {
+        $data = $form->getData();
+        if ($data === null) {
             $this->tpl->setOnScreenMessage("failure", $this->lng->txt("msg_form_save_error"));
             return $this->renderer->render($form);
         }
+
+        $lso = $this->obj;
+        $obj_props = $lso->getObjectProperties();
+        $ref_props = $lso->getObjectReferenceProperties();
+
+        $title_and_description = $data['object'] ?? null;
+        if ($title_and_description instanceof TitleAndDescription) {
+            $obj_props->storePropertyTitleAndDescription($title_and_description);
+        }
+
+        ilContainer::_writeContainerSetting(
+            $lso->getId(),
+            ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+            ($data['additional'][ilObjectServiceSettingsGUI::CUSTOM_METADATA] ?? false) ? '1' : '0'
+        );
+
+        $obj_props->storePropertyIsOnline(
+            $data['online']['online'] ?? $obj_props->getPropertyIsOnline()->withOffline()
+        );
+
+        $availability_period = $data['online']['availability_period'] ?? null;
+        if ($availability_period instanceof AvailabilityPeriod) {
+            $lso->storeAvailabilityPeriod(
+                $availability_period->withObjectReferenceId($lso->getRefId())
+            );
+        } elseif ($ref_props !== null) {
+            // keep current value (no-op), but ensure it stays bound to current ref id
+            $lso->storeAvailabilityPeriod(
+                $ref_props->getPropertyAvailabilityPeriod()->withObjectReferenceId($lso->getRefId())
+            );
+        }
+
+        $settings = $lso->getLSSettings()
+            ->withMembersGallery($data['additional'][self::PROP_GALLERY] ?? false);
+        $lso->updateSettings($settings);
+
+        $obj_props->storePropertyTitleAndIconVisibility($data['common']['icon']);
+        $obj_props->storePropertyHeaderActionVisibility($data['common']['header_actions']);
+        if (array_key_exists('custom_icon', $data['common'])) {
+            $obj_props->storePropertyIcon($data['common']['custom_icon']);
+        }
+        $obj_props->storePropertyTileImage($data['common']['image']);
+
+        $lso->update();
+
+        $this->tpl->setOnScreenMessage("success", $this->lng->txt("msg_obj_modified"), true);
+        $this->ctrl->redirect($this);
+        return null;
     }
 }

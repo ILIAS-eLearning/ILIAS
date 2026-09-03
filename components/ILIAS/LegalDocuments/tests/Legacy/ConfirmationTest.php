@@ -40,7 +40,7 @@ class ConfirmationTest extends TestCase
     {
         $confirmation = $this->confirmationGUIReplacement();
         $language = $this->mock(ilLanguage::class);
-        $language->expects(self::exactly(2))->method('txt')->willReturnCallback(static fn(string $key): string => 'translated ' . $key);
+        $language->expects($this->exactly(2))->method('txt')->willReturnCallback(static fn(string $key): string => 'translated ' . $key);
 
         $instance = new Confirmation($language, static fn() => $confirmation);
         $this->assertSame('rendered string', $instance->render('dummy link', 'submit', 'cancel', 'Hi', [

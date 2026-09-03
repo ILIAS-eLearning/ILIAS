@@ -38,7 +38,8 @@ class ilGuidedTourAdminGUI // implements ilCtrlBaseClassInterface
     public function __construct(
         protected \ILIAS\Help\GuidedTour\InternalDataService $data,
         protected \ILIAS\Help\GuidedTour\InternalDomainService $domain,
-        protected \ILIAS\Help\GuidedTour\InternalGUIService $gui
+        protected \ILIAS\Help\GuidedTour\InternalGUIService $gui,
+        protected bool $edit = false
     ) {
         $ctrl = $this->gui->ctrl();
         $this->tm = $domain->tour();
@@ -193,16 +194,18 @@ class ilGuidedTourAdminGUI // implements ilCtrlBaseClassInterface
 
         $mt->setOnScreenMessage("info", $lng->txt("gdtr_list_tours_mess"));
 
-        $b = $f->button()->standard(
-            $lng->txt("gdtr_add_tour"),
-            $ctrl->getLinkTarget($this, "addTour")
-        );
-        $this->gui->toolbar()->addComponent($b);
-        $b = $f->button()->standard(
-            $lng->txt("gdtr_import_tour"),
-            $ctrl->getLinkTarget($this, "importTourForm")
-        );
-        $this->gui->toolbar()->addComponent($b);
+        if ($this->edit) {
+            $b = $f->button()->standard(
+                $lng->txt("gdtr_add_tour"),
+                $ctrl->getLinkTarget($this, "addTour")
+            );
+            $this->gui->toolbar()->addComponent($b);
+            $b = $f->button()->standard(
+                $lng->txt("gdtr_import_tour"),
+                $ctrl->getLinkTarget($this, "importTourForm")
+            );
+            $this->gui->toolbar()->addComponent($b);
+        }
 
         $items = [];
         $ui_items = [];
@@ -234,6 +237,9 @@ class ilGuidedTourAdminGUI // implements ilCtrlBaseClassInterface
             $properties[$lng->txt("active")] = $settings?->isActive()
                 ? $lng->txt("yes")
                 : $lng->txt("no");
+            if (!$this->edit) {
+                $actions = [];
+            }
             $items[] = $f->item()->standard($tour->getTitle())
                 ->withActions($f->dropdown()->standard($actions))
                 ->withProperties($properties);
@@ -275,6 +281,9 @@ class ilGuidedTourAdminGUI // implements ilCtrlBaseClassInterface
 
     protected function resetTour(): void
     {
+        if (!$this->edit) {
+            return;
+        }
         $mt = $this->gui->ui()->mainTemplate();
         $lng = $this->domain->lng();
         $ctrl = $this->gui->ctrl();
@@ -309,6 +318,9 @@ class ilGuidedTourAdminGUI // implements ilCtrlBaseClassInterface
 
     protected function deleteTour(): void
     {
+        if (!$this->edit) {
+            return;
+        }
         $mt = $this->gui->ui()->mainTemplate();
         $lng = $this->domain->lng();
         $ctrl = $this->gui->ctrl();
@@ -334,6 +346,9 @@ class ilGuidedTourAdminGUI // implements ilCtrlBaseClassInterface
 
     public function saveTour(): void
     {
+        if (!$this->edit) {
+            return;
+        }
         $mt = $this->gui->ui()->mainTemplate();
         $lng = $this->domain->lng();
         $ctrl = $this->gui->ctrl();
@@ -411,6 +426,9 @@ class ilGuidedTourAdminGUI // implements ilCtrlBaseClassInterface
 
     public function saveSettings(): void
     {
+        if (!$this->edit) {
+            return;
+        }
         $mt = $this->gui->ui()->mainTemplate();
         $form = $this->getSettingsForm();
         $tour_id = $this->gui->standardRequest()->getTourId();
@@ -543,6 +561,9 @@ class ilGuidedTourAdminGUI // implements ilCtrlBaseClassInterface
 
     public function saveStep(): void
     {
+        if (!$this->edit) {
+            return;
+        }
         $ctrl = $this->gui->ctrl();
         $mt = $this->gui->ui()->mainTemplate();
         $oder_nr = 0;
@@ -593,6 +614,9 @@ class ilGuidedTourAdminGUI // implements ilCtrlBaseClassInterface
 
     public function editPage(int $step_id): void
     {
+        if (!$this->edit) {
+            return;
+        }
         $ctrl = $this->gui->ctrl();
         $ctrl->setParameterByClass(self::class, "step_id", $step_id);
         $ctrl->redirectByClass(ilGuidedTourPageGUI::class, "edit");
@@ -627,7 +651,7 @@ class ilGuidedTourAdminGUI // implements ilCtrlBaseClassInterface
     {
         $lng = $this->domain->lng();
         $id_pres = $this->domain->idPresentation();
-        return $this
+        $form = $this
             ->gui
             ->form([self::class], "saveIdSettings")
             ->section("sec", $lng->txt("gdtr_id_settings"))
@@ -637,6 +661,10 @@ class ilGuidedTourAdminGUI // implements ilCtrlBaseClassInterface
                 $lng->txt("gdtr_id_pres_users_info"),
                 $id_pres->getIdPresentationUsers()
             );
+        if (!$this->edit) {
+            $form = $form->disabled();
+        }
+        return $form;
     }
 
     protected function saveIdSettings(): void
@@ -645,14 +673,19 @@ class ilGuidedTourAdminGUI // implements ilCtrlBaseClassInterface
         $lng = $this->domain->lng();
         $ctrl = $this->gui->ctrl();
         $form = $this->getIdForm();
-        $id_pres = $this->domain->idPresentation();
-        $id_pres->saveIdPresentationUsers($form->getData("users"));
-        $mt->setOnScreenMessage("success", $lng->txt("msg_obj_modified"), true);
+        if ($this->edit) {
+            $id_pres = $this->domain->idPresentation();
+            $id_pres->saveIdPresentationUsers($form->getData("users"));
+            $mt->setOnScreenMessage("success", $lng->txt("msg_obj_modified"), true);
+        }
         $ctrl->redirectByClass(self::class, "idSettings");
     }
 
     protected function saveOrder(): void
     {
+        if (!$this->edit) {
+            return;
+        }
         $ctrl = $this->gui->ctrl();
         $mt = $this->gui->ui()->mainTemplate();
         $lng = $this->domain->lng();
@@ -693,6 +726,9 @@ class ilGuidedTourAdminGUI // implements ilCtrlBaseClassInterface
 
     public function deleteStep(): void
     {
+        if (!$this->edit) {
+            return;
+        }
         $ctrl = $this->gui->ctrl();
         $mt = $this->gui->ui()->mainTemplate();
         $lng = $this->domain->lng();
@@ -730,7 +766,10 @@ class ilGuidedTourAdminGUI // implements ilCtrlBaseClassInterface
         FileUpload $upload,
         UploadResult $result
     ): BasicHandlerResult {
-        $new_id = $this->importTourFile($result->getName(), $result->getPath());
+        $new_id = 0;
+        if ($this->edit) {
+            $new_id = $this->importTourFile($result->getName(), $result->getPath());
+        }
         return new BasicHandlerResult(
             '',
             \ILIAS\FileUpload\Handler\HandlerResult::STATUS_OK,
@@ -745,6 +784,9 @@ class ilGuidedTourAdminGUI // implements ilCtrlBaseClassInterface
         string $path
     ): int {
         $new_id = 0;
+        if (!$this->edit) {
+            return $new_id;
+        }
         $fname = explode("_", $filename);
         if ($fname[4] == "gdtr") {
             $imp = new ilImport();

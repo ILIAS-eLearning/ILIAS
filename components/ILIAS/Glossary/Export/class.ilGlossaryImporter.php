@@ -47,7 +47,7 @@ class ilGlossaryImporter extends ilXmlImporter
             // in the new version (5.1)  we are also here, but the following file should not exist
             // if being exported with 5.1 or higher
             $xml_file = $this->getImportDirectory() . '/' . basename($this->getImportDirectory()) . '.xml';
-            $GLOBALS['ilLog']->write(__METHOD__ . ': Using XML file ' . $xml_file);
+            $GLOBALS['ilLog']->info('Using XML file ' . $xml_file);
 
             // old school import
             if (file_exists($xml_file)) {

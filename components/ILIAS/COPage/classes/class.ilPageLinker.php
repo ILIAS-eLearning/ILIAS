@@ -136,7 +136,11 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
                         if ($targetframe == "Glossary") {
                             $ltarget = "";
                         }
-                        $href = "./goto.php?target=git_" . $target_id;
+                        if ($this->offline) {
+                            $href = "term_" . $target_id . ".html";
+                        } else {
+                            $href = "./goto.php?target=git_" . $target_id;
+                        }
                         break;
 
                     case "MediaObject":

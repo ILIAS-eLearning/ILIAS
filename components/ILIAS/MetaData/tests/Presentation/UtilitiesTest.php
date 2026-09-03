@@ -43,13 +43,13 @@ class UtilitiesTest extends TestCase
             return key_exists($arg, $map);
         });
 
-        $this->format = $this->createMock(DateFormat::class);
-        $user = $this->createMock(\ilObjUser::class);
+        $this->format = $this->createStub(DateFormat::class);
+        $user = $this->createStub(\ilObjUser::class);
         $user->method('getDateFormat')->willReturn($this->format);
 
-        $refinery = $this->createMock(Refinery::class);
-        $encoding_group = $this->createMock(EncodeGroup::class);
-        $transformation = $this->createMock(Transformation::class);
+        $refinery = $this->createStub(Refinery::class);
+        $encoding_group = $this->createStub(EncodeGroup::class);
+        $transformation = $this->createStub(Transformation::class);
         $transformation->method('transform')->willReturnCallback(function ($arg) {
             return '~encoded:' . $arg . '~';
         });

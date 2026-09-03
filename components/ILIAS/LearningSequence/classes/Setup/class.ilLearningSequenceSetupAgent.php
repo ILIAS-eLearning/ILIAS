@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\Refinery;
+use ILIAS\LearningSequence\Setup\InitLOMForLearningSequenceMigration;
 
 class ilLearningSequenceSetupAgent implements Setup\Agent
 {
@@ -65,7 +66,13 @@ class ilLearningSequenceSetupAgent implements Setup\Agent
             ),
             new ilDatabaseUpdateStepsExecutedObjective(
                 new ilLearningSequenceRegisterNotificationType()
-            )
+            ),
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new LSODropActivationDBUpdateSteps()
+            ),
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilLearningSequenceStreamlinePermissionsDBUpdateSteps()
+            ),
         );
     }
 
@@ -86,7 +93,8 @@ class ilLearningSequenceSetupAgent implements Setup\Agent
             'Component LearningSequence',
             true,
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilLearningSequenceRectifyPostConditionsTableDBUpdateSteps()),
-            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilLearningSequenceRegisterNotificationType())
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilLearningSequenceRegisterNotificationType()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilLearningSequenceStreamlinePermissionsDBUpdateSteps())
         );
     }
 
@@ -95,6 +103,8 @@ class ilLearningSequenceSetupAgent implements Setup\Agent
      */
     public function getMigrations(): array
     {
-        return [];
+        return [
+            new InitLOMForLearningSequenceMigration(),
+        ];
     }
 }

@@ -16,15 +16,16 @@
  *
  *********************************************************************/
 
-declare(strict_types=0);
+declare(strict_types=1);
 
-// patch-begin svy_lp
-/**
- * @author     Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup    ServicesTracking
- */
+use ILIAS\DI\Container;
+
 class ilLPStatusSurveyFinished extends ilLPStatus
 {
+    protected const string LNG_TEXT = 'trac_mode_survey_finished';
+    protected const string LNG_TEXT_INFO = 'trac_mode_survey_finished_info';
+    protected ilLanguage $lng;
+
     public static function _getNotAttempted(int $a_obj_id): array
     {
         $invited = self::getInvitations($a_obj_id);
@@ -32,14 +33,13 @@ class ilLPStatusSurveyFinished extends ilLPStatus
             return [];
         }
         $users = array_diff(
-            (array) $invited,
+            $invited,
             ilLPStatusWrapper::_getInProgress($a_obj_id)
         );
-        $users = array_diff(
+        return array_diff(
             $users,
             ilLPStatusWrapper::_getCompleted($a_obj_id)
         );
-        return $users;
     }
 
     public static function _getInProgress(int $a_obj_id): array
@@ -62,10 +62,8 @@ class ilLPStatusSurveyFinished extends ilLPStatus
             return ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
         }
         $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
-
         if (ilObjSurveyAccess::_isSurveyParticipant($a_usr_id, $survey_id)) {
             $status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
-
             if (ilObjSurveyAccess::_lookupFinished($a_obj_id, $a_usr_id)) {
                 $status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
             }
@@ -76,7 +74,6 @@ class ilLPStatusSurveyFinished extends ilLPStatus
     protected static function getSurveyId(int $a_obj_id): int
     {
         global $DIC;
-
         $ilDB = $DIC['ilDB'];
         $set = $ilDB->query(
             "SELECT survey_id FROM svy_svy" .
@@ -91,21 +88,17 @@ class ilLPStatusSurveyFinished extends ilLPStatus
         bool $a_only_finished = false
     ): array {
         global $DIC;
-
         $ilDB = $DIC['ilDB'];
         $res = array();
         $survey_id = self::getSurveyId($a_obj_id);
         if (!$survey_id) {
             return $res;
         }
-
         $sql = "SELECT user_fi FROM svy_finished fin" .
             " WHERE fin.survey_fi = " . $ilDB->quote($survey_id, "integer");
-
         if ($a_only_finished) {
             $sql .= " AND fin.state = " . $ilDB->quote(1, "integer");
         }
-
         $set = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($set)) {
             $res[] = (int) $row["user_fi"];
@@ -114,13 +107,11 @@ class ilLPStatusSurveyFinished extends ilLPStatus
     }
 
     /**
-     * @param int $a_obj_id
      * @return int[]
      */
     public static function getInvitations(int $a_obj_id): array
     {
         global $DIC;
-
         $db = $DIC->database();
         $query = 'select user_id from svy_invitation si ' .
             'join svy_svy ss on ss.survey_id = si.survey_id ' .
@@ -131,5 +122,26 @@ class ilLPStatusSurveyFinished extends ilLPStatus
             $invited[] = (int) $row->user_id;
         }
         return $invited;
+    }
+
+    public function init(
+        Container $DIC
+    ): void {
+        $this->lng = $DIC->language();
+    }
+
+    public function getLPStatusId(): string
+    {
+        return (string) ilLPObjSettings::LP_MODE_SURVEY_FINISHED;
+    }
+
+    public function getLabel(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT);
+    }
+
+    public function getInfo(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT_INFO);
     }
 }

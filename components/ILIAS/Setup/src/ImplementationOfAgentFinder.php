@@ -72,10 +72,10 @@ class ImplementationOfAgentFinder implements AgentFinder
         $agents = new AgentCollection($this->refinery, []);
 
         foreach ($this->component_agents as $agent) {
-            $agents = $agents->withAdditionalAgent(
-                $this->getAgentNameByClassName(get_class($agent)),
-                $agent
-            );
+            $name = $agent instanceof NamedAgent
+                ? $agent->getAgentName()
+                : $this->getAgentNameByClassName(get_class($agent));
+            $agents = $agents->withAdditionalAgent($name, $agent);
         }
 
         $this->component_agents = $agents;

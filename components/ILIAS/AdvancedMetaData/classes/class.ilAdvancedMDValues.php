@@ -426,9 +426,9 @@ class ilAdvancedMDValues
         }
 
         if (!$has_cloned) {
-            $ilLog->write(__METHOD__ . ': No advanced meta data found.');
+            $ilLog->info('No advanced meta data found.');
         } else {
-            $ilLog->write(__METHOD__ . ': Start cloning advanced meta data.');
+            $ilLog->info('Start cloning advanced meta data.');
         }
     }
 

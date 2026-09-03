@@ -108,7 +108,7 @@ class ilAccountRegistrationGUI
                 $tpl = $this->displayForm();
         }
 
-        $this->tpl->setPermanentLink('usr', null, 'registration');
+        $this->tpl->setPermanentLink('registration', null);
         ilStartUpGUI::printToGlobalTemplate($tpl);
     }
 
@@ -500,8 +500,6 @@ class ilAccountRegistrationGUI
         $this->userObj->updateOwner();
 
         // setup user preferences
-        $this->userObj->setLanguage($this->form->getInput('usr_language'));
-
         global $DIC;
         $DIC['legalDocuments']->selfRegistration()->userCreation($this->userObj);
 

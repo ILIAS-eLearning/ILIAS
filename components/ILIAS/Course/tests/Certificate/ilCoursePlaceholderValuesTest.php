@@ -67,43 +67,33 @@ class ilCoursePlaceholderValuesTest extends TestCase
 
     public function testGetPlaceholderValues(): void
     {
-        $customUserFieldsPlaceholderValues = $this->getMockBuilder(ilObjectCustomUserFieldsPlaceholderValues::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $customUserFieldsPlaceholderValues = $this->createStub(ilObjectCustomUserFieldsPlaceholderValues::class);
 
         $customUserFieldsPlaceholderValues->method('getPlaceholderValues')
             ->willReturn([]);
 
-        $defaultPlaceholderValues = $this->getMockBuilder(ilDefaultPlaceholderValues::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $defaultPlaceholderValues = $this->createStub(ilDefaultPlaceholderValues::class);
 
         $defaultPlaceholderValues->method('getPlaceholderValues')
             ->willReturn([]);
 
-        $language = $this->getMockBuilder(ilLanguage::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $language = $this->createStub(ilLanguage::class);
 
         $language->method('txt')
             ->willReturn('Something');
 
-        $objectMock = $this->getMockBuilder(ilObjCourse::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $objectMock = $this->createStub(ilObjCourse::class);
 
         $objectMock->method('getTitle')
             ->willReturn('Some Title');
 
-        $obj_translation = $this->getMockBuilder(ilObjectTranslations::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $obj_translation = $this->createStub(ilObjectTranslations::class);
 
-        $german = $this->createMock(ilObjectTranslationLanguage::class);
+        $german = $this->createStub(ilObjectTranslationLanguage::class);
         $german->method('getLanguageCode')
             ->willReturn('de');
 
-        $english = $this->createMock(ilObjectTranslationLanguage::class);
+        $english = $this->createStub(ilObjectTranslationLanguage::class);
         $english->method('getLanguageCode')
             ->willReturn('en');
 
@@ -116,12 +106,9 @@ class ilCoursePlaceholderValuesTest extends TestCase
         $objectMock->method('getObjectTranslation')
             ->willReturn($obj_translation);
 
-        $user_object = $this->getMockBuilder(ilObjUser::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $user_object = $this->createStub(ilObjUser::class);
 
-        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
-            ->getMock();
+        $objectHelper = $this->createStub(ilCertificateObjectHelper::class);
         $objectHelper->method('getInstanceByObjId')
             ->willReturnMap(
                 [
@@ -130,21 +117,17 @@ class ilCoursePlaceholderValuesTest extends TestCase
                 ]
             );
 
-        $participantsHelper = $this->getMockBuilder(CertificateParticipantsHelper::class)
-            ->getMock();
+        $participantsHelper = $this->createStub(CertificateParticipantsHelper::class);
 
         $participantsHelper->method('getDateTimeOfPassed')
             ->willReturn('2018-09-10');
 
-        $ilUtilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $ilUtilHelper = $this->createStub(ilCertificateUtilHelper::class);
 
         $ilUtilHelper->method('prepareFormOutput')
             ->willReturn('Some Title');
 
-        $ilDateHelper = $this->getMockBuilder(ilCertificateDateHelper::class)
-            ->getMock();
+        $ilDateHelper = $this->createStub(ilCertificateDateHelper::class);
 
         $ilDateHelper->method('formatDate')
             ->willReturn('2018-09-10');
@@ -152,8 +135,7 @@ class ilCoursePlaceholderValuesTest extends TestCase
         $ilDateHelper->method('formatDateTime')
             ->willReturn('2018-09-10 10:32:00');
 
-        $database = $this->getMockBuilder(ilDBInterface::class)
-            ->getMock();
+        $database = $this->createStub(ilDBInterface::class);
 
         $this->setGlobalVariable('ilDB', $database);
         $this->setGlobalVariable('lng', $language);
@@ -181,9 +163,7 @@ class ilCoursePlaceholderValuesTest extends TestCase
 
     public function testGetPreviewPlaceholderValues(): void
     {
-        $customUserFieldsPlaceholderValues = $this->getMockBuilder(ilObjectCustomUserFieldsPlaceholderValues::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $customUserFieldsPlaceholderValues = $this->createStub(ilObjectCustomUserFieldsPlaceholderValues::class);
 
         $customUserFieldsPlaceholderValues->method('getPlaceholderValuesForPreview')
             ->willReturn(
@@ -193,9 +173,7 @@ class ilCoursePlaceholderValuesTest extends TestCase
                 ]
             );
 
-        $defaultPlaceholderValues = $this->getMockBuilder(ilDefaultPlaceholderValues::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $defaultPlaceholderValues = $this->createStub(ilDefaultPlaceholderValues::class);
 
         $defaultPlaceholderValues->method('getPlaceholderValuesForPreview')
             ->willReturn(
@@ -205,29 +183,23 @@ class ilCoursePlaceholderValuesTest extends TestCase
                 ]
             );
 
-        $language = $this->getMockBuilder(ilLanguage::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $language = $this->createStub(ilLanguage::class);
 
         $language->method('txt')
             ->willReturn('Something');
 
-        $objectMock = $this->getMockBuilder(ilObjCourse::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $objectMock = $this->createStub(ilObjCourse::class);
 
         $objectMock->method('getTitle')
             ->willReturn('SomeTitle');
 
-        $obj_translation = $this->getMockBuilder(ilObjectTranslations::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $obj_translation = $this->createStub(ilObjectTranslations::class);
 
-        $german = $this->createMock(ilObjectTranslationLanguage::class);
+        $german = $this->createStub(ilObjectTranslationLanguage::class);
         $german->method('getLanguageCode')
             ->willReturn('de');
 
-        $english = $this->createMock(ilObjectTranslationLanguage::class);
+        $english = $this->createStub(ilObjectTranslationLanguage::class);
         $english->method('getLanguageCode')
             ->willReturn('en');
 
@@ -240,26 +212,21 @@ class ilCoursePlaceholderValuesTest extends TestCase
         $objectMock->method('getObjectTranslation')
             ->willReturn($obj_translation);
 
-        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
-            ->getMock();
+        $objectHelper = $this->createStub(ilCertificateObjectHelper::class);
 
         $objectHelper->method('getInstanceByObjId')
             ->willReturn($objectMock);
 
-        $participantsHelper = $this->getMockBuilder(CertificateParticipantsHelper::class)
-            ->getMock();
+        $participantsHelper = $this->createStub(CertificateParticipantsHelper::class);
 
-        $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $utilHelper = $this->createStub(ilCertificateUtilHelper::class);
 
         $utilHelper->method('prepareFormOutput')
             ->willReturnCallback(function ($input) {
                 return $input;
             });
 
-        $database = $this->getMockBuilder(ilDBInterface::class)
-            ->getMock();
+        $database = $this->createStub(ilDBInterface::class);
 
         $this->setGlobalVariable('ilDB', $database);
         $this->setGlobalVariable('lng', $language);

@@ -29,6 +29,7 @@ class ilObjBlog extends ilObject2
     public const ABSTRACT_DEFAULT_IMAGE_WIDTH = 144;
     public const ABSTRACT_DEFAULT_IMAGE_HEIGHT = 144;
     public const NAV_MODE_LIST_DEFAULT_POSTINGS = 10;
+    protected \ILIAS\Blog\Posting\PostingManager $posting_manager;
     protected ?Settings $blog_settings = null;
     protected SettingsManager $settings_manager;
     protected \ILIAS\Style\Content\DomainService $content_style_domain;
@@ -43,8 +44,9 @@ class ilObjBlog extends ilObject2
     ) {
         global $DIC;
 
+        $service = $DIC->blog()->internal();
         $this->notes_service = $DIC->notes();
-        $this->settings_manager = $DIC->blog()->internal()->domain()->blogSettings();
+        $this->settings_manager = $service->domain()->blogSettings();
 
         parent::__construct($a_id, $a_reference);
         $this->rbac_review = $DIC->rbac()->review();
@@ -56,6 +58,7 @@ class ilObjBlog extends ilObject2
         if ($this->getId() > 0) {
             $this->blog_settings = $this->settings_manager->getByObjId($this->getId());
         }
+        $this->posting_manager = $service->domain()->posting();
     }
 
     protected function initType(): void
@@ -108,7 +111,7 @@ class ilObjBlog extends ilObject2
 
         $this->deleteMetaData();
 
-        ilBlogPosting::deleteAllBlogPostings($this->id);
+        $this->posting_manager->deleteAllByBlog($this->id);
 
         // remove all notifications
         ilNotification::removeForObject(ilNotification::TYPE_BLOG, $this->id);
@@ -153,103 +156,6 @@ class ilObjBlog extends ilObject2
     public function setNotesStatus(bool $a_status): void
     {
         $this->notes = $a_status;
-    }
-
-    public static function sendNotification(
-        string $a_action,
-        bool $a_in_wsp,
-        int $a_blog_node_id,
-        int $a_posting_id,
-        ?string $a_comment = null
-    ): void {
-        global $DIC;
-
-        $DIC->blog()->internal()->domain()->notification()->sendNotification(
-            $a_action,
-            $a_in_wsp,
-            $a_blog_node_id,
-            $a_posting_id,
-            $a_comment
-        );
-    }
-
-    /**
-     * Deliver blog as rss feed
-     */
-    public static function deliverRSS(string $a_wsp_id): void
-    {
-        global $DIC;
-
-        $ilSetting = $DIC->settings();
-
-        if (!$ilSetting->get('enable_global_profiles')) {
-            return;
-        }
-
-        // #10827
-        if (!str_ends_with($a_wsp_id, "_cll")) {
-            $wsp_id = new ilWorkspaceTree(0);
-            $obj_id = $wsp_id->lookupObjectId((int) $a_wsp_id);
-            $is_wsp = "_wsp";
-            $pl = $DIC->blog()->internal()->gui()->permanentLink(0, (int) $a_wsp_id);
-        } else {
-            $a_wsp_id = substr($a_wsp_id, 0, -4);
-            $obj_id = ilObject::_lookupObjId((int) $a_wsp_id);
-            $is_wsp = null;
-            $pl = $DIC->blog()->internal()->gui()->permanentLink((int) $a_wsp_id);
-        }
-        if (!$obj_id) {
-            return;
-        }
-
-        $blog_settings = $DIC->blog()->internal()->domain()->blogSettings()
-            ->getByObjId($obj_id);
-        if (!$blog_settings?->getRSS()) {
-            return;
-        }
-
-        $blog = new self($obj_id, false);
-        $feed = new ilFeedWriter();
-
-        $url = $pl->getPermanentLink();
-        $url = str_replace("&", "&amp;", $url);
-
-        // #11870
-        $feed->setChannelTitle(str_replace("&", "&amp;", $blog->getTitle()));
-        $feed->setChannelDescription(str_replace("&", "&amp;", $blog->getDescription()));
-        $feed->setChannelLink($url);
-
-        // needed for blogpostinggui / pagegui
-        $tpl = new ilGlobalTemplate("tpl.main.html", true, true);
-
-        foreach (ilBlogPosting::getAllPostings($obj_id) as $item) {
-            $id = $item["id"];
-
-            // only published items
-            $is_active = ilBlogPosting::_lookupActive($id, "blp");
-            if (!$is_active) {
-                continue;
-            }
-
-            // #16434
-            $snippet = strip_tags(ilBlogPostingGUI::getSnippet($id), "<br><br/><div><p>");
-            $snippet = str_replace("&", "&amp;", $snippet);
-            $snippet = "<![CDATA[" . $snippet . "]]>";
-
-            $url = $pl->getPermanentLink((int) $id);
-            $url = str_replace("&", "&amp;", $url);
-
-            $feed_item = new ilFeedItem();
-            $feed_item->setTitle(str_replace("&", "&amp;", $item["title"])); // #16022
-            $feed_item->setDate($item["created"]->get(IL_CAL_DATETIME));
-            $feed_item->setDescription($snippet);
-            $feed_item->setLink($url);
-            $feed_item->setAbout($url);
-            $feed->addItem($feed_item);
-        }
-
-        $feed->showFeed();
-        exit();
     }
 
     public function initDefaultRoles(): void

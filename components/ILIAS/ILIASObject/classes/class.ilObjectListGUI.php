@@ -32,6 +32,7 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\Notes\Note;
 use ILIAS\Container\Content\ModeSessionRepository;
 use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\WebDAV\Mount\ModalGUI;
 
 /**
  * Important note:
@@ -806,9 +807,11 @@ class ilObjectListGUI
     {
         if ($this->context == self::CONTEXT_REPOSITORY || $this->context == self::CONTEXT_SEARCH) {
             // BEGIN WebDAV Get mount webfolder link.
-            if ($cmd == 'mount_webfolder' && ilDAVActivationChecker::_isActive()) {
-                $uri_builder = new ilWebDAVUriBuilder($this->http->request());
-                return $uri_builder->getUriToMountInstructionModalByRef($this->ref_id);
+            global $DIC;
+            /** @var ILIAS\WebDAV\Environment $webdav */
+            $webdav = $DIC[ILIAS\WebDAV\Environment::class];
+            if ($cmd == 'mount_webfolder' && $webdav->isActive()) {
+                return $webdav->getUriToMountInstructionModalByRef($this->ref_id);
             }
             // END WebDAV Get mount webfolder link.
 
@@ -875,30 +878,6 @@ class ilObjectListGUI
                         'value' => $this->lng->txt('offline')
                     ];
             }
-
-            // BEGIN WebDAV Display locking information
-            if (ilDAVActivationChecker::_isActive()) {
-                // Show lock info
-                $webdav_dic = new ilWebDAVDIC();
-                $webdav_dic->initWithoutDIC();
-                $webdav_lock_backend = $webdav_dic->locksbackend();
-                if ($this->user->getId() !== ANONYMOUS_USER_ID) {
-                    if ($lock = $webdav_lock_backend->getLocksOnObjectId($this->obj_id)) {
-                        $lock_user = new ilObjUser($lock->getIliasOwner());
-
-                        $props[] = [
-                            'alert' => false,
-                            'property' => $this->lng->txt('in_use_by'),
-                            'value' => $lock_user->getLogin(),
-                            'link' =>
-                                './ilias.php?user=' .
-                                $lock_user->getId() .
-                                '&cmd=showUserProfile&cmdClass=ildashboardgui&baseClass=ilDashboardGUI'
-                        ];
-                    }
-                }
-            }
-            // END WebDAV Display warning for invisible files and files with special characters
         }
 
         return $props;
@@ -1594,7 +1573,7 @@ class ilObjectListGUI
         if ($cmd === 'mount_webfolder') {
             $onclick = "triggerWebDAVModal('$href')";
             $href = '#';
-            ilWebDAVMountInstructionsModalGUI::maybeRenderWebDAVModalInGlobalTpl();
+            ModalGUI::maybeRenderWebDAVModalInGlobalTpl();
         }
 
         $action = $this->ui->factory()
@@ -1808,15 +1787,16 @@ class ilObjectListGUI
             $this->ctrl->setParameter($this->container_obj, 'type', $type);
             $this->ctrl->setParameter($this->container_obj, 'item_ref_id', $this->getCommandId());
 
+            $this->lng->loadLanguageModule('dash');
             if (!$this->fav_manager->ifIsFavourite($this->user->getId(), $this->getCommandId())) {
                 // Pass type and object ID to ilAccess to improve performance
                 if ($this->checkCommandAccess('read', '', $this->ref_id, $this->type, $this->obj_id)) {
                     $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, 'addToDesk');
-                    $this->insertCommand($cmd_link, $this->lng->txt('rep_add_to_favourites'));
+                    $this->insertCommand($cmd_link, $this->lng->txt('add_to_favourites'));
                 }
             } else {
                 $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, 'removeFromDesk');
-                $this->insertCommand($cmd_link, $this->lng->txt('rep_remove_from_favourites'));
+                $this->insertCommand($cmd_link, $this->lng->txt('remove_from_favourites'));
             }
 
             $this->ctrl->clearParameters($this->container_obj);
@@ -1924,6 +1904,11 @@ class ilObjectListGUI
         ) {
             $this->ctrl->setParameterByClass(
                 get_class($this->container_obj),
+                'ref_id',
+                $this->container_obj->getObject()->getRefId()
+            );
+            $this->ctrl->setParameterByClass(
+                get_class($this->container_obj),
                 'tl_id',
                 $this->ref_id
             );
@@ -1935,6 +1920,11 @@ class ilObjectListGUI
             $this->ctrl->clearParameterByClass(
                 get_class($this->container_obj),
                 'tl_id',
+            );
+            $this->ctrl->setParameterByClass(
+                get_class($this->container_obj),
+                'ref_id',
+                $this->ref_id
             );
 
             $this->ctrl->setParameterByClass(
@@ -3043,11 +3033,6 @@ class ilObjectListGUI
         string $description
     ): ?Item {
         $ui = $this->ui;
-
-        // even b tag produced bugs, see #32304
-        $description = $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
-            $description
-        );
 
         $this->initItem(
             $ref_id,

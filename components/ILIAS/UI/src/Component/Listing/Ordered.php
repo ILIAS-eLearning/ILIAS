@@ -20,10 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Listing;
 
+use ILIAS\UI\Component\JavaScriptBindable;
+
 /**
  * Interface Ordered
  * @package ILIAS\UI\Component\Listing
  */
-interface Ordered extends Listing
+interface Ordered extends Listing, JavaScriptBindable
 {
 }

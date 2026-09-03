@@ -71,7 +71,7 @@ class ToastTest extends ILIAS_UI_TestBase
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('getToastProvider')]
-    public function testToastContainer(string $title, string $description): void
+    public function testToastContainer(string $title, string $description, string $action): void
     {
         $container = $this->getToastFactory()->container()->withAdditionalToast(
             $this->getToastFactory()->standard('', $this->getIconFactory()->standard('', ''))

@@ -28,6 +28,8 @@ use ILIAS\Blog\Posting\Posting;
  */
 class InternalDataService
 {
+    protected static array $instance = [];
+
     // protected ...\DataFactory ..._factory;
 
     public function __construct()
@@ -84,7 +86,8 @@ class InternalDataService
         ilDateTime $created,
         int $author,
         bool $approved,
-        ?ilDateTime $last_withdrawn
+        ?ilDateTime $last_withdrawn,
+        bool $active = true,
     ): Posting {
         return new Posting(
             $id,
@@ -93,7 +96,8 @@ class InternalDataService
             $created,
             $author,
             $approved,
-            $last_withdrawn
+            $last_withdrawn,
+            $active,
         );
     }
 }

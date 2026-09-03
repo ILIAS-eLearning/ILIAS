@@ -39,7 +39,7 @@ var ilMultipleChoiceWizardInputTemplate = {
 		var rowindex = 0;
 
 		// process all rows
-		$(tbody).find(this.tag_row).each(function() {
+		$(tbody).find(that.tag_row).each(function() {
 
 			// hidden
 			$(this).find('input:hidden[name*="[imagename]"]').each(function() {
@@ -92,8 +92,7 @@ var ilMultipleChoiceWizardInputTemplate = {
 
 			// button
 			$(this).find('button').each(function() {
-				that.handleId(this, 'id', rowindex);
-				that.handleId(this, 'name', rowindex);
+				that.handleId($(this).parent(), 'id', rowindex);
 			});
 
 			rowindex++;

@@ -893,8 +893,7 @@ class ilObjWikiGUI extends ilObjectGUI
                 }
             }
         }
-
-        if ($ilAccess->checkAccess("read", "", $a_target)) {
+        if ($ilAccess->checkAccess("read", "", (int) $a_target)) {
             if ($wpg_id > 0) {
                 $ctrl->setParameterByClass(
                     "ilobjwikigui",
@@ -931,7 +930,7 @@ class ilObjWikiGUI extends ilObjectGUI
                     "view"
                 );
             }
-        } elseif ($ilAccess->checkAccess("visible", "", $a_target)) {
+        } elseif ($ilAccess->checkAccess("visible", "", (int) $a_target)) {
             ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
             $main_tpl->setOnScreenMessage('failure', sprintf(

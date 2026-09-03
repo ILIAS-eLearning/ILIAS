@@ -55,7 +55,7 @@ class ilVirusScanner
         global $DIC;
         $error = $DIC['ilErr'];
         $lng = $DIC->language();
-        $log = $DIC->logger()->root();
+        $log = $DIC->logger()->forComponent('virusscanner');
 
         $this->error = $error;
         $this->lng = $lng;
@@ -152,7 +152,7 @@ class ilVirusScanner
         }
         $mess .= ': ' . preg_replace('/[\r\n]+/', '; ', $this->scanResult);
 
-        $this->log->write($mess);
+        $this->log->info($mess);
     }
 
     protected function removeBufferFile(string $bufferFile): void
@@ -188,7 +188,7 @@ class ilVirusScanner
         }
         $mess .= ': ' . preg_replace('/[\r\n]+/', '; ', $this->cleanResult);
 
-        $this->log->write($mess);
+        $this->log->info($mess);
     }
 
     public function fileCleaned(): bool

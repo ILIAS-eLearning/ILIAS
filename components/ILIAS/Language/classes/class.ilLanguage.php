@@ -75,7 +75,7 @@ class ilLanguage implements \ILIAS\Language\Language
         global $DIC;
         $client_ini = $DIC->clientIni();
 
-        $this->log = $DIC->logger()->root();
+        $this->log = $DIC->logger()->forComponent('lang');
 
         $this->lang_key = $a_lang_key;
 

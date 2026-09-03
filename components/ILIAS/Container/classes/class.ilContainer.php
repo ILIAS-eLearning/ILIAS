@@ -554,7 +554,7 @@ class ilContainer extends ilObject
         $soap_client->setResponseTimeout($soap_client->getResponseTimeout());
         $soap_client->enableWSDL(true);
 
-        $ilLog->write(__METHOD__ . ': Trying to call Soap client...');
+        $ilLog->info('Trying to call Soap client...');
         if ($soap_client->init()) {
             ilLoggerFactory::getLogger('obj')->info('Calling soap clone method');
             $res = $soap_client->call('ilClone', [$new_session_id . '::' . $client_id, $copy_id]);
@@ -885,7 +885,7 @@ class ilContainer extends ilObject
 
         $log = ilLoggerFactory::getLogger("cont");
         $log->debug(":::::::::::::::::::::::::::");
-        $log->logStack(10);
+        $log->logStack(ilLogLevel::DEBUG);
 
         //ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 

@@ -16,19 +16,19 @@
  *
  *********************************************************************/
 
-declare(strict_types=0);
+declare(strict_types=1);
 
-/**
- * @author  Stefan Meyer <meyer@leifos.com>
- * @version $Id$
- * @package ilias-tracking
- */
+use ILIAS\DI\Container;
+
 class ilLPStatusObjectives extends ilLPStatus
 {
+    protected const string LNG_TEXT = 'trac_mode_objectives';
+    protected const string LNG_TEXT_INFO = 'trac_mode_objectives_info';
+    protected ilLanguage $lng;
+
     public static function _getNotAttempted(int $a_obj_id): array
     {
-        $users = array();
-
+        $users = [];
         $members = self::getMembers($a_obj_id);
         if ($members) {
             // diff in progress, completed and failed (use stored result in LPStatusWrapper)
@@ -41,7 +41,7 @@ class ilLPStatusObjectives extends ilLPStatus
                 ilLPStatusWrapper::_getCompleted($a_obj_id)
             );
             $users = array_diff(
-                (array) $members,
+                $members,
                 ilLPStatusWrapper::_getFailed($a_obj_id)
             );
         }
@@ -52,16 +52,14 @@ class ilLPStatusObjectives extends ilLPStatus
     {
         $objective_results = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         $usr_ids = (array) ($objective_results['user_status'][self::LP_STATUS_IN_PROGRESS_NUM] ?? []);
-
         if ($usr_ids) {
             // Exclude all non members
             $usr_ids = array_intersect(self::getMembers($a_obj_id), $usr_ids);
         }
-
         if ($usr_ids) {
             return $usr_ids;
         } else {
-            return array();
+            return [];
         }
     }
 
@@ -69,36 +67,30 @@ class ilLPStatusObjectives extends ilLPStatus
     {
         $objective_results = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         $usr_ids = (array) ($objective_results['user_status'][self::LP_STATUS_COMPLETED_NUM] ?? []);
-
         if ($usr_ids) {
             // Exclude all non members
             $usr_ids = array_intersect(self::getMembers($a_obj_id), $usr_ids);
         }
-
-        return $usr_ids ?: array();
+        return $usr_ids ?: [];
     }
 
     public static function _getFailed(int $a_obj_id): array
     {
         $objective_results = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         $usr_ids = (array) ($objective_results['user_status'][self::LP_STATUS_FAILED_NUM] ?? []);
-
         if ($usr_ids) {
             // Exclude all non members
             $usr_ids = array_intersect(self::getMembers($a_obj_id), $usr_ids);
         }
-
         return $usr_ids;
     }
 
     public static function _getStatusInfo(int $a_obj_id): array
     {
         global $DIC;
-
         $ilDB = $DIC['ilDB'];
-
-        $status_info = array();
-        $status_info['user_status'] = array();
+        $status_info = [];
+        $status_info['user_status'] = [];
         $status_info['objectives'] = ilCourseObjective::_getObjectiveIds(
             $a_obj_id,
             true
@@ -162,35 +154,32 @@ class ilLPStatusObjectives extends ilLPStatus
         // ilCourseObjectiveResult -> added ilLPStatusWrapper::_updateStatus()
 
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
-        switch ($this->ilObjDataCache->lookupType($a_obj_id)) {
-            case "crs":
-                if (ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)) {
-                    // an initial test (only) should also lead to "in progress"
-                    $status = self::LP_STATUS_IN_PROGRESS_NUM;
-
-                    $objectives = ilCourseObjective::_getObjectiveIds(
-                        $a_obj_id,
-                        true
-                    );
-                    if ($objectives) {
-                        // #14051 - getSummarizedObjectiveStatusForLP() might return null
-                        $objtv_status = ilLOUserResults::getSummarizedObjectiveStatusForLP(
-                            $a_obj_id,
-                            $objectives,
-                            $a_usr_id
-                        );
-                        if ($objtv_status !== null) {
-                            $status = $objtv_status;
-                        }
-                    }
+        if (
+            strcmp($this->ilObjDataCache->lookupType($a_obj_id), 'crs') === 0 &&
+            ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)
+        ) {
+            // an initial test (only) should also lead to "in progress"
+            $status = self::LP_STATUS_IN_PROGRESS_NUM;
+            $objectives = ilCourseObjective::_getObjectiveIds(
+                $a_obj_id,
+                true
+            );
+            if ($objectives) {
+                // #14051 - getSummarizedObjectiveStatusForLP() might return null
+                $objtv_status = ilLOUserResults::getSummarizedObjectiveStatusForLP(
+                    $a_obj_id,
+                    $objectives,
+                    $a_usr_id
+                );
+                if ($objtv_status !== null) {
+                    $status = $objtv_status;
                 }
-                break;
+            }
         }
         return $status;
     }
 
     /**
-     * @param int $a_obj_id
      * @return int[]
      */
     protected static function getMembers(int $a_obj_id): array
@@ -209,7 +198,7 @@ class ilLPStatusObjectives extends ilLPStatus
         if (!$a_user_ids) {
             $a_user_ids = self::getMembers($a_obj_id);
             if (!$a_user_ids) {
-                return array();
+                return [];
             }
         }
         return self::_lookupStatusForObject(
@@ -219,19 +208,13 @@ class ilLPStatusObjectives extends ilLPStatus
         );
     }
 
-    /**
-     * Get failed users for object
-     */
     public static function _lookupFailedForObject(
         int $a_obj_id,
         ?array $a_user_ids = null
     ): array {
-        return array();
+        return [];
     }
 
-    /**
-     * Get in progress users for object
-     */
     public static function _lookupInProgressForObject(
         int $a_obj_id,
         ?array $a_user_ids = null
@@ -239,7 +222,7 @@ class ilLPStatusObjectives extends ilLPStatus
         if (!$a_user_ids) {
             $a_user_ids = self::getMembers($a_obj_id);
             if (!$a_user_ids) {
-                return array();
+                return [];
             }
         }
         return self::_lookupStatusForObject(
@@ -247,5 +230,26 @@ class ilLPStatusObjectives extends ilLPStatus
             self::LP_STATUS_IN_PROGRESS_NUM,
             $a_user_ids
         );
+    }
+
+    public function init(
+        Container $DIC
+    ): void {
+        $this->lng = $DIC->language();
+    }
+
+    public function getLPStatusId(): string
+    {
+        return (string) ilLPObjSettings::LP_MODE_OBJECTIVES;
+    }
+
+    public function getLabel(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT);
+    }
+
+    public function getInfo(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT_INFO);
     }
 }

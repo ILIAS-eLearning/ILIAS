@@ -50,6 +50,7 @@ class ilTestSkillAdministrationGUI
         private TestLogger $logger,
         private ilTree $tree,
         private ilComponentRepository $component_repository,
+        private ilComponentFactory $component_factory,
         private ilObjTest $test_obj,
         private GeneralQuestionPropertiesRepository $questionrepository,
         private RequestDataCollector $request_data_collector,
@@ -81,7 +82,13 @@ class ilTestSkillAdministrationGUI
 
                 $questionContainerId = $this->test_obj->getId();
 
-                $questionList = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $this->component_repository);
+                $questionList = new ilAssQuestionList(
+                    $this->db,
+                    $this->lng,
+                    $this->refinery,
+                    $this->component_repository,
+                    $this->component_factory
+                );
                 $questionList->setParentObjId($questionContainerId);
                 $questionList->setQuestionInstanceTypeFilter($this->getRequiredQuestionInstanceTypeFilter());
                 $questionList->load();

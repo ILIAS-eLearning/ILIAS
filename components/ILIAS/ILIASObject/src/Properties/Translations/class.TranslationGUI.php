@@ -158,6 +158,7 @@ class TranslationGUI
         $this->object->getObjectProperties()->storePropertyTranslations(
             $this->translations
         );
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
         $this->ctrl->redirectByClass($this->ctrl->getCurrentClassPath());
     }
 
@@ -168,6 +169,7 @@ class TranslationGUI
             ->getData();
 
         if ($data === null) {
+            $this->listTranslations();
             return;
         }
 
@@ -184,7 +186,7 @@ class TranslationGUI
         $this->object->getObjectProperties()->storePropertyTranslations(
             $this->translations
         );
-        $this->listTranslations();
+        $this->ctrl->redirectByClass(self::class);
     }
 
     public function deactivateContentTranslation(): void
@@ -195,7 +197,7 @@ class TranslationGUI
         );
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('obj_cont_transl_deactivated'), true);
-        $this->listTranslations();
+        $this->ctrl->redirectByClass(self::class);
     }
 
     private function addAddLanguagesToolbarActionAndRetrieveModal(

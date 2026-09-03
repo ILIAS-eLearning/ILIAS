@@ -24,8 +24,8 @@ use ilAchievementsGUI;
 use ilDashboardGUI;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
-use ilObjUserTracking;
 use ilLPPersonalGUI;
+use ilObjUserTracking;
 
 /**
  * Class LPMainBarProvider

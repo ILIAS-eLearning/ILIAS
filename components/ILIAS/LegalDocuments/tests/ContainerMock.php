@@ -31,7 +31,7 @@ trait ContainerMock
 
     private function mockMethod(string $class, string $method, array $args, $return, $times = null)
     {
-        $times ??= self::once();
+        $times ??= $this->once();
         $mock = $this->mock($class);
         $mock->expects($times)->method($method)->with(...$args)->willReturn($return);
 

@@ -18,17 +18,17 @@
 
 declare(strict_types=1);
 
-use ILIAS\Object\Properties\ObjectTypeSpecificProperties\ilObjectTypeSpecificPropertyProviders;
+use ILIAS\ILIASObject\Properties\ObjectTypeSpecificProperties\ObjectTypeSpecificPropertyProviders;
 use ILIAS\UI\Component\Symbol\Icon\Custom as CustomIcon;
 use ILIAS\UI\Component\Symbol\Icon\Factory as IconFactory;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Image\Factory as ImageFactory;
 use ILIAS\ResourceStorage\Services as StorageService;
 
-class GroupReferenceObjectPropertiesProviders implements ilObjectTypeSpecificPropertyProviders
+class GroupReferenceObjectPropertiesProviders implements ObjectTypeSpecificPropertyProviders
 {
     public function getObjectTypeSpecificTileImage(
-        int $obj_id,
+        int $object_id,
         ImageFactory $factory,
         StorageService $irss
     ): ?Image {
@@ -36,19 +36,18 @@ class GroupReferenceObjectPropertiesProviders implements ilObjectTypeSpecificPro
     }
 
     public function getObjectTypeSpecificIcon(
-        int $obj_id,
-        IconFactory $icon_factory,
+        int $object_id,
+        IconFactory $factory,
         StorageService $irss
     ): ?CustomIcon {
         $category = new ilObjGroup(
-            ilContainerReference::_lookupTargetId($obj_id),
+            ilContainerReference::_lookupTargetId($object_id),
             false
         );
 
-        /** @var ilObjectCustomIcon $custom_icon */
         $custom_icon = $category->getObjectProperties()->getPropertyIcon()->getCustomIcon();
         if ($custom_icon?->exists()) {
-            return $icon_factory->custom(
+            return $factory->custom(
                 $custom_icon->getFullPath(),
                 ''
             );

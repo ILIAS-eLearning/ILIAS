@@ -117,6 +117,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 break;
 
             case "ilfilesystemgui":
+                if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+                    $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
+                }
                 $fs_gui = new ilFileSystemGUI($this->object->getDataDirectory());
                 $fs_gui->setUseUploadDirectory(true);
                 $fs_gui->setTableId("sahsfs" . $this->object->getId());
@@ -124,6 +127,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 break;
 
             case "ilcertificategui":
+                if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+                    $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
+                }
                 $this->setSettingsSubTabs();
                 $ilTabs->setSubTabActive('certificate');
 
@@ -521,10 +527,10 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         );
         // Handle ILIAS 9 Exports containing 'lm_x' directories
         $source_dir_for_copy = $content_unzip_dir;
-        $content_unzip_dir_iterator = new DirectoryIterator( $content_unzip_dir );
-        foreach ( $content_unzip_dir_iterator as $fileinfo ) {
-            if ( $fileinfo->isDir() && !$fileinfo->isDot() ) {
-                if ( preg_match( '/^lm_\d+$/', $fileinfo->getFilename() ) ) {
+        $content_unzip_dir_iterator = new DirectoryIterator($content_unzip_dir);
+        foreach ($content_unzip_dir_iterator as $fileinfo) {
+            if ($fileinfo->isDir() && !$fileinfo->isDot()) {
+                if (preg_match('/^lm_\d+$/', $fileinfo->getFilename())) {
                     $source_dir_for_copy = $source_dir_for_copy . '/' . $fileinfo->getFilename();
                     break;
                 }

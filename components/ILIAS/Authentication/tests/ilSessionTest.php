@@ -79,15 +79,18 @@ class ilSessionTest extends TestCase
 
         /** @var \PHPUnit\Framework\MockObject\MockObject&ilSetting $setting */
         $settings = $this->getMockBuilder(ilSetting::class)->getMock();
-        $settings->method('get')->willReturnCallback(
-            function ($arg) {
-                if ($arg === 'session_statistics') {
-                    return '0';
-                }
+        $settings
+            ->expects($this->once())
+            ->method('get')
+            ->willReturnCallback(
+                function ($arg) {
+                    if ($arg === 'session_statistics') {
+                        return '0';
+                    }
 
-                throw new \RuntimeException($arg);
-            }
-        );
+                    throw new RuntimeException($arg);
+                }
+            );
         $this->setGlobalVariable(
             'ilSetting',
             $settings
@@ -95,9 +98,11 @@ class ilSessionTest extends TestCase
 
         /** @var \PHPUnit\Framework\MockObject\MockObject&ilDBInterface $ilDB  */
         $ilDB = $DIC['ilDB'];
-        $ilDB->method('update')->
-            with('usr_session')->willReturn(1);
-
+        $ilDB
+            ->expects($this->atLeastOnce())
+            ->method('update')
+            ->with('usr_session')
+            ->willReturn(1);
 
         $consecutive_quote = [
             '123456',
@@ -115,33 +120,39 @@ class ilSessionTest extends TestCase
             17,
             'e10adc3949ba59abbe56e057f20f883e'
         ];
-        $ilDB->method('quote')->with(
-            $this->callback(function ($value) use (&$consecutive_quote) {
-                if (count($consecutive_quote) === 4) {
-                    $this->assertGreaterThan(array_shift($consecutive_quote), $value);
-                } else {
-                    $this->assertSame(array_shift($consecutive_quote), $value);
-                }
-                return true;
-            })
-        )->willReturnOnConsecutiveCalls(
-            '123456',
-            '123456',
-            '123456',
-            'e10adc3949ba59abbe56e057f20f883e',
-            'e10adc3949ba59abbe56e057f20f883e',
-            '123456',
-            'e10adc3949ba59abbe56e057f20f883e',
-            'e10adc3949ba59abbe56e057f20f883e',
-            '123456',
-            '123456',
-            '123456',
-            (string) time(),
-            'e10adc3949ba59abbe56e057f20f883e',
-            '17',
-            'e10adc3949ba59abbe56e057f20f883e'
-        );
-        $ilDB->expects($this->exactly(6))->method('numRows')->willReturn(1, 1, 1, 0, 1, 0);
+        $ilDB
+            ->expects($this->exactly(count($consecutive_quote)))
+            ->method('quote')
+            ->with(
+                $this->callback(function ($value) use (&$consecutive_quote) {
+                    if (count($consecutive_quote) === 4) {
+                        $this->assertGreaterThan(array_shift($consecutive_quote), $value);
+                    } else {
+                        $this->assertSame(array_shift($consecutive_quote), $value);
+                    }
+                    return true;
+                })
+            )->willReturnOnConsecutiveCalls(
+                '123456',
+                '123456',
+                '123456',
+                'e10adc3949ba59abbe56e057f20f883e',
+                'e10adc3949ba59abbe56e057f20f883e',
+                '123456',
+                'e10adc3949ba59abbe56e057f20f883e',
+                'e10adc3949ba59abbe56e057f20f883e',
+                '123456',
+                '123456',
+                '123456',
+                (string) time(),
+                'e10adc3949ba59abbe56e057f20f883e',
+                '17',
+                'e10adc3949ba59abbe56e057f20f883e'
+            );
+        $ilDB
+            ->expects($this->exactly(6))
+            ->method('numRows')
+            ->willReturn(1, 1, 1, 0, 1, 0);
 
         $consecutive_select = [
             'SELECT 1 FROM usr_session WHERE session_id = 123456',
@@ -156,58 +167,71 @@ class ilSessionTest extends TestCase
             'SELECT 1 FROM usr_session WHERE session_id = ',
             'SELECT 1 FROM usr_session WHERE session_id = 17'
         ];
-        $ilDB->method('query')->with(
-            $this->callback(function ($value) use (&$consecutive_select) {
-                if (count($consecutive_select) === 2) {
-                    $this->assertStringStartsWith(array_shift($consecutive_select), $value);
-                } else {
-                    $this->assertSame(array_shift($consecutive_select), $value);
-                }
-                return true;
-            })
-        )->willReturnOnConsecutiveCalls(
-            $this->createMock(ilDBStatement::class),
-            $this->createMock(ilDBStatement::class),
-            $this->createMock(ilDBStatement::class),
-            $this->createMock(ilDBStatement::class),
-            $this->createMock(ilDBStatement::class),
-            $this->createMock(ilDBStatement::class),
-            $this->createMock(ilDBStatement::class),
-            $this->createMock(ilDBStatement::class),
-            $this->createMock(ilDBStatement::class),
-            $this->createMock(ilDBStatement::class),
-            $this->createMock(ilDBStatement::class)
-        );
-        $ilDB->expects($this->exactly(4))->method('fetchAssoc')->willReturn(
-            ['data' => 'Testdata'],
-            [],
-            ['data' => 'Testdata'],
-            []
-        );
-        $ilDB->expects($this->once())->method('fetchObject')->willReturn(
-            (object) [
-                'data' => 'Testdata'
-            ]
-        );
+        $ilDB
+            ->expects($this->exactly(count($consecutive_select)))
+            ->method('query')
+            ->with(
+                $this->callback(function ($value) use (&$consecutive_select) {
+                    if (count($consecutive_select) === 2) {
+                        $this->assertStringStartsWith(array_shift($consecutive_select), $value);
+                    } else {
+                        $this->assertSame(array_shift($consecutive_select), $value);
+                    }
+                    return true;
+                })
+            )->willReturnOnConsecutiveCalls(
+                $this->createMock(ilDBStatement::class),
+                $this->createMock(ilDBStatement::class),
+                $this->createMock(ilDBStatement::class),
+                $this->createMock(ilDBStatement::class),
+                $this->createMock(ilDBStatement::class),
+                $this->createMock(ilDBStatement::class),
+                $this->createMock(ilDBStatement::class),
+                $this->createMock(ilDBStatement::class),
+                $this->createMock(ilDBStatement::class),
+                $this->createMock(ilDBStatement::class),
+                $this->createMock(ilDBStatement::class)
+            );
+        $ilDB
+            ->expects($this->exactly(4))
+            ->method('fetchAssoc')->willReturn(
+                ['data' => 'Testdata'],
+                [],
+                ['data' => 'Testdata'],
+                []
+            );
+        $ilDB
+            ->expects($this->once())
+            ->method('fetchObject')->willReturn(
+                (object) [
+                    'data' => 'Testdata'
+                ]
+            );
 
         $consecutive_delete = [
             'DELETE FROM usr_sess_istorage WHERE session_id = 123456',
             'DELETE FROM usr_session WHERE session_id = e10adc3949ba59abbe56e057f20f883e',
             'DELETE FROM usr_session WHERE user_id = e10adc3949ba59abbe56e057f20f883e'
         ];
-        $ilDB->method('manipulate')->with(
-            $this->callback(function ($value) use (&$consecutive_delete) {
-                $this->assertSame(array_shift($consecutive_delete), $value);
-                return true;
-            })
-        )->willReturnOnConsecutiveCalls(
-            1,
-            1,
-            1
-        );
+        $ilDB
+            ->expects($this->exactly(count($consecutive_delete)))
+            ->method('manipulate')->with(
+                $this->callback(function ($value) use (&$consecutive_delete) {
+                    $this->assertSame(array_shift($consecutive_delete), $value);
+                    return true;
+                })
+            )->willReturnOnConsecutiveCalls(
+                1,
+                1,
+                1
+            );
 
         $cron_manager = $this->createMock(\ILIAS\Cron\Job\JobManager::class);
-        $cron_manager->method('isJobActive')->with($this->isType('string'))->willReturn(true);
+        $cron_manager
+            ->expects($this->atLeastOnce())
+            ->method('isJobActive')
+            ->with($this->isString())
+            ->willReturn(true);
         $this->setGlobalVariable(
             'cron.manager',
             $cron_manager

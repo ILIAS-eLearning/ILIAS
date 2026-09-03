@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -53,7 +55,7 @@ class ilSurveySyncTableGUI extends ilTable2GUI
         $this->addCommandButton("cancelsync", $lng->txt("cancel"));
 
         // $this->setSelectAllCheckbox("id[]");
-        $this->addColumn("", "", 1);
+        $this->addColumn("", "", "1");
         $this->addColumn($lng->txt("title"), "");
 
         $this->setDefaultOrderField("title");
@@ -75,6 +77,7 @@ class ilSurveySyncTableGUI extends ilTable2GUI
 
         $table_data = array();
         foreach ($this->question->getCopyIds(true) as $survey_obj_id => $questions) {
+            $survey_obj_id = (int) $survey_obj_id;
             $survey_id = new ilObjSurvey($survey_obj_id, false);
             $survey_id->loadFromDb();
             $survey_id = $survey_id->getSurveyId();
@@ -154,6 +157,7 @@ class ilSurveySyncTableGUI extends ilTable2GUI
 
         $result = [];
         foreach ($ref_ids as $ref_id) {
+            $ref_id = (int) $ref_id;
             $path = "...";
 
             $counter = 0;
@@ -168,7 +172,7 @@ class ilSurveySyncTableGUI extends ilTable2GUI
                         $path .= $data['title'];
                     } else {
                         $path .= ('<a target="_top" href="' .
-                                  ilLink::_getLink($data['ref_id'], $data['type']) . '">' .
+                                  ilLink::_getLink((int) $data['ref_id'], (string) $data['type']) . '">' .
                                   $data['title'] . '</a>');
                     }
                 }

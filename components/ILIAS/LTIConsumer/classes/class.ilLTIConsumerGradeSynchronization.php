@@ -85,13 +85,19 @@ class ilLTIConsumerGradeSynchronization
             $query .= ' AND lti_timestamp <= ' . $DIC->database()->quote($endDate->get(IL_CAL_DATETIME), 'timestamp');
         }
 
-        $query .= ' ORDER BY lti_timestamp DESC';
+        $query .= ' ORDER BY lti_timestamp DESC, stored DESC';
 
         $res = $DIC->database()->query($query);
 
         $results = [];
+        $seenUsers = [];
 
         while ($row = $DIC->database()->fetchAssoc($res)) {
+            $userId = (int) $row['usr_id'];
+            if (isset($seenUsers[$userId])) {
+                continue;
+            }
+            $seenUsers[$userId] = true;
             $results[] = $row;
         }
 

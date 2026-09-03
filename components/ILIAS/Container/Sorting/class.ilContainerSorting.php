@@ -16,20 +16,21 @@
  *
  *********************************************************************/
 
+use ILIAS\Container\Sorting\Service\DomainService as SortingDomainService;
+
 /**
- *
+ * @deprecated Please use the sorting domain service from the Container services. Will be removed with ILIAS 13.
  * @author Stefan Meyer <meyer@leifos.com>
  */
 class ilContainerSorting
 {
-    protected const ORDER_DEFAULT = 999999;
+    protected const int ORDER_DEFAULT = 999999;
 
-    protected ilLogger $log;
-    protected ilTree $tree;
+    protected SortingDomainService $sorting_domain;
+
     /** @var array<int, self>  */
     protected static array $instances = [];
     protected int $obj_id;
-    protected ilDBInterface $db;
     protected ?ilContainerSortingSettings $sorting_settings = null;
     protected array $sorting = [];
 
@@ -37,11 +38,8 @@ class ilContainerSorting
     {
         global $DIC;
 
-        $this->log = $DIC["ilLog"];
-        $this->tree = $DIC->repositoryTree();
-        $ilDB = $DIC->database();
+        $this->sorting_domain = $DIC->container()->internal()->domain()->sorting();
 
-        $this->db = $ilDB;
         $this->obj_id = $a_obj_id;
 
         $this->read();
@@ -65,16 +63,13 @@ class ilContainerSorting
     {
         global $DIC;
 
-        $ilDB = $DIC->database();
+        $groupings = $DIC->container()->internal()->domain()->sorting()->positions()->getPositionsInObject($a_obj_id);
         $sorted = [];
-
-        $query = "SELECT child_id, position FROM container_sorting WHERE " .
-            "obj_id = " . $ilDB->quote($a_obj_id, 'integer');
-        $res = $ilDB->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $sorted[(int) $row->child_id] = (int) $row->position;
+        foreach ($groupings as $grouping) {
+            foreach ($grouping->getPositions() as $position) {
+                $sorted[$position->getChildID()] = $position->getPosition();
+            }
         }
-
         return $sorted;
     }
 
@@ -82,102 +77,16 @@ class ilContainerSorting
         int $a_target_id,
         int $a_copy_id
     ): void {
-        $ilDB = $this->db;
-
-        $ilLog = ilLoggerFactory::getLogger("cont");
-        $ilLog->debug("Cloning container sorting.");
-
-        $target_obj_id = ilObject::_lookupObjId($a_target_id);
-
-        $mappings = ilCopyWizardOptions::_getInstance($a_copy_id)->getMappings();
-
-
-        // copy blocks sorting
-        $set = $ilDB->queryF(
-            "SELECT * FROM container_sorting_bl " .
-            " WHERE obj_id = %s ",
-            ["integer"],
-            [$this->obj_id]
+        $this->sorting_domain->positions()->clonePositions(
+            $this->obj_id,
+            $a_target_id,
+            $a_copy_id
         );
-        if (($rec = $ilDB->fetchAssoc($set)) && $rec["block_ids"] != "") {
-            $ilLog->debug("Got block sorting for obj_id = " . $this->obj_id . ": " . $rec["block_ids"]);
-            $new_block_ids = [];
-            foreach (explode(";", $rec["block_ids"]) as $block_id) {
-                if (is_numeric($block_id) && isset($mappings[$block_id])) {
-                    $new_block_ids[] = $mappings[$block_id];
-                } else {
-                    $new_block_ids[] = $block_id;
-                }
-            }
-            $new_ids = implode(";", $new_block_ids);
-
-            $ilDB->replace(
-                "container_sorting_bl",
-                ["obj_id" => ["integer", $target_obj_id]],
-                ["block_ids" => ["text", $new_ids]]
-            );
-
-            $ilLog->debug("Write block sorting for obj_id = " . $target_obj_id . ": " . $new_ids);
-        }
-
-
-        $ilLog->debug("Read container_sorting for obj_id = " . $this->obj_id);
-
-        $query = "SELECT * FROM container_sorting " .
-            "WHERE obj_id = " . $ilDB->quote($this->obj_id, 'integer');
-
-        $res = $ilDB->query($query);
-
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if (!isset($mappings[$row->child_id]) || !$mappings[$row->child_id]) {
-                $ilLog->debug("No mapping found for child id:" . $row->child_id);
-                continue;
-            }
-
-
-            $new_parent_id = 0;
-            if ($row->parent_id) {
-                // see bug #20347
-                // at least in the case of sessions and item groups parent_ids in container sorting are object IDs but $mappings store references
-                if (in_array($row->parent_type, ["sess", "itgr"])) {
-                    $par_refs = ilObject::_getAllReferences($row->parent_id);
-                    $par_ref_id = current($par_refs);			// should be only one
-                    $ilLog->debug("Got ref id: " . $par_ref_id . " for obj_id " . $row->parent_id . " map ref id: " . ($mappings[$par_ref_id] ?? "") . ".");
-                    if (isset($mappings[$par_ref_id])) {
-                        $new_parent_ref_id = $mappings[$par_ref_id];
-                        $new_parent_id = ilObject::_lookupObjectId($new_parent_ref_id);
-                    }
-                } else {		// not sure if this is still used for other cases that expect ref ids
-                    $new_parent_id = $mappings[$row->parent_id];
-                }
-                if ((int) $new_parent_id === 0) {
-                    $ilLog->debug("No mapping found for parent id:" . $row->parent_id . ", child_id: " . $row->child_id);
-                    continue;
-                }
-            }
-
-            $query = "DELETE FROM container_sorting " .
-                "WHERE obj_id = " . $ilDB->quote($target_obj_id, 'integer') . " " .
-                "AND child_id = " . $ilDB->quote($mappings[$row->child_id], 'integer') . " " .
-                "AND parent_type = " . $ilDB->quote($row->parent_type, 'text') . ' ' .
-                "AND parent_id = " . $ilDB->quote((int) $new_parent_id, 'integer');
-            $ilLog->debug($query);
-            $ilDB->manipulate($query);
-
-            // Add new value
-            $query = "INSERT INTO container_sorting (obj_id,child_id,position,parent_type,parent_id) " .
-                "VALUES( " .
-                $ilDB->quote($target_obj_id, 'integer') . ", " .
-                $ilDB->quote($mappings[$row->child_id], 'integer') . ", " .
-                $ilDB->quote($row->position, 'integer') . ", " .
-                $ilDB->quote($row->parent_type, 'text') . ", " .
-                $ilDB->quote((int) $new_parent_id, 'integer') .
-                ")";
-            $ilLog->debug($query);
-            $ilDB->manipulate($query);
-        }
     }
 
+    /**
+     * TODO move to a new Sorter
+     */
     public function sortItems(array $a_items): array
     {
         if (!is_array($a_items)) {
@@ -285,6 +194,7 @@ class ilContainerSorting
     }
 
     /**
+     * TODO move to a new Sorter
      * sort subitems (items of sessions or learning objectives)
      */
     public function sortSubItems(
@@ -336,113 +246,15 @@ class ilContainerSorting
      */
     public function savePost(array $a_type_positions): void
     {
-        if (!is_array($a_type_positions)) {
-            return;
-        }
-        $items = [];
-        foreach ($a_type_positions as $key => $position) {
-            if ($key === "blocks") {
-                $this->saveBlockPositions($position);
-            } elseif (!is_array($position)) {
-                $items[$key] = ((float) $position) * 100;
-            } else {
-                foreach ($position as $parent_id => $sub_items) {
-                    $this->saveSubItems($key, $parent_id, $sub_items ?: []);
-                }
-            }
-        }
-
-        if (!count($items)) {
-            $this->saveItems([]);
-            return;
-        }
-
-        asort($items);
-        $new_indexed = [];
-        $position = 0;
-        foreach ($items as $key => $null) {
-            $new_indexed[$key] = ++$position;
-        }
-
-        $this->saveItems($new_indexed);
-    }
-
-    protected function saveItems(array $a_items): void
-    {
-        $ilDB = $this->db;
-
-        foreach ($a_items as $child_id => $position) {
-            $ilDB->replace(
-                'container_sorting',
-                [
-                    'obj_id' => ['integer', $this->obj_id],
-                    'child_id' => ['integer', $child_id],
-                    'parent_id' => ['integer', 0]
-                ],
-                [
-                    'parent_type' => ['text', ''],
-                    'position' => ['integer', $position]
-                ]
-            );
-        }
-    }
-
-    protected function saveSubItems(
-        string $a_parent_type,
-        int $a_parent_id,
-        array $a_items
-    ): void {
-        $ilDB = $this->db;
-
-        foreach ($a_items as $child_id => $position) {
-            $ilDB->replace(
-                'container_sorting',
-                [
-                    'obj_id' => ['integer', $this->obj_id],
-                    'child_id' => ['integer', $child_id],
-                    'parent_id' => ['integer', $a_parent_id]
-                ],
-                [
-                    'parent_type' => ['text', $a_parent_type],
-                    'position' => ['integer', $position]
-                ]
-            );
-        }
+        $this->sorting_domain->positions()->saveFromPost($this->obj_id, $a_type_positions);
     }
 
     /**
-     * Save block custom positions (for current object id)
-     */
-    protected function saveBlockPositions(array $a_values): void
-    {
-        $ilDB = $this->db;
-        asort($a_values);
-        $ilDB->replace(
-            'container_sorting_bl',
-            [
-                'obj_id' => ['integer', $this->obj_id]
-            ],
-            [
-                'block_ids' => ['text', implode(";", array_keys($a_values))]
-            ]
-        );
-    }
-
-    /**
+     * Not in use anymore.
      * Read block custom positions (for current object id)
      */
     public function getBlockPositions(): array
     {
-        $ilDB = $this->db;
-
-        $set = $ilDB->query("SELECT block_ids" .
-            " FROM container_sorting_bl" .
-            " WHERE obj_id = " . $ilDB->quote($this->obj_id, "integer"));
-        $row = $ilDB->fetchAssoc($set);
-        if (isset($row["block_ids"])) {
-            return explode(";", $row["block_ids"]);
-        }
-
         return [];
     }
 
@@ -454,19 +266,22 @@ class ilContainerSorting
 
         $sorting_settings = ilContainerSortingSettings::getInstanceByObjId($this->obj_id);
         $this->sorting_settings = $sorting_settings->loadEffectiveSettings();
-        $query = "SELECT * FROM container_sorting " .
-            "WHERE obj_id = " . $this->db->quote($this->obj_id, 'integer') . " ORDER BY position";
-        $res = $this->db->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if ($row->parent_id) {
-                $this->sorting[$row->parent_type][$row->parent_id][$row->child_id] = $row->position;
-            } else {
-                $this->sorting['all'][$row->child_id] = $row->position;
+
+        $groupings = $this->sorting_domain->positions()->getPositionsInObject($this->obj_id);
+
+        foreach ($groupings as $grouping) {
+            foreach ($grouping->getPositions() as $position) {
+                if ($grouping->getParentID()) {
+                    $this->sorting[$grouping->getParentType()][$grouping->getParentID()][$position->getChildID()] = $position->getPosition();
+                } else {
+                    $this->sorting['all'][$position->getChildID()] = $position->getPosition();
+                }
             }
         }
     }
 
     /**
+     * TODO move to a new Sorter
      * Position and order sort order for new object without position in manual sorting type
      */
     private function sortOrderDefault(array $items): array

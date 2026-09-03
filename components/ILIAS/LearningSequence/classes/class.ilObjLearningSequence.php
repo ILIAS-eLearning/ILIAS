@@ -18,6 +18,11 @@
 
 declare(strict_types=1);
 
+use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\CachedRepository as ReferencePropertiesRepository;
+use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\ObjectReferenceProperties;
+use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\AvailabilityPeriod\AvailabilityPeriod;
+use ILIAS\ILIASObject\LocalDIC;
+
 class ilObjLearningSequence extends ilContainer
 {
     public const OBJ_TYPE = 'lso';
@@ -43,7 +48,8 @@ class ilObjLearningSequence extends ilContainer
     protected ilCtrl $ctrl;
     protected \ILIAS\News\Service $il_news;
     protected ilConditionHandler $il_condition_handler;
-
+    protected ReferencePropertiesRepository $repo_ref_props;
+    protected ?ObjectReferenceProperties $ref_props = null;
 
     public function __construct(int $id = 0, bool $call_by_reference = true)
     {
@@ -55,11 +61,11 @@ class ilObjLearningSequence extends ilContainer
         $this->ctrl = $DIC['ilCtrl'];
         $this->user = $DIC['ilUser'];
         $this->tree = $DIC['tree'];
-        $this->log = $DIC["ilLoggerFactory"]->getRootLogger();
+        $this->log = $DIC["ilLoggerFactory"]->getComponentLogger('lso');
         $this->app_event_handler = $DIC['ilAppEventHandler'];
         $this->il_news = $DIC->news();
         $this->il_condition_handler = new ilConditionHandler();
-
+        $this->repo_ref_props = LocalDIC::dic()['properties.object_reference.repositoy'];
         parent::__construct($id, $call_by_reference);
 
         $this->lng->loadLanguageModule('rbac');
@@ -74,8 +80,14 @@ class ilObjLearningSequence extends ilContainer
     {
         parent::read();
         $this->getLSSettings();
-        if ($this->getRefId()) {
-            $this->getLSActivation();
+        try {
+            $this->ref_props = $this->repo_ref_props->getFor($this->getRefId());
+        } catch (\Exception $e) {
+            $this->ref_props = $this->repo_ref_props->getFor(null);
+            $this->repo_ref_props->storePropertyAvailabilityPeriod(
+                $this->ref_props->getPropertyAvailabilityPeriod()
+                    ->withObjectReferenceId($this->getRefId())
+            );
         }
     }
 
@@ -85,6 +97,8 @@ class ilObjLearningSequence extends ilContainer
         if (!$id) {
             return 0;
         }
+
+        $this->createMetaData();
         $this->raiseEvent(self::E_CREATE);
 
         return $this->getId();
@@ -95,6 +109,8 @@ class ilObjLearningSequence extends ilContainer
         if (!parent::update()) {
             return false;
         }
+
+        $this->updateMetaData();
         $this->raiseEvent(self::E_UPDATE);
 
         return true;
@@ -102,6 +118,8 @@ class ilObjLearningSequence extends ilContainer
 
     public function delete(): bool
     {
+        $this->deleteMetaData();
+
         if (!parent::delete()) {
             return false;
         }
@@ -109,7 +127,8 @@ class ilObjLearningSequence extends ilContainer
         ilLearningSequenceParticipants::_deleteAllEntries($this->getId());
         $this->getSettingsDB()->delete($this->getId());
         $this->getStateDB()->deleteFor($this->getRefId());
-        $this->getActivationDB()->deleteForRefId($this->getRefId());
+
+        ilObjTaxonomy::deleteUsagesOfObject($this->getId());
 
         $this->raiseEvent(self::E_DELETE);
 
@@ -128,6 +147,16 @@ class ilObjLearningSequence extends ilContainer
         );
     }
 
+    public function getObjectReferenceProperties(): ?ObjectReferenceProperties
+    {
+        return $this->ref_props;
+    }
+
+    public function storeAvailabilityPeriod(AvailabilityPeriod $period): void
+    {
+        $this->repo_ref_props->storePropertyAvailabilityPeriod($period);
+    }
+
     public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false): ?ilObject
     {
         /** @var ilObjLearningSequence $new_obj */
@@ -137,8 +166,19 @@ class ilObjLearningSequence extends ilContainer
         $this->cloneMetaData($new_obj);
         $this->cloneSettings($new_obj);
         $this->cloneLPSettings($new_obj->getId());
-        $this->cloneActivation($new_obj, $copy_id);
         $this->cloneIntroAndExtroContentPages($new_obj, [LSOPageType::INTRO, LSOPageType::EXTRO]);
+
+        $online = $this->getObjectProperties()->getPropertyIsOnline();
+        $cwo = ilCopyWizardOptions::_getInstance($copy_id);
+        if ($cwo->isRootNode($this->getRefId())) {
+            $online = $online->withOffline();
+        }
+        $new_obj->getObjectProperties()->storePropertyIsOnline($online);
+
+        $new_obj->repo_ref_props->storePropertyAvailabilityPeriod(
+            $this->ref_props->getPropertyAvailabilityPeriod()
+                ->withObjectReferenceId($new_obj->getRefId())
+        );
 
         $roles = $new_obj->getLSRoles();
         $roles->addLSMember(
@@ -175,21 +215,21 @@ class ilObjLearningSequence extends ilContainer
         $new_admin = $new_obj->getDefaultAdminRole();
 
         if (!$admin || !$new_admin || !$this->getRefId() || !$new_obj->getRefId()) {
-            $this->log->write(__METHOD__ . ' : Error cloning auto generated role: il_lso_admin');
+            $this->log->info('Error cloning auto generated role: il_lso_admin');
         }
 
         $this->rbac_admin->copyRolePermissions($admin, $this->getRefId(), $new_obj->getRefId(), $new_admin, true);
-        $this->log->write(__METHOD__ . ' : Finished copying of role lso_admin.');
+        $this->log->info('Finished copying of role lso_admin.');
 
         $member = $this->getDefaultMemberRole();
         $new_member = $new_obj->getDefaultMemberRole();
 
         if (!$member || !$new_member) {
-            $this->log->write(__METHOD__ . ' : Error cloning auto generated role: il_lso_member');
+            $this->log->info('Error cloning auto generated role: il_lso_member');
         }
 
         $this->rbac_admin->copyRolePermissions($member, $this->getRefId(), $new_obj->getRefId(), $new_member, true);
-        $this->log->write(__METHOD__ . ' : Finished copying of role lso_member.');
+        $this->log->info('Finished copying of role lso_member.');
 
         return true;
     }
@@ -221,29 +261,6 @@ class ilObjLearningSequence extends ilContainer
     {
         $lp_settings = new ilLPObjSettings($this->getId());
         $lp_settings->cloneSettings($obj_id);
-    }
-
-    protected function cloneActivation(ilObjLearningSequence $new_obj, int $a_copy_id): void
-    {
-        // #14596
-        $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
-        if ($cwo->isRootNode($this->getRefId())) {
-            $activation = $new_obj->getLSActivation()->withIsOnline(false);
-        } else {
-            $activation = $new_obj->getLSActivation()
-                ->withIsOnline($this->getLSActivation()->getIsOnline())
-                ->withActivationStart($this->getLSActivation()->getActivationStart())
-                ->withActivationEnd($this->getLSActivation()->getActivationEnd());
-        }
-
-        $new_status = ($new_obj->getLSActivation()->getEffectiveOnlineStatus())
-            ? $new_obj->getObjectProperties()->getPropertyIsOnline()->withOnline()
-            : $new_obj->getObjectProperties()->getPropertyIsOnline()->withOffline();
-        $new_obj->getObjectProperties()->storePropertyIsOnline($new_status);
-
-        $new_obj->getActivationDB()->store(
-            $activation
-        );
     }
 
     protected function getDIC(): ArrayAccess
@@ -282,29 +299,6 @@ class ilObjLearningSequence extends ilContainer
             $this->settings_db = $this->getDI()['db.settings'];
         }
         return $this->settings_db;
-    }
-
-    protected function getActivationDB(): ilLearningSequenceActivationDB
-    {
-        if (!$this->activation_db) {
-            $this->activation_db = $this->getDI()['db.activation'];
-        }
-        return $this->activation_db;
-    }
-
-    public function getLSActivation(): ilLearningSequenceActivation
-    {
-        if (!$this->ls_activation) {
-            $this->ls_activation = $this->getActivationDB()->getActivationForRefId($this->getRefId());
-        }
-
-        return $this->ls_activation;
-    }
-
-    public function updateActivation(ilLearningSequenceActivation $settings): void
-    {
-        $this->getActivationDB()->store($settings);
-        $this->ls_activation = $settings;
     }
 
     public function getLSSettings(): ilLearningSequenceSettings

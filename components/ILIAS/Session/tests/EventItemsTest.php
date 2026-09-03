@@ -48,8 +48,8 @@ class EventItemsTest extends TestCase
         $dic = new ILIAS\DI\Container();
         $GLOBALS['DIC'] = $dic;
 
-        $db = $this->createMock(ilDBInterface::class);
-        $tree = $this->createMock(ilTree::class);
+        $db = $this->createStub(ilDBInterface::class);
+        $tree = $this->createStub(ilTree::class);
 
         $this->setGlobalVariable(
             "ilDB",

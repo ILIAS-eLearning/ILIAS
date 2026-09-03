@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @ilCtrl_Calls ilSurveyConstraintsGUI:
@@ -118,27 +120,27 @@ class ilSurveyConstraintsGUI
             if (is_array($structure[$elementCounter])) {
                 if ($this->request->getPrecondition() !== '') {
                     $this->object->updateConstraint(
-                        $this->request->getPrecondition(),
-                        $this->request->getConstraintPar("q"),
-                        $this->request->getConstraintPar("r"),
-                        $this->request->getConstraintPar("v"),
-                        $this->request->getConstraintPar("c")
+                        (int) $this->request->getPrecondition(),
+                        (int) $this->request->getConstraintPar("q"),
+                        (int) $this->request->getConstraintPar("r"),
+                        (float) $this->request->getConstraintPar("v"),
+                        (int) $this->request->getConstraintPar("c")
                     );
                 } else {
                     $constraint_id = $this->object->addConstraint(
-                        $this->request->getConstraintPar("q"),
-                        $this->request->getConstraintPar("r"),
-                        $this->request->getConstraintPar("v"),
-                        $this->request->getConstraintPar("c")
+                        (int) $this->request->getConstraintPar("q"),
+                        (int) $this->request->getConstraintPar("r"),
+                        (float) $this->request->getConstraintPar("v"),
+                        (int) $this->request->getConstraintPar("c")
                     );
                     foreach ($structure[$elementCounter] as $key => $question_id) {
-                        $this->object->addConstraintToQuestion($question_id, $constraint_id);
+                        $this->object->addConstraintToQuestion((int) $question_id, $constraint_id);
                     }
                 }
                 if (count($structure[$elementCounter]) > 1) {
                     $this->object->updateConjunctionForQuestions(
                         $structure[$elementCounter],
-                        $this->request->getConstraintPar("c")
+                        (int) $this->request->getConstraintPar("c")
                     );
                 }
             }
@@ -204,11 +206,11 @@ class ilSurveyConstraintsGUI
         $survey_questions = $this->object->getSurveyQuestions();
         $option_questions = array();
         if ($this->request->getPrecondition() !== '') {
-            if (!$this->validateConstraintForEdit($this->request->getPrecondition())) {
+            if (!$this->validateConstraintForEdit((int) $this->request->getPrecondition())) {
                 $this->ctrl->redirect($this, "constraints");
             }
 
-            $pc = $this->object->getPrecondition($this->request->getPrecondition());
+            $pc = $this->object->getPrecondition((int) $this->request->getPrecondition());
             $postvalues = array(
                 "c" => $pc["conjunction"],
                 "q" => $pc["question_fi"],
@@ -272,7 +274,7 @@ class ilSurveyConstraintsGUI
             }
             // question
             else {
-                $title[] = $this->lng->txt($survey_questions[$constraint_structure[$title_id][0]]["type_tag"]) . ": " .
+                $title[] = $this->lng->txt((string) $survey_questions[$constraint_structure[$title_id][0]]["type_tag"]) . ": " .
                     $survey_questions[$constraint_structure[$title_id][0]]["title"];
             }
         }
@@ -283,14 +285,14 @@ class ilSurveyConstraintsGUI
         $fulfilled = new ilRadioGroupInputGUI($this->lng->txt("constraint_fulfilled"), "c");
         $fulfilled->addOption(new ilRadioOption($this->lng->txt("conjunction_and"), '0', ''));
         $fulfilled->addOption(new ilRadioOption($this->lng->txt("conjunction_or"), '1', ''));
-        $fulfilled->setValue((strlen($postvalues['c'])) ? $postvalues['c'] : 0);
+        $fulfilled->setValue((strlen((string) $postvalues['c'])) ? (string) $postvalues['c'] : "0");
         $form->addItem($fulfilled);
 
         $step1 = new ilSelectInputGUI($this->lng->txt("step") . " 1: " . $this->lng->txt("select_prior_question"), "q");
         $options = array();
         if (is_array($questions)) {
             foreach ($questions as $question) {
-                $options[$question["question_id"]] = $question["title"] . " (" . SurveyQuestion::_getQuestionTypeName($question["type_tag"]) . ")";
+                $options[$question["question_id"]] = $question["title"] . " (" . SurveyQuestion::_getQuestionTypeName((string) $question["type_tag"]) . ")";
             }
         }
         $step1->setOptions($options);
@@ -312,13 +314,13 @@ class ilSurveyConstraintsGUI
         }
 
         if ($step > 2) {
-            $variables = $this->object->getVariables($postvalues["q"]);
-            $question_type = $survey_questions[$postvalues["q"]]["type_tag"];
+            $variables = $this->object->getVariables((int) $postvalues["q"]);
+            $question_type = (string) $survey_questions[$postvalues["q"]]["type_tag"];
             SurveyQuestion::_includeClass($question_type);
             $question = new $question_type();
-            $question->loadFromDb($postvalues["q"]);
+            $question->loadFromDb((int) $postvalues["q"]);
 
-            $step3 = $question->getPreconditionSelectValue($postvalues["v"], $this->lng->txt("step") . " 3: " . $this->lng->txt("select_value"), "v");
+            $step3 = $question->getPreconditionSelectValue((string) $postvalues["v"], $this->lng->txt("step") . " 3: " . $this->lng->txt("select_value"), "v");
             $form->addItem($step3);
         }
 
@@ -382,11 +384,11 @@ class ilSurveyConstraintsGUI
         $relation = $relation["title"];
 
         // see ilSurveyConstraintsTableGUI
-        $question_type = SurveyQuestion::_getQuestionType($constraint["question_fi"]);
+        $question_type = SurveyQuestion::_getQuestionType((int) $constraint["question_fi"]);
         SurveyQuestion::_includeClass($question_type);
         $question_obj = new $question_type();
-        $question_obj->loadFromDb($constraint["question_fi"]);
-        $valueoutput = $question_obj->getPreconditionValueOutput($constraint["value"]);
+        $question_obj->loadFromDb((int) $constraint["question_fi"]);
+        $valueoutput = $question_obj->getPreconditionValueOutput((string) $constraint["value"]);
 
         $title = $question["title"] . " " . $constraint["shortname"] . " " . $valueoutput;
 
@@ -431,7 +433,7 @@ class ilSurveyConstraintsGUI
      */
     public function editPreconditionObject(): void
     {
-        if (!$this->validateConstraintForEdit($this->request->getPrecondition())) {
+        if (!$this->validateConstraintForEdit((int) $this->request->getPrecondition())) {
             $this->ctrl->redirect($this, "constraints");
         }
 

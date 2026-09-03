@@ -233,14 +233,30 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
                 return;
 
             case MailFolderTableUI::ACTION_EDIT:
+                $drafts_folder_id = $this->mbox->getDraftsFolder();
                 $this->ctrl->setParameterByClass(ilMailFormGUI::class, self::PARAM_MAIL_ID, (string) $mail_ids[0]);
                 if ($this->folder->isOutbox()) {
-                    $this->umail->moveMailsToFolder($mail_ids, $this->mbox->getDraftsFolder());
+                    $this->umail->moveMailsToFolder($mail_ids, $drafts_folder_id);
+                    $this->ctrl->setParameterByClass(
+                        ilMailFormGUI::class,
+                        ilMailFormGUI::PARAM_SCHEDULED_EDIT_FROM_OUTBOX,
+                        '1'
+                    );
+                    $this->tpl->setOnScreenMessage(
+                        ilGlobalTemplateInterface::MESSAGE_TYPE_INFO,
+                        $this->lng->txt('mail_scheduled_edit_moved_info'),
+                        true
+                    );
                 }
                 $this->ctrl->setParameterByClass(
                     ilMailFormGUI::class,
                     self::PARAM_FOLDER_ID,
-                    (string) $this->mbox->getDraftsFolder()
+                    (string) $drafts_folder_id
+                );
+                $this->ctrl->setParameterByClass(
+                    ilMailFolderGUI::class,
+                    self::PARAM_FOLDER_ID,
+                    (string) $drafts_folder_id
                 );
                 $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', ilMailFormGUI::MAIL_FORM_TYPE_DRAFT);
                 $this->ctrl->redirectByClass(ilMailFormGUI::class);
@@ -490,6 +506,12 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
             $this->user->getTimeFormat(),
             new DateTimeZone($this->user->getTimeZone())
         );
+
+        if ($this->folder->isOutbox()) {
+            $components[] = $this->ui_factory->messageBox()->info(
+                $this->lng->txt('mail_message_scheduled_info')
+            );
+        }
 
         $components[] = $this->getFilterUI()->getComponent();
         $components[] = $table->getComponent();
@@ -865,7 +887,7 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
                     $this->ui_factory
                         ->symbol()
                         ->avatar()
-                        ->picture(ilUtil::getImagePath('logo/ilias_logo_centered.png'), ilMail::_getIliasMailerName())
+                        ->picture(ilUtil::getImagePath('logo/HeaderIconAvatar.svg'), ilMail::_getIliasMailerName())
                 ) . '<br />' . ilMail::_getIliasMailerName()
             );
         }

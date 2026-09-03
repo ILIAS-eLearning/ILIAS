@@ -214,7 +214,7 @@ class ilTestCorrectionsGUI
         );
 
         $page_gui->setQuestionHTML([$question_gui->getObject()->getId() => $solution_html]);
-        $page_gui->setPresentationTitle($question_gui->getObject()->getTitleForHTMLOutput());
+        $page_gui->setPresentationTitle($question_gui->getObject()->getTitle());
 
         $tpl = new ilTemplate('tpl.tst_corrections_solution_presentation.html', true, true, 'components/ILIAS/Test');
         $tpl->setVariable('SOLUTION_PRESENTATION', $page_gui->preview());

@@ -29,7 +29,7 @@ abstract class ilContainerReferenceExporter extends ilXmlExporter
     {
         global $DIC;
 
-        $log = $DIC->logger()->root();
+        $log = $DIC->logger()->forComponent('cont');
 
         $eo = ilExportOptions::getInstance();
 
@@ -57,7 +57,7 @@ abstract class ilContainerReferenceExporter extends ilXmlExporter
     {
         global $DIC;
 
-        $log = $DIC->logger()->root();
+        $log = $DIC->logger()->forComponent('cont');
 
         $refs = ilObject::_getAllReferences((int) $a_id);
         $ref_ref_id = end($refs);

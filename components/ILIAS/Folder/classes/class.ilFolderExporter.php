@@ -49,7 +49,7 @@ class ilFolderExporter extends ilXmlExporter
             $writer->write();
             return $writer->xmlDumpMem(false);
         } catch (UnexpectedValueException $e) {
-            $GLOBALS['ilLog']->write("Caught error: " . $e->getMessage());
+            $GLOBALS['ilLog']->info("Caught error: " . $e->getMessage());
             return '';
         }
     }
@@ -57,12 +57,19 @@ class ilFolderExporter extends ilXmlExporter
     public function getValidSchemaVersions(string $a_entity): array
     {
         return [
+            "12.0" => [
+                "namespace" => "https://www.ilias.de/Modules/Folder/fold/12",
+                "xsd_file" => "ilias_fold_12_0.xsd",
+                "uses_dataset" => false,
+                "min" => "12.0",
+                "max" => ""
+            ],
             "4.1.0" => [
                 "namespace" => "https://www.ilias.de/Modules/Folder/fold/4_1",
                 "xsd_file" => "ilias_fold_4_1.xsd",
                 "uses_dataset" => false,
                 "min" => "4.1.0",
-                "max" => ""
+                "max" => "11.999"
             ]
         ];
     }

@@ -29,15 +29,15 @@ class CollectionTest extends TestCase
 {
     public function testExportHandlerTableRowIdCollection(): void
     {
-        $table_row_id_mock_1 = $this->createMock(ilExportHandlerTableRowIdInterface::class);
+        $table_row_id_mock_1 = $this->createStub(ilExportHandlerTableRowIdInterface::class);
         $table_row_id_mock_1->method('getFileIdentifier')->willReturn("1");
         $table_row_id_mock_1->method('getExportOptionId')->willReturn("e");
         $table_row_id_mock_1->method('getCompositId')->willReturn("e:1");
-        $table_row_id_mock_2 = $this->createMock(ilExportHandlerTableRowIdInterface::class);
+        $table_row_id_mock_2 = $this->createStub(ilExportHandlerTableRowIdInterface::class);
         $table_row_id_mock_2->method('getFileIdentifier')->willReturn("2");
         $table_row_id_mock_2->method('getExportOptionId')->willReturn("e");
         $table_row_id_mock_2->method('getCompositId')->willReturn("e:2");
-        $table_row_id_mock_3 = $this->createMock(ilExportHandlerTableRowIdInterface::class);
+        $table_row_id_mock_3 = $this->createStub(ilExportHandlerTableRowIdInterface::class);
         $table_row_id_mock_3->method('getFileIdentifier')->willReturn("3");
         $table_row_id_mock_3->method('getExportOptionId')->willReturn("e");
         $table_row_id_mock_3->method('getCompositId')->willReturn("e:3");

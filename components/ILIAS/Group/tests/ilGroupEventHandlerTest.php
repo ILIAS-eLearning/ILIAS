@@ -60,14 +60,9 @@ class ilGroupEventHandlerTest extends TestCase
         $this->dic = new Container();
         $GLOBALS['DIC'] = $this->dic;
 
-        $logger = $this->getMockBuilder(ilLogger::class)
-                       ->disableOriginalConstructor()
-                       ->getMock();
+        $logger = $this->createStub(ilLogger::class);
 
-        $logger_factory = $this->getMockBuilder(ilLoggerFactory::class)
-                               ->disableOriginalConstructor()
-                               ->onlyMethods(['getComponentLogger'])
-                               ->getMock();
+        $logger_factory = $this->createStub(ilLoggerFactory::class);
         $logger_factory->method('getComponentLogger')->willReturn($logger);
         $this->setGlobalVariable('ilLoggerFactory', $logger_factory);
     }

@@ -43,7 +43,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
 {
     public function testOnlyOneCourseIsCompletedOnLPChange(): void
     {
-        $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
+        $templateRepository = $this->createStub(ilCertificateTemplateRepository::class);
 
         $templateRepository->method('fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress')
             ->willReturn(
@@ -79,9 +79,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                 ]
             );
 
-        $setting = $this->getMockBuilder(ilSetting::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $setting = $this->createStub(ilSetting::class);
 
         $consecutive_get = [
             ['cert_subitems_5', '[10,20]'],
@@ -97,8 +95,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                 }
             );
 
-        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
-            ->getMock();
+        $objectHelper = $this->createStub(ilCertificateObjectHelper::class);
 
         $consecutive_lookup = [10, 20, 10, 50];
         $objectHelper
@@ -112,8 +109,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                 }
             );
 
-        $statusHelper = $this->getMockBuilder(ilCertificateLPStatusHelper::class)
-            ->getMock();
+        $statusHelper = $this->createStub(ilCertificateLPStatusHelper::class);
 
         $consecutive_status = [
             [100, ilLPStatus::LP_STATUS_COMPLETED_NUM],
@@ -132,8 +128,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                 }
             );
 
-        $trackingHelper = $this->getMockBuilder(ilCertificateObjUserTrackingHelper::class)
-            ->getMock();
+        $trackingHelper = $this->createStub(ilCertificateObjUserTrackingHelper::class);
         $trackingHelper->method('enabledLearningProgress')->willReturn(true);
 
         $evaluation = new CertificateCourseLearningProgressEvaluation(
@@ -151,7 +146,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
 
     public function testAllCoursesAreCompletedOnLPChange(): void
     {
-        $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
+        $templateRepository = $this->createStub(ilCertificateTemplateRepository::class);
 
         $templateRepository->method('fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress')
             ->willReturn(
@@ -187,13 +182,9 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                 ]
             );
 
-        $setting = $this->getMockBuilder(ilSetting::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $setting = $this->createStub(ilSetting::class);
 
-        $setting = $this->getMockBuilder(ilSetting::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $setting = $this->createStub(ilSetting::class);
 
         $consecutive_get = [
             ['cert_subitems_5', '[10,20]'],
@@ -209,8 +200,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                 }
             );
 
-        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
-            ->getMock();
+        $objectHelper = $this->createStub(ilCertificateObjectHelper::class);
 
         $consecutive_lookup = [
             [10, 100],
@@ -229,8 +219,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                 }
             );
 
-        $statusHelper = $this->getMockBuilder(ilCertificateLPStatusHelper::class)
-            ->getMock();
+        $statusHelper = $this->createStub(ilCertificateLPStatusHelper::class);
 
         $consecutive_status = [
             [100, ilLPStatus::LP_STATUS_COMPLETED_NUM],
@@ -250,8 +239,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                 }
             );
 
-        $trackingHelper = $this->getMockBuilder(ilCertificateObjUserTrackingHelper::class)
-            ->getMock();
+        $trackingHelper = $this->createStub(ilCertificateObjUserTrackingHelper::class);
         $trackingHelper->method('enabledLearningProgress')->willReturn(false);
 
         $evaluation = new CertificateCourseLearningProgressEvaluation(
@@ -270,7 +258,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
 
     public function testNoSubitemDefinedForEvaluation(): void
     {
-        $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
+        $templateRepository = $this->createStub(ilCertificateTemplateRepository::class);
 
         $templateRepository->method('fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress')
             ->willReturn(
@@ -306,9 +294,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                 ]
             );
 
-        $setting = $this->getMockBuilder(ilSetting::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $setting = $this->createStub(ilSetting::class);
 
         $consecutive_get = [
             'cert_subitems_5',
@@ -325,14 +311,11 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                 }
             );
 
-        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
-            ->getMock();
+        $objectHelper = $this->createStub(ilCertificateObjectHelper::class);
 
-        $statusHelper = $this->getMockBuilder(ilCertificateLPStatusHelper::class)
-            ->getMock();
+        $statusHelper = $this->createStub(ilCertificateLPStatusHelper::class);
 
-        $trackingHelper = $this->getMockBuilder(ilCertificateObjUserTrackingHelper::class)
-            ->getMock();
+        $trackingHelper = $this->createStub(ilCertificateObjUserTrackingHelper::class);
         $trackingHelper->method('enabledLearningProgress')->willReturn(false);
 
         $evaluation = new CertificateCourseLearningProgressEvaluation(
@@ -397,7 +380,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
         bool $isGlobalLpEnabled,
         array $template_recods
     ): void {
-        $statement = $database = $this->getMockBuilder(ilDBStatement::class)->getMock();
+        $statement = $database = $this->createStub(ilDBStatement::class);
         $i = 0;
         $database->method('fetch')->willReturnCallback(static function () use (&$i, $template_recods): ?array {
             $result = $template_recods[$i] ?? null;
@@ -424,13 +407,9 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                 return $statement->fetch(PDO::FETCH_ASSOC);
             });
 
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $logger = $this->createStub(ilLogger::class);
 
-        $objectDataCache = $this->getMockBuilder(ilObjectDataCache::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $objectDataCache = $this->createStub(ilObjectDataCache::class);
 
         $repository = new ilCertificateTemplateDatabaseRepository(
             $database,
@@ -446,7 +425,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
 
     public function testRetrievingCertificateTemplatesForCoursesWillBeCachedWhenCachingRepositoryIsUsed(): void
     {
-        $wrappedTemplateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
+        $wrappedTemplateRepository = $this->createMock(ilCertificateTemplateRepository::class);
         $wrappedTemplateRepository
             ->expects($this->exactly(2))
             ->method('fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress')

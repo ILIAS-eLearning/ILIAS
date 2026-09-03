@@ -1,32 +1,28 @@
 #!/bin/bash
 
 CONFIG=scripts/PHPStan/legacy_ui.neon
-MEMORY_LIMIT=2G
-REPORT_FORMAT=csv
+MEMORY_LIMIT=4G
 REPORT_DIRECTORY=Reports
 
 # Create the report directory if it doesn't exist
 mkdir -p ${REPORT_DIRECTORY}
 
-# Check for Directory as Script-Parameter
+# Target directory: explicit script parameter, or all ILIAS components at once.
+# A single PHPStan invocation analyses the whole tree in one process instead of
+# booting PHPStan once per component (179 cold starts) — the CSV error format
+# already groups every finding by component, so per-directory runs are redundant.
 if [ -d "$1" ]; then
-    REPORT_DIRECTORIES=($1)
+    TARGET="$1"
 else
-    # Find all directories matching the regex (depth 2)
-    REPORT_DIRECTORIES=($(find components/ILIAS -maxdepth 1 -mindepth 1 -type d -print0 |
-    xargs -0I % echo "%" |
-    tr "\n" "\0" |
-    xargs -0))
-    # Sort directories alphabetically
-    IFS=$'\n' REPORT_DIRECTORIES=($(sort <<<"${REPORT_DIRECTORIES[*]}"))
-    unset IFS
+    TARGET="components/ILIAS"
 fi
 
-# Run PHPStan for each directory
-for i in "${REPORT_DIRECTORIES[@]}";
-do
-  echo "Running LUI-Report on ${i}"
-  php -dxdebug.mode=off vendor/composer/vendor/bin/phpstan analyse -c "${CONFIG}" -a vendor/composer/vendor/autoload.php --no-progress --no-interaction --memory-limit=${MEMORY_LIMIT} --error-format=${REPORT_FORMAT} "$i" > "${REPORT_DIRECTORY}/${i//\//_}.csv" || true;
-done
-
-cat ${REPORT_DIRECTORY}/*.csv | awk '!a[$0]++' > "${REPORT_DIRECTORY}/Summary.csv"
+echo "Running LUI-Report on ${TARGET}"
+php -dxdebug.mode=off vendor/composer/vendor/bin/phpstan analyse \
+    -c "${CONFIG}" \
+    -a vendor/composer/vendor/autoload.php \
+    --no-progress \
+    --no-interaction \
+    --memory-limit=${MEMORY_LIMIT} \
+    --error-format=csv \
+    "${TARGET}" > "${REPORT_DIRECTORY}/Summary.csv" || true

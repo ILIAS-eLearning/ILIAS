@@ -25,6 +25,7 @@ use ILIAS\Repository;
 use ILIAS\Container\Page\PageManager;
 use ILIAS\Container\Classification\ClassificationManager;
 use ILIAS\Container\Metadata\MetadataManager;
+use ILIAS\Container\Sorting\Service\DomainService as SortingDomainService;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -91,5 +92,10 @@ class InternalDomainService
             $container_filter_service,
             $ref_id
         );
+    }
+
+    public function sorting(): SortingDomainService
+    {
+        return new SortingDomainService($this->repo_service, $this->data_service, $this);
     }
 }

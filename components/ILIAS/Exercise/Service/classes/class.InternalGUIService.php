@@ -155,6 +155,62 @@ class InternalGUIService
         );
     }
 
+    public function publicSubmissionsTableBuilder(
+        \ilExAssignment $assignment,
+        object $parent_gui,
+        string $parent_cmd
+    ): \ILIAS\Exercise\Submission\PublicSubmissionsTableBuilder {
+        return new \ILIAS\Exercise\Submission\PublicSubmissionsTableBuilder(
+            $this->domain_service,
+            $this,
+            $assignment,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
+    public function textSubmissionsTableBuilder(
+        \ilExAssignment $assignment,
+        object $parent_gui,
+        string $parent_cmd
+    ): \ILIAS\Exercise\Submission\TextSubmissionsTableBuilder {
+        return new \ILIAS\Exercise\Submission\TextSubmissionsTableBuilder(
+            $this->domain_service,
+            $this,
+            $assignment,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
+    public function peerReviewOverviewTableBuilder(
+        \ilExAssignment $assignment,
+        object $parent_gui,
+        string $parent_cmd
+    ): \ILIAS\Exercise\PeerReview\PeerReviewOverviewTableBuilder {
+        return new \ILIAS\Exercise\PeerReview\PeerReviewOverviewTableBuilder(
+            $this->domain_service,
+            $this,
+            $assignment,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
+    public function multiFeedbackConfirmationTableBuilder(
+        \ilExAssignment $assignment,
+        object $parent_gui,
+        string $parent_cmd
+    ): \ILIAS\Exercise\TutorFeedbackFile\MultiFeedbackConfirmationTableBuilder {
+        return new \ILIAS\Exercise\TutorFeedbackFile\MultiFeedbackConfirmationTableBuilder(
+            $this->domain_service,
+            $this,
+            $assignment,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
+
     public function getTeamSubmissionGUI(
         \ilObjExercise $exc,
         \ilExSubmission $submission

@@ -29,11 +29,36 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     The Entity Listing yields uniform Entities according to a consumer
-     *     defined concept and lists them one after the other.
+     *      The Entity Listing yields uniform Entities according to a consumer
+     *      defined concept and lists them one after the other.
+     *   composition: >
+     *      Entities are stacked one after the other. On very large screens the layout will have multiple columns to use
+     *      the space optimally. The design of the entity is one that favors a more horizontal representation.
      *
      * ---
+     * @param \ILIAS\UI\Component\Listing\Entity\RecordToEntity $entity_mapping
      * @return \ILIAS\UI\Component\Listing\Entity\Standard
      */
     public function standard(RecordToEntity $entity_mapping): Standard;
+
+    /**
+     * ---
+     * description:
+     *  purpose: >
+     *      The Entity Listing yields uniform Entities according to a consumer
+     *      defined concept and lists them in a grid.
+     *  composition:
+     *      Shows a grid of many entities in a card-style design. Images, Symbols and other secondary identifiers are
+     *      stacked to favor a vertical representation.
+     * rules:
+     *  usage:
+     *      1: >
+     *          If you want all entity secondary identifier images to take on the same height, you must provide images
+     *          with the same height.
+     *
+     * ---
+     * @param \ILIAS\UI\Component\Listing\Entity\RecordToEntity $entity_mapping
+     * @return \ILIAS\UI\Component\Listing\Entity\Grid
+     */
+    public function grid(RecordToEntity $entity_mapping): Grid;
 }

@@ -77,7 +77,7 @@ class ContentFactory implements ContentFactoryInterface
     {
         if (
             $state_info->getCurrentStatus() === Status::UNPUBLISHED &&
-            !($state_info->isActionAvailable(Action::PUBLISH) || $state_info->isActionAvailable(Action::SUBMIT))
+            !$state_info->hasEligibleCopyright()
         ) {
             $valid_cp = [];
             foreach ($state_info->getAllEligibleCopyrightEntryIDs() as $copyright_id) {

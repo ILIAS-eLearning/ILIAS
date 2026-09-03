@@ -133,7 +133,12 @@ class TestScoring
         $reached_points_changed = false;
         foreach ($passdata->getAnsweredQuestions() as $question_data) {
             if ($this->getQuestionId() !== 0 || $this->getQuestionId() === $question_data['id']) {
-                $reached_points_changed = $reached_points_changed || $this->recalculateQuestionScore($user_id, $active_id, $pass, $question_data);
+                $reached_points_changed = $this->recalculateQuestionScore(
+                    $user_id,
+                    $active_id,
+                    $pass,
+                    $question_data
+                ) || $reached_points_changed;
             }
         }
         $this->updatePassResultsTable($active_id, $pass, $reached_points_changed);
@@ -255,9 +260,9 @@ class TestScoring
     public function calculateBestSolutionForTest(): string
     {
         $solution = '';
-        foreach ($this->test->getAllQuestions() as $question) {
+        foreach ($this->test->getQuestionIdsInTest() as $question_id) {
             /** @var AssQuestionGUI $question_gui */
-            $question_gui = $this->test->createQuestionGUI("", $question['question_id']);
+            $question_gui = $this->test->createQuestionGUI("", $question_id);
             $solution .= '<h1>' . $question_gui->getObject()->getTitleForHTMLOutput() . '</h1>';
             $solution .= $question_gui->getSolutionOutput(0, null, true, true, false, false, true, false);
         }

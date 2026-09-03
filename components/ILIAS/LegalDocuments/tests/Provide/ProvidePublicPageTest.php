@@ -41,7 +41,7 @@ class ProvidePublicPageTest extends TestCase
     {
         $ctrl = $this->mock(ilCtrl::class);
         $consecutive = ['foo', ''];
-        $ctrl->expects(self::exactly(2))->method('setParameterByClass')->with(
+        $ctrl->expects($this->exactly(2))->method('setParameterByClass')->with(
             $this->identicalTo(ilStartUpGUI::class),
             $this->identicalTo('id'),
             $this->callback(function ($value) use (&$consecutive) {
@@ -49,7 +49,7 @@ class ProvidePublicPageTest extends TestCase
                 return true;
             })
         );
-        $ctrl->expects(self::once())->method('getLinkTargetByClass')->with(ilStartUpGUI::class, 'showLegalDocuments')->willReturn('url');
+        $ctrl->expects($this->once())->method('getLinkTargetByClass')->with(ilStartUpGUI::class, 'showLegalDocuments')->willReturn('url');
 
         $instance = new ProvidePublicPage('foo', $ctrl);
         $this->assertSame('url', $instance->url());

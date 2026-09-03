@@ -51,7 +51,6 @@ $il-toolbar-border: 1px solid $il-main-border-color !default;
 			&:hover,
 			&:focus {
 				text-decoration: none;
-				background-color: $nav-link-hover-bg;
 			}
 		}
 
@@ -95,6 +94,11 @@ $il-toolbar-border: 1px solid $il-main-border-color !default;
 	>li>a>img {
 		max-width: none;
 	}
+}
+
+.ilToolbarContainer {
+	position: relative;
+	z-index: 50;
 }
 
 // Dropdowns

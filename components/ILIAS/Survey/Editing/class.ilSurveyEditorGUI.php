@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Survey\Editing\EditManager;
 use ILIAS\Survey\Editing\EditingGUIRequest;
 
@@ -48,6 +50,7 @@ class ilSurveyEditorGUI
     protected ilObjSurveyGUI $parent_gui;
     protected ilObjSurvey $object;
     protected array $print_options;
+    protected \ilHtmlPurifierInterface $purifier;
 
     public function __construct(ilObjSurveyGUI $a_parent_gui)
     {
@@ -72,6 +75,7 @@ class ilSurveyEditorGUI
         $this->tpl = $tpl;
 
         $this->ctrl->saveParameter($this, array("pgov", "pgov_pos"));
+        $this->purifier = new ilSvyStandardPurifier();
 
         $this->print_options = array(
             //0 => $this->lng->txt('none'),
@@ -224,7 +228,7 @@ class ilSurveyEditorGUI
             $ilToolbar->setFormAction($this->ctrl->getFormAction($this));
             $types = new ilSelectInputGUI($this->lng->txt("create_new"), "sel_question_types");
             $types->setOptions($qtypes);
-            $ilToolbar->addStickyItem($types, "");
+            $ilToolbar->addStickyItem($types, false);
 
             $this->gui->button(
                 $this->lng->txt("svy_create_question"),
@@ -289,7 +293,7 @@ class ilSurveyEditorGUI
     ): array {
         $block_map = array();
         foreach ($this->object->getSurveyQuestions() as $item) {
-            $block_map[$item["question_id"]] = $item["questionblock_id"];
+            $block_map[(int) $item["question_id"]] = (int) $item["questionblock_id"];
         }
 
         $questions = $blocks = $headings = array();
@@ -300,16 +304,16 @@ class ilSurveyEditorGUI
                 if ($allow_questions && preg_match("/cb_(\d+)/", $key, $matches)) {
                     if (($allow_questions_in_blocks || !$block_map[$matches[1]]) &&
                         !in_array($block_map[$matches[1]], $blocks)) {
-                        $questions[] = $matches[1];
+                        $questions[] = (int) $matches[1];
                     }
                 }
                 // blocks
                 if ($allow_blocks && preg_match("/cb_qb_(\d+)/", $key, $matches)) {
-                    $blocks[] = $matches[1];
+                    $blocks[] = (int) $matches[1];
                 }
                 // headings
                 if ($allow_headings && preg_match("/cb_tb_(\d+)/", $key, $matches)) {
-                    $headings[] = $matches[1];
+                    $headings[] = (int) $matches[1];
                 }
             }
         }
@@ -370,7 +374,7 @@ class ilSurveyEditorGUI
 
         $move_questions = $items["questions"];
         foreach ($items["blocks"] as $block_id) {
-            foreach ($this->object->getQuestionblockQuestionIds($block_id) as $qid) {
+            foreach ($this->object->getQuestionblockQuestionIds((int) ($block_id)) as $qid) {
                 $move_questions[] = $qid;
             }
         }
@@ -414,11 +418,11 @@ class ilSurveyEditorGUI
                 if (preg_match("/^cb_(\d+)$/", $target, $matches)) {
                     // questions in blocks are not allowed
                     if (in_array($matches[1], $items["questions"])) {
-                        $insert_id = $matches[1];
+                        $insert_id = (int) $matches[1];
                     }
                 }
                 if (!$insert_id && preg_match("/^cb_qb_(\d+)$/", $target, $matches)) {
-                    $ids = $this->object->getQuestionblockQuestionIds($matches[1]);
+                    $ids = $this->object->getQuestionblockQuestionIds((int) $matches[1]);
                     if (count($ids)) {
                         if ($insert_mode === 0) {
                             $insert_id = $ids[0];
@@ -475,7 +479,7 @@ class ilSurveyEditorGUI
 
                 $cgui->addItem(
                     "q_id[]",
-                    $data["question_id"],
+                    (string) $data["question_id"],
                     $type . ": " . $data["title"]
                 );
             } elseif ((in_array($data["questionblock_id"], $checked_questionblocks))) {
@@ -483,13 +487,13 @@ class ilSurveyEditorGUI
 
                 $cgui->addItem(
                     "cb[" . $data["questionblock_id"] . "]",
-                    $data["questionblock_id"],
+                    (string) $data["questionblock_id"],
                     $data["questionblock_title"] . " - " . $type . ": " . $data["title"]
                 );
             } elseif (in_array($data["question_id"], $checked_headings)) {
                 $cgui->addItem(
                     "heading[" . $data["question_id"] . "]",
-                    $data["question_id"],
+                    (string) $data["question_id"],
                     $data["heading"]
                 );
             }
@@ -524,7 +528,7 @@ class ilSurveyEditorGUI
         // gather questions from blocks
         $copy_questions = $items["questions"];
         foreach ($items["blocks"] as $block_id) {
-            foreach ($this->object->getQuestionblockQuestionIds($block_id) as $qid) {
+            foreach ($this->object->getQuestionblockQuestionIds((int) $block_id) as $qid) {
                 $copy_questions[] = $qid;
             }
         }
@@ -533,7 +537,7 @@ class ilSurveyEditorGUI
         // only if not already in pool
         if (count($copy_questions)) {
             foreach ($copy_questions as $idx => $question_id) {
-                $question = ilObjSurvey::_instanciateQuestion($question_id);
+                $question = ilObjSurvey::_instanciateQuestion((int) $question_id);
                 if ($question->getOriginalId()) {
                     unset($copy_questions[$idx]);
                 }
@@ -691,7 +695,7 @@ class ilSurveyEditorGUI
     {
         $ilUser = $this->user;
 
-        $ilUser->writePref('svy_insert_type', $this->request->getDataType());
+        $ilUser->writePref('svy_insert_type', (string) $this->request->getDataType());
 
         switch ($this->request->getDataType()) {
             case 2:
@@ -893,7 +897,7 @@ class ilSurveyEditorGUI
         if ($a_question_ids) {
             foreach ($a_question_ids as $q_id) {
                 $hidden = new ilHiddenInputGUI("qids[]");
-                $hidden->setValue($q_id);
+                $hidden->setValue((string) $q_id);
                 $form->addItem($hidden);
             }
         }
@@ -915,9 +919,9 @@ class ilSurveyEditorGUI
         $form = $this->initQuestionblockForm($block_id);
         if ($form->checkInput()) {
             $title = $form->getInput("title");
-            $show_questiontext = $form->getInput("show_questiontext");
-            $show_blocktitle = $form->getInput("show_blocktitle") ;
-            $compress_view = $form->getInput("compress_view") ;
+            $show_questiontext = (bool) $form->getInput("show_questiontext");
+            $show_blocktitle = (bool) $form->getInput("show_blocktitle");
+            $compress_view = (bool) $form->getInput("compress_view");
             if ($block_id) {
                 $this->object->modifyQuestionblock(
                     $block_id,
@@ -962,6 +966,8 @@ class ilSurveyEditorGUI
         $heading->setRows(10);
         $heading->setCols(80);
         $heading->setRequired(true);
+        $heading->usePurifier(true);
+        $heading->setPurifier($this->purifier);
         $form->addItem($heading);
 
         $insertbefore = new ilSelectInputGUI($this->lng->txt("insert"), "insertbefore");
@@ -1027,12 +1033,11 @@ class ilSurveyEditorGUI
 
         $form = $this->initHeadingForm($q_id);
         if ($form->checkInput()) {
-            $purifier = new ilSvyStandardPurifier();
-            $heading = $form->getInput("heading");
-
-            $heading = $purifier->purify($heading);
-
-            $this->object->saveHeading($heading, $form->getInput("insertbefore"));
+            $heading = $this->purifier->purify($form->getInput("heading"));
+            $this->object->saveHeading(
+                $heading,
+                (int) $form->getInput("insertbefore")
+            );
             $this->ctrl->redirect($this, "questions");
         }
 

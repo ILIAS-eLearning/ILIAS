@@ -26,7 +26,7 @@
 class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 {
     protected \ILIAS\DI\UIServices $ui;
-    protected ilPortfolioDeclarationOfAuthorship$declaration_authorship;
+    protected ilPortfolioDeclarationOfAuthorship $declaration_authorship;
 
     public function __construct(
         $a_data,

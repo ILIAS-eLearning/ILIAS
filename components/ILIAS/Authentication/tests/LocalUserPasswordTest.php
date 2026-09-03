@@ -142,7 +142,7 @@ class LocalUserPasswordTest extends ilUserBaseTestCase
         $encoder = $this->getMockBuilder(ilBasePasswordEncoder::class)->disableOriginalConstructor()->getMock();
         $factory_mock = $this->getMockBuilder(LocalUserPasswordEncoderFactory::class)->disableOriginalConstructor()->getMock();
 
-        $user_mock->expects($this->once())->method('setPasswordSalt')->with($this->isType('string'));
+        $user_mock->expects($this->once())->method('setPasswordSalt')->with($this->isString());
         $user_mock->expects($this->once())->method('getPasswordSalt')->willReturn('asuperrandomsalt');
         $user_mock->expects($this->once())->method('setPasswordEncodingType')->with($this->equalTo('mockencoder'));
         $user_mock->expects($this->once())->method('setPasswd')->with(
@@ -155,7 +155,7 @@ class LocalUserPasswordTest extends ilUserBaseTestCase
         $encoder->expects($this->once())->method('encodePassword')
             ->with(
                 $this->equalTo(self::PASSWORD),
-                $this->isType('string')
+                $this->isString()
             )->willReturn(self::ENCODED_PASSWORD)
         ;
 
@@ -225,7 +225,7 @@ class LocalUserPasswordTest extends ilUserBaseTestCase
         $encoder->expects($this->once())->method('isPasswordValid')->with(
             $this->equalTo(self::ENCODED_PASSWORD),
             $this->equalTo(self::PASSWORD),
-            $this->isType('string')
+            $this->isString()
         )->willReturn(true);
         $encoder->expects($this->once())->method('requiresReencoding')
             ->with($this->equalTo(self::ENCODED_PASSWORD))
@@ -264,7 +264,7 @@ class LocalUserPasswordTest extends ilUserBaseTestCase
         $encoder->expects($this->once())->method('isPasswordValid')->with(
             $this->equalTo(self::ENCODED_PASSWORD),
             $this->equalTo(self::PASSWORD),
-            $this->isType('string')
+            $this->isString()
         )->willReturn(true);
         $encoder->expects($this->never())->method('requiresReencoding')
             ->with($this->equalTo(self::ENCODED_PASSWORD))
@@ -303,7 +303,7 @@ class LocalUserPasswordTest extends ilUserBaseTestCase
         $encoder->expects($this->once())->method('isPasswordValid')->with(
             $this->equalTo(self::ENCODED_PASSWORD),
             $this->equalTo(self::PASSWORD),
-            $this->isType('string')
+            $this->isString()
         )->willReturn(true);
         $encoder->expects($this->once())->method('requiresReencoding')
             ->with($this->equalTo(self::ENCODED_PASSWORD))
@@ -342,7 +342,7 @@ class LocalUserPasswordTest extends ilUserBaseTestCase
             ->with(
                 $this->equalTo(self::ENCODED_PASSWORD),
                 $this->equalTo(self::PASSWORD),
-                $this->isType('string')
+                $this->isString()
             )->willReturn(false)
         ;
 

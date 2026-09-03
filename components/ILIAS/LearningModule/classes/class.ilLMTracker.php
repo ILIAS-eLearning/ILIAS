@@ -36,6 +36,7 @@ class ilLMTracker
     protected ilLanguage $lng;
     protected Refinery $refinery;
     protected ilComponentRepository $component_repository;
+    protected ilComponentFactory $component_factory;
     protected ilObjUser $user;
     protected int $lm_ref_id;
     protected int $lm_obj_id;
@@ -67,6 +68,7 @@ class ilLMTracker
         $this->user_id = $a_user_id;
         $this->refinery = $DIC['refinery'];
         $this->component_repository = $DIC['component.repository'];
+        $this->component_factory = $DIC['component.factory'];
 
         if ($a_by_obj_id) {
             $this->lm_ref_id = 0;
@@ -539,6 +541,7 @@ class ilLMTracker
         $lng = $this->lng;
         $refinery = $this->refinery;
         $component_repository = $this->component_repository;
+        $component_factory = $this->component_factory;
 
         $blocked_users = array();
 
@@ -553,7 +556,7 @@ class ilLMTracker
             $page_for_question[$quest["question_id"]] = $quest["page_id"];
         }
         // get question information
-        $qlist = new ilAssQuestionList($ilDB, $lng, $refinery, $component_repository);
+        $qlist = new ilAssQuestionList($ilDB, $lng, $refinery, $component_repository, $component_factory);
         $qlist->setParentObjId(0);
         $qlist->setJoinObjectData(false);
         $qlist->addFieldFilter("question_id", $this->all_questions);

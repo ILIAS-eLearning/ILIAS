@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Survey\PrintView;
 
 use ILIAS\Export;
@@ -100,9 +102,9 @@ class ResultsDetailsPrintViewProviderGUI extends Export\AbstractPrintViewProvide
 
         foreach ($this->survey->getSurveyQuestions() as $qdata) {
             $nl->addListNode(
-                $qdata["question_id"],
-                $qdata["title"],
-                0,
+                (string) $qdata["question_id"],
+                (string) $qdata["title"],
+                "0",
                 false,
                 false
             );
@@ -133,9 +135,10 @@ class ResultsDetailsPrintViewProviderGUI extends Export\AbstractPrintViewProvide
 
         $first = true;
         foreach ($this->survey->getSurveyQuestions() as $qdata) {
-            $q_eval = \SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $finished_ids);
+            $question_id = (int) $qdata["question_id"];
+            $q_eval = \SurveyQuestion::_instanciateQuestionEvaluation($question_id, $finished_ids);
 
-            if ($selection !== "all" && !in_array($qdata["question_id"], $qids)) {
+            if ($selection !== "all" && !in_array($question_id, $qids, true)) {
                 continue;
             }
 

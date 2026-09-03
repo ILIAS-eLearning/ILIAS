@@ -17,6 +17,7 @@ rules:
     - ILIAS\Scripts\PHPStan\Rules\NoLegacyToolbarUsagesRule # ILIAS 10
     - ILIAS\Scripts\PHPStan\Rules\NoLegacyTabsUsagesRule # ILIAS 10
 parameters:
+    tmpDir: %currentWorkingDirectory%/tmp/phpstan
     parallel:
         maximumNumberOfProcesses: 10
     customRulesetUsed: true

@@ -115,7 +115,7 @@ class WiringTest extends TestCase
         $slot = $this->mockMethod(SlotConstructor::class, 'history', [$document], $history);
         $slot->method('id')->willReturn('foo');
         $map = $this->mockTree(Map::class, ['value' => ['document' => ['foo' => $document]]]);
-        $map->expects(self::once())->method('set')->with('history', 'foo', $history)->willReturn($map);
+        $map->expects($this->once())->method('set')->with('history', 'foo', $history)->willReturn($map);
 
         $instance = new Wiring($slot, $map);
         $this->assertSame($map, $instance->hasHistory()->map());
@@ -204,7 +204,7 @@ class WiringTest extends TestCase
 
         $instance = new Wiring(
             $this->mockTree(SlotConstructor::class, ['id' => 'foo']),
-            $this->mockMethod(Map::class, 'set', ['public-page', 'foo', $public_page], $map)
+            $this->mockMethod(Map::class, 'set', ['public-page', 'foo'], $map)
         );
 
         $this->assertSame($map, $instance->hasPublicPage($public_page)->map());
@@ -218,7 +218,7 @@ class WiringTest extends TestCase
 
         $instance = new Wiring(
             $this->mockTree(SlotConstructor::class, ['id' => 'foo']),
-            $this->mockMethod(Map::class, 'set', ['public-page', 'foo', $public_page], $map)
+            $this->mockMethod(Map::class, 'set', ['public-page', 'foo'], $map)
         );
 
         $this->assertSame($m, $instance->hasPublicPage($public_page, 'foo')->map());

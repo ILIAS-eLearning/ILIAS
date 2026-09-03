@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\ILIASObject\Properties;
 
 use ILIAS\FileUpload\Handler\BasicHandlerResult;
+use ILIAS\FileUpload\Handler\HandlerResult;
 
 trait UploadSecurityFunctionsTrait
 {
