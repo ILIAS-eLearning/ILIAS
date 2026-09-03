@@ -28,7 +28,6 @@ use ILIAS\Filesystem\Finder\Finder;
 use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\Filesystem\Visibility;
-use ILIAS\Filesystem\FileSystems\FilesystemWeb;
 
 /**
  * The filesystem white list decorator rewrites forbidden file
@@ -38,7 +37,7 @@ use ILIAS\Filesystem\FileSystems\FilesystemWeb;
  * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
  * @author                 Fabian Schmid <fabian@sr.solutions>
  */
-final class FilesystemWhitelistDecorator implements Filesystem, FilesystemWeb
+final class FilesystemWhitelistDecorator implements Filesystem
 {
     public function __construct(private Filesystem $filesystem, private FilenameSanitizer $sanitizer)
     {
