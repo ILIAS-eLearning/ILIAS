@@ -22,7 +22,7 @@ namespace ILIAS\Component\Tests\Dependencies;
 
 use PHPUnit\Framework\TestCase;
 use LogicException;
-use ILIAS\Component\Dependencies\Mocks\AbstractLightMockBuilder;
+use ILIAS\Component\Dependencies\Mocks\GeneratedMockRegistry;
 use ILIAS\Component\Dependencies\Mocks\EvalLightMockBuilder;
 use ILIAS\Component\Dependencies\Mocks\MockBuilder;
 use ILIAS\Component\Dependencies\Mocks\PHPUnitMockBuilder;
@@ -268,7 +268,7 @@ final class LightMockBuilderTest extends TestCase
 
     public function testDefaultValueForUnknownMethodReturnsNull(): void
     {
-        $result = AbstractLightMockBuilder::defaultValueFor(new \stdClass(), 'nonExistentMethod');
+        $result = GeneratedMockRegistry::defaultValueFor(new \stdClass(), 'nonExistentMethod');
         $this->assertNull($result);
     }
 
@@ -277,7 +277,7 @@ final class LightMockBuilderTest extends TestCase
         $mock = $this->builder->create(LmbReturnTypesInterface::class);
         $this->assertSame(
             $mock->returnsInt(),
-            AbstractLightMockBuilder::defaultValueFor($mock, 'returnsInt')
+            GeneratedMockRegistry::defaultValueFor($mock, 'returnsInt')
         );
     }
 }

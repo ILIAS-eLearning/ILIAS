@@ -53,6 +53,6 @@ trait MockObjectBehavior
             return $this->__mock_configured_returns[$method];
         }
 
-        return AbstractLightMockBuilder::defaultValueFor($this, $method);
+        return GeneratedMockRegistry::defaultValueFor($this, $method);
     }
 }

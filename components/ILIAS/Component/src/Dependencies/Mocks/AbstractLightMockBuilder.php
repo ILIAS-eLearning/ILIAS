@@ -34,22 +34,6 @@ use ReflectionUnionType;
  */
 abstract class AbstractLightMockBuilder implements MockBuilder
 {
-    /**
-     * Generated classes are declared in the global process scope, hence the
-     * bookkeeping about them has to be process-wide as well: declaring the
-     * same class twice is a fatal error, no matter which builder instance
-     * triggers it.
-     *
-     * @var array<class-string, array<string, mixed>>
-     */
-    private static array $return_type_map = [];
-
-    /** @var array<class-string, true> */
-    private static array $generated = [];
-
-    /** @var array<class-string, self> */
-    private static array $builders = [];
-
     private function createLazyShell(string $type): object
     {
         if (!class_exists($type)) {
@@ -107,16 +91,17 @@ abstract class AbstractLightMockBuilder implements MockBuilder
         $generated_class = $this->generatedClassName($type);
         $generated_fqcn = __NAMESPACE__ . '\\' . $generated_class;
 
-        if (!isset(self::$generated[$generated_fqcn])) {
-            $this->generate($type, $generated_class);
-            self::$generated[$generated_fqcn] = true;
-            self::$builders[$generated_fqcn] = $this;
+        if (!GeneratedMockRegistry::isGenerated($generated_fqcn)) {
+            GeneratedMockRegistry::register($generated_fqcn, $this->generate($type, $generated_class), $this);
         }
 
         return new $generated_fqcn();
     }
 
-    private function generate(string $type, string $generated_class): void
+    /**
+     * @return array<string, array<string, mixed>> method name => normalized return type
+     */
+    private function generate(string $type, string $generated_class): array
     {
         if (!class_exists($type) && !interface_exists($type)) {
             throw new LogicException("Unknown class or interface: {$type}");
@@ -177,8 +162,6 @@ abstract class AbstractLightMockBuilder implements MockBuilder
             $header = "class {$generated_class} extends \\" . ltrim($type, '\\');
         }
 
-        self::$return_type_map[__NAMESPACE__ . '\\' . $generated_class] = $return_map;
-
         $code = <<<PHP
 namespace ILIAS\Component\Dependencies\Mocks;
 
@@ -193,6 +176,8 @@ PHP;
         $code = sprintf($code, implode("\n\n", $method_code));
 
         $this->loadGeneratedCode($code, $generated_class);
+
+        return $return_map;
     }
 
     abstract protected function loadGeneratedCode(string $code, string $generated_class): void;
@@ -451,27 +436,19 @@ PHP;
     }
 
     /**
-     * Entry point for the generated mocks themselves, see {@see MockObjectBehavior}.
-     * The builder that generated the class resolves the default, so that nested
-     * mocks are built the same way the outer one was.
+     * Derives the value a mocked method returns when nothing was stubbed.
+     * Called through {@see GeneratedMockRegistry::defaultValueFor()}.
      */
-    public static function defaultValueFor(object $object, string $method): mixed
+    public function defaultValueFor(object $object, string $method): mixed
     {
-        $class = $object::class;
-        $meta = self::$return_type_map[$class][$method] ?? null;
+        $meta = GeneratedMockRegistry::returnTypeFor($object::class, $method);
 
         if ($meta === null) {
-            // not a generated mock, or a method this builder never saw
+            // a method this builder never saw
             return null;
         }
 
-        $builder = self::$builders[$class] ?? null;
-
-        if ($builder === null) {
-            throw new LogicException("No mock builder registered for generated class {$class}");
-        }
-
-        return $builder->defaultByMeta($object, $meta);
+        return $this->defaultByMeta($object, $meta);
     }
 
     /**
