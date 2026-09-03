@@ -26,155 +26,167 @@ use ILIAS\Filesystem\Visibility;
 use ILIAS\Filesystem\Provider\FilesystemFactory;
 
 /**
+ * A filesystem that is only built when it is first used.
+ *
+ * Which one it builds is decided by the interface it was configured for; the
+ * factory maps that to a directory. That directory comes from the ini files and
+ * the current client, neither of which exists while the component bootstrap is
+ * being built, so nothing may be resolved in the constructor.
+ *
+ * The subclasses in this namespace add nothing but their own type: the
+ * bootstrap wires six separate filesystem services, and each of them has to be
+ * an instance of its own interface.
+ *
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-abstract class AbstractConfiguredFilesystem implements Filesystem
+class ConfiguredFilesystem implements Filesystem
 {
-    protected ?Filesystem $filesystem = null;
+    private ?Filesystem $filesystem = null;
 
+    /**
+     * @param string $for_interface one of the filesystem interfaces of this
+     *                              namespace, see DelegatingFilesystemFactory
+     */
     public function __construct(
-        protected FilesystemFactory $factory,
+        private readonly FilesystemFactory $factory,
+        private readonly string $for_interface,
     ) {
     }
 
-    abstract protected function getFQDN(): string;
-
-    public function get(): Filesystem
+    protected function filesystem(): Filesystem
     {
-        return $this->filesystem = $this->factory->buildFor(
-            $this->getFQDN(),
-        );
+        return $this->filesystem ??= $this->factory->buildFor($this->for_interface);
     }
 
     public function finder(): Finder
     {
-        return $this->filesystem?->finder() ?? $this->get()->finder();
+        return $this->filesystem()->finder();
     }
 
     // FileStreamReadAccess
 
     public function readStream(string $path): FileStream
     {
-        return ($this->filesystem ?? $this->get())->readStream($path);
+        return $this->filesystem()->readStream($path);
     }
 
     // FileStreamWriteAccess
 
     public function writeStream(string $path, FileStream $stream): void
     {
-        ($this->filesystem ?? $this->get())->writeStream($path, $stream);
+        $this->filesystem()->writeStream($path, $stream);
     }
 
     public function putStream(string $path, FileStream $stream): void
     {
-        ($this->filesystem ?? $this->get())->putStream($path, $stream);
+        $this->filesystem()->putStream($path, $stream);
     }
 
     public function updateStream(string $path, FileStream $stream): void
     {
-        ($this->filesystem ?? $this->get())->updateStream($path, $stream);
+        $this->filesystem()->updateStream($path, $stream);
     }
 
     // FileReadAccess
 
     public function read(string $path): string
     {
-        return ($this->filesystem ?? $this->get())->read($path);
+        return $this->filesystem()->read($path);
     }
 
     public function has(string $path): bool
     {
-        return ($this->filesystem ?? $this->get())->has($path);
+        return $this->filesystem()->has($path);
     }
 
     public function getMimeType(string $path): string
     {
-        return ($this->filesystem ?? $this->get())->getMimeType($path);
+        return $this->filesystem()->getMimeType($path);
     }
 
     public function getTimestamp(string $path): \DateTimeImmutable
     {
-        return ($this->filesystem ?? $this->get())->getTimestamp($path);
+        return $this->filesystem()->getTimestamp($path);
     }
 
     public function getSize(string $path, int $unit): DataSize
     {
-        return ($this->filesystem ?? $this->get())->getSize($path, $unit);
+        return $this->filesystem()->getSize($path, $unit);
     }
 
     public function setVisibility(string $path, string $visibility): bool
     {
-        return ($this->filesystem ?? $this->get())->setVisibility($path, $visibility);
+        return $this->filesystem()->setVisibility($path, $visibility);
     }
 
     public function getVisibility(string $path): string
     {
-        return ($this->filesystem ?? $this->get())->getVisibility($path);
+        return $this->filesystem()->getVisibility($path);
     }
 
     // FileWriteAccess
 
     public function write(string $path, string $content): void
     {
-        ($this->filesystem ?? $this->get())->write($path, $content);
+        $this->filesystem()->write($path, $content);
     }
 
     public function update(string $path, string $new_content): void
     {
-        ($this->filesystem ?? $this->get())->update($path, $new_content);
+        $this->filesystem()->update($path, $new_content);
     }
 
     public function put(string $path, string $content): void
     {
-        ($this->filesystem ?? $this->get())->put($path, $content);
+        $this->filesystem()->put($path, $content);
     }
 
     public function delete(string $path): void
     {
-        ($this->filesystem ?? $this->get())->delete($path);
+        $this->filesystem()->delete($path);
     }
 
     public function readAndDelete(string $path): string
     {
-        return ($this->filesystem ?? $this->get())->readAndDelete($path);
+        return $this->filesystem()->readAndDelete($path);
     }
 
     public function rename(string $path, string $new_path): void
     {
-        ($this->filesystem ?? $this->get())->rename($path, $new_path);
+        $this->filesystem()->rename($path, $new_path);
     }
 
     public function copy(string $path, string $copy_path): void
     {
-        ($this->filesystem ?? $this->get())->copy($path, $copy_path);
+        $this->filesystem()->copy($path, $copy_path);
     }
 
     // DirectoryReadAccess
 
     public function hasDir(string $path): bool
     {
-        return ($this->filesystem ?? $this->get())->hasDir($path);
+        return $this->filesystem()->hasDir($path);
     }
 
     public function listContents(string $path = '', bool $recursive = false): array
     {
-        return ($this->filesystem ?? $this->get())->listContents($path, $recursive);
+        return $this->filesystem()->listContents($path, $recursive);
     }
 
     // DirectoryWriteAccess
 
     public function createDir(string $path, string $visibility = Visibility::PUBLIC_ACCESS): void
     {
-        ($this->filesystem ?? $this->get())->createDir($path, $visibility);
+        $this->filesystem()->createDir($path, $visibility);
     }
 
     public function copyDir(string $source, string $destination): void
     {
-        ($this->filesystem ?? $this->get())->copyDir($source, $destination);
+        $this->filesystem()->copyDir($source, $destination);
     }
 
     public function deleteDir(string $path): void
     {
-        ($this->filesystem ?? $this->get())->deleteDir($path);
+        $this->filesystem()->deleteDir($path);
     }
 }
