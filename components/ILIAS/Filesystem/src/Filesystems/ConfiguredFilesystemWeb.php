@@ -18,16 +18,15 @@
 
 namespace ILIAS\Filesystem\FileSystems;
 
+use ILIAS\Filesystem\Provider\FilesystemFactory;
+
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class ConfiguredFilesystemWeb extends AbstractConfiguredFilesystem implements FilesystemWeb
+final class ConfiguredFilesystemWeb extends ConfiguredFilesystem implements FilesystemWeb
 {
-    protected function getFQDN(): string
+    public function __construct(FilesystemFactory $factory)
     {
-        return FilesystemWeb::class;
+        parent::__construct($factory, FilesystemWeb::class);
     }
-
-
-
 }

@@ -18,13 +18,15 @@
 
 namespace ILIAS\Filesystem\FileSystems;
 
+use ILIAS\Filesystem\Provider\FilesystemFactory;
+
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class ConfiguredFilesystemTemp extends AbstractConfiguredFilesystem implements FilesystemTemp
+final class ConfiguredFilesystemTemp extends ConfiguredFilesystem implements FilesystemTemp
 {
-    protected function getFQDN(): string
+    public function __construct(FilesystemFactory $factory)
     {
-        return FilesystemTemp::class;
+        parent::__construct($factory, FilesystemTemp::class);
     }
 }
