@@ -22,5 +22,5 @@ namespace ILIAS\Questions\AnswerForm\Capabilities\Definitions;
 
 interface PageMigrationProvider
 {
-    public function runPageMigration(): void;
+    public function runPageMigrations(): void;
 }
