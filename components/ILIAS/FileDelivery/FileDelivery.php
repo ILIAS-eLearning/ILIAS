@@ -29,12 +29,9 @@ use ILIAS\Component\EntryPoint;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\FileDelivery\Services;
 use ILIAS\FileDelivery\Delivery\ResponseBuilder\ResponseBuilder;
-use ILIAS\FileDelivery\Setup\DeliveryMethodObjective;
-use ILIAS\FileDelivery\Delivery\ResponseBuilder\XAccelResponseBuilder;
-use ILIAS\FileDelivery\Delivery\ResponseBuilder\XSendFileResponseBuilder;
+use ILIAS\FileDelivery\Delivery\ResponseBuilder\ResponseBuilderFactory;
 use ILIAS\FileDelivery\Delivery\ResponseBuilder\PHPResponseBuilder;
 use ILIAS\FileDelivery\Token\DataSigner;
-use ILIAS\FileDelivery\Token\Signer\Key\Secret\SecretKey;
 use ILIAS\FileDelivery\Setup\KeyRotationObjective;
 use ILIAS\FileDelivery\Token\Signer\Key\Secret\SecretKeyRotation;
 use ILIAS\FileDelivery\Delivery\StreamDelivery;
@@ -65,40 +62,19 @@ class FileDelivery implements Component
         $contribute[PublicAsset::class] = fn() => new Endpoint($this, "deliver.php");
 
         // INITIALIZATION OF SERVICES
-        $internal[ResponseBuilder::class] = static function (): ResponseBuilder {
-            $settings = (@include DeliveryMethodObjective::PATH()) ?? [];
-
-            return match ($settings[DeliveryMethodObjective::SETTINGS] ?? null) {
-                DeliveryMethodObjective::XACCEL => new XAccelResponseBuilder(
-                    $settings[DeliveryMethodObjective::SETTINGS_EXTERNAL_DATA_DIR]
-                ),
-                DeliveryMethodObjective::XSENDFILE => new XSendFileResponseBuilder(),
-                default => new PHPResponseBuilder(),
-            };
-        };
+        // The delivery method is baked into an artefact at setup time, so the
+        // builder is picked without a DB or ini read.
+        $internal[ResponseBuilder::class] = static fn() => ResponseBuilderFactory::fromArtefact();
 
         // Both the content domain and the ILIAS domain (derived from http_path)
         // are baked into the artefact at setup time, so no ini read is needed.
-        $internal[IsolationConfig::class] = static fn(): IsolationConfig => IsolationConfig::fromArtefact();
+        $internal[IsolationConfig::class] = static fn() => IsolationConfig::fromArtefact();
 
         $internal[PHPResponseBuilder::class] = (static fn() => new PHPResponseBuilder());
 
-        $internal[DataSigning::class] = static function (): DataSigning {
-            $key_strings = (array) ((@include KeyRotationObjective::PATH()) ?? []);
-            $keys = array_map(
-                static fn(string $key) => new SecretKey($key),
-                $key_strings
-            );
-
-            $current_key = array_shift($keys);
-
-            return new DataSigner(
-                new SecretKeyRotation(
-                    $current_key,
-                    ...$keys
-                )
-            );
-        };
+        $internal[DataSigning::class] = static fn() => new DataSigner(
+            SecretKeyRotation::fromArtefact(KeyRotationObjective::PATH())
+        );
 
         $implement[DataSigning::class] = static fn() => $internal[DataSigning::class];
 
