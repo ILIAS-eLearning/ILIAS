@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Capabilities;
 
+use ILIAS\Questions\AnswerForm\Capabilities\TextFeedback\HtmlPurifier;
 use ILIAS\Questions\AnswerForm\Capabilities\TextFeedback\TextFeedback;
 use ILIAS\Questions\AnswerForm\Capabilities\TextFeedback\OverviewTable;
 use ILIAS\Questions\AnswerForm\Capabilities\TextFeedback\SpecificTextFeedback;
@@ -47,6 +48,7 @@ class TextFeedbackOverviewTable implements OverviewTable
     private const string SUB_ACTION_CONFIRM_DELETE_FEEDBACK = 'cdf';
     private const string SUB_ACTION_DELETE_FEEDBACK = 'df';
     private const string SUB_ACTION_SAVE_FEEDBACK = 'sf';
+    private const string SUB_ACTION_ADD_LEGACY_TEXT = 'alt';
 
     public function __construct(
         private readonly UuidFactory $uuid_factory,
@@ -127,6 +129,10 @@ class TextFeedbackOverviewTable implements OverviewTable
             self::SUB_ACTION_DELETE_FEEDBACK => $this->deleteFeedback(
                 $environment,
                 $feedback
+            ),
+            self::SUB_ACTION_ADD_LEGACY_TEXT => $this->addLegacyFeedback(
+                $environment->withPreservedTableRowIdsParameter(),
+                $feedback
             )
         };
     }
@@ -150,7 +156,8 @@ class TextFeedbackOverviewTable implements OverviewTable
 
         $enter_feedback_modal = $this->buildEnterFeedbackModal(
             $environment,
-            $inputs_builder
+            $inputs_builder,
+            false
         );
 
         $inputs_builder
@@ -163,11 +170,25 @@ class TextFeedbackOverviewTable implements OverviewTable
 
     private function buildEnterFeedbackModal(
         Environment $environment,
-        InputsBuilderSession $inputs_builder
+        InputsBuilderSession $inputs_builder,
+        bool $needs_legacy_text_info
     ): RoundTripModal {
         return $environment->getUIFactory()->modal()->roundtrip(
             $environment->getLanguage()->txt('edit_feedback'),
-            null,
+            $needs_legacy_text_info
+                ? [
+                    $environment->getUIFactory()->messageBox()->info(
+                        $environment->getLanguage()->txt('insert_legacy_texts_info')
+                    )->withButtons([
+                        $environment->getUIFactory()->button()->standard(
+                            $environment->getLanguage()->txt('insert_legacy_texts'),
+                            $environment->withSubActionParameter(
+                                self::SUB_ACTION_ADD_LEGACY_TEXT
+                            )->getUrlBuilder()->buildURI()->__toString()
+                        )
+                    ])
+                ]
+                : null,
             [
                 'feedback' => $inputs_builder->getInputs()
             ],
@@ -203,7 +224,10 @@ class TextFeedbackOverviewTable implements OverviewTable
 
         $modal = $this->buildEnterFeedbackModal(
             $environment,
-            $inputs_builder
+            $inputs_builder,
+            isset($specific_feedbacks[0])
+                ? $specific_feedbacks[0]->displaysLegacyText()
+                : false
         )->withRequest($environment->getHttpServices()->request());
 
         $data = $modal->getData();
@@ -215,10 +239,36 @@ class TextFeedbackOverviewTable implements OverviewTable
         return $data['feedback'];
     }
 
+    private function addLegacyFeedback(
+        Environment $environment,
+        TextFeedback $feedback
+    ): RoundTripModal {
+        $specific_feedbacks = $this->getSpecifcFeedbacksFromQuery(
+            $environment
+        );
+
+        return $this->buildEnterFeedbackModal(
+            $environment,
+            $this->buildEnterFeedbackInputBuilder(
+                $environment,
+                $feedback,
+                $specific_feedbacks[0]->getParentId(),
+                array_map(
+                    fn(SpecificTextFeedback $v): string => $v->getCondition(),
+                    $specific_feedbacks
+                ),
+                (new HtmlPurifier())->prepareAndPurify(
+                    $specific_feedbacks[0]->getLegacyFeedbackText()
+                )
+            ),
+            false
+        );
+    }
+
     private function editFeedback(
         Environment $environment,
         TextFeedback $feedback
-    ): Async|TextFeedback {
+    ): Async {
         $specific_feedbacks = $this->getSpecifcFeedbacksFromQuery(
             $environment
         );
@@ -234,8 +284,9 @@ class TextFeedbackOverviewTable implements OverviewTable
                         fn(SpecificTextFeedback $v): string => $v->getCondition(),
                         $specific_feedbacks
                     ),
-                    $specific_feedbacks[0]->getFeedbackText()->getRawRepresentation()
-                )
+                    $specific_feedbacks[0]->getFeedbackText()?->getRawRepresentation() ?? ''
+                ),
+                $specific_feedbacks[0]->displaysLegacyText()
             )
         );
     }

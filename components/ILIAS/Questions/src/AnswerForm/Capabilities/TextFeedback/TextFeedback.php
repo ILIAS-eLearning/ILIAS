@@ -81,7 +81,7 @@ abstract class TextFeedback implements TypeSpecification, Feedback
         Properties $answer_form_properties
     ): static;
 
-    abstract protected function specificFeedbackInputsHaveLegacyTexts(): bool;
+    abstract protected function specificFeedbacksDisplayLegacyTexts(): bool;
 
     /**
      * @return list<Component>
@@ -157,7 +157,9 @@ abstract class TextFeedback implements TypeSpecification, Feedback
                 $uuid_factory->fromString($feedback_data['answer_form_id']),
                 $uuid_factory->fromString($feedback_data['parent_id']),
                 $feedback_data['condition'],
-                $text_factory->markdown($feedback_data['feedback']),
+                $feedback_data['feedback'] === ''
+                    ? null
+                    : $text_factory->markdown($feedback_data['feedback']),
                 $feedback_data['feedback_legacy']
             );
 
@@ -203,11 +205,13 @@ abstract class TextFeedback implements TypeSpecification, Feedback
         return $this->feedback_other_response_legacy;
     }
 
-    public function hasLegacyTexts(): bool
+    public function displaysLegacyTexts(): bool
     {
-        return $this->feedback_best_response_legacy !== ''
-            || $this->feedback_other_response_legacy !== ''
-            || $this->specificFeedbackInputsHaveLegacyTexts();
+        return $this->feedback_best_response === null
+                && $this->feedback_best_response_legacy !== ''
+            || $this->feedback_other_response === null
+                && $this->feedback_other_response_legacy !== ''
+            || $this->specificFeedbacksDisplayLegacyTexts();
     }
 
     public function getSpecificFeedbackForId(
