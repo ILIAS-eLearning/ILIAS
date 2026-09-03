@@ -796,11 +796,10 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $DIC->user()->getId(),
                     $appraisee_id
                 );
-                $has_finished_run = true;
-                if ($survey->getMode() === ilObjSurvey::MODE_SELF_EVAL) {
-                    $has_finished_run = $run_manager->hasFinished();
-                } elseif ($domain_service->modeFeatureConfig($survey->getMode())->usesAppraisees()) {
+                if ($domain_service->modeFeatureConfig($survey->getMode())->usesAppraisees()) {
                     $has_finished_run = $appraisee_id > 0 && $run_manager->hasFinished();
+                } else {
+                    $has_finished_run = $run_manager->hasFinished();
                 }
                 if ($am->canAccessEvaluation() && $has_finished_run) {
                     $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $ref_id);
