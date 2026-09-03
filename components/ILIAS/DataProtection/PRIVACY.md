@@ -1,6 +1,8 @@
 # DataProtection Privacy
 
-> **Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information via [Pull Request](docs/development/contributing.md#pull-request-to-the-repositories).**
+> **Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information by submitting a [Pull Request](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/contributing.md#pull-request-to-the-repositories) or, if you prefer, via the [ILIAS bug tracker](https://mantis.ilias.de). When using the bug tracker, please select the corresponding component in the **Category** field.**
+
+
 
 
 ## General Information
@@ -32,7 +34,7 @@ users, withdrawal sends a notification email to the configured recipient address
       tracking, acceptance history, and the agreement/withdrawal UI. All document content and
       per-user acceptance records are stored and managed by LegalDocuments. LegalDocuments does
       not yet have a PRIVACY.md.
-    - [AccessControl](https://github.com/ILIAS-eLearning/ILIAS/blob/release_11/components/ILIAS/AccessControl/PRIVACY.md) – manages permissions for accessing the
+    - [AccessControl](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/AccessControl/PRIVACY.md) – manages permissions for accessing the
       DataProtection administration (reading settings and editing documents/settings).
     - User – provides the user object and user preferences storage
       used to persist acceptance dates and withdrawal request status. The User component also
