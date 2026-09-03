@@ -35,6 +35,7 @@ use ILIAS\Questions\Persistence\Query;
 use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Persistence\ManipulationType;
 use ILIAS\Questions\Persistence\TableNameBuilder;
+use ILIAS\Questions\Presentation\Definitions\DefaultEnvironment;
 use ILIAS\Questions\Presentation\Definitions\OverviewTableColumns;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\Order as DataOrder;
@@ -274,8 +275,9 @@ class Repository
         );
     }
 
-    public function migrateQuestionPages(): void
-    {
+    public function migrateQuestionPages(
+        DefaultEnvironment $environment
+    ): void {
         $questions_table_name = $this->core_table_names_builder
             ->getTableNameFor(TableTypes::Questions);
         $migration_table_name = $this->core_table_names_builder
@@ -301,6 +303,8 @@ class Repository
                 $row->old_question_id
             );
         }
+
+        $environment->runPageMigrations();
     }
 
     public function getNextAvailableQuestionPageId(): int

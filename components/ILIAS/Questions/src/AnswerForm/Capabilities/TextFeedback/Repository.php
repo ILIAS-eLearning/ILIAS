@@ -22,8 +22,8 @@ namespace ILIAS\Questions\AnswerForm\Capabilities\TextFeedback;
 
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Manipulate;
-use ILIAS\Questions\Persistence\ManipulationType;
 use ILIAS\Questions\Persistence\Query;
+use ILIAS\Questions\Persistence\Table;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Question\Persistence\Repository as QuestionRepository;
 use ILIAS\Data\Text\Factory as TextFactory;
@@ -167,6 +167,12 @@ class Repository
         )->run();
     }
 
+    public function migrateFeedbackPages(): void
+    {
+        $this->migrateGenericFeedbackPages();
+        $this->migrateSpecificFeedbackPages();
+    }
+
     private function buildQuery(): Query
     {
         return $this->feedback_table_definitions->completeQuery(
@@ -184,5 +190,113 @@ class Repository
                 TableTypes::FeedbackGeneric
             )
         );
+    }
+
+    private function migrateGenericFeedbackPages(): void
+    {
+        $table = $this->persistence_factory->table(
+            $this->feedback_table_names_builder,
+            TableTypes::FeedbackGeneric
+        )->getName();
+
+        $statement = $this->db->query(
+            'SELECT answer_form_id, feedback_best_response_legacy, feedback_other_response_legacy' . PHP_EOL
+                . "FROM {$table} WHERE feedback_best_response_legacy LIKE '####%####'"
+                . 'OR feedback_other_response_legacy LIKE "####%####"'
+        );
+
+        if ($this->db->numRows($statement) === 0) {
+            return;
+        }
+
+        $prepared = $this->db->prepare(
+            "UPDATE {$table}" . PHP_EOL
+                . 'SET feedback_best_response_legacy = ?,' . PHP_EOL
+                . 'feedback_other_response_legacy = ?' . PHP_EOL
+                . 'WHERE answer_form_id = ?',
+            [
+                \ilDBConstants::T_TEXT,
+                \ilDBConstants::T_TEXT,
+                \ilDBConstants::T_TEXT
+            ]
+        );
+
+        while (($row = $this->db->fetchObject($statement)) !== null) {
+            $this->db->execute(
+                $prepared,
+                [
+                    $this->migrateFeedback(
+                        '\ilAssGenFeedbackPageGUI',
+                        $row->feedback_best_response_legacy
+                    ),
+                    $this->migrateFeedback(
+                        '\ilAssGenFeedbackPageGUI',
+                        $row->feedback_other_response_legacy
+                    ),
+                    $row->answer_form_id
+                ]
+            );
+        }
+    }
+
+    private function migrateSpecificFeedbackPages(): void
+    {
+        $table = $this->persistence_factory->table(
+            $this->feedback_table_names_builder,
+            TableTypes::FeedbackSpecific
+        )->getName();
+
+        $statement = $this->db->query(
+            'SELECT id, feedback_legacy' . PHP_EOL
+                . "FROM {$table} WHERE feedback_legacy LIKE '####%####'"
+        );
+
+        if ($this->db->numRows($statement) === 0) {
+            return;
+        }
+
+        $prepared = $this->db->prepare(
+            "UPDATE {$table}" . PHP_EOL
+                . 'SET feedback_legacy = ?' . PHP_EOL
+                . 'WHERE id = ?',
+            [
+                \ilDBConstants::T_TEXT,
+                \ilDBConstants::T_TEXT
+            ]
+        );
+
+        while (($row = $this->db->fetchObject($statement)) !== null) {
+            $this->db->execute(
+                $prepared,
+                [
+                    $this->migrateFeedback(
+                        '\ilAssSpecFeedbackPageGUI',
+                        $row->feedback_legacy
+                    ),
+                    $row->id
+                ]
+            );
+        }
+    }
+
+    private function migrateFeedback(
+        string $page_class,
+        string $text
+    ): string {
+
+        $feedback_page_id = trim($text, '#');
+        if (!is_numeric($feedback_page_id)) {
+            return '';
+        }
+
+        $feedback_page = (new $page_class(
+            $feedback_page_id
+        ));
+
+        if ($feedback_page->getPageObject()->getXMLContent() === '<PageObject></PageObject>') {
+            return '';
+        }
+
+        return $feedback_page->presentation();
     }
 }

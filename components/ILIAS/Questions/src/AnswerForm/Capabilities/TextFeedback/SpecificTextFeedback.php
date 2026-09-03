@@ -122,29 +122,4 @@ class SpecificTextFeedback
             )
         ];
     }
-
-    public function requiresPageMigration(): bool
-    {
-        return preg_match('/####\d+####/', $this->feedback_legacy) === 1;
-    }
-
-    public function withMigratedPageFeedbacks(): self
-    {
-        $clone = clone $this;
-        $feedback = trim($clone->feedback_legacy, '#');
-        if (!is_numeric($feedback)) {
-            return $clone;
-        }
-
-        $feedback_page = (new \ilAssSpecFeedbackPageGUI(
-            (int) $feedback
-        ))->presentation();
-
-        $clone->feedback_legacy = '';
-        if (strip_tags($feedback_page) !== '') {
-            $clone->feedback_legacy = $feedback_page;
-        }
-
-        return $clone;
-    }
 }
