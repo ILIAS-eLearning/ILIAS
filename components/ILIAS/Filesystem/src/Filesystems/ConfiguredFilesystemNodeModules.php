@@ -18,13 +18,15 @@
 
 namespace ILIAS\Filesystem\FileSystems;
 
+use ILIAS\Filesystem\Provider\FilesystemFactory;
+
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class ConfiguredFilesystemNodeModules extends AbstractConfiguredFilesystem implements FilesystemNodeModules
+final class ConfiguredFilesystemNodeModules extends ConfiguredFilesystem implements FilesystemNodeModules
 {
-    protected function getFQDN(): string
+    public function __construct(FilesystemFactory $factory)
     {
-        return FilesystemNodeModules::class;
+        parent::__construct($factory, FilesystemNodeModules::class);
     }
 }

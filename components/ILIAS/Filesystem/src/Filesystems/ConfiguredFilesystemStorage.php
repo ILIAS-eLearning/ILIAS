@@ -18,14 +18,15 @@
 
 namespace ILIAS\Filesystem\FileSystems;
 
+use ILIAS\Filesystem\Provider\FilesystemFactory;
+
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class ConfiguredFilesystemStorage extends AbstractConfiguredFilesystem implements FilesystemStorage
+final class ConfiguredFilesystemStorage extends ConfiguredFilesystem implements FilesystemStorage
 {
-    protected function getFQDN(): string
+    public function __construct(FilesystemFactory $factory)
     {
-        return FilesystemStorage::class;
+        parent::__construct($factory, FilesystemStorage::class);
     }
-
 }
