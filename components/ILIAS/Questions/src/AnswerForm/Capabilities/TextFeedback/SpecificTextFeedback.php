@@ -61,7 +61,7 @@ class SpecificTextFeedback
         return $clone;
     }
 
-    public function getFeedbackText(): Markdown
+    public function getFeedbackText(): ?Markdown
     {
         return $this->feedback_text;
     }
@@ -72,6 +72,23 @@ class SpecificTextFeedback
         $clone = clone $this;
         $clone->feedback_text = $text;
         return $clone;
+    }
+
+    public function getLegacyFeedbackText(): string
+    {
+        return $this->feedback_legacy;
+    }
+
+    public function displaysLegacyText(): bool
+    {
+        return $this->feedback_text === null && $this->feedback_legacy !== '';
+    }
+
+    public function getFeedbackTextForKey(): string
+    {
+        return md5(
+            $this->feedback_text?->getRawRepresentation() ?? $this->feedback_legacy
+        );
     }
 
     public function getFeedbackTextForPresentation(
@@ -89,7 +106,8 @@ class SpecificTextFeedback
     public function toStorage(
         PersistenceFactory $persistence_factory
     ): array {
-        if ($this->feedback_text === null) {
+        if ($this->feedback_text === null
+            && $this->feedback_legacy === '') {
             throw new \UnexpectedValueException(
                 'You cannot save a SpecificTextFeedback without a feedback text!'
             );
@@ -114,7 +132,7 @@ class SpecificTextFeedback
             ),
             $persistence_factory->value(
                 FieldDefinition::T_TEXT,
-                $this->feedback_text->getRawRepresentation()
+                $this->feedback_text?->getRawRepresentation() ?? ''
             ),
             $persistence_factory->value(
                 FieldDefinition::T_TEXT,

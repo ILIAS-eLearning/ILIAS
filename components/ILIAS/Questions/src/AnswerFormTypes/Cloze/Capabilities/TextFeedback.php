@@ -60,7 +60,6 @@ class TextFeedback extends TextFeedbackBase
             $this->uuid_factory,
             $this->text_factory,
             new TextFeedbackOverviewDataRetrieval(
-                $environment->getLanguage(),
                 $environment->getRefinery(),
                 $this->uuid_factory,
                 $environment->getAnswerFormProperties(),
@@ -144,7 +143,7 @@ class TextFeedback extends TextFeedbackBase
     }
 
     #[\Override]
-    public function specificFeedbackInputsHaveLegacyTexts(): bool
+    public function specificFeedbacksDisplayLegacyTexts(): bool
     {
         return false;
     }
@@ -246,7 +245,7 @@ class TextFeedback extends TextFeedbackBase
             $this->getSpecificFeedbacks(),
             function (array $c, SpecificTextFeedback $v): array {
                 $gap_id = $v->getParentId()->toString();
-                $key = md5($v->getFeedbackText()->getRawRepresentation());
+                $key = $v->getFeedbackTextForKey();
                 if (!array_key_exists($gap_id, $c)) {
                     $c[$gap_id] = [];
                 }
