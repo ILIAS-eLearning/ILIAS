@@ -53,6 +53,12 @@ class ResourceBuilder
     use SecureString;
 
     /**
+     * Serialises the container actions, see withContainerLock(). Lives next to
+     * the archive it guards, so it is removed together with the revision.
+     */
+    private const CONTAINER_LOCK = '.lock';
+
+    /**
      * @readonly
      */
     private \ILIAS\ResourceStorage\Information\Repository\InformationRepository $information_repository;
@@ -565,29 +571,66 @@ class ResourceBuilder
     }
 
     // Container Actions
+
+    /**
+     * Every container action below is a read-modify-write on one archive: it is
+     * opened, changed, and rewritten completely by ZipArchive::close(), which
+     * writes a temporary file and renames it over the original. Two of them
+     * running at once would both start from the same archive and the one
+     * finishing last would silently drop whatever the other did, so they are
+     * serialised per revision.
+     *
+     * The lock is deliberately not taken on the archive itself. Its inode is
+     * replaced by every close(), which would leave waiters holding a lock on a
+     * file that is no longer the container.
+     */
+    private function withContainerLock(string $archive_path, callable $mutation): bool
+    {
+        $lock_path = dirname($archive_path) . '/' . self::CONTAINER_LOCK;
+
+        // 'c' creates the lock file if it is missing and never truncates it
+        $lock = fopen($lock_path, 'c');
+        if ($lock === false) {
+            return false;
+        }
+
+        try {
+            if (!flock($lock, LOCK_EX)) {
+                return false;
+            }
+
+            return $mutation();
+        } finally {
+            flock($lock, LOCK_UN);
+            fclose($lock);
+        }
+    }
+
     public function createDirectoryInsideContainer(
         StorableContainerResource $container,
         string $path_inside_container,
     ): bool {
         $revision = $container->getCurrentRevisionIncludingDraft();
-        $stream = $this->extractStream($revision);
+        $uri = $this->extractStream($revision)->getMetadata()['uri'];
 
-        // create directory inside ZipArchive
-        try {
-            $zip = new \ZipArchive();
-            $zip->open($stream->getMetadata()['uri']);
-            $path_inside_container = $this->ensurePathInZIP($zip, $path_inside_container, false);
-            $zip->close();
+        return $this->withContainerLock($uri, function () use ($revision, $uri, $path_inside_container): bool {
+            // create directory inside ZipArchive
+            try {
+                $zip = new \ZipArchive();
+                $zip->open($uri);
+                $this->ensurePathInZIP($zip, $path_inside_container, false);
+                $zip->close();
 
-            // cleanup revision and flavours
-            $this->storage_handler_factory->getHandlerForRevision($revision)->clearFlavours($revision);
-            $revision->getInformation()->setSize(filesize($stream->getMetadata()['uri']));
-            $this->storeRevision($revision);
+                // cleanup revision and flavours
+                $this->storage_handler_factory->getHandlerForRevision($revision)->clearFlavours($revision);
+                $revision->getInformation()->setSize(filesize($uri));
+                $this->storeRevision($revision);
 
-            return true;
-        } catch (\Throwable $exception) {
-            return false;
-        }
+                return true;
+            } catch (\Throwable $exception) {
+                return false;
+            }
+        });
     }
 
     private function ensurePathInZIP(\ZipArchive $zip, string $path, bool $is_file): string
@@ -663,43 +706,44 @@ class ResourceBuilder
         }
 
         $revision = $container->getCurrentRevisionIncludingDraft();
-        $stream = $this->extractStream($revision);
+        $uri = $this->extractStream($revision)->getMetadata()['uri'];
 
-        // create directory inside ZipArchive
-        try {
-            $zip = new \ZipArchive();
-            $zip->open($stream->getMetadata()['uri']);
+        return $this->withContainerLock($uri, function () use ($revision, $uri, $paths_to_remove): bool {
+            try {
+                $zip = new \ZipArchive();
+                $zip->open($uri);
 
-            $return = false;
-            foreach ($paths_to_remove as $path_to_remove) {
-                $return = $zip->deleteName($path_to_remove) || $return;
-            }
-            // remove all files inside the directory
-            for ($i = 0; $i < $zip->numFiles; $i++) {
-                $path = $zip->getNameIndex($i);
-                if ($path === false) {
-                    continue;
-                }
+                $return = false;
                 foreach ($paths_to_remove as $path_to_remove) {
-                    if (strpos($path, $path_to_remove) === 0) {
-                        $zip->deleteIndex($i);
-                        break;
+                    $return = $zip->deleteName($path_to_remove) || $return;
+                }
+                // remove all files inside the directory
+                for ($i = 0; $i < $zip->numFiles; $i++) {
+                    $path = $zip->getNameIndex($i);
+                    if ($path === false) {
+                        continue;
+                    }
+                    foreach ($paths_to_remove as $path_to_remove) {
+                        if (strpos($path, $path_to_remove) === 0) {
+                            $zip->deleteIndex($i);
+                            break;
+                        }
                     }
                 }
+
+                $zip->close();
+
+                // cleanup revision and flavours
+                $this->storage_handler_factory->getHandlerForRevision($revision)->clearFlavours($revision);
+                $revision->getInformation()->setSize(filesize($uri));
+                $this->storeRevision($revision);
+
+                return $return;
+            } catch (\Throwable $exception) {
+                $this->storage_handler_factory->getHandlerForRevision($revision)->clearFlavours($revision);
+                return false;
             }
-
-            $zip->close();
-
-            // cleanup revision and flavours
-            $this->storage_handler_factory->getHandlerForRevision($revision)->clearFlavours($revision);
-            $revision->getInformation()->setSize(filesize($stream->getMetadata()['uri']));
-            $this->storeRevision($revision);
-
-            return $return;
-        } catch (\Throwable $exception) {
-            $this->storage_handler_factory->getHandlerForRevision($revision)->clearFlavours($revision);
-            return false;
-        }
+        });
     }
 
     public function addUploadToContainer(
@@ -708,36 +752,35 @@ class ResourceBuilder
         string $parent_path_inside_container,
     ): bool {
         $revision = $container->getCurrentRevisionIncludingDraft();
-        $stream = $this->extractStream($revision);
+        $uri = $this->extractStream($revision)->getMetadata()['uri'];
 
-        // create directory inside ZipArchive
-        try {
-            $zip = new \ZipArchive();
-            $zip->open($stream->getMetadata()['uri']);
+        return $this->withContainerLock($uri, function () use ($revision, $uri, $result, $parent_path_inside_container): bool {
+            try {
+                $zip = new \ZipArchive();
+                $zip->open($uri);
 
-            $parent_path_inside_container = $this->ensurePathInZIP($zip, $parent_path_inside_container, false);
+                $parent_path_inside_container = $this->ensurePathInZIP($zip, $parent_path_inside_container, false);
 
-            // an empty parent path must not result in an entry like "/file.txt",
-            // entries are stored relative since Mantis 45580 / 47237
-            $path_inside_zip = ltrim(rtrim($parent_path_inside_container, '/') . '/' . $result->getName(), '/');
+                // an empty parent path must not result in an entry like "/file.txt",
+                // entries are stored relative since Mantis 45580 / 47237
+                $path_inside_zip = ltrim(rtrim($parent_path_inside_container, '/') . '/' . $result->getName(), '/');
 
-            $return = $zip->addFile(
-                $result->getPath(),
-                $path_inside_zip
-            );
-            $zip->close();
+                $return = $zip->addFile(
+                    $result->getPath(),
+                    $path_inside_zip
+                );
+                $zip->close();
 
-            // cleanup revision and flavours
-            $this->storage_handler_factory->getHandlerForRevision($revision)->clearFlavours($revision);
-            $revision->getInformation()->setSize(filesize($stream->getMetadata()['uri']));
-            $this->storeRevision($revision);
+                // cleanup revision and flavours
+                $this->storage_handler_factory->getHandlerForRevision($revision)->clearFlavours($revision);
+                $revision->getInformation()->setSize(filesize($uri));
+                $this->storeRevision($revision);
 
-            return $return;
-        } catch (\Throwable $exception) {
-            return false;
-        }
-
-        return true;
+                return $return;
+            } catch (\Throwable $exception) {
+                return false;
+            }
+        });
     }
 
     /**
@@ -758,30 +801,32 @@ class ResourceBuilder
         $revision = $container->getCurrentRevisionIncludingDraft();
         $uri = $this->extractStream($revision)->getMetadata()['uri'];
 
-        try {
-            $zip = new \ZipArchive();
-            if ($zip->open($uri) !== true) {
+        return $this->withContainerLock($uri, function () use ($revision, $uri, $local_directory, $path_inside_container): bool {
+            try {
+                $zip = new \ZipArchive();
+                if ($zip->open($uri) !== true) {
+                    return false;
+                }
+
+                $added = $this->addDirectoryToZIP($zip, $local_directory, $path_inside_container);
+
+                // close() is where libzip actually writes the archive, a failure here
+                // means nothing was persisted at all
+                if (!$zip->close() || $added === 0) {
+                    return false;
+                }
+
+                // cleanup revision and flavours
+                $this->storage_handler_factory->getHandlerForRevision($revision)->clearFlavours($revision);
+                $revision->getInformation()->setSize(filesize($uri));
+                $this->storeRevision($revision);
+
+                return true;
+            } catch (\Throwable) {
+                // the caller reports the failure to the user
                 return false;
             }
-
-            $added = $this->addDirectoryToZIP($zip, $local_directory, $path_inside_container);
-
-            // close() is where libzip actually writes the archive, a failure here
-            // means nothing was persisted at all
-            if (!$zip->close() || $added === 0) {
-                return false;
-            }
-
-            // cleanup revision and flavours
-            $this->storage_handler_factory->getHandlerForRevision($revision)->clearFlavours($revision);
-            $revision->getInformation()->setSize(filesize($uri));
-            $this->storeRevision($revision);
-
-            return true;
-        } catch (\Throwable) {
-            // the caller reports the failure to the user
-            return false;
-        }
+        });
     }
 
     /**
@@ -826,31 +871,31 @@ class ResourceBuilder
         string $path_inside_container,
     ): bool {
         $revision = $container->getCurrentRevisionIncludingDraft();
-        $revision_stream = $this->extractStream($revision);
+        $uri = $this->extractStream($revision)->getMetadata()['uri'];
 
-        try {
-            $zip = new \ZipArchive();
-            $zip->open($revision_stream->getMetadata()['uri']);
+        return $this->withContainerLock($uri, function () use ($revision, $uri, $stream, $path_inside_container): bool {
+            try {
+                $zip = new \ZipArchive();
+                $zip->open($uri);
 
-            $path_inside_container = $this->ensurePathInZIP($zip, $path_inside_container, true);
+                $path_inside_container = $this->ensurePathInZIP($zip, $path_inside_container, true);
 
-            $return = $zip->addFromString(
-                $path_inside_container,
-                (string) $stream
-            );
-            $zip->close();
+                $return = $zip->addFromString(
+                    $path_inside_container,
+                    (string) $stream
+                );
+                $zip->close();
 
-            // cleanup revision and flavours
-            $this->storage_handler_factory->getHandlerForRevision($revision)->clearFlavours($revision);
-            $revision->getInformation()->setSize(filesize($revision_stream->getMetadata()['uri']));
-            $this->storeRevision($revision);
+                // cleanup revision and flavours
+                $this->storage_handler_factory->getHandlerForRevision($revision)->clearFlavours($revision);
+                $revision->getInformation()->setSize(filesize($uri));
+                $this->storeRevision($revision);
 
-            return $return;
-        } catch (\Throwable $exception) {
-            return false;
-        }
-
-        return true;
+                return $return;
+            } catch (\Throwable $exception) {
+                return false;
+            }
+        });
     }
 
     private function deleteRevision(StorableResource $resource, Revision $revision): void
