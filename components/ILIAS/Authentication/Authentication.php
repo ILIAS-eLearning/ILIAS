@@ -37,9 +37,7 @@ class Authentication implements Component\Component
 
         $implement[UI\Storage::class] = static fn() =>
             new Authentication\KeyValueStorage\UiStorageAdapter(
-                $use[KeyValueStorage\Services::class]->session(
-                    new KeyValueStorage\StorageNamespace('ui.storage')
-                )
+                $use[KeyValueStorage\Services::class]->session(['ui', 'storage'])
             );
 
         $contribute[\ILIAS\Setup\Agent::class] = static fn() =>

@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Authentication\KeyValueStorage;
 
 use ILIAS\KeyValueStorage\SessionRepository as KeyValueSessionRepository;
-use ILIAS\KeyValueStorage\StorageNamespace;
+use ILIAS\KeyValueStorage\Internal\StorageNamespace;
 
 /**
  * Keeps key-value storage in the ILIAS session.

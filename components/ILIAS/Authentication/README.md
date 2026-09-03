@@ -69,6 +69,6 @@ The colon separates namespace from key. It cannot occur in a namespace and is
 rejected in keys, so no pair of namespace and key can produce the session key of
 another pair.
 
-`ILIAS\UI\Storage` is served from this scope, under the namespace `ui.storage`,
-through `Authentication\KeyValueStorage\UiStorageAdapter`. Moving that adapter
-into the UI component is left to a follow-up.
+`ILIAS\UI\Storage` is served from this scope, under the namespace segments
+`ui` / `storage`, through `Authentication\KeyValueStorage\UiStorageAdapter`.
+Moving that adapter into the UI component is left to a follow-up.

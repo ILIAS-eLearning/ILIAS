@@ -22,7 +22,6 @@ namespace ILIAS\KeyValueStorage\Internal;
 
 use ILIAS\Database\Connection;
 use ILIAS\KeyValueStorage\Repository;
-use ILIAS\KeyValueStorage\StorageNamespace;
 
 /**
  * Persistent storage in the table owned by this component.

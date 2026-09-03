@@ -23,7 +23,7 @@ namespace ILIAS\Tests\KeyValueStorage\Internal;
 use ILIAS\KeyValueStorage\Internal\KeyRules;
 use ILIAS\KeyValueStorage\Internal\NamespacedStore;
 use ILIAS\KeyValueStorage\Internal\Values;
-use ILIAS\KeyValueStorage\StorageNamespace;
+use ILIAS\KeyValueStorage\Internal\StorageNamespace;
 use ILIAS\Tests\KeyValueStorage\InMemoryRepository;
 use PHPUnit\Framework\TestCase;
 
@@ -38,7 +38,7 @@ class NamespacedStoreTest extends TestCase
     protected function setUp(): void
     {
         $this->repository = new InMemoryRepository();
-        $this->namespace = new StorageNamespace('my_component.view_state');
+        $this->namespace = new StorageNamespace(['my_component', 'view_state']);
         $this->store = $this->storeFor($this->namespace);
     }
 
@@ -87,7 +87,7 @@ class NamespacedStoreTest extends TestCase
 
     public function testClearRemovesOnlyTheOwnNamespace(): void
     {
-        $other = $this->storeFor(new StorageNamespace('my_component.view_state.details'));
+        $other = $this->storeFor(new StorageNamespace(['my_component', 'view_state', 'details']));
         $this->store->set('a', 1);
         $other->set('a', 2);
 

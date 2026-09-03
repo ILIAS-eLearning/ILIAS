@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Tests\Authentication\KeyValueStorage;
 
 use ILIAS\Authentication\KeyValueStorage\SessionRepository;
-use ILIAS\KeyValueStorage\StorageNamespace;
+use ILIAS\KeyValueStorage\Internal\StorageNamespace;
 use PHPUnit\Framework\Attributes\BackupGlobals;
 use PHPUnit\Framework\TestCase;
 
@@ -36,7 +36,7 @@ class SessionRepositoryTest extends TestCase
     {
         $_SESSION = [];
         $this->repository = new SessionRepository();
-        $this->namespace = new StorageNamespace('my_component.view_state');
+        $this->namespace = new StorageNamespace(['my_component', 'view_state']);
     }
 
     public function testEachEntryIsASessionVariableOfItsOwn(): void
@@ -80,8 +80,8 @@ class SessionRepositoryTest extends TestCase
 
     public function testRemoveAllLeavesOtherNamespacesAndTheRestOfTheSessionAlone(): void
     {
-        $nested = new StorageNamespace('my_component.view_state.details');
-        $sibling = new StorageNamespace('other_component');
+        $nested = new StorageNamespace(['my_component', 'view_state', 'details']);
+        $sibling = new StorageNamespace(['other_component']);
         $this->repository->write($this->namespace, 'a', '1');
         $this->repository->write($nested, 'a', '2');
         $this->repository->write($sibling, 'a', '3');
@@ -114,10 +114,10 @@ class SessionRepositoryTest extends TestCase
 
     public function testANamespaceCannotReachTheEntryOfAnother(): void
     {
-        $this->repository->write(new StorageNamespace('a.b'), 'c', 'nested');
-        $this->repository->write(new StorageNamespace('a'), 'b.c', 'flat');
+        $this->repository->write(new StorageNamespace(['a', 'b']), 'c', 'nested');
+        $this->repository->write(new StorageNamespace(['a']), 'b.c', 'flat');
 
-        $this->assertSame('nested', $this->repository->read(new StorageNamespace('a.b'), 'c'));
-        $this->assertSame('flat', $this->repository->read(new StorageNamespace('a'), 'b.c'));
+        $this->assertSame('nested', $this->repository->read(new StorageNamespace(['a', 'b']), 'c'));
+        $this->assertSame('flat', $this->repository->read(new StorageNamespace(['a']), 'b.c'));
     }
 }
