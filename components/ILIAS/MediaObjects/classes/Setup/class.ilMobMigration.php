@@ -52,7 +52,7 @@ class ilMobMigration implements Migration
     public function step(Environment $environment): void
     {
         $r = $this->helper->getDatabase()->query(
-            "SELECT * FROM object_data od LEFT JOIN mob_data md ON (od.obj_id = md.id) WHERE od.type='mob' AND (rid='' OR rid IS NULL) LIMIT 1;"
+            "SELECT * FROM object_data od LEFT JOIN mob_data md ON (od.obj_id = md.id) WHERE od.type='mob' AND (rid='' OR rid IS NULL) ORDER BY od.last_update DESC LIMIT 1;"
         );
 
         $d = $this->helper->getDatabase()->fetchObject($r);
