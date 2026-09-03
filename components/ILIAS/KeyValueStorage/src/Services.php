@@ -31,8 +31,10 @@ interface Services
 {
     /**
      * Storage bound to the current user session.
+     *
+     * @param list<string> $namespace namespace segments; joined with "." internally
      */
-    public function session(StorageNamespace $namespace): Store;
+    public function session(array $namespace): Store;
 
     /**
      * Storage that survives session boundaries until changed or cleared.
@@ -41,6 +43,8 @@ interface Services
      * installation. There is no per-user storage yet, and encoding a user id
      * into the namespace or the key is not a supported substitute - such rows
      * cannot be found or removed when the account is deleted.
+     *
+     * @param list<string> $namespace namespace segments; joined with "." internally
      */
-    public function persistent(StorageNamespace $namespace): Store;
+    public function persistent(array $namespace): Store;
 }

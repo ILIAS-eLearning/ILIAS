@@ -23,7 +23,6 @@ namespace ILIAS\KeyValueStorage\Internal;
 use ILIAS\KeyValueStorage\Repository;
 use ILIAS\KeyValueStorage\Services;
 use ILIAS\KeyValueStorage\SessionRepository;
-use ILIAS\KeyValueStorage\StorageNamespace;
 use ILIAS\KeyValueStorage\Store;
 
 /**
@@ -46,14 +45,14 @@ final class StorageServices implements Services
         $this->values = new Values();
     }
 
-    public function session(StorageNamespace $namespace): Store
+    public function session(array $namespace): Store
     {
-        return $this->store('session', $namespace, $this->session);
+        return $this->store('session', new StorageNamespace($namespace), $this->session);
     }
 
-    public function persistent(StorageNamespace $namespace): Store
+    public function persistent(array $namespace): Store
     {
-        return $this->store('persistent', $namespace, $this->persistent);
+        return $this->store('persistent', new StorageNamespace($namespace), $this->persistent);
     }
 
     private function store(string $scope, StorageNamespace $namespace, Repository $repository): Store

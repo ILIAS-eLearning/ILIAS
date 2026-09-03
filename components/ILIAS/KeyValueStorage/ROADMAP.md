@@ -8,9 +8,9 @@
 ## Mid Term
 
 - A scope for per-user state, with the subject as a parameter
-  (`forUser($user_id, $namespace)`) rather than encoded into the namespace or
-  the key. It needs a table with `usr_id` in the primary key, contributed by
-  `User`, which clears it on the `deleteUser` event.
+  (`forUser($user_id, ['my_component', 'view_state'])`) rather than encoded into
+  the namespace or the key. It needs a table with `usr_id` in the primary key,
+  contributed by `User`, which clears it on the `deleteUser` event.
 - Let a store list the keys it holds, so that stored state can be inspected and
   cleaned up.
 

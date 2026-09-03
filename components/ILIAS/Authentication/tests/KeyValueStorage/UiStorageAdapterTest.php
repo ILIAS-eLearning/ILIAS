@@ -25,7 +25,7 @@ use ILIAS\Authentication\KeyValueStorage\UiStorageAdapter;
 use ILIAS\KeyValueStorage\Internal\KeyRules;
 use ILIAS\KeyValueStorage\Internal\NamespacedStore;
 use ILIAS\KeyValueStorage\Internal\Values;
-use ILIAS\KeyValueStorage\StorageNamespace;
+use ILIAS\KeyValueStorage\Internal\StorageNamespace;
 use ILIAS\UI\Implementation\Component\Navigation\Sequence\Sequence;
 use ILIAS\UI\Implementation\Component\Table\Data;
 use ILIAS\UI\Implementation\Component\Table\Ordering;
@@ -42,7 +42,7 @@ class UiStorageAdapterTest extends TestCase
     {
         $_SESSION = [];
         $this->adapter = new UiStorageAdapter(new NamespacedStore(
-            new StorageNamespace('ui.storage'),
+            new StorageNamespace(['ui', 'storage']),
             new SessionRepository(),
             new KeyRules(),
             new Values()

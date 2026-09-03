@@ -20,12 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\KeyValueStorage;
 
+use ILIAS\KeyValueStorage\Internal\StorageNamespace;
+
 /**
  * Persistence contract of one storage scope.
  *
  * Values are passed through as opaque strings; validation and encoding happen
- * above this layer. Implementations must isolate the namespaces from each other
- * and must not parse the values.
+ * above this layer.
  */
 interface Repository
 {

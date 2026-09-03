@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Tests\KeyValueStorage;
 
 use ILIAS\KeyValueStorage\Repository;
-use ILIAS\KeyValueStorage\StorageNamespace;
+use ILIAS\KeyValueStorage\Internal\StorageNamespace;
 
 class InMemoryRepository implements Repository
 {
