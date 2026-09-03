@@ -18,15 +18,21 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\StaticURL\Request;
-
-use ILIAS\HTTP\GlobalHttpState;
-use ILIAS\Refinery\Factory;
+namespace ILIAS\StaticURL\Legacy;
 
 /**
- * @author Fabian Schmid <fabian@sr.solutions>
+ * Hands out the language service. Handlers receive the legacy object itself
+ * through {@see \ILIAS\StaticURL\Context::lng()}, so this cannot narrow it down
+ * to the methods they call. Goes away once Language is wired through the
+ * component bootstrap.
+ *
+ * @internal
  */
-interface RequestBuilder
+class LanguageProxy
 {
-    public function buildRequest(GlobalHttpState $http, Factory $refinery, array $handlers): ?Request;
+    public function get(): \ilLanguage
+    {
+        global $DIC;
+        return $DIC->language();
+    }
 }

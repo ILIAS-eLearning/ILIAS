@@ -18,15 +18,21 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\StaticURL\Request;
-
-use ILIAS\HTTP\GlobalHttpState;
-use ILIAS\Refinery\Factory;
+namespace ILIAS\StaticURL\Legacy;
 
 /**
- * @author Fabian Schmid <fabian@sr.solutions>
+ * Read access to the global settings {@see \ILIAS\StaticURL\Context} asks for.
+ * Goes away once settings are wired through the component bootstrap.
+ *
+ * @internal
  */
-interface RequestBuilder
+class SettingsProxy
 {
-    public function buildRequest(GlobalHttpState $http, Factory $refinery, array $handlers): ?Request;
+    public function get(string $keyword, ?string $default = null): ?string
+    {
+        global $DIC;
+        $value = $DIC->settings()->get($keyword);
+
+        return $value === false || $value === null ? $default : (string) $value;
+    }
 }
