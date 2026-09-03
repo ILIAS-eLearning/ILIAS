@@ -66,7 +66,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
             $this->write_access
         );
         $this->file_object_settings = new \ILIAS\components\File\Settings\Form(
-            new General(),
+            new General($DIC->database()),
             $this->write_access
         );
         $this->ui_factory = $DIC->ui()->factory();
