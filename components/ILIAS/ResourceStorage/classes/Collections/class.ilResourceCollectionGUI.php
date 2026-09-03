@@ -27,6 +27,7 @@ use ILIAS\components\ResourceStorage\Collections\View\UploadStorer;
 use ILIAS\components\ResourceStorage\Collections\View\ViewFactory;
 use ILIAS\components\ResourceStorage\Collections\DataProvider\TableDataProvider;
 use ILIAS\components\ResourceStorage\BinToHexSerializer;
+use ILIAS\components\ResourceStorage\ChunkedUploadBuffer;
 use ILIAS\components\ResourceStorage\Collections\View\ActionBuilder;
 use ILIAS\components\ResourceStorage\Collections\View\ViewControlBuilder;
 use ILIAS\components\ResourceStorage\Collections\View\UploadBuilder;
@@ -42,6 +43,7 @@ use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
 class ilResourceCollectionGUI implements UploadHandler
 {
     use BinToHexSerializer;
+    use ChunkedUploadBuffer;
 
     public const P_RESOURCE_ID = 'resource_id';
     public const P_RESOURCE_IDS = 'resource_ids';
@@ -89,6 +91,7 @@ class ilResourceCollectionGUI implements UploadHandler
         $this->upload = $DIC->upload();
         $this->archive = $DIC->archives();
         $this->preview_definition = new PreviewDefinition();
+        $this->initChunkedUploadBuffer();
 
         $this->view_request = new Request(
             $DIC->ctrl(),
@@ -216,23 +219,46 @@ class ilResourceCollectionGUI implements UploadHandler
             $this->abortWithPermissionDenied();
             return;
         }
+        $this->readChunkInformation();
         $this->upload->process();
         if (!$this->upload->hasUploads()) {
             return;
         }
+
+        $this->sendHandlerResult(
+            $this->isChunkedUpload() ? $this->storeChunk() : $this->storeUploads()
+        );
+    }
+
+    /**
+     * Stores every file of the request in the collection. A request can carry
+     * more than one file, and the outcome has to cover all of them: reporting
+     * success unconditionally hid both files rejected by a pre-processor and
+     * files dropped because a resource of that name already existed.
+     */
+    private function storeUploads(): BasicHandlerResult
+    {
         $collection = $this->view_request->getCollection();
         $stakeholder = $this->view_configuration->getStakeholder();
         $on_duplicate = $this->view_request->getOnDuplicate();
         $storer = new UploadStorer($this->irss->manage(), $this->irss->collection());
+
+        $results = $this->upload->getResults();
+        $stored_all = $results !== [];
+        $message = '';
         $rid = null;
-        foreach ($this->upload->getResults() as $result) {
+
+        foreach ($results as $result) {
             if (!$result->isOK()) {
+                $stored_all = false;
+                $message = $result->getStatus()->getMessage();
                 continue;
             }
 
             $stored_rid = $storer->store($collection, $stakeholder, $on_duplicate, $result);
             if ($stored_rid === null) {
                 // the upload was rejected (OnDuplicate::REJECT), nothing was stored
+                $stored_all = false;
                 continue;
             }
             $rid = $stored_rid;
@@ -244,13 +270,53 @@ class ilResourceCollectionGUI implements UploadHandler
             );
         }
         $this->irss->collection()->store($collection);
-        $upload_result = new BasicHandlerResult(
-            self::P_RESOURCE_ID,
-            BasicHandlerResult::STATUS_OK,
-            $rid?->serialize() ?? '',
-            ''
+
+        return $stored_all
+            ? new BasicHandlerResult(self::P_RESOURCE_ID, BasicHandlerResult::STATUS_OK, $rid?->serialize() ?? '', '')
+            : $this->failedResult($message);
+    }
+
+    /**
+     * A reassembled upload has no UploadResult to hand to the storer, so it is
+     * stored from a stream instead - the duplicate handling is the same.
+     */
+    private function storeChunk(): BasicHandlerResult
+    {
+        return $this->assembleChunk(
+            $this->upload->getResults(),
+            function (string $assembled_path, string $file_name): ?string {
+                $collection = $this->view_request->getCollection();
+                $storer = new UploadStorer($this->irss->manage(), $this->irss->collection());
+
+                $stream = Streams::ofResource(fopen($assembled_path, 'rb'));
+                try {
+                    $rid = $storer->storeStream(
+                        $collection,
+                        $this->view_configuration->getStakeholder(),
+                        $this->view_request->getOnDuplicate(),
+                        $stream,
+                        $file_name
+                    );
+                } finally {
+                    $stream->close();
+                }
+
+                if ($rid === null) {
+                    // the upload was rejected (OnDuplicate::REJECT), nothing was stored
+                    return null;
+                }
+
+                $this->irss->flavours()->ensure($rid, $this->preview_definition);
+                $this->irss->collection()->store($collection);
+
+                return $rid->serialize();
+            }
         );
-        $response = $this->http->response()->withBody(Streams::ofString(json_encode($upload_result)));
+    }
+
+    private function sendHandlerResult(BasicHandlerResult $result): never
+    {
+        $response = $this->http->response()->withBody(Streams::ofString(json_encode($result)));
         $this->http->saveResponse($response);
         $this->http->sendResponse();
         $this->http->close();
@@ -524,6 +590,6 @@ class ilResourceCollectionGUI implements UploadHandler
 
     public function supportsChunkedUploads(): bool
     {
-        return false;
+        return true;
     }
 }
