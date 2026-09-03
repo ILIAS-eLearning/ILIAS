@@ -154,6 +154,7 @@ class ilCmiXapiImporter extends ilXmlImporter
                 $webDataDir = ilFileUtils::getWebspaceDir();
                 $this->archives->unzip($webDataDir . "/" . $this->_relWebDir . "/content.zip");
                 $this->filesystemWeb->delete($this->_relWebDir . '/content.zip');
+                ilFileUtils::renameExecutables($webDataDir . "/" . $this->_relWebDir);
             }
         } else {
             exit($this->_relImportDir . 'not found');
