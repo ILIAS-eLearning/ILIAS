@@ -151,7 +151,7 @@ class ParticipantTable implements DataRetrieval
                     $record->getAttemptOverviewInformation()?->getNrOfAnsweredQuestions(),
                     $record->getAttemptOverviewInformation()?->getNrOfTotalQuestions()
                 );
-                $row['percent_of_available_points'] = $record->getAttemptOverviewInformation()?->getReachedPointsInPercent();
+                $row['percent_of_available_points'] = $record->getAttemptOverviewInformation()?->getReachedPointsInPercent() ?? 0.0;
             }
 
             if ($status_of_attempt->isFinished()) {
