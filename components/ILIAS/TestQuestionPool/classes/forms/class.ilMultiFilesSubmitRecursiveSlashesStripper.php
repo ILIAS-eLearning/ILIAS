@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Scripts\PHPStan\Attributes\AllowSuperglobalWrite;
+
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  */
@@ -64,6 +66,7 @@ class ilMultiFilesSubmitRecursiveSlashesStripper implements ilFormValuesManipula
     /**
      * perform the strip slashing on files submit
      */
+    #[AllowSuperglobalWrite('strips slashes in $_FILES[postVar], because the inherited getInput() reads it back from there.', 12)]
     protected function manipulateFileSubmitValues(): void
     {
         if ($_FILES) {

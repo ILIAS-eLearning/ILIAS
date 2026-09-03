@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Scripts\PHPStan\Attributes\AllowSuperglobalWrite;
+
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  */
@@ -65,6 +67,7 @@ class ilIdentifiedMultiFilesJsPositionIndexRemover extends ilIdentifiedMultiValu
         return true;
     }
 
+    #[AllowSuperglobalWrite('normalises the shape of $_FILES[postVar], because the inherited getInput() reads it back from there.', 12)]
     protected function prepareFileSubmit(): void
     {
         $_FILES[$this->getPostVar()] = $this->prepareMultiFilesSubmitValues(

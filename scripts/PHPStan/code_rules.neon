@@ -1,0 +1,30 @@
+rules:
+    - ILIAS\Scripts\PHPStan\Rules\SuperGlobals\SuperglobalAssignRule
+    - ILIAS\Scripts\PHPStan\Rules\SuperGlobals\SuperglobalAssignOpRule
+    - ILIAS\Scripts\PHPStan\Rules\SuperGlobals\SuperglobalAssignRefRule
+services:
+    errorFormatter.stepSummary:
+        class: ILIAS\Scripts\PHPStan\ErrorFormatter\StepSummaryFormatter
+parameters:
+    tmpDir: %currentWorkingDirectory%/scripts/PHPStan/.cache/code-rules
+    parallel:
+        maximumNumberOfProcesses: 10
+    customRulesetUsed: true
+    bootstrapFiles:
+        - constants.php
+    excludePaths:
+        - '%currentWorkingDirectory%/vendor/*'
+        - '%currentWorkingDirectory%/Customizing/*'
+        - '%currentWorkingDirectory%/scripts/*'
+        - '%currentWorkingDirectory%/data/*'
+        - '%currentWorkingDirectory%/dicto/*'
+        - '%currentWorkingDirectory%/public/*'
+        - '%currentWorkingDirectory%/docs/*'
+        - '%currentWorkingDirectory%/lang/*'
+        - '%currentWorkingDirectory%/soap/lib/*'
+        - '%currentWorkingDirectory%/node_modules/*'
+        - '%currentWorkingDirectory%/templates/*'
+        - '%currentWorkingDirectory%/xml/*'
+        - '%currentWorkingDirectory%/.github/*'
+        - '%currentWorkingDirectory%/**/mediawiki/*'
+        - '%currentWorkingDirectory%/**/Wiki/libs/*'

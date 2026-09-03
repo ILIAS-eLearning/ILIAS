@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Scripts\PHPStan\Attributes\AllowSuperglobalWrite;
+
 class ilDclRecordEditGUI
 {
     /**
@@ -486,6 +488,10 @@ class ilDclRecordEditGUI
     /**
      * Save record
      */
+    #[AllowSuperglobalWrite(
+        'adds a $_FILES entry for every file input the form expects, because the legacy file inputs read their state from there. The placeholders come from the request, so the shape of the added entries is client-controlled; narrowing this to the field names the form knows is open work.',
+        12
+    )]
     public function save(): void
     {
         global $DIC;

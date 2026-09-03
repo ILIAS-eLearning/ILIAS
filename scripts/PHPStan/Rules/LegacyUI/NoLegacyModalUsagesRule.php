@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Scripts\PHPStan\Rules;
+namespace ILIAS\Scripts\PHPStan\Rules\LegacyUI;
 
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
@@ -24,11 +24,11 @@ use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\RuleErrorBuilder;
 
-class NoLegacyTextHighlighterUsagesRule extends LegacyClassUsageRule implements Rule
+class NoLegacyModalUsagesRule extends LegacyClassUsageRule implements Rule
 {
     protected function getHumanReadableRuleName(): string
     {
-        return 'Legacy Text Highlighter Usages';
+        return 'Legacy Modal Usages';
     }
 
     protected function getRelevantILIASVersion(): int
@@ -39,6 +39,6 @@ class NoLegacyTextHighlighterUsagesRule extends LegacyClassUsageRule implements 
 
     protected function getForbiddenClasses(): array
     {
-        return ['ilTextHighlighterGUI'];
+        return ['ilModalGUI'];
     }
 }

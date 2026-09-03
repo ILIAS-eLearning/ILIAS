@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Scripts\PHPStan\Rules;
+namespace ILIAS\Scripts\PHPStan\Rules\LegacyUI;
 
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
@@ -24,11 +24,11 @@ use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\RuleErrorBuilder;
 
-class NoLegacyExplorerUsagesRule extends LegacyClassUsageRule implements Rule
+class NoLegacyProgressBarUsagesRule extends LegacyClassUsageRule implements Rule
 {
     protected function getHumanReadableRuleName(): string
     {
-        return 'Legacy Explorer Usages';
+        return 'Legacy Progress Bar Usages';
     }
 
     protected function getRelevantILIASVersion(): int
@@ -39,6 +39,6 @@ class NoLegacyExplorerUsagesRule extends LegacyClassUsageRule implements Rule
 
     protected function getForbiddenClasses(): array
     {
-        return ['ilExplorer', 'ilExplorerBaseGUI', 'ilTreeExplorerGUI'];
+        return ['ilProgressBar'];
     }
 }

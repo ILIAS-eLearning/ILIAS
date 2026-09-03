@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Scripts\PHPStan\Attributes\AllowSuperglobalWrite;
+
 /**
  * Soap user administration methods
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -30,6 +32,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
     /**
      * @return soap_fault|SoapFault|string|null
      */
+    #[AllowSuperglobalWrite('the SOAP entry point has no cookies of its own; the client id has to be visible to initIlias().', 12)]
     public function login(string $client, string $username, string $password)
     {
         unset($_COOKIE[session_name()]);

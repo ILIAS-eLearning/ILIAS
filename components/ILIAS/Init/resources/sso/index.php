@@ -41,6 +41,7 @@ if (isset($_GET['client_id'])) {
     }
 
     setcookie('ilClientId', $_GET['client_id'], 0, $cookie_path, '');
+    // @phpstan-ignore ilias.superglobalWrite.v12 (the client id has to be visible to ilInitialisation, which runs before the HTTP service exists)
     $_COOKIE['ilClientId'] = $_GET['client_id'];
 }
 

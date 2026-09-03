@@ -2,20 +2,20 @@ services:
 	errorFormatter.csv:
 		class: \ILIAS\Scripts\PHPStan\ErrorFormatter\CSVFormatter
 rules:
-    - ILIAS\Scripts\PHPStan\Rules\NoLegacyButtonUsagesRule # ILIAS 9
-    - ILIAS\Scripts\PHPStan\Rules\NoLegacyCheckboxListUsagesRule # ILIAS 9
-    - ILIAS\Scripts\PHPStan\Rules\NoLegacyConfirmationUsagesRule # ILIAS 9
-    - ILIAS\Scripts\PHPStan\Rules\NoLegacyExplorerUsagesRule # ILIAS 10git
-    - ILIAS\Scripts\PHPStan\Rules\NoLegacyLightboxUsagesRule # ILIAS 10
-    - ILIAS\Scripts\PHPStan\Rules\NoLegacyModalUsagesRule # ILIAS 10
-    - ILIAS\Scripts\PHPStan\Rules\NoLegacyNestedListUsagesRule # ILIAS 10
-    - ILIAS\Scripts\PHPStan\Rules\NoLegacyPanelUsagesRule # ILIAS 10
-    - ILIAS\Scripts\PHPStan\Rules\NoLegacyProgressBarUsagesRule # ILIAS 10
-    - ILIAS\Scripts\PHPStan\Rules\NoLegacySyntaxHighlighterUsagesRule # ILIAS 10
-    - ILIAS\Scripts\PHPStan\Rules\NoLegacyTableUsagesRule # ILIAS 10
-    - ILIAS\Scripts\PHPStan\Rules\NoLegacyTextHighlighterUsagesRule # ILIAS 10
-    - ILIAS\Scripts\PHPStan\Rules\NoLegacyToolbarUsagesRule # ILIAS 10
-    - ILIAS\Scripts\PHPStan\Rules\NoLegacyTabsUsagesRule # ILIAS 10
+    - ILIAS\Scripts\PHPStan\Rules\LegacyUI\NoLegacyButtonUsagesRule # ILIAS 9
+    - ILIAS\Scripts\PHPStan\Rules\LegacyUI\NoLegacyCheckboxListUsagesRule # ILIAS 9
+    - ILIAS\Scripts\PHPStan\Rules\LegacyUI\NoLegacyConfirmationUsagesRule # ILIAS 9
+    - ILIAS\Scripts\PHPStan\Rules\LegacyUI\NoLegacyExplorerUsagesRule # ILIAS 10git
+    - ILIAS\Scripts\PHPStan\Rules\LegacyUI\NoLegacyLightboxUsagesRule # ILIAS 10
+    - ILIAS\Scripts\PHPStan\Rules\LegacyUI\NoLegacyModalUsagesRule # ILIAS 10
+    - ILIAS\Scripts\PHPStan\Rules\LegacyUI\NoLegacyNestedListUsagesRule # ILIAS 10
+    - ILIAS\Scripts\PHPStan\Rules\LegacyUI\NoLegacyPanelUsagesRule # ILIAS 10
+    - ILIAS\Scripts\PHPStan\Rules\LegacyUI\NoLegacyProgressBarUsagesRule # ILIAS 10
+    - ILIAS\Scripts\PHPStan\Rules\LegacyUI\NoLegacySyntaxHighlighterUsagesRule # ILIAS 10
+    - ILIAS\Scripts\PHPStan\Rules\LegacyUI\NoLegacyTableUsagesRule # ILIAS 10
+    - ILIAS\Scripts\PHPStan\Rules\LegacyUI\NoLegacyTextHighlighterUsagesRule # ILIAS 10
+    - ILIAS\Scripts\PHPStan\Rules\LegacyUI\NoLegacyToolbarUsagesRule # ILIAS 10
+    - ILIAS\Scripts\PHPStan\Rules\LegacyUI\NoLegacyTabsUsagesRule # ILIAS 10
 parameters:
     tmpDir: %currentWorkingDirectory%/tmp/phpstan
     parallel:

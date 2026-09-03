@@ -20,7 +20,10 @@ chdir('../../..');
 
 ilContext::init(ilContext::CONTEXT_REST);
 
-$_COOKIE['client_id'] = $_GET['client_id'] = $_REQUEST['client_id'];
+// @phpstan-ignore ilias.superglobalWrite.v12 (the client id has to be visible to ilInitialisation, which runs before the HTTP service exists)
+$_GET['client_id'] = $_REQUEST['client_id'];
+// @phpstan-ignore ilias.superglobalWrite.v12 (the client id has to be visible to ilInitialisation, which runs before the HTTP service exists)
+$_COOKIE['client_id'] = $_GET['client_id'];
 
 ilInitialisation::initILIAS();
 

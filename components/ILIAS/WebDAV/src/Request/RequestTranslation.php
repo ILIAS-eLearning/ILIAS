@@ -23,6 +23,7 @@ namespace ILIAS\WebDAV\Request;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\WebDAV\Config;
 use ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacement;
+use ILIAS\Scripts\PHPStan\Attributes\AllowSuperglobalWrite;
 
 /**
  * @internal
@@ -92,6 +93,12 @@ class RequestTranslation
         return array_key_exists($this->config->getMountInstructionsQuery(), $this->request->getQueryParams());
     }
 
+    #[AllowSuperglobalWrite(
+        'as long as we use '
+        . \ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacement::class
+        . ', we must cast back to array to make SabreDAV work.',
+        12
+    )]
     public function setup(): void
     {
         $this->post = $_POST;
@@ -99,6 +106,7 @@ class RequestTranslation
         $HTTP_POST_VARS = $_POST;
     }
 
+    #[AllowSuperglobalWrite('restores what setup() replaced, so the superglobal is left as SabreDAV found it.', 12)]
     public function close(): void
     {
         $_POST = $this->post;
