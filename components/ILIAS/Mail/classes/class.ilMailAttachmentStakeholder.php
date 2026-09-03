@@ -18,14 +18,11 @@
 
 declare(strict_types=1);
 
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
 
 class ilMailAttachmentStakeholder extends AbstractResourceStakeholder
 {
-    public function __construct()
-    {
-    }
-
     public function getId(): string
     {
         return 'mail_attachments';
@@ -33,6 +30,36 @@ class ilMailAttachmentStakeholder extends AbstractResourceStakeholder
 
     public function getOwnerOfNewResources(): int
     {
-        return 6;
+        return $this->default_owner;
+    }
+
+    public function getOwnerOfResource(ResourceIdentification $identification): int
+    {
+        return $this->default_owner;
+    }
+
+    public function canBeAccessedByCurrentUser(ResourceIdentification $identification): bool
+    {
+        global $DIC;
+
+        if (!$DIC->isDependencyAvailable('user') || !$DIC->isDependencyAvailable('database')) {
+            return false;
+        }
+
+        $user_id = $DIC->user()->getId();
+        $db = $DIC->database();
+        $rid = $identification->serialize();
+
+        $res = $db->queryF(
+            'SELECT 1 FROM il_resource_rca rca
+             INNER JOIN mail_attachment ma ON ma.rcid = rca.rcid
+             INNER JOIN mail m ON m.mail_id = ma.mail_id
+             WHERE rca.rid = %s AND m.user_id = %s
+             LIMIT 1',
+            [ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER],
+            [$rid, $user_id]
+        );
+
+        return $db->numRows($res) > 0;
     }
 }

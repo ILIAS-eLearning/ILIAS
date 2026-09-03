@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\EmployeeTalk\Notification;
 
+use ILIAS\Mail\Attachments\MailAttachments;
+
 class Notification
 {
     protected \ilObjUser $to;
@@ -117,10 +119,10 @@ class Notification
         }
 
         $attachment_name = 'appointments.ics';
-        $attachment->storeAsAttachment(
-            $attachment_name,
-            $this->attachment
-        );
+        $rcid = $attachment->createCollectionFromContent($attachment_name, $this->attachment);
+        $attachments = $rcid !== null
+            ? MailAttachments::fromIrss($rcid)
+            : MailAttachments::empty();
 
         $mail = new \ilMail(ANONYMOUS_USER_ID);
         $mail->enqueue(
@@ -129,10 +131,8 @@ class Notification
             '',
             $subject,
             $notif->composeAndGetMessage($this->to->getId(), null, '', true),
-            [$attachment_name]
+            $attachments
         );
-
-        $attachment->unlinkFile($attachment_name);
     }
 
     protected function getTalkGoto(): string

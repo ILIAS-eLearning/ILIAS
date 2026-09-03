@@ -22,6 +22,7 @@ namespace ILIAS\Notifications;
 
 use ILIAS\Notifications\Model\ilNotificationObject;
 use ilMail;
+use ILIAS\Mail\Attachments\MailAttachments;
 
 /**
  * @author Jan Posselt <jposselt@databay.de>
@@ -39,7 +40,7 @@ class ilNotificationMailHandler extends ilNotificationHandler
             '',
             $notification->title,
             $notification->longDescription,
-            []
+            MailAttachments::empty()
         );
     }
 }

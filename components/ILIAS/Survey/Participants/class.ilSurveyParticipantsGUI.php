@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Survey\CSVReader;
 use ILIAS\Survey\Participants;
+use ILIAS\Mail\Attachments\MailAttachments;
 
 /**
  * Class ilSurveyParticipantsGUI
@@ -1746,7 +1747,7 @@ class ilSurveyParticipantsGUI
                         "", // bcc
                         $subj, // subject
                         $mytxt, // message
-                        array() // attachments
+                        MailAttachments::empty() // attachments
                     );
 
                     $this->object->set360RaterSent(

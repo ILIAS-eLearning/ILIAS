@@ -23,6 +23,7 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\User\Settings\NewAccountMail\Repository as NewAccountMailRepository;
 use ILIAS\User\Settings\NewAccountMail\Mail as NewAccountMail;
 use ILIAS\ResourceStorage\Services as ResourceStorage;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 class ilAccountMail
 {
@@ -169,9 +170,19 @@ class ilAccountMail
             $mail_body .= $tmp_lang->txt('reg_mail_body_text3') . "\n\r";
             $mail_body .= $user->getProfileAsString($tmp_lang);
         } else {
-            $attachment = $amail->getAttachment($this->irss);
-            if ($attachment !== null) {
-                $mmail->Attach($attachment->getPath(), '', 'attachment', $attachment->getFilename());
+            if ($amail->getAttachmentRid() !== null) {
+                $rid = $this->irss->manage()->find($amail->getAttachmentRid());
+                if ($rid instanceof ResourceIdentification) {
+                    $filename = $this->irss->manage()->getCurrentRevision($rid)->getInformation()->getTitle();
+                    $mmail->AttachResource($rid, $filename);
+                }
+            } else {
+                $attachment = $amail->getAttachment($this->irss);
+                if ($attachment !== null && is_file($attachment->getPath())) {
+                    $file_data_mail = new ilFileDataMail(ANONYMOUS_USER_ID);
+                    $rid = $file_data_mail->streamFromPath($attachment->getPath());
+                    $mmail->AttachResource($rid, $attachment->getFilename());
+                }
             }
 
             // replace placeholders

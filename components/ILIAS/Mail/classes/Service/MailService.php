@@ -62,7 +62,7 @@ class MailService
         };
 
         $container['mail.mime.transport.factory'] = static function (Container $c): ilMailMimeTransportFactory {
-            return new ilMailMimeTransportFactory($c->settings(), $c->event());
+            return new ilMailMimeTransportFactory($c->settings(), $c->event(), $c->resourceStorage());
         };
 
         $container['mail.mime.sender.factory'] = static function (Container $c): ilMailMimeSenderFactory {

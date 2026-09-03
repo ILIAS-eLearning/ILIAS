@@ -19,11 +19,13 @@
 declare(strict_types=1);
 
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Mail\Attachments\MailAttachments;
 use ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler;
 use ILIAS\FileUpload\Handler\FileInfoResult;
 use ILIAS\FileUpload\Handler\BasicHandlerResult;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Handler\HandlerResult;
+use ILIAS\FileUpload\Handler\BasicFileInfoResult;
 use ILIAS\Mail\Attachments\AttachmentManagement;
 use ILIAS\Mail\Attachments\MailAttachmentTableGUI;
 use ILIAS\Mail\Attachments\MailAttachmentCommands;
@@ -112,12 +114,6 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
 
     private function saveAttachments(): void
     {
-        $files = [];
-
-        // Important: Do not check for uploaded files here,
-        // otherwise it is no more possible to remove files (please ignore bug reports like 10137)
-
-        $size_of_affected_files = 0;
         $files_of_request = $this->http->wrapper()->query()->retrieve(
             'mail_attachments_filename',
             $this->refinery->byTrying([
@@ -127,22 +123,23 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
         );
 
         if ($files_of_request !== [] && $files_of_request[0] === 'ALL_OBJECTS') {
-            $files_of_request = array_map(static fn(array $file): string => $file['name'], $this->fdm->getUserFilesData());
+            $files_of_request = array_map(static fn(array $file): string => $file['rid'], $this->fdm->getUserPoolFilesData());
         }
 
-        foreach ($files_of_request as $file) {
-            if (is_file($this->fdm->getMailPath() . '/' . basename($this->user->getId() . '_' . urldecode((string) $file)))) {
-                $files[] = urldecode((string) $file);
-                $size_of_affected_files += filesize(
-                    $this->fdm->getMailPath() . '/' .
-                    basename($this->user->getId() . '_' . urldecode((string) $file))
-                );
-            }
+        $resource_identifications = $this->fdm->resolvePoolIdentifiersToResources($files_of_request);
+        $size_of_affected_files = 0;
+        foreach ($resource_identifications as $rid) {
+            $size_of_affected_files += $this->storage->manage()->getCurrentRevision($rid)->getInformation()->getSize();
         }
 
-        if ($files !== [] &&
-            $this->fdm->getAttachmentsTotalSizeLimit() !== null &&
-            $size_of_affected_files > $this->fdm->getAttachmentsTotalSizeLimit()) {
+        if ($resource_identifications === []) {
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('select_one'), true);
+            $this->showAttachmentsCommand();
+            return;
+        }
+
+        if ($this->fdm->getAttachmentsTotalSizeLimit() !== null
+            && $size_of_affected_files > $this->fdm->getAttachmentsTotalSizeLimit()) {
             $this->tpl->setOnScreenMessage(
                 $this->tpl::MESSAGE_TYPE_FAILURE,
                 $this->lng->txt('mail_max_size_attachments_total_error') . ' ' .
@@ -152,10 +149,26 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
             return;
         }
 
-        $rcid_for_files = $this->getIdforCollection($files);
-        $this->umail->saveAttachments($rcid_for_files);
+        try {
+            $mail_data = $this->umail->retrieveFromStage();
+            $stage_attachments = $mail_data['attachments'] ?? null;
+            $existing_rcid = ($stage_attachments instanceof MailAttachments && $stage_attachments->isIrss())
+                ? $stage_attachments->rcid()
+                : null;
 
-        $this->ctrl->returnToParent($this);
+            $rcid = $this->fdm->adoptPoolResourcesToCollection($existing_rcid, $resource_identifications);
+            if ($rcid === null) {
+                throw new RuntimeException($this->lng->txt('mail_error_reading_attachment'));
+            }
+
+            $this->umail->saveAttachments(MailAttachments::fromIrss($rcid));
+        } catch (Throwable $e) {
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_FAILURE, $e->getMessage(), true);
+            $this->showAttachmentsCommand();
+            return;
+        }
+
+        $this->ctrl->redirectByClass(ilMailFormGUI::class, 'returnFromAttachments');
     }
 
     private function cancelSaveAttachmentsCommand(): void
@@ -175,7 +188,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
         );
 
         if ($files !== [] && $files[0] === 'ALL_OBJECTS') {
-            $files = array_map(static fn(array $file): string => $file['name'], $this->fdm->getUserFilesData());
+            $files = array_map(static fn(array $file): string => $file['rid'], $this->fdm->getUserPoolFilesData());
         }
 
         if ($files === []) {
@@ -191,11 +204,17 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
         $confirmation->setCancel($this->lng->txt('cancel'), self::CMD_SHOW_ATTACHMENTS);
         $confirmation->setHeaderText($this->lng->txt('mail_sure_delete_file'));
 
-        foreach ($files as $filename) {
+        foreach ($files as $rid_string) {
+            $title = (string) $rid_string;
+            $rid = $this->storage->manage()->find($title);
+            if ($rid !== null) {
+                $title = $this->storage->manage()->getCurrentRevision($rid)->getInformation()->getTitle();
+            }
+
             $confirmation->addItem(
                 'filename[]',
-                ilUtil::stripSlashes($filename),
-                ilUtil::stripSlashes(urldecode((string) $filename))
+                ilUtil::stripSlashes((string) $rid_string),
+                ilUtil::stripSlashes($title)
             );
         }
 
@@ -219,34 +238,20 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
             return;
         }
 
-        $decoded_files = [];
-        foreach ($files as $value) {
-            $decoded_files[] = urldecode((string) $value);
-        }
-
-        $error = $this->fdm->unlinkFiles($decoded_files);
-        if ($error !== '') {
-            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('mail_error_delete_file') . ' ' . $error, true);
-        } else {
-            $mail_data = $this->umail->retrieveFromStage();
-            if (!is_null($mail_data['attachments'])) {
-                $files_to_legacy = $this->FilesFromIRSSToLegacy($mail_data['attachments']);
-                $files = $this->handleAttachments($files_to_legacy);
-                $rcid = null;
-                if (is_array($files)) {
-                    foreach ($files as $attachment) {
-                        $tmp = [];
-                        if (!in_array($attachment, $decoded_files, true)) {
-                            $tmp[] = $attachment;
-                        }
-                        $rcid = $this->getIdforCollection($tmp);
-                    }
-                    $this->umail->saveAttachments($rcid);
-                }
+        foreach ($files as $rid_string) {
+            $rid_string = (string) $rid_string;
+            if ($this->fdm->isLegacyPoolItemIdentifier($rid_string)) {
+                $this->fdm->unlinkFile($this->fdm->legacyPoolFilenameFromIdentifier($rid_string));
+                continue;
             }
 
-            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('mail_files_deleted'), true);
+            $rid = $this->storage->manage()->find($rid_string);
+            if ($rid !== null) {
+                $this->fdm->removeFromPool($rid);
+            }
         }
+
+        $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('mail_files_deleted'), true);
 
         $this->ctrl->redirect($this);
     }
@@ -288,15 +293,24 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
         }
 
         $mail_data = $this->umail->retrieveFromStage();
-        $files = $this->fdm->getUserFilesData();
+        $stage_attachments = $mail_data['attachments'] ?? null;
+        $adopted_pool_hashes = [];
+        if ($stage_attachments instanceof MailAttachments && $stage_attachments->isIrss()) {
+            foreach ($this->fdm->getAttachmentListing($stage_attachments->rcid()) as $file) {
+                $adopted_pool_hashes[$file['md5']] = true;
+            }
+        }
+
+        $files = $this->fdm->getUserPoolFilesData();
         $records = [];
         $checked_items = [];
         foreach ($files as $file) {
-            if (is_array($mail_data['attachments']) && in_array($file['name'], $mail_data['attachments'], true)) {
-                $checked_items[] = urlencode($file['name']);
+            if (isset($adopted_pool_hashes[$file['md5']])) {
+                $checked_items[] = $file['rid'];
             }
 
             $records[] = [
+                'rid' => $file['rid'],
                 'filename' => $file['name'],
                 'filesize' => (int) $file['size'],
                 'filecreatedate' => (int) $file['ctime'],
@@ -340,6 +354,12 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
     {
         $query = $this->http->wrapper()->query();
         if (!$query->has('mail_attachments_table_action')) {
+            $this->tpl->setOnScreenMessage(
+                $this->tpl::MESSAGE_TYPE_FAILURE,
+                $this->lng->txt('select_one'),
+                true
+            );
+            $this->showAttachmentsCommand();
             return;
         }
 
@@ -347,7 +367,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
         match ($action) {
             self::TABLE_ACTION_SAVE_ATTACHMENTS => $this->saveAttachments(),
             self::TABLE_CONFIRM_DELETE_ATTACHMENTS => $this->confirmDeleteAttachments(),
-            default => $this->ctrl->redirect($this),
+            default => $this->showAttachmentsCommand(),
         };
     }
 
@@ -358,14 +378,15 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
         $result = end($array);
 
         if ($result instanceof UploadResult && $result->isOK()) {
-            $identifier = $this->fdm->storeUploadedFile($result);
+            $rid = $this->fdm->uploadToPool($result);
             $status = HandlerResult::STATUS_OK;
+            $identifier = $rid->serialize();
             $message = $this->lng->txt('saved_successfully');
             $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('saved_successfully'), true);
         } else {
             $status = HandlerResult::STATUS_FAILED;
             $identifier = '';
-            $message = $result->getStatus()->getMessage();
+            $message = $result instanceof UploadResult ? $result->getStatus()->getMessage() : '';
         }
 
         return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
@@ -373,17 +394,43 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
 
     protected function getRemoveResult(string $identifier): HandlerResult
     {
-        throw new DomainException('Not necessary for this handler');
+        return new BasicHandlerResult(
+            $this->getFileIdentifierParameterName(),
+            HandlerResult::STATUS_OK,
+            $identifier,
+            'file deleted'
+        );
     }
 
     public function getInfoResult(string $identifier): ?FileInfoResult
     {
-        throw new DomainException('Not necessary for this handler');
+        $rid = $this->storage->manage()->find($identifier);
+        if ($rid === null) {
+            return new BasicFileInfoResult($this->getFileIdentifierParameterName(), 'unknown', 'unknown', 0, 'unknown');
+        }
+
+        $info = $this->storage->manage()->getCurrentRevision($rid)->getInformation();
+
+        return new BasicFileInfoResult(
+            $this->getFileIdentifierParameterName(),
+            $identifier,
+            $info->getTitle(),
+            $info->getSize(),
+            $info->getMimeType()
+        );
     }
 
     public function getInfoForExistingFiles(array $file_ids): array
     {
-        throw new DomainException('Not necessary for this handler');
+        $infos = [];
+        foreach ($file_ids as $file_id) {
+            $info = $this->getInfoResult($file_id);
+            if ($info !== null) {
+                $infos[] = $info;
+            }
+        }
+
+        return $infos;
     }
 
     public function getFileIdentifierParameterName(): string

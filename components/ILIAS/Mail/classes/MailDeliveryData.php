@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Mail\Attachments\MailAttachments;
+
 final class MailDeliveryData
 {
     public function __construct(
@@ -26,7 +28,7 @@ final class MailDeliveryData
         private readonly string $bcc,
         private readonly string $subject,
         private readonly string $message,
-        private readonly array $attachments,
+        private MailAttachments $attachments,
         private readonly bool $use_placeholder,
         private ?int $internal_mail_id = null
     ) {
@@ -57,7 +59,7 @@ final class MailDeliveryData
         return $this->message;
     }
 
-    public function getAttachments(): array
+    public function getAttachments(): MailAttachments
     {
         return $this->attachments;
     }
@@ -76,6 +78,13 @@ final class MailDeliveryData
     {
         $clone = clone $this;
         $clone->internal_mail_id = $internal_mail_id;
+        return $clone;
+    }
+
+    public function withAttachments(MailAttachments $attachments): MailDeliveryData
+    {
+        $clone = clone $this;
+        $clone->attachments = $attachments;
         return $clone;
     }
 }

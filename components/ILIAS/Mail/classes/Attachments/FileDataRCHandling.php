@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\Mail\Attachments\MailAttachments;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
-use ILIAS\ResourceStorage\Collection\ResourceCollection;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 trait FileDataRCHandling
 {
@@ -28,111 +28,122 @@ trait FileDataRCHandling
      * @param list<string> $path_to_files
      */
     protected function getCurrentCollection(
-        array $path_to_files,
-        ilMailAttachmentStakeholder $stakeholder
+        array $path_to_files
     ): \ILIAS\ResourceStorage\Collection\ResourceCollection {
-        set_error_handler(static function ($severity, $message, $file, $line): void {
-            throw new ErrorException($message, $severity, 0, $file, $line);
-        });
-
-        try {
-            global $DIC;
-            $file_system = $DIC->filesystem()->storage();
-            $rcid = $this->storage->collection()->id();
-            $collection = $this->storage->collection()->get($rcid);
-            foreach ($path_to_files as $path_to_file) {
-                $base_dir = (new \ILIAS\FileDelivery\Setup\BaseDirObjective())::get();
-                $path_to_file = str_replace($base_dir, '/', $path_to_file);
-                $rid = $this->storage->manage()->stream(
-                    $file_system->readStream($path_to_file),
-                    $stakeholder,
-                    md5(basename($path_to_file))
-                );
-                $collection->add($rid);
-            }
-            $this->storage->collection()->store($collection);
-        } catch (Exception $e) {
-            throw new Exception("Storing file into collection failed: " . $e->getMessage());
-        } finally {
-            restore_error_handler();
+        $rcid = $this->fdm->createCollectionFromPaths($path_to_files);
+        if ($rcid === null) {
+            throw new Exception('Storing file into collection failed: no files found');
         }
 
-        return $collection;
+        return $this->fdm->getCollection($rcid);
     }
 
-    /**
-     * @param array<string, mixed> $mail_data
-     * @return list<string>
-     */
-    public function filesFromLegacyToIRSS(array $mail_data): array
-    {
-        $files = [];
-        $path_to_files = [];
-        foreach ($mail_data['attachments'] as $file) {
-            $path_to_files[] = $this->fdm->getAbsoluteAttachmentPoolPathByFilename($file);
-        }
-        $collection = $this->getCurrentCollection($path_to_files, new ilMailAttachmentStakeholder());
-        foreach ($collection->getResourceIdentifications() as $rcid) {
-            $files[] = $rcid->serialize();
-        }
 
-        return $files;
-    }
-
-    /**
-     * @param array<string, mixed> $mail_data
-     */
-    public function getIdforCollection(array $mail_data): ?ResourceCollectionIdentification
-    {
-        $files = [];
-        $path_to_files = [];
-        foreach ($mail_data as $attachment) {
-            $path_to_files[] = $this->fdm->getAbsoluteAttachmentPoolPathByFilename($attachment);
-        }
-        $collection = $this->getCurrentCollection($path_to_files, new ilMailAttachmentStakeholder());
-        $rcid = $collection->getIdentification();
-
-        return $rcid;
-    }
 
     /**
      * @return list<string>
      */
     public function FilesFromIRSSToLegacy(ResourceCollectionIdentification $identification): array
     {
-        $files = [];
-        $collection = $this->storage->collection()->get($identification);
-        $all_ids = $collection->getResourceIdentifications();
-        foreach ($all_ids as $id) {
-            $files[] = $id->serialize();
+        return $this->fdm->getRidsFromCollection($identification);
+    }
+
+    /**
+     * @param list<string> $form_attachment_rids
+     */
+    protected function attachmentsFromFormUpload(
+        array $form_attachment_rids,
+        ?MailAttachments $stage_attachments = null
+    ): MailAttachments {
+        if ($form_attachment_rids === []) {
+            return $stage_attachments ?? MailAttachments::empty();
         }
 
-        return $files;
+        $resource_identifications = [];
+        foreach ($form_attachment_rids as $attachment) {
+            $found = $this->storage->manage()->find($attachment);
+            if ($found === null) {
+                continue;
+            }
+            $resource_identifications[] = $found;
+        }
+
+        if ($resource_identifications === []) {
+            return $stage_attachments ?? MailAttachments::empty();
+        }
+
+        $stage_rcid = ($stage_attachments instanceof MailAttachments && $stage_attachments->isIrss())
+            ? $stage_attachments->rcid()
+            : null;
+
+        if ($stage_rcid !== null && $this->fdm->collectionContainsResources($stage_rcid, $resource_identifications)) {
+            return MailAttachments::fromIrss($stage_rcid);
+        }
+
+        return MailAttachments::fromIrss(
+            $this->fdm->createCollectionFromResourceIdentifications($resource_identifications)
+        );
     }
 
     /**
      * @param array<string, mixed> $attachments
-     * @return list<string>
      */
-    protected function handleAttachments(array $attachments): array
+    protected function handleAttachments(array $attachments): ResourceCollectionIdentification
     {
-        $files = [];
+        $resource_identifications = [];
         foreach ($attachments as $attachment) {
             $info = $this->upload_handler->getInfoResult($attachment);
-            if ($info->getFileIdentifier() !== 'unknown') {
-                $src = $this->upload_handler->getStreamConsumer($attachment);
-                $stored = $this->fdm->storeAsAttachment(
-                    $info->getName(),
-                    (string) $src->getStream()
-                );
-                if ($stored === false) {
-                    throw new Exception("File '" . $info->getName() . "' could not be stored");
-                }
-                $files[] = ilFileUtils::_sanitizeFilemame($info->getName());
-                $this->upload_handler->removeFileForIdentifier($attachment);
+            if ($info->getFileIdentifier() === 'unknown') {
+                continue;
             }
+            $found = $this->storage->manage()->find($attachment);
+            if ($found === null) {
+                throw new Exception("File '" . $info->getName() . "' could not be found in IRSS");
+            }
+            $resource_identifications[] = $found;
         }
 
-        return $files;
+        if ($resource_identifications === []) {
+            throw new Exception('No attachments could be stored');
+        }
+
+        return $this->fdm->createCollectionFromResourceIdentifications($resource_identifications);
+    }
+
+    protected function stageAttachmentsFromMailAttachments(MailAttachments $attachments): MailAttachments
+    {
+        if ($attachments->isEmpty()) {
+            return MailAttachments::empty();
+        }
+
+        if ($attachments->isIrss()) {
+            $foreign = iterator_to_array(
+                $this->fdm->getCollection($attachments->rcid())->getResourceIdentifications(),
+                false
+            );
+            $cloned_rcid = $this->fdm->createCollectionFromForeignResources($foreign);
+
+            return $cloned_rcid !== null
+                ? MailAttachments::fromIrss($cloned_rcid)
+                : MailAttachments::empty();
+        }
+
+        $rcid = $this->fdm->createCollectionFromPoolFilenames($attachments->legacyFilenames());
+
+        return $rcid !== null
+            ? MailAttachments::fromIrss($rcid)
+            : MailAttachments::empty();
+    }
+
+    /**
+     * @return list<string>
+     */
+    protected function formRidsFromMailAttachments(MailAttachments $attachments): array
+    {
+        if ($attachments->isIrss()) {
+            return $this->FilesFromIRSSToLegacy($attachments->rcid());
+        }
+
+        return [];
     }
 }

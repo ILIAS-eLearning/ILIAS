@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Mail\Folder;
 
+use ILIAS\Mail\Attachments\MailAttachments;
 use Generator;
 use DateTimeZone;
 use ilDBConstants;
@@ -78,7 +79,7 @@ readonly class OutboxDatabaseRepository implements OutboxRepository
                     $row['rcp_bcc'],
                     $row['m_subject'],
                     $row['m_message'],
-                    $row['attachments'],
+                    $row['attachments'] ?? MailAttachments::empty(),
                     (bool) ($row['use_placeholders'] ?? false),
                     isset($row['mail_id']) ? (int) $row['mail_id'] : null
                 );

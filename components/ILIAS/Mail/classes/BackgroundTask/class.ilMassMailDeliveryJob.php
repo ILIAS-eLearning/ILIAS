@@ -48,6 +48,7 @@ class ilMassMailDeliveryJob extends AbstractJob
             $mail = new ilMail((int) $input[0]->getValue());
 
             $mail->setSaveInSentbox($value_object->shouldSaveInSentBox());
+            $mail->setShareAttachments(true);
             $context_id = $input[2]->getValue();
             $mail = $mail
                 ->withContextId((string) $context_id)

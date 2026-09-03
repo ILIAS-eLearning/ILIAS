@@ -77,7 +77,7 @@ class ilForumMailNotification extends ilMailNotification
                 $this->appendBody($this->getLanguageText('attachment') . ': ' . $attachment . "\n");
             }
             $this->appendBody("\n------------------------------------------------------------\n");
-            $this->setAttachments($this->provider->getAttachments());
+            $this->setAttachments($this->provider->getMailAttachments());
         }
     }
 

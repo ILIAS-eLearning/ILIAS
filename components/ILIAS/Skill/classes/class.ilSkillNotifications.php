@@ -22,6 +22,7 @@ use ILIAS\Skill\Service\SkillTreeService;
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
 use ILIAS\Cron\CronJob;
+use ILIAS\Mail\Attachments\MailAttachments;
 
 /**
  * Course/group skill notification
@@ -233,7 +234,7 @@ class ilSkillNotifications extends CronJob
             "",
             $subject,
             $ntf->composeAndGetMessage($a_user_id, null, "read", true),
-            []
+            MailAttachments::empty()
         );
     }
 }
