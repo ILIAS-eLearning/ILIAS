@@ -52,6 +52,35 @@ final class SecretKeyRotation
         $this->older_keys = $older_keys;
     }
 
+    /**
+     * Load a rotation from a static PHP artefact written by the setup, newest
+     * key first. The path is passed in by the caller, since every component
+     * that signs data keeps its own set of keys.
+     *
+     * @throws \RuntimeException if the artefact holds no usable key; signing
+     *                           with an ad-hoc key would silently invalidate
+     *                           every token issued so far
+     */
+    public static function fromArtefact(string $path): self
+    {
+        $stored = is_file($path) ? @include $path : [];
+
+        $keys = array_map(
+            static fn(string $key): SecretKey => new SecretKey($key),
+            array_values(array_filter(is_array($stored) ? $stored : [], 'is_string'))
+        );
+
+        $current_key = array_shift($keys);
+
+        if ($current_key === null) {
+            throw new \RuntimeException(
+                "No signing key found in '$path', run the ILIAS setup to build the key rotation artefact."
+            );
+        }
+
+        return new self($current_key, ...$keys);
+    }
+
     public function getAllKeys(): array
     {
         return array_merge([$this->current_key], $this->older_keys);
