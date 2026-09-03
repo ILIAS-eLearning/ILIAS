@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Environment\Configuration\Instance;
+namespace ILIAS\Environment\Configuration\Ini;
 
 /**
  * Read-write access to an INI file. Extends {@see IniFileReadRepository} with

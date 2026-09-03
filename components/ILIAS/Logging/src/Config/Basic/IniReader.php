@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Logging\Config\Basic;
 
-use ILIAS\Environment\Configuration\Instance\IliasIni;
+use ILIAS\Environment\Configuration\Installation\IliasIni;
 
 class IniReader implements IniReaderInterface
 {
