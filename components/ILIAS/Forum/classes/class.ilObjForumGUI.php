@@ -26,6 +26,16 @@ use ILIAS\UI\Component\Item\Item;
 use ILIAS\UI\Component\Modal\RoundTrip;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Forum\Drafts\ForumDraftsTable;
+use ILIAS\Forum\Files\Access\AddressedAttachmentDelivery;
+use ILIAS\Forum\Files\Access\AttachmentAccessDenied;
+use ILIAS\Forum\Files\Access\AttachmentDelivery;
+use ILIAS\Forum\Files\Access\DbOwnershipRepository;
+use ILIAS\Forum\Files\Access\DraftAttachmentGuard;
+use ILIAS\Forum\Files\Access\ForumFileStorageDelivery;
+use ILIAS\Forum\Files\Access\GuardedAttachmentDelivery;
+use ILIAS\Forum\Files\Access\LoggedAttachmentDelivery;
+use ILIAS\Forum\Files\Access\OwnershipRepository;
+use ILIAS\Forum\Files\Access\PostingAttachmentGuard;
 use ILIAS\Forum\Notification\NotificationType;
 use ILIAS\User\Profile\PublicProfileGUI;
 use ILIAS\ResourceStorage\Services as IRSS;
@@ -79,6 +89,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
     private int $selectedSorting;
     private ilForumThreadSettingsSessionStorage $selected_post_storage;
+    private readonly OwnershipRepository $attachment_ownership;
+    private readonly ilLogger $attachment_logger;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
     private array $modal_collection = [];
@@ -119,6 +131,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $this->objCurrentTopic = new ilForumTopic($this->retrieveThrPk(), $this->is_moderator);
         $this->requestAction = (string) ($this->httpRequest->getQueryParams()['action'] ?? '');
+        $this->attachment_ownership = new DbOwnershipRepository($DIC->database());
+        $this->attachment_logger = $DIC->logger()->root();
         $cs = $DIC->contentStyle();
         $this->content_style_gui = $cs->gui();
         if (is_object($this->object)) {
@@ -223,6 +237,45 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     {
         $forumId = ilObjForum::lookupForumIdByObjId($objId);
         if ($thread->getForumId() !== $forumId) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+        }
+    }
+
+    private function postingAttachmentDelivery(ilFileDataForumInterface $storage): AttachmentDelivery
+    {
+        return $this->auditedDelivery(
+            new GuardedAttachmentDelivery(
+                new ForumFileStorageDelivery($storage),
+                new PostingAttachmentGuard(
+                    $this->attachment_ownership,
+                    $this->objCurrentTopic->getId() > 0 ? $this->objCurrentTopic->getId() : null
+                )
+            )
+        );
+    }
+
+    private function draftAttachmentDelivery(ilFileDataForumInterface $storage): AttachmentDelivery
+    {
+        return $this->auditedDelivery(
+            new GuardedAttachmentDelivery(
+                new ForumFileStorageDelivery($storage),
+                new DraftAttachmentGuard($this->attachment_ownership, $this->user->getId())
+            )
+        );
+    }
+
+    private function auditedDelivery(AddressedAttachmentDelivery $delivery): AttachmentDelivery
+    {
+        return new LoggedAttachmentDelivery($delivery, $this->attachment_logger, $this->user->getId());
+    }
+
+    private function deliverZipFileOrRedirect(AttachmentDelivery $delivery): void
+    {
+        try {
+            if (!$delivery->deliverZipFile()) {
+                $this->ctrl->redirect($this);
+            }
+        } catch (AttachmentAccessDenied) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
     }
@@ -3124,11 +3177,19 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $selected_draft_id = (int) ($this->httpRequest->getQueryParams()['draft_id'] ?? 0);
         if (isset($this->httpRequest->getQueryParams()['file'])) {
-            $file_obj_for_delivery = $file_obj;
             if ($selected_draft_id > 0 && ilForumPostDraft::isSavePostDraftAllowed()) {
-                $file_obj_for_delivery = new ilFileDataForumDrafts($forumObj->getId(), $selected_draft_id);
+                $delivery = $this->draftAttachmentDelivery(
+                    new ilFileDataForumDrafts($forumObj->getId(), $selected_draft_id)
+                );
+            } else {
+                $delivery = $this->postingAttachmentDelivery($file_obj);
             }
-            $file_obj_for_delivery->deliverFile(ilUtil::stripSlashes($this->httpRequest->getQueryParams()['file']));
+
+            try {
+                $delivery->deliverFile(ilUtil::stripSlashes($this->httpRequest->getQueryParams()['file']));
+            } catch (AttachmentAccessDenied) {
+                $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+            }
         }
 
         if ($this->objCurrentTopic->getId() === 0) {
@@ -4788,10 +4849,12 @@ EOD
 
         $draft = ilForumPostDraft::newInstanceByDraftId($this->retrieveDraftId());
         $this->checkDraftAccess($draft);
-        $fileData = new ilFileDataForumDrafts(0, $draft->getDraftId());
-        if (!$fileData->deliverZipFile()) {
-            $this->ctrl->redirect($this);
-        }
+
+        $this->deliverZipFileOrRedirect(
+            $this->draftAttachmentDelivery(
+                new ilFileDataForumDrafts($this->object->getId(), $draft->getDraftId())
+            )
+        );
     }
 
     protected function deliverZipFileObject(): void
@@ -4800,12 +4863,11 @@ EOD
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        $this->ensureThreadBelongsToForum($this->object->getId(), $this->objCurrentPost->getThread());
-
-        $fileData = new ilFileDataForum($this->object->getId(), $this->objCurrentPost->getId());
-        if (!$fileData->deliverZipFile()) {
-            $this->ctrl->redirect($this);
-        }
+        $this->deliverZipFileOrRedirect(
+            $this->postingAttachmentDelivery(
+                new ilFileDataForum($this->object->getId(), $this->objCurrentPost->getId())
+            )
+        );
     }
 
     protected function editThreadDraftObject(?ilPropertyFormGUI $form = null): void
