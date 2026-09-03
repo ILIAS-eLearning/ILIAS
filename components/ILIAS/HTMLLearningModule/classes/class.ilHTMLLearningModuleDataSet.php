@@ -150,6 +150,12 @@ class ilHTMLLearningModuleDataSet extends ilDataSet
                     $a_rec["Id"] . ":0:htlm",
                     $newObj->getId() . ":0:htlm"
                 );
+                $a_mapping->addMapping(
+                    "components/ILIAS/Tracking",
+                    "obj",
+                    (string) $a_rec["Id"],
+                    (string) $newObj->getId()
+                );
                 break;
         }
     }

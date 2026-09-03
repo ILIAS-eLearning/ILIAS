@@ -51,6 +51,16 @@ abstract class ilContainerReferenceExporter extends ilXmlExporter
         return [];
     }
 
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
+    {
+        $dependencies[] = [
+            "component" => "components/ILIAS/Tracking",
+            "entity" => "lpsettings",
+            "ids" => $a_ids
+        ];
+        return $dependencies;
+    }
+
     abstract protected function initWriter(ilContainerReference $ref): ilContainerReferenceXmlWriter;
 
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
