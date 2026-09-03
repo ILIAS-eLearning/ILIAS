@@ -490,6 +490,10 @@ class ilObjFileGUI extends ilObject2GUI
      */
     protected function uploadFiles(): void
     {
+        if (!$this->checkPermissionBool("create", "", $this->getType())) {
+            $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
+        }
+
         $origin = ($this->request_wrapper->has(self::PARAM_UPLOAD_ORIGIN)) ?
             $this->request_wrapper->retrieve(
                 self::PARAM_UPLOAD_ORIGIN,
