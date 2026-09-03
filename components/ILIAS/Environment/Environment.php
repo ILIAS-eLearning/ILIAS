@@ -21,17 +21,17 @@ declare(strict_types=1);
 namespace ILIAS;
 
 use ILIAS\Component\Component;
-use ILIAS\Environment\Configuration\Instance\IliasIni;
-use ILIAS\Environment\Configuration\Instance\IliasIniFile;
-use ILIAS\Environment\Configuration\Instance\ClientIdProvider;
-use ILIAS\Environment\Configuration\Instance\DefaultClientIdProvider;
+use ILIAS\Environment\Configuration\Installation\IliasIni;
+use ILIAS\Environment\Configuration\Installation\IliasIniFile;
+use ILIAS\Environment\Configuration\Installation\ClientIdProvider;
+use ILIAS\Environment\Configuration\Installation\DefaultClientIdProvider;
 use ILIAS\HTTP\GlobalHttpState;
-use ILIAS\Environment\Configuration\Instance\ClientIni;
-use ILIAS\Environment\Configuration\Instance\ClientIniFile;
+use ILIAS\Environment\Configuration\Installation\ClientIni;
+use ILIAS\Environment\Configuration\Installation\ClientIniFile;
 use ILIAS\Environment\Configuration\Server\ServerConfiguration;
 use ILIAS\Environment\Configuration\Server\PhpServerConfiguration;
-use ILIAS\Environment\Configuration\Instance\Directories;
-use ILIAS\Environment\Configuration\Instance\WorkingDirectories;
+use ILIAS\Environment\Configuration\Installation\Directories;
+use ILIAS\Environment\Configuration\Installation\WorkingDirectories;
 
 class Environment implements Component
 {

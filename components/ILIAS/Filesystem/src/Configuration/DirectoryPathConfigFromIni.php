@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Configuration;
 
-use ILIAS\Environment\Configuration\Instance\IliasIni;
-use ILIAS\Environment\Configuration\Instance\ClientIni;
-use ILIAS\Environment\Configuration\Instance\ClientIdProvider;
+use ILIAS\Environment\Configuration\Installation\IliasIni;
+use ILIAS\Environment\Configuration\Installation\ClientIni;
+use ILIAS\Environment\Configuration\Installation\ClientIdProvider;
 
 /**
  * @author   Fabian Schmid <fabian@sr.solutions>

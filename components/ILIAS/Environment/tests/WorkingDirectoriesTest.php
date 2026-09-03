@@ -19,9 +19,9 @@
 declare(strict_types=1);
 
 use ILIAS\Data\ClientId;
-use ILIAS\Environment\Configuration\Instance\ClientIdProvider;
-use ILIAS\Environment\Configuration\Instance\IliasIni;
-use ILIAS\Environment\Configuration\Instance\WorkingDirectories;
+use ILIAS\Environment\Configuration\Installation\ClientIdProvider;
+use ILIAS\Environment\Configuration\Installation\IliasIni;
+use ILIAS\Environment\Configuration\Installation\WorkingDirectories;
 use PHPUnit\Framework\TestCase;
 
 final class WorkingDirectoriesTest extends TestCase

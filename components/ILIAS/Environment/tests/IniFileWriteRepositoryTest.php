@@ -18,8 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\Environment\Configuration\Instance\IniFileReadRepository;
-use ILIAS\Environment\Configuration\Instance\IniFileWriteRepository;
+use ILIAS\Environment\Configuration\Ini\IniFileReadRepository;
+use ILIAS\Environment\Configuration\Ini\IniFileWriteRepository;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 

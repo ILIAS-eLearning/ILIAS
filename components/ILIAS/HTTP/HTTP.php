@@ -35,7 +35,7 @@ use ILIAS\HTTP\Cookies\CookieJarFactory;
 use ILIAS\HTTP\Response\Sender\ResponseSenderStrategy;
 use ILIAS\HTTP\Request\HeaderSettings;
 use ILIAS\HTTP\Request\HeaderSettingsFromIni;
-use ILIAS\Environment\Configuration\Instance\IliasIni;
+use ILIAS\Environment\Configuration\Installation\IliasIni;
 
 class HTTP implements Component
 {

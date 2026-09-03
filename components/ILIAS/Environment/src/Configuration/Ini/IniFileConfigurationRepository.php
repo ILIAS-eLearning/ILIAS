@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Environment\Configuration\Instance;
+namespace ILIAS\Environment\Configuration\Ini;
 
 /**
  * Combined read-write INI repository.
