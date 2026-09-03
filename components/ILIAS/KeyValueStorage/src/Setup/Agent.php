@@ -22,14 +22,13 @@ namespace ILIAS\KeyValueStorage\Setup;
 
 use ILIAS\Setup;
 
-/**
- * @todo Implement ILIAS\Setup\NamedAgent once this branch sits on a trunk that
- *       has it. Without it the agent finder falls back to the fully qualified
- *       class name, because it only recognises the legacy ilXYZSetupAgent
- *       pattern.
- */
-final class Agent extends Setup\Agent\NullAgent
+final class Agent extends Setup\Agent\NullAgent implements Setup\NamedAgent
 {
+    public function getAgentName(): string
+    {
+        return 'key_value_storage';
+    }
+
     public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new \ilDatabaseUpdateStepsExecutedObjective(new DBUpdateSteps());
