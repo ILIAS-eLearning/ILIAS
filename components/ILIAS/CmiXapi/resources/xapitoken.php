@@ -39,24 +39,27 @@ if (!isset($origParam) || !strlen($origParam)) {
 }
 
 try {
-    $param = base64_decode(rawurldecode($origParam));
-
-    $param = json_decode(openssl_decrypt(
-        $param,
-        ilCmiXapiAuthToken::OPENSSL_ENCRYPTION_METHOD,
-        ilCmiXapiAuthToken::getWacSalt(),
-        0,
-        ilCmiXapiAuthToken::OPENSSL_IV
-    ), true);
-
-    $_COOKIE[session_name()] = $param[session_name()];
-
-    $_COOKIE['ilClientId'] = $param['ilClientId'];
-    $objId = $param['obj_id'];
-    $refId = $param['ref_id'];
-
+    ilContext::init(\ilContext::CONTEXT_WEBDAV);
     ilInitialisation::initILIAS();
     $DIC = $GLOBALS['DIC'];
+    $passphrase = ilCmiXapiUser::getILIASUuid();
+    $data = base64_decode(rawurldecode($origParam));
+    $iv = substr($data, 0, 16);
+    $ciphertext = substr($data, 16);
+
+    $param = json_decode(openssl_decrypt(
+        $ciphertext,
+        ilCmiXapiAuthToken::OPENSSL_ENCRYPTION_METHOD,
+        $passphrase,
+        OPENSSL_RAW_DATA,//0
+        $iv
+    ), true);
+
+    //        $_COOKIE[session_name()] = $param[session_name());
+    //ilUtil::setCookie('ilClientId', $param['ilClientId']);
+    //        $_COOKIE['ilClientId'] = $param['ilClientId'];
+    $objId = $param['obj_id'];
+    $refId = $param['ref_id'];
 } catch (ilCmiXapiException $e) {
     $error = array('error-code' => '3','error-text' => 'internal server error');
     send($error);

@@ -118,12 +118,12 @@ class ilCmiXapiUser
         $this->registration = $registration;
     }
 
-    public static function getIliasUuid(): ?string
+    public static function getIliasUuid(): string
     {
         $setting = new ilSetting('cmix');
         // Fallback
-        if (null == $setting->get('ilias_uuid', null)) {
-            // $uuid = (new \Ramsey\Uuid\UuidFactory())->uuid4()->toString();
+        if (null == $setting->get('ilias_uuid', null)
+            || $setting->get('ilias_uuid') == '20a27720-3338-4b46-8b3f-669d61110a30') {
             $uuid = self::getUUID(32);
             $setting->set('ilias_uuid', $uuid);
         }
@@ -530,48 +530,25 @@ class ilCmiXapiUser
     }
     public static function getUserObjectUniqueId(int $length = 32): string
     {
-        // $storedId = self::readUserObjectUniqueId();
-        // if( (bool)strlen($storedId) ) {
-        // return strstr($storedId,'@', true);
-        // }
-
-        // $getId = function( $length ) {
-        // $multiplier = floor($length/8) * 2;
-        // $uid = str_shuffle(str_repeat(uniqid(), $multiplier));
-
-        // try {
-        // $ident = bin2hex(random_bytes($length));
-        // } catch (Exception $e) {
-        // $ident = $uid;
-        // }
-
-        // $start = rand(0, strlen($ident) - $length - 1);
-        // return substr($ident, $start, $length);
-        // };
-
-        $id = self::getUUID($length);//$getId($length);
+        $id = self::getUUID($length);
         $exists = self::userObjectUniqueIdExists($id);
         while ($exists) {
-            $id = self::getUUID($length);//$getId($length);
+            $id = self::getUUID($length);
             $exists = self::userObjectUniqueIdExists($id);
         }
 
         return $id;
     }
 
+    /**
+     * @throws \Random\RandomException
+     */
     public static function getUUID(int $length = 32): string
     {
-        $multiplier = (int) floor($length / 8) * 2;
-        $uid = str_shuffle(str_repeat(uniqid(), $multiplier));
-
-        try {
-            $ident = bin2hex(random_bytes($length));
-        } catch (Exception $e) {
-            $ident = $uid;
+        if ($length < 1) {
+            throw new InvalidArgumentException('Length must be greater than 0.');
         }
-
-        $start = rand(0, strlen($ident) - $length - 1);
-        return substr($ident, $start, $length);
+        return bin2hex(random_bytes((int) ceil($length / 2)));
     }
 
     private static function userObjectUniqueIdExists(string $id): bool

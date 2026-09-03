@@ -31,9 +31,7 @@ class ilCmiXapiAuthToken
 {
     public const DB_TABLE_NAME = 'cmix_token';
 
-    public const OPENSSL_ENCRYPTION_METHOD = 'aes128';
-
-    public const OPENSSL_IV = '1234567890123456';
+    public const OPENSSL_ENCRYPTION_METHOD = 'aes-128-cbc';
 
     protected int $ref_id;
 
@@ -410,17 +408,4 @@ class ilCmiXapiAuthToken
         throw new ilCmiXapiException('no valid cmi5_session found for: ' . $objId . '/' . $usrId);
     }
 
-    /**
-     * @throws ilCmiXapiException
-     */
-    public static function getWacSalt(): string
-    {
-        $salt = ilWACToken::getSALT();
-
-        if (isset($salt)) {
-            return $salt;
-        }
-
-        throw new ilCmiXapiException('no salt for encryption provided');
-    }
 }

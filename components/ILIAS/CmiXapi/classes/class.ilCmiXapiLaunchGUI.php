@@ -158,14 +158,16 @@ class ilCmiXapiLaunchGUI
             'ilClientId' => CLIENT_ID
         ];
 
-        $encryptionKey = ilCmiXapiAuthToken::getWacSalt();
-        return urlencode(base64_encode(openssl_encrypt(
+        $iv = random_bytes(16);
+        $encryptionKey = ilCmiXapiUser::getILIASUuid();
+        $ciphertext = openssl_encrypt(
             json_encode($params),
             ilCmiXapiAuthToken::OPENSSL_ENCRYPTION_METHOD,
             $encryptionKey,
-            0,
-            ilCmiXapiAuthToken::OPENSSL_IV
-        )));
+            OPENSSL_RAW_DATA,//0
+            $iv
+        );
+        return urlencode(base64_encode($iv . $ciphertext));
     }
 
     protected function getValidToken(): string
