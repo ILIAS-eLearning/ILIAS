@@ -556,10 +556,10 @@ final class Delivery
         $response = $this->http->response();
         $response = $response->withHeader(
             ResponseHeader::CONTENT_DISPOSITION,
-            $this->getDisposition()
-                                               . '; filename="'
-                                               . $this->getDownloadFileName()
-                                               . '"'
+            (new \ILIAS\FileDelivery\Delivery\ContentDispositionHeader())->build(
+                $this->getDisposition(),
+                $this->getDownloadFileName()
+            )
         );
         $response = $response->withHeader('Content-Description', $this->getDownloadFileName());
         $this->http->saveResponse($response);

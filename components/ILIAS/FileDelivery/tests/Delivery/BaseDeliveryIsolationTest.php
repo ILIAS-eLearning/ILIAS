@@ -177,7 +177,7 @@ final class BaseDeliveryIsolationTest extends TestCase
 
         $this->assertSame('text/plain', $r->getHeaderLine('Content-Type'));
         $this->assertSame(
-            'inline; filename="user_content.txt"',
+            'inline; filename="user_content.txt"; filename*=UTF-8\'\'user_content.txt',
             $r->getHeaderLine('Content-Disposition')
         );
     }
