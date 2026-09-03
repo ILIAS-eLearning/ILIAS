@@ -71,8 +71,10 @@ class ilCheckSumOfWorkspaceFileSizesJob extends AbstractJob
         $definition = $input[0];
         $object_wps_ids = $definition->getObjectWspIds();
 
+        global $DIC;
+
         // get global limit (max sum of individual file-sizes) from file settings
-        $general = new General();
+        $general = new General($DIC->database());
         $size_limit = $general->getDownloadLimitinMB();
         $size_limit_bytes = $size_limit * 1024 * 1024;
         $this->logger->debug('Global limit (max sum of all file-sizes) in file-settings: ' . $size_limit_bytes . ' bytes');
