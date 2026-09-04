@@ -161,6 +161,11 @@ class Factory
         return new Encode\Group();
     }
 
+    public function decode(): Decode\Group
+    {
+        return new Decode\Group();
+    }
+
     /**
      * Accepts Transformations and uses first successful one.
      * @param Transformation[] $transformations
