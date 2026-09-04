@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Prompt;
 
-use ILIAS\UI\Component;
 use ILIAS\Data\URI;
 
 interface Factory

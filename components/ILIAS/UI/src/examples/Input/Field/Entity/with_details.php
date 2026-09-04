@@ -18,41 +18,55 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Examples\Listing\Entity\Standard;
+namespace ILIAS\UI\examples\Input\Field\Entity;
 
 use Generator;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
+use InvalidArgumentException;
 use ILIAS\UI\Component\Entity\Entity;
 use ILIAS\UI\Component\Entity\EntityRetrieval;
 
 /**
  * ---
  * description: >
- *      A component to list many entities. Has multiple columns on very large screens.
+ *   Entity Input with fully populated Entity components (avatar, main details,
+ *   details). Unlike the base example, these are not rendered in the compact
+ *   brief layout.
+ *
  * expected output: >
- *      ILIAS shows a list of entities. If there is a lot of space available, the list will switch to a layout with two
- *      columns.
+ *   A form shows a list of rich entity cards. Submitting the form displays the posted ids.
  * ---
  */
-function base()
+function with_details(): string
 {
     global $DIC;
-    $f = $DIC->ui()->factory();
+    $factory = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
+    $request = $DIC->http()->request();
 
-    $listing = $f->listing()->entity()->standard(new DemoEntityRetrieval());
+    $form = $factory->input()->container()->form()->standard('#', [
+        $factory->input()->field()->entity(new EntityInputDetailedRetrieval())
+            ->withValue([0, 1, 2]),
+    ]);
 
-    return $renderer->render($listing);
+    if ($request->getMethod() === 'POST') {
+        $form = $form->withRequest($request);
+        $data = $form->getData();
+
+        return $renderer->render($form)
+            . '<pre>' . htmlspecialchars(print_r($data, true), ENT_QUOTES, 'UTF-8') . '</pre>';
+    }
+
+    return $renderer->render($form);
 }
 
-class DemoEntityRetrieval implements EntityRetrieval
+class EntityInputDetailedRetrieval implements EntityRetrieval
 {
     protected array $data = [
         ['jw', 'jimmywilson', 'jimmywilson@example.com', 'Jimmy Wilson', '2022-03-15 13:20:10', true],
         ['eb', 'emilybrown', 'emilybrown@example.com', 'Emily Brown', '2022-03-16 10:45:32', false],
         ['ms', 'michaelscott', 'michaelscott@example.com', 'Michael Scott', '2022-03-14 08:15:05', true],
-        ['kj', 'katiejones', 'katiejones@example.com', 'Katie Jones', '2022-03-17 15:30:50', true],
     ];
 
     public function getEntities(
@@ -63,9 +77,7 @@ class DemoEntityRetrieval implements EntityRetrieval
         mixed $filter_data,
         mixed $additional_parameters,
     ): Generator {
-        foreach ($this->data as $index => $record) {
-            yield $this->mapRecord($ui_factory, $index, $record);
-        }
+        yield from [];
     }
 
     public function getEntitiesByIds(
@@ -75,7 +87,7 @@ class DemoEntityRetrieval implements EntityRetrieval
     ): Generator {
         foreach ($entity_ids as $entity_id) {
             if (!isset($this->data[$entity_id])) {
-                continue;
+                throw new InvalidArgumentException('Unknown entity id: ' . $entity_id);
             }
             yield $this->mapRecord($ui_factory, $entity_id, $this->data[$entity_id]);
         }

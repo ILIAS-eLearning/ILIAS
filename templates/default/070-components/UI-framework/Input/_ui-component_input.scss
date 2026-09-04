@@ -29,6 +29,7 @@
 @use "_ui-component_password.scss";
 @use "_ui-component_radio.scss";
 @use "_ui-component_multiselect.scss";
+@use "_ui-component_entity.scss";
 @use "_ui-component_textarea.scss";
 @use "_ui-component_filter.scss";
 @use "_ui-component_duration.scss";
@@ -115,7 +116,7 @@
 /// styling shared by multiple input elements
 
 // hover/focus extends beyond box without pushing it
-.c-input:not([data-il-ui-component="section-field-input"]) {
+.c-input:not([data-il-ui-component="section-field-input"]):not([data-il-ui-component="entity-field-input"]) {
   &:hover {
     box-shadow: 0px 0px 0px l.$il-margin-base-horizontal $il-main-dark-bg;
     background-color: $il-main-dark-bg;
@@ -146,7 +147,7 @@
     }
     margin-bottom: 0; // overrides alert default
   }
-  .c-input[data-il-ui-component]:not([data-il-ui-component="section-field-input"]):has(> .c-input__error-msg) {
+  .c-input[data-il-ui-component]:not([data-il-ui-component="section-field-input"]):not([data-il-ui-component="entity-field-input"]):has(> .c-input__error-msg) {
     border-inline-start: 6px solid $il-alert-danger-border;
     padding-left: l.$il-padding-base-horizontal;
   }

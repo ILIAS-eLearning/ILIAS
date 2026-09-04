@@ -24,48 +24,38 @@ use ILIAS\UI\Component\Listing\Entity as I;
 use ILIAS\UI\Component\Entity as IEntity;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\Data\Range;
+use ILIAS\Data\Order;
 
 abstract class EntityListing implements I\EntityListing
 {
     use ComponentHelper;
 
-    protected I\DataRetrieval $data;
-
     public function __construct(
-        protected I\RecordToEntity $entity_mapping
+        protected IEntity\EntityRetrieval $entity_retrieval
     ) {
     }
 
-    public function withData(I\DataRetrieval $data): self
-    {
-        $clone = clone $this;
-        $clone->data = $data;
-        return $clone;
-    }
-
     /**
-     * @param array<string,mixed> $additional_parameters
      * @return \Generator<IEntity\Entity>
      */
     public function getEntities(
         \ILIAS\UI\Factory $ui_factory,
         ?Range $range = null,
-        ?array $additional_parameters = null
+        ?Order $order = null,
+        mixed $additional_viewcontrol_data = null,
+        mixed $filter_data = null,
+        mixed $additional_parameters = null,
     ): \Generator {
-        $mapping = new class ($this->entity_mapping, $ui_factory) implements I\Mapping {
-            public function __construct(
-                protected I\RecordToEntity $mapper,
-                protected \ILIAS\UI\Factory $ui_factory
-            ) {
-            }
+        $range = $range ?? new Range(0, PHP_INT_MAX);
+        $order = $order ?? new Order('id', Order::ASC);
 
-            public function map(mixed $record): IEntity\Entity
-            {
-                return $this->mapper->map($this->ui_factory, $record);
-            }
-        };
-
-        $additional_parameters = null;
-        return $this->data->getEntities($mapping, $range, $additional_parameters);
+        yield from $this->entity_retrieval->getEntities(
+            $ui_factory,
+            $range,
+            $order,
+            $additional_viewcontrol_data,
+            $filter_data,
+            $additional_parameters,
+        );
     }
 }
