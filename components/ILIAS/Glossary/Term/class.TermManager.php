@@ -196,4 +196,12 @@ class TermManager
         // delete flashcard entries
         $this->event_handler->raise("Modules/Glossary", "deleteTerm", ["term_id" => $term_id]);
     }
+
+    public function checkTermPage(int $term_id): bool
+    {
+        if (\ilPageObject::_exists("term", $term_id)) {
+            return true;
+        }
+        return false;
+    }
 }
