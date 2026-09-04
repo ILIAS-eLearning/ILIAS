@@ -25,10 +25,16 @@ use ILIAS\User\Profile\Fields\NoOverrides;
 use ILIAS\User\Profile\Fields\FieldDefinition;
 use ILIAS\User\Profile\Fields\AvailableSections;
 use ILIAS\Language\Language;
+use ILIAS\Data\Privacy\Purpose\Purposes;
 
 class Location implements FieldDefinition
 {
     use NoOverrides;
+
+    public function __construct(
+        private readonly Purposes $purposes,
+    ) {
+    }
 
     public function getIdentifier(): string
     {
@@ -100,15 +106,17 @@ class Location implements FieldDefinition
             $zoom = (int) $def['zoom'];
         }
 
-        $street = $user?->getStreet() ?? '';
+        $address = $user?->getProfileData()->getPostalAddress()
+            ?->resolve($this->purposes->displayToUser('profile_form_location'));
+        $street = $address?->street ?? '';
         if ($street === '') {
             $street = $lng->txt('street');
         }
-        $city = $user?->getCity() ?? '';
+        $city = $address?->city ?? '';
         if ($city === '') {
             $city = $lng->txt('city');
         }
-        $country = $user?->getCountry() ?? '';
+        $country = $address?->country ?? '';
         if ($country === '') {
             $country = $lng->txt('country');
         }

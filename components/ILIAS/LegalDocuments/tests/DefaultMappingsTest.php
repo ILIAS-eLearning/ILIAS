@@ -57,7 +57,10 @@ class DefaultMappingsTest extends TestCase
             'language' => $this->mockMethod(ilLanguage::class, 'getInstalledLanguages', [], []),
             'rbac' => $this->mockMethod(RBACServices::class, 'review', [], $this->mock(ilRbacReview::class)),
         ]);
-        $container->expects($this->once())->method('offsetGet')->with('ilObjDataCache')->willReturn($this->mock(ilObjectDataCache::class));
+        $container->expects($this->exactly(2))->method('offsetGet')->willReturnCallback(fn(string $id) => match ($id) {
+            'ilObjDataCache' => $this->mock(ilObjectDataCache::class),
+            \ILIAS\Data\Privacy\Purpose\Purposes::class => new \ILIAS\Data\Privacy\Purpose\Purposes(),
+        });
 
         $instance = new DefaultMappings('foo', $container);
         $result = $instance->conditionDefinitions();

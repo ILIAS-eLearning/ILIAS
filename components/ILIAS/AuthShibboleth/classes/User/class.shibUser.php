@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\Refinery\String\UTFNormal;
+use ILIAS\Data\Privacy\Source\Sources;
 
 /**
  * Class shibUser
@@ -71,13 +72,13 @@ class shibUser extends ilObjUser
             $this->setDepartment($this->shibServerData->getDepartment());
         }
         if ($shibConfig->getUpdateStreet()) {
-            $this->setStreet($this->shibServerData->getStreet());
+            $this->setAddressFieldFromShibServer('street', $this->shibServerData->getStreet());
         }
         if ($shibConfig->getUpdateZipcode()) {
-            $this->setZipcode($this->shibServerData->getZipcode());
+            $this->setAddressFieldFromShibServer('zipcode', $this->shibServerData->getZipcode());
         }
         if ($shibConfig->getUpdateCountry()) {
-            $this->setCountry($this->shibServerData->getCountry());
+            $this->setAddressFieldFromShibServer('country', $this->shibServerData->getCountry());
         }
         if ($shibConfig->getUpdatePhoneOffice()) {
             $this->setPhoneOffice($this->shibServerData->getPhoneOffice());
@@ -118,9 +119,9 @@ class shibUser extends ilObjUser
         $this->setUTitle($this->shibServerData->getTitle());
         $this->setInstitution($this->shibServerData->getInstitution());
         $this->setDepartment($this->shibServerData->getDepartment());
-        $this->setStreet($this->shibServerData->getStreet());
-        $this->setZipcode($this->shibServerData->getZipcode());
-        $this->setCountry($this->shibServerData->getCountry());
+        $this->setAddressFieldFromShibServer('street', $this->shibServerData->getStreet());
+        $this->setAddressFieldFromShibServer('zipcode', $this->shibServerData->getZipcode());
+        $this->setAddressFieldFromShibServer('country', $this->shibServerData->getCountry());
         $this->setPhoneOffice($this->shibServerData->getPhoneOffice());
         $this->setPhoneHome($this->shibServerData->getPhoneHome());
         $this->setPhoneMobile($this->shibServerData->getPhoneMobile());
@@ -225,5 +226,32 @@ class shibUser extends ilObjUser
         $usr = $db->fetchObject($a_set);
 
         return ($usr !== null && isset($usr->usr_id)) ? (int) $usr->usr_id : null;
+    }
+
+    private function setAddressFieldFromShibServer(string $field, string $value): void
+    {
+        $profile_data = $this->getProfileData();
+        $address = $profile_data->getPostalAddress();
+        if ($address === null) {
+            // bare instance without a bound postal address — deprecated setter path
+            match ($field) {
+                'street' => $this->setStreet($value),
+                'zipcode' => $this->setZipcode($value),
+                'country' => $this->setCountry($value),
+            };
+            return;
+        }
+
+        global $DIC;
+        $source = $DIC[Sources::class]->externalApi('shibboleth', $field);
+        $this->replaceProfileData(
+            $profile_data->withPostalAddress(
+                match ($field) {
+                    'street' => $address->withStreet($value, $source),
+                    'zipcode' => $address->withZipcode($value, $source),
+                    'country' => $address->withCountry($value, $source),
+                }
+            )
+        );
     }
 }

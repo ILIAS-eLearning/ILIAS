@@ -22,6 +22,10 @@ namespace ILIAS\User\Profile;
 
 use ILIAS\User\Profile\Fields\Standard\Genders;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\Data\Privacy\Purpose\LegacyAccess;
+use ILIAS\Data\Privacy\Source\LegacySource;
+use ILIAS\Data\Privacy\Types\PostalAddress;
+use ILIAS\Data\Privacy\Types\PostalAddressValue;
 
 class Data
 {
@@ -38,10 +42,7 @@ class Data
         private ?\DateTimeImmutable $birthday = null,
         private string $institution = '',
         private string $department = '',
-        private string $street = '',
-        private string $city = '',
-        private string $zipcode = '',
-        private string $country = '',
+        private ?PostalAddress $postal_address = null,
         private string $email = '',
         private ?string $second_email = null,
         private string $phone_office = '',
@@ -176,52 +177,105 @@ class Data
         return $clone;
     }
 
+    public function getPostalAddress(): ?PostalAddress
+    {
+        return $this->postal_address;
+    }
+
+    public function withPostalAddress(PostalAddress $postal_address): self
+    {
+        $clone = clone $this;
+        $clone->postal_address = $postal_address;
+        return $clone;
+    }
+
+    /**
+     * @deprecated Resolve {@see getPostalAddress()} with a real purpose instead.
+     */
     public function getStreet(): string
     {
-        return $this->street;
+        return $this->resolveAddressForLegacyGetter()->street;
     }
 
+    /**
+     * @deprecated Derive {@see getPostalAddress()} with a real source and use {@see withPostalAddress()} instead.
+     */
     public function withStreet(string $street): self
     {
-        $clone = clone $this;
-        $clone->street = $street;
-        return $clone;
+        return $this->withPostalAddress(
+            $this->postalAddressForLegacyWither()->withStreet($street, new LegacySource('profile_data_wither'))
+        );
     }
 
+    /**
+     * @deprecated Resolve {@see getPostalAddress()} with a real purpose instead.
+     */
     public function getCity(): string
     {
-        return $this->city;
+        return $this->resolveAddressForLegacyGetter()->city;
     }
 
+    /**
+     * @deprecated Derive {@see getPostalAddress()} with a real source and use {@see withPostalAddress()} instead.
+     */
     public function withCity(string $city): self
     {
-        $clone = clone $this;
-        $clone->city = $city;
-        return $clone;
+        return $this->withPostalAddress(
+            $this->postalAddressForLegacyWither()->withCity($city, new LegacySource('profile_data_wither'))
+        );
     }
 
+    /**
+     * @deprecated Resolve {@see getPostalAddress()} with a real purpose instead.
+     */
     public function getZipcode(): string
     {
-        return $this->zipcode;
+        return $this->resolveAddressForLegacyGetter()->zipcode;
     }
 
+    /**
+     * @deprecated Derive {@see getPostalAddress()} with a real source and use {@see withPostalAddress()} instead.
+     */
     public function withZipcode(string $zipcode): self
     {
-        $clone = clone $this;
-        $clone->zipcode = $zipcode;
-        return $clone;
+        return $this->withPostalAddress(
+            $this->postalAddressForLegacyWither()->withZipcode($zipcode, new LegacySource('profile_data_wither'))
+        );
     }
 
+    /**
+     * @deprecated Resolve {@see getPostalAddress()} with a real purpose instead.
+     */
     public function getCountry(): string
     {
-        return $this->country;
+        return $this->resolveAddressForLegacyGetter()->country;
     }
 
+    /**
+     * @deprecated Derive {@see getPostalAddress()} with a real source and use {@see withPostalAddress()} instead.
+     */
     public function withCountry(string $country): self
     {
-        $clone = clone $this;
-        $clone->country = $country;
-        return $clone;
+        return $this->withPostalAddress(
+            $this->postalAddressForLegacyWither()->withCountry($country, new LegacySource('profile_data_wither'))
+        );
+    }
+
+    private function resolveAddressForLegacyGetter(): PostalAddressValue
+    {
+        return $this->postal_address?->resolve(new LegacyAccess('profile_data_getter'))
+            ?? new PostalAddressValue();
+    }
+
+    /**
+     * Transitional: instances built through the repository always carry a
+     * postal address bound to the audit logger. Only bare `new Data()`
+     * (e.g. in tests) falls back to an unlogged instance here.
+     */
+    private function postalAddressForLegacyWither(): PostalAddress
+    {
+        return $this->postal_address
+            ?? new PostalAddress(new PostalAddressValue(), new LegacySource('profile_data_wither'));
     }
 
     public function getEmail(): string
