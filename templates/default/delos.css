@@ -15978,8 +15978,10 @@ div.ilc_Page.readonly textarea[disabled] {
   scroll-margin-top: 30px;
 }
 
-.ilc_qanswer_Answer.ilc_answers.answers.ilAssClozeTest p input[type=text] {
-  width: 100%;
+@media screen and (max-width: 991px) {
+  .ilc_qanswer_Answer.ilc_answers.answers.ilAssClozeTest p input[type=text] {
+    width: 100%;
+  }
 }
 
 /* Modules/Wiki */
