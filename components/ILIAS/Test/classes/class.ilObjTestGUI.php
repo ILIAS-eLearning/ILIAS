@@ -1181,6 +1181,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     private function executeAfterQuestionSaveTasks(assQuestionGUI $question_gui): void
     {
+        $this->addQuestionTitleToObjectTitle($question_gui->getObject()->getTitle());
         if ($this->getTestObject()->getTestLogger()->isLoggingEnabled()) {
             $this->getTestObject()->getTestLogger()->logQuestionAdministrationInteraction(
                 $question_gui->getObject()->toQuestionAdministrationInteraction(
