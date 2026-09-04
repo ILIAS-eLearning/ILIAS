@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\Refinery;
+use ILIAS\Forum\Setup\ForumDatabaseUpdateSteps12;
 
 class ilForumSetupAgent implements Setup\Agent
 {
@@ -50,6 +51,9 @@ class ilForumSetupAgent implements Setup\Agent
             true,
             new ilDatabaseUpdateStepsExecutedObjective(
                 new ilForumDatabaseUpdateSteps11()
+            ),
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ForumDatabaseUpdateSteps12()
             )
         );
     }
@@ -64,7 +68,8 @@ class ilForumSetupAgent implements Setup\Agent
         return new Setup\ObjectiveCollection(
             'Component Forum',
             true,
-            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilForumDatabaseUpdateSteps11())
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilForumDatabaseUpdateSteps11()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ForumDatabaseUpdateSteps12())
         );
     }
 

@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\DI\Container;
+use ILIAS\Forum\Notification\ForumNotificationMembershipRow;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -47,17 +48,19 @@ class ilForumNotificationTest extends TestCase
         $this->assertSame(4, $instance->getThreadId());
         $instance->setInterestedEvents(5);
         $this->assertSame(5, $instance->getInterestedEvents());
-        $instance->setAdminForce(true);
-        $this->assertTrue($instance->getAdminForce());
-        $instance->setUserToggle(true);
-        $this->assertTrue($instance->getUserToggle());
+        $instance->setContainerEnforcesNotification(true);
+        $this->assertTrue($instance->getContainerEnforcesNotification());
+        $instance->setMemberMayDisableNotification(true);
+        $this->assertTrue($instance->getMemberMayDisableNotification());
         $instance->setForumRefId(6);
         $this->assertSame(6, $instance->getForumRefId());
         $instance->setUserIdNoti(7);
         $this->assertSame(7, $instance->getUserIdNoti());
+        $instance->setUserDeactivatedNotification(true);
+        $this->assertTrue($instance->getUserDeactivatedNotification());
     }
 
-    public function testIsAdminForceNotification(): void
+    public function testIsContainerEnforcingNotificationPersisted(): void
     {
         $forumId = 745;
         $userId = 271;
@@ -65,23 +68,23 @@ class ilForumNotificationTest extends TestCase
         $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->database->expects(self::once())->method('queryF')->with(
             '
-			SELECT admin_force_noti FROM frm_notification
+			SELECT container_enforces_noti FROM frm_notification
 			WHERE user_id = %s
 			AND frm_id = %s
 			AND user_id_noti > %s ',
             ['integer', 'integer', 'integer'],
             [$userId, $forumId, 0]
         )->willReturn($mockStatement);
-        $this->database->expects(self::once())->method('fetchAssoc')->with($mockStatement)->willReturn(['admin_force_noti' => '1']);
+        $this->database->expects(self::once())->method('fetchAssoc')->with($mockStatement)->willReturn(['container_enforces_noti' => '1']);
 
         $instance = new ilForumNotification(375);
         $instance->setForumId($forumId);
         $instance->setUserId($userId);
 
-        $this->assertTrue($instance->isAdminForceNotification());
+        $this->assertTrue($instance->isContainerEnforcingNotificationPersisted());
     }
 
-    public function testIsAdminForceNotificationFailed(): void
+    public function testIsContainerEnforcingNotificationPersistedFailed(): void
     {
         $forumId = 745;
         $userId = 271;
@@ -89,7 +92,7 @@ class ilForumNotificationTest extends TestCase
         $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->database->expects(self::once())->method('queryF')->with(
             '
-			SELECT admin_force_noti FROM frm_notification
+			SELECT container_enforces_noti FROM frm_notification
 			WHERE user_id = %s
 			AND frm_id = %s
 			AND user_id_noti > %s ',
@@ -102,10 +105,10 @@ class ilForumNotificationTest extends TestCase
         $instance->setForumId($forumId);
         $instance->setUserId($userId);
 
-        $this->assertFalse($instance->isAdminForceNotification());
+        $this->assertFalse($instance->isContainerEnforcingNotificationPersisted());
     }
 
-    public function testIsUserToggleNotification(): void
+    public function testIsMemberMayDeactivateNotificationPersisted(): void
     {
         $forumId = 745;
         $userId = 271;
@@ -113,23 +116,23 @@ class ilForumNotificationTest extends TestCase
         $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->database->expects(self::once())->method('queryF')->with(
             '
-			SELECT user_toggle_noti FROM frm_notification
+			SELECT member_may_disable_noti FROM frm_notification
 			WHERE user_id = %s
 			AND frm_id = %s
 			AND user_id_noti > %s',
             ['integer', 'integer', 'integer'],
             [$userId, $forumId, 0]
         )->willReturn($mockStatement);
-        $this->database->expects(self::once())->method('fetchAssoc')->with($mockStatement)->willReturn(['user_toggle_noti' => '1']);
+        $this->database->expects(self::once())->method('fetchAssoc')->with($mockStatement)->willReturn(['member_may_disable_noti' => '1']);
 
         $instance = new ilForumNotification(375);
         $instance->setForumId($forumId);
         $instance->setUserId($userId);
 
-        $this->assertTrue($instance->isUserToggleNotification());
+        $this->assertTrue($instance->isMemberMayDeactivateNotificationPersisted());
     }
 
-    public function testIsUserToggleNotificationFailed(): void
+    public function testIsMemberMayDeactivateNotificationPersistedFailed(): void
     {
         $forumId = 745;
         $userId = 271;
@@ -137,7 +140,7 @@ class ilForumNotificationTest extends TestCase
         $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->database->expects(self::once())->method('queryF')->with(
             '
-			SELECT user_toggle_noti FROM frm_notification
+			SELECT member_may_disable_noti FROM frm_notification
 			WHERE user_id = %s
 			AND frm_id = %s
 			AND user_id_noti > %s',
@@ -150,10 +153,10 @@ class ilForumNotificationTest extends TestCase
         $instance->setForumId($forumId);
         $instance->setUserId($userId);
 
-        $this->assertFalse($instance->isUserToggleNotification());
+        $this->assertFalse($instance->isMemberMayDeactivateNotificationPersisted());
     }
 
-    public function testInsertAdminForce(): void
+    public function testInsertContainerMembershipNotification(): void
     {
         $userToggle = true;
         $adminForce = false;
@@ -169,9 +172,9 @@ class ilForumNotificationTest extends TestCase
         $this->database->expects(self::once())->method('manipulateF')->with(
             '
 			INSERT INTO frm_notification
-				(notification_id, user_id, frm_id, admin_force_noti, user_toggle_noti, interested_events, user_id_noti)
-			VALUES(%s, %s, %s, %s, %s, %s, %s)',
-            ['integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'],
+				(notification_id, user_id, frm_id, container_enforces_noti, member_may_disable_noti, interested_events, user_id_noti, user_deactivated_noti)
+			VALUES(%s, %s, %s, %s, %s, %s, %s, %s)',
+            ['integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'],
             [
                 $nextId,
                 $userId,
@@ -179,21 +182,22 @@ class ilForumNotificationTest extends TestCase
                 $adminForce,
                 $userToggle,
                 $interested_in_events,
-                $objUserId
+                $objUserId,
+                0
             ]
         );
 
         $instance = new ilForumNotification(480);
         $instance->setUserId($userId);
         $instance->setForumId($forumId);
-        $instance->setAdminForce($adminForce);
-        $instance->setUserToggle($userToggle);
+        $instance->setContainerEnforcesNotification($adminForce);
+        $instance->setMemberMayDisableNotification($userToggle);
         $instance->setInterestedEvents($interested_in_events);
 
-        $instance->insertAdminForce();
+        $instance->insertContainerMembershipNotification();
     }
 
-    public function testDeleteAdminForce(): void
+    public function testDeleteContainerEnforcedMembershipNotification(): void
     {
         $userId = 739;
         $forumId = 48849;
@@ -203,7 +207,7 @@ class ilForumNotificationTest extends TestCase
 			DELETE FROM frm_notification
 			WHERE 	user_id = %s
 			AND		frm_id = %s
-			AND		admin_force_noti = %s
+			AND		container_enforces_noti = %s
 			AND		user_id_noti > %s',
             ['integer', 'integer', 'integer', 'integer'],
             [$userId, $forumId, 1, 0]
@@ -213,10 +217,10 @@ class ilForumNotificationTest extends TestCase
         $instance->setUserId($userId);
         $instance->setForumId($forumId);
 
-        $instance->deleteAdminForce();
+        $instance->deleteContainerEnforcedMembershipNotification();
     }
 
-    public function testDeleteUserToggle(): void
+    public function testDeleteProvisioningRowRestrictingMemberDeactivate(): void
     {
         $forumId = 3877;
         $userId = 3839;
@@ -225,27 +229,27 @@ class ilForumNotificationTest extends TestCase
 			DELETE FROM frm_notification
 			WHERE 	user_id = %s
 			AND		frm_id = %s
-			AND		admin_force_noti = %s
-			AND		user_toggle_noti = %s
+			AND		container_enforces_noti = %s
+			AND		member_may_disable_noti = %s
 			AND		user_id_noti > %s',
             ['integer', 'integer', 'integer', 'integer', 'integer'],
-            [$userId, $forumId, 1, 1, 0]
+            [$userId, $forumId, 1, 0, 0]
         );
 
         $instance = new ilForumNotification(3830);
         $instance->setUserId($userId);
         $instance->setForumId($forumId);
-        $instance->deleteUserToggle();
+        $instance->deleteProvisioningRowRestrictingMemberDeactivate();
     }
 
-    public function testupdateUserToggle(): void
+    public function testUpdateMemberMayDisableOnContainerEnforcedRow(): void
     {
         $userToggle = true;
         $forumId = 3877;
         $userId = 3839;
 
         $this->database->expects(self::once())->method('manipulateF')->with(
-            'UPDATE frm_notification SET user_toggle_noti = %s WHERE user_id = %s AND frm_id = %s AND admin_force_noti = %s',
+            'UPDATE frm_notification SET member_may_disable_noti = %s WHERE user_id = %s AND frm_id = %s AND container_enforces_noti = %s',
             ['integer', 'integer', 'integer', 'integer'],
             [$userToggle, $userId, $forumId, 1]
         );
@@ -253,8 +257,8 @@ class ilForumNotificationTest extends TestCase
         $instance = new ilForumNotification(3830);
         $instance->setUserId($userId);
         $instance->setForumId($forumId);
-        $instance->setUserToggle($userToggle);
-        $instance->updateUserToggle();
+        $instance->setMemberMayDisableNotification($userToggle);
+        $instance->updateMemberMayDisableOnContainerEnforcedRow();
     }
 
     public function testCheckForumsExistsInsert(): void
@@ -286,7 +290,7 @@ class ilForumNotificationTest extends TestCase
         $userToggle = true;
         $adminForce = false;
         $this->database->expects(self::once())->method('manipulateF')->with(
-            'UPDATE frm_notification SET admin_force_noti = %s, user_toggle_noti = %s, ' .
+            'UPDATE frm_notification SET container_enforces_noti = %s, member_may_disable_noti = %s, ' .
             'interested_events = %s WHERE user_id = %s AND frm_id = %s',
             ['integer', 'integer', 'integer', 'integer', 'integer'],
             [
@@ -299,8 +303,8 @@ class ilForumNotificationTest extends TestCase
         );
 
         $instance = new ilForumNotification(8380);
-        $instance->setAdminForce($adminForce);
-        $instance->setUserToggle($userToggle);
+        $instance->setContainerEnforcesNotification($adminForce);
+        $instance->setMemberMayDisableNotification($userToggle);
         $instance->setInterestedEvents($events);
         $instance->setUserId($userId);
         $instance->setForumId($forumId);
@@ -332,10 +336,11 @@ class ilForumNotificationTest extends TestCase
             'user_id' => 490,
             'frm_id' => 380,
             'thread_id' => 280,
-            'admin_force_noti' => 20,
-            'user_toggle_noti' => 90,
+            'container_enforces_noti' => 20,
+            'member_may_disable_noti' => 90,
             'interested_events' => 8,
             'user_id_noti' => 6,
+            'user_deactivated_noti' => 0,
         ];
         $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->database->expects(self::exactly(2))->method('fetchAssoc')->willReturn(
@@ -351,9 +356,61 @@ class ilForumNotificationTest extends TestCase
         $instance = new ilForumNotification(84849);
         $instance->setForumId($forumId);
 
-        $this->assertSame([
-            $row['user_id'] => $row,
-        ], $instance->read());
+        $expected = new ForumNotificationMembershipRow($row);
+        $this->assertEquals([$row['user_id'] => $expected], $instance->read());
+    }
+
+    public function testReadForumLevelMembershipRows(): void
+    {
+        $forumId = 4859;
+        $row = [
+            'notification_id' => 789,
+            'user_id' => 490,
+            'frm_id' => 380,
+            'thread_id' => 0,
+            'container_enforces_noti' => 20,
+            'member_may_disable_noti' => 90,
+            'interested_events' => 8,
+            'user_id_noti' => 6,
+            'user_deactivated_noti' => 0,
+        ];
+        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
+        $this->database->expects(self::exactly(2))->method('fetchAssoc')->willReturn(
+            $row,
+            null
+        );
+        $this->database->expects(self::once())->method('queryF')->with(
+            'SELECT * FROM frm_notification WHERE frm_id = %s AND thread_id = %s',
+            ['integer', 'integer'],
+            [$forumId, 0]
+        )->willReturn($mockStatement);
+
+        $instance = new ilForumNotification(84849);
+        $instance->setForumId($forumId);
+
+        $expected = new ForumNotificationMembershipRow($row);
+        $this->assertEquals([$row['user_id'] => $expected], $instance->readForumLevelMembershipRows());
+    }
+
+    public function testGetDistinctForumNotificationUserIds(): void
+    {
+        $forumId = 100;
+        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
+        $this->database->expects(self::exactly(3))->method('fetchAssoc')->willReturn(
+            ['user_id' => '5'],
+            ['user_id' => 12],
+            null
+        );
+        $this->database->expects(self::once())->method('queryF')->with(
+            'SELECT DISTINCT user_id FROM frm_notification WHERE frm_id = %s ORDER BY user_id ASC',
+            ['integer'],
+            [$forumId]
+        )->willReturn($mockStatement);
+
+        $instance = new ilForumNotification(1);
+        $instance->setForumId($forumId);
+
+        $this->assertSame([5, 12], $instance->getDistinctForumNotificationUserIds());
     }
 
     public function testMergeThreadNotifications(): void
@@ -414,17 +471,16 @@ class ilForumNotificationTest extends TestCase
         ilForumNotification::mergeThreadNotifications($srcId, $targetId);
     }
 
-    public function testExistsNotification(): void
+    public function testHasContainerProvisionedMembershipNotification(): void
     {
-        $adminForce = false;
         $forumId = 7332;
         $userId = 5758;
 
         $statement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->database->expects(self::once())->method('queryF')->with(
-            'SELECT user_id FROM frm_notification WHERE user_id = %s AND frm_id = %s AND admin_force_noti = %s',
-            ['integer', 'integer', 'integer'],
-            [$userId, $forumId, (int) $adminForce]
+            'SELECT user_id FROM frm_notification WHERE user_id = %s AND frm_id = %s AND user_id_noti > %s AND thread_id = %s',
+            ['integer', 'integer', 'integer', 'integer'],
+            [$userId, $forumId, 0, 0]
         )->willReturn($statement);
 
         $this->database->expects(self::once())->method('numRows')->with($statement)->willReturn(8);
@@ -433,7 +489,7 @@ class ilForumNotificationTest extends TestCase
         $instance->setForumId($forumId);
         $instance->setUserId($userId);
 
-        $this->assertTrue($instance->existsNotification());
+        $this->assertTrue($instance->hasContainerProvisionedMembershipNotification());
     }
 
     protected function setUp(): void

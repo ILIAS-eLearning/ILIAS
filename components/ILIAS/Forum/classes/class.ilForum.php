@@ -1527,55 +1527,69 @@ class ilForum
 
     public function enableForumNotification(int $user_id): bool
     {
-        if (!$this->isForumNotificationEnabled($user_id)) {
-            /* Remove all notifications of threads that belong to the forum */
-            $res = $this->db->queryF(
-                '
-				SELECT frm_notification.thread_id FROM frm_data, frm_notification, frm_threads 
+        if ($this->isForumNotificationEnabled($user_id)) {
+            return true;
+        }
+
+        $res = $this->db->queryF(
+            'SELECT COUNT(*) cnt FROM frm_notification WHERE user_id = %s AND frm_id = %s AND thread_id = %s',
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
+            [$user_id, $this->id, 0]
+        );
+        if (($row = $this->db->fetchAssoc($res)) && (int) $row['cnt'] > 0) {
+            $this->db->manipulateF(
+                'UPDATE frm_notification SET user_deactivated_noti = %s WHERE user_id = %s AND frm_id = %s AND thread_id = %s',
+                [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
+                [0, $user_id, $this->id, 0]
+            );
+            return true;
+        }
+
+        $res = $this->db->queryF(
+            '
+				SELECT frm_notification.thread_id FROM frm_data, frm_notification, frm_threads
 				WHERE frm_notification.user_id = %s
-				AND frm_notification.thread_id = frm_threads.thr_pk 
-				AND frm_threads.thr_top_fk = frm_data.top_pk 
+				AND frm_notification.thread_id = frm_threads.thr_pk
+				AND frm_threads.thr_top_fk = frm_data.top_pk
 				AND frm_data.top_frm_fk = %s
 				GROUP BY frm_notification.thread_id',
-                ['integer', 'integer'],
-                [$user_id, $this->id]
-            );
+            ['integer', 'integer'],
+            [$user_id, $this->id]
+        );
 
-            if ($res->numRows() > 0) {
-                $thread_data = [];
-                $thread_data_types = [];
+        if ($res->numRows() > 0) {
+            $thread_data = [];
+            $thread_data_types = [];
 
-                $query = ' DELETE FROM frm_notification WHERE user_id = %s AND thread_id IN (';
-                $thread_data[] = $user_id;
-                $thread_data_types[] = 'integer';
+            $query = ' DELETE FROM frm_notification WHERE user_id = %s AND thread_id IN (';
+            $thread_data[] = $user_id;
+            $thread_data_types[] = 'integer';
 
-                $counter = 1;
-                while ($row = $this->db->fetchAssoc($res)) {
-                    if ($counter < $res->numRows()) {
-                        $query .= '%s, ';
-                        $thread_data[] = $row['thread_id'];
-                        $thread_data_types[] = 'integer';
-                    }
-
-                    if ($counter === $res->numRows()) {
-                        $query .= '%s)';
-                        $thread_data[] = $row['thread_id'];
-                        $thread_data_types[] = 'integer';
-                    }
-                    $counter++;
+            $counter = 1;
+            while ($row = $this->db->fetchAssoc($res)) {
+                if ($counter < $res->numRows()) {
+                    $query .= '%s, ';
+                    $thread_data[] = $row['thread_id'];
+                    $thread_data_types[] = 'integer';
                 }
 
-                $this->db->manipulateF($query, $thread_data_types, $thread_data);
+                if ($counter === $res->numRows()) {
+                    $query .= '%s)';
+                    $thread_data[] = $row['thread_id'];
+                    $thread_data_types[] = 'integer';
+                }
+                $counter++;
             }
 
-            /* Insert forum notification */
-            $nextId = $this->db->nextId('frm_notification');
-            $this->db->manipulateF(
-                'INSERT INTO frm_notification (notification_id, user_id, frm_id) VALUES(%s, %s, %s)',
-                ['integer', 'integer', 'integer'],
-                [$nextId, $user_id, $this->id]
-            );
+            $this->db->manipulateF($query, $thread_data_types, $thread_data);
         }
+
+        $nextId = $this->db->nextId('frm_notification');
+        $this->db->manipulateF(
+            'INSERT INTO frm_notification (notification_id, user_id, frm_id, thread_id, member_may_disable_noti, user_deactivated_noti) VALUES(%s, %s, %s, %s, %s, %s)',
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
+            [$nextId, $user_id, $this->id, 0, ilForumProperties::getInstance($this->id)->isMemberMayDeactivateForumNotification() ? 1 : 0, 0]
+        );
 
         return true;
     }
@@ -1583,9 +1597,15 @@ class ilForum
     public function disableForumNotification(int $user_id): bool
     {
         $this->db->manipulateF(
-            'DELETE FROM frm_notification WHERE user_id = %s AND frm_id = %s',
-            ['integer', 'integer'],
-            [$user_id, $this->id]
+            'UPDATE frm_notification SET user_deactivated_noti = %s WHERE user_id = %s AND frm_id = %s AND thread_id = %s',
+            ['integer', 'integer', 'integer', 'integer'],
+            [1, $user_id, $this->id, 0]
+        );
+
+        $this->db->manipulateF(
+            'DELETE FROM frm_notification WHERE user_id = %s AND frm_id = %s AND thread_id != %s',
+            ['integer', 'integer', 'integer'],
+            [$user_id, $this->id, 0]
         );
 
         return true;
@@ -1594,9 +1614,9 @@ class ilForum
     public function isForumNotificationEnabled(int $user_id): bool
     {
         $res = $this->db->queryF(
-            'SELECT COUNT(*) cnt FROM frm_notification WHERE user_id = %s AND frm_id = %s',
-            ['integer', 'integer'],
-            [$user_id, $this->id]
+            'SELECT COUNT(*) cnt FROM frm_notification WHERE user_id = %s AND frm_id = %s AND thread_id = %s AND user_deactivated_noti = %s',
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
+            [$user_id, $this->id, 0, 0]
         );
 
         if ($row = $this->db->fetchAssoc($res)) {
