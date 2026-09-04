@@ -660,6 +660,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 if (!$question_gui->saveQuestion()) {
                     return;
                 }
+                $this->setTitleAndDescription($question_gui);
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
                 if ($cmd === 'saveReturn') {
                     $this->ctrl->setParameterByClass(
@@ -1449,14 +1450,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     /**
      * called by prepare output
      */
-    public function setTitleAndDescription(): void
-    {
+    public function setTitleAndDescription(
+        ?assQuestionGUI $question_gui = null
+    ): void {
         parent::setTitleAndDescription();
 
-        if (!is_array($this->request_data_collector->raw('q_id')) && $this->request_data_collector->raw('q_id') > 0 && $this->request_data_collector->raw(
-            'cmd'
-        ) !== self::DEFAULT_CMD) {
-            $question_gui = assQuestionGUI::_getQuestionGUI('', $this->request_data_collector->getQuestionId());
+        if ($question_gui !== null
+            || !is_array($this->request_data_collector->raw('q_id'))
+                && $this->request_data_collector->raw('q_id') > 0
+                && $this->request_data_collector->raw('cmd') !== self::DEFAULT_CMD
+        ) {
+            $question_gui ??= assQuestionGUI::_getQuestionGUI('', $this->request_data_collector->getQuestionId());
             if ($question_gui->getObject() instanceof assQuestion) {
                 $question = $question_gui->getObject();
                 $question->setObjId($this->object->getId());
