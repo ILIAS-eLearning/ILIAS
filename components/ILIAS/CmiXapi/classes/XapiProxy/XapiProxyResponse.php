@@ -26,6 +26,14 @@ use GuzzleHttp\Psr7\Request;
 
 class XapiProxyResponse
 {
+    /**
+     * 304, 409 and 412 are the conditional answers of the xAPI document resources. They are
+     * regular protocol answers which the content has to evaluate on its own, so they are
+     * relayed unchanged instead of being replaced by a generic proxy error.
+     * @var list<int>
+     */
+    private const RELAYED_STATUS_CODES = [200, 204, 304, 404, 409, 412];
+
     //        private $dic;
     private XapiProxy $xapiproxy;
     //private $xapiProxyRequest;
@@ -40,7 +48,7 @@ class XapiProxyResponse
     {
         if ($response['state'] == 'fulfilled') {
             $status = $response['value']->getStatusCode();
-            if ($status === 200 || $status === 204 || $status === 404) {
+            if (in_array($status, self::RELAYED_STATUS_CODES, true)) {
                 return true;
             } else {
                 $this->xapiproxy->log()->error("LRS error {$endpoint}: " . $response['value']->getBody());
@@ -240,6 +248,9 @@ class XapiProxyResponse
                 $first = false;
             }
         }
+
+        // the content may only read the relayed ETag of a document if it is exposed
+        header('Access-Control-Expose-Headers: ETag, Last-Modified, X-Experience-API-Version', true, $statusCode);
 
         // statusline
         header(sprintf(
