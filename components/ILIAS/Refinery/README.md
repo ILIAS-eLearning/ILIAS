@@ -20,6 +20,8 @@ processed by the ILIAS project.
         * [htmlAttributeValue](#htmlAttributeValue)
         * [json](#json)
         * [url](#url)
+      - [decode](#decode)
+        * [json](#json-1)
   * [Custom Transformation](#custom-transformation)
     + [DeriveApplyToFromTransform](#deriveapplytofromtransform)
       - [Error Handling](#error-handling)
@@ -327,6 +329,32 @@ The transformation prevents a value to change other URL parameters & values or t
 
 ```php
 $link = $ctrl->setParameterByClass(FooGUI::class, 'bar', $refinery->encode()->url()->transform($foobar));
+```
+
+##### decode
+
+The `decode` group is the counterpart of the [encode](#encode) group and turns encoded strings back
+into native PHP values.
+
+###### json
+
+This transformation is a wrapper around `json_decode`. In contrast to `json_decode` it never returns
+`null` to signal a problem, because `null` cannot be told apart from the successfully decoded JSON
+literal `null`. Undecodable input raises a `ConstraintViolationException` instead, just like the
+other transformations of this library, so `applyTo` can be used to reify the problem into a
+`Result`.
+
+JSON objects are decoded into associative arrays rather than `stdClass`, so the result can be
+processed further with the `container`, `to` and `kindlyTo` groups.
+
+```php
+$settings = $refinery->decode()->json()->transform('{"limit":10,"tags":["a","b"]}');
+// $settings => ['limit' => 10, 'tags' => ['a', 'b']]
+
+$refinery->decode()->json()->transform('{'); // throws a ConstraintViolationException
+
+$result = $refinery->decode()->json()->applyTo(new ILIAS\Data\Result\Ok('{'));
+// $result->isError() => true
 ```
 
 ##### Custom
