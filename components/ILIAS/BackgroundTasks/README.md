@@ -97,4 +97,29 @@ $observer = new MockObserver();
 $value = $taskManager->executeTask($task, $observer);
 echo $value->getValue(); // will echo 2.
 ```
- 
+
+Configuring the component
+-------------------------
+
+To configure this component you need to add this to your `ilias.ini.php` file:
+
+```ini
+[background_tasks]
+number_of_concurrent_tasks = <nr>
+concurrency = <concurrency>
+```
+
+* Replace `<nr>` with a positive integer that defines how many tasks can run in parallel (only for `async` concurrency).
+* Replace `<concurrency>` with one of these options:
+  * `sync`: perform tasks synchronously in the same request
+  * `async`: perform tasks asynchronously (needs SOAP to be elabled)
+
+Pro-tip for developers
+----------------------
+
+Run this database update to enable SOAP quickly:
+
+```sql
+update settings set value = 1 where keyword = 'soap_user_administration';
+update settings set value = "http://localhost/soap/server.php?wsdl" where keyword = 'soap_internal_wsdl_path';
+```
