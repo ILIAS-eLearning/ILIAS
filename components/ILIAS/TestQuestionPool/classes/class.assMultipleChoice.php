@@ -930,19 +930,20 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     public function solutionValuesToText(array $solution_values): array
     {
         $solution_ids = array_map(
-            static fn(array $v): string => $v['value1'],
+            fn(array $v): int => $this->refinery->kindlyTo()->int()->transform($v['value1']),
             $solution_values
         );
 
         return array_map(
-            function (ASS_AnswerMultipleResponseImage $v) use ($solution_ids): string {
+            function (ASS_AnswerMultipleResponseImage $v, int $k) use ($solution_ids): string {
                 $checked = 'unchecked';
-                if (in_array($v->getId(), $solution_ids)) {
+                if (in_array($k, $solution_ids)) {
                     $checked = 'checked';
                 }
                 return "{$v->getAnswertext()} ({$this->lng->txt($checked)})";
             },
-            $this->getAnswers()
+            $this->getAnswers(),
+            array_keys($this->getAnswers())
         );
     }
 
