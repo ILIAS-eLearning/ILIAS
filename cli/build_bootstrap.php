@@ -36,7 +36,9 @@ if (count($argv) < 3 || count($argv) % 2 != 1) {
 
 array_shift($argv);
 
-$reader = new ILIAS\Component\Dependencies\Reader();
+$reader = new ILIAS\Component\Dependencies\Reader(
+    new ILIAS\Component\Dependencies\Mocks\EvalLightMockBuilder()
+);
 
 /******************************************************************************/
 /* Read information from the Components                                       */
