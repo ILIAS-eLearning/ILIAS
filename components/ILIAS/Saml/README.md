@@ -77,7 +77,7 @@ See:
 ## ILIAS Configuration
 
 Please change your ILIAS configuration according to the `Superglobal` behaviour described in
-the [`HTTP README`](../HTTP/README.md#dropinreplacements)
+the [`HTTP README`](../HTTP/README.md#dropinreplacements) when running ILIAS in `DEVMODE`.
 
 ## Config Changes in ILIAS 9
 
