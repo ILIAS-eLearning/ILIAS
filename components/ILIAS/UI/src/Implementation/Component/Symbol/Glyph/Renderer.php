@@ -74,6 +74,13 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
+        $aria_expanded = $component->getAriaExpanded();
+        if ($aria_expanded !== null) {
+            $tpl->setCurrentBlock("with_aria_expanded");
+            $tpl->setVariable("ARIA_EXPANDED", $aria_expanded);
+            $tpl->parseCurrentBlock();
+        }
+
         $tpl->setVariable("GLYPH", $this->getInnerGlyphHTML($component, $default_renderer));
         return $tpl->get();
     }
