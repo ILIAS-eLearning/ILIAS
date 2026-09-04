@@ -615,40 +615,34 @@ class Gaps implements Clonable
         TableNameBuilder $table_names_builder
     ): Delete {
         $table_type = AnswerFormSpecificTableTypes::AnswerInputs;
-        return $persistence_factory->delete(
-            $persistence_factory->table(
-                $table_names_builder,
-                $table_type
+        return $persistence_factory->delete([
+            $persistence_factory->where(
+                $table_definitions->getForeignKeyColumn(
+                    $table_names_builder,
+                    $table_type
+                ),
+                $persistence_factory->value(
+                    FieldDefinition::T_TEXT,
+                    $this->answer_form_id->toString()
+                )
             ),
-            [
-                $persistence_factory->where(
-                    $table_definitions->getForeignKeyColumn(
-                        $table_names_builder,
-                        $table_type
-                    ),
-                    $persistence_factory->value(
-                        FieldDefinition::T_TEXT,
-                        $this->answer_form_id->toString()
+            $persistence_factory->where(
+                $table_definitions->getIdColumn(
+                    $table_names_builder,
+                    $table_type
+                ),
+                $persistence_factory->value(
+                    FieldDefinition::T_TEXT,
+                    array_map(
+                        fn(Gap $v): string => $v->getAnswerInputId()->toString(),
+                        $this->gaps
                     )
                 ),
-                $persistence_factory->where(
-                    $table_definitions->getIdColumn(
-                        $table_names_builder,
-                        $table_type
-                    ),
-                    $persistence_factory->value(
-                        FieldDefinition::T_TEXT,
-                        array_map(
-                            fn(Gap $v): string => $v->getAnswerInputId()->toString(),
-                            $this->gaps
-                        )
-                    ),
-                    Operator::In,
-                    Junctor::Conjunction,
-                    true
-                )
-            ]
-        );
+                Operator::In,
+                Junctor::Conjunction,
+                true
+            )
+        ]);
     }
 
     private function buildDeleteForDeletionOfAnswerForm(
@@ -658,24 +652,18 @@ class Gaps implements Clonable
     ): Delete {
         $table_type = AnswerFormSpecificTableTypes::AnswerInputs;
 
-        return $persistence_factory->delete(
-            $persistence_factory->table(
-                $table_names_builder,
-                $table_type
-            ),
-            [
-                $persistence_factory->where(
-                    $table_definitions->getForeignKeyColumn(
-                        $table_names_builder,
-                        $table_type
-                    ),
-                    $persistence_factory->value(
-                        FieldDefinition::T_TEXT,
-                        $this->answer_form_id->toString()
-                    ),
-                )
-            ]
-        );
+        return $persistence_factory->delete([
+            $persistence_factory->where(
+                $table_definitions->getForeignKeyColumn(
+                    $table_names_builder,
+                    $table_type
+                ),
+                $persistence_factory->value(
+                    FieldDefinition::T_TEXT,
+                    $this->answer_form_id->toString()
+                ),
+            )
+        ]);
     }
 
     private function orderGapsByPosition(

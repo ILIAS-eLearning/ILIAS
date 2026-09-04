@@ -173,24 +173,18 @@ class DatabaseStatementBuilder
         Uuid $question_id
     ): Delete {
         $table_type = TableTypes::Questions;
-        return $this->persistence_factory->delete(
-            $this->persistence_factory->table(
-                $table_names_builder,
-                $table_type
-            ),
-            [
-                $this->persistence_factory->where(
-                    $this->question_tables_definitions->getIdColumn(
-                        $table_names_builder,
-                        $table_type
-                    ),
-                    $this->persistence_factory->value(
-                        FieldDefinition::T_TEXT,
-                        $question_id->toString()
-                    )
+        return $this->persistence_factory->delete([
+            $this->persistence_factory->where(
+                $this->question_tables_definitions->getIdColumn(
+                    $table_names_builder,
+                    $table_type
+                ),
+                $this->persistence_factory->value(
+                    FieldDefinition::T_TEXT,
+                    $question_id->toString()
                 )
-            ]
-        );
+            )
+        ]);
     }
 
     public function buildDeleteLinkingStatement(
@@ -198,24 +192,18 @@ class DatabaseStatementBuilder
         Uuid $question_id
     ): Delete {
         $table_type = TableTypes::Linking;
-        return $this->persistence_factory->delete(
-            $this->persistence_factory->table(
-                $table_names_builder,
-                $table_type
-            ),
-            [
-                $this->persistence_factory->where(
-                    $this->question_tables_definitions->getIdColumn(
-                        $table_names_builder,
-                        $table_type
-                    ),
-                    $this->persistence_factory->value(
-                        FieldDefinition::T_TEXT,
-                        $question_id->toString()
-                    )
+        return $this->persistence_factory->delete([
+            $this->persistence_factory->where(
+                $this->question_tables_definitions->getIdColumn(
+                    $table_names_builder,
+                    $table_type
+                ),
+                $this->persistence_factory->value(
+                    FieldDefinition::T_TEXT,
+                    $question_id->toString()
                 )
-            ]
-        );
+            )
+        ]);
     }
 
     /**
@@ -227,24 +215,18 @@ class DatabaseStatementBuilder
         Uuid $question_id
     ): Delete {
         $table_type = TableTypes::MigrationsTable;
-        return $this->persistence_factory->delete(
-            $this->persistence_factory->table(
-                $table_names_builder,
-                $table_type
-            ),
-            [
-                $this->persistence_factory->where(
-                    $this->question_tables_definitions->getIdColumn(
-                        $table_names_builder,
-                        $table_type
-                    ),
-                    $this->persistence_factory->value(
-                        FieldDefinition::T_TEXT,
-                        $question_id->toString()
-                    )
+        return $this->persistence_factory->delete([
+            $this->persistence_factory->where(
+                $this->question_tables_definitions->getIdColumn(
+                    $table_names_builder,
+                    $table_type
+                ),
+                $this->persistence_factory->value(
+                    FieldDefinition::T_TEXT,
+                    $question_id->toString()
                 )
-            ]
-        );
+            )
+        ]);
     }
 
     private function addAnswerFormStatementsToManipulate(

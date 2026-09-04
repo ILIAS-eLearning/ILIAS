@@ -127,43 +127,31 @@ class Repository
             $this->db,
             QuestionRepository::COMPONENT_NAMESPACE
         ))->withAdditionalStatement(
-            $this->persistence_factory->delete(
-                $this->persistence_factory->table(
-                    $this->feedback_table_names_builder,
-                    TableTypes::FeedbackGeneric
-                ),
-                [
-                    $this->persistence_factory->where(
-                        $this->feedback_table_definitions->getForeignKeyColumn(
-                            $this->feedback_table_names_builder,
-                            TableTypes::FeedbackGeneric
-                        )
-                    ),
-                    $this->persistence_factory->value(
-                        FieldDefinition::T_TEXT,
-                        $answer_form_id->toString()
+            $this->persistence_factory->delete([
+                $this->persistence_factory->where(
+                    $this->feedback_table_definitions->getForeignKeyColumn(
+                        $this->feedback_table_names_builder,
+                        TableTypes::FeedbackGeneric
                     )
-                ]
-            )
+                ),
+                $this->persistence_factory->value(
+                    FieldDefinition::T_TEXT,
+                    $answer_form_id->toString()
+                )
+            ])
         )->withAdditionalStatement(
-            $this->persistence_factory->delete(
-                $this->persistence_factory->table(
-                    $this->feedback_table_names_builder,
-                    TableTypes::FeedbackSpecific
-                ),
-                [
-                    $this->persistence_factory->where(
-                        $this->feedback_table_definitions->getForeignKeyColumn(
-                            $this->feedback_table_names_builder,
-                            TableTypes::FeedbackSpecific
-                        )
-                    ),
-                    $this->persistence_factory->value(
-                        FieldDefinition::T_TEXT,
-                        $answer_form_id->toString()
+            $this->persistence_factory->delete([
+                $this->persistence_factory->where(
+                    $this->feedback_table_definitions->getForeignKeyColumn(
+                        $this->feedback_table_names_builder,
+                        TableTypes::FeedbackSpecific
                     )
-                ]
-            )
+                ),
+                $this->persistence_factory->value(
+                    FieldDefinition::T_TEXT,
+                    $answer_form_id->toString()
+                )
+            ])
         )->run();
     }
 

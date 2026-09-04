@@ -443,24 +443,18 @@ abstract class TextFeedback implements TypeSpecification, Feedback
         TableNameBuilder $feedback_table_names_builder,
         Uuid $answer_form_id
     ): Delete {
-        return $persistence_factory->delete(
-            $persistence_factory->table(
-                $feedback_table_names_builder,
-                TableTypes::FeedbackSpecific
-            ),
-            [
-                $persistence_factory->where(
-                    $feedback_table_definitions->getForeignKeyColumn(
-                        $feedback_table_names_builder,
-                        TableTypes::FeedbackSpecific
-                    ),
-                    new Value(
-                        FieldDefinition::T_TEXT,
-                        $answer_form_id->toString()
-                    )
+        return $persistence_factory->delete([
+            $persistence_factory->where(
+                $feedback_table_definitions->getForeignKeyColumn(
+                    $feedback_table_names_builder,
+                    TableTypes::FeedbackSpecific
+                ),
+                new Value(
+                    FieldDefinition::T_TEXT,
+                    $answer_form_id->toString()
                 )
-            ]
-        );
+            )
+        ]);
     }
 
     private function buildReplaceForSpecificFeedback(
