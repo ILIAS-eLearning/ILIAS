@@ -7683,6 +7683,26 @@ class ilObjTest extends ilObject
         }
     }
 
+	public function getRemainingProcessingTimeInSecondsForActiveId(int $active_id): int
+    {
+        if ($active_id < 1) {
+            return 0;
+        }
+
+        $processing_time = $this->getProcessingTimeInSeconds($active_id);
+
+        if ($processing_time <= 0) {
+            return 0;
+        }
+
+        $starting_time = $this->getStartingTimeOfUser($active_id);
+
+        return max(
+            0,
+            $starting_time + $processing_time - time()
+        );
+    }    
+	
     /**
      * @deprecated There is no reason for this to be interesting for other objects
      */

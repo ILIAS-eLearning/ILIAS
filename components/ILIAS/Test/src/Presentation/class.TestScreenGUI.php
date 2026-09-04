@@ -175,10 +175,21 @@ class TestScreenGUI
         }
 
         if ($test_behaviour_settings->getProcessingTimeEnabled() && !$this->isUserOutOfProcessingTime()) {
-            $message_box_message_elements[] = sprintf(
-                $this->lng->txt('tst_time_limit_message'),
-                $test_behaviour_settings->getProcessingTimeAsMinutes()
-            );
+            $active_id = $this->test_session->getActiveId();
+        
+            if ($active_id > 0) {
+                $remaining_seconds = $this->object->getRemainingProcessingTimeInSecondsForActiveId($active_id);
+        
+                $message_box_message_elements[] = sprintf(
+                    $this->lng->txt('tst_time_limit_message'),
+                    (int) ceil($remaining_seconds / 60)
+                );
+            } else {
+                $message_box_message_elements[] = sprintf(
+                    $this->lng->txt('tst_time_limit_message'),
+                    $test_behaviour_settings->getProcessingTimeAsMinutes()
+                );
+            }
         }
 
         $nr_of_tries = $this->object->getNrOfTries();
