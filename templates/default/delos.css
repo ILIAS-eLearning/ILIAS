@@ -18712,6 +18712,9 @@ a#ilHelpClose {
   margin-left: auto;
   margin-right: auto;
 }
+.ilStartupSection > .c-form {
+  min-width: 34rem;
+}
 @media only screen and (max-width: 991px) {
   .ilStartupSection {
     padding-top: 15px;
@@ -18722,6 +18725,9 @@ a#ilHelpClose {
   }
   .ilStartupSection .control-label + div {
     width: 100%;
+  }
+  .ilStartupSection > .c-form {
+    min-width: 0;
   }
 }
 
