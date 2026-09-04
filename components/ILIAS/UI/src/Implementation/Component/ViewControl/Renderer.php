@@ -74,6 +74,9 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setCurrentBlock("view_control");
 
             $button = $f->button()->standard($label, $action);
+            if ($action = $component->getOnLoadCodeForAction($label)) {
+                $button = $button->withOnLoadCode($action);
+            }
             if ($activate_first_item) {
                 $button = $button->withEngagedState(true);
                 $activate_first_item = false;
