@@ -385,8 +385,9 @@ class GlyphTest extends ILIAS_UI_TestBase
 
         $css_classes = self::$canonical_css_classes[$type];
         $aria_label = self::$aria_labels[$type];
+        $aria_expanded = $this->getAriaExpandedAttribute($type);
 
-        $expected = '<a tabindex="0" class="glyph" href="http://www.ilias.de" aria-label="' . $aria_label . '"><span class="' . $css_classes . '" aria-hidden="true"></span></a>';
+        $expected = '<a tabindex="0" class="glyph" href="http://www.ilias.de" aria-label="' . $aria_label . '"' . $aria_expanded . '><span class="' . $css_classes . '" aria-hidden="true"></span></a>';
         $this->assertEquals($expected, $html);
     }
 
@@ -403,9 +404,10 @@ class GlyphTest extends ILIAS_UI_TestBase
 
         $css_classes = self::$canonical_css_classes[$type];
         $aria_label = self::$aria_labels[$type];
+        $aria_expanded = $this->getAriaExpandedAttribute($type);
 
         $expected = '
-        <a class="glyph disabled" aria-label="' . $aria_label . '" aria-disabled="true">
+        <a class="glyph disabled" aria-label="' . $aria_label . '" aria-disabled="true"' . $aria_expanded . '>
             <span class="' . $css_classes . '" aria-hidden="true"></span>
         </a>';
         $this->assertEquals($this->brutallyTrimHTML($expected), $this->brutallyTrimHTML($html));
@@ -495,9 +497,10 @@ class GlyphTest extends ILIAS_UI_TestBase
 
         $css_classes = self::$canonical_css_classes[$type];
         $aria_label = self::$aria_labels[$type];
+        $aria_expanded = $this->getAriaExpandedAttribute($type);
 
         $id = $ids[0];
-        $expected = "<a tabindex=\"0\" class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\" id=\"$id\"><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
+        $expected = "<a tabindex=\"0\" class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\"$aria_expanded id=\"$id\"><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
         $this->assertEquals($expected, $html);
     }
 
@@ -515,8 +518,9 @@ class GlyphTest extends ILIAS_UI_TestBase
 
         $css_classes = self::$canonical_css_classes[$type];
         $aria_label = self::$aria_labels[$type];
+        $aria_expanded = $this->getAriaExpandedAttribute($type);
 
-        $expected = "<a tabindex=\"0\" class=\"glyph\" href=\"http://www.ilias.de/open-source-lms-ilias/\" aria-label=\"$aria_label\"><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
+        $expected = "<a tabindex=\"0\" class=\"glyph\" href=\"http://www.ilias.de/open-source-lms-ilias/\" aria-label=\"$aria_label\"$aria_expanded><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
         $this->assertEquals($expected, $html);
     }
 
@@ -544,6 +548,15 @@ class GlyphTest extends ILIAS_UI_TestBase
         // Glyph with Action and Signal but Inactive
         $c = $f->user()->withAction("#")->withOnClick(new I\Signal("id_1", "click"))->withUnavailableAction();
         $this->assertFalse($c->isTabbable());
+    }
+
+    private function getAriaExpandedAttribute(string $type): string
+    {
+        return match ($type) {
+            G\Glyph::EXPAND => ' aria-expanded="false"',
+            G\Glyph::COLLAPSE => ' aria-expanded="true"',
+            default => '',
+        };
     }
 
     public function testTabbableGlyphRender(): void
