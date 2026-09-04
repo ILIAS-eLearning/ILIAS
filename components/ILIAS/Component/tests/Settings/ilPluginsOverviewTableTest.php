@@ -238,6 +238,33 @@ class ilPluginsOverviewTableTest extends TestCase
         $this->assertCount(0, $result);
     }
 
+    public function testFilterDataIsCaseInsensitive(): void
+    {
+        $obj = $this->filterableTable();
+        $plugin_info = $this->pluginInfoMock();
+
+        $obj->setFilter(["plugin_name" => "testrepo"]);
+        $this->assertEquals($plugin_info, $obj->filterData([$plugin_info])[0]);
+
+        $obj->setFilter(["plugin_name" => "TESTREPO"]);
+        $this->assertEquals($plugin_info, $obj->filterData([$plugin_info])[0]);
+
+        $obj->setFilter(["plugin_id" => "XVW"]);
+        $this->assertEquals($plugin_info, $obj->filterData([$plugin_info])[0]);
+    }
+
+    public function testFilterDataCombinesNameAndId(): void
+    {
+        $obj = $this->filterableTable();
+        $plugin_info = $this->pluginInfoMock();
+
+        $obj->setFilter(["plugin_name" => "TestRepoFAIL", "plugin_id" => "xvw"]);
+        $this->assertCount(0, $obj->filterData([$plugin_info]));
+
+        $obj->setFilter(["plugin_name" => "TestRepo", "plugin_id" => "xvwFAIL"]);
+        $this->assertCount(0, $obj->filterData([$plugin_info]));
+    }
+
     public function testGetData(): void
     {
         $obj = new class ($this->parent_gui, $this->ctrl, $this->ui, $this->renderer, $this->lng, []) extends ilPluginsOverviewTable {
@@ -427,5 +454,38 @@ class ilPluginsOverviewTableTest extends TestCase
         $result = $obj->getActions($plugin_info);
 
         $this->assertInstanceOf(Shy::class, $result->getItems()[0]);
+    }
+
+    protected function filterableTable(): object
+    {
+        return new class ($this->parent_gui, $this->ctrl, $this->ui, $this->renderer, $this->lng, []) extends ilPluginsOverviewTable {
+            public function setFilter(array $filter): void
+            {
+                $this->filter = $filter;
+            }
+
+            public function filterData(array $data): array
+            {
+                return parent::filterData($data);
+            }
+        };
+    }
+
+    protected function pluginInfoMock(): ilPluginInfo
+    {
+        $plugin_slot = $this->createMock(ilPluginSlotInfo::class);
+        $plugin_slot->method("getName")->willReturn("Repository");
+
+        $component = $this->createMock(ilComponentInfo::class);
+        $component->method("getQualifiedName")->willReturn("QualifiedName");
+
+        $plugin_info = $this->createMock(ilPluginInfo::class);
+        $plugin_info->method("getName")->willReturn("TestRepo");
+        $plugin_info->method("getId")->willReturn("xvw");
+        $plugin_info->method("isActive")->willReturn(true);
+        $plugin_info->method("getPluginSlot")->willReturn($plugin_slot);
+        $plugin_info->method("getComponent")->willReturn($component);
+
+        return $plugin_info;
     }
 }

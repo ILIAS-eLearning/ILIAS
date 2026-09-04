@@ -139,10 +139,16 @@ class ilPluginsOverviewTable
         $plugins = array_filter($data, static function (ilPluginInfo $plugin_info) use ($active_filters): bool {
             $matches_filter = true;
             if (isset($active_filters[self::F_PLUGIN_NAME])) {
-                $matches_filter = strpos($plugin_info->getName(), $active_filters[self::F_PLUGIN_NAME]) !== false;
+                $matches_filter = $matches_filter && stripos(
+                    $plugin_info->getName(),
+                    $active_filters[self::F_PLUGIN_NAME]
+                ) !== false;
             }
             if (isset($active_filters[self::F_PLUGIN_ID])) {
-                $matches_filter = strpos($plugin_info->getId(), $active_filters[self::F_PLUGIN_ID]) !== false;
+                $matches_filter = $matches_filter && stripos(
+                    $plugin_info->getId(),
+                    $active_filters[self::F_PLUGIN_ID]
+                ) !== false;
             }
             if (isset($active_filters[self::F_PLUGIN_ACTIVE])) {
                 $v = (int) $active_filters[self::F_PLUGIN_ACTIVE] === 1;
