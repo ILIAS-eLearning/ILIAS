@@ -25,10 +25,13 @@ use ILIAS\KeyValueStorage\Internal\NamespacedStore;
 use ILIAS\KeyValueStorage\Internal\Values;
 use ILIAS\KeyValueStorage\Internal\StorageNamespace;
 use ILIAS\Tests\KeyValueStorage\InMemoryRepository;
+use ILIAS\Tests\KeyValueStorage\RefineryHelper;
 use PHPUnit\Framework\TestCase;
 
 class NamespacedStoreTest extends TestCase
 {
+    use RefineryHelper;
+
     private InMemoryRepository $repository;
 
     private StorageNamespace $namespace;
@@ -56,22 +59,29 @@ class NamespacedStoreTest extends TestCase
             $this->repository->entries['my_component.view_state']['filters']
         );
 
-        $this->assertSame(['status' => 'open', 'limit' => 10], $this->storeFor($this->namespace)->get('filters'));
+        $this->assertSame(
+            ['status' => 'open', 'limit' => 10],
+            $this->storeFor($this->namespace)->get('filters', $this->asStored())
+        );
     }
 
-    public function testAbsentKeysYieldTheDefault(): void
+    public function testAbsentKeysArePassedToTheTransformationAsNull(): void
     {
-        $this->assertNull($this->store->get('absent'));
-        $this->assertSame('fallback', $this->store->get('absent', 'fallback'));
+        $this->assertNull($this->store->get('absent', $this->asStored()));
+        $this->assertSame(
+            'fallback',
+            $this->store->get('absent', $this->withDefault('fallback'))
+        );
         $this->assertFalse($this->store->has('absent'));
     }
 
-    public function testAStoredNullIsDistinguishedFromAnAbsentKey(): void
+    public function testAStoredNullIsDistinguishedFromAnAbsentKeyViaHas(): void
     {
         $this->store->set('maybe', null);
 
         $this->assertTrue($this->store->has('maybe'));
-        $this->assertNull($this->store->get('maybe', 'fallback'));
+        $this->assertNull($this->store->get('maybe', $this->asStored()));
+        $this->assertFalse($this->store->has('absent'));
     }
 
     public function testDeleteRemovesASingleKey(): void
@@ -101,32 +111,35 @@ class NamespacedStoreTest extends TestCase
     {
         $this->repository->entries['my_component.view_state']['sort'] = '"title"';
 
-        $this->assertSame('title', $this->store->get('sort'));
-        $this->assertSame('title', $this->store->get('sort'));
+        $this->assertSame('title', $this->store->get('sort', $this->asStored()));
+        $this->assertSame('title', $this->store->get('sort', $this->asStored()));
 
         $this->assertSame(1, $this->repository->reads);
     }
 
     public function testAnAbsentKeyIsOnlyLookedUpOnce(): void
     {
-        $this->store->get('absent');
-        $this->store->get('absent');
+        $this->store->get('absent', $this->asStored());
+        $this->store->get('absent', $this->asStored());
 
         $this->assertSame(1, $this->repository->reads);
     }
 
-    public function testAKnownAbsentKeyStillYieldsTheDefault(): void
+    public function testAKnownAbsentKeyStillYieldsTheTransformedDefault(): void
     {
-        $this->store->get('absent');
+        $this->store->get('absent', $this->asStored());
 
-        $this->assertSame('fallback', $this->store->get('absent', 'fallback'));
+        $this->assertSame(
+            'fallback',
+            $this->store->get('absent', $this->withDefault('fallback'))
+        );
         $this->assertSame(1, $this->repository->reads);
     }
 
     public function testHasAnswersFromWhatWasAlreadyRead(): void
     {
         $this->repository->entries['my_component.view_state']['sort'] = '"title"';
-        $this->store->get('sort');
+        $this->store->get('sort', $this->asStored());
 
         $this->assertTrue($this->store->has('sort'));
         $this->assertSame(1, $this->repository->reads);
@@ -136,7 +149,7 @@ class NamespacedStoreTest extends TestCase
     {
         $this->store->set('sort', 'title');
 
-        $this->assertSame('title', $this->store->get('sort'));
+        $this->assertSame('title', $this->store->get('sort', $this->asStored()));
         $this->assertSame(0, $this->repository->reads);
     }
 
@@ -152,18 +165,30 @@ class NamespacedStoreTest extends TestCase
             }
         });
 
-        $this->assertSame(['a' => 1], $this->store->get('value'));
+        $this->assertSame(['a' => 1], $this->store->get('value', $this->asStored()));
     }
 
     public function testEveryOperationValidatesTheKey(): void
     {
-        foreach (['has', 'get', 'delete'] as $method) {
-            try {
-                $this->store->{$method}('in:valid');
-                $this->fail($method . '() accepted an invalid key.');
-            } catch (\InvalidArgumentException) {
-                $this->addToAssertionCount(1);
-            }
+        try {
+            $this->store->has('in:valid');
+            $this->fail('has() accepted an invalid key.');
+        } catch (\InvalidArgumentException) {
+            $this->addToAssertionCount(1);
+        }
+
+        try {
+            $this->store->get('in:valid', $this->asStored());
+            $this->fail('get() accepted an invalid key.');
+        } catch (\InvalidArgumentException) {
+            $this->addToAssertionCount(1);
+        }
+
+        try {
+            $this->store->delete('in:valid');
+            $this->fail('delete() accepted an invalid key.');
+        } catch (\InvalidArgumentException) {
+            $this->addToAssertionCount(1);
         }
 
         $this->expectException(\InvalidArgumentException::class);
@@ -175,6 +200,6 @@ class NamespacedStoreTest extends TestCase
         $this->repository->entries['my_component.view_state']['in:valid'] = '1';
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->store->get('in:valid');
+        $this->store->get('in:valid', $this->asStored());
     }
 }

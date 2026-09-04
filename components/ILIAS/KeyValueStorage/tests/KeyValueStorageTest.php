@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Tests\KeyValueStorage;
 
 use ILIAS\Database\Connection;
+use ILIAS\Data\Factory as DataFactory;
 use ILIAS\KeyValueStorage\Internal\DatabaseRepository;
 use ILIAS\KeyValueStorage\Internal\StorageServices;
 use ILIAS\KeyValueStorage\Services;
@@ -47,12 +48,16 @@ class KeyValueStorageTest extends TestCase
         $this->contribute = new LazyContainer();
         $this->internal = new LazyContainer();
 
+        $language = $this->getMockBuilder(\ilLanguage::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $use = new LazyContainer([
             SessionRepository::class => $this->createStub(SessionRepository::class),
         ]);
         $pull = new LazyContainer([
             Connection::class => $this->createStub(Connection::class),
-            Refinery::class => $this->createStub(Refinery::class),
+            Refinery::class => new Refinery(new DataFactory(), $language),
         ]);
         $unused = new LazyContainer();
 
