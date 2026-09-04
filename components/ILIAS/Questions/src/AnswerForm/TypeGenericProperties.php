@@ -124,24 +124,18 @@ class TypeGenericProperties
         $table_type = AnswerFormGenericTableTypes::AnswerForms;
 
         return $manipulate->withAdditionalStatement(
-            $persistence_factory->delete(
-                $persistence_factory->table(
-                    $table_names_builder,
-                    $table_type
-                ),
-                [
-                    $persistence_factory->where(
-                        $answer_form_generic_table_definitions->getIdColumn(
-                            $table_names_builder,
-                            $table_type
-                        ),
-                        $persistence_factory->value(
-                            FieldDefinition::T_TEXT,
-                            $this->answer_form_id->toString()
-                        )
+            $persistence_factory->delete([
+                $persistence_factory->where(
+                    $answer_form_generic_table_definitions->getIdColumn(
+                        $table_names_builder,
+                        $table_type
+                    ),
+                    $persistence_factory->value(
+                        FieldDefinition::T_TEXT,
+                        $this->answer_form_id->toString()
                     )
-                ]
-            )
+                )
+            ])
         );
     }
 

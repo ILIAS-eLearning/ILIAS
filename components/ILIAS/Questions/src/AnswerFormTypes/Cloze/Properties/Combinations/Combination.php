@@ -190,26 +190,19 @@ class Combination implements Clonable
         TableNameBuilder $table_names_builder
     ): Delete {
         $table_definition = AnswerFormSpecificTableTypes::Additional;
-        return $persistence_factory->delete(
-            $persistence_factory->table(
-                $table_names_builder,
-                $table_definition,
-                $table_definitions->getCombinationsTableIdentifier()
-            ),
-            [
-                $persistence_factory->where(
-                    $table_definitions->getIdColumn(
-                        $table_names_builder,
-                        $table_definition,
-                        $table_definitions->getCombinationsTableIdentifier()
-                    ),
-                    $persistence_factory->value(
-                        FieldDefinition::T_TEXT,
-                        $this->id->toString()
-                    )
+        return $persistence_factory->delete([
+            $persistence_factory->where(
+                $table_definitions->getIdColumn(
+                    $table_names_builder,
+                    $table_definition,
+                    $table_definitions->getCombinationsTableIdentifier()
+                ),
+                $persistence_factory->value(
+                    FieldDefinition::T_TEXT,
+                    $this->id->toString()
                 )
-            ]
-        );
+            )
+        ]);
     }
 
     private function buildDeleteForLinkedValues(
@@ -218,26 +211,19 @@ class Combination implements Clonable
         TableNameBuilder $table_names_builder
     ): Delete {
         $table_definition = AnswerFormSpecificTableTypes::Additional;
-        return $persistence_factory->delete(
-            $persistence_factory->table(
-                $table_names_builder,
-                $table_definition,
-                $table_definitions->getCombinationToAnswerOptionsTableIdentifier()
-            ),
-            [
-                $persistence_factory->where(
-                    $table_definitions->getIdColumn(
-                        $table_names_builder,
-                        $table_definition,
-                        $table_definitions->getCombinationToAnswerOptionsTableIdentifier()
-                    ),
-                    $persistence_factory->value(
-                        FieldDefinition::T_TEXT,
-                        $this->id->toString()
-                    )
+        return $persistence_factory->delete([
+            $persistence_factory->where(
+                $table_definitions->getIdColumn(
+                    $table_names_builder,
+                    $table_definition,
+                    $table_definitions->getCombinationToAnswerOptionsTableIdentifier()
+                ),
+                $persistence_factory->value(
+                    FieldDefinition::T_TEXT,
+                    $this->id->toString()
                 )
-            ]
-        );
+            )
+        ]);
     }
 
     public function toTableRow(

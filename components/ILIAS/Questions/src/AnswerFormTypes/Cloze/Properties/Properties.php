@@ -472,24 +472,18 @@ class Properties implements PropertiesInterface
     ): Delete {
         $table_type = AnswerFormSpecificTableTypes::TypeSpecificAnswerForms;
 
-        return $persistence_factory->delete(
-            $persistence_factory->table(
-                $table_names_builder,
-                $table_type
-            ),
-            [
-                $persistence_factory->where(
-                    $table_definitions->getForeignKeyColumn(
-                        $table_names_builder,
-                        $table_type
-                    ),
-                    $persistence_factory->value(
-                        FieldDefinition::T_TEXT,
-                        $this->answer_form_id->toString()
-                    )
+        return $persistence_factory->delete([
+            $persistence_factory->where(
+                $table_definitions->getForeignKeyColumn(
+                    $table_names_builder,
+                    $table_type
+                ),
+                $persistence_factory->value(
+                    FieldDefinition::T_TEXT,
+                    $this->answer_form_id->toString()
                 )
-            ]
-        );
+            )
+        ]);
     }
 
     private function buildAvailablePointsForGenericProperties(): ?float

@@ -40,6 +40,11 @@ class Where
             );
     }
 
+    public function getTableName(): string
+    {
+        return $this->left->getTableName();
+    }
+
     public function getRight(): Value
     {
         return $this->right;
