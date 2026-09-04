@@ -45,7 +45,11 @@ final readonly class Values
         try {
             return \json_encode($value, JSON_THROW_ON_ERROR, self::MAX_DEPTH);
         } catch (\JsonException $e) {
-            throw new \InvalidArgumentException('The value could not be encoded: ' . $e->getMessage(), 0, $e);
+            throw new \InvalidArgumentException(
+                'The value could not be encoded: ' . $e->getMessage(),
+                0,
+                $e
+            );
         }
     }
 
@@ -55,12 +59,10 @@ final readonly class Values
     public function decode(string $value): mixed
     {
         try {
-            $decoded = \json_decode($value, true, self::MAX_DEPTH, JSON_THROW_ON_ERROR);
+            return \json_decode($value, true, self::MAX_DEPTH, JSON_THROW_ON_ERROR);
         } catch (\JsonException $e) {
             throw new InvalidStoredValueException('The stored value is not valid JSON.', 0, $e);
         }
-
-        return $decoded;
     }
 
     private function checkEncodable(mixed $value): void

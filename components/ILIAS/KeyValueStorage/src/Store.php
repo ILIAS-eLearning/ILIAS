@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\KeyValueStorage;
 
+use ILIAS\Refinery\Transformation;
+
 /**
  * Key-value store scoped to one namespace.
  *
@@ -34,10 +36,14 @@ interface Store
     public function has(string $key): bool;
 
     /**
+     * Reads a value and applies a Refinery transformation, like HTTP request wrappers.
+     *
+     * Absent keys are passed to the transformation as {@code null}.
+     *
      * @throws \InvalidArgumentException if the key is invalid
      * @throws Exception\InvalidStoredValueException if the stored value cannot be read back
      */
-    public function get(string $key, mixed $default = null): mixed;
+    public function get(string $key, Transformation $transformation): mixed;
 
     /**
      * @throws \InvalidArgumentException if the key is invalid or the value cannot be stored

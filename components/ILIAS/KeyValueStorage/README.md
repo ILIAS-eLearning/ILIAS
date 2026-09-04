@@ -22,11 +22,20 @@ $store = $storage->session(['my_component', 'view_state']);
 $store->set('sort_column', 'title');
 $store->set('filters', ['status' => 'open', 'limit' => 10]);
 
-$column = $store->get('sort_column', 'id');
+$column = $store->get(
+    'sort_column',
+    $DIC->refinery()->byTrying([
+        $DIC->refinery()->kindlyTo()->string(),
+        $DIC->refinery()->always('id'),
+    ])
+);
 $store->has('filters');
 $store->delete('sort_column');
 $store->clear();          // only this namespace
 ```
+
+`get()` always takes a Refinery `Transformation`, like the HTTP request wrappers.
+Absent keys are passed to the transformation as `null`.
 
 | Scope | Lives | Accessor |
 |---|---|---|
@@ -131,7 +140,7 @@ An implementation must keep the namespaces apart, must return `null` from
 |---|---|
 | `$define` | `Services`, `SessionRepository` |
 | `$implement` | `Services` |
-| `$pull` | `ILIAS\Database\Connection` |
+| `$pull` | `ILIAS\Database\Connection`, `ILIAS\Refinery\Factory` (setup agent) |
 | `$contribute` | `ILIAS\Setup\Agent` |
 
 ```mermaid
@@ -150,7 +159,6 @@ components/ILIAS/KeyValueStorage/
 ├── README.md
 ├── PRIVACY.md
 ├── ROADMAP.md
-├── maintenance.json
 ├── src/
 │   ├── Services.php               consumer entry point
 │   ├── Store.php                  one namespace

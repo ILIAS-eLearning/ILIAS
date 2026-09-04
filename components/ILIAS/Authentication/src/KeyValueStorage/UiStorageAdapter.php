@@ -21,6 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\Authentication\KeyValueStorage;
 
 use ILIAS\KeyValueStorage\Store;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Storage as UiStorage;
 
 /**
@@ -28,8 +30,13 @@ use ILIAS\UI\Storage as UiStorage;
  */
 final readonly class UiStorageAdapter implements UiStorage
 {
-    public function __construct(private Store $storage)
-    {
+    private Transformation $as_stored;
+
+    public function __construct(
+        private Store $storage,
+        Refinery $refinery
+    ) {
+        $this->as_stored = $refinery->identity();
     }
 
     public function offsetExists(mixed $offset): bool
@@ -39,7 +46,7 @@ final readonly class UiStorageAdapter implements UiStorage
 
     public function offsetGet(mixed $offset): mixed
     {
-        return $this->storage->get($this->assertStringOffset($offset));
+        return $this->storage->get($this->assertStringOffset($offset), $this->as_stored);
     }
 
     public function offsetSet(mixed $offset, mixed $value): void

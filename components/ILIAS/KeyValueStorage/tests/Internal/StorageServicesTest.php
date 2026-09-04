@@ -23,10 +23,13 @@ namespace ILIAS\Tests\KeyValueStorage\Internal;
 use ILIAS\KeyValueStorage\Internal\StorageServices;
 use ILIAS\KeyValueStorage\SessionRepository;
 use ILIAS\Tests\KeyValueStorage\InMemoryRepository;
+use ILIAS\Tests\KeyValueStorage\RefineryHelper;
 use PHPUnit\Framework\TestCase;
 
 class StorageServicesTest extends TestCase
 {
+    use RefineryHelper;
+
     private InMemoryRepository $session;
 
     private InMemoryRepository $persistent;
@@ -78,7 +81,10 @@ class StorageServicesTest extends TestCase
     {
         $this->services->session(['ui', 'storage'])->set('sort', 'title');
 
-        $this->assertSame('title', $this->services->session(['ui', 'storage'])->get('sort'));
+        $this->assertSame(
+            'title',
+            $this->services->session(['ui', 'storage'])->get('sort', $this->asStored())
+        );
         $this->assertSame(0, $this->session->reads);
     }
 }
