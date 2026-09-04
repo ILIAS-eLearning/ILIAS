@@ -794,16 +794,13 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $this->forwardCommandToQuestionPreview($cmd);
                 break;
             case 'ilassquestionpagegui':
+                if (!$this->access->checkAccess('write', '', $this->testrequest->getRefId())) {
+                    $this->redirectAfterMissingWrite();
+                }
                 if ($cmd === 'finishEditing') {
                     $this->prepareOutput();
                     $this->forwardCommandToQuestionPreview(ilAssQuestionPreviewGUI::CMD_SHOW);
                     break;
-                }
-                if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
-                    $this->redirectAfterMissingRead();
-                }
-                if ($cmd === 'edit' && !$this->access->checkAccess('write', '', $this->testrequest->getRefId())) {
-                    $this->redirectAfterMissingWrite();
                 }
                 $this->prepareOutput();
                 $forwarder = new ilAssQuestionPageCommandForwarder(
