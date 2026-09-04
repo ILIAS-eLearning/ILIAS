@@ -51,3 +51,24 @@ state of a client, identified by its session ID.
   (regardless of user type).
 - Note that `isAuthenticated()` returns `true` for both logged-in and "Anonymous"
   users.
+
+## KeyValueStorage
+
+Authentication implements `ILIAS\KeyValueStorage\SessionRepository`, the session
+scope of [KeyValueStorage](../KeyValueStorage/README.md). The session belongs to
+this component, so this is the one scope KeyValueStorage cannot store by itself.
+
+Each entry is a session variable of its own, named
+`kvs:<namespace>:<key>`. `ilSession` knows single keys only - it can neither
+list nor clear by prefix - so one nested array per namespace would mean reading
+and writing the whole array on every write. Flat keys keep a write to a single
+entry; the price is `ilSession::keys()` being scanned when a whole namespace is
+dropped, which happens rarely.
+
+The colon separates namespace from key. It cannot occur in a namespace and is
+rejected in keys, so no pair of namespace and key can produce the session key of
+another pair.
+
+`ILIAS\UI\Storage` is served from this scope, under the namespace segments
+`ui` / `storage`, through `Authentication\KeyValueStorage\UiStorageAdapter`.
+Moving that adapter into the UI component is left to a follow-up.

@@ -21,10 +21,11 @@ declare(strict_types=1);
 namespace ILIAS;
 
 use ILIAS\Component\Component;
+use ILIAS\Database\Connection;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Setup\Agent;
-use ILIAS\Refinery\Factory;
 
-class Database implements Component
+class KeyValueStorage implements Component
 {
     public function init(
         array | \ArrayAccess &$define,
@@ -36,12 +37,26 @@ class Database implements Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $provide[Database\Connection::class] = static fn(): Database\Connection =>
-            new Database\LazyConnection();
+        $define[] = KeyValueStorage\Services::class;
 
-        $contribute[Agent::class] = static fn(): \ilDatabaseSetupAgent =>
-            new \ilDatabaseSetupAgent(
-                $pull[Factory::class]
+        // the session belongs to Authentication, so the session scope is the
+        // only one this component cannot store by itself.
+        $define[] = KeyValueStorage\SessionRepository::class;
+
+        $implement[KeyValueStorage\Services::class] = static fn() =>
+            new KeyValueStorage\Internal\StorageServices(
+                $use[KeyValueStorage\SessionRepository::class],
+                $internal[KeyValueStorage\Internal\DatabaseRepository::class]
+            );
+
+        $contribute[Agent::class] = static fn(): Agent =>
+            new KeyValueStorage\Setup\Agent(
+                $pull[Refinery::class]
+            );
+
+        $internal[KeyValueStorage\Internal\DatabaseRepository::class] = static fn() =>
+            new KeyValueStorage\Internal\DatabaseRepository(
+                $pull[Connection::class]
             );
     }
 }
