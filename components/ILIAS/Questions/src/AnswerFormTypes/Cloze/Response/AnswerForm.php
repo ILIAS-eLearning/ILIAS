@@ -113,28 +113,20 @@ class AnswerForm implements Response
         Manipulate $manipulate
     ): Manipulate {
         return $manipulate->withAdditionalStatement(
-            $persistence_factory->delete(
-                $persistence_factory->table(
-                    $manipulate->getTableNameBuilder(
-                        $this->table_definitions->getTableSubNameSpace()
-                    ),
-                    AnswerFormSpecificTableTypes::Responses
-                ),
-                [
-                    $persistence_factory->where(
-                        $this->table_definitions->getIdColumn(
-                            $manipulate->getTableNameBuilder(
-                                $this->table_definitions->getTableSubNameSpace()
-                            ),
-                            AnswerFormSpecificTableTypes::Responses
+            $persistence_factory->delete([
+                $persistence_factory->where(
+                    $this->table_definitions->getIdColumn(
+                        $manipulate->getTableNameBuilder(
+                            $this->table_definitions->getTableSubNameSpace()
                         ),
-                        $persistence_factory->value(
-                            FieldDefinition::T_TEXT,
-                            $this->response_id->toString()
-                        )
+                        AnswerFormSpecificTableTypes::Responses
+                    ),
+                    $persistence_factory->value(
+                        FieldDefinition::T_TEXT,
+                        $this->response_id->toString()
                     )
-                ]
-            )
+                )
+            ])
         );
     }
 

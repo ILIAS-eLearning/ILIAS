@@ -115,24 +115,18 @@ class Repository
             $this->db,
             QuestionRepository::COMPONENT_NAMESPACE
         ))->withAdditionalStatement(
-            $this->persistence_factory->delete(
-                $this->persistence_factory->table(
-                    $this->table_names_builder,
-                    TableTypes::SuggestedLearningContent
-                ),
-                [
-                    $this->persistence_factory->where(
-                        $this->table_definitions->getIdColumn(
-                            $this->table_names_builder,
-                            TableTypes::SuggestedLearningContent
-                        ),
-                        $this->persistence_factory->value(
-                            FieldDefinition::T_TEXT,
-                            $answer_form_id->toString()
-                        )
+            $this->persistence_factory->delete([
+                $this->persistence_factory->where(
+                    $this->table_definitions->getIdColumn(
+                        $this->table_names_builder,
+                        TableTypes::SuggestedLearningContent
+                    ),
+                    $this->persistence_factory->value(
+                        FieldDefinition::T_TEXT,
+                        $answer_form_id->toString()
                     )
-                ]
-            )
+                )
+            ])
         )->run();
     }
 

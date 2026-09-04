@@ -25,20 +25,33 @@ class Delete
      * @param array<\ILIAS\Questions\Persistence\Where> $where
      */
     public function __construct(
-        private readonly Table $table,
         private readonly array $where
     ) {
+        if ($where === []) {
+            throw new \InvalidArgumentException(
+                "There MUST be at least one Where statement."
+            );
+        }
+
+        $table_name = $where[0]->getTableName();
+        foreach ($where as $w) {
+            if ($w->getTableName() !== $table_name) {
+                throw new \InvalidArgumentException(
+                    "All Where statements MUST belong to the same Table."
+                );
+            }
+        }
     }
 
     public function getTableToLock(): string
     {
-        return $this->table->getName();
+        return $this->where[0]->getTableName();
     }
 
     public function toManipulateString(
         \ilDBInterface $db
     ): string {
-        return "DELETE FROM {$this->table->getName()}" . PHP_EOL
+        return "DELETE FROM {$this->getTableToLock()}" . PHP_EOL
             . $this->buildWhereString($db);
     }
 

@@ -153,24 +153,18 @@ class Response
                     $c
                 ),
             $manipulate->withAdditionalStatement(
-                $persistence_factory->delete(
-                    $persistence_factory->table(
-                        $table_names_builder,
-                        TableTypes::Responses
-                    ),
-                    [
-                        $persistence_factory->where(
-                            $table_definitions->getIdColumn(
-                                $table_names_builder,
-                                TableTypes::Responses
-                            ),
-                            $persistence_factory->value(
-                                FieldDefinition::T_TEXT,
-                                $this->id->toString()
-                            )
+                $persistence_factory->delete([
+                    $persistence_factory->where(
+                        $table_definitions->getIdColumn(
+                            $table_names_builder,
+                            TableTypes::Responses
+                        ),
+                        $persistence_factory->value(
+                            FieldDefinition::T_TEXT,
+                            $this->id->toString()
                         )
-                    ]
-                )
+                    )
+                ])
             )
         );
     }

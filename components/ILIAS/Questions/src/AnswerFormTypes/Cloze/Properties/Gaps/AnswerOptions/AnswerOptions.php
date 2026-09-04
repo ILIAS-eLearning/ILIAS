@@ -334,24 +334,18 @@ class AnswerOptions implements Clonable
     ): Delete {
         $table_type = AnswerFormSpecificTableTypes::AnswerOptions;
 
-        return $persistence_factory->delete(
-            $persistence_factory->table(
-                $table_names_builder,
-                $table_type
-            ),
-            [
-                $persistence_factory->where(
-                    $table_definitions->getForeignKeyColumn(
-                        $table_names_builder,
-                        $table_type
-                    ),
-                    $persistence_factory->value(
-                        FieldDefinition::T_TEXT,
-                        $this->answer_input_id->toString()
-                    )
+        return $persistence_factory->delete([
+            $persistence_factory->where(
+                $table_definitions->getForeignKeyColumn(
+                    $table_names_builder,
+                    $table_type
+                ),
+                $persistence_factory->value(
+                    FieldDefinition::T_TEXT,
+                    $this->answer_input_id->toString()
                 )
-            ]
-        );
+            )
+        ]);
     }
 
     private function buildAnswerOptionsAwardingPointsFromAnswerOptions(
