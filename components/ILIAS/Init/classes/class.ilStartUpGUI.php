@@ -1336,7 +1336,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             'components/ILIAS/Authentication',
             'beforeLogout',
             [
-                'user_id' => $this->user->getId()
+                'user_id' => $this->user->getId(),
+                'object' => $this->user
             ]
         );
 
@@ -1785,6 +1786,35 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
     private function doOpenIdConnectAuthentication(): void
     {
+        $provider = new ilAuthProviderOpenIdConnect(new ilAuthFrontendCredentials());
+        if ($provider->isPostLogoutPending()) {
+            $this->getLogger()->debug('Processing OpenID Connect post-logout callback');
+
+            $state = $this->http->wrapper()->query()->retrieve(
+                'state',
+                $this->refinery->byTrying([
+                    $this->refinery->kindlyTo()->string(),
+                    $this->refinery->always('')
+                ])
+            );
+
+            if ($state === '' || !$provider->validatePostLogoutState($state)) {
+                $this->getLogger()->warning('Rejected OpenID Connect post-logout callback due to invalid state.');
+                $this->mainTemplate->setOnScreenMessage(
+                    'failure',
+                    $this->lng->txt('auth_oidc_post_logout_failed'),
+                    true
+                );
+                $this->showLoginPage();
+                return;
+            }
+
+            $this->user->setLanguage($provider->consumePostLogoutUserLanguage());
+
+            $this->doLogout();
+            return;
+        }
+
         $this->getLogger()->debug('Trying openid connect authentication');
 
         $credentials = new ilAuthFrontendCredentialsOpenIdConnect();
