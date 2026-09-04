@@ -22,6 +22,7 @@ namespace ILIAS\KeyValueStorage\Internal;
 
 use ILIAS\KeyValueStorage\Repository;
 use ILIAS\KeyValueStorage\Store;
+use ILIAS\Refinery\Transformation;
 
 /**
  * A store bound to one namespace of one repository.
@@ -61,13 +62,13 @@ final class NamespacedStore implements Store
         return $this->repository->has($this->namespace, $key);
     }
 
-    public function get(string $key, mixed $default = null): mixed
+    public function get(string $key, Transformation $transformation): mixed
     {
         $this->key_rules->check($key);
 
         [$is_present, $value] = $this->readDecoded($key);
 
-        return $is_present ? $value : $default;
+        return $transformation->transform($is_present ? $value : null);
     }
 
     public function set(string $key, mixed $value): void

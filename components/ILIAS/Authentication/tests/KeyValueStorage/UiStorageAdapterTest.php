@@ -22,10 +22,12 @@ namespace ILIAS\Tests\Authentication\KeyValueStorage;
 
 use ILIAS\Authentication\KeyValueStorage\SessionRepository;
 use ILIAS\Authentication\KeyValueStorage\UiStorageAdapter;
+use ILIAS\Data\Factory as DataFactory;
 use ILIAS\KeyValueStorage\Internal\KeyRules;
 use ILIAS\KeyValueStorage\Internal\NamespacedStore;
 use ILIAS\KeyValueStorage\Internal\Values;
 use ILIAS\KeyValueStorage\Internal\StorageNamespace;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Implementation\Component\Navigation\Sequence\Sequence;
 use ILIAS\UI\Implementation\Component\Table\Data;
 use ILIAS\UI\Implementation\Component\Table\Ordering;
@@ -41,12 +43,19 @@ class UiStorageAdapterTest extends TestCase
     protected function setUp(): void
     {
         $_SESSION = [];
-        $this->adapter = new UiStorageAdapter(new NamespacedStore(
-            new StorageNamespace(['ui', 'storage']),
-            new SessionRepository(),
-            new KeyRules(),
-            new Values()
-        ));
+        $language = $this->getMockBuilder(\ilLanguage::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $refinery = new Refinery(new DataFactory(), $language);
+        $this->adapter = new UiStorageAdapter(
+            new NamespacedStore(
+                new StorageNamespace(['ui', 'storage']),
+                new SessionRepository(),
+                new KeyRules(),
+                new Values()
+            ),
+            $refinery
+        );
     }
 
     public function testAViewStateSurvivesAWriteAndReadCycle(): void
