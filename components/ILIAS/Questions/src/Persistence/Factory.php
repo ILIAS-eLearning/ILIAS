@@ -61,10 +61,9 @@ class Factory
      * @param array<\ILIAS\Questions\Persistence\Where> $where
      */
     public function delete(
-        Table $table,
         array $where
     ): Delete {
-        return new Delete($table, $where);
+        return new Delete($where);
     }
 
     public function table(
