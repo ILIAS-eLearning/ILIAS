@@ -1391,8 +1391,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     {
         $reducer = static function (array $c, assAnswerMatchingTerm|assAnswerMatchingDefinition $v): array {
             $c[$v->getIdentifier()] = $v->getText() !== ''
-                ? $v->getPicture()
-                : $v->getText();
+                ? $v->getText()
+                : $v->getPicture();
             return $c;
         };
 
