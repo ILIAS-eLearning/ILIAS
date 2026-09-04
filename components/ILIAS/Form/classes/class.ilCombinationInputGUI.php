@@ -270,4 +270,13 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
         $html = $this->render();
         return $html;
     }
+
+    public function setDisabled(bool $a_disabled): void
+    {
+        parent::setDisabled($a_disabled);
+        foreach ($this->items as $item) {
+            $item->setDisabled($a_disabled);
+        }
+    }
+
 }
