@@ -48,4 +48,18 @@ class GUIService
     ): \ilWikiPageGUI {
         return new \ilWikiPageGUI($pg_id, $old_nr, $ref_id, $lang);
     }
+
+    public function pageTemplateTableBuilder(
+        int $wiki_id,
+        object $parent_gui,
+        string $parent_cmd
+    ): PageTemplateTableBuilder {
+        return new PageTemplateTableBuilder(
+            $this->domain_service,
+            $this->gui_service,
+            $wiki_id,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
 }

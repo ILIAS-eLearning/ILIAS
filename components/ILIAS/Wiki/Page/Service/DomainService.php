@@ -70,6 +70,11 @@ class DomainService
         );
     }
 
+    public function pageTemplateRetrieval(int $wiki_id): PageTemplateRetrieval
+    {
+        return new PageTemplateRetrieval($wiki_id);
+    }
+
     public function importResolver(): ImportResolver
     {
         return new ImportResolver(
