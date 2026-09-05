@@ -2485,7 +2485,13 @@ class ilObjTest extends ilObject
 
     public function buildStatisticsAccessFilteredParticipantList(): ilTestParticipantList
     {
-        $list = new ilTestParticipantList($this, $this->user, $this->lng, $this->db);
+        $list = new ilTestParticipantList(
+            $this,
+            $this->user,
+            $this->lng,
+            $this->db,
+            $this->participant_repository
+        );
         $list->initializeFromDbRows($this->getTestParticipants());
 
         return $list->getAccessFilteredList(
@@ -4432,7 +4438,13 @@ class ilObjTest extends ilObject
 
     public function getActiveParticipantList(): ilTestParticipantList
     {
-        $participant_list = new ilTestParticipantList($this, $this->user, $this->lng, $this->db);
+        $participant_list = new ilTestParticipantList(
+            $this,
+            $this->user,
+            $this->lng,
+            $this->db,
+            $this->participant_repository
+        );
         $participant_list->initializeFromDbRows($this->getTestParticipants());
 
         return $participant_list;

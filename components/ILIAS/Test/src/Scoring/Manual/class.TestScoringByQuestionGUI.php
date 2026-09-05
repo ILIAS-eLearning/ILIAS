@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Scoring\Manual;
 
+use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Test\Logging\TestScoringInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
@@ -141,6 +142,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
                     new \DateTimeZone($this->user->getTimeZone()),
                     $this->participant_access_filter,
                     $this->object,
+                    $this->participant_repository,
                     $question_id
                 )
             )
@@ -389,12 +391,8 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
 
     private function getModalTitle(int $active_id): string
     {
-        if ($this->object->getAnonymity() === true) {
-            return $this->lng->txt('answers_of') . ' ' . $this->lng->txt('anonymous');
-        }
-
-        $participant = $this->object->getCompleteEvaluationData()->getParticipant($active_id);
-        return "{$this->lng->txt('answers_of')} {$participant->getName()} ({$participant->getLogin()})";
+        $participant = $this->participant_repository->getParticipantByActiveId($this->object->getTestId(), $active_id);
+        return "{$this->lng->txt('answers_of')} {$participant->getDisplayName($this->lng, $this->object->getAnonymity())}";
     }
 
     private function buildForm(

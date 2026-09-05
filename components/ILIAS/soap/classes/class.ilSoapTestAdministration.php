@@ -662,7 +662,13 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $participants = $test_obj->getTestParticipants();
 
         $accessFilter = ilTestParticipantAccessFilter::getAccessResultsUserFilter($test_ref_id);
-        $participantList = new ilTestParticipantList($test_obj);
+        $participantList = new ilTestParticipantList(
+            $test_obj,
+            $DIC['ilUser'],
+            $DIC['lng'],
+            $DIC['ilDB'],
+            TestDIC::dic()['participant.repository']
+        );
         $participantList->initializeFromDbRows($participants);
         $participantList = $participantList->getAccessFilteredList($accessFilter);
         $participantList = $participantList->getScoredParticipantList();

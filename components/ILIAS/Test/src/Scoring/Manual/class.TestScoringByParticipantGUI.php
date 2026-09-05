@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Scoring\Manual;
 
+use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Test\Logging\TestScoringInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
@@ -40,11 +41,6 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
     public const PART_FILTER_MANSCORING_NONE = 5;
 
     protected \ilTestAccess $test_access;
-
-    public function __construct(\ilObjTest $object)
-    {
-        parent::__construct($object);
-    }
 
     /**
      * @return ilTestAccess
@@ -181,10 +177,10 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
 
         $table = new TestScoringByParticipantPassesOverviewTableGUI($this, 'showManScoringParticipantScreen');
 
-        $user_id = $this->object->_getUserIdFromActiveId($active_id);
-        $user_fullname = $this->object->userLookupFullName($user_id, false, true);
-        $table_title = sprintf($this->lng->txt('tst_pass_overview_for_participant'), $user_fullname);
-        $table->setTitle($table_title);
+        $participant = $this->participant_repository->getParticipantByActiveId($this->object->getTestId(), $active_id);
+        $table->setTitle(
+            sprintf($this->lng->txt('tst_pass_overview_for_participant'), $participant->getDisplayName($this->lng))
+        );
 
         $passOverviewData = $this->service->getPassOverviewData($active_id);
         $table->setData($passOverviewData['passes']);
@@ -521,7 +517,13 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
         $table = new TestScoringByParticipantTableGUI($this);
 
         if ($with_data) {
-            $participant_list = new \ilTestParticipantList($this->object, $this->user, $this->lng, $this->db);
+            $participant_list = new \ilTestParticipantList(
+                $this->object,
+                $this->user,
+                $this->lng,
+                $this->db,
+                $this->participant_repository
+            );
             $participant_list->initializeFromDbRows(
                 $this->object->getTestParticipantsForManualScoring(
                     $table->getFilterItemByPostVar('participant_status')->getValue()

@@ -25,6 +25,7 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Language\Language;
 use ILIAS\FileDelivery\Services as FileDeliveryServices;
 use ILIAS\ResourceStorage\Services as ResourceStorage;
+use ILIAS\Test\Participants\ParticipantRepository;
 
 /**
  * Export class for tests
@@ -64,7 +65,8 @@ abstract class Export implements Exporter
         protected readonly FileDeliveryServices $file_delivery,
         protected readonly \ilObjTest $test_obj,
         protected readonly ResourceStorage $irss,
-        protected readonly \ilObjUser $user
+        protected readonly \ilObjUser $user,
+        protected readonly ParticipantRepository $participant_repository
     ) {
         $this->inst_id = (string) IL_INST_ID;
         $this->export_dir = $test_obj->getExportDirectory();
@@ -172,6 +174,7 @@ abstract class Export implements Exporter
                 $this->irss,
                 $this->user,
                 $this->lng,
+                $this->participant_repository,
                 "{$this->export_dir}/{$this->subdir}/objects"
             );
             $resultwriter->setIncludeRandomTestQuestionsEnabled($this->test_obj->isRandomTest());

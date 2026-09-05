@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Tests;
 
 use ILIAS\Test\ExportImport\ExportFixedQuestionSet;
+use ILIAS\Test\Participants\ParticipantRepository;
 
 /**
  * @author Marvin Beym <mbeym@databay.de>
@@ -49,7 +50,8 @@ class ExportFixedQuestionSetTest extends \ilTestBaseTestCase
             $this->createMock(\ILIAS\FileDelivery\Services::class),
             $this->createMock(\ilObjTest::class),
             $DIC['resource_storage'],
-            $DIC['ilUser']
+            $DIC['ilUser'],
+            $this->createMock(ParticipantRepository::class)
         );
     }
 
