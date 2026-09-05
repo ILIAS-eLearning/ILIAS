@@ -62,4 +62,24 @@ class GUIService
             $parent_cmd
         );
     }
+
+    public function pagesTableBuilder(
+        int $ref_id,
+        string $mode,
+        int $page_id,
+        string $lang,
+        object $parent_gui,
+        string $parent_cmd
+    ): PagesTableBuilder {
+        return new PagesTableBuilder(
+            $this->domain_service,
+            $this->gui_service,
+            $ref_id,
+            $mode,
+            $page_id,
+            $lang,
+            $parent_gui,
+            $parent_cmd
+        );
+    }
 }

@@ -611,16 +611,19 @@ class ilWikiPageGUI extends ilPageObjectGUI
         $tpl = $this->tpl;
 
         //$this->setSideBlock();
-        $table_gui = new ilWikiPagesTableGUI(
-            $this,
-            "whatLinksHere",
-            $this->getWikiPage()->getWikiId(),
-            IL_WIKI_WHAT_LINKS_HERE,
+        $table = $this->wiki_gui->page()->pagesTableBuilder(
+            $this->getWikiRefId(),
+            \ILIAS\Wiki\Page\PagesTableBuilder::MODE_WHAT_LINKS_HERE,
             $this->getId(),
-            $this->wiki_request->getTranslation()
-        );
+            $this->wiki_request->getTranslation(),
+            $this,
+            "whatLinksHere"
+        )->getTable();
 
-        $tpl->setContent($table_gui->getHTML());
+        if ($table->handleCommand()) {
+            return;
+        }
+        $tpl->setContent($table->render());
     }
 
     public function getTabs(

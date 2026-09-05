@@ -998,15 +998,20 @@ class ilObjWikiGUI extends ilObjectGUI
 
         $this->addPagesSubTabs();
 
-        $table_gui = new ilWikiPagesTableGUI(
+        $table = $this->gui->page()->pagesTableBuilder(
+            $this->object->getRefId(),
+            \ILIAS\Wiki\Page\PagesTableBuilder::MODE_ALL_PAGES,
+            0,
+            "-",
             $this,
-            "allPages",
-            $this->object->getId(),
-            IL_WIKI_ALL_PAGES
-        );
+            "allPages"
+        )->getTable();
 
         //$this->setSideBlock();
-        $tpl->setContent($table_gui->getHTML());
+        if ($table->handleCommand()) {
+            return;
+        }
+        $tpl->setContent($table->render());
     }
 
     /**
@@ -1020,15 +1025,20 @@ class ilObjWikiGUI extends ilObjectGUI
 
         $this->addPagesSubTabs();
 
-        $table_gui = new ilWikiPagesTableGUI(
+        $table = $this->gui->page()->pagesTableBuilder(
+            $this->object->getRefId(),
+            \ILIAS\Wiki\Page\PagesTableBuilder::MODE_POPULAR_PAGES,
+            0,
+            "-",
             $this,
-            "popularPages",
-            $this->object->getId(),
-            IL_WIKI_POPULAR_PAGES
-        );
+            "popularPages"
+        )->getTable();
 
         //$this->setSideBlock();
-        $tpl->setContent($table_gui->getHTML());
+        if ($table->handleCommand()) {
+            return;
+        }
+        $tpl->setContent($table->render());
     }
 
     /**
@@ -1042,15 +1052,20 @@ class ilObjWikiGUI extends ilObjectGUI
 
         $this->addPagesSubTabs();
 
-        $table_gui = new ilWikiPagesTableGUI(
+        $table = $this->gui->page()->pagesTableBuilder(
+            $this->object->getRefId(),
+            \ILIAS\Wiki\Page\PagesTableBuilder::MODE_ORPHANED_PAGES,
+            0,
+            "-",
             $this,
-            "orphanedPages",
-            $this->object->getId(),
-            IL_WIKI_ORPHANED_PAGES
-        );
+            "orphanedPages"
+        )->getTable();
 
         //$this->setSideBlock();
-        $tpl->setContent($table_gui->getHTML());
+        if ($table->handleCommand()) {
+            return;
+        }
+        $tpl->setContent($table->render());
     }
 
     /**
@@ -1332,15 +1347,20 @@ class ilObjWikiGUI extends ilObjectGUI
 
         $this->addPagesSubTabs();
 
-        $table_gui = new ilWikiPagesTableGUI(
+        $table = $this->gui->page()->pagesTableBuilder(
+            $this->object->getRefId(),
+            \ILIAS\Wiki\Page\PagesTableBuilder::MODE_NEW_PAGES,
+            0,
+            "-",
             $this,
-            "newPages",
-            $this->object->getId(),
-            IL_WIKI_NEW_PAGES
-        );
+            "newPages"
+        )->getTable();
 
         //$this->setSideBlock();
-        $tpl->setContent($table_gui->getHTML());
+        if ($table->handleCommand()) {
+            return;
+        }
+        $tpl->setContent($table->render());
     }
 
     protected function getPrintPageIds(): array

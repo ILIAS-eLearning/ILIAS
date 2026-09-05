@@ -75,6 +75,21 @@ class DomainService
         return new PageTemplateRetrieval($wiki_id);
     }
 
+    public function pagesRetrieval(
+        int $ref_id,
+        string $mode,
+        int $page_id,
+        string $lang
+    ): PagesRetrieval {
+        return new PagesRetrieval(
+            $this->domain_service,
+            $ref_id,
+            $mode,
+            $page_id,
+            $lang
+        );
+    }
+
     public function importResolver(): ImportResolver
     {
         return new ImportResolver(
