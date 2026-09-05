@@ -187,7 +187,14 @@ class ilContainerNewsSettingsGUI
                 $this->lng->txt("news_notifications_public"),
                 "public_notifications"
             );
-            $ch->setInfo($this->lng->txt("news_notifications_public_info"));
+
+            $info = $this->lng->txt("news_notifications_public_info");
+            if (!$this->setting->get("block_activated_news")) {
+                $info .= " {$this->lng->txt("news_notifications_public_info_disabled")}";
+                $ch->setDisabled(true);
+            }
+
+            $ch->setInfo($info);
             $ch->setChecked((bool) $public);
             $form->addItem($ch);
         }

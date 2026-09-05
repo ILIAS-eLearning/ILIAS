@@ -12981,6 +12981,7 @@ news#:#news_not_available#:#Unavailable News
 news#:#news_notifications#:#Notifications
 news#:#news_notifications_public#:#Public Notifications
 news#:#news_notifications_public_info#:#If this option is enabled, notifications can be obtained by personal RSS feeds outside of ILIAS. Please note that this makes notifications accessible without authentication.
+news#:#news_notifications_public_info_disabled#:#To change this setting, activate the internal news in the administration settings.
 news#:#news_nr_of_items#:#Number of Maximum News Items per Object
 news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of sub-objects.
 news#:#news_pd_period#:#Dashboard News Period

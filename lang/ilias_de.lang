@@ -12980,6 +12980,7 @@ news#:#news_not_available#:#Neuigkeit nicht verfügbar
 news#:#news_notifications#:#Benachrichtigungen
 news#:#news_notifications_public#:#Öffentliche Benachrichtigungen
 news#:#news_notifications_public_info#:#Wenn diese Option gewählt wird, können Benachrichtigungen auch außerhalb von ILIAS über den persönlichen Newsfeed empfangen werden. Beachten Sie bitte, dass diese Benachrichtigungen ohne Authentifizierung zugänglich sind.
+news#:#news_notifications_public_info_disabled#:#Um diese Einstellung zu ändern, aktivieren Sie die internen Neuigkeiten in der Administration.
 news#:#news_nr_of_items#:#Anzahl der maximalen Neuigkeiten pro Objekt
 news#:#news_nr_of_items_info#:#Anzahl der Neuigkeiten, die für ein Objekt (z. B. eine Datei oder ein Lernmodul) in der Datenbank vorgehalten werden. Beachten Sie bitte, dass Containerobjekte wie Kategorien oder Kurse mehr Neuigkeiten enthalten können, da Sie auch die Neuigkeiten ihrer Unterobjekte anzeigen.
 news#:#news_pd_period#:#Zeitraum für Neuigkeitenanzeige auf dem Dashboard
